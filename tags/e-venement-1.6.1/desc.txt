@@ -1,0 +1,18 @@
+<p>Bonjour et bienvenue dans e-venement.</p>
+
+<p>
+Cet outil, création de <a href="http://www.libre-informatique.fr/">Libre Informatique</a>, se décline en plusieurs facettes :
+<ul>
+	<li>Une gestion des relations publiques (communément appelé CRM)&nbsp;;</li>
+	<li>Une gestion d'évènements (spéctacles, animations, ...) dans des lieux à des dates données&nbsp;;</li>
+	<li>Un système de billetterie qui permet de lier des personnes à des évènements, et d'éditer des billets&nbsp;;</li>
+	<li>Une partie d'administration, qui n'est ouverte qu'aux ayant-droit.</li>
+</ul>
+</p>
+
+<p>
+	Pour toute demande de fonctionnalité supplémentaire, rapport de dysfonctionnement ou autre,
+	veuillez vous référer aux informations disponibles sur le site de <a href="http://www.libre-informatique.fr/">Libre Informatique</a>.
+</p>
+
+<p>Merci de votre compréhension, et bonne utilisation.</p>
