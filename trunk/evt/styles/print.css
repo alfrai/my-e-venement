@@ -1,0 +1,16 @@
+p.actions, p.tree { display: none; }
+form.manif div.infos { height: auto; }
+form.manif div.tarifs {
+	position: relative;
+	margin-top: 20px;
+	margin-left: 0;
+}
+form.manif div.tarifs div.clip { max-height: none; }
+p.csvext, form.manif p.submit { display: none; }
+div.body { border: 0; }
+div.bilan { border: 0; }
+div.bilan p.titre { display: none; }
+div.bilan div.clip {
+	max-height: none;
+	overflow: visible;
+}

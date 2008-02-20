@@ -1,0 +1,804 @@
+/* couleur du bandeau */
+p.tree { background-color: #ffdcab; }
+
+div.clip {
+	overflow: auto;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+}
+
+/* Calendar */
+table.month { width: 600px; }
+table.month td { font-size: 15px; width: 50px; height: 40px; }
+table.month td.dayname { text-align: center; }
+table.month td.monthday:hover, table.month td.today:hover, table.month td.saturday:hover, table.month td.sunday:hover
+{ border-color: yellow; }
+table.month td.monthday, table.month td.today, table.month td.saturday, table.month td.sunday {
+	border: 2px solid gray;
+	text-align: center;
+}
+table.month td.today { border-color: red; }
+table.month table.eventcontent { width: 100%; }
+table.month table.eventcontent td {
+	width: 100%;
+	text-align: center;
+	font-size: 9px;
+	height: 0;
+}
+table.month td.monthnavigation, table.month td.monthname { text-align: center; }
+table.month td.monthnavigation a { text-decoration: none; }
+table.month td.monthnavigation a:hover { text-decoration: underline; }
+
+table.eventcontent span.evtnom { font-weight: bold; }
+
+/* Évènements */
+ul.events { display: table; }
+ul.events li { display: table-row; }
+ul.events li span.puce:before  {
+	content: counter(glop, disc);
+	padding-right: 5px;
+}
+ul.events li span, ul.events li a {
+	display: table-cell;
+	padding-left: 3px;
+	list-style-position: inside;
+	list-style-type: disc;
+}
+
+form.salle div.gestion, form.salle div.details,
+form.salle div.places {
+	z-index: 2;
+	padding: 10px;
+	border: 1px solid #364ed7;
+	background-color: white;
+}
+
+div.infos, form.salle div.gestion, div.manifs { width: 350px; }
+form.evt div.infos { height: 290px; }
+form.evt div.infos div.clip {
+	max-height: 285px;
+	overflow: auto;
+}
+form.manif div.infos p.global > span.manifid {
+	font-size: 9px;
+	font-weight: normal;
+}
+form.manif div.infos p.desc,
+form.evt div.infos p.desc {
+	font-size: 80%;
+	border: 1px dashed silver;
+	padding: 2px 4px;
+}
+form.salle div.infos { height: 270px;}
+form.salle div.infos div.clip { max-height: 265px; }
+form.evt div.infos textarea { display: block; }
+form.evt div.infos p span { display: block; }
+form.evt div.infos p.global span.petitnom { font-size: 10px; }
+form.evt div.infos p.global span.petitnom input { font-size: 9px; }
+
+form.evt div.creation div.clip { display: table; }
+form.evt div.creation div.clip p { display: table-row; }
+form.evt div.creation div.clip p span {
+	display: table-cell;
+	padding: 1px 2px 1px 0px;
+}
+form.evt div.creation,
+form.salle div.details, form.salle div.gestion {
+	position: absolute;
+	margin-left: 420px;
+	width: 420px;
+}
+form.manif p.places span[onclick] {
+	border: 1px dotted silver;
+	margin-right: 10px;
+	padding-top: 3px;
+}
+form.salle div.places {
+	height: 55px;
+	width: 350px; 
+	margin-top: 20px
+}
+form.evt div.creation {
+	margin-top: -312px;
+	max-height: 125px;
+}
+form.salle div.details { margin-top: -157px; }
+form.salle div.gestion { margin-top: -292px; }
+form.evt div.creation p.orgview {
+	padding: 0;
+	margin: 0;
+}
+form.evt div.creation p.orged {
+	border-bottom: 1px dashed silver;
+	width: 100%;
+	padding-bottom: 5px;
+}
+form.evt div.creation p.org select { width: 11em; }
+form.evt div.creation p.org select + select { width: 20em; }
+
+div.manifs {
+	margin-top: 20px;
+	max-height: 235px;
+}
+div.manifs div.clip {
+	overflow: auto;
+	max-height: 230px;
+	padding-left: 5px;
+}
+div.infos p.organisme select + a { margin-left: 10px; }
+div.infos p.organisme select + a:hover + span { display: inline; }
+div.infos p.organisme select + a + span {
+	display: none;
+	position: absolute;
+	background-color: #fff77f;
+	cursor: default;
+	border: 1px solid black;
+	font-size: 80%;
+	padding: 1px 2px;
+	max-width: 150px;
+	margin: 20px 0 0 -80px;
+	white-space: normal;
+}
+div.infos p.organisme select + a + span + select {
+	width: 22em;
+	display:block;
+}
+div.infos p.organisme > span { display: block; }
+div.infos p.organisme > span.old { margin-top: 10px; }
+div.infos p.organisme > span.old + span.old { margin-top: 0px; }
+div.infos p.organisme > span.old > select { display: none; }
+div.infos p.organisme > span.old > select + a { display: none; }
+div.infos p.organisme > span.old > select + a + span { display: none; }
+div.infos p.organisme > span.old > span + select { display: block; }
+
+form.evt input[type=submit], form.salle input[type=submit] { margin-top: 10px; }
+
+div.manifs div div {
+	display: table;
+	width: 95%;
+	padding: 5px;
+}
+div.manifs div div p { display: table-row; }
+div.manifs div div p.del { border-bottom: 1px dashed gray; }
+div.manifs div div p span.st { width: 8em; }
+div.manifs div div p span.cell + span.cell {
+	width: 100%;
+	padding-left: 5px;
+}
+div.manifs div div p span.cell {
+	display: table-cell;
+	vertical-align: top;
+}
+
+form.salle div.details div.clip div { display: table; }
+form.salle div.details div.clip div p { display: table-row; }
+form.salle div.details div.clip div p span {
+	display: table-cell;
+	padding: 7px 1em 1px 2px;
+}
+
+/* La billeterie */
+li.past, li.current, li.tocome {
+	font-weight: bold;
+	list-style-type: decimal;
+}
+li.edit { font-style: italic; }
+li.past { color: black; }
+li.current {
+	color: green;
+	font-size: 130%;
+	margin-left: 30px;
+	font-style: normal;
+}
+li.tocome { color: red; }
+h2.stage { font-size: 200%; position: absolute; margin: -80px 0 0 300px; visibility: hidden;}
+
+form.resa div.manifestations.billets { display: table; }
+form.resa div.manifestations.billets > p { display: table-row; }
+form.resa div.manifestations.billets > p > span {
+	display: table-cell;
+	padding: 1px 3px;
+}
+form.resa div.manifestations p input.number { width: 4em; }
+form.resa div.manifestations p span.salle { padding: 0; }
+form.resa div.manifestations p,
+form.resa div.manifestations p span { cursor: default; }
+form.resa div.manifestations p span.nom { font-weight: bold; }
+form.resa div.manifestations p input[type=text] {
+	text-align: right;
+	width: 3em;
+}
+form.resa div.bill { margin-top: 20px; }
+
+form.spectacles p.jauge, form.resa p.jauge {
+	margin-bottom: 20px;
+	margin-top: -16px;
+}
+form.resa p.cat span.more { font-size: 80%; }
+body.jauges p.cat span.titre,
+form.resa p.cat span.titre {
+	font-weight: bold;
+	font-size: 125%;
+}
+body.evt p.personnes { margin-left: 20px; }
+body.evt p.personnes span { display: block; }
+body.infotick #ficheindiv, body.evt #ficheindiv {
+	display: none;
+	border: 1px solid silver;
+	position: fixed;
+	width: 400px;
+	height: 300px;
+	top: 140px;
+	right: 20px;
+	overflow: auto;
+	background-color: #fff5d5;
+	padding: 5px 10px;
+}
+body.infotick #ficheindiv, body.infotick #ficheindiv input, body.infotick #ficheindiv select, 
+body.evt #ficheindiv, body.evt #ficheindiv input, body.evt #ficheindiv select {
+	font-size: 9px;
+}
+body.infotick #ficheindiv.display, body.evt #ficheindiv.display { display: block; }
+body.infotick #ficheindiv #ficheindivclose, body.evt #ficheindiv #ficheindivclose {
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 12px;
+	width: 12px;
+	background: transparent url(../img/close.png) no-repeat scroll top left;
+}
+body.infotick #ficheindiv div.access, body.evt #ficheindiv div.access { text-align: right; }
+body.infotick #ficheindiv div.access p, body.evt #ficheindiv div.access p { margin: 0; }
+body.infotick #ficheindiv p.titre, body.evt #ficheindiv p.titre { background-color: #fff5d5; }
+
+form.tarif ul {
+	display: table;
+	margin: 0;
+	padding: 0;
+}
+form.tarif ul li { display: table-row;}
+form.tarif ul li.old { color: silver;}
+form.tarif ul li span {
+	display: table-cell;
+	padding: 0 4px;
+}
+form.tarif li span.id,
+form.tarif li span.del { text-align: right; }
+form.tarif li span.cont,
+form.tarif li span.prix { text-align: center; }
+form.tarif li span.prix input {
+	text-align: right;
+	width: 4em;
+}
+form.tarif li span.key, form.tarif li span.key input
+{ text-align: right; }
+form.tarif li span.scolaire, form.tarif li span.ttpub { text-align: center; }
+form.tarif li span.key input { width: 4em; }
+form.tarif li.th span {
+	font-size: 120%;
+	font-weight: bold;
+	text-align: center;
+}
+body.finish div.body > p.erreur { color: red; }
+body.finish div.body > p.erreur,
+body.finish div.body > p.merci,
+body.finish div.body > p.vdir {
+	font-size: 150%;
+	text-align: center;
+	margin-top: 50px;
+}
+body.finish div.body div.rappel { margin-top: 50px; }
+body.finish div.body div.rappel > p {
+	margin: 0;
+	padding: 0;
+}
+body.finish div.body > p.merci > a:after { content: url("../img/link.png"); }
+body.infotick p.back, body.finish p.back {
+	border: 1px dashed silver;
+	text-align: center;
+	margin-top: 100px;
+	padding-bottom: 2px;
+}
+body.infotick p.back > a, body.finish p.back > a { font-weight: bold; }
+
+body.agenda table.eventcontent span.evtsite {
+	display: none;
+	position: absolute;
+	background-color: #fff77f;
+	cursor: default;
+	border: 1px solid black;
+	font-size: 90%;
+	padding: 1px 2px;
+	margin-top: 7px;
+	margin-left: 3px;
+}
+body.agenda table.eventcontent:hover span.evtsite { display: inline; }
+
+
+form.resa div.manifestations span.cancel span.billet { color: gray; }
+form.resa div.manifestations span.cancel span.billet,
+form.resa div.manifestations span.done span.billet {
+	background-color: silver;
+	text-decoration: line-through;
+}
+form.resa div.manifestations span.resume a {
+	text-decoration: none;
+	color: black;
+}
+form.resa div.manifestations span.resume span.billet {
+	cursor: default;
+	font-size: 110%;
+	word-spacing: -0.2em;
+	border: 1px dotted gray;
+	margin: 5px 5px 0 5px;
+	padding: 0 3px;
+}
+form.resa div.manifestations span.resume span.invendu > input {
+	width: 2em;
+	border-color: gray;
+	background-color: transparent;
+}
+form.resa div.manifestations span.resume.contingeant span.billet { border-color: blue; } /*#ff9000; }*/
+form.resa div.manifestations span.resume.annul span.billet { background-color: #00ffff; }
+form.resa div.manifestations span.resume.warn span.billet { background-color: red; }
+form.resa div.manifestations span.resume:hover span.billet { border-color: red; }
+
+form.resa div.manifestations span.resume { z-index: 1 }
+body.jauges a + span.desc,
+form.spectacles a + span.desc,
+form.manif p.places > span.desc,
+form.manif p.tva > span.desc,
+body.annul a + span.desc,
+form.resa input + span.desc,
+form.resa div.manifestations a + span.desc,
+form.resa div.bill > p.paymode span > span.desc,
+form.resa div.manifestations span.resume span.desc {
+	position: absolute;
+	cursor: default;
+	display: none;
+	background-color: #fff77f;
+	border: 1px solid black;
+	margin-top: 17px;
+	margin-left: -15px;
+	padding: 1px 2px;
+	max-width: 120px;
+	font-size: 80%;
+	font-weight: normal;
+	z-index: 20;
+}
+form.resa input + span.desc { margin-left: -3px; }
+form.resa div.manifestations a + span.desc,
+form.spectacles a + span.desc {	max-width: 200px; }
+form.resa div.manifestations a:hover + span.desc,
+form.resa input:hover + span.desc,
+body.annul a:hover + span.desc,
+form.manif p.places:hover > span.desc,
+form.manif p.tva:hover > span.desc,
+form.resa div.bill > p.paymode span:hover > span.desc,
+form.spectacles a:hover + span.desc { display: inline; }
+form.resa div.manifestations.hide p.content { display: none; }
+div.manifestations p.content + p.jauge {
+	position: absolute;
+	display: none;
+	margin-top: 0px;
+	margin-left: 50px;
+	background-color: white;
+	padding: 5px 5px 10px 10px;
+	border: 1px solid gray;
+	border-top-width: 0;
+}
+form.spectacles div.manifestations p.content + p.jauge:hover,
+div.manifestations p.content + p.jauge:hover,
+div.manifestations p.content:hover + p.jauge { display: block; }
+div.manifestations.billets p.content + p.jauge:hover { display: none; }
+form.spectacles p.valid { margin-top: 30px; }
+form.resa div.manifestations p.content span.pc { font-size: 110%; }
+form.resa div.manifestations p.content span.pc input { width: 1.5em; }
+
+form.resa div.valid p { display: inline; }
+
+/* span.resume : default ; span.warn: imprimé non validé ; span.cancel: annulé ; span.done: imprimé et validé */
+form.resa div.manifestations span.resume:hover	span.desc   { display: inline; }
+form.resa div.manifestations span.warn:hover	span.desc,
+form.resa div.manifestations span.cancel:hover	span.desc,
+form.resa div.manifestations span.done:hover	span.desc   { display: none; }
+
+form.resa div.manifestations span.resume:hover	span.nonval,
+form.resa div.manifestations span.resume:hover	span.imp,
+form.resa div.manifestations span.resume:hover	span.cancel { display: none; }
+form.resa div.manifestations span.cancel:hover	span.cancel { display: inline; }
+form.resa div.manifestations span.done:hover	span.imp    { display: inline; }
+form.resa div.manifestations span.warn:hover	span.nonval { display: inline; }
+
+form.resa div.manifestations p.content span.date.past {
+	color: red;
+	font-weight: bold;
+}
+form.resa div.manifestations span.resume + span.valid span.visu {
+	position: absolute;
+	border: 1px solid black;
+	border-width: 0 1px 1px 0;
+	height: 2px;
+	width: 2px;
+	padding: 0;
+	margin-top: -4px;
+	margin-left: -4px;
+}
+form.resa div.manifestations span.resume + span.valid > span {
+	border: 1px dotted red;
+	background-color: white;
+	padding: 5px;
+}
+form.resa div.manifestations span.resume + span.valid > span:hover,
+form.resa div.manifestations span.resume:hover + span.valid > span { display: inline; }
+form.resa div.manifestations span.resume + span.valid > span {
+	display: none;
+	position: absolute;
+	z-index: 10;
+	margin-left: -40px;
+	margin-top: -4px;
+}
+form.resa div.manifestations span.resume + span.valid > span input[type=text] {
+	display: block;
+	width: 80px;
+	margin: 1px;
+}
+form.resa div.manifestations span.valid ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+form.resa div.manifestations p { white-space: nowrap; }
+form.resa div.manifestations p .desc { white-space: normal; }
+form.resa p span.total {
+	font-weight: bold;
+	text-align: right;
+}
+form.resa p.total span.total { border-top: 1px solid black; }
+form.resa p.total span.nom { text-align: right; }
+form.resa p.total span.total { margin-top: 20px; }
+form.resa div.bill { padding: 20px 0 10px 0; }
+form.resa div.bill > p.paymode {
+	display: table;
+	margin: 0px;
+	margin-top: 3px;
+}
+form.resa div.bill > p.titre,
+form.resa div.bill > p > span.titre {
+	font-weight: bold;
+	font-size: 110%;
+}
+form.resa div.bill > p.paymode > span { display: table-row; }
+form.resa div.bill > p.paymode > span { display: table-row; }
+form.resa div.bill > p.paymode > span > span { display: table-cell; }
+form.resa div.bill > p.paymode input.montant { width: 5em; text-align: right; }
+form.resa div.bill > p.reste { font-size: 110%; }
+form.resa div.bill > p.reste span.reste { font-weight: bold; }
+form.resa div.bill > p.reste > span.reste.crediteur,
+form.resa div.bill > p.compte.crediteur { color: red; }
+form.resa div.bill > p.paid span.date:before { content: ' - '; }
+form.resa div.bill > p.paid span.date { font-size: 75%; }
+
+div.reminder {
+	display: table;
+	border: 1px solid blue;
+}
+div.reminder > p { display: table-row; }
+div.reminder > p.cont > span + span { font-style: italic; }
+div.reminder > p.desact > span { color: gray; }
+div.reminder > p.th > span {
+	font-weight: bold;
+	border-bottom: 1px solid silver;
+}
+div.reminder > p > span {
+	display: table-cell;
+	padding: 0 2px;
+	text-align: right;
+}
+div.reminder > p > span + span {
+	text-align: left;
+	border-left: 1px solid silver;
+}
+
+p.actions a.depot, p.actions a.queries, p.actions a.ventes, p.actions a.index, p.actions a.attente
+{ margin-left: 20px; }
+p.actions a.ventedir + a.attente { margin-left: 2px; }
+
+p.actions a + span.desc {
+	display: none;
+	margin-top: -12px;
+}
+p.actions a:hover + span.desc { display: inline; }
+
+div.manifs p.url > * > a + span.desc,
+p.actions span.desc {
+	display: none;
+	position: absolute;
+	cursor: default;
+	border: 1px solid black;
+	background-color: #fff77f;
+	font-size: 90%;
+	padding: 1px 2px;
+	margin-top: 13px;
+	margin-left: -5px;
+	z-index: 1;
+	max-width: 250px;
+	font-size: 80%;
+}
+div.manifs p.url > * > a:hover + span.desc { display: inline; }
+
+form.manif div.infos p.jauge { display: table; }
+form.manif div.infos p.jauge > span { display: table-row; }
+form.manif div.infos p.jauge > span > span { display: table-cell; }
+form.manif div.infos p.jauge > span > span.jauge { padding-left: 10px; }
+form.manif div.infos p.jauge > span > span > span { margin-top: -20px; }
+form.manif div.bilan div.trans h4.demandes { color: #77f; }
+form.manif div.bilan div.trans h4.preresas { color: #ff9000; }
+form.manif div.bilan div.trans h4.resas { color: red; }
+
+/* Les manifestations */
+div.manifs p.url a {
+	text-decoration: underline;
+	cursor: pointer;
+}
+div.manifs p.url span.error { color: red; }
+div.manifs p.url a.noerror + * + span.error { display: none; }
+div.manifs p.url a.noerror.ok { color: green; }
+div.manifs p.url > span.desc {
+	margin-left: -150px;
+	margin-top: 18px;
+	max-width: 200px;
+	white-space: normal;
+}
+div.manifs p.jauge span.plnum { text-decoration: underline; }
+form.resa.print span.valid input[type=text].error {
+	color: red;
+	text-decoration: blink;
+	font-weight: bold;
+}
+form.resa.print span.valid input[type=text].ready {
+	color: green;
+	font-weight: bold;
+}
+
+div.bilan, div.tarifs {
+	padding: 10px;
+	border: 1px solid #364ed7;
+	margin-top: 20px;
+}
+
+form.manif div.infos {
+	height: 315px;
+	overflow: auto;
+}
+
+div.tarifs {
+	width: 350px;
+	position: absolute;
+	margin-top: -337px;
+	margin-left: 410px;
+	padding-bottom: 0;
+}
+div.tarifs div.clip {
+	overflow: auto;
+	max-height: 315px;
+}
+div.tarifs > div ul {
+	display: table;
+	padding-left: 5px;
+}
+div.tarifs > div ul li { display: table-row; }
+div.tarifs > div ul li > span {
+	display: table-cell;
+	padding: 1px 2px;
+}
+
+p.actions a.active.manif {
+	background-color: #f6f6f6;
+	border-bottom: 1px solid gray;
+}
+p.actions a.active.manif:hover {
+	background-color: white;
+	border-bottom: 1px solid white;
+}
+
+body.bill.credit div.search form p.submit { display: none; }
+body.bill.credit span.amount { color: red; }
+body.bill.credit span.ntotal { font-size: 80%; }
+body.bill.credit span.ntotal:before { content: '('; }
+body.bill.credit span.ntotal:after  { content: ')'; }
+body.bill.credit ul.contacts > li > p.total { border: 0 }
+body.bill.credit p.total:before {
+	content: '= ';
+	color: black;
+}
+body.bill.contingeant ul.contacts,
+body.bill.credit ul.contacts,
+body.bill.bdc ul.contacts,
+body.bill.factures ul.contacts,
+body.bill.queries ul.contacts { display: table; }
+body.bill.contingeant ul.contacts > li,
+body.bill.credit ul.contacts > li,
+body.bill.bdc ul.contacts > li,
+body.bill.factures ul.contacts > li,
+body.bill.queries ul.contacts > li { display: table-row; }
+body.bill.contingeant ul.contacts > li > p,
+body.bill.credit ul.contacts > li > p,
+body.bill.bdc ul.contacts > li > p,
+body.bill.factures ul.contacts > li > p,
+body.bill.queries ul.contacts > li > p {
+	display: table-cell;
+	border-bottom: 1px dotted silver;
+	white-space: nowrap;
+}
+body.bill.evt span.pers.npai:after {
+	content: ' -npai- ';
+	color: red;
+}
+body.bill.credit ul.contacts > li > p > span.pers:before,
+body.bill.bdc ul.contacts > li > p > span.pers:before,
+body.bill.queries ul.contacts > li > p > span.pers:before {
+	content: counter(pers,disc);
+	padding-right: 5px;
+}
+body.bill.credit ul.contacts > li > p.total,
+body.bill.contingeant ul.contacts > li > p > span.pers,
+body.bill.credit ul.contacts > li > p.transac,
+body.bill.bdc ul.contacts > li > p.transac,
+body.bill.factures ul.contacts > li > p.transac,
+body.bill.queries ul.contacts > li > p.transac { padding-left: 10px; }
+body.bill.factures span.numfact {
+	font-weight: bold;
+	padding-right: 10px;
+}
+
+/* Les livres */
+body.livre span.eur { font-weight: bold; }
+body.livre div.totaux p.nom { text-decoration: underline; }
+body.livre div.cpt > ul > li > ul { display: table; }
+body.livre div.cpt > ul > li > ul > li { display: table-row; }
+body.livre div.cpt > ul > li > ul > li > span { display: table-cell; }
+body.livre div.cpt > ul > li > ul > li > span.transac,
+body.livre div.cpt > ul > li > ul > li > span.label { width: 80px; }
+body.livre div.cpt li.totaux { margin-top: 8px; }
+body.livre div.cpt span.montant {
+	width: 80px;
+	padding: 0 5px;
+	text-align: right;
+}
+body.livre div.cpt > p.totaux { font-weight: bold; }
+body.livre div.cpt > p.totaux > span.montant { border-top: 1px solid black; }
+body.livre div.cpt p.totaux > span.montant { border-top: 1px solid black; }
+
+/* Les extractions CSV */
+p.csvext {
+	border: 1px dashed gray;
+	padding: 2px 5px;
+	width: 300px;
+	background-color: #ececec;
+}
+p.csvext > span { display: block; }
+
+/* erreur dans l'impression du ticket */
+body.noticket {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+}
+body.noticket > div { 
+	position: relative;
+	top: 35%;
+	height: 1px;
+}
+body.noticket p.info {
+	font-size: 26px;
+	font-weight: bold;
+}
+
+body.noticket div.credits { display: none; }
+
+/* divers */
+span.hidden { display: none; }
+
+/* récaps */
+body.recaps div.sommaire p {
+	margin: 0;
+	padding: 0;
+}
+body.recaps div.sommaire p + p:before {
+	padding: 0 5px 0 10px;
+	content: counter(sommaire,square);
+	font-size: 8px;
+}
+body.recaps div.sommaire p.nom { font-weight: bold; }
+body.recaps div.sommaire {
+	background-color: silver;
+	width: 350px;
+	border: 1px dashed gray;
+	padding: 10px;
+}
+body.recaps div.couleur ul {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+body.bill.index div.highscore span {
+	display: block;
+	padding: 3px;
+	border: 1px dotted gray;
+	width: 300px;
+}
+
+/* élément permettant de faire patienter */
+#waiting {
+	display: none;
+	cursor: default;
+	color: red;
+	font-weight: bold;
+	position: fixed;
+	top: 50px;
+	left: 300px;
+	z-index: 40;
+	background-color: white;
+	border: 1px solid gray;
+	padding: 2px 10px;
+}
+#waiting.show { display: block; }
+
+a.close {
+	border: 1px solid gray;
+	text-decoration: none;
+	padding: 0 4px;
+	margin-right: 14px;
+}
+a.close > span.in { display: none; }
+a.close > span.out { display: inline; }
+a.close:hover > span.in { display: inline; }
+a.close:hover > span.out { display: none; }
+
+form.print.resa div.ticketoptions > p { display: inline; }
+form.print.resa div.ticketoptions > p.dematerialized {
+	background-color: silver;
+	padding: 2px 0px;
+	border: 1px solid black;
+}
+form.print.resa div.ticketoptions > p.dematerialized a {
+	padding: 2px 6px;
+	text-decoration: none;
+	color: black;
+	cursor: default;
+}
+form.print.resa div.ticketoptions > p.dematerialized a.disabled { color: gray; }
+
+body.infotick #nbplaces {
+	font-weight: bold;
+	border: 1px dashed black;
+	display: inline;
+	padding: 0 5px;
+}
+body.infotick p.passage {
+	text-align: center;
+	margin-top: 30px;
+	font-size: 150%;
+}
+body.infotick p.passage > a:after { content: url("../img/link.png"); }
+body.infotick p.passage.ko { color: red; }
+
+/* Google Map */
+#googlemap {
+	position: absolute;
+	width: 420px;
+	left: 430px;
+	top: 140px;
+	background-color: white;
+}
+#googlemap.nojs { width: 430px; bottom: 10px; top: auto; }
+#googlemap #map { width: 400px; }
+#googlemap.nojs #map { width: 410px; }
+#googlemap.nojs:hover { z-index: 2; }
+

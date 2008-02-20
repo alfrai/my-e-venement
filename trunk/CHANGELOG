@@ -1,0 +1,118 @@
+== 1.6.0 -> 1.6.1 ==
+
+* general
+** mises à jour mineures diverses
+** Ajout d'un script pour dumper les schemas
+** MAJ de tous les schémas SQL initiaux
+** Configuration : ajout du format de date spécifique aux flux ATOM
+** Feuille de style pour l'affichage des jauges externalisée...
+* contact
+** Petite correction dans le patch SQL pour les enfants afin qu'il soit applicable partout
+** Petite correction pour le retour sur des groupes avec l'age des enfants...
+* billetterie
+** Ajout d'un flux RSS (syndication) pour suivre les spectacles autour de la date courante
+** Ajout de dates de création et modification des manifestations (tout est géré en base par un trigger, pas de changement dans le code)
+** Comptabilité : ajout de la possibilité de se positionner à une date précise pour l'affichage des dettes
+** Ajout d'une fonctionnalité permettant l'export de personnes présentes sur un meta-evenement
+* vente en ligne (toujours en version alpha)
+** MAJ en masse pour le module de vente en ligne
+** Renommage du module de vente en ligne de "web" à "vel"
+** gestion d'un panier par session
+** gestion des prix par tarif, manifestation, total
+** Manquent :
+*** la gestion du paiement sécurisé
+*** l'affichage des mentions légales
+*** une apparence par défaut agréable
+*** la gestion des coordonnées "client"
+*** l'interaction avec la billetterie une fois le paiement effectué
+*** l'impression du billet dématérialisé/contremarque
+* Ajout du module de gestion de tickets d'incidents (flyspray)
+
+
+== 1.5.2 -> 1.6.0 ==
+
+* general
+** Modification du config.php.template
+* contact
+** Correction d'un bug croisé lors de l'extraction dans certaines conditions
+** MAJ de la fiche des personnes
+** Age des enfants des spectateurs (jeune public)
+*** Fiche individuelles
+**** Ajout des infos sur les années de naissance des enfants
+**** Ajout d'une table "child" pour les années de naissance des enfants
+*** Intégration des ages des enfants dans :
+**** le moteur de recherche
+**** les groupes dynamiques
+* billetterie
+** Oubli d'une variable globale dans late.page.php ($user)
+** Correction d'un bug concernant les dépots de billetterie
+** Ajout de l'affichage des manifs (sans sélection possible) en première étape de la billetterie
+* pro
+** Ajout de l'aperçu des fiches individuelles dans le module pro
+
+== 1.5.1 -> 1.5.2 ==
+
+* Correction de nombreux bugs (core et modules)
+* MAJ du mode d'impression des billets (plus de passage par un fichier PDF)
+
+== 1.4.0 -> 1.5.1 ==
+* ajout de droits sur le module "evt" gérant billetterie et évènements
+* ajout de billets groupés pour les structures prêtes à être tenues responsables pénalement face au CGI
+* évolution du processus "grand public" de la billetterie :
+** possibilité de consulter une fiche spectateur au niveau de la première étape
+** intégration du choix des manifestations dans l'étape 2
+* mise à jour par rapport aux évolutions de janvier 2006 de l'article 290 quater du CGI : billets dématérialisés ("infoticks")
+** édition des infoticks (manque le design du billet)
+** extraction de listings papiers des infoticks pour une manifestation
+** prise en charge informatisée de l'arrivée des spectateurs à infoticks
+* archivage des données de billetterie (moyennant la création d'une nouvelle base de données)
+* améliorations et corrections de bugs divers
+
+
+== De contact-1.3.0 à contact-1.3.1 ==
+
+------------------------------------------------------------------------
+r779 | beta | 2007-04-27 11:56:49 +0200 (ven, 27 avr 2007) | 2 lines
+
+MAJ des fiches du module sco pour prendre en compte la notion de dernière modification
+
+------------------------------------------------------------------------
+r780 | beta | 2007-04-30 17:16:44 +0200 (lun, 30 avr 2007) | 3 lines
+
+Modification mineure de la gestion des couleurs des cellules
+Modification de la gestion de l'affichage des exports possibles : simplification maximale, on affiche tout.
+
+------------------------------------------------------------------------
+r781 | beta | 2007-05-02 14:56:19 +0200 (mer, 02 mai 2007) | 3 lines
+
+Protection des modules inactifs (sauf billetterie)
+
+
+------------------------------------------------------------------------
+r782 | beta | 2007-05-02 15:03:06 +0200 (mer, 02 mai 2007) | 2 lines
+
+Ajout d'une vérification de l'activation du module
+
+------------------------------------------------------------------------
+r783 | beta | 2007-05-02 18:41:20 +0200 (mer, 02 mai 2007) | 2 lines
+
+Ajout d'une fonctionnalité de recherche d'évènement par nom d'organisme
+
+------------------------------------------------------------------------
+r790 | beta | 2007-05-03 11:29:12 +0200 (jeu, 03 mai 2007) | 2 lines
+
+MAJ du schema SQL du module sco (ajout d'un champ commentaire par ligne d'entrée)
+
+------------------------------------------------------------------------
+r791 | beta | 2007-05-03 11:39:03 +0200 (jeu, 03 mai 2007) | 4 lines
+
+Ajout d'une fonction indiquant si une requête est en échec
+Affichage du résultat de l'application d'un patch
+MAJ du patch SQL pour les scolaires, afin qu'il fonctionne avec sqlpatch.php
+
+------------------------------------------------------------------------
+r797 | beta | 2007-05-07 01:15:24 +0200 (lun, 07 mai 2007) | 2 lines
+
+MAJ pour la nouvelle version des credits.php
+
+------------------------------------------------------------------------

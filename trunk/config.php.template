@@ -1,0 +1,36 @@
+<?php
+	/**
+	  * Configuration automatique
+	  * 
+	  **/
+	require($_SERVER["DOCUMENT_ROOT"].$config["website"]["root"]."config.default.php");
+	
+	/**
+	  * Configuration manuelle
+	  * 
+	  **/
+	$config["website"]["libs"]	= "/usr/share/www/beta-libs-current/";
+	$config["website"]["root"]	= "/";
+	$config["website"]["base"]	= "https://mon.domaine.tld".$config["website"]["root"];
+
+        $config["mail"]["smtphost"]             = "";
+        $config["mail"]["smtpport"]             = "";
+        $config["mail"]["mailfrom"]             = "";
+	$config["mail"]["newpass"]		= "Nouveau mot de passe pour e-venement";
+
+	$config["database"]["server"]		= "localhost";
+	$config["database"]["port"]		= NULL;
+	$config["database"]["name"]		= "";
+	$config["database"]["user"]		= "";
+	$config["database"]["passwd"]		= "";
+
+	//$config["indispo"]	= true;	// désactiver l'accès au site
+	
+	/**
+	  * Configuration automatique
+	  * 
+	  **/
+	ini_set("include_path",".:".$config["website"]["libs"]);
+	require_once("config.mods.php");
+	require_once($config["website"]["libs"]."/utils.lib.php");
+?>
