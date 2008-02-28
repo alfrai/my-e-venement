@@ -1,0 +1,24 @@
+diff -Nrua flyspray-0.9.9.stable20080209/scripts/details.php flyspray/scripts/details.php
+--- flyspray-0.9.9.stable20080209/scripts/details.php	2008-01-21 06:22:16.000000000 +0100
++++ flyspray/scripts/details.php	2008-02-11 09:25:45.000000000 +0100
+@@ -32,7 +32,7 @@
+ $page->setTitle(sprintf('FS#%d : %s', $task_details['task_id'], $task_details['item_summary']));
+ 
+ if ((Get::val('edit') || (Post::has('item_summary') && !isset($_SESSION['SUCCESS']))) && $user->can_edit_task($task_details)) {
+-    $result = $db->Query('SELECT DISTINCT u.user_id, u.user_name, u.real_name, g.group_name
++    $result = $db->Query('SELECT DISTINCT g.project_id, g.group_id, u.user_id, u.user_name, u.real_name, g.group_name
+                             FROM {users} u
+                        LEFT JOIN {users_in_groups} uig ON u.user_id = uig.user_id
+                        LEFT JOIN {groups} g ON g.group_id = uig.group_id
+diff -Nrua flyspray-0.9.9.stable20080209/scripts/newtask.php flyspray/scripts/newtask.php
+--- flyspray-0.9.9.stable20080209/scripts/newtask.php	2008-01-21 06:22:16.000000000 +0100
++++ flyspray/scripts/newtask.php	2008-02-09 19:32:34.000000000 +0100
+@@ -21,7 +21,7 @@
+                        LEFT JOIN {groups} g ON g.group_id = uig.group_id
+                            WHERE (g.show_as_assignees = 1 OR g.is_admin = 1)
+                                  AND (g.project_id = 0 OR g.project_id = ?) AND u.account_enabled = 1
+-                        ORDER BY g.project_id ASC, g.group_name, g.group_id ASC, u.user_name ASC', $proj->id);
++                        ORDER BY g.group_name, u.user_name ASC', $proj->id);
+ $userlist = array();
+ while ($row = $db->FetchRow($result)) {
+     $userlist[$row['group_name']][] = array(0 => $row['user_id'], 
