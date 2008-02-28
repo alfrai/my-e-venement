@@ -82,7 +82,7 @@
 			$reservation->addPreReservation($manifid,$resa);
 		}
 		
-		$query = " SELECT personne.id, personne.nom, personne.prenom, personne.titre, personne.orgnom, personne.fcttype, personne.fctdesc,
+		$query = " SELECT DISTINCT personne.id, personne.nom, personne.prenom, personne.titre, personne.orgnom, personne.fcttype, personne.fctdesc,
 			          ticket.nb, ticket.tarif, ticket.reduc, ticket.transaction, 
 			          evt.nom AS evtnom, evt.id AS evtid, manif.id AS manifid, site.nom AS sitenom, manif.date, site.ville, site.cp AS manifcp, colors.libelle AS colorname
 			   FROM personne_properso AS personne,
@@ -94,7 +94,7 @@
 			   	  WHERE printed AND NOT canceled ) AS ticket,
 			   	transaction AS trans, manifestation AS manif, evenement AS evt, site, colors
 			   WHERE transaction = trans.id
-			     AND personne.id = trans.personneid
+			     AND ( personne.id = trans.personneid OR personne.id IS NULL AND trans.personneid IS NULL )
 			     AND ( trans.fctorgid = personne.fctorgid OR trans.fctorgid IS NULL AND personne.fctorgid IS NULL )
 			     AND ticket.manifid = manif.id
 			     AND manif.evtid = evt.id
@@ -140,7 +140,7 @@
 		$data["numtransac"] = $transac;
 ?>
 <form name="formu" action="evt/bill/billing.php" method="post" class="print resa">
-	<p class="transaction">
+	<p class="transaction">Client: 
 		<span class="titre"><?php echo htmlsecure($rec["titre"]) ?></span>
 		<a href="ann/fiche.php?id=<?php echo intval($rec["id"]) ?>&view"><span class="prenom"><?php echo htmlsecure($rec["prenom"]) ?></span>
 			<span class="nom"><?php echo htmlsecure($rec["nom"]) ?></span></a>
