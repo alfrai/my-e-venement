@@ -25,6 +25,7 @@
 	includeLib("sco");
 	includeJS("ajax");
 	includeJS("ttt");
+	includeJS("jquery");
 	includeJS("sco","sco");
 	includeLib("bill");
 	includeLib("jauge");
@@ -259,6 +260,18 @@
 <div class="body">
 <h2>Tableau de saisie</h2>
 <form class="entry" action="<?php echo htmlsecure($_SERVER["PHP_SELF"]).'?id='.$id.($persid > 0 ? '&persid='.$persid : '') ?>" method="post">
+<script type="text/javascript"><!--
+	if ( window.jQuery )
+	$(document).ready(function(){
+		$('a.del').click(function(){
+			if ( !(lnk = $(this).attr('href')) )
+				lnk = $(this).attr('lnk');
+			$(this).attr('lnk',lnk).removeAttr('href');
+			if ( confirm('Êtes-vous sûr de vouloir retirer cette ligne/colonne ?') )
+				window.location = lnk;
+		});
+	});
+--></script>
 <div>
 <?php
 	// première ligne

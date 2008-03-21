@@ -43,11 +43,14 @@
 		     AND ( transaction.fctorgid = pers.fctorgid
 		       OR (transaction.fctorgid IS NULL AND pers.fctorgid IS NULL) )";
 	if ( !$seeall ) $query .= " AND
-				    ( topay.prix - (SELECT prix FROM paid WHERE paid.transaction = topay.transaction) > 0
+				    ( topay.prix - (SELECT sum(paiement.montant) AS prix FROM paiement WHERE transaction = topay.transaction AND date <= '".pg_escape_string($flashdate)."'::date GROUP BY transaction) > 0
 				      OR (topay.transaction NOT IN (SELECT transaction FROM paiement) AND topay.prix > 0 ))";
+	//			    SELECT prix FROM paid WHERE paid.transaction = topay.transaction) > 0
 	$class .= " credit";
 	$subtitle = "Personnes n'ayant pas réglé la totalité de leurs créances";
 	$credit = true;
+	
+	echo $query;
 	
 	$flashdate = true;
 	includePage("late");
