@@ -80,7 +80,7 @@ form.evt div.creation div.clip p span {
 	display: table-cell;
 	padding: 1px 2px 1px 0px;
 }
-form.evt div.creation,
+form.evt div.creation, form.evt div.web,
 form.salle div.details, form.salle div.gestion {
 	position: absolute;
 	margin-left: 420px;
@@ -99,6 +99,14 @@ form.salle div.places {
 form.evt div.creation {
 	margin-top: -312px;
 	max-height: 125px;
+}
+form.evt div.web {
+	margin-top: -147px;
+	border: 1px solid blue;
+}
+form.evt div.web span.titre {
+	text-decoration: underline;
+	display: block;
 }
 form.salle div.details { margin-top: -162px; }
 form.salle div.gestion {

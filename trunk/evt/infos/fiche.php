@@ -66,7 +66,6 @@
 	$default = array();
 	$default["nom"]		= "-nom du spectacle-";
 	$default["petitnom"]	= "-nom pour les billets-";
-	$default["description"]	= "-petite description-";
 	$default["typedesc"]	= "-genre de spectacle-";
 	$default["duree"]	= "-HH:MM-";
 	$default["date"]	= "-AAAA-MM-JJ HH:MM-";
@@ -74,6 +73,7 @@
 	$default["age_max"]	= "-max-";
 	$default["code"]	= "-F3-";
 	$default["jauge"]	= "-jauge-";
+	$default["tarifweb"]	= "-6-";
 	
 	$default["textede_lbl"]	= '-Label ~Texte de~-';
 	$default["textede"]	= "-Jean Martin-";
@@ -94,7 +94,7 @@
 		$rec = array();
 		foreach ( array("organisme1","organisme2","organisme3","nom","petitnom","description","typedesc",
 				"categorie","mscene","mscene_lbl","textede","textede_lbl","duree",
-				"ages","code","metaevt") as $value )
+				"ages","tarifweb","code","metaevt") as $value )
 			$rec[$value] = NULL;
 		
 		foreach ( $fields as $key => $value )
@@ -237,7 +237,7 @@
 				printField("field[".($name = "petitnom")."]",$rec[$name],$default[$name],$config["ticket"]["titlemaxchars"],24);
 				echo '</span>';
 			?></p>
-			<p class="desc"><?php printField("field[".($name = "description")."]",$rec[$name],$default[$name],NULL,NULL,true); ?></p>
+			<p class="desc"><?php printField("field[".($name = "description")."]",$rec[$name],$default[$name],NULL,45,true); ?></p>
 			<p><?php
 				$evtcat->firstRecord();
 				if ( $action != $actions["view"] && $mod )
@@ -372,6 +372,43 @@
 		?></span></p>
 		</div>
 	</div>
+	<?php if ( $config["evt"]["ext"]["web"] ) { ?>
+	<div class="web">
+		<p class="titre">Infos web</p>
+		<div class="clip">
+			<script type="text/javascript" src="../../tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+			<script type="text/javascript">
+				tinyMCE.init({
+					mode : "textareas",
+					language: "fr",
+					theme: "advanced",
+					theme_advanced_buttons1 : "bold,italic,underline,|,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,link,unlink",
+					theme_advanced_buttons2 : "styleselect,formatselect,|,hr,|,undo,redo",
+					theme_advanced_buttons3 : "",
+					theme_advanced_toolbar_location : "bottom",
+					theme_advanced_toolbar_align : "center",
+					extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]"
+				});
+			</script>
+			<p><?php
+				$name = "tarifweb";
+				if ( $action != $actions["view"] || $rec[$name] ) echo "Tarif web: ";
+				printField("field[".$name."]",$rec[$name],$default[$name],3,3);
+				if ( $action != $actions["view"] || $rec[$name] ) echo '€';
+			?></p>
+			<div class="extraspec"><?php
+				$name = "extraspec";
+				echo '<span class="titre">'."Autour de l'évènement</span>";
+				printField("field[".$name."]",$rec[$name],$default[$name],5,55,true);
+			?></div>
+			<div class="extradesc"><?php
+				$name = "extradesc";
+				echo '<span class="titre">'."Informations complémentaires</span>";
+				printField("field[".$name."]",$rec[$name],$default[$name],5,55,true);
+			?></div>
+		</div>
+	</div>
+	<?php } ?>
 	<div class="manifs">
 		<p class="titre">Les dates</p>
 		<div class="clip">

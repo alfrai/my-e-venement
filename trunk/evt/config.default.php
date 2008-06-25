@@ -34,6 +34,7 @@
 	$config["regional"]["decimaldelimiter"] = ",";
 	
         $config["evt"]["syndication"]           = true;
+        $config["evt"]["ext"]["web"]		= false;
         
         /**
 	  * Possibilité ou non de sortir des billets groupés
