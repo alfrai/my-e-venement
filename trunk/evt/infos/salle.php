@@ -29,8 +29,6 @@
 	includeJS("ajax");
 	includeJS("ttt");
 	includeJS("annu");
-	includeJS("jquery");
-	includeJS("jquery.contact");
 	
 	if ( isset($_GET["del"]) )
 		$action = $actions["del"];
@@ -85,7 +83,7 @@
 		$rec = array();
 		foreach ( array("adresse","cp","ville","pays","regisseur","organisme","description",
 				"dimensions_salle","dimensions_scene","noir_possible","gradins",
-				"amperage")
+				"amperage", "capacity")
 				as $value )
 			$rec[$value] = NULL;
 		
@@ -109,7 +107,7 @@
 		$rec["modification"] = date("Y-m-d H:i:s");
 		
 		// les entiers
-		foreach ( array("organisme","regisseur") as $value )
+		foreach ( array("organisme","regisseur","capacity") as $value )
 			if ( $rec[$value] ) $rec[$value] = intval($rec[$value]);
 		
 		// le plan dynamic
@@ -166,7 +164,6 @@
 				printField("field[".($name = "nom")."]",$rec[$name],$default[$name],255,30);
 			?></p>
 			<p class="adresse">
-				<?php $address = trim($rec["adresse"].$rec["cp"].$rec["ville"]) ? $rec["adresse"].', '.$rec["cp"].' '.$rec["ville"].', '.$rec["pays"] : ''; ?>
 				<?php printField("field[".($name = "adresse")."]",$rec[$name],$default[$name],NULL,NULL,true); ?><br/>
 				<?php printField("field[".($name = "cp")."]",$rec[$name],$default[$name],12,10); ?>
 				<?php printField("field[".($name = "ville")."]",$rec[$name],$default[$name],255); ?><br/>
@@ -181,7 +178,7 @@
 			<?php } ?>
 		</div>
 	</div>
-	<div class="details jqslide <?php echo $action == $actions['view'] ? 'jqhide' : '' ?>">
+	<div class="details">
 		<p class="titre">Détails techniques</p>
 		<div class="clip">
 			<div>
@@ -207,7 +204,6 @@
 							echo '<span>';
 							$name = "dimensions_scene";
 							echo $rec[$name][$i] || $action != $actions["view"] ? $default["dim"][$i].': ' : '';
-
 							printField(	"field[".($name)."][]",$rec[$name][$i],
 									$default[$name][$i],10,3,false,NULL,NULL,false);
 							echo $rec[$name][$i] || $action != $actions["view"] ? "m" : "";
@@ -255,7 +251,7 @@
 			</p>
 		</div>
 	</div>
-	<div class="gestion jqslide <?php echo $action == $actions['view'] ? 'jqhide' : '' ?>">
+	<div class="gestion">
 		<p class="titre">Gestion de la salle</p>
 		<div class="clip">
 			<p><?php
@@ -293,22 +289,14 @@
 					echo '<select name="field[regisseur][value]">';
 					echo '<option value="">-les régisseurs-</option>';
 					while ( $ppl = $pers->getRecordNext() )
-						echo '<option value="'.intval($ppl["fctorgid"]).'" '.($ppl["regisseur"] == 
-						$rec["id"] ? 'selected="selected"' : '').'>'.htmlsecure($ppl["titre"].' '.$ppl["nom"].' '.$ppl["prenom"]).'</option>';
+						echo '<option value="'.intval($ppl["id"]).'" '.($ppl["regisseur"] == $rec["id"] ? 'selected="selected"' : '').'>'.htmlsecure($ppl["titre"].' '.$ppl["nom"].' '.$ppl["prenom"]).'</option>';
 					echo '</select>';
 					$pers->free();
 				}
-				else	echo 'Régisseur&nbsp;: '.($rec["persid"] ? '<a href="ann/fiche.php?id='.intval($rec["persid"]).'&view">'.htmlsecure($rec["perstitre"].' '.$rec["persnom"].' '.$rec["persprenom"]).'</a> '.htmlsecure('('.$rec["perstel"].')') : "");
+				else	echo 'Régisseur&nbsp;: '.($rec["persid"] ? '<a href="ann/fiche.php?id='.intval($rec["persid"]).'&view">'.htmlsecure($rec["perstitre"].' '.$rec["persnom"].' '.$rec["persprenom"].' ('.$rec["perstel"].')') : "");
 			?></p>
 		</div>
 	</div>
-	<?php
-		if ( $action == $actions["view"] && $config["gmap"]["enable"] )
-		{
-			includeLib("googlemap");
-			print_googlemap($address);
-		}
-	?>
 	<?php if ( $config["ticket"]["placement"] && ( is_readable("plans/salle-".$id.".png") || $action != $actions["view"] ) ) { ?>
 	<div class="places">
 		<p class="titre">Placement</p>
@@ -335,7 +323,7 @@
 	?>
 	</form>
 	<?php if ( $action == $actions["view"] ) { ?>
-	<div class="manifs jqslide">
+	<div class="manifs">
 		<p class="titre">Manifestations</p>
 		<div class="clip"><?php
 			$query	= " SELECT *

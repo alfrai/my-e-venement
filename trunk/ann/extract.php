@@ -167,7 +167,7 @@
 			unset($arr[$line]["orgadr"],$arr[$line]["orgcp"],$arr[$line]["orgville"],$arr[$line]["orgpays"],$arr[$line]["orgtelnum"],$arr[$line]["orgteltype"]);
 		}
 		
-		// on retire les colonnes non nécessaires en cas de fusion pro/perso
+		// on retire les headers des colonnes non nécessaires en cas de fusion pro/perso
 		if ( $entonnoir )
 		foreach ( $arr[0] as $key => $value )
 			switch ( $value ) {

@@ -483,7 +483,12 @@
 			$categories->free();
 		?>
 		</div>
-		<?php if ( $action != $actions["view"] ) { ?><input type="button" value="valider - revenir" name="valid" class="maj" onclick="javascript: this.form.action += '&edit'; this.form.submit();" /><?php } ?>
+		<?php if ( $action != $actions["view"] ) { ?>
+		<p class="fichemaj">
+			<input type="button" value="valider - revenir" name="valid" onclick="javascript: this.form.action += '&edit'; this.form.submit();" />
+			<input type="submit" name="valid" value="valider" />
+		</p>
+		<?php } ?>
 	</div>
 	<div class="tel jqslide">
 		<p class="titre">Téléphones</p>
@@ -634,7 +639,7 @@
 					           groupe.id, groupe.nom, (createur = ".$user->getId()." OR createur IS NULL) AS perso
 					    FROM groupe
 					    WHERE groupe.id NOT IN (SELECT groupid FROM groupe_andreq)
-					    ORDER BY perso DESC, createur";
+					    ORDER BY perso DESC, createur, nom";
 				$request = new bdRequest($bd,$query);
 				if ( $request->countRecords() > 0 )
 				{

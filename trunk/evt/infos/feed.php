@@ -1,7 +1,7 @@
 <?php
 /**********************************************************************************
 *
-*	    This file is part of desoles.org.
+*	    This file is part of e-venement.
 *
 *    e-venement is free software; you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 ***********************************************************************************/
 ?>
 <?php
-	define('NBMANIFS',12);
+	define('NBMANIFS',intval($_GET["nb"]));
 	define('ALLOPEN',true);
 	
 	require("conf.inc.php");
@@ -30,7 +30,7 @@
 		exit(1);
 	
 	includeClass("bd");
-	includeClass("bdRequest");
+	includeClass("bdRequest/array");
 	
 	header("Content-Type: application/atom+xml");
 	
@@ -56,17 +56,32 @@
 		    (".$subq."
 		      AND date <= NOW()
 		    ORDER BY date DESC
-		    LIMIT ".NBMANIFS.")
+		    ".(NBMANIFS > 0 ? " LIMIT ".NBMANIFS : "")." )
 		   UNION
 		    (".$subq."
 		      AND date >= NOW()
 		    ORDER BY date ASC
-		    LIMIT ".(NBMANIFS/2).") ) AS tmp";
+		    ".(NBMANIFS > 0 ? " LIMIT ".NBMANIFS : "")." )) AS tmp";
 	$request = new bdRequest($bd,$query);
 	$request->free();
 	
-	$query	= " SELECT * FROM feed";
-	$request = new bdRequest($bd,$query);
+	if ( isset($_GET["evt"]) )
+	{
+		$query	= " SELECT id, nom, description, textede, textede_lbl, ages, typedesc, duree,
+			           min(date) AS date, min(updated) AS update
+			    FROM feed
+			    ".($_GET["cat"] ? "WHERE categorie IN (SELECT id FROM evt_categorie WHERE libelle = '".pg_escape_string($_GET["cat"])."')" : "")."
+			    GROUP BY id, nom, description, textede, textede_lbl, ages, typedesc, duree
+			    ORDER BY date ASC, nom";
+	}
+	else
+	{
+		$query	= " SELECT *
+			    FROM feed
+			    ".($_GET["cat"] ? "WHERE categorie IN (SELECT id FROM evt_categorie WHERE libelle = '".pg_escape_string($_GET["cat"])."')" : "")."
+			    ORDER BY nom, date ASC";
+	}
+	$request = new arrayBdRequest($bd,$query);
 ?>
 	<id><?php echo $uri ?></id>
 	<title>e-venement - Derniers spectacles</title>
@@ -78,13 +93,51 @@
 		while ( $rec = $request->getRecordNext() )
 		{
 			echo '<entry>';
-			echo '<id>'.htmlsecure($config["website"]["base"].'evt/infos/manif.php?id='.intval($rec['manifid']).'&evtid='.intval($rec["id"])).'</id>';
+			echo '<id>'.htmlsecure($config["website"]["base"].'evt/infos/'.(isset($_GET["evt"]) ? 'fiche.php?id='.intval($rec["id"]) : 'manif.php?id='.intval($rec['manifid']).'&evtid='.intval($rec["id"]))).'</id>';
 			echo '<title>'.htmlsecure($rec["nom"]).'</title>';
-			echo '<link rel="alternate" type="text/html" href="'.htmlsecure($config["website"]["base"].'evt/infos/manif.php?id='.intval($rec['manifid']).'&evtid='.intval($rec["id"])).'"/>';
+			echo '<link rel="alternate" type="text/html" href="'.htmlsecure($config["website"]["base"].'evt/infos/'.(isset($_GET["evt"]) ? 'fiche.php?id='.intval($rec["id"]) : 'manif.php?id='.intval($rec['manifid']).'&evtid='.intval($rec["id"]))).'"/>';
 			echo '<updated>'.htmlsecure(date($config["format"]["atomdate"],strtotime($rec["updated"]))).'</updated>';
 			echo '<summary type="xhtml">'.htmlsecure('Le '.date($config["format"]["date"].' '.$config["format"]["maniftime"],strtotime($rec["date"])).' à '.$rec["sitenom"].' - '.$rec["ville"]).'</summary>';
 			echo '<content type="xhtml">'.htmlsecure($rec["description"]).'</content>';
 			echo '<author><name>'.htmlsecure($config["divers"]["appli-name"]).'</name></author>';
+			echo '<eventdate>'.htmlsecure(date('Y-m-d H:i',strtotime($rec["date"]))).'</eventdate>';
+			echo '<eventid>'.intval($rec["id"]).'</eventid>';
+			
+			if ( isset($_GET["ext"]) )
+			{
+				// de base
+				echo '	<ext-textede>'.htmlsecure($rec["textede_lbl"].' '.$rec["textede"]).'</ext-textede>
+					<ext-typedesc>'.htmlsecure($rec["typedesc"]).'</ext-typedesc>
+					<ext-tarif>'.htmlsecure($rec["tarif"]).'</ext-tarif>
+					<ext-extradesc>'.htmlsecure($rec["extradesc"]).'</ext-extradesc>
+					<ext-extraspec>'.htmlsecure($rec["extraspec"]).'</ext-extraspec>
+					<ext-duree>'.htmlsecure($rec["duree"]).'</ext-duree>';
+				
+				// les ages
+				if ( intval($rec["ages"][0]) > 0 )
+				echo '<ext-agemin>'.htmlsecure($rec["ages"][0] >= 2 ? intval($rec["ages"][0])." ans" : ($rec["ages"][0]*12)." mois").'</ext-agemin>';
+				if ( $rec["ages"][1] )
+				echo '<ext-agemax>'.htmlsecure($rec["ages"][1] >= 2 ? intval($rec["ages"][1])." ans" : ($rec["ages"][1]*12)." mois").'</ext-agemax>';
+				
+				// les seances les lieux
+				$query	= " SELECT DISTINCT colorid, date, site.nom, site.adresse, site.cp, site.ville, site.pays
+					    FROM manifestation, site
+					    WHERE siteid = site.id AND evtid = ".intval($rec["id"]);
+				$manifs = new bdRequest($bd,$query);
+				
+				$salles = array();
+				while ( $manif = $manifs->getRecordNext() )
+				{
+					if ( !in_array($manif["nom"],$salles) )
+					{
+						$salles[] = $manif["nom"];
+						echo '<ext-salle>'.htmlsecure('<a href="http://maps.google.fr/maps?f=q&hl=fr&q='.urlencode($manif["adresse"].", ".$manif["cp"]." ".$manif["ville"].", ".$manif["pays"]).'">'.$manif["nom"].'</a>').'</ext-salle>';
+					}
+					echo '<ext-seance-'.intval($manif["colorid"]).'>'.htmlsecure(date('Y-m-d H:i',strtotime($manif["date"]))).'</ext-seance-'.intval($manif["colorid"]).'>';
+				}
+				
+				$manifs->free();
+			}
 			echo '</entry>';
 			echo "\n";
 		}

@@ -29,8 +29,6 @@
 	includeJS("ajax");
 	includeJS("ttt");
 	includeJS("annu");
-	includeJS("jquery");
-	includeJS("jquery.contact");
 	includeJS("group","evt");
 	
 	if ( isset($_GET["del"]) )
@@ -308,7 +306,7 @@
 			?></span></p>
 		</div>
 	</div>
-	<div class="creation jqslide">
+	<div class="creation">
 		<p class="titre">Création</p>
 		<div class="clip">
 		<?php
@@ -374,7 +372,7 @@
 		?></span></p>
 		</div>
 	</div>
-	<div class="manifs jqslide">
+	<div class="manifs">
 		<p class="titre">Les dates</p>
 		<div class="clip">
 			<?php if ( $action != $actions["view"] ) { ?>

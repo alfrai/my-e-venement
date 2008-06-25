@@ -386,7 +386,7 @@ div.contacts div.clip {
 	max-height: 415px;
 }
 
-div.organismes input[type=button].maj {
+div.organismes p.fichemaj {
 	position: absolute;
 	margin-top: 20px;
 	margin-left: -10px;
@@ -537,27 +537,26 @@ p#archive {
 }
 
 /* geo-localisation */
-#googlemap {
+body.org #googlemap, form.personne #googlemap {
+	top: 55px;
 	padding-right: 10px;
 	background-color: white;
 }
-form.personne #googlemap, form.organisme #googlemap { top: 55px; }
-#googlemap:hover { z-index: 1; }
-#googlemap p.titre { background-image: url(../img/arrow-side.png); }
-#googlemap.nojs:hover p.titre, #googlemap.open p.titre, { background-image: url(../img/arrow-down.png); }
-#googlemap .clip {
+body.org #googlemap:hover, form.personne #googlemap:hover { z-index: 1; }
+body.org #googlemap p.titre, form.personne #googlemap p.titre { background-image: url(../img/arrow-side.png); }
+body.org #googlemap.nojs:hover p.titre, form.personne #googlemap.nojs:hover p.titre,
+body.org #googlemap.open p.titre, form.personne #googlemap.open p.titre { background-image: url(../img/arrow-down.png); }
+body.org #googlemap .clip, form.personne #googlemap .clip {
 	height: 100px;
 	overflow: hidden;
 	background-color: white;
 }
-#googlemap.nojs:hover .clip { height: 380px; }
-#googlemap.nojs .clip #map { width: 470px; }
-#googlemap .clip #map {
+body.org #googlemap.nojs:hover .clip, form.personne #googlemap.nojs:hover .clip { height: 380px; }
+body.org #googlemap.nojs .clip #map, form.personne #googlemap.nojs .clip #map { width: 470px; }
+body.org #googlemap .clip #map, form.personne #googlemap .clip #map {
 	width: 460px;
 	height: 380px;
 }
-form.results #googlemap.nojs .clip { height: 450px; }
-form.results #googlemap.nojs #map {
+form.results #googlemap #map {
 	height: 450px;
-	width: auto;
 }

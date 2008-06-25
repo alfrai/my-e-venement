@@ -267,6 +267,8 @@
 	<?php if ( $fields ) echo '<hr /><h2>Compléter les critères de recherche</h2>'; ?>
 	<input type="hidden" name="personne_cp" value="<?php echo htmlsecure($default["cp"]) ?>" />
 	<input type="hidden" name="personne_ville" value="<?php echo htmlsecure($default["ville"]) ?>" />
+	<input type="hidden" name="childmax" value="<?php echo htmlsecure($default["childmax"]) ?>" />
+	<input type="hidden" name="childmin" value="<?php echo htmlsecure($default["childmin"]) ?>" />
 	<input type="hidden" name="personne_creation" value="<?php echo $default["supcreation"] ?>" />
 	<input type="hidden" name="personne_modification" value="<?php echo $default["supmodification"] ?>" />
 	<input type="hidden" id="hiddenmodel" />
@@ -611,6 +613,7 @@ if ( $personnes )
 			}
 			else	echo 'i=i+2;';
 		}
+
 		// text
 		foreach ( array("supcreation","supmodification",
 				"infcreation","infmodification")
@@ -646,11 +649,13 @@ if ( $personnes )
 		// clonage
 		ttt_searchor(para,document.getElementById("searchor"));
 <?php	} // for ( $i = 0 ; $i < count($fields["nom"]) ; $i++ ) ?>
-</script>
 <?php
 	$request->free();
 	$personnes->free();
 }
+?>
+</script>
+<?php
 	$bd->free();
 	includeLib("footer");
 ?>

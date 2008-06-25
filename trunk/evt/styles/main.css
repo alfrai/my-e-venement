@@ -47,10 +47,8 @@ ul.events li span, ul.events li a {
 
 form.salle div.gestion, form.salle div.details,
 form.salle div.places {
-	z-index: 2;
 	padding: 10px;
 	border: 1px solid #364ed7;
-	background-color: white;
 }
 
 div.infos, form.salle div.gestion, div.manifs { width: 350px; }
@@ -102,8 +100,11 @@ form.evt div.creation {
 	margin-top: -312px;
 	max-height: 125px;
 }
-form.salle div.details { margin-top: -157px; }
-form.salle div.gestion { margin-top: -292px; }
+form.salle div.details { margin-top: -162px; }
+form.salle div.gestion {
+	margin-top: -292px;
+	height: 85px;
+}
 form.evt div.creation p.orgview {
 	padding: 0;
 	margin: 0;
@@ -788,17 +789,3 @@ body.infotick p.passage {
 }
 body.infotick p.passage > a:after { content: url("../img/link.png"); }
 body.infotick p.passage.ko { color: red; }
-
-/* Google Map */
-#googlemap {
-	position: absolute;
-	width: 420px;
-	left: 430px;
-	top: 140px;
-	background-color: white;
-}
-#googlemap.nojs { width: 430px; bottom: 10px; top: auto; }
-#googlemap #map { width: 400px; }
-#googlemap.nojs #map { width: 410px; }
-#googlemap.nojs:hover { z-index: 2; }
-

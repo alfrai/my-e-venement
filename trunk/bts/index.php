@@ -25,6 +25,7 @@
 	  * Compatibility layer from e-venement to flyspray
 	  * 
 	  **/
+	
 	require("../config.php");
 	includeClass("user");
 	includeClass("navigation");
@@ -47,7 +48,7 @@
 	// le check de la possibilité d'aller vers flyspray
 	$query = " SELECT * FROM fly_users WHERE user_id = ".$user->getId();
 	$request = new bdRequest($bd,$query);
-	if ( $request->countRecords() > 0 && in_array("bts",$config["mods"]) )
+	if ( $request->countRecords() > 0 )
 	{
 		// récup du passwd md5
 		$passwd = $request->getRecord("user_pass");
@@ -68,8 +69,7 @@
 	{
 		$user->addAlert("Vous n'avez pas la possibilité d'accéder à la gestion des tickets");
 		$request->free();
-		$bd->free();
-		$nav->redirect($config["website"]["root"]);
+		$nav->redirect(".");
 	}
 	$request->free();
 	

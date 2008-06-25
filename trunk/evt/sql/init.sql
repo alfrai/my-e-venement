@@ -616,7 +616,7 @@ COMMENT ON COLUMN manifestation.updated IS 'date de dernier accès en écriture'
 -- Name: COLUMN manifestation.created; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON COLUMN manifestation.created IS 'date de création';
+COMMENT ON COLUMN manifestation.created IS 'date de création de la manifestation';
 
 
 --
@@ -1942,7 +1942,7 @@ CREATE TABLE rights (
 --
 
 CREATE VIEW site_datas AS
-    ((SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.organisme, public.personne_properso personne WHERE ((organisme.id = site.organisme) AND (personne.fctorgid = site.regisseur)) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::"unknown" AS orgid, NULL::"unknown" AS orgnom, NULL::"unknown" AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.personne_properso personne WHERE ((site.organisme IS NULL) AND (personne.fctorgid = site.regisseur))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, NULL::"unknown" AS persid, NULL::"unknown" AS perstitre, NULL::"unknown" AS persnom, NULL::"unknown" AS persprenom, NULL::"unknown" AS perstel FROM site, public.organisme WHERE ((organisme.id = site.organisme) AND (site.regisseur IS NULL))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::"unknown" AS orgid, NULL::"unknown" AS orgnom, NULL::"unknown" AS orgville, NULL::"unknown" AS persid, NULL::"unknown" AS perstitre, NULL::"unknown" AS persnom, NULL::"unknown" AS persprenom, NULL::"unknown" AS perstel FROM site WHERE ((site.organisme IS NULL) AND (site.regisseur IS NULL)) ORDER BY 2, 5;
+    ((SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.organisme, public.personne_properso personne WHERE ((organisme.id = site.organisme) AND (personne.id = site.regisseur)) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::"unknown" AS orgid, NULL::"unknown" AS orgnom, NULL::"unknown" AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.personne_properso personne WHERE ((site.organisme IS NULL) AND (personne.id = site.regisseur))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, NULL::"unknown" AS persid, NULL::"unknown" AS perstitre, NULL::"unknown" AS persnom, NULL::"unknown" AS persprenom, NULL::"unknown" AS perstel FROM site, public.organisme WHERE ((organisme.id = site.organisme) AND (site.regisseur IS NULL))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::"unknown" AS orgid, NULL::"unknown" AS orgnom, NULL::"unknown" AS orgville, NULL::"unknown" AS persid, NULL::"unknown" AS perstitre, NULL::"unknown" AS persnom, NULL::"unknown" AS persprenom, NULL::"unknown" AS perstel FROM site WHERE ((site.organisme IS NULL) AND (site.regisseur IS NULL)) ORDER BY 2, 5;
 
 
 --
@@ -2435,6 +2435,14 @@ ALTER TABLE ONLY reservation_pre
 
 
 --
+-- Name: rights_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY rights
+    ADD CONSTRAINT rights_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: site_plnum_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
@@ -2720,6 +2728,14 @@ ALTER TABLE ONLY reservation_pre
 
 ALTER TABLE ONLY reservation_pre
     ADD CONSTRAINT reservation_pre_transaction_fkey FOREIGN KEY ("transaction") REFERENCES "transaction"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: rights_id_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
+--
+
+ALTER TABLE ONLY rights
+    ADD CONSTRAINT rights_id_fkey FOREIGN KEY (id) REFERENCES public.account(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
