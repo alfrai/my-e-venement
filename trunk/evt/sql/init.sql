@@ -1235,7 +1235,8 @@ CREATE TABLE evenement (
     petitnom character varying(40),
     tarifweb numeric(8,3),
     extradesc text,
-    extraspec text
+    extraspec text,
+    imageurl character varying(255)
 );
 
 
@@ -1399,7 +1400,7 @@ COMMENT ON COLUMN evt_categorie.txtva IS 'taux de tva à appliquer par défaut';
 --
 
 CREATE VIEW evenement_categorie AS
-    SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation, evt.modification, cat.libelle AS catdesc, cat.txtva, evt.metaevt FROM evenement evt, evt_categorie cat WHERE ((evt.categorie = cat.id) AND (evt.categorie IS NOT NULL)) UNION SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation, evt.modification, NULL::"unknown" AS catdesc, NULL::"unknown" AS txtva, evt.metaevt FROM evenement evt WHERE (evt.categorie IS NULL) ORDER BY 18, 5;
+    SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation, evt.modification, cat.libelle AS catdesc, cat.txtva, evt.metaevt, evt.tarifweb, evt.extradesc, evt.extraspec, evt.imageurl FROM evenement evt, evt_categorie cat WHERE ((evt.categorie = cat.id) AND (evt.categorie IS NOT NULL)) UNION SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation, evt.modification, NULL::"unknown" AS catdesc, NULL::"unknown" AS txtva, evt.metaevt, evt.tarifweb, evt.extradesc, evt.extraspec, evt.imageurl FROM evenement evt WHERE (evt.categorie IS NULL) ORDER BY 18, 5;
 
 
 ALTER TABLE billeterie.evenement_categorie OWNER TO ttt;
@@ -1534,7 +1535,8 @@ CREATE TABLE site (
     modification timestamp with time zone DEFAULT now() NOT NULL,
     creation timestamp with time zone DEFAULT now() NOT NULL,
     active boolean DEFAULT true NOT NULL,
-    dynamicplan text
+    dynamicplan text,
+    capacity integer
 );
 
 
@@ -1646,17 +1648,17 @@ COMMENT ON COLUMN site.active IS 'la salle est utilisable';
 
 
 --
--- Name: info_resa; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: info_resa; Type: VIEW; Schema: billeterie; Owner: beta
 --
 
 CREATE VIEW info_resa AS
     SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, manif.duree, evt.ages, evt.code, evt.creation, evt.modification, evt.catdesc, manif.id AS manifid, manif.date, manif.jauge, manif.description AS manifdesc, site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, manif.plnum, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (NOT (resa."transaction" IN (SELECT preselled."transaction" FROM preselled))))) AS commandes, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE ((resa.manifid = manif.id) AND (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AS resas, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (resa."transaction" IN (SELECT preselled."transaction" FROM preselled)))) AS preresas, evt.txtva AS deftva, manif.txtva, colors.libelle AS colorname, colors.color FROM evenement_categorie evt, manifestation manif, site, colors WHERE (((evt.id = manif.evtid) AND (site.id = manif.siteid)) AND ((colors.id = manif.colorid) OR ((colors.id IS NULL) AND (manif.colorid IS NULL)))) ORDER BY evt.catdesc, evt.nom, manif.date;
 
 
-ALTER TABLE billeterie.info_resa OWNER TO ttt;
+ALTER TABLE billeterie.info_resa OWNER TO beta;
 
 --
--- Name: VIEW info_resa; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW info_resa; Type: COMMENT; Schema: billeterie; Owner: beta
 --
 
 COMMENT ON VIEW info_resa IS 'permet d''avoir d''un coup toutes les informations de réservation nécessaires';

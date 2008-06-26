@@ -30,6 +30,8 @@
 	includeJS("ttt");
 	includeJS("annu");
 	includeJS("group","evt");
+	includeJS("jquery");
+	includeJS("jquery.contact");
 	
 	if ( isset($_GET["del"]) )
 		$action = $actions["del"];
@@ -66,6 +68,7 @@
 	$default = array();
 	$default["nom"]		= "-nom du spectacle-";
 	$default["petitnom"]	= "-nom pour les billets-";
+	$default["description"]	= "-petite description-";
 	$default["typedesc"]	= "-genre de spectacle-";
 	$default["duree"]	= "-HH:MM-";
 	$default["date"]	= "-AAAA-MM-JJ HH:MM-";
@@ -94,7 +97,7 @@
 		$rec = array();
 		foreach ( array("organisme1","organisme2","organisme3","nom","petitnom","description","typedesc",
 				"categorie","mscene","mscene_lbl","textede","textede_lbl","duree",
-				"ages","tarifweb","code","metaevt") as $value )
+				"ages","tarifweb","imageurl","code","metaevt") as $value )
 			$rec[$value] = NULL;
 		
 		foreach ( $fields as $key => $value )
@@ -373,7 +376,7 @@
 		</div>
 	</div>
 	<?php if ( $config["evt"]["ext"]["web"] ) { ?>
-	<div class="web">
+	<div class="web jqslide jqhide">
 		<p class="titre">Infos web</p>
 		<div class="clip">
 			<script type="text/javascript" src="../../tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
@@ -393,8 +396,13 @@
 			<p><?php
 				$name = "tarifweb";
 				if ( $action != $actions["view"] || $rec[$name] ) echo "Tarif web: ";
-				printField("field[".$name."]",$rec[$name],$default[$name],3,3);
+				printField("field[".$name."]",floatval($rec[$name]),$default[$name],3,3);
 				if ( $action != $actions["view"] || $rec[$name] ) echo '€';
+			?></p>
+			<p>Image (URL): <?php
+				if ( $action == $actions["view"] )
+					echo '<img src="'.htmlspecialchars($rec["imageurl"]).'" alt="image du spectacle" />';
+				else	echo '<input type="text" size="30" maxlength="255" name="field[imageurl][value]" value="'.htmlspecialchars($rec["imageurl"]).'" />';
 			?></p>
 			<div class="extraspec"><?php
 				$name = "extraspec";

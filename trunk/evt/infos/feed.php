@@ -68,10 +68,11 @@
 	if ( isset($_GET["evt"]) )
 	{
 		$query	= " SELECT id, nom, description, textede, textede_lbl, ages, typedesc, duree,
+			           tarifweb, extradesc, extraspec, imageurl,
 			           min(date) AS date, min(updated) AS update
 			    FROM feed
 			    ".($_GET["cat"] ? "WHERE categorie IN (SELECT id FROM evt_categorie WHERE libelle = '".pg_escape_string($_GET["cat"])."')" : "")."
-			    GROUP BY id, nom, description, textede, textede_lbl, ages, typedesc, duree
+			    GROUP BY id, nom, description, textede, textede_lbl, ages, typedesc, duree, tarifweb, extradesc, extraspec, imageurl
 			    ORDER BY date ASC, nom";
 	}
 	else
@@ -108,10 +109,11 @@
 				// de base
 				echo '	<ext-textede>'.htmlsecure($rec["textede_lbl"].' '.$rec["textede"]).'</ext-textede>
 					<ext-typedesc>'.htmlsecure($rec["typedesc"]).'</ext-typedesc>
-					<ext-tarif>'.htmlsecure($rec["tarif"]).'</ext-tarif>
+					<ext-tarif>'.htmlsecure($rec["tarifweb"]).'</ext-tarif>
 					<ext-extradesc>'.htmlsecure($rec["extradesc"]).'</ext-extradesc>
 					<ext-extraspec>'.htmlsecure($rec["extraspec"]).'</ext-extraspec>
-					<ext-duree>'.htmlsecure($rec["duree"]).'</ext-duree>';
+					<ext-duree>'.htmlsecure($rec["duree"]).'</ext-duree>
+					<ext-imageurl>'.htmlsecure($rec["imageurl"]).'</ext-imageurl>';
 				
 				// les ages
 				if ( intval($rec["ages"][0]) > 0 )

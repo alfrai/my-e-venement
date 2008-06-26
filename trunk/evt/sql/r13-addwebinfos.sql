@@ -9,6 +9,7 @@ SET search_path = billeterie, pg_catalog;
 ALTER TABLE evenement ADD COLUMN tarifweb NUMERIC(5,3);
 ALTER TABLE evenement ADD COLUMN extradesc TEXT;
 ALTER TABLE evenement ADD COLUMN extraspec TEXT;
+ALTER TABLE evenement ADD COLUMN imageurl CHARACTER VARYING(255);
 
 DROP VIEW info_resa;
 DROP VIEW evenement_categorie;
@@ -17,14 +18,14 @@ CREATE VIEW evenement_categorie AS
     SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc,
            evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation,
            evt.modification, cat.libelle AS catdesc, cat.txtva, evt.metaevt,
-           evt.tarifweb, evt.extradesc, evt.extraspec
+           evt.tarifweb, evt.extradesc, evt.extraspec, evt.imageurl
     FROM evenement evt, evt_categorie cat
     WHERE ((evt.categorie = cat.id) AND (evt.categorie IS NOT NULL))
  UNION
     SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc,
            evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation,
            evt.modification, NULL::"unknown" AS catdesc, NULL::"unknown" AS txtva, evt.metaevt,
-           evt.tarifweb, evt.extradesc, evt.extraspec
+           evt.tarifweb, evt.extradesc, evt.extraspec, evt.imageurl
     FROM evenement evt
     WHERE (evt.categorie IS NULL)
  ORDER BY 18, 5;
