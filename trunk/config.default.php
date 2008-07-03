@@ -24,7 +24,7 @@
 	// années passées
 	$config["website"]["dirtopast"] = "past";
 	
-	$config["divers"]["appli-name"]		= !isset($config["divers"]["appli-name"]) ? '<a href="http://www.libre-informatique.fr/li/E-venement">e-venement</a>' : $config["divers"]["appli-name"];
+	$config["divers"]["appli-name"]		= !isset($config["divers"]["appli-name"]) ? '<a href="http://www.libre-informatique.fr/sw/01-Billetterie/e-venement</a>' : $config["divers"]["appli-name"];
         $config["divers"]["author-name"]        = '<a href="http://www.libre-informatique.fr/">Libre Informatique</a> - Baptiste SIMON';
         $config["divers"]["author-mail"]        = "bs-public AT e-glop.net";
 	
