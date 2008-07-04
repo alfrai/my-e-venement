@@ -62,6 +62,7 @@ form.manif div.infos p.global > span.manifid {
 	font-weight: normal;
 }
 form.manif div.infos p.desc,
+form.evt div.infos div.desc,
 form.evt div.infos p.desc {
 	font-size: 80%;
 	border: 1px dashed silver;
@@ -103,6 +104,10 @@ form.evt div.creation {
 form.evt div.web {
 	margin-top: -147px;
 	border: 1px solid blue;
+}
+form.evt div.web div.clip {
+	max-height: 383px;
+	width: 99%;
 }
 form.evt div.web span.titre {
 	text-decoration: underline;

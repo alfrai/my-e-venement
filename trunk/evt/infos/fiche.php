@@ -240,7 +240,7 @@
 				printField("field[".($name = "petitnom")."]",$rec[$name],$default[$name],$config["ticket"]["titlemaxchars"],24);
 				echo '</span>';
 			?></p>
-			<p class="desc"><?php printField("field[".($name = "description")."]",$rec[$name],$default[$name],NULL,45,true); ?></p>
+			<div class="desc"><?php printField("field[".($name = "description")."]",$rec[$name],$default[$name],NULL,45,true); ?></div>
 			<p><?php
 				$evtcat->firstRecord();
 				if ( $action != $actions["view"] && $mod )
@@ -398,21 +398,21 @@
 				if ( $action != $actions["view"] || $rec[$name] ) echo "Tarif web: ";
 				printField("field[".$name."]",floatval($rec[$name]),$default[$name],3,3);
 				if ( $action != $actions["view"] || $rec[$name] ) echo '€';
-			?></p>
-			<p>Image (URL): <?php
+			?>
+			Image: <?php
 				if ( $action == $actions["view"] )
 					echo '<img src="'.htmlspecialchars($rec["imageurl"]).'" alt="image du spectacle" />';
-				else	echo '<input type="text" size="30" maxlength="255" name="field[imageurl][value]" value="'.htmlspecialchars($rec["imageurl"]).'" />';
+				else	echo '<input type="text" size="26" maxlength="255" name="field[imageurl][value]" value="'.htmlspecialchars($rec["imageurl"]).'" />';
 			?></p>
 			<div class="extraspec"><?php
 				$name = "extraspec";
 				echo '<span class="titre">'."Autour de l'évènement</span>";
-				printField("field[".$name."]",$rec[$name],$default[$name],5,55,true);
+				printField("field[".$name."]",$rec[$name],$default[$name],5,53,true);
 			?></div>
 			<div class="extradesc"><?php
 				$name = "extradesc";
 				echo '<span class="titre">'."Informations complémentaires</span>";
-				printField("field[".$name."]",$rec[$name],$default[$name],5,55,true);
+				printField("field[".$name."]",$rec[$name],$default[$name],5,53,true);
 			?></div>
 		</div>
 	</div>
