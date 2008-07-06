@@ -17,6 +17,8 @@ COMMENT ON SCHEMA public IS 'Standard public schema';
 
 SET search_path = public, pg_catalog;
 
+CREATE LANGUAGE plpgsql;
+
 --
 -- Name: resume_tickets; Type: TYPE; Schema: public; Owner: -
 --
