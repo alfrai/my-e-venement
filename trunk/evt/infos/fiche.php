@@ -77,6 +77,7 @@
 	$default["code"]	= "-F3-";
 	$default["jauge"]	= "-jauge-";
 	$default["tarifweb"]	= "-6-";
+	$default["tarifwebgroup"] = "-4-";
 	
 	$default["textede_lbl"]	= '-Label ~Texte de~-';
 	$default["textede"]	= "-Jean Martin-";
@@ -97,7 +98,7 @@
 		$rec = array();
 		foreach ( array("organisme1","organisme2","organisme3","nom","petitnom","description","typedesc",
 				"categorie","mscene","mscene_lbl","textede","textede_lbl","duree",
-				"ages","tarifweb","imageurl","code","metaevt") as $value )
+				"ages","tarifweb","tarifwebgroup","imageurl","code","metaevt") as $value )
 			$rec[$value] = NULL;
 		
 		foreach ( $fields as $key => $value )
@@ -383,36 +384,43 @@
 			<script type="text/javascript">
 				tinyMCE.init({
 					mode : "textareas",
+					editor_deselector : "noeditor",
 					language: "fr",
 					theme: "advanced",
 					theme_advanced_buttons1 : "bold,italic,underline,|,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,link,unlink",
-					theme_advanced_buttons2 : "styleselect,formatselect,|,hr,|,undo,redo",
+					theme_advanced_buttons2 : "fontsizeselect,formatselect,|,hr,|,undo,redo",
 					theme_advanced_buttons3 : "",
 					theme_advanced_toolbar_location : "bottom",
 					theme_advanced_toolbar_align : "center",
-					extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]"
 				});
 			</script>
 			<p><?php
 				$name = "tarifweb";
 				if ( $action != $actions["view"] || $rec[$name] ) echo "Tarif web: ";
-				printField("field[".$name."]",floatval($rec[$name]),$default[$name],3,3);
+				printField("field[".$name."]",floatval($rec[$name]),$default[$name],3,1);
+				if ( $action != $actions["view"] || $rec[$name] ) echo '€ ';
+				$name = "tarifwebgroup";
+				printField("field[".$name."]",$rec[$name] ? floatval($rec[$name]) : "",$default[$name],3,1);
 				if ( $action != $actions["view"] || $rec[$name] ) echo '€';
 			?>
-			Image: <?php
+			Image(s): <?php
 				if ( $action == $actions["view"] )
-					echo '<img src="'.htmlspecialchars($rec["imageurl"]).'" alt="image du spectacle" />';
-				else	echo '<input type="text" size="26" maxlength="255" name="field[imageurl][value]" value="'.htmlspecialchars($rec["imageurl"]).'" />';
+				{
+					$imgs = split(";",$rec["imageurl"]);
+					foreach ( $imgs as $img ) 
+						echo '<img src="'.htmlspecialchars($img).'" height="50" alt="image du spectacle" />';
+				}
+				else	echo '<input type="text" size="23" maxlength="255" name="field[imageurl][value]" value="'.htmlspecialchars($rec["imageurl"]).'" />';
 			?></p>
 			<div class="extraspec"><?php
 				$name = "extraspec";
 				echo '<span class="titre">'."Autour de l'évènement</span>";
-				printField("field[".$name."]",$rec[$name],$default[$name],5,53,true);
+				printField("field[".$name."]",$rec[$name],$default[$name],5,52,true);
 			?></div>
 			<div class="extradesc"><?php
 				$name = "extradesc";
-				echo '<span class="titre">'."Informations complémentaires</span>";
-				printField("field[".$name."]",$rec[$name],$default[$name],5,53,true);
+				echo '<span class="titre">'."Distribution</span>";
+				printField("field[".$name."]",$rec[$name],$default[$name],5,52,true);
 			?></div>
 		</div>
 	</div>
@@ -519,7 +527,7 @@
 					echo '</p><p class="description">';
 						echo '<span class="cell">Desc.:</span>';
 						echo '<span class="cell">';
-						printField("manif[".($name = "description")."][]",$manif["manifdesc"],$default[$name],255,NULL,true,NULL,NULL,false);
+						printField("manif[".($name = "description")."][]",$manif["manifdesc"],$default[$name],255,NULL,true,NULL,NULL,false,'class="noeditor"');
 						echo '</span>';
 					if ( $action != $actions["view"] )
 					{

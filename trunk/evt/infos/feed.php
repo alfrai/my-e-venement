@@ -47,7 +47,10 @@
 	<link rel="self" type="application/atom+xml" href="<?php echo $uri = htmlsecure($config["website"]["base"]).'evt/infos/feed.php?'.htmlsecure($_SERVER["QUERY_STRING"]) ?>"/>
 <?php
 	$subq	= " SELECT evt.*, manif.id AS manifid, manif.date, manif.updated, manif.created,
-			   site.nom AS sitenom, site.ville
+			   site.nom AS sitenom, site.ville,
+			   (SELECT nom FROM organisme WHERE organisme1 = id) AS orgnom1,
+			   (SELECT nom FROM organisme WHERE organisme2 = id) AS orgnom2,
+			   (SELECT nom FROM organisme WHERE organisme3 = id) AS orgnom3
 		    FROM manifestation AS manif, evenement_categorie AS evt, site
 		    WHERE evtid = evt.id
 		      AND manif.siteid = site.id ";
@@ -68,19 +71,29 @@
 	if ( isset($_GET["evt"]) )
 	{
 		$query	= " SELECT id, nom, description, textede, textede_lbl, ages, typedesc, duree,
-			           tarifweb, extradesc, extraspec, imageurl,
+			           tarifweb, tarifwebgroup, extradesc, extraspec, imageurl, orgnom1, orgnom2, orgnom3,
 			           min(date) AS date, min(updated) AS update
-			    FROM feed
-			    ".($_GET["cat"] ? "WHERE categorie IN (SELECT id FROM evt_categorie WHERE libelle = '".pg_escape_string($_GET["cat"])."')" : "")."
-			    GROUP BY id, nom, description, textede, textede_lbl, ages, typedesc, duree, tarifweb, extradesc, extraspec, imageurl
+			    FROM feed";
+		if ( $_GET["cat"] || $_GET["metaevt"] ) $query .= " WHERE ";
+		if ( $_GET["cat"] )
+		$query .= " categorie IN (SELECT id FROM evt_categorie WHERE libelle = '".pg_escape_string($_GET["cat"])."')";
+		if ( $_GET["cat"] || $_GET["metaevt"] ) $query .= " AND ";
+		if ( $_GET["metaevt"] )
+		$query .= " metaevt ILIKE '".pg_escape_string($_GET["metaevt"])."%'";
+		$query .= " GROUP BY id, nom, description, textede, textede_lbl, ages, typedesc, duree, tarifweb, tarifwebgroup, extradesc, extraspec, imageurl, orgnom1, orgnom2, orgnom3
 			    ORDER BY date ASC, nom";
 	}
 	else
 	{
 		$query	= " SELECT *
-			    FROM feed
-			    ".($_GET["cat"] ? "WHERE categorie IN (SELECT id FROM evt_categorie WHERE libelle = '".pg_escape_string($_GET["cat"])."')" : "")."
-			    ORDER BY nom, date ASC";
+			    FROM feed";
+		if ( $_GET["cat"] || $_GET["metaevt"] )
+		$query .= " WHERE ";
+		if ( $_GET["cat"] )
+		$query .= " categorie IN (SELECT id FROM evt_categorie WHERE libelle = '".pg_escape_string($_GET["cat"])."')";
+		if ( $_GET["metaevt"] )
+		$query .= " metaevt ILIKE '".pg_escape_string($_GET["metaevt"])."%'";
+		$query .= " ORDER BY nom, date ASC";
 	}
 	$request = new arrayBdRequest($bd,$query);
 ?>
@@ -110,6 +123,7 @@
 				echo '	<ext-textede>'.htmlsecure($rec["textede_lbl"].' '.$rec["textede"]).'</ext-textede>
 					<ext-typedesc>'.htmlsecure($rec["typedesc"]).'</ext-typedesc>
 					<ext-tarif>'.htmlsecure($rec["tarifweb"]).'</ext-tarif>
+					<ext-tarifgrp>'.htmlsecure($rec["tarifwebgroup"]).'</ext-tarifgrp>
 					<ext-extradesc>'.htmlsecure($rec["extradesc"]).'</ext-extradesc>
 					<ext-extraspec>'.htmlsecure($rec["extraspec"]).'</ext-extraspec>
 					<ext-duree>'.htmlsecure($rec["duree"]).'</ext-duree>
@@ -139,6 +153,11 @@
 				}
 				
 				$manifs->free();
+				
+				// les organismes / compagnies
+				$orgs = array("orgnom1","orgnom2","orgnom3");
+				foreach ( $orgs AS $orgnom )
+					echo $rec[$orgnom] ? '<ext-org>'.htmlsecure($rec[$orgnom]).'</ext-org>' : '';
 			}
 			echo '</entry>';
 			echo "\n";
