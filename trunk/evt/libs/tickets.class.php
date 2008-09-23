@@ -52,7 +52,7 @@ class Tickets
   		page-break-after: always;
   	}
   	.ticket {
-  		width: 152mm;
+  		width: 150mm;
   		height: 58mm;
   	}
   	.left, .right {
@@ -65,11 +65,11 @@ class Tickets
   		height: 58mm;
   		float: left;
   		text-align: right;
-  		padding-right: 1.2mm;
+  		padding-right: 3mm;
   	}
   	.right {
   		border-color: green;
-  		width: 39.2mm;
+  		width: 36.2mm;
   		height: 58mm;
   		padding-left: 2mm;
   	}
