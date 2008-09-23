@@ -1,2 +1,2 @@
-	<img src="http://www.tres-tot-theatre.com/2007/docs/visuel-saison.gif"
+	<img src="/upload/saison-0809.mini.jpg"
 	     alt="saison jeune public" />

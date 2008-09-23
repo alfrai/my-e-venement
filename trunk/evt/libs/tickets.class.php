@@ -48,7 +48,7 @@ class Tickets
   	}
   	.page { clear: both; page-break-after: always; }
   	.ticket {
-  		width: 150mm;
+  		width: 152mm;
   		height: 58mm;
   	}
   	.left, .right {
