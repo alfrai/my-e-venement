@@ -46,7 +46,11 @@ class Tickets
   		font-weight: bold;
   		margin: 0; padding: 0;
   	}
-  	.page { clear: both; page-break-after: always; }
+  	.page {
+  		border: 1px solid white;
+  		clear: both;
+  		page-break-after: always;
+  	}
   	.ticket {
   		width: 152mm;
   		height: 58mm;
