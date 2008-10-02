@@ -69,13 +69,21 @@
 		$query = " SELECT *
 			   FROM tickets2print_bytransac('".pg_escape_string($data["numtransac"])."')
 			   WHERE transaction IN ( SELECT transaction FROM contingeant )";
-		// mauvaise query... la suivante est plus juste et permet de récup toutes les manifs	
-		$query = " SELECT manifid, nb, tarif.key AS tarif, reduc
+		// mauvaise query... la suivante est plus juste et permet de récup toutes les manifs et les contingeants purs
+		$query = "(SELECT manifid, nb, tarif.key AS tarif, reduc
 			   FROM transaction AS t, masstickets AS m, tarif
 			   WHERE transaction = '".pg_escape_string($data["numtransac"])."'
 			     AND t.id = m.transaction
 			     AND tarifid = tarif.id
-			     AND transaction IN ( SELECT transaction FROM contingeant )";
+			     AND transaction IN ( SELECT transaction FROM contingeant ))
+			  UNION
+			  (SELECT resa.manifid, count(resa.id), tarif.key AS tarif, reduc
+			   FROM reservation_pre AS resa, transaction AS t, contingeant AS c, tarif
+			   WHERE t.id = '".pg_escape_string($data["numtransac"])."'
+			     AND tarif.id = tarifid
+			     AND resa.transaction = c.transaction
+			     AND t.id = c.transaction
+			   GROUP BY resa.manifid, resa.tarifid, resa.reduc, tarif.key)";
 		$request = new bdRequest($bd,$query);
 		$data["manif"]		= array();
 		$data["billet"]		= array();
@@ -97,7 +105,7 @@
 		// pour passer direct à l'étape 3 ... petit pb en cas de retour sur des places contingeantées
 		// $action["filled"] = true;
 	}
-		
+	
 	// les pré-requis sont sélectionnés
 	//if ( is_array($data["manif"]) &&
 	if ( intval(substr($data["client"],5)) > 0 )

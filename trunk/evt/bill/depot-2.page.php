@@ -2,7 +2,6 @@
 /**********************************************************************************
 *
 *	    This file is part of e-venement.
-*
 *    e-venement is free software; you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
 *    the Free Software Foundation; either version 2 of the License.
@@ -47,7 +46,7 @@
 	// récup du tarif correspondant aux places contingeantées
 	$pc = array();
 	$part = array();
-	if ( is_array($data["manif"]) )
+	if ( is_array($data["manif"]) && count($data["manif"]) > 0 )
 	{
 		foreach ( $data["manif"] as $value )
 		{
@@ -209,10 +208,9 @@
 			$request->free();
 		}
 		
-		//$query	= "SELECT * FROM info_resa ";
 		$query	= " SELECT evt.id AS id, manif.id AS manifid, evt.nom, site.nom AS sitenom, site.ville,
 			           manif.date, evt.categorie, evt.catdesc, colors.libelle AS colorname
-			           FROM evenement_categorie AS evt, manifestation AS manif, site, colors ";
+			    FROM evenement_categorie AS evt, manifestation AS manif, site, colors ";
 		$arr = $stage == 2 ? $data["manif"] : array_keys($places);
 		if ( count($arr) > 0 )
 			$query .= "WHERE manif.id IN (".implode(",",$arr).")";
