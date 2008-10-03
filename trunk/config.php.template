@@ -19,7 +19,7 @@
 	$config["database"]["passwd"]		= "";
 
 	//$config["indispo"]	= true;	// désactiver l'accès au site
-	
+	$config["gmap"]["enable"] = false;
 	/**
 	  * Configuration automatique
 	  * 
