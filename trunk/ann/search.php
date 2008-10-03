@@ -47,8 +47,6 @@
 	$default["supmodification"]	= $default["infmodification"] = "mod.";
 	$default["groupname"]		= "-nom du groupe-";
 	
-	includeLib("headers");
-	
 	// récupération des types de la table personne (pour la recherche sur les dates)
 	$query	= " SELECT *
 		    FROM personne
@@ -88,7 +86,10 @@
 		if ( $forpers ) $fields_pers[count($fields_pers)] = $fields[$i];
 	}
 	
-	$fields = intval($_GET["grpid"]) > 0 ? intval($_GET["grpid"]) : $fields;
+	// si ce n'est pas un nouveau groupe, prends son id comme référence, sinon, prend tous les paramètres
+	$fields = intval($_GET["grpid"]) > 0
+		? intval($_GET["grpid"])
+		: $fields;
 	$print_search_fields = true;
 	if ( isset($_GET["grpid"]) || isset($_GET["field"]) )
 	{
@@ -103,9 +104,14 @@
 				{
 					if ( $personnes->writeSearch($group["name"], $group["dynamic"] == "yes", $group["all"] == "yes" ) )
 					{
+						// contournement d'un bug de sur-création de groupes...
+						$user->addAlert("Votre groupe a bien été créé/modifié avec ".($personnes->countRecords()-1)." d'enregistrements");
+						$nav->redirect('groups.php','Groupe créé avec '.($personnes->countRecords()-1)." d'enregistrements");
+						
+						// ancienne suite de l'algorithme
+						$fields = $personnes->getGroupId();
 						$personnes->free();
 						$personnes = new groupBdRequest($bd,$fields,$user);
-						$user->addAlert("Votre groupe a bien été créé/modifié");
 					}
 					else	$user->addAlert("Erreur dans la création/modification de votre groupe");
 					$grpname = $group["name"];
@@ -124,6 +130,8 @@
 		$personnes = false;
 		$fields = array();
 	}
+	
+	includeLib("headers");
 ?>
 <h1><?php echo $title ?></h1>
 <?php includeLib("tree-view"); ?>
