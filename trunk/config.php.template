@@ -20,6 +20,8 @@
 
 	//$config["indispo"]	= true;	// désactiver l'accès au site
 	$config["gmap"]["enable"] = false;
+	$config["gmap"]["key"] = '';
+	
 	/**
 	  * Configuration automatique
 	  * 
