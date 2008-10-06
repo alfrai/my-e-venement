@@ -104,6 +104,9 @@ form.evt div.web {
 	margin-top: -147px;
 	border: 1px solid blue;
 }
+form.evt div.web .clip {
+	max-height: 385px;
+}
 form.evt div.web span.titre {
 	text-decoration: underline;
 	display: block;

@@ -57,7 +57,6 @@
 			{
 				if ( intval($key)."" == $key."" && $nameo[$key] != $namen[$key] )
 				{
-					echo "nom: ".$value;
 					if ( $bd->updateRecordsSimple("groupe",array("id"=>intval($key)),array("nom"=>$value)) )
 						$mod++;
 					else	$err++;
