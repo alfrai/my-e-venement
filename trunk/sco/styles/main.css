@@ -74,6 +74,9 @@ form.entry input[type="text"] + span {
 	margin-left: -150px;
 	margin-top: 1.3em;
 }
+form.entry span.manif input[type="text"] + span {
+	margin-left: -425px;
+}
 form.entry input[type="text"] + span > select {
 	max-height: 7em;
 	width: 400px;
