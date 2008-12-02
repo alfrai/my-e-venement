@@ -390,10 +390,11 @@ form.manif p.tva:hover > span.desc,
 form.resa div.bill > p.paymode span:hover > span.desc,
 form.spectacles a:hover + span.desc { display: inline; }
 form.resa div.manifestations.hide p.content { display: none; }
+div.manifestations p.content { margin-bottom: 0; }
 div.manifestations p.content + p.jauge {
 	position: absolute;
 	display: none;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-left: 50px;
 	background-color: white;
 	padding: 5px 5px 10px 10px;
