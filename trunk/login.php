@@ -22,6 +22,7 @@
 ?>
 <?php
 	require("config.php");
+	includeClass("user");
 	session_start();
 	
 	$css = "styles/main.css";
@@ -32,7 +33,12 @@
 	
 	// suppression de la variable de session user si déjà loggué
 	if ( $_SESSION["user"] )
+	{
+		echo '<script type="text/javascript">';
+		echo "alert('".$_SESSION["user"]->getAlert()."')";
+		echo '</script>'; 
 		unset($_SESSION["user"]);
+	}
 ?>
 <h1>Bienvenue dans <i>e-venement</i></h1>
 <?php includeLib("tree-view"); ?>
