@@ -73,6 +73,7 @@ form.entry input[type="text"] + span {
 form.entry input[type="text"] + span {
 	margin-left: -150px;
 	margin-top: 1.3em;
+	border: 1px solid gray;
 }
 form.entry span.manif input[type="text"] + span {
 	margin-left: -425px;
