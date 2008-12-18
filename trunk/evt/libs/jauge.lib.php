@@ -20,7 +20,7 @@
 *
 ***********************************************************************************/
 ?>
-<?
+<?php
 	// si $user est le user courant et si la jauge dépasse, alors on affiche une alerte
 	function printJauge($nbtotal,$nbpreresas,$nbresas,$sizemax,$nbcommandes = NULL,$sizecmd = NULL,$user = NULL)
 	{

@@ -44,6 +44,7 @@
 			echo ')</span> ';
 		}
 		echo ' - <span class="places">'.intval($rec["nb"]).' pl.</span>';
+		if ( $rec['numfacture'] ) echo ' - <span class="facture">#'.intval($rec["numfacture"]).' (facture)</span>';
 		echo '</li>';
 	}
 	
@@ -58,13 +59,14 @@
 			           printed AND NOT canceled AS resa,
 			           transac.id IN (SELECT transaction FROM preselled) AS preresa,
 			           transac.id AS transaction, personne.id, personne.nom, personne.prenom, personne.adresse, personne.cp, personne.ville, personne.pays,
-			           personne.orgid, personne.fctorgid, personne.orgnom, personne.fcttype, personne.fctdesc, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays
-			    FROM tickets AS resa, personne_properso AS personne, transaction AS transac
+			           personne.orgid, personne.fctorgid, personne.orgnom, personne.fcttype, personne.fctdesc, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays,
+			           facture.id AS numfacture
+			    FROM tickets AS resa, personne_properso AS personne, transaction AS transac LEFT JOIN facture ON (transac.id = facture.transaction)
 			    WHERE ( transac.personneid = personne.id OR personne.id IS NULL AND transac.personneid IS NULL)
 			      AND transac.id = resa.transaction
 			      AND ( personne.fctorgid = transac.fctorgid OR personne.fctorgid IS NULL AND transac.fctorgid IS NULL)
 			    GROUP BY personne.id, personne.nom, personne.prenom, personne.orgid, personne.orgnom, contingeant, resa, preresa, transac.id, fcttype, fctdesc, personne.fctorgid,
-			    	     personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.adresse, personne.cp, personne.ville, personne.pays
+			    	     personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.adresse, personne.cp, personne.ville, personne.pays, facture.id
 			    ORDER BY nom, prenom";
 		$request = new bdRequest($bd,$query);
 		$request->free();
@@ -165,6 +167,7 @@
 		$arr[$i][] = "Places demandees";
 		$arr[$i][] = "Places pre-reservees";
 		$arr[$i][] = "Places reservees";
+		$arr[$i][] = "Facture";
 		
 		$query	= " SELECT *
 			    FROM tmptab";
@@ -188,14 +191,15 @@
 				$arr[$i][] = 0;	// 6. demandes
 				$arr[$i][] = 0;	// 7. preresas
 				$arr[$i][] = 0;	// 8. resas
+				$arr[$i][] = $rec["numfacture"];// 9. facture
 				$transaction = $rec["transaction"];
 			}
 			if ( $rec["preresa"] != "t" && $rec["resa"] != "t" )
-				$arr[$i][count($arr[$i])-3] = intval($rec["nb"]);
+				$arr[$i][count($arr[$i])-4] = intval($rec["nb"]);
 			elseif ( $rec["preresa"] == "t" && $rec["resa"] != "t" )
-				$arr[$i][count($arr[$i])-2] = intval($rec["nb"]);
+				$arr[$i][count($arr[$i])-3] = intval($rec["nb"]);
 			elseif ( $rec["resa"] == "t" )
-				$arr[$i][count($arr[$i])-1] = intval($rec["nb"]);
+				$arr[$i][count($arr[$i])-2] = intval($rec["nb"]);
 		}
 		$request->free();
 		
