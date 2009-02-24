@@ -76,9 +76,9 @@
 		}
 		$arr["modification"] = date("Y-m-d H:i:s");
 		
-		if ( intval($_POST["id"]) > 0 && $id == $_POST["id"] )
+		if ( intval($_POST["id"]) > 0 && $id == $_POST["id"] && !$actions["add"] )
 			$ppl = $bd->updateRecordsSimple("organisme",array("id" => intval($_POST["id"])),$arr);
-		elseif ( $id == 0 )
+		elseif ( $id == 0 || $actions["add"] )
 		{
 			$ppl = $bd->addRecord("organisme",$arr);
 			$id = intval($bd->getLastSerial("entite","id"));
