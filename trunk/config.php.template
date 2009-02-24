@@ -1,11 +1,18 @@
 <?php
 	/**
+	  * Configuration automatique
+	  * 
+	  **/
+	require($_SERVER["DOCUMENT_ROOT"].$config["website"]["root"]."config.default.php");
+	
+	/**
 	  * Configuration manuelle
 	  * 
 	  **/
-	$config["website"]["libs"]	= "/usr/share/www/beta-libs-current/";
+	$config["website"]["libs"]	= "/path/to/beta-libs/";
 	$config["website"]["root"]	= "/";
 	$config["website"]["base"]	= "https://mon.domaine.tld".$config["website"]["root"];
+	$config["website"]["csrf"]      = true;         // enable hardened CSRF protection, little bit crappy
 
         $config["mail"]["smtphost"]             = "";
         $config["mail"]["smtpport"]             = "";
