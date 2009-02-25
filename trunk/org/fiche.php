@@ -41,6 +41,7 @@
 	switch ( $action ) {
 	case $actions["add"]:
 		$user->redirectIfNoRight($nav,$config["right"]["add"]);
+		$id = 0;
 		break;
 	case $actions["edit"]:
 		$user->redirectIfNoRight($nav,$config["right"]["edit"]);
@@ -78,7 +79,7 @@
 		
 		if ( intval($_POST["id"]) > 0 && $id == $_POST["id"] && !$actions["add"] )
 			$ppl = $bd->updateRecordsSimple("organisme",array("id" => intval($_POST["id"])),$arr);
-		elseif ( $id == 0 || $actions["add"] )
+		elseif ( $id == 0 )
 		{
 			$ppl = $bd->addRecord("organisme",$arr);
 			$id = intval($bd->getLastSerial("entite","id"));
