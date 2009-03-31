@@ -1,1 +1,1 @@
-<p>Statistiques sur la fréquentation des spectacles.</p>
+<p>Statistiques sur la fréquentation de la billetterie.</p>

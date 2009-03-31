@@ -57,6 +57,5 @@
 	</ul>
 </div>
 <?php
-	$events->free();
 	includeLib("footer");
 ?>
