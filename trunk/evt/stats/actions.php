@@ -39,6 +39,14 @@
 	echo ( $config["website"]["root"]."evt/stats/personnes.php" == $_SERVER["PHP_SELF"] ? "active" : "");
 	echo '">Personnes</a>';
 	
+	echo '<a href="'.($href = "evt/stats/pros.php").'" class="';
+	echo ( $config["website"]["root"]."evt/stats/pros.php" == $_SERVER["PHP_SELF"] ? "active" : "");
+	echo '">Pros</a>';
+	
+	echo '<a href="'.($href = "evt/stats/global.php").'" class="';
+	echo ( $config["website"]["root"]."evt/stats/global.php" == $_SERVER["PHP_SELF"] ? "active" : "");
+	echo '">Global</a>';
+	
 	echo '<a href="evt/" class="parent">..</a>';
 ?>
 </p>

@@ -21,7 +21,7 @@
 ***********************************************************************************/
 ?>
 <?php
-	$title = "Stats pour les achats individuels";
-	$where = " AND transaction.fctorgid IS NULL";
+	$title = "Stats globales";
+	$where = "";
 	require("generic-freqs.php");
 ?>
