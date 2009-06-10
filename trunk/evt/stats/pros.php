@@ -21,7 +21,8 @@
 ***********************************************************************************/
 ?>
 <?php
-	$title = "Stats pour les achats professionnels";
-	$where = " AND transaction.fctorgid IS NOT NULL";
-	require("generic-freqs.php");
+	$title  = 'Stats pour les achats professionnels';
+	$desc   = 'Les "professionnels" ici sont tous les spectateurs rattachés à un organisme';
+	$where  = ' AND transaction.fctorgid IS NOT NULL';
+	require('generic-freqs.php');
 ?>
