@@ -666,6 +666,7 @@ body.bill.factures span.numfact {
 	font-weight: bold;
 	padding-right: 10px;
 }
+body.bill.factures a.numop { padding-right: 10px; }
 
 /* Les livres */
 body.livre span.eur { font-weight: bold; }

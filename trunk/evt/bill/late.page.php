@@ -99,7 +99,7 @@
 			$class = $rec["npai"] == 't' ? "npai" : "";
 			echo '<li class="'.$class.'">'."\n";
 			echo '<p>';
-			if ( intval($rec["factureid"]) > 0 ) echo '<span class="numfact">FB'.intval($rec["factureid"]).'</span>';
+			if ( intval($rec["factureid"]) > 0 ) echo '<span class="numfact">FB'.intval($rec["factureid"]).'</span> #<a class="numop" href="evt/bill/billing.php?t='.htmlsecure($rec["transaction"]).'">'.htmlsecure($rec["transaction"]).'</a> ';
 			echo '<span class="pers"><a href="ann/fiche.php?id='.$rec["id"].'&view">';
 			echo htmlsecure($rec["nom"].' '.$rec["prenom"]);
 			echo '</a>';
@@ -116,11 +116,14 @@
 			// la premiere entrée
 			$total  = ($tmp = floatval($rec["topay"]) - floatval($rec["paid"])) > 0 ? $tmp : 0;
 			$ntotal = ($tmp = floatval($rec["topay"]) - floatval($rec["paid"])) < 0 ? $tmp : 0;
-			echo ' <p class="transac"><span>';
-			echo '#<a href="evt/bill/billing.php?t='.htmlsecure($rec["transaction"]).'">'.htmlsecure($rec["transaction"]).'</a>';
-			if ( $credit ) echo ' (<span class="'.(floatval($rec["topay"]) - floatval($rec["paid"]) > 0 ? 'amount' : '').'">'.abs(floatval($rec["topay"])-floatval($rec["paid"])).'€</span>)';
-			echo "</span></p>\n";
-				
+			if ( !intval($rec["factureid"]) )
+			{
+  			echo ' <p class="transac"><span>';
+  			echo '#<a href="evt/bill/billing.php?t='.htmlsecure($rec["transaction"]).'">'.htmlsecure($rec["transaction"]).'</a>';
+  			if ( $credit ) echo ' (<span class="'.(floatval($rec["topay"]) - floatval($rec["paid"]) > 0 ? 'amount' : '').'">'.abs(floatval($rec["topay"])-floatval($rec["paid"])).'€</span>)';
+  			echo "</span></p>\n";
+  		}
+			
 			$last["persid"]	= intval($rec["id"]);
 			$last["proid"]	= intval($rec["fctorgid"]);
 			
