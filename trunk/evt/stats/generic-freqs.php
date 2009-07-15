@@ -66,9 +66,9 @@
 	<ul>
 		<li><?php echo $nb_spectateurs ?> personnes sont enregistrés en spectateurs en base</li>
 		<li><?php echo $nb_billets ?> billets sont enregistrés en base</li>
-		<li><?php echo round($nb_billets_moy = $nb_billets/$nb_spectateurs,2) ?> billets par personne en moyenne</li>
-		<li><?php echo round($nb_spectacles_moy = $nb_spectacles_personnes/$nb_spectateurs,2) ?> spectacles différents par personne en moyenne</li>
-		<li><?php echo round($nb_spectateurs*$nb_billets/$nb_spectacles_personnes,0) ?> personnes uniques ont assisté aux spectacles (<strong>estimation</strong>, d'autant plus juste que l'écart type des moyennes est faible)</li>
+		<li><?php echo $nb_spectateurs > 0 ? round($nb_billets_moy = $nb_billets/$nb_spectateurs,2) : 0 ?> billets par personne en moyenne</li>
+		<li><?php echo $nb_spectateurs > 0 ? round($nb_spectacles_moy = $nb_spectacles_personnes/$nb_spectateurs,2) : 0 ?> spectacles différents par personne en moyenne</li>
+		<li><?php echo $nb_spectateurs > 0 ? round($nb_spectateurs*$nb_billets/$nb_spectacles_personnes,0) : 0 ?> personnes uniques ont assisté aux spectacles (<strong>estimation</strong>, d'autant plus juste que l'écart type des moyennes est faible)</li>
 	</ul>
 </div>
 <?php
