@@ -1,0 +1,9 @@
+div.evt {
+	border: 1px solid red;
+	padding: 0 10px;
+}
+div.evt div.manif {
+	border: 1px solid green;
+	padding: 0 10px;
+	margin-left: 10px;
+}
