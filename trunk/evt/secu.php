@@ -1,7 +1,7 @@
 <?php
 /**********************************************************************************
 *
-*	    This file is part of e-venement.
+*               This file is part of e-venement.
 *
 *    e-venement is free software; you can redistribute it and/or modify
 *    it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@
 ?>
 <?php
 	global $user,$bd,$config,$nav;
-	require_once($_SERVER["DOCUMENT_ROOT"].$config["website"]["root"]."config.php");
-	require_once($_SERVER["DOCUMENT_ROOT"].$config["website"]["root"]."evt/config.php");
+	require_once(dirname(__FILE__).'/../config.php');
+	require_once(dirname(__FILE__).'/config.php');
 	includeClass("bdRequest");
 	includeClass("bd");
 	

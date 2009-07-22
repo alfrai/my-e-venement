@@ -57,9 +57,9 @@
 	  **/
 	$config["ticket"]["dematerialized"]	= true;
 	
-	@include("config.php");
+	@include(dirname(__FILE__).'/config.php');
 	ini_set("include_path",$config["website"]["libs"].":.:".$config["website"]["activecal"].":".$config["website"]["fpdf"]);
 	
 	if ( ALLOPEN !== true )
-	require($_SERVER["DOCUMENT_ROOT"].$config["website"]["root"]."evt/secu.php");
+	require(dirname(__FILE__).'/secu.php');
 ?>

@@ -97,10 +97,14 @@
 				$preresa["tarifid"]	= "(SELECT get_tarifid(".$manifid.",'".$arr["tarif"]."'))";
 				$preresa["reduc"]	= intval($arr["reduc"]);
 				$preresa["annul"]	= "'".(intval($arr["nb"]) < 0 ? "t" : "f")."'";
+				
 				// méthode grossière pour récup le numéro de la place
+				/*
 				$tmp = spliti("plnum-",$arr["other"]);
 				if ( intval($tmp[1]) > 0 )
-				$preresa["plnum"]	= intval($tmp[1]);
+				*/
+				$preresa["plnum"]	= intval($arr['other']);
+				
 				$preresa["transaction"]	= "'".pg_escape_string($data["numtransac"])."'";
 				$add = 0;
 				for ( $i = 0 ; $i < abs(intval($arr["nb"])) ; $i++ )
@@ -275,6 +279,7 @@
 				
 				echo '<span class="billet">';
 				echo htmlsecure($resa["nb"].' '.$resa["tarif"].' '.$resa["reduc"]);
+				// BETA
 				if ( $plnum )
 				echo '<input type="hidden" name="billet['.intval($rec["manifid"]).'][]" value="'.htmlsecure($resa["full"]).'" />';
 				echo '</span>';
@@ -297,10 +302,12 @@
 						$buf = $plnum[intval($rec["manifid"])][$resa["tarif"].$resa["reduc"]];
 						if ( is_array($buf)
 						  && count($buf) > 0
-						  && strstr($_SERVER["HTTP_REFERER"],$config["website"]["base"]."evt/bill/annul.php") )
+						  && strpos($_SERVER["HTTP_REFERER"],$config["website"]["base"]."evt/bill/annul.php") !== false )
 							$resa["other"] = $buf;
 						else	$resa["other"] = array();
-						plnum($rec,$resa,strstr($_SERVER["HTTP_REFERER"],$config["website"]["base"]."evt/bill/annul.php"));
+					  
+					  if ( strpos($_SERVER["HTTP_REFERER"],$config["website"]["base"]."evt/bill/annul.php") !== false )
+					    plnum($rec,$resa,strpos($_SERVER["HTTP_REFERER"],$config["website"]["base"]."evt/bill/annul.php") !== false);
 					}
 					echo '<input	type="button" name="print"';
 					echo '		onclick="javascript: '."printBill(this,".intval($rec["manifid"]).",'".$resa["full"]."',".intval($key).",".$data["numtransac"].');"';

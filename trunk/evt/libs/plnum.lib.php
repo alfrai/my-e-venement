@@ -23,7 +23,7 @@
 <?php
 	// $manif correspond à un record représentant la manifestation courante
 	// $resa à un tableau associatif représentatif des réservations courantes
-	function plnum($manif,$resa,$disable)
+	function plnum($manif,$resa,$disable,$annul = false)
 	{
 		global $bd,$data;
 		$action = $actions["edit"];
@@ -34,21 +34,25 @@
 			// - numéro de place bien libre
 			// - numéro de place existant dans la salle
 			
-			$query = " SELECT plnum, resa.id
-				   FROM reservation_pre AS resa, tarif
+			$query = " SELECT resa.plnum, plname, resa.id
+				   FROM reservation_pre AS resa, tarif, site_plnum AS plnum, manifestation AS manif
 				   WHERE tarifid = tarif.id
 				     AND tarif.key = '".pg_escape_string($resa["tarif"])."'
 				     AND reduc = ".intval($resa["reduc"])."
 				     AND manifid = ".intval($manif["manifid"])."
 				     AND transaction = '".pg_escape_string($data['numtransac'])."'
-				   ORDER BY plnum";
+				     AND plnum.siteid = manif.siteid
+				     AND manifid = manif.id
+				     AND plnum.id = resa.plnum
+				     AND ".($annul ? 'NOT' : '')." annul
+				   ORDER BY plname";
 			$request = new bdRequest($bd,$query);
 			
 			for ( $i = abs($resa["nb"]) ; $i > 0 ; $i-- )
 			{
 				if ( !($rec = $request->getRecordNext()) ) $rec = array();
 				echo '<input	type="text"
-						value="'.($rec["plnum"] ? intval($rec["plnum"]) : (is_array($resa["other"]) && ($buf = array_shift($resa["other"])) ? intval($buf) : '-pl. libre-')).'"
+						value="'.($rec['plname'] ? htmlsecure($rec['plname']) : (is_array($resa["other"]) && ($buf = array_shift($resa["other"])) ? intval($buf) : '-pl. libre-')).'"
 						name="plnum['.$i.']"
 						class="'.($rec["plnum"] || $buf ? '' : exemple).'"
 						'.($disable ? 'disabled="disabled"' : "").'

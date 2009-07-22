@@ -119,7 +119,8 @@
 		{
 			if ( $bd->addRecord("site",$rec) )
 				$id = $bd->getLastSerial("site","id");
-			else	$user->addAlert("Le site n'a pu être créé");
+			else
+			  $user->addAlert("Le site n'a pu être créé");
 		}
 		elseif ( !$bd->updateRecordsSimple("site",array('id' => $id),$rec) )
 			$user->addAlert("Le site n'a pu être modifié");

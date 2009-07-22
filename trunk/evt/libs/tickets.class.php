@@ -33,6 +33,7 @@ class Tickets
 	
 	function _headers()
 	{
+		global $config;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-FR">
@@ -127,7 +128,11 @@ class Tickets
   	span.eur { font-weight: normal; }
   </style>
 </head>
+<?php if ( $config['ticket']['let_open_after_print'] ): ?>
+<body onload="javascript: print();">
+<?php else: ?>
 <body onload="javascript: print(); close();">
+<?php endif; ?>
 <?php
 	}
 	

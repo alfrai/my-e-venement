@@ -23,7 +23,7 @@
 <?php
 	$title	= "e-venement : évènements - salles";
 	$css	= array("styles/main.css", "evt/styles/main.css");
-	require_once("../../config.php");
+	require_once(dirname(__FILE__).'/../../config.php');
 
 	includeClass("navigation");
 	includeClass("user");
@@ -42,5 +42,5 @@
 	if ( ALLOPEN !== true )
 	includeLib("login-check");
 	
-	require_once("../config.default.php");
+	require_once(dirname(__FILE__).'/../config.default.php');
 ?>

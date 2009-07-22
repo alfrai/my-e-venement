@@ -202,10 +202,11 @@
 			echo '</span>';
 			
 			// récupération des places numérotées s'il y en a (on ne les récup pas avec resumetickets2print_bytransac())
-			$query	= " SELECT plnum
-				    FROM reservation_pre AS resa, tarif
+			$query	= " SELECT plnum, plname
+				    FROM reservation_pre AS resa, tarif, site_plnum
 				    WHERE transaction = '".pg_escape_string($oldtransac)."'
 				      AND annul = false
+				      AND resa.plnum = site_plnum.id
 				      AND (SELECT count(resa_preid) > 0 FROM reservation_cur WHERE NOT canceled AND resa_preid = resa.id)
 				      AND manifid = ".intval($rec["manifid"])."
 				      AND tarifid = tarif.id
@@ -217,8 +218,8 @@
 			echo '<span class="valid"><span><span class="visu"></span><ul>';
 			for ( $i = 0 ; $i < intval($rec["nb"]) ; $i++ )
 			{
-				$pl = $plnum->getRecordNext("plnum");
-				echo '<li><input type="checkbox" name="billet['.intval($rec["manifid"]).'][]" value="-1'.$rec["tarif"].$reduc.':'.intval($pl).'" /> pl. '.($pl ? "n°".intval($pl) : "libre").'</li>';
+				$pl = $plnum->getRecordNext();
+				echo '<li><input type="checkbox" name="billet['.intval($rec["manifid"]).'][]" value="-1'.$rec["tarif"].$reduc.':'.intval($pl['plnum']).'" /> pl. '.($pl ? "n°".$pl['plname'] : "libre").'</li>';
 			}
 			echo '</ul></span></span>';
 		}

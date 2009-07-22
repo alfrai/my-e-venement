@@ -99,13 +99,13 @@
 				else 	$rec["resaid"] = "null";
 				*/
 				
-				echo '<div';
+				echo '<div ';
 				if ( $edit )
-				echo '		onmousedown="javascript: plnum_mousedown(event,this); this.origX = event.layerX; this.origY = event.layerY;"
+				echo 'onmousedown="javascript: plnum_mousedown(event,this); this.origX = event.layerX; this.origY = event.layerY;"
 						onmouseup="javascript: plnum_mouseup(event,this);"
-						ondblclick="javascript: plnum_delete(this,'.intval($rec["id"]).');"';
-				if ( $bill )
-				echo '		onclick="javascript: plnum_selectplace(this,'.$manifid.');"';
+						ondblclick="javascript: plnum_delete(this,'.intval($rec["id"]).');" ';
+				if ( $bill && $rec['reserved'] != 't' )
+				echo 'onclick="javascript: plnum_selectplace(this,'.$manifid.');" ';
 				
 				if ( $rec["selected"] )
 				{
@@ -113,12 +113,12 @@
 					$tmp = " - ".$tmp["full"];
 				}
 				else	$tmp = "";
-				echo '		style="'.htmlsecure('	margin-left: '.$rec["onmapx"].';
-									margin-top: '.$rec["onmapy"].';
-									width: '.$rec["width"].';
-									height: '.$rec["height"].';').'"
-						title="'.htmlsecure("num. ".$rec["plname"].$tmp).'"
-						class="place '.($rec["selected"] ? "selected" : "").' '.($rec["reserved"] == 't' ? "reserved" : "").'">';
+				echo 'style="'.htmlsecure('	margin-left: '.$rec["onmapx"].';
+				      margin-top: '.$rec["onmapy"].';
+				      width: '.$rec["width"].';
+				      height: '.$rec["height"].';').'"
+				      title="'.htmlsecure("num. ".$rec["plname"].$tmp).'"
+				      class="place '.($rec['selected'] ? 'selected' : '').' '.($rec["reserved"] == 't' ? "reserved" : "").'">';
 				echo '<span>'.intval($rec["id"]).'</span>';
 				if ( $rec["selected"] ) echo '<input type="hidden" name="billet['.$manifid.'][]" value="'.htmlsecure($rec["selected"].':plnum-'.$rec["id"]).'" />';
 				echo '</div>';
@@ -150,8 +150,7 @@
 	<div class="body">
 	</div>
 	<div class="plnum">
-		<p><input type="submit" name="submit" value="&lt;&lt; valider" /></p>
-		<p>
+		<p><input type="submit" name="submit" value="&lt;&lt; valider" />
 			<?php
 				$arr = array("numtransac","client","manif");
 				foreach( $arr as $value )

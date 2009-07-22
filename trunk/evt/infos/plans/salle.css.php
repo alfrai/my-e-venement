@@ -57,10 +57,10 @@ div.body {
 }
 div.plnum {
 	position: absolute;
-	top: 90px;
-	left: 20px;
+	top: 10px;
+	left: 400px;
 	border: 1px dashed black;
-	width: 195px;
+	width: 220px;
 	padding: 0 10px;
 	z-index: 10;
 	background-color: silver;
@@ -96,9 +96,16 @@ body.edit #mapping div.place {
 body.edit #mapping div.place:hover,
 #mapping div.place:hover {
 	background-color: transparent;
+	cursor: pointer;
+	border: 1px solid orange;
 }
 #mapping div.place.selected { border: 1px solid orange; }
-#mapping div.place.reserved { background-color: red; }
+#mapping div.place.reserved { background-color: red; border: 1px solid transparent; }
+#mapping div.place.reserved:hover {
+  background-color: transparent;
+  border: 1px solid red;
+  cursor: default;
+}
 
 #alert {
 	display: none;

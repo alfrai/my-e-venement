@@ -797,7 +797,7 @@ CREATE TABLE reservation_pre (
     reduc integer,
     "transaction" bigint NOT NULL,
     annul boolean DEFAULT false NOT NULL,
-    plnum integer,
+    plnum character varying(255),
     dematerialized_passed boolean DEFAULT false NOT NULL,
     CONSTRAINT reservation_pre_annul_key CHECK (toomanyannul(manifid, annul)),
     CONSTRAINT reservation_pre_plnum_valid_key CHECK (is_plnum_valid(manifid, plnum)),

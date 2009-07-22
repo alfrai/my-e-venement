@@ -23,8 +23,7 @@
 <?php
 	$title	= "e-venement : évènements - salles";
 	$css	= array("styles/main.css", "evt/styles/main.css");
-	require_once("../../../config.php");
-	require_once("../../config.default.php");
+	require_once(dirname(__FILE__).'/../../../config.php');
 
 	includeClass("navigation");
 	includeClass("user");
@@ -32,6 +31,7 @@
 	
 	$nav	= new navigation();
 	$user	= &$_SESSION["user"];
+	
 	$bd	= new arrayBd (	$config["database"]["name"],
 				$config["database"]["server"],
 				$config["database"]["port"],
@@ -40,4 +40,6 @@
 	$bd->setPath("billeterie,public");
 	
 	includeLib("login-check");
+	
+	require_once(dirname(__FILE__).'/../../config.default.php');
 ?>

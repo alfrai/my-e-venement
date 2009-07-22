@@ -46,43 +46,60 @@
 	
 	// les places numérotées
 	$go = true;
-	if ( is_array($_GET["plnum"]) && $config["ticket"]["placement"] )
+	if ( $config["ticket"]["placement"] )
 	{
-		// pas deux numéros de place identiques
-		$test = array_count_values($_GET["plnum"]);
-		foreach ( $test as $key => $value )
-		if ( $value > 1 || intval($key)."" != $key )
-		{
-			$user->addAlert("Impossible de lancer l'impression : vous avez affecté deux billets à la même place.");
-			$go = false;
-			break;
-		}
-		
-		if ( $go )
-		foreach ( $_GET["plnum"] as $value )
-		{
-			// numéro encore non réservé
-			$query  = " SELECT
-				     (SELECT count(*) > 0
-				      FROM manifestation_plnum
-				      WHERE manifestationid = ".$manifid."
-				        AND plnum = ".intval($value).")
-				    AND
-				     (SELECT SUM((NOT annul)::integer*2-1) = 0 ".($resa["nb"] < 0 ? "+ 1" : "")."
-				      FROM (SELECT 1 as num, annul FROM reservation_pre WHERE manifid = ".intval($_GET["manifid"])." AND plnum = ".intval($value)." AND NOT transaction = '".pg_escape_string($transac)."'
-				            UNION
-				            SELECT 2 AS num, true AS annul
-				            UNION
-				            SELECT 3 AS num, false AS annul) AS tmp)
-				    AS ok";
+	  $query = "SELECT resa.*, site_plnum.plname
+	            FROM reservation_pre AS resa, manifestation AS manif, site_plnum, tarif
+	            WHERE resa.transaction = '".pg_escape_string($transac)."'
+	              AND resa.manifid  = manif.id
+	              AND manif.siteid  = site_plnum.siteid
+	              AND resa.plnum    = site_plnum.id
+	              AND tarif.key     = '".pg_escape_string($resa['tarif'])."'
+	              AND tarif.id      = resa.tarifid
+	              AND resa.reduc    = ".intval($resa['reduc']);
+	  $request = new bdRequest($bd,$query);
+	  $plnum = array();
+	  $places = array(); // pour vérifier les doublons à la commande
+	  while ( $rec = $request->getRecordNext() )
+	  {
+	    $plnum[$rec['id']]['plnum'] = $rec['plnum'];
+	    $plnum[$rec['id']]['plname'] = $rec['plname'];
+	    $places[$rec['plnum']]++;
+	  }
+	  $request->free();
+	  
+	  foreach ( $places as $key => $value )
+	  if ( $value > 1 )
+	  {
+	    $user->addAlert("Impossible de lancer l'impression : vous avez affecté deux billets à la même place.");
+	    $go = false;
+	    break;
+	  }
+    /**
+      * tests non utiles car il existe une contrainte ukey sur reservation_pre(manifid,plnum)
+      *
+	  else
+	  {
+	    // numéro encore non réservé
+	    $query  = " SELECT SUM((NOT annul)::integer)/2 * 2 = SUM((NOT annul)::integer) AS ok, plname
+	                FROM reservation_pre AS pre, reservation_cur AS cur, manifestation AS manif, site_plnum
+	                WHERE manifid = ".intval($_GET["manifid"])."
+	                  AND cur.resa_preid = pre.id
+	                  AND pre.transaction != '".pg_escape_string($transac)."'
+	                  AND pre.plnum = ".intval($key)."
+	                  AND site_plnum.siteid = manif.siteid
+	                  AND pre.manifid = manif.id
+	                GROUP BY plname";
 			$request = new bdRequest($bd,$query);
-			if ( $request->getRecord("ok") != 't' )
+			if ( $request->getRecord("ok") == 'f' )
 			{
-				$user->addAlert("Impossible de lancer l'impression : la place indiquée est déjà réservée dans une autre transaction.");
+				$user->addAlert("Impossible de lancer l'impression : la place '".$request->getRecord('plname')."' est déjà réservée dans une autre transaction.");
 				$go = false;
 			}
 			$request->free();
 		}
+		  *
+		  **/
 		
 		// on n'imprime rien si il y a une erreur
 		if ( !$go )
@@ -90,11 +107,6 @@
 			$url = parse_url($_SERVER["HTTP_REFERER"]);
 			$nav->redirect($url["scheme"]."://".$url["host"].$url["port"].$url["path"]."?t=".urlencode($transac)."&s=3");
 		}
-		
-		$plnum = array();
-		foreach ( $_GET["plnum"] as $value )
-		if ( intval($value)."" == $value && intval($value) > 0 )
-			$plnum[] = intval($value);
 	}
 	
 	// billet groupé ?
@@ -110,14 +122,15 @@
 	$request->free();
 	
 	// MAJ des reservation_cur déjà imprimés pour la même chose
-	$bd->updateRecords("reservation_cur",
-			   "    reduc = ".$resa["reduc"]."
-			    AND pre.id = resa_preid
-			    AND tarifid = ".$tarifid."
-			    AND manifid = ".$manifid."
-			    AND transaction = '".pg_escape_string($transac)."'",
-			   array("canceled" => "t"),
-			   "reservation_pre AS pre");
+	$bd->updateRecords(
+	        "reservation_cur",
+			    "    reduc = ".$resa["reduc"]."
+			     AND pre.id = resa_preid
+			     AND tarifid = ".$tarifid."
+			     AND manifid = ".$manifid."
+			     AND transaction = '".pg_escape_string($transac)."'",
+			    array("canceled" => "t"),
+			    "reservation_pre AS pre");
 	
 	// récup des pré_resa à imprimer (et donc à confirmer)
 	$query	= " SELECT resa.*, '".pg_escape_string($resa["tarif"])."' AS key, resa.id IN (SELECT resa_preid FROM reservation_cur WHERE canceled = true) AS duplicata
@@ -159,16 +172,17 @@
 				      AND evt.id = manif.evtid
 				      AND site.id = manif.siteid
 				      AND preresa.manifid = manif.id
+				      AND preresa.transaction = '".pg_escape_string($transac)."'
 				      AND resa.resa_preid = preresa.id
 				      AND manif.id NOT IN (SELECT manifid FROM manif_organisation))
 				   UNION
 				   (SELECT evt.petitnom AS evtnom, evt.nom AS evtbignom, evt.typedesc, evt.metaevt,
-				   	   (SELECT libelle FROM evt_categorie WHERE id = evt.categorie) AS catdesc,
+				           (SELECT libelle FROM evt_categorie WHERE id = evt.categorie) AS catdesc,
 				           (SELECT nom FROM organisme WHERE evt.organisme1 = id) AS organisme1,
 				           (SELECT nom FROM organisme WHERE evt.organisme2 = id) AS organisme2,
 				           (SELECT nom FROM organisme WHERE evt.organisme3 = id) AS organisme3,
-				            ".$ticketid." AS ticketid, manif.date, site.nom AS sitenom, site.ville AS siteville,
-				       	    getprice(manif.id,".$tarifid.") AS prix, organisme.nom AS organisateur, manif.id AS manifid
+				           ".$ticketid." AS ticketid, manif.date, site.nom AS sitenom, site.ville AS siteville,
+				           getprice(manif.id,".$tarifid.") AS prix, organisme.nom AS organisateur, manif.id AS manifid
 				    FROM billeterie.manifestation AS manif, evenement AS evt, organisme, manif_organisation AS orga,
 				         site, reservation_pre AS preresa, reservation_cur AS resa
 				    WHERE manif.id = ".$manifid."
@@ -176,6 +190,7 @@
 				      AND site.id = manif.siteid
 				      AND orga.manifid = manif.id
 				      AND preresa.manifid = manif.id
+				      AND preresa.transaction = '".pg_escape_string($transac)."'
 				      AND resa.resa_preid = preresa.id
 				      AND organisme.id = orga.orgid)";
 			$ticket = new bdRequest($bd,$query);
@@ -202,9 +217,12 @@
 				$bill["sitenom"]	= $tic["sitenom"];
 				$bill["siteville"]	= $tic["siteville"];
 				$bill["prix"]		= $tic["prix"]*(1-floatval($resa["reduc"])/100);
-				$bill["orga"]		= intval($tic["manifid"]);
 				$bill["manifid"]	= $tic["manifid"];
 				
+				// places num
+				$bill["plnum"] = $plnum[$rec['id']]['plname'];
+				
+				// dernière chose à faire sinon erreur !!
 				$bill["orga"]		= array();
 				if ( $tic["organisateur"] ) $bill["orga"][] = $tic["organisateur"];
 				while ( $tic = $ticket->getRecordNext() )
@@ -213,12 +231,6 @@
 				$bill["orga"][] = "Très Tôt Théatre";
 				
 				$bill["org"]	= implode(" / ",$bill["orga"]);
-				
-				// places num
-				$bill["plnum"] = $plnum[$i];
-				
-				// mise à jour du record
-				$ok = $ok && $bd->updateRecordsSimple("reservation_pre",array("id" => $resa_preid),array("plnum" => $plnum[$i]));
 				
 				// on sort un billet par personne le cas échéant
 				if ( !$group )
@@ -239,7 +251,7 @@
 	// on sort un billet de groupe le cas échéant
 	if ( $group )
 		$tickets->addToContent($grpbill);
-		
+	
 	$tickets->printAll();
 		
 	$request->free();
