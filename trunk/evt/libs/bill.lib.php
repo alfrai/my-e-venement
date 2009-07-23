@@ -83,12 +83,6 @@
 			    FROM reservation_pre AS pre
 			    WHERE transaction = ".pg_escape_string($transactionid)." ".$more."
 			    GROUP BY tarifid,manifid,reduc";
-		/*
-		$query	= " SELECT getprice(manifid,tarif)*nb*(100-reduc)/100 AS prix, manifid
-			    FROM tickets2print_bytransac('".pg_escape_string($transactionid)."')";
-		if ( $printed )
-		$query .= " WHERE NOT canceled AND printed";
-		*/
 		$request = new bdRequest($bd,$query);
 
 		while ( $rec = $request->getRecordNext() )
@@ -96,6 +90,7 @@
 			$prices[0] += floatval($rec["prix"]);
 			$prices[intval($rec["manifid"])] += floatval($rec["prix"]);
 		}
+
 		$request->free();
 		
 		return $prices;

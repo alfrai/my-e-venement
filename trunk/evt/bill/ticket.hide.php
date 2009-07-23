@@ -75,31 +75,6 @@
 	    $go = false;
 	    break;
 	  }
-    /**
-      * tests non utiles car il existe une contrainte ukey sur reservation_pre(manifid,plnum)
-      *
-	  else
-	  {
-	    // numéro encore non réservé
-	    $query  = " SELECT SUM((NOT annul)::integer)/2 * 2 = SUM((NOT annul)::integer) AS ok, plname
-	                FROM reservation_pre AS pre, reservation_cur AS cur, manifestation AS manif, site_plnum
-	                WHERE manifid = ".intval($_GET["manifid"])."
-	                  AND cur.resa_preid = pre.id
-	                  AND pre.transaction != '".pg_escape_string($transac)."'
-	                  AND pre.plnum = ".intval($key)."
-	                  AND site_plnum.siteid = manif.siteid
-	                  AND pre.manifid = manif.id
-	                GROUP BY plname";
-			$request = new bdRequest($bd,$query);
-			if ( $request->getRecord("ok") == 'f' )
-			{
-				$user->addAlert("Impossible de lancer l'impression : la place '".$request->getRecord('plname')."' est déjà réservée dans une autre transaction.");
-				$go = false;
-			}
-			$request->free();
-		}
-		  *
-		  **/
 		
 		// on n'imprime rien si il y a une erreur
 		if ( !$go )
@@ -154,6 +129,28 @@
 		$arr["resa_preid"]	= $resa_preid = intval($rec["id"]);
 		$arr["accountid"]	= $user->getId();
 		$ok = $ok && $bd->addRecord("reservation_cur",$arr);
+		
+		// annulation et placement numéroté
+		if ( $rec["annul"] == 't' && $config['ticket']['placement'] && $plnum[$rec['id']]['plnum'] )
+		{
+		  /*
+		  $bd->updateRecords(
+		    'reservation_pre',
+		    '    reservation_pre.plnum = '.intval($plnum[$rec['id']]['plnum']).'
+		     AND reservation_pre.transaction = transaction.translinked
+		     AND transaction.id = '.pg_escape_string($transac),
+		    array('plnum' => null),
+		    'transaction'
+		  );
+		  */
+		  // pour tout virer des placements numérotés semblables à l'annulation en cours
+		  $bd->updateRecords(
+		    'reservation_pre',
+		    'transaction != '.pg_escape_string($transac).' AND reservation_pre.plnum = '.intval($plnum[$rec['id']]['plnum']),
+		    array('plnum' => null),
+		    'transaction'
+		  );
+		}
 		
 		// "impression" du billet
 		if ( $transac > 0 && $ok)

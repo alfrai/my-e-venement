@@ -44,6 +44,7 @@
 		       FROM reservation_pre
 		       WHERE plnum = site_plnum.id
 		         AND manifid = ".intval($manifid)."
+		         AND NOT annul
 		         AND transaction != ".intval($_POST["numtransac"]).") AS reserved
 		    FROM site_plnum
 		    WHERE siteid = ".$id."

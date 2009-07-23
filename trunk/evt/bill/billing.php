@@ -133,7 +133,27 @@
 		$request->free();
 	}
 	
-	//print_r($data);
+	// récup des billets en placement numéroté
+	if ( $config['ticket']['placement'] && isset($data['numtransac']) )
+	{
+	  $query  = " SELECT tarif.id, tarif.key, pre.reduc, pre.manifid
+	              FROM reservation_pre AS pre, tarif
+	              WHERE transaction = '".pg_escape_string($data['numtransac'])."'
+	                AND tarif.id = pre.tarifid
+	                AND plnum IS NOT NULL";
+	  $request = new bdRequest($bd,$query);
+	  $billets = array();
+	  while ( $rec = $request->getRecordNext() )
+	  {
+	    if ( $rec['reduc'] < 10 )
+	      $rec['reduc'] = '0'.$rec['reduc'];
+	    $billets[$rec['manifid']][$rec['key'].$rec['reduc']]++;
+	  }
+	  $request->free();
+	  foreach ( $billets as $manif => $tickets )
+	  foreach ( $tickets as $key => $value )
+	    $data['billet'][$manif][] = $value.$key;
+	}
 	
 	// les pré-requis sont sélectionnés
 	if ( isset($data["client"]) )
@@ -166,7 +186,7 @@
 			$data["numtransac"] = $bd->getLastSerial("transaction","id");
 		}
 		
-		// extraction du BdC
+    // extraction du BdC
 		if ( isset($_POST["print"]) )
 		{
 			includePage("bdc");
@@ -289,7 +309,7 @@
 		{
 			$_SESSION["evt"]["express"]["client"] = $data["client"];
 			$_SESSION["evt"]["express"]["manif"] = $data["manif"];
-		}	
+		}
 		
 		includePage("grp-2");
 	}

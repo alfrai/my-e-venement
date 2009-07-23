@@ -92,23 +92,24 @@
 				
 				// nouvelle méthode pour places numérotées
 				$preresa = array();
-				$preresa["accountid"]	= $user->getId();
-				$preresa["manifid"]	= $manifid;
-				$preresa["tarifid"]	= "(SELECT get_tarifid(".$manifid.",'".$arr["tarif"]."'))";
-				$preresa["reduc"]	= intval($arr["reduc"]);
-				$preresa["annul"]	= "'".(intval($arr["nb"]) < 0 ? "t" : "f")."'";
+				$preresa['accountid']   = $user->getId();
+				$preresa['manifid']     = $manifid;
+				$preresa['tarifid']     = "(SELECT get_tarifid(".$manifid.",'".$arr['tarif']."'))";
+				$preresa['reduc']       = intval($arr['reduc']);
+				$preresa['annul']       = intval($arr['nb']) < 0 ? "'t'" : "'f'";
 				
 				// méthode grossière pour récup le numéro de la place
-				/*
 				$tmp = spliti("plnum-",$arr["other"]);
-				if ( intval($tmp[1]) > 0 )
-				*/
-				$preresa["plnum"]	= intval($arr['other']);
+				if ( ($preresa['plnum'] = intval($tmp[1])) <= 0 )
+				if ( ($preresa['plnum'] = intval($arr["other"])) <= 0 )
+				unset($preresa['plnum']);
 				
-				$preresa["transaction"]	= "'".pg_escape_string($data["numtransac"])."'";
+				$preresa['transaction'] = "'".pg_escape_string($data['numtransac'])."'";
 				$add = 0;
-				for ( $i = 0 ; $i < abs(intval($arr["nb"])) ; $i++ )
-					$add += $bd->addRecordRaw("reservation_pre",$preresa) ? 1 : 0;
+				for ( $i = 0 ; $i < abs(intval($arr['nb'])) ; $i++ )
+				  $add += $bd->addRecordRaw("reservation_pre",$preresa) ? 1 : 0;
+				
+		    $prices = getPrices($data["numtransac"]);
 				
 				if ( $add = 0 )
 				$user->addAlert("Aucune demande n'a été enregistrée pour la manifestation #".$manifid);
@@ -120,27 +121,6 @@
 			  && strstr($_SERVER["HTTP_REFERER"],$config["website"]["base"]."evt/bill/annul.php") )
 			{
 				$plnum[intval($manifid)][$arr["tarif"].$arr["reduc"]][] = $arr["other"];
-			/*
-				// il doit existé une place au numéro indiquée déjà imprimée et non annulée
-				$bd->updateRecordsRaw("reservation_pre",
-				                      "id = ( SELECT MIN(pre.id)
-				                              FROM reservation_pre AS pre, tarif
-				                              WHERE manifid = ".intval($manifid)."
-				                                AND tarifid = tarif.id
-				                                AND tarif.key = '".pg_escape_string($arr["tarif"])."'
-				                                AND reduc = ".intval($arr["reduc"])."
-				                                AND transaction = ".$data["numtransac"]."
-				                                AND annul
-				                                AND plnum IS NULL
-				                                AND ( SELECT count(*) = 0 FROM reservation_cur WHERE resa_preid = pre.id ))
-				                   AND (SELECT SUM((NOT annul)::integer*2-1) = 1
-				                        FROM (SELECT 1 as num, annul FROM reservation_pre WHERE manifid = ".intval($manifid)." AND plnum = ".intval($arr["other"])."
-				                              UNION 
-				                              SELECT 2 AS num, true AS annul
-				                              UNION
-				                              SELECT 3 AS num, false AS annul) AS tmp)",
-				                      array("plnum" => intval($arr["other"])));
-			*/
 			}
 			
 			unset($arr);
@@ -271,23 +251,23 @@
 				}
 				
 				// sommes nous en précense d'une place numérotée ?
-				$plnum = count(split("plnum-",$resa["other"])) <= 1;
+				$placement = count(split("plnum-",$resa["other"])) > 1;
 				
 				echo '<span class="'.$resumeClassTmp.'" id="billets'.$rec["manifid"].'.'.intval($key).'" ';
-				echo $stage == 2 && $plnum ? 'onclick="javascript: this.parentNode.removeChild(this)"' : "";
+				echo $stage == 2 && !$placement ? 'onclick="javascript: this.parentNode.removeChild(this)"' : "";
 				echo '>';
 				
 				echo '<span class="billet">';
 				echo htmlsecure($resa["nb"].' '.$resa["tarif"].' '.$resa["reduc"]);
 				// BETA
-				if ( $plnum )
+				if ( !$placement )
 				echo '<input type="hidden" name="billet['.intval($rec["manifid"]).'][]" value="'.htmlsecure($resa["full"]).'" />';
 				echo '</span>';
 				
 				// Affichage des résultats liés aux impressions
 				if ( $print || $stage > 6 )
 					echo '<span class="desc nonval">Billet(s) annulé(s) après impression</span><span class="desc imp">Billet(s) imprimé(s) et validé(s)</span><span class="desc nonimp">Billet(s) encore non imprimé(s)</span><span class="desc cancel">Billet(s) annulé(s) avant impression</span>';
-				else if ( $stage == 2 && $plnum )	echo '<span class="desc">cliquer sur la réservation pour la supprimer</span>';
+				else if ( $stage == 2 && !$placement )	echo '<span class="desc">cliquer sur la réservation pour la supprimer</span>';
 				else echo '<span class="desc">Billet(s) pré-réservé(s)</span>';
 				
 				echo '</span>';
@@ -306,8 +286,10 @@
 							$resa["other"] = $buf;
 						else	$resa["other"] = array();
 					  
+					  /*
 					  if ( strpos($_SERVER["HTTP_REFERER"],$config["website"]["base"]."evt/bill/annul.php") !== false )
 					    plnum($rec,$resa,strpos($_SERVER["HTTP_REFERER"],$config["website"]["base"]."evt/bill/annul.php") !== false);
+					  */
 					}
 					echo '<input	type="button" name="print"';
 					echo '		onclick="javascript: '."printBill(this,".intval($rec["manifid"]).",'".$resa["full"]."',".intval($key).",".$data["numtransac"].');"';
