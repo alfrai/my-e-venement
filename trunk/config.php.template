@@ -3,7 +3,7 @@
 	  * Configuration automatique
 	  * 
 	  **/
-	require($_SERVER["DOCUMENT_ROOT"].$config["website"]["root"]."config.default.php");
+	require(dirname(__FILE__).'/config.default.php');
 	
 	/**
 	  * Configuration manuelle
@@ -33,7 +33,6 @@
 	  * Configuration automatique
 	  * 
 	  **/
-	require(__FILE__.'/config.default.php');
 	ini_set("include_path",".:".$config["website"]["libs"]);
 	require_once("config.mods.php");
 	require_once($config["website"]["libs"]."/utils.lib.php");
