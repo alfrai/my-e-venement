@@ -130,7 +130,7 @@
 					<ext-imageurl>'.htmlsecure($rec["imageurl"]).'</ext-imageurl>';
 				
 				// les ages
-				if ( intval($rec["ages"][0]) > 0 )
+				if ( $rec["ages"][0] > 0 )
 				echo '<ext-agemin>'.htmlsecure($rec["ages"][0] >= 2 ? intval($rec["ages"][0])." ans" : (round($rec["ages"][0]*12))." mois").'</ext-agemin>';
 				if ( $rec["ages"][1] )
 				echo '<ext-agemax>'.htmlsecure($rec["ages"][1] >= 2 ? intval($rec["ages"][1])." ans" : (round($rec["ages"][1]*12))." mois").'</ext-agemax>';
