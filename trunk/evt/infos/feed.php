@@ -131,9 +131,9 @@
 				
 				// les ages
 				if ( intval($rec["ages"][0]) > 0 )
-				echo '<ext-agemin>'.htmlsecure($rec["ages"][0] >= 2 ? intval($rec["ages"][0])." ans" : ($rec["ages"][0]*12)." mois").'</ext-agemin>';
+				echo '<ext-agemin>'.htmlsecure($rec["ages"][0] >= 2 ? intval($rec["ages"][0])." ans" : (intval($rec["ages"][0]*12))." mois").'</ext-agemin>';
 				if ( $rec["ages"][1] )
-				echo '<ext-agemax>'.htmlsecure($rec["ages"][1] >= 2 ? intval($rec["ages"][1])." ans" : ($rec["ages"][1]*12)." mois").'</ext-agemax>';
+				echo '<ext-agemax>'.htmlsecure($rec["ages"][1] >= 2 ? intval($rec["ages"][1])." ans" : (intval($rec["ages"][1]*12))." mois").'</ext-agemax>';
 				
 				// les seances les lieux
 				$query	= " SELECT DISTINCT colorid, date, site.nom, site.adresse, site.cp, site.ville, site.pays

@@ -114,6 +114,11 @@
 		
 		// on force le stage...
 		if ( $_GET["s"] == 3 ) $action["filled"] = true;
+		if ( $_GET["s"] == 4 )
+		{
+		  $action["filled"]   = false;
+		  $action["printed"]  = true;
+		}
 		
 		$request->free();
 		

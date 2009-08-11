@@ -287,7 +287,7 @@
 					echo "À partir de ";
 					printField("field[".($name = "age_min")."]",$rec[$name],$default[$name],5,5);
 					echo ' ans';
-					if ( $rec[$name] < 2 && $rec[$name] > 0 ) echo ' ('.(intval($rec[$name]*12)).' mois)';
+					if ( $rec[$name] < 2 && $rec[$name] > 0 ) echo ' ('.(round($rec[$name]*12)).' mois)';
 				}
 				if ( $action != $actions["view"] || ( $rec["age_max"] && $rec["age_min"] ) )
 					echo ", ";
@@ -296,7 +296,7 @@
 					echo "Jusqu'à ";
 					printField("field[".($name = "age_max")."]",$rec[$name],$default[$name],5,5);
 					echo ' ans';
-					if ( $rec[$name] < 2 && $rec[$name] > 0 ) echo ' ('.(intval($rec[$name]*12)).' mois)';
+					if ( $rec[$name] < 2 && $rec[$name] > 0 ) echo ' ('.(round($rec[$name]*12)).' mois)';
 				}
 				echo "</span>";
 			?></p>
