@@ -61,7 +61,7 @@
 		// formattage du tableau de question
 		$fields = array();
 		$req = array();
-		for ( $i = 0 ; $_POST["field"]["categorie"][$i] ; $i++ )
+		for ( $i = 0 ; $_POST["field"]["categorie"][$i] || $_POST["field"]["cp"][$i] || $_POST["field"]["ville"][$i] ; $i++ )
 		{
 			$fields[] = array();
 			$req[] = array();
