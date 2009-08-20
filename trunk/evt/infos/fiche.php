@@ -410,9 +410,9 @@
 				{
 					$imgs = split(";",$rec["imageurl"]);
 					foreach ( $imgs as $img ) 
-						echo '<img src="'.htmlspecialchars($img).'" height="50" alt="image du spectacle" />';
+						echo '<img src="'.htmlspecialchars($img).'" height="50" class="images" alt="image du spectacle" />';
 				}
-				else	echo '<input type="text" size="23" maxlength="255" name="field[imageurl][value]" value="'.htmlspecialchars($rec["imageurl"]).'" />';
+				else	echo '<input type="text" maxlength="255" name="field[imageurl][value]" value="'.htmlspecialchars($rec["imageurl"]).'" />';
 			?></p>
 			<div class="extraspec"><?php
 				$name = "extraspec";
