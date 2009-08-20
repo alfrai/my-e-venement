@@ -182,8 +182,10 @@
 	</p>
 	</div>
 	<p class="or" id="searchor">
+	  <!--
 		<span><input type="button" name="or" value="&nbsp;...&nbsp;" onclick="javascript: ttt_searchorgor(document.getElementById('searchcond'),this.parentNode.parentNode);" /></span>
 		<span class="desc">Rajouter un critère de recherche (OU)</span>
+		-->
 	</p>
 	<p id="searchend" class="submit">
 		<span class="submit"><input type="submit" name="search" value="Rechercher" /></span>

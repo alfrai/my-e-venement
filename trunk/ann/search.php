@@ -122,7 +122,8 @@
 		else	$grpname = $_GET["grpname"];
 		
 		$qstring = $_SERVER["QUERY_STRING"];
-		$print_search_fields = ($group["dynamic"] == "yes" || $personnes->getCondition() != array()) || (!isset($group["submit"]) && !$grpname) ? true : false;
+		$print_search_fields = false;
+		//$print_search_fields = ($group["dynamic"] == "yes" || $personnes->getCondition() != array()) || (!isset($group["submit"]) && !$grpname) ? true : false;
 		//$print_search_fields = $group["dynamic"] == "yes" || !isset($group["submit"] ? true : false;
 	}
 	else
@@ -391,10 +392,10 @@
 		<span class="hide"><a onclick="javascript: e=this.parentNode.parentNode; if(e.className=='')e.className='nosuppl';else e.className='';">options</a></span>
 	</p>
 	</div>
-	<p class="or" id="searchor">
+	<p class="or" id="searchor"><!--
 		<span><input type="button" name="or" value="&nbsp;...&nbsp;" onclick="javascript: ttt_searchor(document.getElementById('searchcond'),this.parentNode.parentNode);" /></span>
 		<span class="desc">Rajouter un critère de recherche (OU)</span>
-	</p>
+	--></p>
 	<p id="searchend" class="submit">
 		<span class="submit"><input type="submit" name="search" value="Rechercher" /></span>
 	</p>
@@ -655,7 +656,7 @@ if ( $personnes )
 			i++;
 <?php		} ?>
 		// clonage
-		ttt_searchor(para,document.getElementById("searchor"));
+		//ttt_searchor(para,document.getElementById("searchor"));
 <?php	} // for ( $i = 0 ; $i < count($fields["nom"]) ; $i++ ) ?>
 <?php
 	$request->free();
