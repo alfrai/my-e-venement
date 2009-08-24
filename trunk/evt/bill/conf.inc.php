@@ -24,7 +24,7 @@
 	$title	= "e-venement : billetterie";
 	$css	= array("styles/main.css","evt/styles/main.css");
 	$class	= "bill";
-	require_once("../../config.php");
+	require_once(dirname(__FILE__).'/../../config.php');
 
 	includeClass("navigation");
 	includeClass("user");
@@ -41,6 +41,6 @@
 	$bd->setPath("billeterie,public");
 	
 	includeLib("login-check");
-	require_once("../config.default.php");
+	require_once(dirname(__FILE__).'/../config.default.php');
 	
 ?>

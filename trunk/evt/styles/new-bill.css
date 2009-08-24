@@ -1,0 +1,124 @@
+/* opération */
+#bill-op {
+  position: absolute;
+  top: 4px;
+  right: 7px;
+}
+#bill-op #op { font-weight: bold; }
+
+/* clients */
+#bill-client .list {
+  position: absolute;
+  border: 1px solid grey;
+  border-top: 0;
+  margin-top: -15px;
+  background-color: white;
+  max-height: 250px;
+  max-width: 520px;
+  overflow: auto;
+  padding-right: 5px;
+}
+#bill-client .list li { white-space: nowrap; }
+#bill-client .list ul li { list-style-type: none; }
+#bill-client .list ul { padding-left: 5px; }
+
+/* microfiche */
+.microfiche {
+  position: absolute;
+  display: none;
+  border: 1px solid silver;
+  position: fixed;
+  width: 400px;
+  height: 280px;
+  top: 155px;
+  right: 20px;
+  overflow: auto;
+  background-color: #fff5d5;
+  padding: 5px 10px;
+  font-size: 9px;
+}
+.microfiche.display {
+  display: block;
+}
+.microfiche .close span { display: none; }
+.microfiche .close {
+  display: block;
+  position: absolute;
+  right: 0px;
+  top: 0;
+  height: 12px;
+  width: 12px;
+  background: transparent url(../img/close.png) no-repeat scroll top left;
+}
+.microfiche .access { text-align: right; }
+.microfiche .access p { margin: 0; }
+.microfiche p.titre { background-color: #fff5d5; }
+
+
+/* jauge */
+p.jauge {
+  display: none;
+  position: absolute;
+  border: 1px solid grey;
+  border-top: 0;
+  padding: 0 5px 15px 5px;
+  margin-top: -1px;
+  margin-left: 30px;
+  background-color: white;
+}
+.evt:hover p.jauge {
+  display: block;
+}
+.evt {
+  padding-bottom: 3px;
+}
+
+/* tickets */
+ul.spectacles span.tickets {
+  border: 1px dashed grey;
+  padding: 1px 5px;
+  cursor: default;
+  margin-left: 4px;
+}
+ul.spectacles span.total:after { content: '€'; }
+ul.spectacles span.total {
+  position: absolute;
+  right: 10px;
+  padding: 0 8px;
+  margin-top: 1px;
+  font-weight: bold;
+}
+ul.spectacles li.total { padding-left: 20px; font-weight: bold; }
+ul.spectacles li.total span.total { border-top: 1px solid grey; }
+.list .total { display: none; }
+
+/* tarifs */
+
+/* warnings */
+#warning {
+  position: absolute;
+  display: none;
+  top: 5px;
+  left: 300px;
+  background-color: orange;
+  width: 250px;
+  text-align: center;
+  padding: 5px 3px;
+  border: 1px solid black;
+}
+
+/* toutes impressions */
+#bill-compta span.print.group {
+  margin-left: 30px;
+  padding-left: 15px;
+  border-left: 1px solid black;
+}
+
+/* paiement */
+#bill-paiement ul, #bill-paiement p { display: none; }
+#bill-paiement.show ul, #bill-paiement.show > p { display: block; }
+#bill-paiement ul select option span.cpt { font-size: 80%; }
+#bill-paiement ul li { display: table; }
+#bill-paiement ul li p { display: table-row; }
+#bill-paiement ul li p span { display: table-cell; }
+#bill-paiement ul select { width: 200px; }

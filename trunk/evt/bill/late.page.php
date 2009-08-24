@@ -99,7 +99,7 @@
 			$class = $rec["npai"] == 't' ? "npai" : "";
 			echo '<li class="'.$class.'">'."\n";
 			echo '<p>';
-			if ( intval($rec["factureid"]) > 0 ) echo '<span class="numfact">FB'.intval($rec["factureid"]).'</span> #<a class="numop" href="evt/bill/billing.php?t='.htmlsecure($rec["transaction"]).'">'.htmlsecure($rec["transaction"]).'</a> ';
+			if ( intval($rec["factureid"]) > 0 ) echo '<span class="numfact">'.$config['ticket']['facture_prefix'].intval($rec["factureid"]).'</span> #<a class="numop" href="evt/bill/billing.php?t='.htmlsecure($rec["transaction"]).'">'.htmlsecure($rec["transaction"]).'</a> ';
 			echo '<span class="pers"><a href="ann/fiche.php?id='.$rec["id"].'&view">';
 			echo htmlsecure($rec["nom"].' '.$rec["prenom"]);
 			echo '</a>';

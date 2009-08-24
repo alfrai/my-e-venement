@@ -23,17 +23,36 @@
 <?php
 class Tickets
 {
-	var $content, $group;
-	
-	function Tickets($group = false)
-	{
-		$this->group = $group;
-		$this->content = "";
-	}
-	
-	function _headers()
-	{
-		global $config;
+  var $content, $group;
+  
+  function Tickets($group = false)
+  {
+    $this->group = $group;
+    $this->content = "";
+  }
+  
+  function _close()
+  {
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-FR">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>e-venement : impression de tickets</title>
+</head>
+<?php if ( $config['ticket']['let_open_after_print'] ): ?>
+<body onload="javascript: close();">
+<?php else: ?>
+<body>
+<?php endif; ?>
+</body>
+</html>
+<?php
+  }
+  
+  function _headers()
+  {
+    global $config;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-FR">
@@ -195,13 +214,20 @@ class Tickets
 </body>
 </html>
 <?php
-	}
-	
-	function printAll()
-	{
-		$this->_headers();
-		echo $this->content;
-		$this->_footers();
-	}
+  }
+  
+  function printAll()
+  {
+    if ( $this->content )
+    {
+      $this->_headers();
+      echo $this->content;
+      $this->_footers();
+    }
+    else
+    {
+      $this->_close();
+    }
+  }
 }
 ?>

@@ -51,7 +51,7 @@
 	$request = new bdRequest($bd,"SELECT * FROM facture WHERE transaction = '".$data["numtransac"]."'");
 	if ( $request->countRecords() <= 0 )
 	{
-		if ( !$bd->addRecord("facture",array("transaction" => $data["numtransac"])) )
+		if ( !$bd->addRecord("facture",array("transaction" => $data["numtransac"], 'accountid' => $user->getId())) )
 			$user->addAlert("Impossible d'ajouter la facture en base, votre facture doit avoir un numéro erronné.");
 		$factureid = $bd->getLastSerial("facture","id");
 	}
@@ -81,7 +81,7 @@
 	$i = 0;
 	if ( $rec = $request->getRecord() )
 	{
-		$arr[$i][]	= 'FB'.$rec["factureid"];		// numéro de facture
+		$arr[$i][]	= $config['ticket']['facture_prefix'].$rec["factureid"];		// numéro de facture
 		$arr[$i][]	= $rec["prenom"];			// prenom
 		$arr[$i][]	= $rec["nom"];				// nom
 		$arr[$i][]	= $rec["orgnom"];			// nom de orga
