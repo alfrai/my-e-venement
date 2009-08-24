@@ -25,9 +25,18 @@
 	$config["ticket"]["placement"]		= false;	// fonctionnalité de placement numéroté
 	$config["ticket"]["enable_group"]	= false;	// fonctionnalité de billet de groupe... à ne pas mettre en place sans être sur de soi
 	$config["ticket"]["dematerialized"]	= false;
+	$config['ticket']['facture_prefix'] = 'FB';
+	$config['ticket']['display-new']    = true;
   //$config['ticket']['let_open_after_print'] = true;
   //$config['ticket']['bdc_facture_html_output'] = true;
+  $config['ticket']['seller']['logo']     = '';
+  $config['ticket']['seller']['nom']      = 'Très Tôt Théâtre';
+  $config['ticket']['seller']['adresse']  = '2 rue des Régaires';
+  $config['ticket']['seller']['ville']    = '29000 QUIMPER';
+  $config['ticket']['seller']['pays']     = 'France';
+
 	$config["evt"]["syndication"]           = true;
+	
 
 	// les droits sur le module
 	$config["evt"]["right"]["param"]	= 10;		// droit de paramétrer le module

@@ -34,7 +34,7 @@
 		echo ($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "");
 		echo ' index">Billets</a>';
 	}
-	if ( $mod )
+	if ( $mod && $config['ticket']['display-new'] )
 	{
 		echo '<a href="'.($href = "evt/bill/new-bill.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").'">Billets (new)</a>';
 	}
