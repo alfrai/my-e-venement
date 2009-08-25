@@ -38,7 +38,7 @@ function newbill_client_valid()
       {
         $('#bill-client input[name=search]').remove();
         $('#bill-client input[name=client]:checked').parent().remove().find('> *').appendTo('#bill-client p');
-        $('#bill-client .list').remove();
+        $('#bill-client .list').fadeOut(2000,function(){ $('#bill-client .list').remove(); });
         $('#bill-client .microfiche').remove();
         $('#bill-client .search').removeClass('search');
         $('#bill-client').addClass('selected');
@@ -54,11 +54,14 @@ function newbill_client_valid()
 function newbill_client_search(elt)
 {
   $('#bill-client .list').load('evt/bill/search-ppl.page.php?nom='+elt.val()+' .list > ul',null,function(){
+    $('#bill-client .list').fadeIn(2000,function(){ $(this).addClass('show'); });
     // microfiche refresh
     $('#bill-client .list li').mouseenter(function(){
-      $('#bill-client .microfiche').load('ann/microfiche.hide.php?id='+elt.find('input[name=id]').val(),null,function(){
-        elt.addClass('display');
-        elt.prepend($('<span class="close" />').click(function(){ elt.parent().removeClass('display'); }));
+      $('#bill-client .microfiche').load('ann/microfiche.hide.php?id='+$(this).find('input[name=id]').val(),null,function(){
+        $('#bill-client .microfiche')
+          .addClass('display')
+          .prepend($('<span class="close" />'));
+        $('#bill-client .microfiche .close').click(function(){ $(this).parent().fadeOut('slow'); });
       });
     });
     // client validation
@@ -92,7 +95,7 @@ function newbill_evt_select()
     evtrub.parent().remove();
   
   // print the prices
-  $('#bill-tarifs').show();
+  $('#bill-tarifs, #bill-compta, #bill-paiement #pay').fadeIn(2000,function(){ $(this).addClass('show'); });
 }
 function newbill_evt_refreshjs()
 {
@@ -270,7 +273,7 @@ function newbill_paiement_print()
   clean.find('input[type=text].date').blur();
   
   // duplicating
-  elt.addClass('untouchable');
+  elt.removeClass('new').addClass('untouchable');
   elt.find('input[type=submit]').unbind()
     .val('^^ retirer ^^')
     .click(newbill_paiement_remove);
@@ -316,7 +319,6 @@ $(document).ready(function(){
   }});
   
   // stage 3 : select tickets
-  $('#bill-tarifs').hide();
   $('#bill-tarifs button').click(function(){
     tarif = $(this).val();
     newbill_tickets_new_visu(tarif);

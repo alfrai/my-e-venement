@@ -17,7 +17,9 @@
   max-width: 520px;
   overflow: auto;
   padding-right: 5px;
+  display: none;
 }
+#bill-client .list.show { display: block; }
 #bill-client .list li { white-space: nowrap; }
 #bill-client .list ul li { list-style-type: none; }
 #bill-client .list ul { padding-left: 5px; }
@@ -94,8 +96,12 @@ ul.spectacles span.total {
 ul.spectacles li.total { padding-left: 20px; font-weight: bold; }
 ul.spectacles li.total span.total { border-top: 1px solid grey; }
 .list .total { display: none; }
+#bill-tickets li { list-style-type: none; }
+#bill-tickets ul { padding-left: 10px; }
 
 /* tarifs */
+#bill-tarifs { display: none; }
+#bill-tarifs.show { display: block; }
 
 /* warnings */
 #warning {
@@ -111,6 +117,8 @@ ul.spectacles li.total span.total { border-top: 1px solid grey; }
 }
 
 /* toutes impressions */
+#bill-compta { display: none; }
+#bill-compta.show { display: block; }
 #bill-compta span.print.group {
   margin-left: 30px;
   padding-left: 15px;
@@ -118,7 +126,9 @@ ul.spectacles li.total span.total { border-top: 1px solid grey; }
 }
 
 /* paiement */
+#bill-paiement #pay,
 #bill-paiement ul, #bill-paiement p { display: none; }
+#bill-paiement #pay.show,
 #bill-paiement.show ul, #bill-paiement.show > p { display: block; }
 #bill-paiement.show #pay { display: none; }
 #bill-paiement ul select option span.cpt { font-size: 80%; }
@@ -132,7 +142,25 @@ ul.spectacles li.total span.total { border-top: 1px solid grey; }
 #bill-paiement input.date.blured { color: silver; }
 #bill-paiement ul p.valid span { padding-top: 3px; }
 #bill-paiement .total { font-weight: bold; }
+#bill-paiement ul { padding-bottom: 10px; }
+#bill-paiement li.new, #bill-paiement ul {
+  border: 1px solid grey;
+  -moz-border-radius: 5px;
+}
+#bill-paiement li.new {
+  position: absolute;
+  margin-left: 200px;
+  margin-top: -97px;
+  padding: 5px 10px;
+  border-bottom: 0;
+  background-color: white;
+}
 
 /* verifying */
 #bill-verify { display: none; }
 #bill-verify.show { display: block; }
+
+/* generalities */
+#bill-client .list,
+span.tickets, p.jauge, button, input { -moz-border-radius: 4px; }
+

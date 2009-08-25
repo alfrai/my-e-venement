@@ -38,6 +38,11 @@
     $where = ' manif.id IN ( '.implode(',',$manifs).' )';
     $order = 'date, nom, ville';
   }
+  elseif ( isset($_GET['nom']) && $_GET['nom'] == '' )
+  {
+    $bd->free();
+    die();
+  }
   else
   {
     $where = " manif.date < NOW() + '3 MONTH'";

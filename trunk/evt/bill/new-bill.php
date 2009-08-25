@@ -140,19 +140,17 @@
   
   <div id="bill-tarifs">
     <input type="text" name="nb" value="1" size="2" maxlength="3" />
-    <button name="tarif" value="TP">TP</button>
-    <button name="tarif" value="EXO">EXO</button>
-    <button name="tarif" value="SCO">SCO</button>
-    <button name="tarif" value="G">G</button>
+    <?php
+      $request = new bdRequest($bd,'SELECT key, description AS desc FROM tarif t WHERE date = ( select max(date) from tarif where key = t.key ) AND NOT desact AND NOT contingeant ORDER BY key');
+      while ( $rec = $request->getRecordNext() ):
+    ?>
+    <button name="tarif" value="<?php echo htmlsecure($rec['key']) ?>" title="<?php echo htmlsecure($rec['desc']) ?>"><?php echo htmlsecure($rec['key']) ?></button>
+    <?php endwhile; ?>
     <span class="tickets" title="Cliquer pour retirer un billet"><span></span></span>
     <input class="ticket" type="hidden" name="" value="" />
   </div>
   
   <div id="bill-compta">
-    <p>
-      <button name="bdc" value="bdc" class="bdc">Bon de Commande</button> 
-      <button name="facture" value="facture" class="facture">Facture</button> 
-    </p>
     <p class="print">
       <button name="print" value="print" class="print">Imprimer les billets</button>
       <input type="checkbox" class="print" name="duplicata" value="1" title="Ré-imprimer des duplicatas, précisez le tarif :OA" />
@@ -161,14 +159,19 @@
       <span class="print group"><input type="checkbox" class="print group" name="group" value="1" title="Billets groupés ?" /></span>
       <?php endif; ?>
     </p>
+    <p class="compta">
+      <button name="bdc" value="bdc" class="bdc">Bon de Commande</button> 
+      <button name="facture" value="facture" class="facture">Facture</button> 
+    </p>
   </div>
   
   <div id="bill-verify"><input type="submit" name="verify" value="vérifier et valider"/></div>
+  
   <div id="bill-paiement">
     <button id="pay" name="letsgo" value="">Payer</button>
     <p class="total">À payer&nbsp;: <span></span>€</p>
     <ul>
-      <li>
+      <li class="new">
         <p><span>montant&nbsp;:</span> <span><input class="money" type="text" name="reglement[money][]" value="" /> €</span></p>
         <?php $request = new bdRequest($bd,' SELECT * FROM modepaiement ORDER BY libelle'); ?>
         <p><span>mode de règlement&nbsp;:</span> <span><select name="reglement[mode][]" class="mode">
