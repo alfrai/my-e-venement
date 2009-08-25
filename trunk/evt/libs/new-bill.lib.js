@@ -37,10 +37,11 @@ function newbill_client_valid()
       if ( data == 0 )
       {
         $('#bill-client input[name=search]').remove();
-        $('#bill-client input[name=client]:checked').parent().remove().find('span').appendTo('#bill-client p');
+        $('#bill-client input[name=client]:checked').parent().remove().find('> *').appendTo('#bill-client p');
         $('#bill-client .list').remove();
         $('#bill-client .microfiche').remove();
         $('#bill-client .search').removeClass('search');
+        $('#bill-client').addClass('selected');
       }
       else
       {
@@ -224,6 +225,70 @@ function newbill_tickets_refresh_money()
   $('.spectacles li.total span.total').html(total);
 }
 
+function newbill_paiement_remove()
+{
+  elt = $(this);
+  $.ajax({
+    type: 'GET',
+    url:  'evt/bill/pay.cmd.php',
+    data: {
+      transac: $('#bill-op input[name=transac]').val(),
+      amount: $(this).parent().parent().parent().find('input.money').val(),
+      mode:   $(this).parent().parent().parent().find('select.mode').val(),
+      date:   $(this).parent().parent().parent().find('input.date').val(),
+      del:    'del'
+    },
+    success: function(data){
+      if ( data == '0' )
+      {
+        amount = parseInt(elt.parent().parent().parent().find('input.money').val());
+        total = $('#bill-paiement p.total span');
+        total.html(parseFloat(total.html()) + amount);
+        
+        elt.parent().parent().parent().remove();
+      }
+      else if ( data == '2' )
+        warning("Vérifiez les informations saisies.");
+      else
+        warning("Impossible de supprimer ce règlement...");
+    },
+    error: function(){
+      warning('Impossible de supprimer ce règlement.');
+    }
+  });
+}
+function newbill_paiement_print()
+{
+  clean = $('#bill-paiement ul li').eq(0);
+  modetxt = clean.find('select.mode option:selected').html();
+  modeval = clean.find('select.mode').val();
+  amount = parseInt(clean.find('input.money').val());
+  elt = clean.clone(true);
+  
+  // cleaning fields for a new record
+  clean.find('input[type=text], select').val('');
+  clean.find('input[type=text].date').blur();
+  
+  // duplicating
+  elt.addClass('untouchable');
+  elt.find('input[type=submit]').unbind()
+    .val('^^ retirer ^^')
+    .click(newbill_paiement_remove);
+  elt.find('input.date').each(function(){
+    if ( !$(this).hasClass('blured') && $(this).val() )
+      $(this).parent().prepend($(this).val());
+  })
+  elt.find('input.money').each(function(){
+    $(this).parent().prepend(amount);
+  })
+  elt.find('select.mode').val(modeval).parent().append(modetxt);
+  elt.appendTo($('#bill-paiement ul'));
+  
+  // soustraire de ce qu'il reste à payer visuellement
+  total = $('#bill-paiement p.total span');
+  total.html(parseFloat(total.html()) - amount);
+}
+
 $(document).ready(function(){
   $('form').submit(function(){ return false; });
   
@@ -277,10 +342,10 @@ $(document).ready(function(){
   
   // compta : choose BdC or Facture / print tickets
   $('#bill-compta .bdc').click(function(){
-    window.open('evt/bill/compta.php?type=bdc&transac='+$('#bill-op input[name=transac]').val());
+    window.open('evt/bill/new-compta.php?type=bdc&transac='+$('#bill-op input[name=transac]').val());
   });
   $('#bill-compta .facture').click(function(){
-    window.open('evt/bill/compta.php?type=facture&transac='+$('#bill-op input[name=transac]').val());
+    window.open('evt/bill/new-compta.php?type=facture&transac='+$('#bill-op input[name=transac]').val());
   });
   $('#bill-compta button.print').click(function(){
     group = $('#bill-compta input[name=group].print:checked').length > 0 ? '&group' : '';
@@ -308,8 +373,9 @@ $(document).ready(function(){
     $.get('evt/bill/all-is-printed.cmd.php',{ transac: $('#bill-op input[name=transac]').val() },function(data){
       if ( data == 0 )
       {
-        warning('ok pour le paiement');
         $('#bill-paiement').addClass('show');
+        $('#bill-verify').addClass('show');
+        $('#bill-tickets').addClass('paiement');
         
         // cleaning useless widgets on screen
         $('#bill-tickets span.tickets').unbind('click');
@@ -317,19 +383,136 @@ $(document).ready(function(){
         $('#bill-tarifs').remove();
         $('#bill-compta .print').remove();
         
-        $('#bill-paiement p.total span').html($('#bill-tickets .spectacles .total .total').html());
+        topay = parseFloat($('#bill-tickets .spectacles .total .total').html());
+        paid  = 0;
+        $('#bill-paiement li input.money').each(function(){
+          if ( $(this).val() )
+            paid += parseFloat($(this).val());
+        });
+        $('#bill-paiement p.total span').html(topay - paid);
+        $('#bill-paiement input[type=text]').eq(0).focus();
       }
       else if ( data == 255 )
         warning("Attention, vous devez bien imprimer tous les tickets avant de passer à l'encaissement");
       else
         warning("Impossible de vérifier si tout a bien été imprimé...");
     });
+    return false;
   });
-  $('#bill-paiement ul input[name=valider]').click(function(){
-    // vérifier les données
-    // insérer en base
-    // dupliquer les éléments gfx
-    // soustraire de ce qu'il reste à payer visuellement
+  date = 'YYYY-MM-JJ'
+  $('#bill-paiement input.date').val(date)
+    .addClass('blured')
+    .focus(function(){
+      if ( $(this).val() == date )
+        $(this).val('').removeClass('blured');
+    })
+    .blur(function(){
+      if ( $(this).val() == '' )
+        $(this).addClass('blured').val(date);
+      else if ( $(this).val() == date )
+        $(this).addClass('blured');
+      else
+        $(this).removeClass('blured');
+    });
+  $('#bill-paiement ul input[type=submit]').click(function(){
+    $.ajax({
+      type: 'GET',
+      url:  'evt/bill/pay.cmd.php',
+      data: {
+        transac: $('#bill-op input[name=transac]').val(),
+        amount: $(this).parent().parent().parent().find('input.money').val(),
+        mode:   $(this).parent().parent().parent().find('select.mode').val(),
+        date:   $(this).parent().parent().parent().find('input.date').val()
+      },
+      success: function(data){
+        if ( data == '0' )
+          newbill_paiement_print();
+        else if ( data == '2' )
+          warning("Vérifiez les informations saisies.");
+        else
+          warning("Impossible d'ajouter le règlement...");
+      },
+      error: function() {
+        warning("Impossible d'ajouter le règlement... Contactez votre administrateur");
+      }
+    });
+  });
+  $('#bill-paiement ul input[type=text]').keypress(function(e){
+    if ( e.which == 13 )
+    {
+      $(this).parent().parent().parent().find('input[type=submit]').click();
+      return false;
+    }
+  });
+
+  // verify the data
+  $('#bill-verify input').click(function(){
+    $.ajax({
+      type: 'GET',
+      url:  'evt/bill/verify.cmd.php',
+      dataType: 'json',
+      data: { transac: $('#bill-op input[name=transac]').val() },
+      success: function(data){
+        w = '';
+        
+        // client
+        if ( data.client.fctorgid )
+          client = 'prof_'+data.client.fctorgid;
+        else
+          client = 'pers_'+data.client.id;
+        if ( !$('#bill-client input[name=client]').val() == client )
+          w += 'Client mal renseigné.<br/>';
+        
+        // tickets
+        prix = 0;
+        nb = 0;
+        for ( i = 0 ; i < data.tickets.length ; i++ )
+        {
+          tic = data.tickets[i];
+          nb += parseInt(data.tickets[i].nb);
+          if ( $("#bill-tickets input[name='manif["+tic.manifid+"][]'][value="+tic.tarif+"]").length != parseInt(tic.nb) )
+            w += 'Ticket '+tic.tarif+' mal renseigné pour la manifestation '+tic.manifid+'.<br/>';
+          else
+            prix += parseInt(tic.nb) * parseFloat( tic.prixspe ? tic.prixspe : tic.prix );
+        }
+        if ( prix != parseFloat($('#bill-tickets .spectacles .total .total').html()) )
+          w += 'Le total financier ne correspond pas !<br/>';
+        if ( $('#bill-tickets input[type=hidden].ticket').length != nb )
+          w += 'Vous avez un nombre de billets différent en base de données ('+$('#bill-tickets input[type=hidden].ticket').length+' vs '+nb+').<br/>';
+        
+        // les paiements
+        paid = { db: 0, screen: 0 };
+        nb = 0;
+        for ( i = 0 ; i < data.paiements.length ; i++ )
+        {
+          pay = data.paiements[i];
+          nb++;
+          paid.db += parseFloat(pay.montant);
+        }
+        $('#bill-paiement input.money').each(function(){
+          if ( $(this).val() )
+          paid.screen += parseFloat($(this).val());
+        });
+        if ( paid.db != paid.screen )
+          w += 'Le montant payé en base ne correspond pas avec celui affiché ('+paid.db+' vs '+paid.screen+').<br/>';
+        if ( prix - paid.db != parseFloat($('#bill-paiement .total span').html()) )
+          w += 'Le montant "à payer" ne correspond pas avec celui affiché ('+(prix-paid.db)+' vs '+parseFloat($('#bill-paiement .total span').html())+').<br/>';
+        if ( $('#bill-paiement li.untouchable').length != nb )
+          w += 'Vous avez un nombre de règlements différent en base de données ('+nb+' vs '+$('#bill-paiement li.untouchable').length+').<br/>';
+        if ( prix - paid.db > 0 )
+          w += "Votre client ne s'est pas acquité entièrement de sa dette";
+        
+        // the print the warnings
+        if ( w == '' )
+          $('form').unbind().submit();
+        else
+          warning(w);
+      },
+      error: function(e,t) {
+        warning("Impossible de vérifier l'opération... Erreur: "+t);
+      }
+    });
+    return false;
   });
 });
 

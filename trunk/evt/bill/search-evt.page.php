@@ -71,9 +71,9 @@
     <a href="evt/infos/fiche.php?id=<?php echo htmlspecialchars($rec['evtid']) ?>"><?php echo htmlspecialchars($rec['nom']) ?></a>
     <ul>
   <?php endif; ?>
-      <li style="background-color: #<?php echo $rec['color'] ?>" class="evt">
+      <li class="evt">
         <input type="radio" name="manifs[]" value="<?php echo intval($rec['id']) ?>" />
-        <span>
+        <span style="background-color: #<?php echo $rec['color'] ?>">
           le <a href="evt/infos/manif.php?id=<?php echo $rec['id'] ?>"><?php echo htmlspecialchars(date('d/m/Y à H:i',strtotime($rec['date']))) ?></a>
           à  <a href="evt/infos/salle.php?id=<?php echo $rec['siteid'] ?>"><?php echo htmlspecialchars($rec['sitenom'].' - '.$rec['ville'].', '.substr($rec['cp'],0,2)) ?></a>
         </span>

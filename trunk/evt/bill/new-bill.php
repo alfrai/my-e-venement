@@ -31,6 +31,8 @@
   
   includeLib("headers");
   
+  $_SESSION['ticket']['new-bill'] = true;
+  
   // respawning of an anciant transaction
   if ( ($transac = intval($_GET['t'])) > 0 )
   {
@@ -81,7 +83,24 @@
       newbill_tickets_refresh_money();
     });
     
-    
+    // les paiements
+    <?php
+      $query  = ' SELECT montant, modepaiementid, date::date
+                  FROM paiement
+                  WHERE transaction = '.$transac.'
+                  ORDER BY date, sysdate';
+      $request = new bdRequest($bd,$query);
+    ?>
+    <?php while ( $rec = $request->getRecordNext() ): ?>
+    pay = $('#bill-paiement li').eq(0);
+    pay.find('input.money').val(<?php echo floatval($rec['montant']) ?>);
+    pay.find('select.mode').val(<?php echo intval($rec['modepaiementid']) ?>);
+    pay.find('input.date').val('<?php echo date('Y-m-d',strtotime($rec['date'])) ?>').blur();
+    newbill_paiement_print();
+    <?php endwhile; ?>
+    <?php
+      $request->free();
+    ?>
   });
 </script>
 <?php
@@ -102,10 +121,10 @@
 <?php includeLib("tree-view"); ?>
 <?php require(dirname(__FILE__).'/actions.php'); ?>
 <div class="body">
-<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post" >
+<form action="evt/bill/new-bill-end.php" method="post" >
   <div id="bill-op">Opération #<span id="op"><?php echo $transac ?></span><input type="hidden" name="transac" value="<?php echo $transac ?>" /></div>
   <div id="bill-client">
-    <p class="search">Client: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /><input type="hidden" name="client" value="" /></p>
+    <p class="search">Client: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /> <a class="create" href="ann/fiche.php?new" target="_blank" title="Ouvre un nouvel onglet... fermez-le pour revenir.">Ajouter...</a></p>
     <div class="list"></div>
     <div class="microfiche"></div>
   </div>
@@ -144,21 +163,23 @@
     </p>
   </div>
   
+  <div id="bill-verify"><input type="submit" name="verify" value="vérifier et valider"/></div>
   <div id="bill-paiement">
     <button id="pay" name="letsgo" value="">Payer</button>
     <p class="total">À payer&nbsp;: <span></span>€</p>
     <ul>
       <li>
-        <p><span>montant&nbsp;:</span> <span><input type="text" name="reglement[montant][]" value="" /></span></p>
-        <p><span>date&nbsp;:</span> <span><input class="date" type="text" name="reglement[date][]" value="" /></span></p>
+        <p><span>montant&nbsp;:</span> <span><input class="money" type="text" name="reglement[money][]" value="" /> €</span></p>
         <?php $request = new bdRequest($bd,' SELECT * FROM modepaiement ORDER BY libelle'); ?>
-        <p><span>mode de règlement&nbsp;:</span> <span><select name="reglement[mode][]">
+        <p><span>mode de règlement&nbsp;:</span> <span><select name="reglement[mode][]" class="mode">
+          <option value="">-mode de règlement-</option>
           <?php while ( $rec = $request->getRecordNext() ): ?>
-            <option value="<?php echo $rec['id'] ?>"><?php echo htmlspecialchars($rec['libelle']) ?> - <span class="cpt"><?php echo htmlspecialchars($rec['numcompte']) ?></span></option>
+            <option value="<?php echo $rec['id'] ?>"><?php echo htmlspecialchars($rec['libelle']) ?></option>
           <?php endwhile; ?>
         </select></span></p>
         <?php $request->free(); ?>
-        <p><span><input type="submit" name="reglement[valider]" value="valider" /></span></p>
+        <p><span>date&nbsp;:</span> <span><input class="date" type="text" name="reglement[date][]" value="" /></span></p>
+        <p class="valid"><span><input type="submit" name="reglement[valider]" value="ajouter" /></span></p>
       </li>
     </ul>
   </div>

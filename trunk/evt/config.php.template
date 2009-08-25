@@ -26,7 +26,8 @@
 	$config["ticket"]["enable_group"]	= false;	// fonctionnalité de billet de groupe... à ne pas mettre en place sans être sur de soi
 	$config["ticket"]["dematerialized"]	= false;
 	$config['ticket']['facture_prefix'] = 'FB';
-	$config['ticket']['display-new']    = true;
+	$config['ticket']['new-bill']    = true;
+	$config['ticket']['old-bill']    = true;
   //$config['ticket']['let_open_after_print'] = true;
   //$config['ticket']['bdc_facture_html_output'] = true;
   $config['ticket']['seller']['logo']     = '';

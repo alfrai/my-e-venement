@@ -21,6 +21,8 @@
 #bill-client .list li { white-space: nowrap; }
 #bill-client .list ul li { list-style-type: none; }
 #bill-client .list ul { padding-left: 5px; }
+#bill-client p input[type=radio] { display: none; }
+#bill-client.selected a.create { display: none; }
 
 /* microfiche */
 .microfiche {
@@ -74,6 +76,7 @@ p.jauge {
 }
 
 /* tickets */
+#bill-tickets.paiement li.evt span.tickets { background-color: silver; }
 ul.spectacles span.tickets {
   border: 1px dashed grey;
   padding: 1px 5px;
@@ -117,8 +120,19 @@ ul.spectacles li.total span.total { border-top: 1px solid grey; }
 /* paiement */
 #bill-paiement ul, #bill-paiement p { display: none; }
 #bill-paiement.show ul, #bill-paiement.show > p { display: block; }
+#bill-paiement.show #pay { display: none; }
 #bill-paiement ul select option span.cpt { font-size: 80%; }
+#bill-paiement ul li.untouchable input[type=text], #bill-paiement ul li.untouchable select { display: none; }
 #bill-paiement ul li { display: table; }
 #bill-paiement ul li p { display: table-row; }
-#bill-paiement ul li p span { display: table-cell; }
+#bill-paiement ul li p span { display: table-cell; padding-left: 5px; }
 #bill-paiement ul select { width: 200px; }
+#bill-paiement ul input { width: 120px; }
+#bill-paiement ul input.money { text-align: right; }
+#bill-paiement input.date.blured { color: silver; }
+#bill-paiement ul p.valid span { padding-top: 3px; }
+#bill-paiement .total { font-weight: bold; }
+
+/* verifying */
+#bill-verify { display: none; }
+#bill-verify.show { display: block; }
