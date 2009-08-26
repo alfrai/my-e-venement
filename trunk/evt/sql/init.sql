@@ -9,18 +9,16 @@ SET client_min_messages = warning;
 SET escape_string_warning = off;
 
 --
--- Name: billeterie; Type: SCHEMA; Schema: -; Owner: ttt
+-- Name: billeterie; Type: SCHEMA; Schema: -; Owner: -
 --
 
 CREATE SCHEMA billeterie;
 
 
-ALTER SCHEMA billeterie OWNER TO ttt;
-
 SET search_path = billeterie, pg_catalog;
 
 --
--- Name: resume_tickets; Type: TYPE; Schema: billeterie; Owner: ttt
+-- Name: resume_tickets; Type: TYPE; Schema: billeterie; Owner: -
 --
 
 CREATE TYPE resume_tickets AS (
@@ -36,10 +34,8 @@ CREATE TYPE resume_tickets AS (
 );
 
 
-ALTER TYPE billeterie.resume_tickets OWNER TO ttt;
-
 --
--- Name: addpreresa(bigint, bigint, integer, integer, boolean, character varying, integer); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: addpreresa(bigint, bigint, integer, integer, boolean, character varying, integer); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION addpreresa(bigint, bigint, integer, integer, boolean, character varying, integer) RETURNS boolean
@@ -72,10 +68,8 @@ END;$_$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION billeterie.addpreresa(bigint, bigint, integer, integer, boolean, character varying, integer) OWNER TO ttt;
-
 --
--- Name: contingeanting(bigint, bigint, bigint, bigint); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: contingeanting(bigint, bigint, bigint, bigint); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION contingeanting(bigint, bigint, bigint, bigint) RETURNS boolean
@@ -90,10 +84,8 @@ END;$_$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION billeterie.contingeanting(bigint, bigint, bigint, bigint) OWNER TO ttt;
-
 --
--- Name: FUNCTION contingeanting(bigint, bigint, bigint, bigint); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION contingeanting(bigint, bigint, bigint, bigint); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION contingeanting(bigint, bigint, bigint, bigint) IS 'fonction permettant d''ajouter _au_besoin_ une entrée dans la table contingeant.
@@ -106,7 +98,7 @@ $4: fctorgid';
 
 
 --
--- Name: counttickets(bigint, boolean); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: counttickets(bigint, boolean); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION counttickets(bigint, boolean) RETURNS bigint
@@ -117,17 +109,15 @@ AND resa_preid = $1;$_$
     LANGUAGE sql STABLE STRICT;
 
 
-ALTER FUNCTION billeterie.counttickets(bigint, boolean) OWNER TO ttt;
-
 --
--- Name: FUNCTION counttickets(bigint, boolean); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION counttickets(bigint, boolean); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION counttickets(bigint, boolean) IS 'Utilisé lors de l''impression de billets';
 
 
 --
--- Name: decontingeanting(bigint, integer, bigint, integer, integer, integer, integer); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: decontingeanting(bigint, integer, bigint, integer, integer, integer, integer); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION decontingeanting(bigint, integer, bigint, integer, integer, integer, integer) RETURNS boolean
@@ -190,10 +180,8 @@ END;$_$
     LANGUAGE plpgsql STRICT;
 
 
-ALTER FUNCTION billeterie.decontingeanting(bigint, integer, bigint, integer, integer, integer, integer) OWNER TO ttt;
-
 --
--- Name: FUNCTION decontingeanting(bigint, integer, bigint, integer, integer, integer, integer); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION decontingeanting(bigint, integer, bigint, integer, integer, integer, integer); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION decontingeanting(bigint, integer, bigint, integer, integer, integer, integer) IS 'fonction permettant de mettre à jour les tables reservation_pre et masstickets pour les places contingeantées réellement vendues, ainsi que reservation_cur...
@@ -208,7 +196,7 @@ $7: quantity';
 
 
 --
--- Name: deftva(integer); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: deftva(integer); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION deftva(integer) RETURNS numeric
@@ -219,10 +207,8 @@ AND evtcat.id = evt.categorie$_$
     LANGUAGE sql STABLE STRICT;
 
 
-ALTER FUNCTION billeterie.deftva(integer) OWNER TO ttt;
-
 --
--- Name: firstresa(integer); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: firstresa(integer); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION firstresa(integer) RETURNS timestamp with time zone
@@ -243,10 +229,8 @@ END;$_$
     LANGUAGE plpgsql STABLE STRICT SECURITY DEFINER;
 
 
-ALTER FUNCTION billeterie.firstresa(integer) OWNER TO ttt;
-
 --
--- Name: FUNCTION firstresa(integer); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION firstresa(integer); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION firstresa(integer) IS 'donne la date de la première reservation effectuée sur une manifestation
@@ -254,7 +238,7 @@ $1: manifid';
 
 
 --
--- Name: firstresa(integer, character varying); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: firstresa(integer, character varying); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION firstresa(integer, character varying) RETURNS timestamp with time zone
@@ -278,10 +262,8 @@ END;$_$
     LANGUAGE plpgsql STABLE STRICT;
 
 
-ALTER FUNCTION billeterie.firstresa(integer, character varying) OWNER TO ttt;
-
 --
--- Name: FUNCTION firstresa(integer, character varying); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION firstresa(integer, character varying); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION firstresa(integer, character varying) IS 'donne la date de la première reservation d''un tarif donné effectuée sur une manifestation
@@ -290,7 +272,7 @@ $2: tarif.key';
 
 
 --
--- Name: get_second_if_not_null(numeric, numeric); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: get_second_if_not_null(numeric, numeric); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION get_second_if_not_null(numeric, numeric) RETURNS numeric
@@ -305,10 +287,8 @@ END;$_$
     LANGUAGE plpgsql STABLE;
 
 
-ALTER FUNCTION billeterie.get_second_if_not_null(numeric, numeric) OWNER TO ttt;
-
 --
--- Name: FUNCTION get_second_if_not_null(numeric, numeric); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION get_second_if_not_null(numeric, numeric); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION get_second_if_not_null(numeric, numeric) IS 'Retourne la seconde valeur si elle n''est pas nulle
@@ -317,7 +297,7 @@ Retourne la premiere sinon
 
 
 --
--- Name: get_tarifid(integer, character varying); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: get_tarifid(integer, character varying); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION get_tarifid(integer, character varying) RETURNS integer
@@ -328,10 +308,8 @@ WHERE manifid = $1
     LANGUAGE sql STABLE STRICT;
 
 
-ALTER FUNCTION billeterie.get_tarifid(integer, character varying) OWNER TO ttt;
-
 --
--- Name: FUNCTION get_tarifid(integer, character varying); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION get_tarifid(integer, character varying); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION get_tarifid(integer, character varying) IS 'Donne l''id d''un tarif $2 pour la manifestation $1
@@ -340,7 +318,7 @@ $2: tarif.key';
 
 
 --
--- Name: get_tarifid_contingeant(integer); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: get_tarifid_contingeant(integer); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION get_tarifid_contingeant(integer) RETURNS integer
@@ -348,17 +326,15 @@ CREATE FUNCTION get_tarifid_contingeant(integer) RETURNS integer
     LANGUAGE sql STABLE STRICT;
 
 
-ALTER FUNCTION billeterie.get_tarifid_contingeant(integer) OWNER TO ttt;
-
 --
--- Name: FUNCTION get_tarifid_contingeant(integer); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION get_tarifid_contingeant(integer); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION get_tarifid_contingeant(integer) IS 'Retourne l''id du dernier tarif de places contingeantées entré et valid pour la manif $1 (à travers la vue tarif_manif)';
 
 
 --
--- Name: getprice(integer, character varying); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: getprice(integer, character varying); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION getprice(integer, character varying) RETURNS numeric
@@ -382,10 +358,8 @@ END;$_$
     LANGUAGE plpgsql STABLE STRICT;
 
 
-ALTER FUNCTION billeterie.getprice(integer, character varying) OWNER TO ttt;
-
 --
--- Name: FUNCTION getprice(integer, character varying); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION getprice(integer, character varying); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION getprice(integer, character varying) IS 'retourne le prix d''un ticket sans réduction pour la manif $1 pour le tarif $2
@@ -394,7 +368,7 @@ $2: tarif.key';
 
 
 --
--- Name: getprice(integer, integer); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: getprice(integer, integer); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION getprice(integer, integer) RETURNS numeric
@@ -413,10 +387,8 @@ END;$_$
     LANGUAGE plpgsql STABLE STRICT;
 
 
-ALTER FUNCTION billeterie.getprice(integer, integer) OWNER TO ttt;
-
 --
--- Name: FUNCTION getprice(integer, integer); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION getprice(integer, integer); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION getprice(integer, integer) IS 'retourne le prix d''un ticket sans réduction pour la manif $1 pour le tarif $2
@@ -425,7 +397,7 @@ $2: tarif.id';
 
 
 --
--- Name: is_plnum_valid(integer, integer); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: is_plnum_valid(integer, integer); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION is_plnum_valid(integer, integer) RETURNS boolean
@@ -435,10 +407,8 @@ WHERE id = $2;$_$
     LANGUAGE sql STABLE STRICT;
 
 
-ALTER FUNCTION billeterie.is_plnum_valid(integer, integer) OWNER TO ttt;
-
 --
--- Name: FUNCTION is_plnum_valid(integer, integer); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION is_plnum_valid(integer, integer); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION is_plnum_valid(integer, integer) IS 'vérifie que la place $2 réservée est réservable pour la manifestatio
@@ -448,7 +418,7 @@ $2: plnum';
 
 
 --
--- Name: is_tarif_valid(integer, integer); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: is_tarif_valid(integer, integer); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION is_tarif_valid(integer, integer) RETURNS boolean
@@ -458,10 +428,8 @@ $_$
     LANGUAGE sql STABLE STRICT;
 
 
-ALTER FUNCTION billeterie.is_tarif_valid(integer, integer) OWNER TO ttt;
-
 --
--- Name: FUNCTION is_tarif_valid(integer, integer); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION is_tarif_valid(integer, integer); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION is_tarif_valid(integer, integer) IS 'vérifie qu''un tarif d''id $2 pour la manifestation $1 est valide
@@ -470,7 +438,7 @@ $2: tarifid';
 
 
 --
--- Name: manif_update(); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: manif_update(); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION manif_update() RETURNS "trigger"
@@ -483,10 +451,8 @@ CREATE FUNCTION manif_update() RETURNS "trigger"
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION billeterie.manif_update() OWNER TO ttt;
-
 --
--- Name: onlyonevalidticket(bigint, boolean); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: onlyonevalidticket(bigint, boolean); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION onlyonevalidticket(bigint, boolean) RETURNS boolean
@@ -502,10 +468,8 @@ END;$_$
     LANGUAGE plpgsql STABLE STRICT;
 
 
-ALTER FUNCTION billeterie.onlyonevalidticket(bigint, boolean) OWNER TO ttt;
-
 --
--- Name: ticket_num(bigint, integer, character varying); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: ticket_num(bigint, integer, character varying); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION ticket_num(bigint, integer, character varying) RETURNS bigint
@@ -520,10 +484,8 @@ WHERE tarif.id = tarifid
     LANGUAGE sql STABLE STRICT;
 
 
-ALTER FUNCTION billeterie.ticket_num(bigint, integer, character varying) OWNER TO ttt;
-
 --
--- Name: FUNCTION ticket_num(bigint, integer, character varying); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION ticket_num(bigint, integer, character varying); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION ticket_num(bigint, integer, character varying) IS 'retourne le numéro de billet à venir en fonction de :
@@ -533,7 +495,7 @@ $3: la clé du tarif choisi';
 
 
 --
--- Name: toomanyannul(integer, boolean); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: toomanyannul(integer, boolean); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION toomanyannul(integer, boolean) RETURNS boolean
@@ -556,14 +518,12 @@ END;$_$
     LANGUAGE plpgsql;
 
 
-ALTER FUNCTION billeterie.toomanyannul(integer, boolean) OWNER TO ttt;
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: manifestation; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: manifestation; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE manifestation (
@@ -582,80 +542,78 @@ CREATE TABLE manifestation (
 );
 
 
-ALTER TABLE billeterie.manifestation OWNER TO ttt;
-
 --
--- Name: TABLE manifestation; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE manifestation; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE manifestation IS 'Manifestation d''un évènement (représentation d''un spéctacle par exemple)';
 
 
 --
--- Name: COLUMN manifestation.evtid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation.evtid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation.evtid IS 'evenement.id';
 
 
 --
--- Name: COLUMN manifestation.siteid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation.siteid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation.siteid IS 'site.id';
 
 
 --
--- Name: COLUMN manifestation.date; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation.date; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation.date IS 'date et heure de la manifestation';
 
 
 --
--- Name: COLUMN manifestation.duree; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation.duree; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation.duree IS 'duree reelle (contrairement a la duree de l''evenement qui est theorique)';
 
 
 --
--- Name: COLUMN manifestation.jauge; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation.jauge; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation.jauge IS 'Jauge maximale pour cette manifestation';
 
 
 --
--- Name: COLUMN manifestation.txtva; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation.txtva; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation.txtva IS 'taux de tva à appliquer à la manif';
 
 
 --
--- Name: COLUMN manifestation.colorid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation.colorid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation.colorid IS 'color.id';
 
 
 --
--- Name: COLUMN manifestation.updated; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation.updated; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation.updated IS 'date de dernier accès en écriture';
 
 
 --
--- Name: COLUMN manifestation.created; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation.created; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation.created IS 'date de création';
 
 
 --
--- Name: manifestation_tarifs; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: manifestation_tarifs; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE manifestation_tarifs (
@@ -666,38 +624,36 @@ CREATE TABLE manifestation_tarifs (
 );
 
 
-ALTER TABLE billeterie.manifestation_tarifs OWNER TO ttt;
-
 --
--- Name: TABLE manifestation_tarifs; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE manifestation_tarifs; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE manifestation_tarifs IS 'Donne des tarifs particuliers pour une manifestation';
 
 
 --
--- Name: COLUMN manifestation_tarifs.manifestationid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation_tarifs.manifestationid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation_tarifs.manifestationid IS 'manifestation.id';
 
 
 --
--- Name: COLUMN manifestation_tarifs.tarifid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation_tarifs.tarifid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation_tarifs.tarifid IS 'tarif.id';
 
 
 --
--- Name: COLUMN manifestation_tarifs.prix; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manifestation_tarifs.prix; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manifestation_tarifs.prix IS 'prix spécifique à une séance pour un tarif donné';
 
 
 --
--- Name: reservation; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: reservation; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE reservation (
@@ -707,31 +663,29 @@ CREATE TABLE reservation (
 );
 
 
-ALTER TABLE billeterie.reservation OWNER TO ttt;
-
 --
--- Name: TABLE reservation; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE reservation; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE reservation IS 'Table servant de patron pour l''ensemble des tables liées aux réservations';
 
 
 --
--- Name: COLUMN reservation.accountid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN reservation.accountid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN reservation.accountid IS 'public.account.id';
 
 
 --
--- Name: COLUMN reservation.date; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN reservation.date; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN reservation.date IS 'date où l''opération a eu lieu';
 
 
 --
--- Name: reservation_cur; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: reservation_cur; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE reservation_cur (
@@ -744,31 +698,29 @@ CREATE TABLE reservation_cur (
 );
 
 
-ALTER TABLE billeterie.reservation_cur OWNER TO ttt;
-
 --
--- Name: TABLE reservation_cur; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE reservation_cur; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE reservation_cur IS 'Réservation à proprement parlé (bon de commande signé et billet édité)';
 
 
 --
--- Name: COLUMN reservation_cur.accountid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN reservation_cur.accountid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN reservation_cur.accountid IS 'account.id';
 
 
 --
--- Name: COLUMN reservation_cur.canceled; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN reservation_cur.canceled; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN reservation_cur.canceled IS 'true si le ticket a été annulé';
 
 
 --
--- Name: reservation_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: reservation_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE reservation_id_seq
@@ -778,17 +730,15 @@ CREATE SEQUENCE reservation_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.reservation_id_seq OWNER TO ttt;
-
 --
--- Name: reservation_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: reservation_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE reservation_id_seq OWNED BY reservation.id;
 
 
 --
--- Name: reservation_pre; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: reservation_pre; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE reservation_pre (
@@ -806,52 +756,50 @@ CREATE TABLE reservation_pre (
 INHERITS (reservation);
 
 
-ALTER TABLE billeterie.reservation_pre OWNER TO ttt;
-
 --
--- Name: TABLE reservation_pre; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE reservation_pre; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE reservation_pre IS 'Pré-réservations (bon de commande édité)';
 
 
 --
--- Name: COLUMN reservation_pre.tarifid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN reservation_pre.tarifid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN reservation_pre.tarifid IS 'tarif.id';
 
 
 --
--- Name: COLUMN reservation_pre.reduc; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN reservation_pre.reduc; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN reservation_pre.reduc IS 'réduction accordée, en %age (ex: 70 => 70% de réduction)';
 
 
 --
--- Name: COLUMN reservation_pre."transaction"; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN reservation_pre."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN reservation_pre."transaction" IS 'numero de transaction... permet de repérer une transaction en cours';
 
 
 --
--- Name: COLUMN reservation_pre.annul; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN reservation_pre.annul; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN reservation_pre.annul IS 'si ''true'' alors c''est un billet d''annulation comptant en négatif';
 
 
 --
--- Name: COLUMN reservation_pre.dematerialized_passed; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN reservation_pre.dematerialized_passed; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN reservation_pre.dematerialized_passed IS 'Indique si l''entrée a déjà été comptabilisée pour ce billet dématérialisé';
 
 
 --
--- Name: tarif; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: tarif; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE tarif (
@@ -866,69 +814,65 @@ CREATE TABLE tarif (
 );
 
 
-ALTER TABLE billeterie.tarif OWNER TO ttt;
-
 --
--- Name: TABLE tarif; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE tarif; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE tarif IS 'Définit les tarifs par défaut...';
 
 
 --
--- Name: COLUMN tarif.description; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN tarif.description; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN tarif.description IS 'description du tarif';
 
 
 --
--- Name: COLUMN tarif."key"; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN tarif."key"; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN tarif."key" IS 'diminutif du tarif (tp = plein tarif, sc = scolaire, g = groupes, ...)';
 
 
 --
--- Name: COLUMN tarif.prix; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN tarif.prix; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN tarif.prix IS 'tarif exact dans la monaie courante, avec deux décimaux de précision';
 
 
 --
--- Name: COLUMN tarif.date; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN tarif.date; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN tarif.date IS 'Date de création du tarif';
 
 
 --
--- Name: COLUMN tarif.desact; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN tarif.desact; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN tarif.desact IS 'Le tarif est désactivé : desact = true';
 
 
 --
--- Name: COLUMN tarif.contingeant; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN tarif.contingeant; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN tarif.contingeant IS 'si le tarif correspond à une place contingeantée, = true';
 
 
 --
--- Name: tarif_manif; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: tarif_manif; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW tarif_manif AS
     SELECT tarif.id, tarif.description, tarif."key", tarif.prix, tarif.desact, tarif.contingeant, tarif.date, manif.manifestationid AS manifid, manif.prix AS prixspec FROM tarif, manifestation_tarifs manif WHERE ((tarif.id = manif.tarifid) AND (tarif.date IN (SELECT max(tmp.date) AS max FROM tarif tmp WHERE (((tmp."key")::text = (tarif."key")::text) AND (tmp.date <= firstresa(manif.manifestationid, tarif."key"))) GROUP BY tmp."key"))) UNION SELECT tarif.id, tarif.description, tarif."key", tarif.prix, tarif.desact, tarif.contingeant, tarif.date, manifestation.id AS manifid, NULL::"unknown" AS prixspec FROM tarif, manifestation WHERE ((NOT ((tarif.id, manifestation.id) IN (SELECT manifestation_tarifs.tarifid, manifestation_tarifs.manifestationid FROM manifestation_tarifs WHERE ((manifestation_tarifs.manifestationid = manifestation.id) AND (manifestation_tarifs.tarifid = tarif.id))))) AND (tarif.date IN (SELECT max(tmp.date) AS max FROM tarif tmp WHERE (((tmp."key")::text = (tarif."key")::text) AND (tmp.date <= firstresa(manifestation.id, tarif."key"))) GROUP BY tmp."key"))) ORDER BY 5, 3;
 
 
-ALTER TABLE billeterie.tarif_manif OWNER TO ttt;
-
 --
--- Name: VIEW tarif_manif; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW tarif_manif; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON VIEW tarif_manif IS 'Affiche les tarifs par défaut ainsi que les tarifs particulier pour chaque séance... notez qu''il faut prendre le tarif particulier en compte à la place du tarif par défaut s''il existe.
@@ -936,34 +880,30 @@ COMMENT ON VIEW tarif_manif IS 'Affiche les tarifs par défaut ainsi que les tar
 
 
 --
--- Name: tickets2print; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: tickets2print; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW tickets2print AS
     (SELECT resa.id, resa."transaction", resa.manifid, resa.id AS resaid, tarif."key" AS tarif, resa.reduc, true AS printed, ticket.canceled, resa.annul FROM reservation_pre resa, tarif, reservation_cur ticket WHERE (((resa.id = ticket.resa_preid) AND (tarif.id = resa.tarifid)) AND (NOT ((resa.id, ticket.canceled) IN (SELECT reservation_cur.resa_preid, reservation_cur.canceled FROM reservation_cur WHERE (reservation_cur.canceled = true))))) UNION SELECT resa.id, resa."transaction", resa.manifid, resa.id AS resaid, tarif."key" AS tarif, resa.reduc, true AS printed, ticket.canceled, resa.annul FROM reservation_pre resa, tarif, reservation_cur ticket WHERE (((resa.id = ticket.resa_preid) AND (tarif.id = resa.tarifid)) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false)))))) UNION SELECT resa.id, resa."transaction", resa.manifid, resa.id AS resaid, tarif."key" AS tarif, resa.reduc, false AS printed, false AS canceled, resa.annul FROM reservation_pre resa, tarif WHERE ((NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.resa_preid = resa.id)))) AND (tarif.id = resa.tarifid)) ORDER BY 2, 3, 5, 6, 7, 8;
 
 
-ALTER TABLE billeterie.tickets2print OWNER TO ttt;
-
 --
--- Name: VIEW tickets2print; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW tickets2print; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON VIEW tickets2print IS 'Les tickets et leurs états';
 
 
 --
--- Name: resumetickets2print; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: resumetickets2print; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW resumetickets2print AS
     SELECT tickets2print."transaction", tickets2print.manifid, count(*) AS nb, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tarif.prix, tarif.prixspec FROM tickets2print, tarif_manif tarif WHERE (((tickets2print.annul = false) AND ((tarif."key")::text = (tickets2print.tarif)::text)) AND (tarif.manifid = tickets2print.manifid)) GROUP BY tickets2print."transaction", tickets2print.manifid, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tickets2print.annul, tarif.prix, tarif.prixspec UNION SELECT tickets2print."transaction", tickets2print.manifid, (- count(*)) AS nb, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tarif.prix, tarif.prixspec FROM tickets2print, tarif_manif tarif WHERE (((tickets2print.annul = true) AND ((tarif."key")::text = (tickets2print.tarif)::text)) AND (tarif.manifid = tickets2print.manifid)) GROUP BY tickets2print."transaction", tickets2print.manifid, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tickets2print.annul, tarif.prix, tarif.prixspec;
 
 
-ALTER TABLE billeterie.resumetickets2print OWNER TO ttt;
-
 --
--- Name: VIEW resumetickets2print; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW resumetickets2print; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON VIEW resumetickets2print IS 'regrouppement de tickets à montrer (en fonction des tickets et de leur état)
@@ -971,7 +911,7 @@ COMMENT ON VIEW resumetickets2print IS 'regrouppement de tickets à montrer (en 
 
 
 --
--- Name: tickets2print_bymanif(integer); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: tickets2print_bymanif(integer); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION tickets2print_bymanif(integer) RETURNS SETOF resumetickets2print
@@ -991,17 +931,15 @@ END;$_$
     LANGUAGE plpgsql STRICT;
 
 
-ALTER FUNCTION billeterie.tickets2print_bymanif(integer) OWNER TO ttt;
-
 --
--- Name: FUNCTION tickets2print_bymanif(integer); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION tickets2print_bymanif(integer); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION tickets2print_bymanif(integer) IS 'Retourne les billets imprimés ou imprimés mais échoués pour la manifestation spécifiée en argument';
 
 
 --
--- Name: tickets2print_bytransac(bigint); Type: FUNCTION; Schema: billeterie; Owner: ttt
+-- Name: tickets2print_bytransac(bigint); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
 CREATE FUNCTION tickets2print_bytransac(bigint) RETURNS SETOF resumetickets2print
@@ -1021,17 +959,15 @@ CREATE FUNCTION tickets2print_bytransac(bigint) RETURNS SETOF resumetickets2prin
     LANGUAGE plpgsql STRICT;
 
 
-ALTER FUNCTION billeterie.tickets2print_bytransac(bigint) OWNER TO ttt;
-
 --
--- Name: FUNCTION tickets2print_bytransac(bigint); Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: FUNCTION tickets2print_bytransac(bigint); Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON FUNCTION tickets2print_bytransac(bigint) IS 'Retourne les billets imprimés ou imprimés mais échoués en fonction de leur numéro de transaction spécifié en argument';
 
 
 --
--- Name: preselled; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: preselled; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE preselled (
@@ -1042,31 +978,29 @@ CREATE TABLE preselled (
 );
 
 
-ALTER TABLE billeterie.preselled OWNER TO ttt;
-
 --
--- Name: TABLE preselled; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE preselled; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE preselled IS 'table "virtuelle" regroupant les places commandées (bdc) et les places contingeantées (soit en dépot soit bloquées) (contingeant).';
 
 
 --
--- Name: COLUMN preselled."transaction"; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN preselled."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN preselled."transaction" IS 'transaction.id';
 
 
 --
--- Name: COLUMN preselled.accountid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN preselled.accountid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN preselled.accountid IS 'account.id';
 
 
 --
--- Name: preselled_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: preselled_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE preselled_id_seq
@@ -1076,17 +1010,15 @@ CREATE SEQUENCE preselled_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.preselled_id_seq OWNER TO ttt;
-
 --
--- Name: preselled_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: preselled_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE preselled_id_seq OWNED BY preselled.id;
 
 
 --
--- Name: bdc; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: bdc; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE bdc (
@@ -1094,31 +1026,29 @@ CREATE TABLE bdc (
 INHERITS (preselled);
 
 
-ALTER TABLE billeterie.bdc OWNER TO ttt;
-
 --
--- Name: TABLE bdc; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE bdc; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE bdc IS 'Enregistrement du bon de commande... signifie que les places sont pré-réservées';
 
 
 --
--- Name: COLUMN bdc."transaction"; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN bdc."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN bdc."transaction" IS 'ce sur quoi porte le BdC';
 
 
 --
--- Name: COLUMN bdc.accountid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN bdc.accountid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN bdc.accountid IS 'account.id';
 
 
 --
--- Name: color; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: color; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE color (
@@ -1128,24 +1058,22 @@ CREATE TABLE color (
 );
 
 
-ALTER TABLE billeterie.color OWNER TO ttt;
-
 --
--- Name: TABLE color; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE color; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE color IS 'Permet de donner des couleurs aux manifestations. attention à choisir des couleurs assez claires, proches du blanc.';
 
 
 --
--- Name: COLUMN color.color; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN color.color; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN color.color IS 'Valeur RGB de type HTML de la couleur correspondant au nom';
 
 
 --
--- Name: color_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: color_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE color_id_seq
@@ -1155,34 +1083,30 @@ CREATE SEQUENCE color_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.color_id_seq OWNER TO ttt;
-
 --
--- Name: color_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: color_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE color_id_seq OWNED BY color.id;
 
 
 --
--- Name: colors; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: colors; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW colors AS
     SELECT color.id, color.libelle, color.color FROM color UNION SELECT NULL::"unknown" AS id, NULL::"unknown" AS libelle, NULL::"unknown" AS color;
 
 
-ALTER TABLE billeterie.colors OWNER TO ttt;
-
 --
--- Name: VIEW colors; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW colors; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON VIEW colors IS 'permet d''avoir des manifestations sans couleur facilement dans la vue info_resa';
 
 
 --
--- Name: contingeant; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: contingeant; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE contingeant (
@@ -1193,24 +1117,22 @@ CREATE TABLE contingeant (
 INHERITS (preselled);
 
 
-ALTER TABLE billeterie.contingeant OWNER TO ttt;
-
 --
--- Name: COLUMN contingeant.personneid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN contingeant.personneid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN contingeant.personneid IS 'personne.id';
 
 
 --
--- Name: COLUMN contingeant.fctorgid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN contingeant.fctorgid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN contingeant.fctorgid IS 'org_personne.id';
 
 
 --
--- Name: evenement; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: evenement; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE evenement (
@@ -1241,136 +1163,134 @@ CREATE TABLE evenement (
 );
 
 
-ALTER TABLE billeterie.evenement OWNER TO ttt;
-
 --
--- Name: TABLE evenement; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE evenement; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE evenement IS 'Titre raccourci pour l''impression des tickets';
 
 
 --
--- Name: COLUMN evenement.organisme1; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.organisme1; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.organisme1 IS '1er organisme createur de l''evenement';
 
 
 --
--- Name: COLUMN evenement.organisme2; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.organisme2; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.organisme2 IS '2nd organisme createur de l''evenement';
 
 
 --
--- Name: COLUMN evenement.organisme3; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.organisme3; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.organisme3 IS '3ème organisme createur de l''evenement';
 
 
 --
--- Name: COLUMN evenement.nom; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.nom; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.nom IS 'nom de l''evenement';
 
 
 --
--- Name: COLUMN evenement.description; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.description; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.description IS 'description de l''evenement';
 
 
 --
--- Name: COLUMN evenement.categorie; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.categorie; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.categorie IS 'evt_categorie.id';
 
 
 --
--- Name: COLUMN evenement.typedesc; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.typedesc; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.typedesc IS 'Description du genre d''evenement';
 
 
 --
--- Name: COLUMN evenement.mscene; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.mscene; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.mscene IS 'nom du metteur en scene';
 
 
 --
--- Name: COLUMN evenement.mscene_lbl; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.mscene_lbl; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.mscene_lbl IS '"label" de la mise en scene';
 
 
 --
--- Name: COLUMN evenement.textede; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.textede; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.textede IS 'nom de l''auteur';
 
 
 --
--- Name: COLUMN evenement.textede_lbl; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.textede_lbl; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.textede_lbl IS '"label" de l''auteur';
 
 
 --
--- Name: COLUMN evenement.duree; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.duree; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.duree IS 'duree theorique d''une manifestation';
 
 
 --
--- Name: COLUMN evenement.ages; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.ages; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.ages IS 'ages minimum et maximum dans un tableau (dans cet ordre)';
 
 
 --
--- Name: COLUMN evenement.code; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.code; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.code IS 'code de l''évènement';
 
 
 --
--- Name: COLUMN evenement.creation; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.creation; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.creation IS 'date de creation';
 
 
 --
--- Name: COLUMN evenement.modification; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.modification; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.modification IS 'date de dernière modification';
 
 
 --
--- Name: COLUMN evenement.metaevt; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evenement.metaevt; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evenement.metaevt IS 'données trouvées à partir de la table public.str_model à un moment donné';
 
 
 --
--- Name: evt_categorie; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: evt_categorie; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE evt_categorie (
@@ -1380,41 +1300,37 @@ CREATE TABLE evt_categorie (
 );
 
 
-ALTER TABLE billeterie.evt_categorie OWNER TO ttt;
-
 --
--- Name: TABLE evt_categorie; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE evt_categorie; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE evt_categorie IS 'categories d''evenement';
 
 
 --
--- Name: COLUMN evt_categorie.txtva; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN evt_categorie.txtva; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN evt_categorie.txtva IS 'taux de tva à appliquer par défaut';
 
 
 --
--- Name: evenement_categorie; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: evenement_categorie; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW evenement_categorie AS
     SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation, evt.modification, cat.libelle AS catdesc, cat.txtva, evt.metaevt, evt.tarifweb, evt.tarifwebgroup, evt.extradesc, evt.extraspec, evt.imageurl FROM evenement evt, evt_categorie cat WHERE ((evt.categorie = cat.id) AND (evt.categorie IS NOT NULL)) UNION SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation, evt.modification, NULL::"unknown" AS catdesc, NULL::"unknown" AS txtva, evt.metaevt, evt.tarifweb, evt.tarifwebgroup, evt.extradesc, evt.extraspec, evt.imageurl FROM evenement evt WHERE (evt.categorie IS NULL) ORDER BY 19, 5;
 
 
-ALTER TABLE billeterie.evenement_categorie OWNER TO ttt;
-
 --
--- Name: VIEW evenement_categorie; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW evenement_categorie; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON VIEW evenement_categorie IS 'Liste des organismes avec leur catégorie (qui est à NULL s''ils n''en ont pas)';
 
 
 --
--- Name: evenement_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: evenement_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE evenement_id_seq
@@ -1424,17 +1340,15 @@ CREATE SEQUENCE evenement_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.evenement_id_seq OWNER TO ttt;
-
 --
--- Name: evenement_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: evenement_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE evenement_id_seq OWNED BY evenement.id;
 
 
 --
--- Name: evt_categorie_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: evt_categorie_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE evt_categorie_id_seq
@@ -1444,17 +1358,15 @@ CREATE SEQUENCE evt_categorie_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.evt_categorie_id_seq OWNER TO ttt;
-
 --
--- Name: evt_categorie_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: evt_categorie_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE evt_categorie_id_seq OWNED BY evt_categorie.id;
 
 
 --
--- Name: facture; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: facture; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE facture (
@@ -1464,38 +1376,36 @@ CREATE TABLE facture (
 );
 
 
-ALTER TABLE billeterie.facture OWNER TO ttt;
-
 --
--- Name: TABLE facture; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE facture; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE facture IS 'Référencement des factures, pour leur numéro';
 
 
 --
--- Name: COLUMN facture.id; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN facture.id; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN facture.id IS 'numéro de facture sans ''FB'' devant';
 
 
 --
--- Name: COLUMN facture."transaction"; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN facture."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN facture."transaction" IS 'numéro de transaction';
 
 
 --
--- Name: COLUMN facture.date; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN facture.date; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN facture.date IS 'date de sortie de la facture';
 
 
 --
--- Name: facture_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: facture_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE facture_id_seq
@@ -1505,17 +1415,15 @@ CREATE SEQUENCE facture_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.facture_id_seq OWNER TO ttt;
-
 --
--- Name: facture_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: facture_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE facture_id_seq OWNED BY facture.id;
 
 
 --
--- Name: site; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: site; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE site (
@@ -1541,132 +1449,128 @@ CREATE TABLE site (
 );
 
 
-ALTER TABLE billeterie.site OWNER TO ttt;
-
 --
--- Name: TABLE site; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE site; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE site IS 'Lieux où peuvent se dérouler des manifestations';
 
 
 --
--- Name: COLUMN site.nom; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.nom; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.nom IS 'nom du lieu (ex: MPT de Penhars)';
 
 
 --
--- Name: COLUMN site.cp; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.cp; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.cp IS 'code postal de la ville';
 
 
 --
--- Name: COLUMN site.ville; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.ville; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.ville IS 'ville où se situe le lieu';
 
 
 --
--- Name: COLUMN site.pays; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.pays; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.pays IS 'Pays où se situe le lieu';
 
 
 --
--- Name: COLUMN site.regisseur; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.regisseur; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.regisseur IS 'public.org_personne.id';
 
 
 --
--- Name: COLUMN site.organisme; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.organisme; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.organisme IS 'public.organsme.id';
 
 
 --
--- Name: COLUMN site.dimensions_salle; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.dimensions_salle; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.dimensions_salle IS 'L x P x H';
 
 
 --
--- Name: COLUMN site.dimensions_scene; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.dimensions_scene; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.dimensions_scene IS 'L x P x H';
 
 
 --
--- Name: COLUMN site.noir_possible; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.noir_possible; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.noir_possible IS 'peut-on faire le noir dans la salle ?';
 
 
 --
--- Name: COLUMN site.gradins; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.gradins; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.gradins IS 'y a-t-il des gradins dans la salle ?';
 
 
 --
--- Name: COLUMN site.amperage; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.amperage; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.amperage IS 'ampérage disponible';
 
 
 --
--- Name: COLUMN site.modification; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.modification; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.modification IS 'date de dernière modification';
 
 
 --
--- Name: COLUMN site.creation; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.creation; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.creation IS 'date de creation';
 
 
 --
--- Name: COLUMN site.active; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN site.active; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN site.active IS 'la salle est utilisable';
 
 
 --
--- Name: info_resa; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: info_resa; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW info_resa AS
     SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, manif.duree, evt.ages, evt.code, evt.creation, evt.modification, evt.catdesc, manif.id AS manifid, manif.date, manif.jauge, manif.description AS manifdesc, site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, manif.plnum, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (NOT (resa."transaction" IN (SELECT preselled."transaction" FROM preselled))))) AS commandes, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE ((resa.manifid = manif.id) AND (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AS resas, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (resa."transaction" IN (SELECT preselled."transaction" FROM preselled)))) AS preresas, evt.txtva AS deftva, manif.txtva, colors.libelle AS colorname, colors.color FROM evenement_categorie evt, manifestation manif, site, colors WHERE (((evt.id = manif.evtid) AND (site.id = manif.siteid)) AND ((colors.id = manif.colorid) OR ((colors.id IS NULL) AND (manif.colorid IS NULL)))) ORDER BY evt.catdesc, evt.nom, manif.date;
 
 
-ALTER TABLE billeterie.info_resa OWNER TO ttt;
-
 --
--- Name: VIEW info_resa; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW info_resa; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON VIEW info_resa IS 'permet d''avoir d''un coup toutes les informations de réservation nécessaires';
 
 
 --
--- Name: manif_organisation; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: manif_organisation; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE manif_organisation (
@@ -1675,31 +1579,29 @@ CREATE TABLE manif_organisation (
 );
 
 
-ALTER TABLE billeterie.manif_organisation OWNER TO ttt;
-
 --
--- Name: TABLE manif_organisation; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE manif_organisation; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE manif_organisation IS 'Organisation d''une manifestation';
 
 
 --
--- Name: COLUMN manif_organisation.orgid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manif_organisation.orgid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manif_organisation.orgid IS 'public.organisme.id';
 
 
 --
--- Name: COLUMN manif_organisation.manifid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN manif_organisation.manifid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN manif_organisation.manifid IS 'manifestation.id';
 
 
 --
--- Name: manifestation_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: manifestation_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE manifestation_id_seq
@@ -1709,17 +1611,15 @@ CREATE SEQUENCE manifestation_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.manifestation_id_seq OWNER TO ttt;
-
 --
--- Name: manifestation_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: manifestation_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE manifestation_id_seq OWNED BY manifestation.id;
 
 
 --
--- Name: manifestation_tarifs_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: manifestation_tarifs_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE manifestation_tarifs_id_seq
@@ -1729,17 +1629,15 @@ CREATE SEQUENCE manifestation_tarifs_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.manifestation_tarifs_id_seq OWNER TO ttt;
-
 --
--- Name: manifestation_tarifs_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: manifestation_tarifs_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE manifestation_tarifs_id_seq OWNED BY manifestation_tarifs.id;
 
 
 --
--- Name: masstickets; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: masstickets; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE masstickets (
@@ -1756,59 +1654,57 @@ CREATE TABLE masstickets (
 INHERITS (reservation);
 
 
-ALTER TABLE billeterie.masstickets OWNER TO ttt;
-
 --
--- Name: TABLE masstickets; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE masstickets; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE masstickets IS 'permet d''avoir un mémo des tickets imprimés en masse';
 
 
 --
--- Name: COLUMN masstickets."transaction"; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN masstickets."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN masstickets."transaction" IS 'transaction.id';
 
 
 --
--- Name: COLUMN masstickets.nb; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN masstickets.nb; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN masstickets.nb IS 'nombre de billets à éditer';
 
 
 --
--- Name: COLUMN masstickets.tarifid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN masstickets.tarifid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN masstickets.tarifid IS 'tarif.id';
 
 
 --
--- Name: COLUMN masstickets.reduc; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN masstickets.reduc; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN masstickets.reduc IS 'réduction octroyée (comme dans reservation_pre)';
 
 
 --
--- Name: COLUMN masstickets.manifid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN masstickets.manifid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN masstickets.manifid IS 'manifestation.id';
 
 
 --
--- Name: COLUMN masstickets.nb_orig; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN masstickets.nb_orig; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN masstickets.nb_orig IS 'Nombre original de billets du dépot';
 
 
 --
--- Name: modepaiement; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: modepaiement; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE modepaiement (
@@ -1818,31 +1714,29 @@ CREATE TABLE modepaiement (
 );
 
 
-ALTER TABLE billeterie.modepaiement OWNER TO ttt;
-
 --
--- Name: TABLE modepaiement; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE modepaiement; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE modepaiement IS 'Modes de paiement disponibles pour la billeterie';
 
 
 --
--- Name: COLUMN modepaiement.libelle; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN modepaiement.libelle; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN modepaiement.libelle IS 'description';
 
 
 --
--- Name: COLUMN modepaiement.numcompte; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN modepaiement.numcompte; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN modepaiement.numcompte IS 'numéro de compte comptable correspondant';
 
 
 --
--- Name: modepaiement_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: modepaiement_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE modepaiement_id_seq
@@ -1852,17 +1746,15 @@ CREATE SEQUENCE modepaiement_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.modepaiement_id_seq OWNER TO ttt;
-
 --
--- Name: modepaiement_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: modepaiement_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE modepaiement_id_seq OWNED BY modepaiement.id;
 
 
 --
--- Name: paiement; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: paiement; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE paiement (
@@ -1875,69 +1767,65 @@ CREATE TABLE paiement (
 );
 
 
-ALTER TABLE billeterie.paiement OWNER TO ttt;
-
 --
--- Name: TABLE paiement; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE paiement; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE paiement IS 'règlement d''une partie d''un "reglement"';
 
 
 --
--- Name: COLUMN paiement.modepaiementid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN paiement.modepaiementid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN paiement.modepaiementid IS 'modepaiement.id';
 
 
 --
--- Name: COLUMN paiement.montant; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN paiement.montant; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN paiement.montant IS 'montant du paiement';
 
 
 --
--- Name: COLUMN paiement."transaction"; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN paiement."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN paiement."transaction" IS 'numéro de transaction';
 
 
 --
--- Name: COLUMN paiement.date; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN paiement.date; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN paiement.date IS 'date du paiement';
 
 
 --
--- Name: COLUMN paiement.sysdate; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN paiement.sysdate; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN paiement.sysdate IS 'Date d''intervention pour le paiement courant, sans aucun lien avec la date de valeur';
 
 
 --
--- Name: paid; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: paid; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW paid AS
     SELECT paiement."transaction", sum(paiement.montant) AS prix FROM paiement GROUP BY paiement."transaction";
 
 
-ALTER TABLE billeterie.paid OWNER TO ttt;
-
 --
--- Name: VIEW paid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW paid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON VIEW paid IS 'Regroupe les transactions et les paiements liés';
 
 
 --
--- Name: paiement_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: paiement_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE paiement_id_seq
@@ -1947,17 +1835,15 @@ CREATE SEQUENCE paiement_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.paiement_id_seq OWNER TO ttt;
-
 --
--- Name: paiement_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: paiement_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE paiement_id_seq OWNED BY paiement.id;
 
 
 --
--- Name: personne_evtbackup; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: personne_evtbackup; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE personne_evtbackup (
@@ -1969,45 +1855,43 @@ CREATE TABLE personne_evtbackup (
 );
 
 
-ALTER TABLE billeterie.personne_evtbackup OWNER TO ttt;
-
 --
--- Name: TABLE personne_evtbackup; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: TABLE personne_evtbackup; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON TABLE personne_evtbackup IS 'Table reprenant les évènements des années précédentes où la personne a été enregistrée';
 
 
 --
--- Name: COLUMN personne_evtbackup.personneid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN personne_evtbackup.personneid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN personne_evtbackup.personneid IS 'public.personne.id';
 
 
 --
--- Name: COLUMN personne_evtbackup.fctorgid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN personne_evtbackup.fctorgid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN personne_evtbackup.fctorgid IS 'public.org_personne.id';
 
 
 --
--- Name: COLUMN personne_evtbackup.evenement; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN personne_evtbackup.evenement; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN personne_evtbackup.evenement IS 'nom de l''evenement (anciennement billeterie.evenement.nom';
 
 
 --
--- Name: COLUMN personne_evtbackup.date; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN personne_evtbackup.date; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN personne_evtbackup.date IS 'date de la manifestation (anciennement billeterie.manifestation.date)';
 
 
 --
--- Name: personne_evtbackup_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: personne_evtbackup_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE personne_evtbackup_id_seq
@@ -2017,17 +1901,15 @@ CREATE SEQUENCE personne_evtbackup_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.personne_evtbackup_id_seq OWNER TO ttt;
-
 --
--- Name: personne_evtbackup_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: personne_evtbackup_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE personne_evtbackup_id_seq OWNED BY personne_evtbackup.id;
 
 
 --
--- Name: reservation_cur_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: reservation_cur_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE reservation_cur_id_seq
@@ -2037,17 +1919,15 @@ CREATE SEQUENCE reservation_cur_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.reservation_cur_id_seq OWNER TO ttt;
-
 --
--- Name: reservation_cur_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: reservation_cur_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE reservation_cur_id_seq OWNED BY reservation_cur.id;
 
 
 --
--- Name: rights; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: rights; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE rights (
@@ -2056,27 +1936,23 @@ CREATE TABLE rights (
 );
 
 
-ALTER TABLE billeterie.rights OWNER TO ttt;
-
 --
--- Name: site_datas; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: site_datas; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW site_datas AS
     ((SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.organisme, public.personne_properso personne WHERE ((organisme.id = site.organisme) AND (personne.id = site.regisseur)) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::"unknown" AS orgid, NULL::"unknown" AS orgnom, NULL::"unknown" AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.personne_properso personne WHERE ((site.organisme IS NULL) AND (personne.id = site.regisseur))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, NULL::"unknown" AS persid, NULL::"unknown" AS perstitre, NULL::"unknown" AS persnom, NULL::"unknown" AS persprenom, NULL::"unknown" AS perstel FROM site, public.organisme WHERE ((organisme.id = site.organisme) AND (site.regisseur IS NULL))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::"unknown" AS orgid, NULL::"unknown" AS orgnom, NULL::"unknown" AS orgville, NULL::"unknown" AS persid, NULL::"unknown" AS perstitre, NULL::"unknown" AS persnom, NULL::"unknown" AS persprenom, NULL::"unknown" AS perstel FROM site WHERE ((site.organisme IS NULL) AND (site.regisseur IS NULL)) ORDER BY 2, 5;
 
 
-ALTER TABLE billeterie.site_datas OWNER TO ttt;
-
 --
--- Name: VIEW site_datas; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW site_datas; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON VIEW site_datas IS 'Affiche toutes les données nécessaire à l''affichage des salles (y compris des données sur le régisseur et l''organisme responsable)';
 
 
 --
--- Name: site_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: site_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE site_id_seq
@@ -2086,17 +1962,15 @@ CREATE SEQUENCE site_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.site_id_seq OWNER TO ttt;
-
 --
--- Name: site_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: site_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE site_id_seq OWNED BY site.id;
 
 
 --
--- Name: site_plnum; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: site_plnum; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE site_plnum (
@@ -2111,10 +1985,8 @@ CREATE TABLE site_plnum (
 );
 
 
-ALTER TABLE billeterie.site_plnum OWNER TO ttt;
-
 --
--- Name: site_plnum_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: site_plnum_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE site_plnum_id_seq
@@ -2125,17 +1997,15 @@ CREATE SEQUENCE site_plnum_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.site_plnum_id_seq OWNER TO ttt;
-
 --
--- Name: site_plnum_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: site_plnum_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE site_plnum_id_seq OWNED BY site_plnum.id;
 
 
 --
--- Name: tarif_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: tarif_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE tarif_id_seq
@@ -2145,27 +2015,23 @@ CREATE SEQUENCE tarif_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.tarif_id_seq OWNER TO ttt;
-
 --
--- Name: tarif_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: tarif_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE tarif_id_seq OWNED BY tarif.id;
 
 
 --
--- Name: tickets2pay; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: tickets2pay; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW tickets2pay AS
     SELECT ticket."transaction", ticket.manifid, ticket.nb, ticket.tarif AS "key", ticket.reduc, ticket.prix, ticket.prixspec FROM resumetickets2print ticket WHERE ((ticket.canceled = false) AND (ticket.printed = true));
 
 
-ALTER TABLE billeterie.tickets2pay OWNER TO ttt;
-
 --
--- Name: VIEW tickets2pay; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW tickets2pay; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON VIEW tickets2pay IS 'donne l''ensemble des tickets qui ont été imprimés et qu''il reste à payer
@@ -2174,24 +2040,22 @@ COMMENT ON VIEW tickets2pay IS 'donne l''ensemble des tickets qui ont été impr
 
 
 --
--- Name: topay; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: topay; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW topay AS
     SELECT resa."transaction", sum((((getprice(resa.manifid, resa.tarifid))::double precision * (- (1)::double precision)) * ((((resa.annul)::integer * 2) - 1))::double precision)) AS prix FROM reservation_cur, reservation_pre resa WHERE ((NOT reservation_cur.canceled) AND (reservation_cur.resa_preid = resa.id)) GROUP BY resa."transaction";
 
 
-ALTER TABLE billeterie.topay OWNER TO ttt;
-
 --
--- Name: VIEW topay; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW topay; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON VIEW topay IS 'regroupe les transactions et la somme des prix des billets liés';
 
 
 --
--- Name: transaction; Type: TABLE; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: transaction; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE TABLE "transaction" (
@@ -2205,45 +2069,43 @@ CREATE TABLE "transaction" (
 );
 
 
-ALTER TABLE billeterie."transaction" OWNER TO ttt;
-
 --
--- Name: COLUMN "transaction".id; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN "transaction".id; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN "transaction".id IS 'numéro de transaction';
 
 
 --
--- Name: COLUMN "transaction".accountid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN "transaction".accountid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN "transaction".accountid IS 'account.id';
 
 
 --
--- Name: COLUMN "transaction".personneid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN "transaction".personneid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN "transaction".personneid IS 'personne.id';
 
 
 --
--- Name: COLUMN "transaction".fctorgid; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN "transaction".fctorgid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN "transaction".fctorgid IS 'org_personne.id';
 
 
 --
--- Name: COLUMN "transaction".translinked; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: COLUMN "transaction".translinked; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON COLUMN "transaction".translinked IS 'La transaction courante est issue d''une autre transaction dont cette colonne est le numéro.';
 
 
 --
--- Name: transaction_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: ttt
+-- Name: transaction_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
 CREATE SEQUENCE transaction_id_seq
@@ -2253,146 +2115,142 @@ CREATE SEQUENCE transaction_id_seq
     CACHE 1;
 
 
-ALTER TABLE billeterie.transaction_id_seq OWNER TO ttt;
-
 --
--- Name: transaction_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: ttt
+-- Name: transaction_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
 ALTER SEQUENCE transaction_id_seq OWNED BY "transaction".id;
 
 
 --
--- Name: waitingdepots; Type: VIEW; Schema: billeterie; Owner: ttt
+-- Name: waitingdepots; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW waitingdepots AS
     SELECT DISTINCT contingeant."transaction", contingeant.closed, contingeant.date, personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, personne.orgid, personne.orgnom, personne.orgcat, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.orgemail, personne.orgurl, personne.orgdesc, personne.service, personne.fctorgid, personne.fctid, personne.fcttype, personne.fctdesc, personne.proemail, personne.protel, personne.orgcatdesc, account.name, (SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre."transaction" = "transaction".id) AND (NOT reservation_pre.annul))) AS total, (SELECT count(*) AS count FROM reservation_pre, tarif WHERE ((((reservation_pre."transaction" = "transaction".id) AND (reservation_pre.tarifid = tarif.id)) AND tarif.contingeant) AND (NOT reservation_pre.annul))) AS cont, (SELECT sum(masstickets.nb) AS nb FROM masstickets WHERE (masstickets."transaction" = "transaction".id)) AS masstick FROM public.personne_properso personne, contingeant, public.account, "transaction" WHERE ((((((personne.fctorgid = contingeant.fctorgid) OR ((personne.fctorgid IS NULL) AND (contingeant.fctorgid IS NULL))) AND (personne.id = contingeant.personneid)) AND (account.id = contingeant.accountid)) AND ("transaction".id = contingeant."transaction")) AND ((SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre."transaction" = "transaction".id) AND (NOT reservation_pre.annul))) > 0)) ORDER BY contingeant."transaction" DESC, personne.nom, personne.prenom, personne.orgnom, personne.id, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.titre, personne.orgid, personne.orgcat, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.orgemail, personne.orgurl, personne.orgdesc, personne.service, personne.fctorgid, personne.fctid, personne.fcttype, personne.fctdesc, personne.proemail, personne.protel, personne.orgcatdesc, account.name, (SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre."transaction" = "transaction".id) AND (NOT reservation_pre.annul))), (SELECT count(*) AS count FROM reservation_pre, tarif WHERE ((((reservation_pre."transaction" = "transaction".id) AND (reservation_pre.tarifid = tarif.id)) AND tarif.contingeant) AND (NOT reservation_pre.annul))), (SELECT sum(masstickets.nb) AS nb FROM masstickets WHERE (masstickets."transaction" = "transaction".id)), contingeant.closed, contingeant.date;
 
 
-ALTER TABLE billeterie.waitingdepots OWNER TO ttt;
-
 --
--- Name: VIEW waitingdepots; Type: COMMENT; Schema: billeterie; Owner: ttt
+-- Name: VIEW waitingdepots; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
 COMMENT ON VIEW waitingdepots IS 'Les dépôts de places / places contingeantées en attente de traitement';
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE color ALTER COLUMN id SET DEFAULT nextval('color_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE evenement ALTER COLUMN id SET DEFAULT nextval('evenement_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE evt_categorie ALTER COLUMN id SET DEFAULT nextval('evt_categorie_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE facture ALTER COLUMN id SET DEFAULT nextval('facture_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE manifestation ALTER COLUMN id SET DEFAULT nextval('manifestation_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE manifestation_tarifs ALTER COLUMN id SET DEFAULT nextval('manifestation_tarifs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE modepaiement ALTER COLUMN id SET DEFAULT nextval('modepaiement_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE paiement ALTER COLUMN id SET DEFAULT nextval('paiement_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE personne_evtbackup ALTER COLUMN id SET DEFAULT nextval('personne_evtbackup_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE preselled ALTER COLUMN id SET DEFAULT nextval('preselled_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE reservation ALTER COLUMN id SET DEFAULT nextval('reservation_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE reservation_cur ALTER COLUMN id SET DEFAULT nextval('reservation_cur_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE site ALTER COLUMN id SET DEFAULT nextval('site_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE site_plnum ALTER COLUMN id SET DEFAULT nextval('site_plnum_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE tarif ALTER COLUMN id SET DEFAULT nextval('tarif_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE "transaction" ALTER COLUMN id SET DEFAULT nextval('transaction_id_seq'::regclass);
 
 
 --
--- Name: bdc_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: bdc_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY bdc
@@ -2400,7 +2258,7 @@ ALTER TABLE ONLY bdc
 
 
 --
--- Name: bdc_transaction_key; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: bdc_transaction_key; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY bdc
@@ -2408,7 +2266,7 @@ ALTER TABLE ONLY bdc
 
 
 --
--- Name: color_libelle_key; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: color_libelle_key; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY color
@@ -2416,7 +2274,7 @@ ALTER TABLE ONLY color
 
 
 --
--- Name: color_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: color_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY color
@@ -2424,7 +2282,7 @@ ALTER TABLE ONLY color
 
 
 --
--- Name: evenement_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: evenement_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY evenement
@@ -2432,7 +2290,7 @@ ALTER TABLE ONLY evenement
 
 
 --
--- Name: evt_cat_libelle_key; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: evt_cat_libelle_key; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY evt_categorie
@@ -2440,7 +2298,7 @@ ALTER TABLE ONLY evt_categorie
 
 
 --
--- Name: evt_cat_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: evt_cat_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY evt_categorie
@@ -2448,7 +2306,7 @@ ALTER TABLE ONLY evt_categorie
 
 
 --
--- Name: facture_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: facture_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY facture
@@ -2456,7 +2314,7 @@ ALTER TABLE ONLY facture
 
 
 --
--- Name: facture_transaction_key; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: facture_transaction_key; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY facture
@@ -2464,7 +2322,7 @@ ALTER TABLE ONLY facture
 
 
 --
--- Name: lieu_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: lieu_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY site
@@ -2472,7 +2330,7 @@ ALTER TABLE ONLY site
 
 
 --
--- Name: manif_organisation_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: manif_organisation_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY manif_organisation
@@ -2480,7 +2338,7 @@ ALTER TABLE ONLY manif_organisation
 
 
 --
--- Name: manifestation_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: manifestation_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY manifestation
@@ -2488,7 +2346,7 @@ ALTER TABLE ONLY manifestation
 
 
 --
--- Name: manifestation_tarifs_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: manifestation_tarifs_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY manifestation_tarifs
@@ -2496,7 +2354,7 @@ ALTER TABLE ONLY manifestation_tarifs
 
 
 --
--- Name: masstickets_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: masstickets_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY masstickets
@@ -2504,7 +2362,7 @@ ALTER TABLE ONLY masstickets
 
 
 --
--- Name: masstickets_transaction_key; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: masstickets_transaction_key; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY masstickets
@@ -2512,7 +2370,7 @@ ALTER TABLE ONLY masstickets
 
 
 --
--- Name: modepaiement_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: modepaiement_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY modepaiement
@@ -2520,7 +2378,7 @@ ALTER TABLE ONLY modepaiement
 
 
 --
--- Name: paiement_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: paiement_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY paiement
@@ -2528,7 +2386,7 @@ ALTER TABLE ONLY paiement
 
 
 --
--- Name: personne_evtbackup_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: personne_evtbackup_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY personne_evtbackup
@@ -2536,7 +2394,7 @@ ALTER TABLE ONLY personne_evtbackup
 
 
 --
--- Name: preselled_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: preselled_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY preselled
@@ -2544,7 +2402,7 @@ ALTER TABLE ONLY preselled
 
 
 --
--- Name: preselled_transaction_key; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: preselled_transaction_key; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY preselled
@@ -2552,7 +2410,7 @@ ALTER TABLE ONLY preselled
 
 
 --
--- Name: reservation_cur_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: reservation_cur_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY reservation_cur
@@ -2560,7 +2418,7 @@ ALTER TABLE ONLY reservation_cur
 
 
 --
--- Name: reservation_pre_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: reservation_pre_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY reservation_pre
@@ -2568,7 +2426,7 @@ ALTER TABLE ONLY reservation_pre
 
 
 --
--- Name: reservation_pre_plnum_ukey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: reservation_pre_plnum_ukey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY reservation_pre
@@ -2576,7 +2434,7 @@ ALTER TABLE ONLY reservation_pre
 
 
 --
--- Name: site_plnum_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: site_plnum_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY site_plnum
@@ -2584,7 +2442,7 @@ ALTER TABLE ONLY site_plnum
 
 
 --
--- Name: site_plnum_siteid_ukey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: site_plnum_siteid_ukey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY site_plnum
@@ -2592,7 +2450,7 @@ ALTER TABLE ONLY site_plnum
 
 
 --
--- Name: tarif_key_key; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: tarif_key_key; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY tarif
@@ -2600,7 +2458,7 @@ ALTER TABLE ONLY tarif
 
 
 --
--- Name: tarif_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: tarif_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY tarif
@@ -2608,7 +2466,7 @@ ALTER TABLE ONLY tarif
 
 
 --
--- Name: transaction_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: transaction_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY "transaction"
@@ -2616,21 +2474,21 @@ ALTER TABLE ONLY "transaction"
 
 
 --
--- Name: reservation_cur_preid; Type: INDEX; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: reservation_cur_preid; Type: INDEX; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE INDEX reservation_cur_preid ON reservation_cur USING btree (resa_preid);
 
 
 --
--- Name: reservation_pre_transaction; Type: INDEX; Schema: billeterie; Owner: ttt; Tablespace: 
+-- Name: reservation_pre_transaction; Type: INDEX; Schema: billeterie; Owner: -; Tablespace: 
 --
 
 CREATE INDEX reservation_pre_transaction ON reservation_pre USING btree ("transaction");
 
 
 --
--- Name: manifestation_trigger; Type: TRIGGER; Schema: billeterie; Owner: ttt
+-- Name: manifestation_trigger; Type: TRIGGER; Schema: billeterie; Owner: -
 --
 
 CREATE TRIGGER manifestation_trigger
@@ -2640,7 +2498,7 @@ CREATE TRIGGER manifestation_trigger
 
 
 --
--- Name: bdc_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: bdc_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY bdc
@@ -2648,7 +2506,7 @@ ALTER TABLE ONLY bdc
 
 
 --
--- Name: contingeant_fctorgid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: contingeant_fctorgid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY contingeant
@@ -2656,7 +2514,7 @@ ALTER TABLE ONLY contingeant
 
 
 --
--- Name: contingeant_personneid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: contingeant_personneid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY contingeant
@@ -2664,7 +2522,7 @@ ALTER TABLE ONLY contingeant
 
 
 --
--- Name: contingeant_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: contingeant_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY contingeant
@@ -2672,7 +2530,7 @@ ALTER TABLE ONLY contingeant
 
 
 --
--- Name: evenement_organisme2_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: evenement_organisme2_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY evenement
@@ -2680,7 +2538,7 @@ ALTER TABLE ONLY evenement
 
 
 --
--- Name: evenement_organisme3_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: evenement_organisme3_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY evenement
@@ -2688,7 +2546,7 @@ ALTER TABLE ONLY evenement
 
 
 --
--- Name: facture_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: facture_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY facture
@@ -2696,7 +2554,7 @@ ALTER TABLE ONLY facture
 
 
 --
--- Name: manif_organisation_manifid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: manif_organisation_manifid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY manif_organisation
@@ -2704,7 +2562,7 @@ ALTER TABLE ONLY manif_organisation
 
 
 --
--- Name: manifestation_colorid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: manifestation_colorid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY manifestation
@@ -2712,7 +2570,7 @@ ALTER TABLE ONLY manifestation
 
 
 --
--- Name: manifestation_evtid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: manifestation_evtid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY manifestation
@@ -2720,7 +2578,7 @@ ALTER TABLE ONLY manifestation
 
 
 --
--- Name: manifestation_lieuid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: manifestation_lieuid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY manifestation
@@ -2728,7 +2586,7 @@ ALTER TABLE ONLY manifestation
 
 
 --
--- Name: manifestation_tarifs_manifestationid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: manifestation_tarifs_manifestationid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY manifestation_tarifs
@@ -2736,7 +2594,7 @@ ALTER TABLE ONLY manifestation_tarifs
 
 
 --
--- Name: manifestation_tarifs_tarifid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: manifestation_tarifs_tarifid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY manifestation_tarifs
@@ -2744,7 +2602,7 @@ ALTER TABLE ONLY manifestation_tarifs
 
 
 --
--- Name: masstickets_manifid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: masstickets_manifid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY masstickets
@@ -2752,7 +2610,7 @@ ALTER TABLE ONLY masstickets
 
 
 --
--- Name: masstickets_tarifid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: masstickets_tarifid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY masstickets
@@ -2760,7 +2618,7 @@ ALTER TABLE ONLY masstickets
 
 
 --
--- Name: masstickets_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: masstickets_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY masstickets
@@ -2768,7 +2626,7 @@ ALTER TABLE ONLY masstickets
 
 
 --
--- Name: paiement_modepaiementid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: paiement_modepaiementid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY paiement
@@ -2776,7 +2634,7 @@ ALTER TABLE ONLY paiement
 
 
 --
--- Name: paiement_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: paiement_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY paiement
@@ -2784,7 +2642,7 @@ ALTER TABLE ONLY paiement
 
 
 --
--- Name: personne_evtbackup_fctorgid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: personne_evtbackup_fctorgid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY personne_evtbackup
@@ -2792,7 +2650,7 @@ ALTER TABLE ONLY personne_evtbackup
 
 
 --
--- Name: personne_evtbackup_personneid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: personne_evtbackup_personneid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY personne_evtbackup
@@ -2800,7 +2658,7 @@ ALTER TABLE ONLY personne_evtbackup
 
 
 --
--- Name: preselled_accountid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: preselled_accountid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY preselled
@@ -2808,7 +2666,7 @@ ALTER TABLE ONLY preselled
 
 
 --
--- Name: preselled_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: preselled_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY preselled
@@ -2816,7 +2674,7 @@ ALTER TABLE ONLY preselled
 
 
 --
--- Name: reservation_accountid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: reservation_accountid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY reservation
@@ -2824,7 +2682,7 @@ ALTER TABLE ONLY reservation
 
 
 --
--- Name: reservation_cur_resa_preid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: reservation_cur_resa_preid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY reservation_cur
@@ -2832,7 +2690,7 @@ ALTER TABLE ONLY reservation_cur
 
 
 --
--- Name: reservation_pre_manifid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: reservation_pre_manifid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY reservation_pre
@@ -2840,7 +2698,7 @@ ALTER TABLE ONLY reservation_pre
 
 
 --
--- Name: reservation_pre_plnum_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: reservation_pre_plnum_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY reservation_pre
@@ -2848,7 +2706,7 @@ ALTER TABLE ONLY reservation_pre
 
 
 --
--- Name: reservation_pre_tarifid_fkey1; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: reservation_pre_tarifid_fkey1; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY reservation_pre
@@ -2856,7 +2714,7 @@ ALTER TABLE ONLY reservation_pre
 
 
 --
--- Name: reservation_pre_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: reservation_pre_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY reservation_pre
@@ -2864,7 +2722,7 @@ ALTER TABLE ONLY reservation_pre
 
 
 --
--- Name: site_organisme_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: site_organisme_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY site
@@ -2872,7 +2730,7 @@ ALTER TABLE ONLY site
 
 
 --
--- Name: site_plnum_siteid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: site_plnum_siteid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY site_plnum
@@ -2880,7 +2738,7 @@ ALTER TABLE ONLY site_plnum
 
 
 --
--- Name: site_regisseur_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: site_regisseur_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY site
@@ -2888,7 +2746,7 @@ ALTER TABLE ONLY site
 
 
 --
--- Name: transaction_fctorgid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: transaction_fctorgid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY "transaction"
@@ -2896,7 +2754,7 @@ ALTER TABLE ONLY "transaction"
 
 
 --
--- Name: transaction_personneid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: transaction_personneid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY "transaction"
@@ -2904,21 +2762,11 @@ ALTER TABLE ONLY "transaction"
 
 
 --
--- Name: transaction_translinked_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: ttt
+-- Name: transaction_translinked_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY "transaction"
     ADD CONSTRAINT transaction_translinked_fkey FOREIGN KEY (translinked) REFERENCES "transaction"(id) ON UPDATE CASCADE ON DELETE SET NULL;
-
-
---
--- Name: tarif; Type: ACL; Schema: billeterie; Owner: ttt
---
-
-REVOKE ALL ON TABLE tarif FROM PUBLIC;
-REVOKE ALL ON TABLE tarif FROM ttt;
-GRANT ALL ON TABLE tarif TO ttt;
-GRANT SELECT,INSERT,REFERENCES,TRIGGER,UPDATE ON TABLE tarif TO PUBLIC;
 
 
 --
