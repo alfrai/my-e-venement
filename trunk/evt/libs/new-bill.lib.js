@@ -313,6 +313,24 @@ $(document).ready(function(){
     $('#bill-tickets .list > ul').toggle();
     return false;
   });
+  $('#bill-tickets input[name=express]').click(function(){
+    if ( $(this).hasClass('unflash') )
+    {
+      $.get('evt/api/flash.cmd.php');
+      $(this).attr('value','flash');
+    }
+    else
+    {
+      manifs = '';
+      $("#bill-tickets input[name='manifs[]']").each(function(){
+        manifs = 'manifs[]='+$(this).val()+'&';
+      });
+      $.get('evt/api/flash.cmd.php?'+manifs);
+      $(this).val('unflash');
+    }
+      
+    $(this).toggleClass('unflash');
+  });
   // load after search
   $('#bill-tickets input[name=search]').keypress(function(e){ if ( e.which == 13 ) {
     excludes = '';

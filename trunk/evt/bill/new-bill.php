@@ -31,6 +31,7 @@
   
   includeLib("headers");
   
+  // new-bill's preselection
   $_SESSION['ticket']['new-bill'] = true;
   
   // respawning of an anciant transaction
@@ -115,6 +116,24 @@
     }
     
     $transac = $bd->getLastSerial('transaction','id');
+    
+    if ( is_array($manifs = $_SESSION['evt']['express']['manif']) )
+    {
+?>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#bill-tickets .list').load('evt/bill/search-evt.page.php?manifid[]=<?php echo implode('&manifid[]=',$manifs) ?> .list > ul',function(){
+    $(this).find('input[name=manifs[]]').each(function(){
+      $(this).get(0).checked = true;
+      newbill_evt_select();
+      newbill_evt_refreshjs();
+    });
+  });
+  $('#bill-tickets input[name=express]').toggleClass('unflash').val('unflash');
+});
+</script>  
+<?php
+    }
   }
 ?>
 <h1><?php echo $title ?></h1>
@@ -133,7 +152,7 @@
     <ul class="spectacles">
       <li class="total"><span>Total:</span> <span class="total">0</span></li>
     </ul>
-    <p class="search">Spectacle: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /> <a href="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>#" class="toggle">montrer / cacher</a></p>
+    <p class="search">Spectacle: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /> <a href="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>#" class="toggle">montrer / cacher</a> <input type="submit" name="express" value="flash" /></p>
     <div class="list"></div>
     <div class="microfiche"></div>
   </div>
