@@ -104,7 +104,8 @@ function newbill_evt_refreshjs()
     //$('#bill-tickets .microfiche').load('org/infos/microfiche-evt.hide.php?id='+$(this).find("input[name='manifs[]']").val());
     
     if ( $(this).find('.jauge').children().length == 0 )
-    (manif = $(this)).find('.jauge').load('evt/bill/getjauge.hide.php?manifid='+$(this).find('input[name=manifs[]]').val());
+    $(this).find('.jauge').load('evt/bill/getjauge.hide.php?manifid='+$(this).find('input[name=manifs[]]').val());
+    alert('jauge');
     $(this).find('.jauge').unbind().click(function(){
       $(this).load('evt/bill/getjauge.hide.php?manifid='+$(this).parent().find('input[name=manifs[]]').val());
     });
