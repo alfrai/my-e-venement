@@ -59,11 +59,6 @@
   $request = new bdRequest($bd,$query);
   $personne = $request->getRecord();
   $request->free();
-  if ( intval($personne['id']) <= 0 )
-  {
-    $user->addAlert('Impossible de faire un bon de commande pour une personne inconnue.');
-    $nav->redirect('.');
-  }
   
   // canceling reservation_cur old tickets for duplicatas
   $duplicata = false;

@@ -519,7 +519,7 @@ $(document).ready(function(){
           paid.screen += parseFloat($(this).val());
         });
         if ( paid.db != paid.screen )
-          w += 'Le montant payé en base ne correspond pas avec celui affiché ('+paid.db+' vs '+paid.screen+').<br/>';
+          w += 'Le montant payé en base ne correspond pas avec celui affiché ('+paid.db+' vs '+paid.screen+'). Vérifiez bien avoir ajouté tous vos règlements.<br/>';
         if ( prix - paid.db != parseFloat($('#bill-paiement .total span').html()) )
           w += 'Le montant "à payer" ne correspond pas avec celui affiché ('+(prix-paid.db)+' vs '+parseFloat($('#bill-paiement .total span').html())+').<br/>';
         if ( $('#bill-paiement li.untouchable').length != nb )

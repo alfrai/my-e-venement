@@ -184,7 +184,7 @@ $(document).ready(function() {
     </p>
   </div>
   
-  <div id="bill-verify"><input type="submit" name="verify" value="vérifier et valider"/></div>
+  <div id="bill-verify"><p><input type="submit" name="verify" value="vérifier et valider"/></p></div>
   
   <div id="bill-paiement">
     <button id="pay" name="letsgo" value="">Payer</button>
