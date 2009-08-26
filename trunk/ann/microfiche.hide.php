@@ -66,7 +66,6 @@
 	
 	if ( !$request && $action != $actions["add"] )
 	{
-		$user->addAlert("La personne recherchée n'existe pas");
 		exit(0);
 	}
 	elseif ( $request )
