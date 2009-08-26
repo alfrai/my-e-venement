@@ -30,7 +30,7 @@ function warning(msg)
 // the clients
 function newbill_client_valid()
 {
-  $.get('evt/bill/transac-personne.cmd.php?'+
+  $.get('evt/api/transac-personne.cmd.php?'+
         'transac='+$('#bill-op input[name=transac]').val()+
         '&client='+$('#bill-client input[name=client]:checked').val(),
     function(data){
@@ -196,7 +196,7 @@ function newbill_tickets_click_remove()
     manifid = manif.find('input[type=radio]').val();
     $.ajax({
       type: 'GET',
-      url:  'evt/bill/tickets.cmd.php',
+      url:  'evt/api/tickets.cmd.php',
       data: ({ transac: transac, manifid: manifid, qte: qte, tarif: tarif }),
       success: function(data){
         if ( data != '0' )
@@ -233,7 +233,7 @@ function newbill_paiement_remove()
   elt = $(this);
   $.ajax({
     type: 'GET',
-    url:  'evt/bill/pay.cmd.php',
+    url:  'evt/api/pay.cmd.php',
     data: {
       transac: $('#bill-op input[name=transac]').val(),
       amount: $(this).parent().parent().parent().find('input.money').val(),
@@ -333,7 +333,7 @@ $(document).ready(function(){
     qte = $('#bill-tarifs input[type=text]').val();
     $.ajax({
       type: 'GET',
-      url:  'evt/bill/tickets.cmd.php',
+      url:  'evt/api/tickets.cmd.php',
       data: ({ transac: transac, manifid: manifid, qte: qte, tarif: tarif }),
       success: function(data) {
         if ( data != '0' )
@@ -377,7 +377,7 @@ $(document).ready(function(){
   
   // stage 4 : pay !
   $('#bill-paiement #pay').click(function(){
-    $.get('evt/bill/all-is-printed.cmd.php',{ transac: $('#bill-op input[name=transac]').val() },function(data){
+    $.get('evt/api/all-is-printed.cmd.php',{ transac: $('#bill-op input[name=transac]').val() },function(data){
       if ( data == 0 )
       {
         $('#bill-paiement').addClass('show');
@@ -424,7 +424,7 @@ $(document).ready(function(){
   $('#bill-paiement ul input[type=submit]').click(function(){
     $.ajax({
       type: 'GET',
-      url:  'evt/bill/pay.cmd.php',
+      url:  'evt/api/pay.cmd.php',
       data: {
         transac: $('#bill-op input[name=transac]').val(),
         amount: $(this).parent().parent().parent().find('input.money').val(),
@@ -456,7 +456,7 @@ $(document).ready(function(){
   $('#bill-verify input').click(function(){
     $.ajax({
       type: 'GET',
-      url:  'evt/bill/verify.cmd.php',
+      url:  'evt/api/verify.cmd.php',
       dataType: 'json',
       data: { transac: $('#bill-op input[name=transac]').val() },
       success: function(data){
