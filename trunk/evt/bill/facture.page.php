@@ -21,7 +21,7 @@
 ***********************************************************************************/
 ?>
 <?php
-	global $bd,$user,$data,$default,$config,$sqlcount,$css,$arr;
+	global $bd,$user,$data,$default,$config,$sqlcount,$css,$compta;
 	
 	if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
 	{
@@ -77,49 +77,49 @@
 		      AND manif.siteid = site.id";
 	$request = new bdRequest($bd,$query);
 	
-	$arr = array();
+	$compta = array();
 	$i = 0;
 	if ( $rec = $request->getRecord() )
 	{
-		$arr[$i][]	= $config['ticket']['facture_prefix'].$rec["factureid"];		// numéro de facture
-		$arr[$i][]	= $rec["prenom"];			// prenom
-		$arr[$i][]	= $rec["nom"];				// nom
-		$arr[$i][]	= $rec["orgnom"];			// nom de orga
-		$arr[$i][]	= $rec["orgnom"]
+		$compta[$i][]	= $config['ticket']['facture_prefix'].$rec["factureid"];		// numéro de facture
+		$compta[$i][]	= $rec["prenom"];			// prenom
+		$compta[$i][]	= $rec["nom"];				// nom
+		$compta[$i][]	= $rec["orgnom"];			// nom de orga
+		$compta[$i][]	= $rec["orgnom"]
 				? trim($rec["orgadr"])
 				: trim($rec["adresse"]);		// adresse de l'orga
-		$arr[$i][] 	= $rec["orgnom"]
+		$compta[$i][] 	= $rec["orgnom"]
 				? $rec["orgcp"]
 				: $rec["cp"];				// cp de l'orga
-		$arr[$i][]	= $rec["orgnom"]
+		$compta[$i][]	= $rec["orgnom"]
 				? $rec["orgville"]
 				: $rec["ville"];			// ville de l'orga
-		$arr[$i][]	= $rec["orgnom"]
+		$compta[$i][]	= $rec["orgnom"]
 				? $rec["orgpays"]
 				: $rec["pays"];				// pays de l'orga
-		$arr[$i][]	= $rec["transaction"];			// numéro de BdC
+		$compta[$i][]	= $rec["transaction"];			// numéro de BdC
 		
 		while ( $rec = $request->getRecordNext() )
 		{
 			$i++;
-			$arr[$i][] = $rec["evtnom"];				// titre du spectacle
-			$arr[$i][] = date("Y/m/d",strtotime($rec["date"]));	// date
-			$arr[$i][] = date("H:i",strtotime($rec["date"]));	// heure
-			$arr[$i][] = $rec["sitenom"];				// nom du site
-			$arr[$i][] = $rec["siteville"];				// ville du site
-			$arr[$i][] = $rec["sitecp"];				// cp du site
-			$arr[$i][] = $rec["tarif"];				// tarif
-			$arr[$i][] = intval($rec["nb"]);			// nombre
-			$arr[$i][] = decimalreplace(floatval($rec["prix"]));	// PU
-			$arr[$i][] = decimalreplace(floatval($rec["prix"]) * intval($rec["nb"]));	// total
-			$arr[$i][] = decimalreplace($rec["txtva"]);		// taux de TVA en %
+			$compta[$i][] = $rec["evtnom"];				// titre du spectacle
+			$compta[$i][] = date("Y/m/d",strtotime($rec["date"]));	// date
+			$compta[$i][] = date("H:i",strtotime($rec["date"]));	// heure
+			$compta[$i][] = $rec["sitenom"];				// nom du site
+			$compta[$i][] = $rec["siteville"];				// ville du site
+			$compta[$i][] = $rec["sitecp"];				// cp du site
+			$compta[$i][] = $rec["tarif"];				// tarif
+			$compta[$i][] = intval($rec["nb"]);			// nombre
+			$compta[$i][] = decimalreplace(floatval($rec["prix"]));	// PU
+			$compta[$i][] = decimalreplace(floatval($rec["prix"]) * intval($rec["nb"]));	// total
+			$compta[$i][] = decimalreplace($rec["txtva"]);		// taux de TVA en %
 		}
 	}
 	$request->free();
 	
 	if ( !$config['ticket']['bdc_facture_html_output'] )
 	{
-	  $csv = new csvExport($arr,isset($_POST["msexcel"]));
+	  $csv = new csvExport($compta,isset($_POST["msexcel"]));
 	  $csv->printHeaders("facture-".$factureid);
 	  echo $csv->createCSV();
 	}
@@ -146,7 +146,7 @@
     echo '</div>';
     
     // les données client
-    $tmp = array_shift($arr);
+    $tmp = array_shift($compta);
     $customer = array('bdcid','prenom','nom','orgnom','adresse','cp','ville','pays','transaction');
     echo '<div id="customer">';
     foreach ( $customer as $key => $value )
@@ -167,7 +167,7 @@
       $engil[$value] = $key;
     
     echo '<table id="lines">';
-    while ( $tmp = array_shift($arr) )
+    while ( $tmp = array_shift($compta) )
     {
       $tva = floatval(str_replace(',','.',$tmp[$engil['tva']]))/100;
       

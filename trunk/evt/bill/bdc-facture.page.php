@@ -21,17 +21,16 @@
 ***********************************************************************************/
 ?>
 <?php
-    global $css, $arr, $config, $data;
+    global $css, $compta, $config, $data;
     
     // à savoir s'il s'agit d'une facture ou d'un BdC
-    $type = intval(substr($arr[0][0],0,1)) > 0 ? 'bdc' : 'facture';
+    $type = intval(substr($compta[0][0],0,1)) > 0 ? 'bdc' : 'facture';
     
     // si on sort le BdC en html
     $title = 'BdC';
     $css[] = 'evt/styles/bdc-facture.css';
     includeLib('headers');
 ?>
-
     <script type="text/javascript" language="javascript">
       function load()
       {
@@ -57,7 +56,7 @@
     echo '</div>';
     
     // les données client
-    $tmp = array_shift($arr);
+    $tmp = array_shift($compta);
     $customer = array('bdcid','prenom','nom','orgnom','adresse','cp','ville','pays','transaction');
     echo '<div id="customer">';
     foreach ( $customer as $key => $value )
@@ -79,7 +78,7 @@
       $engil[$value] = $key;
     
     echo '<table id="lines">';
-    while ( $tmp = array_shift($arr) )
+    while ( $tmp = array_shift($compta) )
     {
       $tva = floatval(str_replace(',','.',$tmp[$engil['tva']]))/100;
       

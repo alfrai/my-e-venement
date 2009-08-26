@@ -21,7 +21,7 @@
 ***********************************************************************************/
 ?>
 <?php
-  global $bd,$user,$data,$default,$config,$sqlcount,$css,$arr;
+  global $bd,$user,$data,$default,$config,$sqlcount,$css,$compta;
   
   includeClass("csvExport");
   includeClass("reservations");
@@ -98,49 +98,49 @@
 			    ORDER BY site.nom, manif.date, tarif.key";
 		$request = new bdRequest($bd,$query);
 		
-		$arr = array();
+		$compta = array();
 		$i = 0;
 		if ( $rec = $request->getRecord() )
 		{
-			$arr[$i][]	= $bdcid;				// numéro de BdC
-			$arr[$i][]	= $rec["prenom"];			// prenom
-			$arr[$i][]	= $rec["nom"];				// nom
-			$arr[$i][]	= $rec["orgnom"];			// nom de orga
-			$arr[$i][]	= $rec["orgnom"]
+			$compta[$i][]	= $bdcid;				// numéro de BdC
+			$compta[$i][]	= $rec["prenom"];			// prenom
+			$compta[$i][]	= $rec["nom"];				// nom
+			$compta[$i][]	= $rec["orgnom"];			// nom de orga
+			$compta[$i][]	= $rec["orgnom"]
 					? trim($rec["orgadr"])
 					: trim($rec["adresse"]);		// adresse de l'orga
-			$arr[$i][] 	= $rec["orgnom"]
+			$compta[$i][] 	= $rec["orgnom"]
 					? $rec["orgcp"]
 					: $rec["cp"];				// cp de l'orga
-			$arr[$i][]	= $rec["orgnom"]
+			$compta[$i][]	= $rec["orgnom"]
 					? $rec["orgville"]
 					: $rec["ville"];			// ville de l'orga
-			$arr[$i][]	= $rec["orgnom"]
+			$compta[$i][]	= $rec["orgnom"]
 					? $rec["orgpays"]
 					: $rec["pays"];				// pays de l'orga
-			$arr[$i][]	= $rec["transaction"];			// numéro de transaction
+			$compta[$i][]	= $rec["transaction"];			// numéro de transaction
 				
 			while ( $rec = $request->getRecordNext() )
 			{
 				$i++;
-				$arr[$i][] = $rec["evtnom"];				// titre du spectacle
-				$arr[$i][] = date("Y/m/d",strtotime($rec["date"]));	// date
-				$arr[$i][] = date("H:i",strtotime($rec["date"]));	// heure
-				$arr[$i][] = $rec["sitenom"];				// nom du site
-				$arr[$i][] = $rec["siteville"];				// ville du site
-				$arr[$i][] = $rec["sitecp"];				// cp du site
-				$arr[$i][] = $rec["tarif"];				// tarif
-				$arr[$i][] = intval($rec["nb"]);			// nombre
-				$arr[$i][] = decimalreplace($rec["prix"]);		// PU
-				$arr[$i][] = floatval($rec["prix"])*intval($rec["nb"]);	// total
-				$arr[$i][] = decimalreplace($rec["txtva"]);	// taux de TVA en %
+				$compta[$i][] = $rec["evtnom"];				// titre du spectacle
+				$compta[$i][] = date("Y/m/d",strtotime($rec["date"]));	// date
+				$compta[$i][] = date("H:i",strtotime($rec["date"]));	// heure
+				$compta[$i][] = $rec["sitenom"];				// nom du site
+				$compta[$i][] = $rec["siteville"];				// ville du site
+				$compta[$i][] = $rec["sitecp"];				// cp du site
+				$compta[$i][] = $rec["tarif"];				// tarif
+				$compta[$i][] = intval($rec["nb"]);			// nombre
+				$compta[$i][] = decimalreplace($rec["prix"]);		// PU
+				$compta[$i][] = floatval($rec["prix"])*intval($rec["nb"]);	// total
+				$compta[$i][] = decimalreplace($rec["txtva"]);	// taux de TVA en %
 			}
 		}
     $request->free();
     
     if ( !$config['ticket']['bdc_facture_html_output'] )
     {
-      $csv = new csvExport($arr,isset($_POST["msexcel"]));
+      $csv = new csvExport($compta,isset($_POST["msexcel"]));
       $content = $csv->createCSV();
     }
   }
@@ -160,93 +160,6 @@
   else
   {
     includePage('bdc-facture');
-    /*
-    // si on sort le BdC en html
-    $title = 'BdC';
-    $css[] = 'evt/styles/bdc-facture.css';
-    includeLib('headers');
-    
-    echo '<div id="seller">';
-    $seller = $config['ticket']['seller'];
-    if ( is_array($seller) )
-    {
-      if ( $seller['logo'] )
-      echo '<p class="logo"><img alt="logo" src="'.htmlsecure($seller['logo']).'" /></p>';
-      unset($seller['logo']);
-      
-      foreach ( $seller as $key => $value )
-        echo '<p class="'.htmlsecure($key).'">'.htmlsecure($value).'</p>';
-    }
-    echo '</div>';
-    
-    // les données client
-    $tmp = array_shift($arr);
-    $customer = array('bdcid','prenom','nom','orgnom','adresse','cp','ville','pays','transaction');
-    echo '<div id="customer">';
-    foreach ( $customer as $key => $value )
-      echo '<p class="'.$value.'">'.$tmp[$key].'</p>';
-    echo '</div>';
-    
-    // récupération du numéro de bon de commande et de transaction
-    $bdcid = intval($tmp[0]);
-    $transac = $tmp[count($tmp)-1];
-    
-    echo '<p id="ids">Bon de commande <span class="bdcid">#'.$bdcid.'</span> (pour l\'opération <span class="transac">#'.$transac.'</span>)</p>';
-    
-    // les lignes du bdc
-    $ligne = array('evt','date','heure','salle','ville','cp','tarif','nb','pu','ttc','tva','ht');
-    $totaux = array('ht' => 0, 'tva' => array(), 'ttc' => 0);
-    $engil = array(); // permet d'avoir le rang d'une valeur recherché
-    foreach ( $ligne as $key => $value )
-      $engil[$value] = $key;
-    
-    echo '<table id="lines">';
-    while ( $tmp = array_shift($arr) )
-    {
-      $tva = floatval(str_replace(',','.',$tmp[$engil['tva']]))/100;
-      
-      // les totaux
-      $totaux['ttc'] += $tmp[$engil['ttc']];
-      $totaux['ht'] += $tmp[$engil['ttc']]/(1+$tva); 
-      $totaux['tva'][$tmp[$engil['tva']].''] += $tmp[$engil['ttc']] - $tmp[$engil['ttc']]/(1+$tva);
-      
-      // les arrondis, les calculs TVA
-      $tmp[$engil['ht']]    = round($tmp[$engil['ttc']]/(1+$tva),2);
-      $tmp[$engil['pu']]    = round($tmp[$engil['pu']],2);
-      $tmp[$engil['ttc']]   = round($tmp[$engil['ttc']],2);
-      
-      $tmp[$engil['date']]  = date('d/m/Y',strtotime($tmp[$engil['date']]));
-      echo '<tr>';
-      foreach ( $ligne as $key => $value )
-        echo '<td class="'.$value.'">'.$tmp[$key].'</p>';
-      echo '</tr>';
-    }
-    echo '
-      <thead><tr>
-        <th class="evt">Evènement</p>
-        <th class="date">Date</p>
-        <th class="heure">Heure</p>
-        <th class="salle">Salle</p>
-        <th class="ville">Ville</p>
-        <th class="cp">CP</p>
-        <th class="tarif">Tarif</p>
-        <th class="nb">Qté</p>
-        <th class="pu">PU TTC</p>
-        <th class="ttc">TTC</p>
-        <th class="tva">TVA</p>
-        <th class="ht">HT</p>
-      </tr></thead>';
-    echo '</table>';
-    
-    echo '<div id="totaux">';
-      echo '<p class="total"><span>Total HT:</span><span class="float">'.round($totaux['ht'],2).'</span></p>';
-      foreach ( $totaux['tva'] as $key => $value )
-      echo '<p class="tva"><span>TVA '.$key.'%:</span><span class="float">'.round($value,2).'</span></p>';
-      echo '<p class="ttc"><span>Total TTC:</span><span class="float">'.round($totaux['ttc'],2).'</span></p>';
-    echo '</div>';
-    
-    includeLib('footer');
-    */
   }
   
   $bd->free();
