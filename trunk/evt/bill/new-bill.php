@@ -153,7 +153,7 @@
   <div id="bill-compta">
     <p class="print">
       <button name="print" value="print" class="print">Imprimer les billets</button>
-      <input type="checkbox" class="print" name="duplicata" value="1" title="Ré-imprimer des duplicatas, précisez le tarif :OA" />
+      <input type="checkbox" class="print" name="duplicata" value="1" title="Ré-imprimer des duplicatas, précisez le tarif :" />
       <input type="text" class="print" name="tarif" value="" title="Entrez le tarif que vous souhaitez dupliquer pour la manifestation sélectionnée" size="3" maxlength="6" />
       <?php if ( $config["ticket"]["enable_group"] ): ?>
       <span class="print group"><input type="checkbox" class="print group" name="group" value="1" title="Billets groupés ?" /></span>
