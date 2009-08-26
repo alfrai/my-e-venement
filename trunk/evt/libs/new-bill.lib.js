@@ -105,7 +105,6 @@ function newbill_evt_refreshjs()
     
     if ( $(this).find('.jauge').children().length == 0 )
     $(this).find('.jauge').load('evt/bill/getjauge.hide.php?manifid='+$(this).find('input[name=manifs[]]').val());
-    alert('jauge');
     $(this).find('.jauge').unbind().click(function(){
       $(this).load('evt/bill/getjauge.hide.php?manifid='+$(this).parent().find('input[name=manifs[]]').val());
     });

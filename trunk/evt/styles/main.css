@@ -75,8 +75,7 @@ form.evt div.infos p.global span.petitnom { font-size: 10px; }
 form.evt div.infos p.global span.petitnom input { font-size: 9px; }
 
 form.evt div.creation div.clip { display: table; }
-form.evt div.web input.images,
-form.evt div.creation input[type=text] { width: 150px; }
+form.evt div.creation input[type=text] { width: 125px; }
 form.evt div.creation div.clip p { display: table-row; }
 form.evt div.creation div.clip p span {
 	display: table-cell;

@@ -405,7 +405,7 @@
 				printField("field[".$name."]",$rec[$name] ? floatval($rec[$name]) : "",$default[$name],3,1);
 				if ( $action != $actions["view"] || $rec[$name] ) echo '€';
 			?>
-			Image(s): <?php
+			</p><p>Image(s): <?php
 				if ( $action == $actions["view"] )
 				{
 					$imgs = split(";",$rec["imageurl"]);
