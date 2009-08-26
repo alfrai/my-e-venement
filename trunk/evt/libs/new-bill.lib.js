@@ -308,6 +308,11 @@ $(document).ready(function(){
   url = 'evt/bill/search-evt.page.php?';
   // initial loading
   $('#bill-tickets .list').load(url+' .list > ul',null,newbill_evt_refreshjs);
+  // hide / display the event list
+  $('#bill-tickets .search .toggle').click(function(){
+    $('#bill-tickets .list > ul').toggle();
+    return false;
+  });
   // load after search
   $('#bill-tickets input[name=search]').keypress(function(e){ if ( e.which == 13 ) {
     excludes = '';
