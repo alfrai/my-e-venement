@@ -27,12 +27,12 @@
   
   $title = 'BdC';
   $css[] = 'evt/styles/bdc-facture.css';
-  includeLib('headers');
   
   // vérifs
   if ( ($transac = intval($_GET['transac'])) <= 0 )
   {
     $user->addAlert("Problème dans le numéro d'opération transmis au bon de commande.");
+    $user->closeNext();
     $nav->redirect('.');
   }
   
@@ -44,6 +44,7 @@
   if ( $bd->addOrUpdateRecord($type,array('transaction' => $transac),$data) === false )
   {
       $user->addAlert("Impossible d'enregistrer le bon de commande / la facture en base.");
+      $user->closeNext();
       $nav->redirect('.');
   }
   $request = new bdRequest($bd,'SELECT id FROM '.$type.' WHERE transaction = '.$transac);
@@ -63,6 +64,7 @@
   if ( intval($personne['id']) <= 0 )
   {
     $user->addAlert('Impossible de faire un bon de commande pour une personne inconnue.');
+    $user->closeNext();
     $nav->redirect('.');
   }
   
@@ -84,13 +86,14 @@
               ORDER BY e.nom, m.date, s.ville, s.nom, nb DESC, tm.prix';
   $request = new bdRequest($bd,$query);
   
+  includeLib('headers');
 ?>
     <script type="text/javascript" language="javascript">
       function load()
       {
         print();
         <?php if ( !$config['ticket']['let_open_after_print'] ): ?>
-        window.location = 'evt/bill/billing.php?t=<?php echo $transac ?>';
+        close();
         <?php endif; ?>
       }
     </script>

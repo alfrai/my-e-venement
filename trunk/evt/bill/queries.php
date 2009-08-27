@@ -28,9 +28,9 @@
 		    FROM reservation_pre AS resa, personne_properso AS personne, transaction, manifestation AS manif
 		    WHERE resa.id IN (SELECT id FROM tickets2print WHERE canceled = false AND printed = false)
 		      AND resa.transaction = transaction.id
-		      AND personne.id = transaction.personneid
+		      AND ( personne.id = transaction.personneid OR personne.id IS NULL AND transaction.personneid IS NULL )
 		      AND ( personne.fctorgid = transaction.fctorgid OR (transaction.fctorgid IS NULL AND personne.fctorgid IS NULL) )
-		      AND manif.date >= now() + '1 day'::interval
+		      AND manif.date >= now()
 		      AND manif.id = manifid
 		      AND transaction.id NOT IN ( SELECT transaction FROM preselled ) ";
 	
