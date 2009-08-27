@@ -177,6 +177,14 @@ function newbill_tickets_new_visu(tarif)
       .addClass(tarif);
     $('#bill-tickets input[type=radio]:checked').parent().append(hidden);
   }
+  
+  // focus on nb
+  newbill_tickets_focus()
+}
+// gives the focus to the number of tickets and selects its text to make modifications easier
+function newbill_tickets_focus()
+{
+  $('#bill-tarifs input[name=nb]').focus().select();
 }
 function newbill_tickets_click_remove()
 {
@@ -199,10 +207,13 @@ function newbill_tickets_click_remove()
       url:  'evt/api/tickets.cmd.php',
       data: ({ transac: transac, manifid: manifid, qte: qte, tarif: tarif }),
       success: function(data){
-        if ( data != '0' )
-          newbill_tickets_remove_error(true)
-        else
+        if ( data == '0' )
+        {
           newbill_tickets_refresh_money();
+          newbill_tickets_focus();
+        }
+        else
+          newbill_tickets_remove_error(true);
       },
       error: newbill_tickets_remove_error
     });

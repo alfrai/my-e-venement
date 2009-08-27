@@ -29,10 +29,24 @@
   includeJS('jquery-ui','evt');
   includeJS('new-bill','evt');
   
-  includeLib("headers");
-  
   // new-bill's preselection
   $_SESSION['ticket']['new-bill'] = true;
+  
+  if ( !isset($_GET['t']) )
+  {
+    if ( $bd->addRecord('transaction',array('accountid' => $user->getId(),)) )
+    {
+      $transac = $bd->getLastSerial('transaction','id');
+      $nav->redirect($_SERVER['PHP_SELF'].'?t='.$transac);
+    }
+    else
+    {
+      $user->addAlert('Impossible de créer une opération en base, contactez votre administrateur');
+      $nav->redirect(dirname($_SERVER['PHP_SELF']));
+    }
+  }
+  
+  includeLib("headers");
   
   // respawning of an anciant transaction
   if ( ($transac = intval($_GET['t'])) > 0 )
@@ -64,6 +78,7 @@
     while ( $rec = $request->getRecordNext() )
     if ( !in_array(intval($rec['manifid']),$manifs) )
       $manifs[] = intval($rec['manifid']);
+    if ( count($manifs) > 0 ):
   ?>
     $('#bill-tickets .list').load('evt/bill/search-evt.page.php?manifid[]=<?php echo implode('&manifid[]=',$manifs) ?> .list > ul',function(){
       $(this).find('input[name=manifs[]]').each(function(){
@@ -74,15 +89,15 @@
   <?php
     // les tickets
     $request->firstRecord();
-  ?>
-      $('#bill-tarifs input[type=text]').val(1);
-  <?php  while ( $rec = $request->getRecordNext() ): ?>
-      $('#bill-tickets .spectacles input[name=manifs[]][value=<?php echo $rec['manifid'] ?>]').get(0).checked = true;
+    while ( $rec = $request->getRecordNext() ): ?>
+      $("#bill-tickets .spectacles input[name='manifs[]'][value=<?php echo $rec['manifid'] ?>]").get(0).checked = true;
       newbill_tickets_new_visu('<?php echo htmlspecialchars($rec['key']) ?>');
   <?php endwhile; ?>
       newbill_tickets_click_remove();
       newbill_tickets_refresh_money();
     });
+  <?php endif; ?>
+    $('#bill-tarifs input[type=text]').val(1);
     
     // les paiements
     <?php
@@ -107,18 +122,9 @@
 <?php
     $request->free();
   }
-  else
+
+  if ( is_array($manifs = $_SESSION['evt']['express']['manif']) )
   {
-    if ( !$bd->addRecord('transaction',array('accountid' => $user->getId(),)) )
-    {
-      $user->addAlert('Impossible de créer une opération en base, contactez votre administrateur');
-      $nav->redirect('evt/bill/');
-    }
-    
-    $transac = $bd->getLastSerial('transaction','id');
-    
-    if ( is_array($manifs = $_SESSION['evt']['express']['manif']) )
-    {
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -133,7 +139,6 @@ $(document).ready(function() {
 });
 </script>  
 <?php
-    }
   }
 ?>
 <h1><?php echo $title ?></h1>
