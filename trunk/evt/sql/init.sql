@@ -22,7 +22,7 @@ SET search_path = billeterie, pg_catalog;
 --
 
 CREATE TYPE resume_tickets AS (
-	"transaction" bigint,
+	transaction bigint,
 	manifid integer,
 	nb bigint,
 	tarif character varying,
@@ -441,7 +441,7 @@ $2: tarifid';
 -- Name: manif_update(); Type: FUNCTION; Schema: billeterie; Owner: -
 --
 
-CREATE FUNCTION manif_update() RETURNS "trigger"
+CREATE FUNCTION manif_update() RETURNS trigger
     AS $$
    BEGIN
       NEW.updated = NOW();
@@ -745,7 +745,7 @@ CREATE TABLE reservation_pre (
     manifid integer NOT NULL,
     tarifid integer NOT NULL,
     reduc integer,
-    "transaction" bigint NOT NULL,
+    transaction bigint NOT NULL,
     annul boolean DEFAULT false NOT NULL,
     plnum integer,
     dematerialized_passed boolean DEFAULT false NOT NULL,
@@ -778,10 +778,10 @@ COMMENT ON COLUMN reservation_pre.reduc IS 'réduction accordée, en %age (ex: 7
 
 
 --
--- Name: COLUMN reservation_pre."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
+-- Name: COLUMN reservation_pre.transaction; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON COLUMN reservation_pre."transaction" IS 'numero de transaction... permet de repérer une transaction en cours';
+COMMENT ON COLUMN reservation_pre.transaction IS 'numero de transaction... permet de repérer une transaction en cours';
 
 
 --
@@ -805,7 +805,7 @@ COMMENT ON COLUMN reservation_pre.dematerialized_passed IS 'Indique si l''entré
 CREATE TABLE tarif (
     id integer NOT NULL,
     description character varying(255),
-    "key" character varying(5) NOT NULL,
+    key character varying(5) NOT NULL,
     prix numeric(8,3) NOT NULL,
     date timestamp with time zone DEFAULT now() NOT NULL,
     desact boolean DEFAULT false NOT NULL,
@@ -829,10 +829,10 @@ COMMENT ON COLUMN tarif.description IS 'description du tarif';
 
 
 --
--- Name: COLUMN tarif."key"; Type: COMMENT; Schema: billeterie; Owner: -
+-- Name: COLUMN tarif.key; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON COLUMN tarif."key" IS 'diminutif du tarif (tp = plein tarif, sc = scolaire, g = groupes, ...)';
+COMMENT ON COLUMN tarif.key IS 'diminutif du tarif (tp = plein tarif, sc = scolaire, g = groupes, ...)';
 
 
 --
@@ -868,7 +868,7 @@ COMMENT ON COLUMN tarif.contingeant IS 'si le tarif correspond à une place cont
 --
 
 CREATE VIEW tarif_manif AS
-    SELECT tarif.id, tarif.description, tarif."key", tarif.prix, tarif.desact, tarif.contingeant, tarif.date, manif.manifestationid AS manifid, manif.prix AS prixspec FROM tarif, manifestation_tarifs manif WHERE ((tarif.id = manif.tarifid) AND (tarif.date IN (SELECT max(tmp.date) AS max FROM tarif tmp WHERE (((tmp."key")::text = (tarif."key")::text) AND (tmp.date <= firstresa(manif.manifestationid, tarif."key"))) GROUP BY tmp."key"))) UNION SELECT tarif.id, tarif.description, tarif."key", tarif.prix, tarif.desact, tarif.contingeant, tarif.date, manifestation.id AS manifid, NULL::"unknown" AS prixspec FROM tarif, manifestation WHERE ((NOT ((tarif.id, manifestation.id) IN (SELECT manifestation_tarifs.tarifid, manifestation_tarifs.manifestationid FROM manifestation_tarifs WHERE ((manifestation_tarifs.manifestationid = manifestation.id) AND (manifestation_tarifs.tarifid = tarif.id))))) AND (tarif.date IN (SELECT max(tmp.date) AS max FROM tarif tmp WHERE (((tmp."key")::text = (tarif."key")::text) AND (tmp.date <= firstresa(manifestation.id, tarif."key"))) GROUP BY tmp."key"))) ORDER BY 5, 3;
+    SELECT tarif.id, tarif.description, tarif.key, tarif.prix, tarif.desact, tarif.contingeant, tarif.date, manif.manifestationid AS manifid, manif.prix AS prixspec FROM tarif, manifestation_tarifs manif WHERE ((tarif.id = manif.tarifid) AND (tarif.date IN (SELECT max(tmp.date) AS max FROM tarif tmp WHERE (((tmp.key)::text = (tarif.key)::text) AND (tmp.date <= firstresa(manif.manifestationid, tarif.key))) GROUP BY tmp.key))) UNION SELECT tarif.id, tarif.description, tarif.key, tarif.prix, tarif.desact, tarif.contingeant, tarif.date, manifestation.id AS manifid, NULL::unknown AS prixspec FROM tarif, manifestation WHERE ((NOT ((tarif.id, manifestation.id) IN (SELECT manifestation_tarifs.tarifid, manifestation_tarifs.manifestationid FROM manifestation_tarifs WHERE ((manifestation_tarifs.manifestationid = manifestation.id) AND (manifestation_tarifs.tarifid = tarif.id))))) AND (tarif.date IN (SELECT max(tmp.date) AS max FROM tarif tmp WHERE (((tmp.key)::text = (tarif.key)::text) AND (tmp.date <= firstresa(manifestation.id, tarif.key))) GROUP BY tmp.key))) ORDER BY 5, 3;
 
 
 --
@@ -884,7 +884,7 @@ COMMENT ON VIEW tarif_manif IS 'Affiche les tarifs par défaut ainsi que les tar
 --
 
 CREATE VIEW tickets2print AS
-    (SELECT resa.id, resa."transaction", resa.manifid, resa.id AS resaid, tarif."key" AS tarif, resa.reduc, true AS printed, ticket.canceled, resa.annul FROM reservation_pre resa, tarif, reservation_cur ticket WHERE (((resa.id = ticket.resa_preid) AND (tarif.id = resa.tarifid)) AND (NOT ((resa.id, ticket.canceled) IN (SELECT reservation_cur.resa_preid, reservation_cur.canceled FROM reservation_cur WHERE (reservation_cur.canceled = true))))) UNION SELECT resa.id, resa."transaction", resa.manifid, resa.id AS resaid, tarif."key" AS tarif, resa.reduc, true AS printed, ticket.canceled, resa.annul FROM reservation_pre resa, tarif, reservation_cur ticket WHERE (((resa.id = ticket.resa_preid) AND (tarif.id = resa.tarifid)) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false)))))) UNION SELECT resa.id, resa."transaction", resa.manifid, resa.id AS resaid, tarif."key" AS tarif, resa.reduc, false AS printed, false AS canceled, resa.annul FROM reservation_pre resa, tarif WHERE ((NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.resa_preid = resa.id)))) AND (tarif.id = resa.tarifid)) ORDER BY 2, 3, 5, 6, 7, 8;
+    (SELECT resa.id, resa.transaction, resa.manifid, resa.id AS resaid, tarif.key AS tarif, resa.reduc, true AS printed, ticket.canceled, resa.annul FROM reservation_pre resa, tarif, reservation_cur ticket WHERE (((resa.id = ticket.resa_preid) AND (tarif.id = resa.tarifid)) AND (NOT ((resa.id, ticket.canceled) IN (SELECT reservation_cur.resa_preid, reservation_cur.canceled FROM reservation_cur WHERE (reservation_cur.canceled = true))))) UNION SELECT resa.id, resa.transaction, resa.manifid, resa.id AS resaid, tarif.key AS tarif, resa.reduc, true AS printed, ticket.canceled, resa.annul FROM reservation_pre resa, tarif, reservation_cur ticket WHERE (((resa.id = ticket.resa_preid) AND (tarif.id = resa.tarifid)) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false)))))) UNION SELECT resa.id, resa.transaction, resa.manifid, resa.id AS resaid, tarif.key AS tarif, resa.reduc, false AS printed, false AS canceled, resa.annul FROM reservation_pre resa, tarif WHERE ((NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.resa_preid = resa.id)))) AND (tarif.id = resa.tarifid)) ORDER BY 2, 3, 5, 6, 7, 8;
 
 
 --
@@ -899,7 +899,7 @@ COMMENT ON VIEW tickets2print IS 'Les tickets et leurs états';
 --
 
 CREATE VIEW resumetickets2print AS
-    SELECT tickets2print."transaction", tickets2print.manifid, count(*) AS nb, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tarif.prix, tarif.prixspec FROM tickets2print, tarif_manif tarif WHERE (((tickets2print.annul = false) AND ((tarif."key")::text = (tickets2print.tarif)::text)) AND (tarif.manifid = tickets2print.manifid)) GROUP BY tickets2print."transaction", tickets2print.manifid, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tickets2print.annul, tarif.prix, tarif.prixspec UNION SELECT tickets2print."transaction", tickets2print.manifid, (- count(*)) AS nb, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tarif.prix, tarif.prixspec FROM tickets2print, tarif_manif tarif WHERE (((tickets2print.annul = true) AND ((tarif."key")::text = (tickets2print.tarif)::text)) AND (tarif.manifid = tickets2print.manifid)) GROUP BY tickets2print."transaction", tickets2print.manifid, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tickets2print.annul, tarif.prix, tarif.prixspec;
+    SELECT tickets2print.transaction, tickets2print.manifid, count(*) AS nb, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tarif.prix, tarif.prixspec FROM tickets2print, tarif_manif tarif WHERE (((tickets2print.annul = false) AND ((tarif.key)::text = (tickets2print.tarif)::text)) AND (tarif.manifid = tickets2print.manifid)) GROUP BY tickets2print.transaction, tickets2print.manifid, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tickets2print.annul, tarif.prix, tarif.prixspec UNION SELECT tickets2print.transaction, tickets2print.manifid, (- count(*)) AS nb, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tarif.prix, tarif.prixspec FROM tickets2print, tarif_manif tarif WHERE (((tickets2print.annul = true) AND ((tarif.key)::text = (tickets2print.tarif)::text)) AND (tarif.manifid = tickets2print.manifid)) GROUP BY tickets2print.transaction, tickets2print.manifid, tickets2print.tarif, tickets2print.reduc, tickets2print.printed, tickets2print.canceled, tickets2print.annul, tarif.prix, tarif.prixspec;
 
 
 --
@@ -972,7 +972,7 @@ COMMENT ON FUNCTION tickets2print_bytransac(bigint) IS 'Retourne les billets imp
 
 CREATE TABLE preselled (
     id integer NOT NULL,
-    "transaction" bigint NOT NULL,
+    transaction bigint NOT NULL,
     date timestamp with time zone DEFAULT now() NOT NULL,
     accountid bigint
 );
@@ -986,10 +986,10 @@ COMMENT ON TABLE preselled IS 'table "virtuelle" regroupant les places commandé
 
 
 --
--- Name: COLUMN preselled."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
+-- Name: COLUMN preselled.transaction; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON COLUMN preselled."transaction" IS 'transaction.id';
+COMMENT ON COLUMN preselled.transaction IS 'transaction.id';
 
 
 --
@@ -1034,10 +1034,10 @@ COMMENT ON TABLE bdc IS 'Enregistrement du bon de commande... signifie que les p
 
 
 --
--- Name: COLUMN bdc."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
+-- Name: COLUMN bdc.transaction; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON COLUMN bdc."transaction" IS 'ce sur quoi porte le BdC';
+COMMENT ON COLUMN bdc.transaction IS 'ce sur quoi porte le BdC';
 
 
 --
@@ -1077,6 +1077,7 @@ COMMENT ON COLUMN color.color IS 'Valeur RGB de type HTML de la couleur correspo
 --
 
 CREATE SEQUENCE color_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1095,7 +1096,7 @@ ALTER SEQUENCE color_id_seq OWNED BY color.id;
 --
 
 CREATE VIEW colors AS
-    SELECT color.id, color.libelle, color.color FROM color UNION SELECT NULL::"unknown" AS id, NULL::"unknown" AS libelle, NULL::"unknown" AS color;
+    SELECT color.id, color.libelle, color.color FROM color UNION SELECT NULL::unknown AS id, NULL::unknown AS libelle, NULL::unknown AS color;
 
 
 --
@@ -1319,7 +1320,7 @@ COMMENT ON COLUMN evt_categorie.txtva IS 'taux de tva à appliquer par défaut';
 --
 
 CREATE VIEW evenement_categorie AS
-    SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation, evt.modification, cat.libelle AS catdesc, cat.txtva, evt.metaevt, evt.tarifweb, evt.tarifwebgroup, evt.extradesc, evt.extraspec, evt.imageurl FROM evenement evt, evt_categorie cat WHERE ((evt.categorie = cat.id) AND (evt.categorie IS NOT NULL)) UNION SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation, evt.modification, NULL::"unknown" AS catdesc, NULL::"unknown" AS txtva, evt.metaevt, evt.tarifweb, evt.tarifwebgroup, evt.extradesc, evt.extraspec, evt.imageurl FROM evenement evt WHERE (evt.categorie IS NULL) ORDER BY 19, 5;
+    SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation, evt.modification, cat.libelle AS catdesc, cat.txtva, evt.metaevt, evt.tarifweb, evt.tarifwebgroup, evt.extradesc, evt.extraspec, evt.imageurl FROM evenement evt, evt_categorie cat WHERE ((evt.categorie = cat.id) AND (evt.categorie IS NOT NULL)) UNION SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, evt.duree, evt.ages, evt.code, evt.creation, evt.modification, NULL::unknown AS catdesc, NULL::unknown AS txtva, evt.metaevt, evt.tarifweb, evt.tarifwebgroup, evt.extradesc, evt.extraspec, evt.imageurl FROM evenement evt WHERE (evt.categorie IS NULL) ORDER BY 19, 5;
 
 
 --
@@ -1352,6 +1353,7 @@ ALTER SEQUENCE evenement_id_seq OWNED BY evenement.id;
 --
 
 CREATE SEQUENCE evt_categorie_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1371,8 +1373,9 @@ ALTER SEQUENCE evt_categorie_id_seq OWNED BY evt_categorie.id;
 
 CREATE TABLE facture (
     id integer NOT NULL,
-    "transaction" bigint NOT NULL,
-    date timestamp with time zone DEFAULT now() NOT NULL
+    transaction bigint NOT NULL,
+    date timestamp with time zone DEFAULT now() NOT NULL,
+    accountid bigint NOT NULL
 );
 
 
@@ -1391,10 +1394,10 @@ COMMENT ON COLUMN facture.id IS 'numéro de facture sans ''FB'' devant';
 
 
 --
--- Name: COLUMN facture."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
+-- Name: COLUMN facture.transaction; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON COLUMN facture."transaction" IS 'numéro de transaction';
+COMMENT ON COLUMN facture.transaction IS 'numéro de transaction';
 
 
 --
@@ -1402,6 +1405,13 @@ COMMENT ON COLUMN facture."transaction" IS 'numéro de transaction';
 --
 
 COMMENT ON COLUMN facture.date IS 'date de sortie de la facture';
+
+
+--
+-- Name: COLUMN facture.accountid; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN facture.accountid IS 'account.id';
 
 
 --
@@ -1559,7 +1569,7 @@ COMMENT ON COLUMN site.active IS 'la salle est utilisable';
 --
 
 CREATE VIEW info_resa AS
-    SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, manif.duree, evt.ages, evt.code, evt.creation, evt.modification, evt.catdesc, manif.id AS manifid, manif.date, manif.jauge, manif.description AS manifdesc, site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, manif.plnum, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (NOT (resa."transaction" IN (SELECT preselled."transaction" FROM preselled))))) AS commandes, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE ((resa.manifid = manif.id) AND (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AS resas, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (resa."transaction" IN (SELECT preselled."transaction" FROM preselled)))) AS preresas, evt.txtva AS deftva, manif.txtva, colors.libelle AS colorname, colors.color FROM evenement_categorie evt, manifestation manif, site, colors WHERE (((evt.id = manif.evtid) AND (site.id = manif.siteid)) AND ((colors.id = manif.colorid) OR ((colors.id IS NULL) AND (manif.colorid IS NULL)))) ORDER BY evt.catdesc, evt.nom, manif.date;
+    SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, manif.duree, evt.ages, evt.code, evt.creation, evt.modification, evt.catdesc, manif.id AS manifid, manif.date, manif.jauge, manif.description AS manifdesc, site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, manif.plnum, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (NOT (resa.transaction IN (SELECT preselled.transaction FROM preselled))))) AS commandes, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE ((resa.manifid = manif.id) AND (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AS resas, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (resa.transaction IN (SELECT preselled.transaction FROM preselled)))) AS preresas, evt.txtva AS deftva, manif.txtva, colors.libelle AS colorname, colors.color FROM evenement_categorie evt, manifestation manif, site, colors WHERE (((evt.id = manif.evtid) AND (site.id = manif.siteid)) AND ((colors.id = manif.colorid) OR ((colors.id IS NULL) AND (manif.colorid IS NULL)))) ORDER BY evt.catdesc, evt.nom, manif.date;
 
 
 --
@@ -1623,6 +1633,7 @@ ALTER SEQUENCE manifestation_id_seq OWNED BY manifestation.id;
 --
 
 CREATE SEQUENCE manifestation_tarifs_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1641,7 +1652,7 @@ ALTER SEQUENCE manifestation_tarifs_id_seq OWNED BY manifestation_tarifs.id;
 --
 
 CREATE TABLE masstickets (
-    "transaction" bigint NOT NULL,
+    transaction bigint NOT NULL,
     nb integer NOT NULL,
     tarifid integer NOT NULL,
     reduc integer DEFAULT 0 NOT NULL,
@@ -1662,10 +1673,10 @@ COMMENT ON TABLE masstickets IS 'permet d''avoir un mémo des tickets imprimés 
 
 
 --
--- Name: COLUMN masstickets."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
+-- Name: COLUMN masstickets.transaction; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON COLUMN masstickets."transaction" IS 'transaction.id';
+COMMENT ON COLUMN masstickets.transaction IS 'transaction.id';
 
 
 --
@@ -1761,7 +1772,7 @@ CREATE TABLE paiement (
     id bigint NOT NULL,
     modepaiementid integer NOT NULL,
     montant numeric(11,3) NOT NULL,
-    "transaction" bigint NOT NULL,
+    transaction bigint NOT NULL,
     date timestamp with time zone DEFAULT now() NOT NULL,
     sysdate timestamp with time zone DEFAULT now()
 );
@@ -1789,10 +1800,10 @@ COMMENT ON COLUMN paiement.montant IS 'montant du paiement';
 
 
 --
--- Name: COLUMN paiement."transaction"; Type: COMMENT; Schema: billeterie; Owner: -
+-- Name: COLUMN paiement.transaction; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON COLUMN paiement."transaction" IS 'numéro de transaction';
+COMMENT ON COLUMN paiement.transaction IS 'numéro de transaction';
 
 
 --
@@ -1814,7 +1825,7 @@ COMMENT ON COLUMN paiement.sysdate IS 'Date d''intervention pour le paiement cou
 --
 
 CREATE VIEW paid AS
-    SELECT paiement."transaction", sum(paiement.montant) AS prix FROM paiement GROUP BY paiement."transaction";
+    SELECT paiement.transaction, sum(paiement.montant) AS prix FROM paiement GROUP BY paiement.transaction;
 
 
 --
@@ -1895,6 +1906,7 @@ COMMENT ON COLUMN personne_evtbackup.date IS 'date de la manifestation (ancienne
 --
 
 CREATE SEQUENCE personne_evtbackup_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1932,7 +1944,7 @@ ALTER SEQUENCE reservation_cur_id_seq OWNED BY reservation_cur.id;
 
 CREATE TABLE rights (
     id bigint NOT NULL,
-    "level" integer DEFAULT 0 NOT NULL
+    level integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1941,7 +1953,7 @@ CREATE TABLE rights (
 --
 
 CREATE VIEW site_datas AS
-    ((SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.organisme, public.personne_properso personne WHERE ((organisme.id = site.organisme) AND (personne.id = site.regisseur)) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::"unknown" AS orgid, NULL::"unknown" AS orgnom, NULL::"unknown" AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.personne_properso personne WHERE ((site.organisme IS NULL) AND (personne.id = site.regisseur))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, NULL::"unknown" AS persid, NULL::"unknown" AS perstitre, NULL::"unknown" AS persnom, NULL::"unknown" AS persprenom, NULL::"unknown" AS perstel FROM site, public.organisme WHERE ((organisme.id = site.organisme) AND (site.regisseur IS NULL))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::"unknown" AS orgid, NULL::"unknown" AS orgnom, NULL::"unknown" AS orgville, NULL::"unknown" AS persid, NULL::"unknown" AS perstitre, NULL::"unknown" AS persnom, NULL::"unknown" AS persprenom, NULL::"unknown" AS perstel FROM site WHERE ((site.organisme IS NULL) AND (site.regisseur IS NULL)) ORDER BY 2, 5;
+    ((SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.organisme, public.personne_properso personne WHERE ((organisme.id = site.organisme) AND (personne.id = site.regisseur)) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.personne_properso personne WHERE ((site.organisme IS NULL) AND (personne.id = site.regisseur))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, NULL::unknown AS persid, NULL::unknown AS perstitre, NULL::unknown AS persnom, NULL::unknown AS persprenom, NULL::unknown AS perstel FROM site, public.organisme WHERE ((organisme.id = site.organisme) AND (site.regisseur IS NULL))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgville, NULL::unknown AS persid, NULL::unknown AS perstitre, NULL::unknown AS persnom, NULL::unknown AS persprenom, NULL::unknown AS perstel FROM site WHERE ((site.organisme IS NULL) AND (site.regisseur IS NULL)) ORDER BY 2, 5;
 
 
 --
@@ -1981,7 +1993,7 @@ CREATE TABLE site_plnum (
     onmapy character varying(6) NOT NULL,
     width character varying(6) NOT NULL,
     height character varying(6) NOT NULL,
-    "comment" text
+    comment text
 );
 
 
@@ -2027,7 +2039,7 @@ ALTER SEQUENCE tarif_id_seq OWNED BY tarif.id;
 --
 
 CREATE VIEW tickets2pay AS
-    SELECT ticket."transaction", ticket.manifid, ticket.nb, ticket.tarif AS "key", ticket.reduc, ticket.prix, ticket.prixspec FROM resumetickets2print ticket WHERE ((ticket.canceled = false) AND (ticket.printed = true));
+    SELECT ticket.transaction, ticket.manifid, ticket.nb, ticket.tarif AS key, ticket.reduc, ticket.prix, ticket.prixspec FROM resumetickets2print ticket WHERE ((ticket.canceled = false) AND (ticket.printed = true));
 
 
 --
@@ -2044,7 +2056,7 @@ COMMENT ON VIEW tickets2pay IS 'donne l''ensemble des tickets qui ont été impr
 --
 
 CREATE VIEW topay AS
-    SELECT resa."transaction", sum((((getprice(resa.manifid, resa.tarifid))::double precision * (- (1)::double precision)) * ((((resa.annul)::integer * 2) - 1))::double precision)) AS prix FROM reservation_cur, reservation_pre resa WHERE ((NOT reservation_cur.canceled) AND (reservation_cur.resa_preid = resa.id)) GROUP BY resa."transaction";
+    SELECT resa.transaction, sum((((getprice(resa.manifid, resa.tarifid))::double precision * (- (1)::double precision)) * ((((resa.annul)::integer * 2) - 1))::double precision)) AS prix FROM reservation_cur, reservation_pre resa WHERE ((NOT reservation_cur.canceled) AND (reservation_cur.resa_preid = resa.id)) GROUP BY resa.transaction;
 
 
 --
@@ -2058,7 +2070,7 @@ COMMENT ON VIEW topay IS 'regroupe les transactions et la somme des prix des bil
 -- Name: transaction; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
-CREATE TABLE "transaction" (
+CREATE TABLE transaction (
     id bigint NOT NULL,
     creation timestamp with time zone DEFAULT now() NOT NULL,
     accountid bigint NOT NULL,
@@ -2070,38 +2082,38 @@ CREATE TABLE "transaction" (
 
 
 --
--- Name: COLUMN "transaction".id; Type: COMMENT; Schema: billeterie; Owner: -
+-- Name: COLUMN transaction.id; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON COLUMN "transaction".id IS 'numéro de transaction';
-
-
---
--- Name: COLUMN "transaction".accountid; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN "transaction".accountid IS 'account.id';
+COMMENT ON COLUMN transaction.id IS 'numéro de transaction';
 
 
 --
--- Name: COLUMN "transaction".personneid; Type: COMMENT; Schema: billeterie; Owner: -
+-- Name: COLUMN transaction.accountid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON COLUMN "transaction".personneid IS 'personne.id';
-
-
---
--- Name: COLUMN "transaction".fctorgid; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN "transaction".fctorgid IS 'org_personne.id';
+COMMENT ON COLUMN transaction.accountid IS 'account.id';
 
 
 --
--- Name: COLUMN "transaction".translinked; Type: COMMENT; Schema: billeterie; Owner: -
+-- Name: COLUMN transaction.personneid; Type: COMMENT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON COLUMN "transaction".translinked IS 'La transaction courante est issue d''une autre transaction dont cette colonne est le numéro.';
+COMMENT ON COLUMN transaction.personneid IS 'personne.id';
+
+
+--
+-- Name: COLUMN transaction.fctorgid; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN transaction.fctorgid IS 'org_personne.id';
+
+
+--
+-- Name: COLUMN transaction.translinked; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN transaction.translinked IS 'La transaction courante est issue d''une autre transaction dont cette colonne est le numéro.';
 
 
 --
@@ -2119,7 +2131,7 @@ CREATE SEQUENCE transaction_id_seq
 -- Name: transaction_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
 --
 
-ALTER SEQUENCE transaction_id_seq OWNED BY "transaction".id;
+ALTER SEQUENCE transaction_id_seq OWNED BY transaction.id;
 
 
 --
@@ -2127,7 +2139,7 @@ ALTER SEQUENCE transaction_id_seq OWNED BY "transaction".id;
 --
 
 CREATE VIEW waitingdepots AS
-    SELECT DISTINCT contingeant."transaction", contingeant.closed, contingeant.date, personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, personne.orgid, personne.orgnom, personne.orgcat, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.orgemail, personne.orgurl, personne.orgdesc, personne.service, personne.fctorgid, personne.fctid, personne.fcttype, personne.fctdesc, personne.proemail, personne.protel, personne.orgcatdesc, account.name, (SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre."transaction" = "transaction".id) AND (NOT reservation_pre.annul))) AS total, (SELECT count(*) AS count FROM reservation_pre, tarif WHERE ((((reservation_pre."transaction" = "transaction".id) AND (reservation_pre.tarifid = tarif.id)) AND tarif.contingeant) AND (NOT reservation_pre.annul))) AS cont, (SELECT sum(masstickets.nb) AS nb FROM masstickets WHERE (masstickets."transaction" = "transaction".id)) AS masstick FROM public.personne_properso personne, contingeant, public.account, "transaction" WHERE ((((((personne.fctorgid = contingeant.fctorgid) OR ((personne.fctorgid IS NULL) AND (contingeant.fctorgid IS NULL))) AND (personne.id = contingeant.personneid)) AND (account.id = contingeant.accountid)) AND ("transaction".id = contingeant."transaction")) AND ((SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre."transaction" = "transaction".id) AND (NOT reservation_pre.annul))) > 0)) ORDER BY contingeant."transaction" DESC, personne.nom, personne.prenom, personne.orgnom, personne.id, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.titre, personne.orgid, personne.orgcat, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.orgemail, personne.orgurl, personne.orgdesc, personne.service, personne.fctorgid, personne.fctid, personne.fcttype, personne.fctdesc, personne.proemail, personne.protel, personne.orgcatdesc, account.name, (SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre."transaction" = "transaction".id) AND (NOT reservation_pre.annul))), (SELECT count(*) AS count FROM reservation_pre, tarif WHERE ((((reservation_pre."transaction" = "transaction".id) AND (reservation_pre.tarifid = tarif.id)) AND tarif.contingeant) AND (NOT reservation_pre.annul))), (SELECT sum(masstickets.nb) AS nb FROM masstickets WHERE (masstickets."transaction" = "transaction".id)), contingeant.closed, contingeant.date;
+    SELECT DISTINCT contingeant.transaction, contingeant.closed, contingeant.date, personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, personne.orgid, personne.orgnom, personne.orgcat, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.orgemail, personne.orgurl, personne.orgdesc, personne.service, personne.fctorgid, personne.fctid, personne.fcttype, personne.fctdesc, personne.proemail, personne.protel, personne.orgcatdesc, account.name, (SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre.transaction = transaction.id) AND (NOT reservation_pre.annul))) AS total, (SELECT count(*) AS count FROM reservation_pre, tarif WHERE ((((reservation_pre.transaction = transaction.id) AND (reservation_pre.tarifid = tarif.id)) AND tarif.contingeant) AND (NOT reservation_pre.annul))) AS cont, (SELECT sum(masstickets.nb) AS nb FROM masstickets WHERE (masstickets.transaction = transaction.id)) AS masstick FROM public.personne_properso personne, contingeant, public.account, transaction WHERE ((((((personne.fctorgid = contingeant.fctorgid) OR ((personne.fctorgid IS NULL) AND (contingeant.fctorgid IS NULL))) AND (personne.id = contingeant.personneid)) AND (account.id = contingeant.accountid)) AND (transaction.id = contingeant.transaction)) AND ((SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre.transaction = transaction.id) AND (NOT reservation_pre.annul))) > 0)) ORDER BY contingeant.transaction DESC, personne.nom, personne.prenom, personne.orgnom, personne.id, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.titre, personne.orgid, personne.orgcat, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.orgemail, personne.orgurl, personne.orgdesc, personne.service, personne.fctorgid, personne.fctid, personne.fcttype, personne.fctdesc, personne.proemail, personne.protel, personne.orgcatdesc, account.name, (SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre.transaction = transaction.id) AND (NOT reservation_pre.annul))), (SELECT count(*) AS count FROM reservation_pre, tarif WHERE ((((reservation_pre.transaction = transaction.id) AND (reservation_pre.tarifid = tarif.id)) AND tarif.contingeant) AND (NOT reservation_pre.annul))), (SELECT sum(masstickets.nb) AS nb FROM masstickets WHERE (masstickets.transaction = transaction.id)), contingeant.closed, contingeant.date;
 
 
 --
@@ -2246,7 +2258,7 @@ ALTER TABLE tarif ALTER COLUMN id SET DEFAULT nextval('tarif_id_seq'::regclass);
 -- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
-ALTER TABLE "transaction" ALTER COLUMN id SET DEFAULT nextval('transaction_id_seq'::regclass);
+ALTER TABLE transaction ALTER COLUMN id SET DEFAULT nextval('transaction_id_seq'::regclass);
 
 
 --
@@ -2262,7 +2274,7 @@ ALTER TABLE ONLY bdc
 --
 
 ALTER TABLE ONLY bdc
-    ADD CONSTRAINT bdc_transaction_key UNIQUE ("transaction");
+    ADD CONSTRAINT bdc_transaction_key UNIQUE (transaction);
 
 
 --
@@ -2318,7 +2330,7 @@ ALTER TABLE ONLY facture
 --
 
 ALTER TABLE ONLY facture
-    ADD CONSTRAINT facture_transaction_key UNIQUE ("transaction");
+    ADD CONSTRAINT facture_transaction_key UNIQUE (transaction);
 
 
 --
@@ -2366,7 +2378,7 @@ ALTER TABLE ONLY masstickets
 --
 
 ALTER TABLE ONLY masstickets
-    ADD CONSTRAINT masstickets_transaction_key UNIQUE ("transaction", tarifid, reduc, manifid);
+    ADD CONSTRAINT masstickets_transaction_key UNIQUE (transaction, tarifid, reduc, manifid);
 
 
 --
@@ -2406,7 +2418,7 @@ ALTER TABLE ONLY preselled
 --
 
 ALTER TABLE ONLY preselled
-    ADD CONSTRAINT preselled_transaction_key UNIQUE ("transaction");
+    ADD CONSTRAINT preselled_transaction_key UNIQUE (transaction);
 
 
 --
@@ -2454,7 +2466,7 @@ ALTER TABLE ONLY site_plnum
 --
 
 ALTER TABLE ONLY tarif
-    ADD CONSTRAINT tarif_key_key UNIQUE ("key", date);
+    ADD CONSTRAINT tarif_key_key UNIQUE (key, date);
 
 
 --
@@ -2469,7 +2481,7 @@ ALTER TABLE ONLY tarif
 -- Name: transaction_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY "transaction"
+ALTER TABLE ONLY transaction
     ADD CONSTRAINT transaction_pkey PRIMARY KEY (id);
 
 
@@ -2484,7 +2496,7 @@ CREATE INDEX reservation_cur_preid ON reservation_cur USING btree (resa_preid);
 -- Name: reservation_pre_transaction; Type: INDEX; Schema: billeterie; Owner: -; Tablespace: 
 --
 
-CREATE INDEX reservation_pre_transaction ON reservation_pre USING btree ("transaction");
+CREATE INDEX reservation_pre_transaction ON reservation_pre USING btree (transaction);
 
 
 --
@@ -2502,7 +2514,7 @@ CREATE TRIGGER manifestation_trigger
 --
 
 ALTER TABLE ONLY bdc
-    ADD CONSTRAINT bdc_transaction_fkey FOREIGN KEY ("transaction") REFERENCES "transaction"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT bdc_transaction_fkey FOREIGN KEY (transaction) REFERENCES transaction(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
@@ -2526,7 +2538,7 @@ ALTER TABLE ONLY contingeant
 --
 
 ALTER TABLE ONLY contingeant
-    ADD CONSTRAINT contingeant_transaction_fkey FOREIGN KEY ("transaction") REFERENCES "transaction"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT contingeant_transaction_fkey FOREIGN KEY (transaction) REFERENCES transaction(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
@@ -2546,11 +2558,19 @@ ALTER TABLE ONLY evenement
 
 
 --
+-- Name: facture_accountid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
+--
+
+ALTER TABLE ONLY facture
+    ADD CONSTRAINT facture_accountid_fkey FOREIGN KEY (accountid) REFERENCES public.account(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
 -- Name: facture_transaction_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
 ALTER TABLE ONLY facture
-    ADD CONSTRAINT facture_transaction_fkey FOREIGN KEY ("transaction") REFERENCES "transaction"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT facture_transaction_fkey FOREIGN KEY (transaction) REFERENCES transaction(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
@@ -2622,7 +2642,7 @@ ALTER TABLE ONLY masstickets
 --
 
 ALTER TABLE ONLY masstickets
-    ADD CONSTRAINT masstickets_transaction_fkey FOREIGN KEY ("transaction") REFERENCES "transaction"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT masstickets_transaction_fkey FOREIGN KEY (transaction) REFERENCES transaction(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
@@ -2638,7 +2658,7 @@ ALTER TABLE ONLY paiement
 --
 
 ALTER TABLE ONLY paiement
-    ADD CONSTRAINT paiement_transaction_fkey FOREIGN KEY ("transaction") REFERENCES "transaction"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT paiement_transaction_fkey FOREIGN KEY (transaction) REFERENCES transaction(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
@@ -2670,7 +2690,7 @@ ALTER TABLE ONLY preselled
 --
 
 ALTER TABLE ONLY preselled
-    ADD CONSTRAINT preselled_transaction_fkey FOREIGN KEY ("transaction") REFERENCES "transaction"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT preselled_transaction_fkey FOREIGN KEY (transaction) REFERENCES transaction(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
@@ -2718,7 +2738,7 @@ ALTER TABLE ONLY reservation_pre
 --
 
 ALTER TABLE ONLY reservation_pre
-    ADD CONSTRAINT reservation_pre_transaction_fkey FOREIGN KEY ("transaction") REFERENCES "transaction"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+    ADD CONSTRAINT reservation_pre_transaction_fkey FOREIGN KEY (transaction) REFERENCES transaction(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
@@ -2749,7 +2769,7 @@ ALTER TABLE ONLY site
 -- Name: transaction_fctorgid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
-ALTER TABLE ONLY "transaction"
+ALTER TABLE ONLY transaction
     ADD CONSTRAINT transaction_fctorgid_fkey FOREIGN KEY (fctorgid) REFERENCES public.org_personne(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
@@ -2757,7 +2777,7 @@ ALTER TABLE ONLY "transaction"
 -- Name: transaction_personneid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
-ALTER TABLE ONLY "transaction"
+ALTER TABLE ONLY transaction
     ADD CONSTRAINT transaction_personneid_fkey FOREIGN KEY (personneid) REFERENCES public.personne(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
@@ -2765,8 +2785,8 @@ ALTER TABLE ONLY "transaction"
 -- Name: transaction_translinked_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
-ALTER TABLE ONLY "transaction"
-    ADD CONSTRAINT transaction_translinked_fkey FOREIGN KEY (translinked) REFERENCES "transaction"(id) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE ONLY transaction
+    ADD CONSTRAINT transaction_translinked_fkey FOREIGN KEY (translinked) REFERENCES transaction(id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 --
