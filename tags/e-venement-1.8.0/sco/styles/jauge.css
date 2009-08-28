@@ -1,0 +1,73 @@
+/* affichage graphique de la jauge */
+span.jauge {
+	cursor: default;
+	height: 25px;
+}
+span.jauge > span > span { margin-top: -8px; }
+span.jauge span.command span {
+	top: -8px;
+	left: -5px;
+}
+span.jauge span.command {
+	display: block;
+	position: relative;
+	top: 25px;
+	height: 8px;
+	background-color: #77f;
+}
+span.jauge span.booked { background-color: red; }
+span.jauge span.prebooked { background-color: #ff9000; }
+span.jauge span.free { background-color: green; }
+span.jauge span.jauge.warn {
+	color: green;
+	font-weight: bold;
+}
+span.jauge span.jauge.err {
+	color: red;
+	font-weight: bold;
+}
+span.jauge span.jauge span.desc { margin-left: -4em; }
+span.jauge span.desc {
+	color: black;
+	font-weight: normal;
+}
+span.jauge span + span.jauge { margin-left: 10px; }
+span.jauge span.jauge { white-space: nowrap; }
+span.jauge span > span.desc {
+	display: none;
+	position: absolute;
+	cursor: default;
+	border: 1px solid black;
+	background-color: #fff77f;
+	font-size: 90%;
+	padding: 1px 2px;
+	margin-top: 13px;
+	margin-left: -5px;
+	z-index: 1;
+	max-width: 250px;
+	font-size: 80%;
+}
+span.jauge span:hover > span.desc { display: inline; }
+
+div.reminder {
+	margin-top: 40px;
+	padding: 10px;
+	border: 2px solid blue;
+	width: 350px;
+}
+div.reminder > p.jauge { margin: 0; }
+span.title { font-weight: bold; }
+div.reminder > p.jauge > span {
+	display: block;
+	margin-bottom: 2px;
+}
+div.reminder > p.jauge > span.green:before,
+div.reminder > p.jauge > span.orange:before,
+div.reminder > p.jauge > span.red:before {
+	padding-left: 20px;
+	content: '';
+	margin-right: 10px;
+}
+div.reminder > p.jauge > span.green:before { background-color: green; }
+div.reminder > p.jauge > span.orange:before { background-color: orange; }
+div.reminder > p.jauge > span.red:before { background-color: red; }

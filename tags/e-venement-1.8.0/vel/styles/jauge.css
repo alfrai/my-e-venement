@@ -1,0 +1,13 @@
+.displayjauge p.content + p.jauge:hover,
+.displayjauge p.content:hover + p.jauge { display: block; }
+.displayjauge p.content + p.jauge {
+        position: absolute;
+        display: none;
+        margin-top: 0px;
+        margin-left: 50px;
+        background-color: white;
+        padding: 5px 5px 10px 10px;
+        border: 1px solid gray;
+        border-top-width: 0;
+}
+#selected li.displayjauge p.jauge { margin-left: 25px; }

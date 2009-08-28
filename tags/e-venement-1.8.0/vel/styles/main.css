@@ -1,0 +1,10 @@
+/* couleur du bandeau */
+p.tree { background-color: #c6c9e1; }
+
+/* partie admin */
+select[multiple=multiple] { width: 50em; }
+
+#selected { padding: 0; }
+#selected input[type=text] { width: 4em; }
+#selected li { list-style-type: none; }
+#selected li p { margin: 0; }
