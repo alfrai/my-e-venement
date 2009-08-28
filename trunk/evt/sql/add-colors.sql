@@ -8,17 +8,17 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET escape_string_warning = off;
 
-SET search_path = public, pg_catalog;
+SET search_path = billeterie, pg_catalog;
 
 --
--- Name: color_id_seq; Type: SEQUENCE SET; Schema: public; Owner: beta
+-- Name: color_id_seq; Type: SEQUENCE SET; Schema: billeterie; Owner: ttt
 --
 
 SELECT pg_catalog.setval('color_id_seq', 8, true);
 
 
 --
--- Data for Name: color; Type: TABLE DATA; Schema: public; Owner: beta
+-- Data for Name: color; Type: TABLE DATA; Schema: billeterie; Owner: ttt
 --
 
 COPY color (id, libelle, color) FROM stdin;
