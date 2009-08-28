@@ -1,7 +1,0 @@
-<p>Interface web de vente en ligne.</p>
-<ul>
-	<li>Accès à l'<a href="vel/pub/">interface "publique"</a> de vente en ligne</li>
-	<?php if ( $user->vellevel >= $config["vel"]["right"]["mod"] ) { ?>
-	<li>Accès <a href="vel/def/">au paramétrage</a> du module</li>
-	<?php } ?>
-</ul>

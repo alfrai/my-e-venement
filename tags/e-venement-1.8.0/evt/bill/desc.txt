@@ -1,2 +1,0 @@
-	<img src="/upload/saison-0809.mini.jpg"
-	     alt="saison jeune public" />
