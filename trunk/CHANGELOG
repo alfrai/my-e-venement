@@ -1,3 +1,67 @@
+== 1.7.0 -> 1.8.0 ==
+
+Release 1.7.1, "Breton Beer"
+
+Global :
+ * Corrections :
+   * little correction in the config.php template
+   * display the gmap configuration tool only if the option is enabled
+
+Billetterie :
+ * Améliorations :
+   * big jump into graphical tickets positionning
+   * modification of the data's schema... don't forget to update your database with the evt/sql/r47-plnum.sql patch
+   * improvement of the treatments of ages under 2 years old
+   * correction in the RSS transmission of the ages when < 1 year old
+   * added a new direct ticketting interface, more interactive, lightweight, and user-friendly... in a dev and test situation (use at your own risks before v1.8.1)
+   * now we can edit commands (BdC) and billing (factures) directly within e-venement
+   * a start on the way to make the ticketting process able to act as a web service
+
+Contact :
+ * Corrections :
+   * bug correction in the organisms' search form
+   * suppression de la possibilité de faire des recherches à critères multiples (OU logiques), too buggy
+
+Notes :
+ * beta-libs-0.8.0 needed
+
+== 1.6.1 -> 1.7.0 ==
+
+Release 1.7.0 "Morrocan Tea"
+
+Global :
+ * Corrections
+   * Updated login.php for CSRF security fix in login-check library (as an option)
+   * Correction de balises PHP simplifiées <? en <?php
+ * Améliorations
+   * Création auto du langage plpgsql en base lors de l'initialisation de la base
+
+Billetterie :
+ * Corrections
+   * Annulations : il n'était pas possible d'annuler une opération dont la personne était absente des contacts
+   * Correction du récapitulatif des dettes pour le positionnement à une date donnée.
+   * MAJ des billets pour compatibilité Firefox 3 (pb de taille de billet)
+   * Correction sur la prise en compte de tous les contingeants, et non plus seulement des dépôts
+   * Bug in archiving system on the config.php file ! BE CAREFUL : a manual update of the config.php is needed as done in the last lines of config.php.template
+
+ * Améliorations
+   * Flux RSS, syndication
+   * Fiches spectacles adaptées pour faire le lien avec un/des sites Internet, ajout de saisie via TinyMCE
+   * Ajout du numéro de facture dans la liste des personnes présentes sur une séance
+   * Ajout de statistiques simples
+   * Amélioration de l'ergonomie de la liste des factures
+
+Scolaires et groupes :
+ * Améliorations
+   * Demande de confirmation lors de la suppression d'une ligne ou d'une colonne d'une entrée... pour le module "sco".
+
+Contacts :
+ * Corrections
+   * Petites modifs dans les critères de recherche (bug sur l'age des enfants)
+   * Création de groupe
+ * Amélioration
+   * Option in the config.php.template to activate/deactivate the geolocalization functionnality
+
 == 1.6.0 -> 1.6.1 ==
 
 * general
