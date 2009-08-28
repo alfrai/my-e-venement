@@ -47,11 +47,13 @@
 			<li><a href="def/titretype.php">Les titres</a> génériques (M./Mme/Mlle/...)</li>
 		</ul>
 	</li>
+	<?php if ( $config["gmap"]["enable"] ): ?>
 	<li>Contact / autres
 		<ul>
 			<li><a target="_blank" href="<?php echo htmlsecure($config["gmap"]["perso_url"]) ?>">Personnaliser sa Google Map</a></li>
 		</ul>
 	</li>
+	<?php endif; ?>
 	<?php
 		if ( is_array($config["mods"]) )
 		foreach ( $config["mods"] as $mod )
