@@ -262,7 +262,7 @@
 		$request->free();
 	}
 ?>
-<p class="actions"><?php printActions('ann'); ?></p>
+<?php require('actions.php'); ?>
 <div class="body">
 <?php
 	$query	= " SELECT str FROM str_model WHERE usage = 'titretype'";

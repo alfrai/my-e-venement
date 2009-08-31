@@ -31,12 +31,19 @@
     *   -   0 : ok, no problem, updating the DB has been going good
     *   -   1 : error in the DB updating, like connection problem, or query error
     *   -   2 : error, transac or client given were messed up
+    *   - 254 : error, user's doesn't have rights
     *   - 255 : error, not just 1 record has been updated (0 or more than 1)
     *
     **/
 ?>
 <?php
   require("conf.inc.php");
+  
+  if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
+  {
+    echo '254';
+    die(254);
+  }
   
   // on ajoute un client à la transaction
   if ( intval(substr($_GET['client'],5)) > 0 && intval($_GET['transac']) > 0 )

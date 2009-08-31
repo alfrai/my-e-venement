@@ -100,7 +100,7 @@
 ?>
 <h1><?php echo $title ?></h1>
 <?php includeLib("tree-view"); ?>
-<p class="actions"><?php printActions("ann"); ?></p>
+<?php require('actions.php'); ?>
 <div class="body">
 <h2>Liste des personnes dont le nom commence par "<span id="start"><?php echo strtoupper(htmlsecure($name_start)); ?></span>"</h2>
 <p class="search top">

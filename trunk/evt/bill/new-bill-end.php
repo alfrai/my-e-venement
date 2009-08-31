@@ -25,6 +25,12 @@
   $css[] = 'evt/styles/new-bill.css';
   $class .= ' evt finish';
   
+  if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
+  {
+    $user->addAlert($msg = "Vous n'avez pas un niveau de droits suffisant pour accéder à cette fonctionnalité");
+    $nav->redirect($config["website"]["base"]."evt/bill/",$msg);
+  }
+
   includeLib("headers");
   
   $transac = intval($_POST['transac']);

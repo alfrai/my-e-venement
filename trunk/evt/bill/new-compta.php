@@ -28,6 +28,12 @@
   $title = 'BdC';
   $css[] = 'evt/styles/bdc-facture.css';
   
+  if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
+  {
+    $user->addAlert($msg = "Vous n'avez pas un niveau de droits suffisant pour accéder à cette fonctionnalité");
+    $nav->redirect($config["website"]["base"]."evt/bill/",$msg);
+  }
+  
   // vérifs
   if ( ($transac = intval($_GET['transac'])) <= 0 )
   {

@@ -82,9 +82,7 @@
 ?>
 <h1><?php echo $title ?></h1>
 <?php includeLib("tree-view"); ?>
-<p class="actions">
-	<?php printActions("ann"); ?>
-</p>
+<?php require('actions.php'); ?>
 <div class="body">
 <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="get" class="mygroups">
 	<h2>Créer un groupe statique vide</h2>

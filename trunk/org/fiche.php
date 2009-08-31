@@ -136,7 +136,7 @@
 		$action = $actions["add"];
 	}
 ?>
-<p class="actions"><?php printActions("org"); ?></p>
+<?php require('actions.php'); ?>
 <div class="body">
 <?php
 	

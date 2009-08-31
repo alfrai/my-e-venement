@@ -33,6 +33,7 @@
     *   -   0 : ok, the paiement was recorded
     *   -   1 : error in the DB connection
     *   -   2 : error in the command calling... $_GET['transac'] not ok or others
+    *   - 254 : user doesn't have the right
     *   - 255 : more than one record affected ???
     *
     **/
@@ -46,6 +47,12 @@
   $time     = strtotime($_GET['date']);
   $date     = date('Y-m-d',$time ? $time : strtotime('now'));
   $del      = isset($_GET['del']);
+  
+  if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
+  {
+    echo '254';
+    die(254);
+  }
   
   if ( $transac > 0 && $mode > 0 && abs($amount) > 0 )
   {

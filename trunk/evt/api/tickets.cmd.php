@@ -32,11 +32,19 @@
     *   -   0 : ok, no problem, updating the DB has been going good
     *   -   1 : error in the DB updating, like connection problem, or query error
     *   -   2 : error, transac or manifid or tarif given were messed up
+    *   - 254 : error in user's rights
     *
     **/
 ?>
 <?php
   require("conf.inc.php");
+  
+  if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
+  {
+    echo '254';
+    die(254);
+  }
+                
   
   $transac = intval($_GET['transac']);
   $manifid = intval($_GET['manifid']);

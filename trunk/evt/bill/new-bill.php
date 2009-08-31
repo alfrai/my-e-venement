@@ -29,6 +29,12 @@
   includeJS('jquery-ui','evt');
   includeJS('new-bill','evt');
   
+  if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
+  {
+    $user->addAlert($msg = "Vous n'avez pas un niveau de droits suffisant pour accéder à cette fonctionnalité");
+    $nav->redirect($config["website"]["base"]."evt/bill/",$msg);
+  }
+
   // new-bill's preselection
   $_SESSION['ticket']['new-bill'] = true;
   

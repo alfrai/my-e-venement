@@ -65,6 +65,7 @@ p.actions span.space {
 	margin: 0 20px;
 	cursor: default;
 }
+p.actions a.import,
 p.actions a.add { margin-left: 20px; }
 
 p.tree {

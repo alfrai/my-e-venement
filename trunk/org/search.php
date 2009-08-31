@@ -94,7 +94,7 @@
 ?>
 <h1><?php echo $title ?></h1>
 <?php includeLib("tree-view"); ?>
-<p class="actions"><?php printActions("org"); ?></p>
+<?php require('actions.php'); ?>
 <div class="body">
 <h2><?php echo $grpname ? "Groupe&nbsp;: ".htmlsecure($grpname) : "Rechercher ..." ?></h2>
 <?php

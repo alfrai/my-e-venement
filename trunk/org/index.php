@@ -59,7 +59,7 @@
 ?>
 <h1><?php echo $title ?></h1>
 <?php includeLib("tree-view"); ?>
-<p class="actions"><?php printActions("org"); ?></p>
+<?php require('actions.php'); ?>
 <div class="body">
 <h2>
 	Liste des organismes dont <?php if ( $name_start ) { ?>le nom commence par "<?php echo htmlsecure($name_start); ?>"
