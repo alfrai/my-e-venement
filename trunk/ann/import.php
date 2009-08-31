@@ -95,7 +95,7 @@
       // org_personne
       if ( $pro['organisme_nom'] && $pro['personneid'] > 0 )
       {
-        $request = new bdRequest($bd,"SELECT id FROM organisme WHERE nom ILIKE '".$pro['organisme_nom']."' ORDER BY id DESC LIMIT 1");
+        $request = new bdRequest($bd,"SELECT id FROM organisme WHERE nom ILIKE '".pg_escape_string($pro['organisme_nom'])."' ORDER BY id DESC LIMIT 1");
         unset($pro['organisme_nom']);
         $pro['organismeid'] = intval($request->getRecord('id'));
         $request->free();

@@ -58,6 +58,7 @@
 	}
 	echo '<span class="space">:</span>';
 	echo '<a href="'.($href = "evt/infos/exts.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active " : "").'">Extractions</a>';
+	echo '<a href="'.($href = "evt/infos/import.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active " : "").'">Imports</a>';
 	
 	echo '<a href="evt/" class="parent">..</a>';
 ?>
