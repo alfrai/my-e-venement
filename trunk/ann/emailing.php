@@ -140,7 +140,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
     <?php if ( $sent ): ?>
-    window.location('<?php htmlsecure($_SERVER['PHP_SELF']) ?>');
+    window.location = '<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>';
     <?php endif; ?> 
     $('textarea.tinymce').tinymce({
       script_url: '<?php echo htmlsecure($config['website']['root']) ?>libs/tinymce/tiny_mce.js',
