@@ -65,7 +65,9 @@
 	}
 	if ( $can["add"] ) echo '<a href="'.$baseurl.'/fiche.php?id='.$id.'&add" class="add'.($action == $actions["add"] ? ' active' : '').'">Créer</a>';
 	if ( is_file($siteroot.$baseurl.'/'.($file = "import.php")) )
-	if ( $can["add"] ) echo '<a href="'.$baseurl.'/import.php" class="import'.(basename($_SERVER["PHP_SELF"]) == $file ? ' active' : '').'">Importer</a>';
+	if ( $can["add"] ) echo '<a href="'.$baseurl.'/'.$file.'" class="import'.(basename($_SERVER["PHP_SELF"]) == $file ? ' active' : '').'">Importer</a>';
+	if ( is_file($siteroot.$baseurl.'/'.($file = "emailing.php")) )
+	echo '<a href="'.$baseurl.'/'.$file.'" class="mailing'.(basename($_SERVER["PHP_SELF"]) == $file ? ' active' : '').'">e-Mailing</a>';
 	echo '<a href="." class="parent">..</a>';
 ?>
 </p>
