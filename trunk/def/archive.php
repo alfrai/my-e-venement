@@ -106,8 +106,11 @@
 				$arr = array();
 				
 				if ( in_array("sco",$config["mods"]) )		// module "sco"
+				{
 					$arr[] = "sco.tableau_manif";
-
+					$arr[] = "sco.tableau_personne";
+        }
+        
 				$arr[] = "reservation_cur";
 				$arr[] = "reservation_pre";
 				$arr[] = "reservation";

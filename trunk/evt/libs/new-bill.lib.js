@@ -333,8 +333,8 @@ $(document).ready(function(){
     else
     {
       manifs = '';
-      $("#bill-tickets input[name='manifs[]']").each(function(){
-        manifs = 'manifs[]='+$(this).val()+'&';
+      $("#bill-tickets .spectacles input[name='manifs[]']").each(function(){
+        manifs += 'manifs[]='+$(this).val()+'&';
       });
       $.get('evt/api/flash.cmd.php?'+manifs);
       $(this).val('unflash');
