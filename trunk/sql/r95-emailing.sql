@@ -32,7 +32,6 @@ CREATE SEQUENCE email_id_seq
     NO MINVALUE
     CACHE 1;
 
-ALTER TABLE public.email_id_seq OWNER TO beta;
 ALTER TABLE email ALTER COLUMN id SET DEFAULT nextval('email_id_seq'::regclass);
 ALTER TABLE ONLY email
     ADD CONSTRAINT email_pkey PRIMARY KEY (id);
