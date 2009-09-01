@@ -68,17 +68,31 @@
       $email['content'].
       '</body></html>';
     
-    $sent = mail(
-      $email['to'],
-      $email['subject'],
-      $content,
-      $headers
+    $data = array(
+      'from'    => $from,
+      'to'      => $email['to'],
+      'subject' => $email['subject'],
+      'bcc'     => $email['cci'],
+      'content' => $email['content'],
+      'full_c'  => $content,
+      'full_h'  => $headers,
+      'accountid' => $user->getId(),
     );
+    if ( $bd->addRecord('email',$data) )
+      $sent = mail(
+        $email['to'],
+        $email['subject'],
+        $content,
+        $headers
+      );
+    else
+      $user->addAlert("Impossible d'enregistrer votre email.");
     
     if ( $sent )
     {
       $user->addAlert("Votre courriel a bien été envoyé...");
       $email = array();
+      $bd->updateRecordsSimple('email', array('id' => $bd->getLastSerial('email','id')), array('sent' => 't'));
     }
     else
       $user->addAlert("Impossible d'envoyer votre courriel... veuillez le vérifier à nouveau. Si le problème persiste, contacter votre administrateur.");
