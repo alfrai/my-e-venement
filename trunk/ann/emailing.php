@@ -51,6 +51,8 @@
   if ( !$_POST['subject'] && count($email) > 1 )
     $user->addAlert('Veuillez renseigner un sujet à votre email !');
   
+  $sent = false;
+  
   // envoi de l'email
   if ( $email && isset($_GET['send']) )
   {
@@ -66,17 +68,16 @@
       $email['content'].
       '</body></html>';
     
-    $r = mail(
+    $sent = mail(
       $email['to'],
       $email['subject'],
       $content,
       $headers
     );
     
-    if ( $r )
+    if ( $sent )
     {
       $user->addAlert("Votre courriel a bien été envoyé...");
-      $redirectnewurl = $_SERVER['PHP_SELF'];
       $email = array();
     }
     else
@@ -138,6 +139,9 @@
 <form action="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>" method="post" class="email">
 <script type="text/javascript">
   $(document).ready(function(){
+    <?php if ( $sent ): ?>
+    window.location('<?php htmlsecure($_SERVER['PHP_SELF']) ?>');
+    <?php endif; ?> 
     $('textarea.tinymce').tinymce({
       script_url: '<?php echo htmlsecure($config['website']['root']) ?>libs/tinymce/tiny_mce.js',
       mode : "none",
