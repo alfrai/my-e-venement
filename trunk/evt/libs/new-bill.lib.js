@@ -96,6 +96,9 @@ function newbill_evt_select()
   
   // print the prices
   $('#bill-tarifs, #bill-compta, #bill-paiement #pay').fadeIn(2000,function(){ $(this).addClass('show'); });
+  
+  // focus on nb
+  newbill_tickets_focus()
 }
 function newbill_evt_refreshjs()
 {

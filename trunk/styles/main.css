@@ -181,6 +181,8 @@ form.personne ul.contacts, body.org ul.organismes,
 body.evt ul.events, body.salle ul.salle,
 body.bill ul.contacts
 { min-height: 80px; }
+.search .organisme ul li span.id,
+body.org ul.organismes span.id { display: none; }
 
 form.ident { margin-top: 20px; }
 form.ident span { display: block; }

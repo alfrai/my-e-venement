@@ -94,6 +94,7 @@
 			echo '<li><a href="org/fiche.php?view&id='.$rec["id"].'">';
 			echo htmlsecure($rec["nom"]).'</a>';
 			echo htmlsecure(' ('.$rec["catdesc"].($rec["catdesc"] && $rec["ville"] ? ' - ' : '').$rec["ville"].')');
+			echo '<span class="hidden id">'.intval($rec['id']).'</span>';
 			echo '</li>';
 		}
 	?>
