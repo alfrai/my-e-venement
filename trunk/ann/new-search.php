@@ -73,7 +73,7 @@
   if ( $tmp['nom'] )
   {
     $grp['nom']      = $tmp['nom'];
-    if ( !isset($tmp['common']) )
+    if ( !isset($tmp['common']) || !$user->hasRight($config["right"]["commongrp"]) )
     $grp['createur'] = $user->getId();
     $bd->delRecordsSimple('groupe',$grp);
     if ( $bd->addRecord('groupe',$grp) !== false )
@@ -419,7 +419,9 @@ $(document).ready(function(){
   <?php if ( $user->hasRight($config["right"]["commongrp"]) ): ?>
   <p class="opt"><input type="checkbox" name="grp[common]" value="yes" /> Groupe commun</p>
   <?php endif; ?>
+  <?php if ( $_POST['search'] ): ?>
   <p class="opt"><input type="checkbox" name="grp[dynamic]" value="yes" /> Enregistrement "dynamique"</p>
+  <?php endif; ?>
   <p class="rec"><input type="submit" name="save" value="Enregistrer" />
   <div class="hidden">
 	  <?php $request->firstRecord(); while ( $rec = $request->getRecordNext() ): ?>
