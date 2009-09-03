@@ -55,7 +55,7 @@
 	{
 		echo '<a href="'.$baseurl.'/fiche.php?id='.$id.'&view" '.($action == $actions["view"] ? 'class="active"' : '').'>Consulter</a>';
 		if ( $can["edit"] ) echo '<a href="'.$baseurl.'/fiche.php?id='.$id.'&edit" '.($action == $actions["edit"] ? 'class="active"' : '').'>Modifier</a>';
-		if ( $can["del"]  ) echo '<a href="'.$baseurl.'/'.$del.'?id='.$id.'" '.($action == $actions["del"] ? 'class="active"' : '').'>Supprimer</a>';
+		if ( $can["del"]  ) echo '<a href="'.$baseurl.'/del.php?id='.$id.'" '.($action == $actions["del"] ? 'class="active"' : '').'>Supprimer</a>';
 	}
 	else
 	{
