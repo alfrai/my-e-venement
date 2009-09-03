@@ -140,6 +140,7 @@
 		echo '<input type="hidden" name="nameo['.intval($rec["id"]).']" value="'.htmlsecure($rec["nom"]).'" /> ';
 		echo '<input type="text" name="namen['.intval($rec["id"]).']" value="'.htmlsecure($rec["nom"]).'" maxlength="255" /> ';
 		echo '<a href="ann/search.php?grpid='.intval($rec["id"]).'&grpname='.urlencode($rec["nom"]).'">voir...</a> ';
+		echo '<a href="ann/new-search.php?grpid='.intval($rec["id"]).'" class="voir">voir*...</a> '.($rec["description"] ? '<span class="desc">'.htmlsecure($rec["description"]).'</span>' : '' );
 		echo '<a href="ann/emailing.php?grpid='.intval($rec["id"]).'&grpname='.urlencode($rec["nom"]).'">courieliser...</a>';
 		echo '</p>';
 	}
@@ -163,7 +164,7 @@
 		    ORDER BY account.name, groupe.nom";
 	$request = new bdRequest($bd,$query);
 	while ( $rec = $request->getRecordNext() )
-		echo '<li>'.htmlsecure($rec["createur"]).': <a href="ann/search.php?grpid='.intval($rec["id"]).'"&grpname='.htmlsecure($rec["nom"]).'>'.htmlsecure($rec["nom"]).'</a></li>';
+		echo '<li>'.htmlsecure($rec["createur"]).': <a href="ann/new-search.php?grpid='.intval($rec["id"]).'"&grpname='.htmlsecure($rec["nom"]).'>'.htmlsecure($rec["nom"]).'</a></li>';
 ?>
 </ul>
 </div>

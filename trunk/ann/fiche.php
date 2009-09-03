@@ -138,7 +138,7 @@
 					$arr["service"]		= $org["service"][$i]["value"] != $srvdef && $org["service"][$i]["value"] != ""
 								? substr($org["service"][$i]["value"],0,255)
 								: NULL;
-					$arr["description"]	= $org["description"][$i]["value"] != $srvdef && $org["description"][$i]["value"] != ""
+					$arr["description"]	= $org["description"][$i]["value"] != $default['description'] && $org["description"][$i]["value"] != ""
 								? $org["description"][$i]["value"]
 								: NULL;
 					$bd->updateRecordsSimple("org_personne",

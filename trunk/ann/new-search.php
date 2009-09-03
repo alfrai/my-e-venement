@@ -52,6 +52,7 @@
     'adresse' => 'adresse',
     'creation'=> 'creation',
     'modification' => 'modification',
+    'orgcat'  => 'orgcat',
   );
   
   $realfields = $fields;
@@ -65,21 +66,20 @@
   $realfields['childmin'] = 'age[min]';
   $realfields['childmax'] = 'age[max]';
   
-	includeLib("headers");
-	
+  includeLib("headers");
+  
   // saving groups
-  if ( $_POST['save'] )
+  if ( $_POST['save'] && $user->hasRight($config['right']['group']) )
   if ( is_array($tmp = $_POST['grp']) )
   if ( $tmp['nom'] )
   {
     $grp['nom']      = $tmp['nom'];
     if ( !isset($tmp['common']) || !$user->hasRight($config["right"]["commongrp"]) )
     $grp['createur'] = $user->getId();
-    $bd->delRecordsSimple('groupe',$grp);
+    $bd->delRecordsSimple('groupe',array('id' => $grpid) );
     if ( $bd->addRecord('groupe',$grp) !== false )
     {
       $grpid = $bd->getLastSerial('groupe','id');
-      if ( $grpid > 0 && $tmp['dynamic'] && is_array($_POST['criterias']) && count($_POST['criterias']) > 0 )
       if ( $grpid > 0 && $tmp['dynamic'] && is_array($_POST['criterias']) && count($_POST['criterias']) > 0 )
       {
         // groupe dynamique
@@ -142,7 +142,7 @@
     case 'cp':
       if ( $_POST[$post] )
       $criterias[$sql] = $_POST[$post];
-      $where[]   = '       '.$sql." ILIKE '".pg_escape_string($_POST[$post])."%'";
+      $where[]   = '       ('.$sql." ILIKE '".pg_escape_string($_POST[$post])."%' OR org".$sql." ILIKE '".pg_escape_string($_POST[$post])."%')";
       break;
     case 'npai':
       if ( isset($_POST[$post]) )
@@ -153,11 +153,14 @@
       else  $criterias[$sql] = false;
       break;
     case 'email':
+      if ( isset($_POST[$post]) )
+        $where[]   = 'pro'.$sql.' IS NULL';
     case 'adresse':
       if ( isset($_POST[$post]) )
       {
         $criterias[$sql] = true;
-        $where[]   = '       '.$sql.' IS NOT NULL';
+        $where[]   = '       '.$sql.' IS NULL';
+        $where[]   = 'org'.$sql.' IS NULL';
       }
       else  $criterias[$sql] = false;
       break;
@@ -199,7 +202,7 @@
     if ( count($where) > 0 )
     {
       $query  = ' SELECT p.*
-                  FROM personne_properso p LEFT JOIN child ON child.personneid = p.id 
+                  FROM personne_properso p LEFT JOIN child ON child.personneid = p.id
                   WHERE '.implode(' AND ',$where).'
                   ORDER BY nom, prenom, orgnom, orgville, ville';
       $request = new bdRequest($bd,$query);
@@ -305,13 +308,28 @@ $(document).ready(function(){
     <?php endwhile; ?>
     </select>
   </span>
-  <span class="and">ET</span>
   <?php $fonctions->free(); ?>
+  <span class="and">ET</span>
   <span class="organisme">
+    org: 
     <input type="hidden" name="organisme" value="" />
     <input type="text" name="ajax[organisme]" value="" title="Saisissez le début du nom que vous recherchez et appuyez sur Entrée." />
   </span>
   <ul class="organismes noborder"></ul>
+  <span class="and">ET</span>
+  <span class="orgcat">
+    <?php
+      $query = ' SELECT * FROM org_categorie ORDER BY libelle';
+      $orgcat = new bdRequest($bd,$query);
+    ?>
+    <select name="orgcat">
+      <option value="">-Catégories d'org.-</option>
+      <?php while($cat = $orgcat->getRecordNext() ): ?>
+      <option value="<?php echo intval($cat['id']) ?>"><?php echo htmlsecure($cat['libelle']) ?></option>
+      <?php endwhile; ?>
+    </select>
+    <?php $orgcat->free(); ?>
+  </span>
   <?php
     $query  = ' SELECT g.id, g.nom, a.name AS owner, a.id AS ownerid, a.id IS NULL AS common, a.id = '.$user->getId().' AS me
                 FROM groupe g LEFT JOIN account a ON a.id = g.createur
@@ -412,8 +430,9 @@ $(document).ready(function(){
 <p class="nb"><?php echo intval($request->countRecords()) ?> résultat(s)</p>
 <p class="submit"><input type="submit" name="remove" value="retirer" /></p>
 </form>
+<?php if ( $user->hasRight($config['right']['group']) ): ?>
 <hr/>
-<form method="post" action="<?php echo htmlsecure($_POST['PHP_SELF']) ?>" class="save">
+<form method="post" action="<?php echo htmlsecure($_SERVER['PHP_SELF'].'?grpid='.$grpid) ?>" class="save">
   <h2>Enregistrer en tant que groupe...</h2>
   <p class="name">Nom: <input type="input" name="grp[nom]" value="" /></p>
   <?php if ( $user->hasRight($config["right"]["commongrp"]) ): ?>
@@ -435,6 +454,7 @@ $(document).ready(function(){
     <?php endforeach; endif; ?>
   </div>
 </form>
+<?php endif; ?>
 <?php
   $query	= " SELECT value
 	            FROM options

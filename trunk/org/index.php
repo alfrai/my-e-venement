@@ -42,7 +42,7 @@
 	$ville_start = $_GET["v"] ? strtoupper(trim("".$_GET["v"])) : "";
 	$query = " SELECT *
 		   FROM organisme_categorie
-		   WHERE nom ILIKE '".$name_start."' || '%'
+		   WHERE nom ILIKE '%".$name_start."' || '%'
 		     AND ville ILIKE '".$ville_start."' || '%'
 		   ORDER BY nom,ville";
 	
@@ -62,7 +62,7 @@
 <?php require('actions.php'); ?>
 <div class="body">
 <h2>
-	Liste des organismes dont <?php if ( $name_start ) { ?>le nom commence par "<?php echo htmlsecure($name_start); ?>"
+	Liste des organismes dont <?php if ( $name_start ) { ?>le nom contient "<?php echo htmlsecure($name_start); ?>"
 	<?php } if ( $name_start && $ville_start ) echo "et"; if ( $ville_start ) { ?>
 	la ville commence par "<?php echo htmlsecure($ville_start); ?>"
 	<?php } ?>

@@ -38,8 +38,7 @@
   $from = $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>';
   
   // verifying email
-  $email = array('to' => $from);
-  if ( $_POST['cci'] && $_POST['content'] )
+  if ( ($_POST['to'] || $_POST['cci']) && $_POST['content'] )
   {
     $email = array(
       'to'     => $_POST['to'] ? $_POST['to'] : $from,
@@ -48,6 +47,7 @@
       'content' => $_POST['content'],
     );
   }
+  else $email = array('to' => $from);
   if ( !$_POST['subject'] && count($email) > 1 )
     $user->addAlert('Veuillez renseigner un sujet à votre email !');
   
@@ -59,13 +59,21 @@
     $headers =
       'From: '.$from."\r\n".
       'Bcc: '.$email['cci']."\r\n".
-      'X-Mailer: e-venement/v1'."\r\n".
+      'X-Mailer: e-venement/libre-informatique http://www.libre-informatique.fr/'."\r\n".
       'MIME-Version: 1.0'."\r\n".
       'Content-type: text/html; charset=UTF-8'."\r\n";
     
     $content =
-      '<html><head><title>'.$email['subject'].'</title></head><body>'.
+      '<html><head><title></title></head><body>'.
       $email['content'].
+      "\r\n\r\n".
+      "--".
+      "\r\n".
+      $from.
+      "\r\n".
+      '<p class="legal">nb1: '."Si vous ne souhaitez plus recevoir d'email de notre part, contactez nous&nbsp;: ".'<a href="mailto:'.htmlsecure($from).'">'.htmlsecure($config["mail"]["mailfrom"]).'</a>.</p>'.
+      "\r\n".
+      '<p class="html">nb2: '."Ce message s'affiche mieux dans sa version HTML...".'</p>'.
       '</body></html>';
     
     $data = array(
@@ -119,7 +127,7 @@
   <span>À: </span>
   <span class="to">
     <?php echo htmlsecure($email['to']) ?>
-    <input type="hidden" name="to" value="<?php echo htmlsecure($config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>') ?>" disabled="disabled" />
+    <input type="hidden" name="to" value="<?php echo htmlsecure($email['to'] ? $email['to'] : $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>') ?>" />
   </span>
 </p>
 <p>
@@ -200,7 +208,9 @@
     $request = new groupBdRequest($bd,$grpid,$user);
     while ( $rec = $request->getRecordNext() )
     {
-      if ( $rec['email'] )
+      if ( intval($rec['orgid']) > 0 && ($rec['proemail'] || $rec['orgemail']) )
+      echo htmlsecure($rec['prenom'].' '.$rec['nom'].' <'.($rec['proemail'] ? $rec['proemail'] : $rec['orgemail']).'>, ');
+      elseif ( $rec['email'] )
       echo htmlsecure($rec['prenom'].' '.$rec['nom'].' <'.$rec['email'].'>, ');
     }
   }
