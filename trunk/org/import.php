@@ -27,6 +27,7 @@
   $type = 'org';
   
   $fields = array(
+    'categorie',
 	  'nom',
 	  'adresse',
 	  'cp',
@@ -40,8 +41,10 @@
   );
   
   $exemple = '
-  "Mairie de Bourboul les Bains","place de la Résistance","14220","Bourboul les Bains","France","contact@mairie-bourboul.fr","http://www.mairie-bourboul.fr/","02 58 10 10 10","02 58 10 10 01",...
-  "Compagnie La Hurlante","25 chemin de la coline","76000","ROUEN","France","cie-la-hurlante@free.fr","","02 45 85 62 35","","",...';
+  "Collectivité","Mairie de Bourboul les Bains","place de la Résistance","14220","Bourboul les Bains","France","contact@mairie-bourboul.fr","http://www.mairie-bourboul.fr/","02 58 10 10 10","02 58 10 10 01",...
+  "Compagnie","La Hurlante","25 chemin de la coline","76000","ROUEN","France","cie-la-hurlante@free.fr","","02 45 85 62 35","","",...';
+  
+  $warning = "Attention: le nom de la catégorie est recherché dans la base pour trouver une correspondance... essayez de respecter l'accentuation, au risque de créer des catégories en doublon.";
   
 	includeClass("bdRequest");
 	
@@ -60,7 +63,20 @@
     if ( is_array($line) )
     foreach( $line as $key => $field )
     {
-      if ( $key < 7 )
+      if ( $key == 0 )  // la catégorie
+      {
+        $cat = new bdRequest($bd,"SELECT id FROM org_categorie WHERE libelle ILIKE '".$field."'");
+        if ( $cat->countRecords() > 0 )
+          $catid = intval($cat->getRecord('id'));
+        else
+        {
+          $bd->addRecord('org_categorie',array('libelle' => $field));
+          $catid = $bd->getLastSerial('org_categorie','id');
+        }
+        if ( $catid > 0 )
+          $org[$fields[$key]] = $catid;
+      }
+      elseif ( $key < 8 )
  	      $org[$fields[$key]] = $field;
  	    else
  	      $tel[]['numero'] = $field;
