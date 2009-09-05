@@ -232,7 +232,7 @@ function newbill_tickets_refresh_money()
     
     manif.find("input.ticket").each(function(){
       tarif = $(this).val();
-      price += parseFloat(manif.find('input[name='+tarif+'].prix').val());
+      price += parseFloat((val = manif.find('input[name='+tarif+'].prix').val()) ? val : 0);
     });
     
     manif.find('.total').html(price);
