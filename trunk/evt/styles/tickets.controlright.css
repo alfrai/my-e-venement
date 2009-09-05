@@ -1,0 +1,15 @@
+   	.left {
+  		width: 108.8mm;
+  		float: left;
+  		text-align: right;
+  		padding-right: 3mm;
+   	}
+   	.right {
+  		width: 36.2mm;
+  		padding-left: 2mm;
+   	}
+   	
+	.info { float: right; }
+  	.right .info { float: left; }
+  	.left .manifid { text-align: left; margin-left: 2mm; float: left; }
+  	.right .manifid { text-align: right; margin-right: 2mm; float: right; }
