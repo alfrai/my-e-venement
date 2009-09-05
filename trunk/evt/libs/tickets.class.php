@@ -61,6 +61,9 @@ class Tickets
   <title>e-venement : impression de tickets</title>
   <link rel="stylesheet" media="all" type="text/css" href="../styles/tickets.default.css" />
   <link rel="stylesheet" media="all" type="text/css" href="../styles/tickets.css" />
+  <?php if ( $config['ticket']['controlleft'] ): ?>
+  <link rel="stylesheet" media="all" type="text/css" href="../styles/tickets.controlleft.css" />
+  <?php endif; ?>
 </head>
 <?php if ( $config['ticket']['let_open_after_print'] ): ?>
 <body onload="javascript: print();">
