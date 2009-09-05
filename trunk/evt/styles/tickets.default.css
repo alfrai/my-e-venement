@@ -19,18 +19,17 @@
   	}
   	.left {
   		border-color: blue;
-  		width: 110.8mm;
+  		width: 108.8mm;
   		height: 58mm;
-  		float: right;
-  		text-align: left;
-  		padding-left: 3mm;
+  		float: left;
+  		text-align: right;
+  		padding-right: 3mm;
   	}
   	.right {
-   		text-align: right;
- 		  border-color: green;
-  		width: 34.2mm;
+  		border-color: green;
+  		width: 36.2mm;
   		height: 58mm;
-  		padding-right: 2mm;
+  		padding-left: 2mm;
   	}
   	
   	p {
@@ -48,9 +47,9 @@
 		padding: 0 8px 2px 8px;
   		margin-top: 2px;
   		height: 10pt;
-  		float: left;
+  		float: right;
   	}
-  	.right .info { float: right; }
+  	.right .info { float: left; }
   	.info.depot {
     		margin-left: 20px;
 		text-align: left;
@@ -62,7 +61,7 @@
   	}
   	.info.annulation, .info.duplicata { border: 1px solid black; }
   	
-  	.left .manifid { text-align: left; margin-right: 2mm; float: right; }
+  	.left .manifid { text-align: left; margin-left: 2mm; float: left; }
   	.metaevt { font-size: 8pt; margin-top: 9mm; height: 10pt; clear: both; }
   	.lieuprix, .dateheure { font-size: 11pt; height: 13pt; }
   	.dateheure { margin-top: 1.5mm; }
@@ -76,7 +75,7 @@
   	.operation { font-size: 6pt; margin-top: 1.5mm; height: 8pt; }
   	.mentions { margin-top: 1mm; }
   	
-  	.right .manifid { text-align: right; margin-right: 2mm; float: left; }
+  	.right .manifid { text-align: right; margin-right: 2mm; float: right; }
   	.right .metaevt { font-size: 7pt; padding-top: 0.5pt; height: 9.5pt; }
   	.right .lieuprix, .right .dateheure { font-size: 8pt; padding-top: 3pt; height: 10pt; }
   	.right .titre { font-size: 15px; padding-top: 11px; height: 19px; }
