@@ -154,7 +154,7 @@
 ?>
 
 <p class="numtransac">
-	<span class="client"><?php echo htmlsecure("Client: ".$perso) ?></span>
+	<span class="client"><?php echo htmlsecure("Spectateur: ".$perso) ?></span>
 	;
 	<span class="operation">Numéro d'opération:</span> <span>#<?php echo htmlsecure($data["numtransac"]) ?></span>
 	<?php

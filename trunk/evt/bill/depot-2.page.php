@@ -181,7 +181,7 @@
 	includePage("depot-stages");
 ?>
 <p class="numtransac">
-	<span><?php echo htmlsecure("Client: ".$perso) ?></span>
+	<span><?php echo htmlsecure("Spectateur: ".$perso) ?></span>
 	;
 	<span>Numéro d'opération:</span> <span>#<?php echo htmlsecure($data["numtransac"]) ?></span>
 </p>

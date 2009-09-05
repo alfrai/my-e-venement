@@ -290,7 +290,7 @@
 					echo '<select name="field[regisseur][value]">';
 					echo '<option value="">-les régisseurs-</option>';
 					while ( $ppl = $pers->getRecordNext() )
-						echo '<option value="'.intval($ppl["id"]).'" '.($ppl["regisseur"] == $rec["id"] ? 'selected="selected"' : '').'>'.htmlsecure($ppl["titre"].' '.$ppl["nom"].' '.$ppl["prenom"]).'</option>';
+						echo '<option value="'.intval($ppl["id"]).'" '.($ppl["regisseur"] == $rec["id"] && $rec['id'] > 0 ? 'selected="selected"' : '').'>'.htmlsecure($ppl["titre"].' '.$ppl["nom"].' '.$ppl["prenom"]).'</option>';
 					echo '</select>';
 					$pers->free();
 				}

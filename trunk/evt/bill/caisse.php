@@ -42,8 +42,8 @@
 	$query  = " CREATE TEMP TABLE paiements AS
 		    SELECT montant, date, mode.id, libelle, numcompte, transaction
 		    FROM paiement AS paie, modepaiement AS mode
-		    WHERE paie.date <= '".pg_escape_string($date["stop"])."'
-		      AND paie.date >  '".pg_escape_string($date["start"])."'
+		    WHERE paie.date < '".pg_escape_string($date["stop"])."'
+		      AND paie.date >=  '".pg_escape_string($date["start"])."'
 		      AND modepaiementid = mode.id
 		    ORDER BY date, montant, libelle";
 	$pays	= new bdRequest($bd,$query);
@@ -119,7 +119,7 @@
 		}
 ?>
 			<li>
-				<span class="transac">#<?php echo htmlsecure($rec["transaction"]) ?>:</span>
+				<span class="transac">#<a href="evt/bill/<?php echo ($_SESSION['ticket']['new-bill'] ? 'new-bill.php' : 'billing.php').'?t='.intval($rec['transaction']) ?>"><?php echo htmlsecure($rec["transaction"]) ?></a>:</span>
 				<span class="eur montant"><?php
 					$total["mode"] += floatval($rec["montant"]);
 					echo htmlsecure(round($rec["montant"],2).'€');

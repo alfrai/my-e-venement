@@ -217,6 +217,24 @@
 		$action = $actions["view"];
 	}
 ?>
+<script type="text/javascript">
+$(document).ready(function(){
+  function imageurl_show()
+  {
+    $('#imageurl').parent().find('img.images').remove();
+    urls = $('#imageurl').val().split(';');
+    for ( i = 0 ; i < urls.length ; i++ )
+      $('#imageurl').parent().append('<img class="images" src="'+urls[i]+'" alt="img" />');
+  }
+  
+  imageurl_show();
+  $('#imageurl').blur(imageurl_show);
+  $('#imageurl').keypress(function(e){
+    if ( e.which = 59 )
+      imageurl_show();
+  });
+});
+</script>
 <h1><?php echo $title ?></h1>
 <?php includeLib("tree-view"); ?>
 <?php require("actions.php"); ?>
@@ -382,7 +400,7 @@
 	<div class="web jqslide jqhide">
 		<p class="titre">Infos web</p>
 		<div class="clip">
-			<script type="text/javascript" src="../../libs/tinymce/tiny_mce.js"></script>
+			<script type="text/javascript" src="libs/tinymce/tiny_mce.js"></script>
 			<script type="text/javascript">
 				tinyMCE.init({
 					mode : "textareas",
@@ -405,24 +423,24 @@
 				printField("field[".$name."]",$rec[$name] ? floatval($rec[$name]) : "",$default[$name],3,1);
 				if ( $action != $actions["view"] || $rec[$name] ) echo '€';
 			?>
-			</p><p>Image(s): <?php
+			</p><p>Image(s)<?php echo $action == $actions['edit'] ? ' (sep. ";")' : '' ?>: <?php
 				if ( $action == $actions["view"] )
 				{
 					$imgs = split(";",$rec["imageurl"]);
 					foreach ( $imgs as $img ) 
-						echo '<img src="'.htmlspecialchars($img).'" height="50" class="images" alt="image du spectacle" />';
+						echo '<img src="'.htmlspecialchars($img).'" class="images" alt="image du spectacle" />';
 				}
-				else	echo '<input type="text" maxlength="255" name="field[imageurl][value]" value="'.htmlspecialchars($rec["imageurl"]).'" />';
+				else	echo '<textarea id="imageurl" name="field[imageurl][value]" class="noeditor" style="width: 250px;">'.htmlspecialchars($rec["imageurl"]).'</textarea>';
 			?></p>
 			<div class="extraspec"><?php
 				$name = "extraspec";
 				echo '<span class="titre">'."Autour de l'évènement</span>";
-				printField("field[".$name."]",$rec[$name],$default[$name],5,52,true);
+				printField("field[".$name."]",$rec[$name],$default[$name],5,52,true,' ',' ');
 			?></div>
 			<div class="extradesc"><?php
 				$name = "extradesc";
 				echo '<span class="titre">'."Distribution</span>";
-				printField("field[".$name."]",$rec[$name],$default[$name],5,52,true);
+				printField("field[".$name."]",$rec[$name],$default[$name],5,52,true,' ',' ');
 			?></div>
 		</div>
 	</div>
@@ -529,7 +547,7 @@
 					echo '</p><p class="description">';
 						echo '<span class="cell">Desc.:</span>';
 						echo '<span class="cell">';
-						printField("manif[".($name = "description")."][]",$manif["manifdesc"],$default[$name],255,NULL,true,NULL,NULL,false,'class="noeditor"');
+						printField("manif[".($name = "description")."][]",$manif["manifdesc"],$default[$name],255,NULL,true,' ',' ',false,'class="noeditor"');
 						echo '</span>';
 					if ( $action != $actions["view"] )
 					{

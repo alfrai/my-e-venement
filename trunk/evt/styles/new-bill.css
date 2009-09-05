@@ -98,6 +98,7 @@ ul.spectacles li.total span.total { border-top: 1px solid grey; }
 .list .total { display: none; }
 #bill-tickets li { list-style-type: none; }
 #bill-tickets ul { padding-left: 10px; }
+#bill-tickets .list > ul > li > a { font-weight: bold; }
 
 /* tarifs */
 #bill-tarifs { display: none; }
@@ -124,6 +125,8 @@ ul.spectacles li.total span.total { border-top: 1px solid grey; }
   padding-left: 15px;
   border-left: 1px solid black;
 }
+#bill-compta button.facture { display: none; }
+#bill-compta button.facture.printed { display: inline; }
 
 /* paiement */
 #bill-paiement #pay,

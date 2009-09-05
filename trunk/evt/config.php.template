@@ -30,11 +30,14 @@
 	$config['ticket']['old-bill']    = true;
   //$config['ticket']['let_open_after_print'] = true;
   //$config['ticket']['bdc_facture_html_output'] = true;
+  
   $config['ticket']['seller']['logo']     = '';
   $config['ticket']['seller']['nom']      = 'Très Tôt Théâtre';
   $config['ticket']['seller']['adresse']  = '2 rue des Régaires';
   $config['ticket']['seller']['ville']    = '29000 QUIMPER';
   $config['ticket']['seller']['pays']     = 'France';
+  $config['ticket']['seller']['refs']     = 'Siret - Code APE - TVA FR ';
+  $config['ticket']['seller']['legal']    = 'Coordonnées bancaires ... ... ...'
 
 	$config["evt"]["syndication"]           = true;
 	

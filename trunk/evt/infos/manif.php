@@ -28,6 +28,7 @@
 	includeJS("ttt");
 	includeJS("ajax");
 	includeJS("annu");
+	includeJS("jquery");
 	includeLib("actions");
 	
 	$evt = true;
@@ -84,6 +85,13 @@
 	// on affiche les détails si demandé :
 	$more = isset($_GET["more"]);
 ?>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.bilan .toggle').click(function(){
+      $(this).parent().parent().toggleClass('nodetails');
+    });
+  });
+</script>
 <h1><?php echo $title ?></h1>
 <?php includeLib("tree-view"); ?>
 <?php
@@ -220,6 +228,7 @@
 					echo '<a href="'.$_SERVER["PHP_SELF"].'?evtid='.$id.'&id='.$manifid.'&more">Afficher les détails</a>';
 					echo '</p>';
 				}
+				else echo '<p class="toggle">Cacher / Afficher</p>';
 			?>
 			<?php require("personnes.hide.php"); ?>
 			<hr />

@@ -154,7 +154,7 @@ $(document).ready(function() {
 <form action="evt/bill/new-bill-end.php" method="post" >
   <div id="bill-op">Opération #<span id="op"><?php echo $transac ?></span><input type="hidden" name="transac" value="<?php echo $transac ?>" /></div>
   <div id="bill-client">
-    <p class="search">Client: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /> <a class="create" href="ann/fiche.php?new" target="_blank" title="Ouvre un nouvel onglet... fermez-le pour revenir.">Ajouter...</a></p>
+    <p class="search">Spectateur: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /> <a class="create" href="ann/fiche.php?new" target="_blank" title="Ouvre un nouvel onglet... fermez-le pour revenir.">Ajouter...</a></p>
     <div class="list"></div>
     <div class="microfiche"></div>
   </div>
@@ -190,8 +190,17 @@ $(document).ready(function() {
       <?php endif; ?>
     </p>
     <p class="compta">
-      <button name="bdc" value="bdc" class="bdc">Bon de Commande</button> 
-      <button name="facture" value="facture" class="facture">Facture</button> 
+      <button name="bdc" value="bdc" class="bdc">Bon de Commande</button>
+      <?php
+        $printed = new bdRequest($bd,
+          'SELECT count(*) AS nb
+           FROM reservation_pre p, reservation_cur c
+           WHERE NOT canceled
+             AND c.resa_preid = p.id
+             AND transaction = '.intval($transac));
+      ?>
+      <button name="facture" value="facture" class="facture <?php echo intval($printed->getRecord('nb')) > 0 ? 'printed' : '' ?>">Facture</button>
+      <?php $printed->free() ?>
     </p>
   </div>
   

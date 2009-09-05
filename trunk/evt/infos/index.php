@@ -42,10 +42,10 @@
 	else
 	{
 		// recherche par nom d'évènement
-		$name_start = $_GET["s"] ? trim("".pg_escape_string($_GET["s"])) : "A";
+		$name_start = $_GET["s"] ? trim("".pg_escape_string($_GET["s"])) : "";
 		$query = " SELECT id, catdesc, nom
 			   FROM evenement_categorie
-			   WHERE LOWER(nom) LIKE LOWER('".$name_start."') || '%'
+			   WHERE LOWER(nom) LIKE LOWER('".$name_start."%')
 			   ORDER BY catdesc,nom";
 	}
 	$events = new bdRequest($bd,$query);

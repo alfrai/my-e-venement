@@ -221,7 +221,7 @@
 		}
 		
 		// si pas de billets pré-réservés
-		if (( $action["printed"] || $action["filled"] ) && $nb_billets <= 0 )
+		if (( $action["printed"] || $action["filled"] ) && abs($nb_billets) == 0 )
 			pasDeBillet();
 		
 		/* stages 4-5 */

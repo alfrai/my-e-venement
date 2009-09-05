@@ -108,6 +108,7 @@ form.evt div.web {
 form.evt div.web .clip {
 	max-height: 385px;
 }
+form.evt div.web .images { height: 50px; }
 form.evt div.web span.titre {
 	text-decoration: underline;
 	display: block;
@@ -315,7 +316,7 @@ body.infotick p.back, body.finish p.back {
 }
 body.infotick p.back > a, body.finish p.back > a { font-weight: bold; }
 
-body.agenda table.eventcontent span.evtsite {
+body.agenda table.eventcontent span.evtville {
 	display: none;
 	position: absolute;
 	background-color: #fff77f;
@@ -326,7 +327,7 @@ body.agenda table.eventcontent span.evtsite {
 	margin-top: 7px;
 	margin-left: 3px;
 }
-body.agenda table.eventcontent:hover span.evtsite { display: inline; }
+body.agenda table.eventcontent:hover span.evtville { display: inline; }
 
 
 form.resa div.manifestations span.cancel span.billet { color: gray; }
@@ -582,6 +583,10 @@ div.bilan, div.tarifs {
 	border: 1px solid #364ed7;
 	margin-top: 20px;
 }
+div.bilan.nodetails div.trans > *  { display: none; }
+div.bilan.nodetails div.trans > h3,
+div.bilan.nodetails div.trans > p { display: block; }
+div.bilan .toggle { cursor: pointer; color: blue; }
 
 form.manif div.infos {
 	height: 315px;

@@ -19,8 +19,8 @@
 
 #seller p { margin: 0; }
 #seller .nom { font-weight: bold; }
-
-#ids { margin-top: 150px; }
+#seller .pays,
+#seller .refs { font-size: 80%; }
 
 #lines td, #lines th { border-bottom: 1px solid silver; border-left: 1px solid silver; padding: 0 5px; text-align: center; }
 #lines th:after { content: ''; }
@@ -47,4 +47,5 @@ td.tva:after { content: '%'; padding-left: 2px; }
 
 .timer-sql, .credits { display: none; }
 
+#correction { margin-top: 150px; }
 #ids .num { font-weight: bold }

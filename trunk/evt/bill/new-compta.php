@@ -25,7 +25,7 @@
   
   $type = $_GET['type'] == 'bdc' ? 'bdc' : 'facture';
   
-  $title = 'BdC';
+  $title = $type == 'bdc' ? 'BdC' : 'Facture';
   $css[] = 'evt/styles/bdc-facture.css';
   
   if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
@@ -44,25 +44,33 @@
   
   // passage en base du bon de commande / de la facture
   $data = array(
-    'accountid' => $user->getId(),
+    'accountid'   => $user->getId(),
     'transaction' => $transac,
+    'date'        => '\DEFAULT'
   );
-  if ( $bd->addOrUpdateRecord($type,array('transaction' => $transac),$data) === false )
+  $correction = false;
+  if ( $bd->updateRecordsSimple($type,array('transaction' => $transac),$data) === false )
   {
+    if ( $bd->addRecord($type,$data) )
+    {
       $user->addAlert("Impossible d'enregistrer le bon de commande / la facture en base.");
       $user->closeNext();
       $nav->redirect('.');
+    }
   }
+  else $correction = true;
   $request = new bdRequest($bd,'SELECT id FROM '.$type.' WHERE transaction = '.$transac);
   $id = $request->getRecord('id');
   $request->free();
   
   // récup des infos sur la personne
-  $query  = ' SELECT p.id, p.prenom, p.nom, p.adresse, p.cp, p.ville, p.pays, p.email
+  $query  = ' SELECT p.id, p.prenom, p.nom, p.adresse, p.cp, p.ville, p.pays, p.email, f.date
               FROM transaction AS t
               LEFT JOIN personne_properso p
                      ON p.id = t.personneid
                     AND ( p.fctorgid = t.fctorgid OR t.fctorgid IS NULL AND p.fctorgid IS NULL )
+              LEFT JOIN facture f
+                     ON f.transaction = t.id
               WHERE t.id = '.$transac;
   $request = new bdRequest($bd,$query);
   $personne = $request->getRecord();
@@ -107,6 +115,7 @@
 <?php
     echo '<div id="seller">';
     $seller = $config['ticket']['seller'];
+    $seller[] = $config["mail"]["mailfrom"];
     if ( is_array($seller) )
     {
       if ( $seller['logo'] )
@@ -114,6 +123,7 @@
       unset($seller['logo']);
       
       foreach ( $seller as $key => $value )
+      if ( $key != 'legal' )
         echo '<p class="'.htmlsecure($key).'">'.htmlsecure($value).'</p>';
     }
     echo '</div>';
@@ -121,9 +131,12 @@
     // les données client
     echo '<div id="customer">';
     foreach ( $personne as $key => $value )
+    if ( $key != 'date' )
       echo '<p class="'.$key.'">'.htmlspecialchars($value).'</p>';
     echo '</div>';
     
+    if ( $correction )
+    echo '<p id="correction">Cette facture corrige la précédente datée du <span class="date">'.date('d/m/Y',strtotime($personne['date'])).'</span></p>';
     echo '<p id="ids"><span class="num">'.($type == 'bdc' ? 'Bon de commande #' : 'Facture '.$config['ticket']['facture_prefix'] ).'<span class="id">'.htmlsecure($id).'</span></span> <span class="transac">(pour l\'opération <span class="id">#'.$transac.'</span>)</span></p>';
     
     // les lignes du bdc
@@ -173,6 +186,8 @@
       echo '<p class="tva"><span>TVA '.$key.'%:</span><span class="float">'.number_format(round($value,2),2).'</span></p>';
       echo '<p class="ttc"><span>Total TTC:</span><span class="float">'.number_format(round($totaux['ttc'],2),2).'</span></p>';
     echo '</div>';
+    
+    echo '<p id="legal">'.nl2br(htmlsecure($seller['legal'])).'</p>';
     
     $request->free();
     includeLib('footer');

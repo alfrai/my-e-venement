@@ -41,9 +41,9 @@ class Tickets
   <title>e-venement : impression de tickets</title>
 </head>
 <?php if ( $config['ticket']['let_open_after_print'] ): ?>
-<body onload="javascript: close();">
-<?php else: ?>
 <body>
+<?php else: ?>
+<body onload="javascript: close();">
 <?php endif; ?>
 </body>
 </html>
@@ -59,93 +59,8 @@ class Tickets
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>e-venement : impression de tickets</title>
-  <style>
-  	body {
-  		font-family: din, verdana, arial;
-  		font-size: 10pt;
-  		font-weight: bold;
-  		margin: 0; padding: 0;
-  	}
-  	.page {
-  		border: 1px solid white;
-  		clear: both;
-  		page-break-after: always;
-  	}
-  	.ticket {
-  		width: 150mm;
-  		height: 58mm;
-  	}
-  	.left, .right {
-  		overflow: hidden;
-  		border: 1px solid none;
-  	}
-  	.left {
-  		border-color: blue;
-  		width: 108.8mm;
-  		height: 58mm;
-  		float: left;
-  		text-align: right;
-  		padding-right: 3mm;
-  	}
-  	.right {
-  		border-color: green;
-  		width: 36.2mm;
-  		height: 58mm;
-  		padding-left: 2mm;
-  	}
-  	
-  	p {
-  		margin: 0;
-  		padding: 0;
-  		overflow: hidden;
-  		white-space: nowrap;
-  		height: 12pt;
-  		vertical-align: bottom;
-  	}
-  	
-  	.info {
-  		font-size: 8pt;
-  		font-weight: normal;
-		padding: 0 8px 2px 8px;
-  		margin-top: 2px;
-  		height: 10pt;
-  		float: right;
-  	}
-  	.right .info { float: left; }
-  	.info.depot {
-    		margin-left: 20px;
-		text-align: left;
-		float: left;
-  	}
-  	.info.annulation {
-  		background-color: black;
-  		color: white;
-  	}
-  	.info.annulation, .info.duplicata { border: 1px solid black; }
-  	
-  	.left .manifid { text-align: left; margin-left: 2mm; float: left; }
-  	.metaevt { font-size: 8pt; margin-top: 9mm; height: 10pt; clear: both; }
-  	.lieuprix, .dateheure { font-size: 11pt; height: 13pt; }
-  	.dateheure { margin-top: 1.5mm; }
-  	.lieuprix { margin-top: 0.5mm; }
-  	.titre { font-size: 26px; margin-top: 1mm; height: 30px; }
-  	.cie { font-size: 12pt; margin-top: 1mm; height: 14pt; }
-  	.placement, .mentions, .org { font-size: 8pt; height: 10pt; }
-  	.placement, .mentions, .operation { font-weight: normal; }
-  	.org { margin-top: 2mm; }
-  	.placement { margin-top: 1mm; }
-  	.operation { font-size: 6pt; margin-top: 1.5mm; height: 8pt; }
-  	.mentions { margin-top: 1mm; }
-  	
-  	.right .manifid { text-align: right; margin-right: 2mm; float: right; }
-  	.right .metaevt { font-size: 7pt; padding-top: 0.5pt; height: 9.5pt; }
-  	.right .lieuprix, .right .dateheure { font-size: 8pt; padding-top: 3pt; height: 10pt; }
-  	.right .titre { font-size: 15px; padding-top: 11px; height: 19px; }
-  	.right .cie, .right .org { font-size: 8pt; }
-  	.right .cie { padding-top: 4pt; height: 10pt; }
-  	
-  	span.eur { font-weight: normal; }
-  </style>
+  <link rel="stylesheet" media="all" type="text/css" href="../styles/tickets.default.css" />
+  <link rel="stylesheet" media="all" type="text/css" href="../styles/tickets.css" />
 </head>
 <?php if ( $config['ticket']['let_open_after_print'] ): ?>
 <body onload="javascript: print();">

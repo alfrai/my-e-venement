@@ -44,7 +44,7 @@
 	if( $_SERVER["PHP_SELF"] != $config["website"]["root"]."evt/infos/places.hide.php" )
 	{
 ?>
-			<div class="places">
+			<div class="trans places">
 				<h3 class="head">Places</h3>
 				<?php if ( $more ) { ?>
 				<ul><?php

@@ -130,7 +130,7 @@
 <h2><?php echo $subtitle ?></h2>
 <?php includePage("grp-stages"); ?>
 <?php if ( $stage < 2 ) { ?>
-<form name="formu" action="<?php echo $_SERVER["PHP_SELF"] ?>" method="post" class="search resa">
+<form name="formu" action="evt/bill/annul.php" method="post" class="search resa">
 	<p>Numéro de transaction&nbsp;: #<input type="text" name="pretransac" id="focus" value="<?php echo htmlsecure($name_start) ?>" /></p>
 <?php
 	}
@@ -140,7 +140,7 @@
 		$data["numtransac"] = $transac;
 ?>
 <form name="formu" action="evt/bill/billing.php" method="post" class="print resa">
-	<p class="transaction">Client: 
+	<p class="transaction">Spectateur: 
 		<span class="titre"><?php echo htmlsecure($rec["titre"]) ?></span>
 		<a href="ann/fiche.php?id=<?php echo intval($rec["id"]) ?>&view"><span class="prenom"><?php echo htmlsecure($rec["prenom"]) ?></span>
 			<span class="nom"><?php echo htmlsecure($rec["nom"]) ?></span></a>

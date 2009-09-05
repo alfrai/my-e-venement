@@ -45,9 +45,9 @@
   }
   else
   {
-    $where = " manif.date < NOW() + '3 MONTH'";
+    $where = " manif.date > NOW() - '1 DAY'::interval";
     $limit = '5';
-    $order = 'date, nom, ville';
+    $order = 'nom, evtid, date, ville';
   }
   
   if ( is_array($_GET['exclude']) )
@@ -62,6 +62,7 @@
                 AND site.id = manif.siteid '.
                 $excludes.'
               ORDER BY '.$order;
+  echo $query;
   if ( $limit ) $query .= ' LIMIT '.intval($limit);
   $request = new bdRequest($bd,$query);
   

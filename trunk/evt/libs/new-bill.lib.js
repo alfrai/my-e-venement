@@ -30,9 +30,9 @@ function warning(msg)
 // the clients
 function newbill_client_valid()
 {
-  $.get('evt/api/transac-personne.cmd.php?'+
+  $.get(encodeURI('evt/api/transac-personne.cmd.php?'+
         'transac='+$('#bill-op input[name=transac]').val()+
-        '&client='+$('#bill-client input[name=client]:checked').val(),
+        '&client='+$('#bill-client input[name=client]:checked').val()),
     function(data){
       if ( data == 0 )
       {
@@ -53,11 +53,11 @@ function newbill_client_valid()
 }
 function newbill_client_search(elt)
 {
-  $('#bill-client .list').load('evt/bill/search-ppl.page.php?nom='+elt.val()+' .list > ul',null,function(){
+  $('#bill-client .list').load(encodeURI('evt/bill/search-ppl.page.php?nom='+elt.val())+' .list > ul',null,function(){
     $('#bill-client .list').fadeIn(2000,function(){ $(this).addClass('show'); });
     // microfiche refresh
     $('#bill-client .list li').mouseenter(function(){
-      $('#bill-client .microfiche').load('ann/microfiche.hide.php?id='+$(this).find('input[name=id]').val(),null,function(){
+      $('#bill-client .microfiche').load(encodeURI('ann/microfiche.hide.php?id='+$(this).find('input[name=id]').val()),null,function(){
         $('#bill-client .microfiche')
           .addClass('display')
           .prepend($('<span class="close" />'));
@@ -104,12 +104,12 @@ function newbill_evt_refreshjs()
 {
   // enable the preview of the "jauges"
   $('#bill-tickets .evt').unbind().mouseenter(function(){
-    //$('#bill-tickets .microfiche').load('org/infos/microfiche-evt.hide.php?id='+$(this).find("input[name='manifs[]']").val());
+    //$('#bill-tickets .microfiche').load(encodeURI('org/infos/microfiche-evt.hide.php?id='+$(this).find("input[name='manifs[]']").val()));
     
     if ( $(this).find('.jauge').children().length == 0 )
-    $(this).find('.jauge').load('evt/bill/getjauge.hide.php?manifid='+$(this).find('input[name=manifs[]]').val());
+    $(this).find('.jauge').load(encodeURI('evt/bill/getjauge.hide.php?manifid='+$(this).find('input[name=manifs[]]').val()));
     $(this).find('.jauge').unbind().click(function(){
-      $(this).load('evt/bill/getjauge.hide.php?manifid='+$(this).parent().find('input[name=manifs[]]').val());
+      $(this).load(encodeURI('evt/bill/getjauge.hide.php?manifid='+$(this).parent().find('input[name=manifs[]]').val()));
     });
   });
   
@@ -304,10 +304,17 @@ function newbill_paiement_print()
   // soustraire de ce qu'il reste à payer visuellement
   total = $('#bill-paiement p.total span');
   total.html(parseFloat(total.html()) - amount);
+  
+  // focus sur un nouveau paiement
+  $('#bill-paiement input.money').eq(0).focus();
 }
 
 $(document).ready(function(){
   $('form').submit(function(){ return false; });
+  $('input[type=text]').keypress(function(e){
+    if ( e.which == 13 )
+      return false;
+  });
   
   // stage 1 : client search validation
   $('#bill-client input[name=search]').focus();
@@ -321,7 +328,7 @@ $(document).ready(function(){
   var url;
   url = 'evt/bill/search-evt.page.php?';
   // initial loading
-  $('#bill-tickets .list').load(url+' .list > ul',null,newbill_evt_refreshjs);
+  $('#bill-tickets .list').load(encodeURI(url)+' .list > ul',null,newbill_evt_refreshjs);
   // hide / display the event list
   $('#bill-tickets .search .toggle').click(function(){
     $('#bill-tickets .list > ul').toggle();
@@ -339,7 +346,7 @@ $(document).ready(function(){
       $("#bill-tickets .spectacles input[name='manifs[]']").each(function(){
         manifs += 'manifs[]='+$(this).val()+'&';
       });
-      $.get('evt/api/flash.cmd.php?'+manifs);
+      $.get(encodeURI('evt/api/flash.cmd.php?'+manifs));
       $(this).val('unflash');
     }
       
@@ -351,7 +358,7 @@ $(document).ready(function(){
     $('#bill-tickets .spectacles .evt input[name=manifs[]]').each(function(){
       excludes += '&exclude[]='+$(this).val();
     });
-    $('#bill-tickets .list').load(url+excludes+'&nom='+$(this).val()+' .list > ul',null,newbill_evt_refreshjs);
+    $('#bill-tickets .list').load(encodeURI(url+excludes+'&nom='+$(this).val())+' .list > ul',null,newbill_evt_refreshjs);
     return false;
   }});
   
@@ -387,22 +394,21 @@ $(document).ready(function(){
     window.open('evt/bill/new-compta.php?type=facture&transac='+$('#bill-op input[name=transac]').val());
   });
   $('#bill-compta button.print').click(function(){
+    $('#bill-compta button.facture').addClass('printed')
     group = $('#bill-compta input[name=group].print:checked').length > 0 ? '&group' : '';
-    if ( $('#bill-compta input[name=duplicata].print:checked') )
-    {
-      manifid = (str = $('#bill-tickets .spectacles input[name=manifs[]]:checked').val()) ? '&manifid='+str : '';
+    $('#bill-compta input[name=duplicata].print:checked').each(function(){
+      manifid = $(this).val() ? '&manifid='+$(this).val() : '';
       if ( manifid )
         tarif = (str = $('#bill-compta input[name=tarif].print').val()) != '' ? '&tarif='+str : '';
-    }
-    
+    });
     window.open('evt/bill/new-tickets.php?transac='+$('#bill-op input[name=transac]').val()+group+tarif+manifid);
   });
   
   if ( $('#bill-compta input[name=duplicata].print:checked').length == 0 )
     $('#bill-compta input[name=tarif].print').attr('disabled','disabled');
   $('#bill-compta input[name=duplicata].print').change(function(){
-    if ( $('#bill-compta input[name=duplicata].print:checked').length > 0 )
-      $('#bill-compta input[name=tarif].print').attr('disabled','');
+    if ( this.checked )
+      $('#bill-compta input[name=tarif].print').attr('disabled','').focus();
     else
       $('#bill-compta input[name=tarif].print').attr('disabled','disabled');
   });

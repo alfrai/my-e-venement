@@ -24,15 +24,23 @@
 	require("conf.inc.php");
 	$class .= " queries";
 	$subtitle = "Personnes ayant des demandes en attente de réponse";
+	
+	/*
 	$query  = " SELECT DISTINCT transaction, personne.*
 		    FROM reservation_pre AS resa, personne_properso AS personne, transaction, manifestation AS manif
 		    WHERE resa.id IN (SELECT id FROM tickets2print WHERE canceled = false AND printed = false)
 		      AND resa.transaction = transaction.id
 		      AND ( personne.id = transaction.personneid OR personne.id IS NULL AND transaction.personneid IS NULL )
-		      AND ( personne.fctorgid = transaction.fctorgid OR (transaction.fctorgid IS NULL AND personne.fctorgid IS NULL) )
+		      AND ( personne.fctorgid = transaction.fctorgid OR transaction.fctorgid IS NULL AND personne.fctorgid IS NULL )
 		      AND manif.date >= now()
 		      AND manif.id = manifid
 		      AND transaction.id NOT IN ( SELECT transaction FROM preselled ) ";
+	*/
 	
+	$query  = ' SELECT DISTINCT r.transaction, p.*
+	            FROM reservation_pre r, transaction t
+	            LEFT JOIN personne_properso p ON p.id = t.id AND ( t.fctorgid = p.fctorgid OR t.fctorgid IS NULL AND p.fctorgid IS NULL )
+	            WHERE r.id NOT IN ( SELECT resa_preid FROM reservation_cur WHERE NOT canceled )
+	              AND r.transaction = t.id';
 	includePage("late");
 ?>
