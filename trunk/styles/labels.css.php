@@ -62,7 +62,6 @@ body.labels .labels > li > div {
   height: <?php echo $cellheight = round(( $height-$ptop*2-floatval($params['margin-y'])*(intval($params['nb-y'])-1) )/intval($params['nb-y'])) ?>mm;
   overflow: hidden;
   vertical-align: middle;
-  outline: 1px dashed grey;
 }
 body.labels .labels > li > div.margin {
   width: <?php echo floatval($params['margin-x']) ?>mm;
