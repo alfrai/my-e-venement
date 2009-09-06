@@ -42,9 +42,10 @@
 	}
 	if ( !isset($vars["group"]) ) $vars["group"] = $_POST["csv"]["group"];
 	
-	$printfields = isset($_GET["printfields"]) ? $_GET["printfields"] == "yes" : $_POST["printfields"] == "yes";
+	$labels = isset($_POST['labels']);
+	$printfields = ( isset($_GET["printfields"]) ? $_GET["printfields"] == "yes" : $_POST["printfields"] == "yes" ) && !$labels;
 	$msexcel = isset($_GET["msexcel"]) ? $_GET["msexcel"] == "yes" : $_POST["msexcel"] == "yes";
-	$entonnoir = isset($_GET["entonnoir"]) ? $_GET["entonnoir"] == "yes" : $_POST["entonnoir"] == "yes";
+	$entonnoir = ( isset($_GET["entonnoir"]) ? $_GET["entonnoir"] == "yes" : $_POST["entonnoir"] == "yes" ) || $labels;
 	
 	$fields		= array();
 	$persid		= array();
@@ -108,6 +109,7 @@
 		}
 		else
 		{
+			/*
 			$query	= ' SELECT "'.implode('","',$fields).'"
 				    FROM personne_extractor
 				    WHERE id IS NULL';
@@ -120,6 +122,26 @@
 			if ( count($cond) > 0 )
 				$query .= " OR ".implode(' OR ',$cond);
 			$query .= " ORDER BY nom, prenom";
+			*/
+			
+			$cond = array();
+			if ( count($persid) > 0 )
+				$cond[] = "id IN (".implode(',',$persid).") AND fctorgid IS NULL";
+			if ( count($fctorgid) > 0 )
+				$cond[] = "fctorgid IN (".implode(',',$fctorgid).")";
+			if ( count($cond) > 0 )
+				$cond = implode(' OR ',$cond);
+		  $query  = ' SELECT "'.implode('","',$fields).'" FROM (
+		              SELECT DISTINCT ON (p.nom, p.prenom, p.id, p.fctorgid)
+		                     p.*,
+                         telp.numero AS telnum, telp.type AS teltype,
+                         telo.numero AS orgtelnum, telo.type AS orgteltype
+                  FROM personne_properso p
+                  LEFT JOIN telephone_personne telp ON p.id = telp.entiteid
+                  LEFT JOIN telephone_organisme telo ON p.orgid = telo.entiteid
+                  WHERE '.$cond.'
+                  ORDER BY p.nom, p.prenom, p.id, p.fctorgid
+                  ) AS personne_extractor';
 		}
 		
 		$request = new bdRequest($bd,$query);
@@ -137,7 +159,7 @@
 					case "orgville":
 					case "orgpays":
 					case "orgadr":
-						if ( in_array($key = "adresse",$fields) )
+						if ( in_array($key = 'adresse',$fields) )
 							$arr[$line][$key] = trim($lcontent["orgadr"]);
 						if ( in_array($key = "cp",$fields) )
 							$arr[$line][$key] = trim($lcontent["orgcp"]);
@@ -153,6 +175,12 @@
 						if ( in_array($key = "teltype",$fields) )
 							$arr[$line]["teltype"]	= trim($value);
 						break;
+				  case 'orgemail':
+					  $arr[$line][$col] = trim($value);
+				  case 'proemail':
+				    if ( in_array($key = 'email',$fields) && (trim($lcontent["proemail"]) || trim($lcontent["orgemail"])) )
+				      $arr[$line][$key] = trim($lcontent["proemail"]) ? trim($lcontent["proemail"]) : trim($lcontent["orgemail"]);
+				    break;
 					default:
 						$arr[$line][$col] = trim($value);
 						break;
@@ -164,7 +192,7 @@
 			
 			// on retire les colonnes non nécessaires en cas de fusion pro/perso
 			if ( $entonnoir )
-			unset($arr[$line]["orgadr"],$arr[$line]["orgcp"],$arr[$line]["orgville"],$arr[$line]["orgpays"],$arr[$line]["orgtelnum"],$arr[$line]["orgteltype"]);
+			unset($arr[$line]["orgadr"],$arr[$line]["orgcp"],$arr[$line]["orgville"],$arr[$line]["orgpays"],$arr[$line]["orgtelnum"],$arr[$line]["orgteltype"],$arr[$line]["proemail"]);
 		}
 		
 		// on retire les headers des colonnes non nécessaires en cas de fusion pro/perso
@@ -181,9 +209,22 @@
 				break;
 			}
 		
-		$csv = new csvExport($arr,$msexcel);
-		$csv->printHeaders($user->getLogin().'.'.date('YmdHis'));
-		echo $csv->createCSV();
+	  if ( $labels )
+	  {
+      $params = array();
+      $query  = " SELECT * FROM options WHERE key LIKE 'labels.%'";
+      $request = new bdRequest($bd,$query);
+      while ( $rec = $request->getRecordNext() )
+        $params[substr($rec['param'],7)] = $rec['value'];
+      $request->free();
+      includePage('../gen/labels');
+	  }
+	  else
+	  {
+		  $csv = new csvExport($arr,$msexcel);
+		  $csv->printHeaders($user->getLogin().'.'.date('YmdHis'));
+		  echo $csv->createCSV();
+		}
 		$request->free();
 		$bd->free();
 	}
