@@ -169,11 +169,10 @@
 							$arr[$line][$key] = trim($lcontent["orgpays"]);
 						break;
 					case "orgteltype":
+						$arr[$line]["teltype"]  = trim($value);
+            break;
 					case "orgtelnum":
-						if ( in_array($key = "telnum",$fields) )
-							$arr[$line]["telnum"]	= trim($value);
-						if ( in_array($key = "teltype",$fields) )
-							$arr[$line]["teltype"]	= trim($value);
+						$arr[$line]["telnum"]   = trim($value);
 						break;
 				  case 'orgemail':
 					  $arr[$line][$col] = trim($value);
@@ -215,7 +214,7 @@
       $query  = " SELECT * FROM options WHERE key LIKE 'labels.%'";
       $request = new bdRequest($bd,$query);
       while ( $rec = $request->getRecordNext() )
-        $params[substr($rec['param'],7)] = $rec['value'];
+        $params[substr($rec['key'],7)] = $rec['value'];
       $request->free();
       includePage('../gen/labels');
 	  }

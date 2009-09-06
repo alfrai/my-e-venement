@@ -465,7 +465,7 @@ $(document).ready(function(){
   $req->free();
 ?>
 <hr/>
-<form method="post" action="<?php echo htmlsecure('ann/extract.php?'.$qstring) ?>" class="extractor">
+<form method="post" action="<?php echo htmlsecure('ann/extract.php?'.$qstring) ?>" class="extractor" target="_blank">
 	<h2>Extraire...</h2>
 	<div>
 		<p class="perso">
@@ -624,7 +624,10 @@ $(document).ready(function(){
       value="<?php echo htmlsecure(intval($rec['fctorgid']) > 0 ? $rec['fctorgid'] : $rec['id']) ?>"
     />
 	<?php endwhile; ?></p>
-	<p><input type="submit" name="submit" value="Extraire" /></p>
+	<p>
+	  <input type="submit" name="submit" value="Extraire" />
+	  <input type="submit" name="labels" value="Étiquettes" />
+	</p>
 </form>
 <?php $request->free(); ?>
 <?php endif; ?>
