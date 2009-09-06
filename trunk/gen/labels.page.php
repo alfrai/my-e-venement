@@ -46,9 +46,10 @@
 	  
 	  $etiquettes[$nbpages-1][$nblines-1][] = $arr[$i];
 	}
+	$i = count($etiquettes);
 ?>
 <?php foreach ( $etiquettes as $page ): ?>
-<div class="page"><ul class="labels">
+<div class="page <?php $i--; echo $i == 0 ? 'last-child' : ''; ?>"><ul class="labels">
   <?php foreach ( $page as $line ): ?>
   <li>
     <div><div class="content">

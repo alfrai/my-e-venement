@@ -49,7 +49,6 @@
     'labels.margin-y'  => array('0','mm'),
     'labels.padding-x' => array('2.5','mm'),
     'labels.padding-y' => array('1.5','mm'),
-    'labels.fields2print' => array('titre, nom, prenom, adresse, cp, ville, pays, email, orgnom',''),
   );
 	
 	$bd->beginTransaction();

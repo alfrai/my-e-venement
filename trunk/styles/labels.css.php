@@ -50,6 +50,7 @@ body.labels .page {
   page-break-after: always;
   overflow: hidden;
 }
+body.labels .page.last-child { page-break-after: auto; height: <?php echo $height - 2 ?>mm }
 body.labels {
   width: <?php echo $width = floatval($params['width']) - floatval($params['printer-x'])*2 - $pleft*2 ?>mm;
 }
@@ -89,6 +90,8 @@ body.labels .labels > li .content .org,
 body.labels .labels > li .content .adresse,
 body.labels .labels > li .content .ville { font-weight: bold; }
 body.labels .labels > li .content .org { text-transform: uppercase; }
+body.labels .labels > li .content .tels,
+body.labels .labels > li .content .email,
 body.labels .labels > li .content .pro { font-size: 9px; }
 
 <?php $bd->free(); ?>
