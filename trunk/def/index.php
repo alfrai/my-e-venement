@@ -34,6 +34,7 @@
 			<li><a href="def/users.php">Administration</a> des comptes et des droits</li>
 			<li><a href="def/userlog.php">Journal des connexions</a></li>
 			<?php if ( $user->hasRight($config["right"]["devel"]) ) { ?>
+			<li><a href="def/labels.php">Les étiquettes...</a></li>
 			<li><a href="def/sqlpatch.php">Maintenance</a> technique de l'application</li>
 			<li><a href="def/archive.php">Archivage</a> et nettoyage des données liées à la billetterie</li>
 			<?php } ?>
