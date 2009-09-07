@@ -34,7 +34,7 @@
 	if ( !isset($_SESSION['labels']) )
 	{
 	  $_SESSION['labels'] = true;
-	  $user->addAlert("Attention, l'imprimante à utiliser doit avoir des marges de 15mm x 12mm ; veillez à avoir bien paramétré Mozilla Firefox pour n'imprimer aucun entête ni pied de page, et d'avoir ses marges à 0");
+	  $user->addAlert("Attention, l'imprimante à utiliser doit avoir des marges de ".$params['printer-x']."mm x ".$params['printer-y']."mm ; veillez à avoir bien paramétré Mozilla Firefox pour n'imprimer aucun entête ni pied de page, et d'avoir ses marges à 0");
 	}
 	
 	$etiquettes = array();
