@@ -11,3 +11,4 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 ALTER TABLE options ALTER COLUMN accountid DROP NOT NULL;
+ALTER TABLE options ALTER COLUMN value TYPE character varying(511);
