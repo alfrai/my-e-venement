@@ -31,7 +31,7 @@
 	includeLib("login-check");
 	includeLib("headers");
 	
-	if ( !isset($_SESSION['labels'] )
+	if ( !isset($_SESSION['labels']) )
 	{
 	  $_SESSION['labels'] = true;
 	  $user->addAlert("Attention, l'imprimante à utiliser doit avoir des marges de 15mm x 12mm ; veillez à avoir bien paramétré Mozilla Firefox pour n'imprimer aucun entête ni pied de page, et d'avoir ses marges à 0");
