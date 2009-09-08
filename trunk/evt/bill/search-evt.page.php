@@ -24,7 +24,7 @@
   require("conf.inc.php");
   includeLib('headers');
   
-  if ( $_GET['nom'] )
+  if ( isset($_GET['nom']) )
   {
     $where = " evt.nom ILIKE '".pg_escape_string($_GET['nom'])."%'";
     $limit = NULL;
@@ -37,11 +37,6 @@
       $manifs[] = intval($value);
     $where = ' manif.id IN ( '.implode(',',$manifs).' )';
     $order = 'date, nom, ville';
-  }
-  elseif ( isset($_GET['nom']) && $_GET['nom'] == '' )
-  {
-    $bd->free();
-    die();
   }
   else
   {

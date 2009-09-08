@@ -27,6 +27,7 @@
   
   $title = $type == 'bdc' ? 'BdC' : 'Facture';
   $css[] = 'evt/styles/bdc-facture.css';
+  $css[] = 'evt/perso/new-compta.css';
   
   if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
   {
@@ -77,7 +78,7 @@
   $request->free();
   if ( intval($personne['id']) <= 0 )
   {
-    $user->addAlert('Impossible de faire un bon de commande pour une personne inconnue.');
+    $user->addAlert('Impossible de faire un bon de commande ou une facture pour une personne inconnue.');
     $user->closeNext();
     $nav->redirect('.');
   }

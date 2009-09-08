@@ -178,7 +178,7 @@ $(document).ready(function() {
     <?php endif; ?>
   </div>
   <div id="bill-client">
-    <p class="search">Spectateur: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /> <a class="create" href="ann/fiche.php?new" target="_blank" title="Ouvre un nouvel onglet... fermez-le pour revenir.">Ajouter...</a></p>
+    <p class="search">Spectateur: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /> <a class="create" href="ann/fiche.php?add" target="_blank" title="Ouvre un nouvel onglet... fermez-le pour revenir.">Ajouter...</a></p>
     <div class="list"></div>
     <div class="microfiche"></div>
   </div>

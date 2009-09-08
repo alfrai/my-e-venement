@@ -54,6 +54,7 @@ function newbill_client_valid()
 function newbill_client_search(elt)
 {
   $('#bill-client .list').load(encodeURI('evt/bill/search-ppl.page.php?nom='+elt.val())+' .list > ul',null,function(){
+    $('#bill-client a.create').attr('href',encodeURI('ann/fiche.php?add&nom='+elt.val()));
     $('#bill-client .list').fadeIn(2000,function(){ $(this).addClass('show'); });
     // microfiche refresh
     $('#bill-client .list li').mouseenter(function(){
@@ -318,11 +319,11 @@ $(document).ready(function(){
   
   // stage 1 : client search validation
   $('#bill-client input[name=search]').focus();
-  
   $('#bill-client input[name=search]').keypress(function(e){ if ( e.which == 13 ) {
     newbill_client_search($(this));
     return false;
   }});
+  $('#bill-client a.create').click(function(){ $('#bill-client input[name=search]').focus(); });
   
   // stage 2 : 
   var url;
@@ -393,15 +394,12 @@ $(document).ready(function(){
   $('#bill-compta .facture').click(function(){
     window.open('evt/bill/new-compta.php?type=facture&transac='+$('#bill-op input[name=transac]').val());
   });
-  $('#bill-compta button.print').click(function(){
-    $('#bill-compta button.facture').addClass('printed')
-    group = $('#bill-compta input[name=group].print:checked').length > 0 ? '&group' : '';
-    $('#bill-compta input[name=duplicata].print:checked').each(function(){
-      manifid = $(this).val() ? '&manifid='+$(this).val() : '';
-      if ( manifid )
-        tarif = (str = $('#bill-compta input[name=tarif].print').val()) != '' ? '&tarif='+str : '';
-    });
-    window.open('evt/bill/new-tickets.php?transac='+$('#bill-op input[name=transac]').val()+group+tarif+manifid);
+  $('#bill-compta input[name=tarif].print').keypress(function(e){
+    if ( e.which == 13 )
+    {
+      $('#bill-compta button.print').click();
+      return false;
+    }
   });
   
   if ( $('#bill-compta input[name=duplicata].print:checked').length == 0 )
@@ -411,6 +409,21 @@ $(document).ready(function(){
       $('#bill-compta input[name=tarif].print').attr('disabled','').focus();
     else
       $('#bill-compta input[name=tarif].print').attr('disabled','disabled');
+  });
+  
+  $('#bill-compta button.print').click(function(){
+    $('#bill-compta button.facture').addClass('printed')
+    group = $('#bill-compta input[name=group].print:checked').length > 0 ? '&group' : '';
+    if ( $('#bill-compta input[name=duplicata].print:checked').length )
+    {
+      manifid = '&manifid='+$("#bill-tickets .evt input[name='manifs[]']:checked").val();
+      if ( manifid )
+        tarif = (str = $('#bill-compta input[name=tarif].print').val()) != '' ? '&tarif='+str : '';
+    }
+    window.open(encodeURI('evt/bill/new-tickets.php?transac='+$('#bill-op input[name=transac]').val()+group+tarif+manifid));
+    $('#bill-compta input[name=duplicata].print').get(0).checked = false;
+    $('#bill-compta input[name=tarif].print').attr('disabled','disabled').val('');
+    return false;
   });
   
   // stage 4 : pay !

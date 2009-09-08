@@ -60,7 +60,7 @@ class Tickets
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>e-venement : impression de tickets</title>
   <link rel="stylesheet" media="all" type="text/css" href="../styles/tickets.default.css" />
-  <link rel="stylesheet" media="all" type="text/css" href="../styles/tickets.css" />
+  <link rel="stylesheet" media="all" type="text/css" href="../perso/tickets.css" />
   <?php if ( $config['ticket']['controlleft'] ): ?>
   <link rel="stylesheet" media="all" type="text/css" href="../styles/tickets.controlleft.css" />
   <?php endif; ?>
@@ -89,6 +89,7 @@ class Tickets
 		$this->content .= '
 <div class="page">
 	<div class="ticket">
+	  <div class="logo"><img src="../perso/logo-50x50.png" alt="" /></div>
 		<div class="left">';
                 	$this->content .= '
                 	<p class="manifid">#'.htmlsecure($bill["manifid"]).'</p>

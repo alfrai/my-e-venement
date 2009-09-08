@@ -299,7 +299,7 @@
 				</select>
 				<?php	} ?>
 			</span>
-			<span><?php printField("field[".($name = "nom")."]",$rec[$name],"-DUPORT-",127,15,NULL,NULL,"ttt_nomblur(this,'-DUPORT-')",NULL,'onkeyup="javascript: annu_search(this)"') ?></span>
+			<span><?php printField("field[".($name = "nom")."]",$action == $actions['add'] && $_GET['nom'] ? strtoupper($_GET['nom']) : $rec[$name],"-DUPORT-",127,15,NULL,NULL,"ttt_nomblur(this,'-DUPORT-')",NULL,'onkeyup="javascript: annu_search(this)"') ?></span>
 			<span><?php printField("field[".($name = "prenom")."]",$rec[$name],"-Ilene-",255,15) ?></span>
 		</p>
 		<p class="adresse">

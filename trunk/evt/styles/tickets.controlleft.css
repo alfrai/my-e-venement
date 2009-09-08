@@ -25,3 +25,7 @@
   margin-right: 2mm;
   float: left;
 }
+
+/* logo */
+
+.ticket .logo { text-align: right; }

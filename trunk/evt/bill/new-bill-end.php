@@ -31,8 +31,6 @@
     $nav->redirect($config["website"]["base"]."evt/bill/",$msg);
   }
 
-  includeLib("headers");
-  
   $transac = intval($_POST['transac']);
   
   $query = array();
@@ -56,7 +54,7 @@
   if ( $request->getRecord('topay') > $request->getRecord('paid') )
   {
     $user->addAlert("Erreur lors de la validation finale de l'opération...");
-    $nav->redirect('evt/bill/new-bill.php?t='.$transac);
+    $nav->redirect('new-bill.php?t='.$transac);
   }
   $request->free();
   
@@ -68,6 +66,8 @@
   $request = new bdRequest($bd,$query);
   $client = $request->getRecord();
   $request->free();
+  
+  includeLib("headers");
 ?>
 <h1><?php echo $title ?></h1>
 <?php includeLib("tree-view"); ?>
