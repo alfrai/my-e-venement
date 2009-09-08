@@ -1,3 +1,5 @@
+body { width: 297mm; }
+
 #customer .transaction,
 #customer .bdcid { display: none; }
 
@@ -47,5 +49,6 @@ td.tva:after { content: '%'; padding-left: 2px; }
 
 .timer-sql, .credits { display: none; }
 
-#correction { margin-top: 150px; }
+#ids { margin-top: 150px; }
 #ids .num { font-weight: bold }
+#correction { position: absolute; margin-top: 130px; }

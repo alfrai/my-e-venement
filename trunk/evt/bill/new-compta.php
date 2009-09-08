@@ -49,17 +49,15 @@
     'transaction' => $transac,
     'date'        => '\DEFAULT'
   );
-  $correction = false;
-  if ( $bd->updateRecordsSimple($type,array('transaction' => $transac),$data) === false )
+  if ( !$bd->updateRecordsSimple($type,array('transaction' => $transac),$data) )
   {
-    if ( $bd->addRecord($type,$data) )
+    if ( $bd->addRecord($type,$data) === false )
     {
       $user->addAlert("Impossible d'enregistrer le bon de commande / la facture en base.");
       $user->closeNext();
       $nav->redirect('.');
     }
   }
-  else $correction = true;
   $request = new bdRequest($bd,'SELECT id FROM '.$type.' WHERE transaction = '.$transac);
   $id = $request->getRecord('id');
   $request->free();
@@ -136,7 +134,7 @@
       echo '<p class="'.$key.'">'.htmlspecialchars($value).'</p>';
     echo '</div>';
     
-    if ( $correction )
+    if ( $personne['date'] )
     echo '<p id="correction">Cette facture corrige la précédente datée du <span class="date">'.date('d/m/Y',strtotime($personne['date'])).'</span></p>';
     echo '<p id="ids"><span class="num">'.($type == 'bdc' ? 'Bon de commande #' : 'Facture '.$config['ticket']['facture_prefix'] ).'<span class="id">'.htmlsecure($id).'</span></span> <span class="transac">(pour l\'opération <span class="id">#'.$transac.'</span>)</span></p>';
     
