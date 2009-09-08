@@ -30,10 +30,11 @@
 	
 	function printTrans($rec)
 	{
-		echo '<li>';
+		echo '<li '.($rec['nb'] < 0 || $rec['annulation'] == 't' ? 'class="annul"' : '').'>';
 		echo '<span class="trans">';
 		echo '#<a href="evt/bill/'.($rec["contingeant"] == 't' ? 'depot.php' : 'billing.php').'?t='.intval($rec["transaction"]).'">'.intval($rec["transaction"]).'</a>';
 		echo '</span>: ';
+		if ( $rec['translinked'] ) echo '<span class="translinked">#'.intval($rec['translinked']).'</span>';
 		echo '<span class="contingeant">'.($rec["contingeant"] == 't' && $rec["depot"] == 'f' ? '(contingent)' : ($rec["depot"] == 't' ? '(depot)' : '')).'</span> ';
 		echo '<span class="personne"><a '.( $rec["id"] ? 'href="ann/fiche.php?id='.$rec["id"].'&view"' : '').'>'.htmlsecure($rec["nom"]." ".$rec["prenom"]).'</a></span> ';
 		if ( !is_null($rec["orgid"]) )
@@ -43,7 +44,7 @@
 				echo ' - '.htmlsecure($rec["fctdesc"] ? $rec["fctdesc"] : $rec["fcttype"]);
 			echo ')</span> ';
 		}
-		echo ' - <span class="places">'.intval($rec["nb"]).' pl.</span>';
+		echo ' → <span class="places">'.intval($rec["nb"]).' pl.</span>';
 		if ( $rec['numfacture'] ) echo ' - <span class="facture">#'.intval($rec["numfacture"]).' (facture)</span>';
 		echo '</li>';
 	}
@@ -60,14 +61,22 @@
 			           transac.id IN (SELECT transaction FROM preselled) AS preresa,
 			           transac.id AS transaction, personne.id, personne.nom, personne.prenom, personne.adresse, personne.cp, personne.ville, personne.pays,
 			           personne.orgid, personne.fctorgid, personne.orgnom, personne.fcttype, personne.fctdesc, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays,
-			           facture.id AS numfacture
-			    FROM tickets AS resa, personne_properso AS personne, transaction AS transac LEFT JOIN facture ON (transac.id = facture.transaction)
+			           facture.id AS numfacture, transac.translinked,
+			           (SELECT count(*) > 0
+			            FROM transaction t, reservation_pre p, reservation_cur c
+			            WHERE t.translinked = transac.id
+			              AND t.id = p.transaction
+			              AND p.id = c.resa_preid
+			              AND NOT c.canceled
+			              AND p.annul) AS annulation
+			    FROM tickets AS resa, personne_properso AS personne, transaction AS transac
+			    LEFT JOIN facture ON (transac.id = facture.transaction)
 			    WHERE ( transac.personneid = personne.id OR personne.id IS NULL AND transac.personneid IS NULL)
 			      AND transac.id = resa.transaction
 			      AND ( personne.fctorgid = transac.fctorgid OR personne.fctorgid IS NULL AND transac.fctorgid IS NULL)
 			    GROUP BY personne.id, personne.nom, personne.prenom, personne.orgid, personne.orgnom, contingeant, resa, preresa, transac.id, fcttype, fctdesc, personne.fctorgid,
-			    	     personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.adresse, personne.cp, personne.ville, personne.pays, facture.id
-			    ORDER BY nom, prenom";
+			    	     personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.adresse, personne.cp, personne.ville, personne.pays, facture.id, translinked
+			    ORDER BY translinked DESC, annulation, nom, prenom";
 		$request = new bdRequest($bd,$query);
 		$request->free();
 	}
