@@ -222,7 +222,9 @@ $(document).ready(function(){
   function imageurl_show()
   {
     $('#imageurl').parent().find('img.images').remove();
-    urls = $('#imageurl').val().split(';');
+    urls = false;
+    if ( $('imageurl').length > 0 )
+      urls = $('#imageurl').val().split(';');
     for ( i = 0 ; i < urls.length ; i++ )
       $('#imageurl').parent().append('<img class="images" src="'+urls[i]+'" alt="img" />');
   }

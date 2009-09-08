@@ -153,7 +153,10 @@
 		)</span>
 		<?php } ?>
 		;
-		<span>Numéro d'opération&nbsp;: #<?php echo htmlsecure($transac.' (#'.$oldtransac.')'); ?></span>
+		<span>
+		  Numéro d'opération&nbsp;: #<?php echo htmlsecure($transac) ?>
+		  <span class="translinked">(#<?php echo intval($oldtransac) ?><input type="hidden" name="translinked" value="<?php echo intval($oldtransac) ?>" />)</span>
+		</span>
 	</p>
 	<div class="manifestations">
 <?php
@@ -169,6 +172,7 @@
 				$manif["sitenom"] = $rec["sitenom"];
 				$manif["nom"]	= $rec["evtnom"];
 				$manif["id"]	= $rec["evtid"];
+				$manif["manifid"]	= $rec["manifid"];
 				$manif["ville"]	= $rec["ville"];
 				$manif["date"]	= $rec["date"];
 				$manif["colorname"]	= $rec["colorname"];

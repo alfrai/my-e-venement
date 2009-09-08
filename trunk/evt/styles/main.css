@@ -587,6 +587,10 @@ div.bilan.nodetails div.trans > *  { display: none; }
 div.bilan.nodetails div.trans > h3,
 div.bilan.nodetails div.trans > p { display: block; }
 div.bilan .toggle { cursor: pointer; color: blue; }
+div.bilan .annul .translinked,
+div.bilan .annul .places { color: red; }
+div.bilan .annul .translinked:before { color: black; content: '('; }
+div.bilan .annul .translinked:after { color: black; content: ')'; }
 
 form.manif div.infos {
 	height: 315px;

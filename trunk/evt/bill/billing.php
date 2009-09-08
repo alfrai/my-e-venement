@@ -69,6 +69,7 @@
 	$data = array();
 	$action = array();
 	if ( isset($_POST[$name = "numtransac"]) ) $data[$name]	= $_POST[$name];
+	if ( isset($_POST[$name = "translinked"]) ) $data[$name]	= $_POST[$name];
 	$data[$name = "manif"]		= $_POST[$name];
 	$data[$name = "client"]		= $_POST[$name];
 	$action[$name = "filled"]	= isset($_POST[$name]);
@@ -80,7 +81,7 @@
 	if ( $oldtransac )
 	{
 		// gestion de la récup des données de base
-		$query	= " SELECT DISTINCT resa.manifid, personne.id AS personneid, personne.fctorgid, transaction.dematerialized,
+		$query	= " SELECT DISTINCT resa.manifid, personne.id AS personneid, personne.fctorgid, transaction.dematerialized, transaction.translinked,
 			           (SELECT count(*)
 			            FROM tickets2print_bytransac('".pg_escape_string($oldtransac)."')
 			            WHERE printed = true AND canceled = false) > 0 AS printed,
@@ -104,6 +105,7 @@
 			$data["numtransac"]	= intval($oldtransac);
 			$data["client"]		= intval($rec["fctorgid"]) > 0 ? "prof_".intval($rec["fctorgid"]) : "pers_".intval($rec["personneid"]);
 			$data["dematerialized"]	= $rec["dematerialized"] == 't';
+			$data["translinked"]	= intval($rec["translinked"]);
 		}
 		while ( $rec = $request->getRecordNext() )
 		{

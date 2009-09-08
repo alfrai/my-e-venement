@@ -156,15 +156,18 @@
 <p class="numtransac">
 	<span class="client"><?php echo htmlsecure("Spectateur: ".$perso) ?></span>
 	;
-	<span class="operation">Numéro d'opération:</span> <span>#<?php echo htmlsecure($data["numtransac"]) ?></span>
+	<span class="operation">Numéro d'opération:</span>
+	<span>#<?php echo htmlsecure($data["numtransac"]) ?></span>
 	<?php
 		// transactions liées
-		$query	= " SELECT transaction.id
+		$query	= "( SELECT translinked AS id FROM transaction WHERE id = ".intval($data['numtransac'])."
+		      ) UNION (
+		      SELECT transaction.id
 			    FROM transaction, reservation_pre AS pre, reservation_cur AS cur
-			    WHERE translinked = ".$data["numtransac"]."
+			    WHERE (translinked = ".intval($data["numtransac"]).")
 			      AND pre.transaction = transaction.id
 			      AND cur.resa_preid = pre.id
-			      AND NOT canceled
+			      AND NOT canceled )
 			    ORDER BY id";
 		$links = new bdRequest($bd,$query);
 		

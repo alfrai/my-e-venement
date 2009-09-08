@@ -151,8 +151,32 @@ $(document).ready(function() {
 <?php includeLib("tree-view"); ?>
 <?php require(dirname(__FILE__).'/actions.php'); ?>
 <div class="body">
-<form action="evt/bill/new-bill-end.php" method="post" >
-  <div id="bill-op">Opération #<span id="op"><?php echo $transac ?></span><input type="hidden" name="transac" value="<?php echo $transac ?>" /></div>
+<form action="evt/bill/new-bill-end.php" method="post">
+  <?php
+    $query = "( SELECT translinked AS id FROM transaction WHERE id = ".intval($transac)."
+                ) UNION (
+                SELECT transaction.id
+                FROM transaction, reservation_pre AS pre, reservation_cur AS cur
+                WHERE (translinked = ".intval($transac).")
+                  AND pre.transaction = transaction.id
+                  AND cur.resa_preid = pre.id
+                  AND NOT canceled )
+                ORDER BY id";
+    $translinked = new bdRequest($bd,$query);
+    $past = array();
+    while ( ($id = intval($translinked->getRecordNext("id"))) > 0 )
+    if ( !in_array($id,$past) )
+      $past[] = $id;
+    $translinked->free();
+  ?>
+  <div id="bill-op">
+    Opération #<span id="op"><?php echo $transac ?></span><input type="hidden" name="transac" value="<?php echo $transac ?>" />
+    <?php if ( count($past) > 0 ): ?>
+    <span class="links">(liée avec: <?php foreach ( $past as $id ): ?>
+      #<a href="<?php echo htmlsecure($_SERVER["PHP_SELF"]).'?t='.intval($id) ?>"><?php echo intval($id) ?></a>
+    <?php endforeach; ?>)</span>
+    <?php endif; ?>
+  </div>
   <div id="bill-client">
     <p class="search">Spectateur: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /> <a class="create" href="ann/fiche.php?new" target="_blank" title="Ouvre un nouvel onglet... fermez-le pour revenir.">Ajouter...</a></p>
     <div class="list"></div>
