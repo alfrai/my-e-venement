@@ -126,9 +126,9 @@
 			
 			$cond = array();
 			if ( count($persid) > 0 )
-				$cond[] = "id IN (".implode(',',$persid).") AND fctorgid IS NULL";
+				$cond[] = "p.id IN (".implode(',',$persid).") AND fctorgid IS NULL";
 			if ( count($fctorgid) > 0 )
-				$cond[] = "fctorgid IN (".implode(',',$fctorgid).")";
+				$cond[] = "p.fctorgid IN (".implode(',',$fctorgid).")";
 			if ( count($cond) > 0 )
 				$cond = implode(' OR ',$cond);
 		  $query  = ' SELECT "'.implode('","',$fields).'" FROM (
@@ -148,6 +148,7 @@
 		//print_r($fields);
 		//print_r($request->getAllRecords());
 		$arr = $printfields ? array_merge( array($fields), $request->getAllRecords() ) : $request->getAllRecords();
+    if ( is_array($arr) )
 		foreach ( $arr as $line => $lcontent )
 		{
 			foreach ( $lcontent as $col => $value )
@@ -195,7 +196,7 @@
 		}
 		
 		// on retire les headers des colonnes non nécessaires en cas de fusion pro/perso
-		if ( $entonnoir )
+		if ( $entonnoir && $printfields && is_array($arr) )
 		foreach ( $arr[0] as $key => $value )
 			switch ( $value ) {
 			case "orgadr":
