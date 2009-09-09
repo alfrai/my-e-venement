@@ -50,18 +50,18 @@
 				<ul><?php
 					$prixtotal = 0;
 					echo '<li class="tarif"><span class="name">';
-					echo htmlsecure($last = $request->getRecord("tarif").' '.(($tmp = $request->getRecord("reduc")) < 10 ? "0".$tmp : $tmp));
+					echo htmlsecure($last = $request->getRecord("tarif").' '.(($tmp = intval($request->getRecord("reduc"))) < 10 ? "0".$tmp : $tmp));
 					echo '</span><ul>';
 					while ( $rec = $request->getRecordNext() )
 					{
-						if ( $last != $rec["tarif"].' '.(($tmp = $rec["reduc"]) < 10 ? "0".$tmp : $tmp) )
+						if ( $last != $rec["tarif"].' '.(($tmp = intval($rec["reduc"])) < 10 ? "0".$tmp : $tmp) )
 						{
 							echo '</ul>';
 							echo '<span class="total">Total théorique: '.htmlsecure($prixtotal.'€ HT').'</span>';
 							echo '</li>';
 							$prixtotal = 0;
 							echo '<li class="tarif"><span class="name">';
-							echo htmlsecure($last = $rec["tarif"].' '.(($tmp = $rec["reduc"]) < 10 ? "0".$tmp : $tmp));
+							echo htmlsecure($last = $rec["tarif"].' '.(($tmp = intval($rec["reduc"])) < 10 ? "0".$tmp : $tmp));
 							echo '</span><ul>';
 						}
 						
