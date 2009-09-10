@@ -66,7 +66,7 @@ class Tickets
     
     if ( $config['ticket']['controlleft'] )
       $r .= '
-  <link rel="stylesheet" media="all" type="text/css" href="'.$config["website"]["base"].'styles/tickets.controlleft.css" />
+  <link rel="stylesheet" media="all" type="text/css" href="'.$config["website"]["base"].'evt/styles/tickets.controlleft.css" />
       ';
     
     $r .= '
