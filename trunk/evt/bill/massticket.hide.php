@@ -151,7 +151,7 @@
 		while ( $tic = $ticket->getRecordNext() )
 		if ( $tic["organisateur"] )
 			$bill["orga"][] = $tic["organisateur"];
-		$bill["orga"][] = "Très Tôt Théatre";
+		$bill["orga"][] = $config['ticket']['seller']['nom'];
 		
 		$bill["org"]	= implode(" / ",$bill["orga"]);
 		
