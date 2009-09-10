@@ -53,24 +53,36 @@ class Tickets
   function _headers()
   {
     global $config;
-?>
+    
+    $r = '
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-FR">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>e-venement : impression de tickets</title>
-  <link rel="stylesheet" media="all" type="text/css" href="../styles/tickets.default.css" />
-  <link rel="stylesheet" media="all" type="text/css" href="../perso/tickets.css" />
-  <?php if ( $config['ticket']['controlleft'] ): ?>
-  <link rel="stylesheet" media="all" type="text/css" href="../styles/tickets.controlleft.css" />
-  <?php endif; ?>
+  <link rel="stylesheet" media="all" type="text/css" href="'.$config["website"]["base"].'evt/styles/tickets.default.css" />
+  <link rel="stylesheet" media="all" type="text/css" href="'.$config["website"]["base"].'perso/tickets.css" />
+    ';
+    
+    if ( $config['ticket']['controlleft'] )
+      $r .= '
+  <link rel="stylesheet" media="all" type="text/css" href="'.$config["website"]["base"].'styles/tickets.controlleft.css" />
+      ';
+    
+    $r .= '
 </head>
-<?php if ( $config['ticket']['let_open_after_print'] ): ?>
+    ';
+    
+    if ( $config['ticket']['let_open_after_print'] )
+      $r .= '
 <body onload="javascript: print();">
-<?php else: ?>
+      ';
+    else
+      $r .= '
 <body onload="javascript: print(); close();">
-<?php endif; ?>
-<?php
+      ';
+    
+    return $r;
 	}
 	
 	function addToContent($bill)
@@ -89,7 +101,7 @@ class Tickets
 		$this->content .= '
 <div class="page">
 	<div class="ticket">
-	  <div class="logo"><img src="../perso/logo-50x50.png" alt="" /></div>
+	  <div class="logo"><img src="../perso/logo-100x100.png" alt="" /></div>
 		<div class="left">';
                 	$this->content .= '
                 	<p class="manifid">#'.htmlsecure($bill["manifid"]).'</p>
@@ -102,7 +114,7 @@ class Tickets
                 	<p class="lieuprix"><span class="lieu">'.htmlsecure($bill["sitenom"]).'</span> / <span class="prix">'.($bill["prix"] ? htmlsecure($bill["prix"]).'<span class="eur">€</span>' : htmlsecure("Exonéré")).'</span></p>
                 	<p class="titre">'.htmlsecure(strlen($buf = $bill["evtnom"]) > 30 ? substr($buf,0,30).'...' : $buf).'</p>
                 	<p class="cie">'.htmlsecure(strlen($buf = $bill["createurs"]) > 40 ? substr($buf,0,40).'...' : $buf).'</p>
-                	<p class="org">Org: '.htmlsecure(strlen($bill["org"]) > 60 ? substr($bill["org"],0,60)." ..." : $bill["org"]).'</p>
+                	<p class="org">'.($bill["org"] ? 'Org: ' : '').htmlsecure(strlen($bill["org"]) > 60 ? substr($bill["org"],0,60)." ..." : $bill["org"]).'</p>
                 	<p class="placement">'.htmlsecure($bill["plnum"] ? "Place n°".$bill["plnum"] : "Placement libre ".($this->group ? ' - x'.$bill["nbgroup"] : '')).'</p>
                 	<p class="operation"><span class="date">'.htmlsecure(date("d/m/Y H:i")).'</span> / <span class="num">#'.htmlsecure($bill["num"]).'</span>-<span class="operateur">'.htmlsecure($bill["operateur"]).'</span></p>
                 	<p class="mentions">À conserver</p>
@@ -129,24 +141,25 @@ class Tickets
 	
 	function _footers()
 	{
-?>
-</body>
-</html>
-<?php
+    return '</body></html>';
   }
   
   function printAll()
   {
     if ( $this->content )
     {
-      $this->_headers();
+      echo $this->_headers();
       echo $this->content;
-      $this->_footers();
+      echo $this->_footers();
     }
     else
     {
       $this->_close();
     }
+  }
+  function getTicketsHTML()
+  {
+    return $this->content;
   }
 }
 ?>
