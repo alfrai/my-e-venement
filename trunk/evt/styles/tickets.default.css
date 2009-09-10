@@ -90,7 +90,7 @@ span.eur { font-weight: normal; }
   width: 150mm;
   height: 58mm;
 }
-.ticket .logo img { margin: 33mm 2mm 0mm 2mm; }
+.ticket .logo img { margin: 31mm 2mm 0mm 2mm; }
 
 @page {
   marks: none;

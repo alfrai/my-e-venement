@@ -101,7 +101,7 @@ class Tickets
 		$this->content .= '
 <div class="page">
 	<div class="ticket">
-	  <div class="logo"><img src="../perso/logo-100x100.png" alt="" /></div>
+	  <div class="logo"><img src="../perso/logo-100x100.jpg" alt="" /></div>
 		<div class="left">';
                 	$this->content .= '
                 	<p class="manifid">#'.htmlsecure($bill["manifid"]).'</p>
