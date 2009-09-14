@@ -61,7 +61,7 @@ class Tickets
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>e-venement : impression de tickets</title>
   <link rel="stylesheet" media="all" type="text/css" href="'.$config["website"]["base"].'evt/styles/tickets.default.css" />
-  <link rel="stylesheet" media="all" type="text/css" href="'.$config["website"]["base"].'perso/tickets.css" />
+  <link rel="stylesheet" media="all" type="text/css" href="'.$config["website"]["base"].'evt/perso/tickets.css" />
     ';
     
     if ( $config['ticket']['controlleft'] )
