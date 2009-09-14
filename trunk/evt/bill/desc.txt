@@ -1,2 +1,2 @@
-	<img src="evt/bill/perso/saison.jpg"
+	<img src="evt/perso/saison.mini.jpg"
 	     alt="Billetterie" />
