@@ -1,2 +1,2 @@
-	<img src="/upload/saison-0809.mini.jpg"
+	<img src="evt/bill/perso/saison.jpg"
 	     alt="Billetterie" />
