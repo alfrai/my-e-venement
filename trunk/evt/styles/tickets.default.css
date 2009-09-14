@@ -12,6 +12,7 @@ body {
 .ticket {
   width: 150mm;
   height: 58mm;
+  position: relative;
 }
 .left, .right {
   overflow: hidden;
