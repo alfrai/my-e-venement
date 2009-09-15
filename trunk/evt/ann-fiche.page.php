@@ -52,7 +52,7 @@
 			$evtid = intval($rec["id"]);
 			$txt .= '<li><a href="evt/infos/fiche.php?id='.intval($rec["id"]).'">'.htmlsecure($rec["nom"])."</a><ul>";
 		}
-		$txt	.= '<li>#<a href="evt/bill/billing.php?t='.htmlsecure($rec["transaction"]).'">'.htmlsecure($rec["transaction"]).'</a></li>';
+		$txt	.= '<li>#<a href="'.($_SESSION['ticket']['new-bill'] ? 'evt/bill/new-bill.php?t=' : 'evt/bill/billing.php?t=').htmlsecure($rec["transaction"]).'">'.htmlsecure($rec["transaction"]).'</a></li>';
 	}
 	if ( $evtid ) $txt .= "</ul></li>";
 	$txt .= "</ul>";
