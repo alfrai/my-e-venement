@@ -429,15 +429,37 @@ $(document).ready(function(){
   });
   
   $('#bill-compta button.print').click(function(){
-    $('#bill-compta button.facture').addClass('printed')
+    $('#bill-compta button.facture').addClass('printed');
     group = $('#bill-compta input[name=group].print:checked').length > 0 ? '&group' : '';
-    if ( $('#bill-compta input[name=duplicata].print:checked').length )
+    if ( $('#bill-compta input[name=duplicata].print:checked').length > 0 )
     {
       manifid = '&manifid='+$("#bill-tickets .evt input[name='manifs[]']:checked").val();
       if ( manifid )
         tarif = (str = $('#bill-compta input[name=tarif].print').val()) != '' ? '&tarif='+str : '';
+      window.open(encodeURI('evt/bill/new-tickets.php?transac='+$('#bill-op input[name=transac]').val()+group+tarif+manifid));
     }
-    window.open(encodeURI('evt/bill/new-tickets.php?transac='+$('#bill-op input[name=transac]').val()+group+tarif+manifid));
+    else
+    {
+      wintick = window.open();
+      // faire du JSON et hilighter les manifs overbookées... ensuite afficher une boite de dialogue OUI/NON pour continuer
+      $.get('evt/api/overbooking.cmd.php',{ transac: $('#bill-op input[name=transac]').val() },function(data){
+        if ( data == 2 )
+          warning('Impossible de contrôler les jauges, on imprime quand même');
+      	if ( data.length != 0 )
+        {
+          for ( i = 0 ; i < data.length ; i++ )
+            $("#bill-tickets .spectacles input[name='manifs[]'][value="+data[i]+"]").parent().addClass('highlight');
+          if ( !confirm('Les manifestations sur-lignées seront en dépassement de jauge si vous imprimez vos billets, souhaitez-vous continuer tout de même ?') )
+          {
+            $("#bill-tickets .spectacles .evt").removeClass('highlight');
+            wintick.close();
+            return false;
+          }
+          $("#bill-tickets .spectacles .evt").removeClass('highlight');
+        }
+        wintick.location = encodeURI('evt/bill/new-tickets.php?transac='+$('#bill-op input[name=transac]').val()+group);
+      },'json');
+    }
     $('#bill-compta input[name=duplicata].print').get(0).checked = false;
     $('#bill-compta input[name=tarif].print').attr('disabled','disabled').val('');
     return false;

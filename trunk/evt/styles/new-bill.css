@@ -73,9 +73,7 @@ p.jauge {
 .evt:hover p.jauge {
   display: block;
 }
-.evt {
-  padding-bottom: 3px;
-}
+.evt { padding-bottom: 3px; }
 
 /* tickets */
 #bill-tickets.paiement li.evt span.tickets { background-color: silver; }
@@ -99,6 +97,7 @@ ul.spectacles li.total span.total { border-top: 1px solid grey; }
 #bill-tickets li { list-style-type: none; }
 #bill-tickets ul { padding-left: 10px; }
 #bill-tickets .list > ul > li > a { font-weight: bold; }
+#bill-tickets .spectacles .evt.highlight { border: 1px dashed orange; }
 
 /* tarifs */
 #bill-tarifs { display: none; }
