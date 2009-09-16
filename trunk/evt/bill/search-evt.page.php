@@ -28,7 +28,7 @@
   {
     $where = " evt.nom ILIKE '".pg_escape_string($_GET['nom'])."%'";
     $limit = NULL;
-    $order = 'nom, evtid, date, ville';
+    $order = '(SELECT date FROM manifestation WHERE evtid = evt.id ORDER BY date LIMIT 1), nom, evtid, date, ville';
   }
   elseif ( is_array($_GET['manifid']) )
   {
@@ -40,24 +40,25 @@
   }
   else
   {
-    $where = " manif.date > NOW() - '1 DAY'::interval";
+    $where = '';
     $limit = '5';
-    $order = 'nom, evtid, date, ville';
+    $order = '(SELECT date FROM manifestation WHERE evtid = evt.id ORDER BY date LIMIT 1), nom, evtid, date, ville';
   }
   
   if ( is_array($_GET['exclude']) )
     $excludes = ' AND manif.id NOT IN ('.implode(',',$_GET['exclude']).') ';
   
+  $where = $where ? ' AND '.$where : '';
   $query = '  SELECT  evt.nom, evt.id AS evtid, manif.date, manif.id, colors.color, manif.description,
                       site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, site.pays
               FROM evenement AS evt, manifestation AS manif, colors, site 
-              WHERE '.$where.'
+              WHERE '."manif.date > NOW() - '1 DAY'::interval".'
+                '.$where.'
                 AND manif.evtid = evt.id
                 AND (colors.id = manif.colorid OR colors.id IS NULL AND manif.colorid IS NULL)
                 AND site.id = manif.siteid '.
                 $excludes.'
               ORDER BY '.$order;
-  echo $query;
   if ( $limit ) $query .= ' LIMIT '.intval($limit);
   $request = new bdRequest($bd,$query);
   
