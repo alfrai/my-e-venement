@@ -51,9 +51,9 @@
                  AND NOT c.canceled
                  AND transaction = '.$transac;
   $request = new bdRequest($bd,'SELECT ('.$query[0].') AS paid, ('.$query[1].') AS topay');
-  if ( $request->getRecord('topay') > $request->getRecord('paid') )
+  if ( intval($request->getRecord('topay')) > intval($request->getRecord('paid')) )
   {
-    $user->addAlert("Erreur lors de la validation finale de l'opération...");
+    $user->addAlert("Erreur lors de la validation financière de l'opération...");
     $nav->redirect('new-bill.php?t='.$transac);
   }
   $request->free();

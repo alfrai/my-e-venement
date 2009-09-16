@@ -108,7 +108,7 @@ function newbill_evt_refreshjs()
     
     if ( $(this).find('.jauge').children().length == 0 )
     $(this).find('.jauge').load(encodeURI('evt/bill/getjauge.hide.php?manifid='+$(this).find('input[name=manifs[]]').val()));
-    $(this).find('.jauge').unbind().click(function(){
+    $('#bill-tickets .evt .jauge').click(function(){
       $(this).load(encodeURI('evt/bill/getjauge.hide.php?manifid='+$(this).parent().find('input[name=manifs[]]').val()));
     });
   });
@@ -390,8 +390,23 @@ $(document).ready(function(){
   });
   
   // compta : choose BdC or Facture / print tickets
-  $('#bill-compta .bdc').click(function(){
-    window.open('evt/bill/new-compta.php?type=bdc&transac='+$('#bill-op input[name=transac]').val());
+  $('#bill-compta button[name=bdc]').click(function(){
+    opt = '';
+    if ( $(this).parent().find('input[name=old-compta]:checked').length > 0 )
+      opt = '&old-compta'+($(this).parent().find('input[name=msexcel]:checked').length > 0 ? '&msexcel' : '');
+    window.open('evt/bill/new-compta.php?type=bdc&transac='+$('#bill-op input[name=transac]').val()+opt);
+    $('#bill-compta .annul').addClass('bdc');
+  });
+  $('#bill-compta button[name=annul-bdc]').click(function(){
+    $.get('evt/bill/new-compta.php?type=bdc&transac='+$('#bill-op input[name=transac]').val()+'&annul',function(data){
+      if ( data == 0 )
+      {
+      	warning('Bon de commande annulé');
+        $('#bill-compta button[name=annul-bdc]').removeClass('bdc');
+      }
+      else warning("Impossible d'annuler le bon de commande.");
+    });
+    return false;
   });
   $('#bill-compta .facture').click(function(){
     window.open('evt/bill/new-compta.php?type=facture&transac='+$('#bill-op input[name=transac]').val());

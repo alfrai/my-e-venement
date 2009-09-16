@@ -29,6 +29,17 @@
   $css[] = 'evt/styles/bdc-facture.css';
   $css[] = 'evt/perso/new-compta.css';
   
+  if ( isset($_GET['annul']) &&
+       $_GET['type'] == 'bdc' &&
+       $user->evtlevel >= $config["evt"]["right"]["mod"] &&
+       intval($_GET['transac']) > 0 )
+  {
+    $r = $bd->delRecordsSimple('bdc',array('transaction' => intval($_GET['transac'])));
+    echo $r > 0 ? 0 : 1;
+    $bd->free();
+    die($r);
+  }
+  
   if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
   {
     $user->addAlert($msg = "Vous n'avez pas un niveau de droits suffisant pour accéder à cette fonctionnalité");
@@ -99,6 +110,48 @@
               ORDER BY e.nom, m.date, s.ville, s.nom, nb DESC, tm.prix';
   $request = new bdRequest($bd,$query);
   
+  if ( isset($_GET['old-compta']) )
+  {
+    includeClass('csvExport');
+    includeLib('bill','evt');
+    $compta = array();
+    
+    $compta[] = array(
+      $type == 'facture' ? $config['ticket']['facture_prefix'].$id : $id,
+      $personne['prenom'],
+      $personne['nom'],
+      $personne['orgnom'],
+      $personne['orgnom'] ? trim($personne['orgadr']) : trim($personne['adresse']),
+      $personne['orgnom'] ? trim($personne['orgcp']) : trim($personne['cp']),
+      $personne['orgnom'] ? trim($personne['orgville']) : trim($personne['ville']),
+      $personne['orgnom'] ? trim($personne['orgpays']) : trim($personne['pays']),
+      $transac,
+    );
+    
+    while ( $rec = $request->getRecordNext() )
+    {
+      $compta[] = array(
+        $rec['nom'],
+        date("Y/m/d",strtotime($rec["date"])),
+        date("H:i",strtotime($rec["date"])),
+        $rec['sitenom'],
+        $rec['ville'],
+        $rec['cp'],
+        $rec['tarif'],
+        $rec['nb'],
+        decimalreplace($rec["prix"]),
+        floatval($rec["prix"])*intval($rec["nb"]),
+        decimalreplace($rec["txtva"]),
+      );
+    }
+    
+    $csv = new csvExport($compta,isset($_GET["msexcel"]));
+    $csv->printHeaders("bdc");
+    echo $csv->createCSV();
+  }
+  else
+  {
+  
   includeLib('headers');
 ?>
     <script type="text/javascript" language="javascript">
@@ -123,7 +176,7 @@
       
       foreach ( $seller as $key => $value )
       if ( $key != 'legal' )
-        echo '<p class="'.htmlsecure($key).'">'.htmlsecure($value).'</p>';
+        echo '<p class="'.htmlsecure($key).'">'.nl2br(htmlsecure($value)).'</p>';
     }
     echo '</div>';
     
@@ -188,6 +241,8 @@
     
     echo '<p id="legal">'.nl2br(htmlsecure($seller['legal'])).'</p>';
     
-    $request->free();
     includeLib('footer');
+    
+    }
+    $request->free();
 ?>

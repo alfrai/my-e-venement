@@ -39,7 +39,8 @@
 	
 	$query  = ' SELECT DISTINCT r.transaction, p.*
 	            FROM reservation_pre r, transaction t
-	            LEFT JOIN personne_properso p ON p.id = t.id AND ( t.fctorgid = p.fctorgid OR t.fctorgid IS NULL AND p.fctorgid IS NULL )
+	            LEFT JOIN personne_properso p ON p.id = t.personneid
+	                                         AND ( t.fctorgid = p.fctorgid OR t.fctorgid IS NULL AND p.fctorgid IS NULL )
 	            WHERE r.id NOT IN ( SELECT resa_preid FROM reservation_cur WHERE NOT canceled )
 	              AND r.transaction = t.id';
 	includePage("late");

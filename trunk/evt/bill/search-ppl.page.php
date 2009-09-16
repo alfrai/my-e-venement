@@ -51,7 +51,7 @@
     <span>
       <a href="ann/fiche.php?id=<?php echo $rec['id'] ?>"><?php echo htmlspecialchars($rec['nom'].' '.$rec['prenom']) ?></a>
       <?php if ( $rec['orgid'] ): ?>
-      (<a href="org/fiche.php?id=<?php echo $rec['orgid'] ?>"><?php echo htmlspecialchars($rec['orgnom']) ?></a><?php if ( $rec['fctdesc'] ) echo htmlspecialchars(' - '.$rec['fctdesc']) ?>)
+      (<a href="org/fiche.php?id=<?php echo $rec['orgid'] ?>"><?php echo htmlspecialchars($rec['orgnom']) ?></a><?php if ( $rec['fctdesc'] || $rec['fcttype'] ) echo htmlspecialchars(' - '.($rec['fctdesc'] ? $rec['fctdesc'] : $rec['fcttype'])) ?>)
       <?php endif; ?>
     </span>
   </li>

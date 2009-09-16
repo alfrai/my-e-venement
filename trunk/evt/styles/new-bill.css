@@ -127,6 +127,8 @@ ul.spectacles li.total span.total { border-top: 1px solid grey; }
 }
 #bill-compta button.facture { display: none; }
 #bill-compta button.facture.printed { display: inline; }
+#bill-compta button.annul { display: none; }
+#bill-compta button.annul.bdc { display: inline; }
 
 /* paiement */
 #bill-paiement #pay,

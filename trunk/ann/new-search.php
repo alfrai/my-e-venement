@@ -407,13 +407,17 @@ $(document).ready(function(){
 	  $query  = '(SELECT p.*
 	              FROM groupe_personnes gp, personne_properso p
 	              WHERE gp.groupid = '.$grpid.'
-	                AND p.id = gp.personneid
+	                AND p.id = gp.personneid AND p.fctorgid IS NULL
+	                AND included
 	              ) UNION (
 	              SELECT p.*
-	              FROM groupe g, groupe_fonctions gf, personne_properso p
+	              FROM groupe_fonctions gf, personne_properso p
 	              WHERE gf.groupid = '.$grpid.'
-	                AND p.fctorgid = gf.fonctionid )';
+	                AND p.fctorgid = gf.fonctionid
+	                AND included )
+	             ORDER BY nom, prenom, orgnom, fctdesc, fcttype';
 	  $request = new bdRequest($bd,$query);
+	  echo $query;
   }
 ?>
 <?php while ( $rec = $request->getRecordNext() ): ?>

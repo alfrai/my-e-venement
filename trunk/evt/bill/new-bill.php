@@ -217,13 +217,16 @@ $(document).ready(function() {
       <button name="bdc" value="bdc" class="bdc">Bon de Commande</button>
       <?php
         $printed = new bdRequest($bd,
-          'SELECT count(*) AS nb
+          'SELECT count(*) AS nb, (SELECT count(id) > 0 FROM bdc WHERE transaction = '.$transac.') AS bdc
            FROM reservation_pre p, reservation_cur c
            WHERE NOT canceled
              AND c.resa_preid = p.id
              AND transaction = '.intval($transac));
       ?>
       <button name="facture" value="facture" class="facture <?php echo intval($printed->getRecord('nb')) > 0 ? 'printed' : '' ?>">Facture</button>
+      <input type="checkbox" name="old-compta" value="old" title="Obtenir un fichier tableur" />
+      <input type="checkbox" name="msexcel" value="msexcel" title="Compatibilité MSExcel" />
+      <button name="annul-bdc" value="annul-bdc" class="annul <?php echo $printed->getRecord('bdc') == 't' ? 'bdc' : '' ?>" title="Annule le bon de commande après refus">Annul. BdC</button>
       <?php $printed->free() ?>
     </p>
   </div>
