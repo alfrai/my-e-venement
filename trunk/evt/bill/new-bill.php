@@ -52,20 +52,41 @@
     }
   }
   
-  includeLib("headers");
+  if ( ($transac = intval($_GET['t'])) <= 0 )
+    includeLib('headers');
   
   // respawning of an anciant transaction
-  if ( ($transac = intval($_GET['t'])) > 0 )
+  if ( $transac > 0 )
   {
     $query =  ' SELECT transaction.*, pre.*, tarif.key
                 FROM transaction, reservation_pre AS pre, tarif
                 WHERE pre.transaction = transaction.id
                   AND tarif.id = tarifid
                   AND NOT pre.annul
-                  AND pre.transaction = '.$transac;
+                  AND pre.transaction = '.$transac.'
+                  AND transaction.id NOT IN ( SELECT transaction FROM contingeant )';
     $request = new bdRequest($bd,$query);
+    
+    if ( $request->countRecords() <= 0 )
+    {
+      $user->addAlert("L'opération visée n'existe pas ou n'est pas une opération de billetterie classique (contingent, dépôt, ...).");
+      $nav->redirect(dirname($_SERVER['PHP_SELF']));
+    }
+    
+    if ( $request->getRecord('blocked') == 't' && $user->evtlevel < $config['evt']['right']['param'] )
+    {
+      $user->addAlert("L'opération visée a été verrouillée, faîtes-la déverrouiller par votre responsable.");
+      $nav->redirect(dirname($_SERVER['PHP_SELF']).'?blocked='.$transac);
+    }
+    
+    includeLib("headers");
 ?>
 <script type="text/javascript">
+  var hardprint = false;
+  <?php if ( $config['print']['hard'] ): ?>
+  hardprint = true;
+  <?php endif; ?>
+  
   $(document).ready(function(){
   <?php
     // le client
@@ -128,7 +149,7 @@
 <?php
     $request->free();
   }
-
+  
   if ( is_array($manifs = $_SESSION['evt']['express']['manif']) )
   {
 ?>
@@ -176,6 +197,8 @@ $(document).ready(function() {
       #<a href="<?php echo htmlsecure($_SERVER["PHP_SELF"]).'?t='.intval($id) ?>"><?php echo intval($id) ?></a>
     <?php endforeach; ?>)</span>
     <?php endif; ?>
+    <input type="hidden" name="eapi" id="eapi" value="<?php echo htmlsecure($config["website"]["base"].'evt/bill/new-tickets.php') ?>" />
+    <input type="hidden" name="salt" id="salt" value="<?php echo htmlsecure(md5(time())); ?>" />
   </div>
   <div id="bill-client">
     <p class="search">Spectateur: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /> <a class="create" href="ann/fiche.php?add" target="_blank" title="Ouvre un nouvel onglet... fermez-le pour revenir.">Ajouter...</a></p>
@@ -213,6 +236,13 @@ $(document).ready(function() {
       <span class="print group"><input type="checkbox" class="print group" name="group" value="1" title="Billets groupés ?" /></span>
       <?php endif; ?>
     </p>
+    <div class="progressbar">
+      <h3>Impression...</h3>
+      <p class="progress">
+        <span class="bar"></span><span class="level">0</span>
+      </p>
+      <p class="msg"></p>
+    </div>
     <p class="compta">
       <button name="bdc" value="bdc" class="bdc">Bon de Commande</button>
       <?php
@@ -253,7 +283,6 @@ $(document).ready(function() {
     </ul>
   </div>
 </form>
-
 <div id="warning">MESSAGE D'ALERTE</div>
 
 </div>

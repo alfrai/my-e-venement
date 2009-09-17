@@ -67,6 +67,9 @@
   $client = $request->getRecord();
   $request->free();
   
+  // bloquage de l'opération
+  $bd->updateRecordsSimple('transaction',array('id' => $transac),array('blocked' => 't'));
+  
   includeLib("headers");
 ?>
 <h1><?php echo $title ?></h1>

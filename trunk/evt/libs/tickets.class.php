@@ -24,6 +24,7 @@
 class Tickets
 {
   var $content, $group;
+  var $count = 0;
   
   function Tickets($group = false)
   {
@@ -40,7 +41,7 @@ class Tickets
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>e-venement : impression de tickets</title>
 </head>
-<?php if ( $config['ticket']['let_open_after_print'] ): ?>
+<?php if ( $config['ticket']['let_open_after_print'] || $config['print']['hard'] ): ?>
 <body>
 <?php else: ?>
 <body onload="javascript: close();">
@@ -73,7 +74,11 @@ class Tickets
 </head>
     ';
     
-    if ( $config['ticket']['let_open_after_print'] )
+    if ( $config['print']['hard'] )
+      $r .= '
+<body>
+      ';
+    else if ( $config['ticket']['let_open_after_print'] )
       $r .= '
 <body onload="javascript: print();">
       ';
@@ -87,6 +92,7 @@ class Tickets
 	
 	function addToContent($bill)
 	{
+	  $this->count++;
 		global $config;
 		
 		$time = strtotime($bill["date"]);
@@ -159,7 +165,14 @@ class Tickets
   }
   function getTicketsHTML()
   {
-    return $this->content;
+    return  $this->_headers().
+            $this->content.
+            $this->_footers();
+  }
+  
+  function countTickets()
+  {
+    return $this->count;
   }
 }
 ?>

@@ -54,6 +54,8 @@ function newbill_client_valid()
 function newbill_client_search(elt)
 {
   $('#bill-client .list').load(encodeURI('evt/bill/search-ppl.page.php?nom='+elt.val())+' .list > ul',null,function(){
+    if ( $('#bill-client .list ul li').length == 0 && $('#bill-client input[name=search]').val() != '' )
+      window.open(encodeURI('ann/fiche.php?add&nom='+$('#bill-client input[name=search]').val()));
     $('#bill-client .list').fadeIn(2000,function(){ $(this).addClass('show'); });
     // microfiche refresh
     $('#bill-client .list li').mouseenter(function(){

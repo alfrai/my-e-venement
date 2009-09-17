@@ -126,6 +126,43 @@ ul.spectacles li.total span.total { border-top: 1px solid grey; }
 }
 #bill-compta button.facture { display: none; }
 #bill-compta button.facture.printed { display: inline; }
+#bill-compta .progressbar {
+  background-color: white;
+  border: 1px solid gray;
+  height: 100px;
+  width: 400px;
+  overflow: hidden;
+  position: absolute;
+  top: 55px;
+  left: 200px;
+  -moz-border-radius: 4px;
+  display: none;
+}
+#bill-compta .progressbar h3 {
+  margin: 0;
+  text-align: center;
+}
+#bill-compta .progressbar .progress {
+  border: 1px solid black;
+  margin: 5px 2px;
+  height: 20px;
+}
+#bill-compta .progressbar .progress .level:after { content: '%'; }
+#bill-compta .progressbar .progress .level {
+  text-align: center;
+  display: block;
+  position: absolute;
+  width: 394px;
+}
+#bill-compta .progressbar .progress .bar {
+  padding-left: 0px;
+  background-color: green;
+  position: absolute;
+  padding-top: 20px;
+}
+#bill-compta .progressbar .msg {
+  padding: 0 7px;
+}
 #bill-compta button.annul { display: none; }
 #bill-compta button.annul.bdc { display: inline; }
 

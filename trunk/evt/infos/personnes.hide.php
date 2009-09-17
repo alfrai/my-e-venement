@@ -71,9 +71,10 @@
 			              AND p.annul) AS annulation
 			    FROM tickets AS resa, personne_properso AS personne, transaction AS transac
 			    LEFT JOIN facture ON (transac.id = facture.transaction)
-			    WHERE ( transac.personneid = personne.id OR personne.id IS NULL AND transac.personneid IS NULL)
+			    WHERE (    personne.fctorgid = transac.fctorgid
+			            OR personne.fctorgid IS NULL AND transac.fctorgid IS NULL
+			           AND ( transac.personneid = personne.id OR personne.id IS NULL AND transac.personneid IS NULL ))
 			      AND transac.id = resa.transaction
-			      AND ( personne.fctorgid = transac.fctorgid OR personne.fctorgid IS NULL AND transac.fctorgid IS NULL)
 			    GROUP BY personne.id, personne.nom, personne.prenom, personne.orgid, personne.orgnom, contingeant, resa, preresa, transac.id, fcttype, fctdesc, personne.fctorgid,
 			    	     personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.adresse, personne.cp, personne.ville, personne.pays, facture.id, translinked
 			    ORDER BY translinked DESC, annulation, nom, prenom";

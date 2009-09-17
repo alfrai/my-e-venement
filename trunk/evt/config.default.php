@@ -57,6 +57,12 @@
 	  **/
 	$config["ticket"]["dematerialized"]	= true;
 	
+	// les droits sur le module
+	$config['evt']['right']['param']	= 10;		// droit de paramétrer le module
+	$config['evt']['right']['unblock']= 8;		// droit de débloquer des opérations
+	$config['evt']['right']['mod']		= 5;		// droit de modifier des données (suppr., ajout, modification)
+	$config['evt']['right']['view']		= 3;		// droit de consulter
+
 	@include(dirname(__FILE__).'/config.php');
 	ini_set("include_path",$config["website"]["libs"].":.:".$config["website"]["activecal"].":".$config["website"]["fpdf"]);
 	

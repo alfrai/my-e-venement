@@ -29,6 +29,9 @@
 	if ( is_array($_SESSION["evt"]["express"]) )
 		$redirectnewurl = $_SERVER["PHP_SELF"];
 	
+	// on bloque la transaction
+	$bd->updateRecordsSimple('transaction',array('id' => $data['numtransac']),array('blocked' => 't'));
+	
 	includeLib("headers");
 ?>
 <h1><?php echo $title ?></h1>

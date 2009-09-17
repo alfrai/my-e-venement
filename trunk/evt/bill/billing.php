@@ -81,7 +81,7 @@
 	if ( $oldtransac )
 	{
 		// gestion de la récup des données de base
-		$query	= " SELECT DISTINCT resa.manifid, personne.id AS personneid, personne.fctorgid, transaction.dematerialized, transaction.translinked,
+		$query	= " SELECT DISTINCT resa.manifid, personne.id AS personneid, personne.fctorgid, transaction.dematerialized, transaction.translinked, transaction.blocked,
 			           (SELECT count(*)
 			            FROM tickets2print_bytransac('".pg_escape_string($oldtransac)."')
 			            WHERE printed = true AND canceled = false) > 0 AS printed,
@@ -97,6 +97,12 @@
 			         OR ( personne.fctorgid IS NULL
 			          AND transaction.fctorgid IS NULL ))";
 		$request = new bdRequest($bd,$query);
+		
+		if ( $request->getRecord('blocked') == 't' )
+		{
+      $user->addAlert("L'opération visée a été verrouillée, faîtes-la déverrouiller par votre responsable.");
+      $nav->redirect(dirname($_SERVER['PHP_SELF']));
+	  }
 		
 		$action["printed"] = true;
 		$action["filled"]  = true;

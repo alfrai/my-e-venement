@@ -24,6 +24,13 @@
 	require("conf.inc.php");
 	$class .= " index";
   if ( $config['ticket']['new-bill'] ) includeJS('jquery');
+  
+  if ( ($transac = intval($_GET['unblock'])) > 0 && $user->evtlevel >= $config['evt']['right']['unblock'] )
+  {
+    $bd->updateRecordsSimple('transaction',array('id' => $transac),array('blocked' => 'f'));
+    $nav->redirect($config["website"]["base"].'evt/bill/'.($_SESSION['ticket']['new-bill'] ? 'new-bill.php' : 'billing.php').'?t='.$transac);
+  }
+  
 	includeLib("headers");
 	
 	if ( $config['ticket']['new-bill'] ):
@@ -57,6 +64,14 @@
 		<?php } ?>
 	</p>
 </form>
+<?php if ( $user->evtlevel >= $config['evt']['right']['unblock'] ): ?>
+<form class="trans unblock" action="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>" method="get">
+  <p>
+    Déverrouiller une opération :
+    #<input type="text" name="unblock" value="<?php echo htmlsecure(intval($_GET['blocked']) > 0 ? intval($_GET['blocked']) : '') ?>" size="5" />
+  </p>
+</form>
+<?php endif; ?>
 <div class="desc"><?php @include("desc.txt"); ?></div>
 <div class="highscore"><?php
 	$query = " SELECT (SELECT count(*) FROM reservation_cur WHERE NOT canceled) AS selled,
