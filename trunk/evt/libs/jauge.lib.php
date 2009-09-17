@@ -54,7 +54,7 @@
 		if ( $cmd > $sizecmd ) $cmd = $sizecmd;
 		
 		if ( !is_null($nbcommandes) ) echo '<span style="width: '.$cmd.'px" class="command" title="'.$nbcommandes.' pl. demandées"></span>';
-		echo '<span style="padding-left: '.$free.'px;" class="free" title="'.$reste.' pl. libres'.(!is_null($nbcommandes) ? ', dont '.($reste - $nbcommandes).' pl. non dem.' : '').'"></span>';
+		echo '<span style="padding-left: '.$free.'px;" class="free" title="'.$reste.' pl. libres'.(intval($nbcommandes) > 0 ? ', dont '.($reste - $nbcommandes).' pl. non dem.' : '').'"></span>';
 		echo '<span style="padding-right: '.$prebooked.'px;" class="prebooked" title="'.$nbpreresas.' pl. pré-rés.">';
 		if ( count($contingents) > 0 )
 		{
@@ -73,7 +73,7 @@
 		echo '<span style="padding-left: '.$booked.'px;" class="booked" title="'.$nbresas.' pl. réservées"></span>';
 		
 		echo '<span class="jauge '.($nbtotal < $nbpreresas + $nbresas ? 'err' : ($reste < $nbcommandes ? 'warn' : '')).'"
-		            title="'.($reste < $nbpreresas + $nbresas ? ($nbpresas+$nbresas).'pl. de trop' : '').'">'.$nbtotal.' pl.</span>';
+		            title="'.($reste < $nbpreresas + $nbresas ? ($nbpresas+$nbresas).' pl. de trop' : '').'">'.$nbtotal.' pl.</span>';
 		
 		if ( is_object($user) && $reste < 0 )
 		{
