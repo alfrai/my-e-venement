@@ -54,7 +54,7 @@
 		if ( $cmd > $sizecmd ) $cmd = $sizecmd;
 		
 		if ( !is_null($nbcommandes) ) echo '<span style="width: '.$cmd.'px" class="command" title="'.$nbcommandes.' pl. demandées"></span>';
-		echo '<span style="padding-left: '.$free.'px;" class="free" title="'.$reste.' pl. libres"></span>';
+		echo '<span style="padding-left: '.$free.'px;" class="free" title="'.$reste.' pl. libres'.(!is_null($nbcommandes) ? ', dont '.($reste - $nbcommandes).' pl. non dem.' : '').'"></span>';
 		echo '<span style="padding-right: '.$prebooked.'px;" class="prebooked" title="'.$nbpreresas.' pl. pré-rés.">';
 		if ( count($contingents) > 0 )
 		{
