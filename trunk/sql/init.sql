@@ -44,6 +44,19 @@ COMMENT ON FUNCTION get_personneid(integer) IS 'retourne l''id d''une personne i
 $1: org_personne.id';
 
 
+--
+-- Name: zeroifnull(bigint); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION zeroifnull(bigint) RETURNS bigint
+    AS $_$BEGIN
+IF $1 IS NULL THEN RETURN 0;
+ELSE RETURN $1;
+END IF;
+END;$_$
+    LANGUAGE plpgsql IMMUTABLE;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = true;
@@ -281,7 +294,8 @@ COMMENT ON VIEW organisme_categorie IS 'Liste des organismes avec leur catégori
 
 CREATE TABLE personne (
     prenom character varying(255),
-    titre character varying(24)
+    titre character varying(24),
+    description text
 )
 INHERITS (entite);
 
@@ -298,14 +312,7 @@ COMMENT ON TABLE personne IS 'contacts de l''organisme';
 --
 
 CREATE VIEW personne_properso AS
-    (((SELECT DISTINCT personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, organisme.id AS orgid, organisme.nom AS orgnom, organisme.categorie AS orgcat, organisme.adresse AS orgadr, organisme.cp AS orgcp, organisme.ville AS orgville, organisme.pays AS orgpays, organisme.email AS orgemail, organisme.url AS orgurl, organisme.description AS orgdesc, org_personne.service, org_personne.id AS fctorgid, fonction.id AS fctid, fonction.libelle AS fcttype, org_personne.fonction AS fctdesc, org_personne.email AS proemail, org_personne.telephone AS protel, organisme.catdesc AS orgcatdesc, org_personne.description FROM organisme_categorie organisme, personne, org_personne, fonction WHERE ((((personne.id = org_personne.personneid) AND (organisme.id = org_personne.organismeid)) AND (fonction.id = org_personne.type)) AND (org_personne.type IS NOT NULL)) ORDER BY personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, organisme.id, organisme.nom, organisme.categorie, organisme.adresse, organisme.cp, organisme.ville, organisme.pays, organisme.email, organisme.url, organisme.description, org_personne.service, org_personne.id, fonction.id, fonction.libelle, org_personne.fonction, org_personne.email, org_personne.telephone, organisme.catdesc, org_personne.description) UNION (SELECT DISTINCT personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, organisme.id AS orgid, organisme.nom AS orgnom, organisme.categorie AS orgcat, organisme.adresse AS orgadr, organisme.cp AS orgcp, organisme.ville AS orgville, organisme.pays AS orgpays, organisme.email AS orgemail, organisme.url AS orgurl, organisme.description AS orgdesc, org_personne.service, org_personne.id AS fctorgid, NULL::integer AS fctid, NULL::text AS fcttype, org_personne.fonction AS fctdesc, org_personne.email AS proemail, org_personne.telephone AS protel, organisme.catdesc AS orgcatdesc, org_personne.description FROM organisme_categorie organisme, personne, org_personne WHERE (((personne.id = org_personne.personneid) AND (organisme.id = org_personne.organismeid)) AND (org_personne.type IS NULL)) ORDER BY personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, organisme.id, organisme.nom, organisme.categorie, organisme.adresse, organisme.cp, organisme.ville, organisme.pays, organisme.email, organisme.url, organisme.description, org_personne.service, org_personne.id, NULL::integer, NULL::text, org_personne.fonction, org_personne.email, org_personne.telephone, organisme.catdesc, org_personne.description)) UNION SELECT personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgcat, NULL::unknown AS orgadr, NULL::unknown AS orgcp, NULL::unknown AS orgville, NULL::unknown AS orgpays, NULL::unknown AS orgemail, NULL::unknown AS orgurl, NULL::unknown AS orgdesc, NULL::unknown AS service, NULL::unknown AS fctorgid, NULL::unknown AS fctid, NULL::unknown AS fcttype, NULL::unknown AS fctdesc, NULL::unknown AS proemail, NULL::unknown AS protel, NULL::unknown AS orgcatdesc, NULL::unknown AS description FROM personne) UNION SELECT NULL::unknown AS id, NULL::unknown AS nom, NULL::unknown AS creation, NULL::unknown AS modification, NULL::unknown AS adresse, NULL::unknown AS cp, NULL::unknown AS ville, NULL::unknown AS pays, NULL::unknown AS email, NULL::unknown AS npai, NULL::unknown AS active, NULL::unknown AS prenom, NULL::unknown AS titre, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgcat, NULL::unknown AS orgadr, NULL::unknown AS orgcp, NULL::unknown AS orgville, NULL::unknown AS orgpays, NULL::unknown AS orgemail, NULL::unknown AS orgurl, NULL::unknown AS orgdesc, NULL::unknown AS service, NULL::unknown AS fctorgid, NULL::unknown AS fctid, NULL::unknown AS fcttype, NULL::unknown AS fctdesc, NULL::unknown AS proemail, NULL::unknown AS protel, NULL::unknown AS orgcatdesc, NULL::unknown AS description ORDER BY 2, 12, 15, 27, 28, 24;
-
-
---
--- Name: VIEW personne_properso; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON VIEW personne_properso IS 'permet d''accéder à toutes les personnes de l''annuaire qu''elles soient pro ou non, qu''elles aient des fonctions au sein d''un organisme ou non';
+    (((SELECT DISTINCT personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, organisme.id AS orgid, organisme.nom AS orgnom, organisme.categorie AS orgcat, organisme.adresse AS orgadr, organisme.cp AS orgcp, organisme.ville AS orgville, organisme.pays AS orgpays, organisme.email AS orgemail, organisme.url AS orgurl, organisme.description AS orgdesc, org_personne.service, org_personne.id AS fctorgid, fonction.id AS fctid, fonction.libelle AS fcttype, org_personne.fonction AS fctdesc, org_personne.email AS proemail, org_personne.telephone AS protel, organisme.catdesc AS orgcatdesc, personne.description FROM organisme_categorie organisme, personne, org_personne, fonction WHERE ((((personne.id = org_personne.personneid) AND (organisme.id = org_personne.organismeid)) AND (fonction.id = org_personne.type)) AND (org_personne.type IS NOT NULL)) ORDER BY personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, organisme.id, organisme.nom, organisme.categorie, organisme.adresse, organisme.cp, organisme.ville, organisme.pays, organisme.email, organisme.url, organisme.description, org_personne.service, org_personne.id, fonction.id, fonction.libelle, org_personne.fonction, org_personne.email, org_personne.telephone, organisme.catdesc, personne.description) UNION (SELECT DISTINCT personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, organisme.id AS orgid, organisme.nom AS orgnom, organisme.categorie AS orgcat, organisme.adresse AS orgadr, organisme.cp AS orgcp, organisme.ville AS orgville, organisme.pays AS orgpays, organisme.email AS orgemail, organisme.url AS orgurl, organisme.description AS orgdesc, org_personne.service, org_personne.id AS fctorgid, NULL::integer AS fctid, NULL::text AS fcttype, org_personne.fonction AS fctdesc, org_personne.email AS proemail, org_personne.telephone AS protel, organisme.catdesc AS orgcatdesc, personne.description FROM organisme_categorie organisme, personne, org_personne WHERE (((personne.id = org_personne.personneid) AND (organisme.id = org_personne.organismeid)) AND (org_personne.type IS NULL)) ORDER BY personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, organisme.id, organisme.nom, organisme.categorie, organisme.adresse, organisme.cp, organisme.ville, organisme.pays, organisme.email, organisme.url, organisme.description, org_personne.service, org_personne.id, NULL::integer, NULL::text, org_personne.fonction, org_personne.email, org_personne.telephone, organisme.catdesc, personne.description)) UNION SELECT personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgcat, NULL::unknown AS orgadr, NULL::unknown AS orgcp, NULL::unknown AS orgville, NULL::unknown AS orgpays, NULL::unknown AS orgemail, NULL::unknown AS orgurl, NULL::unknown AS orgdesc, NULL::unknown AS service, NULL::unknown AS fctorgid, NULL::unknown AS fctid, NULL::unknown AS fcttype, NULL::unknown AS fctdesc, NULL::unknown AS proemail, NULL::unknown AS protel, NULL::unknown AS orgcatdesc, personne.description FROM personne) UNION SELECT NULL::unknown AS id, NULL::unknown AS nom, NULL::unknown AS creation, NULL::unknown AS modification, NULL::unknown AS adresse, NULL::unknown AS cp, NULL::unknown AS ville, NULL::unknown AS pays, NULL::unknown AS email, NULL::unknown AS npai, NULL::unknown AS active, NULL::unknown AS prenom, NULL::unknown AS titre, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgcat, NULL::unknown AS orgadr, NULL::unknown AS orgcp, NULL::unknown AS orgville, NULL::unknown AS orgpays, NULL::unknown AS orgemail, NULL::unknown AS orgurl, NULL::unknown AS orgdesc, NULL::unknown AS service, NULL::unknown AS fctorgid, NULL::unknown AS fctid, NULL::unknown AS fcttype, NULL::unknown AS fctdesc, NULL::unknown AS proemail, NULL::unknown AS protel, NULL::unknown AS orgcatdesc, NULL::unknown AS description ORDER BY 2, 12, 15, 27, 28, 24;
 
 
 --
@@ -420,7 +427,6 @@ COMMENT ON COLUMN child.name IS 'child''s name';
 --
 
 CREATE SEQUENCE child_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -478,11 +484,22 @@ ALTER SEQUENCE color_id_seq OWNED BY color.id;
 
 
 --
+-- Name: email_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE email_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
 -- Name: email; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE email (
-    id integer NOT NULL,
+    id integer DEFAULT nextval('email_id_seq'::regclass) NOT NULL,
     date timestamp with time zone DEFAULT now() NOT NULL,
     accountid bigint NOT NULL,
     "from" character varying(255) NOT NULL,
@@ -501,24 +518,6 @@ CREATE TABLE email (
 --
 
 COMMENT ON TABLE email IS 'where are recorded all emails sent by the "emailing" tool...';
-
-
---
--- Name: email_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE email_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Name: email_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE email_id_seq OWNED BY email.id;
 
 
 --
@@ -730,7 +729,6 @@ COMMENT ON COLUMN groupe_andreq.childmin IS 'date("Y") - childmin <= child.birth
 --
 
 CREATE SEQUENCE groupe_andreq_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1075,34 +1073,11 @@ COMMENT ON VIEW organisme_telephone IS 'Donne chaque organisme avec ses numéros
 
 
 --
--- Name: telephone_personne; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE telephone_personne (
-)
-INHERITS (telephone);
-
-
---
--- Name: TABLE telephone_personne; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON TABLE telephone_personne IS 'numéros de téléphones des personnes';
-
-
---
 -- Name: personne_telephone; Type: VIEW; Schema: public; Owner: -
 --
 
 CREATE VIEW personne_telephone AS
-    SELECT personne.id, NULL::unknown AS type, NULL::unknown AS numero FROM personne_properso personne WHERE (NOT (personne.id IN (SELECT telephone_personne.entiteid FROM telephone_personne))) UNION SELECT personne.id, telephone.type, telephone.numero FROM personne_properso personne, telephone_personne telephone WHERE (personne.id = telephone.entiteid) ORDER BY 1, 2, 3;
-
-
---
--- Name: VIEW personne_telephone; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON VIEW personne_telephone IS 'Donne chaque personne avec ses numéros et type de tel, ou chaque personne accompagnées d''un téléphone à double champ "NULL"';
+    SELECT organisme.id, NULL::unknown AS type, NULL::unknown AS numero FROM organisme WHERE (NOT (organisme.id IN (SELECT telephone_organisme.entiteid FROM telephone_organisme))) UNION SELECT organisme.id, telephone.type, telephone.numero FROM organisme, telephone_organisme telephone WHERE (organisme.id = telephone.entiteid) ORDER BY 1, 2, 3;
 
 
 --
@@ -1111,13 +1086,6 @@ COMMENT ON VIEW personne_telephone IS 'Donne chaque personne avec ses numéros e
 
 CREATE VIEW personne_extractor AS
     SELECT personne.id, personne.nom, personne.prenom, personne.titre, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.creation, personne.modification, (SELECT personne_telephone.numero FROM personne_telephone WHERE (personne.id = personne_telephone.id) LIMIT 1) AS telnum, (SELECT personne_telephone.type FROM personne_telephone WHERE (personne.id = personne_telephone.id) LIMIT 1) AS teltype, personne.orgid, personne.orgnom, personne.orgcatdesc AS orgcat, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.orgemail, personne.orgurl, personne.orgdesc, personne.service, personne.fctorgid, personne.fctid, personne.fcttype, personne.fctdesc, personne.proemail, personne.protel, (SELECT organisme_telephone.numero FROM organisme_telephone WHERE (personne.orgid = organisme_telephone.id) LIMIT 1) AS orgtelnum, (SELECT organisme_telephone.type FROM organisme_telephone WHERE (personne.orgid = organisme_telephone.id) LIMIT 1) AS orgteltype FROM personne_properso personne;
-
-
---
--- Name: VIEW personne_extractor; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON VIEW personne_extractor IS 'View spécialement crée pour l''extracteur';
 
 
 SET default_with_oids = false;
@@ -1149,6 +1117,24 @@ CREATE TABLE str_model (
 COMMENT ON COLUMN str_model.usage IS 'ce à quoi va servir le champ précédent';
 
 
+SET default_with_oids = true;
+
+--
+-- Name: telephone_personne; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE telephone_personne (
+)
+INHERITS (telephone);
+
+
+--
+-- Name: TABLE telephone_personne; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE telephone_personne IS 'numéros de téléphones des personnes';
+
+
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
@@ -1161,13 +1147,6 @@ ALTER TABLE child ALTER COLUMN id SET DEFAULT nextval('child_id_seq'::regclass);
 --
 
 ALTER TABLE color ALTER COLUMN id SET DEFAULT nextval('color_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE email ALTER COLUMN id SET DEFAULT nextval('email_id_seq'::regclass);
 
 
 --
