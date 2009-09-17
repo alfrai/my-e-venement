@@ -36,6 +36,14 @@
 				$config["database"]["passwd"] );
   
   $from = $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>';
+  switch( $_POST['from'] ) {
+  case 'private':
+    $from = $user->getUserName().' <'.$user->getEmail().'>';
+    break;
+  case 'privshort':
+    $from = $user->getEmail();
+    break;
+  }
   
   // verifying email
   if ( ($_POST['to'] || $_POST['cci']) && $_POST['content'] )
@@ -67,11 +75,11 @@
       '<html><head><title></title></head><body>'.
       $email['content'].
       "\r\n\r\n".
-      "--".
+      "<p>--<br/>".
       "\r\n".
       $from.
-      "\r\n".
-      '<p class="legal">nb1: '."Si vous ne souhaitez plus recevoir d'email de notre part, contactez nous&nbsp;: ".'<a href="mailto:'.htmlsecure($from).'">'.htmlsecure($config["mail"]["mailfrom"]).'</a>.</p>'.
+      "</p>\r\n".
+      '<p class="legal">nb1: '."Si vous ne souhaitez plus recevoir d'email de notre part, contactez nous&nbsp;: ".'<a href="mailto:'.htmlsecure($from).'">'.htmlsecure($from).'</a>.</p>'.
       "\r\n".
       '<p class="html">nb2: '."Ce message s'affiche mieux dans sa version HTML...".'</p>'.
       '</body></html>';
@@ -87,12 +95,15 @@
       'accountid' => $user->getId(),
     );
     if ( $bd->addRecord('email',$data) )
+    {
       $sent = mail(
         $email['to'],
         $email['subject'],
         $content,
         $headers
       );
+      $emailid = $bd->getLastSerial('email','id');
+    }
     else
       $user->addAlert("Impossible d'enregistrer votre email.");
     
@@ -100,7 +111,7 @@
     {
       $user->addAlert("Votre courriel a bien été envoyé...");
       $email = array();
-      $bd->updateRecordsSimple('email', array('id' => $bd->getLastSerial('email','id')), array('sent' => 't'));
+      $bd->updateRecordsSimple('email', array('id' => $emailid), array('sent' => 't'));
     }
     else
       $user->addAlert("Impossible d'envoyer votre courriel... veuillez le vérifier à nouveau. Si le problème persiste, contacter votre administrateur.");
@@ -120,7 +131,7 @@
   <span>De: </span>
   <span class="from">
     <?php echo htmlsecure($from) ?>
-    <input type="hidden" name="from" value="<?php echo htmlsecure($config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>') ?>" disabled="disabled" />
+    <input type="hidden" name="from" value="<?php echo htmlsecure($_POST['from']) ?>" />
   </span>
 </p>
 <p>
@@ -192,7 +203,15 @@
 </script>
 <p>
   <span>De: </span>
-  <span><input type="text" class="from" name="from" value="<?php echo htmlsecure($from) ?>" disabled="disabled" /></span>
+  <span>
+    <select name="from" class="from">
+      <option value="default"><?php echo htmlsecure($config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>') ?></option>
+      <?php if ( $user->getEmail() ): ?>
+      <option value="private" <?php if ( $_POST['from'] == 'private' ) echo 'selected="selected"'; ?>><?php echo htmlsecure($user->getUserName().' <'.$user->getEmail().'>') ?></option>
+      <option value="privshort" <?php if ( $_POST['from'] == 'privshort' ) echo 'selected="selected"'; ?>><?php echo htmlsecure($user->getEmail()) ?></option>
+      <?php endif; ?>
+    </select>
+  </span>
 </p>
 <p>
   <span>À: </span>

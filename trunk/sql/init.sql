@@ -44,19 +44,6 @@ COMMENT ON FUNCTION get_personneid(integer) IS 'retourne l''id d''une personne i
 $1: org_personne.id';
 
 
---
--- Name: zeroifnull(bigint); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION zeroifnull(bigint) RETURNS bigint
-    AS $_$BEGIN
-IF $1 IS NULL THEN RETURN 0;
-ELSE RETURN $1;
-END IF;
-END;$_$
-    LANGUAGE plpgsql IMMUTABLE;
-
-
 SET default_tablespace = '';
 
 SET default_with_oids = true;
@@ -433,6 +420,7 @@ COMMENT ON COLUMN child.name IS 'child''s name';
 --
 
 CREATE SEQUENCE child_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -490,23 +478,11 @@ ALTER SEQUENCE color_id_seq OWNED BY color.id;
 
 
 --
--- Name: email_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE email_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
 -- Name: email; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE email (
-    id integer DEFAULT nextval('email_id_seq'::regclass) NOT NULL,
+    id integer NOT NULL,
     date timestamp with time zone DEFAULT now() NOT NULL,
     accountid bigint NOT NULL,
     "from" character varying(255) NOT NULL,
@@ -525,6 +501,24 @@ CREATE TABLE email (
 --
 
 COMMENT ON TABLE email IS 'where are recorded all emails sent by the "emailing" tool...';
+
+
+--
+-- Name: email_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE email_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- Name: email_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE email_id_seq OWNED BY email.id;
 
 
 --
@@ -736,6 +730,7 @@ COMMENT ON COLUMN groupe_andreq.childmin IS 'date("Y") - childmin <= child.birth
 --
 
 CREATE SEQUENCE groupe_andreq_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1166,6 +1161,13 @@ ALTER TABLE child ALTER COLUMN id SET DEFAULT nextval('child_id_seq'::regclass);
 --
 
 ALTER TABLE color ALTER COLUMN id SET DEFAULT nextval('color_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE email ALTER COLUMN id SET DEFAULT nextval('email_id_seq'::regclass);
 
 
 --

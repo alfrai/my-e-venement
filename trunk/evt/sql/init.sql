@@ -744,7 +744,7 @@ ALTER SEQUENCE reservation_id_seq OWNED BY reservation.id;
 CREATE TABLE reservation_pre (
     manifid integer NOT NULL,
     tarifid integer NOT NULL,
-    reduc integer,
+    reduc integer DEFAULT 0,
     transaction bigint NOT NULL,
     annul boolean DEFAULT false NOT NULL,
     plnum integer,
@@ -1077,7 +1077,6 @@ COMMENT ON COLUMN color.color IS 'Valeur RGB de type HTML de la couleur correspo
 --
 
 CREATE SEQUENCE color_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1353,7 +1352,6 @@ ALTER SEQUENCE evenement_id_seq OWNED BY evenement.id;
 --
 
 CREATE SEQUENCE evt_categorie_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
