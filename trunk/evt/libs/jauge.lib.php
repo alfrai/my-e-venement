@@ -22,7 +22,7 @@
 ?>
 <?php
 	// si $user est le user courant et si la jauge dépasse, alors on affiche une alerte
-	function printJauge($nbtotal,$nbpreresas,$nbresas,$sizemax,$nbcommandes = NULL,$sizecmd = NULL,$user = NULL)
+	function printJauge($nbtotal,$nbpreresas,$nbresas,$sizemax,$nbcommandes = NULL,$sizecmd = NULL,$user = NULL,$contingents = array())
 	{
 		// les tailles
 		$outsized = $sizemax*110/100;
@@ -53,12 +53,27 @@
 		if ( $cmd < 0 ) $cmd = 0;
 		if ( $cmd > $sizecmd ) $cmd = $sizecmd;
 		
-		if ( !is_null($nbcommandes) ) echo '<span style="width: '.$cmd.'px" class="command"><span class="desc">'.$nbcommandes.' pl. demandées</span></span>';
-		echo '<span style="padding-left: '.$free.'px;" class="free"><span class="desc">'.$reste.' pl. libres</span></span>';
-		echo '<span style="padding-left: '.$prebooked.'px;" class="prebooked"><span class="desc">'.$nbpreresas.' pl. pré-rés.</span></span>';
-		echo '<span style="padding-left: '.$booked.'px;" class="booked"><span class="desc">'.$nbresas.' pl. réservées</span></span>';
+		if ( !is_null($nbcommandes) ) echo '<span style="width: '.$cmd.'px" class="command" title="'.$nbcommandes.' pl. demandées"></span>';
+		echo '<span style="padding-left: '.$free.'px;" class="free" title="'.$reste.' pl. libres"></span>';
+		echo '<span style="padding-right: '.$prebooked.'px;" class="prebooked" title="'.$nbpreresas.' pl. pré-rés.">';
+		if ( count($contingents) > 0 )
+		{
+		  echo '<span class="contingents">';
+		  foreach ( $contingents as $transaction => $contingent )
+		    echo '<span title="'.
+		      htmlsecure(
+		        ($contingent['orgnom'] ? $contingent['orgnom'] : $contingent['nom'].' '.$contingent['prenom']).': '.
+		        $contingent['nb'].' pl., '.
+            '#'.$transaction
+		      ).
+		    '" style="padding-left: '.($prebooked*$contingent['nb']/$nbpreresas).'px"></span>';
+		  echo '</span>';
+		}
+		echo '</span>';
+		echo '<span style="padding-left: '.$booked.'px;" class="booked" title="'.$nbresas.' pl. réservées"></span>';
 		
-		echo '<span class="jauge '.($nbtotal < $nbpreresas + $nbresas ? 'err' : ($reste < $nbcommandes ? 'warn' : '')).'">'.$nbtotal.' pl.</span>';
+		echo '<span class="jauge '.($nbtotal < $nbpreresas + $nbresas ? 'err' : ($reste < $nbcommandes ? 'warn' : '')).'"
+		            title="'.($reste < $nbpreresas + $nbresas ? ($nbpresas+$nbresas).'pl. de trop' : '').'">'.$nbtotal.' pl.</span>';
 		
 		if ( is_object($user) && $reste < 0 )
 		{

@@ -26,13 +26,33 @@
 	includeLib("jauge");
 	$jauge = true;
 	
+	$query  = ' SELECT ppp.orgnom, ppp.nom, ppp.prenom, c.transaction, count(p.*) AS nb
+	            FROM reservation_pre p, contingeant c
+	                 LEFT JOIN personne_properso ppp
+	                 ON     ppp.id = c.personneid
+	                    AND ( ppp.fctorgid = c.fctorgid OR ppp.fctorgid IS NULL AND c.fctorgid IS NULL )
+	            WHERE p.transaction = c.transaction
+	              AND manifid = '.intval($_GET["manifid"]).'
+	            GROUP BY ppp.orgnom, ppp.nom, ppp.prenom, c.transaction
+	            ORDER BY ppp.orgnom, ppp.nom, ppp.prenom, c.transaction';
+	$request = new bdRequest($bd,$query);
+	$contingents = array();
+	while ( $rec = $request->getRecordNext() )
+	  $contingents[$rec['transaction']] = array(
+	    'orgnom' => $rec['orgnom'],
+	    'nom'    => $rec['nom'],
+	    'prenom' => $rec['prenom'],
+	    'nb'     => $rec['nb'],
+	  );
+	$request->free();
+	
 	$query	= " SELECT *
 		    FROM info_resa AS manif
 		    WHERE manifid = ".intval($_GET["manifid"]);
 	$request = new bdRequest($bd,$query);
 	
 	if ( $rec = $request->getRecord() )
-		printJauge(intval($rec["jauge"]),intval($rec["preresas"]),intval($rec["resas"]),450,intval($rec["commandes"]),550);
+		printJauge(intval($rec["jauge"]),intval($rec["preresas"]),intval($rec["resas"]),450,intval($rec["commandes"]),550,null,$contingents);
 
 	$request->free();
 	$bd->free();
