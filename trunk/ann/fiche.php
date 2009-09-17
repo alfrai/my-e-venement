@@ -320,6 +320,13 @@
 			?>
 			</span>
 		</p>
+		<p class="description">
+			<span>
+			<?php
+				printField("field[".($name = "description")."]",$rec[$name],"-clé1 clé2 clé3 ...-",255);
+			?>
+			</span>
+		</p>
 		<p class="npai">
 			<span onclick="javascript: ttt_spanCheckBox(this.getElementsByTagName('input').item(1));">
 			<input type="hidden" name="field[npai][value]" value="f" />

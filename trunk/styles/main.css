@@ -471,9 +471,11 @@ div.tel p span.type:hover select, div.tel p span.type:focus select
 	z-index: 5;
 }
 
-p.dates span {
+p.description, p.dates span {
 	display: block;
 	font-size: 80%;
+}
+p.dates span {
 	color: gray;
 }
 

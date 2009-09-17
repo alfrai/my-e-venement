@@ -53,6 +53,7 @@
     'creation'=> 'creation',
     'modification' => 'modification',
     'orgcat'  => 'orgcat',
+    'description' => 'description'
   );
   
   $realfields = $fields;
@@ -176,6 +177,10 @@
         $criterias['sup'.$sql] = $_POST[$post]['sup'];
         $where[]   = '       '.$sql." <= '".date('Y-m-d',strtotime($_POST[$post]['sup']))."'";
       }
+      break;
+    case 'description':
+      foreach ( explode(' ', $_POST[$post]) as $keyword )
+        $where[] = "' '||".$sql."||' ' ILIKE '% ".pg_escape_string(trim($keyword))." %'";
       break;
     case 'grpinc':
       if ( is_array($_POST[$post]) && count($_POST[$post]) > 0 )
@@ -355,7 +360,6 @@ $(document).ready(function(){
   </div>
   <div>
   <span class="enfants">
-    Enfants:
     <input type="text" name="age[min]" value="" />
     &lt;= âge =&gt;
     <input type="text" name="age[max]" value="" />
@@ -369,6 +373,13 @@ $(document).ready(function(){
   <span class="ville">
     Ville:
     <input type="text" name="ville" value="" />
+  </span>
+  </div>
+  <div>
+  <span class="keywords">
+    Mots clés:
+    <input type="text" name="description" value="" size="50" />
+    (séparés par un " ")
   </span>
   </div>
   <div class="options">
