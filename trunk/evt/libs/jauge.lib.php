@@ -62,11 +62,11 @@
 		  foreach ( $contingents as $transaction => $contingent )
 		    echo '<span title="'.
 		      htmlsecure(
-		        ($contingent['orgnom'] ? $contingent['orgnom'] : $contingent['nom'].' '.$contingent['prenom']).': '.
-		        $contingent['nb'].' pl., '.
+            ($contingent['orgnom'] ? $contingent['orgnom'] : $contingent['nom'].' '.$contingent['prenom']).': '.
+            $contingent['nb'].' pl., '.
             '#'.$transaction
 		      ).
-		    '" style="padding-left: '.($prebooked*$contingent['nb']/$nbpreresas).'px"></span>';
+		    '" style="padding-left: '.(($prebooked*$contingent['nb']/$nbpreresas)-1).'px"></span>';
 		  echo '</span>';
 		}
 		echo '</span>';
