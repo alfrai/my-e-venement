@@ -98,7 +98,7 @@
 			          AND transaction.fctorgid IS NULL ))";
 		$request = new bdRequest($bd,$query);
 		
-		if ( $request->getRecord('blocked') == 't' )
+		if ( $request->getRecord('blocked') == 't' && $user->evtlevel < $config['evt']['right']['unblock'] )
 		{
       $user->addAlert("L'opération visée a été verrouillée, faîtes-la déverrouiller par votre responsable.");
       $nav->redirect(dirname($_SERVER['PHP_SELF']));
