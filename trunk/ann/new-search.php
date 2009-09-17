@@ -179,8 +179,10 @@
       }
       break;
     case 'description':
+      $tmp = array();
       foreach ( explode(' ', $_POST[$post]) as $keyword )
-        $where[] = "' '||".$sql."||' ' ILIKE '% ".pg_escape_string(trim($keyword))." %'";
+        $tmp[] = "' '||".$sql."||' ' ILIKE '% ".pg_escape_string(trim($keyword))." %'";
+      $where[] = '('.implode(' OR ',$tmp).')';
       break;
     case 'grpinc':
       if ( is_array($_POST[$post]) && count($_POST[$post]) > 0 )
@@ -379,7 +381,7 @@ $(document).ready(function(){
   <span class="keywords">
     Mots clés:
     <input type="text" name="description" value="" size="50" />
-    (séparés par un " ")
+    (ex: "associatif élu" => tous ceux qui sont associatifs OU élu)
   </span>
   </div>
   <div class="options">
