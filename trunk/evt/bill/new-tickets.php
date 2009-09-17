@@ -21,26 +21,63 @@
 ***********************************************************************************/
 ?>
 <?php
+  /**
+    * Si le billet est imprimé en "hard" par le client, les codes de retour :
+    *   fichier "BOCA": tout est ok
+    *   1: erreur d'accès à la base de données
+    *   2: problème lié par exemple au numéro de transaction
+    *   3: problème d'écriture de fichiers
+    *   4: problème de commandes inaccessibles (pour la conversion en PDF, voir /usr/bin/firefox, ou xvfb)
+    *   5: problème de commandes inaccessibles (pour la conversion en fichier BOCA, voir pdftoraster et rastertoboca)
+    * 254: pas de billet à imprimer
+    * 255: pas les droits nécessaires
+    *
+    **/
+  
   require('conf.inc.php');
+  includeClass('tickets');
   
   if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
   {
-    $user->addAlert($msg = "Vous n'avez pas un niveau de droits suffisant pour accéder à cette fonctionnalité");
-    $nav->redirect($config["website"]["base"]."evt/bill/",$msg);
+    if ( $config['print']['hard'] )
+    {
+      echo '255';
+      die(255);
+    }
+    else
+    {
+      $user->addAlert($msg = "Vous n'avez pas un niveau de droits suffisant pour accéder à cette fonctionnalité");
+      $nav->redirect($config["website"]["base"]."evt/bill/",$msg);
+    }
   }
   
-  includeClass('tickets');
+  if ( isset($_GET['cancelprint']) && $salt && $config['print']['hard'] )
+  {
+    foreach ( $_SESSION['tickets'][$salt] as $ticketid )
+      $bd->delRecordSimple('reservation_cur',array('id' => $ticketid));
+    echo '0';
+    die(0);
+  }
   
   // vérifs
   if ( ($transac = intval($_GET['transac'])) <= 0 )
   {
-    $user->addAlert("Problème dans le numéro d'opération transmis au bon de commande.");
-    $nav->redirect('.');
+    if ( $config['print']['hard'] )
+    {
+      echo '2';
+      die(2);
+    }
+    else
+    {
+      $user->addAlert("Problème dans le numéro d'opération transmis au bon de commande.");
+      $nav->redirect('.');
+    }
   }
   
   $group = isset($_GET['group']);
   $tarif = isset($_GET['tarif']) ? $_GET['tarif'] : false;
   $manifid = intval($_GET['manifid']) ? $_GET['manifid'] : false;
+  $salt = $_GET['salt'] && $config['print']['hard'] ? $_GET['salt'] : false;
   
   function verif_transaction()
   {
@@ -48,8 +85,16 @@
     if ( !$bd->getTransactionStatus() )
     {
       $bd->endTransaction();
-      $user->addAlert('Impossible de retrouver les informations relatives au billet en base...');
-      $nav->redirect('evt/bill/');
+      if ( $config['print']['hard'] )
+      {
+        echo '1';
+        die(1);
+      }
+      else
+      {
+        $user->addAlert('Impossible de retrouver les informations relatives au billet en base...');
+        $nav->redirect('evt/bill/');
+      }
     }
   }
   
@@ -164,6 +209,7 @@
                   AND mo.manifid = '.$rec['manifid'];
     $orgs = new bdRequest($bd,$query);
     $rec['orga'] = array();
+    $rec['orga'][] = $config['ticket']['seller']['nom'];
     while ( $org = $orgs->getRecordNext() )
       $rec['orga'][] = $org['nom'];
     $orgs->free();
@@ -206,11 +252,65 @@
       'resa_preid'  => intval($pre['id']),
     );
     $bd->addRecord('reservation_cur',$cur);
+    if ( $salt )
+      $_SESSION['tickets'][$salt][] = $bd->getLastSerial('reservation_cur','id');
   }
   
   verif_transaction();
-  $bd->endTransaction();
+
+  if ( $config['print']['hard'] )
+  {
+    function exit_on_error($exit, $err)
+    {
+      global $bd;
+      if ( $exit )
+      {
+        $bd->endTransaction(false);
+        $bd->free();
+        echo $err;
+        die($err);
+      }
+      else return true;
+    }
+    
+    exit_on_error($tickets->countTickets() <= 0,254);
+    
+    $filebase = '/tmp/evt-'.$salt;
+    exit_on_error( file_put_contents($filebase.'.html',$tickets->getTicketsHTML()) === false || !file_exists($filebase.'.html') ,3);
+    
+    // on génére le PDF et on enlève l'HTML
+    $cmd = $_SERVER['DOCUMENT_ROOT'].$config['website']['root'].'evt/api/firefox-pdf.bash.php '.$filebase;
+    $output = $r = '';
+    exec($cmd,$output,$r);
+    /*
+    if ( intval($r) > 0 )
+    {
+      shell_exec('Xvfb :10 &> /dev/null &');
+      exec($cmd,$output,$r);
+    }
+    */
+    if ( !$config['print']['keep'] ) unlink($filebase.'.html');
+    
+    // on arrête l'opération en cas de pb
+    exit_on_error( !file_exists($filebase.'.pdf') ,4);
+    
+    shell_exec('cat '.$filebase.'.pdf | /usr/lib/cups/filter/pdftoraster tickets beta tickets 1 1 | /usr/lib/cups/filter/rastertoboca tickets beta bocaprint 1 1 > '.$filebase.'.boca 2> /dev/null');
+    if ( !$config['print']['keep'] ) unlink($filebase.'.pdf');
+    
+    // on arrête l'opération en cas de pb
+    $content = file_get_contents($filebase.'.boca');
+    exit_on_error( $content === false ,5);
+    
+    if ( !$config['print']['keep'] ) unlink($filebase.'.boca');
+    
+    $nav->mimeType('application/vnd.cups-boca');
+    echo $content;
+  }
+  else
+  {
+    $tickets->printAll();
+    $bd->endTransaction();
+  }
   
-  $tickets->printAll();
   $bd->free();
 ?>
