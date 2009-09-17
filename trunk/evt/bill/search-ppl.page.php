@@ -22,13 +22,14 @@
 ?>
 <?php
   require("conf.inc.php");
+  includeLib('personne_properso');
   includeLib('headers');
   
   if ( !$_GET['nom'] && intval(substr($_GET['client'],5)) <= 0 )
     die();
   
   if ( $_GET['nom'] )
-    $where = " nom ILIKE '".pg_escape_string($_GET['nom'])."%' ";
+    $where = " p.nom ILIKE '".pg_escape_string($_GET['nom'])."%' ";
   else
   {
     if ( substr($_GET['client'],0,4) == 'prof' )
@@ -36,10 +37,8 @@
     else $where = ' id = ';
     $where .= intval(substr($_GET['client'],5));
   }
-  $query = '  SELECT *
-              FROM personne_properso
-              WHERE '.$where.'
-              ORDER BY nom, prenom, orgnom, fctdesc';
+  $order = 'nom, prenom, orgnom, fctdesc';
+  $query = get_personne_properso_query($where,$order);
   $request = new bdRequest($bd,$query);
 ?>
 <div class="list">

@@ -51,9 +51,21 @@
       $nav->redirect(dirname($_SERVER['PHP_SELF']));
     }
   }
+  else $transac = intval($_GET['t']);
   
-  if ( ($transac = intval($_GET['t'])) <= 0 )
-    includeLib('headers');
+  if ( $transac > 0 )
+  {
+    $request = new bdRequest($bd,'SELECT count(*) AS nb FROM contingeant WHERE transaction = '.$transac);
+    $cont = intval($request->getRecord('nb')) > 0;
+    $request->free();
+    if ( $cont )
+    {
+      $user->addAlert("L'opération visée n'existe pas ou n'est pas une opération de billetterie classique (contingent, dépôt, ...).");
+      $nav->redirect(dirname($_SERVER['PHP_SELF']));
+    }
+  }
+  
+  includeLib('headers');
   
   // respawning of an anciant transaction
   if ( $transac > 0 )
@@ -66,12 +78,6 @@
                   AND pre.transaction = '.$transac.'
                   AND transaction.id NOT IN ( SELECT transaction FROM contingeant )';
     $request = new bdRequest($bd,$query);
-    
-    if ( $request->countRecords() <= 0 )
-    {
-      $user->addAlert("L'opération visée n'existe pas ou n'est pas une opération de billetterie classique (contingent, dépôt, ...).");
-      $nav->redirect(dirname($_SERVER['PHP_SELF']));
-    }
     
     if ( $request->getRecord('blocked') == 't' && $user->evtlevel < $config['evt']['right']['param'] )
     {
