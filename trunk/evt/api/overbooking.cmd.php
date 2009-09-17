@@ -64,7 +64,7 @@
     
     $r = array();
     while ( $chiffres = $request->getRecordNext() )
-    if ( $chiffres['toprint'] > $chiffres['jauges'] - $chiffres['preselled'] - $chiffres['printed'] )
+    if ( intval($chiffres['toprint']) > intval($chiffres['jauge']) - intval($chiffres['preselled']) - intval($chiffres['printed']) )
     {
       $r[] = $chiffres['manifid'];
     }

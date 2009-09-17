@@ -443,9 +443,7 @@ $(document).ready(function(){
       wintick = window.open();
       // faire du JSON et hilighter les manifs overbookées... ensuite afficher une boite de dialogue OUI/NON pour continuer
       $.get('evt/api/overbooking.cmd.php',{ transac: $('#bill-op input[name=transac]').val() },function(data){
-        if ( data == 2 )
-          warning('Impossible de contrôler les jauges, on imprime quand même');
-      	if ( data.length != 0 )
+        if ( data .length > 0 )
         {
           for ( i = 0 ; i < data.length ; i++ )
             $("#bill-tickets .spectacles input[name='manifs[]'][value="+data[i]+"]").parent().addClass('highlight');
@@ -457,6 +455,8 @@ $(document).ready(function(){
           }
           $("#bill-tickets .spectacles .evt").removeClass('highlight');
         }
+        else if ( data.length == 0 ) warning('Toutes les jauges sont bonnes, on peut imprimer');
+        else warning("Erreur dans le contrôle des jauges, on lance l'impression quand même");
         wintick.location = encodeURI('evt/bill/new-tickets.php?transac='+$('#bill-op input[name=transac]').val()+group);
       },'json');
     }
