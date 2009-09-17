@@ -565,3 +565,6 @@ body.org #googlemap .clip #map, form.personne #googlemap .clip #map {
 form.results #googlemap #map {
 	height: 450px;
 }
+
+.model pre,
+.model .fields .sys { font-size: 80%; }

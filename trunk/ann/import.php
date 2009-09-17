@@ -27,8 +27,8 @@
   $type = 'ann';
   
   $exemple = '
-  "M.","BRASENS","Georges","13 rue du Sud","22000","ST BRIEUC","France","georges@brassens.fr","02 96 52 48 89","","","","","",""
-  "M.","STALLMAN","Richard","2 chemin du levant","64000","PAU","France","stallman@fsf.org","05 25 68 37 12","","Free Software Foundation","Direction","Directeur","05 84 67 32 33","stallman@fsf.org"';
+  "M.","BRASENS","Georges","13 rue du Sud","22000","ST BRIEUC","France","georges@brassens.fr","chanteur artiste producteur","02 96 52 48 89","","","","","",""
+  "M.","STALLMAN","Richard","2 chemin du levant","64000","PAU","France","stallman@fsf.org","associatif militant","05 25 68 37 12","","Free Software Foundation","Direction","Directeur","05 84 67 32 33","stallman@fsf.org"';
   
   $fields = array(
 	  'titre',
@@ -39,6 +39,7 @@
 	  'ville',
 	  'pays',
 	  'email',
+	  'description',
 	  'telephone1',
 	  'telephone2',
 	  'organisme_nom',
@@ -70,9 +71,9 @@
     if ( is_array($line) )
     foreach( $line as $key => $field )
     {
-      if ( $key < 8 )
+      if ( $key < 9 )
  	      $pers[$fields[$key]] = $field;
-      elseif ( $key < 10 )
+      elseif ( $key < 11 )
  	      $tel[]['numero'] = $field;
  	    else
  	      $pro[$fields[$key]]  = $field;
