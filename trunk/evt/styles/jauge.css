@@ -52,7 +52,7 @@ p.jauge span:hover > span.desc { display: inline; }
 p.jauge span.prebooked span.contingents {
   border-bottom: 1px dotted black;
   height: 8px;
-  margin-top: 8px;
+  margin-top: 9px;
   position: absolute;
   overflow: hidden;
 }
