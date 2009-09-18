@@ -23,6 +23,9 @@
 <?php
   $tables = $_POST['table'];
   
+  if ( !$config['ticket']['cat-tarifs'] )
+    die(1);
+  
   // ajouter un groupe
   if ( $name = $tables['new']['name'] )
     $bd->addRecord('cattarifs_table',array('libelle' => $name));
