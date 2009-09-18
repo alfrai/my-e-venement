@@ -156,7 +156,13 @@ function newbill_tickets_remove_error(ok)
   else      warning("Impossible de retirer un ticket, accès à la base de données impossible.");
 }
 function newbill_tickets_new_visu(tarif)
-{  
+{
+  // focus on nb
+  newbill_tickets_focus()
+  
+  if ( !tarif )
+    return false;
+  
   span   = $('#bill-tarifs span.tickets').clone(true);
   
   if ( $('#bill-tarifs input[type=text]').val() <= 1 )
@@ -182,9 +188,6 @@ function newbill_tickets_new_visu(tarif)
       .addClass(tarif);
     $('#bill-tickets input[type=radio]:checked').parent().append(hidden);
   }
-  
-  // focus on nb
-  newbill_tickets_focus()
 }
 // gives the focus to the number of tickets and selects its text to make modifications easier
 function newbill_tickets_focus()
@@ -368,7 +371,7 @@ $(document).ready(function(){
   }});
   
   // stage 3 : select tickets
-  $('#bill-tarifs button').click(function(){
+  $('#bill-tarifs button[name=tarif]').click(function(){
     tarif = $(this).val();
     newbill_tickets_new_visu(tarif);
     
@@ -431,6 +434,7 @@ $(document).ready(function(){
   });
   
   $('#bill-compta button.print').click(function(){
+    $('#bill-tarifs div.cat-tarifs table').removeClass('show');
     $('#bill-compta button.facture').addClass('printed');
     group = $('#bill-compta input[name=group].print:checked').length > 0 ? '&group' : '';
     if ( $('#bill-compta input[name=duplicata].print:checked').length > 0 )

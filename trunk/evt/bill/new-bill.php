@@ -28,6 +28,11 @@
   includeJS('jquery');
   includeJS('jquery-ui','evt');
   includeJS('new-bill','evt');
+  if ( $config['ticket']['cat-tarifs'] )
+  {
+    $css[] = 'evt/styles/cat-tarifs.css';
+    includeJS('cat-tarifs','evt');
+  }
   
   if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
   {
@@ -224,11 +229,76 @@ $(document).ready(function() {
   <div id="bill-tarifs">
     <input type="text" name="nb" value="1" size="2" maxlength="3" />
     <?php
-      $request = new bdRequest($bd,'SELECT key, description AS desc FROM tarif t WHERE date = ( select max(date) from tarif where key = t.key ) AND NOT desact AND NOT contingeant ORDER BY key');
-      while ( $rec = $request->getRecordNext() ):
+      $request = new bdRequest($bd,'
+        SELECT key, description AS desc
+        INTO TEMP tmp_tarifs
+        FROM tarif t
+        WHERE date = ( SELECT max(date) FROM tarif WHERE key = t.key )
+          AND NOT desact
+          AND NOT contingeant
+        ORDER BY key');
+      $request->free();
+      if ( !$config['ticket']['cat-tarifs'] )
+      {
+        $request = new bdRequest($bd,'SELECT * FROM tmp_tarifs');
+        while ( $rec = $request->getRecordNext() )
+          echo '<button name="tarif" value="'.htmlsecure($rec['key']).'" title="'.htmlsecure($rec['desc']).'">'.htmlsecure($rec['key']).'</button> ';
+      }
+      else
+      {
+        echo ' <div class="cat-tarifs">';
+        $query  = ' SELECT t.id, t.libelle, l.id AS lineid, l.libelle AS linename, r.id AS rowid, r.libelle AS rowname, tarifkey, tt.desc AS tarifdesc
+                    FROM cattarifs_table t
+                    LEFT JOIN cattarifs_row r   ON r.tableid = t.id
+                    LEFT JOIN cattarifs_line l  ON l.tableid = t.id
+                    LEFT JOIN cattarifs_elt e   ON e.rowid = r.id AND e.lineid = l.id
+                    LEFT JOIN tmp_tarifs tt     ON e.tarifkey = tt.key
+                    ORDER BY lineid, rowid';
+        $tarifs = new bdRequest($bd,$query);
+        $tid = 0;
+        $grps = array();
+        while ( $tarif = $tarifs->getRecordNext() )
+        {
+          $i = $tarif['id'];
+          $grps[$i][0][0]                               = $tarif['libelle'];
+          $grps[$i][0][$tarif['rowid']]                 = $tarif['rowname'];
+          $grps[$i][$tarif['lineid']][0]                = $tarif['linename'];
+          $grps[$i][$tarif['lineid']][$tarif['rowid']]['key']  = $tarif['tarifkey'];
+          $grps[$i][$tarif['lineid']][$tarif['rowid']]['desc'] = $tarif['tarifdesc'];
+        }
+        
+        foreach ( $grps as $lines )
+        {
+          echo '<table>';
+          $cptlines = 0;
+          foreach ( $lines as $iline => $rows )
+          {
+            $cptlines++;
+            echo '<tr class="'.($cptlines % 2 == 0 ? 'pair' : 'impair').'">';
+            $cptrows = 0;
+            
+            foreach ( $rows as $irow => $elt )
+            {
+              $cptrows++;
+              if ( $iline == 0 && $irow == 0 )
+                echo '<td class="'.($cptrows % 2 == 0 ? 'pair' : 'impair').' title"><button class="libelle" name="grp" title="Cliquez pour aggrandir / réduire le groupe">'.htmlsecure($elt).'</button></td>';
+              elseif ( $iline == 0 || $irow == 0 )
+                echo '<td class="'.($cptrows % 2 == 0 ? 'pair' : 'impair').' title">'.htmlsecure($elt).'</td>';
+              else
+                echo  '<td class="'.($cptrows % 2 == 0 ? 'pair' : 'impair').'">'.
+                      ($elt['key'] ? '<button
+                        name="tarif"
+                        value="'.htmlsecure($elt['key']).'"
+                        title="'.htmlsecure($elt['desc']).'">'.htmlsecure($elt['key']).'</button>' : '').
+                      '</td>';
+            }
+            echo '</tr>';
+          }
+          echo '</table>'."\n";
+        }
+        echo '</div>';
+      }
     ?>
-    <button name="tarif" value="<?php echo htmlsecure($rec['key']) ?>" title="<?php echo htmlsecure($rec['desc']) ?>"><?php echo htmlsecure($rec['key']) ?></button>
-    <?php endwhile; ?>
     <span class="tickets" title="Cliquer pour retirer un billet"><span></span></span>
     <input class="ticket" type="hidden" name="" value="" />
   </div>

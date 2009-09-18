@@ -28,6 +28,7 @@
 	$config['ticket']['facture_prefix'] = 'FB';
 	$config['ticket']['new-bill']    = true;
 	$config['ticket']['old-bill']    = true;
+	//$config['ticket']['cat-tarifs']  = true;    // ATTENTION: ajouter également sql/cat-tarifs.sql pour son fonctionnement
   //$config['ticket']['let_open_after_print'] = true;
   //$config['ticket']['bdc_facture_html_output'] = true;
   //$config['ticket']['controlleft']   = true;

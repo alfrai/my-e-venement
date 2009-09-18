@@ -51,7 +51,7 @@
   $tarif   = $_GET['tarif'];
   $qte     = intval($_GET['qte']);
   
-  if ( $transac > 0 && $manifid > 0 && $qte != 0 )
+  if ( $transac > 0 && $manifid > 0 && $qte != 0 && $tarif )
   {
     $query = " SELECT id
                FROM tarif_manif
