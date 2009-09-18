@@ -1,12 +1,12 @@
 ALTER TABLE personne ADD COLUMN description TEXT DEFAULT NULL;
 
-BEGIN TRANSACTION;
-
 DROP VIEW personne_extractor;
 DROP VIEW personne_telephone;
 DROP VIEW billeterie.waitingdepots;
 DROP VIEW billeterie.site_datas;
 DROP VIEW personne_properso;
+
+BEGIN TRANSACTION;
 
 CREATE VIEW personne_properso AS
 ((( SELECT DISTINCT personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, organisme.id AS orgid, organisme.nom AS orgnom, organisme.categorie AS orgcat, organisme.adresse AS orgadr, organisme.cp AS orgcp, organisme.ville AS orgville, organisme.pays AS orgpays, organisme.email AS orgemail, organisme.url AS orgurl, organisme.description AS orgdesc, org_personne.service, org_personne.id AS fctorgid, fonction.id AS fctid, fonction.libelle AS fcttype, org_personne.fonction AS fctdesc, org_personne.email AS proemail, org_personne.telephone AS protel, organisme.catdesc AS orgcatdesc, personne.description
