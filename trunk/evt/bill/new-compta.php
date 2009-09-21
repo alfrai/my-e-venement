@@ -180,6 +180,9 @@
     }
     echo '</div>';
     
+    // le type de document
+    echo '<div id="type">'.($type == 'facture' ? 'Facture' : 'Bon de Commande').'</div>';
+    
     // les données client
     echo '<div id="customer">';
     foreach ( $personne as $key => $value )
