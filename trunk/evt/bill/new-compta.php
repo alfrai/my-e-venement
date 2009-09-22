@@ -151,6 +151,12 @@
   }
   else
   {
+
+  $class .= $type == 'facture' ? ' facture' : ' bdc';
+  
+  $seller = $config['ticket']['seller'];
+  $seller['legal'] = str_replace('%factureid%','<span class="prefix">'.$config['ticket']['facture_prefix'].'</span>'.$id,$seller['legal']);
+  $seller['legal'] = str_replace('%transaction%',$transac,$seller['legal']);
   
   includeLib('headers');
 ?>
@@ -166,7 +172,6 @@
     <p id="date">le <?php echo date('d/m/Y') ?></p>
 <?php
     echo '<div id="seller">';
-    $seller = $config['ticket']['seller'];
     $seller[] = $config["mail"]["mailfrom"];
     if ( is_array($seller) )
     {
@@ -175,7 +180,7 @@
       unset($seller['logo']);
       
       foreach ( $seller as $key => $value )
-      if ( $key != 'legal' )
+      if ( $key != 'legal' && $key != 'echeance' )
         echo '<p class="'.htmlsecure($key).'">'.nl2br(htmlsecure($value)).'</p>';
     }
     echo '</div>';
@@ -193,6 +198,8 @@
     if ( $personne['date'] )
     echo '<p id="correction">Cette facture corrige la précédente datée du <span class="date">'.date('d/m/Y',strtotime($personne['date'])).'</span></p>';
     echo '<p id="ids"><span class="num">'.($type == 'bdc' ? 'Bon de commande #' : 'Facture '.$config['ticket']['facture_prefix'] ).'<span class="id">'.htmlsecure($id).'</span></span> <span class="transac">(pour l\'opération <span class="id">#'.$transac.'</span>)</span></p>';
+    if ( $seller['echeance'] )
+    echo '<p id="echeance">'.htmlsecure($seller['echeance']).'</p>';
     
     // les lignes du bdc
     $totaux = array('ht' => 0, 'tva' => array(), 'ttc' => 0);
@@ -220,7 +227,7 @@
     }
     echo '
       <thead><tr>
-        <th class="evt">Evènement</th>
+        <th class="evt">Événement</th>
         <th class="date">Date</th>
         <th class="heure">Heure</th>
         <th class="salle">Salle</th>
@@ -242,7 +249,7 @@
       echo '<p class="ttc"><span>Total TTC:</span><span class="float">'.number_format(round($totaux['ttc'],2),2).'</span></p>';
     echo '</div>';
     
-    echo '<p id="legal">'.nl2br(htmlsecure($seller['legal'])).'</p>';
+    echo '<div id="legal">'.nl2br($seller['legal']).'</div>';
     
     includeLib('footer');
     

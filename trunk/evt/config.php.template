@@ -39,6 +39,7 @@
   $config['ticket']['seller']['ville']    = '29000 QUIMPER';
   $config['ticket']['seller']['pays']     = 'France';
   $config['ticket']['seller']['refs']     = 'Siret - Code APE - TVA FR ';
+  $config['ticket']['seller']['echeance'] = 'Payable au '.date('t/m/Y');
   $config['ticket']['seller']['legal']    = 'Coordonnées bancaires ... ... ...';
 
 	$config["evt"]["syndication"]           = true;
