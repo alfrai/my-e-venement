@@ -49,8 +49,8 @@
 	echo '<a href="'.($href = "evt/bill/queries.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' queries">Demandes</a>';
 	echo '<a href="'.($href = "evt/bill/waitingbdc.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' bdc">BdC</a>';
 	echo '<a href="'.($href = "evt/bill/factures.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' bdc">Factures</a>';
-	echo '<a href="'.($href = "evt/bill/credit.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' credit">Dettes</a>';
-	echo '<span class="desc">Demande du temps de calcul</span>';
+	echo '<a title="Demande du temps de calcul" href="'.($href = "evt/bill/credit.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' credit">Dettes</a>';
+	echo '<a href="'.($href = "evt/bill/duplicatas.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").'">Dupli.</a>';
 	
 	echo '<a href="'.($href = "evt/bill/ventes.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' ventes">Ventes</a>';
 	echo '<a href="'.($href = "evt/bill/caisse.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' caisse">Caisse</a>';

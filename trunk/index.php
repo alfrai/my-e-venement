@@ -60,7 +60,7 @@
 		
 		if ( $user->hasRight($config["right"]["param"]) )
 			echo '<a href="def/" class="add">'."Paramétrage".'</a>';
-	?><a href="<?php echo $config["divers"]["docs"] ?>" target="_blank">Docs</a>
+	?><a href="<?php echo $config["divers"]["docs"] ?>" target="_blank" class="add">Docs</a>
 </p>
 <div class="body">
 <?php

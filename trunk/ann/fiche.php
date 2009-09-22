@@ -584,9 +584,9 @@
 		{
 	?>
 	<div class="children jqslide">
-		<p class="titre">Enfants</p>
+		<p class="titre">Dates de naissance</p>
 		<div class="clip">
-			<p class="content">Années de naissance&nbsp;:</p>
+			<p class="content">Années&nbsp;:</p>
 			<p class="content">
 			<?php
 				if ( $action == $actions["view"] )
