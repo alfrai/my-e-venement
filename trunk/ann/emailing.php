@@ -74,6 +74,9 @@
       'Bcc: '.$email['cci']."\r\n".
       'X-Mailer: e-venement/libre-informatique http://www.libre-informatique.fr/'."\r\n".
       'MIME-Version: 1.0'."\r\n".
+      'Return-Path: '.$from."\r\n".
+      'Return-Receipt-To: '.$from."\r\n".
+      'Errors-To: '.$from."\r\n".
       'Content-type: text/html; charset=UTF-8'."\r\n";
     
     $content =
@@ -111,7 +114,8 @@
         $email['to'],
         $email['subject'],
         $content,
-        $headers
+        $headers,
+	'-f '.($user->getEmail() ? $user->getEmail() : $config["mail"]["mailfrom"])
       );
       $emailid = $bd->getLastSerial('email','id');
     }
@@ -163,13 +167,13 @@
       force_br_newlines : true,
       force_p_newlines : false,
       relative_urls : false,
-      content_css: 'styles/emailing.css',
+      content_css: '<?php echo htmlsecure($config['website']['root']) ?>styles/emailing.css',
     });
     $('textarea.view').tinymce({
       script_url: '<?php echo htmlsecure($config['website']['root']) ?>libs/tinymce/tiny_mce.js',
       mode : "none",
       language: "fr",
-      content_css: 'styles/emailing.css',
+      content_css: '<?php echo htmlsecure($config['website']['root']) ?>styles/emailing.css',
       readonly: 1,
       theme : "advanced",
     });

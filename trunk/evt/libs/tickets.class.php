@@ -133,7 +133,7 @@ class Tickets
                 	$this->content .= '
                 	<p class="metaevt">'.htmlsecure($bill["metaevt"]).'</p>
                 	<p class="dateheure">'.htmlsecure($date["ltl"]).'</p>
-                	<p class="lieuprix"><span class="lieu">'.htmlsecure(strlen($buf = $bill["sitenom"]) > 14 ? substr($buf,0,12).'...' : $buf).'</span> / <span class="prix">'.htmlsecure($bill["prix"]).'<span class="eur">€</span></span></p>
+                	<p class="lieuprix"><span class="lieu">'.htmlsecure(strlen($buf = $bill["sitenom"]) > 15 ? substr($buf,0,12).'...' : $buf).'</span> / <span class="prix">'.htmlsecure($bill["prix"]).'<span class="eur">€</span></span></p>
                 	<p class="titre">'.htmlsecure(strlen($buf = $bill["evtnom"]) > 18 ? substr($buf,0,15).'...' : $buf).'</p>
                 	<p class="cie">'.htmlsecure(strlen($buf = $bill["createurs"]) > 20 ? substr($buf,0,17).'...' : $buf).'</p>
                 	<p class="org">'.htmlsecure($bill["orga"][0]).'</p>
