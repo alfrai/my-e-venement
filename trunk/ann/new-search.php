@@ -190,7 +190,7 @@
         $criterias['grpinc'] = '{'.implode(',',$_POST[$post]).'}';
         $where[]   = '       ( p.id IN (SELECT personneid
                                         FROM groupe_personnes
-                                        WHERE groupid IN ('.implode(',',$_POST[$post]).'))
+                                        WHERE groupid IN ('.implode(',',$_POST[$post]).')) AND p.fctorgid IS NULL
                             OR p.fctorgid IN (SELECT fonctionid
                                               FROM groupe_fonctions
                                               WHERE groupid IN ('.implode(',',$_POST[$post]).'))
@@ -213,6 +213,7 @@
                   WHERE '.implode(' AND ',$where).'
                   ORDER BY nom, prenom, orgnom, orgville, ville';
       $request = new bdRequest($bd,$query);
+      echo $query;
     }
   }
   
