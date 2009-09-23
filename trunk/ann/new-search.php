@@ -213,7 +213,6 @@
                   WHERE '.implode(' AND ',$where).'
                   ORDER BY nom, prenom, orgnom, orgville, ville';
       $request = new bdRequest($bd,$query);
-      echo $query;
     }
   }
   
