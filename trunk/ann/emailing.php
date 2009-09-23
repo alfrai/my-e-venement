@@ -76,20 +76,18 @@
       'MIME-Version: 1.0'."\r\n".
       'Content-type: text/html; charset=UTF-8'."\r\n";
     
-    print_r($_POST);
-    echo !isset($_POST['nosign']) ? 'sign' : 'nosign';
-    
     $content =
       '<html><head><title></title></head><body>'.
       $email['content'];
     if ( !isset($_POST['nosign']) )
     {
-      echo 'glop';
+      echo 'sign: '.$config['mail']['sign'];
       $content .=
       "\r\n\r\n".
       "<p>-- <br/>".
       "\r\n".
-      $from.
+      nl2br($from != $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>' ? htmlsecure(strip_tags($from."\r\n")) : '').
+      nl2br(htmlsecure($config['mail']['sign'])).
       "</p>\r\n".
       '<p class="legal">nb1: '."Si vous ne souhaitez plus recevoir d'email de notre part, contactez nous&nbsp;: ".'<a href="mailto:'.htmlsecure($from).'">'.htmlsecure($from).'</a>.</p>'.
       "\r\n".

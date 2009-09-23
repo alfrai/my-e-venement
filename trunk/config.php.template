@@ -18,6 +18,14 @@
         $config["mail"]["smtpport"]             = "";
         $config["mail"]["mailfrom"]             = "";
 	$config["mail"]["newpass"]		= "Nouveau mot de passe pour e-venement";
+  $config['mail']['sign']   = "Très Tôt Théâtre
+  Théâtre du Finistère pour l'Enfance et la Jeunesse
+  Scène conventionnée
+  38 rue des Réguaires
+  29000 Quimper
+
+  02 98 64 20 35 (administration) - 02 98 95 47 90 (billetterie)
+  www.tres-tot-theatre.com";
 
 	$config["database"]["server"]		= "localhost";
 	$config["database"]["port"]		= NULL;
