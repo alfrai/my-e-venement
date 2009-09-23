@@ -19,3 +19,4 @@
   background-color: #ccc;
 }
 .email.verify p span.submit { border: 0; background-color: transparent; }
+textarea.view { width: 790px; height: 350px; }

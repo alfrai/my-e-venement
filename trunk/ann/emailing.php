@@ -55,8 +55,13 @@
       'content' => $_POST['content'],
     );
   }
-  else $email = array('to' => $from);
-  if ( !$_POST['subject'] && count($email) > 1 )
+  else
+  {
+    $email = array('to' => $from);
+    if ( $url = $_POST['url'] )
+      $email['content'] = file_get_contents($url);
+  }
+  if ( !$_POST['subject'] && count($email) > 2 )
     $user->addAlert('Veuillez renseigner un sujet à votre email !');
   
   $sent = false;
@@ -73,15 +78,20 @@
     
     $content =
       '<html><head><title></title></head><body>'.
-      $email['content'].
+      $email['content'];
+    if ( !isset($_POST['nosign']) );
+    {
+      $content .=
       "\r\n\r\n".
-      "<p>--<br/>".
+      "<p>-- <br/>".
       "\r\n".
       $from.
       "</p>\r\n".
       '<p class="legal">nb1: '."Si vous ne souhaitez plus recevoir d'email de notre part, contactez nous&nbsp;: ".'<a href="mailto:'.htmlsecure($from).'">'.htmlsecure($from).'</a>.</p>'.
       "\r\n".
-      '<p class="html">nb2: '."Ce message s'affiche mieux dans sa version HTML...".'</p>'.
+      '<p class="html">nb2: '."Ce message s'affiche mieux dans sa version HTML...".'</p>';
+    }
+    $content .=
       '</body></html>';
     
     $data = array(
@@ -124,6 +134,46 @@
 <?php require('actions.php'); ?>
 <div class="body">
 <h2>e-Mailing</h2>
+<script type="text/javascript">
+  $(document).ready(function(){
+    <?php if ( $sent ): ?>
+    window.location = '<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>';
+    <?php endif; ?> 
+    $('textarea.tinymce').tinymce({
+      script_url: '<?php echo htmlsecure($config['website']['root']) ?>libs/tinymce/tiny_mce.js',
+      mode : "none",
+      language: "fr",
+      theme : "advanced",
+      plugins : "table,advhr,advimage,advlink,media,paste,fullscreen,noneditable,contextmenu,inlinepopups",
+      theme_advanced_buttons1_add_before : "newdocument,separator",
+      theme_advanced_buttons1_add : "fontselect,fontsizeselect",
+      theme_advanced_buttons2_add : "separator,forecolor,backcolor,liststyle",
+      theme_advanced_buttons2_add_before: "cut,copy,paste,pastetext,pasteword,separator,",
+      theme_advanced_buttons3_add_before : "tablecontrols,separator",
+      theme_advanced_buttons3_add : "media,advhr,separator,fullscreen",
+      theme_advanced_toolbar_location : "top",
+      theme_advanced_toolbar_align : "left",
+      extended_valid_elements : "hr[class|width|size|noshade],iframe[src|width|height|name|align],style",
+      paste_use_dialog : false,
+      theme_advanced_statusbar_location : "bottom",
+      theme_advanced_resizing : true,
+      theme_advanced_resize_horizontal : false,
+      apply_source_formatting : true,
+      force_br_newlines : true,
+      force_p_newlines : false,
+      relative_urls : false,
+      content_css: 'styles/emailing.css',
+    });
+    $('textarea.view').tinymce({
+      script_url: '<?php echo htmlsecure($config['website']['root']) ?>libs/tinymce/tiny_mce.js',
+      mode : "none",
+      language: "fr",
+      content_css: 'styles/emailing.css',
+      readonly: 1,
+      theme : "advanced",
+    });
+  });
+</script>
 
 <?php if ( count($email) > 1 && $_POST['subject'] ): ?>
 <form action="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>?send" method="post" class="email verify">
@@ -158,9 +208,13 @@
 <p>
   <span>Texte:</span>
   <span class="content">
-    <?php echo $email['content'] ?>
+    <textarea name="content-view" disabled="disabled" class="view"><?php echo $email['content'] ?></textarea>
     <input type="hidden" name="content" value="<?php echo htmlsecure($email['content']) ?>" />
   </span>
+</p>
+<p>
+  <span></span>
+  <span class="nosign">Retirer la signature&nbsp;: <input type="checkbox" name="nosign" value="true" /></span>
 </p>
 <p>
   <span></span>
@@ -168,39 +222,8 @@
 </p>
 </form>
 <?php endif; ?>
-
+<style type="text/css">.mceStatusbar div span { display: inline; }</style>
 <form action="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>" method="post" class="email">
-<script type="text/javascript">
-  $(document).ready(function(){
-    <?php if ( $sent ): ?>
-    window.location = '<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>';
-    <?php endif; ?> 
-    $('textarea.tinymce').tinymce({
-      script_url: '<?php echo htmlsecure($config['website']['root']) ?>libs/tinymce/tiny_mce.js',
-      mode : "none",
-      language: "fr",
-      theme : "advanced",
-      plugins : "table,advhr,advimage,advlink,media,paste,fullscreen,noneditable,contextmenu,inlinepopups",
-      theme_advanced_buttons1_add_before : "newdocument,separator",
-      theme_advanced_buttons1_add : "fontselect,fontsizeselect",
-      theme_advanced_buttons2_add : "separator,forecolor,backcolor,liststyle",
-      theme_advanced_buttons2_add_before: "cut,copy,paste,pastetext,pasteword,separator,",
-      theme_advanced_buttons3_add_before : "tablecontrols,separator",
-      theme_advanced_buttons3_add : "media,advhr,separator,fullscreen",
-      theme_advanced_toolbar_location : "top",
-      theme_advanced_toolbar_align : "left",
-      extended_valid_elements : "hr[class|width|size|noshade],iframe[src|width|height|name|align]",
-      paste_use_dialog : false,
-      theme_advanced_resizing : true,
-      theme_advanced_resize_horizontal : true,
-      apply_source_formatting : true,
-      force_br_newlines : true,
-      force_p_newlines : false,
-      relative_urls : false,
-      content_css: 'styles/emailing.css',
-    });
-  });
-</script>
 <p>
   <span>De: </span>
   <span>
@@ -247,6 +270,13 @@
   <span></span>
   <span><input type="submit" name="verif" value="Vérifier" class="submit" /></span>
 </p>
+</form>
+<form class="url" action="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>" method="post" onsubmit="javascript: return confirm('Vous allez perdre l\'email en cours, êtes vous sûr ?')">
+  <p>
+    URL à charger comme modèle :
+    <input type="text" name="url" value="<?php echo htmlsecure($url ? $url : '') ?>"/>
+    <input type="submit" name="charger" value="charger" />
+  </p>
 </form>
 </div>
 <?php
