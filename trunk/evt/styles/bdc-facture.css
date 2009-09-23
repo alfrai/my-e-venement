@@ -63,3 +63,4 @@ td.tva:after { content: '%'; padding-left: 2px; }
 }
 
 body.bdc .prefix { display: none; }
+body.bdc #echeance { display: none; }

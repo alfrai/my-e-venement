@@ -164,9 +164,6 @@
       function load()
       {
         print();
-        <?php if ( !$config['ticket']['let_open_after_print'] ): ?>
-        close();
-        <?php endif; ?>
       }
     </script>
     <p id="date">le <?php echo date('d/m/Y') ?></p>
