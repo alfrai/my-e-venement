@@ -75,9 +75,10 @@
       'X-Mailer: e-venement/libre-informatique http://www.libre-informatique.fr/'."\r\n".
       'MIME-Version: 1.0'."\r\n".
       'Return-Path: '.$from."\r\n".
-      'Return-Receipt-To: '.$from."\r\n".
       'Errors-To: '.$from."\r\n".
       'Content-type: text/html; charset=UTF-8'."\r\n";
+    
+    // $headers .= 'Return-Receipt-To: '.$from."\r\n"; // accusé de réception
     
     $content =
       '<html><head><title></title></head><body>'.
