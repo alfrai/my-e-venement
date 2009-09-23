@@ -76,11 +76,15 @@
       'MIME-Version: 1.0'."\r\n".
       'Content-type: text/html; charset=UTF-8'."\r\n";
     
+    print_r($_POST);
+    echo !isset($_POST['nosign']) ? 'sign' : 'nosign';
+    
     $content =
       '<html><head><title></title></head><body>'.
       $email['content'];
-    if ( !isset($_POST['nosign']) );
+    if ( !isset($_POST['nosign']) )
     {
+      echo 'glop';
       $content .=
       "\r\n\r\n".
       "<p>-- <br/>".
@@ -214,11 +218,7 @@
 </p>
 <p>
   <span></span>
-  <span class="nosign">Retirer la signature&nbsp;: <input type="checkbox" name="nosign" value="true" /></span>
-</p>
-<p>
-  <span></span>
-  <span class="submit"><input type="submit" name="valid" value="Envoyer" class="submit" /></span>
+  <span class="submit"><input type="submit" name="valid" value="Envoyer" class="submit" /> <input type="checkbox" name="nosign" value="true" /> Retirer les mentions légales</span>
 </p>
 </form>
 <?php endif; ?>
