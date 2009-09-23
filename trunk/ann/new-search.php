@@ -430,7 +430,6 @@ $(document).ready(function(){
 	                AND included )
 	             ORDER BY nom, prenom, orgnom, fctdesc, fcttype';
 	  $request = new bdRequest($bd,$query);
-	  echo $query;
   }
 ?>
 <?php while ( $rec = $request->getRecordNext() ): ?>
