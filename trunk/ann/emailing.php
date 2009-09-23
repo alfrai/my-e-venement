@@ -81,7 +81,6 @@
       $email['content'];
     if ( !isset($_POST['nosign']) )
     {
-      echo 'sign: '.$config['mail']['sign'];
       $content .=
       "\r\n\r\n".
       "<p>-- <br/>".
