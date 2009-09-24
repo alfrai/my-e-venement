@@ -106,6 +106,7 @@
       $client = intval($rec['fctorgid']) > 0 ? 'prof_'.$rec['fctorgid'] : 'pers_'.$rec['personneid'];
   ?>
     $('#bill-client .list').load('evt/bill/search-ppl.page.php?client=<?php echo $client ?> .list > ul',function(){
+      if ( $('#bill-client .list input[name=client]').length <= 0 ) return false;
       $('#bill-client .list input[name=client]').get(0).checked = true;
       newbill_client_valid();
     });

@@ -576,7 +576,7 @@ $(document).ready(function(){
           if ( $("#bill-tickets input[name='manif["+tic.manifid+"][]'][value="+tic.tarif+"]").length != parseInt(tic.nb) )
             w += 'Ticket '+tic.tarif+' mal renseigné pour la manifestation '+tic.manifid+'.<br/>';
           else
-            prix += parseInt(tic.nb) * parseFloat( tic.prixspe ? tic.prixspe : tic.prix );
+            prix += parseInt(tic.nb) * parseFloat( tic.prixspec ? tic.prixspec : tic.prix );
         }
         if ( prix != parseFloat($('#bill-tickets .spectacles .total .total').html()) )
           w += 'Le total financier ne correspond pas !<br/>';
