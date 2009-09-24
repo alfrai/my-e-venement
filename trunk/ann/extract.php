@@ -153,7 +153,7 @@
 		{
 			foreach ( $lcontent as $col => $value )
 			{
-				if ( $entonnoir )		// si on préfère les données pro
+				if ( $entonnoir && $value )		// si on préfère les données pro
 				{
 					switch ( $col ) {
 					case "orgcp":
