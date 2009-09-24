@@ -81,7 +81,9 @@
     // $headers .= 'Return-Receipt-To: '.$from."\r\n"; // accusé de réception
     
     $content =
-      '<html><head><title></title></head><body>'.
+      '<html><head><title></title>'.
+      '<style type="text/css">p { margin: 0; padding: 0; }</style>'.
+      '</head><body>'.
       $email['content'];
     if ( !isset($_POST['nosign']) )
     {
