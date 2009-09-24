@@ -103,9 +103,11 @@
           $bd->addRecord($type['table'],array(
             'groupid' => $grpid,
             $type['sql'] => intval($tmpid),
+            'included' => 't',
           ));
       }
     }
+    else $user->addAlert('Impossible de créer votre groupe, son nom est peut-être déjà utilisé.');
   }
   
   // remove chosen members
