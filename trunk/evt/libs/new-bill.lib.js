@@ -383,10 +383,15 @@ $(document).ready(function(){
       url:  'evt/api/tickets.cmd.php',
       data: ({ transac: transac, manifid: manifid, qte: qte, tarif: tarif }),
       success: function(data) {
-        if ( data != '0' )
+        
+        if ( data != '0' && data != '253' )
           newbill_tickets_add_error(true);
         else
+        {
           newbill_tickets_refresh_money();
+          if ( data == '253' )
+            warning('Attention, si toutes les demandes aboutissent, la jauge sera dépassée sur la manifestation sélectionnée...');
+        }
       },
       error: newbill_tickets_add_error
     });
@@ -449,7 +454,7 @@ $(document).ready(function(){
       wintick = window.open();
       // faire du JSON et hilighter les manifs overbookées... ensuite afficher une boite de dialogue OUI/NON pour continuer
       $.get('evt/api/overbooking.cmd.php',{ transac: $('#bill-op input[name=transac]').val() },function(data){
-        if ( data .length > 0 )
+        if ( data.length > 0 )
         {
           for ( i = 0 ; i < data.length ; i++ )
             $("#bill-tickets .spectacles input[name='manifs[]'][value="+data[i]+"]").parent().addClass('highlight');

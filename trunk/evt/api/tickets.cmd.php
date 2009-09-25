@@ -32,7 +32,9 @@
     *   -   0 : ok, no problem, updating the DB has been going good
     *   -   1 : error in the DB updating, like connection problem, or query error
     *   -   2 : error, transac or manifid or tarif given were messed up
+    *   - 253 : ok, updating the DB has been going good, but all the queries added, the "jauge" should be overbooked
     *   - 254 : error in user's rights
+    *   - 255 : misc error in data treatment 
     *
     **/
 ?>
@@ -101,26 +103,37 @@
       }
     }
     
-    $bd->free();
-    
     if ( ($r = intval($r)) === abs($qte) )
     {
+      $query  = ' SELECT commandes, resas, preresas, jauge FROM info_resa WHERE manifid = '.$manifid;
+      $request = new bdRequest($bd,$query);
+      $rec = $request->getRecord();
+      $overqueries = intval($rec['commandes']) + intval($rec['preresas']) + intval($rec['resas']) > intval($rec['jauge']);
+      $request->free();
+      $bd->free();
+      if ( $overqueries )
+      {
+        echo '253';
+        die(253);
+      }
       echo 0;
       die(0);
     }
     elseif ( $r === false )
     {
+      $bd->free();
       echo 1;
       die(1);
     }
     else
     {
+      $bd->free();
       echo 255;
       die(255); 
     }
   }
   
+  $bd->free();
   echo 2;
   die(2);
-  $bd->free();
 ?>
