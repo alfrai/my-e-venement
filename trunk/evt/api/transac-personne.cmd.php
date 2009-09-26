@@ -41,6 +41,7 @@
   
   if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
   {
+    $bd->free();
     echo '254';
     die(254);
   }
@@ -85,8 +86,8 @@
   }
   else
   {
+    $bd->free();
     echo 2;
     die(2);
-    $bd->free();
   }
 ?>

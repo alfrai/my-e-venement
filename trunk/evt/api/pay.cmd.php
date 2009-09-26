@@ -73,6 +73,7 @@
       $request = new bdRequest($bd,$query);
       $r = $bd->delRecordsSimple('paiement',array('id' => intval($request->getRecord('id'))));
       $request->free();
+      $bd->free();
     }
     else
     {
@@ -102,8 +103,8 @@
     }
   }
   
+  $bd->free();
   echo 2;
   die(2);
-  $bd->free();
 ?>
 

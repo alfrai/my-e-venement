@@ -78,7 +78,7 @@
       die(0);
   }
   
+  $bd->free();
   echo 2;
   die(2);
-  $bd->free();
 ?>
