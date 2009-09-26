@@ -37,7 +37,6 @@
 		          manif.date, evt.categorie, evt.catdesc, colors.libelle AS colorname
 		   FROM evenement_categorie AS evt, manifestation AS manif, site, colors
 		   WHERE manif.date >= NOW() - '1 hour'::interval
-		     AND jauge > 0
 		     AND ( colors.id = manif.colorid OR manif.colorid IS NULL AND colors.id IS NULL )
 		     AND evt.id = manif.evtid
 		     AND site.id = manif.siteid

@@ -73,12 +73,12 @@
     $request->free();
     $bd->free();
     if ( count($r) > 0 )
-      die(255);
+      beta_die(255);
     else
-      die(0);
+      beta_die(0);
   }
   
   $bd->free();
   echo 2;
-  die(2);
+  beta_die(2);
 ?>

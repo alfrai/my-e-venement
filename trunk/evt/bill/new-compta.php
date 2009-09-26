@@ -37,7 +37,7 @@
     $r = $bd->delRecordsSimple('bdc',array('transaction' => intval($_GET['transac'])));
     echo $r > 0 ? 0 : 1;
     $bd->free();
-    die($r);
+    beta_die($r);
   }
   
   if ( $user->evtlevel < $config["evt"]["right"]["mod"] )

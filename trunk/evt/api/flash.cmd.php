@@ -48,6 +48,6 @@
   
   echo 0;
   $bd->free();
-  die(0);
+  beta_die(0);
 ?>
 

@@ -43,7 +43,7 @@
   {
     $bd->free();
     echo '254';
-    die(254);
+    beta_die(254);
   }
   
   // on ajoute un client à la transaction
@@ -71,23 +71,23 @@
     if ( ($r = intval($r)) === 1 )
     {
       echo 0;
-      die(0);
+      beta_die(0);
     }
     elseif ( $r === false )
     {
       echo 1;
-      die(1);
+      beta_die(1);
     }
     else
     {
       echo 255;
-      die(255); 
+      beta_die(255); 
     }
   }
   else
   {
     $bd->free();
     echo 2;
-    die(2);
+    beta_die(2);
   }
 ?>

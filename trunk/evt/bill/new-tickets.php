@@ -42,7 +42,7 @@
     if ( $config['print']['hard'] )
     {
       echo '255';
-      die(255);
+      beta_die(255);
     }
     else
     {
@@ -56,7 +56,7 @@
     foreach ( $_SESSION['tickets'][$salt] as $ticketid )
       $bd->delRecordSimple('reservation_cur',array('id' => $ticketid));
     echo '0';
-    die(0);
+    beta_die(0);
   }
   
   // vérifs
@@ -65,7 +65,7 @@
     if ( $config['print']['hard'] )
     {
       echo '2';
-      die(2);
+      beta_die(2);
     }
     else
     {
@@ -88,7 +88,7 @@
       if ( $config['print']['hard'] )
       {
         echo '1';
-        die(1);
+        beta_die(1);
       }
       else
       {
@@ -268,7 +268,7 @@
         $bd->endTransaction(false);
         $bd->free();
         echo $err;
-        die($err);
+        beta_die($err);
       }
       else return true;
     }

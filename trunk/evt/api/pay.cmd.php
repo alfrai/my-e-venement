@@ -51,7 +51,7 @@
   if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
   {
     echo '254';
-    die(254);
+    beta_die(254);
   }
   
   if ( $transac > 0 && $mode > 0 && abs($amount) > 0 )
@@ -89,22 +89,22 @@
     if ( $r === false )
     {
       echo 1;
-      die(1);
+      beta_die(1);
     }
     else if ( $r == 1 )
     {
       echo 0;
-      die(0);
+      beta_die(0);
     }
     else
     {
       echo 255;
-      die(255);
+      beta_die(255);
     }
   }
   
   $bd->free();
   echo 2;
-  die(2);
+  beta_die(2);
 ?>
 

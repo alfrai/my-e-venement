@@ -44,7 +44,7 @@
   if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
   {
     echo '254';
-    die(254);
+    beta_die(254);
   }
                 
   
@@ -114,26 +114,26 @@
       if ( $overqueries )
       {
         echo '253';
-        die(253);
+        beta_die(253);
       }
       echo 0;
-      die(0);
+      beta_die(0);
     }
     elseif ( $r === false )
     {
       $bd->free();
       echo 1;
-      die(1);
+      beta_die(1);
     }
     else
     {
       $bd->free();
       echo 255;
-      die(255); 
+      beta_die(255); 
     }
   }
   
   $bd->free();
   echo 2;
-  die(2);
+  beta_die(2);
 ?>

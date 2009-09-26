@@ -33,8 +33,8 @@
   else
   {
     if ( substr($_GET['client'],0,4) == 'prof' )
-         $where = ' fctorgid = ';
-    else $where = ' id = ';
+         $where = ' op.fctorgid = ';
+    else $where = ' p.id = ';
     $where .= intval(substr($_GET['client'],5));
   }
   $order = 'nom, prenom, orgnom, fctdesc';
