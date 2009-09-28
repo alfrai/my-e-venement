@@ -41,11 +41,13 @@
   {
     if ( $config['print']['hard'] )
     {
+      $bd->free();
       echo '255';
       beta_die(255);
     }
     else
     {
+      $bd->free();
       $user->addAlert($msg = "Vous n'avez pas un niveau de droits suffisant pour accéder à cette fonctionnalité");
       $nav->redirect($config["website"]["base"]."evt/bill/",$msg);
     }
@@ -55,6 +57,7 @@
   {
     foreach ( $_SESSION['tickets'][$salt] as $ticketid )
       $bd->delRecordSimple('reservation_cur',array('id' => $ticketid));
+    $bd->free();
     echo '0';
     beta_die(0);
   }
@@ -64,11 +67,13 @@
   {
     if ( $config['print']['hard'] )
     {
+      $bd->free();
       echo '2';
       beta_die(2);
     }
     else
     {
+      $bd->free();
       $user->addAlert("Problème dans le numéro d'opération transmis au bon de commande.");
       $nav->redirect('.');
     }
@@ -87,11 +92,13 @@
       $bd->endTransaction();
       if ( $config['print']['hard'] )
       {
+        $bd->free();
         echo '1';
         beta_die(1);
       }
       else
       {
+        $bd->free();
         $user->addAlert('Impossible de retrouver les informations relatives au billet en base...');
         $nav->redirect('evt/bill/');
       }
