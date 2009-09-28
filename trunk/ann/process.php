@@ -32,15 +32,25 @@
 				$config["database"]["passwd"] );
 	
 	$name_start = $_GET["s"] ? trim("".pg_escape_string($_GET["s"])) : "A";
-	$query	= " SELECT *
-		    FROM ".(isset($_GET["more"]) ? "personne_properso" : "personne")."
-		    WHERE nom ILIKE '%' || '".$name_start."' || '%'";
-	if ( isset($_GET["pro"]) && isset($_GET["more"]) )
-	$query .= " AND fctorgid IS NOT NULL";
-	$query .= " ORDER BY nom,prenom";
+  if ( isset($_GET['more']) )
+  {
+    includeLib('personne_properso');
+    $where = "p.nom ILIKE '%' || '".$name_start."' || '%'";
+    if ( isset($_GET["pro"]) ) $where .= " AND op.id IS NOT NULL";
+    $order = 'nom,prenom';
+    $query = get_personne_properso_query($where,$order);
+  }
+  else
+  {
+    $query	= " SELECT *
+        		    FROM personne
+                WHERE nom ILIKE '%' || '".$name_start."' || '%'";
+    $query .= " ORDER BY nom,prenom";
+  }
+	
 	$personnes = new bdRequest($bd,$query);
 	
-	// préparation du tableau
+	// préparation du tableau 
 	$data = array();
 	$data["ppl"] = array();
 	
