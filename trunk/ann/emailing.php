@@ -64,8 +64,6 @@
   if ( !$_POST['subject'] && count($email) > 2 )
     $user->addAlert('Veuillez renseigner un sujet à votre email !');
   
-  $sent = false;
-  
   // envoi de l'email
   if ( $email && isset($_GET['send']) )
   {
@@ -133,9 +131,9 @@
     else
       $email['cci'] = array($email['cci']);
     
+    $sent = 0;
     if ( $bd->addRecord('email',$data) )
     {
-      $sent = 0;
       foreach ( $email['cci'] as $cci )
       {
         $headers =
@@ -162,7 +160,7 @@
     
     if ( $sent > 0 )
     {
-      $user->addAlert("Votre courriel a bien été envoyé (en ".$sent." temps)...");
+      $user->addAlert("Votre courriel a bien été envoyé (en ".$sent." temps de ".intval($config['mail']['max_recipient'])." emails, soient ".(sent*intval($config['mail']['max_recipient']))." emails au maximum))...");
       $email = array();
       $bd->updateRecordsSimple('email', array('id' => $emailid), array('sent' => 't'));
     }
