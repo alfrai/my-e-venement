@@ -169,6 +169,7 @@
     else
       $user->addAlert("Impossible d'envoyer votre courriel... veuillez le vérifier à nouveau. Si le problème persiste, contacter votre administrateur.");
     
+    if ( is_array($email['cci']) )
     $email['cci'] = implode(',',$email['cci']);
   }
   
