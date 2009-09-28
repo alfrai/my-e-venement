@@ -87,7 +87,7 @@
     {
       $content .=
       "\r\n\r\n".
-      "<p>-- <br/>".
+      "<br/><p>-- <br/>".
       "\r\n".
       nl2br($from != $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>' ? htmlsecure(strip_tags($from."\r\n")) : '').
       nl2br(htmlsecure($config['mail']['sign'])).
