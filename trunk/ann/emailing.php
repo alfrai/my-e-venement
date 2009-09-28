@@ -110,29 +110,66 @@
       'full_c'  => $content,
       'full_h'  => $headers,
       'accountid' => $user->getId(),
+      'max_recipient' => intval($config['mail']['max_recipient']),
     );
+    
+    if ( intval($config['mail']['max_recipient']) > 0 )
+    {
+      $cci = explode(',',$email['cci']);
+      $email['cci'] = array();
+      $buf = array();
+      for ( $i = 1 ; $i <= count($cci) ; $i++ )
+      {
+        $buf[] = trim($cci[$i-1]);
+        if ( $i % intval($config['mail']['max_recipient']) == 0 )
+        {
+          $email['cci'][] = implode(',',$buf);
+          $buf = array();
+        }
+      }
+      if ( ($i-1) % intval($config['mail']['max_recipient']) != 0 )
+        $email['cci'][] = implode(',',$buf);
+    }
+    else
+      $email['cci'] = array($email['cci']);
+    
     if ( $bd->addRecord('email',$data) )
     {
-      $sent = mail(
-        $email['to'],
-        $email['subject'],
-        $content,
-        $headers,
-	'-f '.($user->getEmail() ? $user->getEmail() : $config["mail"]["mailfrom"])
-      );
+      $sent = 0;
+      foreach ( $email['cci'] as $cci )
+      {
+        $headers =
+          'From: '.$from."\r\n".
+          'Bcc: '.$cci."\r\n".
+          'X-Mailer: e-venement/libre-informatique http://www.libre-informatique.fr/'."\r\n".
+          'MIME-Version: 1.0'."\r\n".
+          'Return-Path: '.$from."\r\n".
+          'Errors-To: '.$from."\r\n".
+          'Content-type: text/html; charset=UTF-8'."\r\n";
+    
+        $sent += mail(
+          $email['to'],
+          $email['subject'],
+          $content,
+          $headers,
+          '-f '.($user->getEmail() ? $user->getEmail() : $config["mail"]["mailfrom"])
+        );
+      }
       $emailid = $bd->getLastSerial('email','id');
     }
     else
       $user->addAlert("Impossible d'enregistrer votre email.");
     
-    if ( $sent )
+    if ( $sent > 0 )
     {
-      $user->addAlert("Votre courriel a bien été envoyé...");
+      $user->addAlert("Votre courriel a bien été envoyé (en ".$sent." temps)...");
       $email = array();
       $bd->updateRecordsSimple('email', array('id' => $emailid), array('sent' => 't'));
     }
     else
       $user->addAlert("Impossible d'envoyer votre courriel... veuillez le vérifier à nouveau. Si le problème persiste, contacter votre administrateur.");
+    
+    $email['cci'] = implode(',',$email['cci']);
   }
   
   includeLib("headers");

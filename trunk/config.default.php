@@ -23,6 +23,8 @@
 <?php
 	// années passées
 	$config["website"]["dirtopast"] = "past";
+	if ( !isset($config['mail']['max_recipient']) )
+	$config['mail']['max_recipient'] = 200;
 	
 	$config["divers"]["appli-name"]		= !isset($config["divers"]["appli-name"]) ? '<a href="http://www.libre-informatique.fr/sw/01-Billetterie/e-venement">e-venement</a>' : $config["divers"]["appli-name"];
   $config["divers"]["author-name"]  = '<a href="http://www.libre-informatique.fr/">Libre Informatique</a> - Baptiste SIMON';
