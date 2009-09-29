@@ -26,6 +26,7 @@
 	includeLib("jauge");
 	$jauge = true;
 	
+	/*
 	$query  = ' SELECT ppp.orgnom, ppp.nom, ppp.prenom, c.transaction, count(p.*) AS nb
 	            FROM reservation_pre p, contingeant c
 	                 LEFT JOIN personne_properso ppp
@@ -35,6 +36,16 @@
 	              AND manifid = '.intval($_GET["manifid"]).'
 	            GROUP BY ppp.orgnom, ppp.nom, ppp.prenom, c.transaction
 	            ORDER BY ppp.orgnom, ppp.nom, ppp.prenom, c.transaction';
+	*/
+	$query  = ' SELECT o.nom AS orgnom, p2.nom, p2.prenom, c.transaction, count(p.*) AS nb
+	            FROM reservation_pre p, contingeant c
+	            LEFT JOIN personne p2 ON p2.id = c.personneid
+	            LEFT JOIN org_personne op ON op.personneid = p2.id AND op.id = c.fctorgid
+	            LEFT JOIN organisme o ON o.id = op.organismeid
+	            WHERE p.transaction = c.transaction
+	              AND manifid = 694
+	            GROUP BY p2.nom, p2.prenom, o.nom, c.transaction
+	            ORDER BY p2.nom, p2.prenom, o.nom, c.transaction';
 	$request = new bdRequest($bd,$query);
 	$contingents = array();
 	while ( $rec = $request->getRecordNext() )
