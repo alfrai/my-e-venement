@@ -215,13 +215,13 @@ function newbill_tickets_click_remove()
       url:  'evt/api/tickets.cmd.php',
       data: ({ transac: transac, manifid: manifid, qte: qte, tarif: tarif }),
       success: function(data){
-        if ( data == '0' )
+        if ( data != '0' && data != '253' )
+          newbill_tickets_add_error(true);
+        else
         {
           newbill_tickets_refresh_money();
           newbill_tickets_focus();
         }
-        else
-          newbill_tickets_remove_error(true);
       },
       error: newbill_tickets_remove_error
     });
@@ -383,7 +383,6 @@ $(document).ready(function(){
       url:  'evt/api/tickets.cmd.php',
       data: ({ transac: transac, manifid: manifid, qte: qte, tarif: tarif }),
       success: function(data) {
-        
         if ( data != '0' && data != '253' )
           newbill_tickets_add_error(true);
         else
