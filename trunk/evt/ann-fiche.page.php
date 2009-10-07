@@ -56,6 +56,7 @@
 	}
 	if ( $evtid ) $txt .= "</ul></li>";
 	$txt .= "</ul>";
+	$txt .= '<p><a href="evt/bill/credit.php?id='.$id.'">Suivi de compte...</a></p>';
 	
 	$infos[count($infos)-1]["contenu"] = $txt;
 	$request->free();

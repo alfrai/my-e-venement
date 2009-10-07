@@ -35,17 +35,21 @@
 	echo ( $config["website"]["root"]."evt/stats/index.php" == $_SERVER["PHP_SELF"] ? "active" : "");
 	echo '">Index</a>';
 	
-	echo '<a href="'.($href = "evt/stats/personnes.php").'" class="';
-	echo ( $config["website"]["root"]."evt/stats/personnes.php" == $_SERVER["PHP_SELF"] ? "active" : "");
+	echo '<a href="'.($href = "evt/stats/personnes.php").'" class="add ';
+	echo ( $config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "");
 	echo '">Personnes</a>';
 	
 	echo '<a href="'.($href = "evt/stats/pros.php").'" class="';
-	echo ( $config["website"]["root"]."evt/stats/pros.php" == $_SERVER["PHP_SELF"] ? "active" : "");
+	echo ( $config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "");
 	echo '">Pros</a>';
 	
 	echo '<a href="'.($href = "evt/stats/global.php").'" class="';
-	echo ( $config["website"]["root"]."evt/stats/global.php" == $_SERVER["PHP_SELF"] ? "active" : "");
+	echo ( $config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "");
 	echo '">Global</a>';
+	
+	echo '<a href="'.($href = "evt/stats/evo.php").'" class="add ';
+	echo ( $config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "");
+	echo '">Évolutions</a>';
 	
 	echo '<a href="evt/" class="parent">..</a>';
 ?>

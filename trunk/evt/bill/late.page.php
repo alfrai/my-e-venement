@@ -44,10 +44,12 @@
 	
 	includeLib("headers");
 	
+	$personneid = trim($_GET["id"]) ? intval($_GET["id"]) : "";
 	$name_start = trim($_GET["s"]) ? trim("".htmlsecure($_GET["s"])) : "";
 	$org_start = trim($_GET["o"]) ? trim("".htmlsecure($_GET["o"])) : "";
 	
 	if ( $name_start != '' ) $query .= " AND nom ILIKE '".$name_start."%' ";
+	if ( $personneid != '' ) $query .= " AND pers.id = ".$personneid." ";
 	if ( $org_start != '' )  $query .= " AND ( orgnom ILIKE '".$org_start."%' )";
 	$query .= isset($order) ? $order : " ORDER BY nom, prenom, orgnom, transaction";
 	$personnes = new bdRequest($bd,$query);
@@ -62,6 +64,12 @@
 		<p>
 			Recherche express sur le nom de famille&nbsp;:<br />
 			<input type="text" name="s" id="focus" value="<?php echo $name_start ?>" />
+			<?php if ( intval($_GET['id']) ): ?>
+			<span>
+			  <input type="checkbox" name="id" value="<?php echo intval($_GET['id']) ?>" checked="checked" title="garder la personne sélectionnée" />
+			  Resté centré sur la personne sélectionnée
+			</span>
+			<?php endif; ?>
 		</p>
 		<p>
 			Recherche express sur le nom de l'organisme&nbsp;:<br />

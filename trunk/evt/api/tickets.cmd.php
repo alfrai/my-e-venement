@@ -32,7 +32,7 @@
     *   -   0 : ok, no problem, updating the DB has been going good
     *   -   1 : error in the DB updating, like connection problem, or query error
     *   -   2 : error, transac or manifid or tarif given were messed up
-    *   - 253 : ok, updating the DB has been going good, but all the queries added, the "jauge" should be overbooked
+    *   - 253 : ok, updating the DB has been going good, but now all the queries added, the "jauge" should be overbooked
     *   - 254 : error in user's rights
     *   - 255 : misc error in data treatment 
     *
