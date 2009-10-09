@@ -123,7 +123,14 @@ class Tickets
                 	<p class="org">'.($bill["org"] ? 'Org: ' : '').htmlsecure(strlen($bill["org"]) > 60 ? substr($bill["org"],0,60)." ..." : $bill["org"]).'</p>
                 	<p class="placement">'.htmlsecure($bill["plnum"] ? "Place n°".$bill["plnum"] : "Placement libre ".($this->group ? ' - x'.$bill["nbgroup"] : '')).'</p>
                 	<p class="operation"><span class="date">'.htmlsecure(date("d/m/Y H:i")).'</span> / <span class="num">#'.htmlsecure($bill["num"]).'</span>-<span class="operateur">'.htmlsecure($bill["operateur"]).'</span></p>
-                	<p class="mentions">À conserver</p>
+                	<p class="mentions">';
+      if ( $config['ticket']['more-mentions'] )
+      $this->content .= $config['ticket']['controlleft'] && $config['ticket']['more-mentions']
+        ? '<span>À conserver</span><span class="more-mentions"> - '.htmlsecure($config['ticket']['more-mentions'])
+        : '<span class="more-mentions">'.htmlsecure($config['ticket']['more-mentions']).' - </span><span>À conserver</span>';
+      else $this->content .= '<span>À conserver</span>';
+      $this->content .= '
+                  </p>
                 </div>
                 <div class="right">';
                 	$this->content .= '

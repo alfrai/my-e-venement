@@ -28,6 +28,7 @@
 	$config["ticket"]["width"]		= "500px";
 	$config["ticket"]["height"]		= "140px";
 	$config["ticket"]["titlemaxchars"]	= "26";
+	$config['ticket']['more-mentions']      = 'licences: 350970 / 350971 / 350972';
 	
 	$config["ticket"]["placement"]	= false;	// fonctionnalité de placement numéroté
 	$config["compta"]["defaulttva"]	= "2.10";
