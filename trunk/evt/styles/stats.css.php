@@ -27,16 +27,6 @@
 	
 	$nav	= new navigation();
 	$nav->mimeType("text/css","UTF-8");
-	
-	$bd	= new Bd (	$config["database"]["name"],
-				$config["database"]["server"],
-				$config["database"]["port"],
-				$config["database"]["user"],
-				$config["database"]["passwd"] );
-	$bd->setPath("billeterie,public");
-	
-	$query = " SELECT * FROM color";
-	$request = new bdRequest($bd,$query);
 ?>
 
 table.stats { background-color: white; margin-right: 10px; }
@@ -54,5 +44,4 @@ table.stats tfoot td { text-align: center; }
 .stats form span.input { border: 1px solid black; padding: 0 0 2px 5px; }
 .stats form span.input input { border: 0; width: 100px; }
 
-<?php	$bd->free(); ?>
-
+.stats form select[multiple] { height: 150px; }

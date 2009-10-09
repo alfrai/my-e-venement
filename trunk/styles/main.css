@@ -423,6 +423,7 @@ div.mod {
 	padding: 0 5px 5px 5px;
 	border: 1px solid silver;
 }
+div.mod p { margin-left: 10px; }
 div.mod > div {
 	margin-top: 10px;
 	border: 1px solid orange;

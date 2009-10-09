@@ -21,17 +21,11 @@
 ***********************************************************************************/
 ?>
 <?php
-	$title	= "e-venement : évènements - billetterie";
-	$css = array("styles/main.css", "evt/styles/main.css");
-	require_once(dirname(__FILE__)."/../config.php");
+	require("../conf.inc.php");
+	includeClass('graphe');
 	
-	includeClass("navigation");
-	includeClass("user");
-	includeClass("bd");
+	$graphe = new Graphe;
+	$graphe->csv();
 	
-	$nav	= new navigation();
-	$user	= &$_SESSION["user"];
-	
-	includeLib("login-check");
-	require_once(dirname(__FILE__)."/config.default.php");
+  $bd->free();
 ?>

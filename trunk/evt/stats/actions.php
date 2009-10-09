@@ -47,9 +47,15 @@
 	echo ( $config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "");
 	echo '">Global</a>';
 	
-	echo '<a href="'.($href = "evt/stats/evo.php").'" class="add ';
+	echo '<a href="'.($href = "evt/stats/ventes.php").'" class="add ';
 	echo ( $config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "");
-	echo '">Évolutions</a>';
+	echo '">Ventes</a>';
+	echo '<a href="'.($href = "evt/stats/tarifs.php").'" class="';
+	echo ( $config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "");
+	echo '">Tarifs</a>';
+	echo '<a href="'.($href = "evt/stats/jauges.php").'" class="';
+	echo ( $config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "");
+	echo '">Jauges</a>';
 	
 	echo '<a href="evt/" class="parent">..</a>';
 ?>

@@ -21,17 +21,24 @@
 ***********************************************************************************/
 ?>
 <?php
-	$title	= "e-venement : évènements - billetterie";
-	$css = array("styles/main.css", "evt/styles/main.css");
-	require_once(dirname(__FILE__)."/../config.php");
+	require("../conf.inc.php");
+	$bd->free();
 	
-	includeClass("navigation");
-	includeClass("user");
-	includeClass("bd");
+	if ( !function_exists('imageantialias') )
+	{
+	  function imageantialias($bool)
+	  { return true; }
+	}
 	
-	$nav	= new navigation();
-	$user	= &$_SESSION["user"];
-	
-	includeLib("login-check");
-	require_once(dirname(__FILE__)."/config.default.php");
+  $data = unserialize($_GET['options']);
+  $data[0]['type'] = 'Pie';
+  
+  // le graphe
+  includeClass('Pie');
+  $graph = new graph(450,400);
+  
+  includeClass('graphe');
+  $graphe = new Graphe;
+  $graphe->setData($data);
+  $graphe->draw(array('width' => 450, 'height' => 400));
 ?>

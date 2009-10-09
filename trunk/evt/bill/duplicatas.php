@@ -27,20 +27,20 @@
 	if ( $_GET["flashdate"] )
 	$flashdate = $_GET["flashdate"];
 	
-	$query	= ' SELECT t.id AS transaction, pp.id, pp.nom, pp.prenom, pp.orgid, pp.orgnom, pp.fctdesc, pp.fcttype,
-	                   t.accountid, a.name,
-	                   SUM(nbprinted-1) AS nbprinted
-	            FROM (SELECT resa_preid, count(c.resa_preid) AS nbprinted
-	                  FROM reservation_cur c
-	                  GROUP BY c.resa_preid) AS tmp,
-	              reservation_pre p,
-	              account a, transaction t
-	            LEFT JOIN ('.get_personne_properso_query().') AS pp ON pp.id = t.personneid AND (pp.fctorgid = t.fctorgid OR pp.fctorgid IS NULL AND t.fctorgid IS NULL)
-	            WHERE nbprinted > 1
-	              AND p.id = tmp.resa_preid
-	              AND t.id = p.transaction
-	              AND a.id = t.accountid
-	            GROUP BY t.id, p.transaction, pp.id, pp.nom, pp.prenom, pp.orgid, pp.orgnom, pp.fctdesc, pp.fcttype, t.accountid, a.name';
+	$query	= ' SELECT t.id AS transaction,
+                     pers.id, pers.nom, pers.prenom, o.id AS orgid, o.nom AS orgnom,
+                     op.fonction AS fctdesc, f.libelle, t.accountid, a.name, sum(canceled::integer) AS nbprinted
+              FROM reservation_cur c
+                    LEFT JOIN account a ON c.accountid = a.id,
+                   reservation_pre p
+                    LEFT JOIN transaction t ON t.id = p.transaction
+                    LEFT JOIN org_personne op ON op.id = t.fctorgid
+                    LEFT JOIN fonction f ON f.id = op.type
+                    LEFT JOIN personne pers ON pers.id = t.personneid AND t.fctorgid IS NULL OR op.personneid = pers.id
+                    LEFT JOIN organisme o ON o.id = op.organismeid
+              WHERE c.resa_preid = p.id
+                AND canceled ';
+  $group  = ' GROUP BY t.id, pers.id, pers.nom, pers.prenom, o.id, o.nom, op.fonction, f.libelle, t.accountid, a.name';
 	$order  = ' ORDER BY transaction';
 	
 	$subtitle = "Rapport de duplicatas";
@@ -52,6 +52,7 @@
 	
 	if ( $name_start != '' ) $query .= " AND nom ILIKE '".$name_start."%' ";
 	if ( $org_start != '' )  $query .= " AND ( orgnom ILIKE '".$org_start."%' )";
+	$query .= $group;
 	$query .= isset($order) ? $order : " ORDER BY nom, prenom, orgnom, transaction";
 	$duplicatas = new bdRequest($bd,$query);
 ?>

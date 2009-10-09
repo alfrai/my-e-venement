@@ -23,7 +23,7 @@
 <?php
 	$config["website"]["libs"] .= ":".$_SERVER["DOCUMENT_ROOT"].$config["website"]["root"]."/evt/libs/";	// extend lib path to particular libs
 	$config["website"]["activecal"] = "/usr/share/www/activecalendar/source";	// path to activecalendar sources
-	$config["website"]["fpdf"] = "/usr/share/www/fpdf/";				// path to fpdf sources
+	$config["website"]["artichow"] = "/usr/share/www/artichow/";				// path to artichow libs
 	
 	$config["ticket"]["width"]		= "500px";
 	$config["ticket"]["height"]		= "140px";
@@ -64,7 +64,7 @@
 	$config['evt']['right']['view']		= 3;		// droit de consulter
 
 	@include(dirname(__FILE__).'/config.php');
-	ini_set("include_path",$config["website"]["libs"].":.:".$config["website"]["activecal"].":".$config["website"]["fpdf"]);
+	ini_set("include_path",$config["website"]["libs"].":.:".$config["website"]["activecal"].":".$config["website"]["artichow"]);
 	
 	if ( ALLOPEN !== true )
 	require(dirname(__FILE__).'/secu.php');

@@ -46,7 +46,7 @@
 		$query = " SELECT id, catdesc, nom
 			   FROM evenement_categorie
 			   WHERE LOWER(nom) LIKE LOWER('".$name_start."%')
-			   ORDER BY catdesc,nom";
+			   ORDER BY nom";
 	}
 	$events = new bdRequest($bd,$query);
 ?>
