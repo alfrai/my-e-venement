@@ -21,18 +21,19 @@
 $(document).ready(function(){
 
 $('form').each(function(){
-  $(this).find('input[name=uri]').val($(this).find('img').attr('src'));
+  if ( !$(this).find('input[name=uri]').val() )
+    $(this).find('input[name=uri]').val($(this).find('img').attr('src'));
 });
 
 $('.stats.date form').submit(function(){
-  uri = encodeURI($(this).find('input[name=uri]').val()+'?period='+this.period.value+'&from='+this.from.value);
+  uri = encodeURI($(this).find('input[name=uri]').val()+'period='+this.period.value+'&from='+this.from.value);
   $(this).find('img').attr('src',uri);
   $(this).find('a').attr('href',uri+'&csv');
   return false;
 });
 
 $('.stats.interval form').submit(function(){
-  uri = encodeURI($(this).find('input[name=uri]').val()+'?period='+this.period.value+'&start='+this.start.value+'&stop='+this.stop.value);
+  uri = encodeURI($(this).find('input[name=uri]').val()+'period='+this.period.value+'&start='+this.start.value+'&stop='+this.stop.value);
   $(this).find('img').attr('src',uri);
   $(this).find('a').attr('href',uri+'&csv');
   return false;

@@ -47,7 +47,7 @@
 <form action="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>" method="get">
   <h2>État des jauges</h2>
   <p>
-    <input type="hidden" name="uri" value="" />
+    <input type="hidden" name="uri" value="<?php includeGraphe('jauges','evt/stats/graphes') ?>" />
     <select name="period">
       <option value="manifs" <?php echo $_GET['period'] == 'manifs' ? 'selected="selected"' : '' ?>>Manifestations</option>
       <option value="events" <?php echo $_GET['period'] == 'events' ? 'selected="selected"' : '' ?>>Événements</option>
