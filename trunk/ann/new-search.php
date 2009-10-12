@@ -76,8 +76,9 @@
   {
     $grp['nom']      = $tmp['nom'];
     if ( !isset($tmp['common']) || !$user->hasRight($config["right"]["commongrp"]) )
-    $grp['createur'] = $user->getId();
-    $bd->delRecordsSimple('groupe',array('id' => $grpid) );
+      $grp['createur'] = $user->getId();
+    if ( isset($tmp['clean']) )
+      $bd->delRecordsSimple('groupe',array('id' => $grpid) );
     if ( $bd->addRecord('groupe',$grp) !== false )
     {
       $grpid = $bd->getLastSerial('groupe','id');
@@ -455,6 +456,7 @@ $(document).ready(function(){
   <p class="name">Nom: <input type="input" name="grp[nom]" value="" /></p>
   <?php if ( $user->hasRight($config["right"]["commongrp"]) ): ?>
   <p class="opt"><input type="checkbox" name="grp[common]" value="yes" /> Groupe commun</p>
+  <p class="opt"><input type="checkbox" name="grp[clean]" value="yes" /> Autoriser le remplacement du groupe actuel (le renommer)</p>
   <?php endif; ?>
   <?php if ( $_POST['search'] ): ?>
   <p class="opt"><input type="checkbox" name="grp[dynamic]" value="yes" /> Enregistrement "dynamique"</p>
