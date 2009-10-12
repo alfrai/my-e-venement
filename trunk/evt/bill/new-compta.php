@@ -74,7 +74,8 @@
   $request->free();
   
   // récup des infos sur la personne
-  $query  = ' SELECT p.id, p.prenom, p.nom, p.adresse, p.cp, p.ville, p.pays, p.email, f.date
+  $query  = ' SELECT p.id, p.prenom, p.nom, p.orgnom, p.adresse, p.cp, p.ville, p.pays, p.email, f.date,
+                     p.orgadr, p.orgcp, p.orgville, p.orgpays
               FROM transaction AS t
               LEFT JOIN personne_properso p
                      ON p.id = t.personneid
@@ -84,6 +85,17 @@
               WHERE t.id = '.$transac;
   $request = new bdRequest($bd,$query);
   $personne = $request->getRecord();
+  if ( $personne['orgnom'] )
+  {
+    $personne['adresse']  = trim($personne['orgadr']);
+    $personne['cp']       = trim($personne['orgcp']);
+    $personne['ville']    = trim($personne['orgville']);
+    $personne['pays']     = trim($personne['orgpays']);
+    unset($personne['orgadr']);
+    unset($personne['orgcp']);
+    unset($personne['orgville']);
+    unset($personne['orgpays']);
+  }
   $request->free();
   if ( intval($personne['id']) <= 0 )
   {
@@ -121,10 +133,10 @@
       $personne['prenom'],
       $personne['nom'],
       $personne['orgnom'],
-      $personne['orgnom'] ? trim($personne['orgadr']) : trim($personne['adresse']),
-      $personne['orgnom'] ? trim($personne['orgcp']) : trim($personne['cp']),
-      $personne['orgnom'] ? trim($personne['orgville']) : trim($personne['ville']),
-      $personne['orgnom'] ? trim($personne['orgpays']) : trim($personne['pays']),
+      trim($personne['adresse']),
+      trim($personne['cp']),
+      trim($personne['ville']),
+      trim($personne['pays']),
       $transac,
     );
     

@@ -33,7 +33,7 @@
   else
   {
     if ( substr($_GET['client'],0,4) == 'prof' )
-         $where = ' op.fctorgid = ';
+         $where = ' op.id = ';
     else $where = ' p.id = ';
     $where .= intval(substr($_GET['client'],5));
   }

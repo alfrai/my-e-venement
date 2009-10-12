@@ -55,7 +55,7 @@
 		<span>Reprise express d'une transaction classique (ne fonctionne pas pour dépôts et contingents)&nbsp;:</span>
 		<span>#<input type="text" size="5" value="" name="t" id="focus" /></span>
 		<?php if ( $config['ticket']['new-bill'] ): ?>
-		<span><input type="checkbox" name="new-bill" value="yes" <?php if ($_SESSION['ticket']['new-bill']) echo 'checked="checked"'; ?> title="Vous souhaitez utiliser la billetterie dans sa nouvelle forme ?" /></span>
+		<span><input type="checkbox" name="new-bill" value="yes" <?php if ($_SESSION['ticket']['new-bill'] !== false ) echo 'checked="checked"'; ?> title="Vous souhaitez utiliser la billetterie dans sa nouvelle forme ?" /></span>
 		<?php endif; ?>
 		<span class="hidden"><input type="submit" name="submit" value="" /></span>
 		<?php if ( is_array($_SESSION["evt"]["express"]) ) { ?>
