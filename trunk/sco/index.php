@@ -41,7 +41,7 @@
 			$user->addAlert("Export réussi");
 			$request->free();
 			$bd->endTransaction();
-			$nav->redirect($config["website"]["base"]."ann/search.php?grpid=".$grpid."&grpname=".urlencode($grpname),"Export réussi : redirection vers le groupe créé");
+			$nav->redirect($config["website"]["base"]."ann/new-search.php?grpid=".$grpid."&grpname=".urlencode($grpname),"Export réussi : redirection vers le groupe créé");
 		}
 		
 		$request->free();

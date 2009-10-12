@@ -116,8 +116,8 @@
 		echo '<input onclick="javascript: document.formu.sttdel.value = \'y\';" type="checkbox" name="del[]" value="'.intval($rec["id"]).'" /> ';
 		echo '<input onclick="javascript: document.formu.sttdel.value = \'y\';" type="hidden" name="nameo['.intval($rec["id"]).']" value="'.htmlsecure($rec["nom"]).'" /> ';
 		echo '<input onclick="javascript: document.formu.sttdel.value = \'y\';" type="text" name="namen['.intval($rec["id"]).']" value="'.htmlsecure($rec["nom"]).'" maxlength="255" /> ';
-		echo '<a href="ann/search.php?grpid='.intval($rec["id"]).'&grpname='.urlencode($rec["nom"]).'" class="voir">voir...</a> '.($rec["description"] ? '<span class="desc">'.htmlsecure($rec["description"]).'</span>' : '' );
-		echo '<a href="ann/new-search.php?grpid='.intval($rec["id"]).'" class="voir">voir*...</a> '.($rec["description"] ? '<span class="desc">'.htmlsecure($rec["description"]).'</span>' : '' );
+		//echo '<a href="ann/search.php?grpid='.intval($rec["id"]).'&grpname='.urlencode($rec["nom"]).'" class="voir">voir...</a> '.($rec["description"] ? '<span class="desc">'.htmlsecure($rec["description"]).'</span>' : '' );
+		echo '<a href="ann/new-search.php?grpid='.intval($rec["id"]).'" class="voir">voir...</a> '.($rec["description"] ? '<span class="desc">'.htmlsecure($rec["description"]).'</span>' : '' );
 		echo '<a href="ann/emailing.php?grpid='.intval($rec["id"]).'&grpname='.urlencode($rec["nom"]).'">courieliser...</a>';
 		echo '</p>';
 	}
@@ -139,8 +139,8 @@
 		echo '<input type="checkbox" onclick="javascript: document.formu.sttdel.value = \'y\';" name="del[]" value="'.intval($rec["id"]).'" /> ';
 		echo '<input type="hidden" name="nameo['.intval($rec["id"]).']" value="'.htmlsecure($rec["nom"]).'" /> ';
 		echo '<input type="text" name="namen['.intval($rec["id"]).']" value="'.htmlsecure($rec["nom"]).'" maxlength="255" /> ';
-		echo '<a href="ann/search.php?grpid='.intval($rec["id"]).'&grpname='.urlencode($rec["nom"]).'">voir...</a> ';
-		echo '<a href="ann/new-search.php?grpid='.intval($rec["id"]).'" class="voir">voir*...</a> '.($rec["description"] ? '<span class="desc">'.htmlsecure($rec["description"]).'</span>' : '' );
+		//echo '<a href="ann/search.php?grpid='.intval($rec["id"]).'&grpname='.urlencode($rec["nom"]).'">voir...</a> ';
+		echo '<a href="ann/new-search.php?grpid='.intval($rec["id"]).'" class="voir">voir...</a> '.($rec["description"] ? '<span class="desc">'.htmlsecure($rec["description"]).'</span>' : '' );
 		echo '<a href="ann/emailing.php?grpid='.intval($rec["id"]).'&grpname='.urlencode($rec["nom"]).'">courieliser...</a>';
 		echo '</p>';
 	}

@@ -189,7 +189,7 @@
 	 		$user->addAlert($nbpers." personne(s) ajoutée(s) au groupe ".$grpname);
 	 		$user->addAlert($nbpro." professionnel(s) ajouté(s) au groupe ".$grpname);
 	 		
-	 		$url = $config["website"]["root"].'ann/search.php?grpid='.$grpid.'&grpname='.$grpname;
+	 		$url = $config["website"]["root"].'ann/new-search.php?grpid='.$grpid.'&grpname='.$grpname;
 	 	}
 	 	else	$url = 'evt/infos/exts.php';
 	 	

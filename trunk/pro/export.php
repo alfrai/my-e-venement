@@ -134,7 +134,7 @@
 				echo '<p class="grpexp">';
 				// lien vers un groupe si déjà existant
 				echo '<span>Voir le groupe</span> ';
-				echo '<span>&laquo;&nbsp;<a href="ann/search.php?grpid='.$grpid.'&grpname='.urlencode($grpname).'">'.htmlsecure($grpname)."</a>&nbsp;&raquo;</span>";
+				echo '<span>&laquo;&nbsp;<a href="ann/new-search.php?grpid='.$grpid.'&grpname='.urlencode($grpname).'">'.htmlsecure($grpname)."</a>&nbsp;&raquo;</span>";
 				echo '</p>';
 			}
 		?>

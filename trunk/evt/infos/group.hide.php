@@ -122,6 +122,6 @@
 	$bd->free();
 
 	if ( !isset($_GET["ajax"]) )
-		$nav->redirect($config["website"]["root"]."ann/search.php?grpid=".$groupid."&grpname=".urlencode($grpname));
+		$nav->redirect($config["website"]["root"]."ann/new-search.php?grpid=".$groupid."&grpname=".urlencode($grpname));
 	else	echo "true";
 ?>

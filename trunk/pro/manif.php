@@ -290,7 +290,7 @@
 <p class="grpexp">
 	<span><a href="pro/manif.php?newmanif=<?php echo $manifid ?>&export">Exporter</a> vers un groupe de l'annuaire...</span>
 	<?php if ( $grpid > 0 ) { ?>
-	<span><a href="ann/search.php?grpid=<?php echo $grpid ?>&grpname=<?php echo urlencode($grpname) ?>">Consulter</a> le groupe créé...</span>
+	<span><a href="ann/new-search.php?grpid=<?php echo $grpid ?>&grpname=<?php echo urlencode($grpname) ?>">Consulter</a> le groupe créé...</span>
 	<?php } ?>
 </p>
 <p class="csvext">

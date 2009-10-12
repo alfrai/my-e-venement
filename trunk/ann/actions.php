@@ -44,10 +44,12 @@
 	$siteroot = $_SERVER["DOCUMENT_ROOT"].$config["website"]["root"];
 	if ( is_file($siteroot.$baseurl.'/'.($file = "index.php")) )
 		echo '<a href="'.$baseurl.'/'.$file.'" '.(strpos($_SERVER["PHP_SELF"],$file) !== false ? 'class="active"' : '').'>Index</a>';
+	/*
 	if ( is_file($siteroot.$baseurl.'/'.($file = "search.php")) )
 		echo '<a href="'.$baseurl.'/'.$file.'" '.(basename($_SERVER["PHP_SELF"]) == $file ? 'class="active"' : '').'>Rechercher</a>';
+	*/
 	if ( is_file($siteroot.$baseurl.'/'.($file = "new-search.php")) )
-		echo '<a href="'.$baseurl.'/'.$file.'" '.(basename($_SERVER["PHP_SELF"]) == $file ? 'class="active"' : '').'>Rechercher (new)</a>';
+		echo '<a href="'.$baseurl.'/'.$file.'" '.(basename($_SERVER["PHP_SELF"]) == $file ? 'class="active"' : '').'>Rechercher</a>';
 	if ( is_file($siteroot.$baseurl.'/'.($file = "groups.php")) )
 		echo '<a href="'.$baseurl.'/'.$file.'" '.(strpos($_SERVER["PHP_SELF"],$file) !== false ? 'class="active"' : '').'>Groupes</a>';
 	
