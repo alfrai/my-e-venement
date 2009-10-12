@@ -48,18 +48,21 @@
 	
 	$select[] = 'e.id AS evtid';
 	$select[] = 'e.nom';
-	if ( $period == 'manif' )
+	if ( $period == 'manifs' )
 	{
 	  $select[] = 'm.id AS manifid';
 	  $select[] = 'm.date';
 	  $select[] = 'm.jauge';
 	}
-	$select[] = 'sum(jauge) AS jauge';
+	else
+	{
+	  $select[] = '(SELECT sum(jauge) FROM manifestation WHERE manifestation.evtid = e.id) AS jauge';
+	}
 	$select[] = 'sum((c.id IS NOT NULL AND mt.id IS NULL AND NOT annul AND NOT canceled)::integer)-sum((c.id IS NOT NULL AND mt.id IS NULL AND annul AND NOT canceled)::integer) AS intern_printed';
 	$select[] = 'sum((c.id IS NULL AND cont.id IS NOT NULL AND mt.id IS NULL)::integer) AS intern_contingents';
 	$select[] = 'sum((c.id IS NULL AND bdc.id IS NOT NULL AND mt.id IS NULL)::integer) AS intern_bdc';
 	$select[] = 'sum((c.id IS NOT NULL AND mt.id IS NOT NULL)::integer) AS part_printed';
-	if ( $period == 'manif' )
+	if ( $period == 'manifs' )
 	  $select[] = '(SELECT sum(nb) FROM masstickets WHERE manifid = m.id) AS part_total';
 	else
 	  $select[] = '(SELECT sum(nb) FROM masstickets, manifestation WHERE manifid = manifestation.id AND manifestation.evtid = e.id) AS part_total';
@@ -70,17 +73,19 @@
   
   $groupby[]= 'e.id';
   $groupby[]= 'e.nom';
-  if ( $period == 'manif' )
+  if ( $period == 'manifs' )
   {
     $groupby[]= 'm.id';
     $groupby[]= 'm.date';
     $groupby[]= 'm.jauge';
   }
+  else
+    $groupby[]= 'jauge';
   
-  if ( $period == 'manif' )
+  if ( $period == 'manifs' )
     $orderby[]= 'm.date';
   $orderby[]= 'e.nom';
-  $orderby[]= 'jauge';
+  $orderby[]= 'm.jauge';
   
 	$query = ' SELECT '.implode(', ',$select).'
 	           FROM '.implode(', ',$from).'

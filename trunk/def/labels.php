@@ -57,7 +57,7 @@
 	  $bd->addOrUpdateRecord(
 	    'options',
 	    array('key' => $key),
-	    array('key' => $key, 'value' => $labels[$key] ? $labels[$key] : $value[0])
+	    array('key' => $key, 'value' => intval($labels[$key])."" == $labels[$key].""  ? $labels[$key] : $value[0])
 	  );
 	if ( !$bd->getTransactionStatus() )
 	  $user->addAlert("Impossible de mettre à jour vos paramètres d'étiquettes");
@@ -85,7 +85,7 @@
         <span class="value"><input
           type="text"
           name="labels[<?php echo htmlsecure($key) ?>]"
-          value="<?php echo htmlsecure($params[$key] ? $params[$key] : $value[0]) ?>"
+          value="<?php echo htmlsecure(intval($params[$key]).'' == $params[$key].'' ? $params[$key] : $value[0]) ?>"
         /><?php echo htmlsecure($value[1]) ?></span>
         <span class="defaults">(default: <?php echo htmlsecure($value[0].$value[1]) ?>)</span>
       </li>

@@ -85,10 +85,8 @@ body.labels .labels > li > div:last-child div.content {
 
 /* text style */
 body.labels { font-size: 12px; }
-body.labels .labels > li .content p { white-space: nowrap; text-align: center; }
-body.labels .labels > li .content .org,
-body.labels .labels > li .content .adresse,
-body.labels .labels > li .content .ville { font-weight: bold; }
+body.labels .labels > li .content p { text-align: center; }
+body.labels .labels > li .content .org { font-weight: bold; }
 body.labels .labels > li .content .org { text-transform: uppercase; }
 body.labels .labels > li .content .tels,
 body.labels .labels > li .content .email,
