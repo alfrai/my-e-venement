@@ -31,5 +31,7 @@
 	$config["sco"]["export"]["trans"]	= "(transposés)";
 	$config["sco"]["export"]["nack"]	= "(non-acceptés)";
 	
+	$config['sco']['orgnom']          = 'Très Tôt Théâtre';
+	
 	ini_set("include_path",$config["website"]["libs"].":.");
 ?>

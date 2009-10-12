@@ -517,7 +517,8 @@
 		                     AND NOT (resa.id IN ( SELECT reservation_cur.resa_preid
 		                                           FROM reservation_cur
 		                                           WHERE reservation_cur.canceled = false))
-		                     AND (resa.transaction IN ( SELECT preselled.transaction FROM preselled))) AS preresas,
+		                     AND resa.transaction IN ( SELECT preselled.transaction FROM preselled )
+		                     AND resa.transaction NOT IN ( SELECT transaction FROM contingeant WHERE fctorgid IN (SELECT fctorgid FROM responsable) ) ) AS preresas,
 		                 ( SELECT sum(ticket.nb) AS nb
 		                   FROM ticket, entry, tableau_manif AS tabmanif
 		                   WHERE ticket.entryid = entry.id

@@ -73,7 +73,7 @@
 		echo '<span style="padding-left: '.$booked.'px;" class="booked" title="'.$nbresas.' pl. réservées"></span>';
 		
 		echo '<span class="jauge '.($nbtotal < $nbpreresas + $nbresas ? 'err' : ($reste < $nbcommandes ? 'warn' : '')).'"
-		            title="'.($reste < $nbpreresas + $nbresas ? ($nbpresas+$nbresas).' pl. de trop' : '').'">'.$nbtotal.' pl.</span>';
+		            title="'.($reste < 0 ? (-$reste).' pl. de trop' : '').'">'.$nbtotal.' pl.</span>';
 		
 		if ( is_object($user) && $reste < 0 )
 		{
