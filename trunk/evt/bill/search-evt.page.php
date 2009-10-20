@@ -60,7 +60,6 @@
                 '.$excludes.'
               ORDER BY '.$order;
   if ( $limit ) $query .= ' LIMIT '.intval($limit);
-  echo $query;
   $request = new bdRequest($bd,$query);
   
   $evtid = 0;
