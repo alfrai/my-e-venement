@@ -52,14 +52,15 @@
   $query = '  SELECT  evt.nom, evt.id AS evtid, manif.date, manif.id, colors.color, manif.description,
                       site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, site.pays
               FROM evenement AS evt, manifestation AS manif, colors, site 
-              WHERE '."manif.date > NOW() - '1 DAY'::interval".'
-                '.$where.'
-                AND manif.evtid = evt.id
+              WHERE '.(!is_array($_GET['manifid']) ? "manif.date > NOW() - '1 DAY'::interval AND " : '').'
+                    manif.evtid = evt.id
                 AND (colors.id = manif.colorid OR colors.id IS NULL AND manif.colorid IS NULL)
-                AND site.id = manif.siteid '.
-                $excludes.'
+                AND site.id = manif.siteid
+                '.$where.'
+                '.$excludes.'
               ORDER BY '.$order;
   if ( $limit ) $query .= ' LIMIT '.intval($limit);
+  echo $query;
   $request = new bdRequest($bd,$query);
   
   $evtid = 0;
