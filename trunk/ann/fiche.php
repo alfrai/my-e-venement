@@ -612,13 +612,13 @@
 		<ul><?php
 		if ( $action != $actions["add"] )
 		{
-			$query	= "(SELECT groupe.id, groupe.nom, (SELECT name FROM account WHERE groupe.createur = id) AS createur, false AS pro, NULL AS fct
+			$query	= "(SELECT groupe.id, groupe.nom, (SELECT name FROM account WHERE groupe.createur = id) AS createur, NULL AS pro, NULL AS fct
 				    FROM groupe_personnes, groupe
 				    WHERE groupe.id = groupid
 				      AND included
 				      AND personneid = ".$id.")
 				   UNION
-				   (SELECT groupe.id, groupe.nom, (SELECT name FROM account WHERE groupe.createur = id) AS createur, true AS pro, fonctionid AS fct
+				   (SELECT groupe.id, groupe.nom, (SELECT name FROM account WHERE groupe.createur = id) AS createur, orgnom AS pro, fonctionid AS fct
 				    FROM groupe_fonctions, groupe, personne_properso
 				    WHERE groupe.id = groupid
 				      AND included
@@ -630,12 +630,12 @@
 			{
 				echo '<li>';
 				if ( $action == $actions["edit"] )
-				echo '<input type="checkbox" name="grpdel['.($rec["pro"] == "t" ? 'fct' : 'id').']['.($rec["pro"] == "t" ? intval($rec["fct"]) : $id).']" value="'.intval($rec["id"]).'" title="retirer le contact de ce groupe" />';
+				echo '<input type="checkbox" name="grpdel['.($rec["pro"] ? 'fct' : 'id').']['.($rec["pro"] ? intval($rec["fct"]) : $id).']" value="'.intval($rec["id"]).'" title="retirer le contact de ce groupe" />';
 				echo htmlsecure($rec["createur"] ? $rec["createur"] : "--").': ';
 				echo '<a href="ann/search.php?grpid='.intval($rec["id"]).'&grpname='.urlencode($rec["nom"]).'">';
 				echo htmlsecure($rec["nom"]);
 				echo '</a>';
-				if ( $rec["pro"] == 't' ) echo ' <span class="mini">(pro)</span>';
+				if ( $rec["pro"] ) echo ' <span class="mini">('.htmlsecure($rec['pro']).')</span>';
 				echo '</li>';
 			}
 			$request->free();
