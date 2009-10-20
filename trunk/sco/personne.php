@@ -139,7 +139,8 @@
 			echo '<a title="consulter" class="next" href="sco/fiche.php?id='.intval($rec["tableauid"]).'">#'.intval($rec["tableauid"]).'</a>';
 			if ( is_null($rec["transposed"]) )
 				echo '<a title="Transposer en billetterie (ctrl+clic)" class="operation new" href="sco/fiche.php?id='.intval($rec["tableauid"]).'&line='.intval($rec["tabpersid"]).'">&gt;&gt;</a>';
-			else	echo '<a title="Suivre en billetterie (ctrl+clic)" class="operation" href="evt/bill/billing.php?t='.intval($rec["transposed"]).'&s=3">&gt;&gt;</a>';
+			else	echo '<a title="Suivre en billetterie (ctrl+clic)" class="operation" href="evt/bill/new-bill.php?t='.intval($rec["transposed"]).'&s=3">&gt;&gt;</a>';
+			//else	echo '<a title="Suivre en billetterie (ctrl+clic)" class="operation" href="evt/bill/billing.php?t='.intval($rec["transposed"]).'&s=3">&gt;&gt;</a>';
 			echo '</li>';
 		}
 		$request->free();

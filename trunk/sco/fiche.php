@@ -237,7 +237,8 @@
 		if ( $transac = sco_transpose($line) )
 		{
 			$bd->free();
-			$nav->redirect($config["website"]["base"]."evt/bill/billing.php?t=".$transac."&s=3","Redirection vers la billetterie.");
+			$nav->redirect($config["website"]["base"]."evt/bill/new-bill.php?t=".$transac."&s=3","Redirection vers la billetterie.");
+			//$nav->redirect($config["website"]["base"]."evt/bill/billing.php?t=".$transac."&s=3","Redirection vers la billetterie.");
 		}
 		else	$user->addAlert("Impossible de transposer la ligne désirée en billetterie.");
 	}
@@ -462,9 +463,11 @@
 		// dernière colonne, passage à la véritable billetterie
 		if ( $transp || $config["sco"]["sql"]["trinentries"] != "false" )
 		{
-			echo '<span class="operation" onmouseout="javascript: '." e=this.getElementsByTagName('a'); if ( e.length > 0 ) if (e.item(0).href == '".$url."') e.item(0).href='evt/bill/billing.php'; e.item(0).className='';".'">';
-			echo '<a href="'.($transp ? $config["website"]["base"].'evt/bill/billing.php?t='.$transp.'&s=3' : $url = htmlsecure($config["website"]["base"].'sco/fiche.php').'?id='.$id.'&line='.intval($rec["tabid"])).'"
+			echo '<span class="operation" onmouseout="javascript: '." e=this.getElementsByTagName('a'); if ( e.length > 0 ) if (e.item(0).href == '".$url."') e.item(0).href='evt/bill/new-bill.php'; e.item(0).className='';".'">';
+			echo '<a href="'.($transp ? $config["website"]["base"].'evt/bill/new-bill.php?t='.$transp.'&s=3' : $url = htmlsecure($config["website"]["base"].'sco/fiche.php').'?id='.$id.'&line='.intval($rec["tabid"])).'"
 				onmouseup="javascript: '."sco_disableinputs(this.parentNode.parentNode); this.className='hidden';".'">';
+			//echo '<span class="operation" onmouseout="javascript: '." e=this.getElementsByTagName('a'); if ( e.length > 0 ) if (e.item(0).href == '".$url."') e.item(0).href='evt/bill/billing.php'; e.item(0).className='';".'">';
+			//echo '<a href="'.($transp ? $config["website"]["base"].'evt/bill/billing.php?t='.$transp.'&s=3' : $url = htmlsecure($config["website"]["base"].'sco/fiche.php').'?id='.$id.'&line='.intval($rec["tabid"])).'"
 			echo '&gt;&gt;</a>';
 			echo '<span class="desc">'."Pour la transposition vers la billetterie, l'utilisation d'onglets est conseillée... (ctrl+clic)".'</span>';
 		}

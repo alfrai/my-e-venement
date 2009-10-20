@@ -129,7 +129,8 @@
     // les tickets
     $request->firstRecord();
     while ( $rec = $request->getRecordNext() ): ?>
-      $("#bill-tickets .spectacles input[name='manifs[]'][value=<?php echo $rec['manifid'] ?>]").get(0).checked = true;
+      if ( elt = $("#bill-tickets .spectacles input[name='manifs[]'][value=<?php echo $rec['manifid'] ?>]").get(0) )
+        elt.checked = true;
       newbill_tickets_new_visu('<?php echo htmlspecialchars($rec['key']) ?>');
   <?php endwhile; ?>
       newbill_tickets_click_remove();
