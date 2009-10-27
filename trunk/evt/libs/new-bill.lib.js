@@ -102,6 +102,12 @@ function newbill_evt_select()
   // focus on nb
   newbill_tickets_focus()
 }
+function newbill_get_jauge()
+{
+  if ( $(elt).is(':hover') )
+    $(elt).find('.jauge').load(encodeURI('evt/bill/getjauge.hide.php?manifid='+$(elt).find('input[name=manifs[]]').val()));
+}
+var elt;
 function newbill_evt_refreshjs()
 {
   // enable the preview of the "jauges"
@@ -109,7 +115,10 @@ function newbill_evt_refreshjs()
     //$('#bill-tickets .microfiche').load(encodeURI('org/infos/microfiche-evt.hide.php?id='+$(this).find("input[name='manifs[]']").val()));
     
     if ( $(this).find('.jauge').children().length == 0 )
-    $(this).find('.jauge').load(encodeURI('evt/bill/getjauge.hide.php?manifid='+$(this).find('input[name=manifs[]]').val()));
+    {
+      elt = this;
+      setTimeout('newbill_get_jauge()',500);
+    }
     $('#bill-tickets .evt .jauge').click(function(){
       $(this).load(encodeURI('evt/bill/getjauge.hide.php?manifid='+$(this).parent().find('input[name=manifs[]]').val()));
     });

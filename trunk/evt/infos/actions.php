@@ -36,7 +36,6 @@
 	   || $config["website"]["root"]."evt/infos/fiche.php" == $_SERVER["PHP_SELF"]
 	   || $config["website"]["root"]."evt/infos/manif.php" == $_SERVER["PHP_SELF"] ? "active" : "");
 	echo '">Évènements</a>';
-  if ( $_SERVER['HTTP_HOST'] != 'localhost' )
 	echo '<a href="'.($href = "evt/infos/agenda.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active " : "").'">Agenda</a>';
 	echo '<a href="'.($href = "evt/infos/salles.php").'" class="';
 	echo ($config["website"]["root"].$href == $_SERVER["PHP_SELF"] || $config["website"]["root"]."evt/infos/plan.php" == $_SERVER["SCRIPT_NAME"] ? "active" : "");

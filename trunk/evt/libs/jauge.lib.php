@@ -37,7 +37,6 @@
 		$prebooked = intval($px*$nbpreresas/$nbtotaldiv);
 		if ( $prebooked	< 1 && $nbpreresas	> 0 ) $prebooked = 1;
 		
-		
 		if ( $prebooked + $booked	> $outsized )
 		{
 			$ratio = ($prebooked + $booked) / $outsized;
@@ -60,6 +59,7 @@
 		{
 		  echo '<span class="contingents">';
 		  foreach ( $contingents as $transaction => $contingent )
+		  if ( $contingent['nb'] > 0 && $nbpreresas > 0 )
 		    echo '<span title="'.
 		      htmlsecure(
             ($contingent['orgnom'] ? $contingent['orgnom'] : $contingent['nom'].' '.$contingent['prenom']).': '.
