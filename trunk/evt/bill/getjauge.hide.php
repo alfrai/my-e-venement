@@ -43,7 +43,7 @@
 	            LEFT JOIN org_personne op ON op.personneid = p2.id AND op.id = c.fctorgid
 	            LEFT JOIN organisme o ON o.id = op.organismeid
 	            WHERE p.transaction = c.transaction
-	              AND manifid = 694
+	              AND manifid = '.intval($_GET["manifid"]).'
 	            GROUP BY p2.nom, p2.prenom, o.nom, c.transaction
 	            ORDER BY p2.nom, p2.prenom, o.nom, c.transaction';
 	$request = new bdRequest($bd,$query);
