@@ -35,19 +35,27 @@
 		$query = " SELECT evt.id, evt.catdesc, evt.nom
 			   FROM evenement_categorie AS evt, organisme
 			   WHERE (organisme.id = evt.organisme1
-			       OR organisme.id = evt.organisme2
-			       OR organisme.id = evt.organisme3)
+			      OR organisme.id = evt.organisme2
+			      OR organisme.id = evt.organisme3)
 			     AND organisme.nom ILIKE '%".pg_escape_string($_GET["c"])."%'";
 	}
-	else
+	elseif ( trim("".$_GET["s"]) )
 	{
 		// recherche par nom d'évènement
-		$name_start = $_GET["s"] ? trim("".pg_escape_string($_GET["s"])) : "";
+		$name_start = trim("".pg_escape_string($_GET["s"]));
 		$query = " SELECT id, catdesc, nom
 			   FROM evenement_categorie
 			   WHERE LOWER(nom) LIKE LOWER('".$name_start."%')
 			   ORDER BY nom";
 	}
+	else
+	{
+		$query = " SELECT DISTINCT e.id, e.catdesc, e.nom
+			   FROM evenement_categorie e
+			   LEFT JOIN manifestation m ON m.evtid = e.id
+			   WHERE m.date > now() - '15 days'::interval
+			   ORDER BY nom";
+  }
 	$events = new bdRequest($bd,$query);
 ?>
 <h1><?php echo $title ?></h1>
