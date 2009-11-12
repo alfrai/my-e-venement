@@ -293,7 +293,7 @@ function newbill_paiement_print()
   clean = $('#bill-paiement ul li').eq(0);
   modetxt = clean.find('select.mode option:selected').html();
   modeval = clean.find('select.mode').val();
-  amount = parseInt(clean.find('input.money').val());
+  amount = parseFloat(clean.find('input.money').val());
   elt = clean.clone(true);
   
   // cleaning fields for a new record
