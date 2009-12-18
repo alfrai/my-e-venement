@@ -182,6 +182,7 @@
     'metaevt'   => 'metaevt',
     'sitenom'   => 'sitenom',
     'prix'      => 'prix',
+    'tarif'     => 'tarif',
     'evtnom'    => 'nom',
     'createurs' => 'createurs',
     'org'       => 'org',

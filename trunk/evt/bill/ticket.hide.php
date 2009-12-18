@@ -162,7 +162,7 @@
 				           (SELECT nom FROM organisme WHERE evt.organisme2 = id) AS organisme2,
 				           (SELECT nom FROM organisme WHERE evt.organisme3 = id) AS organisme3,
 				           ".$ticketid." AS ticketid, manif.date, site.nom AS sitenom, site.ville AS siteville,
-				           getprice(manif.id,".$tarifid.") AS prix, NULL AS organisateur, manif.id AS manifid
+				           getprice(manif.id,".$tarifid.") AS prix, (SELECT description FROM tarif WHERE id = ".$tarifid.") AS tarif, NULL AS organisateur, manif.id AS manifid
 				    FROM billeterie.manifestation AS manif, evenement AS evt,
 				         site, reservation_pre AS preresa, reservation_cur AS resa
 				    WHERE manif.id = ".$manifid."
@@ -179,7 +179,7 @@
 				           (SELECT nom FROM organisme WHERE evt.organisme2 = id) AS organisme2,
 				           (SELECT nom FROM organisme WHERE evt.organisme3 = id) AS organisme3,
 				           ".$ticketid." AS ticketid, manif.date, site.nom AS sitenom, site.ville AS siteville,
-				           getprice(manif.id,".$tarifid.") AS prix, organisme.nom AS organisateur, manif.id AS manifid
+				           getprice(manif.id,".$tarifid.") AS prix, (SELECT description FROM tarif WHERE id = ".$tarifid.") AS tarif, organisme.nom AS organisateur, manif.id AS manifid
 				    FROM billeterie.manifestation AS manif, evenement AS evt, organisme, manif_organisation AS orga,
 				         site, reservation_pre AS preresa, reservation_cur AS resa
 				    WHERE manif.id = ".$manifid."
@@ -214,6 +214,7 @@
 				$bill["sitenom"]	= $tic["sitenom"];
 				$bill["siteville"]	= $tic["siteville"];
 				$bill["prix"]		= $tic["prix"]*(1-floatval($resa["reduc"])/100);
+				$bill['tarif']  = $tic['tarif'];
 				$bill["manifid"]	= $tic["manifid"];
 				
 				// places num

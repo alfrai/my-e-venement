@@ -103,7 +103,7 @@ class Tickets
 		$date["ltl"]  = date("d ",$time);
 		$date["ltl"] .= strtolower($config["dates"]["moty"][intval(date("n",$time))-1]);
 		$date["ltl"] .= date(" Y / H\hi",$time);
-		
+
 		$this->content .= '
 <div class="page">
 	<div class="ticket">
@@ -117,7 +117,7 @@ class Tickets
                 	$this->content .= '</p>
                 	<p class="metaevt">'.htmlsecure($bill["metaevt"]).'</p>
                 	<p class="dateheure">'.htmlsecure($date["big"]).'</p>
-                	<p class="lieuprix"><span class="lieu">'.htmlsecure($bill["sitenom"]).'</span> / <span class="prix">'.($bill["prix"] ? htmlsecure($bill["prix"]).'<span class="eur">€</span>' : htmlsecure("Exonéré")).'</span></p>
+                	<p class="lieuprix"><span class="lieu">'.htmlsecure($bill["sitenom"]).'</span> / <span class="prix">'.($bill["prix"] ? htmlsecure($bill["prix"]).'<span class="eur">€</span>' : htmlsecure($bill['tarif'])).'</span></p>
                 	<p class="titre">'.htmlsecure(strlen($buf = $bill["evtnom"]) > 30 ? substr($buf,0,30).'...' : $buf).'</p>
                 	<p class="cie">'.htmlsecure(strlen($buf = $bill["createurs"]) > 40 ? substr($buf,0,40).'...' : $buf).'</p>
                 	<p class="org">'.($bill["org"] ? 'Org: ' : '').htmlsecure(strlen($bill["org"]) > 60 ? substr($bill["org"],0,60)." ..." : $bill["org"]).'</p>
