@@ -75,7 +75,9 @@
 <div class="desc"><?php @include("desc.txt"); ?></div>
 <div class="highscore"><?php
 	$query = " SELECT (SELECT count(*) FROM reservation_cur WHERE NOT canceled) AS selled,
-		          (SELECT count(*) FROM reservation_pre AS pre, preselled AS sel WHERE pre.transaction = sel.transaction) AS preselled";
+            (SELECT count(*) FROM reservation_pre AS pre, preselled AS sel
+             WHERE pre.transaction = sel.transaction
+               AND pre.id NOT IN (SELECT resa_preid FROM reservation_cur WHERE NOT canceled)) AS preselled";
 	$request = new bdRequest($bd,$query);
 	echo "<span>".$request->getRecord("selled").' billets imprimés</span>';
 	echo "<span>".$request->getRecord("preselled").' billets en attente</span>';
