@@ -39,7 +39,7 @@
 				$config["database"]["passwd"] );
 	$action = $actions["edit"];
 	$class .= " contingeant";
-	$subtitle = "Dépôts ou contingeants non clôturés";
+	$subtitle = "Dépôts ou contingents non clôturés";
 	
 	// MAJ des dépots (cloture)
 	if ( intval($_GET["close"]) != 0 && $user->evtlevel >= $config["evt"]["right"]["mod"] ) // verif egalement des droits

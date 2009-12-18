@@ -189,7 +189,7 @@
 				
 				// Affichage des résultats liés aux impressions
 				echo '<span class="desc imp">place(s) vendue(s) en dépôt</span>';
-				echo '<span class="desc">place(s) encore "contingeantée(s)"</span>';
+				echo '<span class="desc">place(s) encore "contingentée(s)"</span>';
 				
 				echo '</span>';
 			}

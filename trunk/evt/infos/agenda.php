@@ -70,7 +70,7 @@
 			
 			$content	 = "";
 			$content	.= '<span class="hour">'.htmlsecure($date["hour"].':'.$date["minute"]).'</span> ';
-			$content	.= '<span class="evtville">'.htmlsecure('('.($rec["cp"] ? $rec["cp"].", " : "").$rec["site"].')').'</span> ';
+			$content	.= '<span class="evtville">'.htmlsecure(($rec['typedesc'] ? $rec['typedesc'] : $rec['catdesc']).' ('.($rec["cp"] ? $rec["cp"].", " : "").$rec["site"].')').'</span> ';
 			$content	.= '<span class="evtsite">'.htmlsecure('('.$rec["sitenom"].')').'</span> ';
 			$content	.= '<span class="evtnom">'.htmlsecure($rec["nom"]).'</span>';
 			$cal->setEventContent($date["year"],$date["month"],$date["day"],$content,

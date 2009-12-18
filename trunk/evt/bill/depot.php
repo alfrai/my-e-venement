@@ -35,9 +35,9 @@
 	}
 	
 	$cantgetback = false;
-	$subtitle = "Dépôt de billets - Places contingeantées";
+	$subtitle = "Dépôt de billets - Places contingentées";
 	$class = "bill evt depot";
-	$spectateur = "Responsable du contingeant";
+	$spectateur = "Responsable du contingent";
 	$css[] = "evt/styles/jauge.css";
 	$css[] = "evt/styles/colors.css.php";
         	

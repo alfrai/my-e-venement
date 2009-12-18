@@ -36,7 +36,7 @@
 ?>
 <p class="numtransac"><span>Numéro d'opération:</span> <span>#<?php echo htmlsecure($data["numtransac"]) ?></span></p>
 <p class="recorded"><?php
-	echo 'Enregitrement des places contingeantées et édition des billets en dépôt effectués.';
+	echo 'Enregitrement des places contingentées et édition des billets en dépôt effectués.';
 ?></p>
 <?php
 		// affichage des doléances
