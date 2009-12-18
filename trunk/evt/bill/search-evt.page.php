@@ -56,6 +56,7 @@
                     manif.evtid = evt.id
                 AND (colors.id = manif.colorid OR colors.id IS NULL AND manif.colorid IS NULL)
                 AND site.id = manif.siteid
+                AND jauge > 0
                 '.$where.'
                 '.$excludes.'
               ORDER BY '.$order;
