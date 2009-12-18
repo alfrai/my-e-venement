@@ -28,7 +28,7 @@
 ?>
 <ul>
 	<li class="<?php if ( $stage == ++$cur ) echo 'current'; else echo $stage > $cur ? 'past' : 'tocome' ?>">Sélections initiales</li>
-	<li class="<?php if ( $stage == ++$cur ) echo 'current'; else echo $stage > $cur ? 'past' : 'tocome' ?>">Définition des places contingeantées</li>
+	<li class="<?php if ( $stage == ++$cur ) echo 'current'; else echo $stage > $cur ? 'past' : 'tocome' ?>">Définition des places contingentées</li>
 	<li class="<?php if ( $stage == ++$cur ) echo 'current'; else echo $stage > $cur ? 'past' : 'tocome' ?> edit">Édition du dépôt de billetterie</li>
 	<li class="<?php if ( $stage == ++$cur ) echo 'current'; else echo $stage > $cur ? 'past' : 'tocome' ?>">Terminé</li>
 </ul>
