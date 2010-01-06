@@ -29,7 +29,7 @@
 	includeJS("bill","evt");
 	includeJS("annu");
 	
-	global $query, $class, $credit, $title, $subtitle, $seeall, $order, $user;
+	global $query, $class, $credit, $title, $subtitle, $seeall, $order, $user, $metaevt;
 	global $flashdate;
 	
 	$bd	= new bd (	$config["database"]["name"],
@@ -62,7 +62,7 @@
 <div class="search top">
 	<form name="formu" action="<?php echo $_SERVER["PHP_SELF"]?>" method="GET">
 		<p>
-			Recherche express sur le nom de famille&nbsp;:<br />
+			Recherche express sur le nom de famille&nbsp;:
 			<input type="text" name="s" id="focus" value="<?php echo $name_start ?>" />
 			<?php if ( intval($_GET['id']) ): ?>
 			<span>
@@ -72,15 +72,30 @@
 			<?php endif; ?>
 		</p>
 		<p>
-			Recherche express sur le nom de l'organisme&nbsp;:<br />
+			Recherche express sur le nom de l'organisme&nbsp;:
 			<input type="text" name="o" value="<?php echo $org_start ?>" />
 		</p>
-		<?php if ( $flashdate ) { ?>
+		<?php if ( $flashdate ): ?>
 		<p>
-			Se positionner à la date (AAAA-MM-JJ) :<br/>
+			Se positionner à la date (AAAA-MM-JJ) :
 			<input type="text" name="flashdate" value="<?php echo htmlsecure($_GET["flashdate"]) ?>" />
 		</p>
-		<?php } ?>
+		<?php endif; ?>
+		<?php if ( $metaevt ): ?>
+		<p>
+			Se limiter à un meta-événement :
+			<?php
+			  $query = " SELECT DISTINCT metaevt FROM evenement";
+			  $request = new bdRequest($bd,$query);
+			?>
+			<select name="metaevt">
+			  <option></option>
+			  <?php while ( $metaevt = $request->getRecordNext('metaevt') ): ?>
+			  <option <?php echo $metaevt == $_GET['metaevt'] ? 'selected="selected"' : '' ?>><?php echo htmlsecure($metaevt) ?></option>
+  			<?php endwhile; ?>
+			</select>
+		</p>
+		<?php endif; ?>
 		<p class="seeall">
 			<span class="submit"><input type="submit" name="v" value="Valider" /></span>
 			<?php if ( $credit ) { ?>

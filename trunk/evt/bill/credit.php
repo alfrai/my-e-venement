@@ -28,6 +28,9 @@
 	if ( $_GET["flashdate"] )
 	$flashdate = $_GET["flashdate"];
 	
+	if ( $_GET["metaevt"] )
+	$metaevt = $_GET["metaevt"];
+	
 	$query	= "SELECT pers.*, transaction, prix AS topay,
 			 (SELECT sum(paiement.montant) AS prix FROM paiement WHERE transaction = topay.transaction ".(isset($flashdate) ? "AND date <= '".pg_escape_string($flashdate)."'::date" : "" )." GROUP BY transaction) AS paid
 		   FROM personne_properso AS pers, transaction,
@@ -35,6 +38,7 @@
 		   	 FROM reservation_cur AS cur, reservation_pre AS resa
 		   	 WHERE NOT cur.canceled
 		   	   AND cur.resa_preid = resa.id
+		   	   ".($metaevt ? "AND resa.manifid IN (SELECT m.id FROM manifestation m, evenement e WHERE e.id = m.evtid AND e.metaevt = '".pg_escape_string($metaevt)."')" : "")."
 		   	   ".(isset($flashdate) ? "AND cur.date <= '".pg_escape_string($flashdate)."'::date" : "" )."
 		   	 GROUP BY resa.transaction) AS topay
 		   WHERE topay.transaction = transaction.id
@@ -52,6 +56,7 @@
 	$credit = true;
 	
 	$flashdate = true;
+	$metaevt   = true;
 	includePage("late");
 	
 	$query = "DROP TABLE etatcompte";
