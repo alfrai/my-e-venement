@@ -184,7 +184,7 @@ function newbill_tickets_new_visu(tarif)
   else
   {
     span.find('span').append(qte+tarif).addClass(tarif);
-    $('#bill-tickets input[type=radio]:checked').parent().append(span);
+    $('#bill-tickets input[type=radio]:checked').parent().append(span).append(' ');
   }
   
   // form
@@ -454,7 +454,7 @@ $(document).ready(function(){
     {
       manifid = '&manifid='+$("#bill-tickets .evt input[name='manifs[]']:checked").val();
       if ( manifid )
-        tarif = (str = $('#bill-compta input[name=tarif].print').val()) != '' ? '&tarif='+str : '';
+        tarif = (str = $('#bill-compta input[name=tarif].print').val()) != '' ? '&tarif='+encodeURI(str) : '';
       window.open(encodeURI('evt/bill/new-tickets.php?transac='+$('#bill-op input[name=transac]').val()+group+tarif+manifid));
     }
     else

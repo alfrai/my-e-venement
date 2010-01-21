@@ -52,16 +52,22 @@
 	// l'ajout
 	if ( is_array($new = $_POST["new"]) )
 	{
-		$arr = array();
-		$arr[$name = "description"] = trim($new[$name]) ? trim($new[$name]) : NULL;
-		$arr[$name = "key"] = strtoupper(trim(substr($new[$name],0,5)));
-		$arr[$name = "contingeant"] = $new[$name] == 'yes' ? "t" : "f";
-		$arr[$name = "prix"] = $arr["contingeant"] == "t" ? 0 : floatval($new[$name]);
+    echo preg_match("/[\\ \+.\-_;!:?äÄöÖüÜß<>=\/'\"]/",$new['key']);
+    if ( preg_match("/[\\ \+.\-_;!:?äÄöÖüÜß<>=\/'\"]/",$new['key']) > 0 )
+	    $user->addAlert('Des caractères interdits ont été utilisés dans la clé du tarif...');
+	  else
+	  {
+	    $arr = array();
+		  $arr[$name = "description"] = trim($new[$name]) ? trim($new[$name]) : NULL;
+		  $arr[$name = "key"] = strtoupper(trim(substr($new[$name],0,5)));
+		  $arr[$name = "contingeant"] = $new[$name] == 'yes' ? "t" : "f";
+		  $arr[$name = "prix"] = $arr["contingeant"] == "t" ? 0 : floatval($new[$name]);
 		
-		$msg = "La nouvelle entrée n'a pu être enregistrée";
-		if ( $arr["key"] && $arr["description"] != "" )
-		if ( !$bd->addRecord($table,$arr) )
-			$user->addAlert($msg);
+		  $msg = "La nouvelle entrée n'a pu être enregistrée";
+		  if ( $arr["key"] && $arr["description"] != "" )
+		  if ( !$bd->addRecord($table,$arr) )
+			  $user->addAlert($msg);
+	  }
 	}
 	
 	// l'affichage

@@ -162,7 +162,7 @@
                 AND tm.manifid = m.id
                 AND tm.id = r.tarifid
                 AND r.id NOT IN ( SELECT resa_preid FROM reservation_cur WHERE NOT canceled )
-                '.($tarif ? "AND tm.key ILIKE '".$tarif."'" : '').'
+                '.($tarif ? "AND tm.key ILIKE '".pg_escape_string($tarif)."'" : '').'
                 '.($manifid ? 'AND r.manifid = '.$manifid : '');
   $orderby  = ' e.nom, m.date, s.ville, s.nom, tm.prix';
   $from = 'manifestation m, reservation_pre r, evenement e, site s, tarif_manif tm';
