@@ -30,8 +30,9 @@
 	$config['ticket']['old-bill']    = true;
 	//$config['ticket']['cat-tarifs']  = true;    // ATTENTION: ajouter également sql/cat-tarifs.sql pour son fonctionnement
   //$config['ticket']['let_open_after_print'] = true;
-  //$config['ticket']['bdc_facture_html_output'] = true;
+  $config['ticket']['bdc_facture_html_output'] = true;
   //$config['ticket']['controlleft']   = true;
+  $config['ticket']['more-mentions']      = 'licences: / ';
   
   $config['ticket']['seller']['logo']     = '';
   $config['ticket']['seller']['nom']      = 'Très Tôt Théâtre';
