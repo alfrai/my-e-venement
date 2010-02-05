@@ -52,8 +52,7 @@
 	// l'ajout
 	if ( is_array($new = $_POST["new"]) )
 	{
-    echo preg_match("/[\\ \+.\-_;!:?äÄöÖüÜß<>=\/'\"]/",$new['key']);
-    if ( preg_match("/[\\ \+.\-_;!:?äÄöÖüÜß<>=\/'\"]/",$new['key']) > 0 )
+    if ( preg_match("/[\d\\ \+.\-_;!:?äÄöÖüÜß<>=\/'\"]/",$new['key']) > 0 )
 	    $user->addAlert('Des caractères interdits ont été utilisés dans la clé du tarif...');
 	  else
 	  {
