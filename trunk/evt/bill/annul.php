@@ -32,7 +32,6 @@
 		$user->addAlert($msg = "Vous n'avez pas un niveau de droits suffisant pour accéder à cette fonctionnalité");
 		$nav->redirect($config["website"]["base"]."evt/bill/",$msg);
 	}
-
 	
 	global $sqlcount;
 	$class .= " annul evt";
@@ -82,25 +81,31 @@
 			$reservation->addPreReservation($manifid,$resa);
 		}
 		
-		$query = " SELECT DISTINCT personne.id, personne.nom, personne.prenom, personne.titre, personne.orgnom, personne.fcttype, personne.fctdesc,
-			          ticket.nb, ticket.tarif, ticket.reduc, ticket.transaction, 
-			          evt.nom AS evtnom, evt.id AS evtid, manif.id AS manifid, site.nom AS sitenom, manif.date, site.ville, site.cp AS manifcp, colors.libelle AS colorname
-			   FROM personne_properso AS personne,
-			   	( SELECT *
-			   	  FROM tickets2print_bytransac('".pg_escape_string($transac)."') blah
-			   	 UNION
-			   	  SELECT *
-			   	  FROM tickets2print_bytransac('".pg_escape_string($oldtransac)."') blablah
-			   	  WHERE printed AND NOT canceled ) AS ticket,
-			   	transaction AS trans, manifestation AS manif, evenement AS evt, site, colors
-			   WHERE transaction = trans.id
-			     AND ( personne.id = trans.personneid OR personne.id IS NULL AND trans.personneid IS NULL )
-			     AND ( trans.fctorgid = personne.fctorgid OR trans.fctorgid IS NULL AND personne.fctorgid IS NULL )
-			     AND ticket.manifid = manif.id
-			     AND manif.evtid = evt.id
-			     AND manif.siteid = site.id
-			     AND ( colors.id = manif.colorid OR colors.id IS NULL AND manif.colorid IS NULL )
-			   ORDER BY evtnom, evtid, date, tarif, reduc, transaction DESC";
+		$select  = ' pp.id, pp.nom, pp.prenom, pp.titre, pp.orgnom, pp.fcttype, pp.fctdesc,
+		             sum((NOT annul)::integer*2-1) AS nb, tarif.key AS tarif, p.reduc,
+                 evt.nom AS evtnom, evt.id AS evtid, manif.id AS manifid, site.nom AS sitenom, manif.date, site.ville, site.cp AS manifcp, colors.libelle AS colorname';
+		$groupby = ' pp.id, pp.nom, pp.prenom, pp.titre, pp.orgnom, pp.fcttype, pp.fctdesc,
+		             tarif.key, p.reduc,
+		             evt.nom, evt.id, manif.id, site.nom, manif.date, site.ville, site.cp, colors.libelle';
+		$from    = ' colors, manifestation manif, evenement evt, site,
+                 tarif, reservation_pre p, reservation_cur c, transaction t';
+    $leftj   = ' personne_properso pp ON pp.id = t.personneid AND (pp.fctorgid = t.fctorgid OR pp.fctorgid IS NULL AND t.fctorgid IS NULL)';
+    $where   = "     evt.id = manif.evtid
+	               AND manif.id = p.manifid
+	               AND manif.siteid = site.id
+	               AND colors.id = manif.colorid
+	               AND tarif.id = p.tarifid
+	               AND p.transaction = t.id
+	               AND c.resa_preid = p.id
+	               AND NOT c.canceled
+	               AND (t.id = '".pg_escape_string($oldtransac)."' OR t.translinked = '".pg_escape_string($oldtransac)."')";
+	  $orderby = " key, nb, reduc";
+		$query = " SELECT DISTINCT $select
+			         FROM $from
+			         LEFT JOIN $leftj
+	             WHERE $where
+	             GROUP BY $groupby
+	             ORDER BY $orderby";
 		$request = new bdRequest($bd,$query);
 		$rec = $request->getRecord();
 		
@@ -155,7 +160,7 @@
 		;
 		<span>
 		  Numéro d'opération&nbsp;: #<?php echo htmlsecure($transac) ?>
-		  <span class="translinked">(#<?php echo intval($oldtransac) ?><input type="hidden" name="translinked" value="<?php echo intval($oldtransac) ?>" />)</span>
+		  <span class="translinked">(#<a href="evt/bill/new-bill.php?t=<?php echo intval($oldtransac) ?>"><?php echo intval($oldtransac) ?></a><input type="hidden" name="translinked" value="<?php echo intval($oldtransac) ?>" />)</span>
 		</span>
 	</p>
 	<div class="manifestations">
