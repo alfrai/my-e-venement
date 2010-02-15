@@ -47,7 +47,7 @@
 		$month	= intval($_GET["monthID"]) > 0 ? intval($_GET["monthID"]) : date("m");
 		
 		$query	= " SELECT manifestation.id AS id, evenement.id AS evtid, manifestation.description,
-			           manifestation.date, evenement.catdesc, evenement.nom,
+			           manifestation.date, evenement.catdesc, evenement.nom, manifestation.duree,
 			           evenement.code, site.nom AS sitenom, site.cp, site.ville AS site, colors.libelle AS colorname
 			    FROM manifestation, evenement_categorie AS evenement, site, colors
 			    WHERE manifestation.siteid = site.id
@@ -62,20 +62,30 @@
 		while ( $rec = $request->getRecordNext() )
 		{
 			$time		= strtotime($rec["date"]);
-			$date["year"]	= intval(date('Y',$time));
-			$date["month"]	= intval(date('m',$time));
-			$date["day"]	= intval(date('d',$time));
-			$date["hour"]	= date('H',$time);
-			$date["minute"]	= date('i',$time);
-			
-			$content	 = '<p title="'.htmlsecure($rec['description'].' - '.($rec['typedesc'] ? $rec['typedesc'] : $rec['catdesc']).' - '.($rec["cp"] ? $rec["cp"].", " : "").$rec["site"]).'">';
-			$content	.= '<span class="hour">'.htmlsecure($date["hour"].':'.$date["minute"]).'</span> ';
-			$content	.= '<span class="evtsite">'.htmlsecure('('.$rec["sitenom"].')').'</span> ';
-			$content	.= '<span class="evtnom">'.htmlsecure($rec["nom"]).'</span>';
-			$content  .= '</p>';
-			$cal->setEventContent($date["year"],$date["month"],$date["day"],$content,
-						"evt/infos/manif.php?evtid=".intval($rec["evtid"])."&id=".intval($rec["id"])."&view",
-						"eventcontent ".$rec["colorname"]);
+			$duree = explode(':',$rec['duree']);
+			for ( $i = -1 ; strtotime('+ '.$duree[0].' hours '.$duree[1].' minutes '.$duree[2].' seconds',$time) > strtotime('23:59:59 + '.$i.' days',$time) ; $i++ )
+			{
+  			$tmp = strtotime('+'.($i+1).' days',$time);
+	  		$date["year"]	= intval(date('Y',$tmp));
+		  	$date["month"]	= intval(date('m',$tmp));
+			  $date["day"]	= intval(date('d',$tmp));
+			  $date["hour"]	= date('H',$tmp);
+			  $date["minute"]	= date('i',$tmp);
+			  
+			  $content	 = '<span title="'.htmlsecure($rec['description'].' - '.($rec['typedesc'] ? $rec['typedesc'] : $rec['catdesc']).' - '.($rec["cp"] ? $rec["cp"].", " : "").$rec["site"]).'">';
+  			if ( strtotime('+ '.$duree[0].' hours '.$duree[1].' minutes '.$duree[2].' seconds',$time) > strtotime('23:59:59 + '.($i+1).' days',$time) && $i < 0 )
+  			  $content  .= '<span class="hour">'.htmlsecure($date["hour"].':'.$date["minute"].' ->').'</span> ';
+  			elseif ( $i < 0 )
+  			  $content  .= '<span class="hour">'.htmlsecure($date["hour"].':'.$date["minute"]).'</span> ';
+  			elseif ( strtotime('+ '.$duree[0].' hours '.$duree[1].' minutes '.$duree[2].' seconds',$time) <= strtotime('23:59:59 + '.($i+1).' days',$time) && $i > 0 )
+  			  $content  .= '<span class="hour">'.htmlsecure('-> '.$date["hour"].':'.$date["minute"]).'</span> ';
+	  		$content	.= '<span class="evtsite">'.htmlsecure('('.$rec["sitenom"].')').'</span> ';
+		  	$content	.= '<span class="evtnom">'.htmlsecure($rec["nom"]).'</span>';
+			  $content  .= '</span>';
+			  $cal->setEventContent($date["year"],$date["month"],$date["day"],$content,
+				  		"evt/infos/manif.php?evtid=".intval($rec["evtid"])."&id=".intval($rec["id"])."&view",
+					  	"eventcontent ".$rec["colorname"]);
+			} 
 		}
 		
 		$request->free();
