@@ -610,7 +610,7 @@
 		<p class="titre">Groupes statiques</p>
 		<div class="clip">
 		<ul><?php
-		if ( $action != $actions["add"] )
+		if ( $action != $actions["add"] && $user->hasRight($config['rights']['group']) )
 		{
 			$query	= "(SELECT groupe.id, groupe.nom, (SELECT name FROM account WHERE groupe.createur = id) AS createur, groupe.createur AS createurid, NULL AS pro, NULL AS fct
 				    FROM groupe_personnes, groupe
