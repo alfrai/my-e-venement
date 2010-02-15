@@ -138,7 +138,7 @@ function newbill_tickets_add_error(ok)
     manif.find('span.tickets span.'+tarif).html(nb+tarif);
   else
     manif.find('span.tickets span.'+tarif).parent().remove();
-  if ( ok ) warning("Impossible d'ajouter un ticket, problème lors de l'accès à la base de données.");
+  if ( ok ) warning("Impossible d'ajouter ou de supprimer un ticket, problème lors de l'accès à la base de données.");
   else      warning("Impossible d'ajouter un ticket, accès à la base de données impossible.");
 }
 function newbill_tickets_remove_error(ok)
@@ -207,13 +207,9 @@ function newbill_tickets_click_remove()
 {
   // remove some tickets from selection
   $('#bill-tickets span.tickets').unbind().click(function(){
+    ticket = $(this);
     manif = $(this).parent();
     tarif = $(this).find('span').attr('class');
-    manif.find('input.ticket[value='+tarif+'][type=hidden]').eq(0).remove();
-    if ( (nb = manif.find('input.ticket[value='+tarif+'][type=hidden]').length) > 0 )
-      $(this).find('span').html(nb+tarif);
-    else
-      $(this).remove();
     
     // SGBD
     qte = -1;
@@ -224,13 +220,19 @@ function newbill_tickets_click_remove()
       url:  'evt/api/tickets.cmd.php',
       data: ({ transac: transac, manifid: manifid, qte: qte, tarif: tarif }),
       success: function(data){
-        if ( data != '0' && data != '253' )
-          newbill_tickets_add_error(true);
-        else
+        if ( data == '0' || data == '253' )
         {
+          manif.find('input.ticket[value='+tarif+'][type=hidden]').eq(0).remove();
+          if ( (nb = manif.find('input.ticket[value='+tarif+'][type=hidden]').length) > 0 )
+            ticket.find('span').html(nb+tarif);
+          else
+            ticket.remove();
+          
           newbill_tickets_refresh_money();
           newbill_tickets_focus();
         }
+        else
+          newbill_tickets_add_error(true);
       },
       error: newbill_tickets_remove_error
     });
