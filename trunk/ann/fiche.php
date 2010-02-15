@@ -179,13 +179,13 @@
 			{
 				foreach ( $del as $delid )
 				if ( intval($delid) > 0 )
-				$bd->delRecordsSimple("groupe_personnes",array("personneid" => $id, "groupid" => intval($delid)));
+				$bd->delRecords('groupe_personnes','personneid = '.$id.' AND groupid = '.intval($delid).' AND (createur = '.$user->getId().($user->hasRight($config['rights']['commongrp']) ? ' OR createur IS NULL' : '').') AND groupe.id = groupid','groupe');
 			}
 			if ( is_array($del = $_POST["grpdel"]["fct"]) && $user->hasRight($config["right"]["group"]) )
 			{
 				foreach ( $del as $fctid => $delid )
 				if ( intval($delid) > 0 && intval($fctid) > 0 )
-				$bd->delRecordsSimple("groupe_fonctions",array("fonctionid" => $fctid, "groupid" => intval($delid)));
+				$bd->delRecordsSimple('groupe_fonctions','fonctionid = '.$fctid.' AND groupid = '.intval($delid).' AND (createur = '.$user->getId().($user->hasRight($config['rights']['commongrp']) ? ' OR createur IS NULL' : '').') AND groupid = groupe.id','groupe');
 			}
 			
 			// gestion des dates de naissance des enfants
@@ -612,13 +612,13 @@
 		<ul><?php
 		if ( $action != $actions["add"] )
 		{
-			$query	= "(SELECT groupe.id, groupe.nom, (SELECT name FROM account WHERE groupe.createur = id) AS createur, NULL AS pro, NULL AS fct
+			$query	= "(SELECT groupe.id, groupe.nom, (SELECT name FROM account WHERE groupe.createur = id) AS createur, groupe.createur AS createurid, NULL AS pro, NULL AS fct
 				    FROM groupe_personnes, groupe
 				    WHERE groupe.id = groupid
 				      AND included
 				      AND personneid = ".$id.")
 				   UNION
-				   (SELECT groupe.id, groupe.nom, (SELECT name FROM account WHERE groupe.createur = id) AS createur, orgnom AS pro, fonctionid AS fct
+				   (SELECT groupe.id, groupe.nom, (SELECT name FROM account WHERE groupe.createur = id) AS createur, groupe.createur AS createurid, orgnom AS pro, fonctionid AS fct
 				    FROM groupe_fonctions, groupe, personne_properso
 				    WHERE groupe.id = groupid
 				      AND included
@@ -629,7 +629,7 @@
 			while ( $rec = $request->getRecordNext() )
 			{
 				echo '<li>';
-				if ( $action == $actions["edit"] )
+				if ( $action == $actions["edit"] && ($rec['createurid'] == $user->getId() || is_null($rec['createurid']) && $user->hasRight($config['right']['commongrp'])) )
 				echo '<input type="checkbox" name="grpdel['.($rec["pro"] ? 'fct' : 'id').']['.($rec["pro"] ? intval($rec["fct"]) : $id).']" value="'.intval($rec["id"]).'" title="retirer le contact de ce groupe" />';
 				echo htmlsecure($rec["createur"] ? $rec["createur"] : "--").': ';
 				echo '<a href="ann/search.php?grpid='.intval($rec["id"]).'&grpname='.urlencode($rec["nom"]).'">';
