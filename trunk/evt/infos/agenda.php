@@ -46,7 +46,7 @@
 		$year	= intval($_GET["yearID"]) > 0 ? intval($_GET["yearID"]) : date("Y");
 		$month	= intval($_GET["monthID"]) > 0 ? intval($_GET["monthID"]) : date("m");
 		
-		$query	= " SELECT manifestation.id AS id, evenement.id AS evtid,
+		$query	= " SELECT manifestation.id AS id, evenement.id AS evtid, manifestation.description,
 			           manifestation.date, evenement.catdesc, evenement.nom,
 			           evenement.code, site.nom AS sitenom, site.cp, site.ville AS site, colors.libelle AS colorname
 			    FROM manifestation, evenement_categorie AS evenement, site, colors
@@ -68,11 +68,11 @@
 			$date["hour"]	= date('H',$time);
 			$date["minute"]	= date('i',$time);
 			
-			$content	 = "";
+			$content	 = '<p title="'.htmlsecure($rec['description'].' - '.($rec['typedesc'] ? $rec['typedesc'] : $rec['catdesc']).' - '.($rec["cp"] ? $rec["cp"].", " : "").$rec["site"]).'">';
 			$content	.= '<span class="hour">'.htmlsecure($date["hour"].':'.$date["minute"]).'</span> ';
-			$content	.= '<span class="evtville">'.htmlsecure(($rec['typedesc'] ? $rec['typedesc'] : $rec['catdesc']).' ('.($rec["cp"] ? $rec["cp"].", " : "").$rec["site"].')').'</span> ';
 			$content	.= '<span class="evtsite">'.htmlsecure('('.$rec["sitenom"].')').'</span> ';
 			$content	.= '<span class="evtnom">'.htmlsecure($rec["nom"]).'</span>';
+			$content  .= '</p>';
 			$cal->setEventContent($date["year"],$date["month"],$date["day"],$content,
 						"evt/infos/manif.php?evtid=".intval($rec["evtid"])."&id=".intval($rec["id"])."&view",
 						"eventcontent ".$rec["colorname"]);

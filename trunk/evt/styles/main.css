@@ -30,6 +30,7 @@ table.month td.monthnavigation a { text-decoration: none; }
 table.month td.monthnavigation a:hover { text-decoration: underline; }
 
 table.eventcontent span.evtnom { font-weight: bold; }
+table.eventcontent p { margin: 0; }
 
 /* Évènements */
 ul.events { display: table; }
