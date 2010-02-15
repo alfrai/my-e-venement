@@ -78,7 +78,7 @@
   			elseif ( $i < 0 )
   			  $content  .= '<span class="hour">'.htmlsecure($date["hour"].':'.$date["minute"]).'</span> ';
   			elseif ( strtotime('+ '.$duree[0].' hours '.$duree[1].' minutes '.$duree[2].' seconds',$time) <= strtotime('23:59:59 + '.($i+1).' days',$time) && $i > 0 )
-  			  $content  .= '<span class="hour">'.htmlsecure('-> '.$date["hour"].':'.$date["minute"]).'</span> ';
+  			  $content  .= '<span class="hour">'.htmlsecure('-> '.date('H:i',strtotime('+ '.$duree[0].' hours '.$duree[1].' minutes '.$duree[0].' seconds',strtotime($rec["date"])))).'</span> ';
 	  		$content	.= '<span class="evtsite">'.htmlsecure('('.$rec["sitenom"].')').'</span> ';
 		  	$content	.= '<span class="evtnom">'.htmlsecure($rec["nom"]).'</span>';
 			  $content  .= '</span>';
