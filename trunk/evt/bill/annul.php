@@ -87,13 +87,12 @@
 		$groupby = ' pp.id, pp.nom, pp.prenom, pp.titre, pp.orgnom, pp.fcttype, pp.fctdesc,
 		             tarif.key, p.reduc,
 		             evt.nom, evt.id, manif.id, site.nom, manif.date, site.ville, site.cp, colors.libelle';
-		$from    = ' colors, manifestation manif, evenement evt, site,
-                 tarif, reservation_pre p, reservation_cur c, transaction t';
-    $leftj   = ' personne_properso pp ON pp.id = t.personneid AND (pp.fctorgid = t.fctorgid OR pp.fctorgid IS NULL AND t.fctorgid IS NULL)';
+		$from    = ' manifestation manif LEFT JOIN colors ON colors.id = manif.colorid,
+		             evenement evt, site, tarif, reservation_pre p, reservation_cur c,
+		             transaction t LEFT JOIN personne_properso pp ON pp.id = t.personneid AND (pp.fctorgid = t.fctorgid OR pp.fctorgid IS NULL AND t.fctorgid IS NULL)';
     $where   = "     evt.id = manif.evtid
 	               AND manif.id = p.manifid
 	               AND manif.siteid = site.id
-	               AND colors.id = manif.colorid
 	               AND tarif.id = p.tarifid
 	               AND p.transaction = t.id
 	               AND c.resa_preid = p.id
@@ -102,7 +101,6 @@
 	  $orderby = " key, nb, reduc";
 		$query = " SELECT DISTINCT $select
 			         FROM $from
-			         LEFT JOIN $leftj
 	             WHERE $where
 	             GROUP BY $groupby
 	             ORDER BY $orderby";
