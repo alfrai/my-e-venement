@@ -22,6 +22,7 @@
 ?>
 <?php
 	require_once("conf.inc.php");
+	$css[] = 'evt/styles/checklist.css';
 	includeClass("bdRequest/array");
 	includeLib("ttt");
 	includeLib("actions");
@@ -398,6 +399,14 @@ $(document).ready(function(){
 		?></span></p>
 		</div>
 	</div>
+	<?php if ( $config['evt']['ext']['checklist'] ): ?>
+	<div class="checklist jqslide jqhide">
+	  <p class="titre">Checklist</p>
+	  <div class="clip">
+	    <?php includePage('checklist'); ?>
+	  </div>
+	</div>
+	<?php endif; ?>
 	<?php if ( $config["evt"]["ext"]["web"] ) { ?>
 	<div class="web jqslide jqhide">
 		<p class="titre">Infos web</p>

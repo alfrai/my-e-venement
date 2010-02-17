@@ -288,7 +288,7 @@ div.contact p.global { white-space: nowrap; }
 div.organisme p.email input[type=text], div.contact p.email input[type=text] { width: 300px; }
 div.contact, div.organisme,
 #googlemap, div.organismes, div.contacts, div.spectacles,
-div.creation, div.infos, div.manifs, div.children, div.web,
+div.creation, div.infos, div.manifs, div.children, div.web, div.checklist,
 form.salle div.gestion, form.salle div.details,
 div.tel, div.more, form.extractor div p,
 div.recherche {

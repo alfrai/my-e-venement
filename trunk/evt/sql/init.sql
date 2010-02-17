@@ -1048,6 +1048,89 @@ COMMENT ON COLUMN bdc.accountid IS 'account.id';
 
 
 --
+-- Name: checklist; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
+--
+
+CREATE TABLE checklist (
+    id integer NOT NULL,
+    evtid integer NOT NULL,
+    checkpoint character varying(255) NOT NULL,
+    description text,
+    done timestamp with time zone,
+    owner bigint NOT NULL,
+    modifier bigint,
+    doing timestamp with time zone
+);
+
+
+--
+-- Name: TABLE checklist; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON TABLE checklist IS 'permet d''ajouter une liste de tâches à faire pour un événement donné';
+
+
+--
+-- Name: COLUMN checklist.checkpoint; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN checklist.checkpoint IS 'short comment';
+
+
+--
+-- Name: COLUMN checklist.description; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN checklist.description IS 'long comment (may be HTML content)';
+
+
+--
+-- Name: COLUMN checklist.done; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN checklist.done IS 'date of checked state';
+
+
+--
+-- Name: COLUMN checklist.owner; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN checklist.owner IS 'createur';
+
+
+--
+-- Name: COLUMN checklist.modifier; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN checklist.modifier IS 'derniere personne à avoir modifié le checkpoint';
+
+
+--
+-- Name: COLUMN checklist.doing; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN checklist.doing IS 'Someone is responsible of this checkpoint';
+
+
+--
+-- Name: checklist_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
+--
+
+CREATE SEQUENCE checklist_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- Name: checklist_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
+--
+
+ALTER SEQUENCE checklist_id_seq OWNED BY checklist.id;
+
+
+--
 -- Name: color; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
@@ -1631,7 +1714,6 @@ ALTER SEQUENCE manifestation_id_seq OWNED BY manifestation.id;
 --
 
 CREATE SEQUENCE manifestation_tarifs_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1904,7 +1986,6 @@ COMMENT ON COLUMN personne_evtbackup.date IS 'date de la manifestation (ancienne
 --
 
 CREATE SEQUENCE personne_evtbackup_id_seq
-    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1952,13 +2033,6 @@ CREATE TABLE rights (
 
 CREATE VIEW site_datas AS
     ((SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.organisme, public.personne_properso personne WHERE ((organisme.id = site.organisme) AND (personne.id = site.regisseur)) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.personne_properso personne WHERE ((site.organisme IS NULL) AND (personne.id = site.regisseur))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, NULL::unknown AS persid, NULL::unknown AS perstitre, NULL::unknown AS persnom, NULL::unknown AS persprenom, NULL::unknown AS perstel FROM site, public.organisme WHERE ((organisme.id = site.organisme) AND (site.regisseur IS NULL))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgville, NULL::unknown AS persid, NULL::unknown AS perstitre, NULL::unknown AS persnom, NULL::unknown AS persprenom, NULL::unknown AS perstel FROM site WHERE ((site.organisme IS NULL) AND (site.regisseur IS NULL)) ORDER BY 2, 5;
-
-
---
--- Name: VIEW site_datas; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON VIEW site_datas IS 'Affiche toutes les données nécessaire à l''affichage des salles (y compris des données sur le régisseur et l''organisme responsable)';
 
 
 --
@@ -2075,7 +2149,8 @@ CREATE TABLE transaction (
     personneid bigint,
     fctorgid bigint,
     translinked bigint,
-    dematerialized boolean DEFAULT false NOT NULL
+    dematerialized boolean DEFAULT false NOT NULL,
+    blocked boolean DEFAULT false
 );
 
 
@@ -2141,10 +2216,10 @@ CREATE VIEW waitingdepots AS
 
 
 --
--- Name: VIEW waitingdepots; Type: COMMENT; Schema: billeterie; Owner: -
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
-COMMENT ON VIEW waitingdepots IS 'Les dépôts de places / places contingeantées en attente de traitement';
+ALTER TABLE checklist ALTER COLUMN id SET DEFAULT nextval('checklist_id_seq'::regclass);
 
 
 --
@@ -2273,6 +2348,14 @@ ALTER TABLE ONLY bdc
 
 ALTER TABLE ONLY bdc
     ADD CONSTRAINT bdc_transaction_key UNIQUE (transaction);
+
+
+--
+-- Name: checklist_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY checklist
+    ADD CONSTRAINT checklist_pkey PRIMARY KEY (id);
 
 
 --
@@ -2513,6 +2596,30 @@ CREATE TRIGGER manifestation_trigger
 
 ALTER TABLE ONLY bdc
     ADD CONSTRAINT bdc_transaction_fkey FOREIGN KEY (transaction) REFERENCES transaction(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: checklist_evtid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
+--
+
+ALTER TABLE ONLY checklist
+    ADD CONSTRAINT checklist_evtid_fkey FOREIGN KEY (evtid) REFERENCES evenement(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: checklist_modifier_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
+--
+
+ALTER TABLE ONLY checklist
+    ADD CONSTRAINT checklist_modifier_fkey FOREIGN KEY (modifier) REFERENCES public.account(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: checklist_owner_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
+--
+
+ALTER TABLE ONLY checklist
+    ADD CONSTRAINT checklist_owner_fkey FOREIGN KEY (owner) REFERENCES public.account(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --

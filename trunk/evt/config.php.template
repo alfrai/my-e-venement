@@ -44,11 +44,12 @@
   $config['ticket']['seller']['legal']    = 'Coordonnées bancaires ... ... ...';
 
 	$config["evt"]["syndication"]           = true;
-	
-
+  $config['evt']['ext']['checklist']      = false; // active la gestion de checklists pour les evt
+  $config['evt']['ext']['web']            = false; // active la gestion de contenu web pour les evt
+  
 	// les droits sur le module
-	$config["evt"]["right"]["param"]	= 10;		// droit de paramétrer le module
-	$config["evt"]["right"]["mod"]		= 5;		// droit de modifier des données (suppr., ajout, modification)
-	$config["evt"]["right"]["view"]		= 3;		// droit de consulter
+	$config["evt"]["right"]["param"] = 10; // droit de paramétrer le module 
+	$config["evt"]["right"]["mod"] = 5; // droit de modifier des données (suppr., ajout, modification) 
+	$config["evt"]["right"]["view"] = 3; // droit de consulter
 
 ?>

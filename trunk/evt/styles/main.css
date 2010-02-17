@@ -5,6 +5,7 @@ div.clip {
 	overflow: auto;
 	margin-bottom: 10px;
 	padding-bottom: 5px;
+  padding-right: 5px;
 }
 
 /* Calendar */
@@ -82,7 +83,7 @@ form.evt div.creation div.clip p span {
 	display: table-cell;
 	padding: 1px 2px 1px 0px;
 }
-form.evt div.creation, form.evt div.web,
+form.evt div.creation, form.evt div.web, form.evt div.checklist,
 form.salle div.details, form.salle div.gestion {
 	position: absolute;
 	margin-left: 420px;
@@ -102,11 +103,11 @@ form.evt div.creation {
 	margin-top: -312px;
 	max-height: 125px;
 }
-form.evt div.web {
+form.evt div.checklist, form.evt div.web {
 	margin-top: -147px;
 	border: 1px solid blue;
 }
-form.evt div.web .clip {
+form.evt div.web .clip, form.evt div.web .clip {
 	max-height: 385px;
 }
 form.evt div.web .images { height: 50px; }
