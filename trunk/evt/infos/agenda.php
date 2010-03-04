@@ -62,7 +62,7 @@
 		while ( $rec = $request->getRecordNext() )
 		{
 			$time		= strtotime($rec["date"]);
-			$duree = explode(':',$rec['duree']);
+			$duree = explode(':',$rec['duree'] ? $rec['duree'] : '0:0:0');
 			for ( $i = -1 ; strtotime('+ '.$duree[0].' hours '.$duree[1].' minutes '.$duree[2].' seconds',$time) > strtotime('23:59:59 + '.$i.' days',$time) ; $i++ )
 			{
   			$tmp = strtotime('+'.($i+1).' days',$time);
@@ -85,7 +85,7 @@
 			  $cal->setEventContent($date["year"],$date["month"],$date["day"],$content,
 				  		"evt/infos/manif.php?evtid=".intval($rec["evtid"])."&id=".intval($rec["id"])."&view",
 					  	"eventcontent ".$rec["colorname"]);
-			} 
+			}
 		}
 		
 		$request->free();
