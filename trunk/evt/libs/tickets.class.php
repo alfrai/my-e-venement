@@ -96,11 +96,11 @@ class Tickets
 		global $config;
 		
 		$time = strtotime($bill["date"]);
-		$date["big"]  = strtolower($config["dates"]["DOTW"][date("w",$time)]).date(" d ",$time);
+		$date["big"]  = strtolower($config["dates"]["DOTW"][date("w",$time)]).date(" j ",$time);
 		$date["big"] .= strtolower($config["dates"]["MOTY"][intval(date("n",$time))-1]);
 		$date["big"] .= date(" Y / H\hi",$time);
 		
-		$date["ltl"]  = date("d ",$time);
+		$date["ltl"]  = date("j ",$time);
 		$date["ltl"] .= strtolower($config["dates"]["moty"][intval(date("n",$time))-1]);
 		$date["ltl"] .= date(" Y / H\hi",$time);
 
@@ -110,7 +110,7 @@ class Tickets
 	  <div class="logo"><img src="../perso/logo-100x100.jpg" alt="" /></div>
 		<div class="left">';
                 	$this->content .= '
-                	<p class="manifid">#'.htmlsecure($bill["manifid"]).'</p>
+                	<p class="manifid">#'.htmlsecure($bill["manifid"]).'<span class="tariftop">'.htmlsecure($bill["prix"]).'</span></p>
                 	<p class="info '.(isset($bill["depot"]) ? 'depot' : '').' '.(isset($bill["info"]) ? htmlsecure($bill["info"]) : '').'">';
 			if ( isset($bill["info"]) ) $this->content .= htmlsecure($bill["info"]);
 			if ( isset($bill["depot"]) ) $this->content .= htmlsecure($bill["depot"]);
@@ -134,7 +134,7 @@ class Tickets
                 </div>
                 <div class="right">';
                 	$this->content .= '
-                	<p class="manifid">#'.htmlsecure($bill["manifid"]).'</p>';
+                	<p class="manifid">#'.htmlsecure($bill["manifid"]).'<span class="tariftop">'.htmlsecure($bill["prix"]).'</span></p>';
 			if ( isset($bill["info"]) ) $this->content .= '<p class="info '.htmlsecure($bill["info"]).'">'.htmlsecure($bill["info"]).'</p>';
 			if ( isset($bill["depot"]) ) $this->content .= '<p class="depot"></p>';
                 	$this->content .= '

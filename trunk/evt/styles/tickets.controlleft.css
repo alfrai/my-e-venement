@@ -21,8 +21,8 @@
 }
 .right .manifid {
   text-align: right;
-  margin-left: 2mm;
-  margin-right: 2mm;
+  margin-left: 0;
+  margin-right: 0;
   float: left;
 }
 
