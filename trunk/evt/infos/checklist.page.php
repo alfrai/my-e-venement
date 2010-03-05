@@ -62,6 +62,7 @@ if ( $config['evt']['ext']['checklist'] )
           $model['owner'] = $user->getId();
           $model['done']  = $check['done']['value']  == 'yes' ? date('Y-m-d H:i:s') : NULL;
           $model['doing'] = $check['doing']['value'] == 'yes' ? date('Y-m-d H:i:s') : NULL;
+          $model['isfile']  = $check['isfile']['value'] == 'yes' ? 't' : 'f';
           if ( !$bd->addRecord('checklist',$model) )
             $user->addAlert("Impossible d'ajouter le checkpoint ".$check['checkpoint']['value']);
         }
@@ -99,7 +100,7 @@ if ( $config['evt']['ext']['checklist'] )
   }
 ?>
 <?php
-  $query = ' SELECT c.id, c.checkpoint, c.description, c.done, c.doing, o.name AS owner, m.name AS modifier
+  $query = ' SELECT c.id, c.checkpoint, c.description, c.done, c.doing, c.isfile, o.name AS owner, m.name AS modifier
              FROM checklist c
              LEFT JOIN account o ON o.id = c.owner
              LEFT JOIN account m ON m.id = c.modifier
@@ -119,7 +120,11 @@ if ( $config['evt']['ext']['checklist'] )
     ?>
     <li>
       <span class="<?php echo $name = 'checkpoint' ?>" <?php if ( $action == $actions['view'] ) echo 'title="'.htmlsecure($check['description']).'"' ?>>
+        <?php if ( $action == $actions['view'] && $check['isfile'] == 't' ): ?>
+        <a href="file://<?php echo htmlsecure($check[$name]) ?>">link to file</a>
+        <?php else: ?>
         <?php printField('check['.$check['id'].']['.$name.']',$check[$name],null,255); ?>
+        <?php endif; ?>
       </span>
       <span class="<?php echo $name = 'doing' ?>" title="Pris en Charge, date: <?php echo strtotime($check[$name]) > 0 ? htmlsecure(date('d/m/Y H:i',strtotime($check[$name]))) : '' ?>">
         <label for="check[<?php echo $check['id'] ?>][<?php echo $name ?>][value]">PeC</label>
@@ -129,13 +134,21 @@ if ( $config['evt']['ext']['checklist'] )
         <label for="check[<?php echo $check['id'] ?>][<?php echo $name ?>][value]">fait</label>
         <input type="checkbox" name="check[<?php echo $check['id'] ?>][<?php echo $name ?>][value]" value="yes" <?php echo $check[$name] ? 'checked="checked"' : '' ?> />
       </span>
+      <?php if ( $action != $actions['view'] && $check['id'] == 0 ): ?>
+      <span class="<?php echo $name = 'isfile' ?>" title="Ceci est l'adresse d'un fichier ?">
+        <label for="check[<?php echo $check['id'] ?>][<?php echo $name ?>][value]">fichier?</label>
+        <input type="checkbox" name="check[<?php echo $check['id'] ?>][<?php echo $name ?>][value]" value="yes" <?php echo $check[$name] ? 'checked="checked"' : '' ?> />
+      </span>
+      <?php endif; ?>
       <?php if ( $action != $actions['view'] && $check['id'] > 0 ): ?>
       <span class="remove">
         <label for="check[<?php echo $check['id'] ?>][remove][value]">suppr.</label>
         <input type="checkbox" name="check[<?php echo $check['id'] ?>][remove][value]" value="yes" />
       </span>
       <?php endif; ?>
-      <span class="<?php echo $name = 'description' ?>"><span><?php printField('check['.$check['id'].']['.$name.']',$check[$name],null,4,40,true); ?></span></span>
+      <span class="<?php echo $name = 'description' ?>"><span>
+        <?php printField('check['.$check['id'].']['.$name.']',$check[$name],null,4,40,true); ?>
+      </span></span>
       <span class="<?php echo $name = 'owner' ?>">Créateur: <?php echo htmlsecure($check[$name]) ?></span>
       <span class="<?php echo $name = 'modifier' ?>">- Éditeur: <?php echo htmlsecure($check[$name]) ?></span>
     </li>

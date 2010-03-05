@@ -2,7 +2,7 @@
 .checklist .description { display: block; }
 .checklist .checkpoint, .checklist .checkpoint input { font-weight: bold; }
 .checklist .view .checkpoint { display: block; }
-.checklist .view .description span { display: none; }
+.checklist .view .description { border: 1px solid silver; padding: 1px 4px; }
 .checklist .mod .owner, .checklist .mod .modifier { display: none; }
 .checklist .owner, .checklist .modifier { font-size: 80%; }
 .checklist .add, .checklist .submit { margin: 0 0 0 40px; padding: 0; }
