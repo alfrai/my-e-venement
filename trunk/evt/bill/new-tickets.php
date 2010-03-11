@@ -146,6 +146,9 @@
   
   // récup des infos sur les billets
   $select   = 'e.nom, e.petitnom, m.date, m.txtva, m.id AS manifid, e.metaevt,
+               (SELECT nom FROM organisme WHERE e.organisme1 = id) AS organisme1,
+               (SELECT nom FROM organisme WHERE e.organisme2 = id) AS organisme2,
+               (SELECT nom FROM organisme WHERE e.organisme3 = id) AS organisme3,
                s.nom AS sitenom, s.cp, s.ville, s.pays,
                tm.description AS tarif, tm.prix, tm.prixspec,
                r.plnum, r.transaction AS transac';
