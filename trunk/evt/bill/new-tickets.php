@@ -225,6 +225,12 @@
       $rec['orga'][] = $org['nom'];
     $orgs->free();
     $rec['org'] = implode(', ',$rec['orga']);
+    if ( strlen($rec['org']) > 60 )
+    {
+      $rec['orga'][0] = $rec['orga'][1];
+      unset($rec['orga'][1]);
+      $rec['org'] = implode(', ',$rec['orga']);
+    }
     
     $bill = array();
     foreach ( $correspondance as $key => $value )
