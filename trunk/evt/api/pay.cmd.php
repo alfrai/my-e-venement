@@ -62,7 +62,7 @@
                     AND modepaiementid = '.$mode.'
                     AND montant = '.$amount;
       if ( $time > 0 )
-        $where .= " AND date = '".$date."'";
+        $where .= " AND (date >= '".$date."'::timestamp OR date < '".$date."'::timestamp + '1 day'::interval)";
       else
         $where .= ' AND date::date = sysdate::date';
       
@@ -70,6 +70,7 @@
                   FROM paiement
                   WHERE '.$where.'
                   LIMIT 1';
+      echo $query;
       $request = new bdRequest($bd,$query);
       $r = $bd->delRecordsSimple('paiement',array('id' => intval($request->getRecord('id'))));
       $request->free();
