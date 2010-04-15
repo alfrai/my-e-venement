@@ -22,6 +22,8 @@
 ?>
 <?php
 	require("conf.inc.php");
+  if ( !$user->hasRight($config["right"]["devel"]) )
+    $nav->redirect('def/');
 	includeClass("bdRequest");
 	
 	$css[] = 'styles/labels.css';
@@ -38,7 +40,7 @@
 	$texte  = "Définissez les paramètres pour l'impression d'étiquettes.";
 	$fields = array(
     'labels.width'     => array('210','mm'),
-    'labels.height'     => array('297','mm'),
+    'labels.height'    => array('297','mm'),
     'labels.nb-x'      => array('2',''),
     'labels.nb-y'      => array('7',''),
     'labels.top-bottom'=> array('15','mm'),
@@ -49,6 +51,8 @@
     'labels.margin-y'  => array('0','mm'),
     'labels.padding-x' => array('2.5','mm'),
     'labels.padding-y' => array('1.5','mm'),
+    'labels.font-family' => array('verdana','','string'),
+    'labels.font-size' => array('11','px'),
   );
 	
 	$bd->beginTransaction();
@@ -57,7 +61,7 @@
 	  $bd->addOrUpdateRecord(
 	    'options',
 	    array('key' => $key),
-	    array('key' => $key, 'value' => intval($labels[$key])."" == $labels[$key].""  ? $labels[$key] : $value[0])
+	    array('key' => $key, 'value' => intval($labels[$key])."" == $labels[$key]."" || $value[2] == 'string' ? $labels[$key] : $value[0])
 	  );
 	if ( !$bd->getTransactionStatus() )
 	  $user->addAlert("Impossible de mettre à jour vos paramètres d'étiquettes");
@@ -85,7 +89,7 @@
         <span class="value"><input
           type="text"
           name="labels[<?php echo htmlsecure($key) ?>]"
-          value="<?php echo htmlsecure(intval($params[$key]).'' == $params[$key].'' ? $params[$key] : $value[0]) ?>"
+          value="<?php echo htmlsecure(intval($params[$key]).'' == $params[$key].'' || $value[2] == 'string' ? $params[$key] : $value[0]) ?>"
         /><?php echo htmlsecure($value[1]) ?></span>
         <span class="defaults">(default: <?php echo htmlsecure($value[0].$value[1]) ?>)</span>
       </li>

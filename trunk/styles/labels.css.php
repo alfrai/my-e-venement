@@ -40,6 +40,15 @@
     $params[substr($rec['key'],7)] = $rec['value'];
   $request->free();
 ?>
+html body {
+  <?php if ( $opt = $params['font-family'] ): ?>
+  font-family: <?php echo $opt ?>;
+  <?php endif; ?>
+  <?php if ( $opt = $params['font-size'] ): ?>
+  font-size: <?php echo $opt ?>px;
+  <?php endif; ?>
+}
+
 * { padding: 0; margin: 0; }
 body.labels .page .labels {
   margin-top: <?php echo $ptop = floatval($params['top-bottom'])-floatval($params['printer-y']) > 0 ? floatval($params['top-bottom'])-floatval($params['printer-y']) : 0 ?>mm;
