@@ -681,6 +681,7 @@ body.bill.factures span.numfact {
 	padding-right: 10px;
 }
 body.bill.factures a.numop { padding-right: 10px; }
+body.bill.credit ul.contacts li span.facture { color: gray; }
 
 /* Les livres */
 body.livre span.eur { font-weight: bold; }

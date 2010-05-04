@@ -219,8 +219,7 @@
                 WHERE o.id = mo.orgid
                   AND mo.manifid = '.$rec['manifid'];
     $orgs = new bdRequest($bd,$query);
-    $rec['orga'] = array();
-    $rec['orga'][] = $config['ticket']['seller']['nom'];
+    $rec['orga'] = array($config['ticket']['seller']['nom']);
     while ( $org = $orgs->getRecordNext() )
       $rec['orga'][] = $org['nom'];
     $orgs->free();

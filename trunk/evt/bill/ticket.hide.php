@@ -221,12 +221,11 @@
 				$bill["plnum"] = $plnum[$rec['id']]['plname'];
 				
 				// dernière chose à faire sinon erreur !!
-				$bill["orga"]		= array();
+				$bill["orga"]		= array($config['ticket']['seller']['nom']);
 				if ( $tic["organisateur"] ) $bill["orga"][] = $tic["organisateur"];
 				while ( $tic = $ticket->getRecordNext() )
 				if ( $tic["organisateur"] )
 					if ( $tic["organisateur"] ) $bill["orga"][] = $tic["organisateur"];
-				$bill["orga"][] = $config['ticket']['seller']['nom'];
 				
 				$bill["org"]	= implode(" / ",$bill["orga"]);
 				

@@ -31,9 +31,9 @@
 	if ( $_GET["metaevt"] )
 	$metaevt = $_GET["metaevt"];
 	
-	$query	= "SELECT pers.*, transaction, prix AS topay,
+	$query	= "SELECT pers.*, transaction.id AS transaction, facture.id AS show_factureid, prix AS topay,
 			 (SELECT sum(paiement.montant) AS prix FROM paiement WHERE transaction = topay.transaction ".(isset($flashdate) ? "AND date <= '".pg_escape_string($flashdate)."'::date" : "" )." GROUP BY transaction) AS paid
-		   FROM personne_properso AS pers, transaction,
+		   FROM personne_properso AS pers, transaction LEFT JOIN facture ON facture.transaction = transaction.id,
 		   	(SELECT resa.transaction, sum(getprice(resa.manifid, resa.tarifid)::double precision * (- 1::double precision) * (resa.annul::integer * 2 - 1)::double precision) AS prix
 		   	 FROM reservation_cur AS cur, reservation_pre AS resa
 		   	 WHERE NOT cur.canceled
