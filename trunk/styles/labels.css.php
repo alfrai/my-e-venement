@@ -40,7 +40,7 @@
     $params[substr($rec['key'],7)] = $rec['value'];
   $request->free();
 ?>
-html body {
+html body.labels {
   <?php if ( $opt = $params['font-family'] ): ?>
   font-family: <?php echo $opt ?>;
   <?php endif; ?>
