@@ -2,6 +2,7 @@
 -- PostgreSQL database dump
 --
 
+SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = off;
 SET check_function_bodies = false;
@@ -39,6 +40,7 @@ CREATE TYPE resume_tickets AS (
 --
 
 CREATE FUNCTION addpreresa(bigint, bigint, integer, integer, boolean, character varying, integer) RETURNS boolean
+    LANGUAGE plpgsql
     AS $_$
 DECLARE
 account ALIAS FOR $1;
@@ -64,8 +66,7 @@ WHILE nb < ABS(nbloops) LOOP
 END LOOP;
 
 RETURN nb > 0;
-END;$_$
-    LANGUAGE plpgsql;
+END;$_$;
 
 
 --
@@ -73,6 +74,7 @@ END;$_$
 --
 
 CREATE FUNCTION contingeanting(bigint, bigint, bigint, bigint) RETURNS boolean
+    LANGUAGE plpgsql
     AS $_$BEGIN
 PERFORM * FROM contingeant WHERE transaction = $1;
 IF ( FOUND )
@@ -80,8 +82,7 @@ THEN RETURN false;
 ELSE INSERT INTO contingeant (transaction,accountid,personneid,fctorgid) VALUES ($1,$2,$3,$4);
      RETURN true;
 END IF;
-END;$_$
-    LANGUAGE plpgsql;
+END;$_$;
 
 
 --
@@ -102,11 +103,11 @@ $4: fctorgid';
 --
 
 CREATE FUNCTION counttickets(bigint, boolean) RETURNS bigint
+    LANGUAGE sql STABLE STRICT
     AS $_$SELECT count(*) AS RESULT
 FROM reservation_cur AS resa
 WHERE resa.canceled = false
-AND resa_preid = $1;$_$
-    LANGUAGE sql STABLE STRICT;
+AND resa_preid = $1;$_$;
 
 
 --
@@ -121,6 +122,7 @@ COMMENT ON FUNCTION counttickets(bigint, boolean) IS 'Utilisé lors de l''impres
 --
 
 CREATE FUNCTION decontingeanting(bigint, integer, bigint, integer, integer, integer, integer) RETURNS boolean
+    LANGUAGE plpgsql STRICT
     AS $_$DECLARE
 trans ALIAS FOR $1;
 manif ALIAS FOR $2;
@@ -176,8 +178,7 @@ i := i+1;
 
 END LOOP;
 RETURN true;
-END;$_$
-    LANGUAGE plpgsql STRICT;
+END;$_$;
 
 
 --
@@ -200,11 +201,11 @@ $7: quantity';
 --
 
 CREATE FUNCTION deftva(integer) RETURNS numeric
+    LANGUAGE sql STABLE STRICT
     AS $_$SELECT evtcat.txtva AS RETURN
 FROM evenement AS evt, evt_categorie AS evtcat
 WHERE evt.id = $1
-AND evtcat.id = evt.categorie$_$
-    LANGUAGE sql STABLE STRICT;
+AND evtcat.id = evt.categorie$_$;
 
 
 --
@@ -212,6 +213,7 @@ AND evtcat.id = evt.categorie$_$
 --
 
 CREATE FUNCTION firstresa(integer) RETURNS timestamp with time zone
+    LANGUAGE plpgsql STABLE STRICT SECURITY DEFINER
     AS $_$DECLARE
     resa RECORD;
 BEGIN
@@ -225,8 +227,7 @@ ELSE RETURN resa.min;
 END IF;
 END LOOP;
 RETURN NULL;
-END;$_$
-    LANGUAGE plpgsql STABLE STRICT SECURITY DEFINER;
+END;$_$;
 
 
 --
@@ -242,6 +243,7 @@ $1: manifid';
 --
 
 CREATE FUNCTION firstresa(integer, character varying) RETURNS timestamp with time zone
+    LANGUAGE plpgsql STABLE STRICT
     AS $_$DECLARE
     resa RECORD;
     mid  ALIAS FOR $1;
@@ -258,8 +260,7 @@ LOOP
 END LOOP;
 RETURN NULL;
 
-END;$_$
-    LANGUAGE plpgsql STABLE STRICT;
+END;$_$;
 
 
 --
@@ -276,6 +277,7 @@ $2: tarif.key';
 --
 
 CREATE FUNCTION get_second_if_not_null(numeric, numeric) RETURNS numeric
+    LANGUAGE plpgsql STABLE
     AS $_$BEGIN
 
 IF ( $2 IS NOT NULL )
@@ -283,8 +285,7 @@ THEN RETURN $2;
 ELSE RETURN $1;
 END IF;
 
-END;$_$
-    LANGUAGE plpgsql STABLE;
+END;$_$;
 
 
 --
@@ -301,11 +302,11 @@ Retourne la premiere sinon
 --
 
 CREATE FUNCTION get_tarifid(integer, character varying) RETURNS integer
+    LANGUAGE sql STABLE STRICT
     AS $_$SELECT id AS result
 FROM tarif_manif
 WHERE manifid = $1
-  AND key = $2$_$
-    LANGUAGE sql STABLE STRICT;
+  AND key = $2$_$;
 
 
 --
@@ -322,8 +323,8 @@ $2: tarif.key';
 --
 
 CREATE FUNCTION get_tarifid_contingeant(integer) RETURNS integer
-    AS $$SELECT id AS result FROM tarif WHERE contingeant ORDER BY date DESC LIMIT 1;$$
-    LANGUAGE sql STABLE STRICT;
+    LANGUAGE sql STABLE STRICT
+    AS $$SELECT id AS result FROM tarif WHERE contingeant ORDER BY date DESC LIMIT 1;$$;
 
 
 --
@@ -338,6 +339,7 @@ COMMENT ON FUNCTION get_tarifid_contingeant(integer) IS 'Retourne l''id du derni
 --
 
 CREATE FUNCTION getprice(integer, character varying) RETURNS numeric
+    LANGUAGE plpgsql STABLE STRICT
     AS $_$DECLARE
     buf NUMERIC;
 BEGIN
@@ -354,8 +356,7 @@ BEGIN
     		FROM tarif
     		WHERE id = get_tarifid($1,$2));
     RETURN buf;
-END;$_$
-    LANGUAGE plpgsql STABLE STRICT;
+END;$_$;
 
 
 --
@@ -372,6 +373,7 @@ $2: tarif.key';
 --
 
 CREATE FUNCTION getprice(integer, integer) RETURNS numeric
+    LANGUAGE plpgsql STABLE STRICT
     AS $_$DECLARE
     buf NUMERIC;
 BEGIN
@@ -383,8 +385,7 @@ BEGIN
     
     buf := (SELECT prix FROM tarif WHERE id = $2);
     RETURN buf;
-END;$_$
-    LANGUAGE plpgsql STABLE STRICT;
+END;$_$;
 
 
 --
@@ -401,10 +402,10 @@ $2: tarif.id';
 --
 
 CREATE FUNCTION is_plnum_valid(integer, integer) RETURNS boolean
+    LANGUAGE sql STABLE STRICT
     AS $_$SELECT siteid IN (SELECT siteid FROM manifestation WHERE id = $1 AND plnum)
 FROM site_plnum
-WHERE id = $2;$_$
-    LANGUAGE sql STABLE STRICT;
+WHERE id = $2;$_$;
 
 
 --
@@ -422,10 +423,10 @@ $2: plnum';
 --
 
 CREATE FUNCTION is_tarif_valid(integer, integer) RETURNS boolean
+    LANGUAGE sql STABLE STRICT
     AS $_$
 SELECT firstresa($1, tarif."key") >= date FROM tarif WHERE id = $2;
-$_$
-    LANGUAGE sql STABLE STRICT;
+$_$;
 
 
 --
@@ -442,13 +443,13 @@ $2: tarifid';
 --
 
 CREATE FUNCTION manif_update() RETURNS trigger
+    LANGUAGE plpgsql
     AS $$
    BEGIN
       NEW.updated = NOW();
       RETURN NEW;
    END;
-  $$
-    LANGUAGE plpgsql;
+  $$;
 
 
 --
@@ -456,6 +457,7 @@ CREATE FUNCTION manif_update() RETURNS trigger
 --
 
 CREATE FUNCTION onlyonevalidticket(bigint, boolean) RETURNS boolean
+    LANGUAGE plpgsql STABLE STRICT
     AS $_$DECLARE
 ret boolean;
 BEGIN
@@ -464,8 +466,7 @@ IF $2 = true THEN RETURN true;
 ELSE RETURN counttickets($1,$2) <= 0;
 END IF;
 
-END;$_$
-    LANGUAGE plpgsql STABLE STRICT;
+END;$_$;
 
 
 --
@@ -473,6 +474,7 @@ END;$_$
 --
 
 CREATE FUNCTION ticket_num(bigint, integer, character varying) RETURNS bigint
+    LANGUAGE sql STABLE STRICT
     AS $_$SELECT zeroifnull(max(ticketid)::bigint)+1 AS RESULT 
 FROM reservation_pre, reservation_cur, tarif
 WHERE tarif.id = tarifid
@@ -480,8 +482,7 @@ WHERE tarif.id = tarifid
   AND tarif.key = $3
   AND reservation_pre.manifid = $1
   AND reservation_pre.reduc = $2
-  AND reservation_cur.canceled = false;$_$
-    LANGUAGE sql STABLE STRICT;
+  AND reservation_cur.canceled = false;$_$;
 
 
 --
@@ -499,6 +500,7 @@ $3: la clé du tarif choisi';
 --
 
 CREATE FUNCTION toomanyannul(integer, boolean) RETURNS boolean
+    LANGUAGE plpgsql
     AS $_$
 DECLARE
   manif ALIAS FOR $1;
@@ -514,8 +516,7 @@ THEN
     AND printed = true;
 END IF;
 RETURN result;
-END;$_$
-    LANGUAGE plpgsql;
+END;$_$;
 
 
 SET default_tablespace = '';
@@ -724,6 +725,7 @@ COMMENT ON COLUMN reservation_cur.canceled IS 'true si le ticket a été annulé
 --
 
 CREATE SEQUENCE reservation_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -915,6 +917,7 @@ COMMENT ON VIEW resumetickets2print IS 'regrouppement de tickets à montrer (en 
 --
 
 CREATE FUNCTION tickets2print_bymanif(integer) RETURNS SETOF resumetickets2print
+    LANGUAGE plpgsql STRICT
     AS $_$DECLARE
     tickets resumetickets2print;
 BEGIN
@@ -927,8 +930,7 @@ BEGIN
 
     LOOP RETURN NEXT tickets; END LOOP;
     RETURN;
-END;$_$
-    LANGUAGE plpgsql STRICT;
+END;$_$;
 
 
 --
@@ -943,6 +945,7 @@ COMMENT ON FUNCTION tickets2print_bymanif(integer) IS 'Retourne les billets impr
 --
 
 CREATE FUNCTION tickets2print_bytransac(bigint) RETURNS SETOF resumetickets2print
+    LANGUAGE plpgsql STRICT
     AS $_$DECLARE
         tickets resume_tickets;
         BEGIN
@@ -955,8 +958,7 @@ CREATE FUNCTION tickets2print_bytransac(bigint) RETURNS SETOF resumetickets2prin
                     
                         LOOP RETURN NEXT tickets; END LOOP;
                             RETURN;
-                            END;$_$
-    LANGUAGE plpgsql STRICT;
+                            END;$_$;
 
 
 --
@@ -1004,6 +1006,7 @@ COMMENT ON COLUMN preselled.accountid IS 'account.id';
 --
 
 CREATE SEQUENCE preselled_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1048,89 +1051,6 @@ COMMENT ON COLUMN bdc.accountid IS 'account.id';
 
 
 --
--- Name: checklist; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
---
-
-CREATE TABLE checklist (
-    id integer NOT NULL,
-    evtid integer NOT NULL,
-    checkpoint character varying(255) NOT NULL,
-    description text,
-    done timestamp with time zone,
-    owner bigint NOT NULL,
-    modifier bigint,
-    doing timestamp with time zone
-);
-
-
---
--- Name: TABLE checklist; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON TABLE checklist IS 'permet d''ajouter une liste de tâches à faire pour un événement donné';
-
-
---
--- Name: COLUMN checklist.checkpoint; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.checkpoint IS 'short comment';
-
-
---
--- Name: COLUMN checklist.description; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.description IS 'long comment (may be HTML content)';
-
-
---
--- Name: COLUMN checklist.done; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.done IS 'date of checked state';
-
-
---
--- Name: COLUMN checklist.owner; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.owner IS 'createur';
-
-
---
--- Name: COLUMN checklist.modifier; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.modifier IS 'derniere personne à avoir modifié le checkpoint';
-
-
---
--- Name: COLUMN checklist.doing; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.doing IS 'Someone is responsible of this checkpoint';
-
-
---
--- Name: checklist_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
---
-
-CREATE SEQUENCE checklist_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Name: checklist_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
---
-
-ALTER SEQUENCE checklist_id_seq OWNED BY checklist.id;
-
-
---
 -- Name: color; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
@@ -1160,6 +1080,7 @@ COMMENT ON COLUMN color.color IS 'Valeur RGB de type HTML de la couleur correspo
 --
 
 CREATE SEQUENCE color_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1417,6 +1338,7 @@ COMMENT ON VIEW evenement_categorie IS 'Liste des organismes avec leur catégori
 --
 
 CREATE SEQUENCE evenement_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1435,6 +1357,7 @@ ALTER SEQUENCE evenement_id_seq OWNED BY evenement.id;
 --
 
 CREATE SEQUENCE evt_categorie_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1500,6 +1423,7 @@ COMMENT ON COLUMN facture.accountid IS 'account.id';
 --
 
 CREATE SEQUENCE facture_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1696,6 +1620,7 @@ COMMENT ON COLUMN manif_organisation.manifid IS 'manifestation.id';
 --
 
 CREATE SEQUENCE manifestation_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1714,6 +1639,7 @@ ALTER SEQUENCE manifestation_id_seq OWNED BY manifestation.id;
 --
 
 CREATE SEQUENCE manifestation_tarifs_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1831,6 +1757,7 @@ COMMENT ON COLUMN modepaiement.numcompte IS 'numéro de compte comptable corresp
 --
 
 CREATE SEQUENCE modepaiement_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1920,6 +1847,7 @@ COMMENT ON VIEW paid IS 'Regroupe les transactions et les paiements liés';
 --
 
 CREATE SEQUENCE paiement_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1986,6 +1914,7 @@ COMMENT ON COLUMN personne_evtbackup.date IS 'date de la manifestation (ancienne
 --
 
 CREATE SEQUENCE personne_evtbackup_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -2004,6 +1933,7 @@ ALTER SEQUENCE personne_evtbackup_id_seq OWNED BY personne_evtbackup.id;
 --
 
 CREATE SEQUENCE reservation_cur_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -2040,6 +1970,7 @@ CREATE VIEW site_datas AS
 --
 
 CREATE SEQUENCE site_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -2093,6 +2024,7 @@ ALTER SEQUENCE site_plnum_id_seq OWNED BY site_plnum.id;
 --
 
 CREATE SEQUENCE tarif_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -2194,6 +2126,7 @@ COMMENT ON COLUMN transaction.translinked IS 'La transaction courante est issue 
 --
 
 CREATE SEQUENCE transaction_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -2213,13 +2146,6 @@ ALTER SEQUENCE transaction_id_seq OWNED BY transaction.id;
 
 CREATE VIEW waitingdepots AS
     SELECT DISTINCT contingeant.transaction, contingeant.closed, contingeant.date, personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, personne.orgid, personne.orgnom, personne.orgcat, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.orgemail, personne.orgurl, personne.orgdesc, personne.service, personne.fctorgid, personne.fctid, personne.fcttype, personne.fctdesc, personne.proemail, personne.protel, personne.orgcatdesc, account.name, (SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre.transaction = transaction.id) AND (NOT reservation_pre.annul))) AS total, (SELECT count(*) AS count FROM reservation_pre, tarif WHERE ((((reservation_pre.transaction = transaction.id) AND (reservation_pre.tarifid = tarif.id)) AND tarif.contingeant) AND (NOT reservation_pre.annul))) AS cont, (SELECT sum(masstickets.nb) AS nb FROM masstickets WHERE (masstickets.transaction = transaction.id)) AS masstick FROM public.personne_properso personne, contingeant, public.account, transaction WHERE ((((((personne.fctorgid = contingeant.fctorgid) OR ((personne.fctorgid IS NULL) AND (contingeant.fctorgid IS NULL))) AND (personne.id = contingeant.personneid)) AND (account.id = contingeant.accountid)) AND (transaction.id = contingeant.transaction)) AND ((SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre.transaction = transaction.id) AND (NOT reservation_pre.annul))) > 0)) ORDER BY contingeant.transaction DESC, personne.nom, personne.prenom, personne.orgnom, personne.id, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.titre, personne.orgid, personne.orgcat, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.orgemail, personne.orgurl, personne.orgdesc, personne.service, personne.fctorgid, personne.fctid, personne.fcttype, personne.fctdesc, personne.proemail, personne.protel, personne.orgcatdesc, account.name, (SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre.transaction = transaction.id) AND (NOT reservation_pre.annul))), (SELECT count(*) AS count FROM reservation_pre, tarif WHERE ((((reservation_pre.transaction = transaction.id) AND (reservation_pre.tarifid = tarif.id)) AND tarif.contingeant) AND (NOT reservation_pre.annul))), (SELECT sum(masstickets.nb) AS nb FROM masstickets WHERE (masstickets.transaction = transaction.id)), contingeant.closed, contingeant.date;
-
-
---
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
---
-
-ALTER TABLE checklist ALTER COLUMN id SET DEFAULT nextval('checklist_id_seq'::regclass);
 
 
 --
@@ -2348,14 +2274,6 @@ ALTER TABLE ONLY bdc
 
 ALTER TABLE ONLY bdc
     ADD CONSTRAINT bdc_transaction_key UNIQUE (transaction);
-
-
---
--- Name: checklist_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY checklist
-    ADD CONSTRAINT checklist_pkey PRIMARY KEY (id);
 
 
 --
@@ -2596,30 +2514,6 @@ CREATE TRIGGER manifestation_trigger
 
 ALTER TABLE ONLY bdc
     ADD CONSTRAINT bdc_transaction_fkey FOREIGN KEY (transaction) REFERENCES transaction(id) ON UPDATE CASCADE ON DELETE RESTRICT;
-
-
---
--- Name: checklist_evtid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
---
-
-ALTER TABLE ONLY checklist
-    ADD CONSTRAINT checklist_evtid_fkey FOREIGN KEY (evtid) REFERENCES evenement(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: checklist_modifier_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
---
-
-ALTER TABLE ONLY checklist
-    ADD CONSTRAINT checklist_modifier_fkey FOREIGN KEY (modifier) REFERENCES public.account(id) ON UPDATE CASCADE ON DELETE RESTRICT;
-
-
---
--- Name: checklist_owner_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
---
-
-ALTER TABLE ONLY checklist
-    ADD CONSTRAINT checklist_owner_fkey FOREIGN KEY (owner) REFERENCES public.account(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
