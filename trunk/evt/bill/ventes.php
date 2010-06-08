@@ -251,6 +251,23 @@
 					echo implode(", ",$tmp);
 				?>)
 			</li>
+			<li>
+			  Synthèse:
+				<span class="eur"><?php echo round($total["totaux"]["gains"]-$total["totaux"]["pertes"],2) ?>€</span> HT
+				(<?php
+					$tmp = array();
+					$buf = 0;
+					foreach ( $total["tottva"] as $key => $value )
+					{
+						$buf += $value['gains']-$value["pertes"];
+						$r  = "TVA à ".round($key,2).'%: ';
+						$r .= '<span class="eur">'.round($value['gains']-$value["pertes"],2).'€</span>';
+						$tmp[] = $r;
+					}
+					$tmp[] = 'soit un total de <span class="eur">'.round($total['totaux']['gains']-$total["totaux"]["pertes"]+$buf,2).'€</span> TTC';
+					echo implode(", ",$tmp);
+				?>)
+			</li>
 		</ul>
 	</div>
 </div>
