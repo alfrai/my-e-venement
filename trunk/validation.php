@@ -58,5 +58,5 @@
 		unset($_SESSION["code"]);
 	
 	$bd->free();
-	$nav->redirect($_GET["url"] != "" ? $_GET["url"] : $config["website"]["root"]);
+	$nav->redirect($_GET["url"] ? $_GET["url"] : $config["website"]["root"].''.$user->getDirectUri());
 ?>

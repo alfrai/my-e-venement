@@ -40,6 +40,7 @@
 	$default["description"] = "-Description-";
 	$default["password"] = "-xxxxxx-";
 	$default["email"] = "-ilene@dom.tld-";
+	$default["direct_uri"] = "-evt/bill/new-bill.php-";
 	
 	includeLib("headers");
 
@@ -166,8 +167,12 @@
 					echo '<span onclick="javascript: ttt_spanCheckBox(this.getElementsByTagName('."'input'".').item(0))" class="onclick"><input onclick="javascript: ttt_spanCheckBox(this)" type="radio" name="field['.intval($rec["id"]).'][sendemail][value]" value="f" checked="checked" /> non</span>';
 					echo '</li>';
 				}
-				echo '<li class="level">Niveau de droits<sup>*</sup>&nbsp;: ';
+				echo '<li class="level">Niveau de droits<sup>*</sup>: ';
 				printField("field[".intval($rec["id"])."][".($name = "level")."]",intval($rec[$name]),0,24,5,false,NULL,NULL,true,intval($rec["level"]) > $user->getLevel() ? 'disabled="disabled"' : NULL);
+				echo '</li>';
+				
+				echo '<li class="uri">Direct URI: ';
+				printField("field[".intval($rec["id"])."][".($name = "direct_uri")."]",htmlsecure($rec[$name]),$default[$name],255,25);
 				echo '</li>';
 			echo '</ul>';
 			echo '</li>';
