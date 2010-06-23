@@ -62,6 +62,7 @@
 	$config['evt']['right']['param']	= 10;		// droit de paramétrer le module
 	$config['evt']['right']['unblock']= 8;		// droit de débloquer des opérations
 	$config['evt']['right']['mod']		= 5;		// droit de modifier des données (suppr., ajout, modification)
+	$config['evt']['right']['simple'] = 4;    // opérateur basique, vue simplifiée
 	$config['evt']['right']['view']		= 3;		// droit de consulter
 
 	@include(dirname(__FILE__).'/config.php');

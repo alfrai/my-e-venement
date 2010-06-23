@@ -22,7 +22,7 @@
 ?>
 <?php
 	global $config;
-	$mod = ( $user->evtlevel >= $config["evt"]["right"]["mod"] );
+	$mod = ( $user->evtlevel > $config["evt"]["right"]["view"] );
 ?>
 <p class="actions">
 <?php
@@ -42,9 +42,12 @@
 	if ( $config["ticket"]["dematerialized"] && $mod )
 	echo '<a href="'.($href = "evt/bill/infotick.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").'  annul">Infoticks</a>';
 	
+	// to simplify the operators' work
+	if ( $evtlevel > $config["evt"]["right"]["simple"] ):
+	
 	if ( $mod ) echo '<a href="'.($href = "evt/bill/depot.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active " : "").' depot">Dépôt</a>';
-	if ( $mod ) echo '<a href="'.($href = "evt/bill/vdir.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' ventedir">Ventes</a>';
-	echo '<a href="'.($href = "evt/bill/waitingdep.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' attente">En cours</a>';
+  if ( $mod ) echo '<a href="'.($href = "evt/bill/vdir.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' ventedir">Ventes</a>';
+  echo '<a href="'.($href = "evt/bill/waitingdep.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' attente">En cours</a>';
 	
 	echo '<a href="'.($href = "evt/bill/queries.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' queries">Demandes</a>';
 	echo '<a href="'.($href = "evt/bill/waitingbdc.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' bdc">BdC</a>';
@@ -56,5 +59,7 @@
 	echo '<a href="'.($href = "evt/bill/caisse.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' caisse">Caisse</a>';
 	
 	echo '<a href="evt/" class="parent">..</a>';
+	
+	endif;
 ?>
 </p>

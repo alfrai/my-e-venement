@@ -34,7 +34,7 @@
     includeJS('cat-tarifs','evt');
   }
   
-  if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
+  if ( $user->evtlevel <= $config["evt"]["right"]["view"] )
   {
     $user->addAlert($msg = "Vous n'avez pas un niveau de droits suffisant pour accéder à cette fonctionnalité");
     $nav->redirect($config["website"]["base"]."evt/bill/",$msg);

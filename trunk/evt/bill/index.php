@@ -46,7 +46,12 @@
 </script>
 <?php endif; ?>
 <h1><?php echo $title ?></h1>
-<?php includeLib("tree-view"); ?>
+<?php
+  if ( $user->evtlevel != $config["evt"]["right"]["simple"] )
+    includeLib("tree-view");
+  else
+    includePage("tree-view-mini");
+?>
 <?php require("actions.php"); ?>
 <div class="body">
 <h2>La billetterie</h2>
