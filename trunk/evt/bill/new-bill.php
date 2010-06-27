@@ -70,8 +70,6 @@
     }
   }
   
-  includeLib('headers');
-  
   // respawning of an anciant transaction
   if ( $transac > 0 )
   {
@@ -339,8 +337,6 @@ $(document).ready(function() {
     </p>
   </div>
   
-  <div id="bill-verify"><p><input type="submit" name="verify" value="vérifier et valider"/></p></div>
-  
   <div id="bill-paiement">
     <button id="pay" name="letsgo" value="">Payer</button>
     <p class="total">À payer&nbsp;: <span></span>€</p>
@@ -360,6 +356,8 @@ $(document).ready(function() {
       </li>
     </ul>
   </div>
+  
+  <div id="bill-verify"><p><input type="submit" name="verify" value="vérifier et valider"/></p></div>
 </form>
 <div id="warning">MESSAGE D'ALERTE</div>
 

@@ -47,10 +47,7 @@
 <?php endif; ?>
 <h1><?php echo $title ?></h1>
 <?php
-  if ( $user->evtlevel != $config["evt"]["right"]["simple"] )
     includeLib("tree-view");
-  else
-    includePage("tree-view-mini");
 ?>
 <?php require("actions.php"); ?>
 <div class="body">

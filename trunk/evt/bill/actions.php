@@ -43,7 +43,7 @@
 	echo '<a href="'.($href = "evt/bill/infotick.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").'  annul">Infoticks</a>';
 	
 	// to simplify the operators' work
-	if ( $evtlevel > $config["evt"]["right"]["simple"] ):
+	if ( $user->evtlevel > $config["evt"]["right"]["simple"] ):
 	
 	if ( $mod ) echo '<a href="'.($href = "evt/bill/depot.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active " : "").' depot">Dépôt</a>';
   if ( $mod ) echo '<a href="'.($href = "evt/bill/vdir.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' ventedir">Ventes</a>';
