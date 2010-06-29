@@ -23,12 +23,13 @@
 <?php
 class Tickets
 {
-  var $content, $group;
+  var $content, $group, $vertical;
   var $count = 0;
   
-  function Tickets($group = false)
+  function Tickets($group = false, $vertical = false)
   {
     $this->group = $group;
+    $this->vertical = $vertical;
     $this->content = "";
   }
   
@@ -92,18 +93,34 @@ class Tickets
 	
 	function addToContent($bill)
 	{
-	  $this->count++;
 		global $config;
+	  $this->count++;
 		
-		$time = strtotime($bill["date"]);
-		$date["big"]  = strtolower($config["dates"]["DOTW"][date("w",$time)]).date(" j ",$time);
-		$date["big"] .= strtolower($config["dates"]["MOTY"][intval(date("n",$time))-1]);
-		$date["big"] .= date(" Y / H\hi",$time);
-		
-		$date["ltl"]  = date("j ",$time);
-		$date["ltl"] .= strtolower($config["dates"]["moty"][intval(date("n",$time))-1]);
-		$date["ltl"] .= date(" Y / H\hi",$time);
-
+		$dates = array('ltl' => array(), 'big' => array());
+		$date = '';
+		$last = strtotime($bill['date'][0]);
+		if ( count($bill['date']) > 1 )
+		foreach ( $bill['date'] as $key => $time )
+		{
+		  $time = strtotime($time);
+		  if ( date('m',$last) != date('m',$time) )
+  		  $dates['big'][count($dates['big'])-1] = date('d.m',$last);
+  		$dates["big"][]  = date($key == count($bill['date'])-1 ? 'd.m.y' : 'd',$time);
+      $dates["ltl"][]  = date($key == count($bill['date'])-1 ? 'd.m'   : 'd',$time);
+      $last = $time;
+    }
+    else
+    {
+      $time = strtotime($bill['date'][0]);
+  		$dates["big"][0]  = strtolower($config["dates"]["DOTW"][date("w",$time)]).date(" j ",$time);
+    	$dates["big"][0] .= strtolower($config["dates"]["MOTY"][intval(date("n",$time))-1]);
+	    $dates["big"][0] .= date(" Y / H\hi",$time);
+	    
+	    $dates["ltl"][0]  = date("j ",$time);
+	    $dates["ltl"][0] .= strtolower($config["dates"]["moty"][intval(date("n",$time))-1]);
+	    $dates["ltl"][0] .= date(" Y / H\hi",$time);
+	  }
+    $date = array('ltl' => implode(',',$dates['ltl']), 'big' => implode(', ',$dates['big']));
 		$this->content .= '
 <div class="page">
 	<div class="ticket">

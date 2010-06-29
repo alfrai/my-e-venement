@@ -47,7 +47,7 @@
 <?php endif; ?>
 <h1><?php echo $title ?></h1>
 <?php
-    includeLib("tree-view");
+  includeLib("tree-view");
 ?>
 <?php require("actions.php"); ?>
 <div class="body">

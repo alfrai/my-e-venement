@@ -107,6 +107,7 @@
 		<sup>*</sup> ici les droits valent&nbsp;:
 		<ul>
 			<li><?php echo intval($config["evt"]["right"]["view"]) ?> - Consultation simple (est donné d'office à tous les administrateurs généraux)</li>
+			<li><?php echo intval($config["evt"]["right"]["simple"]) ?> - Ajout/modification/suppression, accès minimaliste</li>
 			<li><?php echo intval($config["evt"]["right"]["mod"]) ?> - Ajout/modification/suppression</li>
 			<li><?php echo intval($config["evt"]["right"]["unblock"]) ?> - Possibilité de débloquer des opérations de billetterie</li>
 			<li><?php echo intval($config["evt"]["right"]["param"]) ?> - Paramétrage du module, pas de prise en compte des opérations bloquées</li>

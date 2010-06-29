@@ -48,6 +48,7 @@
 	  * n'engage que ses utilisateurs finaux !!
 	  **/
 	$config["ticket"]["enable_group"]	= false;
+	$config['ticket']['enable_vertical'] = false;
 	
 	/**
 	  * compte tenu de l'article 290 quater du CGI mis à jour le 31/12/2006
@@ -56,7 +57,7 @@
 	  * cet aspect dans e-venement.
 	  *
 	  **/
-	$config["ticket"]["dematerialized"]	= true;
+	$config["ticket"]["dematerialized"]	= false;
 	
 	// les droits sur le module
 	$config['evt']['right']['param']	= 10;		// droit de paramétrer le module

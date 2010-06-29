@@ -622,7 +622,15 @@ $(document).ready(function(){
         
         // the print the warnings
         if ( w == '' )
-          $('form').unbind().submit();
+        {
+          if ( prix - paid.db < 0 )
+          {
+            if ( confirm("Vous avez encore de la monnaie à rendre... Êtes-vous sûr(e) de vouloir continuer ?") )
+              $('form').unbind().submit();
+          }
+          else
+            $('form').unbind().submit();
+        }
         else
           warning(w);
       },

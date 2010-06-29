@@ -79,10 +79,11 @@
     }
   }
   
-  $group = isset($_GET['group']);
-  $tarif = isset($_GET['tarif']) ? $_GET['tarif'] : false;
-  $manifid = intval($_GET['manifid']) ? $_GET['manifid'] : false;
-  $salt = $_GET['salt'] && $config['print']['hard'] ? $_GET['salt'] : false;
+  $group    = isset($_GET['group']) && $config['ticket']['enable_group'];
+  $vertical = $config['ticket']['enable_vertical'];
+  $tarif    = isset($_GET['tarif']) ? $_GET['tarif'] : false;
+  $manifid  = intval($_GET['manifid']) ? $_GET['manifid'] : false;
+  $salt     = $_GET['salt'] && $config['print']['hard'] ? $_GET['salt'] : false;
   
   function verif_transaction()
   {
@@ -167,7 +168,7 @@
                 AND r.id NOT IN ( SELECT resa_preid FROM reservation_cur WHERE NOT canceled )
                 '.($tarif ? "AND tm.key ILIKE '".pg_escape_string($tarif)."'" : '').'
                 '.($manifid ? 'AND r.manifid = '.$manifid : '');
-  $orderby  = ' e.nom, m.date, s.ville, s.nom, tm.prix';
+  $orderby  = !$vertical ? ' e.nom, m.date, s.nom, s.ville, tm.prix' : ' e.nom, tm.prix, m.date, s.nom, s.ville';
   $from = 'manifestation m, reservation_pre r, evenement e, site s, tarif_manif tm';
   $query  = ' SELECT '.$select.'
                      '.($group ? $selectnb : '').'
@@ -181,7 +182,6 @@
   
   $correspondance = array(
     'date'      => 'date',
-    'manifid'   => 'manifid',
     'metaevt'   => 'metaevt',
     'sitenom'   => 'sitenom',
     'prix'      => 'prix',
@@ -194,10 +194,12 @@
     'num'       => 'transac',
     'operateur' => 'userid',
     'nbgroup'   => 'nb',
+    'manifid'   => 'manifid',
   );
   
-  $tickets = new Tickets($group);
+  $tickets = new Tickets($group, $vertical);
   
+  $last_bill = $bill = array();
   while ( $rec = $request->getRecordNext() )
   {
     $rec['prix']        = round($rec['prixspec'] ? $rec['prixspec'] : $rec['prix'],2);
@@ -238,9 +240,30 @@
       $bill['info']        = 'duplicata';
     if ( $annulation )
       $bill['info']        = 'annulation';
+    $bill['date'] = array($bill['date']);
     
-    $tickets->addToContent($bill);
+    $arr = array('last' => $last_bill, 'new' => $bill);
+    unset($arr['last']['date']);
+    unset($arr['new'] ['date']);
+    unset($arr['last']['manifid']);
+    unset($arr['new'] ['manifid']);
+    
+    if ( $vertical && $arr['last'] == $arr['new'] )
+    {
+      $last_bill['date'] = array_merge($last_bill['date'],$bill['date']);
+      $last_bill['manifid'] = $bill['manifid'];
+    }
+    else
+    {
+      if ( $last_bill !== array() )
+        $tickets->addToContent($last_bill);
+      $last_bill = $bill;
+    }
   }
+    
+  // finishing printing tickets
+  if ( $last_bill )
+    $tickets->addToContent($last_bill);
   
   $request->free();
   
