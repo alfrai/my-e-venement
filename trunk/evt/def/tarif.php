@@ -60,6 +60,7 @@
 		  $arr[$name = "description"] = trim($new[$name]) ? trim($new[$name]) : NULL;
 		  $arr[$name = "key"] = strtoupper(trim(substr($new[$name],0,5)));
 		  $arr[$name = "contingeant"] = $new[$name] == 'yes' ? "t" : "f";
+		  $arr[$name = "pass"] = $new[$name] == 'yes' ? "t" : "f";
 		  $arr[$name = "prix"] = $arr["contingeant"] == "t" ? 0 : floatval($new[$name]);
 		
 		  $msg = "La nouvelle entrée n'a pu être enregistrée";
@@ -96,6 +97,7 @@
 	echo '<span class="desc">Description</span>';
 	echo '<span class="prix">Prix<sup>*</sup></span>';
 	echo '<span class="cont">Cont.</span>';
+	echo '<span class="pass">Pass</span>';
 	echo '<span class="date">Date de valeur</span>';
 	echo '</li>';
 	
@@ -106,6 +108,7 @@
 	echo '<span class="desc"><input type="text" value="" name="new[description]" /></span>';
 	echo '<span class="prix"><input type="text" value="" name="new[prix]" /> €</span>';
 	echo '<span class="cont"><input type="checkbox" name="new[contingeant]" value="yes"/></span>';
+	echo '<span class="pass"><input type="checkbox" name="new[pass]" value="yes"/></span>';
 	echo '<span class="date"></span>';
 	echo '</li>';
 	
@@ -122,6 +125,7 @@
 		echo '<span class="desc">'.htmlsecure($rec["description"]).'</span>';
 		echo '<span class="prix">'.floatval($rec["prix"]).' €</span>';
 		echo '<span class="cont">'.($rec["contingeant"] == 't' ? 'x' : '-').'</span>';
+		echo '<span class="pass">'.($rec["pass"] == 't' ? 'x' : '-').'</span>';
 		echo '<span class="date">'.htmlsecure($rec["date"]).'</span>';
 		echo '</li>';
 	}

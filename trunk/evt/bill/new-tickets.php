@@ -151,25 +151,26 @@
                (SELECT nom FROM organisme WHERE e.organisme2 = id) AS organisme2,
                (SELECT nom FROM organisme WHERE e.organisme3 = id) AS organisme3,
                s.nom AS sitenom, s.cp, s.ville, s.pays,
-               tm.description AS tarif, tm.prix, tm.prixspec,
+               t.description AS tarif, t.prix, mt.prix AS prixspec, t.pass,
                r.plnum, r.transaction AS transac';
   $selectnb = ', count(*) AS nb';
   $groupby  = 'GROUP BY e.nom, e.petitnom, m.date, m.txtva, m.id, e.metaevt,
                         s.nom, s.cp, s.ville, s.pays,
-                        tm.description, tm.prix, tm.prixspec,
+                        t.description, t.prix, mt.prix, t.pass,
                         r.plnum, r.transaction ';
-  $where    = '     m.id = r.manifid
-                AND e.id = m.evtid
-                AND s.id = m.siteid
-                AND tm.id = r.tarifid
-                AND r.transaction = '.$transac.'
-                AND tm.manifid = m.id
-                AND tm.id = r.tarifid
+  $where    = '     r.transaction = '.$transac.'
                 AND r.id NOT IN ( SELECT resa_preid FROM reservation_cur WHERE NOT canceled )
-                '.($tarif ? "AND tm.key ILIKE '".pg_escape_string($tarif)."'" : '').'
+                '.($tarif ? "AND t.key ILIKE '".pg_escape_string($tarif)."'" : '').'
                 '.($manifid ? 'AND r.manifid = '.$manifid : '');
-  $orderby  = !$vertical ? ' e.nom, m.date, s.nom, s.ville, tm.prix' : ' e.nom, tm.prix, m.date, s.nom, s.ville';
-  $from = 'manifestation m, reservation_pre r, evenement e, site s, tarif_manif tm';
+  $orderby  = !$vertical ? ' e.nom, m.date, s.nom, s.ville, t.key' : ' e.nom, t.key, m.date, s.nom, s.ville';
+  //$from = 'manifestation m, reservation_pre r, evenement e, site s, tarif AS t LEFT JOIN manifestation_tarifs mt ON mt.tarifid = t.id AND mt.manifestationid = m.id';
+  $from = array('reservation_pre r');
+  $from[] = 'manifestation m ON m.id = r.manifid';
+  $from[] = 'tarif t ON t.id = r.tarifid';
+  $from[] = 'evenement e ON e.id = m.evtid';
+  $from[] = 'site s ON m.siteid = s.id';
+  $from[] = 'manifestation_tarifs mt ON mt.tarifid = t.id AND mt.manifestationid = m.id';
+  $from = implode(' LEFT JOIN ',$from);
   $query  = ' SELECT '.$select.'
                      '.($group ? $selectnb : '').'
               FROM   '.$from.'
@@ -195,6 +196,7 @@
     'operateur' => 'userid',
     'nbgroup'   => 'nb',
     'manifid'   => 'manifid',
+    'pass'      => 'pass',
   );
   
   $tickets = new Tickets($group, $vertical);
@@ -248,7 +250,7 @@
     unset($arr['last']['manifid']);
     unset($arr['new'] ['manifid']);
     
-    if ( $vertical && $arr['last'] == $arr['new'] )
+    if ( $vertical && $bill['pass'] == 't' && $arr['last'] == $arr['new'] )
     {
       $last_bill['date'] = array_merge($last_bill['date'],$bill['date']);
       $last_bill['manifid'] = $bill['manifid'];
