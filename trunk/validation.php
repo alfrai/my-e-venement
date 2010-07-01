@@ -57,6 +57,5 @@
 	if ( $config["website"]["old"] )
 		unset($_SESSION["code"]);
 	
-	$bd->free();
-	$nav->redirect($_GET["url"] ? $_GET["url"] : $config["website"]["root"].''.$user->getDirectUri());
+	$nav->redirect($_GET["url"] && $_GET['url'] != '/index.php?' ? $_GET['url'] : $config["website"]["root"].''.$user->getDirectUri());
 ?>
