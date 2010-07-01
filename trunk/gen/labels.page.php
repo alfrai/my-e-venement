@@ -23,7 +23,7 @@
 <?php
   global $user, $bd, $arr, $params, $class, $css, $title;
   $class = 'labels';
-	$css = array('styles/main.css','styles/labels.css.php','styles/labels.css','perso/labels.css');
+	$css = array('styles/labels.css.php','styles/labels.css','perso/labels.css');
 	$title = "e-venement : étiquettes";
 
 	$level	= $config["right"]["view"];
