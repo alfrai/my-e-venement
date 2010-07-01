@@ -99,7 +99,7 @@ class Tickets
 		$dates = array('ltl' => array(), 'big' => array());
 		$date = '';
 		$last = strtotime($bill['date'][0]);
-		if ( count($bill['date']) > 1 )
+		if ( is_array($bill['date']) && count($bill['date']) > 1 )
 		foreach ( $bill['date'] as $key => $time )
 		{
 		  $time = strtotime($time);
@@ -111,6 +111,9 @@ class Tickets
     }
     else
     {
+      if ( !is_array($bill['date']) )
+        $bill['date'][0] = $bill['date'];
+      
       $time = strtotime($bill['date'][0]);
   		$dates["big"][0]  = strtolower($config["dates"]["DOTW"][date("w",$time)]).date(" j ",$time);
     	$dates["big"][0] .= strtolower($config["dates"]["MOTY"][intval(date("n",$time))-1]);

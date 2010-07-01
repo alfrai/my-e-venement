@@ -258,14 +258,46 @@
     else
     {
       if ( $last_bill !== array() )
-        $tickets->addToContent($last_bill);
+      {
+        // permitting tickets to be sorted by thread, not totally grouped (aka "also horizontally")
+        for ( $go = true ; $go ; )
+        {
+          $go = false;
+          $dates = array_unique($last_bill['date']);
+          $next = array_diff_assoc($last_bill['date'],$dates);
+          sort($dates); // retrieving good key orders
+          sort($next); // retrieving good key orders
+          
+          $last_bill['date'] = $dates;
+          $tickets->addToContent($last_bill);
+          
+          $last_bill['date'] = $next;
+          if ( count($next) > 0 )
+            $go = true;
+        }
+      }
       $last_bill = $bill;
     }
   }
     
   // finishing printing tickets
   if ( $last_bill )
+  for ( $go = true ; $go ; )
+  {
+    // permitting tickets to be sorted by thread, not totally grouped (aka "also horizontally")
+    $go = false;
+    $dates = array_unique($last_bill['date']);
+    $next = array_diff_assoc($last_bill['date'],$dates);
+    sort($dates); // retrieving good key orders
+    sort($next); // retrieving good key orders
+     
+    $last_bill['date'] = $dates;
     $tickets->addToContent($last_bill);
+    
+    $last_bill['date'] = $next;
+    if ( count($next) > 0 )
+    $go = true;
+  }
   
   $request->free();
   
