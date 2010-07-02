@@ -31,6 +31,6 @@
 	<?php echo file_get_contents('desc.txt'); ?>
 </div>
 <?php
-	$events->free();
+	//$events->free();
 	includeLib("footer");
 ?>

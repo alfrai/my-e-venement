@@ -46,14 +46,14 @@
         'month'  => 'Mois',
         'years'  => 'Années',
       ) as $key => $value ): ?>
-      <option value="<?php echo $key ?>" <?php echo $key == 'weeks' ? 'selected="selected"' : '' ?>><?php echo $value ?></option>
+      <option value="<?php echo $key ?>" <?php echo $key == ($_GET['period'] ? $_GET['period'] : 'weeks') ? 'selected="selected"' : '' ?>><?php echo $value ?></option>
       <?php endforeach; ?>
     </select>
-    <span class="input">Date: <input type="text" name="from" value="" /></span>
+    <span class="input">Date: <input type="text" name="from" value="<?php echo htmlsecure($_GET['from'] ? $_GET['from'] : '')?>" /></span>
     <input type="submit" name="submit" value="ok" />
   </p>
-  <p class="tickets csv"><?php includeGraphe('tickets','evt/stats/graphes',"Suivi de l'activité de billetterie",true); ?></p>
-  <p class="tickets img"><?php includeGraphe('tickets','evt/stats/graphes',"Suivi de l'activité de billetterie"); ?></p>
+  <p class="tickets csv"><?php includeGraphe('tickets','evt/stats/graphes',"Suivi de l'activité de billetterie",true,array('period' => $_GET['period'], 'from' => $_GET['from'])); ?></p>
+  <p class="tickets img"><?php includeGraphe('tickets','evt/stats/graphes',"Suivi de l'activité de billetterie",false,array('period' => $_GET['period'], 'from' => $_GET['from'])); ?></p>
 </form>
 </div>
 <?php

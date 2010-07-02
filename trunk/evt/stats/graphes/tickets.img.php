@@ -29,10 +29,14 @@
 	  { return false; }
   }
 	
-  $from = strtotime($_GET['from']) ? strtotime($_GET['from']) : strtotime('now');
-  
   $dates = $label = array();
-  $period = $_GET['period'] ? $_GET['period'] : 'weeks';
+  if ( $_GET['period'] || $_GET['from'] )
+    $options = $_GET;
+  else
+    $options = unserialize($_GET['options']);
+  $period = $options['period'] ? $options['period'] : 'weeks';
+  $from = strtotime($options['from']) ? strtotime($options['from']) : strtotime('now');
+  
   switch ( $period ) {
   case 'manifs':
   case 'events':
