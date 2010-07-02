@@ -52,7 +52,7 @@
   $query = '  SELECT  evt.nom, evt.id AS evtid, manif.date, manif.id, colors.color, manif.description,
                       site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, site.pays
               FROM evenement AS evt, manifestation AS manif, colors, site 
-              WHERE '.(!is_array($_GET['manifid']) && $user->evtlevel < $config['evt']['right']['param'] ? "manif.date > NOW() - '1 DAY'::interval AND " : '').'
+              WHERE '.(!is_array($_GET['manifid']) && $user->evtlevel < $config['evt']['right']['unblock'] ? "manif.date > NOW() - '1 DAY'::interval AND " : '').'
                     manif.evtid = evt.id
                 AND (colors.id = manif.colorid OR colors.id IS NULL AND manif.colorid IS NULL)
                 AND site.id = manif.siteid
