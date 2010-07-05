@@ -46,7 +46,6 @@
     echo '254';
     beta_die(254);
   }
-                
   
   $transac = intval($_GET['transac']);
   $manifid = intval($_GET['manifid']);
