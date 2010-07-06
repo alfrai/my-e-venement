@@ -32,10 +32,10 @@
 	{
 		echo '<a href="'.($href = "evt/bill/billing.php").'" class="';
 		echo ($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "");
-		echo ' index">Billets</a>';
+		echo ' index">Billets (old)</a>';
 	  if ( $config['ticket']['new-bill'] )
 	  {
-	    echo '<a href="'.($href = "evt/bill/new-bill.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").'">Billets (new)</a>';
+	    echo '<a href="'.($href = "evt/bill/new-bill.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").'">Billets</a>';
 	  }
 	}
 	if ( $mod ) echo '<a href="'.($href = "evt/bill/annul.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").'  annul">Annul.</a>';
@@ -50,7 +50,7 @@
   echo '<a href="'.($href = "evt/bill/waitingdep.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' attente">En cours</a>';
 	
 	echo '<a href="'.($href = "evt/bill/queries.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' queries">Demandes</a>';
-	echo '<a href="'.($href = "evt/bill/waitingbdc.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' bdc">BdC</a>';
+	echo '<a href="'.($href = "evt/bill/waitingbdc.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' bdc" title="Bons de Commande">BdC</a>';
 	echo '<a href="'.($href = "evt/bill/factures.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' bdc">Factures</a>';
 	echo '<a title="Demande du temps de calcul" href="'.($href = "evt/bill/credit.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' credit">Dettes</a>';
 	echo '<a href="'.($href = "evt/bill/duplicatas.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").'">Dupli.</a>';
@@ -61,7 +61,7 @@
 	echo '<a href="evt/" class="parent">..</a>';
 	
 	else:
-  	echo '<a href="'.($href = "evt/bill/waitingbdc.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' bdc">BdC</a>';
+  	echo '<a href="'.($href = "evt/bill/waitingbdc.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' bdc" title="Bons de Commande">BdC</a>';
 	endif;
 ?>
 </p>

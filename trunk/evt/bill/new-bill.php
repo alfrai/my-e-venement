@@ -28,6 +28,9 @@
   includeJS('jquery');
   includeJS('jquery-ui','evt');
   includeJS('new-bill','evt');
+  if ( $config['ticket']['extra-gui-js'] )
+    includeJS($config['ticket']['extra-gui-js'],'evt/perso');
+  
   if ( $config['ticket']['cat-tarifs'] )
   {
     $css[] = 'evt/styles/cat-tarifs.css';

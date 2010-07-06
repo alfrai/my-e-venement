@@ -407,6 +407,7 @@ $(document).ready(function(){
     });
     
     newbill_tickets_click_remove();
+    return false;
   });
   
   // compta : choose BdC or Facture / print tickets
