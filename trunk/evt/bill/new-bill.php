@@ -24,6 +24,8 @@
   require("conf.inc.php");
   $css[] = 'evt/styles/jauge.css';
   $css[] = 'evt/styles/new-bill.css';
+  if ( $config['ticket']['extra-gui-css'] )
+    $css[] = 'evt/perso/extra-gui.css';
   $class .= " index";
   includeJS('jquery');
   includeJS('jquery-ui','evt');

@@ -39,7 +39,7 @@
 <?php
   require("conf.inc.php");
   
-  if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
+  if ( $user->evtlevel <= $config["evt"]["right"]["view"] )
   {
     $bd->free();
     echo '254';
