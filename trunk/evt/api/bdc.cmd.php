@@ -38,7 +38,7 @@
 <?php
   require("conf.inc.php");
   
-  if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
+  if ( $user->evtlevel <= $config["evt"]["right"]["view"] )
   {
     echo '254';
     beta_die(254);
