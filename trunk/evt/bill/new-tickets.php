@@ -37,7 +37,7 @@
   require('conf.inc.php');
   includeClass('tickets');
   
-  if ( $user->evtlevel < $config["evt"]["right"]["mod"] )
+  if ( $user->evtlevel <= $config["evt"]["right"]["view"] )
   {
     if ( $config['print']['hard'] )
     {
