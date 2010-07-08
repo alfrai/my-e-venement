@@ -188,6 +188,7 @@
 		}
 	?>
 </ul>
+<p class="nb"><?php echo $personnes->countRecords() ?> enregistrement(s).</p>
 <p class="letters bottom">
 <?php
 	for ( $i = 0 ; $cur = strtoupper($alphabet{$i}) ; $i++ )
