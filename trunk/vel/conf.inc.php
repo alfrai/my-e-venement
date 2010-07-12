@@ -21,32 +21,23 @@
 ***********************************************************************************/
 ?>
 <?php
-	$title	= "e-venement : vente en ligne";
-	$css	= array();
-	$css[]	= "styles/main.css";
-	$css[]	= "vel/styles/main.css";
-	require_once("../config.php");
-	require_once("config.php");
+	require_once(dirname(__FILE__).'/../config.php');
 
 	includeClass("navigation");
 	includeClass("user");
-	includeClass("bd");
+	includeClass("bd/array");
 	
-	$bd = new bd (	$config["database"]["name"],
-			$config["database"]["server"],
-			$config["database"]["port"],
-			$config["database"]["user"],
-			$config["database"]["passwd"] );
-	$bd->setPath("vel,billeterie,public");
 	$nav	= new navigation();
 	$user	= &$_SESSION["user"];
 	
-	includeLib("login-check");
+	$bd	= new arrayBd (	$config["database"]["name"],
+				$config["database"]["server"],
+				$config["database"]["port"],
+				$config["database"]["user"],
+				$config["database"]["passwd"] );
+	$bd->setPath("vel/billeterie,public");
 	
-	require("secu.php");
-	if ($user->vellevel < $config["vel"]["right"]["mod"])
-	{
-		$user->addAlert("Vous n'avez pas le droit d'accéder à ce module.");
-		$nav->redirect($config["website"]["base"]);
-	}
+	includeLib("login-check");
+	require_once(dirname(__FILE__).'/../evt/config.default.php');
+	
 ?>
