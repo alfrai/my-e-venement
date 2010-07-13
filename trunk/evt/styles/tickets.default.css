@@ -102,3 +102,5 @@ span.eur { font-weight: normal; }
   margin: 0;
   size: landscape;
 }
+
+.desc { display: none; }
