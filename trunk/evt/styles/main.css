@@ -282,6 +282,7 @@ form.tarif ul li span {
 form.tarif li span.id,
 form.tarif li span.del { text-align: right; }
 form.tarif li span.pass,
+form.tarif li span.vel,
 form.tarif li span.cont,
 form.tarif li span.prix { text-align: center; }
 form.tarif li span.prix input {
