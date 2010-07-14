@@ -21,23 +21,38 @@
 ***********************************************************************************/
 ?>
 <?php
+	require_once(dirname(__FILE__).'/config.default.php');
 	require_once(dirname(__FILE__).'/../config.php');
 
 	includeClass("navigation");
 	includeClass("user");
-	includeClass("bd/array");
+	includeClass("bd");
+	includeClass("bdRequest");
+	includeLib("libs/functions");
 	
 	$nav	= new navigation();
 	$user	= &$_SESSION["user"];
 	
-	$bd	= new arrayBd (	$config["database"]["name"],
+	$bd	= new bd (	$config["database"]["name"],
 				$config["database"]["server"],
 				$config["database"]["port"],
 				$config["database"]["user"],
 				$config["database"]["passwd"] );
-	$bd->setPath("vel/billeterie,public");
+	$bd->setPath("vel,billeterie,public");
 	
-	includeLib("login-check");
-	require_once(dirname(__FILE__).'/../evt/config.default.php');
+	//require_once(dirname(__FILE__).'/../evt/config.default.php');
 	
+	$query = "SELECT a.id AS accountid, md5(a.login||a.password||auth.salt) = '".pg_escape_string($_GET['key'])."' AS authenticated, auth.salt
+	          FROM account a
+	          LEFT JOIN authentication auth ON auth.accountid = a.id
+	          WHERE auth.ip = '".pg_escape_string($_SERVER['REMOTE_ADDR'])."'
+	          LIMIT 1";
+	$request = new bdRequest($bd,$query);
+	$auth = $request->getRecord('authenticated') == 't' ? true : false;
+	$salt = $request->getRecord('salt');
+	$accountid = $request->getRecord('accountid');
+	$request->free();
+	
+	if ( !$auth )
+    $nav->httpStatus('HTTP/1.1 401 Unauthorized');
 ?>
