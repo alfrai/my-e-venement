@@ -185,6 +185,7 @@ div.manifs div div p span.cell {
 	display: table-cell;
 	vertical-align: top;
 }
+div.manifs div div p span.cell .vel { margin-left: 10px; }
 
 form.salle div.details div.clip div { display: table; }
 form.salle div.details div.clip div p { display: table-row; }

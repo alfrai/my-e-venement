@@ -33,10 +33,10 @@
     *   - HTTP return code
     *     . 500 if there was a problem processing the demand
     *     . 401 if passwd/email are invalid or if authentication as a valid webservice has failed
+    *     . 404 if there is no such email in database when asked for a new password
     *     . 412 if all the required arguments have not been sent
     *     . 201 if a new password has been created
     *     . 202 if all is ok, the authentication worked
-    *     . 204 if there is no such email in database when asked for a new password
     *   - json: if necessary (new password), this is returned in a JSON way
     *
     **/
@@ -67,15 +67,20 @@
   if ( isset($_GET['request']) )
   {
     includeLib('getpwd');
-    if ( $bd->updateRecordsSimple(
+    if ( ($r = $bd->updateRecordsSimple(
         'personne',
         array('lower(email)'    => strtolower($_GET['email']),
               'lower(nom)' => strtolower($_GET['name'])),
         array('password' => md5($passwd = getNewPasswd()))
-      ) !== false )
+      )) !== false )
     {
-      $nav->httpStatus(201);
-      echo addChecksum(array('password' => $passwd),$salt);
+      if ( $r > 0 )
+      {
+        $nav->httpStatus(201);
+        echo addChecksum(array('password' => $passwd),$salt);
+      }
+      else
+        $nav->httpStatus(404);
     }
     else
       $nav->httpStatus(500);

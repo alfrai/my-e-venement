@@ -31,8 +31,13 @@
 	includeLib("libs/functions");
 	
 	$nav	= new navigation();
-	$user	= &$_SESSION["user"];
 	
+	if ( !in_array('vel',$config['mods']) )
+  {
+    $nav->httpStatus(404);
+    die();
+  }
+  
 	$bd	= new bd (	$config["database"]["name"],
 				$config["database"]["server"],
 				$config["database"]["port"],
@@ -54,5 +59,5 @@
 	$request->free();
 	
 	if ( !$auth )
-    $nav->httpStatus('HTTP/1.1 401 Unauthorized');
+    $nav->httpStatus(401);
 ?>

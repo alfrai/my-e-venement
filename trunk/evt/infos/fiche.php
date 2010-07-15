@@ -185,10 +185,13 @@
 					$arr["description"]	= $manif["description"][$i]["value"];
 				if ( $manif["jauge"][$i]["value"] && $manif["jauge"][$i]["value"] != $default["jauge"] )
 					$arr["jauge"]		= intval($manif["jauge"][$i]["value"]);
+		
+  	  	if ( in_array('vel',$config['mods']) )
+	  	    $arr['vel'] = $manif['vel'][$i]['value'] == 'yes' ? 't' : 'f';
 				
 				// Modification d'une manif
 				if ( intval($manif["manifid"][$i]["value"]) > 0 )
-				{
+     	  {
 					// mises à NULL
 					foreach ( array("duree","description","jauge") as $value )
 						if ( !isset($arr[$value]) ) $arr[$value] = NULL;
@@ -555,6 +558,20 @@ $(document).ready(function(){
 							echo ' <span class="plnum">'.($manif["plnum"] == 't' ? "num." : "libre").'</span>';
 						}
 						echo '</span>';
+					if ( in_array('vel',$config['mods']) )
+					{
+				    echo '</p><p class="vel" title="Sélectionné pour la vente en ligne ?">';
+				      echo '<span class="cell">VeL ?</span>';
+						  echo '<span class="cell">';
+						  if ( $action == $actions['view'] )
+						    echo $manif['vel'] == 't' ? 'Oui' : 'Non';
+						  else
+						  {
+						    echo '<input type="radio" name="manif[vel]['.$i.'][value]" value="yes" '.($manif['vel'] == 't' ? 'checked="checked"' : '').' />oui ';
+  						  echo '<input type="radio" name="manif[vel]['.$i.'][value]" value="no"  '.($manif['vel'] != 't' ? 'checked="checked"' : '').' />non';
+  						}
+  						echo '</span>';
+				  }
 					echo '</p><p class="description">';
 						echo '<span class="cell">Desc.:</span>';
 						echo '<span class="cell">';

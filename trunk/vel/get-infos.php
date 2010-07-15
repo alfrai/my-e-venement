@@ -22,11 +22,15 @@
 ?>
 <?php
   /**
-    * Retreiving all events and manifs information
+    * Retreiving all manifs informations sorted both by event and by site
     * GET params :
     *   - key : a string formed with md5(name + password + salt) (required)
     *   - manifs[]: multiple possible manifestation.id if a focus is wanted (optionnal)
     * Returns :
+    *   - HTTP return code
+    *     . 200 if all will be processed normally
+    *     . 401 if authentication as a valid webservice has failed
+    *     . 500 if there was a problem processing the demand
     *   - nothing : error
     *   - json: returns a json array describing all the necessary information
     *
@@ -42,8 +46,9 @@
     die();
   }
   
-  $nav->mimeType('application/json');
-  $nav->mimeType('text/plain');
+  $debug = isset($_GET['debug']);
+  
+  $nav->mimeType($debug ? 'text/plain' : 'application/json');
   
   $fields = array(
     'eventid'   => 'e.id',
@@ -51,6 +56,7 @@
     'manifid'   => 'm.id',
     'date'      => 'm.date',
     'jauge'     => 'm.jauge',
+    'siteid'    => 's.id',
     'sitenom'   => 's.nom',
     'siteadr'   => 's.adresse',
     'sitecp'    => 's.cp',
@@ -72,14 +78,18 @@
     $manifs[] = intval($manif);
   
   $still_have = 'm.jauge - count(c.id) - sum((bdc.id IS NOT NULL AND c.id IS NULL)::integer)';
+  $where = array(
+    'm.id IS NOT NULL',
+    'm.vel',
+  );
   if ( count($manifs) > 0 )
-  $where = 'WHERE m.id IN ('.implode(',',$manifs).')';
+    $where[] = 'm.id IN ('.implode(',',$manifs).')';
   $subq  = 'SELECT manifid, key, description, (case when mt.prix IS NOT NULL then mt.prix else t.prix end) AS prix
             FROM (SELECT manif.id AS manifid, t.*
                   FROM tarif t, manifestation manif
                   WHERE (t.date,t.key) IN (SELECT max(date),key FROM tarif GROUP BY key)
-                    AND NOT desact
-                    AND vel
+                    AND NOT t.desact
+                    AND t.vel
             ) AS t
             LEFT JOIN manifestation_tarifs mt ON mt.manifestationid = t.manifid AND t.key = (SELECT key FROM tarif WHERE id = mt.tarifid)';
   $query = 'SELECT '.implode(',',$select).',
@@ -91,18 +101,30 @@
             LEFT JOIN reservation_cur c ON c.resa_preid = p.id AND NOT c.canceled
             LEFT JOIN bdc ON bdc.transaction = p.transaction
             LEFT JOIN ('.$subq.') AS t ON t.manifid = m.id
-            '.$where.'
+            WHERE '.implode(' AND ',$where).'
             GROUP BY '.implode(',',$fields).'
             ORDER BY e.nom, m.date, s.nom, t.key';
   $request = new bdRequest($bd,$query);
   //echo $query;
   
+  if ( $request->hasFailed() )
+  {
+    $nav->httpStatus(500);
+    die($debug ? $query : '');
+  }
+  
   $arr = array();
   while ( $rec = $request->getRecordNext() )
-    $arr[] = $rec;
+  {
+    $arr['events'][$rec['eventid']]['id']       = $rec['eventid'];
+    $arr['events'][$rec['eventid']]['name']     = $rec['event'];
+    $arr['events'][$rec['eventid']][$rec['manifid']] = $rec;
+    $arr['sites'][$rec['siteid']][$rec['manifid']] = $rec;
+  }
   $request->free();
   
-  //print_r($arr);
+  $nav->httpStatus(200);
+  if ( $debug ) print_r($arr);
   echo $json = addChecksum($arr,$salt);
 ?>
 
