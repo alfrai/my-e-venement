@@ -1,8 +1,12 @@
 SET search_path TO billeterie;
+
+--DROP VIEW info_resa;
+--ALTER TABLE tarif DROP COLUMN vel;
+--ALTER TABLE manifestation DROP COLUMN vel;
+
 ALTER TABLE tarif ADD COLUMN vel boolean DEFAULT false NOT NULL;
 ALTER TABLE manifestation ADD COLUMN vel boolean DEFAULT false NOT NULL;
 
-DROP VIEW info_resa;
 CREATE VIEW info_resa AS
     SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie,
     evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, manif.duree, evt.ages, evt.code,

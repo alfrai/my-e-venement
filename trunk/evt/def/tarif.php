@@ -99,7 +99,7 @@
 	echo '<span class="prix">Prix<sup>*</sup></span>';
 	echo '<span class="cont">Cont.</span>';
 	echo '<span class="pass">Pass</span>';
-	echo '<span class="vel">VeL</span>';
+	echo '<span class="vel" title="Vente en Ligne>VeL</span>';
 	echo '<span class="date">Date de valeur</span>';
 	echo '</li>';
 	
@@ -111,7 +111,7 @@
 	echo '<span class="prix"><input type="text" value="" name="new[prix]" /> €</span>';
 	echo '<span class="cont"><input type="checkbox" name="new[contingeant]" value="yes"/></span>';
 	echo '<span class="pass"><input type="checkbox" name="new[pass]" value="yes"/></span>';
-	echo '<span class="vel"><input type="checkbox" name="new[vel]" value="yes"/></span>';
+	echo '<span class="vel" title="Vente en Ligne"><input type="checkbox" name="new[vel]" value="yes"/></span>';
 	echo '<span class="date"></span>';
 	echo '</li>';
 	
