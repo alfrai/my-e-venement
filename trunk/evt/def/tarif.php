@@ -99,7 +99,7 @@
 	echo '<span class="prix">Prix<sup>*</sup></span>';
 	echo '<span class="cont">Cont.</span>';
 	echo '<span class="pass">Pass</span>';
-	echo '<span class="vel" title="Vente en Ligne>VeL</span>';
+	echo '<span class="vel" title="Vente en Ligne">VeL</span>';
 	echo '<span class="date">Date de valeur</span>';
 	echo '</li>';
 	
