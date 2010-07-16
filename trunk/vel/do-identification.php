@@ -23,6 +23,7 @@
 <?php
   /**
     * pre-login as a client
+    * (distinct from the real "authentication" of the distant system, that's why we told it 'identification'
     * GET params :
     *   - key : a string formed with md5(name + password + salt) (required)
     *   - email: the client's email (required)
@@ -44,7 +45,7 @@
 <?php
   require("conf.inc.php");
   
-  if ( !isset($_GET['debug']) )
+  if ( !($debug = isset($_GET['debug'])) )
     $nav->mimeType('application/json');
   else
     $nav->mimeType('text/plain');
@@ -106,12 +107,16 @@
     
     if ( $id )
     {
+      echo $debug ? 'identified' : '';
       session_start();
       $_SESSION['personneid'] = $id;
       $nav->httpStatus(202);
     }
     else
+    {
+      echo $debug ? 'unknown' : '';
       $nav->httpStatus(401);
+    }
     die();
   }
 

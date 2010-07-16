@@ -93,6 +93,8 @@
             ) AS t
             LEFT JOIN manifestation_tarifs mt ON mt.manifestationid = t.manifid AND t.key = (SELECT key FROM tarif WHERE id = mt.tarifid)';
   $query = 'SELECT '.implode(',',$select).',
+                   (SELECT min(date) FROM manifestation WHERE evtid = e.id) AS date_max,
+                   (SELECT max(date) FROM manifestation WHERE evtid = e.id) AS date_min,
                    (case when '.$still_have.' > 10 then 11 when '.$still_have.' <= 0 then 0 else '.$still_have.' end) AS still_have
             FROM evenement e
             LEFT JOIN manifestation m ON e.id = m.evtid
@@ -118,8 +120,29 @@
   {
     $arr['events'][$rec['eventid']]['id']       = $rec['eventid'];
     $arr['events'][$rec['eventid']]['name']     = $rec['event'];
-    $arr['events'][$rec['eventid']][$rec['manifid']] = $rec;
-    $arr['sites'][$rec['siteid']][$rec['manifid']] = $rec;
+    $arr['events'][$rec['eventid']]['date']['min'] = $rec['date_max'];
+    $arr['events'][$rec['eventid']]['date']['max'] = $rec['date_min'];
+    
+    $tarif = array(
+      'name'  => $rec['tarif'],
+      'desc'  => $rec['tarifdesc'],
+      'prix'  => $rec['prix'],
+    );
+    $rec['tarifs'] = array($tarif);
+    
+    unset($rec['tarif'],$rec['tarifdesc'],$rec['prix']);
+    unset($rec['date_max'],$rec['date_min']);
+
+    if ( !is_array($arr['events'][$rec['eventid']][$rec['manifid']]) )
+    {
+      $arr['events'][$rec['eventid']][$rec['manifid']] =
+      $arr['sites'] [$rec['siteid']] [$rec['manifid']] = $rec;
+    }
+    else
+    {
+      $arr['events'][$rec['eventid']][$rec['manifid']]['tarifs'][] = 
+      $arr['sites'][$rec['siteid']][$rec['manifid']]['tarifs'][] = $tarif;
+    }
   }
   $request->free();
   
