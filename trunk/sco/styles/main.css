@@ -22,9 +22,9 @@ a.next:hover > span,
 a.del:hover > span,
 *:hover + span.desc { display: inline; }
 
-form.entry > div, div.entries { display: table; }
-form.entry > div > p, div.entries > p.entry { display: table-row; }
-form.entry > div > p > span,
+form.entry div.table, div.entries { display: table; }
+form.entry div.table > p, div.entries > p.entry { display: table-row; }
+form.entry div.table > p > span,
 div.entries > p.entry > span, div.entries > p.entry > a {
 	display: table-cell;
 	padding: 0 4px;
@@ -42,18 +42,18 @@ div.entries > p.entry > span.mod:after { content: ')'; }
 
 
 form.entry { border-collapse: collapse; }
-form.entry > div > p > span {
+form.entry div.table > p > span {
 	border: 1px solid gray;
 	padding-top: 1px;
 	padding-bottom: 1px;
 }
-form.entry > div > p > span.new,
-form.entry > div > p > span.operation { border-width: 0; }
-form.entry > div > p > span.operation,
-form.entry > div > p > span.total { vertical-align: middle; }
-form.entry > div > p > span.operation { background-color: transparent; }
-form.entry > div > p > span.operation > a,
-form.entry > div > p > span.operation > span.a {
+form.entry div.table > p > span.new,
+form.entry div.table > p > span.operation { border-width: 0; }
+form.entry div.table > p > span.operation,
+form.entry div.table > p > span.total { vertical-align: middle; }
+form.entry div.table > p > span.operation { background-color: transparent; }
+form.entry div.table > p > span.operation > a,
+form.entry div.table > p > span.operation > span.a {
 	text-decoration: none;
 	color: black;
 	border: 1px solid black;
@@ -61,9 +61,9 @@ form.entry > div > p > span.operation > span.a {
 	padding: 1px 5px;
 	cursor: default;
 }
-form.entry > div > p > span.operation > a + span.desc { margin-left: -100px; }
-form.entry > div > p > span.operation > span.newline { display: block; margin-top: 5px; }
-form.entry > div > p.disabled > input { background-color: red; }
+form.entry div.table > p > span.operation > a + span.desc { margin-left: -100px; }
+form.entry div.table > p > span.operation > span.newline { display: block; margin-top: 5px; }
+form.entry div.table > p.disabled > input { background-color: red; }
 input[disabled] { color: grey; }
 
 form.entry input[type="text"] + span {
@@ -110,23 +110,23 @@ form.entry a.del, a.zoom {
 	border: 1px solid grey;
 	border-top-color: silver;
 	border-left-color: silver;
-	position: absolute;
 	width: 12px;
 	height: 12px;
 	text-decoration: none;
+	float: left;
 }
 form.entry a.del {
 	background-image: url(../img/del.png);
 	margin-left: -3px;
 }
-form.entry a.zoom { margin-left: 12px; }
+form.entry a.zoom { margin-left: 2px; }
 form.entry a.zoom.in { background-image: url(../img/zoom-in.png); }
 form.entry a.zoom.out { background-image: url(../img/zoom-out.png); }
 form.entry a.del:hover > span, form.entry a.zoom:hover > span {
 	display: inline;
 	color: black;
 }
-form.entry span.client a.perso { margin-left: 27px; }
+form.entry span.client a.perso { margin-left: 2px; }
 
 form.entry span.choice { display: block; }
 form.entry span.choice { text-align: center; }
@@ -138,7 +138,7 @@ form.entry span.clientmanif > span.cut {
 	background-repeat: no-repeat;
 	background-color: white;
 	background-position: center center;
-	position: absolute;
+	float: left;
 	margin-top: -14px;
 	width: 12px;
 	height: 12px;
@@ -220,3 +220,36 @@ ul.entries a.operation {
 
 form.entry span.manif > span,
 form.entry span.client > span { background-color: white; }
+
+form.entry div.table > p > span:first-child,
+form.entry div.table > p > span:last-child {
+  min-width: 185px;
+  max-width: 185px;
+}
+form.entry div.table > p > span {
+  min-width: 120px;
+  max-width: 120px;
+}
+form.entry #first-line {
+  position: fixed;
+  margin-top: -90px;
+}
+#first-line .titre .submit {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+}
+form.entry {
+  height: 400px;
+  overflow: auto;
+  width: 100%;
+}
+form.entry p span.impair { background-color: white; }
+form.entry { margin-top: 90px; }
+body.noscroll { overflow-x: auto; overflow-y: hidden; }
+#reminder {
+  display: none;
+  position: fixed;
+  background-color: white;
+  margin: 10px 0 0 10px;
+}

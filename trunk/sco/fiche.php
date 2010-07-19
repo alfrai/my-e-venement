@@ -32,6 +32,7 @@
 	
 	$css[] = "sco/styles/jauge.css";
 	$css[] = "sco/styles/colors.css.php";
+	$class .= ' noscroll';
 	
 	// gestion primaire des droits
 	if ( $user->scolevel < $config["sco"]["right"]["view"] )
@@ -259,7 +260,6 @@
 <?php includeLib("tree-view"); ?>
 <?php includePage("actions"); ?>
 <div class="body">
-<h2>Tableau de saisie</h2>
 <form class="entry" action="<?php echo htmlsecure($_SERVER["PHP_SELF"]).'?id='.$id.($persid > 0 ? '&persid='.$persid : '') ?>" method="post">
 <script type="text/javascript"><!--
 	if ( window.jQuery )
@@ -273,13 +273,24 @@
 		});
 	});
 --></script>
-<div>
+<div class="reminder" id="reminder">
+	<p class="jauge">
+		<span class="title">Jauge:</span>
+		<span class="green">places libres</span>
+		<span class="orange">places prises dans le module scolaire</span>
+		<span class="red">places prises en billetterie</span>
+	</p>
+</div>
+<div class="table">
 <?php
 	// première ligne
-	echo '<p>';
+	echo '<p id="first-line">';
 	
 	// titre du tableau
-	echo '<span class="titre">'.( $id > 0 ? "Entrée #".$id : "Nouvelle entrée" ).'</span>';
+	echo '<span class="impair titre">';
+	echo $id > 0 ? "Entrée #".$id : "Nouvelle entrée";
+  echo '<input class="submit" type="submit" name="submit" value="Enregistrer" />';
+	echo '</span>';
 	
 	// entrées existantes
 	$query	= " SELECT	manif.date, manif.id AS manifid, evt.*, tab.id AS tabid,
@@ -327,9 +338,9 @@
 	else	echo '<span></span>';
 	
 	// dernière colonne
-	echo '<span class="operation"></span>';
+	//echo '<span class="operation"></span>';
 	
-	echo '</p>';
+	echo '</p>'; //</div><div id="tbody"><div class="table">';
 	
 	// autres lignes
 	$places = array();					// nb de places/tarif par manif
@@ -584,17 +595,7 @@
 	echo '</p>';
 ?>
 </div>
-<p class="submit"><input type="submit" name="submit" value="Enregistrer" /></p>
 </form>
-<div class="reminder">
-	<p class="jauge">
-		<span class="title">Jauge:</span>
-		<span class="green">places libres</span>
-		<span class="orange">places prises dans le module scolaire</span>
-		<span class="red">places prises en billetterie</span>
-	</p>
-	
-</div>
 </div>
 <?php
 	includeLib("footer");

@@ -241,3 +241,12 @@ function sco_paste(elt,class)
 		}
 	}
 }
+
+$(document).ready(function(){
+  $('.entry #first-line .titre').mouseover(function(){
+    $('#reminder').show();
+  });
+  $('.entry #first-line .titre').mouseout(function(){
+    $('#reminder').hide();
+  });
+});
