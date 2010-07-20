@@ -1,8 +1,8 @@
 SET search_path TO billeterie;
 
---DROP VIEW info_resa;
---ALTER TABLE tarif DROP COLUMN vel;
---ALTER TABLE manifestation DROP COLUMN vel;
+DROP VIEW info_resa;
+ALTER TABLE tarif DROP COLUMN vel;
+ALTER TABLE manifestation DROP COLUMN vel;
 
 ALTER TABLE tarif ADD COLUMN vel boolean DEFAULT false NOT NULL;
 ALTER TABLE manifestation ADD COLUMN vel boolean DEFAULT false NOT NULL;

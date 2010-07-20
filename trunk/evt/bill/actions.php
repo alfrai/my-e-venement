@@ -61,6 +61,7 @@
 	echo '<a href="evt/" class="parent">..</a>';
 	
 	else:
+  	echo '<a href="'.($href = "evt/bill/queries.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' queries">Demandes</a>';
   	echo '<a href="'.($href = "evt/bill/waitingbdc.php").'" class="'.($config["website"]["root"].$href == $_SERVER["PHP_SELF"] ? "active" : "").' bdc" title="Bons de Commande">BdC</a>';
 	endif;
 ?>
