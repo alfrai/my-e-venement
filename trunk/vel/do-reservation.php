@@ -31,7 +31,7 @@
     * Returns :
     *   - HTTP return code
     *     . 201 if tickets have been well pre-reserved
-    *     . 401 if authentication as a valid webservice has failed
+    *     . 403 if authentication as a valid webservice has failed
     *     . 406 if the input json content doesn't embed the required values
     *     . 412 if the input json array is not conform with its checksum
     *     . 500 if there was a problem processing the demand
@@ -41,6 +41,9 @@
     *     . transaction id to give back for paiement and final reservation
     *
     **/
+    
+    
+    // NEED TO ADD A VERIFICATION TO AVOID MULTIPLE TRANSACTIONS... maybe with local session
 ?>
 <?php
   require("conf.inc.php");
@@ -51,13 +54,13 @@
   // general auth
   if ( !$auth || ($pid = intval($_SESSION['personneid'])) <= 0 )
   {
-    $nav->httpStatus(401);
+    $nav->httpStatus(403);
     die();
   }
   
   // pre-conditions
   $json = jsonToArray($_POST['json']);
-  if ( !verifyChecksum($json) )
+  if ( !verifyChecksum($json,$salt) )
   {
     $nav->httpStatus(412);
     die();
@@ -67,10 +70,9 @@
   /**
     * ex of input json array :
     * array(
-    *   array(
-    *     manifid => int8,
-    *     tarif   => char5 (key),
-    *     qty     => int8,
+    *   manifid(int8) => array(
+    *     tarif(char5) => qty(int8),
+    *     [...]
     *   ),
     *   [...]
     * );
@@ -80,27 +82,41 @@
   $bd->beginTransaction();
   
   // new transaction
-  if ( $bd->addRecord('transaction',array('accountid' => $accountid, 'personneid' => $pid)) === false )
+  if ( !isset($_SESSION['transaction']) )
   {
-    $bd->endTransaction(false);
-    $nav->httpStatus(500);
-    die();
+    if ( $bd->addRecord('transaction',array('accountid' => $accountid, 'personneid' => $pid)) === false )
+    {
+      $bd->endTransaction(false);
+      $nav->httpStatus(500);
+      die();
+    }
+    $tid = $_SESSION['transaction'] = intval($bd->getLastSerial('transaction','id'));
   }
-  $_SESSION['transaction'] = $tid = $bd->getLastSerial('transaction','id');
+  else
+  {
+    $tid = intval($_SESSION['transaction']);
+    $bd->delRecordsSimple('reservation_pre',array('transaction' => $tid));
+    $bd->delRecordsSimple('bdc',array('transaction' => $tid));
+  }
   
   // adding tickets as demands
   $manifs = array();
-  foreach ( $json as $tickets )
+  foreach ( $json as $manifid => $tarifs )
+  foreach ( $tarifs as $tarif => $qty )
   {
-    $manifs[] = intval($tickets['manifid']);
+    if ( !in_array(intval($manifid),$manifs) )
+      $manifs[] = intval($manifid);
     $rec = array(
-      'accountid' => $accountid,
-      'manifid'   => intval($tickets['manifid']),
-      'tarifid'   => "(SELECT id FROM tarif t WHERE date,key IN (SELECT max(date),key FROM tarif) AND key = '".$tickets['tarif']."')",
+      'accountid' => intval($accountid),
+      'manifid'   => intval($manifid),
+      'tarifid'   => "(SELECT id FROM tarif t WHERE (date,key) IN (SELECT max(date),key FROM tarif GROUP BY key) AND key = '".pg_escape_string($tarif)."' LIMIT 1)",
       'reduc'     => 0,
-      'transaction' => $tid,
+      'transaction' => pg_escape_string($tid),
     );
-    if ( $bd->addRecord('reservation_pre',$rec) === false )
+    for ( $j = $i = 0 ; $i < intval($qty) ; $i++ )
+      $j += ($bd->addRecordRaw('reservation_pre',$rec) !== false) ? 1 : 0;
+    
+    if ( $j == $i - 1 )
     {
       $bd->endTransaction(false);
       $nav->httpStatus(500);
@@ -109,7 +125,7 @@
   }
   
   // upgrading from demands to pre-reservations
-  if ( $bd->addRecords('bdc',array('transaction' => $tid,'accountid' => $accountid)) === false )
+  if ( $bd->addRecord('bdc',array('transaction' => $tid,'accountid' => $accountid)) === false )
   {
     $bd->endTransaction(false);
     $nav->httpStatus(500);

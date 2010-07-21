@@ -59,5 +59,5 @@
 	$request->free();
 	
 	if ( !$auth )
-    $nav->httpStatus(401);
+    $nav->httpStatus(403);
 ?>

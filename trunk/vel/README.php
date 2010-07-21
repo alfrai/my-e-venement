@@ -11,6 +11,8 @@ optionnally manifestations can be given through the _GET[manifs][] array to do a
 
 == the customer procedure ==
 
+... the customer fill in his cart ...
+
 1. identification : do-identification.php
 auth key given in _GET[key] (required)
 email given in _GET[email] (required)

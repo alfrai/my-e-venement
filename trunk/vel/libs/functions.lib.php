@@ -44,7 +44,7 @@
     else
       $arr = jsonToArray($mixed);
     unset($arr['checksum']);
-    return json_encode($arr);
+    return is_array($mixed) ? $arr : json_encode($arr);
   }
   function addChecksum($mixed,$salt = '')
   {

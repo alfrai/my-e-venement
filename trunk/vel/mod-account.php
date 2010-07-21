@@ -39,7 +39,7 @@
     * Returns :
     *   - HTTP return code
     *     . 201 if a new client account has been created
-    *     . 401 if authentication as a valid webservice has failed
+    *     . 403 if authentication as a valid webservice has failed
     *     . 406 if the json content doesn't embed the required values
     *     . 412 if the json array is not conform with its checksum
     *     . 500 if there was a problem processing the demand
@@ -54,7 +54,7 @@
   // general auth
   if ( !$auth )
   {
-    $nav->httpStatus(401);
+    $nav->httpStatus(403);
     die();
   }
   

@@ -29,7 +29,7 @@
     * Returns :
     *   - HTTP return code
     *     . 200 if all will be processed normally
-    *     . 401 if authentication as a valid webservice has failed
+    *     . 403 if authentication as a valid webservice has failed
     *     . 500 if there was a problem processing the demand
     *   - nothing : error
     *   - json: returns a json array describing all the necessary information
@@ -42,7 +42,7 @@
   // auth
   if ( !$auth )
   {
-    $nav->httpStatus(401);
+    $nav->httpStatus(403);
     die();
   }
   
@@ -123,12 +123,19 @@
     $arr['events'][$rec['eventid']]['date']['min'] = $rec['date_max'];
     $arr['events'][$rec['eventid']]['date']['max'] = $rec['date_min'];
     
+    $arr['sites'][$rec['siteid']]['id']         = $rec['siteid'];
+    $arr['sites'][$rec['siteid']]['name']       = $rec['sitenom'];
+    $arr['sites'][$rec['siteid']]['address']    = $rec['siteadr'];
+    $arr['sites'][$rec['siteid']]['postal']     = $rec['sitecp'];
+    $arr['sites'][$rec['siteid']]['ville']      = $rec['siteville'];
+    $arr['sites'][$rec['siteid']]['pays']       = $rec['sitepays'];
+    
     $tarif = array(
       'name'  => $rec['tarif'],
       'desc'  => $rec['tarifdesc'],
       'prix'  => $rec['prix'],
     );
-    $rec['tarifs'] = array($tarif);
+    $rec['tarifs'] = array($tarif['name'] => $tarif);
     
     unset($rec['tarif'],$rec['tarifdesc'],$rec['prix']);
     unset($rec['date_max'],$rec['date_min']);
@@ -140,8 +147,8 @@
     }
     else
     {
-      $arr['events'][$rec['eventid']][$rec['manifid']]['tarifs'][] = 
-      $arr['sites'][$rec['siteid']][$rec['manifid']]['tarifs'][] = $tarif;
+      $arr['events'][$rec['eventid']][$rec['manifid']]['tarifs'][$tarif['name']] = 
+      $arr['sites'] [$rec['siteid']] [$rec['manifid']]['tarifs'][$tarif['name']] = $tarif;
     }
   }
   $request->free();

@@ -33,7 +33,7 @@
     * Returns :
     *   - HTTP return code
     *     . 500 if there was a problem processing the demand
-    *     . 401 if passwd/email are invalid or if authentication as a valid webservice has failed
+    *     . 403 if passwd/email are invalid or if authentication as a valid webservice has failed
     *     . 404 if there is no such email in database when asked for a new password
     *     . 412 if all the required arguments have not been sent
     *     . 201 if a new password has been created
@@ -53,12 +53,12 @@
   // general auth
   if ( !$auth )
   {
-    $nav->httpStatus(401);
+    $nav->httpStatus(403);
     die();
   }
 
   // preconditions
-  if ( !$_GET['email'] && !$_GET['name'] )
+  if ( !$_GET['email'] || !$_GET['name'] )
   {
     $nav->httpStatus(412);
     die();
@@ -72,13 +72,13 @@
         'personne',
         array('lower(email)'    => strtolower($_GET['email']),
               'lower(nom)' => strtolower($_GET['name'])),
-        array('password' => md5($passwd = getNewPasswd()))
+        array('password' => md5($password = strlen($_GET['request']) > 4 ? $_GET['request'] : getNewPasswd()))
       )) !== false )
     {
       if ( $r > 0 )
       {
         $nav->httpStatus(201);
-        echo addChecksum(array('password' => $passwd),$salt);
+        echo addChecksum(array('password' => $password),$salt);
       }
       else
         $nav->httpStatus(404);
@@ -94,28 +94,33 @@
     $where = array(
       'lower(email)'  => strtolower($_GET['email']),
       'lower(nom)'    => strtolower($_GET['name']),
-      'password'      => md5($_GET['passwd']),
+      'password'      => $_GET['passwd'],
+      'active'        => 't',
     );
     foreach ( $where as $key => $value )
       $where[$key] = $key." = '".pg_escape_string($value)."'";
-    $query = 'SELECT count(*) > 0 AS identification
+    $query = 'SELECT personne.id
               FROM personne
               WHERE '.implode(' AND ',$where);
     $request = new bdRequest($bd,$query);
-    $id = $request->getRecord('identification') == 't';
+    $auth = $request->countRecords() > 0 == 't';
+    $id = intval($request->getRecord('id'));
     $request->free();
     
-    if ( $id )
+    $_SESSION['personneid'] =
+    $_SESSION['auth'] = false;
+    if ( $auth )
     {
       echo $debug ? 'identified' : '';
       session_start();
+      $_SESSION['auth'] = true;
       $_SESSION['personneid'] = $id;
       $nav->httpStatus(202);
     }
     else
     {
       echo $debug ? 'unknown' : '';
-      $nav->httpStatus(401);
+      $nav->httpStatus(403);
     }
     die();
   }
