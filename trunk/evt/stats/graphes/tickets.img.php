@@ -45,7 +45,7 @@
     $start = $now = strtotime('+1 '.$period,$from);
     for ( $i = 0 ; $i < 12 ; $i++ )
     {
-      $nowlabel = strtotime('1 '.$period.' ago',$now); // cas particulier des jours convertis en timestamp
+      $nowlabel = $now; //strtotime('0 '.$period.' ago',$now); // cas particulier des jours convertis en timestamp
       $label[] = $config['dates']['dotw'][intval(date('w',$nowlabel))].' '.date('d/m',$nowlabel);
       $dates[] = date('Y-m-d',strtotime('+1 day',$now));
       $now = strtotime('1 '.$period.' ago',$now);
