@@ -44,4 +44,7 @@ the amount paid given in a string of the amount in _GET[paid] (required)
 
 4. done !!
 
+
+== Creating an account / asking for a new password ==
+
 */ ?>

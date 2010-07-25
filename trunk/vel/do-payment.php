@@ -30,10 +30,10 @@
     * Returns :
     *   - HTTP return code
     *     . 200 if payment has been well recorded and all has been paid
-    *     . 201 if payment has been well recorded but it doesn't recover all the "debt"
+    *     . 402 if payment has been well recorded but it doesn't recover all the "debt"
     *     . 403 if authentication as a valid webservice has failed
     *     . 406 if the payment argument is not given
-    *     . 500 if there was a problem processing the demand
+    *     . 500 if there was a problem processing the demand, including with upgrading the transaction to a pre-reservation state
     *
     **/
 ?>
@@ -59,6 +59,17 @@
   
   $bd->beginTransaction();
   
+  // upgrading from demands to pre-reservations
+  if ( $bd->addRecord('bdc',array(
+    'transaction' => $tid,
+    'accountid' => $accountid)
+  ) === false )
+  {
+    $bd->endTransaction(false);
+    $nav->httpStatus(500);
+    die();
+  }
+  
   // adding payment
   if ( $bd->addRecord('paiement',array(
     'transaction'     => $tid,
@@ -71,7 +82,7 @@
     if ( $topay <= 0 )
       $nav->httpStatus(200);
     else
-      $nav->httpStatus(201);
+      $nav->httpStatus(402);
     die();
   }
   

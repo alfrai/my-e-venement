@@ -96,7 +96,7 @@
   {
     $tid = intval($_SESSION['transaction']);
     $bd->delRecordsSimple('reservation_pre',array('transaction' => $tid));
-    $bd->delRecordsSimple('bdc',array('transaction' => $tid));
+    //$bd->delRecordsSimple('bdc',array('transaction' => $tid));
   }
   
   // adding tickets as demands
@@ -125,12 +125,14 @@
   }
   
   // upgrading from demands to pre-reservations
+  /*
   if ( $bd->addRecord('bdc',array('transaction' => $tid,'accountid' => $accountid)) === false )
   {
     $bd->endTransaction(false);
     $nav->httpStatus(500);
     die();
   }
+  */
   
   $bd->endTransaction();
   

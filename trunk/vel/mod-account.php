@@ -98,7 +98,7 @@
       'lower(email)'  => strtolower($infos['email']),
       'lower(nom)'    => strtolower($infos['nom']),
     );
-    if ( false !== isset($_GET['mod'])
+    if ( !isset($_GET['mod'])
         ? $bd->addRecord('personne',$rec)
         : $bd->updateRecordsSimple('personne', $cond, $rec)
        )

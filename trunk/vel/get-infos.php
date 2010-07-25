@@ -57,14 +57,14 @@
     'date'      => 'm.date',
     'jauge'     => 'm.jauge',
     'siteid'    => 's.id',
-    'sitenom'   => 's.nom',
-    'siteadr'   => 's.adresse',
-    'sitecp'    => 's.cp',
-    'siteville' => 's.ville',
-    'sitepays'  => 's.pays',
+    'sitename'  => 's.nom',
+    'siteaddr'  => 's.adresse',
+    'sitezip'   => 's.cp',
+    'sitecity'  => 's.ville',
+    'sitecountry'=> 's.pays',
     'tarif'     => 't.key',
     'tarifdesc' => 't.description',
-    'prix'      => 't.prix',
+    'price'     => 't.prix',
   );
   
   $select = array();
@@ -124,16 +124,16 @@
     $arr['events'][$rec['eventid']]['date']['max'] = $rec['date_min'];
     
     $arr['sites'][$rec['siteid']]['id']         = $rec['siteid'];
-    $arr['sites'][$rec['siteid']]['name']       = $rec['sitenom'];
-    $arr['sites'][$rec['siteid']]['address']    = $rec['siteadr'];
-    $arr['sites'][$rec['siteid']]['postal']     = $rec['sitecp'];
-    $arr['sites'][$rec['siteid']]['ville']      = $rec['siteville'];
-    $arr['sites'][$rec['siteid']]['pays']       = $rec['sitepays'];
+    $arr['sites'][$rec['siteid']]['name']       = $rec['sitename'];
+    $arr['sites'][$rec['siteid']]['address']    = $rec['siteaddr'];
+    $arr['sites'][$rec['siteid']]['postal']     = $rec['sitezip'];
+    $arr['sites'][$rec['siteid']]['city']       = $rec['sitecity'];
+    $arr['sites'][$rec['siteid']]['country']    = $rec['sitecountry'];
     
     $tarif = array(
       'name'  => $rec['tarif'],
       'desc'  => $rec['tarifdesc'],
-      'prix'  => $rec['prix'],
+      'price' => $rec['price'],
     );
     $rec['tarifs'] = array($tarif['name'] => $tarif);
     

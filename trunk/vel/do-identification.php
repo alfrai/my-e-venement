@@ -35,6 +35,7 @@
     *     . 500 if there was a problem processing the demand
     *     . 403 if passwd/email are invalid or if authentication as a valid webservice has failed
     *     . 404 if there is no such email in database when asked for a new password
+    *     . 406 if a password was given but long enough (> 4 chars)
     *     . 412 if all the required arguments have not been sent
     *     . 201 if a new password has been created
     *     . 202 if all is ok, the authentication worked
@@ -68,10 +69,24 @@
   if ( isset($_GET['request']) )
   {
     includeLib('getpwd');
+    $cond = array(
+      'lower(email)'  => strtolower($_GET['email']),
+      'lower(nom)'    => strtolower($_GET['name']),
+    );
+    if ( !empty($_GET['request']) && $_GET['request'] != '1' )
+    {
+      if ( strlen($_GET['request']) <= 4 )
+      {
+        $nav->httpStatus(406);
+        die();
+      }
+      else
+        $cond['password'] = $_GET['passwd'];
+    }
+    
     if ( ($r = $bd->updateRecordsSimple(
         'personne',
-        array('lower(email)'    => strtolower($_GET['email']),
-              'lower(nom)' => strtolower($_GET['name'])),
+        $cond,
         array('password' => md5($password = strlen($_GET['request']) > 4 ? $_GET['request'] : getNewPasswd()))
       )) !== false )
     {
