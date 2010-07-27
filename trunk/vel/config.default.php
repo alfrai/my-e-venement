@@ -22,4 +22,6 @@
 ?>
 <?php
   $config['vel']['payment'] = 0;
+  $config['vel']['min-tickets'] = 10;
+  $config['vel']['show-full-manifs'] = true;
 ?>
