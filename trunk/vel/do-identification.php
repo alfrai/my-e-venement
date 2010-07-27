@@ -84,7 +84,7 @@
         $cond['password'] = $_GET['passwd'];
     }
     
-    if ( ($r = $bd->updateRecordsSimple(
+    if ( ($r = @$bd->updateRecordsSimple(
         'personne',
         $cond,
         array('password' => md5($password = strlen($_GET['request']) > 4 ? $_GET['request'] : getNewPasswd()))

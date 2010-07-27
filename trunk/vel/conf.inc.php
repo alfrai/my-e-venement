@@ -28,7 +28,7 @@
 	includeClass("user");
 	includeClass("bd");
 	includeClass("bdRequest");
-	includeLib("libs/functions");
+	includeLib(dirname(__FILE__)."/libs/functions");
 	
 	$nav	= new navigation();
 	
