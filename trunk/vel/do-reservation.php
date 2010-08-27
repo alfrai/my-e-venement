@@ -115,10 +115,11 @@
     );
     for ( $j = $i = 0 ; $i < intval($qty) ; $i++ )
       $j += ($bd->addRecordRaw('reservation_pre',$rec) !== false) ? 1 : 0;
-    
-    if ( $j == $i - 1 )
+
+    if ( $j != $i )
     {
       $bd->endTransaction(false);
+      unset($_SESSION['transaction']);
       $nav->httpStatus(500);
       die();
     }

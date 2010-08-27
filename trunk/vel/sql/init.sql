@@ -10,13 +10,11 @@ SET client_min_messages = warning;
 SET escape_string_warning = off;
 
 --
--- Name: vel; Type: SCHEMA; Schema: -; Owner: beta
+-- Name: vel; Type: SCHEMA; Schema: -; Owner: -
 --
 
 CREATE SCHEMA vel;
 
-
-ALTER SCHEMA vel OWNER TO beta;
 
 SET search_path = vel, pg_catalog;
 
@@ -25,7 +23,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: authentication; Type: TABLE; Schema: vel; Owner: beta; Tablespace: 
+-- Name: authentication; Type: TABLE; Schema: vel; Owner: -; Tablespace: 
 --
 
 CREATE TABLE authentication (
@@ -36,10 +34,8 @@ CREATE TABLE authentication (
 );
 
 
-ALTER TABLE vel.authentication OWNER TO beta;
-
 --
--- Name: authentication_id_seq; Type: SEQUENCE; Schema: vel; Owner: beta
+-- Name: authentication_id_seq; Type: SEQUENCE; Schema: vel; Owner: -
 --
 
 CREATE SEQUENCE authentication_id_seq
@@ -50,32 +46,30 @@ CREATE SEQUENCE authentication_id_seq
     CACHE 1;
 
 
-ALTER TABLE vel.authentication_id_seq OWNER TO beta;
-
 --
--- Name: authentication_id_seq; Type: SEQUENCE OWNED BY; Schema: vel; Owner: beta
+-- Name: authentication_id_seq; Type: SEQUENCE OWNED BY; Schema: vel; Owner: -
 --
 
 ALTER SEQUENCE authentication_id_seq OWNED BY authentication.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: vel; Owner: beta
+-- Name: id; Type: DEFAULT; Schema: vel; Owner: -
 --
 
 ALTER TABLE authentication ALTER COLUMN id SET DEFAULT nextval('authentication_id_seq'::regclass);
 
 
 --
--- Name: authentication_accountid_key; Type: CONSTRAINT; Schema: vel; Owner: beta; Tablespace: 
+-- Name: authentication_accountid_key; Type: CONSTRAINT; Schema: vel; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY authentication
-    ADD CONSTRAINT authentication_accountid_key UNIQUE (accountid);
+    ADD CONSTRAINT authentication_accountid_key UNIQUE (ip,accountid);
 
 
 --
--- Name: authentication_accountid_fkey; Type: FK CONSTRAINT; Schema: vel; Owner: beta
+-- Name: authentication_accountid_fkey; Type: FK CONSTRAINT; Schema: vel; Owner: -
 --
 
 ALTER TABLE ONLY authentication

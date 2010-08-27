@@ -30,9 +30,10 @@
     * Returns :
     *   - HTTP return code
     *     . 200 if payment has been well recorded and all has been paid
-    *     . 402 if payment has been well recorded but it doesn't recover all the "debt"
+    *     . 202 if payment has been well recorded but it doesn't recover all the "debt"
     *     . 403 if authentication as a valid webservice has failed
     *     . 406 if the payment argument is not given
+    *     . 410 if no transactionthe payment argument is not given
     *     . 500 if there was a problem processing the demand, including with upgrading the transaction to a pre-reservation state
     *
     **/
@@ -43,15 +44,22 @@
   session_start();
   $nav->mimeType(isset($_GET['debug']) ? 'text/plain' : 'application/json');
   
+  // transaction
+  if ( ($tid = intval($_SESSION['transaction'])) <= 0 )
+  {
+    $nav->httpStatus(410);
+    die();
+  }
+  
   // general auth
-  if ( !$auth || ($pid = intval($_SESSION['personneid'])) <= 0 || ($tid = intval($_SESSION['transactionid'])) <= 0)
+  if ( !$auth || ($pid = intval($_SESSION['personneid'])) <= 0 )
   {
     $nav->httpStatus(403);
     die();
   }
   
   // pre-conditions
-  if ( ($paid = intval($_GET['paid'])) <= 0 )
+  if ( ($paid = floatval($_GET['paid'])) <= 0 )
   {
     $nav->httpStatus(406);
     die();
@@ -59,34 +67,32 @@
   
   $bd->beginTransaction();
   
-  // upgrading from demands to pre-reservations
-  if ( $bd->addRecord('bdc',array(
-    'transaction' => $tid,
-    'accountid' => $accountid)
-  ) === false )
+  // adding payment
+  if ( !$bd->addRecord('paiement',array(
+    'transaction'     => $tid,
+    //'accountid'     => $accountid,
+    'modepaiementid'  => $config['vel']['payment-mode'],
+    'montant'         => $paid,
+  )) )
   {
-    $bd->endTransaction(false);
     $nav->httpStatus(500);
     die();
   }
   
-  // adding payment
-  if ( $bd->addRecord('paiement',array(
-    'transaction'     => $tid,
-    //'accountid'     => $accountid,
-    'modepaiementid'  => $config['vel']['payment'],
-    'montant'         => $paid,
-  )) !== false )
+  // il faut ajouter l'enregistrement des différents paramètres retournés par la banque
+  // !!!!!!!!!!!!!!!!!!!!!!!
+  
+  // upgrading from demands to pre-reservations
+  if ( $bd->addRecord('bdc',array('transaction' => $tid, 'accountid' => $accountid)) )
   {
     $topay = whatToPay($tid);
-    if ( $topay <= 0 )
-      $nav->httpStatus(200);
-    else
-      $nav->httpStatus(402);
+    $nav->httpStatus($topay <= $paid ? 200 : 202);
+    $bd->endTransaction();
     die();
   }
   
   // if all has gone crazy
-  $nav->httpStatus(500);
+  $bd->endTransaction(false);
+  $nav->httpStatus(501);
   die();
 ?>

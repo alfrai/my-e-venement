@@ -76,7 +76,7 @@
               LEFT JOIN manifestation_tarifs mt ON mt.manifestationid = p.manifid AND mt.tarifid = t.id
               WHERE tr.id = '.$transaction;
     $request = new bdRequest($bd,$query);
-    $topay = $request->getRecord('topay');
+    $topay = floatval($request->getRecord('topay'));
     $request->free();
     
     return $topay;

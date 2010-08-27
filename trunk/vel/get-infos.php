@@ -82,6 +82,7 @@
   $where = array(
     'm.id IS NOT NULL',
     'm.vel',
+    'm.date > now()',
   );
   if ( count($manifs) > 0 )
     $where[] = 'm.id IN ('.implode(',',$manifs).')';
@@ -108,7 +109,8 @@
             GROUP BY '.implode(',',$fields).'
             ORDER BY e.nom, m.date, s.nom, t.key';
   $request = new bdRequest($bd,$query);
-  //echo $query;
+  if ( $debug )
+    echo $query;
   
   if ( $request->hasFailed() )
   {
@@ -118,6 +120,7 @@
   
   $arr = array();
   while ( $rec = $request->getRecordNext() )
+  if ( $config['vel']['show-full-manifs'] || $rec['still_have'] > 0 )
   {
     $arr['events'][$rec['eventid']]['id']       = $rec['eventid'];
     $arr['events'][$rec['eventid']]['name']     = $rec['event'];

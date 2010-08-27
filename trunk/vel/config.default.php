@@ -21,7 +21,11 @@
 ***********************************************************************************/
 ?>
 <?php
-  $config['vel']['payment'] = 0;
+  $config['vel']['payment-mode'] = 0;
+  $config['vel']['show-full-manifs'] = true;
   $config['vel']['min-tickets'] = 10;
   $config['vel']['show-full-manifs'] = true;
+?>
+<?php
+  require(dirname(__FILE__).'/config.php');
 ?>
