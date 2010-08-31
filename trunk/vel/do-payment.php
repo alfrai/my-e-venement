@@ -80,7 +80,19 @@
   }
   
   // il faut ajouter l'enregistrement des différents paramètres retournés par la banque
-  // !!!!!!!!!!!!!!!!!!!!!!!
+  if ( verifyChecksum($bank = $_POST['bank'],$salt) )
+  {
+    $bank = freeChecksum(jsonToArray($bank));
+    $serialized = serialize($bank);
+    $bank['paiementid'] = $bd->getLastSerial('paiement','id');
+    $bank['serialized'] = $serialized;
+    if ( !$bd->addRecord('bank_payment',$bank) )
+    {
+      $bd->endTransaction(false);
+      $nav->httpStatus(502);
+      die();
+    }
+  }
   
   // upgrading from demands to pre-reservations
   if ( $bd->addRecord('bdc',array('transaction' => $tid, 'accountid' => $accountid)) )
