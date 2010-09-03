@@ -1,0 +1,31 @@
+body.cat-tarifs option.used { color: gray; }
+td { padding: 3px; }
+body.cat-tarifs select, body.cat-tarifs input { background-color: transparent; border: 1px solid black; width: 125px; }
+body.cat-tarifs tr:first-child input, body.cat-tarifs td:first-child input { font-weight: bold; }
+body.cat-tarifs input { padding: 1px 3px 2px 1px; }
+tr.impair td.impair { background-color: #dbd8a8; }
+tr.impair td.pair,
+tr.pair td.impair   { background-color: #dcd66e; }
+tr.pair td.pair     { background-color: #dcd018; }
+/*
+tr.impair td.impair { background-color: #; }
+tr.pair td.pair     { background-color: #ccc; }
+tr.pair td.pair { background-color: #888; }
+tr.pair td.impair { background-color: #aaa; }
+tr.impair td.pair { background-color: #ccc; }
+*/
+td { margin: 0; }
+
+div.cat-tarifs {
+  display: inline;
+  position: absolute;
+  background-color: white;
+  margin-top: -5px;
+}
+div.cat-tarifs table { display: inline-table; text-align: center; }
+div.cat-tarifs table.show { border: 1px dashed black; }
+div.cat-tarifs table tr td { display: none; }
+div.cat-tarifs table tr:first-child, div.cat-tarifs table td:first-child { font-weight: bold; }
+div.cat-tarifs table tr:first-child td:first-child { display: table-cell; background-color: transparent; }
+div.cat-tarifs table.show tr td { display: table-cell; }
+div.cat-tarifs table tr td button { min-width: 45px; }
