@@ -53,6 +53,7 @@
   $fields = array(
     'eventid'   => 'e.id',
     'event'     => 'e.nom',
+    'description' => 'e.description',
     'manifid'   => 'm.id',
     'date'      => 'm.date',
     'jauge'     => 'm.jauge',
@@ -124,6 +125,7 @@
   {
     $arr['events'][$rec['eventid']]['id']       = $rec['eventid'];
     $arr['events'][$rec['eventid']]['name']     = $rec['event'];
+    $arr['events'][$rec['eventid']]['description'] = $rec['description'];
     $arr['events'][$rec['eventid']]['date']['min'] = $rec['date_max'];
     $arr['events'][$rec['eventid']]['date']['max'] = $rec['date_min'];
     
@@ -141,7 +143,7 @@
     );
     $rec['tarifs'] = array($tarif['name'] => $tarif);
     
-    unset($rec['tarif'],$rec['tarifdesc'],$rec['prix']);
+    unset($rec['tarif'],$rec['tarifdesc'],$rec['prix'],$rec['description']);
     unset($rec['date_max'],$rec['date_min']);
 
     if ( !is_array($arr['events'][$rec['eventid']][$rec['manifid']]) )
