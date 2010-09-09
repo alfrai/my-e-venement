@@ -90,8 +90,8 @@
 	?>
 	<p class="old">
 		<span class="del"><input type="checkbox" name="del[]" value="<?php echo intval($rec["id"]) ?>" /></span><span class="desc">Retirer les droits de cette entrée</span>
-		<span class="ip"><?php echo htmlsecure($rec["ip"]) ?></span>
-		<span class="user"><?php echo htmlsecure($rec["name"].' ('.$rec["login"].')') ?></span>
+		<span class="ip"><?php echo htmlsecure($rec["ip"]) ?></span> | 
+		<span class="user"><?php echo htmlsecure($rec["name"].' ('.$rec["login"].')') ?></span> |
 		<span class="salt"><?php echo htmlsecure($rec["salt"]) ?></span>
 	</p>
 	<?php	} ?>
