@@ -35,6 +35,7 @@
     *     . 406 if the payment argument is not given
     *     . 410 if no transactionthe payment argument is not given
     *     . 500 if there was a problem processing the demand, including with upgrading the transaction to a pre-reservation state
+    *     . 502 if there was a problem recording the raw informations coming from the bank
     *
     **/
 ?>
@@ -99,6 +100,7 @@
   {
     $topay = whatToPay($tid);
     $nav->httpStatus($topay <= $paid ? 200 : 202);
+    unset($_SESSION['transaction']);
     $bd->endTransaction();
     die();
   }

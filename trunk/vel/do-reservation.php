@@ -82,22 +82,13 @@
   $bd->beginTransaction();
   
   // new transaction
-  if ( !isset($_SESSION['transaction']) )
+  if ( $bd->addRecord('transaction',array('accountid' => $accountid, 'personneid' => $pid)) === false )
   {
-    if ( $bd->addRecord('transaction',array('accountid' => $accountid, 'personneid' => $pid)) === false )
-    {
-      $bd->endTransaction(false);
-      $nav->httpStatus(500);
-      die();
-    }
-    $tid = $_SESSION['transaction'] = intval($bd->getLastSerial('transaction','id'));
+    $bd->endTransaction(false);
+    $nav->httpStatus(500);
+    die();
   }
-  else
-  {
-    $tid = intval($_SESSION['transaction']);
-    $bd->delRecordsSimple('reservation_pre',array('transaction' => $tid));
-    //$bd->delRecordsSimple('bdc',array('transaction' => $tid));
-  }
+  $tid = $_SESSION['transaction'] = intval($bd->getLastSerial('transaction','id'));
   
   // adding tickets as demands
   $manifs = array();
