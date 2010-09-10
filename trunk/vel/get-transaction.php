@@ -47,7 +47,7 @@
     die();
   }
   
-  if ( $tid = intval($_SESSION['transaction']) )
+  if ( $tid = intval($_SESSION['transaction'] ? $_SESSION['transaction'] : $_SESSION['oldtransaction']) )
   {
     $nav->httpStatus(200);
     $t = array('transaction' => $tid);

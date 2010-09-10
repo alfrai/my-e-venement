@@ -100,6 +100,7 @@
   {
     $topay = whatToPay($tid);
     $nav->httpStatus($topay <= $paid ? 200 : 202);
+    $_SESSION['oldtransaction'] = $_SESSION['transaction'];
     unset($_SESSION['transaction']);
     $bd->endTransaction();
     die();
