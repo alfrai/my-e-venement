@@ -99,7 +99,7 @@
 		$rec = array();
 		foreach ( array("organisme1","organisme2","organisme3","nom","petitnom","description","typedesc",
 				"categorie","mscene","mscene_lbl","textede","textede_lbl","duree",
-				"ages","tarifweb","tarifwebgroup","imageurl","code","metaevt") as $value )
+				"ages","tarifweb","tarifwebgroup","imageurl","extradesc","extraspec","code","metaevt") as $value )
 			$rec[$value] = NULL;
 		
 		foreach ( $fields as $key => $value )
