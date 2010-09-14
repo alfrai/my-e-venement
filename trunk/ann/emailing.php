@@ -311,7 +311,7 @@
   <span><input type="submit" name="verif" value="Vérifier" class="submit" /></span>
 </p>
 </form>
-<form class="url" action="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>" method="post" onsubmit="javascript: return confirm('Vous allez perdre l\'email en cours, êtes vous sûr ?')">
+<form class="url" action="" method="post" onsubmit="javascript: return confirm('Votre courriel en cours sera réinitialisé à ses valeurs initiales (et son contenu rempli par le modèle proposé), êtes vous sûr ?')">
   <p>
     URL à charger comme modèle :
     <input type="text" name="url" value="<?php echo htmlsecure($url ? $url : '') ?>"/>

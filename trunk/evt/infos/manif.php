@@ -188,6 +188,7 @@
 			$query = " SELECT *, (SELECT count(*) > 0 FROM reservation_pre WHERE manifid = tarif.manifid AND tarif.id = tarifid) AS stop
 				   FROM tarif_manif AS tarif
 				   WHERE manifid = ".$manifid."
+				     AND NOT desact
 				   ORDER BY prix, key";
 			$def = new bdRequest($bd,$query);
 			$prix = array();
