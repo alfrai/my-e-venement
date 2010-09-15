@@ -83,7 +83,7 @@
 		$rec = array();
 		foreach ( array("adresse","cp","ville","pays","regisseur","organisme","description",
 				"dimensions_salle","dimensions_scene","noir_possible","gradins",
-				"amperage", "capacity", 'jauge-min', 'jauge-max')
+				"amperage", "capacity", 'jauge_min', 'jauge_max')
 				as $value )
 			$rec[$value] = NULL;
 		
@@ -183,15 +183,15 @@
 		<p class="titre">Détails techniques</p>
 		<div class="clip">
 			<div>
-			  <?php if ( $action != $actions['view'] || $rec['jauge-min'] || $rec['jauge-max'] ): ?>
+			  <?php if ( $action != $actions['view'] || $rec['jauge_min'] || $rec['jauge_max'] ): ?>
 			  <p class="jauge">
 			    <span>Jauge&nbsp;:</span>
 			    <span>de <?php
-			      $name = 'jauge-min';
+			      $name = 'jauge_min';
 			  	  printField(	"field[".($name)."]",$rec[$name],$default[$name],10,3,false,NULL,NULL,false);
 			  	?></span>
 			  	<span>à <?php
-			      $name = 'jauge-max';
+			      $name = 'jauge_max';
 			  	  printField(	"field[".($name)."]",$rec[$name],$default[$name],10,3,false,NULL,NULL,false);
 			    ?></span>
 			    <span>places</span>
