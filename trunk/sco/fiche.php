@@ -289,7 +289,6 @@
 	// titre du tableau
 	echo '<span class="impair titre">';
 	echo $id > 0 ? "Entrée #".$id : "Nouvelle entrée";
-  echo '<input class="submit" type="submit" name="submit" value="Enregistrer" />';
 	echo '</span>';
 	
 	// entrées existantes
@@ -558,7 +557,9 @@
 		}
 	
 		$request->free();
-		echo '<span class="clientmanif new"></span>';
+		echo '<span class="clientmanif new">';
+    echo '<input class="submit" type="submit" name="submit" value="Enregistrer" />';
+		echo '</span>';
 		echo '</p>';
 		
 		// si on a fait une ligne de jauge, on en commence une autre
