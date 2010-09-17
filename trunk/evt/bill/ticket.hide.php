@@ -210,7 +210,7 @@
 				$bill["type"]		= $tic["typedesc"] ? $tic["typedesc"] : $tic["catdesc"];
 				$bill["num"]		= intval($tic["ticketid"]);
 				$bill["operateur"]	= $user->getId();
-				$bill["date"]		= $tic["date"];
+				$bill["date"][]		= $tic["date"];
 				$bill["sitenom"]	= $tic["sitenom"];
 				$bill["siteville"]	= $tic["siteville"];
 				$bill["prix"]		= $tic["prix"]*(1-floatval($resa["reduc"])/100);

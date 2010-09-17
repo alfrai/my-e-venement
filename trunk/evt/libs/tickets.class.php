@@ -95,7 +95,7 @@ class Tickets
 	{
 		global $config;
 	  $this->count++;
-		
+	  
 		$dates = array('ltl' => array(), 'big' => array());
 		$date = '';
 		$last = strtotime($bill['date'][0]);
