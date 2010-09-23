@@ -232,7 +232,7 @@ form.entry div.table > p > span {
 }
 form.entry #first-line {
   position: fixed;
-  margin-top: -85px;
+  margin-top: -75px;
 }
 #first-line .titre .submit {
   position: absolute;
@@ -240,12 +240,12 @@ form.entry #first-line {
   bottom: 5px;
 }
 form.entry {
-  height: 400px;
+  height: 375px;
   overflow: auto;
   width: 100%;
 }
 form.entry p span.impair { background-color: white; }
-form.entry { margin-top: 90px; }
+form.entry { margin-top: 85px; }
 body.noscroll { overflow-x: auto; overflow-y: hidden; }
 #reminder {
   display: none;
