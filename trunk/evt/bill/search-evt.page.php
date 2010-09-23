@@ -77,7 +77,7 @@
       <li class="evt">
         <input type="radio" name="manifs[]" value="<?php echo intval($rec['id']) ?>" />
         <span style="background-color: #<?php echo $rec['color'] ?>">
-          le <a href="evt/infos/manif.php?id=<?php echo $rec['id'] ?>"><?php echo htmlspecialchars(date('d/m/Y à H:i',strtotime($rec['date']))) ?></a>
+          le <a href="evt/infos/manif.php?id=<?php echo $rec['id'] ?>"><?php echo htmlspecialchars($config['dates']['dotw'][date('w',strtotime($rec['date']))].'. '.date('d/m/Y à H:i',strtotime($rec['date']))) ?></a>
           à  <a href="evt/infos/salle.php?id=<?php echo $rec['siteid'] ?>"><?php echo htmlspecialchars($rec['sitenom'].' - '.$rec['ville'].', '.substr($rec['cp'],0,2)) ?></a>
         </span>
         <?php

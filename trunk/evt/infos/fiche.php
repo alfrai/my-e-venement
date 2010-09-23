@@ -517,8 +517,7 @@ $(document).ready(function(){
 					echo '<p>';
 						echo '<span class="cell st">Date'.($action != $actions["view"] ? '*' : '').':</span>';
 						echo '<span class="cell">';
-						//printField("manif[".($name = "date")."][]",date($config["format"]["date"].($action == $actions["view"] ? ' à ' : ' ').$config["format"]["ltltime"],strtotime($manif[$name])),$default[$name],255,NULL,false,NULL,NULL,false);
-						printField("manif[".($name = "date")."][]",($action == $actions["view"] ? date($config["format"]["date"].' à '.$config["format"]["ltltime"],strtotime($manif["date"])) : $manif[$name]),$default[$name],255,NULL,false,NULL,NULL,false);
+						printField("manif[".($name = "date")."][]",($action == $actions["view"] ? $config['dates']['dotw'][date('w',strtotime($manif["date"]))].' '.date($config["format"]["date"].' à '.$config["format"]["ltltime"],strtotime($manif["date"])) : $manif[$name]),$default[$name],255,NULL,false,NULL,NULL,false);
 						echo '</span>';
 					echo '</p><p>';
 						echo '<span class="cell">Site'.($action != $actions["view"] ? '*' : '').':</span>';
