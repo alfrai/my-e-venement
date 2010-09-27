@@ -33,6 +33,7 @@
 	includeJS("group","evt");
 	includeJS("jquery");
 	includeJS("jquery.contact");
+	includeJS("infosweb","evt");
 	
 	if ( isset($_GET["del"]) )
 		$action = $actions["del"];
@@ -422,10 +423,17 @@ $(document).ready(function(){
 					language: "fr",
 					theme: "advanced",
 					theme_advanced_buttons1 : "bold,italic,underline,|,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,link,unlink",
-					theme_advanced_buttons2 : "fontsizeselect,formatselect,|,hr,|,undo,redo",
+					theme_advanced_buttons2 : "fontsizeselect,formatselect,|,hr,|,undo,redo,|,pastetext,pasteword,selectall",
 					theme_advanced_buttons3 : "",
 					theme_advanced_toolbar_location : "bottom",
 					theme_advanced_toolbar_align : "center",
+          plugins : "paste",
+          paste_use_dialog : true,
+          paste_auto_cleanup_on_paste : true,
+          paste_convert_headers_to_strong : false,
+          paste_strip_class_attributes : "all",
+          paste_remove_spans : true,
+          paste_remove_styles : true,					
 				});
 			</script>
 			<p><?php
@@ -449,12 +457,12 @@ $(document).ready(function(){
 			<div class="extraspec"><?php
 				$name = "extraspec";
 				echo '<span class="titre">'."Autour de l'évènement</span>";
-				printField("field[".$name."]",$rec[$name],$default[$name],5,52,true,' ',' ');
+				printField("field[".$name."]",$rec[$name],$default[$name],9,90,true,' ',' ');
 			?></div>
 			<div class="extradesc"><?php
 				$name = "extradesc";
 				echo '<span class="titre">'."Distribution</span>";
-				printField("field[".$name."]",$rec[$name],$default[$name],5,52,true,' ',' ');
+				printField("field[".$name."]",$rec[$name],$default[$name],9,90,true,' ',' ');
 			?></div>
 		</div>
 	</div>

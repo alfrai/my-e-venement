@@ -115,6 +115,10 @@ form.evt div.web span.titre {
 	text-decoration: underline;
 	display: block;
 }
+form.evt div.web.wide {
+  width: 700px;
+  boder: 1px solid red;
+}
 form.salle div.details { margin-top: -162px; }
 form.salle div.gestion {
 	margin-top: -292px;
