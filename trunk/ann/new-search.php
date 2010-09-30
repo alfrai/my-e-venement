@@ -256,6 +256,8 @@
                 ORDER BY nom, prenom, orgnom, orgville, ville';
     $request = new bdRequest($bd,$query);
   }
+  
+  $qstring = $_SERVER['QUERY_STRING'];
 ?>
 <?php if ( $grpdyn ): ?>
 <?php

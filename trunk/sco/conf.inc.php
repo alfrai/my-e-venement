@@ -25,6 +25,7 @@
 	$css	= array();
 	$css[]	= "styles/main.css";
 	$css[]	= "sco/styles/main.css";
+	$css[]	= "sco/styles/print.css";
 	require_once("../config.php");
 	require_once("config.php");
 

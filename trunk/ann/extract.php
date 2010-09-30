@@ -33,6 +33,7 @@
 	
 	// données envoyées en POST ou en GET
 	$vars		= $_GET["csv"];
+	$vars['grpid'] = $_GET['grpid'];
 	if ( !isset($vars["fields"]) )
 		$vars["fields"]	= $_POST["csv"]["fields"];
 	if ( !isset($vars["persid"]) && !isset($vars["fctorgid"]) )
@@ -40,7 +41,7 @@
 		$vars["persid"]		= $_POST["csv"]["persid"];
 		$vars["fctorgid"]	= $_POST["csv"]["fctorgid"];
 	}
-	if ( !isset($vars["group"]) ) $vars["group"] = $_POST["csv"]["group"];
+	if ( !isset($vars["grpid"]) ) $vars["grpid"] = $_POST["csv"]["grpid"];
 	
 	$labels = isset($_POST['labels']);
 	$printfields = ( isset($_GET["printfields"]) ? $_GET["printfields"] == "yes" : $_POST["printfields"] == "yes" ) && !$labels;
@@ -88,20 +89,20 @@
 	if ( count($fields) > 0 )
 	{
 		// possibilité d'avoir des infos à extraire && groupe static
-		if ( intval($vars["group"])."" == $vars["group"]."" )
+		if ( intval($vars["grpid"])."" == $vars["grpid"]."" )
 		{
 			$vars["persid"] = array();
 			$vars["fctorgid"] = array();
 			$query	= '(SELECT personne."'.implode('",personne."',$fields).'" '.($info ? ", grppers.info" : "")."
 				    FROM groupe, groupe_personnes AS grppers, personne_extractor AS personne
-				    WHERE groupe.id = ".$vars["group"]."
+				    WHERE groupe.id = ".$vars["grpid"]."
 				      AND grppers.groupid = groupe.id
 				      AND grppers.personneid = personne.id
 				      AND personne.fctorgid IS NULL
 				   UNION ALL ".'
 				    SELECT personne."'.implode('",personne."',$fields).'" '.($info ? ", grpfct.info" : "")."
 				    FROM groupe, groupe_fonctions AS grpfct, personne_extractor AS personne
-				    WHERE groupe.id = ".$vars["group"]."
+				    WHERE groupe.id = ".$vars["grpid"]."
 				      AND grpfct.groupid = groupe.id
 				      AND grpfct.fonctionid = personne.fctorgid)
 				   ORDER BY nom, prenom";
@@ -109,21 +110,6 @@
 		}
 		else
 		{
-			/*
-			$query	= ' SELECT "'.implode('","',$fields).'"
-				    FROM personne_extractor
-				    WHERE id IS NULL';
-			
-			$cond = array();
-			if ( count($persid) > 0 )
-				$cond[] = "id IN (".implode(',',$persid).") AND fctorgid IS NULL";
-			if ( count($fctorgid) > 0 )
-				$cond[] = "fctorgid IN (".implode(',',$fctorgid).")";
-			if ( count($cond) > 0 )
-				$query .= " OR ".implode(' OR ',$cond);
-			$query .= " ORDER BY nom, prenom";
-			*/
-			
 			$cond = array();
 			if ( count($persid) > 0 )
 				$cond[] = "p.id IN (".implode(',',$persid).") AND fctorgid IS NULL";
@@ -135,7 +121,7 @@
 		              SELECT DISTINCT ON (p.nom, p.prenom, p.id, p.fctorgid)
 		                     p.*,
                          telp.numero AS telnum, telp.type AS teltype,
-                         telo.numero AS orgtelnum, telo.type AS orgteltype
+                         telo.numero AS orgtelnum, telo.type AS orgteltype '.($info ? ", p.info" : "").'
                   FROM personne_properso p
                   LEFT JOIN telephone_personne telp ON p.id = telp.entiteid
                   LEFT JOIN telephone_organisme telo ON p.orgid = telo.entiteid

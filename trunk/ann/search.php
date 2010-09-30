@@ -121,7 +121,7 @@
 		}
 		else	$grpname = $_GET["grpname"];
 		
-		$qstring = $_SERVER["QUERY_STRING"];
+	  $qstring = $_SERVER["QUERY_STRING"];
 		$print_search_fields = false;
 		//$print_search_fields = ($group["dynamic"] == "yes" || $personnes->getCondition() != array()) || (!isset($group["submit"]) && !$grpname) ? true : false;
 		//$print_search_fields = $group["dynamic"] == "yes" || !isset($group["submit"] ? true : false;
@@ -413,6 +413,7 @@
 		$presel = split(';',$req->getRecord("value"));
 		$req->free();
 ?>
+
 <form method="post" action="<?php echo htmlsecure('ann/extract.php?'.$qstring) ?>" class="extractor">
 	<fieldset class="hidden"><?php
 		if ( $dynamic && is_int($fields) )
