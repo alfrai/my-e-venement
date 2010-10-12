@@ -178,7 +178,7 @@ form.personnes a.next + a { padding-left: 3px; }
 /* confirmations et commentaires */
 form.entry p.confirmed > span input { color: green; }
 form.entry span.comment > input[type=text],
-form.entry span.confirmed > input[type=text] { width: 60px; }
+form.entry span.confirmed > input[type=text] { width: 120px; }
 form.entry span.client > span.confirmed,
 form.entry span.client > span.comment {
 	display: block;
