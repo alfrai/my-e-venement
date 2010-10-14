@@ -23,4 +23,5 @@
 <?php
   $config['vel']['payment-mode'] = 0;
   $config['vel']['show-full-manifs'] = false;
+  //$config['vel']['resa-noid'] = true;
 ?>

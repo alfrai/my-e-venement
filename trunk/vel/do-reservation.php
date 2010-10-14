@@ -52,7 +52,7 @@
   $nav->mimeType(isset($_GET['debug']) ? 'text/plain' : 'application/json');
   
   // general auth
-  if ( !$auth || ($pid = intval($_SESSION['personneid'])) <= 0 )
+  if ( !$auth || ($pid = intval($_SESSION['personneid'])) <= 0 && !$config['vel']['resa-noid'] )
   {
     $nav->httpStatus(403);
     die();
@@ -82,7 +82,7 @@
   $bd->beginTransaction();
   
   // new transaction
-  if ( $bd->addRecord('transaction',array('accountid' => $accountid, 'personneid' => $pid)) === false )
+  if ( $bd->addRecord('transaction',array('accountid' => $accountid, 'personneid' => $pid > 0 ? $pid : NULL )) === false )
   {
     $bd->endTransaction(false);
     $nav->httpStatus(500);
