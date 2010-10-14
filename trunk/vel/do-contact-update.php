@@ -121,9 +121,9 @@
   $bd->endTransaction();
   
   // adding the phone number in case of inexistant
-  $request = new bdRequest($bd,"SELECT count(*) AS nb FROM personne_telephone WHERE personneid = ".$pid." AND numero = '".pg_escape_string($user['telephone']));
+  $request = new bdRequest($bd,"SELECT count(*) AS nb FROM telephone_personne WHERE personneid = ".$pid." AND numero = '".pg_escape_string($user['telephone']));
   if ( $request->getRecord('nb') <= 0 )
-    $bd->addRecord('personne_telephone',array('numero' => $user['numero'], 'type' => 'e-voucher:'));
+    $bd->addRecord('telephone_personne',array('entiteid' => $pid, 'numero' => $user['numero'], 'type' => 'e-voucher:'));
   $request->free();
   
   $nav->httpStatus(200);
