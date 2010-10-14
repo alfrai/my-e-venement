@@ -79,7 +79,7 @@
   $bd->beginTransaction();
   
   // check if contact exists
-  $query = "SELECT * AS nb
+  $query = "SELECT *
             FROM personne
             WHERE email ILIKE '".$user['email']."'
               AND nom ILIKE '".$user['lastname']."'
@@ -87,7 +87,6 @@
             ORDER BY modification DESC
             LIMIT 1";
   $request = new bdRequest($bd,$query);
-  $pid = intval($request->getRecord('id'));
   
   // update or create the contact
   $arr['nom']     = $user['lastname'];
@@ -97,10 +96,15 @@
   $arr['cp']      = $user['postal'];
   $arr['ville']   = $user['city'];
   if ( $request->countRecords() > 0 )
-    $bd->updateRecords('personne',array('id' => $pid),$arr);
+  {
+    $pid = intval($request->getRecord('id'));
+    $bd->updateRecordsSimple('personne',array('id' => $pid),$arr);
+    file_put_contents('/tmp/dump.sql',$bd->getLastRequest(),FILE_APPEND);
+  }
   else
   {
     $bd->addRecord('personne',$arr);
+    file_put_contents('/tmp/dump.sql',$bd->getLastRequest(),FILE_APPEND);
     $pid = intval($bd->getLastSerial('personne','id'));
   }
   
@@ -109,6 +113,7 @@
   // updating the transaction for the new or updated contact
   if ( $bd->updateRecordsSimple('transaction',array('id' => $user['transaction']),array('personneid' => $pid)) === false )
   {
+    file_put_contents('/tmp/dump.sql',$bd->getLastRequest(),FILE_APPEND);
     $nav->httpStatus(500);
     die();
   }
