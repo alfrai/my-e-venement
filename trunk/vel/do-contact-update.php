@@ -95,16 +95,17 @@
   $arr['adresse'] = $user['address'];
   $arr['cp']      = $user['postal'];
   $arr['ville']   = $user['city'];
+  $arr['description'] = 'e-voucher';
   if ( $request->countRecords() > 0 )
   {
     $pid = intval($request->getRecord('id'));
+    if ( $request->getRecord('description') )
+      $arr['description'] .= ' '.$request->getRecord('description');
     $bd->updateRecordsSimple('personne',array('id' => $pid),$arr);
-    file_put_contents('/tmp/dump.sql',$bd->getLastRequest(),FILE_APPEND);
   }
   else
   {
     $bd->addRecord('personne',$arr);
-    file_put_contents('/tmp/dump.sql',$bd->getLastRequest(),FILE_APPEND);
     $pid = intval($bd->getLastSerial('personne','id'));
   }
   
@@ -113,12 +114,17 @@
   // updating the transaction for the new or updated contact
   if ( $bd->updateRecordsSimple('transaction',array('id' => $user['transaction']),array('personneid' => $pid)) === false )
   {
-    file_put_contents('/tmp/dump.sql',$bd->getLastRequest(),FILE_APPEND);
     $nav->httpStatus(500);
     die();
   }
   
   $bd->endTransaction();
+  
+  // adding the phone number in case of inexistant
+  $request = new bdRequest($bd,"SELECT count(*) AS nb FROM personne_telephone WHERE personneid = ".$pid." AND numero = '".pg_escape_string($user['telephone']));
+  if ( $request->getRecord('nb') <= 0 )
+    $bd->addRecord('personne_telephone',array('numero' => $user['numero'], 'type' => 'e-voucher:'));
+  $request->free();
   
   $nav->httpStatus(200);
   die();
