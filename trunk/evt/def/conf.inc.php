@@ -21,7 +21,7 @@
 ***********************************************************************************/
 ?>
 <?php
-	require_once("../../config.php");
+	require_once(dirname(__FILE__)."/../../config.php");
 	$title	= "Paramétrage de ".$config["divers"]["appli-name"];
 	$css	= array("styles/main.css","evt/styles/main.css","def/styles/main.css");
 
@@ -32,7 +32,7 @@
 	$nav	= new navigation();
 	$user	= &$_SESSION["user"];
 	
-	require_once("../config.default.php");
+	require_once(dirname(__FILE__)."/../config.default.php");
 
 	$bd	= new bd (	$config["database"]["name"],
 				$config["database"]["server"],
@@ -43,7 +43,7 @@
 	
 	includeLib("login-check");
 	
-	require_once("../secu.php");
+	require_once(dirname(__FILE__)."/../secu.php");
 	if ( $user->evtlevel < $config["evt"]["right"]["param"] && !$user->hasRight($config["right"]["param"]) )
 	{
 		$user->addAlert($msg = "Vous n'avez pas le droit d'accéder à cette partie.");

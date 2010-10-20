@@ -1,6 +1,10 @@
+<?php include(dirname(__FILE__).'/conf.inc.php'); ?>
 <li>
 	Évènements
 	<ul>
+		<?php if ( $config['evt']['spaces'] ): ?>
+		  <li><a href="evt/def/space.php">Espaces</a> de travail</li>
+		<?php endif; ?>
 		<li><a href="evt/def/rights.php">Gestion des droits</a> sur le module</li>
 		<li><a href="evt/def/catevt.php">Les catégories d'évènements</a></li>
 		<li><a href="evt/def/tarif.php">Les tarifs</a> par défaut</li>

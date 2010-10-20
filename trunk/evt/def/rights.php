@@ -73,6 +73,7 @@
 <p class="actions"><a href="evt/def/">Paramétrage</a><a class="nohref active"><?php echo htmlsecure($onglet) ?></a><a href="." class="parent">..</a></p>
 <div class="body">
 <h2><?php echo htmlsecure($titre) ?></h2>
+<?php if ( $config['evt']['spaces'] ): ?>
 <form class="space" method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
   <p>
     <?php
@@ -91,6 +92,7 @@
     <?php $request->free(); ?>
   </p>
 </form>
+<?php endif; ?>
 <form name="formu" method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
 	<p class="new">
 	  <input type="hidden" name="spaceid" value="<?php echo $spaceid ? $spaceid : $user->evtspace ?>" />
