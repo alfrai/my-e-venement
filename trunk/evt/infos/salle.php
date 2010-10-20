@@ -345,6 +345,7 @@
 				    FROM info_resa
 				    WHERE  siteid = ".$id."
 				      AND ( date >= NOW() - '1 month'::interval )
+				      AND spaceid ".($user->evtspace ? ' = '.$user->evtspace : 'IS NULL')."
 				    ORDER BY date, nom";
 			$manifestations = new bdRequest($bd,$query);
 			for ( $i = 0 ; $manif = $manifestations->getRecordNext() ; $i++ )

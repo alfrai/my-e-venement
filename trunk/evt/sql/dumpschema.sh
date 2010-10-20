@@ -1,6 +1,6 @@
 #!/bin/bash
 
 SCHEMA=billeterie
-DB=airelibre
+DB=e-venement
 
 pg_dump -x -O -sn $SCHEMA $DB > init.sql

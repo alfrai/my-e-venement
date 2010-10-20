@@ -539,7 +539,8 @@ CREATE TABLE manifestation (
     colorid integer,
     plnum boolean DEFAULT false NOT NULL,
     updated timestamp with time zone DEFAULT now() NOT NULL,
-    created timestamp with time zone DEFAULT now() NOT NULL
+    created timestamp with time zone DEFAULT now() NOT NULL,
+    vel boolean DEFAULT false NOT NULL
 );
 
 
@@ -812,6 +813,8 @@ CREATE TABLE tarif (
     date timestamp with time zone DEFAULT now() NOT NULL,
     desact boolean DEFAULT false NOT NULL,
     contingeant boolean DEFAULT false NOT NULL,
+    pass boolean DEFAULT false,
+    vel boolean DEFAULT false NOT NULL,
     CONSTRAINT tarif_prix_contingeant_key CHECK (((contingeant AND (prix = (0)::numeric)) OR (NOT contingeant)))
 );
 
@@ -1051,91 +1054,6 @@ COMMENT ON COLUMN bdc.accountid IS 'account.id';
 
 
 --
--- Name: checklist; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
---
-
-CREATE TABLE checklist (
-    id integer NOT NULL,
-    evtid integer NOT NULL,
-    checkpoint character varying(255) NOT NULL,
-    description text,
-    done timestamp with time zone,
-    owner bigint NOT NULL,
-    modifier bigint,
-    doing timestamp with time zone,
-    isfile boolean DEFAULT false NOT NULL
-);
-
-
---
--- Name: TABLE checklist; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON TABLE checklist IS 'permet d''ajouter une liste de tâches à faire pour un événement donné';
-
-
---
--- Name: COLUMN checklist.checkpoint; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.checkpoint IS 'short comment';
-
-
---
--- Name: COLUMN checklist.description; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.description IS 'long comment (may be HTML content)';
-
-
---
--- Name: COLUMN checklist.done; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.done IS 'date of checked state';
-
-
---
--- Name: COLUMN checklist.owner; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.owner IS 'createur';
-
-
---
--- Name: COLUMN checklist.modifier; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.modifier IS 'derniere personne à avoir modifié le checkpoint';
-
-
---
--- Name: COLUMN checklist.doing; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN checklist.doing IS 'Someone is responsible of this checkpoint';
-
-
---
--- Name: checklist_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
---
-
-CREATE SEQUENCE checklist_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Name: checklist_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
---
-
-ALTER SEQUENCE checklist_id_seq OWNED BY checklist.id;
-
-
---
 -- Name: color; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
 --
 
@@ -1248,7 +1166,8 @@ CREATE TABLE evenement (
     extradesc text,
     extraspec text,
     imageurl character varying(255),
-    tarifwebgroup numeric(8,3)
+    tarifwebgroup numeric(8,3),
+    space integer
 );
 
 
@@ -1376,6 +1295,13 @@ COMMENT ON COLUMN evenement.modification IS 'date de dernière modification';
 --
 
 COMMENT ON COLUMN evenement.metaevt IS 'données trouvées à partir de la table public.str_model à un moment donné';
+
+
+--
+-- Name: COLUMN evenement.space; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN evenement.space IS 'links events to "spaces"';
 
 
 --
@@ -1545,7 +1471,9 @@ CREATE TABLE site (
     creation timestamp with time zone DEFAULT now() NOT NULL,
     active boolean DEFAULT true NOT NULL,
     dynamicplan text,
-    capacity integer
+    capacity integer,
+    jauge_min integer,
+    jauge_max integer
 );
 
 
@@ -1655,18 +1583,47 @@ COMMENT ON COLUMN site.active IS 'la salle est utilisable';
 
 
 --
+-- Name: space; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
+--
+
+CREATE TABLE space (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+--
+-- Name: TABLE space; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON TABLE space IS 'Defines spaces for ticketting system';
+
+
+--
+-- Name: space_manifestation; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
+--
+
+CREATE TABLE space_manifestation (
+    id integer NOT NULL,
+    spaceid integer NOT NULL,
+    manifid integer NOT NULL,
+    jauge integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- Name: TABLE space_manifestation; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON TABLE space_manifestation IS 'Defines specificities for manifestations in a defined space';
+
+
+--
 -- Name: info_resa; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW info_resa AS
-    SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, manif.duree, evt.ages, evt.code, evt.creation, evt.modification, evt.catdesc, manif.id AS manifid, manif.date, manif.jauge, manif.description AS manifdesc, site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, manif.plnum, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (NOT (resa.transaction IN (SELECT preselled.transaction FROM preselled))))) AS commandes, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE ((resa.manifid = manif.id) AND (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AS resas, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (resa.transaction IN (SELECT preselled.transaction FROM preselled)))) AS preresas, evt.txtva AS deftva, manif.txtva, colors.libelle AS colorname, colors.color FROM evenement_categorie evt, manifestation manif, site, colors WHERE (((evt.id = manif.evtid) AND (site.id = manif.siteid)) AND ((colors.id = manif.colorid) OR ((colors.id IS NULL) AND (manif.colorid IS NULL)))) ORDER BY evt.catdesc, evt.nom, manif.date;
-
-
---
--- Name: VIEW info_resa; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON VIEW info_resa IS 'permet d''avoir d''un coup toutes les informations de réservation nécessaires';
+    SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, manif.duree, evt.ages, evt.code, evt.creation, evt.modification, evt.catdesc, manif.id AS manifid, manif.date, CASE WHEN ((sm.manifid IS NULL) AND (space.id IS NULL)) THEN manif.jauge WHEN ((sm.manifid IS NULL) AND (space.id IS NOT NULL)) THEN 0 ELSE sm.jauge END AS jauge, space.id AS spaceid, manif.vel, manif.description AS manifdesc, site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, manif.plnum, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (NOT (resa.transaction IN (SELECT preselled.transaction FROM preselled))))) AS commandes, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE ((resa.manifid = manif.id) AND (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AS resas, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (resa.transaction IN (SELECT preselled.transaction FROM preselled)))) AS preresas, evt.txtva AS deftva, manif.txtva, color.libelle AS colorname, color.color FROM evenement_categorie evt, site, (((manifestation manif LEFT JOIN color ON ((color.id = manif.colorid))) LEFT JOIN (SELECT NULL::integer AS id, NULL::character varying(255) AS name UNION SELECT space.id, space.name FROM space) space ON (true)) LEFT JOIN space_manifestation sm ON (((sm.manifid = manif.id) AND (sm.spaceid = space.id)))) WHERE ((evt.id = manif.evtid) AND (site.id = manif.siteid)) ORDER BY evt.catdesc, evt.nom, manif.date;
 
 
 --
@@ -2038,8 +1995,16 @@ ALTER SEQUENCE reservation_cur_id_seq OWNED BY reservation_cur.id;
 
 CREATE TABLE rights (
     id bigint NOT NULL,
-    level integer DEFAULT 0 NOT NULL
+    level integer DEFAULT 0 NOT NULL,
+    spaceid integer
 );
+
+
+--
+-- Name: COLUMN rights.spaceid; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN rights.spaceid IS 'refers to space.id';
 
 
 --
@@ -2047,14 +2012,7 @@ CREATE TABLE rights (
 --
 
 CREATE VIEW site_datas AS
-    ((SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.organisme, public.personne_properso personne WHERE ((organisme.id = site.organisme) AND (personne.id = site.regisseur)) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.personne_properso personne WHERE ((site.organisme IS NULL) AND (personne.id = site.regisseur))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, NULL::unknown AS persid, NULL::unknown AS perstitre, NULL::unknown AS persnom, NULL::unknown AS persprenom, NULL::unknown AS perstel FROM site, public.organisme WHERE ((organisme.id = site.organisme) AND (site.regisseur IS NULL))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgville, NULL::unknown AS persid, NULL::unknown AS perstitre, NULL::unknown AS persnom, NULL::unknown AS persprenom, NULL::unknown AS perstel FROM site WHERE ((site.organisme IS NULL) AND (site.regisseur IS NULL)) ORDER BY 2, 5;
-
-
---
--- Name: VIEW site_datas; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON VIEW site_datas IS 'Affiche toutes les données nécessaire à l''affichage des salles (y compris des données sur le régisseur et l''organisme responsable)';
+    ((SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.jauge_max, site.jauge_min, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.organisme, public.personne_properso personne WHERE ((organisme.id = site.organisme) AND (personne.id = site.regisseur)) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.jauge_min AS jauge_max, site.jauge_max AS jauge_min, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgville, personne.id AS persid, personne.titre AS perstitre, personne.nom AS persnom, personne.prenom AS persprenom, personne.protel AS perstel FROM site, public.personne_properso personne WHERE ((site.organisme IS NULL) AND (personne.id = site.regisseur))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.jauge_min AS jauge_max, site.jauge_max AS jauge_min, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, organisme.id AS orgid, organisme.nom AS orgnom, organisme.ville AS orgville, NULL::unknown AS persid, NULL::unknown AS perstitre, NULL::unknown AS persnom, NULL::unknown AS persprenom, NULL::unknown AS perstel FROM site, public.organisme WHERE ((organisme.id = site.organisme) AND (site.regisseur IS NULL))) UNION SELECT site.id, site.nom, site.adresse, site.cp, site.ville, site.pays, site.regisseur, site.organisme, site.jauge_min AS jauge_max, site.jauge_max AS jauge_min, site.dimensions_salle, site.dimensions_scene, site.noir_possible, site.gradins, site.amperage, site.description, site.modification, site.creation, site.active, NULL::unknown AS orgid, NULL::unknown AS orgnom, NULL::unknown AS orgville, NULL::unknown AS persid, NULL::unknown AS perstitre, NULL::unknown AS persnom, NULL::unknown AS persprenom, NULL::unknown AS perstel FROM site WHERE ((site.organisme IS NULL) AND (site.regisseur IS NULL)) ORDER BY 2, 5;
 
 
 --
@@ -2109,6 +2067,44 @@ CREATE SEQUENCE site_plnum_id_seq
 --
 
 ALTER SEQUENCE site_plnum_id_seq OWNED BY site_plnum.id;
+
+
+--
+-- Name: space_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
+--
+
+CREATE SEQUENCE space_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- Name: space_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
+--
+
+ALTER SEQUENCE space_id_seq OWNED BY space.id;
+
+
+--
+-- Name: space_manifestation_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
+--
+
+CREATE SEQUENCE space_manifestation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
+-- Name: space_manifestation_id_seq; Type: SEQUENCE OWNED BY; Schema: billeterie; Owner: -
+--
+
+ALTER SEQUENCE space_manifestation_id_seq OWNED BY space_manifestation.id;
 
 
 --
@@ -2174,7 +2170,8 @@ CREATE TABLE transaction (
     fctorgid bigint,
     translinked bigint,
     dematerialized boolean DEFAULT false NOT NULL,
-    blocked boolean DEFAULT false
+    blocked boolean DEFAULT false,
+    spaceid integer
 );
 
 
@@ -2214,6 +2211,13 @@ COMMENT ON COLUMN transaction.translinked IS 'La transaction courante est issue 
 
 
 --
+-- Name: COLUMN transaction.spaceid; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN transaction.spaceid IS 'linking a transaction to a space';
+
+
+--
 -- Name: transaction_id_seq; Type: SEQUENCE; Schema: billeterie; Owner: -
 --
 
@@ -2238,20 +2242,6 @@ ALTER SEQUENCE transaction_id_seq OWNED BY transaction.id;
 
 CREATE VIEW waitingdepots AS
     SELECT DISTINCT contingeant.transaction, contingeant.closed, contingeant.date, personne.id, personne.nom, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.prenom, personne.titre, personne.orgid, personne.orgnom, personne.orgcat, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.orgemail, personne.orgurl, personne.orgdesc, personne.service, personne.fctorgid, personne.fctid, personne.fcttype, personne.fctdesc, personne.proemail, personne.protel, personne.orgcatdesc, account.name, (SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre.transaction = transaction.id) AND (NOT reservation_pre.annul))) AS total, (SELECT count(*) AS count FROM reservation_pre, tarif WHERE ((((reservation_pre.transaction = transaction.id) AND (reservation_pre.tarifid = tarif.id)) AND tarif.contingeant) AND (NOT reservation_pre.annul))) AS cont, (SELECT sum(masstickets.nb) AS nb FROM masstickets WHERE (masstickets.transaction = transaction.id)) AS masstick FROM public.personne_properso personne, contingeant, public.account, transaction WHERE ((((((personne.fctorgid = contingeant.fctorgid) OR ((personne.fctorgid IS NULL) AND (contingeant.fctorgid IS NULL))) AND (personne.id = contingeant.personneid)) AND (account.id = contingeant.accountid)) AND (transaction.id = contingeant.transaction)) AND ((SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre.transaction = transaction.id) AND (NOT reservation_pre.annul))) > 0)) ORDER BY contingeant.transaction DESC, personne.nom, personne.prenom, personne.orgnom, personne.id, personne.creation, personne.modification, personne.adresse, personne.cp, personne.ville, personne.pays, personne.email, personne.npai, personne.active, personne.titre, personne.orgid, personne.orgcat, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.orgemail, personne.orgurl, personne.orgdesc, personne.service, personne.fctorgid, personne.fctid, personne.fcttype, personne.fctdesc, personne.proemail, personne.protel, personne.orgcatdesc, account.name, (SELECT count(*) AS count FROM reservation_pre WHERE ((reservation_pre.transaction = transaction.id) AND (NOT reservation_pre.annul))), (SELECT count(*) AS count FROM reservation_pre, tarif WHERE ((((reservation_pre.transaction = transaction.id) AND (reservation_pre.tarifid = tarif.id)) AND tarif.contingeant) AND (NOT reservation_pre.annul))), (SELECT sum(masstickets.nb) AS nb FROM masstickets WHERE (masstickets.transaction = transaction.id)), contingeant.closed, contingeant.date;
-
-
---
--- Name: VIEW waitingdepots; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON VIEW waitingdepots IS 'Les dépôts de places / places contingeantées en attente de traitement';
-
-
---
--- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
---
-
-ALTER TABLE checklist ALTER COLUMN id SET DEFAULT nextval('checklist_id_seq'::regclass);
 
 
 --
@@ -2356,6 +2346,20 @@ ALTER TABLE site_plnum ALTER COLUMN id SET DEFAULT nextval('site_plnum_id_seq'::
 -- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
 --
 
+ALTER TABLE space ALTER COLUMN id SET DEFAULT nextval('space_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
+--
+
+ALTER TABLE space_manifestation ALTER COLUMN id SET DEFAULT nextval('space_manifestation_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: billeterie; Owner: -
+--
+
 ALTER TABLE tarif ALTER COLUMN id SET DEFAULT nextval('tarif_id_seq'::regclass);
 
 
@@ -2380,14 +2384,6 @@ ALTER TABLE ONLY bdc
 
 ALTER TABLE ONLY bdc
     ADD CONSTRAINT bdc_transaction_key UNIQUE (transaction);
-
-
---
--- Name: checklist_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY checklist
-    ADD CONSTRAINT checklist_pkey PRIMARY KEY (id);
 
 
 --
@@ -2575,6 +2571,38 @@ ALTER TABLE ONLY site_plnum
 
 
 --
+-- Name: space_manifestation_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY space_manifestation
+    ADD CONSTRAINT space_manifestation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: space_manifestation_spaceid_key; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY space_manifestation
+    ADD CONSTRAINT space_manifestation_spaceid_key UNIQUE (spaceid, manifid);
+
+
+--
+-- Name: space_name_key; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY space
+    ADD CONSTRAINT space_name_key UNIQUE (name);
+
+
+--
+-- Name: space_pkey; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY space
+    ADD CONSTRAINT space_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tarif_key_key; Type: CONSTRAINT; Schema: billeterie; Owner: -; Tablespace: 
 --
 
@@ -2631,30 +2659,6 @@ ALTER TABLE ONLY bdc
 
 
 --
--- Name: checklist_evtid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
---
-
-ALTER TABLE ONLY checklist
-    ADD CONSTRAINT checklist_evtid_fkey FOREIGN KEY (evtid) REFERENCES evenement(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: checklist_modifier_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
---
-
-ALTER TABLE ONLY checklist
-    ADD CONSTRAINT checklist_modifier_fkey FOREIGN KEY (modifier) REFERENCES public.account(id) ON UPDATE CASCADE ON DELETE RESTRICT;
-
-
---
--- Name: checklist_owner_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
---
-
-ALTER TABLE ONLY checklist
-    ADD CONSTRAINT checklist_owner_fkey FOREIGN KEY (owner) REFERENCES public.account(id) ON UPDATE CASCADE ON DELETE RESTRICT;
-
-
---
 -- Name: contingeant_fctorgid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
@@ -2692,6 +2696,14 @@ ALTER TABLE ONLY evenement
 
 ALTER TABLE ONLY evenement
     ADD CONSTRAINT evenement_organisme3_fkey FOREIGN KEY (organisme3) REFERENCES public.organisme(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: evenement_space_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
+--
+
+ALTER TABLE ONLY evenement
+    ADD CONSTRAINT evenement_space_fkey FOREIGN KEY (space) REFERENCES space(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
@@ -2879,6 +2891,14 @@ ALTER TABLE ONLY reservation_pre
 
 
 --
+-- Name: rights_spaceid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
+--
+
+ALTER TABLE ONLY rights
+    ADD CONSTRAINT rights_spaceid_fkey FOREIGN KEY (spaceid) REFERENCES space(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
 -- Name: site_organisme_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
@@ -2903,6 +2923,22 @@ ALTER TABLE ONLY site
 
 
 --
+-- Name: space_manifestation_manifid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
+--
+
+ALTER TABLE ONLY space_manifestation
+    ADD CONSTRAINT space_manifestation_manifid_fkey FOREIGN KEY (manifid) REFERENCES manifestation(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: space_manifestation_spaceid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
+--
+
+ALTER TABLE ONLY space_manifestation
+    ADD CONSTRAINT space_manifestation_spaceid_fkey FOREIGN KEY (spaceid) REFERENCES space(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: transaction_fctorgid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
 --
 
@@ -2916,6 +2952,14 @@ ALTER TABLE ONLY transaction
 
 ALTER TABLE ONLY transaction
     ADD CONSTRAINT transaction_personneid_fkey FOREIGN KEY (personneid) REFERENCES public.personne(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: transaction_spaceid_fkey; Type: FK CONSTRAINT; Schema: billeterie; Owner: -
+--
+
+ALTER TABLE ONLY transaction
+    ADD CONSTRAINT transaction_spaceid_fkey FOREIGN KEY (spaceid) REFERENCES space(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --

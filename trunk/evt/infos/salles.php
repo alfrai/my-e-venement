@@ -29,7 +29,8 @@
 	
 	includeLib("headers");
 	
-	$name_start = $_GET["s"] ? trim("".htmlsecure($_GET["s"])) : "A";
+	
+	$name_start = $_GET["s"] ? trim("".htmlsecure($_GET["s"])) : '';
 	$query = " SELECT id, nom, ville, SUBSTR(cp,1,2) AS cp
 		   FROM site
 		   WHERE LOWER(ville) LIKE LOWER('".$name_start."') || '%'

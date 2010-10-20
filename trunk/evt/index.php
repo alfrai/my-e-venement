@@ -22,6 +22,29 @@
 ?>
 <?php
 	require("./conf.inc.php");
+	
+	// a space has been chosen, redirecting
+	if ( isset($_GET['spaceid']) || !$config['evt']['spaces'] )
+	{
+	  // set the chosen space
+	  $user->evtspace = intval($_GET['spaceid']);
+	  
+	  // set the last_url
+	  $last_url = $user->last_url;
+	  unset($user->last_url);
+	  
+	  // reset the evtlevel
+	  $query  = 'SELECT level FROM billeterie.rights WHERE id = '.$user->getId();
+	  $query .= $user->evtspace > 0 ? ' AND spaceid = '.$user->evtspace : ' AND spaceid IS NULL';
+	  $request = new bdRequest($bd,$query);
+	  $user->evtlevel = intval($request->getRecord('level'));
+	  $request->free();
+  	
+	  // redirect
+	  if ( $last_url )
+	  $nav->redirect($last_url);
+	}
+	
 	includeLib("headers");
 ?>
 <h1><?php echo $title ?></h1>
@@ -31,6 +54,28 @@
 </p>
 <div class="body">
 <h2>Les évènements</h2>
+<?php if ( $config['evt']['spaces'] ): ?>
+<h3>Sélection d'un espace de travail</h3>
+<form action="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>" method="get">
+  <p>
+    <?php
+      $query  = ' SELECT *
+                  FROM space
+                  WHERE id IN ( SELECT spaceid FROM rights WHERE id = '.$user->getId().' )
+                  ORDER BY name';
+      $request = new bdRequest($bd,$query);
+    ?>
+    <select name="spaceid" onchange="javascript: submit()">
+      <option value="0">Espace par défaut</option>
+      <?php while ( $rec = $request->getRecordNext() ): ?>
+      <option value="<?php echo intval($rec['id']) ?>" <?php echo $user->evtspace == intval($rec['id']) ? 'selected="selected"' : '' ?>><?php echo htmlsecure($rec['name']) ?></option>
+      <?php endwhile; ?>
+    </select>
+    <?php $request->free(); ?>
+    <input type="submit" name="ok" value="ok" />
+  </p>
+</form>
+<?php endif; ?>
 <?php @include("desc.txt"); ?>
 </div>
 <?php

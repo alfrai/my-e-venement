@@ -184,9 +184,9 @@
 					$arr["duree"]		= $rec["duree"];
 				if ( $manif["description"][$i]["value"] && $manif["description"][$i]["value"] != $default["description"] )
 					$arr["description"]	= $manif["description"][$i]["value"];
-				if ( $manif["jauge"][$i]["value"] && $manif["jauge"][$i]["value"] != $default["jauge"] )
+				if ( $manif["jauge"][$i]["value"] && $manif["jauge"][$i]["value"] != $default["jauge"] && !$user->evtspace )
 					$arr["jauge"]		= intval($manif["jauge"][$i]["value"]);
-		
+		    
   	  	if ( in_array('vel',$config['mods']) )
 	  	    $arr['vel'] = $manif['vel'][$i]['value'] == 'yes' ? 't' : 'f';
 				
@@ -194,11 +194,11 @@
 				if ( intval($manif["manifid"][$i]["value"]) > 0 )
      	  {
 					// mises à NULL
-					foreach ( array("duree","description","jauge") as $value )
+					foreach ( array("duree","description") as $value )
 						if ( !isset($arr[$value]) ) $arr[$value] = NULL;
 					
-					$arr["id"]		= $manif["manifid"][$i]["value"];
-					if ( !$bd->updateRecordsSimple("manifestation", array("id" => intval($manif["manifid"][$i]["value"])), $arr) )
+					$arr["id"]		= intval($manif["manifid"][$i]["value"]);
+					if ( !$bd->updateRecordsSimple("manifestation", array("id" => $arr['id']), $arr) )
 						$user->addAlert("Impossible de modifier la manifestation du ".htmlsecure($manif["date"][$i]["value"].""));
 				}
 				else // ajout
@@ -207,7 +207,14 @@
 					$arr["txtva"]		= $rec["txtva"] ? $rec["txtva"] : $config["compta"]["defaulttva"];
 					if ( !@$bd->addRecord("manifestation",$arr) )
 						$user->addAlert("Impossible d'ajouter la manifestation du ".htmlsecure($manif["date"][$i]["value"].""));
+				  else
+				    $arr['id'] = $bd->getLastSerial('id','manifestation');
 				}
+				
+				// la jauge lié à l'espace
+				if ( $user->evtspace )
+				  $bd->addOrUpdateRecord('space_manifestation',array('spaceid' => $user->evtspace, 'manifid' => $arr['id']),array('jauge' => intval($manif["jauge"][$i]["value"])));
+				
 			} // condition de modif/crea d'une manifestation
 			else $err++;
 		} // for ( $i = 0 ; $i < count($manif["date"]) ; $i++ )
@@ -470,7 +477,13 @@ $(document).ready(function(){
 	<div class="manifs">
 		<p class="titre">Les dates</p>
 		<div class="clip">
-			<?php if ( $action != $actions["view"] ) { ?>
+			<?php if ( $action == $actions["view"] ): ?>
+			<?php if ( $config['evt']['spaces'] ): ?>
+			<form class="spaces" title="Accessible uniquement si vous disposez des droits suffisants" action="" method="post">
+			  <input type="checkbox" name="space" value="all" <?php if ( $_POST['space'] == 'all' ) echo 'checked="checked"' ?> onchange="javascript: submit();" /> <label for="space">Voir tous les espaces</label>
+			</form>
+			<?php endif; ?>
+			<?php else: ?>
 			<p class="add">
 				<span class="cell">
 					<input type="button" onclick="javascript: ttt_addmanif(document.getElementById('manifmodel'));" value="+" name="add"/>
@@ -478,7 +491,7 @@ $(document).ready(function(){
 					<input type="hidden" name="manif[delmanif][][value]" id="delmanif" value="" />
 				</span>
 			</p>
-			<?php } ?>
+			<?php endif; ?>
 			<?php
 				// la liste des sites dispos
 				$query	= " SELECT id, ville, nom
@@ -488,16 +501,25 @@ $(document).ready(function(){
 				$sites = new bdRequest($bd,$query);
 				
 				// la liste des manifs
-				$query	= "(SELECT *, 1 AS o, jauge = 0 AS last
-					    FROM info_resa AS manif
-					    WHERE id = ".$id."
-					      AND date > now() - '1 day'::interval)
-					   UNION
-					   (SELECT *, 2 AS o, jauge = 0 AS last
-					    FROM info_resa AS manif
-					    WHERE id = ".$id."
-					      AND date <= now() - '1 day'::interval)
-					    ORDER BY last,o,date,sitenom";
+  		  $select = array(
+			    'id', 'organisme1', 'organisme2', 'organisme3', 'nom', 'description',
+			    'categorie', 'typedesc', 'mscene', 'mscene_lbl', 'textede', 'textede_lbl', 'duree', 'ages', 'code', 'creation', 'modification', 'catdesc',
+			    'manifid', 'date', 'vel', 'manifdesc',
+			    'siteid', 'sitenom', 'ville', 'cp', 'plnum', 'commandes', 'resas', 'preresas', 'deftva', 'txtva', 'colorname', 'color',
+			  );
+				if ( $_POST['space'] == 'all' )
+          $query  = " SELECT ".implode(',',$select).", sum(jauge) as jauge, CASE WHEN date > now() - '1 day'::interval THEN 1 ELSE 2 END AS o, sum(jauge) = 0 AS last
+                      FROM info_resa ir
+                      WHERE ir.id = ".$id."
+                      GROUP BY ".implode(',',$select)."
+                      ORDER BY last,o,date,sitenom";
+        else
+          $query  = " SELECT ".implode(',',$select).", jauge, CASE WHEN date > now() - '1 day'::interval THEN 1 ELSE 2 END AS o, ir.jauge = 0 AS last
+                      FROM info_resa ir
+                      WHERE ir.id = ".$id."
+                        AND ".($user->evtspace ? 'ir.spaceid = '.$user->evtspace : 'ir.spaceid IS NULL')."
+                      ORDER BY last,o,date,sitenom";
+				  
 				if ( $action == $actions["add"] ) $query = NULL;
 				$manifestations = new bdRequest($bd,$query);
 				
@@ -550,7 +572,7 @@ $(document).ready(function(){
 						echo '<span class="cell">';
 						printField("manif[".($name = "duree")."][]",substr($manif[$name],0,5),$default[$name],255,NULL,false,NULL,NULL,false);
 						echo '</span>';
-					echo '</p><p class="jauge">';
+  			  echo '</p><p class="jauge">';
 						echo '<span class="cell">Jauge:</span>';
 						echo '<span class="cell">';
 						if ( $action != $actions["view"] )

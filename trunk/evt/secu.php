@@ -44,14 +44,37 @@
 		$bd->setPath("billeterie,public");
 	}
 	
+	// space used for browsing this module
+	if ( !isset($user->evtspace) && $_SERVER['PHP_SELF'] != $config["website"]["root"].$config['evt']['spacesurl'] )
+	{
+	  $query  = ' SELECT spaceid
+	              FROM billeterie.rights
+	              WHERE level > 0
+	                AND id = '.$user->getId();
+	  $request = new bdRequest($bd,$query);
+	  $nbspaces = $request->countRecords();
+	  
+	  if ( $nbspaces > 1 )
+	  {
+	    $user->last_url = $_SERVER['PHP_SELF'];
+  	  $nav->redirect($config["website"]["base"].$config['evt']['spacesurl']);
+  	}
+  	else
+  	  $user->evtspace = intval($request->getRecord('id'));
+	  $request->free();
+	}
+	
+	// setting user's permissions for this module
 	if ( !isset($user->evtlevel) )
 	{
 		$query	= " SELECT level FROM billeterie.rights WHERE id = ".$user->getId();
+		$query .= $user->evtspace > 0 ? ' AND spaceid = '.$user->evtspace : ' AND spaceid IS NULL';
 		$request = new bdRequest($bd,$query);
 		$user->evtlevel = intval($request->getRecord("level"));
 		$request->free();
 	}
 	
+	// blocking unappropriate browsing
 	if ( $user->evtlevel < $config["evt"]["right"]["view"] && !$user->hasRight($config["right"]["param"]) && !headers_sent() )
 	{
 		$user->addAlert($msg = "Vous n'avez pas le droit de visionner cette page");
