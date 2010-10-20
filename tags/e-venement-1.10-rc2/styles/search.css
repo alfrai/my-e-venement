@@ -1,0 +1,43 @@
+.result .nb,
+.result .checkall { padding-left: 40px; }
+
+.search .criterias {
+  border: 1px solid blue;
+  padding: 0 10px 10px 10px;
+}
+.search .criterias p.titre { margin-top: -10px; }
+.search .criterias div { margin-top: 20px; }
+.search .criterias ul.organismes {
+  position: absolute;
+  background-color: white;
+  border: 1px solid grey;
+  border-top: 0;
+  margin-left: 100px;
+  margin-top: 0;
+  padding: 0 20px 10px 20px;
+}
+.search .criterias ul.organismes.noborder { border: 0; }
+.search .criterias ul.organismes li { list-style-type: none; }
+
+.search .criterias ul.organismes .hidden,
+.search .criterias .organisme .hidden { display: none; }
+.search .criterias .organisme.final { border: 1px solid black; padding: 1px 5px 3px 5px; }
+.search .criterias .enfants input { width: 30px; }
+.search .criterias .cp input { width: 150px; }
+.search .criterias .ville input { width: 250px; }
+.search .criterias .groupes select { width: 220px; }
+.search .criterias .options p { margin: 0; }
+.search .criterias .options > * { display: none; }
+.search .criterias .options.on > * { display: block; }
+.search .criterias .options .display { display: block; color: blue; cursor: pointer; }
+.search .criterias .options .display span.plus { display: none; }
+.search .criterias .options .display span.moins { display: inline; }
+.search .criterias .options .display.off span.plus  { display: inline; }
+.search .criterias .options .display.off span.moins { display: none; }
+.search .criterias .date input { width: 100px; }
+.search .criterias .options.on .date { display: table; margin-top: 0; }
+.search .criterias .date p { display: table-row; }
+.search .criterias .date p span { display: table-cell; padding: 0 3px; }
+.search .criterias .date p span.title { text-align: right; }
+
+.save p.name, .save p.opt { margin: 0; }
