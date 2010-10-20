@@ -1,0 +1,255 @@
+/* couleur du bandeau */
+p.tree { background-color: #e6d4a7; }
+
+li.evt li.manif span.salle,
+span.desc,
+a.del > span,
+a.zoom > span,
+a.next > span {
+	display: none;
+	cursor: default;
+	padding: 0px 3px 2px 3px;
+	border: 1px solid black;
+	font-size: 85%;
+	max-width: 200px;
+	text-align: justify;
+	position: absolute;
+	margin-top: 25px;
+	margin-left: -10px;
+	background-color: #fff77f;
+}
+a.next:hover > span,
+a.del:hover > span,
+*:hover + span.desc { display: inline; }
+
+form.entry div.table, div.entries { display: table; }
+form.entry div.table > p, div.entries > p.entry { display: table-row; }
+form.entry div.table > p > span,
+div.entries > p.entry > span, div.entries > p.entry > a {
+	display: table-cell;
+	padding: 0 4px;
+}
+
+ul.entries a.next,
+div.entries > p.entry > a.next { text-decoration: none; }
+ul.entries a.next:before,
+div.entries > p.entry > a.next:before,
+form.personnes a.next:before { content: url(../img/fiche.gif); }
+div.entries > p.entry > a.del:before { content: url(../img/delfiche.png); }
+div.entries > p.entry > span.mod { font-size: 80%; }
+div.entries > p.entry > span.mod:before { content: '('; }
+div.entries > p.entry > span.mod:after { content: ')'; }
+
+
+form.entry { border-collapse: collapse; }
+form.entry div.table > p > span {
+	border: 1px solid gray;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+form.entry div.table > p > span.new,
+form.entry div.table > p > span.operation { border-width: 0; }
+form.entry div.table > p > span.operation,
+form.entry div.table > p > span.total { vertical-align: middle; }
+form.entry div.table > p > span.operation { background-color: transparent; }
+form.entry div.table > p > span.operation > a,
+form.entry div.table > p > span.operation > span.a {
+	text-decoration: none;
+	color: black;
+	border: 1px solid black;
+	background-color: silver;
+	padding: 1px 5px;
+	cursor: default;
+}
+form.entry div.table > p > span.operation > a + span.desc { margin-left: -100px; }
+form.entry div.table > p > span.operation > span.newline { display: block; margin-top: 5px; }
+form.entry div.table > p.disabled > input { background-color: red; }
+input[disabled] { color: grey; }
+
+form.entry input[type="text"] + span {
+	display: none;
+	position: absolute;
+}
+form.entry input[type="text"] + span {
+	margin-left: -150px;
+	margin-top: 1.3em;
+	border: 1px solid gray;
+}
+form.entry span.manif input[type="text"] + span {
+	margin-left: -425px;
+}
+form.entry input[type="text"] + span > select {
+	max-height: 7em;
+	width: 400px;
+	display: block;
+}
+form.entry input[type="text"] + span:hover,
+form.entry input[type="text"]:hover + span { display: inline; }
+
+form.entry span.titre {	font-weight: bold; }
+form.entry span.titre,
+form.entry span.manif {
+	text-align: center;
+	vertical-align: middle;
+}
+form.entry span.manif a.del,
+form.entry span.manif a.zoom,
+form.entry span.manif a.evt,
+form.entry span.manif a.date,
+form.entry span.manif a.site { display: block; }
+form.entry span.manif span.desc { margin-top: 7px; }
+form.entry span.manif a.date { font-size: 80%; }
+form.entry span.manif a.site { font-size: 60%; }
+
+form.entry a.del > span,
+form.entry a.zoom > span { display: none; }
+form.entry a.del, a.zoom {
+	background-color: white;
+	background-position: center center;
+	background-repeat: no-repeat;
+	border: 1px solid grey;
+	border-top-color: silver;
+	border-left-color: silver;
+	width: 12px;
+	height: 12px;
+	text-decoration: none;
+	float: left;
+}
+form.entry a.del {
+	background-image: url(../img/del.png);
+	margin-left: -3px;
+}
+form.entry a.zoom { margin-left: 2px; }
+form.entry a.zoom.in { background-image: url(../img/zoom-in.png); }
+form.entry a.zoom.out { background-image: url(../img/zoom-out.png); }
+form.entry a.del:hover > span, form.entry a.zoom:hover > span {
+	display: inline;
+	color: black;
+}
+form.entry span.client a.perso { margin-left: 2px; }
+
+form.entry span.choice { display: block; }
+form.entry span.choice { text-align: center; }
+form.entry span.choice input[type=text] { width: 4em; }
+form.entry span.clientmanif.highlight span.billets input[type=text] { border-color: red; }
+form.entry span.clientmanif.secondchoice span.billets input[type=text] { border-style: dashed; }
+form.entry span.clientmanif > span.paste,
+form.entry span.clientmanif > span.cut {
+	background-repeat: no-repeat;
+	background-color: white;
+	background-position: center center;
+	float: left;
+	margin-top: -14px;
+	width: 12px;
+	height: 12px;
+	border: 1px solid gray;
+	border-left-color: silver;
+	border-top-color: silver;
+}
+form.entry span.clientmanif > span.cut {
+	background-image: url(../img/cut.png);
+	margin-left: -3px;
+	display: block;
+}
+form.entry span.clientmanif > span.paste {
+	background-image: url(../img/paste.png);
+	margin-left: 10px;
+	display: none;
+}
+body.cutted form.entry span.clientmanif > span.paste { display: block; }
+form.entry span.clientmanif > span.paste > span,
+form.entry span.clientmanif > span.cut > span { display: none; }
+
+
+form.entry p.submit {
+	position: absolute;
+	right: 10px;
+}
+form.entry p.submit + p.submit {
+	border-left: 10px;
+	left: 50%;
+}
+
+.hidden { visibility: hidden; }
+
+form.personnes > p > span + span { padding-left: 1em; }
+form.personnes a.next + a { padding-left: 3px; }
+
+/* confirmations et commentaires */
+form.entry p.confirmed > span input { color: green; }
+form.entry span.comment > input[type=text],
+form.entry span.confirmed > input[type=text] { width: 120px; }
+form.entry span.client > span.confirmed,
+form.entry span.client > span.comment {
+	display: block;
+	white-space: nowrap;
+	background-color: transparent;
+}
+
+/* fiches par personne */
+li.evt li.manif { margin: 3px 0 5px 0; }
+li.evt li.manif span.ticket {
+	border: 1px solid black;
+	padding: 1px 3px 1px 3px;
+}
+li.evt li.manif span.ticket.highlight { border-color: red; }
+li.evt li.manif span.ticket.secondchoice { border-style: dashed; }
+a.operation { margin-left: 10px; }
+li.evt li.manif a:hover + span.salle { display: inline; }
+li.evt li.manif.conf span.ticket { color: green; }
+li.evt li.manif > span.desc { margin-left: 20px; }
+li.evt li.manif:hover > span.desc { display: inline; }
+li.evt li.manif span.entry {
+	font-size: 80%;
+	padding-left: 3px;
+}
+
+ul.entries li { padding-bottom: 4px; }
+ul.entries a.operation.new {
+	border-color: black;
+	color: black;
+}
+ul.entries a.operation {
+	text-decoration: none;
+	color: green;
+	border: 1px solid green;
+	background-color: silver;
+	padding: 1px 5px;
+	cursor: default;
+}
+
+form.entry span.manif > span,
+form.entry span.client > span { background-color: white; }
+
+form.entry div.table > p > span:first-child,
+form.entry div.table > p > span:last-child {
+  min-width: 185px;
+  max-width: 185px;
+}
+form.entry div.table > p > span {
+  min-width: 120px;
+  max-width: 120px;
+}
+form.entry #first-line {
+  position: fixed;
+  margin-top: -75px;
+}
+#first-line .titre .submit {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+}
+form.entry {
+  height: 375px;
+  overflow: auto;
+  width: 100%;
+}
+form.entry p span.impair { background-color: white; }
+form.entry { margin-top: 85px; }
+body.noscroll { overflow-x: auto; overflow-y: hidden; }
+#reminder {
+  display: none;
+  position: fixed;
+  background-color: white;
+  margin: 10px 0 0 10px;
+}
