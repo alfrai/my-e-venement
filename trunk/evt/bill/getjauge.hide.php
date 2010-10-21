@@ -60,6 +60,8 @@
 	$query	= " SELECT *
 		    FROM info_resa AS manif
 		    WHERE manifid = ".intval($_GET["manifid"]);
+  if ( $config['evt']['spaces'] )
+    $query .= ' AND spaceid '.($user->evtspace ? '= '.$user->evtspace : 'IS NULL');
 	$request = new bdRequest($bd,$query);
 	
 	if ( $rec = $request->getRecord() )
