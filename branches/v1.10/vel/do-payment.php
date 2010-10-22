@@ -53,7 +53,7 @@
   }
   
   // general auth
-  if ( !$auth || ($pid = intval($_SESSION['personneid'])) <= 0 )
+  if ( !$auth || ($pid = intval($_SESSION['personneid'])) <= 0 && !$config['vel']['resa-noid'] )
   {
     $nav->httpStatus(403);
     die();

@@ -54,6 +54,7 @@
     'eventid'   => 'e.id',
     'event'     => 'e.nom',
     'description' => 'e.description',
+    'ages'      => 'e.ages',
     'manifid'   => 'm.id',
     'date'      => 'm.date',
     'jauge'     => 'm.jauge',
@@ -79,7 +80,7 @@
     $manifs[] = intval($manif);
   
   $config['vel']['min-tickets'] = intval($config['vel']['min-tickets']);
-  $still_have = 'm.jauge - count(c.id) - sum((bdc.id IS NOT NULL AND c.id IS NULL)::integer)';
+  $still_have = 'm.jauge - sum((c.id IS NOT NULL)::integer) + sum((c.id IS NOT NULL AND p.annul)::integer)*2 - sum((bdc.id IS NOT NULL AND c.id IS NULL)::integer) - sum((cont.id IS NOT NULL)::integer)';
   $where = array(
     'm.id IS NOT NULL',
     'm.vel',
@@ -105,11 +106,12 @@
             LEFT JOIN reservation_pre p ON p.manifid = m.id
             LEFT JOIN reservation_cur c ON c.resa_preid = p.id AND NOT c.canceled
             LEFT JOIN bdc ON bdc.transaction = p.transaction
+            LEFT JOIN contingeant cont ON cont.transaction = p.transaction
             LEFT JOIN ('.$subq.') AS t ON t.manifid = m.id
             WHERE '.implode(' AND ',$where).'
             GROUP BY '.implode(',',$fields).'
             ORDER BY e.nom, m.date, s.nom, t.key';
-  $request = new bdRequest($bd,$query);
+  $request = new arrayBdRequest($bd,$query);
   if ( $debug )
     echo $query;
   
@@ -125,6 +127,7 @@
   {
     $arr['events'][$rec['eventid']]['id']       = $rec['eventid'];
     $arr['events'][$rec['eventid']]['name']     = $rec['event'];
+    $arr['events'][$rec['eventid']]['ages']     = $rec['ages'];
     $arr['events'][$rec['eventid']]['description'] = $rec['description'];
     $arr['events'][$rec['eventid']]['date']['min'] = $rec['date_max'];
     $arr['events'][$rec['eventid']]['date']['max'] = $rec['date_min'];

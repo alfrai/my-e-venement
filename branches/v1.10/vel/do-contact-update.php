@@ -123,7 +123,7 @@
   // adding the phone number in case of inexistant
   if ( $user['telephone'] )
   {
-    $request = new bdRequest($bd,"SELECT count(*) AS nb FROM telephone_personne WHERE personneid = ".$pid." AND numero = '".pg_escape_string($user['telephone']));
+    $request = new bdRequest($bd,"SELECT count(*) AS nb FROM telephone_personne WHERE entiteid = ".$pid." AND numero = '".pg_escape_string($user['telephone'])."'");
     if ( $request->getRecord('nb') <= 0 )
       $bd->addRecord('telephone_personne',array('entiteid' => $pid, 'numero' => $user['telephone'], 'type' => 'e-voucher:'));
     $request->free();
