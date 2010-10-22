@@ -26,8 +26,8 @@
 
 	includeClass("navigation");
 	includeClass("user");
-	includeClass("bd");
-	includeClass("bdRequest");
+	includeClass("bd/array");
+	includeClass("bdRequest/array");
 	includeLib(dirname(__FILE__)."/libs/functions");
 	
 	$nav	= new navigation();
@@ -38,7 +38,7 @@
     die();
   }
   
-	$bd	= new bd (	$config["database"]["name"],
+	$bd	= new arrayBd (	$config["database"]["name"],
 				$config["database"]["server"],
 				$config["database"]["port"],
 				$config["database"]["user"],
