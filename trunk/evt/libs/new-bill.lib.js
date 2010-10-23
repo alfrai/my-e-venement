@@ -544,7 +544,7 @@ $(document).ready(function(){
         transac: $('#bill-op input[name=transac]').val(),
         amount: $(this).parent().parent().parent().find('input.money').val(),
         mode:   $(this).parent().parent().parent().find('select.mode').val(),
-        date:   $(this).parent().parent().parent().find('input.date').val()
+        date:   $(this).parent().parent().parent().find('input.date').val(),
       },
       success: function(data){
         if ( data == '0' )
@@ -554,10 +554,15 @@ $(document).ready(function(){
         else
           warning("Impossible d'ajouter le règlement...");
       },
-      error: function() {
+      error: function(data,error) {
         warning("Impossible d'ajouter le règlement... Contactez votre administrateur");
       }
     });
+  });
+  $('#bill-paiement .new .valid button').unbind().click(function(){ // paiement du total en un clic
+    $('#bill-paiement .new .money').val(parseFloat($('#bill-paiement p.total span').html()));
+    $('#bill-paiement .new .mode').val($(this).val());
+    return false;
   });
   $('#bill-paiement ul input[type=text]').keypress(function(e){
     if ( e.which == 13 )
