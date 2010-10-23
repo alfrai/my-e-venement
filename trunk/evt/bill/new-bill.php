@@ -355,9 +355,27 @@ $(document).ready(function() {
             <option value="<?php echo $rec['id'] ?>"><?php echo htmlspecialchars($rec['libelle']) ?></option>
           <?php endwhile; ?>
         </select></span></p>
-        <?php $request->free(); ?>
         <p><span>date&nbsp;:</span> <span><input class="date" type="text" name="reglement[date][]" value="" /></span></p>
-        <p class="valid"><span><input type="submit" name="reglement[valider]" value="ajouter" /></span></p>
+        <p class="valid">
+          <span><input type="submit" name="reglement[valider]" value="ajouter" /></span>
+          <span><?php $request->firstRecord(); while ( $rec = $request->getRecordNext() ): ?>
+            <button name="reglement[completer]" value="<?php echo $rec['id']?>" title="Payer le restant dû en <?php echo htmlspecialchars($rec['libelle']) ?>">
+              <?php
+                if ( count($buf = preg_split('![\s/]!',$rec['libelle'])) > 1 )
+                {
+                  $str = '';
+                  foreach ( $buf as $x )
+                    $str .= strtoupper($x[0]).'.';
+                  echo htmlsecure($str);
+                  //echo htmlspecialchars($rec['libelle'])
+                }
+                else
+                  echo mb_substr($rec['libelle'],0,3,'UTF-8').'.';
+              ?>
+            </button>
+          <?php endwhile; ?></span>
+        </p>
+        <?php $request->free(); ?>
       </li>
     </ul>
   </div>
