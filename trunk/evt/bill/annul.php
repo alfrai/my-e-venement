@@ -56,6 +56,7 @@
 			// enregistrement de la nouvelle transaction
 			$arr = array();
 			$arr["accountid"] = $user->getId();
+			$arr['spaceid']   = $user->evtspace ? $user->evtspace : NULL;
 			
 			$query = " SELECT * FROM transaction WHERE id = '".pg_escape_string($oldtransac)."'";
 			$request = new bdRequest($bd,$query);
@@ -116,6 +117,7 @@
 		{
 			$arr = array();
 			$arr["accountid"]	= $user->getId();
+			$arr['spaceid']   = $user->evtspace ? $user->evtspace : NULL;
 			$arr["personneid"]	= intval($rec["id"]);
 			$arr["fctorgid"]	= $rec["fctorgid"] ? intval($rec["fctorgid"]) : NULL;
 			if ( $bd->addRecord("transaction",$arr) )

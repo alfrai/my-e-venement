@@ -50,7 +50,7 @@
   
   if ( !isset($_GET['t']) )
   {
-    if ( $bd->addRecord('transaction',array('accountid' => $user->getId(),)) )
+    if ( $bd->addRecord('transaction',array('accountid' => $user->getId(),'spaceid' => $user->evtspace ? $user->evtspace : NULL, )) )
     {
       $transac = $bd->getLastSerial('transaction','id');
       $nav->redirect($_SERVER['PHP_SELF'].'?t='.$transac);

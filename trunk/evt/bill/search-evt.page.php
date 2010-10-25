@@ -49,17 +49,19 @@
     $excludes = ' AND manif.id NOT IN ('.implode(',',$_GET['exclude']).') ';
   
   $where = $where ? ' AND '.$where : '';
-  $query = '  SELECT  evt.nom, evt.id AS evtid, manif.date, manif.id, colors.color, manif.description,
-                      site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, site.pays
-              FROM evenement AS evt, manifestation AS manif, colors, site 
+  $query = '  SELECT  evt.nom, evt.id AS evtid, manif.date, manif.id, color.color, manif.description,
+                      site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, site.pays, CASE WHEN sm.jauge IS NOT NULL THEN sm.jauge ELSE manif.jauge END AS jauge
+              FROM evenement AS evt, site, manifestation AS manif
+              LEFT JOIN color ON manif.colorid = color.id
+              LEFT JOIN space_manifestation sm ON sm.manifid = manif.id AND sm.spaceid '.($user->evtspace ? '= '.$user->evtspace : 'IS NULL').'
               WHERE '.(!is_array($_GET['manifid']) ? "manif.date > NOW() - '6 HOURS'::interval AND " : '').'
                     manif.evtid = evt.id
-                AND (colors.id = manif.colorid OR colors.id IS NULL AND manif.colorid IS NULL)
                 AND site.id = manif.siteid
-                AND jauge > 0
+                AND (CASE WHEN '.($user->evtspace ? 'true' : 'false').' THEN sm.jauge ELSE manif.jauge END) > 0
                 '.$where.'
                 '.$excludes.'
               ORDER BY '.$order;
+  echo $query;
   if ( $limit ) $query .= ' LIMIT '.intval($limit);
   $request = new bdRequest($bd,$query);
   

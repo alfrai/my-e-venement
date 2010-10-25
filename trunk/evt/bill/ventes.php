@@ -48,11 +48,11 @@
 		           getprice(preresa.manifid,tarif.id) * (1-reduc/100) AS prix,
 		           txtva, manif.id AS evtid, manif.nom, manif.date, count(*) AS nb,
 		           siteid, sitenom, ville, manif.colorname
-		    FROM reservation_cur AS resa, reservation_pre AS preresa,
-		         tarif, info_resa AS manif
+		    FROM reservation_cur AS resa, tarif, info_resa AS manif, reservation_pre AS preresa, transaction
 		    WHERE resa.date <  '".pg_escape_string($date["stop"])."'
 		      AND resa.date >= '".pg_escape_string($date["start"])."'
 		      AND resa.resa_preid = preresa.id
+		      AND transaction.id = preresa.transaction AND transaction.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL')."
 		      AND tarif.id = preresa.tarifid
 		      AND manif.manifid = preresa.manifid
 		      AND resa.date = (SELECT MIN(date) FROM reservation_cur WHERE resa_preid = resa.resa_preid)

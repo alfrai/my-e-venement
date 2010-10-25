@@ -50,7 +50,7 @@
 <h1><?php echo $title ?></h1>
 <?php includeLib("tree-view"); ?>
 <p class="actions">
-	<a class="active nohref">Index</a><?php includePage("action.index"); if ( $user->evtlevel >= $config["evt"]["right"]["param"] ) { ?><a href="evt/def/" class="add">Paramétrage</a><?php } ?><a href="." class="parent">..</a>
+	<a class="active nohref">Espaces</a><?php includePage("action.index"); if ( $user->evtlevel >= $config["evt"]["right"]["param"] ) { ?><a href="evt/def/" class="add">Paramétrage</a><?php } ?><a href="." class="parent">..</a>
 </p>
 <div class="body">
 <h2>Les évènements</h2>

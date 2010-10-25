@@ -505,16 +505,20 @@ $(document).ready(function(){
 			    'id', 'organisme1', 'organisme2', 'organisme3', 'nom', 'description',
 			    'categorie', 'typedesc', 'mscene', 'mscene_lbl', 'textede', 'textede_lbl', 'duree', 'ages', 'code', 'creation', 'modification', 'catdesc',
 			    'manifid', 'date', 'vel', 'manifdesc',
-			    'siteid', 'sitenom', 'ville', 'cp', 'plnum', 'commandes', 'resas', 'preresas', 'deftva', 'txtva', 'colorname', 'color',
+			    'siteid', 'sitenom', 'ville', 'cp', 'plnum', 'deftva', 'txtva', 'colorname', 'color',
 			  );
+			  $jauge = array('jauge', 'commandes', 'resas', 'preresas');
+			  $sums = '';
+			  foreach ( $jauge as $field )
+			    $sums .= 'sum('.$field.') AS '.$field.', ';
 				if ( $_POST['space'] == 'all' )
-          $query  = " SELECT ".implode(',',$select).", sum(jauge) as jauge, CASE WHEN date > now() - '1 day'::interval THEN 1 ELSE 2 END AS o, sum(jauge) = 0 AS last
+          $query  = " SELECT ".implode(',',$select).", ".$sums." CASE WHEN date > now() - '1 day'::interval THEN 1 ELSE 2 END AS o, sum(jauge) = 0 AS last
                       FROM info_resa ir
                       WHERE ir.id = ".$id."
                       GROUP BY ".implode(',',$select)."
                       ORDER BY last,o,date,sitenom";
         else
-          $query  = " SELECT ".implode(',',$select).", jauge, CASE WHEN date > now() - '1 day'::interval THEN 1 ELSE 2 END AS o, ir.jauge = 0 AS last
+          $query  = " SELECT ".implode(',',$select).", ".implode(', ',$jauge).", CASE WHEN date > now() - '1 day'::interval THEN 1 ELSE 2 END AS o, ir.jauge = 0 AS last
                       FROM info_resa ir
                       WHERE ir.id = ".$id."
                         AND ".($user->evtspace ? 'ir.spaceid = '.$user->evtspace : 'ir.spaceid IS NULL')."

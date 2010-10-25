@@ -177,6 +177,7 @@
 		{
 			$arr = array();
 			$arr["accountid"] = $user->getId();
+	  	$arr['spaceid']     = $user->evtspace ? $user->evtspace : NULL;
 			if ( substr($data["client"],0,5) == "pers_" )
 				$arr["personneid"] = intval(substr($data["client"],5));
 			else
@@ -188,7 +189,7 @@
 				$request->free();
 				
 				$arr["personneid"]	= $persoid > 0 ? $persoid : NULL;
-				$arr["fctorgid"]	= $proid > 0 ? $proid : NULL;
+				$arr["fctorgid"]	  = $proid > 0 ? $proid : NULL;
 			}
 			if ( !$bd->addRecord("transaction", $arr) )
 			{

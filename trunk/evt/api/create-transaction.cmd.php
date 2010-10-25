@@ -40,7 +40,7 @@
     beta_die(-1);
   }
   
-  if ( $bd->addRecord('transaction',array('accountid' => $user->getId(),)) )
+  if ( $bd->addRecord('transaction',array('accountid' => $user->getId(), 'spaceid' => $user->evtspace ? $user->evtspace : NULL)) )
     $transac = $bd->getLastSerial('transaction','id');
   
   $bd->free();

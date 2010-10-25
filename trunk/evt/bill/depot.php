@@ -115,6 +115,7 @@
 		{
 			$arr = array();
 			$arr["accountid"] = $user->getId();
+      $arr['spaceid']   = $user->evtspace ? $user->evtspace : NULL;
 			if ( !$bd->addRecord("transaction", $arr) )
 			{
 				$user->addAlert("Erreur dans la création de la nouvelle transaction.");

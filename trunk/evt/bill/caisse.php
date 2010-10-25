@@ -41,9 +41,10 @@
 	
 	$query  = " CREATE TEMP TABLE paiements AS
 		    SELECT montant, date, mode.id, libelle, numcompte, transaction
-		    FROM paiement AS paie, modepaiement AS mode
+		    FROM modepaiement AS mode, paiement AS paie, transaction
 		    WHERE paie.date < '".pg_escape_string($date["stop"])."'
 		      AND paie.date >=  '".pg_escape_string($date["start"])."'
+          AND transaction.id = paie.transaction AND transaction.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL')."
 		      AND modepaiementid = mode.id
 		    ORDER BY date, montant, libelle";
 	$pays	= new bdRequest($bd,$query);

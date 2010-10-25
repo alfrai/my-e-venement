@@ -31,7 +31,8 @@
 ?>
 <p class="actions">
 <?php
-	echo '<a href="'.($href = "evt/infos/index.php").'" class="';
+  echo '<a href="evt/">Espaces</a>';
+	echo '<a href="'.($href = "evt/infos/index.php").'" class="add ';
 	echo ($config["website"]["root"].$href == $_SERVER["PHP_SELF"]
 	   || $config["website"]["root"]."evt/infos/fiche.php" == $_SERVER["PHP_SELF"]
 	   || $config["website"]["root"]."evt/infos/manif.php" == $_SERVER["PHP_SELF"] ? "active" : "");
