@@ -39,6 +39,17 @@
 				$config["database"]["passwd"] );
 	$bd->setPath("billeterie,public");
 	
+  // espaces
+  require_once(dirname(__FILE__).'/../config.php');
+  if ( $config['evt']['spaces'] )
+  {
+    $query = 'SELECT * FROM space WHERE id '.($user->evtspace ? '= '.$user->evtspace : 'IS NULL');
+    $request = new bdRequest($bd,$query);
+    $spacename = $request->getRecord('name') ? $request->getRecord('name') : 'Espace par défaut';
+    $title .= ' ('.$spacename.')';
+    $request->free();
+  }
+
 	if ( ALLOPEN !== true )
 	includeLib("login-check");
 	

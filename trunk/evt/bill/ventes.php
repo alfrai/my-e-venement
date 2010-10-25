@@ -52,7 +52,7 @@
 		    WHERE resa.date <  '".pg_escape_string($date["stop"])."'
 		      AND resa.date >= '".pg_escape_string($date["start"])."'
 		      AND resa.resa_preid = preresa.id
-		      AND transaction.id = preresa.transaction AND transaction.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL')."
+		      AND transaction.id = preresa.transaction ".($_GET['spaces'] != 'all' ? "AND transaction.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '')."
 		      AND tarif.id = preresa.tarifid
 		      AND manif.manifid = preresa.manifid
 		      AND resa.date = (SELECT MIN(date) FROM reservation_cur WHERE resa_preid = resa.resa_preid)
@@ -79,6 +79,7 @@
 	<p>
 		<span class="debut">À partir du <?php printField("b",$date["start"],$default["date"],22,17) ?></span>,
 		<span class="debut">jusqu'au <?php printField("e",$date["stop"],$default["date"],22,17) ?></span>
+		<?php if ( $config['evt']['spaces'] ): ?><span class="spaces"><input type="checkbox" name="spaces" <?php echo $_GET['spaces'] == 'all' ? 'checked="checked"' : '' ?>" title="Tous les espaces" value="all" /></span><?php endif ?>
 		<span class="submit"><input type="submit" name="submit" value="Ok" /></span>
 	</p>
 	<p class="livre">

@@ -42,6 +42,7 @@
 	            LEFT JOIN personne_properso p ON p.id = t.personneid
 	                                         AND ( t.fctorgid = p.fctorgid OR t.fctorgid IS NULL AND p.fctorgid IS NULL )
 	            WHERE r.id NOT IN ( SELECT resa_preid FROM reservation_cur WHERE NOT canceled )
-	              AND r.transaction = t.id';
+	              AND r.transaction = t.id
+	              '.($_GET['spaces'] != 'all' ? 'AND t.spaceid '.($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '');
 	includePage("late");
 ?>

@@ -24,11 +24,12 @@
 	require("conf.inc.php");
 	$class .= " factures";
 	$subtitle = "Factures éditées";
-	$query  = " SELECT transaction.id AS transaction, pers.*, facture.id AS factureid
-		    FROM facture, transaction, personne_properso AS pers
-		    WHERE facture.transaction = transaction.id
-		      AND ( transaction.personneid = pers.id OR transaction.personneid IS NULL AND pers.id IS NULL )
-		      AND ( transaction.fctorgid = pers.fctorgid OR transaction.fctorgid IS NULL AND pers.fctorgid IS NULL )";
+	$query  = " SELECT t.id AS transaction, pers.*, facture.id AS factureid
+		    FROM facture, transaction t, personne_properso AS pers
+		    WHERE facture.transaction = t.id
+		      AND ( t.personneid = pers.id OR t.personneid IS NULL AND pers.id IS NULL )
+		      AND ( t.fctorgid = pers.fctorgid OR t.fctorgid IS NULL AND pers.fctorgid IS NULL )
+		      ".($_GET['spaces'] != 'all' ? 'AND t.spaceid '.($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '');
 	$order	= " ORDER BY factureid DESC, nom, prenom, orgnom, transaction";
 	
 	includePage("late");

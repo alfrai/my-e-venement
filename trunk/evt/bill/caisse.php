@@ -44,7 +44,7 @@
 		    FROM modepaiement AS mode, paiement AS paie, transaction
 		    WHERE paie.date < '".pg_escape_string($date["stop"])."'
 		      AND paie.date >=  '".pg_escape_string($date["start"])."'
-          AND transaction.id = paie.transaction AND transaction.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL')."
+          AND transaction.id = paie.transaction ".($_GET['spaces'] != 'all' ? "AND transaction.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '')."
 		      AND modepaiementid = mode.id
 		    ORDER BY date, montant, libelle";
 	$pays	= new bdRequest($bd,$query);
@@ -72,6 +72,7 @@
 	<p>
 		<span class="debut">À partir du <?php printField("b",$date["start"],$default["date"],22,17) ?></span>,
 		<span class="debut">jusqu'au <?php printField("e",$date["stop"],$default["date"],22,17) ?></span>
+    <?php if ( $config['evt']['spaces'] ): ?><span class="spaces all"><input type="checkbox" name="spaces" value="all" <?php echo $_GET['spaces'] == 'all' ? 'checked="checked"' : '' ?>" title="Tous les espaces" /></span><?php endif ?>
 		<span class="submit"><input type="submit" name="submit" value="Ok" /></span>
 	</p>
 	<p class="livre">

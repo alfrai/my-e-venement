@@ -68,13 +68,16 @@
 		// les manifs sélectionnées
 		$query = " SELECT *
 			   FROM tickets2print_bytransac('".pg_escape_string($data["numtransac"])."')
-			   WHERE transaction IN ( SELECT transaction FROM contingeant )";
+			   LEFT JOIN transaction t ON t.id = transaction
+			   WHERE transaction IN ( SELECT transaction FROM contingeant )
+			     AND t.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL');
 		$request = new bdRequest($bd,$query);
 		$data["manif"]		= array();
 		$data["billet"]		= array();
-		while ( $rec = $request->getRecordNext() )
+		for ( $nbtickets = 0 ; $rec = $request->getRecordNext() ; $nbtickets++ )
 		{
 			$data["billet"][intval($rec["manifid"])][] = intval($rec["nb"]).$rec["tarif"].( intval($rec["reduc"]) < 10 ? "0".intval($rec["reduc"]) : intval($rec["reduc"]));
+			$nbtickets++;
 			if ( !in_array(intval($rec["manifid"]),$data["manif"]) )
 				$data["manif"][] = intval($rec["manifid"]);
 		}
@@ -89,7 +92,7 @@
 	}
 	
 	// les pré-requis sont sélectionnés
-	if ( $data["numtransac"] && is_array($data["manif"])
+	if ( $data["numtransac"] && is_array($data["manif"]) && $nbtickets > 0
 	  && intval(substr($data["client"],5)) > 0 )
 	{
 		$stage = 2;

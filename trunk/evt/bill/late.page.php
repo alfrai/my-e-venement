@@ -98,10 +98,11 @@
 		<?php endif; ?>
 		<p class="seeall">
 			<span class="submit"><input type="submit" name="v" value="Valider" /></span>
+			<?php if ( $config['evt']['spaces'] ): ?><span class="spaces"><input type="checkbox" name="spaces" value="all" title="Tous les espaces" <?php echo $_GET['spaces'] == 'all' ? 'checked="checked"' : '' ?> /><?php endif ?>
 			<?php if ( $credit ) { ?>
 			<span onclick="javascript: ttt_spanCheckBox(this.getElementsByTagName('input').item(0));">
 				<input type="checkbox" name="seeall" value="yes" onclick="javascript: ttt_spanCheckBox(this);" <?php if ( $seeall ) echo 'checked="checked"'; ?>/>
-				Montrer tout ?
+				Montrer même les opérations régulières ?
 			</span>
 			<?php } ?>
 		</p>

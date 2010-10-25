@@ -21,7 +21,6 @@
 ***********************************************************************************/
 ?>
 <?php
-	require("conf.inc.php");
 	includeLib("headers");
 	
 	$query = " SELECT DISTINCT transaction.personneid, transaction.fctorgid

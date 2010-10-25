@@ -21,7 +21,10 @@
 ***********************************************************************************/
 ?>
 <?php
+  require("conf.inc.php");
 	$title = "Stats globales";
+	$desc  = 'Statistiques globales';
+  $desc .= $config['evt']['spaces'] ? ' (tout espace confondu)' : '';
 	$where = "";
 	require("generic-freqs.php");
 ?>

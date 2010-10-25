@@ -25,7 +25,7 @@
 	$css	= array("styles/main.css","evt/styles/main.css");
 	$class	= "bill";
 	require_once(dirname(__FILE__).'/../../config.php');
-
+  
 	includeClass("navigation");
 	includeClass("user");
 	includeClass("bd/array");
@@ -40,7 +40,17 @@
 				$config["database"]["passwd"] );
 	$bd->setPath("billeterie,public");
 	
+	// espaces
+	require_once(dirname(__FILE__).'/../config.php');
+	if ( $config['evt']['spaces'] )
+	{
+	  $query = 'SELECT * FROM space WHERE id '.($user->evtspace ? '= '.$user->evtspace : 'IS NULL');
+	  $request = new bdRequest($bd,$query);
+	  $spacename = $request->getRecord('name') ? $request->getRecord('name') : 'Espace par défaut';
+	  $title .= ' ('.$spacename.')';
+	  $request->free();
+	}
+	
 	includeLib("login-check");
 	require_once(dirname(__FILE__).'/../config.default.php');
-	
 ?>

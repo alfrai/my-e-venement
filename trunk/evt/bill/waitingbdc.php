@@ -25,14 +25,15 @@
 	$class .= " bdc";
 	$subtitle = "Personnes n'ayant pas encore renvoyé un bon de commande";
 	$query  = " SELECT DISTINCT bdc.transaction, personne.*
-		    FROM personne_properso AS personne, bdc, reservation_pre AS resa, transaction, manifestation AS manif
+		    FROM personne_properso AS personne, bdc, reservation_pre AS resa, transaction t, manifestation AS manif
 		    WHERE bdc.transaction NOT IN (SELECT transaction FROM tickets2print WHERE printed = true AND canceled = false)
-		      AND bdc.transaction = transaction.id
-		      AND transaction.id = resa.transaction
+		      AND bdc.transaction = t.id
+		      AND t.id = resa.transaction
 		      AND resa.manifid = manif.id
-		      AND ( personne.fctorgid = transaction.fctorgid OR (personne.fctorgid IS NULL AND transaction.fctorgid IS NULL) )
-		      AND personne.id = transaction.personneid
-		      AND manif.date >= now() + '1 day'::interval ";
+		      AND ( personne.fctorgid = t.fctorgid OR (personne.fctorgid IS NULL AND t.fctorgid IS NULL) )
+		      AND personne.id = t.personneid
+		      AND manif.date >= now() + '1 day'::interval
+		      ".($_GET['spaces'] != 'all' ? 'AND t.spaceid '.($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '');
 	
 	includePage("late");
 ?>

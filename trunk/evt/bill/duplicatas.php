@@ -39,6 +39,7 @@
                     LEFT JOIN personne pers ON pers.id = t.personneid AND t.fctorgid IS NULL OR op.personneid = pers.id
                     LEFT JOIN organisme o ON o.id = op.organismeid
               WHERE c.resa_preid = p.id
+                '.($_GET['spaces'] == 'all' ? 'AND t.spaceid '.($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '').'
                 AND canceled ';
   $group  = ' GROUP BY t.id, pers.id, pers.nom, pers.prenom, o.id, o.nom, op.fonction, f.libelle, t.accountid, a.name';
 	$order  = ' ORDER BY transaction';
@@ -61,6 +62,15 @@
 <?php require("actions.php") ?>
 <div class="body">
 <h2><?php echo $subtitle ?></h2>
+<p>
+  <?php if ( $config['evt']['spaces'] ): ?>
+  <?php if ( $_GET['spaces'] == all ): ?>
+  <a href="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>">Espace réservé</a>
+  <?php else: ?>
+  <a href="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>?spaces=all">Tous les espaces</a>
+  <?php endif ?>
+  <?php endif ?>
+</p>
 <ul id="duplicatas">
 	<?php
 		$nbduplicatas = 0;

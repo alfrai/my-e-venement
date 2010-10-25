@@ -43,8 +43,12 @@
 	
 	// MAJ des dépots (cloture)
 	if ( intval($_GET["close"]) != 0 && $user->evtlevel >= $config["evt"]["right"]["mod"] ) // verif egalement des droits
-	if ( !$bd->updateRecordsSimple("contingeant",array("transaction" => intval($_GET["close"])), array("closed" => "t")) )
+	if ( !$bd->updateRecordsSimple("contingeant",
+	        array("transaction" => intval($_GET["close"]), 't.id' => intval($_GET["close"]), 't.spaceid' => $user->evtspace ? $user->evtspace : NULL),
+	        array("closed" => "t"),
+	        'transaction t') )
 		$user->addAlert("Impossible de fermer le dépôt/contingent #".intval($_GET["close"]).".");
+	
 	
 	// dates limites
 	$limit_date = false;	// permet d'activer/désactiver la notion de date limite
@@ -60,7 +64,9 @@
 	
 	$query  = " SELECT *
 		    FROM waitingdepots
+		    LEFT JOIN transaction t ON t.id = transaction
 		    WHERE nom ILIKE '".$name_start."%'
+		      ".($_GET['spaces'] != 'all' ? "AND t.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '')."
 		      AND cont > 0
 		      AND NOT closed";
 	if ( $limit_date )	$query	.= "   AND date >= NOW() - '".$pastmonth." month'::interval";
@@ -96,6 +102,7 @@
 		<?php } ?>
 		<p class="seeall">
 			<span class="submit"><input type="submit" name="v" value="Valider" /></span>
+			<?php if ( $config['evt']['spaces'] ): ?><span class="spaces"><input type="checkbox" name="spaces" value="all" title="Tous les espaces" <?php echo $_GET['spaces'] == 'all' ? 'checked="checked"' : '' ?> /></span><?php endif ?>
 			<?php if ( $credit ) { ?>
 			<span onclick="javascript: ttt_spanCheckBox(this.getElementsByTagName('input').item(0));">
 				<input type="checkbox" name="seeall" value="yes" onclick="javascript: ttt_spanCheckBox(this);" <?php if ( $seeall ) echo 'checked="checked"'; ?>/>
@@ -146,7 +153,7 @@
 			$class = $rec["npai"] == 't' ? "npai" : "";
 			echo '<li class="'.$class.'">'."\n";
 			if ( $user->evtlevel >= $config["evt"]["right"]["mod"] )
-			echo '<a class="close" href="'.htmlsecure($_SERVER["PHP_SELF"]).'?close='.htmlsecure($rec["transaction"]).'"><span class="in">x</span><span class="out">&nbsp;&nbsp;</span></a>';
+			echo '<a class="close" href="'.htmlsecure($_SERVER["PHP_SELF"]).'?spaces='.htmlsecure($_GET['spaces']).'&close='.htmlsecure($rec["transaction"]).'"><span class="in">x</span><span class="out">&nbsp;&nbsp;</span></a>';
 			printTransac($rec);
 			echo '<p><span class="pers"><a href="ann/fiche.php?id='.$rec["id"].'&view">';
 			echo htmlsecure($rec["nom"].' '.$rec["prenom"]);

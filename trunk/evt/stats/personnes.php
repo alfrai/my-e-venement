@@ -21,8 +21,10 @@
 ***********************************************************************************/
 ?>
 <?php
+  require("conf.inc.php");
 	$title  = "Stats pour les achats individuels";
 	$desc   = 'Les "personnes" ici sont tous spectateurs non rattachées à un organisme';
+	$desc   .= $config['evt']['spaces'] ? ' (tout espace confondu)' : '';
 	$where  = " AND transaction.fctorgid IS NULL";
 	require("generic-freqs.php");
 ?>
