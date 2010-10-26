@@ -109,18 +109,18 @@
       'id', 'organisme1', 'organisme2', 'organisme3', 'nom', 'description',
       'categorie', 'typedesc', 'mscene', 'mscene_lbl', 'textede', 'textede_lbl', 'duree', 'ages', 'code', 'creation', 'modification', 'catdesc',
       'manifid', 'date', 'vel', 'manifdesc',
-      'siteid', 'sitenom', 'ville', 'cp', 'plnum', 'commandes', 'resas', 'preresas', 'deftva', 'txtva', 'colorname', 'color',
+      'siteid', 'sitenom', 'ville', 'cp', 'plnum', 'deftva', 'txtva', 'colorname', 'color',
     );
-    if ( $_GET['space'] == 'all' )
-      $query  = " SELECT ".implode(',',$select).", sum(jauge) as jauge
-                  FROM info_resa
-                  WHERE manifid = ".$manifid."
-                  GROUP BY ".implode(',',$select);
-    else
-		  $query  = " SELECT ".implode(',',$select).", jauge
-	      		      FROM info_resa
-			            WHERE manifid = ".$manifid."
-			              AND spaceid ".($user->evtspace ? ' = '.$user->evtspace : 'IS NULL');
+    $sums = array('jauge','commandes','resas','preresas',);
+    $buf = array();
+    foreach ( $sums as $sum )
+      $buf[] = 'sum('.$sum.') as '.$sum;
+    $sums = $buf;
+    $query  = " SELECT ".implode(',',$select).", ".implode(',',$sums)."
+	    		      FROM info_resa
+		            WHERE manifid = ".$manifid."
+		              ".( $_GET['spaces'] != 'all' ? "AND spaceid ".($user->evtspace ? ' = '.$user->evtspace : 'IS NULL') : '')."
+                GROUP BY ".implode(',',$select);
   	$request = new bdRequest($bd,$query);
 		$rec = $request->getRecord();
 		$request->free();
@@ -164,15 +164,6 @@
 					$tva = $rec["txtva"] ? floatval($rec["txtva"]) : floatval($rec["deftva"]);
 				?>
 			</p>
-      <?php if ( $config['evt']['spaces'] ): ?>
-      <p class="spaces" title="Accessible uniquement si vous disposez des droits suffisants">
-        <?php if ( $_GET['space'] == 'all' ): ?>
-          <a href="<?php echo htmlsecure($_SERVER["PHP_SELF"]).'?evtid='.$id.'&id='.$manifid ?>">Revenir à l'espace courant</a>
-        <?php else: ?>
-          <a href="<?php echo htmlsecure($_SERVER["PHP_SELF"]).'?evtid='.$id.'&id='.$manifid.'&space=all' ?>">Voir tous les espaces...</a>
-        <?php endif; ?>
-      </p>
-      <?php endif; ?>
 			<p class="jauge">
 			  <span><span>Jauge: </span><span class="jauge"><?php printJauge(intval($rec["jauge"]),intval($rec["preresas"]),intval($rec["resas"]),180,intval($rec["commandes"]),220,$user); ?></span></span>
 		  </p>
@@ -239,7 +230,14 @@
 			$def->free();
 		?></ul></div>
 	</div>
-	<p class="submit"><input type="submit" name="submit" value="Valider" /></p>
+	<p class="submit">
+	  <input type="submit" name="submit" value="Valider" />
+	  <?php if ( $config['evt']['spaces'] ): ?>
+	    <a class="spaces" href="<?php echo htmlsecure($_SERVER['PHP_SELF']).'?evtid='.$id.'&id='.$manifid ?>&spaces=<?php echo $_GET['spaces'] == 'all' ? '' : 'all' ?>">
+	      <?php echo $_GET['spaces'] == 'all' ? 'Espace restreint' : 'Tous les espaces' ?>
+	    </a>
+	  <?php endif ?>
+	</p>
 </form>
 <?php if ( $bilan ) { ?>
 <form action="evt/infos/group.hide.php" method="post">

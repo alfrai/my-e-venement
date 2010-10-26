@@ -480,7 +480,7 @@ $(document).ready(function(){
 			<?php if ( $action == $actions["view"] ): ?>
 			<?php if ( $config['evt']['spaces'] ): ?>
 			<form class="spaces" title="Accessible uniquement si vous disposez des droits suffisants" action="" method="post">
-			  <input type="checkbox" name="space" value="all" <?php if ( $_POST['space'] == 'all' ) echo 'checked="checked"' ?> onchange="javascript: submit();" /> <label for="space">Voir tous les espaces</label>
+			  <input type="checkbox" name="spaces" value="all" <?php if ( $_POST['spaces'] == 'all' ) echo 'checked="checked"' ?> onchange="javascript: submit();" /> <label for="space">Voir tous les espaces</label>
 			</form>
 			<?php endif; ?>
 			<?php else: ?>
@@ -507,23 +507,18 @@ $(document).ready(function(){
 			    'manifid', 'date', 'vel', 'manifdesc',
 			    'siteid', 'sitenom', 'ville', 'cp', 'plnum', 'deftva', 'txtva', 'colorname', 'color',
 			  );
-			  $jauge = array('jauge', 'commandes', 'resas', 'preresas');
-			  $sums = '';
-			  foreach ( $jauge as $field )
-			    $sums .= 'sum('.$field.') AS '.$field.', ';
-				if ( $_POST['space'] == 'all' )
-          $query  = " SELECT ".implode(',',$select).", ".$sums." CASE WHEN date > now() - '1 day'::interval THEN 1 ELSE 2 END AS o, sum(jauge) = 0 AS last
-                      FROM info_resa ir
-                      WHERE ir.id = ".$id."
-                      GROUP BY ".implode(',',$select)."
-                      ORDER BY last,o,date,sitenom";
-        else
-          $query  = " SELECT ".implode(',',$select).", ".implode(', ',$jauge).", CASE WHEN date > now() - '1 day'::interval THEN 1 ELSE 2 END AS o, ir.jauge = 0 AS last
-                      FROM info_resa ir
-                      WHERE ir.id = ".$id."
-                        AND ".($user->evtspace ? 'ir.spaceid = '.$user->evtspace : 'ir.spaceid IS NULL')."
-                      ORDER BY last,o,date,sitenom";
-				  
+			  $sums = array('jauge','commandes','resas','preresas',);
+			  $buf = array(); 
+        foreach ( $sums as $sum )
+          $buf[] = 'sum('.$sum.') as '.$sum;
+	      $sums = $buf;
+        $query  = " SELECT ".implode(',',$select).", ".implode(',',$sums).", CASE WHEN date > now() - '1 day'::interval THEN 1 ELSE 2 END AS o, sum(jauge) = 0 AS last
+                    FROM info_resa ir
+                    WHERE ir.id = ".$id."
+                      ".( $_POST['spaces'] != 'all' ? "AND spaceid ".($user->evtspace ? ' = '.$user->evtspace : 'IS NULL') : '')."
+                    GROUP BY ".implode(',',$select)."
+                    ORDER BY last,o,date,sitenom";
+        
 				if ( $action == $actions["add"] ) $query = NULL;
 				$manifestations = new bdRequest($bd,$query);
 				

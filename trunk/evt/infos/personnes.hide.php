@@ -75,6 +75,7 @@
 			            OR personne.fctorgid IS NULL AND transac.fctorgid IS NULL
 			           AND ( transac.personneid = personne.id OR personne.id IS NULL AND transac.personneid IS NULL ))
 			      AND transac.id = resa.transaction
+			      ".($_GET['spaces'] != 'all' ? "AND transac.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '')."
 			    GROUP BY personne.id, personne.nom, personne.prenom, personne.orgid, personne.orgnom, contingeant, resa, preresa, transac.id, fcttype, fctdesc, personne.fctorgid,
 			    	     personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.adresse, personne.cp, personne.ville, personne.pays, facture.id, translinked
 			    ORDER BY translinked DESC, annulation, nom, prenom";
@@ -129,8 +130,8 @@
 	?>
 	<p class="csvext">
 		<span><a href="evt/infos/group.hide.php?manifid=<?php echo $manifid ?>">Export</a> vers un groupe personnel</span>
-		<span>Extraction <a href="evt/infos/personnes.hide.php?id=<?php echo $manifid ?>">standard</a>...</span>
-		<span>Extraction <a href="evt/infos/personnes.hide.php?id=<?php echo $manifid ?>&msoffice">compatible Microsoft</a>...</span>
+		<span>Extraction <a href="evt/infos/personnes.hide.php?id=<?php echo $manifid ?>&spaces=<?php echo htmlsecure($_GET['spaces']) ?>">standard</a>...</span>
+		<span>Extraction <a href="evt/infos/personnes.hide.php?id=<?php echo $manifid ?>&spaces=<?php echo htmlsecure($_GET['spaces']) ?>&msoffice">compatible Microsoft</a>...</span>
 	</p>
 </div>
 <?php
@@ -142,9 +143,13 @@
 		$arr = array();
 		$i = 0;
 		
+		/*
 		$query = " SELECT evt.*, manif.date, manif.jauge, manif.txtva, site.nom AS sitenom, site.ville AS siteville
 			   FROM manifestation AS manif,evenement AS evt, site
 			   WHERE manif.id = ".$manifid." AND evtid = evt.id AND siteid = site.id";
+	  */
+	  
+	  require 'query.hide.php';
 		$manif = new bdRequest($bd,$query);
 		if ( $rec = $manif->getRecord() )
 		{

@@ -33,7 +33,9 @@
 			          transaction IN (SELECT transaction FROM preselled) AS preresa,
 			          get_second_if_not_null(prix,prixspec) AS prix
 			   FROM tickets2print_bymanif(".$manifid.") AS resa
+			   LEFT JOIN transaction t ON t.id = transaction
 			   WHERE canceled = false
+			     ".($_GET['spaces'] != 'all' ? "AND t.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '')."
 			   GROUP BY tarif,reduc,printed,preresa,prix,prixspec
 			   ORDER BY tarif,reduc,printed,preresa";
 		$request = new bdRequest($bd,$query);
@@ -94,8 +96,8 @@
 				</ul>
 				<?php } // if ( $more ) ?>
 				<p class="csvext">
-					<span>Extraction <a href="evt/infos/places.hide.php?id=<?php echo $manifid ?>">standard</a>...</span>
-					<span>Extraction <a href="evt/infos/places.hide.php?id=<?php echo $manifid ?>&msoffice">compatible Microsoft</a>...</span>
+					<span>Extraction <a href="evt/infos/places.hide.php?id=<?php echo $manifid ?>&spaces=<?php echo htmlsecure($_GET['spaces']) ?>">standard</a>...</span>
+					<span>Extraction <a href="evt/infos/places.hide.php?id=<?php echo $manifid ?>&spaces=<?php echo htmlsecure($_GET['spaces']) ?>&msoffice">compatible Microsoft</a>...</span>
 				</p>
 			</div>
 <?php
@@ -109,6 +111,7 @@
 			   FROM tarif_manif AS tarif
 			   WHERE manifid = ".$manifid."
 			   ORDER BY prix, key";
+		
 		$def = new bdRequest($bd,$query);
 		$prix = array();
 		while ( $rec = $def->getRecordNext() )
@@ -121,9 +124,12 @@
 		$arr = array();
 		$i = 0;
 		
+		/*
 		$query = " SELECT evt.*, manif.jauge, manif.date, manif.txtva, site.nom AS sitenom, site.ville AS siteville
 			   FROM manifestation AS manif,evenement AS evt, site
 			   WHERE manif.id = ".$manifid." AND evtid = evt.id AND siteid = site.id";
+    */
+    require 'query.hide.php';
 		$manif = new bdRequest($bd,$query);
 		if ( $rec = $manif->getRecord() )
 		{

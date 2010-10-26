@@ -35,9 +35,9 @@
 	<h3>Places/Personnes</h3>
 	<p>Extrait les personnes avec leurs places préréservées (BdC uniquement) ou réservées confondues.</p>
 	<p class="csvext">
-		<span><input type="checkbox" name="all" value="yes" onchange="javascript: $(this).parent().parent().find('a').attr('href',this.checked ? 'evt/infos/persplace.hide.php?id=<?php echo $manifid ?>&all' : 'evt/infos/persplace.hide.php?id=<?php echo $manifid ?>');" />&nbsp;Extraire même les demandes...</span>
-		<span>Extraction <a href="evt/infos/persplace.hide.php?id=<?php echo $manifid ?>">standard</a>...</span>
-		<span>Extraction <a href="evt/infos/persplace.hide.php?id=<?php echo $manifid ?>" style="cursor:pointer;" onclick="javascript: this.href += '&msoffice';">compatible Microsoft</a>...</span>
+		<span><input type="checkbox" name="all" value="yes" onchange="javascript: $(this).parent().parent().find('a').each(function(){ $(this).attr('href',$(this).attr('href')+'&all'); }); $(this).attr('disabled','disabled');" />&nbsp;Extraire même les demandes...</span>
+		<span>Extraction <a href="evt/infos/persplace.hide.php?id=<?php echo $manifid ?>&spaces=<?php echo htmlsecure($_GET['spaces']) ?>">standard</a>...</span>
+		<span>Extraction <a href="evt/infos/persplace.hide.php?id=<?php echo $manifid ?>&spaces=<?php echo htmlsecure($_GET['spaces']) ?>&msoffice" style="cursor:pointer;" onclick="javascript: this.href += '&msoffice';">compatible Microsoft</a>...</span>
 	</p>
 </div>
 <?php
@@ -46,12 +46,14 @@
 	{
 		$query = " CREATE TEMP TABLE tickets AS
 			    SELECT tickets.*
-			    FROM tickets2print_bymanif(".$manifid.") AS tickets";
+			    FROM tickets2print_bymanif(".$manifid.") AS tickets
+			    LEFT JOIN transaction t ON t.id = transaction
+			    WHERE ".($_GET['spaces'] != 'all' ? "t.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : 'true');
 		if ( !isset($_GET['all']) )
 		{
 		  $query .= '
-			    WHERE tickets.transaction IN (SELECT transaction FROM bdc)
-			       OR tickets.printed AND NOT tickets.canceled';
+			      AND ( tickets.transaction IN (SELECT transaction FROM bdc)
+			       OR tickets.printed AND NOT tickets.canceled )';
 		}
 		/*
 		$query  = ' CREATE TEMP TABLE tickets AS
@@ -71,9 +73,12 @@
 		includeClass("csvExport");
 		
 		$arr = array();
+		/*
 		$query = " SELECT evt.*, manif.date, manif.jauge, manif.txtva, site.nom AS sitenom, site.ville AS siteville
 			   FROM manifestation AS manif,evenement AS evt, site
 			   WHERE manif.id = ".$manifid." AND evtid = evt.id AND siteid = site.id";
+	  */
+	  require 'query.hide.php';
 		$manif = new bdRequest($bd,$query);
 		$i = 0;
 		
