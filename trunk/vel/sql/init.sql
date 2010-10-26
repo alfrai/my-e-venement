@@ -60,7 +60,7 @@ ALTER SEQUENCE authentication_id_seq OWNED BY authentication.id;
 CREATE TABLE bank_payment (
     id integer NOT NULL,
     paiementid integer,
-    serialization text,
+    serialized text,
     code integer,
     error text,
     merchant_id integer,
