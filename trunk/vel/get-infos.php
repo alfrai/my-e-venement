@@ -99,7 +99,7 @@
   $query = 'SELECT '.implode(',',$select).',
                    (SELECT min(date) FROM manifestation WHERE evtid = e.id) AS date_max,
                    (SELECT max(date) FROM manifestation WHERE evtid = e.id) AS date_min,
-                   (case when '.$still_have.' > '.$config['vel']['min-tickets'].' then '.($config['vel']['min-tickets']+1).' when '.$still_have.' <= 0 then 0 else '.$still_have.' end) AS still_have
+                   (case when '.$still_have.' > '.$config['vel']['min-tickets'].' then '.($config['vel']['min-tickets']).' when '.$still_have.' <= 0 then 0 else '.$still_have.' end) AS still_have
             FROM evenement e
             LEFT JOIN manifestation m ON e.id = m.evtid
             LEFT JOIN site s ON s.id = m.siteid

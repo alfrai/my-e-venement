@@ -131,12 +131,12 @@
   // price calculation (for returning)
   $topay = whatToPay($tid);
   
+  $nav->httpStatus(201);
   echo addChecksum(array(
     'transaction' => $tid,
     'topay' => $topay,
     'manifs' => $manifs,
   ));
-  $nav->httpStatus(201);
   die();
   
   // if all has gone crasy
