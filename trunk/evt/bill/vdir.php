@@ -92,7 +92,7 @@
 	}
 	
 	// les pré-requis sont sélectionnés
-	if ( $data["numtransac"] && is_array($data["manif"]) && $nbtickets > 0
+	if ( $data["numtransac"] && is_array($data["manif"]) //&& $nbtickets > 0
 	  && intval(substr($data["client"],5)) > 0 )
 	{
 		$stage = 2;
@@ -170,8 +170,10 @@
 							    FROM masstickets
 							    WHERE transaction = '".pg_escape_string($data["numtransac"])."'
 							    AND tarifid = get_tarifid(".$manifid.",'".pg_escape_string($resa["tarif"])."')
-							    AND reduc = ".intval($rec["reduc"])." ) AS more";
+							    AND reduc = ".intval($rec["reduc"])."
+							    AND manifid = ".$manifid." ) AS more";
 						$mass	= new bdRequest($bd,$query);
+						echo $query;
 						$moremass = intval($mass->getRecord("more"));
 						$mass->free();
 						// on remet à 0 les tickets soit-disant vendus
