@@ -173,7 +173,6 @@
 							    AND reduc = ".intval($rec["reduc"])."
 							    AND manifid = ".$manifid." ) AS more";
 						$mass	= new bdRequest($bd,$query);
-						echo $query;
 						$moremass = intval($mass->getRecord("more"));
 						$mass->free();
 						// on remet à 0 les tickets soit-disant vendus
