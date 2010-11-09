@@ -1619,11 +1619,70 @@ COMMENT ON TABLE space_manifestation IS 'Defines specificities for manifestation
 
 
 --
+-- Name: transaction; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
+--
+
+CREATE TABLE transaction (
+    id bigint NOT NULL,
+    creation timestamp with time zone DEFAULT now() NOT NULL,
+    accountid bigint NOT NULL,
+    personneid bigint,
+    fctorgid bigint,
+    translinked bigint,
+    dematerialized boolean DEFAULT false NOT NULL,
+    blocked boolean DEFAULT false,
+    spaceid integer
+);
+
+
+--
+-- Name: COLUMN transaction.id; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN transaction.id IS 'numéro de transaction';
+
+
+--
+-- Name: COLUMN transaction.accountid; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN transaction.accountid IS 'account.id';
+
+
+--
+-- Name: COLUMN transaction.personneid; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN transaction.personneid IS 'personne.id';
+
+
+--
+-- Name: COLUMN transaction.fctorgid; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN transaction.fctorgid IS 'org_personne.id';
+
+
+--
+-- Name: COLUMN transaction.translinked; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN transaction.translinked IS 'La transaction courante est issue d''une autre transaction dont cette colonne est le numéro.';
+
+
+--
+-- Name: COLUMN transaction.spaceid; Type: COMMENT; Schema: billeterie; Owner: -
+--
+
+COMMENT ON COLUMN transaction.spaceid IS 'linking a transaction to a space';
+
+
+--
 -- Name: info_resa; Type: VIEW; Schema: billeterie; Owner: -
 --
 
 CREATE VIEW info_resa AS
-    SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, manif.duree, evt.ages, evt.code, evt.creation, evt.modification, evt.catdesc, manif.id AS manifid, manif.date, CASE WHEN ((sm.manifid IS NULL) AND (space.id IS NULL)) THEN manif.jauge WHEN ((sm.manifid IS NULL) AND (space.id IS NOT NULL)) THEN 0 ELSE sm.jauge END AS jauge, space.id AS spaceid, manif.vel, manif.description AS manifdesc, site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, manif.plnum, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (NOT (resa.transaction IN (SELECT preselled.transaction FROM preselled))))) AS commandes, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE ((resa.manifid = manif.id) AND (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AS resas, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM reservation_pre resa WHERE (((resa.manifid = manif.id) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (resa.transaction IN (SELECT preselled.transaction FROM preselled)))) AS preresas, evt.txtva AS deftva, manif.txtva, color.libelle AS colorname, color.color FROM evenement_categorie evt, site, (((manifestation manif LEFT JOIN color ON ((color.id = manif.colorid))) LEFT JOIN (SELECT NULL::integer AS id, NULL::character varying(255) AS name UNION SELECT space.id, space.name FROM space) space ON (true)) LEFT JOIN space_manifestation sm ON (((sm.manifid = manif.id) AND (sm.spaceid = space.id)))) WHERE ((evt.id = manif.evtid) AND (site.id = manif.siteid)) ORDER BY evt.catdesc, evt.nom, manif.date;
+    SELECT evt.id, evt.organisme1, evt.organisme2, evt.organisme3, evt.nom, evt.description, evt.categorie, evt.typedesc, evt.mscene, evt.mscene_lbl, evt.textede, evt.textede_lbl, manif.duree, evt.ages, evt.code, evt.creation, evt.modification, evt.catdesc, manif.id AS manifid, manif.date, CASE WHEN ((sm.manifid IS NULL) AND (space.id IS NULL)) THEN manif.jauge WHEN ((sm.manifid IS NULL) AND (space.id IS NOT NULL)) THEN 0 ELSE sm.jauge END AS jauge, space.id AS spaceid, manif.vel, manif.description AS manifdesc, site.id AS siteid, site.nom AS sitenom, site.ville, site.cp, manif.plnum, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM (reservation_pre resa LEFT JOIN transaction t ON ((t.id = resa.transaction))) WHERE (((((t.spaceid = space.id) OR ((t.spaceid IS NULL) AND (space.id IS NULL))) AND (resa.manifid = manif.id)) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (NOT (resa.transaction IN (SELECT preselled.transaction FROM preselled))))) AS commandes, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM (reservation_pre resa LEFT JOIN transaction t ON ((t.id = resa.transaction))) WHERE ((((t.spaceid = space.id) OR ((t.spaceid IS NULL) AND (space.id IS NULL))) AND (resa.manifid = manif.id)) AND (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AS resas, (SELECT sum((- (((resa.annul)::integer * 2) - 1))) AS sum FROM (reservation_pre resa LEFT JOIN transaction t ON ((t.id = resa.transaction))) WHERE (((((t.spaceid = space.id) OR ((t.spaceid IS NULL) AND (space.id IS NULL))) AND (resa.manifid = manif.id)) AND (NOT (resa.id IN (SELECT reservation_cur.resa_preid FROM reservation_cur WHERE (reservation_cur.canceled = false))))) AND (resa.transaction IN (SELECT preselled.transaction FROM preselled)))) AS preresas, evt.txtva AS deftva, manif.txtva, color.libelle AS colorname, color.color FROM evenement_categorie evt, site, (((manifestation manif LEFT JOIN color ON ((color.id = manif.colorid))) LEFT JOIN (SELECT NULL::integer AS id, NULL::character varying(255) AS name UNION SELECT space.id, space.name FROM space) space ON (true)) LEFT JOIN space_manifestation sm ON (((sm.manifid = manif.id) AND (sm.spaceid = space.id)))) WHERE ((evt.id = manif.evtid) AND (site.id = manif.siteid)) ORDER BY evt.catdesc, evt.nom, manif.date;
 
 
 --
@@ -2156,65 +2215,6 @@ CREATE VIEW topay AS
 --
 
 COMMENT ON VIEW topay IS 'regroupe les transactions et la somme des prix des billets liés';
-
-
---
--- Name: transaction; Type: TABLE; Schema: billeterie; Owner: -; Tablespace: 
---
-
-CREATE TABLE transaction (
-    id bigint NOT NULL,
-    creation timestamp with time zone DEFAULT now() NOT NULL,
-    accountid bigint NOT NULL,
-    personneid bigint,
-    fctorgid bigint,
-    translinked bigint,
-    dematerialized boolean DEFAULT false NOT NULL,
-    blocked boolean DEFAULT false,
-    spaceid integer
-);
-
-
---
--- Name: COLUMN transaction.id; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN transaction.id IS 'numéro de transaction';
-
-
---
--- Name: COLUMN transaction.accountid; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN transaction.accountid IS 'account.id';
-
-
---
--- Name: COLUMN transaction.personneid; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN transaction.personneid IS 'personne.id';
-
-
---
--- Name: COLUMN transaction.fctorgid; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN transaction.fctorgid IS 'org_personne.id';
-
-
---
--- Name: COLUMN transaction.translinked; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN transaction.translinked IS 'La transaction courante est issue d''une autre transaction dont cette colonne est le numéro.';
-
-
---
--- Name: COLUMN transaction.spaceid; Type: COMMENT; Schema: billeterie; Owner: -
---
-
-COMMENT ON COLUMN transaction.spaceid IS 'linking a transaction to a space';
 
 
 --
