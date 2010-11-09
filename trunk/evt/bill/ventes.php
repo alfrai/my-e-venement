@@ -44,22 +44,23 @@
 	// on ne check pas canceled = false car on les considère vendus même si un duplicata est en cours
 	// par contre, on ne prend en compte que le premier billet d'une série de duplicatas
 	$query  = " CREATE TEMP TABLE billets AS
-		    SELECT preresa.manifid, manif.jauge, preresa.annul, preresa.reduc, tarif.key AS tarif,
+		    SELECT DISTINCT preresa.manifid, manif.jauge, preresa.annul, preresa.reduc, tarif.key AS tarif,
 		           getprice(preresa.manifid,tarif.id) * (1-reduc/100) AS prix,
 		           txtva, manif.id AS evtid, manif.nom, manif.date, count(*) AS nb,
 		           siteid, sitenom, ville, manif.colorname
-		    FROM reservation_cur AS resa, tarif, info_resa AS manif, reservation_pre AS preresa, transaction
+		    FROM reservation_cur AS resa
+		    LEFT JOIN reservation_pre preresa ON preresa.id = resa.resa_preid
+		    LEFT JOIN tarif ON tarif.id = preresa.tarifid
+		    LEFT JOIN info_resa AS manif ON manif.manifid = preresa.manifid AND manif.spaceid IS NULL
+		    LEFT JOIN transaction ON transaction.id = preresa.transaction
 		    WHERE resa.date <  '".pg_escape_string($date["stop"])."'
 		      AND resa.date >= '".pg_escape_string($date["start"])."'
-		      AND resa.resa_preid = preresa.id
-		      AND transaction.id = preresa.transaction ".($_GET['spaces'] != 'all' ? "AND transaction.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '')."
-		      AND tarif.id = preresa.tarifid
-		      AND manif.manifid = preresa.manifid
 		      AND resa.date = (SELECT MIN(date) FROM reservation_cur WHERE resa_preid = resa.resa_preid)
 		      AND (    NOT resa.canceled OR resa.canceled AND
-		                                    (SELECT count(*) FROM reservation_cur WHERE resa_preid = resa.resa_preid AND NOT canceled) > 0 )
+		               (SELECT count(*) FROM reservation_cur WHERE resa_preid = resa.resa_preid AND NOT canceled) > 0 )
+		      ".($_GET['spaces'] != 'all' ? " AND transaction.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '')."
 		    GROUP BY preresa.manifid, preresa.annul, preresa.reduc, tarif, prix, tarif.id,
-		             evtid, manif.nom, manif.date, txtva, siteid, sitenom, ville, jauge, colorname
+  	             evtid, manif.nom, manif.date, txtva, siteid, sitenom, ville, jauge, colorname
 		    ORDER BY manif.nom, manif.date, jauge DESC, annul, tarif;
 		    SELECT * FROM billets";
 	$billets = new bdRequest($bd,$query);

@@ -79,7 +79,9 @@
 		$query .= " categorie IN (SELECT id FROM evt_categorie WHERE libelle = '".pg_escape_string($_GET["cat"])."')";
 		if ( $_GET["cat"] || $_GET["metaevt"] ) $query .= " AND ";
 		if ( $_GET["metaevt"] )
-		$query .= " metaevt ILIKE '".pg_escape_string($_GET["metaevt"])."%'";
+  		foreach ( explode('|',$_GET['metaevt']) as $buf )
+	    	$metaevt[] = " metaevt ILIKE '".pg_escape_string($buf)."%'";
+	  $query .= '('.implode(' OR ',$metaevt).')';
 		$query .= " GROUP BY id, nom, description, textede, textede_lbl, ages, typedesc, duree, tarifweb, tarifwebgroup, extradesc, extraspec, imageurl, orgnom1, orgnom2, orgnom3
 			    ORDER BY date ASC, nom";
 	}
@@ -92,7 +94,9 @@
 		if ( $_GET["cat"] )
 		$query .= " categorie IN (SELECT id FROM evt_categorie WHERE libelle = '".pg_escape_string($_GET["cat"])."')";
 		if ( $_GET["metaevt"] )
-		$query .= " metaevt ILIKE '".pg_escape_string($_GET["metaevt"])."%'";
+  		foreach ( explode('|',$_GET['metaevt']) as $buf )
+	    	$metaevt[] = " metaevt ILIKE '".pg_escape_string($buf)."%'";
+	  $query .= '('.implode(' OR ',$metaevt).')';
 		$query .= " ORDER BY nom, date ASC";
 	}
 	$request = new arrayBdRequest($bd,$query);
