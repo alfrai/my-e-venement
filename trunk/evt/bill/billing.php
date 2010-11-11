@@ -30,6 +30,9 @@
 	includeJS("jquery");
 	includeJS("jquery.evt","evt");
 	
+	// old system preselection
+	$_SESSION['ticket']['old-bill'] = true;
+	
 	// billetterie express
 	if ( isset($_POST["unexpress"]) || isset($_GET["unexpress"]) )
 	{

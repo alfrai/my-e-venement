@@ -23,12 +23,12 @@
 <?php
 	require("conf.inc.php");
 	$class .= " index";
-  if ( $config['ticket']['new-bill'] ) includeJS('jquery');
+  includeJS('jquery');
   
   if ( ($transac = intval($_GET['unblock'])) > 0 && $user->evtlevel >= $config['evt']['right']['unblock'] )
   {
     $bd->updateRecordsSimple('transaction',array('id' => $transac),array('blocked' => 'f'));
-    $nav->redirect($config["website"]["base"].'evt/bill/'.($_SESSION['ticket']['new-bill'] ? 'new-bill.php' : 'billing.php').'?t='.$transac);
+    $nav->redirect($config["website"]["base"].'evt/bill/'.($_SESSION['ticket']['old-bill'] ? 'billing.php' : 'new-bill.php').'?t='.$transac);
   }
   
 	includeLib("headers");
