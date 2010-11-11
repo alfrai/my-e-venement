@@ -165,6 +165,7 @@
   {
 
   $class .= $type == 'facture' ? ' facture' : ' bdc';
+  $class .= $user->evtspace ? ' space-'.$user->evtspace : ' space-default';
   
   $seller = $config['ticket']['seller'];
   $seller['legal'] = str_replace('%factureid%','<span class="prefix">'.$config['ticket']['facture_prefix'].'</span>'.$id,$seller['legal']);
