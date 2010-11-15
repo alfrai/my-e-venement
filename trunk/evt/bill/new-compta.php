@@ -119,7 +119,7 @@
                 AND tm.id = r.tarifid
                 AND NOT annul
               GROUP BY e.nom, m.date, m.txtva, s.nom, s.cp, s.ville, s.pays, tm.description, tm.prix, tm.prixspec
-              ORDER BY e.nom, m.date, s.ville, s.nom, nb DESC, tm.prix';
+              ORDER BY m.date, e.nom, s.ville, s.nom, nb DESC, tm.prix';
   $request = new bdRequest($bd,$query);
   
   if ( isset($_GET['old-compta']) )
@@ -240,7 +240,7 @@
         <th class="evt">Événement</th>
         <th class="date">Date</th>
         <th class="heure">Heure</th>
-        <th class="salle">Salle</th>
+        <th class="sitenom">Salle</th>
         <th class="cp">CP</th>
         <th class="ville">Ville</th>
         <th class="tarif">Tarif</th>

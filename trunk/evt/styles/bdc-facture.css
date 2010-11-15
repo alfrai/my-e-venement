@@ -30,7 +30,7 @@ body { width: 297mm; }
 #lines .ttc, #lines .ht { font-weight: bold; }
 #lines .cp { display: none; }
 
-.ttc:after, .ht:after, .pu:after { content: '€'; padding-left: 2px; }
+.ttc:after, .ht:after, .pu:after { content: ''; padding-left: 2px; }
 td.tva:after { content: '%'; padding-left: 2px; }
 #lines .ttc, #lines .ht, #lines .pu, #lines .tva { text-align: right; }
 
