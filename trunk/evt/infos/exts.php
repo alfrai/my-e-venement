@@ -77,17 +77,29 @@
 		$arr[$i][] = "Reste aux partenaires";
 		$vals['depot-reste'] = count($arr[$i]) - 1;
 		
+		/*
 		$query	= " SELECT evt.id AS evtid, manif.id AS manifid, site.nom AS sitenom, site.ville AS siteville,
-			           evt.nom, manif.date, manif.jauge, evt.catdesc, evt.typedesc, evt.metaevt
-			    FROM manifestation AS manif, evenement_categorie AS evt, site
+			           evt.nom, manif.date, CASE WHEN ".($_GET['spaces'] == 'all' ? 'true' : 'false')." THEN manif.jauge + sum(CASE WHEN sm.jauge IS NULL THEN manif.jauge ELSE sm.jauge END as jauge,
+			           evt.catdesc, evt.typedesc, evt.metaevt
+			    FROM evenement_categorie AS evt, site, manifestation AS manif
+			    LEFT JOIN space_manifestation sm ON sm.manifid = manif.id AND sm.spaceid ".($user->evtspace ? ' = '.$user->evtspace : ' IS NULL')."
 			    WHERE manif.evtid = evt.id
 			      AND manif.siteid = site.id
 			      AND date <= '".pg_escape_string($date["stop"])."'::date + '1 day'::interval
 			      AND date >= '".pg_escape_string($date["start"])."'::date";
+	  */
+	  $query = "SELECT id AS evtid, manifid, sitenom, ville as siteville,
+			           nom, date, sum(jauge) AS jauge, catdesc, typedesc,
+			           (SELECT metaevt FROM evenement e WHERE e.id = id LIMIT 1) AS metaevt
+	            FROM info_resa
+	            WHERE date <= '".pg_escape_string($date["stop"])."'::date + '1 day'::interval
+	              AND date >= '".pg_escape_string($date["start"])."'::date
+	              ".($_GET['spaces'] != 'all' ? 'AND spaceid '.($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '');
 		if ( count($couleur) > 0 ) $query .= " AND ( manif.colorid".implode(" OR manif.colorid",$couleur).")";
+		$query .= " GROUP BY id, manifid, sitenom, ville, nom, date,catdesc, typedesc";
 		if ( $_GET["ordre"] == "nom" )
-			$query .= " ORDER BY evt.nom, date";
-		else	$query .= " ORDER BY date, evt.nom";
+			$query .= " ORDER BY nom, date";
+		else	$query .= " ORDER BY date, nom";
 		$request = new bdRequest($bd,$query);
 		
 		while ( $rec = $request->getRecordNext() )
@@ -97,6 +109,7 @@
 				           transac.id IN (SELECT transaction FROM preselled) AS preresa
 				    FROM tickets2print_bymanif(".intval($rec["manifid"]).") AS resa, transaction AS transac
 				    WHERE transac.id = resa.transaction
+				      ".($_GET['spaces'] != 'all' ? "AND transac.spaceid ".($user->evtspace ? ' = '.$user->evtspace : ' IS NULL') : '')."
 				    GROUP BY contingeant, resa, preresa, manifid, depot";
 			$infos = new bdRequest($bd,$query);
 			
