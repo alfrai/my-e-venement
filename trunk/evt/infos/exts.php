@@ -254,10 +254,11 @@
 	</div>
 	<p class="submit">
 		<span class="submit"><input type="submit" name="ventes" value="Extraire" /></span>
-		<span class="msoffice" onclick="javascript: ttt_spanCheckBox(this.getElementsByTagName('input').item(0));">
+		<span class="msoffice" title="Compatibilité MSExcel" onclick="javascript: ttt_spanCheckBox(this.getElementsByTagName('input').item(0));">
 			<input type="checkbox" name="msexcel" value="yes" onclick="javascript: ttt_spanCheckBox(this);" />
 			Compatibilité MSExcel
 		</span>
+	  <span class="spaces" title="Voir tous les espaces"><input type="checkbox" name="spaces" value="all" />&nbsp;Voir tous les espaces</span>
 	</p>
 </form>
 <form action="<?php echo htmlsecure($_SERVER["PHP_SELF"]) ?>" method="get" class="metaevt">
