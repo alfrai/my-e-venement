@@ -95,7 +95,7 @@
 	            WHERE date <= '".pg_escape_string($date["stop"])."'::date + '1 day'::interval
 	              AND date >= '".pg_escape_string($date["start"])."'::date
 	              ".($_GET['spaces'] != 'all' ? 'AND spaceid '.($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '');
-		if ( count($couleur) > 0 ) $query .= " AND ( manif.colorid".implode(" OR manif.colorid",$couleur).")";
+		if ( count($couleur) > 0 ) $query .= " AND ( colorid".implode(" OR colorid",$couleur).")";
 		$query .= " GROUP BY id, manifid, sitenom, ville, nom, date,catdesc, typedesc";
 		if ( $_GET["ordre"] == "nom" )
 			$query .= " ORDER BY nom, date";
