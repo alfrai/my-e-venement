@@ -173,7 +173,7 @@ ul.spectacles li.total span.total { border-top: 1px solid grey; }
 #bill-paiement.show ul, #bill-paiement.show > p { display: block; }
 #bill-paiement.show #pay { display: none; }
 #bill-paiement ul select option span.cpt { font-size: 80%; }
-#bill-paiement ul li.untouchable input[type=text], #bill-paiement ul li.untouchable select { display: none; }
+#bill-paiement ul li.untouchable input[type=text], #bill-paiement ul li.untouchable select, #bill-paiement ul li.untouchable button { display: none; }
 #bill-paiement ul li { display: table; }
 #bill-paiement ul li p { display: table-row; }
 #bill-paiement ul li p span { display: table-cell; padding-left: 5px; }
