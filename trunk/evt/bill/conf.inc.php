@@ -51,6 +51,10 @@
 	  $request->free();
 	}
 	
+	foreach ( $config['mods'] as $mod )
+	if ( file_exists(dirname(__FILE__).'/../../'.$mod.'/config.evt.php') )
+	  @include(dirname(__FILE__).'/../../'.$mod.'/config.evt.php');
+	
 	includeLib("login-check");
 	require_once(dirname(__FILE__).'/../config.default.php');
 ?>

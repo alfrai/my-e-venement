@@ -58,22 +58,25 @@
 			$arr["accountid"] = $user->getId();
 			$arr['spaceid']   = $user->evtspace ? $user->evtspace : NULL;
 			
-			$query = " SELECT * FROM transaction WHERE id = '".pg_escape_string($oldtransac)."'";
+			$query = " SELECT *
+			           FROM transaction
+			           WHERE id = '".pg_escape_string($oldtransac)."'
+			             ".($user->evtspace ? "AND spaceid = ".$user->evtspace : '');
 			$request = new bdRequest($bd,$query);
 			$rec = $request->getRecord();
 			$arr["personneid"] = $rec["personneid"];
 			$arr["fctorgid"] = $rec["fctorgid"];
 			$arr["translinked"] = $oldtransac;
-			$request->free();
 			
-			if ( !$bd->addRecord("transaction",$arr) )
+			if ( $request->countRecords() > 0 && !$bd->addRecord("transaction",$arr) )
 			{
 				$user->addAlert("Impossible de créer la transaction, veuillez contacter votre administrateur.");
 				$bd->free();
 				$nav->redirect("evt/bill/annul.php","Erreur lors de la création de la transaction.");
 			}
 			$transac = $bd->getLastSerial("transaction","id");
-		}
+			$request->free();
+ 		}
 		
 		// enregistrement des demandes d'annulation
 		if ( $resa != preg_tarif(NULL) && ($manifid = intval($_GET["manif"])) >= 0 )

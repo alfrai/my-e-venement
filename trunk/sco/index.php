@@ -175,7 +175,7 @@
 	<?php $pers = $_GET["pers"] ? $_GET["pers"] : $_POST["pers"]; ?>
 	<p>
 		<span>Entrer le nom de la personne recherchée&nbsp;:</span>
-		<span><input type="text" name="pers" value="<?php echo htmlsecure($pers) ?>" id="focus" /></span><span class="desc">et valider...</span>
+		<span><input type="text" name="pers" value="<?php echo htmlsecure($pers) ?>" /></span><span class="desc">et valider...</span>
 		<span><input type="submit" name="submit" value="ok" /></span>
 	</p>
 	<?php

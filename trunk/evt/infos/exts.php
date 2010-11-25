@@ -56,6 +56,24 @@
 		$arr[$i][] = "Lieu";
 		$arr[$i][] = "Jauge totale";
 		$vals['total-total'] = count($arr[$i]) - 1;
+		
+		if ( $_GET['spaces'] == 'all' && $_GET['jauges'] == 'detail' )
+		{
+		  $query = ' SELECT * FROM space ORDER BY id';
+		  $s = new bdRequest($bd,$query);
+		  if ( $s->countRecords() > 0 )
+		  {
+        $arr[$i][] = 'Jauge "par défaut"';
+	  	  $vals['total-space-default'] = count($arr[$i]) - 1;
+		    while ( $r = $s->getRecordNext() )
+		    {
+		      $arr[$i][] = 'Jauge "'.$r['name'].'"';
+		      $vals['total-space-'.$r['id']] = count($arr[$i]) - 1;
+		    }
+		  }
+		  $s->free();
+		}
+		
 		$arr[$i][] = "Res. totales";
 		$vals['total-vendu'] = count($arr[$i]) - 1;
 		$arr[$i][] = "Reste à vendre";
@@ -85,6 +103,7 @@
 			    LEFT JOIN space_manifestation sm ON sm.manifid = manif.id AND sm.spaceid ".($user->evtspace ? ' = '.$user->evtspace : ' IS NULL')."
 			    WHERE manif.evtid = evt.id
 			      AND manif.siteid = site.id
+		                LEFT JOIN space s ON s.id = sm.spaceid
 			      AND date <= '".pg_escape_string($date["stop"])."'::date + '1 day'::interval
 			      AND date >= '".pg_escape_string($date["start"])."'::date";
 	  */
@@ -104,6 +123,25 @@
 		
 		while ( $rec = $request->getRecordNext() )
 		{
+	    $jauges = array();
+		  if ( $_GET['spaces'] == 'all' && $_GET['jauges'] == 'detail' )
+		  {
+  		  $query  = ' SELECT m.id AS manifid, m.jauge AS default , s.id AS spaceid, s.name AS space, sm.jauge
+	  	              FROM space s
+		                LEFT JOIN space_manifestation sm ON sm.spaceid = s.id
+	  	              LEFT JOIN manifestation m ON m.id = sm.manifid
+		                WHERE m.id = ('.intval($rec["manifid"]).')
+		                ORDER BY s.id';
+		    $j = new bdRequest($bd,$query);
+		    $jauges['default'] = $rec['jauge'];
+		    while ( $r2 = $j->getRecordNext() )
+		    {
+  		    $jauges['default'] = $r2['default'];
+  		    $jauges[$r2['spaceid']] = $r2['jauge'];
+  		  }
+	  	  $j->free();
+		  }
+		  
 			$query	= " SELECT manifid, sum(nb) AS nb, transac.id IN (SELECT transaction FROM contingeant) AS contingeant,
 				           transac.id IN (SELECT transaction FROM masstickets) AS depot, printed AND NOT canceled AS resa,
 				           transac.id IN (SELECT transaction FROM preselled) AS preresa
@@ -153,6 +191,8 @@
 	 		$arr[$i][$vals["perso-total"]]	= intval($rec["jauge"]) - $arr[$i][$vals["depot-total"]];
 	 		$arr[$i][$vals["perso-reste"]]	= $arr[$i][$vals["perso-total"]] - $arr[$i][$vals["perso-vendu"]] - $arr[$i][$vals["perso-bdc"]] - $arr[$i][$vals["contingents"]];
 	 		$arr[$i][$vals["total-total"]]	= intval($rec["jauge"]);
+	 		foreach ( $jauges as $spaceid => $jauge )
+  	 		$arr[$i][$vals['total-space-'.$spaceid]] = intval($jauge);
 	 		$arr[$i][$vals["total-vendu"]]	= $arr[$i][$vals["perso-vendu"]] + $arr[$i][$vals["depot-vendu"]] + $arr[$i][$vals["perso-bdc"]] + $arr[$i][$vals["contingents"]];
 	 		$arr[$i][$vals["total-reste"]]	= $arr[$i][$vals["total-total"]] - $arr[$i][$vals["total-vendu"]];
 	 		
@@ -258,7 +298,10 @@
 			<input type="checkbox" name="msexcel" value="yes" onclick="javascript: ttt_spanCheckBox(this);" />
 			Compatibilité MSExcel
 		</span>
+		<?php if ( $config['evt']['spaces'] ): ?>
 	  <span class="spaces" title="Voir tous les espaces"><input type="checkbox" name="spaces" value="all" />&nbsp;Voir tous les espaces</span>
+	  <span class="jauges" title="Voir le détail des jauges"><input type="checkbox" name="jauges" value="detail" />&nbsp;Voir le détail des jauges</span>
+	  <?php endif; ?>
 	</p>
 </form>
 <form action="<?php echo htmlsecure($_SERVER["PHP_SELF"]) ?>" method="get" class="metaevt">

@@ -210,6 +210,11 @@ $(document).ready(function() {
       #<a href="<?php echo htmlsecure($_SERVER["PHP_SELF"]).'?t='.intval($id) ?>"><?php echo intval($id) ?></a>
     <?php endforeach; ?>)</span>
     <?php endif; ?>
+    <?php
+      foreach ( $config['evt']['callback_transaction'] as $callback )
+      if ( is_callable($callback) )
+        call_user_func($callback,$transac);
+    ?>
     <input type="hidden" name="eapi" id="eapi" value="<?php echo htmlsecure($config["website"]["base"].'evt/bill/new-tickets.php') ?>" />
     <input type="hidden" name="salt" id="salt" value="<?php echo htmlsecure(md5(time())); ?>" />
   </div>
