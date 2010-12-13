@@ -699,6 +699,7 @@ body.livre div.cpt > ul > li > ul > li > span { display: table-cell; }
 body.livre div.cpt > ul > li > ul > li > span.transac,
 body.livre div.cpt > ul > li > ul > li > span.label { width: 80px; }
 body.livre div.cpt li.totaux { margin-top: 8px; }
+body.livre div.cpt span.separator { padding-left: 40px; font-size: 0; }
 body.livre div.cpt span.montant {
 	width: 80px;
 	padding: 0 5px;

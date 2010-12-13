@@ -121,11 +121,18 @@
 		}
 ?>
 			<li>
-				<span class="transac">#<a href="evt/bill/<?php echo ($_SESSION['ticket']['old-bill'] ? 'billing.php' : 'new-bill.php').'?t='.intval($rec['transaction']) ?>"><?php echo htmlsecure($rec["transaction"]) ?></a>:</span>
+				<span class="transac">
+				  #<a href="evt/bill/<?php echo ($_SESSION['ticket']['old-bill'] ? 'billing.php' : 'new-bill.php').'?t='.intval($rec['transaction']) ?>"><?php echo htmlsecure($rec["transaction"]) ?></a>:
+				</span>
 				<span class="eur montant"><?php
 					$total["mode"] += floatval($rec["montant"]);
 					echo htmlsecure(round($rec["montant"],2).'€');
 				?></span>
+  	    <?php
+	        foreach ( $config['evt']['callback_transaction'] as $callback )
+		      if ( is_callable($callback) )
+		        call_user_func($callback,$rec['transaction']);
+				?>
 			</li>
 <?php
 	}

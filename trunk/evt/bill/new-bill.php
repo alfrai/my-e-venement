@@ -72,15 +72,25 @@
     }
   }
   
-  // respawning of an anciant transaction
+  // respawning an anciant transaction
   if ( $transac > 0 )
   {
+    // incompatible transaction
+    $request = new bdRequest($bd,'SELECT count(*) AS nb FROM transaction WHERE id = '.$transac.' AND spaceid '.($user->evtspace ? ' = '.$user->evtspace : 'IS NULL'));
+    if ( $request->getRecord('nb') <= 0 )
+    {
+      $user->addAlert("Impossible d'accéder au numéro de transaction demandé");
+      $nav->redirect($_SERVER['PHP_SELF']);
+    }
+    $request->free();
+    
     $query =  ' SELECT transaction.*, pre.*, tarif.key
                 FROM transaction, reservation_pre AS pre, tarif
                 WHERE pre.transaction = transaction.id
                   AND tarif.id = tarifid
                   AND NOT pre.annul
                   AND pre.transaction = '.$transac.'
+                  AND spaceid '.($user->evtspace ? ' = '.$user->evtspace : 'IS NULL').'
                   AND transaction.id NOT IN ( SELECT transaction FROM contingeant )';
     $request = new bdRequest($bd,$query);
     
