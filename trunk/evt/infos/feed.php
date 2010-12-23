@@ -77,11 +77,13 @@
 		if ( $_GET["cat"] || $_GET["metaevt"] ) $query .= " WHERE ";
 		if ( $_GET["cat"] )
 		$query .= " categorie IN (SELECT id FROM evt_categorie WHERE libelle = '".pg_escape_string($_GET["cat"])."')";
-		if ( $_GET["cat"] || $_GET["metaevt"] ) $query .= " AND ";
+		if ( $_GET["cat"] && $_GET["metaevt"] ) $query .= " AND ";
 		if ( $_GET["metaevt"] )
+		{
   		foreach ( explode('|',$_GET['metaevt']) as $buf )
 	    	$metaevt[] = " metaevt ILIKE '".pg_escape_string($buf)."%'";
-	  $query .= '('.implode(' OR ',$metaevt).')';
+	    $query .= '('.implode(' OR ',$metaevt).')';
+	  }
 		$query .= " GROUP BY id, nom, description, textede, textede_lbl, ages, typedesc, duree, tarifweb, tarifwebgroup, extradesc, extraspec, imageurl, orgnom1, orgnom2, orgnom3
 			    ORDER BY date ASC, nom";
 	}
@@ -107,14 +109,14 @@
 <?php
 	if ( $request->countRecords() > 0 )
 	{
-		echo '<updated>'.htmlsecure(date($config["format"]["atomdate"]),strtotime("now"/*$request->getRecord("lastmod")*/)).'</updated>'."\n";
+		echo '<updated>'.htmlsecure(date($config["format"]["atomdate"])/*strtotime("now"$request->getRecord("lastmod"))*/).'</updated>'."\n";
 		while ( $rec = $request->getRecordNext() )
 		{
 			echo '<entry>';
 			echo '<id>'.htmlsecure($config["website"]["base"].'evt/infos/'.(isset($_GET["evt"]) ? 'fiche.php?id='.intval($rec["id"]) : 'manif.php?id='.intval($rec['manifid']).'&evtid='.intval($rec["id"]))).'</id>';
 			echo '<title>'.htmlsecure($rec["nom"]).'</title>';
 			echo '<link rel="alternate" type="text/html" href="'.htmlsecure($config["website"]["base"].'evt/infos/'.(isset($_GET["evt"]) ? 'fiche.php?id='.intval($rec["id"]) : 'manif.php?id='.intval($rec['manifid']).'&evtid='.intval($rec["id"]))).'"/>';
-			echo '<updated>'.htmlsecure(date($config["format"]["atomdate"],strtotime($rec["updated"]))).'</updated>';
+			echo '<updated>'.htmlsecure(date($config["format"]["atomdate"],strtotime($rec["update"]))).'</updated>';
 			echo '<summary type="xhtml">'.htmlsecure('Le '.date($config["format"]["date"].' '.$config["format"]["maniftime"],strtotime($rec["date"])).' à '.$rec["sitenom"].' - '.$rec["ville"]).'</summary>';
 			echo '<content type="xhtml">'.htmlsecure($rec["description"]).'</content>';
 			echo '<author><name>'.htmlsecure($config["divers"]["appli-name"]).'</name></author>';
