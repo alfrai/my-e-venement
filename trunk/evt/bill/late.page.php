@@ -42,8 +42,6 @@
 	// valeurs par défaut (la clé du tableau doit etre la même que la clé du tableau passé en POST)
 	$default["nom"] = "-DUPORT-";
 	
-	includeLib("headers");
-	
 	$personneid = trim($_GET["id"]) ? intval($_GET["id"]) : "";
 	$name_start = trim($_GET["s"]) ? trim("".htmlsecure($_GET["s"])) : "";
 	$org_start = trim($_GET["o"]) ? trim("".htmlsecure($_GET["o"])) : "";
@@ -53,6 +51,33 @@
 	if ( $org_start != '' )  $query .= " AND ( orgnom ILIKE '".$org_start."%' )";
 	$query .= isset($order) ? $order : " ORDER BY nom, prenom, orgnom, transaction";
 	$personnes = new bdRequest($bd,$query);
+	
+	if ( isset($_GET['export']) )
+	{
+	  $cpt = 0;
+	  $bd->delRecordsSimple('groupe',array('nom' => $grpname = '[dettes] '.($_GET["flashdate"] ? $_GET["flashdate"] : date('Y-m-d')),'createur' => $user->getId()));
+	  if ( $bd->addRecord('groupe',array('nom' => $grpname = '[dettes] '.($_GET["flashdate"] ? $_GET["flashdate"] : date('Y-m-d')),'createur' => $user->getId())) === false )
+	    $user->addAlert("Impossible de créer le groupe demandé");
+	  else
+	  {
+      $gid = $bd->getLastSerial('groupe','id');
+	    while ( $rec = $personnes->getRecordNext() )
+	    {
+	      $table = intval($rec['fctorgid']) ? 'groupe_fonctions' : 'groupe_personnes';
+	      if ( $bd->addRecord($table,array(
+	        'groupid' => $gid,
+	        $table == 'groupe_fonctions' ? 'fonctionid' : 'personneid' => $rec['fctorgid'],
+	        'included'  => 't',
+	        'info' => intval($rec["show_factureid"]),
+	      )) !== false )
+	      $cpt++;
+	    }
+	    $user->addAlert('Groupe '.$grpname.' créé avec '.$cpt.' membre(s).');
+	  }
+	  $personnes->firstRecord();
+	}
+	
+	includeLib("headers");
 ?>
 <h1><?php echo $title ?></h1>
 <?php includeLib("tree-view"); ?>
@@ -97,6 +122,7 @@
 		</p>
 		<?php endif; ?>
 		<p class="seeall">
+		  <span class="submit"><input type="submit" name="export" value="Exporter" title="... vers un groupe" /></span>
 			<span class="submit"><input type="submit" name="v" value="Valider" /></span>
 			<?php if ( $config['evt']['spaces'] ): ?><span class="spaces"><input type="checkbox" name="spaces" value="all" title="Tous les espaces" <?php echo $_GET['spaces'] == 'all' ? 'checked="checked"' : '' ?> /><?php endif ?>
 			<?php if ( $credit ) { ?>
