@@ -1,0 +1,404 @@
+<?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    beta-libs is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with beta-libs; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*
+***********************************************************************************/
+?>
+<?php
+  require("conf.inc.php");
+  $css[] = 'evt/styles/jauge.css';
+  $css[] = 'evt/styles/new-bill.css';
+  if ( $config['ticket']['extra-gui-css'] )
+    $css[] = 'evt/perso/extra-gui.css';
+  $class .= " index";
+  includeJS('jquery');
+  includeJS('jquery-ui','evt');
+  includeJS('new-bill','evt');
+  if ( $config['ticket']['extra-gui-js'] )
+    includeJS($config['ticket']['extra-gui-js'],'evt/perso');
+  
+  if ( $config['ticket']['cat-tarifs'] )
+  {
+    $css[] = 'evt/styles/cat-tarifs.css';
+    includeJS('cat-tarifs','evt');
+  }
+  
+  if ( $user->evtlevel <= $config["evt"]["right"]["view"] )
+  {
+    $user->addAlert($msg = "Vous n'avez pas un niveau de droits suffisant pour accéder à cette fonctionnalité");
+    $nav->redirect($config["website"]["base"]."evt/bill/",$msg);
+  }
+  
+  if ( !isset($_GET['t']) )
+  {
+    if ( $bd->addRecord('transaction',array('accountid' => $user->getId(),'spaceid' => $user->evtspace ? $user->evtspace : NULL, )) )
+    {
+      $transac = $bd->getLastSerial('transaction','id');
+      $nav->redirect($_SERVER['PHP_SELF'].'?t='.$transac);
+    }
+    else
+    {
+      $user->addAlert('Impossible de créer une opération en base, contactez votre administrateur');
+      $nav->redirect(dirname($_SERVER['PHP_SELF']));
+    }
+  }
+  else $transac = intval($_GET['t']);
+  
+  if ( $transac > 0 )
+  {
+    $request = new bdRequest($bd,'SELECT count(*) AS nb FROM contingeant WHERE transaction = '.$transac);
+    $cont = intval($request->getRecord('nb')) > 0;
+    $request->free();
+    if ( $cont )
+    {
+      $user->addAlert("L'opération visée n'existe pas ou n'est pas une opération de billetterie classique (contingent, dépôt, ...).");
+      $nav->redirect(dirname($_SERVER['PHP_SELF']));
+    }
+  }
+  
+  // respawning an anciant transaction
+  if ( $transac > 0 )
+  {
+    // incompatible transaction
+    $request = new bdRequest($bd,'SELECT count(*) AS nb FROM transaction WHERE id = '.$transac.' AND spaceid '.($user->evtspace ? ' = '.$user->evtspace : 'IS NULL'));
+    if ( $request->getRecord('nb') <= 0 )
+    {
+      $user->addAlert("Impossible d'accéder au numéro de transaction demandé");
+      $nav->redirect($_SERVER['PHP_SELF']);
+    }
+    $request->free();
+    
+    $query =  ' SELECT transaction.*, pre.*, tarif.key
+                FROM transaction, reservation_pre AS pre, tarif
+                WHERE pre.transaction = transaction.id
+                  AND tarif.id = tarifid
+                  AND NOT pre.annul
+                  AND pre.transaction = '.$transac.'
+                  AND spaceid '.($user->evtspace ? ' = '.$user->evtspace : 'IS NULL').'
+                  AND transaction.id NOT IN ( SELECT transaction FROM contingeant )';
+    $request = new bdRequest($bd,$query);
+    
+    if ( $request->getRecord('blocked') == 't' && $user->evtlevel < $config['evt']['right']['param'] )
+    {
+      $user->addAlert("L'opération visée a été verrouillée, faîtes-la déverrouiller par votre responsable.");
+      $nav->redirect(dirname($_SERVER['PHP_SELF']).'?blocked='.$transac);
+    }
+    
+    includeLib("headers");
+?>
+<script type="text/javascript">
+  var hardprint = false;
+  <?php if ( $config['print']['hard'] ): ?>
+  hardprint = true;
+  <?php endif; ?>
+  
+  $(document).ready(function(){
+  <?php
+    // le client
+    if ( $rec = $request->getRecord() )
+    if ( $rec['personneid'] ):
+      $client = intval($rec['fctorgid']) > 0 ? 'prof_'.$rec['fctorgid'] : 'pers_'.$rec['personneid'];
+  ?>
+    $('#bill-client .list').load('evt/bill/search-ppl.page.php?client=<?php echo $client ?> .list > ul',function(){
+      if ( $('#bill-client .list input[name=client]').length <= 0 ) return false;
+      $('#bill-client .list input[name=client]').get(0).checked = true;
+      newbill_client_valid();
+    });
+  <?php endif; ?>
+  <?php
+    // les manifestations
+    $manifs = array();
+    while ( $rec = $request->getRecordNext() )
+    if ( !in_array(intval($rec['manifid']),$manifs) )
+      $manifs[] = intval($rec['manifid']);
+    if ( count($manifs) > 0 ):
+  ?>
+    $('#bill-tickets .list').load('evt/bill/search-evt.page.php?manifid[]=<?php echo implode('&manifid[]=',$manifs) ?> .list > ul',function(){
+      $(this).find('input[name=manifs[]]').each(function(){
+        $(this).get(0).checked = true;
+        newbill_evt_select();
+        newbill_evt_refreshjs();
+      });
+  <?php
+    // les tickets
+    $request->firstRecord();
+    while ( $rec = $request->getRecordNext() ): ?>
+      if ( elt = $("#bill-tickets .spectacles input[name='manifs[]'][value=<?php echo $rec['manifid'] ?>]").get(0) )
+        elt.checked = true;
+      newbill_tickets_new_visu('<?php echo htmlspecialchars($rec['key']) ?>');
+  <?php endwhile; ?>
+      newbill_tickets_click_remove();
+      newbill_tickets_refresh_money();
+    });
+  <?php endif; ?>
+    $('#bill-tarifs input[type=text]').val(1);
+    
+    // les paiements
+    <?php
+      $query  = ' SELECT montant, modepaiementid, date::date
+                  FROM paiement
+                  WHERE transaction = '.$transac.'
+                  ORDER BY date, sysdate';
+      $request = new bdRequest($bd,$query);
+    ?>
+    <?php while ( $rec = $request->getRecordNext() ): ?>
+    pay = $('#bill-paiement li').eq(0);
+    pay.find('input.money').val(<?php echo floatval($rec['montant']) ?>);
+    pay.find('select.mode').val(<?php echo intval($rec['modepaiementid']) ?>);
+    pay.find('input.date').val('<?php echo date('Y-m-d',strtotime($rec['date'])) ?>').blur();
+    newbill_paiement_print();
+    <?php endwhile; ?>
+    <?php
+      $request->free();
+    ?>
+  });
+</script>
+<?php
+    $request->free();
+  }
+  
+  if ( is_array($manifs = $_SESSION['evt']['express']['manif']) )
+  {
+?>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#bill-tickets .list').load('evt/bill/search-evt.page.php?manifid[]=<?php echo implode('&manifid[]=',$manifs) ?> .list > ul',function(){
+    $(this).find('input[name=manifs[]]').each(function(){
+      $(this).get(0).checked = true;
+      newbill_evt_select();
+      newbill_evt_refreshjs();
+    });
+  });
+  $('#bill-tickets input[name=express]').toggleClass('unflash').val('unflash');
+});
+</script>  
+<?php
+  }
+?>
+<h1><?php echo $title ?></h1>
+<?php includeLib("tree-view"); ?>
+<?php require(dirname(__FILE__).'/actions.php'); ?>
+<div class="body">
+<form action="evt/bill/new-bill-end.php" method="post">
+  <?php
+    $query = "( SELECT translinked AS id FROM transaction WHERE id = ".intval($transac)."
+                ) UNION (
+                SELECT transaction.id
+                FROM transaction, reservation_pre AS pre, reservation_cur AS cur
+                WHERE (translinked = ".intval($transac).")
+                  AND pre.transaction = transaction.id
+                  AND cur.resa_preid = pre.id
+                  AND NOT canceled )
+                ORDER BY id";
+    $translinked = new bdRequest($bd,$query);
+    $past = array();
+    while ( ($id = intval($translinked->getRecordNext("id"))) > 0 )
+    if ( !in_array($id,$past) )
+      $past[] = $id;
+    $translinked->free();
+  ?>
+  <div id="bill-op">
+    Opération #<span id="op"><?php echo $transac ?></span><input type="hidden" name="transac" value="<?php echo $transac ?>" />
+    <?php if ( count($past) > 0 ): ?>
+    <span class="links">(liée avec: <?php foreach ( $past as $id ): ?>
+      #<a href="<?php echo htmlsecure($_SERVER["PHP_SELF"]).'?t='.intval($id) ?>"><?php echo intval($id) ?></a>
+    <?php endforeach; ?>)</span>
+    <?php endif; ?>
+    <?php
+      if ( is_array($config['evt']['callback_transaction']) )
+      foreach ( $config['evt']['callback_transaction'] as $callback )
+      if ( is_callable($callback) )
+        call_user_func($callback,$transac);
+    ?>
+    <input type="hidden" name="eapi" id="eapi" value="<?php echo htmlsecure($config["website"]["base"].'evt/bill/new-tickets.php') ?>" />
+    <input type="hidden" name="salt" id="salt" value="<?php echo htmlsecure(md5(time())); ?>" />
+  </div>
+  <div id="bill-client">
+    <p class="search">Spectateur: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /> <a class="create" href="ann/fiche.php?add" target="_blank" title="Ouvre un nouvel onglet... fermez-le pour revenir.">Ajouter...</a></p>
+    <div class="list"></div>
+    <div class="microfiche"></div>
+  </div>
+  
+  <div id="bill-tickets">
+    <ul class="spectacles">
+      <li class="total"><span>Total:</span> <span class="total">0</span></li>
+    </ul>
+    <p class="search">Spectacle: <input type="text" name="search" value="" title="lancez la recherche, appuyez sur entrée" /> <a href="<?php echo htmlsecure($_SERVER['PHP_SELF']) ?>#" class="toggle">montrer / cacher</a> <input type="submit" name="express" value="flash" /></p>
+    <div class="list"></div>
+    <div class="microfiche"></div>
+  </div>
+  
+  <div id="bill-tarifs">
+    <input type="text" name="nb" value="1" size="2" maxlength="3" />
+    <?php
+      $request = new bdRequest($bd,'
+        SELECT key, description AS desc
+        INTO TEMP tmp_tarifs
+        FROM tarif t
+        WHERE date = ( SELECT max(date) FROM tarif WHERE key = t.key )
+          AND NOT desact
+          AND NOT contingeant
+        ORDER BY key');
+      $request->free();
+      if ( !$config['ticket']['cat-tarifs'] )
+      {
+        $request = new bdRequest($bd,'SELECT * FROM tmp_tarifs');
+        while ( $rec = $request->getRecordNext() )
+          echo '<button name="tarif" value="'.htmlsecure($rec['key']).'" title="'.htmlsecure($rec['desc']).'">'.htmlsecure($rec['key']).'</button> ';
+      }
+      else
+      {
+        echo ' <div class="cat-tarifs">';
+        $query  = ' SELECT t.id, t.libelle, l.id AS lineid, l.libelle AS linename, r.id AS rowid, r.libelle AS rowname, tarifkey, tt.desc AS tarifdesc
+                    FROM cattarifs_table t
+                    LEFT JOIN cattarifs_row r   ON r.tableid = t.id
+                    LEFT JOIN cattarifs_line l  ON l.tableid = t.id
+                    LEFT JOIN cattarifs_elt e   ON e.rowid = r.id AND e.lineid = l.id
+                    LEFT JOIN tmp_tarifs tt     ON e.tarifkey = tt.key
+                    ORDER BY lineid, rowid';
+        $tarifs = new bdRequest($bd,$query);
+        $tid = 0;
+        $grps = array();
+        while ( $tarif = $tarifs->getRecordNext() )
+        {
+          $i = $tarif['id'];
+          $grps[$i][0][0]                               = $tarif['libelle'];
+          $grps[$i][0][$tarif['rowid']]                 = $tarif['rowname'];
+          $grps[$i][$tarif['lineid']][0]                = $tarif['linename'];
+          $grps[$i][$tarif['lineid']][$tarif['rowid']]['key']  = $tarif['tarifkey'];
+          $grps[$i][$tarif['lineid']][$tarif['rowid']]['desc'] = $tarif['tarifdesc'];
+        }
+        
+        foreach ( $grps as $lines )
+        {
+          echo '<table>';
+          $cptlines = 0;
+          foreach ( $lines as $iline => $rows )
+          {
+            $cptlines++;
+            echo '<tr class="'.($cptlines % 2 == 0 ? 'pair' : 'impair').'">';
+            $cptrows = 0;
+            
+            foreach ( $rows as $irow => $elt )
+            {
+              $cptrows++;
+              if ( $iline == 0 && $irow == 0 )
+                echo '<td class="'.($cptrows % 2 == 0 ? 'pair' : 'impair').' title"><button class="libelle" name="grp" title="Cliquez pour aggrandir / réduire le groupe">'.htmlsecure($elt).'</button></td>';
+              elseif ( $iline == 0 || $irow == 0 )
+                echo '<td class="'.($cptrows % 2 == 0 ? 'pair' : 'impair').' title">'.htmlsecure($elt).'</td>';
+              else
+                echo  '<td class="'.($cptrows % 2 == 0 ? 'pair' : 'impair').'">'.
+                      ($elt['key'] ? '<button
+                        name="tarif"
+                        value="'.htmlsecure($elt['key']).'"
+                        title="'.htmlsecure($elt['desc']).'">'.htmlsecure($elt['key']).'</button>' : '').
+                      '</td>';
+            }
+            echo '</tr>';
+          }
+          echo '</table>'."\n";
+        }
+        echo '</div>';
+      }
+    ?>
+    <span class="tickets" title="Cliquer pour retirer un billet"><span></span></span>
+    <input class="ticket" type="hidden" name="" value="" />
+  </div>
+  
+  <div id="bill-compta">
+    <p class="print">
+      <button name="print" value="print" class="print">Imprimer les billets</button>
+      <input type="checkbox" class="print" name="duplicata" value="1" title="Ré-imprimer des duplicatas, précisez le tarif :" />
+      <input type="text" class="print" name="tarif" value="" title="Entrez le tarif que vous souhaitez dupliquer pour la manifestation sélectionnée" size="3" maxlength="6" />
+      <?php if ( $config["ticket"]["enable_group"] ): ?>
+      <span class="print group"><input type="checkbox" class="print group" name="group" value="1" title="Billets groupés ?" /></span>
+      <?php endif; ?>
+    </p>
+    <div class="progressbar">
+      <h3>Impression...</h3>
+      <p class="progress">
+        <span class="bar"></span><span class="level">0</span>
+      </p>
+      <p class="msg"></p>
+    </div>
+    <p class="compta">
+      <button name="bdc" value="bdc" class="bdc">Bon de Commande</button>
+      <?php
+        $printed = new bdRequest($bd,
+          'SELECT count(*) AS nb, (SELECT count(id) > 0 FROM bdc WHERE transaction = '.$transac.') AS bdc
+           FROM reservation_pre p, reservation_cur c
+           WHERE NOT canceled
+             AND c.resa_preid = p.id
+             AND transaction = '.intval($transac));
+      ?>
+      <button name="facture" value="facture" class="facture <?php echo intval($printed->getRecord('nb')) > 0 ? 'printed' : '' ?>">Facture</button>
+      <input type="checkbox" name="old-compta" value="old" title="Obtenir un fichier tableur" />
+      <input type="checkbox" name="msexcel" value="msexcel" title="Compatibilité MSExcel" />
+      <button name="annul-bdc" value="annul-bdc" class="annul <?php echo $printed->getRecord('bdc') == 't' ? 'bdc' : '' ?>" title="Annule le bon de commande après refus">Annul. BdC</button>
+      <?php $printed->free() ?>
+    </p>
+  </div>
+  
+  <div id="bill-paiement">
+    <button id="pay" name="letsgo" value="">Payer</button>
+    <p class="total">À payer&nbsp;: <span></span>€</p>
+    <ul>
+      <li class="new">
+        <p><span>montant&nbsp;:</span> <span><input class="money" type="text" name="reglement[money][]" value="" /> €</span></p>
+        <?php $request = new bdRequest($bd,' SELECT * FROM modepaiement ORDER BY libelle'); ?>
+        <p><span>mode de règlement&nbsp;:</span> <span><select name="reglement[mode][]" class="mode">
+          <option value="">-mode de règlement-</option>
+          <?php while ( $rec = $request->getRecordNext() ): ?>
+            <option value="<?php echo $rec['id'] ?>"><?php echo htmlspecialchars($rec['libelle']) ?></option>
+          <?php endwhile; ?>
+        </select></span></p>
+        <p><span>date&nbsp;:</span> <span><input class="date" type="text" name="reglement[date][]" value="" /></span></p>
+        <p class="valid">
+          <span><input type="submit" name="reglement[valider]" value="ajouter" /></span>
+          <span><?php $request->firstRecord(); while ( $rec = $request->getRecordNext() ): ?>
+            <button name="reglement[completer]" value="<?php echo $rec['id']?>" title="Payer le restant dû en <?php echo htmlspecialchars($rec['libelle']) ?>">
+              <?php
+                if ( count($buf = preg_split('![\s/]!',$rec['libelle'])) > 1 )
+                {
+                  $str = '';
+                  foreach ( $buf as $x )
+                    $str .= strtoupper($x[0]).'.';
+                  echo htmlsecure($str);
+                  //echo htmlspecialchars($rec['libelle'])
+                }
+                else
+                  echo mb_substr($rec['libelle'],0,3,'UTF-8').'.';
+              ?>
+            </button>
+          <?php endwhile; ?></span>
+        </p>
+        <?php $request->free(); ?>
+      </li>
+    </ul>
+  </div>
+  
+  <div id="bill-verify"><p><input type="submit" name="verify" value="vérifier et valider"/></p></div>
+</form>
+<div id="warning">MESSAGE D'ALERTE</div>
+
+</div>
+<?php
+	includeLib("footer");
+	$bd->free();
+?>

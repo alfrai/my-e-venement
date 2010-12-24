@@ -1,0 +1,8 @@
+.param ul { display: table; }
+.param ul li { display: table-row; }
+.param ul li > span { display: table-cell; padding-right: 10px; padding-bottom: 3px; }
+.param ul li > .name { text-align: right; }
+.param ul li > .defaults { font-size: 80%; }
+.param ul li > span > input { text-align: right; }
+
+.labels .credits, .labels .timer-sql { display: none; }

@@ -1,0 +1,68 @@
+body { width: 297mm; }
+
+#customer .transaction,
+#customer .bdcid { display: none; }
+
+#customer {
+  position: absolute;
+  right: 20px;
+  border: 1px solid gray;
+  padding: 5px 10px;
+  width: 250px;
+}
+#customer p { margin: 0; }
+#customer .nom, #customer .prenom { display: inline; padding-right: 0.5em; font-weight: bold; }
+#customer .orgnom { font-weight: bold; }
+#customer .cp, #customer .ville { display: inline; padding-right: 0.5em; }
+#customer .id { display: none; }
+#customer .email { text-decoration: underline; font-size: 80%; }
+
+#date { position: absolute; right: 30px; }
+
+#seller p { margin: 0; }
+#seller .nom { font-weight: bold; }
+#seller .pays,
+#seller .refs { font-size: 80%; }
+
+#lines td, #lines th { border-bottom: 1px solid silver; border-left: 1px solid silver; padding: 0 5px; text-align: center; }
+#lines th:after { content: ''; }
+#lines .ht { border-right: 1px solid silver; }
+#lines .ttc, #lines .ht { font-weight: bold; }
+#lines .cp { display: none; }
+
+.ttc:after, .ht:after, .pu:after { content: ''; padding-left: 2px; }
+td.tva:after { content: '%'; padding-left: 2px; }
+#lines .ttc, #lines .ht, #lines .pu, #lines .tva { text-align: right; }
+
+#totaux {
+  display: table;
+  margin-left: 450px;
+  width: 200px;
+  margin-top: 20px;
+  padding: 5px 10px;
+  border: 1px solid silver;
+}
+#totaux p { margin: 0; display: table-row; }
+#totaux p span { display: table-cell; text-align: left; }
+#totaux p span.float:after { content: '€'; padding-left: 2px; }
+#totaux p span.float { text-align: right; }
+
+.timer-sql, .credits { display: none; }
+
+#ids { margin-top: 150px; }
+#ids .num { font-weight: bold }
+#correction { position: absolute; margin-top: 130px; }
+
+#type {
+  position: absolute;
+  font-weight: bold;
+  font-size: 170%;
+  right: 20px;
+  top: 100px;
+  width: 270px;
+}
+
+body.bdc .prefix { display: none; }
+body.bdc #echeance { display: none; }
+
+#lines .nom { max-width: 180px; }

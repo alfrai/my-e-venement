@@ -1,0 +1,284 @@
+== 1.9.0 -> 1.10.0 ==
+
+Release 1.10, "Jurançon-Foie Gras"
+
+Global
+ * updating SQL schemas
+ * updating CHANGELOG
+
+Online ticketting system
+ * Adding a new module for online ticketting, web-service based
+ * Improvements
+   * Creating the new schema
+   * Core-side code
+   * First finalizations
+   * Soft identification process (trusting a good bank transaction)
+   * Hard identification process (implicating login + passwd DB stored)
+   * Recording that people have bought tickets online in their description field
+ * Corrections
+   * Cleaning the old stuff (vel) adding a first test
+
+Ticketting system and events management :
+ * Improvements
+   * adding an information about the jauges property of a place/room
+   * adding the day of the week in all letters where dates are displayed for wide public (helping agents)
+   * adding "thin virtual walls" creating different "spaces", which permits the distinction of multiple financial actors or distinguished events (for example)
+   * adding a button to pay everything in one click in the ticketting process
+   * setting the new ticketting process by default
+ * Corrections
+   * various bugs (minor and even major)
+   * removing disabled "tarifs"
+   * now we can empty rich text fields in "infos web" / event files
+   * correcting an error on dates and masstickets...
+   * updating (optimizing) de DB schema (ex: info_resa...)
+   * buggy RSS feeder
+
+Groups
+ * Improvements
+   * reviewing the exact position of the table "entry" on the screen
+   * improving the printing functionnalities
+ * Corrections
+   * correcting a windows bug
+   * replacing a button
+
+== 1.8.0 -> 1.9.0 ==
+
+Release 1.9, "Cognac Taste"
+
+Global :
+ * Improvements
+   * Adding a direct link to documentations
+   * Adding the possibility for a user to be redirected to a particular URI as soon as s-he is connected
+ * Corrections
+   * Deleting some large and un-necessary files
+   * correction on login process to be redirected on the good way (the problem was when user has come with an internal URL, he was redirected here, even if it was /index.php?)
+
+Public relations :
+ * Improvements
+   * Adding an import feature for contacts and organisms
+   * Adding relations between events and contact files
+   * Adding an e-mailing tool
+   * Replacing the search form by a new one, less buggy
+   * Optimizing the database management
+   * Adding an automatic label creator
+   * Adding keywords for contacts
+ * Corrections
+   * Fixing various bugs
+
+Ticketting system and events management :
+ * Improvements
+   * Giving various little enhancement
+   * Adding an import feature for contacts and organisms
+   * Reagencing some libs
+   * Adding left-sided and right-sided tickets and the possibility to add a black/white logo on tickets
+   * Adding warnings on over-booking
+   * Displaying contingents inside the progress bar
+   * Now e-venement blocks transactions when finished, a high right-level is required to unblock them
+   * Adding a resume of duplicatas 
+   * Accelerating some processes
+   * Adding graphical statistics on ticketting datas
+   * Adding license numbers when blank tickets are used by clients
+   * Adding a checklist feature in events screens
+   * Adding a new right level (4, not a strong permission) for users who have to be focused on ticketting
+   * Adding personnal stylesheets for tickets and more
+   * Preparing the e-shopping interface on the local ticketting system
+ * Corrections
+   * Various bugs
+   * Now we can only cancel tickets once
+   * Security
+
+Groups
+ * Improvements
+   * Better archiving process for group-specific module
+   * New search form
+   * Adding better displays of specific group quotas
+   * Creating a direct link to the new ticketting process
+   * Improving the GUI
+
+Pros
+ * Improvements
+   * New search form
+
+
+== 1.7.0 -> 1.8.0 ==
+
+Release 1.8.0, "Breton Beer"
+
+Global :
+ * Corrections :
+   * little correction in the config.php template
+   * display the gmap configuration tool only if the option is enabled
+
+Billetterie :
+ * Améliorations :
+   * big jump into graphical tickets positionning
+   * modification of the data's schema... don't forget to update your database with the evt/sql/r47-plnum.sql patch
+   * improvement of the treatments of ages under 2 years old
+   * correction in the RSS transmission of the ages when < 1 year old
+   * added a new direct ticketting interface, more interactive, lightweight, and user-friendly... in a dev and test situation (use at your own risks before v1.8.1)
+   * now we can edit commands (BdC) and billing (factures) directly within e-venement
+   * a start on the way to make the ticketting process able to act as a web service
+
+Contact :
+ * Corrections :
+   * bug correction in the organisms' search form
+   * suppression de la possibilité de faire des recherches à critères multiples (OU logiques), too buggy
+
+Notes :
+ * beta-libs-0.8.0 needed
+
+== 1.6.1 -> 1.7.0 ==
+
+Release 1.7.0 "Morrocan Tea"
+
+Global :
+ * Corrections
+   * Updated login.php for CSRF security fix in login-check library (as an option)
+   * Correction de balises PHP simplifiées <? en <?php
+ * Améliorations
+   * Création auto du langage plpgsql en base lors de l'initialisation de la base
+
+Billetterie :
+ * Corrections
+   * Annulations : il n'était pas possible d'annuler une opération dont la personne était absente des contacts
+   * Correction du récapitulatif des dettes pour le positionnement à une date donnée.
+   * MAJ des billets pour compatibilité Firefox 3 (pb de taille de billet)
+   * Correction sur la prise en compte de tous les contingeants, et non plus seulement des dépôts
+   * Bug in archiving system on the config.php file ! BE CAREFUL : a manual update of the config.php is needed as done in the last lines of config.php.template
+
+ * Améliorations
+   * Flux RSS, syndication
+   * Fiches spectacles adaptées pour faire le lien avec un/des sites Internet, ajout de saisie via TinyMCE
+   * Ajout du numéro de facture dans la liste des personnes présentes sur une séance
+   * Ajout de statistiques simples
+   * Amélioration de l'ergonomie de la liste des factures
+
+Scolaires et groupes :
+ * Améliorations
+   * Demande de confirmation lors de la suppression d'une ligne ou d'une colonne d'une entrée... pour le module "sco".
+
+Contacts :
+ * Corrections
+   * Petites modifs dans les critères de recherche (bug sur l'age des enfants)
+   * Création de groupe
+ * Amélioration
+   * Option in the config.php.template to activate/deactivate the geolocalization functionnality
+
+== 1.6.0 -> 1.6.1 ==
+
+* general
+** mises à jour mineures diverses
+** Ajout d'un script pour dumper les schemas
+** MAJ de tous les schémas SQL initiaux
+** Configuration : ajout du format de date spécifique aux flux ATOM
+** Feuille de style pour l'affichage des jauges externalisée...
+* contact
+** Petite correction dans le patch SQL pour les enfants afin qu'il soit applicable partout
+** Petite correction pour le retour sur des groupes avec l'age des enfants...
+* billetterie
+** Ajout d'un flux RSS (syndication) pour suivre les spectacles autour de la date courante
+** Ajout de dates de création et modification des manifestations (tout est géré en base par un trigger, pas de changement dans le code)
+** Comptabilité : ajout de la possibilité de se positionner à une date précise pour l'affichage des dettes
+** Ajout d'une fonctionnalité permettant l'export de personnes présentes sur un meta-evenement
+* vente en ligne (toujours en version alpha)
+** MAJ en masse pour le module de vente en ligne
+** Renommage du module de vente en ligne de "web" à "vel"
+** gestion d'un panier par session
+** gestion des prix par tarif, manifestation, total
+** Manquent :
+*** la gestion du paiement sécurisé
+*** l'affichage des mentions légales
+*** une apparence par défaut agréable
+*** la gestion des coordonnées "client"
+*** l'interaction avec la billetterie une fois le paiement effectué
+*** l'impression du billet dématérialisé/contremarque
+* Ajout du module de gestion de tickets d'incidents (flyspray)
+
+
+== 1.5.2 -> 1.6.0 ==
+
+* general
+** Modification du config.php.template
+* contact
+** Correction d'un bug croisé lors de l'extraction dans certaines conditions
+** MAJ de la fiche des personnes
+** Age des enfants des spectateurs (jeune public)
+*** Fiche individuelles
+**** Ajout des infos sur les années de naissance des enfants
+**** Ajout d'une table "child" pour les années de naissance des enfants
+*** Intégration des ages des enfants dans :
+**** le moteur de recherche
+**** les groupes dynamiques
+* billetterie
+** Oubli d'une variable globale dans late.page.php ($user)
+** Correction d'un bug concernant les dépots de billetterie
+** Ajout de l'affichage des manifs (sans sélection possible) en première étape de la billetterie
+* pro
+** Ajout de l'aperçu des fiches individuelles dans le module pro
+
+== 1.5.1 -> 1.5.2 ==
+
+* Correction de nombreux bugs (core et modules)
+* MAJ du mode d'impression des billets (plus de passage par un fichier PDF)
+
+== 1.4.0 -> 1.5.1 ==
+* ajout de droits sur le module "evt" gérant billetterie et évènements
+* ajout de billets groupés pour les structures prêtes à être tenues responsables pénalement face au CGI
+* évolution du processus "grand public" de la billetterie :
+** possibilité de consulter une fiche spectateur au niveau de la première étape
+** intégration du choix des manifestations dans l'étape 2
+* mise à jour par rapport aux évolutions de janvier 2006 de l'article 290 quater du CGI : billets dématérialisés ("infoticks")
+** édition des infoticks (manque le design du billet)
+** extraction de listings papiers des infoticks pour une manifestation
+** prise en charge informatisée de l'arrivée des spectateurs à infoticks
+* archivage des données de billetterie (moyennant la création d'une nouvelle base de données)
+* améliorations et corrections de bugs divers
+
+
+== De contact-1.3.0 à contact-1.3.1 ==
+
+------------------------------------------------------------------------
+r779 | beta | 2007-04-27 11:56:49 +0200 (ven, 27 avr 2007) | 2 lines
+
+MAJ des fiches du module sco pour prendre en compte la notion de dernière modification
+
+------------------------------------------------------------------------
+r780 | beta | 2007-04-30 17:16:44 +0200 (lun, 30 avr 2007) | 3 lines
+
+Modification mineure de la gestion des couleurs des cellules
+Modification de la gestion de l'affichage des exports possibles : simplification maximale, on affiche tout.
+
+------------------------------------------------------------------------
+r781 | beta | 2007-05-02 14:56:19 +0200 (mer, 02 mai 2007) | 3 lines
+
+Protection des modules inactifs (sauf billetterie)
+
+
+------------------------------------------------------------------------
+r782 | beta | 2007-05-02 15:03:06 +0200 (mer, 02 mai 2007) | 2 lines
+
+Ajout d'une vérification de l'activation du module
+
+------------------------------------------------------------------------
+r783 | beta | 2007-05-02 18:41:20 +0200 (mer, 02 mai 2007) | 2 lines
+
+Ajout d'une fonctionnalité de recherche d'évènement par nom d'organisme
+
+------------------------------------------------------------------------
+r790 | beta | 2007-05-03 11:29:12 +0200 (jeu, 03 mai 2007) | 2 lines
+
+MAJ du schema SQL du module sco (ajout d'un champ commentaire par ligne d'entrée)
+
+------------------------------------------------------------------------
+r791 | beta | 2007-05-03 11:39:03 +0200 (jeu, 03 mai 2007) | 4 lines
+
+Ajout d'une fonction indiquant si une requête est en échec
+Affichage du résultat de l'application d'un patch
+MAJ du patch SQL pour les scolaires, afin qu'il fonctionne avec sqlpatch.php
+
+------------------------------------------------------------------------
+r797 | beta | 2007-05-07 01:15:24 +0200 (lun, 07 mai 2007) | 2 lines
+
+MAJ pour la nouvelle version des credits.php
+
+------------------------------------------------------------------------
