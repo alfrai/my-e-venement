@@ -1,3 +1,71 @@
+== 1.8.0 -> 1.9.0 ==
+
+Release 1.9, "Cognac Taste"
+
+Global :
+ * Improvements
+   * Adding a direct link to documentations
+   * Adding the possibility for a user to be redirected to a particular URI as soon as s-he is connected
+ * Corrections
+   * Deleting some large and un-necessary files
+   * correction on login process to be redirected on the good way (the problem was when user has come with an internal URL, he was redirected here, even if it was /index.php?)
+
+Public relations :
+ * Improvements
+   * Adding an import feature for contacts and organisms
+   * Adding relations between events and contact files
+   * Adding an e-mailing tool
+   * Replacing the search form by a new one, less buggy
+   * Optimizing the database management
+   * Adding an automatic label creator
+   * Adding keywords for contacts
+ * Corrections
+   * Fixing various bugs
+
+Ticketting system and events management :
+ * Improvements
+   * Giving various little enhancement
+   * Adding an import feature for contacts and organisms
+   * Reagencing some libs
+   * Adding left-sided and right-sided tickets and the possibility to add a black/white logo on tickets
+   * Adding warnings on over-booking
+   * Displaying contingents inside the progress bar
+   * Now e-venement blocks transactions when finished, a high right-level is required to unblock them
+   * Adding a resume of duplicatas 
+   * Accelerating some processes
+   * Adding graphical statistics on ticketting datas
+   * Adding license numbers when blank tickets are used by clients
+   * Adding a checklist feature in events screens
+   * Adding a new right level (4, not a strong permission) for users who have to be focused on ticketting
+   * Adding personnal stylesheets for tickets and more
+   * Preparing the e-shopping interface on the local ticketting system
+ * Corrections
+   * Various bugs
+   * Now we can only cancel tickets once
+   * Security
+
+Online ticketting system
+ * Adding a new module for online ticketting, web-service based
+ * Improvements
+   * Creating the new schema
+   * Core-side code
+   * First finalizations
+ * Corrections
+   * Cleaning the old stuff (vel) adding a first test
+
+Groups
+ * Improvements
+   * Better archiving process for group-specific module
+   * New search form
+   * Adding better displays of specific group quotas
+   * Creating a direct link to the new ticketting process
+   * Improving the GUI
+
+Pros
+ * Improvements
+   * New search form
+
+
 == 1.7.0 -> 1.8.0 ==
 
 Release 1.8.0, "Breton Beer"

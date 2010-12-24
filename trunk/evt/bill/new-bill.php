@@ -221,6 +221,7 @@ $(document).ready(function() {
     <?php endforeach; ?>)</span>
     <?php endif; ?>
     <?php
+      if ( is_array($config['evt']['callback_transaction']) )
       foreach ( $config['evt']['callback_transaction'] as $callback )
       if ( is_callable($callback) )
         call_user_func($callback,$transac);

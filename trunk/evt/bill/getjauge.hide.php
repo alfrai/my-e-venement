@@ -27,13 +27,13 @@
 	$jauge = true;
 	
 	$query  = ' SELECT o.nom AS orgnom, p2.nom, p2.prenom, c.transaction, count(p.*) AS nb
-	            FROM reservation_pre p, contingeant c
+	            FROM reservation_pre p
+	            LEFT JOIN contingeant c ON p.transaction = c.transaction
 	            LEFT JOIN personne p2 ON p2.id = c.personneid
 	            LEFT JOIN org_personne op ON op.personneid = p2.id AND op.id = c.fctorgid
 	            LEFT JOIN organisme o ON o.id = op.organismeid
 	            LEFT JOIN transaction t ON t.id = p.transaction
-	            WHERE p.transaction = c.transaction
-	              AND manifid = '.intval($_GET["manifid"]).'
+	            WHERE manifid = '.intval($_GET["manifid"]).'
 	              AND t.spaceid '.($user->evtspace ? ' = '.$user->evtspace : 'IS NULL').'
 	            GROUP BY p2.nom, p2.prenom, o.nom, c.transaction
 	            ORDER BY p2.nom, p2.prenom, o.nom, c.transaction';

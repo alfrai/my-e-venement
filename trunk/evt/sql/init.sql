@@ -2,6 +2,7 @@
 -- PostgreSQL database dump
 --
 
+SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = off;
 SET check_function_bodies = false;
@@ -39,6 +40,7 @@ CREATE TYPE resume_tickets AS (
 --
 
 CREATE FUNCTION addpreresa(bigint, bigint, integer, integer, boolean, character varying, integer) RETURNS boolean
+    LANGUAGE plpgsql
     AS $_$
 DECLARE
 account ALIAS FOR $1;
@@ -64,8 +66,7 @@ WHILE nb < ABS(nbloops) LOOP
 END LOOP;
 
 RETURN nb > 0;
-END;$_$
-    LANGUAGE plpgsql;
+END;$_$;
 
 
 --
@@ -73,6 +74,7 @@ END;$_$
 --
 
 CREATE FUNCTION contingeanting(bigint, bigint, bigint, bigint) RETURNS boolean
+    LANGUAGE plpgsql
     AS $_$BEGIN
 PERFORM * FROM contingeant WHERE transaction = $1;
 IF ( FOUND )
@@ -80,8 +82,7 @@ THEN RETURN false;
 ELSE INSERT INTO contingeant (transaction,accountid,personneid,fctorgid) VALUES ($1,$2,$3,$4);
      RETURN true;
 END IF;
-END;$_$
-    LANGUAGE plpgsql;
+END;$_$;
 
 
 --
@@ -102,11 +103,11 @@ $4: fctorgid';
 --
 
 CREATE FUNCTION counttickets(bigint, boolean) RETURNS bigint
+    LANGUAGE sql STABLE STRICT
     AS $_$SELECT count(*) AS RESULT
 FROM reservation_cur AS resa
 WHERE resa.canceled = false
-AND resa_preid = $1;$_$
-    LANGUAGE sql STABLE STRICT;
+AND resa_preid = $1;$_$;
 
 
 --
@@ -121,6 +122,7 @@ COMMENT ON FUNCTION counttickets(bigint, boolean) IS 'Utilisé lors de l''impres
 --
 
 CREATE FUNCTION decontingeanting(bigint, integer, bigint, integer, integer, integer, integer) RETURNS boolean
+    LANGUAGE plpgsql STRICT
     AS $_$DECLARE
 trans ALIAS FOR $1;
 manif ALIAS FOR $2;
@@ -176,8 +178,7 @@ i := i+1;
 
 END LOOP;
 RETURN true;
-END;$_$
-    LANGUAGE plpgsql STRICT;
+END;$_$;
 
 
 --
@@ -200,11 +201,11 @@ $7: quantity';
 --
 
 CREATE FUNCTION deftva(integer) RETURNS numeric
+    LANGUAGE sql STABLE STRICT
     AS $_$SELECT evtcat.txtva AS RETURN
 FROM evenement AS evt, evt_categorie AS evtcat
 WHERE evt.id = $1
-AND evtcat.id = evt.categorie$_$
-    LANGUAGE sql STABLE STRICT;
+AND evtcat.id = evt.categorie$_$;
 
 
 --
@@ -212,6 +213,7 @@ AND evtcat.id = evt.categorie$_$
 --
 
 CREATE FUNCTION firstresa(integer) RETURNS timestamp with time zone
+    LANGUAGE plpgsql STABLE STRICT SECURITY DEFINER
     AS $_$DECLARE
     resa RECORD;
 BEGIN
@@ -225,8 +227,7 @@ ELSE RETURN resa.min;
 END IF;
 END LOOP;
 RETURN NULL;
-END;$_$
-    LANGUAGE plpgsql STABLE STRICT SECURITY DEFINER;
+END;$_$;
 
 
 --
@@ -242,6 +243,7 @@ $1: manifid';
 --
 
 CREATE FUNCTION firstresa(integer, character varying) RETURNS timestamp with time zone
+    LANGUAGE plpgsql STABLE STRICT
     AS $_$DECLARE
     resa RECORD;
     mid  ALIAS FOR $1;
@@ -258,8 +260,7 @@ LOOP
 END LOOP;
 RETURN NULL;
 
-END;$_$
-    LANGUAGE plpgsql STABLE STRICT;
+END;$_$;
 
 
 --
@@ -276,6 +277,7 @@ $2: tarif.key';
 --
 
 CREATE FUNCTION get_second_if_not_null(numeric, numeric) RETURNS numeric
+    LANGUAGE plpgsql STABLE
     AS $_$BEGIN
 
 IF ( $2 IS NOT NULL )
@@ -283,8 +285,7 @@ THEN RETURN $2;
 ELSE RETURN $1;
 END IF;
 
-END;$_$
-    LANGUAGE plpgsql STABLE;
+END;$_$;
 
 
 --
@@ -301,11 +302,11 @@ Retourne la premiere sinon
 --
 
 CREATE FUNCTION get_tarifid(integer, character varying) RETURNS integer
+    LANGUAGE sql STABLE STRICT
     AS $_$SELECT id AS result
 FROM tarif_manif
 WHERE manifid = $1
-  AND key = $2$_$
-    LANGUAGE sql STABLE STRICT;
+  AND key = $2$_$;
 
 
 --
@@ -322,8 +323,8 @@ $2: tarif.key';
 --
 
 CREATE FUNCTION get_tarifid_contingeant(integer) RETURNS integer
-    AS $$SELECT id AS result FROM tarif WHERE contingeant ORDER BY date DESC LIMIT 1;$$
-    LANGUAGE sql STABLE STRICT;
+    LANGUAGE sql STABLE STRICT
+    AS $$SELECT id AS result FROM tarif WHERE contingeant ORDER BY date DESC LIMIT 1;$$;
 
 
 --
@@ -338,6 +339,7 @@ COMMENT ON FUNCTION get_tarifid_contingeant(integer) IS 'Retourne l''id du derni
 --
 
 CREATE FUNCTION getprice(integer, character varying) RETURNS numeric
+    LANGUAGE plpgsql STABLE STRICT
     AS $_$DECLARE
     buf NUMERIC;
 BEGIN
@@ -354,8 +356,7 @@ BEGIN
     		FROM tarif
     		WHERE id = get_tarifid($1,$2));
     RETURN buf;
-END;$_$
-    LANGUAGE plpgsql STABLE STRICT;
+END;$_$;
 
 
 --
@@ -372,6 +373,7 @@ $2: tarif.key';
 --
 
 CREATE FUNCTION getprice(integer, integer) RETURNS numeric
+    LANGUAGE plpgsql STABLE STRICT
     AS $_$DECLARE
     buf NUMERIC;
 BEGIN
@@ -383,8 +385,7 @@ BEGIN
     
     buf := (SELECT prix FROM tarif WHERE id = $2);
     RETURN buf;
-END;$_$
-    LANGUAGE plpgsql STABLE STRICT;
+END;$_$;
 
 
 --
@@ -401,10 +402,10 @@ $2: tarif.id';
 --
 
 CREATE FUNCTION is_plnum_valid(integer, integer) RETURNS boolean
+    LANGUAGE sql STABLE STRICT
     AS $_$SELECT siteid IN (SELECT siteid FROM manifestation WHERE id = $1 AND plnum)
 FROM site_plnum
-WHERE id = $2;$_$
-    LANGUAGE sql STABLE STRICT;
+WHERE id = $2;$_$;
 
 
 --
@@ -422,10 +423,10 @@ $2: plnum';
 --
 
 CREATE FUNCTION is_tarif_valid(integer, integer) RETURNS boolean
+    LANGUAGE sql STABLE STRICT
     AS $_$
 SELECT firstresa($1, tarif."key") >= date FROM tarif WHERE id = $2;
-$_$
-    LANGUAGE sql STABLE STRICT;
+$_$;
 
 
 --
@@ -442,13 +443,13 @@ $2: tarifid';
 --
 
 CREATE FUNCTION manif_update() RETURNS trigger
+    LANGUAGE plpgsql
     AS $$
    BEGIN
       NEW.updated = NOW();
       RETURN NEW;
    END;
-  $$
-    LANGUAGE plpgsql;
+  $$;
 
 
 --
@@ -456,6 +457,7 @@ CREATE FUNCTION manif_update() RETURNS trigger
 --
 
 CREATE FUNCTION onlyonevalidticket(bigint, boolean) RETURNS boolean
+    LANGUAGE plpgsql STABLE STRICT
     AS $_$DECLARE
 ret boolean;
 BEGIN
@@ -464,8 +466,7 @@ IF $2 = true THEN RETURN true;
 ELSE RETURN counttickets($1,$2) <= 0;
 END IF;
 
-END;$_$
-    LANGUAGE plpgsql STABLE STRICT;
+END;$_$;
 
 
 --
@@ -473,6 +474,7 @@ END;$_$
 --
 
 CREATE FUNCTION ticket_num(bigint, integer, character varying) RETURNS bigint
+    LANGUAGE sql STABLE STRICT
     AS $_$SELECT zeroifnull(max(ticketid)::bigint)+1 AS RESULT 
 FROM reservation_pre, reservation_cur, tarif
 WHERE tarif.id = tarifid
@@ -480,8 +482,7 @@ WHERE tarif.id = tarifid
   AND tarif.key = $3
   AND reservation_pre.manifid = $1
   AND reservation_pre.reduc = $2
-  AND reservation_cur.canceled = false;$_$
-    LANGUAGE sql STABLE STRICT;
+  AND reservation_cur.canceled = false;$_$;
 
 
 --
@@ -499,6 +500,7 @@ $3: la clé du tarif choisi';
 --
 
 CREATE FUNCTION toomanyannul(integer, boolean) RETURNS boolean
+    LANGUAGE plpgsql
     AS $_$
 DECLARE
   manif ALIAS FOR $1;
@@ -514,8 +516,7 @@ THEN
     AND printed = true;
 END IF;
 RETURN result;
-END;$_$
-    LANGUAGE plpgsql;
+END;$_$;
 
 
 SET default_tablespace = '';
@@ -725,6 +726,7 @@ COMMENT ON COLUMN reservation_cur.canceled IS 'true si le ticket a été annulé
 --
 
 CREATE SEQUENCE reservation_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -918,6 +920,7 @@ COMMENT ON VIEW resumetickets2print IS 'regrouppement de tickets à montrer (en 
 --
 
 CREATE FUNCTION tickets2print_bymanif(integer) RETURNS SETOF resumetickets2print
+    LANGUAGE plpgsql STRICT
     AS $_$DECLARE
     tickets resumetickets2print;
 BEGIN
@@ -930,8 +933,7 @@ BEGIN
 
     LOOP RETURN NEXT tickets; END LOOP;
     RETURN;
-END;$_$
-    LANGUAGE plpgsql STRICT;
+END;$_$;
 
 
 --
@@ -946,6 +948,7 @@ COMMENT ON FUNCTION tickets2print_bymanif(integer) IS 'Retourne les billets impr
 --
 
 CREATE FUNCTION tickets2print_bytransac(bigint) RETURNS SETOF resumetickets2print
+    LANGUAGE plpgsql STRICT
     AS $_$DECLARE
         tickets resume_tickets;
         BEGIN
@@ -958,8 +961,7 @@ CREATE FUNCTION tickets2print_bytransac(bigint) RETURNS SETOF resumetickets2prin
                     
                         LOOP RETURN NEXT tickets; END LOOP;
                             RETURN;
-                            END;$_$
-    LANGUAGE plpgsql STRICT;
+                            END;$_$;
 
 
 --
@@ -1007,6 +1009,7 @@ COMMENT ON COLUMN preselled.accountid IS 'account.id';
 --
 
 CREATE SEQUENCE preselled_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1080,6 +1083,7 @@ COMMENT ON COLUMN color.color IS 'Valeur RGB de type HTML de la couleur correspo
 --
 
 CREATE SEQUENCE color_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1337,6 +1341,7 @@ COMMENT ON VIEW evenement_categorie IS 'Liste des organismes avec leur catégori
 --
 
 CREATE SEQUENCE evenement_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1355,6 +1360,7 @@ ALTER SEQUENCE evenement_id_seq OWNED BY evenement.id;
 --
 
 CREATE SEQUENCE evt_categorie_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1420,6 +1426,7 @@ COMMENT ON COLUMN facture.accountid IS 'account.id';
 --
 
 CREATE SEQUENCE facture_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1699,6 +1706,7 @@ COMMENT ON COLUMN manif_organisation.manifid IS 'manifestation.id';
 --
 
 CREATE SEQUENCE manifestation_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1717,6 +1725,7 @@ ALTER SEQUENCE manifestation_id_seq OWNED BY manifestation.id;
 --
 
 CREATE SEQUENCE manifestation_tarifs_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1834,6 +1843,7 @@ COMMENT ON COLUMN modepaiement.numcompte IS 'numéro de compte comptable corresp
 --
 
 CREATE SEQUENCE modepaiement_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1923,6 +1933,7 @@ COMMENT ON VIEW paid IS 'Regroupe les transactions et les paiements liés';
 --
 
 CREATE SEQUENCE paiement_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -1989,6 +2000,7 @@ COMMENT ON COLUMN personne_evtbackup.date IS 'date de la manifestation (ancienne
 --
 
 CREATE SEQUENCE personne_evtbackup_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -2007,6 +2019,7 @@ ALTER SEQUENCE personne_evtbackup_id_seq OWNED BY personne_evtbackup.id;
 --
 
 CREATE SEQUENCE reservation_cur_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -2044,6 +2057,7 @@ CREATE VIEW site_datas AS
 --
 
 CREATE SEQUENCE site_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -2097,6 +2111,7 @@ ALTER SEQUENCE site_plnum_id_seq OWNED BY site_plnum.id;
 --
 
 CREATE SEQUENCE space_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -2115,6 +2130,7 @@ ALTER SEQUENCE space_id_seq OWNED BY space.id;
 --
 
 CREATE SEQUENCE space_manifestation_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -2133,6 +2149,7 @@ ALTER SEQUENCE space_manifestation_id_seq OWNED BY space_manifestation.id;
 --
 
 CREATE SEQUENCE tarif_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -2183,6 +2200,7 @@ COMMENT ON VIEW topay IS 'regroupe les transactions et la somme des prix des bil
 --
 
 CREATE SEQUENCE transaction_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE

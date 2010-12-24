@@ -2,6 +2,7 @@
 -- PostgreSQL database dump
 --
 
+SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = off;
 SET check_function_bodies = false;
@@ -9,13 +10,11 @@ SET client_min_messages = warning;
 SET escape_string_warning = off;
 
 --
--- Name: sco; Type: SCHEMA; Schema: -; Owner: ttt
+-- Name: sco; Type: SCHEMA; Schema: -; Owner: -
 --
 
 CREATE SCHEMA sco;
 
-
-ALTER SCHEMA sco OWNER TO ttt;
 
 SET search_path = sco, pg_catalog;
 
@@ -24,7 +23,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: entry; Type: TABLE; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: entry; Type: TABLE; Schema: sco; Owner: -; Tablespace: 
 --
 
 CREATE TABLE entry (
@@ -36,37 +35,34 @@ CREATE TABLE entry (
 );
 
 
-ALTER TABLE sco.entry OWNER TO ttt;
-
 --
--- Name: TABLE entry; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: TABLE entry; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON TABLE entry IS 'Tickets voulus pour chq entrée';
 
 
 --
--- Name: entry_id_seq; Type: SEQUENCE; Schema: sco; Owner: ttt
+-- Name: entry_id_seq; Type: SEQUENCE; Schema: sco; Owner: -
 --
 
 CREATE SEQUENCE entry_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
 
 
-ALTER TABLE sco.entry_id_seq OWNER TO ttt;
-
 --
--- Name: entry_id_seq; Type: SEQUENCE OWNED BY; Schema: sco; Owner: ttt
+-- Name: entry_id_seq; Type: SEQUENCE OWNED BY; Schema: sco; Owner: -
 --
 
 ALTER SEQUENCE entry_id_seq OWNED BY entry.id;
 
 
 --
--- Name: params; Type: TABLE; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: params; Type: TABLE; Schema: sco; Owner: -; Tablespace: 
 --
 
 CREATE TABLE params (
@@ -75,31 +71,29 @@ CREATE TABLE params (
 );
 
 
-ALTER TABLE sco.params OWNER TO ttt;
-
 --
--- Name: TABLE params; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: TABLE params; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON TABLE params IS 'Cette table définit des variables de paramétrage pour le module "pro"';
 
 
 --
--- Name: COLUMN params.name; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: COLUMN params.name; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON COLUMN params.name IS 'Nom du paramètre';
 
 
 --
--- Name: COLUMN params.value; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: COLUMN params.value; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON COLUMN params.value IS 'Valeur du paramètre';
 
 
 --
--- Name: responsable; Type: TABLE; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: responsable; Type: TABLE; Schema: sco; Owner: -; Tablespace: 
 --
 
 CREATE TABLE responsable (
@@ -107,24 +101,22 @@ CREATE TABLE responsable (
 );
 
 
-ALTER TABLE sco.responsable OWNER TO ttt;
-
 --
--- Name: TABLE responsable; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: TABLE responsable; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON TABLE responsable IS 'Who is responsible for the contingents reserved for this module';
 
 
 --
--- Name: COLUMN responsable.fctorgid; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: COLUMN responsable.fctorgid; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON COLUMN responsable.fctorgid IS 'fonction.id';
 
 
 --
--- Name: rights; Type: TABLE; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: rights; Type: TABLE; Schema: sco; Owner: -; Tablespace: 
 --
 
 CREATE TABLE rights (
@@ -133,10 +125,8 @@ CREATE TABLE rights (
 );
 
 
-ALTER TABLE sco.rights OWNER TO ttt;
-
 --
--- Name: tableau; Type: TABLE; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: tableau; Type: TABLE; Schema: sco; Owner: -; Tablespace: 
 --
 
 CREATE TABLE tableau (
@@ -147,44 +137,41 @@ CREATE TABLE tableau (
 );
 
 
-ALTER TABLE sco.tableau OWNER TO ttt;
-
 --
--- Name: TABLE tableau; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: TABLE tableau; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON TABLE tableau IS 'Unité de base permettant la création des diverses dimensions du tableau de gestion des groupes et des scolaires';
 
 
 --
--- Name: COLUMN tableau.accountid; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: COLUMN tableau.accountid; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON COLUMN tableau.accountid IS 'public.account.id';
 
 
 --
--- Name: tableau_id_seq; Type: SEQUENCE; Schema: sco; Owner: ttt
+-- Name: tableau_id_seq; Type: SEQUENCE; Schema: sco; Owner: -
 --
 
 CREATE SEQUENCE tableau_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
 
 
-ALTER TABLE sco.tableau_id_seq OWNER TO ttt;
-
 --
--- Name: tableau_id_seq; Type: SEQUENCE OWNED BY; Schema: sco; Owner: ttt
+-- Name: tableau_id_seq; Type: SEQUENCE OWNED BY; Schema: sco; Owner: -
 --
 
 ALTER SEQUENCE tableau_id_seq OWNED BY tableau.id;
 
 
 --
--- Name: tableau_manif; Type: TABLE; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: tableau_manif; Type: TABLE; Schema: sco; Owner: -; Tablespace: 
 --
 
 CREATE TABLE tableau_manif (
@@ -194,30 +181,27 @@ CREATE TABLE tableau_manif (
 );
 
 
-ALTER TABLE sco.tableau_manif OWNER TO ttt;
-
 --
--- Name: tableau_manif_id_seq; Type: SEQUENCE; Schema: sco; Owner: ttt
+-- Name: tableau_manif_id_seq; Type: SEQUENCE; Schema: sco; Owner: -
 --
 
 CREATE SEQUENCE tableau_manif_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
 
 
-ALTER TABLE sco.tableau_manif_id_seq OWNER TO ttt;
-
 --
--- Name: tableau_manif_id_seq; Type: SEQUENCE OWNED BY; Schema: sco; Owner: ttt
+-- Name: tableau_manif_id_seq; Type: SEQUENCE OWNED BY; Schema: sco; Owner: -
 --
 
 ALTER SEQUENCE tableau_manif_id_seq OWNED BY tableau_manif.id;
 
 
 --
--- Name: tableau_personne; Type: TABLE; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: tableau_personne; Type: TABLE; Schema: sco; Owner: -; Tablespace: 
 --
 
 CREATE TABLE tableau_personne (
@@ -232,58 +216,55 @@ CREATE TABLE tableau_personne (
 );
 
 
-ALTER TABLE sco.tableau_personne OWNER TO ttt;
-
 --
--- Name: TABLE tableau_personne; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: TABLE tableau_personne; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON TABLE tableau_personne IS 'Rempli les colonnes du tableau, les manifestations';
 
 
 --
--- Name: COLUMN tableau_personne.conftext; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: COLUMN tableau_personne.conftext; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON COLUMN tableau_personne.conftext IS 'Permet de mettre un commentaire à propos de la confirmation de réception de la facture';
 
 
 --
--- Name: COLUMN tableau_personne.confirmed; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: COLUMN tableau_personne.confirmed; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON COLUMN tableau_personne.confirmed IS 'Indique si les interlocuteurs ont confirmé la réception de leur facture';
 
 
 --
--- Name: COLUMN tableau_personne.comment; Type: COMMENT; Schema: sco; Owner: ttt
+-- Name: COLUMN tableau_personne.comment; Type: COMMENT; Schema: sco; Owner: -
 --
 
 COMMENT ON COLUMN tableau_personne.comment IS 'Commentaire sur la personne (projet prioritaire par exemple)';
 
 
 --
--- Name: tableau_personne_id_seq; Type: SEQUENCE; Schema: sco; Owner: ttt
+-- Name: tableau_personne_id_seq; Type: SEQUENCE; Schema: sco; Owner: -
 --
 
 CREATE SEQUENCE tableau_personne_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
 
 
-ALTER TABLE sco.tableau_personne_id_seq OWNER TO ttt;
-
 --
--- Name: tableau_personne_id_seq; Type: SEQUENCE OWNED BY; Schema: sco; Owner: ttt
+-- Name: tableau_personne_id_seq; Type: SEQUENCE OWNED BY; Schema: sco; Owner: -
 --
 
 ALTER SEQUENCE tableau_personne_id_seq OWNED BY tableau_personne.id;
 
 
 --
--- Name: ticket; Type: TABLE; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: ticket; Type: TABLE; Schema: sco; Owner: -; Tablespace: 
 --
 
 CREATE TABLE ticket (
@@ -295,65 +276,62 @@ CREATE TABLE ticket (
 );
 
 
-ALTER TABLE sco.ticket OWNER TO ttt;
-
 --
--- Name: ticket_id_seq; Type: SEQUENCE; Schema: sco; Owner: ttt
+-- Name: ticket_id_seq; Type: SEQUENCE; Schema: sco; Owner: -
 --
 
 CREATE SEQUENCE ticket_id_seq
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
 
 
-ALTER TABLE sco.ticket_id_seq OWNER TO ttt;
-
 --
--- Name: ticket_id_seq; Type: SEQUENCE OWNED BY; Schema: sco; Owner: ttt
+-- Name: ticket_id_seq; Type: SEQUENCE OWNED BY; Schema: sco; Owner: -
 --
 
 ALTER SEQUENCE ticket_id_seq OWNED BY ticket.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: sco; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: sco; Owner: -
 --
 
 ALTER TABLE entry ALTER COLUMN id SET DEFAULT nextval('entry_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: sco; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: sco; Owner: -
 --
 
 ALTER TABLE tableau ALTER COLUMN id SET DEFAULT nextval('tableau_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: sco; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: sco; Owner: -
 --
 
 ALTER TABLE tableau_manif ALTER COLUMN id SET DEFAULT nextval('tableau_manif_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: sco; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: sco; Owner: -
 --
 
 ALTER TABLE tableau_personne ALTER COLUMN id SET DEFAULT nextval('tableau_personne_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: sco; Owner: ttt
+-- Name: id; Type: DEFAULT; Schema: sco; Owner: -
 --
 
 ALTER TABLE ticket ALTER COLUMN id SET DEFAULT nextval('ticket_id_seq'::regclass);
 
 
 --
--- Name: entry_pkey; Type: CONSTRAINT; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: entry_pkey; Type: CONSTRAINT; Schema: sco; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY entry
@@ -361,7 +339,7 @@ ALTER TABLE ONLY entry
 
 
 --
--- Name: entry_ukey; Type: CONSTRAINT; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: entry_ukey; Type: CONSTRAINT; Schema: sco; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY entry
@@ -369,7 +347,7 @@ ALTER TABLE ONLY entry
 
 
 --
--- Name: responsable_pkey; Type: CONSTRAINT; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: responsable_pkey; Type: CONSTRAINT; Schema: sco; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY responsable
@@ -377,7 +355,7 @@ ALTER TABLE ONLY responsable
 
 
 --
--- Name: rights_pkey; Type: CONSTRAINT; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: rights_pkey; Type: CONSTRAINT; Schema: sco; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY rights
@@ -385,7 +363,7 @@ ALTER TABLE ONLY rights
 
 
 --
--- Name: tableau_manif_pkey; Type: CONSTRAINT; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: tableau_manif_pkey; Type: CONSTRAINT; Schema: sco; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY tableau_manif
@@ -393,7 +371,7 @@ ALTER TABLE ONLY tableau_manif
 
 
 --
--- Name: tableau_personne_pkey; Type: CONSTRAINT; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: tableau_personne_pkey; Type: CONSTRAINT; Schema: sco; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY tableau_personne
@@ -401,7 +379,7 @@ ALTER TABLE ONLY tableau_personne
 
 
 --
--- Name: tableau_pkey; Type: CONSTRAINT; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: tableau_pkey; Type: CONSTRAINT; Schema: sco; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY tableau
@@ -409,7 +387,7 @@ ALTER TABLE ONLY tableau
 
 
 --
--- Name: ticket_pkey; Type: CONSTRAINT; Schema: sco; Owner: ttt; Tablespace: 
+-- Name: ticket_pkey; Type: CONSTRAINT; Schema: sco; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY ticket
@@ -417,7 +395,7 @@ ALTER TABLE ONLY ticket
 
 
 --
--- Name: entry_tabmanifid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: ttt
+-- Name: entry_tabmanifid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: -
 --
 
 ALTER TABLE ONLY entry
@@ -425,7 +403,7 @@ ALTER TABLE ONLY entry
 
 
 --
--- Name: entry_tabpersid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: ttt
+-- Name: entry_tabpersid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: -
 --
 
 ALTER TABLE ONLY entry
@@ -433,7 +411,7 @@ ALTER TABLE ONLY entry
 
 
 --
--- Name: responsable_fctorgid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: ttt
+-- Name: responsable_fctorgid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: -
 --
 
 ALTER TABLE ONLY responsable
@@ -441,7 +419,7 @@ ALTER TABLE ONLY responsable
 
 
 --
--- Name: rights_id_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: ttt
+-- Name: rights_id_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: -
 --
 
 ALTER TABLE ONLY rights
@@ -449,7 +427,7 @@ ALTER TABLE ONLY rights
 
 
 --
--- Name: tableau_accountid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: ttt
+-- Name: tableau_accountid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: -
 --
 
 ALTER TABLE ONLY tableau
@@ -457,7 +435,7 @@ ALTER TABLE ONLY tableau
 
 
 --
--- Name: tableau_manif_tableauid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: ttt
+-- Name: tableau_manif_tableauid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: -
 --
 
 ALTER TABLE ONLY tableau_manif
@@ -465,7 +443,7 @@ ALTER TABLE ONLY tableau_manif
 
 
 --
--- Name: tableau_personne_fctorgid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: ttt
+-- Name: tableau_personne_fctorgid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: -
 --
 
 ALTER TABLE ONLY tableau_personne
@@ -473,7 +451,7 @@ ALTER TABLE ONLY tableau_personne
 
 
 --
--- Name: tableau_personne_personneid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: ttt
+-- Name: tableau_personne_personneid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: -
 --
 
 ALTER TABLE ONLY tableau_personne
@@ -481,7 +459,7 @@ ALTER TABLE ONLY tableau_personne
 
 
 --
--- Name: tableau_personne_tableauid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: ttt
+-- Name: tableau_personne_tableauid_fkey; Type: FK CONSTRAINT; Schema: sco; Owner: -
 --
 
 ALTER TABLE ONLY tableau_personne

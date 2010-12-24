@@ -45,6 +45,19 @@ COMMENT ON FUNCTION get_personneid(integer) IS 'retourne l''id d''une personne i
 $1: org_personne.id';
 
 
+--
+-- Name: zeroifnull(bigint); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION zeroifnull(bigint) RETURNS bigint
+    LANGUAGE plpgsql IMMUTABLE
+    AS $_$BEGIN
+IF $1 IS NULL THEN RETURN 0;
+ELSE RETURN $1;
+END IF;
+END;$_$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = true;
@@ -284,7 +297,8 @@ COMMENT ON VIEW organisme_categorie IS 'Liste des organismes avec leur catégori
 CREATE TABLE personne (
     prenom character varying(255),
     titre character varying(24),
-    description text
+    description text,
+    password character varying(255)
 )
 INHERITS (entite);
 
@@ -351,7 +365,8 @@ CREATE TABLE account (
     active boolean DEFAULT true NOT NULL,
     expire date,
     level integer DEFAULT 0 NOT NULL,
-    email character varying(255)
+    email character varying(255),
+    direct_uri character varying(255)
 )
 INHERITS (object);
 
@@ -476,6 +491,33 @@ ALTER SEQUENCE color_id_seq OWNED BY color.id;
 
 
 --
+-- Name: email; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE email (
+    id integer NOT NULL,
+    date timestamp with time zone DEFAULT now() NOT NULL,
+    accountid bigint NOT NULL,
+    "from" character varying(255) NOT NULL,
+    "to" text NOT NULL,
+    bcc text,
+    subject text NOT NULL,
+    content text NOT NULL,
+    full_c text NOT NULL,
+    full_h text NOT NULL,
+    sent boolean DEFAULT false NOT NULL,
+    max_recipient integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- Name: TABLE email; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE email IS 'where are recorded all emails sent by the "emailing" tool...';
+
+
+--
 -- Name: email_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -488,29 +530,10 @@ CREATE SEQUENCE email_id_seq
 
 
 --
--- Name: email; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: email_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-CREATE TABLE email (
-    id integer DEFAULT nextval('email_id_seq'::regclass) NOT NULL,
-    date timestamp with time zone DEFAULT now() NOT NULL,
-    accountid bigint NOT NULL,
-    "from" character varying(255) NOT NULL,
-    "to" text NOT NULL,
-    bcc text,
-    subject text NOT NULL,
-    content text NOT NULL,
-    full_c text NOT NULL,
-    full_h text NOT NULL,
-    sent boolean DEFAULT false NOT NULL
-);
-
-
---
--- Name: TABLE email; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON TABLE email IS 'where are recorded all emails sent by the "emailing" tool...';
+ALTER SEQUENCE email_id_seq OWNED BY email.id;
 
 
 --
@@ -898,6 +921,18 @@ ALTER SEQUENCE login_id_seq OWNED BY login.id;
 
 
 --
+-- Name: new_groupe_fonctions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE new_groupe_fonctions (
+    "?column?" integer,
+    fonctionid integer,
+    included boolean,
+    info text
+);
+
+
+--
 -- Name: options; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1148,6 +1183,13 @@ ALTER TABLE child ALTER COLUMN id SET DEFAULT nextval('child_id_seq'::regclass);
 --
 
 ALTER TABLE color ALTER COLUMN id SET DEFAULT nextval('color_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE email ALTER COLUMN id SET DEFAULT nextval('email_id_seq'::regclass);
 
 
 --

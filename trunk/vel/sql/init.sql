@@ -54,25 +54,37 @@ ALTER SEQUENCE authentication_id_seq OWNED BY authentication.id;
 
 
 --
+-- Name: bank_payment_id_seq; Type: SEQUENCE; Schema: vel; Owner: -
+--
+
+CREATE SEQUENCE bank_payment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+--
 -- Name: bank_payment; Type: TABLE; Schema: vel; Owner: -; Tablespace: 
 --
 
 CREATE TABLE bank_payment (
-    id integer NOT NULL,
+    id integer DEFAULT nextval('bank_payment_id_seq'::regclass) NOT NULL,
     paiementid integer,
     serialized text,
-    code integer,
+    code character varying(255),
     error text,
-    merchant_id integer,
+    merchant_id character varying(255),
     merchant_country character varying(255),
-    amount integer,
-    transaction_id integer,
+    amount character varying(255),
+    transaction_id character varying(255),
     payment_means text,
     transmission_date character varying(255),
     payment_time character varying(255),
     payment_certificate character varying(255),
     authorization_id character varying(255),
-    currency_code integer,
+    currency_code character varying(255),
     card_number character varying(255),
     cvv_flag character varying(255),
     bank_response_code character varying(255),
@@ -92,7 +104,8 @@ CREATE TABLE bank_payment (
     data character varying(255),
     cvv_response_code character varying(255),
     payment_date character varying(255),
-    response_code character varying(255)
+    response_code character varying(255),
+    raw text
 );
 
 
@@ -104,36 +117,10 @@ COMMENT ON TABLE bank_payment IS 'recording all the data given back from the ban
 
 
 --
--- Name: bank_payment_id_seq; Type: SEQUENCE; Schema: vel; Owner: -
---
-
-CREATE SEQUENCE bank_payment_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- Name: bank_payment_id_seq; Type: SEQUENCE OWNED BY; Schema: vel; Owner: -
---
-
-ALTER SEQUENCE bank_payment_id_seq OWNED BY bank_payment.id;
-
-
---
 -- Name: id; Type: DEFAULT; Schema: vel; Owner: -
 --
 
 ALTER TABLE authentication ALTER COLUMN id SET DEFAULT nextval('authentication_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: vel; Owner: -
---
-
-ALTER TABLE bank_payment ALTER COLUMN id SET DEFAULT nextval('bank_payment_id_seq'::regclass);
 
 
 --
