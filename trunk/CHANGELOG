@@ -1,3 +1,46 @@
+== 1.9.0 -> 1.10.0 ==
+
+Release 1.10, "Jurançon-Foie Gras"
+
+Global
+ * updating SQL schemas
+ * updating CHANGELOG
+
+Online ticketting system
+ * Adding a new module for online ticketting, web-service based
+ * Improvements
+   * Creating the new schema
+   * Core-side code
+   * First finalizations
+   * Soft identification process (trusting a good bank transaction)
+   * Hard identification process (implicating login + passwd DB stored)
+   * Recording that people have bought tickets online in their description field
+ * Corrections
+   * Cleaning the old stuff (vel) adding a first test
+
+Ticketting system and events management :
+ * Improvements
+   * adding an information about the jauges property of a place/room
+   * adding the day of the week in all letters where dates are displayed for wide public (helping agents)
+   * adding "thin virtual walls" creating different "spaces", which permits the distinction of multiple financial actors or distinguished events (for example)
+   * adding a button to pay everything in one click in the ticketting process
+   * setting the new ticketting process by default
+ * Corrections
+   * various bugs (minor and even major)
+   * removing disabled "tarifs"
+   * now we can empty rich text fields in "infos web" / event files
+   * correcting an error on dates and masstickets...
+   * updating (optimizing) de DB schema (ex: info_resa...)
+   * buggy RSS feeder
+
+Groups
+ * Improvements
+   * reviewing the exact position of the table "entry" on the screen
+   * improving the printing functionnalities
+ * Corrections
+   * correcting a windows bug
+   * replacing a button
+
 == 1.8.0 -> 1.9.0 ==
 
 Release 1.9, "Cognac Taste"
@@ -43,15 +86,6 @@ Ticketting system and events management :
    * Various bugs
    * Now we can only cancel tickets once
    * Security
-
-Online ticketting system
- * Adding a new module for online ticketting, web-service based
- * Improvements
-   * Creating the new schema
-   * Core-side code
-   * First finalizations
- * Corrections
-   * Cleaning the old stuff (vel) adding a first test
 
 Groups
  * Improvements
