@@ -63,12 +63,17 @@
       $gid = $bd->getLastSerial('groupe','id');
 	    while ( $rec = $personnes->getRecordNext() )
 	    {
+	      $facture = '';
+	      if ( intval($rec["show_factureid"]) || intval($rec["factureid"]) )
+	        $facture = intval($rec["show_factureid"])
+	          ? $config['ticket']['facture_prefix'].intval($rec["show_factureid"])
+	          : $config['ticket']['facture_prefix'].intval($rec["factureid"]);
 	      $table = intval($rec['fctorgid']) ? 'groupe_fonctions' : 'groupe_personnes';
 	      if ( $bd->addRecord($table,array(
 	        'groupid' => $gid,
 	        $table == 'groupe_fonctions' ? 'fonctionid' : 'personneid' => $rec['fctorgid'],
 	        'included'  => 't',
-	        'info' => intval($rec["show_factureid"]),
+	        'info' => $facture,
 	      )) !== false )
 	      $cpt++;
 	    }
