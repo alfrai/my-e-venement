@@ -1,2 +1,0 @@
-<p>Vous vous trouvez actuellement dans l'interface de gestion de la billetterie scolaires et groupes.</p>
-<p>Ce module est en phase de développement, merci de votre compréhension</p>

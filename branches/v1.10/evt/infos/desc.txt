@@ -1,1 +1,0 @@
-<p>L'agenda et la gestion des évènements... pour vous servir.</p>

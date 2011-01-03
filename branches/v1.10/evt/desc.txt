@@ -1,6 +1,0 @@
-<p>Vous vous trouvez actuellement dans l'interface de gestion des évènements.</p>
-<p>
-	Vous trouverez une partie pour gérer les salles, les spectacles, l'agenda
-	et une autre pour la billetterie à proprement parlé. Pour accéder à ces
-	fonctionnalités cliquez sur les onglets idoines.
-</p>
