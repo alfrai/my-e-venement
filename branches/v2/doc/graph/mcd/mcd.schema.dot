@@ -1,0 +1,242 @@
+graph G {
+	edge [ len=2 labeldistance=2 ];
+	overlap=false;
+	splines=true;
+
+	nodeProfessionalType [
+		label="{<table>ProfessionalType|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeProfessional [
+		label="{<table>Professional|<cols>name (string)\lcontact_number (string)\lcontact_email (string)\ldepartment (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodePhonenumber [
+		label="{<table>Phonenumber|<cols>name (string)\lnumero (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeGroupProfessional [
+		label="{<table>GroupProfessional|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeGroup [
+		label="{<table>Group|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeGroupContact [
+		label="{<table>GroupContact|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeContact [
+		label="{<table>Contact|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeContactPhonenumber [
+		label="{<table>ContactPhonenumber|<cols>name (string)\lnumero (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeAddressable [
+		label="{<table>Addressable|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodesfGuardGroupPermission [
+		label="{<table>sfGuardGroupPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardForgotPassword [
+		label="{<table>sfGuardForgotPassword|<cols>unique_key (string)\lexpires_at (timestamp)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardUserGroup [
+		label="{<table>sfGuardUserGroup|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardUser [
+		label="{<table>sfGuardUser|<cols>first_name (string)\llast_name (string)\lemail_address (string)\lusername (string)\lalgorithm (string)\lsalt (string)\lpassword (string)\lis_active (boolean)\lis_super_admin (boolean)\llast_login (timestamp)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardRememberKey [
+		label="{<table>sfGuardRememberKey|<cols>remember_key (string)\lip_address (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardPermission [
+		label="{<table>sfGuardPermission|<cols>name (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardUserPermission [
+		label="{<table>sfGuardUserPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardGroup [
+		label="{<table>sfGuardGroup|<cols>name (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeOrganismPhonenumber [
+		label="{<table>OrganismPhonenumber|<cols>name (string)\lnumero (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeOrganismCategory [
+		label="{<table>OrganismCategory|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeOrganism [
+		label="{<table>Organism|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lurl (string)\ldescription (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeYOB [
+		label="{<table>YOB|<cols>year (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+
+	nodeGroupContact [
+		label="{<table>GroupContact|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=Mrecord ];
+	nodesfGuardUserGroup [
+		label="{<table>sfGuardUserGroup|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=Mrecord ];
+	nodesfGuardUserPermission [
+		label="{<table>sfGuardUserPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=Mrecord ];
+	nodesfGuardGroupPermission [
+		label="{<table>sfGuardGroupPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=Mrecord ];
+	nodeProfessionalType [
+		label="{<table>ProfessionalType|<cols>}",
+		shape=Mrecord ];
+	nodeProfessional [
+		label="{<table>Professional|<cols>}",
+		shape=Mrecord ];
+	nodeGroup [
+		label="{<table>Group|<cols>}",
+		shape=Mrecord ];
+	nodeContact [
+		label="{<table>Contact|<cols>}",
+		shape=Mrecord ];
+	nodesfGuardUser [
+		label="{<table>sfGuardUser|<cols>}",
+		shape=Mrecord ];
+	nodesfGuardPermission [
+		label="{<table>sfGuardPermission|<cols>}",
+		shape=Mrecord ];
+	nodesfGuardGroup [
+		label="{<table>sfGuardGroup|<cols>}",
+		shape=Mrecord ];
+	nodeOrganismCategory [
+		label="{<table>OrganismCategory|<cols>}",
+		shape=Mrecord ];
+	nodeOrganism [
+		label="{<table>Organism|<cols>}",
+		shape=Mrecord ];
+
+	nodeGroupContact -- nodeGroup [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeGroupContact -- nodeContact [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardUserGroup -- nodesfGuardUser [
+		headlabel="0,n",
+		label="(User)",
+		labeldistance=3 ];
+	nodesfGuardUserGroup -- nodesfGuardGroup [
+		headlabel="0,n",
+		label="(Group)",
+		labeldistance=3 ];
+	nodesfGuardUserPermission -- nodesfGuardUser [
+		headlabel="0,n",
+		label="(User)",
+		labeldistance=3 ];
+	nodesfGuardUserPermission -- nodesfGuardPermission [
+		headlabel="0,n",
+		label="(Permission)",
+		labeldistance=3 ];
+	nodesfGuardGroupPermission -- nodesfGuardGroup [
+		headlabel="0,n",
+		label="(Group)",
+		labeldistance=3 ];
+	nodesfGuardGroupPermission -- nodesfGuardPermission [
+		headlabel="0,n",
+		label="(Permission)",
+		labeldistance=3 ];
+	nodeProfessionalType -- nodeProfessional [
+		headlabel="0,1",
+		label="(Professionals)",
+		labeldistance=3 ];
+	nodeProfessional -- nodeGroupProfessional [
+		headlabel="0,1",
+		label="(GroupProfessionals)",
+		labeldistance=3 ];
+	nodeGroup -- nodeGroupContact [
+		headlabel="0,1",
+		label="(GroupContacts)",
+		labeldistance=3 ];
+	nodeGroup -- nodeGroupProfessional [
+		headlabel="0,1",
+		label="(GroupProfessionals)",
+		labeldistance=3 ];
+	nodeGroup -- nodeGroupContact [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeContact -- nodeContactPhonenumber [
+		headlabel="0,1",
+		label="(Phonenumbers)",
+		labeldistance=3 ];
+	nodeContact -- nodeYOB [
+		headlabel="0,1",
+		label="(YOBs)",
+		labeldistance=3 ];
+	nodeContact -- nodeProfessional [
+		headlabel="0,1",
+		label="(Professionals)",
+		labeldistance=3 ];
+	nodeContact -- nodeGroupContact [
+		headlabel="0,1",
+		label="(GroupContacts)",
+		labeldistance=3 ];
+	nodeContact -- nodeGroupContact [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodesfGuardUserPermission [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodesfGuardUserGroup [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardPermission -- nodesfGuardGroupPermission [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardPermission -- nodesfGuardUserPermission [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardGroup -- nodesfGuardGroupPermission [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardGroup -- nodesfGuardUserGroup [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeOrganismCategory -- nodeOrganism [
+		headlabel="0,1",
+		label="(Organisms)",
+		labeldistance=3 ];
+	nodeOrganism -- nodeOrganismPhonenumber [
+		headlabel="0,1",
+		label="(Phonenumbers)",
+		labeldistance=3 ];
+	nodeOrganism -- nodeProfessional [
+		headlabel="0,1",
+		label="(Professionals)",
+		labeldistance=3 ];
+
+	nodesfGuardUser -- nodesfGuardRememberKey [
+		arrowhead=normal ];
+	nodesfGuardUser -- nodesfGuardForgotPassword [
+		arrowhead=normal ];
+	nodeContact -- nodeAddressable [
+		arrowhead=normal ];
+	nodeContactPhonenumber -- nodePhonenumber [
+		arrowhead=normal ];
+	nodesfGuardForgotPassword -- nodeBasesfGuardForgotPassword [
+		arrowhead=normal ];
+	nodesfGuardUser -- nodeBasesfGuardUser [
+		arrowhead=normal ];
+	nodesfGuardRememberKey -- nodeBasesfGuardRememberKey [
+		arrowhead=normal ];
+	nodesfGuardPermission -- nodeBasesfGuardPermission [
+		arrowhead=normal ];
+	nodesfGuardGroup -- nodeBasesfGuardGroup [
+		arrowhead=normal ];
+	nodeOrganismPhonenumber -- nodePhonenumber [
+		arrowhead=normal ];
+	nodeOrganism -- nodeAddressable [
+		arrowhead=normal ];
+
+}

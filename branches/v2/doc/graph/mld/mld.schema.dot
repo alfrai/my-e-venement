@@ -1,0 +1,110 @@
+digraph G {
+	edge [ len=2 labeldistance=2 ];
+	overlap=false;
+	splines=true;
+
+	nodeprofessional_type [
+		label="{<table>professional_type|<cols>id (integer) [PK]\lname (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeprofessional [
+		label="{<table>professional|<cols>id (integer) [PK]\lname (string)\lorganism_id (integer)\lcontact_id (integer)\lprofessional_type_id (integer)\lcontact_number (string)\lcontact_email (string)\ldepartment (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodephonenumber [
+		label="{<table>phonenumber|<cols>id (integer) [PK]\lname (string)\lnumero (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodegroup_professional [
+		label="{<table>group_professional|<cols>group_id (integer) [PK]\lprofessional_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodegroup_table [
+		label="{<table>group_table|<cols>id (integer) [PK]\lname (string)\lsf_guard_user_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodegroup_contact [
+		label="{<table>group_contact|<cols>group_id (integer) [PK]\lcontact_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeaddressable [
+		label="{<table>addressable|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodecontact [
+		label="{<table>contact|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodecontact_phonenumber [
+		label="{<table>contact_phonenumber|<cols>id (integer) [PK]\lname (string)\lnumero (string)\lcontact_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_group_permission [
+		label="{<table>sf_guard_group_permission|<cols>group_id (integer) [PK]\lpermission_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_forgot_password [
+		label="{<table>sf_guard_forgot_password|<cols>id (integer) [PK]\luser_id (integer)\lunique_key (string)\lexpires_at (timestamp)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_user_group [
+		label="{<table>sf_guard_user_group|<cols>user_id (integer) [PK]\lgroup_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_user [
+		label="{<table>sf_guard_user|<cols>id (integer) [PK]\lfirst_name (string)\llast_name (string)\lemail_address (string)\lusername (string)\lalgorithm (string)\lsalt (string)\lpassword (string)\lis_active (boolean)\lis_super_admin (boolean)\llast_login (timestamp)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_remember_key [
+		label="{<table>sf_guard_remember_key|<cols>id (integer) [PK]\luser_id (integer)\lremember_key (string)\lip_address (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_permission [
+		label="{<table>sf_guard_permission|<cols>id (integer) [PK]\lname (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_user_permission [
+		label="{<table>sf_guard_user_permission|<cols>user_id (integer) [PK]\lpermission_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_group [
+		label="{<table>sf_guard_group|<cols>id (integer) [PK]\lname (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeorganism_phonenumber [
+		label="{<table>organism_phonenumber|<cols>id (integer) [PK]\lname (string)\lnumero (string)\lorganism_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeorganism_category [
+		label="{<table>organism_category|<cols>id (integer) [PK]\lname (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodeorganism [
+		label="{<table>organism|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lurl (string)\ldescription (string)\lorganism_category_id (integer)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodey_o_b [
+		label="{<table>y_o_b|<cols>id (integer) [PK]\lyear (integer)\lcontact_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+
+	nodeprofessional:cols -> nodeprofessional_type:table [
+		label="professional_type_id=id"];
+	nodeprofessional:cols -> nodecontact:table [
+		label="contact_id=id"];
+	nodeprofessional:cols -> nodeorganism:table [
+		label="organism_id=id"];
+	nodegroup_professional:cols -> nodegroup_table:table [
+		label="group_id=id"];
+	nodegroup_professional:cols -> nodeprofessional:table [
+		label="professional_id=id"];
+	nodegroup_table:cols -> nodesf_guard_user:table [
+		label="sf_guard_user_id=id"];
+	nodegroup_contact:cols -> nodegroup_table:table [
+		label="group_id=id"];
+	nodegroup_contact:cols -> nodecontact:table [
+		label="contact_id=id"];
+	nodecontact_phonenumber:cols -> nodecontact:table [
+		label="contact_id=id"];
+	nodesf_guard_group_permission:cols -> nodesf_guard_group:table [
+		label="group_id=id"];
+	nodesf_guard_group_permission:cols -> nodesf_guard_permission:table [
+		label="permission_id=id"];
+	nodesf_guard_forgot_password:cols -> nodesf_guard_user:table [
+		label="user_id=id"];
+	nodesf_guard_user_group:cols -> nodesf_guard_user:table [
+		label="user_id=id"];
+	nodesf_guard_user_group:cols -> nodesf_guard_group:table [
+		label="group_id=id"];
+	nodesf_guard_remember_key:cols -> nodesf_guard_user:table [
+		label="user_id=id"];
+	nodesf_guard_user_permission:cols -> nodesf_guard_user:table [
+		label="user_id=id"];
+	nodesf_guard_user_permission:cols -> nodesf_guard_permission:table [
+		label="permission_id=id"];
+	nodeorganism_phonenumber:cols -> nodeorganism:table [
+		label="organism_id=id"];
+	nodeorganism:cols -> nodeorganism_category:table [
+		label="organism_category_id=id"];
+	nodey_o_b:cols -> nodecontact:table [
+		label="contact_id=id"];
+}

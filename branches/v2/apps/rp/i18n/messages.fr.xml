@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-01-04T22:16:07Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit id="1">
+        <source>Contacts</source>
+        <target>Contacts</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Organisms</source>
+        <target>Organismes</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Search</source>
+        <target>Recherche</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Groups</source>
+        <target>Groupes</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Emailing</source>
+        <target>Emailing</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Pub. Rel.</source>
+        <target>R.P.</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Events</source>
+        <target>Événements</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Agenda</source>
+        <target>Agenda</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Locations</source>
+        <target>Salles</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Tickets</source>
+        <target>Billets</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cancelations</source>
+        <target>Annulation</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Deposit</source>
+        <target>Dépôt</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Sells</source>
+        <target>Ventes</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>In progress</source>
+        <target>En cours</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Asks</source>
+        <target>Demandes</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>Orders</source>
+        <target>Bons de commande</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>Invoices</source>
+        <target>Factures</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Debts</source>
+        <target>Dettes</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Duplicatas</source>
+        <target>Duplicatas</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Sales Ledger</source>
+        <target>Livre des ventes</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Cash Book</source>
+        <target>Livre de caisse</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Ticketting</source>
+        <target>Billetterie</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Pupils and groups</source>
+        <target>Scolaires et groupes</target>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Groups</source>
+        <target>Groupes</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>General</source>
+        <target>Général</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Users</source>
+        <target>Utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Maintenance</source>
+        <target>Maintenance</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Archiving</source>
+        <target>Archivage</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>System Logs</source>
+        <target>Journeaux</target>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>P.R.</source>
+        <target>R.P</target>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>Generic title</source>
+        <target>Titres générics</target>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Types of phones</source>
+        <target>Types de téléphones</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>Types of functions</source>
+        <target>Types de fonctions</target>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Organism categories</source>
+        <target>Catégories d'organismes</target>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Labels</source>
+        <target>Étiquettes</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Events / Ticketting</source>
+        <target>Événements / Billetterie</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Event categories</source>
+        <target>Catégories d'événements</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Meta-events</source>
+        <target>Meta-événements</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Colors</source>
+        <target>Couleurs</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Rates</source>
+        <target>Tarifs</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>Payment methods</source>
+        <target>Méthodes de paiement</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>Workspaces</source>
+        <target>Espaces de travail</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>General settings</source>
+        <target>Paramétrage général</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Quotas leaders</source>
+        <target>Responsables des contingents</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>Online ticketting</source>
+        <target>Billetterie en ligne</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Settings</source>
+        <target>Paramétrage</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Documentation</source>
+        <target>Documentation</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>Help</source>
+        <target>Aide</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Groups</source>
+        <target>Groupes</target>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>Organisms list</source>
+        <target>Liste des organismes</target>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>Organism %%name%%</source>
+        <target>Fiche de l'organisme %%name%%</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>New organism</source>
+        <target>Nouvel organisme</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>Postal code</source>
+        <target>Code postal</target>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>City</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>Email</source>
+        <target>Courriel</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Has moved</source>
+        <target>NPAI</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Country</source>
+        <target>Pays</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>Category</source>
+        <target>Catégorie</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Created at</source>
+        <target>Créé le</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>Updated at</source>
+        <target>Modifié le</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>URL</source>
+        <target>URL</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Groups</source>
+        <target>Groupes</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>Groups list</source>
+        <target>Membre des groupes</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Password</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Npai</source>
+        <target>NPAI</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Postalcode</source>
+        <target>Code Postal</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Firstname</source>
+        <target>Prénom</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>Precisions</source>
+        <target>Précisions</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Numeric</source>
+        <target>Numérique</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Details</source>
+        <target>Détails</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Contact %%firstname%% %%name%%</source>
+        <target>Fiche du contact %%firstname%% %%name%%</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>New contact</source>
+        <target>Nouveau contact</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Organism</source>
+        <target>Organisme</target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Professional type</source>
+        <target>Type de fonction</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Phone number</source>
+        <target>Numéro direct</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Email address</source>
+        <target>Courriel direct</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Department</source>
+        <target>Service</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Function</source>
+        <target>Fonction</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>New professional</source>
+        <target>Nouvelle fonction</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>Show</source>
+        <target>Voir</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>NONE</source>
+        <target>Général</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>Organism's members</source>
+        <target>Membres de l'organisme</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>User</source>
+        <target>Utilisateur</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Filters</source>
+        <target>Filtres</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>yes or no</source>
+        <target>oui ou non</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>yes</source>
+        <target>oui</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>no</source>
+        <target>non</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>is empty</source>
+        <target>vide ?</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Reset</source>
+        <target>Effacer</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>Filter</source>
+        <target>Filtrer</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>View of contact %%contact%%</source>
+        <target>Fiche du contact %%contact%%</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>Phone numbers</source>
+        <target>Numéros de téléphone</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Title</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Type of function</source>
+        <target>Type de fonction</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>Group List</source>
+        <target>Liste des groupes</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>Associated</source>
+        <target>Associés</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>Unassociated</source>
+        <target>Non-associés</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>Contacts list</source>
+        <target>Liste des contacts</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Professionals list</source>
+        <target>Liste des professionnels</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>at</source>
+        <target>-</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>Group</source>
+        <target>Groupe</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Contact</source>
+        <target>Contact</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>Group's professional members</source>
+        <target>Membres professionnels du groupe</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>Group's individual members</source>
+        <target>Membres individuels du groupe</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>element(s)</source>
+        <target>élément(s)</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>Number of group members</source>
+        <target>Nombre de membres de ce groupe</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Group %%name%%</source>
+        <target>Groupe %%name%%</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>New group</source>
+        <target>Nouveau groupe</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>Professionals</source>
+        <target>Professionnels</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Individuals</source>
+        <target>Contacts</target>
+      </trans-unit>
+      <trans-unit id="120">
+        <source>Default</source>
+        <target>Accueil</target>
+      </trans-unit>
+      <trans-unit id="121">
+        <source>Change user</source>
+        <target>Changer d'utilisateur</target>
+      </trans-unit>
+      <trans-unit id="121">
+        <source>Logout</source>
+        <target>Déconnexion</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>New screen</source>
+        <target>Nouvel écran</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Bookmark</source>
+        <target>Marquer cet écran</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Print</source>
+        <target>Imprimer</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Close</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Screen</source>
+        <target>Fichier</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Index</source>
+        <target>Accueil</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>Licensed under</source>
+        <target>Publié sous licence</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Enhanced by</source>
+        <target>Renforcé par</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Welcome on e-venement</source>
+        <target>Bienvenue sur e-venement</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>View of organism %%name%%</source>
+        <target>Fiche de l'organisme %%name%%</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>View of group %%group%%</source>
+        <target>Fiche du groupe %%group%%</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Phonenumbers</source>
+        <target>Numéros de téléphone</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Created_at</source>
+        <target>Créé le</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Updated_at</source>
+        <target>Mis à jour le</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Years of Birth</source>
+        <target>Années de naissance</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Years of Birth (x[, x [,..]])</source>
+        <target>Années de naissance (x[, x [,..]])</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Year of Birth</source>
+        <target>Année de naissance</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>From %from_date%</source>
+        <target>Entre %from_date%</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>to %to_date%</source>
+        <target>et %to_date%</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Organism category</source>
+        <target>Catégorie d'organisme</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Has email</source>
+        <target>À un email ?</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>Has address</source>
+        <target>À une adresse ?</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>Personal groups</source>
+        <target>Groupes personnels</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

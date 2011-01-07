@@ -1,0 +1,8 @@
+default:
+  javascripts: [menu,/sfFormExtraPlugin/js/jquery.autocompleter.js]
+
+editSuccess:
+  javascripts: [contact-edit]
+showSuccess:
+  javascripts: [contact-show]
+  
