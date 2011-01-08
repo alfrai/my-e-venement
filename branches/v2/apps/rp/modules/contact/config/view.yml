@@ -5,4 +5,9 @@ editSuccess:
   javascripts: [contact-edit]
 showSuccess:
   javascripts: [contact-show]
-  
+
+csvSuccess:
+  has_layout: off
+  http_metas:
+    content-type: application/msexcel
+    #content-disposition: attachment; filename="contacts.csv"

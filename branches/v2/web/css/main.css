@@ -50,5 +50,6 @@ a, a:active, a:visited { color: #000; }
 #banner h1 { font-size: 110%; display: inline; margin-left: 15px; }
 
 #footer {
-  margin: 10px 30px;
+  margin: 5px 30px;
+  line-height: 1.3;
 }

@@ -560,6 +560,30 @@
         <source>Personal groups</source>
         <target>Groupes personnels</target>
       </trans-unit>
+      <trans-unit id="18">
+        <source>Keywords</source>
+        <target>Mots clés</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Category of organism</source>
+        <target>Catégorie d'organisme</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Professional phone</source>
+        <target>Téléphone professionel</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Professional email</source>
+        <target>Courriel professionnel</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>the only free ticketting software</source>
+        <target>l'unique logiciel libre de billetterie</target>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>About</source>
+        <target>À propos</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

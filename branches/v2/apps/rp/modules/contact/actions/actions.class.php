@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../lib/contactGeneratorHelper.class.php';
  *
  * @package    e-venement
  * @subpackage contact
- * @author     Your name here
+ * @author     Baptiste SIMON <baptiste.simon AT e-glop.net>
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
 class contactActions extends autoContactActions
@@ -55,6 +55,37 @@ class contactActions extends autoContactActions
     
     return $this->renderText(json_encode($contacts));
   }
+  public function executeCsv(sfWebRequest $request)
+  {
+    $this->pager     = $this->getPager();
+    if ( $this->pager->count() > 4000 )
+    {
+      $this->getUser()->setFlash('csv_max_num_records',__("You can't export more than 4000 records a time, try with a smaller set of records."));
+      $this->forward('contact','index');
+    }
+    
+    $this->delimiter = $request->hasParameter('ms') ? ';' : ',';
+    $this->enclosure = '"';
+    $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
+    
+    $this->options   = array(
+      'ms'        => $request->hasParameter('ms'),
+      'nopro'     => $request->hasParameter('nopro'),
+      'noheader'  => $request->hasParameter('noheader'),
+    );
+    
+    sfConfig::set('sf_web_debug', false);
+    sfConfig::set('sf_escaping_strategy', false);
+    sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
+    
+    $this->getResponse()->clearHttpHeaders();
+    $this->getResponse()->setContentType('text/comma-separated-values');
+    $this->getResponse()->addHttpMeta('content-disposition', 'attachment; filename="'.$this->getModuleName().'s.csv"',true);
+    $this->getResponse()->sendHttpHeaders();
+    $this->outstream = 'php://output';
+    
+    $this->setLayout(false);
+  }
   
   public function executeIndex(sfWebRequest $request)
   {
@@ -65,7 +96,7 @@ class contactActions extends autoContactActions
   {
     $this->addIndexRenderer();
     //print_r($this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module'));
-    //print_r($request->getParameter($this->configuration->getFilterForm($this->getFilters())->getName()));
+    //print_r($request->hasParameter($this->configuration->getFilterForm($this->getFilters())->getName()));
     parent::executeFilter($request);
   }
 }

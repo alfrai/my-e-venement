@@ -90,6 +90,7 @@
       <li>
         <ul class="second">
           <li><a href="http://www.libre-informatique.fr/sw/01-Billetterie/e-venement/Manuels" target="_blank"><?php echo __('Documentation') ?></a></li>
+          <li><a href="<?php echo url_for('about/index') ?>"><?php echo __('About') ?></a></li>
         </ul>
         <span class="title"><?php echo __('Help') ?></span>
       </li>

@@ -18,7 +18,7 @@ generator:
         YOBs_list:  { label: "Years of Birth (x[, x [,..]])" }
         YOB:        { label: Year of Birth }
       list:
-        display: [name, address, postalcode, city, email, npai]
+        display: [title, firstname, name, postalcode, city, email, npai]
       show: 
         display:
           NONE: [title, firstname, name, address, postalcode, city, country]
