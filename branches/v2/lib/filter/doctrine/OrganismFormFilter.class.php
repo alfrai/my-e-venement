@@ -15,6 +15,7 @@ class OrganismFormFilter extends BaseOrganismFormFilter
    */
   public function configure()
   {
+    $this->widgetSchema['organism_category_id']->setOption('order_by',array('name',''));
     parent::configure();
   }
 }

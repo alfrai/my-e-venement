@@ -24,8 +24,9 @@ class GroupForm extends BaseGroupForm
       'url'   => url_for('professional/ajax'),
       'method'=> 'getFullName',
     ));
-    
     $this->widgetSchema['professionals_list']->getJavascripts();
     $this->widgetSchema['professionals_list']->getStylesheets();
+    
+    $this->widgetSchema['sf_guard_user_id']->setOption('order_by',array('first_name, username',''));
   }
 }

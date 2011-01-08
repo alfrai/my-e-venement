@@ -18,9 +18,13 @@ class ContactForm extends BaseContactForm
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Asset'));
     use_javascript('/sfFormExtraPlugin/js/double_list.js');
     
-    $this->widgetSchema   ['YOBs_list'] = new sfWidgetFormInputText();
-    $this->widgetSchema   ['YOBs_list']->setDefault($this->object->getYOBsString());
+    $this->widgetSchema   ['YOBs_list'] = new sfWidgetFormInputText(array('default' => $this->object->getYOBsString()));
     $this->validatorSchema['YOBs_list'] = new sfValidatorString();
+    
+    $this->widgetSchema['groups_list']->setOption(
+      'order_by',
+      array('u.id IS NULL DESC, u.username, name','')
+    );
     
     parent::configure();
   }

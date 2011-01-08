@@ -15,6 +15,7 @@ generator:
     config:
       actions: ~
       fields:
+        description: { label: Keywords }
         YOBs_list:  { label: "Years of Birth (x[, x [,..]])" }
         YOB:        { label: Year of Birth }
       list:

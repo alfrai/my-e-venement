@@ -12,6 +12,11 @@ class ProfessionalForm extends BaseProfessionalForm
 {
   public function configure()
   {
+    $this->widgetSchema['professional_type_id']->setOption('order_by',array('name',''));
+    $this->widgetSchema['groups_list']->setOption(
+      'order_by',
+      array('u.id IS NULL DESC, u.username, name','')
+    );
     parent::configure();
   }
 }

@@ -16,7 +16,10 @@ class ContactFormFilter extends BaseContactFormFilter
   public function configure()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
-    $this->widgetSchema['groups_list']->setOption('order_by',array('u.id IS NULL DESC, u.username, name',''));
+    $this->widgetSchema['groups_list']->setOption(
+      'order_by',
+      array('u.id IS NULL DESC, u.username, name','')
+    );
     
     // has postal address ?
     $this->widgetSchema   ['has_address'] = $this->widgetSchema   ['npai'];
