@@ -21,7 +21,7 @@ class GroupForm extends BaseGroupForm
     
     $this->widgetSchema['professionals_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Professional',
-      'url'   => url_for('organism/ajax'),
+      'url'   => url_for('professional/ajax'),
       'method'=> 'getFullName',
     ));
     

@@ -37,4 +37,4 @@ generator:
           NONE: [name, sf_guard_user_id]
           Individuals: [contacts_list]
           Professionals: [professionals_list]
-          Detail: [created_at, updated_at, slug]
+          #Detail: [created_at, updated_at, slug]

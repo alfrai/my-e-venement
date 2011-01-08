@@ -14,6 +14,7 @@ class Professional extends BaseProfessional
 {
   public function getFullName()
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
     return $this->Contact.', '.($this->name ? $this->name : $this->ProfessionalType).' '.__('at').' '.$this->Organism;
   }
 }

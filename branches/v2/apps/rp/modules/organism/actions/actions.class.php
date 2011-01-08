@@ -22,7 +22,16 @@ class organismActions extends autoOrganismActions
   public function executeShow(sfWebRequest $request)
   {
     $this->addViewRenderer();
-    return parent::executeShow($request);
+    //parent::executeShow($request);
+    
+    $q = Doctrine::getTable('Organism')->createQuery();
+    $q->where('id = ?',$request->getParameter('id'))
+      ->orderBy('c.name, c.firstname, pt.name, p.name');
+    $organisms = $q->execute();
+    
+    $this->organism = $organisms[0];
+    $this->forward404Unless($this->organism);
+    $this->form = $this->configuration->getForm($this->organism);
   }
   public function executeUpdate(sfWebRequest $request)
   {

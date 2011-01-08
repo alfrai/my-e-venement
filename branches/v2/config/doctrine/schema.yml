@@ -197,7 +197,7 @@ GroupDetail:
     information: string
   relations:
     Group:
-      foreignAlias: GroupContacts
+      foreignAlias: Members
       onDelete: CASCADE
 GroupContact:
   inheritance:
@@ -210,7 +210,7 @@ GroupContact:
       primary: true
   relations:
     Contact:
-      foreignAlias: GroupContacts
+      foreignAlias: ContactGroups
       onDelete: CASCADE
 GroupProfessional:
   inheritance:
@@ -223,5 +223,5 @@ GroupProfessional:
       primary: true
   relations:
     Professional:
-      foreignAlias: GroupProfessionals
+      foreignAlias: ProfessionalGroups
       onDelete: CASCADE

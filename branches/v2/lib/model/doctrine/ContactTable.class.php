@@ -20,18 +20,25 @@ class ContactTable extends AddressableTable
   
   public function createQuery($alias = 'a')
   {
-    $p  = 'p'  != $alias ? 'p'  : 'p1';
-    $o  = 'o'  != $alias ? 'o'  : 'o1';
-    $g  = 'g'  != $alias ? 'g'  : 'g1';
-    $u  = 'u'  != $alias ? 'u'  : 'u1';
-    $pn = 'pn' != $alias ? 'pn' : 'pn1';
-    $y  = 'y'  != $alias ? 'y' : 'y1';
+    $p  = 'p'   != $alias ? 'p'   : 'p1';
+    $pt = 'pt'  != $alias ? 'pt'  : 'pt1';
+    $o  = 'o'   != $alias ? 'o'   : 'o1';
+    $gp = 'gp'  != $alias ? 'gp'  : 'gp1';
+    $gc = 'gc'  != $alias ? 'gc'  : 'gc1';
+    $gpu = 'gpu'!= $alias ? 'gpu' : 'gpu1';
+    $gcu = 'gcu'!= $alias ? 'gcu' : 'gcu1';
+    $u  = 'u'   != $alias ? 'u'   : 'u1';
+    $pn = 'pn'  != $alias ? 'pn'  : 'pn1';
+    $y  = 'y'   != $alias ? 'y'   : 'y1';
     
     $query = parent::createQuery($alias)
       ->leftJoin("$alias.Professionals $p")
+      ->leftJoin("$p.ProfessionalType $pt")
+      //->leftJoin("$p.Groups $gp")
+      //->leftJoin("$gp.User $gpu")
       ->leftJoin("$p.Organism $o")
-      ->leftJoin("$alias.Groups $g")
-      ->leftJoin("$g.User $u")
+      //->leftJoin("$alias.Groups $gc")
+      //->leftJoin("$gc.User $gcu")
       ->leftJoin("$alias.Phonenumbers $pn")
       ->leftJoin("$alias.YOBs $y");
     return $query;

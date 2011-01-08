@@ -21,10 +21,20 @@
 *
 ***********************************************************************************/
 ?>
-<?php if ( !$form->isNew() ): ?>
-<div id="more">
-  <?php include_partial('group/contacts_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php include_partial('group/professionals_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php include_partial('group/members_total', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-</div>
-<?php endif ?>
+<?php
+  $vars = array(
+    'pager',
+    'options',
+    'delimiter',
+    'enclosure',
+    'charset',
+    'outstream',
+    'groups_list',
+  );
+  foreach ( $vars as $key => $value )
+  {
+    $vars[$value] = $$value;
+    unset($vars[$key]);
+  }
+  
+  include_partial('global/csv',$vars);

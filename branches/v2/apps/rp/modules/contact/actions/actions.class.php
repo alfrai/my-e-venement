@@ -55,36 +55,117 @@ class contactActions extends autoContactActions
     
     return $this->renderText(json_encode($contacts));
   }
+  
   public function executeCsv(sfWebRequest $request)
   {
     $this->pager     = $this->getPager();
+    $this->pager->setPage(0);
+    $this->pager->init();
+    
     if ( $this->pager->count() > 4000 )
     {
       $this->getUser()->setFlash('csv_max_num_records',__("You can't export more than 4000 records a time, try with a smaller set of records."));
       $this->forward('contact','index');
     }
     
+    $this->outstream = 'php://output';
     $this->delimiter = $request->hasParameter('ms') ? ';' : ',';
     $this->enclosure = '"';
     $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
     
-    $this->options   = array(
+    $criterias = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+    $this->options = array(
       'ms'        => $request->hasParameter('ms'),
       'nopro'     => $request->hasParameter('nopro'),
       'noheader'  => $request->hasParameter('noheader'),
+      'pro_only'  => $criterias['organism_id'] || $criterias['organism_category_id']
+                  || $criterias['professional_type_id'],
     );
+    $this->groups_list = $criterias['groups_list'];
     
     sfConfig::set('sf_web_debug', false);
     sfConfig::set('sf_escaping_strategy', false);
     sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
     
-    $this->getResponse()->clearHttpHeaders();
-    $this->getResponse()->setContentType('text/comma-separated-values');
-    $this->getResponse()->addHttpMeta('content-disposition', 'attachment; filename="'.$this->getModuleName().'s.csv"',true);
-    $this->getResponse()->sendHttpHeaders();
-    $this->outstream = 'php://output';
+    if ( !$request->hasParameter('debug') )
+    {
+      $this->getResponse()->clearHttpHeaders();
+      $this->getResponse()->setContentType('text/comma-separated-values');
+      $this->getResponse()->addHttpMeta('content-disposition', 'attachment; filename="'.$this->getModuleName().'s-glop.csv"',true);
+      $this->getResponse()->sendHttpHeaders();
+    }
     
     $this->setLayout(false);
+  }
+  
+  // creates a group from filter criterias
+  public function executeGroup(sfWebRequest $request)
+  {
+    $this->pager     = $this->getPager();
+    $this->pager->setPage($this->pager->getFirstPage());
+    $this->pager->init();
+    
+    $criterias = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+    $this->options = array(
+      'pro_only'  => $criterias['organism_id'] || $criterias['organism_category_id']
+                  || $criterias['professional_type_id'],
+    );
+    $this->groups_list = $criterias['groups_list'];
+    
+    if ( $this->pager->count() > 0 )
+    {
+      $group = new Group();
+      if ( $this->getUser() instanceof sfGuardSecurityUser )
+        $group->sf_guard_user_id = $this->getUser()->id;
+      $group->name = __('Search group').' - '.date('Y-m-d H:i:s');
+      $group->save();
+    }
+    
+    while ( true && $this->pager->count() > 0 )
+    {
+      foreach ( $this->pager->getResults() as $contact )
+      {
+        // do we need to record this personal relation ?
+        $record = true;
+        if ( count($this->groups_list) > 0 )
+        {
+          $record = false;
+          foreach ( $contact->Groups as $group )
+          if ( in_array($group->id,$this->groups_list) )
+          {
+            $record = true;
+            break;
+          }
+        }
+        
+        // contact
+        if ( !$this->options['pro_only'] && $record )
+        {
+          $gc = new GroupContact();
+          $gc->group_id   = $group->id;
+          $gc->contact_id = $contact->id;
+          $gc->save();
+        }
+        
+        // pro
+        foreach ( $contact->Professionals as $professional )
+        {
+          echo 'pro ';
+          $gp = new GroupProfessional();
+          $gp->group_id        = $group->id;
+          $gp->professional_id = $professional->id;
+          $gp->save();
+        }
+      }
+      
+      if ( $this->pager->getPage() + 1 > $this->pager->getLastPage() )
+        break;
+      $this->pager->setPage($this->pager->getNextPage());
+      $this->pager->init();
+    }
+    
+    $this->redirect(url_for('group/show?id='.$group->id));
+    return sfView::NONE;
   }
   
   public function executeIndex(sfWebRequest $request)

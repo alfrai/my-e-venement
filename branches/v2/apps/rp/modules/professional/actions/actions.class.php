@@ -13,4 +13,24 @@ require_once dirname(__FILE__).'/../lib/professionalGeneratorHelper.class.php';
  */
 class professionalActions extends autoProfessionalActions
 {
+  public function executeAjax(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $ilike = '%'.$request->getParameter('q').'%';
+    
+    $this->getResponse()->setContentType('application/json');
+    $q = Doctrine::getTable('Professional')->createQuery();
+    $a = $q->getRootAlias();
+    $q->where('c.name ILIKE ? OR c.firstname ILIKE ? OR o.name ILIKE ?',array($ilike,$ilike,$ilike))
+      ->limit($request->getParameter('limit'));
+    $request = $q->execute()->getData();
+    
+    //echo $q->getSqlQuery();
+    
+    $professionals = array();
+    foreach ( $request as $professional )
+      $professionals[$professional->id] = $professional->getFullName();
+    
+    return $this->renderText(json_encode($professionals));
+  }
 }
