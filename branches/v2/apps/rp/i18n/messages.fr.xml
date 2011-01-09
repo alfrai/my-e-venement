@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-01-04T22:16:07Z" product-name="messages">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-01-09T15:27:28Z" product-name="messages">
     <header/>
     <body>
       <trans-unit id="1">
@@ -583,6 +583,66 @@
       <trans-unit id="23">
         <source>About</source>
         <target>À propos</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>email</source>
+        <target>courriel</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Phonetype</source>
+        <target>Type de numéro de téléphone</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Phonenumber</source>
+        <target>Numéro de téléphone</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Search for ...</source>
+        <target>À la recherche de ...</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Phone type "%%name%%"</source>
+        <target>Type de numéro "%%name%%"</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>New phone type</source>
+        <target>Nouveau type de numéro</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Organism category "%%name%%"</source>
+        <target>Catégorie d'organisme "%%name%%"</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>New organism category</source>
+        <target>Nouvelle catégorie d'organisme</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>You can't export more than 4000 records a time, try with a smaller set of records.</source>
+        <target>Vous ne pouvez exporter plus de 4000 enregistrements en une fois. Réessayez avec un nombre d'enregistrements plus faible.</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Search group</source>
+        <target>Groupe issu d'une recherche</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Type</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Professional type "%%name%%"</source>
+        <target>Type de fonction "%%name%%"</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>New professional type</source>
+        <target>Nouveau type de fonction</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Title type "%%name%%"</source>
+        <target>Titre-type "%%name%%"</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>New title type</source>
+        <target>Nouveau titre-type</target>
       </trans-unit>
     </body>
   </file>
