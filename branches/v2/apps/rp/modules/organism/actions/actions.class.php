@@ -21,9 +21,6 @@ class organismActions extends autoOrganismActions
   
   public function executeShow(sfWebRequest $request)
   {
-    $this->addViewRenderer();
-    //parent::executeShow($request);
-    
     $q = Doctrine::getTable('Organism')->createQuery();
     $q->where('id = ?',$request->getParameter('id'))
       ->orderBy('c.name, c.firstname, pt.name, p.name');
@@ -33,16 +30,8 @@ class organismActions extends autoOrganismActions
     $this->forward404Unless($this->organism);
     $this->form = $this->configuration->getForm($this->organism);
   }
-  public function executeUpdate(sfWebRequest $request)
-  {
-    $this->addViewRenderer();
-    return parent::executeUpdate($request);
-  }
   public function executeEdit(sfWebRequest $request)
   {
-    $this->addViewRenderer();
-    //return parent::executeEdit($request);
-    
     $q = Doctrine::getTable('Organism')->createQuery();
     $q->where('id = ?',$request->getParameter('id'))
       ->orderBy('c.name, c.firstname, pt.name, p.name');

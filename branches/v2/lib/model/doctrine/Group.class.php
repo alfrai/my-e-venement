@@ -14,7 +14,7 @@ class Group extends BaseGroup
 {
   public function __toString()
   {
-    if ( !$this->User )
+    if ( !$this->User->id )
       return parent::__toString();
     else
       return '('.$this->User->username.') '.parent::__toString();

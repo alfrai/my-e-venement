@@ -65,6 +65,7 @@
               <li class="spaced"><a href="<?php echo url_for('professional_type/index') ?>"><?php echo __('Types of functions') ?></a></li>
               <li><a href="<?php echo url_for('organism_category/index') ?>"><?php echo __('Organism categories') ?></a></li>
               <li class="spaced"><a href=""><?php echo __('Labels') ?></a></li>
+              <li><a href=""><?php echo __('Extractions') ?></a></li>
             </ul>
           </li>
           <li><a><?php echo __('Events / Ticketting') ?></a>

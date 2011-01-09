@@ -10,11 +10,6 @@
  */
 class defaultActions extends sfActions
 {
-  protected function addViewRenderer()
-  {
-    $response = $this->getResponse()->addStyleSheet('/sfAdminThemejRollerPlugin/css/reset.css');
-  }
-
  /**
   * Executes index action
   *
@@ -22,6 +17,5 @@ class defaultActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    $this->addViewRenderer();
   }
 }

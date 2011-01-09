@@ -3,3 +3,16 @@
 
 default:
   javascripts:    [menu,organism]
+
+updateSuccess:
+  stylesheets: [view]
+  javascripts: [more-simple]
+newSuccess:
+  stylesheets: [view]
+  javascripts: [more-simple]
+editSuccess:
+  stylesheets: [view]
+  javascripts: [more-simple]
+showSuccess:
+  stylesheets: [view]
+  javascripts: [more-simple]

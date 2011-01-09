@@ -12,5 +12,6 @@ class GroupFormFilter extends BaseGroupFormFilter
 {
   public function configure()
   {
+    $this->widgetSchema['sf_guard_user_id']->setOption('order_by',array('first_name, username',''));
   }
 }

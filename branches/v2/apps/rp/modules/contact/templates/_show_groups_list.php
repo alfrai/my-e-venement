@@ -26,3 +26,20 @@
   <li><a href="<?php echo url_for('group/show?id='.$group->id) ?>"><?php echo $group ?></a></li>
   <?php endforeach ?>
 </ul>
+<hr/>
+<ul class="show_groups">
+  <?php foreach ( $contact->Professionals as $pro ): ?>
+  <?php if ( $pro->Groups->count() > 0 ): ?>
+  <li>
+    <?php echo $pro ?>
+    <?php echo __('at') ?>
+    <a href="<?php echo url_for('organism/edit?id='.$pro->Organism->id) ?>"><?php echo $pro->Organism ?></a>
+    <ul>
+      <?php foreach ( $pro->Groups as $group ): ?>
+      <li><a href="<?php echo url_for('group/show?id='.$group->id) ?>"><?php echo $group ?></a></li>
+      <?php endforeach ?>
+    </ul>
+  </li>
+  <?php endif ?>
+  <?php endforeach ?>
+</ul>
