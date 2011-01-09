@@ -1,0 +1,19 @@
+== What it does ==
+
+this script migrates (from a postgresql DB to an other postgresql one) :
+
+- contacts
+- organisms
+- professionals
+- phonenumbers
+- groups
+- users (see next chapter for more details)
+
+== What it does not ==
+
+this script cannot migrate all data, this is where are its limits :
+
+- it doesn't migrate users' passwords
+- it doesn't migrate users' rights
+- it doesn't support duplicated accounts and expired account (by date)
+- it migrates all data from groups, even contacts or professionals who are not "included", don't forget to delete them before

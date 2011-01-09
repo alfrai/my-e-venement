@@ -141,7 +141,7 @@
     print_r($cpt);
   }
   
-  // telephones contact
+  // telephones organisme
   $from_table = 'telephone';
   $to_table = 'organism_phonenumber';
   if ( in_array($to_table,$do) || count($do) == 0 )
@@ -217,7 +217,26 @@
     print_r($cpt);
   }
   
-  /*
+  // users
+  $to_table = 'sf_guard_user';
+  $from_table = 'account';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'id'            => 'id',
+      'first_name'    => 'name',
+      'email_address' => array('email','name',''),
+      'username'      => 'login',
+      'active'        => 'is_active',
+      'created_at'    => NULL,
+      'updated_at'    => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table);
+    print_r($cpt);
+  }
+  
   // group_table
   $to_table = 'group_table';
   $from_table = 'groupe';
@@ -225,14 +244,28 @@
   {
     $conversion = array(
       'id'            => 'id',
-      'organism_id'   => 'organismeid',
-      'contact_id'    => 'personneid',
-      'professional_type_id' => 'type',
-      'name'          => 'fonction',
-      'contact_number'=> 'telephone',
-      'contact_email' => 'email',
-      'department'    => 'service',
+      'name'          => 'nom',
+      'sf_guard_user_id' => 'createur',
+      'created_at'    => 'creation',
+      'updated_at'    => 'modification',
       'description'   => 'description',
+      'slug'          => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table,false);
+    print_r($cpt);
+  }
+  
+  // group_contact
+  $to_table = 'group_contact';
+  $from_table = 'groupe_personnes';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'group_id'      => 'groupid',
+      'contact_id'    => 'personneid',
+      'information'   => 'info',
       'created_at'    => NULL,
       'updated_at'    => NULL,
     );
@@ -241,8 +274,42 @@
     $cpt = migrate($from_table,$conversion,$to_table,false);
     print_r($cpt);
   }
-  */
   
+  // group_professional
+  $to_table = 'group_professional';
+  $from_table = 'groupe_fonctions';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'group_id'      => 'groupid',
+      'professional_id'    => 'fonctionid',
+      'information'   => 'info',
+      'created_at'    => NULL,
+      'updated_at'    => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table,false);
+    print_r($cpt);
+  }
+  
+  // model_type
+  $to_table = 'model_type';
+  $from_table = 'str_model';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'name'          => 'str',
+      'type'          => 'usage',
+      'created_at'    => NULL,
+      'updated_at'    => NULL,
+      'slug'          => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table,true,"usage != 'metaevt'","str, case when usage = 'teltype' then 'phone' when usage = 'titretype' then 'title' else 'default' end AS usage");
+    print_r($cpt);
+  }
   
   print_r($tables);
   

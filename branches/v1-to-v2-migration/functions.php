@@ -21,14 +21,16 @@
 ***********************************************************************************/
 ?>
 <?php
-  function migrate($from_table,$conversion,$to_table,$strict = true)
+  function migrate($from_table, $conversion, $to_table, $strict = true, $where = '', $from = '*')
   {
     global $config, $bd, $bd2;
     
     if ( $strict )
       $bd->beginTransaction();
     
-    $query = ' SELECT * FROM "'.pg_escape_string($from_table).'"';
+    $query = ' SELECT '.$from.' FROM "'.pg_escape_string($from_table).'" ';
+    if ( $where )
+      $query .= 'WHERE '.$where;
     $request = new bdRequest($bd2,$query);
     
     $cpt = array();
@@ -37,9 +39,25 @@
       $arr = array();
       foreach ( $conversion as $new => $old )
       {
-        if ( $old != NULL )
+        if ( is_array($old) )
+        {
+          // take the first field's content which is "ok"
+          foreach ( $old as $subold )
+          if ( $rec[$subold] )
+          {
+            $arr[$new] = $rec[$subold];
+            break;
+          }
+          
+          // if nothing was ok, take the name of the first "field" that does not exist in $rec
+          if ( !$arr[$new] )
+          foreach ( $old as $subold )
+          if ( !isset($subold) )
+            $arr[$new] = $subold;
+        }
+        else if ( !is_null($old) )
           $arr[$new] = $rec[$old];
-        else
+        else // if ( is_null($old) )
         switch ( $new ) {
           case 'created_at':
           case 'updated_at':
