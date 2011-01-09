@@ -13,7 +13,7 @@
  * @property Doctrine_Collection $YOBs
  * @property Doctrine_Collection $Professionals
  * @property Doctrine_Collection $Groups
- * @property Doctrine_Collection $GroupContacts
+ * @property Doctrine_Collection $ContactGroups
  * 
  * @method string              getFirstname()     Returns the current record's "firstname" value
  * @method string              getTitle()         Returns the current record's "title" value
@@ -23,7 +23,7 @@
  * @method Doctrine_Collection getYOBs()          Returns the current record's "YOBs" collection
  * @method Doctrine_Collection getProfessionals() Returns the current record's "Professionals" collection
  * @method Doctrine_Collection getGroups()        Returns the current record's "Groups" collection
- * @method Doctrine_Collection getGroupContacts() Returns the current record's "GroupContacts" collection
+ * @method Doctrine_Collection getContactGroups() Returns the current record's "ContactGroups" collection
  * @method Contact             setFirstname()     Sets the current record's "firstname" value
  * @method Contact             setTitle()         Sets the current record's "title" value
  * @method Contact             setDescription()   Sets the current record's "description" value
@@ -32,7 +32,7 @@
  * @method Contact             setYOBs()          Sets the current record's "YOBs" collection
  * @method Contact             setProfessionals() Sets the current record's "Professionals" collection
  * @method Contact             setGroups()        Sets the current record's "Groups" collection
- * @method Contact             setGroupContacts() Sets the current record's "GroupContacts" collection
+ * @method Contact             setContactGroups() Sets the current record's "ContactGroups" collection
  * 
  * @package    e-venement
  * @subpackage model
@@ -82,7 +82,7 @@ abstract class BaseContact extends Addressable
              'local' => 'contact_id',
              'foreign' => 'group_id'));
 
-        $this->hasMany('GroupContact as GroupContacts', array(
+        $this->hasMany('GroupContact as ContactGroups', array(
              'local' => 'id',
              'foreign' => 'contact_id'));
 

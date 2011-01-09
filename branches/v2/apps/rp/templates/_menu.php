@@ -60,10 +60,10 @@
           </li>
           <li><a><?php echo __('P.R.') ?></a>
             <ul class="third">
-              <li><a href=""><?php echo __('Generic title') ?></a></li>
-              <li><a href=""><?php echo __('Types of phones') ?></a></li>
-              <li class="spaced"><a href=""><?php echo __('Types of functions') ?></a></li>
-              <li><a href=""><?php echo __('Organism categories') ?></a></li>
+              <li><a href="<?php echo url_for('title_type/index') ?>"><?php echo __('Generic title') ?></a></li>
+              <li><a href="<?php echo url_for('phone_type/index') ?>"><?php echo __('Types of phones') ?></a></li>
+              <li class="spaced"><a href="<?php echo url_for('professional_type/index') ?>"><?php echo __('Types of functions') ?></a></li>
+              <li><a href="<?php echo url_for('organism_category/index') ?>"><?php echo __('Organism categories') ?></a></li>
               <li class="spaced"><a href=""><?php echo __('Labels') ?></a></li>
             </ul>
           </li>

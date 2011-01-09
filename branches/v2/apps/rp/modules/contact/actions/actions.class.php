@@ -105,6 +105,12 @@ class contactActions extends autoContactActions
     $this->pager->setPage($this->pager->getFirstPage());
     $this->pager->init();
     
+    if ( $this->pager->count() > 4000 )
+    {
+      $this->getUser()->setFlash('csv_max_num_records',__("You can't export more than 4000 records a time, try with a smaller set of records."));
+      $this->forward('contact','index');
+    }
+    
     $criterias = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
     $this->options = array(
       'pro_only'  => $criterias['organism_id'] || $criterias['organism_category_id']
@@ -150,7 +156,6 @@ class contactActions extends autoContactActions
         // pro
         foreach ( $contact->Professionals as $professional )
         {
-          echo 'pro ';
           $gp = new GroupProfessional();
           $gp->group_id        = $group->id;
           $gp->professional_id = $professional->id;

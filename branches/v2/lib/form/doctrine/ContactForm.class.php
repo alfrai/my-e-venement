@@ -19,7 +19,13 @@ class ContactForm extends BaseContactForm
     use_javascript('/sfFormExtraPlugin/js/double_list.js');
     
     $this->widgetSchema   ['YOBs_list'] = new sfWidgetFormInputText(array('default' => $this->object->getYOBsString()));
-    $this->validatorSchema['YOBs_list'] = new sfValidatorString();
+    $this->validatorSchema['YOBs_list'] = new sfValidatorString(array('required' => false));
+    
+    $this->widgetSchema   ['title']     = new sfWidgetFormDoctrineJQueryAutocompleterGuide(array(
+      'model' => 'TitleType',
+      'url'   => url_for('title_type/ajax'),
+      'method_for_query' => 'findOneByName',
+    ));
     
     $this->widgetSchema['groups_list']->setOption(
       'order_by',
@@ -56,6 +62,7 @@ class ContactForm extends BaseContactForm
     
     // add all values committed which are not in DB
     foreach ( $given as $key => $value )
+    if ( intval($value) )
     {
       $YOB = new YOB();
       $YOB->year = $value;

@@ -11,7 +11,7 @@
  * @property Doctrine_Collection $Contacts
  * @property Doctrine_Collection $Professionals
  * @property sfGuardUser $User
- * @property Doctrine_Collection $GroupContacts
+ * @property Doctrine_Collection $Members
  * 
  * @method string              getName()             Returns the current record's "name" value
  * @method integer             getSfGuardUserId()    Returns the current record's "sf_guard_user_id" value
@@ -19,14 +19,14 @@
  * @method Doctrine_Collection getContacts()         Returns the current record's "Contacts" collection
  * @method Doctrine_Collection getProfessionals()    Returns the current record's "Professionals" collection
  * @method sfGuardUser         getUser()             Returns the current record's "User" value
- * @method Doctrine_Collection getGroupContacts()    Returns the current record's "GroupContacts" collection
+ * @method Doctrine_Collection getMembers()          Returns the current record's "Members" collection
  * @method Group               setName()             Sets the current record's "name" value
  * @method Group               setSfGuardUserId()    Sets the current record's "sf_guard_user_id" value
  * @method Group               setDescription()      Sets the current record's "description" value
  * @method Group               setContacts()         Sets the current record's "Contacts" collection
  * @method Group               setProfessionals()    Sets the current record's "Professionals" collection
  * @method Group               setUser()             Sets the current record's "User" value
- * @method Group               setGroupContacts()    Sets the current record's "GroupContacts" collection
+ * @method Group               setMembers()          Sets the current record's "Members" collection
  * 
  * @package    e-venement
  * @subpackage model
@@ -79,7 +79,7 @@ abstract class BaseGroup extends sfDoctrineRecord
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
 
-        $this->hasMany('GroupDetail as GroupContacts', array(
+        $this->hasMany('GroupDetail as Members', array(
              'local' => 'id',
              'foreign' => 'group_id'));
 

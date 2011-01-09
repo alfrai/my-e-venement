@@ -17,7 +17,7 @@
  * @property Contact $Contact
  * @property Organism $Organism
  * @property Doctrine_Collection $Groups
- * @property Doctrine_Collection $GroupProfessionals
+ * @property Doctrine_Collection $ProfessionalGroups
  * 
  * @method string              getName()                 Returns the current record's "name" value
  * @method integer             getOrganismId()           Returns the current record's "organism_id" value
@@ -31,7 +31,7 @@
  * @method Contact             getContact()              Returns the current record's "Contact" value
  * @method Organism            getOrganism()             Returns the current record's "Organism" value
  * @method Doctrine_Collection getGroups()               Returns the current record's "Groups" collection
- * @method Doctrine_Collection getGroupProfessionals()   Returns the current record's "GroupProfessionals" collection
+ * @method Doctrine_Collection getProfessionalGroups()   Returns the current record's "ProfessionalGroups" collection
  * @method Professional        setName()                 Sets the current record's "name" value
  * @method Professional        setOrganismId()           Sets the current record's "organism_id" value
  * @method Professional        setContactId()            Sets the current record's "contact_id" value
@@ -44,7 +44,7 @@
  * @method Professional        setContact()              Sets the current record's "Contact" value
  * @method Professional        setOrganism()             Sets the current record's "Organism" value
  * @method Professional        setGroups()               Sets the current record's "Groups" collection
- * @method Professional        setGroupProfessionals()   Sets the current record's "GroupProfessionals" collection
+ * @method Professional        setProfessionalGroups()   Sets the current record's "ProfessionalGroups" collection
  * 
  * @package    e-venement
  * @subpackage model
@@ -112,7 +112,7 @@ abstract class BaseProfessional extends sfDoctrineRecord
              'local' => 'professional_id',
              'foreign' => 'group_id'));
 
-        $this->hasMany('GroupProfessional as GroupProfessionals', array(
+        $this->hasMany('GroupProfessional as ProfessionalGroups', array(
              'local' => 'id',
              'foreign' => 'professional_id'));
 

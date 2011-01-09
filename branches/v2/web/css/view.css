@@ -24,7 +24,6 @@ body #more {
 #more #professional-new .sf_admin_form_field_organism_id { display: table-row; }
 
 #more .members ul { margin: 10px 10px 10px 30px; line-height: 1.5; }
-
 #more .nb { text-align: right; margin: 5px 4px 2px 4px; }
-
 #more .sf_admin_form_row .show_groups { max-height: 150px; }
+#more .ui-widget-header { cursor: pointer; }

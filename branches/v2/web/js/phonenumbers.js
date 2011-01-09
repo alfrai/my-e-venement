@@ -15,6 +15,22 @@ function phonenumbers_add(data,beforethis)
     $('#content .form_phonenumbers').append(li);
   }
   
+  $('.phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_contact_phonenumber[name]"]')
+    .change(function(){
+      $(this).parent().parent().find('input[name="contact_phonenumber[name]"]').val($(this).val());
+    })
+    .autocomplete('/e-venement-2/rp_dev.php/phone_type/ajax/action', jQuery.extend({}, {
+      dataType: 'json',
+      parse:    function(data) {
+        var parsed = [];
+        for (key in data) {
+          parsed[parsed.length] = { data: [ data[key], key ], value: data[key], result: data[key] };
+        }
+        return parsed;
+      }
+    }, { }))
+    .result(function(event, data) { jQuery('.phonenumber-'+$(data).find(pnid).val()+' input[name="contact_phonenumber[name]"]').val(data[1]); });
+  
   // contact[id] | organism[id]
   $('#content .form_phonenumbers input[name="contact_phonenumber[contact_id]"]').val($('#contact_id').val());
   $('#content .form_phonenumbers input[name="organism_phonenumber[organism_id]"]').val($('#organism_id').val());
@@ -77,7 +93,6 @@ function phonenumbers_add(data,beforethis)
 }
 
 $(document).ready(function(){
-
   for ( i in phonenumbers )
   {
     // appearance / content

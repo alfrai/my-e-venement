@@ -225,3 +225,33 @@ GroupProfessional:
     Professional:
       foreignAlias: ProfessionalGroups
       onDelete: CASCADE
+
+ModelType:
+  actAs:
+    Timestampable: ~
+    Sluggable:
+      fields: [type,name]
+      unique: true
+  columns:
+    name:
+      type: string(255)
+    type:
+      type: string(255)
+      notblank: true
+      notnull: true
+  indexes:
+    name_type:
+      fields: [name, type]
+      unique: true
+TitleType:
+  inheritance:
+    extends: ModelType
+    type: column_aggregation
+    keyField: type
+    keyValue: 'title'
+PhoneType:
+  inheritance:
+    extends: ModelType
+    type: column_aggregation
+    keyField: type
+    keyValue: 'phone'

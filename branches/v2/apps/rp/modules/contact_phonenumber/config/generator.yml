@@ -13,7 +13,9 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        name:   { label: Type }
+        number: { label: Phonenumber }
       list:    ~
       filter:  ~
       form:

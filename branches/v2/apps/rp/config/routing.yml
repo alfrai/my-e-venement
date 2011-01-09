@@ -1,3 +1,48 @@
+organism_category:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OrganismCategory
+    module:               organism_category
+    prefix_path:          /organism_category
+    column:               id
+    with_wildcard_routes: true
+
+professional_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                ProfessionalType
+    module:               professional_type
+    prefix_path:          /professional_type
+    column:               id
+    with_wildcard_routes: true
+
+phone_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                PhoneType
+    module:               phone_type
+    prefix_path:          /phone_type
+    column:               id
+    with_wildcard_routes: true
+
+title_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                TitleType
+    module:               title_type
+    prefix_path:          /title_type
+    column:               id
+    with_wildcard_routes: true
+
+str_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                StrType
+    module:               str_type
+    prefix_path:          /str_type
+    column:               id
+    with_wildcard_routes: true
+
 organism_phonenumber:
   class: sfDoctrineRouteCollection
   options:
