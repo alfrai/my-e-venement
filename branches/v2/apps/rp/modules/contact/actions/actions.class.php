@@ -65,7 +65,7 @@ class contactActions extends autoContactActions
     {
       $this->getResponse()->clearHttpHeaders();
       $this->getResponse()->setContentType('text/comma-separated-values');
-      $this->getResponse()->addHttpMeta('content-disposition', 'attachment; filename="'.$this->getModuleName().'s-glop.csv"',true);
+      $this->getResponse()->addHttpMeta('content-disposition', 'attachment; filename="'.$this->getModuleName().'s-list.csv"',true);
       $this->getResponse()->sendHttpHeaders();
     }
     

@@ -12,11 +12,19 @@ class GroupTable extends Doctrine_Table
     $u  = 'u'  != $alias ? 'u'  : 'u1';
     $c  = 'c'  != $alias ? 'c'  : 'c1';
     $p  = 'p'  != $alias ? 'p'  : 'p1';
+    $pc = 'pc' != $alias ? 'pc' : 'pc1';
     $pt = 'pt' != $alias ? 'pt' : 'pt1';
     $o  = 'o'  != $alias ? 'o'  : 'o1';
     
     $query = parent::createQuery($alias)
       ->leftJoin("$alias.User $u");
+/*
+      ->leftJoin("$alias.Professionals $p")
+      ->leftJoin("$p.Contact $pc")
+      ->leftJoin("$p.ProfessionalType $pt")
+      ->leftJoin("$p.Organism $o")
+      ->leftJoin("$alias.Contacts $c");
+*/
     return $query;
   }
 

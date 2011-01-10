@@ -1,0 +1,13 @@
+default:
+  javascripts: [jquery,menu]
+
+updateSuccess:
+  stylesheets: [view]
+newSuccess:
+  stylesheets: [view]
+editSuccess:
+  stylesheets: [view]
+  javascripts: [contact-edit]
+showSuccess:
+  stylesheets: [view]
+  javascripts: [contact-show]

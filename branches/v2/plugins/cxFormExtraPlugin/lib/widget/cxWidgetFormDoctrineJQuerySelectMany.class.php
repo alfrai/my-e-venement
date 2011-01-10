@@ -54,12 +54,15 @@ class cxWidgetFormDoctrineJQuerySelectMany extends cxWidgetFormJQuerySelectMany
     // if nothing selected
     if ( !$ids )
     	return array();
+    	
+    if ( $this->getOption('order_by') )
+    	$orderby = $this->getOption('order_by');
     
     $query = Doctrine::getTable($this->getOption('model'))
     		->createQuery()
     		->andWhereIn($this->getOption('key'),$ids);
     if ( $this->getOption('order_by') )
-    	$query	->order_by($this->getOption('order_by'));
+    	$query	->orderby($orderby[0].' '.$orderby[1]);
     $d = $query	->execute()->getData();
     
     $key   = $this->getOption('key');

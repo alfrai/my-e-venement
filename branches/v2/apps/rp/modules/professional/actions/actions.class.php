@@ -25,8 +25,6 @@ class professionalActions extends autoProfessionalActions
       ->limit($request->getParameter('limit'));
     $request = $q->execute()->getData();
     
-    //echo $q->getSqlQuery();
-    
     $professionals = array();
     foreach ( $request as $professional )
       $professionals[$professional->id] = $professional->getFullName();

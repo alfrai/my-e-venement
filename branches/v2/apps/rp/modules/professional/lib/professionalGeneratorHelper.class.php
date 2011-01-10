@@ -10,4 +10,11 @@
  */
 class professionalGeneratorHelper extends BaseProfessionalGeneratorHelper
 {
+  public function linkToExtraAction($params)
+  {
+    if (!key_exists('ui-icon', $params)) $params['ui-icon'] = '';
+    $params['params'] = UIHelper::addClasses($params, '');
+    $params['ui-icon'] = $this->getIcon($params['extra-icon'], $params);
+    return '<li class="sf_admin_action_'.$params['action'].'">'.link_to(UIHelper::addIcon($params) . __($params['label']), sfContext::getInstance()->getModuleName().'/'.$params['action'], $params['params']).'</li>';
+  }
 }

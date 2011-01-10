@@ -17,12 +17,14 @@ class GroupForm extends BaseGroupForm
     $this->widgetSchema['contacts_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Contact',
       'url'   => url_for('contact/ajax'),
+      'order_by' => array('name,firstname',''),
     ));
     
     $this->widgetSchema['professionals_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Professional',
       'url'   => url_for('professional/ajax'),
       'method'=> 'getFullName',
+      'order_by' => array('c.name,c.firstname,o.name,t.name,p.name',''),
     ));
     $this->widgetSchema['professionals_list']->getJavascripts();
     $this->widgetSchema['professionals_list']->getStylesheets();
