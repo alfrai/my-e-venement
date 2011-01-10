@@ -297,8 +297,8 @@
         <target>Détails</target>
       </trans-unit>
       <trans-unit id="85">
-        <source>Contact %%firstname%% %%name%%</source>
-        <target>Fiche du contact %%firstname%% %%name%%</target>
+        <source>Contact %%name%% %%firstname%%</source>
+        <target>Fiche du contact %%name%% %%firstname%%</target>
       </trans-unit>
       <trans-unit id="86">
         <source>New contact</source>
@@ -655,6 +655,14 @@
       <trans-unit id="1">
         <source>Export</source>
         <target>Exporter</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>Contact List</source>
+        <target>Liste des contacts</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>Show</source>
+        <target>Voir</target>
       </trans-unit>
     </body>
   </file>

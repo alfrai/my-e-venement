@@ -19,27 +19,27 @@ generator:
         YOBs_list:  { label: "Years of Birth (x[, x [,..]])" }
         YOB:        { label: Year of Birth }
       list:
-        display: [title, firstname, name, postalcode, city, email, npai]
+        display: [title, name, firstname, postalcode, city, email, npai]
       show: 
         display:
-          NONE: [title, firstname, name, address, postalcode, city, country]
+          NONE: [title, name, firstname, address, postalcode, city, country]
           Precisions: [npai, email, description, _YOBs]
           Phonenumbers: [_show_phonenumbers_list]
           Groups: [_show_groups_list]
           Details: [created_at,updated_at,slug,longitude,latitude]
       filter:
-        display: [firstname, name, postalcode, city, country, YOB, groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address]
+        display: [name, firstname, postalcode, city, country, YOB, groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address]
       form: ~
       edit:
-        title: Contact %%firstname%% %%name%%
+        title: Contact %%name%% %%firstname%%
         display:
-          NONE:  [title, firstname, name, address, postalcode, city, country]
+          NONE:  [title, name, firstname, address, postalcode, city, country]
           Precisions: [npai, email, description, YOBs_list, password]
           Phonenumbers: [_form_phonenumbers_list]
           Personal groups: [groups_list]
       new:
         title: New contact
         display:
-          NONE:  [title, firstname, name, address, postalcode, city, country]
+          NONE:  [title, name, firstname, address, postalcode, city, country]
           Precisions: [npai, email, description, YOBs_list, password]
           Groups: [groups_list]

@@ -13,12 +13,16 @@ require_once dirname(__FILE__).'/../lib/organismGeneratorHelper.class.php';
  */
 class organismActions extends autoOrganismActions
 {
-  protected function addViewRenderer()
+  public function executeIndex(sfWebRequest $request)
   {
-    $response = $this->getResponse()->addStyleSheet('view');
-    $response = $this->getResponse()->addJavaScript('more-simple');
+    parent::executeIndex($request);
+    if ( !$this->sort[0] )
+    {
+      $this->sort = array('name','');
+      $this->pager->getQuery()->orderby('name');
+    } 
   }
-  
+
   public function executeShow(sfWebRequest $request)
   {
     $q = Doctrine::getTable('Organism')->createQuery();
@@ -56,6 +60,12 @@ class organismActions extends autoOrganismActions
       $organisms[$organism->id] = (string) $organism;
     
     return $this->renderText(json_encode($organisms));
+  }
+
+  protected function addViewRenderer()
+  {
+    $response = $this->getResponse()->addStyleSheet('view');
+    $response = $this->getResponse()->addJavaScript('more-simple');
   }
 }
 

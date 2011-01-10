@@ -37,7 +37,7 @@ function contact_ajax_form(id, add, hide)
   $(id+' form a').unbind().click(function(){ return false; });
   
   // supprimer
-  $(id+' form a[onclick]').unbind().removeAttr('onclick').click(function(){
+  $(id+' form .sf_admin_action_list a[onclick]').unbind().removeAttr('onclick').click(function(){
     if ( !confirm("Êtes-vous sûr de vouloir supprimer cette fonction ?") )
       return false;
     
@@ -71,6 +71,7 @@ function contact_ajax_form(id, add, hide)
   // update / add
   $(id+' form').submit(function(){
     url = $(this).attr('action');
+    $(this).find('.sf_admin_form_field_groups_list select[name="professional[groups_list][]"] option').attr('selected','selected');
     $.post(url,$(this).serialize(),function(data){
       if ( add )
       {
@@ -96,6 +97,17 @@ function contact_ajax_form(id, add, hide)
     });
     return false;
   });
+  
+  $(id+' .sf_admin_form_field_groups_list a[onclick]').removeAttr('onclick','')
+    .click(function(){
+      $(id+' .sf_admin_form_field_groups_list select[name="unassociated_professional[groups_list][]"] option:selected')
+        .appendTo(id+' .sf_admin_form_field_groups_list select[name="professional[groups_list][]"]');
+    });
+  $(id+' .sf_admin_form_field_groups_list a + br + a').unbind()
+    .click(function(){
+      $(id+' .sf_admin_form_field_groups_list select[name="professional[groups_list][]"] option:selected')
+        .appendTo(id+' .sf_admin_form_field_groups_list select[name="unassociated_professional[groups_list][]"]');
+    });
 }
 
 function contact_load_professionals(i)

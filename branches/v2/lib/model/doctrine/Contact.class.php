@@ -14,7 +14,7 @@ class Contact extends BaseContact
 {
   public function __toString()
   {
-    return $this->firstname.' '.$this->name;
+    return strtoupper($this->name).' '.$this->firstname;
   }
   
   public function getYOBsString()

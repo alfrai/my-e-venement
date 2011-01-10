@@ -36,6 +36,16 @@ require_once dirname(__FILE__).'/../lib/groupGeneratorHelper.class.php';
  */
 class groupActions extends autoGroupActions
 {
+  public function executeIndex(sfWebRequest $request)
+  {
+    parent::executeIndex($request);
+    if ( !$this->sort[0] )
+    {
+      $this->sort = array('name','');
+      $this->pager->getQuery()->orderby('username IS NULL DESC, username, name');
+    }
+  }
+
   public function executeShow(sfWebRequest $request)
   {
     $this->group = $this->getObjectByRoute();
@@ -51,6 +61,17 @@ class groupActions extends autoGroupActions
   
   public function executeCsv(sfWebRequest $request)
   {
+    $criterias = array(
+      'groups_list'           => array(sfContext::getInstance()->getRequest()->getParameter('id')),
+      'organism_id'           => NULL,
+      'organism_category_id'  => NULL,
+      'professional_type_id'  => NULL,
+    );
+    $this->getUser()->setAttribute('contact.filters', $criterias, 'admin_module');
+    
+    $this->forward('contact','index');
+    return sfView::NONE;
+    
     $q = $this->createQueryByRoute()
       ->leftJoin('c.Phonenumbers cpn')
       ->limit(1);
@@ -92,7 +113,8 @@ class groupActions extends autoGroupActions
       ->leftJoin("g.Professionals p")
       ->leftJoin("p.ProfessionalType pt")
       ->leftJoin("p.Contact pc")
-      ->leftJoin("p.Organism o");
+      ->leftJoin("p.Organism o")
+      ->orderBy('c.name, c.firstname, pc.name, pc.firstname, o.name, pt.name, p.name');
     if ( sfContext::getInstance()->getRequest()->getParameter('id') )
     $q->where('id = '.sfContext::getInstance()->getRequest()->getParameter('id'));
     

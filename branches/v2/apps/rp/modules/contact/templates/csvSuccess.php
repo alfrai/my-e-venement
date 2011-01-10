@@ -62,8 +62,8 @@
       );
       
       // do we need to show this personal relation ?
-      $personal = true;
-      if ( count($groups_list) > 0 )
+      $personal = !$options['pro_only'];
+      if ( $personal && count($groups_list) > 0 )
       {
         $personal = false;
         foreach ( $contact->Groups as $group )
@@ -74,7 +74,7 @@
         }
       }
       
-      if ( !$options['pro_only'] && $personal )
+      if ( $personal )
         include_partial('global/csv_line',array_merge(array('line' => $line),$vars));
       
       $i = count($line);
@@ -84,18 +84,19 @@
       foreach ( $contact->Professionals as $professional )
       {
         // do we need to show this professional relation ?
-        $professional = true;
+        $pro = true;
         if ( count($groups_list) > 0 )
         {
-          $professional = false;
-          foreach ( $contact->Groups as $group )
+          $pro = false;
+          foreach ( $professional->Groups as $group )
           if ( in_array($group->id,$groups_list) )
           {
-            $professional = true;
+            $pro = true;
             break;
           }
         }
-        if ( $professional )
+        
+        if ( !$pro )
           continue;
         
         $j = $i;

@@ -13,6 +13,15 @@ require_once dirname(__FILE__).'/../lib/contactGeneratorHelper.class.php';
  */
 class contactActions extends autoContactActions
 {
+  public function executeIndex(sfWebRequest $request)
+  {
+    parent::executeIndex($request);
+    if ( !$this->sort[0] )
+    {
+      $this->sort = array('name','');
+      $this->pager->getQuery()->orderby('name');
+    }
+  }
   public function executeAjax(sfWebRequest $request)
   {
     $this->getResponse()->setContentType('application/json');
