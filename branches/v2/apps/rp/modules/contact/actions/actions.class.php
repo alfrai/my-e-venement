@@ -60,8 +60,6 @@ class contactActions extends autoContactActions
       'ms'        => $request->hasParameter('ms'),
       'nopro'     => $request->hasParameter('nopro'),
       'noheader'  => $request->hasParameter('noheader'),
-      'pro_only'  => $criterias['organism_id'] || $criterias['organism_category_id']
-                  || $criterias['professional_type_id'],
     );
     
     $q = $this->buildQuery();
@@ -93,14 +91,6 @@ class contactActions extends autoContactActions
       sfConfig::set('sf_web_debug', false);
     sfConfig::set('sf_escaping_strategy', false);
     sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
-    
-    if ( !$request->hasParameter('debug') )
-    {
-      $this->getResponse()->clearHttpHeaders();
-      $this->getResponse()->setContentType('text/comma-separated-values');
-      $this->getResponse()->addHttpMeta('content-disposition', 'attachment; filename="'.$this->getModuleName().'s-list.csv"',true);
-      $this->getResponse()->sendHttpHeaders();
-    }
     
     if ( !$request->hasParameter('debug') )
       $this->setLayout(false);

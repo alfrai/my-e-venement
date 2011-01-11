@@ -27,4 +27,5 @@
     'delimiter' => $delimiter,
     'enclosure' => $enclosure,
     'outstream' => $outstream,
+    'charset'   => $charset,
     'lines'     => $lines));

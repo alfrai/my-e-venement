@@ -29,6 +29,7 @@
     'delimiter',
     'enclosure',
     'outstream',
+    'charset',
   );
   foreach ( $vars as $key => $value )
   {
@@ -39,6 +40,7 @@
   // header
   include_partial('global/csv_headers',$vars);
   
+  // content
   foreach ( $lines as $line )
   {
     unset($line['id']);
