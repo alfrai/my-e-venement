@@ -26,7 +26,7 @@ $last = $first + $pager->getMaxPerPage() - 1;
 
               <td align="center">
                 [?php echo __('Page') ?]
-                <input type="text" name="page" value="[?php echo $pager->getPage() ?]" maxlength="7" size="2" />
+                <input type="text" onkeypress="javascript: if(event.keyCode == 13){ window.location = '[?php echo url_for('contact/index') ?]?page='+this.value; this.form.onsubmit = function(){ return false;}; }" name="page" value="[?php echo $pager->getPage() ?]" maxlength="7" size="2" />
                 [?php echo __('of %1%', array('%1%' => $pager->getLastPage())) ?]
             	</td>
 

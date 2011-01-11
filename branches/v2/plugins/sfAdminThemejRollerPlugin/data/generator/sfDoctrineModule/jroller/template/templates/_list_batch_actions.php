@@ -6,7 +6,7 @@
       <?php echo $this->addCredentialCondition('<option value="'.$action.'">[?php echo __(\''.$params['label'].'\', array(), \'sf_admin\') ?]</option>', $params) ?>
     <?php endforeach; ?>
   </select>
-  [?php $form = new sfForm(); if ($form->isCSRFProtected()): ?]
+  [?php $form = new BaseForm(); if ($form->isCSRFProtected()): ?]
     <input type="hidden" name="[?php echo $form->getCSRFFieldName() ?]" value="[?php echo $form->getCSRFToken() ?]" />
   [?php endif; ?]
 
