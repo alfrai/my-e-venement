@@ -333,10 +333,6 @@
         <target>Nouvelle fonction</target>
       </trans-unit>
       <trans-unit id="93">
-        <source>Show</source>
-        <target>Voir</target>
-      </trans-unit>
-      <trans-unit id="93">
         <source>NONE</source>
         <target>Général</target>
       </trans-unit>
@@ -653,6 +649,10 @@
         <target>Extraire</target>
       </trans-unit>
       <trans-unit>
+        <source>Contacts' List</source>
+        <target>Contacts</target>
+      </trans-unit>
+     <trans-unit>
         <source>Export</source>
         <target>Exporter</target>
       </trans-unit>
@@ -675,6 +675,10 @@
       <trans-unit>
         <source>Group's Contacts List</source>
         <target>Liste des contacts du groupe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Professional</source>
+        <target>Fonction</target>
       </trans-unit>
     </body>
   </file>
