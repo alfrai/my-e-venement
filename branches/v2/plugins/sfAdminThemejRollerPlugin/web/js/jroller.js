@@ -71,7 +71,7 @@ jQuery().ready(function(){
 
 		// toggle table visibility on caption title
 		$('.sf_admin_list caption h1').click(function(){
-		  $('.sf_admin_list table tbody, .sf_admin_list table thead, .sf_admin_list table tfoot').toggle();
+		  $('.sf_admin_list > table > tbody, .sf_admin_list > table > thead, .sf_admin_list > table > tfoot').toggle();
 		});
 
 		// mouseover and click on table row
