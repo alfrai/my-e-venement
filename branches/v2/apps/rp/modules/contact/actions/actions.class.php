@@ -73,29 +73,6 @@ class contactActions extends autoContactActions
   
   public function executeCsv(sfWebRequest $request)
   {
-    // fields to extract
-    $q = Doctrine::getTable('OptionCsv')->createQuery()
-      ->andwhere('type = ?','csv');
-    if ( $this->getUser() instanceof sfGuardSecurityUser )
-      $q->andWhere('sf_guard_user_id = ?',$this->getUser()->id);
-    else
-      $q->andWhere('sf_guard_user_id IS NULL');
-    
-    $options = $q->execute();
-    $fields = $other = array();
-    foreach ( $options as $option )
-    if ( $option->name == 'field' )
-      $fields[] = $option->value;
-    else
-      $other[$option->name] = $option->value;
-    
-    $this->options = array(
-      'ms'        => isset($other['ms']),       // microsoft-compatible extraction
-      'tunnel'    => isset($other['tunnel']),   // tunnel effect on fields to prefer organism fields when they exist
-      'noheader'  => $request->hasParameter('noheader'),
-      'fields'    => $fields,
-    );
-    
     $q = $this->buildQuery();
     $a = $q->getRootAlias();
     $q->select   ("$a.title, $a.name, $a.firstname, $a.address, $a.postalcode, $a.city, $a.country, $a.npai, $a.email")
@@ -118,8 +95,31 @@ class contactActions extends autoContactActions
     
     $this->lines = $q->fetchArray();
     
+    // fields to extract
+    $q = Doctrine::getTable('OptionCsv')->createQuery()
+      ->andwhere('type = ?','csv');
+    if ( $this->getUser() instanceof sfGuardSecurityUser )
+      $q->andWhere('sf_guard_user_id = ?',$this->getUser()->id);
+    else
+      $q->andWhere('sf_guard_user_id IS NULL');
+    
+    $options = $q->execute();
+    $fields = $others = array();
+    foreach ( $options as $option )
+    if ( $option->name == 'field' )
+      $fields[] = $option->value;
+    else
+      $others[$option->name] = $option->value;
+    
+    $this->options = array(
+      'ms'        => isset($others['ms']),       // microsoft-compatible extraction
+      'tunnel'    => isset($others['tunnel']),   // tunnel effect on fields to prefer organism fields when they exist
+      'noheader'  => $request->hasParameter('noheader'),
+      'fields'    => $fields,
+    );
+    
     $this->outstream = 'php://output';
-    $this->delimiter = $options['ms'] ? ';' : ',';
+    $this->delimiter = $this->options['ms'] ? ';' : ',';
     $this->enclosure = '"';
     $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
     
