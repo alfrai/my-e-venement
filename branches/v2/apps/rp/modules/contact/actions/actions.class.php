@@ -21,6 +21,7 @@ class contactActions extends autoContactActions
     $this->group_id = $request->getParameter('id');
     
     $this->pager = $this->configuration->getPager('Contact');
+    $this->pager->setMaxPerPage(15);
     $this->pager->setQuery(
       Doctrine::getTable('Contact')->createQueryByGroupId($this->group_id)
     );
