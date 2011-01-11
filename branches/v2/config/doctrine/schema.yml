@@ -255,3 +255,29 @@ PhoneType:
     type: column_aggregation
     keyField: type
     keyValue: 'phone'
+
+Option:
+  actAs: [Timestampable]
+  columns:
+    type:
+      type: string(255)
+      notblank: true
+      notnull: true
+    sf_guard_user_id: integer
+    name:
+      type: string(255)
+      notblank: true
+      notnull: true
+    value:
+      type: string(255)
+      notnull: true
+  relations:
+    sfGuardUser:
+      foreignAlias: Options
+      onDelete: CASCADE
+OptionCsv:
+  inheritance:
+    extends: Option
+    type: column_aggregation
+    keyField: type
+    keyValue: 'csv'

@@ -32,6 +32,9 @@ class ProjectConfiguration extends sfProjectConfiguration
   public $charset = array(
     'db' => 'UTF-8',
     'ms' => 'WINDOWS-1252//TRANSLIT');
+  public $transliterate = array(
+    'ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ',
+    'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy');
   
   public function setup()
   {

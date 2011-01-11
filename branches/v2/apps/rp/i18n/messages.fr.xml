@@ -680,6 +680,10 @@
         <source>Professional</source>
         <target>Fonction</target>
       </trans-unit>
+      <trans-unit>
+        <source>through the integrated search tool</source>
+        <target>à travers l'outil de recherche intégrée</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

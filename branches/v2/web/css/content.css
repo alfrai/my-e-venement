@@ -55,3 +55,8 @@ body .sf_admin_filter td { padding-bottom: 0; }
 #sf_admin_filter .fieldset tbody td { padding-left: 10px; }
 
 .show_groups ul li { margin-left: 15px; }
+
+#list-integrated-search {
+  float:  right;
+  margin-top: 5px;
+}

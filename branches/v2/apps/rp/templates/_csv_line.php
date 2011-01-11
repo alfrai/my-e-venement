@@ -22,9 +22,50 @@
 ***********************************************************************************/
 ?>
 <?php
+    if ( count($options['fields']) > 0 )
+    {
+      $arr = array();
+      foreach ( $options['fields'] as $field )
+        $arr[$field] = $line[$field];
+      $line = $arr;
+    }
+    
+    // the tunnel effect
+    if ( $options['tunnel'] )
+    {
+      if ( $line['organism_postalcode'] && $line['organism_city'] )
+      {
+        $arr = array(
+          'organism_address'    => 'address',
+          'organism_postalcode' => 'postalcode',
+          'organism_city'       => 'city',
+          'organism_country'    => 'country',
+          'organism_npai'       => 'npai',
+        );
+        for ( $arr in $origin => $target )
+          $line[$target] = $line['origin'];
+      }
+      
+      if ( $line['organism_email'] ) $line['email'] = $line['organism_email'];
+      if ( $line['contact_email'] )  $line['email'] = $line['contact_email'];
+      
+      if ( $line['organism_phonenumber'] )
+      {
+        $line['phonename']    = $line['organism_phonename'];
+        $line['phonenumber']  = $line['organism_phonenumber'];
+      }
+      if ( $line['contact_phonenumber'] )
+      {
+        $line['phonename']    = __('Professional');
+        $line['phonenumber']  = $line['contact_phonenumber'];
+      }
+    }
+    
+    // microsft encoding compatibility
     if ( $options['ms'] )
     foreach ( $line as $key => $value )
       $line[$key] = iconv($charset['db'], $charset['ms'], $value);
     
+    // csv output
     fputcsv($outstream, $line, $delimiter, $enclosure);
     ob_flush();

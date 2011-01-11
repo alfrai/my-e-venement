@@ -25,35 +25,45 @@
   if ( !$options['noheader'] )
   {
     $line = array(
-      __('Title'),
-      __('Name'),
-      __('Firstname'),
-      __('Address'),
-      __('Postalcode'),
-      __('City'),
-      __('Country'),
-      __('Npai'),
-      __('email'),
-      __('Keywords'),
-      __('Phonetype'),
-      __('Phonenumber'),
-      __('Category of organism'),
-      __('Organism'),
-      __('Department'),
-      __('Professional phone'),
-      __('Professional email'),
-      __('Type of function'),
-      __('Function'),
-      __('Address'),
-      __('Postalcode'),
-      __('City'),
-      __('Country'),
-      __('Email'),
-      __('URL'),
-      __('Npai'),
-      __('Description'),
-      __('Informations'),
+      'title'     => __('Title'),
+      'name'      => __('Name'),
+      'firstname' => __('Firstname'),
+      'address'   => __('Address'),
+      'postalcode'=> __('Postalcode'),
+      'city'      => __('City'),
+      'country'   => __('Country'),
+      'npai'      => __('Npai'),
+      'email'     => __('email'),
+      'description' => __('Keywords'),
+      'phonename'   => __('Phonetype'),
+      'phonenumber' => __('Phonenumber'),
+      'organism_category'   => __('Category of organism'),
+      'organism_name'       => __('Organism'),
+      'organism_department' => __('Department'),
+      'professional_number' => __('Professional phone'),
+      'professional_email'  => __('Professional email'),
+      'professional_type_name' => __('Type of function'),
+      'professional_name'   => __('Function'),
+      'organism_address'    => __('Address'),
+      'organism_postalcode' => __('Postalcode'),
+      'organism_city'       => __('City'),
+      'organism_country'    => __('Country'),
+      'organism_email'      => __('Email'),
+      'organism_url'        => __('URL'),
+      'organism_npai'       => __('Npai'),
+      'organism_description'=> __('Description'),
+      'organism_phonename'  => __('Phonetype'),
+      'organism_phonenumber'=> __('Phonenumber'),
+      'information'         => __('Informations'),
     );
+    
+    if ( count($options['fields']) > 0 )
+    {
+      $arr = array();
+      foreach ( $options['fields'] as $field )
+        $arr[$field] = $line[$field];
+      $line = $arr;
+    }
     
     if ( $options['ms'] )
     foreach ( $line as $key => $value )

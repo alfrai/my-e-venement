@@ -13,6 +13,23 @@ require_once dirname(__FILE__).'/../lib/contactGeneratorHelper.class.php';
  */
 class contactActions extends autoContactActions
 {
+  public function executeSearch(sfWebRequest $request)
+  {
+    self::executeIndex($request);
+    
+    $search = $request->getParameter('s');
+    $transliterate = sfContext::getInstance()->getConfiguration()->transliterate;
+    
+    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
+    $q = $this->pager->getQuery();
+    $a = $q->getRootAlias();
+    $cond = array_merge($transliterate,array('%'.iconv('UTF-8','ASCII//TRANSLIT',$search).'%'));
+    $cond = array_merge($cond,$cond);
+    $q->andWhere("(LOWER(TRANSLATE($a.firstname,?,?)) LIKE LOWER(?) OR LOWER(TRANSLATE($a.name,?,?)) LIKE LOWER(?))",$cond);
+    
+    $this->pager->init();
+    $this->setTemplate('index');
+  }
   public function executeGroupList(sfWebRequest $request)
   {
     if ( !$request->getParameter('id') )
@@ -56,10 +73,27 @@ class contactActions extends autoContactActions
   
   public function executeCsv(sfWebRequest $request)
   {
+    // fields to extract
+    $q = Doctrine::getTable('OptionCsv')->createQuery()
+      ->andwhere('type = ?','csv');
+    if ( $this->getUser() instanceof sfGuardSecurityUser )
+      $q->andWhere('sf_guard_user_id = ?',$this->getUser()->id);
+    else
+      $q->andWhere('sf_guard_user_id IS NULL');
+    
+    $options = $q->execute();
+    $fields = $other = array();
+    foreach ( $options as $option )
+    if ( $option->name == 'field' )
+      $fields[] = $option->value;
+    else
+      $other[$option->name] = $option->value;
+    
     $this->options = array(
-      'ms'        => $request->hasParameter('ms'),
-      'nopro'     => $request->hasParameter('nopro'),
+      'ms'        => isset($other['ms']),       // microsoft-compatible extraction
+      'tunnel'    => isset($other['tunnel']),   // tunnel effect on fields to prefer organism fields when they exist
       'noheader'  => $request->hasParameter('noheader'),
+      'fields'    => $fields,
     );
     
     $q = $this->buildQuery();
@@ -67,23 +101,25 @@ class contactActions extends autoContactActions
     $q->select   ("$a.title, $a.name, $a.firstname, $a.address, $a.postalcode, $a.city, $a.country, $a.npai, $a.email")
       ->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonename")
       ->addSelect("(SELECT tmp2.number FROM ContactPhonenumber tmp2 WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonenumber")
-      ->addSelect("$a.description");
-    if ( !$this->options['nopro'] )
-    {
-      $q->leftJoin('o.Category oc')
-        ->addSelect("oc.name AS organism_category, o.name AS organism_name")
-        ->addSelect('p.department AS professional_department, p.contact_number AS professional_number, p.contact_email AS professional_email')
-        ->addSelect('pt.name AS professional_type_name, p.name AS professional_name')
-        ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description");
-    }
-    $q->leftJoin(" p.ProfessionalGroups mp ON mp.group_id = gp.id AND mp.professional_id = p.id")
-      ->leftJoin("$a.ContactGroups      mc ON mc.group_id = gc.id AND mc.contact_id     = $a.id")
-      ->addSelect("(CASE WHEN mc.information IS NOT NULL THEN mc.information ELSE mp.information END) AS information");
+      ->addSelect("$a.description")
+      ->leftJoin('o.Category oc')
+      ->addSelect("oc.name AS organism_category, o.name AS organism_name")
+      ->addSelect('p.department AS professional_department, p.contact_number AS professional_number, p.contact_email AS professional_email')
+      ->addSelect('pt.name AS professional_type_name, p.name AS professional_name')
+      ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description")
+      ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonename")
+      ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonenumber");
+    
+    // only when groups are a part of filters
+    if ( in_array("LEFT JOIN $a.Groups gc",$q->getDqlPart('from')) )
+      $q->leftJoin(" p.ProfessionalGroups mp ON mp.group_id = gp.id AND mp.professional_id = p.id")
+        ->leftJoin("$a.ContactGroups      mc ON mc.group_id = gc.id AND mc.contact_id     = $a.id")
+        ->addSelect("(CASE WHEN mc.information IS NOT NULL THEN mc.information ELSE mp.information END) AS information");
     
     $this->lines = $q->fetchArray();
     
     $this->outstream = 'php://output';
-    $this->delimiter = $request->hasParameter('ms') ? ';' : ',';
+    $this->delimiter = $options['ms'] ? ';' : ',';
     $this->enclosure = '"';
     $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
     
