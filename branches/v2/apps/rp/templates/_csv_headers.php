@@ -34,9 +34,9 @@
       __('Country'),
       __('Npai'),
       __('email'),
+      __('Keywords'),
       __('Phonetype'),
       __('Phonenumber'),
-      __('Keywords'),
       __('Category of organism'),
       __('Organism'),
       __('Department'),
@@ -52,6 +52,7 @@
       __('URL'),
       __('Npai'),
       __('Description'),
+      __('Informations'),
     );
     
     fputcsv($outstream, $line, $delimiter, $enclosure);

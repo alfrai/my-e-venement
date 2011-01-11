@@ -22,9 +22,27 @@
 ***********************************************************************************/
 ?>
 <?php
-  include_partial('global/csv',array(
-    'options'   => $options,
-    'delimiter' => $delimiter,
-    'enclosure' => $enclosure,
-    'outstream' => $outstream,
-    'lines'     => $lines));
+  $outstream = fopen($outstream, 'w');
+  
+  $vars = array(
+    'options',
+    'delimiter',
+    'enclosure',
+    'outstream',
+  );
+  foreach ( $vars as $key => $value )
+  {
+    $vars[$value] = $$value;
+    unset($vars[$key]);
+  }
+  
+  // header
+  include_partial('global/csv_headers',$vars);
+  
+  foreach ( $lines as $line )
+  {
+    unset($line['id']);
+    include_partial('global/csv_line',array_merge(array('line' => $line),$vars));
+  }
+  
+  fclose($outstream);

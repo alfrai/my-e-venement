@@ -93,10 +93,10 @@ class ContactFormFilter extends BaseContactFormFilter
     $list = implode(',',$value);
     
     if ( is_array($value) )
-      $q->leftJoin("$a.Groups gu")
+      $q->leftJoin("$a.Groups gc")
         ->leftJoin("p.Groups gp")
         ->andWhere('(TRUE')
-        ->andWhereIn("gu.id",$value)
+        ->andWhereIn("gc.id",$value)
         ->orWhereIn("gp.id",$value)
         ->andWhere('TRUE)');
     

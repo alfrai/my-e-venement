@@ -55,21 +55,6 @@ class contactActions extends autoContactActions
   
   public function executeCsv(sfWebRequest $request)
   {
-    $this->pager     = $this->getPager();
-    $this->pager->setPage(0);
-    $this->pager->init();
-    
-    if ( $this->pager->count() > 4000 )
-    {
-      $this->getUser()->setFlash('csv_max_num_records',__("You can't export more than 4000 records a time, try with a smaller set of records."));
-      $this->forward('contact','index');
-    }
-    
-    $this->outstream = 'php://output';
-    $this->delimiter = $request->hasParameter('ms') ? ';' : ',';
-    $this->enclosure = '"';
-    $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
-    
     $criterias = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
     $this->options = array(
       'ms'        => $request->hasParameter('ms'),
@@ -78,9 +63,34 @@ class contactActions extends autoContactActions
       'pro_only'  => $criterias['organism_id'] || $criterias['organism_category_id']
                   || $criterias['professional_type_id'],
     );
-    $this->groups_list = $criterias['groups_list'];
     
-    sfConfig::set('sf_web_debug', false);
+    $q = $this->buildQuery();
+    $a = $q->getRootAlias();
+    $q->select   ("$a.title, $a.name, $a.firstname, $a.address, $a.postalcode, $a.city, $a.country, $a.npai, $a.email")
+      ->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonename")
+      ->addSelect("(SELECT tmp2.number FROM ContactPhonenumber tmp2 WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonenumber")
+      ->addSelect("$a.description");
+    if ( !$this->options['nopro'] )
+    {
+      $q->leftJoin('o.Category oc')
+        ->addSelect("oc.name AS organism_category, o.name AS organism_name")
+        ->addSelect('p.department AS professional_department, p.contact_number AS professional_number, p.contact_email AS professional_email')
+        ->addSelect('pt.name AS professional_type_name, p.name AS professional_name')
+        ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description");
+    }
+    $q->leftJoin(" p.ProfessionalGroups mp ON mp.group_id = gp.id AND mp.professional_id = p.id")
+      ->leftJoin("$a.ContactGroups      mc ON mc.group_id = gc.id AND mc.contact_id     = $a.id")
+      ->addSelect("(CASE WHEN mc.information IS NOT NULL THEN mc.information ELSE mp.information END) AS information");
+    
+    $this->lines = $q->fetchArray();
+    
+    $this->outstream = 'php://output';
+    $this->delimiter = $request->hasParameter('ms') ? ';' : ',';
+    $this->enclosure = '"';
+    $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
+    
+    if ( !$request->hasParameter('debug') )
+      sfConfig::set('sf_web_debug', false);
     sfConfig::set('sf_escaping_strategy', false);
     sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
     
@@ -92,7 +102,8 @@ class contactActions extends autoContactActions
       $this->getResponse()->sendHttpHeaders();
     }
     
-    $this->setLayout(false);
+    if ( !$request->hasParameter('debug') )
+      $this->setLayout(false);
   }
   
   // creates a group from filter criterias
