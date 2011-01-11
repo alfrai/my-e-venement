@@ -19,6 +19,6 @@ class Professional extends BaseProfessional
   }
   public function getNameType()
   {
-    return $this->name ? $this->name.' ('.$this->ProfessionalType.')' : $this->ProfessionalType;
+    return $this->name ? $this->name.($this->ProfessionalType ? ' ('.$this->ProfessionalType.')' : '') : $this->ProfessionalType;
   }
 }

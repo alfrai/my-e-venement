@@ -644,25 +644,37 @@
         <source>New title type</source>
         <target>Nouveau titre-type</target>
       </trans-unit>
-      <trans-unit id="1">
+      <trans-unit>
         <source>Extractions</source>
         <target>Extractions</target>
       </trans-unit>
-      <trans-unit id="1">
+      <trans-unit>
         <source>Extract</source>
         <target>Extraire</target>
       </trans-unit>
-      <trans-unit id="1">
+      <trans-unit>
         <source>Export</source>
         <target>Exporter</target>
       </trans-unit>
-      <trans-unit id="1">
+      <trans-unit>
         <source>Contact List</source>
         <target>Liste des contacts</target>
       </trans-unit>
-      <trans-unit id="1">
+      <trans-unit>
         <source>Show</source>
         <target>Voir</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View %1% - %2% of %3%</source>
+        <target>De %1% à %2% sur %3%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>of %1%</source>
+        <target>sur %1%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Group's Contacts List</source>
+        <target>Liste des contacts du groupe</target>
       </trans-unit>
     </body>
   </file>

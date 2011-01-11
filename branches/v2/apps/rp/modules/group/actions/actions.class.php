@@ -46,19 +46,6 @@ class groupActions extends autoGroupActions
     }
   }
 
-  public function executeShow(sfWebRequest $request)
-  {
-    $this->group = $this->getObjectByRoute();
-    $this->forward404Unless($this->group);
-    $this->form = $this->configuration->getForm($this->group);
-  }
-  public function executeEdit(sfWebRequest $request)
-  {
-    $this->group = $this->getObjectByRoute();
-    $this->forward404Unless($this->group);
-    $this->form = $this->configuration->getForm($this->group);
-  }
-  
   public function executeCsv(sfWebRequest $request)
   {
     $criterias = array(
@@ -116,7 +103,7 @@ class groupActions extends autoGroupActions
       ->leftJoin("p.Organism o")
       ->orderBy('c.name, c.firstname, pc.name, pc.firstname, o.name, pt.name, p.name');
     if ( sfContext::getInstance()->getRequest()->getParameter('id') )
-    $q->where('id = '.sfContext::getInstance()->getRequest()->getParameter('id'));
+    $q->where('id = ?',sfContext::getInstance()->getRequest()->getParameter('id'));
     
     return $q;
   }
@@ -124,6 +111,6 @@ class groupActions extends autoGroupActions
   {
     $groups = $this->createQueryByRoute()->limit(1)->execute();
     return $groups[0];
-    
   }
 }
+

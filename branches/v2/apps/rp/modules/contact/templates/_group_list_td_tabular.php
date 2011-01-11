@@ -21,10 +21,19 @@
 *
 ***********************************************************************************/
 ?>
-<?php if ( !$form->isNew() ): ?>
-<div id="more">
-  <?php include_partial('group/contacts_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php //include_partial('group/professionals_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php //include_partial('group/members_total', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-</div>
-<?php endif ?>
+<td class="sf_admin_text sf_admin_list_td_name">
+  <?php echo link_to($contact->getName(),'contact/show?id='.$contact->id) ?>
+</td>
+<td class="sf_admin_text sf_admin_list_td_firstname">
+  <?php echo link_to($contact->getFirstname() ? $contact->getFirstname() : ' ','contact/show?id='.$contact->id) ?>
+</td>
+<td class="sf_admin_text sf_admin_list_td_professional">
+  <?php if ( $professional ): ?>
+  <?php echo $professional->getNameType() ?>
+  <?php endif ?>
+</td>
+<td class="sf_admin_text sf_admin_list_td_organism">
+  <?php if ( $professional ): ?>
+  <?php echo link_to($professional->Organism,'organism/show?id='.$professional->Organism->id) ?>
+  <?php endif ?>
+</td>

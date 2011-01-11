@@ -7,16 +7,17 @@
  */
 class ContactTable extends AddressableTable
 {
-  /*
-  public function retrieveInformationsForListing(Doctrine_Query $q)
+  public function createQueryByGroupId($id)
   {
-    $rootAlias = $q->getRootAlias();
-    $q->leftJoin("$rootAlias.Professionals p")
-      ->leftJoin('p.Organism o')
-      ->orderBy("$rootAlias.name, $rootAlias.firstname, $rootAlias.city");
+    $q = $this->createQuery();
+    $a = $q->getRootAlias();
+    $q->leftJoin("$a.Groups gc")
+      ->leftJoin("p.Groups gp")
+      ->where('gc.id = ?',$id)
+      ->orWhere('gp.id = ?',$id)
+      ->orderby('name','firstname');
     return $q;
   }
-  */
   
   public function createQuery($alias = 'a')
   {
