@@ -1,8 +1,8 @@
 .sf_admin_form fieldset {
-  padding: 0 2px;
-  width: 190px;
+  padding: 0 2px 2px 2px;
+  width: 215px;
   float: left;
-  margin: 10px;
+  margin: 2px;
 }
 .sf_admin_form fieldset .ui-widget-header { margin: 0px 0 10px 0; }
 .sf_admin_form fieldset .widget { padding-right: 10px; float: left; }

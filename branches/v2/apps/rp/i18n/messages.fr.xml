@@ -206,7 +206,7 @@
       </trans-unit>
       <trans-unit id="51">
         <source>Organism %%name%%</source>
-        <target>Fiche de l'organisme %%name%%</target>
+        <target>Fiche de %%name%%</target>
       </trans-unit>
       <trans-unit id="52">
         <source>New organism</source>
@@ -298,7 +298,7 @@
       </trans-unit>
       <trans-unit id="85">
         <source>Contact %%name%% %%firstname%%</source>
-        <target>Fiche du contact %%name%% %%firstname%%</target>
+        <target>Fiche de %%name%% %%firstname%%</target>
       </trans-unit>
       <trans-unit id="86">
         <source>New contact</source>
@@ -374,7 +374,7 @@
       </trans-unit>
       <trans-unit id="103">
         <source>View of contact %%contact%%</source>
-        <target>Fiche du contact %%contact%%</target>
+        <target>Fiche de %%contact%%</target>
       </trans-unit>
       <trans-unit id="104">
         <source>Phone numbers</source>
@@ -723,6 +723,10 @@
       <trans-unit>
         <source>Your form cannot be validated.</source>
         <target>Votre formulaire ne peut être validé.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Parameters for extractions</source>
+        <target>Paramètres des extractions</target>
       </trans-unit>
     </body>
   </file>

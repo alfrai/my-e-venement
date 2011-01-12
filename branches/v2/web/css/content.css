@@ -60,3 +60,7 @@ body .sf_admin_filter td { padding-bottom: 0; }
   float:  right;
   margin-top: 5px;
 }
+
+body #sf_admin_container .ui-widget-header h1 { font-size: 22px; }
+body #sf_admin_container { font-size: 11px; width: auto; }
+body .ui-widget-header { margin: 2px 2px auto 2px; }
