@@ -281,3 +281,9 @@ OptionCsv:
     type: column_aggregation
     keyField: type
     keyValue: 'csv'
+  indexes:
+  indexes:
+    name_user:
+      fields: [name, sf_guard_user_id, value, type]
+      type: unique
+

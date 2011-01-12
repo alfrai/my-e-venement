@@ -39,7 +39,7 @@
       'phonenumber' => __('Phonenumber'),
       'organism_category'   => __('Category of organism'),
       'organism_name'       => __('Organism'),
-      'organism_department' => __('Department'),
+      'professional_department' => __('Department'),
       'professional_number' => __('Professional phone'),
       'professional_email'  => __('Professional email'),
       'professional_type_name' => __('Type of function'),

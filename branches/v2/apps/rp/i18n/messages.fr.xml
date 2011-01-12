@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-01-10T01:38:54Z" product-name="messages">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-01-12T01:00:49Z" product-name="messages">
     <header/>
     <body>
       <trans-unit id="1">
@@ -652,7 +652,7 @@
         <source>Contacts' List</source>
         <target>Contacts</target>
       </trans-unit>
-     <trans-unit>
+      <trans-unit>
         <source>Export</source>
         <target>Exporter</target>
       </trans-unit>
@@ -683,6 +683,46 @@
       <trans-unit>
         <source>through the integrated search tool</source>
         <target>à travers l'outil de recherche intégrée</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>Informations</source>
+        <target>Informations</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>No result</source>
+        <target>Pas de résultat</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Page</source>
+        <target>Page</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Microsoft-Compatible</source>
+        <target>Compatible Microsoft</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Prefer professional informations</source>
+        <target>Préférer les informations pro.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>No header</source>
+        <target>Pas d'entête</target>
+      </trans-unit>
+      <trans-unit>
+        <source>More informations</source>
+        <target>Plus d'informations</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Professional phonenumber</source>
+        <target>Téléphone professionnel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Select / Deselect All</source>
+        <target>Sélectionner / Déselectionner tout</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Your form cannot be validated.</source>
+        <target>Votre formulaire ne peut être validé.</target>
       </trans-unit>
     </body>
   </file>

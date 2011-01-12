@@ -1,12 +1,3 @@
-option_csv:
-  class: sfDoctrineRouteCollection
-  options:
-    model:                OptionCsv
-    module:               option_csv
-    prefix_path:          /option_csv
-    column:               id
-    with_wildcard_routes: true
-
 organism_category:
   class: sfDoctrineRouteCollection
   options:

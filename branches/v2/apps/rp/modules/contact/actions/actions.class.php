@@ -109,12 +109,12 @@ class contactActions extends autoContactActions
     if ( $option->name == 'field' )
       $fields[] = $option->value;
     else
-      $others[$option->name] = $option->value;
+      $others[$option->name][] = $option->value;
     
     $this->options = array(
-      'ms'        => isset($others['ms']),       // microsoft-compatible extraction
-      'tunnel'    => isset($others['tunnel']),   // tunnel effect on fields to prefer organism fields when they exist
-      'noheader'  => $request->hasParameter('noheader'),
+      'ms'        => in_array('microsoft',$others['options']),    // microsoft-compatible extraction
+      'tunnel'    => in_array('tunnel',$others['options']),       // tunnel effect on fields to prefer organism fields when they exist
+      'noheader'  => in_array('noheader',$others['options']),     // no header
       'fields'    => $fields,
     );
     
