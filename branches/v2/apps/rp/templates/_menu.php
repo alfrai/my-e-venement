@@ -60,7 +60,7 @@
           </li>
           <li><a><?php echo __('P.R.') ?></a>
             <ul class="third">
-              <li><a href="<?php echo url_for('option_csv/show') ?>"><?php echo __('Extractions') ?></a></li>
+              <li><a href="<?php echo url_for('option_csv/index') ?>"><?php echo __('Extractions') ?></a></li>
               <li><a href=""><?php echo __('Labels') ?></a></li>
               <li class="spaced"><a href="<?php echo url_for('@title_type') ?>"><?php echo __('Generic title') ?></a></li>
               <li><a href="<?php echo url_for('@phone_type') ?>"><?php echo __('Types of phones') ?></a></li>
