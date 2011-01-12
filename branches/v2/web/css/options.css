@@ -1,0 +1,15 @@
+.sf_admin_form fieldset {
+  padding: 0 2px;
+  width: 190px;
+  float: left;
+  margin: 10px;
+}
+.sf_admin_form fieldset .ui-widget-header { margin: 0px 0 10px 0; }
+.sf_admin_form fieldset .widget { padding-right: 10px; float: left; }
+.sf_admin_form fieldset label { padding-right: 0px; }
+.sf_admin_form fieldset .line { clear: both; margin-bottom: 5px; line-height: 1.3em; }
+
+.sf_admin_form fieldset .ui-widget-content { padding: 2px; }
+.sf_admin_form fieldset.sf_admin_action_save { text-align: right; }
+
+#content .sf_admin_flashes { margin: 10px 5px 0px 5px; }
