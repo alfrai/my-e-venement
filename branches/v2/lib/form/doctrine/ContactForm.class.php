@@ -15,6 +15,9 @@ class ContactForm extends BaseContactForm
    */
   public function configure()
   {
+    //unset($this->widgetSchema['emails_list']);
+    //unset($this->validatorSchema['emails_list']);
+    
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Asset'));
     use_javascript('/sfFormExtraPlugin/js/double_list.js');
     

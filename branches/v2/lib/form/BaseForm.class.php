@@ -14,5 +14,6 @@ class BaseForm extends sfFormSymfony
   {
     unset($this->validatorSchema['created_at']);
     unset($this->validatorSchema['updated_at']);
+    unset($this->validatorSchema['deleted_at']);
   }
 }

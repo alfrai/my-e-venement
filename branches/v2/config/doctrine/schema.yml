@@ -21,7 +21,10 @@
 #**********************************************************************************/
 
 Addressable:
+  package: generic
   actAs: 
+    Searchable:
+      fields: [name]
     Geographical: ~
     Timestampable: ~
     Sluggable:
@@ -44,10 +47,13 @@ Addressable:
       default: false
 
 Contact:
+  package: rp
   inheritance:
     extends: Addressable
     type: concrete
   actAs: 
+    Searchable:
+      fields: [name,firstname]
     Sluggable:
       fields: [name,firstname]
   columns:
@@ -56,6 +62,7 @@ Contact:
     description: string
     password: string(255)
 Organism:
+  package: rp
   inheritance:
     extends: Addressable
     type: concrete
@@ -69,6 +76,7 @@ Organism:
       foreignAlias: Organisms
 
 Phonenumber:
+  package: generic
   actAs: [Timestampable]
   columns:
     name:
@@ -78,6 +86,7 @@ Phonenumber:
       type: string(255)
       notblank: true
 ContactPhonenumber:
+  package: rp
   inheritance:
     extends: Phonenumber
     type: concrete
@@ -90,6 +99,7 @@ ContactPhonenumber:
       foreignAlias: Phonenumbers
       onDelete: CASCADE
 OrganismPhonenumber:
+  package: rp
   inheritance:
     extends: Phonenumber
     type: concrete
@@ -103,6 +113,7 @@ OrganismPhonenumber:
       onDelete: CASCADE
 
 OrganismCategory:
+  package: rp
   actAs: 
     Timestampable: ~
     Sluggable:
@@ -112,6 +123,7 @@ OrganismCategory:
       type: string(255)
       notblank: true
 YOB:
+  package: rp
   actAs: [Timestampable]
   columns:
     year:
@@ -124,12 +136,14 @@ YOB:
       onDelete: CASCADE
 
 ProfessionalType:
+  package: rp
   actAs: [Timestampable]
   columns:
     name:
       type: string(255)
       notblank: true
 Professional:
+  package: rp
   actAs: [Timestampable]
   columns:
     name: string(255)
@@ -158,6 +172,7 @@ Professional:
       onDelete: CASCADE
 
 Group:
+  package: group
   tableName: group_table
   actAs:
     Timestampable: ~
@@ -188,6 +203,7 @@ Group:
       foreignAlias: Groups
       onDelete: CASCADE
 GroupDetail:
+  package: group
   actAs: [Timestampable]
   columns:
     group_id:
@@ -200,6 +216,7 @@ GroupDetail:
       foreignAlias: Members
       onDelete: CASCADE
 GroupContact:
+  package: group
   inheritance:
     extends: GroupDetail
     type: concrete
@@ -213,6 +230,7 @@ GroupContact:
       foreignAlias: ContactGroups
       onDelete: CASCADE
 GroupProfessional:
+  package: group
   inheritance:
     extends: GroupDetail
     type: concrete
@@ -227,6 +245,7 @@ GroupProfessional:
       onDelete: CASCADE
 
 ModelType:
+  package: generic
   actAs:
     Timestampable: ~
     Sluggable:
@@ -244,12 +263,14 @@ ModelType:
       fields: [name, type]
       unique: true
 TitleType:
+  package: rp
   inheritance:
     extends: ModelType
     type: column_aggregation
     keyField: type
     keyValue: 'title'
 PhoneType:
+  package: rp
   inheritance:
     extends: ModelType
     type: column_aggregation
@@ -257,6 +278,7 @@ PhoneType:
     keyValue: 'phone'
 
 Option:
+  package: generic
   actAs:
     Timestampable:
       updated:
@@ -283,15 +305,108 @@ Option:
       fields: [name, sf_guard_user_id, value, type]
       type: unique
 OptionCsv:
+  package: rp
   inheritance:
     extends: Option
     type: column_aggregation
     keyField: type
     keyValue: 'csv'
 OptionLabels:
+  package: rp
   inheritance:
     extends: Option
     type: column_aggregation
     keyField: type
     keyValue: 'labels'
 
+Email:
+  package: email
+  actAs:
+    Searchable:
+      fields: [subject,content,from,to,cc,bcc]
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    sf_guard_user_id: integer
+    field_from:
+      type:     string(255)
+      email:    true
+      notnull:  true
+    field_to:         string
+    field_cc:         string
+    field_bcc:        string
+    field_subject:
+      type:     string
+      notnull:  true
+    content:
+      type:     string
+      notnull:  true
+  relations:
+    User:
+      class: sfGuardUser
+      foreignAlias: Emails
+      onDelete: SET NULL
+    Contacts:
+      class: Contact
+      refClass: EmailContact
+      foreignAlias: Emails
+    Professionals:
+      class: Professional
+      refClass: EmailProfessional
+      foreignAlias: Emails
+    Organisms:
+      class: Organism
+      refClass: EmailOrganism
+      foreignAlias: Emails
+EmailLink:
+  package: email
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    email_id:
+      type: integer
+      notnull: true
+  relations:
+    Email:
+      foreignAlias: EmailLinks
+      onDelete: CASCADE
+EmailContact:
+  package: email
+  inheritance:
+    extends: EmailLink
+    type: concrete
+  columns:
+    contact_id:
+      type: integer
+      notnull: true
+  relations:
+    Contact:
+      foreignAlias: EmailContacts
+      onDelete: CASCADE
+EmailOrganism:
+  package: email
+  inheritance:
+    extends: EmailLink
+    type: concrete
+  columns:
+    organism_id:
+      type: integer
+      notnull: true
+  relations:
+    Organism:
+      foreignAlias: EmailOrganisms
+      onDelete: CASCADE
+EmailProfessional:
+  package: email
+  inheritance:
+    extends: EmailLink
+    type: concrete
+  columns:
+    professional_id:
+      type: integer
+      notnull: true
+  relations:
+    Professional:
+      foreignAlias: EmailOrganisms
+      onDelete: CASCADE

@@ -16,6 +16,7 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
     
     unset($this->validatorSchema['created_at']);
     unset($this->validatorSchema['updated_at']);
+    unset($this->validatorSchema['deleted_at']);
     
     if ( isset($this->widgetSchema['contact_id']) )
     $this->widgetSchema['contact_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(

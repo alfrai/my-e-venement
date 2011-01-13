@@ -31,7 +31,9 @@ class ProjectConfiguration extends sfProjectConfiguration
   public $yob;
   public $charset = array(
     'db' => 'UTF-8',
-    'ms' => 'WINDOWS-1252//TRANSLIT');
+    'ms' => 'WINDOWS-1252//TRANSLIT',
+    'ascii' => 'ASCII//TRANSLIT',
+  );
   public $transliterate = array(
     'ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ',
     'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy');

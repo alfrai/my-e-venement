@@ -16,6 +16,7 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
     
     unset($this->widgetSchema['created_at']);
     unset($this->widgetSchema['updated_at']);
+    unset($this->widgetSchema['deleted_at']);
     
     if ( isset($this->widgetSchema['contact_id']) )
     $this->widgetSchema['contact_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(

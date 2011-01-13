@@ -36,6 +36,20 @@ require_once dirname(__FILE__).'/../lib/contactGeneratorHelper.class.php';
  */
 class contactActions extends autoContactActions
 {
+  public function executeSearchIndexing(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    $table = Doctrine_Core::getTable('Contact');
+    $table->getTemplate('Doctrine_Template_Searchable')->getPlugin()
+      ->setOption('analyzer', new MySearchAnalyzer());
+    $table->batchUpdateIndex($nb = 1500);
+    
+    $this->getUser()->setFlash('notice',__('%nb% records have been indexed',array('%nb%' => $nb)));
+    $this->executeIndex($request);
+    $this->setTemplate('index');
+  }
+  
   public function executeLabels(sfWebRequest $request)
   {
     // lots of the lines above come directly from e-venement v1.10 with only few modifications
@@ -101,15 +115,11 @@ class contactActions extends autoContactActions
   {
     self::executeIndex($request);
     
-    $search = $request->getParameter('s');
+    $search = $this->sanitizeSearch($request->getParameter('s'));
     $transliterate = sfContext::getInstance()->getConfiguration()->transliterate;
     
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
-    $q = $this->pager->getQuery();
-    $a = $q->getRootAlias();
-    $cond = array_merge($transliterate,array('%'.iconv('UTF-8','ASCII//TRANSLIT',$search).'%'));
-    $cond = array_merge($cond,$cond);
-    $q->andWhere("(LOWER(TRANSLATE($a.firstname,?,?)) LIKE LOWER(?) OR LOWER(TRANSLATE($a.name,?,?)) LIKE LOWER(?))",$cond);
+    $this->pager->setQuery(Doctrine_Core::getTable('Contact')->search($search.'*',$this->pager->getQuery()));
     
     $this->pager->init();
     $this->setTemplate('index');
@@ -141,12 +151,17 @@ class contactActions extends autoContactActions
   public function executeAjax(sfWebRequest $request)
   {
     $this->getResponse()->setContentType('application/json');
-    $request = Doctrine::getTable('Contact')->createQuery()
-      ->where("name ILIKE ? OR firstname ILIKE ?",array('%'.$request->getParameter('q').'%','%'.$request->getParameter('q').'%'))
+    
+    $charset = sfContext::getInstance()->getConfiguration()->charset;
+    $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
+    
+    $q = Doctrine::getTable('Contact')
+      ->createQuery()
       ->orderBy('name, firstname')
-      ->limit($request->getParameter('limit'))
-      ->execute()
-      ->getData();
+      ->limit($request->getParameter('limit'));
+    $q = Doctrine_Core::getTable('Contact')
+      ->search($search.'*',$q);
+    $request = $q->execute()->getData();
     
     $contacts = array();
     foreach ( $request as $contact )
@@ -240,5 +255,11 @@ class contactActions extends autoContactActions
     
     $this->redirect(url_for('group/show?id='.$group->id));
     return sfView::NONE;
+  }
+  
+  public static function sanitizeSearch($search)
+  {
+    $nb = strlen($search);
+    return substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search;
   }
 }

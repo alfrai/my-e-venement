@@ -1,3 +1,21 @@
+contact_glop:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Contact
+    module:               glop
+    prefix_path:          /glop
+    column:               id
+    with_wildcard_routes: true
+
+email:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Email
+    module:               email
+    prefix_path:          /email
+    column:               id
+    with_wildcard_routes: true
+
 organism_category:
   class: sfDoctrineRouteCollection
   options:

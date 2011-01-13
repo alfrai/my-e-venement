@@ -15,17 +15,47 @@ class professionalActions extends autoProfessionalActions
 {
   public function executeAjax(sfWebRequest $request)
   {
-    $this->getContext()->getConfiguration()->loadHelpers('I18N');
-    $ilike = '%'.$request->getParameter('q').'%';
-    
     $this->getResponse()->setContentType('application/json');
-    $q = Doctrine::getTable('Professional')->createQuery();
-    $a = $q->getRootAlias();
-    $q->where('c.name ILIKE ? OR c.firstname ILIKE ? OR o.name ILIKE ?',array($ilike,$ilike,$ilike))
-      ->limit($request->getParameter('limit'));
-    $request = $q->execute()->getData();
+    
+    $charset = sfContext::getInstance()->getConfiguration()->charset;
+    $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
+    
+    $ids = array();
+
+    $q = Doctrine_Core::getTable('Contact')
+      ->search($search.'*',Doctrine_Query::create()
+      ->select('c.id, p.id AS pid')
+      ->from('Contact c')
+      ->leftJoin('c.Professionals p')
+      ->limit($request->getParameter('limit')*3)
+    );
+    $cids = $q->fetchArray();
+    foreach ( $cids as $cid )
+      $ids[$cid['pid']] = $cid['pid'];
+    
+    $q = Doctrine_Core::getTable('Organism')
+      ->search($search.'*',Doctrine_Query::create()
+      ->select('c.id, p.id AS pid')
+      ->from('Organism c')
+      ->leftJoin('c.Professionals p')
+      ->limit($request->getParameter('limit')*3)
+    );
+    $oids = $q->fetchArray();
+    foreach ( $oids as $cid )
+      $ids[$cid['pid']] = $cid['pid'];
+    
+    unset($ids['']);
     
     $professionals = array();
+    
+    if ( count($ids) == 0 )
+      return $this->renderText(json_encode($professionals));;
+    
+    $q = Doctrine::getTable('Professional')->createQuery();
+    $a = $q->getRootAlias();
+    $q->whereIn("$a.id",$ids);
+    $request = $q->execute()->getData();
+    
     foreach ( $request as $professional )
       $professionals[$professional->id] = $professional->getFullName();
     

@@ -13,6 +13,20 @@ require_once dirname(__FILE__).'/../lib/organismGeneratorHelper.class.php';
  */
 class organismActions extends autoOrganismActions
 {
+  public function executeSearchIndexing(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    $table = Doctrine_Core::getTable('Organism');
+    $table->getTemplate('Doctrine_Template_Searchable')->getPlugin()
+      ->setOption('analyzer', new MySearchAnalyzer());
+    $table->batchUpdateIndex($nb = 1500);
+    
+    $this->getUser()->setFlash('notice',__('%nb% record(s) have been indexed',array('%nb%' => $nb)));
+    $this->executeIndex($request);
+    $this->setTemplate('index');
+  }
+  
   public function executeIndex(sfWebRequest $request)
   {
     parent::executeIndex($request);
@@ -20,7 +34,7 @@ class organismActions extends autoOrganismActions
     {
       $this->sort = array('name','');
       $this->pager->getQuery()->orderby('name');
-    } 
+    }
   }
 
   public function executeShow(sfWebRequest $request)
@@ -48,13 +62,17 @@ class organismActions extends autoOrganismActions
   
   public function executeAjax(sfWebRequest $request)
   {
-    $this->getResponse()->setContentType('application/json');
-    $request = Doctrine::getTable('Organism')->createQuery()
-      ->where('name ILIKE ?',array('%'.$request->getParameter('q').'%'))
-      ->limit($request->getParameter('limit'))
-      ->execute()
-      ->getData();
+    $charset = sfContext::getInstance()->getConfiguration()->charset;
+    $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
     
+    $q = Doctrine::getTable('Organism')
+      ->createQuery()
+      ->orderBy('name')
+      ->limit($request->getParameter('limit'));
+    $q = Doctrine_Core::getTable('Organism')
+      ->search($search.'*',$q);
+    $request = $q->execute()->getData();
+
     $organisms = array();
     foreach ( $request as $organism )
       $organisms[$organism->id] = (string) $organism;

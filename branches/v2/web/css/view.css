@@ -27,3 +27,7 @@ body #more {
 #more .nb { text-align: right; margin: 5px 4px 2px 4px; }
 #more .sf_admin_form_row .show_groups { max-height: 150px; }
 #more .ui-widget-header { cursor: pointer; }
+
+#more label { min-width: 130px; }
+#more ul li { margin-left: 20px; }
+#more .sf_admin_form { line-height: 1.4em; }

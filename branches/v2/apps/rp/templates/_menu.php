@@ -14,7 +14,7 @@
           <li><a href="<?php echo url_for('contact/index') ?>"><?php echo __('Contacts') ?></a></li>
           <li><a href="<?php echo url_for('organism/index') ?>"><?php echo __('Organisms') ?></a></li>
           <li class="spaced"><a href="<?php echo url_for('group/index') ?>"><?php echo __('Groups') ?></a></li>
-          <li><a href="<?php echo url_for('emailing/index') ?>"><?php echo __('Emailing') ?></a></li>
+          <li><a href="<?php echo url_for('email/index') ?>"><?php echo __('Emailing') ?></a></li>
         </ul>
       <span class="title"><?php echo __('Pub. Rel.') ?></span></li>
       <li>
