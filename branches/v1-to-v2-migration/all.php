@@ -311,6 +311,23 @@
     print_r($cpt);
   }
   
+  // option
+  $to_table = 'option';
+  $from_table = 'options';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'name'          => 'key',
+      'type'          => 'type',
+      'value'         => 'value',
+      'created_at'    => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table,true,"substring(key,0,8) = 'labels.'","substring(key,8) AS key, value, 'labels' AS type");
+    print_r($cpt);
+  }
+  
   print_r($tables);
   
   $bd->free();
