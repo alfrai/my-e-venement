@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-01-12T01:00:49Z" product-name="messages">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-01-12T21:20:55Z" product-name="messages">
     <header/>
     <body>
       <trans-unit id="1">
@@ -612,10 +612,6 @@
         <source>New organism category</source>
         <target>Nouvelle catégorie d'organisme</target>
       </trans-unit>
-      <trans-unit id="10">
-        <source>You can't export more than 4000 records a time, try with a smaller set of records.</source>
-        <target>Vous ne pouvez exporter plus de 4000 enregistrements en une fois. Réessayez avec un nombre d'enregistrements plus faible.</target>
-      </trans-unit>
       <trans-unit id="11">
         <source>Search group</source>
         <target>Groupe issu d'une recherche</target>
@@ -645,16 +641,20 @@
         <target>Extractions</target>
       </trans-unit>
       <trans-unit>
-        <source>Extract</source>
-        <target>Extraire</target>
+        <source>Extract to CSV</source>
+        <target>Extraire en CSV</target>
       </trans-unit>
       <trans-unit>
         <source>Contacts' List</source>
         <target>Contacts</target>
       </trans-unit>
       <trans-unit>
-        <source>Export</source>
-        <target>Exporter</target>
+        <source>Export to group</source>
+        <target>Exporter vers un grp</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Get labels</source>
+        <target>Étiquettes</target>
       </trans-unit>
       <trans-unit>
         <source>Contact List</source>
@@ -727,6 +727,74 @@
       <trans-unit>
         <source>Parameters for extractions</source>
         <target>Paramètres des extractions</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Parameters for labels</source>
+        <target>Paramètre pour les étiquettes</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Your configuration has been updated with %i% option(s).</source>
+        <target>Votre configuration a été mise à jour avec %i% paramètre(s).</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Page width</source>
+        <target>Largeur de page</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Page heigth</source>
+        <target>Hauteur de page</target>
+      </trans-unit>
+      <trans-unit>
+        <source>How many rows</source>
+        <target>Nb de colonnes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>How many lines</source>
+        <target>Nb de lignes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Horizontal margins</source>
+        <target>Marges horizontales</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Vertical margins</source>
+        <target>Marges verticales</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Vertical printer margins</source>
+        <target>Marges verticales de l'imprimante</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Horizontal printer margins</source>
+        <target>Marges horizontales de l'imprimante</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Vertical margin between lines</source>
+        <target>Marge verticale entre les cellules</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Horizontal margin between rows</source>
+        <target>Marge horizontale entre les colonnes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Horizontal padding</source>
+        <target>Espacement horizontal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Vertical padding</source>
+        <target>Espacement vertical</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Font</source>
+        <target>Police</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Font size</source>
+        <target>Taille de la police</target>
+      </trans-unit>
+      <trans-unit>
+        <source>default:</source>
+        <target>défaut:</target>
       </trans-unit>
     </body>
   </file>

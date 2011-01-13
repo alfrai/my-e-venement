@@ -10,8 +10,6 @@
  */
 class OptionCsvForm extends BaseOptionCsvForm
 {
-  public $widgets;
-  
   /**
    * @see OptionForm
    */

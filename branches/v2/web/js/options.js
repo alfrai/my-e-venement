@@ -14,5 +14,5 @@ $(document).ready(function(){
   if ( $('.sf_admin_flashes > *').length == 0 )
     $('.sf_admin_flashes').remove();
   else
-    setTimeout(function(){ $('.sf_admin_flashes').fadeOut('slow'); },3000);
+    setTimeout(function(){ $('.sf_admin_flashes > .notice').fadeOut('slow'); },3000);
 });

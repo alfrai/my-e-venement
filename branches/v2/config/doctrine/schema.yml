@@ -257,7 +257,10 @@ PhoneType:
     keyValue: 'phone'
 
 Option:
-  actAs: [Timestampable]
+  actAs:
+    Timestampable:
+      updated:
+        disabled: true
   columns:
     type:
       type: string(255)

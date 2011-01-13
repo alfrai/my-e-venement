@@ -11,6 +11,8 @@
 class OptionForm extends sfForm
 {
   protected $model = NULL;
+  public $widgets = array();
+  
   public function configure()
   {
   }
@@ -20,12 +22,12 @@ class OptionForm extends sfForm
     return $this->model;
   }
   
-  public function save($params = NULL, $user_id = NULL)
+  public function save($user_id = NULL, $params = NULL)
   {
     if ( !$this->model )
       return false;
     
-    if ( !$params ) $params = self::getValues();
+    if ( !$params ) $params = $this->getValues();
     
     $q = Doctrine_Query::create()
       ->delete($this->model);
@@ -41,8 +43,9 @@ class OptionForm extends sfForm
       if ( !is_array($values) )
         $values = array($values);
       foreach ( $values as $value )
+      if ( !is_null($value) )
       {
-        $opt = new OptionCsv();
+        $opt = new $this->model();
         $opt->sf_guard_user_id = $user_id;
         $opt->name  = $name;
         $opt->value = $value;

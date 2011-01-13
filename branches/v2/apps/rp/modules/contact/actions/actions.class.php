@@ -13,6 +13,50 @@ require_once dirname(__FILE__).'/../lib/contactGeneratorHelper.class.php';
  */
 class contactActions extends autoContactActions
 {
+  public function executeLabels(sfWebRequest $request)
+  {
+    $this->setLayout(false);
+    
+    $q = Doctrine::getTable('OptionLabels')->createQuery();
+    $options = $q->fetchArray();
+    $this->params = array();
+    foreach ( $options as $option )
+      $this->params[$option['name']] = $option['value'];
+    
+    $request->setParameter('debug','true');
+    $this->executeCsv($request,true);
+    
+    $contacts = $this->lines;
+    unset($this->lines);
+    
+    // those lines above come directly from e-venement v1.10 with only few modifications
+    
+    $this->labels = array(  // the whole bundle of labels
+      /*
+      array(          // the pages
+        array(        // the lines
+          array(),    // the labels themselves
+        ),
+      ),
+      */
+    );
+    for ( $i = 0 ; $i < count($contacts) ; $i++ )
+    {
+      $contact = $contacts[$i];
+      
+      // make pages
+      if ( $i % (intval($this->params['nb-x'])*intval($this->params['nb-y'])) == 0 )
+        $this->labels[] = array();
+      $nbpages = count($this->labels);
+    
+      // make lines
+      if ( $i % intval($this->params['nb-x']) == 0 )
+        $this->labels[$nbpages-1][] = array();
+      $nblines = count($this->labels[$nbpages-1]);
+    
+      $this->labels[$nbpages-1][$nblines-1][] = $contact;
+    }
+  }
   public function executeSearch(sfWebRequest $request)
   {
     self::executeIndex($request);
@@ -71,7 +115,7 @@ class contactActions extends autoContactActions
     return $this->renderText(json_encode($contacts));
   }
   
-  public function executeCsv(sfWebRequest $request)
+  public function executeCsv(sfWebRequest $request, $labels = false)
   {
     $q = $this->buildQuery();
     $a = $q->getRootAlias();
@@ -104,7 +148,8 @@ class contactActions extends autoContactActions
       $q->andWhere('sf_guard_user_id IS NULL');
     
     $options = $q->execute();
-    $fields = $others = array();
+    $fields = array();
+    $other  = array('option' => array());
     foreach ( $options as $option )
     if ( $option->name == 'field' )
       $fields[] = $option->value;
@@ -112,9 +157,9 @@ class contactActions extends autoContactActions
       $others[$option->name][] = $option->value;
     
     $this->options = array(
-      'ms'        => in_array('microsoft',$others['options']),    // microsoft-compatible extraction
-      'tunnel'    => in_array('tunnel',$others['options']),       // tunnel effect on fields to prefer organism fields when they exist
-      'noheader'  => in_array('noheader',$others['options']),     // no header
+      'ms'        => in_array('microsoft',$others['option']),    // microsoft-compatible extraction
+      'tunnel'    => in_array('tunnel',$others['option']),       // tunnel effect on fields to prefer organism fields when they exist
+      'noheader'  => in_array('noheader',$others['option']),     // no header
       'fields'    => $fields,
     );
     
@@ -125,8 +170,11 @@ class contactActions extends autoContactActions
     
     if ( !$request->hasParameter('debug') )
       sfConfig::set('sf_web_debug', false);
-    sfConfig::set('sf_escaping_strategy', false);
-    sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
+    if ( !$labels )
+    {
+      sfConfig::set('sf_escaping_strategy', false);
+      sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
+    }
     
     if ( !$request->hasParameter('debug') )
       $this->setLayout(false);

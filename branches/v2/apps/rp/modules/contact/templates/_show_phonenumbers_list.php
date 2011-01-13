@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <div class="sf_admin_form_row">
-<!--<label><?php echo __('Phone numbers') ?></label>-->
+<label><?php echo __('Phone numbers') ?>:</label>
 <ul class="show_phonenumbers">
   <?php foreach ( $form->getObject()->Phonenumbers as $number ): ?>
   <li class="phones">

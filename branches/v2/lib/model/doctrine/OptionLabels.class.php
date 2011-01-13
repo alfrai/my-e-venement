@@ -12,4 +12,9 @@
  */
 class OptionLabels extends BaseOptionLabels
 {
+  public function preSave($event)
+  {
+    $this->type = 'labels';
+    parent::preSave($event);
+  }
 }

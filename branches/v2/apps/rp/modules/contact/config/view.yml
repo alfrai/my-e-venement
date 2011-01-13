@@ -18,7 +18,6 @@ indexSuccess:
 filterSuccess:
   javascripts: [contact-filters]
 
-
 csvSuccess:
   has_layout: off
   http_metas:

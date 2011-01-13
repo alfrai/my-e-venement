@@ -28,7 +28,8 @@ function list_integrated_search(data)
   // disabling the extra-actions
   if ( $('#sf_admin_actions_menu .sf_admin_action_group, #sf_admin_actions_menu .sf_admin_action_csv').length > 0 )
   {
-    $('#sf_admin_actions_menu .sf_admin_action_group, #sf_admin_actions_menu .sf_admin_action_csv').remove();
+    $('#sf_admin_actions_menu .sf_admin_action_group, #sf_admin_actions_menu .sf_admin_action_labels, #sf_admin_actions_menu .sf_admin_action_csv')
+      .remove();
     $('#sf_admin_actions_button').unbind().menu({
       content: $('#sf_admin_actions_menu').html(),
       showSpeed: 300
