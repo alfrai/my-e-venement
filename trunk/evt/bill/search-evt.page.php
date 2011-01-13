@@ -54,14 +54,13 @@
               FROM evenement AS evt, site, manifestation AS manif
               LEFT JOIN color ON manif.colorid = color.id
               LEFT JOIN space_manifestation sm ON sm.manifid = manif.id AND sm.spaceid '.($user->evtspace ? '= '.$user->evtspace : 'IS NULL').'
-              WHERE '.(!is_array($_GET['manifid']) ? "manif.date > NOW() - '6 HOURS'::interval AND " : '').'
+              WHERE '.(!is_array($_GET['manifid']) ? "(manif.date > NOW() - '6 HOURS'::interval ".($user->evtlevel >= 8 ? 'OR TRUE' : '').") AND " : '').'
                     manif.evtid = evt.id
                 AND site.id = manif.siteid
                 AND (CASE WHEN '.($user->evtspace ? 'true' : 'false').' THEN sm.jauge ELSE manif.jauge END) > 0
                 '.$where.'
                 '.$excludes.'
               ORDER BY '.$order;
-  echo $query;
   if ( $limit ) $query .= ' LIMIT '.intval($limit);
   $request = new bdRequest($bd,$query);
   
