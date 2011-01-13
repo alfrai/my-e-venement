@@ -35,10 +35,10 @@ generator:
         display: [name, postalcode, city, country, email, npai, organism_category_id]
       show:
         display:
-          NONE:  [name, address, postalcode, city, country]
+          NONE: [_show_who, _show_email, _show_phonenumbers_list]
+          Address:  [name, address, postalcode, city, country]
           Internet: [email, url]
           Precisions: [npai, description]
-          Phonenumbers: [_show_phonenumbers_list]
           Details: [created_at,updated_at,slug,longitude,latitude]
       form:
         display:
