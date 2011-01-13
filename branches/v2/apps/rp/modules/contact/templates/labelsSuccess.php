@@ -10,6 +10,6 @@
     <link rel="stylesheet" media="all" type="text/css" href="<?php echo url_for('option_labels/css') ?>" />
   </head>
   <body class="labels">
-    <?php include_partial('contact/labels',array('labels' => $labels, 'params' => $params, )) ?>
+    <?php include_partial('contact/labels',array('labels' => $labels, 'params' => $params, 'fields' => $fields, )) ?>
   </body>
 </html>

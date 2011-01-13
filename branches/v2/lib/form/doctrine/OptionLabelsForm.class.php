@@ -66,4 +66,39 @@ class OptionLabelsForm extends BaseOptionLabelsForm
     }
     $this->widgetSchema[$name]    = new sfWidgetFormTextarea(array('label' => $value['label'],));
   }
+  
+  
+  public static function getDBOptions()
+  {
+    $r = array();
+    
+    $r['width'] = 210;
+    $r['height'] = 297;
+    $r['nb-x'] = 2;
+    $r['nb-y'] = 7;
+    $r['left-right'] = 15;
+    $r['top-bottom'] = 4;
+    $r['printer-x'] = 14;
+    $r['printer-y'] = 12;
+    $r['margin-x'] = 3;
+    $r['padding-x'] = 2.5;
+    $r['padding-y'] = 1.5;
+    $r['font-family'] = 'verdana';
+    $r['font-size'] = 11;
+    
+    foreach ( self::buildOptionsQuery()->fetchArray() as $opt )
+      $r[$opt['name']] = $opt['value'];
+    return $r;
+  }
+  
+  protected static function buildOptionsQuery()
+  {
+    return $q = Doctrine::getTable('OptionLabels')->createQuery()
+      ->where('sf_guard_user_id IS NULL');
+    
+    if ( sfContext::getInstance()->getUser() instanceof sfGuardSecurityUser )
+      $q->where('sf_guard_user_id = ?',sfContext::getInstance()->getUser()->id);
+    else
+      $q->where('sf_guard_user_id IS NULL');
+  }
 }

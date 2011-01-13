@@ -86,4 +86,55 @@ class OptionCsvForm extends BaseOptionCsvForm
       $this->validatorSchema[$name] = new sfValidatorBoolean(array('true_values' => array($value)));
     }
   }
+  
+  public static function getDBOptions()
+  {
+    $options = array('field' => array(), 'option' => array());
+    foreach ( self::buildOptionsQuery()->fetchArray() as $option )
+      $options[$option['name']][] = $option['value'];
+    return $options;
+  }
+  
+  protected static function buildOptionsQuery()
+  {
+    $q = Doctrine::getTable('OptionCsv')->createQuery();
+    if ( sfContext::getInstance()->getUser() instanceof sfGuardSecurityUser )
+      $q->where('sf_guard_user_id = ?',$uid = sfContext::getInstance()->getUser()->id);
+    else
+      $q->where('sf_guard_user_id IS NULL');
+    
+    return $q;
+  }
+  
+  public static function tunnelingContact($contact)
+  {
+      if ( $contact['organism_postalcode'] && $contact['organism_city'] )
+      {
+        $arr = array(
+          'organism_address'    => 'address',
+          'organism_postalcode' => 'postalcode',
+          'organism_city'       => 'city',
+          'organism_country'    => 'country',
+          'organism_npai'       => 'npai',
+        );
+        foreach ( $arr as $origin => $target )
+          $contact[$target] = $contact[$origin];
+      }
+      
+      if ( $contact['organism_email'] ) $contact['email'] = $contact['organism_email'];
+      if ( $contact['professional_email'] )  $contact['email'] = $contact['professional_email'];
+      
+      if ( $contact['organism_phonenumber'] )
+      {
+        $contact['phonename']    = $contact['organism_phonename'];
+        $contact['phonenumber']  = $contact['organism_phonenumber'];
+      }
+      if ( $contact['professional_number'] )
+      {
+        $contact['phonename']    = __('Professional');
+        $contact['phonenumber']  = $contact['professional_number'];
+      }
+      
+      return $contact;
+  }
 }

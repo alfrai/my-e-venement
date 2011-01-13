@@ -1,4 +1,27 @@
 <?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
+<?php
 
 require_once dirname(__FILE__).'/../lib/contactGeneratorConfiguration.class.php';
 require_once dirname(__FILE__).'/../lib/contactGeneratorHelper.class.php';
@@ -15,21 +38,23 @@ class contactActions extends autoContactActions
 {
   public function executeLabels(sfWebRequest $request)
   {
+    // lots of the lines above come directly from e-venement v1.10 with only few modifications
+    
     $this->setLayout(false);
     
-    $q = Doctrine::getTable('OptionLabels')->createQuery();
-    $options = $q->fetchArray();
-    $this->params = array();
-    foreach ( $options as $option )
-      $this->params[$option['name']] = $option['value'];
+    // options
+    $this->params = OptionLabelsForm::getDBOptions();
+    $this->fields = OptionCsvForm::getDBOptions();
+    $tunnel = in_array('tunnel',$this->fields['option']);
+    $this->fields = $this->fields['field'];
     
+    // get back data for labels
     $request->setParameter('debug','true');
     $this->executeCsv($request,true);
     
+    // format data for the specific labels' view
     $contacts = $this->lines;
     unset($this->lines);
-    
-    // those lines above come directly from e-venement v1.10 with only few modifications
     
     $this->labels = array(  // the whole bundle of labels
       /*
@@ -43,6 +68,21 @@ class contactActions extends autoContactActions
     for ( $i = 0 ; $i < count($contacts) ; $i++ )
     {
       $contact = $contacts[$i];
+      
+      // cleaning unwanted fields from contact array
+      if ( $this->fields > 0 )
+      {
+        $tmp = array();
+        foreach( $contact as $field => $value )
+          $tmp[$field] = '';
+        foreach ( $this->fields as $name => $value )
+          $tmp[$value] = $contact[$value];
+        $contact = $tmp;
+      }
+      
+      // tunneling effect
+      if ( $tunnel )
+        $contact = OptionCsvForm::tunnelingContact($contact);
       
       // make pages
       if ( $i % (intval($this->params['nb-x'])*intval($this->params['nb-y'])) == 0 )
@@ -136,31 +176,14 @@ class contactActions extends autoContactActions
       $q->leftJoin(" p.ProfessionalGroups mp ON mp.group_id = gp.id AND mp.professional_id = p.id")
         ->leftJoin("$a.ContactGroups      mc ON mc.group_id = gc.id AND mc.contact_id     = $a.id")
         ->addSelect("(CASE WHEN mc.information IS NOT NULL THEN mc.information ELSE mp.information END) AS information");
-    
     $this->lines = $q->fetchArray();
     
-    // fields to extract
-    $q = Doctrine::getTable('OptionCsv')->createQuery()
-      ->andwhere('type = ?','csv');
-    if ( $this->getUser() instanceof sfGuardSecurityUser )
-      $q->andWhere('sf_guard_user_id = ?',$this->getUser()->id);
-    else
-      $q->andWhere('sf_guard_user_id IS NULL');
-    
-    $options = $q->execute();
-    $fields = array();
-    $other  = array('option' => array());
-    foreach ( $options as $option )
-    if ( $option->name == 'field' )
-      $fields[] = $option->value;
-    else
-      $others[$option->name][] = $option->value;
-    
+    $params = OptionCsvForm::getDBOptions();
     $this->options = array(
-      'ms'        => in_array('microsoft',$others['option']),    // microsoft-compatible extraction
-      'tunnel'    => in_array('tunnel',$others['option']),       // tunnel effect on fields to prefer organism fields when they exist
-      'noheader'  => in_array('noheader',$others['option']),     // no header
-      'fields'    => $fields,
+      'ms'        => in_array('microsoft',$params['option']),    // microsoft-compatible extraction
+      'tunnel'    => in_array('tunnel',$params['option']),       // tunnel effect on fields to prefer organism fields when they exist
+      'noheader'  => in_array('noheader',$params['option']),     // no header
+      'fields'    => array_keys($params['field']),
     );
     
     $this->outstream = 'php://output';
