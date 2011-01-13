@@ -53,3 +53,13 @@ a, a:active, a:visited { color: #000; }
   margin: 5px 30px;
   line-height: 1.3;
 }
+
+#logo {
+  position: absolute;
+  top: 0;
+  left: 600px;
+  height: 52px;
+  width: 200px;
+  background-image: url(../images/menu-e-venement.png);
+  background-repeat: no-repeat;
+}
