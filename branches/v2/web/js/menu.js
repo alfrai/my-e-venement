@@ -35,4 +35,20 @@ $(document).ready(function(){
   .mouseleave(function(){
     $(this).parent().removeClass('onsub');
   });
+  
+  $('#menu .fancybox').fancybox({
+    width:  320,
+    height: 630,
+    onComplete: function(){ about_show_contributors() },
+  });
+  about_show_contributors();
 });
+
+
+function about_show_contributors()
+{
+  $('.ui-widget-about .show-contributors').unbind().click(function(){
+    $(this).parent().parent().parent().parent().find('.contributors').fadeToggle('slow');
+    return false;
+  });
+}

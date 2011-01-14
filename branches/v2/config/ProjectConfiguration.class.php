@@ -37,6 +37,9 @@ class ProjectConfiguration extends sfProjectConfiguration
   public $transliterate = array(
     'ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ',
     'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy');
+
+  protected $routings = array();
+ 
   
   public function setup()
   {
@@ -52,4 +55,32 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins('sfAdminThemejRollerPlugin');
     $this->enablePlugins('cxFormExtraPlugin');
   }
+
+  public function generateExternalUrl($args = array('app' => NULL, 'name' => NULL, 'parameters' => array()))
+  {
+    if ( !isset($args['parameters']) ) $args['parameters'] = array();
+    return $args['app']
+      ? dirname($_SERVER['SCRIPT_NAME']).'/'.$args['app'].'.php'.$this->getNewRouting($args['app'])->generate($args['name'], $args['parameters'])
+      : false;
+  }
+ 
+  public function getNewRouting($app)
+  {
+    if ( !$app )
+      return false;
+    
+    if (!isset($this->routings[$app]))
+    {
+      $this->routings[$app] = new sfPatternRouting(new sfEventDispatcher());
+      $config = new sfRoutingConfigHandler();
+      $routes = $config->evaluate(array(sfConfig::get('sf_apps_dir').'/'.$app.'/config/routing.yml'));
+      $this->routings[$app]->setRoutes($routes);
+    }
+ 
+    return $this->routings[$app];
+  }
+
+
+
+
 }

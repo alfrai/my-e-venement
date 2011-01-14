@@ -14,19 +14,5 @@
     <div id="content">
       <?php echo $sf_content ?>
     </div>
-    <ul id="menu" class="first">
-      <?php include_partial('global/menu') ?>
-    </ul>
-    <div id="banner">
-      <a href="<?php echo url_for('sf_guard_signout') ?>" onclick="javascript: window.close()"><?php echo image_tag("close.png",array('alt' => 'close')) ?></a>
-      <h1>
-        <?php echo image_tag("logo-evenement.png",array('alt' => '')); ?>
-        <?php echo $sf_response->getTitle() ?>
-      </h1>
-    </div>
-    <div id="logo"></div>
-    <div id="footer">
-      <?php include_partial('global/footer') ?>
-    </div>
   </body>
 </html>

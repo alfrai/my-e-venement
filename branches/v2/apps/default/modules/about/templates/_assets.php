@@ -21,30 +21,24 @@
 *
 ***********************************************************************************/
 ?>
-<?php use_helper('I18N', 'Date') ?>
-<?php include_partial('default/assets') ?>
+  <?php use_stylesheet('/sfAdminThemejRollerPlugin/css/reset.css', 'first') ?>
 
-<div class="about-home">
-  <?php include_partial('global/about') ?>
-</div>
+  <?php use_javascript('/sfAdminThemejRollerPlugin/js/jquery.min.js', 'first') ?>
+  <?php use_javascript('/sfAdminThemejRollerPlugin/js/jquery-ui.custom.min.js', 'first') ?>
 
-<div id="sf_admin_container">
-  <?php include_partial('default/flashes') ?>
+  <?php use_stylesheet('/sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css') ?>
 
-  <div id="sf_admin_content">
-  <div class="sf_admin_list ui-grid-table ui-widget ui-corner-all ui-helper-reset ui-helper-clearfix">
-    <div class="ui-widget-content">
-      <div class="ui-widget-header ui-corner-all fg-toolbar">
-        <h2><?php echo __('Welcome on e-venement', array(), 'messages') ?></h2>
-      </div>
-      <p>glolp</p>
-    </div>
-  </div>
-  </div>
+  <?php use_stylesheet('/sfAdminThemejRollerPlugin/css/jroller.css') ?>
 
-  <div id="sf_admin_footer">
-    <?php include_partial('default/list_footer') ?>
-  </div>
+<?php // additionnal stylesheet (filament group)
+  use_stylesheet('/sfAdminThemejRollerPlugin/css/fg.menu.css');
+  use_stylesheet('/sfAdminThemejRollerPlugin/css/fg.buttons.css');
+  use_stylesheet('/sfAdminThemejRollerPlugin/css/ui.selectmenu.css');
+?>
 
-  <?php include_partial('default/themeswitcher') ?>
-</div>
+<?php // additionnal javascript (filament group)
+  use_javascript('/sfAdminThemejRollerPlugin/js/fg.menu.js');
+  use_javascript('/sfAdminThemejRollerPlugin/js/jroller.js');
+  use_javascript('/sfAdminThemejRollerPlugin/js/ui.selectmenu.js');
+?>
+

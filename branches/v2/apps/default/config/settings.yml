@@ -33,3 +33,16 @@ all:
 
     # Enable the database manager
     use_database:           true
+    
+    i18n:  on      # Enable interface translation. Set to off if your application should not be translated.
+    default_culture:        fr       # Default user culture
+
+    standard_helpers: [I18N,Partial,Cache]
+    enabled_modules:  [sfGuardAuth, sfGuardGroup, sfGuardUser, sfGuardPermission]
+
+    login_module:           sfGuardAuth
+    login_action:           signin
+
+    secure_module:          sfGuardAuth
+    secure_action:          secure
+    

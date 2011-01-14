@@ -1,0 +1,19 @@
+#sf_admin_content {
+  width: 600px;
+  min-height: 520px;
+  margin-left: 310px;
+  margin-top: -10px;
+}
+
+.ui-widget .ui-widget-header {
+  padding: 10px;
+  height: 23px;
+  line-height: 1;
+  margin: -8px -8px 0px -8px;
+}
+.ui-widget .ui-widget-header h2 {
+  font-size: 25px;
+}
+.ui-widget-content {
+  padding: 10px;
+}

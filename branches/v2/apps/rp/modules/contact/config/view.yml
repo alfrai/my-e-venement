@@ -18,8 +18,10 @@ indexSuccess:
 filterSuccess:
   javascripts: [contact-filters]
 
+labelsSuccess:
+  has_layout: false
 csvSuccess:
-  has_layout: off
+  has_layout: false
   http_metas:
     content-type: text/comma-separated-values
     content-disposition: attachment; filename="contacts-list.csv"

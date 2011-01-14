@@ -1,20 +1,43 @@
+<?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
       <li>
         <ul class="second">
           <li><a href="" target="_blank"><?php echo __('New screen') ?></a></li>
-          <li><a href="<?php echo url_for('default/index') ?>" target="_blank"><?php echo __('Index') ?></a></li>
+          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'default')) ?>" target="_blank"><?php echo __('Index') ?></a></li>
           <li class="spaced"><a href="#" onclick="javascript: window.sidebar.addPanel(document.title,window.location,'');"><?php echo __('Bookmark') ?></a></li>
           <li><a href="#" onclick="javascript: print()"><?php echo __('Print') ?></a></li>
-          <li class="spaced"><a href="<?php echo url_for('sf_guard_signin') ?>"><?php echo __('Change user') ?></a></li>
-          <li><a href="<?php echo url_for('sf_guard_signout') ?>"><?php echo __('Logout') ?></a></li>
-          <li><a href="<?php echo url_for('sf_guard_signout') ?>" onclick="javascript: window.close()"><?php echo __('Close') ?></a></li>
+          <li class="spaced"><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'sf_guard_signin')) ?>"><?php echo __('Change user') ?></a></li>
+          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'sf_guard_signout')) ?>"><?php echo __('Logout') ?></a></li>
+          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'sf_guard_signout')) ?>" onclick="javascript: window.close()"><?php echo __('Close') ?></a></li>
         </ul>
       <span class="title"><?php echo __('Screen') ?></span></li>
       <li>
         <ul class="second">
-          <li><a href="<?php echo url_for('contact/index') ?>"><?php echo __('Contacts') ?></a></li>
-          <li><a href="<?php echo url_for('organism/index') ?>"><?php echo __('Organisms') ?></a></li>
-          <li class="spaced"><a href="<?php echo url_for('group/index') ?>"><?php echo __('Groups') ?></a></li>
-          <li><a href="<?php echo url_for('email/index') ?>"><?php echo __('Emailing') ?></a></li>
+          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'contact')) ?>"><?php echo __('Contacts') ?></a></li>
+          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'organism')) ?>"><?php echo __('Organisms') ?></a></li>
+          <li class="spaced"><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'group')) ?>"><?php echo __('Groups') ?></a></li>
+          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'email')) ?>"><?php echo __('Emailing') ?></a></li>
         </ul>
       <span class="title"><?php echo __('Pub. Rel.') ?></span></li>
       <li>
@@ -62,10 +85,10 @@
             <ul class="third">
               <li><a href="<?php echo url_for('option_csv/index') ?>"><?php echo __('Extractions') ?></a></li>
               <li><a href="<?php echo url_for('option_labels/index') ?>"><?php echo __('Labels') ?></a></li>
-              <li class="spaced"><a href="<?php echo url_for('@title_type') ?>"><?php echo __('Generic title') ?></a></li>
-              <li><a href="<?php echo url_for('@phone_type') ?>"><?php echo __('Types of phones') ?></a></li>
-              <li class="spaced"><a href="<?php echo url_for('@professional_type') ?>"><?php echo __('Types of functions') ?></a></li>
-              <li><a href="<?php echo url_for('@organism_category') ?>"><?php echo __('Organism categories') ?></a></li>
+              <li class="spaced"><a href="<?php echo url_for('title_type/index') ?>"><?php echo __('Generic title') ?></a></li>
+              <li><a href="<?php echo url_for('phone_type/index') ?>"><?php echo __('Types of phones') ?></a></li>
+              <li class="spaced"><a href="<?php echo url_for('professional_type/index') ?>"><?php echo __('Types of functions') ?></a></li>
+              <li><a href="<?php echo url_for('organism_category/index') ?>"><?php echo __('Organism categories') ?></a></li>
             </ul>
           </li>
           <li><a><?php echo __('Events / Ticketting') ?></a>
@@ -91,7 +114,7 @@
       <li>
         <ul class="second">
           <li><a href="http://www.libre-informatique.fr/sw/01-Billetterie/e-venement/Manuels" target="_blank"><?php echo __('Documentation') ?></a></li>
-          <li><a href="<?php echo url_for('about/index') ?>"><?php echo __('About') ?></a></li>
+          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'about')) ?>" class="fancybox"><?php echo __('About') ?></a></li>
         </ul>
         <span class="title"><?php echo __('Help') ?></span>
       </li>

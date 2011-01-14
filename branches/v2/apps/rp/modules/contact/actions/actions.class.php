@@ -54,8 +54,6 @@ class contactActions extends autoContactActions
   {
     // lots of the lines above come directly from e-venement v1.10 with only few modifications
     
-    $this->setLayout(false);
-    
     // options
     $this->params = OptionLabelsForm::getDBOptions();
     $this->fields = OptionCsvForm::getDBOptions();
@@ -214,8 +212,8 @@ class contactActions extends autoContactActions
       sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
     }
     
-    if ( !$request->hasParameter('debug') )
-      $this->setLayout(false);
+    if ( $request->hasParameter('debug') )
+      $this->setLayout(true);
   }
   
   // creates a group from filter criterias

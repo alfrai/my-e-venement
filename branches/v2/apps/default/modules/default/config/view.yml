@@ -1,16 +1,3 @@
 default:
   javascripts: [menu]
-
-updateSuccess:
-  stylesheets: [view]
-newSuccess:
-  stylesheets: [view]
-editSuccess:
-  stylesheets: [view]
-  javascripts: [contact-edit]
-showSuccess:
-  stylesheets: [view]
-  javascripts: [contact-show]
-
-indexSuccess:
-  stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css]
+  stylesheets: []

@@ -22,6 +22,8 @@
 ***********************************************************************************/
 ?>
   <?php use_stylesheet('/sfAdminThemejRollerPlugin/css/reset.css', 'first') ?>
+  <?php use_stylesheet('about', 'last') ?>
+  <?php use_stylesheet('default', 'last') ?>
 
   <?php use_javascript('/sfAdminThemejRollerPlugin/js/jquery.min.js', 'first') ?>
   <?php use_javascript('/sfAdminThemejRollerPlugin/js/jquery-ui.custom.min.js', 'first') ?>

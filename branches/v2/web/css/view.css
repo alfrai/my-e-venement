@@ -31,3 +31,9 @@ body #more {
 #more label { min-width: 130px; }
 #more ul li { margin-left: 20px; }
 #more .sf_admin_form { line-height: 1.4em; }
+#more .sf_admin_form input[type=text],
+#more .sf_admin_form textarea,
+#more .sf_admin_form select {
+  width: 215px
+}
+ 
