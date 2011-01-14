@@ -13,10 +13,25 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        field_from:     { label: From: }
+        field_subject:  { label: Subject: }
+        field_to:       { label: To: }
+        field_cc:       { label: Cc: }
+        field_bcc:      { label: Bcc: }
+        content:        { label: Content: }
       list:    ~
-      filter:
-        #class: false
+      filter:  ~
       form:    ~
-      edit:    ~
-      new:     ~
+      edit:
+        display:
+          1. Content:   [field_from, field_subject, content]
+          2. Recievers: [contacts_list, professionals_list, organisms_list, field_to, field_cc, field_bcc]
+          3. Validate:  [test_address, _test_button]
+          4. Send:      [validation, _send_button]
+      new:
+        display:
+          1. Content:   [field_from, field_subject, content]
+          2. Recievers: [contacts_list, professionals_list, organisms_list, field_to, field_cc, field_bcc]
+          3. Validate:  [test_address, _test_button]
+          4. Send:      [_send_empty]

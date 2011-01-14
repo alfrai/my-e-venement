@@ -341,6 +341,7 @@ Email:
     content:
       type:     string
       notnull:  true
+    send_at:    timestamp
   relations:
     User:
       class: sfGuardUser

@@ -1,0 +1,3 @@
+all:
+  javascripts: [/sfTinymcePlugin/tiny_mce]
+  stylesheets: [email]

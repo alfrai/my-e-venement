@@ -59,8 +59,13 @@ class ProjectConfiguration extends sfProjectConfiguration
   public function generateExternalUrl($args = array('app' => NULL, 'name' => NULL, 'parameters' => array()))
   {
     if ( !isset($args['parameters']) ) $args['parameters'] = array();
+    
+    // based on e-venement conventions
+    $env = sfConfig::get('sf_environment');
+    $controller = $args['app'].($env != 'prod' ? '_'.$env : '').'.php';
+    
     return $args['app']
-      ? dirname($_SERVER['SCRIPT_NAME']).'/'.$args['app'].'.php'.$this->getNewRouting($args['app'])->generate($args['name'], $args['parameters'])
+      ? dirname($_SERVER['SCRIPT_NAME']).'/'.$controller.$this->getNewRouting($args['app'])->generate($args['name'], $args['parameters'])
       : false;
   }
  
@@ -68,6 +73,9 @@ class ProjectConfiguration extends sfProjectConfiguration
   {
     if ( !$app )
       return false;
+    
+    if ( $app == $this->getApplication() )
+      $this->routings[$app] = sfContext::getInstance()->getRouting();
     
     if (!isset($this->routings[$app]))
     {
