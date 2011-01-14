@@ -1,0 +1,5 @@
+#content .sf_admin_form_field_field_from input[type=text],
+#content .sf_admin_form_field_field_to textarea,
+#content .sf_admin_form_field_field_cc textarea,
+#content .sf_admin_form_field_field_bcc textarea,
+#content .sf_admin_form_field_field_subject textarea { height: 1em; width: 420px; }
