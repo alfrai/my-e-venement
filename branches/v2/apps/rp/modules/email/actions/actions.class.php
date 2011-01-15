@@ -13,16 +13,50 @@ require_once dirname(__FILE__).'/../lib/emailGeneratorHelper.class.php';
  */
 class emailActions extends autoEmailActions
 {
+  public function executeEdit(sfWebRequest $request)
+  {
+    $r = parent::executeEdit($request);
+    
+    // if object has been sent, cannot be modified again
+    if ( $this->email->sent )
+      $this->setTemplate('show');
+    
+    return $r;
+  }
   public function executeUpdate(sfWebRequest $request)
   {
     $this->email = $this->getRoute()->getObject();
-    $this->email->sent_at = date('Y-m-d H:i:s'); // NE MARCHE PAS
     $this->form = $this->configuration->getForm($this->email);
     
-    $this->form->getValidator('test_address')->setOption('required',false);
+    // testing
+    if ( $request->getParameter('email-test-button') == 'test' )
+      $this->email->test = true;
+    // sending
+    else
+      $this->form->getValidator('test_address')->setOption('required',false);
+    
+    if ( $this->email->sent )
+    {
+      $this->getUser()->setFlash('error',"You can't modify an email already sent !");
+      $this->redirect('@email_show',$this->email);
+    }
+    
     $this->processForm($request, $this->form);
     
     $this->setTemplate('edit');
+  }
+  public function executeCreate(sfWebRequest $request)
+  {
+    $this->form = $this->configuration->getForm();
+    $this->email = $this->form->getObject();
+    $this->email->test = true;
+    
+    if ( $this->getUser() instanceof sfGuardSecurityUser )
+      $this->email->sf_guard_user_id = $this->getUser()->id;
+    
+    $this->processForm($request, $this->form);
+    
+    $this->setTemplate('new');
   }
   public function executeNew(sfWebRequest $request)
   {
@@ -32,7 +66,7 @@ class emailActions extends autoEmailActions
     if ( !is_array($criterias) )
       return $r;
     
-    $groups = $criterias['groups_list'];
+    $groups = isset($criterias['groups_list']) ? $criterias['groups_list'] : array();
     unset($criterias['groups_list']);
     
     foreach ( $criterias as $name => $criteria )
@@ -68,10 +102,10 @@ class emailActions extends autoEmailActions
         foreach ( $group->Contacts as $contact )
           $contacts_list[] = $contact->id;
       }
+      
+      $this->form->setDefault('contacts_list',$contacts_list);
+      $this->form->setDefault('professionals_list',$professionals_list);
     }
-    
-    $this->form->setDefault('contacts_list',$contacts_list);
-    $this->form->setDefault('professionals_list',$professionals_list);
     
     return $r;
   }

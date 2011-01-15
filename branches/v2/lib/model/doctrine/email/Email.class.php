@@ -12,4 +12,23 @@
  */
 class Email extends PluginEmail
 {
+  public $test = false;
+  
+  public function save(Doctrine_Connection $conn = null)
+  {
+    if ( $this->sent )
+      return $this;
+    
+    if ( !$this->test )
+    {
+      // send email
+      $sent = true;
+      
+      if ( $sent )
+        $this->sent = true;
+    }
+    
+    $this->updated_at = date('Y-m-d H:i:s');
+    return parent::save($conn);
+  }
 }
