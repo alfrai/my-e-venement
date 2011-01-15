@@ -13,9 +13,16 @@ require_once dirname(__FILE__).'/../lib/emailGeneratorHelper.class.php';
  */
 class emailActions extends autoEmailActions
 {
-  public function executeTest(sfWebRequest $request)
+  public function executeUpdate(sfWebRequest $request)
   {
-    $this->setTemplate('new');
+    $this->email = $this->getRoute()->getObject();
+    $this->email->sent_at = date('Y-m-d H:i:s'); // NE MARCHE PAS
+    $this->form = $this->configuration->getForm($this->email);
+    
+    $this->form->getValidator('test_address')->setOption('required',false);
+    $this->processForm($request, $this->form);
+    
+    $this->setTemplate('edit');
   }
   public function executeNew(sfWebRequest $request)
   {
