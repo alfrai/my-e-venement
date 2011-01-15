@@ -173,6 +173,10 @@
         <source>Filters</source>
         <target>Filtres</target>
       </trans-unit>
+      <trans-unit>
+        <source>Show</source>
+        <target>Voir</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
