@@ -16,4 +16,12 @@ class EmailTable extends PluginEmailTable
     {
         return Doctrine_Core::getTable('Email');
     }
+  
+  public function createQuery($alias = 'a')
+  {
+    $u  = 'u'  != $alias ? 'u'  : 'u1';
+    $query = parent::createQuery($alias)
+      ->leftJoin("$alias.User $u");
+    return $query;
+  }
 }

@@ -2,7 +2,7 @@
 <?php if ($sf_user->hasFlash('success')): ?>
   <div class="success ui-state-success ui-corner-all">
     <span class="ui-icon ui-icon-info floatleft"></span>&nbsp;
-    <?php echo __($sf_user->getFlash('success'), array(), 'sf_admin') ?>
+    <?php echo __($sf_user->getFlash('success')) ?>
   </div>
 <?php endif; ?>
 

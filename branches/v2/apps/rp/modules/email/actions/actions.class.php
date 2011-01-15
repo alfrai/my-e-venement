@@ -13,6 +13,22 @@ require_once dirname(__FILE__).'/../lib/emailGeneratorHelper.class.php';
  */
 class emailActions extends autoEmailActions
 {
+  public function executeIndex(sfWebRequest $request)
+  {
+    parent::executeIndex($request);
+    if ( !$this->sort[0] )
+    {
+      $this->sort = array('sent','');
+      $this->pager->getQuery()->orderby('sent, sf_guard_user_id IS NULL DESC, username, updated_at, created_at');
+    }
+  }
+
+  public function executeCopy(sfWebRequest $request)
+  {
+    $this->email = $this->getRoute()->getObject()->copy(true);
+    $this->form = $this->configuration->getForm($this->email);
+    $this->setTemplate('edit');
+  }
   public function executeEdit(sfWebRequest $request)
   {
     $r = parent::executeEdit($request);

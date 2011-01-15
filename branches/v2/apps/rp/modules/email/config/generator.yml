@@ -21,7 +21,9 @@ generator:
         field_bcc:      { label: Bcc: }
         content:        { label: Content: }
         test_address:   { label: Test email address: }
-      list:    ~
+        updated_at:     { label: Last access }
+      list:
+        display: [User,field_subject,sent,created_at,updated_at]
       filter:  ~
       form:    ~
       edit:

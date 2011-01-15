@@ -868,6 +868,14 @@
         <source>Your email have been sent correctly.</source>
         <target>Votre courriel a été envoyé correctement.</target>
       </trans-unit>
+      <trans-unit>
+        <source>Last access</source>
+        <target>Dernier accès</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Duplicate</source>
+        <target>Dupliquer</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -341,6 +341,9 @@ Email:
     content:
       type:     string
       notnull:  true
+    content_text:
+      type:     string
+      notnull:  true
     sent:
       type: boolean
       default: false
