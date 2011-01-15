@@ -74,9 +74,6 @@ class ProjectConfiguration extends sfProjectConfiguration
     if ( !$app )
       return false;
     
-    if ( $app == $this->getApplication() )
-      $this->routings[$app] = sfContext::getInstance()->getRouting();
-    
     if (!isset($this->routings[$app]))
     {
       $this->routings[$app] = new sfPatternRouting(new sfEventDispatcher());
