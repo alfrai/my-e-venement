@@ -20,8 +20,17 @@ class EmailTable extends PluginEmailTable
   public function createQuery($alias = 'a')
   {
     $u  = 'u'  != $alias ? 'u'  : 'u1';
+    $c  = 'c'  != $alias ? 'c'  : 'c1';
+    $p  = 'p'  != $alias ? 'p'  : 'p1';
+    $o  = 'o'  != $alias ? 'o'  : 'o1';
+    
     $query = parent::createQuery($alias)
-      ->leftJoin("$alias.User $u");
+      ->leftJoin("$alias.User $u")
+      ->leftJoin("$alias.Organisms $o")
+      ->leftJoin("$alias.Professionals $p")
+      ->leftJoin("$alias.Contacts $c")
+      ->where("$alias.deleted_at IS NULL")
+      ->select("$alias.*, $u.*, $o.*, $p.*, $c.*");
     return $query;
   }
 }

@@ -157,6 +157,8 @@ class contactActions extends autoContactActions
       ->createQuery()
       ->orderBy('name, firstname')
       ->limit($request->getParameter('limit'));
+    if ( $request->getParameter('email') == 'true' )
+    $q->andWhere("email IS NOT NULL AND email != ?",'');
     $q = Doctrine_Core::getTable('Contact')
       ->search($search.'*',$q);
     $request = $q->execute()->getData();

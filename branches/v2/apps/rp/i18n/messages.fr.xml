@@ -876,6 +876,14 @@
         <source>Duplicate</source>
         <target>Dupliquer</target>
       </trans-unit>
+      <trans-unit>
+        <source>Fields</source>
+        <target>Champs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

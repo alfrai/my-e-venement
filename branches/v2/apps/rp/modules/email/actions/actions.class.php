@@ -19,7 +19,10 @@ class emailActions extends autoEmailActions
     if ( !$this->sort[0] )
     {
       $this->sort = array('sent','');
-      $this->pager->getQuery()->orderby('sent, sf_guard_user_id IS NULL DESC, username, updated_at, created_at');
+      $q = $this->pager->getQuery();
+      $a = $q->getRootAlias();
+      $q->addSelect("$a.sf_guard_user_id IS NULL AS uid")
+        ->orderby("$a.sent, uid DESC, u.username, $a.updated_at DESC, $a.created_at DESC");
     }
   }
 
@@ -45,11 +48,16 @@ class emailActions extends autoEmailActions
     $this->form = $this->configuration->getForm($this->email);
     
     // testing
-    if ( $request->getParameter('email-test-button') == 'test' )
-      $this->email->test = true;
-    // sending
-    else
+    if ( $request->getParameter('email-test-button') != 'test' )
+    {
       $this->form->getValidator('test_address')->setOption('required',false);
+      $this->email->not_a_test = true;
+    }
+    
+    // mailer
+    $this->email->mailer = $this->getMailer();
+    $email = $request->getParameter('email');
+    $this->email->test_address = $email['test_address'];
     
     if ( $this->email->sent )
     {
@@ -65,7 +73,7 @@ class emailActions extends autoEmailActions
   {
     $this->form = $this->configuration->getForm();
     $this->email = $this->form->getObject();
-    $this->email->test = true;
+    $this->email->not_a_test = false;
     
     if ( $this->getUser() instanceof sfGuardSecurityUser )
       $this->email->sf_guard_user_id = $this->getUser()->id;

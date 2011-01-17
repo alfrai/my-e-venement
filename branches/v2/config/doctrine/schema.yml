@@ -323,7 +323,7 @@ Email:
   package: email
   actAs:
     Searchable:
-      fields: [subject,content,from,to,cc,bcc]
+      fields: [subject,from,to]
     Timestampable: ~
     SoftDelete: ~
   columns:
@@ -343,7 +343,6 @@ Email:
       notnull:  true
     content_text:
       type:     string
-      notnull:  true
     sent:
       type: boolean
       default: false
@@ -416,3 +415,11 @@ EmailProfessional:
     Professional:
       foreignAlias: EmailOrganisms
       onDelete: CASCADE
+EmailSpool:
+  package: email
+  actAs: [Timestampable]
+  columns:
+    message:
+      type: string
+      notnull: true
+    priority: integer

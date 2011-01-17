@@ -15,6 +15,7 @@ class rpConfiguration extends sfApplicationConfiguration
     
     // Email
     if ( $params['object'] instanceof Email )
+    if ( $params['object']->not_a_test )
       $event->getSubject()->getUser()->setFlash('success',"Your email have been sent correctly.");
   }
 }

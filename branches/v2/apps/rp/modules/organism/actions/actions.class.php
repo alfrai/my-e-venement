@@ -69,6 +69,8 @@ class organismActions extends autoOrganismActions
       ->createQuery()
       ->orderBy('name')
       ->limit($request->getParameter('limit'));
+    if ( $request->getParameter('email') == 'true' )
+    $q->andWhere("email IS NOT NULL AND email != ?",'');
     $q = Doctrine_Core::getTable('Organism')
       ->search($search.'*',$q);
     $request = $q->execute()->getData();
