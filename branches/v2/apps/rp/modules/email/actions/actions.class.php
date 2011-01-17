@@ -13,6 +13,13 @@ require_once dirname(__FILE__).'/../lib/emailGeneratorHelper.class.php';
  */
 class emailActions extends autoEmailActions
 {
+  public function executeContent(sfWebRequest $request)
+  {
+    sfConfig::set('sf_escaping_strategy', false);
+    sfConfig::set('sf_web_debug', false);
+    $this->object = $this->getRoute()->getObject();
+    $this->column = 'content';
+  }
   public function executeIndex(sfWebRequest $request)
   {
     parent::executeIndex($request);

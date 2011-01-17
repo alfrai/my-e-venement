@@ -1,3 +1,6 @@
 all:
   javascripts: [/liTinymcePlugin/tiny_mce,email]
   stylesheets: [email]
+
+contentSuccess:
+  has_layout: false
