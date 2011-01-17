@@ -420,6 +420,6 @@ EmailSpool:
   actAs: [Timestampable]
   columns:
     message:
-      type: string
+      type: text
       notnull: true
     priority: integer

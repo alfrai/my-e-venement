@@ -38,7 +38,7 @@
 abstract class PluginEmailSpool extends BaseEmailSpool
 {
   protected $db_driver = '';
-  protected $null_byte = "~~NULL_BYTE~~";
+  const null_byte = "~~NULL_BYTE~~";
   
   protected function getDBDriver()
   {
@@ -68,10 +68,10 @@ abstract class PluginEmailSpool extends BaseEmailSpool
   
   static protected function pg_escape_serialized($str)
   {
-    return str_replace("\0", $this->null_byte, $str);
+    return str_replace("\0", self::null_byte, $str);
   }
   static protected function pg_unescape_serialized($str)
   {
-    return str_replace($this->null_byte, "\0", $str);
+    return str_replace(self::null_byte, "\0", $str);
   }
 }

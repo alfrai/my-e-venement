@@ -27,9 +27,7 @@ class Email extends PluginEmail
       // send email
       if ( $this->not_a_test )
       {
-        // real sending
         $sent = $this->send();
-        
         $this->sent = $sent;
       }
       else
@@ -81,7 +79,7 @@ class Email extends PluginEmail
     return $message
       ->setFrom($this->field_from)
       ->setSubject($this->field_subject)
-      ->setBody($this->content);
+      ->setBody($this->content,'text/html');
   }
   
   protected function raw_send($to = array(), $immediatly = false)
