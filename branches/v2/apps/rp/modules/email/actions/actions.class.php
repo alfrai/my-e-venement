@@ -56,10 +56,6 @@ class emailActions extends autoEmailActions
       $this->email->not_a_test = true;
     }
     
-    // mailer
-    $this->email->mailer = $this->getMailer();
-    $this->email->test_address = $email['test_address'];
-    
     // loading templates
     if ( $email['load'] )
     {
@@ -67,6 +63,10 @@ class emailActions extends autoEmailActions
       unset($email['load'],$email['test_address']);
       $request->setParameter('email',$email);
     }
+    
+    // mailer
+    $this->email->mailer = $this->getMailer();
+    $this->email->test_address = $email['test_address'];
     
     if ( $this->email->sent )
     {
