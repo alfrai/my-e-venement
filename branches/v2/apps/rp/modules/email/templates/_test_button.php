@@ -1,4 +1,4 @@
-<div class="sf_admin_form_row sf_admin_text sf_admin_form_field_test_button">
+<div class="sf_admin_form_row sf_admin_button sf_admin_form_field_test_button">
 <?php if ( $form->isNew() ): ?>
 <span class="sf_admin_form_is_new"></span>
 <?php endif ?>

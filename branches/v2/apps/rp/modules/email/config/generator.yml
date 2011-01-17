@@ -23,6 +23,7 @@ generator:
         test_address:   { label: Test email address: }
         updated_at:     { label: Last access }
         sf_guard_user_id: { label: User }
+        load:           { label: Load and replace content }
       list:
         display: [User,field_subject,sent,created_at,updated_at]
       filter:
@@ -36,13 +37,13 @@ generator:
       form:    ~
       edit:
         display:
-          1. Content:   [field_from, field_subject, content]
-          2. Recievers: [contacts_list, professionals_list, organisms_list, field_to]
+          1. Content:   [field_from, field_subject, content, _load_button]
+          2. Recievers: [contacts_list, professionals_list, organisms_list]
           3. Validate:  [test_address, _test_button]
           4. Send:      [_send_button]
       new:
         display:
-          1. Content:   [field_from, field_subject, content]
-          2. Recievers: [contacts_list, professionals_list, organisms_list, field_to]
+          1. Content:   [field_from, field_subject, content, _load_button]
+          2. Recievers: [contacts_list, professionals_list, organisms_list]
           3. Validate:  [test_address, _test_button]
           4. Send (test first!):      [_send_empty]

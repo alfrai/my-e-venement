@@ -884,6 +884,10 @@
         <source>Content</source>
         <target>Contenu</target>
       </trans-unit>
+      <trans-unit>
+        <source>Load and replace content</source>
+        <target>Charger et remplacer le contenu</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

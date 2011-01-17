@@ -44,11 +44,13 @@ class emailActions extends autoEmailActions
   }
   public function executeUpdate(sfWebRequest $request)
   {
+    $email = $request->getParameter('email');
     $this->email = $this->getRoute()->getObject();
     $this->form = $this->configuration->getForm($this->email);
     
     // testing
-    if ( $request->getParameter('email-test-button') != 'test' )
+    if ( !$email['test_address']
+      && !$email['load'] )
     {
       $this->form->getValidator('test_address')->setOption('required',false);
       $this->email->not_a_test = true;
@@ -56,8 +58,15 @@ class emailActions extends autoEmailActions
     
     // mailer
     $this->email->mailer = $this->getMailer();
-    $email = $request->getParameter('email');
     $this->email->test_address = $email['test_address'];
+    
+    // loading templates
+    if ( $email['load'] )
+    {
+      $email['content'] = file_get_contents($email['load']);
+      unset($email['load'],$email['test_address']);
+      $request->setParameter('email',$email);
+    }
     
     if ( $this->email->sent )
     {
@@ -77,6 +86,15 @@ class emailActions extends autoEmailActions
     
     if ( $this->getUser() instanceof sfGuardSecurityUser )
       $this->email->sf_guard_user_id = $this->getUser()->id;
+    
+    // loading templates
+    $email = $request->getParameter('email');
+    if ( $email['load'] )
+    {
+      $email['content'] = file_get_contents($email['load']);
+      unset($email['load'],$email['test_address']);
+      $request->setParameter('email',$email);
+    }
     
     $this->processForm($request, $this->form);
     

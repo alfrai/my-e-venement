@@ -74,17 +74,9 @@ class Email extends PluginEmail
     return $this->raw_send(array($this->test_address),true);
   }
   
-  protected function compose(Swift_Message $message)
-  {
-    return $message
-      ->setFrom($this->field_from)
-      ->setSubject($this->field_subject)
-      ->setBody($this->content,'text/html');
-  }
-  
   protected function raw_send($to = array(), $immediatly = false)
   {
-    $to = $to ? $to : $this->to;
+    $to = is_array($to) ? $to : $this->to;
     if ( !$to )
       return false;
     
@@ -93,5 +85,13 @@ class Email extends PluginEmail
     return $immediatly === true
       ? $this->mailer->sendNextImmediately()->send($message)
       : $this->mailer->batchSend($message);
+  }
+
+  protected function compose(Swift_Message $message)
+  {
+    return $message
+      ->setFrom($this->field_from)
+      ->setSubject($this->field_subject)
+      ->setBody($this->content,'text/html');
   }
 }
