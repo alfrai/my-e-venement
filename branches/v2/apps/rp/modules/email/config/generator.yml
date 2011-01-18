@@ -32,7 +32,7 @@ generator:
       show:
         display:
           NONE:      [User, _show_sent, _show_timestampable]
-          Fields:    [field_from, field_to]
+          Fields:    [_show_field_from, _show_field_to]
           Relations: [_show_contacts_list, _show_professionals_list, _show_organisms_list]
           Content:   [field_subject, _show_content]
       form:    ~

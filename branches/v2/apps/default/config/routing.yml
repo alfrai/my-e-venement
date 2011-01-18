@@ -3,7 +3,7 @@ sfGuardUser:
   options:
     model:                sfGuardUser
     module:               sfGuardUser
-    prefix_path:          /sf_guard_user
+    prefix_path:          /guard/users
     column:               id
     with_wildcard_routes: true
 
@@ -12,7 +12,7 @@ sfGuardPermission:
   options:
     model:                sfGuardPermission
     module:               sfGuardPermission
-    prefix_path:          /sf_guard_permission
+    prefix_path:          /guard/permissions
     column:               id
     with_wildcard_routes: true
 
@@ -21,7 +21,7 @@ sfGuardGroup:
   options:
     model:                sfGuardGroup
     module:               sfGuardGroup
-    prefix_path:          /sf_guard_group
+    prefix_path:          /guard/groups
     column:               id
     with_wildcard_routes: true
 

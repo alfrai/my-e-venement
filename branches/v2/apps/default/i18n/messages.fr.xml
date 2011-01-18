@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Do not worry, we can help you get back in to your account safely!</source>
+        <target>Pas de problème, nous pouvons vous aider à retourner à votre compte utilisateur en toute sécurité !</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Fill out the form below to request an e-mail with information on how to reset your password.</source>
+        <target>Remplissez le formulaire ci-dessous pour recevoir un courriel avec les instructions pour réinitialiser votre mot de passe.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Username or E-Mail</source>
+        <target>Login ou courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Remember</source>
+        <target>Rester connecté(e) ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Associated</source>
         <target>Associés</target>
       </trans-unit>

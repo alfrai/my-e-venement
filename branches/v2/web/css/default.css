@@ -17,3 +17,14 @@
 .ui-widget-content {
   padding: 10px;
 }
+.sf_admin_login .ui-widget-header {
+  margin-bottom: 10px;
+}
+.login input[type=submit] {
+  position: absolute;
+  margin-top: -20px;
+  margin-left: 190px;
+}
+
+.ui-widget-content { margin-bottom: 10px; }
+.ui-widget-content .ui-widget-header { margin-bottom: 10px; }

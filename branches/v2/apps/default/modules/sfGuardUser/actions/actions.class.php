@@ -13,4 +13,13 @@ require_once dirname(__FILE__).'/../lib/sfGuardUserGeneratorHelper.class.php';
  */
 class sfGuardUserActions extends autoSfGuardUserActions
 {
+  public function executeIndex(sfWebRequest $request)
+  {
+    parent::executeIndex($request);
+    if ( !$this->sort[0] )
+    {
+      $this->sort = array('username','');
+      $this->pager->getQuery()->orderby('username');
+    }
+  }
 }
