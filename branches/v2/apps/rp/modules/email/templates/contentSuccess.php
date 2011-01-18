@@ -1,2 +1,1 @@
 <?php echo $object->$column ?>
-

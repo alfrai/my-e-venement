@@ -75,7 +75,9 @@
         <ul class="second">
           <li><a><?php echo __('General',array(),'menu') ?></a>
             <ul class="third">
-              <li><a href=""><?php echo __('Users',array(),'menu') ?></a></li>
+              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'sfGuardUser')) ?>"><?php echo __('Users',array(),'menu') ?></a></li>
+              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'sfGuardGroup')) ?>"><?php echo __('Groups',array(),'menu') ?></a></li>
+              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'sfGuardPermission')) ?>"><?php echo __('Permissions',array(),'menu') ?></a></li>
               <li class="spaced"><a href=""><?php echo __('Maintenance',array(),'menu') ?></a></li>
               <li><a href=""><?php echo __('Archiving',array(),'menu') ?></a></li>
               <li class="spaced"><a href=""><?php echo __('System Logs',array(),'menu') ?></a></li>
@@ -83,12 +85,12 @@
           </li>
           <li><a><?php echo __('P.R.',array(),'menu') ?></a>
             <ul class="third">
-              <li><a href="<?php echo url_for('option_csv/index') ?>"><?php echo __('Extractions',array(),'menu') ?></a></li>
-              <li><a href="<?php echo url_for('option_labels/index') ?>"><?php echo __('Labels',array(),'menu') ?></a></li>
-              <li class="spaced"><a href="<?php echo url_for('title_type/index') ?>"><?php echo __('Generic title',array(),'menu') ?></a></li>
-              <li><a href="<?php echo url_for('phone_type/index') ?>"><?php echo __('Types of phones',array(),'menu') ?></a></li>
-              <li class="spaced"><a href="<?php echo url_for('professional_type/index') ?>"><?php echo __('Types of functions',array(),'menu') ?></a></li>
-              <li><a href="<?php echo url_for('organism_category/index') ?>"><?php echo __('Organism categories',array(),'menu') ?></a></li>
+              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'option_csv')) ?>"><?php echo __('Extractions',array(),'menu') ?></a></li>
+              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'option_labels')) ?>"><?php echo __('Labels',array(),'menu') ?></a></li>
+              <li class="spaced"><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'title_type')) ?>"><?php echo __('Generic title',array(),'menu') ?></a></li>
+              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'phone_type')) ?>"><?php echo __('Types of phones',array(),'menu') ?></a></li>
+              <li class="spaced"><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'professional_type')) ?>"><?php echo __('Types of functions',array(),'menu') ?></a></li>
+              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'organism_category')) ?>"><?php echo __('Organism categories',array(),'menu') ?></a></li>
             </ul>
           </li>
           <li><a><?php echo __('Events / Ticketting',array(),'menu') ?></a>

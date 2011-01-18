@@ -4,6 +4,14 @@
   <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-01-16T00:08:35Z" product-name="messages">
     <header/>
     <body>
+      <trans-unit>
+        <source>Edit Email</source>
+        <target>Édition du courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List of emails sent</source>
+        <target>Liste des courriels envoyés</target>
+      </trans-unit>
       <trans-unit id="1">
         <source>Contacts</source>
         <target>Contacts</target>

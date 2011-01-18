@@ -5,8 +5,180 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Associated</source>
+        <target>Associés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Unassociated</source>
+        <target>Non-associés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Permission list</source>
+        <target>Liste des permissions</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Editing Permission "%%name%%"</source>
+        <target>Édition de la permission "%%name%%"</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Groups</source>
+        <target>Groupes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Viewing permission</source>
+        <target>Vue de la permission</target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source>Viewing Group</source>
+        <target>Vue du groupe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Updated at</source>
+        <target>Mis à jour le</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Created at</source>
+        <target>Créé le</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Editing Group "%%name%%"</source>
+        <target>Edition du groupe "%%name%%"</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Group list</source>
+        <target>Liste des groupes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Group</source>
+        <target>Nouveau groupe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Users</source>
+        <target>Utilisateurs</target>
+      </trans-unit>
+      <trans-unit>
         <source>Welcome on e-venement</source>
         <target>Bienvenue sur e-venement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Login</source>
+        <target>Identifiant</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Firstname</source>
+        <target>Prénom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Lastname</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Email address</source>
+        <target>Courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Email</source>
+        <target>Courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Permissions and groups</source>
+        <target>Groupes et permissions</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Is super admin</source>
+        <target>Super admin ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Is active</source>
+        <target>Actif ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>User</source>
+        <target>Utilisateur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>User view</source>
+        <target>Vue utilisateur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Editing User "%%username%%"</source>
+        <target>Modification de l'utilisateur "%%username%%"</target>
+      </trans-unit>
+      <trans-unit>
+        <source>User list</source>
+        <target>Liste des utilisateurs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View %1% - %2% of %3%</source>
+        <target>De %1% à %2% sur %3%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>of %1%</source>
+        <target>de %1%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filters</source>
+        <target>Filtres</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last login</source>
+        <target>Dernière auth.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Groups list</source>
+        <target>Liste des groupes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Permissions list</source>
+        <target>Liste des permissions</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Password</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Password (again)</source>
+        <target>Mot de passe (encore)</target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
       </trans-unit>
     </body>
   </file>

@@ -106,6 +106,69 @@ contact:
     column:               id
     with_wildcard_routes: true
 
+option_csv:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OptionCsv
+    module:               option_csv
+    prefix_path:          /option_csv
+    column:               id
+    with_wildcard_routes: true
+
+organism_category:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OrganismCategory
+    module:               organism_category
+    prefix_path:          /organism_category
+    column:               id
+    with_wildcard_routes: true
+
+title_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                TitleType
+    module:               title_type
+    prefix_path:          /title_type
+    column:               id
+    with_wildcard_routes: true
+
+phone_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                PhoneType
+    module:               phone_type
+    prefix_path:          /phone_type
+    column:               id
+    with_wildcard_routes: true
+
+professional_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                ProfessionalType
+    module:               professional_type
+    prefix_path:          /professional_type
+    column:               id
+    with_wildcard_routes: true
+
+option_labels:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OptionLabels
+    module:               option_labels
+    prefix_path:          /option_labels
+    column:               id
+    with_wildcard_routes: true
+
+option_csv:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OptionCsv
+    module:               option_csv
+    prefix_path:          /option_csv
+    column:               id
+    with_wildcard_routes: true
+
 sf_guard_signin:
   url:   /login
   param: { module: sfGuardAuth, action: signin }

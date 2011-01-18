@@ -1,5 +1,29 @@
-# You can find more information about this file on the symfony website:
-# http://www.symfony-project.org/reference/1_4/en/10-Routing
+sfGuardUser:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                sfGuardUser
+    module:               sfGuardUser
+    prefix_path:          /sf_guard_user
+    column:               id
+    with_wildcard_routes: true
+
+sfGuardPermission:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                sfGuardPermission
+    module:               sfGuardPermission
+    prefix_path:          /sf_guard_permission
+    column:               id
+    with_wildcard_routes: true
+
+sfGuardGroup:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                sfGuardGroup
+    module:               sfGuardGroup
+    prefix_path:          /sf_guard_group
+    column:               id
+    with_wildcard_routes: true
 
 about:
   url: /about
