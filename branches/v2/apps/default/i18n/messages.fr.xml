@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Last updates</source>
+        <target>Dernières mises à jour</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Emails</source>
+        <target>Courriels</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organisms</source>
+        <target>Organismes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Do not worry, we can help you get back in to your account safely!</source>
         <target>Pas de problème, nous pouvons vous aider à retourner à votre compte utilisateur en toute sécurité !</target>
       </trans-unit>

@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Username or E-Mail</source>
+        <target>Login ou courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Remember</source>
+        <target>Rester connecté(e) ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Edit Email</source>
         <target>Édition du courriel</target>
       </trans-unit>

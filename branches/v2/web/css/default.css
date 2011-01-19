@@ -28,3 +28,5 @@
 
 .ui-widget-content { margin-bottom: 10px; }
 .ui-widget-content .ui-widget-header { margin-bottom: 10px; }
+
+#content .welcome ul { padding-left: 20px; }

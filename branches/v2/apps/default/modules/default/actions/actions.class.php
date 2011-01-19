@@ -17,5 +17,21 @@ class defaultActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
+    $q = Doctrine::getTable('Email')->createQuery();
+    $a = $q->getRootAlias();
+    $q->orderBy("$a.updated_at DESC, $a.created_at DESC")
+      ->limit(5);
+    $this->emails = $q->execute();
+    
+    $q = Doctrine::getTable('Contact')->createQuery();
+    $a = $q->getRootAlias();
+    $q->orderBy("$a.updated_at DESC, $a.created_at DESC")
+      ->limit(5);
+    $this->contacts = $q->execute();
+    
+    $q = Doctrine::getTable('Organism')->createQuery();
+    $q->orderBy("$a.updated_at DESC, $a.created_at DESC")
+      ->limit(5);
+    $this->organisms = $q->execute();
   }
 }

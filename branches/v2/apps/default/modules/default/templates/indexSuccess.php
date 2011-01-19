@@ -32,12 +32,62 @@
   <?php include_partial('default/flashes') ?>
 
   <div id="sf_admin_content">
-  <div class="sf_admin_list ui-grid-table ui-widget ui-corner-all ui-helper-reset ui-helper-clearfix">
-    <div class="ui-widget-content">
+  <div class="welcome ui-grid-table ui-widget ui-corner-all ui-helper-reset ui-helper-clearfix">
+    <div class="ui-widget-content ui-corner-all">
       <div class="ui-widget-header ui-corner-all fg-toolbar">
         <h2><?php echo __('Welcome on e-venement', array(), 'messages') ?></h2>
       </div>
-      <p>glolp</p>
+      <h3><?php echo __('Last updates') ?></h3>
+      <ul>
+        <li><?php echo __('Emails') ?>
+          <ul>
+            <?php foreach ($emails as $obj ): ?>
+            <li>
+              <?php echo format_date($obj->updated_at) ?>
+              -
+              <a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'email')).'/'.$obj->id ?>">
+                <?php echo $obj->field_subject ?>
+              </a>
+              -
+              <?php echo $obj->field_from ?>
+            </li>
+            <?php endforeach ?>
+          </ul>
+        </li>
+        <li><?php echo __('Contacts') ?>
+          <ul>
+            <?php foreach ($contacts as $obj ): ?>
+            <li>
+              <?php echo format_date($obj->updated_at) ?>
+              -
+              <a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'contact')).'/'.$obj->id ?>">
+                <?php echo $obj ?>
+              </a>
+            </li>
+            <?php endforeach ?>
+          </ul>
+        </li>
+        <li><?php echo __('Organisms') ?>
+          <ul>
+            <?php foreach ($organisms as $obj ): ?>
+            <li>
+              <?php echo format_date($obj->updated_at) ?>
+              -
+              <a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'organism')).'/'.$obj->id ?>">
+                <?php echo $obj ?>
+              </a>
+            </li>
+            <?php endforeach ?>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="ui-widget-content ui-corner-all">
+      <div class="ui-widget-header ui-corner-all fg-toolbar">
+        <h2><?php echo __('Libre Informatique', array(), 'messages') ?></h2>
+      </div>
+      <?php include_partial('global/libre-informatique') ?>
     </div>
   </div>
   </div>
