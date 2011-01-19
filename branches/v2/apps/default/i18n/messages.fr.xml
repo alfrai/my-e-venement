@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You don't have access to this part.</source>
+        <target>Vous n'avez pas accès à cette partie.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Login below to gain access</source>
+        <target>Authentifiez-vous ci-dessous pour obtenir l'accès</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Oops! The screen you asked for is secure and you do not have proper credentials.</source>
+        <target>Erreur ! L'écran que vous avez demandé est sécurisé et vous n'avez pas les droits nécessaires.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Last updates</source>
         <target>Dernières mises à jour</target>
       </trans-unit>

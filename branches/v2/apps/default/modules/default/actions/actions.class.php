@@ -34,4 +34,11 @@ class defaultActions extends sfActions
       ->limit(5);
     $this->organisms = $q->execute();
   }
+  
+  public function executeTest(sfWebRequest $request)
+  {
+    print_r($this->getUser()->getCredentials());
+    echo $this->getUser()->hasCredential('pr-contact-edit') ? 'ok' : 'ko';
+    return sfView::NONE;
+  }
 }

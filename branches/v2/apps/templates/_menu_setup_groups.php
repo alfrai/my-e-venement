@@ -21,10 +21,9 @@
 *
 ***********************************************************************************/
 ?>
-<?php include_partial('global/menu_file') ?>
-<?php include_partial('global/menu_pr') ?>
-<?php include_partial('global/menu_events') ?>
-<?php include_partial('global/menu_ticketting') ?>
-<?php include_partial('global/menu_groups') ?>
-<?php include_partial('global/menu_setup') ?>
-<?php include_partial('global/menu_help') ?>
+          <li><a><?php echo __('Groups')?></a>
+            <ul class="third">
+              <li><a href=""><?php echo __('General settings',array(),'menu') ?></a></li>
+              <li><a href=""><?php echo __('Quotas leaders',array(),'menu') ?></a></li>
+            </ul>
+          </li>

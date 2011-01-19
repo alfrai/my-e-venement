@@ -21,10 +21,4 @@
 *
 ***********************************************************************************/
 ?>
-<?php include_partial('global/menu_file') ?>
-<?php include_partial('global/menu_pr') ?>
-<?php include_partial('global/menu_events') ?>
-<?php include_partial('global/menu_ticketting') ?>
-<?php include_partial('global/menu_groups') ?>
-<?php include_partial('global/menu_setup') ?>
-<?php include_partial('global/menu_help') ?>
+          <li><a href=""><?php echo __('Online ticketting',array(),'menu') ?></a></li>

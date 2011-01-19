@@ -21,10 +21,11 @@
 *
 ***********************************************************************************/
 ?>
-<?php include_partial('global/menu_file') ?>
-<?php include_partial('global/menu_pr') ?>
-<?php include_partial('global/menu_events') ?>
-<?php include_partial('global/menu_ticketting') ?>
-<?php include_partial('global/menu_groups') ?>
-<?php include_partial('global/menu_setup') ?>
-<?php include_partial('global/menu_help') ?>
+      <li>
+        <ul class="second">
+          <li><a href=""><?php echo __('Events',array(),'menu') ?></a></li>
+          <li><a href=""><?php echo __('Agenda',array(),'menu') ?></a></li>
+          <li><a href=""><?php echo __('Locations',array(),'menu') ?></a></li>
+        </ul>
+        <span class="title"><?php echo __('Events',array(),'menu') ?></span>
+      </li>

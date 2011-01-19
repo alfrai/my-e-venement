@@ -21,10 +21,9 @@
 *
 ***********************************************************************************/
 ?>
-<?php include_partial('global/menu_file') ?>
-<?php include_partial('global/menu_pr') ?>
-<?php include_partial('global/menu_events') ?>
-<?php include_partial('global/menu_ticketting') ?>
-<?php include_partial('global/menu_groups') ?>
-<?php include_partial('global/menu_setup') ?>
-<?php include_partial('global/menu_help') ?>
+      <li>
+        <ul class="second">
+          <li><a href=""><?php __('Pupils and groups',array(),'menu') ?></a></li>
+        </ul>
+        <span class="title"><?php echo __('Groups',array(),'menu') ?></span>
+      </li>

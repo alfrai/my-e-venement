@@ -21,10 +21,10 @@
 *
 ***********************************************************************************/
 ?>
-<?php include_partial('global/menu_file') ?>
-<?php include_partial('global/menu_pr') ?>
-<?php include_partial('global/menu_events') ?>
-<?php include_partial('global/menu_ticketting') ?>
-<?php include_partial('global/menu_groups') ?>
-<?php include_partial('global/menu_setup') ?>
-<?php include_partial('global/menu_help') ?>
+      <li>
+        <ul class="second">
+          <li><a href="http://www.libre-informatique.fr/sw/01-Billetterie/e-venement/Manuels" target="_blank"><?php echo __('Documentation',array(),'menu') ?></a></li>
+          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'about')) ?>" class="fancybox"><?php echo __('About',array(),'menu') ?></a></li>
+        </ul>
+        <span class="title"><?php echo __('Help',array(),'menu') ?></span>
+      </li>

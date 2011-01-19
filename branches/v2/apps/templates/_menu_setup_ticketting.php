@@ -21,10 +21,13 @@
 *
 ***********************************************************************************/
 ?>
-<?php include_partial('global/menu_file') ?>
-<?php include_partial('global/menu_pr') ?>
-<?php include_partial('global/menu_events') ?>
-<?php include_partial('global/menu_ticketting') ?>
-<?php include_partial('global/menu_groups') ?>
-<?php include_partial('global/menu_setup') ?>
-<?php include_partial('global/menu_help') ?>
+          <li><a><?php echo __('Events / Ticketting',array(),'menu') ?></a>
+            <ul class="third">
+              <li><a href=""><?php echo __('Event categories',array(),'menu') ?></a></li>
+              <li><a href=""><?php echo __('Meta-events',array(),'menu') ?></a></li>
+              <li><a href=""><?php echo __('Colors',array(),'menu') ?></a></li>
+              <li class="spaced"><a href=""><?php echo __('Rates',array(),'menu') ?></a></li>
+              <li><a href=""><?php echo __('Payment methods',array(),'menu') ?></a></li>
+              <li class="spaced"><a href=""><?php echo __('Workspaces',array(),'menu') ?></a></li>
+            </ul>
+          </li>
