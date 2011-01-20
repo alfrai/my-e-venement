@@ -26,10 +26,8 @@ class emailActions extends autoEmailActions
     if ( !$this->sort[0] )
     {
       $this->sort = array('sent','');
-      $q = $this->pager->getQuery();
-      $a = $q->getRootAlias();
-      $q->addSelect("$a.sf_guard_user_id IS NULL AS uid")
-        ->orderby("$a.sent, uid DESC, u.username, $a.updated_at DESC, $a.created_at DESC");
+      $q = $this->pager->getQuery()
+        ->orderby("sent, updated_at DESC, created_at DESC");
     }
   }
 
