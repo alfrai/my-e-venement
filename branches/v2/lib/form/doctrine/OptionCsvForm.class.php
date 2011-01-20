@@ -99,7 +99,7 @@ class OptionCsvForm extends BaseOptionCsvForm
   {
     $q = Doctrine::getTable('OptionCsv')->createQuery();
     if ( sfContext::getInstance()->getUser() instanceof sfGuardSecurityUser )
-      $q->where('sf_guard_user_id = ?',$uid = sfContext::getInstance()->getUser()->id);
+      $q->where('sf_guard_user_id = ?',sfContext::getInstance()->getUser()->getId());
     else
       $q->where('sf_guard_user_id IS NULL');
     

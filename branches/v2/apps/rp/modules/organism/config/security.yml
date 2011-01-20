@@ -19,7 +19,7 @@ create:
   credentials: pr-organism-new
 
 edit:
-  credentials: pr-organism-edit
+  credentials: pr-organism
 update:
   credentials: pr-organism-edit
 

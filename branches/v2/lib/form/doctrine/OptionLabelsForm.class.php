@@ -97,7 +97,7 @@ class OptionLabelsForm extends BaseOptionLabelsForm
       ->where('sf_guard_user_id IS NULL');
     
     if ( sfContext::getInstance()->getUser() instanceof sfGuardSecurityUser )
-      $q->where('sf_guard_user_id = ?',sfContext::getInstance()->getUser()->id);
+      $q->where('sf_guard_user_id = ?',sfContext::getInstance()->getUser()->getId());
     else
       $q->where('sf_guard_user_id IS NULL');
   }

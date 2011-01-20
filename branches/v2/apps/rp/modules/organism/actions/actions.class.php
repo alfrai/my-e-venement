@@ -13,6 +13,14 @@ require_once dirname(__FILE__).'/../lib/organismGeneratorHelper.class.php';
  */
 class organismActions extends autoOrganismActions
 {
+  public function executeEdit(sfWebRequest $request)
+  {
+    parent::executeEdit($request);
+    
+    if ( !$this->getUser()->hasCredential('pr-organism-edit') )
+      $this->setTemplate('show');
+  }
+
   public function executeSearchIndexing(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');

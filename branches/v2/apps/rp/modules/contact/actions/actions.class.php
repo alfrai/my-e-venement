@@ -36,6 +36,14 @@ require_once dirname(__FILE__).'/../lib/contactGeneratorHelper.class.php';
  */
 class contactActions extends autoContactActions
 {
+  public function executeEdit(sfWebRequest $request)
+  {
+    parent::executeEdit($request);
+    
+    if ( !$this->getUser()->hasCredential('pr-contact-edit') )
+      $this->setTemplate('show');
+  }
+  
   public function executeSearchIndexing(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');

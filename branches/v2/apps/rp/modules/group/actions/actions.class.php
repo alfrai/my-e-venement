@@ -36,6 +36,25 @@ require_once dirname(__FILE__).'/../lib/groupGeneratorHelper.class.php';
  */
 class groupActions extends autoGroupActions
 {
+  public function executeEdit(sfWebRequest $request)
+  {
+    parent::executeEdit($request);
+    
+    /**
+      * if the user cannot modify anything
+      * if the user cannot modify common groups and this group is common
+      * if the group is not his own
+      *
+      **/
+    if ( !$this->getUser()->hasCredential('pr-group-perso')
+      && !$this->getUser()->hasCredential('pr-group-common')
+      || is_null($this->group->sf_guard_user_id)
+      && !$this->getUser()->hasCredential('pr-group-common')
+      || $this->group->sf_guard_user_id !== $this->getUser()->getId()
+      && !is_null($this->group->sf_guard_user_id) )
+    $this->setTemplate('show');
+  }
+
   public function executeIndex(sfWebRequest $request)
   {
     parent::executeIndex($request);

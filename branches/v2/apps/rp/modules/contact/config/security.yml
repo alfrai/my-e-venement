@@ -19,7 +19,7 @@ create:
   credentials: pr-contact-new
 
 edit:
-  credentials: pr-contact-edit
+  credentials: pr-contact
 update:
   credentials: pr-contact-edit
 

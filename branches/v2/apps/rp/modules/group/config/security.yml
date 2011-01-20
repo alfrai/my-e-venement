@@ -17,7 +17,7 @@ create:
   credentials: [[pr-group-perso, pr-group-common]]
 
 edit:
-  credentials: [[pr-group-perso, pr-group-common]]
+  credentials: pr-group
 update:
   credentials: [[pr-group-perso, pr-group-common]]
 

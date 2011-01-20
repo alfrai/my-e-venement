@@ -29,6 +29,23 @@ class GroupForm extends BaseGroupForm
     $this->widgetSchema['professionals_list']->getJavascripts();
     $this->widgetSchema['professionals_list']->getStylesheets();
     
-    $this->widgetSchema['sf_guard_user_id']->setOption('order_by',array('first_name, username',''));
+    // the group's owner
+    $sf_user = sfContext::getInstance()->getUser();
+    $this->validatorSchema['sf_guard_user_id'] = new sfValidatorInteger(array(
+      'min' => $sf_user->getId(),
+      'max' => $sf_user->getId(),
+      'required' => true,
+    ));
+    $choices = array();
+    if ( $sf_user->hasCredential('rp-group-common') )
+    {
+      $this->validatorSchema['sf_guard_user_id']->setOption('required',false);
+      $choices[''] = '';
+    }
+    $choices[$sf_user->getId()] = $sf_user;
+    $this->widgetSchema   ['sf_guard_user_id'] = new sfWidgetFormChoice(array(
+      'choices'   => $choices,
+      'default'   => $this->isNew() ? $sf_user->getId() : $this->getObject()->sf_guard_user_id,
+    ));
   }
 }
