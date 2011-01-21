@@ -103,3 +103,23 @@ Option:
     option_name_user_value_type:
       fields: [name, sf_guard_user_id, value, type]
       type: unique
+
+Authentication:
+  package: generic
+  actAs:
+    Timestampable:
+      updated:
+        disabled: true
+  columns:
+    sf_guard_user_id: integer
+    description: string
+    ip_address:  string(255)
+    user_agent:  string(255)
+    referer:     string(255)
+    success:     boolean
+  relations:
+    User:
+      class: sfGuardUser
+      foreignAlias: Authentications
+      onDelete: SET NULL
+      onUpdate: CASCADE

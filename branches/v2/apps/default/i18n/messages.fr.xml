@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The username and/or password is invalid.</source>
+        <target>Le mot de passe ou l'identifiant est invalide.</target>
+      </trans-unit>
+      <trans-unit>
         <source>You don't have access to this part.</source>
         <target>Vous n'avez pas accès à cette partie.</target>
       </trans-unit>
