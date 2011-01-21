@@ -39,7 +39,7 @@
 	
 	$manifid = intval($_GET["manifid"]);
 	
-	$query	= " SELECT manif.id, evt.nom, manif.date
+	$query	= " SELECT manif.id, evt.nom, manif.date, (SELECT name FROM space WHERE id = ".intval($user->evtspace)." LIMIT 1) AS spacename
 		    FROM evenement AS evt, manifestation AS manif
 		    WHERE manif.evtid = evt.id
 		      AND manif.id = ".$manifid;
@@ -47,9 +47,10 @@
 	$manif["id"] = intval($request->getRecord("id"));
 	$manif["nom"] = $request->getRecord("nom");
 	$manif["time"] = strtotime($request->getRecord("date"));
+	$manif["spacename"] = $request->getRecord("spacename");
 	$request->free();
 	
-	$grpname = "manif #".$manifid." (".$manif["nom"].")";
+	$grpname = "manif #".$manifid.($manif['spacename'] && $_GET['spaces'] != 'all' ? ", ".$manif['spacename'] : '')." (".$manif["nom"].")";
 	
 	// suppression du groupe précédent
 	if ( $bd->delRecordsSimple("groupe",array("nom" => $grpname, "createur" => $user->getId())) === false )
@@ -69,7 +70,9 @@
 
 	$query = " CREATE TEMP TABLE tickets AS
 		    SELECT *
-		    FROM tickets2print_bymanif(".$manifid.");
+		    FROM tickets2print_bymanif(".$manifid.")
+		    LEFT JOIN transaction t ON t.id = transaction
+		    WHERE ".($_GET['spaces'] != 'all' ? "t.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : 'true').";
 		   CREATE TEMP TABLE tmptab AS
 		    SELECT sum(nb) AS nb, transac.id IN (SELECT transaction FROM contingeant) AS contingeant,
 		           transac.id IN (SELECT transaction FROM masstickets) AS depot,
