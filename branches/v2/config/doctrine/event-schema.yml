@@ -64,9 +64,6 @@ Event:
       type:         string(255)
       notblank:     true
     short_name:     string(127)
-    workspace_id:
-      type:         integer
-      notnull:      true
     meta_event_id:  integer
     event_category_id: integer
     event_category_description: string(255)
@@ -94,10 +91,6 @@ Event:
     image_url:      string(255)
   relations:
     EventCategory:
-      foreignAlias: Events
-      onDelete: RESTRICT
-      onUpdate: CASCADE
-    Workspace:
       foreignAlias: Events
       onDelete: RESTRICT
       onUpdate: CASCADE
@@ -176,6 +169,9 @@ Manifestation:
       type: integer
       unique: true
     color_id: integer
+    workspace_id:
+      type:         integer
+      notnull:      true
   relations:
     Event:
       foreignAlias: Manifestations
@@ -193,6 +189,32 @@ Manifestation:
       class: Organism
       refClass: ManifestationOrganizer
       foreignAlias: Manifestations
+    Workspaces:
+      class: Workspace
+      refClass: ManifestationWorkspace
+      foreignAlias: Manifestations
+ManifestationWorkspace:
+  package: event
+  actAs: [Timestampable]
+  columns:
+    workspace_id:
+      type: integer
+      notnull: true
+    manifestation_id:
+      type: integer
+      notnull: true
+    gauge:
+      type: integer
+      notnull: true
+  relations:
+    Manifestations:
+      foreignAlias: ManifestationWorkspaces
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Workspaces:
+      foreignAlias: ManifestationWorkspaces
+      onDelete: CASCADE
+      onUpdate: CASCADE
 Color:
   package: event
   actAs: [Timestampable]
