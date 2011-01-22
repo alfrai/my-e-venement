@@ -6,4 +6,4 @@
   fruit de notre travail.
 </p>
 <p style="margin-bottom: 10px;"><i>Seul on va plus vite, mais ensemble on va plus loin.</i></p>
-<p>Faîtes-nous connaître, nous irons plus loin à plusieurs !</p>
+<p>Faîtes-nous connaître, à plusieurs nous irons plus loin !</p>
