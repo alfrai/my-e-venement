@@ -207,11 +207,11 @@ ManifestationWorkspace:
       type: integer
       notnull: true
   relations:
-    Manifestations:
+    Manifestation:
       foreignAlias: ManifestationWorkspaces
       onDelete: CASCADE
       onUpdate: CASCADE
-    Workspaces:
+    Workspace:
       foreignAlias: ManifestationWorkspaces
       onDelete: CASCADE
       onUpdate: CASCADE

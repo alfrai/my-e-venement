@@ -1,16 +1,5 @@
 <?php
 
-class myUser extends sfGuardSecurityUser
+class myUser extends liGuardSecurityUser
 {
-  public function getCredentials()
-  {
-    return $this->credentials;
-  }
-  public function getGroupnames()
-  {
-    $groupnames = array();
-    foreach ( $this->getGroups() as $group )
-      $groupnames[] = $group->name;
-    return $groupnames;
-  }
 }

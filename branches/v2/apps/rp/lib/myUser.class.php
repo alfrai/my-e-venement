@@ -1,9 +1,5 @@
 <?php
 
-class myUser extends sfGuardSecurityUser
+class myUser extends liGuardSecurityUser
 {
-  public function getId()
-  {
-    return $this->getGuardUser()->getId();
-  }
 }
