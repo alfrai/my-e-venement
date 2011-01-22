@@ -6,4 +6,11 @@ class myUser extends sfGuardSecurityUser
   {
     return $this->credentials;
   }
+  public function getGroupnames()
+  {
+    $groupnames = array();
+    foreach ( $this->getGroups() as $group )
+      $groupnames[] = $group->name;
+    return $groupnames;
+  }
 }

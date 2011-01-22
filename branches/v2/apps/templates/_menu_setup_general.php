@@ -31,7 +31,7 @@
               <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'sfGuardPermission')) ?>"><?php echo __('Permissions',array(),'menu') ?></a></li>
               <li class="spaced"><a href=""><?php echo __('Maintenance',array(),'menu') ?></a></li>
               <li><a href=""><?php echo __('Archiving',array(),'menu') ?></a></li>
-              <li class="spaced"><a href=""><?php echo __('System Logs',array(),'menu') ?></a></li>
+              <li class="spaced"><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'authentication')) ?>"><?php echo __('System Logs',array(),'menu') ?></a></li>
               <?php endif ?>
             </ul>
           </li>

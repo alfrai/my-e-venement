@@ -22,4 +22,21 @@ class sfGuardUserActions extends autoSfGuardUserActions
       $this->pager->getQuery()->orderby('username');
     }
   }
+  public function executeEdit(sfWebRequest $request)
+  {
+    parent::executeEdit($request);
+    
+    if ( !$this->getUser()->isSuperAdmin() )
+    {
+      $q = Doctrine::getTable('SfGuardPermission')->createQuery()
+        ->whereIn('name',$this->getUser()->getCredentials())
+        ->orderBy('name');
+      $this->form->getWidget('permissions_list')->setOption('query',$q);
+      
+      $q = Doctrine::getTable('SfGuardGroup')->createQuery()
+        ->whereIn('name',$this->getUser()->getGroupnames())
+        ->orderBy('name');
+      $this->form->getWidget('groups_list')->setOption('query',$q);
+    }
+  }
 }
