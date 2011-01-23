@@ -13,14 +13,6 @@ require_once dirname(__FILE__).'/../lib/organismGeneratorHelper.class.php';
  */
 class organismActions extends autoOrganismActions
 {
-  public function executeEdit(sfWebRequest $request)
-  {
-    parent::executeEdit($request);
-    
-    if ( !$this->getUser()->hasCredential('pr-organism-edit') )
-      $this->setTemplate('show');
-  }
-
   public function executeSearchIndexing(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
@@ -66,6 +58,9 @@ class organismActions extends autoOrganismActions
     $this->organism = $organisms[0];
     $this->forward404Unless($this->organism);
     $this->form = $this->configuration->getForm($this->organism);
+    
+    if ( !$this->getUser()->hasCredential('pr-organism-edit') )
+      $this->setTemplate('show');
   }
   
   public function executeAjax(sfWebRequest $request)
