@@ -58,9 +58,9 @@ a, a:active, a:visited { color: #000; }
 #logo {
   position: fixed;
   top: 0;
-  left: 660px;
+  left: 620px;
   height: 52px;
-  width: 200px;
+  width: 223px;
   background-image: url(../images/menu-e-venement.png);
   background-repeat: no-repeat;
 }
