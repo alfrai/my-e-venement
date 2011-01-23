@@ -23,7 +23,7 @@
 ?>
       <li>
         <ul class="second">
-          <li><a href=""><?php echo __('Events',array(),'menu') ?></a></li>
+          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'event','name'=>'event')) ?>"><?php echo __('Events',array(),'menu') ?></a></li>
           <li><a href=""><?php echo __('Agenda',array(),'menu') ?></a></li>
           <li><a href=""><?php echo __('Locations',array(),'menu') ?></a></li>
         </ul>

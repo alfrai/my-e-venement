@@ -16,4 +16,16 @@ class ManifestationTable extends PluginManifestationTable
     {
         return Doctrine_Core::getTable('Manifestation');
     }
+
+  public function createQuery($alias = 'p')
+  {
+    $e = $alias != 'e' ? 'e' : 'e1';
+    $m = $alias != 'm' ? 'm' : 'm1';
+    
+    $query = parent::createQuery($alias)
+        ->leftJoin("$alias.Event $e")
+        ->leftJoin("$e.Metaevent $m")
+        ->orderBy("$e.name, $m.name, $alias.date, $alias.duration");
+    return $query;
+  }
 }

@@ -38,6 +38,7 @@
             <?php $view = true ?>
             <?php include_partial('global/menu_setup_pr') ?>
           <?php endif ?>
+          <?php include_partial('global/menu_setup_events') ?>
           <?php include_partial('global/menu_setup_ticketting') ?>
           <?php include_partial('global/menu_setup_groups') ?>
           <?php include_partial('global/menu_setup_online') ?>

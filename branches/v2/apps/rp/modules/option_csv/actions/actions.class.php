@@ -42,7 +42,7 @@ class option_csvActions extends sfActions
     }
     
     $user_id = $this->getUser() instanceof sfGuardSecurityUser
-      ? $this->getUser()->id
+      ? $this->getUser()->getId()
       : NULL;
     
     $params = array_keys($request->getPostParameters());

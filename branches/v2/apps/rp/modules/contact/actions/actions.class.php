@@ -240,6 +240,7 @@ class contactActions extends autoContactActions
       if ( $this->getUser() instanceof sfGuardSecurityUser )
         $group->sf_guard_user_id = $this->getUser()->id;
       $group->name = __('Search group').' - '.date('Y-m-d H:i:s');
+      $group->sf_guard_user_id = $this->getUser()->getId();
       $group->save();
       
       foreach ( $records as $record )

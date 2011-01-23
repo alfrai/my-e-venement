@@ -21,13 +21,9 @@
 *
 ***********************************************************************************/
 ?>
-          <li><a><?php echo __('Events / Ticketting',array(),'menu') ?></a>
+          <li><a><?php echo __('Ticketting',array(),'menu') ?></a>
             <ul class="third">
-              <li><a href=""><?php echo __('Event categories',array(),'menu') ?></a></li>
-              <li><a href=""><?php echo __('Meta-events',array(),'menu') ?></a></li>
-              <li><a href=""><?php echo __('Colors',array(),'menu') ?></a></li>
-              <li class="spaced"><a href=""><?php echo __('Rates',array(),'menu') ?></a></li>
+              <li><a href=""><?php echo __('Rates',array(),'menu') ?></a></li>
               <li><a href=""><?php echo __('Payment methods',array(),'menu') ?></a></li>
-              <li class="spaced"><a href=""><?php echo __('Workspaces',array(),'menu') ?></a></li>
             </ul>
           </li>

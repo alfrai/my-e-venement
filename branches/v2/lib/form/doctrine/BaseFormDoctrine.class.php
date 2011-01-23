@@ -14,6 +14,9 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
     
+    unset($this->widgetSchema['created_at']);
+    unset($this->widgetSchema['updated_at']);
+    unset($this->widgetSchema['deleted_at']);
     unset($this->validatorSchema['created_at']);
     unset($this->validatorSchema['updated_at']);
     unset($this->validatorSchema['deleted_at']);
