@@ -22,9 +22,11 @@
 ***********************************************************************************/
 ?>
 <?php include_partial('global/menu_file') ?>
+<?php if ( !$sf_user->isAuthenticated() ): ?>
 <?php include_partial('global/menu_pr') ?>
 <?php include_partial('global/menu_events') ?>
 <?php include_partial('global/menu_ticketting') ?>
 <?php include_partial('global/menu_groups') ?>
 <?php include_partial('global/menu_setup') ?>
+<?php endif ?>
 <?php include_partial('global/menu_help') ?>
