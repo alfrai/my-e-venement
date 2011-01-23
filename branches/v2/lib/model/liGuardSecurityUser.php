@@ -15,6 +15,8 @@ class liGuardSecurityUser extends sfGuardSecurityUser
   }
   public function getId()
   {
-    return $this->getGuardUser()->getId();
+    if ( is_object($this->getGuardUser()) )
+      return $this->getGuardUser()->getId();
+    return false;
   }
 }
