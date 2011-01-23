@@ -17,10 +17,22 @@
       <?php echo get_partial('sfGuardAuth/signin_form', array('form' => $form)) ?>
     </div>
     
+    <?php if ( sfConfig::get('app_demo') ): ?>
+    <div class="ui-widget-content ui-corner-all">
+      <div class="ui-widget-header ui-corner-all fg-toolbar">
+        <h2><?php echo __('Demonstration', null, 'sf_guard') ?></h2>
+      </div>
+      <?php include_partial('global/demo') ?>
+    </div>
+    
+    <?php else: ?>
+    
     <div class="ui-widget-content forgot-pwd ui-corner-all">
       <?php $forgot_form = new sfGuardRequestForgotPasswordForm() ?>
       <?php include_partial('sfGuardForgotPassword/index', array('form' => $forgot_form)) ?>
     </div>
+    
+    <?php endif; ?>
     
     <div class="ui-widget-content ui-corner-all">
       <div class="ui-widget-header ui-corner-all fg-toolbar">

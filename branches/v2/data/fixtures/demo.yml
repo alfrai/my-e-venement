@@ -883,6 +883,62 @@ Authentication:
     referer: 'http://localhost/e-venement-2/default_dev.php/login'
     success: true
     created_at: '2011-01-23 15:51:11'
+  Authentication_3:
+    User: sfGuardUser_4
+    description: ' (admin)'
+    ip_address: '::1'
+    user_agent: 'Mozilla/5.0 (X11; U; Linux i686; fr; rv:1.9.2.12) Gecko/20101027 Ubuntu/10.04 (lucid) Firefox/3.6.12'
+    referer: 'http://localhost/e-venement-2/default_dev.php/login'
+    success: true
+    created_at: '2011-01-23 16:00:41'
+  Authentication_4:
+    User: sfGuardUser_2
+    description: ' (view)'
+    ip_address: '::1'
+    user_agent: 'Mozilla/5.0 (X11; U; Linux i686; fr; rv:1.9.2.12) Gecko/20101027 Ubuntu/10.04 (lucid) Firefox/3.6.12'
+    referer: 'http://localhost/e-venement-2/default_dev.php/guard/users/2/edit'
+    success: true
+    created_at: '2011-01-23 16:03:01'
+  Authentication_5:
+    User: sfGuardUser_4
+    description: ' (admin)'
+    ip_address: '::1'
+    user_agent: 'Mozilla/5.0 (X11; U; Linux i686; fr; rv:1.9.2.12) Gecko/20101027 Ubuntu/10.04 (lucid) Firefox/3.6.12'
+    referer: 'http://localhost/e-venement-2/default_dev.php/login'
+    success: true
+    created_at: '2011-01-23 16:05:21'
+  Authentication_6:
+    User: sfGuardUser_3
+    description: ' (mod)'
+    ip_address: '::1'
+    user_agent: 'Mozilla/5.0 (X11; U; Linux i686; fr; rv:1.9.2.12) Gecko/20101027 Ubuntu/10.04 (lucid) Firefox/3.6.12'
+    referer: 'http://localhost/e-venement-2/default_dev.php/guard/users/3/edit'
+    success: true
+    created_at: '2011-01-23 16:07:39'
+  Authentication_7:
+    User: sfGuardUser_3
+    description: ' (mod)'
+    ip_address: '::1'
+    user_agent: 'Mozilla/5.0 (X11; U; Linux i686; fr; rv:1.9.2.12) Gecko/20101027 Ubuntu/10.04 (lucid) Firefox/3.6.12'
+    referer: 'http://localhost/e-venement-2/default_dev.php/'
+    success: true
+    created_at: '2011-01-23 16:08:35'
+  Authentication_8:
+    User: sfGuardUser_4
+    description: ' (admin)'
+    ip_address: '::1'
+    user_agent: 'Mozilla/5.0 (X11; U; Linux i686; fr; rv:1.9.2.12) Gecko/20101027 Ubuntu/10.04 (lucid) Firefox/3.6.12'
+    referer: 'http://localhost/e-venement-2/default_dev.php/'
+    success: true
+    created_at: '2011-01-23 16:09:02'
+  Authentication_9:
+    User: sfGuardUser_3
+    description: ' (mod)'
+    ip_address: '::1'
+    user_agent: 'Mozilla/5.0 (X11; U; Linux i686; fr; rv:1.9.2.12) Gecko/20101027 Ubuntu/10.04 (lucid) Firefox/3.6.12'
+    referer: 'http://localhost/e-venement-2/default_dev.php/guard/users/3/edit'
+    success: true
+    created_at: '2011-01-23 16:09:31'
 sfGuardGroupPermission:
   sfGuardGroupPermission_1_7:
     Group: sfGuardGroup_1
@@ -1080,33 +1136,45 @@ sfGuardUserGroup:
     Group: sfGuardGroup_5
     created_at: '2011-01-23 15:50:36'
     updated_at: '2011-01-23 15:50:36'
+  sfGuardUserGroup_3_1:
+    User: sfGuardUser_3
+    Group: sfGuardGroup_1
+    created_at: '2011-01-23 16:09:21'
+    updated_at: '2011-01-23 16:09:21'
+  sfGuardUserGroup_3_2:
+    User: sfGuardUser_3
+    Group: sfGuardGroup_2
+    created_at: '2011-01-23 16:09:21'
+    updated_at: '2011-01-23 16:09:21'
+  sfGuardUserGroup_3_3:
+    User: sfGuardUser_3
+    Group: sfGuardGroup_3
+    created_at: '2011-01-23 16:09:21'
+    updated_at: '2011-01-23 16:09:21'
+  sfGuardUserGroup_3_5:
+    User: sfGuardUser_3
+    Group: sfGuardGroup_5
+    created_at: '2011-01-23 16:09:21'
+    updated_at: '2011-01-23 16:09:21'
+  sfGuardUserGroup_3_7:
+    User: sfGuardUser_3
+    Group: sfGuardGroup_7
+    created_at: '2011-01-23 16:09:21'
+    updated_at: '2011-01-23 16:09:21'
 sfGuardUser:
-  sfGuardUser_3:
-    first_name: ''
-    last_name: ''
-    email_address: mod_nomail_@libre-informatique.fr
-    username: mod
-    algorithm: sha1
-    salt: null
-    password: null
-    is_active: true
-    is_super_admin: false
-    last_login: null
-    created_at: '2011-01-23 15:49:35'
-    updated_at: '2011-01-23 15:49:35'
   sfGuardUser_2:
     first_name: ''
     last_name: ''
     email_address: view_nomail_@libre-informatique.fr
     username: view
     algorithm: sha1
-    salt: null
-    password: null
+    salt: 26e9d0202cbb05399d7a6fc0aeba7fb1
+    password: 2eb77c5f3bfecc863de974379c3c7be79525fe46
     is_active: true
     is_super_admin: false
-    last_login: null
+    last_login: '2011-01-23 16:03:01'
     created_at: '2011-01-23 15:48:35'
-    updated_at: '2011-01-23 15:50:44'
+    updated_at: '2011-01-23 16:03:01'
   sfGuardUser_4:
     first_name: ''
     last_name: ''
@@ -1117,9 +1185,22 @@ sfGuardUser:
     password: 5bc72a75a7419042ff0d4102247623a58086a2c9
     is_active: true
     is_super_admin: false
-    last_login: '2011-01-23 15:51:11'
+    last_login: '2011-01-23 16:09:02'
     created_at: '2011-01-23 15:50:10'
-    updated_at: '2011-01-23 15:51:11'
+    updated_at: '2011-01-23 16:09:02'
+  sfGuardUser_3:
+    first_name: ''
+    last_name: ''
+    email_address: mod_nomail_@libre-informatique.fr
+    username: mod
+    algorithm: sha1
+    salt: 0be3322b464e3c46dc6c52ef35a61cf1
+    password: b75c39e2b1fd318b75a3634d50b25b1fe1279246
+    is_active: true
+    is_super_admin: false
+    last_login: '2011-01-23 16:09:31'
+    created_at: '2011-01-23 15:49:35'
+    updated_at: '2011-01-23 16:09:31'
 sfGuardPermission:
   sfGuardPermission_1:
     name: admin-titles

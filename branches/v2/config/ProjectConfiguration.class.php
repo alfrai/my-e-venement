@@ -64,8 +64,10 @@ class ProjectConfiguration extends sfProjectConfiguration
     $env = sfConfig::get('sf_environment');
     $controller = $args['app'].($env != 'prod' ? '_'.$env : '').'.php';
     
+    $dir = dirname($_SERVER['SCRIPT_NAME']) === '/' ? '/' : dirname($_SERVER['SCRIPT_NAME']).'/';
+    
     return $args['app']
-      ? dirname($_SERVER['SCRIPT_NAME']).'/'.$controller.$this->getNewRouting($args['app'])->generate($args['name'], $args['parameters'])
+      ? $dir.$controller.$this->getNewRouting($args['app'])->generate($args['name'], $args['parameters'])
       : false;
   }
  

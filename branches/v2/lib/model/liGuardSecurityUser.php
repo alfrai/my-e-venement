@@ -9,13 +9,17 @@ class liGuardSecurityUser extends sfGuardSecurityUser
   public function getGroupnames()
   {
     $groupnames = array();
-    foreach ( $this->getGroups() as $group )
-      $groupnames[] = $group->name;
-    return $groupnames;
+    if ( $this->getGuardUser() instanceOf sfGuardUser )
+    {
+      foreach ( $this->getGroups() as $group )
+        $groupnames[] = $group->name;
+      return $groupnames;
+    }
+    else return array();
   }
   public function getId()
   {
-    if ( is_object($this->getGuardUser()) )
+    if ( $this->getGuardUser() instanceOf sfGuardUser )
       return $this->getGuardUser()->getId();
     return false;
   }
