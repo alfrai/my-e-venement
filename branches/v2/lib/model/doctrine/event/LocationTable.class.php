@@ -16,4 +16,15 @@ class LocationTable extends PluginLocationTable
     {
         return Doctrine_Core::getTable('Location');
     }
+
+  public function createQuery($alias = 'a')
+  {
+    $o  = 'o'   != $alias ? 'o'   : 'o1';
+    $c  = 'c'   != $alias ? 'c'   : 'c1';
+        
+    return parent::createQuery($alias)
+      ->leftJoin("$alias.Organism $o")
+      ->leftJoin("$alias.Contact $c")
+    ;
+  }
 }

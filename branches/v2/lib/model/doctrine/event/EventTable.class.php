@@ -16,4 +16,15 @@ class EventTable extends PluginEventTable
     {
         return Doctrine_Core::getTable('Event');
     }
+
+  public function createQuery($alias = 'a')
+  {
+    $me  = 'me'   != $alias ? 'me'   : 'me1';
+    $ec  = 'ec'   != $alias ? 'ec'   : 'ec1';
+    
+    return parent::createQuery($alias)
+      ->leftJoin("$alias.MetaEvent $me")
+      ->leftJoin("$alias.EventCategory $ec")
+    ;
+  }
 }

@@ -1,0 +1,3 @@
+all:
+  javascripts: [/liTinymcePlugin/tiny_mce]
+  
