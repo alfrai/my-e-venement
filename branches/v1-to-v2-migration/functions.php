@@ -91,6 +91,7 @@
             break;
         }
       }
+      
       if ( @$bd->addRecord($to_table,$arr) !== false )
       {
         $cpt['ok']++;
@@ -101,9 +102,9 @@
       {
         if ( $strict )
         {
+          echo $bd->getLastRequest();
           echo $bd->lastError();
           var_dump($arr);
-          //echo $bd->getLastRequest();
           return false;
         }
         $cpt['ko']++;

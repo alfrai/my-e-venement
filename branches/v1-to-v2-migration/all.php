@@ -495,6 +495,115 @@
     print_r($cpt);
   }
   
+  // color
+  $to_table = 'color';
+  $from_table = 'billeterie.color';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'id' => 'id',
+      'name' => 'libelle',
+      'color' => 'color',
+      'created_at' => NULL,
+      'updated_at' => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table);
+    print_r($cpt);
+  }
+  
+  // price
+  $to_table = 'price';
+  $from_table = 'billeterie.tarif';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'id' => 'id',
+      'name' => 'key',
+      'description' => 'description',
+      'online' => 'vel',
+      'value' => 'prix',
+      'created_at' => 'date',
+      'updated_at' => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table,false,'NOT contingeant AND NOT desact AND id = (SELECT max(id) AS id FROM billeterie.tarif t WHERE t.key = tarif.key)');
+    print_r($cpt);
+  }
+  
+  // location
+  $to_table = 'location';
+  $from_table = 'billeterie.site';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'id' => 'id',
+      'name' => 'nom',
+      'address' => 'adresse',
+      'postalcode' => 'cp',
+      'city' => 'ville',
+      'country' => 'pays',
+      'contact_id' => 'regisseur',
+      'organism_id' => 'organisme',
+      'gauge_min' => 'jauge_min',
+      'gauge_max' => 'jauge_max',
+      'created_at' => NULL,
+      'updated_at' => NULL,
+      'slug' => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table);
+    print_r($cpt);
+  }
+  
+  // manifestation
+  $to_table = 'manifestation';
+  $from_table = 'billeterie.manifestation';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'id' => 'id',
+      'event_id' => 'evtid',
+      'location_id' => 'siteid',
+      'color_id' => 'colorid',
+      'happens_at' => 'date',
+      'duration'   => 'seconds',
+      'description' => 'description',
+      'vat' => 'txtva',
+      'seated' => 'plnum',
+      'online' => 'vel',
+      'created_at' => NULL,
+      'updated_at' => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table,true,'','*, extract(epoch from duree) AS seconds');
+    print_r($cpt);
+  }
+  
+  // price_manifestation
+  $to_table = 'price_manifestation';
+  $from_table = 'billeterie.manifestation_tarifs';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'manifestation_id' => 'manifestationid',
+      'price_id' => 'last_tarifid',
+      'value' => 'prix',
+      'created_at' => NULL,
+      'updated_at' => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table,true,
+      'NOT (select desact from billeterie.tarif where id = (select max(id) from billeterie.tarif where key = (select t.key from billeterie.tarif t where t.id = manifestation_tarifs.tarifid)))',
+      '*, (select max(id) from billeterie.tarif where key = (select t.key from billeterie.tarif t where t.id = manifestation_tarifs.tarifid)) AS last_tarifid');
+    print_r($cpt);
+  }
+  
   print_r($tables);
   
   $bd->free();
