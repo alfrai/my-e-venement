@@ -24,8 +24,8 @@ class ManifestationTable extends PluginManifestationTable
     
     $query = parent::createQuery($alias)
         ->leftJoin("$alias.Event $e")
-        ->leftJoin("$e.Metaevent $m")
-        ->orderBy("$e.name, $m.name, $alias.date, $alias.duration");
+        ->leftJoin("$e.MetaEvent $m")
+        ->orderBy("$e.name, $m.name, $alias.happens_at, $alias.duration");
     return $query;
   }
 }
