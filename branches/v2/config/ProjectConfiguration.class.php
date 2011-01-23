@@ -55,39 +55,4 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins('sfAdminThemejRollerPlugin');
     $this->enablePlugins('cxFormExtraPlugin');
   }
-
-  public function generateExternalUrl($args = array('app' => NULL, 'name' => NULL, 'parameters' => array()))
-  {
-    if ( !isset($args['parameters']) ) $args['parameters'] = array();
-    
-    // based on e-venement conventions
-    $env = sfConfig::get('sf_environment');
-    $controller = $args['app'].($env != 'prod' ? '_'.$env : '').'.php';
-    
-    $dir = dirname($_SERVER['SCRIPT_NAME']) === '/' ? '/' : dirname($_SERVER['SCRIPT_NAME']).'/';
-    
-    return $args['app']
-      ? $dir.$controller.$this->getNewRouting($args['app'])->generate($args['name'], $args['parameters'])
-      : false;
-  }
- 
-  public function getNewRouting($app)
-  {
-    if ( !$app )
-      return false;
-    
-    if (!isset($this->routings[$app]))
-    {
-      $this->routings[$app] = new sfPatternRouting(new sfEventDispatcher());
-      $config = new sfRoutingConfigHandler();
-      $routes = $config->evaluate(array(sfConfig::get('sf_apps_dir').'/'.$app.'/config/routing.yml'));
-      $this->routings[$app]->setRoutes($routes);
-    }
- 
-    return $this->routings[$app];
-  }
-
-
-
-
 }

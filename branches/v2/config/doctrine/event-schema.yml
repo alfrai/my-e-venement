@@ -59,7 +59,8 @@ Event:
     Sluggable:
       fields: [name]
       unique: true
-    Searchable: [name,writer,staging,short_name]
+    Searchable:
+      fields: [name,writer,staging,short_name]
   columns:
     name:
       type:         string(255)
@@ -125,26 +126,19 @@ EventCompany:
  
 Location:
   package: event
-  actAs:
-    Timestampable: ~
-    Searchable: [name, address, city]
   inheritance:
     extends: Addressable
     type: concrete
+  actAs:
+    Searchable:
+      fields: [name, address, city]
   columns:
     description:  string
     contact_id:   integer
     organism_id:  integer
-    seating_plan_id:
-      type: integer
-      unique: true
     gauge_max:    integer
     gauge_min:    integer
   relations:
-    SeatingPlan:
-      foreignAlias: Location
-      onDelete: CASCADE
-      onUpdate: CASCADE
     Organism:
       foreignAlias: Locations
       onDelete: SET NULL
@@ -161,6 +155,11 @@ SeatingPlan:
     location_id:
       type: integer
       unique: true
+  relations:
+    Location:
+      foreignType: one
+      onDelete: CASCADE
+      onUpdate: CASCADE
 
 Manifestation:
   package: event

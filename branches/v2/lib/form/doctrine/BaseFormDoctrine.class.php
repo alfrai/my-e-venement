@@ -12,6 +12,7 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
 {
   public function setup()
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('CrossAppLink');
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
     
     unset($this->widgetSchema['created_at']);
@@ -24,12 +25,12 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
     if ( isset($this->widgetSchema['contact_id']) )
     $this->widgetSchema['contact_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Contact',
-      'url'   => url_for('contact/ajax'),
+      'url'   => cross_app_url_for('rp','contact/ajax'),
     ));
     if ( isset($this->widgetSchema['organism_id']) )
     $this->widgetSchema['organism_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Organism',
-      'url'   => url_for('organism/ajax'),
+      'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
     
     if ( isset($this->widgetSchema['groups_list']) )

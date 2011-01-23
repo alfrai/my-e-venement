@@ -29,17 +29,17 @@
       <li>
         <ul class="second">
           <?php if ( $sf_user->hasCredential('pr-contact') ): ?>
-          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'contact')) ?>"><?php echo __('Contacts',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('rp','contact') ?>"><?php echo __('Contacts',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('pr-organism') ): ?>
-          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'organism')) ?>"><?php echo __('Organisms',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('rp','organism') ?>"><?php echo __('Organisms',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('pr-group') ): ?>
           <li class="spaced"></li>
-          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'group')) ?>"><?php echo __('Groups',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('rp','group') ?>"><?php echo __('Groups',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('pr-emailing') ): ?>
-          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'email')) ?>"><?php echo __('Emailing',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('rp','email') ?>"><?php echo __('Emailing',array(),'menu') ?></a></li>
           <?php endif ?>
         </ul>
         <span class="title"><?php echo __('Pub. Rel.',array(),'menu') ?></span>

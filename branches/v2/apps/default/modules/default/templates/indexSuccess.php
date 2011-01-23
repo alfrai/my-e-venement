@@ -45,7 +45,7 @@
             <li>
               <?php echo format_date($obj->updated_at) ?>
               -
-              <a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'email')).'/'.$obj->id ?>">
+              <a href="<?php echo cross_app_url_for('rp','email?id='.$obj->id) ?>">
                 <?php echo $obj->field_subject ?>
               </a>
               -
@@ -60,7 +60,7 @@
             <li>
               <?php echo format_date($obj->updated_at) ?>
               -
-              <a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'contact')).'/'.$obj->id ?>">
+              <a href="<?php echo cross_app_url_for('rp','contact?id='.$obj->id) ?>">
                 <?php echo $obj ?>
               </a>
             </li>
@@ -73,7 +73,7 @@
             <li>
               <?php echo format_date($obj->updated_at) ?>
               -
-              <a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'organism')).'/'.$obj->id ?>">
+              <a href="<?php echo cross_app_url_for('rp','organism?id='.$obj->id ?>">
                 <?php echo $obj ?>
               </a>
             </li>

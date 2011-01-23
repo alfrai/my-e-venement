@@ -1,7 +1,7 @@
 [?php use_helper('I18N', 'Date') ?]
 [?php include_partial('<?php echo $this->getModuleName() ?>/assets') ?]
 
-<div id="sf_admin_container" class="sf_admin_edit ui-widget ui-widget-content ui-corner-all">
+<div id="sf_admin_container" class="sf_admin_show ui-widget ui-widget-content ui-corner-all">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1>[?php echo <?php echo $this->getI18NString('show.title') ?> ?]</h1>
   </div>

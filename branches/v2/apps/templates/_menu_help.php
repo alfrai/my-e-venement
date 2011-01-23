@@ -24,7 +24,7 @@
       <li>
         <ul class="second">
           <li><a href="http://www.libre-informatique.fr/sw/01-Billetterie/e-venement/Manuels" target="_blank"><?php echo __('Documentation',array(),'menu') ?></a></li>
-          <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'default','name'=>'about')) ?>" class="fancybox"><?php echo __('About',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('default','about') ?>" class="fancybox"><?php echo __('About',array(),'menu') ?></a></li>
         </ul>
         <span class="title"><?php echo __('Help',array(),'menu') ?></span>
       </li>

@@ -24,7 +24,7 @@
       <?php include_partial('global/menu') ?>
     </ul>
     <div id="banner">
-      <a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app' => 'default', 'name' => 'sf_guard_signout',)) ?>" onclick="javascript: window.close()"><?php echo image_tag("close.png",array('alt' => 'close')) ?></a>
+      <a href="<?php echo cross_app_url_for('default','sf_guard_signout') ?>" onclick="javascript: window.close()"><?php echo image_tag("close.png",array('alt' => 'close')) ?></a>
       <h1>
         <?php echo image_tag("logo-evenement.png",array('alt' => '')); ?>
         <?php echo $sf_response->getTitle() ?>

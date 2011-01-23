@@ -24,7 +24,7 @@
           <li><a><?php echo __('Events',array(),'menu') ?></a>
             <ul class="third">
               <li><a href=""><?php echo __('Meta-events',array(),'menu') ?></a></li>
-              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'event','name'=>'workspace')) ?>"><?php echo __('Workspaces',array(),'menu') ?></a></li>
+              <li><a href="<?php echo cross_app_url_for('event','workspace') ?>"><?php echo __('Workspaces',array(),'menu') ?></a></li>
               <li class="spaced"></li>
               <li><a href=""><?php echo __('Event categories',array(),'menu') ?></a></li>
               <li><a href=""><?php echo __('Colors',array(),'menu') ?></a></li>

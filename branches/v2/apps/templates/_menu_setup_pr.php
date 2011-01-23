@@ -24,22 +24,22 @@
           <li><a><?php echo __('P.R.',array(),'menu') ?></a>
             <ul class="third">
               <?php if ( $sf_user->hasCredential('admin-csv') ): ?>
-              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'option_csv')) ?>"><?php echo __('Extractions',array(),'menu') ?></a></li>
+              <li><a href="<?php echo cross_app_url_for('rp','option_csv') ?>"><?php echo __('Extractions',array(),'menu') ?></a></li>
               <?php endif ?>
               <?php if ( $sf_user->hasCredential('admin-labels') ): ?>
-              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'option_labels')) ?>"><?php echo __('Labels',array(),'menu') ?></a></li>
+              <li><a href="<?php echo cross_app_url_for('rp','option_labels') ?>"><?php echo __('Labels',array(),'menu') ?></a></li>
               <?php endif ?>
               <?php if ( $sf_user->hasCredential('admin-titles') ): ?>
-              <li class="spaced"><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'title_type')) ?>"><?php echo __('Generic title',array(),'menu') ?></a></li>
+              <li class="spaced"><a href="<?php echo cross_app_url_for('rp','title_type') ?>"><?php echo __('Generic title',array(),'menu') ?></a></li>
               <?php endif ?>
               <?php if ( $sf_user->hasCredential('admin-phone') ): ?>
-              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'phone_type')) ?>"><?php echo __('Types of phones',array(),'menu') ?></a></li>
+              <li><a href="<?php echo cross_app_url_for('rp','phone_type') ?>"><?php echo __('Types of phones',array(),'menu') ?></a></li>
               <?php endif ?>
               <?php if ( $sf_user->hasCredential('admin-pro') ): ?>
-              <li class="spaced"><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'professional_type')) ?>"><?php echo __('Types of functions',array(),'menu') ?></a></li>
+              <li class="spaced"><a href="<?php echo cross_app_url_for('rp','professional_type') ?>"><?php echo __('Types of functions',array(),'menu') ?></a></li>
               <?php endif ?>
               <?php if ( $sf_user->hasCredential('admin-org') ): ?>
-              <li><a href="<?php echo sfContext::getInstance()->getConfiguration()->generateExternalUrl(array('app'=>'rp','name'=>'organism_category')) ?>"><?php echo __('Organism categories',array(),'menu') ?></a></li>
+              <li><a href="<?php echo cross_app_url_for('rp','organism_category') ?>"><?php echo __('Organism categories',array(),'menu') ?></a></li>
               <?php endif ?>
             </ul>
           </li>
