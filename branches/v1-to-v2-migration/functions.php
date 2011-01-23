@@ -28,7 +28,7 @@
     if ( $strict )
       $bd->beginTransaction();
     
-    $query = ' SELECT '.$from.' FROM "'.pg_escape_string($from_table).'" ';
+    $query = ' SELECT '.$from.' FROM '.pg_escape_string($from_table).' ';
     if ( $where )
       $query .= 'WHERE '.$where;
     $request = new bdRequest($bd2,$query);
@@ -36,10 +36,13 @@
     $cpt = array();
     while ( $rec = $request->getRecordNext() )
     {
+      $callbacks = array();
       $arr = array();
       foreach ( $conversion as $new => $old )
       {
-        if ( is_array($old) )
+        if ( substr($new,0,1) === '_' )
+          $callbacks[substr($new,1)] = $old;
+        else if ( is_array($old) )
         {
           // take the first field's content which is "ok"
           foreach ( $old as $subold )
@@ -56,7 +59,14 @@
             $arr[$new] = $subold;
         }
         else if ( !is_null($old) )
-          $arr[$new] = $rec[$old];
+        {
+          if ( substr($old,0,1) === '_' )
+          {
+            $arr[$new] = call_user_func(substr($old,1),$rec);
+          }
+          else
+            $arr[$new] = $rec[$old];
+        }
         else // if ( is_null($old) )
         switch ( $new ) {
           case 'created_at':
@@ -82,13 +92,18 @@
         }
       }
       if ( @$bd->addRecord($to_table,$arr) !== false )
+      {
         $cpt['ok']++;
+        foreach ( $callbacks as $callback => $value )
+          call_user_func($callback,$arr['id'],$rec);
+      }
       else
       {
         if ( $strict )
         {
           echo $bd->lastError();
-          echo $bd->getLastRequest();
+          var_dump($arr);
+          //echo $bd->getLastRequest();
           return false;
         }
         $cpt['ko']++;

@@ -1,3 +1,4 @@
+
 <?php
 /**********************************************************************************
 *
@@ -325,6 +326,172 @@
     echo $to_table.' ';
     $tables[] = $to_table;
     $cpt = migrate($from_table,$conversion,$to_table,true,"substring(key,0,8) = 'labels.'","substring(key,8) AS key, value, 'labels' AS type");
+    print_r($cpt);
+  }
+  
+  // emails
+  $to_table = 'email';
+  $from_table = 'email';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'sf_guard_user_id'    => 'accountid',
+      'field_from'          => 'from',
+      'field_to'            => 'to',
+      'field_cc'            => 'cc',
+      'field_bcc'           => 'bcc',
+      'field_subject'       => 'subject',
+      'content'             => 'content',
+      'created_at'          => NULL,
+      'updated_at'          => 'date',
+      'sent'                => 'sent'
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table);
+    print_r($cpt);
+  }
+  
+  // logs
+  $to_table = 'authentication';
+  $from_table = 'login';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'sf_guard_user_id'    => 'accountid',
+      'description'         => 'triedname',
+      'ip_address'          => 'ipaddress',
+      'success'             => 'success',
+      'created_at'          => 'date',
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table);
+    print_r($cpt);
+  }
+  
+  // event_category
+  $to_table = 'event_category';
+  $from_table = 'billeterie.evt_categorie';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'id' => 'id',
+      'name' => 'libelle',
+      'vat' => 'txtva',
+      'created_at' => NULL,
+      'updated_at' => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table);
+    print_r($cpt);
+  }
+  
+  // event
+  $to_table = 'event';
+  $from_table = 'billeterie.evenement';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $metaevtids = array();
+    function add_event_company($event_id,$organism_id)
+    {
+      global $bd;
+      
+      if ( !$organism_id )
+        return false;
+      
+      if ( !$bd->addRecord('event_company',array('event_id' => $event_id, 'organism_id' => $organism_id)) )
+        die($bd->getLastRequest());
+    }
+    function add_event_company1($event_id,$rec)
+    { add_event_company($event_id,$rec['organisme1']); }
+    function add_event_company2($event_id,$rec)
+    { add_event_company($event_id,$rec['organisme2']); }
+    function add_event_company3($event_id,$rec)
+    { add_event_company($event_id,$rec['organisme3']); }
+    function metaevt($rec)
+    {
+      global $metaevtids, $bd;
+      $cpt = 0;
+      
+      if ( !isset($metaevtids[$rec['metaevt']]) || !$metaevtids[$rec['metaevt']] )
+      {
+        $request = new bdRequest($bd,"SELECT * FROM meta_event WHERE name = '".pg_escape_string($rec['metaevt'])."'");
+        if ( $request->countRecords() > 0 )
+        {
+          $metaevtids[$request->getRecord('name')] = $request->getRecord('id');
+          return $request->getRecord('id');
+        }
+        else if ( $rec['metaevt'] )
+        {
+          if ( $bd->addRecord('meta_event',$arr = array(
+            'name' => $rec['metaevt'],
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+          )) === false )
+          {
+            var_dump($arr);
+            die('pas cool metaevt');
+          }
+          $metaevtids[$rec['metaevt']] = $bd->getLastSerial('meta_event','id');
+          return $metaevtids[$rec['metaevt']] ? $metaevtids[$rec['metaevt']] : NULL;
+        }
+        else
+          return NULL;
+      }
+      else
+        return $metaevtids[$rec['metaevt']] ? $metaevtids[$rec['metaevt']] : NULL;
+    }
+    
+    $conversion = array(
+      'id' => 'id',
+      'name' => 'nom',
+      'short_name' => 'petitnom',
+      '_add_event_company1' => 'organisme1',
+      '_add_event_company2' => 'organisme2',
+      '_add_event_company3' => 'organisme3',
+      'meta_event_id' => '_metaevt',
+      'event_category_id' => 'categorie',
+      'event_category_description' => 'typedesc',
+      'staging' => 'mscene',
+      'staging_label' => 'mscene_lbl',
+      'writer' => 'textede',
+      'writer_label' => 'textede_lbl',
+      'duration' => 'duree',
+      'age_min' => 'ages_min',
+      'age_max' => 'ages_max',
+      'updated_at' => 'modification',
+      'created_at' => 'creation',
+      'slug' => NULL,
+      'extradesc' => 'extradesc',
+      'extraspec' => 'extraspec',
+      'web_price' => 'tarifweb',
+      'web_price_group' => 'tarifwebgroup',
+      'image_url' => 'imageurl',
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table,true,NULL,'*, ages[1] AS ages_min, ages[2] AS ages_max');
+    print_r($metaevtids);
+    print_r($cpt);
+  }
+  
+  // workspace
+  $to_table = 'workspace';
+  $from_table = 'billeterie.space';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $bd2->addRecord($from_table,array('name' => 'default space'));
+    $conversion = array(
+      'id' => 'id',
+      'name' => 'name',
+      'created_at' => NULL,
+      'updated_at' => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table);
     print_r($cpt);
   }
   
