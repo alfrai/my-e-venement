@@ -27,7 +27,10 @@
           <li><a href="<?php echo cross_app_url_for('default','default') ?>" target="_blank"><?php echo __('Index',array(),'menu') ?></a></li>
           <li class="spaced"><a href="#" onclick="javascript: window.sidebar.addPanel(document.title,window.location,'');"><?php echo __('Bookmark',array(),'menu') ?></a></li>
           <li><a href="#" onclick="javascript: print()"><?php echo __('Print',array(),'menu') ?></a></li>
-          <li class="spaced"><a href="<?php echo cross_app_url_for('default','sf_guard_signout') ?>"><?php echo __('Logout',array(),'menu') ?></a></li>
+          <li class="spaced"></li>
+          <?php if ( $sf_user->isAuthenticated() ): ?>
+          <li><a href="<?php echo cross_app_url_for('default','sf_guard_signout') ?>"><?php echo __('Logout',array(),'menu') ?></a></li>
+          <?php endif ?>
           <li><a href="<?php echo cross_app_url_for('default','sf_guard_signout') ?>" onclick="javascript: window.close()"><?php echo __('Close',array(),'menu') ?></a></li>
         </ul>
         <span class="title"><?php echo __('Screen',array(),'menu') ?></span>

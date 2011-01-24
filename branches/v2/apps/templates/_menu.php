@@ -21,6 +21,7 @@
 *
 ***********************************************************************************/
 ?>
+<?php use_helper('CrossAppLink') ?>
 <?php include_partial('global/menu_file') ?>
 <?php if ( $sf_user->isAuthenticated() ): ?>
 <?php include_partial('global/menu_pr') ?>
