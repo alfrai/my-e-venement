@@ -21,7 +21,7 @@
 *
 ***********************************************************************************/
 ?>
-<?php use_helper('I18N', 'Date') ?>
+<?php use_helper('I18N', 'Date', 'CrossAppLink') ?>
 <?php include_partial('default/assets') ?>
 
 <div class="about-home">
@@ -45,7 +45,7 @@
             <li>
               <?php echo format_date($obj->updated_at) ?>
               -
-              <a href="<?php echo cross_app_url_for('rp','email?id='.$obj->id) ?>">
+              <a href="<?php echo cross_app_url_for('rp','email/show?id='.$obj->id) ?>">
                 <?php echo $obj->field_subject ?>
               </a>
               -
@@ -60,7 +60,7 @@
             <li>
               <?php echo format_date($obj->updated_at) ?>
               -
-              <a href="<?php echo cross_app_url_for('rp','contact?id='.$obj->id) ?>">
+              <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$obj->id) ?>">
                 <?php echo $obj ?>
               </a>
             </li>
@@ -73,7 +73,7 @@
             <li>
               <?php echo format_date($obj->updated_at) ?>
               -
-              <a href="<?php echo cross_app_url_for('rp','organism?id='.$obj->id ?>">
+              <a href="<?php echo cross_app_url_for('rp','organism/show?id='.$obj->id) ?>">
                 <?php echo $obj ?>
               </a>
             </li>
