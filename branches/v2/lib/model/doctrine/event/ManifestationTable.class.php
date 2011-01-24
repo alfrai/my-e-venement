@@ -21,11 +21,23 @@ class ManifestationTable extends PluginManifestationTable
   {
     $e = $alias != 'e' ? 'e' : 'e1';
     $m = $alias != 'm' ? 'm' : 'm1';
+    $l = $alias != 'l' ? 'l' : 'l1';
     
     $query = parent::createQuery($alias)
         ->leftJoin("$alias.Event $e")
         ->leftJoin("$e.MetaEvent $m")
+        ->leftJoin("$alias.Location $l")
         ->orderBy("$e.name, $m.name, $alias.happens_at, $alias.duration");
     return $query;
+  }
+
+  public function createQueryByEventId($id)
+  {
+    $q = $this->createQuery();
+    $a = $q->getRootAlias();
+    $q
+      ->where('e.id = ?',$id)
+      ->orderby("e.name, $a.happens_at DESC, l.name");
+    return $q;
   }
 }

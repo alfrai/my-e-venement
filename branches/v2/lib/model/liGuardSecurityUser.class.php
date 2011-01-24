@@ -2,6 +2,10 @@
 
 class liGuardSecurityUser extends sfGuardSecurityUser
 {
+  public function __toString()
+  {
+    return is_object($this->getGuardUser()) ? $this->getGuardUser()->__toString() : '__unknown__';
+  }
   public function getCredentials()
   {
     return $this->credentials;
@@ -21,6 +25,6 @@ class liGuardSecurityUser extends sfGuardSecurityUser
   {
     if ( $this->getGuardUser() instanceOf sfGuardUser )
       return $this->getGuardUser()->getId();
-    return false;
+    return null;
   }
 }

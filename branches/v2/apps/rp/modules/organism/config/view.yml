@@ -4,10 +4,13 @@
 default:
   javascripts:    [menu,organism]
 
-updateSuccess:
+newSuccess:
   stylesheets: [view]
   javascripts: [more-simple]
-newSuccess:
+createSuccess:
+  stylesheets: [view]
+  javascripts: [more-simple]
+updateSuccess:
   stylesheets: [view]
   javascripts: [more-simple]
 editSuccess:

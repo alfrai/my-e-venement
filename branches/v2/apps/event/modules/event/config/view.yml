@@ -1,3 +1,19 @@
 all:
   javascripts: [/liTinymcePlugin/tiny_mce]
-  
+
+newSuccess:
+  stylesheets: [view]
+  javascripts:  [event]
+createSuccess:
+  stylesheets: [view]
+  javascripts:  [event]
+updateSuccess:
+  stylesheets: [view]
+  javascripts:  [event]
+editSuccess:
+  stylesheets: [view]
+  javascripts:  [event]
+showSuccess:
+  stylesheets: [view]
+  javascripts:  [event]
+

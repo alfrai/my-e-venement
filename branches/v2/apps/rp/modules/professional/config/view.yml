@@ -1,7 +1,10 @@
-updateSuccess:
-  stylesheets: [view]
 newSuccess:
   stylesheets: [view]
+createSuccess:
+  stylesheets: [view]
+updateSuccess:
+  stylesheets: [view]
+  javascripts: [contact-edit]
 editSuccess:
   stylesheets: [view]
   javascripts: [contact-edit]

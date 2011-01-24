@@ -4,6 +4,9 @@ default:
 newSuccess:
   stylesheets: [view]
   javascripts: [more-simple]
+createSuccess:
+  stylesheets: [view]
+  javascripts: [more-simple]
 updateSuccess:
   stylesheets: [view]
   javascripts: [more-simple,group-list]
