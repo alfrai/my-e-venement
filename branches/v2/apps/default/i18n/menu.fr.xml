@@ -248,6 +248,10 @@
         <source>About</source>
         <target>À propos</target>
       </trans-unit>
+      <trans-unit>
+        <source>The free ticketting system</source>
+        <target>La billetterie informatisée libre</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

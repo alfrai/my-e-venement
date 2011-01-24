@@ -8,7 +8,7 @@
     <?php use_stylesheet('/liFancyboxPlugin/jquery.fancybox-1.3.4.css') ?>
     
     <?php $module_name = $sf_context->getModuleName() ?>
-    <?php $sf_response->setTitle('e-venement, '.__(strtoupper(substr($module_name,0,1)).substr($module_name,1))) ?>
+    <?php $sf_response->setTitle('e-venement, '.($sf_user->isAuthenticated() ? __(strtoupper(substr($module_name,0,1)).substr($module_name,1)) : __('The free ticketting system',null,'menu'))) ?>
     <?php include_http_metas() ?>
     <?php include_metas() ?>
     <?php include_title() ?>
