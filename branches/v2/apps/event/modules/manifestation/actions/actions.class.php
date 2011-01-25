@@ -66,7 +66,7 @@ class manifestationActions extends autoManifestationActions
     $this->event_id = $request->getParameter('id');
     
     $this->pager = $this->configuration->getPager('Contact');
-    $this->pager->setMaxPerPage(15);
+    $this->pager->setMaxPerPage(5);
     $this->pager->setQuery(
       Doctrine::getTable('Manifestation')->createQueryByEventId($this->event_id)
     );

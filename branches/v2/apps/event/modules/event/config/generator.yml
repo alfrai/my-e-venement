@@ -32,9 +32,9 @@ generator:
       form:
         display:
           General:   [name, short_name, event_category_description, event_category_id, meta_event_id]
-          Technical: [duration, age_min, age_max]
+          Technical: [companies_list, duration, age_min, age_max]
           Details:   [staging_label, staging, writer_label, writer, description]
-          Web:       [extradesc, extraspec, web_price, web_price_group, image_url]
+          Web:       [web_price, web_price_group, image_url, extradesc, extraspec]
       edit:    ~
       new:     ~
       show:

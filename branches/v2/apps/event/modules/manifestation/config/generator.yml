@@ -13,8 +13,12 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
-      list:    ~
+      fields:
+        list_event: { label: Event }
+        list_location: { label: Location }
+        list_description: { label: Description }
+      list:
+        display: [_list_event, happens_at, _list_location, _list_description]
       filter:  ~
       form:    ~
       edit:    ~

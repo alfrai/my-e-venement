@@ -14,10 +14,8 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
     
-    unset($this->widgetSchema['created_at']);
-    unset($this->widgetSchema['updated_at']);
-    unset($this->widgetSchema['deleted_at']);
-    
+    $this->resetDates();
+
     if ( isset($this->widgetSchema['contact_id']) )
     $this->widgetSchema['contact_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Contact',
@@ -28,6 +26,42 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
       'model' => 'Organism',
       'url'   => url_for('organism/ajax'),
     ));
+  }
+  
+  protected function resetDates()
+  {
+    unset($this->widgetSchema['created_at']);
+    unset($this->widgetSchema['updated_at']);
+    unset($this->widgetSchema['deleted_at']);
+    
+    foreach ($this->widgetSchema->getFields() as $field)
+    {
+      if ($field instanceof sfWidgetFormFilterDate)
+      {
+        if (class_exists('sfWidgetFormJQueryDate'))
+        {
+          $field->setOption('from_date', new sfWidgetFormJQueryDate(array(
+            //'image'   => '/images/calendar_icon.png',
+            //'culture' => sfContext::getInstance()->getUser()->getCulture(),
+            'date_widget' => new sfWidgetFormI18nDate(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+          )));
+          $field->setOption('to_date', new sfWidgetFormJQueryDate(array(
+            //'image'   => '/images/calendar_icon.png',
+            //'culture' => sfContext::getInstance()->getUser()->getCulture(),
+            'date_widget' => new sfWidgetFormI18nDate(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+          )));
+        }
+        else
+        {
+          $field->setOption('from_date', new sfWidgetFormI18nDate(array(
+            'culture' => sfContext::getInstance()->getUser()->getCulture(),
+          )));
+          $field->setOption('to_date', new sfWidgetFormI18nDate(array(
+            'culture' => sfContext::getInstance()->getUser()->getCulture(),
+          )));
+        }
+      }
+    }
   }
   
   public function addTextQuery(Doctrine_Query $query, $field, $values)
