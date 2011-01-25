@@ -60,7 +60,7 @@
 			           printed AND NOT canceled AS resa,
 			           transac.id IN (SELECT transaction FROM preselled) AS preresa,
 			           transac.id AS transaction, personne.id, personne.nom, personne.prenom, personne.adresse, personne.cp, personne.ville, personne.pays,
-			           personne.orgid, personne.fctorgid, personne.orgnom, personne.fcttype, personne.fctdesc, personne.protel, personne.proemail, personne.email, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays,
+			           personne.orgid, personne.fctorgid, personne.orgnom, personne.fcttype, personne.fctdesc, (SELECT numero FROM telephone_organisme WHERE entiteid = personne.orgid ORDER BY type LIMIT 1) AS protel, personne.proemail, personne.email, personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays,
 			           facture.id AS numfacture, transac.translinked,
 			           (SELECT count(*) > 0
 			            FROM transaction t, reservation_pre p, reservation_cur c
@@ -76,7 +76,7 @@
 			           AND ( transac.personneid = personne.id OR personne.id IS NULL AND transac.personneid IS NULL ))
 			      AND transac.id = resa.transaction
 			      ".($_GET['spaces'] != 'all' ? "AND transac.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '')."
-			    GROUP BY personne.id, personne.nom, personne.prenom, personne.orgid, personne.orgnom, contingeant, resa, preresa, transac.id, fcttype, fctdesc, personne.fctorgid, personne.protel, personne.proemail, personne.email,
+			    GROUP BY personne.id, personne.nom, personne.prenom, personne.orgid, personne.orgnom, contingeant, resa, preresa, transac.id, fcttype, fctdesc, personne.fctorgid, (SELECT numero FROM telephone_organisme WHERE entiteid = personne.orgid ORDER BY type LIMIT 1), personne.proemail, personne.email,
 			    	     personne.orgadr, personne.orgcp, personne.orgville, personne.orgpays, personne.adresse, personne.cp, personne.ville, personne.pays, facture.id, translinked
 			    ORDER BY translinked DESC, annulation, nom, prenom";
 		$request = new bdRequest($bd,$query);
