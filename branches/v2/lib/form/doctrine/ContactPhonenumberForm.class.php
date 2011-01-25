@@ -15,7 +15,7 @@ class ContactPhonenumberForm extends BaseContactPhonenumberForm
    */
   public function configure()
   {
-    $this->widgetSchema['name']     = new sfWidgetFormDoctrineJQueryAutocompleterGuide(array(
+    $this->widgetSchema['name']     = new liWidgetFormDoctrineJQueryAutocompleterGuide(array(
       'model' => 'PhoneType',
       'url'   => url_for('phone_type/ajax'),
       'method_for_query' => 'findOneByName',

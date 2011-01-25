@@ -24,7 +24,7 @@ class ContactForm extends BaseContactForm
     $this->widgetSchema   ['YOBs_list'] = new sfWidgetFormInputText(array('default' => $this->object->getYOBsString()));
     $this->validatorSchema['YOBs_list'] = new sfValidatorString(array('required' => false));
     
-    $this->widgetSchema   ['title']     = new sfWidgetFormDoctrineJQueryAutocompleterGuide(array(
+    $this->widgetSchema   ['title']     = new liWidgetFormDoctrineJQueryAutocompleterGuide(array(
       'model' => 'TitleType',
       'url'   => url_for('title_type/ajax'),
       'method_for_query' => 'findOneByName',
