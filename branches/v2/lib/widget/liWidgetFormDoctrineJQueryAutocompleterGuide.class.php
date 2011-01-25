@@ -33,7 +33,7 @@
  * @author     Baptiste SIMON <baptiste.simon AT e-glop.net>
  * @version    SVN: $Id: sfWidgetFormPropelJQueryAutocompleter.class.php 12130 2008-10-10 14:51:07Z fabien $
  */
-class sfWidgetFormDoctrineJQueryAutocompleterGuide extends sfWidgetFormDoctrineJQueryAutocompleter
+class liWidgetFormDoctrineJQueryAutocompleterGuide extends sfWidgetFormDoctrineJQueryAutocompleter
 {
   /**
    * @param  string $name        The element name
