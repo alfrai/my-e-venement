@@ -12,24 +12,6 @@
  */
 class Manifestation extends PluginManifestation
 {
-  public function preSave($event)
-  {
-    $this->duration = intval($this->rawGet('duration')).'' == ''.$this->rawGet('duration')
-      ? $this->rawGet('duration')
-      : intval(strtotime(date('Y-m-d',0).' '.$this->rawGet('duration').'+0'));
-    parent::preSave($event);
-  }
-  public function getDuration()
-  {
-    $duration = $this->rawGet('duration');
-    if ( intval($this->rawGet('duration')).'' != ''.$this->rawGet('duration') )
-      return $duration;
-    
-    $hours = floor($duration/3600);
-    $minutes = floor($duration%3600/60) > 9 ? floor($duration%3600/60) : '0'.floor($duration%3600/60);
-    return $hours.':'.$minutes;
-  }
-  
   public function getName()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
