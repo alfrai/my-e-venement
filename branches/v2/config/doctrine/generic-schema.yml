@@ -78,6 +78,7 @@ ModelType:
 
 Option:
   package: generic
+  tableName: option_table
   actAs:
     Timestampable:
       updated:
