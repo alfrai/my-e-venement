@@ -17,7 +17,7 @@
  * @subpackage widget
  * @author     Baptiste SIMON <baptiste.simon@libre-informatique.fr>
  */
-class liWidgetFormJQueryDateText extends sfWidgetFormDateText
+class liWidgetFormJQueryDateText extends liWidgetFormDateText
 {
   /**
    * Configures the current widget.

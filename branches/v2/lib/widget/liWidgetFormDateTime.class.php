@@ -67,6 +67,8 @@ class liWidgetFormDateTime extends sfWidgetFormDateTime
   {
     if ( !$options['date'] instanceof sfWidgetFormDate && !is_array($options['date']) )
       unset($options['date']);
+    if ( !$options['time'] instanceof sfWidgetFormtime && !is_array($options['time']) )
+      unset($options['time']);
     
     parent::configure();
   }
@@ -80,8 +82,23 @@ class liWidgetFormDateTime extends sfWidgetFormDateTime
    */
   protected function getDateWidget($attributes = array())
   {
-    if ( $this->getOption('date') instanceof sfWidgetFormJQueryDate || sfWidgetFormDate )
+    if ( $this->getOption('date') instanceof sfWidgetFormJQueryDate
+      || $this->getOption('date') instanceof sfWidgetFormDate )
       return $this->getOption('date');
     return new sfWidgetFormDate($this->getOptionsFor('date'), $this->getAttributesFor('date', $attributes));
+  }
+  
+  /**
+   * Returns the time widget.
+   *
+   * @param  array $attributes  An array of attributes
+   *
+   * @return sfWidgetForm A Widget representing the time
+   */
+  protected function getTimeWidget($attributes = array())
+  {
+    if ( $this->getOption('time') instanceof sfWidgetFormTime )
+      return $this->getOption('time');
+    return new sfWidgetFormTime($this->getOptionsFor('time'), $this->getAttributesFor('time', $attributes));
   }
 }
