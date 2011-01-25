@@ -24,6 +24,7 @@ generator:
         image_url: { label: Image URL }
         age_min_h_r: { label: Age min }
         age_max_h_r: { label: Age max }
+        duration_h_r: { label: Duration }
       list:
         title: Event List
         display: [MetaEvent, name, EventCategory, event_category_description, duration, age_min_h_r, age_max_h_r]
@@ -34,12 +35,13 @@ generator:
           General:   [name, short_name, event_category_description, event_category_id, meta_event_id]
           Technical: [companies_list, duration, age_min, age_max]
           Details:   [staging_label, staging, writer_label, writer, description]
-          Web:       [web_price, web_price_group, image_url, extradesc, extraspec]
-      edit:    ~
+          Web Content: [web_price, web_price_group, image_url, extradesc, extraspec]
+      edit:
+        title: Edit Event %%name%%
       new:     ~
       show:
         display:
           General:   [name, short_name, event_category_description, EventCategory, MetaEvent]
           Technical: [duration, age_min_h_r, age_max_h_r]
           Details:   [staging_label, staging, writer_label, writer, _show_description]
-          Web:       [_show_extradesc, _show_extraspec, web_price, web_price_group, _show_image_url]
+          Web Content: [_show_extradesc, _show_extraspec, web_price, web_price_group, _show_image_url]

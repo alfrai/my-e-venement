@@ -9,7 +9,7 @@
  * @property integer $location_id
  * @property integer $color_id
  * @property timestamp $happens_at
- * @property interval $duration
+ * @property integer $duration
  * @property string $description
  * @property decimal $vat
  * @property boolean $seated
@@ -36,11 +36,11 @@ abstract class BaseManifestation extends sfDoctrineRecord
         $this->setTableName('manifestation');
         $this->hasColumn('event_id', 'integer', null, array(
              'type' => 'integer',
-             'unique' => true,
+             'notnull' => true,
              ));
         $this->hasColumn('location_id', 'integer', null, array(
              'type' => 'integer',
-             'unique' => true,
+             'notnull' => true,
              ));
         $this->hasColumn('color_id', 'integer', null, array(
              'type' => 'integer',
@@ -49,8 +49,8 @@ abstract class BaseManifestation extends sfDoctrineRecord
              'type' => 'timestamp',
              'notnull' => true,
              ));
-        $this->hasColumn('duration', 'interval', null, array(
-             'type' => 'interval',
+        $this->hasColumn('duration', 'integer', null, array(
+             'type' => 'integer',
              ));
         $this->hasColumn('description', 'string', null, array(
              'type' => 'string',
@@ -59,6 +59,7 @@ abstract class BaseManifestation extends sfDoctrineRecord
              'type' => 'decimal',
              'scale' => 2,
              'notnull' => true,
+             'default' => 0,
              'length' => 5,
              ));
         $this->hasColumn('seated', 'boolean', null, array(

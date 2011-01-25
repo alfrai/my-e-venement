@@ -22,9 +22,9 @@
 ***********************************************************************************/
 ?>
 <div id="more">
+  <?php include_partial('event/manifestation_list', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
   <?php if ( !$event->isNew() ): ?>
   <?php include_partial('event/manifestation_new', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
   <?php endif ?>
-  <?php include_partial('event/manifestation_list', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
 </div>
 

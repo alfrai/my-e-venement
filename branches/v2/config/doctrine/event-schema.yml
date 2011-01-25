@@ -73,7 +73,7 @@ Event:
     staging_label:  string(255)
     writer:         string(255)
     writer_label:   string(255)
-    duration:       interval
+    duration:       integer
     age_min:
       type:         decimal(3)
       scale:        1
@@ -168,20 +168,21 @@ Manifestation:
   columns:
     event_id:
       type: integer
-      unique: true
+      notnull: true
     location_id:
       type: integer
-      unique: true
+      notnull: true
     color_id: integer
     happens_at:
       type: timestamp
       notnull: true
-    duration: interval
+    duration: integer
     description: string
     vat:
       type: decimal(5)
       scale: 2
       notnull: true
+      default: 0
     seated:
       type: boolean
       default: false

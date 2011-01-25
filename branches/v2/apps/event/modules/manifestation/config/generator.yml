@@ -20,6 +20,18 @@ generator:
       list:
         display: [_list_event, happens_at, _list_location, _list_description]
       filter:  ~
-      form:    ~
-      edit:    ~
+      form:
+        display:
+          General: [happens_at, event_id, location_id, description]
+          Technical: [duration, vat, prices_list]
+          Organization: [seated, online, organizers_list]
+          Workspaces: [workspaces_list]
+      edit:
+        title: Edit Manifestation %%name%%
       new:     ~
+      show:
+        display:
+          General: [happens_at, event_id, location_id, description]
+          Technical: [duration, vat, prices_list]
+          Organization: [seated, online, organizers_list]
+          Workspaces: [workspaces_list]

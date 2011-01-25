@@ -83,3 +83,11 @@ body .ui-widget-header { margin: 2px 2px auto 2px; }
   max-height: 200px;
   overflow: auto;
 }
+
+#content .sf_admin_date select,
+#content .sf_admin_date input[type=text],
+#content .sf_admin_date select,
+#content .sf_admin_date input[type=text] {
+  text-align: center;
+  width: 4em;
+}

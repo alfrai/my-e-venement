@@ -19,36 +19,12 @@
  */
 class liWidgetFormJQueryDateText extends liWidgetFormDateText
 {
-  /**
-   * Configures the current widget.
-   *
-   * Available options:
-   *
-   *  * image:   The image path to represent the widget (false by default)
-   *  * config:  A JavaScript array that configures the JQuery date widget
-   *  * culture: The user culture
-   *  * change:  Authorize the user to select quickly a month and a year in Datepicker's selects
-   *  * keycode: The key code used to jump from an input to another when typing the date (65/space by default, if null, all keycodes are accepted)
-   *
-   * @param array $options     An array of options
-   * @param array $attributes  An array of default HTML attributes
-   *
-   * @see sfWidgetForm
-   */
-  protected function configure($options = array(), $attributes = array())
+  public function configure($options = array(), $attributes = array())
   {
     $this->addOption('image', false);
-    $this->addOption('config', '{}');
-    $this->addOption('culture', '');
-    $this->addOption('change', '');
-    $this->addOption('keycode', '32');
-
+    $this->addOption('culture','');
+    $this->addOption('config','{}');
     parent::configure($options, $attributes);
-
-    if ('en' == $this->getOption('culture'))
-    {
-      $this->setOption('culture', 'en');
-    }
   }
 
   /**
@@ -115,16 +91,6 @@ class liWidgetFormJQueryDateText extends liWidgetFormDateText
   });
 
   jQuery("#%s, #%s, #%s").change(wfd_%s_check_linked_days);
-
-  jQuery(document).ready(function() {
-    jQuery("#%s").parent().children('input[type=text]').each(function(){
-      if ( jQuery(this).attr('maxlength') )
-      jQuery(this).keyup(function(event){
-        if ( (!%s || event.keyCode == %s) && jQuery(this).val().length == jQuery(this).attr('maxlength') )
-          jQuery(this).next('[type=text]').eq(0).focus();
-      });
-    });
-  });
 </script>
 EOF
       ,
@@ -142,8 +108,7 @@ EOF
       min($this->getOption('years')), max($this->getOption('years')),
       $prefix, $prefix, $image, $this->getOption('culture'), $this->getOption('config'),
       $this->generateId($name.'[day]'), $this->generateId($name.'[month]'), $this->generateId($name.'[year]'),
-      $prefix,
-      $id,$this->getOption('keycode'),$this->getOption('keycode')
+      $prefix
     );
   }
 }

@@ -12,6 +12,23 @@
  */
 class Event extends PluginEvent
 {
+  public function preSave($event)
+  {
+    $this->duration = strtotime(date('Y-m-d',0).' '.$this->getDurationRaw().'+0');
+    parent::preSave($event);
+  }
+  public function getDurationRaw()
+  {
+    return $this->rawGet('duration');
+  }
+  public function getDuration()
+  {
+    $duration = $this->getDurationRaw();
+    $hours = floor($duration/3600);
+    $minutes = floor($duration%3600/60) > 9 ? floor($duration%3600/60) : '0'.floor($duration%3600/60);
+    return $hours.':'.$minutes;
+  }
+  
   public function getAgeMinHR()
   { return $this->getAgeHR($this->age_min); }
   public function getAgeMaxHR()

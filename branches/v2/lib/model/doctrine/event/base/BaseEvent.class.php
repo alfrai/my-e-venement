@@ -14,7 +14,7 @@
  * @property string $staging_label
  * @property string $writer
  * @property string $writer_label
- * @property interval $duration
+ * @property integer $duration
  * @property decimal $age_min
  * @property decimal $age_max
  * @property string $description
@@ -75,8 +75,8 @@ abstract class BaseEvent extends sfDoctrineRecord
              'type' => 'string',
              'length' => 255,
              ));
-        $this->hasColumn('duration', 'interval', null, array(
-             'type' => 'interval',
+        $this->hasColumn('duration', 'integer', null, array(
+             'type' => 'integer',
              ));
         $this->hasColumn('age_min', 'decimal', 3, array(
              'type' => 'decimal',

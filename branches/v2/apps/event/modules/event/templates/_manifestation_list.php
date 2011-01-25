@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all">
-  <div class="manifestations">
+  <div class="manifestation_list">
   </div>
-  <script type="text/javascript">var manifestations_url = '<?php echo url_for('manifestation/eventList?id='.$event->id) ?>';</script>
+  <script type="text/javascript">var manifestation_list_url = '<?php echo url_for('manifestation/eventList?id='.$event->id) ?>';</script>
 </div>

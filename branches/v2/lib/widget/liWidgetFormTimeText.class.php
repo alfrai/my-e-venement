@@ -72,17 +72,17 @@ class liWidgetFormTimeText extends sfWidgetFormTime
     $emptyValues = $this->getOption('empty_values');
 
     // hours
-    $widget = new sfWidgetFormInput(array('id_format' => $this->getOption('id_format')), array_merge($this->attributes, $attributes));
+    $widget = new sfWidgetFormInput(array('id_format' => $this->getOption('id_format')), array_merge($this->attributes, $attributes, array('maxlength' => 2, 'size' => 2)));
     $time['%hour%'] = $widget->render($name.'[hour]', $value['hour']);
 
     // minutes
-    $widget = new sfWidgetFormInput(array('id_format' => $this->getOption('id_format')), array_merge($this->attributes, $attributes));
+    $widget = new sfWidgetFormInput(array('id_format' => $this->getOption('id_format')), array_merge($this->attributes, $attributes, array('maxlength' => 2, 'size' => 2)));
     $time['%minute%'] = $widget->render($name.'[minute]', $value['minute']);
 
     if ($this->getOption('with_seconds'))
     {
       // seconds
-      $widget = new sfWidgetFormInput(array('id_format' => $this->getOption('id_format')), array_merge($this->attributes, $attributes));
+      $widget = new sfWidgetFormInput(array('id_format' => $this->getOption('id_format')), array_merge($this->attributes, $attributes, array('maxlength' => 2, 'size' => 2)));
       $time['%second%'] = $widget->render($name.'[second]', $value['second']);
     }
 

@@ -36,6 +36,64 @@ require_once dirname(__FILE__).'/../lib/manifestationGeneratorHelper.class.php';
  */
 class manifestationActions extends autoManifestationActions
 {
+  public function executeNew(sfWebRequest $request)
+  {
+    parent::executeNew($request);
+    
+    if ( $request->getParameter('event') )
+    {
+      $event = Doctrine::getTable('Event')->findOneBySlug($request->getParameter('event'));
+      if ( $event->id )
+        $this->form->getWidget('event_id')->setDefault($event->id);
+    }
+    if ( $request->getParameter('location') )
+    {
+      $location = Doctrine::getTable('Location')->findOneBySlug($request->getParameter('location'));
+      if ( $location->id )
+      $this->form->getWidget('location_id')->setDefault($location->id);
+    }
+  }
+  /*
+   * overriding that to redirect the user to the parent event/location's screen
+   * instead of the list of manifestations
+   *
+   */
+  protected function processForm(sfWebRequest $request, sfForm $form)
+  {
+    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
+    if ($form->isValid())
+    {
+      $notice = $form->getObject()->isNew() ? 'The item was created successfully.' : 'The item was updated successfully.';
+
+      $manifestation = $form->save();
+
+      $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $manifestation)));
+
+      if ($request->hasParameter('_save_and_add'))
+      {
+        $this->getUser()->setFlash('notice', $notice.' You can add another one below.');
+
+        $this->redirect('@manifestation_new');
+      }
+      else
+      {
+        $this->getUser()->setFlash('notice', $notice);
+        
+        if ( ($eid = intval($request->getParameter('event'))) > 0 )
+          $this->redirect('event/show?id='.$eid);
+        if ( ($lid = intval($request->getParameter('location'))) > 0 )
+          $this->redirect('location/show?id='.$lid);
+        $this->redirect(array('sf_route' => 'manifestation_edit', 'sf_subject' => $manifestation));
+      }
+    }
+    else
+    {
+      $this->getUser()->setFlash('error', 'The item has not been saved due to some errors.', false);
+    }
+  }
+
+
+  
   public function executeAjax(sfWebRequest $request)
   {
     $charset = sfContext::getInstance()->getConfiguration()->charset;
@@ -69,6 +127,7 @@ class manifestationActions extends autoManifestationActions
     $this->pager->setMaxPerPage(5);
     $this->pager->setQuery(
       Doctrine::getTable('Manifestation')->createQueryByEventId($this->event_id)
+      ->orderBy('happens_at > NOW() DESC, CASE WHEN ( happens_at < NOW() ) THEN NOW()-happens_at ELSE happens_at-NOW() END')
     );
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
     $this->pager->init();

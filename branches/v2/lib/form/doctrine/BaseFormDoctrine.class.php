@@ -44,7 +44,8 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
     if ( ($field instanceof sfWidgetFormDate || $field instanceof sfWidgetFormDateTime) && class_exists('sfWidgetFormJQueryDate') )
     {
       $this->widgetSchema[$name] = new liWidgetFormDateTime(array(
-        'date' => new sfWidgetFormJQueryDate(),
+        'date' => new liWidgetFormJQueryDateText(),
+        'time' => new liWidgetFormTimeText(),
       ));
     }
   }
