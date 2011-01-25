@@ -41,7 +41,7 @@ generator:
       new:     ~
       show:
         display:
-          General:   [name, short_name, event_category_description, EventCategory, MetaEvent]
-          Technical: [duration, age_min_h_r, age_max_h_r]
+          General:   [name, short_name, event_category_description, _show_event_category, _show_meta_event]
+          Technical: [_show_companies_list, duration, age_min_h_r, age_max_h_r]
           Details:   [staging_label, staging, writer_label, writer, _show_description]
           Web Content: [_show_extradesc, _show_extraspec, web_price, web_price_group, _show_image_url]

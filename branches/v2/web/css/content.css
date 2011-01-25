@@ -91,3 +91,8 @@ body .ui-widget-header { margin: 2px 2px auto 2px; }
   text-align: center;
   width: 4em;
 }
+
+#content .sf_admin_form {
+  line-height: 1.5em;
+}
+  

@@ -4,3 +4,11 @@
   margin-top: 10px;
   margin-left: -130px;
 }
+
+#content .sf_admin_field_companies_list ul {
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+.sf_admin_field_companies_list ul li {
+  margin-left: 10px;
+}

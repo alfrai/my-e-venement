@@ -92,7 +92,10 @@ class manifestationActions extends autoManifestationActions
     }
   }
 
-
+  public function executeIndex(sfWebRequest $request)
+  {
+    $this->redirect('@event');
+  }
   
   public function executeAjax(sfWebRequest $request)
   {
