@@ -18,20 +18,26 @@ function phonenumbers_add(data,beforethis)
   
   $('.phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_organism_phonenumber[name]"]')
     .change(function(){
-      $(this).parent().parent().find('input[name="contact_phonenumber[name]"], input[name="organism_phonenumber[name]"]').val($(this).val());
+      // a hack for getting the selected value from autocompleter
+      setTimeout(function(){
+        elt = $('.phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_organism_phonenumber[name]"]');
+        elt.parent().parent()
+          .find('input[name="contact_phonenumber[name]"], input[name="organism_phonenumber[name]"]')
+          .val(elt.val());
+      },150);
     })
     .autocomplete(phonetype_ajax, jQuery.extend({}, {
       dataType: 'json',
       parse:    function(data) {
         var parsed = [];
         for (key in data) {
-          parsed[parsed.length] = { data: [ data[key], key ], value: data[key], result: data[key] };
+          parsed[parsed.length] = { data: [ data[key], data[key] ], value: data[key], result: data[key] };
         }
         return parsed;
       }
     }, { }))
     .result(function(event, data) {
-      $('.phonenumber-'+$(data).find(pnid).val()+' input[name="contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="contact_phonenumber[name]"]')
+      $('.phonenumber-'+$(data).find(pnid).val()+' input[name="contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="organism_phonenumber[name]"]')
         .val(data[1]);
     });
   

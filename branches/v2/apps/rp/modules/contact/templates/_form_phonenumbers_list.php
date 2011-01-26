@@ -23,12 +23,13 @@
 ?>
 <?php $phonenumbers = $form->getObject()->Phonenumbers ?>
 <?php use_javascript('/sfFormExtraPlugin/js/jquery.autocompleter.js') ?>
+<?php use_stylesheet('/sfFormExtraPlugin/css/jquery.autocompleter.css') ?>
 <?php use_javascript('phonenumbers') ?>
 <?php use_stylesheet('phonenumbers') ?>
 <script type="text/javascript">
   var phonetype_ajax = '<?php echo url_for('phone_type/ajax') ?>';
   var phonenumbers = [];
-  var pnid = '#'.($form->getObject() instanceof Organism ? 'organism' : 'contact').'_phonenumber_id';
+  var pnid = '#<?php echo $form->getObject() instanceof Organism ? 'organism' : 'contact' ?>_phonenumber_id';
 </script>
 <div class="sf_admin_form_row">
 <!--<label><?php echo __('Phone numbers') ?></label>-->
