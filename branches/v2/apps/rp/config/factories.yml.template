@@ -53,7 +53,7 @@ all:
       transport:
         class: Swift_SmtpTransport
         param:
-          host:       smtp.aliceadsl.fr
+          host:       smtp.mydomain.tld
           port:       25
           encryption: ~
           username:   ~

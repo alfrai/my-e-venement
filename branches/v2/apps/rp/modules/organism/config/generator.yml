@@ -38,13 +38,13 @@ generator:
           NONE: [_show_who, _show_email, _show_phonenumbers_list]
           Address:  [name, address, postalcode, city, country]
           Internet: [email, url]
-          Precisions: [npai, description]
+          Precisions: [Category, npai, description]
           Details: [created_at,updated_at,slug,longitude,latitude]
       form:
         display:
           NONE:  [name, address, postalcode, city, country]
           Internet: [email, url]
-          Precisions: [npai, description]
+          Precisions: [organism_category_id, npai, description]
           Phonenumbers: [_form_phonenumbers_list]
       edit:
         title: Organism %%name%%
