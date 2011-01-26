@@ -1,3 +1,19 @@
+function _contact_autocompleter(id,url,type)
+{
+  jQuery(id+' input[name="autocomplete_professional['+type+'_id]"]')
+  .autocomplete(url, jQuery.extend({}, {
+    dataType: 'json',
+    parse:    function(data) {
+      var parsed = [];
+      for (key in data) {
+        parsed[parsed.length] = { data: [ data[key], key ], value: data[key], result: data[key] };
+      }
+      return parsed;
+    }
+  }, { }))
+  .result(function(event, data) { jQuery(id+' input[name="professional['+type+'_id]"]').val(data[1]); });
+}
+
 // disabling direct validation / links
 function contact_ajax_form(id, add, hide)
 {
@@ -17,22 +33,8 @@ function contact_ajax_form(id, add, hide)
     $(this).contents().insertBefore($(this));
     $(this).remove();
   });
-  arr = ['contact','organism'];
-  for ( i in arr )
-  {
-    jQuery(id+' input[name="autocomplete_professional['+arr[i]+'_id]"]')
-    .autocomplete('/e-venement-2/rp_dev.php/'+arr[i]+'/ajax/action', jQuery.extend({}, {
-      dataType: 'json',
-      parse:    function(data) {
-        var parsed = [];
-        for (key in data) {
-          parsed[parsed.length] = { data: [ data[key], key ], value: data[key], result: data[key] };
-        }
-        return parsed;
-      }
-    }, { }))
-    .result(function(event, data) { jQuery(id+' input[name="professional['+arr[i]+'_id]"]').val(data[1]); });
-  }
+  _contact_autocompleter(id,contact_ajax,'contact');
+  _contact_autocompleter(id,organism_ajax,'organism');
   
   $(id+' form a').unbind().click(function(){ return false; });
   
