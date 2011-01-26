@@ -52,7 +52,6 @@ Phonenumber:
   columns:
     name:
       type: string(255)
-      notblank: true
     number:
       type: string(255)
       notblank: true
