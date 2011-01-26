@@ -25,7 +25,6 @@ generator:
           NONE: [_show_who, _show_email, _show_phonenumbers_list]
           Address: [title, name, firstname, address, postalcode, city, country]
           Precisions: [npai, description, _YOBs]
-          #Phonenumbers: [_show_phonenumbers_list]
           Groups: [_show_groups_list]
           Details: [created_at,updated_at,slug,longitude,latitude]
       filter:

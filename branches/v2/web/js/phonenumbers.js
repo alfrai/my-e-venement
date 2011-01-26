@@ -1,6 +1,7 @@
 function phonenumbers_add(data,beforethis)
 {
   li = $('<li class="phonenumber phonenumber-'+$(data).find(pnid).val()+'"></li>').html($(data).find('.sf_admin_form form'));
+  
   if ( $(data).find(pnid).val() != '' )
   {
     // existing
@@ -15,11 +16,11 @@ function phonenumbers_add(data,beforethis)
     $('#content .form_phonenumbers').append(li);
   }
   
-  $('.phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_contact_phonenumber[name]"]')
+  $('.phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_organism_phonenumber[name]"]')
     .change(function(){
-      $(this).parent().parent().find('input[name="contact_phonenumber[name]"]').val($(this).val());
+      $(this).parent().parent().find('input[name="contact_phonenumber[name]"], input[name="organism_phonenumber[name]"]').val($(this).val());
     })
-    .autocomplete('/e-venement-2/rp_dev.php/phone_type/ajax/action', jQuery.extend({}, {
+    .autocomplete(phonetype_ajax, jQuery.extend({}, {
       dataType: 'json',
       parse:    function(data) {
         var parsed = [];
@@ -29,7 +30,10 @@ function phonenumbers_add(data,beforethis)
         return parsed;
       }
     }, { }))
-    .result(function(event, data) { jQuery('.phonenumber-'+$(data).find(pnid).val()+' input[name="contact_phonenumber[name]"]').val(data[1]); });
+    .result(function(event, data) {
+      $('.phonenumber-'+$(data).find(pnid).val()+' input[name="contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="contact_phonenumber[name]"]')
+        .val(data[1]);
+    });
   
   // contact[id] | organism[id]
   $('#content .form_phonenumbers input[name="contact_phonenumber[contact_id]"]').val($('#contact_id').val());

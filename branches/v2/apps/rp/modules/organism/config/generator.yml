@@ -41,12 +41,16 @@ generator:
           Precisions: [Category, npai, description]
           Details: [created_at,updated_at,slug,longitude,latitude]
       form:
+      edit:
+        title: Organism %%name%%
         display:
           NONE:  [name, address, postalcode, city, country]
           Internet: [email, url]
           Precisions: [organism_category_id, npai, description]
           Phonenumbers: [_form_phonenumbers_list]
-      edit:
-        title: Organism %%name%%
       new:
         title: New organism
+        display:
+          NONE:  [name, address, postalcode, city, country]
+          Internet: [email, url]
+          Precisions: [organism_category_id, npai, description]
