@@ -13,4 +13,4 @@ all:
       name: Libre Informatique
     client:
       name: Xxxxx Xxxx
-  demo: true
+  demo: false
