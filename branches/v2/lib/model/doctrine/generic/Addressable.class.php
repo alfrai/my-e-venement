@@ -8,8 +8,95 @@
  * @package    e-venement
  * @subpackage model
  * @author     Baptiste SIMON <baptiste.simon AT e-glop.net>
+ * @author     Ayoub HIDRI <ayoub.hidri AT gmail.com>
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
 class Addressable extends PluginAddressable
 {
+  public function isGeolocalized()
+  {
+    return $this->latitude && $this->longitude;
+  }
+  public function updateGeolocalization()
+  {
+    $geoLocAddress   = $this->getGmapLocalization();
+    
+    $this->latitude  = $geoLocAddress->getLat();
+    $this->longitude = $geoLocAddress->getLng();
+    return $this;
+  }
+  
+  public function save(Doctrine_Connection $conn = null)
+  {
+    if ( sfConfig::get('app_google_maps_api_keys') )
+      $this->updateGeolocalization();
+    parent::save($conn);
+  }
+  
+  protected function getGmapLocalization()
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    
+    if ( !sfConfig::get('app_google_maps_api_keys') )
+      throw new sfFactoryException(__("The geolocalization is not enabled in your configuration",null,'exceptions'));
+    
+    $address = array(
+      'address' => $this->getAddress(),
+      'postal_code' => $this->getPostalcode(),
+      'city' => $this->getCity(),
+      'country' => $this->getCountry() ? $this->getCountry() : 'France', // to change by a param in app.yml
+    );
+    $address = implode(', ', $address);
+    $gmap = new GMap();
+    $geoLocAddress = $gmap->geocode($address);
+    
+    if ( is_null($geoLocAddress) )
+      throw new sfFactoryException(__("It was impossible to geolocalize \"%%contact%%\"",array('%%contact%%' => $this),'exceptions'));
+    return $geoLocAddress;
+  }
+  
+  public function getJSSlug()
+  {
+    return str_replace('-','_',$this->slug);
+  }
+  public function getGmapString()
+  {
+    return
+      '<a href="'.url_for('contact/show?id='.$this->id).'">'.
+        $this.
+      '</a>';
+    /*
+      $this->address.'<br/>'.
+      $this->postalcode.' '.$this->city.'<br/>'.
+      $this->country;
+    */
+  }
+
+  public static function getGmapFromQuery(Doctrine_Query $query, sfWebRequest $request)
+  {
+    $query
+      ->limit(intval(sfConfig::get('app_google_maps_max_display')))
+      ->offset(intval($request->getParameter('offset')));
+    
+    $gMap = new GMap();
+    foreach ($query->execute() as $addressable)
+    {
+      try
+      {
+        if ( !$addressable->isGeolocalized() )
+          $addressable
+            ->updateGeolocalization()
+            ->save();
+        $marker = new GMapMarker($addressable->getLatitude(), $addressable->getLongitude(),array(),$addressable->getJSSlug().'_marker');
+        $marker->addHtmlInfoWindow(new GMapInfoWindow(
+          $addressable->getGmapString(),array(),$addressable->getJSSlug().'_info'
+        ));
+        $gMap->addMarker($marker);
+      }
+      catch ( sfException $e ) { }
+    }
+    $gMap->centerAndZoomOnMarkers();
+
+    return $gMap;
+  }
 }

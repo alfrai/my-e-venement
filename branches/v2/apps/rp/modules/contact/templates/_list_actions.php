@@ -13,3 +13,6 @@
 <?php if ( $sf_user->hasCredential('pr-emailing') ): ?>
 <?php echo $helper->linkToExtraAction(array(  'params' => 'class= fg-button ui-state-default  ',  'action' => 'emailing',  'extra-icon' => 'show', 'label' => 'Create emailing',)) ?>
 <?php endif ?>
+<?php if ( $sf_user->hasCredential('pr-contact') ): ?>
+<?php echo $helper->linkToExtraAction(array(  'params' => 'class= fg-button ui-state-default  ',  'action' => 'map',  'extra-icon' => 'show', 'label' => 'Geolocalize',)) ?>
+<?php endif ?>

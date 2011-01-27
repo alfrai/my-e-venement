@@ -17,6 +17,7 @@
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
 *    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2011 Ayoub HIDRI <ayoub.hidri AT gmail.com>
 *    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
@@ -279,6 +280,17 @@ class contactActions extends autoContactActions
     return sfView::NONE;
   }
   
+  public function executeMap(sfWebRequest $request) {
+    $q = $this->buildQuery();
+    $this->gMap = new GMap();
+    if ( !$this->gMap->getGMapClient()->getAPIKey() )
+    {
+      $this->getUser()->setFlash('error',__("The geolocalization module is not enabled, you can't access this function."));
+      $this->redirect('index');
+    }
+    $this->gMap = Addressable::getGmapFromQuery($q,$request);
+  }
+
   public function executeEmailing(sfWebRequest $request)
   {
     $this->redirect('emailing/new');

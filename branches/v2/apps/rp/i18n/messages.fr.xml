@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Geolocalize</source>
+        <target>Géolocaliser</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Create emailing</source>
+        <target>Créer un e-mailing</target>
+      </trans-unit>
+      <trans-unit>
         <source>Links</source>
         <target>Liens</target>
       </trans-unit>

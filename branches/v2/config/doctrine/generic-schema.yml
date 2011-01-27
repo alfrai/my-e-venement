@@ -16,6 +16,7 @@
 #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # 
 #    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+#    Copyright (c) 2011 Ayoub HIDRI <ayoub.hidri AT gmail.com>
 #    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
 # 
 #**********************************************************************************/
@@ -25,7 +26,13 @@ Addressable:
   actAs: 
     Searchable:
       fields: [name]
-    Geographical: ~
+    Geographical:
+      latitude:
+        options:
+          scale: 7
+      longitude:
+        options:
+          scale: 7
     Timestampable: ~
     Sluggable:
       unique: true

@@ -104,5 +104,16 @@ class organismActions extends autoOrganismActions
     $response = $this->getResponse()->addStyleSheet('view');
     $response = $this->getResponse()->addJavaScript('more-simple');
   }
+
+  public function executeMap(sfWebRequest $request) {
+    $q = $this->buildQuery();
+    $this->gMap = new GMap();
+    if ( !$this->gMap->getGMapClient()->getAPIKey() )
+    {
+      $this->getUser()->setFlash('error',__("The geolocalization module is not enabled, you can't access this function."));
+      $this->redirect('index');
+    }
+    $this->gMap = Addressable::getGmapFromQuery($q,$request);
+  }
 }
 

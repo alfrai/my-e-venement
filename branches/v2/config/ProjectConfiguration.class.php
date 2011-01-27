@@ -17,6 +17,7 @@
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
 *    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2011 Ayoub HIDRI <ayoub.hidri AT gmail.com>
 *    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
@@ -53,5 +54,6 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins('sfDoctrineGuardPlugin');
     $this->enablePlugins('sfAdminThemejRollerPlugin');
     $this->enablePlugins('cxFormExtraPlugin');
+    $this->enablePlugins('sfEasyGMapPlugin');
   }
 }
