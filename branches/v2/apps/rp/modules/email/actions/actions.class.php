@@ -49,8 +49,10 @@ class emailActions extends autoEmailActions
   public function executeCopy(sfWebRequest $request)
   {
     $this->email = $this->getRoute()->getObject()->copy(true);
+    $this->email->Professionals = $this->getRoute()->getObject()->Professionals;
+    $this->email->Contacts = $this->getRoute()->getObject()->Contacts;
     $this->form = $this->configuration->getForm($this->email);
-    $this->setTemplate('edit');
+    $this->setTemplate('new');
   }
   public function executeEdit(sfWebRequest $request)
   {
