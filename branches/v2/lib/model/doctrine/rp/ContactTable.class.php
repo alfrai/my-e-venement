@@ -7,6 +7,22 @@
  */
 class ContactTable extends PluginContactTable
 {
+  public function createQueryByEmailId($id)
+  {
+    $q = $this->createQuery();
+    $a = $q->getRootAlias();
+    $q->leftJoin("$a.Emails ce")
+      ->leftJoin("p.Emails pe")
+      ->andWhere('(TRUE')
+      ->andWhere('ce.sent = TRUE')
+      ->andWhere('ce.id = ?',$id)
+      ->orWhere('pe.id = ?',$id)
+      ->andWhere('pe.sent = TRUE')
+      ->andWhere('TRUE)')
+      ->orderby('name','firstname');
+    return $q;
+  }
+  
   public function createQueryByGroupId($id)
   {
     $q = $this->createQuery();

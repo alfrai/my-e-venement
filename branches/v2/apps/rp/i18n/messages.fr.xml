@@ -444,6 +444,14 @@
         <source>Group's professional members</source>
         <target>Membres professionnels du groupe</target>
       </trans-unit>
+      <trans-unit>
+        <source>Email's Contacts List</source>
+        <target>Liste des contacts du courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Email's Organisms List</source>
+        <target>Liste des organismes du courriel</target>
+      </trans-unit>
       <trans-unit id="114">
         <source>Group's individual members</source>
         <target>Membres individuels du groupe</target>

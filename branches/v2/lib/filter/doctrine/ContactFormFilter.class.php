@@ -21,6 +21,11 @@ class ContactFormFilter extends BaseContactFormFilter
       array('u.id IS NULL DESC, u.username, name','')
     );
     
+    $this->widgetSchema['emails_list']->setOption('query',Doctrine::getTable('Email')
+      ->createQuery()
+      ->andWhere('sent')
+    );
+    
     // has postal address ?
     $this->widgetSchema   ['has_address'] = $this->widgetSchema   ['npai'];
     $this->validatorSchema['has_address'] = $this->validatorSchema['npai'];
@@ -83,14 +88,30 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['has_email']            = 'HasEmail';
     $fields['has_address']          = 'HasAddress';
     $fields['groups_list']          = 'GroupsList';
+    $fields['emails_list']          = 'EmailsList';
     
     return $fields;
   }
   
+  public function addEmailsListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+      $q->leftJoin("$a.Emails ce")
+        ->leftJoin("p.Emails pe")
+        ->andWhere('(TRUE')
+        ->andWhere('ce.sent = TRUE')
+        ->andWhereIn('ce.id',$value)
+        ->orWhereIn('pe.id',$value)
+        ->andWhere('pe.sent = TRUE')
+        ->andWhere('TRUE)');
+    
+    return $q;
+  }
   public function addGroupsListColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $a = $q->getRootAlias();
-    $list = implode(',',$value);
     
     if ( is_array($value) )
       $q->leftJoin("$a.Groups gc")

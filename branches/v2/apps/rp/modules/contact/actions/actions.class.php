@@ -145,8 +145,21 @@ class contactActions extends autoContactActions
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
     $this->pager->init();
   }
-  public function executeIndex(sfWebRequest $request)
+  public function executeEmailList(sfWebRequest $request)
   {
+    if ( !$request->getParameter('id') )
+      $this->forward('contact','index');
+    
+    $this->group_id = $this->email_id = $request->getParameter('id');
+    $q = Doctrine::getTable('Contact')->createQueryByEmailId($this->email_id);
+    
+    $this->pager = $this->configuration->getPager('Contact');
+    $this->pager->setMaxPerPage(15);
+    $this->pager->setQuery($q);
+    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
+    $this->pager->init();
+  }
+  public function executeIndex(sfWebRequest $request) {
     parent::executeIndex($request);
     if ( !$this->sort[0] )
     {
@@ -264,6 +277,11 @@ class contactActions extends autoContactActions
     
     $this->redirect(url_for('group/show?id='.$group->id));
     return sfView::NONE;
+  }
+  
+  public function executeEmailing(sfWebRequest $request)
+  {
+    $this->redirect('emailing/new');
   }
   
   public static function sanitizeSearch($search)

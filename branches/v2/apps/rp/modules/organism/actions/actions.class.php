@@ -13,6 +13,20 @@ require_once dirname(__FILE__).'/../lib/organismGeneratorHelper.class.php';
  */
 class organismActions extends autoOrganismActions
 {
+  public function executeEmailList(sfWebRequest $request)
+  {
+    if ( !$request->getParameter('id') )
+      $this->forward('organism','index');
+    
+    $this->email_id = $request->getParameter('id');
+    $q = Doctrine::getTable('Organism')->createQueryByEmailId($this->email_id);
+    
+    $this->pager = $this->configuration->getPager('Organism');
+    $this->pager->setMaxPerPage(15);
+    $this->pager->setQuery($q);
+    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
+    $this->pager->init();
+  }
   public function executeSearchIndexing(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');

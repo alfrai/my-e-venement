@@ -13,6 +13,21 @@ require_once dirname(__FILE__).'/../lib/emailGeneratorHelper.class.php';
  */
 class emailActions extends autoEmailActions
 {
+  /*
+  public function executeShow(sfWebRequest $request)
+  {
+    // not using the Doctrine::getTable('Email')->createQuery() because it's too long
+    $this->email = Doctrine_Query::create()
+      ->from('Email')
+      ->where('id = ?',$request->getParameter('id'))
+      ->limit(1)
+      ->execute();
+    $this->email = $this->email[0];
+    $this->forward404Unless($this->email);
+    $this->form = $this->configuration->getForm($this->email);
+  }
+  */
+  
   public function executeContent(sfWebRequest $request)
   {
     sfConfig::set('sf_escaping_strategy', false);

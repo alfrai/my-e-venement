@@ -28,7 +28,7 @@ generator:
           Groups: [_show_groups_list]
           Details: [created_at,updated_at,slug,longitude,latitude]
       filter:
-        display: [name, firstname, postalcode, city, country, YOB, groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address]
+        display: [name, firstname, postalcode, city, country, YOB, groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address, emails_list]
       form: ~
       edit:
         title: Contact %%name%% %%firstname%%

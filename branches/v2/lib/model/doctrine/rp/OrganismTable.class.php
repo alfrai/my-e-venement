@@ -7,6 +7,16 @@
  */
 class OrganismTable extends PluginOrganismTable
 {
+  public function createQueryByEmailId($id)
+  {
+    $q = $this->createQuery();
+    $a = $q->getRootAlias();
+    $q->leftJoin("$a.Emails e")
+      ->andWhere('e.sent = TRUE')
+      ->andWhere('e.id = ?',$id)
+      ->orderby('name, city');
+    return $q;
+  }
   public function createQuery($alias = 'a')
   {
     $p  = 'p'  != $alias ? 'p'  : 'p1';

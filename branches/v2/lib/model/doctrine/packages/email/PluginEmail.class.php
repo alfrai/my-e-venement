@@ -25,15 +25,19 @@ abstract class PluginEmail extends BaseEmail
     // contacts
     foreach ( $this->Contacts as $contact )
     if ( $contact->email )
-      $this->to[] = $contact->email;
+      $this->to[] = trim($contact->email);
     // professionals
     foreach ( $this->Professionals as $pro )
     if ( $pro->contact_email )
-      $this->to[] = $pro->contact_email;
+      $this->to[] = trim($pro->contact_email);
+    else if ( $pro->Organism->email )
+      $this->to[] = trim($pro->Organism->email);
+    else if ( $pro->Contact->email )
+      $this->to[] = trim($pro->Contact->email);
     // organisms
     foreach ( $this->Organisms as $organism )
     if ( $organism->email )
-      $this->to[] = $organism->email;
+      $this->to[] = trim($organism->email);
     
     // concatenate addresses
     /*

@@ -10,3 +10,6 @@
 <?php if ( $sf_user->hasCredential('pr-contact-labels') ): ?>
 <?php echo $helper->linkToExtraAction(array(  'params' => 'class= fg-button ui-state-default  ',  'action' => 'labels',  'extra-icon' => 'show', 'label' => 'Get labels',)) ?>
 <?php endif ?>
+<?php if ( $sf_user->hasCredential('pr-emailing') ): ?>
+<?php echo $helper->linkToExtraAction(array(  'params' => 'class= fg-button ui-state-default  ',  'action' => 'emailing',  'extra-icon' => 'show', 'label' => 'Create emailing',)) ?>
+<?php endif ?>

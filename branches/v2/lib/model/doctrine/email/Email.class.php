@@ -12,6 +12,11 @@
  */
 class Email extends PluginEmail
 {
+  public function __toString()
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
+    return format_date($this->updated_at).' '.substr($this->field_subject,0,20).'...';
+  }
   public function save(Doctrine_Connection $conn = null)
   {
     if ( $this->sent )
