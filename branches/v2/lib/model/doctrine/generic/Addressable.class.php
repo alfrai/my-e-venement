@@ -46,7 +46,7 @@ class Addressable extends PluginAddressable
       'city' => $this->getCity(),
       'country' => $this->getCountry() ? $this->getCountry() : sfConfig::get('app_google_maps_default_country'), // to change by a param in app.yml
     );
-    $address = implode(', ', $address);
+    $address = implode("\n", $address);
     $gmap = new GMap();
     $geoLocAddress = $gmap->geocode($address);
     
