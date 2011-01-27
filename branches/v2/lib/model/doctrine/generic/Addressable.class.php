@@ -44,7 +44,7 @@ class Addressable extends PluginAddressable
       'address' => $this->getAddress(),
       'postal_code' => $this->getPostalcode(),
       'city' => $this->getCity(),
-      'country' => $this->getCountry() ? $this->getCountry() : 'France', // to change by a param in app.yml
+      'country' => $this->getCountry() ? $this->getCountry() : sfConfig::get('app_google_maps_default_country'), // to change by a param in app.yml
     );
     $address = implode(', ', $address);
     $gmap = new GMap();
