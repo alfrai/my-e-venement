@@ -11,8 +11,10 @@ $('#email-send-button').click(function(){
   return confirm($(this).find('.confirm-msg').html());
 });
 
-$.get(email_contacts_url, email_contacts_list);
-$.get(email_organisms_url, email_organisms_list);
+if ( $('.members .contacts').length > 0 )
+  $.get(email_contacts_url, email_contacts_list);
+if ( $('.members .organisms').length > 0 )
+  $.get(email_organisms_url, email_organisms_list);
 
 });
 

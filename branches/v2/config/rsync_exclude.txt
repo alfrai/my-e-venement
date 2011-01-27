@@ -4,6 +4,7 @@
 /web/*_dev.php
 /web/uploads/*
 /config/databases.yml
+/apps/rp/config/factories.yml
 
 # SCM files
 .arch-params
