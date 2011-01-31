@@ -16,7 +16,7 @@ abstract class PluginManifestation extends BaseManifestation
   {
     $this->duration = intval($this->rawGet('duration')).'' == ''.$this->rawGet('duration')
       ? $this->rawGet('duration')
-      : intval(strtotime(date('Y-m-d',0).' '.$this->rawGet('duration').'+0'));
+      : intval(strtotime($this->rawGet('duration').'+0',0));
     parent::preSave($event);
   }
   public function getDuration()

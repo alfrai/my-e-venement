@@ -130,14 +130,14 @@ class emailActions extends autoEmailActions
     if ( !is_array($criterias) )
       return $r;
     
-    $groups = isset($criterias['groups_list']) ? $criterias['groups_list'] : array();
-    unset($criterias['groups_list']);
+    //$groups = isset($criterias['groups_list']) ? $criterias['groups_list'] : array();
+    //unset($criterias['groups_list']);
     
     foreach ( $criterias as $name => $criteria )
     if ( !$criteria || !(is_array($criteria) && implode('',$criteria)) )
       unset($criterias[$name]);
     
-    $professional_list = $contacts_list = array();
+    $professionals_list = $contacts_list = array();
     
     if ( $criterias )
     {
@@ -152,6 +152,7 @@ class emailActions extends autoEmailActions
         $contacts_list[] = $contact->id;
     }
     
+    /*
     // groups filtering
     if ( count($groups) > 0 )
     {
@@ -166,10 +167,11 @@ class emailActions extends autoEmailActions
         foreach ( $group->Contacts as $contact )
           $contacts_list[] = $contact->id;
       }
-      
-      $this->form->setDefault('contacts_list',$contacts_list);
-      $this->form->setDefault('professionals_list',$professionals_list);
     }
+      */
+    
+    $this->form->setDefault('contacts_list',$contacts_list);
+    $this->form->setDefault('professionals_list',$professionals_list);
     
     return $r;
   }

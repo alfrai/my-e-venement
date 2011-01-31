@@ -105,7 +105,8 @@ class organismActions extends autoOrganismActions
     $response = $this->getResponse()->addJavaScript('more-simple');
   }
 
-  public function executeMap(sfWebRequest $request) {
+  public function executeMap(sfWebRequest $request)
+  {
     $q = $this->buildQuery();
     $this->gMap = new GMap();
     if ( !$this->gMap->getGMapClient()->getAPIKey() )

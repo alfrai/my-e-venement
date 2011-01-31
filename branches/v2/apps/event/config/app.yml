@@ -3,3 +3,7 @@
 
 # default values
 #all:
+
+all:
+  phpicalendar:
+    web_dir: phpicalendar

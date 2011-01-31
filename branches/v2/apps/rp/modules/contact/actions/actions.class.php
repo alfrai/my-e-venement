@@ -293,12 +293,25 @@ class contactActions extends autoContactActions
 
   public function executeEmailing(sfWebRequest $request)
   {
-    $this->redirect('emailing/new');
+    $this->redirect('email/new');
   }
   
   public static function sanitizeSearch($search)
   {
     $nb = strlen($search);
     return substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search;
+  }
+
+  // GMap
+  public function executeMap(sfWebRequest $request)
+  {
+    $q = $this->buildQuery();
+    $this->gMap = new GMap();
+    if ( !$this->gMap->getGMapClient()->getAPIKey() )
+    {
+      $this->getUser()->setFlash('error',__("The geolocalization module is not enabled, you can't access this function."));
+      $this->redirect('index');
+    }
+    $this->gMap = Addressable::getGmapFromQuery($q,$request);
   }
 }

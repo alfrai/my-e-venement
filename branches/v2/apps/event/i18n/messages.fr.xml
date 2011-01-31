@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-01-31T10:50:50Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit>
+        <source>Technical</source>
+        <target>Technique</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Details</source>
+        <target>Détails</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Web Content</source>
+        <target>Contenu web</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Short name</source>
+        <target>Petit nom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Staging label</source>
+        <target>Étiquette "mise en scène"</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Staging</source>
+        <target>Mise en scène</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Writer label</source>
+        <target>Étiquette "auteur"</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Writer</source>
+        <target>Auteur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Web price</source>
+        <target>Prix web</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Web price group</source>
+        <target>Prix web pour les groupes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organization</source>
+        <target>Organisation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Manifestation</source>
+        <target>Fiche manifestation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Workspaces</source>
+        <target>Espaces de travail</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Postalcode</source>
+        <target>Code Postal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>City</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism</source>
+        <target>Organisme</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Location List</source>
+        <target>Liste des lieux</target>
+      </trans-unit>
+      <trans-unit>
+        <source>General</source>
+        <target>Général</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit>
+        <source>More</source>
+        <target>Plus</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Country</source>
+        <target>Pays</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Gauge</source>
+        <target>Jauge</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Gauge min</source>
+        <target>Jauge mini</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Gauge max</source>
+        <target>Jauge max</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Location</source>
+        <target>Fiche du lieu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Event List</source>
+        <target>Liste des événements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Meta event</source>
+        <target>Méta-événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Category</source>
+        <target>Catégorie</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Detailed category</source>
+        <target>Catégorie précise</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>Events</source>
+        <target>Événements</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Agenda</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Locations</source>
+        <target>Lieux</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>In progress</source>
+        <target>En cours</target>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Online ticketting</source>
+        <target>Billetterie en ligne</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Email</source>
+        <target>Courriel</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Workspace</source>
+        <target>Espace de travail</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Event Category</source>
+        <target>Catégorie d'événement</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Colors</source>
+        <target>Couleurs</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>View Event %%name%%</source>
+        <target>Fiche de l'événement %%name%%</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>Companies list</source>
+        <target>Liste des compagnies</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>No registered company</source>
+        <target>Pas de compagnie enregistrée</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Image URL:</source>
+        <target>URL de l'image</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Extra description:</source>
+        <target>Description suppl.:</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Meta Event</source>
+        <target>Meta événement</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>Extra specification:</source>
+        <target>Description suppl.:</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Category</source>
+        <target>Catégorie</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>Description:</source>
+        <target>Description:</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Records your event before it opens a new manifestation screen</source>
+        <target>Enregistre votre événement avant d'ouvrir une nouvelle manifestation</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>New Manifestation</source>
+        <target>Nouvelle manifestation</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>Event List</source>
+        <target>List des événements</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>Edit Event %%name%%</source>
+        <target>Modifier l'événément %%name%%</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Detailed category</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Duration</source>
+        <target>Durée</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>Compagnies</source>
+        <target>Compagnies</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>Extra description</source>
+        <target>Description suppl.</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Extra specification</source>
+        <target>Spécification suppl.</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Image URL</source>
+        <target>URL de l'image</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>Age min</source>
+        <target>Âge mini</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Age max</source>
+        <target>Âge maxi</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>Signin</source>
+        <target>S'authentifier</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>Forgot your password?</source>
+        <target>Mot de passe oublié ?</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>Want to register?</source>
+        <target>Vous souhaitez vous enregistrer ?</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>You don't have access to this part.</source>
+        <target>Accès interdit</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Oops! The screen you asked for is secure and you do not have proper credentials.</source>
+        <target>Oops! L'écran que vous avez demandé est sécurisé et vous n'avez pas la permission requise.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>Login below to gain access</source>
+        <target>S'authentifier ci-dessous pour obtenir l'accès</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Libre Informatique</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="120">
+        <source>Event</source>
+        <target>Événement</target>
+      </trans-unit>
+      <trans-unit id="121">
+        <source>Organizers list</source>
+        <target>Liste des organisateurs</target>
+      </trans-unit>
+      <trans-unit id="122">
+        <source>No registered organizer</source>
+        <target>Pas d'organisateur enregistré</target>
+      </trans-unit>
+      <trans-unit id="124">
+        <source>Event's Manifestations List</source>
+        <target>Liste des manifestatations de l'événement</target>
+      </trans-unit>
+      <trans-unit id="125">
+        <source>No result</source>
+        <target>Pas de résultat</target>
+      </trans-unit>
+      <trans-unit id="126">
+        <source>Online</source>
+        <target>En ligne</target>
+      </trans-unit>
+      <trans-unit id="127">
+        <source>Prices list</source>
+        <target>Liste des prix</target>
+      </trans-unit>
+      <trans-unit id="128">
+        <source>No registered price</source>
+        <target>Pas de prix enregistré</target>
+      </trans-unit>
+      <trans-unit id="129">
+        <source>Seated</source>
+        <target>Placé</target>
+      </trans-unit>
+      <trans-unit id="130">
+        <source>Happens at</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit id="131">
+        <source>Location</source>
+        <target>Lieu</target>
+      </trans-unit>
+      <trans-unit id="132">
+        <source>Workspaces list</source>
+        <target>Espaces de travail</target>
+      </trans-unit>
+      <trans-unit id="133">
+        <source>No registered workspace</source>
+        <target>Pas d'espace de travail enregistré</target>
+      </trans-unit>
+      <trans-unit id="134">
+        <source>Vat</source>
+        <target>TVA</target>
+      </trans-unit>
+      <trans-unit>
+        <source>VAT</source>
+        <target>TVA</target>
+      </trans-unit>
+      <trans-unit id="135">
+        <source>Edit Manifestation %%name%%</source>
+        <target>Fiche de la manifestation %%name%%</target>
+      </trans-unit>
+      <trans-unit id="136">
+        <source>Editting location %%name%%</source>
+        <target>Fiche du lieu %%name%%</target>
+      </trans-unit>
+      <trans-unit id="137">
+        <source>Stage manager</source>
+        <target>Régisseur</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

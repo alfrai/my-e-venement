@@ -18,6 +18,8 @@ generator:
         contact_id:   { label: Stage manager }
         Organism:     { label: Organism }
         organism_id:  { label: Organism }
+        gauge_max:    { label: Gauge max }
+        gauge_min:    { label: Gauge min }
       list:
         display: [name, postalcode, city, email, Contact, Organism]
       filter:
