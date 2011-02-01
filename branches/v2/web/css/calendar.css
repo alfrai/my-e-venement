@@ -1,7 +1,10 @@
 iframe {
-  width: 840px;
+  width: 825px;
   height: 770px;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: hidden;
+}
+.ui-widget-content {
   margin-top: 10px;
 }
+h1 { font-size: 22px; }

@@ -294,7 +294,7 @@ function makeTitle($arr, $time) {
 	$title is the tooltip for the link
 */
 function openevent($event_date, $time, $uid, $arr, $lines = 0, $length = 0, $link_class = '', $pre_text = '', $post_text = '') {
-	global $cpath, $timeFormat, $dateFormat_week;
+	global $cpath, $timeFormat, $dateFormat_week, $configs;
 
 	# Strip all dollar signs from printable array entries; regex functions will mutilate them
 	foreach ($arr as $key => $val) {
@@ -335,7 +335,10 @@ function openevent($event_date, $time, $uid, $arr, $lines = 0, $length = 0, $lin
 				document.popup_data[$popup_data_index] = eventData;
 				// --></script>";
 
-			$return .= '<a'.$link_class.' title="'.$title.'" href="#" onclick="openEventWindow('.$popup_data_index.'); return false;">';
+      if ( $configs['direct_url'] )
+  			$return .= '<a'.$link_class.' title="'.$title.'" href="'.$arr['url'].'" target="_parent">';
+  	  else
+			  $return .= '<a'.$link_class.' title="'.$title.'" href="#" onclick="openEventWindow('.$popup_data_index.'); return false;">';
 			$popup_data_index++;
 		} else {
 			$return .= '<a'.$link_class.' title="'.$title.'" href="'.$res[1].'">';

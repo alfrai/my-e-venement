@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Calendar</source>
+        <target>Calendrier</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Export</source>
+        <target>Exporter</target>
+      </trans-unit>
+      <trans-unit>
         <source>Technical</source>
         <target>Technique</target>
       </trans-unit>

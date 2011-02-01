@@ -5,19 +5,24 @@ $(document).ready(function(){
 
 function load_calendar()
 {
-  $.get('http://localhost/e-venement-2/event_dev.php/event/304/calendar',function(post){
+  $.get(relative_url_ics_content,function(post){
     // the ics/ical content has been generated in the "post" var
     $.ajax({
       url: $('#calendar').attr('src'),
       type: 'POST',
+      dataType: 'html',
       data: { ical: post },
       success: function(data){
         // the calendar graphical representation has been also generated in the "html" var
         $('#calendar').contents().find('body')
           .html(data)
           .find('meta, title, link, .footer').remove();
-        $('#calendar').contents().find('a').click(function(){
-          $('#calendar').attr('src',relative_url_phpicalendar+$(this).attr('href')+'&cal=nocal');
+        $('#calendar').css('height',$('#calendar').contents().find('html').height());
+        $('#calendar').contents().find('a:not([href^=http])').each(function(){
+          $(this).attr('href',relative_url_phpicalendar+$(this).attr('href')+'&cal=nocal');
+        });
+        $('#calendar').contents().find('a:not([href^=http])').click(function(){
+          $('#calendar').attr('src',$(this).attr('href'));
           load_calendar();
           return false;
         });

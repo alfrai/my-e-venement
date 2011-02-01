@@ -25,25 +25,70 @@ class eventActions extends autoEventActions
   
   public function executeCalendar(sfWebRequest $request)
   {
-    $this->executeShow($request);
-    $v = new vcalendar(array('unique_id' => $this->event->id));
+    sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
     
-    foreach ( $this->event->Manifestations as $manif )
+    $q = Doctrine::getTable('Event')->createQuery();
+    if ( $request->getParameter('id') )
+      $q->where('id = ?',$request->getParameter('id'));
+    $events = $q->execute();
+    
+    $this->caldir   = sfConfig::get('sf_module_cache_dir').'/calendars/';
+    $this->calfile  = $request->getParameter('id') ? $events[0]->slug.'.ics' : 'all.ics';
+    
+    $v = new vcalendar();
+    $v->setConfig(array(
+      'directory' => $this->caldir,
+      'filename'  => $this->calfile,
+    ));
+    
+    $updated = Doctrine_Query::create()->copy($q)
+      ->select('max(updated_at) AS last_updated_at')
+      ->execute();
+    
+    if ( file_exists($this->caldir.$this->calfile)
+      && strtotime($updated[0]->last_updated_at) <= filemtime($this->caldir.$this->calfile) )
     {
-      $time = strtotime($manif->happens_at);
-      
-      $e = &$v->newComponent( 'vevent' );
-      $e->setProperty( 'categories', $manif->Event->EventCategory );
-      $e->setProperty( 'last-modified', date('YmdTHis',strtotime($manif->updated_at)) );
-      $e->setProperty( 'dtstart',  date('Y',$time), date('m',$time), date('d',$time), date('H',$time), date('i',$time), date('s',$time) );
-      $e->setProperty( 'duration', 0, $manif->duration, 0 );
-      $e->setProperty( 'description', $manif->Event );
-      $e->setProperty( 'location', $manif->Location );
-    
-      $v->addComponent( $e );
+      $v->parse();
     }
-    
-    $this->ical = $v->createCalendar();
+    else
+    {
+      foreach ( $events as $event )
+      foreach ( $event->Manifestations as $manif )
+      {
+        $time = strtotime($manif->happens_at);
+        
+        $e = &$v->newComponent( 'vevent' );
+        $e->setProperty('categories', $manif->Event->EventCategory );
+        $e->setProperty('last-modified', date('YmdTHis',strtotime($manif->updated_at)) );
+        $start = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time));
+        $e->setProperty('dtstart', $start);
+        $time = $time+strtotime($manif->duration.'+0',0);
+        $stop = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time));
+        $e->setProperty('dtend', $stop );
+        $e->setProperty('summary', $manif->Event );
+        $e->setProperty('location', $manif->Location );
+        $e->setProperty('url', url_for('manifestation/show?id='.$manif->id,true));
+      
+        $v->addComponent( $e );
+      }
+      
+      if ( ! file_exists(dirname($this->caldir)) )
+      {
+        mkdir(dirname($this->caldir));
+        chmod(dirname($this->caldir),0777);
+      }
+      if ( ! file_exists($this->caldir) )
+      {
+        mkdir($this->caldir);
+        chmod($this->caldir,0777);
+      }
+      if ( file_exists($this->caldir.'/'.$this->calfile) )
+        unlink($this->caldir.'/'.$this->calfile);
+      
+      $v->saveCalendar();
+      chmod($this->caldir.'/'.$this->calfile,0777);
+    }
+
     $v->returnCalendar();
     return sfView::NONE;
   }

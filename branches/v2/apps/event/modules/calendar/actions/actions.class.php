@@ -10,63 +10,29 @@
  */
 class calendarActions extends sfActions
 {
+  public function executeIndex(sfWebRequest $request)
+  {
+    $this->setTemplate('show');
+  }
   public function executeShow(sfWebRequest $request)
   {
-    if ( !intval($request->getParameter('id')) )
-      throw new sfException('You must ask for a specific event id');
+    if ( intval($request->getParameter('id')) <= 0 )
+      throw new sfError404Exception();
     
-    $this->event = $this->getRoute()->getObject();
-    //$v = new vcalendar(array('unique_id' => $this->event->id));
+    $q = Doctrine::getTable('Event')->createQuery();
+    $a = $q->getRootAlias();
+    $q->leftJoin("$a.Manifestations m")
+      ->where('id = ?',intval($request->getParameter('id')))
+      ->select('max(m.happens_at) AS max, min(m.happens_at) AS min');
+    $range = $q->fetchArray();
+    $range = $range[0];
     
-    $this->caldate = $maxdate = $mindate = NULL;
     $now = strtotime('now');
-    
-    foreach ( $this->event->Manifestations as $manif )
-    {
-      $time = strtotime($manif->happens_at);
-      if ( $time < $mindate || is_null($mindate) )
-        $mindate = $time;
-      if ( $time > $maxdate || is_null($maxdate) )
-        $maxdate = $time;
-      
-      /*
-      $e = &$v->newComponent( 'vevent' );
-      $e->setProperty( 'categories', $manif->Event->EventCategory );
-      $e->setProperty( 'last-modified', date('YmdTHis',strtotime($manif->updated_at)) );
-      $e->setProperty( 'dtstart',  date('Y',$time), date('m',$time), date('d',$time), date('H',$time), date('i',$time), date('s',$time) );
-      $dtend = strtotime($manif->duration.'+0',0) + $time;
-      $e->setProperty( 'dtend', array('year'=>date('Y',$dtend), 'month'=>date('m',$dtend), 'day'=>date('d',$dtend), 'hour'=>date('H',$dtend), 'min'=>date('i',$dtend), 'sec'=>date('s',$dtend)) );
-      $e->setProperty( 'description', $manif->Event );
-      $e->setProperty( 'location', $manif->Location );
-    
-      $v->addComponent( $e );
-      */
-    }
-    
-    $this->calnow = $mindate > $now ? $mindate : $maxdate < $now ? $maxdate : $now;
-    $this->caldir = sfConfig::get('sf_module_cache_dir').'/calendars/';
-    $this->calfile = $this->event->slug.'.ics';
-    if ( ! file_exists(dirname($this->caldir)) )
-    {
-      mkdir(dirname($this->caldir));
-      chmod(dirname($this->caldir),0777);
-    }
-    if ( ! file_exists($this->caldir) )
-    {
-      mkdir($this->caldir);
-      chmod($this->caldir,0777);
-    }
-    if ( file_exists($this->caldir.'/'.$this->calfile) )
-      unlink($this->caldir.'/'.$this->calfile);
-    
-    /*
-    $v->setConfig(array(
-      'directory' => $this->caldir,
-      'filename'  => $this->calfile,
-    ));
-    $v->saveCalendar();
-    chmod($this->caldir.'/'.$this->calfile,0777);
-    */
+    $this->calnow = strtotime($range['min']) > $now
+      ? strtotime($range['min'])
+      : strtotime($range['max']) < $now
+      ? strtotime($range['min'])
+      : $now;
   }
 }
 

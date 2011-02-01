@@ -25,7 +25,7 @@ Note that the allow_webcals setting allows webcals to be passed as URLs.  You do
 
 The salt parameter is used to obfuscate things like webcal links that may have usernames and passwords.  This should be changed.
 */
-     'calendar_path'        => '/home/beta/devel/e-venement-2/cache/event/dev/modules/calendars',
+#     'calendar_path'        => '/home/beta/devel/e-venement-2/cache/event/dev/modules/calendars',
 #     'default_path'         => '',
 #     'save_parsed_cals'     => 'yes', 
 #     'cookie_uri'           => '', 
@@ -33,6 +33,7 @@ The salt parameter is used to obfuscate things like webcal links that may have u
 #     'allow_webcals'          => 'yes',
 #     'recursive_path'          => 'yes',
 #     'salt'                => 'SaLt4',
+      'direct_url'          => true,
 
 /*     ** Timezones **
 If timezone is not set, all events show in the local time of the source calendar.  This isn't a problem if all your calendars are in the same timezone.  If you set a timezone for the server, events in other timezones are shown when they occur at the server's time.
@@ -54,8 +55,8 @@ phpicalendar currently supports about 30 language variants.  For a list of suppo
 #     'default_view'         => 'year',           // Default view for calendars'     => 'day', 'week', 'month', 'year'
 #      'printview_default'    => 'yes',	           // Set print view as the default view. Uses'default_view (listed above).
 #     'gridLength'           => 10,                // Grid size in day and week views. Allowed values are 1,2,3,4,10,12,15,20,30,60. Default is 15
-#     'minical_view'         => 'current',	       // Where do the mini-calendars go when clicked?'     => 'day', 'week', 'month', 'current'
-#     'allow_preferences'    => 'no', 
+#     'minical_view'         => 'week',	       // Where do the mini-calendars go when clicked?'     => 'day', 'week', 'month', 'current'
+#     'allow_preferences'    => 'yes',
 #     'month_locations'      => 'no',
 #     'show_search'          => 'yes',
 #     'show_todos'           => 'no',
@@ -63,9 +64,9 @@ phpicalendar currently supports about 30 language variants.  For a list of suppo
 #     'allow_login'          => 'yes',	           // Set to yes to prompt for login to unlock calendars.
 #     'week_start_day'       => 'Monday',          // Day of the week your week starts on
 #     'week_length'          => '5',	           // Number of days to display in the week view
-#     'day_start'            => '0600',	           // Start time for day grid
-#     'day_end'              => '2000',	           // End time for day grid
-#      'event_download' => 'yes',
+      'day_start'            => '0900',	           // Start time for day grid
+      'day_end'              => '2300',	           // End time for day grid
+      'event_download' => 'yes',
 
 
 /*     ========= CALENDAR PUBLISHING =========
