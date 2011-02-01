@@ -62,7 +62,7 @@ phpicalendar currently supports about 30 language variants.  For a list of suppo
 #     'show_todos'           => 'no',
 #     'show_completed'       => 'no',
 #     'allow_login'          => 'yes',	           // Set to yes to prompt for login to unlock calendars.
-#     'week_start_day'       => 'Monday',          // Day of the week your week starts on
+     'week_start_day'       => 'Monday',          // Day of the week your week starts on
 #     'week_length'          => '5',	           // Number of days to display in the week view
       'day_start'            => '0900',	           // Start time for day grid
       'day_end'              => '2300',	           // End time for day grid
