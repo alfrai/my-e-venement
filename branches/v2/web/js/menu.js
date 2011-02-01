@@ -1,4 +1,9 @@
 $(document).ready(function(){
+  // doing a short effect on page unload
+  $('a:not([href^=#]):not([target=_blank])').click(window_transition);
+  $('form').submit(window_transition);
+  $('#transition .close').click(function(){ $('#transition').fadeOut('medium'); });
+  
   // changing menu
   $('#menu > li > span').mouseenter(function(){
     if ( $('#menu li.show').length > 0 && !$(this).parent().hasClass('show') )
@@ -51,4 +56,12 @@ function about_show_contributors()
     $(this).parent().parent().parent().parent().find('.contributors').fadeToggle('slow');
     return false;
   });
+}
+
+function window_transition(speed)
+{
+  if ( speed == 'undefined' )
+    speed = 'medium';
+  
+  $('#transition').fadeIn(speed);
 }

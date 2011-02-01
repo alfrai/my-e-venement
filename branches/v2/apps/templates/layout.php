@@ -34,5 +34,6 @@
     <div id="footer">
       <?php include_partial('global/footer') ?>
     </div>
+    <div id="transition"><span class="close"></span></div>
   </body>
 </html>
