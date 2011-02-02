@@ -1,3 +1,12 @@
+color:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Color
+    module:               color
+    prefix_path:          /color
+    column:               id
+    with_wildcard_routes: true
+
 calendar:
   class: sfDoctrineRouteCollection
   options:

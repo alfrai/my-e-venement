@@ -1,13 +1,13 @@
 generator:
   class: sfDoctrineGenerator
   param:
-    model_class:           MetaEvent
+    model_class:           Color
     theme:                 jroller
     non_verbose_templates: true
     with_show:             false
     singular:              ~
     plural:                ~
-    route_prefix:          meta_event
+    route_prefix:          color
     with_doctrine_route:   true
     actions_base_class:    sfActions
 
@@ -15,15 +15,11 @@ generator:
       actions: ~
       fields:  ~
       list:
-        display: [name]
+        display: [name, _list_color]
       filter:  ~
       form:
-        display:
-          General: [name]
-          Users:   [users_list]
       edit:
-        title: Edit Meta event "%%name%%"
+        title: Edit Color "%%name%%"
       new:     ~
       show:
-        display:
-          General: [name]
+        display: [name, _show_color]

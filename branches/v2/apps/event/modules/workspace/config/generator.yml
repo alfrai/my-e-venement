@@ -14,8 +14,14 @@ generator:
     config:
       actions: ~
       fields:  ~
-      list:    ~
+      list:
+        display: [name]
       filter:  ~
-      form:    ~
-      edit:    ~
+      form:
+        display:
+          General: [name]
+          Manifestations: [manifestations_list]
+          Users: [users_list]
+      edit:
+        title: Edit Workspace %%name%%
       new:     ~

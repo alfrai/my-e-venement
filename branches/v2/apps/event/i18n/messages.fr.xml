@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Color</source>
+        <target>Couleur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Color List</source>
+        <target>Liste des couleurs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Users list</source>
+        <target>Liste des utilisateurs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Users</source>
+        <target>Utilisateurs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Manifestations list</source>
+        <target>Liste des manifestations</target>
+      </trans-unit>
+      <trans-unit>
         <source>Calendar</source>
         <target>Calendrier</target>
       </trans-unit>
