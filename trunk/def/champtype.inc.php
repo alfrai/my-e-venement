@@ -34,7 +34,7 @@
 				$config["database"]["passwd"] );
 	
 	if ( $_POST["newtype"] )
-		$bd->addRecord($table, array("str" => pg_escape_string($_POST["newtype"]), "usage" => $usage));
+		$bd->addRecord($table, array("str" => $_POST["newtype"], "usage" => $usage));
 	
 	if ( is_array($_POST["del"]) )
 	{
