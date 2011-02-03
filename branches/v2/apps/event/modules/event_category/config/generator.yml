@@ -2,7 +2,7 @@ generator:
   class: sfDoctrineGenerator
   param:
     model_class:           EventCategory
-    theme:                 admin
+    theme:                 jroller
     non_verbose_templates: true
     with_show:             false
     singular:              ~
@@ -14,8 +14,12 @@ generator:
     config:
       actions: ~
       fields:  ~
-      list:    ~
+      list:
+        display: [name, vat]
       filter:  ~
       form:    ~
-      edit:    ~
+      edit:
+        title: Edit Event category "%%name%%"
       new:     ~
+      show:
+        display: [name, vat]

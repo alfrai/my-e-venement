@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-01-31T10:50:50Z" product-name="messages">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-02-03T12:41:02Z" product-name="messages">
     <header/>
     <body>
       <trans-unit>
@@ -345,7 +345,7 @@
         <target>Lieu</target>
       </trans-unit>
       <trans-unit id="132">
-        <source>Workspaces list</source>
+        <source>Workspaces List</source>
         <target>Espaces de travail</target>
       </trans-unit>
       <trans-unit id="133">
@@ -360,17 +360,65 @@
         <source>VAT</source>
         <target>TVA</target>
       </trans-unit>
-      <trans-unit id="135">
+      <trans-unit>
         <source>Edit Manifestation %%name%%</source>
         <target>Fiche de la manifestation %%name%%</target>
       </trans-unit>
-      <trans-unit id="136">
+      <trans-unit>
         <source>Editting location %%name%%</source>
         <target>Fiche du lieu %%name%%</target>
       </trans-unit>
-      <trans-unit id="137">
+      <trans-unit>
         <source>Stage manager</source>
         <target>Régisseur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit Color "%%name%%"</source>
+        <target>Modification de la couleur "%%name%%"</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Color</source>
+        <target>Fiche couleur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Color List</source>
+        <target>Liste des couleurs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit Event category "%%name%%"</source>
+        <target>Modification de la catégorie d'événement "%%name%%"</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Event category</source>
+        <target>Fiche catégorie d'événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Event category List</source>
+        <target>Liste des catégories d'événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit Meta event "%%name%%"</source>
+        <target>Modification du meta-événément "%%name%%"</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Meta event</source>
+        <target>Fiche meta-événément</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Meta event List</source>
+        <target>Liste des meta-événements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Workspace List</source>
+        <target>Liste des espaces de travail</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Workspace</source>
+        <target>Fiche espace de travail</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit Workspace %%name%%</source>
+        <target>Modification de l'espace de travail %%name%%</target>
       </trans-unit>
     </body>
   </file>
