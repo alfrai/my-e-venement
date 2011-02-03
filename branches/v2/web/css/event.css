@@ -12,3 +12,5 @@
 .sf_admin_field_companies_list ul li {
   margin-left: 10px;
 }
+
+#more .sf_admin_edit .sf_admin_list { margin: 0; }

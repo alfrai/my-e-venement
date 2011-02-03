@@ -55,6 +55,7 @@ PriceManifestation:
     value:
       type:  decimal(8)
       scale: 3
+      notnull: true
   indexes:
     manif_price:
       fields: [manifestation_id, price_id]

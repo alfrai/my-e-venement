@@ -16,4 +16,14 @@ class PriceManifestationTable extends PluginPriceManifestationTable
     {
         return Doctrine_Core::getTable('PriceManifestation');
     }
+  
+  public function createQuery($alias = 'pm')
+  {
+    $p = 'p' != 'pm' ? 'p' : 'p1';
+    
+    $q = parent::createQuery($alias)
+      ->leftJoin("$alias.Price $p");
+    
+    return $q;
+  }
 }

@@ -17,6 +17,7 @@ class ManifestationForm extends BaseManifestationForm
       'model' => 'Organism',
       'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
+    $this->widgetSchema['workspaces_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     
     $this->validatorSchema['duration'] = new sfValidatorString();
   }

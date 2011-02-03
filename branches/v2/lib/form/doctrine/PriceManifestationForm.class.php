@@ -10,7 +10,25 @@
  */
 class PriceManifestationForm extends BasePriceManifestationForm
 {
+  private $orig_widgets = array();
+  
   public function configure()
   {
+  }
+  public function setHidden($hidden = true)
+  {
+    if ( $hidden )
+    {
+      $orig_widgets['manifestation_id'] = $this->widgetSchema['manifestation_id'];
+      $orig_widgets['price_id'] = $this->widgetSchema['price_id'];
+      $this->widgetSchema['manifestation_id'] = new sfWidgetFormInputHidden();
+      $this->widgetSchema['price_id'] = new sfWidgetFormInputHidden();
+    }
+    else
+    {
+      $this->widgetSchema['manifestation_id'] = $orig_widgets['manifestation_id'];
+      $this->widgetSchema['price_id'] = $orig_widgets['price_id'];
+    }
+    return $this;
   }
 }

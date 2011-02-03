@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Price</source>
+        <target>Tarif</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Value</source>
+        <target>Prix</target>
+      </trans-unit>
+      <trans-unit>
+        <source>at</source>
+        <target>le</target>
+      </trans-unit>
+      <trans-unit>
         <source>Color</source>
         <target>Couleur</target>
       </trans-unit>
@@ -66,11 +78,11 @@
       </trans-unit>
       <trans-unit>
         <source>Web price</source>
-        <target>Prix web</target>
+        <target>Tarif web</target>
       </trans-unit>
       <trans-unit>
         <source>Web price group</source>
-        <target>Prix web pour les groupes</target>
+        <target>Tarif web pour les groupes</target>
       </trans-unit>
       <trans-unit>
         <source>Organization</source>
@@ -326,11 +338,11 @@
       </trans-unit>
       <trans-unit id="127">
         <source>Prices list</source>
-        <target>Liste des prix</target>
+        <target>Liste des tarifs</target>
       </trans-unit>
       <trans-unit id="128">
         <source>No registered price</source>
-        <target>Pas de prix enregistré</target>
+        <target>Pas de tarif enregistré</target>
       </trans-unit>
       <trans-unit id="129">
         <source>Seated</source>
@@ -345,7 +357,7 @@
         <target>Lieu</target>
       </trans-unit>
       <trans-unit id="132">
-        <source>Workspaces List</source>
+        <source>Workspaces list</source>
         <target>Espaces de travail</target>
       </trans-unit>
       <trans-unit id="133">

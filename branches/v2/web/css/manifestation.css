@@ -23,3 +23,16 @@ select[disabled] {
 #content .sf_admin_field_prices_list ul li {
   margin-left: 10px;
 }
+
+#content .sf_admin_list_td_value, #content .sf_admin_list_th_value {
+  width: 250px;
+}
+#content .sf_admin_list_td_value input[type=text] { width: 100px; margin-left: 50px; }
+#content .sf_admin_list_td_value div input[type=text] { margin-left: 40px; }
+#content .sf_admin_list_td_value .sf_admin_flashes div.ui-state-error,
+#content .sf_admin_list_td_value .sf_admin_flashes div.ui-state-highlight,
+#content .sf_admin_list_td_value .sf_admin_flashes div.ui-state-success {
+  padding: 3px 8px;
+  font-size: 80%;
+  margin: -8px 0 -13px 0;
+}
