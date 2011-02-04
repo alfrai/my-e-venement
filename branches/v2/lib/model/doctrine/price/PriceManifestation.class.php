@@ -12,4 +12,10 @@
  */
 class PriceManifestation extends PluginPriceManifestation
 {
+  public function preSave($event)
+  {
+    if ( is_null($this->value) )
+      $this->value = $this->Price->value;
+    parent::preSave($event);
+  }
 }

@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>-- new price --</source>
+        <target>-- nouveau tarif --</target>
+      </trans-unit>
+      <trans-unit>
         <source>Price</source>
         <target>Tarif</target>
       </trans-unit>

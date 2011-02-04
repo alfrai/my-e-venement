@@ -17,9 +17,6 @@
   ?>
   <form action="<?php echo url_for('price_manifestation/update?id='.$pm->id) ?>" method="post" title="<?php echo __("Updating this field is done automagically") ?>">
   <input name="sf_method" value="put" type="hidden">
-  <?php
-    foreach ( $form as $field )
-      echo $field;
-  ?>
+  <?php foreach ( $form as $field ) echo $field; ?>
   </form>
 </td>

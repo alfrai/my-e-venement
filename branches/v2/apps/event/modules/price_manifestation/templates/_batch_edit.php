@@ -6,10 +6,9 @@
       <h2><span class="ui-icon ui-icon-triangle-1-s"></span> <?php echo __('Price manifestation List', array(), 'messages') ?></h2>
     </caption>
     <tbody>
-      <tr class="sf_admin_row ui-widget-content">
-        <td align="center" height="30">
-          <p align="center"><?php echo __('No result', array(), 'sf_admin') ?></p>
-        </td>
+      <tr class="sf_admin_row ui-widget-content sf_admin_new">
+        <?php include_partial('price_manifestation/batch_edit_td_new', array()) ?>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -45,8 +44,13 @@
           <?php include_partial('price_manifestation/batch_edit_td_actions', array('price_manifestation' => $price_manifestation, 'helper' => $helper)) ?>
         </tr>
       <?php endforeach; ?>
+        <tr class="sf_admin_row ui-widget-content sf_admin_new">
+          <?php include_partial('price_manifestation/batch_edit_td_new', array()) ?>
+          <td></td>
+        </tr>
     </tbody>
   </table>
+  <span style="display: none" class="_delete_csrf_token"><?php $f = new BaseForm(); echo $f->getCSRFToken() ?></span>
 
   <?php endif; ?>
 </div>

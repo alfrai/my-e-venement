@@ -14,21 +14,14 @@ class PriceManifestationForm extends BasePriceManifestationForm
   
   public function configure()
   {
+    $this->widgetSchema['manifestation_id']->setOption('add_empty',true);
+    $this->widgetSchema['price_id']->setOption('add_empty',true);
+    $this->validatorSchema['value']->setOption('required',false);
   }
-  public function setHidden($hidden = true)
+  public function setHidden($hides = array('manifestation_id','price_id'))
   {
-    if ( $hidden )
-    {
-      $orig_widgets['manifestation_id'] = $this->widgetSchema['manifestation_id'];
-      $orig_widgets['price_id'] = $this->widgetSchema['price_id'];
-      $this->widgetSchema['manifestation_id'] = new sfWidgetFormInputHidden();
-      $this->widgetSchema['price_id'] = new sfWidgetFormInputHidden();
-    }
-    else
-    {
-      $this->widgetSchema['manifestation_id'] = $orig_widgets['manifestation_id'];
-      $this->widgetSchema['price_id'] = $orig_widgets['price_id'];
-    }
+    foreach ( $hides as $hide )
+      $this->widgetSchema[$hide] = new sfWidgetFormInputHidden();
     return $this;
   }
 }
