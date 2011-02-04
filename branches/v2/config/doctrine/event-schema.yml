@@ -244,9 +244,9 @@ Manifestation:
       foreignAlias: Manifestations
     Workspaces:
       class: Workspace
-      refClass: ManifestationWorkspace
+      refClass: Gauge
       foreignAlias: Manifestations
-ManifestationWorkspace:
+Gauge:
   package: event
   actAs: [Timestampable]
   columns:
@@ -256,16 +256,16 @@ ManifestationWorkspace:
     manifestation_id:
       type: integer
       notnull: true
-    gauge:
+    value:
       type: integer
       notnull: true
   relations:
     Manifestation:
-      foreignAlias: ManifestationWorkspaces
+      foreignAlias: Gauges
       onDelete: CASCADE
       onUpdate: CASCADE
     Workspace:
-      foreignAlias: ManifestationWorkspaces
+      foreignAlias: Gauges
       onDelete: CASCADE
       onUpdate: CASCADE
 Color:

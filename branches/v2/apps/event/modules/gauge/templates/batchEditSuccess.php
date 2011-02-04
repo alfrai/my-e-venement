@@ -5,7 +5,7 @@
   <?php include_partial('global/flashes') ?>
 
   <div id="sf_admin_content">
-    <?php include_partial('price_manifestation/batch_edit', array('pager' => $pager, 'sort' => $sort, 'helper' => $helper, 'hasFilters' => $hasFilters)) ?>
+    <?php include_partial('gauge/batch_edit', array('pager' => $pager, 'sort' => $sort, 'helper' => $helper, 'hasFilters' => $hasFilters)) ?>
   </div>
 
 </div>

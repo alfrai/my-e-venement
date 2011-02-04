@@ -1,0 +1,19 @@
+<td class="sf_admin_text sf_admin_list_td_Workspace">
+  <?php echo $gauge->Workspace ?>
+</td>
+<td class="sf_admin_text sf_admin_list_td_Gauge">
+  <?php
+    $g = new Gauge();
+    $g->id = $gauge->getRaw('id');
+    $g->workspace_id = $gauge->getRaw('workspace_id');
+    $g->manifestation_id = $gauge->getRaw('manifestation_id');
+    $g->value = $gauge->getRaw('value');
+    $form = new GaugeForm($g);
+    $form->setHidden();
+    $form['value']->getWidget()->setLabel('');
+  ?>
+  <form action="<?php echo url_for('gauge/update?id='.$g->id) ?>" method="post" title="<?php echo __("Updating this field is done automagically") ?>">
+  <input name="sf_method" value="put" type="hidden">
+  <?php foreach ( $form as $field ) echo $field; ?>
+  </form>
+</td>

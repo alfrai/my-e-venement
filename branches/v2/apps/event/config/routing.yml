@@ -1,3 +1,12 @@
+gauge:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Gauge
+    module:               gauge
+    prefix_path:          /gauge
+    column:               id
+    with_wildcard_routes: true
+
 price_manifestation:
   class: sfDoctrineRouteCollection
   options:

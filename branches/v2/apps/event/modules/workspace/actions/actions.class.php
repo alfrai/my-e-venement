@@ -14,3 +14,4 @@ require_once dirname(__FILE__).'/../lib/workspaceGeneratorHelper.class.php';
 class workspaceActions extends autoWorkspaceActions
 {
 }
+
