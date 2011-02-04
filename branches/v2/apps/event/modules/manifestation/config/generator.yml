@@ -23,7 +23,7 @@ generator:
       form:
         display:
           General: [happens_at, event_id, location_id, description]
-          Technical: [duration, vat, prices_list, _form_prices]
+          Technical: [duration, vat, _form_prices]
           Organization: [seated, online, organizers_list]
           Workspaces: [workspaces_list]
       edit:
