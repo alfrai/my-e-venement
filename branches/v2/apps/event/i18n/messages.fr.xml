@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Geolocalization</source>
+        <target>Géolocalisation</target>
+      </trans-unit>
+      <trans-unit>
         <source>-- new workspace link --</source>
         <target>-- nouveau lien vers un espace de travail --</target>
       </trans-unit>

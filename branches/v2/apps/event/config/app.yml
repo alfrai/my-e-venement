@@ -7,3 +7,8 @@
 all:
   phpicalendar:
     web_dir: phpicalendar
+  google_maps:
+    api_keys:
+      default: "ABQIAAAAZ2fpUCzFKp-Wp-8Hx51qIhT2yXp_ZAY8_ufC3CFXhHIE1NvwkxRHY5CrGJIANOYubbBU_qrwIQzuTw"
+      max_display: 200
+      default_country: France

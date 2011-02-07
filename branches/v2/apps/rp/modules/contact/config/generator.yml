@@ -37,6 +37,7 @@ generator:
           Precisions: [npai, email, description, YOBs_list, password]
           Phonenumbers: [_form_phonenumbers_list]
           Personal groups: [groups_list]
+          Geolocalization: [_gmap]
       new:
         title: New contact
         display:

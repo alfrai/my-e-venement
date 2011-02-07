@@ -80,23 +80,32 @@ class Addressable extends PluginAddressable
     
     $gMap = new GMap();
     foreach ($query->execute() as $addressable)
-    {
-      try
-      {
-        if ( !$addressable->isGeolocalized() )
-          $addressable
-            ->updateGeolocalization()
-            ->save();
-        $marker = new GMapMarker($addressable->getLatitude(), $addressable->getLongitude(),array(),$addressable->getJSSlug().'_marker');
-        $marker->addHtmlInfoWindow(new GMapInfoWindow(
-          $addressable->getGmapString(),array(),$addressable->getJSSlug().'_info'
-        ));
-        $gMap->addMarker($marker);
-      }
-      catch ( sfException $e ) { }
-    }
+      $gMap = self::getGmapFromObject($addressable,$gMap);
+    
     $gMap->centerAndZoomOnMarkers();
-
     return $gMap;
+  }
+  
+  public static function getGmapFromObject(Addressable $addressable, $gmap = NULL)
+  {
+    if ( !($gmap instanceof GMap) )
+      $gmap = new GMap;
+    
+    try
+    {
+      if ( !$addressable->isGeolocalized() )
+        $addressable
+          ->updateGeolocalization()
+          ->save();
+      $marker = new GMapMarker($addressable->getLatitude(), $addressable->getLongitude(),array(),$addressable->getJSSlug().'_marker');
+      $marker->addHtmlInfoWindow(new GMapInfoWindow(
+        $addressable->getGmapString(),array(),$addressable->getJSSlug().'_info'
+      ));
+      $gmap->addMarker($marker);
+    }
+    catch ( sfException $e ) { }
+    
+    $gmap->centerAndZoomOnMarkers();
+    return $gmap;
   }
 }

@@ -25,15 +25,21 @@ generator:
       filter:
         display: [name, postalcode, city, country, email, contact_id, organism_id, npai]
       form:
+      edit:
+        title: Editting location %%name%%
         display:
           General: [name, email, contact_id, organism_id]
           Address: [address, postalcode, city, country, npai]
           More: [description, gauge_min, gauge_max]
-      edit:
-        title: Editting location %%name%%
-      new:     ~
+          Geolocalization: [_gmap]
+      new:
+        display:
+          General: [name, email, contact_id, organism_id]
+          Address: [address, postalcode, city, country, npai]
+          More: [description, gauge_min, gauge_max]
       show:
         display:
           General: [name, _show_email, _show_contact, _show_organism]
           Address: [name, address, postalcode, city, country, npai]
           More:    [_show_description, gauge_min, gauge_max]
+          Geolocalization: [_gmap]

@@ -41,7 +41,7 @@ generator:
           Web Content: [web_price, web_price_group, image_url, extradesc, extraspec]
       edit:
         title: Edit Event %%name%%
-      new:     ~
+      new:
       show:
         display:
           General:   [name, short_name, event_category_description, _show_event_category, _show_meta_event]

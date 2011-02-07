@@ -26,17 +26,19 @@ generator:
         display:
           General: [happens_at, event_id, location_id, description]
           Technical: [duration, vat, _form_prices]
-          Organization: [seated, online, organizers_list]
+          Organization: [seated, organizers_list]
           Workspaces: [_form_workspaces]
+          Geolocalization: [_gmap]
       new:
         display:
           General: [happens_at, event_id, location_id, description]
           Technical: [duration, vat, prices_list]
-          Organization: [seated, online, organizers_list]
+          Organization: [seated, organizers_list]
           Workspaces: [workspaces_list]
       show:
         display:
           General: [_show_event, happens_at, _show_location, description]
           Technical: [duration, _show_vat, _show_prices_list]
-          Organization: [_show_seated, _show_online, _show_organizers_list]
+          Organization: [_show_seated, _show_organizers_list]
           Workspaces: [_show_workspaces_list]
+          Geolocalization: [_gmap]
