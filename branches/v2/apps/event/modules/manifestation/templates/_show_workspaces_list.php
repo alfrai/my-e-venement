@@ -4,8 +4,16 @@
     <?php if ( $manifestation->Workspaces->count() == 0 ): ?>
       <li><?php echo __('No registered workspace') ?></li>
     <?php else: ?>
-    <?php foreach ( $manifestation->Workspaces as $workspace ): ?>
-    <li class="ui-corner-all"><a href="<?php echo url_for('workspace/show?id='.$workspace->id) ?>"><?php echo $workspace ?></a></li>
+    <?php foreach ( $manifestation->Gauges as $gauge ): ?>
+    <li class="ui-corner-all">
+      <a href="<?php echo url_for('workspace/show?id='.$gauge->Workspace->id) ?>">
+        <?php echo $gauge->Workspace ?>
+      </a>
+      <ul>
+        <li><?php echo $gauge->value ?> pl.</li>
+        <li><?php echo __('Online') ?>: <?php echo $gauge->online ? image_tag('/sfDoctrinePlugin/images/tick.png') : image_tag('/sfDoctrinePlugin/images/delete.png') ?></li>
+      </ul>
+    </li>
     <?php endforeach ?>
     <?php endif ?>
   </ul>

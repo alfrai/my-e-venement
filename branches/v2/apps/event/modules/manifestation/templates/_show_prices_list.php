@@ -5,7 +5,9 @@
       <li><?php echo __('No registered price') ?></li>
     <?php else: ?>
     <?php foreach ( $manifestation->Prices as $price ): ?>
-    <li class="ui-corner-all"><a href="<?php echo url_for('price/show?id='.$price->id) ?>"><?php echo $price ?></a></li>
+    <li class="ui-corner-all">
+      <?php echo $price->getFullName() ?>
+    </li>
     <?php endforeach ?>
     <?php endif ?>
   </ul>

@@ -1,0 +1,15 @@
+all:
+  credentials: [manif]
+
+update:
+  credentials: [manif-gauge]
+edit:
+  credentials: [manif-gauge]
+new:
+  credentials: [manif-gauge]
+create:
+  credentials: [manif-gauge]
+delete:
+  credentials: [manif-gauge]
+batchDelete:
+  credentials: [manif-gauge]
