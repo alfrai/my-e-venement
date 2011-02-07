@@ -570,11 +570,10 @@
       'location_id' => 'siteid',
       'color_id' => 'colorid',
       'happens_at' => 'date',
-      'duration'   => 'seconds',
+      'duration'   => 'duree',
       'description' => 'description',
       'vat' => 'txtva',
       'seated' => 'plnum',
-      'online' => 'vel',
       'created_at' => NULL,
       'updated_at' => NULL,
     );
@@ -601,6 +600,42 @@
     $cpt = migrate($from_table,$conversion,$to_table,true,
       'NOT (select desact from billeterie.tarif where id = (select max(id) from billeterie.tarif where key = (select t.key from billeterie.tarif t where t.id = manifestation_tarifs.tarifid)))',
       '*, (select max(id) from billeterie.tarif where key = (select t.key from billeterie.tarif t where t.id = manifestation_tarifs.tarifid)) AS last_tarifid');
+    print_r($cpt);
+  }
+  
+  // gauge
+  $to_table = 'gauge';
+  $from_table = 'billeterie.space_manifestation';
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'manifestation_id' => 'manifid',
+      'workspace_id' => 'spaceid',
+      'value' => 'jauge',
+      'online' => 'online',
+      'created_at' => NULL,
+      'updated_at' => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table,true,'','*, (select vel from billeterie.manifestation m where manifid = m.id) AS online');
+    print_r($cpt);
+  }
+  $from_table = 'billeterie.manifestation';
+  $spaceid = 3;
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'manifestation_id'  => 'id',
+      'workspace_id'      => 'spaceid',
+      'value'             => 'jauge',
+      'online'            => 'vel',
+      'created_at'        => NULL,
+      'updated_at'        => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table,true,'',"*, CASE WHEN jauge IS NULL THEN 0 ELSE jauge END AS jauge, $spaceid AS spaceid");
     print_r($cpt);
   }
   
