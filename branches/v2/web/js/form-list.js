@@ -51,7 +51,7 @@ $('.sf_admin_form .sf_admin_form_list.ajax').each(function(){
 
 function form_list_focusout()
 {
-  $('.sf_admin_form .sf_admin_form_list.ajax form input[type=text]').unbind().focusout(function(){
+  $('.sf_admin_form .sf_admin_form_list.ajax form input[type=text], .sf_admin_form .sf_admin_form_list.ajax form input[type=checkbox]').unbind().focusout(function(){
     $(this).parent().submit();
   });
 }

@@ -1,5 +1,8 @@
-#content .sf_admin_form_list.ajax .sf_admin_list_td_value, #content .sf_admin_form_list.ajax .sf_admin_list_th_value {
+#content .sf_admin_form_list.ajax .sf_admin_list_th_value {
   width: 250px;
+}
+#content .sf_admin_form_list.ajax .sf_admin_list_th_online {
+  width: 150px;
 }
 #content .sf_admin_form_list.ajax select { width: auto; }
 #content .sf_admin_form_list.ajax input[type=text] { width: 100px; margin-left: 50px; }
