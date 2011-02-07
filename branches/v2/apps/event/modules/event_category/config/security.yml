@@ -1,3 +1,3 @@
 all:
-  credentials: [event_admin_evtcat]
+  credentials: [event-admin-evtcat]
   

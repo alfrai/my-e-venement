@@ -1,17 +1,17 @@
 all:
-  credentials: [event]
-
+  credentials: [event-event]
+  
 edit:
-  credentials: [event-edit]
+  credentials: [event-event-edit]
 update:
-  credentials: [event-edit]
+  credentials: [event-event-edit]
 new:
-  credentials: [event-new]
+  credentials: [event-event-new]
 create:
-  credentials: [event-new]
+  credentials: [event-event-new]
 delete:
-  credentials: [event-delete]
+  credentials: [event-event-delete]
 batchDelete:
-  credentials: [event-delete]
+  credentials: [event-event-delete]
 calendar:
-  credentials: [event-calendar]
+  credentials: [event-event-calendar]

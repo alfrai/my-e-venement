@@ -1,3 +1,12 @@
+price:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Price
+    module:               price
+    prefix_path:          /price
+    column:               id
+    with_wildcard_routes: true
+
 gauge:
   class: sfDoctrineRouteCollection
   options:

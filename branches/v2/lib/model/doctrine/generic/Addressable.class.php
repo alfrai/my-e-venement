@@ -97,9 +97,9 @@ class Addressable extends PluginAddressable
         $addressable
           ->updateGeolocalization()
           ->save();
-      $marker = new GMapMarker($addressable->getLatitude(), $addressable->getLongitude(),array(),$addressable->getJSSlug().'_marker');
+      $marker = new GMapMarker($addressable->getLatitude(), $addressable->getLongitude(),array(),'_'.$addressable->getJSSlug().'_marker');
       $marker->addHtmlInfoWindow(new GMapInfoWindow(
-        $addressable->getGmapString(),array(),$addressable->getJSSlug().'_info'
+        $addressable->getGmapString(),array(),'_'.$addressable->getJSSlug().'_info'
       ));
       $gmap->addMarker($marker);
     }

@@ -12,4 +12,9 @@
  */
 class Price extends PluginPrice
 {
+  public function getFullName()
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('Number');
+    return $this->description.' ('.$this->name.'), '.format_currency($this->value).'€';
+  }
 }

@@ -28,5 +28,7 @@
               <li class="spaced"></li>
               <li><a href="<?php echo cross_app_url_for('event','event_category') ?>"><?php echo __('Event categories',array(),'menu') ?></a></li>
               <li><a href="<?php echo cross_app_url_for('event','color') ?>"><?php echo __('Colors',array(),'menu') ?></a></li>
+              <li class="spaced"></li>
+              <li><a href="<?php echo cross_app_url_for('event','price') ?>"><?php echo __('Prices',array(),'menu') ?></a></li>
             </ul>
           </li>

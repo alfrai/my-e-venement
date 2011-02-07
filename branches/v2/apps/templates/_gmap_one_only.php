@@ -1,7 +1,7 @@
 <?php
   $gMap = new GMap();
   if ( $gMap->getGMapClient()->getAPIKey() ):
-    $gMap = Addressable::getGmapFromObject($form, $gMap);
+    $gMap = Addressable::getGmapFromObject($form->getObject(), $gMap);
     include_partial('global/gmap',array('gMap' => $gMap, 'width' => $width ? $width : '550px'));
 ?>
 <?php else: ?>
