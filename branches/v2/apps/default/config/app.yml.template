@@ -6,7 +6,7 @@
 
 all:
   about:
-    contributors: [Baptiste SIMON, Ludovic SOULIÉ, Thomas RIBOULET, Ayoub HIDRI, Très Tôt Théâtre, Libre Informatique, Symfony Team, #symfony-fr]
+    contributors: [Baptiste SIMON, Ludovic SOULIÉ, Ayoub HIDRI, Thomas RIBOULET, Très Tôt Théâtre, Libre Informatique, Symfony Team, #symfony-fr]
     version: 2.0-alpha0
     firm:
       url: http://www.libre-informatique.fr/
