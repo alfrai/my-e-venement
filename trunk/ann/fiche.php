@@ -185,7 +185,7 @@
 			{
 				foreach ( $del as $fctid => $delid )
 				if ( intval($delid) > 0 && intval($fctid) > 0 )
-				$bd->delRecordsSimple('groupe_fonctions','fonctionid = '.$fctid.' AND groupid = '.intval($delid).' AND (createur = '.$user->getId().($user->hasRight($config['rights']['commongrp']) ? ' OR createur IS NULL' : '').') AND groupid = groupe.id','groupe');
+				$bd->delRecords('groupe_fonctions','fonctionid = '.$fctid.' AND groupid = '.intval($delid).' AND (createur = '.$user->getId().($user->hasRight($config['rights']['commongrp']) ? ' OR createur IS NULL' : '').') AND groupid = groupe.id','groupe');
 			}
 			
 			// gestion des dates de naissance des enfants

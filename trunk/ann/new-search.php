@@ -115,12 +115,17 @@
   $remove = array('perso' => array(), 'pro' => array());
   if ( is_array($_POST['rem-members']) && $grpid )
   {
+    if ( is_array($_POST['rem-members']['pro']) )
     foreach ( $_POST['rem-members']['pro'] as $value )
-        $remove['pro'][]    = intval(substr($value,5));
+      $remove['pro'][]    = intval($value);
+    if ( is_array($_POST['rem-members']['perso']) )
     foreach ( $_POST['rem-members']['perso'] as $value )
-      $remove['perso'][]  = intval(substr($value,5));
-    $bd->delRecords('groupe_fonctions','fonctionid IN ('.implode(',',$remove['pro']).')');
-    $bd->delRecords('groupe_personnes','personneid IN ('.implode(',',$remove['perso']).')');
+      $remove['perso'][]  = intval($value);
+      
+    if ( count($remove['pro'])   > 0 )
+      $bd->delRecords('groupe_fonctions','fonctionid IN ('.implode(',',$remove['pro']).')');
+    if ( count($remove['perso']) > 0 )
+      $bd->delRecords('groupe_personnes','personneid IN ('.implode(',',$remove['perso']).')');
   }
   
   // search
