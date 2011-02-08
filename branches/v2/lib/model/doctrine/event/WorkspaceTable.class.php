@@ -16,4 +16,10 @@ class WorkspaceTable extends PluginWorkspaceTable
     {
         return Doctrine_Core::getTable('Workspace');
     }
+  
+  public function createQuery($alias = 'g')
+  {
+    return parent::createQuery($alias)
+      ->andWhereIn("$alias.id",array_keys(sfContext::getInstance()->getUser()->getWorkspacesCredentials()));
+  }
 }

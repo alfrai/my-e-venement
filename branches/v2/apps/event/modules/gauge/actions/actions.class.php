@@ -20,7 +20,7 @@ class gaugeActions extends autoGaugeActions
     
     $q = Doctrine::getTable('Gauge')->createQuery('g')
       ->leftJoin('g.Workspace w')
-      ->where('g.manifestation_id = ?',$mid)
+      ->andWhere('g.manifestation_id = ?',$mid)
       ->orderBy('w.name');
     $this->sort = array('Workspace','');
     

@@ -100,7 +100,9 @@ Event:
       type:         string(255)
       notblank:     true
     short_name:     string(127)
-    meta_event_id:  integer
+    meta_event_id:
+      type: integer
+      notnull: true
     event_category_id: integer
     event_category_description: string(255)
     staging:        string(255)

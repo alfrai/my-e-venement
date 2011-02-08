@@ -7,6 +7,15 @@
  */
 class sfGuardUserTable extends PluginsfGuardUserTable
 {
+  public function createQuery($alias = 'u')
+  {
+    $me = 'me' == $alias ? 'me1' : 'me';
+    $ws = 'ws' == $alias ? 'ws1' : 'ws';
+    
+    return parent::createQuery($alias)
+      ->leftJoin("$alias.MetaEvents $me")
+      ->leftJoin("$alias.Workspaces $ws");
+  }
     /**
      * Returns an instance of this class.
      *
