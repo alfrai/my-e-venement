@@ -21,8 +21,15 @@ $('.sf_admin_form .sf_admin_form_list.ajax').each(function(){
     });
     
     $(this).find('form:not(.sf_admin_new)').submit(function(){
-      // make-up
       form = $(this);
+      
+      // apply changes on similar fields forms
+      form.find('input:not([type=hidden])').each(function(){
+        $('form[action="'+form.attr('action')+'"] [name="'+$(this).attr('name')+'"][type=hidden]')
+          .val(!$(this).is('input[type=checkbox]') ? $(this).val() : $(this).is(':checked') ? 1 : 0);
+      });
+      
+      // make-up
       form.find('input[type=text]').prependTo(form);
       form.find('*:not(input)').remove();
       
