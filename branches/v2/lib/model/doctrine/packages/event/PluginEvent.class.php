@@ -10,7 +10,7 @@
  * @author     Baptiste SIMON <baptiste.simon AT e-glop.net>
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
-abstract class PluginEvent extends BaseEvent
+abstract class PluginEvent extends BaseEvent implements liEventSecurityAccessor
 {
   public function preSave($event)
   {
@@ -28,5 +28,10 @@ abstract class PluginEvent extends BaseEvent
     $hours = floor($duration/3600);
     $minutes = floor($duration%3600/60) > 9 ? floor($duration%3600/60) : '0'.floor($duration%3600/60);
     return $hours.':'.$minutes;
+  }
+  
+  public function getMEid()
+  {
+    return $this->meta_event_id;
   }
 }
