@@ -2,14 +2,14 @@ all:
   credentials: [event-manif]
 
 edit:
-  credentials: [event-manif-edit]
+  credentials: [event-manif-edit, <?php echo myUser::CREDENTIAL_METAEVENT_PREFIX.'can-access' ?>]
 update:
-  credentials: [event-manif-edit]
+  credentials: [event-manif-edit, <?php echo myUser::CREDENTIAL_METAEVENT_PREFIX.'can-access' ?>]
 new:
   credentials: [event-manif-new]
 create:
   credentials: [event-manif-new]
 delete:
-  credentials: [event-manif-del]
+  credentials: [event-manif-del, <?php echo myUser::CREDENTIAL_METAEVENT_PREFIX.'can-access' ?>]
 batchDelete:
   credentials: [event-manif-del]

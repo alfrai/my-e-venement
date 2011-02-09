@@ -15,7 +15,7 @@ class myUser extends liGuardSecurityUser
       return;
     
     $this->addCredentials($this->getWorkspacesCredentials());
-    $this->addCredentials($this->getMetaEventCredentials());
+    $this->addCredentials($this->getMetaEventsCredentials());
   }
   
   public function getWorkspacesCredentials()
@@ -26,18 +26,24 @@ class myUser extends liGuardSecurityUser
     
     $this->workspaces = array();
     
+    if ( !$this->user )
+      return $this->workspaces;
+    
     foreach ( $this->user->Workspaces as $ws )
       $this->workspaces[$ws->id] = myUser::CREDENTIAL_WORKSPACE_PREFIX.$ws->id;
     
     return $this->workspaces;
   }
-  public function getMetaEventCredentials()
+  public function getMetaEventsCredentials()
   {
     $this->getGuardUser();
     if ( $this->metaevents )
       return $this->metaevents;
     
     $this->metaevents = array();
+    
+    if ( !$this->user )
+      return $this->metaevents;
     
     foreach ( $this->user->MetaEvents as $me )
       $this->metaevents[$me->id] = myUser::CREDENTIAL_METAEVENT_PREFIX.$me->id;
