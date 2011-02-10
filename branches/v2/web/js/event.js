@@ -1,6 +1,9 @@
 $(document).ready(function(){
-  $.get(manifestation_list_url,manifestation_list_loaded);
-  $('#manifestation-new').click(manifestation_new_clicked);
+  if ( typeof(manifestation_list_url) != 'undefined' )
+  {
+    $.get(manifestation_list_url,manifestation_list_loaded);
+    $('#manifestation-new').click(manifestation_new_clicked);
+  }
 });
 
 function manifestation_list_loaded(data)

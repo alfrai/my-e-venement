@@ -44,7 +44,10 @@ class manifestationActions extends autoManifestationActions
     {
       $event = Doctrine::getTable('Event')->findOneBySlug($request->getParameter('event'));
       if ( $event->id )
+      {
         $this->form->getWidget('event_id')->setDefault($event->id);
+        $this->form->getObject()->event_id = $event->id;
+      }
     }
     if ( $request->getParameter('location') )
     {
@@ -53,6 +56,7 @@ class manifestationActions extends autoManifestationActions
       $this->form->getWidget('location_id')->setDefault($location->id);
     }
   }
+  
   /*
    * overriding that to redirect the user to the parent event/location's screen
    * instead of the list of manifestations
@@ -63,6 +67,13 @@ class manifestationActions extends autoManifestationActions
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
+      // "credentials"
+      if ( !in_array($form->getObject()->Event->meta_event_id,array_keys($this->getUser()->getMetaEventsCredentials())) )
+      {
+        $this->getUser()->setFlash('error', "You don't have permissions to modify this event.");
+        $this->redirect('@manifestation_new');
+      }
+      
       $notice = $form->getObject()->isNew() ? 'The item was created successfully.' : 'The item was updated successfully.';
 
       $manifestation = $form->save();
@@ -106,6 +117,7 @@ class manifestationActions extends autoManifestationActions
       ->createQuery()
       ->orderBy('date')
       ->limit($request->getParameter('limit'));
+    $q = EventFormFilter::addCredentialsQueryPart($q);
     if ( $request->getParameter('email') == 'true' )
     $q->andWhere("email IS NOT NULL AND email != ?",'');
     $q = Doctrine_Core::getTable('Organism')
@@ -129,10 +141,34 @@ class manifestationActions extends autoManifestationActions
     $this->pager = $this->configuration->getPager('Contact');
     $this->pager->setMaxPerPage(5);
     $this->pager->setQuery(
-      Doctrine::getTable('Manifestation')->createQueryByEventId($this->event_id)
-      ->orderBy('happens_at > NOW() DESC, CASE WHEN ( happens_at < NOW() ) THEN NOW()-happens_at ELSE happens_at-NOW() END')
-    );
+      EventFormFilter::addCredentialsQueryPart(
+        Doctrine::getTable('Manifestation')->createQueryByEventId($this->event_id)
+        ->orderBy('happens_at > NOW() DESC, CASE WHEN ( happens_at < NOW() ) THEN NOW()-happens_at ELSE happens_at-NOW() END')
+    ));
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
     $this->pager->init();
+  }
+  
+  protected function securityAccessFiltering(sfWebRequest $request)
+  {
+    if ( intval($request->getParameter('id')).'' != ''.$request->getParameter('id') )
+      return;
+    
+    if ( !in_array($this->getRoute()->getObject()->Event->meta_event_id,array_keys($this->getUser()->getMetaEventsCredentials())) )
+    {
+      $this->getUser()->setFlash('error',"You can't access this object, you don't have the required permissions.");
+      $this->redirect('@event');
+    }
+  }
+  
+  public function executeEdit(sfWebRequest $request)
+  {
+    $this->securityAccessFiltering($request);
+    parent::executeEdit($request);
+  }
+  public function executeShow(sfWebRequest $request)
+  {
+    $this->securityAccessFiltering($request);
+    parent::executeShow($request);
   }
 }

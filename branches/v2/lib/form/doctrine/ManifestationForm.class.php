@@ -18,6 +18,8 @@ class ManifestationForm extends BaseManifestationForm
       'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
     $this->widgetSchema['workspaces_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
+    $this->widgetSchema['event_id']->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery()));
+    $this->widgetSchema['location_id']->setOption('add_empty',true);
     
     $this->validatorSchema['duration'] = new sfValidatorString();
   }

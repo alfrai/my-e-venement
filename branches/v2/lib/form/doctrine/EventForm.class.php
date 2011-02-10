@@ -28,5 +28,9 @@ class EventForm extends BaseEventForm
     ));
     
     $this->validatorSchema['duration'] = new sfValidatorString();
+    
+    $this->widgetSchema['meta_event_id']->setOption('query',
+      EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('MetaEvent')->createQuery('me'))
+    );
   }
 }

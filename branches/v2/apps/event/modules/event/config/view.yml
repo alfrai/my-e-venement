@@ -9,11 +9,11 @@ createSuccess:
   stylesheets: [view,event]
   javascripts:  [event]
 updateSuccess:
-  stylesheets: [view,event]
-  javascripts:  [event]
+  stylesheets: [view,event,checkpoint]
+  javascripts:  [event,checkpoint]
 editSuccess:
-  stylesheets: [view,event]
-  javascripts:  [event]
+  stylesheets: [view,event,checkpoint]
+  javascripts:  [event,checkpoint]
 showSuccess:
   stylesheets: [view,event]
   javascripts:  [event]

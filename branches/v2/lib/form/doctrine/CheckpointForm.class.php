@@ -12,5 +12,6 @@ class CheckpointForm extends BaseCheckpointForm
 {
   public function configure()
   {
+    $this->widgetSchema['event_id']->setOption('add_empty',true);
   }
 }

@@ -39,6 +39,7 @@ generator:
           Technical: [companies_list, duration, age_min, age_max]
           Details:   [staging_label, staging, writer_label, writer, description]
           Web Content: [web_price, web_price_group, image_url, extradesc, extraspec]
+          Checkpoints: [_form_checkpoints]
       edit:
         title: Edit Event %%name%%
       new:

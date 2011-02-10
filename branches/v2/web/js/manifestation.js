@@ -1,6 +1,7 @@
 $(document).ready(function(){
   $('select[name="manifestation[event_id]"], select[name="manifestation[location_id]"]').each(function(){
     if ( $(this).find('option[selected=selected]').length > 0 )
+    if ( $(this).val() != '' )
     {
       $(this).attr('disabled','disabled');
       elt = $('<input type="hidden" name="'+$(this).attr('name')+'" value="'+$(this).find('option:selected').attr('value')+'" />');

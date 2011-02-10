@@ -23,11 +23,47 @@ class eventActions extends autoEventActions
     }
   }
   
+  public function executeShow(sfWebRequest $request)
+  {
+    $this->securityAccessFiltering($request);
+    parent::executeShow($request);
+  }
+  public function executeEdit(sfWebRequest $request)
+  {
+    $this->securityAccessFiltering($request);
+    parent::executeEdit($request);
+  }
+  public function executeUpdate(sfWebRequest $request)
+  {
+    $this->securityAccessFiltering($request);
+    parent::executeUpdate($request);
+  }
+  public function executeDelete(sfWebRequest $request)
+  {
+    $this->securityAccessFiltering($request);
+    parent::executeDelete($request);
+  }
+  
+  protected function securityAccessFiltering(sfWebRequest $request)
+  {
+    if ( intval($request->getParameter('id')).'' != ''.$request->getParameter('id') )
+      return;
+    
+    if (!in_array(
+          $this->getRoute()->getObject()->meta_event_id,
+          array_keys($this->getUser()->getMetaEventsCredentials())
+       ))
+    {
+      $this->getUser()->setFlash("You can't access this object, you don't have the required permissions.");
+      $this->redirect('@event');
+    }
+  }
+  
   public function executeCalendar(sfWebRequest $request)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
     
-    $q = Doctrine::getTable('Event')->createQuery();
+    $q = $this->buildQuery();
     if ( $request->getParameter('id') )
       $q->where('id = ?',$request->getParameter('id'));
     $events = $q->execute();
@@ -92,7 +128,29 @@ class eventActions extends autoEventActions
     $v->returnCalendar();
     return sfView::NONE;
   }
+  
+  public function executeBatchDelete(sfWebRequest $request)
+  {
+    $ids = $request->getParameter('ids');
 
+    $q = Doctrine_Query::create()
+      ->delete()
+      ->from('Event')
+      ->whereIn('id', $ids);
+    $count = EventFormFilter::addCredentialsQueryPart($q)->execute();
+
+    if ($count >= count($ids))
+    {
+      $this->getUser()->setFlash('notice', 'The selected items have been deleted successfully.');
+    }
+    else
+    {
+      $this->getUser()->setFlash('error', 'A problem occurs when deleting the selected items.');
+    }
+
+    $this->redirect('@event');
+  }
+  
   public function executeUpdateIndexes(sfWebRequest $request)
   {
     $table = Doctrine_Core::getTable('Event');

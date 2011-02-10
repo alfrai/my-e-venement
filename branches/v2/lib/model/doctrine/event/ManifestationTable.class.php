@@ -20,7 +20,7 @@ class ManifestationTable extends PluginManifestationTable
   public function createQuery($alias = 'm')
   {
     $e = $alias != 'e' ? 'e' : 'e1';
-    $m = $alias != 'm' ? 'm' : 'm1';
+    $me = $alias != 'me' ? 'me' : 'me1';
     $l = $alias != 'l' ? 'l' : 'l1';
     $g = $alias != 'g' ? 'g' : 'g1';
     $ws = $alias != 'ws' ? 'ws' : 'ws1';
@@ -30,9 +30,9 @@ class ManifestationTable extends PluginManifestationTable
     
     $query = parent::createQuery($alias)
         ->leftJoin("$alias.Event $e")
-        ->leftJoin("$e.MetaEvent $m")
+        ->leftJoin("$e.MetaEvent $me")
         ->leftJoin("$alias.Location $l")
-        ->orderBy("$e.name, $m.name, $alias.happens_at, $alias.duration");
+        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration");
     return $query;
   }
 

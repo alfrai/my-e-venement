@@ -1,3 +1,12 @@
+checkpoint:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Checkpoint
+    module:               checkpoint
+    prefix_path:          /checkpoint
+    column:               id
+    with_wildcard_routes: true
+
 price:
   class: sfDoctrineRouteCollection
   options:

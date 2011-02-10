@@ -22,11 +22,19 @@
 
 Checkpoint:
   package: flow
-  actAs: [Timestampable,Geographical]
+  actAs:
+    Timestampable: ~
+    Geographical:  ~
+    Sluggable:
+      fields: [name]
+      unique: true
   columns:
     event_id:
       type: integer
       notnull: true
+    email:
+      type: string(255)
+      email: true
     organism_id: integer
     name:
       type: string(255)
