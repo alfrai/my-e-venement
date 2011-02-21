@@ -36,3 +36,7 @@ body #more {
   width: 215px
 }
  
+#more .ui-widget-gmap {
+  margin: 10px 0;
+  padding: 0 5px;
+}

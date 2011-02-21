@@ -12,4 +12,5 @@
  */
 class Organism extends PluginOrganism
 {
+  protected $module = 'organism';
 }

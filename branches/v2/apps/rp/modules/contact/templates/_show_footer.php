@@ -23,4 +23,5 @@
 ?>
 <div id="more">
   <?php include_partial('contact/professionals_show', array('contact' => $contact, 'form' => $form, 'configuration' => $configuration)) ?>
+  <?php include_partial('gmap', array('form' => $form, 'width' => '400px')) ?>
 </div>

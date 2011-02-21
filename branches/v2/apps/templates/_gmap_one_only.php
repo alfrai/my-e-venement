@@ -2,7 +2,7 @@
   $gMap = new GMap();
   if ( $gMap->getGMapClient()->getAPIKey() ):
     $gMap = Addressable::getGmapFromObject($form->getObject(), $gMap);
-    include_partial('global/gmap',array('gMap' => $gMap, 'width' => $width ? $width : '550px'));
+    include_partial('global/gmap',array('gMap' => $gMap, 'width' => $width ? $width : '550px', 'height' => $height));
 ?>
 <?php else: ?>
   <p><?php echo __("The geolocalization module is not enabled, you can't access this function.") ?></p>

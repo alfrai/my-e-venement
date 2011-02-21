@@ -26,6 +26,7 @@ generator:
           Address: [title, name, firstname, address, postalcode, city, country]
           Precisions: [npai, description, _YOBs]
           Groups: [_show_groups_list]
+          #Geolocalization: [_gmap]
           Details: [created_at,updated_at,slug,longitude,latitude]
       filter:
         display: [name, firstname, postalcode, city, country, YOB, groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address, emails_list]
@@ -37,7 +38,7 @@ generator:
           Precisions: [npai, email, description, YOBs_list, password]
           Phonenumbers: [_form_phonenumbers_list]
           Personal groups: [groups_list]
-          Geolocalization: [_gmap]
+          #Geolocalization: [_gmap]
       new:
         title: New contact
         display:

@@ -62,7 +62,7 @@ class Addressable extends PluginAddressable
   public function getGmapString()
   {
     return
-      '<a href="'.url_for('contact/show?id='.$this->id).'">'.
+      '<a href="'.url_for($this->module.'/show?id='.$this->id).'">'.
         $this.
       '</a>';
     /*

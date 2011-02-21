@@ -12,6 +12,8 @@
  */
 class Contact extends PluginContact
 {
+  protected $module = 'contact';
+  
   public function __toString()
   {
     return strtoupper($this->name).' '.$this->firstname;

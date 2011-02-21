@@ -24,6 +24,7 @@
 <?php if ( !$contact->isNew() ): ?>
 <div id="more">
   <?php include_partial('contact/professionals_edit', array('contact' => $contact, 'form' => $form, 'configuration' => $configuration)) ?>
+  <?php include_partial('gmap', array('form' => $form, 'width' => '400px')) ?>
 </div>
 <?php endif ?>
 
