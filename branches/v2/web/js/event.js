@@ -39,3 +39,19 @@ function manifestation_new_clicked()
   return false;
 }
 
+function checkpoint_autocompleter()
+{
+  jQuery(id+' input[name="autocomplete_checkpoint[organism_id]"]')
+  .autocomplete(url, jQuery.extend({}, {
+    dataType: 'json',
+    parse:    function(data) {
+      var parsed = [];
+      for (key in data) {
+        parsed[parsed.length] = { data: [ data[key], key ], value: data[key], result: data[key] };
+      }
+      return parsed;
+    }
+  }, { }))
+  .result(function(event, data) { jQuery(id+' input[name="checkpoint[organism_id]"]').val(data[1]); });
+}
+

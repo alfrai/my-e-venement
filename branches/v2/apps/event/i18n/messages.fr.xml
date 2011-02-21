@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Checkpoints</source>
+        <target>Points de contrôle</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Legal</source>
+        <target>Légal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Checkpoints list</source>
+        <target>Liste des points de contrôle</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Checkpoint</source>
+        <target>Nouveau point de contrôle</target>
+      </trans-unit>
+      <trans-unit>
         <source>Geolocalization</source>
         <target>Géolocalisation</target>
       </trans-unit>

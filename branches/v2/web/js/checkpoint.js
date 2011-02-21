@@ -1,3 +1,18 @@
+function event_checkpoints_autocompleter()
+{
+  jQuery(' input[name="autocomplete_checkpoint[organism_id]"]')
+  .autocomplete(event_organism_ajax_url, jQuery.extend({}, {
+    dataType: 'json',
+    parse:    function(data) {
+      var parsed = [];
+      for (key in data) {
+        parsed[parsed.length] = { data: [ data[key], key ], value: data[key], result: data[key] };
+      }
+      return parsed;
+    }
+  }, { }))
+  .result(function(event, data) { jQuery('input[name="checkpoint[organism_id]"]').val(data[1]); });
+}
 function event_checkpoints_list_load(url)
 {
   url = url ? url : event_checkpoint_list_url;
@@ -15,6 +30,7 @@ function event_checkpoints_list_load(url)
 }
 function event_checkpoints_new_load(data)
 {
+  event_checkpoints_autocompleter();
   $('.sf_admin_form .checkpoint_new').prepend($(data).find('.sf_admin_flashes'));
   setTimeout(function(){
     $('.sf_admin_flashes .notice').fadeOut(function(){ $(this).remove(); });
