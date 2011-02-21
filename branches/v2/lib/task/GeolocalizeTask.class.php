@@ -52,7 +52,7 @@ EOF;
       throw new sfCommandException(sprintf('Model "%s" doesn\'t exist.', $arguments['model']));
     }else{
       //récupérer les enregistrements
-      $modelTable =$modelTableClass::getInstance();
+      $modelTable = exec_user_func($modelTableClass.'::getInstance');
       if($modelTable instanceof AddressableTable){
       $records = $modelTable->findAll();
 

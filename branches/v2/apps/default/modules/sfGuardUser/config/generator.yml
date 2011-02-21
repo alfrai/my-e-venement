@@ -19,7 +19,10 @@ generator:
         first_name:     { label: Firstname }
         last_name:      { label: Lastname }
         email_address:  { label: Email address }
-
+      
+      filter:
+        display: [username, is_active, is_super_admin, last_name, first_name, email_address]
+      
       list:
         title:   User list
         display: [username, is_active, is_super_admin, last_login, last_name, first_name, email_address]

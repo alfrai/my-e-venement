@@ -89,7 +89,7 @@ class Addressable extends PluginAddressable
   public static function getGmapFromObject(Addressable $addressable, $gmap = NULL)
   {
     if ( !($gmap instanceof GMap) )
-      $gmap = new GMap;
+      $gmap = new GMap();
     
     try
     {
