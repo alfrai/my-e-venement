@@ -32,6 +32,8 @@ Price:
     value:
       type: decimal(8)
       scale: 3
+      notnull: true
+      default: 0
     online:
       type: boolean
       notnull: true

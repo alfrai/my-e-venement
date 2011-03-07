@@ -21,11 +21,22 @@
 *
 ***********************************************************************************/
 ?>
+    <?php
+      if ( $sf_user->hasCredential('event-event')
+        || $sf_user->hasCredential('event-calendar-gui')
+        || $sf_user->hasCredential('event-location') ): ?>
       <li>
         <ul class="second">
+          <?php if ( $sf_user->hasCredential('event-event') ): ?>
           <li><a href="<?php echo cross_app_url_for('event','event') ?>"><?php echo __('Events',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('event-calendar-gui') ): ?>
           <li><a href="<?php echo cross_app_url_for('event','calendar') ?>"><?php echo __('Agenda',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('event-location') ): ?>
           <li><a href="<?php echo cross_app_url_for('event','location') ?>"><?php echo __('Locations',array(),'menu') ?></a></li>
+          <?php endif ?>
         </ul>
         <span class="title"><?php echo __('Events',array(),'menu') ?></span>
       </li>
+    <?php endif ?>

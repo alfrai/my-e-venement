@@ -21,14 +21,30 @@
 *
 ***********************************************************************************/
 ?>
+  <?php if ( $sf_user->hasCredential('event-admin') ): ?>
           <li><a><?php echo __('Events',array(),'menu') ?></a>
             <ul class="third">
+              <?php if ( $sf_user->hasCredential('event-admin-metaevt') ): ?>
               <li><a href="<?php echo cross_app_url_for('event','meta_event') ?>"><?php echo __('Meta-events',array(),'menu') ?></a></li>
+              <?php endif ?>
+              <?php if ( $sf_user->hasCredential('event-admin-workspace') ): ?>
               <li><a href="<?php echo cross_app_url_for('event','workspace') ?>"><?php echo __('Workspaces',array(),'menu') ?></a></li>
+              <?php endif ?>
+              <?php if ( $sf_user->hasCredential('event-admin-metaevt') || $sf_user->hasCredential('event-admin-workspace') ): ?>
               <li class="spaced"></li>
+              <?php endif ?>
+              <?php if ( $sf_user->hasCredential('event-admin-evtcat') ): ?>
               <li><a href="<?php echo cross_app_url_for('event','event_category') ?>"><?php echo __('Event categories',array(),'menu') ?></a></li>
+              <?php endif ?>
+              <?php if ( $sf_user->hasCredential('event-admin-color') ): ?>
               <li><a href="<?php echo cross_app_url_for('event','color') ?>"><?php echo __('Colors',array(),'menu') ?></a></li>
+              <?php endif ?>
+              <?php if ( $sf_user->hasCredential('event-admin-evtcat') || $sf_user->hasCredential('event-admin-color') ): ?>
               <li class="spaced"></li>
+              <?php endif ?>
+              <?php if ( $sf_user->hasCredential('event-admin-price') ): ?>
               <li><a href="<?php echo cross_app_url_for('event','price') ?>"><?php echo __('Prices',array(),'menu') ?></a></li>
+              <?php endif ?>
             </ul>
           </li>
+  <?php endif ?>

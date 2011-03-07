@@ -107,7 +107,7 @@ class emailActions extends autoEmailActions
     $this->email->not_a_test = false;
     
     if ( $this->getUser() instanceof sfGuardSecurityUser )
-      $this->email->sf_guard_user_id = $this->getUser()->id;
+      $this->email->sf_guard_user_id = $this->getUser()->getId();
     
     // loading templates
     $email = $request->getParameter('email');
