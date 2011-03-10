@@ -38,7 +38,7 @@ function list_integrated_search(data)
 }
 
 $(document).ready(function(){
-  $('#list-integrated-search').submit(function(){
+  $('#list-integrated-search').unbind().submit(function(){
     if ( $(this).find('input[name=s]').val() == '' )
     {
       window.location = $(this).find('input[name=contact_url]').val();
