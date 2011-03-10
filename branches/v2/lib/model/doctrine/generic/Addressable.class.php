@@ -37,7 +37,7 @@ class Addressable extends PluginAddressable
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
     
-    if ( !sfConfig::get('app_google_maps_api_keys') )
+    if ( !sfConfig::has('app_google_maps_api_keys') )
       throw new sfFactoryException(__("The geolocalization is not enabled in your configuration",null,'exceptions'));
     
     $address = array(

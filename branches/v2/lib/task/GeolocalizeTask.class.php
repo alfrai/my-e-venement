@@ -32,7 +32,7 @@ class GeolocalizeTask extends sfBaseTask{
       )
     );
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application', 'default'),
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application', 'rp'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environement', 'dev')
     ));
     $this->namespace = 'e-venement';
@@ -59,9 +59,15 @@ EOF;
         if($records){
           foreach ($records as $record){
 
-            //$record->updateGeolocalization();
-            if($record->trySave()){
+            try
+            {
+              $record->updateGeolocalization();
+              $record->save();
               $this->logSection('geo', sprintf('%s %s updated', $arguments['model'],$record->getId()));
+            }
+            catch ( sfException $e )
+            {
+              $this->logSection('geo', sprintf('ERROR on %s %s', $arguments['model'],$record->getId()));
             }
           }
 

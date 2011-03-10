@@ -12,4 +12,9 @@
  */
 class sfGuardUser extends PluginsfGuardUser
 {
+  public function save(Doctrine_Connection $conn = null)
+  {
+    if ( $this->email_address && $this->username )
+      parent::save($conn);
+  }
 }
