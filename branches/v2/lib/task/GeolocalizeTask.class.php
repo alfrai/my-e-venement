@@ -55,13 +55,16 @@ EOF;
       $modelTable = Doctrine_Core::getTable($arguments['model']);
       if($modelTable instanceof AddressableTable){
       $records = $modelTable->findAll();
-
+      
         if($records){
+          if ( $records->count() == 0 )
+            $this->logSection('geo', sprintf('No record to be updated'));
+          else
           foreach ($records as $record){
 
             try
             {
-              $record->updateGeolocalization();
+              //$record->updateGeolocalization();
               $record->save();
               $this->logSection('geo', sprintf('%s %s updated', $arguments['model'],$record->getId()));
             }

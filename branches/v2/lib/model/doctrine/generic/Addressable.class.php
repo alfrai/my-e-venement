@@ -35,10 +35,8 @@ class Addressable extends PluginAddressable
   
   protected function getGmapLocalization()
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
-    
     if ( !sfConfig::has('app_google_maps_api_keys') )
-      throw new sfFactoryException(__("The geolocalization is not enabled in your configuration",null,'exceptions'));
+      throw new sfFactoryException("Geolocalization is not enabled in your configuration");
     
     $address = array(
       'address' => $this->getAddress(),
@@ -51,7 +49,8 @@ class Addressable extends PluginAddressable
     $geoLocAddress = $gmap->geocode($address);
     
     if ( is_null($geoLocAddress) )
-      throw new sfFactoryException(__("It was impossible to geolocalize \"%%contact%%\"",array('%%contact%%' => $this),'exceptions'));
+      throw new sfFactoryException("It was impossible to geolocalize \"%%contact%%\"");
+    
     return $geoLocAddress;
   }
   
