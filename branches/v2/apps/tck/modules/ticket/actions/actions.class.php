@@ -25,29 +25,37 @@ class ticketActions extends sfActions
   {
     if ( !($this->getRoute() instanceof sfObjectRoute) )
     {
-      $this->transaction = new Transaction();
-      $this->transaction->save();
-      $this->redirect('ticket/sell?id='.$this->transaction->id);
+      // this is a hack to be able to quickly commit things without problems
+      if ( intval($request->getParameter('id')) > 0 )
+        $this->transaction = Doctrine::getTable('Transaction')->findOneById(intval($request->getParameter('id')));
+      else
+      {
+        $this->transaction = new Transaction();
+        $this->transaction->save();
+        $this->redirect('ticket/sell?id='.$this->transaction->id);
+      }
     }
     else
       $this->transaction = $this->getRoute()->getObject();
     $this->form = new BaseForm();
   }
   
-  // add manifestation
-  public function executeAddManif(sfWebRequest $request)
-  {
-  }
-  // add tickets
+  // add contact
   public function executeAddContact(sfWebRequest $request)
   {
     $this->executeSell($request);
     
     if ( intval($request->getParameter('contact_id')) > 0 )
-    $this->transaction->contact_id = intval($request->getParameter('contact_id'));
-    $this->transaction->save();
+    {
+      $this->transaction->contact_id = intval($request->getParameter('contact_id'));
+      $this->transaction->save();
+    }
     
     $this->setTemplate('sell');
+  }
+  // add manifestation
+  public function executeAddManif(sfWebRequest $request)
+  {
   }
   // remove tickets
   public function executeAddTicket(sfWebRequest $request)

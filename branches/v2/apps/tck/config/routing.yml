@@ -9,6 +9,7 @@ ticket:
     prefix_path:          /ticket
     column:               id
     with_wildcard_routes: true
+    
 
 # default rules
 homepage:
