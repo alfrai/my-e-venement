@@ -12,6 +12,15 @@ class calendarActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
   {
+    $q = Doctrine::getTable('Event')->createQuery();
+    $a = $q->getRootAlias();
+    $q->leftJoin("$a.Manifestations m")
+      ->select('max(m.happens_at) AS max, min(m.happens_at) AS min');
+    $range = $q->fetchArray();
+    $range = $range[0];
+    
+    $this->setNow($range);
+    
     $this->setTemplate('show');
   }
   public function executeShow(sfWebRequest $request)
@@ -27,11 +36,17 @@ class calendarActions extends sfActions
     $range = $q->fetchArray();
     $range = $range[0];
     
+    $this->setNow($range);
+  }
+
+  protected function setNow($range = array())
+  {
     $now = strtotime('now');
+    return
     $this->calnow = strtotime($range['min']) > $now
       ? strtotime($range['min'])
       : strtotime($range['max']) < $now
-      ? strtotime($range['min'])
+      ? strtotime($range['max'])
       : $now;
   }
 }
