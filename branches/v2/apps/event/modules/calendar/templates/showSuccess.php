@@ -13,7 +13,7 @@
 </script>
 <iframe
   id="calendar"
-  src="http://localhost/e-venement-2/phpicalendar/month.php?cal=nocal&getdate=<?php echo date('Ymd',$calnow) ?>"
+  src="<?php echo dirname($_SERVER['SCRIPT_NAME']) ?>/phpicalendar/month.php?cal=nocal&getdate=<?php echo date('Ymd',$calnow) ?>"
   class="ui-widget-content ui-corner-all"
 >
 </iframe>
