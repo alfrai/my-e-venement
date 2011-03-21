@@ -113,17 +113,20 @@ class manifestationActions extends autoManifestationActions
     $charset = sfContext::getInstance()->getConfiguration()->charset;
     $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
     
+    $e = Doctrine_Core::getTable('Event')->search($search.'*',Doctrine::getTable('Event')->createQuery());
+    
+    $eids = array();
+    foreach ( $e->execute() as $event )
+      $eids[] = $event['id'];
+    
     $q = Doctrine::getTable('Manifestation')
       ->createQuery()
-      ->orderBy('date')
+      ->andWhereIn('event_id',$eids)
+      ->orderBy('happens_at')
       ->limit($request->getParameter('limit'));
     $q = EventFormFilter::addCredentialsQueryPart($q);
-    if ( $request->getParameter('email') == 'true' )
-    $q->andWhere("email IS NOT NULL AND email != ?",'');
-    $q = Doctrine_Core::getTable('Organism')
-      ->search($search.'*',$q);
     $request = $q->execute()->getData();
-
+    
     $organisms = array();
     foreach ( $request as $organism )
       $organisms[$organism->id] = (string) $organism;
