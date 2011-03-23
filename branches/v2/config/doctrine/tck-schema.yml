@@ -86,10 +86,7 @@ Ticket:
       notnull: true
       default: 0
     numerotation: string(255)
-    duplicate:
-      type: integer
-      notnull: true
-      default: 0
+    duplicate: integer
   indexes:
     manif_numerotation:
       fields: [numerotation, manifestation_id]
