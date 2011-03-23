@@ -89,7 +89,7 @@ Ticket:
     duplicate:
       type: integer
       notnull: true
-      default: false
+      default: 0
   indexes:
     manif_numerotation:
       fields: [numerotation, manifestation_id]
