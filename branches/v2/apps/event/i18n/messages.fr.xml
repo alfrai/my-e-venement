@@ -460,6 +460,14 @@
         <source>Edit Workspace %%name%%</source>
         <target>Modification de l'espace de travail %%name%%</target>
       </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. Don't forget to update prices if necessary. You can add another one below.</source>
+        <target>L'élément a été créé avec succès. N'oubliez pas de mettre à jour les tarifs si nécessaire. Vous pouvez en créer un nouveau ci-après.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. Don't forget to update prices if necessary.</source>
+        <target>L'élément a été créé avec succès. N'oubliez pas de mettre à jour les tarifs si nécessaire.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

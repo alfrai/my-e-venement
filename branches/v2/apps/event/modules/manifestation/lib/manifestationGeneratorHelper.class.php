@@ -14,7 +14,7 @@ class manifestationGeneratorHelper extends BaseManifestationGeneratorHelper
   {
     $params['ui-icon'] = $this->getIcon('list', $params);
     return '<li class="sf_admin_action_list">'.link_to(UIHelper::addIcon($params) . __($params['label'], array(), 'sf_admin'), is_object($object)
-      ? 'event/show?id='.$object->event_id
+      ? ($object->event_id ? 'event/show?id='.$object->event_id : '@event')
       : '@manifestation', $params['params']).'</li>';
   }
 }

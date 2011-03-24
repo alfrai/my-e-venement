@@ -68,13 +68,15 @@ class manifestationActions extends autoManifestationActions
     if ($form->isValid())
     {
       // "credentials"
+      $form->updateObject($request->getParameter($form->getName()), $request->getFiles($form->getName()));
       if ( !in_array($form->getObject()->Event->meta_event_id,array_keys($this->getUser()->getMetaEventsCredentials())) )
       {
         $this->getUser()->setFlash('error', "You don't have permissions to modify this event.");
+        die('poeut');
         $this->redirect('@manifestation_new');
       }
       
-      $notice = $form->getObject()->isNew() ? 'The item was created successfully.' : 'The item was updated successfully.';
+      $notice = $form->getObject()->isNew() ? "The item was created successfully. Don't forget to update prices if necessary." : 'The item was updated successfully.';
 
       $manifestation = $form->save();
 
@@ -90,10 +92,12 @@ class manifestationActions extends autoManifestationActions
       {
         $this->getUser()->setFlash('notice', $notice);
         
+        /*
         if ( ($eid = intval($request->getParameter('event'))) > 0 )
           $this->redirect('event/show?id='.$eid);
         if ( ($lid = intval($request->getParameter('location'))) > 0 )
           $this->redirect('location/show?id='.$lid);
+        */
         $this->redirect(array('sf_route' => 'manifestation_edit', 'sf_subject' => $manifestation));
       }
     }

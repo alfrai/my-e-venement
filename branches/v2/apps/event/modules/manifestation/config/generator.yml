@@ -33,7 +33,7 @@ generator:
       new:
         display:
           General: [happens_at, event_id, location_id, color_id, description]
-          Technical: [duration, vat, prices_list]
+          Technical: [duration, vat] #, prices_list]
           Organization: [seated, organizers_list]
           Workspaces: [workspaces_list]
       show:
