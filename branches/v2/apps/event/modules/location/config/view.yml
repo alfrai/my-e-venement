@@ -1,2 +1,13 @@
 all:
   javascripts: [/liTinymcePlugin/tiny_mce]
+
+showSuccess:
+  stylesheets: [view]
+editSuccess:
+  stylesheets: [view]
+updateSuccess:
+  stylesheets: [view]
+newSuccess:
+  stylesheets: [view]
+createSuccess:
+  stylesheets: [view]

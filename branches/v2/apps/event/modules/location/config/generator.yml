@@ -31,7 +31,7 @@ generator:
           General: [name, email, contact_id, organism_id]
           Address: [address, postalcode, city, country, npai]
           More: [description, gauge_min, gauge_max]
-          Geolocalization: [_gmap]
+          #Geolocalization: [_gmap]
       new:
         display:
           General: [name, email, contact_id, organism_id]
@@ -42,4 +42,4 @@ generator:
           General: [name, _show_email, _show_contact, _show_organism]
           Address: [name, address, postalcode, city, country, npai]
           More:    [_show_description, gauge_min, gauge_max]
-          Geolocalization: [_gmap]
+          #Geolocalization: [_gmap]
