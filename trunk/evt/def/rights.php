@@ -117,7 +117,8 @@
 	<?php
 		$query	= " SELECT account.id, account.login, account.name, rights.level
 			    FROM account, rights
-			    WHERE rights.id = account.id AND $spacecond";
+			    WHERE rights.id = account.id AND $spacecond
+			    ORDER BY name";
 		$request = new bdRequest($bd,$query);
 		
 		while ( $rec = $request->getRecordNext() )

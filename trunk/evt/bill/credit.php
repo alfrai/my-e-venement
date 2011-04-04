@@ -42,6 +42,7 @@
 		   	   ".(isset($flashdate) ? "AND cur.date <= '".pg_escape_string($flashdate)."'::date" : "" )."
 		   	 GROUP BY resa.transaction) AS topay
 		   WHERE topay.transaction = transaction.id
+		     ".($_GET['spaces'] != 'all' ? "AND transaction.spaceid ".($user->evtspace ? '= '.$user->evtspace : 'IS NULL') : '')."
 		     AND ( transaction.personneid = pers.id
 		       OR (transaction.personneid IS NULL AND pers.id IS NULL) )
 		     AND ( transaction.fctorgid = pers.fctorgid
@@ -49,7 +50,7 @@
 	if ( !$seeall ) $query .= " AND
 				    ( ".( isset($flashdate)
 				          ? "topay.prix - (SELECT sum(paiement.montant) AS prix FROM paiement WHERE transaction = topay.transaction AND date <= '".pg_escape_string($flashdate)."'::date GROUP BY transaction) != 0"
-				          : "topay.prix - (SELECT prix FROM paid WHERE paid.transaction = topay.transaction)")." > 0
+				          : "topay.prix - (SELECT prix FROM paid WHERE paid.transaction = topay.transaction) > 0" )."
 				      OR (topay.transaction NOT IN (SELECT transaction FROM paiement ".(isset($flashdate) ? "WHERE date <= '".pg_escape_string($flashdate)."'::date" : "").") AND topay.prix > 0 ))";
 	$class .= " credit";
 	$subtitle = "Personnes n'ayant pas réglé la totalité de leurs créances";
