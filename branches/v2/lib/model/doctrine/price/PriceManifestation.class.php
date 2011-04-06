@@ -12,6 +12,14 @@
  */
 class PriceManifestation extends PluginPriceManifestation
 {
+  public static function createPrice(Price $price)
+  {
+    $pm = new PriceManifestation();
+    $pm->price_id = $price->id;
+    $pm->value = $price->value;
+    return $pm;
+  }
+  
   public function preSave($event)
   {
     if ( is_null($this->value) )

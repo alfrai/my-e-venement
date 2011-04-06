@@ -1,6 +1,13 @@
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
+ticket_contact:
+  class: sfDoctrineRoute
+  url: /ticket/addContact
+  options:
+    model: Transaction
+    type: object
+        
 ticket:
   class: sfDoctrineRouteCollection
   options:

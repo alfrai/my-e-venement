@@ -1,0 +1,43 @@
+.action {
+  margin: 5px 2px 0 2px;
+  padding: 5px;
+}
+
+#manifestations .manifestations_add {
+  max-height: 200px;
+  overflow: auto;
+}
+.manifestations_list, #manifestations ul {
+  padding: 3px 0 10px 0;
+  margin: 5px 0;
+  list-style-type: none;
+}
+
+.manifestations_list ul { display: table; width: 100%; }
+.manifestations_list li { display: table-row; }
+.manifestations_list li > span.prices { padding-left: 10px; }
+.manifestations_list li > span {
+  display: table-cell;
+  white-space: nowrap;
+  padding: 0 5px;
+}
+.manifestations_list .prices { width: 100%; }
+.manifestations_list .prices > span {
+  display: inline-block;
+  margin-left: 5px;
+  border: 1px dashed gray;
+  padding: 2px 7px;
+  -moz-border-radius: 3px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.sf_admin_flashes {
+  position: absolute;
+  width: 800px;
+  margin: 5px 0 0 5px;
+}
+
+.manifestations_list .total { font-weight: bold; text-align: right; }
+.manifestations_list .total { text-align: right; }
+.manifestations_list .total .total { text-decoration: underline; padding-top: 5px; }

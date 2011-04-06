@@ -1,19 +1,23 @@
-  <form class="ui-corner-all ui-widget-content action" id="contact" action="<?php echo url_for('ticket/addContact') ?>" method="post">
-    <p>
-      <span class="title"><?php echo __('Contact') ?>:</span>
-      <span class="contact">
-        <input type="hidden" name="sf_method" value="put" />
-        <input type="hidden" name="id" value="<?php echo $transaction->id ?>" />
-        <input type="hidden" value="<?php echo $form->getCSRFToken() ?>" name="_csrf_token" />
-        <?php
-          $w = new sfWidgetFormDoctrineJQueryAutocompleter(array(
-            'model' => 'Contact',
-            'url'   => cross_app_url_for('rp','contact/ajax'),
-          ));
-          echo $w->render('contact_id');
-        ?>
-      </span>
-      <span class="professional">
-      </span>
-    </p>
-  </form>
+<?php echo $form->renderFormTag(url_for('@ticket_contact')) ?>
+  <p>
+    <span class="title"><?php echo __('Contact') ?>:</span>
+    <?php echo $form->renderHiddenFields() ?>
+    <span class="contact">
+      <?php if ( is_null($transaction->contact_id) ): ?>
+        <?php echo $form['contact_id'] ?>
+      <?php else: ?>
+        <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$transaction->contact_id) ?>"><?php echo $transaction->Contact ?></a>
+      <?php endif ?>
+    </span>
+    <?php if ( !is_null($transaction->contact_id) ): ?>
+    -
+    <span class="professional">
+    <?php if ( is_null($transaction->professional_id) ): ?>
+      <?php echo $form['professional_id'] ?>
+    <?php else: ?>
+      <?php echo $transaction->Professional ?>
+    <?php endif ?>
+    </span>
+    <?php endif ?>
+  </p>
+</form>

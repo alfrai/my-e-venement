@@ -12,4 +12,5 @@
  */
 class Location extends PluginLocation
 {
+  protected $module = 'location';
 }

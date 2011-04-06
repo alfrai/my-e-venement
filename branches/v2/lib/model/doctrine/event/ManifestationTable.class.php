@@ -19,20 +19,19 @@ class ManifestationTable extends PluginManifestationTable
 
   public function createQuery($alias = 'm')
   {
-    $e = $alias != 'e' ? 'e' : 'e1';
+    $e  = $alias != 'e'  ? 'e'  : 'e1';
     $me = $alias != 'me' ? 'me' : 'me1';
-    $l = $alias != 'l' ? 'l' : 'l1';
-    $g = $alias != 'g' ? 'g' : 'g1';
-    $ws = $alias != 'ws' ? 'ws' : 'ws1';
-    $p = $alias != 'p' ? 'p' : 'p1';
-    $c = $alias != 'c' ? 'c' : 'c1';
-    $o = $alias != 'o' ? 'o' : 'o1';
+    $l  = $alias != 'l'  ? 'l'  : 'l1';
+    $pm = $alias != 'pm' ? 'pm' : 'pm1';
+    $p  = $alias != 'p'  ? 'p'  : 'p1';
     
     $query = parent::createQuery($alias)
         ->leftJoin("$alias.Event $e")
         ->leftJoin("$e.MetaEvent $me")
         ->leftJoin("$alias.Location $l")
-        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration");
+        ->leftJoin("$alias.PriceManifestations $pm")
+        ->leftJoin("$pm.Price $p")
+        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name");
     return $query;
   }
 

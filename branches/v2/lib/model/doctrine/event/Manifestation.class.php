@@ -14,11 +14,26 @@ class Manifestation extends PluginManifestation
 {
   public function getName()
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
+    sfApplicationConfiguration::getActive()->loadHelpers(array('I18N','Date'));
     return $this->Event->name.' '.__('at').' '.format_datetime($this->happens_at);
   }
   public function __toString()
   {
     return $this->getName();
+  }
+  
+  public function postInsert($event)
+  {
+    if ( $this->PriceManifestations->count() == 0 )
+    foreach ( Doctrine::getTable('Price')->createQuery()->execute() as $price )
+    {
+      $pm = PriceManifestation::createPrice($price);
+      $pm->manifestation_id = $this->id;
+      $pm->save();
+      $this->PriceManifestations[] = $pm;
+    }
+    $this->save();
+    
+    parent::postInsert($event);
   }
 }

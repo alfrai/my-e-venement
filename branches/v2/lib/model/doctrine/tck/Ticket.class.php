@@ -12,4 +12,17 @@
  */
 class Ticket extends PluginTicket
 {
+  public function preSave($event)
+  {
+    if ( is_null($this->price_id) && !is_null($this->price_name) && !is_null($this->manifestation_id) )
+    {
+      $q = Doctrine::getTable('PriceManifestation')->createQuery('pm')
+        ->andWhere('m.id = ?',$this->manifestation_id)
+        ->andWhere('p.name = ?',$this->price_name);
+      $pm = $q->execute()->get(0);
+      $this->price_id = $pm->price_id;
+      $this->value    = $pm->value;
+    }
+    parent::preSave($event);
+  }
 }

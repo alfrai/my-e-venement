@@ -1,28 +1,26 @@
-<?php
-  use_stylesheet('sell');
-  use_stylesheet('/sfFormExtraPlugin/css/jquery.autocompleter.css');
-?>
-<?php
-  use_javascript('/sfFormExtraPlugin/js/jquery.autocompleter.js');
-  use_javascript('ticket');
-?>
-<?php use_helper('CrossAppLink') ?>
+<?php include_partial('assets') ?>
+<?php include_partial('global/flashes') ?>
 
 <div class="ui-widget-content ui-corner-all sf_admin_edit" id="sf_admin_container">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1>Vendre des billets</h1>
   </div>
-  <?php include_partial('ticket_contact',array('form' => $form, 'transaction' => $transaction)) ?>
-  <div class="ui-corner-all ui-widget-content action">
-    <p>Manifestations:</p>
+  <div class="ui-corner-all ui-widget-content action" id="contact">
+    <?php echo link_to('contact','ticket/addContact?id='.$transaction->id) ?>
   </div>
-  <div class="ui-corner-all ui-widget-content action">
-    <p>Tarifs</p>
+  <div class="ui-corner-all ui-widget-content action" id="manifestations">
+    <?php echo link_to('manifestations','ticket/manifs?id='.$transaction->id) ?>
   </div>
-  <div class="ui-corner-all ui-widget-content action">
-    <p>Paiement</p>
+  <div class="ui-corner-all ui-widget-content action" id="prices">
+    <?php include_partial('ticket_prices',array('transaction' => $transaction, 'prices' => $prices)) ?>
   </div>
-  <div class="ui-corner-all ui-widget-content action">
-    <p>Validation</p>
+  <div class="ui-corner-all ui-widget-content action" id="print">
+    <?php include_partial('ticket_print',array('transaction' => $transaction)) ?>
+  </div>
+  <div class="ui-corner-all ui-widget-content action" id="payment">
+    <?php include_partial('ticket_payment',array('transaction' => $transaction)) ?>
+  </div>
+  <div class="ui-corner-all ui-widget-content action" id="validation">
+    <?php include_partial('ticket_validation',array('transaction' => $transaction)) ?>
   </div>
 </div>

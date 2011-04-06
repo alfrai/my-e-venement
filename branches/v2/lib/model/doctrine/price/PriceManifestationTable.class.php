@@ -19,10 +19,12 @@ class PriceManifestationTable extends PluginPriceManifestationTable
   
   public function createQuery($alias = 'pm')
   {
-    $p = 'p' != 'pm' ? 'p' : 'p1';
+    $p = $alias != 'p' ? 'p' : 'p1';
+    $m = $alias != 'm' ? 'm' : 'm1';
     
     $q = parent::createQuery($alias)
-      ->leftJoin("$alias.Price $p");
+      ->leftJoin("$alias.Price $p")
+      ->leftJoin("$alias.Manifestation $m");
     
     return $q;
   }

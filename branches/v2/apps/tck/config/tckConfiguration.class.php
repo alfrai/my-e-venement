@@ -6,10 +6,9 @@ class tckConfiguration extends sfApplicationConfiguration
   {
     sfConfig::set('sf_app_template_dir', sfConfig::get('sf_apps_dir') . '/templates');
     
-    $this->dispatcher->connect('admin.save_object', array($this, 'setSpecialFlash'));
     $this->dispatcher->connect('user.change_authentication', array($this, 'logAuthentication'));
   }
-  
+
   public function logAuthentication(sfEvent $event)
   {
     $params   = $event->getParameters();

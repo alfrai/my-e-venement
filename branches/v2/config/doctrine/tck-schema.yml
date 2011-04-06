@@ -80,11 +80,10 @@ Ticket:
       type: string(63)
       notnull: true
       notblank: true
-    price:
+    value:
       type: decimal(8)
       scale: 3
       notnull: true
-      default: 0
     numerotation: string(255)
     duplicate: integer
   indexes:

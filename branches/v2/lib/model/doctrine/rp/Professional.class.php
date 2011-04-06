@@ -21,4 +21,8 @@ class Professional extends PluginProfessional
   {
     return $this->name ? $this->name.($this->ProfessionalType ? ' ('.$this->ProfessionalType.')' : '') : $this->ProfessionalType;
   }
+  public function getFullDesc()
+  {
+    return $this->Organism.' ('.($this->name ? $this->name : $this->ProfessionalType).')';
+  }
 }

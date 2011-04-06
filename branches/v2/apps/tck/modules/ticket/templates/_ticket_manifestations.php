@@ -1,0 +1,17 @@
+  <?php use_helper('Date','Number') ?>
+  <form action="<?php echo url_for('ticket/manifs?id='.$transaction->id) ?>" method="post">
+    <p class="manif_new">
+      <span class="title"><?php echo __('Manifestations') ?>:</span>
+      <span>
+        <input type="text" name="manif_new" value="" />
+      </span>
+      <a href="#" class="toggle_view"><?php echo __('hide / show') ?></a>
+    </p>
+    <ul class="manifestations_add ui-widget-content ui-corner-all">
+    <?php foreach ( $manifestations_add as $manif ): ?>
+      <li>
+      <?php include_partial('ticket_manifestation',array('manif' => $manif)) ?>
+      </li>
+    <?php endforeach ?>
+    </ul>
+  </form>
