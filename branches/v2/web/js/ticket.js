@@ -4,6 +4,7 @@ $(document).ready(function(){
       $('#'+$(data).find('form').parent().attr('id')).html($(data).find('form').parent().html());
       ticket_events();
       ticket_prices();
+      ticket_print();
     });
   });
 });
@@ -175,19 +176,40 @@ function ticket_process_amount()
 
 function ticket_enable_payment()
 {
-  // if there are tickets
+  // if there are tickets, we fadeIn() needed widgets
   if ( $('#prices .manifestations_list .manif input[type=hidden]').length > 0 )
   {
     // if there is nothing left to pay
     if ( parseFloat($('#prices .manifestations_list .total .total').html()) <= 0 )
-      $('#print, #validation').fadeIn('slow');
+    {
+      $('#print, #validation').fadeIn();
+      $('#payment').fadeOut();
+    }
     
     // if there is something left to pay
     if ( parseFloat($('#prices .manifestations_list .total .total').html()) > 0 )
-      $('#payment').fadeIn('slow');
+    {
+      $('#print, #payment').fadeIn();
+      $('#validation').fadeOut();
+    }
   }
   else
     $('#print, #validation, #payment').fadeOut();
+}
+
+function ticket_print()
+{
+  $('#print input[type=text]').attr('disabled','disabled')
+  $('#print input[type=checkbox]').change(function(){
+    if ( $(this).is(':checked') )
+    {
+      $(this).parent().find('input[type=text]')
+        .removeAttr('disabled')
+        .focus();
+    }
+    else
+      $('#print input[type=text]').attr('disabled','disabled');
+  });
 }
 
 function ticket_autocomplete(id,autocomplete,url) {

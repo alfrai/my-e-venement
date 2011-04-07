@@ -20,7 +20,6 @@ class ticketActions extends sfActions
     $this->redirect('ticket/sell');
   }
   
-  
   public function executeSell(sfWebRequest $request)
   {
     if ( !($this->getRoute() instanceof sfObjectRoute) )
@@ -130,6 +129,7 @@ class ticketActions extends sfActions
       ->leftJoin('tck.Price tp')
       ->leftJoin('tck.Transaction t')
       ->andWhere('t.id = ?',$this->transaction->id)
+      ->andWhere('tck.duplicate IS NULL')
       ->orderBy('e.name, tck.price_name');
     $this->manifestations = $q->execute();
     
@@ -146,8 +146,46 @@ class ticketActions extends sfActions
   {
   }
   // validate the entire transaction
-  public function executeConfirmation(sfWebRequest $request)
+  public function executeValidation(sfWebRequest $request)
   {
+  }
+  
+  public function executePrint(sfWebRequest $request)
+  {
+    if ( !($this->getRoute() instanceof sfObjectRoute) )
+      return $this->redirect('ticket/sell');
+    
+    $this->transaction = $this->getRoute()->getObject();
+    
+    $this->tickets = array();
+    foreach ( $this->transaction->Tickets as $ticket )
+    {
+      if ( $request->getParameter('duplicate') == 'true' )
+      {
+        if ( $ticket->Price->name == $request->getParameter('price_name') && $ticket->printed )
+        {
+          $newticket = $ticket->clone();
+          $newticket->save();
+          $ticket->duplicate = $newticket->id;
+          $ticket->save();
+          $this->tickets[] = $newticket;
+        }
+      }
+      else
+      {
+        if ( !$ticket->printed )
+        {
+          $ticket->printed = true;
+          $ticket->save();
+          $tickets[] = $ticket;
+        }
+      }
+    }
+    
+    if ( count($tickets) <= 0 )
+      return $this->redirect('ticket/sell?id='.$this->transaction->id);
+    
+    $this->setLayout('empty');
   }
   
   // remember / forget selected manifestations

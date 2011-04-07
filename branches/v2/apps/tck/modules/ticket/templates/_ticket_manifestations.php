@@ -9,7 +9,7 @@
     </p>
     <ul class="manifestations_add ui-widget-content ui-corner-all">
     <?php foreach ( $manifestations_add as $manif ): ?>
-      <li>
+      <li class="manif">
       <?php include_partial('ticket_manifestation',array('manif' => $manif)) ?>
       </li>
     <?php endforeach ?>

@@ -1,2 +1,6 @@
 default:
   javascripts: [jquery,menu]
+
+printSuccess:
+  javascripts: [-*, jquery, print-ticket]
+  stylesheets: [-*, print-ticket]
