@@ -177,12 +177,12 @@ class ticketActions extends sfActions
         {
           $ticket->printed = true;
           $ticket->save();
-          $tickets[] = $ticket;
+          $this->tickets[] = $ticket;
         }
       }
     }
     
-    if ( count($tickets) <= 0 )
+    if ( count($this->tickets) <= 0 )
       return $this->redirect('ticket/sell?id='.$this->transaction->id);
     
     $this->setLayout('empty');

@@ -48,6 +48,10 @@ Transaction:
     contact_id: integer
     professional_id: integer
     transaction_id: integer
+    type:
+      type: enum
+      values: [normal, cancellation, deposit]
+      notnull: true
   relations:
     Contact:
       foreignAlias: Transactions
@@ -184,4 +188,4 @@ Invoice:
     extends: Accounting
     type: column_aggregation
     keyField: type
-    keyValue: 'invoice'
+    keyValue: 'invoice'    
