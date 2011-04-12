@@ -155,16 +155,22 @@ class ticketActions extends sfActions
     if ( !($this->getRoute() instanceof sfObjectRoute) )
       return $this->redirect('ticket/sell');
     
-    $this->transaction = $this->getRoute()->getObject();
+    //$this->transaction = $this->getRoute()->getObject();
+    $q = Doctrine::getTable('Transaction')
+      ->createQuery('t')
+      ->andWhere('t.id = ?',$request->getParameter('id'))
+      ->andWhere('tck.duplicate IS NULL');
+    $transactions = $q->execute();
+    $this->transaction = $transactions[0];
     
     $this->tickets = array();
     foreach ( $this->transaction->Tickets as $ticket )
     {
       if ( $request->getParameter('duplicate') == 'true' )
       {
-        if ( $ticket->Price->name == $request->getParameter('price_name') && $ticket->printed )
+        if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) && $ticket->printed )
         {
-          $newticket = $ticket->clone();
+          $newticket = $ticket->copy();
           $newticket->save();
           $ticket->duplicate = $newticket->id;
           $ticket->save();
@@ -183,7 +189,10 @@ class ticketActions extends sfActions
     }
     
     if ( count($this->tickets) <= 0 )
+    {
+      die('glop');
       return $this->redirect('ticket/sell?id='.$this->transaction->id);
+    }
     
     $this->setLayout('empty');
   }

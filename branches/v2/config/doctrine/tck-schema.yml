@@ -51,6 +51,7 @@ Transaction:
     type:
       type: enum
       values: [normal, cancellation, deposit]
+      default: normal
       notnull: true
   relations:
     Contact:

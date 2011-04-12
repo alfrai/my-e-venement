@@ -16,4 +16,16 @@ class TransactionTable extends PluginTransactionTable
     {
         return Doctrine_Core::getTable('Transaction');
     }
+  
+  public function createQuery($alias = 't')
+  {
+    $tck = 'tck' != $alias ? 'tck' : 'tck2';
+    $m   = 'm'   != $alias ? 'm'   : 'm2';
+    
+    $q = parent::createQuery($alias);
+    $a = $q->getRootAlias();
+    $q->leftJoin("$a.Tickets $tck")
+      ->leftJoin("$tck.Manifestation $m");
+    return $q;
+  }
 }
