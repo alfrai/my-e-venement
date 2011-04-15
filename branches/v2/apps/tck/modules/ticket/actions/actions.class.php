@@ -41,6 +41,10 @@ class ticketActions extends sfActions
       ->orderBy('name');
     $this->prices = $q->execute();
     
+    $payment = new Payment();
+    $payment->transaction_id = $this->transaction->id;
+    $this->payform = new PaymentForm($payment);
+    
     $this->createTransactionForm(array('contact_id','professional_id'));
   }
   
@@ -168,7 +172,8 @@ class ticketActions extends sfActions
     {
       if ( $request->getParameter('duplicate') == 'true' )
       {
-        if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) && $ticket->printed )
+        if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
+          && $ticket->printed )
         {
           $newticket = $ticket->copy();
           $newticket->save();
@@ -188,13 +193,10 @@ class ticketActions extends sfActions
       }
     }
     
-    if ( count($this->tickets) <= 0 )
-    {
-      die('glop');
-      return $this->redirect('ticket/sell?id='.$this->transaction->id);
-    }
-    
     $this->setLayout('empty');
+    
+    if ( count($this->tickets) <= 0 )
+      $this->setTemplate('close');
   }
   
   // remember / forget selected manifestations

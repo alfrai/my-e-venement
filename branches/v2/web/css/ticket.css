@@ -41,3 +41,23 @@
 .manifestations_list .total { font-weight: bold; text-align: right; }
 .manifestations_list .total { text-align: right; }
 .manifestations_list .total .total { text-decoration: underline; padding-top: 5px; }
+
+#payment {
+  min-height: 180px;
+}
+#payment form {
+  position: absolute;
+}
+#payment .sf_admin_list {
+  margin-left: 400px;
+  width: 350px;
+}
+#payment .sf_admin_list .sf_admin_list_td_list_value { text-align: right; }
+#payment .sf_admin_list .change .sf_admin_text,
+#payment .sf_admin_list .total .sf_admin_text,
+#payment .sf_admin_list .topay .sf_admin_text { padding-left: 30px; font-weight: bold; }
+#payment .sf_admin_list .change .sf_admin_list_td_list_value { text-decoration: underline; }
+#payment form { padding: 5px; padding-top: 0; }
+#payment form .sf_admin_form_row { padding-top: 0; padding-bottom: 0; }
+#payment form label { display: inline-block; width: 100px; }
+#payment form .errors { padding-bottom: 8px; }

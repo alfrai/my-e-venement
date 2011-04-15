@@ -24,6 +24,6 @@
           <li><a><?php echo __('Ticketting',array(),'menu') ?></a>
             <ul class="third">
               <li><a href=""><?php echo __('Rates',array(),'menu') ?></a></li>
-              <li><a href=""><?php echo __('Payment methods',array(),'menu') ?></a></li>
+              <li><a href="<?php echo cross_app_url_for('tck','@payment_method') ?>"><?php echo __('Payment methods',array(),'menu') ?></a></li>
             </ul>
           </li>

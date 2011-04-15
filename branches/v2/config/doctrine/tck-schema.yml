@@ -190,3 +190,38 @@ Invoice:
     type: column_aggregation
     keyField: type
     keyValue: 'invoice'    
+
+PaymentMethod:
+  package: tck
+  columns:
+    name:
+      type: string(255)
+      notblank: true
+      notnull: true
+    account: string(63)
+Payment:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    transaction_id:
+      type: integer
+      notnull: true
+    payment_method_id:
+      type: integer
+      notnull: true
+    value:
+      type: decimal(8)
+      scale: 3
+      notnull: true
+  relations:
+    Transaction:
+      foreignAlias: Payments
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Method:
+      class: PaymentMethod
+      foreignAlias: Payments
+      onDelete: RESTRICT
+      onUpdate: CASCADE

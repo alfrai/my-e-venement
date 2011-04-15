@@ -172,6 +172,8 @@ function ticket_process_amount()
     }
   });
   $('#prices .manifestations_list .total .total').html(total.toFixed(2)+currency)
+  $('#payment tbody tr.topay .sf_admin_list_td_list_value').html(total.toFixed(2)+currency);
+  $('#payment tbody tr.change .sf_admin_list_td_list_value').html((total-parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html())).toFixed(2)+currency);
 }
 
 function ticket_enable_payment()
@@ -180,14 +182,16 @@ function ticket_enable_payment()
   if ( $('#prices .manifestations_list .manif input[type=hidden]').length > 0 )
   {
     // if there is nothing left to pay
-    if ( parseFloat($('#prices .manifestations_list .total .total').html()) <= 0 )
+    if ( parseFloat($('#prices .manifestations_list .total .total').html()) <= 0
+      && $('#payment tbody tr').length <= 3 )
     {
       $('#print, #validation').fadeIn();
       $('#payment').fadeOut();
     }
-    
     // if there is something left to pay
-    if ( parseFloat($('#prices .manifestations_list .total .total').html()) > 0 )
+    //else
+    if ( parseFloat($('#prices .manifestations_list .total .total').html()) > 0
+      || $('#payment tbody tr').length > 3 )
     {
       $('#print, #payment').fadeIn();
       $('#validation').fadeOut();
@@ -199,7 +203,15 @@ function ticket_enable_payment()
 
 function ticket_print()
 {
-  $('#print input[type=text]').attr('disabled','disabled')
+  $('#print form').unbind().submit(function(){
+    $(document).focus(function(){
+      $(this).unbind();
+      $('#print input[type=text]').val('');
+      $('#print input[type=checkbox]').attr('checked','').change();
+      $('#print input[type=submit]').focus();
+    });
+  });
+  $('#print input[type=text]').attr('disabled','disabled');
   $('#print input[type=checkbox]').change(function(){
     if ( $(this).is(':checked') )
     {
