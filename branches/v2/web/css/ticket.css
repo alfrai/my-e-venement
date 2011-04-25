@@ -61,3 +61,5 @@
 #payment form .sf_admin_form_row { padding-top: 0; padding-bottom: 0; }
 #payment form label { display: inline-block; width: 100px; }
 #payment form .errors { padding-bottom: 8px; }
+
+#print form { display: inline-block; }

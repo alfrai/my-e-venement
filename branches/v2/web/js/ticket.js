@@ -174,6 +174,15 @@ function ticket_process_amount()
   $('#prices .manifestations_list .total .total').html(total.toFixed(2)+currency)
   $('#payment tbody tr.topay .sf_admin_list_td_list_value').html(total.toFixed(2)+currency);
   $('#payment tbody tr.change .sf_admin_list_td_list_value').html((total-parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html())).toFixed(2)+currency);
+  
+  if ( total-parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html()) <= 0 )
+  {
+    $('#validation').fadeIn();
+  }
+  else
+  {
+    $('#validation').fadeOut();
+  }
 }
 
 function ticket_enable_payment()
@@ -181,6 +190,10 @@ function ticket_enable_payment()
   // if there are tickets, we fadeIn() needed widgets
   if ( $('#prices .manifestations_list .manif input[type=hidden]').length > 0 )
   {
+    $('#print, #payment').fadeIn();
+  }
+  
+  /*              
     // if there is nothing left to pay
     if ( parseFloat($('#prices .manifestations_list .total .total').html()) <= 0
       && $('#payment tbody tr').length <= 3 )
@@ -199,6 +212,7 @@ function ticket_enable_payment()
   }
   else
     $('#print, #validation, #payment').fadeOut();
+  */
 }
 
 function ticket_print()

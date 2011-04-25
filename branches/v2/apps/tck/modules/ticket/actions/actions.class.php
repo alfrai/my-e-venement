@@ -35,7 +35,14 @@ class ticketActions extends sfActions
       }
     }
     else
+    {
       $this->transaction = $this->getRoute()->getObject();
+      if ( $this->transaction->closed )
+      {
+        $this->getUser()->setFlash('error','You have to re-open the transaction before to access it');
+        return $this->redirect('ticket/respawn?id='.$this->transaction->id);
+      }
+    }
     
     $q = Doctrine::getTable('Price')->createQuery()
       ->orderBy('name');
@@ -141,17 +148,48 @@ class ticketActions extends sfActions
     $this->setLayout('empty');
   }
   
-  // add payment
-  public function executeAddPayment(sfWebRequest $request)
-  {
-  }
-  // remove payement
-  public function executeRemovePayment(sfWebRequest $request)
-  {
-  }
   // validate the entire transaction
-  public function executeValidation(sfWebRequest $request)
+  public function executeValidate(sfWebRequest $request)
   {
+    $this->transaction = $this->getRoute()->getObject();
+    
+    $topay = 0;
+    $toprint = 0;
+    foreach ( $this->transaction->Tickets as $ticket )
+    if ( is_null($ticket->duplicate) )
+    {
+      $topay += $ticket->value;
+      if ( !$ticket->printed )
+        $toprint++;
+    }
+    
+    $paid = 0;
+    foreach ( $this->transaction->Payments as $payment )
+      $paid += $payment->value;
+    
+    if ( $paid >= $topay && $toprint <= 0 )
+    {
+      $this->getUser()->setFlash('notice','Transaction validated and closed');
+      $this->transaction->closed = true;
+      $this->transaction->save();
+      return $this->redirect('ticket/closed?id='.$this->transaction->id);
+    }
+    
+    if ( $toprint <= 0 )
+      $this->getUser()->setFlash('error','The transaction cannot be validated, please check again the payments...');
+    else
+      $this->getUser()->setFlash('error','The transaction cannot be validated, there are still tickets to print...');
+    
+    return $this->redirect('ticket/sell?id='.$this->transaction->id);
+  }
+  public function executeClosed(sfWebRequest $request)
+  {
+    $this->transaction = $this->getRoute()->getObject();
+    if ( !$this->transaction->closed )
+    {
+      $this->getUser()->setFlash('error', 'The transaction is not closed, verify and validate first');
+      return $this->redirect('ticket/sell?id='.$this->transaction->id);
+    }
   }
   
   public function executePrint(sfWebRequest $request)
@@ -204,13 +242,41 @@ class ticketActions extends sfActions
   {
   }
   
-  // order
-  public function executeGetOrder(sfWebRequest $request)
+  public function executeAccounting(sfWebRequest $request)
   {
+    $this->transaction = $this->getRoute()->getObject();
+    
+    $this->totals = array('pet' => 0, 'tip' => 0, 'vat' => array('total' => 0));
+    foreach ( $this->transaction->Tickets as $ticket )
+    if ( !$ticket->duplicate )
+    {
+      $this->totals['tip'] += $ticket->value;
+      
+      if ( !isset($this->totals['vat'][$ticket->Manifestation->vat]) )
+        $this->totals['vat'][$ticket->Manifestation->vat] = 0;
+      $this->totals['vat'][$ticket->Manifestation->vat] += $ticket->value*$ticket->Manifestation->vat/100;
+      $this->totals['vat']['total'] += $ticket->value*$ticket->Manifestation->vat/100;
+    }
+    
+    $this->setLayout('empty');
+  }
+  // order
+  public function executeOrder(sfWebRequest $request)
+  {
+    $this->executeAccounting($request);
+    $this->order = $this->transaction->Order[0];
+    if ( is_null($this->order->id) )
+      $this->order->save();
+    
   }
   // invoice
-  public function executeGetInvoice(sfWebRequest $request)
+  public function executeInvoice(sfWebRequest $request)
   {
+    $this->executeAccounting($request);
+    $this->invoice = $this->transaction->Invoice[0];
+    if ( is_null($this->invoice->id) )
+      $this->invoice->save();
+    
   }
   
   protected function createTransactionForm($excludes = array(), $parameters = null)

@@ -2,5 +2,11 @@ default:
   javascripts: [jquery,menu]
 
 printSuccess:
+  javascripts: [-*, jquery, print-tickets]
+  stylesheets: [-*, print-tickets.default]
+orderSuccess:
   javascripts: [-*, jquery, print-ticket]
-  stylesheets: [-*, print-ticket]
+  stylesheets: [-*, print-accounting]
+invoiceSuccess:
+  javascripts: [-*, jquery, print-ticket]
+  stylesheets: [-*, print-accounting]

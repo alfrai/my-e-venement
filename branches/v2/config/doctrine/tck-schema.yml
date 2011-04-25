@@ -53,6 +53,10 @@ Transaction:
       values: [normal, cancellation, deposit]
       default: normal
       notnull: true
+    closed:
+      type: boolean
+      default: false
+      notnull: true
   relations:
     Contact:
       foreignAlias: Transactions
@@ -171,18 +175,27 @@ Accounting:
       type: string(255)
       notblank: true
       notnull: true
+  indexes:
+    transaction_type:
+      fields: [transaction_id, type]
+      type: unique
   relations:
     Transaction:
-      foreignAlias: Orders
+      foreignAlias: Accountings
       onDelete: CASCADE
       onUpdate: CASCADE
-Orders:
+Order:
   package: tck
   inheritance:
     extends: Accounting
     type: column_aggregation
     keyField: type
     keyValue: 'order'
+  relations:
+    Transaction:
+      foreignAlias: Order
+      onDelete: CASCADE
+      onUpdate: CASCADE
 Invoice:
   package: tck
   inheritance:
@@ -190,6 +203,11 @@ Invoice:
     type: column_aggregation
     keyField: type
     keyValue: 'invoice'    
+  relations:
+    Transaction:
+      foreignAlias: Invoice
+      onDelete: CASCADE
+      onUpdate: CASCADE
 
 PaymentMethod:
   package: tck
@@ -225,3 +243,4 @@ Payment:
       foreignAlias: Payments
       onDelete: RESTRICT
       onUpdate: CASCADE
+
