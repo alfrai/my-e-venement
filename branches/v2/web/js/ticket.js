@@ -40,17 +40,19 @@ function ticket_events()
   $('#manifestations form').unbind().submit(function(){
     return false;
   });
-  if ( $('.manifestation_list li').length == 0 )
-    $('.manifestations_hr').hide();
-  $('#manifestations .manif_new .toggle_view').click(function(){
-    $('#manifestations .manifestations_add li').toggle();
+  ticket_manif_new_events();
+
+  $('#manifestations .manif_new .toggle_view').unbind().click(function(){
+    $('#manifestations .manifestations_add').slideToggle();
   });
+  
   $('#manifestations input[name=manif_new]').keypress(function(e){
     if ( e.which == '13' ) {
       $.get($('#manifestations form').attr('action')+'?manif_new='+$(this).val(),function(data){
         // take the list and add it in the GUI
         $('#manifestations .manifestations_add')
-          .html($(data).find('#manifestations .manifestations_add').html());
+          .html($(data).find('#manifestations .manifestations_add').html())
+          .slideDown();
         ticket_manif_new_events();
       });
       return false;
@@ -64,9 +66,17 @@ function ticket_manif_new_events()
 {
   $('.manifestations_add input[type=radio]').click(function(){
     $(this).unbind();
-    $(this).parent().parent().prependTo('.manifestations_list');
-    if ( $('#prices .manifestations_list').length > 0 )
-      $('#prices .prices_list').fadeIn();
+    if ( $('.manifestations_list input[name="'+$(this).attr('name')+'"][value='+$(this).val()+']').length <= 0 )
+    {
+      $(this).parent().parent().prependTo('.manifestations_list');
+      if ( $('#prices .manifestations_list').length > 0 )
+        $('#prices .prices_list').fadeIn();
+    }
+    else
+    {
+      $(this).parent().parent().remove();
+      $('.manifestations_list input[name="'+$(this).attr('name')+'"][value='+$(this).val()+']').attr('selected','selected');
+    }
   });
 }
 
@@ -76,7 +86,10 @@ function ticket_manif_list_events()
   {
     $('.tickets_form > div').load($('.tickets_form > div > a').attr('href')+' .manifestations_list',function(){
       if ( $('.manifestations_list input[type=radio]').length > 0 )
+      {
+        $('.manifestations_add').slideUp();
         $('#prices .prices_list').fadeIn();
+      }
       ticket_transform_hidden_to_span();
     });
   }
@@ -175,7 +188,7 @@ function ticket_process_amount()
   $('#payment tbody tr.topay .sf_admin_list_td_list_value').html(total.toFixed(2)+currency);
   $('#payment tbody tr.change .sf_admin_list_td_list_value').html((total-parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html())).toFixed(2)+currency);
   
-  if ( total-parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html()) <= 0 )
+  if ( total <= parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html()) )
   {
     $('#validation').fadeIn();
   }
@@ -191,28 +204,22 @@ function ticket_enable_payment()
   if ( $('#prices .manifestations_list .manif input[type=hidden]').length > 0 )
   {
     $('#print, #payment').fadeIn();
-  }
-  
-  /*              
+
     // if there is nothing left to pay
     if ( parseFloat($('#prices .manifestations_list .total .total').html()) <= 0
       && $('#payment tbody tr').length <= 3 )
     {
       $('#print, #validation').fadeIn();
-      $('#payment').fadeOut();
     }
     // if there is something left to pay
-    //else
-    if ( parseFloat($('#prices .manifestations_list .total .total').html()) > 0
+    else if ( parseFloat($('#prices .manifestations_list .total .total').html()) > 0
       || $('#payment tbody tr').length > 3 )
     {
       $('#print, #payment').fadeIn();
-      $('#validation').fadeOut();
     }
   }
   else
     $('#print, #validation, #payment').fadeOut();
-  */
 }
 
 function ticket_print()

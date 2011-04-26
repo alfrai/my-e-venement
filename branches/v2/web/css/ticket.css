@@ -63,3 +63,18 @@
 #payment form .errors { padding-bottom: 8px; }
 
 #print form { display: inline-block; }
+
+.action.closed {
+  font-size: 13px;
+}
+.action.closed .thanks {
+  font-size: 22px;
+  text-align: center;
+  padding: 100px 0;
+}
+.action.closed .transaction_new {
+  text-align: center;
+  padding: 5px;
+  margin-bottom: 20px;
+  border: 1px dashed silver;
+}

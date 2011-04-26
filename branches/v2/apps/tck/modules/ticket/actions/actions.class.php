@@ -82,17 +82,33 @@ class ticketActions extends sfActions
     : $request->getParameter('id')
     );
     
+    $mids = array();
+    foreach ( $this->transaction->Tickets as $ticket )
+      $mids[] = $ticket->Manifestation->id;
+    
     if ( $request->getParameter('manif_new') )
     {
       $eids = array();
       foreach ( Doctrine::getTable('Event')->search($request->getParameter('manif_new').'*') as $id )
         $eids[] = $id['id'];
-      $this->manifestations_add = Doctrine::getTable('Manifestation')->createQuery()
+      $this->manifestations_add = Doctrine::getTable('Manifestation')->createQuery('m')
         ->andWhereIn('e.id',$eids)
+        ->andWhere('happens_at >= ?',date('Y-m-d'))
+        ->andWhereNotIn('m.id',$mids)
+        ->orderBy('happens_at ASC')
         ->execute();
     }
     else
-      $this->manifestations_add = array();
+    {
+      $eids = array();
+      $this->manifestations_add = Doctrine::getTable('Manifestation')
+        ->createQuery()
+        ->andWhere('happens_at >= ?',date('Y-m-d'))
+        ->andWhereNotIn('m.id',$mids)
+        ->orderBy('happens_at ASC')
+        ->limit(10)
+        ->execute();
+    }
   }
   
   // tickets
@@ -277,6 +293,26 @@ class ticketActions extends sfActions
     if ( is_null($this->invoice->id) )
       $this->invoice->save();
     
+  }
+  
+  public function executeRespawn(sfWebRequest $request)
+  {
+    $this->transaction_id = $request->getParameter('id');
+  }
+  
+  public function executeAccess(sfWebRequest $request)
+  {
+    $id = intval($request->getParameter('id'));
+    
+    if ( $request->getParameter('reopen') )
+    {
+      $this->transaction = Doctrine::getTable('Transaction')
+        ->findOneById($id);
+      $this->transaction->closed = false;
+      $this->transaction->save();
+    }
+    
+    $this->redirect('ticket/sell?id='.$id);
   }
   
   protected function createTransactionForm($excludes = array(), $parameters = null)
