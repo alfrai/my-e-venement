@@ -1,3 +1,12 @@
+authentication:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Authentication
+    module:               authentication
+    prefix_path:          /authentication
+    column:               id
+    with_wildcard_routes: true
+
 payment:
   class: sfDoctrineRouteCollection
   options:
@@ -36,6 +45,18 @@ ticket:
     with_wildcard_routes: true
     
 
+sf_guard_signin:
+  url:   /login
+  param: { module: sfGuardAuth, action: signin }
+    
+sf_guard_signout:
+  url:   /logout
+  param: { module: sfGuardAuth, action: signout }
+
+sf_guard_password:
+  url:   /request_password
+  param: { module: sfGuardAuth, action: password }
+            
 # default rules
 homepage:
   url:   /

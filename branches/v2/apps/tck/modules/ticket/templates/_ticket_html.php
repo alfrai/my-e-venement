@@ -3,9 +3,9 @@
   <div class="logo"><img src="" alt="" /></div>
   <div class="left">
     <p class="manifid">
-      #<?php echo $ticket->Manifestation->id ?>-<?php echo $ticket->price_name ?>
+      #<?php echo $ticket->Manifestation->id ?><span class="tariftop"><?php echo $ticket->price_name ?></span>
     </p>
-    <p class="info <?php echo $ticket->Transaction->type ?>"><?php echo $ticket->Transaction->type ?></p>
+    <p class="info <?php echo $ticket->Transaction->type ?> <?php echo $duplicate ? 'duplicate' : '' ?>"><span class="subtype"><?php echo __($ticket->Transaction->type) ?></span><span class="subtype"><?php echo $duplicate ? __('Duplicata') : '' ?></span></p>
     <p class="metaevt"><?php echo $ticket->Manifestation->Event->MetaEvent ?></p>
     <p class="datetime"><?php echo format_date($ticket->Manifestation->happens_at,'dd MMMM yyyy HH:mm') ?></p>
     <p class="placeprice">
@@ -29,9 +29,9 @@
   </div>
   <div class="right">
     <p class="manifid">
-      #<?php echo $ticket->Manifestation->id ?>-<?php echo $ticket->price_name ?>
+      #<?php echo $ticket->Manifestation->id ?><span class="tariftop"><?php echo $ticket->price_name ?></span>
     </p>
-    <p class="info <?php echo $ticket->Transaction->type ?>"><?php echo $ticket->Transaction->type ?></p>
+    <p class="info <?php echo $ticket->Transaction->type ?> <?php echo $duplicate ? 'duplicate' : '' ?>"><span class="subtype"><?php echo __($ticket->Transaction->type) ?></span><span class="subtype"><?php echo $duplicate ? __('Duplicata') : '' ?></span></p>
     <p class="metaevt"><?php echo $ticket->Manifestation->Event->MetaEvent ?></p>
     <p class="datetime"><?php echo format_date($ticket->Manifestation->happens_at,'dd MMMM yyyy HH:mm') ?></p>
     <p class="placeprice">

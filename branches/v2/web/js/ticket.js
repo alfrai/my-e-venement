@@ -1,13 +1,24 @@
 $(document).ready(function(){
-  $('.action > a').each(function(){
-    $.get($(this).attr('href'),function(data){
-      $('#'+$(data).find('form').parent().attr('id')).html($(data).find('form').parent().html());
-      ticket_events();
-      ticket_prices();
-      ticket_print();
-    });
-  });
+  anchors = $('.action > a').toArray();
+  ticket_lauchpad(anchors);
 });
+
+function ticket_lauchpad(anchors)
+{
+  var a = anchors.shift();
+  if ( !a )
+  {
+    ticket_events();
+    ticket_prices();
+    ticket_print();
+    return true;
+  }
+  
+  $.get($(a).attr('href'),function(data){
+    $('#'+$(data).find('form').parent().attr('id')).html($(data).find('form').parent().html());
+    return ticket_lauchpad(anchors);
+  });
+}
 
 function ticket_events()
 {
@@ -40,10 +51,21 @@ function ticket_events()
   $('#manifestations form').unbind().submit(function(){
     return false;
   });
+  ticket_activate_gauge();
   ticket_manif_new_events();
 
   $('#manifestations .manif_new .toggle_view').unbind().click(function(){
     $('#manifestations .manifestations_add').slideToggle();
+    $('#manifestations .gauge').fadeToggle();
+  });
+  
+  // if reclicking on a gauge, it refreshes it from DB
+  $('#manifestations .gauge').unbind().click(function(){
+    if ( $(this).find('input[name=gauge-id]').length > 0 )
+    {
+      alert($(this).find('input[name=gauge-id]').val());
+      ticket_get_gauge($(this).find('input[name=gauge-id]').val(), $('#manifestations .gauge'), true);
+    }
   });
   
   $('#manifestations input[name=manif_new]').keypress(function(e){
@@ -53,13 +75,41 @@ function ticket_events()
         $('#manifestations .manifestations_add')
           .html($(data).find('#manifestations .manifestations_add').html())
           .slideDown();
+        
+        ticket_activate_gauge();
+        
         ticket_manif_new_events();
       });
+      
       return false;
     }
   });
   $('.manifestations_list li:first').attr('checked','checked');
   ticket_manif_list_events();
+}
+
+// get the gauge for the list of manifestations
+function ticket_activate_gauge()
+{
+  $('#manifestations .manifestations_add li span').mouseenter(function(){
+    ticket_get_gauge($(this).find('input[type=radio]').val(),$('#manifestations .gauge'));
+  });
+  $('#manifestations .gauge').fadeIn();
+}
+function ticket_get_gauge(manif_id, gauge_elt, force)
+{
+  // backup
+  $('#manifestations .gauge > div').appendTo('#manifestations').hide();
+  
+  // restore
+  if ( !force && $('#gauge-'+manif_id).length == 1 )
+    gauge_elt.html($('#gauge-'+manif_id).html());
+  
+  // get from DB
+  else
+    $.get($('#gauge_url').attr('href')+'?id='+manif_id,function(data){
+      gauge_elt.html($(data).find('.gauge').html());
+    });
 }
 
 function ticket_manif_new_events()
@@ -88,6 +138,7 @@ function ticket_manif_list_events()
       if ( $('.manifestations_list input[type=radio]').length > 0 )
       {
         $('.manifestations_add').slideUp();
+        $('#manifestations .gauge').fadeOut();
         $('#prices .prices_list').fadeIn();
       }
       ticket_transform_hidden_to_span();
@@ -258,3 +309,4 @@ function ticket_autocomplete(id,autocomplete,url) {
     }, { }))
   .result(function(event, data) { jQuery(id).val(data[1]); });
 }
+

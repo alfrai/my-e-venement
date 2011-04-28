@@ -10,3 +10,6 @@ orderSuccess:
 invoiceSuccess:
   javascripts: [-*, jquery, print-ticket]
   stylesheets: [-*, print-accounting]
+
+gaugeSuccess:
+  stylesheets: [gauge]

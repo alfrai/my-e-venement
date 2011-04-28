@@ -2,6 +2,7 @@
 <?php include_partial('assets') ?>
 <?php include_partial('global/flashes') ?>
 <form action="" method="post" id="prices">
+<div class="gauge ui-widget-content ui-corner-all"></div>
 <div class="manifestations_list ui-widget-content ui-corner-all">
     <?php echo $form->renderHiddenFields(); $cpt = 0; ?>
     <ul>

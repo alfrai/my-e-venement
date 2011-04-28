@@ -4,7 +4,8 @@
 }
 
 #manifestations .manifestations_add {
-  max-height: 200px;
+  height: 200px;
+  margin-right: 270px;
   overflow: auto;
 }
 .manifestations_list, #manifestations ul {
@@ -13,6 +14,7 @@
   list-style-type: none;
 }
 
+.tickets_form { margin-right: 270px; }
 .manifestations_list ul { display: table; width: 100%; }
 .manifestations_list li { display: table-row; }
 .manifestations_list li > span.prices { padding-left: 10px; }

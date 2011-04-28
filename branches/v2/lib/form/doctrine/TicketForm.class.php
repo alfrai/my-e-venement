@@ -42,9 +42,11 @@ class TicketForm extends BaseTicketForm
         ->andWhere('t.manifestation_id = ?', $this->object->manifestation_id)
         ->andWhere('t.transaction_id = ?', $this->object->transaction_id)
         ->andWhere('p.name = ?', $this->object->price_name)
+        ->andWhere('NOT t.printed')
         ->limit(1);
       $tickets = $q->execute();
-      $tickets[0]->delete();
+      if ( $tickets->count() > 0 )
+        $tickets[0]->delete();
       return array();
     }
     else

@@ -1,5 +1,7 @@
   <?php use_helper('Date','Number') ?>
   <form action="<?php echo url_for('ticket/manifs?id='.$transaction->id) ?>" method="post">
+    <a href="<?php echo url_for('ticket/gauge') ?>" id="gauge_url"></a>
+    <div class="gauge ui-widget-content ui-corner-all"></div>
     <p class="manif_new">
       <span class="title"><?php echo __('Manifestations') ?>:</span>
       <span>

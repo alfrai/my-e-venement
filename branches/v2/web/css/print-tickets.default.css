@@ -51,19 +51,23 @@ p {
   float: right;
 }
 .right .info { float: left; }
-.info.depot {
+.info.deposite {
 margin-left: 20px;
 text-align: left;
 float: left;
 }
+.info.normal.duplicate { display: block; }
+.info.normal.duplicate span { display: none; }
+.info.normal.duplicate span + span { display: inline; }
 .info.normal { display: none; }
 .info.cancellation {
   background-color: black;
   color: white;
 }
-.info.annulation, .info.duplicata { border: 1px solid black; }
+.info.cancellation, .info.duplicate { border: 1px solid black; }
 .manifid .tariftop:before { content: '-'; }
 .manifid { font-size: 8pt; }
+.manifid .tariftop { font-size: 5pt; }
 
 .left .manifid { text-align: left; margin-left: 2mm; float: left; }
 .metaevt { font-size: 8pt; margin-top: 9mm; height: 10pt; clear: both; }

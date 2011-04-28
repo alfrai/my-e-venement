@@ -91,28 +91,31 @@ class ticketActions extends sfActions
       $eids = array();
       foreach ( Doctrine::getTable('Event')->search($request->getParameter('manif_new').'*') as $id )
         $eids[] = $id['id'];
-      $this->manifestations_add = Doctrine::getTable('Manifestation')->createQuery('m')
+      $q = Doctrine::getTable('Manifestation')->createQuery('m')
         ->andWhereIn('e.id',$eids)
-        ->andWhere('happens_at >= ?',date('Y-m-d'))
         ->andWhereNotIn('m.id',$mids)
-        ->orderBy('happens_at ASC')
-        ->execute();
+        ->orderBy('happens_at ASC');
+      if ( !$this->getUser()->isSuperAdmin() )
+        $q->andWhere('happens_at >= ?',date('Y-m-d'));
+      
+      $this->manifestations_add = $q->execute();
     }
     else
     {
       $eids = array();
-      $this->manifestations_add = Doctrine::getTable('Manifestation')
+      $q = Doctrine::getTable('Manifestation')
         ->createQuery()
-        ->andWhere('happens_at >= ?',date('Y-m-d'))
         ->andWhereNotIn('m.id',$mids)
         ->orderBy('happens_at ASC')
-        ->limit(10)
-        ->execute();
+        ->limit(10);
+      //if ( !$this->getUser()->isSuperAdmin() )
+        $q->andWhere('happens_at >= ?',date('Y-m-d'));
+      $this->manifestations_add = $q->execute();
     }
   }
   
-  // tickets
-  public function executeTicket(sfWebRequest $request)
+  // tickets public
+  function executeTicket(sfWebRequest $request)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('CrossAppLink');
     $values = $request->getParameter('ticket');
@@ -221,29 +224,29 @@ class ticketActions extends sfActions
     $transactions = $q->execute();
     $this->transaction = $transactions[0];
     
+    $this->duplicate = $request->getParameter('duplicate') == 'true';
     $this->tickets = array();
     foreach ( $this->transaction->Tickets as $ticket )
+    if ( $request->getParameter('duplicate') == 'true' )
     {
-      if ( $request->getParameter('duplicate') == 'true' )
+      if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
+        && $ticket->printed )
       {
-        if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
-          && $ticket->printed )
-        {
-          $newticket = $ticket->copy();
-          $newticket->save();
-          $ticket->duplicate = $newticket->id;
-          $ticket->save();
-          $this->tickets[] = $newticket;
-        }
+        $newticket = $ticket->copy();
+        $newticket->save();
+        $ticket->duplicate = $newticket->id;
+        $ticket->save();
+        $this->tickets[] = $newticket;
       }
-      else
+    }
+    else
+    {
+      $this->duplicate = false;
+      if ( !$ticket->printed )
       {
-        if ( !$ticket->printed )
-        {
-          $ticket->printed = true;
-          $ticket->save();
-          $this->tickets[] = $ticket;
-        }
+        $ticket->printed = true;
+        $ticket->save();
+        $this->tickets[] = $ticket;
       }
     }
     
@@ -313,6 +316,38 @@ class ticketActions extends sfActions
     }
     
     $this->redirect('ticket/sell?id='.$id);
+  }
+  
+  public function executeGauge(sfWebRequest $request)
+  {
+    $workspace = $this->getUser()->getGuardUser()->Workspaces[0];
+    $q = Doctrine::getTable('Gauge')->createQuery('g')
+      ->andWhere('g.manifestation_id = ?', $mid = $request->getParameter('id'))
+      ->andWhere('g.workspace_id = ?', $workspace->id); // to be performed
+    $gauges = $q->execute();
+    $this->gauge = $gauges[0];
+    
+    $q = Doctrine::getTable('Manifestation')->createQuery('m')
+      ->addSelect('m.id')
+      ->addSelect('sum(printed) AS sells')
+      ->addSelect('sum(NOT printed AND t.transaction_id IN (SELECT o.transaction_id FROM order o)) AS orders')
+      ->addSelect('sum(NOT printed) AS demands')
+      ->andWhere('m.id = ?',$mid)
+      ->leftJoin('m.Tickets t')
+      ->andWhere('t.duplicate IS NULL')
+      ->groupBy('m.id, e.name, me.name, m.happens_at, m.duration, p.name');
+    $manifs = $q->execute();
+    if ( $manifs->count() > 0 )
+      $this->manifestation = $manifs[0];
+    
+    $this->height = array(
+      'sells'   => $this->manifestation->sells / $this->gauge->value * 100,
+      'orders'  => $this->manifestation->orders / $this->gauge->value * 100,
+      'demands' => $this->manifestation->demands / $this->gauge->value * 100,
+      'free'    => 100 - ($this->manifestation->sells+$this->manifestation->orders) / $this->gauge->value * 100
+    );
+    
+    $this->setLayout('empty');
   }
   
   protected function createTransactionForm($excludes = array(), $parameters = null)
