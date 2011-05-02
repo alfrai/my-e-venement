@@ -295,6 +295,17 @@ class ticketActions extends sfActions
       $this->totals['vat']['total'] += $ticket->value*$ticket->Manifestation->vat/100;
     }
     
+    $q = new Doctrine_Query();
+    $q->from('Ticket t')
+      ->leftJoin('t.Manifestation m')
+      ->leftJoin('m.Event e')
+      ->leftJoin('t.Price p')
+      ->andWhere('t.transaction_id = ?',$this->transaction->id)
+      ->andWhere('t.duplicate IS NULL')
+      ->andWhere('t.printed')
+      ->orderBy('m.happens_at, e.name, p.description, t.value');
+    $this->tickets = $q->execute();
+    
     $this->setLayout('empty');
   }
   // order
@@ -319,7 +330,6 @@ class ticketActions extends sfActions
     $this->invoice = $this->transaction->Invoice[0];
     if ( is_null($this->invoice->id) )
       $this->invoice->save();
-    
   }
   
   public function executeRespawn(sfWebRequest $request)

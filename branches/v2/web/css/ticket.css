@@ -113,8 +113,8 @@
 }
 #contact .open {
   position: absolute;
-  right: 495px;
-  height: 42px;
+  right: 395px;
+  height: 22px;
   width: 5px;
   background-color: white;
   z-index: 501;

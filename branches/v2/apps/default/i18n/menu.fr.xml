@@ -264,6 +264,10 @@
         <source>Respawn a transaction</source>
         <target>Reprendre une transaction</target>
       </trans-unit>
+      <trans-unit>
+        <source>Cash Ledger</source>
+        <target>Livre de caisse</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

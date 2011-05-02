@@ -4,7 +4,7 @@
 
 <div class="ui-widget-content ui-corner-all sf_admin_edit" id="sf_admin_container">
   <div class="fg-toolbar ui-widget-header ui-corner-all action">
-    <h1><?php echo __('Respawning a transaction') ?></h1>
+    <h1><?php echo __('Respawn a transaction',array(),'menu') ?></h1>
   </div>
   <form class="ui-corner-all ui-widget-content action"
         id="operation"

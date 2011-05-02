@@ -26,9 +26,11 @@
           <li><a href="<?php echo cross_app_url_for('tck','ticket/sell') ?>"><?php echo __('New transaction',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/respawn') ?>"><?php echo __('Respawn a transaction',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/cancel') ?>"><?php echo __('Cancelations',array(),'menu') ?></a></li>
+          <!--
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','deposit/send') ?>"><?php echo __('Deposit',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','deposit/getBack') ?>"><?php echo __('Sells',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','deposit/inProgress') ?>"><?php echo __('In progress',array(),'menu') ?></a></li>
+          -->
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','summary/asks') ?>"><?php echo __('Asks',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','summary/orders') ?>"><?php echo __('Orders',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','summary/invoices') ?>"><?php echo __('Invoices',array(),'menu') ?></a></li>
