@@ -56,7 +56,7 @@ class ticketActions extends sfActions
   }
   
   // add contact
-  public function executeAddContact(sfWebRequest $request)
+  public function executeContact(sfWebRequest $request)
   {
     $values = $request->getParameter('transaction');
     
@@ -65,10 +65,28 @@ class ticketActions extends sfActions
     ? $values['id']
     : $request->getParameter('id')
     );
+    
+    if ( $request->hasParameter('delete-contact') )
+    {
+      $transaction = $request->getParameter('transaction');
+      unset($transaction['contact_id']);
+      unset($transaction['professional_id']);
+      $request->setParameter('transaction',$transaction);
+    }
+    
     $this->createTransactionForm(
       array('contact_id','professional_id'),
       $request->getParameter('transaction', $request->getFiles('transaction'))
     );
+    
+    /*
+    if ( $this->form->isValid() && $request->hasParameter('delete-contact') )
+    {
+      $this->transaction->professional_id = NULL;
+      $this->transaction->contact_id = NULL;
+      $this->transaction->save();
+    }
+    */
   }
   // add manifestation
   public function executeManifs(sfWebRequest $request)
@@ -284,9 +302,15 @@ class ticketActions extends sfActions
   {
     $this->executeAccounting($request);
     $this->order = $this->transaction->Order[0];
+    
+    if ( $request->hasParameter('cancel-order') )
+    {
+      $this->order->delete();
+      return true;
+    }
+    else
     if ( is_null($this->order->id) )
       $this->order->save();
-    
   }
   // invoice
   public function executeInvoice(sfWebRequest $request)
@@ -331,7 +355,7 @@ class ticketActions extends sfActions
       ->addSelect('m.id')
       ->addSelect('sum(printed) AS sells')
       ->addSelect('sum(NOT printed AND t.transaction_id IN (SELECT o.transaction_id FROM order o)) AS orders')
-      ->addSelect('sum(NOT printed) AS demands')
+      ->addSelect('sum(NOT printed AND t.transaction_id NOT IN (SELECT o2.transaction_id FROM order o2)) AS demands')
       ->andWhere('m.id = ?',$mid)
       ->leftJoin('m.Tickets t')
       ->andWhere('t.duplicate IS NULL')
@@ -368,7 +392,8 @@ class ticketActions extends sfActions
       if ( $this->form->isValid() )
       {
         $event = $this->form->save();
-        $this->form->setWidget('contact_id', new sfWidgetFormInputHidden());
+        if ( !is_null($this->transaction->contact_id) )
+          $this->form->setWidget('contact_id', new sfWidgetFormInputHidden());
       }
     
       $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $event)));

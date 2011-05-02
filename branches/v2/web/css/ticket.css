@@ -8,6 +8,12 @@
   margin-right: 270px;
   overflow: auto;
 }
+#manifestations .manifestations_add span {
+  background-color: white;
+}
+#manifestations .manifestations_add .selected {
+  border-bottom: 1px gray dashed;
+}
 .manifestations_list, #manifestations ul {
   padding: 3px 0 10px 0;
   margin: 5px 0;
@@ -15,9 +21,10 @@
 }
 
 .tickets_form { margin-right: 270px; }
+.tickets_form.full .manifestations_list { min-height: 155px; }
 .manifestations_list ul { display: table; width: 100%; }
 .manifestations_list li { display: table-row; }
-.manifestations_list li > span.prices { padding-left: 10px; }
+.manifestations_list li > span.prices { padding: 0 10px; text-align: right; }
 .manifestations_list li > span {
   display: table-cell;
   white-space: nowrap;
@@ -80,3 +87,36 @@
   margin-bottom: 20px;
   border: 1px dashed silver;
 }
+
+#contact .delete-contact {
+  padding-left: 16px;
+  margin-left: 5px;
+  background-image: url(../sfDoctrinePlugin/images/delete.png);
+  background-position: 0 -2px;
+}
+#contact #micro-show {
+  position: absolute;
+  right: 35px;
+  width: 350px;
+  background-color: white;
+  height: 225px;
+  z-index: 500;
+  overflow: auto;
+  padding: 5px;
+  display: none;
+  border-top: 0;
+  -moz-border-radius-topright: 0px;
+}
+#contact #micro-show label {
+  min-width: 75px;
+  display: inline-block;
+}
+#contact .open {
+  position: absolute;
+  right: 495px;
+  height: 42px;
+  width: 5px;
+  background-color: white;
+  z-index: 501;
+}
+#contact .contact_url { display: none; }

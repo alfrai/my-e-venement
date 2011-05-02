@@ -1,0 +1,48 @@
+.gauge {
+  position: absolute;
+  right: 30px;
+  width: 250px;
+  height: 232px;
+  padding: 5px;
+  /*overflow: hidden;*/
+}
+#prices .gauge { height: 30px; }
+.gauge > div {
+  height: 100%;
+}
+/*
+.gauge p {
+  margin: 0;
+  border: 1px solid black;
+  border-top: 0;
+}
+.gauge p span { display: none; }
+.gauge .demands {
+  background-color: #6363c9;
+  border-right: 1px solid black;
+  position: absolute;
+  width: 50px;
+}
+.gauge .free {
+  background-color: green;
+}
+.gauge .orders {
+  background-color: orange;
+}
+.gauge .sells {
+  background-color: red;
+}
+*/
+
+.gauge > div { text-align: center; }
+.gauge .seat {
+  -border: 1px solid black;
+  display: inline-block;
+  padding: 1px;
+}
+.gauge .seat.free   { background-color: green; }
+.gauge .seat.orders { background-color: orange; }
+.gauge .seat.sells  { background-color: red; }
+.gauge .seat.demands{ border: 1px dashed blue; padding: 0; }
+.gauge .overquota   { border: 1px dashed white; padding: 0; }
+.gauge .overquota.demands { background-color: white; }

@@ -1,6 +1,7 @@
 <?php use_helper('Number') ?>
+<div class="gauge ui-widget-content ui-corner-all"></div>
 <form action="<?php echo url_for('ticket/ticket') ?>" method="post" class="tickets_form">
-  <div><?php echo link_to('command','ticket/ticket?id='.$transaction->id) ?></div>
+<div><?php echo link_to('command','ticket/ticket?id='.$transaction->id) ?></div>
   <p class="title"><?php echo __('Prices') ?>:</p>
   <p class="prices_list">
     <select name="ticket[nb]">

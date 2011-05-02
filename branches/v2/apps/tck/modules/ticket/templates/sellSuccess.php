@@ -7,7 +7,7 @@
     <p style="display: none;" id="global_transaction_id"><?php echo $transaction->id ?></p>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="contact">
-    <?php echo link_to('contact','ticket/addContact?id='.$transaction->id) ?>
+    <?php echo link_to('contact','ticket/contact?id='.$transaction->id) ?>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="manifestations">
     <?php echo link_to('manifestations','ticket/manifs?id='.$transaction->id) ?>

@@ -30,7 +30,7 @@ payment_method:
 
 ticket_contact:
   class: sfDoctrineRoute
-  url: /ticket/addContact
+  url: /ticket/contact
   options:
     model: Transaction
     type: object

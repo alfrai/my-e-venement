@@ -13,9 +13,7 @@
       if ( $accounting->type == 'order' )
         $order_id = $accounting->id;
     ?>
-    <?php if ( $order_id ): ?>
-    <input type="submit" name="order" value="<?php echo __('Cancel order') ?>" />
-    <?php endif ?>
+    <input type="submit" name="cancel-order" value="<?php echo __('Cancel order') ?>" <?php if ( !$order_id ): ?>style="display: none;"<?php endif ?> />
     <input type="submit" name="order" value="<?php echo __('Order') ?>" />
   </p>
 </form>
