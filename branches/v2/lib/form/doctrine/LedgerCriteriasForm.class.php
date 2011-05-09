@@ -13,12 +13,14 @@ class LedgerCriteriasForm extends BaseForm
   public function configure()
   {
     $this->widgetSchema['dates'] = new sfWidgetFormDateRange(array(
-      'from_date' => new sfWidgetFormDate(),
-      'to_date'   => new sfWidgetFormDate(),
+      'from_date' => new liWidgetFormJQueryDateText(),
+      'to_date'   => new liWidgetFormJQueryDateText(),
+      'template'  => 'du %from_date%<br/> au %to_date%',
     ));
     $this->validatorSchema['dates'] = new sfValidatorDateRange(array(
-      'from_date' => new sfValidatorDate(),
-      'to_date'   => new sfValidatorDate(),
+      'from_date' => new sfValidatorDate(array('required' => false)),
+      'to_date'   => new sfValidatorDate(array('required' => false)),
+      'required' => false,
     ));
 
     $this->widgetSchema['users'] = new sfWidgetFormDoctrineChoice(array(
@@ -30,8 +32,10 @@ class LedgerCriteriasForm extends BaseForm
     $this->validatorSchema['users'] = new sfValidatorDoctrineChoice(array(
       'model' => 'sfGuardUser',
       'multiple' => true,
+      'required' => false,
     ));
     
     $this->widgetSchema->setNameFormat('criterias[%s]');
+    $this->disableCSRFProtection();
   }
 }

@@ -1,7 +1,4 @@
-<?php use_helper('Number','Date') ?>
-<?php use_helper('CrossAppLink') ?>
-<?php use_stylesheet('ledger') ?>
-<?php use_javascript('ledger') ?>
+<?php include_partial('assets') ?>
 
 <div class="ui-widget-content ui-corner-all">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
@@ -58,7 +55,7 @@
     <td class="method"><?php echo __('Total') ?></td>
     <td class="see-more"></td>
     <td class="id-qty"><?php echo $total['qty'] ?></td>
-    <td class="value"><?php echo format_currency($total['value'],'€'); $value += $payment->value ?></td>
+    <td class="value"><?php echo format_currency($total['value'],'€'); ?></td>
     <td class="ref"></td>
     <td class="date"></td>
     <td class="user"></td>
@@ -73,23 +70,6 @@
     <td class="user"><?php echo __('User') ?></td>
   </tr></thead>
 </table>
-<?php echo $form->renderFormTag('',array('class'=>'ui-widget-content ui-corner-all','id'=>'criterias')) ?>
-<!--<form method="get" action="" class="ui-widget-content ui-corner-all" id="criterias">-->
-  <div class="fg-toolbar ui-widget-header ui-corner-all">
-    <h2><?php echo __('Criterias') ?></h2>
-    <?php echo $form->renderHiddenFields ?>
-  </div>
-  <ul>
-    <li class="dates">
-      <label for="dates"><?php echo __('Dates:') ?></label>
-      <?php echo $form['dates'] ?>
-    </li>
-    <li class="users">
-      <label for="dates"><?php echo __('Users:') ?></label>
-      <?php echo $form['users'] ?>
-    </li>
-    <li><input type="submit" name="s" value="ok" /></li>
-  </ul>
-</form>
+<?php echo include_partial('criterias',array('form' => $form, 'ledger' => 'cash')) ?>
 <div class="clear"></div>
 </div>

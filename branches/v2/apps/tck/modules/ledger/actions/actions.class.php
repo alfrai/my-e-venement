@@ -22,25 +22,81 @@ class ledgerActions extends sfActions
   
   public function executeSales(sfWebRequest $request)
   {
+    $this->form = new LedgerCriteriasForm();
+    
+    $criterias = $request->getParameter($this->form->getName());
+    
+    if ( !$criterias['users'][0] && count($criterias['users']) == 1 )
+      unset($criterias['users']);
+    
+    $this->form->bind($criterias, $request->getFiles($this->form->getName()));
+    if ( !$this->form->isValid() )
+    {
+      $user->setFlash('error','Submitted values are invalid');
+    }
+    
+    $dates = array(
+      $criterias['dates']['from']['day']
+        ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
+        : strtotime('1 month ago 0:00'),
+      $criterias['dates']['to']['day']
+        ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'])
+        : strtotime('tomorrow 0:00'),
+    );
+    
+    if ( $dates[0] > $dates[1] )
+    {
+      $buf = $dates[1];
+      $dates[1] = $dates[0];
+      $dates[0] = $buf;
+    }
+    
+    $q = Doctrine::getTable('Event')->createQuery('e')
+      ->leftJoin('e.Manifestations m')
+      ->leftJoin('m.Location l')
+      ->leftJoin('m.Tickets tck')
+      ->leftJoin('tck.Transaction t')
+      ->leftJoin('t.Contact c')
+      ->leftJoin('t.Professional pro')
+      ->leftJoin('pro.Organism o')
+      ->leftJoin('tck.User u')
+      ->andWhere('tck.created_at >= ? AND tck.created_at < ?',array(
+        date('Y-m-d',$dates[0]),
+        date('Y-m-d',$dates[1]),
+      ))
+      ->andWhere('tck.duplicate IS NULL')
+      ->orderBy('e.name, m.happens_at, l.name, tck.price_name, tck.created_at');
+    
+    if ( ($criterias['users']) > 0 && $criterias['users'][0] )
+      $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
+    
+    $this->events = $q->execute();
+    $this->dates = $dates;
   }
+  
   public function executeCash(sfWebRequest $request)
   {
     $this->form = new LedgerCriteriasForm();
-    $criterias = $request->getParameter('criterias');
-    print_r($criterias);
-    $this->form->bind($criterias);
-    if ( $this->form->isValid() )
+    
+    $criterias = $request->getParameter($this->form->getName());
+    
+    if ( !$criterias['users'][0] && count($criterias['users']) == 1 )
+      unset($criterias['users']);
+    
+    $this->form->bind($criterias, $request->getFiles($this->form->getName()));
+    if ( !$this->form->isValid() )
     {
-      die('glop');
+      $user->setFlash('error','Submitted values are invalid');
     }
-    else
-    {
-      die('pas glop');
-    }
-      $dates = array(
-        $request->getParameter('b') ? $request->getParameter('b') : strtotime('1 month ago 0:00'),
-        $request->getParameter('e') ? $request->getParameter('e') : strtotime('tomorrow 0:00'),
-      );
+    
+    $dates = array(
+      $criterias['dates']['from']['day']
+        ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
+        : strtotime('1 month ago 0:00'),
+      $criterias['dates']['to']['day']
+        ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'])
+        : strtotime('tomorrow 0:00'),
+    );
     
     if ( $dates[0] > $dates[1] )
     {
@@ -55,21 +111,17 @@ class ledgerActions extends sfActions
       ->leftJoin('t.Contact c')
       ->leftJoin('t.Professional pro')
       ->leftJoin('pro.Organism o')
-      ->andWhere('p.created_at >= ? AND p.created_at < ?',array(date('Y-m-d',$dates[0]),date('Y-m-d',$dates[1])))
+      ->leftJoin('p.User u')
+      ->leftJoin('u.MetaEvents')
+      ->leftJoin('u.Workspaces')
+      ->andWhere('p.created_at >= ? AND p.created_at < ?',array(
+        date('Y-m-d',$dates[0]),
+        date('Y-m-d',$dates[1]),
+      ))
       ->orderBy('m.name, m.id, p.value, p.created_at, t.id');
     
-    if ( $request->hasParameter('by_seller') )
-    {
-      if ( intval($request->getParameter('by_seller')) > 0 )
-      {
-        $q->leftJoin('p.User u')
-          ->andWhere('p.sf_guard_user_id = ?',
-          intval($request->getParameter('by_seller')) > 0
-            ? intval($request->getParameter('by_seller'))
-            : $this->getUser()->getId()
-        );
-      }
-    }
+    if ( ($criterias['users']) > 0 && $criterias['users'][0] )
+      $q->andWhereIn('p.sf_guard_user_id',$criterias['users']);
     
     $this->methods = $q->execute();
     $this->dates = $dates;

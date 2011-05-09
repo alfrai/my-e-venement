@@ -1,2 +1,2 @@
 default:
-  javascripts: [jquery, menu]
+  javascripts: [menu]
