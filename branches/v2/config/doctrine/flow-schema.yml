@@ -54,31 +54,3 @@ Checkpoint:
       foreignAlias: Checkpoints
       onDelete: SET NULL
       onUpdate: CASCADE
-
-Check:
-  tableName: check_table
-  package: flow
-  actAs: [Timestampable]
-  columns:
-    sf_guard_user_id: integer
-    transaction_id: integer # TO CHANGE WHEN THE TICKETTING PACKAGE WILL BE OK
-    checkpoint_id:
-      type: integer
-      notnull: true
-    passed:
-      type: boolean
-      default: false
-  relations:
-    User:
-      class: SfGuardUser
-      foreignAlias: Checks
-      onDelete: SET NULL
-      onUpdate: CASCADE
-    Checkpoint:
-      foreignAlias: Checks
-      onDelete: CASCADE
-      onUpdate: CASCADE
-    #Transaction:
-    #  foreignAlias: Checks
-    #  onDelete: CASCADE
-    #  onUpdate: CASCADE

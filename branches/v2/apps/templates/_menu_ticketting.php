@@ -24,8 +24,9 @@
       <li>
         <ul class="second">
           <li><a href="<?php echo cross_app_url_for('tck','ticket/sell') ?>"><?php echo __('New transaction',array(),'menu') ?></a></li>
-          <li><a href="<?php echo cross_app_url_for('tck','ticket/respawn') ?>"><?php echo __('Respawn a transaction',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('tck','ticket/control') ?>"><?php echo __('Ticket control',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/cancel') ?>"><?php echo __('Cancelations',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('tck','ticket/respawn') ?>"><?php echo __('Respawn a transaction',array(),'menu') ?></a></li>
           <!--
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','deposit/send') ?>"><?php echo __('Deposit',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','deposit/getBack') ?>"><?php echo __('Sells',array(),'menu') ?></a></li>

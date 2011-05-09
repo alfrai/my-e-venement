@@ -334,7 +334,34 @@ class ticketActions extends sfActions
   
   public function executeRespawn(sfWebRequest $request)
   {
-    $this->transaction_id = $request->getParameter('id');
+    $this->transaction_id = intval($request->getParameter('id'));
+  }
+  public function executeControl(sfWebRequest $request)
+  {
+    $this->form = new ControlForm();
+    $this->form->getWidget('checkpoint_id')->setOption('default', $this->getUser()->getAttribute('control.checkpoint_id'));
+    if ( count($request->getParameter($this->form->getName())) > 0 )
+    {
+      $this->form->bind($request->getParameter($this->form->getName()),$request->getFiles($this->form->getName()));
+      if ( $this->form->isValid() )
+      {
+        $params = $request->getParameter($this->form->getName());
+        
+        $q = Doctrine::getTable('Control')->createQuery('c')
+          ->leftJoin('c.Checkpoint c2')
+          ->andWhere('c2.legal AND c.ticket_id = ? AND c.checkpoint_id = ?',array($params['ticket_id'],$params['checkpoint_id']));
+        $controls = $q->execute();
+        
+        $this->getUser()->setAttribute('control.checkpoint_id',$params['checkpoint_id']);
+        if ( $controls->count() == 0 )
+        {
+          $this->form->save();
+          $this->setTemplate('passed');
+        }
+        else
+          $this->setTemplate('failed');
+      }
+    }
   }
   
   public function executeAccess(sfWebRequest $request)

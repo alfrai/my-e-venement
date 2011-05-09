@@ -13,3 +13,10 @@ invoiceSuccess:
 
 gaugeSuccess:
   stylesheets: [gauge]
+
+failedSuccess:
+  stylesheets: [ticket]
+passedSuccess:
+  stylesheets: [ticket]
+controlSuccess:
+  stylesheets: [ticket]

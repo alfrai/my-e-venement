@@ -16,5 +16,20 @@ class ControlForm extends BaseControlForm
   public function configure()
   {
     parent::configure();
+    
+    unset($this->widgetSchema['sf_guard_user_id']);
+    unset($this->widgetSchema['version']);
+    
+    $this->validatorSchema['sf_guard_user_id']->setOption('required', false);
+    $this->validatorSchema['version']->setOption('required', false);
+    
+    $this->widgetSchema['checkpoint_id']->setOption('add_empty',true);
+    
+    $this->widgetSchema['ticket_id'] = new sfWidgetFormInput();
+  }
+  
+  public function save($con = null)
+  {
+    return parent::save($con);
   }
 }

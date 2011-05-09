@@ -120,3 +120,28 @@
   z-index: 501;
 }
 #contact .contact_url { display: none; }
+
+#checkpoint .link a {
+  display: block;
+  padding: 150px 10px;
+  text-align: center;
+  font-size: 20px;
+}
+#checkpoint .link {
+  margin: 5px;
+}
+#checkpoint.failed .link {
+  background-color: OrangeRed;
+}
+#checkpoint.passed .link {
+  background-color: LightGreen;
+}
+#checkpoint ul {
+  list-style-type: none;
+  margin: 5px 10px;
+  padding: 5px;
+}
+#checkpoint label {
+  width: 100px;
+  display: inline-block;
+}
