@@ -20,3 +20,10 @@ passedSuccess:
   stylesheets: [ticket]
 controlSuccess:
   stylesheets: [ticket]
+
+cancelSuccess:
+  stylesheets: [ticket-cancel]
+cancelBootSuccess:
+  stylesheets: [ticket-cancel]
+canceledTicketSuccess:
+  stylesheets: [ticket]

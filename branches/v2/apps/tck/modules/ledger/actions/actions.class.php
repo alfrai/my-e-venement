@@ -64,7 +64,8 @@ class ledgerActions extends sfActions
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
       ))
-      ->andWhere('tck.duplicate IS NULL')
+      ->andWhere("tck.duplicate IS NULL OR t.type = ? AND tck.id = (SELECT max(id) FROM ticket t1 WHERE t1.duplicate = tck.duplicate)",array('cancellation'))
+      ->andWhereIn('t.type',array('normal', 'cancellation'))
       ->orderBy('e.name, m.happens_at, l.name, tck.price_name, tck.created_at');
     
     if ( ($criterias['users']) > 0 && $criterias['users'][0] )

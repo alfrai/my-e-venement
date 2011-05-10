@@ -19,6 +19,7 @@
         foreach ( $event->Manifestations as $manif )
         {
           $qty += $manif->Tickets->count();
+          
           if ( !in_array($manif->vat, $vat) )
             $vat[$manif->vat] = array($event->id => array(
               'total'    => 0,
@@ -27,6 +28,9 @@
           
           foreach ( $manif->Tickets as $ticket )
           {
+            if ( $ticket->Transaction == 'cancellation' )
+              $qty -= 2;
+            
             $value += $ticket->value;
             $vat[$manif->vat][$event->id][$manif->id]
               += $ticket->value - $ticket->value / (1+$manif->vat/100);

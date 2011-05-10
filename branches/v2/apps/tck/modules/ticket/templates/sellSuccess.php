@@ -1,9 +1,10 @@
 <?php include_partial('assets') ?>
-<?php include_partial('global/flashes') ?>
+
+<?php include_partial('flashes') ?>
 
 <div class="ui-widget-content ui-corner-all sf_admin_edit" id="sf_admin_container">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
-    <h1>Vendre des billets</h1>
+    <h1><?php echo __('Selling tickets') ?></h1>
     <p style="display: none;" id="global_transaction_id"><?php echo $transaction->id ?></p>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="contact">

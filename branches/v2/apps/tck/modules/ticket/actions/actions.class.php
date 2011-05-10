@@ -24,24 +24,36 @@ class ticketActions extends sfActions
   {
     if ( !($this->getRoute() instanceof sfObjectRoute) )
     {
-      // this is a hack to be able to quickly commit things without problems
       if ( intval($request->getParameter('id')) > 0 )
-        $this->transaction = Doctrine::getTable('Transaction')->findOneById(intval($request->getParameter('id')));
-      else
+        $this->redirect('ticket/sell?id='.intval($request->getParameter('id')));
+      
+      if ( intval($request->getParameter('id')) == 0 )
       {
+        if ( $this->getUser()->hasFlash('error') )
+          $this->getUser()->setFlash('error',$this->getUser()->getFlash('error'));
+        if ( $this->getUser()->hasFlash('notice') )
+          $this->getUser()->setFlash('notice',$this->getUser()->getFlash('error'));
+        
         $this->transaction = new Transaction();
         $this->transaction->save();
         $this->redirect('ticket/sell?id='.$this->transaction->id);
       }
     }
-    else
+    
+    $this->transaction = $this->getRoute()->getObject();
+    
+    // if closed
+    if ( $this->transaction->closed )
     {
-      $this->transaction = $this->getRoute()->getObject();
-      if ( $this->transaction->closed )
-      {
-        $this->getUser()->setFlash('error','You have to re-open the transaction before to access it');
-        return $this->redirect('ticket/respawn?id='.$this->transaction->id);
-      }
+      $this->getUser()->setFlash('error','You have to re-open the transaction before to access it');
+      return $this->redirect('ticket/respawn?id='.$this->transaction->id);
+    }
+    
+    // if not a "normal" transaction
+    if ( $this->transaction->type != 'normal' )
+    {
+      $this->getUser()->setFlash('error',"You can respawn here only normal transactions");
+      $this->redirect('ticket/sell');
     }
     
     $q = Doctrine::getTable('Price')->createQuery()
@@ -53,6 +65,54 @@ class ticketActions extends sfActions
     $this->payform = new PaymentForm($payment);
     
     $this->createTransactionForm(array('contact_id','professional_id'));
+  }
+  
+  public function executeCancelBoot(sfWebRequest $request)
+  {
+    if ( intval($request->getParameter('id')) > 0 )
+      $this->redirect('ticket/cancel?id='.intval($request->getParameter('id')));
+    
+    $this->setTemplate('cancelBoot');
+  }
+  public function executeCancel(sfWebRequest $request)
+  {
+    if ( intval($request->getParameter('ticket_id')) > 0 )
+    {
+      // get back the ticket to cancel
+      $ticket = Doctrine::getTable('Ticket')->findOneById(intval($request->getParameter('ticket_id')));
+      if ( !$ticket )
+      {
+        $this->getUser()->setFlash('error',"Can't find the given ticket number in database...");
+        $this->redirect('ticket/cancel');
+      }
+      
+      // get back a potential existing transaction
+      $transactions = Doctrine::getTable('Transaction')->createQuery('t')
+        ->andWhere('t.transaction_id = ?',$ticket->transaction_id)
+        ->execute();
+      if ( $transactions->count() > 0 )
+        $this->transaction = $transactions[0];
+      else
+      {
+        // or create one
+        $this->transaction = new Transaction();
+        $this->transaction->type = 'cancellation';
+        $this->transaction->transaction_id = $ticket->transaction_id;
+      }
+      
+      // linking a new cancel ticket to this transaction
+      $this->ticket = $ticket->copy();
+      $this->ticket->duplicate = $ticket->id;
+      $this->ticket->value = -$this->ticket->value;
+      $this->transaction->Tickets[] = $this->ticket;
+      $this->transaction->save();
+      
+      // printing
+      $this->getUser()->setFlash('notice','Ticket canceled.');
+      $this->setTemplate('canceledTicket');
+    }
+    else
+      $this->executeCancelBoot($request);
   }
   
   // add contact
@@ -78,16 +138,8 @@ class ticketActions extends sfActions
       array('contact_id','professional_id'),
       $request->getParameter('transaction', $request->getFiles('transaction'))
     );
-    
-    /*
-    if ( $this->form->isValid() && $request->hasParameter('delete-contact') )
-    {
-      $this->transaction->professional_id = NULL;
-      $this->transaction->contact_id = NULL;
-      $this->transaction->save();
-    }
-    */
   }
+  
   // add manifestation
   public function executeManifs(sfWebRequest $request)
   {
@@ -334,7 +386,7 @@ class ticketActions extends sfActions
   
   public function executeRespawn(sfWebRequest $request)
   {
-    $this->transaction_id = intval($request->getParameter('id'));
+    $this->transaction_id = $request->hasParameter('id') ? intval($request->getParameter('id')) : '';
   }
   public function executeControl(sfWebRequest $request)
   {

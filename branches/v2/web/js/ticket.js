@@ -5,6 +5,11 @@ $(document).ready(function(){
 
 function ticket_lauchpad(anchors)
 {
+  // hiding flashes
+  setTimeout(function(){
+    $('.sf_admin_flashes').fadeOut();
+  },3500);
+  
   var a = anchors.shift();
   if ( !a )
   {
