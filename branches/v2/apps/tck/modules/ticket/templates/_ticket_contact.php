@@ -11,6 +11,7 @@
     <span class="contact">
       <?php if ( is_null($transaction->contact_id) ): ?>
         <?php echo $form['contact_id'] ?>
+        <a href="<?php echo cross_app_url_for('rp','contact/ajax') ?>" style="display: none;"></a>
       <?php else: ?>
         <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$transaction->contact_id) ?>"><?php echo $transaction->Contact ?></a>
       <?php endif ?>
