@@ -45,7 +45,7 @@ p {
 .info {
   font-size: 8pt;
   font-weight: normal;
-  padding: 0 8px 2px 8px;
+  padding: 0 5px 2px 5px;
   margin-top: 2px;
   height: 10pt;
   float: right;
@@ -67,7 +67,7 @@ float: left;
 .info.cancellation, .info.duplicate { border: 1px solid black; }
 .manifid .tariftop:before { content: '-'; }
 .manifid { font-size: 8pt; }
-.manifid .tariftop { font-size: 5pt; }
+.manifid .tariftop { font-size: 5pt; font-weight: normal; }
 
 .left .manifid { text-align: left; margin-left: 2mm; float: left; }
 .metaevt { font-size: 8pt; margin-top: 9mm; height: 10pt; clear: both; }
@@ -82,6 +82,9 @@ float: left;
 .seat { margin-top: 1mm; }
 .transaction { font-size: 6pt; margin-top: 1.5mm; height: 8pt; }
 .mentions { margin-top: 1mm; }
+.mentions .cancelled-id { text-decoration: line-through; }
+.left .mentions .keep-it { margin-left: 20px; }
+.right .mentions .keep-it { margin-right: 20px; }
 
 .right .manifid { text-align: right; margin-right: 2mm; float: right; }
 .right .metaevt { font-size: 7pt; padding-top: 0.5pt; height: 9.5pt; }

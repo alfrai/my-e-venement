@@ -7,7 +7,7 @@
  * @subpackage widget
  * @author     Baptiste SIMON <baptiste.simon@libre-informatique.fr>
  */
-class liWidgetFormDateText extends sfWidgetFormDate
+class liWidgetFormDateText extends sfWidgetFormI18nDate
 {
   /**
    * Configures the current widget.
@@ -29,8 +29,9 @@ class liWidgetFormDateText extends sfWidgetFormDate
   protected function configure($options = array(), $attributes = array())
   {
     parent::configure($options,$attributes);
+    $this->addOption('culture',sfContext::getInstance()->getUser()->getCulture());
   }
-
+  
   /**
    * @param  string $name        The element name
    * @param  string $value       The date displayed in this widget

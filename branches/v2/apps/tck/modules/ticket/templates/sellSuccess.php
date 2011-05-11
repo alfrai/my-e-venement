@@ -10,6 +10,11 @@
   <div class="ui-corner-all ui-widget-content action" id="contact">
     <?php echo link_to('contact','ticket/contact?id='.$transaction->id) ?>
   </div>
+  <div id="transaction-id"
+    class="<?php echo $transaction->Translinked->count() > 0 ? 'translinked' : '' ?>"
+    title="<?php $arr = array(); foreach ( $transaction->Translinked as $trans ) $arr[] = '#'.$trans->id.' ('.__($trans->type).')'; echo implode(', ',$arr); ?>">
+    <?php echo __('Transaction #%%id%%',array('%%id%%' => $transaction->id)) ?>
+  </div>
   <div class="ui-corner-all ui-widget-content action" id="manifestations">
     <?php echo link_to('manifestations','ticket/manifs?id='.$transaction->id) ?>
   </div>

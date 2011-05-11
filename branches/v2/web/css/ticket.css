@@ -3,6 +3,17 @@
   padding: 5px;
 }
 
+#transaction-id {
+  position: absolute;
+  right: 315px;
+  margin-top: 18px;
+  font-weight: bold;
+  cursor: default;
+}
+#transaction-id.translinked {
+  border-bottom: 1px solid red;
+}
+
 #manifestations .manifestations_add {
   height: 200px;
   margin-right: 270px;
@@ -90,6 +101,12 @@
   padding-left: 16px;
   margin-left: 5px;
   background-image: url(../sfDoctrinePlugin/images/delete.png);
+  background-position: 0 -2px;
+}
+#contact .create-contact {
+  padding-left: 16px;
+  margin-left: 5px;
+  background-image: url(../sfDoctrinePlugin/images/new.png);
   background-position: 0 -2px;
 }
 #contact #micro-show {

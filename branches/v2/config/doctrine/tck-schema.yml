@@ -95,6 +95,7 @@ Ticket:
       notnull: true
     numerotation: string(255)
     duplicate: integer
+    cancelling: integer
     printed:
       type: boolean
       default: false
@@ -119,6 +120,12 @@ Ticket:
     Duplicata:
       local: duplicate
       foreignAlias: Duplicated
+      class: Ticket
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Cancelled:
+      local: cancelling
+      foreignAlias: Cancelling
       class: Ticket
       onDelete: SET NULL
       onUpdate: CASCADE

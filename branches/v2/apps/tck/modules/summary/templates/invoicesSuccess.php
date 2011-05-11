@@ -2,7 +2,7 @@
 
 <div class="ui-widget-content ui-corner-all">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
-    <h1><?php echo __('Sales Ledger') ?></h1>
+    <h1><?php echo __('List of Invoices') ?></h1>
   </div>
 <table class="ui-widget-content ui-corner-all" id="ledger">
   <?php

@@ -49,7 +49,7 @@ function ticket_events()
   ticket_autocomplete(
     '#transaction_contact_id',
     '#autocomplete_transaction_contact_id',
-    '/e-venement-2/rp_dev.php/contact/ajax/action');
+    $('#autocomplete_transaction_contact_id').parent().find('a').attr('href'));
   if ( $("#autocomplete_transaction_contact_id").length > 0 )
     $('#contact #autocomplete_transaction_contact_id').focus();
   else if ( $('#contact #transaction_professional_id').length > 0 )
@@ -308,11 +308,11 @@ function ticket_process_amount()
   // the total combinated amount
   total = 0;
   currency = '&nbsp;€'; // default currency
-  $('#prices .manifestations_list .manif .total').each(function(){
+  $('#to_pay, #prices .manifestations_list .manif .total').each(function(){
     if ( $(this).html() )
     {
       total += parseFloat($(this).html().replace(',','.'));
-      currency = $(this).html().replace(/^\d+[,\.]\d+/g,'');
+      currency = $(this).html().replace(/^-{0,1}\d+[,\.]\d+/g,'');
     }
   });
   $('#prices .manifestations_list .total .total').html(total.toFixed(2)+currency)

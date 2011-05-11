@@ -13,8 +13,8 @@ class LedgerCriteriasForm extends BaseForm
   public function configure()
   {
     $this->widgetSchema['dates'] = new sfWidgetFormDateRange(array(
-      'from_date' => new liWidgetFormJQueryDateText(),
-      'to_date'   => new liWidgetFormJQueryDateText(),
+      'from_date' => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+      'to_date'   => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
       'template'  => 'du %from_date%<br/> au %to_date%',
     ));
     $this->validatorSchema['dates'] = new sfValidatorDateRange(array(

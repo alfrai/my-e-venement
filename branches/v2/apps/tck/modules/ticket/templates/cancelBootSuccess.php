@@ -14,6 +14,16 @@
       &nbsp;&nbsp;<input type="submit" name="" value="<?php echo __('cancel') ?>" />
     </p>
   </form>
+  <form action="<?php echo url_for('ticket/pay') ?>" method="get" class="ui-widget-content ui-corner-all pay">
+    <p>
+      <label for="id">Pay back for</label>
+      #<input type="text" name="id" value="<?php echo $pay ?>" />
+    </p>
+    <p>
+      <label for=""></label>
+      &nbsp;&nbsp;<input type="submit" name="" value="<?php echo __('pay') ?>" />
+    </p>
+  </form>
 </div>
 <script type="text/javascript">
   $(document).ready(function(){

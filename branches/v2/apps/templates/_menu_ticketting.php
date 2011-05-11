@@ -34,7 +34,7 @@
           -->
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','summary/asks') ?>"><?php echo __('Asks',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','summary/orders') ?>"><?php echo __('Orders',array(),'menu') ?></a></li>
-          <li><a href="<?php echo cross_app_url_for('tck','summary/invoices') ?>"><?php echo __('Invoices',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('tck','invoices/index') ?>"><?php echo __('Invoices',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','summary/debts') ?>"><?php echo __('Debts',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','summary/duplicatas') ?>"><?php echo __('Duplicatas',array(),'menu') ?></a></li>
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','ledger/sales') ?>"><?php echo __('Sales Ledger',array(),'menu') ?></a></li>

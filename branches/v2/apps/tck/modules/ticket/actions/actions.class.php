@@ -72,6 +72,8 @@ class ticketActions extends sfActions
     if ( intval($request->getParameter('id')) > 0 )
       $this->redirect('ticket/cancel?id='.intval($request->getParameter('id')));
     
+    $this->pay = intval($request->getParameter('pay'));
+    if ( $this->pay == 0 ) $this->pay = '';
     $this->setTemplate('cancelBoot');
   }
   public function executeCancel(sfWebRequest $request)
@@ -79,7 +81,8 @@ class ticketActions extends sfActions
     if ( intval($request->getParameter('ticket_id')) > 0 )
     {
       // get back the ticket to cancel
-      $ticket = Doctrine::getTable('Ticket')->findOneById(intval($request->getParameter('ticket_id')));
+      $ticket = Doctrine::getTable('Ticket')
+        ->findOneById(intval($request->getParameter('ticket_id')));
       if ( !$ticket )
       {
         $this->getUser()->setFlash('error',"Can't find the given ticket number in database...");
@@ -100,12 +103,27 @@ class ticketActions extends sfActions
         $this->transaction->transaction_id = $ticket->transaction_id;
       }
       
+      // get back a potential cancellation ticket for this ticket_id
+      $q = Doctrine::getTable('Ticket')->createQuery('t')
+        ->andWhere('cancelling = ?',$ticket->id)
+        ->orderBy('id DESC')
+        ->limit(1);
+      $duplicatas = $q->execute();
+      
       // linking a new cancel ticket to this transaction
       $this->ticket = $ticket->copy();
-      $this->ticket->duplicate = $ticket->id;
+      $this->ticket->cancelling = $ticket->id;
+      $this->ticket->printed = false;
       $this->ticket->value = -$this->ticket->value;
       $this->transaction->Tickets[] = $this->ticket;
       $this->transaction->save();
+      
+      // saving the old ticket for duplication
+      if ( $duplicatas->count() > 0 )
+      {
+        $duplicatas[0]->duplicate = $this->ticket->id;
+        $duplicatas[0]->save();
+      }
       
       // printing
       $this->getUser()->setFlash('notice','Ticket canceled.');
@@ -119,12 +137,8 @@ class ticketActions extends sfActions
   public function executeContact(sfWebRequest $request)
   {
     $values = $request->getParameter('transaction');
-    
-    $this->transaction = Doctrine::getTable('Transaction')->findOneById(
-      $values['id']
-    ? $values['id']
-    : $request->getParameter('id')
-    );
+    $this->transaction = Doctrine::getTable('Transaction')
+      ->findOneById($values['id'] ? $values['id'] : $request->getParameter('id'));
     
     if ( $request->hasParameter('delete-contact') )
     {
@@ -145,12 +159,8 @@ class ticketActions extends sfActions
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('CrossAppLink');
     $values = $request->getParameter('transaction');
-    
-    $this->transaction = Doctrine::getTable('Transaction')->findOneById(
-      $values['id']
-    ? $values['id']
-    : $request->getParameter('id')
-    );
+    $this->transaction = Doctrine::getTable('Transaction')
+      ->findOneById($values['id'] ? $values['id'] : $request->getParameter('id'));
     
     $mids = array();
     foreach ( $this->transaction->Tickets as $ticket )
@@ -222,7 +232,8 @@ class ticketActions extends sfActions
       }
     }
     
-    $this->transaction = Doctrine::getTable('Transaction')->findOneById($tid);
+    $this->transaction = Doctrine::getTable('Transaction')
+      ->findOneById($values['id'] ? $values['id'] : $request->getParameter('id'));
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->leftJoin('m.Tickets tck')
@@ -290,7 +301,12 @@ class ticketActions extends sfActions
     $q = Doctrine::getTable('Transaction')
       ->createQuery('t')
       ->andWhere('t.id = ?',$request->getParameter('id'))
-      ->andWhere('tck.duplicate IS NULL');
+      ->andWhere('tck.duplicate IS NULL')
+      ->leftJoin('m.Location l')
+      ->leftJoin('m.Organizers o')
+      ->leftJoin('m.Event e')
+      ->leftJoin('e.MetaEvent me')
+      ->leftJoin('e.Companies c');
     $transactions = $q->execute();
     $this->transaction = $transactions[0];
     
@@ -380,8 +396,8 @@ class ticketActions extends sfActions
   {
     $this->executeAccounting($request);
     $this->invoice = $this->transaction->Invoice[0];
-    if ( is_null($this->invoice->id) )
-      $this->invoice->save();
+    $this->invoice->updated_at = date('Y-m-d H:i:s');
+    $this->invoice->save();
   }
   
   public function executeRespawn(sfWebRequest $request)
@@ -461,6 +477,23 @@ class ticketActions extends sfActions
     );
     
     $this->setLayout('empty');
+  }
+  
+  // single cash deal, eg: for cancellations
+  public function executePay(sfWebRequest $request)
+  {
+    if ( !($this->getRoute() instanceof sfObjectRoute) )
+    {
+      if ( intval($request->getParameter('id')) > 0 )
+        $this->redirect('ticket/pay?id='.intval($request->getParameter('id')));
+      else
+      {
+        $this->getUser()->setFlash('error','You gave bad informations... try again.');
+        $this->redirect('ticket/cancel');
+      }
+    }
+    else
+      $this->transaction = $this->getRoute()->getObject();
   }
   
   protected function createTransactionForm($excludes = array(), $parameters = null)

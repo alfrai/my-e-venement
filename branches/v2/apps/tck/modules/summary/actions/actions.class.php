@@ -17,6 +17,12 @@ class summaryActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    $this->forward('default', 'module');
+    $this->forward('summary', 'invoices');
+  }
+  
+  public function executeInvoices(sfWebRequest $request)
+  {
+    $q = Doctrine::getTable('Invoice')->createQuery('i');
+      
   }
 }

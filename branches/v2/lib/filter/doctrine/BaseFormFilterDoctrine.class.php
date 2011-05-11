@@ -13,8 +13,6 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
   public function setup()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
-    
-    $this->resetDates();
 
     if ( isset($this->widgetSchema['contact_id']) )
     $this->widgetSchema['contact_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
@@ -26,40 +24,42 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
       'model' => 'Organism',
       'url'   => url_for('organism/ajax'),
     ));
+    $this->resetDates();
   }
   
   protected function resetDates()
   {
-    unset($this->widgetSchema['created_at']);
-    unset($this->widgetSchema['updated_at']);
-    unset($this->widgetSchema['deleted_at']);
+    if ( !(isset($this->noTimestampableUnset) && $this->noTimestampableUnset) )
+    {
+      unset($this->widgetSchema['created_at']);
+      unset($this->widgetSchema['updated_at']);
+      unset($this->widgetSchema['deleted_at']);
+    }
     
     foreach ($this->widgetSchema->getFields() as $field)
+    if ( $field instanceof sfWidgetFormFilterDate )
     {
-      if ($field instanceof sfWidgetFormFilterDate)
+      if ( class_exists('liWidgetFormJQueryDateText') )
       {
-        if (class_exists('sfWidgetFormJQueryDate'))
-        {
-          $field->setOption('from_date', new sfWidgetFormJQueryDate(array(
-            //'image'   => '/images/calendar_icon.png',
-            //'culture' => sfContext::getInstance()->getUser()->getCulture(),
-            'date_widget' => new sfWidgetFormI18nDate(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
-          )));
-          $field->setOption('to_date', new sfWidgetFormJQueryDate(array(
-            //'image'   => '/images/calendar_icon.png',
-            //'culture' => sfContext::getInstance()->getUser()->getCulture(),
-            'date_widget' => new sfWidgetFormI18nDate(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
-          )));
-        }
-        else
-        {
-          $field->setOption('from_date', new sfWidgetFormI18nDate(array(
-            'culture' => sfContext::getInstance()->getUser()->getCulture(),
-          )));
-          $field->setOption('to_date', new sfWidgetFormI18nDate(array(
-            'culture' => sfContext::getInstance()->getUser()->getCulture(),
-          )));
-        }
+        $field->setOption('from_date', new liWidgetFormJQueryDateText(array(
+          //'image'   => '/images/calendar_icon.png',
+          'culture' => sfContext::getInstance()->getUser()->getCulture(),
+          //'date_widget' => new sfWidgetFormI18nDate(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+        )));
+        $field->setOption('to_date', new liWidgetFormJQueryDateText(array(
+          //'image'   => '/images/calendar_icon.png',
+          'culture' => sfContext::getInstance()->getUser()->getCulture(),
+          //'date_widget' => new sfWidgetFormI18nDate(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+        )));
+      }
+      else
+      {
+        $field->setOption('from_date', new sfWidgetFormI18nDate(array(
+          'culture' => sfContext::getInstance()->getUser()->getCulture(),
+        )));
+        $field->setOption('to_date', new sfWidgetFormI18nDate(array(
+          'culture' => sfContext::getInstance()->getUser()->getCulture(),
+        )));
       }
     }
   }

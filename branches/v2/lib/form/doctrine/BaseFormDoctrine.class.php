@@ -33,15 +33,19 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
   
   protected function resetDates()
   {
-    unset($this->widgetSchema['created_at']);
-    unset($this->widgetSchema['updated_at']);
-    unset($this->widgetSchema['deleted_at']);
-    unset($this->validatorSchema['created_at']);
-    unset($this->validatorSchema['updated_at']);
-    unset($this->validatorSchema['deleted_at']);
+    if ( !(isset($this->noTimestampableUset) && $this->noTimestampableUnset) )
+    {
+      unset($this->widgetSchema['created_at']);
+      unset($this->widgetSchema['updated_at']);
+      unset($this->widgetSchema['deleted_at']);
+      unset($this->validatorSchema['created_at']);
+      unset($this->validatorSchema['updated_at']);
+      unset($this->validatorSchema['deleted_at']);
+    }
     
     foreach ( $this->widgetSchema->getFields() as $name => $field )
-    if ( ($field instanceof sfWidgetFormDate || $field instanceof sfWidgetFormDateTime) && class_exists('sfWidgetFormJQueryDate') )
+    if ( ($field instanceof sfWidgetFormDate || $field instanceof sfWidgetFormDateTime)
+      && class_exists('sfWidgetFormJQueryDate') )
     {
       $this->widgetSchema[$name] = new liWidgetFormDateTime(array(
         'date' => new liWidgetFormJQueryDateText(),

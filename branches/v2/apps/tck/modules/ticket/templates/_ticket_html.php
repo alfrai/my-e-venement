@@ -24,7 +24,11 @@
     </p>
     <p class="mentions">
       <span class="optional"><?php echo sfConfig::get('app_tickets_mentions_optional') ?></span>
-      <span><?php echo __('Keep it') ?></span>
+      <?php if ( $ticket->cancelling ): ?>
+        <span class="cancelled-id">#<?php echo $ticket->cancelling ?></span>
+      <?php endif ?>
+      <span class="ticket-id">#<?php echo $ticket->id ?></span>
+      <span class="keep-it"><?php echo __('Keep it') ?></span>
     </p>
   </div>
   <div class="right">
@@ -49,6 +53,7 @@
       <span class="num">#<?php echo $ticket->Transaction->id ?>-<?php echo $sf_user->getId() ?></span>
     </p>
     <p class="mentions">
-      <span><?php echo __('Keep it') ?></span>
+      <span class="keep-it"><?php echo __('Keep it') ?></span>
+      <span class="ticket-id">#<?php echo $ticket->id ?></span>
     </p>
   </div>

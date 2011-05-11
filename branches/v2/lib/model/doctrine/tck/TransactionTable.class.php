@@ -25,7 +25,16 @@ class TransactionTable extends PluginTransactionTable
     $q = parent::createQuery($alias);
     $a = $q->getRootAlias();
     $q->leftJoin("$a.Tickets $tck")
-      ->leftJoin("$tck.Manifestation $m");
+      ->leftJoin("$tck.Manifestation $m")
+      ->orderBy("$tck.id");
     return $q;
+  }
+  
+  public function findOneById($id)
+  {
+    $q = Doctrine::getTable('Transaction')->createQuery()
+      ->andWhere('id = ?',$id);
+    $tmp = $q->execute();
+    return $tmp[0];
   }
 }

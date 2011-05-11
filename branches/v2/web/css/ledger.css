@@ -16,16 +16,22 @@ table td {
 }
 table td.event { width: 300px; }
 table td.method { width: 120px; }
-table td.see-more { width: 5px; }
 table td.id-qty { width: 35px; }
 table td.value { width: 50px; }
 table td.vat { width: 50px; }
 table td.vat.total { width: auto; }
 table td.date { width: 80px; }
 table td.ref { width: 200px; }
-table td.see-more { padding-left: 0; }
+table td.see-more { width: 5px; padding-left: 0; }
+table td.see-more a { padding: 0 3px; }
 table td.id-qty, table td.value {
   text-align: right;
+}
+table .prices {
+  font-size: 75%;
+}
+table .prices td.price {
+  padding-left: 25px;
 }
 
 thead td, tfoot td {
