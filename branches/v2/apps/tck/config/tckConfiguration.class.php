@@ -15,6 +15,9 @@ class tckConfiguration extends sfApplicationConfiguration
     $user     = sfContext::getInstance()->getUser();
     $request  = sfContext::getInstance()->getRequest();
     
+    if ( !is_object($user) )
+      return false;
+    
     $auth = new Authentication();
     $auth->sf_guard_user_id = $user->getId();
     $auth->description      = $user;
