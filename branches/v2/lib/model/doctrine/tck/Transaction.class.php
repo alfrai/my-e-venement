@@ -12,4 +12,19 @@
  */
 class Transaction extends PluginTransaction
 {
+  public function getPrice()
+  {
+    $price = 0;
+    foreach ( $this->Tickets as $ticket )
+    if ( is_null($ticket->duplicate) && $ticket->printed )
+      $price += $ticket->value;
+    return $price;
+  }
+  public function getPaid()
+  {
+    $paid = 0;
+    foreach ( $this->Payments as $payment )
+      $paid += $payment->value;
+    return $paid;
+  }
 }

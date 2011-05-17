@@ -1,13 +1,13 @@
 generator:
   class: sfDoctrineGenerator
   param:
-    model_class:           invoice
+    model_class:           order
     theme:                 jroller
     non_verbose_templates: true
     with_show:             false
     singular:              ~
     plural:                ~
-    route_prefix:          invoice
+    route_prefix:          order
     with_doctrine_route:   true
     actions_base_class:    sfActions
 

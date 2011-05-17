@@ -25,8 +25,7 @@ class TransactionTable extends PluginTransactionTable
     $q = parent::createQuery($alias);
     $a = $q->getRootAlias();
     $q->leftJoin("$a.Tickets $tck")
-      ->leftJoin("$tck.Manifestation $m")
-      ->orderBy("$tck.id");
+      ->leftJoin("$tck.Manifestation $m");
     return $q;
   }
   

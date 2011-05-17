@@ -1,3 +1,21 @@
+transaction:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Transaction
+    module:               summary
+    prefix_path:          /summary
+    column:               id
+    with_wildcard_routes: true
+
+order:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                order
+    module:               order
+    prefix_path:          /order
+    column:               id
+    with_wildcard_routes: true
+
 invoice:
   class: sfDoctrineRouteCollection
   options:
