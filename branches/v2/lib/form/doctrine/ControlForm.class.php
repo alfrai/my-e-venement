@@ -26,6 +26,7 @@ class ControlForm extends BaseControlForm
     $this->widgetSchema['checkpoint_id']->setOption('add_empty',true);
     
     $this->widgetSchema['ticket_id'] = new sfWidgetFormInput();
+    $this->widgetSchema['comment'] = new sfWidgetFormTextArea();
   }
   
   public function save($con = null)

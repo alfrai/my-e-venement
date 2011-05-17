@@ -417,12 +417,15 @@ class ticketActions extends sfActions
         
         $q = Doctrine::getTable('Control')->createQuery('c')
           ->leftJoin('c.Checkpoint c2')
-          ->andWhere('c2.legal AND c.ticket_id = ? AND c.checkpoint_id = ?',array($params['ticket_id'],$params['checkpoint_id']));
+          ->andWhere('c.ticket_id = ? AND c.checkpoint_id = ?',array($params['ticket_id'],$params['checkpoint_id']))
+          ->orderBy('c.id DESC');
         $controls = $q->execute();
         
         $this->getUser()->setAttribute('control.checkpoint_id',$params['checkpoint_id']);
-        if ( $controls->count() == 0 )
+        
+        if ( $controls->count() == 0 || !$controls[0]['Checkpoint']['legal'] )
         {
+          $this->comment = $controls->count() > 0 ? $controls[0]['comment'] : '';
           $this->form->save();
           $this->setTemplate('passed');
         }

@@ -159,6 +159,7 @@ Control:
     checkpoint_id:
       type: integer
       notnull: true
+    comment: text
   relations:
     Ticket:
       foreignAlias: Controls
