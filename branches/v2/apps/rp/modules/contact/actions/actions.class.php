@@ -222,7 +222,7 @@ class contactActions extends autoContactActions
       'ms'        => in_array('microsoft',$params['option']),    // microsoft-compatible extraction
       'tunnel'    => in_array('tunnel',$params['option']),       // tunnel effect on fields to prefer organism fields when they exist
       'noheader'  => in_array('noheader',$params['option']),     // no header
-      'fields'    => array_keys($params['field']),
+      'fields'    => $params['field'],
     );
     
     $this->outstream = 'php://output';
@@ -240,6 +240,11 @@ class contactActions extends autoContactActions
     
     if ( $request->hasParameter('debug') )
       $this->setLayout(true);
+    else
+    {
+      $this->getResponse()->setContentType('text/comma-separated-values');
+      $this->getResponse()->sendHttpHeaders();
+    }
   }
   
   // creates a group from filter criterias
