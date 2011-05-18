@@ -91,13 +91,13 @@ class contactActions extends autoContactActions
       $contact = $contacts[$i];
       
       // cleaning unwanted fields from contact array
-      if ( $this->fields > 0 )
+      if ( count($this->fields) > 0 )
       {
         $tmp = array();
         foreach( $contact as $field => $value )
           $tmp[$field] = '';
         foreach ( $this->fields as $name => $value )
-          $tmp[$value] = $contact[$value];
+          $tmp[$value] = isset($contact[$value]) ? $contact[$value] : '';
         $contact = $tmp;
       }
       
@@ -117,6 +117,8 @@ class contactActions extends autoContactActions
     
       $this->labels[$nbpages-1][$nblines-1][] = $contact;
     }
+    
+    $this->setLayout(false);
   }
   public function executeSearch(sfWebRequest $request)
   {
