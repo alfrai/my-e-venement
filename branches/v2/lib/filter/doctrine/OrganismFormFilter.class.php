@@ -18,4 +18,18 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     $this->widgetSchema['organism_category_id']->setOption('order_by',array('name',''));
     parent::configure();
   }
+  
+  public function getFields()
+  {
+    $fields = parent::getFields();
+    $fields['postalcode']           = 'Postalcode';
+    return $fields;
+  }
+  public function addPostalcodeColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $c = $q->getRootAlias();
+    $q->addWhere("$c.postalcode LIKE ?",intval($value['text']).'%');
+    
+    return $q;
+  }
 }

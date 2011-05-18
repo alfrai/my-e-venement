@@ -81,6 +81,7 @@ class ContactFormFilter extends BaseContactFormFilter
   public function getFields()
   {
     $fields = parent::getFields();
+    $fields['postalcode']           = 'Postalcode';
     $fields['YOB']                  = 'YOB';
     $fields['organism_id']          = 'OrganismId';
     $fields['organism_category_id'] = 'OrganismCategoryId';
@@ -172,6 +173,13 @@ class ContactFormFilter extends BaseContactFormFilter
       $q->addWhere('y.year >= ?',date('Y',strtotime($value['from'])));
     if ( $value['to'] )
       $q->addWhere('y.year <= ?',date('Y',strtotime($value['to'])));
+    
+    return $q;
+  }
+  public function addPostalcodeColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $c = $q->getRootAlias();
+    $q->addWhere("$c.postalcode LIKE ? OR (o.id IS NOT NULL AND o.postalcode LIKE ?)",array(intval($value['text']).'%',intval($value['text']).'%'));
     
     return $q;
   }
