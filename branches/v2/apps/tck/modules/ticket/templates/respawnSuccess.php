@@ -13,7 +13,7 @@
     <p>
       <input type="text" name="id" value="<?php echo $transaction_id ?>" />
       <input type="checkbox" name="reopen"
-             value="true" title="<?php echo __('Unlock this transaction (only granted people).') ?>" />
+             value="true" title="<?php echo __('Unlock this transaction (only granted users).') ?>" />
       <input type="submit" name="ok" value="ok" />
     </p>
   </form>
