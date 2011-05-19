@@ -9,7 +9,10 @@
   <tbody>
     <?php foreach ( $transactions as $transaction ): ?>
     <tr class="transaction">
-      <td class="id"><?php echo __('Transaction') ?>: #<?php echo link_to($transaction,'ticket/sell?id='.$transaction->id) ?></td>
+      <td class="id"><?php echo __('Transaction') ?>: #<?php echo $sf_user->hasCredential('tck-transaction') )
+        ? link_to($transaction,'ticket/sell?id='.$transaction->id)
+        : $transaction
+      ?></td>
       <td class="updated_at"><?php echo $transaction->updated_at ?></td>
       <td class="qty"><?php echo $transaction->Tickets->count() ?></td>
       <td class="contact"><?php echo cross_app_link_to($transaction->Contact,'rp','contact/show?id='.$transaction->contact_id) ?></td>

@@ -27,7 +27,9 @@
     <tr class="payment method-<?php echo $method->id ?>">
       <td class="method"></td>
       <td class="see-more"></td>
-      <td class="id-qty">#<?php echo link_to($payment->Transaction,'ticket/sell?id='.$payment->Transaction->id) ?></td>
+      <td class="id-qty">#<?php echo $sf_user->hasCredential('tck-transaction')
+        ? link_to($payment->Transaction,'ticket/sell?id='.$payment->Transaction->id)
+        : $payment->Transaction ?></td>
       <td class="value"><?php echo format_currency($payment->value,'€'); $value += $payment->value ?></td>
       <td class="ref">
         <?php

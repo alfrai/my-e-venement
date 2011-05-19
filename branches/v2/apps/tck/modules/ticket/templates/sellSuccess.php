@@ -22,10 +22,10 @@
     <?php include_partial('ticket_prices',array('transaction' => $transaction, 'prices' => $prices)) ?>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="print">
-    <?php include_partial('ticket_print',array('transaction' => $transaction)) ?>
+    <?php if ( $sf_user->hasCredential('tck-print') ) include_partial('ticket_print',array('transaction' => $transaction)) ?>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="payment">
-    <?php include_partial('ticket_payment',array('transaction' => $transaction, 'payform' => $payform)) ?>
+    <?php if ( $sf_user->hasCredential('tck-payment') ) include_partial('ticket_payment',array('transaction' => $transaction, 'payform' => $payform)) ?>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="validation">
     <?php include_partial('ticket_validation',array('transaction' => $transaction)) ?>

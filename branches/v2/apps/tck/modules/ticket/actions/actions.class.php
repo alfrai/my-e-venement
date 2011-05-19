@@ -439,7 +439,7 @@ class ticketActions extends sfActions
   {
     $id = intval($request->getParameter('id'));
     
-    if ( $request->getParameter('reopen') )
+    if ( $request->getParameter('reopen') && $this->getUser()->hasCredentials('tck-unblock') )
     {
       $this->transaction = Doctrine::getTable('Transaction')
         ->findOneById($id);
