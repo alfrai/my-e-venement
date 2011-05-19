@@ -96,7 +96,14 @@ class emailActions extends autoEmailActions
       $this->redirect('@email_show',$this->email);
     }
     
-    $this->processForm($request, $this->form);
+    try {
+      $this->processForm($request, $this->form);
+    }
+    catch(Swift_TransportException $e)
+    {
+      $this->getUser()->setFlash('error','An error occured sending the email (smtp unreachable)');
+      $this->redirect('email/edit?id='.$this->email->id);
+    }
     
     $this->setTemplate('edit');
   }
