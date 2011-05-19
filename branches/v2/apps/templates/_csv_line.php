@@ -26,6 +26,7 @@
     {
       $arr = array();
       foreach ( $options['fields'] as $field )
+      if ( isset($line[$field]) )
         $arr[$field] = $line[$field];
       $line = $arr;
     }
