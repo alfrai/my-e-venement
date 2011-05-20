@@ -82,6 +82,13 @@ class Addressable extends PluginAddressable
       ->limit(intval($display['max']))
       ->offset(intval($request->getParameter('offset')));
     
+    if ( $display['notices'] )
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+      sfContext::getInstance()->getUser()->setFlash('notice',
+        __('Your map is only displaying the %%max%% first records...',$display['max']));
+    }
+    
     $gMap = new GMap();
     foreach ($query->execute() as $addressable)
       $gMap = self::getGmapFromObject($addressable,$gMap);
