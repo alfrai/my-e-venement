@@ -300,6 +300,10 @@
         <source>Groups list</source>
         <target>Membre des groupes</target>
       </trans-unit>
+      <trans-unit>
+        <source>Not member of groups</source>
+        <target>Non membre des groupes</target>
+      </trans-unit>
       <trans-unit id="76">
         <source>Password</source>
         <target>Mot de passe</target>
@@ -927,6 +931,10 @@
       <trans-unit>
         <source>Load and replace content</source>
         <target>Charger et remplacer le contenu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Events list</source>
+        <target>Événements</target>
       </trans-unit>
     </body>
   </file>

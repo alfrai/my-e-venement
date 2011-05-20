@@ -18,6 +18,7 @@ generator:
         description: { label: Keywords }
         YOBs_list:  { label: "Years of Birth (x[, x [,..]])" }
         YOB:        { label: Year of Birth }
+        not_groups_list: { label: Not member of groups }
       list:
         display: [title, name, firstname, postalcode, city, email, npai]
       show: 
@@ -29,7 +30,7 @@ generator:
           #Geolocalization: [_gmap]
           Details: [created_at,updated_at,slug,longitude,latitude]
       filter:
-        display: [name, firstname, postalcode, city, country, YOB, groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address, emails_list]
+        display: [name, firstname, postalcode, city, country, YOB, groups_list, not_groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address, emails_list, event_categories_list, events_list]
       form: ~
       edit:
         title: Contact %%name%% %%firstname%%

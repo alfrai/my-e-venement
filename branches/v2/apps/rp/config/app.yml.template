@@ -14,4 +14,5 @@ all:
       default: "PUT YOUR API KEY HERE"
       max_display: 200
       default_country: France
-          
+    display:
+      max: 100

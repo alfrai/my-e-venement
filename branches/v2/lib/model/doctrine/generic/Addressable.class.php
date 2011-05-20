@@ -77,8 +77,9 @@ class Addressable extends PluginAddressable
 
   public static function getGmapFromQuery(Doctrine_Query $query, sfWebRequest $request)
   {
+    $display = sfConfig::get('app_google_maps_display');
     $query
-      ->limit(intval(sfConfig::get('app_google_maps_max_display')))
+      ->limit(intval($display['max']))
       ->offset(intval($request->getParameter('offset')));
     
     $gMap = new GMap();
