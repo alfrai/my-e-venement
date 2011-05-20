@@ -6,5 +6,5 @@
   </div>
 <?php endforeach ?>
 <div id="options">
-  <!--<p id="close"></p>-->
+  <p id="close"></p>
 </div>

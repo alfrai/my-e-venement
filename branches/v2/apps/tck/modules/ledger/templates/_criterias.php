@@ -16,7 +16,7 @@
       <input type="submit" name="s" value="ok" />
       <?php
         if ( $sf_user->hasCredential('tck-ledger-'.($ledger == 'cash' ? 'sales' : 'cash')) )
-          link_to(__('Switch ledger...'), $ledger == 'cash' ? 'ledger/sales' : 'ledger/cash');
+          echo link_to(__('Switch ledger...'), $ledger == 'cash' ? 'ledger/sales' : 'ledger/cash');
       ?>
     </li>
   </ul>
