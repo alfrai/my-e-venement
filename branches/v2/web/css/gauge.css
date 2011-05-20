@@ -43,6 +43,6 @@
 .gauge .seat.free   { background-color: green; }
 .gauge .seat.orders { background-color: orange; }
 .gauge .seat.sells  { background-color: red; }
-.gauge .seat.demands{ border: 1px dashed blue; padding: 0; }
-.gauge .overquota   { border: 1px dashed white; padding: 0; }
+.gauge .seat.demands{ border: 1px dotted blue; padding: 0; }
+.gauge .overquota   { border: 1px dotted white; padding: 0; }
 .gauge .overquota.demands { background-color: white; }

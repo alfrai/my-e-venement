@@ -233,7 +233,7 @@ class ticketActions extends sfActions
     }
     
     $this->transaction = Doctrine::getTable('Transaction')
-      ->findOneById($values['id'] ? $values['id'] : $request->getParameter('id'));
+      ->findOneById($values['transaction_id'] ? $values['transaction_id'] : $request->getParameter('id'));
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->leftJoin('m.Tickets tck')

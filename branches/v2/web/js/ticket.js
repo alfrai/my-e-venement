@@ -266,6 +266,7 @@ function ticket_prices()
   
   // clicking on a price ... adding a ticket
   $('#prices input[type=submit]').unbind().click(function(){
+    
     if ( $('#prices .manifestations_list input:checked').length == 0 )
       return false;
     

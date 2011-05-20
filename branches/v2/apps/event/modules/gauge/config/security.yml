@@ -1,15 +1,15 @@
 all:
-  credentials: [manif]
+  credentials: [event-manif]
 
 update:
-  credentials: [manif-gauge]
+  credentials: [event-manif-gauge]
 edit:
-  credentials: [manif-gauge]
+  credentials: [event-manif-gauge]
 new:
-  credentials: [manif-gauge]
+  credentials: [event-manif-gauge]
 create:
-  credentials: [manif-gauge]
+  credentials: [event-manif-gauge]
 delete:
-  credentials: [manif-gauge]
+  credentials: [event-manif-gauge]
 batchDelete:
-  credentials: [manif-gauge]
+  credentials: [event-manif-gauge]
