@@ -57,6 +57,9 @@ class ContactFormFilter extends BaseContactFormFilter
     ));
     $this->validatorSchema['professional_type_id'] = new sfValidatorInteger(array('required' => false));
     
+    $this->widgetSchema   ['not_groups_list'] = $this->widgetSchema   ['groups_list'];
+    $this->validatorSchema['not_groups_list'] = $this->validatorSchema['groups_list'];
+    
     $years = sfContext::getInstance()->getConfiguration()->yob;
     $this->widgetSchema   ['YOB'] = new sfWidgetFormFilterDate(array(
       'from_date'=> new sfWidgetFormDate(array(
@@ -75,6 +78,28 @@ class ContactFormFilter extends BaseContactFormFilter
       'to_date'   => new sfValidatorDate(array('required' => false,)),
     ));
     
+    // events
+    $this->widgetSchema   ['events_list'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Event',
+      'order_by' => array('name','asc'),
+      'multiple' => true,
+    ));
+    $this->validatorSchema['events_list'] = new sfValidatorDoctrineChoice(array(
+      'required' => false,
+      'model'    => 'Event',
+      'multiple' => true,
+    ));
+    $this->widgetSchema   ['event_categories_list'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'EventCategory',
+      'order_by' => array('name','asc'),
+      'multiple' => true,
+    ));
+    $this->validatorSchema['event_categories_list'] = new sfValidatorDoctrineChoice(array(
+      'required' => false,
+      'model'    => 'EventCategory',
+      'multiple' => true,
+    ));
+    
     parent::configure();
   }
   
@@ -89,7 +114,10 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['has_email']            = 'HasEmail';
     $fields['has_address']          = 'HasAddress';
     $fields['groups_list']          = 'GroupsList';
+    $fields['not_groups_list']      = 'NotGroupsList';
     $fields['emails_list']          = 'EmailsList';
+    $fields['events_list']          = 'EventsList';
+    $fields['event_categories_list']= 'EventCategoriesList';
     
     return $fields;
   }
@@ -110,17 +138,124 @@ class ContactFormFilter extends BaseContactFormFilter
     
     return $q;
   }
+  
+  // links to the ticketting system module
+  public function addEventsListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+    {
+      if ( !$q->contains("LEFT JOIN $a.Transaction transac") )
+      $q->leftJoin("$a.Transactions transac");
+      
+      if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
+      $q->leftJoin('transac.Tickets tck');
+      
+      if ( !$q->contains("LEFT JOIN tck.Manifestation m") )
+      $q->leftJoin('tck.Manifestation m');
+      
+      $q->andWhereIn('m.event_id',$value);
+    }
+    
+    return $q;
+  }
+  public function addEventCategoriesListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+    {
+      if ( !$q->contains("LEFT JOIN $a.Transaction transac") )
+      $q->leftJoin("$a.Transactions transac");
+      
+      if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
+      $q->leftJoin('transac.Tickets tck');
+      
+      if ( !$q->contains("LEFT JOIN tck.Manifestation m") )
+      $q->leftJoin('tck.Manifestation m');
+      
+      if ( !$q->contains("LEFT JOIN m.Event event") )
+      $q->leftJoin('m.Event event');
+      
+      $q->andWhereIn('event.event_category_id',$value);
+    }
+    
+    return $q;
+  }
+  public function addMetaEventsListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+    {
+      if ( !$q->contains("LEFT JOIN $a.Transaction transac") )
+      $q->leftJoin("$a.Transactions transac");
+      
+      if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
+      $q->leftJoin('transac.Tickets tck');
+      
+      if ( !$q->contains("LEFT JOIN tck.Manifestation m") )
+      $q->leftJoin('tck.Manifestation m');
+      
+      if ( !$q->contains("LEFT JOIN m.Event event") )
+      $q->leftJoin('m.Event event');
+      
+      if ( !$q->contains("LEFT JOIN event.MetaEvent mev") )
+      $q->leftJoin('event.MetaEvent mev');
+      
+      $q->andWhereIn('event.event_category_id',$value);
+    }
+    
+    return $q;
+  }
+
   public function addGroupsListColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $a = $q->getRootAlias();
     
     if ( is_array($value) )
-      $q->leftJoin("$a.Groups gc")
-        ->leftJoin("p.Groups gp")
-        ->andWhere('(TRUE')
+    {
+      if ( !$q->contains("LEFT JOIN $a.Groups gc") )
+        $q->leftJoin("$a.Groups gc");
+      
+      if ( !$q->contains("LEFT JOIN p.Groups gp") )
+        $q->leftJoin("p.Groups gp");
+      
+      $q->andWhere('(TRUE')
         ->andWhereIn("gc.id",$value)
         ->orWhereIn("gp.id",$value)
         ->andWhere('TRUE)');
+    }
+    
+    return $q;
+  }
+  public function addNotGroupsListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+    {
+      /*
+      if ( !$q->contains("LEFT JOIN $a.Groups gc") )
+        $q->leftJoin("$a.Groups gc");
+      
+      if ( !$q->contains("LEFT JOIN p.Groups gp") )
+        $q->leftJoin("p.Groups gp");
+      */
+      
+      $q1 = new Doctrine_Query();
+      $q1->select('tmp1.contact_id')
+        ->from('GroupContact tmp1')
+        ->andWhereIn('tmp1.group_id',$value);
+      $q2 = new Doctrine_Query();
+      $q2->select('tmp2.professional_id')
+        ->from('GroupProfessional tmp2')
+        ->andWhereIn('tmp2.group_id',$value);
+      
+      $q->andWhere("$a.id NOT IN (".$q1.")",$value) // hack for inserting $value
+        ->andWhere("p.id NOT IN (".$q2.")",$value); // hack for inserting $value
+    }
     
     return $q;
   }
@@ -179,7 +314,8 @@ class ContactFormFilter extends BaseContactFormFilter
   public function addPostalcodeColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $c = $q->getRootAlias();
-    $q->addWhere("$c.postalcode LIKE ? OR (o.id IS NOT NULL AND o.postalcode LIKE ?)",array(intval($value['text']).'%',intval($value['text']).'%'));
+    if ( intval($value['text']) > 0 )
+      $q->addWhere("$c.postalcode LIKE ? OR (o.id IS NOT NULL AND o.postalcode LIKE ?)",array(intval($value['text']).'%',intval($value['text']).'%'));
     
     return $q;
   }

@@ -17,13 +17,22 @@ $(document).ready(function(){
     .append($('#sf_admin_filter .sf_admin_filter_field_YOB'))
     .append($('#sf_admin_filter .sf_admin_filter_field_npai'))
     .append($('#sf_admin_filter .sf_admin_filter_field_has_address'))
-    .append($('#sf_admin_filter .sf_admin_filter_field_has_email'));
+    .append($('#sf_admin_filter .sf_admin_filter_field_has_email'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_emails_list'));
   elt.find('h2').html('Additionnel');
   elt.prependTo('#sf_admin_filter > form > table > tbody');
   
   elt = elt.clone(true);
   elt.find('tbody').html('')
+    .append($('#sf_admin_filter .sf_admin_filter_field_event_categories_list'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_events_list'));
+  elt.find('h2').html('Evenementiel');
+  elt.prependTo('#sf_admin_filter > form > table > tbody');
+  
+  elt = elt.clone(true);
+  elt.find('tbody').html('')
     .append($('#sf_admin_filter .sf_admin_filter_field_groups_list'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_not_groups_list'))
     .append($('#sf_admin_filter .sf_admin_filter_field_organism_id'))
     .append($('#sf_admin_filter .sf_admin_filter_field_organism_category_id'))
     .append($('#sf_admin_filter .sf_admin_filter_field_professional_type_id'));

@@ -21,4 +21,6 @@
 *
 ***********************************************************************************/
 ?>
+<?php if ( $sf_user->isSuperAdmin() ): ?>
           <li><a href=""><?php echo __('Online ticketting',array(),'menu') ?></a></li>
+<?php endif ?>

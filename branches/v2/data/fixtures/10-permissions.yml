@@ -384,6 +384,11 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_54
     created_at: '2011-05-19 16:00:06'
     updated_at: '2011-05-19 16:00:06'
+  sfGuardGroupPermission_18_59:
+    Group: sfGuardGroup_18
+    Permission: sfGuardPermission_59
+    created_at: '2011-05-19 17:10:09'
+    updated_at: '2011-05-19 17:10:09'
 sfGuardPermission:
   sfGuardPermission_18:
     name: admin-titles
@@ -655,6 +660,11 @@ sfGuardPermission:
     description: 'Permission to access the sales ledger'
     created_at: '2011-05-19 15:35:49'
     updated_at: '2011-05-19 15:35:49'
+  sfGuardPermission_59:
+    name: tck-admin-payment
+    description: 'Permission to access the payment methods part of the admin part of the "tck" module'
+    created_at: '2011-05-19 17:09:41'
+    updated_at: '2011-05-19 17:09:41'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -741,3 +751,8 @@ sfGuardGroup:
     description: 'Users who cannot be an operator (edit/cancel/duplicate tickets) but who can have an overview on all the reports and the ledgers'
     created_at: '2011-05-19 15:59:55'
     updated_at: '2011-05-19 16:01:41'
+  sfGuardGroup_18:
+    name: tck-admin
+    description: 'Users who can define payment methods and prices'
+    created_at: '2011-05-19 17:10:03'
+    updated_at: '2011-05-19 17:10:03'

@@ -21,9 +21,11 @@
 *
 ***********************************************************************************/
 ?>
+<?php if ( $sf_user->isSuperAdmin() ): ?>
       <li>
         <ul class="second">
           <li><a href=""><?php __('Pupils and groups',array(),'menu') ?></a></li>
         </ul>
         <span class="title"><?php echo __('Groups',array(),'menu') ?></span>
       </li>
+<?php endif ?>

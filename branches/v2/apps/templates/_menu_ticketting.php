@@ -23,22 +23,38 @@
 ?>
       <li>
         <ul class="second">
+          <?php if ( $sf_user->hasCredential('tck-transaction') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/sell') ?>"><?php echo __('New transaction',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('tck-control') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/control') ?>"><?php echo __('Ticket control',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('tck-unblock') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/respawn') ?>"><?php echo __('Respawn a transaction',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('tck-cancel') && $sf_user->hasCredential('tck-transaction') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/cancel') ?>"><?php echo __('Cancelations',array(),'menu') ?></a></li>
+          <?php endif ?>
           <!--
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','deposit/send') ?>"><?php echo __('Deposit',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','deposit/getBack') ?>"><?php echo __('Sells',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','deposit/inProgress') ?>"><?php echo __('In progress',array(),'menu') ?></a></li>
           -->
+          <?php if ( $sf_user->hasCredential('tck-reports') ): ?>
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','summary/asks') ?>"><?php echo __('Asks',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','order/index') ?>"><?php echo __('Orders',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','invoice/index') ?>"><?php echo __('Invoices',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','summary/debts') ?>"><?php echo __('Debts',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','summary/duplicatas') ?>"><?php echo __('Duplicatas',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('tck-ledger-sales') ): ?>
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','ledger/sales') ?>"><?php echo __('Sales Ledger',array(),'menu') ?></a></li>
-          <li><a href="<?php echo cross_app_url_for('tck','ledger/cash') ?>"><?php echo __('Cash Ledger',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('tck-ledger-cash') ): ?>
+          <li <?php if ( !$sf_user->hasCredential('tck-ledger-sales') ): ?>class="spaced"<?php endif ?>>
+            <a href="<?php echo cross_app_url_for('tck','ledger/cash') ?>"><?php echo __('Cash Ledger',array(),'menu') ?></a>
+          </li>
+          <?php endif ?>
         </ul>
         <span class="title"><?php echo __('Ticketting',array(),'menu') ?></span>
       </li>
