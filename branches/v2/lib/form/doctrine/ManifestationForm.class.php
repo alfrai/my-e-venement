@@ -23,4 +23,11 @@ class ManifestationForm extends BaseManifestationForm
     
     $this->validatorSchema['duration'] = new sfValidatorString();
   }
+  protected function doSave($con = null)
+  {
+    $this->saveOrganizersList($con);
+    $this->saveWorkspacesList($con);
+    
+    BaseFormDoctrine::doSave($con);
+  }
 }

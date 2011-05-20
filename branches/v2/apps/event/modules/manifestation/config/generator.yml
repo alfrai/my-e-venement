@@ -21,7 +21,7 @@ generator:
       list:
         display: [_list_event, happens_at, _list_location, _list_description]
       filter:  ~
-      form:
+      form: ~
       edit:
         title: Edit Manifestation %%name%%
         display:

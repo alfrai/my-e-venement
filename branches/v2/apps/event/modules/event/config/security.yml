@@ -2,16 +2,16 @@ all:
   credentials: [event-event]
   
 edit:
-  credentials: [event-event-edit, <?php echo myUser::CREDENTIAL_METAEVENT_PREFIX.'can-access' ?>]
+  credentials: [event-event-edit]
 update:
-  credentials: [event-event-edit, <?php echo myUser::CREDENTIAL_METAEVENT_PREFIX.'can-access' ?>]
+  credentials: [event-event-edit]
 new:
   credentials: [event-event-new]
 create:
   credentials: [event-event-new]
 delete:
-  credentials: [event-event-delete, <?php echo myUser::CREDENTIAL_METAEVENT_PREFIX.'can-access' ?>]
+  credentials: [event-event-delete]
 batchDelete:
   credentials: [event-event-delete]
 calendar:
-  credentials: [event-event-calendar, <?php echo myUser::CREDENTIAL_METAEVENT_PREFIX.'can-access' ?>]
+  credentials: [event-event-calendar]

@@ -21,6 +21,7 @@
   padding: 0;
   width: 100%;
   display: block;
+  min-width: 145px;
 }
 #menu .second li a {
   padding: 2px 15px 1px 15px;

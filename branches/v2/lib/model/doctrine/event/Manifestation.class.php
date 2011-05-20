@@ -29,7 +29,7 @@ class Manifestation extends PluginManifestation
     {
       $pm = PriceManifestation::createPrice($price);
       $pm->manifestation_id = $this->id;
-      $pm->save();
+      //$pm->save();
       $this->PriceManifestations[] = $pm;
     }
     $this->save();
