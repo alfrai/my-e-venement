@@ -480,12 +480,12 @@ class ticketActions extends sfActions
       $this->form->bind($params = $request->getParameter($this->form->getName()),$request->getFiles($this->form->getName()));
       
       // filtering the checkpoints
-      if ( intval($params['ticket_id']) )
+      if ( $params['ticket_id'] )
       {
         $q->leftJoin('c.Event e')
           ->leftJoin('e.Manifestations m')
           ->leftJoin('m.Tickets t')
-          ->where('t.id = ?',intval($params['ticket_id']));
+          ->where('t.'.sfConfig::get('app_tickets_id').' = ?',$params['ticket_id']);
       }
       
       if ( $this->form->isValid() )
@@ -497,8 +497,9 @@ class ticketActions extends sfActions
           ->leftJoin('c2.Event e')
           ->leftJoin('e.Manifestations m')
           ->leftJoin('m.Tickets t')
-          ->andWhere('c.ticket_id = ? AND c.checkpoint_id = ?',array($params['ticket_id'],$params['checkpoint_id']))
-          ->andWhere('t.id = ?',$params['ticket_id'])
+          ->leftJoin('c.Ticket tc')
+          ->andWhere('tc.'.sfConfig::get('app_tickets_id').' = ? AND c.checkpoint_id = ?',array($params['ticket_id'],$params['checkpoint_id']))
+          ->andWhere('t.'.sfConfig::get('app_tickets_id').' = ?',$params['ticket_id'])
           ->orderBy('c.id DESC');
         $controls = $q->execute();
         
@@ -512,18 +513,28 @@ class ticketActions extends sfActions
             ->leftJoin('c.Event e')
             ->leftJoin('e.Manifestations m')
             ->leftJoin('m.Tickets t')
-            ->andWhere('t.id = ?',$params['ticket_id'])
+            ->andWhere('t.'.sfConfig::get('app_tickets_id').' = ?',$params['ticket_id'])
             ->andWhere('c.id = ?',$params['checkpoint_id']);
           $checkpoint = $q->execute();
           
+          $params = $request->getParameter($this->form->getName());
           if ( $checkpoint->count() > 0 )
           {
-            $this->form->save();
+            if ( sfConfig::get('app_tickets_id') != 'id' )
+            {
+              $q = Doctrine::getTable('Ticket')->createQuery('t')
+                ->andWhere(sfConfig::get('app_tickets_id').' = ?',$params['ticket_id'])
+                ->andWhere('t.manifestation_id = (SELECT m.id FROM checkpoint c LEFT JOIN c.Event e LEFT JOIN e.Manifestations m WHERE c.id = ?)',$params['checkpoint_id']);
+              $tickets = $q->execute();
+              $params['ticket_id'] = $tickets[0]['id'];
+              $this->form->bind($params);
+            }
+            if ( $this->form->isValid() )
+              $this->form->save();
             $this->setTemplate('passed');
           }
           else
           {
-            $params = $request->getParameter($this->form->getName());
             unset($params['checkpoint_id']);
             $this->form->bind($params);
           }

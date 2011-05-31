@@ -1,0 +1,11 @@
+all:
+  credentials: [tck-transaction]
+cancelBoot:
+  credentials: [tck-cancel]
+cancel:
+  credentials: [tck-cancel]
+print:
+  credentials: [tck-print-ticket]
+control:
+  credentials: [tck-control]
+
