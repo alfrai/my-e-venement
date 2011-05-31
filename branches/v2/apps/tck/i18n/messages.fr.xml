@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Linking tickets to specific codes</source>
+        <target>Lier les billets à des codes spécifiques</target>
+      </trans-unit>
+      <trans-unit>
         <source>cancellation</source>
         <target>annulation</target>
       </trans-unit>

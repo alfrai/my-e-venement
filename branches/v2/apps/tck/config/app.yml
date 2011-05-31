@@ -6,6 +6,7 @@ all:
   tickets:
     mentions:
       optional: licences: 350970 / 350971 / 350972
+    rfid: true
   seller:
     logo: logo-200.jpg
     name: Ligue des Pyrénées
@@ -14,3 +15,4 @@ all:
     city: TOULOUSE
     country: France
     other: 
+    salt: 7f185

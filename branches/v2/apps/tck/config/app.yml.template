@@ -14,3 +14,5 @@ all:
     city: TOULOUSE
     country: France
     other: 
+    salt: xxxx
+

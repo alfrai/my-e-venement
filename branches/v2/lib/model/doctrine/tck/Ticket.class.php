@@ -25,4 +25,9 @@ class Ticket extends PluginTicket
     }
     parent::preSave($event);
   }
+  
+  public function getBarcode($salt = '')
+  {
+    return md5('#'.$this->id.'-'.$salt);
+  }
 }

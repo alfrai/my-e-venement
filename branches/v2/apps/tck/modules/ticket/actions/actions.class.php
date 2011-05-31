@@ -10,6 +10,22 @@
  */
 class ticketActions extends sfActions
 {
+  public function executeBarcode(sfWebRequest $request)
+  {
+    sfConfig::set('sf_web_debug', false);
+    $this->getResponse()->setContentType('image/jpeg');
+    $this->setLayout('no');
+    
+    $ticket = Doctrine::getTable('Ticket')->findOneById($request->getParameter('id'));
+    $this->code = '';
+    if ( is_object($ticket) )
+    {
+      $this->code = $ticket->getBarcode(sfConfig::get('app_seller_salt'));
+      $ticket->barcode = $this->code;
+      $ticket->save();
+    }
+  }
+  
  /**
   * Executes index action
   *
@@ -336,10 +352,58 @@ class ticketActions extends sfActions
       }
     }
     
-    $this->setLayout('empty');
-    
     if ( count($this->tickets) <= 0 )
       $this->setTemplate('close');
+    else
+    {
+      if ( !sfConfig::get('app_tickets_rfid') )
+        $this->setLayout('empty');
+      else
+      {
+        $this->form = new BaseForm();
+        
+        foreach ( $this->tickets as $ticket )
+        {
+          $w = new sfWidgetFormInputText();
+          $w->setLabel($ticket->Manifestation.' '.$ticket->price_name);
+          $this->form->setWidget('['.$ticket->id.'][othercode]',$w);
+        }
+        $this->form->getWidgetSchema()->setNameFormat('ticket%s');
+        
+        $this->setTemplate('rfid');
+      }
+    }
+    
+  }
+  public function executeRfid(sfWebRequest $request)
+  {
+    $form = new BaseForm();
+    $form->setValidator('othercode',new sfValidatorString(array('max_length' => 255, 'min_length' => 4)));
+    
+    foreach ( $request->getParameter('ticket') as $id => $ticket )
+    {
+      if ( intval($id) > 0 )
+      {
+        $ticket['_csrf_token'] = $request->getParameter('ticket_csrf_token');
+        $form->bind($ticket);
+        $t = Doctrine::getTable('Ticket')->findOneById($id);
+        if ( $t )
+        {
+          $errors = $form->getGlobalErrors();
+          foreach ( $errors as $key => $error )
+            echo $key.' => '.$error;
+          
+          if ( $form->isValid() )
+            $t->othercode = $ticket['othercode'];
+          else
+            $t->printed = false;
+          $t->save();
+        }
+      }
+      
+      $this->setLayout('empty');
+      $this->setTemplate('close');
+    }
   }
   
   // remember / forget selected manifestations
@@ -408,16 +472,33 @@ class ticketActions extends sfActions
   {
     $this->form = new ControlForm();
     $this->form->getWidget('checkpoint_id')->setOption('default', $this->getUser()->getAttribute('control.checkpoint_id'));
+    $q = Doctrine::getTable('Checkpoint')->createQuery('c')
+      ->andWhere('id = ?',$this->getUser()->getAttribute('control.checkpoint_id'));
+    $this->form->getWidget('checkpoint_id')->setOption('query',$q);
     if ( count($request->getParameter($this->form->getName())) > 0 )
     {
-      $this->form->bind($request->getParameter($this->form->getName()),$request->getFiles($this->form->getName()));
+      $this->form->bind($params = $request->getParameter($this->form->getName()),$request->getFiles($this->form->getName()));
+      
+      // filtering the checkpoints
+      if ( intval($params['ticket_id']) )
+      {
+        $q->leftJoin('c.Event e')
+          ->leftJoin('e.Manifestations m')
+          ->leftJoin('m.Tickets t')
+          ->where('t.id = ?',intval($params['ticket_id']));
+      }
+      
       if ( $this->form->isValid() )
       {
         $params = $request->getParameter($this->form->getName());
         
         $q = Doctrine::getTable('Control')->createQuery('c')
           ->leftJoin('c.Checkpoint c2')
+          ->leftJoin('c2.Event e')
+          ->leftJoin('e.Manifestations m')
+          ->leftJoin('m.Tickets t')
           ->andWhere('c.ticket_id = ? AND c.checkpoint_id = ?',array($params['ticket_id'],$params['checkpoint_id']))
+          ->andWhere('t.id = ?',$params['ticket_id'])
           ->orderBy('c.id DESC');
         $controls = $q->execute();
         
@@ -426,8 +507,26 @@ class ticketActions extends sfActions
         if ( $controls->count() == 0 || !$controls[0]['Checkpoint']['legal'] )
         {
           $this->comment = $controls->count() > 0 ? $controls[0]['comment'] : '';
-          $this->form->save();
-          $this->setTemplate('passed');
+          
+          $q = Doctrine::getTable('Checkpoint')->createQuery('c')
+            ->leftJoin('c.Event e')
+            ->leftJoin('e.Manifestations m')
+            ->leftJoin('m.Tickets t')
+            ->andWhere('t.id = ?',$params['ticket_id'])
+            ->andWhere('c.id = ?',$params['checkpoint_id']);
+          $checkpoint = $q->execute();
+          
+          if ( $checkpoint->count() > 0 )
+          {
+            $this->form->save();
+            $this->setTemplate('passed');
+          }
+          else
+          {
+            $params = $request->getParameter($this->form->getName());
+            unset($params['checkpoint_id']);
+            $this->form->bind($params);
+          }
         }
         else
           $this->setTemplate('failed');

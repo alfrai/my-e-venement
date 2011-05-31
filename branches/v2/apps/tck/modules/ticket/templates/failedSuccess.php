@@ -7,7 +7,7 @@
     $(document).ready(function(){
       setTimeout(function(){
         document.location = $('#checkpoint .link a').attr('href');
-      },4000);
+      },2500);
     });
   </script>
 </div>

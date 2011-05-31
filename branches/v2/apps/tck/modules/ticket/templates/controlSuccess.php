@@ -6,13 +6,13 @@
     <?php echo $form->renderHiddenFields() ?>
   </div>
   <ul class="ui-corner-all ui-widget-content">
-    <li class="checkpoint_id ui-corner-all sf_admin_form_row sf_admin_text <?php echo $form['checkpoint_id']->hasError() ? 'ui-state-error' : '' ?>">
-      <label for="checkpoint_id"><?php echo __('Checkpoint') ?></label>
-      <?php echo $form['checkpoint_id'] ?>
-    </li>
     <li class="ticket_id ui-corner-all sf_admin_form_row sf_admin_text <?php echo $form['ticket_id']->hasError() ? 'ui-state-error' : '' ?>">
       <label for="ticket_id"><?php echo __('Ticket') ?></label>
       <?php echo $form['ticket_id'] ?>
+    </li>
+    <li class="checkpoint_id ui-corner-all sf_admin_form_row sf_admin_text <?php echo $form['checkpoint_id']->hasError() ? 'ui-state-error' : '' ?>">
+      <label for="checkpoint_id"><?php echo __('Checkpoint') ?></label>
+      <?php echo $form['checkpoint_id'] ?>
     </li>
     <li class="comment ui-corner-all sf_admin_form_row sf_admin_text <?php echo $form['ticket_id']->hasError() ? 'ui-state-error' : '' ?>">
       <label for="ticket_comment"><?php echo __('Comment') ?></label>
@@ -27,19 +27,22 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    if ( $('#checkpoint .ui-state-error').length > 0 )
-      $('#checkpoint .ui-state-error:first-child').find('input, select').focus();
+    if ( !$('#checkpoint #control_ticket_id').val() )
+      $('#checkpoint input[name="control[ticket_id]"]').focus();
     else
     {
-      if ( $('#checkpoint #control_checkpoint_id').val() )
-        $('#checkpoint input[name="control[ticket_id]"]').focus();
+      if ( $('#checkpoint #control_checkpoint_id option').length == 2 )
+      {
+        $('#checkpoint #control_checkpoint_id option').attr('selected','selected');
+        $('#checkpoint').submit();
+      }
       else
         $('#checkpoint #control_checkpoint_id').focus();
     }
-  
-    $('#checkpoint #control_checkpoint_id').change(function(){
-      if ( $(this).val() )
-        $('input[type=text]').focus();
+    
+    $('#checkpoint #control_checkpoint_id').keypress(function(e){
+      if ( e.which == 13 )
+        $('#checkpoint').submit();
     });
 });
 </script>

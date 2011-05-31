@@ -11,7 +11,7 @@
       if ( !$('.comment').html() )
       setTimeout(function(){
         document.location = $('#checkpoint .link a').attr('href');
-      },2000);
+      },1500);
     });
   </script>
 </div>

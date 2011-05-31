@@ -105,6 +105,15 @@ span.eur { font-weight: normal; }
 .ticket .logo img { margin: 33mm 2mm 0mm 2mm; }
 .ticket .more-mentions { font-size: 6pt; }
 
+/* barcode */
+.ticket .ticket-bc {
+  position: absolute;
+  width: 150mm;
+  height: 58mm;
+  text-align: left;
+  margin-top: -22mm;
+}
+
 @page {
   marks: none;
   margin: 0;
