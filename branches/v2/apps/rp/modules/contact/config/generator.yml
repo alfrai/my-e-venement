@@ -20,7 +20,7 @@ generator:
         YOB:        { label: Year of Birth }
         not_groups_list: { label: Not member of groups }
       list:
-        display: [title, name, firstname, postalcode, city, email, npai, family_contact]
+        display: [title, name, firstname, postalcode, city, email, npai]
       show: 
         display:
           NONE: [_show_who, _show_email, _show_phonenumbers_list]

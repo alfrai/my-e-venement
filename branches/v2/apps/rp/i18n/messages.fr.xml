@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Family contact</source>
+        <target>Contact familial</target>
+      </trans-unit>
+      <trans-unit>
         <source>Geolocalize</source>
         <target>Géolocaliser</target>
       </trans-unit>

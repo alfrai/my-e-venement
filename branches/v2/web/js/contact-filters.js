@@ -15,6 +15,7 @@ $(document).ready(function(){
   elt.find('tbody').html('')
     .append($('#sf_admin_filter .sf_admin_filter_field_description'))
     .append($('#sf_admin_filter .sf_admin_filter_field_YOB'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_family_contact'))
     .append($('#sf_admin_filter .sf_admin_filter_field_npai'))
     .append($('#sf_admin_filter .sf_admin_filter_field_has_address'))
     .append($('#sf_admin_filter .sf_admin_filter_field_has_email'))
