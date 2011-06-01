@@ -35,6 +35,10 @@ Contact:
     title: string(23)
     description: string
     password: string(255)
+    family_contact:
+      type: boolean
+      notnull: true
+      default: true
 Organism:
   package: rp
   inheritance:

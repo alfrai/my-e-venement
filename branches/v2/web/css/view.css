@@ -40,3 +40,6 @@ body #more {
   margin: 10px 0;
   padding: 0 5px;
 }
+
+.sf_admin_form_field_cities { margin-top: -25px; display: none; }
+#sf_fieldset_none:hover .sf_admin_form_field_cities { display: block; }

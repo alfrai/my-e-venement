@@ -44,7 +44,9 @@ Addressable:
     address: string
     postalcode: string(10)
     city: string(255)
-    country: string(255)
+    country:
+      default: France
+      type: string(255)
     email:
       type: string(255)
       email: true
@@ -52,6 +54,17 @@ Addressable:
       type: boolean
       notnull: true
       default: false
+Postalcode:
+  package: generic
+  columns:
+    postalcode:
+      type: string(7)
+      notnull: true
+      notblank: true
+    city:
+      type: string(255)
+      notnull: true
+      notblank: true
 
 Phonenumber:
   package: generic
