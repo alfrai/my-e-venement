@@ -232,22 +232,6 @@
         <source>Password (again)</source>
         <target>Mot de passe (encore)</target>
       </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
     </body>
   </file>
 </xliff>

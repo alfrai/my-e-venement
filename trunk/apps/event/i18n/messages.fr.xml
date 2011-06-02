@@ -468,6 +468,18 @@
         <source>The item was created successfully. Don't forget to update prices if necessary.</source>
         <target>L'élément a été créé avec succès. N'oubliez pas de mettre à jour les tarifs si nécessaire.</target>
       </trans-unit>
+      <trans-unit>
+        <source>Password</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Username or E-Mail</source>
+        <target>Login ou courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Remember</source>
+        <target>Rester connecté(e)</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
