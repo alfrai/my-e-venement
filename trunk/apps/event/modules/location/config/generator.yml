@@ -29,13 +29,13 @@ generator:
         title: Editting location %%name%%
         display:
           General: [name, email, contact_id, organism_id]
-          Address: [address, postalcode, city, country, npai]
+          Address: [address, postalcode, city, _cities, country, npai]
           More: [description, gauge_min, gauge_max]
           #Geolocalization: [_gmap]
       new:
         display:
           General: [name, email, contact_id, organism_id]
-          Address: [address, postalcode, city, country, npai]
+          Address: [address, postalcode, city, _cities, country, npai]
           More: [description, gauge_min, gauge_max]
       show:
         display:

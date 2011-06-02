@@ -42,4 +42,4 @@ body #more {
 }
 
 .sf_admin_form_field_cities { margin-top: -25px; display: none; }
-#sf_fieldset_none:hover .sf_admin_form_field_cities { display: block; }
+div:hover > .sf_admin_form_field_cities { display: block; }

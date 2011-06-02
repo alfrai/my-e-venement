@@ -6,15 +6,23 @@ For the moment just take your time, keep things step by step, know that it's a s
 And take it easy, relax, have a beer, a coke, a cigarette... and why not a cofee ?
 
 
-== Symfony ==
+== PHP & Symfony ==
 
-
-== Plugins ==
+1. install PHP5 (cli + apache2) and the required module for your environment (databases, etc.)
+2. install Symfony the way you prefer
+3. test if Symfony has got all it needs
 
 
 == e-venement ==
 
-have fun !
-
+1. checkout the subversion repository : svn co http://svn.gna.org/svn/e-venement/trunk
+2. transform all the tamplated files into files that fits your needs : find -iname '*.template'
+3. verify that your log/ and cache/ directories are read/writable by the web server
+4. create a first user : ./symfony help guard:create-user
+5. promote this first user to "super-admin" : ./symfony guard:promote [xxxx]
+6. import pre-defined permissions and groups : ./symfony doctrine:data-load --append data/fixtures/10-permissions.yml
+7. (optional) add french postalcodes for autocompletion (it takes lots of time and memory) : ./symfony doctrine:data-load --append data/fixture/20-postalcodes.yml
+8. read the user documentation
+9. start funny things with e-venement...
 
 == personnalizing ==
