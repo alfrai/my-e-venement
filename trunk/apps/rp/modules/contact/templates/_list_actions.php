@@ -13,6 +13,6 @@
 <?php if ( $sf_user->hasCredential('pr-emailing') ): ?>
 <?php echo $helper->linkToExtraAction(array(  'params' => 'class= fg-button ui-state-default  ',  'action' => 'emailing',  'extra-icon' => 'show', 'label' => 'Create emailing',)) ?>
 <?php endif ?>
-<?php if ( $sf_user->hasCredential('pr-contact') ): ?>
+<?php if ( sfConfig::has('app_google_maps_api_keys_default') && $sf_user->hasCredential('pr-contact') ): ?>
 <?php echo $helper->linkToExtraAction(array(  'params' => 'class= fg-button ui-state-default  ',  'action' => 'map',  'extra-icon' => 'show', 'label' => 'Geolocalize',)) ?>
 <?php endif ?>

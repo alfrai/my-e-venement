@@ -1,6 +1,6 @@
 <?php
   $gMap = new GMap();
-  if ( $gMap->getGMapClient()->getAPIKey() ):
+  if ( sfConfig::has('app_google_maps_api_keys_default') && $gMap->getGMapClient()->getAPIKey() ):
     $gMap = Addressable::getGmapFromObject($form->getObject(), $gMap);
     include_partial('global/gmap',array('gMap' => $gMap, 'width' => $width ? $width : '550px', 'height' => $height));
 ?>
