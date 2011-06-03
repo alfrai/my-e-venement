@@ -12,5 +12,11 @@ class TitleTypeForm extends BaseTitleTypeForm
 {
   public function configure()
   {
+    $this->validatorSchema['type']->setOption('required', false);
+  }
+  public function preSave()
+  {
+    parent::preSave();
+    $this->type = 'title';
   }
 }

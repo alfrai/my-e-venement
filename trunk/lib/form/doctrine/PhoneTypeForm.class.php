@@ -16,5 +16,11 @@ class PhoneTypeForm extends BasePhoneTypeForm
   public function configure()
   {
     parent::configure();
+    $this->validatorSchema['type']->setOption('required', false);
+  }
+  public function preSave()
+  {
+    parent::preSave();
+    $this->type = 'title';
   }
 }
