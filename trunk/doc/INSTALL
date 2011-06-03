@@ -25,4 +25,10 @@ And take it easy, relax, have a beer, a coke, a cigarette... and why not a cofee
 8. read the user documentation
 9. start funny things with e-venement...
 
-== personnalizing ==
+== options ==
+
+1. the google maps api key : generate it and put it in rp/config/app.yml and event/config/app.yml
+2. sending emails :
+ . setup the SMTP serveur for outgoing messages well
+ . add a cron job using doc/sh/e-venement.sh -> /etc/cron.hourly/e-venement.cron.sh after doing the needed changes in pathes
+ . verify the permissions : chmod a+x /etc/cron.hourly/e-venement.cron.sh
