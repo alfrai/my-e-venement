@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The item was created successfully. Don't forget to update prices if necessary.</source>
+        <target>L'élément a été créé. N'oubliez pas de mettre à jour les tarifs si nécessaire.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Checkpoints</source>
         <target>Points de contrôle</target>
       </trans-unit>
