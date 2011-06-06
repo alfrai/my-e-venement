@@ -5,8 +5,8 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Family contact</source>
-        <target>Contact familial</target>
+        <source>Ticketting</source>
+        <target>Billetterie</target>
       </trans-unit>
       <trans-unit>
         <source>Geolocalize</source>
