@@ -2,7 +2,7 @@
 <input type="hidden" name="gauge-id" value="<?php echo $manifestation->id ?>" />
 <?php
   $area = 80*80; // width: 100%, height: 100%
-  $seat = sqrt($area / $gauge->value);
+  $seat = sqrt($area / ($gauge->value > 0 ? $gauge->value : 100) );
   $manifestation->sells;
   $free = $gauge->value - $manifestation->sells - $manifestation->orders - $manifestation->demands;
   

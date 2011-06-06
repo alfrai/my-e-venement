@@ -411,7 +411,7 @@ class ticketActions extends sfActions
   {
   }
   
-  public function executeAccounting(sfWebRequest $request)
+  public function executeAccounting(sfWebRequest $request, $printed = true)
   {
     $this->transaction = $this->getRoute()->getObject();
     
@@ -434,8 +434,9 @@ class ticketActions extends sfActions
       ->leftJoin('t.Price p')
       ->andWhere('t.transaction_id = ?',$this->transaction->id)
       ->andWhere('t.duplicate IS NULL')
-      ->andWhere('t.printed')
       ->orderBy('m.happens_at, e.name, p.description, t.value');
+    if ( $printed )
+      $q->andWhere('t.printed');
     $this->tickets = $q->execute();
     
     $this->setLayout('empty');
@@ -443,7 +444,7 @@ class ticketActions extends sfActions
   // order
   public function executeOrder(sfWebRequest $request)
   {
-    $this->executeAccounting($request);
+    $this->executeAccounting($request,false);
     $this->order = $this->transaction->Order[0];
     
     if ( $request->hasParameter('cancel-order') )
@@ -549,7 +550,7 @@ class ticketActions extends sfActions
   {
     $id = intval($request->getParameter('id'));
     
-    if ( $request->getParameter('reopen') && $this->getUser()->hasCredentials('tck-unblock') )
+    if ( $request->getParameter('reopen') && $this->getUser()->hasCredential('tck-unblock') )
     {
       $this->transaction = Doctrine::getTable('Transaction')
         ->findOneById($id);
@@ -582,11 +583,12 @@ class ticketActions extends sfActions
     if ( $manifs->count() > 0 )
       $this->manifestation = $manifs[0];
     
+    $gauge = $this->gauge->value > 0 ? $this->gauge->value : 100;
     $this->height = array(
-      'sells'   => $this->manifestation->sells / $this->gauge->value * 100,
-      'orders'  => $this->manifestation->orders / $this->gauge->value * 100,
-      'demands' => $this->manifestation->demands / $this->gauge->value * 100,
-      'free'    => 100 - ($this->manifestation->sells+$this->manifestation->orders) / $this->gauge->value * 100
+      'sells'   => $this->manifestation->sells / $gauge * 100,
+      'orders'  => $this->manifestation->orders / $gauge * 100,
+      'demands' => $this->manifestation->demands / $gauge * 100,
+      'free'    => 100 - ($this->manifestation->sells+$this->manifestation->orders) / $gauge * 100
     );
     
     $this->setLayout('empty');
