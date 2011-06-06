@@ -45,7 +45,7 @@ generator:
       edit:
         title: Organism %%name%%
         display:
-          NONE:  [name, address, postalcode, city, _cities, country]
+          NONE:  [name, address, postalcode, city, country]
           Internet: [email, url]
           Precisions: [organism_category_id, npai, description]
           Phonenumbers: [_form_phonenumbers_list]
@@ -53,6 +53,6 @@ generator:
       new:
         title: New organism
         display:
-          NONE:  [name, address, postalcode, city, _cities, country]
+          NONE:  [name, address, postalcode, city, country]
           Internet: [email, url]
           Precisions: [organism_category_id, npai, description]

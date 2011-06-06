@@ -30,7 +30,7 @@ generator:
       form:
         display:
           "User":                   [username, password, password_again, first_name, last_name, email_address]
-          "Permissions and groups": [is_active, _is_super_admin, groups_list, permissions_list]
+          "Permissions and groups": [is_active, is_super_admin, groups_list, permissions_list]
 
       edit:
         title: Editing User "%%username%%"

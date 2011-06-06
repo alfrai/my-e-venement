@@ -1,12 +1,3 @@
-postalcode:
-  class: sfDoctrineRouteCollection
-  options:
-    model:                postalcode
-    module:               postalcode
-    prefix_path:          /postalcode
-    column:               id
-    with_wildcard_routes: true
-
 email:
   class: sfDoctrineRouteCollection
   options:
