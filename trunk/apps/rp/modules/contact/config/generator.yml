@@ -31,13 +31,13 @@ generator:
           Details: [created_at,updated_at,slug,longitude,latitude]
           Ticketting: [_events_list]
       filter:
-        display: [name, firstname, postalcode, city, country, YOB, groups_list, not_groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address, emails_list, event_categories_list, events_list]
+        display: [name, firstname, postalcode, city, country, YOB, family_contact, groups_list, not_groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address, emails_list, event_categories_list, events_list]
       form: ~
       edit:
         title: Contact %%name%% %%firstname%%
         display:
           NONE:  [title, name, firstname, address, postalcode, city, country]
-          Precisions: [npai, email, description, YOBs_list, password]
+          Precisions: [npai, email, description, YOBs_list, family_contact, password]
           Phonenumbers: [_form_phonenumbers_list]
           Personal groups: [groups_list]
           #Geolocalization: [_gmap]
@@ -45,5 +45,5 @@ generator:
         title: New contact
         display:
           NONE:  [title, name, firstname, address, postalcode, city, country]
-          Precisions: [npai, email, description, YOBs_list, password]
+          Precisions: [npai, email, description, YOBs_list, family_contact, password]
           Groups: [groups_list]

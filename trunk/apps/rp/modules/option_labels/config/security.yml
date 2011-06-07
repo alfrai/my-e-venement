@@ -1,2 +1,4 @@
 all:
   credentials: admin-labels
+css:
+  credentials: pr-contact-labels

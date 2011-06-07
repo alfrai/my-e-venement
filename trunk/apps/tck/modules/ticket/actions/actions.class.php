@@ -639,8 +639,9 @@ class ticketActions extends sfActions
     // professional
     if ( !is_null($this->transaction->contact_id) && in_array('professional_id',$excludes) )
     {
+      $cid = $this->transaction->contact_id;
       $query = Doctrine::getTable('Professional')->createQuery('p')
-        ->andWhere('p.contact_id = ?',$this->transaction->Contact->id);
+        ->andWhere('p.contact_id = ?',$cid);
       
       $proid = $this->form->getWidget('professional_id')
         ->setOption('query', $query);
