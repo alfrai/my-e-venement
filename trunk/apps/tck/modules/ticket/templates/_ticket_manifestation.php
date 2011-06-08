@@ -9,7 +9,7 @@
   <?php //if ( $active ): ?>
   <?php foreach ( $manif->Tickets as $ticket ): ?>
     <?php if ( is_null($ticket->duplicate) ): ?>
-    <input type="hidden" name="ticket[prices][<?php echo $manif->id ?>][<?php echo $ticket->Price ?>][]" value="<?php echo $ticket->value ?>" title="PU: <?php echo format_currency($ticket->value,'€') ?>" />
+    <input alt="#<?php echo $ticket->id ?>" type="hidden" name="ticket[prices][<?php echo $manif->id ?>][<?php echo $ticket->Price ?>][]" value="<?php echo $ticket->value ?>" title="PU: <?php echo format_currency($ticket->value,'€') ?>" />
     <?php $total += $ticket->value ?>
     <?php endif ?>
   <?php endforeach ?>

@@ -168,3 +168,13 @@
   padding: 10px;
   margin: 0 33%;
 }
+
+#prices .tickets_id {
+  display: none;
+  position: absolute;
+  border: 1px solid gray;
+  background-color: silver;
+  padding: 2px 3px;
+}
+#prices .ticket_prices:hover .tickets_id { display: block; }
+

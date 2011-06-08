@@ -222,8 +222,9 @@ function ticket_transform_hidden_to_span()
       if ( $(this).parent().find('.'+name).length > 0 )
         $(this).parent().find('.'+name+' .nb').html(parseInt($(this).parent().find('.'+name+' .nb').html())+1);
       else
-        $('<span class="'+name+'" title="'+$(this).attr('title')+'"><span class="nb">1</span> <span class="name">'+price+'</span></span>')
+        $('<span class="'+name+' ticket_prices" title="'+$(this).attr('title')+'"><span class="nb">1</span> <span class="name">'+price+'</span><span class="tickets_id"></span></span>')
           .appendTo($(this).parent());
+      $(this).parent().find('.'+name+' .tickets_id').append($(this).attr('alt')+'<br/>');
     });
   });
   
@@ -233,11 +234,11 @@ function ticket_transform_hidden_to_span()
     $(this).find('.nb').html(parseInt($(this).find('.nb').html())-1);
     $(this).parent().parent().find('input[type=radio]').click();
     selected = $('#prices select[name="ticket[nb]"]').val();
-    $('#prices select[name="ticket[nb]"] option[value=-1]').attr('selected','selected');
+    $('#prices select[name="ticket[nb]"]').val(-1);
     
     // ajax call
     $('#prices input[name="ticket[price_name]"][value='+price_name+']').click();
-    $('#prices select[name="ticket[nb]"] option[value='+selected+']').attr('selected','selected');
+    $('#prices select[name="ticket[nb]"]').val(selected);
     
     ticket_gauge_update_click(this);
   });
@@ -316,11 +317,13 @@ function ticket_process_amount()
       currency = $(this).html().replace(/^-{0,1}\d+[,\.]\d+/g,'');
     }
   });
-  $('#prices .manifestations_list .total .total').html(total.toFixed(2)+currency)
+  $('#prices .manifestations_list .total .total').html(total.toFixed(2)+currency);
   $('#payment tbody tr.topay .sf_admin_list_td_list_value').html(total.toFixed(2)+currency);
-  $('#payment tbody tr.change .sf_admin_list_td_list_value').html((total-parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html())).toFixed(2)+currency);
+  $('#payment tbody tr.change .sf_admin_list_td_list_value').html(
+    (total-parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html().replace(',','.'))).toFixed(2)
+    +currency);
   
-  if ( total <= parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html()) )
+  if ( total <= parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html().replace(',','.')) )
   {
     $('#validation').fadeIn();
   }

@@ -11,7 +11,7 @@ And take it easy, relax, have a beer, a coke, a cigarette... and why not a cofee
 1. install PHP5 (cli + apache2) and the required module for your environment (databases, etc.)
 2. install Symfony the way you prefer
 3. test if Symfony has got all it needs
-4. put good permissions on logs/ and cache/ dir : chmod a+w -R logs/ cache/
+4. put good permissions on log/ and cache/ dir : chmod a+w -R log/ cache/
 
 
 == e-venement ==

@@ -4,6 +4,8 @@
 <div><?php echo link_to('command','ticket/ticket?id='.$transaction->id) ?></div>
   <p class="title"><?php echo __('Prices') ?>:</p>
   <p class="prices_list">
+    <input name="ticket[nb]" value="1" type="text" size="4" maxlength="3" />
+    <!--
     <select name="ticket[nb]">
       <option value="-1">-1</option>
       <option value="1" selected="selected">+1</option>
@@ -17,6 +19,7 @@
       <option value="9">+9</option>
       <option value="10">+10</option>
     </select>
+    -->
   <?php foreach ( $prices as $price ): ?>
     <input type="submit" name="ticket[price_name]" value="<?php echo $price ?>" title="<?php echo $price->description.' (def: '.format_number(round($price->value,2)).'€)' ?>" />
   <?php endforeach ?>

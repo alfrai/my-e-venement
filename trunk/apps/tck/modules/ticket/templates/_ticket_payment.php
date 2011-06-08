@@ -62,7 +62,7 @@
       var pay_total = 0;
       var currency = '&nbsp;€'; //$('#prices .total .total').html().replace("\n",'').replace(/^\s*\d+[,\.]\d+/g,'');
       $('#payment tbody td:first-child + td').each(function(){
-        pay_total += parseFloat($(this).html());
+        pay_total += parseFloat($(this).html().replace(',','.'));
       });
       $('#payment tbody')
         .append('<tr class="sf_admin_row ui-widget-content odd total"><td class="sf_admin_text"><?php echo __('Total') ?></td><td class="sf_admin_text sf_admin_list_td_list_value">'+pay_total.toFixed(2)+currency+'</td><td></td></tr>')
