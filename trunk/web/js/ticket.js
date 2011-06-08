@@ -305,8 +305,10 @@ function ticket_prices()
   });
 }
 
-function ticket_process_amount()
+function ticket_process_amount(add)
 {
+  if ( add == 'undefined' ) add = false;
+  
   // the total combinated amount
   total = 0;
   currency = '&nbsp;€'; // default currency
@@ -326,6 +328,8 @@ function ticket_process_amount()
   if ( total <= parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html().replace(',','.')) )
   {
     $('#validation').fadeIn();
+    if ( add )
+      $('#print form.print').submit();
   }
   else
   {

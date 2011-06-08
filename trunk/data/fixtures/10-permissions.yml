@@ -389,6 +389,16 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_59
     created_at: '2011-05-19 17:10:09'
     updated_at: '2011-05-19 17:10:09'
+  sfGuardGroupPermission_19_60:
+    Group: sfGuardGroup_19
+    Permission: sfGuardPermission_60
+    created_at: '2011-05-19 17:10:09'
+    updated_at: '2011-05-19 17:10:09'
+  sfGuardGroupPermission_20_61:
+    Group: sfGuardGroup_20
+    Permission: sfGuardPermission_61
+    created_at: '2011-05-19 17:10:09'
+    updated_at: '2011-05-19 17:10:09'
 sfGuardPermission:
   sfGuardPermission_18:
     name: admin-titles
@@ -665,6 +675,16 @@ sfGuardPermission:
     description: 'Permission to access the payment methods part of the admin part of the "tck" module'
     created_at: '2011-05-19 17:09:41'
     updated_at: '2011-05-19 17:09:41'
+  sfGuardPermission_60:
+    name: tck-accounting-order
+    description: 'Permission to print orders'
+    created_at: '2011-05-19 17:09:41'
+    updated_at: '2011-05-19 17:09:41'
+  sfGuardPermission_61:
+    name: tck-accounting-invoice
+    description: 'Permission to print invoices'
+    created_at: '2011-05-19 17:09:41'
+    updated_at: '2011-05-19 17:09:41'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -754,5 +774,15 @@ sfGuardGroup:
   sfGuardGroup_18:
     name: tck-admin
     description: 'Users who can define payment methods and prices'
+    created_at: '2011-05-19 17:10:03'
+    updated_at: '2011-05-19 17:10:03'
+  sfGuardGroup_19:
+    name: tck-accounting-order
+    description: 'Users who can print orders'
+    created_at: '2011-05-19 17:10:03'
+    updated_at: '2011-05-19 17:10:03'
+  sfGuardGroup_20:
+    name: tck-accounting-invoice
+    description: 'Users who can print orders'
     created_at: '2011-05-19 17:10:03'
     updated_at: '2011-05-19 17:10:03'

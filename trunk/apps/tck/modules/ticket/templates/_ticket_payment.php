@@ -36,14 +36,19 @@
       $.post($(this).attr('action'),$(this).serialize(),function(data){
         $('#payment form').remove();
         ticket_payment_form(data);
-        ticket_payment_old();
+        ticket_payment_old(true);
       });
       return false;
     });
   }
 
-  function ticket_payment_old()
+  function ticket_payment_old(add)
   {
+    <?php if ( !sfConfig::get('app_tickets_auto_print') ): ?>
+    add = false;
+    <?php else: ?>
+    if ( add == 'undefined' ) add = false;
+    <?php endif ?>
     $('#payment .sf_admin_list').remove();
     $.get('<?php echo url_for('payment/index?transaction_id='.$transaction->id) ?>',function(data){
       $(data).find('.sf_admin_list')
@@ -68,7 +73,7 @@
         .append('<tr class="sf_admin_row ui-widget-content odd total"><td class="sf_admin_text"><?php echo __('Total') ?></td><td class="sf_admin_text sf_admin_list_td_list_value">'+pay_total.toFixed(2)+currency+'</td><td></td></tr>')
         .append('<tr class="sf_admin_row ui-widget-content odd topay"><td class="sf_admin_text"><?php echo __('To pay') ?></td><td class="sf_admin_text sf_admin_list_td_list_value"></td><td></td></tr>')
         .append('<tr class="sf_admin_row ui-widget-content odd change"><td class="sf_admin_text"><?php echo __('Still missing') ?></td><td class="sf_admin_text sf_admin_list_td_list_value"></td><td></td></tr>');
-      ticket_process_amount();
+      ticket_process_amount(add);
     });
   }
 

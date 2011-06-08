@@ -1,2 +1,2 @@
 all:
-  credentials: [tck-reports]
+  credentials: [tck-accounting-invoice]
