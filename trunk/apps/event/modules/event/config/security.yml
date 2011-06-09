@@ -10,8 +10,8 @@ new:
 create:
   credentials: [event-event-new]
 delete:
-  credentials: [event-event-delete]
+  credentials: [event-event-del]
 batchDelete:
-  credentials: [event-event-delete]
+  credentials: [event-event-del]
 calendar:
   credentials: [event-event-calendar]

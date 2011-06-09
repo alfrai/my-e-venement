@@ -233,12 +233,12 @@ function ticket_transform_hidden_to_span()
     price_name = $(this).find('.name').html();
     $(this).find('.nb').html(parseInt($(this).find('.nb').html())-1);
     $(this).parent().parent().find('input[type=radio]').click();
-    selected = $('#prices select[name="ticket[nb]"]').val();
-    $('#prices select[name="ticket[nb]"]').val(-1);
+    selected = $('#prices [name="ticket[nb]"]').val();
+    $('#prices [name="ticket[nb]"]').val(-1);
     
     // ajax call
     $('#prices input[name="ticket[price_name]"][value='+price_name+']').click();
-    $('#prices select[name="ticket[nb]"]').val(selected);
+    $('#prices [name="ticket[nb]"]').val(selected);
     
     ticket_gauge_update_click(this);
   });

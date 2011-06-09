@@ -177,4 +177,4 @@
   padding: 2px 3px;
 }
 #prices .ticket_prices:hover .tickets_id { display: block; }
-
+#prices [name="ticket[nb]"] { text-align: center; }
