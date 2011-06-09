@@ -783,6 +783,6 @@ sfGuardGroup:
     updated_at: '2011-05-19 17:10:03'
   sfGuardGroup_20:
     name: tck-accounting-invoice
-    description: 'Users who can print orders'
+    description: 'Users who can print invoices'
     created_at: '2011-05-19 17:10:03'
     updated_at: '2011-05-19 17:10:03'

@@ -65,9 +65,10 @@
 }
 #payment form {
   position: absolute;
+  width: 400px;
 }
 #payment .sf_admin_list {
-  margin-left: 400px;
+  margin-left: 420px;
   width: 350px;
 }
 #payment .sf_admin_list .sf_admin_list_td_list_value { text-align: right; }
