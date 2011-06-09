@@ -258,11 +258,11 @@
       </trans-unit>
       <trans-unit>
         <source>New transaction</source>
-        <target>Nouvelle transaction</target>
+        <target>Nouvelle opération</target>
       </trans-unit>
       <trans-unit>
         <source>Respawn a transaction</source>
-        <target>Reprendre une transaction</target>
+        <target>Reprendre une opération</target>
       </trans-unit>
       <trans-unit>
         <source>Cash Ledger</source>

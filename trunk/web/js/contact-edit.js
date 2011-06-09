@@ -39,7 +39,7 @@ function contact_ajax_form(id, add, hide)
   $(id+' form a').unbind().click(function(){ return false; });
   
   // supprimer
-  $(id+' form .sf_admin_action_list a[onclick]').unbind().removeAttr('onclick').click(function(){
+  $(id+'form .sf_admin_action_list a[onclick]').unbind().removeAttr('onclick').click(function(){
     if ( !confirm("Êtes-vous sûr de vouloir supprimer cette fonction ?") )
       return false;
     
@@ -140,5 +140,4 @@ $(document).ready(function(){
     contact_ajax_form('#more #professional-new',true);
     $('#more #professional-new input[name="professional[contact_id]"]').val($('#contact_id').val());
   });
-  
 });

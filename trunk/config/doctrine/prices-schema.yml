@@ -31,7 +31,7 @@ Price:
     description: string(255)
     value:
       type: decimal(8)
-      scale: 3
+      scale: 2
       notnull: true
       default: 0
     online:

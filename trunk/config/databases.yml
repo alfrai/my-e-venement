@@ -2,6 +2,6 @@ all:
   doctrine:
     class: sfDoctrineDatabase
     param:
-      dsn: 'pgsql:host=localhost;dbname=e_venement_2'
-      username: beta
-      password: glop
+      dsn: 'pgsql:host=localhost;dbname=demo'
+      username: demo
+      password: q6Aja1gER
