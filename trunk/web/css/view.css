@@ -15,6 +15,7 @@ body #more {
 #more .sf_admin_form_tab_menu > div > div.sf_admin_form_field_contact_id,
 #more .sf_admin_form_tab_menu > div > div.sf_admin_form_field_organism_id { display: none; }
 #more .sf_admin_form_tab_menu > div > div > * { margin-left: 20px; display: table-cell; vertical-align: top; }
+#more .sf_admin_form_tab_menu > div > div > input[type=hidden] { display: none; }
 #more .sf_admin_form_tab_menu > div > div > label { padding: 2px 20px; }
 
 #more .sf_admin_action_save_and_add,

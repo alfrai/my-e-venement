@@ -17,6 +17,7 @@ class PriceManifestationTable extends PluginPriceManifestationTable
         return Doctrine_Core::getTable('PriceManifestation');
     }
   
+  /*
   public function createQuery($alias = 'pm')
   {
     $p = $alias != 'p' ? 'p' : 'p1';
@@ -28,4 +29,5 @@ class PriceManifestationTable extends PluginPriceManifestationTable
     
     return $q;
   }
+  */
 }

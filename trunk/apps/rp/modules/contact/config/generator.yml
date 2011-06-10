@@ -41,6 +41,7 @@ generator:
           Phonenumbers: [_form_phonenumbers_list]
           Personal groups: [groups_list]
           #Geolocalization: [_gmap]
+          Ticketting: [_events_list]
       new:
         title: New contact
         display:
