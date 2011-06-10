@@ -246,7 +246,7 @@
       </trans-unit>
       <trans-unit id="95">
         <source>Image URL:</source>
-        <target>URL de l'image</target>
+        <target>Adresse de l'image</target>
       </trans-unit>
       <trans-unit id="96">
         <source>Extra description:</source>
@@ -306,7 +306,7 @@
       </trans-unit>
       <trans-unit id="110">
         <source>Image URL</source>
-        <target>URL de l'image</target>
+        <target>Adresse de l'image</target>
       </trans-unit>
       <trans-unit id="111">
         <source>Age min</source>
