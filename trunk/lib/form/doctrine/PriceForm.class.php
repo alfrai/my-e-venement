@@ -12,5 +12,17 @@ class PriceForm extends BasePriceForm
 {
   public function configure()
   {
+    $q = new Doctrine_Query();
+    $q->from('Manifestation m')
+      ->leftJoin("m.Event e")
+      ->leftJoin("e.MetaEvent me")
+      ->leftJoin("m.Location l")
+      ->leftJoin("m.PriceManifestations pm")
+      ->leftJoin("pm.Price p");
+    $this->widgetSchema['manifestations_list']->setOption('query',$q);
+    $this->widgetSchema['manifestations_list']->setOption(
+      'order_by',
+       array('happens_at, e.name','')
+    );
   }
 }

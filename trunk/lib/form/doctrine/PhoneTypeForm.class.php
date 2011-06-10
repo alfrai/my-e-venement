@@ -21,6 +21,6 @@ class PhoneTypeForm extends BasePhoneTypeForm
   public function preSave()
   {
     parent::preSave();
-    $this->type = 'title';
+    $this->type = 'phone';
   }
 }
