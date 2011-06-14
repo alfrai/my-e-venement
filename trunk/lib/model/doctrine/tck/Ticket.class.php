@@ -17,6 +17,8 @@ class Ticket extends PluginTicket
     if ( is_null($this->price_id) && !is_null($this->price_name) && !is_null($this->manifestation_id) )
     {
       $q = Doctrine::getTable('PriceManifestation')->createQuery('pm')
+        ->leftJoin('pm.Manifestation m')
+        ->leftJoin('pm.Price p')
         ->andWhere('m.id = ?',$this->manifestation_id)
         ->andWhere('p.name = ?',$this->price_name);
       $pm = $q->execute()->get(0);
