@@ -315,17 +315,17 @@ function ticket_process_amount(add)
   $('#to_pay, #prices .manifestations_list .manif .total').each(function(){
     if ( $(this).html() )
     {
-      total += parseFloat($(this).html().replace(',','.'));
-      currency = $(this).html().replace(/^-{0,1}\d+[,\.]\d+/g,'');
+      total += parseFloat($(this).html().replace(',','.').replace('&nbsp;',''));
+      currency = $(this).html().replace(/^-{0,1}(\d+&nbsp;)*\d+[,\.]\d+/g,'');
     }
   });
   $('#prices .manifestations_list .total .total').html(total.toFixed(2)+currency);
   $('#payment tbody tr.topay .sf_admin_list_td_list_value').html(total.toFixed(2)+currency);
   $('#payment tbody tr.change .sf_admin_list_td_list_value').html(
-    (total-parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html().replace(',','.'))).toFixed(2)
+    (total-parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html().replace(',','.').replace('&nbsp;',''))).toFixed(2)
     +currency);
   
-  if ( total <= parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html().replace(',','.')) )
+  if ( total <= parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html().replace(',','.').replace('&nbsp;','')) )
   {
     $('#validation').fadeIn();
     if ( add )
