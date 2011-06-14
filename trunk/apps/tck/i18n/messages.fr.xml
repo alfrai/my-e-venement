@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Summary list</source>
+        <target>Résumé des opérations</target>
+      </trans-unit>
+      <trans-unit>
         <source>Username or E-Mail</source>
         <target>Login ou courriel</target>
       </trans-unit>

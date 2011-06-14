@@ -18,7 +18,6 @@ class summaryActions extends autoSummaryActions
   public function executeIndex(sfWebRequest $request)
   {
     $this->type = $this->type ? $this->type : 'debts';
-    
     parent::executeIndex($request);
   }
   public function executeDuplicatas(sfWebRequest $request)
