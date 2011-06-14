@@ -1,7 +1,0 @@
-all:
-  doctrine:
-    class: sfDoctrineDatabase
-    param:
-      dsn: 'pgsql:host=localhost;dbname=demo'
-      username: demo
-      password: q6Aja1gER
