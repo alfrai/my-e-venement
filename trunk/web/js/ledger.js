@@ -2,18 +2,19 @@ $(document).ready(function(){
   // cash ledger / method
   $('#ledger .method .see-more a').unbind().click(function(){
     $('#ledger .payment.method-'+parseInt($(this).attr('href').substring(1))).fadeToggle();
+    $(this).html($(this).html() == '-' ? '+' : '-');
   });
+  $('#ledger .method .see-more a').html('-');
   $('#ledger .method .see-more a').click();
   
   // sales ledger / events
-  $('#ledger .see-more a').html('-');
+  $('#ledger .event .see-more a').html('-');
   $('#ledger .event .see-more a').unbind().click(function(){
     if ( $(this).html() == '+' )
     {
       $('#ledger .event-'+parseInt($(this).attr('href').substring(7))).each(function(){
         $(this).fadeIn();
       });
-      $(this).html('-');
     }
     else
     {
@@ -22,9 +23,10 @@ $(document).ready(function(){
         if ( $(this).find('.see-more a').html() == '-' )
           $(this).find('.see-more a').click();
       });
-      $(this).html('+');
     }
+    $(this).html($(this).html() == '-' ? '+' : '-');
   });
+  
   // sales ledger / manifs
   $('#ledger .manif .see-more a').unbind().click(function(){
     if ( $(this).html() == '+' )

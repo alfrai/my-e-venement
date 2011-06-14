@@ -12,7 +12,7 @@ default:
     #language:     en
     #robots:       index, follow
 
-  stylesheets:    [/sfAdminThemejRollerPlugin/css/reset.css, main, menu, content]
+  stylesheets:    [/sfAdminThemejRollerPlugin/css/reset.css, main: { media: all }, menu, content]
   javascripts:    [menu]
 
   has_layout:     true

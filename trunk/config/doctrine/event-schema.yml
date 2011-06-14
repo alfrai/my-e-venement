@@ -121,10 +121,10 @@ Event:
     extraspec:      string
     web_price:
       type:         decimal(8)
-      scale:        3
+      scale:        2
     web_price_group:
       type:         decimal(8)
-      scale:        3
+      scale:        2
     image_url:      string(255)
   relations:
     EventCategory:

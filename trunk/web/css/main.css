@@ -92,3 +92,12 @@ a, a:active, a:visited { color: #000; }
   height: 16px;
   display: block;
 }
+
+/* generic print section */
+@media print {
+
+#menu, #banner, #sf_admin_filter, #criterias, .sf_admin_actions_block {
+  display: none;
+}
+
+}
