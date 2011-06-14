@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Event categories list</source>
+        <target>Liste des catégories d'événements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Family contact</source>
+        <target>Contact de famille</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Emails list</source>
+        <target>Liste des courriels</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ticketting</source>
         <target>Billetterie</target>
       </trans-unit>

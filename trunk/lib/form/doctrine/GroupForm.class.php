@@ -37,7 +37,7 @@ class GroupForm extends BaseGroupForm
       'required' => true,
     ));
     $choices = array();
-    if ( $sf_user->hasCredential('rp-group-common') )
+    if ( $sf_user->hasCredential('pr-group-common') )
     {
       $this->validatorSchema['sf_guard_user_id']->setOption('required',false);
       $choices[''] = '';
