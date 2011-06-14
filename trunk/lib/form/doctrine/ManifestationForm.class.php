@@ -21,7 +21,7 @@ class ManifestationForm extends BaseManifestationForm
     $this->widgetSchema['event_id']->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery()));
     $this->widgetSchema['location_id']->setOption('add_empty',true);
     
-    $this->validatorSchema['duration'] = new sfValidatorString();
+    $this->validatorSchema['duration'] = new sfValidatorString(array('required' => false));
   }
   protected function doSave($con = null)
   {

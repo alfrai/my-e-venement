@@ -27,7 +27,7 @@ class EventForm extends BaseEventForm
       'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
     
-    $this->validatorSchema['duration'] = new sfValidatorString();
+    $this->validatorSchema['duration'] = new sfValidatorString(array('required' => false));
     
     $this->widgetSchema['meta_event_id']->setOption('query',
       EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('MetaEvent')->createQuery('me'))
