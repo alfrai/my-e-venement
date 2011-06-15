@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Duplicates</source>
+        <target>Doublons</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Meta events list</source>
+        <target>Liste des meta-événements</target>
+      </trans-unit>
+      <trans-unit>
         <source>Event categories list</source>
         <target>Liste des catégories d'événements</target>
       </trans-unit>

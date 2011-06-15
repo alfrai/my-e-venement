@@ -120,6 +120,28 @@ class contactActions extends autoContactActions
     
     $this->setLayout(false);
   }
+  public function executeDuplicates(sfWebRequest $request)
+  {
+    self::executeIndex($request);
+    
+    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
+    /*$q = Doctrine_Core::getTable('Contact')
+      ->createQuery('c')
+      ->
+      ->andWhere('(SELECT count(*) FROM Contact c2 WHERE c2.id != c.id AND c.name ILIKE c2.name AND c2.firstname ILIKE c.firstname) > 0')
+      ->orderBy('name,firstname');
+    */
+    $q = new Doctrine_RawSql();
+    $q->from('Contact c')
+      ->leftJoin('(select min(id) AS id, count(*) AS nb from contact group by lower(name), lower(firstname) order by lower(name), lower(firstname)) AS c2 on c2.id = c.id')
+      ->where('c2.nb > 1')
+      ->addComponent('c','Contact')
+      ->addComponent('c2','Contact');
+      $this->pager->setQuery($q);
+    
+    $this->pager->init();
+    $this->setTemplate('index');
+  }
   public function executeSearch(sfWebRequest $request)
   {
     self::executeIndex($request);
