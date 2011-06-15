@@ -99,6 +99,16 @@ class ContactFormFilter extends BaseContactFormFilter
       'model'    => 'EventCategory',
       'multiple' => true,
     ));
+    $this->widgetSchema   ['meta_events_list'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'MetaEvent',
+      'order_by' => array('name','asc'),
+      'multiple' => true,
+    ));
+    $this->validatorSchema['meta_events_list'] = new sfValidatorDoctrineChoice(array(
+      'required' => false,
+      'model'    => 'MetaEvent',
+      'multiple' => true,
+    ));
     
     parent::configure();
   }
@@ -118,6 +128,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['emails_list']          = 'EmailsList';
     $fields['events_list']          = 'EventsList';
     $fields['event_categories_list']= 'EventCategoriesList';
+    $fields['meta_events_list']      = 'MetaEventsList';
     
     return $fields;
   }
@@ -204,7 +215,7 @@ class ContactFormFilter extends BaseContactFormFilter
       if ( !$q->contains("LEFT JOIN event.MetaEvent mev") )
       $q->leftJoin('event.MetaEvent mev');
       
-      $q->andWhereIn('event.event_category_id',$value);
+      $q->andWhereIn('mev.id',$value);
     }
     
     return $q;
