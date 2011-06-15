@@ -29,4 +29,4 @@ batchDelete:
 labels:
   credentials: pr-group-labels
 csv:
-  credentials: pr-group-csv
+  credentials: pr-contact
