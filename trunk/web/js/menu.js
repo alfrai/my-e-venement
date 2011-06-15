@@ -1,6 +1,6 @@
 $(document).ready(function(){
   // doing a short effect on page unload
-  $('a:not([href^=#]):not([target=_blank])').click(window_transition);
+  $('a:not([href^=#]):not([target=_blank]):is('[href]').click(window_transition);
   $('form').submit(window_transition);
   $('#transition .close').click(function(){ $('#transition').fadeOut('medium'); });
   
