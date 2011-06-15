@@ -234,7 +234,7 @@ function ticket_transform_hidden_to_span()
     $(this).find('.nb').html(parseInt($(this).find('.nb').html())-1);
     $(this).parent().parent().find('input[type=radio]').click();
     selected = $('#prices [name="ticket[nb]"]').val();
-    $('#prices [name="ticket[nb]"]').val(-1);
+    $('#prices [name="ticket[nb]"]').val(-selected);
     
     // ajax call
     $('#prices input[name="ticket[price_name]"][value='+price_name+']').click();

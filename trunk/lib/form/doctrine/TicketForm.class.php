@@ -45,6 +45,7 @@ class TicketForm extends BaseTicketForm
         ->andWhere('NOT t.printed')
         ->limit(1);
       $tickets = $q->execute();
+      //foreach ( $tickets as $ticket )
       if ( $tickets->count() > 0 )
         $tickets[0]->delete();
       return array();

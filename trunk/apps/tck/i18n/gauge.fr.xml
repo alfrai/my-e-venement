@@ -18,11 +18,11 @@
       </trans-unit>
       <trans-unit>
         <source>Orders: </source>
-        <target>Pré-résas: </target>
+        <target>Commandes: </target>
       </trans-unit>
       <trans-unit>
         <source>Sells: </source>
-        <target>Résas: </target>
+        <target>Ventes: </target>
       </trans-unit>
     </body>
   </file>
