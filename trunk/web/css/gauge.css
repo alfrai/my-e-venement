@@ -6,33 +6,15 @@
   padding: 5px;
   /*overflow: hidden;*/
 }
+.sf_admin_field_workspaces_list .gauge {
+  position: static;
+  right: 0;
+  margin-bottom: 10px;
+}
 #prices .gauge { height: 30px; }
 .gauge > div {
   height: 100%;
 }
-/*
-.gauge p {
-  margin: 0;
-  border: 1px solid black;
-  border-top: 0;
-}
-.gauge p span { display: none; }
-.gauge .demands {
-  background-color: #6363c9;
-  border-right: 1px solid black;
-  position: absolute;
-  width: 50px;
-}
-.gauge .free {
-  background-color: green;
-}
-.gauge .orders {
-  background-color: orange;
-}
-.gauge .sells {
-  background-color: red;
-}
-*/
 
 .gauge > div { text-align: center; }
 .gauge .seat {
@@ -46,3 +28,12 @@
 .gauge .seat.demands{ border: 1px dotted blue; padding: 0; }
 .gauge .overquota   { border: 1px dotted white; padding: 0; }
 .gauge .overquota.demands { background-color: white; }
+
+.gauge .text {
+  text-align: center;
+  opacity: 0.5;
+  background-color: white;
+  padding: 3px;
+  position: absolute;
+  width: 244px;
+}

@@ -1,4 +1,15 @@
-<div class="gauge" style="border: 1px solid black;"><div>
+<div class="gauge">
+<p class="text">
+  <span class="total"><?php echo __('Total: ',null,'gauge').$gauge->value ?></span>
+  <span class="free"><?php echo __('Free: ',null,'gauge').($gauge->value - ($manifestation->demands+$manifestation->orders+$manifestation->sells)) ?></span>
+  <br/>
+  <span class="sells"><?php echo __('Sells: ',null,'gauge').$manifestation->sells ?></span>
+  <?php if ( $sf_user->hasCredential('tck-accounting-order') ): ?>
+    <span class="orders"><?php echo __('Orders: ',null,'gauge').$manifestation->orders ?></span>
+  <?php endif ?>
+  <span class="asks"><?php echo __('Demands: ',null,'gauge').$manifestation->demands ?> </span>
+</p>
+<div>
 <input type="hidden" name="gauge-id" value="<?php echo $manifestation->id ?>" />
 <?php
   $area = 80*80; // width: 100%, height: 100%
@@ -26,32 +37,5 @@
   class="seat sells <?php echo $occ <= $gauge->value ? '' : 'overquota' ?>" style="width: <?php echo $seat ?>%; height: <?php echo $seat ?>%;"
   title="<?php echo __('%%n%% booked tickets',array('%%n%%' => $manifestation->sells)) ?>"></div
 ><?php endfor ?>
-</div></div>
-
-
-<!--
-<div id="gauge-<?php echo $manifestation->id ?>" class="gauge-id">
-  <input type="hidden" name="gauge-id" value="<?php echo $manifestation->id ?>"/>
-  <p class="sells"
-       style="height: <?php echo $height['sells'] ?>%;"
-       title="<?php echo __('%%n%% sold seats',array('%%n%%' => $manifestation->sells)) ?>">
-    <span><?php echo __('%%n%% sold seats',array('%%n%%' => $manifestation->sells)) ?></span>
-  </p>
-  <p class="orders"
-       style="height: <?php echo $height['orders'] ?>%;"
-       title="<?php echo __('%%n%% ordered seats',array('%%n%%' => $manifestation->orders)) ?>">
-    <span><?php echo __('%%n%% ordered seats',array('%%n%%' => $manifestation->orders)) ?></span>
-  </p>
-  <p class="demands"
-       style="height: <?php echo $height['demands'] ?>%;"
-       title="<?php echo __('%%n%% demanded seats',array('%%n%%' => $manifestation->demands)) ?>">
-    <span><?php echo __('%%n%% demanded seats',array('%%n%%' => $manifestation->demands)) ?></span>
-  </p>
-  <p class="free"
-       style="height: <?php echo $height['free'] ?>%;"
-       title="<?php echo __('%%n%% free seats',array('%%n%%' => $gauge->value - $manifestation->orders - $manifestation->sells)) ?>">
-    <span><?php echo __('%%n%% free seats',array('%%n%%' => $gauge->value - $manifestation->orders - $manifestation->sells)) ?></span>
-  </p>
 </div>
 </div>
--->

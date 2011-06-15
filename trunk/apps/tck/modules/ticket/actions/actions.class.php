@@ -563,12 +563,21 @@ class ticketActions extends sfActions
   
   public function executeGauge(sfWebRequest $request)
   {
-    $workspace = $this->getUser()->getGuardUser()->Workspaces[0];
     $q = Doctrine::getTable('Gauge')->createQuery('g')
-      ->andWhere('g.manifestation_id = ?', $mid = $request->getParameter('id'))
-      ->andWhere('g.workspace_id = ?', $workspace->id); // to be performed
-    $gauges = $q->execute();
-    $this->gauge = $gauges[0];
+      ->andWhere('g.manifestation_id = ?', $mid = $request->getParameter('id'));
+    if ( $request->getParameter('wsid') == 'all' )
+    {
+      // TODO
+    }
+    else
+    {
+      $workspace = intval($request->getParameter('wsid')) > 0
+        ? Doctrine::getTable('Workspace')->findOneById(intval($request->getParameter('wsid')))
+        : $this->getUser()->getGuardUser()->Workspaces[0];
+      $q->andWhere('g.workspace_id = ?', $workspace->id); // to be performed
+      $gauges = $q->execute();
+      $this->gauge = $gauges[0];
+    }
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->addSelect('m.id')
