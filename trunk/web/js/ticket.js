@@ -231,9 +231,9 @@ function ticket_transform_hidden_to_span()
   // click to remove a ticket
   $('#prices .manifestations_list .prices > span').unbind().click(function(){
     price_name = $(this).find('.name').html();
-    $(this).find('.nb').html(parseInt($(this).find('.nb').html())-1);
-    $(this).parent().parent().find('input[type=radio]').click();
     selected = $('#prices [name="ticket[nb]"]').val();
+    $(this).find('.nb').html(parseInt($(this).find('.nb').html())-selected);
+    $(this).parent().parent().find('input[type=radio]').click();
     $('#prices [name="ticket[nb]"]').val(-selected);
     
     // ajax call

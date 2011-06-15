@@ -17,7 +17,7 @@ class TicketForm extends BaseTicketForm
   {
     parent::configure();
     
-    $this->validatorSchema['nb'] = new sfValidatorInteger(array('min' => -1, 'required' => false));
+    $this->validatorSchema['nb'] = new sfValidatorInteger(array('required' => false));
     $this->validatorSchema['duplicate'] = new sfValidatorInteger(array('min' => 0, 'required' => false));
     $this->validatorSchema['price_id']->setOption('required',false);
     $this->validatorSchema['value']->setOption('required',false);
@@ -43,11 +43,11 @@ class TicketForm extends BaseTicketForm
         ->andWhere('t.transaction_id = ?', $this->object->transaction_id)
         ->andWhere('p.name = ?', $this->object->price_name)
         ->andWhere('NOT t.printed')
-        ->limit(1);
+        ->limit(-$nb);
       $tickets = $q->execute();
-      //foreach ( $tickets as $ticket )
-      if ( $tickets->count() > 0 )
-        $tickets[0]->delete();
+      foreach ( $tickets as $ticket )
+      //if ( $tickets->count() > 0 )
+        $ticket->delete();
       return array();
     }
     else
