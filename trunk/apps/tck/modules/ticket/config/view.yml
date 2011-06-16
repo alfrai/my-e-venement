@@ -3,13 +3,13 @@ default:
 
 printSuccess:
   javascripts: [-*, jquery, print-tickets]
-  stylesheets: [-*, print-tickets.default]
+  stylesheets: [-*, print-tickets.default: {media: all}]
 orderSuccess:
   javascripts: [-*, jquery, print-ticket]
-  stylesheets: [-*, print-accounting]
+  stylesheets: [-*, print-accounting: {media: all}]
 invoiceSuccess:
   javascripts: [-*, jquery, print-ticket]
-  stylesheets: [-*, print-accounting]
+  stylesheets: [-*, print-accounting: {media: all}]
 
 gaugeSuccess:
   stylesheets: [gauge]
