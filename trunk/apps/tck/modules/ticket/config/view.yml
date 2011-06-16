@@ -13,6 +13,8 @@ invoiceSuccess:
 
 gaugeSuccess:
   stylesheets: [gauge]
+sellSuccess:
+  javascripts: [/private/ticket.js]
 
 failedSuccess:
   stylesheets: [ticket]

@@ -51,6 +51,7 @@
   white-space: nowrap;
   cursor: pointer;
 }
+.manifestations_list .prices .value { display: none; }
 
 .sf_admin_flashes {
   margin: 5px 0;

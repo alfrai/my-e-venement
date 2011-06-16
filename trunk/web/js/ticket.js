@@ -222,7 +222,7 @@ function ticket_transform_hidden_to_span()
       if ( $(this).parent().find('.'+name).length > 0 )
         $(this).parent().find('.'+name+' .nb').html(parseInt($(this).parent().find('.'+name+' .nb').html())+1);
       else
-        $('<span class="'+name+' ticket_prices" title="'+$(this).attr('title')+'"><span class="nb">1</span> <span class="name">'+price+'</span><span class="tickets_id"></span></span>')
+        $('<span class="'+name+' ticket_prices" title="'+$(this).attr('title')+'"><span class="nb">1</span> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
           .appendTo($(this).parent());
       $(this).parent().find('.'+name+' .tickets_id').append($(this).attr('alt')+'<br/>');
     });

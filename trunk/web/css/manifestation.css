@@ -24,9 +24,6 @@ select[disabled] {
   margin-left: 10px;
 }
 
-#content .sf_admin_list_td_value, #content .sf_admin_list_th_value {
-  width: 250px;
-}
 #content .sf_admin_list_td_Price select[name="price_manifestation[price_id]"] { width: 100px; }
 #content .sf_admin_list_td_value input[type=text] { width: 100px; margin-left: 50px; }
 #content .sf_admin_list_td_value div input[type=text] { margin-left: 40px; }
@@ -38,3 +35,8 @@ select[disabled] {
   margin: -8px 0 -13px 0;
 }
 
+.sf_admin_form_field_prices_list .ajax .sf_admin_list_td_price_description { width: 250px; }
+.sf_admin_form_field_prices_list .ajax {
+  margin-left: -150px;
+  width: 580px;
+}
