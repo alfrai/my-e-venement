@@ -46,7 +46,6 @@ class TicketForm extends BaseTicketForm
         ->limit(-$nb);
       $tickets = $q->execute();
       foreach ( $tickets as $ticket )
-      //if ( $tickets->count() > 0 )
         $ticket->delete();
       return array();
     }
