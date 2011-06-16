@@ -13,3 +13,6 @@ updateSuccess:
 createSuccess:
   stylesheets: [manifestation-view,view]
 
+templatingSuccess:
+  stylesheets: [/sfFormExtraPlugin/css/jquery.autocompleter.css,/cxFormExtraPlugin/css/cx_open_list.css]
+  javascripts: [/sfFormExtraPlugin/js/jquery.autocompleter.js,/cxFormExtraPlugin/js/cx_open_list.js]

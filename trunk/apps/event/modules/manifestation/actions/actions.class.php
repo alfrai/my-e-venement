@@ -150,6 +150,21 @@ class manifestationActions extends autoManifestationActions
     $this->pager->init();
   }
   
+  public function executeTemplating(sfWebRequest $request)
+  {
+    $this->form = new ManifestationTemplatingForm();
+    
+    $template = $request->getParameter('template');
+    if ( $template )
+    {
+      $this->form->bind($template);
+      if ( $this->form->isValid() )
+      {
+        $this->form->save();
+      }
+    }
+  }
+  
   protected function securityAccessFiltering(sfWebRequest $request)
   {
     if ( intval($request->getParameter('id')).'' != ''.$request->getParameter('id') )
