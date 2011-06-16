@@ -18,7 +18,8 @@ class price_manifestationActions extends autoPrice_manifestationActions
     if ( intval($mid = $request->getParameter('id')).'' != $request->getParameter('id') )
       throw new sfError404Exception();
     
-    $q = Doctrine::getTable('PriceManifestation')->createQuery()
+    $q = Doctrine::getTable('PriceManifestation')->createQuery('pm')
+      ->leftJoin('pm.Price p')
       ->where('manifestation_id = ?',$mid)
       ->orderBy('p.name');
     $this->sort = array('name','');
