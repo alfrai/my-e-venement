@@ -7,7 +7,8 @@
   
   $form['price_id']->getWidget()->setOption('query', Doctrine::getTable('Price')->createQuery('p')
     ->leftJoin('p.PriceManifestations pm')
-    ->where('pm.id IS NULL')
+    //->where('pm.id IS NULL')
+    ->andWhere('pm.manifestation_id != ?',$pm->manifestation_id)
     ->orderBy('p.name')
   );
 ?>
