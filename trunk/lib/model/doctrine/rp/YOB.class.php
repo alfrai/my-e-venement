@@ -14,6 +14,6 @@ class YOB extends PluginYOB
 {
   function __toString()
   {
-    return $this->year;
+    return (string)$this->year;
   }
 }
