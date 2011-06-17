@@ -40,8 +40,16 @@ class eventActions extends autoEventActions
   }
   public function executeDelete(sfWebRequest $request)
   {
-    $this->securityAccessFiltering($request);
-    parent::executeDelete($request);
+    try {
+      $this->securityAccessFiltering($request);
+      parent::executeDelete($request);
+    }
+    catch ( Doctrine_Connection_Exception $e )
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+      $this->getUser()->setFlash('error',__("Deleting this object has been canceled because of remaining links to externals (like tickets)."));
+      $this->redirect('event/show?id='.$this->getRoute()->getObject()->id);
+    }
   }
   
   protected function securityAccessFiltering(sfWebRequest $request)

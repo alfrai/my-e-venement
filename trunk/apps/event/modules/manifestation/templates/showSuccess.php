@@ -5,6 +5,8 @@
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1><?php echo __('View Manifestation', array(), 'messages') ?></h1>
   </div>
+  
+  <?php include_partial('manifestation/flashes') ?>
 
   <div class="sf_admin_actions_block ui-widget">
     <?php include_partial('manifestation/show_actions', array('form' => $form, 'manifestation' => $manifestation, 'configuration' => $configuration, 'helper' => $helper)) ?>

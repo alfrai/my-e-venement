@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Deleting this object has been canceled because of remaining links to externals (like tickets).</source>
+        <target>La suppression de cet objet a été annulé car il doit encore être lié à d'autres objets (ex: billets).</target>
+      </trans-unit>
+      <trans-unit>
         <source>The item was created successfully. Don't forget to update prices if necessary.</source>
         <target>L'élément a été créé. N'oubliez pas de mettre à jour les tarifs si nécessaire.</target>
       </trans-unit>

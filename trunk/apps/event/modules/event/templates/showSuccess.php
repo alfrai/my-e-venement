@@ -6,6 +6,8 @@
     <h1><?php echo __('View Event %%name%%', array('%%name%%' => $event->name), 'messages') ?></h1>
   </div>
 
+  <?php include_partial('manifestation/flashes') ?>
+
   <div class="sf_admin_actions_block ui-widget">
       <?php include_partial('event/show_actions', array('form' => $form, 'event' => $event, 'configuration' => $configuration, 'helper' => $helper)) ?>
   </div>
