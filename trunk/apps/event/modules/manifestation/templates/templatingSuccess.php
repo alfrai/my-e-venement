@@ -1,5 +1,7 @@
 <?php include_partial('assets') ?>
 
+<?php include_partial('manifestation/flashes') ?>
+
 <?php echo $form->renderFormTag(url_for('manifestation/templating')) ?>
 <?php echo $form->renderHiddenFields(); ?>
 <table>

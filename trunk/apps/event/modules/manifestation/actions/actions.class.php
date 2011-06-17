@@ -161,6 +161,12 @@ class manifestationActions extends autoManifestationActions
       if ( $this->form->isValid() )
       {
         $this->form->save();
+        $this->getUser()->setFlash('notice','The template has been applied correctly');
+        $this->redirect('manifestation/templating');
+      }
+      else
+      {
+        $this->getUser()->setFlash('error','The template has not been applied correctly !');
       }
     }
   }

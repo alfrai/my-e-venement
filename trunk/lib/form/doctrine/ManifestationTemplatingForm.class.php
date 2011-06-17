@@ -27,7 +27,7 @@ class ManifestationTemplatingForm extends BaseFormDoctrine
     $this->widgetSchema['manifestations_list'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'Manifestation',
       'multiple' => true,
-      'query' => Doctrine::getTable('Manifestation')->createQuery('m')->andWhere('happens_at >= now()'),
+      'query' => Doctrine::getTable('Manifestation')->createQuery('m')->andWhere('happens_at >= now()')->orderBy('m.happens_at, e.name'),
     ));
     $this->validatorSchema['manifestations_list'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Manifestation',
@@ -53,6 +53,8 @@ class ManifestationTemplatingForm extends BaseFormDoctrine
       {
         $manifprice = $manifprice->copy();
         $manifprice['id'] = null;
+        $manifprice['created_at'] = date('Y-m-d H:i:s');
+        $manifprice['updated_at'] = $manifprice['created_at'];
         $manifprice['manifestation_id'] = $manifid;
         $manifprice->save();
       }
