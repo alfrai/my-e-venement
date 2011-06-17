@@ -6,10 +6,10 @@ printSuccess:
   stylesheets: [-*, print-tickets.default: {media: all}]
 orderSuccess:
   javascripts: [-*, jquery, print-ticket]
-  stylesheets: [-*, print-accounting: {media: all}]
+  stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css: {media: all}]
 invoiceSuccess:
   javascripts: [-*, jquery, print-ticket]
-  stylesheets: [-*, print-accounting: {media: all}]
+  stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css: {media: all}]
 
 gaugeSuccess:
   stylesheets: [gauge]

@@ -1,1 +1,1 @@
-<div id="type"><?php echo __('Invoice') ?></div>
+<div id="type" class="invoice"><span><?php echo __('Invoice') ?></span></div>

@@ -1,1 +1,1 @@
-<div id="type"><?php echo __('Order') ?></div>
+<div id="type" class="order"><span><?php echo __('Order') ?></span></div>
