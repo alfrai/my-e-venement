@@ -29,3 +29,9 @@
 /* logo */
 
 .ticket .logo { text-align: right; }
+.ticket .ticket-bc {
+  text-align: right;
+  width: 110mm;
+  height: 58mm;
+  margin-top: -22mm;
+}

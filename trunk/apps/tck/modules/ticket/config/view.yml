@@ -3,7 +3,7 @@ default:
 
 printSuccess:
   javascripts: [-*, jquery, print-tickets]
-  stylesheets: [-*, print-tickets.default: {media: all}]
+  stylesheets: [-*, print-tickets.default: {media: all}, /private/print-tickets.css: {media: all}]
 orderSuccess:
   javascripts: [-*, jquery, print-ticket]
   stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css: {media: all}]
