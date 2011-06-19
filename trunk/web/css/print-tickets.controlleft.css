@@ -33,3 +33,7 @@
 
 .left .mentions .keep-it { margin: 0 20px 0 0; }
 .right .mentions .keep-it { margin: 0 0 0 20px; }
+.ticket .left .optional {
+  position: absolute; 
+  right: 1mm;
+}

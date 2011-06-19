@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Control</source>
+        <target>Contrôle</target>
+      </trans-unit>
+      <trans-unit>
         <source>Summary list</source>
         <target>Résumé des opérations</target>
       </trans-unit>

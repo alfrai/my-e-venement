@@ -9,6 +9,11 @@ body {
   clear: both;
   page-break-after: always;
 }
+.spectator {
+  display: none;
+  font-size: 85%;
+  font-weight: normal;
+}
 .ticket {
   width: 150mm;
   height: 58mm;
@@ -93,6 +98,7 @@ float: left;
 .right .event { font-size: 15px; padding-top: 11px; height: 19px; }
 .right .cie, .right .org { font-size: 8pt; }
 .right .cie { padding-top: 4pt; height: 10pt; }
+.right .transaction { font-weight: normal; }
 
 span.eur { font-weight: normal; }
 

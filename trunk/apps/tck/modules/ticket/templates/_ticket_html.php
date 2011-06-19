@@ -23,8 +23,9 @@
       <span class="num">#<?php echo $ticket->Transaction->id ?>-<?php echo $sf_user->getId() ?></span>
     </p>
     <p class="ticket-bc"><img src="<?php echo url_for('ticket/barcode?id='.$ticket->id) ?>" alt=""></p>
+    <p class="spectator"><?php echo $ticket->Transaction->Contact ?></p>
     <p class="mentions">
-      <span class="optional"><?php echo sfConfig::get('app_tickets_mentions_optional') ?></span>
+      <span class="optional"><?php echo sfConfig::get('app_tickets_mentions') ?></span>
       <?php if ( $ticket->cancelling ): ?>
         <span class="cancelled-id">#<?php echo $ticket->cancelling ?></span>
       <?php endif ?>
@@ -40,10 +41,11 @@
     <p class="metaevt"><?php echo $ticket->Manifestation->Event->MetaEvent ?></p>
     <p class="datetime"><?php echo format_date($ticket->Manifestation->happens_at,'dd MMMM yyyy HH:mm') ?></p>
     <p class="placeprice">
-      <span class="place"><?php echo strlen($buf = $ticket->Manifestation->Location) > 15 ? substr($buf,0,12).'...' : $buf ?></span>
+      <span class="place"><?php echo strlen($buf = $ticket->Manifestation->Location) > 23 ? substr($buf,0,20).'...' : $buf ?></span>
       /
       <span class="price"><?php echo format_currency($ticket->value,'€') ?></span>
     </p>
+    <p class="spectator"><?php echo $ticket->Transaction->Contact ?></p>
     <p class="event"><?php echo strlen($buf = $ticket->Manifestation->Event) > 18 ? substr($buf,0,15).'...' : $buf ?></p>
     <p class="cie"><?php echo strlen($buf = implode(', ',$creators)) > 20 ? substr($buf,0,17).'...' : $buf; ?></p>
     <p class="org"><?php echo isset($orgas[0]) ? $orgas[0] : '' ?></p>
@@ -54,7 +56,7 @@
       <span class="num">#<?php echo $ticket->Transaction->id ?>-<?php echo $sf_user->getId() ?></span>
     </p>
     <p class="mentions">
-      <span class="keep-it"><?php echo __('Keep it') ?></span>
+      <span class="keep-it"><?php echo __('Control') ?></span>
       <span class="ticket-id">#<?php echo $ticket->id ?></span>
     </p>
   </div>
