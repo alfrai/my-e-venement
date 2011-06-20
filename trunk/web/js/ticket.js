@@ -164,6 +164,11 @@ function ticket_get_gauge(manif_id, gauge_elt, force)
     $('#manifestations #gauge-'+manif_id).remove();
     $.get($('#gauge_url').attr('href')+'?id='+manif_id,function(data){
       gauge_elt.html($(data).find('.gauge').html());
+      if ( gauge_elt.find('.free .nb').html() < 0 )
+      {
+        $('.manifestations_list input[name="ticket[manifestation_id]"][value='+manif_id+']')
+          .parent().addClass('alert');
+      }
     });
   }
 }
