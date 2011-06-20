@@ -71,7 +71,7 @@ float: left;
 }
 .info.cancellation, .info.duplicate { border: 1px solid black; }
 .manifid .tariftop:before { content: '-'; }
-.manifid { font-size: 8pt; }
+.manifid { font-size: 11pt; margin-top: 2px; }
 .manifid .tariftop { font-size: 5pt; font-weight: normal; }
 
 .left .manifid { text-align: left; margin-left: 2mm; float: left; }
@@ -80,6 +80,7 @@ float: left;
 .datetime { margin-top: 1.5mm; }
 .placeprice { margin-top: 0.5mm; }
 .event { font-size: 26px; margin-top: 1mm; height: 30px; }
+.event-short { display: none; }
 .cie { font-size: 12pt; margin-top: 1mm; height: 14pt; }
 .seat, .mentions, .org { font-size: 8pt; height: 10pt; }
 .placement, .mentions, .operation { font-weight: normal; }

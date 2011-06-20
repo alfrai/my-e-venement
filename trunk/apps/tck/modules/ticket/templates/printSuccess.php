@@ -1,4 +1,3 @@
-<?php use_stylesheet('tickets.default.css', '', array('media' => 'all')) ?>
 <?php if ( sfConfig::has('app_tickets_control_left') ) use_stylesheet('print-tickets.controlleft.css', '', array('media' => 'all')) ?>
 <?php foreach ( $tickets as $ticket ): ?>
   <div class="page">
