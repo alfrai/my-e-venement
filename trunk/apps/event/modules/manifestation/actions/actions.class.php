@@ -157,16 +157,17 @@ class manifestationActions extends autoManifestationActions
     $template = $request->getParameter('template');
     if ( $template )
     {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
       $this->form->bind($template);
       if ( $this->form->isValid() )
       {
         $this->form->save();
-        $this->getUser()->setFlash('notice','The template has been applied correctly');
+        $this->getUser()->setFlash('notice',__('The template has been applied correctly.'));
         $this->redirect('manifestation/templating');
       }
       else
       {
-        $this->getUser()->setFlash('error','The template has not been applied correctly !');
+        $this->getUser()->setFlash('error',__('The template has not been applied correctly !'));
       }
     }
   }

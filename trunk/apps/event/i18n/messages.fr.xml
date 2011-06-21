@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The template has been applied correctly.</source>
+        <target>Le gabarit a été appliqué correctement.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The template has not been applied correctly !</source>
+        <target>Le gabarit n'a pas été appliqué correctement !</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Manifestation model</source>
+        <target>Modèle de manifestation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Templating prices</source>
+        <target>Gabarit pour les prix</target>
+      </trans-unit>
+      <trans-unit>
         <source>Deleting this object has been canceled because of remaining links to externals (like tickets).</source>
         <target>La suppression de cet objet a été annulé car il doit encore être lié à d'autres objets (ex: billets).</target>
       </trans-unit>
