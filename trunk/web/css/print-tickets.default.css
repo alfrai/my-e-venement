@@ -141,3 +141,4 @@ span.eur { font-weight: normal; }
 .seating > * {
   -moz-transform: rotate(270deg);
 }
+#options { display: none; }

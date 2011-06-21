@@ -24,7 +24,7 @@
       /
       <span class="num">#<?php echo $ticket->Transaction->id ?>-<?php echo $sf_user->getId() ?></span>
     </p>
-    <p class="ticket-bc"><img src="<?php echo url_for('ticket/barcode?id='.$ticket->id) ?>" alt=""></p>
+    <p class="ticket-bc"><img src="<?php echo url_for('ticket/barcode?id='.$ticket->id) ?>" alt="" /></p>
     <p class="spectator"><?php echo $ticket->Transaction->Contact ?></p>
     <p class="mentions">
       <span class="optional"><?php echo sfConfig::get('app_tickets_mentions') ?></span>
