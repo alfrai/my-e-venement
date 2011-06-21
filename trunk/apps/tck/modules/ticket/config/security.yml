@@ -8,4 +8,7 @@ print:
   credentials: [tck-print-ticket]
 control:
   credentials: [tck-control]
-
+order:
+  credentials: [tck-accounting-order]
+invoice:
+  credentials: [tck-accounting-invoice]

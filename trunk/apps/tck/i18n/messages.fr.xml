@@ -313,8 +313,8 @@
         <target>&amp;lt;&amp;lt; &lt;a href="%%url%%"&gt;Retour&lt;/a&gt; vers une nouvelle opération</target>
       </trans-unit>
       <trans-unit id="135">
-        <source>Invoice #&lt;span class="invoice_id"&gt;%%iid%%&lt;/span&gt;, for transaction #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</source>
-        <target>Facture #&lt;span class="invoice_id"&gt;%%iid%%&lt;/span&gt;, pour l'opération #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</target>
+        <source>&lt;span class="name"&gt;Invoice&lt;/span&gt; #&lt;span class="invoice_id"&gt;%%iid%%&lt;/span&gt;, for transaction #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</source>
+        <target>&lt;span class="name"&gt;Facture&lt;/span&gt; #&lt;span class="invoice_id"&gt;%%iid%%&lt;/span&gt;, pour l'opération #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit id="136">
         <source>Verify and validate</source>
@@ -345,8 +345,8 @@
         <target>Revenir pour un nouveau billet...</target>
       </trans-unit>
       <trans-unit id="143">
-        <source>Order #&lt;span class="order_id"&gt;%%oid%%&lt;/span&gt;, for transaction #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</source>
-        <target>Bon de commande #&lt;span class="order_id"&gt;%%oid%%&lt;/span&gt;, pour l'operation #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</target>
+        <source>&lt;span class="name"&gt;Order&lt;/span&gt; #&lt;span class="order_id"&gt;%%oid%%&lt;/span&gt;, for transaction #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</source>
+        <target>&lt;span class="name"&gt;Bon de commande&lt;/span&gt; #&lt;span class="order_id"&gt;%%oid%%&lt;/span&gt;, pour l'operation #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit id="144">
         <source>%%n%% free seats</source>

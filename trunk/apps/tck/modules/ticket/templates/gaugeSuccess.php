@@ -5,7 +5,7 @@
   <br/>
   <span class="sells"><?php echo __('Sells: ',null,'gauge') ?><span class="nb"><?php echo $manifestation->sells ?></span></span>
   <?php if ( $sf_user->hasCredential('tck-accounting-order') ): ?>
-    <span class="orders"><?php echo __('Orders: ',null,'gauge') ?><span class="nb"><?php $manifestation->orders ?></span></span>
+    <span class="orders"><?php echo __('Orders: ',null,'gauge') ?><span class="nb"><?php echo $manifestation->orders ?></span></span>
   <?php endif ?>
   <span class="asks"><?php echo __('Demands: ',null,'gauge')?><span class="nb"><?php echo $manifestation->demands ?></span></span>
 </p>

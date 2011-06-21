@@ -1,2 +1,2 @@
 all:
-  credentials: [tck-account-order]
+  credentials: [tck-accounting-order]

@@ -1,5 +1,6 @@
 default:
   javascripts: [menu,/sfFormExtraPlugin/js/jquery.autocompleter.js]
+  stylesheets: [contact]
 
 createSuccess:
   stylesheets: [view]

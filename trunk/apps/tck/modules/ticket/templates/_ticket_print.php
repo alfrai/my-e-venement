@@ -5,7 +5,7 @@
     <input type="text" name="price_name" value="" class="price" />
   </p>
 </form>
-<?php if ( $sf_user->hasCredential('tck-accounting-orders') ): ?>
+<?php if ( $sf_user->hasCredential('tck-accounting-order') ): ?>
 <form action="<?php echo url_for('ticket/order?id='.$transaction->id) ?>" method="get" target="_blank" class="accounting">
   <p>
     <?php

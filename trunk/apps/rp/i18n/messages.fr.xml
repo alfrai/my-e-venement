@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>for %%i%% ticket(s) and</source>
+        <target>pour %%i%% billet(s) et</target>
+      </trans-unit>
+      <trans-unit>
         <source>Duplicates</source>
         <target>Doublons</target>
       </trans-unit>

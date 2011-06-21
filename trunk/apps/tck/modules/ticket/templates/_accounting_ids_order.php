@@ -1,1 +1,1 @@
-<p id="ids"><?php echo __('Order #<span class="order_id">%%oid%%</span>, for transaction #<span class="transaction_id">%%tid%%</span>',array('%%oid%%' => $order->id, '%%tid%%' => $transaction->id)) ?></span></p>
+<p id="ids"><?php echo __('<span class="name">Order</span> #<span class="order_id">%%oid%%</span>, for transaction #<span class="transaction_id">%%tid%%</span>',array('%%oid%%' => $order->id, '%%tid%%' => $transaction->id)) ?></span></p>
