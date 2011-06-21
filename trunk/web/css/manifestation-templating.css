@@ -4,3 +4,12 @@
 .sf_admin_templating td {
   padding-left: 5px;
 }
+#autocomplete_template_manifestation_model, #template_manifestations_list, input[type=submit] {
+  margin-left: 10px;
+}
+#template_manifestations_list {
+  max-width: none;
+  width: 600px;
+}
+      
+      
