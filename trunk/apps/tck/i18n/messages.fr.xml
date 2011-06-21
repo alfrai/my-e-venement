@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Free seating</source>
+        <target>Placement libre</target>
+      </trans-unit>
+      <trans-unit>
         <source>Control</source>
         <target>Contrôle</target>
       </trans-unit>

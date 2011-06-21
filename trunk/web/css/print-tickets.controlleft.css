@@ -1,5 +1,5 @@
 .left {
-  width: 108.8mm;
+  width: 106.8mm;
   float: right;
   text-align: left;
   padding-left: 5mm;
@@ -7,7 +7,7 @@
 }
 .right {
   text-align: right;
-  width: 34.2mm;
+  width: 35.2mm;
 	padding-right: 2mm;
 	padding-left: 4mm;
 }
@@ -29,11 +29,22 @@
 /* logo */
 
 .ticket .logo { text-align: right; }
-.ticket .ticket-bc { text-align: right; }
+.ticket .ticket-bc {
+  text-align: right;
+  width: 106.2mm;
+  padding-left: 0;
+  margin-left: -1mm;
+}
 
 .left .mentions .keep-it { margin: 0 20px 0 0; }
 .right .mentions .keep-it { margin: 0 0 0 20px; }
 .ticket .left .optional {
   position: absolute; 
   right: 1mm;
+}
+
+.seating {
+  left: auto;
+  right: 0;
+  margin-right: -18mm;
 }

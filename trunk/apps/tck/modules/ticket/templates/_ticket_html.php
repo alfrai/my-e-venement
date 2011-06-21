@@ -33,6 +33,7 @@
       <?php endif ?>
       <span class="ticket-id">#<?php echo $ticket->id ?></span>
       <span class="keep-it"><?php echo __('Keep it') ?></span>
+      <span class="seating"><span><?php echo __('Free seating') ?></span></span>
     </p>
   </div>
   <div class="right">
@@ -48,7 +49,7 @@
       <span class="price"><?php echo format_currency($ticket->value,'€') ?></span>
     </p>
     <p class="spectator"><?php echo $ticket->Transaction->Contact ?></p>
-    <p class="event"><?php echo strlen($buf = $ticket->Manifestation->Event) > 18 ? substr($buf,0,15).'...' : $buf ?></p>
+    <p class="event"><?php echo strlen($buf = $ticket->Manifestation->Event) > 21 ? substr($buf,0,18).'...' : $buf ?></p>
     <p class="cie"><?php echo strlen($buf = implode(', ',$creators)) > 20 ? substr($buf,0,17).'...' : $buf; ?></p>
     <p class="org"><?php echo isset($orgas[0]) ? $orgas[0] : '' ?></p>
     <p class="seat"><?php echo $ticket->numerotation ? __('Seat n°%%s%%',array('%%s%%' => $ticket->numerotation)) : '' ?></p>

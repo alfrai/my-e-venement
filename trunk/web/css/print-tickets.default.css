@@ -96,7 +96,7 @@ float: left;
 .right .metaevt { font-size: 7pt; padding-top: 0.5pt; height: 9.5pt; }
 .right .placeprice, .right .datetime { font-size: 8pt; padding-top: 3pt; height: 10pt; }
 .right .place { font-size: 7pt; }
-.right .event { font-size: 15px; padding-top: 11px; height: 19px; }
+.right .event { font-size: 8pt; padding-top: 11px; height: 19px; }
 .right .cie, .right .org { font-size: 8pt; }
 .right .cie { padding-top: 4pt; height: 10pt; }
 .right .transaction { font-weight: normal; }
@@ -118,7 +118,8 @@ span.eur { font-weight: normal; }
   width: 150mm;
   height: 58mm;
   text-align: left;
-  margin-top: -22mm;
+  margin-top: -20mm;
+  padding-left: 2mm;
 }
 
 @page {
@@ -130,8 +131,13 @@ span.eur { font-weight: normal; }
 .desc { display: none; }
 
 .seating {
-  -moz-transform: rotate(270deg);
   position: absolute;
-  left: -2mm;
-  top: 48mm;
+  left: 0;
+  top: 44mm;
+  width: 40mm;
+  text-align: center;
+  margin-left: -18mm;
+}
+.seating > * {
+  -moz-transform: rotate(270deg);
 }
