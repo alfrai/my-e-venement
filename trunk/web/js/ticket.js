@@ -277,7 +277,8 @@ function ticket_prices()
       return false;
     
     // DB
-    $.post($('.tickets_form').attr('action'),$('#prices form').serialize()+'&'+$(this).attr('name')+'='+$(this).val(),function(data){
+    elt = $(this);
+    $.get($('.tickets_form').attr('action'),$('#prices form').serialize()+'&'+$(this).attr('name')+'='+$(this).val(),function(data){
       $('.sf_admin_flashes').replaceWith($(data).find('.sf_admin_flashes'));
       setTimeout(function(){
         $('.sf_admin_flashes > *').fadeOut();
@@ -304,6 +305,13 @@ function ticket_prices()
       
       // transform input hidden into visual tickets
       ticket_transform_hidden_to_span();
+      
+      // the other line
+      if ( typeof($('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').val()) != 'undefined' )
+      {
+        $('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').attr('checked',true);
+        $(elt).click();
+      }
     });
     
     return false;

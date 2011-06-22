@@ -31,8 +31,12 @@ class TicketForm extends BaseTicketForm
     $nb = isset($params['nb']) && $params['nb'] != 0 ? $params['nb'] : 1;
     unset($params['nb']);
     
+    if ( !is_array($params['manifestation_id']) )
+      $params['manifestation_id'] = array($params['manifestation_id']);
+    
     foreach ( $params as $name => $param )
-      $this->object->$name = $param;
+      if ( $name != 'manifestation_id' )
+        $this->object->$name = $param;
     
     if ( $nb < 0 )
     {
@@ -55,9 +59,13 @@ class TicketForm extends BaseTicketForm
       for ( $i = 0 ; $i < $nb ; $i++ )
       {
         try {
-          $this->object->save();
-          $tickets[] = $this->object;
-          $this->object = $this->object->copy();
+          foreach ( $params['manifestation_id'] as $manifestation_id )
+          {
+            $this->object->manifestation_id = $manifestation_id;
+            $this->object->save();
+            $tickets[] = $this->object;
+            $this->object = $this->object->copy();
+          }
         }
         catch ( Doctrine_Connection_Pgsql_Exception $e )
         {

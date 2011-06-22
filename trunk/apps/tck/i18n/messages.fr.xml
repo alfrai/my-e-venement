@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>This price doesn't exist for this manifestation !</source>
+        <target>Ce tarif n'existe pas pour cette manifestation !</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Add to all manifestations</source>
+        <target>Ajouter à toutes les manifestations</target>
+      </trans-unit>
+      <trans-unit>
         <source>Free seating</source>
         <target>Placement libre</target>
       </trans-unit>
