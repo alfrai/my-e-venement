@@ -279,10 +279,13 @@ function ticket_prices()
     // DB
     elt = $(this);
     $.get($('.tickets_form').attr('action'),$('#prices form').serialize()+'&'+$(this).attr('name')+'='+$(this).val(),function(data){
-      $('.sf_admin_flashes').replaceWith($(data).find('.sf_admin_flashes'));
-      setTimeout(function(){
-        $('.sf_admin_flashes > *').fadeOut();
-      },2500);
+      if ( $(data).find('.sf_admin_flashes').html() )
+      {
+        $('.sf_admin_flashes').replaceWith($(data).find('.sf_admin_flashes'));
+        setTimeout(function(){
+          $('.sf_admin_flashes > *').fadeOut();
+        },2500);
+      }
       
       // the gauge
       ticket_gauge_update_click();
@@ -307,7 +310,8 @@ function ticket_prices()
       ticket_transform_hidden_to_span();
       
       // the other line
-      if ( typeof($('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').val()) != 'undefined' )
+      if ( $('#prices .prices_list [name="ticket[nb]"]').val() > 0
+        && typeof($('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').val()) != 'undefined' )
       {
         $('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').attr('checked',true);
         $(elt).click();

@@ -185,7 +185,7 @@ class ticketActions extends sfActions
     if ( $request->getParameter('manif_new') )
     {
       $eids = array();
-      foreach ( Doctrine::getTable('Event')->search($request->getParameter('manif_new').'*') as $id )
+      foreach ( Doctrine::getTable('Event')->search(strtolower($request->getParameter('manif_new')).'*') as $id )
         $eids[] = $id['id'];
       $q = Doctrine::getTable('Manifestation')->createQuery('m')
         ->andWhereIn('e.id',$eids)

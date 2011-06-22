@@ -1,4 +1,4 @@
-<?php if ( $sf_user->hasFlash('notice') || $sf_user->hasFlash('error') ): ?>
+<?php //if ( $sf_user->hasFlash('notice') || $sf_user->hasFlash('error') ): ?>
 <div class="sf_admin_flashes ui-widget">
 <?php if ($sf_user->hasFlash('notice')): ?>
   <div class="notice ui-state-highlight ui-corner-all">
@@ -14,4 +14,4 @@
   </div>
 <?php endif; ?>
 </div>
-<?php endif ?>
+<?php //endif ?>

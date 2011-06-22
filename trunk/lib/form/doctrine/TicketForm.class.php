@@ -40,6 +40,7 @@ class TicketForm extends BaseTicketForm
     
     if ( $nb < 0 )
     {
+      $this->object->manifestation_id = $params['manifestation_id'][0];
       $q = Doctrine::getTable('Ticket')
         ->createQuery('t')
         ->leftJoin('t.Price p')
