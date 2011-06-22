@@ -216,8 +216,8 @@ function ticket_manif_list_events()
 function ticket_transform_hidden_to_span()
 {
   $('.manifestations_list li .prices span').remove();
-  $('.manifestations_list li').each(function(){
-    $(this).find('input[type=hidden]').each(function(){
+  $('.manifestations_list li [type=radio]:checked').each(function(){
+    $(this).parent().parent().find('input[type=hidden]').each(function(){
       // adding the spans
       name = $(this).attr('name').replace(/[\[\]]/g,'_').replace(/__/g,'_').replace(/_+$/,'');
       price = $(this).attr('name')
@@ -235,6 +235,7 @@ function ticket_transform_hidden_to_span()
   
   // click to remove a ticket
   $('#prices .manifestations_list .prices > span').unbind().click(function(){
+    $('#prices [name=select_all]').attr('checked',false);
     price_name = $(this).find('.name').html();
     selected = $('#prices [name="ticket[nb]"]').val();
     $(this).find('.nb').html(parseInt($(this).find('.nb').html())-selected);
@@ -272,6 +273,9 @@ function ticket_prices()
   
   // clicking on a price ... adding a ticket
   $('#prices input[type=submit]').unbind().click(function(){
+    if ( $('#prices .prices_list [name="select_all"]:checked').length > 0
+      && $('#prices .prices_list [name="ticket[nb]"]').val() > 0 )
+      $('#prices .manifestations_list input[type=radio]:first').attr('checked',true);
     
     if ( $('#prices .manifestations_list input:checked').length == 0 )
       return false;
@@ -279,7 +283,7 @@ function ticket_prices()
     // DB
     elt = $(this);
     $.get($('.tickets_form').attr('action'),$('#prices form').serialize()+'&'+$(this).attr('name')+'='+$(this).val(),function(data){
-      if ( $(data).find('.sf_admin_flashes').html() )
+      if ( $.trim($(data).find('.sf_admin_flashes').html()) != '' )
       {
         $('.sf_admin_flashes').replaceWith($(data).find('.sf_admin_flashes'));
         setTimeout(function(){
@@ -291,6 +295,7 @@ function ticket_prices()
       ticket_gauge_update_click();
       
       // add the content
+      //alert($('#prices .manifestations_list input:checked').val());
       $('#prices .manifestations_list input:checked').parent().parent().find('.prices')
         .html(
           $(data).find('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+
@@ -311,6 +316,7 @@ function ticket_prices()
       
       // the other line
       if ( $('#prices .prices_list [name="ticket[nb]"]').val() > 0
+        && $('#prices .prices_list [name="select_all"]:checked').length > 0
         && typeof($('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').val()) != 'undefined' )
       {
         $('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').attr('checked',true);

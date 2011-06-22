@@ -22,20 +22,20 @@
 <?php  for ( $i = 0 ; $i < $free ; $i++ ): $occ++; ?><div
   class="seat free"
   style="width: <?php echo $seat ?>%; height: <?php echo $seat ?>%;"
-  title="<?php echo __('%%n%% free seats',array('%%n%%' => $free)) ?>"></div
+  ></div
 ><?php endfor ?>
 <?php  for ( $i = 0 ; $i < $manifestation->demands ; $i++ ): $occ++; ?><div
   class="seat demands <?php echo $occ <= $gauge->value ? 'free' : 'overquota' ?>"
   style="width: <?php echo $seat ?>%; height: <?php echo $seat ?>%;"
-  title="<?php echo __('%%n%% demanded tickets',array('%%n%%' => $manifestation->demands)) ?>"></div
+  ></div
 ><?php endfor ?>
 <?php  for ( $i = 0 ; $i < $manifestation->orders ; $i++ ): $occ++; ?><div
   class="seat orders <?php echo $occ <= $gauge->value ? '' : 'overquota' ?>" style="width: <?php echo $seat ?>%; height: <?php echo $seat ?>%;"
-  title="<?php echo __('%%n%% prebooked seats',array('%%n%%' => $manifestation->orders)) ?>"></div
+  ></div
 ><?php endfor ?>
 <?php  for ( $i = 0 ; $i < $manifestation->sells; $i++ ): $occ++; ?><div
   class="seat sells <?php echo $occ <= $gauge->value ? '' : 'overquota' ?>" style="width: <?php echo $seat ?>%; height: <?php echo $seat ?>%;"
-  title="<?php echo __('%%n%% booked tickets',array('%%n%%' => $manifestation->sells)) ?>"></div
+  ></div
 ><?php endfor ?>
 </div>
 </div>

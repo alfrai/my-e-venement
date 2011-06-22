@@ -579,15 +579,18 @@ class ticketActions extends sfActions
       $this->gauge = $gauges[0];
     }
     
-    $q = Doctrine::getTable('Manifestation')->createQuery('m')
+    $q = new Doctrine_Query();
+    $q->from('Manifestation m')
+      ->leftJoin('m.Event e')
+      ->leftJoin('e.MetaEvent me')
+      ->leftJoin('m.Tickets t')
       ->addSelect('m.id')
       ->addSelect('sum(printed) AS sells')
       ->addSelect('sum(NOT printed AND t.transaction_id IN (SELECT o.transaction_id FROM order o)) AS orders')
       ->addSelect('sum(NOT printed AND t.transaction_id NOT IN (SELECT o2.transaction_id FROM order o2)) AS demands')
       ->andWhere('m.id = ?',$mid)
-      ->leftJoin('m.Tickets t')
       ->andWhere('t.duplicate IS NULL')
-      ->groupBy('m.id, e.name, me.name, m.happens_at, m.duration, p.name');
+      ->groupBy('m.id, e.name, me.name, m.happens_at, m.duration');
     $manifs = $q->execute();
     if ( $manifs->count() > 0 )
       $this->manifestation = $manifs[0];
