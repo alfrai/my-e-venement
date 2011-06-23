@@ -20,7 +20,8 @@ class Ticket extends PluginTicket
         ->leftJoin('pm.Manifestation m')
         ->leftJoin('pm.Price p')
         ->andWhere('m.id = ?',$this->manifestation_id)
-        ->andWhere('p.name = ?',$this->price_name);
+        ->andWhere('p.name = ?',$this->price_name)
+        ->orderBy('pm.updated_at DESC');
       $pm = $q->execute()->get(0);
       $this->price_id = $pm->price_id;
       $this->value    = $pm->value;

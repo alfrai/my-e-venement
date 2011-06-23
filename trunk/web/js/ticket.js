@@ -208,15 +208,17 @@ function ticket_manif_list_events()
         $('#prices .prices_list').fadeIn();
         ticket_activate_prices_gauge();
       }
-      ticket_transform_hidden_to_span();
+      ticket_transform_hidden_to_span(true);
     });
   }
 }
 
-function ticket_transform_hidden_to_span()
+function ticket_transform_hidden_to_span(all)
 {
-  $('.manifestations_list li .prices span').remove();
-  $('.manifestations_list li [type=radio]:checked').each(function(){
+  if ( typeof(all) == 'undefined' ) all = false;
+  
+  $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).parent().parent().find('.prices span').remove();
+  $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).each(function(){
     $(this).parent().parent().find('input[type=hidden]').each(function(){
       // adding the spans
       name = $(this).attr('name').replace(/[\[\]]/g,'_').replace(/__/g,'_').replace(/_+$/,'');
@@ -273,16 +275,13 @@ function ticket_prices()
   
   // clicking on a price ... adding a ticket
   $('#prices input[type=submit]').unbind().click(function(){
-    if ( $('#prices .prices_list [name="select_all"]:checked').length > 0
-      && $('#prices .prices_list [name="ticket[nb]"]').val() > 0 )
-      $('#prices .manifestations_list input[type=radio]:first').attr('checked',true);
     
     if ( $('#prices .manifestations_list input:checked').length == 0 )
       return false;
     
     // DB
     elt = $(this);
-    $.get($('.tickets_form').attr('action'),$('#prices form').serialize()+'&'+$(this).attr('name')+'='+$(this).val(),function(data){
+    $.post($('.tickets_form').attr('action'),$('#prices form').serialize()+'&'+$(this).attr('name')+'='+$(this).val(),function(data){
       if ( $.trim($(data).find('.sf_admin_flashes').html()) != '' )
       {
         $('.sf_admin_flashes').replaceWith($(data).find('.sf_admin_flashes'));

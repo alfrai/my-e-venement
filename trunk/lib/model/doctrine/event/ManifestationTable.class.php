@@ -31,6 +31,7 @@ class ManifestationTable extends PluginManifestationTable
         ->leftJoin("$alias.Location $l")
         ->leftJoin("$alias.PriceManifestations $pm")
         ->leftJoin("$pm.Price $p")
+        ->leftJoin("$alias.Gauges g")
         ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name");
     return $query;
   }

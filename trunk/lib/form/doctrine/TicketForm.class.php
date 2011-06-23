@@ -41,8 +41,7 @@ class TicketForm extends BaseTicketForm
     if ( $nb < 0 )
     {
       $this->object->manifestation_id = $params['manifestation_id'][0];
-      $q = Doctrine::getTable('Ticket')
-        ->createQuery('t')
+      $q = Doctrine::getTable('Ticket')->createQuery('t')
         ->leftJoin('t.Price p')
         ->andWhere('t.manifestation_id = ?', $this->object->manifestation_id)
         ->andWhere('t.transaction_id = ?', $this->object->transaction_id)
@@ -58,20 +57,16 @@ class TicketForm extends BaseTicketForm
     {
       $tickets = array();
       for ( $i = 0 ; $i < $nb ; $i++ )
+      foreach ( $params['manifestation_id'] as $manifestation_id )
+      try {
+        $this->object->manifestation_id = $manifestation_id;
+        $this->object->save();
+        $tickets[] = $this->object;
+        $this->object = $this->object->copy();
+      }
+      catch ( Doctrine_Connection_Pgsql_Exception $e )
       {
-        try {
-          foreach ( $params['manifestation_id'] as $manifestation_id )
-          {
-            $this->object->manifestation_id = $manifestation_id;
-            $this->object->save();
-            $tickets[] = $this->object;
-            $this->object = $this->object->copy();
-          }
-        }
-        catch ( Doctrine_Connection_Pgsql_Exception $e )
-        {
-          return $tickets;
-        }
+        return $tickets;
       }
     }
     
