@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Event</source>
+        <target>Événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>City</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit>
         <source>This price doesn't exist for this manifestation !</source>
         <target>Ce tarif n'existe pas pour cette manifestation !</target>
       </trans-unit>

@@ -3,6 +3,7 @@
   <head>
     <?php use_javascript('menu') ?>
     <?php use_stylesheet('menu') ?>
+    <?php use_stylesheet('/private/main.css') ?>
     <?php use_stylesheet('about') ?>
     <?php use_javascript('/liFancyboxPlugin/jquery.fancybox-1.3.4.pack.js') ?>
     <?php use_stylesheet('/liFancyboxPlugin/jquery.fancybox-1.3.4.css') ?>

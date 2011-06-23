@@ -24,25 +24,25 @@
       }
       echo $qty;
     ?></td>
-    <td class="tip"><?php echo format_currency($tip = $ticket->value * $qty,'€'); $totals['tip'] += $tip ?></td>
+    <td class="pit"><?php echo format_currency($tip = $ticket->value * $qty,'€'); $totals['tip'] += $tip ?></td>
     <td class="vat"><?php echo format_currency(round($vat = $ticket->Manifestation->vat/100 * $tip,2),'€'); if ( !isset($totals['vat'][$ticket->Manifestation->vat]) ) $totals['vat'][$ticket->Manifestation->vat] = 0; $totals['vat'][$ticket->Manifestation->vat] += $vat ?></td>
-    <td class="pet"><?php echo format_currency(round($pet = $ticket->value * $qty - $vat,2),'€'); $totals['pet'] += $pet ?></td>
+    <td class="tep"><?php echo format_currency(round($pet = $ticket->value * $qty - $vat,2),'€'); $totals['pet'] += $pet ?></td>
   </tr>
 <?php endfor ?>
 </tbody>
 <thead><tr>
-  <th class="event"><?php echo __('Event') ?></th>
-  <th class="date"><?php echo __('Date') ?></th>
-  <th class="time"><?php echo __('Time') ?></th>
-  <th class="location"><?php echo __('Location') ?></th>
-  <th class="postalcode"><?php echo __('Postal code') ?></th>
-  <th class="city"><?php echo __('City') ?></th>
-  <th class="price"><?php echo __('Price') ?></th>
-  <th class="up"><?php echo __('Unit TIP') ?></th>
-  <th class="qty"><?php echo __('Qty') ?></th>
-  <th class="pit"><?php echo __('TIP') ?></th>
-  <th class="vat"><?php echo __('VAT') ?></th>
-  <th class="tep"><?php echo __('PET') ?></th>
+  <th class="event"><span><?php echo __('Event') ?></span></th>
+  <th class="date"><span><?php echo __('Date') ?></span></th>
+  <th class="time"><span><?php echo __('Time') ?></span></th>
+  <th class="location"><span><?php echo __('Location') ?></span></th>
+  <th class="postalcode"><span><?php echo __('Postal code') ?></span></th>
+  <th class="city"><span><?php echo __('City') ?></span></th>
+  <th class="price"><span><?php echo __('Price') ?></span></th>
+  <th class="up"><span><?php echo __('Unit TIP') ?></span></th>
+  <th class="qty"><span><?php echo __('Qty') ?></span></th>
+  <th class="pit"><span><?php echo __('TIP') ?></span></th>
+  <th class="vat"><span><?php echo __('VAT') ?></span></th>
+  <th class="tep"><span><?php echo __('PET') ?></span></th>
 </tr></thead>
 </thead>
 </table>

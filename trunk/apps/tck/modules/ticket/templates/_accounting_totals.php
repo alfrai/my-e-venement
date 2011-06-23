@@ -1,6 +1,6 @@
 <div id="totals">
   <p class="tep">
-    <span><?php echo __('Total excl. tax:') ?></span>
+    <span><span><?php echo __('Total excl. tax:') ?></span></span>
     <span class="float"><?php echo format_currency(round($totals['tip'] - $totals['vat']['total'],2),'€') ?></span>
   </p>
   <?php
@@ -13,7 +13,7 @@
   </p>
   <?php endif ?>
   <p class="pit">
-    <span><?php echo __('Total incl. taxes:') ?></span>
+    <span><span><?php echo __('Total incl. taxes:') ?></span></span>
     <span class="float"><?php echo format_currency(round($totals['tip'],2),'€') ?></span>
   </p>
 </div>

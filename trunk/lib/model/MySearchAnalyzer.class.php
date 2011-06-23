@@ -28,7 +28,7 @@ class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
     public function analyze($text)
     {
       $charset = sfContext::getInstance()->getConfiguration()->charset;
-      $text = iconv($charset['db'],$charset['ascii'],$text);
+      $text = strtolower(iconv($charset['db'],$charset['ascii'],$text));
       
       return parent::analyze($text);
     }
