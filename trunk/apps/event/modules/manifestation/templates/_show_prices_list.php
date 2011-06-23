@@ -4,7 +4,7 @@
     <?php if ( $manifestation->Prices->count() == 0 ): ?>
       <li><?php echo __('No registered price') ?></li>
     <?php else: ?>
-    <?php foreach ( $manifestation->Prices as $price ): ?>
+    <?php foreach ( $manifestation->PriceManifestations as $price ): ?>
     <li class="ui-corner-all">
       <?php echo $price->getFullName() ?>
     </li>

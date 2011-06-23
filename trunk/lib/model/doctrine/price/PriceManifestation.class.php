@@ -26,4 +26,10 @@ class PriceManifestation extends PluginPriceManifestation
       $this->value = $this->Price->value;
     parent::preSave($event);
   }
+  
+  public function getFullName()
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('Number');
+    return $this->Price->description.' ('.$this->Price->name.'), '.format_currency($this->value,'€');
+  }
 }
