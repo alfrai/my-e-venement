@@ -221,7 +221,7 @@ function ticket_transform_hidden_to_span(all)
   $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).each(function(){
     $(this).parent().parent().find('input[type=hidden]').each(function(){
       // adding the spans
-      name = $(this).attr('name').replace(/[\[\]]/g,'_').replace(/__/g,'_').replace(/_+$/,'');
+      name = $(this).attr('name').replace(/[\[\]]/g,'_').replace(/__/g,'_').replace(/_+$/,'').replace(' ','_');
       price = $(this).attr('name')
         .replace(/^ticket\[prices\]\[\d+\]\[/g,'')
         .replace('][]','');

@@ -121,7 +121,7 @@ class ledgerActions extends sfActions
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
       ))
-      ->orderBy('m.name, m.id, p.value, p.created_at, t.id');
+      ->orderBy('m.name, m.id, t.id, p.value, p.created_at');
     
     if ( ($criterias['users']) > 0 && $criterias['users'][0] )
       $q->andWhereIn('p.sf_guard_user_id',$criterias['users']);

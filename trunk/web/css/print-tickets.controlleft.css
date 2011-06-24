@@ -10,7 +10,7 @@
   text-align: right;
   width: 37.2mm;
 	padding-right: 2mm;
-	padding-left: 1mm;
+	padding-left: 3mm;
 }
 .info { float: left; }
 .right .info { float: right; }

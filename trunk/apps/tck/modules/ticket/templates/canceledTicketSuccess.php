@@ -3,7 +3,7 @@
     <h1><?php echo __('Ticket canceled.') ?></h1>
   </div>
   <p class="link ui-corner-all"><?php echo link_to(__('Get back for a new cancellation...'),'ticket/cancel?pay='.$transaction->id) ?></p>
-  <p class="print" style="display: none;"><?php echo link_to(__('Print ticket'),'ticket/print?id='.$transaction->id,array('target' => '_blank')) ?></p>
+  <p class="print" style="display: none"><?php echo link_to(__('Print ticket'),'ticket/print?id='.$transaction->id,array('target' => '_blank')) ?></p>
   <script type="text/javascript">
     $(document).ready(function(){
       window.open($('#cancel-tickets .print a').attr('href'));
