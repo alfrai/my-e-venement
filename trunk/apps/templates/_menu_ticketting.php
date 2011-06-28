@@ -55,6 +55,11 @@
             <a href="<?php echo cross_app_url_for('tck','ledger/cash') ?>"><?php echo __('Cash Ledger',array(),'menu') ?></a>
           </li>
           <?php endif ?>
+          <?php if ( $sf_user->hasCredential('tck-ledger-cash') && $sf_user->hasCredential('tck-ledger-sales') ): ?>
+          <li>
+            <a href="<?php echo cross_app_url_for('tck','ledger/both') ?>"><?php echo __('Detailed Ledger',array(),'menu') ?></a>
+          </li>
+          <?php endif ?>
         </ul>
         <span class="title"><?php echo __('Ticketting',array(),'menu') ?></span>
       </li>

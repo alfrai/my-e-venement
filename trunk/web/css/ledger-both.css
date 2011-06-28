@@ -1,0 +1,42 @@
+.ledger-both table {
+  margin: 5px;
+}
+.ledger-both > div {
+  margin-bottom: 5px;
+  margin-right: 5px;
+  float: left;
+  width: 490px;
+}
+
+.ledger-both #byUser {
+  float: none;
+  clear: both;
+  width: 985px;
+}
+
+.ledger-both .nb, .ledger-both .average,
+.ledger-both .total, .ledger-both .rating,
+.ledger-both .amount {
+  text-align: right;
+}
+.ledger-both .value {
+  text-align: center;
+}
+
+.ledger-both td { padding: 0 5px; }
+.ledger-both tfoot td {
+  text-decoration: underline;
+}
+.ledger-both thead td {
+  font-weight: bold;
+}
+
+.ledger-both .overlined td {
+  background-color: #ddd;
+}
+.ledger-both tr:hover td {
+  background-color: #fff0d0;
+}
+.ledger-both tr.overlined:hover td {
+  background-color: #e4d4b1;
+}

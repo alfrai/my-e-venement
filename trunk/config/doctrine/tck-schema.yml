@@ -141,6 +141,11 @@ Ticket:
       class: Ticket
       onDelete: SET NULL
       onUpdate: CASCADE
+    User:
+      class: sfGuardUser
+      foreignAlias: Tickets
+      onDelete: RESTRICT
+      onUpdate: CASCADE
 Cancellation:
   package: tck
   inheritance:

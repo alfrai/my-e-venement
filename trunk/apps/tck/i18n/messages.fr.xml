@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-05-18T10:27:48Z" product-name="messages">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-06-28T02:05:40Z" product-name="messages">
     <header/>
     <body>
       <trans-unit>
@@ -507,6 +507,106 @@
       <trans-unit>
         <source>Prices</source>
         <target>Prix</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Paid tickets</source>
+        <target>Tickets payants</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Paid tickets average</source>
+        <target>Moyenne billets payants</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Outcomes</source>
+        <target>Décaissements</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Incomes</source>
+        <target>Encaissements</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>Qty</source>
+        <target>Qté</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Prices' summary</source>
+        <target>Résumé des prix</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Entitled</source>
+        <target>Intitulé</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Payment modes</source>
+        <target>Modes de paiement</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Values' summary</source>
+        <target>Prix des billets</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>Ticketting synthesis</source>
+        <target>Synthèse de billetterie</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Quantity of tickets</source>
+        <target>Nombre de billets</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Average price by ticket</source>
+        <target>Prix moyen par billet</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>Quantity of free tickets</source>
+        <target>Nombre de billets gratuits</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>Quantity of paid tickets</source>
+        <target>Nombre de billets payants</target>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Average price for paid tickets</source>
+        <target>Prix moyen pour les tickets payants</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Rating</source>
+        <target>Pourcentage</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Total: </source>
+        <target>Total: </target>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Free: </source>
+        <target>Gratuits: </target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Sells: </source>
+        <target>Vendus: </target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Orders: </source>
+        <target>Commandés: </target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Demands: </source>
+        <target>Demandes: </target>
+      </trans-unit>
+      <trans-unit>
+        <source>Number</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Users' summary</source>
+        <target>Récapitulatif par utilisateur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Average</source>
+        <target>Moyenne</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Free tickets</source>
+        <target>Tickets gratuits</target>
       </trans-unit>
     </body>
   </file>

@@ -8,9 +8,10 @@
   <?php
     $total = array('qty' => 0, 'vat' => array(), 'value' => 0);
     $vat = array();
+    
     foreach ( $events as $event )
     foreach ( $event->Manifestations as $manif )
-      $vat[$manif->vat] = 0;
+      $vat[$manif->vat] = array();
   ?>
   <tbody><?php foreach ( $events as $event ): ?>
     <tr class="event">
