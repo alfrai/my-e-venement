@@ -4,11 +4,12 @@
   <ul class="ui-corner-all ui-widget-content">
     <?php if ( $manifestation->Gauges->count() == 0 ): ?>
       <li><?php echo __('No registered workspace') ?></li>
-    <?php else: ?>
+    <?php else: if ( $manifestation->Gauges->count() > 1 ): ?>
     <li class="ui-corner-all">
       <span><?php echo __('Merging workspaces') ?></span>
       <a class="gauge-gfx" href="<?php echo cross_app_url_for('tck','ticket/gauge?id='.$manifestation->id.'&wsid=all') ?>">gauge</a>
     </li>
+    <?php endif; ?>
     <?php foreach ( $manifestation->Gauges as $gauge ): ?>
     <li class="ui-corner-all">
       <a href="<?php echo url_for('workspace/show?id='.$gauge->Workspace->id) ?>"><?php echo $gauge->Workspace ?></a>
@@ -19,12 +20,18 @@
     <?php endif ?>
   </ul>
   <script type="text/javascript">
-    $(document).ready(function(){
-      $('a.gauge-gfx').each(function(){
-        $.get($(this).attr('href'),function(data){
-          $('a.gauge-gfx').replaceWith($(data).find('.gauge'));
+    function manifestation_gauge_gfx()
+    {
+      if( $('a.gauge-gfx').length > 0 )
+      {
+        $.get($('a.gauge-gfx:first').attr('href'),function(data){
+          $('a.gauge-gfx:first').replaceWith($(data).find('.gauge'));
+          manifestation_gauge_gfx();
         });
-      });
+      }
+    }
+    $(document).ready(function(){
+      manifestation_gauge_gfx();
     });
   </script>
 </div>

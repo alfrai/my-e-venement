@@ -21,10 +21,12 @@ class GaugeTable extends PluginGaugeTable
   {
     $ws = $alias != 'ws' ? 'ws' : 'ws1';
     
-    return parent::createQuery($alias)
+    return parent::createQuery($alias);
+    /*
       ->andWhere('(TRUE')
       ->andWhere("$alias.manifestation_id IS NULL")
       ->orWhereIn("$alias.workspace_id",array_keys(sfContext::getInstance()->getUser()->getWorkspacesCredentials()))
       ->andWhere('TRUE)');
+    */
   }
 }

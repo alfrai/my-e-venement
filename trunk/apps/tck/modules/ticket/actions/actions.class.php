@@ -567,7 +567,11 @@ class ticketActions extends sfActions
       ->andWhere('g.manifestation_id = ?', $mid = $request->getParameter('id'));
     if ( $request->getParameter('wsid') == 'all' )
     {
-      // TODO
+      $gauges = $q->execute();
+      $this->gauge = $gauges[0]->copy();
+      $this->gauge->value = 0;
+      foreach ( $gauges as $gauge )
+        $this->gauge->value += $gauge->value;
     }
     else
     {
