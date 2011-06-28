@@ -114,7 +114,13 @@ function ticket_activate_manifs_gauge()
   $('#manifestations .manifestations_add li span').mouseenter(function(){
     $('#manifestations .manifestations_add li').removeClass('selected');
     $(this).parent().addClass('selected');
-    ticket_get_gauge($(this).find('input[type=radio]').val(),$('#manifestations .gauge'));
+    elt = this;
+    setTimeout(function(){
+      if ( typeof(elt) != 'undefined' )
+      if ( $(elt).parent().hasClass('selected') )
+        ticket_get_gauge($(elt).find('input[type=radio]').val(),$('#manifestations .gauge'));
+      elt = null;
+    },300);
   });
   
   // if reclicking on a gauge, it refreshes it from DB
@@ -123,6 +129,10 @@ function ticket_activate_manifs_gauge()
       ticket_get_gauge($(this).find('input[name=gauge-id]').val(), $('#manifestations .gauge'), true);
   });
 }
+function _ticket_activate_manifs_gauge(elt)
+{
+}
+
 // get the gauge for the selected manifestations (w/ tickets)
 function ticket_activate_prices_gauge()
 {
