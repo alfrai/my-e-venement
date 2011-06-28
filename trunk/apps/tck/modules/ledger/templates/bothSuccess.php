@@ -1,5 +1,5 @@
 <?php use_javascript('jquery','first') ?>
-<?php use_stylesheet('ledger-both') ?>
+<?php use_stylesheet('ledger-both','',array('media' => 'all')) ?>
 <?php use_helper('Number'); ?>
 <div class="ledger-both">
 <?php include_partial('both_payment',array('byPaymentMethod' => $byPaymentMethod)) ?>

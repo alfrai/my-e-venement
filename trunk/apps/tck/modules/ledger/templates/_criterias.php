@@ -14,10 +14,11 @@
     </li>
     <li class="submit">
       <input type="submit" name="s" value="ok" />
-      <?php
-        if ( $sf_user->hasCredential('tck-ledger-'.($ledger == 'cash' ? 'sales' : 'cash')) )
-          echo link_to(__('Switch ledger...'), $ledger == 'cash' ? 'ledger/sales' : 'ledger/cash');
-      ?>
+      <?php if ( $sf_user->hasCredential('tck-ledger-'.($ledger == 'cash' ? 'sales' : 'cash')) ): ?>
+      <?php echo link_to(__('Switch ledger...'), $ledger == 'cash' ? 'ledger/sales' : 'ledger/cash') ?>
+      <br/>
+      <?php echo link_to(__('Detailed Ledger',array(),'menu'), 'ledger/both') ?>
+      <?php endif ?>
     </li>
   </ul>
 </form>

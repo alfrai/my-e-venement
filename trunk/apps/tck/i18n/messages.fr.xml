@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Cancellations</source>
+        <target>Annulations</target>
+      </trans-unit>
+      <trans-unit>
         <source>Payment method</source>
         <target>Méthode de paiement</target>
       </trans-unit>
@@ -518,19 +522,19 @@
       </trans-unit>
       <trans-unit id="71">
         <source>Paid tickets</source>
-        <target>Tickets payants</target>
+        <target>Payants</target>
       </trans-unit>
       <trans-unit id="72">
         <source>Paid tickets average</source>
-        <target>Moyenne billets payants</target>
+        <target>Moy. payants</target>
       </trans-unit>
       <trans-unit id="73">
         <source>Outcomes</source>
-        <target>Décaissements</target>
+        <target>Décaiss.</target>
       </trans-unit>
       <trans-unit id="74">
         <source>Incomes</source>
-        <target>Encaissements</target>
+        <target>Encaiss.</target>
       </trans-unit>
       <trans-unit id="75">
         <source>Qty</source>
@@ -602,7 +606,7 @@
       </trans-unit>
       <trans-unit>
         <source>Number</source>
-        <target>Nombre</target>
+        <target>Nb</target>
       </trans-unit>
       <trans-unit>
         <source>Users' summary</source>
@@ -614,7 +618,7 @@
       </trans-unit>
       <trans-unit>
         <source>Free tickets</source>
-        <target>Tickets gratuits</target>
+        <target>Gratuits</target>
       </trans-unit>
     </body>
   </file>

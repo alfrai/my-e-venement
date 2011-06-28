@@ -1,8 +1,11 @@
 .clear { clear: both; }
+#content > .ui-widget-content {
+  min-height: 375px;
+}
 table {
   padding: 5px 0;
   margin: 5px;
-  width: 750px;
+  margin-right: 240px;
   float: left;
 }
 table tfoot tr:first-child td { border-top: 1px solid #a6c9e2; }
@@ -52,7 +55,11 @@ table tbody a { text-decoration: none; }
 table tbody a:hover { text-decoration: underline; }
 
 #criterias {
-  margin: 5px 5px 5px 760px;
+  width: 230px;
+  position: absolute;
+  right: 25px;
+  height: 320px;
+  margin-top: 5px;
 }
 #criterias ul { margin: 5px; }
 #criterias li {

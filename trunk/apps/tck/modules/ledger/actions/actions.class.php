@@ -88,6 +88,7 @@ class ledgerActions extends sfActions
   public function executeCash(sfWebRequest $request)
   {
     $criterias = $this->formatCriterias($request);
+    $dates = $criterias['dates'];
     
     $q = $this->buildCashQuery($criterias);
     $this->methods = $q->execute();
@@ -163,18 +164,19 @@ class ledgerActions extends sfActions
       ->leftJoin('u.Tickets t')
       ->select('u.id, u.last_name, u.first_name, u.username')
       ->addSelect('count(t.id) AS nb')
-      ->addSelect('sum(t.value)/count(id) AS average')
-      ->addSelect('sum(t.value = 0) AS nb_free')
+      ->addSelect('sum(case when t.value < 0 then 0 else t.value end)/sum(case when t.value < 0 then 0 else 1 end) AS average')
+      ->addSelect('sum(t.value = 0 AND cancelling IS NULL) AS nb_free')
       ->addSelect('sum(t.value > 0) AS nb_paying')
-      ->addSelect('sum(t.value)/sum(value > 0) AS average_paying')
+      ->addSelect('sum(t.value <= 0 AND cancelling IS NOT NULL) AS nb_cancelling')
+      ->addSelect('sum(case when t.value < 0 then 0 else t.value end)/sum(value > 0) AS average_paying')
       ->addSelect('sum(case when t.value < 0 then 0 else t.value end) AS income')
       ->addSelect('sum(case when t.value > 0 then 0 else t.value end) AS outcome')
       ->andWhere('t.created_at >= ? AND t.created_at < ?',array(
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
       ))
-      ->andWhere('t.cancelling IS NULL')
-      ->andWhere('t.id NOT IN (SELECT DISTINCT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
+      ->andWhere('t.duplicate IS NULL')
+      ->andWhere('t.printed')
       ->orderBy('u.last_name, u.first_name, u.username')
       ->groupBy('u.id, u.last_name, u.first_name, u.username');
     $this->byUser = $q->execute();

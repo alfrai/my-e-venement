@@ -5,19 +5,22 @@
   margin-bottom: 5px;
   margin-right: 5px;
   float: left;
-  width: 490px;
+  width: 424px;
 }
 
 .ledger-both #byUser {
   float: none;
   clear: both;
-  width: 985px;
+  width: auto;
 }
 
 .ledger-both .nb, .ledger-both .average,
 .ledger-both .total, .ledger-both .rating,
 .ledger-both .amount {
   text-align: right;
+}
+.ledger-both thead td {
+  text-align: left;
 }
 .ledger-both .value {
   text-align: center;
