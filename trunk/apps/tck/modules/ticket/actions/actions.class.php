@@ -332,7 +332,8 @@ class ticketActions extends sfActions
     if ( $request->getParameter('duplicate') == 'true' )
     {
       if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
-        && $ticket->printed )
+        && $ticket->printed
+        && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
       {
         $newticket = $ticket->copy();
         $newticket->save();
