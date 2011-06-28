@@ -5,8 +5,16 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Payment method</source>
+        <target>Méthode de paiement</target>
+      </trans-unit>
+      <trans-unit>
         <source>Event</source>
         <target>Événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Can't find the given ticket number in database...</source>
+        <target>Impossible de trouver le numéro de billet fourni...</target>
       </trans-unit>
       <trans-unit>
         <source>City</source>
