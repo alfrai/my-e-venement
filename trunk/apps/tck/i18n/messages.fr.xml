@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Pay back for</source>
+        <target>Rembourser l'opération</target>
+      </trans-unit>
+      <trans-unit>
+        <source>This price doesn't exist for this manifestation !</source>
+        <target>Ce prix n'existe pas pour cette manifestation !</target>
+      </trans-unit>
+      <trans-unit>
         <source>Cancellations</source>
         <target>Annulations</target>
       </trans-unit>

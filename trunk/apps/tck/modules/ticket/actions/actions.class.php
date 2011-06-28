@@ -213,7 +213,7 @@ class ticketActions extends sfActions
   // tickets public
   function executeTicket(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('CrossAppLink');
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
     $values = $request->getParameter('ticket');
     
     $tid = intval(
@@ -240,7 +240,7 @@ class ticketActions extends sfActions
         $this->tickets = $this->form->save();
         if ( count($this->tickets) != intval($values['nb']) && intval($values['nb']) >= 0 )
         {
-          $this->getUser()->setFlash('error',"This price doesn't exist for this manifestation !");
+          $this->getUser()->setFlash('error',__("This price doesn't exist for this manifestation !"));
           $this->redirect('ticket/ticket?id='.$ticket->transaction_id);
         }
         $this->form->setWidget('contact_id', new sfWidgetFormInputHidden());

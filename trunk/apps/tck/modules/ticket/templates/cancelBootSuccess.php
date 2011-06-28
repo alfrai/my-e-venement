@@ -16,7 +16,7 @@
   </form>
   <form action="<?php echo url_for('ticket/pay') ?>" method="get" class="ui-widget-content ui-corner-all pay">
     <p>
-      <label for="id">Pay back for</label>
+      <label for="id"><?php echo __('Pay back for') ?></label>
       #<input type="text" name="id" value="<?php echo $pay ?>" />
     </p>
     <p>
