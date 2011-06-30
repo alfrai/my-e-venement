@@ -6,7 +6,7 @@
   <?php foreach ( $form->prices as $price ): ?>
   <?php
     $transaction = $contact = $pro = array();
-    $value = 0;
+    $qty = $value = 0;
     foreach ( $price->Tickets as $t )
     if ( $t->printed )
     {
@@ -16,13 +16,14 @@
       else if ( $t->Transaction->contact_id )
         $contact[$t->Transaction->contact_id] = cross_app_link_to($t->Transaction->Contact,'rp','contact/show?id='.$t->Transaction->Contact->id);
       $value += $t->value;
+      $qty++;
     }
-    $total['qty'] += count($transaction);
+    $total['qty'] += $qty;
     $total['value'] += $value;
   ?>
   <tr class="<?php echo ($overlined = !$overlined) ? 'overlined' : '' ?>">
     <td class="name"><?php echo $price ?></td>
-    <td class="qty"><?php echo count($transaction) ?></td>
+    <td class="qty"><?php echo $qty ?></td>
     <td class="price"><?php echo format_currency($value,'€') ?></td>
     <td class="transaction"><?php echo implode(', ',$transaction) ?></td>
     <td class="contact"><?php echo implode(', ',array_merge(array_values($pro),array_values($contact))) ?></td>
@@ -40,10 +41,10 @@
   <?php $overlined = true ?>
   <?php foreach ( $form->prices as $price ): ?>
   <?php
-    $value = 0;
+    $qty = $value = 0;
     $transaction = $contact = $pro = array();
     foreach ( $price->Tickets as $t )
-    if ( !$t->printed && $t->Transaction->Order->id )
+    if ( !$t->printed && $t->Transaction->Order->count() > 0 )
     {
       $transaction[$t->transaction_id] = cross_app_link_to('#'.$t->transaction_id,'tck','ticket/sell?id='.$t->transaction_id);
       if ( $t->Transaction->professional_id )
@@ -51,13 +52,14 @@
       else if ( $t->Transaction->contact_id )
         $contact[$t->Transaction->contact_id] = cross_app_link_to($t->Transaction->Contact,'rp','contact/show?id='.$t->Transaction->Contact->id);
       $value += $t->value;
+      $qty++;
     }
-    $total['qty'] += count($transaction);
+    $total['qty'] += $qty;
     $total['value'] += $value;
   ?>
   <tr class="<?php echo ($overlined = !$overlined) ? 'overlined' : '' ?>">
     <td class="name"><?php echo $price ?></td>
-    <td class="qty"><?php echo count($transaction) ?></td>
+    <td class="qty"><?php echo $qty ?></td>
     <td class="price"><?php echo format_currency($value,'€') ?></td>
     <td class="transaction"><?php echo implode(', ',$transaction) ?></td>
     <td class="contact"><?php echo implode(', ',array_merge(array_values($pro),array_values($contact))) ?></td>
@@ -75,10 +77,10 @@
   <?php $overlined = true ?>
   <?php foreach ( $form->prices as $price ): ?>
   <?php
-    $value = 0;
+    $qty = $value = 0;
     $transaction = $contact = $pro = array();
     foreach ( $price->Tickets as $t )
-    if ( !$t->printed && !$t->Transaction->Order->id )
+    if ( !$t->printed && $t->Transaction->Order->count() == 0 )
     {
       $transaction[$t->transaction_id] = cross_app_link_to('#'.$t->transaction_id,'tck','ticket/sell?id='.$t->transaction_id);
       if ( $t->Transaction->professional_id )
@@ -86,13 +88,14 @@
       else if ( $t->Transaction->contact_id )
         $contact[$t->Transaction->contact_id] = cross_app_link_to($t->Transaction->Contact,'rp','contact/show?id='.$t->Transaction->Contact->id);
       $value += $t->value;
+      $qty++;
     }
-    $total['qty'] += count($transaction);
+    $total['qty'] += $qty;
     $total['value'] += $value;
   ?>
   <tr class="<?php echo ($overlined = !$overlined) ? 'overlined' : '' ?>">
     <td class="name"><?php echo $price ?></td>
-    <td class="qty"><?php echo count($transaction) ?></td>
+    <td class="qty"><?php echo $qty ?></td>
     <td class="price"><?php echo format_currency($value,'€') ?></td>
     <td class="transaction"><?php echo implode(', ',$transaction) ?></td>
     <td class="contact"><?php echo implode(', ',array_merge(array_values($pro),array_values($contact))) ?></td>

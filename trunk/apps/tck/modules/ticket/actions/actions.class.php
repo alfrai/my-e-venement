@@ -595,6 +595,8 @@ class ticketActions extends sfActions
       ->addSelect('sum(NOT printed AND t.transaction_id NOT IN (SELECT o2.transaction_id FROM order o2)) AS demands')
       ->andWhere('m.id = ?',$mid)
       ->andWhere('t.duplicate IS NULL')
+      ->andWhere('t.cancelling IS NULL')
+      ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE cancelling IS NOT NULL)')
       ->groupBy('m.id, e.name, me.name, m.happens_at, m.duration');
     $manifs = $q->execute();
     if ( $manifs->count() > 0 )
