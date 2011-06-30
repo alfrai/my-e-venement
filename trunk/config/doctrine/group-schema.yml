@@ -32,6 +32,7 @@ Group:
     name:
       type: string(255)
       notblank: true
+      notnull: true
     sf_guard_user_id: integer
     description: string
   indexes:

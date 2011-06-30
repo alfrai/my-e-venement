@@ -90,6 +90,7 @@ OrganismCategory:
     name:
       type: string(255)
       notblank: true
+      notnull: true
 YOB:
   package: rp
   actAs: [Timestampable]
@@ -109,6 +110,7 @@ ProfessionalType:
   columns:
     name:
       type: string(255)
+      notnull: true
       notblank: true
 Professional:
   package: rp
