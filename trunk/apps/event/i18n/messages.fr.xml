@@ -5,6 +5,34 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Tickets</source>
+        <target>Billets</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Printed tickets</source>
+        <target>Billets vendus</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ordered tickets</source>
+        <target>Billets engagés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Asked tickets</source>
+        <target>Billets demandés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Transactions</source>
+        <target>Opérations</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Spectators</source>
+        <target>Spectateurs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Qty</source>
+        <target>Qté</target>
+      </trans-unit>
+      <trans-unit>
         <source>The template has been applied correctly.</source>
         <target>Le gabarit a été appliqué correctement.</target>
       </trans-unit>

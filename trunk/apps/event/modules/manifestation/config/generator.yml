@@ -29,7 +29,6 @@ generator:
           Technical:    [duration, vat, _form_prices]
           Organization: [seated, organizers_list]
           Workspaces:   [_form_workspaces]
-          #Geolocalization: [_gmap]
       new:
         display:
           General: [happens_at, event_id, location_id, color_id, description]
@@ -42,4 +41,4 @@ generator:
           Technical: [duration, _show_vat, _show_prices_list]
           Organization: [_show_seated, _show_organizers_list]
           Workspaces: [_show_workspaces_list]
-          #Geolocalization: [_gmap]
+          Tickets: [_show_tickets_list]

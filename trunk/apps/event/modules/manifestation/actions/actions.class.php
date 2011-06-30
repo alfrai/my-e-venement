@@ -206,5 +206,19 @@ class manifestationActions extends autoManifestationActions
   {
     $this->securityAccessFiltering($request);
     parent::executeShow($request);
+    
+    $q = Doctrine::getTable('Price')->createQuery('p')
+      ->leftJoin('p.Tickets t')
+      ->leftJoin('t.Transaction tr')
+      ->leftJoin('tr.Contact c')
+      ->leftJoin('tr.Professional pro')
+      ->leftJoin('pro.Organism o')
+      ->leftJoin('tr.Order order')
+      ->andWhere('t.cancelling IS NULL')
+      ->andWhere('t.duplicate IS NULL')
+      ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL AND tt.printed = t.printed)')
+      ->andWhere('t.manifestation_id = ?',$this->manifestation->id)
+      ->orderBy('p.name, o.name, c.name, c.firstname');
+    $this->form->prices = $q->execute();
   }
 }

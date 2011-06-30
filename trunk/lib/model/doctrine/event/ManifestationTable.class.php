@@ -24,6 +24,9 @@ class ManifestationTable extends PluginManifestationTable
     $l  = $alias != 'l'  ? 'l'  : 'l1';
     $pm = $alias != 'pm' ? 'pm' : 'pm1';
     $p  = $alias != 'p'  ? 'p'  : 'p1';
+    $g  = $alias != 'g'  ? 'g'  : 'g1';
+    $t  = $alias != 't'  ? 't'  : 't1';
+    $o  = $alias != 'o'  ? 'o'  : 'o1';
     
     $query = parent::createQuery($alias)
         ->leftJoin("$alias.Event $e")
@@ -31,7 +34,8 @@ class ManifestationTable extends PluginManifestationTable
         ->leftJoin("$alias.Location $l")
         ->leftJoin("$alias.PriceManifestations $pm")
         ->leftJoin("$pm.Price $p")
-        ->leftJoin("$alias.Gauges g")
+        ->leftJoin("$alias.Gauges $g")
+        ->leftJoin("$alias.Organizers $o")
         ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name");
     return $query;
   }

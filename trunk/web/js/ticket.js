@@ -396,11 +396,13 @@ function ticket_enable_payment()
 function ticket_print()
 {
   $('#print form').unbind().submit(function(){
+    $(this).append('<input type="hidden" name="manifestation_id" value="'+$('.manifestations_list input[type=radio]:checked').val()+'" id="manifestation_id" />');
     $(document).focus(function(){
       $(this).unbind();
       $('#print input[type=text]').val('');
       $('#print input[type=checkbox]').attr('checked','').change();
-      $('#print input[type=submit]').focus();
+      $('#print input[type=submit]:first').focus();
+      $('#print #manifestation_id').remove();
     });
   });
   $('#print input[type=text]').attr('disabled','disabled');
