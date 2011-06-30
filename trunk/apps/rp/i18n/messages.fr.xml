@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Prices list</source>
+        <target>Liste des tarifs</target>
+      </trans-unit>
+      <trans-unit>
         <source>for %%i%% ticket(s) and</source>
         <target>pour %%i%% billet(s) et</target>
       </trans-unit>

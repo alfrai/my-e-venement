@@ -109,6 +109,16 @@ class ContactFormFilter extends BaseContactFormFilter
       'model'    => 'MetaEvent',
       'multiple' => true,
     ));
+    $this->widgetSchema   ['prices_list'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Price',
+      'order_by' => array('name, description',''),
+      'multiple' => true,
+    ));
+    $this->validatorSchema['prices_list'] = new sfValidatorDoctrineChoice(array(
+      'required' => false,
+      'model'    => 'Price',
+      'multiple' => true,
+    ));
     
     parent::configure();
   }
@@ -128,7 +138,8 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['emails_list']          = 'EmailsList';
     $fields['events_list']          = 'EventsList';
     $fields['event_categories_list']= 'EventCategoriesList';
-    $fields['meta_events_list']      = 'MetaEventsList';
+    $fields['meta_events_list']     = 'MetaEventsList';
+    $fields['prices_list']          = 'PricesList';
     
     return $fields;
   }
@@ -216,6 +227,27 @@ class ContactFormFilter extends BaseContactFormFilter
       $q->leftJoin('event.MetaEvent mev');
       
       $q->andWhereIn('mev.id',$value);
+    }
+    
+    return $q;
+  }
+
+  public function addPricesListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+    {
+      if ( !$q->contains("LEFT JOIN $a.Transaction transac") )
+      $q->leftJoin("$a.Transactions transac");
+      
+      if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
+      $q->leftJoin('transac.Tickets tck');
+      
+      if ( !$q->contains("LEFT JOIN tck.Price price") )
+      $q->leftJoin('tck.Price price');
+      
+      $q->andWhereIn('price.id',$value);
     }
     
     return $q;

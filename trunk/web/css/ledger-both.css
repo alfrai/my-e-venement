@@ -43,3 +43,25 @@
 .ledger-both tr.overlined:hover td {
   background-color: #e4d4b1;
 }
+
+.ledger-both table {
+  margin-right: 0;
+  float: none;
+}
+        
+.ledger-both #criterias {
+  position: static;
+  float: right;
+}
+
+.ledger-both .clear {
+  float: none;
+}
+
+@media print {
+
+.ledger-both #criterias, .ledger-both .clear {
+  display: none;
+}
+
+}

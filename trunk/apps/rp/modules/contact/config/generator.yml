@@ -31,7 +31,7 @@ generator:
           Details: [created_at,updated_at,slug,longitude,latitude]
           Ticketting: [_events_list]
       filter:
-        display: [name, firstname, postalcode, city, country, YOB, family_contact, groups_list, not_groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address, emails_list, event_categories_list, meta_events_list, events_list]
+        display: [name, firstname, postalcode, city, country, YOB, family_contact, groups_list, not_groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address, emails_list, event_categories_list, meta_events_list, events_list, prices_list]
       form: ~
       edit:
         title: Contact %%name%% %%firstname%%
