@@ -15,7 +15,7 @@ class Professional extends PluginProfessional
   public function __toString()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
-    return ($this->name ? $this->name : $this->ProfessionalType).' '.__('at').' '.$this->Organism;
+    return ($this->name ? $this->name : $this->ProfessionalType).' '.__('at',array(),'contact').' '.$this->Organism;
   }
   public function getFullName()
   {
