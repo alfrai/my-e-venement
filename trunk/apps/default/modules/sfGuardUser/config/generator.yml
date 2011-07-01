@@ -21,7 +21,7 @@ generator:
         email_address:  { label: Email address }
       
       filter:
-        display: [username, is_active, is_super_admin, last_name, first_name, email_address]
+        display: [username, is_active, is_super_admin, last_name, first_name, email_address, meta_events_list, workspaces_list]
       
       list:
         title:   User list
@@ -30,7 +30,7 @@ generator:
       form:
         display:
           "User":                   [username, password, password_again, first_name, last_name, email_address]
-          "Permissions and groups": [is_active, is_super_admin, groups_list, permissions_list]
+          "Permissions and groups": [is_active, is_super_admin, groups_list, meta_events_list, workspaces_list, permissions_list]
 
       edit:
         title: Editing User "%%username%%"
@@ -42,5 +42,5 @@ generator:
         title: User view
         display:
           "User":                   [username, first_name, last_name, _show_email]
-          "Permissions and groups": [_show_is_active, _show_is_super_admin, _show_groups_list, _show_permissions_list]
+          "Permissions and groups": [_show_is_active, _show_is_super_admin, _show_groups_list,  _show_meta_events_list, _show_workspaces_list, _show_permissions_list]
   

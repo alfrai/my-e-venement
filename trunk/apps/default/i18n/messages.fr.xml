@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Workspaces list</source>
+        <target>Liste des espaces de travail</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Meta events list</source>
+        <target>Liste des meta-événements</target>
+      </trans-unit>
+      <trans-unit>
         <source>You can't add an account as a Super-Admin if you're not a Super-Admin youself. This flag has been simply deactivated.</source>
         <target>Vous ne pouvez ajouter un compte comme Super-Admin si vous n'êtes pas Super-Admin vous-même. Cette propriété a simplement été déactivée.</target>
       </trans-unit>
