@@ -48,7 +48,7 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
       && class_exists('sfWidgetFormJQueryDate') )
     {
       $this->widgetSchema[$name] = new liWidgetFormDateTime(array(
-        'date' => new liWidgetFormJQueryDateText(),
+        'date' => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
         'time' => new liWidgetFormTimeText(),
       ));
     }
