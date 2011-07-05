@@ -1,4 +1,3 @@
-
 <?php
 /**********************************************************************************
 *
@@ -131,7 +130,7 @@
   {
     $conversion = array(
       'name' => 'type',
-      'numero' => 'numero',
+      'number' => 'numero',
       'contact_id' => 'entiteid',
       'created_at'  => NULL,
       'updated_at'  => NULL,
@@ -149,7 +148,7 @@
   {
     $conversion = array(
       'name' => 'type',
-      'numero' => 'numero',
+      'number' => 'numero',
       'organism_id' => 'entiteid',
       'created_at'  => NULL,
       'updated_at'  => NULL,
@@ -313,7 +312,7 @@
   }
   
   // option
-  $to_table = 'option';
+  $to_table = 'option_table';
   $from_table = 'options';
   if ( in_array($to_table,$do) || count($do) == 0 )
   {
