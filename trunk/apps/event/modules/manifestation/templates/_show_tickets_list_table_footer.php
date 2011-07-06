@@ -1,3 +1,4 @@
+<?php use_helper('Number') ?>
 <tfoot>
   <tr>
     <td class="name">Total</td>

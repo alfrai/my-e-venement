@@ -30,7 +30,7 @@ generator:
         writer_label: { label: Writer label }
       list:
         title: Event List
-        display: [MetaEvent, name, EventCategory, event_category_description, duration, age_min_h_r, age_max_h_r]
+        display: [MetaEvent, name, EventCategory, _list_manifestations, duration, age_min_h_r]
       filter:
         display: [meta_event_id, event_category_id, name, staging, writer, duration, age_min, age_max, companies_list]
       form:

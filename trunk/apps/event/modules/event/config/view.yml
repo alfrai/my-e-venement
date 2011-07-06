@@ -2,6 +2,8 @@ all:
   javascripts: [/liTinymcePlugin/tiny_mce]
   stylesheets: [manifestation]
 
+indexSuccess:
+  stylesheets: [event-list]
 newSuccess:
   stylesheets: [view,event]
   javascripts:  [event]
