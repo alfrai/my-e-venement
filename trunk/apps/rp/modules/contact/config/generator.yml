@@ -19,12 +19,12 @@ generator:
         YOBs_list:  { label: "Years of Birth (x[, x [,..]])" }
         YOB:        { label: Year of Birth }
         not_groups_list: { label: Not member of groups }
+        email_list: { label: Email }
       list:
-        display: [title, name, firstname, postalcode, city, email, npai]
+        display: [title, name, firstname, postalcode, city, _email_list, npai]
       show: 
         display:
-          NONE: [_show_who, _show_email, _show_phonenumbers_list]
-          Address: [title, name, firstname, address, postalcode, city, country]
+          NONE: [title, _show_who, address, postalcode, city, country, _show_email, _show_phonenumbers_list]
           Precisions: [npai, description, _YOBs]
           Groups: [_show_groups_list]
           #Geolocalization: [_gmap]
