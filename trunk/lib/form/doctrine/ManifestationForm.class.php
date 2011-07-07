@@ -20,6 +20,7 @@ class ManifestationForm extends BaseManifestationForm
     $this->widgetSchema['workspaces_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     $this->widgetSchema['event_id']->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery()));
     $this->widgetSchema['location_id']->setOption('add_empty',true);
+    $this->widgetSchema['location_id']->setOption('order_by',array('name',''));
     
     $this->validatorSchema['duration'] = new sfValidatorString(array('required' => false));
   }

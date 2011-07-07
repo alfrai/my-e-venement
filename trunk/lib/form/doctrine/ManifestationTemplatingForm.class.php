@@ -42,13 +42,14 @@ class ManifestationTemplatingForm extends BaseFormDoctrine
       ->andWhere('manifestation_id = ?',$values['manifestation_model']);
     $manifprices = $q->execute();
     
+    $q = new Doctrine_Query();
+    $q->from('PriceManifestation mp')
+      ->whereIn('mp.manifestation_id',$values['manifestations_list'])
+      ->delete()
+      ->execute();
+    
     foreach ( $values['manifestations_list'] as $manifid )
     {
-      $q = new Doctrine_Query();
-      $q->from('PriceManifestation mp')
-        ->where('mp.manifestation_id = ?',$manifid)
-        ->delete();
-      
       foreach ( $manifprices as $manifprice )
       {
         $manifprice = $manifprice->copy();
