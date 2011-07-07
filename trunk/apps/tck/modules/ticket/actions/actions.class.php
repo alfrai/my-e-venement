@@ -94,14 +94,25 @@ class ticketActions extends sfActions
   }
   public function executeCancel(sfWebRequest $request)
   {
-    if ( intval($request->getParameter('ticket_id')) > 0 )
+    $tmp = explode(',',$request->getParameter('ticket_id'));
+    $ticket_ids = array();
+    foreach ( $tmp as $key => $ids )
+    {
+      $ids = explode('-',$ids);
+      if ( !isset($ids[1]) ) $ids[1] = intval($ids[0]);
+      for ( $i = intval($ids[0]) ; $i <= $ids[1] ; $i++ )
+        $ticket_ids[$i] = $i;
+    }
+    
+    if ( count($ticket_ids) > 0 )
+    foreach ( $ticket_ids as $id )
     {
       // get back the ticket to cancel
       $ticket = Doctrine::getTable('Ticket')
-        ->findOneById(intval($request->getParameter('ticket_id')));
+        ->findOneById(intval($id));
       if ( !$ticket )
       {
-        $this->getUser()->setFlash('error',"Can't find the given ticket number in database...");
+        $this->getUser()->setFlash('error',"Can't find the ticket #".$id." in database...");
         $this->redirect('ticket/cancel');
       }
       
@@ -486,9 +497,31 @@ class ticketActions extends sfActions
     $q = Doctrine::getTable('Checkpoint')->createQuery('c')
       ->andWhere('id = ?',$this->getUser()->getAttribute('control.checkpoint_id'));
     $this->form->getWidget('checkpoint_id')->setOption('query',$q);
+    
+    // retrieving the configurate field
+    switch ( sfConfig::get('app_tickets_id') ) {
+    case 'barcode':
+      $field = 'barcode';
+    case 'othercode':
+      $field = 'othercode';
+    default:
+      $field = 'id';
+    }
+        
     if ( count($request->getParameter($this->form->getName())) > 0 )
     {
       $this->form->bind($params = $request->getParameter($this->form->getName()),$request->getFiles($this->form->getName()));
+      
+      // creating tickets ids array
+      $tmp = explode(',',$params['ticket_id']);
+      $params['ticket_id'] = array();
+      foreach ( $tmp as $key => $ids )
+      {
+        $ids = explode('-',$ids);
+        if ( !isset($ids[1]) ) $ids[1] = intval($ids[0]);
+        for ( $i = intval($ids[0]) ; $i <= $ids[1] ; $i++ )
+          $params['ticket_id'][$i] = $i;
+      }
       
       // filtering the checkpoints
       if ( $params['ticket_id'] )
@@ -496,7 +529,7 @@ class ticketActions extends sfActions
         $q->leftJoin('c.Event e')
           ->leftJoin('e.Manifestations m')
           ->leftJoin('m.Tickets t')
-          ->where('t.'.sfConfig::get('app_tickets_id').' = ?',$params['ticket_id']);
+          ->whereIn('t.'.$field,$params['ticket_id']);
       }
       
       if ( $this->form->isValid() )
@@ -510,7 +543,7 @@ class ticketActions extends sfActions
           ->leftJoin('m.Tickets t')
           ->leftJoin('c.Ticket tc')
           ->andWhere('tc.'.sfConfig::get('app_tickets_id').' = ? AND c.checkpoint_id = ?',array($params['ticket_id'],$params['checkpoint_id']))
-          ->andWhere('t.'.sfConfig::get('app_tickets_id').' = ?',$params['ticket_id'])
+          ->andWhereIn('t.'.$field,$params['ticket_id'])
           ->orderBy('c.id DESC');
         $controls = $q->execute();
         
@@ -524,7 +557,7 @@ class ticketActions extends sfActions
             ->leftJoin('c.Event e')
             ->leftJoin('e.Manifestations m')
             ->leftJoin('m.Tickets t')
-            ->andWhere('t.'.sfConfig::get('app_tickets_id').' = ?',$params['ticket_id'])
+            ->andWhereIn('t.'.$field,$params['ticket_id'])
             ->andWhere('c.id = ?',$params['checkpoint_id']);
           $checkpoint = $q->execute();
           
@@ -534,7 +567,7 @@ class ticketActions extends sfActions
             if ( sfConfig::get('app_tickets_id') != 'id' )
             {
               $q = Doctrine::getTable('Ticket')->createQuery('t')
-                ->andWhere(sfConfig::get('app_tickets_id').' = ?',$params['ticket_id'])
+                ->andWhereIn($field,$params['ticket_id'])
                 ->andWhere('t.manifestation_id = (SELECT m.id FROM checkpoint c LEFT JOIN c.Event e LEFT JOIN e.Manifestations m WHERE c.id = ?)',$params['checkpoint_id']);
               $tickets = $q->execute();
               $params['ticket_id'] = $tickets[0]['id'];

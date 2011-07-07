@@ -7,7 +7,7 @@
   <form action="" method="get" class="ui-widget-content ui-corner-all">
     <p>
       <label for="ticket_id"><?php echo __('Ticket') ?></label>
-      #<input type="text" style="width: 120px" name="ticket_id" value="" />
+      #<input type="text" style="width: 120px" name="ticket_id" value="" title="ex: 289,401-407,512" />
     </p>
     <p>
       <label for=""></label>
