@@ -52,7 +52,7 @@ EOF;
       throw new sfCommandException(sprintf('Model "%s" doesn\'t exist.', $arguments['model']));
     
     $modelTable = Doctrine_Core::getTable($arguments['model']);
-    sfContext::createInstance($this->configuration);
+    sfContext::createInstance($this->configuration,'dev');
     $modelTable
       ->getTemplate('Doctrine_Template_Searchable')
       ->getPlugin()
