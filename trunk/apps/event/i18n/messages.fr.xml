@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Sell</source>
+        <target>Vendre</target>
+      </trans-unit>
+      <trans-unit>
         <source>New Event category</source>
         <target>Nouvelle catégorie d'événement</target>
       </trans-unit>

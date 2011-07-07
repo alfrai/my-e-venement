@@ -37,7 +37,7 @@ generator:
           Workspaces: [workspaces_list]
       show:
         display:
-          General: [_show_event, happens_at, _show_location, _show_color, description]
+          General: [_show_event, _show_happens_at, _show_location, _show_color, description]
           Technical: [duration, _show_vat, _show_prices_list]
           Organization: [_show_seated, _show_organizers_list]
           Workspaces: [_show_workspaces_list]

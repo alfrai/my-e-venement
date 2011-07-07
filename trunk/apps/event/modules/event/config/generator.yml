@@ -28,9 +28,10 @@ generator:
         short_name: { label: Short name }
         staging_label: { label: Staging label }
         writer_label: { label: Writer label }
+        list_manifestations: { label: Manifestations }
       list:
         title: Event List
-        display: [MetaEvent, name, EventCategory, _list_manifestations, duration, age_min_h_r]
+        display: [MetaEvent, name, EventCategory, duration, _list_manifestations, age_min_h_r]
       filter:
         display: [meta_event_id, event_category_id, name, staging, writer, duration, age_min, age_max, companies_list]
       form:

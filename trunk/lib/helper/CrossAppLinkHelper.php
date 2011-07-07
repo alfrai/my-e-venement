@@ -62,7 +62,7 @@ function cross_app_url_for($appname, $url, $absolute = false, $env = null, $debu
   return $web_url;
 }
 
-function cross_app_link_to($text, $appname, $url, $absolute = false, $env = null, $debug = false)
+function cross_app_link_to($text, $appname, $url, $absolute = false, $env = null, $debug = false, $params = '')
 {
-  return '<a href="'.cross_app_url_for($appname, $url, $absolute, $env, $debug).'">'.$text.'</a>';
+  return '<a href="'.cross_app_url_for($appname, $url, $absolute, $env, $debug).'" '.$params.'>'.$text.'</a>';
 }

@@ -78,6 +78,21 @@ function ticket_events()
   
   // manifestations
   $('#manifestations form').unbind().submit(function(){
+    $.get($('#manifestations form').attr('action')+'?manif_new='+$('#manifestations form [name=manif_new]').val().replace('#','%23'),function(data){
+      // take the list and add it in the GUI
+      $('#manifestations .manifestations_add')
+        .html($(data).find('#manifestations .manifestations_add').html())
+        .slideDown();
+      ticket_activate_manifs_gauge();
+      ticket_manif_new_events();
+      if ( $('#manifestations form [name=manif_new]').val().substring(0,7) == '#manif-' )
+      {
+        setTimeout(function(){
+          $('#manifestations .manifestations_add [name="ticket[manifestation_id]"]:first').click();
+          $('#manifestations .manif_new .toggle_view').click();
+        },500);
+      }
+    });
     return false;
   });
   ticket_activate_manifs_gauge();
@@ -89,22 +104,14 @@ function ticket_events()
     $('#manifestations .gauge').fadeToggle();
   });
   
-  $('#manifestations input[name=manif_new]').keypress(function(e){
-    if ( e.which == '13' ) {
-      $.get($('#manifestations form').attr('action')+'?manif_new='+$(this).val(),function(data){
-        // take the list and add it in the GUI
-        $('#manifestations .manifestations_add')
-          .html($(data).find('#manifestations .manifestations_add').html())
-          .slideDown();
-        
-        ticket_activate_manifs_gauge();
-        ticket_manif_new_events();
-      });
-      
-      return false;
-    }
-  });
   $('.manifestations_list li:first').attr('checked','checked');
+  
+  // auto-select a manifestation with a specific anchor ref in URL
+  if ( document.location.hash.substring(1,7) == 'manif-' )
+  {
+    $('#manifestations form [name=manif_new]').val(document.location.hash);
+    $('#manifestations form').submit();
+  }
   ticket_manif_list_events();
 }
 

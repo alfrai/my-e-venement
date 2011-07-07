@@ -185,13 +185,22 @@ class ticketActions extends sfActions
     if ( $request->getParameter('manif_new') )
     {
       $eids = array();
-      foreach ( Doctrine::getTable('Event')->search(strtolower($request->getParameter('manif_new')).'*') as $id )
+      $mid = false;
+      if ( substr($request->getParameter('manif_new'),0,7) == '#manif-' )
+        $mid = substr($request->getParameter('manif_new'),7);
+      else foreach ( Doctrine::getTable('Event')->search(strtolower($request->getParameter('manif_new')).'*') as $id )
         $eids[] = $id['id'];
+      
       $q = Doctrine::getTable('Manifestation')->createQuery('m')
-        ->andWhereIn('e.id',$eids)
         ->andWhereNotIn('m.id',$mids)
         ->orderBy('happens_at ASC');
-      if ( !$this->getUser()->isSuperAdmin() )
+      
+      if ( !$mid )
+        $q->andWhereIn('e.id',$eids);
+      else
+        $q->andWhere('m.id = ?',$mid);
+      
+      if ( !$this->getUser()->hasCredential('tck-unblock') )
         $q->andWhere('happens_at >= ?',date('Y-m-d'));
       
       $this->manifestations_add = $q->execute();
@@ -204,7 +213,7 @@ class ticketActions extends sfActions
         ->andWhereNotIn('m.id',$mids)
         ->orderBy('e.name, happens_at ASC')
         ->limit(($config = sfConfig::get('app_transaction_manifs')) ? $config['max_display'] : 10);
-      //if ( !$this->getUser()->isSuperAdmin() )
+      if ( !$this->getUser()->hasCredential('tck-unblock') )
         $q->andWhere('happens_at >= ?',date('Y-m-d'));
       $this->manifestations_add = $q->execute();
     }
