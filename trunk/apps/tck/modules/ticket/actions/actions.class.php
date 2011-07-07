@@ -202,8 +202,8 @@ class ticketActions extends sfActions
       $q = Doctrine::getTable('Manifestation')
         ->createQuery()
         ->andWhereNotIn('m.id',$mids)
-        ->orderBy('happens_at ASC')
-        ->limit(10);
+        ->orderBy('e.name, happens_at ASC')
+        ->limit(($config = sfConfig::get('app_transaction_manifs')) ? $config['max_display'] : 10);
       //if ( !$this->getUser()->isSuperAdmin() )
         $q->andWhere('happens_at >= ?',date('Y-m-d'));
       $this->manifestations_add = $q->execute();
