@@ -27,7 +27,8 @@ class ManifestationForm extends BaseManifestationForm
   protected function doSave($con = null)
   {
     $this->saveOrganizersList($con);
-    $this->saveWorkspacesList($con);
+    if ( $this->isNew() )
+      $this->saveWorkspacesList($con);
     
     BaseFormDoctrine::doSave($con);
   }
