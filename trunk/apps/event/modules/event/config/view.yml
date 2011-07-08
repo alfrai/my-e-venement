@@ -4,6 +4,7 @@ all:
 
 indexSuccess:
   stylesheets: [event-list]
+  javascripts: [list-scroll]
 newSuccess:
   stylesheets: [view,event]
   javascripts:  [event]

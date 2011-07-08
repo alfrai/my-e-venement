@@ -17,7 +17,7 @@ showSuccess:
   javascripts: [contact-show]
 
 indexSuccess:
-  javascripts: [contact-filters, contact-search]
+  javascripts: [contact-filters, contact-search, list-scroll]
 filterSuccess:
   javascripts: [contact-filters]
 

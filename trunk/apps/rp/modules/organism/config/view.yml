@@ -19,3 +19,6 @@ editSuccess:
 showSuccess:
   stylesheets: [view]
   javascripts: [more-simple]
+
+indexSuccess:
+  javascripts: [list-scroll]

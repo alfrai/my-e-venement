@@ -11,3 +11,6 @@ newSuccess:
   stylesheets: [view]
 createSuccess:
   stylesheets: [view]
+indexSuccess:
+  javascripts: [list-scroll]
+

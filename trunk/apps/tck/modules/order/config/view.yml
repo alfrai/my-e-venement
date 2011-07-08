@@ -1,2 +1,5 @@
 default:
   stylesheets: [accounting]
+indexSuccess:
+  javascripts: [list-scroll]
+

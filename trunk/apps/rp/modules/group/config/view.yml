@@ -17,3 +17,6 @@ showSuccess:
   stylesheets: [view]
   javascripts: [more-simple,group-list]
 
+indexSuccess:
+  javascripts: [list-scroll]
+

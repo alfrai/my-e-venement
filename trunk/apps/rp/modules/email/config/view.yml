@@ -4,3 +4,7 @@ all:
 
 contentSuccess:
   has_layout: false
+
+indexSuccess:
+  javascripts: [list-scroll]
+
