@@ -342,7 +342,8 @@ class ticketActions extends sfActions
       ->leftJoin('m.Organizers o')
       ->leftJoin('m.Event e')
       ->leftJoin('e.MetaEvent me')
-      ->leftJoin('e.Companies c');
+      ->leftJoin('e.Companies c')
+      ->orderBy('m.happens_at, tck.price_name, tck.id');
     $transactions = $q->execute();
     $this->transaction = $transactions[0];
     
