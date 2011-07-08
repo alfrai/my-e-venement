@@ -18,6 +18,7 @@ showSuccess:
 
 indexSuccess:
   javascripts: [contact-filters, contact-search, list-scroll]
+  stylesheets: [list-print: {media: print}]
 filterSuccess:
   javascripts: [contact-filters]
 

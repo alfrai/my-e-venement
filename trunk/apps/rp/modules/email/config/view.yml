@@ -7,4 +7,5 @@ contentSuccess:
 
 indexSuccess:
   javascripts: [list-scroll]
+  stylesheets: [list-print: {media: print}]
 

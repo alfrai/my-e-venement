@@ -1,4 +1,4 @@
 default:
   javascripts: [jquery,menu,list-scroll]
-  stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css, accounting, main, summary]
-
+  stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css, accounting, main, summary, list-print: {media: print}]
+  

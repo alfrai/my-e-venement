@@ -3,7 +3,7 @@ all:
   stylesheets: [manifestation]
 
 indexSuccess:
-  stylesheets: [event-list]
+  stylesheets: [event-list, list-print: {media: print}]
   javascripts: [list-scroll]
 newSuccess:
   stylesheets: [view,event]
