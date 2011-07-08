@@ -29,14 +29,11 @@ class ControlForm extends BaseControlForm
     $this->widgetSchema['comment'] = new sfWidgetFormTextArea();
     
     if ( sfConfig::get('app_tickets_id') != 'id' )
+    {
       $this->validatorSchema['ticket_id'] = new sfValidatorDoctrineChoice(array(
         'model' => 'Ticket',
         'column' => sfConfig::get('app_tickets_id'),
       ));
-  }
-  
-  public function save($con = null)
-  {
-    return parent::save($con);
+    }
   }
 }

@@ -28,14 +28,18 @@
 <script type="text/javascript">
   $(document).ready(function(){
     if ( !$('#checkpoint #control_ticket_id').val() )
+    {
       $('#checkpoint input[name="control[ticket_id]"]').focus();
+      if ( $('#checkpoint #control_checkpoint_id option').length == 2 )
+        $('#checkpoint #control_checkpoint_id option:last-child').attr('selected','selected');
+      else if ( '<?php echo $sf_user->getAttribute('control.checkpoint_id') ?>' != '' )
+        $('#checkpoint #control_checkpoint_id option[value=<?php echo $sf_user->getAttribute('control.checkpoint_id') ?>]')
+          .attr('selected','selected');
+    }
     else
     {
       if ( $('#checkpoint #control_checkpoint_id option').length == 2 )
-      {
-        $('#checkpoint #control_checkpoint_id option').attr('selected','selected');
-        $('#checkpoint').submit();
-      }
+        $('#checkpoint #control_checkpoint_id option:last-child').attr('selected','selected');
       else
         $('#checkpoint #control_checkpoint_id').focus();
     }

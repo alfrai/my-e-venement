@@ -12,4 +12,8 @@
  */
 class Checkpoint extends PluginCheckpoint
 {
+  public function __toString()
+  {
+    return $this->name.' @ '.$this->Event->name;
+  }
 }

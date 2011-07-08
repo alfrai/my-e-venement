@@ -377,7 +377,7 @@ class ticketActions extends sfActions
       $this->setTemplate('close');
     else
     {
-      if ( !sfConfig::get('app_tickets_rfid') )
+      if ( sfConfig::get('app_tickets_id') != 'othercode' )
         $this->setLayout('empty');
       else
       {
@@ -492,57 +492,71 @@ class ticketActions extends sfActions
   }
   public function executeControl(sfWebRequest $request)
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
     $this->form = new ControlForm();
     $this->form->getWidget('checkpoint_id')->setOption('default', $this->getUser()->getAttribute('control.checkpoint_id'));
-    $q = Doctrine::getTable('Checkpoint')->createQuery('c')
-      ->andWhere('id = ?',$this->getUser()->getAttribute('control.checkpoint_id'));
+    $q = Doctrine::getTable('Checkpoint')->createQuery('c');
+    
+    $past = sfConfig::get('app_control_past') ? sfConfig::get('app_control_past') : '6 hours';
+    $future = sfConfig::get('app_control_future') ? sfConfig::get('app_control_future') : '1 day';
+    
+    $q->leftJoin('c.Event e')
+      ->leftJoin('e.Manifestations m')
+      ->andWhere('m.happens_at < ?',date('Y-m-d H:i',strtotime('now + '.$future)))
+      ->andWhere('m.happens_at >= ?',date('Y-m-d H:i',strtotime('now - '.$past)));
     $this->form->getWidget('checkpoint_id')->setOption('query',$q);
     
     // retrieving the configurate field
     switch ( sfConfig::get('app_tickets_id') ) {
     case 'barcode':
       $field = 'barcode';
+      break;
     case 'othercode':
       $field = 'othercode';
+      break;
     default:
       $field = 'id';
+      break;
     }
-        
+    
     if ( count($request->getParameter($this->form->getName())) > 0 )
     {
-      $this->form->bind($params = $request->getParameter($this->form->getName()),$request->getFiles($this->form->getName()));
+      $params = $request->getParameter($this->form->getName());
       
       // creating tickets ids array
-      $tmp = explode(',',$params['ticket_id']);
-      $params['ticket_id'] = array();
-      foreach ( $tmp as $key => $ids )
+      if ( $field != 'othercode' )
       {
-        $ids = explode('-',$ids);
-        if ( !isset($ids[1]) ) $ids[1] = intval($ids[0]);
-        for ( $i = intval($ids[0]) ; $i <= $ids[1] ; $i++ )
-          $params['ticket_id'][$i] = $i;
+        $tmp = explode(',',$params['ticket_id']);
+        $params['ticket_id'] = array();
+        foreach ( $tmp as $key => $ids )
+        {
+          $ids = explode('-',$ids);
+          if ( !isset($ids[1]) ) $ids[1] = $ids[0];
+          
+          for ( $i = intval($ids[0]) ; $i <= intval($ids[1]) ; $i++ )
+            $params['ticket_id'][$i] = $i;
+        }
       }
+      else
+        $params['ticket_id'] = array($params['ticket_id']);
       
       // filtering the checkpoints
-      if ( $params['ticket_id'] )
+      if ( isset($params['ticket_id'][0]) && $params['ticket_id'][0] )
       {
-        $q->leftJoin('c.Event e')
-          ->leftJoin('e.Manifestations m')
-          ->leftJoin('m.Tickets t')
+        $q->leftJoin('m.Tickets t')
           ->whereIn('t.'.$field,$params['ticket_id']);
       }
       
-      if ( $this->form->isValid() )
+      if ( intval($params['checkpoint_id'])."" == $params['checkpoint_id'] && count($params['ticket_id']) > 0 )
       {
-        $params = $request->getParameter($this->form->getName());
-        
         $q = Doctrine::getTable('Control')->createQuery('c')
           ->leftJoin('c.Checkpoint c2')
           ->leftJoin('c2.Event e')
           ->leftJoin('e.Manifestations m')
           ->leftJoin('m.Tickets t')
           ->leftJoin('c.Ticket tc')
-          ->andWhere('tc.'.sfConfig::get('app_tickets_id').' = ? AND c.checkpoint_id = ?',array($params['ticket_id'],$params['checkpoint_id']))
+          ->andWhereIn('tc.'.$field,$params['ticket_id'])
+          ->andWhere('c.checkpoint_id = ?',$params['checkpoint_id'])
           ->andWhereIn('t.'.$field,$params['ticket_id'])
           ->orderBy('c.id DESC');
         $controls = $q->execute();
@@ -561,30 +575,54 @@ class ticketActions extends sfActions
             ->andWhere('c.id = ?',$params['checkpoint_id']);
           $checkpoint = $q->execute();
           
-          $params = $request->getParameter($this->form->getName());
           if ( $checkpoint->count() > 0 )
           {
             if ( sfConfig::get('app_tickets_id') != 'id' )
             {
-              $q = Doctrine::getTable('Ticket')->createQuery('t')
-                ->andWhereIn($field,$params['ticket_id'])
-                ->andWhere('t.manifestation_id = (SELECT m.id FROM checkpoint c LEFT JOIN c.Event e LEFT JOIN e.Manifestations m WHERE c.id = ?)',$params['checkpoint_id']);
-              $tickets = $q->execute();
-              $params['ticket_id'] = $tickets[0]['id'];
+              $params['ticket_id'] = $params['ticket_id'][0];
               $this->form->bind($params);
+              if ( $this->form->isValid() )
+              {
+                $this->form->save();
+                $this->setTemplate('passed');
+              }
+              else
+              {
+                unset($params['ticket_id']);
+                $this->form->bind($params);
+              }
             }
-            if ( $this->form->isValid() )
-              $this->form->save();
-            $this->setTemplate('passed');
+            else
+            {
+              $ids = $params['ticket_id'];
+              $err = array();
+              foreach ( $ids as $id )
+              {
+                $params['ticket_id'] = $id;
+                $this->form->bind($params,$request->getFiles($this->form->getName()));
+                if ( $this->form->isValid() )
+                  $this->form->save();
+                else
+                  $err[] = $id;
+              }
+              $this->errors = $err;
+              $this->setTemplate('passed');
+            }
           }
           else
           {
+            $this->getUser()->setFlash('error',__("Don't forget to specify a checkpoint"));
             unset($params['checkpoint_id']);
+            $params['ticket_id'] = implode(',',$params['ticket_id']);
             $this->form->bind($params);
           }
         }
         else
           $this->setTemplate('failed');
+      }
+      else
+      {
+        $this->getUser()->setFlash('error',__("Don't forget to specify a checkpoint and a ticket id"));
       }
     }
   }

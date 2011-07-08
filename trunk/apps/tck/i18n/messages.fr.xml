@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Don't forget to specify a checkpoint and a ticket id</source>
+        <target>N'oubliez pas de spécifier un point de contrôle et un identifiant de billet</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Don't forget to specify a checkpoint</source>
+        <target>N'oubliez pas de spécifier un point de contrôle</target>
+      </trans-unit>
+      <trans-unit>
         <source>Pay back for</source>
         <target>Rembourser l'opération</target>
       </trans-unit>

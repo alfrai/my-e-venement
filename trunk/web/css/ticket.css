@@ -164,10 +164,11 @@
   width: 100px;
   display: inline-block;
 }
+#checkpoint .submit { margin-top: -120px; }
 #checkpoint .comment {
   position: relative;
   text-align: center;
-  top: -120px;
+  top: -110px;
   padding: 10px;
   margin: 0 33%;
 }
