@@ -30,9 +30,9 @@ generator:
         url:        { label: URL }
       list:
         title: Organisms list
-        display: [Category, name, address, postalcode, city, email, npai]
+        display: [Category, name, postalcode, city, email, _contacts_list, npai]
       filter:
-        display: [name, postalcode, city, country, email, npai, organism_category_id]
+        display: [name, postalcode, city, country, email, npai, organism_category_id, contacts_groups]
       show:
         display:
           NONE: [_show_who, _show_email, _show_phonenumbers_list]

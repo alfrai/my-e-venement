@@ -16,6 +16,16 @@ class OrganismFormFilter extends BaseOrganismFormFilter
   public function configure()
   {
     $this->widgetSchema['organism_category_id']->setOption('order_by',array('name',''));
+    
+    $this->widgetSchema['contacts_groups'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Group',
+      'add_empty' => true,
+    ));
+    $this->validatorSchema['contacts_groups'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Group',
+      'required' => false,
+    ));
+    
     parent::configure();
   }
   
@@ -23,7 +33,23 @@ class OrganismFormFilter extends BaseOrganismFormFilter
   {
     $fields = parent::getFields();
     $fields['postalcode']           = 'Postalcode';
+    $fields['contacts_groups']      = 'ContactsGroups';
     return $fields;
+  }
+  public function addContactsGroupsColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $c = $q->getRootAlias();
+    if ( intval($value['text']) > 0 )
+    {
+      $q->leftJoin('c.Groups gc')
+        ->leftJoin('p.Groups gp')
+        ->andWhere('(TRUE')
+        ->andWhereIn("gp.id",intval($value['text']))
+        ->orWhereIn("gc.id",intval($value['text']))
+        ->andWhere('TRUE)');
+    }
+    
+    return $q;
   }
   public function addPostalcodeColumnQuery(Doctrine_Query $q, $field, $value)
   {
