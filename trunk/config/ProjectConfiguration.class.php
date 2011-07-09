@@ -57,5 +57,6 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins('sfEasyGMapPlugin');
     $this->enablePlugins('sfiCalCreatorPlugin');
     $this->enablePlugins('liBarcodePlugin');
+    $this->enablePlugins('stOfcPlugin');
   }
 }

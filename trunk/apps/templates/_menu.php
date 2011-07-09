@@ -28,6 +28,7 @@
 <?php include_partial('global/menu_events') ?>
 <?php include_partial('global/menu_ticketting') ?>
 <?php include_partial('global/menu_groups') ?>
+<?php include_partial('global/menu_stats') ?>
 <?php include_partial('global/menu_setup') ?>
 <?php endif ?>
 <?php include_partial('global/menu_help') ?>
