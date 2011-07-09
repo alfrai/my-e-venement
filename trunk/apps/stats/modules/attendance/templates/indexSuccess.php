@@ -1,1 +1,1 @@
-<?php stOfc::createChart(500, 500, 'attendance/data', false); ?>
+<?php stOfc::createChart(900, 530, 'attendance/data', false); ?>
