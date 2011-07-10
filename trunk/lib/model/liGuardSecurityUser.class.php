@@ -2,6 +2,19 @@
 
 class liGuardSecurityUser extends sfGuardSecurityUser
 {
+  public function __construct(sfEventDispatcher $dispatcher, sfStorage $storage, $options = array())
+  {
+    // this is a hack to avoid multiple database requests for the same data
+    global $user;
+    if ( isset($user) && $user instanceof liGuardSecurityUser )
+    {
+      foreach ( get_object_vars($user) as $key => $value )
+        $this->$key = $value;
+      return;
+    }
+    
+    parent::__construct($dispatcher, $storage, $options);
+  }
   public function __toString()
   {
     return is_object($this->getGuardUser()) ? $this->getGuardUser()->__toString() : '__unknown__';

@@ -4,6 +4,38 @@
   <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-07-10T15:45:17Z" product-name="messages">
     <header/>
     <body>
+      <trans-unit id="15">
+        <source>Global repartition</source>
+        <target>Répartition globale</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Price</source>
+        <target>Tarif</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>Number</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>Proportion</source>
+        <target>Proportion</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>#x_label# ticket(s): #val#%</source>
+        <target>billet(s) #x_label#: #val#%</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>Entrances by group</source>
+        <target>Entrées par groupe</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Group</source>
+        <target>Groupe</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>at</source>
+        <target>@</target>
+      </trans-unit>
       <trans-unit id="22">
         <source>Events</source>
         <target>Événements</target>

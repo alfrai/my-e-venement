@@ -17,7 +17,9 @@
  */
 function cross_app_url_for($appname, $url, $absolute = false, $env = null, $debug = false)
 {
-
+  global $user;
+  $user = sfContext::getInstance()->getUser();
+  
   $initial_app = sfContext::getInstance()->getConfiguration()->getApplication();
   $initial_web_controler = basename(sfContext::getInstance()->getRequest()->getScriptName());
   $initial_config = sfConfig::getAll();
@@ -26,7 +28,7 @@ function cross_app_url_for($appname, $url, $absolute = false, $env = null, $debu
   {
     $env = sfContext::getInstance()->getConfiguration()->getEnvironment();
   }
-
+  
   // context creation
   if (!sfContext::hasInstance($appname))
   {

@@ -9,6 +9,7 @@ class sfGuardUserTable extends PluginsfGuardUserTable
 {
   public function createQuery($alias = 'u')
   {
+    $p  = 'p'  == $alias ? 'p1'  : 'p';
     $me = 'me' == $alias ? 'me1' : 'me';
     $e  = 'e'  == $alias ? 'e1'  : 'e';
     $ws = 'ws' == $alias ? 'ws1' : 'ws';

@@ -4,6 +4,18 @@
   <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-01-14T01:30:27Z" product-name="messages">
     <header/>
     <body>
+      <trans-unit>
+        <source>Prices repartition</source>
+        <target>Répartition par tarifs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Entrances by group</source>
+        <target>Entrées par groupe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Attendance</source>
+        <target>Remplissage</target>
+      </trans-unit>
       <trans-unit id="1">
         <source>Contacts</source>
         <target>Contacts</target>
