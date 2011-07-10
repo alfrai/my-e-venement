@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-07-10T15:45:17Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit id="22">
+        <source>Events</source>
+        <target>Événements</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Meta-événements</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Espaces de travail</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Asks</source>
+        <target>Demandes</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Attendance</source>
+        <target>Remplissage</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Stats</source>
+        <target>Stats</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>Free tickets</source>
+        <target>Places de libres</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Asked tickets</source>
+        <target>Billets demandés</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>Engaged tickets</source>
+        <target>Tickets engagés</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Printed tickets</source>
+        <target>Tickets imprimés</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>Percentage on gauge</source>
+        <target>Pourcentage de la jauge</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>Event</source>
+        <target>Événément</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>Date</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Location</source>
+        <target>Lieu</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Gauge</source>
+        <target>Jauge</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>Printed</source>
+        <target>Imprimés</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>Ordered</source>
+        <target>Commandés</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Asked</source>
+        <target>Demandés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Engaged</source>
+        <target>Engagés</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Chart</source>
+        <target>Graphique</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>Record</source>
+        <target>Enregistrer</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Gauge filling</source>
+        <target>Remplissage de la jauge</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Free</source>
+        <target>Libre</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
