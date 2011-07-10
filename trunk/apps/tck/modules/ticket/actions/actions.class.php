@@ -612,10 +612,15 @@ class ticketActions extends sfActions
           }
           else
           {
-            $this->getUser()->setFlash('error',__("Don't forget to specify a checkpoint"));
-            unset($params['checkpoint_id']);
-            $params['ticket_id'] = implode(',',$params['ticket_id']);
-            $this->form->bind($params);
+            if ( !$params['checkpoint_id'] )
+            {
+              $this->getUser()->setFlash('error',__("Don't forget to specify a checkpoint"));
+              //unset($params['checkpoint_id']);
+              $params['ticket_id'] = implode(',',$params['ticket_id']);
+              $this->form->bind($params);
+            }
+            else
+              $this->setTemplate('failed');
           }
         }
         else
