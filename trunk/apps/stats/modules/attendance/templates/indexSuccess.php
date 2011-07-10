@@ -5,5 +5,5 @@
   <div class="chart">
     <?php stOfc::createChart(900, 530, 'attendance/data', false); ?>
   </div>
-  <div class="actions"><?php include_partial('record') ?></div>
+  <div class="actions"><?php include_partial('global/chart_actions') ?></div>
 </div>
