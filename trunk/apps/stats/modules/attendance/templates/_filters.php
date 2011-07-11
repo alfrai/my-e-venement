@@ -9,7 +9,7 @@
       </a>
     </div>
     <?php echo $form->renderFormTag('',array('id'=>'criterias')) ?>
-    <?php include_partial('criterias',array('form' => $form)) ?>
+    <?php include_partial('attendance/criterias',array('form' => $form)) ?>
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
       <button class="ui-state-default ui-corner-all" type="button" name="filter"><?php echo __('Filter',array(),'sf_admin') ?></button>
     </div>

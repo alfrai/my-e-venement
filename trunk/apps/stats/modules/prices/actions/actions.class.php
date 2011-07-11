@@ -17,6 +17,16 @@ class pricesActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
+    if ( $request->hasParameter('criterias') )
+    {
+      $this->criterias = $request->getParameter('criterias');
+      $this->getUser()->setAttribute('stats.criterias',$this->criterias,'admin_module');
+      $this->redirect($this->getContext()->getModuleName().'/index');
+    }
+    
+    $this->form = new StatsCriteriasForm();
+    if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )
+      $this->form->bind($this->getUser()->getAttribute('stats.criterias',array(),'admin_module'));
   }
   
   public function executeCsv(sfWebRequest $request)

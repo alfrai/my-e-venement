@@ -1,5 +1,7 @@
+<?php include_partial('attendance/filters',array('form' => $form)) ?>
 <div class="ui-widget ui-corner-all ui-widget-content">
   <div class="ui-widget-header ui-corner-all fg-toolbar">
+    <?php include_partial('attendance/filters_buttons') ?>
     <h1><?php echo __('Ticketting activity',array(),'menu') ?></h1>
   </div>
   <div class="chart">

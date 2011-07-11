@@ -17,6 +17,16 @@ class activityActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
+    if ( $request->hasParameter('criterias') )
+    {
+      $this->criterias = $request->getParameter('criterias');
+      $this->getUser()->setAttribute('stats.criterias',$this->criterias,'admin_module');
+      $this->redirect($this->getContext()->getModuleName().'/index');
+    }
+    
+    $this->form = new StatsCriteriasForm();
+    if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )
+      $this->form->bind($this->getUser()->getAttribute('stats.criterias',array(),'admin_module'));
   }
   
   public function executeCsv(sfWebRequest $request)
@@ -69,36 +79,29 @@ class activityActions extends sfActions
   
   public function executeData(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date','CrossAppLink'));
-    $groups = $this->getGroups();
-    
-    $q = Doctrine::getTable('Manifestation')->createQuery('m')
-      ->andWhere('m.happens_at <= now()')
-      ->limit('3')
-      ->orderBy('m.happens_at DESC, e.name, l.name');
-    $manifs = $q->execute();
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
+    $dates = $this->getRawData();
     
     $bars = array();
-    $colors = array(
-      $manifs[0]->id => array('#ec7890','#fe3462'),
-      $manifs[1]->id => array('#eca478','#fe8134'),
-      $manifs[2]->id => array('#789aec','#1245b9'),
-      -1 => array('#7cec78','#17b912'),
-    );
-    foreach ( $manifs as $manif )
-    {
-      $id = !isset($colors[$manif->id]) ? -1 : $manif->id;
-      $bars[$manif->id] = new stBarOutline( 40, $colors[$id][0], $colors[$id][1] );
-      $bars[$manif->id]->key( $manif->getShortName(), 10 );
-    }
+    $bars['printed'] = new stBarOutline(40,'#ec7890','#fe3462');
+    $bars['printed']->key(__('Printed'), 10);
+    $bars['ordered'] = new stBarOutline(40,'#eca478','#fe8134');
+    $bars['ordered']->key(__('Engaged'), 10);
+    $bars['asked']   = new stBarOutline(40,'#789aec','#1245b9');
+    $bars['asked']  ->key(__('Asked'), 10);
+    $bars['passing']  = new stLineHollow(2,4,'#17b912');
+    $bars['passing'] ->key(__('Admissions'), 10);
     
     //Passing the random data to bar chart
     $names = $max = array();
-    foreach ( $groups as $group )
+    foreach ( $dates as $date )
     {
-      $names[] = $group['name'];
-      $max[] = $group['nb_tickets'];
-      $bars[$group['manifestation_id']]->add_link($group['nb_tickets'],cross_app_url_for('rp','group/show?id='.$group['id'],true));
+      $names[] = format_date($date['date']);
+      $max[] = max(array($date['printed'],$date['ordered'],$date['asked'],$date['passing']));
+      $bars['printed']->data[] = $date['printed'];
+      $bars['ordered']->data[] = $date['ordered'];
+      $bars['asked']  ->data[] = $date['asked'];
+      $bars['passing'] ->data[] = $date['passing'];
     }
     
     //Creating a stGraph object
@@ -117,68 +120,49 @@ class activityActions extends sfActions
     $g->set_x_labels($names);
  
     // to set the format of labels on x-axis e.g. font, color, step
-    $g->set_x_label_style( 10, '#18A6FF', 2, 1 );
+    $g->set_x_label_style( 10, '#18A6FF', 2, count($names) > 61 ? 2 : 1 );
  
     // To tick the values on x-axis
     // 2 means tick every 2nd value
-    //$g->set_x_axis_steps( 1 );
+    //$g->set_x_axis_steps( count($names) < 32 ? 1 : 2 );
  
     //set maximum value for y-axis
     //we can fix the value as 20, 10 etc.
     //but its better to use max of data
+    $max = ceil(max($max) / 10) * 10;
     $g->set_y_max($max);
-    $g->y_label_steps( 4 );
-    $g->set_y_legend( __('Percentage on gauge'), 12, '#18A6FF' );
+    $g->y_label_steps(10);
+    $g->set_y_legend( __('Number of tickets'), 12, '#18A6FF' );
     echo $g->render();
  
     return sfView::NONE;
   }
   
-  protected function getGroups()
+  protected function getRawData()
   {
+    $criterias = $this->getUser()->getAttribute('stats.criterias',array(),'admin_module');
+    $dates['from'] = $criterias['dates']['from']['day'] && $criterias['dates']['from']['month'] && $criterias['dates']['from']['year']
+      ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
+      : strtotime('- 3 weeks');
+    $dates['to']   = $criterias['dates']['to']['day'] && $criterias['dates']['to']['month'] && $criterias['dates']['to']['year']
+      ? strtotime($day = $criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
+      : strtotime('+ 1 weeks + 1');
+    
+    for ( $days = array($dates['from']) ; $days[count($days)-1]+86400 < $dates['to'] ; $days[] = $days[count($days)-1]+86400 );
+    foreach ( $days as $key => $day )
+      $days[$key] = date('Y-m-d',$day);
+    
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
-    $q = ' SELECT g.id, g.name,
-                  m.id AS manifestation_id, m.happens_at,
-                  e.id AS event_id, e.name AS event_name,
-                  l.id AS location_id, l.name AS location_name, l.city AS location_city,
-                  count(DISTINCT ctrl.ticket_id) AS nb_entries
-           FROM group_table g
-           LEFT JOIN group_contact gc ON gc.group_id = g.id
-           LEFT JOIN contact c ON c.id = gc.contact_id
-           LEFT JOIN transaction t ON t.contact_id = c.id AND t.professional_id IS NULL
-           LEFT JOIN ticket tck ON tck.transaction_id = t.id
-           LEFT JOIN (SELECT mm.* FROM manifestation mm LEFT JOIN event ee ON ee.id = mm.event_id WHERE mm.happens_at > now() AND ee.meta_event_id IN ('.implode(',',array_keys($this->getUser()->getMetaEventsCredentials())).') LIMIT 1) AS m ON m.id = tck.manifestation_id
-           LEFT JOIN event e ON e.id = m.event_id
-           LEFT JOIN location l ON l.id = m.location_id
-           LEFT JOIN control ctrl ON ctrl.ticket_id = tck.id
-           WHERE m.id IS NOT NULL
-             AND (t.workspace_id IS NULL OR t.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).'))
-           GROUP BY g.id, g.name, m.id, m.happens_at, e.id, e.name, l.id, l.name, l.city
-           ORDER BY g.name, m.happens_at, e.name, l.name';
-    $stmt1 = $pdo->prepare($q);
-    $stmt1->execute();
+    $q = "SELECT d.date,
+            (SELECT count(id) FROM ticket WHERE updated_at >= d.date::date AND updated_at <= (d.date||' 23:59:59')::timestamp AND printed AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS printed,
+            (SELECT count(id) FROM ticket WHERE updated_at >= d.date::date AND updated_at <= (d.date||' 23:59:59')::timestamp AND NOT printed AND transaction_id IN (SELECT transaction_id FROM accounting WHERE type = 'order') AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS ordered,
+            (SELECT count(id) FROM ticket WHERE created_at >= d.date::date AND created_at <= (d.date||' 23:59:59')::timestamp AND NOT printed AND transaction_id NOT IN (SELECT transaction_id FROM accounting WHERE type = 'order') AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS asked,
+            (SELECT count(t.id) FROM ticket t LEFT JOIN manifestation m ON m.id = t.manifestation_id WHERE happens_at >= d.date::date AND happens_at <= (d.date||' 23:59:59')::timestamp AND printed AND duplicate IS NULL AND cancelling IS NULL AND t.id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS passing
+          FROM (SELECT '".implode("' AS date UNION SELECT '",$days)."') AS d
+          ORDER BY date";
+    $stmt = $pdo->prepare($q);
+    $stmt->execute();
     
-    $q = ' SELECT g.id, g.name,
-                  m.id AS manifestation_id, m.happens_at,
-                  e.id AS event_id, e.name AS event_name,
-                  l.id AS location_id, l.name AS location_name, l.city AS location_city,
-                  count(DISTINCT ctrl.ticket_id) AS nb_entries
-           FROM group_table g
-           LEFT JOIN group_contact gc ON gc.group_id = g.id
-           LEFT JOIN contact c ON c.id = gc.contact_id
-           LEFT JOIN transaction t ON t.contact_id = c.id AND t.professional_id IS NULL
-           LEFT JOIN ticket tck ON tck.transaction_id = t.id
-           LEFT JOIN (SELECT mm.* FROM manifestation mm LEFT JOIN event ee ON ee.id = mm.event_id WHERE mm.happens_at > now() AND ee.meta_event_id IN ('.implode(',',array_keys($this->getUser()->getMetaEventsCredentials())).') LIMIT 1) AS m ON m.id = tck.manifestation_id
-           LEFT JOIN event e ON e.id = m.event_id
-           LEFT JOIN location l ON l.id = m.location_id
-           LEFT JOIN control ctrl ON ctrl.ticket_id = tck.id
-           WHERE m.id IS NOT NULL
-             AND (t.workspace_id IS NULL OR t.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).'))
-           GROUP BY g.id, g.name, m.id, m.happens_at, e.id, e.name, l.id, l.name, l.city
-           ORDER BY g.name, m.happens_at, e.name, l.name';
-    $stmt2 = $pdo->prepare($q);
-    $stmt2->execute();
-    
-    return array_merge($stmt1->fetchAll(),$stmt2->fetchAll());
+    return $stmt->fetchAll();
   }
 }

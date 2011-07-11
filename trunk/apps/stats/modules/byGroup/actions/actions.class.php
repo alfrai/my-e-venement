@@ -17,6 +17,18 @@ class byGroupActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
+    /*
+    if ( $request->hasParameter('criterias') )
+    {
+      $this->criterias = $request->getParameter('criterias');
+      $this->getUser()->setAttribute('stats.criterias',$this->criterias,'admin_module');
+      $this->redirect($this->getContext()->getModuleName().'/index');
+    }
+    
+    $this->form = new StatsCriteriasForm();
+    if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )
+      $this->form->bind($this->getUser()->getAttribute('stats.criterias',array(),'admin_module'));
+    */
   }
   
   public function executeCsv(sfWebRequest $request)
@@ -136,6 +148,7 @@ class byGroupActions extends sfActions
   
   protected function getGroups()
   {
+    /*
     $criterias = $this->getUser()->getAttribute('stats.criterias',array(),'admin_module');
     $dates['from'] = $criterias['dates']['from']['day'] && $criterias['dates']['from']['month'] && $criterias['dates']['from']['year']
       ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
@@ -144,7 +157,8 @@ class byGroupActions extends sfActions
       ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
       : strtotime('+ 3 weeks + 1 day');
     $dates = array(':date1' => date('Y-m-d H:i:s',$dates['from']), ':date2' => date('Y-m-d H:i:s',$date['to']));
-
+    */
+    
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $q = ' SELECT g.id, g.name,
                   m.id AS manifestation_id, m.happens_at,
@@ -162,8 +176,6 @@ class byGroupActions extends sfActions
            LEFT JOIN control ctrl ON ctrl.ticket_id = tck.id
            WHERE m.id IS NOT NULL
              AND (t.workspace_id IS NULL OR t.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).'))
-             AND m.happens_at > :date1
-             AND m.happens_at < :date2
            GROUP BY g.id, g.name, m.id, m.happens_at, e.id, e.name, l.id, l.name, l.city
            ORDER BY g.name, m.happens_at, e.name, l.name';
     $stmt1 = $pdo->prepare($q);
@@ -185,8 +197,6 @@ class byGroupActions extends sfActions
            LEFT JOIN control ctrl ON ctrl.ticket_id = tck.id
            WHERE m.id IS NOT NULL
              AND (t.workspace_id IS NULL OR t.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).'))
-             AND m.happens_at >  :date1
-             AND m.happens_at <= :date2
            GROUP BY g.id, g.name, m.id, m.happens_at, e.id, e.name, l.id, l.name, l.city
            ORDER BY g.name, m.happens_at, e.name, l.name';
     $stmt2 = $pdo->prepare($q);
