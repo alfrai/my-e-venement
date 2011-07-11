@@ -4,6 +4,14 @@
   <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-07-10T15:45:17Z" product-name="messages">
     <header/>
     <body>
+      <trans-unit id="10">
+        <source>Admissions</source>
+        <target>Entrées</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Number of tickets</source>
+        <target>Nombre de billets</target>
+      </trans-unit>
       <trans-unit id="12">
         <source>Dates:</source>
         <target>Dates:</target>

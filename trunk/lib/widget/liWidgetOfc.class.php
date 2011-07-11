@@ -25,7 +25,7 @@
 
 class liWidgetOfc extends stOfc
 {
-  public static function createChart($width, $height, $url, $useSwfObject = false, $base = '')
+  public static function createChart($width, $height, $url, $useSwfObject = false, $base = '', $query_string = '')
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
     return $useSwfObject

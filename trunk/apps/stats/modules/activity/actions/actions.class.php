@@ -31,23 +31,11 @@ class activityActions extends sfActions
   
   public function executeCsv(sfWebRequest $request)
   {
-    $groups = $this->getGroups('array');
-    $q = Doctrine::getTable('Manifestation')->createQuery('m')
-      ->andWhere('m.happens_at <= now()')
-      ->limit('3')
-      ->orderBy('m.happens_at DESC, e.name, l.name');
-    $this->manifs = $manifs = $q->execute();
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
+    $this->lines = $this->getRawData();
     
-    $this->lines = array();
-    foreach ( $groups as $group )
-    {
-      $this->lines[$group['id']]['name'] = $group['name'];
-      foreach ( $manifs as $manif )
-      if ( !isset($this->lines[$group['id']]['manif-'.$manif->id]) )
-        $this->lines[$group['id']]['manif-'.$manif->id] = 0;
-      
-      $this->lines[$group['id']]['manif-'.$group['manifestation_id']] = $group['nb_tickets'];
-    }
+    foreach ( $this->lines as $nb => $line )
+      $this->lines[$nb]['date'] = format_date($line['date']);
     
     $params = OptionCsvForm::getDBOptions();
     $this->options = array(
@@ -55,9 +43,8 @@ class activityActions extends sfActions
       'fields' => array('name'),
       'tunnel' => false,
       'noheader' => false,
+      'fields'   => array('date','passing','printed','ordered','asked'),
     );
-    foreach ( $manifs as $manif )
-      $this->options['fields'][] = 'manif-'.$manif->id;
     
     $this->outstream = 'php://output';
     $this->delimiter = $this->options['ms'] ? ';' : ',';
@@ -155,7 +142,7 @@ class activityActions extends sfActions
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $q = "SELECT d.date,
             (SELECT count(id) FROM ticket WHERE updated_at >= d.date::date AND updated_at <= (d.date||' 23:59:59')::timestamp AND printed AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS printed,
-            (SELECT count(id) FROM ticket WHERE updated_at >= d.date::date AND updated_at <= (d.date||' 23:59:59')::timestamp AND NOT printed AND transaction_id IN (SELECT transaction_id FROM accounting WHERE type = 'order') AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS ordered,
+            (SELECT count(id) FROM ticket WHERE NOT printed AND transaction_id IN (SELECT transaction_id FROM accounting WHERE updated_at >= d.date::date AND updated_at <= (d.date||' 23:59:59')::timestamp AND type = 'order') AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS ordered,
             (SELECT count(id) FROM ticket WHERE created_at >= d.date::date AND created_at <= (d.date||' 23:59:59')::timestamp AND NOT printed AND transaction_id NOT IN (SELECT transaction_id FROM accounting WHERE type = 'order') AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS asked,
             (SELECT count(t.id) FROM ticket t LEFT JOIN manifestation m ON m.id = t.manifestation_id WHERE happens_at >= d.date::date AND happens_at <= (d.date||' 23:59:59')::timestamp AND printed AND duplicate IS NULL AND cancelling IS NULL AND t.id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS passing
           FROM (SELECT '".implode("' AS date UNION SELECT '",$days)."') AS d
