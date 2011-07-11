@@ -26,6 +26,7 @@
         <ul class="second">
           <li><a href="<?php echo cross_app_url_for('stats','attendance/index') ?>"><?php echo __('Attendance',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('stats','prices/index') ?>"><?php echo __('Prices repartition',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('stats','activity/index') ?>"><?php echo __('Ticketting activity',array(),'menu') ?></a></li>
           <li class="spaced"><a href="<?php echo cross_app_url_for('stats','byGroup/index') ?>"><?php echo __('Entrances by group',array(),'menu') ?></a></li>
         </ul>
         <span class="title"><?php echo __('Stats',array(),'menu') ?></span>

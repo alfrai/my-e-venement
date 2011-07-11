@@ -4,7 +4,7 @@
     <h1><?php echo __('Engaged tickets') ?></h1>
   </div>
   <div class="chart">
-    <?php stOfc::createChart(400, 250, $sf_context->getModuleName().'/data?id=ordered', false); ?>
+    <?php echo liWidgetOfc::createChart(400, 250, $sf_context->getModuleName().'/data?id=ordered'); ?>
     <div class="actions"><?php include_partial('global/chart_actions',array('anchor' => 'chart-ordered', 'id' => 'ordered')) ?></div>
   </div>
 </div>

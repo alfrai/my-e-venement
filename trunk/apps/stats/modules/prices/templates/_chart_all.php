@@ -4,7 +4,7 @@
     <h1><?php echo __('Global repartition') ?></h1>
   </div>
   <div class="chart">
-    <?php stOfc::createChart(400, 250, $sf_context->getModuleName().'/data?id=all', false); ?>
+    <?php echo liWidgetOfc::createChart(400, 250, $sf_context->getModuleName().'/data?id=all'); ?>
     <div class="actions"><?php include_partial('global/chart_actions',array('anchor' => 'chart-all', 'id' => 'all')) ?></div>
   </div>
 </div>

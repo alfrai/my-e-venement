@@ -12,6 +12,14 @@
  */
 class Transaction extends PluginTransaction
 {
+  public function getNotPrinted()
+  {
+    $toprint = 0;
+    foreach ( $this->Tickets as $ticket )
+    if ( !$ticket->printed )
+      $toprint++;
+    return $toprint;
+  }
   public function getPrice()
   {
     $price = 0;

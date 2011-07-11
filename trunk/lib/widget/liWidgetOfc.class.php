@@ -22,23 +22,17 @@
 ***********************************************************************************/
 ?>
 <?php
-    $this->transaction = $this->getRoute()->getObject();
-    
-    $topay = $this->transaction->getPrice();
-    $paid  = $this->transaction->getPaid();
-    $toprint = $this->transaction->getNotPrinted();
-    
-    if ( $paid >= $topay && $toprint <= 0 )
-    {
-      $this->getUser()->setFlash('notice','Transaction validated and closed');
-      $this->transaction->closed = true;
-      $this->transaction->save();
-      return $this->redirect('ticket/closed?id='.$this->transaction->id);
-    }
-    
-    if ( $toprint <= 0 )
-      $this->getUser()->setFlash('error','The transaction cannot be validated, please check again the payments...');
-    else
-      $this->getUser()->setFlash('error','The transaction cannot be validated, there are still tickets to print...');
-    
-    return $this->redirect('ticket/sell?id='.$this->transaction->id);
+
+class liWidgetOfc extends stOfc
+{
+  public static function createChart($width, $height, $url, $useSwfObject = '', $base = '')
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
+    return '<iframe src="'
+      .image_path('/stOfcPlugin/images/open-flash-chart.swf')
+      .'?data='
+      .url_for('attendance/data')
+      .'" width="900" height="530">'
+      .'</iframe>';
+  }
+}
