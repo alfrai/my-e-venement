@@ -111,7 +111,7 @@ class pricesActions extends sfActions
     }
     
     $g->pie_values($data,$names);
-    $g->pie_slice_colours( array('#d01f3c','#356aa0','#c79810') );
+    $g->pie_slice_colours( array('#d01f3c','#3537a0','#35a088','#d0841f','#cbd01f') );
     
     //To display value as tool tip
     $g->set_tool_tip( __('#x_label# ticket(s): #val#%') );
