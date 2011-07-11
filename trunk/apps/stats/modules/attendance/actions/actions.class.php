@@ -17,7 +17,16 @@ class attendanceActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
+    if ( $request->hasParameter('criterias') )
+    {
+      $this->criterias = $request->getParameter('criterias');
+      $this->getUser()->setAttribute('stats.criterias',$this->criterias,'admin_module');
+      $this->redirect($this->getContext()->getModuleName().'/index');
+    }
+    
     $this->form = new StatsCriteriasForm();
+    if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )
+      $this->form->bind($this->getUser()->getAttribute('stats.criterias',array(),'admin_module'));
   }
   
   public function executeCsv(sfWebRequest $request)
@@ -55,6 +64,7 @@ class attendanceActions extends sfActions
   public function executeData(sfWebRequest $request)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date','CrossAppLink'));
+    
     $manifs = $this->getManifs();
     
     $bar0 = new stBarOutline( 40, '#7cec78', '#17b912' );
@@ -122,6 +132,15 @@ class attendanceActions extends sfActions
   
   protected function getManifs($type = NULL)
   {
+    $criterias = $this->getUser()->getAttribute('stats.criterias',array(),'admin_module');
+    
+    $dates['from'] = $criterias['dates']['from']['day'] && $criterias['dates']['from']['month'] && $criterias['dates']['from']['year']
+      ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
+      : strtotime('- 1 weeks');
+    $dates['to']   = $criterias['dates']['to']['day'] && $criterias['dates']['to']['month'] && $criterias['dates']['to']['year']
+      ? strtotime($day = $criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
+      : strtotime('+ 3 weeks + 1 day');
+    
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.id, m.happens_at, e.name AS event_name, l.name AS location_name, l.city AS location_city')
       //->select('m.*')
@@ -129,10 +148,11 @@ class attendanceActions extends sfActions
       ->addSelect('(SELECT sum(tt.printed AND duplicate IS NULL) FROM ticket tt WHERE m.id = tt.manifestation_id AND tt.id NOT IN (SELECT ttt.cancelling FROM ticket ttt WHERE ttt.cancelling IS NOT NULL AND ttt.manifestation_id = m.id AND ttt.printed = TRUE)) AS printed')
       ->addSelect('(SELECT sum(NOT tt2.printed AND duplicate IS NULL) FROM ticket tt2 WHERE m.id = tt2.manifestation_id AND tt2.id NOT IN (SELECT ttt2.cancelling FROM ticket ttt2 WHERE ttt2.cancelling IS NOT NULL AND ttt2.manifestation_id = m.id) AND tt2.transaction_id IN (SELECT oo.transaction_id FROM order oo)) AS ordered')
       ->addSelect('(SELECT sum(NOT tt3.printed AND duplicate IS NULL) FROM ticket tt3 WHERE m.id = tt3.manifestation_id AND tt3.id NOT IN (SELECT ttt3.cancelling FROM ticket ttt3 WHERE ttt3.cancelling IS NOT NULL AND ttt3.manifestation_id = m.id) AND tt3.transaction_id NOT IN (SELECT oo3.transaction_id FROM order oo3)) AS asked')
-      ->andWhere('m.happens_at < ?',date('Y-m-d',strtotime('+ 2 month')))
-      ->andWhere('m.happens_at >= ?',date('Y-m-d',strtotime('- 1 month')))
+      ->andWhere('m.happens_at <= ?',date('Y-m-d H:i:s',$dates['to']))
+      ->andWhere('m.happens_at > ?',date('Y-m-d H:i:s',$dates['from']))
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
       ->orderBy('m.happens_at, e.name');
+    
     return $type == 'array' ? $q->fetchArray() : $q->execute();
   }
 }

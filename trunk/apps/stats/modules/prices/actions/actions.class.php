@@ -112,6 +112,19 @@ class pricesActions extends sfActions
   
   protected function getPrices($asked = false, $ordered = false, $all = false, $type = NULL)
   {
+    $criterias = $this->getUser()->getAttribute('stats.criterias',array(),'admin_module');
+    $dates['from'] = $criterias['dates']['from']['day'] && $criterias['dates']['from']['month'] && $criterias['dates']['from']['year']
+      ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
+      : strtotime('- 1 weeks');
+    $dates['to']   = $criterias['dates']['to']['day'] && $criterias['dates']['to']['month'] && $criterias['dates']['to']['year']
+      ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
+      : strtotime('+ 3 weeks + 1 day');
+    if ( count($criterias['users']) > 0 )
+    {
+      if ( !$criterias['users'][0] )
+        array_shift($criterias['users']);
+    }
+    
     $q = Doctrine::getTable('Price')->createQuery('p')
       ->select('p.id, p.name, p.value, count(t.id) AS nb')
       ->leftJoin('p.Tickets t')
@@ -126,8 +139,13 @@ class pricesActions extends sfActions
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.cancelling IS NULL')
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
+      ->andWhere('t.updated_at > ?',date('Y-m-d H:i:s',$dates['from']))
+      ->andWhere('t.updated_at <= ?',date('Y-m-d H:i:s',$dates['to']))
       ->groupBy('p.id, p.name, p.value');
     
+    if ( count($criterias['users']) > 0 )
+      $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
+
     if ( !$all )
     {
       $q->andWhere($asked || $ordered ? 'NOT t.printed' : 't.printed');
