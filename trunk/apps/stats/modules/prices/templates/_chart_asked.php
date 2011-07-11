@@ -4,7 +4,7 @@
     <h1><?php echo __('Asked tickets') ?></h1>
   </div>
   <div class="chart">
-    <?php echo liWidgetOfc::createChart(400, 250, $sf_context->getModuleName().'/data?id=asked'); ?>
+    <?php echo liWidgetOfc::createChart(400, 250, $sf_context->getModuleName().'/data?id=asked',true); ?>
     <div class="actions"><?php include_partial('global/chart_actions',array('anchor' => 'chart-asked', 'id' => 'asked')) ?></div>
   </div>
 </div>

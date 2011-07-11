@@ -4,7 +4,15 @@
   <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-07-10T15:45:17Z" product-name="messages">
     <header/>
     <body>
-      <trans-unit id="15">
+      <trans-unit id="12">
+        <source>Dates:</source>
+        <target>Dates:</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Users:</source>
+        <target>Utilisateurs:</target>
+      </trans-unit>
+      <trans-unit id="14">
         <source>Global repartition</source>
         <target>Répartition globale</target>
       </trans-unit>

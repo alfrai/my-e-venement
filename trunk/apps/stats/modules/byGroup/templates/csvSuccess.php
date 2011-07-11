@@ -22,19 +22,22 @@
 ***********************************************************************************/
 ?>
 <?php
-
-class liWidgetOfc extends stOfc
-{
-  public static function createChart($width, $height, $url, $useSwfObject = false, $base = '')
+  $vars = array(
+    'options',
+    'delimiter',
+    'enclosure',
+    'outstream',
+    'charset',
+    'lines',
+  );
+  foreach ( $vars as $key => $value )
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
-    return $useSwfObject
-    ? stOfc::createChart($width, $height, $url)
-    : '<iframe src="'
-      .image_path('/stOfcPlugin/images/open-flash-chart.swf')
-      .'?data='
-      .url_for('attendance/data')
-      .'" width="'.$width.'" height="'.$height.'">'
-      .'</iframe>';
+    $vars[$value] = $$value;
+    unset($vars[$key]);
   }
-}
+  
+  $vars['options']['header'] = array('name' => __('Group'));
+  foreach ( $manifs as $manif )
+    $vars['options']['header']['manif-'.$manif->id] = $manif->getShortName();
+  
+  include_partial('global/csv',$vars);
