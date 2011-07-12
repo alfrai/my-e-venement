@@ -1,0 +1,67 @@
+<?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
+<?php
+    if ( !($this->getRoute() instanceof sfObjectRoute) )
+    {
+      if ( intval($request->getParameter('id')) > 0 )
+        $this->redirect('ticket/sell?id='.intval($request->getParameter('id')));
+      
+      if ( intval($request->getParameter('id')) == 0 )
+      {
+        if ( $this->getUser()->hasFlash('error') )
+          $this->getUser()->setFlash('error',$this->getUser()->getFlash('error'));
+        if ( $this->getUser()->hasFlash('notice') )
+          $this->getUser()->setFlash('notice',$this->getUser()->getFlash('error'));
+        
+        $this->transaction = new Transaction();
+        $this->transaction->save();
+        $this->redirect('ticket/sell?id='.$this->transaction->id);
+      }
+    }
+    
+    $this->transaction = $this->getRoute()->getObject();
+    
+    // if closed
+    if ( $this->transaction->closed )
+    {
+      $this->getUser()->setFlash('error','You have to re-open the transaction before to access it');
+      return $this->redirect('ticket/respawn?id='.$this->transaction->id);
+    }
+    
+    // if not a "normal" transaction
+    if ( $this->transaction->type != 'normal' )
+    {
+      $this->getUser()->setFlash('error',"You can respawn here only normal transactions");
+      $this->redirect('ticket/sell');
+    }
+    
+    $q = Doctrine::getTable('Price')->createQuery()
+      ->orderBy('name');
+    $this->prices = $q->execute();
+    
+    $payment = new Payment();
+    $payment->transaction_id = $this->transaction->id;
+    $this->payform = new PaymentForm($payment);
+    
+    $this->createTransactionForm(array('contact_id','professional_id'));

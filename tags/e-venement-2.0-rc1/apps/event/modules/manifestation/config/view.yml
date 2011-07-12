@@ -1,0 +1,18 @@
+all:
+  stylesheets: [manifestation]
+  javascripts: [manifestation]
+
+showSuccess:
+  stylesheets: [manifestation-view,view]
+editSuccess:
+  stylesheets: [manifestation-view,view]
+newSuccess:
+  stylesheets: [manifestation-view,view]
+updateSuccess:
+  stylesheets: [manifestation-view,view]
+createSuccess:
+  stylesheets: [manifestation-view,view]
+
+templatingSuccess:
+  stylesheets: [manifestation-templating.css,/sfFormExtraPlugin/css/jquery.autocompleter.css]
+  javascripts: [/sfFormExtraPlugin/js/jquery.autocompleter.js]

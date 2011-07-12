@@ -1,0 +1,172 @@
+#**********************************************************************************
+#
+#	    This file is part of e-venement.
+# 
+#    e-venement is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License.
+# 
+#    e-venement is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+# 
+#    You should have received a copy of the GNU General Public License
+#    along with e-venement; if not, write to the Free Software
+#    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+# 
+#    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+#    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+# 
+#**********************************************************************************/
+
+Contact:
+  package: rp
+  inheritance:
+    extends: Addressable
+    type: concrete
+  actAs: 
+    Searchable:
+      fields: [name,firstname]
+    Sluggable:
+      fields: [name,firstname]
+  columns:
+    firstname: string(255)
+    title: string(23)
+    description: string
+    password: string(255)
+    family_contact:
+      type: boolean
+      notnull: true
+      default: true
+Organism:
+  package: rp
+  inheritance:
+    extends: Addressable
+    type: concrete
+  columns:
+    url: string(255)
+    description: string
+    organism_category_id: integer
+  relations:
+    Category:
+      class: OrganismCategory
+      foreignAlias: Organisms
+
+ContactPhonenumber:
+  package: rp
+  inheritance:
+    extends: Phonenumber
+    type: concrete
+  columns:
+    contact_id:
+      type: integer
+      notnull: true
+  relations:
+    Contact:
+      foreignAlias: Phonenumbers
+      onDelete: CASCADE
+OrganismPhonenumber:
+  package: rp
+  inheritance:
+    extends: Phonenumber
+    type: concrete
+  columns:
+    organism_id:
+      type: integer
+      notnull: true
+  relations:
+    Organism:
+      foreignAlias: Phonenumbers
+      onDelete: CASCADE
+
+OrganismCategory:
+  package: rp
+  actAs: 
+    Timestampable: ~
+    Sluggable:
+      fields: [name]
+  columns:
+    name:
+      type: string(255)
+      notblank: true
+      notnull: true
+YOB:
+  package: rp
+  actAs: [Timestampable]
+  columns:
+    year:
+      type: integer
+      notnull: true
+    contact_id: integer
+  relations:
+    Contact:
+      foreignAlias: YOBs
+      onDelete: CASCADE
+
+ProfessionalType:
+  package: rp
+  actAs: [Timestampable]
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+Professional:
+  package: rp
+  actAs: [Timestampable]
+  columns:
+    name: string(255)
+    organism_id:
+      type: integer
+      notnull: true
+    contact_id:
+      type: integer
+      notnull: true
+    professional_type_id: integer
+    contact_number: string(255)
+    contact_email:
+      type: string(255)
+      email: true
+    department: string(255)
+    description: string
+  relations:
+    ProfessionalType:
+      foreignAlias: Professionals
+      onDelete: SET NULL
+    Contact:
+      foreignAlias: Professionals
+      onDelete: CASCADE
+    Organism:
+      foreignAlias: Professionals
+      onDelete: CASCADE
+
+TitleType:
+  package: rp
+  inheritance:
+    extends: ModelType
+    type: column_aggregation
+    keyField: type
+    keyValue: 'title'
+PhoneType:
+  package: rp
+  inheritance:
+    extends: ModelType
+    type: column_aggregation
+    keyField: type
+    keyValue: 'phone'
+
+OptionCsv:
+  package: rp
+  inheritance:
+    extends: Option
+    type: column_aggregation
+    keyField: type
+    keyValue: 'csv'
+OptionLabels:
+  package: rp
+  inheritance:
+    extends: Option
+    type: column_aggregation
+    keyField: type
+    keyValue: 'labels'

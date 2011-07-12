@@ -1,0 +1,3 @@
+html body #content { width: 655px; overflow: hidden; }
+html body #more    { width: 255px; margin-left: 200px; overflow: hidden; }
+

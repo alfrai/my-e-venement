@@ -1,0 +1,44 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Manifestation
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          manifestation
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        list_event: { label: Event }
+        list_location: { label: Location }
+        list_description: { label: Description }
+        happens_at: { label: Date }
+      list:
+        display: [_list_event, happens_at, _list_location, _list_description]
+      filter:  ~
+      form: ~
+      edit:
+        title: Edit Manifestation %%name%%
+        display:
+          General:      [happens_at, event_id, location_id, color_id, description]
+          Technical:    [duration, vat, _form_prices]
+          Organization: [seated, organizers_list]
+          Workspaces:   [_form_workspaces]
+      new:
+        display:
+          General: [happens_at, event_id, location_id, color_id, description]
+          Technical: [duration, vat] #, prices_list]
+          Organization: [seated, organizers_list]
+          Workspaces: [workspaces_list]
+      show:
+        display:
+          General: [_show_event, _show_happens_at, _show_location, _show_color, description]
+          Technical: [duration, _show_vat, _show_prices_list]
+          Organization: [_show_seated, _show_organizers_list]
+          Workspaces: [_show_workspaces_list]
+          Tickets: [_show_tickets_list]

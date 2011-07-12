@@ -1,0 +1,256 @@
+digraph G {
+	edge [ len=2 labeldistance=2 ];
+	overlap=false;
+	splines=true;
+
+	nodegroup_detail [
+		label="{<table>group_detail|<cols>group_id (integer) [PK]\linformation (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeemail_link [
+		label="{<table>email_link|<cols>id (integer) [PK]\lemail_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)\l}",
+		shape=record ];
+	nodeaddressable [
+		label="{<table>addressable|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodemodel_type [
+		label="{<table>model_type|<cols>id (integer) [PK]\lname (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodephonenumber [
+		label="{<table>phonenumber|<cols>id (integer) [PK]\lname (string)\lnumber (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeoption [
+		label="{<table>option|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
+		shape=record ];
+	nodegroup_professional [
+		label="{<table>group_professional|<cols>group_id (integer) [PK]\linformation (string)\lprofessional_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodegroup_table [
+		label="{<table>group_table|<cols>id (integer) [PK]\lname (string)\lsf_guard_user_id (integer)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodegroup_contact [
+		label="{<table>group_contact|<cols>group_id (integer) [PK]\linformation (string)\lcontact_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeemail_contact [
+		label="{<table>email_contact|<cols>id (integer) [PK]\lemail_id (integer)\lcontact_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)\l}",
+		shape=record ];
+	nodeemail_professional [
+		label="{<table>email_professional|<cols>id (integer) [PK]\lemail_id (integer)\lprofessional_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)\l}",
+		shape=record ];
+	nodeemail [
+		label="{<table>email|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lfield_from (string)\lfield_to (string)\lfield_cc (string)\lfield_bcc (string)\lfield_subject (string)\lcontent (string)\lcontent_text (string)\lsent (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)\l}",
+		shape=record ];
+	nodeemail_spool [
+		label="{<table>email_spool|<cols>id (integer) [PK]\lmessage (text)\lpriority (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeemail_organism [
+		label="{<table>email_organism|<cols>id (integer) [PK]\lemail_id (integer)\lorganism_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)\l}",
+		shape=record ];
+	nodeprice [
+		label="{<table>price|<cols>id (integer) [PK]\lname (string)\ldescription (string)\lvalue (decimal)\lonline (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeprice_manifestation [
+		label="{<table>price_manifestation|<cols>id (integer) [PK]\lmanifestation_id (integer)\lprice_id (integer)\lvalue (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_group_permission [
+		label="{<table>sf_guard_group_permission|<cols>group_id (integer) [PK]\lpermission_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_forgot_password [
+		label="{<table>sf_guard_forgot_password|<cols>id (integer) [PK]\luser_id (integer)\lunique_key (string)\lexpires_at (timestamp)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_user_group [
+		label="{<table>sf_guard_user_group|<cols>user_id (integer) [PK]\lgroup_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_user [
+		label="{<table>sf_guard_user|<cols>id (integer) [PK]\lfirst_name (string)\llast_name (string)\lemail_address (string)\lusername (string)\lalgorithm (string)\lsalt (string)\lpassword (string)\lis_active (boolean)\lis_super_admin (boolean)\llast_login (timestamp)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_remember_key [
+		label="{<table>sf_guard_remember_key|<cols>id (integer) [PK]\luser_id (integer)\lremember_key (string)\lip_address (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_permission [
+		label="{<table>sf_guard_permission|<cols>id (integer) [PK]\lname (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_user_permission [
+		label="{<table>sf_guard_user_permission|<cols>user_id (integer) [PK]\lpermission_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodesf_guard_group [
+		label="{<table>sf_guard_group|<cols>id (integer) [PK]\lname (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodecolor [
+		label="{<table>color|<cols>id (integer) [PK]\llibelle (string)\lcolor (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodemanifestation [
+		label="{<table>manifestation|<cols>id (integer) [PK]\levent_id (integer)\llocation_id (integer)\lcolor_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodemeta_event [
+		label="{<table>meta_event|<cols>id (integer) [PK]\lname (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodelocation [
+		label="{<table>location|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\ldescription (string)\lcontact_id (integer)\lorganism_id (integer)\lseating_plan_id (integer)\lgauge_max (integer)\lgauge_min (integer)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodeevent_category [
+		label="{<table>event_category|<cols>id (integer) [PK]\lname (string)\lvat (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeevent [
+		label="{<table>event|<cols>id (integer) [PK]\lname (string)\lshort_name (string)\lworkspace_id (integer)\lmeta_event_id (integer)\levent_category_id (integer)\levent_category_description (string)\ldescription (string)\lstaging (string)\lstaging_label (string)\lwriter (string)\lwriter_label (string)\lduration (interval)\lage_min (decimal)\lage_max (decimal)\lextradesc (string)\lextraspec (string)\lweb_price (decimal)\lweb_price_group (decimal)\limage_url (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodeseating_plan [
+		label="{<table>seating_plan|<cols>id (integer) [PK]\limage_url (string)\llocation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeevent_company [
+		label="{<table>event_company|<cols>organism_id (integer) [PK]\levent_id (integer) [PK]\l}",
+		shape=record ];
+	nodemanifestation_organizer [
+		label="{<table>manifestation_organizer|<cols>organism_id (integer) [PK]\lmanifestation_id (integer) [PK]\l}",
+		shape=record ];
+	nodeworkspace [
+		label="{<table>workspace|<cols>id (integer) [PK]\lname (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeprofessional_type [
+		label="{<table>professional_type|<cols>id (integer) [PK]\lname (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeoption [
+		label="{<table>option|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
+		shape=record ];
+	nodeprofessional [
+		label="{<table>professional|<cols>id (integer) [PK]\lname (string)\lorganism_id (integer)\lcontact_id (integer)\lprofessional_type_id (integer)\lcontact_number (string)\lcontact_email (string)\ldepartment (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodemodel_type [
+		label="{<table>model_type|<cols>id (integer) [PK]\lname (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodecontact [
+		label="{<table>contact|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodecontact_phonenumber [
+		label="{<table>contact_phonenumber|<cols>id (integer) [PK]\lname (string)\lnumber (string)\lcontact_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeorganism_phonenumber [
+		label="{<table>organism_phonenumber|<cols>id (integer) [PK]\lname (string)\lnumber (string)\lorganism_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeoption [
+		label="{<table>option|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
+		shape=record ];
+	nodemodel_type [
+		label="{<table>model_type|<cols>id (integer) [PK]\lname (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodeorganism_category [
+		label="{<table>organism_category|<cols>id (integer) [PK]\lname (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodeorganism [
+		label="{<table>organism|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lurl (string)\ldescription (string)\lorganism_category_id (integer)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodey_o_b [
+		label="{<table>y_o_b|<cols>id (integer) [PK]\lyear (integer)\lcontact_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeaddressable_index [
+		label="{<table>addressable_index|<cols>keyword (string) [PK]\lfield (string) [PK]\lposition (integer) [PK]\lid (integer) [PK]\l}",
+		shape=record ];
+	nodeemail_index [
+		label="{<table>email_index|<cols>keyword (string) [PK]\lfield (string) [PK]\lposition (integer) [PK]\lid (integer) [PK]\l}",
+		shape=record ];
+	nodelocation_index [
+		label="{<table>location_index|<cols>keyword (string) [PK]\lfield (string) [PK]\lposition (integer) [PK]\lid (integer) [PK]\l}",
+		shape=record ];
+	nodecontact_index [
+		label="{<table>contact_index|<cols>keyword (string) [PK]\lfield (string) [PK]\lposition (integer) [PK]\lid (integer) [PK]\l}",
+		shape=record ];
+	nodeorganism_index [
+		label="{<table>organism_index|<cols>keyword (string) [PK]\lfield (string) [PK]\lposition (integer) [PK]\lid (integer) [PK]\l}",
+		shape=record ];
+
+	nodeemail_link:cols -> nodeemail:table [
+		label="email_id=id"];
+	nodeoption:cols -> nodesf_guard_user:table [
+		label="sf_guard_user_id=id"];
+	nodegroup_professional:cols -> nodegroup_table:table [
+		label="group_id=id"];
+	nodegroup_professional:cols -> nodeprofessional:table [
+		label="professional_id=id"];
+	nodegroup_table:cols -> nodesf_guard_user:table [
+		label="sf_guard_user_id=id"];
+	nodegroup_contact:cols -> nodegroup_table:table [
+		label="group_id=id"];
+	nodegroup_contact:cols -> nodecontact:table [
+		label="contact_id=id"];
+	nodeemail_contact:cols -> nodeemail:table [
+		label="email_id=id"];
+	nodeemail_contact:cols -> nodecontact:table [
+		label="contact_id=id"];
+	nodeemail_professional:cols -> nodeemail:table [
+		label="email_id=id"];
+	nodeemail_professional:cols -> nodeprofessional:table [
+		label="professional_id=id"];
+	nodeemail:cols -> nodesf_guard_user:table [
+		label="sf_guard_user_id=id"];
+	nodeemail_organism:cols -> nodeemail:table [
+		label="email_id=id"];
+	nodeemail_organism:cols -> nodeorganism:table [
+		label="organism_id=id"];
+	nodeprice_manifestation:cols -> nodemanifestation:table [
+		label="manifestation_id=id"];
+	nodeprice_manifestation:cols -> nodeprice:table [
+		label="price_id=id"];
+	nodesf_guard_group_permission:cols -> nodesf_guard_group:table [
+		label="group_id=id"];
+	nodesf_guard_group_permission:cols -> nodesf_guard_permission:table [
+		label="permission_id=id"];
+	nodesf_guard_forgot_password:cols -> nodesf_guard_user:table [
+		label="user_id=id"];
+	nodesf_guard_user_group:cols -> nodesf_guard_user:table [
+		label="user_id=id"];
+	nodesf_guard_user_group:cols -> nodesf_guard_group:table [
+		label="group_id=id"];
+	nodesf_guard_remember_key:cols -> nodesf_guard_user:table [
+		label="user_id=id"];
+	nodesf_guard_user_permission:cols -> nodesf_guard_user:table [
+		label="user_id=id"];
+	nodesf_guard_user_permission:cols -> nodesf_guard_permission:table [
+		label="permission_id=id"];
+	nodemanifestation:cols -> nodelocation:table [
+		label="location_id=id"];
+	nodemanifestation:cols -> nodecolor:table [
+		label="color_id=id"];
+	nodelocation:cols -> nodeseating_plan:table [
+		label="seating_plan_id=id"];
+	nodelocation:cols -> nodeorganism:table [
+		label="organism_id=id"];
+	nodelocation:cols -> nodecontact:table [
+		label="contact_id=id"];
+	nodeevent:cols -> nodeevent_category:table [
+		label="event_category_id=id"];
+	nodeevent:cols -> nodeworkspace:table [
+		label="workspace_id=id"];
+	nodeevent:cols -> nodemeta_event:table [
+		label="meta_event_id=id"];
+	nodeevent_company:cols -> nodeorganism:table [
+		label="organism_id=id"];
+	nodeevent_company:cols -> nodeevent:table [
+		label="event_id=id"];
+	nodemanifestation_organizer:cols -> nodeorganism:table [
+		label="organism_id=id"];
+	nodemanifestation_organizer:cols -> nodemanifestation:table [
+		label="manifestation_id=id"];
+	nodeprofessional:cols -> nodeprofessional_type:table [
+		label="professional_type_id=id"];
+	nodeprofessional:cols -> nodecontact:table [
+		label="contact_id=id"];
+	nodeprofessional:cols -> nodeorganism:table [
+		label="organism_id=id"];
+	nodecontact_phonenumber:cols -> nodecontact:table [
+		label="contact_id=id"];
+	nodeorganism_phonenumber:cols -> nodeorganism:table [
+		label="organism_id=id"];
+	nodeorganism:cols -> nodeorganism_category:table [
+		label="organism_category_id=id"];
+	nodey_o_b:cols -> nodecontact:table [
+		label="contact_id=id"];
+	nodeaddressable_index:cols -> nodeaddressable:table [
+		label="id=id"];
+	nodeemail_index:cols -> nodeemail:table [
+		label="id=id"];
+	nodelocation_index:cols -> nodelocation:table [
+		label="id=id"];
+	nodecontact_index:cols -> nodecontact:table [
+		label="id=id"];
+	nodeorganism_index:cols -> nodeorganism:table [
+		label="id=id"];
+}

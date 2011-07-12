@@ -1,0 +1,184 @@
+.alert { border: 2px solid orange; -moz-border-radius: 4px; }
+.action {
+  margin: 5px 2px 0 2px;
+  padding: 5px;
+}
+
+#transaction-id {
+  position: absolute;
+  right: 315px;
+  margin-top: 18px;
+  font-weight: bold;
+  cursor: default;
+}
+#transaction-id.translinked {
+  border-bottom: 1px solid red;
+}
+
+#manifestations .manifestations_add {
+  height: 200px;
+  margin-right: 270px;
+  overflow: auto;
+}
+#manifestations .manifestations_add span {
+  background-color: white;
+}
+#manifestations .manifestations_add .selected {
+  border-bottom: 1px gray dashed;
+}
+.manifestations_list, #manifestations ul {
+  padding: 3px 0 10px 0;
+  margin: 5px 0;
+  list-style-type: none;
+}
+
+.tickets_form { margin-right: 270px; }
+.tickets_form.full .manifestations_list { min-height: 155px; }
+.manifestations_list ul { display: table; width: 100%; }
+.manifestations_list li { display: table-row; }
+.manifestations_list li > span.prices { padding: 0 10px; text-align: right; }
+.manifestations_list li > span {
+  display: table-cell;
+  white-space: nowrap;
+  padding: 0 5px;
+}
+.manifestations_list .prices { width: 100%; }
+.manifestations_list .prices > span {
+  display: inline-block;
+  margin-left: 5px;
+  border: 1px dashed gray;
+  padding: 2px 7px;
+  -moz-border-radius: 3px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.manifestations_list .prices .value { display: none; }
+
+.sf_admin_flashes {
+  margin: 5px 0;
+}
+
+.manifestations_list .total { font-weight: bold; text-align: right; }
+.manifestations_list .total { text-align: right; }
+.manifestations_list .total .total { text-decoration: underline; padding-top: 5px; }
+
+#payment {
+  min-height: 180px;
+}
+#payment form {
+  position: absolute;
+  width: 400px;
+}
+#payment .sf_admin_list {
+  margin-left: 420px;
+  width: 350px;
+}
+#payment .sf_admin_list .sf_admin_list_td_list_value { text-align: right; }
+#payment .sf_admin_list .change .sf_admin_text,
+#payment .sf_admin_list .total .sf_admin_text,
+#payment .sf_admin_list .topay .sf_admin_text { padding-left: 30px; font-weight: bold; }
+#payment .sf_admin_list .change .sf_admin_list_td_list_value { text-decoration: underline; }
+#payment form { padding: 5px; padding-top: 0; }
+#payment form .sf_admin_form_row { padding-top: 0; padding-bottom: 0; }
+#payment form label { display: inline-block; width: 100px; }
+#payment form .errors { padding-bottom: 8px; }
+
+#print form { display: inline-block; }
+
+.action.closed {
+  font-size: 13px;
+}
+.action.closed .thanks {
+  font-size: 22px;
+  text-align: center;
+  padding: 100px 0;
+}
+.action.closed .transaction_new {
+  text-align: center;
+  padding: 5px;
+  margin-bottom: 20px;
+  border: 1px dashed silver;
+}
+
+#contact .delete-contact {
+  padding-left: 16px;
+  margin-left: 5px;
+  background-image: url(../sfDoctrinePlugin/images/delete.png);
+  background-position: 0 -2px;
+}
+#contact .create-contact {
+  padding-left: 16px;
+  margin-left: 5px;
+  background-image: url(../sfDoctrinePlugin/images/new.png);
+  background-position: 0 -2px;
+}
+#contact #micro-show {
+  position: absolute;
+  right: 35px;
+  width: 350px;
+  background-color: white;
+  height: 225px;
+  z-index: 500;
+  overflow: auto;
+  padding: 5px;
+  display: none;
+  border-top: 0;
+  -moz-border-radius-topright: 0px;
+}
+#contact #micro-show label {
+  min-width: 75px;
+  display: inline-block;
+}
+#contact .open {
+  position: absolute;
+  right: 395px;
+  height: 22px;
+  width: 5px;
+  background-color: white;
+  z-index: 501;
+}
+#contact .contact_url { display: none; }
+
+#cancel-tickets .link a, #checkpoint .link a {
+  display: block;
+  padding: 150px 10px;
+  text-align: center;
+  font-size: 20px;
+}
+#cancel-tickets .link, #checkpoint .link {
+  margin: 5px;
+}
+#cancel-tickets.failed .link, #checkpoint.failed .link {
+  background-color: OrangeRed;
+}
+#cancel-tickets.passed .link,
+#checkpoint.passed .link {
+  background-color: LightGreen;
+}
+#checkpoint ul {
+  list-style-type: none;
+  margin: 5px 10px;
+  padding: 5px;
+}
+#checkpoint label {
+  width: 100px;
+  display: inline-block;
+}
+#checkpoint .submit { margin-top: -120px; }
+#checkpoint .comment {
+  position: relative;
+  text-align: center;
+  top: -110px;
+  padding: 10px;
+  margin: 0 33%;
+}
+
+#prices .tickets_id {
+  display: none;
+  position: absolute;
+  border: 1px solid gray;
+  background-color: silver;
+  padding: 2px 3px;
+}
+#prices .ticket_prices:hover .tickets_id { display: block; }
+#prices [name="ticket[nb]"] { text-align: center; }

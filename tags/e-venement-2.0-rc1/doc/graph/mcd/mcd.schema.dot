@@ -1,0 +1,669 @@
+graph G {
+	edge [ len=2 labeldistance=2 ];
+	overlap=false;
+	splines=true;
+
+	nodeGroupDetail [
+		label="{<table>GroupDetail|<cols>information (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeGroupProfessional [
+		label="{<table>GroupProfessional|<cols>information (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeGroup [
+		label="{<table>Group|<cols>name (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeGroupContact [
+		label="{<table>GroupContact|<cols>information (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeModelType [
+		label="{<table>ModelType|<cols>name (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodePhonenumber [
+		label="{<table>Phonenumber|<cols>name (string)\lnumber (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeOption [
+		label="{<table>Option|<cols>type (string)\lname (string)\lvalue (string)\lcreated_at (timestamp)}",
+		shape=record ];
+	nodeAddressable [
+		label="{<table>Addressable|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeEmailLink [
+		label="{<table>EmailLink|<cols>created_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)}",
+		shape=record ];
+	nodeEmailContact [
+		label="{<table>EmailContact|<cols>created_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)}",
+		shape=record ];
+	nodeEmailProfessional [
+		label="{<table>EmailProfessional|<cols>created_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)}",
+		shape=record ];
+	nodeEmail [
+		label="{<table>Email|<cols>field_from (string)\lfield_to (string)\lfield_cc (string)\lfield_bcc (string)\lfield_subject (string)\lcontent (string)\lcontent_text (string)\lsent (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)}",
+		shape=record ];
+	nodeEmailSpool [
+		label="{<table>EmailSpool|<cols>message (text)\lpriority (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeEmailOrganism [
+		label="{<table>EmailOrganism|<cols>created_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)}",
+		shape=record ];
+	nodePrice [
+		label="{<table>Price|<cols>name (string)\ldescription (string)\lvalue (decimal)\lonline (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodePriceManifestation [
+		label="{<table>PriceManifestation|<cols>value (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardGroupPermission [
+		label="{<table>sfGuardGroupPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardForgotPassword [
+		label="{<table>sfGuardForgotPassword|<cols>unique_key (string)\lexpires_at (timestamp)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardUserGroup [
+		label="{<table>sfGuardUserGroup|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardUser [
+		label="{<table>sfGuardUser|<cols>first_name (string)\llast_name (string)\lemail_address (string)\lusername (string)\lalgorithm (string)\lsalt (string)\lpassword (string)\lis_active (boolean)\lis_super_admin (boolean)\llast_login (timestamp)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardRememberKey [
+		label="{<table>sfGuardRememberKey|<cols>remember_key (string)\lip_address (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardPermission [
+		label="{<table>sfGuardPermission|<cols>name (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardUserPermission [
+		label="{<table>sfGuardUserPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodesfGuardGroup [
+		label="{<table>sfGuardGroup|<cols>name (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeColor [
+		label="{<table>Color|<cols>libelle (string)\lcolor (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeManifestation [
+		label="{<table>Manifestation|<cols>event_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeMetaEvent [
+		label="{<table>MetaEvent|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeLocation [
+		label="{<table>Location|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\ldescription (string)\lgauge_max (integer)\lgauge_min (integer)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeEventCategory [
+		label="{<table>EventCategory|<cols>name (string)\lvat (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeEvent [
+		label="{<table>Event|<cols>name (string)\lshort_name (string)\levent_category_description (string)\ldescription (string)\lstaging (string)\lstaging_label (string)\lwriter (string)\lwriter_label (string)\lduration (interval)\lage_min (decimal)\lage_max (decimal)\lextradesc (string)\lextraspec (string)\lweb_price (decimal)\lweb_price_group (decimal)\limage_url (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeSeatingPlan [
+		label="{<table>SeatingPlan|<cols>image_url (string)\llocation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeWorkspace [
+		label="{<table>Workspace|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeProfessionalType [
+		label="{<table>ProfessionalType|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeOptionCsv [
+		label="{<table>OptionCsv|<cols>type (string)\lname (string)\lvalue (string)\lcreated_at (timestamp)}",
+		shape=record ];
+	nodeProfessional [
+		label="{<table>Professional|<cols>name (string)\lcontact_number (string)\lcontact_email (string)\ldepartment (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodePhoneType [
+		label="{<table>PhoneType|<cols>name (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeContact [
+		label="{<table>Contact|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeContactPhonenumber [
+		label="{<table>ContactPhonenumber|<cols>name (string)\lnumber (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeOrganismPhonenumber [
+		label="{<table>OrganismPhonenumber|<cols>name (string)\lnumber (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeOptionLabels [
+		label="{<table>OptionLabels|<cols>type (string)\lname (string)\lvalue (string)\lcreated_at (timestamp)}",
+		shape=record ];
+	nodeTitleType [
+		label="{<table>TitleType|<cols>name (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeOrganismCategory [
+		label="{<table>OrganismCategory|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeOrganism [
+		label="{<table>Organism|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lurl (string)\ldescription (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeYOB [
+		label="{<table>YOB|<cols>year (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+
+	nodeGroupContact [
+		label="{<table>GroupContact|<cols>information (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=Mrecord ];
+	nodeGroupProfessional [
+		label="{<table>GroupProfessional|<cols>information (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=Mrecord ];
+	nodeEmailContact [
+		label="{<table>EmailContact|<cols>created_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)}",
+		shape=Mrecord ];
+	nodeEmailProfessional [
+		label="{<table>EmailProfessional|<cols>created_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)}",
+		shape=Mrecord ];
+	nodeEmailOrganism [
+		label="{<table>EmailOrganism|<cols>created_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)}",
+		shape=Mrecord ];
+	nodePriceManifestation [
+		label="{<table>PriceManifestation|<cols>value (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=Mrecord ];
+	nodesfGuardUserGroup [
+		label="{<table>sfGuardUserGroup|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=Mrecord ];
+	nodesfGuardUserPermission [
+		label="{<table>sfGuardUserPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=Mrecord ];
+	nodesfGuardGroupPermission [
+		label="{<table>sfGuardGroupPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=Mrecord ];
+	nodeManifestationOrganizer [
+		label="{<table>ManifestationOrganizer|<cols>}",
+		shape=Mrecord ];
+	nodeEventCompany [
+		label="{<table>EventCompany|<cols>}",
+		shape=Mrecord ];
+	nodeAddressableIndex [
+		label="{<table>AddressableIndex|<cols>}",
+		shape=Mrecord ];
+	nodeEmailIndex [
+		label="{<table>EmailIndex|<cols>}",
+		shape=Mrecord ];
+	nodeLocationIndex [
+		label="{<table>LocationIndex|<cols>}",
+		shape=Mrecord ];
+	nodeContactIndex [
+		label="{<table>ContactIndex|<cols>}",
+		shape=Mrecord ];
+	nodeOrganismIndex [
+		label="{<table>OrganismIndex|<cols>}",
+		shape=Mrecord ];
+	nodeGroup [
+		label="{<table>Group|<cols>}",
+		shape=Mrecord ];
+	nodeAddressable [
+		label="{<table>Addressable|<cols>}",
+		shape=Mrecord ];
+	nodeEmail [
+		label="{<table>Email|<cols>}",
+		shape=Mrecord ];
+	nodePrice [
+		label="{<table>Price|<cols>}",
+		shape=Mrecord ];
+	nodesfGuardUser [
+		label="{<table>sfGuardUser|<cols>}",
+		shape=Mrecord ];
+	nodesfGuardPermission [
+		label="{<table>sfGuardPermission|<cols>}",
+		shape=Mrecord ];
+	nodesfGuardGroup [
+		label="{<table>sfGuardGroup|<cols>}",
+		shape=Mrecord ];
+	nodeColor [
+		label="{<table>Color|<cols>}",
+		shape=Mrecord ];
+	nodeManifestation [
+		label="{<table>Manifestation|<cols>}",
+		shape=Mrecord ];
+	nodeMetaEvent [
+		label="{<table>MetaEvent|<cols>}",
+		shape=Mrecord ];
+	nodeLocation [
+		label="{<table>Location|<cols>}",
+		shape=Mrecord ];
+	nodeLocationSeatingPlan [
+		label="{<table>LocationSeatingPlan|<cols>}",
+		shape=Mrecord ];
+	nodeEventCategory [
+		label="{<table>EventCategory|<cols>}",
+		shape=Mrecord ];
+	nodeEvent [
+		label="{<table>Event|<cols>}",
+		shape=Mrecord ];
+	nodeSeatingPlan [
+		label="{<table>SeatingPlan|<cols>}",
+		shape=Mrecord ];
+	nodeWorkspace [
+		label="{<table>Workspace|<cols>}",
+		shape=Mrecord ];
+	nodeProfessionalType [
+		label="{<table>ProfessionalType|<cols>}",
+		shape=Mrecord ];
+	nodeProfessional [
+		label="{<table>Professional|<cols>}",
+		shape=Mrecord ];
+	nodeContact [
+		label="{<table>Contact|<cols>}",
+		shape=Mrecord ];
+	nodeOrganismCategory [
+		label="{<table>OrganismCategory|<cols>}",
+		shape=Mrecord ];
+	nodeOrganism [
+		label="{<table>Organism|<cols>}",
+		shape=Mrecord ];
+
+	nodeGroupContact -- nodeGroup [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeGroupContact -- nodeContact [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeGroupProfessional -- nodeGroup [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeGroupProfessional -- nodeProfessional [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeEmailContact -- nodeEmail [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeEmailContact -- nodeContact [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeEmailProfessional -- nodeEmail [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeEmailProfessional -- nodeProfessional [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeEmailOrganism -- nodeEmail [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeEmailOrganism -- nodeOrganism [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodePriceManifestation -- nodeManifestation [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodePriceManifestation -- nodePrice [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardUserGroup -- nodesfGuardUser [
+		headlabel="0,n",
+		label="(User)",
+		labeldistance=3 ];
+	nodesfGuardUserGroup -- nodesfGuardGroup [
+		headlabel="0,n",
+		label="(Group)",
+		labeldistance=3 ];
+	nodesfGuardUserPermission -- nodesfGuardUser [
+		headlabel="0,n",
+		label="(User)",
+		labeldistance=3 ];
+	nodesfGuardUserPermission -- nodesfGuardPermission [
+		headlabel="0,n",
+		label="(Permission)",
+		labeldistance=3 ];
+	nodesfGuardGroupPermission -- nodesfGuardGroup [
+		headlabel="0,n",
+		label="(Group)",
+		labeldistance=3 ];
+	nodesfGuardGroupPermission -- nodesfGuardPermission [
+		headlabel="0,n",
+		label="(Permission)",
+		labeldistance=3 ];
+	nodeManifestationOrganizer -- nodeOrganism [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeManifestationOrganizer -- nodeManifestation [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeEventCompany -- nodeOrganism [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeEventCompany -- nodeEvent [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeAddressableIndex -- nodeAddressable [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeEmailIndex -- nodeEmail [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeLocationIndex -- nodeLocation [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeContactIndex -- nodeContact [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeOrganismIndex -- nodeOrganism [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeGroup -- nodeGroupDetail [
+		headlabel="0,1",
+		label="(Members)",
+		labeldistance=3 ];
+	nodeGroup -- nodeGroupContact [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeGroup -- nodeGroupProfessional [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeAddressable -- nodeAddressableIndex [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeEmail -- nodeEmailLink [
+		headlabel="0,1",
+		label="(EmailLinks)",
+		labeldistance=3 ];
+	nodeEmail -- nodeEmailIndex [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeEmail -- nodeEmailContact [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeEmail -- nodeEmailProfessional [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeEmail -- nodeEmailOrganism [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodePrice -- nodePriceManifestation [
+		headlabel="0,1",
+		label="(PriceManifestations)",
+		labeldistance=3 ];
+	nodePrice -- nodePriceManifestation [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodesfGuardUserPermission [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodesfGuardUserGroup [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodeEmail [
+		headlabel="0,1",
+		label="(Emails)",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodeOption [
+		headlabel="0,1",
+		label="(Options)",
+		labeldistance=3 ];
+	nodesfGuardPermission -- nodesfGuardGroupPermission [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardPermission -- nodesfGuardUserPermission [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardGroup -- nodesfGuardGroupPermission [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardGroup -- nodesfGuardUserGroup [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeColor -- nodeManifestation [
+		headlabel="0,1",
+		label="(Manifestations)",
+		labeldistance=3 ];
+	nodeManifestation -- nodeManifestationOrganizer [
+		headlabel="0,1",
+		label="(ManifestationOrganizers)",
+		labeldistance=3 ];
+	nodeManifestation -- nodePriceManifestation [
+		headlabel="0,1",
+		label="(PriceManifestations)",
+		labeldistance=3 ];
+	nodeManifestation -- nodeManifestationOrganizer [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeManifestation -- nodePriceManifestation [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeMetaEvent -- nodeEvent [
+		headlabel="0,1",
+		label="(Events)",
+		labeldistance=3 ];
+	nodeLocation -- nodeLocationIndex [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeLocationSeatingPlan -- nodeSeatingPlan [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeLocation -- nodeManifestation [
+		headlabel="0,1",
+		label="(Manifestations)",
+		labeldistance=3 ];
+	nodeEventCategory -- nodeEvent [
+		headlabel="0,1",
+		label="(Events)",
+		labeldistance=3 ];
+	nodeEvent -- nodeEventCompany [
+		headlabel="0,1",
+		label="(EventCompanies)",
+		labeldistance=3 ];
+	nodeEvent -- nodeEventCompany [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeSeatingPlan -- nodeLocation [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeWorkspace -- nodeEvent [
+		headlabel="0,1",
+		label="(Events)",
+		labeldistance=3 ];
+	nodeProfessionalType -- nodeProfessional [
+		headlabel="0,1",
+		label="(Professionals)",
+		labeldistance=3 ];
+	nodeProfessional -- nodeEmailProfessional [
+		headlabel="0,1",
+		label="(EmailOrganisms)",
+		labeldistance=3 ];
+	nodeProfessional -- nodeGroupProfessional [
+		headlabel="0,1",
+		label="(ProfessionalGroups)",
+		labeldistance=3 ];
+	nodeProfessional -- nodeEmailProfessional [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeProfessional -- nodeGroupProfessional [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeContact -- nodeContactIndex [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeContact -- nodeEmailContact [
+		headlabel="0,1",
+		label="(EmailContacts)",
+		labeldistance=3 ];
+	nodeContact -- nodeLocation [
+		headlabel="0,1",
+		label="(Locations)",
+		labeldistance=3 ];
+	nodeContact -- nodeGroupContact [
+		headlabel="0,1",
+		label="(ContactGroups)",
+		labeldistance=3 ];
+	nodeContact -- nodeContactPhonenumber [
+		headlabel="0,1",
+		label="(Phonenumbers)",
+		labeldistance=3 ];
+	nodeContact -- nodeYOB [
+		headlabel="0,1",
+		label="(YOBs)",
+		labeldistance=3 ];
+	nodeContact -- nodeProfessional [
+		headlabel="0,1",
+		label="(Professionals)",
+		labeldistance=3 ];
+	nodeContact -- nodeEmailContact [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeContact -- nodeGroupContact [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeOrganismCategory -- nodeOrganism [
+		headlabel="0,1",
+		label="(Organisms)",
+		labeldistance=3 ];
+	nodeOrganism -- nodeOrganismIndex [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeOrganism -- nodeEmailOrganism [
+		headlabel="0,1",
+		label="(EmailOrganisms)",
+		labeldistance=3 ];
+	nodeOrganism -- nodeEventCompany [
+		headlabel="0,1",
+		label="(EventCompanies)",
+		labeldistance=3 ];
+	nodeOrganism -- nodeLocation [
+		headlabel="0,1",
+		label="(Locations)",
+		labeldistance=3 ];
+	nodeOrganism -- nodeManifestationOrganizer [
+		headlabel="0,1",
+		label="(ManifestationOrganizers)",
+		labeldistance=3 ];
+	nodeOrganism -- nodeOrganismPhonenumber [
+		headlabel="0,1",
+		label="(Phonenumbers)",
+		labeldistance=3 ];
+	nodeOrganism -- nodeProfessional [
+		headlabel="0,1",
+		label="(Professionals)",
+		labeldistance=3 ];
+	nodeOrganism -- nodeEmailOrganism [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeOrganism -- nodeEventCompany [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeOrganism -- nodeManifestationOrganizer [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+
+	nodeGroupDetail -- nodeGroup [
+		arrowhead=normal ];
+	nodesfGuardUser -- nodesfGuardRememberKey [
+		arrowhead=normal ];
+	nodesfGuardUser -- nodesfGuardForgotPassword [
+		arrowhead=normal ];
+	nodeGroupDetail -- nodeBaseGroupDetail [
+		arrowhead=normal ];
+	nodeGroup -- nodeBaseGroup [
+		arrowhead=normal ];
+	nodeModelType -- nodeBaseModelType [
+		arrowhead=normal ];
+	nodePhonenumber -- nodeBasePhonenumber [
+		arrowhead=normal ];
+	nodeOption -- nodeBaseOption [
+		arrowhead=normal ];
+	nodeAddressable -- nodeBaseAddressable [
+		arrowhead=normal ];
+	nodeEmailLink -- nodeBaseEmailLink [
+		arrowhead=normal ];
+	nodeEmail -- nodeBaseEmail [
+		arrowhead=normal ];
+	nodeEmailSpool -- nodeBaseEmailSpool [
+		arrowhead=normal ];
+	nodePrice -- nodeBasePrice [
+		arrowhead=normal ];
+	nodesfGuardForgotPassword -- nodeBasesfGuardForgotPassword [
+		arrowhead=normal ];
+	nodesfGuardUser -- nodeBasesfGuardUser [
+		arrowhead=normal ];
+	nodesfGuardRememberKey -- nodeBasesfGuardRememberKey [
+		arrowhead=normal ];
+	nodesfGuardPermission -- nodeBasesfGuardPermission [
+		arrowhead=normal ];
+	nodesfGuardGroup -- nodeBasesfGuardGroup [
+		arrowhead=normal ];
+	nodeColor -- nodeBaseColor [
+		arrowhead=normal ];
+	nodeManifestation -- nodeBaseManifestation [
+		arrowhead=normal ];
+	nodeMetaEvent -- nodeBaseMetaEvent [
+		arrowhead=normal ];
+	nodeLocation -- nodeBaseLocation [
+		arrowhead=normal ];
+	nodeEventCategory -- nodeBaseEventCategory [
+		arrowhead=normal ];
+	nodeEvent -- nodeBaseEvent [
+		arrowhead=normal ];
+	nodeSeatingPlan -- nodeBaseSeatingPlan [
+		arrowhead=normal ];
+	nodeWorkspace -- nodeBaseWorkspace [
+		arrowhead=normal ];
+	nodeProfessionalType -- nodeBaseProfessionalType [
+		arrowhead=normal ];
+	nodeOptionCsv -- nodeBaseOptionCsv [
+		arrowhead=normal ];
+	nodeProfessional -- nodeBaseProfessional [
+		arrowhead=normal ];
+	nodePhoneType -- nodeBasePhoneType [
+		arrowhead=normal ];
+	nodeContact -- nodeBaseContact [
+		arrowhead=normal ];
+	nodeContactPhonenumber -- nodeBaseContactPhonenumber [
+		arrowhead=normal ];
+	nodeOrganismPhonenumber -- nodeBaseOrganismPhonenumber [
+		arrowhead=normal ];
+	nodeOptionLabels -- nodeBaseOptionLabels [
+		arrowhead=normal ];
+	nodeTitleType -- nodeBaseTitleType [
+		arrowhead=normal ];
+	nodeOrganismCategory -- nodeBaseOrganismCategory [
+		arrowhead=normal ];
+	nodeOrganism -- nodeBaseOrganism [
+		arrowhead=normal ];
+	nodeYOB -- nodeBaseYOB [
+		arrowhead=normal ];
+
+}
