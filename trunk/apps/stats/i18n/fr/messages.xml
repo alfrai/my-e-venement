@@ -4,6 +4,18 @@
   <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-07-10T15:45:17Z" product-name="messages">
     <header/>
     <body>
+      <trans-unit id="7">
+        <source>Username or E-Mail</source>
+        <target>Login ou courriel</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Password</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Remember</source>
+        <target>Rester connecté(e) ?</target>
+      </trans-unit>
       <trans-unit id="10">
         <source>Admissions</source>
         <target>Entrées</target>
@@ -86,11 +98,11 @@
       </trans-unit>
       <trans-unit id="100">
         <source>Engaged tickets</source>
-        <target>Tickets engagés</target>
+        <target>Billets engagés</target>
       </trans-unit>
       <trans-unit id="101">
         <source>Printed tickets</source>
-        <target>Tickets imprimés</target>
+        <target>Billets imprimés</target>
       </trans-unit>
       <trans-unit id="102">
         <source>Percentage on gauge</source>

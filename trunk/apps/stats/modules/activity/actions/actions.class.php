@@ -133,7 +133,7 @@ class activityActions extends sfActions
       : strtotime('- 3 weeks');
     $dates['to']   = $criterias['dates']['to']['day'] && $criterias['dates']['to']['month'] && $criterias['dates']['to']['year']
       ? strtotime($day = $criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
-      : strtotime('+ 1 weeks + 1');
+      : strtotime('+ 1 weeks + 1 day');
     
     for ( $days = array($dates['from']) ; $days[count($days)-1]+86400 < $dates['to'] ; $days[] = $days[count($days)-1]+86400 );
     foreach ( $days as $key => $day )
