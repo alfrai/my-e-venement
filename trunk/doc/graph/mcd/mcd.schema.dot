@@ -15,6 +15,9 @@ graph G {
 	nodeGroupContact [
 		label="{<table>GroupContact|<cols>information (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
+	nodeAuthentication [
+		label="{<table>Authentication|<cols>description (string)\lip_address (string)\luser_agent (string)\lreferer (string)\lsuccess (boolean)\lcreated_at (timestamp)}",
+		shape=record ];
 	nodeModelType [
 		label="{<table>ModelType|<cols>name (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
@@ -23,6 +26,9 @@ graph G {
 		shape=record ];
 	nodeOption [
 		label="{<table>Option|<cols>type (string)\lname (string)\lvalue (string)\lcreated_at (timestamp)}",
+		shape=record ];
+	nodePostalcode [
+		label="{<table>Postalcode|<cols>postalcode (string)\lcity (string)}",
 		shape=record ];
 	nodeAddressable [
 		label="{<table>Addressable|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
@@ -51,6 +57,9 @@ graph G {
 	nodePriceManifestation [
 		label="{<table>PriceManifestation|<cols>value (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
+	nodeCheckpoint [
+		label="{<table>Checkpoint|<cols>email (string)\lname (string)\ldescription (string)\llegal (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\llatitude (double)\llongitude (double)\lslug (string)}",
+		shape=record ];
 	nodesfGuardGroupPermission [
 		label="{<table>sfGuardGroupPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
@@ -75,11 +84,41 @@ graph G {
 	nodesfGuardGroup [
 		label="{<table>sfGuardGroup|<cols>name (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
+	nodeCancellation [
+		label="{<table>Cancellation|<cols>transaction_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		shape=record ];
+	nodePayment [
+		label="{<table>Payment|<cols>value (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		shape=record ];
+	nodeOrder [
+		label="{<table>Order|<cols>type (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		shape=record ];
+	nodeTraceable [
+		label="{<table>Traceable|<cols>created_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		shape=record ];
+	nodeControl [
+		label="{<table>Control|<cols>comment (text)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		shape=record ];
+	nodeTransaction [
+		label="{<table>Transaction|<cols>type (enum)\lclosed (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		shape=record ];
+	nodeInvoice [
+		label="{<table>Invoice|<cols>type (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		shape=record ];
+	nodeAccounting [
+		label="{<table>Accounting|<cols>type (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		shape=record ];
+	nodeTicket [
+		label="{<table>Ticket|<cols>price_name (string)\lvalue (decimal)\lnumerotation (string)\lprinted (boolean)\lbarcode (string)\lothercode (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		shape=record ];
+	nodePaymentMethod [
+		label="{<table>PaymentMethod|<cols>name (string)\laccount (string)}",
+		shape=record ];
 	nodeColor [
-		label="{<table>Color|<cols>libelle (string)\lcolor (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>Color|<cols>name (string)\lcolor (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeManifestation [
-		label="{<table>Manifestation|<cols>event_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>Manifestation|<cols>happens_at (timestamp)\lduration (integer)\ldescription (string)\lvat (decimal)\lseated (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeMetaEvent [
 		label="{<table>MetaEvent|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -91,10 +130,13 @@ graph G {
 		label="{<table>EventCategory|<cols>name (string)\lvat (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeEvent [
-		label="{<table>Event|<cols>name (string)\lshort_name (string)\levent_category_description (string)\ldescription (string)\lstaging (string)\lstaging_label (string)\lwriter (string)\lwriter_label (string)\lduration (interval)\lage_min (decimal)\lage_max (decimal)\lextradesc (string)\lextraspec (string)\lweb_price (decimal)\lweb_price_group (decimal)\limage_url (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Event|<cols>name (string)\lshort_name (string)\levent_category_description (string)\lstaging (string)\lstaging_label (string)\lwriter (string)\lwriter_label (string)\lduration (integer)\lage_min (decimal)\lage_max (decimal)\ldescription (string)\lextradesc (string)\lextraspec (string)\lweb_price (decimal)\lweb_price_group (decimal)\limage_url (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
 	nodeSeatingPlan [
-		label="{<table>SeatingPlan|<cols>image_url (string)\llocation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>SeatingPlan|<cols>image_url (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeGauge [
+		label="{<table>Gauge|<cols>value (integer)\lonline (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeWorkspace [
 		label="{<table>Workspace|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -112,7 +154,7 @@ graph G {
 		label="{<table>PhoneType|<cols>name (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
 	nodeContact [
-		label="{<table>Contact|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Contact|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\lfamily_contact (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
 	nodeContactPhonenumber [
 		label="{<table>ContactPhonenumber|<cols>name (string)\lnumber (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -134,6 +176,33 @@ graph G {
 		shape=record ];
 	nodeYOB [
 		label="{<table>YOB|<cols>year (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeTraceableVersion [
+		label="{<table>TraceableVersion|<cols>sf_guard_user_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeCancellationVersion [
+		label="{<table>CancellationVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\lticket_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodePaymentVersion [
+		label="{<table>PaymentVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\lpayment_method_id (integer)\lvalue (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeOrderVersion [
+		label="{<table>OrderVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeControlVersion [
+		label="{<table>ControlVersion|<cols>sf_guard_user_id (integer)\lticket_id (integer)\lcheckpoint_id (integer)\lcomment (text)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeTransactionVersion [
+		label="{<table>TransactionVersion|<cols>sf_guard_user_id (integer)\lcontact_id (integer)\lprofessional_id (integer)\ltransaction_id (integer)\ltype (enum)\lclosed (boolean)\lworkspace_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeInvoiceVersion [
+		label="{<table>InvoiceVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeAccountingVersion [
+		label="{<table>AccountingVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeTicketVersion [
+		label="{<table>TicketVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\lmanifestation_id (integer)\lprice_id (integer)\lprice_name (string)\lvalue (decimal)\lnumerotation (string)\lduplicate (integer)\lcancelling (integer)\lprinted (boolean)\lbarcode (string)\lothercode (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 
 	nodeGroupContact [
@@ -160,11 +229,20 @@ graph G {
 	nodesfGuardUserPermission [
 		label="{<table>sfGuardUserPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
 		shape=Mrecord ];
+	nodeWorkspaceUser [
+		label="{<table>WorkspaceUser|<cols>}",
+		shape=Mrecord ];
+	nodeMetaEventUser [
+		label="{<table>MetaEventUser|<cols>}",
+		shape=Mrecord ];
 	nodesfGuardGroupPermission [
 		label="{<table>sfGuardGroupPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
 		shape=Mrecord ];
 	nodeManifestationOrganizer [
 		label="{<table>ManifestationOrganizer|<cols>}",
+		shape=Mrecord ];
+	nodeGauge [
+		label="{<table>Gauge|<cols>value (integer)\lonline (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=Mrecord ];
 	nodeEventCompany [
 		label="{<table>EventCompany|<cols>}",
@@ -177,6 +255,9 @@ graph G {
 		shape=Mrecord ];
 	nodeLocationIndex [
 		label="{<table>LocationIndex|<cols>}",
+		shape=Mrecord ];
+	nodeEventIndex [
+		label="{<table>EventIndex|<cols>}",
 		shape=Mrecord ];
 	nodeContactIndex [
 		label="{<table>ContactIndex|<cols>}",
@@ -196,6 +277,9 @@ graph G {
 	nodePrice [
 		label="{<table>Price|<cols>}",
 		shape=Mrecord ];
+	nodeCheckpoint [
+		label="{<table>Checkpoint|<cols>}",
+		shape=Mrecord ];
 	nodesfGuardUser [
 		label="{<table>sfGuardUser|<cols>}",
 		shape=Mrecord ];
@@ -204,6 +288,45 @@ graph G {
 		shape=Mrecord ];
 	nodesfGuardGroup [
 		label="{<table>sfGuardGroup|<cols>}",
+		shape=Mrecord ];
+	nodeCancellation [
+		label="{<table>Cancellation|<cols>}",
+		shape=Mrecord ];
+	nodeCancellationTicket [
+		label="{<table>CancellationTicket|<cols>}",
+		shape=Mrecord ];
+	nodePayment [
+		label="{<table>Payment|<cols>}",
+		shape=Mrecord ];
+	nodeOrder [
+		label="{<table>Order|<cols>}",
+		shape=Mrecord ];
+	nodeOrderTransaction [
+		label="{<table>OrderTransaction|<cols>}",
+		shape=Mrecord ];
+	nodeTraceable [
+		label="{<table>Traceable|<cols>}",
+		shape=Mrecord ];
+	nodeControl [
+		label="{<table>Control|<cols>}",
+		shape=Mrecord ];
+	nodeTransaction [
+		label="{<table>Transaction|<cols>}",
+		shape=Mrecord ];
+	nodeInvoice [
+		label="{<table>Invoice|<cols>}",
+		shape=Mrecord ];
+	nodeInvoiceTransaction [
+		label="{<table>InvoiceTransaction|<cols>}",
+		shape=Mrecord ];
+	nodeAccounting [
+		label="{<table>Accounting|<cols>}",
+		shape=Mrecord ];
+	nodeTicket [
+		label="{<table>Ticket|<cols>}",
+		shape=Mrecord ];
+	nodePaymentMethod [
+		label="{<table>PaymentMethod|<cols>}",
 		shape=Mrecord ];
 	nodeColor [
 		label="{<table>Color|<cols>}",
@@ -217,17 +340,11 @@ graph G {
 	nodeLocation [
 		label="{<table>Location|<cols>}",
 		shape=Mrecord ];
-	nodeLocationSeatingPlan [
-		label="{<table>LocationSeatingPlan|<cols>}",
-		shape=Mrecord ];
 	nodeEventCategory [
 		label="{<table>EventCategory|<cols>}",
 		shape=Mrecord ];
 	nodeEvent [
 		label="{<table>Event|<cols>}",
-		shape=Mrecord ];
-	nodeSeatingPlan [
-		label="{<table>SeatingPlan|<cols>}",
 		shape=Mrecord ];
 	nodeWorkspace [
 		label="{<table>Workspace|<cols>}",
@@ -312,6 +429,22 @@ graph G {
 		headlabel="0,n",
 		label="(Permission)",
 		labeldistance=3 ];
+	nodeWorkspaceUser -- nodesfGuardUser [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeWorkspaceUser -- nodeWorkspace [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeMetaEventUser -- nodesfGuardUser [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeMetaEventUser -- nodeMetaEvent [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
 	nodesfGuardGroupPermission -- nodesfGuardGroup [
 		headlabel="0,n",
 		label="(Group)",
@@ -325,6 +458,14 @@ graph G {
 		label="",
 		labeldistance=3 ];
 	nodeManifestationOrganizer -- nodeManifestation [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeGauge -- nodeManifestation [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeGauge -- nodeWorkspace [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
@@ -345,6 +486,10 @@ graph G {
 		label="",
 		labeldistance=3 ];
 	nodeLocationIndex -- nodeLocation [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeEventIndex -- nodeEvent [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
@@ -396,9 +541,17 @@ graph G {
 		headlabel="0,1",
 		label="(PriceManifestations)",
 		labeldistance=3 ];
+	nodePrice -- nodeTicket [
+		headlabel="0,1",
+		label="(Tickets)",
+		labeldistance=3 ];
 	nodePrice -- nodePriceManifestation [
 		headlabel="0,1",
 		label="",
+		labeldistance=3 ];
+	nodeCheckpoint -- nodeControl [
+		headlabel="0,1",
+		label="(Controls)",
 		labeldistance=3 ];
 	nodesfGuardUser -- nodesfGuardUserPermission [
 		headlabel="0,1",
@@ -416,6 +569,26 @@ graph G {
 		headlabel="0,1",
 		label="(Options)",
 		labeldistance=3 ];
+	nodesfGuardUser -- nodeAuthentication [
+		headlabel="0,1",
+		label="(Authentications)",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodeTraceable [
+		headlabel="0,1",
+		label="(%CLASS%s)",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodeTicket [
+		headlabel="0,1",
+		label="(Tickets)",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodeWorkspaceUser [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodeMetaEventUser [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
 	nodesfGuardPermission -- nodesfGuardGroupPermission [
 		headlabel="0,1",
 		label="",
@@ -432,9 +605,105 @@ graph G {
 		headlabel="0,1",
 		label="",
 		labeldistance=3 ];
+	nodeCancellation -- nodeCancellationVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
+	nodeCancellationTicket -- nodeTicket [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodePayment -- nodePaymentVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
+	nodeOrder -- nodeOrderVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
+	nodeOrderTransaction -- nodeTransaction [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeTraceable -- nodeTraceableVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
+	nodeControl -- nodeControlVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
+	nodeTransaction -- nodeTransactionVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
+	nodeTransaction -- nodeTransaction [
+		headlabel="0,1",
+		label="(Translinked)",
+		labeldistance=3 ];
+	nodeTransaction -- nodeTicket [
+		headlabel="0,1",
+		label="(Tickets)",
+		labeldistance=3 ];
+	nodeTransaction -- nodeAccounting [
+		headlabel="0,1",
+		label="(Accountings)",
+		labeldistance=3 ];
+	nodeTransaction -- nodeOrder [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeTransaction -- nodeInvoice [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeTransaction -- nodePayment [
+		headlabel="0,1",
+		label="(Payments)",
+		labeldistance=3 ];
+	nodeInvoice -- nodeInvoiceVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
+	nodeInvoiceTransaction -- nodeTransaction [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeAccounting -- nodeAccountingVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
+	nodeTicket -- nodeTicketVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
+	nodeTicket -- nodeTicket [
+		headlabel="0,1",
+		label="(Duplicated)",
+		labeldistance=3 ];
+	nodeTicket -- nodeTicket [
+		headlabel="0,1",
+		label="(Cancelling)",
+		labeldistance=3 ];
+	nodeTicket -- nodeCancellation [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeTicket -- nodeControl [
+		headlabel="0,1",
+		label="(Controls)",
+		labeldistance=3 ];
+	nodePaymentMethod -- nodePayment [
+		headlabel="0,1",
+		label="(Payments)",
+		labeldistance=3 ];
 	nodeColor -- nodeManifestation [
 		headlabel="0,1",
 		label="(Manifestations)",
+		labeldistance=3 ];
+	nodeManifestation -- nodeGauge [
+		headlabel="0,1",
+		label="(Gauges)",
 		labeldistance=3 ];
 	nodeManifestation -- nodeManifestationOrganizer [
 		headlabel="0,1",
@@ -444,7 +713,15 @@ graph G {
 		headlabel="0,1",
 		label="(PriceManifestations)",
 		labeldistance=3 ];
+	nodeManifestation -- nodeTicket [
+		headlabel="0,1",
+		label="(Tickets)",
+		labeldistance=3 ];
 	nodeManifestation -- nodeManifestationOrganizer [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
+	nodeManifestation -- nodeGauge [
 		headlabel="0,1",
 		label="",
 		labeldistance=3 ];
@@ -456,12 +733,12 @@ graph G {
 		headlabel="0,1",
 		label="(Events)",
 		labeldistance=3 ];
-	nodeLocation -- nodeLocationIndex [
+	nodeMetaEvent -- nodeMetaEventUser [
 		headlabel="0,1",
 		label="",
 		labeldistance=3 ];
-	nodeLocationSeatingPlan -- nodeSeatingPlan [
-		headlabel="0,n",
+	nodeLocation -- nodeLocationIndex [
+		headlabel="0,1",
 		label="",
 		labeldistance=3 ];
 	nodeLocation -- nodeManifestation [
@@ -476,17 +753,37 @@ graph G {
 		headlabel="0,1",
 		label="(EventCompanies)",
 		labeldistance=3 ];
+	nodeEvent -- nodeManifestation [
+		headlabel="0,1",
+		label="(Manifestations)",
+		labeldistance=3 ];
+	nodeEvent -- nodeCheckpoint [
+		headlabel="0,1",
+		label="(Checkpoints)",
+		labeldistance=3 ];
+	nodeEvent -- nodeEventIndex [
+		headlabel="0,1",
+		label="",
+		labeldistance=3 ];
 	nodeEvent -- nodeEventCompany [
 		headlabel="0,1",
 		label="",
 		labeldistance=3 ];
-	nodeSeatingPlan -- nodeLocation [
+	nodeWorkspace -- nodeGauge [
+		headlabel="0,1",
+		label="(Gauges)",
+		labeldistance=3 ];
+	nodeWorkspace -- nodeTransaction [
+		headlabel="0,1",
+		label="(Transactions)",
+		labeldistance=3 ];
+	nodeWorkspace -- nodeWorkspaceUser [
 		headlabel="0,1",
 		label="",
 		labeldistance=3 ];
-	nodeWorkspace -- nodeEvent [
+	nodeWorkspace -- nodeGauge [
 		headlabel="0,1",
-		label="(Events)",
+		label="",
 		labeldistance=3 ];
 	nodeProfessionalType -- nodeProfessional [
 		headlabel="0,1",
@@ -499,6 +796,10 @@ graph G {
 	nodeProfessional -- nodeGroupProfessional [
 		headlabel="0,1",
 		label="(ProfessionalGroups)",
+		labeldistance=3 ];
+	nodeProfessional -- nodeTransaction [
+		headlabel="0,1",
+		label="(Transactions)",
 		labeldistance=3 ];
 	nodeProfessional -- nodeEmailProfessional [
 		headlabel="0,1",
@@ -536,6 +837,10 @@ graph G {
 		headlabel="0,1",
 		label="(Professionals)",
 		labeldistance=3 ];
+	nodeContact -- nodeTransaction [
+		headlabel="0,1",
+		label="(Transactions)",
+		labeldistance=3 ];
 	nodeContact -- nodeEmailContact [
 		headlabel="0,1",
 		label="",
@@ -568,6 +873,10 @@ graph G {
 		headlabel="0,1",
 		label="(ManifestationOrganizers)",
 		labeldistance=3 ];
+	nodeOrganism -- nodeCheckpoint [
+		headlabel="0,1",
+		label="(Checkpoints)",
+		labeldistance=3 ];
 	nodeOrganism -- nodeOrganismPhonenumber [
 		headlabel="0,1",
 		label="(Phonenumbers)",
@@ -595,15 +904,21 @@ graph G {
 		arrowhead=normal ];
 	nodesfGuardUser -- nodesfGuardForgotPassword [
 		arrowhead=normal ];
+	nodeLocation -- nodeSeatingPlan [
+		arrowhead=normal ];
 	nodeGroupDetail -- nodeBaseGroupDetail [
 		arrowhead=normal ];
 	nodeGroup -- nodeBaseGroup [
+		arrowhead=normal ];
+	nodeAuthentication -- nodeBaseAuthentication [
 		arrowhead=normal ];
 	nodeModelType -- nodeBaseModelType [
 		arrowhead=normal ];
 	nodePhonenumber -- nodeBasePhonenumber [
 		arrowhead=normal ];
 	nodeOption -- nodeBaseOption [
+		arrowhead=normal ];
+	nodePostalcode -- nodeBasePostalcode [
 		arrowhead=normal ];
 	nodeAddressable -- nodeBaseAddressable [
 		arrowhead=normal ];
@@ -615,6 +930,8 @@ graph G {
 		arrowhead=normal ];
 	nodePrice -- nodeBasePrice [
 		arrowhead=normal ];
+	nodeCheckpoint -- nodeBaseCheckpoint [
+		arrowhead=normal ];
 	nodesfGuardForgotPassword -- nodeBasesfGuardForgotPassword [
 		arrowhead=normal ];
 	nodesfGuardUser -- nodeBasesfGuardUser [
@@ -624,6 +941,26 @@ graph G {
 	nodesfGuardPermission -- nodeBasesfGuardPermission [
 		arrowhead=normal ];
 	nodesfGuardGroup -- nodeBasesfGuardGroup [
+		arrowhead=normal ];
+	nodeCancellation -- nodeBaseCancellation [
+		arrowhead=normal ];
+	nodePayment -- nodeBasePayment [
+		arrowhead=normal ];
+	nodeOrder -- nodeBaseOrder [
+		arrowhead=normal ];
+	nodeTraceable -- nodeBaseTraceable [
+		arrowhead=normal ];
+	nodeControl -- nodeBaseControl [
+		arrowhead=normal ];
+	nodeTransaction -- nodeBaseTransaction [
+		arrowhead=normal ];
+	nodeInvoice -- nodeBaseInvoice [
+		arrowhead=normal ];
+	nodeAccounting -- nodeBaseAccounting [
+		arrowhead=normal ];
+	nodeTicket -- nodeBaseTicket [
+		arrowhead=normal ];
+	nodePaymentMethod -- nodeBasePaymentMethod [
 		arrowhead=normal ];
 	nodeColor -- nodeBaseColor [
 		arrowhead=normal ];
