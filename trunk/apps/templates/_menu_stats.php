@@ -21,13 +21,24 @@
 *
 ***********************************************************************************/
 ?>
-<?php if ( $sf_user->isSuperAdmin() ): ?>
+<?php if ( $sf_user->hasCredential('stats-attendance')
+        || $sf_user->hasCredential('stats-activity')
+        || $sf_user->hasCredential('stats-prices')
+        || $sf_user->hasCredential('stats-byGroup') ): ?>
       <li>
         <ul class="second">
+          <?php if ( $sf_user->hasCredential('stats-attendance') ): ?>
           <li><a href="<?php echo cross_app_url_for('stats','attendance/index') ?>"><?php echo __('Attendance',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('stats-prices') ): ?>
           <li><a href="<?php echo cross_app_url_for('stats','prices/index') ?>"><?php echo __('Prices repartition',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('stats-activity') ): ?>
           <li><a href="<?php echo cross_app_url_for('stats','activity/index') ?>"><?php echo __('Ticketting activity',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('stats-byGroup') ): ?>
           <li class="spaced"><a href="<?php echo cross_app_url_for('stats','byGroup/index') ?>"><?php echo __('Entrances by group',array(),'menu') ?></a></li>
+          <?php endif ?>
         </ul>
         <span class="title"><?php echo __('Stats',array(),'menu') ?></span>
       </li>
