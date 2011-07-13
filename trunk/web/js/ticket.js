@@ -91,10 +91,10 @@ function ticket_events()
         $(w.document).ready(function(){
           if ( contact_id = $(w.document).find('[name="contact[id]"]').val() )
           {
-            w.close();
             $('#contact form [name="transaction[contact_id]"]').val(contact_id);
             $('#contact form').submit();
           }
+          w.close();
         });
       },2500);
     };
