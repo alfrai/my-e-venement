@@ -22,9 +22,12 @@
 ***********************************************************************************/
 ?>
 <?php
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+    
     $tmp = explode(',',$request->getParameter('ticket_id'));
     $ticket_ids = array();
     foreach ( $tmp as $key => $ids )
+    if ( $ids )
     {
       $ids = explode('-',$ids);
       if ( !isset($ids[1]) ) $ids[1] = intval($ids[0]);
@@ -40,8 +43,13 @@
         ->findOneById(intval($id));
       if ( !$ticket )
       {
-        $this->getUser()->setFlash('error',"Can't find the ticket #".$id." in database...");
+        $this->getUser()->setFlash('error',__("Can't find the ticket #%%i%% in database...",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/cancel');
+      }
+      if ( !$ticket->printed )
+      {
+        $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it was not yet printed... Just try to suppress it",array('%%i%%' => $ticket->id)));
+        $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
       
       // get back a potential existing transaction
