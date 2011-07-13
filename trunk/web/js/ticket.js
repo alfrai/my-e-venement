@@ -79,10 +79,12 @@ function ticket_events()
   $('#contact .create-contact').unbind().click(function(){
     var w = window.open($(this).attr('href'),'new_contact');
     w.onload = function(){
-      $(w.document).ready(function(){
-        $(w.document).find('.sf_admin_actions_form .sf_admin_action_list, .sf_admin_actions_form .sf_admin_action_save_and_add')
-          .remove();
-      });
+      setTimeout(function(){
+        $(w.document).ready(function(){
+          $(w.document).find('.sf_admin_actions_form .sf_admin_action_list, .sf_admin_actions_form .sf_admin_action_save_and_add')
+            .remove();
+        });
+      },2500);
     };
     w.onunload = function(){
       setTimeout(function(){
@@ -94,7 +96,7 @@ function ticket_events()
             $('#contact form').submit();
           }
         });
-      },500);
+      },2500);
     };
     return false;
   });
