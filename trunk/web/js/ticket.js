@@ -45,7 +45,6 @@ function ticket_events()
     $('#contact #micro-show').fadeOut();
   });
   
-  
   ticket_autocomplete(
     '#transaction_contact_id',
     '#autocomplete_transaction_contact_id',
@@ -75,6 +74,31 @@ function ticket_events()
     });
     return false;
   });
+  
+  // add contact link
+  $('#contact .create-contact').unbind().click(function(){
+    var w = window.open($(this).attr('href'),'new_contact');
+    w.onload = function(){
+      $(w.document).ready(function(){
+        $(w.document).find('.sf_admin_actions_form .sf_admin_action_list, .sf_admin_actions_form .sf_admin_action_save_and_add')
+          .remove();
+      });
+    };
+    w.onunload = function(){
+      setTimeout(function(){
+        $(w.document).ready(function(){
+          if ( contact_id = $(w.document).find('[name="contact[id]"]').val() )
+          {
+            w.close();
+            $('#contact form [name="transaction[contact_id]"]').val(contact_id);
+            $('#contact form').submit();
+          }
+        });
+      },500);
+    };
+    return false;
+  });
+  
   
   // manifestations
   $('#manifestations form').unbind().submit(function(){

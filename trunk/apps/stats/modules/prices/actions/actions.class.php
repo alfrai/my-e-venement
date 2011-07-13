@@ -149,8 +149,8 @@ class pricesActions extends sfActions
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.cancelling IS NULL')
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
-      ->andWhere('t.updated_at > ?',date('Y-m-d H:i:s',$dates['from']))
-      ->andWhere('t.updated_at <= ?',date('Y-m-d H:i:s',$dates['to']))
+      ->andWhere('m.happens_at > ?',date('Y-m-d H:i:s',$dates['from']))
+      ->andWhere('m.happens_at <= ?',date('Y-m-d H:i:s',$dates['to']))
       ->groupBy('p.id, p.name, p.value');
     
     if ( count($criterias['users']) > 0 )

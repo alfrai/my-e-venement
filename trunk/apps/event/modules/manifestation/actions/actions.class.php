@@ -201,12 +201,17 @@ class manifestationActions extends autoManifestationActions
   {
     $this->securityAccessFiltering($request);
     parent::executeEdit($request);
+    $this->form->prices = $this->getPrices();
   }
   public function executeShow(sfWebRequest $request)
   {
     $this->securityAccessFiltering($request);
     parent::executeShow($request);
-    
+    $this->form->prices = $this->getPrices();
+  }
+  
+  protected function getPrices()
+  {
     $q = Doctrine::getTable('Price')->createQuery('p')
       ->leftJoin('p.Tickets t')
       ->leftJoin('t.Transaction tr')
@@ -214,11 +219,13 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('tr.Professional pro')
       ->leftJoin('pro.Organism o')
       ->leftJoin('tr.Order order')
+      ->leftJoin('t.Controls ctrl')
+      ->leftJoin('ctrl.Checkpoint cp')
       ->andWhere('t.cancelling IS NULL')
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL AND tt.printed = t.printed)')
       ->andWhere('t.manifestation_id = ?',$this->manifestation->id)
       ->orderBy('p.name, o.name, c.name, c.firstname');
-    $this->form->prices = $q->execute();
+    return $q->execute();
   }
 }

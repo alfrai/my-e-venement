@@ -35,6 +35,7 @@ generator:
           Technical: [duration, vat] #, prices_list]
           Organization: [seated, organizers_list]
           Workspaces: [workspaces_list]
+          Tickets: [_show_tickets_list]
       show:
         display:
           General: [_show_event, _show_happens_at, _show_location, _show_color, description]

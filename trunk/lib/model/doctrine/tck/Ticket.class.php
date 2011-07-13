@@ -33,4 +33,9 @@ class Ticket extends PluginTicket
   {
     return md5('#'.$this->id.'-'.$salt);
   }
+  
+  public function __toString()
+  {
+    return '#'.$this->id;
+  }
 }

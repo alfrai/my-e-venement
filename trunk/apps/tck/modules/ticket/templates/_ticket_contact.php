@@ -29,7 +29,7 @@
     <?php if ( !is_null($transaction->contact_id) ): ?>
       <a href="#" class="delete-contact"></a>
     <?php else: ?>
-      <a href="<?php echo cross_app_url_for('rp','contact/new') ?>" target="_blank" class="create-contact"></a>
+      <a href="<?php echo cross_app_url_for('rp','contact/new') ?>?close" target="_blank" class="create-contact"></a>
     <?php endif ?>
   </p>
 </form>

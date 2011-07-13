@@ -1,0 +1,69 @@
+<?php
+  $total = array('controlled' => array('qty' => 0, 'value' => 0), 'not_controlled' => array('qty' => 0, 'value' => 0),);
+  $tickets = array('controlled' => array(), 'not_controlled' => array(),);
+  foreach ( $form->prices as $price )
+  {
+    $qty = $value = array('controlled' => 0, 'not_controlled' => 0);
+    foreach ( $price->Tickets as $t )
+    if ( $t->printed )
+    {
+      $key = $t->Controls->count() > 0 ? 'controlled' : 'not_controlled';
+      $tickets[$key][$t->id] = $t;
+      $value[$key] += $t->value;
+      $qty[$key]++;
+    }
+    $total['controlled']['qty'] += $qty['controlled'];
+    $total['controlled']['value'] += $value['controlled'];
+    $total['not_controlled']['qty'] += $qty['not_controlled'];
+    $total['not_controlled']['value'] += $value['not_controlled'];
+  }
+  sort($tickets['controlled']); sort($tickets['not_controlled']);
+?>
+
+<h2><?php echo __('Tickets to be controlled') ?></h2>
+<table id="to-be-controlled" class="control">
+<tbody>
+  <?php $overlined = true ?>
+  <?php foreach ( $tickets['not_controlled'] as $ticket ): ?>
+  <tr class="<?php echo ($overlined = !$overlined) ? 'overlined' : '' ?>">
+    <td class="name"><?php echo $ticket ?></td>
+    <td class="qty"><?php echo $ticket->price_name ?></td>
+    <td class="price"><?php echo format_currency($ticket->value,'€') ?></td>
+    <td class="transaction"><?php echo cross_app_link_to('#'.$ticket->Transaction,'tck','ticket/sell?id='.$ticket->transaction_id) ?></td>
+    <td class="contact"><?php
+      echo $ticket->Transaction->professional_id
+        ? cross_app_link_to($ticket->Transaction->Professional,'rp','contact/show?id='.$ticket->Transaction->Contact->id)
+        : $ticket->Transaction->contact_id
+        ? cross_app_link_to($ticket->Transaction->Contact,'rp','contact/show?id='.$ticket->Transaction->Contact->id)
+        : '';
+    ?></td>
+  </tr>
+  <?php endforeach ?>
+  <tbody>
+  <?php include_partial('show_tickets_list_table_footer',array('total' => $total['not_controlled'])) ?>
+  <?php include_partial('show_tickets_list_table_header') ?>
+</table>
+
+<h2><?php echo __('Controlled tickets') ?></h2>
+<table id="controlled" class="control">
+<tbody>
+  <?php $overlined = true ?>
+  <?php foreach ( $tickets['controlled'] as $ticket ): ?>
+  <tr class="<?php echo ($overlined = !$overlined) ? 'overlined' : '' ?>">
+    <td class="name"><?php echo $ticket ?></td>
+    <td class="qty"><?php echo $ticket->price_name ?></td>
+    <td class="price"><?php echo format_currency($ticket->value,'€') ?></td>
+    <td class="transaction"><?php echo cross_app_link_to('#'.$ticket->Transaction,'tck','ticket/sell?id='.$ticket->transaction_id) ?></td>
+    <td class="contact"><?php
+      echo $ticket->Transaction->professional_id
+        ? cross_app_link_to($ticket->Transaction->Professional,'rp','contact/show?id='.$ticket->Transaction->Contact->id)
+        : $ticket->Transaction->contact_id
+        ? cross_app_link_to($ticket->Transaction->Contact,'rp','contact/show?id='.$ticket->Transaction->Contact->id)
+        : '';
+    ?></td>
+  </tr>
+  <?php endforeach ?>
+  <tbody>
+  <?php include_partial('show_tickets_list_table_footer',array('total' => $total['controlled'])) ?>
+  <?php include_partial('show_tickets_list_table_header') ?>
+</table>

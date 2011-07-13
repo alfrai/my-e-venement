@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Tickets to be controlled</source>
+        <target>Billets à contrôler</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Controlled tickets</source>
+        <target>Billets contrôlés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Sell</source>
         <target>Vendre</target>
       </trans-unit>
