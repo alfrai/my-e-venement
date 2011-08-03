@@ -12,7 +12,10 @@ body {
 .spectator {
   display: none;
   font-size: 85%;
-  font-weight: normal;
+  font-weight: bold;
+  position: absolute;
+  top: 9mm;
+  margin: 0 2mm;
 }
 .ticket {
   width: 150mm;
@@ -22,11 +25,11 @@ body {
 .left, .right {
   overflow: hidden;
   border: 1px solid none;
+  height: 58mm;
 }
 .left {
   border-color: blue;
   width: 108.8mm;
-  height: 58mm;
   float: left;
   text-align: right;
   padding-right: 3mm;
@@ -34,7 +37,6 @@ body {
 .right {
   border-color: green;
   width: 36.2mm;
-  height: 58mm;
   padding-left: 2mm;
 }
 
@@ -89,8 +91,8 @@ float: left;
 .transaction { font-size: 6pt; margin-top: 1.5mm; height: 8pt; }
 .mentions { margin-top: 1mm; }
 .mentions .cancelled-id { text-decoration: line-through; }
-.left .mentions .keep-it { margin-left: 20px; }
-.right .mentions .keep-it { margin-right: 20px; }
+.left .mentions .keep-it { margin-left: 15px; }
+.right .mentions .keep-it { margin-right: 15px; }
 
 .right .manifid { text-align: right; margin-right: 2mm; float: right; }
 .right .metaevt { font-size: 7pt; padding-top: 0.5pt; height: 9.5pt; }

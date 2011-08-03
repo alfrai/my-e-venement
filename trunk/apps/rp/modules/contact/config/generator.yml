@@ -36,8 +36,8 @@ generator:
       edit:
         title: Contact %%name%% %%firstname%%
         display:
-          NONE:  [title, name, firstname, address, postalcode, city, country]
-          Precisions: [npai, email, description, YOBs_list, family_contact, password]
+          NONE:  [title, name, firstname, address, postalcode, city, country, email]
+          Precisions: [npai, description, YOBs_list, family_contact, password]
           Phonenumbers: [_form_phonenumbers_list]
           Personal groups: [groups_list]
           #Geolocalization: [_gmap]
@@ -45,6 +45,6 @@ generator:
       new:
         title: New contact
         display:
-          NONE:  [title, name, firstname, address, postalcode, city, country]
-          Precisions: [npai, email, description, YOBs_list, family_contact, password]
+          NONE:  [title, name, firstname, address, postalcode, city, country, email]
+          Precisions: [npai, description, YOBs_list, family_contact, password]
           Groups: [groups_list]

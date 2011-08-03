@@ -17,7 +17,7 @@ showSuccess:
   javascripts: [contact-show]
 
 indexSuccess:
-  javascripts: [contact-filters, contact-search, list-scroll]
+  javascripts: [contact-filters, list-scroll]
   stylesheets: [list-print: {media: print}]
 filterSuccess:
   javascripts: [contact-filters]

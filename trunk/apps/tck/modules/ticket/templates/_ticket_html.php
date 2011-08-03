@@ -25,9 +25,9 @@
       <span class="num">#<?php echo $ticket->Transaction->id ?>-<?php echo $sf_user->getId() ?></span>
     </p>
     <p class="ticket-bc"><img src="<?php echo url_for('ticket/barcode?id='.$ticket->id) ?>" alt="" /></p>
-    <p class="spectator"><?php echo $ticket->Transaction->Contact ?></p>
+    <p class="spectator"><?php echo $ticket->Transaction->professional_id > 0 ? $ticket->Transaction->Professional->Organism : $ticket->Transaction->Contact ?></p>
     <p class="mentions">
-      <span class="optional"><?php echo sfConfig::get('app_tickets_mentions') ?></span>
+      <span class="optional"><?php $mentions = sfConfig::get('app_tickets_mentions'); echo $mentions['optional'] ?></span>
       <?php if ( $ticket->cancelling ): ?>
         <span class="cancelled-id">#<?php echo $ticket->cancelling ?></span>
       <?php endif ?>
@@ -48,7 +48,7 @@
       /
       <span class="price"><?php echo format_currency($ticket->value,'€') ?></span>
     </p>
-    <p class="spectator"><?php echo $ticket->Transaction->Contact ?></p>
+    <p class="spectator"><?php echo $ticket->Transaction->professional_id > 0 ? $ticket->Transaction->Professional->Organism : $ticket->Transaction->Contact ?></p>
     <p class="event"><?php echo strlen($buf = $ticket->Manifestation->Event) > 21 ? substr($buf,0,18).'...' : $buf ?></p>
     <p class="cie"><?php echo strlen($buf = implode(', ',$creators)) > 20 ? substr($buf,0,17).'...' : $buf; ?></p>
     <p class="org"><?php echo isset($orgas[0]) ? $orgas[0] : '' ?></p>

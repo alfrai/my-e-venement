@@ -79,7 +79,7 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
           '%s',
           '%s')
         ) LIKE LOWER(?)", $query->getRootAlias(), $fieldName, sfContext::getInstance()->getConfiguration()->transliterate[0], sfContext::getInstance()->getConfiguration()->transliterate[1]),
-        ''.iconv('UTF-8', 'ASCII//TRANSLIT', $values['text']).'%'
+        ''.iconv('UTF-8', 'ASCII//TRANSLIT', '%'.$values['text']).'%'
       );
     }
   }

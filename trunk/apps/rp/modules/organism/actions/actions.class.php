@@ -116,5 +116,26 @@ class organismActions extends autoOrganismActions
     }
     $this->gMap = Addressable::getGmapFromQuery($q,$request);
   }
-}
+  
+  public function executeSearch(sfWebRequest $request)
+  {
+    self::executeIndex($request);
+    
+    $search = $this->sanitizeSearch($request->getParameter('s'));
+    $transliterate = sfContext::getInstance()->getConfiguration()->transliterate;
+    
+    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
+    $table = Doctrine_Core::getTable('Organism');
+    $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery()));
 
+    $this->pager->init();
+    $this->setTemplate('index');
+  }
+  
+  public static function sanitizeSearch($search)
+  {
+    $nb = strlen($search);
+    $charset = sfContext::getInstance()->getConfiguration()->charset;
+    return iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search);
+  }
+}

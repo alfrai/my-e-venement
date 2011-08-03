@@ -9,7 +9,7 @@ function list_integrated_search(data)
   $('.sf_admin_list > table > thead a, .sf_admin_list > table > tfoot a').each(function(){
     $(this).attr('href',
       $(this).attr('href').replace(
-        $('#list-integrated-search input[name=contact_url]').val(),
+        $('#list-integrated-search input[name=url]').val(),
         $('#list-integrated-search').attr('action')
       )+'&s='+$('#list-integrated-search input[name=s]').val()
     );

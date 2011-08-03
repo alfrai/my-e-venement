@@ -28,7 +28,7 @@ generator:
           General:      [happens_at, event_id, location_id, color_id, description]
           Technical:    [duration, vat, _form_prices]
           Organization: [seated, organizers_list]
-          Workspaces:   [_form_workspaces]
+          Workspaces:   [_form_workspaces, _show_workspaces_list]
       new:
         display:
           General: [happens_at, event_id, location_id, color_id, description]

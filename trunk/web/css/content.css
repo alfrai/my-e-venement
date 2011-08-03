@@ -101,3 +101,6 @@ body .ui-widget-header { margin: 2px 2px auto 2px; }
   padding: 10px;
 }
 
+.sf_admin_td_actions { width: 60px; }
+.sf_admin_td_actions .fg-button-mini { font-size: 0px; padding: 16px 16px 0 0; }
+
