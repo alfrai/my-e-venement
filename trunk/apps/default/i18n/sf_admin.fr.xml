@@ -43,7 +43,7 @@
       </trans-unit>
       <trans-unit>
         <source>Back to list</source>
-        <target>Retour à la liste</target>
+        <target>Liste</target>
       </trans-unit>
 
       <!-- Filters -->
