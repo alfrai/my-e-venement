@@ -150,8 +150,9 @@ class contactActions extends autoContactActions
     $transliterate = sfContext::getInstance()->getConfiguration()->transliterate;
     
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
-    $this->pager->setQuery(Doctrine_Core::getTable('Contact')->search($search.'*',$this->pager->getQuery()));
-    
+    $table = Doctrine_Core::getTable('Contact');
+    $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery()));
+
     $this->pager->init();
     $this->setTemplate('index');
   }
@@ -309,7 +310,8 @@ class contactActions extends autoContactActions
     return sfView::NONE;
   }
   
-  public function executeMap(sfWebRequest $request) {
+  public function executeMap(sfWebRequest $request)
+  {
     $q = $this->buildQuery();
     $this->gMap = new GMap();
     if ( !$this->gMap->getGMapClient()->getAPIKey() )
@@ -328,6 +330,7 @@ class contactActions extends autoContactActions
   public static function sanitizeSearch($search)
   {
     $nb = strlen($search);
-    return substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search;
+    $charset = sfContext::getInstance()->getConfiguration()->charset;
+    return iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search);
   }
 }
