@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>%%f%%/&lt;strong&gt;%%t%%&lt;/strong&gt; (&lt;span title="printed"&gt;%%p%%&lt;/span&gt;-&lt;span title="ordered"&gt;%%o%%&lt;/span&gt;-&lt;span title="asked"&gt;%%a%%&lt;/span&gt;)</source>
+        <target>%%f%%/&lt;strong&gt;%%t%%&lt;/strong&gt; (&lt;span title="imprimés"&gt;%%p%%&lt;/span&gt;-&lt;span title="engagés"&gt;%%o%%&lt;/span&gt;-&lt;span title="demandeés"&gt;%%a%%&lt;/span&gt;)</target>
+      </trans-unit>
+      <trans-unit>
         <source>Tickets to be controlled</source>
         <target>Billets à contrôler</target>
       </trans-unit>

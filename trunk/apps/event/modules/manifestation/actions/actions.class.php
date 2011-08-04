@@ -143,7 +143,8 @@ class manifestationActions extends autoManifestationActions
     $this->pager->setQuery(
       EventFormFilter::addCredentialsQueryPart(
         Doctrine::getTable('Manifestation')->createQueryByEventId($this->event_id)
-        ->select('*, happens_at > NOW() AS after, (CASE WHEN ( happens_at < NOW() ) THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
+        ->select('*, g.*, l.*, tck.*, happens_at > NOW() AS after, (CASE WHEN ( happens_at < NOW() ) THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
+        ->leftJoin('m.Tickets tck')
         ->orderBy('after DESC, before')
     ));
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);

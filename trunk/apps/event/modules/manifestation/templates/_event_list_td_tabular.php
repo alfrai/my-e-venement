@@ -9,3 +9,6 @@
 <td class="sf_admin_text sf_admin_list_td_list_description">
   <?php echo get_partial('manifestation/list_description', array('type' => 'list', 'manifestation' => $manifestation)) ?>
 </td>
+<td class="sf_admin_text sf_admin_list_td_list_gauge">
+  <?php echo get_partial('manifestation/list_gauge', array('type' => 'list', 'manifestation' => $manifestation)) ?>
+</td>
