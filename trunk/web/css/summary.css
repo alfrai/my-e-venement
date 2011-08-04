@@ -12,3 +12,9 @@
 .sf_admin_list_td_debt .debt {
   font-weight: bold;
 }
+
+.sf_admin_list_th_delete_demands,
+.sf_admin_list_td_delete_demands { display: none; }
+
+.asks .sf_admin_list_th_delete_demands,
+.asks .sf_admin_list_td_delete_demands { display: table-cell; }

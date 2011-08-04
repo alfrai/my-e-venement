@@ -13,6 +13,33 @@ require_once dirname(__FILE__).'/../lib/organismGeneratorHelper.class.php';
  */
 class organismActions extends autoOrganismActions
 {
+  public function executeBatchAddToGroup(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    $ids = $request->getParameter('ids');
+    $groups = $request->getParameter('groups');
+    
+    $orgs = Doctrine::getTable('Organism')->createQuery('o')
+      ->whereIn('o.id',$ids)
+      ->execute();
+    
+    foreach ( $orgs as $organism )
+    foreach ( $organism->Professionals as $pro )
+    foreach ( $groups as $group_id )
+    {
+      $gp = new GroupProfessional();
+      $gp->professional_id = $pro->id;
+      $gp->group_id = $group_id;
+      
+      try { $gp->save(); }
+      catch(Doctrine_Exception $e) {}
+    }
+    
+    $this->getUser()->setFlash('notice',__('The contacts in chosen organisms have been added to the selected groups.'));
+    $this->redirect('@contact');
+  }
+
   public function executeEmailList(sfWebRequest $request)
   {
     if ( !$request->getParameter('id') )

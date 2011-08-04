@@ -37,6 +37,28 @@ require_once dirname(__FILE__).'/../lib/contactGeneratorHelper.class.php';
  */
 class contactActions extends autoContactActions
 {
+  public function executeBatchAddToGroup(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    $ids = $request->getParameter('ids');
+    $groups = $request->getParameter('groups');
+    
+    foreach ( $ids as $contact_id )
+    foreach ( $groups as $group_id )
+    {
+      $gc = new GroupContact();
+      $gc->contact_id = $contact_id;
+      $gc->group_id = $group_id;
+      
+      try { $gc->save(); }
+      catch(Doctrine_Exception $e) {}
+    }
+    
+    $this->getUser()->setFlash('notice',__('The chosen contacts have been added to the selected groups.'));
+    $this->redirect('@contact');
+  }
+  
   public function executeEdit(sfWebRequest $request)
   {
     parent::executeEdit($request);

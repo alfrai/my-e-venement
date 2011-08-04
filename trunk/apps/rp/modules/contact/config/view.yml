@@ -17,10 +17,11 @@ showSuccess:
   javascripts: [contact-show]
 
 indexSuccess:
-  javascripts: [contact-filters, list-scroll]
-  stylesheets: [list-print: {media: print}]
+  javascripts: [contact-list, list-scroll]
+  stylesheets: [list-print: {media: print}, contact-list, batch-actions]
 filterSuccess:
-  javascripts: [contact-filters]
+  javascripts: [contact-list]
+  stylesheets: [list-print: {media: print}, contact-list, batch-actions]
 
 labelsSuccess:
   has_layout: false

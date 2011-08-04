@@ -37,8 +37,23 @@ class summaryActions extends autoSummaryActions
   public function executeAsks(sfWebRequest $request)
   {
     $this->type = 'asks';
+    $this->class = 'asks';
     $this->executeIndex($request);
     $this->setTemplate('index');
+  }
+  public function executeDeleteDemands(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    Doctrine::getTable('Ticket')->createQuery('tck')
+      ->delete()
+      ->andWhere('tck.transaction_id = ?',$request->getParameter('id'))
+      ->andWhere('tck.printed = false')
+      ->andWhere('tck.transaction_id NOT IN (SELECT o.transaction_id FROM Order o)')
+      ->execute();
+      
+    $this->getUser()->setFlash('notice',__('Demands deleted properly'));
+    $this->redirect('summary/asks');
   }
   
   public function buildQuery()

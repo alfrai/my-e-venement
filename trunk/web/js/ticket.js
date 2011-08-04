@@ -1,6 +1,15 @@
 $(document).ready(function(){
   anchors = $('.action > a').toArray();
   ticket_lauchpad(anchors);
+  if ( $('#transaction-id').length > 0 )
+  {
+    window.onbeforeunload = function(){
+      return false;
+    };
+    $('#validation').submit(function(){
+      window.onbeforeunload = null;
+    });
+  }
 });
 
 function ticket_lauchpad(anchors)

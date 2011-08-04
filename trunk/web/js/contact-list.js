@@ -60,4 +60,26 @@ $(document).ready(function(){
     else
       $(this).parent().find('select + select option:first-child + option').attr('selected','selected');
   });
+  
+  setTimeout(contact_batch_change,1000); // setTimeout is a hack...
 });
+
+function contact_batch_change()
+{
+  $('.ui-selectmenu-menu-dropdown a[role=option]').click(function(){
+    if ( $(this).html() == $('select[name=batch_action] option[value=batchAddToGroup]').html() )
+    {
+      $('.sf_admin_batch_actions_choice input[type=submit]').before(
+        $('#contact_filters_groups_list').clone(true)
+          .attr('name','groups[]')
+          .attr('id','batch_action_group')
+          .addClass('ui-corner-all')
+      );
+      $('.sf_admin_batch_actions_choice input[type=submit]').after('<div style="clear: both"></div>');
+    }
+    else
+    {
+      $('#batch_action_group').fadeOut('medium');
+    }
+  });
+}

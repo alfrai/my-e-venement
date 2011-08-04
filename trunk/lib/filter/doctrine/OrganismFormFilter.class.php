@@ -19,11 +19,12 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     
     $this->widgetSchema['contacts_groups'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'Group',
-      'add_empty' => true,
+      'multiple' => true,
     ));
     $this->validatorSchema['contacts_groups'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Group',
       'required' => false,
+      'multiple' => true,
     ));
     
     parent::configure();
