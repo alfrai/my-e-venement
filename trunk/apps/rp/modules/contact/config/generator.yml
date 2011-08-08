@@ -21,12 +21,11 @@ generator:
         not_groups_list: { label: Not member of groups }
         email_list: { label: Email }
       list:
-        display: [name, firstname, postalcode, city, _email_list, _organisms_list, npai]
+        display: [name, firstname, postalcode, city, _email_list, _organisms_list, _organisms_email_list]
       show: 
         display:
-          NONE: [title, _show_who, address, postalcode, city, country, _show_email, _show_phonenumbers_list]
+          NONE: [title, _show_who, address, postalcode, city, country, _show_email, _show_phonenumbers_list, _show_groups_list]
           Precisions: [npai, description, _YOBs]
-          Groups: [_show_groups_list]
           #Geolocalization: [_gmap]
           Details: [created_at,updated_at,slug,longitude,latitude]
           Ticketting: [_events_list]

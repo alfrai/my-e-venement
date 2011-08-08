@@ -22,7 +22,7 @@ generator:
         contact_number: { label: Phone number }
       list:    ~
       show:
-        display: [Organism, department, name, ProfessionalType, contact_email, contact_number, description, _show_groups_list]
+        display: [Organism, _organism_address, department, name, ProfessionalType, contact_email, contact_number, description, _show_groups_list]
       filter:  ~
       form:
         display:

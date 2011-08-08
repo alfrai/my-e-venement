@@ -14,3 +14,4 @@ all:
       default_country: France
   ticketting:
     dematerialized: true
+    #hide_demands: true

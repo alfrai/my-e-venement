@@ -35,11 +35,8 @@ generator:
         display: [name, postalcode, city, country, email, npai, organism_category_id, contacts_groups]
       show:
         display:
-          NONE: [_show_who, _show_email, _show_phonenumbers_list]
-          Address:  [name, address, postalcode, city, country]
-          Internet: [email, url]
-          Precisions: [Category, npai, description]
-          Details: [created_at,updated_at,slug,longitude,latitude]
+          NONE: [name, address, postalcode, city, country, _show_email, _show_phonenumbers_list, url, Category]
+          Details: [npai, description, created_at,updated_at,slug,longitude,latitude]
           #Geolocalization: [_gmap]
       form:
       edit:

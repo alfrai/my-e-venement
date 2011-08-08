@@ -29,9 +29,10 @@ generator:
         staging_label: { label: Staging label }
         writer_label: { label: Writer label }
         list_manifestations: { label: Manifestations }
+        list_manifestations_gauges: { label: Gauges [booked/total (sold-booked-demanded)] }
       list:
         title: Event List
-        display: [MetaEvent, name, EventCategory, duration, _list_manifestations, age_min_h_r]
+        display: [MetaEvent, name, EventCategory, duration, age_min_h_r, _list_manifestations, _list_manifestations_gauges]
       filter:
         display: [meta_event_id, event_category_id, name, staging, writer, duration, age_min, age_max, companies_list]
       form:

@@ -3,11 +3,11 @@
   <span class="total"><?php echo __('Total: ',null,'gauge') ?><span class="nb"><?php echo $gauge->value ?></span></span>
   <span class="free"><?php echo __('Free: ',null,'gauge') ?><span class="nb"><?php echo ($gauge->value - ($manifestation->demands+$manifestation->orders+$manifestation->sells)) ?></span></span>
   <br/>
-  <span class="sells"><?php echo __('Sells: ',null,'gauge') ?><span class="nb"><?php echo $manifestation->sells ?></span></span>
+  <span class="sells"><?php echo __('Sells: ',null,'gauge') ?><span class="nb"><?php echo intval($manifestation->sells) ?></span></span>
   <?php if ( $sf_user->hasCredential('tck-accounting-order') ): ?>
-    <span class="orders"><?php echo __('Orders: ',null,'gauge') ?><span class="nb"><?php echo $manifestation->orders ?></span></span>
+    <span class="orders"><?php echo __('Orders: ',null,'gauge') ?><span class="nb"><?php echo intval($manifestation->orders) ?></span></span>
   <?php endif ?>
-  <span class="asks"><?php echo __('Demands: ',null,'gauge')?><span class="nb"><?php echo $manifestation->demands ?></span></span>
+  <span class="asks"><?php echo __('Demands: ',null,'gauge')?><span class="nb"><?php echo intval($manifestation->demands) ?></span></span>
 </p>
 <div>
 <input type="hidden" name="gauge-id" value="<?php echo $manifestation->id ?>" />

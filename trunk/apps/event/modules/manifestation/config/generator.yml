@@ -18,6 +18,7 @@ generator:
         list_location: { label: Location }
         list_description: { label: Description }
         happens_at: { label: Date }
+        id: { label: Manif's ID }
       list:
         display: [_list_event, happens_at, _list_location, _list_description]
       filter:  ~
@@ -29,6 +30,7 @@ generator:
           Technical:    [duration, vat, _form_prices]
           Organization: [seated, organizers_list]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
+          #Tickets: [_show_tickets_list]
       new:
         display:
           General: [happens_at, event_id, location_id, color_id, description]
@@ -39,7 +41,7 @@ generator:
       show:
         display:
           General: [_show_event, _show_happens_at, _show_location, _show_color, description]
-          Technical: [duration, _show_vat, _show_prices_list]
+          Technical: [id, duration, _show_vat, _show_prices_list]
           Organization: [_show_seated, _show_organizers_list]
           Workspaces: [_show_workspaces_list]
           Tickets: [_show_tickets_list]

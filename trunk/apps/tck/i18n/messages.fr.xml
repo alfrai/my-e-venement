@@ -86,7 +86,7 @@
       </trans-unit>
       <trans-unit>
         <source>Print</source>
-        <target>Imprimer</target>
+        <target>Imprimer les billets</target>
       </trans-unit>
       <trans-unit>
         <source>Linking tickets to specific codes</source>
@@ -510,7 +510,7 @@
       </trans-unit>
       <trans-unit id="170">
         <source>Order</source>
-        <target>Bon de commande</target>
+        <target>Résa./Bon de comm.</target>
       </trans-unit>
       <trans-unit id="171">
         <source>Checkpoint failed !</source>
