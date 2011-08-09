@@ -37,19 +37,15 @@ generator:
         display:
           NONE: [name, address, postalcode, city, country, _show_email, _show_phonenumbers_list, url, Category]
           Details: [npai, description, created_at,updated_at,slug,longitude,latitude]
-          #Geolocalization: [_gmap]
       form:
       edit:
         title: Organism %%name%%
         display:
-          NONE:  [name, address, postalcode, city, country]
-          Internet: [email, url]
-          Precisions: [organism_category_id, npai, description]
+          NONE:  [name, address, postalcode, city, country, email, url, organism_category_id]
           Phonenumbers: [_form_phonenumbers_list]
-          #Geolocalization: [_gmap]
+          Details: [npai, description]
       new:
         title: New organism
         display:
-          NONE:  [name, address, postalcode, city, country]
-          Internet: [email, url]
-          Precisions: [organism_category_id, npai, description]
+          NONE:  [name, address, postalcode, city, country, email, url, organism_category_id]
+          Details: [npai, description]

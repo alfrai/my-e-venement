@@ -25,8 +25,7 @@ generator:
       show: 
         display:
           NONE: [title, _show_who, address, postalcode, city, country, _show_email, _show_phonenumbers_list, _show_groups_list]
-          Precisions: [npai, description, _YOBs]
-          #Geolocalization: [_gmap]
+          Precisions: [family_contact, npai, description, _YOBs]
           Details: [created_at,updated_at,slug,longitude,latitude]
           Ticketting: [_events_list]
       filter:
@@ -35,15 +34,12 @@ generator:
       edit:
         title: Contact %%name%% %%firstname%%
         display:
-          NONE:  [title, name, firstname, address, postalcode, city, country, email]
-          Precisions: [npai, description, YOBs_list, family_contact, password]
+          NONE:  [title, name, firstname, address, postalcode, city, country, email, groups_list]
           Phonenumbers: [_form_phonenumbers_list]
-          Personal groups: [groups_list]
-          #Geolocalization: [_gmap]
+          Precisions: [family_contact, npai, description, YOBs_list, password]
           Ticketting: [_events_list]
       new:
         title: New contact
         display:
-          NONE:  [title, name, firstname, address, postalcode, city, country, email]
-          Precisions: [npai, description, YOBs_list, family_contact, password]
-          Groups: [groups_list]
+          NONE:  [title, name, firstname, address, postalcode, city, country, email, groups_list]
+          Precisions: [family_contact, npai, description, YOBs_list, password]
