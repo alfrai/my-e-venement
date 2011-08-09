@@ -11,6 +11,14 @@
     $tickets['booked']++;
   }
 ?>
+<?php if ( sfConfig::has('app_ticketting_hide_demands') ): ?>
+<?php echo __('<strong class="booked">%%b%%</strong>/<strong>%%t%%</strong> (<span title="sold">%%p%%</span>-<span title="ordered">%%o%%</span>)', array(
+    '%%p%%' => $tickets['printed'],
+    '%%o%%' => $tickets['ordered'],
+    '%%b%%' => $tickets['booked'],
+    '%%t%%' => $tickets['total'],
+  )) ?>
+<?php else: ?>
 <?php echo __('<strong class="booked">%%b%%</strong>/<strong>%%t%%</strong> (<span title="sold">%%p%%</span>-<span title="ordered">%%o%%</span>-<span title="asked">%%a%%</span>)', array(
     '%%p%%' => $tickets['printed'],
     '%%o%%' => $tickets['ordered'],
@@ -18,3 +26,4 @@
     '%%b%%' => $tickets['booked'],
     '%%t%%' => $tickets['total'],
   )) ?>
+<?php endif ?>

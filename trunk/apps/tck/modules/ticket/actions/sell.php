@@ -22,6 +22,8 @@
 ***********************************************************************************/
 ?>
 <?php
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
+    
     if ( !($this->getRoute() instanceof sfObjectRoute) )
     {
       if ( intval($request->getParameter('id')) > 0 )
@@ -45,14 +47,14 @@
     // if closed
     if ( $this->transaction->closed )
     {
-      $this->getUser()->setFlash('error','You have to re-open the transaction before to access it');
+      $this->getUser()->setFlash('error',__('You have to re-open the transaction before to access it'));
       return $this->redirect('ticket/respawn?id='.$this->transaction->id);
     }
     
     // if not a "normal" transaction
     if ( $this->transaction->type != 'normal' )
     {
-      $this->getUser()->setFlash('error',"You can respawn here only normal transactions");
+      $this->getUser()->setFlash('error',__("You can respawn here only normal transactions"));
       $this->redirect('ticket/sell');
     }
     

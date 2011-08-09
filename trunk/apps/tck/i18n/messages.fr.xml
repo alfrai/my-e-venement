@@ -5,6 +5,30 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You can respawn here only normal transactions</source>
+        <target>Vous ne pouvez accéder ici qu'à des opérations normales</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You have to re-open the transaction before to access it</source>
+        <target>Vous devez ré-ouvrir l'opération avant d'y accéder (case à cocher)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Order List</source>
+        <target>Liste des résa./bons de commande</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism</source>
+        <target>Organisme</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Closed</source>
+        <target>Verr.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Debt</source>
+        <target>Dette</target>
+      </trans-unit>
+      <trans-unit>
         <source>Del.</source>
         <target>Suppr.</target>
       </trans-unit>

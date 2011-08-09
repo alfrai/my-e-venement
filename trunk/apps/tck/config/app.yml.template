@@ -4,9 +4,9 @@
 # default values
 all:
   transaction:
+    #hide_demands: true
     manifs:
       max_display: 20
-      #hide_demands: true
   tickets:
     mentions:
       optional: licences: 350970 / 350971 / 350972

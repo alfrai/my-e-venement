@@ -41,8 +41,8 @@
           <li><a href="<?php echo cross_app_url_for('tck','deposit/inProgress') ?>"><?php echo __('In progress',array(),'menu') ?></a></li>
           -->
           <?php if ( $sf_user->hasCredential('tck-reports') ): ?>
-          <li class="spaced"><a href="<?php echo cross_app_url_for('tck','summary/asks') ?>"><?php echo __('Asks',array(),'menu') ?></a></li>
-          <li><a href="<?php echo cross_app_url_for('tck','order/index') ?>" class="order"><?php echo __('Orders',array(),'menu') ?></a></li>
+          <li class="spaced demands"><a href="<?php echo cross_app_url_for('tck','summary/asks') ?>"><?php echo __('Asks',array(),'menu') ?></a></li>
+          <li class="orders"><a href="<?php echo cross_app_url_for('tck','order/index') ?>" class="order"><?php echo __('Orders',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','invoice/index') ?>" class="invoice"><?php echo __('Invoices',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','summary/debts') ?>"><?php echo __('Debts',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','summary/duplicatas') ?>"><?php echo __('Duplicatas',array(),'menu') ?></a></li>
