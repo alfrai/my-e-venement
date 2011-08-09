@@ -26,7 +26,7 @@ generator:
       edit:
         title: Edit Manifestation %%name%%
         display:
-          General:      [happens_at, event_id, location_id, color_id, description, _form_prices_list]
+          General:      [happens_at, event_id, location_id, color_id, description, _form_prices]
           Technical:    [duration, vat, seated, seated, organizers_list]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
           Tickets: [_show_tickets_list]

@@ -203,6 +203,7 @@ class manifestationActions extends autoManifestationActions
     $this->securityAccessFiltering($request);
     parent::executeEdit($request);
     $this->form->prices = $this->getPrices();
+    $this->form->spectators = $this->getSpectators();
   }
   public function executeShow(sfWebRequest $request)
   {
