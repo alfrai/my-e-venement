@@ -41,7 +41,7 @@
             <?php echo $organism ?>
           </a>
         <?php else: ?>
-          <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$organism->id) ?>">
+          <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$contact->id) ?>">
             <?php echo $contact ?>
           </a>
         <?php endif ?>
