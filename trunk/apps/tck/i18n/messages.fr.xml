@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>at</source>
+        <target>@</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Created at</source>
+        <target>Créé le</target>
+      </trans-unit>
+      <trans-unit>
         <source>Unable to find the given order for cancellation</source>
         <target>Impossible de retrouver le bon de commande demandé pour annulation</target>
       </trans-unit>
