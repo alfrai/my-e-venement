@@ -7,7 +7,7 @@
   foreach ( $manifestation->Tickets as $ticket )
   if ( is_null($ticket->cancelling) && is_null($ticket->duplicate) )
   {
-    $tickets[$ticket->printed ? 'printed' : $ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked']++;
+    $tickets[!$ticket->printed ? $ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked' : 'printed']++;
     $tickets['booked']++;
   }
 ?>
