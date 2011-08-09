@@ -23,6 +23,8 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
       'to_date'   => new liWidgetFormDateText(),
       'template'  => __('<span class="dates"><span>from %from_date%</span> <span>to %to_date%</span></span>'),
     ));
+    
+    $this->widgetSchema['transaction_id'] = new sfWidgetFormInputText();
   }
   public function setup()
   {

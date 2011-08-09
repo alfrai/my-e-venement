@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Unable to find the given order for cancellation</source>
+        <target>Impossible de retrouver le bon de commande demandé pour annulation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The given order has been cancelled successfully</source>
+        <target>Le bon de commande a été annulé avec succès</target>
+      </trans-unit>
+      <trans-unit>
         <source>You can respawn here only normal transactions</source>
         <target>Vous ne pouvez accéder ici qu'à des opérations normales</target>
       </trans-unit>

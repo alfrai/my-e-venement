@@ -23,6 +23,8 @@ class OrderFormFilter extends BaseOrderFormFilter
       'to_date'   => new liWidgetFormDateText(),
       'template'  => __('<span class="dates"><span>from %from_date%</span> <span>to %to_date%</span>'),
     ));
+    
+    $this->widgetSchema['transaction_id'] = new sfWidgetFormInputText();
   }
   public function setup()
   {

@@ -13,4 +13,19 @@ require_once dirname(__FILE__).'/../lib/orderGeneratorHelper.class.php';
  */
 class orderActions extends autoOrderActions
 {
+  public function executeCancel(sfWebRequest $request)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
+    
+    if ( intval($id = intval($request->getParameter('id'))) > 0 )
+    {
+      Doctrine::getTable('Order')->findOneById($id)
+        ->delete();
+      $this->getUser()->setFlash('notice',__('The given order has been cancelled successfully'));
+    }
+    else
+      $this->getUser()->setFlash('error',__('Unable to find the given order for cancellation'));
+    
+    $this->redirect('@order');
+  }
 }
