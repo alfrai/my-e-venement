@@ -5,6 +5,30 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Spectators to be controlled</source>
+        <target>Spectateurs à contrôler</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Spectators controlled</source>
+        <target>Spectateurs contrôlés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ordered spectators</source>
+        <target>Spectateurs réservés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Asked spectators</source>
+        <target>Spectateurs en demande</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Confirmed spectators</source>
+        <target>Spectateurs confirmés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ticket ids</source>
+        <target>Billets</target>
+      </trans-unit>
+      <trans-unit>
         <source>Manif's ID</source>
         <target>ID manif.</target>
       </trans-unit>

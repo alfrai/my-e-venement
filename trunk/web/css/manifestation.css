@@ -41,27 +41,28 @@ select[disabled] {
   width: 580px;
 }
 
-#sf_fieldset_tickets table { margin-bottom: 10px; }
-#sf_fieldset_tickets table thead td { border-bottom: 1px solid gray; }
-#sf_fieldset_tickets table tfoot td { border-top: 1px solid gray; }
-#sf_fieldset_tickets table td.name { font-weight: bold; }
-#sf_fieldset_tickets table tbody td a { text-decoration: none; }
-#sf_fieldset_tickets table tbody td a:hover { text-decoration: underline; }
-#sf_fieldset_tickets table td { padding-right: 10px; }
-#sf_fieldset_tickets table tfoot td.price,
-#sf_fieldset_tickets table tbody td.price,
-#sf_fieldset_tickets table tfoot td.qty,
-#sf_fieldset_tickets table tbody td.qty { text-align: right; }
+#sf_fieldset_spectators table, #sf_fieldset_tickets table { margin-bottom: 10px; }
+#sf_fieldset_spectators table thead td, #sf_fieldset_tickets table thead td { border-bottom: 1px solid gray; }
+#sf_fieldset_spectators table tfoot td, #sf_fieldset_tickets table tfoot td { border-top: 1px solid gray; }
+#sf_fieldset_spectators table table td.name, #sf_fieldset_tickets table td.name { font-weight: bold; }
+#sf_fieldset_spectators table tbody td a, #sf_fieldset_tickets table tbody td a { text-decoration: none; }
+#sf_fieldset_spectators table table tbody td a:hover, #sf_fieldset_tickets table tbody td a:hover { text-decoration: underline; }
+#sf_fieldset_spectators table td, #sf_fieldset_tickets table td { padding-right: 10px; }
+#sf_fieldset_spectators table tfoot td.price, #sf_fieldset_tickets table tfoot td.price,
+#sf_fieldset_spectators table tbody td.price, #sf_fieldset_tickets table tbody td.price,
+#sf_fieldset_spectators table tfoot td.qty, #sf_fieldset_tickets table tfoot td.qty,
+#sf_fieldset_spectators table tbody td.qty, #sf_fieldset_tickets table tbody td.qty { text-align: right; }
 
-#sf_fieldset_tickets table .overlined td {
+#sf_fieldset_spectators table .overlined td, #sf_fieldset_tickets table .overlined td {
   background-color: #ddd;
 }
-#sf_fieldset_tickets table tfoot tr:hover td,
-#sf_fieldset_tickets table tbody tr:hover td {
+#sf_fieldset_spectators table tfoot tr:hover td, #sf_fieldset_tickets table tfoot tr:hover td,
+#sf_fieldset_spectators table tbody tr:hover td, #sf_fieldset_tickets table tbody tr:hover td {
   background-color: #fff0d0;
 }
-#sf_fieldset_tickets table tfoot tr.overlined:hover td,
-#sf_fieldset_tickets table tbody tr.overlined:hover td {
+#sf_fieldset_spectators table tfoot tr.overlined:hover td, #sf_fieldset_tickets table tfoot tr.overlined:hover td,
+#sf_fieldset_spectators table tbody tr.overlined:hover td, #sf_fieldset_tickets table tbody tr.overlined:hover td {
   background-color: #e4d4b1;
 }
+#sf_fieldset_spectators table tbody .ticket-ids { font-size: 80%; }
 

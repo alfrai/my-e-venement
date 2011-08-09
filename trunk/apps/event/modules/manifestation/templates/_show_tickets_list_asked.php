@@ -1,5 +1,5 @@
 <h2><?php echo __('Asked tickets') ?></h2>
-<table id="ordered">
+<table class="ordered">
 <tbody>
   <?php $total = array('qty' => 0, 'value' => 0) ?>
   <?php $overlined = true ?>
@@ -29,7 +29,7 @@
     <td class="contact"><?php echo implode(', ',array_merge(array_values($pro),array_values($contact))) ?></td>
   </tr>
   <?php endforeach ?>
-  <tbody>
+  </tbody>
   <?php include_partial('show_tickets_list_table_footer',array('total' => $total)) ?>
   <?php include_partial('show_tickets_list_table_header') ?>
 </table>

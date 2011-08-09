@@ -209,6 +209,7 @@ class manifestationActions extends autoManifestationActions
     $this->securityAccessFiltering($request);
     parent::executeShow($request);
     $this->form->prices = $this->getPrices();
+    $this->form->spectators = $this->getSpectators();
   }
   
   protected function getPrices()
@@ -226,6 +227,24 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL AND tt.printed = t.printed)')
       ->andWhere('t.manifestation_id = ?',$this->manifestation->id)
+      ->andWhere('cp.legal IS NULL OR cp.legal = true')
+      ->orderBy('p.name, o.name, c.name, c.firstname');
+    return $q->execute();
+  }
+  protected function getSpectators()
+  {
+    $q = Doctrine::getTable('Contact')->createQuery('c')
+      ->leftJoin('c.Transactions tr')
+      ->leftJoin('tr.Professional pro')
+      ->leftJoin('tr.Tickets t')
+      ->leftJoin('tr.Order order')
+      ->leftJoin('t.Controls ctrl')
+      ->leftJoin('ctrl.Checkpoint cp')
+      ->andWhere('t.cancelling IS NULL')
+      ->andWhere('t.duplicate IS NULL')
+      ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL AND tt.printed = t.printed)')
+      ->andWhere('t.manifestation_id = ?',$this->manifestation->id)
+      ->andWhere('cp.legal IS NULL OR cp.legal = true')
       ->orderBy('p.name, o.name, c.name, c.firstname');
     return $q->execute();
   }

@@ -21,7 +21,7 @@
 ?>
 
 <h2><?php echo __('Tickets to be controlled') ?></h2>
-<table id="to-be-controlled" class="control">
+<table class="to-be-controlled" class="control">
 <tbody>
   <?php $overlined = true ?>
   <?php foreach ( $tickets['not_controlled'] as $ticket ): ?>
@@ -45,7 +45,7 @@
 </table>
 
 <h2><?php echo __('Controlled tickets') ?></h2>
-<table id="controlled" class="control">
+<table class="controlled" class="control">
 <tbody>
   <?php $overlined = true ?>
   <?php foreach ( $tickets['controlled'] as $ticket ): ?>
@@ -63,7 +63,7 @@
     ?></td>
   </tr>
   <?php endforeach ?>
-  <tbody>
+  </tbody>
   <?php include_partial('show_tickets_list_table_footer',array('total' => $total['controlled'])) ?>
   <?php include_partial('show_tickets_list_table_header') ?>
 </table>
