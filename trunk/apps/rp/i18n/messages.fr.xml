@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ordered</source>
+        <target>Commandé/réservé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>All demanded</source>
+        <target>Demandé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Partially printed</source>
+        <target>Partiellement vendu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>All printed</source>
+        <target>Vendu</target>
+      </trans-unit>
+      <trans-unit>
         <source>Organism's email</source>
         <target>Courriel de l'organisme</target>
       </trans-unit>
