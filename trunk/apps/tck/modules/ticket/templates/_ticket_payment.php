@@ -49,34 +49,45 @@
     <?php else: ?>
     if ( add == 'undefined' ) add = false;
     <?php endif ?>
-    $('#payment .sf_admin_list').remove();
     $.get('<?php echo url_for('payment/index?transaction_id='.$transaction->id) ?>',function(data){
-      $(data).find('.sf_admin_list')
-        .appendTo('#payment')
-        .find('thead, tfoot, caption, .sf_admin_action_show, .sf_admin_action_edit').remove();
-      if ( $('#payment td:first-child input[type=checkbox]').length > 0 )
-        $('#payment td:first-child').remove();
-      delete_code = $('#payment .sf_admin_action_delete a').each(function(){
-        delete_code = $(this).attr('onclick');
-        delete_code = (delete_code+"").replace('f.submit();',"f.target='_delete';f.submit();delwin=window.open('','_delete');delwin.close();ticket_payment_old();");
-        $(this).removeAttr('onclick');
-        eval(delete_code);
-        $(this).click(onclick);
-      });
-      
-      var pay_total = 0;
-      var currency = '&nbsp;€'; //$('#prices .total .total').html().replace("\n",'').replace(/^\s*\d+[,\.]\d+/g,'');
-      $('#payment tbody td:first-child + td').each(function(){
-        pay_total += parseFloat($(this).html().replace(',','.'));
-      });
-      $('#payment tbody')
-        .append('<tr class="sf_admin_row ui-widget-content odd total"><td class="sf_admin_text"><?php echo __('Total') ?></td><td class="sf_admin_text sf_admin_list_td_list_value">'+pay_total.toFixed(2)+currency+'</td><td></td></tr>')
-        .append('<tr class="sf_admin_row ui-widget-content odd topay"><td class="sf_admin_text"><?php echo __('To pay') ?></td><td class="sf_admin_text sf_admin_list_td_list_value"></td><td></td></tr>')
-        .append('<tr class="sf_admin_row ui-widget-content odd change"><td class="sf_admin_text"><?php echo __('Still missing') ?></td><td class="sf_admin_text sf_admin_list_td_list_value"></td><td></td></tr>');
-      ticket_process_amount(add);
+      ticket_payment_refresh(data,add);
     });
   }
-
+  function ticket_payment_refresh(data,add)
+  {
+    $('#payment .sf_admin_list').remove();
+    $(data).find('.sf_admin_list')
+      .appendTo('#payment')
+      .find('thead, tfoot, caption, .sf_admin_action_show, .sf_admin_action_edit').remove(); 
+    if ( $('#payment td:first-child input[type=checkbox]').length > 0 )
+      $('#payment td:first-child').hide();
+    $('#payment .sf_admin_action_delete a').each(function(){
+      //delete_code = $(this).attr('onclick');
+      //delete_code = (delete_code+"").replace('f.submit();',"f.target='_delete';f.submit();delwin=window.open('','_delete');delwin.close();ticket_payment_old();");
+      $(this).removeAttr('onclick');
+      //eval(delete_code);
+      //$(this).click(onclick);
+      $(this).click(function(){
+        if ( confirm('<?php echo __('Are you sure?',null,'sf_admin') ?>') )
+        $.get('<?php echo url_for('payment/quickDelete?transaction_id='.$transaction->id) ?>&id='+$(this).parent().parent().parent().parent().find('input[name="ids[]"]').val(),function(data){
+          ticket_payment_refresh(data,true);
+        });
+        return false;
+      });
+    });
+    
+    var pay_total = 0;
+    var currency = '&nbsp;€'; //$('#prices .total .total').html().replace("\n",'').replace(/^\s*\d+[,\.]\d+/g,'');
+    $('#payment tbody td:first-child + td + td').each(function(){
+      pay_total += parseFloat($(this).html().replace(',','.'));
+    });
+    $('#payment tbody')
+      .append('<tr class="sf_admin_row ui-widget-content odd total"><td class="sf_admin_text"><?php echo __('Total') ?></td><td class="sf_admin_text sf_admin_list_td_list_value">'+pay_total.toFixed(2)+currency+'</td><td></td></tr>')
+      .append('<tr class="sf_admin_row ui-widget-content odd topay"><td class="sf_admin_text"><?php echo __('To pay') ?></td><td class="sf_admin_text sf_admin_list_td_list_value"></td><td></td></tr>')
+      .append('<tr class="sf_admin_row ui-widget-content odd change"><td class="sf_admin_text"><?php echo __('Still missing') ?></td><td class="sf_admin_text sf_admin_list_td_list_value"></td><td></td></tr>');
+    ticket_process_amount(add);
+  }
+  
   $(document).ready(function(){
     // new
     $.get('<?php echo url_for('payment/new') ?>',ticket_payment_form);

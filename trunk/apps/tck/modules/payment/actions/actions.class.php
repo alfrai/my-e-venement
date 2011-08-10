@@ -13,6 +13,13 @@ require_once dirname(__FILE__).'/../lib/paymentGeneratorHelper.class.php';
  */
 class paymentActions extends autoPaymentActions
 {
+  public function executeQuickDelete(sfWebRequest $request)
+  {
+    $payment = Doctrine::getTable('Payment')->findOneById($request->getParameter('id'));
+    if ( $payment->transaction_id == $request->getParameter('transaction_id') )
+      $payment->delete();
+    $this->redirect('payment/index?transaction_id='.$request->getParameter('transaction_id'));
+  }
   public function executeIndex(sfWebRequest $request)
   {
     if ( $tid = intval($request->getParameter('transaction_id')) )

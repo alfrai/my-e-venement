@@ -93,18 +93,18 @@ function ticket_events()
           $(w.document).find('.sf_admin_actions_form .sf_admin_action_list, .sf_admin_actions_form .sf_admin_action_save_and_add')
             .remove();
         });
-      },2500);
-    };
-    w.onunload = function(){
-      setTimeout(function(){
-        $(w.document).ready(function(){
-          if ( contact_id = $(w.document).find('[name="contact[id]"]').val() )
-          {
-            $('#contact form [name="transaction[contact_id]"]').val(contact_id);
-            $('#contact form').submit();
-          }
-          w.close();
-        });
+        w.onunload = function(){
+          setTimeout(function(){
+            $(w.document).ready(function(){
+              if ( contact_id = $(w.document).find('[name="contact[id]"]').val() )
+              {
+                $('#contact form [name="transaction[contact_id]"]').val(contact_id);
+                $('#contact form').submit();
+              }
+              w.close();
+            });
+          },2500);
+        };
       },2500);
     };
     return false;

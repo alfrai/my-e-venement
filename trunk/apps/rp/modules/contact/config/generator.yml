@@ -20,6 +20,7 @@ generator:
         YOB:        { label: Year of Birth }
         not_groups_list: { label: Not member of groups }
         email_list: { label: Email }
+        organisms_email_list: { label: Organism's email }
       list:
         display: [name, firstname, postalcode, city, _email_list, _organisms_list, _organisms_email_list]
       show: 

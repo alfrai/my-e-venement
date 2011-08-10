@@ -8,7 +8,8 @@
   if ( is_null($ticket->cancelling) && is_null($ticket->duplicate) )
   {
     $tickets[!$ticket->printed ? $ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked' : 'printed']++;
-    $tickets['booked']++;
+    if ( !sfConfig::has('app_ticketting_hide_demands') || $ticket->printed || $ticket->Transaction->Order->count() > 0 )
+      $tickets['booked']++;
   }
 ?>
 <?php if ( sfConfig::has('app_ticketting_hide_demands') ): ?>

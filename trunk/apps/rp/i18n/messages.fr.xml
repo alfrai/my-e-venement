@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Organism's email</source>
+        <target>Courriel de l'organisme</target>
+      </trans-unit>
+      <trans-unit>
         <source>The contacts in chosen organisms have been added to the selected groups.</source>
         <target>Les contacts des organismes choisis ont été ajoutés aux groupes sélectionnés.</target>
       </trans-unit>

@@ -70,7 +70,7 @@
       </trans-unit>
       <trans-unit>
         <source>This price doesn't exist for this manifestation !</source>
-        <target>Ce prix n'existe pas pour cette manifestation !</target>
+        <target>Ce tarif n'existe pas pour cette manifestation !</target>
       </trans-unit>
       <trans-unit>
         <source>Cancellations</source>
@@ -610,7 +610,7 @@
       </trans-unit>
       <trans-unit id="76">
         <source>Prices' summary</source>
-        <target>Résumé des prix</target>
+        <target>Résumé des tarifs</target>
       </trans-unit>
       <trans-unit id="77">
         <source>Entitled</source>
