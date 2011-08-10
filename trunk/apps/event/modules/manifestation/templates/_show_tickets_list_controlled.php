@@ -32,7 +32,9 @@
     <td class="transaction"><?php echo cross_app_link_to('#'.$ticket->Transaction,'tck','ticket/sell?id='.$ticket->transaction_id) ?></td>
     <td class="contact"><?php
       echo $ticket->Transaction->professional_id
-        ? cross_app_link_to($ticket->Transaction->Professional,'rp','contact/show?id='.$ticket->Transaction->Contact->id)
+        ? cross_app_link_to($c=$t->Transaction->Professional->Contact,'rp','contact/show?id='.$c->id).
+          ' @ '.
+          cross_app_link_to($o=$t->Transaction->Professional->Organism,'rp','organism/show?id='.$o->id);
         : $ticket->Transaction->contact_id
         ? cross_app_link_to($ticket->Transaction->Contact,'rp','contact/show?id='.$ticket->Transaction->Contact->id)
         : '';

@@ -12,7 +12,7 @@
     {
       $transaction[$t->transaction_id] = cross_app_link_to('#'.$t->transaction_id,'tck','ticket/sell?id='.$t->transaction_id);
       if ( $t->Transaction->professional_id )
-        $pro[$t->Transaction->professional_id] = cross_app_link_to($t->Transaction->Professional,'rp','contact/show?id='.$t->Transaction->Contact->id);
+        $pro[$t->Transaction->professional_id] = cross_app_link_to($t->Transaction->Professional->Contact.' '.$t->Transaction->Professional,'rp','contact/show?id='.$t->Transaction->Contact->id);
       else if ( $t->Transaction->contact_id )
         $contact[$t->Transaction->contact_id] = cross_app_link_to($t->Transaction->Contact,'rp','contact/show?id='.$t->Transaction->Contact->id);
       $value += $t->value;
