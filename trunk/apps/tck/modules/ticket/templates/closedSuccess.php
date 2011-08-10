@@ -19,10 +19,21 @@
         '%%url%%' => cross_app_url_for('rp','contact/show?id='.$transaction->Contact->id),
       )) ?>
     </p>
-    <p class="transaction_new">
-      <?php echo __('&lt;&lt; <a href="%%url%%">Back</a> to a new transaction',array(
-        '%%url%%' => url_for('ticket/sell'),
-      )) ?>
-    </p>
+    <div class="transaction_new">
+      <p><?php
+        echo __('&lt;&lt; <a href="%%url%%">Back</a> to a new transaction',array(
+          '%%url%%' => url_for('ticket/sell'),
+        ))
+      ?></p>
+      <?php
+        $manifs = array();
+        foreach ( $transaction->Tickets as $ticket )
+          $manifs[$ticket->manifestation_id] = $ticket->manifestation_id;
+      ?>
+      <p><?php echo __('&lt;&lt; <a href="%%url%%">Back</a> to a new transaction',array(
+        '%%url%%' => url_for('ticket/sell#manif-'.implode(',#manif-',$manifs)),
+        )) ?><br/><?php echo __('with the same initial selections')
+      ?></p>
+    </div>
   </div>
 </div>

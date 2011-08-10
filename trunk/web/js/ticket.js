@@ -125,7 +125,8 @@ function ticket_events()
       {
         setTimeout(function(){
           $('#manifestations .manifestations_add [name="ticket[manifestation_id]"]').click();
-          $('#manifestations .manif_new .toggle_view').click();
+          $('#manifestations .manifestations_add').slideUp();
+          $('#manifestations .gauge').fadeOut();
         },500);
       }
     });
@@ -234,7 +235,7 @@ function ticket_manif_new_events()
     {
       $(this).parent().parent().find('span').unbind();
       ticket_gauge_backup();
-      $(this).parent().parent().prependTo('.manifestations_list');
+      $(this).parent().parent().prependTo('.manifestations_list ul');
       if ( $('#prices .manifestations_list').length > 0 )
       {
         ticket_activate_prices_gauge();

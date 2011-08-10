@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The transaction cannot be validated, please check again the payments...</source>
+        <target>L'opération ne peut être validée, vérifiez à nouveau les paiements svp...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The transaction cannot be validated, there are still tickets to print...</source>
+        <target>L'opération ne peut être validée, il reste des billets à imprimer...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>with the same initial selections</source>
+        <target>avec les mêmes sélections initiales</target>
+      </trans-unit>
+      <trans-unit>
         <source>Transaction validated and closed</source>
         <target>Opération validée et verrouillée</target>
       </trans-unit>

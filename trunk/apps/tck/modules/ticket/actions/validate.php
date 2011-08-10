@@ -22,6 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
     $this->transaction = $this->getRoute()->getObject();
     
     $topay = $this->transaction->getPrice();
@@ -30,15 +31,15 @@
     
     if ( $paid >= $topay && $toprint <= 0 )
     {
-      $this->getUser()->setFlash('notice','Transaction validated and closed');
+      $this->getUser()->setFlash('notice',__('Transaction validated and closed'));
       $this->transaction->closed = true;
       $this->transaction->save();
       return $this->redirect('ticket/closed?id='.$this->transaction->id);
     }
     
     if ( $toprint <= 0 )
-      $this->getUser()->setFlash('error','The transaction cannot be validated, please check again the payments...');
+      $this->getUser()->setFlash('error',__('The transaction cannot be validated, please check again the payments...'));
     else
-      $this->getUser()->setFlash('error','The transaction cannot be validated, there are still tickets to print...');
+      $this->getUser()->setFlash('error',__('The transaction cannot be validated, there are still tickets to print...'));
     
     return $this->redirect('ticket/sell?id='.$this->transaction->id);
