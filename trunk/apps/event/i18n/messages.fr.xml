@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Edit Checkpoint "%%name%%"</source>
+        <target>Modification du point de contrôle "%%name%%"</target>
+      </trans-unit>
+      <trans-unit>
         <source>Spectators to be controlled</source>
         <target>Spectateurs à contrôler</target>
       </trans-unit>

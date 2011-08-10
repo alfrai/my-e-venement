@@ -36,7 +36,12 @@
       $eids = array();
       $mid = false;
       if ( substr($request->getParameter('manif_new'),0,7) == '#manif-' )
-        $mid = substr($request->getParameter('manif_new'),7);
+      {
+        $manifs = split(',',$request->getParameter('manif_new'));
+        $mid = array();
+        foreach ( $manifs as $manif )
+          $mid[] = substr($manif,7);
+      }
       else foreach ( Doctrine::getTable('Event')->search(strtolower($request->getParameter('manif_new')).'*') as $id )
         $eids[] = $id['id'];
       
@@ -47,7 +52,7 @@
       if ( !$mid )
         $q->andWhereIn('e.id',$eids);
       else
-        $q->andWhere('m.id = ?',$mid);
+        $q->andWhereIn('m.id',$mid);
       
       if ( !$this->getUser()->hasCredential('tck-unblock') )
         $q->andWhere('happens_at >= ?',date('Y-m-d'));

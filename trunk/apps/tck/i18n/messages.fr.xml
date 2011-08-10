@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Transaction validated and closed</source>
+        <target>Opération validée et verrouillée</target>
+      </trans-unit>
+      <trans-unit>
         <source>at</source>
         <target>@</target>
       </trans-unit>

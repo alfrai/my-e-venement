@@ -37,9 +37,8 @@ generator:
         display: [meta_event_id, event_category_id, name, staging, writer, duration, age_min, age_max, companies_list]
       form:
         display:
-          General:   [name, short_name, event_category_description, event_category_id, meta_event_id]
-          Technical: [companies_list, duration, age_min, age_max]
-          Details:   [staging_label, staging, writer_label, writer, description]
+          General:   [name, short_name, meta_event_id, event_category_id, event_category_description, companies_list]
+          Details:   [duration, age_min, age_max, staging_label, staging, writer_label, writer, description]
           Web Content: [web_price, web_price_group, image_url, extradesc, extraspec]
           Checkpoints: [_form_checkpoints]
       edit:
@@ -47,7 +46,6 @@ generator:
       new:
       show:
         display:
-          General:   [name, short_name, event_category_description, _show_event_category, _show_meta_event]
-          Technical: [_show_companies_list, duration, age_min_h_r, age_max_h_r]
-          Details:   [staging_label, staging, writer_label, writer, _show_description]
+          General:   [name, short_name, _show_meta_event, _show_event_category, event_category_description, _show_companies_list]
+          Details:   [duration, age_min_h_r, age_max_h_r, staging_label, staging, writer_label, writer, _show_description]
           Web Content: [_show_extradesc, _show_extraspec, web_price, web_price_group, _show_image_url]

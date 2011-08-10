@@ -113,7 +113,8 @@ function ticket_events()
   
   // manifestations
   $('#manifestations form').unbind().submit(function(){
-    $.get($('#manifestations form').attr('action')+'?manif_new='+$('#manifestations form [name=manif_new]').val().replace('#','%23'),function(data){
+    manifs = $('#manifestations form [name=manif_new]').val().replace(/#/g,'%23');
+    $.get($('#manifestations form').attr('action')+'?manif_new='+manifs,function(data){
       // take the list and add it in the GUI
       $('#manifestations .manifestations_add')
         .html($(data).find('#manifestations .manifestations_add').html())
@@ -123,7 +124,7 @@ function ticket_events()
       if ( $('#manifestations form [name=manif_new]').val().substring(0,7) == '#manif-' )
       {
         setTimeout(function(){
-          $('#manifestations .manifestations_add [name="ticket[manifestation_id]"]:first').click();
+          $('#manifestations .manifestations_add [name="ticket[manifestation_id]"]').click();
           $('#manifestations .manif_new .toggle_view').click();
         },500);
       }
