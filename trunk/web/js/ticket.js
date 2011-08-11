@@ -434,7 +434,11 @@ function ticket_enable_payment()
     }
   }
   else
-    $('#print, #validation, #payment').fadeOut();
+  {
+    if ( $('#payment input[name="ids[]"]').length == 0 )
+      $('#payment').fadeOut();
+    $('#print, #validation').fadeOut();
+  }
 }
 
 function ticket_print()

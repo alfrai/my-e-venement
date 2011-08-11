@@ -62,11 +62,7 @@
     if ( $('#payment td:first-child input[type=checkbox]').length > 0 )
       $('#payment td:first-child').hide();
     $('#payment .sf_admin_action_delete a').each(function(){
-      //delete_code = $(this).attr('onclick');
-      //delete_code = (delete_code+"").replace('f.submit();',"f.target='_delete';f.submit();delwin=window.open('','_delete');delwin.close();ticket_payment_old();");
       $(this).removeAttr('onclick');
-      //eval(delete_code);
-      //$(this).click(onclick);
       $(this).click(function(){
         if ( confirm('<?php echo __('Are you sure?',null,'sf_admin') ?>') )
         $.get('<?php echo url_for('payment/quickDelete?transaction_id='.$transaction->id) ?>&id='+$(this).parent().parent().parent().parent().find('input[name="ids[]"]').val(),function(data){
