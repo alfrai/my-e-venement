@@ -55,7 +55,10 @@ class liWidgetFormDoctrineJQueryAutocompleterGuide extends sfWidgetFormDoctrineJ
            sprintf(<<<EOF
 <script type="text/javascript">
   jQuery(document).ready(function() {
-    jQuery("#%s")
+    input = '#%s';
+    autocomplete = '#%s';
+    
+    jQuery(autocomplete)
     .autocomplete('%s', jQuery.extend({}, {
       dataType: 'json',
       parse:    function(data) {
@@ -66,15 +69,22 @@ class liWidgetFormDoctrineJQueryAutocompleterGuide extends sfWidgetFormDoctrineJ
         return parsed;
       }
     }, %s))
-    .result(function(event, data) { jQuery("#%s").val(data[1]); });
+    .result(function(event, data) { jQuery(input).val(data[1]); });
+    
+    jQuery(input).closest('form').submit(function(){
+      if ( jQuery(input).val() != jQuery(autocomplete).val() )
+      {
+        jQuery(input).val(jQuery(autocomplete).val());
+      }
+    });
   });
 </script>
 EOF
       ,
+      $this->generateId($name),
       $this->generateId('autocomplete_'.$name),
       $this->getOption('url'),
-      $this->getOption('config'),
-      $this->generateId($name)
+      $this->getOption('config')
     );
   }
 
