@@ -8,4 +8,5 @@
 <?php if ( sfConfig::get('app_ticketting_dematerialized') ): ?>
   <?php include_partial('show_spectators_list_controlled',array('form' => $form)) ?>
   <?php include_partial('show_spectators_list_tobecontrolled',array('form' => $form)) ?>
+  <?php include_partial('show_tickets_list_batch',array('form' => $form)) ?>
 <?php endif ?>

@@ -43,7 +43,15 @@
   <?php endforeach ?>
   <tbody>
   <?php include_partial('show_tickets_list_table_footer',array('total' => $total['not_controlled'])) ?>
-  <?php include_partial('show_tickets_list_table_header') ?>
+  <thead>
+    <tr>
+      <td class="name"><?php echo __('Ticket') ?></td>
+      <td class="qty"><?php echo __('Price') ?></td>
+      <td class="price"><?php echo __('Value') ?></td>
+      <td class="transaction"><?php echo __('Transaction') ?></td>
+      <td class="contact"><?php echo __('Contact') ?></td>
+    </tr>
+  </thead>
 </table>
 
 <h2><?php echo __('Controlled tickets') ?></h2>
@@ -67,5 +75,13 @@
   <?php endforeach ?>
   </tbody>
   <?php include_partial('show_tickets_list_table_footer',array('total' => $total['controlled'])) ?>
-  <?php include_partial('show_tickets_list_table_header') ?>
+  <thead>
+    <tr>
+      <td class="name"><?php echo __('Ticket') ?></td>
+      <td class="qty"><?php echo __('Price') ?></td>
+      <td class="price"><?php echo __('Value') ?></td>
+      <td class="transaction"><?php echo __('Transaction') ?></td>
+      <td class="contact"><?php echo __('Contact') ?></td>
+    </tr>
+  </thead>
 </table>

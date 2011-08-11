@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Uncheck all tickets...</source>
+        <target>Annuler tous les contrôles...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Control all...</source>
+        <target>Tout contrôler...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Edit Checkpoint "%%name%%"</source>
         <target>Modification du point de contrôle "%%name%%"</target>
       </trans-unit>
