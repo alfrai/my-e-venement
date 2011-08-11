@@ -61,6 +61,13 @@ body .sf_admin_filter td { padding-bottom: 0; }
   float:  right;
   margin-top: 5px;
 }
+#list-integrated-filter {
+  margin: 5px 0 0 0;
+  right: 300px;
+  position: absolute;
+  padding: 10px;
+}
+#list-integrated-filter h2 { color: #2e6e9e; width: 175px; }
 
 body #sf_admin_container .ui-widget-header h1 { font-size: 22px; }
 body #sf_admin_container { font-size: 11px; width: auto; }
