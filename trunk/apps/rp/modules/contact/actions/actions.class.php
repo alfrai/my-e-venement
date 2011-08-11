@@ -67,6 +67,21 @@ class contactActions extends autoContactActions
       $this->setTemplate('show');
   }
   
+  public function executeCreate(sfWebRequest $request)
+  {
+    parent::executeCreate($request);
+    
+    $params = $request->getParameters('contact');
+    if ( $this->form->isValid() && $params['phone_number'] )
+    {
+      $pn = new ContactPhonenumber();
+      $pn->name = $params['phone_type'];
+      $pn->number = $params['phone_number'];
+      $pn->contact_id = $this->contact->id;
+      $pn->save();
+    }
+  }
+  
   public function executeSearchIndexing(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');

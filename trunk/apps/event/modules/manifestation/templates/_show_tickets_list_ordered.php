@@ -6,13 +6,16 @@
   <?php foreach ( $form->prices as $price ): ?>
   <?php
     $qty = $value = 0;
-    $transaction = $contact = $pro = array();
+    $transaction = $contact = $pro = $org = array();
     foreach ( $price->Tickets as $t )
     if ( !$t->printed && $t->Transaction->Order->count() > 0 )
     {
       $transaction[$t->transaction_id] = cross_app_link_to('#'.$t->transaction_id,'tck','ticket/sell?id='.$t->transaction_id);
       if ( $t->Transaction->professional_id )
-        $pro[$t->Transaction->professional_id] = cross_app_link_to($t->Transaction->Professional->Contact.' '.$t->Transaction->Professional,'rp','contact/show?id='.$t->Transaction->Contact->id);
+        $pro[$t->Transaction->professional_id] =
+          cross_app_link_to($c=$t->Transaction->Professional->Contact,'rp','contact/show?id='.$c->id).
+          ' @ '.
+          cross_app_link_to($o=$t->Transaction->Professional->Organism,'rp','organism/show?id='.$o->id);
       else if ( $t->Transaction->contact_id )
         $contact[$t->Transaction->contact_id] = cross_app_link_to($t->Transaction->Contact,'rp','contact/show?id='.$t->Transaction->Contact->id);
       $value += $t->value;

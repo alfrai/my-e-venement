@@ -35,6 +35,20 @@ class ContactForm extends BaseContactForm
       array('u.id IS NULL DESC, u.username, name','')
     );
     
+    $this->widgetSchema   ['phone_number'] = new sfWidgetFormInputText();
+    $this->validatorSchema['phone_number'] = new sfValidatorPass(array('required' => false));
+    
+    $this->widgetSchema   ['phone_type']   = new liWidgetFormDoctrineJQueryAutocompleterGuide(array(
+      'model' => 'PhoneType',
+      'url'   => url_for('phone_type/ajax'),
+      'method_for_query' => 'findOneByName',
+    ));
+    $this->widgetSchema   ['phone_type']->getStylesheets();
+    $this->widgetSchema   ['phone_type']->getJavascripts();
+    $this->validatorSchema['phone_type'] = new sfValidatorPass(array(
+      'required' => false,
+    ));
+    
     parent::configure();
   }
   

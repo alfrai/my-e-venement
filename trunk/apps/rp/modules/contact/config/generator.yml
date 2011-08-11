@@ -21,6 +21,9 @@ generator:
         not_groups_list: { label: Not member of groups }
         email_list: { label: Email }
         organisms_email_list: { label: Organism's email }
+        family_contact: { label: Family contact }
+        phone_type: { label: Type }
+        phone_number: { label: Phonenumber }
       list:
         display: [name, firstname, postalcode, city, _email_list, _organisms_list, _organisms_email_list]
       show: 
@@ -43,4 +46,5 @@ generator:
         title: New contact
         display:
           NONE:  [title, name, firstname, address, postalcode, city, country, email, groups_list]
+          Phonenumber: [phone_type, phone_number]
           Precisions: [family_contact, npai, description, YOBs_list, password]
