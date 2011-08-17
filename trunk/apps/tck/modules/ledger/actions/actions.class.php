@@ -73,7 +73,7 @@ class ledgerActions extends sfActions
         date('Y-m-d',$dates[1]),
       ))
       ->andWhere('tck.duplicate IS NULL')
-      ->andWhere('tck.printed = TRUE')
+      ->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL')
       ->orderBy('e.name, m.happens_at, l.name, tck.price_name, tck.updated_at');
     
     $q->andWhereIn('t.type',array('normal', 'cancellation'));
@@ -174,7 +174,7 @@ class ledgerActions extends sfActions
       ->addSelect('sum(t.value = 0 AND cancelling IS NULL) AS nb_free')
       ->addSelect('sum(t.value > 0) AS nb_paying')
       ->addSelect('sum(t.value <= 0 AND cancelling IS NOT NULL) AS nb_cancelling')
-      ->addSelect('sum(case when t.value < 0 then 0 else t.value end)/sum(value > 0) AS average_paying')
+      ->addSelect('CASE WHEN sum(value > 0) > 0 THEN sum(case when t.value < 0 then 0 else t.value end)/sum(value > 0) ELSE 0 AS average_paying')
       ->addSelect('sum(case when t.value < 0 then 0 else t.value end) AS income')
       ->addSelect('sum(case when t.value > 0 then 0 else t.value end) AS outcome')
       ->andWhere('t.updated_at >= ? AND t.updated_at < ?',array(

@@ -48,7 +48,7 @@
   </tr>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo __('Average price by ticket') ?></td>
-    <td class="value"><?php echo format_currency($total['value']/$total['nb'],'€') ?></td>
+    <td class="value"><?php echo $total['nb'] > 0 ? format_currency($total['value']/$total['nb'],'€') : 'N/A' ?></td>
     <td class="rating">-</td>
   </tr>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
@@ -63,7 +63,7 @@
   </tr>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo __('Average price for paid tickets') ?></td>
-    <td class="value"><?php echo format_currency($total['value'] / ($total['nb']-$total['exo']),'€') ?></td>
+    <td class="value"><?php echo $total['nb']-$total['exo'] > 0 ? format_currency($total['value'] / ($total['nb']-$total['exo']),'€') : 'N/A' ?></td>
     <td class="rating">-</td>
   </tr>
 </tbody>
