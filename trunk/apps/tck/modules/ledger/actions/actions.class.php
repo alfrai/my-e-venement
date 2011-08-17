@@ -68,12 +68,12 @@ class ledgerActions extends sfActions
       ->leftJoin('t.Professional pro')
       ->leftJoin('pro.Organism o')
       ->leftJoin('tck.User u')
+      ->andWhere('tck.duplicate IS NULL')
+      ->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL')
       ->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
       ))
-      ->andWhere('tck.duplicate IS NULL')
-      ->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL')
       ->orderBy('e.name, m.happens_at, l.name, tck.price_name, tck.updated_at');
     
     $q->andWhereIn('t.type',array('normal', 'cancellation'));
@@ -134,7 +134,7 @@ class ledgerActions extends sfActions
     // by price
     $q = Doctrine::getTable('Price')->createQuery('p')
       ->leftJoin('p.Tickets t')
-      ->andWhere('t.printed')
+      ->andWhere('t.printed OR t.cancelling IS NOT NULL')
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.updated_at >= ? AND t.updated_at < ?',array(
         date('Y-m-d',$dates[0]),

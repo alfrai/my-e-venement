@@ -83,12 +83,12 @@ class summaryActions extends autoSummaryActions
       $rq->select('t.id')
         ->from('Transaction t')
         ->addComponent('t','Transaction')
-        ->andWhere("(SELECT SUM(value) FROM Ticket WHERE transaction_id = t.id AND printed AND duplicate IS NULL) > (SELECT SUM(value) FROM Payment WHERE transaction_id = t.id)");
+        //->andWhere("(SELECT CASE WHEN SUM(tt.value) IS NULL THEN 0 ELSE SUM(tt.value) END FROM Ticket tt WHERE transaction_id = t.id AND (tt.printed OR tt.cancelling IS NOT NULL) AND tt.duplicate IS NULL) != (CASE WHEN (SELECT SUM(pp.value) FROM Payment pp WHERE pp.transaction_id = t.id) IS NULL THEN 0 ELSE (SELECT SUM(pp.value) FROM Payment pp WHERE pp.transaction_id = t.id) END)");
+        ->andWhere("(SELECT CASE WHEN SUM(tt.value) IS NULL THEN 0 ELSE SUM(tt.value) END FROM Ticket tt WHERE transaction_id = t.id AND (tt.printed OR tt.cancelling IS NOT NULL) AND tt.duplicate IS NULL) != (SELECT CASE WHEN SUM(pp.value) IS NULL THEN 0 ELSE SUM(pp.value) END FROM Payment pp WHERE pp.transaction_id = t.id)");
       $ids = $rq->execute(array(),Doctrine::HYDRATE_NONE);
       foreach ( $ids as $key => $id )
         $ids[$key] = $id[0];
-      $q->andWhereIn("$t.id",$ids)
-        ->andWhere('tck.printed = TRUE');
+      $q->andWhereIn("$t.id",$ids);
     default:
       // all transactions
       break;
