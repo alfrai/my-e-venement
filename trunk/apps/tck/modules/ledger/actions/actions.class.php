@@ -114,7 +114,7 @@ class ledgerActions extends sfActions
       ))
       ->orderBy('m.name, m.id, t.id, p.value, p.created_at');
     
-    if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
+    if ( isset($criterias['users']) && is_array($criterias['users']) && isset($criterias['users'][0]) )
       $q->andWhereIn('p.sf_guard_user_id',$criterias['users']);
     
     return $q;
@@ -125,6 +125,7 @@ class ledgerActions extends sfActions
     // filtering criterias
     $criterias = $this->formatCriterias($request);
     $dates = $criterias['dates'];
+    if ( !isset($criterias['users']) ) $criterias['users'] = array();
     
     // by payment-type
     $q = $this->buildCashQuery($criterias);
@@ -170,11 +171,11 @@ class ledgerActions extends sfActions
       ->leftJoin('u.Tickets t')
       ->select('u.id, u.last_name, u.first_name, u.username')
       ->addSelect('count(t.id) AS nb')
-      ->addSelect('sum(case when t.value < 0 then 0 else t.value end)/sum(case when t.value < 0 then 0 else 1 end) AS average')
+      ->addSelect('(CASE WHEN sum(t.value >= 0) > 0 THEN sum(case when t.value < 0 then 0 else t.value end)/sum(t.value >= 0) ELSE 0 END) AS average')
       ->addSelect('sum(t.value = 0 AND cancelling IS NULL) AS nb_free')
       ->addSelect('sum(t.value > 0) AS nb_paying')
       ->addSelect('sum(t.value <= 0 AND cancelling IS NOT NULL) AS nb_cancelling')
-      ->addSelect('CASE WHEN sum(value > 0) > 0 THEN sum(case when t.value < 0 then 0 else t.value end)/sum(value > 0) ELSE 0 AS average_paying')
+      ->addSelect('(CASE WHEN sum(value > 0) > 0 THEN sum(case when t.value < 0 then 0 else t.value end)/sum(value > 0) ELSE 0 END) AS average_paying')
       ->addSelect('sum(case when t.value < 0 then 0 else t.value end) AS income')
       ->addSelect('sum(case when t.value > 0 then 0 else t.value end) AS outcome')
       ->andWhere('t.updated_at >= ? AND t.updated_at < ?',array(
