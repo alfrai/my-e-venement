@@ -40,6 +40,9 @@ class EmailForm extends BaseEmailForm
     unset($this->validatorSchema['field_cc']);
     unset($this->widgetSchema   ['field_bcc']);
     unset($this->validatorSchema['field_bcc']);
+    $this->widgetSchema['field_from']->setOption('default',
+      '"'.sfContext::getInstance()->getUser()->getGuardUser()->getFirstName().' '.sfContext::getInstance()->getUser()->getGuardUser()->getLastName().'" <'.sfContext::getInstance()->getUser()->getGuardUser()->getEmailAddress().'>'
+    );
     
     // organism
     $this->widgetSchema['organisms_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(

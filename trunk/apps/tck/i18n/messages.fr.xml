@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Payment method List</source>
+        <target>Liste des méthodes de paiement</target>
+      </trans-unit>
+      <trans-unit>
         <source>The transaction cannot be validated, please check again the payments...</source>
         <target>L'opération ne peut être validée, vérifiez à nouveau les paiements svp...</target>
       </trans-unit>

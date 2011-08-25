@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>New Email</source>
+        <target>Nouvel email</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Phone type</source>
+        <target>Type de téléphone</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Contacts groups</source>
+        <target>Groupes des contacts</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ordered</source>
         <target>Commandé/réservé</target>
       </trans-unit>
