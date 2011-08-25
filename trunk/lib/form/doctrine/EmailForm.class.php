@@ -41,7 +41,7 @@ class EmailForm extends BaseEmailForm
     unset($this->widgetSchema   ['field_bcc']);
     unset($this->validatorSchema['field_bcc']);
     $this->widgetSchema['field_from']->setOption('default',
-      '"'.sfContext::getInstance()->getUser()->getGuardUser()->getFirstName().' '.sfContext::getInstance()->getUser()->getGuardUser()->getLastName().'" <'.sfContext::getInstance()->getUser()->getGuardUser()->getEmailAddress().'>'
+      sfContext::getInstance()->getUser()->getGuardUser()->getEmailAddress()
     );
     
     // organism
