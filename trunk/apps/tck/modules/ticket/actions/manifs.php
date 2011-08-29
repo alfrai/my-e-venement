@@ -65,7 +65,7 @@
       $q = Doctrine::getTable('Manifestation')
         ->createQuery()
         ->andWhereNotIn('m.id',$mids)
-        ->orderBy('e.name, happens_at ASC')
+        ->orderBy('m.happens_at, e.name')
         ->limit(($config = sfConfig::get('app_transaction_manifs')) ? $config['max_display'] : 10);
       if ( !$this->getUser()->hasCredential('tck-unblock') )
         $q->andWhere('happens_at >= ?',date('Y-m-d'));
