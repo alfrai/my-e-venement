@@ -5,6 +5,42 @@
     <header/>
     <body>
       <trans-unit>
+        <source>New Location</source>
+        <target>Nouveau lieu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Email</source>
+        <target>Courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Stage manager</source>
+        <target>Régisseur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism</source>
+        <target>Organisme</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Postalcode</source>
+        <target>Code postal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>City</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Gauge max</source>
+        <target>Jauge max</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Gauge min</source>
+        <target>Jauge min</target>
+      </trans-unit>
+      <trans-unit>
         <source>Uncheck all tickets...</source>
         <target>Annuler tous les contrôles...</target>
       </trans-unit>

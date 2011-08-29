@@ -12,6 +12,7 @@ all:
       default: "ABQIAAAAZ2fpUCzFKp-Wp-8Hx51qIhT2yXp_ZAY8_ufC3CFXhHIE1NvwkxRHY5CrGJIANOYubbBU_qrwIQzuTw"
       max_display: 200
       default_country: France
-  ticketting:
     dematerialized: true
-    hide_demands: true
+  #ticketting:
+    #dematerialized: false
+    #hide_demands: false
