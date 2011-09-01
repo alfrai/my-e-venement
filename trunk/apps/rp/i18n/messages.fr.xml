@@ -762,7 +762,7 @@
       </trans-unit>
       <trans-unit>
         <source>Extract to CSV</source>
-        <target>Extraire en CSV</target>
+        <target>Extraire (tableur)</target>
       </trans-unit>
       <trans-unit>
         <source>Contacts' List</source>

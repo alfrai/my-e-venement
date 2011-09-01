@@ -168,7 +168,7 @@ class ContactFormFilter extends BaseContactFormFilter
     
     if ( is_array($value) )
     {
-      if ( !$q->contains("LEFT JOIN $a.Transaction transac") )
+      if ( !$q->contains("LEFT JOIN $a.Tansactions transac") )
       $q->leftJoin("$a.Transactions transac");
       
       if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
@@ -188,7 +188,7 @@ class ContactFormFilter extends BaseContactFormFilter
     
     if ( is_array($value) )
     {
-      if ( !$q->contains("LEFT JOIN $a.Transaction transac") )
+      if ( !$q->contains("LEFT JOIN $a.Tansactions transac") )
       $q->leftJoin("$a.Transactions transac");
       
       if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
@@ -211,7 +211,7 @@ class ContactFormFilter extends BaseContactFormFilter
     
     if ( is_array($value) )
     {
-      if ( !$q->contains("LEFT JOIN $a.Transaction transac") )
+      if ( !$q->contains("LEFT JOIN $a.Tansactions transac") )
       $q->leftJoin("$a.Transactions transac");
       
       if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
@@ -238,7 +238,7 @@ class ContactFormFilter extends BaseContactFormFilter
     
     if ( is_array($value) )
     {
-      if ( !$q->contains("LEFT JOIN $a.Transaction transac") )
+      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
       $q->leftJoin("$a.Transactions transac");
       
       if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
@@ -309,9 +309,9 @@ class ContactFormFilter extends BaseContactFormFilter
     
     $a = $q->getRootAlias();
     if ( $value )
-      return $q->addWhere("$a.postalcode IS NOT NULL OR $a.city IS NOT NULL");
+      return $q->addWhere("$a.postalcode IS NOT NULL AND $a.postalcode != '' AND $a.city IS NOT NULL AND $a.postalcode != ''");
     else
-      return $q->addWhere("$a.postalcode IS     NULL OR $a.city IS     NULL");
+      return $q->addWhere("$a.postalcode IS     NULL OR $a.postalcode = '' OR $a.city IS     NULL OR $a.city = ''");
   }
   public function addHasEmailColumnQuery(Doctrine_Query $q, $field, $value)
   {

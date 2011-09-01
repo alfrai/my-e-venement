@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Merging workspaces</source>
+        <target>Fusion des espaces de travail</target>
+      </trans-unit>
+      <trans-unit>
         <source>New Location</source>
         <target>Nouveau lieu</target>
       </trans-unit>
