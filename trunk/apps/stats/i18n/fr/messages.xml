@@ -98,11 +98,11 @@
       </trans-unit>
       <trans-unit id="100">
         <source>Engaged tickets</source>
-        <target>Billets engagés</target>
+        <target>Billets Réservés</target>
       </trans-unit>
       <trans-unit id="101">
         <source>Printed tickets</source>
-        <target>Billets imprimés</target>
+        <target>Billets vendus</target>
       </trans-unit>
       <trans-unit id="102">
         <source>Percentage on gauge</source>
@@ -130,7 +130,7 @@
       </trans-unit>
       <trans-unit id="108">
         <source>Ordered</source>
-        <target>Commandés</target>
+        <target>Réservés</target>
       </trans-unit>
       <trans-unit id="109">
         <source>Asked</source>
@@ -138,7 +138,7 @@
       </trans-unit>
       <trans-unit>
         <source>Engaged</source>
-        <target>Engagés</target>
+        <target>Réservés</target>
       </trans-unit>
       <trans-unit id="110">
         <source>Chart</source>
