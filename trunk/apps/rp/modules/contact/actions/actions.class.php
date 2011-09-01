@@ -368,6 +368,6 @@ class contactActions extends autoContactActions
   {
     $nb = strlen($search);
     $charset = sfContext::getInstance()->getConfiguration()->charset;
-    return iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search);
+    return strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search));
   }
 }
