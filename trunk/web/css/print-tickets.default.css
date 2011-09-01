@@ -81,6 +81,7 @@ float: left;
 .lieuprix, .dateheure { font-size: 11pt; height: 13pt; }
 .datetime { margin-top: 1.5mm; }
 .placeprice { margin-top: 0.5mm; }
+.price_name .name { display: none; }
 .event { font-size: 26px; margin-top: 1mm; height: 30px; }
 .event-short { display: none; }
 .cie { font-size: 12pt; margin-top: 1mm; height: 14pt; }
