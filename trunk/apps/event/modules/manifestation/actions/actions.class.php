@@ -229,7 +229,7 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->andWhere('t.manifestation_id = ?',$this->manifestation->id)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
-      ->orderBy('p.name, o.name, c.name, c.firstname');
+      ->orderBy('p.name, tr.id, o.name, c.name, c.firstname');
     return $q->execute();
   }
   protected function getSpectators()
