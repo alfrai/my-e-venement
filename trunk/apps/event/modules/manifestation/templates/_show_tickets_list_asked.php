@@ -28,8 +28,8 @@
     <td class="name"><?php echo $price ?></td>
     <td class="qty"><?php echo $qty ?></td>
     <td class="price"><?php echo format_currency($value,'€') ?></td>
-    <td class="transaction"><?php echo implode(', ',$transaction) ?></td>
-    <td class="contact"><?php echo implode(', ',array_merge(array_values($pro),array_values($contact))) ?></td>
+    <td class="transaction"><?php echo implode('<br/>',$transaction) ?></td>
+    <td class="contact"><?php echo implode('<br/>',array_merge(array_values($pro),array_values($contact))) ?></td>
   </tr>
   <?php endforeach ?>
   </tbody>
