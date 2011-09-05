@@ -897,6 +897,10 @@
         <target>Marge horizontale entre les colonnes</target>
       </trans-unit>
       <trans-unit>
+        <source>Vertical margin between lines</source>
+        <target>Marge verticale entre les lignes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Horizontal padding</source>
         <target>Espacement horizontal</target>
       </trans-unit>
