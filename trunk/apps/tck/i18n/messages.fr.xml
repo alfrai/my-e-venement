@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>from %%from%% to %%to%%</source>
+        <target>du %%from%% au %%to%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>Payment method List</source>
         <target>Liste des méthodes de paiement</target>
       </trans-unit>

@@ -2,7 +2,15 @@
 
 <div class="ui-widget-content ui-corner-all">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
-    <h1><?php echo __('Sales Ledger') ?></h1>
+    <h1>
+      <?php
+        $values = $form->getValues();
+        if ( !isset($values['dates']['from']) ) $values['dates']['from'] = date('Y-m-d',strtotime('1 month ago'));
+        if ( !isset($values['dates']['to']) ) $values['dates']['to'] = date('Y-m-d',strtotime('tomorrow'));
+      ?>
+      <?php echo __('Sales Ledger') ?>
+      (<?php echo __('from %%from%% to %%to%%',array('%%from%%' => format_date($values['dates']['from']), '%%to%%' => format_date($values['dates']['to']))) ?>)
+    </h1>
   </div>
 <table class="ui-widget-content ui-corner-all" id="ledger">
   <?php

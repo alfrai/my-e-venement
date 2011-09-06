@@ -1,6 +1,22 @@
 <?php include_partial('assets') ?>
 <?php use_stylesheet('ledger-both','',array('media' => 'all')) ?>
 
+<div>
+<div class="ui-widget-content ui-corner-all">
+  <div class="fg-toolbar ui-widget-header ui-corner-all">
+    <h1>
+      <?php
+        $values = $form->getValues();
+        if ( !isset($values['dates']['from']) ) $values['dates']['from'] = date('Y-m-d',strtotime('1 month ago'));
+        if ( !isset($values['dates']['to']) ) $values['dates']['to'] = date('Y-m-d',strtotime('tomorrow'));
+      ?>
+      <?php echo __('Cash Ledger') ?>
+      (<?php echo __('from %%from%% to %%to%%',array('%%from%%' => format_date($values['dates']['from']), '%%to%%' => format_date($values['dates']['to']))) ?>)
+    </h1>
+  </div>
+</div>
+</div>
+
 <div class="ledger-both">
 <?php include_partial('criterias',array('form' => $form, 'ledger' => 'both')) ?>
 <?php include_partial('both_payment',array('byPaymentMethod' => $byPaymentMethod)) ?>
