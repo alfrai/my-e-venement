@@ -25,7 +25,7 @@ class ledgerActions extends sfActions
     $this->form = new LedgerCriteriasForm();
     $criterias = $request->getParameter($this->form->getName());
     
-    if ( !$criterias['users'][0] && count($criterias['users']) == 1 )
+    if ( isset($criterias['users']) && $criterias['users'][0] === '' && count($criterias['users']) == 1 )
       unset($criterias['users']);
     
     $this->form->bind($criterias, $request->getFiles($this->form->getName()));
@@ -74,12 +74,12 @@ class ledgerActions extends sfActions
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
       ))
-      ->orderBy('e.name, m.happens_at, l.name, tck.price_name, tck.updated_at');
+      ->orderBy('e.name, m.happens_at, l.name, tck.price_name, u.first_name, u.last_name, tck.sf_guard_user_id, tck.updated_at');
     
     $q->andWhereIn('t.type',array('normal', 'cancellation'));
     
     if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
-      $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
+      $q->andWhereIn('tck.sf_guard_user_id',$criterias['users']);
     
     $this->events = $q->execute();
     $this->dates = $dates;

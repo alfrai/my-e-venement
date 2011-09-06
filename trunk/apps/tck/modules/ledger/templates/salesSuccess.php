@@ -37,7 +37,7 @@
           
           foreach ( $manif->Tickets as $ticket )
           {
-            if ( $ticket->Transaction == 'cancellation' )
+            if ( !is_null($ticket->cancelling) )
               $qty -= 2;
             
             $value += $ticket->value;
@@ -70,7 +70,7 @@
     <tr class="manif event-<?php echo $event->id ?>">
       <td class="event"><?php echo cross_app_link_to(format_date($manif->happens_at).' @ '.$manif->Location,'event','manifestation/show?id='.$manif->id) ?></td>
       <td class="see-more"><a href="#manif-<?php echo $manif->id ?>">-</a></td>
-      <td class="id-qty"><?php echo $manif->Tickets->count() ?></td>
+      <td class="id-qty"><?php $nb = $manif->Tickets->count(); foreach ( $manif->Tickets as $t ) if ( !is_null($t->cancelling) ) $nb-=2; echo $nb; ?></td>
       <td class="value"><?php $value = 0; foreach ( $manif->Tickets as $ticket ) $value += $ticket->value; echo format_currency($value,'€'); ?></td>
       <?php foreach ( $vat as $t ): if ( isset($t[$event->id][$manif->id]) ): ?>
       <td class="vat"><?php $buf += $t[$event->id][$manif->id]; echo format_currency($t[$event->id][$manif->id],'€') ?></td>
@@ -82,12 +82,13 @@
     <?php for ( $i = 0 ; $i < $manif->Tickets->count() ; $i++ ): ?>
     <tr class="prices manif-<?php echo $manif->id ?>">
       <?php $ticket = $manif->Tickets[$i]; ?>
-      <td class="event price"><?php echo $ticket->price_name ?></td>
+      <td class="event price"><?php echo __('%%price%% (by %%user%%)',array('%%price%%' => $ticket->price_name, '%%user%%' => $ticket->User->name)) ?></td>
       <td class="see-more"></td>
       <td class="id-qty"><?php
         $qty = $k = $value = 0;
         for ( $j = $i ; $j < $manif->Tickets->count() ; $j++ )
-        if ( $manif->Tickets->get($i)->price_name == $manif->Tickets->get($j)->price_name )
+        if ( $manif->Tickets->get($i)->price_name == $manif->Tickets->get($j)->price_name
+          && $manif->Tickets->get($i)->sf_guard_user_id == $manif->Tickets->get($j)->sf_guard_user_id )
         {
           $qty = is_null($manif->Tickets->get($j)->cancelling)
             ? $qty + 1
