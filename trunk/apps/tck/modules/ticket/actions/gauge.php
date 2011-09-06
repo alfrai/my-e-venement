@@ -22,6 +22,9 @@
 ***********************************************************************************/
 ?>
 <?php
+    if ( !$request->getParameter('id') )
+      return false;
+    
     $q = Doctrine::getTable('Gauge')->createQuery('g')
       ->andWhere('g.manifestation_id = ?', $mid = $request->getParameter('id'));
     if ( $request->getParameter('wsid') == 'all' )
