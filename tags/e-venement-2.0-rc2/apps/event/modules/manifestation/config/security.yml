@@ -1,0 +1,15 @@
+all:
+  credentials: [event-manif]
+
+edit:
+  credentials: [event-manif-edit]
+update:
+  credentials: [event-manif-edit]
+new:
+  credentials: [event-manif-new]
+create:
+  credentials: [event-manif-new]
+delete:
+  credentials: [event-manif-del]
+batchDelete:
+  credentials: [event-manif-del]
