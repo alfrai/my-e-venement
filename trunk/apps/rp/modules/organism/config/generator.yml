@@ -41,12 +41,12 @@ generator:
       edit:
         title: Organism %%name%%
         display:
-          NONE:  [name, address, postalcode, city, country, email, url, organism_category_id]
+          NONE:  [name, address, postalcode, _cities, city, country, email, url, organism_category_id]
           Phonenumbers: [_form_phonenumbers_list]
           Details: [npai, description]
       new:
         title: New organism
         display:
-          NONE:  [name, address, postalcode, city, country, email, url, organism_category_id]
+          NONE:  [name, address, postalcode, _cities, city, country, email, url, organism_category_id]
           Phonenumbers: [phone_type,phone_number]
           Details: [npai, description]
