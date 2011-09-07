@@ -50,6 +50,7 @@
       }
       
       $q = Doctrine::getTable('Manifestation')->createQuery('m')
+        ->leftJoin('m.Color color')
         ->andWhereNotIn('m.id',$mids)
         ->orderBy('happens_at ASC');
       
@@ -67,7 +68,8 @@
     {
       $eids = array();
       $q = Doctrine::getTable('Manifestation')
-        ->createQuery()
+        ->createQuery('m')
+        ->leftJoin('m.Color color')
         ->andWhereNotIn('m.id',$mids)
         ->orderBy('m.happens_at, e.name')
         ->limit(($config = sfConfig::get('app_transaction_manifs')) ? $config['max_display'] : 10);

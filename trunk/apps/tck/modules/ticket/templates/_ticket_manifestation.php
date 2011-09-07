@@ -14,5 +14,5 @@
     <?php endif ?>
   <?php endforeach ?>
 </span>
-<span class="total"><?php if ( $active ) echo format_currency($total,'€') ?></span>
+<span class="total"><?php if ( $tickets ) echo format_currency($total,'€') ?></span>
 <?php endif ?>
