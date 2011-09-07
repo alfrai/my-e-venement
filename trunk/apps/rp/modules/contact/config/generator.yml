@@ -38,13 +38,13 @@ generator:
       edit:
         title: Contact %%name%% %%firstname%%
         display:
-          NONE:  [title, name, firstname, address, postalcode, city, country, email, groups_list]
+          NONE:  [title, name, firstname, address, postalcode, _cities, city, country, email, groups_list]
           Phonenumbers: [_form_phonenumbers_list]
           Precisions: [family_contact, npai, description, YOBs_list, password]
           Ticketting: [_events_list]
       new:
         title: New contact
         display:
-          NONE:  [title, name, firstname, address, postalcode, city, country, email, groups_list]
+          NONE:  [title, name, firstname, address, postalcode, _cities, city, country, email, groups_list]
           Phonenumber: [phone_type, phone_number]
           Precisions: [family_contact, npai, description, YOBs_list, password]
