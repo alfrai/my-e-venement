@@ -8,7 +8,6 @@
     <?php include_partial('ticket_manifestations',array(
       'transaction' => $transaction,
       'manifestations_add' => $manifestations_add,
-      'tickets' => false,
     )); ?>
   </div>
 </div>

@@ -8,7 +8,7 @@
     <ul>
     <?php foreach ( $manifestations as $manif ): ?>
       <li class="manif"><?php echo include_partial('ticket_manifestation',array(
-        'tickets' => true,
+        'active' => true,
         'manif' => $manif,
         'first' => $cpt++ == 0 ? true : false)) ?></li>
     <?php endforeach ?>
