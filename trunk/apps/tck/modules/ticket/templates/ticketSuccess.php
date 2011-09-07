@@ -7,7 +7,10 @@
     <?php echo $form->renderHiddenFields(); $cpt = 0; ?>
     <ul>
     <?php foreach ( $manifestations as $manif ): ?>
-      <li class="manif"><?php echo include_partial('ticket_manifestation',array('active' => true, 'manif' => $manif, 'first' => $cpt++ == 0 ? true : false)) ?></li>
+      <li class="manif"><?php echo include_partial('ticket_manifestation',array(
+        'tickets' => true,
+        'manif' => $manif,
+        'first' => $cpt++ == 0 ? true : false)) ?></li>
     <?php endforeach ?>
       <li class="total">
         <span></span>

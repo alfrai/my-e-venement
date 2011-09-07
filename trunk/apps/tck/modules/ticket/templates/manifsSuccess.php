@@ -5,6 +5,10 @@
     <h1>Vendre des billets</h1>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="manifestations">
-    <?php include_partial('ticket_manifestations',array('transaction' => $transaction,'manifestations_add' => $manifestations_add)); ?>
+    <?php include_partial('ticket_manifestations',array(
+      'transaction' => $transaction,
+      'manifestations_add' => $manifestations_add,
+      'tickets' => false,
+    )); ?>
   </div>
 </div>

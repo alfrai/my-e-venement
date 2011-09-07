@@ -12,7 +12,7 @@
     <ul class="manifestations_add ui-widget-content ui-corner-all">
     <?php foreach ( $manifestations_add as $manif ): ?>
       <li class="manif">
-      <?php include_partial('ticket_manifestation',array('manif' => $manif,'active' => false)) ?>
+      <?php include_partial('ticket_manifestation',array('manif' => $manif,'tickets' => false, 'active' => false)) ?>
       </li>
     <?php endforeach ?>
     </ul>

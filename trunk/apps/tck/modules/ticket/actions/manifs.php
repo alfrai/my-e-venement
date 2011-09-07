@@ -29,21 +29,25 @@
     
     $mids = array();
     foreach ( $this->transaction->Tickets as $ticket )
-      $mids[] = $ticket->Manifestation->id;
+      $mids[$ticket->Manifestation->id] = $ticket->Manifestation->id;
     
     if ( $request->getParameter('manif_new') )
     {
-      $eids = array();
+      $eids = array('0');
       $mid = false;
       if ( substr($request->getParameter('manif_new'),0,7) == '#manif-' )
       {
-        $manifs = split(',',$request->getParameter('manif_new'));
         $mid = array();
+        $manifs = split(',',$request->getParameter('manif_new'));
         foreach ( $manifs as $manif )
           $mid[] = substr($manif,7);
       }
-      else foreach ( Doctrine::getTable('Event')->search(strtolower($request->getParameter('manif_new')).'*') as $id )
-        $eids[] = $id['id'];
+      else
+      {
+        foreach ( Doctrine::getTable('Event')->search(
+          strtolower($request->getParameter('manif_new')).'*') as $id )
+          $eids[] = $id['id'];
+      }
       
       $q = Doctrine::getTable('Manifestation')->createQuery('m')
         ->andWhereNotIn('m.id',$mids)
