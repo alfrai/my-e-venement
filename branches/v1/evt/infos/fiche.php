@@ -602,7 +602,7 @@ $(document).ready(function(){
   						  echo '<input type="radio" name="manif[vel]['.$i.'][value]" value="no"  '.($manif['vel'] != 't' ? 'checked="checked"' : '').' />non';
   						}
   						echo ' - Limite VeL:&nbsp;';
-  						echo printField("manif[".($name = "vel_limit")."][]",$manif[$name],10,5,3,NULL,NULL,false);
+  						echo printField("manif[".($name = "vel_limit")."][$i]",$manif[$name],10,5,3,NULL,NULL,false);
   						echo '</span>';
 				  }
 					echo '</p><p class="description">';
