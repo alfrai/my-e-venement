@@ -58,6 +58,7 @@
     'manifid'   => 'm.id',
     'date'      => 'm.date',
     'jauge'     => 'm.jauge',
+    'limit'     => 'm.vel_limit',
     'siteid'    => 's.id',
     'sitename'  => 's.nom',
     'siteaddr'  => 's.adresse',
@@ -118,7 +119,7 @@
   if ( $request->hasFailed() )
   {
     $nav->httpStatus(500);
-    die($debug ? $query : '');
+    die();
   }
   
   $arr = array();
