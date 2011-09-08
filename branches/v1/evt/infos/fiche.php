@@ -188,7 +188,10 @@
 					$arr["jauge"]		= intval($manif["jauge"][$i]["value"]);
 		    
   	  	if ( in_array('vel',$config['mods']) )
+  	  	{
 	  	    $arr['vel'] = $manif['vel'][$i]['value'] == 'yes' ? 't' : 'f';
+	  	    $arr['vel_limit'] = intval($manif['vel_limit'][$i]['value']);
+				}
 				
 				// Modification d'une manif
 				if ( intval($manif["manifid"][$i]["value"]) > 0 )
@@ -504,7 +507,7 @@ $(document).ready(function(){
   		  $select = array(
 			    'id', 'organisme1', 'organisme2', 'organisme3', 'nom', 'description',
 			    'categorie', 'typedesc', 'mscene', 'mscene_lbl', 'textede', 'textede_lbl', 'duree', 'ages', 'code', 'creation', 'modification', 'catdesc',
-			    'manifid', 'date', 'vel', 'manifdesc',
+			    'manifid', 'date', 'vel', 'vel_limit', 'manifdesc',
 			    'siteid', 'sitenom', 'ville', 'cp', 'plnum', 'deftva', 'txtva', 'colorname', 'color',
 			  );
 			  $sums = array('jauge','commandes','resas','preresas',);
@@ -598,6 +601,8 @@ $(document).ready(function(){
 						    echo '<input type="radio" name="manif[vel]['.$i.'][value]" value="yes" '.($manif['vel'] == 't' ? 'checked="checked"' : '').' />oui ';
   						  echo '<input type="radio" name="manif[vel]['.$i.'][value]" value="no"  '.($manif['vel'] != 't' ? 'checked="checked"' : '').' />non';
   						}
+  						echo ' - Limite VeL:&nbsp;';
+  						echo printField("manif[".($name = "vel_limit")."][]",$manif[$name],10,5,3,NULL,NULL,false);
   						echo '</span>';
 				  }
 					echo '</p><p class="description">';
