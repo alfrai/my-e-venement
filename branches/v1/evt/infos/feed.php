@@ -162,8 +162,12 @@
 				
 				// les organismes / compagnies
 				$orgs = array("orgnom1","orgnom2","orgnom3");
+				$i = 0;
 				foreach ( $orgs AS $orgnom )
-					echo $rec[$orgnom] ? '<ext-org>'.htmlsecure($rec[$orgnom]).'</ext-org>' : '';
+				{
+					echo $rec[$orgnom] ? '<ext-org id="'.$orgnom.'">'.($i > 0 ? ' - ' : '').htmlsecure($rec[$orgnom]).'</ext-org>' : '';
+				  if ( $rec[$orgnom] ) $i++;
+			  }
 			}
 			echo '</entry>';
 			echo "\n";
