@@ -39,7 +39,7 @@ class OptionLabelsForm extends BaseOptionLabelsForm
         'printer-x'     => array('label' => 'Horizontal printer margins', 'type' => 'number', 'helper' => 'mm', 'default' => '14'),
         'printer-y'     => array('label' => 'Vertical printer margins', 'type' => 'number', 'helper' => 'mm', 'default' => '12'),
         'margin-x'      => array('label' => 'Horizontal margin between rows', 'type' => 'number', 'helper' => 'mm', 'default' => '3'),
-        'margin-y'      => array('label' => 'Vertical  margin between lines', 'type' => 'number', 'helper' => 'mm', 'default' => '0'),
+        'margin-y'      => array('label' => 'Vertical margin between lines', 'type' => 'number', 'helper' => 'mm', 'default' => '0'),
         'padding-x'     => array('label' => 'Horizontal padding', 'type' => 'number', 'helper' => 'mm', 'default' => '2.5'),
         'padding-y'     => array('label' => 'Vertical padding', 'type' => 'number', 'helper' => 'mm', 'default' => '1.5'),
         'font-family'   => array('label' => 'Font', 'type' => 'string', 'helper' => '', 'default' => 'verdana'),

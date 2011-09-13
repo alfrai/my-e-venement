@@ -861,7 +861,7 @@
         <target>Largeur de page</target>
       </trans-unit>
       <trans-unit>
-        <source>Page heigth</source>
+        <source>Page height</source>
         <target>Hauteur de page</target>
       </trans-unit>
       <trans-unit>
@@ -890,7 +890,7 @@
       </trans-unit>
       <trans-unit>
         <source>Vertical margin between lines</source>
-        <target>Marge verticale entre les cellules</target>
+        <target>Marge verticale entre les lignes</target>
       </trans-unit>
       <trans-unit>
         <source>Horizontal margin between rows</source>
