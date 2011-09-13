@@ -64,9 +64,9 @@
       <?php echo __('All rights reserved',null,'about') ?>.
     </p>
     <p class="license">
-      <?php echo __('%e% is licensed under the free license',$translate,'about') ?>
+      <?php echo __('%e% is licensed under',$translate,'about') ?>
       <a href="http://www.gnu.org/licenses/gpl.html">GNU/GPL</a>.
-      <?php echo __('This gives you freedoms, but also you must respect its clauses (attribution, share-alike)',null,'about') ?>.
+      <?php //echo __('This gives you freedoms, but also you must respect its clauses (attribution, share-alike)',null,'about') ?>
     </p>
     <p class="tm">
       <?php echo __("%e% and the %e% logo are the properties of %author% and %firm%",$translate,'about') ?>.
