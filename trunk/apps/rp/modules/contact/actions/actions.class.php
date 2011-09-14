@@ -59,9 +59,15 @@ class contactActions extends autoContactActions
     $this->redirect('@contact');
   }
   
+  public function executeShow(sfWebRequest $request)
+  {
+    $this->contact = Doctrine::getTable('Contact')->findWithTickets($request->getParameter('id'));
+    $this->forward404Unless($this->contact);
+    $this->form = $this->configuration->getForm($this->contact);
+  }
   public function executeEdit(sfWebRequest $request)
   {
-    parent::executeEdit($request);
+    $this->executeShow($request);
     
     if ( !$this->getUser()->hasCredential('pr-contact-edit') )
       $this->setTemplate('show');

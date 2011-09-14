@@ -58,7 +58,21 @@ class ContactTable extends PluginContactTable
       //->leftJoin("$gc.User $gcu")
       ->leftJoin("$alias.Phonenumbers $pn")
       ->leftJoin("$alias.YOBs $y");
+
     return $query;
+  }
+
+  public function findWithTickets($id)
+  {
+    $q = $this->createQuery('c')
+      ->leftJoin("c.Transactions transaction")
+      ->leftJoin('transaction.Payments payment')
+      ->leftJoin('transaction.Tickets tck ON transaction.id = tck.transaction_id AND tck.id NOT IN (SELECT tck2.cancelling FROM ticket tck2 WHERE tck2.cancelling IS NOT NULL) AND tck.duplicate IS NULL')
+      ->leftJoin('tck.Manifestation manifestation')
+      ->leftJoin('manifestation.Event event')
+      ->andWhere('c.id = ?',$id);
+    $contacts = $q->execute();
+    return $contacts[0];
   }
   
     /*
