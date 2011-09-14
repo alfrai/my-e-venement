@@ -27,6 +27,9 @@ class ManifestationTable extends PluginManifestationTable
     $g  = $alias != 'g'  ? 'g'  : 'g1';
     $t  = $alias != 't'  ? 't'  : 't1';
     $o  = $alias != 'o'  ? 'o'  : 'o1';
+    $c  = $alias != 'c'  ? 'c'  : 'c1';
+    $tck = $alias != 'tck'  ? 'tck'  : 'tck1';
+    $tr = $alias != 'tr'  ? 'tr'  : 'tr1';
     
     $query = parent::createQuery($alias)
         ->leftJoin("$alias.Event $e")
