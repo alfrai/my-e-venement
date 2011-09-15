@@ -14,20 +14,21 @@
       $manifs[$ticket->manifestation_id] = cross_app_link_to($ticket->Manifestation->getShortName(),'event','manifestation/show?id='.$ticket->manifestation_id);
     }
   ?>
-  <?php if ( $prints > 0 || !($new = $transaction->Order[0]->isNew()) ): ?>
   <li>
     <p class="infos">
       #<?php echo cross_app_link_to($transaction,'tck','ticket/sell?id='.$transaction->id) ?>,
       <?php echo format_date($transaction->created_at) ?>
-      <?php echo __('for %%i%% ticket(s) and',array('%%i%%' => $prints)) ?>
-      <?php $sum = 0; foreach ( $transaction->Payments as $pay ) $sum += $pay->value; echo format_currency($sum,'€'); ?> 
+      <?php $sum = 0; foreach ( $transaction->Payments as $pay ) $sum += $pay->value; ?>
+      <?php echo __('for %%i%% ticket(s) and %%p%% paid',array(
+        '%%i%%' => $transaction->Tickets->count(),
+        '%%p%%' => format_currency($sum,'€'),
+      )) ?>
      (<?php
         if ( $prints < $transaction->Tickets->count() )
         {
-          if ( !$new )
+          if ( !$transaction->Order[0]->isNew() )
             echo __('Ordered').' ';
-          
-          if ( $prints == 0 )
+          else if ( $prints == 0 )
             echo __('All demanded').' ';
           
           if ( $prints > 0 )
@@ -41,7 +42,6 @@
       echo implode(', ',$manifs);
     ?></p>
   </li>
-  <?php endif ?>
 <?php endif ?>
 <?php endforeach ?>
 </ul>

@@ -25,3 +25,4 @@
 <?php include_partial('both_value',array('byValue' => $byValue)) ?>
 <?php include_partial('both_user',array('byUser' => $byUser)) ?>
 </div>
+<p style="margin: 10px;"><?php echo date('Y-m-d H:i:s') ?></p>

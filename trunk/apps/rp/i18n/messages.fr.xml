@@ -18,7 +18,7 @@
       </trans-unit>
       <trans-unit>
         <source>Ordered</source>
-        <target>Commandé/réservé</target>
+        <target>Réservé</target>
       </trans-unit>
       <trans-unit>
         <source>All demanded</source>
@@ -53,8 +53,8 @@
         <target>Liste des tarifs</target>
       </trans-unit>
       <trans-unit>
-        <source>for %%i%% ticket(s) and</source>
-        <target>pour %%i%% billet(s) et</target>
+        <source>for %%i%% ticket(s) and %%p%% paid</source>
+        <target>pour %%i%% billet(s) et %%p%% payés</target>
       </trans-unit>
       <trans-unit>
         <source>Duplicates</source>
