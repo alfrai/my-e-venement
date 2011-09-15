@@ -14,7 +14,7 @@
       $manifs[$ticket->manifestation_id] = cross_app_link_to($ticket->Manifestation->getShortName(),'event','manifestation/show?id='.$ticket->manifestation_id);
     }
   ?>
-  <?php if ( $prints > 0 || !($new = $transaction->Order->isNew()) ): ?>
+  <?php if ( $prints > 0 || !($new = $transaction->Order[0]->isNew()) ): ?>
   <li>
     <p class="infos">
       #<?php echo cross_app_link_to($transaction,'tck','ticket/sell?id='.$transaction->id) ?>,
