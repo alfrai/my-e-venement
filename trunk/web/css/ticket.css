@@ -117,7 +117,7 @@
   right: 35px;
   width: 350px;
   background-color: white;
-  height: 225px;
+  height: 288px;
   z-index: 500;
   overflow: auto;
   padding: 5px;
@@ -128,6 +128,10 @@
 #contact #micro-show label {
   min-width: 75px;
   display: inline-block;
+}
+#contact #micro-show .sf_admin_form_row {
+  margin: 5px;
+  padding: 0;
 }
 #contact .open {
   position: absolute;
