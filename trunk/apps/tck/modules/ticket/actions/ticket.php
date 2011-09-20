@@ -67,6 +67,8 @@
       ->andWhere('t.id = ?',$this->transaction->id)
       ->andWhere('tck.duplicate IS NULL')
       ->orderBy('e.name, tck.price_name');
+    if ( count($values['manifestation_id']) > 0 )
+      $q->andWhereIn('m.id',$values['manifestation_id']);
     $this->manifestations = $q->execute();
     
     // ?? but necessary for ajax requests
