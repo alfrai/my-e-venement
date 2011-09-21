@@ -66,3 +66,8 @@ select[disabled] {
 }
 #sf_fieldset_spectators table tbody .ticket-ids { font-size: 80%; }
 
+#sf_fieldset_tickets .contact {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 230px;
+}

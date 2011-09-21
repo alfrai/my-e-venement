@@ -21,4 +21,8 @@ $(document).ready(function(){
       }
     }
   });
+  
+  $('#sf_fieldset_tickets .contact a').each(function(){
+    $(this).attr('title',$(this).html());
+  });
 });
