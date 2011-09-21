@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Payment method</source>
+        <target>Nouvelle méthode de paiement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Account</source>
+        <target>Compte</target>
+      </trans-unit>
+      <trans-unit>
         <source>Detailed Ledger</source>
         <target>Journal détaillé</target>
       </trans-unit>

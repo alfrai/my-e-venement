@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Title type List</source>
+        <target>Liste de titres-type</target>
+      </trans-unit>
+      <trans-unit>
         <source>New Email</source>
         <target>Nouvel email</target>
       </trans-unit>
