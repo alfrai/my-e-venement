@@ -34,6 +34,7 @@
     <div id="logo"></div>
     <div id="footer">
       <?php include_partial('global/footer') ?>
+      <?php include_partial('global/date') ?>
     </div>
     <div id="transition"><span class="close"></span></div>
   </body>
