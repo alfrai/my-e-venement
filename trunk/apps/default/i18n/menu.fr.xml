@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Duplicate tickets</source>
+        <target>Dupliquer des billets</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ticketting activity</source>
         <target>Activité en billetterie</target>
       </trans-unit>

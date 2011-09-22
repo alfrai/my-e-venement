@@ -109,3 +109,7 @@ a, a:active, a:visited { color: #000; }
   display: inline;
 }
 #content .ui-icon-microplus { background-position: -2px -210px; }
+
+.testing {
+  padding: 5px 10px;
+}

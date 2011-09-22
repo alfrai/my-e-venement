@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>WARNING: functionnality in a test period ! You've been warned.</source>
+        <target>ATTENTION: fonctionnalité en période de test ! Vous êtes prévenus.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>duplicate</source>
+        <target>éditer les duplicatas</target>
+      </trans-unit>
+      <trans-unit>
         <source>Name</source>
         <target>Nom</target>
       </trans-unit>

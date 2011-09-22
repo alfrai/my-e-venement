@@ -43,6 +43,10 @@ class ticketActions extends sfActions
   {
     require('cancel.php');
   }
+  public function executeDuplicate(sfWebRequest $request)
+  {
+    require('duplicate.php');
+  }
   public function executeContact(sfWebRequest $request)
   {
     require('contact.php');

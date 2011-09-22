@@ -35,6 +35,9 @@
           <?php if ( $sf_user->hasCredential('tck-cancel') && $sf_user->hasCredential('tck-transaction') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/cancel') ?>"><?php echo __('Cancelations',array(),'menu') ?></a></li>
           <?php endif ?>
+          <?php if ( $sf_user->hasCredential('tck-print-ticket') && $sf_user->hasCredential('tck-transaction') ): ?>
+          <li><a href="<?php echo cross_app_url_for('tck','ticket/duplicate') ?>"><?php echo __('Duplicate tickets',array(),'menu') ?></a></li>
+          <?php endif ?>
           <!--
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','deposit/send') ?>"><?php echo __('Deposit',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','deposit/getBack') ?>"><?php echo __('Sells',array(),'menu') ?></a></li>

@@ -24,6 +24,8 @@ passedSuccess:
 controlSuccess:
   stylesheets: [ticket]
 
+duplicateSuccess:
+  stylesheets: [ticket-cancel]
 cancelSuccess:
   stylesheets: [ticket-cancel]
 cancelBootSuccess:
