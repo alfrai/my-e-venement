@@ -26,14 +26,14 @@
           <?php if ( $sf_user->hasCredential('tck-transaction') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/sell') ?>"><?php echo __('New transaction',array(),'menu') ?></a></li>
           <?php endif ?>
-          <?php if ( $sf_user->hasCredential('tck-control') ): ?>
-          <li><a href="<?php echo cross_app_url_for('tck','ticket/control') ?>"><?php echo __('Ticket control',array(),'menu') ?></a></li>
-          <?php endif ?>
           <?php if ( $sf_user->hasCredential('tck-unblock') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/respawn') ?>"><?php echo __('Respawn a transaction',array(),'menu') ?></a></li>
           <?php endif ?>
+          <?php if ( $sf_user->hasCredential('tck-control') ): ?>
+          <li><a href="<?php echo cross_app_url_for('tck','ticket/control') ?>"><?php echo __('Ticket control',array(),'menu') ?></a></li>
+          <?php endif ?>
           <?php if ( $sf_user->hasCredential('tck-cancel') && $sf_user->hasCredential('tck-transaction') ): ?>
-          <li><a href="<?php echo cross_app_url_for('tck','ticket/cancel') ?>"><?php echo __('Cancelations',array(),'menu') ?></a></li>
+          <li class="spaced"><a href="<?php echo cross_app_url_for('tck','ticket/cancel') ?>"><?php echo __('Cancelations',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('tck-print-ticket') && $sf_user->hasCredential('tck-transaction') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/duplicate') ?>"><?php echo __('Duplicate tickets',array(),'menu') ?></a></li>
