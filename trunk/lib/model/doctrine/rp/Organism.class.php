@@ -13,4 +13,9 @@
 class Organism extends PluginOrganism
 {
   protected $module = 'organism';
+  
+  public function __toString()
+  {
+    return $this->name.' ('.$this->city.')';
+  }
 }
