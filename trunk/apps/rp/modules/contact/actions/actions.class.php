@@ -77,7 +77,7 @@ class contactActions extends autoContactActions
   {
     parent::executeCreate($request);
     
-    $params = $request->getParameters('contact');
+    $params = $request->getParameter('contact');
     if ( $this->form->isValid() && $params['phone_number'] )
     {
       $pn = new ContactPhonenumber();
