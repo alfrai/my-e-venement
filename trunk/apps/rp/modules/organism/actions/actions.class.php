@@ -121,7 +121,7 @@ class organismActions extends autoOrganismActions
 
     $organisms = array();
     foreach ( $request as $organism )
-      $organisms[$organism->id] = ((string) $organism).' ('.$organism->city.')';
+      $organisms[$organism->id] = (string) $organism;
     
     return $this->renderText(json_encode($organisms));
   }
