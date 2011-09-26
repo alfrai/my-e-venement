@@ -12,7 +12,7 @@
     {
       $transaction[$t->transaction_id] = cross_app_link_to('#'.$t->transaction_id,'tck','ticket/sell?id='.$t->transaction_id);
       if ( $t->Transaction->professional_id )
-        $pro[$t->Transaction->id] =
+        $contact[$t->Transaction->id] =
           cross_app_link_to($c=$t->Transaction->Professional->Contact,'rp','contact/show?id='.$c->id).
           ' @ '.
           cross_app_link_to($o=$t->Transaction->Professional->Organism,'rp','organism/show?id='.$o->id);
@@ -31,7 +31,7 @@
     <td class="qty"><?php echo $qty ?></td>
     <td class="price"><?php echo format_currency($value,'€') ?></td>
     <td class="transaction"><?php echo implode('<br/>',$transaction) ?></td>
-    <td class="contact"><?php echo implode('<br/>',array_merge(array_values($pro),array_values($contact))) ?></td>
+    <td class="contact"><?php echo implode('&nbsp;<br/>',$contact) ?></td>
   </tr>
   <?php endforeach ?>
   </tbody>
