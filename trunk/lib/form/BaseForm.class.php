@@ -16,4 +16,10 @@ class BaseForm extends sfFormSymfony
     unset($this->validatorSchema['updated_at']);
     unset($this->validatorSchema['deleted_at']);
   }
+  
+  public function renderFormTag($url, array $attributes = array())
+  {
+    $attributes['autocomplete'] = 'off';
+    return parent::renderFormTag($url,$attributes);
+  }
 }
