@@ -253,3 +253,9 @@ body.noscroll { overflow-x: auto; overflow-y: hidden; }
   background-color: white;
   margin: 10px 0 0 10px;
 }
+
+form.entry span.manif a.evt {
+  max-height: 2.2em;
+  overflow: hidden;
+  line-height: 1em;
+}

@@ -76,7 +76,12 @@
 			    FROM feed";
 		if ( $_GET["cat"] || $_GET["metaevt"] ) $query .= " WHERE ";
 		if ( $_GET["cat"] )
-		$query .= " categorie IN (SELECT id FROM evt_categorie WHERE libelle = '".pg_escape_string($_GET["cat"])."')";
+		{
+		  $cats = explode('|',$_GET["cat"]);
+		  foreach ( $cats as $i => $cat )
+		    $cats[$i] = pg_escape_string($cat);
+		  $query .= " categorie IN (SELECT id FROM evt_categorie WHERE libelle ILIKE '".implode("%' OR libelle ILIKE '",$cats)."%')";
+		}
 		if ( $_GET["cat"] && $_GET["metaevt"] ) $query .= " AND ";
 		if ( $_GET["metaevt"] )
 		{

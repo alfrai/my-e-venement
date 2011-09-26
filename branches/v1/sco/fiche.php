@@ -310,7 +310,7 @@
 		echo '<a class="del" href="'.htmlsecure($_SERVER["PHP_SELF"]).'?id='.$id.'&mrem='.intval($rec["tabid"]).'"><span>retirer</span></a> ';
 		echo '<a class="zoom '.($manifid > 0 ? "out" : "in").'" href="'.htmlsecure($_SERVER["PHP_SELF"]).'?id='.$id.($manifid <= 0 ? '&manifid='.intval($rec["tabid"]) : '').'"><span>zoom</span></a> ';
 		echo '<a class="evt" href="evt/infos/fiche.php?id='.intval($rec["id"]).'">'.htmlsecure($rec["nom"]).'</a><span class="desc">'."Fiche de l'évènement. (ctrl+clic)".'</span> ';
-		echo '<a class="date" href="evt/infos/manif.php?id='.intval($rec["manifid"]).'&evtid='.intval($rec["id"]).'">le&nbsp;'.htmlsecure($config["dates"]["dotw"][date("w",$time=strtotime($rec["date"]))]).'&nbsp;'.htmlsecure(date($config["format"]["date"].' à '.$config["format"]["maniftime"],$time)).'</a>';
+		echo '<a class="date" href="evt/infos/manif.php?id='.intval($rec["manifid"]).'&evtid='.intval($rec["id"]).'">'.htmlsecure($config["dates"]["dotw"][date("w",$time=strtotime($rec["date"]))]).'&nbsp;'.htmlsecure(date($config["format"]["date"].' à '.$config["format"]["maniftime"],$time)).'</a>';
 		echo '<span class="desc">'."Fiche de la manifestation. (ctrl+clic)".'</span> ';
 		echo '<a class="site" href="evt/infos/salle.php?id='.intval($rec["siteid"]).'">'.htmlsecure($rec["siteville"].' ('.$rec["sitenom"].')').'</a><span class="desc">'."Fiche du lieu. (ctrl+clic)".'</span> ';
 		echo '</span>';
