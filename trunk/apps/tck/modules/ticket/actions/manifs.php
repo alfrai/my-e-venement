@@ -68,7 +68,7 @@
     {
       $eids = array();
       $q = Doctrine::getTable('Manifestation')
-        ->createQuery('m')
+        ->createQuery('m',true)
         ->leftJoin('m.Color color')
         ->andWhereNotIn('m.id',$mids)
         ->orderBy('m.happens_at, e.name')

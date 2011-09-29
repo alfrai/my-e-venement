@@ -17,7 +17,7 @@ class ManifestationTable extends PluginManifestationTable
         return Doctrine_Core::getTable('Manifestation');
     }
 
-  public function createQuery($alias = 'm')
+  public function createQuery($alias = 'm', $light = false)
   {
     $e  = $alias != 'e'  ? 'e'  : 'e1';
     $me = $alias != 'me' ? 'me' : 'me1';
@@ -31,16 +31,21 @@ class ManifestationTable extends PluginManifestationTable
     $tck = $alias != 'tck'  ? 'tck'  : 'tck1';
     $tr = $alias != 'tr'  ? 'tr'  : 'tr1';
     
-    $query = parent::createQuery($alias)
-        ->leftJoin("$alias.Event $e")
-        ->leftJoin("$e.MetaEvent $me")
-        ->leftJoin("$alias.Location $l")
-        ->leftJoin("$alias.PriceManifestations $pm")
+    $q = parent::createQuery($alias)
+      ->leftJoin("$alias.Event $e")
+      ->leftJoin("$e.MetaEvent $me")
+      ->leftJoin("$alias.Location $l");
+    
+    if ( !$light )
+    {
+      $q->leftJoin("$alias.PriceManifestations $pm")
         ->leftJoin("$pm.Price $p")
         ->leftJoin("$alias.Gauges $g")
         ->leftJoin("$alias.Organizers $o")
         ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name");
-    return $query;
+    }
+    
+    return $q;
   }
 
   public function createQueryByEventId($id)
