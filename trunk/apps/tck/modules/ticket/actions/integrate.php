@@ -29,61 +29,24 @@
     $q = Doctrine::getTable('Transaction')
       ->createQuery('t')
       ->andWhere('t.id = ?',$request->getParameter('id'))
-      ->andWhere('tck.duplicate IS NULL')
       ->leftJoin('m.Location l')
       ->leftJoin('m.Organizers o')
       ->leftJoin('m.Event e')
       ->leftJoin('e.MetaEvent me')
       ->leftJoin('e.Companies c')
-      ->orderBy('m.happens_at, tck.price_name, tck.id');
+      ->orderBy('m.happens_at, tck.price_name, tck.id')
+      ->andWhere('tck.duplicate IS NULL')
+      ->andWhere('tck.printed = ? AND tck.integrated = ?',array(false,false));
     $transactions = $q->execute();
     $this->transaction = $transactions[0];
     
-    $this->duplicate = $request->getParameter('duplicate') == 'true';
     $this->tickets = array();
     foreach ( $this->transaction->Tickets as $ticket )
-    if ( $request->getParameter('duplicate') == 'true' )
     {
-      if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
-        && $ticket->printed
-        && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
-      {
-        $newticket = $ticket->copy();
-        $newticket->save();
-        $ticket->duplicate = $newticket->id;
-        $ticket->save();
-        $this->tickets[] = $newticket;
-      }
-    }
-    else
-    {
-      //$this->duplicate = false;
-      if ( !$ticket->printed && !$ticket->integrated )
-      {
-        $ticket->printed = true;
-        $ticket->save();
-        $this->tickets[] = $ticket;
-      }
+      $ticket->integrated = true;
+      $ticket->save();
+      $this->tickets[] = $ticket;
     }
     
     if ( count($this->tickets) <= 0 )
       $this->setTemplate('close');
-    else
-    {
-      if ( sfConfig::get('app_tickets_id') != 'othercode' )
-        $this->setLayout('empty');
-      else
-      {
-        $this->form = new BaseForm();
-        
-        foreach ( $this->tickets as $ticket )
-        {
-          $w = new sfWidgetFormInputText();
-          $w->setLabel($ticket->Manifestation.' '.$ticket->price_name);
-          $this->form->setWidget('['.$ticket->id.'][othercode]',$w);
-        }
-        $this->form->getWidgetSchema()->setNameFormat('ticket%s');
-        
-        $this->setTemplate('rfid');
-      }
-    }

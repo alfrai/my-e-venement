@@ -28,3 +28,10 @@
 </form>
 <?php endif ?>
 <?php endif ?>
+<?php if ( $sf_user->hasCredential('tck-integrate') ): ?>
+<form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>" method="get" target="_blank" class="print">
+  <p>
+    <input type="submit" name="s" value="<?php echo __('Integrate') ?>" title="<?php echo __("Integrate from an external seller") ?>" />
+  </p>
+</form>
+<?php endif ?>

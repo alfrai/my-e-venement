@@ -58,5 +58,7 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins('sfiCalCreatorPlugin');
     $this->enablePlugins('liBarcodePlugin');
     $this->enablePlugins('stOfcPlugin');
+    $this->enablePlugins('sfDoctrineOAuthPlugin');
+    $this->enablePlugins('sfMelodyPlugin');
   }
 }

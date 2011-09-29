@@ -83,6 +83,10 @@ class ticketActions extends sfActions
   {
     require('print.php');
   }
+  public function executeIntegrate(sfWebRequest $request)
+  {
+    require('integrate.php');
+  }
   public function executeRfid(sfWebRequest $request)
   {
     require('rfid.php');

@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Your tickets have been integrated correctly into your ticketing system...</source>
+        <target>Vos billets ont bien été intégrés dans votre système de billetterie...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Tickets integrated!</source>
+        <target>Billets intégrés !</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Integrate</source>
+        <target>Intégrer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Integrate from an external seller</source>
+        <target>Intégrer depuis un vendeur extérieur</target>
+      </trans-unit>
+      <trans-unit>
         <source>WARNING: functionnality in a test period ! You've been warned.</source>
         <target>ATTENTION: fonctionnalité en période de test ! Vous êtes prévenus.</target>
       </trans-unit>

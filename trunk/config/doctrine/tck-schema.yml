@@ -106,6 +106,10 @@ Ticket:
       type: boolean
       default: false
       notnull: true
+    integrated:
+      type: boolean
+      default: false
+      notnull: true
     barcode: string(255)
     othercode: string(255)
   indexes:

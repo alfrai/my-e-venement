@@ -32,3 +32,5 @@ cancelBootSuccess:
   stylesheets: [ticket-cancel]
 canceledTicketSuccess:
   stylesheets: [ticket]
+integrateSuccess:
+  stylesheets: [ticket-integrate]
