@@ -158,7 +158,7 @@ class pricesActions extends sfActions
 
     if ( !$all )
     {
-      $q->andWhere($asked || $ordered ? 'NOT t.printed' : 't.printed');
+      $q->andWhere($asked || $ordered ? 'NOT (t.printed OR t.integrated)' : '(t.printed OR t.integrated)');
       if ( $ordered)
         $q->andWhere('t.transaction_id IN (SELECT oo.transaction_id FROM Order oo)');
       if ( $asked )

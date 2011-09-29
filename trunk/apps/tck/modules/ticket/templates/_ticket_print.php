@@ -7,6 +7,13 @@
     <?php endif ?>
   </p>
 </form>
+<?php if ( $sf_user->hasCredential('tck-integrate') ): ?>
+<form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>" method="get" target="_blank" class="integrate">
+  <p>
+    <input type="submit" name="s" value="<?php echo __('Integrate') ?>" title="<?php echo __("Integrate from an external seller") ?>" />
+  </p>
+</form>
+<?php endif ?>
 <?php if ( isset($accounting) && $accounting !== false ): ?>
 <?php if ( $sf_user->hasCredential('tck-accounting-order') ): ?>
 <form action="<?php echo url_for('ticket/order?id='.$transaction->id) ?>" method="get" target="_blank" class="accounting">
@@ -27,11 +34,4 @@
   <p><input type="submit" name="invoice" value="<?php echo __('Invoice') ?>" /></p>
 </form>
 <?php endif ?>
-<?php endif ?>
-<?php if ( $sf_user->hasCredential('tck-integrate') ): ?>
-<form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>" method="get" target="_blank" class="print">
-  <p>
-    <input type="submit" name="s" value="<?php echo __('Integrate') ?>" title="<?php echo __("Integrate from an external seller") ?>" />
-  </p>
-</form>
 <?php endif ?>

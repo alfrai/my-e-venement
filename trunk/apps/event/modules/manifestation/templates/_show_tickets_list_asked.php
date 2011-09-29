@@ -8,7 +8,7 @@
     $qty = $value = 0;
     $transaction = $contact = $pro = array();
     foreach ( $price->Tickets as $t )
-    if ( !$t->printed && $t->Transaction->Order->count() == 0 )
+    if ( !$t->printed && !$t->integrated && $t->Transaction->Order->count() == 0 )
     {
       $transaction[$t->transaction_id] = cross_app_link_to('#'.$t->transaction_id,'tck','ticket/sell?id='.$t->transaction_id);
       if ( $t->Transaction->professional_id )

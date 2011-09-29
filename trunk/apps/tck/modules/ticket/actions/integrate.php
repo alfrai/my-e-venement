@@ -42,6 +42,7 @@
     
     $this->tickets = array();
     foreach ( $this->transaction->Tickets as $ticket )
+    if ( !$ticket->printed && !$ticket->integrated )
     {
       $ticket->integrated = true;
       $ticket->save();

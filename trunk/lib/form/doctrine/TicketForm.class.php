@@ -47,6 +47,7 @@ class TicketForm extends BaseTicketForm
         ->andWhere('t.transaction_id = ?', $this->object->transaction_id)
         ->andWhere('p.name = ?', $this->object->price_name)
         ->andWhere('NOT t.printed')
+        ->orderBy('t.integrated, t.id DESC')
         ->limit(-$nb);
       $tickets = $q->execute();
       foreach ( $tickets as $ticket )
