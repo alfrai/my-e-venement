@@ -69,7 +69,7 @@ class ledgerActions extends sfActions
       ->leftJoin('pro.Organism o')
       ->leftJoin('tck.User u')
       ->andWhere('tck.duplicate IS NULL')
-      ->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL')
+      ->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE')
       ->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
@@ -134,7 +134,7 @@ class ledgerActions extends sfActions
     // by price
     $q = Doctrine::getTable('Price')->createQuery('p')
       ->leftJoin('p.Tickets t')
-      ->andWhere('t.printed OR t.cancelling IS NOT NULL')
+      ->andWhere('t.printed OR t.cancelling IS NOT NULL OR t.integrated')
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.updated_at >= ? AND t.updated_at < ?',array(
         date('Y-m-d',$dates[0]),
@@ -154,10 +154,10 @@ class ledgerActions extends sfActions
           FROM ticket
           WHERE updated_at >= :date0
             AND updated_at < :date1
-            AND id NOT IN (SELECT cancelling FROM ticket WHERE updated_at >= :date0 AND updated_at < :date1 AND cancelling IS NOT NULL AND printed)
-            AND (cancelling IS NULL OR cancelling NOT IN (SELECT id FROM ticket WHERE updated_at >= :date0 AND updated_at < :date1 AND printed))
+            AND id NOT IN (SELECT cancelling FROM ticket WHERE updated_at >= :date0 AND updated_at < :date1 AND cancelling IS NOT NULL)
+            AND (cancelling IS NULL OR cancelling NOT IN (SELECT id FROM ticket WHERE updated_at >= :date0 AND updated_at < :date1 AND (printed OR integrated))
             ".( is_array($criterias['users']) && count($criterias['users']) > 0 ? 'AND sf_guard_user_id IN ('.implode(',',$users).')' : '')."
-            AND printed
+            AND (printed OR integrated))
             AND duplicate IS NULL
           GROUP BY value
           ORDER BY value DESC";
@@ -183,7 +183,7 @@ class ledgerActions extends sfActions
         date('Y-m-d',$dates[1]),
       ))
       ->andWhere('t.duplicate IS NULL')
-      ->andWhere('t.printed')
+      ->andWhere('t.printed OR t.integrated')
       ->orderBy('u.last_name, u.first_name, u.username')
       ->groupBy('u.id, u.last_name, u.first_name, u.username');
     if ( is_array($criterias['users']) && count($criterias['users']) > 0 )
