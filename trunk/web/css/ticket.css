@@ -84,6 +84,7 @@
 #payment form .errors { padding-bottom: 8px; }
 
 #print form { display: inline-block; }
+#print .integrate { margin-right: 20px; }
 
 .action.closed {
   font-size: 13px;
