@@ -36,28 +36,27 @@ class getActions extends sfActions
       return $request->hasParameter('debug') ? 'Debug' : sfView::NONE;
     }
     
-    $this->content = array('events' => array(), 'locations' => array());
+    $this->content = array('events' => array(), 'sites' => array());
     
+    // by event
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.*, e.*, g.*, p.*, pm.*, l.*')
       ->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t.cancelling FROM ticket t2 WHERE t.cancelling IS NOT NULL) AND (t.printed OR t.integrated OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets')
       ->andWhere('m.happens_at > NOW()')
       ->andWhere('g.online')
       ->andWhere('p2.online')
-      ->orderBy('e.name, m.happens_at, pm.value DESC');
+      ->orderBy('e.name, l.name, m.happens_at, pm.value DESC');
     $manifs = $q->execute();
     
     foreach ( $manifs as $manif )
     {
       $event = $manif->Event;
+      $location = $manif->Location;
       $this->content['events'][$manif->event_id] = array();
-        
-      $dates = array('min' => 0, 'max' => 0);
+      $this->content['locations'][$manif->location_id] = array();
+      
       if ( $manif->PriceManifestations->count() > 0 )
       {
-        $dates['min'] = $dates['min'] < 0 && $dates['min'] < $manif->happens_at ? $dates['min'] : $manif->happens_at;
-        $dates['max'] = $dates['max'] > $manif->happens_at ? $dates['max'] : $manif->happens_at;
-        
         $tarifs = array();
         foreach ( $manif->PriceManifestations as $pm )
           $tarifs[$pm->Price->name] = array(
@@ -70,7 +69,7 @@ class getActions extends sfActions
         foreach ( $manif->Gauges as $g )
           $gauge += $g->value;
         
-        $this->content['events'][$event->id][$manif->id] = array(
+        $tmp = array(
           'eventid' => $event->id,
           'event' => $event->name,
           'ages' => array($event->age_min, $event->age_max),
@@ -88,11 +87,48 @@ class getActions extends sfActions
           'tarifs' => $tarifs,
         );
       
+        $this->content['events'][$event->id] = array(
+          'id' => $event->id,
+          'name' => $event->name,
+          'ages' => array($event->age_min, $event->age_max),
+          'description' => $event->description,
+          'dates' => array(
+            'min' => isset($this->content['events'][$event->id]['dates']['min']) && $this->content['events'][$event->id]['dates']['min'] < $manif->happens_at
+              ? $this->content['events'][$event->id]['dates']['min']
+              : $manif->happens_at,
+            'max' => isset($this->content['events'][$event->id]['dates']['max']) && $this->content['events'][$event->id]['dates']['max'] > $manif->happens_at
+              ? $this->content['events'][$event->id]['dates']['max']
+              : $manif->happens_at,
+            ),
+            $manif->id => $tmp,
+          );
+          
+          $this->content['sites'][$location->id] = array(
+            'id' => $location->id,
+            'name' => $location->name,
+            'address' => $location->address,
+            'postal'  => $location->postalcode,
+            'city'    => $location->city,
+            'country' => $location->country,
+            $manif->id => $tmp,
+          );
+        
+        
         $this->content['events'][$event->id]['id'] = $event->id;
         $this->content['events'][$event->id]['name'] = $event->name;
         $this->content['events'][$event->id]['ages'] = array($event->age_min, $event->age_max);
         $this->content['events'][$event->id]['description'] = $event->description;
-        $this->content['events'][$event->id]['dates'] = $dates;
+        $this->content['events'][$event->id]['dates'] = array(
+          'min' => $this->content['events'][$event->id]['dates']['min'] < $manif->happens_at
+            ? $this->content['events'][$event->id]['dates']['min']
+            : $manif->happens_at,
+          'max' => $this->content['events'][$event->id]['dates']['max'] > $manif->happens_at
+            ? $this->content['events'][$event->id]['dates']['max']
+            : $manif->happens_at,
+          );
+        
+        $this->content['sites'][$location->id] = array(
+        );
       }
     }
     
