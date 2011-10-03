@@ -19,7 +19,9 @@ class WorkspaceTable extends PluginWorkspaceTable
   
   public function createQuery($alias = 'g')
   {
-    return parent::createQuery($alias)
-      ->andWhereIn("$alias.id",array_keys(sfContext::getInstance()->getUser()->getWorkspacesCredentials()));
+    $q = parent::createQuery($alias);
+    if ( !sfContext::getInstance()->getUser()->getGuardUser()->getIsSuperAdmin() || !sfContext::getInstance()->getUser()->hasCredential('event-admin-workspace') )
+      $q->andWhereIn("$alias.id",array_keys(sfContext::getInstance()->getUser()->getWorkspacesCredentials()));
+    return $q;
   }
 }
