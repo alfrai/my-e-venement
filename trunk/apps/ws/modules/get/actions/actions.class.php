@@ -53,7 +53,7 @@ class getActions extends sfActions
       $event = $manif->Event;
       $location = $manif->Location;
       $this->content['events'][$manif->event_id] = array();
-      $this->content['locations'][$manif->location_id] = array();
+      $this->content['sites'][$manif->location_id] = array();
       
       if ( $manif->PriceManifestations->count() > 0 )
       {
@@ -103,36 +103,19 @@ class getActions extends sfActions
             $manif->id => $tmp,
           );
           
-          $this->content['sites'][$location->id] = array(
-            'id' => $location->id,
-            'name' => $location->name,
-            'address' => $location->address,
-            'postal'  => $location->postalcode,
-            'city'    => $location->city,
-            'country' => $location->country,
-            $manif->id => $tmp,
-          );
-        
-        
-        $this->content['events'][$event->id]['id'] = $event->id;
-        $this->content['events'][$event->id]['name'] = $event->name;
-        $this->content['events'][$event->id]['ages'] = array($event->age_min, $event->age_max);
-        $this->content['events'][$event->id]['description'] = $event->description;
-        $this->content['events'][$event->id]['dates'] = array(
-          'min' => $this->content['events'][$event->id]['dates']['min'] < $manif->happens_at
-            ? $this->content['events'][$event->id]['dates']['min']
-            : $manif->happens_at,
-          'max' => $this->content['events'][$event->id]['dates']['max'] > $manif->happens_at
-            ? $this->content['events'][$event->id]['dates']['max']
-            : $manif->happens_at,
-          );
-        
         $this->content['sites'][$location->id] = array(
+          'id' => $location->id,
+          'name' => $location->name,
+          'address' => $location->address,
+          'postal'  => $location->postalcode,
+          'city'    => $location->city,
+          'country' => $location->country,
+          $manif->id => $tmp,
         );
       }
     }
     
     //echo json_encode($this->content);
-    return $request->hasParameter('debug') ? 'Debug' : $this->renderText(json_encode($this->content));
+    return $request->hasParameter('debug') ? 'Debug' : $this->renderText(wsConfiguration::formatData($this->content));
   }
 }

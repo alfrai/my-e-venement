@@ -5,6 +5,7 @@
 all:
   payment_method: VEL
   min_tickets: 9
+  salt: 18aQa&p5
   
   melody:
     create_user: false
