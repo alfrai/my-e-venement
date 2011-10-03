@@ -1,3 +1,4 @@
+<?php if ( !isset($manifestation) ) $manifestation = $form->getObject(); ?>
 <div class="gauge">
 <p class="text">
   <span class="total"><?php echo __('Total: ',null,'gauge') ?><span class="nb"><?php echo $gauge->value ?></span></span>
