@@ -37,6 +37,9 @@ require_once dirname(__FILE__).'/../lib/contactGeneratorHelper.class.php';
  */
 class contactActions extends autoContactActions
 {
+  public function executeError404(sfWebRequest $request)
+  {
+  }
   public function executeBatchAddToGroup(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');

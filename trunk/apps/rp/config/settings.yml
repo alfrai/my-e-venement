@@ -46,3 +46,6 @@ all:
     secure_module:          sfGuardAuth
     secure_action:          secure
     
+  .actions:
+    error_404_module:       contact
+    error_4O4_action:       page404
