@@ -39,12 +39,6 @@ function list_integrated_search(data)
 
 $(document).ready(function(){
   $('#list-integrated-search').unbind().submit(function(){
-    if ( $(this).find('input[name=s]').val() == '' )
-    {
-      window.location = $(this).find('input[name=contact_url]').val();
-      return false;
-    }
-    
     $.get($(this).attr('action'),{ s: $(this).find('input[name=s]').val() },function(data){
       list_integrated_search(data);
     });
