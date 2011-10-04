@@ -64,6 +64,8 @@ class manifestationActions extends autoManifestationActions
    */
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
@@ -75,7 +77,7 @@ class manifestationActions extends autoManifestationActions
         $this->redirect('@manifestation_new');
       }
       
-      $notice = $form->getObject()->isNew() ? "The item was created successfully. Don't forget to update prices if necessary." : 'The item was updated successfully.';
+      $notice = __($form->getObject()->isNew() ? "The item was created successfully. Don't forget to update prices if necessary." : 'The item was updated successfully.');
       
       $manifestation = $form->save();
 
