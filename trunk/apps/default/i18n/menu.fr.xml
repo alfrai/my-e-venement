@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The asked screen does not exist</source>
+        <target>L'écran demandé n'existe pas</target>
+      </trans-unit>
+      <trans-unit>
         <source>Duplicate tickets</source>
         <target>Dupliquer des billets</target>
       </trans-unit>
