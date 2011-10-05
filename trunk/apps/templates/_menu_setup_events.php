@@ -39,12 +39,6 @@
               <?php if ( $sf_user->hasCredential('event-admin-color') ): ?>
               <li><a href="<?php echo cross_app_url_for('event','color') ?>"><?php echo __('Colors',array(),'menu') ?></a></li>
               <?php endif ?>
-              <?php if ( $sf_user->hasCredential('event-admin-evtcat') || $sf_user->hasCredential('event-admin-color') ): ?>
-              <li class="spaced"></li>
-              <?php endif ?>
-              <?php if ( $sf_user->hasCredential('event-admin-price') ): ?>
-              <li><a href="<?php echo cross_app_url_for('event','price') ?>"><?php echo __('Prices',array(),'menu') ?></a></li>
-              <?php endif ?>
             </ul>
           </li>
   <?php endif ?>

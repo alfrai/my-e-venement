@@ -24,5 +24,8 @@
           <li><a><?php echo __('Ticketting',array(),'menu') ?></a>
             <ul class="third">
               <li><a href="<?php echo cross_app_url_for('tck','@payment_method') ?>"><?php echo __('Payment methods',array(),'menu') ?></a></li>
+              <?php if ( $sf_user->hasCredential('event-admin-price') ): ?>
+              <li><a href="<?php echo cross_app_url_for('event','price') ?>"><?php echo __('Prices',array(),'menu') ?></a></li>
+              <?php endif ?>
             </ul>
           </li>
