@@ -132,4 +132,3 @@
 <?php echo include_partial('criterias',array('form' => $form, 'ledger' => 'sales')) ?>
 <div class="clear"></div>
 </div>
-<p style="margin: 10px;"><?php echo date('Y-m-d H:i:s') ?></p>
