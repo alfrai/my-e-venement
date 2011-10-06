@@ -118,19 +118,26 @@ class manifestationActions extends autoManifestationActions
     foreach ( $e->execute() as $event )
       $eids[] = $event['id'];
     
-    $q = Doctrine::getTable('Manifestation')
-      ->createQuery()
-      ->andWhereIn('event_id',$eids)
-      ->orderBy('happens_at')
-      ->limit($request->getParameter('limit'));
-    $q = EventFormFilter::addCredentialsQueryPart($q);
-    $request = $q->execute()->getData();
+    if ( count($eids) > 0 )
+    {
+      $q = Doctrine::getTable('Manifestation')
+        ->createQuery()
+        ->andWhereIn('event_id',$eids)
+        ->orderBy('happens_at')
+        ->limit($request->getParameter('limit'));
+      $q = EventFormFilter::addCredentialsQueryPart($q);
+      $request = $q->execute()->getData();
+      
+      $manifs = array();
+      foreach ( $request as $manif )
+       $manifs[$manif->id] = (string) $manif;
     
-    $organisms = array();
-    foreach ( $request as $organism )
-      $organisms[$organism->id] = (string) $organism;
-    
-    return $this->renderText(json_encode($organisms));
+      return $this->renderText(json_encode($manifs));
+    }
+    else
+    {
+      return $this->renderText(json_encode(array()));
+    }
   }
 
   public function executeEventList(sfWebRequest $request)
