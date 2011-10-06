@@ -7,3 +7,7 @@
 <?php use_helper('CrossAppLink') ?>
 <?php use_stylesheet('ledger') ?>
 <?php use_javascript('ledger') ?>
+
+<?php use_stylesheet('/sfFormExtraPlugin/css/jquery.autocompleter.css') ?>
+<?php use_javascript('/sfFormExtraPlugin/js/jquery.autocompleter.js') ?>
+<?php use_javascript('/cxFormExtraPlugin/js/cx_open_list.js') ?>

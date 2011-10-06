@@ -17,11 +17,12 @@
 </div>
 </div>
 
-<div class="ledger-both">
 <?php include_partial('criterias',array('form' => $form, 'ledger' => 'both')) ?>
-<?php include_partial('both_payment',array('byPaymentMethod' => $byPaymentMethod)) ?>
+<div class="ledger-both">
+<?php include_partial('both_payment',array('byPaymentMethod' => $byPaymentMethod,'form' => $form)) ?>
 <?php include_partial('both_price',array('byPrice' => $byPrice)) ?>
 <div class="clear"></div>
 <?php include_partial('both_value',array('byValue' => $byValue)) ?>
+<div class="clear"></div>
 <?php include_partial('both_user',array('byUser' => $byUser)) ?>
 </div>

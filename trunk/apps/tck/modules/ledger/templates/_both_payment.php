@@ -10,10 +10,26 @@
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo $pm ?></td>
     <td class="nb"><?php echo $pm->Payments->count(); $total['nb'] += $pm->Payments->count() ?></td>
-    <?php $i=0; $o=0; foreach ( $pm->Payments as $p ) if ( $p->value > 0 ) $i += $p->value; else $o += $p->value; ?>
-    <td class="outcomes amount"><?php echo format_currency($o,'€'); $total['value-'] += $o ?></td>
-    <td class="incomes amount"><?php echo format_currency($i,'€'); $total['value+'] += $i?></td>
-    <td class="total"><?php echo format_currency($i+$o,'€'); ?></td>
+    <?php $i=$o=0; foreach ( $pm->Payments as $p ) if ( $p->value > 0 ) $i += $p->value; else $o += $p->value; ?>
+    <?php
+      $proportion = 1;
+      $total = $part = 0;
+      //if ( false )
+      if ( is_array($form->getValue('manifestations')) && count($form->getValue('manifestations')) > 0 )
+      {
+        foreach ( $pm->Payments as $payment )
+        foreach ( $payment->Transaction->Tickets as $tck )
+        {
+          $part += $tck->value;
+          foreach ( $tck->Transaction->Tickets as $tck2 )
+            $total += $tck2->value;
+        }
+        $proportion = $total == 0 ? 1 : $part / $total;
+      }
+    ?>
+    <td class="outcomes amount"><?php echo format_currency($o * $proportion,'€'); $total['value-'] += $o * $proportion ?></td>
+    <td class="incomes amount"><?php echo format_currency($i * $proportion,'€'); $total['value+'] += $i * $proportion ?></td>
+    <td class="total"><?php echo format_currency(($i+$o) * $proportion,'€'); ?></td>
   </tr>
 <?php endforeach ?>
 <tbody>

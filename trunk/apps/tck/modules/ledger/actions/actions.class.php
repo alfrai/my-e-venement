@@ -102,17 +102,26 @@ class ledgerActions extends sfActions
     $q = Doctrine::getTable('PaymentMethod')->createQuery('m')
       ->leftJoin('m.Payments p')
       ->leftJoin('p.Transaction t')
-      ->leftJoin('t.Contact c')
-      ->leftJoin('t.Professional pro')
-      ->leftJoin('pro.Organism o')
+      //->leftJoin('t.Contact c')
+      //->leftJoin('t.Professional pro')
+      //->leftJoin('pro.Organism o')
       ->leftJoin('p.User u')
       ->leftJoin('u.MetaEvents')
       ->leftJoin('u.Workspaces')
-      ->andWhere('p.created_at >= ? AND p.created_at < ?',array(
+      ->orderBy('m.name, m.id, t.id, p.value, p.created_at');
+    
+    if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
+      $q->leftJoin('t.Tickets tck')
+        ->leftJoin('tck.Transaction t2')
+        ->leftJoin('t2.Tickets tck2')
+        ->andWhereIn('tck.manifestation_id',$criterias['manifestations']);
+    else
+    {
+      $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
-      ))
-      ->orderBy('m.name, m.id, t.id, p.value, p.created_at');
+      ));
+    }
     
     if ( isset($criterias['users']) && is_array($criterias['users']) && isset($criterias['users'][0]) )
       $q->andWhereIn('p.sf_guard_user_id',$criterias['users']);
@@ -136,13 +145,17 @@ class ledgerActions extends sfActions
       ->leftJoin('p.Tickets t')
       ->andWhere('t.printed OR t.cancelling IS NOT NULL OR t.integrated')
       ->andWhere('t.duplicate IS NULL')
-      ->andWhere('t.updated_at >= ? AND t.updated_at < ?',array(
-        date('Y-m-d',$dates[0]),
-        date('Y-m-d',$dates[1]),
-      ))
       ->orderBy('p.name');
     if ( is_array($criterias['users']) && count($criterias['users']) > 0 )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
+    if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
+      $q->andWhereIn('t.manifestation_id',$criterias['manifestations']);
+    else
+      $q->andWhere('t.updated_at >= ? AND t.updated_at < ?',array(
+          date('Y-m-d',$dates[0]),
+          date('Y-m-d',$dates[1]),
+        ));
+
     $this->byPrice = $q->execute();
     
     // by price's value
@@ -152,17 +165,17 @@ class ledgerActions extends sfActions
       $users[] = intval($user_id);
     $q = "SELECT value, count(id) AS nb, sum(value) AS total
           FROM ticket
-          WHERE updated_at >= :date0
-            AND updated_at < :date1
-            AND id NOT IN (SELECT cancelling FROM ticket WHERE updated_at >= :date0 AND updated_at < :date1 AND cancelling IS NOT NULL)
-            AND (cancelling IS NULL OR cancelling NOT IN (SELECT id FROM ticket WHERE updated_at >= :date0 AND updated_at < :date1 AND (printed OR integrated))
+          WHERE ".( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 ? 'manifestation_id IN ('.implode(',',$criterias['manifestations']).')' : 'updated_at >= :date0 AND updated_at < :date1' )."
+            AND id NOT IN (SELECT cancelling FROM ticket WHERE ".(!is_array($criterias['manifestations']) || count($criterias['manifestations']) == 0 ? 'updated_at >= :date0 AND updated_at < :date1 AND ' : '')." cancelling IS NOT NULL)
+            AND cancelling IS NULL
             ".( is_array($criterias['users']) && count($criterias['users']) > 0 ? 'AND sf_guard_user_id IN ('.implode(',',$users).')' : '')."
-            AND (printed OR integrated))
+            AND (printed OR integrated)
             AND duplicate IS NULL
           GROUP BY value
           ORDER BY value DESC";
+    //        ".( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 ? 'manifestation_id IN ('.implode(',',$criterias['manifestations']).')' : '')."
     $stmt = $pdo->prepare($q);
-    $stmt->execute(array('date0' => date('Y-m-d',$dates[0]),'date1' => date('Y-m-d',$dates[1])));
+    $stmt->execute(is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 ? NULL : array('date0' => date('Y-m-d',$dates[0]),'date1' => date('Y-m-d',$dates[1])));
     $this->byValue = $stmt->fetchAll();
     
     // synthesis by user
@@ -178,16 +191,19 @@ class ledgerActions extends sfActions
       ->addSelect('(CASE WHEN sum(value > 0) > 0 THEN sum(case when t.value < 0 then 0 else t.value end)/sum(value > 0) ELSE 0 END) AS average_paying')
       ->addSelect('sum(case when t.value < 0 then 0 else t.value end) AS income')
       ->addSelect('sum(case when t.value > 0 then 0 else t.value end) AS outcome')
-      ->andWhere('t.updated_at >= ? AND t.updated_at < ?',array(
-        date('Y-m-d',$dates[0]),
-        date('Y-m-d',$dates[1]),
-      ))
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.printed OR t.integrated')
       ->orderBy('u.last_name, u.first_name, u.username')
       ->groupBy('u.id, u.last_name, u.first_name, u.username');
     if ( is_array($criterias['users']) && count($criterias['users']) > 0 )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
+    if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
+      $q->andWhereIn('t.manifestation_id',$criterias['manifestations']);
+    else
+      $q->andWhere('t.updated_at >= ? AND t.updated_at < ?',array(
+        date('Y-m-d',$dates[0]),
+        date('Y-m-d',$dates[1]),
+      ));
     $this->byUser = $q->execute();
   }
 }

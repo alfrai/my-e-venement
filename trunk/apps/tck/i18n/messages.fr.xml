@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Unassociated</source>
+        <target>Non associés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Associated</source>
+        <target>Associés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Your tickets have been integrated correctly into your ticketing system...</source>
         <target>Vos billets ont bien été intégrés dans votre système de billetterie...</target>
       </trans-unit>

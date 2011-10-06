@@ -1,2 +1,3 @@
-default:
-  javascripts: [menu]
+#default: 
+#  javascripts: [menu,/sfFormExtraPlugin/js/jquery.autocompleter.js,/cxFormExtraPlugin/js/cx_open_list.js]
+#  stylesheets: [/sfFormExtraPlugin/css/jquery.autocompleter.css]
