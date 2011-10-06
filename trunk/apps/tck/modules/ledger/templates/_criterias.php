@@ -12,10 +12,12 @@
       <label for="users"><?php echo __('Users:') ?></label>
       <?php echo $form['users'] ?>
     </li>
+    <?php if ( $ledger == 'both' ): ?>
     <li class="manifestations">
       <label for="users"><?php echo __('Manifestations:') ?></label>
       <?php echo $form['manifestations'] ?>
     </li>
+    <?php endif ?>
     <li class="submit">
       <input type="submit" name="s" value="ok" />
       <?php if ( $sf_user->hasCredential('tck-ledger-'.($ledger == 'cash' ? 'sales' : 'cash')) ): ?>
