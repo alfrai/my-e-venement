@@ -12,6 +12,8 @@ class LedgerCriteriasForm extends BaseForm
 {
   public function configure()
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url','CrossAppLink'));
+    
     $this->widgetSchema['dates'] = new sfWidgetFormDateRange(array(
       'from_date' => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
       'to_date'   => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
@@ -31,6 +33,16 @@ class LedgerCriteriasForm extends BaseForm
     ));
     $this->validatorSchema['users'] = new sfValidatorDoctrineChoice(array(
       'model' => 'sfGuardUser',
+      'multiple' => true,
+      'required' => false,
+    ));
+    
+    $this->widgetSchema['manifestations'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'model' => 'Manifestation',
+      'url'   => cross_app_url_for('event','manifestation/ajax'),
+    ));
+    $this->validatorSchema['manifestations'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Manifestation',
       'multiple' => true,
       'required' => false,
     ));
