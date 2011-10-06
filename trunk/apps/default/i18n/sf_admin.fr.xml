@@ -4,6 +4,10 @@
   <file original="global" source-language="en" datatype="plaintext">
     <header />
     <body>
+      <trans-unit>
+        <source>Ledger</source>
+        <target>Bordereau</target>
+      </trans-unit>
       <!-- Actions -->
       <trans-unit>
         <source>New</source>
