@@ -16,7 +16,8 @@ generator:
       fields:  ~
       list:
         display: [Method,_list_value]
-      filter:  ~
+      filter:
+        display: [version]
       form:    ~
       edit:    ~
       new:
