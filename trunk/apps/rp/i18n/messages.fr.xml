@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Link an existing contact to this organism</source>
+        <target>Lier un contact existant à cet organisme</target>
+      </trans-unit>
+      <trans-unit>
         <source>Title type List</source>
         <target>Liste de titres-type</target>
       </trans-unit>
@@ -444,8 +448,12 @@
         <source>Function</source>
         <target>Fonction</target>
       </trans-unit>
-      <trans-unit id="93">
+      <trans-unit>
         <source>New professional</source>
+        <target>Nouvelle fonction</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Professional</source>
         <target>Nouvelle fonction</target>
       </trans-unit>
       <trans-unit id="93">

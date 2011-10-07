@@ -1,3 +1,5 @@
 .sf_form_field_events_list li {
   margin-left: 20px;
 }
+#more .sf_admin_form_field_contact_id,
+#more .sf_admin_form_field_organism_id { display: none; }
