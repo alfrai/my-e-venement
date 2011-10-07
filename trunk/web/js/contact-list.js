@@ -19,7 +19,8 @@ $(document).ready(function(){
     .append($('#sf_admin_filter .sf_admin_filter_field_npai'))
     .append($('#sf_admin_filter .sf_admin_filter_field_has_address'))
     .append($('#sf_admin_filter .sf_admin_filter_field_has_email'))
-    .append($('#sf_admin_filter .sf_admin_filter_field_emails_list'));
+    .append($('#sf_admin_filter .sf_admin_filter_field_emails_list'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_updated_at'));
   elt.find('h2').html('Additionnel');
   elt.prependTo('#sf_admin_filter > form > table > tbody');
   

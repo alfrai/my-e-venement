@@ -13,6 +13,6 @@ all:
       max_display: 200
       default_country: France
     dematerialized: true
-  #ticketting:
+  ticketting:
     #dematerialized: false
-    #hide_demands: false
+    hide_demands: true

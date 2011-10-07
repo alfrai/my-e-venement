@@ -10,6 +10,8 @@
  */
 class ContactFormFilter extends BaseContactFormFilter
 {
+  protected $noTimestampableUnset = true;
+
   /**
    * @see AddressableFormFilter
    */

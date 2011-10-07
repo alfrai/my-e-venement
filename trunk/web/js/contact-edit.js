@@ -137,6 +137,7 @@ $(document).ready(function(){
   if ( typeof(professional_new) != "undefined" )
   $.get(professional_new,function(data){
     $('#more #professional-new').html( $(data).find('form') );
+    $('#professional-new .sf_admin_form_field_contact_id').hide();
     contact_ajax_form('#more #professional-new',true);
     $('#more #professional-new input[name="professional[contact_id]"]').val($('#contact_id').val());
   });

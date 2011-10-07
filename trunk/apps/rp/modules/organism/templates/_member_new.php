@@ -18,6 +18,7 @@
       
       // values
       $('#professional-new .sf_admin_form_field_organism_id input[name="professional[organism_id]"]').val($('#organism_id').val());
+      $('#professional-new .sf_admin_form_field_organism_id').hide();
       
       // form
       $('#professional-new form').submit(function(){
