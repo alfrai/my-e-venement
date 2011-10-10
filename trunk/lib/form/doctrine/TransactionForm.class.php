@@ -16,5 +16,6 @@ class TransactionForm extends BaseTransactionForm
   public function configure()
   {
     parent::configure();
+    $this->widgetSchema['contact_id']->setOption('config','{ max: 30 }');
   }
 }
