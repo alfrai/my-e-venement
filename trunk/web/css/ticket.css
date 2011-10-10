@@ -39,8 +39,10 @@
 .manifestations_list li > span.prices { padding: 0 10px; text-align: right; }
 .manifestations_list li > span {
   display: table-cell;
-  white-space: nowrap;
   padding: 0 5px;
+}
+.manifestations_list li > .manif {
+  white-space: nowrap;
 }
 .manifestations_list .prices { width: 100%; }
 .manifestations_list .prices > span {

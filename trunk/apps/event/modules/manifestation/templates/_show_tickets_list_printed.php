@@ -19,7 +19,7 @@
       else if ( $t->Transaction->contact_id )
         $contact[$t->Transaction->id] = cross_app_link_to($t->Transaction->Contact,'rp','contact/show?id='.$t->Transaction->Contact->id);
       else
-        $contact[$t->Transaction->id] = '';
+        $contact[$t->Transaction->id] = '&nbsp;';
       $value += $t->value;
       $qty++;
     }
