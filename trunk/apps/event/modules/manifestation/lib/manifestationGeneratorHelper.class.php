@@ -17,7 +17,7 @@ class manifestationGeneratorHelper extends BaseManifestationGeneratorHelper
       ? ($object->event_id ? 'event/show?id='.$object->event_id : '@event')
       : '@manifestation', $params['params']).'</li>';
   }
-  
+
   public function linkToExtraAction($params)
   {
     if (!key_exists('ui-icon', $params)) $params['ui-icon'] = '';

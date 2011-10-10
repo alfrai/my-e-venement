@@ -39,7 +39,7 @@
       ?>)
     </p>
     <p class="manifs"><?php
-      echo implode(', ',$manifs);
+      echo implode('<br/>',$manifs);
     ?></p>
   </li>
 <?php endif ?>
