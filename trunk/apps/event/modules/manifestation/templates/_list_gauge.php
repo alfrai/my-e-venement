@@ -11,7 +11,7 @@
     if ( is_null($ticket->cancelling) )
     {
       $tickets[!$ticket->printed && !$tickets->integrated ? ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked') : 'printed']++;
-      if ( !sfConfig::has('app_ticketting_hide_demands') || $ticket->printed || $ticket->Transaction->Order->count() > 0 )
+      if ( !sfConfig::has('app_ticketting_hide_demands') || $ticket->printed || $ticket->integrated || $ticket->Transaction->Order->count() > 0 )
         $tickets['booked']++;
     }
     else if ( !in_array($ticket->cancelling, $cancelled) )
