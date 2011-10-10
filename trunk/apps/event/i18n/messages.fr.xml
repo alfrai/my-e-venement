@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>[0]|[1]%y% year|(1,+Inf]%y% years old</source>
+        <target>[0]|[1]%y% an|(1,+Inf]%y% ans</target>
+      </trans-unit>
+      <trans-unit>
+        <source>%m% month old</source>
+        <target>%m% mois</target>
+      </trans-unit>
+      <trans-unit>
         <source>Merging workspaces</source>
         <target>Fusion des espaces de travail</target>
       </trans-unit>

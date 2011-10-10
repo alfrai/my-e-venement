@@ -19,7 +19,13 @@ class eventActions extends autoEventActions
     if ( !$this->sort[0] )
     {
       $this->sort = array('name','');
-      $this->pager->getQuery()->orderby('me.name, name');
+      $a = $this->pager->getQuery()->getRootAlias();
+      $this->pager->getQuery()
+        ->leftJoin("$a.Manifestations m")
+        ->leftJoin('m.Tickets tck')
+        ->leftJoin('tck.Transaction t')
+        ->leftJoin('t.Order o')
+        ->orderby('m.happens_at DESC, name');
     }
   }
   

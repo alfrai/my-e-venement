@@ -241,7 +241,7 @@ class contactActions extends autoContactActions
   }
   public function executeAjax(sfWebRequest $request)
   {
-    $this->getResponse()->setContentType('application/json');
+    //$this->getResponse()->setContentType('application/json');
     
     $charset = sfContext::getInstance()->getConfiguration()->charset;
     $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));

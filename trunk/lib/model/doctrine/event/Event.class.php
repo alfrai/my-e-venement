@@ -21,20 +21,16 @@ class Event extends PluginEvent
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
     $r = format_number_choice(
-      '[0]|[1]%y% year|(1,+Inf]%y% years ',
+      __('[0]|[1]%y% year|(1,+Inf]%y% years old'),
       array('%y%' => floor($age)),
       floor($age)
     );
+    
+    // eg. if 18 month / 1.5 years
     if ( floor($age) != $age )
     {
-      if ( floor($age) == 0 )
-        $r = '';
-      else
-        $r .= __(' and ');
-      $r .= __('%m% month',array('%m%' => floor(($age - floor($age)) * 12)));
+      $r = __('%m% month old',array('%m%' => floor(($age - floor($age)) * 12)));
     }
-    
-    if ( $r ) $r .= __(' old');
     
     return $r;
   }

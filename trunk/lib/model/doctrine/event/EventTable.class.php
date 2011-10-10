@@ -21,6 +21,7 @@ class EventTable extends PluginEventTable
   {
     $me  = 'me'   != $alias ? 'me'   : 'me1';
     $ec  = 'ec'   != $alias ? 'ec'   : 'ec1';
+    $m   = 'm'    != $alias ? 'm'    : 'm1';
     
     return parent::createQuery($alias)
       ->leftJoin("$alias.MetaEvent $me")
