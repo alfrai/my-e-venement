@@ -1,0 +1,11 @@
+@media print {
+
+form.entry #first-line { position: static; }
+form.entry {
+  margin-top: 5px;
+  height: 100%;
+  overflow: visible;
+}
+body.noscroll { overflow: visible; }
+
+}
