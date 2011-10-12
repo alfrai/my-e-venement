@@ -1,40 +1,31 @@
 <?php
 
 /**
- * mod actions.
+ * create actions.
  *
  * @package    e-venement
- * @subpackage mod
+ * @subpackage create
  * @author     Baptiste SIMON <baptiste.simon AT e-glop.net>
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
-class modActions extends sfActions
+class createActions extends sfActions
 {
   /**
-    * create a totally new account for the current client
+    * pre-login as a client
+    * (distinct from the real "authentication" of the distant system, that's why we told it 'identification'
     * GET params :
     *   - key : a string formed with md5(name + password + salt) (required)
-    *   - mod : if set, the system will try to modify the account in database based on name and email
-    * POST params: a var "json" containing this kind of json content
-    *   - lastname: le nom de famille (required)
-    *   - firstname: le prénom (required)
-    *   - address:
-    *   - postal: postal code
-    *   - city:
-    *   - country:
-    *   - email: email (required)
-    *   - tel:
-    *   - passwd: the client md5(passwd) (already encrypted, required)
+    * POST params:
+    *   - json : a json array containing all the information needed (note that the password has to be sent already md5'ized
     * Returns :
     *   - HTTP return code
-    *     . 201 if a new client account has been created
-    *     . 403 if authentication as a valid webservice has failed
-    *     . 406 if the json content doesn't embed the required values
-    *     . 412 if the json array is not conform with its checksum
     *     . 500 if there was a problem processing the demand
+    *     . 403 if authentication as a valid webservice has failed
+    *     . 412 if all the required arguments have not been sent
+    *     . 201 if a new client account has been created
     *
     **/
-  public function executeAccount(sfWebRequest $request)
+  public function executeCreateClient(sfWebRequest $request)
   {
     try { $this->authenticate($request); }
     catch ( sfSecurityException $e )
@@ -77,32 +68,13 @@ class modActions extends sfActions
       $this->getResponse()->setStatusCode('412');
       return $request->hasParameter('debug') ? 'Debug' : sfView::NONE;
     }
-    
-    $contacts = Doctrine::getTable('Contact')->createQuery('c')
-      ->andWhere('email ILIKE ?',$client['email'])
-      ->andWhere('name ILIKE ?',$client['name'])
-      ->orderBy('updated_at DESC')
-      ->limit(1)
-      ->execute();
-    $contact = $contacts[0];
-    $client['id'] = $contact->id;
-    
-    $form->bind($client);
     $form->save();
     
-    $new_phone = false;
-    foreach ( $contact->Phonenumbers as $phone )
-    if ( str_replace(' ','',$phone->number) == str_replace(' ','',$phonenumber) )
-      $new_phone = true;
-    
     // the phone number
-    if ( $new_phone )
-    {
-      $phone = new ContactPhonenumber();
-      $phone->number = $phonenumber;
-      $phone->contact_id = $form->getObject()->id;
-      $phone->save();
-    }
+    $phone = new ContactPhonenumber();
+    $phone->number = $phonenumber;
+    $phone->contact_id = $form->getObject()->id;
+    $phone->save();
     
     // the response status
     $this->getResponse()->setStatusCode('201');

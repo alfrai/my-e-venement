@@ -3,7 +3,7 @@
 
 # default values
 all:
-  payment_method: VEL
+  payment_method: 13
   min_tickets: 9
   
   melody:

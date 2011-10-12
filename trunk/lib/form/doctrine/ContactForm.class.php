@@ -89,4 +89,10 @@ class ContactForm extends BaseContactForm
     
     return $r;
   }
+  
+  public function setStrict($strict = true)
+  {
+    foreach ( array('firstname','email') as $key )
+      $this->validatorSchema[$key]->setOption('required',$strict);
+  }
 }
