@@ -40,7 +40,7 @@
     <p><?php echo __("there is worst, but it's more expensive",null,'about') ?></p>
     <ul>
       <li><strong><?php echo __('the contributors',null,'about') ?></strong></li>
-      <?php foreach ( sfConfig::get('app_about_contributors') as $contributor ): ?>
+      <?php if ( is_array($c=sfConfig::get('app_about_contributors')) ) foreach ( $c as $contributor ): ?>
       <li><?php echo $contributor ?></li>
       <?php endforeach ?>
     </ul>
