@@ -33,7 +33,7 @@
     *   - HTTP return code
     *     . 201 if tickets have been well pre-reserved
     *     . 403 if authentication as a valid webservice has failed
-    *     . 406 if the input json content doesn't embed the required values
+    *     . 406 if the input json content doesn't embed the required values or contact is not registered
     *     . 412 if the input json array is not conform with its checksum
     *     . 500 if there was a problem processing the demand
     *   - a json array containing :
@@ -45,8 +45,6 @@
 
     try {
       $this->authenticate($request);
-      if ( ($contact_id = intval($this->getUser->getParameter('contact_id')) <= 0) )
-        throw new sfSecurityException();
     }
     catch ( sfSecurityException $e )
     {
@@ -54,9 +52,15 @@
       return sfView::NONE;
     }
     
+    if ( ($contact_id = intval($this->getUser()->getAttribute('contact_id'))) <= 0 && sfConfig::get('app_noid') != 'true' )
+    {
+      $this->getResponse()->setStatusCode('406');
+      return sfView::NONE;
+    }
+    
     // get data from booking
     try {
-      $json = wsConfiguration::getData($request->getParameters('json'));
+      $json = wsConfiguration::getData($request->getParameter('json'));
     }
     catch ( sfSecurityException $e )
     {
@@ -64,10 +68,21 @@
       return sfView::NONE;
     }
     
-    // new transaction
-    $transaction = new Transaction();
-    $transaction->contact_id = $contact_id;
+    // transaction
+    if ( $this->getUser()->hasAttribute('transaction_id') )
+      $transaction = Doctrine::getTable('Transaction')->findOneById($this->getUser()->getAttribute('transaction_id'));
+    else if ( $this->getUser()->hasAttribute('old_transaction_id') )
+      $transaction = Doctrine::getTable('Transaction')->findOneById($this->getUser()->getAttribute('old_transaction_id'));
+    else
+      $transaction = new Transaction();
+    if ( $contact_id > 0 )
+      $transaction->contact_id = $contact_id;
+    $transaction->sf_guard_user_id = $this->getUser()->getAttribute('ws_id');
     $transaction->save();
+    
+    if ( $this->getUser()->hasAttribute('transaction_id') )
+      $this->getUser()->setAttribute('old_transaction_id',$this->getUser()->getAttribute('transaction_id',$transaction->id));
+    $this->getUser()->setAttribute('transaction_id',$transaction->id);
     
     // adding asked tickets
     $manifs = array();
@@ -83,12 +98,13 @@
         $ticket->manifestation_id = $manifid;
         $ticket->price_name = $tarif;
         $ticket->transaction_id = $transaction->id;
+        $ticket->sf_guard_user_id = $this->getUser()->getAttribute('ws_id');
         $ticket->save();
       }
     }
     
     // formatting the response
-    $infos = array(
+    $this->content = array(
       'transaction' => $transaction->id,
       'topay'       => $this->getWhatToPay(),
       'manifs'      => $manifs,
@@ -97,6 +113,7 @@
     if ( !$request->hasParameter('debug') )
       $this->getResponse()->setContentType('application/json');
     
+    $this->getResponse()->setStatusCode('201');
     return $request->hasParameter('debug')
       ? 'Debug'
       : $this->renderText(wsConfiguration::formatData($this->content));

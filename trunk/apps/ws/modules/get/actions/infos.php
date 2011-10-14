@@ -38,7 +38,7 @@
     // by event
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.*, e.*, g.*, p.*, pm.*, l.*')
-      ->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t.cancelling FROM ticket t2 WHERE t.cancelling IS NOT NULL) AND (t.printed OR t.integrated OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets')
+      ->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.manifestation_id = m.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t.cancelling FROM ticket t2 WHERE t.cancelling IS NOT NULL) AND (t.printed OR t.integrated OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets')
       ->andWhere('m.happens_at > NOW()')
       ->andWhere('g.online')
       ->andWhere('p2.online')
@@ -80,7 +80,7 @@
           'sitecity' => $manif->Location->city,
           'sitecountry' => $manif->Location->country,
           'price' => $manif->PriceManifestations[0]->value,
-          'still_have' => sfConfig::get('app_min_tickets') > $gauge - $manif->nb_tickets ? $gauge - $manif->nb_tickets : sfConfig::get('app_min_tickets'),
+          'still_have' => sfConfig::get('app_min_tickets') > $gauge - $manif->nb_tickets ? ($gauge-$manif->nb_tickets > 0 ? $gauge-$manif->nb_tickets : 0) : sfConfig::get('app_min_tickets'),
           'tarifs' => $tarifs,
         );
       
@@ -89,15 +89,16 @@
           'name' => $event->name,
           'ages' => array($event->age_min, $event->age_max),
           'description' => $event->description,
-          'dates' => array(
-            'min' => isset($this->content['events'][$event->id]['dates']['min']) && $this->content['events'][$event->id]['dates']['min'] < $manif->happens_at
-              ? $this->content['events'][$event->id]['dates']['min']
-              : $manif->happens_at,
-            'max' => isset($this->content['events'][$event->id]['dates']['max']) && $this->content['events'][$event->id]['dates']['max'] > $manif->happens_at
-              ? $this->content['events'][$event->id]['dates']['max']
-              : $manif->happens_at,
-            ),
-            $manif->id => $tmp,
+          'dates' => array(),
+          $manif->id => $tmp,
+        );
+        $this->content['events'][$event->id]['dates'] = array(
+          'min' => isset($this->content['events'][$event->id]['dates']['min']) && $this->content['events'][$event->id]['dates']['min'] < $manif->happens_at
+            ? $this->content['events'][$event->id]['dates']['min']
+            : $manif->happens_at,
+          'max' => isset($this->content['events'][$event->id]['dates']['max']) && $this->content['events'][$event->id]['dates']['max'] > $manif->happens_at
+            ? $this->content['events'][$event->id]['dates']['max']
+            : $manif->happens_at,
           );
           
         $this->content['sites'][$location->id] = array(

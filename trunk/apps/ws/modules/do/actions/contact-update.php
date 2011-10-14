@@ -37,6 +37,7 @@
     *     . 200 if the contact has been well updated
     *     . 403 if authentication as a valid webservice has failed
     *     . 406 if the input POST content doesn't embed the required values
+    *     . 410 if the user's content is not ok
     *     . 412 if the input user's json content doesn't pass its checksum
     *     . 500 if there was a problem processing the demand
     *
@@ -48,8 +49,8 @@
       $this->getResponse()->setStatusCode('403');
       return sfView::NONE;
     }
-
-    if ( isset($request->getParameter('debug')) )
+    
+    if ( $request->hasParameter('debug') )
       print_r(json_decode($request->getParameter('user'),true));
     
     // preconditions
@@ -76,26 +77,27 @@
     *
     **/
     
+    $c = array();
     foreach ( array(
-      'name' => 'lastname',
+      'firstname' => 'firstname',
+      'address' => 'address',
+      'city' => 'city',
+      'lastname' => 'name',
       'postal' => 'postalcode',
-      'telephone' => 'phonenumber') as $from => $to )
-    {
-      $client[$from] = $client[$to];
-      unset($client[$from]);
-    }
-    $phonenumber = $client['phonenumber'];
-    unset($client['phonenumber']);
-    $client['description'] = 'e-voucher';
+    ) as $from => $to )
+      $c[$to] = $client[$from];
+    $phonenumber = $client['telephone'];
+    $c['description'] = 'e-voucher';
     
     $form = new ContactForm();
     $form->setStrict();
-    $form->bind($client);
+    $form->bind($c);
     
     // the contact itself
     if ( !$form->isValid() )
     {
-      $this->getResponse()->setStatusCode('412');
+      echo $form;
+      $this->getResponse()->setStatusCode('410');
       return $request->hasParameter('debug') ? 'Debug' : sfView::NONE;
     }
     
@@ -109,11 +111,11 @@
     
     if ( $contact )
     {
-      $client['id'] = $contact->id;
-      $client['description'] .= ' '.trim($contact->description);
+      $c['id'] = $contact->id;
+      $c['description'] .= ' '.trim($contact->description);
     }
     
-    $form->bind($client);
+    $form->bind($c);
     $form->save();
     
     $new_phone = false;
@@ -133,6 +135,7 @@
     // storing the client ids in the current user
     $contact = $form->getObject();
     $this->getUser()->setAttribute('contact_id',$contact->id);
+    
     
     // the response status
     $this->getResponse()->setStatusCode('201'); // 200 ?

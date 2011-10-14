@@ -5,6 +5,7 @@
 all:
   payment_method: 13
   min_tickets: 9
+  noid: true
   
   melody:
     create_user: false

@@ -142,12 +142,10 @@ ransaction id
   protected function getWhatToPay()
   {
     $q = Doctrine::getTable('Transaction')->createQuery('t')
-      ->leftJoin('t.Tickets tck')
-      ->leftJoin('t.Order o')
+      ->select('t.id, sum(tck.value) AS topay')
       ->andWhere('t.id = ?',$this->getUser()->getAttribute('transaction_id'))
-      ->andWhere('NOT tck.cancelling AND tck.duplicate IS NULL')
-      ->andWhere('tck.id NOT IN (SELECT DISTINCT tck2.cancelling FROM ticket tck2 WHERE tck2.cancelling IS NOT NULL')
-      ->select('t.*, sum(tck.value) AS topay');
+      ->andWhere('tck.cancelling IS NULL AND tck.duplicate IS NULL')
+      ->groupBy('t.id');
     return $q->fetchOne()->topay;
   }
 }

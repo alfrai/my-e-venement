@@ -37,6 +37,7 @@
     *     . 403 if authentication as a valid webservice has failed
     *     . 406 if the payment argument is false or absent
     *     . 410 if no transaction is given
+    *     . 412 if payment is unrecordable
     *     . 500 if there was a problem processing the demand, including with upgrading the transaction to a pre-reservation state
     *     . 502 if there was a problem recording the raw informations coming from the bank
     *
@@ -49,13 +50,13 @@
       return sfView::NONE;
     }
     
-    if ( intval($this->getUser()->getAttribute('transaction_id')) < 0 )
+    if ( intval($this->getUser()->getAttribute('transaction_id')) <= 0 )
     {
       $this->getResponse()->setStatusCode('410');
       return sfView::NONE;
     }
     
-    if ( ($paid = floatval($request->getParameter('paid')) <= 0 )
+    if ( ($paid = floatval($request->getParameter('paid'))) < 0 )// // // <= 0 )
     {
       $this->getResponse()->setStatusCode('406');
       return sfView::NONE;
@@ -69,7 +70,7 @@
     
     // preparing the raw payment
     try { $bank = wsConfiguration::getData($request->getParameter('bank')); }
-    catch ( sfSecurityException $e )
+    catch ( sfException $e )
     {
       $this->getResponse()->setStatusCode('502');
       return sfView::NONE;
@@ -83,10 +84,14 @@
       'payment_method_id' => $pmid,
       'value' => $paid,
     );
+    $payment[$form_payment->getCSRFFieldName()] = $form_payment->getCSRFToken();
+    $form_payment->setWithUserId();
     $form_payment->bind($payment);
     if ( !$form_payment->isValid() )
     {
-      $this->getResponse()->setStatusCode('500');
+      echo $form_payment->isCSRFProtected() ? 'oui' : 'non';
+      echo $form_payment;
+      $this->getResponse()->setStatusCode('412');
       return sfView::NONE;
     }
     $form_payment->save();
@@ -96,6 +101,9 @@
     $form_bank = new BankPaymentForm();
     $bank['payment_id'] = $pid;
     $bank['serialized'] = serialize($bank);
+    $bank['data_field'] = $bank['data'];
+    unset($bank['data']);
+    $bank[$form_bank->getCSRFFieldName()] = $form_bank->getCSRFToken();
     $form_bank->bind($bank);
     if ( !$form_bank->isValid() )
     {
@@ -105,10 +113,17 @@
     $form_bank->save();
     
     // retreiving informations about ordering / reservation
+    $transaction = Doctrine::getTable('Transaction')->findOneById($this->getUser()->getAttribute('transaction_id'));
     if ( $transaction->Order->count() <= 0 )
     {
       $form_order = new OrderForm();
-      $form_order->bind(array('transaction_id' => $this->getUser()->getAttribute('transaction_id')));
+      $order = array(
+        'transaction_id' => $transaction->id,
+        'sf_guard_user_id' => $this->getUser()->getAttribute('ws_id'),
+        'type' => 'order',
+        $form_order->getCSRFFieldName() => $form_order->getCSRFToken(),
+      );
+      $form_order->bind($order);
       if ( !$form_order->isValid() )
       {
         $this->getResponse()->setStatusCode('500');

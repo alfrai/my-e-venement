@@ -10,6 +10,7 @@
  */
 class PaymentForm extends BasePaymentForm
 {
+  protected $removed_widgets = array(), $removed_validators = array();
   /**
    * @see TraceableForm
    */
@@ -17,11 +18,19 @@ class PaymentForm extends BasePaymentForm
   {
     parent::configure();
     
+    $this->removed_widgets['sf_guard_user_id'] = $this->widgetSchema['sf_guard_user_id'];
+    $this->removed_validators['sf_guard_user_id'] = $this->validatorSchema['sf_guard_user_id'];
     unset($this->widgetSchema['sf_guard_user_id']);
     unset($this->validatorSchema['sf_guard_user_id']);
     
     unset($this->widgetSchema['version']);
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputHidden();
     $this->widgetSchema['payment_method_id']->setOption('add_empty',true);
+  }
+  
+  public function setWithUserId()
+  {
+    $this->widgetSchema['sf_guard_user_id'] = $this->removed_widgets['sf_guard_user_id'];
+    $this->validatorSchema['sf_guard_user_id'] = $this->removed_validators['sf_guard_user_id'];
   }
 }

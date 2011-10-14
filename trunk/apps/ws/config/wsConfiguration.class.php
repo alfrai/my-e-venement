@@ -17,7 +17,6 @@ class wsConfiguration extends sfApplicationConfiguration
     
     if ( md5(json_encode($r).sfContext::getInstance()->getUser()->getAttribute('salt')) != $cs )
       throw new sfSecurityException('Unsafe content.');
-    
     return $r;
   }
   
