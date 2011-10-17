@@ -1,6 +1,6 @@
 <?php $manifs = array() ?>
 <?php foreach ( $event->Manifestations as $manif ): ?>
-  <?php $manifs[$manif->happens_at] = $manif ?>
+  <?php $manifs[$manif->happens_at.'-'.$manif->id] = $manif ?>
 <?php endforeach ?>
 <?php sort($manifs) ?>
 <?php foreach($manifs as $manif): ?>
