@@ -49,7 +49,7 @@
     $q->from('Manifestation m')
       ->leftJoin('m.Event e')
       ->leftJoin('e.MetaEvent me')
-      ->leftJoin('m.Tickets t ON m.id = t.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE cancelling IS NOT NULL)')
+      ->leftJoin('m.Tickets t ON m.id = t.manifestation_id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE cancelling IS NOT NULL)')
       ->addSelect('m.id')
       ->addSelect('sum(t.printed OR t.integrated) AS sells')
       ->addSelect('sum(NOT t.printed AND NOT t.integrated AND t.transaction_id IN (SELECT o.transaction_id FROM order o)) AS orders')
