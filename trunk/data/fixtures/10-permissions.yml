@@ -873,6 +873,6 @@ sfGuardGroup:
     updated_at: '2011-05-19 17:10:03'
   sfGuardGroup_23:
     name: ws-admin
-    description: 'Users who can access all the others stats modules'
+    description: 'Permission add/remove/modify accounts for webservices'
     created_at: '2011-05-19 17:10:03'
     updated_at: '2011-05-19 17:10:03'

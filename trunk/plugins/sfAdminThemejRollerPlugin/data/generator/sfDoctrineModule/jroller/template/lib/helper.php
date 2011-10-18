@@ -36,7 +36,7 @@ class Base<?php echo ucfirst($this->getModuleName()) ?>GeneratorHelper extends s
   {
     $params['params'] = UIHelper::arrayToString(array('class' => UIHelper::getClasses($params['params']).' ui-priority-secondary'));
 
-    if ($object->isNew())
+    if ($object->isNew() || sfContext::getInstance()->getActionName() == 'show' )
     {
       return '';
     }
