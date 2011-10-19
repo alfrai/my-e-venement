@@ -45,6 +45,7 @@ class OptionLabelsForm extends BaseOptionLabelsForm
         'font-family'   => array('label' => 'Font', 'type' => 'string', 'helper' => '', 'default' => 'verdana'),
         'font-size'     => array('label' => 'Font size', 'type' => 'integer', 'helper' => 'px', 'default' => '11'),
         'free-css'      => array('label' => 'Free CSS', 'type' => 'string', 'helper' => '', 'default' => ''),
+        'free-js'       => array('label' => 'Free JS', 'type' => 'string', 'helper' => '', 'default' => ''),
       ),
     );
 
@@ -64,7 +65,8 @@ class OptionLabelsForm extends BaseOptionLabelsForm
         'required' => false,
       ));
     }
-    $this->widgetSchema[$name]    = new sfWidgetFormTextarea(array('label' => $value['label'],));
+    $this->widgetSchema['free-css']   = new sfWidgetFormTextarea(array('label' => $fieldset['free-css']['label'],));
+    $this->widgetSchema['free-js']    = new sfWidgetFormTextarea(array('label' => $fieldset['free-js']['label'],));
   }
   
   

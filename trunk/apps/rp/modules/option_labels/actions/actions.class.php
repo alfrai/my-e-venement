@@ -19,6 +19,15 @@ class option_labelsActions extends sfActions
     sfConfig::set('sf_web_debug', false);
   }
   
+  public function executeJs(sfWebRequest $request)
+  {
+    $this->setLayout(false);
+    $this->form = new OptionLabelsForm();
+    $this->params = $this->form->getDBOptions();
+    
+    sfConfig::set('sf_web_debug', false);
+  }
+  
   public function executeIndex(sfWebRequest $request)
   {
     $this->form = new OptionLabelsForm();
