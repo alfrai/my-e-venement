@@ -17,7 +17,11 @@ class liBarcode
   
   public function render($file = NULL)
   {
-    //return barcode_print($this->text,'ANY');
+    barcode_print('123456789012',false,1);
+    return;
+    /*
+    return barcode_print($this->text,false,false,false);
+    */
     return QRcode::png($this->text,$file);
   }
 }
