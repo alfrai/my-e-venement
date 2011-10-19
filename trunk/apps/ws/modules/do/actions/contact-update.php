@@ -79,44 +79,50 @@
     
     $c = array();
     foreach ( array(
+      'email' => 'email',
       'firstname' => 'firstname',
       'address' => 'address',
       'city' => 'city',
       'lastname' => 'name',
       'postal' => 'postalcode',
     ) as $from => $to )
-      $c[$to] = $client[$from];
-    $phonenumber = $client['telephone'];
+      $c[$to] = trim($client[$from]);
+    $phonenumber = trim($client['telephone']);
     $c['description'] = 'e-voucher';
     
     $form = new ContactForm();
+    $c[$form->getCSRFFieldName()] = $form->getCSRFToken();
     $form->setStrict();
     $form->bind($c);
     
     // the contact itself
     if ( !$form->isValid() )
     {
-      echo $form;
+      $this->form = $form;
       $this->getResponse()->setStatusCode('410');
       return $request->hasParameter('debug') ? 'Debug' : sfView::NONE;
     }
     
     $contact = Doctrine::getTable('Contact')->createQuery('c')
-      ->andWhere('email ILIKE ?',trim($client['email']))
-      ->andWhere('name ILIKE ?',trim($client['name']))
-      ->andWhere('firstname ILIKE ?',trim($client['firstname']))
+      ->andWhere('trim(email) ILIKE ?',trim($c['email']))
+      ->andWhere('trim(name) ILIKE ?',trim($c['name']))
+      ->andWhere('trim(firstname) ILIKE ?',trim($c['firstname']))
       ->orderBy('updated_at DESC')
-      ->limit(1)
       ->fetchOne();
     
     if ( $contact )
     {
-      $c['id'] = $contact->id;
+      unset($c[$form->getCSRFFieldName()]);
+      foreach ( $c as $key => $value )
+        $contact->$key = $value;
       $c['description'] .= ' '.trim($contact->description);
+      $contact->save();
     }
-    
-    $form->bind($c);
-    $form->save();
+    else
+    {
+      $form->save();
+      $contact = $form->getObject();
+    }
     
     $new_phone = false;
     foreach ( $contact->Phonenumbers as $phone )
@@ -133,9 +139,16 @@
     }
     
     // storing the client ids in the current user
-    $contact = $form->getObject();
     $this->getUser()->setAttribute('contact_id',$contact->id);
     
+    // updating the current transaction
+    if ( $transaction = Doctrine::getTable('Transaction')
+      ->findOneById($this->getUser()->getAttribute('transaction_id'),$this->getUser()->getAttribute('old_transaction_id')) )
+    {
+      $transaction->contact_id = $contact->id;
+      $transaction->sf_guard_user_id = $this->getUser()->getAttribute('ws_id');
+      $transaction->save();
+    }
     
     // the response status
     $this->getResponse()->setStatusCode('201'); // 200 ?

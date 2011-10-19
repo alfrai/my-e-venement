@@ -81,8 +81,12 @@
     $transaction->save();
     
     if ( $this->getUser()->hasAttribute('transaction_id') )
-      $this->getUser()->setAttribute('old_transaction_id',$this->getUser()->getAttribute('transaction_id',$transaction->id));
+      $this->getUser()->setAttribute('old_transaction_id',$this->getUser()->getAttribute('transaction_id'));
     $this->getUser()->setAttribute('transaction_id',$transaction->id);
+    
+    // reinitializing the transaction
+    $transaction->Tickets->delete();
+    $transaction->Order->delete();
     
     // adding asked tickets
     $manifs = array();
