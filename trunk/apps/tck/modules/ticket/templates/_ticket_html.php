@@ -25,7 +25,10 @@
       /
       <span class="num">#<?php echo $ticket->Transaction->id ?>-<?php echo $sf_user->getId() ?></span>
     </p>
-    <p class="ticket-bc"><img src="<?php echo url_for('ticket/barcode?id='.$ticket->id) ?>" alt="" /></p>
+    <p class="ticket-bc"><?php echo sfConfig::get('barcode') == 'qrcode'
+      ? image_tag(url_for('ticket/barcode?id='.$ticket->id))
+      : image_tag('/liBarcodePlugin/php-barcode/barcode.php?scale=1&code='.$ticket->getIdBarcoded())
+    ?></p>
     <p class="spectator"><?php echo $ticket->Transaction->professional_id > 0 ? $ticket->Transaction->Professional->Organism : $ticket->Transaction->Contact ?></p>
     <p class="mentions">
       <span class="optional"><?php $mentions = sfConfig::get('app_tickets_mentions'); echo $mentions['optional'] ?></span>
