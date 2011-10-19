@@ -34,6 +34,15 @@ class Ticket extends PluginTicket
     return md5('#'.$this->id.'-'.$salt);
   }
   
+  public function getIdBarcoded()
+  {
+    $c = ''.$this->id;
+    $n = strlen($c);
+    for ( $i = 12-$n ; $i > 0 ; $i-- )
+      $c = '0'.$c;
+    return $c;
+  }
+  
   public function __toString()
   {
     return '#'.$this->id;
