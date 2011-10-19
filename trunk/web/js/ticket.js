@@ -229,7 +229,7 @@ function ticket_get_gauge(manif_id, gauge_elt, force)
 
 function ticket_manif_new_events()
 {
-  $('.manifestations_add input[type=radio]').click(function(){
+  $('.manifestations_add input[type=radio]').unbind().click(function(){
     $(this).unbind();
     if ( $('.manifestations_list input[name="'+$(this).attr('name')+'"][value='+$(this).val()+']').length <= 0 )
     {
