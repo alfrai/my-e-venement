@@ -5,10 +5,10 @@ printSuccess:
   javascripts: [-*, jquery, print-tickets]
   stylesheets: [-*, print-tickets.default.css: {media: all}, /private/print-tickets.css: {media: all}]
 orderSuccess:
-  javascripts: [-*, jquery, print-ticket]
+  javascripts: [-*, jquery, print-tickets]
   stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css: {media: all}]
 invoiceSuccess:
-  javascripts: [-*, jquery, print-ticket]
+  javascripts: [-*, jquery, print-tickets]
   stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css: {media: all}]
 
 gaugeSuccess:

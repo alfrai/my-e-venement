@@ -26,5 +26,6 @@ all:
     city: TOULOUSE
     country: France
     other: 
+    invoice_prefix: FB
     salt: xxxx
 

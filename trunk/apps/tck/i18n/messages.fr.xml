@@ -485,8 +485,8 @@
         <target>&amp;lt;&amp;lt; &lt;a href="%%url%%"&gt;Retour&lt;/a&gt; vers une nouvelle opération</target>
       </trans-unit>
       <trans-unit id="135">
-        <source>&lt;span class="name"&gt;Invoice&lt;/span&gt; #&lt;span class="invoice_id"&gt;%%iid%%&lt;/span&gt;, for transaction #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</source>
-        <target>&lt;span class="name"&gt;Facture&lt;/span&gt; #&lt;span class="invoice_id"&gt;%%iid%%&lt;/span&gt;, pour l'opération #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</target>
+        <source>&lt;span class="name"&gt;Invoice&lt;/span&gt; #%%prefix%%&lt;span class="invoice_id"&gt;%%iid%%&lt;/span&gt;, for transaction #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</source>
+        <target>&lt;span class="name"&gt;Facture&lt;/span&gt; #%%prefix%%&lt;span class="invoice_id"&gt;%%iid%%&lt;/span&gt;, pour l'opération #&lt;span class="transaction_id"&gt;%%tid%%&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit id="136">
         <source>Verify and validate</source>
