@@ -20,18 +20,20 @@ class Event extends PluginEvent
   public static function getAgeHR($age)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
-    $r = format_number_choice(
-      __('[0]|[1]%y% year|(1,+Inf]%y% years old'),
-      array('%y%' => floor($age)),
-      floor($age)
-    );
     
     // eg. if 18 month / 1.5 years
     if ( floor($age) != $age )
     {
-      $r = __('%m% month old',array('%m%' => floor(($age - floor($age)) * 12)));
+      $r = __('%m% month old',array('%m%' => $age * 12)));
     }
-    
+    else
+    {
+      $r = format_number_choice(
+        __('[0]|[1]%y% year|(1,+Inf]%y% years old'),
+        array('%y%' => floor($age)),
+        floor($age)
+      );
+    }
     return $r;
   }
 }
