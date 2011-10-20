@@ -24,7 +24,7 @@ class Event extends PluginEvent
     // eg. if 18 month / 1.5 years
     if ( floor($age) != $age )
     {
-      $r = __('%m% month old',array('%m%' => $age * 12)));
+      $r = __('%m% month old',array('%m%' => $age * 12));
     }
     else
     {
