@@ -80,7 +80,7 @@
           'sitecity' => $manif->Location->city,
           'sitecountry' => $manif->Location->country,
           'price' => $manif->PriceManifestations[0]->value,
-          'still_have' => sfConfig::get('app_min_tickets') > $gauge - $manif->nb_tickets ? ($gauge-$manif->nb_tickets > 0 ? $gauge-$manif->nb_tickets : 0) : sfConfig::get('app_min_tickets'),
+          'still_have' => $manif->online_limit > $gauge - $manif->nb_tickets ? ($gauge-$manif->nb_tickets > 0 ? $gauge-$manif->nb_tickets : 0) : sfConfig::get('app_max_tickets'),
           'tarifs' => $tarifs,
         );
       

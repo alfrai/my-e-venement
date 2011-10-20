@@ -25,9 +25,9 @@
       /
       <span class="num">#<?php echo $ticket->Transaction->id ?>-<?php echo $sf_user->getId() ?></span>
     </p>
-    <p class="ticket-bc"><?php echo sfConfig::get('barcode') == 'qrcode'
-      ? image_tag(url_for('ticket/barcode?id='.$ticket->id))
-      : image_tag('/liBarcodePlugin/php-barcode/barcode.php?scale=1&code='.$ticket->getIdBarcoded())
+    <p class="ticket-bc"><?php echo sfConfig::get('barcode') == 'inline'
+      ? image_tag('/liBarcodePlugin/php-barcode/barcode.php?scale=1&code='.$ticket->getIdBarcoded())
+      : image_tag(url_for('ticket/barcode?id='.$ticket->id))
     ?></p>
     <p class="spectator"><?php echo $ticket->Transaction->professional_id > 0 ? $ticket->Transaction->Professional->Organism : $ticket->Transaction->Contact ?></p>
     <p class="mentions">

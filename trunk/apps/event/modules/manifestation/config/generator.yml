@@ -19,6 +19,7 @@ generator:
         list_description: { label: Description }
         happens_at: { label: Date }
         id: { label: Manif's ID }
+        online_limit: { label: Online limit }
       list:
         display: [_list_event, happens_at, _list_location, _list_description]
       filter:  ~
@@ -27,19 +28,19 @@ generator:
         title: Edit Manifestation %%name%%
         display:
           General:      [happens_at, _id, event_id, location_id, _show_gauge_txt, color_id, description, _form_prices]
-          Technical:    [duration, vat, seated, organizers_list]
+          Technical:    [duration, vat, online_limit, seated, organizers_list]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
-          Tickets: [_show_tickets_list]
-          #Spectators: [_show_spectators_list]
+          Tickets:      [_show_tickets_list]
+          #Spectators:  [_show_spectators_list]
       new:
         display:
           General: [happens_at, event_id, location_id, color_id, description]
-          Technical: [duration, vat, seated, organizers_list]
+          Technical: [duration, vat, online_limit, seated, organizers_list]
           Workspaces: [workspaces_list]
       show:
         display:
           General: [_show_event, id, _show_happens_at, _show_location, _show_gauge_txt, _show_color, description, _show_prices_list]
-          Technical: [duration, _show_vat, _show_seated, _show_organizers_list]
+          Technical: [duration, _show_vat, online_limit, _show_seated, _show_organizers_list]
           Workspaces: [_show_workspaces_list]
           Tickets: [_show_tickets_list]
           #Spectators: [_show_spectators_list]

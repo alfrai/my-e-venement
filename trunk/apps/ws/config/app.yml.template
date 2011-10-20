@@ -4,7 +4,7 @@
 # default values
 all:
   payment_method: 13
-  min_tickets: 9
+  max_tickets: 10
   noid: true
   
   melody:

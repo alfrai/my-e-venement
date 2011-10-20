@@ -224,6 +224,10 @@ Manifestation:
       type: boolean
       default: false
       notnull: true
+    online_limit:
+      type: integer
+      default: 10
+      notnull: true
   relations:
     Event:
       foreignAlias: Manifestations
