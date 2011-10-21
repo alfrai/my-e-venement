@@ -25,6 +25,7 @@
     <td class="outcomes amount"><?php echo format_currency($total['value-'],'€') ?></td>
     <td class="nb"><?php echo $total['nb+'] ?></td>
     <td class="incomes amount"><?php echo format_currency($total['value+'],'€') ?></td>
+    <td class="nb"><?php echo $total['nb+']-$total['nb-'] ?></td>
     <td class="total"><?php echo format_currency($total['value+']+$total['value-'],'€') ?></td>
   </tr>
 </tfoot>
@@ -35,6 +36,7 @@
     <td class="outcomes"><?php echo __('Outcomes') ?></td>
     <td class="nb"><?php echo __('Number') ?></td>
     <td class="incomes"><?php echo __('Incomes') ?></td>
+    <td class="nb"><?php echo __('Number') ?></td>
     <td class="total"><?php echo __('Total') ?></td>
   </tr>
 </thead>

@@ -187,7 +187,6 @@ class ledgerActions extends sfActions
     $q->from('SfGuardUser u')
       ->leftJoin('u.Tickets t')
       ->select('u.id, u.last_name, u.first_name, u.username')
-      ->addSelect('count(t.id) AS nb')
       ->addSelect('(CASE WHEN sum(t.value >= 0) > 0 THEN sum(case when t.value < 0 then 0 else t.value end)/sum(t.value >= 0) ELSE 0 END) AS average')
       ->addSelect('sum(t.value = 0 AND cancelling IS NULL) AS nb_free')
       ->addSelect('sum(t.value > 0) AS nb_paying')
@@ -196,7 +195,7 @@ class ledgerActions extends sfActions
       ->addSelect('sum(case when t.value < 0 then 0 else t.value end) AS income')
       ->addSelect('sum(case when t.value > 0 then 0 else t.value end) AS outcome')
       ->andWhere('t.duplicate IS NULL')
-      ->andWhere('t.printed OR t.integrated')
+      ->andWhere('t.printed OR t.integrated OR t.cancelling IS NOT NULL')
       ->orderBy('u.last_name, u.first_name, u.username')
       ->groupBy('u.id, u.last_name, u.first_name, u.username');
     if ( is_array($criterias['users']) && count($criterias['users']) > 0 )
@@ -210,6 +209,7 @@ class ledgerActions extends sfActions
       ));
     $this->byUser = $q->execute();
     
+    // get all selected manifestations
     $this->manifestations = false;
     if ( count($criterias['manifestations']) > 0 )
     {
