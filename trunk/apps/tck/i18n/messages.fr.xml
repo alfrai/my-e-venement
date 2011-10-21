@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Toggle tickets</source>
+        <target>Inverser</target>
+      </trans-unit>
+      <trans-unit>
         <source>You must have at least one manifestation selected.</source>
         <target>Vous devez avoir au moins une manifestation sélectionnée.</target>
       </trans-unit>

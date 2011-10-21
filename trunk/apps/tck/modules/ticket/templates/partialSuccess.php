@@ -20,11 +20,15 @@
         <input type="hidden" name="toprint[]" value="<?php echo $ticket->id ?>" disabled="disabled" />
       </span>
     <?php endforeach ?></p>
-    <p class="submit"><input type="submit" name="s" value="<?php echo __('Print') ?>" /></p>
+    <p class="submit">
+      <input type="submit" name="s" value="<?php echo __('Print') ?>" />
+      <input type="submit" name="all" value="<?php echo __('Toggle tickets') ?>" />
+    </p>
   </form>
   <?php endforeach ?>
   <script type="text/javascript">
       $(document).ready(function(){
+        // select the tickets to print
         $('form.print .prices .ticket.todo').click(function(){
           if ( $(this).find('input[disabled]').length > 0 )
           {
@@ -37,6 +41,14 @@
             $(this).find('input').attr('disabled','disabled');
           }
         });
+        
+        // select all
+        $('form.print .submit [name=all]').click(function(){
+          $('form.print .ticket [name="toprint[]"]').click();
+          return false;
+        });
+        
+        // close the window during printing
         $('form.print').submit(function(){
           setTimeout(function(){ window.close(); },2000);
         });
