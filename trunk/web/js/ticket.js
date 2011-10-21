@@ -453,8 +453,9 @@ function ticket_print()
       $('#print #manifestation_id').remove();
     });
   });
+  
   $('#print input[type=text]').attr('disabled','disabled');
-  $('#print input[type=checkbox]').change(function(){
+  $('#print input[name="duplicate"').change(function(){
     if ( $(this).is(':checked') )
     {
       $(this).parent().find('input[type=text]')

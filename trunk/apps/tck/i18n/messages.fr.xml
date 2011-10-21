@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Only print the selected line/manifestation.</source>
+        <target>Imprimer seulement la ligne/manifestation sélectionnée</target>
+      </trans-unit>
+      <trans-unit>
         <source>Unassociated</source>
         <target>Non associés</target>
       </trans-unit>
