@@ -19,13 +19,7 @@ class liBarcode
   
   public function render($file = NULL)
   {
-    if ( $this->type == 'qrcode' )
-      return QRcode::png($this->text,$file);
-    else
-    {
-      $bc = new Image_Barcode_Code39('',2,4);
-      $bc->draw($this->text,'jpg',true,120);
-    }
+    return QRcode::png($this->text,$file);
   }
   
   public static function decode_ean($ean)
