@@ -25,7 +25,7 @@
       /
       <span class="num">#<?php echo $ticket->Transaction->id ?>-<?php echo $sf_user->getId() ?></span>
     </p>
-    <p class="ticket-bc"><?php echo sfConfig::get('barcode') == 'inline'
+    <p class="ticket-bc"><?php echo sfConfig::get('app_tickets_barcode') == 'inline'
       ? image_tag('/liBarcodePlugin/php-barcode/barcode.php?scale=1&code='.$ticket->getIdBarcoded())
       : image_tag(url_for('ticket/barcode?id='.$ticket->id))
     ?></p>
