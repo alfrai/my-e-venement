@@ -1,8 +1,12 @@
 <div class="ui-widget-content ui-corner-all" id="byPaymentMethod">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
-    <h2><?php echo __("Payment modes") ?></h2>
+    <h2>
+      <?php echo __("Payment modes") ?>
+    </h2>
   </div>
-  
+  <?php if ( is_array($form->getValue('manifestations')) && count($form->getValue('manifestations')) > 0 ): ?>
+  <p><?php echo __('Approximation: 0,1%') ?></p>
+  <?php endif ?>
 <table>
 <tbody>
 <?php $total = array('nb' => 0, 'value+' => 0, 'value-' => 0) ?>
@@ -14,15 +18,15 @@
     <?php
       $proportion = 1;
       $sum = $part = 0;
-      //if ( false )
+      
       if ( is_array($form->getValue('manifestations')) && count($form->getValue('manifestations')) > 0 )
       {
         foreach ( $pm->Payments as $payment )
         foreach ( $payment->Transaction->Tickets as $tck )
         {
-          $part += $tck->value;
-          foreach ( $tck->Transaction->Tickets as $tck2 )
-            $sum += $tck2->value;
+          if ( in_array($tck->manifestation_id,$form->getValue('manifestations')) )
+            $part += $tck->value;
+          $sum += $tck->value;
         }
         $proportion = $sum == 0 ? 1 : $part / $sum;
       }

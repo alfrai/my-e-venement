@@ -1,6 +1,5 @@
 <?php
 require_once ('Image/qrlib.php');
-require_once ('php-barcode/php-barcode.php');
 
 class liBarcode
 {

@@ -111,10 +111,14 @@ class ledgerActions extends sfActions
       ->orderBy('m.name, m.id, t.id, p.value, p.created_at');
     
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
-      $q->leftJoin('t.Tickets tck')
-        ->leftJoin('tck.Transaction t2')
-        ->leftJoin('t2.Tickets tck2')
-        ->andWhereIn('tck.manifestation_id',$criterias['manifestations']);
+    {
+      $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))')
+        ->leftJoin('t.Tickets tck')
+        ->andWhere('tck.duplicate IS NULL')
+        ->andWhere('tck.integrated = true OR tck.printed = true')
+        ->andWhere('tck.cancelling IS NULL')
+        ->andWhere('tck.id NOT IN (SELECT tck3.cancelling FROM ticket tck3 WHERE tck3.cancelling IS NOT NULL)');
+    }
     else
     {
       $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(

@@ -73,3 +73,7 @@
 #manifestations ul {
   margin: 10px 30px;
 }
+
+#byPaymentMethod p {
+  margin: 5px 5px 0 5px;
+}
