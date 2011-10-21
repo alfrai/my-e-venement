@@ -13,7 +13,7 @@
     <?php $i=$o=0; foreach ( $pm->Payments as $p ) if ( $p->value > 0 ) $i += $p->value; else $o += $p->value; ?>
     <?php
       $proportion = 1;
-      $total = $part = 0;
+      $sum = $part = 0;
       //if ( false )
       if ( is_array($form->getValue('manifestations')) && count($form->getValue('manifestations')) > 0 )
       {
@@ -22,13 +22,13 @@
         {
           $part += $tck->value;
           foreach ( $tck->Transaction->Tickets as $tck2 )
-            $total += $tck2->value;
+            $sum += $tck2->value;
         }
-        $proportion = $total == 0 ? 1 : $part / $total;
+        $proportion = $sum == 0 ? 1 : $part / $sum;
       }
     ?>
-    <td class="outcomes amount"><?php echo format_currency($o * $proportion,'€'); $total['value-'] += $o * $proportion ?></td>
-    <td class="incomes amount"><?php echo format_currency($i * $proportion,'€'); $total['value+'] += $i * $proportion ?></td>
+    <td class="outcomes amount"><?php echo format_currency($o * $proportion,'€'); $total['value-'] += ($o * $proportion) ?></td>
+    <td class="incomes amount"><?php echo format_currency($i * $proportion,'€'); $total['value+'] += ($i * $proportion) ?></td>
     <td class="total"><?php echo format_currency(($i+$o) * $proportion,'€'); ?></td>
   </tr>
 <?php endforeach ?>

@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Manifestation ledger</source>
+        <target>Bordereau de manifestation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Concerned manifestations</source>
+        <target>Manifestations concernées</target>
+      </trans-unit>
+      <trans-unit>
         <source>Toggle tickets</source>
         <target>Inverser</target>
       </trans-unit>

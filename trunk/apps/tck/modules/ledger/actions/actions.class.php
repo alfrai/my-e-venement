@@ -112,8 +112,8 @@ class ledgerActions extends sfActions
     
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
       $q->leftJoin('t.Tickets tck')
-        //->leftJoin('tck.Transaction t2')
-        //->leftJoin('t2.Tickets tck2')
+        ->leftJoin('tck.Transaction t2')
+        ->leftJoin('t2.Tickets tck2')
         ->andWhereIn('tck.manifestation_id',$criterias['manifestations']);
     else
     {
@@ -205,5 +205,13 @@ class ledgerActions extends sfActions
         date('Y-m-d',$dates[1]),
       ));
     $this->byUser = $q->execute();
+    
+    $this->manifestations = false;
+    if ( count($criterias['manifestations']) > 0 )
+    {
+      $q = Doctrine::getTable('Manifestation')->createQuery('m')
+        ->andWhereIn('m.id',$criterias['manifestations']);
+      $this->manifestations = $q->execute();
+    }
   }
 }
