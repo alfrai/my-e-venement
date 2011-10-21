@@ -38,7 +38,7 @@ class Ticket extends PluginTicket
   {
     $c = ''.$this->id;
     $n = strlen($c);
-    for ( $i = 12-$n ; $i > 0 ; $i-- )
+    for ( $i = 13-$n ; $i > 0 ; $i-- )
       $c = '0'.$c;
     return $c;
   }
