@@ -55,6 +55,8 @@
   cursor: pointer;
 }
 .manifestations_list .prices .value { display: none; }
+.manifestations_list .prices .done { background-color: gray; }
+.manifestations_list .prices .selected { background-color: silver; }
 
 .sf_admin_flashes {
   margin: 5px 0;
@@ -87,6 +89,7 @@
 
 #print form { display: inline-block; }
 #print .integrate { margin-right: 20px; }
+#print .partial { margin-left: 20px; }
 
 .action.closed {
   font-size: 13px;
@@ -189,3 +192,7 @@
 }
 #prices .ticket_prices:hover .tickets_id { display: block; }
 #prices [name="ticket[nb]"] { text-align: center; }
+
+.partial-print h2, .partial-print .prices {
+  margin-bottom: 10px;
+}

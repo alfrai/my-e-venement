@@ -180,6 +180,12 @@ class ticketActions extends sfActions
     return require('contact-prices.php');
   }
   
+  // partial printing
+  public function executePartial(sfWebRequest $request)
+  {
+    require('partial.php');
+  }
+  
   // returns how many tickets exist for a contact on a metaevent for given price names
   protected function createTransactionForm($excludes = array(), $parameters = null)
   {

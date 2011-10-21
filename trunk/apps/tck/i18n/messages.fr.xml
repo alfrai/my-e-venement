@@ -5,8 +5,16 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Only print the selected line/manifestation.</source>
-        <target>Imprimer seulement la ligne/manifestation sélectionnée</target>
+        <source>You must have at least one manifestation selected.</source>
+        <target>Vous devez avoir au moins une manifestation sélectionnée.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Only on the selected line/manifestation</source>
+        <target>Seulement sur la ligne/manifestation sélectionnée</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Partial printing</source>
+        <target>Impression partielle</target>
       </trans-unit>
       <trans-unit>
         <source>Unassociated</source>

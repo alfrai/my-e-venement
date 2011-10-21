@@ -6,7 +6,11 @@ cancel:
   credentials: [tck-cancel]
 print:
   credentials: [tck-print-ticket]
+integrate:
+  credentials: [tck-integrate]
 duplicate:
+  credentials: [tck-print-ticket]
+partial:
   credentials: [tck-print-ticket]
 control:
   credentials: [tck-control]

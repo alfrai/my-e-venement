@@ -36,8 +36,18 @@
       ->leftJoin('e.MetaEvent me')
       ->leftJoin('e.Companies c')
       ->orderBy('m.happens_at, tck.price_name, tck.id');
-    $transactions = $q->execute();
-    $this->transaction = $transactions[0];
+    if ( $request->hasParameter('toprint') )
+    {
+      $tids = $request->getParameter('toprint');
+      
+      if ( !is_array($tids) ) $tickets = array($tids);
+      foreach ( $tids as $key => $value )
+        $tids[$key] = intval($value);
+      
+      $q->andWhereIn('tck.id',$tids);
+    }
+    
+    $this->transaction = $q->fetchOne();
     
     $this->duplicate = $request->getParameter('duplicate') == 'true';
     $this->tickets = array();

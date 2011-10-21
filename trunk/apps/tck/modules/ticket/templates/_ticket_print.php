@@ -7,7 +7,6 @@
     <?php endif ?>
   </p>
 </form>
-<a href="<?php echo url_for('ticket/contactPrices') ?>" style="display: none" id="check-subscriptions">Check subscriptions</a>
 <?php if ( $sf_user->hasCredential('tck-integrate') ): ?>
 <form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>" method="get" target="_blank" class="integrate">
   <p>
@@ -36,3 +35,22 @@
 </form>
 <?php endif ?>
 <?php endif ?>
+<form action="<?php echo url_for('ticket/partial?id='.$transaction->id) ?>" method="get" target="_blank" class="partial">
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#print .partial').submit(function(){
+        if ( $('.manifestations_list [name="ticket[manifestation_id]"]:checked').length > 0 )
+          $(this).find('[name=manifestation_id]').val($('.manifestations_list [name="ticket[manifestation_id]"]:checked').val());
+        else
+        {
+          alert('<?php echo __('You must have at least one manifestation selected.') ?>');
+          return false;
+        }
+      });
+    });
+  </script>
+  <p>
+    <input type="submit" value="<?php echo __('Partial printing') ?>" name="partial" title="<?php echo __('Only on the selected line/manifestation') ?>" />
+    <input type="hidden" name="manifestation_id" value="" />
+  </p>
+</form>
