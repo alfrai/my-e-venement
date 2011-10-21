@@ -37,6 +37,6 @@
     ->andWhere('t.id = ?',$this->transaction_id)
     ->andWhere('tck.duplicate IS NULL')
     ->andWhere('tck.cancelling IS NULL')
-    ->orderBy('m.happens_at, e.name, tck.price_name');
+    ->orderBy('m.happens_at, e.name, tck.price_name, tck.id');
   
   $this->manifestations = $q->execute();

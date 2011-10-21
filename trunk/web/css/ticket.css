@@ -90,6 +90,7 @@
 #print form { display: inline-block; }
 #print .integrate { margin-right: 20px; }
 #print .partial { margin-left: 20px; }
+#print .all, .partial-print .all { margin-left: 20px; }
 
 .action.closed {
   font-size: 13px;

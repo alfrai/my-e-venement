@@ -8,11 +8,11 @@
     <p style="display: none;" id="global_transaction_id"><?php echo $transaction->id ?></p>
   </div>
   <?php foreach ( $manifestations as $manifestation ): ?>
-  <!--<form action="<?php echo url_for('ticket/print?id='.$transaction_id) ?>" method="get" target="_blank" class="partial-print print manifestations_list ui-widget-content ui-corner-all">-->
   <form action="<?php echo url_for('ticket/print') ?>" method="post" target="_blank" class="partial-print print manifestations_list ui-widget-content ui-corner-all">
     <h2 class="fg-toolbar ui-widget-header ui-corner-all">
       <?php echo $manifestation ?>
       <input type="hidden" name="id" value="<?php echo $transaction_id ?>" />
+      <input type="hidden" name="toprint" value="0" />
     </h2>
     <p class="prices"><?php foreach ( $manifestation->Tickets as $ticket ): ?>
       <span class="ticket <?php echo $ticket->printed || $ticket->integrated ? 'done' : 'todo'?>" title="#<?php echo $ticket->id ?>">
@@ -22,7 +22,8 @@
     <?php endforeach ?></p>
     <p class="submit">
       <input type="submit" name="s" value="<?php echo __('Print') ?>" />
-      <input type="submit" name="all" value="<?php echo __('Toggle tickets') ?>" />
+      <input type="submit" name="integrate" value="<?php echo __('Integrate') ?>" />
+      <input type="submit" name="all" value="<?php echo __('Toggle tickets') ?>" class="all" />
     </p>
   </form>
   <?php endforeach ?>
@@ -46,6 +47,13 @@
         $('form.print .submit [name=all]').click(function(){
           $('form.print .ticket [name="toprint[]"]').click();
           return false;
+        });
+        
+        // integrate instead of printing
+        $('form.print [name=integrate]').click(function(){
+          form = $(this).closest('form.print');
+          form.attr('action',"<?php echo url_for('ticket/integrate') ?>");
+          return true;
         });
         
         // close the window during printing
