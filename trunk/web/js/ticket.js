@@ -455,7 +455,7 @@ function ticket_print()
   });
   
   $('#print input[type=text]').attr('disabled','disabled');
-  $('#print input[name="duplicate"').change(function(){
+  $('#print input[name="duplicate"]').change(function(){
     if ( $(this).is(':checked') )
     {
       $(this).parent().find('input[type=text]')
