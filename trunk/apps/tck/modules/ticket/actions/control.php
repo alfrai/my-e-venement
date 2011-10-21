@@ -38,7 +38,7 @@
     
     // retrieving the configurate field
     switch ( sfConfig::get('app_tickets_id') ) {
-    case 'barcode':
+    case 'qrcode':
       $field = 'barcode';
       break;
     case 'othercode':
@@ -61,10 +61,25 @@
         foreach ( $tmp as $key => $ids )
         {
           $ids = explode('-',$ids);
-          if ( !isset($ids[1]) ) $ids[1] = $ids[0];
           
+          if ( count($ids) > 0 && isset($ids[1]) )
           for ( $i = intval($ids[0]) ; $i <= intval($ids[1]) ; $i++ )
             $params['ticket_id'][$i] = $i;
+          else
+            $params['ticket_id'][0] = $ids[0];
+        }
+        
+        // decode EAN if it exists
+        if ( $field == 'id' )
+        {
+          foreach ( $params['ticket_id'] as $key => $value )
+          if ( strlen($value) == 13 && substr($value,0,1) === '0' )
+          {
+            try { $value = liBarcode::decode_ean($value); }
+            catch ( sfException $e )
+            { $value = intval($value); }
+            $params['ticket_id'][$key] = $value;
+          }
         }
       }
       else

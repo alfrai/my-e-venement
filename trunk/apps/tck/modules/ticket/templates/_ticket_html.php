@@ -25,9 +25,15 @@
       /
       <span class="num">#<?php echo $ticket->Transaction->id ?>-<?php echo $sf_user->getId() ?></span>
     </p>
-    <p class="ticket-bc"><?php echo sfConfig::get('app_tickets_barcode') == 'inline'
-      ? image_tag('/liBarcodePlugin/php-barcode/barcode.php?scale=1&code='.$ticket->getIdBarcoded())
-      : image_tag(url_for('ticket/barcode?id='.$ticket->id))
+    <p class="ticket-bc"><?php
+    switch ( sfConfig::get('app_tickets_id') ) {
+    case 'qrcode':
+      echo image_tag('/liBarcodePlugin/php-barcode/barcode.php?encoding=128&scale=1&code='.$ticket->getIdBarcoded());
+      break;
+    default:
+      echo image_tag(url_for('ticket/barcode?id='.$ticket->id));
+      break;
+    }
     ?></p>
     <p class="spectator"><?php echo $ticket->Transaction->professional_id > 0 ? $ticket->Transaction->Professional->Organism : $ticket->Transaction->Contact ?></p>
     <p class="mentions">
