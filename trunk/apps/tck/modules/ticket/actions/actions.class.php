@@ -175,8 +175,17 @@ class ticketActions extends sfActions
       $this->transaction = $this->getRoute()->getObject();
   }
   
+  public function executeContactPrices(sfWebRequest $request)
+  {
+    return require('contact-prices.php');
+  }
+  
+  // returns how many tickets exist for a contact on a metaevent for given price names
   protected function createTransactionForm($excludes = array(), $parameters = null)
   {
+    // contact_id
+    // manifesatation_id
+    // tarif_names []
     require('transaction-form.php');
   }
 }

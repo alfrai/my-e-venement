@@ -7,6 +7,7 @@
     <?php endif ?>
   </p>
 </form>
+<a href="<?php echo url_for('ticket/contactPrices') ?>" style="display: none" id="check-subscriptions">Check subscriptions</a>
 <?php if ( $sf_user->hasCredential('tck-integrate') ): ?>
 <form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>" method="get" target="_blank" class="integrate">
   <p>
