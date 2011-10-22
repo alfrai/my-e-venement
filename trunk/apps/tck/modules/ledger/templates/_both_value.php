@@ -11,7 +11,7 @@
     <td class="name"><?php echo format_currency($value['value'],'€') ?></td>
     <td class="nb"><?php echo $value['nb']; $total['nb'] += $value['nb']; ?></td>
     <td class="total"><?php echo format_currency($value['total'],'€'); $total['value'] += $value['total']; ?></td>
-    <?php if ( $value['value'] == 0 ) $total['exo']++ ?>
+    <?php if ( $value['value'] == 0 ) $total['exo'] += $value['nb'] ?>
   </tr>
 <?php endforeach ?>
 </tbody>
