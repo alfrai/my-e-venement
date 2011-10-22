@@ -49,3 +49,4 @@ generator:
           General:   [name, short_name, _show_meta_event, _show_event_category, event_category_description, _show_companies_list]
           Details:   [duration, age_min_h_r, age_max_h_r, staging_label, staging, writer_label, writer, _show_description]
           Web Content: [_show_extradesc, _show_extraspec, web_price, web_price_group, _show_image_url]
+          Checkpoints: [_show_checkpoints]
