@@ -101,6 +101,9 @@
 	$config["right"]["del"]		= 5;	// droit de supprimer des données
 	$config["right"]["view"]	= 0;	// droit de consulter les données
 	
+	if ( !is_array($config["mail"]["mailfrom"]) )
+	  $config["mail"]["mailfrom"] = array($config["mail"]["mailfrom"]);
+	
 	/**
 	  * Configuration automatique
 	  * 

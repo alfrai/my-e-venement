@@ -35,13 +35,16 @@
 				$config["database"]["user"],
 				$config["database"]["passwd"] );
   
-  $from = $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>';
+  $from = $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"][0].'>';
   switch( $_POST['from'] ) {
   case 'private':
     $from = $user->getUserName().' <'.$user->getEmail().'>';
     break;
   case 'privshort':
     $from = $user->getEmail();
+    break;
+  default:
+    $from = $config['mail']['orgnom'].' <'.($_POST['from'] ? $_POST['from'] : $config['mail']['mailfrom'][0]).'>';
     break;
   }
   
@@ -89,7 +92,7 @@
       "\r\n\r\n".
       "<br/><p>-- <br/>".
       "\r\n".
-      nl2br($from != $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>' ? htmlsecure(strip_tags($from."\r\n")) : '').
+      nl2br($from != $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"][0].'>' ? htmlsecure(strip_tags($from."\r\n")) : '').
       nl2br(htmlsecure($config['mail']['sign'])).
       "</p>\r\n".
       '<p class="legal">nb1: '."Si vous ne souhaitez plus recevoir d'email de notre part, contactez nous&nbsp;: ".'<a href="mailto:'.htmlsecure($from).'">'.htmlsecure($from).'</a>.</p>'.
@@ -150,7 +153,7 @@
           $email['subject'],
           $content,
           $headers,
-          '-f '.($user->getEmail() ? $user->getEmail() : $config["mail"]["mailfrom"])
+          '-f '.($user->getEmail() ? $user->getEmail() : $config["mail"]["mailfrom"][0])
         );
       }
       $emailid = $bd->getLastSerial('email','id');
@@ -231,8 +234,8 @@
 <p>
   <span>À: </span>
   <span class="to">
-    <?php echo htmlsecure($email['to']) ?>
-    <input type="hidden" name="to" value="<?php echo htmlsecure($email['to'] ? $email['to'] : $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>') ?>" />
+    <?php echo htmlsecure($email['to'] ? $email['to'] : $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"][0].'>') ?>
+    <input type="hidden" name="to" value="<?php echo htmlsecure($email['to'] ? $email['to'] : $config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"][0].'>') ?>" />
   </span>
 </p>
 <p>
@@ -268,7 +271,9 @@
   <span>De: </span>
   <span>
     <select name="from" class="from">
-      <option value="default"><?php echo htmlsecure($config['mail']['orgnom'].' <'.$config["mail"]["mailfrom"].'>') ?></option>
+      <?php foreach ( $config["mail"]["mailfrom"] as $email_address ): ?>
+      <option value="<?php echo htmlsecure($email_address) ?>"><?php echo htmlsecure($config['mail']['orgnom'].' <'.$email_address.'>') ?></option>
+      <?php endforeach ?>
       <?php if ( $user->getEmail() ): ?>
       <option value="private" <?php if ( $_POST['from'] == 'private' ) echo 'selected="selected"'; ?>><?php echo htmlsecure($user->getUserName().' <'.$user->getEmail().'>') ?></option>
       <option value="privshort" <?php if ( $_POST['from'] == 'privshort' ) echo 'selected="selected"'; ?>><?php echo htmlsecure($user->getEmail()) ?></option>

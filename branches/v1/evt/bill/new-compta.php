@@ -182,7 +182,7 @@
     <p id="date">le <?php echo date('d/m/Y') ?></p>
 <?php
     echo '<div id="seller">';
-    $seller[] = $config["mail"]["mailfrom"];
+    $seller[] = $config["mail"]["mailfrom"][0];
     if ( is_array($seller) )
     {
       if ( $seller['logo'] )
