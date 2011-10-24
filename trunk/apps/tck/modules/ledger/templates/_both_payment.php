@@ -5,35 +5,17 @@
     </h2>
   </div>
   <?php if ( is_array($form->getValue('manifestations')) && count($form->getValue('manifestations')) > 0 ): ?>
-  <p><?php echo __('Approximation: 0,1%') ?></p>
   <?php endif ?>
 <table>
 <tbody>
 <?php $total = array('nb' => 0, 'value+' => 0, 'value-' => 0) ?>
 <?php foreach ( $byPaymentMethod as $pm ): ?>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
-    <td class="name"><?php echo $pm ?></td>
-    <td class="nb"><?php echo $pm->Payments->count(); $total['nb'] += $pm->Payments->count() ?></td>
-    <?php $i=$o=0; foreach ( $pm->Payments as $p ) if ( $p->value > 0 ) $i += $p->value; else $o += $p->value; ?>
-    <?php
-      $proportion = 1;
-      $sum = $part = 0;
-      
-      if ( is_array($form->getValue('manifestations')) && count($form->getValue('manifestations')) > 0 )
-      {
-        foreach ( $pm->Payments as $payment )
-        foreach ( $payment->Transaction->Tickets as $tck )
-        {
-          if ( in_array($tck->manifestation_id,$form->getValue('manifestations')) )
-            $part += $tck->value;
-          $sum += $tck->value;
-        }
-        $proportion = $sum == 0 ? 1 : $part / $sum;
-      }
-    ?>
-    <td class="outcomes amount"><?php echo format_currency($o * $proportion,'€'); $total['value-'] += ($o * $proportion) ?></td>
-    <td class="incomes amount"><?php echo format_currency($i * $proportion,'€'); $total['value+'] += ($i * $proportion) ?></td>
-    <td class="total"><?php echo format_currency(($i+$o) * $proportion,'€'); ?></td>
+    <td class="name"><?php echo $pm['name'] ?></td>
+    <td class="nb"><?php echo $pm['nb']; $total['nb'] += $pm['nb'] ?></td>
+    <td class="outcomes amount"><?php echo format_currency($pm['value-'],'€'); $total['value+'] += $pm['value+']; ?></td>
+    <td class="incomes amount"><?php echo format_currency($pm['value+'],'€'); $total['value-'] += $pm['value-'] ?></td>
+    <td class="total"><?php echo format_currency($pm['value-']+$pm['value+'],'€'); ?></td>
   </tr>
 <?php endforeach ?>
 <tbody>
