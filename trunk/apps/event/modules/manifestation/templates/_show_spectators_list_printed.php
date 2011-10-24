@@ -23,6 +23,7 @@
       $total['value'] += $t->value;
     }
   ?>
+  <?php if ( $contact['ticket-ids'] ): ?>
   <tr class="<?php echo ($overlined = !$overlined) ? 'overlined' : '' ?>">
     <td class="name"><?php echo cross_app_link_to($transac->Contact,'rp','contact/show?id='.$tansac->contact_id) ?></td>
     <td class="organism"><?php echo cross_app_link_to($contact['pro']->Organism,'rp','organism/show?id='.$contact['pro']->Organism->id) ?></td>
@@ -31,6 +32,7 @@
     <td class="transaction">#<?php echo cross_app_link_to($contact['transaction'],'tck','ticket/sell?id='.$contact['transaction']) ?></td>
     <td class="ticket-ids">#<?php echo implode(', #',$contact['ticket-ids']) ?></td>
   </tr>
+  <?php endif ?>
   <?php endforeach ?>
   </tbody>
   <?php include_partial('show_spectators_list_table_footer',array('total' => $total)) ?>

@@ -45,7 +45,7 @@
       ->andWhere('t.duplicate IS NULL')
       ->orderBy('m.happens_at, e.name, p.description, t.value');
     if ( $printed )
-      $q->andWhere('t.printed');
+      $q->andWhere('t.printed OR t.integrated');
     $this->tickets = $q->execute();
     
     $this->setLayout('empty');
