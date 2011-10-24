@@ -21,11 +21,14 @@ class eventActions extends autoEventActions
       $this->sort = array('name','');
       $a = $this->pager->getQuery()->getRootAlias();
       $this->pager->getQuery()
+        ->select('*')
+        ->addSelect("(SELECT min(m2.happens_at) FROM manifestation m2 WHERE m2.event_id = $a.id) AS min_happens_at")
         ->leftJoin("$a.Manifestations m")
         ->leftJoin('m.Tickets tck')
         ->leftJoin('tck.Transaction t')
         ->leftJoin('t.Order o')
-        ->orderby('m.happens_at DESC, name');
+        ->orderby("min_happens_at DESC, $a.name");
+        //->orderby("(SELECT min(m2.happens_at) FROM manifestation m2 WHERE m2.event_id = $a.id) DESC, $a.name");
     }
   }
   
