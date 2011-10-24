@@ -9,9 +9,9 @@
     $transaction = $contact = $pro = array();
     $contact = array('value' => 0, 'prices' => array(), 'ticket-ids' => array());
     foreach ( $transac->Tickets as $t )
-    if ( $t->printed )
+    if ( $t->printed || $t->integrated )
     {
-      $contact['tickets-ids'][] = $t->id;
+      $contact['ticket-ids'][] = $t->id;
       $contact['transaction'] = $transac;
       $contact['pro'] = $transac->Professional;
       isset($contact['prices'][$t->price_name])

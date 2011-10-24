@@ -31,7 +31,7 @@ generator:
           Technical:    [duration, vat, online_limit, seated, organizers_list]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
           Tickets:      [_show_tickets_list]
-          #Spectators:  [_show_spectators_list]
+          Spectators:  [_show_spectators_list]
       new:
         display:
           General: [happens_at, event_id, location_id, color_id, description]
@@ -43,4 +43,4 @@ generator:
           Technical: [duration, _show_vat, online_limit, _show_seated, _show_organizers_list]
           Workspaces: [_show_workspaces_list]
           Tickets: [_show_tickets_list]
-          #Spectators: [_show_spectators_list]
+          Spectators: [_show_spectators_list]

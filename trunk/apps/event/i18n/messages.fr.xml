@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Transaction</source>
+        <target>Opération</target>
+      </trans-unit>
+      <trans-unit>
         <source>Online limit</source>
         <target>Limite vente en ligne</target>
       </trans-unit>
