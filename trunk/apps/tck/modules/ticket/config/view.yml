@@ -23,6 +23,7 @@ passedSuccess:
   stylesheets: [ticket]
 controlSuccess:
   stylesheets: [ticket]
+  javascripts: [ticket-control]
 
 duplicateSuccess:
   stylesheets: [ticket-cancel]
