@@ -101,7 +101,9 @@ Ticket:
       notnull: true
     numerotation: string(255)
     duplicate: integer
-    cancelling: integer
+    cancelling:
+      type: integer
+      unique: true
     printed:
       type: boolean
       default: false
