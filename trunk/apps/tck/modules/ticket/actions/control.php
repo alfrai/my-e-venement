@@ -73,7 +73,7 @@
         if ( $field == 'id' )
         {
           foreach ( $params['ticket_id'] as $key => $value )
-          if ( strlen($value) == 13 && substr($value,0,1) === '0' )
+          if ( (strlen($value) == 13 || strlen($value) == 12 ) && substr($value,0,1) === '0' )
           {
             try { $value = liBarcode::decode_ean($value); }
             catch ( sfException $e )
