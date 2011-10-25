@@ -71,6 +71,7 @@
       if ( !$ticket->printed && !$ticket->integrated )
       {
         $ticket->printed = true;
+        $ticket->sf_guard_user_id = NULL;
         $ticket->save();
         $this->tickets[] = $ticket;
       }

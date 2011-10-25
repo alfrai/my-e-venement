@@ -82,6 +82,9 @@
       $this->ticket = $ticket->copy();
       $this->ticket->cancelling = $ticket->id;
       $this->ticket->printed = false;
+      $this->ticket->created_at = NULL;
+      $this->ticket->updated_at = NULL;
+      $this->ticket->sf_user_guard_id = NULL;
       $this->ticket->value = -$this->ticket->value;
       $this->transaction->Tickets[] = $this->ticket;
       $this->transaction->save();
