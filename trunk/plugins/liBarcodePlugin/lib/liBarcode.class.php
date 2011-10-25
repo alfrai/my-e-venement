@@ -23,11 +23,11 @@ class liBarcode
   
   public static function decode_ean($ean)
   {
-    if ( strlen($ean) != 13 )
-      throw new sfException('EAN barcode must have 13 digits');
+    if ( strlen($ean) != 13 || strlen($ean) != 12 )
+      throw new sfException('EAN barcode must have 13 or 12 digits');
     
-    $str = str_split(substr($ean,0,12));
-    $checksum = substr($ean,12,13);
+    $str = str_split(substr($ean,0,strlen($ean)-1));
+    $checksum = substr($ean,strlen($ean)-1,strlen($ean));
     $sum = 0;
     foreach ( $str as $key => $value )
       $sum += $value*($key%2 == 0 ? 1 : 3);

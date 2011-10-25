@@ -82,7 +82,7 @@
       </trans-unit>
       <trans-unit>
         <source>Ordered spectators</source>
-        <target>Spectateurs réservés</target>
+        <target>Spectateurs en réservation</target>
       </trans-unit>
       <trans-unit>
         <source>Asked spectators</source>
@@ -90,7 +90,7 @@
       </trans-unit>
       <trans-unit>
         <source>Confirmed spectators</source>
-        <target>Spectateurs confirmés</target>
+        <target>Spectateurs avec billet</target>
       </trans-unit>
       <trans-unit>
         <source>Ticket ids</source>
