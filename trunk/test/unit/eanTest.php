@@ -2,11 +2,11 @@
  
 include(dirname(__FILE__).'/../bootstrap/unit.php');
  
-$t = new lime_test(8, new lime_output_color());
+$t = new lime_test(10, new lime_output_color());
 
 $bc = new liBarcode();
 
-foreach ( array('0000000086356','0000012085354','0855012010307','0000000086479') as $str )
+foreach ( array('0000000086356','0000012085354','0855012010307','0000000086479','000000009713') as $str )
 {
   try {
     $decode = $bc->decode_ean($str);
@@ -16,5 +16,5 @@ foreach ( array('0000000086356','0000012085354','0855012010307','0000000086479')
     $decode = false;
   }
   $t->isnt($decode,false,'checksum error: '.$str);
-  $t->is($decode,intval(substr($str,0,12)),'ean error: '.$str);
+  $t->is($decode,intval(substr($str,0,strlen($str)-1)),'ean error: '.$str);
 }
