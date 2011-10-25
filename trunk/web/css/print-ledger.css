@@ -1,3 +1,7 @@
 html { background-color: white; }
 html #content { background-color: white; }
 html #logo { display: none; }
+
+.ledger-both > .ui-widget-content {
+  float: none;
+}
