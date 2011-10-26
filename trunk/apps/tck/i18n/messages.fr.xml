@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Generate an invoice focused only on the selected manifestation.</source>
+        <target>Génère une facture pour la manifestation sélectionnée uniquement.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Manifestation ledger</source>
         <target>Bordereau de manifestation</target>
       </trans-unit>

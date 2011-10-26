@@ -31,14 +31,17 @@
 <?php endif ?>
 <?php if ( $sf_user->hasCredential('tck-accounting-invoice') ): ?>
 <form action="<?php echo url_for('ticket/invoice?id='.$transaction->id) ?>" method="get" target="_blank" class="accounting">
-  <p><input type="submit" name="invoice" value="<?php echo __('Invoice') ?>" /></p>
+  <p>
+    <input type="submit" name="invoice" value="<?php echo __('Invoice') ?>" />
+    <input type="checkbox" name="partial" value="partial" title="<?php echo __("Generate an invoice focused only on the selected manifestation.") ?>" />
+  </p>
 </form>
 <?php endif ?>
 <?php endif ?>
 <form action="<?php echo url_for('ticket/partial?id='.$transaction->id) ?>" method="get" target="_blank" class="partial">
   <script type="text/javascript">
     $(document).ready(function(){
-      $('#print .partial').submit(function(){
+      $('#print form.partial').submit(function(){
         if ( $('.manifestations_list [name="ticket[manifestation_id]"]:checked').length > 0 )
           $(this).find('[name=manifestation_id]').val($('.manifestations_list [name="ticket[manifestation_id]"]:checked').val());
         else

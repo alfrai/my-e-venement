@@ -25,17 +25,8 @@
     $this->transaction = $this->getRoute()->getObject();
     
     $this->totals = array('pet' => 0, 'tip' => 0, 'vat' => array('total' => 0));
-    foreach ( $this->transaction->Tickets as $ticket )
-    if ( !$ticket->duplicate )
-    {
-      $this->totals['tip'] += $ticket->value;
-      
-      if ( !isset($this->totals['vat'][$ticket->Manifestation->vat]) )
-        $this->totals['vat'][$ticket->Manifestation->vat] = 0;
-      $this->totals['vat'][$ticket->Manifestation->vat] += $ticket->value*$ticket->Manifestation->vat/100;
-      $this->totals['vat']['total'] += $ticket->value*$ticket->Manifestation->vat/100;
-    }
     
+    // retrieve tickets
     $q = new Doctrine_Query();
     $q->from('Ticket t')
       ->leftJoin('t.Manifestation m')
@@ -45,7 +36,19 @@
       ->andWhere('t.duplicate IS NULL')
       ->orderBy('m.happens_at, e.name, p.description, t.value');
     if ( $printed )
-      $q->andWhere('t.printed OR t.integrated');
+      $q->andWhere('t.printed = TRUE OR t.integrated = TRUE');
+    if ( intval($manifestation_id) > 0 )
+      $q->andWhere('t.manifestation_id = ?',intval($manifestation_id));
     $this->tickets = $q->execute();
+    
+    foreach ( $this->tickets as $ticket )
+    {
+      $this->totals['tip'] += $ticket->value;
+      
+      if ( !isset($this->totals['vat'][$ticket->Manifestation->vat]) )
+        $this->totals['vat'][$ticket->Manifestation->vat] = 0;
+      $this->totals['vat'][$ticket->Manifestation->vat] += $ticket->value*$ticket->Manifestation->vat/100;
+      $this->totals['vat']['total'] += $ticket->value*$ticket->Manifestation->vat/100;
+    }
     
     $this->setLayout('empty');

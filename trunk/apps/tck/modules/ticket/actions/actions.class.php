@@ -97,7 +97,7 @@ class ticketActions extends sfActions
   {
   }
   
-  public function executeAccounting(sfWebRequest $request, $printed = true)
+  public function executeAccounting(sfWebRequest $request, $printed = true, $manifestation_id = false)
   {
     require('accounting.php');
   }
@@ -119,8 +119,31 @@ class ticketActions extends sfActions
   // invoice
   public function executeInvoice(sfWebRequest $request)
   {
-    $this->executeAccounting($request);
-    $this->invoice = $this->transaction->Invoice[0];
+    $this->executeAccounting($request,true,$request->hasParameter('partial') ? $request->getParameter('manifestation_id') : false);
+    
+    $this->invoice = false;
+    if ( $request->hasParameter('partial') && intval($request->getParameter('manifestation_id')) > 0 )
+    {
+      foreach ( $this->transaction->Invoice as $invoice )
+      if ( $invoice->manifestation_id == intval($request->getParameter('manifestation_id')) )
+        $this->invoice = $invoice;
+      
+      if ( !$this->invoice )
+        $this->invoice = new Invoice();
+      $this->transaction->Invoice[] = $this->invoice;
+      $this->invoice->manifestation_id = intval($request->getParameter('manifestation_id'));
+    }
+    else
+    {
+      foreach ( $this->transaction->Invoice as $invoice )
+      if ( is_null($invoice->manifestation_id) )
+        $this->invoice = $invoice;
+      
+      if ( !$this->invoice )
+        $this->invoice = new Invoice();
+      $this->transaction->Invoice[] = $this->invoice;
+    }
+    
     $this->invoice->updated_at = date('Y-m-d H:i:s');
     $this->invoice->save();
   }

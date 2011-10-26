@@ -133,7 +133,7 @@ Ticket:
       onUpdate: CASCADE
     Price:
       foreignAlias: Tickets
-      onDelete: CASCADE
+      onDelete: RESTRICT
       onUpdate: CASCADE
     Duplicata:
       local: duplicate
@@ -206,12 +206,17 @@ Accounting:
       type: string(255)
       notblank: true
       notnull: true
+    manifestation_id: integer
   indexes:
     transaction_type:
-      fields: [transaction_id, type]
+      fields: [transaction_id, type, manifestation_id]
       type: unique
   relations:
     Transaction:
+      foreignAlias: Accountings
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Manifestation:
       foreignAlias: Accountings
       onDelete: CASCADE
       onUpdate: CASCADE
