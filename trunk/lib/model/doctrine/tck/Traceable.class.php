@@ -19,9 +19,9 @@ class Traceable extends PluginTraceable
     parent::preSave($event);
   }
   
-  public function copy()
+  public function copy($deep = FALSE)
   {
-    $t = parent::copy();
+    $t = parent::copy($deep);
     
     $t->updated_at = NULL;
     $t->created_at = NULL;
