@@ -47,15 +47,4 @@ class Ticket extends PluginTicket
   {
     return '#'.$this->id;
   }
-  
-  public function copy()
-  {
-    $ticket = parent::copy();
-    
-    $ticket->updated_at = NULL;
-    $ticket->created_at = NULL;
-    $ticket->sf_guard_user_id = NULL;
-    
-    return $ticket;
-  }
 }

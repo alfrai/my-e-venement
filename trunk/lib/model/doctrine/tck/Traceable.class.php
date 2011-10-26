@@ -14,8 +14,19 @@ class Traceable extends PluginTraceable
 {
   public function preSave($event)
   {
-    if ( sfContext::hasInstance() && $this->isModified() && is_null($this->sf_guard_user_id) )
+    if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() && $this->isModified() )
       $this->sf_guard_user_id = sfContext::getInstance()->getUser()->getId();
     parent::preSave($event);
+  }
+  
+  public function copy()
+  {
+    $t = parent::copy();
+    
+    $t->updated_at = NULL;
+    $t->created_at = NULL;
+    $t->sf_guard_user_id = NULL;
+    
+    return $t;
   }
 }
