@@ -62,11 +62,10 @@
       
       // linking a new cancel ticket to this transaction
       $this->ticket = $ticket->copy();
-      $this->ticket->cancelling = $ticket->id;
       $this->ticket->printed = false;
-      $this->ticket->value = -$this->ticket->value;
       $this->transaction->Tickets[] = $this->ticket;
       $this->transaction->save();
       
       $ticket->duplicate = $this->ticket->id;
+      $ticket->save();
     }
