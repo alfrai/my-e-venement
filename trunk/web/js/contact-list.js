@@ -1,4 +1,36 @@
 $(document).ready(function(){
+  // adding the possibility to edit in the list itself the records
+  $('.sf_admin_row .sf_admin_text').dblclick(function(){
+    $('.specialized-form').submit();
+    
+    fieldname = $(this).attr('class').replace(/sf_admin_list_td_(\w+)/g,"$1").replace(/sf_admin_text/g,'').trim();
+    id = $(this).closest('.sf_admin_row').find('[name="ids[]"]').val();
+    
+    $(this).load(window.location+'/'+id+'/getSpecializedForm?field='+fieldname+' #nothing',function(data){
+      if ( $(data).find('.specialized-form input[type=text]').length > 0 )
+      {
+        width = $(this).innerWidth()-10+'px';
+        $(this).html($(data).find('.specialized-form'));
+        $(this).find('input[type=text]:first').css('width',width);
+        $(this).find('input[type=text]:first').focus(function(){ if(this.value == this.defaultValue) this.select(); });
+        $(this).find('input[type=text]:first').focus();
+        $(this).find('.specialized-form').submit(function(){
+          $(this).addClass('submitting');
+          $.post($(this).attr('action'), $(this).serialize(), function(data){
+            $('.specialized-form.submitting').each(function(){
+              $(this).closest('.sf_admin_text').html($(this).find('input[type=text]:first').val());
+            });
+          });
+          return false;
+        });
+      }
+    });
+  });
+  // submit all specialized forms when submitting any form on the page
+  $('form:not(.specialized-form').submit(function(){
+    $('.specialized-form').submit();
+  });
+  
   // this does some make-up for filter form
   title = '<div class="ui-widget ui-widget-content ui-corner-all"><div class="ui-widget-header ui-corner-all fg-toolbar"><h2>Titre</h2></div>';
   elt = $(''+

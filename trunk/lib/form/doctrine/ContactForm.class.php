@@ -95,4 +95,19 @@ class ContactForm extends BaseContactForm
     foreach ( array('firstname','email') as $key )
       $this->validatorSchema[$key]->setOption('required',$strict);
   }
+  
+  public function displayOnly($fieldname)
+  {
+    if ( !($this->widgetSchema[$fieldname] instanceof sfWidgetForm) )
+      throw new sfException('Fieldname "'.$fieldname.'" not found.');
+    
+    foreach ( $this->widgetSchema->getFields() as $name => $widget )
+    {
+      if ( $name != $fieldname )
+        $this->widgetSchema[$name] = new sfWidgetFormInputHidden();
+    }
+    
+    unset($this->widgetSchema['emails_list']);
+    unset($this->widgetSchema['groups_list']);
+  }
 }

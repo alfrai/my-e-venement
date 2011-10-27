@@ -113,3 +113,4 @@ a, a:active, a:visited { color: #000; }
 .testing {
   padding: 5px 10px;
 }
+html .specialized-form input[type=text] { padding: 1px 1px; padding-right: 0px; margin: 0; }

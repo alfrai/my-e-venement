@@ -22,6 +22,8 @@ edit:
   credentials: pr-contact
 update:
   credentials: pr-contact-edit
+getSpecializedForm:
+  credentials: pr-contact-edit
 
 delete:
   credentials: pr-contact-del

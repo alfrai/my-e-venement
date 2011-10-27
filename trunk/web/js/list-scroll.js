@@ -1,6 +1,7 @@
 $(document).ready(function(){
   list_add_actions_titles();
   list_scroll();
+  list_edit();
 });
 function list_scroll()
 {
@@ -29,4 +30,52 @@ function list_add_actions_titles()
     elt.find('span').remove();
     $(this).attr('title',elt.html());
   });
+}
+
+function list_edit()
+{
+  // adding the possibility to edit in the list itself the records
+  $('.sf_admin_row .sf_admin_text').unbind().dblclick(function(){
+
+    fieldname = $(this).attr('class').replace(/sf_admin_list_td_(\w+)/g,"$1").replace(/sf_admin_text/g,'').trim();
+    id = $(this).closest('.sf_admin_row').find('[name="ids[]"]').val();
+    
+    $(this).load(window.location+'/'+id+'/getSpecializedForm?field='+fieldname+' #nothing',function(data){
+      if ( $(data).find('.specialized-form input[type=text]').length > 0 )
+      {
+        width = $(this).innerWidth()-13+'px';
+        $(this).html($(data).find('.specialized-form'));
+        $(this).find('input[type=text]:first').css('width',width);
+        $(this).find('input[type=text]:first').each(function(){ if(this.value == this.defaultValue) this.select(); });
+        $(this).find('input[type=text]:first').focus();
+        
+        // escape
+        $(this).find('input[type=text]:first').unbind().keyup(function(e){
+          if ( e.keyCode == 27 )
+          {
+            $(this).closest('form').get(0).reset();
+            $(this).closest('.sf_admin_text').html($(this).val());
+          }
+        });
+        
+        // submitting specialized form
+        $(this).find('form').unbind().submit(function(){
+          $(this).parent().addClass('submitting');
+          $.post($(this).attr('action'), $(this).serialize(), function(data){
+            $('.specialized-form.submitting').each(function(){
+              $(this).closest('.sf_admin_text').html($(this).find('input[type=text]:first').val());
+            });
+          });
+          return false;
+        });
+      }
+    });
+  });
+  // submit all specialized forms when submitting any form on the page
+  window.onbeforeunload = function(){
+    $('.specialized-form form').each(function(){
+      $(this).submit();
+    });
+    window_transition();
+  };
 }

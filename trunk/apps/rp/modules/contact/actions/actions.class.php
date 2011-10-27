@@ -373,6 +373,13 @@ class contactActions extends autoContactActions
     $this->redirect('email/new');
   }
   
+  public function executeGetSpecializedForm(sfWebRequest $request)
+  {
+    $this->executeEdit($request);
+    $this->form->displayOnly($this->field = $request->getParameter('field'));
+    $this->setLayout('empty');
+  }
+  
   public static function sanitizeSearch($search)
   {
     $nb = strlen($search);
