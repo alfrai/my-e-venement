@@ -37,7 +37,7 @@ class ledgerActions extends sfActions
     $dates = array(
       $criterias['dates']['from']['day']
         ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
-        : strtotime('1 month ago 0:00'),
+        : strtotime('1 week ago 0:00'),
       $criterias['dates']['to']['day']
         ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'])
         : strtotime('tomorrow 0:00'),
