@@ -18,7 +18,7 @@ generator:
         list_location: { label: Location }
         list_description: { label: Description }
         happens_at: { label: Date }
-        id: { label: Manif's ID }
+        id: { label: ID Manif }
         online_limit: { label: Online limit }
       list:
         display: [_list_event, happens_at, _list_location, _list_description]

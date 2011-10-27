@@ -1,5 +1,5 @@
 all:
-  stylesheets: [manifestation]
+  stylesheets: [manifestation, manifestation-print: { media: all }]
   javascripts: [manifestation]
 
 showSuccess:

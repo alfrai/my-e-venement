@@ -42,3 +42,10 @@ body #more {
 div:hover > .sf_admin_form_field_cities { display: block; }
 
 #more #professional-new { margin-left: 10px; }
+
+.tab-print {
+  text-align: right;
+}
+.tab-print .fg-button {
+  float: none;
+}

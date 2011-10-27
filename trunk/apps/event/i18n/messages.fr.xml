@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>ID Manif</source>
+        <target>ID Manif</target>
+      </trans-unit>
+      <trans-unit>
         <source>Transaction</source>
         <target>Opération</target>
       </trans-unit>
@@ -95,10 +99,6 @@
       <trans-unit>
         <source>Ticket ids</source>
         <target>Billets</target>
-      </trans-unit>
-      <trans-unit>
-        <source>Manif's ID</source>
-        <target>ID manif.</target>
       </trans-unit>
       <trans-unit>
         <source>Gauges [booked/total (sold-booked-demanded)]</source>
