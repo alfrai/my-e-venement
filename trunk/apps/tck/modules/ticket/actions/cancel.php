@@ -74,26 +74,22 @@
       // get back a potential cancellation ticket for this ticket_id
       $q = Doctrine::getTable('Ticket')->createQuery('t')
         ->andWhere('cancelling = ?',$ticket->id)
-        ->orderBy('id DESC')
-        ->limit(1);
-      $duplicatas = $q->execute();
+        ->orderBy('id DESC');
+      $duplicata = $q->fetchOne();
       
       // linking a new cancel ticket to this transaction
       $this->ticket = $ticket->copy();
       $this->ticket->cancelling = $ticket->id;
       $this->ticket->printed = false;
-      $this->ticket->created_at = NULL;
-      $this->ticket->updated_at = NULL;
-      $this->ticket->sf_user_guard_id = NULL;
       $this->ticket->value = -$this->ticket->value;
       $this->transaction->Tickets[] = $this->ticket;
       $this->transaction->save();
       
       // saving the old ticket for duplication
-      if ( $duplicatas->count() > 0 )
+      if ( $duplicata )
       {
-        $duplicatas[0]->duplicate = $this->ticket->id;
-        $duplicatas[0]->save();
+        $duplicata->duplicate = $this->ticket->id;
+        $duplicata->save();
       }
       
       // printing
