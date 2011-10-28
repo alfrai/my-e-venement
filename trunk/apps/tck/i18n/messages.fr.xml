@@ -490,7 +490,7 @@
       </trans-unit>
       <trans-unit id="129">
         <source>pay</source>
-        <target>paie</target>
+        <target>rembourser</target>
       </trans-unit>
       <trans-unit id="130">
         <source>On %%d%%</source>
