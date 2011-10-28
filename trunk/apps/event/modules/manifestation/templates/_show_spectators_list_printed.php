@@ -3,7 +3,6 @@
   <tbody>
   <?php $total = array('qty' => 0, 'value' => 0) ?>
   <?php $overlined = true ?>
-  <?php $contacts = array(); ?>
   <?php foreach ( $form->spectators as $transac ): ?>
   <?php
     $transaction = $contact = $pro = array();
