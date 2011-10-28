@@ -59,6 +59,11 @@
         $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it is a duplicated ticket... Simply try to cancel the last duplicate of the series",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
+      if ( $ticket->Controls->count() > 0 )
+      {
+        $this->getUser()->setFlash('error',__("Sorry, we can't cancel the ticket #%%i%% because it has been checked already.",array('%%i%%' => $ticket->id)));
+        $this->redirect('ticket/sell?id='.$ticket->transaction_id);
+      }
       
       // linking a new cancel ticket to this transaction
       $this->ticket = $ticket->copy();

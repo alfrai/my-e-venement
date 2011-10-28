@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Sorry, we can't cancel the ticket #%%i%% because it has been checked already.</source>
+        <target>Désolé, nous ne pouvons annuler le billet #%%i%% parce qu'il est déjà passé à un point de contrôle.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Generate an invoice focused only on the selected manifestation.</source>
         <target>Génère une facture pour la manifestation sélectionnée uniquement.</target>
       </trans-unit>
