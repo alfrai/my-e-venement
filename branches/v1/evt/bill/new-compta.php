@@ -28,6 +28,7 @@
   $title = $type == 'bdc' ? 'BdC' : 'Facture';
   $css[] = 'evt/styles/bdc-facture.css';
   $css[] = 'evt/perso/new-compta.css';
+  includeJS('jquery');
   
   if ( isset($_GET['annul']) &&
        $_GET['type'] == 'bdc' &&
