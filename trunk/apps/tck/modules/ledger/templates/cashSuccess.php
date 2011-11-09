@@ -5,7 +5,7 @@
     <h1>
       <?php
         $values = $form->getValues();
-        if ( !isset($values['dates']['from']) ) $values['dates']['from'] = date('Y-m-d',strtotime('1 month ago'));
+        if ( !isset($values['dates']['from']) ) $values['dates']['from'] = date('Y-m-d',strtotime('1 week ago'));
         if ( !isset($values['dates']['to']) ) $values['dates']['to'] = date('Y-m-d',strtotime('tomorrow'));
       ?>
       <?php echo __('Cash Ledger') ?>

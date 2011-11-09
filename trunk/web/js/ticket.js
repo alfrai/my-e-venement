@@ -489,7 +489,7 @@ function ticket_autocomplete(id,autocomplete,url) {
         }
         return parsed;
       }
-    }, { }))
+    }, { max: 25 }))
   .result(function(event, data) { jQuery(id).val(data[1]); });
 }
 
