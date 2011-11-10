@@ -32,7 +32,7 @@ class RemoteAuthenticationForm extends BaseRemoteAuthenticationForm
       
       $q = Doctrine::getTable('RemoteAuthentication')->createQuery('ra')
         ->andWhere('ipaddress = ?',$ipaddr)
-        ->andWhere('is_active');
+        ->andWhere('active');
       $ra = $q->execute();
       
       if ( $ra->count() > 0 )
