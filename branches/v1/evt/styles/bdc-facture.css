@@ -32,11 +32,11 @@ body { width: 297mm; }
 
 .ttc:after, .ht:after, .pu:after { content: ''; padding-left: 2px; }
 td.tva:after { content: '%'; padding-left: 2px; }
-#lines .ttc, #lines .ht, #lines .pu, #lines .tva { text-align: right; }
+#lines td.ttc, #lines td.ht, #lines td.pu, #lines td.tva { text-align: right; }
 
 #totaux {
   display: table;
-  margin-left: 450px;
+  margin-left: 435px;
   width: 200px;
   margin-top: 20px;
   padding: 5px 10px;
@@ -65,4 +65,14 @@ td.tva:after { content: '%'; padding-left: 2px; }
 body.bdc .prefix { display: none; }
 body.bdc #echeance { display: none; }
 
+#lines { font-size: 90%; }
 #lines .nom { max-width: 180px; }
+#lines td.sitenom, #lines td.date,
+#lines td.tarif, #lines td.ville {
+  font-size: 70%;
+}
+#lines td.sitenom, #lines td.tarif {
+  max-width: 50px;
+  overflow: hidden;
+}
+#lines th.pu { max-width: 40px; }
