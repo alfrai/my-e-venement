@@ -5,5 +5,5 @@
       .' <a title="'.__('Sell').'" href="'.cross_app_url_for('tck','ticket/sell#manif-'.$manif->id).'"><span class="ui-icon-li ui-icon ui-icon-microplus"></span></a>'
   ?>
 <?php endforeach ?>
-<?php sort($manifs) ?>
+<?php ksort($manifs) ?>
 <?php echo implode('<br/>',$manifs) ?>
