@@ -5,6 +5,7 @@
 all:
   transaction:
     #hide_demands: true
+    #gauge_alert: true
     manifs:
       max_display: 20
   tickets:
