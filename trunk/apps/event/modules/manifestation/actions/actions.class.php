@@ -213,6 +213,7 @@ class manifestationActions extends autoManifestationActions
     parent::executeEdit($request);
     $this->form->prices = $this->getPrices();
     $this->form->spectators = $this->getSpectators();
+    $this->form->unbalanced = $this->getUnbalancedTransactions();
   }
   public function executeShow(sfWebRequest $request)
   {
@@ -220,6 +221,7 @@ class manifestationActions extends autoManifestationActions
     parent::executeShow($request);
     $this->form->prices = $this->getPrices();
     $this->form->spectators = $this->getSpectators();
+    $this->form->unbalanced = $this->getUnbalancedTransactions();
   }
   
   protected function getPrices()
@@ -258,5 +260,17 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
       ->orderBy('c.name, c.firstname, o.name, p.name');
     return $q->execute();
+  }
+  protected function getUnbalancedTransactions()
+  {
+    $rq = new Doctrine_RawSql();
+    $rq->from('Transaction t')
+      ->select('t.*, (SELECT sum(tt.value) FROM Ticket tt WHERE tt.transaction_id = t.id) AS topay, (SELECT sum(pp.value) FROM Payment pp WHERE pp.transaction_id = t.id) AS paid')
+      ->addComponent('t','Transaction')
+      ->andWhere('t.id IN (SELECT DISTINCT tt.transaction_id FROM Ticket tt WHERE tt.manifestation_id = ?)',$this->manifestation->id)
+      ->andWhere('(SELECT sum(tt.value) FROM Ticket tt WHERE tt.transaction_id = t.id) != (SELECT sum(pp.value) FROM Payment pp WHERE pp.transaction_id = t.id)')
+      ->orderBy('t.id');
+    $transactions = $rq->execute(array(),Doctrine::HYDRATE_NONE);
+    return $transactions;
   }
 }
