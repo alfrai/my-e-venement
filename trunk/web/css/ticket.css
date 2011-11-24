@@ -197,3 +197,19 @@
 .partial-print h2, .partial-print .prices {
   margin-bottom: 10px;
 }
+
+#force-alert { display: none; }
+#gauge-alert {
+  position: absolute;
+  border: 2px solid orange;
+  -moz-border-radius: 4px;
+  padding: 5px 10px;
+  background-color: silver;
+  font-weight: bold;
+  font-size: 150%;
+  top: 250px;
+  left: 250px;
+  width: 400px;
+  display: none;
+  text-align: center;
+}

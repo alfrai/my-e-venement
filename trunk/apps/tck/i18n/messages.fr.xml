@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Warning: you've got full gauges !</source>
+        <target>Attention: vous avez des jauges pleines !</target>
+      </trans-unit>
+      <trans-unit>
         <source>Sorry, we can't cancel the ticket #%%i%% because it has been checked already.</source>
         <target>Désolé, nous ne pouvons annuler le billet #%%i%% parce qu'il est déjà passé à un point de contrôle.</target>
       </trans-unit>

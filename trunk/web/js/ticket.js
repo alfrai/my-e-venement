@@ -220,8 +220,15 @@ function ticket_get_gauge(manif_id, gauge_elt, force)
       gauge_elt.html($(data).find('.gauge').html());
       if ( gauge_elt.find('.free .nb').html() < 0 )
       {
-        $('.manifestations_list input[name="ticket[manifestation_id]"][value='+manif_id+']')
+        $('.manifestations_list input[name="ticket[manifestation_id]"][value='+manif_id+'], #manifestations input[name="ticket[manifestation_id]"][value='+manif_id+']')
           .parent().addClass('alert');
+
+        if ( $('#manifestations #force-alert').length > 0
+          && $('.manifestations_list input[name="ticket[manifestation_id]"][value='+manif_id+']').parent().hasClass('alert') )
+        {
+          $('#gauge-alert').fadeIn().html(($('#manifestations #force-alert').html()));
+          setTimeout(function(){ $('#gauge-alert').fadeOut() },2000);
+        }
       }
     });
   }
