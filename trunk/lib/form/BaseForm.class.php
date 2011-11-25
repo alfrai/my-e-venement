@@ -12,9 +12,6 @@ class BaseForm extends sfFormSymfony
 {
   public function configure()
   {
-    unset($this->validatorSchema['created_at']);
-    unset($this->validatorSchema['updated_at']);
-    unset($this->validatorSchema['deleted_at']);
   }
   
   public function renderFormTag($url, array $attributes = array())

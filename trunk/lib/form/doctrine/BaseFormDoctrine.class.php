@@ -33,7 +33,7 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
   
   protected function resetDates()
   {
-    if ( !(isset($this->noTimestampableUset) && $this->noTimestampableUnset) )
+    if ( !(isset($this->noTimestampableUnset) && $this->noTimestampableUnset) )
     {
       unset($this->widgetSchema['created_at']);
       unset($this->widgetSchema['updated_at']);
