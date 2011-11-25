@@ -67,7 +67,7 @@
 .manifestations_list .total .total { text-decoration: underline; padding-top: 5px; }
 
 #payment {
-  min-height: 180px;
+  min-height: 200px;
 }
 #payment form {
   position: absolute;

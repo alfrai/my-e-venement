@@ -14,9 +14,6 @@
       &nbsp;&nbsp;<input type="submit" name="submit" value="<?php echo __('duplicate') ?>" />
     </p>
   </form>
-  <p class="testing">
-    <?php echo __("WARNING: functionnality in a test period ! You've been warned.") ?>
-  </p>
 </div>
 <script type="text/javascript">
   $(document).ready(function(){

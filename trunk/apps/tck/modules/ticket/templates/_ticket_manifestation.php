@@ -1,5 +1,5 @@
 <?php use_helper('Date','Number') ?>
-<span class="manif" style="background-color: #<?php echo $manif->Color->color ?>; padding: 5px;">
+<span class="manif" style="background-color: #<?php echo $manif->Color ? $manif->Color->color : '' ?>; padding: 5px;">
   <input type="radio" name="ticket[manifestation_id]" value="<?php echo $manif->id ?>" <?php if ( isset($first) && $first ) echo 'checked="checked"' ?>  />
   <a href="<?php echo cross_app_url_for('event','event/show?id='.$manif->event_id) ?>"><?php echo $manif->Event ?></a>
   le <a href="<?php echo cross_app_url_for('event','manifestation/show?id='.$manif->id) ?>"><?php echo format_datetime($manif->happens_at,'d MMM yyyy HH:mm') ?></a>

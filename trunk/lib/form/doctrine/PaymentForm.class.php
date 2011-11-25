@@ -11,6 +11,7 @@
 class PaymentForm extends BasePaymentForm
 {
   protected $removed_widgets = array(), $removed_validators = array();
+  protected $noTimestampableUnset = true;
   /**
    * @see TraceableForm
    */
@@ -26,6 +27,12 @@ class PaymentForm extends BasePaymentForm
     unset($this->widgetSchema['version']);
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputHidden();
     $this->widgetSchema['payment_method_id']->setOption('add_empty',true);
+    
+    unset($this->widgetSchema['updated_at']);
+    unset($this->validatorSchema['updated_at']);
+    
+    $this->widgetSchema['created_at'] = new liWidgetFormDateText();
+    $this->validatorSchema['created_at']->setOption('required',false);
   }
   
   public function setWithUserId()
