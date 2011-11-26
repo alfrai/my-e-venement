@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Some gauges are full, are you sure?</source>
+        <target>Des jauges sont pleines, êtes vous sûr(e) ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Dated</source>
         <target>Daté du</target>
       </trans-unit>

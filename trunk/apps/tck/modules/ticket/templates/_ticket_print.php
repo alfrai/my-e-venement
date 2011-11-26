@@ -1,6 +1,6 @@
 <form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>" method="get" target="_blank" class="print">
   <p>
-    <input type="submit" name="s" value="<?php echo __('Print') ?>" />
+    <input type="submit" name="s" value="<?php echo __('Print') ?>" onclick="javascript: if ( $('#manifestations #force-alert').length > 0 && $('.manifestations_list .alert').length > 0 ) return confirm('<?php echo __('Some gauges are full, are you sure?') ?>');" />
     <?php if ( isset($accounting) && $accounting !== false ): ?>
     <input type="checkbox" name="duplicate" value="true" title="<?php echo __('Duplicatas') ?>" />
     <input type="text" name="price_name" value="" class="price" />
