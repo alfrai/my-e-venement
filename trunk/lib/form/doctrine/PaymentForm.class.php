@@ -31,7 +31,7 @@ class PaymentForm extends BasePaymentForm
     unset($this->widgetSchema['updated_at']);
     unset($this->validatorSchema['updated_at']);
     
-    $this->widgetSchema['created_at'] = new liWidgetFormDateText();
+    $this->widgetSchema['created_at'] = new liWidgetFormDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture()));
     $this->validatorSchema['created_at']->setOption('required',false);
   }
   
