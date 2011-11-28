@@ -36,8 +36,20 @@ class contactGeneratorHelper extends BaseContactGeneratorHelper
   public function linkToExtraAction($params)
   {
     if (!key_exists('ui-icon', $params)) $params['ui-icon'] = '';
+    
+    if ( isset($params['more-icon']) )
+    {
+      $icon = '<span class="ui-icon ui-icon-'.$params['more-icon'].'"></span>';
+      unset($params['more-icon']);
+    }
+    
     $params['params'] = UIHelper::addClasses($params, '');
-    $params['ui-icon'] = $this->getIcon($params['ui-icon'], $params);
-    return '<li class="sf_admin_action_'.$params['action'].'">'.link_to(UIHelper::addIcon($params) . __($params['label']), sfContext::getInstance()->getModuleName().'/'.$params['action'], $params['params']).'</li>';
+    if ( !isset($icon) )
+    {
+      $params['ui-icon'] = $this->getIcon($params['ui-icon'], $params);
+      $icon = UIHelper::addIcon($params);
+    }
+    
+    return '<li class="sf_admin_action_'.$params['action'].'">'.link_to($icon . __($params['label']), sfContext::getInstance()->getModuleName().'/'.$params['action'], $params['params']).'</li>';
   }
 }
