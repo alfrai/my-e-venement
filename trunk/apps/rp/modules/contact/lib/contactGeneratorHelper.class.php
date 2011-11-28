@@ -33,7 +33,7 @@
  */
 class contactGeneratorHelper extends BaseContactGeneratorHelper
 {
-  public function linkToExtraAction($params)
+  public function linkToExtraAction($params,$contact = NULL)
   {
     if (!key_exists('ui-icon', $params)) $params['ui-icon'] = '';
     
@@ -50,6 +50,8 @@ class contactGeneratorHelper extends BaseContactGeneratorHelper
       $icon = UIHelper::addIcon($params);
     }
     
-    return '<li class="sf_admin_action_'.$params['action'].'">'.link_to($icon . __($params['label']), sfContext::getInstance()->getModuleName().'/'.$params['action'], $params['params']).'</li>';
+    $params['query_string'] = $contact ? '?id='.$contact->id : '';
+    
+    return '<li class="sf_admin_action_'.$params['action'].'">'.link_to($icon . __($params['label']), sfContext::getInstance()->getModuleName().'/'.$params['action'].$params['query_string'], $params['params']).'</li>';
   }
 }

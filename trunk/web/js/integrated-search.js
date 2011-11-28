@@ -35,9 +35,18 @@ function list_integrated_search(data)
       showSpeed: 300
     });
   }
+  
+  // if searched by id and only one result, going into the object's file
+  if ( parseInt($('#list-integrated-search input[name=s]').val()) == $('#list-integrated-search input[name=s]').val() && $('.sf_admin_list > table .sf_admin_action_show').length == 1 )
+  {
+    window.location = $('.sf_admin_list > table .sf_admin_action_show a:first').attr('href');
+  }
 }
 
 $(document).ready(function(){
+  // focus on integrated search on load
+  $('#list-integrated-search input[type=text]:first').focus();
+  
   $('#list-integrated-search').unbind().submit(function(){
     $.get($(this).attr('action'),{ s: $(this).find('input[name=s]').val() },function(data){
       list_integrated_search(data);

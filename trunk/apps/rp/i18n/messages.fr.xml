@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Card</source>
+        <target>Carte</target>
+      </trans-unit>
+      <trans-unit>
         <source>Link an existing contact to this organism</source>
         <target>Lier un contact existant à cet organisme</target>
       </trans-unit>

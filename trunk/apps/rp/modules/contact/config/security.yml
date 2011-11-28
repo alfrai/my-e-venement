@@ -12,6 +12,8 @@ ajax:
   credentials: pr-contact
 show:
   credentials: pr-contact
+card:
+  credentials: pr-contact
 
 new:
   credentials: pr-contact-new

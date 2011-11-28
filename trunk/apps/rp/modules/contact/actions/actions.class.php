@@ -192,14 +192,28 @@ class contactActions extends autoContactActions
   {
     self::executeIndex($request);
     
-    $search = $this->sanitizeSearch($request->getParameter('s'));
-    $transliterate = sfContext::getInstance()->getConfiguration()->transliterate;
+    $table = Doctrine_Core::getTable('Contact');
+    
+    if ( intval($request->getParameter('s')).'' === $request->getParameter('s'))
+    {
+      $value = intval($request->getParameter('s'));
+      try { $value = liBarcode::decode_ean($value); }
+      catch ( sfException $e )
+      { $value = intval($value); }
+      
+      $this->pager->setQuery($table->createQuery('c')->andWhere('c.id = ?',$value));
+    }
+    else
+    {
+      $search = $this->sanitizeSearch($request->getParameter('s'));
+      $transliterate = sfContext::getInstance()->getConfiguration()->transliterate;
+      
+      $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery()));
+    }
     
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
-    $table = Doctrine_Core::getTable('Contact');
-    $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery()));
-
     $this->pager->init();
+    
     $this->setTemplate('index');
   }
   public function executeGroupList(sfWebRequest $request)
@@ -378,6 +392,12 @@ class contactActions extends autoContactActions
     $this->executeEdit($request);
     $this->form->displayOnly($this->field = $request->getParameter('field'));
     $this->setLayout('empty');
+  }
+  
+  public function executeCard(sfWebRequest $request)
+  {
+    $this->executeShow($request);
+    $this->setLayout('nude');
   }
   
   public static function sanitizeSearch($search)

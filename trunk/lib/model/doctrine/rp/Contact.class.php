@@ -27,4 +27,13 @@ class Contact extends PluginContact
     sort($arr);
     return implode(', ',$arr);
   }
+  
+  public function getIdBarcoded()
+  {
+    $c = ''.$this->id;
+    $n = strlen($c);
+    for ( $i = 12-$n ; $i > 0 ; $i-- )
+      $c = '0'.$c;
+    return $c;
+  }
 }

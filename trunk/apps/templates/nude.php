@@ -11,8 +11,6 @@
     <?php include_javascripts() ?>
   </head>
   <body>
-    <div id="content">
-      <?php echo $sf_content ?>
-    </div>
+    <?php echo $sf_content ?>
   </body>
 </html>
