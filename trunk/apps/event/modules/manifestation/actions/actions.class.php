@@ -261,6 +261,7 @@ class manifestationActions extends autoManifestationActions
       ->orderBy('c.name, c.firstname, o.name, p.name');
     return $q->execute();
   }
+
   protected function getUnbalancedTransactions()
   {
     $con = Doctrine_Manager::getInstance()->connection();

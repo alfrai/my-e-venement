@@ -34,4 +34,3 @@
   <strong><?php echo __('All the transactions linked to this manifestation are balanced') ?></strong>
 </p>
 <?php endif ?>
-

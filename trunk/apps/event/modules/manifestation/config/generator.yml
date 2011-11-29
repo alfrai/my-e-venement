@@ -16,7 +16,7 @@ generator:
       fields:
         list_event: { label: Event }
         list_location: { label: Location }
-        list_description: { label: Description }
+        list_description: { label: Memo }
         happens_at: { label: Date }
         id: { label: ID Manif }
         online_limit: { label: Online limit }
