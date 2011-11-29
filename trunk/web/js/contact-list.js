@@ -31,6 +31,12 @@ $(document).ready(function(){
     $('.specialized-form').submit();
   });
   
+  // making emails clickable except when filling down the list through AJAX
+  $('.sf_admin_list_td_email').each(function(){
+    if ( $(this).html().trim() )
+    $(this).html('<a title="'+$(this).html().trim()+'" href="mailto:'+$(this).html().trim()+'">'+$(this).html()+'</a>');
+  });
+  
   // this does some make-up for filter form
   title = '<div class="ui-widget ui-widget-content ui-corner-all"><div class="ui-widget-header ui-corner-all fg-toolbar"><h2>Titre</h2></div>';
   elt = $(''+
@@ -81,7 +87,8 @@ $(document).ready(function(){
     .append($('#sf_admin_filter .sf_admin_filter_field_name'))
     .append($('#sf_admin_filter .sf_admin_filter_field_postalcode'))
     .append($('#sf_admin_filter .sf_admin_filter_field_city'))
-    .append($('#sf_admin_filter .sf_admin_filter_field_country'));
+    .append($('#sf_admin_filter .sf_admin_filter_field_country'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_email'));
   elt.find('h2').html('Personnel');
   elt.prependTo('#sf_admin_filter > form > table > tbody');
 
