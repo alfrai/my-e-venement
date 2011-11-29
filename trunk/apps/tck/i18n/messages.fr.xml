@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>updated on %%d%% by %%u%%</source>
+        <target>mis à jour le %%d%% par %%u%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>cancel</source>
+        <target>annul.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>%%price%% %%annul%% (by %%user%%)</source>
+        <target>%%price%% %%annul%% (par %%user%%)</target>
+      </trans-unit>
+      <trans-unit>
         <source>Some gauges are full, are you sure?</source>
         <target>Des jauges sont pleines, êtes vous sûr(e) ?</target>
       </trans-unit>

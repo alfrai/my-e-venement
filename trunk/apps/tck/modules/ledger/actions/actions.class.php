@@ -74,7 +74,7 @@ class ledgerActions extends sfActions
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
       ))
-      ->orderBy('e.name, m.happens_at, l.name, tck.price_name, u.first_name, u.last_name, tck.sf_guard_user_id, tck.updated_at');
+      ->orderBy('e.name, m.happens_at, l.name, tck.price_name, u.first_name, u.last_name, tck.sf_guard_user_id, tck.cancelling IS NULL DESC, tck.updated_at');
     
     $q->andWhereIn('t.type',array('normal', 'cancellation'));
     
@@ -108,7 +108,7 @@ class ledgerActions extends sfActions
       ->leftJoin('p.User u')
       ->leftJoin('u.MetaEvents')
       ->leftJoin('u.Workspaces')
-      ->orderBy('m.name, m.id, t.id, p.value, p.created_at');
+      ->orderBy('m.name, m.id, t.id, p.value, p.updated_at');
     
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
     {
@@ -121,7 +121,7 @@ class ledgerActions extends sfActions
     }
     else
     {
-      $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
+      $q->andWhere('p.updated_at >= ? AND p.updated_at < ?',array(
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
       ));
@@ -150,7 +150,7 @@ class ledgerActions extends sfActions
         ->leftJoin('t.Tickets tck')
         ->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))')
         ->andWhere('tck.duplicate IS NULL')
-        ->andWhere('tck.printed = true OR tck.integrated = true')
+        ->andWhere('tck.printed = true OR tck.integrated = true OR tck.cancelling IS NOT NULL')
         ->orderBy('pm.name');
       $transactions = $q->execute();
       
@@ -215,7 +215,7 @@ class ledgerActions extends sfActions
             AND id NOT IN (SELECT cancelling FROM ticket WHERE ".(!is_array($criterias['manifestations']) || count($criterias['manifestations']) == 0 ? 'updated_at >= :date0 AND updated_at < :date1 AND ' : '')." cancelling IS NOT NULL)
             AND cancelling IS NULL
             ".( is_array($criterias['users']) && count($criterias['users']) > 0 ? 'AND sf_guard_user_id IN ('.implode(',',$users).')' : '')."
-            AND (printed OR integrated)
+            AND (printed OR integrated OR cancelling IS NOT NULL)
             AND duplicate IS NULL
           GROUP BY value
           ORDER BY value DESC";

@@ -5,6 +5,46 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Updated at %%d%% by %%u%%</source>
+        <target>Mis à jour le %%d%% par %%u%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Memo</source>
+        <target>Mémo</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Unbalanced</source>
+        <target>Déséquilibres</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Total debt</source>
+        <target>Dette totale</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Debt</source>
+        <target>Dette</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Total to pay</source>
+        <target>Total à payer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Total paid</source>
+        <target>Total déjà payé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Unbalanced transactions</source>
+        <target>Opérations non-équilibrées</target>
+      </trans-unit>
+      <trans-unit>
+        <source>All the transactions linked to this manifestation are balanced</source>
+        <target>Toutes les opérations liées à cette manifestation sont équilibrées</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Notice: all the amounts shown here are mixing all the tickets and all the payments of transactions linked to this manifestation</source>
+        <target>Notez que les chiffres indiqués ici prennent en compte tous les billets et tous les paiements des opérations liées à cette manifestation</target>
+      </trans-unit>
+      <trans-unit>
         <source>ID Manif</source>
         <target>ID Manif</target>
       </trans-unit>

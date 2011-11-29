@@ -28,7 +28,7 @@
     <td class="organism"><?php echo cross_app_link_to($contact['pro']->Organism,'rp','organism/show?id='.$contact['pro']->Organism->id) ?></td>
     <td class="tickets"><?php $arr = array(); foreach ( $contact['prices'] as $key => $value ) $arr[] = $value.$key; echo implode(', ',$arr); ?></td>
     <td class="price"><?php echo format_currency($contact['value'],'€') ?></td>
-    <td class="transaction">#<?php echo cross_app_link_to($contact['transaction'],'tck','ticket/sell?id='.$contact['transaction']) ?></td>
+    <td class="transaction" title="<?php echo __('Updated at %%d%% by %%u%%',array('%%d%%' => format_datetime($transac->updated_at), '%%u%%' => $transac->User)) ?>">#<?php echo cross_app_link_to($contact['transaction'],'tck','ticket/sell?id='.$contact['transaction']) ?></td>
     <td class="ticket-ids">#<?php echo implode(', #',$contact['ticket-ids']) ?></td>
   </tr>
   <?php endif ?>

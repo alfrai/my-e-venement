@@ -263,14 +263,19 @@ class manifestationActions extends autoManifestationActions
   }
   protected function getUnbalancedTransactions()
   {
-    $rq = new Doctrine_RawSql();
-    $rq->from('Transaction t')
-      ->select('t.*, (SELECT sum(tt.value) FROM Ticket tt WHERE tt.transaction_id = t.id) AS topay, (SELECT sum(pp.value) FROM Payment pp WHERE pp.transaction_id = t.id) AS paid')
-      ->addComponent('t','Transaction')
-      ->andWhere('t.id IN (SELECT DISTINCT tt.transaction_id FROM Ticket tt WHERE tt.manifestation_id = ?)',$this->manifestation->id)
-      ->andWhere('(SELECT sum(tt.value) FROM Ticket tt WHERE tt.transaction_id = t.id) != (SELECT sum(pp.value) FROM Payment pp WHERE pp.transaction_id = t.id)')
-      ->orderBy('t.id');
-    $transactions = $rq->execute(array(),Doctrine::HYDRATE_NONE);
+    $con = Doctrine_Manager::getInstance()->connection();
+    $st = $con->execute(
+      "SELECT t.*,
+              (SELECT sum(ttt.value)
+               FROM Ticket ttt
+               WHERE ttt.transaction_id = t.id
+                 AND (ttt.printed OR ttt.integrated OR cancelling IS NOT NULL)
+                 AND ttt.duplicate IS NULL) AS topay,
+              (SELECT sum(ppp.value) FROM Payment ppp WHERE ppp.transaction_id = t.id) AS paid
+       FROM transaction t
+       WHERE t.id IN (SELECT DISTINCT tt.transaction_id FROM Ticket tt WHERE tt.manifestation_id = ".intval($this->manifestation->id).")
+         AND (SELECT sum(tt.value) FROM Ticket tt WHERE tt.transaction_id = t.id AND (tt.printed OR tt.integrated OR cancelling IS NOT NULL) AND tt.duplicate IS NULL) != (SELECT CASE WHEN count(pp.value) = 0 THEN 0 ELSE sum(pp.value) END FROM Payment pp WHERE pp.transaction_id = t.id)");
+    $transactions = $st->fetchAll();
     return $transactions;
   }
 }

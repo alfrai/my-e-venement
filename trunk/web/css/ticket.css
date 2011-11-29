@@ -6,11 +6,12 @@
 
 #transaction-id {
   position: absolute;
-  right: 315px;
+  right: 40px;
   margin-top: 18px;
   font-weight: bold;
   cursor: default;
 }
+#transaction-id span { font-weight: normal; }
 #transaction-id.translinked {
   border-bottom: 1px solid red;
 }

@@ -82,13 +82,14 @@
     <?php for ( $i = 0 ; $i < $manif->Tickets->count() ; $i++ ): ?>
     <tr class="prices manif-<?php echo $manif->id ?>">
       <?php $ticket = $manif->Tickets[$i]; ?>
-      <td class="event price"><?php echo __('%%price%% (by %%user%%)',array('%%price%%' => $ticket->price_name, '%%user%%' => $ticket->User->name)) ?></td>
+      <td class="event price"><?php echo __('%%price%% (by %%user%%)',array('%%price%%' => $ticket->price_name, '%%annul%%' => is_null($ticket->cancelling) ? __('cancel') : '', '%%user%%' => $ticket->User->name)) ?></td>
       <td class="see-more"></td>
       <td class="id-qty"><?php
         $qty = $k = $value = 0;
         for ( $j = $i ; $j < $manif->Tickets->count() ; $j++ )
         if ( $manif->Tickets->get($i)->price_name == $manif->Tickets->get($j)->price_name
-          && $manif->Tickets->get($i)->sf_guard_user_id == $manif->Tickets->get($j)->sf_guard_user_id )
+          && $manif->Tickets->get($i)->sf_guard_user_id == $manif->Tickets->get($j)->sf_guard_user_id
+          && is_null($manif->Tickets->get($i)->cancelling) == is_null($manif->Tickets->get($j)->cancelling) )
         {
           $qty = is_null($manif->Tickets->get($j)->cancelling)
             ? $qty + 1

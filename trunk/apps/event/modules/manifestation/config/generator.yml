@@ -20,6 +20,7 @@ generator:
         happens_at: { label: Date }
         id: { label: ID Manif }
         online_limit: { label: Online limit }
+        description: { label: Memo }
       list:
         display: [_list_event, happens_at, _list_location, _list_description]
       filter:  ~
@@ -27,7 +28,8 @@ generator:
       edit:
         title: Edit Manifestation %%name%%
         display:
-          General:      [happens_at, _id, event_id, location_id, _show_gauge_txt, color_id, description, _form_prices]
+          General:      [happens_at, _id, event_id, location_id, _show_gauge_txt, color_id, _form_prices]
+          Memo:         [description]
           Technical:    [duration, vat, online_limit, seated, organizers_list]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
           Tickets:      [_show_tickets_list]
@@ -35,12 +37,14 @@ generator:
           Unbalanced:   [_show_unbalanced_list]
       new:
         display:
-          General: [happens_at, event_id, location_id, color_id, description]
+          General: [happens_at, event_id, location_id, color_id]
+          Memo:    [description]
           Technical: [duration, vat, online_limit, seated, organizers_list]
           Workspaces: [workspaces_list]
       show:
         display:
-          General:    [_show_event, id, _show_happens_at, _show_location, _show_gauge_txt, _show_color, description, _show_prices_list]
+          General:    [_show_event, id, _show_happens_at, _show_location, _show_gauge_txt, _show_color, _show_prices_list]
+          Memo:       [_show_description]
           Technical:  [duration, _show_vat, online_limit, _show_seated, _show_organizers_list]
           Workspaces: [_show_workspaces_list]
           Tickets:    [_show_tickets_list]
