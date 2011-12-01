@@ -26,6 +26,8 @@ class Ticket extends PluginTicket
       $this->price_id = $pm->price_id;
       $this->value    = $pm->value;
     }
+    $this->Transaction->updated_at = NULL;
+    $this->Transaction->save();
     parent::preSave($event);
   }
   
