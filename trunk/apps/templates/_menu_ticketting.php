@@ -21,6 +21,14 @@
 *
 ***********************************************************************************/
 ?>
+    <?php if ( $sf_user->hasCredential('tck-transaction')
+            || $sf_user->hasCredential('tck-unblock')
+            || $sf_user->hasCredential('tck-control')
+            || $sf_user->hasCredential('tck-cancel') 
+            || $sf_user->hasCredential('tck-print-ticket')
+            || $sf_user->hasCredential('tck-reports')
+            || $sf_user->hasCredential('tck-ledger-sales')
+            || $sf_user->hasCredential('tck-ledger-cash') ): ?>
       <li>
         <ul class="second">
           <?php if ( $sf_user->hasCredential('tck-transaction') ): ?>
@@ -66,3 +74,4 @@
         </ul>
         <span class="title"><?php echo __('Ticketting',array(),'menu') ?></span>
       </li>
+    <?php endif ?>
