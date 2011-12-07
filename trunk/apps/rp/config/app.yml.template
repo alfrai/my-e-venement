@@ -9,7 +9,8 @@ sf_admin_theme_jroller_plugin:
   theme:        redmond # default.
   css_reset:    true # default. reset default css (from Blueprint CSS)
 all:
-  options: [cards]
+  contact:
+    options: [cards]
   google_maps:
     api_keys:
       default: "PUT YOUR API KEY HERE"
