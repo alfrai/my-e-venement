@@ -21,6 +21,9 @@
 *
 ***********************************************************************************/
 ?>
+<?php
+  $helper = new organismGeneratorHelper();
+?>
 <div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all members">
 <div class="ui-widget-header ui-corner-all fg-toolbar"><h2><?php echo __("Organism's members") ?></h2></div>
 <ul class="contacts">
@@ -29,6 +32,7 @@
 <li>
   <a class="file" href="<?php echo url_for('contact/'.$action.'?id='.$professional->Contact['id']) ?>"><?php echo $professional->Contact ?></a>
   <span class="professional"><?php echo $professional ?> (<?php echo $professional->ProfessionalType ?>)</span>
+  <?php echo $helper->linkToDeletePro($professional, array(  'params' => 'class= fg-button ui-state-default fg-button-icon-left ',  'confirm' => 'Are you sure?',  'class_suffix' => 'delete',  'label' => 'Delete',  'ui-icon' => '',)) ?>
 </li>
 <?php endforeach ?>
 </ul>

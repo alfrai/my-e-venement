@@ -3,6 +3,7 @@
 
 default:
   javascripts: [menu,organism]
+  stylesheets: [organism]
 
 newSuccess:
   stylesheets: [view]
