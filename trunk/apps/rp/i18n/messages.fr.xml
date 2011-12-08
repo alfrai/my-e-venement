@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Duplicates the card instead of creating a new one</source>
+        <target>Duplique la carte à la place d'en créer une nouvelle</target>
+      </trans-unit>
+      <trans-unit>
+        <source>membership</source>
+        <target>adhésion</target>
+      </trans-unit>
+      <trans-unit>
+        <source>subscription</source>
+        <target>abonnement</target>
+      </trans-unit>
+      <trans-unit>
         <source>Card</source>
         <target>Carte</target>
       </trans-unit>

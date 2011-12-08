@@ -5,7 +5,7 @@
   <?php echo $helper->linkToSave($form->getObject(), array(  'params' => 'class= fg-button ui-state-default fg-button-icon-left ',  'class_suffix' => 'save',  'label' => 'Save',  'ui-icon' => '',)) ?>
   <?php echo $helper->linkToSaveAndAdd($form->getObject(), array(  'params' => 'class= fg-button ui-state-default fg-button-icon-left ',  'class_suffix' => 'save_and_add',  'label' => 'Save and add',  'ui-icon' => '',)) ?>
 <?php else: ?>
-  <?php if ( is_array(sfConfig::get('app_contact_options')) && in_array('cards',sfConfig::get('app_contact_options')) ): ?>
+  <?php if ( sfConfig::get('app_cards_enable') ): ?>
   <?php echo $helper->linkToExtraAction(array(  'params' => 'class= fg-button ui-state-default', 'more-icon' => 'print', 'action' => 'card', 'label' => 'Card',),$contact) ?>
   <?php endif ?>
   <?php echo $helper->linkToShow($form->getObject(), array(  'params' => 'class=fg-button-mini fg-button ui-state-default fg-button-icon-left ',  'class_suffix' => 'show',  'label' => 'Show',  'ui-icon' => 'person',)) ?>

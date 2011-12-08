@@ -1,6 +1,5 @@
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/11-App
-
 # default values
 sf_admin_theme_jroller_plugin:
   web_dir:      /sfAdminThemejRollerPlugin # specify your folder where to pick jquery and jquery UI.
@@ -9,8 +8,9 @@ sf_admin_theme_jroller_plugin:
   theme:        redmond # default.
   css_reset:    true # default. reset default css (from Blueprint CSS)
 all:
-  contact:
-    options: [cards]
+  cards:
+    #enable: true
+    types: [membership, subscription]
   google_maps:
     api_keys:
       default: "PUT YOUR API KEY HERE"

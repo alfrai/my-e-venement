@@ -170,3 +170,23 @@ OptionLabels:
     type: column_aggregation
     keyField: type
     keyValue: 'labels'
+
+MemberCard:
+  package: rp
+  actAs: [Timestampable]
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    contact_id:
+      type: integer
+      notnull: true
+    expire_at:
+      type: timestamp
+      notnull: true
+  relations:
+    Contact:
+      foreignAlias: Professionals
+      onDelete: CASCADE
+      onUpdate: CASCADE

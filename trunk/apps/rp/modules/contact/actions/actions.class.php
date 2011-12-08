@@ -396,8 +396,41 @@ class contactActions extends autoContactActions
   
   public function executeCard(sfWebRequest $request)
   {
+    $params = $request->getParameter('member_card');
+    $params['expire_at'] = date('Y-m-d H:i:s',strtotime(sfConfig::get('app_cards_expiration_delay'),strtotime('now')));
+    
+    if ( !$request->hasParameter('id') )
+      $request->setParameter('id',$params['contact_id']);
     $this->executeShow($request);
-    $this->setLayout('nude');
+    
+    $this->card = new MemberCardForm();
+    $this->card->bind($params);
+    
+    if ( $this->card->isValid() )
+    {
+      if ( $request->hasParameter('duplicate') )
+      {
+        $q = Doctrine::getTable('MemberCard')->createQuery('mc')
+          ->andWhere('mc.contact_id = ?',$params['contact_id'])
+          ->andWhere('mc.expire_at > NOW()');
+        $card = $q->fetchOne();
+        
+        if ( !$card )
+          return 'Params';
+        
+        // some kind of a hack
+        $this->card = $card;
+        $this->card->updated_at = NULL;
+        $this->card->name = $params['name'];
+      }
+      $this->card->save();
+      $this->setLayout('nude');
+      return 'Success';
+    }
+    else
+    {
+      return 'Params';
+    }
   }
   
   public static function sanitizeSearch($search)
