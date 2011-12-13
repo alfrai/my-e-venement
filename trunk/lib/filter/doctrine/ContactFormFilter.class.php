@@ -170,7 +170,7 @@ class ContactFormFilter extends BaseContactFormFilter
     
     if ( is_array($value) )
     {
-      if ( !$q->contains("LEFT JOIN $a.Tansactions transac") )
+      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
       $q->leftJoin("$a.Transactions transac");
       
       if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
@@ -190,7 +190,7 @@ class ContactFormFilter extends BaseContactFormFilter
     
     if ( is_array($value) )
     {
-      if ( !$q->contains("LEFT JOIN $a.Tansactions transac") )
+      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
       $q->leftJoin("$a.Transactions transac");
       
       if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
@@ -213,7 +213,7 @@ class ContactFormFilter extends BaseContactFormFilter
     
     if ( is_array($value) )
     {
-      if ( !$q->contains("LEFT JOIN $a.Tansactions transac") )
+      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
       $q->leftJoin("$a.Transactions transac");
       
       if ( !$q->contains("LEFT JOIN transac.Tickets tck") )

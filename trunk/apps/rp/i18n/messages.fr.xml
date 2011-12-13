@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Sent</source>
+        <target>Envoyé</target>
+      </trans-unit>
+      <trans-unit>
         <source>Duplicates the card instead of creating a new one</source>
         <target>Duplique la carte à la place d'en créer une nouvelle</target>
       </trans-unit>
