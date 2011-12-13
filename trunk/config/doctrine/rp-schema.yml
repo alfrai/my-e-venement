@@ -187,6 +187,6 @@ MemberCard:
       notnull: true
   relations:
     Contact:
-      foreignAlias: Professionals
+      foreignAlias: MemberCards
       onDelete: CASCADE
       onUpdate: CASCADE

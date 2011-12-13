@@ -63,6 +63,14 @@ $(document).ready(function(){
   elt.prependTo('#sf_admin_filter > form > table > tbody');
   
   elt = elt.clone(true);
+  title = $('#sf_admin_filter .sf_admin_filter_field_member_cards label').html();
+  elt.find('tbody').html('')
+    .append($('#sf_admin_filter .sf_admin_filter_field_member_cards'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_member_cards_expire_at'));
+  elt.find('h2').html(title);
+  elt.prependTo('#sf_admin_filter > form > table > tbody');
+  
+  elt = elt.clone(true);
   elt.find('tbody').html('')
     .append($('#sf_admin_filter .sf_admin_filter_field_event_categories_list'))
     .append($('#sf_admin_filter .sf_admin_filter_field_meta_events_list'))

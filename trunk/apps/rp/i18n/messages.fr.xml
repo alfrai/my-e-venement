@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Valid on</source>
+        <target>Valide le</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Member cards</source>
+        <target>Cartes de membre</target>
+      </trans-unit>
+      <trans-unit>
         <source>Phone type List</source>
         <target>Liste des types de téléphones</target>
       </trans-unit>

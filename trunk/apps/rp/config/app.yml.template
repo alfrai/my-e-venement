@@ -11,6 +11,7 @@ all:
   cards:
     #enable: true
     types: [membership, subscription]
+    expiration_delay: 1 year
   google_maps:
     api_keys:
       default: "PUT YOUR API KEY HERE"

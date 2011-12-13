@@ -122,6 +122,25 @@ class ContactFormFilter extends BaseContactFormFilter
       'multiple' => true,
     ));
     
+    //cards
+    $arr = array();
+    foreach ( sfConfig::get('app_cards_types') as $key => $value )
+      $arr[$value] = $value;
+    $this->widgetSchema   ['member_cards'] = new sfWidgetFormChoice(array(
+      'choices'  => $arr,
+      'multiple' => true,
+    ));
+    $this->validatorSchema['member_cards'] = new sfValidatorChoice(array(
+      'required' => false,
+      'multiple' => true,
+      'choices'  => $arr,
+    ));
+    $this->widgetSchema   ['member_cards_expire_at'] = new liWidgetFormDateText(array(
+    ));
+    $this->validatorSchema['member_cards_expire_at'] = new sfValidatorDate(array(
+      'required' => false,
+    ));
+    
     parent::configure();
   }
   
@@ -142,6 +161,8 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['event_categories_list']= 'EventCategoriesList';
     $fields['meta_events_list']     = 'MetaEventsList';
     $fields['prices_list']          = 'PricesList';
+    $fields['member_cards']         = 'MemberCards';
+    $fields['member_cards_expire_at'] = 'MemberCardsExpireAt';
     
     return $fields;
   }
@@ -361,6 +382,35 @@ class ContactFormFilter extends BaseContactFormFilter
     $c = $q->getRootAlias();
     if ( intval($value['text']) > 0 )
       $q->addWhere("$c.postalcode LIKE ? OR (o.id IS NOT NULL AND o.postalcode LIKE ?)",array(intval($value['text']).'%',intval($value['text']).'%'));
+    
+    return $q;
+  }
+  
+  // member cards
+  public function addMemberCardsColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $c = $q->getRootAlias();
+    if ( count($value) > 0 )
+    {
+      if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
+      $q->leftJoin("$c.MemberCards mc");
+      
+      $q->andWhereIn("mc.name",$value)
+        ->andWhere('mc.expire_at > NOW()');
+   }
+    
+    return $q;
+  }
+  public function addMemberCardsExpireAtColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $c = $q->getRootAlias();
+    if ( $value )
+    {
+      if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
+      $q->leftJoin("$c.MemberCards mc");
+      
+      $q->andWhere("mc.expire_at > ?",date('Y-m-d',strtotime($value)));
+    }
     
     return $q;
   }
