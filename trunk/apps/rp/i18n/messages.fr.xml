@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Phone type List</source>
+        <target>Liste des types de téléphones</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Professional type List</source>
+        <target>Liste des types de fonction</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism category List</source>
+        <target>Liste des catégories d'organisme</target>
+      </trans-unit>
+      <trans-unit>
         <source>Sent</source>
         <target>Envoyé</target>
       </trans-unit>
