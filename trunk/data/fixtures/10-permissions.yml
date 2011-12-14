@@ -437,6 +437,21 @@ sfGuardGroupPermission:
   sfGuardGroupPermission_23_68:
     Group: sfGuardGroup_23
     Permission: sfGuardPermission_68
+    created_at: '2011-12-14 17:10:09'
+    updated_at: '2011-12-14 17:10:09'
+  sfGuardGroupPermission_24_69:
+    Group: sfGuardGroup_24
+    Permission: sfGuardPermission_69
+    created_at: '2011-12-14 11:10:09'
+    updated_at: '2011-12-14 11:10:09'
+  sfGuardGroupPermission_25_69:
+    Group: sfGuardGroup_25
+    Permission: sfGuardPermission_69
+    created_at: '2011-12-14 11:10:09'
+    updated_at: '2011-12-14 11:10:09'
+  sfGuardGroupPermission_25_70:
+    Group: sfGuardGroup_25
+    Permission: sfGuardPermission_70
     created_at: '2011-10-18 11:10:09'
     updated_at: '2011-10-18 11:10:09'
 sfGuardPermission:
@@ -760,6 +775,16 @@ sfGuardPermission:
     description: 'Permission add/remove/modify accounts for webservices'
     created_at: '2011-10-18 11:09:41'
     updated_at: '2011-10-18 11:09:41'
+  sfGuardPermission_69:
+    name: pr-card-view
+    description: 'Permission to view member cards'
+    created_at: '2011-12-14 11:09:41'
+    updated_at: '2011-12-14 11:09:41'
+  sfGuardPermission_70:
+    name: pr-card-mod
+    description: 'Permission to create/del member cards'
+    created_at: '2011-12-14 11:09:41'
+    updated_at: '2011-12-14 11:09:41'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -874,5 +899,15 @@ sfGuardGroup:
   sfGuardGroup_23:
     name: ws-admin
     description: 'Permission add/remove/modify accounts for webservices'
+    created_at: '2011-05-19 17:10:03'
+    updated_at: '2011-05-19 17:10:03'
+  sfGuardGroup_24:
+    name: pr-card
+    description: 'Permission to access member cards functionnalities'
+    created_at: '2011-05-19 17:10:03'
+    updated_at: '2011-05-19 17:10:03'
+  sfGuardGroup_25:
+    name: pr-card-mod
+    description: 'Permission to modify member cards'
     created_at: '2011-05-19 17:10:03'
     updated_at: '2011-05-19 17:10:03'

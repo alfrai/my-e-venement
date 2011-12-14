@@ -141,49 +141,52 @@ class ledgerActions extends sfActions
     if ( !isset($criterias['users']) ) $criterias['users'] = array();
     
     // by payment-type
+    $q = new Doctrine_Query();
+    $q->from('Transaction t')
+      ->leftJoin('t.Payments p')
+      ->leftJoin('p.Method pm')
+      ->leftJoin('t.Tickets tck')
+      ->andWhere('tck.duplicate IS NULL')
+      ->andWhere('tck.printed = true OR tck.integrated = true OR tck.cancelling IS NOT NULL')
+      ->orderBy('pm.name');
     if ( is_array($criterias['manifestations']) )
     {
-      $q = new Doctrine_Query();
-      $q->from('Transaction t')
-        ->leftJoin('t.Payments p')
-        ->leftJoin('p.Method pm')
-        ->leftJoin('t.Tickets tck')
-        ->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))')
-        ->andWhere('tck.duplicate IS NULL')
-        ->andWhere('tck.printed = true OR tck.integrated = true OR tck.cancelling IS NOT NULL')
-        ->orderBy('pm.name');
-      $transactions = $q->execute();
+      $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))');
+    }
+    else
+    {
+      $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
+          date('Y-m-d',$dates[0]),
+          date('Y-m-d',$dates[1]),
+        ));
+    }
+    $transactions = $q->execute();
+    
+    $pm = array();
+    foreach ( $transactions as $transaction )
+    {
+      $sum = array('total' => 0, 'partial' => 0);
       
-      $pm = array();
-      foreach ( $transactions as $transaction )
+      foreach ( $transaction->Tickets as $t )
       {
-        $sum = array('total' => 0, 'partial' => 0);
-        
-        foreach ( $transaction->Tickets as $t )
+        $sum['total'] += $t->value;
+        if ( in_array($t->manifestation_id,$criterias['manifestations']) || count($criterias['manifestations']) == 0 )
         {
-          $sum['total'] += $t->value;
-          if ( in_array($t->manifestation_id,$criterias['manifestations']) )
-          {
-            $sum['partial'] += $t->value;
-          }
-        }
-        
-        if ( $sum['partial'] != 0 && $sum['total'] != 0 )
-        foreach ( $transaction->Payments as $p )
-        {
-          if ( !isset($pm[$p->payment_method_id]) )
-            $pm[$p->payment_method_id] = array('value+' => 0, 'value-' => 0, 'name' => (string)$p->Method, 'nb' => 0);
-          $pm[$p->payment_method_id][$p->value > 0 ? 'value+' : 'value-']
-            += $p->value * $sum['partial']/$sum['total'];
-          $pm[$p->payment_method_id]['nb']++;
+          $sum['partial'] += $t->value;
         }
       }
       
-      //print_r($pm);
+      if ( $sum['partial'] != 0 && $sum['total'] != 0 )
+      foreach ( $transaction->Payments as $p )
+      {
+        if ( !isset($pm[$p->payment_method_id]) )
+          $pm[$p->payment_method_id] = array('value+' => 0, 'value-' => 0, 'name' => (string)$p->Method, 'nb' => 0);
+        $pm[$p->payment_method_id][$p->value > 0 ? 'value+' : 'value-']
+          += $p->value * $sum['partial']/$sum['total'];
+        $pm[$p->payment_method_id]['nb']++;
+      }
     }
     
-    //$q = $this->buildCashQuery($criterias);
-    //$this->byPaymentMethod = $q->execute();
     $this->byPaymentMethod = $pm;
     
     // by price
