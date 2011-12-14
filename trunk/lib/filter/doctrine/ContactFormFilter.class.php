@@ -351,7 +351,9 @@ class ContactFormFilter extends BaseContactFormFilter
   {
     $a = $q->getRootAlias();
     if ( $value )
-      $q->addWhere("pt.professional_type_id = ?",$value);
+    {
+      $q->addWhere("pt.id = ?",$value);
+    }
     return $q;
   }
   public function addOrganismIdColumnQuery(Doctrine_Query $q, $field, $value)
