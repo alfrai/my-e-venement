@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>No card</source>
+        <target>Pas de carte</target>
+      </trans-unit>
+      <trans-unit>
+        <source>%%c%%'s member cards</source>
+        <target>Cartes de membre de %%c%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>Valid on</source>
         <target>Valide le</target>
       </trans-unit>

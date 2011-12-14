@@ -23,6 +23,10 @@
       $('#sf_admin_filter select[name="contact_filters[groups_list][]"] option').removeAttr('selected');
       filter_submit_timeout($(this).find('option:selected'));
     });
+    
+    <?php if ( !sfConfig::has('app_cards_enable') ): ?>
+    $('#sf_admin_filter .sf_admin_filter_field_member_cards').parent().parent().parent().parent().remove();
+    <?php endif ?>
   });
   
   function filter_submit_timeout(options)

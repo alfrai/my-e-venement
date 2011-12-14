@@ -1,3 +1,4 @@
+<?php include_partial('contact/assets') ?>
 <div id="card">
   <div class="content">
     <p class="name"><?php echo $contact->title.' '.$contact ?></p>

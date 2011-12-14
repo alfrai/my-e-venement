@@ -29,7 +29,7 @@ generator:
         display: [name, firstname, postalcode, city, email, _organisms_list, _organisms_email_list]
       show: 
         display:
-          NONE: [title, _show_who, address, postalcode, city, country, _show_email, _show_phonenumbers_list, _show_groups_list]
+          NONE: [title, _show_who, address, postalcode, city, country, _show_email, _show_phonenumbers_list, _show_member_cards_list, _show_groups_list]
           Precisions: [family_contact, npai, description, _YOBs]
           Details: [created_at,updated_at,slug,longitude,latitude]
           Ticketting: [_events_list]
@@ -39,7 +39,7 @@ generator:
       edit:
         title: Contact %%name%% %%firstname%%
         display:
-          NONE:  [title, name, firstname, address, postalcode, _cities, city, country, email, groups_list]
+          NONE:  [title, name, firstname, address, postalcode, _cities, city, country, email, _show_member_cards_list, groups_list]
           Phonenumbers: [_form_phonenumbers_list]
           Precisions: [family_contact, npai, description, YOBs_list, password]
           Ticketting: [_events_list]

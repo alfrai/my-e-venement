@@ -12,4 +12,9 @@
  */
 class MemberCard extends PluginMemberCard
 {
+  public function __toString()
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
+    return __($this->name).' ('.format_date($this->expire_at,'D').')';
+  }
 }

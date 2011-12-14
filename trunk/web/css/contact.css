@@ -3,3 +3,23 @@
 }
 #more .sf_admin_form_field_contact_id,
 #more .sf_admin_form_field_organism_id { display: none; }
+
+#member_cards .ui-widget-content {
+  margin: 5px;
+  padding: 0 5px;
+}
+#member_cards .new {
+  float: right;
+  width: 350px;
+}
+#member_cards .list {
+  min-height: 40px;
+  padding: 5px 5px 5px 20px;
+  margin-right: 375px;
+}
+#member_cards .list .card { float: left; padding-right: 10px; }
+#member_cards .list .sf_admin_action_delete {
+  list-style-type: none;
+  font-size: 80%;
+  padding: 0.2em 0 0.3em 0;
+}
