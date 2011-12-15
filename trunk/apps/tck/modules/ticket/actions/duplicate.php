@@ -68,6 +68,9 @@
       // linking a new cancel ticket to this transaction
       $this->ticket = $ticket->copy();
       $this->ticket->printed = false;
+      $this->ticket->created_at = NULL;
+      $this->ticket->updated_at = NULL;
+      $this->ticket->sf_guard_user_id = NULL;
       $this->transaction->Tickets[] = $this->ticket;
       $this->transaction->save();
       
