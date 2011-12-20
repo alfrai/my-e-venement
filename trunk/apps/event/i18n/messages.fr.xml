@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>New Color</source>
+        <target>Nouvelle couleur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Workspace</source>
+        <target>Nouvel espace de travail</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Meta event</source>
+        <target>Nouveau meta-événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Unassociated</source>
+        <target>Non-associés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Associated</source>
+        <target>Associés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Updated at %%d%% by %%u%%</source>
         <target>Mis à jour le %%d%% par %%u%%</target>
       </trans-unit>
@@ -163,6 +183,10 @@
       <trans-unit>
         <source>Sell</source>
         <target>Vendre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Event</source>
+        <target>Nouvel événement</target>
       </trans-unit>
       <trans-unit>
         <source>New Event category</source>

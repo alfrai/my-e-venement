@@ -326,6 +326,7 @@ class contactActions extends autoContactActions
     else
     {
       $this->getResponse()->setContentType('text/comma-separated-values');
+      $this->getResponse()->setHttpHeader('Content-Disposition', "attachment; filename=filename.csv");
       $this->getResponse()->sendHttpHeaders();
     }
   }
