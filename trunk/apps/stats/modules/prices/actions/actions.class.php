@@ -116,20 +116,23 @@ class pricesActions extends sfActions
     //To display value as tool tip
     $g->set_tool_tip( __('#x_label# ticket(s): #val#%') );
     
-    echo $g->render();
-    return sfView::NONE;
+    if ( !$request->hasParameter('debug') )
+    {
+      echo $g->render();
+      return sfView::NONE;
+    }
   }
   
   protected function getPrices($asked = false, $ordered = false, $all = false, $type = NULL)
   {
     $criterias = $this->getUser()->getAttribute('stats.criterias',array(),'admin_module');
-    $dates['from'] = $criterias['dates']['from']['day'] && $criterias['dates']['from']['month'] && $criterias['dates']['from']['year']
+    $dates['from'] = isset($criterias['dates']) && $criterias['dates']['from']['day'] && $criterias['dates']['from']['month'] && $criterias['dates']['from']['year']
       ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
       : strtotime('- 1 weeks');
-    $dates['to']   = $criterias['dates']['to']['day'] && $criterias['dates']['to']['month'] && $criterias['dates']['to']['year']
+    $dates['to']   = isset($criterias['dates']) && $criterias['dates']['to']['day'] && $criterias['dates']['to']['month'] && $criterias['dates']['to']['year']
       ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
       : strtotime('+ 3 weeks + 1 day');
-    if ( count($criterias['users']) > 0 )
+    if ( isset($criterias['users']) && count($criterias['users']) > 0 )
     {
       if ( !$criterias['users'][0] )
         array_shift($criterias['users']);
@@ -153,7 +156,7 @@ class pricesActions extends sfActions
       ->andWhere('m.happens_at <= ?',date('Y-m-d H:i:s',$dates['to']))
       ->groupBy('p.id, p.name, p.value');
     
-    if ( count($criterias['users']) > 0 )
+    if ( isset($criterias['users']) && count($criterias['users']) > 0 )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
 
     if ( !$all )
