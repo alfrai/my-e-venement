@@ -3,7 +3,7 @@ $(document).ready(function(){
   $.getScript($('head script[src$=js/menu.js]').attr('src').replace('js/menu.js','')+'private/menu.js');
   
   // doing a short effect on page unload
-  $('a[href]:not([href^=#]):not([target=_blank])').click(window_transition);
+  $('a[href]:not([href^=#]):not([target=_blank]):not([href^=mailto:]').click(window_transition);
   $('form').submit(window_transition);
   $('#transition .close').click(function(){ $('#transition').fadeOut('medium'); });
   
