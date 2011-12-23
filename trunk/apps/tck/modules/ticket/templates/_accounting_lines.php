@@ -3,6 +3,7 @@
 <tbody>
 <?php for ( $i = 0 ; $i < $tickets->count() ; $i++ ): ?>
 <?php $ticket = $tickets[$i] ?>
+<?php if ( $ticket->id > 0 ): ?>
   <tr>
     <td class="event"><?php echo $ticket->Manifestation->Event ?></td>
     <td class="date"><?php echo format_date($ticket->Manifestation->happens_at) ?></td>
@@ -28,6 +29,7 @@
     <td class="vat"><?php echo format_currency(round($vat = $ticket->Manifestation->vat/100 * $tip,2),'€'); if ( !isset($totals['vat'][$ticket->Manifestation->vat]) ) $totals['vat'][$ticket->Manifestation->vat] = 0; $totals['vat'][$ticket->Manifestation->vat] += $vat ?></td>
     <td class="tep"><?php echo format_currency(round($pet = $ticket->value * $qty - $vat,2),'€'); $totals['pet'] += $pet ?></td>
   </tr>
+<?php endif ?>
 <?php endfor ?>
 </tbody>
 <thead><tr>

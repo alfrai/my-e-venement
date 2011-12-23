@@ -6,9 +6,7 @@
   $form->setHidden(array('manifestation_id','value'));
   
   $form['price_id']->getWidget()->setOption('query', Doctrine::getTable('Price')->createQuery('p')
-    ->leftJoin('p.PriceManifestations pm')
-    //->where('pm.id IS NULL')
-    ->andWhere('pm.manifestation_id != ?',$pm->manifestation_id)
+    ->andWhere('p.id NOT IN (SELECT pm.price_id FROM PriceManifestation pm WHERE pm.manifestation_id = ?)',$pm->manifestation_id)
     ->orderBy('p.name')
   );
 ?>
