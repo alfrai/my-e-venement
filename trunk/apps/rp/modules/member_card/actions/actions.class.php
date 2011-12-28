@@ -13,4 +13,18 @@ require_once dirname(__FILE__).'/../lib/member_cardGeneratorHelper.class.php';
  */
 class member_cardActions extends autoMember_cardActions
 {
+  public function executeDelete(sfWebRequest $request)
+  {
+    $request->checkCSRFProtection();
+
+    $this->dispatcher->notify(new sfEvent($this, 'admin.delete_object', array('object' => $this->getRoute()->getObject())));
+    
+    $this->contact = $this->getRoute()->getObject()->Contact;
+    if ($this->getRoute()->getObject()->delete())
+    {
+      $this->getUser()->setFlash('notice', 'The item was deleted successfully.');
+    }
+
+    $this->redirect('contact/card?id='.$this->contact->id);
+  }
 }

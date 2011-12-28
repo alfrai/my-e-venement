@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Expiration date</source>
+        <target>Date d'expiration</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Receipt of the member card</source>
+        <target>Récépissé de carte de membre</target>
+      </trans-unit>
+      <trans-unit>
         <source>No card</source>
         <target>Pas de carte</target>
       </trans-unit>

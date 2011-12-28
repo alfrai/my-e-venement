@@ -32,4 +32,4 @@ csvSuccess:
     content-disposition: attachment; filename="contacts-list.csv"
 
 cardSuccess:
-  stylesheets: [contact-card]
+  stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css: {media: all}, contact-card: {media: all}, /private/contact-card: {media: all}]
