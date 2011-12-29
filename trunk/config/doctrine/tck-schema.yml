@@ -88,6 +88,7 @@ Ticket:
     manifestation_id:
       type: integer
       notnull: true
+    gauge_id: integer
     price_id:
       type: integer
       notnull: true
@@ -149,6 +150,10 @@ Ticket:
       onUpdate: CASCADE
     User:
       class: sfGuardUser
+      foreignAlias: Tickets
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Gauge:
       foreignAlias: Tickets
       onDelete: RESTRICT
       onUpdate: CASCADE
