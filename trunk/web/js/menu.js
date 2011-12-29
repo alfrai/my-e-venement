@@ -4,7 +4,7 @@ $(document).ready(function(){
   
   // doing a short effect on page unload
   $('a[href]:not([href^=#]):not([target=_blank]):not([href^=mailto:]').click(window_transition);
-  $('form').submit(window_transition);
+  $('form:not([target=_blank]').submit(window_transition);
   $('#transition .close').click(function(){ $('#transition').fadeOut('medium'); });
   
   // changing menu

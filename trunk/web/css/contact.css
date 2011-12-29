@@ -23,3 +23,12 @@
   font-size: 80%;
   padding: 0.2em 0 0.3em 0;
 }
+#member_cards #card_type_list {
+  float: left;
+  list-style-type: none;
+  margin: 5px 10px;
+}
+#member_cards #card_type_actions {
+  display: inline-block;
+  padding-top: 12px;
+}

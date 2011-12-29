@@ -1,5 +1,13 @@
 <?php use_helper('Date') ?>
 <?php include_partial('contact/assets') ?>
+<script type="text/javascript">
+$(document).ready(function(){
+  window.print();
+  <?php if ( sfConfig::has('app_cards_auto_close') ): ?>
+  window.close();
+  <?php endif ?>
+});
+</script>
 <div id="card">
   <div class="content">
     <p class="picture"></p>

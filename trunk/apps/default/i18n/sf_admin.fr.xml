@@ -5,6 +5,10 @@
     <header />
     <body>
       <trans-unit>
+        <source>Back to contact</source>
+        <target>Retour au contact</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ledger</source>
         <target>Bordereau</target>
       </trans-unit>
