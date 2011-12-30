@@ -22,6 +22,7 @@ html body p { margin: 0; padding: 0 }
   float: left;
   background: transparent url('../private/logo-75.png') no-repeat scroll bottom right;
   overflow: hidden;
+  font-weight: bold;
 }
 #card .content:first-child {
   width: 74mm;
@@ -67,12 +68,19 @@ html body p { margin: 0; padding: 0 }
 #card p.city, #card p.address, #card p.status, #card p.date {
   margin-bottom: 0;
 }
+#card p.address {
+  white-space: nowrap;
+}
 #card .content:first-child .title {
   display: inline-block;
   width: 15mm;
 }
 #card .content .title {
   color: gray;
+}
+#card .content .extra-date, #card .content .librinfo, #card .content .extra-card,
+#card .content .title {
+  font-weight: normal;
 }
 #card .title:after {
   content: ':';
