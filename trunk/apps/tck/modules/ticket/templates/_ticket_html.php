@@ -45,7 +45,9 @@
       <span class="keep-it"><?php echo __('Keep it') ?></span>
       <span class="seating"><span><?php echo __('Free seating') ?></span></span>
     </p>
-    <p class="workspace"><?php echo $ticket->Gauge->Workspace->getNameForTicket() ?></p>
+    <p class="workspace <?php echo $ticket->Manifestation->Gauges->count() > 1 ? 'has_many' : 'one' ?>">
+      <?php echo $ticket->Gauge->Workspace->getNameForTicket() ?>
+    </p>
   </div>
   <div class="right">
     <p class="manifid">
@@ -72,6 +74,9 @@
     <p class="mentions">
       <span class="keep-it"><?php echo __('Control') ?></span>
       <span class="ticket-id">#<?php echo $ticket->id ?></span>
+    </p>
+    <p class="workspace <?php echo $ticket->Manifestation->Gauges->count() > 1 ? 'has_many' : 'one' ?>">
+      <?php echo $ticket->Gauge->Workspace->getNameForTicket() ?>
     </p>
   </div>
 </div>
