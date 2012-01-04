@@ -318,12 +318,12 @@ function ticket_transform_hidden_to_span(all)
   // click to remove a ticket
   $('#prices .manifestations_list .prices .ticket_prices').unbind().click(function(){
     gid = $(this).parent().attr('class').replace(/.* gauge-(\d+).*/g,'$1');
-    $(this).parent().parent().parent().find('.workspaces select').val(gid);
+    $(this).parent().parent().parent().find('.workspaces [name="ticket[gauge_id]"]').val(gid);
     $('#prices [name=select_all]').attr('checked',false);
     price_name = $(this).find('.name').html();
     selected = $('#prices [name="ticket[nb]"]').val();
     $(this).find('.nb').html(parseInt($(this).find('.nb').html())-selected);
-    $(this).parent().parent().find('input[type=radio]').click();
+    $(this).parent().parent().parent().find('input[type=radio]').click();
     $('#prices [name="ticket[nb]"]').val(-selected);
     
     // ajax call
