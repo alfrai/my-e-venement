@@ -11,17 +11,19 @@
     <option value="<?php echo $gauge->id ?>"><?php echo $gauge->Workspace ?></option>
     <?php endforeach ?>
   </select>
+  <?php else: ?>
+    <input type="hidden" value="<?php echo $manif->Gauges[0]->id ?>" name="ticket[gauge_id]" />
   <?php endif ?>
 </span>
 <span class="prices">
 <?php if ( $active ): ?>
   <?php $total = 0; $gid = $manif->Tickets[0]->gauge_id ?>
-  <?php include_partial('ticket_manifestation_ws',array('ticket' => $manif->Tickets[0],)) ?>
+  <?php include_partial('ticket_manifestation_ws',array('ticket' => $manif->Tickets[0],'nb_gauges' => $manif->Gauges->count())) ?>
   <?php foreach ( $manif->Tickets as $ticket ): ?>
     <?php if ( $gid != $ticket->gauge_id ): ?>
       <?php $gid = $ticket->gauge_id ?>
       </span>
-      <?php include_partial('ticket_manifestation_ws',array('ticket' => $ticket,)) ?>
+      <?php include_partial('ticket_manifestation_ws',array('ticket' => $ticket,'nb_gauges' => $manif->Gauges->count())) ?>
     <?php endif ?>
     <?php if ( is_null($ticket->duplicate) ): ?>
     <input alt="#<?php echo $ticket->id ?>" type="hidden" name="ticket[prices][<?php echo $manif->id ?>][<?php echo $ticket->Price ?>][]" value="<?php echo $ticket->value ?>" title="PU: <?php echo format_currency($ticket->value,'€') ?>" />
