@@ -54,6 +54,21 @@
             <?php endforeach ?>
           </ul>
         </li>
+        <li><?php echo __('Manifestations') ?>
+          <ul>
+            <?php foreach ($manifestations as $obj ): ?>
+            <li>
+              <a href="<?php echo cross_app_url_for('event','manifestation/show?id='.$obj->id) ?>">
+                <?php echo format_datetime($obj->happens_at) ?>
+              </a>
+              -
+              <a href="<?php echo cross_app_url_for('event','event/show?id='.$obj->Event->id) ?>">
+                <?php echo $obj->Event ?>
+              </a>
+            </li>
+            <?php endforeach ?>
+          </ul>
+        </li>
         <li><?php echo __('Contacts') ?>
           <ul>
             <?php foreach ($contacts as $obj ): ?>

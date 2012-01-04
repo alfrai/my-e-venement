@@ -17,22 +17,26 @@ class defaultActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    $q = Doctrine::getTable('Email')->createQuery();
-    $a = $q->getRootAlias();
-    $q->orderBy("$a.updated_at DESC, $a.created_at DESC")
+    $q = Doctrine::getTable('Email')->createQuery('e');
+    $q->orderBy("e.updated_at DESC, e.created_at DESC")
       ->limit(5);
     $this->emails = $q->execute();
     
-    $q = Doctrine::getTable('Contact')->createQuery();
-    $a = $q->getRootAlias();
-    $q->orderBy("$a.updated_at DESC, $a.created_at DESC")
+    $q = Doctrine::getTable('Contact')->createQuery('c');
+    $q->orderBy("c.updated_at DESC, c.created_at DESC")
       ->limit(5);
     $this->contacts = $q->execute();
     
-    $q = Doctrine::getTable('Organism')->createQuery();
-    $q->orderBy("$a.updated_at DESC, $a.created_at DESC")
+    $q = Doctrine::getTable('Organism')->createQuery('o');
+    $q->orderBy("o.updated_at DESC, o.created_at DESC")
       ->limit(5);
     $this->organisms = $q->execute();
+    
+    $q = Doctrine::getTable('Manifestation')->createQuery('m');
+    $q->orderBy("m.happens_at")
+      ->andWhere("m.happens_at > now()")
+      ->limit(5);
+    $this->manifestations = $q->execute();
   }
   
   public function executeTest(sfWebRequest $request)
