@@ -200,7 +200,6 @@ function ticket_gauge_backup(gauge_elt)
 {
   // remove old 
   eltid = gauge_elt.find('.backup').attr('id');
-  alert($('#manifestations > #'+eltid).length);
   $('#manifestations > #'+eltid).remove();
   
   // backup new
