@@ -15,12 +15,15 @@
 <div>
 <input type="hidden" name="gauge-id" value="<?php echo $manifestation->id ?>" />
 <?php
-  $area = 80*80; // width: 100%, height: 100%
-  $seat = sqrt($area / ($gauge->value > 0 ? $gauge->value : 100) );
-  $manifestation->sells;
+  $area = 30000; // width: 100%, height: 100%
+  $seat = sqrt($area / ($gauge->value > 0 ? $gauge->value : 100));
   $free = $gauge->value - $manifestation->sells - $manifestation->orders - (!sfConfig::has('app_transaction_hide_demands') ? $manifestation->demands : 0);
   
-  $px = 6;
+  // cell's size
+  $px = round($seat);
+  if ( $gauge->value > 1750 && $px > 1 )
+    $px--;
+  
   $occ = 0;
 ?>
 <?php  for ( $i = 0 ; $i < $free ; $i++ ): $occ++; ?><div
