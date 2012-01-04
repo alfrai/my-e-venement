@@ -20,26 +20,29 @@
   $manifestation->sells;
   $free = $gauge->value - $manifestation->sells - $manifestation->orders - (!sfConfig::has('app_transaction_hide_demands') ? $manifestation->demands : 0);
   
+  $px = 6;
   $occ = 0;
 ?>
 <?php  for ( $i = 0 ; $i < $free ; $i++ ): $occ++; ?><div
   class="seat free"
-  style="width: <?php echo $seat ?>%; height: <?php echo $seat ?>%;"
+  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;" <?php /* echo $seat ?>%; height: <?php echo $seat ?>%;" */ ?>
   ></div
 ><?php endfor ?>
 <?php if ( !sfConfig::has('app_transaction_hide_demands') ): ?>
 <?php  for ( $i = 0 ; $i < $manifestation->demands ; $i++ ): $occ++; ?><div
   class="seat demands <?php echo $occ <= $gauge->value ? 'free' : 'overquota' ?>"
-  style="width: <?php echo $seat ?>%; height: <?php echo $seat ?>%;"
+  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;" <?php /* echo $seat ?>%; height: <?php echo $seat ?>%;" */ ?>
   ></div
 ><?php endfor ?>
 <?php endif ?>
 <?php  for ( $i = 0 ; $i < $manifestation->orders ; $i++ ): $occ++; ?><div
-  class="seat orders <?php echo $occ <= $gauge->value ? '' : 'overquota' ?>" style="width: <?php echo $seat ?>%; height: <?php echo $seat ?>%;"
+  class="seat orders <?php echo $occ <= $gauge->value ? '' : 'overquota' ?>"
+  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;" <?php /* echo $seat ?>%; height: <?php echo $seat ?>%;" */ ?>
   ></div
 ><?php endfor ?>
 <?php  for ( $i = 0 ; $i < $manifestation->sells; $i++ ): $occ++; ?><div
-  class="seat sells <?php echo $occ <= $gauge->value ? '' : 'overquota' ?>" style="width: <?php echo $seat ?>%; height: <?php echo $seat ?>%;"
+  class="seat sells <?php echo $occ <= $gauge->value ? '' : 'overquota' ?>"
+  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;" <?php /* echo $seat ?>%; height: <?php echo $seat ?>%;" */ ?>
   ></div
 ><?php endfor ?>
 </div>
