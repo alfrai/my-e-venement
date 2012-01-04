@@ -11,7 +11,7 @@
     if ( is_null($ticket->cancelling) )
     {
       $tickets[!$ticket->printed && !$ticket->integrated ? ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked') : 'printed']++;
-      if ( !sfConfig::has('app_ticketting_hide_demands') || $ticket->printed || $ticket->integrated || $ticket->Transaction->Order->count() > 0 )
+      if ( !sfConfig::get('app_ticketting_hide_demands') || $ticket->printed || $ticket->integrated || $ticket->Transaction->Order->count() > 0 )
         $tickets['booked']++;
     }
     else if ( !in_array($ticket->cancelling, $cancelled) )
@@ -22,7 +22,7 @@
     }
   }
 ?>
-<?php if ( sfConfig::has('app_ticketting_hide_demands') ): ?>
+<?php if ( sfConfig::get('app_ticketting_hide_demands') ): ?>
 <?php echo __('<strong class="booked">%%b%%</strong>/<strong>%%t%%</strong> (<span title="sold">%%p%%</span>-<span title="ordered">%%o%%</span>)', array(
     '%%p%%' => $tickets['printed'],
     '%%o%%' => $tickets['ordered'],
