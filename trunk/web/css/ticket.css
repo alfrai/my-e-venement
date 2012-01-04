@@ -229,6 +229,7 @@
   color: orange;
 }
 
+#manifestations .workspaces { display: none; }
 .prices .workspace {
   display: block;
   cursor: default;
