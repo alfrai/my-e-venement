@@ -58,7 +58,7 @@
       </trans-unit>
       <trans-unit>
         <source>Partial printing</source>
-        <target>Impression partielle</target>
+        <target>Imp./Int. partielle</target>
       </trans-unit>
       <trans-unit>
         <source>Unassociated</source>
@@ -678,7 +678,7 @@
       </trans-unit>
       <trans-unit id="169">
         <source>Cancel order</source>
-        <target>Annuler la commande</target>
+        <target>Annuler la comm.</target>
       </trans-unit>
       <trans-unit id="170">
         <source>Order</source>
