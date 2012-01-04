@@ -15,12 +15,12 @@ generator:
       actions: ~
       fields:  ~
       list:
-        display: [name]
+        display: [name,on_ticket]
       filter:  ~
       form:
         display:
-          General: [name]
-          Manifestations: [manifestations_list]
+          General: [name,on_ticket]
+          #Manifestations: [manifestations_list]
           Users: [users_list]
       edit:
         title: Edit Workspace %%name%%

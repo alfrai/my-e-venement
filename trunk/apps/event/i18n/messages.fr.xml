@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>On ticket</source>
+        <target>Sur le ticket</target>
+      </trans-unit>
+      <trans-unit>
         <source>New Color</source>
         <target>Nouvelle couleur</target>
       </trans-unit>
