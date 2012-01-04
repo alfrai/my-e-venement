@@ -30,6 +30,7 @@ Workspace:
       notnull: true
       notblank: true
       unique: true
+    on_ticket: string(255)
   relations:
     Users:
       class: sfGuardUser

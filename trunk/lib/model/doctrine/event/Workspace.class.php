@@ -12,4 +12,8 @@
  */
 class Workspace extends PluginWorkspace
 {
+  public function getNameForTicket()
+  {
+    return $this->on_ticket ? $this->on_ticket : $this->name;
+  }
 }

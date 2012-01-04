@@ -145,3 +145,5 @@ span.eur { font-weight: normal; }
   -moz-transform: rotate(270deg);
 }
 #options { display: none; }
+
+.workspace { display: none; }

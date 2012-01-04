@@ -35,6 +35,8 @@
       ->leftJoin('m.Event e')
       ->leftJoin('e.MetaEvent me')
       ->leftJoin('e.Companies c')
+      ->leftJoin('tck.Gauge g')
+      ->leftJoin('g.Workspace ws')
       ->orderBy('m.happens_at, tck.price_name, tck.id');
     if ( $request->hasParameter('toprint') )
     {

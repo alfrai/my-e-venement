@@ -45,6 +45,7 @@
       <span class="keep-it"><?php echo __('Keep it') ?></span>
       <span class="seating"><span><?php echo __('Free seating') ?></span></span>
     </p>
+    <p class="workspace"><?php echo $ticket->Gauge->Workspace->getNameForTicket() ?></p>
   </div>
   <div class="right">
     <p class="manifid">
