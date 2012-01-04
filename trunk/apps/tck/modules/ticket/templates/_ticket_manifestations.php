@@ -19,6 +19,7 @@
       <?php include_partial('ticket_manifestation',array(
         'manif' => $manif,
         'active' => false,
+        'workspace' => isset($workspace) ? $workspace : true,
       )) ?>
       </li>
     <?php endforeach ?>

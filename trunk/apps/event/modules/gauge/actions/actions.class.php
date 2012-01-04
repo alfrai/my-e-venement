@@ -13,6 +13,32 @@ require_once dirname(__FILE__).'/../lib/gaugeGeneratorHelper.class.php';
  */
 class gaugeActions extends autoGaugeActions
 {
+  public function executeState(sfWebRequest $request)
+  {
+    parent::executeShow($request);
+    $this->setLayout('nude');
+    
+    if ( $request->hasParameter('debug') )
+      sfConfig::set('sf_web_debug', true);
+    
+    if ( $request->hasParameter('json') )
+    {
+      $arr = array(
+        'id' => $this->gauge->id,
+        'workspace' => (string)$this->gauge->Workspace,
+        'total' => $this->gauge->value,
+        'free' => $this->gauge->value - ($this->gauge->printed + $this->gauge->ordered + (sfConfig::get('app_ticketting_hide_demands') ? 0 : $this->gauge->asked)),
+        'booked' => array(
+          'printed' => $this->gauge->printed,
+          'ordered' => $this->gauge->ordered,
+          'asked' => sfConfig::get('app_ticketting_hide_demands') ? 0 : $this->gauge->asked,
+        ),
+      );
+      
+      return $this->renderText(json_encode($arr));
+    }
+  }
+  
   public function executeBatchEdit(sfWebRequest $request)
   {
     if ( intval($mid = $request->getParameter('id')).'' != $request->getParameter('id') )

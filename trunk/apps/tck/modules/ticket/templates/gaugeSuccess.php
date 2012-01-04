@@ -1,5 +1,6 @@
 <?php if ( !isset($manifestation) && isset($form) ) $manifestation = $form->getObject(); ?>
 <div class="gauge">
+<div class="backup" id="gauge-<?php echo $manifestation->id ?>">
 <p class="text">
   <span class="total"><?php echo __('Total: ',null,'gauge') ?><span class="nb"><?php echo $gauge->value ?></span></span>
   <span class="free"><?php echo __('Free: ',null,'gauge') ?><span class="nb"><?php echo ($gauge->value - ((!sfConfig::has('app_transaction_hide_demands') ? $manifestation->demands : 0)+$manifestation->orders+$manifestation->sells)) ?></span></span>
@@ -48,5 +49,6 @@
   style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;" <?php /* echo $seat ?>%; height: <?php echo $seat ?>%;" */ ?>
   ></div
 ><?php endfor ?>
+</div>
 </div>
 </div>

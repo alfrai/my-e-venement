@@ -125,7 +125,7 @@ function ticket_events()
       {
         setTimeout(function(){
           $('#manifestations .manifestations_add [name="ticket[manifestation_id]"]').click();
-          $('#manifestations .manifestations_add').slideUp();
+          $('#manifestations .anifestations_add').slideUp();
           $('#manifestations .gauge').fadeOut();
         },500);
       }
@@ -180,16 +180,15 @@ function _ticket_activate_manifs_gauge(elt)
 // get the gauge for the selected manifestations (w/ tickets)
 function ticket_activate_prices_gauge()
 {
+  $('#prices .gauge').css('height','232px');
+  $('#prices .tickets_form').addClass('full');
+  ticket_get_gauge($('#prices .manifestations_list input:checked').val(),$('#prices .gauge'));
+  
   // when switching from manifestation, updating the gauge
-  $('#prices .manifestations_list input[type=radio]').click(function(){
+  $('#prices .manifestations_list input[type=radio]').unbind().click(function(){
     if ( $(this).is(':checked') )
       ticket_get_gauge($(this).val(),$('#prices .gauge'));
   });
-  
-  $('#prices .gauge').css('height','232px');
-  $('#prices .tickets_form').addClass('full');
-  
-  ticket_get_gauge($('#prices .manifestations_list input:checked').val(),$('#prices .gauge'));
   
   // if reclicking on a gauge, it refreshes it from DB
   $('#prices .gauge').unbind().click(function(){
@@ -197,27 +196,26 @@ function ticket_activate_prices_gauge()
       ticket_get_gauge($(this).find('input[name=gauge-id]').val(), $('#prices .gauge'), true);
   });
 }
-function ticket_gauge_backup()
+function ticket_gauge_backup(gauge_elt)
 {
-  $('.gauge > div').appendTo('#manifestations');
-  $('#manifestations .gauge-id').hide();
+  // remove old 
+  eltid = gauge_elt.find('.backup').attr('id');
+  alert($('#manifestations > #'+eltid).length);
+  $('#manifestations > #'+eltid).remove();
+  
+  // backup new
+  gauge_elt.find('.backup').clone(true).appendTo('#manifestations');
 }
 function ticket_get_gauge(manif_id, gauge_elt, force)
 {
-  // restore
-  if ( !force && $('#gauge-'+manif_id).length == 1 )
-  {
-    // backup
-    ticket_gauge_backup();
-    // replace
-    gauge_elt.html($('#gauge-'+manif_id).html());
-  }
   // get from DB
-  else
+  if ( force || $('#gauge-'+manif_id).length == 0 )
   {
-    $('#manifestations #gauge-'+manif_id).remove();
     $.get($('#gauge_url').attr('href')+'?id='+manif_id,function(data){
+      // display
       gauge_elt.html($(data).find('.gauge').html());
+      
+      // alert
       if ( gauge_elt.find('.free .nb').html() < 0 )
       {
         $('.manifestations_list input[name="ticket[manifestation_id]"][value='+manif_id+'], #manifestations input[name="ticket[manifestation_id]"][value='+manif_id+']')
@@ -230,8 +228,14 @@ function ticket_get_gauge(manif_id, gauge_elt, force)
           setTimeout(function(){ $('#gauge-alert').fadeOut() },2000);
         }
       }
+      
+      // backup
+      ticket_gauge_backup(gauge_elt);
     });
   }
+  
+  // restore backup
+  gauge_elt.html($('#gauge-'+manif_id));
 }
 
 function ticket_manif_new_events()
@@ -241,7 +245,17 @@ function ticket_manif_new_events()
     if ( $('.manifestations_list input[name="'+$(this).attr('name')+'"][value='+$(this).val()+']').length <= 0 )
     {
       $(this).parent().parent().find('span').unbind();
-      ticket_gauge_backup();
+      ticket_gauge_backup($('.manifestations_add .gauge'));
+      /*
+      $(this).parent().parent().find('.workspaces').each(function(){
+        if ( $(this).find('select').length == 1 )
+        {
+          select = $(this).find('select');
+          $(this).prepend('<input type="hidden" value="'+select.val()+'" name="'+select.attr('name')+'" /> ('+select.find('option:selected').html()+')');
+          $(this).find('select').remove();
+        }
+      });
+      */
       $(this).parent().parent().prependTo('.manifestations_list ul');
       if ( $('#prices .manifestations_list').length > 0 )
       {
@@ -278,9 +292,15 @@ function ticket_transform_hidden_to_span(all)
 {
   if ( typeof(all) == 'undefined' ) all = false;
   
-  $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).parent().parent().find('.prices span').remove();
+  // action to update the workspace gauge
+  $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).parent().parent().find('.prices .workspace').unbind().click(function(){
+    ticket_get_ws_gauge($(this).find('.url').html());
+  }).click();
+  
+  // visual tickets
+  $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).parent().parent().find('.prices .ticket_prices').remove();
   $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).each(function(){
-    $(this).parent().parent().find('input[type=hidden]').each(function(){
+    $(this).parent().parent().find('.prices input[type=hidden]').each(function(){
       // adding the spans
       name = $(this).attr('name').replace(/[\[\]]/g,'_').replace(/__/g,'_').replace(/_+$/,'').replace(' ','_');
       price = $(this).attr('name')
@@ -297,7 +317,9 @@ function ticket_transform_hidden_to_span(all)
   });
   
   // click to remove a ticket
-  $('#prices .manifestations_list .prices > span').unbind().click(function(){
+  $('#prices .manifestations_list .prices .ticket_prices').unbind().click(function(){
+    gid = $(this).parent().attr('class').replace(/.* gauge-(\d+).*/g,'$1');
+    $(this).parent().parent().parent().find('.workspaces select').val(gid);
     $('#prices [name=select_all]').attr('checked',false);
     price_name = $(this).find('.name').html();
     selected = $('#prices [name="ticket[nb]"]').val();
@@ -319,6 +341,32 @@ function ticket_transform_hidden_to_span(all)
   ticket_enable_payment();
 }
 
+function ticket_get_ws_gauge(json_url)
+{
+  $.getJSON(json_url+'?json',function(data){
+    url = $('.manifestations_list .workspace.gauge-'+data.id+' .ws-gauge .url');
+    $('.manifestations_list .workspace.gauge-'+data.id+' .ws-gauge span').remove();
+    $('.manifestations_list .workspace.gauge-'+data.id+' .ws-gauge')
+      .append(url)
+      .append('<span class="printed" style="width: '+(parseInt(data.total) == 0 ? '0' : data.booked.printed*100/(parseInt(data.total)+(parseInt(data.free) < 0 ? -parseInt(data.free) : 0)))+'%" title="'+data.booked.printed+'">&nbsp;</span>')
+      .append('<span class="ordered" style="width: '+(parseInt(data.total) == 0 ? '0' : data.booked.ordered*100/(parseInt(data.total)+(parseInt(data.free) < 0 ? -parseInt(data.free) : 0)))+'%" title="'+data.booked.ordered+'">&nbsp;</span>')
+      .append('<span class="asked" style="width: '+(parseInt(data.total) == 0 ? '0' : data.booked.asked*100/(parseInt(data.total)+(parseInt(data.free) < 0 ? -parseInt(data.free) : 0)))+'%" title="'+data.booked.asked+'">&nbsp;</span>')
+      .append('<span class="free" style="width: '+(parseInt(data.total) == 0 ? '0' : (parseInt(data.free) < 0 ? 0 : parseInt(data.free))*100/(parseInt(data.total)+(parseInt(data.free) < 0 ? -parseInt(data.free) : 0)))+'%" title="'+parseInt(data.free)+'">&nbsp;</span>');
+    $('.manifestations_list .workspace.gauge-'+data.id+' .ws-name').attr('title',parseInt(data.total));
+    
+    if ( parseInt(data.free) <= 0 )
+    {
+      $('.manifestations_list .workspace.gauge-'+data.id).addClass('alert');
+      if ( $('#manifestations #force-alert').length > 0 )
+      {
+        $('#gauge-alert').fadeIn().html(($('#manifestations #force-alert').html()));
+        setTimeout(function(){ $('#gauge-alert').fadeOut() },2000);
+      }
+      $('.manifestations_list select[name="ticket[gauge_id]"] option[value='+data.id+']').addClass('alert').parent().addClass('alert');
+    }
+  });
+}
+  
 // gauge updates when clicking on a price or a ticket
 function ticket_gauge_update_click(elt)
 {
@@ -337,12 +385,13 @@ function ticket_prices()
   // clicking on a price ... adding a ticket
   $('#prices input[type=submit]').unbind().click(function(){
     
-    if ( $('#prices .manifestations_list input:checked').length == 0 )
+    if ( $('#prices .manifestations_list input[type=radio]:checked').length == 0 )
       return false;
     
     // DB
     elt = $(this);
-    $.post($('.tickets_form').attr('action'),$('#prices form').serialize()+'&'+$(this).attr('name')+'='+$(this).val(),function(data){
+    serialized = $('#prices form').serialize()+'&ticket[gauge_id]='+$('#prices .manifestations_list input[type=radio]:checked').parent().parent().find('[name="ticket[gauge_id]"]').val()+'&'+$(this).attr('name')+'='+$(this).val();
+    $.post($('.tickets_form').attr('action'),serialized,function(data){
       if ( $.trim($(data).find('.sf_admin_flashes').html()) != '' )
       {
         $('.sf_admin_flashes').replaceWith($(data).find('.sf_admin_flashes'));
@@ -355,7 +404,6 @@ function ticket_prices()
       ticket_gauge_update_click();
       
       // add the content
-      //alert($('#prices .manifestations_list input:checked').val());
       $('#prices .manifestations_list input:checked').parent().parent().find('.prices')
         .html(
           $(data).find('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+
@@ -363,7 +411,7 @@ function ticket_prices()
           +']')
           .parent().parent().find('.prices').html()
         );
-      $('#prices .manifestations_list input:checked').parent().parent().find('.total')
+      $('#prices .manifestations_list input[type=radio]:checked').parent().parent().find('.total')
         .html(
           $(data).find('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+
             $('#prices .manifestations_list input:checked').val()

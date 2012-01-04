@@ -22,6 +22,10 @@ class TicketForm extends BaseTicketForm
     $this->validatorSchema['price_id']->setOption('required',false);
     $this->validatorSchema['value']->setOption('required',false);
     $this->validatorSchema['sf_guard_user_id']->setOption('required',false);
+    $this->validatorSchema['gauge_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Gauge',
+      'required' => true,
+    ));
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputHidden();
   }
   
@@ -47,6 +51,7 @@ class TicketForm extends BaseTicketForm
         ->andWhere('t.transaction_id = ?', $this->object->transaction_id)
         ->andWhere('p.name = ?', $this->object->price_name)
         ->andWhere('NOT t.printed')
+        ->andWhere('t.gauge_id = ?',$this->object->gauge_id)
         ->orderBy('t.integrated, t.id DESC')
         ->limit(-$nb);
       $tickets = $q->execute();
