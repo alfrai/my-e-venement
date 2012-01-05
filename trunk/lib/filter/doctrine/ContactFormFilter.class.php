@@ -343,9 +343,18 @@ class ContactFormFilter extends BaseContactFormFilter
     
     $a = $q->getRootAlias();
     if ( $value )
-      return $q->addWhere("$a.email IS NOT NULL");
+      return $q->addWhere("$a.email IS NOT NULL OR p.contact_email IS NOT NULL");
     else
-      return $q->addWhere("$a.email IS     NULL");
+      return $q->addWhere("$a.email IS     NULL AND p.contact_email IS NULL");
+  }
+  public function addEmailColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    $a = $q->getRootAlias();
+    if (is_array($values) && isset($values['is_empty']) && $values['is_empty'])
+      $q->addWhere(sprintf('((%s.email IS NULL OR %1$s.email = ?) AND (p.contact_email IS NULL OR p.contact_email = ?))', $q->getRootAlias()), array('',''));
+    else if (is_array($values) && isset($values['text']) && '' != $values['text'])
+      $q->addWhere(sprintf('%s.email ILIKE ? OR p.contact_email ILIKE ?', $q->getRootAlias(), 'email'), array('%'.$values['text'].'%', '%'.$values['text'].'%'));
+    return $q;
   }
   public function addProfessionalTypeIdColumnQuery(Doctrine_Query $q, $field, $value)
   {
