@@ -25,6 +25,7 @@ class TicketForm extends BaseTicketForm
     $this->validatorSchema['gauge_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Gauge',
       'required' => true,
+      'query' => Doctrine::getTable('Gauge')->createQuery('g')->andWhereIn('g.workspace_id',array_keys(sfContext::getInstance()->getUser()->getWorkspacesCredentials())),
     ));
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputHidden();
   }
