@@ -39,6 +39,7 @@
       </div>
       <h3><?php echo __('Last updates') ?></h3>
       <ul>
+        <?php if ( $sf_user->hasCredential('pr-emailing') ): ?>
         <li><?php echo __('Emails') ?>
           <ul>
             <?php foreach ($emails as $obj ): ?>
@@ -54,6 +55,8 @@
             <?php endforeach ?>
           </ul>
         </li>
+        <?php endif ?>
+        <?php if ( $sf_user->hasCredential('event-event') ): ?>
         <li><?php echo __('Manifestations') ?>
           <ul>
             <?php foreach ($manifestations as $obj ): ?>
@@ -69,6 +72,8 @@
             <?php endforeach ?>
           </ul>
         </li>
+        <?php endif ?>
+        <?php if ( $sf_user->hasCredential('pr-contact') ): ?>
         <li><?php echo __('Contacts') ?>
           <ul>
             <?php foreach ($contacts as $obj ): ?>
@@ -82,6 +87,8 @@
             <?php endforeach ?>
           </ul>
         </li>
+        <?php endif ?>
+        <?php if ( $sf_user->hasCredential('pr-organism') ): ?>
         <li><?php echo __('Organisms') ?>
           <ul>
             <?php foreach ($organisms as $obj ): ?>
@@ -95,6 +102,7 @@
             <?php endforeach ?>
           </ul>
         </li>
+        <?php endif ?>
       </ul>
     </div>
 
