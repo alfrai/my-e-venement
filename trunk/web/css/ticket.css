@@ -251,3 +251,4 @@
 .prices .workspace .ws-gauge .printed { background-color: red; }
 .prices .workspace .ws-gauge .ordered { background-color: orange; }
 .prices .workspace .ws-gauge .asked { background-color: blue; }
+.prices .manif_prices_list { display: none; }

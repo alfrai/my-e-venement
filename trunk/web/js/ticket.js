@@ -173,9 +173,6 @@ function ticket_activate_manifs_gauge()
       ticket_get_gauge($(this).find('input[name=gauge-id]').val(), $('#manifestations .gauge'), true);
   });
 }
-function _ticket_activate_manifs_gauge(elt)
-{
-}
 
 // get the gauge for the selected manifestations (w/ tickets)
 function ticket_activate_prices_gauge()
@@ -183,11 +180,17 @@ function ticket_activate_prices_gauge()
   $('#prices .gauge').css('height','232px');
   $('#prices .tickets_form').addClass('full');
   ticket_get_gauge($('#prices .manifestations_list input:checked').val(),$('#prices .gauge'));
+  // update prices display
+  ticket_display_prices();
   
   // when switching from manifestation, updating the gauge
   $('#prices .manifestations_list input[type=radio]').unbind().click(function(){
     if ( $(this).is(':checked') )
+    {
       ticket_get_gauge($(this).val(),$('#prices .gauge'));
+      // update prices display
+      ticket_display_prices();
+    }
   });
   
   // if reclicking on a gauge, it refreshes it from DB
@@ -338,6 +341,20 @@ function ticket_transform_hidden_to_span(all)
   
   // enabling (or not) payment and validation
   ticket_enable_payment();
+}
+
+function ticket_display_prices()
+{
+  prices = JSON.parse($('.manifestations_list [name="ticket[manifestation_id]"]:checked').parent().parent().find('.manif_prices_list').html());
+  elts = $('.tickets_form .prices_list [name="ticket[price_name]"]');
+  elts.hide();
+  for ( var id in prices )
+  {
+    elts.each(function(){
+      if ( $(this).is('[value='+prices[id]+']') )
+        $(this).show();
+    });
+  }
 }
 
 function ticket_get_ws_gauge(json_url)
