@@ -67,13 +67,14 @@
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->leftJoin('m.Tickets tck')
+      ->leftJoin('tck.Gauge tg')
       ->leftJoin('tck.Price tp')
       ->leftJoin('tck.Transaction t')
       ->leftJoin('g.Workspace ws')
-      ->andWhereIn('g.workspace_id',$workspaces)
+      ->andWhereIn('tg.workspace_id',$workspaces)
       ->andWhere('t.id = ?',$this->transaction->id)
       ->andWhere('tck.duplicate IS NULL')
-      ->orderBy('e.name, m.happens_at, tck.gauge_id, tck.price_name');
+      ->orderBy('e.name, m.happens_at, tg.workspace_id, tck.price_name');
     if ( count($values['manifestation_id']) > 0 )
       $q->andWhereIn('m.id',$values['manifestation_id']);
     $this->manifestations = $q->execute();

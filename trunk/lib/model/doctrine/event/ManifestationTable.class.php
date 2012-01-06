@@ -28,6 +28,7 @@ class ManifestationTable extends PluginManifestationTable
     $t  = $alias != 't'  ? 't'  : 't1';
     $o  = $alias != 'o'  ? 'o'  : 'o1';
     $c  = $alias != 'c'  ? 'c'  : 'c1';
+    $w  = $alias != 'w'  ? 'w'  : 'w1';
     $tck = $alias != 'tck'  ? 'tck'  : 'tck1';
     $tr = $alias != 'tr'  ? 'tr'  : 'tr1';
     
@@ -41,8 +42,9 @@ class ManifestationTable extends PluginManifestationTable
       $q->leftJoin("$alias.PriceManifestations $pm")
         ->leftJoin("$pm.Price $p")
         ->leftJoin("$alias.Gauges $g")
+        ->leftJoin("$g.Workspace $w")
         ->leftJoin("$alias.Organizers $o")
-        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name");
+        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name, $w.id");
     }
     
     return $q;
