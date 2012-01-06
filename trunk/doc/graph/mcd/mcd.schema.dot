@@ -60,6 +60,12 @@ graph G {
 	nodeCheckpoint [
 		label="{<table>Checkpoint|<cols>email (string)\lname (string)\ldescription (string)\llegal (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\llatitude (double)\llongitude (double)\lslug (string)}",
 		shape=record ];
+	nodeBankPayment [
+		label="{<table>BankPayment|<cols>payment_id (integer)\lserialized (string)\lcode (string)\lerror (string)\lmerchant_id (string)\lmerchant_country (string)\lamount (string)\ltransaction_id (string)\lpayment_means (string)\ltransmission_date (string)\lpayment_time (string)\lpayment_certificate (string)\lauthorization_id (string)\lcurrency_code (string)\lcard_number (string)\lcvv_flag (string)\lbank_response_code (string)\lcomplementary_code (string)\lcomplementary_info (string)\lreturn_context (string)\lcaddie (string)\lreceipt_complement (string)\lmerchant_language (string)\llanguage (string)\lcustomer_id (string)\lorder_id (string)\lcustomer_email (string)\lcustomer_ip_address (string)\lcapture_day (string)\lcapture_mode (string)\ldata_field (string)\lcvv_response_code (string)\lpayment_date (string)\lresponse_code (string)\lraw (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeRemoteAuthentication [
+		label="{<table>RemoteAuthentication|<cols>ipaddress (string)\lactive (boolean)\lsalt (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
 	nodesfGuardGroupPermission [
 		label="{<table>sfGuardGroupPermission|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
@@ -109,7 +115,7 @@ graph G {
 		label="{<table>Accounting|<cols>type (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
 		shape=record ];
 	nodeTicket [
-		label="{<table>Ticket|<cols>price_name (string)\lvalue (decimal)\lnumerotation (string)\lprinted (boolean)\lbarcode (string)\lothercode (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		label="{<table>Ticket|<cols>price_name (string)\lvalue (decimal)\lnumerotation (string)\lprinted (boolean)\lintegrated (boolean)\lbarcode (string)\lothercode (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
 		shape=record ];
 	nodePaymentMethod [
 		label="{<table>PaymentMethod|<cols>name (string)\laccount (string)}",
@@ -118,7 +124,7 @@ graph G {
 		label="{<table>Color|<cols>name (string)\lcolor (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeManifestation [
-		label="{<table>Manifestation|<cols>happens_at (timestamp)\lduration (integer)\ldescription (string)\lvat (decimal)\lseated (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>Manifestation|<cols>happens_at (timestamp)\lduration (integer)\ldescription (string)\lvat (decimal)\lseated (boolean)\lonline_limit (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeMetaEvent [
 		label="{<table>MetaEvent|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -139,10 +145,13 @@ graph G {
 		label="{<table>Gauge|<cols>value (integer)\lonline (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeWorkspace [
-		label="{<table>Workspace|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>Workspace|<cols>name (string)\lon_ticket (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeProfessionalType [
 		label="{<table>ProfessionalType|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeMemberCard [
+		label="{<table>MemberCard|<cols>name (string)\lexpire_at (timestamp)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeOptionCsv [
 		label="{<table>OptionCsv|<cols>type (string)\lname (string)\lvalue (string)\lcreated_at (timestamp)}",
@@ -187,7 +196,7 @@ graph G {
 		label="{<table>PaymentVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\lpayment_method_id (integer)\lvalue (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeOrderVersion [
-		label="{<table>OrderVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>OrderVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeControlVersion [
 		label="{<table>ControlVersion|<cols>sf_guard_user_id (integer)\lticket_id (integer)\lcheckpoint_id (integer)\lcomment (text)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -196,13 +205,13 @@ graph G {
 		label="{<table>TransactionVersion|<cols>sf_guard_user_id (integer)\lcontact_id (integer)\lprofessional_id (integer)\ltransaction_id (integer)\ltype (enum)\lclosed (boolean)\lworkspace_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeInvoiceVersion [
-		label="{<table>InvoiceVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>InvoiceVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeAccountingVersion [
-		label="{<table>AccountingVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>AccountingVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeTicketVersion [
-		label="{<table>TicketVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\lmanifestation_id (integer)\lprice_id (integer)\lprice_name (string)\lvalue (decimal)\lnumerotation (string)\lduplicate (integer)\lcancelling (integer)\lprinted (boolean)\lbarcode (string)\lothercode (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>TicketVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\lmanifestation_id (integer)\lgauge_id (integer)\lprice_id (integer)\lprice_name (string)\lvalue (decimal)\lnumerotation (string)\lduplicate (integer)\lcancelling (integer)\lprinted (boolean)\lintegrated (boolean)\lbarcode (string)\lothercode (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 
 	nodeGroupContact [
@@ -717,6 +726,10 @@ graph G {
 		headlabel="0,1",
 		label="(Tickets)",
 		labeldistance=3 ];
+	nodeManifestation -- nodeAccounting [
+		headlabel="0,1",
+		label="(Accountings)",
+		labeldistance=3 ];
 	nodeManifestation -- nodeManifestationOrganizer [
 		headlabel="0,1",
 		label="",
@@ -837,6 +850,10 @@ graph G {
 		headlabel="0,1",
 		label="(Professionals)",
 		labeldistance=3 ];
+	nodeContact -- nodeMemberCard [
+		headlabel="0,1",
+		label="(MemberCards)",
+		labeldistance=3 ];
 	nodeContact -- nodeTransaction [
 		headlabel="0,1",
 		label="(Transactions)",
@@ -932,6 +949,10 @@ graph G {
 		arrowhead=normal ];
 	nodeCheckpoint -- nodeBaseCheckpoint [
 		arrowhead=normal ];
+	nodeBankPayment -- nodeBaseBankPayment [
+		arrowhead=normal ];
+	nodeRemoteAuthentication -- nodeBaseRemoteAuthentication [
+		arrowhead=normal ];
 	nodesfGuardForgotPassword -- nodeBasesfGuardForgotPassword [
 		arrowhead=normal ];
 	nodesfGuardUser -- nodeBasesfGuardUser [
@@ -979,6 +1000,8 @@ graph G {
 	nodeWorkspace -- nodeBaseWorkspace [
 		arrowhead=normal ];
 	nodeProfessionalType -- nodeBaseProfessionalType [
+		arrowhead=normal ];
+	nodeMemberCard -- nodeBaseMemberCard [
 		arrowhead=normal ];
 	nodeOptionCsv -- nodeBaseOptionCsv [
 		arrowhead=normal ];

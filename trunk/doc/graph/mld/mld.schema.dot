@@ -13,7 +13,7 @@ digraph G {
 		label="{<table>traceable|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodeaccounting [
-		label="{<table>accounting|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
+		label="{<table>accounting|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodeaddressable [
 		label="{<table>addressable|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
@@ -66,6 +66,12 @@ digraph G {
 	nodecheckpoint [
 		label="{<table>checkpoint|<cols>id (integer) [PK]\levent_id (integer)\lemail (string)\lorganism_id (integer)\lname (string)\ldescription (string)\llegal (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\llatitude (double)\llongitude (double)\lslug (string)\l}",
 		shape=record ];
+	nodebank_payment [
+		label="{<table>bank_payment|<cols>id (integer) [PK]\lpayment_id (integer)\lserialized (string)\lcode (string)\lerror (string)\lmerchant_id (string)\lmerchant_country (string)\lamount (string)\ltransaction_id (string)\lpayment_means (string)\ltransmission_date (string)\lpayment_time (string)\lpayment_certificate (string)\lauthorization_id (string)\lcurrency_code (string)\lcard_number (string)\lcvv_flag (string)\lbank_response_code (string)\lcomplementary_code (string)\lcomplementary_info (string)\lreturn_context (string)\lcaddie (string)\lreceipt_complement (string)\lmerchant_language (string)\llanguage (string)\lcustomer_id (string)\lorder_id (string)\lcustomer_email (string)\lcustomer_ip_address (string)\lcapture_day (string)\lcapture_mode (string)\ldata_field (string)\lcvv_response_code (string)\lpayment_date (string)\lresponse_code (string)\lraw (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	noderemote_authentication [
+		label="{<table>remote_authentication|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lipaddress (string)\lactive (boolean)\lsalt (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
 	nodesf_guard_group_permission [
 		label="{<table>sf_guard_group_permission|<cols>group_id (integer) [PK]\lpermission_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
@@ -97,7 +103,7 @@ digraph G {
 		label="{<table>payment|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\lpayment_method_id (integer)\lvalue (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodeaccounting [
-		label="{<table>accounting|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
+		label="{<table>accounting|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodecontrol [
 		label="{<table>control|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lticket_id (integer)\lcheckpoint_id (integer)\lcomment (text)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
@@ -106,10 +112,10 @@ digraph G {
 		label="{<table>transaction|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lcontact_id (integer)\lprofessional_id (integer)\ltransaction_id (integer)\ltype (enum)\lclosed (boolean)\lworkspace_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodeaccounting [
-		label="{<table>accounting|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
+		label="{<table>accounting|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodeticket [
-		label="{<table>ticket|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\lmanifestation_id (integer)\lprice_id (integer)\lprice_name (string)\lvalue (decimal)\lnumerotation (string)\lduplicate (integer)\lcancelling (integer)\lprinted (boolean)\lbarcode (string)\lothercode (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
+		label="{<table>ticket|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\lmanifestation_id (integer)\lgauge_id (integer)\lprice_id (integer)\lprice_name (string)\lvalue (decimal)\lnumerotation (string)\lduplicate (integer)\lcancelling (integer)\lprinted (boolean)\lintegrated (boolean)\lbarcode (string)\lothercode (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodepayment_method [
 		label="{<table>payment_method|<cols>id (integer) [PK]\lname (string)\laccount (string)\l}",
@@ -121,7 +127,7 @@ digraph G {
 		label="{<table>meta_event_user|<cols>sf_guard_user_id (integer) [PK]\lmeta_event_id (integer) [PK]\l}",
 		shape=record ];
 	nodemanifestation [
-		label="{<table>manifestation|<cols>id (integer) [PK]\levent_id (integer)\llocation_id (integer)\lcolor_id (integer)\lhappens_at (timestamp)\lduration (integer)\ldescription (string)\lvat (decimal)\lseated (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		label="{<table>manifestation|<cols>id (integer) [PK]\levent_id (integer)\llocation_id (integer)\lcolor_id (integer)\lhappens_at (timestamp)\lduration (integer)\ldescription (string)\lvat (decimal)\lseated (boolean)\lonline_limit (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
 	nodemeta_event [
 		label="{<table>meta_event|<cols>id (integer) [PK]\lname (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
@@ -151,10 +157,13 @@ digraph G {
 		label="{<table>manifestation_organizer|<cols>organism_id (integer) [PK]\lmanifestation_id (integer) [PK]\l}",
 		shape=record ];
 	nodeworkspace [
-		label="{<table>workspace|<cols>id (integer) [PK]\lname (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		label="{<table>workspace|<cols>id (integer) [PK]\lname (string)\lon_ticket (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
 	nodeprofessional_type [
 		label="{<table>professional_type|<cols>id (integer) [PK]\lname (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodemember_card [
+		label="{<table>member_card|<cols>id (integer) [PK]\lname (string)\lcontact_id (integer)\lexpire_at (timestamp)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
 	nodeoption_table [
 		label="{<table>option_table|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
@@ -205,7 +214,7 @@ digraph G {
 		label="{<table>payment_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\lpayment_method_id (integer)\lvalue (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
 		shape=record ];
 	nodeorder_version [
-		label="{<table>order_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
+		label="{<table>order_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
 		shape=record ];
 	nodecontrol_version [
 		label="{<table>control_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lticket_id (integer)\lcheckpoint_id (integer)\lcomment (text)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
@@ -214,13 +223,13 @@ digraph G {
 		label="{<table>transaction_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lcontact_id (integer)\lprofessional_id (integer)\ltransaction_id (integer)\ltype (enum)\lclosed (boolean)\lworkspace_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
 		shape=record ];
 	nodeinvoice_version [
-		label="{<table>invoice_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
+		label="{<table>invoice_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
 		shape=record ];
 	nodeaccounting_version [
-		label="{<table>accounting_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
+		label="{<table>accounting_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
 		shape=record ];
 	nodeticket_version [
-		label="{<table>ticket_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\lmanifestation_id (integer)\lprice_id (integer)\lprice_name (string)\lvalue (decimal)\lnumerotation (string)\lduplicate (integer)\lcancelling (integer)\lprinted (boolean)\lbarcode (string)\lothercode (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
+		label="{<table>ticket_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\lmanifestation_id (integer)\lgauge_id (integer)\lprice_id (integer)\lprice_name (string)\lvalue (decimal)\lnumerotation (string)\lduplicate (integer)\lcancelling (integer)\lprinted (boolean)\lintegrated (boolean)\lbarcode (string)\lothercode (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
 		shape=record ];
 	nodelocation_index [
 		label="{<table>location_index|<cols>keyword (string) [PK]\lfield (string) [PK]\lposition (integer) [PK]\lid (integer) [PK]\l}",
@@ -243,6 +252,8 @@ digraph G {
 		label="sf_guard_user_id=id"];
 	nodeaccounting:cols -> nodetransaction:table [
 		label="transaction_id=id"];
+	nodeaccounting:cols -> nodemanifestation:table [
+		label="manifestation_id=id"];
 	nodeoption_table:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
 	nodegroup_professional:cols -> nodegroup_table:table [
@@ -279,6 +290,8 @@ digraph G {
 		label="event_id=id"];
 	nodecheckpoint:cols -> nodeorganism:table [
 		label="organism_id=id"];
+	noderemote_authentication:cols -> nodesf_guard_user:table [
+		label="sf_guard_user_id=id"];
 	nodesf_guard_group_permission:cols -> nodesf_guard_group:table [
 		label="group_id=id"];
 	nodesf_guard_group_permission:cols -> nodesf_guard_permission:table [
@@ -333,6 +346,8 @@ digraph G {
 		label="cancelling=id"];
 	nodeticket:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
+	nodeticket:cols -> nodegauge:table [
+		label="gauge_id=id"];
 	nodemeta_event_user:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
 	nodemeta_event_user:cols -> nodemeta_event:table [
@@ -369,6 +384,8 @@ digraph G {
 		label="organism_id=id"];
 	nodemanifestation_organizer:cols -> nodemanifestation:table [
 		label="manifestation_id=id"];
+	nodemember_card:cols -> nodecontact:table [
+		label="contact_id=id"];
 	nodeprofessional:cols -> nodeprofessional_type:table [
 		label="professional_type_id=id"];
 	nodeprofessional:cols -> nodecontact:table [
