@@ -1,6 +1,7 @@
   <?php if ( $manif->Gauges->count() > 1 ): ?>
+  <?php $gauges = array(); foreach ( $manif->Gauges as $gauge ) $gauges[$gauge->workspace_id] = $gauge; ksort($gauges); ?>
   <select name="ticket[gauge_id]">
-    <?php foreach ( $manif->Gauges as $gauge ): ?>
+    <?php foreach ( $gauges as $gauge ): ?>
     <option value="<?php echo $gauge->id ?>"><?php echo $gauge->Workspace ?></option>
     <?php endforeach ?>
   </select>
