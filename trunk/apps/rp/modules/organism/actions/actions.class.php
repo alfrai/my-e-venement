@@ -159,6 +159,15 @@ class organismActions extends autoOrganismActions
     $this->setTemplate('index');
   }
   
+  public function executeCsv(sfWebRequest $request)
+  {
+    return require(dirname(__FILE__).'/csv.php');
+  }
+  public function executeLabels(sfWebRequest $request)
+  {
+    return require(dirname(__FILE__).'/labels.php');
+  }
+  
   public static function sanitizeSearch($search)
   {
     $nb = strlen($search);

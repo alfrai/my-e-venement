@@ -107,64 +107,7 @@ class contactActions extends autoContactActions
   
   public function executeLabels(sfWebRequest $request)
   {
-    // lots of the lines above come directly from e-venement v1.10 with only few modifications
-    
-    // options
-    $this->params = OptionLabelsForm::getDBOptions();
-    $this->fields = OptionCsvForm::getDBOptions();
-    $tunnel = in_array('tunnel',$this->fields['option']);
-    $this->fields = $this->fields['field'];
-    
-    // get back data for labels
-    $request->setParameter('debug','true');
-    $this->executeCsv($request,true);
-    
-    // format data for the specific labels' view
-    $contacts = $this->lines;
-    unset($this->lines);
-    
-    $this->labels = array(  // the whole bundle of labels
-      /*
-      array(          // the pages
-        array(        // the lines
-          array(),    // the labels themselves
-        ),
-      ),
-      */
-    );
-    for ( $i = 0 ; $i < count($contacts) ; $i++ )
-    {
-      $contact = $contacts[$i];
-      
-      // cleaning unwanted fields from contact array
-      if ( count($this->fields) > 0 )
-      {
-        $tmp = array();
-        foreach( $contact as $field => $value )
-          $tmp[$field] = '';
-        foreach ( $this->fields as $name => $value )
-          $tmp[$value] = isset($contact[$value]) ? $contact[$value] : '';
-        $contact = $tmp;
-      }
-      
-      // tunneling effect
-      if ( $tunnel )
-        $contact = OptionCsvForm::tunnelingContact($contact);
-      
-      // make pages
-      if ( $i % (intval($this->params['nb-x'])*intval($this->params['nb-y'])) == 0 )
-        $this->labels[] = array();
-      $nbpages = count($this->labels);
-    
-      // make lines
-      if ( $i % intval($this->params['nb-x']) == 0 )
-        $this->labels[$nbpages-1][] = array();
-      $nblines = count($this->labels[$nbpages-1]);
-    
-      $this->labels[$nbpages-1][$nblines-1][] = $contact;
-    }
-    
-    $this->setLayout(false);
+    return require(dirname(__FILE__).'/labels.php');
   }
   public function executeDuplicates(sfWebRequest $request)
   {
@@ -279,56 +222,7 @@ class contactActions extends autoContactActions
   
   public function executeCsv(sfWebRequest $request, $labels = false)
   {
-    $q = $this->buildQuery();
-    $a = $q->getRootAlias();
-    $q->select   ("$a.title, $a.name, $a.firstname, $a.address, $a.postalcode, $a.city, $a.country, $a.npai, $a.email")
-      ->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonename")
-      ->addSelect("(SELECT tmp2.number FROM ContactPhonenumber tmp2 WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonenumber")
-      ->addSelect("$a.description")
-      ->leftJoin('o.Category oc')
-      ->addSelect("oc.name AS organism_category, o.name AS organism_name")
-      ->addSelect('p.department AS professional_department, p.contact_number AS professional_number, p.contact_email AS professional_email')
-      ->addSelect('pt.name AS professional_type_name, p.name AS professional_name')
-      ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description")
-      ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonename")
-      ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonenumber");
-    
-    // only when groups are a part of filters
-    if ( in_array("LEFT JOIN $a.Groups gc",$q->getDqlPart('from')) )
-      $q->leftJoin(" p.ProfessionalGroups mp ON mp.group_id = gp.id AND mp.professional_id = p.id")
-        ->leftJoin("$a.ContactGroups      mc ON mc.group_id = gc.id AND mc.contact_id     = $a.id")
-        ->addSelect("(CASE WHEN mc.information IS NOT NULL THEN mc.information ELSE mp.information END) AS information");
-    $this->lines = $q->fetchArray();
-    
-    $params = OptionCsvForm::getDBOptions();
-    $this->options = array(
-      'ms'        => in_array('microsoft',$params['option']),    // microsoft-compatible extraction
-      'tunnel'    => in_array('tunnel',$params['option']),       // tunnel effect on fields to prefer organism fields when they exist
-      'noheader'  => in_array('noheader',$params['option']),     // no header
-      'fields'    => $params['field'],
-    );
-    
-    $this->outstream = 'php://output';
-    $this->delimiter = $this->options['ms'] ? ';' : ',';
-    $this->enclosure = '"';
-    $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
-    
-    if ( !$request->hasParameter('debug') )
-      sfConfig::set('sf_web_debug', false);
-    if ( !$labels )
-    {
-      sfConfig::set('sf_escaping_strategy', false);
-      sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
-    }
-    
-    if ( $request->hasParameter('debug') )
-      $this->setLayout(true);
-    else
-    {
-      $this->getResponse()->setContentType('text/comma-separated-values');
-      $this->getResponse()->setHttpHeader('Content-Disposition', "attachment; filename=filename.csv");
-      $this->getResponse()->sendHttpHeaders();
-    }
+    return require(dirname(__FILE__).'/csv.php');
   }
   
   // creates a group from filter criterias
