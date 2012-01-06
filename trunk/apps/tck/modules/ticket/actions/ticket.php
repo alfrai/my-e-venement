@@ -74,7 +74,7 @@
       ->andWhereIn('tg.workspace_id',$workspaces)
       ->andWhere('t.id = ?',$this->transaction->id)
       ->andWhere('tck.duplicate IS NULL')
-      ->orderBy('e.name, m.happens_at, tg.workspace_id, tck.price_name');
+      ->orderBy('e.name, m.happens_at, g.workspace_id, tg.workspace_id, tck.price_name');
     if ( count($values['manifestation_id']) > 0 )
       $q->andWhereIn('m.id',$values['manifestation_id']);
     $this->manifestations = $q->execute();

@@ -44,7 +44,7 @@ class ManifestationTable extends PluginManifestationTable
         ->leftJoin("$alias.Gauges $g")
         ->leftJoin("$g.Workspace $w")
         ->leftJoin("$alias.Organizers $o")
-        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name, $w.id");
+        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name, $g.workspace_id");
     }
     
     return $q;
