@@ -59,7 +59,7 @@
     
     if ( !$request->hasParameter('debug') )
       sfConfig::set('sf_web_debug', false);
-    if ( !$labels )
+    if ( !isset($labels) || !$labels )
     {
       sfConfig::set('sf_escaping_strategy', false);
       sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);

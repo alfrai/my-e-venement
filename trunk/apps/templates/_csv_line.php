@@ -32,7 +32,7 @@
     }
     
     // the tunnel effect
-    if ( $options['tunnel'] )
+    if ( isset($options['tunnel']) && $options['tunnel'] )
       $line = OptionCsvForm::tunnelingContact($line);
     
     // microsft encoding compatibility

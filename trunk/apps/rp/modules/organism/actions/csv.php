@@ -25,15 +25,17 @@
 <?php
     $q = $this->buildQuery();
     $a = $q->getRootAlias();
-    $q->leftJoin("$a.Category oc")
-      ->addSelect("oc.name AS organism_category, $a.name AS organism_name")
-      ->addSelect("$a.address AS organism_address, $a.postalcode AS organism_postalcode, $a.city AS organism_city, $a.country AS organism_country, $a.email AS organism_email, $a.url AS organism_url, $a.npai AS organism_npai, $a.description AS organism_description")
+    $q->select("$a.name AS organism_name, $a.address AS organism_address, $a.postalcode AS organism_postalcode, $a.city AS organism_city, $a.country AS organism_city, $a.country AS organism_country, $a.email AS organism_email, $a.url AS organism_url, $a.npai AS organism_npai, $a.description AS organism_description")
+      ->addSelect("oc.name AS organism_category")
       ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonename")
       ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonenumber");
     
     $this->lines = $q->fetchArray();
     
     $params = OptionCsvForm::getDBOptions();
+    foreach ( $params['field'] AS $key => $name )
+    if ( substr($name,0,9) != 'organism_' )
+      unset($params['field'][$key]);
     $this->options = array(
       'ms'        => in_array('microsoft',$params['option']),    // microsoft-compatible extraction
       'noheader'  => in_array('noheader',$params['option']),     // no header
@@ -47,17 +49,20 @@
     
     if ( !$request->hasParameter('debug') )
       sfConfig::set('sf_web_debug', false);
-    if ( !$labels )
+    if ( !isset($labels) || !$labels )
     {
       sfConfig::set('sf_escaping_strategy', false);
       sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
     }
     
     if ( $request->hasParameter('debug') )
+    {
       $this->setLayout(true);
+    }
     else
     {
       $this->getResponse()->setContentType('text/comma-separated-values');
       $this->getResponse()->setHttpHeader('Content-Disposition', "attachment; filename=organisms.csv");
       $this->getResponse()->sendHttpHeaders();
     }
+    

@@ -57,7 +57,7 @@
         $tmp = array();
         foreach( $organism as $field => $value )
           $tmp[$field] = '';
-        foreach ( $this->fields as $name => $value )
+        foreach ( $this->fields as $field => $value )
           $tmp[$value] = isset($organism[$value]) ? $organism[$value] : '';
         $organism = $tmp;
       }
@@ -72,7 +72,7 @@
         $this->labels[$nbpages-1][] = array();
       $nblines = count($this->labels[$nbpages-1]);
     
-      $this->labels[$nbpages-1][$nblines-1][] = $organisms;
+      $this->labels[$nbpages-1][$nblines-1][] = $organism;
     }
     
     $this->setLayout(false);

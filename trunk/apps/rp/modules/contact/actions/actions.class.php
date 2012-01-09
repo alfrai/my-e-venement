@@ -222,7 +222,7 @@ class contactActions extends autoContactActions
   
   public function executeCsv(sfWebRequest $request, $labels = false)
   {
-    return require(dirname(__FILE__).'/csv.php');
+    require(dirname(__FILE__).'/csv.php');
   }
   
   // creates a group from filter criterias
