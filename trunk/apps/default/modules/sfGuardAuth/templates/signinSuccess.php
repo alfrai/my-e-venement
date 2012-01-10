@@ -27,10 +27,12 @@
     
     <?php else: ?>
     
+    <?php /*
     <div class="ui-widget-content forgot-pwd ui-corner-all">
       <?php $forgot_form = new sfGuardRequestForgotPasswordForm() ?>
       <?php include_partial('sfGuardForgotPassword/index', array('form' => $forgot_form)) ?>
     </div>
+    */ ?>
     
     <?php endif; ?>
     

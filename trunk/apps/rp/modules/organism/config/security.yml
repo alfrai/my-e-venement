@@ -28,9 +28,9 @@ delete:
 batchDelete:
   credentials: pr-organism-del
 
-labels:
-  credentials: pr-organism-labels
 csv:
-  credentials: pr-organism-csv
+  credentials: [ pr-contact-csv, pr-organism ]
+labels:
+  credentials: [ pr-contact-labels, pr-organism ]
 group:
   credentials: pr-group-perso
