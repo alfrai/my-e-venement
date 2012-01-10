@@ -5,6 +5,14 @@
     <header />
     <body>
       <trans-unit>
+        <source>Login below to gain access</source>
+        <target>Vous pouvez changer de compte avec le formulaire ci-dessous ou utiliser le menu pour continuer d'utiliser e-venement avec votre compte</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Oops! The screen you asked for is secure and you do not have proper credentials.</source>
+        <target>Vous n'avez pas les droits suffisants pour accéder à cette fonctionnalité</target>
+      </trans-unit>
+      <trans-unit>
         <source>Back to contact</source>
         <target>Retour au contact</target>
       </trans-unit>

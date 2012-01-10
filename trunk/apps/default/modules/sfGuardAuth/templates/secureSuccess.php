@@ -18,16 +18,11 @@
       </div>
       <div class="error ui-state-error ui-corner-all">
         <span class="ui-icon ui-icon-alert floatleft"></span>&nbsp;
-        <?php echo __('Oops! The screen you asked for is secure and you do not have proper credentials.') ?>
+        <?php echo __('Oops! The screen you asked for is secure and you do not have proper credentials.',array(),'sf_admin') ?>
       </div>
       <p><?php echo sfContext::getInstance()->getRequest()->getUri() ?></p>
-      <h3><?php echo __('Login below to gain access') ?></h3>
+      <h3><?php echo __('Login below to gain access',array(),'sf_admin') ?></h3>
       <?php echo get_component('sfGuardAuth', 'signin_form') ?>
-    </div>
-    
-    <div class="ui-widget-content forgot-pwd ui-corner-all">
-      <?php $forgot_form = new sfGuardRequestForgotPasswordForm() ?>
-      <?php include_partial('sfGuardForgotPassword/index', array('form' => $forgot_form)) ?>
     </div>
     
     <div class="ui-widget-content ui-corner-all">
