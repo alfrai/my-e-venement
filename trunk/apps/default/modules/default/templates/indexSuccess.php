@@ -32,7 +32,87 @@
   <?php include_partial('default/flashes') ?>
 
   <div id="sf_admin_content">
-    <?php include_partial('index') ?>
+  <div class="welcome ui-grid-table ui-widget ui-corner-all ui-helper-reset ui-helper-clearfix">
+    <div class="ui-widget-content ui-corner-all">
+      <div class="ui-widget-header ui-corner-all fg-toolbar">
+        <h2><?php echo __('Welcome on e-venement', array(), 'messages') ?></h2>
+      </div>
+      <h3><?php echo __('Last updates') ?></h3>
+      <ul>
+        <?php if ( $sf_user->hasCredential('pr-emailing') ): ?>
+        <li><?php echo __('Emails') ?>
+          <ul>
+            <?php foreach ($emails as $obj ): ?>
+            <li>
+              <?php echo format_date($obj->updated_at) ?>
+              -
+              <a href="<?php echo cross_app_url_for('rp','email/show?id='.$obj->id) ?>">
+                <?php echo $obj->field_subject ?>
+              </a>
+              -
+              <?php echo $obj->field_from ?>
+            </li>
+            <?php endforeach ?>
+          </ul>
+        </li>
+        <?php endif ?>
+        <?php if ( $sf_user->hasCredential('event-event') ): ?>
+        <li><?php echo __('Manifestations') ?>
+          <ul>
+            <?php foreach ($manifestations as $obj ): ?>
+            <li>
+              <a href="<?php echo cross_app_url_for('event','manifestation/show?id='.$obj->id) ?>">
+                <?php echo format_datetime($obj->happens_at) ?>
+              </a>
+              -
+              <a href="<?php echo cross_app_url_for('event','event/show?id='.$obj->Event->id) ?>">
+                <?php echo $obj->Event ?>
+              </a>
+            </li>
+            <?php endforeach ?>
+          </ul>
+        </li>
+        <?php endif ?>
+        <?php if ( $sf_user->hasCredential('pr-contact') ): ?>
+        <li><?php echo __('Contacts') ?>
+          <ul>
+            <?php foreach ($contacts as $obj ): ?>
+            <li>
+              <?php echo format_date($obj->updated_at) ?>
+              -
+              <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$obj->id) ?>">
+                <?php echo $obj ?>
+              </a>
+            </li>
+            <?php endforeach ?>
+          </ul>
+        </li>
+        <?php endif ?>
+        <?php if ( $sf_user->hasCredential('pr-organism') ): ?>
+        <li><?php echo __('Organisms') ?>
+          <ul>
+            <?php foreach ($organisms as $obj ): ?>
+            <li>
+              <?php echo format_date($obj->updated_at) ?>
+              -
+              <a href="<?php echo cross_app_url_for('rp','organism/show?id='.$obj->id) ?>">
+                <?php echo $obj ?>
+              </a>
+            </li>
+            <?php endforeach ?>
+          </ul>
+        </li>
+        <?php endif ?>
+      </ul>
+    </div>
+
+    <div class="ui-widget-content ui-corner-all">
+      <div class="ui-widget-header ui-corner-all fg-toolbar">
+        <h2><?php echo __('Libre Informatique', array(), 'messages') ?></h2>
+      </div>
+      <?php include_partial('global/libre-informatique') ?>
+    </div>
+  </div>
   </div>
 
   <div id="sf_admin_footer">
