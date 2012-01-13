@@ -28,7 +28,6 @@ Traceable:
       versionColumn: version
       className: %CLASS%Version
       auditLog: true
-    SoftDelete: ~
   columns:
     sf_guard_user_id:
       type: integer
