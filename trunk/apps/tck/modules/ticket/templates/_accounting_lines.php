@@ -14,13 +14,14 @@
     <td class="price"><?php echo $ticket->Price->description ?></td>
     <td class="up"><?php echo format_currency($ticket->value,'€') ?></td>
     <td class="qty"><?php
-      $qty = 1;
+      $qty =  $nocancel && $tickets[$i]->Cancelling->count() > 0 ? 0 : 1;
       if ( $i+1 < $tickets->count() )
       while ( $tickets[$i+1]['manifestation_id'] == $ticket->manifestation_id
            && $tickets[$i+1]['price_id']         == $ticket->price_id
            && $tickets[$i+1]['value']            == $ticket->value )
       {
-        $qty++;
+        if ( !$nocancel || $tickets[$i+1]->Cancelling->count() == 0 )
+          $qty++;
         $i++;
       }
       echo $qty;

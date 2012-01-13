@@ -34,6 +34,7 @@
   <p>
     <input type="submit" name="invoice" value="<?php echo __('Invoice') ?>" />
     <input type="checkbox" name="partial" value="partial" title="<?php echo __("Generate an invoice focused only on the selected manifestation.") ?>" />
+    <input type="checkbox" name="nocancel" value="nocancel" title="<?php echo __("Excludes cancelled tickets from invoice.") ?>" />
   </p>
 </form>
 <?php endif ?>

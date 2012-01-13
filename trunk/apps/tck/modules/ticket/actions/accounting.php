@@ -23,6 +23,7 @@
 ?>
 <?php
     $this->transaction = $this->getRoute()->getObject();
+    $this->nocancel = $request->hasParameter('nocancel');
     
     $this->totals = array('pet' => 0, 'tip' => 0, 'vat' => array('total' => 0));
     
@@ -42,6 +43,7 @@
     $this->tickets = $q->execute();
     
     foreach ( $this->tickets as $ticket )
+    if ( !$this->nocancel || $ticket->Cancelling->count() == 0 )
     {
       $this->totals['tip'] += $ticket->value;
       
