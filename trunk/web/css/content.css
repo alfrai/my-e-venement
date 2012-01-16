@@ -68,7 +68,10 @@ body .sf_admin_filter td { padding-bottom: 0; }
   padding: 10px;
 }
 #list-integrated-filter h2 { color: #2e6e9e; width: 230px; }
-#list-integrated-filter select { width: 230px; }
+#list-integrated-filter select {
+  width: 230px;
+  max-height: none;
+}
 
 body #sf_admin_container .ui-widget-header h1 { font-size: 22px; }
 body #sf_admin_container { font-size: 11px; width: auto; }
