@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Preprinted ticketting</source>
+        <target>Billetterie pré-imprimée</target>
+      </trans-unit>
+      <trans-unit>
         <source>On ticket</source>
         <target>Sur le ticket</target>
       </trans-unit>

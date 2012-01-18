@@ -229,6 +229,10 @@ Manifestation:
       type: integer
       default: 10
       notnull: true
+    no_print:
+      type: boolean
+      default: false
+      notnull: true
   relations:
     Event:
       foreignAlias: Manifestations

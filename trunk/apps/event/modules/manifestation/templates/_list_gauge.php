@@ -3,7 +3,7 @@
   
   foreach ( $manifestation->Gauges as $gauge )
     $tickets['total'] += $gauge->value;
-  
+
   $cancelled = array();
   foreach ( $manifestation->Tickets as $ticket )
   if ( is_null($ticket->duplicate) )

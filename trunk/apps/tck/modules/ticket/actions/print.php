@@ -72,10 +72,15 @@
       //$this->duplicate = false;
       if ( !$ticket->printed && !$ticket->integrated )
       {
-        $ticket->printed = true;
         $ticket->sf_guard_user_id = NULL;
+        if ( $ticket->Manifestation->no_print )
+          $ticket->integrated = true;
+        else
+        {
+          $ticket->printed = true;
+          $this->tickets[] = $ticket;
+        }
         $ticket->save();
-        $this->tickets[] = $ticket;
       }
     }
     

@@ -21,6 +21,7 @@ generator:
         id: { label: ID Manif }
         online_limit: { label: Online limit }
         description: { label: Memo }
+        no_print: { label: Preprinted ticketting }
       list:
         display: [_list_event, happens_at, _list_location, _list_description]
       filter:  ~
@@ -30,7 +31,7 @@ generator:
         display:
           General:      [happens_at, _id, event_id, location_id, _show_gauge_txt, color_id, _form_prices]
           Memo:         [description]
-          Technical:    [duration, vat, online_limit, seated, organizers_list]
+          Technical:    [duration, vat, online_limit, seated, organizers_list, no_print]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
           Tickets:      [_show_tickets_list]
           Spectators:   [_show_spectators_list]
@@ -39,13 +40,13 @@ generator:
         display:
           General: [happens_at, event_id, location_id, color_id]
           Memo:    [description]
-          Technical: [duration, vat, online_limit, seated, organizers_list]
+          Technical: [duration, vat, online_limit, seated, organizers_list, no_print]
           Workspaces: [workspaces_list]
       show:
         display:
           General:    [_show_event, id, _show_happens_at, _show_location, _show_gauge_txt, _show_color, _show_prices_list]
           Memo:       [_show_description]
-          Technical:  [duration, _show_vat, online_limit, _show_seated, _show_organizers_list]
+          Technical:  [duration, _show_vat, online_limit, _show_seated, _show_organizers_list, no_print]
           Workspaces: [_show_workspaces_list]
           Tickets:    [_show_tickets_list]
           Spectators: [_show_spectators_list]

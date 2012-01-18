@@ -13,6 +13,7 @@ require_once dirname(__FILE__).'/../lib/eventGeneratorHelper.class.php';
  */
 class eventActions extends autoEventActions
 {
+  /*
   public function executeIndex(sfWebRequest $request)
   {
     parent::executeIndex($request);
@@ -31,6 +32,7 @@ class eventActions extends autoEventActions
         //->orderby("(SELECT min(m2.happens_at) FROM manifestation m2 WHERE m2.event_id = $a.id) DESC, $a.name");
     }
   }
+  */
   
   public function executeShow(sfWebRequest $request)
   {
