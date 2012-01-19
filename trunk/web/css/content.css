@@ -61,7 +61,7 @@ body .sf_admin_filter td { padding-bottom: 0; }
   float:  right;
   margin-top: 5px;
 }
-#list-integrated-filter {
+#list-integr  ated-filter {
   margin: 5px 0 0 0;
   right: 300px;
   position: absolute;
@@ -71,6 +71,7 @@ body .sf_admin_filter td { padding-bottom: 0; }
 #list-integrated-filter select {
   width: 230px;
   max-height: none;
+  height: 230px;
 }
 
 body #sf_admin_container .ui-widget-header h1 { font-size: 22px; }
