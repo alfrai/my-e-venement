@@ -151,7 +151,7 @@ class contactActions extends autoContactActions
       $search = $this->sanitizeSearch($request->getParameter('s'));
       $transliterate = sfContext::getInstance()->getConfiguration()->transliterate;
       
-      $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery()));
+      $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery())->orWhere('o.name ILIKE ?',$search.'%'));
     }
     
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
