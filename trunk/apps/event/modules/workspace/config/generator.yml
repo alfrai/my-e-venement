@@ -13,7 +13,8 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        on_ticket: { label: On ticket }
       list:
         display: [name, on_ticket]
       filter:  ~
