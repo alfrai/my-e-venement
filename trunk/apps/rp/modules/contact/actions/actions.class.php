@@ -107,7 +107,7 @@ class contactActions extends autoContactActions
   
   public function executeLabels(sfWebRequest $request)
   {
-    return require(dirname(__FILE__).'/labels.php');
+    require(dirname(__FILE__).'/labels.php');
   }
   public function executeDuplicates(sfWebRequest $request)
   {
