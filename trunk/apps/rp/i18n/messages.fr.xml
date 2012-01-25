@@ -734,11 +734,11 @@
       </trans-unit>
       <trans-unit id="15">
         <source>Has email</source>
-        <target>À un email ?</target>
+        <target>A un email ?</target>
       </trans-unit>
       <trans-unit id="16">
         <source>Has address</source>
-        <target>À une adresse ?</target>
+        <target>A une adresse ?</target>
       </trans-unit>
       <trans-unit id="17">
         <source>Personal groups</source>
