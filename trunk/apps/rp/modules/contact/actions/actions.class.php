@@ -319,6 +319,8 @@ class contactActions extends autoContactActions
         $this->card->name = $params['name'];
       }
       $this->card->save();
+      if ( !($this->card instanceof MemberCard) )
+        $this->card = $this->card->getObject();
       $this->setLayout('nude');
       return 'Success';
     }
