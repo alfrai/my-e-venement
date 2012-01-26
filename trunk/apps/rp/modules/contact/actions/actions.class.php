@@ -292,11 +292,16 @@ class contactActions extends autoContactActions
   public function executeCard(sfWebRequest $request)
   {
     $params = $request->getParameter('member_card');
-    $params['expire_at'] = date('Y-m-d H:i:s',strtotime(sfConfig::get('app_cards_expiration_delay'),strtotime('now')));
+    if ( $params['created_at']['year'] && $params['created_at']['month'] && $params['created_at']['day'] )
+      $params['created_at'] = $params['created_at']['year'].'-'.$params['created_at']['month'].'-'.$params['created_at']['day'];
+    else
+      $params['created_at'] = date('Y-m-d H:i:s');
+    $params['expire_at'] = date('Y-m-d H:i:s',strtotime(sfConfig::get('app_cards_expiration_delay'),strtotime($params['created_at'])));
     
     if ( !$request->hasParameter('id') )
       $request->setParameter('id',$params['contact_id']);
     $this->executeShow($request);
+    
     
     $this->card = new MemberCardForm();
     $this->card->bind($params);

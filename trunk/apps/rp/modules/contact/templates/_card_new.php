@@ -11,6 +11,7 @@
       });
     </script>
     <span id="card_type_actions">
+      <?php $date = new liWidgetFormJQueryDateText(); echo $date->render('member_card[created_at]'); ?>
       <input type="checkbox" name="duplicate" value="yes" title="<?php echo __("Duplicates the last card instead of creating a new one") ?>"/>
       <input type="submit" name="submit" value="Ok" />
       <input type="hidden" name="member_card[_csrf_token]" value="<?php echo $card->getCSRFToken() ?>" />

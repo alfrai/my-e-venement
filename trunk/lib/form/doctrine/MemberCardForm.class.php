@@ -10,7 +10,13 @@
  */
 class MemberCardForm extends BaseMemberCardForm
 {
+  protected $noTimestampableUnset = true;
+
   public function configure()
   {
+    unset($this->widgetSchema['updated_at']);
+    unset($this->widgetSchema['expires_at']);
+    unset($this->validatorSchema['updated_at']);
+    unset($this->validatorSchema['expires_at']);
   }
 }
