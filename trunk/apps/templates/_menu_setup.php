@@ -39,7 +39,10 @@
             <?php include_partial('global/menu_setup_pr') ?>
           <?php endif ?>
           <?php include_partial('global/menu_setup_events') ?>
+          <?php if ( $sf_user->hasCredential('tck-admin-payment')
+                  || $sf_user->hasCredential('event-admin-price') ): ?>
           <?php include_partial('global/menu_setup_ticketting') ?>
+          <?php endif ?>
           <?php include_partial('global/menu_setup_groups') ?>
           <?php include_partial('global/menu_setup_online') ?>
         </ul>

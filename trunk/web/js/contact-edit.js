@@ -141,4 +141,8 @@ $(document).ready(function(){
     contact_ajax_form('#more #professional-new',true);
     $('#more #professional-new input[name="professional[contact_id]"]').val($('#contact_id').val());
   });
+
+  // remove the ticketting part
+  if ( $('#remove_ticketting').length > 0 )
+    $('a[href="#sf_fieldset_ticketting"]').parent().hide();
 });

@@ -103,6 +103,9 @@ html body p { margin: 0; padding: 0 }
   white-space: nowrap;
 }
 
+#card .content:first-child .name {
+  height: 1em;
+}
 
 @media screen {
 

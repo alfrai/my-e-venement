@@ -28,7 +28,7 @@ $(document).ready(function(){
   </div>
   <div class="content">
     <p class="librinfo">Imprimé et géré par e-venement www.libre-informatique.fr</p>
-    <h2><?php echo __('Receipt of the member card') ?></h2>
+    <h2><?php echo __('Card receipt') ?></h2>
     <p class="name"><span class="title"><?php echo __('Name') ?></span><br/><?php echo $contact->name ?></p>
     <p class="firstname"><span class="title"><?php echo __('Firstname') ?></span><br/><?php echo $contact->firstname ?></p>
     <p class="address"><span class="title"><?php echo __('Address') ?></span><br/><?php echo nl2br(trim($contact->address)) ?></p>

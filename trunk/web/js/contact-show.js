@@ -26,4 +26,8 @@ $(document).ready(function(){
   
   if ( $('#more .professional h2').length > 1 )
     $('#more .professional h2').click();
+  
+  // remove the ticketting part
+  if ( $('#remove_ticketting').length > 0 )
+    $('a[href="#sf_fieldset_ticketting"]').parent().hide();
 });

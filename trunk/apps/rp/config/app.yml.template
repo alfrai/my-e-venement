@@ -8,6 +8,8 @@ sf_admin_theme_jroller_plugin:
   theme:        redmond # default.
   css_reset:    true # default. reset default css (from Blueprint CSS)
 all:
+  options:
+    remove_ticketting: true
   cards:
     #enable: true
     types: [membership, subscription]

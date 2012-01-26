@@ -9,8 +9,8 @@
         <target>Date d'expiration</target>
       </trans-unit>
       <trans-unit>
-        <source>Receipt of the member card</source>
-        <target>Récépissé de carte de membre</target>
+        <source>Card receipt</source>
+        <target>Récépissé de carte</target>
       </trans-unit>
       <trans-unit>
         <source>No card</source>
