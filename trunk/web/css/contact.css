@@ -10,12 +10,12 @@
 }
 #member_cards .new {
   float: right;
-  width: 350px;
+  width: 380px;
 }
 #member_cards .list {
-  min-height: 80px;
+  min-height: 50px;
   padding: 5px 5px 5px 20px;
-  margin-right: 375px;
+  margin-right: 405px;
 }
 #member_cards .list .card { float: left; padding-right: 10px; }
 #member_cards .list .sf_admin_action_delete {

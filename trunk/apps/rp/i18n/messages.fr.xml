@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Optional, printing date</source>
+        <target>Optionnel, date d'émission</target>
+      </trans-unit>
+      <trans-unit>
         <source>Expiration date</source>
         <target>Date d'expiration</target>
       </trans-unit>
