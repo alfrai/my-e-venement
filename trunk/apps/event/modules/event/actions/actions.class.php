@@ -13,7 +13,6 @@ require_once dirname(__FILE__).'/../lib/eventGeneratorHelper.class.php';
  */
 class eventActions extends autoEventActions
 {
-  /*
   public function executeIndex(sfWebRequest $request)
   {
     parent::executeIndex($request);
@@ -24,15 +23,15 @@ class eventActions extends autoEventActions
       $this->pager->getQuery()
         ->select('*')
         ->addSelect("(SELECT min(m2.happens_at) FROM manifestation m2 WHERE m2.event_id = $a.id) AS min_happens_at")
-        ->leftJoin("$a.Manifestations m")
-        ->leftJoin('m.Tickets tck')
-        ->leftJoin('tck.Transaction t')
-        ->leftJoin('t.Order o')
-        ->orderby("min_happens_at DESC, $a.name");
+        ->addSelect("(SELECT (CASE WHEN max(m3.happens_at) IS NULL THEN false ELSE max(m3.happens_at) > now() END) FROM manifestation m3 WHERE m3.event_id = $a.id) AS now")
+        //->leftJoin("$a.Manifestations m")
+        //->leftJoin('m.Tickets tck')
+        //->leftJoin('tck.Transaction t')
+        //->leftJoin('t.Order o')
+        ->orderby("now DESC, min_happens_at DESC, $a.name");
         //->orderby("(SELECT min(m2.happens_at) FROM manifestation m2 WHERE m2.event_id = $a.id) DESC, $a.name");
     }
   }
-  */
   
   public function executeShow(sfWebRequest $request)
   {
