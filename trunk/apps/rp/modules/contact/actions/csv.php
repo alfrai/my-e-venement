@@ -28,21 +28,36 @@
     $q->select   ("$a.title, $a.name, $a.firstname, $a.address, $a.postalcode, $a.city, $a.country, $a.npai, $a.email")
       ->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonename")
       ->addSelect("(SELECT tmp2.number FROM ContactPhonenumber tmp2 WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonenumber")
-      ->addSelect("$a.description")
-      ->leftJoin('o.Category oc')
-      ->addSelect("oc.name AS organism_category, o.name AS organism_name")
-      ->addSelect('p.department AS professional_department, p.contact_number AS professional_number, p.contact_email AS professional_email')
-      ->addSelect('pt.name AS professional_type_name, p.name AS professional_name')
-      ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description")
-      ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonename")
-      ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonenumber");
-    
+      ->addSelect("$a.description");
+    if ( $this->filters->showProfessionalData() )
+    {
+      // TODO
+      $q->leftJoin('o.Category oc')
+        ->addSelect("oc.name AS organism_category, o.name AS organism_name")
+        ->addSelect('p.department AS professional_department, p.contact_number AS professional_number, p.contact_email AS professional_email')
+        ->addSelect('pt.name AS professional_type_name, p.name AS professional_name')
+        ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description")
+        ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = o.id ORDER BY updated_at LIMIT 1) AS organism_phonename")
+        ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = o.id ORDER BY updated_at LIMIT 1) AS organism_phonenumber");
+    }
+    else
+    {
+      $q->addSelect("NULL AS organism_category, NULL AS organism_name")
+        ->addSelect('NULL AS professional_department, NULL AS professional_number, NULL AS professional_email')
+        ->addSelect('NULL AS professional_type_name, NULL AS professional_name')
+        ->addSelect("NULL AS organism_address, NULL AS organism_postalcode, NULL AS organism_city, NULL AS organism_country, NULL AS organism_email, NULL AS organism_url, NULL AS organism_npai, NULL AS organism_description")
+        ->addSelect("NULL AS organism_phonename")
+        ->addSelect("NULL AS organism_phonenumber");
+    }
     // only when groups are a part of filters
     if ( in_array("LEFT JOIN $a.Groups gc",$q->getDqlPart('from')) )
       $q->leftJoin(" p.ProfessionalGroups mp ON mp.group_id = gp.id AND mp.professional_id = p.id")
-        ->leftJoin("$a.ContactGroups      mc ON mc.group_id = gc.id AND mc.contact_id     = $a.id")
+        ->leftJoin("$a.ContactGroups      mc ON mc.group_id = gc.id AND mc.contact_id      = $a.id")
         ->addSelect("(CASE WHEN mc.information IS NOT NULL THEN mc.information ELSE mp.information END) AS information");
     $this->lines = $q->fetchArray();
+    
+    foreach ( $this->lines as $key => $line )
+      unset($this->lines[$key]['Professionals']);
     
     $params = OptionCsvForm::getDBOptions();
     $this->options = array(
