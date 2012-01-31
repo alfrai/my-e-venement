@@ -152,30 +152,31 @@ class emailActions extends autoEmailActions
       $filters = new ContactFormFilter($criterias);
       $q = $filters->buildQuery($criterias);
       foreach ( $q->execute() as $contact )
-      if ( $contact->Professionals->count() > 0 && $filters->showProfessionalData() )
-      foreach ( $contact->Professionals as $pro )
-        $professionals_list[] = $pro->id;
-      else
-        $contacts_list[] = $contact->id;
-    }
-    
-    /*
-    // groups filtering
-    if ( count($groups) > 0 )
-    {
-      $q = Doctrine::getTable('Group')->createQuery();
-      $a = $q->getRootAlias();
-      $q->whereIn("$a.id",$groups);
-      
-      foreach ( $q->execute() as $group )
       {
-        foreach ( $group->Professionals as $pro )
+        // check if it's in a group because of a link to an organism or not
+        $groups_pro = array();
+        $group_pro = false;
+        if ( $criterias['groups_list'] )
+        {
+          foreach ( $contact->Professionals as $pro )
+          foreach ( $pro->Groups as $group )
+            $groups_pro[$group->id] = $group;
+          foreach ( $criterias['groups_list'] as $grpid )
+          {
+            $group_pro = isset($groups_pro[$grpid]);
+            if ( $group_pro )
+              break;
+          }
+        }
+        
+        if ( $contact->Professionals->count() > 0
+          && ($filters->showProfessionalData() || $group_pro) )
+        foreach ( $contact->Professionals as $pro )
           $professionals_list[] = $pro->id;
-        foreach ( $group->Contacts as $contact )
+        else
           $contacts_list[] = $contact->id;
       }
     }
-      */
     
     $this->form->setDefault('contacts_list',$contacts_list);
     $this->form->setDefault('professionals_list',$professionals_list);
