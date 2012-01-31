@@ -124,6 +124,7 @@ class ContactFormFilter extends BaseContactFormFilter
     
     //cards
     $arr = array();
+    if ( sfConfig::has('app_cards_types') && is_array(sfConfig::get('app_cards_types')) )
     foreach ( sfConfig::get('app_cards_types') as $key => $value )
       $arr[$value] = $value;
     $this->widgetSchema   ['member_cards'] = new sfWidgetFormChoice(array(
