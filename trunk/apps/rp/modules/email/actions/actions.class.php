@@ -152,7 +152,7 @@ class emailActions extends autoEmailActions
       $filters = new ContactFormFilter($criterias);
       $q = $filters->buildQuery($criterias);
       foreach ( $q->execute() as $contact )
-      if ( $contact->Professionals->count() > 0 )
+      if ( $contact->Professionals->count() > 0 && $filters->showProfessionalData() )
       foreach ( $contact->Professionals as $pro )
         $professionals_list[] = $pro->id;
       else
