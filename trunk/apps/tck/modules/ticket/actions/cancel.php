@@ -69,6 +69,9 @@
         $this->transaction = new Transaction();
         $this->transaction->type = 'cancellation';
         $this->transaction->transaction_id = $ticket->transaction_id;
+        // link the cancelling transaction to the previous contact/professional
+        $this->transaction->contact_id = $ticket->Transaction->contact_id;
+        $this->transaction->professional_id = $ticket->Transaction->professional_id;
       }
       
       // get back a potential cancellation ticket for this ticket_id
