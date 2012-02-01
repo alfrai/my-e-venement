@@ -3,6 +3,7 @@
 }
 #more .sf_admin_form_field_contact_id,
 #more .sf_admin_form_field_organism_id { display: none; }
+#more .duplicates { padding-bottom: 5px; }
 
 #member_cards .ui-widget-content {
   margin: 5px;
