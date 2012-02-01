@@ -266,7 +266,7 @@ class manifestationActions extends autoManifestationActions
   {
     $con = Doctrine_Manager::getInstance()->connection();
     $st = $con->execute(
-      "SELECT t.*,
+      "SELECT t.*, tl.id AS translinked,
               (SELECT sum(ttt.value)
                FROM Ticket ttt
                WHERE ttt.transaction_id = t.id
@@ -279,6 +279,7 @@ class manifestationActions extends autoManifestationActions
        LEFT JOIN contact c ON c.id = t.contact_id
        LEFT JOIN professional p ON p.id = t.professional_id
        LEFT JOIN organism o ON p.organism_id = o.id
+       LEFT JOIN transaction tl ON tl.transaction_id = t.id
        WHERE t.id IN (SELECT DISTINCT tt.transaction_id FROM Ticket tt WHERE tt.manifestation_id = ".intval($this->manifestation->id).")
          AND (SELECT sum(tt.value) FROM Ticket tt WHERE tt.transaction_id = t.id AND (tt.printed OR tt.integrated OR cancelling IS NOT NULL) AND tt.duplicate IS NULL) != (SELECT CASE WHEN count(pp.value) = 0 THEN 0 ELSE sum(pp.value) END FROM Payment pp WHERE pp.transaction_id = t.id)
        ORDER BY t.id ASC");
