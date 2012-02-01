@@ -11,6 +11,7 @@
 class ContactFormFilter extends BaseContactFormFilter
 {
   protected $noTimestampableUnset = true;
+  protected $showProfessionalData = true;
 
   /**
    * @see AddressableFormFilter
@@ -303,14 +304,6 @@ class ContactFormFilter extends BaseContactFormFilter
     
     if ( is_array($value) )
     {
-      /*
-      if ( !$q->contains("LEFT JOIN $a.Groups gc") )
-        $q->leftJoin("$a.Groups gc");
-      
-      if ( !$q->contains("LEFT JOIN p.Groups gp") )
-        $q->leftJoin("p.Groups gp");
-      */
-      
       $q1 = new Doctrine_Query();
       $q1->select('tmp1.contact_id')
         ->from('GroupContact tmp1')
@@ -362,22 +355,30 @@ class ContactFormFilter extends BaseContactFormFilter
     $a = $q->getRootAlias();
     if ( $value )
     {
+      $this->setProfessionalData(true);
       $q->addWhere("pt.id = ?",$value);
     }
     return $q;
   }
   public function addOrganismIdColumnQuery(Doctrine_Query $q, $field, $value)
   {
+    $this->setProfessionalData(true);
     $a = $q->getRootAlias();
     if ( $value )
+    {
+      $this->setProfessionalData(true);
       $q->addWhere("o.id = ?",$value);
+    }
     return $q;
   }
   public function addOrganismCategoryIdColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $a = $q->getRootAlias();
     if ( $value )
+    {
+      $this->setProfessionalData(true);
       $q->addWhere("o.organism_category_id = ?",$value);
+    }
     return $q;
   }
   public function addYOBColumnQuery(Doctrine_Query $q, $field, $value)
@@ -425,5 +426,20 @@ class ContactFormFilter extends BaseContactFormFilter
     }
     
     return $q;
+  }
+
+  protected function setProfessionalData($bool)
+  {
+    return $this->showProfessionalData = $bool;
+  }
+  public function showProfessionalData()
+  {
+    return $this->showProfessionalData;
+  }
+  public function buildQuery(array $values)
+  {
+    if ( $values )
+      $this->setProfessionalData(false);
+    return parent::buildQuery($values);
   }
 }
