@@ -78,9 +78,14 @@ class contactActions extends autoContactActions
   
   public function executeCreate(sfWebRequest $request)
   {
+    // hack for the title to be recorded properly
+    $params = $request->getParameter('contact');
+    if ( !$params['title'] && $autocomplete = $request->getParameter('autocomplete_contact') )
+      $params['title'] = $autocomplete['title'];
+    $request->setParameter('contact',$params);
+    
     parent::executeCreate($request);
     
-    $params = $request->getParameter('contact');
     if ( $this->form->isValid() && $params['phone_number'] )
     {
       $pn = new ContactPhonenumber();
