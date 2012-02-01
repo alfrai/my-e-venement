@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>This invoice excludes cancelled tickets</source>
+        <target>Les billets annulés sont exclus de cette facture</target>
+      </trans-unit>
+      <trans-unit>
         <source>Excludes cancelled tickets from invoice.</source>
         <target>Exclue les billets annulés de la facture.</target>
       </trans-unit>

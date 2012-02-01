@@ -6,7 +6,7 @@
     <?php $diff = 0 ?>
     <?php foreach ( $form->unbalanced as $tr ): ?>
     <tr>
-      <td class="transaction">#<?php echo cross_app_link_to($tr['id'],'tck',$tr['type'] == 'cancellation' ? 'ticket/pay?id='.$tr['id'] : 'ticket/sell?id='.$tr['id']) ?></td>
+      <td class="transaction" title="<?php if ( $tr['transaction_id'] ) echo '#'.$tr['transaction_id']; else echo $tr['translinked'] ? '#'.$tr['translinked'] : ''; ?>">#<?php echo cross_app_link_to($tr['id'],'tck',$tr['type'] == 'cancellation' ? 'ticket/pay?id='.$tr['id'] : 'ticket/sell?id='.$tr['id']) ?></td>
       <td class="contact" title="<?php echo $tr['firstname'].' '.$tr['name'].' '.__('@').' '.$tr['o_name'].' ('.$tr['o_city'].')' ?>">
         <?php echo cross_app_link_to($tr['firstname'].' '.$tr['name'],'rp','contact/show?id='.$tr['c_id']) ?>
         <?php echo __('@') ?>

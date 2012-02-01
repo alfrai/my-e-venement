@@ -124,13 +124,12 @@ class ticketActions extends sfActions
     $this->invoice = false;
     if ( $request->hasParameter('partial') && intval($request->getParameter('manifestation_id')) > 0 )
     {
-      foreach ( $this->transaction->Invoice as $invoice )
+      foreach ( $this->transaction->Invoice as $key => $invoice )
       if ( $invoice->manifestation_id == intval($request->getParameter('manifestation_id')) )
         $this->invoice = $invoice;
       
       if ( !$this->invoice )
         $this->invoice = new Invoice();
-      $this->transaction->Invoice[] = $this->invoice;
       $this->invoice->manifestation_id = intval($request->getParameter('manifestation_id'));
     }
     else
