@@ -21,10 +21,12 @@
 *
 ***********************************************************************************/
 ?>
-<?php if ( !$contact->isNew() ): ?>
 <div id="more">
+<?php if ( !$contact->isNew() ): ?>
   <?php include_partial('contact/professionals_edit', array('contact' => $contact, 'form' => $form, 'configuration' => $configuration)) ?>
   <?php include_partial('gmap', array('form' => $form, 'width' => '400px')) ?>
-</div>
+<?php else: ?>
+  <?php include_partial('contact/new_duplicates', array('contact' => $contact, 'form' => $form, 'configuration' => $configuration)) ?>
 <?php endif ?>
+</div>
 
