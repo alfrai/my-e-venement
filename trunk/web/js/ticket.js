@@ -125,7 +125,8 @@ function ticket_events()
       {
         setTimeout(function(){
           $('#manifestations .manifestations_add [name="ticket[manifestation_id]"]').click();
-          $('#manifestations .anifestations_add').slideUp();
+          $('.manifestations_list [name="ticket[manifestation_id]"]').click();
+          $('#manifestations .manifestations_add').slideUp();
           $('#manifestations .gauge').fadeOut();
         },500);
       }
