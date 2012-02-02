@@ -129,7 +129,10 @@ class ticketActions extends sfActions
         $this->invoice = $invoice;
       
       if ( !$this->invoice )
+      {
         $this->invoice = new Invoice();
+        $this->transaction->Invoice[] = $this->invoice;
+      }
       $this->invoice->manifestation_id = intval($request->getParameter('manifestation_id'));
     }
     else
