@@ -86,7 +86,7 @@ class Addressable extends PluginAddressable
     {
       sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
       sfContext::getInstance()->getUser()->setFlash('notice',
-        __('Your map is only displaying the %%max%% first records...',$display['max']));
+        __('Your map is only displaying the %%max%% first records...',array('%%max%%' => $display['max'])));
     }
     
     $gMap = new GMap();
