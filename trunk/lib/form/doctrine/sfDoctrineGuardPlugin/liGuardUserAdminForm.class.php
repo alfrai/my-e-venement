@@ -13,6 +13,7 @@ class liGuardUserAdminForm extends sfGuardUserAdminForm
   public function configure()
   {
     parent::configure();
-    $this->widgetSchema['workspaces_list']->setOption('query',Doctrine::getTable('Workspace')->createQuery('ws',true));
+    $this->widgetSchema   ['workspaces_list']->setOption('query',Doctrine::getTable('Workspace')->createQuery('ws',true));
+    $this->validatorSchema['workspaces_list']->setOption('query',Doctrine::getTable('Workspace')->createQuery('ws',true));
   }
 }
