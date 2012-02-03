@@ -5,31 +5,31 @@
 #more .sf_admin_form_field_organism_id { display: none; }
 #more .duplicates { padding-bottom: 5px; }
 
-#member_cards .ui-widget-content {
+#member-cards .ui-widget-content {
   margin: 5px;
   padding: 0 5px;
 }
-#member_cards .new {
+#member-cards .new {
   float: right;
   width: 380px;
 }
-#member_cards .list {
+#member-cards .list {
   min-height: 50px;
   padding: 5px 5px 5px 20px;
   margin-right: 405px;
 }
-#member_cards .list .card { float: left; padding-right: 10px; }
-#member_cards .list .sf_admin_action_delete {
+#member-cards .list .card { float: left; padding-right: 10px; }
+#member-cards .list .sf_admin_action_delete {
   list-style-type: none;
   font-size: 80%;
   padding: 0.2em 0 0.3em 0;
 }
-#member_cards #card_type_list {
+#member-cards #card_type_list {
   float: left;
   list-style-type: none;
   margin: 5px 10px;
 }
-#member_cards #card_type_actions {
+#member-cards #card_type_actions {
   display: inline-block;
   padding-top: 12px;
 }

@@ -1,6 +1,6 @@
 <?php include_partial('contact/assets') ?>
 <?php include_partial('global/flashes') ?>
-<?php echo $card->renderFormTag(url_for('contact/card'),array('class' => 'ui-widget-content ui-corner-all', 'id' => 'member_cards', 'target' => '_blank')) ?>
+<?php echo $card->renderFormTag(url_for('contact/card'),array('class' => 'ui-widget-content ui-corner-all', 'id' => 'member-cards', 'target' => '_blank')) ?>
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1><?php echo __("%%c%%'s member cards",array('%%c%%' => $contact)) ?></h1>
   </div>
