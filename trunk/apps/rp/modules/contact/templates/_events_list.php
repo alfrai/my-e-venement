@@ -16,7 +16,7 @@
   ?>
   <li>
     <p class="infos">
-      #<?php echo cross_app_link_to($transaction, 'tck', $transaction->type != 'cancelling' ? 'ticket/sell?id='.$transaction->id : 'ticket/pay?id='.$transaction->id') ?>,
+      #<?php echo cross_app_link_to($transaction, 'tck', $transaction->type != 'cancelling' ? 'ticket/sell?id='.$transaction->id : 'ticket/pay?id='.$transaction->id) ?>,
       <?php echo format_date($transaction->created_at) ?>
       <?php $sum = 0; foreach ( $transaction->Payments as $pay ) $sum += $pay->value; ?>
       <?php echo __('for %%i%% ticket(s) and %%p%% paid',array(
