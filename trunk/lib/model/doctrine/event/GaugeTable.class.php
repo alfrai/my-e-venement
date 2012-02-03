@@ -17,7 +17,7 @@ class GaugeTable extends PluginGaugeTable
         return Doctrine_Core::getTable('Gauge');
     }
   
-  public function createQuery($alias = 'g')
+  public function createQuery($alias = 'g',$full = true)
   {
     $ws = $alias != 'ws' ? 'ws' : 'ws1';
     
@@ -25,6 +25,7 @@ class GaugeTable extends PluginGaugeTable
     $where = "     duplicate IS NULL
                AND gauge_id = $alias.id";
     
+    if ( $full )
     $q->select("$alias.*")
       ->leftJoin("$alias.Workspace ws")
       ->addSelect("(SELECT count(*) AS nb
