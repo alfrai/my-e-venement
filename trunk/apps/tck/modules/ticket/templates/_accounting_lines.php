@@ -5,22 +5,22 @@
 <?php $ticket = $tickets[$i] ?>
 <?php if ( $ticket->id > 0 ): ?>
   <tr>
-    <td class="event"><?php echo $ticket->Manifestation->Event ?></td>
-    <td class="date"><?php echo format_date($ticket->Manifestation->happens_at) ?></td>
-    <td class="time"><?php echo format_date($ticket->Manifestation->happens_at,'HH:mm') ?></td>
-    <td class="location"><?php echo $ticket->Manifestation->Location ?></td>
-    <td class="postalcode"><?php echo $ticket->Manifestation->Location->postalcode ?></td>
-    <td class="city"><?php echo $ticket->Manifestation->Location->city ?></td>
+    <td class="event inline-modifiable"><?php echo $ticket->Manifestation->Event ?></td>
+    <td class="date inline-modifiable"><?php echo format_date($ticket->Manifestation->happens_at) ?></td>
+    <td class="time inline-modifiable"><?php echo format_date($ticket->Manifestation->happens_at,'HH:mm') ?></td>
+    <td class="location inline-modifiable"><?php echo $ticket->Manifestation->Location ?></td>
+    <td class="postalcode inline-modifiable"><?php echo $ticket->Manifestation->Location->postalcode ?></td>
+    <td class="city inline-modifiable"><?php echo $ticket->Manifestation->Location->city ?></td>
     <td class="price"><?php echo $ticket->Price->description ?></td>
     <td class="up"><?php echo format_currency($ticket->value,'€') ?></td>
     <td class="qty"><?php
-      $qty =  $nocancel && $tickets[$i]->Cancelling->count() > 0 ? 0 : 1;
+      $qty = isset($nocancel) && $nocancel && $tickets[$i]->Cancelling->count() > 0 ? 0 : 1;
       if ( $i+1 < $tickets->count() )
       while ( $tickets[$i+1]['manifestation_id'] == $ticket->manifestation_id
            && $tickets[$i+1]['price_id']         == $ticket->price_id
            && $tickets[$i+1]['value']            == $ticket->value )
       {
-        if ( !$nocancel || $tickets[$i+1]->Cancelling->count() == 0 )
+        if ( isset($nocancel) && !$nocancel || $tickets[$i+1]->Cancelling->count() == 0 )
           $qty++;
         $i++;
       }
