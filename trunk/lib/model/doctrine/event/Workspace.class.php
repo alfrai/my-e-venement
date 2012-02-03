@@ -16,4 +16,26 @@ class Workspace extends PluginWorkspace
   {
     return $this->on_ticket ? $this->on_ticket : $this->name;
   }
+  
+  // hack to be able to unlink manifesations from a workspace
+  public function unlinkInDb($alias, $ids = array())
+  {
+    $rel = $this->getTable()->getRelation($alias);
+    if ( $rel->getAssociationTable()->getTableName() == 'gauge' && $rel instanceof Doctrine_Relation_Association)
+    {
+      $q = $rel->getAssociationTable()
+        ->createQuery('g',false)
+        ->delete()
+        ->where($rel->getLocal() . ' = ?', array_values($this->identifier()));
+      
+      if (count($ids) > 0) {
+        $q->whereIn($rel->getForeign(), $ids);
+      }
+      
+      $q->execute();
+      return $this;
+    }
+    else
+      return parent::unlinkInDb($alias, $ids);
+  }
 }
