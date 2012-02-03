@@ -17,10 +17,10 @@ class WorkspaceTable extends PluginWorkspaceTable
         return Doctrine_Core::getTable('Workspace');
     }
   
-  public function createQuery($alias = 'g')
+  public function createQuery($alias = 'g',$full = false)
   {
     $q = parent::createQuery($alias);
-    if ( !sfContext::getInstance()->getUser()->getGuardUser()->getIsSuperAdmin() || !sfContext::getInstance()->getUser()->hasCredential('event-admin-workspace') )
+    if ( !$full || !sfContext::getInstance()->getUser()->getGuardUser()->getIsSuperAdmin() && !sfContext::getInstance()->getUser()->hasCredential('event-admin-workspace') )
       $q->andWhereIn("$alias.id",array_keys(sfContext::getInstance()->getUser()->getWorkspacesCredentials()));
     return $q;
   }
