@@ -127,8 +127,9 @@ class contactActions extends autoContactActions
     */
     $q = new Doctrine_RawSql();
     $q->from('Contact c')
-      ->leftJoin('(select min(id) AS id, count(*) AS nb from contact group by lower(name), lower(firstname) order by lower(name), lower(firstname)) AS c2 on c2.id = c.id')
+      ->leftJoin('(select lower(name) as name, lower(firstname) as firstname, count(*) AS nb from contact group by lower(name), lower(firstname) order by lower(name), lower(firstname)) AS c2 ON c2.firstname ILIKE c.firstname AND c2.name ILIKE c.name')
       ->where('c2.nb > 1')
+      ->orderBy('c.name, c.firstname')
       ->addComponent('c','Contact')
       ->addComponent('c2','Contact');
       $this->pager->setQuery($q);
@@ -306,7 +307,6 @@ class contactActions extends autoContactActions
     if ( !$request->hasParameter('id') )
       $request->setParameter('id',$params['contact_id']);
     $this->executeShow($request);
-    
     
     $this->card = new MemberCardForm();
     $this->card->bind($params);
