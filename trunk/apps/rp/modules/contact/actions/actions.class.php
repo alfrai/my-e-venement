@@ -129,7 +129,7 @@ class contactActions extends autoContactActions
     $q->from('Contact c')
       ->leftJoin('(select lower(name) as name, lower(firstname) as firstname, count(*) AS nb from contact group by lower(name), lower(firstname) order by lower(name), lower(firstname)) AS c2 ON c2.firstname ILIKE c.firstname AND c2.name ILIKE c.name')
       ->where('c2.nb > 1')
-      ->orderBy('c.name, c.firstname')
+      ->orderBy('lower(c.name), lower(c.firstname), c.id')
       ->addComponent('c','Contact')
       ->addComponent('c2','Contact');
       $this->pager->setQuery($q);
@@ -137,6 +137,11 @@ class contactActions extends autoContactActions
     $this->pager->init();
     $this->setTemplate('index');
   }
+  public function executeBatchMerge(sfWebRequest $request)
+  {
+    require(dirname(__FILE__).'/batch-merge.php');
+  }
+  
   public function executeSearch(sfWebRequest $request)
   {
     self::executeIndex($request);
