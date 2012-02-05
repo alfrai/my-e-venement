@@ -87,6 +87,10 @@ class ticketActions extends sfActions
   {
     require('integrate.php');
   }
+  public function executeBatchIntegrate(sfWebRequest $request)
+  {
+    require('batch-integrate.php');
+  }
   public function executeRfid(sfWebRequest $request)
   {
     require('rfid.php');

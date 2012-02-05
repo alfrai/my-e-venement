@@ -9,4 +9,3 @@
     <?php include_map_javascript($gMap); ?>
   </div>
 </div>
-

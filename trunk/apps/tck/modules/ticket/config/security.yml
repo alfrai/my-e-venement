@@ -8,6 +8,8 @@ print:
   credentials: [tck-print-ticket]
 integrate:
   credentials: [tck-integrate]
+batchIntegrate:
+  credentials: [tck-integrate-foreign]
 duplicate:
   credentials: [tck-print-ticket]
 partial:

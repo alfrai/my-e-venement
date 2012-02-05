@@ -5,6 +5,10 @@
     <header />
     <body>
       <trans-unit>
+        <source>Integrate</source>
+        <target>Intégrer</target>
+      </trans-unit>
+      <trans-unit>
         <source>Login below to gain access</source>
         <target>Vous pouvez changer de compte avec le formulaire ci-dessous ou utiliser le menu pour continuer d'utiliser e-venement avec votre compte</target>
       </trans-unit>

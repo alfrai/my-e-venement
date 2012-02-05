@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>%%nb%% contacts properly merged into one</source>
+        <target>%%nb%% contacts ont été correctement fusionnés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Merge contacts</source>
+        <target>Fusionner les contacts</target>
+      </trans-unit>
+      <trans-unit>
         <source>Optional, printing date</source>
         <target>Optionnel, date d'émission</target>
       </trans-unit>

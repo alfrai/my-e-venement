@@ -5,6 +5,34 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Return to manifestation</source>
+        <target>Retour à la manifestation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>File importated.</source>
+        <target>Fichier importé.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>File</source>
+        <target>Fichier</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Send</source>
+        <target>Envoyer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Workspaces list</source>
+        <target>Liste des jauges</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filetype</source>
+        <target>Type de fichier</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Integrate tickets for %%manifestation%%</source>
+        <target>Intégrer des billets pour %%manifestation%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>This invoice excludes cancelled tickets</source>
         <target>Les billets annulés sont exclus de cette facture</target>
       </trans-unit>

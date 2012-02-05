@@ -27,6 +27,7 @@ generator:
         member_cards_expire_at: { label: Valid on }
       list:
         display: [name, firstname, postalcode, city, email, _organisms_list, _organisms_email_list]
+        max_per_page: 100
       show: 
         display:
           NONE: [title, _show_who, address, postalcode, city, country, _show_email, _show_phonenumbers_list, _show_member_cards_list, _show_groups_list]
