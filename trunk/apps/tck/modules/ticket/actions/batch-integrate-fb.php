@@ -38,7 +38,14 @@
     $ticket['price_id']   = 35; // TODO
     $ticket['value']      = $line[23];
     //$ticket['id']       = $line[24]; // TODO
-    $ticket['created_at'] = date('Y-m-d H:i',strtotime($line[2]));
+    
+    // created_at
+    $ticket['created_at'] = explode(' ',$line[2]);
+    $ticket['created_at'][0] = explode('/',$ticket['created_at'][0]);
+    $ticket['created_at'][0] = array_reverse($ticket['created_at'][0]);
+    $ticket['created_at'][0] = implode('-',$ticket['created_at'][0]);
+    print_r($ticket['created_at'][0]);
+    $ticket['created_at'] = implode(' ',$ticket['created_at']);
     
     $tickets[] = $ticket;
   }

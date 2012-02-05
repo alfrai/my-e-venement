@@ -55,7 +55,7 @@
         if ( $ticket['name'] && $ticket['firstname'] )
         {
           $charset = sfContext::getInstance()->getConfiguration()->charset;
-          $search = array(implode('* ',explode(' ',$ticket['name'])).'*',implode('* ',explode(' ',$ticket['fistname'])).'*');
+          $search = array(implode('* ',explode(' ',$ticket['name'])).'*',implode('* ',explode(' ',$ticket['firstname'])).'*');
           $search = strtolower(iconv($charset['db'],$charset['ascii'],implode(' ',$search)));
           $q = Doctrine::getTable('Contact')->createQuery('c');
           if ( $ticket['postalcode'] )
@@ -108,8 +108,8 @@
           $tck->value = $ticket['value'];
           $tck->integrated = true;
           //$tck->id = $ticket['id'];  // TODO
-          $tck->created_at = date('Y-m-d H:i',strtotime($ticket['created_at']));
           $tck->gauge_id = $integrate['gauges_list'];
+          $tck->created_at = date('Y-m-d H:i:s',strtotime($ticket['created_at']));
           
           $transaction->Tickets[] = $tck;
         }
