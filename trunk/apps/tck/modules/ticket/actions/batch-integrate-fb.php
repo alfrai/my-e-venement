@@ -22,65 +22,23 @@
 ***********************************************************************************/
 ?>
 <?php
-        while ( $line = fgetcsv($fp, 0, ';') )
-        if ( floatval($line[23]) > 0 )
-        {
-          // if the line references a named contact
-          if ( $line[10] && $line[11] && $line[12] )
-          {
-            $charset = sfContext::getInstance()->getConfiguration()->charset;
-            $search = array(implode('* ',explode(' ',$line[10])).'*',implode('* ',explode(' ',$line[11])).'*');
-            $search = strtolower(iconv($charset['db'],$charset['ascii'],implode(' ',$search)));
-            $q = Doctrine::getTable('Contact')->createQuery('c')
-              ->andWhere('c.postalcode = ?',$line[12]);
-            $contacts = Doctrine::getTable('Contact')->search($search,$q)->execute();
-            
-            if ( $contacts->count() == 0 )
-            {
-              $transaction = new Transaction();
-              $transaction->Contact = new Contact();
-              $transaction->Contact->name = $line[10];
-              $transaction->Contact->firstname = $line[11];
-              $transaction->Contact->postalcode = $line[12];
-              $postalcode = Doctrine::getTable('Postalcode')->createQuery()->andWhere('postalcode = ?',$line[12])->fetchOne();
-              $transaction->Contact->city = $postalcode->city;
-              $transaction->Contact->country = $line[13];
-            }
-            else
-            {
-              // keep the last transaction if contact is the same, or create a new one if not
-              if ( $transaction->isNew()
-                || $transaction->Contact instanceof Contact
-                && $transaction->Contact->id != $contacts[0]->id )
-              {
-                $transaction = new Transaction();
-                $transaction->Contact = $contacts[0];
-              }
-            }
-          }
-          else // if ( !($line[10] && $line[11] && $line[12]) )
-          {
-            if ( $transaction->Contact instanceof Contact )
-            {
-              $transaction = new Transaction();
-              $transaction->Contact = NULL;
-            }
-          }
-          
-          // if it's not a cancellation
-          if ( $line[1] == 'V' )
-          {
-            $ticket = new Ticket();
-            $ticket->Manifestation = $this->manifestation;
-            $ticket->price_name = $line[5];
-            $ticket->price_id = 35;     // TODO
-            $ticket->value = $line[23];
-            $ticket->integrated = true;
-            //$ticket->id = $line[15];  // TODO
-            $ticket->created_at = date('Y-m-d H:i',strtotime($line[2]));
-            
-            $transaction->Tickets[] = $ticket;
-          }
-          
-          $transaction->save();
-        }
+  $tickets = array();
+  
+  while ( $line = fgetcsv($fp, 0, ';') )
+  if ( floatval($line[23]) > 0 )
+  {
+    $ticket = array();
+    $ticket['name']       = $line[10];
+    $ticket['firstname']  = $line[11];
+    $ticket['postalcode'] = $line[12];
+    $ticket['city']       = '';
+    $ticket['country']    = $line[13];
+    $ticket['cancel']     = $line[1] == 'V' ? false : true;
+    $ticket['price_name'] = $line[5];
+    $ticket['price_id']   = 35; // TODO
+    $ticket['value']      = $line[23];
+    //$ticket['id']       = $line[24]; // TODO
+    $ticket['created_at'] = date('Y-m-d H:i',strtotime($line[2]));
+    
+    $tickets[] = $ticket;
+  }

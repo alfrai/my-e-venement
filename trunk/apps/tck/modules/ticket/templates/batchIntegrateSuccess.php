@@ -40,9 +40,9 @@
       <?php echo $form['filetype']->renderLabel() ?>
       <?php echo $form['filetype'] ?>
     </div>
-    <div class="sf_admin_form_row sf_admin_radio sf_admin_form_field_workspaces_list">
-      <?php echo $form['workspaces_list']->renderLabel() ?>
-      <?php echo $form['workspaces_list'] ?>
+    <div class="sf_admin_form_row sf_admin_radio sf_admin_form_field_gauges_list">
+      <?php echo $form['gauges_list']->renderLabel() ?>
+      <?php echo $form['gauges_list'] ?>
     </div>
     <div class="sf_admin_form_row sf_admin_submit sf_admin_form_field_submit">
       <label><?php echo $form->renderHiddenFields() ?></label>
