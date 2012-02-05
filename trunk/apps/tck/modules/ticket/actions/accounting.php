@@ -42,6 +42,7 @@
       $q->andWhere('t.manifestation_id = ?',intval($manifestation_id));
     $this->tickets = $q->execute();
     
+    // remove cancelled tickets
     foreach ( $this->tickets as $ticket )
     if ( !$this->nocancel || $ticket->Cancelling->count() == 0 )
     {
