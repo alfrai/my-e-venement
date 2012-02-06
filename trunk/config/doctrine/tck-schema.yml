@@ -249,6 +249,22 @@ Invoice:
       foreignAlias: Invoice
       onDelete: CASCADE
       onUpdate: CASCADE
+RawAccounting:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    accounting_id: integer
+    content:
+      type: string
+      notnull: true
+      notblank: true
+  relations:
+    Accounting:
+      foreignAlias: RawAccountings
+      onDelete: SET NULL
+      onUpdate: CASCADE
 
 PaymentMethod:
   package: tck
