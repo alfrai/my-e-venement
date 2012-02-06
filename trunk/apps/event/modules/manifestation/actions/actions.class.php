@@ -159,6 +159,25 @@ class manifestationActions extends autoManifestationActions
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
     $this->pager->init();
   }
+  public function executeLocationList(sfWebRequest $request)
+  {
+    if ( !$request->getParameter('id') )
+      $this->forward('manifestation','index');
+    
+    $this->location_id = $request->getParameter('id');
+    
+    $this->pager = $this->configuration->getPager('Manifestation');
+    $this->pager->setMaxPerPage(5);
+    $this->pager->setQuery(
+      EventFormFilter::addCredentialsQueryPart(
+        Doctrine::getTable('Manifestation')->createQueryByLocationId($this->location_id)
+        ->select('*, g.*, l.*, tck.*, happens_at > NOW() AS after, (CASE WHEN ( happens_at < NOW() ) THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
+        ->leftJoin('m.Tickets tck')
+        ->orderBy('after DESC, before')
+    ));
+    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
+    $this->pager->init();
+  }
   
   public function executeTemplating(sfWebRequest $request)
   {

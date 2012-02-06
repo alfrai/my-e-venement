@@ -21,7 +21,9 @@
 *
 ***********************************************************************************/
 ?>
-<div id="more">
-  <?php include_partial('manifestation_list', array('location' => $location, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php include_partial('gmap', array('form' => $form, 'width' => '400px', 'height' => '350px')) ?>
+<?php use_javascript('event') ?>
+<div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all">
+  <div class="manifestation_list">
+  </div>
+  <script type="text/javascript">var manifestation_list_url = '<?php echo url_for('manifestation/locationList?id='.$location->id) ?>';</script>
 </div>

@@ -1,5 +1,6 @@
 all:
   javascripts: [/liTinymcePlugin/tiny_mce]
+  stylesheets: [location,manifestation]
 
 showSuccess:
   stylesheets: [view]

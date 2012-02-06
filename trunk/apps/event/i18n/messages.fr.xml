@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Location's Manifestations List</source>
+        <target>Les manifestations du lieu</target>
+      </trans-unit>
+      <trans-unit>
         <source>Preprinted ticketting</source>
         <target>Billetterie pré-imprimée</target>
       </trans-unit>
