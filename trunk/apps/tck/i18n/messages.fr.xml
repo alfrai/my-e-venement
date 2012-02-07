@@ -9,8 +9,8 @@
         <target>Retour à la manifestation</target>
       </trans-unit>
       <trans-unit>
-        <source>File importated.</source>
-        <target>Fichier importé.</target>
+        <source>File importated with transaction %%tid%%, with %%nbtck%% ticket(s).</source>
+        <target>Fichier importé avec l'opération %%tid%%, avec %%nbtck%% ticket(s).</target>
       </trans-unit>
       <trans-unit>
         <source>File</source>

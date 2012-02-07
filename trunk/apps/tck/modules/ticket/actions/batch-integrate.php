@@ -22,6 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
+  $this->getContext()->getConfiguration()->loadHelpers('I18N');
   $mid = $request->getParameter('manifestation_id');
   $q = Doctrine::getTable('Manifestation')->createQuery('m')
     ->where('id = ?',$mid);
@@ -39,11 +40,17 @@
       $fp = fopen($files['file']['tmp_name'],'r');
       $transaction = new Transaction();
       
+      $price_default_id = Doctrine::getTable('Price')->createQuery('p')
+        ->andWhere('p.name = ?',sfConfig::get('app_tickets_foreign_price'))
+        ->fetchOne()->id;
+      
       switch ( $integrate['filetype'] ) {
       case 'fb':
         require(dirname(__FILE__).'/batch-integrate-fb.php');
         break;
       default:
+        $this->getUser()->setFlash('error',__("You've chosen an unimplemented feature."));
+        $this->redirect('ticket/batchIntegrate?manifestation_id='.$manifestation->id);
         require(dirname(__FILE__).'/batch-integrate-default.php');
         break;
       }
@@ -104,10 +111,10 @@
           $tck = new Ticket();
           $tck->Manifestation = $this->manifestation;
           $tck->price_name = $ticket['price_name'];
-          $tck->price_id = $ticket['price_id'];     // TODO
+          $tck->price_id = $ticket['price_id'];
           $tck->value = $ticket['value'];
           $tck->integrated = true;
-          //$tck->id = $ticket['id'];  // TODO
+          $tck->id = $ticket['id'];
           $tck->gauge_id = $integrate['gauges_list'];
           $tck->created_at = date('Y-m-d H:i:s',strtotime($ticket['created_at']));
           
@@ -119,12 +126,11 @@
 
       fclose($fp);
       sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url','I18N'));
-      $this->getUser()->setFlash('notice',__('File importated.'));
+      $this->getUser()->setFlash('notice',__('File importated with last transaction %%tid%%, with %%nbtck%% ticket(s).',array('%%tid%%' => $transaction->id, '%%nbtck%%' => count($tickets))));
       $this->redirect(url_for('ticket/batchIntegrate?manifestation_id='.$this->manifestation->id));
     }
     else
     {
-      print_r($integrate);
       $this->getUser()->setFlash('error','Error in the form validation');
     }
   }

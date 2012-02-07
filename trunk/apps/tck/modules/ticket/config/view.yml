@@ -35,3 +35,5 @@ canceledTicketSuccess:
   stylesheets: [ticket]
 integrateSuccess:
   stylesheets: [ticket-integrate]
+batchIntegrateSuccess:
+  javascripts: [ticket-batch-integrate]

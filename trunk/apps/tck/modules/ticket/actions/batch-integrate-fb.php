@@ -22,10 +22,23 @@
 ***********************************************************************************/
 ?>
 <?php
-  $tickets = array();
-  
-  while ( $line = fgetcsv($fp, 0, ';') )
-  if ( floatval($line[23]) > 0 )
+$tickets = array();
+
+$tarif_line = 8;
+$tarifs = array();
+$charset = sfContext::getInstance()->getConfiguration()->charset;
+
+for ( $i = 0 ; $line = fgetcsv($fp, 0, ';') ; $i++ )
+{
+  // creation of prices database
+  if ( $i == $tarif_line )
+  {
+    $tarif_line++;
+    $tarifs[$line[2]] = iconv($charset['ms'],'UTF-8',$line[1]);
+    if ( !isset($line[1]) || !isset($line[2]) )
+      $tarif_line = 8;
+  }
+  if ( isset($line[23]) && floatval($line[23]) > 0 )
   {
     $ticket = array();
     $ticket['name']       = $line[10];
@@ -34,18 +47,18 @@
     $ticket['city']       = '';
     $ticket['country']    = $line[13];
     $ticket['cancel']     = $line[1] == 'V' ? false : true;
-    $ticket['price_name'] = $line[5];
-    $ticket['price_id']   = 35; // TODO
+    $ticket['price_name'] = $tarifs[$line[5]];
+    $ticket['price_id']   = $price_default_id;
     $ticket['value']      = $line[23];
-    //$ticket['id']       = $line[24]; // TODO
+    $ticket['id']         = $line[15];
     
     // created_at
     $ticket['created_at'] = explode(' ',$line[2]);
     $ticket['created_at'][0] = explode('/',$ticket['created_at'][0]);
     $ticket['created_at'][0] = array_reverse($ticket['created_at'][0]);
     $ticket['created_at'][0] = implode('-',$ticket['created_at'][0]);
-    print_r($ticket['created_at'][0]);
     $ticket['created_at'] = implode(' ',$ticket['created_at']);
     
     $tickets[] = $ticket;
   }
+}
