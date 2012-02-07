@@ -69,3 +69,12 @@
 .ui-widget-about .ui-widget-header h2 {
   font-size: 25px;
 }
+
+#error h2 {
+  margin-bottom: 20px;
+}
+#error p {
+  color: black;
+  font-weight: normal;
+  margin-bottom: 5px;
+}

@@ -106,7 +106,7 @@
       </ul>
     </div>
 
-    <div class="ui-widget-content ui-corner-all">
+    <div class="ui-widget-content ui-corner-all" id="company">
       <div class="ui-widget-header ui-corner-all fg-toolbar">
         <h2><?php echo __('Libre Informatique', array(), 'messages') ?></h2>
       </div>

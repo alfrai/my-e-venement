@@ -45,4 +45,8 @@ class defaultActions extends sfActions
     echo $this->getUser()->hasCredential('pr-contact-edit') ? 'ok' : 'ko';
     return sfView::NONE;
   }
+  
+  public function executeError(sfWebRequest $request)
+  {
+  }
 }
