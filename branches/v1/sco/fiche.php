@@ -288,7 +288,7 @@
 	
 	// titre du tableau
 	echo '<span class="impair titre">';
-	echo $id > 0 ? "Entrée #".$id : "Nouvelle entrée";
+	echo $id > 0 ? 'Entrée #<span id="id">'.$id.'</span>' : "Nouvelle entrée";
 	echo '</span>';
 	
 	// entrées existantes
@@ -325,7 +325,7 @@
 	if ( $user->scolevel >= $config["sco"]["right"]["mod"] && $persid <= 0 && $manifid <= 0 )
 	{
 		echo '<span class="manif '.$nextcol.'">';
-		echo '<input type="text" name="typemanif" value="" onkeyup="javascript: sco_newmanif(this.value,'.$id.');" />';
+		echo '<input type="text" name="typemanif" value="" />';
 		echo '<span>';
 		echo '<select name="newmanif[]" id="newmanif" multiple="multiple">';
 		echo '<option value="">-- Manifestations --</option>';
@@ -501,7 +501,7 @@
 	if ( $user->scolevel >= $config["sco"]["right"]["mod"] && $persid <= 0 && $manifid <= 0 )
 	{
 		echo '<span class="client">';
-		echo '<input type="text" name="typeclient" value="" onkeyup="javascript: sco_annu(this.value);" />';
+		echo '<input type="text" name="typeclient" value="" />';
 		echo '<span>';
 		echo '<select name="newclient[]" id="newclient" multiple="multiple">';
 		echo '<option value="">-- Spectateurs --</option>';

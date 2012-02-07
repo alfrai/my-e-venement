@@ -23,98 +23,40 @@ var client = 0;
 var origelt;
 var bufelt;
 
-function sco_newmanif(value,tabid)
+function sco_newmanif(input)
 {
-	manif++;
-	var tmp = manif;
-	
-	select = document.getElementById("newmanif");
-	
-	var xmlhttp = getHTTPObject();
-	if ( xmlhttp && select )
-	{
-		xmlhttp.open("GET","sco/manifs.hide.php?s="+value+"&id="+tabid,true);
-		xmlhttp.onreadystatechange=function()
-		{
-			if (xmlhttp.readyState == 4) /* 4 : état "complete" */
-			if (xmlhttp.status == 200) /* 200 : code HTTP pour OK */
-			{
-				if ( tmp < manif )
-					return false;
-				
-				select.innerHTML = xmlhttp.responseText;
-			}
-		}
-		if ( elt = document.getElementById("waiting") )
-			elt.className="show";
-		window.setTimeout(function(){
-			if ( tmp >= manif ) xmlhttp.send(null);
-		},700);
-	} // if ( xmlhttp )
+  if ( $(input).val() != '' )
+  {
+    $.get('sco/manifs.hide.php?s='+$(input).val()+'&id='+parseInt($('#id').html()),function(data){
+      $('#newmanif').html(data);
+    });
+  }
+  else
+  {
+    $('#newmanif').html('-- Manifestations --');
+  }
 }
 
-function sco_annu(value)
+function sco_annu(input)
 {
-	client++;
-	var tmp = client;
-	
-	select = document.getElementById("newclient");
-	
-	var xmlhttp = getHTTPObject();
-	if ( xmlhttp && select && value != "" )
-	{
-		xmlhttp.open("GET","ann/process.php?more&s="+value);
-		xmlhttp.onreadystatechange=function()
-		{
-			if (xmlhttp.readyState == 4) /* 4 : état "complete" */
-			if (xmlhttp.status == 200) /* 200 : code HTTP pour OK */
-			{
-				if ( tmp < client )
-					return false;
-				
-				var xmldoc = xmlhttp.responseXML;
-				//alert(xmlhttp.responseText);
-				
-				list = "";
-				if ( xmldoc.getElementsByTagName("ppl").length > 0 )
-				{
-					ppl = xmldoc.getElementsByTagName("ppl").item(0).getElementsByTagName("element");
-					for ( var i = 0 ; i < ppl.length ; i++ )
-					{
-						id      = ppl.item(i).getAttribute("value");
-						nom     = ppl.item(i).getElementsByTagName("nom").item(0).firstChild.data;
-						prenom  = ppl.item(i).getElementsByTagName("prenom").item(0).firstChild.data;
-						orgid   = ppl.item(i).getElementsByTagName("orgid").item(0).firstChild.data;
-						orgnom  = ppl.item(i).getElementsByTagName("orgnom").item(0).firstChild.data;
-						fctdesc = ppl.item(i).getElementsByTagName("fctdesc").item(0).firstChild.data;
-						fctid   = ppl.item(i).getElementsByTagName("fctid").item(0).firstChild.data;
-						if ( ppl.item(i).getElementsByTagName("npai").item(0).firstChild.data == "true" )
-							class   = "npai";
-						else    class   = "";
-						
-						list += '<option class="pers '+class+'" value="';
-						if ( fctid > 0 )
-							list += 'prof_'+fctid;
-						else    list += 'pers_'+id;
-						list += '">';
-						list += nom+' '+prenom;
-						if ( orgid > 0 )
-						{
-							list += ' ('+orgnom;
-							if ( trim(fctdesc) != "" ) list += ' - '+fctdesc;
-							list += ')';
-						}
-						list += '</option>';
-					}
-				}
-				
-				document.getElementById("newclient").innerHTML = list;
-			}
-		}
-		window.setTimeout(function(){
-			if ( tmp >= client ) xmlhttp.send(null);
-		},700);
-	}
+  if ( $(input).val() != '' )
+  {
+    $.get('ann/process.php?more&s='+$(input).val(),function(data){
+      $('#newclient').html('');
+      $(data).find('ttt ppl element').each(function(){
+        $('#newclient').append('<option'
+            +' class="perso '+($(this).find('npai').text() == 'true' ? 'npai' : '')+'"'
+            +'value="'+((id=parseInt($(this).find('fctid').text())) > 0 ? 'prof_'+id : 'pers_'+$(this).attr('value'))
+          +'">'
+            +$(this).find('nom').text()+' '+$(this).find('prenom').text()
+          +'</option>');
+      });
+    },'xml');
+  }
+  else
+  {
+    $('#newclient').html('-- Spectateurs --');
+  }
 }
 
 function sco_highlight(elt,checked)
@@ -248,5 +190,11 @@ $(document).ready(function(){
   });
   $('.entry #first-line .titre').mouseout(function(){
     $('#reminder').hide();
+  });
+  $('.client input[name="typeclient"]').keyup(function(){
+    sco_annu(this);
+  });
+  $('#first-line input[name="typemanif"]').keyup(function(){
+    sco_newmanif(this);
   });
 });
