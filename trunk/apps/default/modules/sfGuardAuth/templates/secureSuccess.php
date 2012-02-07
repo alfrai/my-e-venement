@@ -25,7 +25,7 @@
       <?php echo get_component('sfGuardAuth', 'signin_form') ?>
     </div>
     
-    <div class="ui-widget-content ui-corner-all">
+    <div class="ui-widget-content ui-corner-all" id="company">
       <div class="ui-widget-header ui-corner-all fg-toolbar">
         <h2><?php echo __('Libre Informatique', null, 'sf_guard') ?></h2>
       </div>
