@@ -11,6 +11,7 @@ all:
     firm:
       url: http://www.libre-informatique.fr/
       name: Libre Informatique
+      #nowarranty: true
     client:
       name: Xxxxx Xxxx
   demo: false

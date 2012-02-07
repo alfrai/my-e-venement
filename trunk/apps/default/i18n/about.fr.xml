@@ -9,8 +9,12 @@
         <target>À propos</target>
       </trans-unit>
       <trans-unit>
-        <source>insurance</source>
-        <target>garantie</target>
+        <source>Insurance: &lt;a href="%%url%%"&gt;%%name%%&lt;/a&gt;</source>
+        <target>Garantie: &lt;a href="%%url%%"&gt;%%name%%&lt;/a&gt; (CGI)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>By &lt;a href="%%url%%"&gt;%%name%%&lt;/a&gt;</source>
+        <target>Par &lt;a href="%%url%%"&gt;%%name%%&lt;/a&gt;</target>
       </trans-unit>
       <trans-unit>
         <source>the contributors</source>

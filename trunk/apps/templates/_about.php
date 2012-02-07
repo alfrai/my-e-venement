@@ -50,9 +50,14 @@
     <p class="version">version <?php echo sfConfig::get('app_about_version') ?></p>
     <p class="specific"><?php echo __('%e% for %client%',$translate,'about') ?></p>
     <p class="editor">
-      <?php echo __('insurance',null,'about') ?>:
-      <a href="<?php echo $firm['url'] ?>"><?php echo $firm['name'] ?></a>
+      <?php if ( isset($firm['nowarranty']) && $firm['nowarranty'] === true ): ?>
+      <?php echo __('By <a href="%%url%%">%%name%%</a>',array('%%url%%' => $firm['url'], '%%name%%' => $firm['name']),'about') ?>
+      <?php else: ?>
+      <?php echo __('Insurance: <a href="%%url%%">%%name%%</a>',array('%%url%%' => $firm['url'], '%%name%%' => $firm['name']),'about') ?>
+      <?php endif ?>
+      <?php if ( sfConfig::get('app_about_nowarranty') === 'true' ): ?>
       (<?php echo __('gov.',null,'about') ?>)
+      <?php endif ?>
     </p>
   </div>
   <div class="mentions">
