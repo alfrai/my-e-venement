@@ -36,15 +36,15 @@ class TicketsIntegrationForm extends sfForm
       'required'  => true,
     ));
     
-    $this->widgetSchema   ['workspaces_list'] = new sfWidgetFormDoctrineChoice(array(
+    $this->widgetSchema   ['gauges_list'] = new sfWidgetFormDoctrineChoice(array(
       'expanded'  => true,
-      'model'     => 'Workspace',
-      'query'     => Doctrine::getTable('Workspace')->createQuery('ws')->leftJoin('ws.Gauges g')->andWhere('g.manifestation_id = ?',$this->manifestation->id),
-      'order_by'  => array('name','ASC'),
+      'model'     => 'Gauge',
+      'query'     => Doctrine::getTable('Gauge')->createQuery('g')->andWhere('g.manifestation_id = ?',$this->manifestation->id),
+      'order_by'  => array('ws.name','ASC'),
     ));
-    $this->validatorSchema['workspaces_list'] = new sfValidatorDoctrineChoice(array(
-      'model'     => 'Workspace',
-      'query'     => Doctrine::getTable('Workspace')->createQuery('ws')->leftJoin('ws.Gauges g')->andWhere('g.manifestation_id = ?',$this->manifestation->id),
+    $this->validatorSchema['gauges_list'] = new sfValidatorDoctrineChoice(array(
+      'model'     => 'Gauge',
+      'query'     => Doctrine::getTable('Gauge')->createQuery('g')->andWhere('g.manifestation_id = ?',$this->manifestation->id),
       'required'  => true,
     ));
     

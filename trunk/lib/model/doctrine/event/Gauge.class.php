@@ -12,6 +12,10 @@
  */
 class Gauge extends PluginGauge
 {
+  public function __toString()
+  {
+    return $this->Workspace->name;
+  }
   public function preSave($event)
   {
     if ( is_null($this->value) )

@@ -59,4 +59,13 @@ class ManifestationTable extends PluginManifestationTable
       ->orderby("e.name, $a.happens_at DESC, l.name");
     return $q;
   }
+  public function createQueryByLocationId($id)
+  {
+    $q = $this->createQuery();
+    $a = $q->getRootAlias();
+    $q
+      ->where('e.id = ?',$id)
+      ->orderby("e.name, $a.happens_at DESC, l.name");
+    return $q;
+  }
 }
