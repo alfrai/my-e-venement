@@ -25,7 +25,7 @@
   ?>
   <?php if ( $contact['ticket-ids'] ): ?>
   <tr class="<?php echo ($overlined = !$overlined) ? 'overlined' : '' ?>">
-    <td class="name"><?php echo cross_app_link_to($transac->Contact,'rp','contact/show?id='.$tansac->contact_id) ?></td>
+    <td class="name"><?php echo cross_app_link_to($transac->Contact,'rp','contact/show?id='.$transac->contact_id) ?></td>
     <td class="organism"><?php echo cross_app_link_to($contact['pro']->Organism,'rp','organism/show?id='.$contact['pro']->Organism->id) ?></td>
     <td class="tickets"><?php $arr = array(); foreach ( $contact['prices'] as $key => $value ) $arr[] = $value.$key; echo implode(', ',$arr); ?></td>
     <td class="price"><?php echo format_currency($contact['value'],'€') ?></td>
