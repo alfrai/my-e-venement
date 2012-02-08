@@ -51,6 +51,7 @@ for ( $i = 0 ; $line = fgetcsv($fp, 0, ';') ; $i++ )
     $ticket['price_id']   = $price_default_id;
     $ticket['value']      = $line[23];
     $ticket['id']         = $line[15];
+    $ticket['type']       = 'fb';
     
     // created_at
     $ticket['created_at'] = explode(' ',$line[2]);

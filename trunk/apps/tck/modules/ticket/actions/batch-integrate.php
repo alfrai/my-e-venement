@@ -88,13 +88,16 @@
           {
             // keep the last transaction if contact is the same, or create a new one if not
             if ( $transaction->isNew()
-              || $transaction->Contact instanceof Contact
-              && $transaction->Contact->id != $contacts[0]->id )
+              || $transaction->Contact instanceof Contact && $transaction->Contact->id != $contacts[0]->id )
             {
               $transaction = new Transaction();
               $transaction->Contact = $contacts[0];
             }
           }
+          
+          // adding a keyword
+          $transaction->Contact->description
+            = implode(' ',array($transaction->Contact->description,'integration-'.$ticket['type']));
         }
         else // if ( !($ticket['name'] && $ticket['firstname'] )
         {
