@@ -55,25 +55,6 @@
     $nav->redirect('.');
   }
   
-  // passage en base du bon de commande / de la facture
-  $data = array(
-    'accountid'   => $user->getId(),
-    'transaction' => $transac,
-    'date'        => '\DEFAULT'
-  );
-  if ( !$bd->updateRecordsSimple($type,array('transaction' => $transac),$data) )
-  {
-    if ( $bd->addRecord($type,$data) === false )
-    {
-      $user->addAlert("Impossible d'enregistrer le bon de commande / la facture en base.");
-      $user->closeNext();
-      $nav->redirect('.');
-    }
-  }
-  $request = new bdRequest($bd,'SELECT id FROM '.$type.' WHERE transaction = '.$transac);
-  $id = $request->getRecord('id');
-  $request->free();
-  
   // récup des infos sur la personne
   $query  = ' SELECT p.id, p.prenom, p.nom, p.orgnom, p.adresse, p.cp, p.ville, p.pays, p.email, f.date,
                      p.orgadr, p.orgcp, p.orgville, p.orgpays
@@ -104,6 +85,25 @@
     $user->closeNext();
     $nav->redirect('.');
   }
+  
+  // passage en base du bon de commande / de la facture
+  $data = array(
+    'accountid'   => $user->getId(),
+    'transaction' => $transac,
+    'date'        => '\DEFAULT'
+  );
+  if ( !$bd->updateRecordsSimple($type,array('transaction' => $transac),$data) )
+  {
+    if ( $bd->addRecord($type,$data) === false )
+    {
+      $user->addAlert("Impossible d'enregistrer le bon de commande / la facture en base.");
+      $user->closeNext();
+      $nav->redirect('.');
+    }
+  }
+  $request = new bdRequest($bd,'SELECT id FROM '.$type.' WHERE transaction = '.$transac);
+  $id = $request->getRecord('id');
+  $request->free();
   
   // récup des infos sur les billets
   $query  = ' SELECT e.nom, m.date, m.txtva,

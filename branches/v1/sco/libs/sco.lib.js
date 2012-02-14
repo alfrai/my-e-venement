@@ -111,14 +111,14 @@ function sco_disableinputs(htmlelt)
 		inputs.item(i).disabled = true;
 }
 
-function sco_cut(elt,class)
+function sco_cut(elt,classname)
 {
 	// le buffer
 	bufelt = elt.cloneNode(true);
 	
 	// l'apparence
 	document.body.className = "cutted";
-	elt.className = class;
+	elt.className = classname;
 	
 	// la RAZ des données coupées
 	inputs = elt.getElementsByTagName("input");
@@ -141,7 +141,7 @@ function sco_cut(elt,class)
 	}
 }
 
-function sco_paste(elt,class)
+function sco_paste(elt,classname)
 {
 	if ( bufelt )
 	{
