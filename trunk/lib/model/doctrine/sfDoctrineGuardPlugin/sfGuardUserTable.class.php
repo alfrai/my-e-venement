@@ -27,4 +27,10 @@ class sfGuardUserTable extends PluginsfGuardUserTable
     {
         return Doctrine_Core::getTable('sfGuardUser');
     }
+    
+    public function fetchOneByUsername($username)
+    {
+      $q = $this->createQuery('u')->andWhere('username = ?',$username);
+      return $q->fetchOne();
+    }
 }

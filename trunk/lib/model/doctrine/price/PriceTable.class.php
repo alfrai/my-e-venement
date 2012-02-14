@@ -16,4 +16,10 @@ class PriceTable extends PluginPriceTable
     {
         return Doctrine_Core::getTable('Price');
     }
+    
+    public function fetchOneByName($name)
+    {
+      $q = $this->createQuery('p')->andWhere('name = ?',$name);
+      return $q->fetchOne();
+    }
 }
