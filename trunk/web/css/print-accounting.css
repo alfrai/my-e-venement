@@ -1,5 +1,6 @@
 body {
-  width: 297mm;
+  width: 210mm;
+  min-height: 297mm;
   font-family: verdana, arial, sans;
   font-size: 13px;
 }
@@ -13,6 +14,7 @@ body {
   border: 1px solid gray;
   padding: 5px 10px;
   width: 250px;
+  top: 50mm;
 }
 #customer p { margin: 0; }
 #customer .name, #customer .prenom { display: inline; padding-right: 0.5em; font-weight: bold; }
@@ -20,14 +22,17 @@ body {
 #customer .postalcode, #customer .city { display: inline; padding-right: 0.5em; }
 #customer .id { display: none; }
 #customer .email { text-decoration: underline; font-size: 80%; }
+#customer, #type { margin-right: 25mm; }
 
 #date { position: absolute; right: 30px; }
 
 #seller p { margin: 0; }
 #seller .name { font-weight: bold; }
 #seller .country,
-#seller .refs { font-size: 80%; }
+#seller .refs,
+#seller .other { font-size: 80%; }
 #seller .postalcode, #seller .city { display: inline; }
+#seller .other { margin-top: 7px; }
 
 #lines td, #lines th { border-bottom: 1px solid silver; border-left: 1px solid silver; padding: 0 5px; text-align: center; }
 #lines th:after { content: ''; }
@@ -69,3 +74,10 @@ body.bdc .prefix { display: none; }
 body.bdc #echeance { display: none; }
 
 #lines .name { max-width: 180px; }
+
+.footer {
+  position: absolute;
+  top: 270mm;
+  width: 100%;
+  text-align: center;
+}

@@ -1,3 +1,3 @@
 <p class="footer"><?php
-  echo sfConfig::get('app_seller_invoice_footer')
+  echo nl2br(sfConfig::get('app_seller_invoice_footer'))
 ?></p>
