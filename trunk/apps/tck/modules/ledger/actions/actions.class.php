@@ -108,7 +108,7 @@ class ledgerActions extends sfActions
       ->leftJoin('p.User u')
       ->leftJoin('u.MetaEvents')
       ->leftJoin('u.Workspaces')
-      ->orderBy('m.name, m.id, t.id, p.value, p.updated_at');
+      ->orderBy('m.name, m.id, t.id, p.value, p.created_at');
     
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
     {
@@ -121,7 +121,7 @@ class ledgerActions extends sfActions
     }
     else
     {
-      $q->andWhere('p.updated_at >= ? AND p.updated_at < ?',array(
+      $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
       ));
