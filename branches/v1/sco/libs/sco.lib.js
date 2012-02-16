@@ -49,6 +49,7 @@ function sco_annu(input)
             +'value="'+((id=parseInt($(this).find('fctid').text())) > 0 ? 'prof_'+id : 'pers_'+$(this).attr('value'))
           +'">'
             +$(this).find('nom').text()+' '+$(this).find('prenom').text()
+            +' - '+$(this).find('orgnom').text()+' '+$(this).find('fctdesc').text()
           +'</option>');
       });
     },'xml');
