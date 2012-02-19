@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Status</source>
+        <target>Statut</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%nb%% contacts properly merged into one</source>
         <target>%%nb%% contacts ont été correctement fusionnés</target>
       </trans-unit>
@@ -59,6 +63,10 @@
       <trans-unit>
         <source>Duplicates the last card instead of creating a new one</source>
         <target>Duplique la dernière carte à la place d'en créer une nouvelle</target>
+      </trans-unit>
+      <trans-unit>
+        <source>free_subscription</source>
+        <target>abonnement exonéré</target>
       </trans-unit>
       <trans-unit>
         <source>membership</source>
