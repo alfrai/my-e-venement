@@ -1,4 +1,5 @@
 <?php include_partial('assets') ?>
+<?php include_partial('global/flashes') ?>
 <?php use_stylesheet('ledger-both','',array('media' => 'all')) ?>
 
 <div><div class="ui-widget-content ui-corner-all">
@@ -40,3 +41,4 @@
 <div class="clear"></div>
 <?php include_partial('both_user',array('byUser' => $byUser)) ?>
 </div>
+

@@ -24,14 +24,18 @@ class ledgerActions extends sfActions
   {
     $this->form = new LedgerCriteriasForm();
     $criterias = $request->getParameter($this->form->getName());
-    
+
+    // Hack for form validation
     if ( isset($criterias['users']) && $criterias['users'][0] === '' && count($criterias['users']) == 1 )
       unset($criterias['users']);
+    if ( isset($criterias['workspaces']) && $criterias['workspaces'][0] === '' && count($criterias['workspaces']) == 1 )
+      unset($criterias['workspaces']);
+    
     
     $this->form->bind($criterias, $request->getFiles($this->form->getName()));
     if ( !$this->form->isValid() )
     {
-      $user->setFlash('error','Submitted values are invalid');
+      $this->getUser()->setFlash('error','Submitted values are invalid');
     }
     
     $dates = array(
@@ -64,6 +68,7 @@ class ledgerActions extends sfActions
       ->leftJoin('m.Location l')
       ->leftJoin('m.Tickets tck')
       ->leftJoin('tck.Transaction t')
+      ->leftJoin('tck.Gauge g')
       ->leftJoin('t.Contact c')
       ->leftJoin('t.Professional pro')
       ->leftJoin('pro.Organism o')
@@ -80,7 +85,10 @@ class ledgerActions extends sfActions
     
     if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
       $q->andWhereIn('tck.sf_guard_user_id',$criterias['users']);
-    
+
+    if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && $criterias['workspaces'][0] )
+      $q->andWhereIn('g.workspace_id',$criterias['workspaces']);
+
     $this->events = $q->execute();
     $this->dates = $dates;
   }
@@ -146,6 +154,7 @@ class ledgerActions extends sfActions
       ->leftJoin('t.Payments p')
       ->leftJoin('p.Method pm')
       ->leftJoin('t.Tickets tck')
+      ->leftJoin('tck.Gauge g')
       ->andWhere('tck.duplicate IS NULL')
       ->andWhere('tck.printed = true OR tck.integrated = true OR tck.cancelling IS NOT NULL')
       ->orderBy('pm.name');
@@ -170,12 +179,13 @@ class ledgerActions extends sfActions
       foreach ( $transaction->Tickets as $t )
       {
         $sum['total'] += $t->value;
-        if ( in_array($t->manifestation_id,$criterias['manifestations']) || count($criterias['manifestations']) == 0 )
+        if ( (in_array($t->manifestation_id,$criterias['manifestations']) || count($criterias['manifestations']) == 0)
+          && (in_array($t->Gauge->workspace_id,$criterias['workspaces']) || count($criterias['workspaces']) == 0) )
         {
           $sum['partial'] += $t->value;
         }
       }
-      
+
       if ( $sum['partial'] != 0 && $sum['total'] != 0 )
       foreach ( $transaction->Payments as $p )
       {
@@ -192,11 +202,14 @@ class ledgerActions extends sfActions
     // by price
     $q = Doctrine::getTable('Price')->createQuery('p')
       ->leftJoin('p.Tickets t')
+      ->leftJoin('t.Gauge g')
       ->andWhere('t.printed OR t.cancelling IS NOT NULL OR t.integrated')
       ->andWhere('t.duplicate IS NULL')
       ->orderBy('p.name');
     if ( is_array($criterias['users']) && count($criterias['users']) > 0 )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
+    if ( is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
+      $q->andWhereIn('g.workspace_id',$criterias['workspaces']);
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
       $q->andWhereIn('t.manifestation_id',$criterias['manifestations']);
     else
@@ -218,6 +231,7 @@ class ledgerActions extends sfActions
             AND id NOT IN (SELECT cancelling FROM ticket WHERE ".(!is_array($criterias['manifestations']) || count($criterias['manifestations']) == 0 ? 'updated_at >= :date0 AND updated_at < :date1 AND ' : '')." cancelling IS NOT NULL)
             AND cancelling IS NULL
             ".( is_array($criterias['users']) && count($criterias['users']) > 0 ? 'AND sf_guard_user_id IN ('.implode(',',$users).')' : '')."
+            ".( is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 ? 'AND gauge_id IN (SELECT id FROM gauge g WHERE g.workspace_id IN ('.implode(',',$criterias['workspaces']).'))' : '')."
             AND (printed OR integrated OR cancelling IS NOT NULL)
             AND duplicate IS NULL
           GROUP BY value
@@ -231,12 +245,13 @@ class ledgerActions extends sfActions
     $q = new Doctrine_Query();
     $q->from('SfGuardUser u')
       ->leftJoin('u.Tickets t')
+      ->leftJoin('t.Gauge g')
       ->select('u.id, u.last_name, u.first_name, u.username')
       ->addSelect('(CASE WHEN sum(t.value >= 0) > 0 THEN sum(case when t.value < 0 then 0 else t.value end)/sum(t.value >= 0) ELSE 0 END) AS average')
       ->addSelect('sum(t.value = 0 AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL)) AS nb_free')
       ->addSelect('sum(t.value > 0 AND t.id NOT IN (SELECT t3.cancelling FROM ticket t3 WHERE t3.cancelling IS NOT NULL)) AS nb_paying')
       ->addSelect('sum(t.value <= 0 AND cancelling IS NOT NULL) AS nb_cancelling')
-      ->addSelect('(CASE WHEN sum(value > 0) > 0 THEN sum(case when t.value < 0 then 0 else t.value end)/sum(value > 0) ELSE 0 END) AS average_paying')
+      ->addSelect('(CASE WHEN sum(t.value > 0) > 0 THEN sum(case when t.value < 0 then 0 else t.value end)/sum(t.value > 0) ELSE 0 END) AS average_paying')
       ->addSelect('sum(case when t.value < 0 then 0 else t.value end) AS income')
       ->addSelect('sum(case when t.value > 0 then 0 else t.value end) AS outcome')
       ->andWhere('t.duplicate IS NULL')
@@ -245,6 +260,8 @@ class ledgerActions extends sfActions
       ->groupBy('u.id, u.last_name, u.first_name, u.username');
     if ( is_array($criterias['users']) && count($criterias['users']) > 0 )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
+    if ( is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
+      $q->andWhereIn('g.workspace_id',$criterias['workspaces']);
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
       $q->andWhereIn('t.manifestation_id',$criterias['manifestations']);
     else

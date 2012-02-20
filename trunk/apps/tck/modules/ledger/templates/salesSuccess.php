@@ -1,6 +1,7 @@
+<?php include_partial('global/flashes') ?>
 <?php include_partial('assets') ?>
 
-<div class="ui-widget-content ui-corner-all">
+<div class="ui-widget-content ui-corner-all" id="sales-ledger">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1>
       <?php
