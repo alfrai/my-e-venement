@@ -15,7 +15,7 @@
       <input type="hidden" name="toprint" value="0" />
     </h2>
     <p class="prices"><?php foreach ( $manifestation->Tickets as $ticket ): ?>
-      <span class="ticket <?php echo $ticket->printed || $ticket->integrated ? 'done' : 'todo'?>" title="#<?php echo $ticket->id ?>">
+      <span class="ticket ticket_prices <?php echo $ticket->printed || $ticket->integrated ? 'done' : 'todo'?>" title="#<?php echo $ticket->id ?>">
         <?php echo $ticket->price_name ?>
         <input type="hidden" name="toprint[]" value="<?php echo $ticket->id ?>" disabled="disabled" />
       </span>
@@ -30,17 +30,70 @@
   <script type="text/javascript">
       $(document).ready(function(){
         // select the tickets to print
-        $('form.print .prices .ticket.todo').click(function(){
-          if ( $(this).find('input[disabled]').length > 0 )
+        $('form.print .prices .ticket.todo').click(function(e){
+          // TODO : stilly hardly buggy
+          if ( !e.shiftKey )
+            $('.ticket.last-click').removeClass('last-click');
+          
+          if ( $('.ticket.last-click').length == 0 )
           {
-            $(this).addClass('selected');
-            $(this).find('input').removeAttr('disabled');
+            // no other clicked element
+            first = $(this);
+            $(this).addClass('last-click').addClass('last');
+          }
+          else if ( $('.ticket.last-click input').val() > $(this).find('input').val() )
+          {
+            // if clicked on an element on the left of the last one
+            first = $(this);
+            if ( $('.ticket.last-click').hasClass('selected') )
+              $('.ticket.last-click').prev().addClass('last');
+            else
+              $('.ticket.last-click').addClass('last');
           }
           else
           {
-            $(this).removeClass('selected');
-            $(this).find('input').attr('disabled','disabled');
+            // if clicked on an element on the right of the last one
+            if ( $('.ticket.last-click').hasClass('selected') )
+              first = $('.ticket.last-click').next();
+            else
+              first = $('.ticket.last-click');
+            $(this).addClass('last');
           }
+          
+          alert($('.ticket.last').length);
+          $i = 0;
+          for ( tck = first ; true ; tck = tck.next() )
+          {
+            if ( tck.find('input[disabled]').length > 0 )
+            {
+              tck.addClass('selected');
+              tck.find('input').removeAttr('disabled');
+            }
+            else if ( $i == 0 && tck.hasClass('last') )
+            {
+              tck.removeClass('selected');
+              tck.find('input').attr('disabled','disabled');
+            }
+            
+            $i++;
+            
+            // leaving the loop
+            if ( tck.hasClass('last') )
+            {
+              $('.ticket.last').removeClass('last');
+              break;
+            }
+            
+            // get out of the loop if no more element
+            if ( tck.next().length == 0 )
+            {
+              $('.ticket.last').removeClass('last');
+              break;
+            }
+          }
+          
+          $('.last-click, .last').removeClass('last-click').removeClass('last');
+          $(this).addClass('last-click');
         });
         
         // select all
