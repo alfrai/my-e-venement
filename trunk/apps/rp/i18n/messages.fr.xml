@@ -5,6 +5,9 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Homonyms</source>
+        <target>Homonymies</target>
+      </trans-unit>
         <source>Status</source>
         <target>Statut</target>
       </trans-unit>

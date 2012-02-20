@@ -1,5 +1,5 @@
 <div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all gmap">
-  <div class="ui-widget-header ui-corner-all fg-toolbar"><h2><?php echo __('Homonymies existantes') ?></h2></div>
+  <div class="ui-widget-header ui-corner-all fg-toolbar"><h2><?php echo __('Homonyms') ?></h2></div>
 <div class="duplicates"></div>
 <script type="text/javascript">
     $(document).ready(function(){
