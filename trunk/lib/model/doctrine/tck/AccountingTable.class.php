@@ -16,4 +16,9 @@ class AccountingTable extends PluginAccountingTable
     {
         return Doctrine_Core::getTable('Accounting');
     }
+    
+    public function fetchOneById($id)
+    {
+      return $this->createQuery('a')->andWhere('id = ?',$id)->fetchOne();
+    }
 }
