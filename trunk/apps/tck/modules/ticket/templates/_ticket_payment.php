@@ -25,7 +25,8 @@
     });
     shortcuts.find('button').click(function(){
       $('#payment #payment_payment_method_id').val($(this).val());
-      $('#payment #payment_value').val(parseFloat($('#payment .sf_admin_list .change .sf_admin_list_td_list_value').html().replace(',','.').replace('&nbsp;','')));
+      if ( !$('#payment #payment_value').val() )
+        $('#payment #payment_value').val(parseFloat($('#payment .sf_admin_list .change .sf_admin_list_td_list_value').html().replace(',','.').replace('&nbsp;','')));
       $('#payment form').submit();
       return false;
     });
