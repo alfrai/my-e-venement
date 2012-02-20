@@ -47,6 +47,18 @@ class LedgerCriteriasForm extends BaseForm
       'required' => false,
     ));
     
+    $this->widgetSchema['workspaces'] = new sfWidgetFormDoctrineChoice(array(
+      'model'     => 'Workspace',
+      'add_empty' => true,
+      'order_by'  => array('name',''),
+      'multiple'  => true,
+    ));
+    $this->validatorSchema['workspaces'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Workspace',
+      'multiple' => true,
+      'required' => false,
+    ));
+ 
     $this->widgetSchema->setNameFormat('criterias[%s]');
     $this->disableCSRFProtection();
   }
