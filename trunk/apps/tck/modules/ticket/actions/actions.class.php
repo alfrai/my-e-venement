@@ -120,6 +120,18 @@ class ticketActions extends sfActions
     if ( is_null($this->order->id) )
       $this->order->save();
   }
+  public function executeRecordAccounting(sfWebRequest $request)
+  {
+    $accounting = new RawAccounting();
+    $invoice = Doctrine::getTable('Invoice')->fetchOneById($request->getParameter('invoice_id'));
+    if ( !$invoice ) throw new sfError404Exception();
+    
+    $accounting->content = $request->getParameter('content');
+    $accounting->accounting_id = $invoice->id;
+    
+    $accounting->save();
+    return sfView::NONE;
+  }
   // invoice
   public function executeInvoice(sfWebRequest $request)
   {

@@ -1,4 +1,4 @@
-<?php include_partial('accounting_assets') ?>
+<?php include_partial('accounting_assets',array('modifiable' => true)) ?>
 <?php include_partial('accounting_date') ?>
 <?php include_partial('accounting_type_invoice') ?>
 <?php include_partial('accounting_seller') ?>
