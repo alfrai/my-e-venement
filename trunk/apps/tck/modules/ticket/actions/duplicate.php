@@ -51,29 +51,33 @@
       }
       if ( !$ticket->printed )
       {
-        $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it was not yet printed... Just try to suppress it",array('%%i%%' => $ticket->id)));
+        $this->getUser()->setFlash('error',__("Can't duplicate the ticket #%%i%% because it was not yet printed... Just try to print it",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
       if ( !is_null($ticket->duplicate) )
       {
-        $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it is a duplicated ticket... Simply try to cancel the last duplicate of the series",array('%%i%%' => $ticket->id)));
+        $this->getUser()->setFlash('error',__("Can't duplicate the ticket #%%i%% because it has been already duplicated... Simply try to duplicate the last duplicate of the serie",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
       if ( $ticket->Controls->count() > 0 )
       {
-        $this->getUser()->setFlash('error',__("Sorry, we can't cancel the ticket #%%i%% because it has been checked already.",array('%%i%%' => $ticket->id)));
+        $this->getUser()->setFlash('error',__("Sorry, we can't duplicate the ticket #%%i%% because it has been checked already.",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
       
-      // linking a new cancel ticket to this transaction
+      // linking a new duplicating ticket to this ticket
       $this->ticket = $ticket->copy();
-      $this->ticket->printed = false;
+      $this->ticket->printed = true;
       $this->ticket->created_at = NULL;
       $this->ticket->updated_at = NULL;
       $this->ticket->sf_guard_user_id = NULL;
-      $this->transaction->Tickets[] = $this->ticket;
-      $this->transaction->save();
+      $this->ticket->id = NULL;
+      $this->ticket->save();
+      $this->tickets = array($this->ticket);
       
       $ticket->duplicate = $this->ticket->id;
       $ticket->save();
+      
+      $this->setLayout('nude');
+      $this->setTemplate('print');
     }
