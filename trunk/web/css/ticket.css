@@ -1,3 +1,7 @@
+body {
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit browsers */
+}
 .alert { border: 2px solid orange; -moz-border-radius: 4px; }
 .action {
   margin: 5px 2px 0 2px;
@@ -97,6 +101,13 @@
 #print .integrate { margin-right: 20px; }
 #print .partial { margin-left: 20px; }
 #print .all, .partial-print .all { margin-left: 20px; }
+
+.submit .tickets {
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid black;
+  font-size: 120%;
+}
 
 .action.closed {
   font-size: 13px;

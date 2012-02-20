@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You have already selected %%nb%% ticket(s)</source>
+        <target>Vous avez déjà sélectionné %%nb%% billet(s)</target>
+      </trans-unit>
+      <trans-unit>
         <source>Return to manifestation</source>
         <target>Retour à la manifestation</target>
       </trans-unit>

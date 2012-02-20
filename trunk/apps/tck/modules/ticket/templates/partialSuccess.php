@@ -24,6 +24,7 @@
       <input type="submit" name="s" value="<?php echo __('Print') ?>" />
       <input type="submit" name="integrate" value="<?php echo __('Integrate') ?>" />
       <input type="submit" name="all" value="<?php echo __('Toggle tickets') ?>" class="all" />
+      <span class="tickets"><?php echo __('You have already selected %%nb%% ticket(s)',array('%%nb%%' => '<span class="nb">0</span>')) ?></span>
     </p>
   </form>
   <?php endforeach ?>
@@ -31,7 +32,6 @@
       $(document).ready(function(){
         // select the tickets to print
         $('form.print .prices .ticket.todo').click(function(e){
-          // TODO : stilly hardly buggy
           if ( !e.shiftKey )
             $('.ticket.last-click').removeClass('last-click');
           
@@ -60,7 +60,6 @@
             $(this).addClass('last');
           }
           
-          alert($('.ticket.last').length);
           $i = 0;
           for ( tck = first ; true ; tck = tck.next() )
           {
@@ -69,7 +68,7 @@
               tck.addClass('selected');
               tck.find('input').removeAttr('disabled');
             }
-            else if ( $i == 0 && tck.hasClass('last') )
+            else if ( $i == 0 && tck.hasClass('last') ) // only if clicked on a single ticket
             {
               tck.removeClass('selected');
               tck.find('input').attr('disabled','disabled');
@@ -94,6 +93,7 @@
           
           $('.last-click, .last').removeClass('last-click').removeClass('last');
           $(this).addClass('last-click');
+          $('.submit .tickets .nb').html($('.ticket.selected').length)
         });
         
         // select all
