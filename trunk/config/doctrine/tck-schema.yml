@@ -255,7 +255,9 @@ RawAccounting:
     extends: Traceable
     type: concrete
   columns:
-    accounting_id: integer
+    accounting_id:
+      type: integer
+      notnull: true
     content:
       type: string
       notnull: true
