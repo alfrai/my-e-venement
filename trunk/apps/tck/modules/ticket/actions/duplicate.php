@@ -78,6 +78,7 @@
       $ticket->duplicate = $this->ticket->id;
       $ticket->save();
       
+      $this->duplicate = true;
       $this->setLayout('nude');
       $this->setTemplate('print');
     }
