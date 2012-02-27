@@ -8,9 +8,14 @@
  * @author     Baptiste SIMON <baptiste.simon AT e-glop.net>
  * @version    SVN: $Id: sfDoctrineFormTemplate.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
-class TicketsIntegrationForm extends sfForm
+class TicketsIntegrationForm extends BaseFormDoctrine
 {
   protected $manifestation;
+  
+  public function getModelName()
+  {
+    return 'Transaction';
+  }
   
   public function __construct(Manifestation $manifestation)
   {
@@ -51,6 +56,14 @@ class TicketsIntegrationForm extends sfForm
     $this->widgetSchema   ['file'] = new sfWidgetFormInputFile();
     $this->validatorSchema['file'] = new sfValidatorFile(array(
       'required'  => true,
+    ));
+    
+    $this->widgetSchema   ['transaction_ref_id'] = new sfWidgetFormInput(array(
+      'label' => 'Reference transaction',
+    ));
+    $this->validatorSchema['transaction_ref_id'] = new sfValidatorDoctrineChoice(array(
+      'required'  => false,
+      'model' => 'Transaction',
     ));
   }
 }

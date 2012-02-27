@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You've integrated more tickets than you've got in your base transaction.</source>
+        <target>Vous avez intégré plus de billets que vous n'en aviez dans votre opération d'origine.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Tried to integrate a cancellation ticket without any referenced id. This kind of cancellation ticket has to be integrated manually.</source>
+        <target>Tentative d'intégration d'un billet d'annulation sans billet de référence. Ce type de billet d'annulation doivent être intégrés manuellement.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Enter here the id of the transaction where to delete tickets that you're going to integrate. This is not required.</source>
+        <target>Entrer ici le numéro de l'opération où supprimer les billets que vous importerez. Non requis.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Reference transaction</source>
+        <target>Opération de référence</target>
+      </trans-unit>
+      <trans-unit>
         <source>You have already selected %%nb%% ticket(s)</source>
         <target>Vous avez déjà sélectionné %%nb%% billet(s)</target>
       </trans-unit>
@@ -13,8 +29,8 @@
         <target>Retour à la manifestation</target>
       </trans-unit>
       <trans-unit>
-        <source>File importated with transaction %%tid%%, with %%nbtck%% ticket(s).</source>
-        <target>Fichier importé avec l'opération %%tid%%, avec %%nbtck%% ticket(s).</target>
+        <source>File importated with the last transaction's id %%tid%%, with %%nbtck%% ticket(s).</source>
+        <target>Fichier importé avec le dernier identifiant d'opération %%tid%%, avec %%nbtck%% ticket(s).</target>
       </trans-unit>
       <trans-unit>
         <source>File</source>
@@ -42,7 +58,7 @@
       </trans-unit>
       <trans-unit>
         <source>Excludes cancelled tickets from invoice.</source>
-        <target>Exclue les billets annulés de la facture.</target>
+        <target>Exclut les billets annulés de la facture.</target>
       </trans-unit>
       <trans-unit>
         <source>updated on %%d%% by %%u%%</source>

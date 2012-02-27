@@ -44,6 +44,11 @@
       <?php echo $form['gauges_list']->renderLabel() ?>
       <?php echo $form['gauges_list'] ?>
     </div>
+    <div class="sf_admin_form_row sf_admin_text sf_admin_form_field_transaction_ref_id">
+      <?php echo $form['transaction_ref_id']->renderLabel() ?>
+      #<?php echo $form['transaction_ref_id'] ?>
+      <?php echo __("Enter here the id of the transaction where to delete tickets that you're going to integrate. This is not required.") ?>
+    </div>
     <div class="sf_admin_form_row sf_admin_submit sf_admin_form_field_submit">
       <label><?php echo $form->renderHiddenFields() ?></label>
       <span class="fg-button ui-state-default fg-button-icon-left">

@@ -24,18 +24,22 @@
 <?php
 $tickets = array();
 
+$separator = ';';
 $tarif_line = 8;
 $tarifs = array();
 $charset = sfContext::getInstance()->getConfiguration()->charset;
 
-for ( $i = 0 ; $line = fgetcsv($fp, 0, ';') ; $i++ )
+for ( $i = 0 ; $line = fgetcsv($fp, 0, $separator) ; $i++ )
 {
   // creation of prices database
   if ( $i == $tarif_line )
   {
-    $tarif_line++;
-    $tarifs[$line[2]] = iconv($charset['ms'],'UTF-8',$line[1]);
-    if ( !isset($line[1]) || !isset($line[2]) )
+    if ( isset($line[1]) && isset($line[2]) )
+    {
+      $tarifs[$line[2]] = iconv($charset['ms'],$charset['db'],$line[1]);
+      $tarif_line++;
+    }
+    else
       $tarif_line = 8;
   }
   if ( isset($line[23]) && floatval($line[23]) > 0 )

@@ -30,6 +30,7 @@ class ProjectConfiguration extends sfProjectConfiguration
 {
   public $yob;
   public $charset = array(
+    'old' => 'ISO-8859-1',
     'db' => 'UTF-8',
     'ms' => 'WINDOWS-1252//TRANSLIT',
     'ascii' => 'ASCII//TRANSLIT',

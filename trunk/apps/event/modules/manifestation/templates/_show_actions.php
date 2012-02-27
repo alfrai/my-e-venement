@@ -5,7 +5,7 @@
     <span class="ui-icon ui-icon-note"></span><?php echo __('Ledger', array(), 'sf_admin') ?>
   </a></li>
   <?php endif ?>
-  <?php if ( $sf_user->hasCredential('tck-integrate') ): ?>
+  <?php if ( $sf_user->hasCredential('tck-integrate-foreign') ): ?>
   <li class="sf_admin_action_integrate"><a href="<?php echo cross_app_url_for('tck','ticket/batchIntegrate').'?manifestation_id='.$manifestation->id ?>" class="fg-button ui-state-default fg-button-icon-left">
     <span class="ui-icon ui-icon-arrowthickstop-1-s"></span><?php echo __('Integrate', array(), 'sf_admin') ?>
   </a></li>
