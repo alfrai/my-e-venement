@@ -43,7 +43,26 @@ Price:
       class: Manifestation
       refClass: PriceManifestation
       foreignAlias: Prices
+    Workspaces:
+      class: Workspace
+      refClass: WorkspacePrice
+      foreignAlias: Prices
 
+WorkspacePrice:
+  package: price
+  columns:
+    price_id:
+      type: integer
+      notnull: true
+      primary: true
+    workspace_id:
+      type: integer
+      notnull: true
+      primary: true
+  indexes:
+    ws_price:
+      fields: [workspace_id, price_id]
+      unique: true
 PriceManifestation:
   package: price
   actAs: [Timestampable]

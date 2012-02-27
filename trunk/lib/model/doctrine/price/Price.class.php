@@ -17,4 +17,12 @@ class Price extends PluginPrice
     sfContext::getInstance()->getConfiguration()->loadHelpers('Number');
     return $this->description.' ('.$this->name.'), '.format_currency($this->value,'€');
   }
+  
+  public function getWorkspaceIds()
+  {
+    $arr = array();
+    foreach ( $this->Workspaces as $ws )
+      $arr[] = $ws->id;
+    return $arr;
+  }
 }

@@ -38,6 +38,7 @@
     // by event
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.*, e.*, g.*, p.*, pm.*, l.*')
+      ->leftJoin('p.Workspaces w')
       ->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.manifestation_id = m.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t.cancelling FROM ticket t2 WHERE t.cancelling IS NOT NULL) AND (t.printed OR t.integrated OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets')
       ->andWhere('m.happens_at > NOW()')
       ->andWhere('g.online')
@@ -56,14 +57,6 @@
       
       if ( $manif->PriceManifestations->count() > 0 )
       {
-        $tarifs = array();
-        foreach ( $manif->PriceManifestations as $pm )
-          $tarifs[$pm->Price->name] = array(
-            'name' => $pm->Price->name,
-            'desc' => $pm->Price->description,
-            'price' => $pm->value,
-          );
-        
         $this->content['events'][$event->id]['id'] = $event->id;
         $this->content['events'][$event->id]['name'] = $event->name;
         $this->content['events'][$event->id]['ages'] = array($event->age_min, $event->age_max);
@@ -75,25 +68,36 @@
         {
           //$gauge += $g->value;
         
-        $tmp = array(
-          'eventid' => $event->id,
-          'event' => $event->name,
-          'ages' => array($event->age_min, $event->age_max),
-          'manifid' => $g->id,
-          'date' => $manif->happens_at,
-          'jauge' => $g->value,
-          'siteid' => $manif->location_id,
-          'sitename' => $manif->Location->name.' ('.$g->Workspace->name.')',
-          'siteaddr' => $manif->Location->address,
-          'sitezip' => $manif->Location->postalcode,
-          'sitecity' => $manif->Location->city,
-          'sitecountry' => $manif->Location->country,
-          'price' => $manif->PriceManifestations[0]->value,
-          'still_have' => $manif->online_limit > $g->value - $manif->nb_tickets ? ($g->value-$manif->nb_tickets > 0 ? $g->value-$manif->nb_tickets : 0) : sfConfig::get('app_max_tickets'),
-          'tarifs' => $tarifs,
-        );
-        
-        $this->content['events'][$event->id][$g->id] = $tmp;
+          $tarifs = array();
+          foreach ( $manif->PriceManifestations as $pm )
+          {
+            if ( in_array($g->workspace_id,$pm->Price->getWorkspaceIds()) )
+            $tarifs[$pm->Price->name] = array(
+              'name' => $pm->Price->name,
+              'desc' => $pm->Price->description,
+              'price' => $pm->value,
+            );
+          }
+          
+          $tmp = array(
+            'eventid' => $event->id,
+            'event' => $event->name,
+            'ages' => array($event->age_min, $event->age_max),
+            'manifid' => $g->id,
+            'date' => $manif->happens_at,
+            'jauge' => $g->value,
+            'siteid' => $manif->location_id,
+            'sitename' => $manif->Location->name.' ('.$g->Workspace->name.')',
+            'siteaddr' => $manif->Location->address,
+            'sitezip' => $manif->Location->postalcode,
+            'sitecity' => $manif->Location->city,
+            'sitecountry' => $manif->Location->country,
+            'price' => $manif->PriceManifestations[0]->value,
+            'still_have' => $manif->online_limit > $g->value - $manif->nb_tickets ? ($g->value-$manif->nb_tickets > 0 ? $g->value-$manif->nb_tickets : 0) : sfConfig::get('app_max_tickets'),
+            'tarifs' => $tarifs,
+          );
+          
+          $this->content['events'][$event->id][$g->id] = $tmp;
         }
         
         $this->content['events'][$event->id]['dates'] = array(

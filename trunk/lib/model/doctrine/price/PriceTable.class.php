@@ -14,7 +14,7 @@ class PriceTable extends PluginPriceTable
      */
     public static function getInstance()
     {
-        return Doctrine_Core::getTable('Price');
+      return Doctrine_Core::getTable('Price');
     }
     
     public function fetchOneByName($name)
