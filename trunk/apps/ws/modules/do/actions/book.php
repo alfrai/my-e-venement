@@ -89,17 +89,19 @@
     $transaction->Order->delete();
     
     // adding asked tickets
-    $manifs = array();
-    foreach ( $json as $manifid => $tarifs )
+    $gauges = array();
+    foreach ( $json as $gauge_id => $tarifs )
     foreach ( $tarifs as $tarif => $qty )
     {
-      if ( !in_array(intval($manifid),$manifs) )
-        $manifs[] = intval($manifid);
+      $manif = Doctrine::getTable('Manifestation')->fetchOneByGaugeId($gauge_id);
+      if ( !in_array(intval(gauge_id),$gauges) )
+        $gauges[] = intval($gauge_id);
       
       for ( $i = $qty ; $i > 0 ; $i-- )
       {
         $ticket = new Ticket();
-        $ticket->manifestation_id = $manifid;
+        $ticket->manifestation_id = $manif->id;
+        $ticket->gauge_id = $gauge_id;
         $ticket->price_name = $tarif;
         $ticket->transaction_id = $transaction->id;
         $ticket->sf_guard_user_id = $this->getUser()->getAttribute('ws_id');
@@ -111,7 +113,7 @@
     $this->content = array(
       'transaction' => $transaction->id,
       'topay'       => $this->getWhatToPay(),
-      'manifs'      => $manifs,
+      'manifs'      => $gauges,
     );
     
     if ( !$request->hasParameter('debug') )

@@ -49,8 +49,10 @@
     {
       $event = $manif->Event;
       $location = $manif->Location;
-      $this->content['events'][$manif->event_id] = array();
-      $this->content['sites'][$manif->location_id] = array();
+      if ( !isset($this->content['events'][$manif->event_id]) )
+        $this->content['events'][$manif->event_id] = array();
+      if ( !isset($this->content['sites'][$manif->location_id]) )
+        $this->content['sites'][$manif->location_id] = array();
       
       if ( $manif->PriceManifestations->count() > 0 )
       {
@@ -62,36 +64,38 @@
             'price' => $pm->value,
           );
         
+        $this->content['events'][$event->id]['id'] = $event->id;
+        $this->content['events'][$event->id]['name'] = $event->name;
+        $this->content['events'][$event->id]['ages'] = array($event->age_min, $event->age_max);
+        $this->content['events'][$event->id]['description'] = $event->description;
+        $this->content['events'][$event->id]['dates'] = array();
+        
         $gauge = 0;
         foreach ( $manif->Gauges as $g )
-          $gauge += $g->value;
+        {
+          //$gauge += $g->value;
         
         $tmp = array(
           'eventid' => $event->id,
           'event' => $event->name,
           'ages' => array($event->age_min, $event->age_max),
-          'manifid' => $manif->id,
+          'manifid' => $g->id,
           'date' => $manif->happens_at,
-          'jauge' => $gauge,
+          'jauge' => $g->value,
           'siteid' => $manif->location_id,
-          'sitename' => $manif->Location->name,
+          'sitename' => $manif->Location->name.' ('.$g->Workspace->name.')',
           'siteaddr' => $manif->Location->address,
           'sitezip' => $manif->Location->postalcode,
           'sitecity' => $manif->Location->city,
           'sitecountry' => $manif->Location->country,
           'price' => $manif->PriceManifestations[0]->value,
-          'still_have' => $manif->online_limit > $gauge - $manif->nb_tickets ? ($gauge-$manif->nb_tickets > 0 ? $gauge-$manif->nb_tickets : 0) : sfConfig::get('app_max_tickets'),
+          'still_have' => $manif->online_limit > $g->value - $manif->nb_tickets ? ($g->value-$manif->nb_tickets > 0 ? $g->value-$manif->nb_tickets : 0) : sfConfig::get('app_max_tickets'),
           'tarifs' => $tarifs,
         );
-      
-        $this->content['events'][$event->id] = array(
-          'id' => $event->id,
-          'name' => $event->name,
-          'ages' => array($event->age_min, $event->age_max),
-          'description' => $event->description,
-          'dates' => array(),
-          $manif->id => $tmp,
-        );
+        
+        $this->content['events'][$event->id][$g->id] = $tmp;
+        }
+        
         $this->content['events'][$event->id]['dates'] = array(
           'min' => isset($this->content['events'][$event->id]['dates']['min']) && $this->content['events'][$event->id]['dates']['min'] < $manif->happens_at
             ? $this->content['events'][$event->id]['dates']['min']
@@ -100,16 +104,14 @@
             ? $this->content['events'][$event->id]['dates']['max']
             : $manif->happens_at,
           );
-          
-        $this->content['sites'][$location->id] = array(
-          'id' => $location->id,
-          'name' => $location->name,
-          'address' => $location->address,
-          'postal'  => $location->postalcode,
-          'city'    => $location->city,
-          'country' => $location->country,
-          $manif->id => $tmp,
-        );
+        
+        $this->content['sites'][$location->id]['id'] = $location->id;
+        $this->content['sites'][$location->id]['name'] = $location->name;
+        $this->content['sites'][$location->id]['address'] = $location->address;
+        $this->content['sites'][$location->id]['postal'] = $location->postalcode;
+        $this->content['sites'][$location->id]['city'] = $location->city;
+        $this->content['sites'][$location->id]['country'] = $location->country;
+        $this->content['sites'][$location->id][$manif->id] = $tmp;
       }
     }
     
