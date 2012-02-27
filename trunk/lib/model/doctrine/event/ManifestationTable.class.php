@@ -68,4 +68,9 @@ class ManifestationTable extends PluginManifestationTable
       ->orderby("e.name, $a.happens_at DESC, l.name");
     return $q;
   }
+  
+  public function fetchOneByGaugeId($id)
+  {
+    return $this->createQuery('m')->andWhere('g.id = ?',$id)->fetchOne();
+  }
 }

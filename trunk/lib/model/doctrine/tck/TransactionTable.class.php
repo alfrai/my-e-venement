@@ -32,7 +32,7 @@ class TransactionTable extends PluginTransactionTable
   
   public function findOneById($id)
   {
-    $q = Doctrine::getTable('Transaction')->createQuery()
+    $q = $this->createQuery()
       ->andWhere('id = ?',$id);
     $tmp = $q->execute();
     return $tmp[0];
