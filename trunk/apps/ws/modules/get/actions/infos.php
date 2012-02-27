@@ -38,11 +38,12 @@
     // by event
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.*, e.*, g.*, p.*, pm.*, l.*')
-      ->leftJoin('p.Workspaces w')
+      ->leftJoin('p.Workspaces pw')
       ->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.manifestation_id = m.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t.cancelling FROM ticket t2 WHERE t.cancelling IS NOT NULL) AND (t.printed OR t.integrated OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets')
       ->andWhere('m.happens_at > NOW()')
       ->andWhere('g.online')
       ->andWhere('p2.online')
+      ->andWhere('g.workspace_id = pw.id')
       ->orderBy('e.name, l.name, m.happens_at, pm.value DESC');
     $manifs = $q->execute();
     
@@ -86,8 +87,9 @@
             'manifid' => $g->id,
             'date' => $manif->happens_at,
             'jauge' => $g->value,
+            'space' => (string)$g,
             'siteid' => $manif->location_id,
-            'sitename' => $manif->Location->name.' ('.$g->Workspace->name.')',
+            'sitename' => $manif->Location->name,
             'siteaddr' => $manif->Location->address,
             'sitezip' => $manif->Location->postalcode,
             'sitecity' => $manif->Location->city,
@@ -98,24 +100,24 @@
           );
           
           $this->content['events'][$event->id][$g->id] = $tmp;
+        
+          $this->content['events'][$event->id]['dates'] = array(
+            'min' => isset($this->content['events'][$event->id]['dates']['min']) && $this->content['events'][$event->id]['dates']['min'] < $manif->happens_at
+              ? $this->content['events'][$event->id]['dates']['min']
+              : $manif->happens_at,
+            'max' => isset($this->content['events'][$event->id]['dates']['max']) && $this->content['events'][$event->id]['dates']['max'] > $manif->happens_at
+              ? $this->content['events'][$event->id]['dates']['max']
+              : $manif->happens_at,
+            );
+          
+          $this->content['sites'][$location->id]['id'] = $location->id;
+          $this->content['sites'][$location->id]['name'] = $location->name;
+          $this->content['sites'][$location->id]['address'] = $location->address;
+          $this->content['sites'][$location->id]['postal'] = $location->postalcode;
+          $this->content['sites'][$location->id]['city'] = $location->city;
+          $this->content['sites'][$location->id]['country'] = $location->country;
+          $this->content['sites'][$location->id][$g->id] = $tmp;
         }
-        
-        $this->content['events'][$event->id]['dates'] = array(
-          'min' => isset($this->content['events'][$event->id]['dates']['min']) && $this->content['events'][$event->id]['dates']['min'] < $manif->happens_at
-            ? $this->content['events'][$event->id]['dates']['min']
-            : $manif->happens_at,
-          'max' => isset($this->content['events'][$event->id]['dates']['max']) && $this->content['events'][$event->id]['dates']['max'] > $manif->happens_at
-            ? $this->content['events'][$event->id]['dates']['max']
-            : $manif->happens_at,
-          );
-        
-        $this->content['sites'][$location->id]['id'] = $location->id;
-        $this->content['sites'][$location->id]['name'] = $location->name;
-        $this->content['sites'][$location->id]['address'] = $location->address;
-        $this->content['sites'][$location->id]['postal'] = $location->postalcode;
-        $this->content['sites'][$location->id]['city'] = $location->city;
-        $this->content['sites'][$location->id]['country'] = $location->country;
-        $this->content['sites'][$location->id][$manif->id] = $tmp;
       }
     }
     
