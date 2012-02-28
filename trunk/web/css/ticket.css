@@ -1,4 +1,4 @@
-body {
+.no-user-select {
   -moz-user-select: none; /* mozilla browsers */
   -khtml-user-select: none; /* webkit browsers */
 }

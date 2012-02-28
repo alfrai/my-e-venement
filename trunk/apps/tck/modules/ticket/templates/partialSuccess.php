@@ -2,7 +2,7 @@
 
 <?php include_partial('flashes') ?>
 
-<div class="ui-widget-content ui-corner-all sf_admin_edit" id="sf_admin_container">
+<div class="ui-widget-content ui-corner-all sf_admin_edit no-user-select" id="sf_admin_container">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1><?php echo __('Partial printing') ?></h1>
     <p style="display: none;" id="global_transaction_id"><?php echo $transaction->id ?></p>
