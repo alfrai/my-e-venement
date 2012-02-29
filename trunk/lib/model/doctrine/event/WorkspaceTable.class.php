@@ -21,7 +21,7 @@ class WorkspaceTable extends PluginWorkspaceTable
   {
     $q = parent::createQuery($alias);
     if ( sfContext::hasInstance('default') )
-    if ( !$full || !sfContext::getInstance()->getUser()->getGuardUser()->getIsSuperAdmin() && !sfContext::getInstance()->getUser()->hasCredential('event-admin-workspace') )
+    if ( !$full && !sfContext::getInstance()->getUser()->getGuardUser()->getIsSuperAdmin() && !sfContext::getInstance()->getUser()->hasCredential('event-admin-workspace') )
       $q->andWhereIn("$alias.id",array_keys(sfContext::getInstance()->getUser()->getWorkspacesCredentials()));
     return $q;
   }
