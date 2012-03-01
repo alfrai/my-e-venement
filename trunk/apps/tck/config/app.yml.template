@@ -3,6 +3,9 @@
 
 # default values
 all:
+  ledger:
+    date_begin: 1 week ago
+    date_end: tomorrow
   transaction:
     #hide_demands: true
     #gauge_alert: true

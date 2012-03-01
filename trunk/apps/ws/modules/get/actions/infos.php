@@ -68,7 +68,7 @@
         foreach ( $manif->Gauges as $g )
         {
           //$gauge += $g->value;
-        
+          
           $tarifs = array();
           foreach ( $manif->PriceManifestations as $pm )
           {
@@ -87,7 +87,7 @@
             'manifid' => $g->id,
             'date' => $manif->happens_at,
             'jauge' => $g->value,
-            'space' => (string)$g,
+            'space' => $g->Workspace->on_ticket ? (string)$g : '',
             'siteid' => $manif->location_id,
             'sitename' => $manif->Location->name,
             'siteaddr' => $manif->Location->address,

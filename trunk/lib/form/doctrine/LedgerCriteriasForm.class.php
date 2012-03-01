@@ -25,9 +25,13 @@ class LedgerCriteriasForm extends BaseForm
       'required' => false,
     ));
 
+    $q = Doctrine::getTable('sfGuardUser')->createQuery('u');
+    if ( !sfContext::getInstance()->getUser()->hasCredential('tck-ledger-all-users') )
+      $q->andWhere('u.id = ?',sfContext::getInstance()->getUser()->getId());
     $this->widgetSchema['users'] = new sfWidgetFormDoctrineChoice(array(
       'model'     => 'sfGuardUser',
-      'add_empty' => true,
+      'query'     => $q,
+      'add_empty' => sfContext::getInstance()->getUser()->hasCredential('tck-ledger-all-users'),
       'order_by'  => array('first_name, last_name',''),
       'multiple'  => true,
     ));
@@ -35,6 +39,7 @@ class LedgerCriteriasForm extends BaseForm
       'model' => 'sfGuardUser',
       'multiple' => true,
       'required' => false,
+      'query'     => $q,
     ));
     
     $this->widgetSchema['manifestations'] = new cxWidgetFormDoctrineJQuerySelectMany(array(

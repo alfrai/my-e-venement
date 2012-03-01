@@ -4,13 +4,8 @@
 <div class="ui-widget-content ui-corner-all" id="cash-ledger">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1>
-      <?php
-        $values = $form->getValues();
-        if ( !isset($values['dates']['from']) ) $values['dates']['from'] = date('Y-m-d',strtotime('1 week ago'));
-        if ( !isset($values['dates']['to']) ) $values['dates']['to'] = date('Y-m-d',strtotime('tomorrow'));
-      ?>
       <?php echo __('Cash Ledger') ?>
-      (<?php echo __('from %%from%% to %%to%%',array('%%from%%' => format_date($values['dates']['from']), '%%to%%' => format_date($values['dates']['to']))) ?>)
+      (<?php echo __('from %%from%% to %%to%%',array('%%from%%' => format_date($dates[0]), '%%to%%' => format_date($dates[1]))) ?>)
     </h1>
   </div>
 <table class="ui-widget-content ui-corner-all" id="ledger">

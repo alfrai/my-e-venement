@@ -49,7 +49,7 @@
     if ( ($tid = $this->getUser()->hasAttribute('transaction_id') ? $this->getUser()->getAttribute('transaction_id') : $this->getUser()->getAttribute('old_transaction_id')) )
     {
       $t = array('transaction' => $tid);
-      return $request->hasParameter('debug') ? 'Debug' : $this->renderText(wsConfiguration::formatData($this->content));
+      return $request->hasParameter('debug') ? 'Debug' : $this->renderText(wsConfiguration::formatData(array('transaction' => $tid)));
     }
     
     $this->getResponse()->setStatusCode('500');

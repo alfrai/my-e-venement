@@ -31,7 +31,6 @@ class ledgerActions extends sfActions
     if ( isset($criterias['workspaces']) && $criterias['workspaces'][0] === '' && count($criterias['workspaces']) == 1 )
       unset($criterias['workspaces']);
     
-    
     $this->form->bind($criterias, $request->getFiles($this->form->getName()));
     if ( !$this->form->isValid() )
     {
@@ -41,10 +40,10 @@ class ledgerActions extends sfActions
     $dates = array(
       $criterias['dates']['from']['day']
         ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
-        : strtotime('1 week ago 0:00'),
+        : strtotime(sfConfig::has('app_ledger_date_begin') ? sfConfig::get('app_ledger_date_begin').' 0:00' : '1 week ago 0:00'),
       $criterias['dates']['to']['day']
         ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'])
-        : strtotime('tomorrow 0:00'),
+        : strtotime(sfConfig::has('app_ledger_date_end') ? sfConfig::get('app_ledger_date_end').' 0:00' : 'tomorrow 0:00'),
     );
     
     if ( $dates[0] > $dates[1] )
@@ -83,6 +82,9 @@ class ledgerActions extends sfActions
     
     $q->andWhereIn('t.type',array('normal', 'cancellation'));
     
+    // restrict access to our own user
+    $q = $this->restrictQueryToCurrentUser($q);
+    
     if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
       $q->andWhereIn('tck.sf_guard_user_id',$criterias['users']);
 
@@ -96,11 +98,11 @@ class ledgerActions extends sfActions
   public function executeCash(sfWebRequest $request)
   {
     $criterias = $this->formatCriterias($request);
-    $dates = $criterias['dates'];
+    $this->dates = $criterias['dates'];
     
     $q = $this->buildCashQuery($criterias);
+    
     $this->methods = $q->execute();
-    $this->dates = $dates;
   }
   
   protected function buildCashQuery($criterias)
@@ -138,6 +140,18 @@ class ledgerActions extends sfActions
     if ( isset($criterias['users']) && is_array($criterias['users']) && isset($criterias['users'][0]) )
       $q->andWhereIn('p.sf_guard_user_id',$criterias['users']);
     
+    // restrict access to our own user
+    $q = $this->restrictQueryToCurrentUser($q);
+    
+    return $q;
+  }
+  
+  // restrict access to our own user
+  protected static function restrictQueryToCurrentUser($q)
+  {
+    if ( !sfContext::getInstance()->getUser()->hasCredential('tck-ledger-all-users') )
+    $q->andWhere('u.id = ?',sfContext::getInstance()->getUser()->getId());
+    
     return $q;
   }
   
@@ -154,6 +168,7 @@ class ledgerActions extends sfActions
       ->leftJoin('t.Payments p')
       ->leftJoin('p.Method pm')
       ->leftJoin('t.Tickets tck')
+      ->leftJoin('p.User u')
       ->leftJoin('tck.Gauge g')
       ->andWhere('tck.duplicate IS NULL')
       ->andWhere('tck.printed = true OR tck.integrated = true OR tck.cancelling IS NOT NULL')
@@ -169,6 +184,13 @@ class ledgerActions extends sfActions
           date('Y-m-d',$dates[1]),
         ));
     }
+    
+    // restrict access to our own user
+    $q = $this->restrictQueryToCurrentUser($q);
+    
+    if ( is_array($criterias['users']) && count($criterias['users']) > 0 )
+      $q->andWhereIn('u.id',$criterias['users']);
+    
     $transactions = $q->execute();
     
     $pm = array();
@@ -203,6 +225,7 @@ class ledgerActions extends sfActions
     $q = Doctrine::getTable('Price')->createQuery('p')
       ->leftJoin('p.Tickets t')
       ->leftJoin('t.Gauge g')
+      ->leftJoin('t.User u')
       ->andWhere('t.printed OR t.cancelling IS NOT NULL OR t.integrated')
       ->andWhere('t.duplicate IS NULL')
       ->orderBy('p.name');
@@ -218,6 +241,9 @@ class ledgerActions extends sfActions
           date('Y-m-d',$dates[1]),
         ));
 
+    // restrict access to our own user
+    $q = $this->restrictQueryToCurrentUser($q);
+    
     $this->byPrice = $q->execute();
     
     // by price's value
@@ -232,6 +258,7 @@ class ledgerActions extends sfActions
             AND cancelling IS NULL
             ".( is_array($criterias['users']) && count($criterias['users']) > 0 ? 'AND sf_guard_user_id IN ('.implode(',',$users).')' : '')."
             ".( is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 ? 'AND gauge_id IN (SELECT id FROM gauge g WHERE g.workspace_id IN ('.implode(',',$criterias['workspaces']).'))' : '')."
+            ".( !$this->getUser()->hasCredential('tck-ledger-all-users') ? 'AND sf_guard_user_id = '.sfContext::getInstance()->getUser()->getId() : '' )."
             AND (printed OR integrated OR cancelling IS NOT NULL)
             AND duplicate IS NULL
           GROUP BY value
@@ -269,6 +296,10 @@ class ledgerActions extends sfActions
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
       ));
+    
+    // restrict access to our own user
+    $q = $this->restrictQueryToCurrentUser($q);
+    
     $this->byUser = $q->execute();
     
     // get all selected manifestations

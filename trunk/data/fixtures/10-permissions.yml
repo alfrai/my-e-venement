@@ -454,6 +454,16 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_70
     created_at: '2011-10-18 11:10:09'
     updated_at: '2011-10-18 11:10:09'
+  sfGuardGroupPermission_15_71:
+    Group: sfGuardGroup_15
+    Permission: sfGuardPermission_71
+    created_at: '2012-03-01 04:00:00'
+    updated_at: '2012-03-01 04:00:00'
+  sfGuardGroupPermission_18_71:
+    Group: sfGuardGroup_18
+    Permission: sfGuardPermission_71
+    created_at: '2012-03-01 04:00:00'
+    updated_at: '2012-03-01 04:00:00'
 sfGuardPermission:
   sfGuardPermission_18:
     name: admin-titles
@@ -785,6 +795,11 @@ sfGuardPermission:
     description: 'Permission to create/del member cards'
     created_at: '2011-12-14 11:09:41'
     updated_at: '2011-12-14 11:09:41'
+  sfGuardPermission_71:
+    name: tck-ledger-all-users
+    description: "Permission to access all users' ledgers"
+    created_at: '2012-03-01 04:09:41'
+    updated_at: '2012-03-01 04:09:41'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
