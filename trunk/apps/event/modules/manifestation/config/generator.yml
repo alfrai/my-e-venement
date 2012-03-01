@@ -46,7 +46,7 @@ generator:
         display:
           General:    [_show_event, id, _show_happens_at, _show_location, _show_gauge_txt, _show_color, _show_prices_list]
           Memo:       [_show_description]
-          Technical:  [duration, _show_vat, online_limit, _show_seated, _show_organizers_list, no_print]
+          Technical:  [duration, _show_vat, online_limit, _show_seated, _show_organizers_list, _show_no_print]
           Workspaces: [_show_workspaces_list]
           Tickets:    [_show_tickets_list]
           Spectators: [_show_spectators_list]

@@ -24,7 +24,10 @@
   border-bottom: 1px solid red;
 }
 
-#manifestations select, .manifestations_list select { font-size: 10px; }
+#manifestations select, .manifestations_list select {
+  font-size: 10px;
+  width: 80px;
+}
 #manifestations .manifestations_add {
   height: 200px;
   margin-right: 270px;
@@ -267,4 +270,12 @@
 #batch-integrate .ui-widget-content {
   margin: 45px 10px 7px 10px;
   padding: 5px;
+}
+
+#manifestations .manif a.name, #prices .manif a.name {
+  width: 180px;
+  height: 1em;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
 }
