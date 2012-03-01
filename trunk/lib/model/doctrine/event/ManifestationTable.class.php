@@ -64,7 +64,7 @@ class ManifestationTable extends PluginManifestationTable
     $q = $this->createQuery();
     $a = $q->getRootAlias();
     $q
-      ->where('e.id = ?',$id)
+      ->where('l.id = ?',$id)
       ->orderby("e.name, $a.happens_at DESC, l.name");
     return $q;
   }
