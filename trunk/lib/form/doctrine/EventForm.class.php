@@ -21,6 +21,7 @@ class EventForm extends BaseEventForm
     $this->widgetSchema['description'] = new sfWidgetFormTextareaTinyMCE($tinymce);
     $this->widgetSchema['extradesc'] = new sfWidgetFormTextareaTinyMCE($tinymce);
     $this->widgetSchema['extraspec'] = new sfWidgetFormTextareaTinyMCE($tinymce);
+    $this->widgetSchema['name'] = new sfWidgetFormTextarea(array(), array('rows' => '1', 'cols' => 58));
     
     $this->widgetSchema['companies_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Organism',

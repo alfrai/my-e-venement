@@ -1,5 +1,10 @@
 <?php use_helper('Date','Number') ?>
 <?php $maxsize = sfConfig::get('app_tickets_max_size') ?>
+<?php
+  $maxsize['event_name'] = !isset($maxsize['event_name']) || intval($maxsize['event_name']) > 0 ? intval($maxsize['event_name']) : 30;
+  $maxsize['place'] = !isset($maxsize['place']) || intval($maxsize['place']) > 0 ? intval($maxsize['place']) : 30;
+  $maxsize['event_nameshort'] = !isset($maxsize['event_shortname']) || intval($maxsize['event_shortname']) > 0 ? intval($maxsize['event_shortname']) : 30;
+?>
 <div class="ticket">
   <div class="logo"><img src="" alt="" /></div>
   <div class="left">
@@ -15,8 +20,8 @@
       <span class="price"><?php echo format_currency($ticket->value,'€') ?></span>
     </p>
     <p class="price_name"><span class="description"><?php echo $ticket->Price->description ?></span><span class="name"><?php echo $ticket->price_name ?></span> <span class="price"><?php echo format_currency($ticket->value,'€') ?></span></p>
-    <p class="event"><?php echo strlen($buf = $ticket->Manifestation->Event) > 30 ? substr($buf,0,30).'...' : $buf ?></p>
-    <p class="event-short"><?php echo strlen($buf = $ticket->Manifestation->Event->short_name) > 40 ? substr($buf,0,40).'...' : $buf ?></p>
+    <p class="event"><?php echo strlen($buf = $ticket->Manifestation->Event) > $maxsize['event_name'] ? substr(nl2br($buf),0,$maxsize['event_name']).'...' : nl2br($buf) ?></p>
+    <p class="event-short"><?php echo strlen($buf = $ticket->Manifestation->Event->short_name) > $maxsize['event_shortname'] ? substr($buf,0,$maxsize['event_name']).'...' : $buf ?></p>
     <p class="cie"><?php $creators = array(); $cpt = 0; foreach ( $ticket->Manifestation->Event->Companies as $company ) { if ( $cpt++ > 1 ) break; $creators[] .= $company; } echo implode(', ',$creators); ?></p>
     <p class="org"><?php $orgas = array(sfConfig::get('app_seller_name')); $cpt = 0; foreach ( $ticket->Manifestation->Organizers as $orga ) { if ( $cpt++ > 2 ) break; $orgas[] = $orga; } echo implode(', ',$orgas); ?></p>
     <p class="seat"><?php echo $ticket->numerotation ? __('Seat n°%%s%%',array('%%s%%' => $ticket->numerotation)) : '' ?></p>
@@ -37,7 +42,7 @@
     ?></p>
     <p class="spectator"><?php echo $ticket->Transaction->professional_id > 0 ? $ticket->Transaction->Professional->Organism : $ticket->Transaction->Contact ?></p>
     <p class="mentions">
-      <span class="optional"><?php $mentions = sfConfig::get('app_tickets_mentions'); echo $mentions['optional'] ?></span>
+      <span class="optional"><?php $mentions = sfConfig::get('app_tickets_mentions'); echo nl2br($mentions['optional']) ?></span>
       <?php if ( $ticket->cancelling ): ?>
         <span class="cancelled-id">#<?php echo $ticket->cancelling ?></span>
       <?php endif ?>
@@ -62,7 +67,7 @@
       <span class="price"><?php echo format_currency($ticket->value,'€') ?></span>
     </p>
     <p class="spectator"><?php echo $ticket->Transaction->professional_id > 0 ? $ticket->Transaction->Professional->Organism : $ticket->Transaction->Contact ?></p>
-    <p class="event"><?php echo strlen($buf = $ticket->Manifestation->Event) > 21 ? substr($buf,0,18).'...' : $buf ?></p>
+    <p class="event"><?php echo htmlspecialchars( strlen($buf = html_entity_decode($ticket->Manifestation->Event)) > 21 ? substr($buf,0,18).'...' : $buf ) ?></p>
     <p class="cie"><?php echo strlen($buf = implode(', ',$creators)) > 20 ? substr($buf,0,17).'...' : $buf; ?></p>
     <p class="org"><?php echo isset($orgas[0]) ? $orgas[0] : '' ?></p>
     <p class="seat"><?php echo $ticket->numerotation ? __('Seat n°%%s%%',array('%%s%%' => $ticket->numerotation)) : '' ?></p>

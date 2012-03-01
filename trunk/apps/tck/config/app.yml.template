@@ -19,6 +19,9 @@ all:
     auto_close: true
     control_left: false
     foreign_price: PART
+    max_size:
+      event_name: 30
+      event_shortname: 40
   control:
     future: 6 hours
     past:   1 day
