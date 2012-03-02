@@ -5,7 +5,7 @@
   </p>
   <?php
     foreach ( $totals['vat'] as $key => $value )
-    if ( $key != 'total' ):
+    if ( $key != 'total' && $value != 0 ):
   ?>
   <p class="vat">
     <span><?php echo __('VAT %%p%%:',array('%%p%%' => $key.'%')) ?></span>
