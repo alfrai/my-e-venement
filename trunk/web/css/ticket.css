@@ -273,7 +273,7 @@
 }
 
 #manifestations .manif a.name, #prices .manif a.name {
-  max-width: 180px;
+  max-width: 140px;
   min-width: 100px;
   height: 1em;
   overflow: hidden;
