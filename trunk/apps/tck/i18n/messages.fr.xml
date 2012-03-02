@@ -49,6 +49,10 @@
         <target>Liste des jauges</target>
       </trans-unit>
       <trans-unit>
+        <source>Workspaces</source>
+        <target>Espaces de travail</target>
+      </trans-unit>
+      <trans-unit>
         <source>Filetype</source>
         <target>Type de fichier</target>
       </trans-unit>
