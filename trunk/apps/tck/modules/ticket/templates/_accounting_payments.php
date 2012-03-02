@@ -21,9 +21,9 @@
 *
 ***********************************************************************************/
 ?>
+<?php if ( $transaction->Payments->count() > 0 ): ?>
 <div id="payments">
   <h2><?php echo __('Paid with') ?></h2>
-  <?php if ( $transaction->Payments->count() > 0 ): ?>
   <div>
     <?php $value = 0 ?>
     <?php foreach ( $transaction->Payments as $payment ): ?>
@@ -38,5 +38,5 @@
       <span class="value"><?php echo format_currency($value,'€') ?></span>
     </p>
   </div>
-  <?php endif ?>
 </div>
+<?php endif ?>
