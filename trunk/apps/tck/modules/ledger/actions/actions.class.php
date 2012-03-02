@@ -72,8 +72,8 @@ class ledgerActions extends sfActions
       ->leftJoin('t.Professional pro')
       ->leftJoin('pro.Organism o')
       ->leftJoin('tck.User u')
-      ->andWhere('tck.duplicate IS NULL')// OR (tck.cancelling IS NOT NULL AND tck.cancelling IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling = tck.cancelling AND tck2.id != tck.id))')
-      ->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE')
+      ->andWhere('tck.duplicate IS NULL')
+      ->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE'.($request->hasParameter('all') ? ' OR TRUE' : ''))
       ->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
