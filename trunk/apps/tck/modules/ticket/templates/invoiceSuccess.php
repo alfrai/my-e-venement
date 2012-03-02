@@ -6,5 +6,6 @@
 <?php include_partial('accounting_ids_invoice',array('transaction' => $transaction,'invoice' => $invoice)) ?>
 <?php include_partial('accounting_lines',array('transaction' => $transaction,'tickets' => $tickets,'nocancel' => $nocancel,)) ?>
 <?php include_partial('accounting_totals',array('totals' => $totals)) ?>
+<?php include_partial('accounting_payments',array('transaction' => $transaction)) ?>
 <?php include_partial('accounting_footer') ?>
 <p><em><?php echo __($nocancel ? 'This invoice excludes cancelled tickets' : '') ?></em></p>

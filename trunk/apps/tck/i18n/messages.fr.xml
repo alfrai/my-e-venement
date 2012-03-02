@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Paid with</source>
+        <target>Payé par</target>
+      </trans-unit>
+      <trans-unit>
         <source>You've integrated more tickets than you've got in your base transaction.</source>
         <target>Vous avez intégré plus de billets que vous n'en aviez dans votre opération d'origine.</target>
       </trans-unit>
