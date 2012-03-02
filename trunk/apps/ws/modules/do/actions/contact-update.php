@@ -124,7 +124,7 @@
       $contact = $form->getObject();
     }
     
-    $new_phone = false;
+    $new_phone = $contact->Phonenumbers->count() == 0; // if 0 number -> true / if more -> false
     foreach ( $contact->Phonenumbers as $phone )
     if ( str_replace(' ','',$phone->number) == str_replace(' ','',$phonenumber) )
       $new_phone = true;
@@ -132,9 +132,10 @@
     // the phone number
     if ( $new_phone )
     {
+      file_put_contents('/var/www/billets.festival-cornouaille.com/log/test.log',"$phonenumber / ".$phone->number);
       $phone = new ContactPhonenumber();
       $phone->number = $phonenumber;
-      $phone->contact_id = $form->getObject()->id;
+      $phone->contact_id = $contact->id;
       $phone->save();
     }
     
