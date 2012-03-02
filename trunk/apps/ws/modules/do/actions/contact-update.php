@@ -132,7 +132,6 @@
     // the phone number
     if ( $new_phone )
     {
-      file_put_contents('/var/www/billets.festival-cornouaille.com/log/test.log',"$phonenumber / ".$phone->number);
       $phone = new ContactPhonenumber();
       $phone->number = $phonenumber;
       $phone->contact_id = $contact->id;
