@@ -87,3 +87,11 @@ body.bdc #echeance { display: none; }
   width: 100%;
   text-align: center;
 }
+
+@media print {
+
+.inline-modifications {
+  display: none;
+}
+
+}
