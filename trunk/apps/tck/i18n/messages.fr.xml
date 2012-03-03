@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Submitted values are invalid</source>
+        <target>Les critères transmis sont invalides</target>
+      </trans-unit>
+      <trans-unit>
         <source>Paid with</source>
         <target>Payé par</target>
       </trans-unit>
