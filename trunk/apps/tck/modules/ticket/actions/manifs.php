@@ -49,6 +49,7 @@
           $eids[] = $id['id'];
       }
       
+      // prices to be shown for each manifestations
       $q = Doctrine::getTable('Manifestation')->createQuery('m')
         ->leftJoin('m.Color color')
         ->andWhereNotIn('m.id',$mids)
@@ -70,6 +71,11 @@
       $q = Doctrine::getTable('Manifestation')
         ->createQuery('m',true)
         ->leftJoin('m.Color color')
+        ->leftJoin('m.Gauges g')
+        ->leftJoin('m.Prices p')
+        ->leftJoin('p.Workspaces pw')
+        ->leftJoin('pw.Gauges pg ON pw.id = pg.workspace_id AND pg.manifestation_id = m.id')
+        ->andWhere('pg.id = g.id')
         ->andWhereNotIn('m.id',$mids)
         ->orderBy('m.happens_at, e.name')
         ->limit(($config = sfConfig::get('app_transaction_manifs')) ? $config['max_display'] : 10);

@@ -181,8 +181,10 @@ function ticket_activate_prices_gauge()
   $('#prices .gauge').css('height','232px');
   $('#prices .tickets_form').addClass('full');
   ticket_get_gauge($('#prices .manifestations_list input:checked').val(),$('#prices .gauge'));
+  
   // update prices display
   ticket_display_prices();
+  $('.manifestations_list .workspaces').change(ticket_display_prices);
   
   // when switching from manifestation, updating the gauge
   $('#prices .manifestations_list input[type=radio]').unbind().click(function(){
@@ -249,16 +251,6 @@ function ticket_manif_new_events()
     {
       $(this).parent().parent().find('span').unbind();
       ticket_gauge_backup($('.manifestations_add .gauge'));
-      /*
-      $(this).parent().parent().find('.workspaces').each(function(){
-        if ( $(this).find('select').length == 1 )
-        {
-          select = $(this).find('select');
-          $(this).prepend('<input type="hidden" value="'+select.val()+'" name="'+select.attr('name')+'" /> ('+select.find('option:selected').html()+')');
-          $(this).find('select').remove();
-        }
-      });
-      */
       $(this).parent().parent().prependTo('.manifestations_list ul');
       if ( $('#prices .manifestations_list').length > 0 )
       {
@@ -352,7 +344,8 @@ function ticket_display_prices()
   for ( var id in prices )
   {
     elts.each(function(){
-      if ( $(this).is('[value='+prices[id]+']') )
+      if ( $(this).is('[value='+prices[id]['price']+']') )
+      if ( prices[id]['gauges'][$('.manifestations_list [name="ticket[manifestation_id]"]:checked').parent().parent().find('[name="ticket[gauge_id]"]').val()] != undefined )
         $(this).show();
     });
   }
