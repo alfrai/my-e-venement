@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.6.1" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>omCrossAppUrlPlugin</name>
+ <channel>plugins.symfony-project.org</channel>
+ <summary>Simple helper to get cross app urls.</summary>
+ <description>Create easily cross app urls using core symfony classes</description>
+ <lead>
+  <name>Olivier Mansour</name>
+  <user>omansour</user>
+  <email>omansour@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-10-28</date>
+ <time>11:07:47</time>
+ <version>
+  <release>1.0.2</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.symfony-project.org/license">MIT license</license>
+ <notes>-</notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="7d45b90b1ca8942731a5717d6378e8ce" name="lib/helper/crossAppLinkHelper.php" role="data"/>
+   <file md5sum="6bf75f37f373760d16919b836e28a857" name="README" role="data"/>
+   <file md5sum="7ffce0a146610f1dd2eabd94ac0c06fa" name="LICENSE" role="data"/>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.1</min>
+   </pearinstaller>
+   
+  </required>
+ </dependencies>
+ <phprelease/>
+ <changelog/>
+</package>

@@ -1,0 +1,19 @@
+.form_phonenumbers .phonenumber {
+  border-bottom: 1px solid gray;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+  list-style: none;
+}
+
+.form_phonenumbers .phonenumber .sf_admin_action_save_and_add,
+.form_phonenumbers .phonenumber .sf_admin_action_save { width: 100%; text-align: right; }
+
+.form_phonenumbers .phonenumber.phonenumber- .sf_admin_action_save,
+.form_phonenumbers .phonenumber .sf_admin_action_list a,
+.form_phonenumbers .phonenumber .sf_admin_form_field_contact_id,
+.form_phonenumbers .phonenumber .sf_admin_form_field_organism_id {
+  display: none;
+}
+
+.form_phonenumbers .phonenumber .sf_admin_action_save,
+.form_phonenumbers .phonenumber .sf_admin_action_save_and_add { margin-left: 80px; }
