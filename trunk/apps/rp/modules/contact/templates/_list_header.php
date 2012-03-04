@@ -6,6 +6,7 @@
       .appendTo('#sf_admin_header');
     $('#sf_admin_filter input[name="contact_filters[_csrf_token]"]').clone(true)
       .prependTo('#list-integrated-filter');
+    $('#list-integrated-filter').addClass('no-user-select');
     $('#sf_admin_header #list-integrated-filter .ui-widget').removeClass('ui-widget').removeClass('ui-widget-content');
     $('#sf_admin_header #list-integrated-filter tr.sf_admin_form_row:not(.sf_admin_filter_field_groups_list)').remove();
     $('#sf_admin_header #list-integrated-filter .fieldset thead').remove();
