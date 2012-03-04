@@ -83,6 +83,7 @@
       'firstname' => 'firstname',
       'address' => 'address',
       'city' => 'city',
+      'country' => 'country',
       'lastname' => 'name',
       'postal' => 'postalcode',
     ) as $from => $to )
