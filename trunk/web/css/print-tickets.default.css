@@ -17,6 +17,9 @@ body {
   top: 9mm;
   margin: 0 2mm;
 }
+.spectator span + span {
+  display: none;
+}
 .ticket {
   width: 150mm;
   height: 58mm;
@@ -116,6 +119,7 @@ span.eur { font-weight: normal; }
 .ticket .more-mentions { font-size: 6pt; }
 
 /* barcode */
+.ticket .ticket-bc .id { display: none; }
 .ticket .ticket-bc {
   position: absolute;
   width: 150mm;
