@@ -185,8 +185,10 @@ class ticketActions extends sfActions
     
     if ( $request->getParameter('reopen') && $this->getUser()->hasCredential('tck-unblock') )
     {
-      $this->transaction = Doctrine::getTable('Transaction')
-        ->findOneById($id);
+      $q = new Doctrine_Query();
+      $q->from('Transaction')
+        ->where('id = ?',$id);
+      $this->transaction = $q->fetchOne();
       $this->transaction->closed = false;
       $this->transaction->save();
     }
