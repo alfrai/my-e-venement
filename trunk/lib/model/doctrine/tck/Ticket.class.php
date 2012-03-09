@@ -26,8 +26,15 @@ class Ticket extends PluginTicket
       $this->price_id = $pm->price_id;
       $this->value    = $pm->value;
     }
-    $this->Transaction->updated_at = NULL;
-    $this->Transaction->save();
+    
+    // the transaction's last update
+    $q = new Doctrine_Query();
+    $q->from('Transaction')
+      ->where('id = ?',$this->transaction_id)
+      ->set('updated_at','NOW()')
+      ->update();
+    $q->execute();
+    
     parent::preSave($event);
   }
   
