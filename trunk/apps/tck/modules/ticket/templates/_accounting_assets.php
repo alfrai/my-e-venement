@@ -1,9 +1,9 @@
 <?php use_helper('Date','Number') ?>
-<?php if ( isset($modifiable) && $modifiable ): ?>
 <script type="text/javascript" language="javascript">
   print();
   //close();
 </script>
+<?php if ( isset($modifiable) && $modifiable ): ?>
 <script type="text/javascript">
 $(document).ready(function(){
   $('form.inline-modifications').submit(function() {
