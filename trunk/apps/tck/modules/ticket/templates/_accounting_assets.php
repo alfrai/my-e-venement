@@ -12,7 +12,7 @@ $(document).ready(function(){
   $('form.inline-modifications button').click(function() {
     $('.inline-modifiable').each(function() {
       if ( $(this).find('input').length == 0 )
-        $(this).html('<input type="text" value="'+$(this).html()+'" name="inline-modifiable" />');
+        $(this).html($('<input type="text" value="" name="inline-modifiable" />').val($(this).html()));
       else
       {
         $(this).html($(this).find('input').val());
