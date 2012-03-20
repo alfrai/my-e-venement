@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Concerned users</source>
+        <target>Utilisateurs concernés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Display not-yet-printed tickets</source>
         <target>Billets encore non-imprimés</target>
       </trans-unit>

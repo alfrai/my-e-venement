@@ -56,6 +56,15 @@ class ledgerActions extends sfActions
     }
     $criterias['dates'] = $dates;
     
+    // get all selected users
+    $this->users = false;
+    if ( count($criterias['users']) > 0 )
+    {
+      $q = Doctrine::getTable('sfGuardUser')->createQuery('u')
+        ->andWhereIn('u.id',$criterias['users']);
+      $this->users = $q->execute();
+    }
+    
     return $criterias;
   }
   

@@ -74,6 +74,14 @@
   margin: 10px 30px;
 }
 
+#content #users {
+  min-height: 0;
+  margin: 10px 245px 10px 0;
+}
+#users ul {
+  margin: 10px 30px;
+}
+
 #byPaymentMethod p {
   margin: 5px 5px 0 5px;
 }

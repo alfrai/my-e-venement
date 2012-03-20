@@ -8,6 +8,20 @@
       (<?php echo __('from %%from%% to %%to%%',array('%%from%%' => format_date($dates[0]), '%%to%%' => format_date($dates[1]))) ?>)
     </h1>
   </div>
+
+<?php echo include_partial('criterias',array('form' => $form, 'ledger' => 'cash')) ?>
+
+<?php if ( $users ): ?>
+<div class="ui-widget-content ui-corner-all" id="users">
+  <div class="fg-toolbar ui-widget-header ui-corner-all">
+    <h2><?php echo __("Concerned users") ?></h2>
+  </div>
+  <ul><?php foreach ($users as $user): ?>
+    <li><?php echo $user ?></li>
+  <?php endforeach ?></ul>
+</div>
+<?php endif ?>
+
 <table class="ui-widget-content ui-corner-all" id="ledger">
   <?php $total = array('qty' => 0, 'value' => 0) ?>
   <tbody><?php foreach ( $methods as $method ): ?>
@@ -74,6 +88,5 @@
     <td class="user"><?php echo __('User') ?></td>
   </tr></thead>
 </table>
-<?php echo include_partial('criterias',array('form' => $form, 'ledger' => 'cash')) ?>
 <div class="clear"></div>
 </div>

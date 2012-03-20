@@ -54,6 +54,14 @@ tr.method td, tr.event td {
 table tbody a { text-decoration: none; }
 table tbody a:hover { text-decoration: underline; }
 
+#content #users {
+  min-height: 0;
+  margin: 10px 245px 10px 5px;
+}
+#users ul {
+  margin: 10px 30px;
+}
+
 #criterias {
   width: 230px;
   position: absolute;
