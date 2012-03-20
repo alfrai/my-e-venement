@@ -63,7 +63,14 @@ class LedgerCriteriasForm extends BaseForm
       'multiple' => true,
       'required' => false,
     ));
- 
+    
+    $this->widgetSchema['not-yet-printed'] = new sfWidgetFormInputCheckbox(array(
+      'value_attribute_value' => 'yes',
+    ));
+    $this->validatorSchema['not-yet-printed'] = new sfValidatorBoolean(array(
+      'required' => false,
+    ));
+    
     $this->widgetSchema->setNameFormat('criterias[%s]');
     $this->disableCSRFProtection();
   }

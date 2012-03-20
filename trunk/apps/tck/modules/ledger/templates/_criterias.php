@@ -12,6 +12,12 @@
       <label for="users"><?php echo __('Users:') ?></label>
       <?php echo $form['users'] ?>
     </li>
+    <?php if ( $ledger == 'sales' ): ?>
+    <li>
+      <label for="not-yet-printed"><?php echo __('Display not-yet-printed tickets') ?>:</label>
+      <?php echo $form['not-yet-printed'] ?>
+    </li>
+    <?php endif ?>
     <li class="workspaces">
       <label for="workspaces"><?php echo __('Workspaces') ?>:</label>
       <?php echo $form['workspaces'] ?>

@@ -22,6 +22,8 @@ class ledgerActions extends sfActions
   
   protected function formatCriterias(sfWebRequest $request)
   {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
     $this->form = new LedgerCriteriasForm();
     $criterias = $request->getParameter($this->form->getName());
 
@@ -34,7 +36,7 @@ class ledgerActions extends sfActions
     $this->form->bind($criterias, $request->getFiles($this->form->getName()));
     if ( !$this->form->isValid() )
     {
-      $this->getUser()->setFlash('error','Submitted values are invalid');
+      $this->getUser()->setFlash('error',__('Submitted values are invalid'));
     }
     
     $dates = array(
@@ -73,12 +75,19 @@ class ledgerActions extends sfActions
       ->leftJoin('pro.Organism o')
       ->leftJoin('tck.User u')
       ->andWhere('tck.duplicate IS NULL')
-      ->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE'.($request->hasParameter('all') ? ' OR TRUE' : ''))
       ->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
         date('Y-m-d',$dates[0]),
         date('Y-m-d',$dates[1]),
       ))
       ->orderBy('e.name, m.happens_at, l.name, tck.price_name, u.first_name, u.last_name, tck.sf_guard_user_id, tck.cancelling IS NULL DESC, tck.updated_at');
+    
+    if ( !isset($criterias['not-yet-printed']) )
+      $q->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE');
+    else
+    {
+      $q->leftJoin('t.Payments p')
+        ->andWhere('p.id IS NOT NULL');
+    }
     
     $q->andWhereIn('t.type',array('normal', 'cancellation'));
     

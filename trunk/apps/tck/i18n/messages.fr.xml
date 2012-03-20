@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Display not-yet-printed tickets</source>
+        <target>Billets encore non-imprimés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Submitted values are invalid</source>
         <target>Les critères transmis sont invalides</target>
       </trans-unit>

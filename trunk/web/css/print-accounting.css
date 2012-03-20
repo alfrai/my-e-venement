@@ -74,6 +74,7 @@ body.bdc .prefix { display: none; }
 body.bdc #echeance { display: none; }
 
 #lines .name { max-width: 180px; }
+#lines .event { max-width: 250px; }
 
 .inline-modifications {
   position: absolute;
