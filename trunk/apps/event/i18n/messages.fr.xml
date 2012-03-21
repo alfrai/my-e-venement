@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>%%Name%%</source>
+        <target>%%Nom%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>Location's Manifestations List</source>
         <target>Les manifestations du lieu</target>
       </trans-unit>
