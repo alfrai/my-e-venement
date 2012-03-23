@@ -25,14 +25,14 @@
 $tickets = array();
 
 $separator = ';';
-$tarif_line = 8;
+$tarif_line = 'Type de tarif';
 $tarifs = array();
 $charset = sfContext::getInstance()->getConfiguration()->charset;
 
 for ( $i = 0 ; $line = fgetcsv($fp, 0, $separator) ; $i++ )
 {
   // creation of prices database
-  if ( $i == $tarif_line )
+  if ( $line[0] === $tarif_line )
   {
     if ( isset($line[1]) && isset($line[2]) )
     {
@@ -42,6 +42,8 @@ for ( $i = 0 ; $line = fgetcsv($fp, 0, $separator) ; $i++ )
     else
       $tarif_line = 8;
   }
+  
+  // creation of tickets to integrate
   if ( isset($line[23]) && floatval($line[23]) > 0 )
   {
     $ticket = array();

@@ -43,14 +43,20 @@
       
       $fp = fopen($files['file']['tmp_name'],'r');
       
-      // get back the base transaction
-      $transaction_ref = Doctrine::getTable('Transaction')->createQuery()
-        ->andWhere('id = ?',$integrate['transaction_ref_id'])
-        ->andWhere('tck.printed = false AND tck.integrated = false')
-        ->andWhere('tck.price_id = ?',$price_default_id)
-        ->andWhere('tck.manifestation_id = ?',$this->manifestation->id)
-        ->orderBy('id ASC')
-        ->fetchOne();
+      $transaction_ref = false;
+      if ( $integrate['transaction_ref_id'] )
+      {
+        // get back the original transaction
+        $q = Doctrine::getTable('Transaction')->createQuery()
+          ->andWhere('tck.printed = false AND tck.integrated = false')
+          ->andWhere('tck.price_id = ?',$price_default_id)
+          ->andWhere('tck.manifestation_id = ?',$this->manifestation->id)
+          ->andWhere('id = ?',$integrate['transaction_ref_id'])
+          ->orderBy('id ASC');
+        
+        $transaction_ref = $q->fetchOne();
+      }
+      
       $transaction = new Transaction();
       
       switch ( $integrate['filetype'] ) {
@@ -134,13 +140,16 @@
           $tck->created_at = date('Y-m-d H:i:s',strtotime(isset($ticket['created_at']) ? $ticket['created_at'] : NULL));
           
           $transaction->Tickets[] = $tck;
-          if ( $integrate['transaction_ref_id'] && $transaction_ref !== false && $transaction_ref->Tickets->count() > 0 )
+          if ( $integrate['transaction_ref_id'] && $transaction_ref !== false )
           {
-            $transaction_ref->Tickets[$transaction_ref->Tickets->count()-1]->delete();
-            unset($transaction_ref->Tickets[$transaction_ref->Tickets->count()-1]);
+            if ( $transaction_ref->Tickets->count() > 0 )
+            {
+              $transaction_ref->Tickets[$transaction_ref->Tickets->count()-1]->delete();
+              unset($transaction_ref->Tickets[$transaction_ref->Tickets->count()-1]);
+            }
+            else
+              $notices['no-more-refs'] = __("You've integrated more tickets than you've got in your base transaction.");
           }
-          else
-            $notices['no-more-refs'] = __("You've integrated more tickets than you've got in your base transaction.");
         }
         else
           $this->getUser()->setFlash('error',__('Tried to integrate a cancellation ticket without any referenced id. This kind of cancellation ticket has to be integrated manually.'));
@@ -150,7 +159,7 @@
 
       fclose($fp);
       sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url','I18N'));
-      $this->getUser()->setFlash('notice',__("File importated with the last transaction's id %%tid%%, with %%nbtck%% ticket(s).",array('%%tid%%' => $transaction->id, '%%nbtck%%' => count($tickets))).'<br/>'.implode(' ',$notices));
+      $this->getUser()->setFlash('notice',__("File importated with the last transaction's id %%tid%%, %%nbtck%% ticket(s).",array('%%tid%%' => $transaction->id, '%%nbtck%%' => count($tickets))).' -- '.implode(' ',$notices));
       $this->redirect(url_for('ticket/batchIntegrate?manifestation_id='.$this->manifestation->id));
     }
     else

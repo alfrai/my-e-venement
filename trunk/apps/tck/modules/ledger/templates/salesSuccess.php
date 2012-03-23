@@ -16,16 +16,16 @@
 <?php endif ?>
 
 <?php $criterias = $form->getValues() ?>
-<?php if ( isset($criterias['not-yet-printed']) || isset($criterias['tck_value_date_payment']) ): ?>
+<?php if ( $criterias['not-yet-printed'] || $criterias['tck_value_date_payment'] ): ?>
 <div class="ui-widget-content ui-corner-all criterias" id="extra-criterias">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h2><?php echo __("Extra criterias") ?></h2>
   </div>
   <ul>
-    <?php if ( isset($criterias['not-yet-printed']) ): ?>
+    <?php if ( $criterias['not-yet-printed'] ): ?>
     <li><?php echo __('Display not-yet-printed tickets') ?></li>
     <?php endif ?>
-    <?php if ( isset($criterias['tck_value_date_payment']) ): ?>
+    <?php if ( $criterias['tck_value_date_payment'] ): ?>
     <li><?php echo __('Display tickets from payment date') ?></li>
     <?php endif ?>
   </ul>

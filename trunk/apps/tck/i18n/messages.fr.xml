@@ -53,8 +53,8 @@
         <target>Retour à la manifestation</target>
       </trans-unit>
       <trans-unit>
-        <source>File importated with the last transaction's id %%tid%%, with %%nbtck%% ticket(s).</source>
-        <target>Fichier importé avec le dernier identifiant d'opération %%tid%%, avec %%nbtck%% ticket(s).</target>
+        <source>File importated with the last transaction's id %%tid%%, %%nbtck%% ticket(s).</source>
+        <target>Fichier importé avec le dernier identifiant d'opération %%tid%%, %%nbtck%% ticket(s).</target>
       </trans-unit>
       <trans-unit>
         <source>File</source>
