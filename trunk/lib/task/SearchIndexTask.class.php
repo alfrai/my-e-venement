@@ -28,12 +28,11 @@ class SearchIndexTask extends sfBaseTask{
   protected function configure() {
     $this->addArguments(array(
       new sfCommandArgument('model', sfCommandArgument::REQUIRED, 'The Model'),
-
-      )
-    );
+    ));
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application', 'default'),
-      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environement', 'dev')
+      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environement', 'dev'),
+      new sfCommandOption('force', null, sfCommandOption::PARAMETER_NONE, 'Force index rebuilding'),
     ));
     $this->namespace = 'e-venement';
     $this->name = 'search-index';
@@ -57,6 +56,14 @@ EOF;
       ->getTemplate('Doctrine_Template_Searchable')
       ->getPlugin()
       ->setOption('analyzer',new MySearchAnalyzer());
+    
+    if ( $options['force'] )
+    {
+      $q = new Doctrine_Query;
+      $q->from($arguments['model'].'Index')
+        ->delete()
+        ->execute();
+    }
     
     $nb = $modelTable->batchUpdateIndex();
     $this->logSection('search', sprintf('%s %s updated', $nb, $arguments['model']));
