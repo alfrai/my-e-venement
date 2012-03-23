@@ -48,7 +48,7 @@ class summaryActions extends autoSummaryActions
     Doctrine::getTable('Ticket')->createQuery('tck')
       ->delete()
       ->andWhere('tck.transaction_id = ?',$request->getParameter('id'))
-      ->andWhere('tck.printed = false')
+      ->andWhere('tck.printed = false AND tck.integrated = false')
       ->andWhere('tck.transaction_id NOT IN (SELECT o.transaction_id FROM Order o)')
       ->execute();
       
