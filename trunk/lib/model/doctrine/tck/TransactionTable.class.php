@@ -34,7 +34,6 @@ class TransactionTable extends PluginTransactionTable
   {
     $q = $this->createQuery()
       ->andWhere('id = ?',$id);
-    $tmp = $q->execute();
-    return $tmp[0];
+    return $q->fetchOne();
   }
 }

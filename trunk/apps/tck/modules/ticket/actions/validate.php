@@ -23,7 +23,9 @@
 ?>
 <?php
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
-    $this->transaction = $this->getRoute()->getObject();
+    
+    // with '$this->transaction = $this->getRoute()->getObject();' it updates the tickets updated_at information........
+    $this->transaction = Doctrine::getTable('Transaction')->findOneById($request->getParameter('id'));
     
     $topay = $this->transaction->getPrice();
     $paid  = $this->transaction->getPaid();

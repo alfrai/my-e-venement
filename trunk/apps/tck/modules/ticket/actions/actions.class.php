@@ -195,6 +195,7 @@ class ticketActions extends sfActions
     }
     
     $this->redirect('ticket/sell?id='.$id);
+    //return sfView::NONE;
   }
   
   public function executeGauge(sfWebRequest $request)
