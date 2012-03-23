@@ -71,6 +71,13 @@ class LedgerCriteriasForm extends BaseForm
       'required' => false,
     ));
     
+    $this->widgetSchema['tck_value_date_payment'] = new sfWidgetFormInputCheckbox(array(
+      'value_attribute_value' => 'yes',
+    ));
+    $this->validatorSchema['tck_value_date_payment'] = new sfValidatorBoolean(array(
+      'required' => false,
+    ));
+    
     $this->widgetSchema->setNameFormat('criterias[%s]');
     $this->disableCSRFProtection();
   }

@@ -18,6 +18,12 @@
       <?php echo $form['not-yet-printed'] ?>
     </li>
     <?php endif ?>
+    <?php if ( $ledger == 'sales' ): ?>
+    <li>
+      <label for="tck_value_date_payment"><?php echo __('Display tickets from payment date') ?>:</label>
+      <?php echo $form['tck_value_date_payment'] ?>
+    </li>
+    <?php endif ?>
     <li class="workspaces">
       <label for="workspaces"><?php echo __('Workspaces') ?>:</label>
       <?php echo $form['workspaces'] ?>

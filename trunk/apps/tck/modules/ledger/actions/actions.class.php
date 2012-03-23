@@ -84,18 +84,27 @@ class ledgerActions extends sfActions
       ->leftJoin('pro.Organism o')
       ->leftJoin('tck.User u')
       ->andWhere('tck.duplicate IS NULL')
-      ->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
-        date('Y-m-d',$dates[0]),
-        date('Y-m-d',$dates[1]),
-      ))
       ->orderBy('e.name, m.happens_at, l.name, tck.price_name, u.first_name, u.last_name, tck.sf_guard_user_id, tck.cancelling IS NULL DESC, tck.updated_at');
     
     if ( !isset($criterias['not-yet-printed']) )
       $q->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE');
     else
-    {
       $q->leftJoin('t.Payments p')
         ->andWhere('p.id IS NOT NULL');
+    
+    if ( !isset($criterias['tck_value_date_payment']) )
+      $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
+          date('Y-m-d',$dates[0]),
+          date('Y-m-d',$dates[1]),
+        ));
+    else
+    {
+      if ( !$q->contains('LEFT JOIN t.Payments p') )
+        $q->leftJoin('t.Payments p');
+      $q->andWhere('p.updated_at >= ? AND p.updated_at < ?',array(
+          date('Y-m-d',$dates[0]),
+          date('Y-m-d',$dates[1]),
+        ));
     }
     
     $q->andWhereIn('t.type',array('normal', 'cancellation'));

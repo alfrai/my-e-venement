@@ -7,7 +7,7 @@
     $prints = 0;
     foreach ( $transaction->Tickets as $ticket )
     {
-      if ( $ticket->printed )
+      if ( $ticket->printed || $ticket->integrated )
       {
         $prints++;
       }

@@ -12,14 +12,7 @@
 <?php echo include_partial('criterias',array('form' => $form, 'ledger' => 'sales')) ?>
 
 <?php if ( $users ): ?>
-<div class="ui-widget-content ui-corner-all" id="users">
-  <div class="fg-toolbar ui-widget-header ui-corner-all">
-    <h2><?php echo __("Concerned users") ?></h2>
-  </div>
-  <ul><?php foreach ($users as $user): ?>
-    <li><?php echo $user ?></li>
-  <?php endforeach ?></ul>
-</div>
+<?php include_partial('users',array('users' => $users)) ?>
 <?php endif ?>
 
 <table class="ui-widget-content ui-corner-all" id="ledger">
