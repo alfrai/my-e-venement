@@ -16,7 +16,7 @@ class Contact extends PluginContact
   
   public function __toString()
   {
-    return strtoupper($this->name).' '.$this->firstname;
+    return strtoupper($this->name).' '.ucwords(strtolower($this->firstname));
   }
   
   public function getYOBsString()
