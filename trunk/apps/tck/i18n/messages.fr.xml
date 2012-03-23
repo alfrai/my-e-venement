@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Extra criterias</source>
+        <target>Critères divers</target>
+      </trans-unit>
+      <trans-unit>
         <source>Concerned users</source>
         <target>Utilisateurs concernés</target>
       </trans-unit>

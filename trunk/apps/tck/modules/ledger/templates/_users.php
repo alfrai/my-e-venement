@@ -21,7 +21,7 @@
 *
 ***********************************************************************************/
 ?>
-<div class="ui-widget-content ui-corner-all" id="users">
+<div class="ui-widget-content ui-corner-all criterias" id="users">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h2><?php echo __("Concerned users") ?></h2>
   </div>

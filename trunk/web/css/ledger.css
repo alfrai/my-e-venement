@@ -58,7 +58,7 @@ table tbody a:hover { text-decoration: underline; }
   min-height: 0;
   margin: 10px 245px 10px 5px;
 }
-#users ul {
+.criterias ul {
   margin: 10px 30px;
 }
 
