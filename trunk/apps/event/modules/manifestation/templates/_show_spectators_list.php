@@ -2,8 +2,8 @@
 
 <?php include_partial('show_print_part',array('tab' => 'spectators')) ?>
 
-<?php include_partial('show_spectators_list_printed',array('form' => $form)); ?>
 <?php include_partial('show_spectators_list_ordered',array('form' => $form)); ?>
+<?php include_partial('show_spectators_list_printed',array('form' => $form)); ?>
 <?php if (!sfConfig::get('app_ticketting_hide_demands')): ?>
 <?php include_partial('show_spectators_list_asked',array('form' => $form)); ?>
 <?php endif ?>

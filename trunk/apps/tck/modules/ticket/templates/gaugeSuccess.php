@@ -19,7 +19,9 @@
   $area = 30000; // width: 100%, height: 100%
   $seat = sqrt($area / ($gauge->value > 0 ? $gauge->value : 100));
   $free = $gauge->value - $manifestation->sells - $manifestation->orders - (!sfConfig::has('app_transaction_hide_demands') ? $manifestation->demands : 0);
-  
+?>
+<?php if ( $gauge->value < (($tmp = intval(sfConfig::get('app_gauge_hide_graphical_display_until'))) ? $tmp : 10000) ): ?>
+<?php
   // cell's size
   $px = round($seat);
   if ( $gauge->value > 1750 && $px > 1 )
@@ -49,6 +51,7 @@
   style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;" <?php /* echo $seat ?>%; height: <?php echo $seat ?>%;" */ ?>
   ></div
 ><?php endfor ?>
+<?php endif ?>
 </div>
 </div>
 </div>
