@@ -40,7 +40,7 @@
           'add_empty' => true,
           'order_by' => array('name',''),
         ));
-        echo $select->render('payment_methods');
+        echo $select->render('payment_method_id');
       ?>
     </p>
     <p>

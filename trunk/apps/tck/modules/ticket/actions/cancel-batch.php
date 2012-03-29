@@ -25,9 +25,9 @@
   $this->getContext()->getConfiguration()->loadHelpers('I18N');
   
   $tid = $request->getParameter('id');
-  $pid = $request->getParameter('price_id');
+  $pid = $request->getParameter('payment_method_id');
   
-  if ( intval($tid).'' === ''.$tid && intval($pid).'' === ''.$pid )
+  if ( intval($tid).'' !== ''.$tid || intval($pid).'' !== ''.$pid )
   {
     $this->getUser()->setFlash('error',__('Error reading the given values'));
     $this->redirect('ticket/cancel');
@@ -36,38 +36,45 @@
   $transaction = Doctrine::getTable('Transaction')->findOneById($tid);
   
   // deleting all payments
-  $pid = $request->getParameter('price_id');
   $q = new Doctrine_Query();
   $q->from('Payment p')
-    ->andWhereIn('p.transaction_id',array($tid,$translinked->id))
+    ->andWhereIn('p.transaction_id',array($tid,$transaction->transaction_id))
     ->delete();
   
   // deleting integrated tickets
   $q = new Doctrine_Query;
-  $q->from('Ticket t')
-    ->andWhere('t.transaction_id = ?',$tid)
-    ->andWhere('t.integrated = true')
-    ->andWhere('t.printed = false')
-    ->andWhere('(SELECT count(*) FROM ticket t2 WHERE t2.cancelling = t.id) = 0')
+  $q->from('Ticket tck')
+    ->andWhere('tck.transaction_id = ?',$tid)
+    ->andWhere('tck.integrated = true')
+    ->andWhere('tck.printed = false')
+    ->andWhere('tck.id NOT IN (SELECT t2.cancelling FROM ticket t2)')
     ->delete()
     ->execute();
-
+  
   // cancelling printed tickets
   $q = new Doctrine_Query;
   $value = 0;
-  $tickets = $q->from('Ticket t')
-    ->andWhere('t.transaction_id = ?',$tid)
-    ->andWhere('t.printed = true')
-    ->andWhere('(SELECT count(*) FROM ticket t2 WHERE t2.cancelling = t.id) = 0')
+  $tickets = $q->from('Ticket tck')
+    ->andWhere('tck.transaction_id = ?',$tid)
+    ->andWhere('tck.printed = true')
+    ->andWhere('(SELECT count(*) FROM ticket t2 WHERE t2.cancelling = tck.id) = 0')
     ->execute();
   if ( $tickets->count() > 0 )
   {
     $translinked = is_null($transaction->transaction_id)
       ? new Transaction
       : Doctrine::getTable('Transaction')->findOneById($transaction->transaction_id);
+    
+    // delete old cancelling tickets
+    $q = new Doctrine_Query;
+    $q->from('Ticket t')
+      ->andWhere('t.transaction_id = ?',$translinked->id)
+      ->delete()
+      ->execute();
+    
     foreach ( $tickets as $ticket )
     {
-      $cancel = $ticket->copy(true);
+      $cancel = $ticket->copy();
       $cancel->id =
       $cancel->transaction_id =
       $cancel->sf_guard_user_id =
@@ -78,7 +85,7 @@
       $translinked->Tickets[] = $cancel;
       $value += $ticket->value;
     }
-  
+    
     // add payments
     $payment = new Payment;
     $payment->value = $value;
@@ -97,5 +104,6 @@
   }
   
   // get out
-  $this->getUser()->setFlash('success',__('Your transaction has been correctly cancelled'))
+  $this->getUser()->setFlash('notice',__('Your transaction has been correctly cancelled'));
   $this->redirect('ticket/cancel');
+  return sfView::NONE;

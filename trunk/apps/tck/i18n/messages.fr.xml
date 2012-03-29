@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Your transaction has been correctly cancelled</source>
+        <target>Votre opération a été annulée correctement</source>
+      </trans-unit>
+      <trans-unit>
         <source>Error reading the given values</source>
         <target>Erreur de lecture des données fournies</target>
       </trans-unit>
