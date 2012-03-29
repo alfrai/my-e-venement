@@ -35,6 +35,12 @@
   
   $transaction = Doctrine::getTable('Transaction')->findOneById($tid);
   
+  if ( $transaction->closed && !$this->getUser()->hasCredential('tck-unblock') )
+  {
+    $this->getUser()->setFlash('error',__('Oops! The screen you asked for is secure and you do not have proper credentials.','sf_admin',array()));
+    $this->redirect('ticket/cancel');
+  }
+  
   // deleting all payments
   $q = new Doctrine_Query();
   $q->from('Payment p')

@@ -4,6 +4,8 @@ cancelBoot:
   credentials: [tck-cancel]
 cancel:
   credentials: [tck-cancel]
+batchCancel:
+  credentials: [tck-cancel]
 print:
   credentials: [tck-print-ticket]
 integrate:
