@@ -24,6 +24,30 @@
       &nbsp;&nbsp;<input type="submit" name="" value="<?php echo __('pay') ?>" />
     </p>
   </form>
+  <form action="<?php echo url_for('ticket/batchCancel') ?>" method="get" class="ui-widget-content ui-corner-all batch">
+    <div class="fg-toolbar ui-widget-header ui-corner-all">
+      <h2><?php echo __('Simplified complete cancel...') ?></h2>
+    </div>
+    <p>
+      <label for="id"><?php echo __('Transaction') ?></label>
+      #<input type="text" name="id" value="" />
+    </p>
+    <p>
+      <label for="payment_method"><?php echo __('Payment method') ?></label>
+      <?php
+        $select = new sfWidgetFormDoctrineChoice(array(
+          'model' => 'PaymentMethod',
+          'add_empty' => true,
+          'order_by' => array('name',''),
+        ));
+        echo $select->render('payment_methods');
+      ?>
+    </p>
+    <p>
+      <label for=""></label>
+      &nbsp;&nbsp;<input type="submit" name="" value="<?php echo __('Batch cancel') ?>" />
+    </p>
+  </form>
 </div>
 <script type="text/javascript">
   $(document).ready(function(){

@@ -5,8 +5,20 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Error reading the given values</source>
+        <target>Erreur de lecture des données fournies</target>
+      </trans-unit>
+      <trans-unit>
         <source>Extra criterias</source>
         <target>Critères divers</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Batch cancel</source>
+        <target>Annulation complète</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Simplified complete cancel...</source>
+        <target>Annulation complète simplifiée</target>
       </trans-unit>
       <trans-unit>
         <source>Concerned users</source>
@@ -322,7 +334,7 @@
       </trans-unit>
       <trans-unit>
         <source>Control</source>
-        <target>Controle</target>
+        <target>controle</target>
       </trans-unit>
       <trans-unit>
         <source>Summary list</source>
