@@ -57,6 +57,7 @@
   $tickets = $q->from('Ticket tck')
     ->andWhere('tck.transaction_id = ?',$tid)
     ->andWhere('tck.printed = true')
+    ->andWhere('(SELECT count(*) FROM ticket t2 WHERE t2.cancelling = tck.id) = 0')
     ->execute();
   
   if ( $tickets->count() > 0 )
@@ -64,13 +65,6 @@
     $translinked = is_null($transaction->transaction_id)
       ? new Transaction
       : Doctrine::getTable('Transaction')->findOneById($transaction->transaction_id);
-    
-    // delete old cancelling tickets
-    $q = new Doctrine_Query;
-    $q->from('Ticket t')
-      ->andWhere('t.transaction_id = ?',$translinked->id)
-      ->delete()
-      ->execute();
     
     foreach ( $tickets as $ticket )
     {
@@ -80,7 +74,6 @@
       $cancel->sf_guard_user_id =
       $cancel->created_at =
       $cancel->updated_at = NULL;
-      $cancel->cancelling = $ticket->id;
       $cancel->value = -$cancel->value;
       $translinked->Tickets[] = $cancel;
       $value += $ticket->value;
@@ -105,5 +98,5 @@
   
   // get out
   $this->getUser()->setFlash('notice',__('Your transaction has been correctly cancelled'));
-  $this->redirect('ticket/cancel?pay='.$translinked->id);
+  $this->redirect('ticket/cancel?pay='.$transaction->transaction_id);
   return sfView::NONE;

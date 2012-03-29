@@ -53,7 +53,7 @@
   $(document).ready(function(){
     $('form input[name=ticket_id]').focus();
     $('form.batch').submit(function(){
-      if ( confirm("<?php echo __("Are you sure? You are going to replace all your payments in the original and (if it exists) cancelling transactions, as cancelling tickets...") ?>") )
+      if ( confirm("<?php echo __("Are you sure? You are going to replace all your payments in the original and (if it exists) cancelling transactions...") ?>") )
         return true;
       else
       {
