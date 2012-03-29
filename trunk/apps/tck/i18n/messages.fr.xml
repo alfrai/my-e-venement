@@ -5,8 +5,12 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Are you sure? You are going to replace all your payments in the original and (if it exists) cancelling transactions, as cancelling tickets...</source>
+        <target>Êtes-vous sûr(e) ? Vous êtes sur le point de remplacer tous les paiements de votre opération d'origine et celle d'annulation (si elle existe), ainsi que les billets d'annulation déjà existants</target>
+      </trans-unit>
+      <trans-unit>
         <source>Your transaction has been correctly cancelled</source>
-        <target>Votre opération a été annulée correctement</source>
+        <target>Votre opération a été annulée correctement</target>
       </trans-unit>
       <trans-unit>
         <source>Error reading the given values</source>

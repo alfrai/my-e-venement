@@ -52,6 +52,15 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $('form input[name=ticket_id]').focus();
+    $('form.batch').submit(function(){
+      if ( confirm("<?php echo __("Are you sure? You are going to replace all your payments in the original and (if it exists) cancelling transactions, as cancelling tickets...") ?>") )
+        return true;
+      else
+      {
+        $('#transition .close').click();
+        return false;
+      }
+    });
     setTimeout(function(){
       $('.sf_admin_flashes').fadeOut();
     },4000);

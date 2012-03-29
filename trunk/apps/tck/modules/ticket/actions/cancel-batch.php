@@ -57,8 +57,8 @@
   $tickets = $q->from('Ticket tck')
     ->andWhere('tck.transaction_id = ?',$tid)
     ->andWhere('tck.printed = true')
-    ->andWhere('(SELECT count(*) FROM ticket t2 WHERE t2.cancelling = tck.id) = 0')
     ->execute();
+  
   if ( $tickets->count() > 0 )
   {
     $translinked = is_null($transaction->transaction_id)
@@ -105,5 +105,5 @@
   
   // get out
   $this->getUser()->setFlash('notice',__('Your transaction has been correctly cancelled'));
-  $this->redirect('ticket/cancel');
+  $this->redirect('ticket/cancel?pay='.$translinked->id);
   return sfView::NONE;
