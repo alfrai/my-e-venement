@@ -16,7 +16,10 @@ class Contact extends PluginContact
   
   public function __toString()
   {
-    return strtoupper($this->name).' '.ucwords(strtolower($this->firstname));
+    if ( !sfConfig::get('app_case_normalise') )
+      return $this->name.' '.$this->firstname;
+    else
+      return strtoupper($this->name).' '.ucwords(strtolower($this->firstname));
   }
   
   public function getYOBsString()
