@@ -45,7 +45,8 @@
   $q = new Doctrine_Query();
   $q->from('Payment p')
     ->andWhereIn('p.transaction_id',array($tid,$transaction->transaction_id))
-    ->delete();
+    ->delete()
+    ->execute();
   
   // deleting integrated tickets
   $q = new Doctrine_Query;
