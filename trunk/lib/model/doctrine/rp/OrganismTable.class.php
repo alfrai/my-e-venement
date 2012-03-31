@@ -33,6 +33,14 @@ class OrganismTable extends PluginOrganismTable
       ->leftJoin("$alias.Category $oc");
     return $query;
   }
+  
+  public function fetchOneByName($name)
+  {
+    return $this->createQuery('o')
+      ->andWhere('name = ?',$name)
+      ->orderBy('created_at DESC')
+      ->fetchOne();
+  }
 
     /**
      * Returns an instance of this class.

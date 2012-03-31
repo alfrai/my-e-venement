@@ -65,9 +65,9 @@ class ContactTable extends PluginContactTable
   public function findWithTickets($id)
   {
     $q = $this->createQuery('c')
-      ->leftJoin("c.Transactions transaction")
-      ->leftJoin('transaction.Payments payment')
-      ->leftJoin('transaction.Tickets tck ON transaction.id = tck.transaction_id AND tck.id NOT IN (SELECT tck2.cancelling FROM ticket tck2 WHERE tck2.cancelling IS NOT NULL) AND tck.duplicate IS NULL')
+      ->leftJoin("c.Transactions transac")
+      ->leftJoin('transac.Payments payment')
+      ->leftJoin('transac.Tickets tck ON transaction.id = tck.transaction_id AND tck.id NOT IN (SELECT tck2.cancelling FROM ticket tck2 WHERE tck2.cancelling IS NOT NULL) AND tck.duplicate IS NULL')
       ->leftJoin('tck.Manifestation manifestation')
       ->leftJoin('manifestation.Event event')
       ->andWhere('c.id = ?',$id);

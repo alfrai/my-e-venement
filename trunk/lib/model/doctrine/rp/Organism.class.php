@@ -18,4 +18,8 @@ class Organism extends PluginOrganism
   {
     return $this->name.($this->city ? ' ('.$this->city.')' : '');
   }
+  public function toStringWithDash()
+  {
+    return $this->name.($this->city ? ' - '.$this->city : '');
+  }
 }

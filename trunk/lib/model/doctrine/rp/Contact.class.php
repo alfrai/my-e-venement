@@ -22,6 +22,11 @@ class Contact extends PluginContact
       return strtoupper($this->name).' '.ucwords(strtolower($this->firstname));
   }
   
+  public function getFormattedName()
+  {
+    return ucfirst($this->firstname).' '.strtoupper($this->name);
+  }
+  
   public function getYOBsString()
   {
     $arr = array();
@@ -38,5 +43,16 @@ class Contact extends PluginContact
     for ( $i = 12-$n ; $i > 0 ; $i-- )
       $c = '0'.$c;
     return $c;
+  }
+  
+  public function postInsert($event)
+  {
+    foreach ( $this->Professionals as $pro )
+      $pro->contact_id = $this->id;
+    
+    foreach ( $this->Phonenumbers as $pn )
+      $pn->contact_id = $this->id;
+    
+    parent::postInsert($event);
   }
 }
