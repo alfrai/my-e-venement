@@ -17,6 +17,11 @@ class Manifestation extends PluginManifestation
     sfApplicationConfiguration::getActive()->loadHelpers(array('I18N','Date'));
     return $this->Event->name.' '.__('at').' '.format_datetime($this->happens_at,'EEE d MMM yyyy HH:mm');
   }
+  public function getNameWithFullDate()
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('I18N','Date'));
+    return $this->Event->name.' '.__('at').' '.format_datetime($this->happens_at,'EEEE d MMMM yyyy');
+  }
   public function getShortName()
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('I18N','Date'));
