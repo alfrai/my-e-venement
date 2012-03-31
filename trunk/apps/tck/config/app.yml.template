@@ -37,4 +37,12 @@ all:
     other: 
     invoice_prefix: FB
     salt: xxxx
+  google_maps:
+    api_keys:
+      default: YOURKEYHERE
+      max_display: 200
+      default_country: France
+    display:
+      max: 200
+      notices: true
 
