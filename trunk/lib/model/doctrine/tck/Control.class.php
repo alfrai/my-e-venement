@@ -8,13 +8,13 @@
  * @package    e-venement
  * @subpackage model
  * @author     Baptiste SIMON <baptiste.simon AT e-glop.net>
- * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
+ * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $sfConfig::get('app_tickets_id')sfConfig::get('app_tickets_id')
  */
 class Control extends PluginControl
 {
   public function preSave($event)
   {
-    if ( sfConfig::get('app_tickets_id') != 'id' )
+    if ( sfConfig::has('app_tickets_id') && sfConfig::get('app_tickets_id') != 'id' )
     {
       $past = sfConfig::get('app_control_past') ? sfConfig::get('app_control_past') : '6 hours';
       $future = sfConfig::get('app_control_future') ? sfConfig::get('app_control_future') : '1 day';

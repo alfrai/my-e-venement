@@ -60,6 +60,9 @@
       <?php endif ?>
     </p>
   </div>
+  <div class="logo-marketing">
+    <?php echo image_tag('/private/'.$firm['logo']) ?>
+  </div>
   <div class="mentions">
     <p class="copyleft">
       &copy; 2006-<?php echo date('Y') ?>

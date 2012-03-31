@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Flow display</source>
+        <target>Affichage des flux</target>
+      </trans-unit>
+      <trans-unit>
         <source>Are you sure? You are going to replace all your payments in the original and (if it exists) cancelling transactions...</source>
         <target>Êtes-vous sûr(e) ? Vous êtes sur le point de remplacer tous les paiements de votre opération d'origine et celle d'annulation (si elle existe)...</target>
       </trans-unit>

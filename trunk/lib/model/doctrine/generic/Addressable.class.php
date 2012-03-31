@@ -28,7 +28,7 @@ class Addressable extends PluginAddressable
   
   public function save(Doctrine_Connection $conn = null)
   {
-    if ( sfConfig::get('app_google_maps_api_keys') )
+    if ( sfConfig::has('app_google_maps_api_keys') )
     try {
       $this->updateGeolocalization();
     }

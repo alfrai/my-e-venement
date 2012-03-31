@@ -143,6 +143,43 @@ class ContactFormFilter extends BaseContactFormFilter
       'required' => false,
     ));
     
+    // flow control
+    $this->widgetSchema   ['control_manifestation_id'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Manifestation',
+      'multiple'  => true,
+    ));
+    $this->validatorSchema['control_manifestation_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Manifestation',
+      'required' => false,
+      'multiple'  => true,
+    ));
+    $this->widgetSchema   ['control_checkpoint_id'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Checkpoint',
+      'multiple'  => true,
+    ));
+    $this->validatorSchema['control_checkpoint_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Checkpoint',
+      'required' => false,
+      'multiple'  => true,
+    ));
+    $this->widgetSchema   ['control_created_at'] = new sfWidgetFormFilterDate(array(
+      'from_date' => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+      'to_date'   => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+      'with_empty'=> false,
+    ));
+    $this->validatorSchema['control_created_at'] = new sfValidatorDateRange(array(
+      'from_date'     => new sfValidatorDate(array(
+        'required'    => false,
+        'date_output' => 'Y-m-d',
+        'with_time'   => false,
+      )),
+      'to_date'       => new sfValidatorDate(array(
+        'required'    => false,
+        'date_output' => 'Y-m-d',
+        'with_time'   => false,
+      )),
+    ));
+    
     parent::configure();
   }
   
@@ -165,6 +202,9 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['prices_list']          = 'PricesList';
     $fields['member_cards']         = 'MemberCards';
     $fields['member_cards_expire_at'] = 'MemberCardsExpireAt';
+    $fields['control_manifestation_id'] = 'ControlManifestationId';
+    $fields['control_checkpoint_id'] = 'ControlCheckpointId';
+    $fields['control_created_at']   = 'ControlCreatedAt';
     
     return $fields;
   }
@@ -425,6 +465,87 @@ class ContactFormFilter extends BaseContactFormFilter
       $q->andWhere("mc.expire_at > ?",date('Y-m-d',strtotime($value)));
     }
     
+    return $q;
+  }
+
+  // checkpoints / flow management
+  public function addControlManifestationIdColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( $values )
+    {
+      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
+      $q->leftJoin("$a.Transactions transac");
+      
+      if ( !$q->contains('LEFT JOIN transac.Tickets tck') )
+      $q->leftJoin('transac.Tickets tck');
+      
+      if ( !$q->contains('LEFT JOIN tck.Controls ctrl') )
+      $q->leftJoin('tck.Controls ctrl');
+      
+      $q->andWhere('ctrl.id IS NOT NULL')
+        ->andWhereIn('tck.manifestation_id',$values);
+    }
+    
+    return $q;
+  }
+  public function addControlCheckpointIdColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    $a = $q->getRootAlias();
+    if ( $values )
+    {
+      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
+      $q->leftJoin("$a.Transactions transac");
+      
+      if ( !$q->contains('LEFT JOIN transac.Tickets tck') ) $q->leftJoin('transac.Tickets tck');
+      
+      if ( !$q->contains('LEFT JOIN tck.Controls ctrl') )
+      $q->leftJoin('tck.Controls ctrl');
+      
+      if ( !$q->contains('LEFT JOIN ctrl.Checkpoint check') )
+      $q->leftJoin('ctrl.Checkpoint check');
+      
+      $q->andWhereIn('check.id',$values);
+    }
+    
+    return $q;
+  }
+  public function addControlCreatedAtColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    $a = $q->getRootAlias();
+    $fieldName = 'created_at';
+      
+    if (isset($values['is_empty']) && $values['is_empty'])
+    {
+      $q->addWhere(sprintf('%s.%s IS NULL', 'ctrl', $fieldName));
+    }
+    else
+    {
+      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
+      $q->leftJoin("$a.Transactions transac");
+      
+      if ( !$q->contains('LEFT JOIN transac.Tickets tck') )
+      $q->leftJoin('transac.Tickets tck');
+      
+      if ( !$q->contains('LEFT JOIN tck.Controls ctrl') )
+      $q->leftJoin('tck.Controls ctrl');
+      
+      if (null !== $values['from'] && null !== $values['to'])
+      {
+        $q->andWhere(sprintf('%s.%s >= ?', 'ctrl', $fieldName), $values['from'])
+          ->andWhere(sprintf('%s.%s <= ?', 'ctrl', $fieldName), $values['to']);
+      }
+      else if (null !== $values['from'])
+      {
+        $q->andWhere(sprintf('%s.%s >= ?', 'ctrl', $fieldName), $values['from']);
+      }
+      else if (null !== $values['to'])
+      {
+        $q->andWhere(sprintf('%s.%s <= ?', 'ctrl', $fieldName), $values['to']);
+      }
+    }
+
     return $q;
   }
 
