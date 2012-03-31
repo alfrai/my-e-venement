@@ -12,6 +12,13 @@
  */
 class Email extends PluginEmail
 {
+  protected $nospool = false;
+  
+  public function setNoSpool($boolean = true)
+  {
+    $this->nospool = $boolean;
+  }
+  
   public function __toString()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
@@ -35,6 +42,7 @@ class Email extends PluginEmail
     if ( sfContext::hasInstance() )
     if ( sfContext::getInstance()->getUser() instanceof sfGuardSecurityUser )
       $this->sf_guard_user_id = sfContext::getInstance()->getUser()->getId();
+    
     return parent::save($conn);
   }
 }

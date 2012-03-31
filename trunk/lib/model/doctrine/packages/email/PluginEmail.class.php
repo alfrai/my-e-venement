@@ -12,10 +12,16 @@
  */
 abstract class PluginEmail extends BaseEmail
 {
-  public $not_a_test   = false;
-  public $test_address = NULL;
-  public $mailer       = NULL;
-  public $to       = array();
+  public $not_a_test      = false;
+  public $test_address    = NULL;
+  public $mailer          = NULL;
+  public $to              = array();
+  protected $attachments  = array();
+  
+  public function addAttachment(Swift_Attachment $attachment)
+  {
+    $this->attachments[] = $attachment;
+  }
   
   protected function send()
   {
@@ -45,7 +51,7 @@ abstract class PluginEmail extends BaseEmail
       $this->to = array_merge($this->to,explode(',',str_replace(' ','',$this->field_to)));
     */
     $this->field_to = implode(', ',$this->to);
-    return $this->raw_send();
+    return $this->raw_send(null,$this->nospool ? true : false);
   }
 
   protected function sendTest()
@@ -64,6 +70,9 @@ abstract class PluginEmail extends BaseEmail
     
     $message = $this->compose(Swift_Message::newInstance()->setTo($to));
     
+    foreach ( $this->attachments as $attachment )
+      $message->attach($attachment);
+    
     return $immediatly === true
       ? $this->mailer->sendNextImmediately()->send($message)
       : $this->mailer->batchSend($message);
@@ -75,7 +84,8 @@ abstract class PluginEmail extends BaseEmail
       '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'.
       '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">'.
       '<head>'.
-      '<title>'.$this->field_subject.'</title>'.
+      '<title></title>'.
+      //'<title>'.$this->field_subject.'</title>'.
       '<meta name="title" content="'.$this->field_subject.'" />'.
       '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'.
       '</head><body>'.
