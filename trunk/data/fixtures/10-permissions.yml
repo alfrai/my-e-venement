@@ -474,6 +474,21 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_72
     created_at: '2012-03-23 18:10:09'
     updated_at: '2012-03-23 18:10:09'
+  sfGuardGroupPermission_18_73:
+    Group: sfGuardGroup_18
+    Permission: sfGuardPermission_73
+    created_at: '2012-03-23 18:10:09'
+    updated_at: '2012-03-23 18:10:09'
+  sfGuardGroupPermission_15_73:
+    Group: sfGuardGroup_15
+    Permission: sfGuardPermission_73
+    created_at: '2012-03-23 18:10:09'
+    updated_at: '2012-03-23 18:10:09'
+  sfGuardGroupPermission_18_74:
+    Group: sfGuardGroup_18
+    Permission: sfGuardPermission_74
+    created_at: '2012-03-23 18:10:09'
+    updated_at: '2012-03-23 18:10:09'
 sfGuardPermission:
   sfGuardPermission_18:
     name: admin-titles
@@ -815,6 +830,16 @@ sfGuardPermission:
     description: 'Permission to integrate tickets sold by an other structure with numeric files'
     created_at: '2012-03-23 18:09:41'
     updated_at: '2012-03-23 18:09:41'
+  sfGuardPermission_73
+    name: tck-control-overview
+    description: 'Permission to get an overview on flows which passed throught checkpoints'
+    created_at: '2012-03-31 18:09:41'
+    updated_at: '2012-03-31 18:09:41'
+  sfGuardPermission_74
+    name: tck-control-admin
+    description: 'Permission to modify directly the flow which has passed throught checkpoints'
+    created_at: '2012-03-31 18:09:41'
+    updated_at: '2012-03-31 18:09:41'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view

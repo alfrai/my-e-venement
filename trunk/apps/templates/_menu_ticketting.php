@@ -58,6 +58,10 @@
           <li><a href="<?php echo cross_app_url_for('tck','summary/debts') ?>"><?php echo __('Debts',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','summary/duplicatas') ?>"><?php echo __('Duplicatas',array(),'menu') ?></a></li>
           <?php endif ?>
+          <?php if ( (sfConfig::has('app_control_future') || sfConfig::has('app_control_past') || sfConfig::has('app_control_delays'))
+                  && $sf_user->hasCredential('tck-control-overview') ): ?>
+          <li><a href="<?php echo cross_app_url_for('tck','control/index') ?>"><?php echo __('Affichage des flux',array(),'menu') ?></a></li>
+          <?php endif ?>
           <?php if ( $sf_user->hasCredential('tck-ledger-sales') ): ?>
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','ledger/sales') ?>"><?php echo __('Sales Ledger',array(),'menu') ?></a></li>
           <?php endif ?>

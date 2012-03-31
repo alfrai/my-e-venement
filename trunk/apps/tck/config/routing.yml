@@ -1,3 +1,12 @@
+control:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Control
+    module:               control
+    prefix_path:          /control
+    column:               id
+    with_wildcard_routes: true
+
 transaction:
   class: sfDoctrineRouteCollection
   options:
