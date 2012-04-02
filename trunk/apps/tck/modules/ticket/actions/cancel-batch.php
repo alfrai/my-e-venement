@@ -72,6 +72,8 @@
     $translinked = is_null($transaction->transaction_id)
       ? new Transaction
       : Doctrine::getTable('Transaction')->findOneById($transaction->transaction_id);
+    $translinked->type = 'cancellation';
+    $translinked->transaction_id = $transaction->id;
     
     foreach ( $tickets as $ticket )
     {
