@@ -84,6 +84,7 @@
       $cancel->created_at =
       $cancel->updated_at = NULL;
       $cancel->value = -$cancel->value;
+      $cancel->cancelling = $ticket->id;
       $translinked->Tickets[] = $cancel;
       $value += $ticket->value;
     }
