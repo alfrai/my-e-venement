@@ -4,7 +4,7 @@
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1><?php echo __('Cancelling tickets') ?></h1>
   </div>
-  <form action="" method="get" class="ui-widget-content ui-corner-all">
+  <form action="" method="get" class="ui-widget-content ui-corner-all cancel">
     <p>
       <label for="ticket_id"><?php echo __('Ticket') ?></label>
       #<input type="text" style="width: 120px" name="ticket_id" value="" title="ex: 289,401-407,512" />
@@ -52,6 +52,15 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $('form input[name=ticket_id]').focus();
+    $('form.cancel').submit(function(){
+      if ( confirm("<?php echo __("Are you sure?",null,'sf_admin') ?> - "+$('input[type=text]').val()) )
+        return true;
+      else
+      {
+        $('#transition .close').click();
+        return false;
+      }
+    });
     $('form.batch').submit(function(){
       if ( confirm("<?php echo __("Are you sure? You are going to replace all your payments in the original and (if it exists) cancelling transactions...") ?>") )
         return true;

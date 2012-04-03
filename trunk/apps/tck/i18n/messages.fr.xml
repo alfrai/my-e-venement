@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Gauges list</source>
+        <target>Jauges</target>
+      </trans-unit>
+      <trans-unit>
         <source>Flow display</source>
         <target>Affichage des flux</target>
       </trans-unit>
