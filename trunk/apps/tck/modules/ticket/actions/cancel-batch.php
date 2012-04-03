@@ -67,14 +67,14 @@
     ->andWhere('(SELECT count(*) FROM ticket t2 WHERE t2.cancelling = tck.id) = 0')
     ->execute();
   
+  $translinked = is_null($transaction->transaction_id)
+    ? new Transaction
+    : Doctrine::getTable('Transaction')->findOneById($transaction->transaction_id);
+  $translinked->type = 'cancellation';
+  $translinked->transaction_id = $transaction->id;
+  
   if ( $tickets->count() > 0 )
   {
-    $translinked = is_null($transaction->transaction_id)
-      ? new Transaction
-      : Doctrine::getTable('Transaction')->findOneById($transaction->transaction_id);
-    $translinked->type = 'cancellation';
-    $translinked->transaction_id = $transaction->id;
-    
     foreach ( $tickets as $ticket )
     {
       $cancel = $ticket->copy();
@@ -88,23 +88,27 @@
       $translinked->Tickets[] = $cancel;
       $value += $ticket->value;
     }
-    
-    // add payments
-    $payment = new Payment;
-    $payment->value = $value;
-    $payment->payment_method_id = $pid;
-    $transaction->Payments[] = $payment;
-    
-    $payment = new Payment;
-    $payment->value = -$value;
-    $payment->payment_method_id = $pid;
-    $translinked->Payments[] = $payment;
-    
-    // saving the transactions
-    $translinked->save();
-    $transaction->transaction_id = $translinked->id;
-    $transaction->save();
   }
+  
+  $value = 0;
+  foreach ( $translinked->Tickets as $ticket )
+    $value += $ticket->value;
+  
+  // add payments
+  $payment = new Payment;
+  $payment->value = -$value;
+  $payment->payment_method_id = $pid;
+  $transaction->Payments[] = $payment;
+  
+  $payment = new Payment;
+  $payment->value = $value;
+  $payment->payment_method_id = $pid;
+  $translinked->Payments[] = $payment;
+    
+  // saving the transactions
+  $translinked->save();
+  $transaction->transaction_id = $translinked->id;
+  $transaction->save();
   
   // get out
   $this->getUser()->setFlash('notice',__('Your transaction has been correctly cancelled'));
