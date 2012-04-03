@@ -58,7 +58,7 @@ class ledgerActions extends sfActions
     
     // get all selected users
     $this->users = false;
-    if ( count($criterias['users']) > 0 )
+    if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
     {
       $q = Doctrine::getTable('sfGuardUser')->createQuery('u')
         ->andWhereIn('u.id',$criterias['users']);
@@ -113,8 +113,11 @@ class ledgerActions extends sfActions
     $q = $this->restrictQueryToCurrentUser($q);
     
     if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
+    {
+      if ( $criterias['users'][''] ) unset($criterias['users']['']);
       $q->andWhereIn('tck.sf_guard_user_id',$criterias['users']);
-
+    }
+    
     if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && $criterias['workspaces'][0] )
       $q->andWhereIn('g.workspace_id',$criterias['workspaces']);
 
@@ -215,7 +218,7 @@ class ledgerActions extends sfActions
     // restrict access to our own user
     $q = $this->restrictQueryToCurrentUser($q);
     
-    if ( is_array($criterias['users']) && count($criterias['users']) > 0 )
+    if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
       $q->andWhereIn('u.id',$criterias['users']);
     
     $transactions = $q->execute();
@@ -256,7 +259,7 @@ class ledgerActions extends sfActions
       ->andWhere('t.printed OR t.cancelling IS NOT NULL OR t.integrated')
       ->andWhere('t.duplicate IS NULL')
       ->orderBy('p.name');
-    if ( is_array($criterias['users']) && count($criterias['users']) > 0 )
+    if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
     if ( is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
       $q->andWhereIn('g.workspace_id',$criterias['workspaces']);
