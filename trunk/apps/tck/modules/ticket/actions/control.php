@@ -57,6 +57,8 @@
       if ( $field != 'othercode' )
       {
         $tmp = explode(',',$params['ticket_id']);
+        if ( count($tmp) == 1 )
+          $tmp = explode(' ',$params['ticket_id']);
         $params['ticket_id'] = array();
         foreach ( $tmp as $key => $ids )
         {
@@ -66,7 +68,7 @@
           for ( $i = intval($ids[0]) ; $i <= intval($ids[1]) ; $i++ )
             $params['ticket_id'][$i] = $i;
           else
-            $params['ticket_id'][0] = $ids[0];
+            $params['ticket_id'][] = $ids[0];
         }
         
         // decode EAN if it exists
@@ -94,33 +96,38 @@
       
       if ( intval($params['checkpoint_id'])."" == $params['checkpoint_id'] && count($params['ticket_id']) > 0 )
       {
-        $q = Doctrine::getTable('Control')->createQuery('c')
-          ->leftJoin('c.Checkpoint c2')
-          ->leftJoin('c2.Event e')
+        $q = Doctrine::getTable('Checkpoint')->createQuery('c')
+          ->leftJoin('c.Event e')
           ->leftJoin('e.Manifestations m')
           ->leftJoin('m.Tickets t')
-          ->leftJoin('c.Ticket tc')
-          ->andWhereIn('tc.'.$field,$params['ticket_id'])
-          ->andWhere('c.checkpoint_id = ?',$params['checkpoint_id'])
           ->andWhereIn('t.'.$field,$params['ticket_id'])
-          ->orderBy('c.id DESC');
-        $controls = $q->execute();
+          ->andWhere('c.id = ?',$params['checkpoint_id']);
+        $checkpoint = $q->fetchOne();
+        
+        $cancontrol = true;
+        if ( $checkpoint->legal )
+        {
+          $q = Doctrine::getTable('Control')->createQuery('c')
+            ->leftJoin('c.Checkpoint c2')
+            ->leftJoin('c2.Event e')
+            ->leftJoin('e.Manifestations m')
+            ->leftJoin('m.Tickets t')
+            ->leftJoin('c.Ticket tc')
+            ->andWhereIn('tc.'.$field,$params['ticket_id'])
+            ->andWhere("tc.$field = t.$field")
+            ->andWhere('c.checkpoint_id = ?',$params['checkpoint_id'])
+            ->orderBy('c.id DESC');
+          $controls = $q->execute();
+          $cancontrol = $controls->count() == 0;
+        }
         
         $this->getUser()->setAttribute('control.checkpoint_id',$params['checkpoint_id']);
         
-        if ( $controls->count() == 0 || !$controls[0]['Checkpoint']['legal'] )
+        if ( $cancontrol )
         {
-          $this->comment = $controls->count() > 0 ? $controls[0]['comment'] : '';
+          $this->comment = $params['comment'];
           
-          $q = Doctrine::getTable('Checkpoint')->createQuery('c')
-            ->leftJoin('c.Event e')
-            ->leftJoin('e.Manifestations m')
-            ->leftJoin('m.Tickets t')
-            ->andWhereIn('t.'.$field,$params['ticket_id'])
-            ->andWhere('c.id = ?',$params['checkpoint_id']);
-          $checkpoint = $q->execute();
-          
-          if ( $checkpoint->count() > 0 )
+          if ( $checkpoint->id )
           {
             if ( sfConfig::get('app_tickets_id') != 'id' )
             {
@@ -144,6 +151,7 @@
               foreach ( $ids as $id )
               {
                 $params['ticket_id'] = $id;
+                $this->form = new ControlForm;
                 $this->form->bind($params,$request->getFiles($this->form->getName()));
                 if ( $this->form->isValid() )
                   $this->form->save();
@@ -168,7 +176,9 @@
           }
         }
         else
+        {
           $this->setTemplate('failed');
+        }
       }
       else
       {

@@ -4,7 +4,6 @@
   </div>
   <p class="link ui-corner-all"><?php echo link_to(__('Try again...'),'ticket/control') ?></p>
   <?php $delays = sfConfig::get('app_control_delays') ?>
-  <?php print_r($delays) ?>
   <script type="text/javascript">
     $(document).ready(function(){
       setTimeout(function(){

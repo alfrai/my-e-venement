@@ -20,7 +20,7 @@
     </li>
     <li class="submit">
       <label for="s"></label>
-      <input type="submit" name="s" value="ok" />
+      <input type="submit" name="s" value="Ok" />
     </li>
   </ul>
 </form>
