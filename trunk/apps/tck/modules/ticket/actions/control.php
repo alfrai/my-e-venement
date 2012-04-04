@@ -58,7 +58,7 @@
       {
         $tmp = explode(',',$params['ticket_id']);
         if ( count($tmp) == 1 )
-          $tmp = explode(' ',$params['ticket_id']);
+          $tmp = preg_split('/\s+/',$params['ticket_id']);
         $params['ticket_id'] = array();
         foreach ( $tmp as $key => $ids )
         {
