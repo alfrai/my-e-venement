@@ -41,18 +41,6 @@ class TicketsIntegrationForm extends BaseFormDoctrine
       'required'  => true,
     ));
     
-    $this->widgetSchema   ['gauges_list'] = new sfWidgetFormDoctrineChoice(array(
-      'expanded'  => true,
-      'model'     => 'Gauge',
-      'query'     => Doctrine::getTable('Gauge')->createQuery('g')->andWhere('g.manifestation_id = ?',$this->manifestation->id),
-      'order_by'  => array('ws.name','ASC'),
-    ));
-    $this->validatorSchema['gauges_list'] = new sfValidatorDoctrineChoice(array(
-      'model'     => 'Gauge',
-      'query'     => Doctrine::getTable('Gauge')->createQuery('g')->andWhere('g.manifestation_id = ?',$this->manifestation->id),
-      'required'  => true,
-    ));
-    
     $this->widgetSchema   ['file'] = new sfWidgetFormInputFile();
     $this->validatorSchema['file'] = new sfValidatorFile(array(
       'required'  => true,
@@ -65,5 +53,44 @@ class TicketsIntegrationForm extends BaseFormDoctrine
       'required'  => false,
       'model' => 'Transaction',
     ));
+    
+    for ( $i = 0 ; $i < intval(sfConfig::has('app_tickets_foreign_max_items') ? sfConfig::get('app_tickets_foreign_max_items') : 4) ; $i++ )
+    {
+      // workspaces
+      $this->widgetSchema   ['translation_workspaces_ref'.$i] = new sfWidgetFormInput(array(
+        'label' => 'Translation for workspaces',
+      ));
+      $this->validatorSchema['translation_workspaces_ref'.$i] = new sfValidatorString(array(
+        'required'  => false,
+      ));
+      $this->widgetSchema   ['translation_workspaces_dest'.$i] = new sfWidgetFormDoctrineChoice(array(
+        'model' => 'Workspace',
+        'label' => '',
+        'order_by' => array('name',''),
+        'add_empty' => true,
+      ));
+      $this->validatorSchema['translation_workspaces_dest'.$i] = new sfValidatorDoctrineChoice(array(
+        'required'  => false,
+        'model' => 'Workspace',
+      ));
+      
+      // prices
+      $this->widgetSchema   ['translation_prices_ref'.$i] = new sfWidgetFormInput(array(
+        'label' => 'Translation for prices',
+      ));
+      $this->validatorSchema['translation_prices_ref'.$i] = new sfValidatorString(array(
+        'required'  => false,
+      ));
+      $this->widgetSchema   ['translation_prices_dest'.$i] = new sfWidgetFormDoctrineChoice(array(
+        'model' => 'Price',
+        'label' => '',
+        'order_by' => array('name',''),
+        'add_empty' => true,
+      ));
+      $this->validatorSchema['translation_prices_dest'.$i] = new sfValidatorDoctrineChoice(array(
+        'required'  => false,
+        'model' => 'Price',
+      ));
+    }
   }
 }

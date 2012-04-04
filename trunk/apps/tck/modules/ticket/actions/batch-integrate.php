@@ -23,6 +23,7 @@
 ?>
 <?php
   $this->getContext()->getConfiguration()->loadHelpers('I18N');
+  $notices = array();
   
   // get back the manifestation
   $mid = $request->getParameter('manifestation_id');
@@ -40,6 +41,21 @@
       $price_default_id = Doctrine::getTable('Price')->createQuery('p')
         ->andWhere('p.name = ?',sfConfig::get('app_tickets_foreign_price'))
         ->fetchOne()->id;
+      
+      $this->translation = array('prices','workspaces');
+      for ( $i = 0 ; !(isset($integrate['translation_workspaces_ref'.$i]) && isset($integrate['translation_workspaces_dest'.$i])) ; $i++ )
+      if ( $integrate['translation_workspaces_ref'.$i] && $integrate['translation_workspaces_dest'.$i] )
+        $this->translation['workspaces'][$integrate['translation_workspaces_ref'.$i]] = $integrate['translation_workspaces_dest'.$i];
+      for ( $i = 0 ; !(isset($integrate['translation_prices_ref'.$i]) && isset($integrate['translation_prices_dest'.$i])) ; $i++ )
+      if ( $integrate['translation_prices_ref'.$i] && $integrate['translation_prices_dest'.$i] )
+      {
+        $pm = Doctrine::getTable('PriceManifestation')->createQuery('pm')
+          ->andWhere('pm.price_id = ?',$integrate['translation_prices_dest'.$i])
+          ->andWhere('pm.manifestation_id = ?',$mid)
+          ->orderBy('pm.id DESC')
+          ->fetchOne();
+        $this->translation['prices'][$integrate['translation_prices_ref'.$i]] = array('id' => $integrate['translation_prices_dest'.$i], 'value' => $pm->value);
+      }
       
       $fp = fopen($files['file']['tmp_name'],'r');
       
@@ -72,6 +88,10 @@
         require(dirname(__FILE__).'/batch-integrate-default.php');
         break;
       }
+      
+      // workspace to gauge translation
+      foreach ( $this->manifestation->Gauges as $gauge )
+        $gauges[$gauge->workspace_id] = $gauge->id;
       
       // integrating normalized content
       foreach ( $tickets as $ticket )
@@ -132,11 +152,11 @@
           $tck = new Ticket();
           $tck->manifestation_id = $this->manifestation->id;
           $tck->price_name = $ticket['price_name'];
-          $tck->price_id = $ticket['price_id'];
+          $tck->price_id = $ticket['price_id'] ? $ticket['price_id'] : $price_default_id;
           $tck->value = $ticket['value'];
           $tck->integrated = true;
           $tck->id = $ticket['id'];
-          $tck->gauge_id = $integrate['gauges_list'];
+          $tck->gauge_id = $ticket['workspace_id'] ? $gauges[$ticket['workspace_id']] : $integrate['gauges_list'];
           $tck->created_at = date('Y-m-d H:i:s',strtotime(isset($ticket['created_at']) ? $ticket['created_at'] : NULL));
           
           $transaction->Tickets[] = $tck;
@@ -160,7 +180,7 @@
       fclose($fp);
       sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url','I18N'));
       $this->getUser()->setFlash('notice',__("File importated with the last transaction's id %%tid%%, %%nbtck%% ticket(s).",array('%%tid%%' => $transaction->id, '%%nbtck%%' => count($tickets))).' -- '.implode(' ',$notices));
-      $this->redirect(url_for('ticket/batchIntegrate?manifestation_id='.$this->manifestation->id));
+      //$this->redirect(url_for('ticket/batchIntegrate?manifestation_id='.$this->manifestation->id));
     }
     else
     {

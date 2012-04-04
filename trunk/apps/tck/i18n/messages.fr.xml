@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Please have a look into the file you want to import to get the proper name, as given by your partnair.</source>
+        <target>Regardez à l'intérieur du fichier que vous souhaitez importer pour trouver le bon nom, tel que donné par votre partenaire.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Translation for workspaces</source>
+        <target>Traduction des espaces de travail</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Translation for prices</source>
+        <target>Traduction des tarifs</target>
+      </trans-unit>
+      <trans-unit>
         <source>Gauges list</source>
         <target>Jauges</target>
       </trans-unit>

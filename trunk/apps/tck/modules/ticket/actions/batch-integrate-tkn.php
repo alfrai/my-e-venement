@@ -35,13 +35,14 @@ if ( strlen($line) == 215 )
   $tck['datetime']  = trim(substr($line,10,16));
   $tck['cancel']    = substr($line,26,1) == 'a' ? true : false;
   $tck['category']  = trim(substr($line,27,2));
-  $tck['price_name']= trim(substr($line,29,10));
-  $tck['price_id']  = $price_default_id;
+  $tck['workspace_id']=isset($this->translation['workspaces'][$cat = $tck['category']]) ? $this->translation['workspaces'][$cat] : NULL;
+  $tck['price_name']= $tck['category'].trim(substr($line,29,10));
+  $tck['price_id']  = isset($this->translation['prices'][$tck['price_name']]) ? $this->translation['prices'][$tck['price_name']]['id'] : NULL;
   $tck['fiscal']    = trim(substr($line,39,10));
   $tck['zone']      = trim(substr($line,49,4));
   $tck['rank']      = trim(substr($line,53,4));
   $tck['seat']      = trim(substr($line,57,4));
-  $tck['value']     = trim(substr($line,61,10));
+  $tck['value']     = isset($this->translation['prices'][$tck['price_name']]) ? $this->translation['prices'][$tck['price_name']]['value'] : trim(substr($line,61,10));
   $tck['devise']    = trim(substr($line,71,3));
   $tck['id']        = trim(substr($line,74,16));
   $tck['name']      = trim(substr($line,106,32));

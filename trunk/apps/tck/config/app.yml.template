@@ -19,6 +19,7 @@ all:
     auto_close: true
     control_left: false
     foreign_price: PART
+    foreign_max_items: 4
     max_size:
       event_name: 30
       event_shortname: 40

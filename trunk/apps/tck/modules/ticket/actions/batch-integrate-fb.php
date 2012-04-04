@@ -26,36 +26,55 @@ $tickets = array();
 
 $separator = ';';
 $tarif_line = 'Type de tarif';
-$tarifs = array();
+$zone_line = 'Genre de Zone';
 $charset = sfContext::getInstance()->getConfiguration()->charset;
+$tarifs = array();
+$workspaces = array();
 
 for ( $i = 0 ; $line = fgetcsv($fp, 0, $separator) ; $i++ )
 {
   // creation of prices database
-  if ( $line[0] === $tarif_line )
+  if ( $line[0] === $tarif_line || $i === $tarif_line )
   {
+    if ( is_int($tarif_line) && trim($line[0]) == '' || !is_int($tarif_line) )
     if ( isset($line[1]) && isset($line[2]) )
     {
       $tarifs[$line[2]] = iconv($charset['ms'],$charset['db'],$line[1]);
-      $tarif_line++;
+      if ( !is_int($tarif_line) )
+        $tarif_line = $i+1;
+      if ( trim($line[0]) == '' && is_int($tarif_line) )
+        $tarif_line++;
     }
-    else
-      $tarif_line = 8;
+  }
+  
+  // creation of workspaces database
+  if ( $line[0] === $zone_line || $i === $zone_line )
+  {
+    if ( is_int($zone_line) && trim($line[0]) == '' || !is_int($zone_line) )
+    if ( isset($line[1]) && isset($line[2]) )
+    {
+      $workspaces[$line[2]] = iconv($charset['ms'],$charset['db'],$line[1]);
+      if ( !is_int($zone_line) )
+        $zone_line = $i+1;
+      if ( trim($line[0]) == '' && is_int($zone_line) )
+        $zone_line++;
+    }
   }
   
   // creation of tickets to integrate
   if ( isset($line[23]) && floatval($line[23]) > 0 )
   {
     $ticket = array();
-    $ticket['name']       = $line[10];
-    $ticket['firstname']  = $line[11];
-    $ticket['postalcode'] = $line[12];
+    $ticket['name']       = iconv($charset['ms'],$charset['db'],$line[10]);
+    $ticket['firstname']  = iconv($charset['ms'],$charset['db'],$line[11]);
+    $ticket['postalcode'] = iconv($charset['ms'],$charset['db'],$line[12]);
     $ticket['city']       = '';
-    $ticket['country']    = $line[13];
+    $ticket['country']    = iconv($charset['ms'],$charset['db'],$line[13]);
     $ticket['cancel']     = $line[1] == 'V' ? false : true;
     $ticket['price_name'] = $tarifs[$line[5]];
-    $ticket['price_id']   = $price_default_id;
-    $ticket['value']      = $line[23];
+    $ticket['price_id']   = isset($this->translation['prices'][$ticket['price_name']]) ? $this->translation['prices'][$ticket['price_name']]['id'] : NULL;
+    $ticket['workspace_id']=isset($this->translation['workspaces'][$workspaces[$line[8]]]) ? $this->translation['workspaces'][$workspaces[$line[8]]] : NULL;
+    $ticket['value']      = isset($this->translation['prices'][$ticket['price_name']]) ? $this->translation['prices'][$ticket['price_name']]['value'] : $line[23];
     $ticket['id']         = $line[15];
     $ticket['type']       = 'fb';
     
