@@ -43,10 +43,10 @@
         ->fetchOne()->id;
       
       $this->translation = array('prices','workspaces');
-      for ( $i = 0 ; !(isset($integrate['translation_workspaces_ref'.$i]) && isset($integrate['translation_workspaces_dest'.$i])) ; $i++ )
+      for ( $i = 0 ; isset($integrate['translation_workspaces_ref'.$i]) && isset($integrate['translation_workspaces_dest'.$i]) ; $i++ )
       if ( $integrate['translation_workspaces_ref'.$i] && $integrate['translation_workspaces_dest'.$i] )
         $this->translation['workspaces'][$integrate['translation_workspaces_ref'.$i]] = $integrate['translation_workspaces_dest'.$i];
-      for ( $i = 0 ; !(isset($integrate['translation_prices_ref'.$i]) && isset($integrate['translation_prices_dest'.$i])) ; $i++ )
+      for ( $i = 0 ; isset($integrate['translation_prices_ref'.$i]) && isset($integrate['translation_prices_dest'.$i]) ; $i++ )
       if ( $integrate['translation_prices_ref'.$i] && $integrate['translation_prices_dest'.$i] )
       {
         $pm = Doctrine::getTable('PriceManifestation')->createQuery('pm')
@@ -156,7 +156,7 @@
           $tck->value = $ticket['value'];
           $tck->integrated = true;
           $tck->id = $ticket['id'];
-          $tck->gauge_id = $ticket['workspace_id'] ? $gauges[$ticket['workspace_id']] : $integrate['gauges_list'];
+          $tck->gauge_id = $gauges[$ticket['workspace_id']];
           $tck->created_at = date('Y-m-d H:i:s',strtotime(isset($ticket['created_at']) ? $ticket['created_at'] : NULL));
           
           $transaction->Tickets[] = $tck;
