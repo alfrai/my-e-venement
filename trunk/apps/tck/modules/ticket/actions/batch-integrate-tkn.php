@@ -27,7 +27,7 @@ $charset = sfContext::getInstance()->getConfiguration()->charset;
 
 for ( $i = 0 ; $line = fgets($fp) ; $i++ )
 // if !EOF and !BOF
-if ( strlen($line) == 215 )
+if ( strlen($line) >= 215 )
 {
   $line = iconv($charset['old'],$charset['db'],$line);
   
