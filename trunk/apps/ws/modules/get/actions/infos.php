@@ -39,7 +39,7 @@
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.*, e.*, g.*, p.*, pm.*, l.*')
       ->leftJoin('p.Workspaces pw')
-      ->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.manifestation_id = m.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t.cancelling FROM ticket t2 WHERE t.cancelling IS NOT NULL) AND (t.printed OR t.integrated OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets')
+      ->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.manifestation_id = m.id AND t.gauge_id = g.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t.cancelling FROM ticket t2 WHERE t.cancelling IS NOT NULL) AND (t.printed OR t.integrated OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets')
       ->andWhere('m.happens_at > NOW()')
       ->andWhere('g.online')
       ->andWhere('p2.online')
