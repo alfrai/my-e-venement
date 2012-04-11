@@ -81,3 +81,6 @@ select[disabled] {
 #sf_fieldset_unbalanced table tfoot td {
   font-weight: bold;
 }
+.controlled .qty {
+  white-space: nowrap;
+}

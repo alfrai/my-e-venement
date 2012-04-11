@@ -5,7 +5,7 @@
   {
     $qty = $value = array('controlled' => 0, 'not_controlled' => 0);
     foreach ( $price->Tickets as $t )
-    if ( $t->printed )
+    if ( $t->printed || $t->integrated )
     {
       $key = $t->Controls->count() > 0 ? 'controlled' : 'not_controlled';
       $tickets[$key][$t->id] = $t;
