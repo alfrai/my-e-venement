@@ -80,8 +80,9 @@
           $ticket->printed = true;
           $this->tickets[] = $ticket;
         }
-        $ticket->save();
       }
+      $this->transaction->updated_at = NULL;
+      $this->transaction->save();
     }
     
     if ( count($this->tickets) <= 0 )
