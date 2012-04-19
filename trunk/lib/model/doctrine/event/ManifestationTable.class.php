@@ -45,6 +45,9 @@ class ManifestationTable extends PluginManifestationTable
         ->leftJoin("$g.Workspace $w")
         ->leftJoin("$alias.Organizers $o")
         ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name, $g.workspace_id");
+      
+      //if ( sfContext::hasInstance() && $uid = sfContext::getInstance()->getUser()->getId() )
+      //  $q->andWhere("$pm.id IS NULL OR $pm.price_id IN (SELECT price_id FROM UserPrice up WHERE up.user_id = ?)",$uid);
     }
     
     return $q;

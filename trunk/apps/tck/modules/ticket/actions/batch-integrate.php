@@ -30,13 +30,13 @@
   $q = Doctrine::getTable('Manifestation')->createQuery('m')
     ->where('id = ?',$mid);
   $this->manifestation = $q->fetchOne();
-  $this->form = new TicketsIntegrationForm($this->manifestation);
+  $this->importform = new TicketsIntegrationForm($this->manifestation);
   
   $files = $request->getFiles('integrate');
   if ( count($files) > 0 )
   {
-    $this->form->bind($integrate = $request->getParameter('integrate'),$request->getFiles('integrate'));
-    if ( $this->form->isValid() )
+    $this->importform->bind($integrate = $request->getParameter('integrate'),$request->getFiles('integrate'));
+    if ( $this->importform->isValid() )
     {
       $price_default_id = Doctrine::getTable('Price')->createQuery('p')
         ->andWhere('p.name = ?',sfConfig::get('app_tickets_foreign_price'))

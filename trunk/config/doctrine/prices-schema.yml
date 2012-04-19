@@ -47,7 +47,39 @@ Price:
       class: Workspace
       refClass: WorkspacePrice
       foreignAlias: Prices
+    Users:
+      class: sfGuardUser
+      refClass: UserPrice
+      foreignAlias: Prices
+      local: price_id
+      foreign: sf_guard_user_id
 
+UserPrice:
+  package: price
+  columns:
+    price_id:
+      type: integer
+      notnull: true
+      primary: true
+    sf_guard_user_id:
+      type: integer
+      notnull: true
+      primary: true
+  indexes:
+    user_price_index:
+      fields: [sf_guard_user_id, price_id]
+      unique: true
+#  relations:
+#    sfGuardUser:
+#      foreignAlias: UserPrices
+#      onDelete: CASCADE
+#      onUpdate: CASCADE
+#    Price:
+#      foreignAlias: UserPrices
+#      onDelete: CASCADE
+#      onUpdate: CASCADE
+      
+      
 WorkspacePrice:
   package: price
   columns:

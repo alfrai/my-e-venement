@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ticketting items</source>
+        <target>Éléments de billetterie</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Prices list</source>
+        <target>Liste des tarifs</target>
+      </trans-unit>
+      <trans-unit>
         <source>e-venement error</source>
         <target>Erreur e-venement</target>
       </trans-unit>

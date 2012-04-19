@@ -24,55 +24,13 @@
 <?php include_partial('assets') ?>
 <?php include_partial('global/flashes') ?>
 <?php use_stylesheet('ticket-integrate') ?>
-<?php echo $form->renderFormTag(url_for('ticket/batchIntegrate?manifestation_id='.$manifestation->id),array('class' => 'ui-widget-content ui-corner-all', 'id' => 'batch-integrate')) ?>
-  <div class="fg-toolbar ui-widget-header ui-corner-all">
-    <h1><?php echo __('Integrate tickets for %%manifestation%%',array('%%manifestation%%' => $manifestation)) ?></h1>
-  </div>
-  <div class="sf_admin_actions_block ui-widget">
-    <?php include_partial('integrate_actions',array('manifestation' => $manifestation,)) ?>
-  </div>
-  <div class="ui-widget-content ui-corner-all">
-    <div class="sf_admin_form_row sf_admin_file sf_admin_form_field_file">
-      <?php echo $form['file']->renderLabel() ?>
-      <span><?php echo $form['file'] ?></span>
-    </div>
-    <div class="sf_admin_form_row sf_admin_radio sf_admin_form_field_filetype">
-      <?php echo $form['filetype']->renderLabel() ?>
-      <?php echo $form['filetype'] ?>
-    </div>
-    <div class="sf_admin_form_row sf_admin_text sf_admin_form_field_transaction_ref_id">
-      <?php echo $form['transaction_ref_id']->renderLabel() ?>
-      #<?php echo $form['transaction_ref_id'] ?>
-      <?php echo __("Enter here the id of the transaction where to delete tickets that you're going to integrate. This is not required.") ?>
-    </div>
-    <div class="sf_admin_form_row sf_admin_text sf_admin_form_field_translation_workspaces">
-      <?php echo $form['translation_workspaces_ref1']->renderLabel() ?>
-      <span><?php echo __('Please have a look into the file you want to import to get the proper name, as given by your partnair.') ?></span>
-      <?php for ( $i = 0; isset($form['translation_workspaces_ref'.$i]) ; $i++ ): ?>
-        <p>
-        <?php echo $form['translation_workspaces_ref'.$i] ?>
-        &rarr;
-        <?php echo $form['translation_workspaces_dest'.$i] ?>
-        </p>
-      <?php endfor ?>
-    </div>
-    <div class="sf_admin_form_row sf_admin_text sf_admin_form_field_translation_prices">
-      <?php echo $form['translation_prices_ref1']->renderLabel() ?>
-      <span><?php echo __('Please have a look into the file you want to import to get the proper name, as given by your partnair.') ?></span>
-      <?php for ( $i = 0; isset($form['translation_prices_ref'.$i]) ; $i++ ): ?>
-        <p>
-        <?php echo $form['translation_prices_ref'.$i] ?>
-        &rarr;
-        <?php echo $form['translation_prices_dest'.$i] ?>
-        </p>
-      <?php endfor ?>
-    </div>
-    <div class="sf_admin_form_row sf_admin_submit sf_admin_form_field_submit">
-      <label><?php echo $form->renderHiddenFields() ?></label>
-      <span class="fg-button ui-state-default fg-button-icon-left">
-        <span class="ui-icon ui-icon-arrowthickstop-1-s"></span>
-        <input type="submit" value="<?php echo __('Send') ?>" name="" />
-      </span>
-    </div>
-  </div>
-</form>
+<div id="batch-integrate" class="ui-widget-content ui-corner-all">
+<div class="fg-toolbar ui-widget-header ui-corner-all">
+  <h1><?php echo __('Integrate tickets for %%manifestation%%',array('%%manifestation%%' => $manifestation)) ?></h1>
+</div>
+<div class="sf_admin_actions_block ui-widget">
+  <?php include_partial('integrate_actions',array('manifestation' => $manifestation,)) ?>
+</div>
+<?php include_partial('batch_integrate_import',array('form' => $importform)) ?>
+<?php include_partial('batch_integrate_pay',array('form' => $importform)) ?>
+</div>
