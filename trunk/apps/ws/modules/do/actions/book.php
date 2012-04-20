@@ -86,7 +86,7 @@
     
     // reinitializing the transaction
     $transaction->Tickets->delete();
-    $transaction->Order->delete();
+    //$transaction->Order->delete();
     
     // adding asked tickets
     $gauges = array();
