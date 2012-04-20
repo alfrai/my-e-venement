@@ -196,5 +196,6 @@
     if ( $this->payform->isValid() )
     {
       $this->payform->save();
+      $this->redirect('ticket/batchIntegrate?manifestation_id='.$mid);
     }
   }
