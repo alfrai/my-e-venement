@@ -27,6 +27,7 @@ class PaymentForm extends BasePaymentForm
     unset($this->widgetSchema['version']);
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputHidden();
     $this->widgetSchema['payment_method_id']->setOption('add_empty',true);
+    $this->widgetSchema['payment_method_id']->setOption('query',Doctrine::getTable('PaymentMethod')->createQuery('pm')->andWhere('pm.display = true'));
     
     unset($this->widgetSchema['updated_at']);
     unset($this->validatorSchema['updated_at']);

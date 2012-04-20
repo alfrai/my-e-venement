@@ -276,6 +276,10 @@ PaymentMethod:
       notblank: true
       notnull: true
     account: string(63)
+    display:
+      type: boolean
+      notnull: true
+      default: true
 Payment:
   package: tck
   inheritance:
