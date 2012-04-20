@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Valid</source>
+        <target>Valider</target>
+      </trans-unit>
+      <trans-unit>
         <source>Please have a look into the file you want to import to get the proper name, as given by your partnair.</source>
         <target>Regardez à l'intérieur du fichier que vous souhaitez importer pour trouver le bon nom, tel que donné par votre partenaire.</target>
       </trans-unit>
@@ -782,7 +786,7 @@
       </trans-unit>
       <trans-unit id="164">
         <source>Price</source>
-        <target>Prix</target>
+        <target>Tarif</target>
       </trans-unit>
       <trans-unit id="165">
         <source>Unit TIP</source>
