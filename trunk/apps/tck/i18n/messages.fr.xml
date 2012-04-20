@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Display</source>
+        <target>Afficher</target>
+      </trans-unit>
+      <trans-unit>
         <source>Transaction #%%t%% has been created to centralize the payments</source>
         <target>L'opération #%%t%% a été créée pour centraliser les paiements</target>
       </trans-unit>
