@@ -20,7 +20,7 @@
       $prices[$price->id] = array('gauges' => array(), 'price' => $price->name);
       foreach ( $price->Workspaces as $ws )
       foreach ( $ws->Gauges as $g )
-        $prices[$pm->id]['gauges'][$g->id] = $g->id;
+        $prices[$price->id]['gauges'][$g->id] = $g->id;
     }
     echo json_encode($prices);
   ?>
