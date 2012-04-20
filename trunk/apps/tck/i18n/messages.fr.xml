@@ -5,12 +5,12 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Display</source>
-        <target>Afficher</target>
+        <source>Transaction #%%t%% has been created to centralize payments for %%nb%% tickets</source>
+        <target>L'opération #%%t%% a été créée pour centraliser les paiements de %%nb%% billets</target>
       </trans-unit>
       <trans-unit>
-        <source>Transaction #%%t%% has been created to centralize the payments</source>
-        <target>L'opération #%%t%% a été créée pour centraliser les paiements</target>
+        <source>Display</source>
+        <target>Afficher</target>
       </trans-unit>
       <trans-unit>
         <source>Compensatory payment method</source>

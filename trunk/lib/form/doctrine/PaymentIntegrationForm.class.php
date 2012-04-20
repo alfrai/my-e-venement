@@ -36,12 +36,15 @@ class PaymentIntegrationForm extends BaseFormDoctrine
       ->andWhere('(SELECT count(DISTINCT tck2.manifestation_id) FROM ticket tck2 WHERE tck2.transaction_id = t.id) = 1');
     $transactions = $q->execute();
     
-    $total = 0;
+    $total = $nb = 0;
     foreach ( $transactions as $t )
     {
       $sum = 0;
       foreach ( $t->Tickets as $ticket )
+      {
         $sum += $ticket->value;
+      }
+      $nb += $t->Tickets->count();
       $total += $sum;
       
       if ( $sum > 0 )
@@ -75,7 +78,7 @@ class PaymentIntegrationForm extends BaseFormDoctrine
       if ( sfContext::hasInstance() )
       {
         sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
-        sfContext::getInstance()->getUser()->setFlash('notice',__('Transaction #%%t%% has been created to centralize the payments',array('%%t%%' => $p->transaction_id)));
+        sfContext::getInstance()->getUser()->setFlash('notice',__('Transaction #%%t%% has been created to centralize payments for %%nb%% tickets',array('%%t%%' => $p->transaction_id, '%%nb%%' => $nb)));
       }
     }
     
