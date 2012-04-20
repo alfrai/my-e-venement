@@ -52,7 +52,9 @@
       // prices to be shown for each manifestations
       $q = Doctrine::getTable('Manifestation')->createQuery('m')
         ->leftJoin('m.Color color')
+        ->leftJoin('w.Users u')
         ->andWhereNotIn('m.id',$mids)
+        ->andWhere('u.id != ?',$this->getUser()->getId())
         ->orderBy('happens_at ASC');
       
       if ( !$mid )

@@ -2,7 +2,9 @@
   <?php $gauges = array(); foreach ( $manif->Gauges as $gauge ) $gauges[$gauge->workspace_id] = $gauge; ksort($gauges); ?>
   <select name="ticket[gauge_id]">
     <?php foreach ( $gauges as $gauge ): ?>
+    <?php $authws = $sf_user->getWorkspacesCredentials(); if ( isset($authws[$gauge->workspace_id]) ): ?>
     <option value="<?php echo $gauge->id ?>"><?php echo $gauge->Workspace ?></option>
+    <?php endif ?>
     <?php endforeach ?>
   </select>
   <?php else: ?>

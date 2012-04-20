@@ -10,7 +10,7 @@
   <?php include_partial('ticket_manifestation_wslist',array('manif' => $manif)) ?>
 </span>
 <span class="prices">
-<?php include_partial('ticket_manifestation_prices',array('manif' => $manif)) ?>
+<?php include_partial('ticket_manifestation_prices',array('manif' => $manif,)) ?>
 <?php if ( $active ): ?>
   <?php $total = 0; $gid = $manif->Tickets[0]->gauge_id ?>
   <?php include_partial('ticket_manifestation_ws',array('ticket' => $manif->Tickets[0],'nb_gauges' => $manif->Gauges->count())) ?>
