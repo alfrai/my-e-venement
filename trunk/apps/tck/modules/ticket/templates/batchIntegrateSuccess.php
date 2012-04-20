@@ -31,6 +31,12 @@
 <div class="sf_admin_actions_block ui-widget">
   <?php include_partial('integrate_actions',array('manifestation' => $manifestation,)) ?>
 </div>
-<?php include_partial('batch_integrate_import',array('form' => $importform)) ?>
-<?php include_partial('batch_integrate_pay',array('form' => $importform)) ?>
+<?php include_partial('batch_integrate_import',array(
+  'form' => $importform,
+  'manifestation' => $manifestation,
+)) ?>
+<?php include_partial('batch_integrate_pay',array(
+  'form' => $payform,
+  'manifestation' => $manifestation,
+)) ?>
 </div>

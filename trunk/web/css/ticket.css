@@ -263,11 +263,6 @@
 .prices .workspace .ws-gauge .asked { background-color: blue; }
 .prices .manif_prices_list { display: none; }
 
-#batch-integrate .ui-widget-content {
-  margin: 45px 10px 7px 10px;
-  padding: 5px;
-}
-
 #manifestations .manif a.name, #prices .manif a.name {
   max-width: 140px;
   min-width: 100px;

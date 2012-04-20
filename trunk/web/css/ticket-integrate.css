@@ -4,6 +4,10 @@
 
 
 #batch-integrate .ui-widget-content {
+  margin: 7px 10px;
+  padding: 5px;
+}
+#batch-integrate #import .ui-widget-content {
   margin-top: 50px;
 }
 #batch-integrate label {
@@ -25,4 +29,12 @@
   display: inline-block;
   margin-top: 5px;
   margin-bottom: 3px;
+}
+
+#batch-integrate #pay .sf_admin_form_field_price_id {
+  float: left;
+  margin-right: 20px;
+}
+#batch-integrate #pay .sf_admin_form_field_payment_method_id {
+  margin-top: 20px;
 }

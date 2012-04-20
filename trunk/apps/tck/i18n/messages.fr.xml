@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Transaction #%%t%% has been created to centralize the payments</source>
+        <target>L'opération #%%t%% a été créée pour centraliser les paiements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Compensatory payment method</source>
+        <target>Méthode de paiement compensatoire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Paying integrated tickets</source>
+        <target>Payer les billets intégrés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Valid</source>
         <target>Valider</target>
       </trans-unit>

@@ -30,8 +30,10 @@
   $q = Doctrine::getTable('Manifestation')->createQuery('m')
     ->where('id = ?',$mid);
   $this->manifestation = $q->fetchOne();
+  $this->payform = new PaymentIntegrationForm($this->manifestation);
   $this->importform = new TicketsIntegrationForm($this->manifestation);
   
+  // the data to integrate (tickets)
   $files = $request->getFiles('integrate');
   if ( count($files) > 0 )
   {
@@ -185,5 +187,14 @@
     else
     {
       $this->getUser()->setFlash('error','Error in the form validation');
+    }
+  }
+  
+  if ( $request->hasParameter('pay') )
+  {
+    $this->payform->bind($request->getParameter('pay'));
+    if ( $this->payform->isValid() )
+    {
+      $this->payform->save();
     }
   }
