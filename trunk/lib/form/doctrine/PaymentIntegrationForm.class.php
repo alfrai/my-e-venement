@@ -137,6 +137,7 @@ class PaymentIntegrationForm extends BaseFormDoctrine
     
     $this->widgetSchema   ['created_at'] = new liWidgetFormJQueryDateText(array(
       'label' => 'Dated',
+      'culture' => sfContext::hasInstance() ? sfContext::getInstance()->getUser()->getCulture() : NULL,
     ));
     $this->validatorSchema['created_at'] = new sfValidatorDate(array(
       'required' => false,
