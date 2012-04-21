@@ -27,19 +27,19 @@
     <div class="fg-toolbar ui-widget-header ui-corner-all">
       <h2><?php echo __('Paying integrated tickets') ?></h2>
     </div>
-    <div class="sf_admin_form_row sf_admin_file sf_admin_form_field_price_id">
+    <div class="sf_admin_form_row sf_admin_file sf_admin_form_field_price_id <?php echo $form['price_id']->hasError() ? 'ui-state-error' : '' ?> ui-corner-all">
       <?php echo $form['price_id']->renderLabel() ?>
       <span><?php echo $form['price_id'] ?></span>
     </div>
-    <div class="sf_admin_form_row sf_admin_file sf_admin_form_field_payment_method_id">
+    <div class="sf_admin_form_row sf_admin_file sf_admin_form_field_payment_method_id <?php echo $form['payment_method_id']->hasError() ? 'ui-state-error' : '' ?> ui-corner-all">
       <?php echo $form['payment_method_id']->renderLabel() ?>
       <span><?php echo $form['payment_method_id'] ?></span>
     </div>
-    <div class="sf_admin_form_row sf_admin_file sf_admin_form_field_payment_method_id2">
+    <div class="sf_admin_form_row sf_admin_file sf_admin_form_field_payment_method_id2 <?php echo $form['payment_method_id2']->hasError() ? 'ui-state-error' : '' ?> ui-corner-all">
       <?php echo $form['payment_method_id2']->renderLabel() ?>
       <span><?php echo $form['payment_method_id2'] ?></span>
     </div>
-    <div class="sf_admin_form_row sf_admin_file sf_admin_form_field_created_at">
+    <div class="sf_admin_form_row sf_admin_file sf_admin_form_field_created_at <?php echo $form['created_at']->hasError() ? 'ui-state-error' : '' ?> ui-corner-all">
       <?php echo $form['created_at']->renderLabel() ?>
       <span><?php echo $form['created_at'] ?></span>
     </div>
