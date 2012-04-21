@@ -105,6 +105,7 @@ class PaymentIntegrationForm extends BaseFormDoctrine
       'query' => $q,
       'add_empty' => true,
       'multiple' => true,
+      'order_by' => array('name',''),
     ));
     $this->validatorSchema['price_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Price',
@@ -116,6 +117,7 @@ class PaymentIntegrationForm extends BaseFormDoctrine
     $this->widgetSchema   ['payment_method_id'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'PaymentMethod',
       'add_empty' => true,
+      'order_by' => array('name',''),
     ));
     $this->validatorSchema['payment_method_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'PaymentMethod',
@@ -126,6 +128,7 @@ class PaymentIntegrationForm extends BaseFormDoctrine
       'model' => 'PaymentMethod',
       'label' => 'Compensatory payment method',
       'add_empty' => true,
+      'order_by' => array('name',''),
     ));
     $this->validatorSchema['payment_method_id2'] = new sfValidatorDoctrineChoice(array(
       'model' => 'PaymentMethod',
