@@ -31,6 +31,10 @@
       <?php echo $form['price_id']->renderLabel() ?>
       <span><?php echo $form['price_id'] ?></span>
     </div>
+    <div class="sf_admin_form_row sf_admin_file sf_admin_form_field_professional_id <?php echo $form['professional_id']->hasError() ? 'ui-state-error' : '' ?> ui-corner-all">
+      <?php echo $form['professional_id']->renderLabel() ?>
+      <span><?php echo $form['professional_id'] ?></span>
+    </div>
     <div class="sf_admin_form_row sf_admin_file sf_admin_form_field_payment_method_id <?php echo $form['payment_method_id']->hasError() ? 'ui-state-error' : '' ?> ui-corner-all">
       <?php echo $form['payment_method_id']->renderLabel() ?>
       <span><?php echo $form['payment_method_id'] ?></span>

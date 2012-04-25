@@ -28,7 +28,7 @@ class professionalActions extends autoProfessionalActions
       ->from('Contact c')
       ->leftJoin('c.Professionals p')
       ->limit($request->getParameter('limit')*3)
-      ->andWhere($request->getParameter('email') == 'true' ? "contact_email IS NOT NULL AND contact_email != ?" : '','')
+      ->andWhere($request->getParameter('email') == 'true' ? "contact_email IS NOT NULL AND contact_email != ''" : 'TRUE')
     );
     $cids = $q->fetchArray();
     foreach ( $cids as $cid )
@@ -40,7 +40,7 @@ class professionalActions extends autoProfessionalActions
       ->from('Organism c')
       ->leftJoin('c.Professionals p')
       ->limit($request->getParameter('limit')*3)
-      ->andWhere($request->getParameter('email') == 'true' ? "contact_email IS NOT NULL AND contact_email != ?" : '','')
+      ->andWhere($request->getParameter('email') == 'true' ? "contact_email IS NOT NULL AND contact_email != ''" : 'TRUE')
     );
     $oids = $q->fetchArray();
     foreach ( $oids as $cid )

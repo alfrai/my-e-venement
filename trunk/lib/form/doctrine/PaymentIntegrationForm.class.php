@@ -63,6 +63,8 @@ class PaymentIntegrationForm extends BaseFormDoctrine
     if ( $total > 0 )
     {
       $this->object->Transaction = new Transaction;
+      $this->object->Transaction->professional_id = $this->getValue('professional_id');
+      $this->object->Transaction->contact_id = Doctrine::getTable('Contact')->createQuery('c')->andWhere('p.id = ?',$this->getValue('professional_id'))->fetchOne()->id;
       $this->object->value = $total;
       $this->object->payment_method_id = $this->getValue('payment_method_id');
       if ( $created_at )
@@ -115,6 +117,16 @@ class PaymentIntegrationForm extends BaseFormDoctrine
       'multiple' => true,
     ));
     
+    $this->widgetSchema   ['professional_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Professional',
+      'url' => cross_app_url_for('rp','professional/ajax'),
+      'label' => 'Organism',
+    ));
+    $this->validatorSchema['professional_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Professional',
+      'required'  => true,
+    ));
+    
     $this->widgetSchema   ['payment_method_id'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'PaymentMethod',
       'add_empty' => true,
@@ -124,7 +136,6 @@ class PaymentIntegrationForm extends BaseFormDoctrine
       'model' => 'PaymentMethod',
       'required'  => true,
     ));
-    
     $this->widgetSchema   ['payment_method_id2'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'PaymentMethod',
       'label' => 'Compensatory payment method',
@@ -135,6 +146,25 @@ class PaymentIntegrationForm extends BaseFormDoctrine
       'model' => 'PaymentMethod',
       'required'  => true,
     ));
+    
+    /*
+    $this->widgetSchema   ['contact_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Contact',
+      'url'   => cross_app_url_for('rp','contact/ajax'),
+    ));
+    $this->validatorSchema['contact_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Contact',
+      'required'  => true,
+    ));
+    $this->widgetSchema   ['organism_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Contact',
+      'url'   => cross_app_url_for('rp','organism/ajax'),
+    ));
+    $this->validatorSchema['organism_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Contact',
+      'required'  => true,
+    ));
+    */
     
     $this->widgetSchema   ['created_at'] = new liWidgetFormJQueryDateText(array(
       'label' => 'Dated',
