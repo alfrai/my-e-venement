@@ -101,10 +101,11 @@ class ledgerActions extends sfActions
     {
       if ( !$q->contains('LEFT JOIN t.Payments p') )
         $q->leftJoin('t.Payments p');
-      $q->andWhere('p.updated_at >= ? AND p.updated_at < ?',array(
+      $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
           date('Y-m-d',$dates[0]),
           date('Y-m-d',$dates[1]),
-        ));
+        ))
+        ->andWhere('p.id = (SELECT min(id) FROM Payment p2 WHERE transaction_id = t.id)');
     }
     
     $q->andWhereIn('t.type',array('normal', 'cancellation'));
