@@ -30,6 +30,7 @@ class PaymentIntegrationForm extends BaseFormDoctrine
       ->leftJoin('tck.Cancelling c')
       ->andWhere('tck.manifestation_id = ?',$this->manifestation->id)
       ->andWhere('tck.duplicate IS NULL')
+      ->andWhereIn('tck.price_id',$this->getValue('price_id'))
       ->andWhere('c.id IS NULL')
       ->andWhere('tck.integrated = TRUE')
       ->andWhere('(SELECT count(*) FROM payment p WHERE p.transaction_id = t.id) = 0')
