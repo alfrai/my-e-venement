@@ -50,8 +50,8 @@
       
       if ( !isset($this->totals['vat'][$ticket->Manifestation->vat]) )
         $this->totals['vat'][$ticket->Manifestation->vat] = 0;
-      $this->totals['vat'][$ticket->Manifestation->vat] += $ticket->value*$ticket->Manifestation->vat/100;
-      $this->totals['vat']['total'] += $ticket->value*$ticket->Manifestation->vat/100;
+      $this->totals['vat'][$ticket->Manifestation->vat] += $ticket->value - $ticket->value / (1+$ticket->Manifestation->vat/100);
+      $this->totals['vat']['total'] += $ticket->value - $ticket->value / (1+$ticket->Manifestation->vat/100);
     }
     
     $this->setLayout('empty');
