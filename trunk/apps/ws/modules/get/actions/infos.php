@@ -58,11 +58,15 @@
       
       if ( $manif->PriceManifestations->count() > 0 )
       {
-        $this->content['events'][$event->id]['id'] = $event->id;
-        $this->content['events'][$event->id]['name'] = $event->name;
-        $this->content['events'][$event->id]['ages'] = array($event->age_min, $event->age_max);
-        $this->content['events'][$event->id]['description'] = $event->description;
-        $this->content['events'][$event->id]['dates'] = array();
+        $this->content['events'][$event->id] = array(
+          'id'        => $event->id,
+          'name'      => $event->name,
+          'extradesc' => $event->extradesc,
+          'extraspec' => $event->extraspec,
+          'ages'      => array($event->age_min, $event->age_max),
+          'description' => $event->description,
+          'dates'     => array(),
+        );
         
         $gauge = 0;
         foreach ( $manif->Gauges as $g )
@@ -83,6 +87,8 @@
           $tmp = array(
             'eventid' => $event->id,
             'event' => $event->name,
+            'extradesc' => $event->extradesc,
+            'extraspec' => $event->extraspec,
             'ages' => array($event->age_min, $event->age_max),
             'manifid' => $g->id,
             'date' => $manif->happens_at,
