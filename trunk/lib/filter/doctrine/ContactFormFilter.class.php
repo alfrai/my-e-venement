@@ -47,18 +47,26 @@ class ContactFormFilter extends BaseContactFormFilter
     // organism category
     $this->widgetSchema   ['organism_category_id'] = new sfWidgetFormDoctrineChoice(array(
       'model'     => 'OrganismCategory',
-      'add_empty' => true,
       'order_by'  => array('name',''),
+      'multiple'  => true,
     ));
-    $this->validatorSchema['organism_category_id'] = new sfValidatorInteger(array('required' => false));
+    $this->validatorSchema['organism_category_id'] = new sfValidatorDoctrineChoice(array(
+      'model'    => 'OrganismCategory',
+      'required' => false,
+      'multiple' => true,
+    ));
     
     // professional type
     $this->widgetSchema   ['professional_type_id'] = new sfWidgetFormDoctrineChoice(array(
       'model'     => 'ProfessionalType',
-      'add_empty' => true,
+      'multiple'  => true,
       'order_by'  => array('name',''),
     ));
-    $this->validatorSchema['professional_type_id'] = new sfValidatorInteger(array('required' => false));
+    $this->validatorSchema['professional_type_id'] = new sfValidatorDoctrineChoice(array(
+      'model'    => 'ProfessionalType',
+      'required' => false,
+      'multiple' => true,
+    ));
     
     $this->widgetSchema   ['not_groups_list'] = $this->widgetSchema   ['groups_list'];
     $this->validatorSchema['not_groups_list'] = $this->validatorSchema['groups_list'];
@@ -190,7 +198,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['YOB']                  = 'YOB';
     $fields['organism_id']          = 'OrganismId';
     $fields['organism_category_id'] = 'OrganismCategoryId';
-    $fields['professional_type_id'] = 'OrganismCategoryId';
+    $fields['professional_type_id'] = 'ProfessionalTypeId';
     $fields['has_email']            = 'HasEmail';
     $fields['has_address']          = 'HasAddress';
     $fields['groups_list']          = 'GroupsList';
@@ -396,7 +404,7 @@ class ContactFormFilter extends BaseContactFormFilter
     if ( $value )
     {
       $this->setProfessionalData(true);
-      $q->addWhere("pt.id = ?",$value);
+      $q->andWhereIn("pt.id",$value);
     }
     return $q;
   }
@@ -417,7 +425,7 @@ class ContactFormFilter extends BaseContactFormFilter
     if ( $value )
     {
       $this->setProfessionalData(true);
-      $q->addWhere("o.organism_category_id = ?",$value);
+      $q->andWhereIn("o.organism_category_id",$value);
     }
     return $q;
   }
