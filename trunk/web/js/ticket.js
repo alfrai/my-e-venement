@@ -184,6 +184,9 @@ function ticket_activate_prices_gauge()
   
   // update prices display
   ticket_display_prices();
+  $('.manifestations_list .workspaces').click(function(){
+    $(this).parent().find('input[type=radio]').click();
+  });
   $('.manifestations_list .workspaces').change(ticket_display_prices);
   
   // when switching from manifestation, updating the gauge
