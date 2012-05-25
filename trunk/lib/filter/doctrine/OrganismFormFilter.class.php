@@ -16,6 +16,9 @@ class OrganismFormFilter extends BaseOrganismFormFilter
   public function configure()
   {
     $this->widgetSchema['organism_category_id']->setOption('order_by',array('name',''));
+    $this->widgetSchema['organism_category_id']->setOption('multiple',true);
+    $this->widgetSchema['organism_category_id']->setOption('add_empty',false);
+    $this->validatorSchema['organism_category_id']->setOption('multiple',true);
     
     $this->widgetSchema['contacts_groups'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'Group',
