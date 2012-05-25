@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Price List</source>
+        <target>Liste des prix</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%Name%%</source>
         <target>%%Nom%%</target>
       </trans-unit>
