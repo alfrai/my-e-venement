@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Hide</source>
+        <target>Cacher</target>
+      </trans-unit>
+      <trans-unit>
         <source>Price List</source>
         <target>Liste des prix</target>
       </trans-unit>

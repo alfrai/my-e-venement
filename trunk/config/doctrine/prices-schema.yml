@@ -38,6 +38,10 @@ Price:
       type: boolean
       notnull: true
       default: false
+    hide:
+      type: boolean
+      notnull: true
+      default: false
   relations:
     Manifestations:
       class: Manifestation
