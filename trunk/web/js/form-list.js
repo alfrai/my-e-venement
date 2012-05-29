@@ -4,7 +4,7 @@ $(document).ready(function(){
 
 function form_list() {
 $('.sf_admin_form .sf_admin_form_list.ajax').each(function(){
-  widget = $(this).get(0);
+  var widget = $(this).get(0);
   
   $(this).load(widget.url+' .sf_admin_list',function(){
     form_list_focusout();
@@ -52,8 +52,23 @@ $('.sf_admin_form .sf_admin_form_list.ajax').each(function(){
       });
       return false;
     });
+    
+    // pager
+    form_list_pager();
   });
 });
+}
+
+function form_list_pager()
+{
+  $('#sf_admin_pager .button a').unbind().click(function(){
+    elt = $(this).closest('.sf_admin_form_list');
+    $.get($(this).attr('href'),function(data){
+      elt.html($(data).find('.sf_admin_list'));
+      form_list_pager();
+    });
+    return false;
+  });
 }
 
 function form_list_focusout()
