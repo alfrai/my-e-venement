@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>By event</source>
+        <target>Par événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>By contact</source>
+        <target>Par contact</target>
+      </trans-unit>
+      <trans-unit>
         <source>The asked screen does not exist</source>
         <target>L'écran demandé n'existe pas</target>
       </trans-unit>

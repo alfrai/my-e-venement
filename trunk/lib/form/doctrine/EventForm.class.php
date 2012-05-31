@@ -12,8 +12,9 @@ class EventForm extends BaseEventForm
 {
   public function configure()
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink'));
-
+    if ( sfContext::hasInstance() )
+      sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink'));
+    
     $tinymce = array(
       'width'   => 425,
       'height'  => 300,

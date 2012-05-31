@@ -61,7 +61,7 @@
     </p>
   </div>
   <div class="logo-marketing">
-    <?php echo image_tag('/private/'.$firm['logo']) ?>
+    <?php if ( isset($firm['logo']) ) echo image_tag('/private/'.$firm['logo']) ?>
   </div>
   <div class="mentions">
     <p class="copyleft">

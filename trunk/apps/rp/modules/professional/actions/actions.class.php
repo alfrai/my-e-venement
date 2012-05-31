@@ -27,6 +27,7 @@ class professionalActions extends autoProfessionalActions
       ->select('c.id, p.id AS pid')
       ->from('Contact c')
       ->leftJoin('c.Professionals p')
+      ->andWhere("p.contact_email IS NOT NULL AND p.contact_email != ?".($request->getParameter('email') == 'true' ? '' : ' OR TRUE'),'')
       ->limit($request->getParameter('limit')*3)
       ->andWhere($request->getParameter('email') == 'true' ? "contact_email IS NOT NULL AND contact_email != ''" : 'TRUE')
     );

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2012-05-24T16:13:59Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit>
+        <source>Accepted</source>
+        <target>Accepté</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Second choice</source>
+        <target>Second choix</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Confirmed</source>
+        <target>Confirmé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>at</source>
+        <target>le</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Event List</source>
+        <target>Liste d'événements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Entry for %%name%%</source>
+        <target>Entrée pour %%name%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Event List</source>
+        <target>Liste d'événements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Meta event</source>
+        <target>Méta-événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>By event</source>
+        <target>Par événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>By contact</source>
+        <target>Par contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Username or E-Mail</source>
+        <target>Login ou courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Password</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Remember</source>
+        <target>Rester connecté(e)</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

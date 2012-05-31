@@ -24,8 +24,8 @@
 <?php if ( $sf_user->isSuperAdmin() ): ?>
           <li><a><?php echo __('Groups')?></a>
             <ul class="third">
-              <li><a href=""><?php echo __('General settings',array(),'menu') ?></a></li>
-              <li><a href=""><?php echo __('Quotas leaders',array(),'menu') ?></a></li>
+              <li><a href="<?php //echo cross_app_url_for('grp','settings') ?>"><?php echo __('General settings',array(),'menu') ?></a></li>
+              <li><a href="<?php //echo cross_app_url_for('grp','settings') ?>"><?php echo __('Quotas leaders',array(),'menu') ?></a></li>
             </ul>
           </li>
 <?php endif ?>
