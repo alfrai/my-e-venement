@@ -39,12 +39,16 @@ class EntryTicketsForm extends BaseEntryTicketsForm
     $arr = array('id','entry_element_id','quantity','price_id');
     $this->widgetSchema->setPositions($arr);
     
-    $userp = $manifp = array();
-    foreach ( sfContext::getInstance()->getUser()->getGuardUser()->Prices as $up )
-      $userp[$up->id] = $up->id;
-    foreach ( $this->getObject()->EntryElement->ManifestationEntry->Manifestation->PriceManifestations as $pm )
-      $manifp[$pm->price_id] = $pm->price_id;
-    $prices = array_intersect($userp,$manifp);
+    $prices = $userp = $manifp = array();
+    $q = Doctrine::getTable('Price')->createQuery('p')
+      ->leftJoin('p.Users u')
+      ->andWhere('u.id = ?',sfContext::getInstance()->getUser()->getId())
+      ->leftJoin('p.Manifestations m')
+      ->leftJoin('m.ManifestationEntries me')
+      ->leftJoin('me.Entries el')
+      ->andWhere('el.id = ?',$this->getObject()->entry_element_id);
+    foreach ( $q->execute() as $pm )
+      $prices[] = $pm->id;
     
     $this->widgetSchema['price_id']->setOption('add_empty', true);
     $this->widgetSchema['price_id']->setOption('query', $q = Doctrine::getTable('Price')

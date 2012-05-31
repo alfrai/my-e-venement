@@ -69,9 +69,9 @@
           </form>
         </td>
         <?php endforeach ?>
-        <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> ticketting">
-          <p class="transpose"><a href="<?php echo url_for('entry_contact/transpose?id='.$ce->id) ?>">&gt;&gt;</a></p>
-          <p class="untranspose"><a href="<?php echo url_for('entry_contact/untranspose?id='.$ce->id) ?>">&lt;&lt;</a></p>
+        <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> ticketting"<?php if ( $ce->transaction_id ): ?> title="<?php echo __('Transaction #%%t%%',array('%%t%%' => $ce->transaction_id)); ?>"<?php endif ?>>
+          <p class="transpose"><a href="<?php echo url_for('contact_entry/transpose?id='.$ce->id) ?>">&gt;&gt;</a></p>
+          <?php if ( $ce->transaction_id ): ?><p class="untranspose"><a href="<?php echo url_for('contact_entry/untranspose?id='.$ce->id) ?>">&lt;&lt;</a></p><?php endif ?>
         </td>
       </tr>
       <?php endforeach ?>

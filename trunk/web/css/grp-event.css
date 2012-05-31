@@ -1,0 +1,63 @@
+#sf_admin_container .sf_admin_form { 
+  overflow: auto;
+  width: auto;
+  max-height: 550px;
+}
+#sf_admin_container td {
+  width: 250px;
+  border: 1px solid gray;
+}
+#sf_admin_container td .min-width,
+body #content .sf_admin_form input[type=text],
+body #content .sf_admin_form select {
+  width: 200px;
+  margin: 0 3px;
+}
+
+body .sf_admin_form_row { padding: 0; }
+body .sf_admin_text input { margin: 0; }
+
+#sf_admin_container .contact .sf_admin_actions {
+  margin-top: -20px;
+  margin-left: 70px;
+}
+#sf_admin_container .contact_entry_new .sf_admin_actions {
+  margin-left: 125px;
+}
+
+thead .manifestation { text-align: center; }
+
+.hidden { display: none; }
+
+td.impair { background-color: #f8ffdd; }
+tr.impair { background-color: #f8ffdd; }
+tr.impair td.impair { background-color: #eff8cd; }
+
+.EntryTickets { float: left; }
+body #sf_admin_container .EntryTickets input[type=text] {
+  width: 3em;
+}
+body #sf_admin_container .EntryTickets select {
+  width: 75px;
+}
+
+.EntryElement {
+  text-align: center;
+}
+
+.EntryTickets a, .ticketting a {
+  text-decoration: none;
+  background-color: #dbdbdb;
+  padding: 2px 4px;
+  color: #dbdbdb;
+  border: 1px solid gray;
+  border-bottom-color: #929292;
+  border-left-color: #a5a5a5;
+  border-right-color: #a5a5a5;
+  border-top-color: #b9b9b9;
+  -moz-border-radius: 4px;
+  margin-left: 3px;
+}
+
+.ticketting { text-align: center; }
+.ticketting p { margin-bottom: 5px; }

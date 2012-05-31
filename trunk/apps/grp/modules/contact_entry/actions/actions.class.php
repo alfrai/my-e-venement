@@ -21,39 +21,48 @@ class contact_entryActions extends autoContact_entryActions
   
   public function executeTranspose(sfWebRequest $request)
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink'));
+    
     $this->contact_entry = $this->getRoute()->getObject();
     if ( !is_null($this->contact_entry->transaction_id) )
-      return $this->redirect(cross_app_url_for('tck','ticket/sell?id='.$this->element->transaction_id));
+      return $this->redirect(cross_app_url_for('tck','ticket/sell?id='.$this->contact_entry->transaction_id));
     
-    $this->element->Transaction = new Transaction;
-    $this->element->Transaction->Professional = $this->element->ContactEntry->Professional;
-    $this->element->Transaction->contact_id = $this->element->ContactEntry->Professional->contact_id;
+    $this->contact_entry->Transaction = new Transaction;
+    $this->contact_entry->Transaction->Professional = $this->contact_entry->Professional;
+    $this->contact_entry->Transaction->contact_id = $this->contact_entry->Professional->contact_id;
     
-    foreach ( $this->element->EntryTickets as $tickets )
+    foreach ( $this->contact_entry->Entries as $element )
+    foreach ( $element->EntryTickets as $tickets )
     {
       for ( $i = 0 ; $i < $tickets->quantity ; $i++ )
       {
-        $price = Doctrine::getTable('Price')->createQuery('p')
-          ->leftJoin('PriceManifestation pm')
-          ->andWhere('pm.manifestation_id = ?',$this->element->ManifestationEntry->manifestation_id)
+        $price = Doctrine::getTable('PriceManifestation')->createQuery('pm')
+          ->leftJoin('pm.Price p')
+          ->andWhere('pm.manifestation_id = ?',$element->ManifestationEntry->manifestation_id)
           ->andWhere('p.id = ?',$tickets->price_id)
           ->fetchOne();
         
         $ticket = new Ticket();
         $ticket->price_id = $tickets->price_id;
-        $ticket->value = $p->PriceManifestation->value;
-        $ticket->price_name = $p->name;
-        $ticket->manifestation_id = $this->element->ManifestationEntry->manifestation_id;
-        $ticket->Transaction = $this->element->Transaction;
-        $ticket->gauge_id = $this->element->ManifestationEntry->Manifestation->Gauges[0]->id;
+        $ticket->value = $price->value;
+        $ticket->price_name = $price->Price->name;
+        $ticket->manifestation_id = $element->ManifestationEntry->manifestation_id;
+        $this->contact_entry->Transaction->Tickets[] = $ticket;
+        
+        // TODO (gauges)
+        $ticket->gauge_id = $element->ManifestationEntry->Manifestation->Gauges[0]->id;
       }
     }
     
-    $this->element->save();
-    return $this->redirect(cross_app_url_for('tck','ticket/sell?id='.$this->element->Transaction->id));
+    $this->contact_entry->save();
+    return $this->redirect(cross_app_url_for('tck','ticket/sell?id='.$this->contact_entry->Transaction->id));
   }
   
   public function executeUntranspose(sfWebRequest $request)
   {
+    $this->contact_entry = $this->getRoute()->getObject();
+    $this->contact_entry->transaction_id = NULL;
+    $this->contact_entry->save();
+    $this->redirect('event/edit?id='.$this->contact_entry->Entry->event_id);
   }
 }
