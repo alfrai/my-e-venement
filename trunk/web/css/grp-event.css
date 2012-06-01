@@ -61,3 +61,12 @@ body #sf_admin_container .EntryTickets select {
 
 .ticketting { text-align: center; }
 .ticketting p { margin-bottom: 5px; }
+
+tfoot .count p { display: inline-block; margin-left: 4px; }
+tfoot .count .tickets {
+  border: 1px dashed gray;
+  -moz-border-radius: 3px;
+  padding: 2px 4px;
+}
+tfoot .count .nb { margin-right: 2px; }
+tfoot .count .total:before { content: '='; margin: 0 4px; }

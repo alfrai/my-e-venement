@@ -15,7 +15,7 @@
     <tbody>
       <?php $i = 1 ?>
       <?php foreach ( $entry->getRaw('ContactEntries') as $ce ): ?>
-      <tr class="contact-<?php echo $ce->id ?> <?php echo ++$i%2 == 0 ? 'pair' : 'impair' ?>">
+      <tr class="contact-<?php echo $ce->id ?> <?php echo ++$i%2 == 0 ? 'pair' : 'impair' ?> <?php if ( !is_null($ce->transaction_id) ) echo 'transposed' ?>">
         <?php $j = 0 ?>
         <td class="contact <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>"><?php $f = new ContactEntryForm($ce) ?>
           <?php echo form_tag_for($f, '@contact_entry') ?>
@@ -122,7 +122,8 @@
           </form>
         </td>
         <?php foreach ( $entry->ManifestationEntries as $me ): ?>
-        <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>"></td>
+        <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> count manifestation-<?php echo $me->id ?>">
+        </td>
         <?php endforeach ?>
         <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>"></td>
       </tr>
@@ -131,6 +132,7 @@
   
   <script type="text/javascript">
     $(document).ready(function(){
+      // if we submit any form
       $('form').submit(function(){
         $(this).find('input[name="contact_entry[entry_id]"],input[name="manifestation_entry[entry_id]"]').val('<?php echo $entry->id ?>');
         $.post($(this).attr('action'),$(this).serialize(),function(data){
@@ -138,6 +140,7 @@
         });
         return false;
       });
+      // if we suppress any contact or manifestation
       $('.delete').click(function(){
         if ( confirm('<?php echo __('Are you sure?') ?>') )
         {
@@ -148,6 +151,7 @@
         }
       });
       
+      // if we submit a cell
       $('form.EntryElement').unbind().submit(function(){
         var form = this;
         $.post($(this).attr('action'),$(this).serialize(),function(data){
@@ -159,19 +163,25 @@
           });
           $(form).find('p:last').append($(form).find('.sf_admin_action_save input[type=submit]'));
           
-          $(form).find('.content, .sf_admin_form_row, label, fieldset, .sf_admin_actions').remove();
+          $(form).find('.content, .sf_admin_form_row, label, fieldset, .sf_admin_actions, input[name=_save_and_add]').remove();
         });
         return false;
       });
-
-      $('.EntryTickets form').unbind().submit(form_entry_tickets);
-      $('.EntryTickets a').unbind().click(a_entry_tickets);
+      
+      // if a line has already been transposed, we disable any action on it
+      $('tbody tr.transposed td:not(.contact) input, tbody tr.transposed select').attr('disabled','disabled');
+      $('tbody tr.transposed a.delete').remove();
+      
+      calculate_gauges(); // calculate how many tickets we've got
+      $('.EntryTickets form').unbind().submit(form_entry_tickets); // if we submit a tickets' form
+      $('.EntryTickets a').unbind().click(a_entry_tickets); // if we submit a deletion on tickets lines
     });
     
     function a_entry_tickets()
     {
       $.get($(this).attr('href'));
       $(this).closest('form').remove();
+      calculate_gauges();
       return false;
     }
     
@@ -187,7 +197,7 @@
         f.prepend($('<p></p>').append(
           f.find('input[name="entry_tickets[quantity]"],select[name="entry_tickets[price_id]"],input[type=hidden],input[type=submit],a.delete')
         ));
-        f.find('.content, .sf_admin_form_row, label, fieldset, .sf_admin_actions').remove();
+        f.find('.content, .sf_admin_form_row, label, fieldset, .sf_admin_actions, input[name=_save_and_add]').remove();
         
         // if new
         if ( f.find('input[name="entry_tickets[id]"]').val() != '' )
@@ -198,8 +208,40 @@
         }
         else
           $(form).replaceWith(f);
+        
+        calculate_gauges();
       });
       return false;
+    }
+    
+    function calculate_gauges()
+    {
+      $('tfoot .count > *').remove();
+      $('tfoot .count').each(function(){
+        var curclass = /manifestation-\d$/.exec($(this).attr('class'));
+        $('tbody .'+curclass+' .EntryTickets input[name="entry_tickets[quantity]"]').each(function(){
+          var price_id = $(this).closest('form').find('select').val();
+          var name = $(this).closest('form').find('select option:selected').html();
+          var nb = parseInt($(this).val());
+          if ( name != '' )
+          {
+            $('tfoot .'+curclass)
+              .append('<p><span class="tickets price-id-'+price_id+'"><span class="nb">'+nb+'</span><span class="name">'+name+'</span></span></p>');
+          }
+        });
+        
+        var total = 0;
+        $(this).find('.tickets').each(function(){
+          total += parseInt($(this).find('.nb').html());
+          price_id = /price-id-\d$/.exec($(this).attr('class'));
+          if ( (elts = $(this).closest('.count').find('.'+price_id)).length > 1 )
+          {
+            elts.first().find('.nb').html(parseInt(elts.first().find('.nb').html())+parseInt(elts.last().find('.nb').html()));
+            elts.last().remove();
+          }
+        });
+        $(this).append('<p class="total">'+total+'</p>');
+      });
     }
   </script>
 
