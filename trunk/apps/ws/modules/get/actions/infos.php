@@ -25,14 +25,14 @@
 
     if ( !$request->hasParameter('debug') )
       $this->getResponse()->setContentType('application/json');
-    
+   
     try { $this->authenticate($request); }
     catch ( sfException $e )
     {
       $this->getResponse()->setStatusCode('403');
       return $request->hasParameter('debug') ? 'Debug' : sfView::NONE;
     }
-    
+
     $this->content = array('events' => array(), 'sites' => array());
     
     // by event
@@ -101,8 +101,9 @@
             'sitecity' => $manif->Location->city,
             'sitecountry' => $manif->Location->country,
             'price' => $manif->PriceManifestations[0]->value,
-            'still_have' => $manif->online_limit > $g->value - $manif->nb_tickets ? 0 : ($g->value-$manif->nb_tickets < sfConfig::get('app_max_tickets') ? $g->value-$manif->nb_tickets : sfConfig::get('app_max_tickets')),
-            'tarifs' => $tarifs,
+            'still_have' => $g->value - $manif->nb_tickets - $manif->online_limit > sfConfig::get('app_max_tickets') ? sfConfig::get('app_max_tickets') : ($g->value - $manif->nb_tickets - $manif->online_limit > 0 ? $g->value - $manif->nb_tickets - $manif->online_limit : 0),
+            //'still_have' => $manif->online_limit > $g->value - $manif->nb_tickets ? ($g->value-$manif->nb_tickets > 0 ? $g->value-$manif->nb_tickets : 0) : sfConfig::get('app_max_tickets'),
+      	    'tarifs' => $tarifs,
           );
           
           $this->content['events'][$event->id][$g->id] = $tmp;
