@@ -26,6 +26,7 @@ generator:
       list:
         title:   User list
         display: [username, is_active, is_super_admin, last_login, last_name, first_name, email_address]
+        object_actions: { _edit: ~, _duplicate: { name: Duplicate, action: duplicate }, _delete: ~ }
 
       form:
         display:

@@ -78,6 +78,17 @@ class sfGuardUserActions extends autoSfGuardUserActions
     parent::executeEdit($request);
     $this->restrictVisualPermissions();
   }
+  public function executeDuplicate(sfWebRequest $request)
+  {
+    $user = $this->getRoute()->getObject()->copy();
+    $user->username .= 'XX';
+    $user->email_address = '_'.$user->email_address;
+    $user->save();
+    
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $this->getUser()->setFlash('notice',__("The chosen user has been correctly duplicated, please verify its username and its email address"));
+    $this->redirect('sfGuardUser/edit?id='.$user->id);
+  }
   
   protected function restrictGiveSuperAdminFlag(sfWebRequest $request)
   {
