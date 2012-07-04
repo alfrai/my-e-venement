@@ -29,8 +29,9 @@ function form_list_actions()
     return false;
   });
   
-  $(this).find('form:not(.sf_admin_new)').submit(function(){
+  $('.sf_admin_form .sf_admin_form_list.ajax form:not(.sf_admin_new)').unbind().submit(function(){
     form = $(this);
+    widget = $(this).closest('.ajax').get(0);
     
     // apply changes on similar fields forms
     form.find('input:not([type=hidden])').each(function(){

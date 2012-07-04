@@ -33,9 +33,9 @@ generator:
           Memo:         [description]
           Technical:    [duration, vat, online_limit, seated, organizers_list, no_print]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
-          Tickets:      [_show_tickets_list]
-          Spectators:   [_show_spectators_list]
-          Unbalanced:   [_show_unbalanced_list]
+          #Tickets:      [_show_tickets_list]
+          #Spectators:   [_show_spectators_list]
+          #Unbalanced:   [_show_unbalanced_list]
       new:
         display:
           General: [happens_at, event_id, location_id, color_id]
