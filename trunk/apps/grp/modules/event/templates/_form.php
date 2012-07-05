@@ -36,18 +36,18 @@
           </form>
         </td>
         <?php foreach ( $entry->ManifestationEntries as $me ): ?>
-        <td class="manifestation-<?php echo $me->id ?> <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>">
-          <?php
-            $entry_element = Doctrine::getTable('EntryElement')->fetchOneByContactManifestation($ce->id, $me->id);
-            if ( !$entry_element )
-            {
-              $entry_element = new EntryElement;
-              $entry_element->entry_id = $entry->id;
-              $entry_element->contact_entry_id = $ce->id;
-              $entry_element->manifestation_entry_id = $me->id;
-              $entry_element->save();
-            }
-          ?>
+        <?php
+          $entry_element = Doctrine::getTable('EntryElement')->fetchOneByContactManifestation($ce->id, $me->id);
+          if ( !$entry_element )
+          {
+            $entry_element = new EntryElement;
+            $entry_element->entry_id = $entry->id;
+            $entry_element->contact_entry_id = $ce->id;
+            $entry_element->manifestation_entry_id = $me->id;
+            $entry_element->save();
+          }
+        ?>
+        <td class="manifestation-<?php echo $me->id ?> <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> <?php echo $entry_element->second_choice ? 'second_choice' : '' ?> <?php echo $entry_element->accepted ? 'accepted' : '' ?>">
           <div class="EntryTickets">
             <?php $et = new EntryTickets; $et->EntryElement = $entry_element; ?>
             <?php include_partial('entry_tickets',array('form' => new EntryTicketsForm($et), 'entry_element' => $entry_element)) ?>
@@ -70,6 +70,7 @@
         </td>
         <?php endforeach ?>
         <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> ticketting"<?php if ( $ce->transaction_id ): ?> title="<?php echo __('Transaction #%%t%%',array('%%t%%' => $ce->transaction_id)); ?>"<?php endif ?>>
+          <p class="count"><span class="total">0</span></p>
           <p class="transpose"><a href="<?php echo url_for('contact_entry/transpose?id='.$ce->id) ?>">&gt;&gt;</a></p>
           <?php if ( $ce->transaction_id ): ?><p class="untranspose"><a href="<?php echo url_for('contact_entry/untranspose?id='.$ce->id) ?>">&lt;&lt;</a></p><?php endif ?>
         </td>
@@ -125,7 +126,7 @@
         <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> count manifestation-<?php echo $me->id ?>">
         </td>
         <?php endforeach ?>
-        <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>"></td>
+        <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> total"></td>
       </tr>
     </tfoot>
   </table>
@@ -156,6 +157,15 @@
         var form = this;
         $.post($(this).attr('action'),$(this).serialize(),function(data){
           $('#transition .close').click();
+          
+          $(form).find('input[name="entry_element[second_choice]"]:checked').length > 0
+            ? $(form).closest('td').addClass('second_choice')
+            : $(form).closest('td').removeClass('second_choice');
+          
+          $(form).find('input[name="entry_element[accepted]"]:checked').length > 0
+            ? $(form).closest('td').addClass('accepted')
+            : $(form).closest('td').removeClass('accepted');
+          
           $(form).html($(data).find('form').html());
           $(form).prepend('<p></p>');
           $(form).find('label').each(function(){
@@ -218,7 +228,7 @@
     {
       $('tfoot .count > *').remove();
       $('tfoot .count').each(function(){
-        var curclass = /manifestation-\d$/.exec($(this).attr('class'));
+        var curclass = /manifestation-\d+$/.exec($(this).attr('class'));
         $('tbody .'+curclass+' .EntryTickets input[name="entry_tickets[quantity]"]').each(function(){
           var price_id = $(this).closest('form').find('select').val();
           var name = $(this).closest('form').find('select option:selected').html();
@@ -233,7 +243,7 @@
         var total = 0;
         $(this).find('.tickets').each(function(){
           total += parseInt($(this).find('.nb').html());
-          price_id = /price-id-\d$/.exec($(this).attr('class'));
+          price_id = /price-id-\d+$/.exec($(this).attr('class'));
           if ( (elts = $(this).closest('.count').find('.'+price_id)).length > 1 )
           {
             elts.first().find('.nb').html(parseInt(elts.first().find('.nb').html())+parseInt(elts.last().find('.nb').html()));
@@ -241,6 +251,27 @@
           }
         });
         $(this).append('<p class="total">'+total+'</p>');
+      });
+      
+      // line by line
+      $('tbody tr input[name="entry_tickets[quantity]"]').each(function(){
+        if ( $(this).closest('form').find('select').val() != '' )
+        {
+          if ( $(this).closest('tr').find('.ticketting .count .price-id-'+$(this).closest('form').find('select').val()).length > 0 )
+          {
+            nb = $(this).closest('tr').find('.ticketting .count .price-id-'+$(this).closest('form').find('select').val()+' .nb');
+            nb.html(parseInt(nb.html())+parseInt($(this).val()));
+          }
+          else
+          {
+            $(this).closest('tr').find('.ticketting .count')
+              .prepend('<span class="tickets price-id-'+$(this).closest('form').find('select').val()+'"><span class="nb">'+$(this).val()+'</span><span class="name">'+$(this).closest('form').find('select option:selected').html()+'</span></span>');
+          }
+          
+          // total calculation
+          total = $(this).closest('tr').find('.ticketting .count .total');
+          total.html(parseInt(total.html())+parseInt($(this).val()));
+        }
       });
     }
   </script>

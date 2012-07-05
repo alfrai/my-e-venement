@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The chosen user has been correctly duplicated, please verify its username and its email address</source>
+        <target>L'utilisateur choisi a été correctement dupliqué, n'oubliez pas de vérifier son nom d'utilisateur et son email</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ticketting items</source>
         <target>Éléments de billetterie</target>
       </trans-unit>

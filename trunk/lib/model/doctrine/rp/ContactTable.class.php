@@ -77,6 +77,14 @@ class ContactTable extends PluginContactTable
     return $contacts[0];
   }
   
+  public function doSelectOnlyGrp(Doctrine_Query $q)
+  {
+    $a = $q->getRootAlias();
+    $q->leftJoin("p.ContactEntries ce")
+      ->andWhere('ce.id IS NOT NULL');
+    return $q;
+  }
+  
     /*
      * Returns an instance of this class.
      *

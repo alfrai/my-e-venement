@@ -17,10 +17,9 @@ body #content .sf_admin_form select {
 body .sf_admin_form_row { padding: 0; }
 body .sf_admin_text input { margin: 0; }
 
-#sf_admin_container .contact .sf_admin_actions {
-  margin-top: -20px;
-  margin-left: 70px;
-}
+#sf_admin_container .transposed .contact .sf_admin_actions { margin-top: -20px; }
+#sf_admin_container .transposed .contact .sf_admin_actions { margin-left: 125px; }
+#sf_admin_container .contact .sf_admin_actions { margin-left: 70px; }
 #sf_admin_container .contact_entry_new .sf_admin_actions {
   margin-left: 125px;
 }
@@ -45,7 +44,7 @@ body #sf_admin_container .EntryTickets select {
   text-align: center;
 }
 
-.EntryTickets a, .ticketting a {
+.event .transpose, .EntryTickets a, .ticketting a {
   text-decoration: none;
   background-color: #dbdbdb;
   padding: 2px 4px;
@@ -58,15 +57,35 @@ body #sf_admin_container .EntryTickets select {
   -moz-border-radius: 4px;
   margin-left: 3px;
 }
+.event .transpose { color: black; }
 
 .ticketting { text-align: center; }
 .ticketting p { margin-bottom: 5px; }
 
+.ticketting .count .tickets { margin-left: 4px; }
 tfoot .count p { display: inline-block; margin-left: 4px; }
-tfoot .count .tickets {
+.entries .tickets, .ticketting .tickets, tfoot .count .tickets {
   border: 1px dashed gray;
   -moz-border-radius: 3px;
   padding: 2px 4px;
+  background-color: white;
 }
-tfoot .count .nb { margin-right: 2px; }
-tfoot .count .total:before { content: '='; margin: 0 4px; }
+.ticketting .count .nb, tfoot .count .nb { margin-right: 2px; }
+.ticketting .count .total:before, tfoot .count .total:before { content: '='; margin: 0 4px; }
+
+.second_choice select, .second_choice input[type=text] {
+  border-style: dotted;
+}
+.accepted select, .accepted input[type=text] {
+  border-color: red;
+}
+.transposed .tickets, .transposed select, .transposed input[type=text] {
+  color: green;
+}
+
+#contact_entry_confirmed, #contact_entry_comment2 {
+  display: none;
+}
+.transposed #contact_entry_confirmed, .transposed #contact_entry_comment2 {
+  display: inline;
+}
