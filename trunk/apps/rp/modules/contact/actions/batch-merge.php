@@ -71,16 +71,23 @@
         if ( !$base_contact->title )
           $base_contact->title = $contact->title;
         
-        // pro
+        // pro + groups
         foreach ( $contact->Professionals as $pro )
           $pro->contact_id = $base_contact->id;
         
         // contact's groups
         foreach ( $contact->ContactGroups as $cgroup )
         {
-          $group = new ContactGroup();
+          $group = new GroupContact;
           $group->group_id = $cgroup->group_id;
-          $base_contact->ContactGroups[] = group;
+          
+          $addit = true;
+          foreach ( $base_contact->ContactGroups as $gp )
+          if ( $gp->group_id == $group->group_id )
+            $addit = false;
+          
+          if ( $addit )
+            $base_contact->ContactGroups[] = $group;
         }
         
         // contact's emailings
