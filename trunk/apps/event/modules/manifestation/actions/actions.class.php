@@ -254,13 +254,16 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('tr.Order order')
       ->leftJoin('t.Controls ctrl')
       ->leftJoin('ctrl.Checkpoint cp')
+      ->leftJoin('t.Gauge g')
       ->andWhere('t.cancelling IS NULL')
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->andWhere('t.manifestation_id = ?',$this->manifestation->id)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
+      ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->orderBy('p.name, tr.id, o.name, c.name, c.firstname');
-    return $q->execute();
+    $e = $q->execute();
+    return $e;
   }
   protected function getSpectators()
   {
@@ -272,11 +275,13 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('tck.Price p')
       ->leftJoin('ctrl.Checkpoint cp')
       ->leftJoin('pro.Organism o')
+      ->leftJoin('tck.Gauge g')
       ->andWhere('tck.cancelling IS NULL')
       ->andWhere('tck.duplicate IS NULL')
       ->andWhere('tck.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->andWhere('tck.manifestation_id = ?',$this->manifestation->id)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
+      ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->orderBy('c.name, c.firstname, o.name, p.name');
     return $q->execute();
   }
