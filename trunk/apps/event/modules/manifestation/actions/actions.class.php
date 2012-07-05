@@ -282,6 +282,7 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('tck.manifestation_id = ?',$this->manifestation->id)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
       ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
+      ->andWhere('p.id IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?) OR (SELECT count(up2.price_id) FROM UserPrice up2 WHERE up2.sf_guard_user_id = ?) = 0',array($this->getUser()->getId(),$this->getUser()->getId()))
       ->orderBy('c.name, c.firstname, o.name, p.name');
     return $q->execute();
   }
