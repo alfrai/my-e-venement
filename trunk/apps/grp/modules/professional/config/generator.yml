@@ -1,0 +1,27 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Professional
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          professional
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields: ~
+      list:
+        display: [Contact, name, Organism, contact_email]
+        batch_actions: {}
+        object_actions: { _show: ~ }
+        actions: {}
+        table_method: doSelectOnlyGrp
+      filter:
+        display: []
+      form:    ~
+      edit:    ~
+      new:     ~
