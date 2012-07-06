@@ -2,6 +2,7 @@
 <?php include_javascripts_for_form($form) ?>
 <?php use_stylesheet('/sfFormExtraPlugin/css/jquery.autocompleter.css') ?>
 <?php use_javascript('/sfFormExtraPlugin/js/jquery.autocompleter.js') ?>
+<?php use_javascript('grp-event') ?>
 
 <div class="sf_admin_form">
     <div class="sf_admin_actions_block ui-widget">
@@ -11,7 +12,9 @@
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   
-  <table style="border: 1px solid silver;">
+  <div id="copy-paste"><?php echo __('Double-click elsewhere to paste selected content') ?></div>
+  
+  <table class="grp-entry">
     <tbody>
       <?php $i = 1 ?>
       <?php foreach ( $entry->getRaw('ContactEntries') as $ce ): ?>

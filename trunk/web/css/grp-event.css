@@ -1,3 +1,19 @@
+.grp-entry {
+  border: 1px solid silver;
+  -moz-user-select: none;
+}
+.grp-entry .copy {
+  outline: 3px solid orange;
+  cursor: move;
+}
+.grp-entry .move {
+  cursor: move;
+}
+
+#copy-paste {
+  display: none;
+}
+
 #sf_admin_container .sf_admin_form { 
   overflow: auto;
   width: auto;
@@ -88,4 +104,31 @@ tfoot .count p { display: inline-block; margin-left: 4px; }
 }
 .transposed #contact_entry_confirmed, .transposed #contact_entry_comment2 {
   display: inline;
+}
+
+.li_grp_professional .ui-widget-header {
+  margin-bottom: 5px;
+}
+.li_grp_professional .ui-widget {
+  margin: 10px 5px;
+}
+
+#sf_admin_container.li_grp_professional .ui-widget ul {
+  margin-left: 30px;
+  line-height: 22px;
+}
+.li_grp_professional .entry_id {
+  min-width: 25px;
+  display: inline-block;
+}
+.li_grp_professional .manifestation_happens_at {
+  min-width: 200px;
+  display: inline-block;
+}
+.li_grp_professional .ui-widget a {
+  text-decoration: none;
+}
+.li_grp_professional a:hover,
+.li_grp_professional .entry_id a {
+  text-decoration: underline;
 }

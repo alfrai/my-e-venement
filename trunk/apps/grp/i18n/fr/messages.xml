@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Contact file</source>
+        <target>Fiche contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Events</source>
+        <target>Événements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Double-click elsewhere to paste selected content</source>
+        <target>Double cliquer ailleurs pour coller le contenu sélectionné</target>
+      </trans-unit>
+      <trans-unit>
         <source>Accepted</source>
         <target>Accepté</target>
       </trans-unit>
