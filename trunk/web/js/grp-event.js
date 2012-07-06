@@ -35,6 +35,12 @@ $(document).ready(function(){
       if ( src.find('form:last input[type=checkbox]:last').attr('checked') )
         target.find('form:last input[type=checkbox]:last').click();
       target.find('form:last').submit();
+      
+      // deleting source
+      src.find('a.delete').click();
+      src.find('form:last input[type=checkbox]:checked').click();
+      src.find('form').submit();
+      
     }
     
     $('.grp-entry tbody .copy').removeAttr('title');

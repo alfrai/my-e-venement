@@ -20,8 +20,10 @@ generator:
         object_actions: { _show: ~ }
         actions: {}
         table_method: doSelectOnlyGrp
+        title: By contact
       filter:
-        display: []
+        display: [name, organism_id, groups_list]
       form:    ~
-      edit:    ~
+      edit:
+        actions: { _list: ~ }
       new:     ~

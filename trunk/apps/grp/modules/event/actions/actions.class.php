@@ -19,7 +19,10 @@ class eventActions extends autoEventActions
     if ( !$this->sort[0] )
     {
       $this->sort = array('name','');
-      $this->pager->getQuery()->orderby('name');
+      $q = $this->pager->getQuery();
+      $a = $q->getRootAlias();
+      $q->andWhereIn("$a.meta_event_id",array_keys($this->getUser()->getMetaEventsCredentials()))
+        ->orderby('name');
     }
   }
   
@@ -35,9 +38,10 @@ class eventActions extends autoEventActions
       ->leftJoin('p.Organism o')
       ->leftJoin('e.ManifestationEntries me')
       ->leftJoin('me.Manifestation m')
-      ->where('e.event_id = ?',$request->getParameter('id'))
-      ->orderBy('c.name, c.firstname')
+      ->andWhere('e.event_id = ?',$request->getParameter('id'))
+      ->orderBy('ce.comment1, c.name, c.firstname')
       ->fetchOne();
+    
     if ( !$this->entry )
     {
       $this->entry = new Entry;

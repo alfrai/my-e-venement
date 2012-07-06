@@ -123,6 +123,6 @@ html .specialized-form input[type=text] { padding: 1px 1px; padding-right: 0px; 
 
 #sf_admin_container ul li.sf_admin_action_duplicate a
 {
-  background: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat -16px -128px;
+  background: rgb(223, 239, 252) url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat -16px -128px;
 }
   

@@ -16,7 +16,14 @@ generator:
       fields:  ~
       list:
         display: [MetaEvent,=name]
-        object_actions: { _edit: ~ }
+        object_actions:
+          _edit: ~
+          _extract_accepted: { name: Accepted, action: accepted }
+          _extract_refused: { name: Refused, action: refused }
+        batch_actions: {}
+        actions: {}
+        title: By event
+        table_method: getOnlyGroupEvents
       filter:
         display: [meta_event_id,name]
       form: ~

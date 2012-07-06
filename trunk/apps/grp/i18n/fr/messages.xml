@@ -5,6 +5,42 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Workspaces available for groups modules</source>
+        <target>Espaces de travail disponibles pour les modules de groupe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New workspace</source>
+        <target>Nouvel espace de travail</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Workspace</source>
+        <target>Espace de travail</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism</source>
+        <target>Organisme</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Contact email</source>
+        <target>Email du contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>By contact</source>
+        <target>Par contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Groups list</source>
+        <target>Groupes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filters</source>
+        <target>Filtres</target>
+      </trans-unit>
+      <trans-unit>
+        <source>is empty</source>
+        <target>vide ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Contact file</source>
         <target>Fiche contact</target>
       </trans-unit>
@@ -13,16 +49,16 @@
         <target>Événements</target>
       </trans-unit>
       <trans-unit>
-        <source>Double-click elsewhere to paste selected content</source>
-        <target>Double cliquer ailleurs pour coller le contenu sélectionné</target>
+        <source>Drag and drop elsewhere to paste selected content</source>
+        <target>Glisser-déposer ailleurs pour coller le contenu sélectionné</target>
       </trans-unit>
       <trans-unit>
         <source>Accepted</source>
         <target>Accepté</target>
       </trans-unit>
       <trans-unit>
-        <source>Second choice</source>
-        <target>Second choix</target>
+        <source>Needed</source>
+        <target>Incontournable</target>
       </trans-unit>
       <trans-unit>
         <source>Confirmed</source>
@@ -33,8 +69,8 @@
         <target>le</target>
       </trans-unit>
       <trans-unit>
-        <source>Event List</source>
-        <target>Liste d'événements</target>
+        <source>By event</source>
+        <target>Par événement</target>
       </trans-unit>
       <trans-unit>
         <source>Entry for %%name%%</source>

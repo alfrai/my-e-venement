@@ -28,4 +28,14 @@ class EventTable extends PluginEventTable
       ->leftJoin("$alias.EventCategory $ec")
     ;
   }
+  
+  public function getOnlyGroupEvents()
+  {
+    return $this->createQuery('e')
+      ->leftJoin('e.Manifestations m')
+      ->leftJoin('m.Gauges g')
+      ->leftJoin('g.Workspace w')
+      ->leftJoin('w.GroupWorkspace gw')
+      ->andWhere('gw.id IS NOT NULL');
+  }
 }

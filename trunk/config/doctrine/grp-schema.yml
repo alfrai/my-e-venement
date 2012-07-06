@@ -148,3 +148,16 @@ EntryTickets:
       fields: [entry_element_id,price_id]
       unique: true
 
+GroupWorkspace:
+  package: grp
+  columns:
+    workspace_id:
+      type: integer
+      notnull: true
+      unique: true
+  relations:
+    Workspace:
+      foreignAlias: GroupWorkspace
+      onUpdate: CASCADE
+      onDelete: CASCADE
+

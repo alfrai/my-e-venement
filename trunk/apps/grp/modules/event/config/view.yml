@@ -1,2 +1,4 @@
+indexSuccess:
+  stylesheets: [grp-event-list]
 editSuccess:
   stylesheets: [grp-event]

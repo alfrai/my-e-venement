@@ -12,7 +12,7 @@
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   
-  <div id="copy-paste"><?php echo __('Double-click elsewhere to paste selected content') ?></div>
+  <div id="copy-paste"><?php echo __('Drag and drop elsewhere to paste selected content') ?></div>
   
   <table class="grp-entry">
     <tbody>
@@ -25,9 +25,9 @@
           <?php echo $f->renderHiddenFields() ?>
           <p>
             <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$ce->Professional->Contact->id) ?>"><?php echo $ce->Professional->Contact ?></a>
-            -
+            <br/>
             <a href="<?php echo cross_app_url_for('rp','organism/show?id='.$ce->Professional->Organism->id) ?>"><?php echo $ce->Professional ?></a>
-            <input type="hidden" name="<?php echo $f['professional_id']->getName() ?>" value="<?php echo $f['professional_id']->getValue() ?>" />
+            <?php $schema = $f->getWidgetSchema(); $schema['professional_id'] = new sfWidgetFormInputHidden(); echo $f['professional_id'] ?>
           </p>
           <p title="<?php echo __('Note') ?>"><?php echo $f['comment1'] ?></p>
           <p title="<?php echo __('Confirmation') ?>"><?php echo $f['comment2'] ?></p>
@@ -64,7 +64,7 @@
           <?php echo $f->renderHiddenFields() ?>
             <?php echo $f['second_choice']->getWidget()->getLabel() ?>
             <p>
-              <span title="<?php echo __('Second choice') ?>"><?php echo $f['second_choice'] ?></span><span title="<?php echo __('Accepted') ?>"><?php echo $f['accepted'] ?></span><input type="submit" name="submit" value="<?php echo __('Save',null,'sf_admin') ?>" />
+              <span title="<?php echo __('Needed') ?>"><?php echo $f['second_choice'] ?></span><span title="<?php echo __('Accepted') ?>"><?php echo $f['accepted'] ?></span><!--<input type="submit" name="submit" value="<?php echo __('Save',null,'sf_admin') ?>" />-->
               <input type="hidden" name="<?php echo $f['entry_id']->renderName() ?>" value="<?php echo $entry->id ?>" />
               <input type="hidden" name="<?php echo $f['manifestation_entry_id']->renderName() ?>" value="<?php echo $me->id ?>" />
               <input type="hidden" name="<?php echo $f['contact_entry_id']->renderName() ?>" value="<?php echo $ce->id ?>" />
@@ -89,9 +89,9 @@
         <?php $manifs[] = $me->Manifestation->id ?>
         <td class="manifestation manifestation-<?php echo $me->id ?> <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>">
           <a href="<?php echo cross_app_url_for('event','event/show?id='.$me->Manifestation->Event->id) ?>"><?php echo $me->Manifestation->Event ?></a>
-          @
+          <br/>
           <a href="<?php echo cross_app_url_for('event','manifestation/show?id='.$me->Manifestation->id) ?>">
-            <?php echo format_date($me->Manifestation->happens_at,'EEE, dd MMM yyyy') ?>
+            <?php echo format_date($me->Manifestation->happens_at,'EEE, dd MMM yyyy HH:mm') ?>
           </a>
           -
           <?php echo link_to(__('Delete',array(),'sf_admin'), 'manifestation_entry/del?id='.$me->id, array('class' => 'delete')); ?>
@@ -101,7 +101,7 @@
           <?php $f = new ManifestationEntryForm ?>
           <?php echo form_tag_for($f,'@manifestation_entry') ?>
             <?php echo $f->renderHiddenFields(); ?>
-            <p><?php $f['manifestation_id']->getWidget()->setOption('query',Doctrine::getTable('Manifestation')->createQuery('m')->andWhere('m.event_id = ?',$event->id)->andWhereNotIn('m.id',$manifs)); echo $f['manifestation_id']; ?></p>
+            <p><?php $f['manifestation_id']->getWidget()->setOption('query',$f['manifestation_id']->getWidget()->getOption('query')->andWhere('m.event_id = ?',$event->id)->andWhereNotIn('m.id',$manifs)); echo $f['manifestation_id']; ?></p>
             <p>
               <input type="submit" name="submit" value="<?php echo __('Save',array(),'sf_admin') ?>" />
             </p>
@@ -174,9 +174,14 @@
           $(form).find('label').each(function(){
             $(form).find('p:first').prepend($('<span></span> ').attr('title',$(this).html()).prepend($(this).parent().find('input')));
           });
-          $(form).find('p:last').append($(form).find('.sf_admin_action_save input[type=submit]'));
+          //$(form).find('p:last').append($(form).find('.sf_admin_action_save input[type=submit]'));
           
           $(form).find('.content, .sf_admin_form_row, label, fieldset, .sf_admin_actions, input[name=_save_and_add]').remove();
+          
+          // autosubmit on ticking checkbox
+          $(form).find('input[type=checkbox]').change(function(){
+            $(this).closest('form').submit();
+          });
         });
         return false;
       });
@@ -186,8 +191,14 @@
       $('tbody tr.transposed a.delete').remove();
       
       calculate_gauges(); // calculate how many tickets we've got
+      change_tickets();   // auto submit tickets forms
       $('.EntryTickets form').unbind().submit(form_entry_tickets); // if we submit a tickets' form
       $('.EntryTickets a').unbind().click(a_entry_tickets); // if we submit a deletion on tickets lines
+    });
+    
+    // autosubmit on ticking checkbox
+    $('form.EntryElement input[type=checkbox]').change(function(){
+      $(this).closest('form').submit();
     });
     
     function a_entry_tickets()
@@ -196,6 +207,15 @@
       $(this).closest('form').remove();
       calculate_gauges();
       return false;
+    }
+    
+    function change_tickets()
+    {
+      $('.EntryTickets form input, .EntryTickets form select').change(function(){
+        form = $(this).closest('form');
+        if ( parseInt(form.find('input').val()) != 0 && form.find('select').val() != '' )
+          form.submit();
+      });
     }
     
     function form_entry_tickets()
@@ -208,12 +228,12 @@
         f.submit(form_entry_tickets);
         f.find('a').unbind().click(a_entry_tickets);
         f.prepend($('<p></p>').append(
-          f.find('input[name="entry_tickets[quantity]"],select[name="entry_tickets[price_id]"],input[type=hidden],input[type=submit],a.delete')
+          f.find('input[name="entry_tickets[quantity]"],select[name="entry_tickets[price_id]"],input[type=hidden],a.delete')
         ));
         f.find('.content, .sf_admin_form_row, label, fieldset, .sf_admin_actions, input[name=_save_and_add]').remove();
         
         // if new
-        if ( f.find('input[name="entry_tickets[id]"]').val() != '' )
+        if ( $(form).find('a.delete').length == 0 )
         {
           $(form).parent().append(f);
           $(form).find('input[type=text]').val('').focus();
@@ -223,6 +243,7 @@
           $(form).replaceWith(f);
         
         calculate_gauges();
+        change_tickets();   // auto submit tickets forms
       });
       return false;
     }
@@ -230,6 +251,8 @@
     function calculate_gauges()
     {
       $('tfoot .count > *').remove();
+      $('.ticketting .count > *:not(.total)').remove();
+      $('.ticketting .count .total').html(0);
       $('tfoot .count').each(function(){
         var curclass = /manifestation-\d+$/.exec($(this).attr('class'));
         $('tbody .'+curclass+' .EntryTickets input[name="entry_tickets[quantity]"]').each(function(){

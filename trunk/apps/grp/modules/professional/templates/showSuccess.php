@@ -7,6 +7,10 @@
     <h1><?php echo __('Contact file', array(), 'messages') ?></h1>
   </div>
 
+    <div class="sf_admin_actions_block ui-widget">
+      <?php include_partial('form_actions', array('professional' => $professional, 'form' => $form, 'configuration' => $configuration, 'helper' => $helper)) ?>
+    </div>
+
   <div class="ui-helper-clearfix"></div>
 
   <p class="contact">
@@ -36,7 +40,11 @@
             <?php foreach ( $entry->EntryTickets as $et ): ?>
             <span class="tickets"><?php echo $et->quantity.' '.$et->Price ?></span>
             <?php endforeach ?>
-            <?php echo $ce->transaction_id ? '<a class="transpose" href="'.cross_app_url_for('tck','ticket/sell?id='.$ce->transaction_id).'">&gt;&gt;</span>' : '' ?>
+            <?php if ( $ce->transaction_id ): ?>
+              <a class="transpose" href="<?php echo cross_app_url_for('tck','ticket/sell?id='.$ce->transaction_id) ?>">&gt;&gt;</a>
+            <?php elseif ( $entry->accepted ): ?>
+              <a class="transpose" href="<?php echo url_for('contact_entry/transpose?id='.$ce->id) ?>">&gt;&gt;</a>
+            <?php endif ?>
           </li>
       <?php $last_event_id = $entry->ManifestationEntry->Manifestation->Event->id ?>
       <?php endforeach ?>
