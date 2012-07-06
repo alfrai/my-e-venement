@@ -33,7 +33,7 @@ if ( strlen($line) >= 215 )
   
   $tck['libelle']   = trim(substr($line,0,10));
   $tck['datetime']  = trim(substr($line,10,16));
-  $tck['cancel']    = substr($line,26,1) == 'a' ? true : false;
+  $tck['cancel']    = substr($line,26,1) == 'A' ? true : false;
   $tck['category']  = trim(substr($line,27,2));
   $tck['workspace_id']=isset($this->translation['workspaces'][$cat = $tck['category']]) ? $this->translation['workspaces'][$cat] : NULL;
   $tck['price_name']= $tck['category'].trim(substr($line,29,10));
