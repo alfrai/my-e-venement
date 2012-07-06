@@ -15,3 +15,5 @@ all:
     client:
       name: Xxxxx Xxxx
   demo: false
+  archive:
+    url: /old/

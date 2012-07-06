@@ -21,11 +21,15 @@
 *
 ***********************************************************************************/
 ?>
-<?php if ( $sf_user->isSuperAdmin() ): ?>
+<?php if ( $sf_user->hasCredential('grp-events') || $sf_user->hasCredential('grp-professionals') ): ?>
       <li>
         <ul class="second">
+          <?php if ( $sf_user->hasCredential('grp-events') ): ?>
           <li><a href="<?php echo cross_app_url_for('grp','event/index') ?>"><?php echo __('By event',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('grp-professionals') ): ?>
           <li><a href="<?php echo cross_app_url_for('grp','professional/index') ?>"><?php echo __('By contact',array(),'menu') ?></a></li>
+          <?php endif ?>
         </ul>
         <span class="title"><?php echo __('Groups',array(),'menu') ?></span>
       </li>
