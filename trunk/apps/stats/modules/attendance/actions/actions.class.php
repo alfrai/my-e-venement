@@ -141,6 +141,8 @@ class attendanceActions extends sfActions
       ? strtotime($day = $criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
       : strtotime('+ 3 weeks + 1 day');
     
+    $gids = false;
+    $ws = false;
     if ( isset($criterias['workspaces_list']) && $criterias['workspaces_list'][0] )
     {
       $ws = $criterias['workspaces_list'];
@@ -161,7 +163,6 @@ class attendanceActions extends sfActions
       
       $criteria_tt = ' AND tt%%d%%.gauge_id IN ('.implode(',',$gids).')';
     }
-    else $ws = false;
 
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.id, m.happens_at, e.name AS event_name, l.name AS location_name, l.city AS location_city')
@@ -178,6 +179,8 @@ class attendanceActions extends sfActions
       
     if ( isset($criterias['meta_events_list']) && $criterias['meta_events_list'][0] )
       $q->andWhereIn('e.meta_event_id',$criterias['meta_events_list']);
+    if ( $gids )
+      $q->andWhereIn('g.id',$gids);
     
     return $type == 'array' ? $q->fetchArray() : $q->execute();
   }
