@@ -23,6 +23,26 @@ class StatsCriteriasForm extends BaseForm
       'required' => false,
     ));
 
+    $this->widgetSchema['workspaces_list'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Workspace',
+      'multiple' => true,
+      'add_empty' => true,
+    ));
+    $this->validatorSchema['workspaces_list'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Workspace',
+      'multiple' => true,
+    ));
+
+    $this->widgetSchema['meta_events_list'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'MetaEvent',
+      'multiple' => true,
+      'add_empty' => true,
+    ));
+    $this->validatorSchema['meta_events_list'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'MetaEvent',
+      'multiple' => true,
+    ));
+
     $this->widgetSchema['users'] = new sfWidgetFormDoctrineChoice(array(
       'model'     => 'sfGuardUser',
       'add_empty' => true,
