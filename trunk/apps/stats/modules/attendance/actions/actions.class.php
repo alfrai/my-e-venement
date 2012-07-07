@@ -141,17 +141,43 @@ class attendanceActions extends sfActions
       ? strtotime($day = $criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
       : strtotime('+ 3 weeks + 1 day');
     
+    if ( isset($criterias['workspaces_list']) && $criterias['workspaces_list'][0] )
+    {
+      $ws = $criterias['workspaces_list'];
+      $criteria_gg = ' AND gg.workspace_id IN ('.implode(',',$ws).')';
+      
+      $q = Doctrine::getTable('Gauge')->createQuery('g')
+        ->leftJoin('g.Manifestation m')
+        ->leftJoin('m.Event e')
+        ->andWhere('g.workspace_id IN ('.implode(',',$ws).')')
+        ->andWhere('m.happens_at <= ?',date('Y-m-d H:i:s',$dates['to']))
+        ->andWhere('m.happens_at > ?',date('Y-m-d H:i:s',$dates['from']))
+        ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()));
+      $gauges = $q->execute();
+      
+      $gids = array();
+      foreach ( $gauges as $gauge )
+        $gids[] = $gauge->id;
+      
+      $criteria_tt = ' AND tt%%d%%.gauge_id IN ('.implode(',',$gids).')';
+    }
+    else $ws = false;
+
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.id, m.happens_at, e.name AS event_name, l.name AS location_name, l.city AS location_city')
       //->select('m.*')
-      ->addSelect('(SELECT sum(gg.value) FROM gauge gg WHERE m.id = gg.manifestation_id AND gg.workspace_id IN (\''.implode("','",array_keys($this->getUser()->getWorkspacesCredentials())).'\')) AS gauge')
-      ->addSelect('(SELECT sum((tt.printed OR tt.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt WHERE m.id = tt.manifestation_id AND tt.id NOT IN (SELECT ttt.cancelling FROM ticket ttt WHERE ttt.cancelling IS NOT NULL AND ttt.manifestation_id = m.id)) AS printed')
-      ->addSelect('(SELECT sum(NOT (tt2.printed OR tt2.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt2 WHERE m.id = tt2.manifestation_id AND tt2.id NOT IN (SELECT ttt2.cancelling FROM ticket ttt2 WHERE ttt2.cancelling IS NOT NULL AND ttt2.manifestation_id = m.id) AND tt2.transaction_id IN (SELECT oo.transaction_id FROM order oo)) AS ordered')
-      ->addSelect('(SELECT sum(NOT (tt3.printed OR tt3.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt3 WHERE m.id = tt3.manifestation_id AND tt3.id NOT IN (SELECT ttt3.cancelling FROM ticket ttt3 WHERE ttt3.cancelling IS NOT NULL AND ttt3.manifestation_id = m.id) AND tt3.transaction_id NOT IN (SELECT oo3.transaction_id FROM order oo3)) AS asked')
+      ->addSelect('(SELECT sum(gg.value) FROM gauge gg WHERE m.id = gg.manifestation_id '.($ws ? $criteria_gg : '').' AND gg.workspace_id IN (\''.implode("','",array_keys($this->getUser()->getWorkspacesCredentials())).'\')) AS gauge')
+      ->addSelect('(SELECT sum((tt.printed OR tt.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt WHERE m.id = tt.manifestation_id AND tt.id NOT IN (SELECT ttt.cancelling FROM ticket ttt WHERE ttt.cancelling IS NOT NULL AND ttt.manifestation_id = m.id) '.($ws ? str_replace('%%d%%','',$criteria_tt) : '').') AS printed')
+      ->addSelect('(SELECT sum(NOT (tt2.printed OR tt2.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt2 WHERE m.id = tt2.manifestation_id AND tt2.id NOT IN (SELECT ttt2.cancelling FROM ticket ttt2 WHERE ttt2.cancelling IS NOT NULL AND ttt2.manifestation_id = m.id) AND tt2.transaction_id IN (SELECT oo.transaction_id FROM order oo) '.($ws ? str_replace('%%d%%',2,$criteria_tt) : '').') AS ordered')
+      ->addSelect('(SELECT sum(NOT (tt3.printed OR tt3.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt3 WHERE m.id = tt3.manifestation_id AND tt3.id NOT IN (SELECT ttt3.cancelling FROM ticket ttt3 WHERE ttt3.cancelling IS NOT NULL AND ttt3.manifestation_id = m.id) AND tt3.transaction_id NOT IN (SELECT oo3.transaction_id FROM order oo3) '.($ws ? str_replace('%%d%%',3,$criteria_tt) : '').') AS asked')
       ->andWhere('m.happens_at <= ?',date('Y-m-d H:i:s',$dates['to']))
       ->andWhere('m.happens_at > ?',date('Y-m-d H:i:s',$dates['from']))
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
-      ->orderBy('m.happens_at, e.name');
+      ->orderBy('m.happens_at, e.name')
+      ->groupBy('m.id, m.happens_at, e.id, e.name, l.id, l.name, l.city');
+      
+    if ( isset($criterias['meta_events_list']) && $criterias['meta_events_list'][0] )
+      $q->andWhereIn('e.meta_event_id',$criterias['meta_events_list']);
     
     return $type == 'array' ? $q->fetchArray() : $q->execute();
   }

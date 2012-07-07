@@ -4,6 +4,14 @@
   <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-07-10T15:45:17Z" product-name="messages">
     <header/>
     <body>
+      <trans-unit>
+        <source>Metaevents:</source>
+        <target>Méta-événements:</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Worspaces:</source>
+        <target>Espaces de travail:</target>
+      </trans-unit>
       <trans-unit id="7">
         <source>Username or E-Mail</source>
         <target>Login ou courriel</target>
