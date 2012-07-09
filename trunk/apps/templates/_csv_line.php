@@ -26,10 +26,14 @@
     {
       $arr = array();
       foreach ( $options['fields'] as $field )
-      if ( isset($line[$field]) )
-        $arr[$field] = $line[$field];
+        $arr[$field] = isset($line[$field]) ? $line[$field] : '';
       $line = $arr;
     }
+    else
+    {
+	    // ordering
+  	  $line = OptionCsvForm::orderData($line);
+  	}
     
     // the tunnel effect
     if ( isset($options['tunnel']) && $options['tunnel'] )

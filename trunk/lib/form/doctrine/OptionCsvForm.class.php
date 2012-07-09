@@ -87,11 +87,60 @@ class OptionCsvForm extends BaseOptionCsvForm
     }
   }
   
+  public static function orderData($data)
+  {
+	  $fields = array(
+  	  'title'     => 'Title',
+    	'name'      => 'Name',
+	    'firstname' => 'Firstname',
+  	  'address'   => 'Address',
+    	'postalcode'=> 'Postalcode',
+	    'city'      => 'City',
+  	  'country'   => 'Country',
+    	'npai'      => 'Npai',
+	    'email'               => 'email',
+  	  'description'         => 'Keywords',
+    	'phonename'           => 'Phonetype',
+	    'phonenumber'         => 'Phonenumber',
+  	  'organism_category'   => 'Category of organism',
+    	'organism_name'       => 'Organism',
+	    'professional_department' => 'Department',
+  	  'professional_number' => 'Professional phone',
+    	'professional_email'  => 'Professional email',
+	    'professional_type_name' => 'Type of function',
+  	  'professional_name'   => 'Function',
+    	'organism_address'    => 'Address',
+	    'organism_postalcode' => 'Postalcode',
+  	  'organism_city'       => 'City',
+    	'organism_country'    => 'Country',
+	    'organism_email'      => 'Email',
+  	  'organism_url'        => 'URL',
+	    'organism_npai'       => 'Npai',
+ 		  'organism_description'=> 'Description',
+    	'organism_phonename'  => 'Phonetype',
+    	'organism_phonenumber'=> 'Phonenumber',
+    	'information'         => 'Informations',
+  	);
+		
+    // ordering
+    $ordered = array();
+    foreach ( $fields as $fieldname => $field )
+ 	  if ( in_array($fieldname,$data) )
+			$ordered[] = $fieldname;
+		else if ( isset($data[$fieldname]) )
+			$ordered[$fieldname] = $data[$fieldname];
+    
+    return $ordered;
+  }
+  
   public static function getDBOptions()
   {
     $options = array('field' => array(), 'option' => array());
     foreach ( self::buildOptionsQuery()->fetchArray() as $option )
       $options[$option['name']][] = $option['value'];
+    
+    $options['field'] = self::orderData($options['field']);
+    
     return $options;
   }
   
@@ -131,7 +180,7 @@ class OptionCsvForm extends BaseOptionCsvForm
       }
       if ( $contact['professional_number'] )
       {
-        $contact['phonename']    = __('Professional');
+        $contact['phonename']    = 'Professional';
         $contact['phonenumber']  = $contact['professional_number'];
       }
       

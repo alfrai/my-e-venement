@@ -26,17 +26,16 @@
     $criterias = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
     $q = $this->buildQuery();
     $a = $q->getRootAlias();
-    $q->select   ("$a.title, $a.name, $a.firstname, $a.address, $a.postalcode, $a.city, $a.country, $a.npai, $a.email")
+    $q->select   ("$a.title, $a.name, $a.firstname, $a.address, $a.postalcode, $a.city, $a.country, $a.npai, $a.email, $a.description")
       ->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonename")
       ->addSelect("(SELECT tmp2.number FROM ContactPhonenumber tmp2 WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonenumber")
-      ->addSelect("$a.description")
       ->leftJoin('o.Category oc')
       ->addSelect("oc.name AS organism_category, o.name AS organism_name")
       ->addSelect('p.department AS professional_department, p.contact_number AS professional_number, p.contact_email AS professional_email')
       ->addSelect('pt.name AS professional_type_name, p.name AS professional_name')
       ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description")
-      ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = o.id ORDER BY updated_at LIMIT 1) AS organism_phonename")
-      ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = o.id ORDER BY updated_at LIMIT 1) AS organism_phonenumber")
+      ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonename")
+      ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonenumber")
       ->orderBy("$a.name, $a.firstname");
     
     // only when groups are a part of filters
@@ -49,7 +48,7 @@
     
     foreach ( $this->lines as $key => $line )
     {
-      // check if it's in a group because of a link to an organism or not
+      // check if it's in a group (as a professional) because of a link to an organism or not
       $groups_pro = array();
       $group_pro = false;
       if ( $criterias['groups_list'] )
@@ -67,6 +66,7 @@
       
       // removing professionals objects to get a flat array
       unset($this->lines[$key]['Professionals']);
+      unset($this->lines[$key]['ContactGroups']);
       
       // empty-ing links to professionals and organisms if not needed
       if ( !$this->filters->showProfessionalData() && !$group_pro )

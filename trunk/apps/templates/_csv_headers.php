@@ -22,52 +22,50 @@
 ***********************************************************************************/
 ?>
 <?php
+  $fields = array(
+    'title'     => __('Title'),
+    'name'		  => __('Name'),
+    'firstname' => __('Firstname'),
+    'address'   => __('Address'),
+    'postalcode'=> __('Postalcode'),
+    'city'  		=> __('City'),
+    'country'   => __('Country'),
+    'npai'  		=> __('Npai'),
+    'email'     					=> __('email'),
+    'description' 				=> __('Keywords'),
+    'phonename'  					=> __('Phonetype'),
+    'phonenumber' 				=> __('Phonenumber'),
+    'organism_category' 	=> __('Category of organism'),
+    'organism_name'   		=> __('Organism'),
+    'professional_department' => __('Department'),
+    'professional_number' => __('Professional phone'),
+    'professional_email'  => __('Professional email'),
+    'professional_type_name' => __('Type of function'),
+    'professional_name'   => __('Function'),
+    'organism_address'    => __('Address'),
+    'organism_postalcode' => __('Postalcode'),
+    'organism_city'   		=> __('City'),
+    'organism_country'    => __('Country'),
+    'organism_email'  		=> __('Email'),
+    'organism_url'    		=> __('URL'),
+    'organism_npai'   		=> __('Npai'),
+    'organism_description'=> __('Description'),
+    'organism_phonename'  => __('Phonetype'),
+    'organism_phonenumber'=> __('Phonenumber'),
+    'information'         => __('Informations'),
+  );
+  
   if ( !$options['noheader'] )
   {
     if ( !isset($options['header']) )
-    {
-      $line = array(
-        'title'     => __('Title'),
-        'name'      => __('Name'),
-        'firstname' => __('Firstname'),
-        'address'   => __('Address'),
-        'postalcode'=> __('Postalcode'),
-        'city'      => __('City'),
-        'country'   => __('Country'),
-        'npai'      => __('Npai'),
-        'email'     => __('email'),
-        'description' => __('Keywords'),
-        'phonename'   => __('Phonetype'),
-        'phonenumber' => __('Phonenumber'),
-        'organism_category'   => __('Category of organism'),
-        'organism_name'       => __('Organism'),
-        'professional_department' => __('Department'),
-        'professional_number' => __('Professional phone'),
-        'professional_email'  => __('Professional email'),
-        'professional_type_name' => __('Type of function'),
-        'professional_name'   => __('Function'),
-        'organism_address'    => __('Address'),
-        'organism_postalcode' => __('Postalcode'),
-        'organism_city'       => __('City'),
-        'organism_country'    => __('Country'),
-        'organism_email'      => __('Email'),
-        'organism_url'        => __('URL'),
-        'organism_npai'       => __('Npai'),
-        'organism_description'=> __('Description'),
-        'organism_phonename'  => __('Phonetype'),
-        'organism_phonenumber'=> __('Phonenumber'),
-        'information'         => __('Informations'),
-      );
-    }
+    	$line = $fields;
     else
-      $line = $options['header'];
-    
-    if ( count($options['fields']) > 0 )
     {
-      $arr = array();
-      foreach ( $options['fields'] as $field )
-        $arr[$field] = $line[$field];
-      $line = $arr;
+    	foreach ( $fields as $fieldname => $field )
+    	{
+	    	if ( in_array($fieldname,$options['fields']) )
+  	    	$line[$fieldname] = $field;
+  	  }
     }
     
     if ( $options['ms'] )
