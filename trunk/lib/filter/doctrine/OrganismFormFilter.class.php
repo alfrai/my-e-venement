@@ -74,7 +74,7 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     if ( is_array($value) )
     {
       $q->leftJoin('p.Transactions tr')
-        ->leftJoin('tr.id IS NOT NULL');
+        ->andWhere('tr.id IS NOT NULL');
     }
     
     return $q;
