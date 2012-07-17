@@ -25,6 +25,7 @@ class StatsCriteriasForm extends BaseForm
 
     $this->widgetSchema['workspaces_list'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'Workspace',
+      'order_by' => array('name',''),
       'multiple' => true,
       'add_empty' => true,
     ));
@@ -35,6 +36,7 @@ class StatsCriteriasForm extends BaseForm
 
     $this->widgetSchema['meta_events_list'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'MetaEvent',
+      'order_by' => array('name',''),
       'multiple' => true,
       'add_empty' => true,
     ));
