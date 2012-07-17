@@ -23,9 +23,20 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     $this->widgetSchema['contacts_groups'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'Group',
       'multiple' => true,
+      'order_by' => array('name',''),
     ));
     $this->validatorSchema['contacts_groups'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Group',
+      'required' => false,
+      'multiple' => true,
+    ));
+    
+    $this->widgetSchema['professional_meta_event_id'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'MetaEvent',
+      'multiple' => true,
+    ));
+    $this->validatorSchema['professional_meta_event_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'MetaEvent',
       'required' => false,
       'multiple' => true,
     ));
@@ -38,6 +49,7 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     $fields = parent::getFields();
     $fields['postalcode']           = 'Postalcode';
     $fields['contacts_groups']      = 'ContactsGroups';
+    $fields['professional_meta_event_id'] = 'ProfessionalMetaEventId';
     return $fields;
   }
   public function addContactsGroupsColumnQuery(Doctrine_Query $q, $field, $value)
@@ -51,6 +63,17 @@ class OrganismFormFilter extends BaseOrganismFormFilter
         ->andWhereIn("gp.id",$value)
         ->orWhereIn("gc.id",$value)
         ->andWhere('TRUE)');
+    }
+    
+    return $q;
+  }
+  public function addProfessionalMetaEventIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $c = $q->getRootAlias();
+    if ( is_array($value) )
+    {
+      $q->leftJoin('p.Transactions tr')
+        ->leftJoin('tr.id IS NOT NULL');
     }
     
     return $q;

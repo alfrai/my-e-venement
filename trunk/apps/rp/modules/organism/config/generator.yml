@@ -32,7 +32,7 @@ generator:
         title: Organisms list
         display: [Category, name, postalcode, city, email, _contacts_list, npai]
       filter:
-        display: [name, postalcode, city, country, email, npai, organism_category_id, contacts_groups]
+        display: [name, postalcode, city, country, email, npai, organism_category_id, contacts_groups, professional_meta_event_id]
       show:
         display:
           NONE: [name, address, postalcode, city, country, _show_email, _show_phonenumbers_list, url, Category]
