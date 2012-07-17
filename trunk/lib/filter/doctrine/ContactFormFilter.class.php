@@ -359,7 +359,7 @@ class ContactFormFilter extends BaseContactFormFilter
       if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
       $q->leftJoin('transac.Tickets tck');
       
-      $q->andWhere('sum(tck.value) > ?',$value);
+      $q->andWhere('sum(tck.value) >= ?',$value);
     }
     
     return $q;
@@ -377,7 +377,7 @@ class ContactFormFilter extends BaseContactFormFilter
       if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
       $q->leftJoin('transac.Tickets tck');
       
-      $q->andWhere('sum(tck) < ?',$value);
+      $q->andWhere('sum(tck) <= ?',$value);
     }
     
     return $q;
