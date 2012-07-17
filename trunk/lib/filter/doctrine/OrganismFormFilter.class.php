@@ -43,13 +43,13 @@ class OrganismFormFilter extends BaseOrganismFormFilter
   public function addContactsGroupsColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $c = $q->getRootAlias();
-    if ( intval($value['text']) > 0 )
+    if ( is_array($value) )
     {
       $q->leftJoin('c.Groups gc')
         ->leftJoin('p.Groups gp')
         ->andWhere('(TRUE')
-        ->andWhereIn("gp.id",intval($value['text']))
-        ->orWhereIn("gc.id",intval($value['text']))
+        ->andWhereIn("gp.id",$value)
+        ->orWhereIn("gc.id",$value)
         ->andWhere('TRUE)');
     }
     
