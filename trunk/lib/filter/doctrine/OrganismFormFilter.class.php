@@ -33,6 +33,7 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     
     $this->widgetSchema['professional_meta_event_id'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'MetaEvent',
+      'order_by' => array('name',''),
       'multiple' => true,
     ));
     $this->validatorSchema['professional_meta_event_id'] = new sfValidatorDoctrineChoice(array(
