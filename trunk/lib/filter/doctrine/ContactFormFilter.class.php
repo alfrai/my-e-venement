@@ -142,9 +142,13 @@ class ContactFormFilter extends BaseContactFormFilter
     ));
     
     $this->widgetSchema   ['tickets_amount_min'] = new sfWidgetFormInput();
-    $this->validatorSchema['tickets_amount_min'] = new sfValidatorInteger();
+    $this->validatorSchema['tickets_amount_min'] = new sfValidatorInteger(array(
+      'required' => false,
+    ));
     $this->widgetSchema   ['tickets_amount_max'] = new sfWidgetFormInput();
-    $this->validatorSchema['tickets_amount_max'] = new sfValidatorInteger();
+    $this->validatorSchema['tickets_amount_max'] = new sfValidatorInteger(array(
+      'required' => false,
+    ));
     
     //cards
     $arr = array();
