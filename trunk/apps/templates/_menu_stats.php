@@ -31,7 +31,8 @@
           <li><a href="<?php echo cross_app_url_for('stats','attendance/index') ?>"><?php echo __('Attendance',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('stats-prices') ): ?>
-          <li><a href="<?php echo cross_app_url_for('stats','prices/index') ?>"><?php echo __('Prices repartition',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('stats','prices/index') ?>"><?php echo __('Tickets by price',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('stats','prices/index') ?>"><?php echo __('Transactions by price',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('stats-activity') ): ?>
           <li><a href="<?php echo cross_app_url_for('stats','activity/index') ?>"><?php echo __('Ticketting activity',array(),'menu') ?></a></li>

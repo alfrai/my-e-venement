@@ -351,15 +351,12 @@ class ContactFormFilter extends BaseContactFormFilter
   {
     $a = $q->getRootAlias();
     
-    if ( is_array($value) )
+    if ( $value )
     {
       if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
       $q->leftJoin("$a.Transactions transac");
       
-      if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
-      $q->leftJoin('transac.Tickets tck');
-      
-      $q->andWhere('sum(tck.value) >= ?',$value);
+      $q->andWhere('transac.id IN (SELECT tt.transaction_id FROM ticket tt WHERE sum(tt.value) <= ?)',$value);
     }
     
     return $q;
@@ -369,15 +366,12 @@ class ContactFormFilter extends BaseContactFormFilter
   {
     $a = $q->getRootAlias();
     
-    if ( is_array($value) )
+    if ( $value )
     {
       if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
       $q->leftJoin("$a.Transactions transac");
       
-      if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
-      $q->leftJoin('transac.Tickets tck');
-      
-      $q->andWhere('sum(tck) <= ?',$value);
+      $q->andWhere('transac.id IN (SELECT tt.transaction_id FROM ticket tt WHERE sum(tt.value) <= ?)',$value);
     }
     
     return $q;

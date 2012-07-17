@@ -25,8 +25,8 @@
         <target>Activité en billetterie</target>
       </trans-unit>
       <trans-unit>
-        <source>Prices repartition</source>
-        <target>Répartition par tarifs</target>
+        <source>Tickets by price</source>
+        <target>Billets par tarif</target>
       </trans-unit>
       <trans-unit>
         <source>Entrances by group</source>
