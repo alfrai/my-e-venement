@@ -83,7 +83,9 @@ $(document).ready(function(){
     .append($('#sf_admin_filter .sf_admin_filter_field_event_categories_list'))
     .append($('#sf_admin_filter .sf_admin_filter_field_meta_events_list'))
     .append($('#sf_admin_filter .sf_admin_filter_field_events_list'))
-    .append($('#sf_admin_filter .sf_admin_filter_field_prices_list'));
+    .append($('#sf_admin_filter .sf_admin_filter_field_prices_list'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_tickets_amount_min'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_tickets_amount_max'));
   elt.find('h2').html('Evenementiel');
   elt.prependTo('#sf_admin_filter > form > table > tbody');
   
@@ -99,6 +101,7 @@ $(document).ready(function(){
   
   elt = elt.clone(true);
   elt.find('tbody').html('')
+    .append($('#sf_admin_filter .sf_admin_filter_field_title'))
     .append($('#sf_admin_filter .sf_admin_filter_field_firstname'))
     .append($('#sf_admin_filter .sf_admin_filter_field_name'))
     .append($('#sf_admin_filter .sf_admin_filter_field_postalcode'))

@@ -16,6 +16,9 @@ class EventFormFilter extends BaseEventFormFilter
       'model' => 'Organism',
       'url'   => 'organism/ajax',
     ));
+    
+    $this->widgetSchema['event_category_id']->setOption('order_by',array('name',''));
+    $this->widgetSchema['meta_event_id']->setOption('order_by',array('name',''));
   }
   public function buildQuery(array $values)
   {

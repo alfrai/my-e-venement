@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Maximum tickets amount</source>
+        <target>Chiffre d'affaire maximum</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Minimum tickets amount</source>
+        <target>Chiffre d'affaire minimum</target>
+      </trans-unit>
+      <trans-unit>
         <source>Passed in between</source>
         <target>Contrôlés dans la période</target>
       </trans-unit>

@@ -21,6 +21,7 @@ class ManifestationTemplatingForm extends BaseFormDoctrine
     ));
     $this->validatorSchema['manifestation_model'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Manifestation',
+      'order_by' => array('name',''),
     ));
     
     // where to applicate it

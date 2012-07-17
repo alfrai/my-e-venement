@@ -141,6 +141,11 @@ class ContactFormFilter extends BaseContactFormFilter
       'multiple' => true,
     ));
     
+    $this->widgetSchema   ['tickets_amount_min'] = new sfWidgetFormInput();
+    $this->validatorSchema['tickets_amount_min'] = new sfValidatorInteger();
+    $this->widgetSchema   ['tickets_amount_max'] = new sfWidgetFormInput();
+    $this->validatorSchema['tickets_amount_max'] = new sfValidatorInteger();
+    
     //cards
     $arr = array();
     if ( sfConfig::has('app_cards_types') && is_array(sfConfig::get('app_cards_types')) )
@@ -218,6 +223,8 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['event_categories_list']= 'EventCategoriesList';
     $fields['meta_events_list']     = 'MetaEventsList';
     $fields['prices_list']          = 'PricesList';
+    $fields['tickets_amount_min']   = 'TicketsAmountMin';
+    $fields['tickets_amount_max']   = 'TicketsAmountMax';
     $fields['member_cards']         = 'MemberCards';
     $fields['member_cards_expire_at'] = 'MemberCardsExpireAt';
     $fields['control_manifestation_id'] = 'ControlManifestationId';
@@ -331,6 +338,42 @@ class ContactFormFilter extends BaseContactFormFilter
       $q->leftJoin('tck.Price price');
       
       $q->andWhereIn('price.id',$value);
+    }
+    
+    return $q;
+  }
+
+  public function addTicketsAmountMinColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+    {
+      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
+      $q->leftJoin("$a.Transactions transac");
+      
+      if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
+      $q->leftJoin('transac.Tickets tck');
+      
+      $q->andWhere('sum(tck.value) > ?',$value);
+    }
+    
+    return $q;
+  }
+
+  public function addTicketsAmountMaxColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+    {
+      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
+      $q->leftJoin("$a.Transactions transac");
+      
+      if ( !$q->contains("LEFT JOIN transac.Tickets tck") )
+      $q->leftJoin('transac.Tickets tck');
+      
+      $q->andWhere('sum(tck) < ?',$value);
     }
     
     return $q;
