@@ -20,6 +20,9 @@
 .sf_admin_show .sf_admin_field_description label, .sf_admin_show .sf_admin_field_description .rich-content {
   display: table-cell;
 }
+.sf_admin_show .sf_admin_field_description .rich-content p {
+  margin-bottom: 10px;
+}
 
 .show_checkpoint {
   margin-left: 30px;
