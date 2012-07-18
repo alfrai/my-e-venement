@@ -35,6 +35,7 @@
     $vars[$value] = $$value;
     unset($vars[$key]);
   }
+  
   $vars['options']['header'] = array(
     'name' => $name,
     'nb' => __('Number'),

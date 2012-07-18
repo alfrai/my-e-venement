@@ -25,6 +25,8 @@ class activityActions extends sfActions
     }
     
     $this->form = new StatsCriteriasForm();
+    $this->form->addIntervalCriteria();
+    
     if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )
       $this->form->bind($this->getUser()->getAttribute('stats.criterias',array(),'admin_module'));
   }
@@ -80,15 +82,19 @@ class activityActions extends sfActions
     $bars['passing'] ->key(__('Admissions'), 10);
     
     //Passing the random data to bar chart
+    $criterias = $this->getUser()->getAttribute('stats.criterias',array(),'admin_module');
     $names = $max = array();
     foreach ( $dates as $date )
     {
-      $names[] = format_date($date['date']);
+      if ( isset($criterias['interval']) && intval($criterias['interval']) > 1 )
+        $names[] = format_date($date['date']).' -> '.format_date($date['end']);
+      else
+        $names[] = format_date($date['date']);
       $max[] = max(array($date['printed'],$date['ordered'],$date['asked'],$date['passing']));
       $bars['printed']->data[] = $date['printed'];
       $bars['ordered']->data[] = $date['ordered'];
       $bars['asked']  ->data[] = $date['asked'];
-      $bars['passing'] ->data[] = $date['passing'];
+      $bars['passing']->data[] = $date['passing'];
     }
     
     //Creating a stGraph object
@@ -128,24 +134,27 @@ class activityActions extends sfActions
   protected function getRawData()
   {
     $criterias = $this->getUser()->getAttribute('stats.criterias',array(),'admin_module');
-    $dates['from'] = $criterias['dates']['from']['day'] && $criterias['dates']['from']['month'] && $criterias['dates']['from']['year']
+    $dates['from'] = isset($criterias['dates']) && $criterias['dates']['from']['day'] && $criterias['dates']['from']['month'] && $criterias['dates']['from']['year']
       ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
       : strtotime('- 3 weeks');
-    $dates['to']   = $criterias['dates']['to']['day'] && $criterias['dates']['to']['month'] && $criterias['dates']['to']['year']
+    $dates['to']   = isset($criterias['dates']) && $criterias['dates']['to']['day'] && $criterias['dates']['to']['month'] && $criterias['dates']['to']['year']
       ? strtotime($day = $criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
       : strtotime('+ 1 weeks + 1 day');
+    $interval = isset($criterias['interval']) && intval($criterias['interval']) > 0
+      ? intval($criterias['interval'])
+      : 1;
     
-    for ( $days = array($dates['from']) ; $days[count($days)-1]+86400 < $dates['to'] ; $days[] = $days[count($days)-1]+86400 );
+    for ( $days = array($dates['from']) ; $days[count($days)-1]+86400*$interval < $dates['to'] ; $days[] = $days[count($days)-1]+86400*$interval );
     foreach ( $days as $key => $day )
       $days[$key] = date('Y-m-d',$day);
     
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
-    $q = "SELECT d.date,
-            (SELECT count(id) FROM ticket WHERE updated_at >= d.date::date AND updated_at <= (d.date||' 23:59:59')::timestamp AND (printed OR integrated) AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS printed,
-            (SELECT count(id) FROM ticket WHERE NOT (printed OR integrated) AND transaction_id IN (SELECT transaction_id FROM accounting WHERE updated_at >= d.date::date AND updated_at <= (d.date||' 23:59:59')::timestamp AND type = 'order') AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS ordered,
-            (SELECT count(id) FROM ticket WHERE created_at >= d.date::date AND created_at <= (d.date||' 23:59:59')::timestamp AND NOT (printed OR integrated) AND transaction_id NOT IN (SELECT transaction_id FROM accounting WHERE type = 'order') AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS asked,
-            (SELECT count(t.id) FROM ticket t LEFT JOIN manifestation m ON m.id = t.manifestation_id WHERE happens_at >= d.date::date AND happens_at <= (d.date||' 23:59:59')::timestamp AND (printed OR integrated) AND duplicate IS NULL AND cancelling IS NULL AND t.id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS passing
-          FROM (SELECT '".implode("' AS date UNION SELECT '",$days)."') AS d
+    $q = "SELECT d.date, d.date + '$interval days'::interval AS end,
+            (SELECT count(id) FROM ticket WHERE updated_at >= d.date::date AND updated_at < d.date + '$interval days'::interval AND (printed OR integrated) AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS printed,
+            (SELECT count(id) FROM ticket WHERE NOT (printed OR integrated) AND transaction_id IN (SELECT transaction_id FROM accounting WHERE updated_at >= d.date::date AND updated_at < d.date + '$interval days'::interval AND type = 'order') AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS ordered,
+            (SELECT count(id) FROM ticket WHERE created_at >= d.date::date AND created_at < d.date + '$interval days'::interval AND NOT (printed OR integrated) AND transaction_id NOT IN (SELECT transaction_id FROM accounting WHERE type = 'order') AND duplicate IS NULL AND cancelling IS NULL AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS asked,
+            (SELECT count(t.id) FROM ticket t LEFT JOIN manifestation m ON m.id = t.manifestation_id WHERE happens_at >= d.date::date AND happens_at < d.date + '$interval days'::interval AND (printed OR integrated) AND duplicate IS NULL AND cancelling IS NULL AND t.id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS passing
+          FROM (SELECT '".implode("'::date AS date UNION SELECT '",$days)."'::date AS date) AS d
           ORDER BY date";
     $stmt = $pdo->prepare($q);
     $stmt->execute();

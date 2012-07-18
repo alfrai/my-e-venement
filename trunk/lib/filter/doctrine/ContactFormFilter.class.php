@@ -371,7 +371,7 @@ class ContactFormFilter extends BaseContactFormFilter
       if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
       $q->leftJoin("$a.Transactions transac");
       
-      $q->andWhere('transac.id IN (SELECT tt.transaction_id FROM ticket tt WHERE sum(tt.value) <= ?)',$value);
+      $q->andWhere('transac.id IN (SELECT tt.transaction_id FROM ticket tt WHERE sum(tt.value) <= ? group by tt.transaction_id)',$value);
     }
     
     return $q;

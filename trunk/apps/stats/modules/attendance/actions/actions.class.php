@@ -25,20 +25,39 @@ class attendanceActions extends sfActions
     }
     
     $this->form = new StatsCriteriasForm();
+    $this->form->addWithContactCriteria();
     if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )
       $this->form->bind($this->getUser()->getAttribute('stats.criterias',array(),'admin_module'));
   }
   
   public function executeCsv(sfWebRequest $request)
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Number'));
     $this->lines = $this->getManifs('array');
+    
     foreach ( $this->lines as $key => $line )
+    {
+      // free seats
       $this->lines[$key]['free'] = $line['gauge']-$line['printed']-$line['asked']-$line['ordered'];
+      
+      // percentages
+      $this->lines[$key]['printed_percentage'] = $line['gauge'] > 0 ? format_number(round($line['printed']*100/$line['gauge'],2)) : 'N/A';
+      $this->lines[$key]['ordered_percentage'] = $line['gauge'] > 0 ? format_number(round($line['ordered']*100/$line['gauge'],2)) : 'N/A';
+      $this->lines[$key]['asked_percentage']   = $line['gauge'] > 0 ? format_number(round($line['asked']  *100/$line['gauge'],2)) : 'N/A';
+      $this->lines[$key]['free_percentage']    = $line['gauge'] > 0 ? format_number(round(($line['gauge']-$line['printed']-$line['asked']-$line['ordered'])*100/$line['gauge'],2)) : 'N/A';
+      
+      // cashflow
+      $this->lines[$key]['cashflow']    = format_number(round($line['cashflow'],2));
+    }
     
     $params = OptionCsvForm::getDBOptions();
     $this->options = array(
       'ms' => isset($params['option']['ms']),
-      'fields' => array('event_name','happens_at','location_name','location_city','gauge','printed','ordered','asked','free'),
+      'fields' => array(
+        'event_name','happens_at','location_name','location_city',
+        'gauge','printed','ordered','asked','free',
+        'printed_percentage','ordered_percentage','asked_percentage','free_percentage',
+        'cashflow',),
       'tunnel' => false,
       'noheader' => false,
     );
@@ -146,7 +165,6 @@ class attendanceActions extends sfActions
     if ( isset($criterias['workspaces_list']) && $criterias['workspaces_list'][0] )
     {
       $ws = $criterias['workspaces_list'];
-      $criteria_gg = ' AND gg.workspace_id IN ('.implode(',',$ws).')';
       
       $q = Doctrine::getTable('Gauge')->createQuery('g')
         ->leftJoin('g.Manifestation m')
@@ -161,16 +179,25 @@ class attendanceActions extends sfActions
       foreach ( $gauges as $gauge )
         $gids[] = $gauge->id;
       
-      $criteria_tt = ' AND tt%%d%%.gauge_id IN ('.implode(',',$gids).')';
     }
+    
+    // gauge
+    $criteria_gg = $ws ? ' AND gg.workspace_id IN ('.implode(',',$ws).')' : '';
+    $criteria_tt_gauge = $ws ? ' AND tt%%d%%.gauge_id IN ('.implode(',',$gids).')' : '';
+    
+    // tickets with or without contact
+    $criteria_tt_contact = isset($criterias['with_contact']) && $criterias['with_contact']
+      ? ' AND ttr%%d%%.contact_id IS '.($criterias['with_contact'] == 'yes' ? 'NOT' : '').' NULL'
+      : '';
 
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.id, m.happens_at, e.name AS event_name, l.name AS location_name, l.city AS location_city')
       //->select('m.*')
-      ->addSelect('(SELECT sum(gg.value) FROM gauge gg WHERE m.id = gg.manifestation_id '.($ws ? $criteria_gg : '').' AND gg.workspace_id IN (\''.implode("','",array_keys($this->getUser()->getWorkspacesCredentials())).'\')) AS gauge')
-      ->addSelect('(SELECT sum((tt.printed OR tt.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt WHERE m.id = tt.manifestation_id AND tt.id NOT IN (SELECT ttt.cancelling FROM ticket ttt WHERE ttt.cancelling IS NOT NULL AND ttt.manifestation_id = m.id) '.($ws ? str_replace('%%d%%','',$criteria_tt) : '').') AS printed')
-      ->addSelect('(SELECT sum(NOT (tt2.printed OR tt2.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt2 WHERE m.id = tt2.manifestation_id AND tt2.id NOT IN (SELECT ttt2.cancelling FROM ticket ttt2 WHERE ttt2.cancelling IS NOT NULL AND ttt2.manifestation_id = m.id) AND tt2.transaction_id IN (SELECT oo.transaction_id FROM order oo) '.($ws ? str_replace('%%d%%',2,$criteria_tt) : '').') AS ordered')
-      ->addSelect('(SELECT sum(NOT (tt3.printed OR tt3.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt3 WHERE m.id = tt3.manifestation_id AND tt3.id NOT IN (SELECT ttt3.cancelling FROM ticket ttt3 WHERE ttt3.cancelling IS NOT NULL AND ttt3.manifestation_id = m.id) AND tt3.transaction_id NOT IN (SELECT oo3.transaction_id FROM order oo3) '.($ws ? str_replace('%%d%%',3,$criteria_tt) : '').') AS asked')
+      ->addSelect('(SELECT sum(gg.value) FROM gauge gg WHERE m.id = gg.manifestation_id '.$criteria_gg.' AND gg.workspace_id IN (\''.implode("','",array_keys($this->getUser()->getWorkspacesCredentials())).'\')) AS gauge')
+      ->addSelect('(SELECT sum((tt.printed OR tt.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt LEFT JOIN tt.Transaction ttr WHERE m.id = tt.manifestation_id AND tt.id NOT IN (SELECT ttt.cancelling FROM ticket ttt WHERE ttt.cancelling IS NOT NULL AND ttt.manifestation_id = m.id) '.str_replace('%%d%%','',$criteria_tt_gauge).' '.str_replace('%%d%%','',$criteria_tt_contact).') AS printed')
+      ->addSelect('(SELECT sum(NOT (tt2.printed OR tt2.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt2 LEFT JOIN tt2.Transaction ttr2 WHERE m.id = tt2.manifestation_id AND tt2.id NOT IN (SELECT ttt2.cancelling FROM ticket ttt2 WHERE ttt2.cancelling IS NOT NULL AND ttt2.manifestation_id = m.id) AND tt2.transaction_id IN (SELECT oo.transaction_id FROM order oo) '.str_replace('%%d%%',2,$criteria_tt_gauge).' '.str_replace('%%d%%',2,$criteria_tt_contact).') AS ordered')
+      ->addSelect('(SELECT sum(NOT (tt3.printed OR tt3.integrated) AND duplicate IS NULL AND cancelling IS NULL) FROM ticket tt3 LEFT JOIN tt3.Transaction ttr3 WHERE m.id = tt3.manifestation_id AND tt3.id NOT IN (SELECT ttt3.cancelling FROM ticket ttt3 WHERE ttt3.cancelling IS NOT NULL AND ttt3.manifestation_id = m.id) AND tt3.transaction_id NOT IN (SELECT oo3.transaction_id FROM order oo3) '.str_replace('%%d%%',3,$criteria_tt_gauge).' '.str_replace('%%d%%',3,$criteria_tt_contact).') AS asked')
+      ->addSelect('(SELECT sum(tt4.value) FROM ticket tt4 LEFT JOIN tt4.Transaction ttr4 WHERE m.id = tt4.manifestation_id AND tt4.id NOT IN (SELECT ttt4.cancelling FROM ticket ttt4 WHERE ttt4.cancelling IS NOT NULL AND ttt4.manifestation_id = m.id) AND (tt4.printed = true OR tt4.integrated = true) AND tt4.cancelling IS NULL AND tt4.duplicate IS NULL '.str_replace('%%d%%',4,$criteria_tt_gauge).' '.str_replace('%%d%%',4,$criteria_tt_contact).') AS cashflow')
       ->andWhere('m.happens_at <= ?',date('Y-m-d H:i:s',$dates['to']))
       ->andWhere('m.happens_at > ?',date('Y-m-d H:i:s',$dates['from']))
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))

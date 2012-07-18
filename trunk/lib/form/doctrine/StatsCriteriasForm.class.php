@@ -27,27 +27,32 @@ class StatsCriteriasForm extends BaseForm
       'model' => 'Workspace',
       'order_by' => array('name',''),
       'multiple' => true,
-      'add_empty' => true,
     ));
     $this->validatorSchema['workspaces_list'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Workspace',
       'multiple' => true,
+      'required' => false,
     ));
 
     $this->widgetSchema['meta_events_list'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'MetaEvent',
       'order_by' => array('name',''),
       'multiple' => true,
-      'add_empty' => true,
     ));
     $this->validatorSchema['meta_events_list'] = new sfValidatorDoctrineChoice(array(
       'model' => 'MetaEvent',
       'multiple' => true,
+      'required' => false,
     ));
 
+    $this->widgetSchema->setNameFormat('criterias[%s]');
+    $this->disableCSRFProtection();
+  }
+  
+  public function addUsersCriteria()
+  {
     $this->widgetSchema['users'] = new sfWidgetFormDoctrineChoice(array(
       'model'     => 'sfGuardUser',
-      'add_empty' => true,
       'order_by'  => array('first_name, last_name',''),
       'multiple'  => true,
     ));
@@ -56,8 +61,32 @@ class StatsCriteriasForm extends BaseForm
       'multiple' => true,
       'required' => false,
     ));
+  }
+  
+  public function addWithContactCriteria()
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    $choices = array(
+      ''    => __('yes or no',null,'sf_admin'),
+      'yes' => __('yes',null,'sf_admin'),
+      'no'  => __('no',null,'sf_admin'),
+    );
     
-    $this->widgetSchema->setNameFormat('criterias[%s]');
-    $this->disableCSRFProtection();
+    $this->widgetSchema   ['with_contact'] = new sfWidgetFormChoice(array(
+      'choices' => $choices,
+    ));
+    $this->validatorSchema['with_contact'] = new sfValidatorChoice(array(
+      'choices' => array_keys($choices),
+    ));
+  }
+  
+  public function addIntervalCriteria()
+  {
+    $this->widgetSchema   ['interval'] = new sfWidgetFormInput(array(
+      'default'   => 1,
+    ));
+    $this->validatorSchema['interval'] = new sfValidatorInteger(array(
+      'required' => false,
+    ));
   }
 }

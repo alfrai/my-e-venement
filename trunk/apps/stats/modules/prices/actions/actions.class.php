@@ -25,13 +25,14 @@ class pricesActions extends sfActions
     }
     
     $this->form = new StatsCriteriasForm();
+    $this->form->addUsersCriteria();
     if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )
       $this->form->bind($this->getUser()->getAttribute('stats.criterias',array(),'admin_module'));
   }
   
   public function executeCsv(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date','CrossAppLink'));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date','CrossAppLink','Number'));
     $param = $request->getParameter('id');
     
     $this->lines = $this->getPrices($param == 'asked', $param == 'ordered', $param == 'all', 'array');
@@ -56,7 +57,7 @@ class pricesActions extends sfActions
       $total += $line['nb'];
     
     foreach ( $this->lines as $key => $line )
-      $this->lines[$key]['percent'] = round($line['nb']*100/$total).'%';
+      $this->lines[$key]['percent'] = format_number(round($line['nb']*100/$total,2));
     
     $params = OptionCsvForm::getDBOptions();
     $this->options = array(
@@ -151,6 +152,7 @@ class pricesActions extends sfActions
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.cancelling IS NULL')
+      ->andWhereIn('t.sf_guard_user_id',$criterias['users'])
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->andWhere('m.happens_at > ?',date('Y-m-d H:i:s',$dates['from']))
       ->andWhere('m.happens_at <= ?',date('Y-m-d H:i:s',$dates['to']))

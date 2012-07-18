@@ -61,7 +61,7 @@
     	$line = $fields;
     else
     {
-    	foreach ( $fields as $fieldname => $field )
+    	foreach ( $options['header'] as $fieldname => $field )
     	{
 	    	if ( in_array($fieldname,$options['fields']) )
   	    	$line[$fieldname] = $field;

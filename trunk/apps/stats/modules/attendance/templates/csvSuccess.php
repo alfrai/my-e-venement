@@ -45,6 +45,11 @@
     'ordered'    => __('Engaged'),
     'asked'      => __('Asked'),
     'free'       => __('Free'),
+    'printed_percentage'    => __('Printed').' %',
+    'ordered_percentage'    => __('Engaged').' %',
+    'asked_percentage'      => __('Asked').' %',
+    'free_percentage'       => __('Free').' %',
+    'cashflow'                => __('Cashflow'),
   );
   
   include_partial('global/csv',$vars);

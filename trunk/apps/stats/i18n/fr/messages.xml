@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Tickets with contact:</source>
+        <target>Billets avec contact:</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cashflow</source>
+        <target>Chiffre d'Affaire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>day(s)</source>
+        <target>jour(s)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Interval:</source>
+        <target>Intervalle:</target>
+      </trans-unit>
+      <trans-unit>
         <source>Metaevents:</source>
         <target>Méta-événements:</target>
       </trans-unit>
