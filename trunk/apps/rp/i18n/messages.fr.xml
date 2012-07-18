@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Phonenumbers</source>
+        <target>Numéros</target>
+      </trans-unit>
+      <trans-unit>
         <source>Maximum tickets amount</source>
         <target>Chiffre d'affaire maximum</target>
       </trans-unit>
@@ -438,7 +442,7 @@
       </trans-unit>
       <trans-unit id="55">
         <source>Postal code</source>
-        <target>Code postal</target>
+        <target>CP</target>
       </trans-unit>
       <trans-unit id="56">
         <source>City</source>
@@ -498,7 +502,7 @@
       </trans-unit>
       <trans-unit id="78">
         <source>Postalcode</source>
-        <target>Code Postal</target>
+        <target>CP</target>
       </trans-unit>
       <trans-unit id="79">
         <source>Firstname</source>

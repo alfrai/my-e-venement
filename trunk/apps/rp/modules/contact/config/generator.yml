@@ -24,6 +24,7 @@ generator:
         family_contact: { label: Family contact }
         phone_type: { label: Type }
         phone_number: { label: Phonenumber }
+        list_phones: { label: Phonenumbers }
         member_cards_expire_at: { label: Valid on }
         control_created_at: { label: Passed in between }
         control_manifestation_id: { label: Passed on manifestations }
@@ -31,7 +32,7 @@ generator:
         tickets_amount_min: { label: Minimum tickets amount }
         tickets_amount_max: { label: Maximum tickets amount }
       list:
-        display: [name, firstname, postalcode, city, email, _organisms_list, _organisms_email_list]
+        display: [name, firstname, postalcode, city, email, _list_phones, _organisms_list, _organisms_email_list]
         max_per_page: 100
       show: 
         display:
