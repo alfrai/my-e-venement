@@ -1,5 +1,5 @@
 <?php $name = 'load'; $label = 'Load and replace content'; $help = ''; ?>
-  <div class="<?php echo $class ? $class : '' ?><?php $form[$name]->hasError() and print ' ui-state-error ui-corner-all' ?>">
+  <div class="<?php echo isset($class) ? $class : '' ?><?php $form[$name]->hasError() and print ' ui-state-error ui-corner-all' ?>">
     <div class="label ui-helper-clearfix">
       <?php echo $form[$name]->renderLabel($label) ?>
 
