@@ -17,7 +17,7 @@
 
 .checkpoint_new .sf_admin_form_field_event_id { display: none; }
 
-.sf_admin_show .sf_admin_field_description * {
+.sf_admin_show .sf_admin_field_description label, .sf_admin_show .sf_admin_field_description .rich-content {
   display: table-cell;
 }
 
