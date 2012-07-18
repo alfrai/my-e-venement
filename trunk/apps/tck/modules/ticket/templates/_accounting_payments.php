@@ -33,6 +33,17 @@
       <span class="value"><?php echo format_currency($payment->value,'€') ?></span>
     </p>
     <?php endforeach ?>
+    <?php if ( isset($nocancel) && $nocancel && $transaction->Translinked->count() > 0 ): ?>
+    <?php foreach ( $transaction->Translinked as $trlinked ): ?>
+    <?php foreach ( $trlinked->Payments as $payment ): ?>
+    <?php $value += $payment->value ?>
+    <p>
+      <span class="method"><?php echo $payment->Method; ?></span>
+      <span class="value"><?php echo format_currency($payment->value,'€') ?></span>
+    </p>
+    <?php endforeach ?>
+    <?php endforeach ?>
+    <?php endif ?>
     <p class="total">
       <span class="method"><?php echo __('Total') ?></span>
       <span class="value"><?php echo format_currency($value,'€') ?></span>
