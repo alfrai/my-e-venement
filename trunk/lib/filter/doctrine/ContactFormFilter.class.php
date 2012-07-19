@@ -436,9 +436,9 @@ class ContactFormFilter extends BaseContactFormFilter
     
     $a = $q->getRootAlias();
     if ( $value )
-      return $q->addWhere("$a.email IS NOT NULL OR p.contact_email IS NOT NULL");
+      return $q->addWhere("$a.email IS NOT NULL AND $a.email != '' OR p.contact_email IS NOT NULL AND p.contact_email != ''");
     else
-      return $q->addWhere("$a.email IS     NULL AND p.contact_email IS NULL");
+      return $q->addWhere("($a.email IS     NULL OR $a.email = '') AND (p.contact_email IS NULL OR p.contact_email = '')");
   }
   public function addEmailColumnQuery(Doctrine_Query $q, $field, $values)
   {
