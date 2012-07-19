@@ -141,7 +141,7 @@ class emailActions extends autoEmailActions
     //unset($criterias['groups_list']);
     
     foreach ( $criterias as $name => $criteria )
-    if ( !$criteria || !(is_array($criteria) && implode('',$criteria)) )
+    if ( !$criteria || !is_string($criteria) && !(is_array($criteria) && implode('',$criteria)) )
       unset($criterias[$name]);
     
     $professionals_list = $contacts_list = array();
@@ -156,7 +156,7 @@ class emailActions extends autoEmailActions
         // check if it's in a group because of a link to an organism or not
         $groups_pro = array();
         $group_pro = false;
-        if ( $criterias['groups_list'] )
+        if ( isset($criterias['groups_list']) && $criterias['groups_list'] )
         {
           foreach ( $contact->Professionals as $pro )
           foreach ( $pro->Groups as $group )
