@@ -352,12 +352,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $a = $q->getRootAlias();
     
     if ( $value )
-    {
-      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
-      $q->leftJoin("$a.Transactions transac");
-      
-      $q->andWhere('transac.id IN (SELECT tt.transaction_id FROM ticket tt WHERE sum(tt.value) <= ?)',$value);
-    }
+      $q->andWhere("$a.id IN (SELECT ttr1.contact_id FROM Transaction ttr1 WHERE ttr1.id IN (SELECT (CASE WHEN SUM(tt1.value) >= ? THEN tt1.transaction_id ELSE 0 END) AS transaction_id FROM Ticket tt1 GROUP BY tt1.transaction_id) GROUP BY ttr1.contact_id)",$value);
     
     return $q;
   }
@@ -367,12 +362,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $a = $q->getRootAlias();
     
     if ( $value )
-    {
-      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
-      $q->leftJoin("$a.Transactions transac");
-      
-      $q->andWhere('transac.id IN (SELECT tt.transaction_id FROM ticket tt WHERE sum(tt.value) <= ? group by tt.transaction_id)',$value);
-    }
+      $q->andWhere("$a.id IN (SELECT ttr2.contact_id FROM Transaction ttr2 WHERE ttr2.id IN (SELECT (CASE WHEN SUM(tt2.value) < ? THEN tt2.transaction_id ELSE 0 END) AS transaction_id FROM Ticket tt2 GROUP BY tt2.transaction_id) GROUP BY ttr2.contact_id)",$value);
     
     return $q;
   }
