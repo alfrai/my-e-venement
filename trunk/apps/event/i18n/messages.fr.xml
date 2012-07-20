@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Loading...</source>
+        <target>Chargement en cours...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Hide</source>
         <target>Cacher</target>
       </trans-unit>

@@ -1,3 +1,4 @@
+<h2><?php echo __('Loading...') ?></h2>
 <script type="text/javascript">
   $.get('<?php echo url_for('manifestation/showTickets?id='.$manifestation->id) ?>',function(data){
     $('#sf_fieldset_tickets').append($(data).find('#sf_fieldset_tickets > *'));
