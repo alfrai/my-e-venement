@@ -3,16 +3,13 @@
     $('#sf_fieldset_spectators').append($(data).find('#sf_fieldset_spectators > *'));
     $('#sf_fieldset_tickets').append($(data).find('#sf_fieldset_tickets > *'));
     
-    <?php foreach ( array('sf_fieldset_spectators','#sf_fieldset_tickets') as $id ): ?>
-    $('#<?php echo $id ?> .tab-print a').click(function(){
-      $('body').addClass('<?php echo $id ?>');
-      print();
+    $('#sf_fieldset_spectators .tab-print a').click(function(){
+      $('body').addClass('sf_fieldset_spectators'); print();
       
       // time out permitting the system to prepare the print before restoring things
-      setTimeout(function(){ $('body').removeClass('<?php echo $id ?>'); },500);
+      setTimeout(function(){ $('body').removeClass('sf_fieldset_spectators'); },500);
       
       return false;
     });
-    <?php endforeach ?>
   });
 </script>
