@@ -1,8 +1,8 @@
-<h2><?php echo __('Loading...') ?></h2>
+<h2 class="loading"><?php echo __('Loading...') ?></h2>
 <script type="text/javascript">
   $.get('<?php echo url_for('manifestation/showSpectators?id='.$manifestation->id) ?>',function(data){
     $('#sf_fieldset_spectators').append($(data).find('#sf_fieldset_spectators > *'));
-    $('#sf_fieldset_tickets').append($(data).find('#sf_fieldset_tickets > *'));
+    $('#sf_fieldset_tickets').append($(data).find('#sf_fieldset_tickets > *')).find('.loading').remove();
     
     $('#sf_fieldset_spectators .tab-print a').click(function(){
       $('body').addClass('sf_fieldset_spectators'); print();
