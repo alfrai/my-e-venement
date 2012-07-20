@@ -246,6 +246,11 @@ class manifestationActions extends autoManifestationActions
   {
     $this->securityAccessFiltering($request);
     $this->spectators = $this->getSpectators($request->getParameter('id'));
+    $this->setLayout('nude');
+  }
+  public function executeShowTickets(sfWebRequest $request)
+  {
+    $this->securityAccessFiltering($request);
     $this->prices = $this->getPrices($request->getParameter('id'));
     $this->setLayout('nude');
   }
