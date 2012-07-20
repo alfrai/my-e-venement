@@ -230,20 +230,27 @@ class manifestationActions extends autoManifestationActions
   {
     $this->securityAccessFiltering($request);
     parent::executeEdit($request);
-    $this->form->prices = $this->getPrices();
-    $this->form->spectators = $this->getSpectators();
-    $this->form->unbalanced = $this->getUnbalancedTransactions();
+    //$this->form->prices = $this->getPrices();
+    //$this->form->spectators = $this->getSpectators();
+    //$this->form->unbalanced = $this->getUnbalancedTransactions();
   }
   public function executeShow(sfWebRequest $request)
   {
     $this->securityAccessFiltering($request);
     parent::executeShow($request);
-    $this->form->prices = $this->getPrices();
-    $this->form->spectators = $this->getSpectators();
+    //$this->form->prices = $this->getPrices();
+    //$this->form->spectators = $this->getSpectators();
     $this->form->unbalanced = $this->getUnbalancedTransactions();
   }
+  public function executeShowSpectators(sfWebRequest $request)
+  {
+    $this->securityAccessFiltering($request);
+    $this->spectators = $this->getSpectators($request->getParameter('id'));
+    $this->prices = $this->getPrices($request->getParameter('id'));
+    $this->setLayout('nude');
+  }
   
-  protected function getPrices()
+  protected function getPrices($manifestation_id = NULL)
   {
     $q = Doctrine::getTable('Price')->createQuery('p')
       ->leftJoin('p.Tickets t')
@@ -258,14 +265,14 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('t.cancelling IS NULL')
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
-      ->andWhere('t.manifestation_id = ?',$this->manifestation->id)
+      ->andWhere('t.manifestation_id = ?',$manifestation_id ? $manifestation_id : $this->manifestation->id)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
       ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->orderBy('p.name, tr.id, o.name, c.name, c.firstname');
     $e = $q->execute();
     return $e;
   }
-  protected function getSpectators()
+  protected function getSpectators($manifestation_id = NULL)
   {
     $q = Doctrine::getTable('Transaction')->createQuery('tr')
       ->leftJoin('tr.Contact c')
@@ -279,7 +286,7 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('tck.cancelling IS NULL')
       ->andWhere('tck.duplicate IS NULL')
       ->andWhere('tck.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
-      ->andWhere('tck.manifestation_id = ?',$this->manifestation->id)
+      ->andWhere('tck.manifestation_id = ?',$manifestation_id ? $manifestation_id : $this->manifestation->id)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
       ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhere('p.id IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?) OR (SELECT count(up2.price_id) FROM UserPrice up2 WHERE up2.sf_guard_user_id = ?) = 0',array($this->getUser()->getId(),$this->getUser()->getId()))

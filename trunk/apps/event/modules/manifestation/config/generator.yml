@@ -48,6 +48,6 @@ generator:
           Memo:       [_show_description]
           Technical:  [duration, _show_vat, online_limit, _show_seated, _show_organizers_list, _show_no_print]
           Workspaces: [_show_workspaces_list]
-          Tickets:    [_show_tickets_list]
-          Spectators: [_show_spectators_list]
+          Tickets:    [_show_tickets_list_empty]
+          Spectators: [_show_spectators_list_empty]
           Unbalanced: [_show_unbalanced_list]

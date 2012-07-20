@@ -3,7 +3,8 @@
   <tbody>
   <?php $total = array('qty' => 0, 'value' => 0) ?>
   <?php $overlined = true ?>
-  <?php foreach ( $form->prices as $price ): ?>
+  <?php if ( !isset($prices) ) $prices = $form->prices ?>
+  <?php foreach ( $prices as $price ): ?>
   <?php
     $transaction = $contact = $pro = array();
     $qty = $value = 0;

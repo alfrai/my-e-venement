@@ -141,6 +141,7 @@ class ticketActions extends sfActions
   {
     $this->executeAccounting($request,true,$request->hasParameter('partial') ? $request->getParameter('manifestation_id') : false);
     
+    $this->partial = false;
     $this->invoice = false;
     if ( $request->hasParameter('partial') && intval($request->getParameter('manifestation_id')) > 0 )
     {

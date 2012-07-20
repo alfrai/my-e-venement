@@ -1,7 +1,8 @@
 <?php
   $total = array('controlled' => array('qty' => 0, 'value' => 0), 'not_controlled' => array('qty' => 0, 'value' => 0),);
   $tickets = array('controlled' => array(), 'not_controlled' => array(),);
-  foreach ( $form->prices as $price )
+  if ( !isset($prices) ) $prices = $form->prices;
+  foreach ( $prices as $price )
   {
     $qty = $value = array('controlled' => 0, 'not_controlled' => 0);
     foreach ( $price->Tickets as $t )
