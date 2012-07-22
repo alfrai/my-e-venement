@@ -70,6 +70,10 @@ class ledgerActions extends sfActions
   
   public function executeSales(sfWebRequest $request)
   {
+    // because loading this page with a lot of data is really long
+    set_time_limit(240);
+    ini_set('memory_limit','512M');
+    
     $criterias = $this->formatCriterias($request);
     $dates = $criterias['dates'];
     
