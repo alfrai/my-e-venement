@@ -120,7 +120,14 @@ class ledgerActions extends sfActions
     if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
     {
       if ( $criterias['users'][''] ) unset($criterias['users']['']);
-      $q->andWhereIn('tck.sf_guard_user_id',$criterias['users']);
+      if ( !isset($criterias['tck_value_date_payment']) )
+        $q->andWhereIn('tck.sf_guard_user_id',$criterias['users']);
+      else
+      {
+        if ( !$q->contains('LEFT JOIN t.Payments p') )
+          $q->leftJoin('t.Payments p');
+        $q->andWhereIn('p.sf_guard_user_id',$criterias['users']);
+      }
     }
     
     if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && $criterias['workspaces'][0] )

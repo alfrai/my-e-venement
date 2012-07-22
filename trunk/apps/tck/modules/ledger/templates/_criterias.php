@@ -20,7 +20,7 @@
     <?php endif ?>
     <?php if ( $ledger == 'sales' ): ?>
     <li>
-      <label for="tck_value_date_payment"><?php echo __('Display tickets from payment date') ?>:</label>
+      <label for="tck_value_date_payment"><?php echo __('Display tickets from payment') ?>:</label>
       <?php echo $form['tck_value_date_payment'] ?>
     </li>
     <?php endif ?>
