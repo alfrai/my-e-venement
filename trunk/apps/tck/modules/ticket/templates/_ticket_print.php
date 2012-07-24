@@ -14,6 +14,19 @@
   </p>
 </form>
 <?php endif ?>
+<?php if ( sfConfig::get('app_transaction_force_contact') && !$sf_user->hasCredential('tck-admin') ): ?>
+<script type="text/javascript"><!--
+  $(document).ready(function(){
+    $('#print .integrate input[type=submit], #print .print input[type=submit]').click(function(){
+      if ( !(parseInt($('.contact input[name="transaction[contact_id]"]').val()) > 0) )
+      {
+        alert("<?php echo __('You forgot to specify a contact... or to press ENTER to validate it.') ?>");
+        return false;
+      }
+    });
+  });
+--></script>
+<?php endif ?>
 <?php if ( isset($accounting) && $accounting !== false ): ?>
 <?php if ( $sf_user->hasCredential('tck-accounting-order') ): ?>
 <form action="<?php echo url_for('ticket/order?id='.$transaction->id) ?>" method="get" target="_blank" class="accounting">

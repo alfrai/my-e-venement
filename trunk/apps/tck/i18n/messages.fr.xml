@@ -9,6 +9,10 @@
         <target>L'opération #%%t%% a été créée pour centraliser les paiements de %%nb%% billets</target>
       </trans-unit>
       <trans-unit>
+        <source>You forgot to specify a contact... or to press ENTER to validate it.</source>
+        <target>Vous avez oublié de spécifier un contact... ou d'appuyer sur ENTRER pour le valider.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Display</source>
         <target>Afficher</target>
       </trans-unit>

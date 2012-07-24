@@ -11,6 +11,7 @@ all:
     #gauge_alert: true
     manifs:
       max_display: 20
+    #force_contact: true
   tickets:
     mentions:
       optional: licences: 350970 / 350971 / 350972

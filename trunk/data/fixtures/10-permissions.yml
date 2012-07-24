@@ -489,6 +489,16 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_74
     created_at: '2012-03-23 18:10:09'
     updated_at: '2012-03-23 18:10:09'
+  sfGuardGroupPermission_15_75:
+    Group: sfGuardGroup_15
+    Permission: sfGuardPermission_75
+    created_at: '2012-07-24 10:10:09'
+    updated_at: '2012-07-24 10:10:09'
+  sfGuardGroupPermission_9_75:
+    Group: sfGuardGroup_9
+    Permission: sfGuardPermission_75
+    created_at: '2012-07-24 10:10:09'
+    updated_at: '2012-07-24 10:10:09'
 sfGuardPermission:
   sfGuardPermission_18:
     name: admin-titles
@@ -840,6 +850,11 @@ sfGuardPermission:
     description: 'Permission to modify directly the flow which has passed throught checkpoints'
     created_at: '2012-03-31 18:09:41'
     updated_at: '2012-03-31 18:09:41'
+  sfGuardPermission_75:
+    name: tck-admin
+    description: Permission to by-pass some checkpoints as a ticketting super-user (eg: if the option is set, a transaction can be blocked if no contact has been set, when you're a tck-admin, you can do it !)
+    created_at: '2012-07-24 10:09:41'
+    updated_at: '2012-07-24 10:09:41'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
