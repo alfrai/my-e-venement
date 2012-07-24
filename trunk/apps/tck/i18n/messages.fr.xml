@@ -169,6 +169,10 @@
         <target>Des jauges sont pleines, êtes vous sûr(e) ?</target>
       </trans-unit>
       <trans-unit>
+        <source>Some gauges are full, check them out.</source>
+        <target>Des jauges sont pleines, vérifiez-les.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Dated</source>
         <target>Daté du</target>
       </trans-unit>

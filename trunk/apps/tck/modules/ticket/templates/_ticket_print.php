@@ -1,6 +1,26 @@
 <form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>" method="get" target="_blank" class="print">
   <p>
-    <input type="submit" name="s" value="<?php echo __('Print') ?>" onclick="javascript: if ( $('#manifestations #force-alert').length > 0 && $('.manifestations_list .alert').length > 0 ) return confirm('<?php echo __('Some gauges are full, are you sure?') ?>');" />
+    <input type="submit" name="s" value="<?php echo __('Print') ?>" onclick="javascript: return click_print()" />
+    <script type="text/javascript"><!--
+    function click_print()
+    {
+      if ( $('#manifestations #force-alert').length > 0 && $('.manifestations_list .alert').length > 0 )
+      {
+        if ( <?php echo sfConfig::get('app_transaction_gauge_block') ? 'true' : 'false' ?> )
+        {
+          if ( <?php echo !$sf_user->hasCredential('tck-admin') ? 'true' : 'false' ?> )
+          {
+            alert('<?php echo __('Some gauges are full, check them out.') ?>');
+            return false;
+          }
+          else
+            return confirm('<?php echo __('Some gauges are full, are you sure?') ?>');
+        }
+        else
+          return confirm('<?php echo __('Some gauges are full, are you sure?') ?>');
+      }
+    }
+    --></script>
     <?php if ( isset($accounting) && $accounting !== false ): ?>
     <input type="checkbox" name="duplicate" value="true" title="<?php echo __('Duplicatas') ?>" />
     <input type="text" name="price_name" value="" class="price" />
