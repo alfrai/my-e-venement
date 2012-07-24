@@ -38,7 +38,7 @@
 <script type="text/javascript"><!--
   $(document).ready(function(){
     $('#print .integrate input[type=submit], #print .print input[type=submit]').click(function(){
-      if ( !(parseInt($('.contact input[name="transaction[contact_id]"]').val()) > 0) )
+      if ( $('.contact input[name="transaction[contact_id]"]').length > 0 )
       {
         alert("<?php echo __('You forgot to specify a contact... or to press ENTER to validate it.') ?>");
         return false;
