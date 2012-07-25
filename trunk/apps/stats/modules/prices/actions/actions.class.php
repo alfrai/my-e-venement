@@ -152,7 +152,6 @@ class pricesActions extends sfActions
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.cancelling IS NULL')
-      ->andWhereIn('t.sf_guard_user_id',$criterias['users'])
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->andWhere('m.happens_at > ?',date('Y-m-d H:i:s',$dates['from']))
       ->andWhere('m.happens_at <= ?',date('Y-m-d H:i:s',$dates['to']))
