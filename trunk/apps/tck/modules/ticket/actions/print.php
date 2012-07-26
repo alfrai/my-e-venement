@@ -38,6 +38,8 @@
       ->leftJoin('tck.Gauge g')
       ->leftJoin('g.Workspace ws')
       ->orderBy('m.happens_at, tck.price_name, tck.id');
+    
+    // partial printing
     if ( $request->hasParameter('toprint') )
     {
       $tids = $request->getParameter('toprint');
@@ -106,3 +108,4 @@
         $this->setTemplate('rfid');
       }
     }
+    
