@@ -10,6 +10,8 @@
 #template_manifestations_list {
   max-width: none;
   width: 600px;
+  max-height: none;
+  height: 400px;
 }
       
       
