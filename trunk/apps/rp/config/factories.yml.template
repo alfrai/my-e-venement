@@ -29,6 +29,11 @@ dev:
       delivery_strategy: single_address
 
 all:
+  user:
+    class: myUser
+      param:
+        timeout: 3600
+        
   routing:
     class: sfPatternRouting
     param:
