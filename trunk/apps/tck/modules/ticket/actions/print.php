@@ -42,7 +42,7 @@
     // partial printing
     if ( $request->hasParameter('toprint') )
     {
-      $tids = $request->getParameter('toprint');
+      $this->toprint = $tids = $request->getParameter('toprint');
       
       if ( !is_array($tids) ) $tickets = array($tids);
       foreach ( $tids as $key => $value )
@@ -52,40 +52,51 @@
     }
     
     $this->transaction = $q->fetchOne();
+    $this->manifestation_id = $request->getParameter('manifestation_id');
     
     $this->duplicate = $request->getParameter('duplicate') == 'true';
     $this->tickets = array();
+    
     foreach ( $this->transaction->Tickets as $ticket )
-    if ( $request->getParameter('duplicate') == 'true' )
     {
-      if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
-        && $ticket->printed
-        && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
+      if ( $request->getParameter('duplicate') == 'true' )
       {
-        $newticket = $ticket->copy();
-        $newticket->save();
-        $ticket->duplicate = $newticket->id;
-        $ticket->save();
-        $this->tickets[] = $newticket;
-      }
-    }
-    else
-    {
-      //$this->duplicate = false;
-      if ( !$ticket->printed && !$ticket->integrated )
-      {
-        $ticket->sf_guard_user_id = NULL;
-        if ( $ticket->Manifestation->no_print )
-          $ticket->integrated = true;
-        else
+        if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
+          && $ticket->printed
+          && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
         {
-          $ticket->printed = true;
-          $this->tickets[] = $ticket;
+          $newticket = $ticket->copy();
+          $newticket->save();
+          $ticket->duplicate = $newticket->id;
+          $ticket->save();
+          $this->tickets[] = $newticket;
         }
       }
-      $this->transaction->updated_at = NULL;
-      $this->transaction->save();
+      else
+      {
+        //$this->duplicate = false;
+        if ( !$ticket->printed && !$ticket->integrated )
+        {
+          $ticket->sf_guard_user_id = NULL;
+          if ( $ticket->Manifestation->no_print )
+            $ticket->integrated = true;
+          else
+          {
+            $ticket->printed = true;
+            $this->tickets[] = $ticket;
+          }
+        }
+      }
+      
+      if ( count($this->tickets) >= 200 )
+      {
+        $this->print_again = true;
+        break;
+      }
     }
+    
+    $this->transaction->updated_at = NULL;
+    $this->transaction->save();
     
     if ( count($this->tickets) <= 0 )
       $this->setTemplate('close');
