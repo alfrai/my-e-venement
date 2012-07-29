@@ -122,6 +122,10 @@ body.bdc #echeance { display: none; }
   text-decoration: underline;
 }
 
+tbody {
+  font-size: 80%;
+}
+
 @media print {
 
 .inline-modifications {
