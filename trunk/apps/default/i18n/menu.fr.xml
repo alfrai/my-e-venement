@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Transactions by price</source>
+        <target>Opérations par tarif</target>
+      </trans-unit>
+      <trans-unit>
         <source>By event</source>
         <target>Par événement</target>
       </trans-unit>
