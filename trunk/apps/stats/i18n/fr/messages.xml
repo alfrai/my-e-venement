@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Asked transactions</source>
+        <target>Opérations demandées</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Engaged transactions</source>
+        <target>Opérations réservées</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Printed transactions</source>
+        <target>Opérations vendues</target>
+      </trans-unit>
+      <trans-unit>
         <source>Tickets with contact:</source>
         <target>Billets avec contact:</target>
       </trans-unit>
@@ -122,7 +134,7 @@
       </trans-unit>
       <trans-unit id="100">
         <source>Engaged tickets</source>
-        <target>Billets Réservés</target>
+        <target>Billets réservés</target>
       </trans-unit>
       <trans-unit id="101">
         <source>Printed tickets</source>

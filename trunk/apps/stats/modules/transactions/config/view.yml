@@ -2,4 +2,5 @@ csvSuccess:
   has_layout: false
   http_metas:
     content-type: text/comma-separated-values
-    content-disposition: attachment; filename="stats-prices.csv"
+    content-disposition: attachment; filename="stats-transactions.csv"
+
