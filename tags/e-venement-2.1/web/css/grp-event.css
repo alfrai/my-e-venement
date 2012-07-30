@@ -1,0 +1,149 @@
+.grp-entry {
+  border: 1px solid silver;
+  -moz-user-select: none;
+}
+.grp-entry .copy {
+  outline: 3px solid orange;
+  cursor: move;
+}
+.grp-entry .move {
+  cursor: move;
+}
+
+#copy-paste {
+  display: none;
+}
+
+#sf_admin_container .sf_admin_form { 
+  overflow: auto;
+  width: auto;
+  max-height: 550px;
+}
+#sf_admin_container td {
+  width: 250px;
+  border: 1px solid gray;
+}
+#sf_admin_container td:last-child {
+  width: 100px;
+}
+#sf_admin_container td .min-width,
+body #content .sf_admin_form input[type=text],
+body #content .sf_admin_form select {
+  width: 175px;
+  margin: 0 3px;
+}
+
+body .sf_admin_form_row { padding: 0; }
+body .sf_admin_text input { margin: 0; }
+
+#sf_admin_container .transposed .contact .sf_admin_actions { margin-top: -20px; }
+#sf_admin_container .transposed .contact .sf_admin_actions { margin-left: 125px; }
+#sf_admin_container .contact .sf_admin_actions { margin-left: 70px; }
+#sf_admin_container .contact_entry_new .sf_admin_actions {
+  margin-left: 125px;
+}
+
+thead .manifestation { text-align: center; }
+
+.hidden { display: none; }
+
+td.impair { background-color: #f8ffdd; }
+tr.impair { background-color: #f8ffdd; }
+tr.impair td.impair { background-color: #eff8cd; }
+
+.EntryTickets { float: left; }
+body #sf_admin_container .EntryTickets input[type=text] {
+  width: 3em;
+}
+body #sf_admin_container .EntryTickets select {
+  width: 75px;
+}
+
+.EntryElement {
+  /*text-align: center;*/
+  margin-left: 23px;
+}
+
+.event .transpose, .EntryTickets a, .ticketting a {
+  text-decoration: none;
+  background-color: #dbdbdb;
+  padding: 2px 4px;
+  color: #dbdbdb;
+  border: 1px solid gray;
+  border-bottom-color: #929292;
+  border-left-color: #a5a5a5;
+  border-right-color: #a5a5a5;
+  border-top-color: #b9b9b9;
+  -moz-border-radius: 4px;
+  margin-left: 3px;
+}
+.event .transpose { color: black; }
+
+.ticketting { text-align: center; }
+.ticketting p { margin-bottom: 5px; }
+
+.ticketting .count .tickets { margin: 0 2px; }
+tfoot .count p { display: inline-block; margin-left: 4px; }
+.entries .tickets, .ticketting .tickets, tfoot .count .tickets {
+  border: 1px dashed gray;
+  -moz-border-radius: 3px;
+  padding: 2px 4px;
+  background-color: white;
+}
+.ticketting .count .nb, tfoot .count .nb { margin-right: 2px; }
+.ticketting .count .total:before, tfoot .count .total:before { content: '='; margin: 0 4px; }
+
+.second_choice select, .second_choice input[type=text] {
+  border-style: dotted;
+}
+.accepted select, .accepted input[type=text] {
+  border-color: red;
+}
+.transposed .tickets, .transposed select, .transposed input[type=text] {
+  color: green;
+}
+
+#contact_entry_confirmed, #contact_entry_comment2 {
+  display: none;
+}
+.transposed #contact_entry_confirmed, .transposed #contact_entry_comment2 {
+  display: inline;
+}
+
+.li_grp_professional .ui-widget-header {
+  margin-bottom: 5px;
+}
+.li_grp_professional .ui-widget {
+  margin: 10px 5px;
+}
+
+#sf_admin_container.li_grp_professional .ui-widget ul {
+  margin-left: 30px;
+  line-height: 22px;
+}
+.li_grp_professional .entry_id {
+  min-width: 25px;
+  display: inline-block;
+}
+.li_grp_professional .manifestation_happens_at {
+  min-width: 200px;
+  display: inline-block;
+}
+.li_grp_professional .ui-widget a {
+  text-decoration: none;
+}
+.li_grp_professional a:hover,
+.li_grp_professional .entry_id a {
+  text-decoration: underline;
+}
+.li_grp_professional .transpose:hover {
+  text-decoration: none;
+}
+.li_grp_professional .contact {
+  margin: 5px 10px;
+  font-weight: bold;
+}
+.li_grp_professional .sf_admin_actions_block {
+  margin-bottom: 50px;
+}
+

@@ -1,0 +1,39 @@
+default:
+  javascripts: [jquery,menu]
+
+printSuccess:
+  javascripts: [-*, jquery, print-tickets]
+  stylesheets: [-*, print-tickets.default.css: {media: all}, /private/print-tickets.css: {media: all}]
+orderSuccess:
+  javascripts: [-*, jquery, print-tickets]
+  stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css: {media: all}]
+invoiceSuccess:
+  javascripts: [-*, jquery, print-tickets]
+  stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css: {media: all}]
+
+gaugeSuccess:
+  stylesheets: [gauge]
+  javascripts: [gauge]
+sellSuccess:
+  javascripts: [/private/ticket.js]
+
+failedSuccess:
+  stylesheets: [ticket]
+passedSuccess:
+  stylesheets: [ticket]
+controlSuccess:
+  stylesheets: [ticket]
+  javascripts: [ticket-control]
+
+duplicateSuccess:
+  stylesheets: [ticket-cancel]
+cancelSuccess:
+  stylesheets: [ticket-cancel]
+cancelBootSuccess:
+  stylesheets: [ticket-cancel]
+canceledTicketSuccess:
+  stylesheets: [ticket]
+integrateSuccess:
+  stylesheets: [ticket-integrate]
+batchIntegrateSuccess:
+  javascripts: [ticket-batch-integrate]
