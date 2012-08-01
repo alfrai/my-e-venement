@@ -307,3 +307,20 @@ Payment:
       onDelete: RESTRICT
       onUpdate: CASCADE
 
+ContactEventArchives:
+  package: tck
+  columns:
+    contact_id:
+      type: integer
+      notnull: true
+    happens_at:
+      type: timestamp
+      notnull: true
+    name:
+      type: string
+      notnull: true
+  relations:
+    Contact:
+      foreignAlias: EventArchives
+      onDelete: CASCADE
+      onUpdate: CASCADE
