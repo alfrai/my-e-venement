@@ -67,12 +67,14 @@ class ContactTable extends PluginContactTable
     $q = $this->createQuery('c')
       ->leftJoin("c.Transactions transac")
       ->leftJoin('transac.Payments payment')
+      ->leftJoin('c.EventArchives ea')
       /*
       ->leftJoin('transac.Tickets tck ON transaction.id = tck.transaction_id AND tck.id NOT IN (SELECT tck2.cancelling FROM ticket tck2 WHERE tck2.cancelling IS NOT NULL) AND tck.duplicate IS NULL')
       ->leftJoin('tck.Manifestation manifestation')
       ->leftJoin('manifestation.Event event')
       */
-      ->andWhere('c.id = ?',$id);
+      ->andWhere('c.id = ?',$id)
+      ->orderBy('ea.happens_at DESC');
     $contacts = $q->execute();
     return $contacts[0];
   }
