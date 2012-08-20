@@ -44,9 +44,6 @@ html body p { margin: 0; padding: 0 }
   background-position: 75mm bottom;
 }
 
-#card .content:first-child p {
-  margin-bottom: 1em;
-}
 #card .content:first-child .picture {
   border: 1px solid grey;
   margin-right: 2mm;
@@ -57,9 +54,12 @@ html body p { margin: 0; padding: 0 }
 #card .content .extra-card {
   clear: both;
   font-size: 8px;
-  margin-top: 2.5mm;
+  margin-top: 4.5mm;
   text-align: center;
-  margin-right: 80px;
+  margin-right: 67px;
+}
+#card .content:first-child p {
+  margin-bottom: 1em;
 }
 
 #card p {
@@ -83,7 +83,7 @@ html body p { margin: 0; padding: 0 }
   font-weight: normal;
 }
 #card .title:after {
-  content: ':';
+  content: ' :';
 }
 
 #card h2 {

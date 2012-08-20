@@ -5,7 +5,17 @@ html body #more    { width: 255px; margin-left: 200px; overflow: hidden; }
 #sf_fieldset_spectators tbody .transaction { text-align: right; }
 
 #sf_fieldset_unbalanced .contact { max-width: 130px; overflow: hidden; white-space: nowrap; }
+<<<<<<< .mine
+
+#sf_admin_pager td {
+  width: 10%;
+}
 
 #sf_admin_pager td.left {
   display: none;
 }
+
+#sf_admin_pager td.left {
+  display: none;
+}
+

@@ -32,7 +32,7 @@ Contact:
       fields: [name,firstname]
   columns:
     firstname: string(255)
-    title: string(23)
+    title: string(255)
     description: string
     password: string(255)
     family_contact:
