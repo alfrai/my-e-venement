@@ -499,6 +499,11 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_75
     created_at: '2012-07-24 10:10:09'
     updated_at: '2012-07-24 10:10:09'
+  sfGuardGroupPermission_24_76:
+    Group: sfGuardGroup_76
+    Permission: sfGuardPermission_24
+    created_at: '2012-08-24 10:10:09'
+    updated_at: '2012-08-24 10:10:09'
 sfGuardPermission:
   sfGuardPermission_18:
     name: admin-titles
@@ -855,6 +860,11 @@ sfGuardPermission:
     description: Permission to by-pass some checkpoints as a ticketting super-user (eg: if the option is set, a transaction can be blocked if no contact has been set, when you're a tck-admin, you can do it !)
     created_at: '2012-07-24 10:09:41'
     updated_at: '2012-07-24 10:09:41'
+  sfGuardPermission_76:
+    name: stats-pr-cards
+    description: Permission to access the member card's stats
+    created_at: '2012-08-24 10:09:41'
+    updated_at: '2012-08-24 10:09:41'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view

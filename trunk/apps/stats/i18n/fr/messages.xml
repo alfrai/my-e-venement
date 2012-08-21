@@ -5,6 +5,46 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Prices for %%price%%</source>
+        <target>Prix pour %%price%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>VAT</source>
+        <target>TVA</target>
+      </trans-unit>
+      <trans-unit>
+        <source>PIT</source>
+        <target>TTC</target>
+      </trans-unit>
+      <trans-unit>
+        <source>TEP</source>
+        <target>HT</target>
+      </trans-unit>
+      <trans-unit>
+        <source>VAT:</source>
+        <target>TVA:</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Unit price:</source>
+        <target>Prix unitaire:</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Memberships-like from %%from%% to %%to%%</source>
+        <target>Équivalents-abonnements du %%from%% au %%to%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>free_subscription</source>
+        <target>abonnement exonéré</target>
+      </trans-unit>
+      <trans-unit>
+        <source>membership</source>
+        <target>adhésion</target>
+      </trans-unit>
+      <trans-unit>
+        <source>subscription</source>
+        <target>abonnement</target>
+      </trans-unit>
+      <trans-unit>
         <source>Asked transactions</source>
         <target>Opérations demandées</target>
       </trans-unit>

@@ -25,6 +25,7 @@ class activityActions extends sfActions
     }
     
     $this->form = new StatsCriteriasForm();
+    $this->form->addEventCriterias();
     $this->form->addIntervalCriteria();
     
     if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )

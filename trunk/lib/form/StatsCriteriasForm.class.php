@@ -22,7 +22,13 @@ class StatsCriteriasForm extends BaseForm
       'to_date'   => new sfValidatorDate(array('required' => false)),
       'required' => false,
     ));
-
+    
+    $this->widgetSchema->setNameFormat('criterias[%s]');
+    $this->disableCSRFProtection();
+  }
+  
+  public function addEventCriterias()
+  {
     $this->widgetSchema['workspaces_list'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'Workspace',
       'order_by' => array('name',''),
@@ -44,9 +50,7 @@ class StatsCriteriasForm extends BaseForm
       'multiple' => true,
       'required' => false,
     ));
-
-    $this->widgetSchema->setNameFormat('criterias[%s]');
-    $this->disableCSRFProtection();
+    return $this;
   }
   
   public function addUsersCriteria()
@@ -61,6 +65,21 @@ class StatsCriteriasForm extends BaseForm
       'multiple' => true,
       'required' => false,
     ));
+    return $this;
+  }
+  
+  public function addAccountingCriterias()
+  {
+    $this->widgetSchema['accounting_vat'] = new sfWidgetFormInput();
+    $this->validatorSchema['accounting_vat'] = new sfValidatorInteger(array(
+      'min' => 0,
+      'max' => 100,
+    ));
+    $this->widgetSchema['accounting_unit_price'] = new sfWidgetFormInput();
+    $this->validatorSchema['accounting_unit_price'] = new sfValidatorInteger(array(
+      'min' => 0,
+    ));
+    return $this;
   }
   
   public function addWithContactCriteria()
@@ -78,6 +97,7 @@ class StatsCriteriasForm extends BaseForm
     $this->validatorSchema['with_contact'] = new sfValidatorChoice(array(
       'choices' => array_keys($choices),
     ));
+    return $this;
   }
   
   public function addIntervalCriteria()
@@ -88,5 +108,6 @@ class StatsCriteriasForm extends BaseForm
     $this->validatorSchema['interval'] = new sfValidatorInteger(array(
       'required' => false,
     ));
+    return $this;
   }
 }

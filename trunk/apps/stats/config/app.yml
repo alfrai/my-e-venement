@@ -3,3 +3,7 @@
 
 # default values
 #all:
+
+all:
+  cards:
+    expiration_delay: 1 year

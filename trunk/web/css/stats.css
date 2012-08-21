@@ -38,3 +38,20 @@
 .actions a.chart { background-image: url('../images/chart_bar.png'); border: 0; }
 
 .clear { clear: both; }
+
+.accounting {
+  margin: 10px;
+  padding: 5px;
+}
+.accounting form {
+  display: table;
+}
+.accounting form p {
+  display: table-row;
+}
+.accounting form p span {
+  display: table-cell;
+}
+.cards #sf_admin_filter_button {
+  margin-top: -28px;
+}

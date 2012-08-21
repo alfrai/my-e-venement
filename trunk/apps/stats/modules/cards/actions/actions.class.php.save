@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * cards actions.
+ *
+ * @package    e-venement
+ * @subpackage cards
+ * @author     Baptiste SIMON <baptiste.simon AT e-glop.net>
+ * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
+ */
+class cardsActions extends sfActions
+{
+ /**
+  * Executes index action
+  *
+  * @param sfRequest $request A request object
+  */
+  public function executeIndex(sfWebRequest $request)
+  {
+    
+  }
+  
+  public function executeCsv(sfWebRequest $request)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
+    $this->lines = $this->getMembersCards();
+    
+    $total = 0;
+    foreach ( $this->lines as $line )
+      $total += $line['nb'];
+    
+    foreach ( $this->lines as $key => $line )
+    {
+      unset($this->lines[$key][0],$this->lines[$key][1]);
+      $this->lines[$key]['percent'] = round($this->lines[$key]['nb']*100/$total,1);
+      $this->lines[$key]['name'] = __($this->lines[$key]['name']);
+    }
+    
+    //$this->lines[] = array('name' => __('Total'), 'nb' => $total, 'percent' => '100%');
+    
+    // the CSV ouput
+    $params = OptionCsvForm::getDBOptions();
+    $this->options = array(
+      'ms' => isset($params['option']['ms']),
+      'fields' => array('name','nb','percent'),
+      'tunnel' => false,
+      'noheader' => false,
+    );
+    
+    $this->outstream = 'php://output';
+    $this->delimiter = $this->options['ms'] ? ';' : ',';
+    $this->enclosure = '"';
+    $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
+    
+    sfConfig::set('sf_escaping_strategy', false);
+    sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
+    
+    if ( !$request->hasParameter('debug') )
+    {
+      sfConfig::set('sf_web_debug', false);
+      $this->getResponse()->setContentType('text/comma-separated-values');
+      $this->getResponse()->sendHttpHeaders();
+    }
+    else
+    {
+      $this->setLayout(true);
+    }
+  }
+  
+  public function executeData(sfWebRequest $request)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
+    
+    $g = new stGraph();
+    $g->bg_colour = '#FFFFFF';
+    
+    //Set the transparency, line colour to separate each slice etc.
+    $g->pie(80,'#78B9EC','{font-size: 12px; color: #78B9EC;');
+    
+    $mc = $this->getMembersCards();
+    
+    foreach ( $mc as $value )
+    {
+      $data[]   = $value['nb'];
+      $names[]  = __($value['name']);
+    }
+    
+    $g->pie_values($data,$names);
+    $g->pie_slice_colours( array('#d01f3c','#3537a0','#35a088','#d0841f','#cbd01f') );
+    
+    $g->set_tool_tip('#x_label#: #val#');
+    
+    if ( !$request->hasParameter('debug') )
+    {
+      echo $g->render();
+      return sfView::NONE;
+    }
+  }
+  
+  protected function getMembersCards($from = date('Y-m-d'), $until = date('Y-m-d',strtotime('1 year')))
+  {
+    $q = "SELECT name, sum(:until - expire_at) AS nb FROM member_card WHERE expire_at > :from AND expire_at < :until GROUP BY name";
+    
+    $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    $stmt = $pdo->prepare($q);
+    $stmt->execute(array('from' => $from, 'until' => $until));
+    return $stmt->fetchAll();
+  }
+}

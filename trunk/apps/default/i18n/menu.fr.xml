@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Member cards</source>
+        <target>Cartes d'adhérents</target>
+      </trans-unit>
+      <trans-unit>
         <source>Transactions by price</source>
         <target>Opérations par tarif</target>
       </trans-unit>

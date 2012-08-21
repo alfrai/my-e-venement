@@ -24,7 +24,8 @@
 <?php if ( $sf_user->hasCredential('stats-attendance')
         || $sf_user->hasCredential('stats-activity')
         || $sf_user->hasCredential('stats-prices')
-        || $sf_user->hasCredential('stats-byGroup') ): ?>
+        || $sf_user->hasCredential('stats-byGroup')
+        || $sf_user->hasCredential('stats-pr-cards') ): ?>
       <li>
         <ul class="second">
           <?php if ( $sf_user->hasCredential('stats-attendance') ): ?>
@@ -39,6 +40,9 @@
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('stats-byGroup') ): ?>
           <li class="spaced"><a href="<?php echo cross_app_url_for('stats','byGroup/index') ?>"><?php echo __('Entrances by group',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('stats-pr-cards') ): ?>
+          <li class="spaced"><a href="<?php echo cross_app_url_for('stats','cards/index') ?>"><?php echo __('Member cards',array(),'menu') ?></a></li>
           <?php endif ?>
         </ul>
         <span class="title"><?php echo __('Stats',array(),'menu') ?></span>
