@@ -58,7 +58,11 @@
   if ( !$options['noheader'] )
   {
     if ( !isset($options['header']) )
-    	$line = $fields;
+    {
+    	foreach ( $fields as $fieldname => $field )
+     	if ( in_array($fieldname,$options['fields']) )
+  	    	$line[$fieldname] = $field;
+    }
     else
     {
     	foreach ( $options['header'] as $fieldname => $field )
