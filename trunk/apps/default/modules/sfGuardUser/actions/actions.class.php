@@ -105,7 +105,7 @@ class sfGuardUserActions extends autoSfGuardUserActions
   protected function restrictViewSuperAdminFlag()
   {
     if ( !$this->getUser()->isSuperAdmin() )
-      $this->form->getWidget('is_super_admin',new sfWidgetFormInputHidden());
+      $this->form->setWidget('is_super_admin',new sfWidgetFormInputHidden());
   }
   protected function restrictDirectAccess(sfWebRequest $request, $redirect_route = '@sfGuardUser')
   {
@@ -115,7 +115,7 @@ class sfGuardUserActions extends autoSfGuardUserActions
       $sf_guard_user = Doctrine::getTable('SfGuardUser')->findOneById($request->getParameter('id'));
       if ( is_object($sf_guard_user) )
       if ( $sf_guard_user->is_super_admin && !$this->getUser()->isSuperAdmin()
-        || in_array('admin-power',$sf_guard_user->getAllPermissionNames()) && (!$this->getUser()->hasCredential('admin-power') || !$this->getUser()->isSuperAdmin()) )
+        || in_array('admin-power',$sf_guard_user->getAllPermissionNames()) && (!$this->getUser()->hasCredential('admin-power')) )
       {
         $redirect_route = strpos('sfGuardUser/show',$redirect_route) !== false
           ? $redirect_route.'?id='.$request->getParameter('id')
