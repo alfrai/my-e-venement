@@ -17,10 +17,13 @@
         $prices_obj[$pm->price_id] = $price;
       }
       
-      $prices[$price->id] = array('gauges' => array(), 'price' => $price->name);
-      foreach ( $price->Workspaces as $ws )
-      foreach ( $ws->Gauges as $g )
-        $prices[$price->id]['gauges'][$g->id] = $g->id;
+      if ( $price->Users[0]->id == $sf_user->getId() )
+      {
+        $prices[$price->id] = array('gauges' => array(), 'price' => $price->name);
+        foreach ( $price->Workspaces as $ws )
+        foreach ( $ws->Gauges as $g )
+          $prices[$price->id]['gauges'][$g->id] = $g->id;
+      }
     }
     echo json_encode($prices);
   ?>

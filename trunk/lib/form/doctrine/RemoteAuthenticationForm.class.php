@@ -12,6 +12,7 @@ class RemoteAuthenticationForm extends BaseRemoteAuthenticationForm
 {
   public function configure()
   {
+    $this->widgetSchema['sf_guard_user_id']->setOption('order_by',array('username',''));
     $this->validatorSchema['key'] = new liValidatorWSKey();
     $this->validatorSchema['key']->setOption('required', false);
     $this->validatorSchema['ipaddress'] = new liValidatorIpAddress(array('required' => true));
