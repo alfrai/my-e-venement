@@ -17,6 +17,10 @@ class EventFormFilter extends BaseEventFormFilter
       'url'   => 'organism/ajax',
     ));
     
+    $this->widgetSchema   ['meta_event_id']->setOption('multiple',true);
+    $this->widgetSchema   ['meta_event_id']->setOption('add_empty',false);
+    $this->validatorSchema['meta_event_id']->setOption('multiple',true);
+    
     $this->widgetSchema['event_category_id']->setOption('order_by',array('name',''));
     $this->widgetSchema['meta_event_id']->setOption('order_by',array('name',''));
   }

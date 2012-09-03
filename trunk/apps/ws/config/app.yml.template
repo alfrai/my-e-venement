@@ -6,6 +6,8 @@ all:
   payment_method: 13
   max_tickets: 10
   noid: true
+  count_demands: false
+  #capitalize: [name, firstname, city, country, address]
   
   melody:
     create_user: false

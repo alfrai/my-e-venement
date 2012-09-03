@@ -86,7 +86,7 @@ function ticket_events()
   
   // add contact link
   $('#contact .create-contact').unbind().click(function(){
-    var w = window.open($(this).attr('href'),'new_contact');
+    var w = window.open($(this).attr('href')+'&name='+$('#contact #autocomplete_transaction_contact_id').val(),'new_contact');
     w.onload = function(){
       setTimeout(function(){
         $(w.document).ready(function(){

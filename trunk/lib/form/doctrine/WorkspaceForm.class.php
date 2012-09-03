@@ -20,5 +20,7 @@ class WorkspaceForm extends BaseWorkspaceForm
     */
     $this->widgetSchema['manifestations_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     $this->widgetSchema['users_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
+    
+    $this->widgetSchema['prices_list']->setOption('expanded',true);
   }
 }

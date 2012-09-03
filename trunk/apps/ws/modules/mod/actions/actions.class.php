@@ -67,6 +67,11 @@ class modActions extends sfActions
     $phonenumber = $client['phonenumber'];
     unset($client['phonenumber']);
     
+    // to for capitalization of some fields
+    if ( sfConfig::has('app_capitalize') && is_array($opts = sfConfig::get('app_capitalize')) )
+    foreach ( $opts as $field )
+      $client[$field] = strtoupper($client[$field]);
+    
     $form = new ContactForm();
     $form->setStrict();
     $form->bind($client);

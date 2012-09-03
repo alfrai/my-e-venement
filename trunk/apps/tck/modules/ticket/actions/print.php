@@ -85,6 +85,7 @@
             $ticket->printed = true;
             $this->tickets[] = $ticket;
           }
+          $ticket->save();
         }
       }
       
@@ -95,8 +96,9 @@
       }
     }
     
-    $this->transaction->updated_at = NULL;
-    $this->transaction->save();
+    // avoid that update, because it updates every tickets' updated_at value and it's quite useless
+    //$this->transaction->updated_at = NULL;
+    //$this->transaction->save();
     
     if ( count($this->tickets) <= 0 )
       $this->setTemplate('close');

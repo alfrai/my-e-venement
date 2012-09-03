@@ -26,12 +26,14 @@
     if ( !$request->hasParameter('debug') )
       $this->getResponse()->setContentType('application/json');
     
+    /*
     try { $this->authenticate($request); }
     catch ( sfException $e )
     {
       $this->getResponse()->setStatusCode('403');
       return $request->hasParameter('debug') ? 'Debug' : sfView::NONE;
     }
+    */
 
     $this->content = array('events' => array(), 'sites' => array());
     
@@ -44,12 +46,15 @@
       ->leftJoin('pm.Price p')
       ->leftJoin('m.Location l')
       ->leftJoin('p.Workspaces pw')
-      ->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.gauge_id = g.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL) AND (t.printed OR t.integrated OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets')
       ->andWhere('m.happens_at > NOW()')
       ->andWhere('g.online')
       ->andWhere('p2.online')
       ->andWhere('g.workspace_id = pw.id')
       ->orderBy('e.name, l.name, m.happens_at, pm.value DESC');
+    if ( sfConfig::has('app_count_demands') && sfConfig::get('app_count_demands') )
+      $q->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.gauge_id = g.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL)) AS nb_tickets');
+    else
+      $q->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.gauge_id = g.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL) AND (t.printed OR t.integrated OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets');
     $gauges = $q->execute();
     
     foreach ( $gauges as $g )

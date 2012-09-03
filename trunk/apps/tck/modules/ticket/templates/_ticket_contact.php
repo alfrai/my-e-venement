@@ -9,12 +9,12 @@
     <span class="title"><?php echo __('Contact') ?>:</span>
     <?php echo $form->renderHiddenFields() ?>
     <span class="contact">
-      <?php if ( is_null($transaction->contact_id) ): ?>
-        <?php echo $form['contact_id'] ?>
-        <a href="<?php echo cross_app_url_for('rp','contact/ajax') ?>" style="display: none;"></a>
-      <?php else: ?>
+      <?php if ( !is_null($transaction->contact_id) ): ?>
         <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$transaction->contact_id) ?>"><?php echo $transaction->Contact ?></a>
+        <?php $form->setWidget('contact_id',new sfWidgetFormInputHidden) ?>
       <?php endif ?>
+      <?php echo $form['contact_id'] ?>
+      <a href="<?php echo cross_app_url_for('rp','contact/ajax') ?>" style="display: none;"></a>
     </span>
     <?php if ( !is_null($transaction->contact_id) ): ?>
     -

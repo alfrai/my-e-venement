@@ -34,7 +34,7 @@ jQuery().ready(function(){
 	{
 		// actions menu on list view
 		$('#sf_admin_actions_button').menu({ 
-			content: $('#sf_admin_actions_menu').html(),
+    	content: $('#sf_admin_actions_menu').html(),
 			showSpeed: 300
 		});
 		
@@ -47,6 +47,8 @@ jQuery().ready(function(){
 			});
 
 		// modal window for filters
+		submit = $('#sf_admin_filter_submit').val();
+		reset  = $('#sf_admin_filter_reset').val();
 		$('.sf_admin_filter').dialog({
 			autoOpen: false,
 			width: 600,
@@ -56,13 +58,21 @@ jQuery().ready(function(){
 			open: function(evt,ui){
 				$('#sf_admin_filter_reset, #sf_admin_filter_submit').hide();
 				$('#sf_admin_filter_button').addClass('ui-state-active');
+				setTimeout(function(){
+				  $('.ui-dialog-buttonpane button').each(function(){
+				    if ( $(this).html() == 'Reset' )
+				      $(this).html($('#sf_admin_filter_reset').html());
+				    if ( $(this).html() == 'Filter' )
+				      $(this).html($('#sf_admin_filter_submit').val());
+				  });
+				},200);
 			},
 			buttons: {
-				"Filter": function() { 
+				'Filter': function() { 
 					$(this).dialog("close"); 
 					$('#sf_admin_filter_submit').parents('form').submit();
 				}, 
-				"Reset": function() { 
+				'Reset': function() { 
 					$(this).dialog("close");
 					location.href = $('#sf_admin_filter_reset').attr('href');
 				} 

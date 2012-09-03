@@ -38,6 +38,7 @@
         $ticket_ids[$i] = $i;
     }
     
+    $this->tickets = array();
     if ( count($ticket_ids) > 0 )
     foreach ( $ticket_ids as $id )
     {
@@ -73,12 +74,12 @@
       $this->ticket->sf_guard_user_id = NULL;
       $this->ticket->id = NULL;
       $this->ticket->save();
-      $this->tickets = array($this->ticket);
+      $this->tickets[] = $this->ticket;
       
       $ticket->duplicate = $this->ticket->id;
       $ticket->save();
-      
-      $this->duplicate = true;
-      $this->setLayout('nude');
-      $this->setTemplate('print');
     }
+    
+    $this->duplicate = true;
+    $this->setLayout('nude');
+    $this->setTemplate('print');

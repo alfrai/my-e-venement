@@ -76,6 +76,11 @@ class contactActions extends autoContactActions
       $this->setTemplate('show');
   }
   
+  public function executeNew(sfWebRequest $request)
+  {
+    parent::executeNew($request);
+    $this->form->getWidget('name')->setOption('default',$request->getParameter('name'));
+  }
   public function executeCreate(sfWebRequest $request)
   {
     // hack for the title to be recorded properly
