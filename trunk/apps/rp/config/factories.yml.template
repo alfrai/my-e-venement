@@ -31,8 +31,8 @@ dev:
 all:
   user:
     class: myUser
-      param:
-        timeout: 3600
+    param:
+      timeout: 3600
         
   routing:
     class: sfPatternRouting
