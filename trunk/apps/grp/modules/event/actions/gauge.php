@@ -21,6 +21,7 @@
 *
 ***********************************************************************************/
 ?>
+<?php
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     
     if ( !$request->getParameter('manifestation_id') )

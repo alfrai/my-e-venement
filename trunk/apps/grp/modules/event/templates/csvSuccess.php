@@ -39,10 +39,10 @@
     'organism'      => __('Organism'),
     'contact'       => __('Contact'),
     'professional'  => __('Function'),
-    //'address'       => __('Address'),
+    'address'       => __('Address'),
     'postalcode'    => __('Postalcode'),
     'city'          => __('City'),
-    //'country'       => __('Country'),
+    'country'       => __('Country'),
   );
   foreach ( $prices as $id => $price )
     $vars['options']['header'][$id] = $price;

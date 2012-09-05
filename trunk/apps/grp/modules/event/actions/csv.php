@@ -80,7 +80,15 @@
     'ms' => isset($params['option']['ms']),
     'tunnel' => false,
     'noheader' => false,
-    'fields'   => array('organism','contact','professional','address','postalcode','city','country',),
+    'fields'   => array(
+      'organism',
+      'contact',
+      'professional',
+      //'address',
+      'postalcode',
+      'city',
+      //'country',
+    ),
   );
   foreach ( $this->prices as $id => $price )
     $this->options['fields'][] = $id;
