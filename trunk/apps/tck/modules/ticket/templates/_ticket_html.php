@@ -6,7 +6,7 @@
   $maxsize['place'] = isset($maxsize['place']) && intval($maxsize['place']) != 0 ? intval($maxsize['place']) : 30;
 ?>
 <div class="ticket">
-  <div class="logo"><img src="" alt="" /></div>
+  <div class="logo"><?php echo image_tag(sfConfig::get('app_tickets_logo')) ?></div>
   <div class="left">
     <p class="manifid">
       #<?php echo $ticket->Manifestation->id ?><span class="tariftop"><?php echo $ticket->price_name ?></span>
