@@ -1,4 +1,14 @@
 indexSuccess:
   stylesheets: [grp-event-list]
+  javascripts: [lists]
 editSuccess:
-  stylesheets: [grp-event]
+  stylesheets: [gauge, grp-event]
+gaugeSuccess:
+  stylesheets: [gauge, grp-event]
+
+csvSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/comma-separated-values
+    content-disposition: attachment; filename="accepted.csv"
+              

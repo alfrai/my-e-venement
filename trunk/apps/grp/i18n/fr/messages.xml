@@ -5,6 +5,54 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Country</source>
+        <target>Pays</target>
+      </trans-unit>
+      <trans-unit>
+        <source>City</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Postalcode</source>
+        <target>Code postal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Function</source>
+        <target>Fonction</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Extract refused</source>
+        <target>Extraire les refusés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Extract accepted</source>
+        <target>Extraire les acceptés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Entry %%name%%</source>
+        <target>Entrée %%name%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Sold or ordered through classic ticketting</source>
+        <target>Vendu ou commandé via la billetterie classique</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Accepted (group module)</source>
+        <target>Acceptés (module groupe)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Refused (group module)</source>
+        <target>Refusés (module groupe)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Globally free (group module and classic ticketting merged)</source>
+        <target>Globallement libre (module groupe et billetterie classique inclus)</target>
+      </trans-unit>
+      <trans-unit>
         <source>Workspaces available for groups modules</source>
         <target>Espaces de travail disponibles pour les modules de groupe</target>
       </trans-unit>
@@ -43,6 +91,10 @@
       <trans-unit>
         <source>Contact file</source>
         <target>Fiche contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Event</source>
+        <target>Événement</target>
       </trans-unit>
       <trans-unit>
         <source>Events</source>

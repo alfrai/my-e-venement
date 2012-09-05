@@ -1,3 +1,26 @@
+<?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2012 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2012 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
 <?php include_stylesheets_for_form($form) ?>
 <?php include_javascripts_for_form($form) ?>
 <?php use_stylesheet('/sfFormExtraPlugin/css/jquery.autocompleter.css') ?>
@@ -22,20 +45,7 @@
         <?php $j = 0 ?>
         <td class="contact <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>"><?php $f = new ContactEntryForm($ce) ?>
           <?php echo form_tag_for($f, '@contact_entry') ?>
-          <?php echo $f->renderHiddenFields() ?>
-          <p>
-            <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$ce->Professional->Contact->id) ?>"><?php echo $ce->Professional->Contact ?></a>
-            <br/>
-            <a href="<?php echo cross_app_url_for('rp','organism/show?id='.$ce->Professional->Organism->id) ?>"><?php echo $ce->Professional ?></a>
-            <?php $schema = $f->getWidgetSchema(); $schema['professional_id'] = new sfWidgetFormInputHidden(); echo $f['professional_id'] ?>
-          </p>
-          <p title="<?php echo __('Note') ?>"><?php echo $f['comment1'] ?></p>
-          <p title="<?php echo __('Confirmation') ?>"><?php echo $f['comment2'] ?></p>
-          <p title="<?php echo __('Confirmed') ?>"><?php echo $f['confirmed'] ?></p>
-          <p class="sf_admin_actions">
-            <?php echo link_to(__('Delete',array(),'sf_admin'), 'contact_entry/del?id='.$ce->id, array('class' => 'delete')); ?>
-            <input type="submit" value="<?php echo __('Save',array(),'sf_admin') ?>" />
-          </p>
+          <?php include_partial('form_contact',array('f' => $f, 'ce' => $ce)) ?>
           </form>
         </td>
         <?php foreach ( $entry->ManifestationEntries as $me ): ?>
@@ -115,18 +125,11 @@
         <td id="contact_entry_new" class="contact <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>">
           <?php $f = new ContactEntryForm ?>
           <?php echo form_tag_for($f,'@contact_entry') ?>
-            <?php echo $f->renderHiddenFields(); ?>
-            <p title="<?php echo __('Contact') ?>"><?php echo $f['professional_id'] ?></p>
-            <p title="<?php echo __('Note') ?>"><?php echo $f['comment1'] ?></p>
-            <p title="<?php echo __('Confirmation') ?>"><?php echo $f['comment2'] ?></p>
-            <p title="<?php echo __('Confirmed') ?>"><?php echo $f['confirmed'] ?></p>
-            <p class="sf_admin_actions">
-              <input type="submit" value="<?php echo __('Save',array(),'sf_admin') ?>" />
-            </p>
+            <?php include_partial('form_contact_new',array('f' => $f)) ?>
           </form>
         </td>
         <?php foreach ( $entry->ManifestationEntries as $me ): ?>
-        <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> count manifestation-<?php echo $me->id ?>">
+        <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> count manifestation-<?php echo $me->manifestation_id ?>">
         </td>
         <?php endforeach ?>
         <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> total"></td>
@@ -138,7 +141,7 @@
     $(document).ready(function(){
       // if we submit any form
       $('form').submit(function(){
-        $(this).find('input[name="contact_entry[entry_id]"],input[name="manifestation_entry[entry_id]"]').val('<?php echo $entry->id ?>');
+        $(this).find('input[name="contact_entry_new[entry_id]"],input[name="contact_entry[entry_id]"],input[name="manifestation_entry[entry_id]"]').val('<?php echo $entry->id ?>');
         $.post($(this).attr('action'),$(this).serialize(),function(data){
           window.location.reload();
         });
@@ -146,7 +149,7 @@
       });
       // if we suppress any contact or manifestation
       $('.delete').click(function(){
-        if ( confirm('<?php echo __('Are you sure?') ?>') )
+        if ( confirm('<?php echo __('Are you sure?',array(),'sf_admin') ?>') )
         {
           $.get($(this).attr('href'),function(){
             window.location.reload();
@@ -211,7 +214,7 @@
     
     function change_tickets()
     {
-      $('.EntryTickets form input, .EntryTickets form select').change(function(){
+      $('.EntryTickets form input, .EntryTickets form select').unbind().change(function(){
         form = $(this).closest('form');
         if ( parseInt(form.find('input').val()) != 0 && form.find('select').val() != '' )
           form.submit();
@@ -277,6 +280,11 @@
           }
         });
         $(this).append('<p class="total">'+total+'</p>');
+        
+        $.get('<?php echo url_for('event/gauge') ?>?manifestation_id='+/\d+$/.exec(curclass),function(data){
+          gauge = $(data).find('.gauge');
+          $('.count.'+gauge.attr('id')).append(gauge);
+        });
       });
       
       // line by line
