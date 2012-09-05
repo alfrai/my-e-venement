@@ -57,7 +57,7 @@
     
     if ( $request->hasParameter('debug') )
     {
-      $this->setLayout(true);
+      $this->setLayout('layout');
     }
     else
     {

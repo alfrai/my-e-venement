@@ -97,7 +97,7 @@
     }
     
     if ( $request->hasParameter('debug') )
-      $this->setLayout(true);
+      $this->setLayout('layout');
     else
     {
       $this->getResponse()->setContentType('text/comma-separated-values');
