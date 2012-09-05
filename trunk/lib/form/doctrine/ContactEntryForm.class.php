@@ -12,6 +12,9 @@ class ContactEntryForm extends BaseContactEntryForm
 {
   public function configure()
   {
+    if ( $this->getObject()->isNew() )
+      $this->widgetSchema->setNameFormat('contact_entry_new[%s]');
+    
     $this->widgetSchema['entry_id'] = new sfWidgetFormInputHidden();
     $this->widgetSchema['professional_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Professional',

@@ -108,8 +108,14 @@ EntryElement:
     contact_entry_id:
       type: integer
       notnull: true
-    second_choice: boolean
-    accepted: boolean
+    second_choice:
+      type: boolean
+      notnull: true
+      default: false
+    accepted:
+      type: boolean
+      notnull: true
+      default: false
   relations:
     ContactEntry:
       foreignAlias: Entries

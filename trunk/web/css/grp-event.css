@@ -1,3 +1,21 @@
+.gauge {
+  width: 150px;
+  height: 1em;
+  position: static;
+}
+.gauge .seat {
+  display: inline-block;
+  height: 100%;
+  padding: 0;
+}
+.gauge .seat.demands {
+  height: 6px;
+  position: relative;
+  top: -6px;
+  border: 0;
+  background-color: blue;
+}
+
 .grp-entry {
   border: 1px solid silver;
   -moz-user-select: none;
@@ -29,7 +47,7 @@
 #sf_admin_container td .min-width,
 body #content .sf_admin_form input[type=text],
 body #content .sf_admin_form select {
-  width: 175px;
+  width: 140px;
   margin: 0 3px;
 }
 
@@ -53,10 +71,10 @@ tr.impair td.impair { background-color: #eff8cd; }
 
 .EntryTickets { float: left; }
 body #sf_admin_container .EntryTickets input[type=text] {
-  width: 3em;
+  width: 15px;
 }
 body #sf_admin_container .EntryTickets select {
-  width: 75px;
+  width: 40px;
 }
 
 .EntryElement {
@@ -103,7 +121,8 @@ tfoot .count p { display: inline-block; margin-left: 4px; }
   color: green;
 }
 
-#contact_entry_confirmed, #contact_entry_comment2 {
+#contact_entry_confirmed, #contact_entry_comment2,
+#contact_entry_new confirmed, #contact_entry_new_comment2 {
   display: none;
 }
 .transposed #contact_entry_confirmed, .transposed #contact_entry_comment2 {
