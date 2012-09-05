@@ -403,7 +403,9 @@ function ticket_prices()
     
     // DB
     elt = $(this);
-    serialized = $('#prices form').serialize()+'&ticket[gauge_id]='+$('#prices .manifestations_list input[type=radio]:checked').parent().parent().find('[name="ticket[gauge_id]"]').val()+'&'+$(this).attr('name')+'='+encodeURIComponent($(this).val());
+    form = $('#prices form').clone(true);
+    form.find('.prices .workspace input[type=hidden]').remove();
+    serialized = form.serialize()+'&ticket[gauge_id]='+$('#prices .manifestations_list input[type=radio]:checked').parent().parent().find('[name="ticket[gauge_id]"]').val()+'&'+$(this).attr('name')+'='+encodeURIComponent($(this).val());
     $.post($('.tickets_form').attr('action'),serialized,function(data){
       if ( $.trim($(data).find('.sf_admin_flashes').html()) != '' )
       {
