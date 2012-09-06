@@ -12,6 +12,14 @@
  */
 class Event extends PluginEvent
 {
+  public function setUp()
+  {
+    parent::setUp();
+    $this->_table->getTemplate('Doctrine_Template_Searchable')
+      ->getPlugin()
+      ->setOption('analyzer',new MySearchAnalyzer());
+  }
+  
   public function getAgeMinHR()
   { return $this->getAgeHR($this->age_min); }
   public function getAgeMaxHR()

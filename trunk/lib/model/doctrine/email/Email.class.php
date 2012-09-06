@@ -14,6 +14,14 @@ class Email extends PluginEmail
 {
   protected $nospool = false;
   
+  public function setUp()
+  {
+    parent::setUp();
+    $this->_table->getTemplate('Doctrine_Template_Searchable')
+      ->getPlugin()
+      ->setOption('analyzer',new MySearchAnalyzer());
+  }
+
   public function setNoSpool($boolean = true)
   {
     $this->nospool = $boolean;

@@ -13,6 +13,14 @@
  */
 class Addressable extends PluginAddressable
 {
+  public function setUp()
+  {
+    parent::setUp();
+    $this->_table->getTemplate('Doctrine_Template_Searchable')
+      ->getPlugin()
+      ->setOption('analyzer',new MySearchAnalyzer());
+  }
+
   public function isGeolocalized()
   {
     return $this->latitude && $this->longitude;
