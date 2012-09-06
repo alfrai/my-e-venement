@@ -26,14 +26,12 @@
     if ( !$request->hasParameter('debug') )
       $this->getResponse()->setContentType('application/json');
     
-    /*
     try { $this->authenticate($request); }
     catch ( sfException $e )
     {
       $this->getResponse()->setStatusCode('403');
       return $request->hasParameter('debug') ? 'Debug' : sfView::NONE;
     }
-    */
 
     $this->content = array('events' => array(), 'sites' => array());
     
