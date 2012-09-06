@@ -329,8 +329,6 @@ function ticket_transform_hidden_to_span(all)
     nb = $(this).parent().find('input[type=text].nb').val() - $(this).parent().find('input[type=hidden].nb').val();
     orig = $('#prices input[name="ticket[nb]"]').val();
     
-    alert('nb: '+nb+' hidden: '+$(this).parent().find('input[type=hidden].nb').val()+' text: '+$(this).parent().find('input[type=text].nb').val());
-    
     $('#prices input[name="ticket[nb]"]').val(nb);
     $('#prices input[name="ticket[price_name]"][value="'+$(this).parent().find('.name').html()+'"]').click();
     $('#prices input[name="ticket[nb]"]').val(orig);
