@@ -306,16 +306,38 @@ function ticket_transform_hidden_to_span(all)
         .replace('][]','');
       
       if ( $(this).parent().find('.'+name).length > 0 )
-        $(this).parent().find('.'+name+' .nb').html(parseInt($(this).parent().find('.'+name+' .nb').html())+1);
+      {
+        $(this).parent().find('.'+name+' input[type=text].nb').val(parseInt($(this).parent().find('.'+name+' input[type=text].nb').val())+1);
+        $(this).parent().find('.'+name+' input[type=hidden].nb').val(parseInt($(this).parent().find('.'+name+' input[type=hidden].nb').val())+1);
+      }
       else
-        $('<span class="'+name+' ticket_prices" title="'+$(this).attr('title')+'"><span class="nb">1</span> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
+        $('<span class="'+name+' ticket_prices" title="'+$(this).attr('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" /><input type="hidden" name="hidden_nb" value="1" class="nb"> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
           .appendTo($(this).parent());
       $(this).parent().find('.'+name+' .tickets_id').append($(this).attr('alt')+'<br/>');
     });
   });
   
+  // when changing quantities arbitrary through the input text
+  $('#prices .manifestations_list .prices .ticket_prices input.nb').unbind().keypress(function(e){
+    if ( e.which == '13' )
+    {
+      $(this).change();
+      return false;
+    }
+  });
+  $('#prices .manifestations_list .prices .ticket_prices input.nb').unbind().change(function(){
+    nb = $(this).parent().find('input[type=text].nb').val() - $(this).parent().find('input[type=hidden].nb').val();
+    orig = $('#prices input[name="ticket[nb]"]').val();
+    
+    alert('nb: '+nb+' hidden: '+$(this).parent().find('input[type=hidden].nb').val()+' text: '+$(this).parent().find('input[type=text].nb').val());
+    
+    $('#prices input[name="ticket[nb]"]').val(nb);
+    $('#prices input[name="ticket[price_name]"][value="'+$(this).parent().find('.name').html()+'"]').click();
+    $('#prices input[name="ticket[nb]"]').val(orig);
+  });
+  
   // click to remove a ticket
-  $('#prices .manifestations_list .prices .ticket_prices').unbind().click(function(){
+  $('#prices .manifestations_list .prices .ticket_prices .name').unbind().click(function(){
     gid = $(this).parent().attr('class').replace(/.* gauge-(\d+).*/g,'$1');
     $(this).parent().parent().parent().find('.workspaces [name="ticket[gauge_id]"]').val(gid);
     $('#prices [name=select_all]').attr('checked',false);

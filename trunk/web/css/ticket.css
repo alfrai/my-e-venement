@@ -58,10 +58,16 @@
   display: inline-block;
   margin-left: 5px;
   border: 1px dashed gray;
-  padding: 2px 7px;
+  padding: 2px 7px 2px 0;
   -moz-border-radius: 3px;
   white-space: nowrap;
   cursor: pointer;
+}
+#prices .ticket_prices input.nb {
+  width: 2em;
+  border: 0;
+  font-size: 90%;
+  text-align: right;
 }
 .manifestations_list .prices .value { display: none; }
 .manifestations_list .prices .done { background-color: gray; }
@@ -273,3 +279,4 @@
 }
 
 .manif:hover { background-color: #fffccc; }
+
