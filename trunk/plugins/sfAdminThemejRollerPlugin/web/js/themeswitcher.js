@@ -69,7 +69,7 @@ $.fn.themeswitcher = function(settings){
 		color: '#666',
 		background: '#eee url(http://jqueryui.com/themeroller/themeswitchertool/images/buttonbg.png) 50% 50% repeat-x',
 		border: '1px solid #ccc',
-		'-moz-border-radius': '6px',
+		'border-radius': '6px',
 		'-webkit-border-radius': '6px',
 		textDecoration: 'none',
 		padding: '3px 3px 3px 8px',
@@ -89,9 +89,9 @@ $.fn.themeswitcher = function(settings){
 		background: '#000',
 		border: '1px solid #ccc',
 		borderBottom: 0,
-		'-moz-border-radius-bottomleft': 0,
+		'border-radius-bottomleft': 0,
 		'-webkit-border-bottom-left-radius': 0,
-		'-moz-border-radius-bottomright': 0,
+		'border-radius-bottomright': 0,
 		'-webkit-border-bottom-right-radius': 0,
 		outline: '0'
 	};
@@ -124,9 +124,9 @@ $.fn.themeswitcher = function(settings){
 		color: '#fff',
 		padding: '8px 3px 3px',
 		border: '1px solid #ccc',
-		'-moz-border-radius-bottomleft': '6px',
+		'border-radius-bottomleft': '6px',
 		'-webkit-border-bottom-left-radius': '6px',
-		'-moz-border-radius-bottomright': '6px',
+		'border-radius-bottomright': '6px',
 		'-webkit-border-bottom-right-radius': '6px',
 		borderTop: 0,
 		zIndex: 999999,
@@ -160,7 +160,7 @@ $.fn.themeswitcher = function(settings){
 		padding: '2px',
 		margin: '1px',
 		border: '1px solid #111',
-		'-moz-border-radius': '4px',
+		'border-radius': '4px',
 		clear: 'left',
 		float: 'left'
 	}).end()

@@ -19,7 +19,7 @@ a, a:active, a:visited { color: #000; }
   margin-top: 58px;
   border: 1px solid gray;
   padding: 10px;
-  -moz-border-radius: 7px;
+  border-radius: 7px;
   background-color: #bddcff;
 }
 #content {

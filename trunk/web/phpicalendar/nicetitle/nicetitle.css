@@ -10,8 +10,6 @@ div.nicetitle {
     width: 25em;
     background: url(ntbg.png);
 
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     border-radius: 5px;
     text-shadow: black 1px 1px 1px;
 }

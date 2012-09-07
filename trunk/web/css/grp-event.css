@@ -92,7 +92,7 @@ body #sf_admin_container .EntryTickets select {
   border-left-color: #a5a5a5;
   border-right-color: #a5a5a5;
   border-top-color: #b9b9b9;
-  -moz-border-radius: 4px;
+  border-radius: 4px;
   margin-left: 3px;
 }
 .event .transpose { color: black; }
@@ -104,7 +104,7 @@ body #sf_admin_container .EntryTickets select {
 tfoot .count p { display: inline-block; margin-left: 4px; }
 .entries .tickets, .ticketting .tickets, tfoot .count .tickets {
   border: 1px dashed gray;
-  -moz-border-radius: 3px;
+  border-radius: 3px;
   padding: 2px 4px;
   background-color: white;
 }

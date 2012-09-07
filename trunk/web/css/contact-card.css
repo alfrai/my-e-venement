@@ -29,7 +29,7 @@ html body p { margin: 0; padding: 0 }
   height: 39.5mm;
   padding: 3mm;
   margin-right: 19mm;
-  -moz-border-radius: 6mm;
+  border-radius: 6mm;
   background-position: 58mm 30mm;
 }
 #card .content:first-child + .content {
