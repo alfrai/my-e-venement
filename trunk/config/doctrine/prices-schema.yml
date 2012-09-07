@@ -28,6 +28,7 @@ Price:
       type: string(63)
       notnull: true
       notblank: true
+      unique: true
     description: string(255)
     value:
       type: decimal(8)
