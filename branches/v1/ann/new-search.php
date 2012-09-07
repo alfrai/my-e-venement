@@ -653,7 +653,7 @@ $(document).ready(function(){
 	<?php endwhile; ?></p>
 	<p>
 	  <input type="submit" name="submit" value="Extraire" />
-	  <input type="submit" name="labels" value="Étiquettes" />
+	  <input type="submit" name="labels" value="Étiquettes" onclick="javascript: $(this).closest('form').attr('action',$(this).closest('form').attr('action')+'&labels'); " />
 	</p>
 </form>
 <?php $request->free(); ?>

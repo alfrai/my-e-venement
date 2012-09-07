@@ -43,7 +43,7 @@
 	}
 	if ( !isset($vars["grpid"]) ) $vars["grpid"] = $_POST["csv"]["grpid"];
 	
-	$labels = isset($_POST['labels']);
+	$labels = isset($_POST['labels']) || isset($_GET['labels']);
 	$printfields = ( isset($_GET["printfields"]) ? $_GET["printfields"] == "yes" : $_POST["printfields"] == "yes" ) && !$labels;
 	$msexcel = isset($_GET["msexcel"]) ? $_GET["msexcel"] == "yes" : $_POST["msexcel"] == "yes";
 	$entonnoir = ( isset($_GET["entonnoir"]) ? $_GET["entonnoir"] == "yes" : $_POST["entonnoir"] == "yes" ) || $labels;
