@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Price manifestation List</source>
+        <target>Liste des prix associés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Apply</source>
         <target>Appliquer</target>
       </trans-unit>
