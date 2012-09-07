@@ -397,6 +397,7 @@ function ticket_get_ws_gauge(json_url)
       }
       $('.manifestations_list select[name="ticket[gauge_id]"] option[value='+data.id+']').addClass('alert').parent().addClass('alert');
     }
+    manif_id = $('#prices form input[name="ticket[manifestation_id]"]:checked').val();
   });
 }
   
