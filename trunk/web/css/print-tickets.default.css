@@ -139,7 +139,7 @@ span.eur { font-weight: normal; }
 
 .seating {
   position: absolute;
-  left: 0;
+  left: 105mm;
   top: 44mm;
   width: 40mm;
   text-align: center;
