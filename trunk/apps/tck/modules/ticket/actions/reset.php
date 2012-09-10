@@ -61,4 +61,4 @@
     $this->transaction->closed = true;
     $this->transaction->save();
     
-    //return $this->redirect('ticket/closed?id='.$this->transaction->id);
+    return $this->redirect('ticket/closed?id='.$this->transaction->id);
