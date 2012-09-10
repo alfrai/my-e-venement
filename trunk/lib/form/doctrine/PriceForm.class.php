@@ -24,5 +24,7 @@ class PriceForm extends BasePriceForm
       'order_by',
        array('happens_at, e.name','')
     );
+    $this->widgetSchema['manifestations_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
+    $this->widgetSchema['users_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
   }
 }

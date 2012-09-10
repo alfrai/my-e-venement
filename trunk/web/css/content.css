@@ -1,5 +1,5 @@
 select { max-width: 300px; max-height: 150px; }
-#content .sf_admin_form_field_manifestations_list #price_manifestations_list { max-width: none; width: 700px; max-height: none; }
+#content .sf_admin_form_field_manifestations_list .double_list select { max-width: none; width: 700px; max-height: none; height: 10em; }
 .sf_admin_list td { max-width: 200px; overflow: hidden; }
 body #sf_admin_container { position: static; }
 body #content .sf_admin_action_list { margin-left: 42px; }

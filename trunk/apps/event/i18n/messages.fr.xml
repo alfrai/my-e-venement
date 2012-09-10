@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Edit Price</source>
+        <target>Modification du prix</target>
+      </trans-unit>
+      <trans-unit>
         <source>Price manifestation List</source>
         <target>Liste des prix associés</target>
       </trans-unit>
