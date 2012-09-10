@@ -73,6 +73,11 @@ class ticketActions extends sfActions
   {
     require('validate.php');
   }
+  // reset the entire transaction
+  public function executeReset(sfWebRequest $request)
+  {
+    require('reset.php');
+  }
   public function executeClosed(sfWebRequest $request)
   {
     $this->transaction = $this->getRoute()->getObject();

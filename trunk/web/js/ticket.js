@@ -6,7 +6,7 @@ $(document).ready(function(){
     window.onbeforeunload = function(){
       return false;
     };
-    $('#validation').submit(function(){
+    $('#validation form').submit(function(){
       window.onbeforeunload = null;
     });
   }
@@ -496,13 +496,13 @@ function ticket_process_amount(add)
   
   if ( total <= parseFloat($('#payment tbody tr.total .sf_admin_list_td_list_value').html().replace(',','.').replace('&nbsp;','')) )
   {
-    $('#validation').fadeIn();
+    $('#validation .form-valid').fadeIn();
     if ( add )
       $('#print form.print').submit();
   }
   else
   {
-    $('#validation').fadeOut();
+    $('#validation .form-valid').fadeOut();
   }
 }
 
@@ -517,7 +517,7 @@ function ticket_enable_payment()
     if ( parseFloat($('#prices .manifestations_list .total .total').html()) <= 0
       && $('#payment tbody tr').length <= 3 )
     {
-      $('#print, #validation').fadeIn();
+      $('#print, #validation form').fadeIn();
     }
     // if there is something left to pay
     else if ( parseFloat($('#prices .manifestations_list .total .total').html()) > 0
@@ -530,7 +530,7 @@ function ticket_enable_payment()
   {
     if ( $('#payment input[name="ids[]"]').length == 0 )
       $('#payment').fadeOut();
-    $('#print, #validation').fadeOut();
+    $('#print, #validation .form-valid').fadeOut();
   }
 }
 

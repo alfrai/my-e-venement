@@ -5,12 +5,20 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Resetting this transaction is not allowed, it contains printed tickets or invoices...</source>
+        <target>La remise à zéro de cette opération n'est pas autorisée, elle contient des billets imprimés ou des factures...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Transaction #%%t%% has been created to centralize payments for %%nb%% tickets</source>
         <target>L'opération #%%t%% a été créée pour centraliser les paiements de %%nb%% billets</target>
       </trans-unit>
       <trans-unit>
         <source>You forgot to specify a contact... or to press ENTER to validate it.</source>
         <target>Vous avez oublié de spécifier un contact... ou d'appuyer sur ENTRER pour le valider.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Empty and close</source>
+        <target>Vider et fermer</target>
       </trans-unit>
       <trans-unit>
         <source>Display</source>
