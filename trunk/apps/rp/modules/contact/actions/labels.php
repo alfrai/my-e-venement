@@ -28,7 +28,7 @@
     // options
     $this->params = OptionLabelsForm::getDBOptions();
     $this->fields = OptionCsvForm::getDBOptions();
-    $tunnel = in_array('tunnel',$this->fields['option']);
+    $tunnel = true; //in_array('tunnel',$this->fields['option']);
     $this->fields = $this->fields['field'];
     
     // get back data for labels
