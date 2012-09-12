@@ -6,7 +6,7 @@
 </form>
 <form action="<?php echo url_for('ticket/reset?id='.$transaction->id) ?>" method="get" class="form-reset">
   <p>
-    <input type="submit" value="<?php echo __('Empty and close') ?>" name="empty" onclick="javascript: return confirm('<?php echo __('Are you sure?',array(),'sf_admin') ?>');" />
+    <input type="submit" value="<?php echo __('Abandon and close') ?>" name="empty" onclick="javascript: return confirm('<?php echo __('Are you sure?',array(),'sf_admin') ?>');" />
   </p>
 </form>
 <script type="text/javascript">

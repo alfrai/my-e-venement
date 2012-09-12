@@ -17,8 +17,8 @@
         <target>Vous avez oublié de spécifier un contact... ou d'appuyer sur ENTRER pour le valider.</target>
       </trans-unit>
       <trans-unit>
-        <source>Empty and close</source>
-        <target>Vider et fermer</target>
+        <source>Abandon and close</source>
+        <target>Abandonner et fermer</target>
       </trans-unit>
       <trans-unit>
         <source>Display</source>
