@@ -102,6 +102,7 @@ Ticket:
       notnull: true
     numerotation: string(255)
     duplicate: integer
+    next_grouped_with: integer
     cancelling:
       type: integer
       unique: true
@@ -155,6 +156,12 @@ Ticket:
       onUpdate: CASCADE
     Gauge:
       foreignAlias: Tickets
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    NextGroupedWith:
+      local: next_grouped_with
+      foreignAlias: PreviousGroupedWith
+      class: Ticket
       onDelete: RESTRICT
       onUpdate: CASCADE
 Cancellation:

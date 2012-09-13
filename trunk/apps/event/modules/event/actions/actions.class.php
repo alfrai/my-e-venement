@@ -28,7 +28,7 @@ class eventActions extends autoEventActions
         //->leftJoin('m.Tickets tck')
         //->leftJoin('tck.Transaction t')
         //->leftJoin('t.Order o')
-        ->orderby("now DESC, min_happens_at DESC, $a.name");
+        ->orderby("now ASC, min_happens_at ASC, $a.name");
         //->orderby("(SELECT min(m2.happens_at) FROM manifestation m2 WHERE m2.event_id = $a.id) DESC, $a.name");
     }
   }

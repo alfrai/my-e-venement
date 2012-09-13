@@ -151,3 +151,10 @@ span.eur { font-weight: normal; }
 #options { display: none; }
 
 .workspace { display: none; }
+
+.nb {
+  position: absolute;
+  top: 43mm;
+  left: 400px;
+  font-weight: normal;
+}
