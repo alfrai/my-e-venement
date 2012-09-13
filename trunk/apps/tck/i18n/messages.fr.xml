@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Grouped tickets</source>
+        <target>Billets groupés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Resetting this transaction is not allowed, it contains printed tickets or invoices...</source>
         <target>La remise à zéro de cette opération n'est pas autorisée, elle contient des billets imprimés ou des factures...</target>
       </trans-unit>

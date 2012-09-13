@@ -21,6 +21,9 @@
       }
     }
     --></script>
+    <?php if ( sfConfig::has('app_tickets_authorize_grouped_tickets') && sfConfig::get('app_tickets_authorize_grouped_tickets') ): ?>
+    <input type="checkbox" name="grouped_tickets" value="true" title="<?php echo __('Grouped tickets') ?>" />
+    <?php endif ?>
     <?php if ( isset($accounting) && $accounting !== false ): ?>
     <input type="checkbox" name="duplicate" value="true" title="<?php echo __('Duplicatas') ?>" />
     <input type="text" name="price_name" value="" class="price" />

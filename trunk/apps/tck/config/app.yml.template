@@ -26,6 +26,7 @@ all:
       event_name: 30
       event_shortname: 40
     #logo: private/logo-xxx.png
+    authorize_grouped_tickets: false
   control:
     future: 6 hours
     past:   1 day
