@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__FILE__).'../../../../config/autoload.inc.php';
+
 class defaultConfiguration extends sfApplicationConfiguration
 {
   public function configure()
