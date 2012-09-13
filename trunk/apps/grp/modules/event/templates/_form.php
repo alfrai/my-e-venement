@@ -84,7 +84,7 @@
         <?php endforeach ?>
         <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> ticketting"<?php if ( $ce->transaction_id ): ?> title="<?php echo __('Transaction #%%t%%',array('%%t%%' => $ce->transaction_id)); ?>"<?php endif ?>>
           <p class="count"><span class="total">0</span></p>
-          <p class="transpose"><a href="<?php echo url_for('contact_entry/transpose?id='.$ce->id) ?>">&gt;&gt;</a></p>
+          <p class="transpose" title="<?php echo __('Transpose to ticketting') ?>"><a href="<?php echo url_for('contact_entry/transpose?id='.$ce->id) ?>">&gt;&gt;</a></p>
           <?php if ( $ce->transaction_id ): ?><p class="untranspose"><a href="<?php echo url_for('contact_entry/untranspose?id='.$ce->id) ?>">&lt;&lt;</a></p><?php endif ?>
         </td>
       </tr>

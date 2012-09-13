@@ -35,17 +35,19 @@
         <span class="event"><?php echo cross_app_link_to($entry->ManifestationEntry->Manifestation->Event,'event','event/edit?id='.$entry->ManifestationEntry->Manifestation->Event->id) ?></span>
         <ul>
       <?php endif ?>
-          <li>
+      <?php if ( $entry->EntryTickets->count() ): ?>
+          <li class="<?php echo $entry->accepted ? 'accepted' : '' ?>">
             <span class="manifestation_happens_at"><?php echo cross_app_link_to($entry->ManifestationEntry->Manifestation->getFormattedDate(),'event','manifestation/show?id='.$entry->ManifestationEntry->Manifestation->id) ?></span>
             <?php foreach ( $entry->EntryTickets as $et ): ?>
-            <span class="tickets"><?php echo $et->quantity.' '.$et->Price ?></span>
+            <span class="tickets" title="<?php echo $entry->accepted ? __('Accepted') : '' ?>"><?php echo $et->quantity.' '.$et->Price ?></span>
             <?php endforeach ?>
             <?php if ( $ce->transaction_id ): ?>
-              <a class="transpose" href="<?php echo cross_app_url_for('tck','ticket/sell?id='.$ce->transaction_id) ?>">&gt;&gt;</a>
+              <a class="transpose" title="<?php echo __('Transpose to ticketting') ?>" href="<?php echo cross_app_url_for('tck','ticket/sell?id='.$ce->transaction_id) ?>">&gt;&gt;</a>
             <?php elseif ( $entry->accepted ): ?>
-              <a class="transpose" href="<?php echo url_for('contact_entry/transpose?id='.$ce->id) ?>">&gt;&gt;</a>
+              <a class="transpose" title="<?php echo __('Transpose to ticketting') ?>" href="<?php echo url_for('contact_entry/transpose?id='.$ce->id) ?>">&gt;&gt;</a>
             <?php endif ?>
           </li>
+      <?php endif ?>
       <?php $last_event_id = $entry->ManifestationEntry->Manifestation->Event->id ?>
       <?php endforeach ?>
       <?php endforeach ?>

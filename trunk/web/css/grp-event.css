@@ -114,7 +114,7 @@ tfoot .count p { display: inline-block; margin-left: 4px; }
 .second_choice select, .second_choice input[type=text] {
   border-style: dotted;
 }
-.accepted select, .accepted input[type=text] {
+.accepted .tickets, .accepted select, .accepted input[type=text] {
   border-color: red;
 }
 .transposed .tickets, .transposed select, .transposed input[type=text] {
