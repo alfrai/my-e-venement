@@ -32,8 +32,9 @@ class professionalActions extends autoProfessionalActions
       ->andWhere($request->getParameter('email') == 'true' ? "contact_email IS NOT NULL AND contact_email != ''" : 'TRUE')
     );
     $cids = $q->fetchArray();
+    $contact_ids = array();
     foreach ( $cids as $cid )
-      $ids[$cid['pid']] = $cid['pid'];
+      $contact_ids[$cid['id']] = $cid['id'];
     
     $q = Doctrine_Core::getTable('Organism')
       ->search($search.'*',Doctrine_Query::create()
@@ -44,19 +45,21 @@ class professionalActions extends autoProfessionalActions
       ->andWhere($request->getParameter('email') == 'true' ? "contact_email IS NOT NULL AND contact_email != ''" : 'TRUE')
     );
     $oids = $q->fetchArray();
-    foreach ( $oids as $cid )
-      $ids[$cid['pid']] = $cid['pid'];
+    $organism_ids = array();
+    foreach ( $oids as $oid )
+      $organism_ids[$oid['id']] = $oid['id'];
     
     unset($ids['']);
     
     $professionals = array();
     
-    if ( count($ids) == 0 )
+    if ( count($organism_ids) + count($contact_ids) == 0 )
       return $this->renderText(json_encode($professionals));;
     
     $q = Doctrine::getTable('Professional')->createQuery();
     $a = $q->getRootAlias();
-    $q->whereIn("$a.id",$ids);
+    $q->whereIn("$a.organism_id",$organism_ids)
+      ->orWhereIn("$a.contact_id",$contact_ids);
     $request = $q->execute()->getData();
     
     foreach ( $request as $professional )
