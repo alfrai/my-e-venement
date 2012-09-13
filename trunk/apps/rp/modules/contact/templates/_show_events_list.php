@@ -1,17 +1,38 @@
 <?php use_helper('Date','Number') ?>
 <ul class="sf_form_field_events_list">
+<?php
+  // get back authorized manifestation_ids through meta-events
+  $q = new Doctrine_Query;
+  $q->from('Manifestation m')
+    ->leftJoin('m.Event e')
+    ->leftJoin('e.MetaEvent me')
+    ->leftJoin('me.Users u')
+    ->andWhere('u.id = ?',$sf_user->getId());
+  $manifs = $q->execute();
+  
+  $manif_ids = array();
+  foreach ( $manifs as $manif )
+    $manif_ids[] = $manif->id;
+?>
 <?php foreach ($form->getObject()->Transactions as $transaction): ?>
 <?php if ( $transaction->Tickets->count() > 0 ): ?>
   <?php
     $manifs = array();
     $prints = 0;
+    $other_events = array();
     foreach ( $transaction->Tickets as $ticket )
+    if ( in_array($ticket->manifestation_id,$manif_ids) )
     {
       if ( $ticket->printed || $ticket->integrated )
       {
         $prints++;
       }
       $manifs[$ticket->manifestation_id] = cross_app_link_to($ticket->Manifestation->getShortName(),'event','manifestation/show?id='.$ticket->manifestation_id);
+    }
+    else if ( !isset($other_events[$ticket->Manifestation->event_id]) )
+    {
+      $other_events[$ticket->Manifestation->event_id]['date'] = $ticket->Manifestation->happens_at;
+      $other_events[$ticket->Manifestation->event_id]['event'] = $ticket->Manifestation->Event;
     }
   ?>
   <li>
@@ -48,6 +69,12 @@
 <?php if ( $form->getObject()->EventArchives->count() > 0 ): ?>
 <hr />
 <ul class="sf_form_field_event_archives_list">
+<?php foreach ($other_events as $event): ?>
+  <li>
+    <span class="happens_at"><?php echo format_date($event['happens_at'],'MMM yyyy') ?></span>
+    <span class="event"><?php echo $event['event'] ?></span>
+  </li>
+<?php endforeach ?>
 <?php foreach ($form->getObject()->EventArchives as $archive): ?>
   <li>
     <span class="happens_at"><?php echo format_date($archive->happens_at,'MMM yyyy') ?></span>
