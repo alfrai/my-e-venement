@@ -4,10 +4,13 @@
   position: static;
 }
 .gauge .seat .nb { display: none; }
+.gauge .seat.free {
+  display: inline-block;
+}
 .gauge .seat.free .nb {
-  position: relative;
-  display: block;
-  top: -3px;
+  display: inline-block;
+  margin-top: -1px;
+  margin-left: 2px;
   font-size: 9px;
   color: white;
   cursor: default;

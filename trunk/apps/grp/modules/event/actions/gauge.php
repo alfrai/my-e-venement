@@ -35,38 +35,39 @@
       ->leftJoin('me.Entries ee1 ON ee1.manifestation_entry_id = me.id AND ee1.accepted = false')
       ->leftJoin('ee.EntryTickets et')
       ->leftJoin('ee1.EntryTickets et1')
-      ->andWhere('g.manifestation_id = ?',$request->getParameter('manifestation_id'))
+      ->leftJoin('ws.GroupWorkspace gws')
+      ->andWhere('me.id = ?',$request->getParameter('manifestation_id'))
+      ->andWhere('gws.id IS NOT NULL')
       ->addSelect('g.id, m.id')
-      ->addSelect('sum(t.printed OR t.integrated) + sum(NOT t.printed AND NOT t.integrated AND t.transaction_id IN (SELECT o.transaction_id FROM order o)) AS classic')
       ->addSelect('sum(et.quantity) AS validated')
       ->addSelect('sum(et1.quantity) AS refused')
       ->groupBy('g.id, m.id, g.workspace_id, g.manifestation_id, g.value, g.online, g.created_at, g.updated_at');
-
+    
     $gauges = $q->execute();
     
-    $nb_gauge = array('demands' => 0, 'orders' => 0, 'sells' => 0, 'free' => 0, 'value' => 0);
+    $nb_gauge = array('demanded' => 0, 'ordered' => 0, 'sold' => 0, 'free' => 0, 'value' => 0);
     foreach ( $gauges as $gauge )
     {
-      $nb_gauge['sells']    += $gauge->classic;
-      $nb_gauge['orders']   += $gauge->validated;
-      $nb_gauge['demands']  += $gauge->refused;
+      $nb_gauge['sold']     += $gauge->ordered + $gauge->printed;
+      $nb_gauge['ordered']   = $gauge->validated;
+      $nb_gauge['demanded']  = $gauge->refused;
       $nb_gauge['value']    += $gauge->value;
-      $nb_gauge['free']     += $gauge->value - $gauge->classic - $gauge->validated;
     }
+    $nb_gauge['free']       += $nb_gauge['value'] - $nb_gauge['ordered'] - $nb_gauge['sold'];
     
     $nb_gauge['value'] = $nb_gauge['value'] > 0 ? $nb_gauge['value'] : 100;
     
     $this->nb = $nb_gauge;
     $this->length = array(
-      'sells'   => $nb_gauge['sells'] / $nb_gauge['value'] * 100,
-      'orders'  => $nb_gauge['orders'] / $nb_gauge['value'] * 100,
-      'demands' => $nb_gauge['demands'] / $nb_gauge['value'] * 100,
-      'free'    => 100 - ($nb_gauge['sells']+$nb_gauge['orders']) / $nb_gauge['value'] * 100
+      'sold'   => $nb_gauge['sold'] / $nb_gauge['value'] * 100,
+      'ordered'  => $nb_gauge['ordered'] / $nb_gauge['value'] * 100,
+      'demanded' => $nb_gauge['demanded'] / $nb_gauge['value'] * 100,
+      'free'    => 100 - ($nb_gauge['sold']+$nb_gauge['ordered']) / $nb_gauge['value'] * 100
     );
     $this->desc = array(
-      'sells'   => __('Sold or ordered through classic ticketting'),
-      'orders'  => __('Accepted (group module)'),
-      'demands' => __('Refused (group module)'),
+      'sold'   => __('Sold or ordered through classic ticketting'),
+      'ordered'  => __('Accepted (group module)'),
+      'demanded' => __('Refused (group module)'),
       'free'    => __('Globally free (group module and classic ticketting merged)'),
     );
     
