@@ -90,7 +90,12 @@
               && $request->hasParameter('grouped_tickets') )
             {
               if ( isset($this->tickets[$id = $newticket->gauge_id.'-'.$newticket->price_id.'-'.$newticket->transaction_id]) )
+              {
+                $this->tickets[$id]['ticket']->NextGroupedWith = $ticket;
+                $this->tickets[$id]['ticket']->save();
+                $this->tickets[$id]['ticket'] = $ticket;
                 $this->tickets[$id]['nb']++;
+              }
               else
                 $this->tickets[$id] = array('nb' => 1, 'ticket' => $ticket);
             }
