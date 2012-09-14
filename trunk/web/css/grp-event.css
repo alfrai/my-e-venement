@@ -3,6 +3,15 @@
   height: 1em;
   position: static;
 }
+.gauge .seat .nb { display: none; }
+.gauge .seat.free .nb {
+  position: relative;
+  display: block;
+  top: -3px;
+  font-size: 9px;
+  color: white;
+  cursor: default;
+}
 .gauge .seat {
   display: inline-block;
   height: 100%;
@@ -16,6 +25,11 @@
   background-color: blue;
 }
 
+.grp-entry.thead tbody, .grp-entry.thead tfoot { visibility: hidden; }
+.grp-entry.tbody thead { display: none; }
+.grp-overflow-table {
+  width: 100%;
+}
 .grp-entry {
   border: 1px solid silver;
   -moz-user-select: none;
@@ -33,9 +47,8 @@
 }
 
 #sf_admin_container .sf_admin_form { 
-  overflow: auto;
   width: auto;
-  max-height: 550px;
+  overflow-x: auto;
 }
 #sf_admin_container td {
   width: 250px;
