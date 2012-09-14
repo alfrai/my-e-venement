@@ -185,6 +185,10 @@ MemberCard:
     expire_at:
       type: timestamp
       notnull: true
+    value:
+      type: decimal(8)
+      default: 0
+      notnull: true
   relations:
     Contact:
       foreignAlias: MemberCards

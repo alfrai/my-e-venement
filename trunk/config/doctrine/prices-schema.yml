@@ -58,6 +58,12 @@ Price:
       foreignAlias: Prices
       local: price_id
       foreign: sf_guard_user_id
+    MemberCards:
+      class: MemberCard
+      refClass: MemberCardPrice
+      foreignAlias: Prices
+      local: price_id
+      foreign: member_card_id
 
 UserPrice:
   package: price
@@ -127,3 +133,16 @@ PriceManifestation:
       foreignAlias: PriceManifestations
       onDelete: CASCADE
       onUpdate: CASCADE
+
+MemberCardPrice:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    member_card_id:
+      type: integer
+      notnull: true
+    price_id:
+      type: integer
+      notnull: true
