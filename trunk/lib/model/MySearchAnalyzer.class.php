@@ -25,11 +25,57 @@
 
 class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
 {
-    public function analyze($text)
+  protected static $_stopwords = array(
+    'le',
+    'la',
+    'les',
+    'un',
+    'une',
+    'à',
+    'de',
+    'ma',
+    'mon',
+    'mes',
+    'tes',
+    'ton',
+    'ta',
+  );
+  
+    public function analyze($text, $encoding = null)
     {
       $charset = sfContext::getInstance()->getConfiguration()->charset;
       $text = strtolower(iconv($charset['db'],$charset['ascii'],$text));
       
-      return parent::analyze($text);
+      // directly copied from lib/vendor/symfony/lib/plugins/sfDoctrinePlugin/lib/vendor/doctrine/Doctrine/Search/Analyzer/Utf8.php
+        if (is_null($encoding)) {
+          $encoding = isset($this->_options['encoding']) ? $this->_options['encoding']:'utf-8';
+        }
+
+        // check that $text encoding is utf-8, if not convert it
+        if (strcasecmp($encoding, 'utf-8') != 0 && strcasecmp($encoding, 'utf8') != 0) {
+            $text = iconv($encoding, 'UTF-8', $text);
+        }
+
+        $text = preg_replace('/[^\p{L}\p{N}]+/u', ' ', $text);
+        $text = str_replace('  ', ' ', $text);
+
+        $terms = explode(' ', $text);
+        
+        $ret = array();
+        if ( ! empty($terms)) {
+            foreach ($terms as $i => $term) {
+                if (empty($term)) {
+                    continue;
+                }
+                $lower = mb_strtolower(trim($term), 'UTF-8');
+
+                if (in_array($lower, self::$_stopwords)) {
+                    continue;
+                }
+
+                $ret[$i] = $lower;
+            }
+        }
+        return $ret;
     }
 }
