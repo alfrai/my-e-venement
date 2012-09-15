@@ -5,7 +5,7 @@
     <?php if ( strtotime($card->expire_at) > strtotime('now') ): ?>
       <li class="card">
         <?php echo $card ?>
-        (<?php echo format_currency($card->value,'€') ?>)
+        <?php if ( $card->value > 0 ): ?>(<?php echo format_currency($card->value,'€') ?>)<?php endif ?>
         <?php $card_helper = new MemberCardHelper(); echo $card_helper->linkToDelete($card, array(  'params' =>   array(  ),  'confirm' => 'Are you sure?',  'class_suffix' => 'delete',  'label' => 'Delete',)) ?></li>
       </li>
       <?php $cpt++ ?>

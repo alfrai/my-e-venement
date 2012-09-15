@@ -22,7 +22,7 @@ class Payment extends PluginPayment
     parent::preDelete($event);
   }
   
-  public function save($con)
+  public function save(Doctrine_Connection $conn = null)
   {
     if ( $this->Method->member_card_linked )
     {
@@ -45,6 +45,6 @@ class Payment extends PluginPayment
     if ( is_null($this->member_card_id) && $this->Method->member_card_linked )
       throw new sfDatabaseException('No MemberCard linked with this Payment whereas its Method requires it.');
     
-    parent::save($con);
+    parent::save($conn);
   }
 }

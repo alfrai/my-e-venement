@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Amount on the card</source>
+        <target>Montant sur la carte</target>
+      </trans-unit>
+      <trans-unit>
         <source>Phonenumbers</source>
         <target>Numéros</target>
       </trans-unit>

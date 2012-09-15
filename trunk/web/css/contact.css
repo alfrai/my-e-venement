@@ -13,6 +13,11 @@
   float: right;
   width: 380px;
 }
+#member-cards .new #card_type_value { float: right; }
+#member-cards .new #card_type_value input {
+  width: 4em;
+  text-align: right;
+}
 #member-cards .list {
   min-height: 50px;
   padding: 5px 5px 5px 20px;

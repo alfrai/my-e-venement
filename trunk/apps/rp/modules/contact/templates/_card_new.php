@@ -10,6 +10,11 @@
         });
       });
     </script>
+    <?php if ( sfConfig::has('app_cards_default_amount') !== false ): ?>
+    <span id="card_type_value">
+      <?php echo __('Amount on the card') ?>: <input type="text" name="member_card[value]" value="<?php echo sfConfig::get('app_cards_default_amount') ?>" />
+    </span>
+    <?php endif ?>
     <span id="card_type_actions">
       <input type="checkbox" name="duplicate" value="yes" title="<?php echo __("Duplicates the last card instead of creating a new one") ?>"/>
       <input type="submit" name="submit" value="Ok" />
