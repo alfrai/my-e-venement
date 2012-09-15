@@ -376,6 +376,9 @@ function ticket_display_prices()
 
 function ticket_get_ws_gauge(json_url)
 {
+  if ( json_url == null )
+    return;
+  
   $.getJSON(json_url+'?json',function(data){
     url = $('.manifestations_list .workspace.gauge-'+data.id+' .ws-gauge .url');
     $('.manifestations_list .workspace.gauge-'+data.id+' .ws-gauge span').remove();
