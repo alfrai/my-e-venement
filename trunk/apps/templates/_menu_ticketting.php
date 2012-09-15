@@ -24,7 +24,7 @@
     <?php if ( $sf_user->hasCredential('tck-transaction')
             || $sf_user->hasCredential('tck-unblock')
             || $sf_user->hasCredential('tck-control')
-            || $sf_user->hasCredential('tck-cancel') 
+            || $sf_user->hasCredential('tck-cancel')
             || $sf_user->hasCredential('tck-print-ticket')
             || $sf_user->hasCredential('tck-reports')
             || $sf_user->hasCredential('tck-ledger-sales')
@@ -46,11 +46,6 @@
           <?php if ( $sf_user->hasCredential('tck-print-ticket') && $sf_user->hasCredential('tck-transaction') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/duplicate') ?>"><?php echo __('Duplicate tickets',array(),'menu') ?></a></li>
           <?php endif ?>
-          <!--
-          <li class="spaced"><a href="<?php echo cross_app_url_for('tck','deposit/send') ?>"><?php echo __('Deposit',array(),'menu') ?></a></li>
-          <li><a href="<?php echo cross_app_url_for('tck','deposit/getBack') ?>"><?php echo __('Sells',array(),'menu') ?></a></li>
-          <li><a href="<?php echo cross_app_url_for('tck','deposit/inProgress') ?>"><?php echo __('In progress',array(),'menu') ?></a></li>
-          -->
           <?php if ( $sf_user->hasCredential('tck-reports') ): ?>
           <li class="spaced demands"><a href="<?php echo cross_app_url_for('tck','summary/asks') ?>"><?php echo __('Asks',array(),'menu') ?></a></li>
           <li class="orders"><a href="<?php echo cross_app_url_for('tck','order/index') ?>" class="order"><?php echo __('Orders',array(),'menu') ?></a></li>

@@ -146,3 +146,29 @@ MemberCardPrice:
     price_id:
       type: integer
       notnull: true
+MemberCardPriceModel:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    member_card_name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    price_id:
+      type: integer
+      notnull: true
+    quantity:
+      type: integer
+      notnull: true
+  relations:
+    Price:
+      foreignAlias: MemberCardPriceModel
+      onDelete: CASCADE
+      onUpdate: CASCADE
+  indexes:
+    member_card_name_price_id:
+      fields: [member_card_name, price_id]
+      unique: true
+
