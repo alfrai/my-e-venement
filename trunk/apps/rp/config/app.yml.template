@@ -14,6 +14,7 @@ all:
     #enable: true
     types: [membership, subscription]
     expiration_delay: 1 year
+    #expiration_date: 09-01
     extra: |
       Ciné Ma Passion - Le Méliès
       6 rue Bargouin - 64000 PAU

@@ -287,6 +287,10 @@ PaymentMethod:
       type: boolean
       notnull: true
       default: true
+    member_card_linked:
+      type: boolean
+      notnull: true
+      default: false
 Payment:
   package: tck
   inheritance:
@@ -303,6 +307,7 @@ Payment:
       type: decimal(8)
       scale: 3
       notnull: true
+    member_card_id: integer
   relations:
     Transaction:
       foreignAlias: Payments
@@ -312,6 +317,10 @@ Payment:
       class: PaymentMethod
       foreignAlias: Payments
       onDelete: RESTRICT
+      onUpdate: CASCADE
+    MemberCard:
+      foreignAlias: Payments
+      onDelete: SET NULL
       onUpdate: CASCADE
 
 ContactEventArchives:

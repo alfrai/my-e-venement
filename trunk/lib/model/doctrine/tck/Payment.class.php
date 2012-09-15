@@ -12,4 +12,39 @@
  */
 class Payment extends PluginPayment
 {
+  public function preDelete($event)
+  {
+    if ( !is_null($this->member_card_id) )
+    {
+      $this->MemberCard->value += $this->value;
+      $this->MemberCard->save();
+    }
+    parent::preDelete($event);
+  }
+  
+  public function save($con)
+  {
+    if ( $this->Method->member_card_linked )
+    {
+      foreach ( $this->Transaction->Contact->MemberCards as $card )
+      if ( strtotime($card->expire_at) > strtotime('now')
+        && strtotime('now') > strtotime($card->created_at)
+        && $card->value >= $this->value  )
+        break;
+      else
+        $card = NULL;
+
+      if ( !is_null($card) )
+      {
+        $card->value -= $this->value;
+        $card->save();
+        $this->MemberCard = $card;
+      }
+    }
+    
+    if ( is_null($this->member_card_id) && $this->Method->member_card_linked )
+      throw new sfDatabaseException('No MemberCard linked with this Payment whereas its Method requires it.');
+    
+    parent::save($con);
+  }
 }

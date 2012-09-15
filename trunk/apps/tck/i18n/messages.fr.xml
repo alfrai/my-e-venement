@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Linked w/ MC ?</source>
+        <target>Lié avec les CM ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Grouped tickets</source>
         <target>Billets groupés</target>
       </trans-unit>
