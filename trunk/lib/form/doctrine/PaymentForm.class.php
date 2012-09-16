@@ -26,8 +26,12 @@ class PaymentForm extends BasePaymentForm
     
     unset($this->widgetSchema['version']);
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputHidden();
-    $this->widgetSchema['payment_method_id']->setOption('add_empty',true);
-    $this->widgetSchema['payment_method_id']->setOption('query',Doctrine::getTable('PaymentMethod')->createQuery('pm')->andWhere('pm.display = true'));
+    
+    $this->widgetSchema   ['payment_method_id']->setOption('add_empty',true);
+    $this->widgetSchema   ['payment_method_id']->setOption('query',$q = Doctrine::getTable('PaymentMethod')->createQuery('pm')
+      ->andWhere('pm.display = true')
+      ->andWhere('pm.member_card_linked != true OR ?',sfContext::getInstance()->getUser()->hasCredential('tck-member-cards')));
+    $this->validatorSchema['payment_method_id']->setOption('query',$q = Doctrine::getTable('PaymentMethod')->createQuery('pm')->andWhere('pm.display = true'));
     
     unset($this->widgetSchema['updated_at']);
     unset($this->validatorSchema['updated_at']);
