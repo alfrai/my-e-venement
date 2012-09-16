@@ -38,6 +38,62 @@ class Ticket extends PluginTicket
     parent::preSave($event);
   }
   
+  public function preInsert($event)
+  {
+    // cancellation ticket with member cards
+    if ( $this->Price->member_card_linked && !($this->printed || $this->integrated ) && !is_null($this->cancelling) )
+    {
+      foreach ( $this->Transaction->Contact->MemberCards as $card )
+      if ( strtotime($card->created_at) <= strtotime('now')
+        && strtotime($card->expire_at) > strtotime('now') )
+      {
+        if ( !isset($models) )
+          $models = Doctrine::getTable('MemberCardPriceModel')->createQuery('mcpm')
+            ->andWhere('mcpm.price_id = ?',$this->price_id)
+            ->execute();
+        
+        foreach ( $models as $model )
+        if ( $card->name == $model->member_card_name && $model->price_id == $this->price_id )
+        {
+          $mcp = new MemberCardPrice;
+          $mcp->price_id = $this->price_id;
+          $mcp->member_card_id = $card->id;
+          $mcp->save();
+        }
+      }
+    }
+    
+    return parent::preInsert($event);
+  }
+  
+  public function preUpdate($event)
+  {
+    if ( $this->Price->member_card_linked && ($this->printed || $this->integrated ) && is_null($this->cancelling) )
+    {
+      $ok = false;
+      foreach ( $this->Transaction->Contact->MemberCards as $card )
+      if ( strtotime($card->created_at) <= strtotime('now')
+        && strtotime($card->expire_at) > strtotime('now') )
+      {
+        foreach ( $card->MemberCardPrices as $mc_price )
+        if ( $mc_price->price_id == $this->price_id )
+        {
+          $mc_price->delete();
+          $ok = true;
+          break(2);
+        }
+      }
+      
+      if ( !$ok && !is_null($this->cancelling) )
+      {
+        $this->printed = false;
+        throw new liEvenementException("No more ticket left on the contact's member card");
+      }
+    }
+    
+    return parent::preUpdate($event);
+  }
+  
   public function getBarcode($salt = '')
   {
     return md5('#'.$this->id.'-'.$salt);

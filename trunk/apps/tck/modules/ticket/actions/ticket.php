@@ -49,7 +49,7 @@
         $this->tickets = $this->form->save();
         if ( count($this->tickets) != intval($values['nb']) && intval($values['nb']) >= 0 )
         {
-          $this->getUser()->setFlash('error',__("This price doesn't exist for this manifestation !"));
+          $this->getUser()->setFlash('error',__("This price doesn't exist for this manifestation".($this->getUser()->hasCredential('tck-member-cards') ? " or the contact's member card has got no more ticket" : '').' !'));
           $this->redirect('ticket/ticket?id='.$ticket->transaction_id);
         }
         $this->form->setWidget('contact_id', new sfWidgetFormInputHidden());

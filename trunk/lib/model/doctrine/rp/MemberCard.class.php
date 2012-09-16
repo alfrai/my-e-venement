@@ -17,4 +17,20 @@ class MemberCard extends PluginMemberCard
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
     return __($this->name)."\n(".format_date($this->expire_at,'D').')';
   }
+  
+  public function postSave($event)
+  {
+    $q = Doctrine::getTable('MemberCardPriceModel')->createQuery('pm')
+      ->andWhere('pm.member_card_name = ?',$this->name);
+    $models = $q->execute();
+    
+    foreach ( $models as $model )
+    for ( $i = 0 ; $i < $model->quantity ; $i++ )
+    {
+      $mc_price = new MemberCardPrice;
+      $mc_price->price_id = $model->price_id;
+      $mc_price->member_card_id = $this->id;
+      $mc_price->save();
+    }
+  }
 }

@@ -17,6 +17,7 @@ generator:
       list:
         title: Group list
         display: [name, description]
+        sort: [name, asc]
 
       form:
         display: [name, description, users_list, permissions_list]

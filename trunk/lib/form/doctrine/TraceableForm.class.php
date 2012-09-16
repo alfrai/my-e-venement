@@ -12,5 +12,6 @@ class TraceableForm extends BaseTraceableForm
 {
   public function configure()
   {
+    $this->validatorSchema['sf_guard_user_id']->setOption('required',false);
   }
 }

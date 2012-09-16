@@ -43,6 +43,10 @@ Price:
       type: boolean
       notnull: true
       default: false
+    member_card_linked:
+      type: boolean
+      notnull: true
+      default: false
   relations:
     Manifestations:
       class: Manifestation
@@ -146,6 +150,15 @@ MemberCardPrice:
     price_id:
       type: integer
       notnull: true
+  relations:
+    MemberCard:
+      foreignAlias: MemberCardPrices
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Price:
+      foreignAlias: MemberCardPrices
+      onDelete: RESTRICT
+      onUpdate: CASCADE
 MemberCardPriceModel:
   package: tck
   inheritance:

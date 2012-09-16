@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Linked w/ MC</source>
+        <target>Lié aux CM</target>
+      </trans-unit>
+      <trans-unit>
         <source>Edit Price</source>
         <target>Modification du prix</target>
       </trans-unit>

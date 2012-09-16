@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Type of member card</source>
+        <target>Type de carte de membre</target>
+      </trans-unit>
+      <trans-unit>
         <source>Linked w/ MC ?</source>
         <target>Lié avec les CM ?</target>
       </trans-unit>
@@ -371,6 +375,10 @@
       <trans-unit>
         <source>This price doesn't exist for this manifestation !</source>
         <target>Ce tarif n'existe pas pour cette manifestation !</target>
+      </trans-unit>
+      <trans-unit>
+        <source>This price doesn't exist for this manifestation or the contact's member card has got no more ticket !</source>
+        <target>Ce tarif n'existe pas pour cette manifestation ou il n'y a plus de billet sur la carte de membre du contact !</target>
       </trans-unit>
       <trans-unit>
         <source>Cancellations</source>

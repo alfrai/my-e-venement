@@ -499,9 +499,19 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_75
     created_at: '2012-07-24 10:10:09'
     updated_at: '2012-07-24 10:10:09'
+  sfGuardGroupPermission_18_77:
+    Group: sfGuardGroup_18
+    Permission: sfGuardPermission_77
+    created_at: '2012-09-16 10:10:09'
+    updated_at: '2012-09-16 10:10:09'
   sfGuardGroupPermission_24_76:
     Group: sfGuardGroup_24
     Permission: sfGuardPermission_76
+    created_at: '2012-08-24 10:10:09'
+    updated_at: '2012-08-24 10:10:09'
+  sfGuardGroupPermission_26_78:
+    Group: sfGuardGroup_26
+    Permission: sfGuardPermission_78
     created_at: '2012-08-24 10:10:09'
     updated_at: '2012-08-24 10:10:09'
 sfGuardPermission:
@@ -865,6 +875,16 @@ sfGuardPermission:
     description: Permission to access the member card's stats
     created_at: '2012-08-24 10:09:41'
     updated_at: '2012-08-24 10:09:41'
+  sfGuardPermission_77:
+    name: tck-admin-member-cards
+    description: Permission to access the member card's prices association
+    created_at: '2012-09-16 10:09:41'
+    updated_at: '2012-09-16 10:09:41'
+  sfGuardPermission_78:
+    name: tck-member-cards
+    description: Permission to use the member card's prices association and value
+    created_at: '2012-09-16 10:09:41'
+    updated_at: '2012-09-16 10:09:41'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -991,3 +1011,8 @@ sfGuardGroup:
     description: 'Permission to modify member cards'
     created_at: '2011-05-19 17:10:03'
     updated_at: '2011-05-19 17:10:03'
+  sfGuardGroup_26:
+    name: tck-member-cards
+    description: 'Permission to use member cards to pay and add tickets'
+    created_at: '2011-09-16 17:10:03'
+    updated_at: '2011-09-16 17:10:03'

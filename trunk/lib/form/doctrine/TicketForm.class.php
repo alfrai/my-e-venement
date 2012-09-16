@@ -21,7 +21,6 @@ class TicketForm extends BaseTicketForm
     $this->validatorSchema['duplicate'] = new sfValidatorInteger(array('min' => 0, 'required' => false));
     $this->validatorSchema['price_id']->setOption('required',false);
     $this->validatorSchema['value']->setOption('required',false);
-    $this->validatorSchema['sf_guard_user_id']->setOption('required',false);
     $this->validatorSchema['gauge_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Gauge',
       'required' => true,

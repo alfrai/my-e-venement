@@ -58,8 +58,9 @@
       $this->redirect('ticket/sell');
     }
     
-    $q = Doctrine::getTable('Price')->createQuery()
-      ->orderBy('name');
+    $q = Doctrine::getTable('Price')->createQuery('p')
+      ->andWhere('NOT p.member_card_linked OR ?',$this->getUser()->hasCredential('tck-member-cards'))
+      ->orderBy('p.name');
     $this->prices = $q->execute();
     
     $payment = new Payment();

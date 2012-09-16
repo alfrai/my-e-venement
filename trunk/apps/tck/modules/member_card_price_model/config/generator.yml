@@ -13,9 +13,15 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
-      list:    ~
-      filter:  ~
-      form:    ~
+      fields:
+        member_card_name: { label: Type of member card }
+      list:
+        title: Prices association for member cards
+        sort: [member_card_name, asc]
+        display: [member_card_name, Price, quantity, updated_at]
+      filter:
+        display: [member_card_name, price_id, quantity, updated_at]
+      form:
+        display: [member_card_name, price_id, quantity]
       edit:    ~
       new:     ~

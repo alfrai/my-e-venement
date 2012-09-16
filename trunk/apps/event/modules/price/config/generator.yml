@@ -13,10 +13,15 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        member_card_linked: { label: Linked w/ MC }
       list:
-        display: [name, description, value, online, hide]
+        display: [name, description, value, online, hide, member_card_linked]
       filter:  ~
-      form:    ~
+      form:
+        display:
+          General: [name, description, value]
+          Options: [online, hide, member_card_linked]
+          Permissions: [manifestations_list, workspaces_list, users_list]
       edit:    ~
       new:     ~
