@@ -33,23 +33,5 @@ class MemberCard extends PluginMemberCard
       $mc_price->member_card_id = $this->id;
       $mc_price->save();
     }
-    
-    // payments in ticketting
-    $transaction = new Transaction;
-    
-    // member cards payment
-    $payment = new Payment;
-    $payment->payment_method_id = 7;
-    $payment->member_card_id = $this->id;
-    $payment->value = -$this->value;
-    $transaction->Payments[] = $payment;
-    
-    // real payment
-    $payment = new Payment;
-    $payment->payment_method_id = 3;
-    $payment->value = $this->value;
-    $transaction->Payments[] = $payment;
-    
-    $transaction->save();
   }
 }
