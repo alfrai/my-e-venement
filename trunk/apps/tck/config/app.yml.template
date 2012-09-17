@@ -6,6 +6,7 @@ all:
   ledger:
     date_begin: 1 week ago
     date_end: tomorrow
+    max_tickets: 5000
   transaction:
     #hide_demands: true
     #gauge_alert: true

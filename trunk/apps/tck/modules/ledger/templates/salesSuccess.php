@@ -40,7 +40,10 @@
     
     foreach ( $events as $event )
     foreach ( $event->Manifestations as $manif )
+    {
       $vat[$manif->vat] = array();
+      $total['qty'] += $manif->Tickets->count();
+    }
   ?>
   <tbody><?php foreach ( $events as $event ): ?>
     <tr class="event">
@@ -69,7 +72,7 @@
           }
         }
         $total['value'] += $value;
-        $total['qty']   += $qty;
+        //$total['qty']   += $qty;
         
         foreach ( $vat as $name => $arr )
         {
@@ -90,7 +93,11 @@
     <?php foreach ( $event->Manifestations as $manif ): $buf = 0; ?>
     <tr class="manif event-<?php echo $event->id ?>">
       <td class="event"><?php echo cross_app_link_to(format_date($manif->happens_at).' @ '.$manif->Location,'event','manifestation/show?id='.$manif->id) ?></td>
+      <?php if ( $total['qty'] <= sfConfig::get('app_ledger_max_tickets',5000) ): ?>
       <td class="see-more"><a href="#manif-<?php echo $manif->id ?>">-</a></td>
+      <?php else: ?>
+      <td class="see-more"></td>
+      <?php endif ?>
       <td class="id-qty"><?php $nb = $manif->Tickets->count(); foreach ( $manif->Tickets as $t ) if ( !is_null($t->cancelling) ) $nb-=2; echo $nb; ?></td>
       <td class="value"><?php $value = 0; foreach ( $manif->Tickets as $ticket ) $value += $ticket->value; echo format_currency($value,'€'); ?></td>
       <?php foreach ( $vat as $t ): if ( isset($t[$event->id][$manif->id]) ): ?>
@@ -100,7 +107,7 @@
       <?php endif; endforeach ?>
       <td class="vat total"><?php echo format_currency($buf,'€') ?></td>
     </tr>
-    <?php for ( $i = 0 ; $i < $manif->Tickets->count() ; $i++ ): ?>
+    <?php if ( $total['qty'] <= sfConfig::get('app_ledger_max_tickets',5000) ) for ( $i = 0 ; $i < $manif->Tickets->count() ; $i++ ): ?>
     <tr class="prices manif-<?php echo $manif->id ?>">
       <?php $ticket = $manif->Tickets[$i]; ?>
       <td class="event price"><?php echo __('%%price%% (by %%user%%)',array('%%price%%' => $ticket->price_name, '%%annul%%' => is_null($ticket->cancelling) ? __('cancel') : '', '%%user%%' => $ticket->User->name)) ?></td>
