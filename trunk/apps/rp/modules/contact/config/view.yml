@@ -34,4 +34,7 @@ csvSuccess:
 cardSuccess:
   stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css: {media: all}, contact-card: {media: all}, /private/contact-card: {media: all}]
   javascripts: [-menu]
+cardSuccessAndPay:
+  stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css: {media: all}, contact-card: {media: all}, /private/contact-card: {media: all}]
+  javascripts: [-menu]
 

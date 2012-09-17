@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Member cards ledger</source>
+        <target>Journal des cartes de membre</target>
+      </trans-unit>
+      <trans-unit>
         <source>Prices association for member cards</source>
         <target>Association de tarifs pour les cartes de membre</target>
       </trans-unit>

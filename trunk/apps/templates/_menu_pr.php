@@ -41,6 +41,10 @@
           <?php if ( $sf_user->hasCredential('pr-emailing') ): ?>
           <li><a href="<?php echo cross_app_url_for('rp','email') ?>"><?php echo __('Emailing',array(),'menu') ?></a></li>
           <?php endif ?>
+          <?php if ( $sf_user->hasCredential('pr-card-view') ): ?>
+          <li class="spaced"></li>
+          <li><a href="<?php echo cross_app_url_for('rp','member_card') ?>"><?php echo __('Member cards ledger',array(),'menu') ?></a></li>
+          <?php endif ?>
         </ul>
         <span class="title"><?php echo __('Pub. Rel.',array(),'menu') ?></span>
       </li>

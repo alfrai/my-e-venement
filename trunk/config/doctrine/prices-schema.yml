@@ -157,7 +157,7 @@ MemberCardPrice:
       onUpdate: CASCADE
     Price:
       foreignAlias: MemberCardPrices
-      onDelete: RESTRICT
+      onDelete: CASCADE
       onUpdate: CASCADE
 MemberCardPriceModel:
   package: tck

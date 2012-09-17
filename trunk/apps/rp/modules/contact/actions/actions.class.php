@@ -344,11 +344,38 @@ class contactActions extends autoContactActions
       $this->card->save();
       if ( !($this->card instanceof MemberCard) )
         $this->card = $this->card->getObject();
+      
       $this->setLayout('nude');
+      $this->transaction = null;
+      
+      // payments in ticketting
+      if ( $this->card->value > 0 )
+      {
+        $payment = new Payment;
+        if ( intval($pmid = $request->getParameter('payment_method_id')) > 0 )
+          $payment->payment_method_id = $pmid;
+        else
+        {
+          $pm = Doctrine::getTable('PaymentMethod')->createQuery('pm')->andWhere('pm.member_card_linked = true')->fetchOne();
+          $payment->payment_method_id = $pm->id;
+        }
+        $payment->member_card_id = $this->card->id;
+        $payment->value = -$this->card->value;
+        
+        $this->transaction = new Transaction;
+        $this->transaction->Contact = $this->card->Contact;
+        $this->transaction->Payments[] = $payment;
+        $this->transaction->save();
+      }
+
       return 'Success';
     }
     else
     {
+      $this->payment_methods = Doctrine::getTable('PaymentMethod')->createQuery('pm')
+        ->andWhere('pm.member_card_linked = true')
+        ->orderBy('pm.name')
+        ->execute();
       return 'Params';
     }
   }

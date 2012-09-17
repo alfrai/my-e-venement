@@ -14,6 +14,9 @@
     <span id="card_type_value">
       <?php echo __('Amount on the card') ?>: <input type="text" name="member_card[value]" value="<?php echo sfConfig::get('app_cards_default_amount') ?>" />
     </span>
+    <span id="card_type_payment_method">
+      <?php echo __('Payment method') ?>: <select name="payment_method_id"><?php foreach ( $payment_methods as $pm ): ?><option value="<?php echo $pm->id ?>"><?php echo $pm->name ?></option><?php endforeach ?></select>
+    </span>
     <?php endif ?>
     <span id="card_type_actions">
       <input type="checkbox" name="duplicate" value="yes" title="<?php echo __("Duplicates the last card instead of creating a new one") ?>"/>

@@ -34,7 +34,7 @@ class Payment extends PluginPayment
       else
         $card = NULL;
 
-      if ( !is_null($card) )
+      if ( isset($card) && !is_null($card) )
       {
         $card->value -= $this->value;
         $card->save();

@@ -3,8 +3,10 @@
 <script type="text/javascript">
 $(document).ready(function(){
   window.print();
-  <?php if ( sfConfig::has('app_cards_auto_close') ): ?>
+  <?php if ( sfConfig::has('app_cards_auto_close') && is_null($transaction) ): ?>
   window.close();
+  <?php elseif ( !is_null($transaction) ): ?>
+  window.location = '<?php echo cross_app_url_for('tck','ticket/pay?id='.$transaction->id) ?>';
   <?php endif ?>
 });
 </script>

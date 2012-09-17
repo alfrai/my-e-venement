@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Payment method</source>
+        <target>Méthode de paiement</target>
+      </trans-unit>
+      <trans-unit>
         <source>Amount on the card</source>
         <target>Montant sur la carte</target>
       </trans-unit>

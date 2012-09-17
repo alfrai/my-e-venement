@@ -18,14 +18,9 @@ class MemberCard extends PluginMemberCard
     return __($this->name).' #'.$this->id."\n(".format_date($this->expire_at,'D').')';
   }
   
-  public function preSave($event)
-  {
-    //throw new sfException('preSave');
-    parent::preSave($event);
-  }
-  
   public function postSave($event)
   {
+    // prices
     $q = Doctrine::getTable('MemberCardPriceModel')->createQuery('pm')
       ->andWhere('pm.member_card_name = ?',$this->name);
     $models = $q->execute();
@@ -38,5 +33,23 @@ class MemberCard extends PluginMemberCard
       $mc_price->member_card_id = $this->id;
       $mc_price->save();
     }
+    
+    // payments in ticketting
+    $transaction = new Transaction;
+    
+    // member cards payment
+    $payment = new Payment;
+    $payment->payment_method_id = 7;
+    $payment->member_card_id = $this->id;
+    $payment->value = -$this->value;
+    $transaction->Payments[] = $payment;
+    
+    // real payment
+    $payment = new Payment;
+    $payment->payment_method_id = 3;
+    $payment->value = $this->value;
+    $transaction->Payments[] = $payment;
+    
+    $transaction->save();
   }
 }
