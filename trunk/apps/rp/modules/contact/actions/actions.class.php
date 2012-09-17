@@ -153,14 +153,14 @@ class contactActions extends autoContactActions
     
     $table = Doctrine_Core::getTable('Contact');
     
-    if ( intval($request->getParameter('s')).'' === $request->getParameter('s'))
+    if ( intval($request->getParameter('s')) > 0 )
     {
       $value = intval($request->getParameter('s'));
       try { $value = liBarcode::decode_ean($value); }
       catch ( sfException $e )
       { $value = intval($value); }
       
-      $this->pager->setQuery($table->createQuery('c')->andWhere('c.id = ?',$value));
+      $this->pager->setQuery($table->createQuery('c')->leftJoin('c.MemberCards mc')->andWhere('mc.id = ?',$value));
     }
     else
     {
