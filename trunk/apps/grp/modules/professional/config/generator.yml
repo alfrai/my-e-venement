@@ -13,7 +13,8 @@ generator:
 
     config:
       actions: ~
-      fields: ~
+      fields:
+        name: { label: Function }
       list:
         display: [Contact, name, Organism, contact_email]
         batch_actions: {}
