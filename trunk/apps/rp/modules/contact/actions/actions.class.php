@@ -337,7 +337,7 @@ class contactActions extends autoContactActions
           return 'Params';
         
         // some kind of a hack
-        $this->card = $card;
+        $this->card = $card; // replacing MemberCardForm by MemberCard...
         $this->card->updated_at = NULL;
         $this->card->name = $params['name'];
       }

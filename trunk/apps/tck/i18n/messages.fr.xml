@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>New Member card price model</source>
+        <target>Nouveau model de carte de membre</target>
+      </trans-unit>
+      <trans-unit>
         <source>Prices association for member cards</source>
         <target>Association de prix pour les cartes de membre</target>
       </trans-unit>

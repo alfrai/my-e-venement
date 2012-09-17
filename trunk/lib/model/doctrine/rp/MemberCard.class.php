@@ -15,7 +15,13 @@ class MemberCard extends PluginMemberCard
   public function __toString()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
-    return __($this->name)."\n(".format_date($this->expire_at,'D').')';
+    return __($this->name).' #'.$this->id."\n(".format_date($this->expire_at,'D').')';
+  }
+  
+  public function preSave($event)
+  {
+    //throw new sfException('preSave');
+    parent::preSave($event);
   }
   
   public function postSave($event)
