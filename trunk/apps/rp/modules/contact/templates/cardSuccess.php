@@ -1,4 +1,5 @@
 <?php use_helper('Date') ?>
+<?php $sf_user->setFlash('notice',$sf_user->getFlash('notice')) ?>
 <?php include_partial('contact/assets') ?>
 <script type="text/javascript">
 $(document).ready(function(){

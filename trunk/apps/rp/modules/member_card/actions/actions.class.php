@@ -18,13 +18,21 @@ class member_cardActions extends autoMember_cardActions
     $request->checkCSRFProtection();
 
     $this->dispatcher->notify(new sfEvent($this, 'admin.delete_object', array('object' => $this->getRoute()->getObject())));
-    
-    $this->contact = $this->getRoute()->getObject()->Contact;
-    if ($this->getRoute()->getObject()->delete())
+   
+    $this->card = $this->getRoute()->getObject();
+    $this->contact = $this->card->Contact;
+    $this->transaction_id = $this->card->Payments->count() > 0 ? $this->card->Payments[0]->transaction_id : NULL;
+    if ($this->card->delete())
     {
       $this->getUser()->setFlash('notice', 'The item was deleted successfully.');
     }
-
-    $this->redirect('contact/card?id='.$this->contact->id);
+    
+    if ( is_null($this->transaction_id) )
+      $this->redirect('contact/card?id='.$this->contact->id);
+    else
+    {
+      $this->getContext()->getConfiguration()->loadHelpers('CrossAppLink');
+      $this->redirect(cross_app_url_for('tck','ticket/pay?id='.$this->transaction_id));
+    }
   }
 }
