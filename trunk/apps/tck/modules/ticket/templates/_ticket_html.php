@@ -23,7 +23,7 @@
     <p class="event"><?php echo strlen($buf = (string)$ticket->Manifestation->Event) > $maxsize['event_name'] ? substr(nl2br($buf),0,$maxsize['event_name']).'...' : nl2br($buf) ?></p>
     <p class="event-short"><?php echo strlen($buf = $ticket->Manifestation->Event->short_name) > $maxsize['event_shortname'] ? substr($buf,0,$maxsize['event_shortname']).'...' : $buf ?></p>
     <p class="cie"><?php $creators = array(); $cpt = 0; foreach ( $ticket->Manifestation->Event->Companies as $company ) { if ( $cpt++ > 1 ) break; $creators[] .= $company; } echo implode(', ',$creators); ?></p>
-    <p class="org"><?php $orgas = array(sfConfig::get('app_seller_name')); $cpt = 0; foreach ( $ticket->Manifestation->Organizers as $orga ) { if ( $cpt++ > 2 ) break; $orgas[] = $orga; } echo implode(', ',$orgas); ?></p>
+    <p class="org"><?php $orgas = array(sfConfig::get('app_seller_name')); $cpt = 0; foreach ( $ticket->Manifestation->Organizers as $orga ) { if ( $cpt++ > 2 ) break; if ( strpos($orgas[0],$orga->name) !== false ) $orgas[] = $orga->name; else $cpt--; } echo implode(', ',$orgas); ?></p>
     <p class="seat"><?php echo $ticket->numerotation ? __('Seat n°%%s%%',array('%%s%%' => $ticket->numerotation)) : '' ?></p>
     <p class="transaction">
       <span class="date"><?php echo format_date($ticket->updated_at,'dd/MM/yyyy HH:mm') ?></span>
@@ -86,5 +86,8 @@
     <p class="workspace <?php echo $ticket->Manifestation->Gauges->count() > 1 ? 'has_many' : 'one' ?>">
       <?php echo $ticket->Gauge->Workspace->getNameForTicket() ?>
     </p>
+    <?php if ( $nb > 1 ): ?>
+    <p class="nb"><?php echo __('%%nb%% places',array('%%nb%%' => $nb)) ?></p>
+    <?php endif ?>
   </div>
 </div>

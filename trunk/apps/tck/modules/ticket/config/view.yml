@@ -2,7 +2,7 @@ default:
   javascripts: [jquery,menu]
 
 printSuccess:
-  javascripts: [-*, jquery, print-tickets]
+  javascripts: [-*, jquery, print-tickets, /private/print-tickets.js]
   stylesheets: [-*, print-tickets.default.css: {media: all}, /private/print-tickets.css: {media: all}]
 orderSuccess:
   javascripts: [-*, jquery, print-tickets]

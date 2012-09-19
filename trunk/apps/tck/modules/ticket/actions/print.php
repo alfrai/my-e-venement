@@ -69,7 +69,7 @@
           $newticket->save();
           $ticket->duplicate = $newticket->id;
           $ticket->save();
-          $this->tickets[$newticket->gauge_id.'-'.$newticket->price_id.'-'.$newticket->transaction_id] = $newticket;
+          $this->tickets[] = $newticket;
         }
       }
       else
