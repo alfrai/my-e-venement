@@ -62,7 +62,7 @@ class transactionsActions extends sfActions
     
     $params = OptionCsvForm::getDBOptions();
     $this->options = array(
-      'ms' => isset($params['option']['ms']),
+      'ms' => in_array('microsoft',$params['option']['ms']),
       'fields' => array('name','nb','percent'),
       'tunnel' => false,
       'noheader' => false,

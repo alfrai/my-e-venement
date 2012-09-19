@@ -41,7 +41,7 @@ class cardsActions extends sfActions
     // the CSV ouput
     $params = OptionCsvForm::getDBOptions();
     $this->options = array(
-      'ms' => isset($params['option']['ms']),
+      'ms' => in_array('microsoft',$params['option']['ms']),
       'fields' => array('name','nb','percent'),
       'tunnel' => false,
       'noheader' => false,

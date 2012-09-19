@@ -53,7 +53,7 @@ class attendanceActions extends sfActions
     
     $params = OptionCsvForm::getDBOptions();
     $this->options = array(
-      'ms' => isset($params['option']['ms']),
+      'ms' => in_array('microsoft',$params['option']),
       'fields' => array(
         'event_name','happens_at','location_name','location_city',
         'gauge','printed','ordered','asked','free',

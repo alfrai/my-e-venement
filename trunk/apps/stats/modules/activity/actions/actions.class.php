@@ -42,7 +42,7 @@ class activityActions extends sfActions
     
     $params = OptionCsvForm::getDBOptions();
     $this->options = array(
-      'ms' => isset($params['option']['ms']),
+      'ms' => in_array('microsoft',$params['option']),
       'fields' => array('name'),
       'tunnel' => false,
       'noheader' => false,

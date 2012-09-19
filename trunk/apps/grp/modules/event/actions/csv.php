@@ -77,7 +77,7 @@
   
   $params = OptionCsvForm::getDBOptions();
   $this->options = array(
-    'ms' => isset($params['option']['ms']),
+    'ms' => in_array('microsoft',$params['option']),
     'tunnel' => false,
     'noheader' => false,
     'fields'   => array(
