@@ -25,8 +25,9 @@ class member_cardActions extends autoMember_cardActions
     
     // exception, if there are tickets linked with this member card
     $tickets = Doctrine::getTable('Ticket')->createQuery('tck')
-      ->andWhere('tck.printed')
-      ->andWhere('tck.member_card_id = ?',$this->card->id);
+      ->andWhere('tck.printed = true')
+      ->andWhere('tck.member_card_id = ?',$this->card->id)
+      ->execute();
     if ( $tickets->count() > 0 )
     {
       $this->getUser()->setFlash('error','This member card has been used to print tickets');
