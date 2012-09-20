@@ -22,7 +22,7 @@ class MemberCard extends PluginMemberCard
   {
     // prices
     $q = Doctrine::getTable('MemberCardPriceModel')->createQuery('pm')
-      ->andWhere('pm.member_card_name = ?',$this->name);
+      ->andWhere('UPPER(pm.member_card_name) = UPPER(?)',$this->name);
     $models = $q->execute();
     
     foreach ( $models as $model )
