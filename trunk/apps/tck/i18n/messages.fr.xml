@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Close</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit>
         <source>New Member card price model</source>
         <target>Nouveau model de carte de membre</target>
       </trans-unit>

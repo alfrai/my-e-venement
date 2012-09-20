@@ -17,4 +17,9 @@
   <div class="ui-corner-all ui-widget-content action" id="payment">
     <?php include_partial('ticket_payment',array('transaction' => $transaction)) ?>
   </div>
+  <form class="ui-corner-all ui-widget-content action" id="close" action="<?php echo url_for('ticket/cancel') ?>" method="get">
+    <p>
+      <input type="submit" name="" value="<?php echo __('Close') ?>" onclick="javascript: window.close()" />
+    </p>
+  </form>
 </div>
