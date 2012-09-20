@@ -18,10 +18,10 @@ generator:
       list:
         title: Prices association for member cards
         sort: [member_card_name, asc]
-        display: [member_card_name, Price, quantity, updated_at]
+        display: [member_card_name, Price, quantity, Event, updated_at]
       filter:
-        display: [member_card_name, price_id, quantity, updated_at]
+        display: [member_card_name, price_id, quantity, event_id, updated_at]
       form:
-        display: [member_card_name, price_id, quantity]
+        display: [member_card_name, price_id, quantity, event_id]
       edit:    ~
       new:     ~

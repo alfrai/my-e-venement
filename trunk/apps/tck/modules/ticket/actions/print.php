@@ -79,32 +79,43 @@
         {
           $ticket->sf_guard_user_id = NULL;
           if ( $ticket->Manifestation->no_print )
-            $ticket->integrated = true;
+          {
+            try {
+              $ticket->integrated = true;
+              $ticket->save();
+            }
+            catch ( liEvenementException $e )
+            { }
+          }
           else
           {
-            $ticket->printed = true;
-            
-            // grouped tickets
-            if ( sfConfig::has('app_tickets_authorize_grouped_tickets')
-              && sfConfig::get('app_tickets_authorize_grouped_tickets')
-              && $request->hasParameter('grouped_tickets') )
-            {
-              if ( isset($this->tickets[$id = $newticket->gauge_id.'-'.$newticket->price_id.'-'.$newticket->transaction_id]) )
+            try {
+              $ticket->printed = true;
+              $ticket->save();
+              
+              // grouped tickets
+              if ( sfConfig::has('app_tickets_authorize_grouped_tickets')
+                && sfConfig::get('app_tickets_authorize_grouped_tickets')
+                && $request->hasParameter('grouped_tickets') )
               {
-                $this->tickets[$id]['ticket']->NextGroupedWith = $ticket;
-                $this->tickets[$id]['ticket']->save();
-                $this->tickets[$id]['ticket'] = $ticket;
-                $this->tickets[$id]['nb']++;
+                if ( isset($this->tickets[$id = $newticket->gauge_id.'-'.$newticket->price_id.'-'.$newticket->transaction_id]) )
+                {
+                  $this->tickets[$id]['ticket']->NextGroupedWith = $ticket;
+                  $this->tickets[$id]['ticket']->save();
+                  $this->tickets[$id]['ticket'] = $ticket;
+                  $this->tickets[$id]['nb']++;
+                }
+                else
+                  $this->tickets[$id] = array('nb' => 1, 'ticket' => $ticket);
               }
-              else
-                $this->tickets[$id] = array('nb' => 1, 'ticket' => $ticket);
-            }
             
-            // normal tickets
-            else
-              $this->tickets[] = $ticket;
+              // normal tickets
+              else
+                $this->tickets[] = $ticket;
+            }
+            catch ( liEvenementException $e )
+            { }
           }
-          $ticket->save();
         }
       }
       

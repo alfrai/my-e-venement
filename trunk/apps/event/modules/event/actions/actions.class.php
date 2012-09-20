@@ -24,12 +24,7 @@ class eventActions extends autoEventActions
         ->select('*')
         ->addSelect("(SELECT min(m2.happens_at) FROM manifestation m2 WHERE m2.event_id = $a.id) AS min_happens_at")
         ->addSelect("(SELECT (CASE WHEN max(m3.happens_at) IS NULL THEN false ELSE max(m3.happens_at) > now() END) FROM manifestation m3 WHERE m3.event_id = $a.id) AS now")
-        //->leftJoin("$a.Manifestations m")
-        //->leftJoin('m.Tickets tck')
-        //->leftJoin('tck.Transaction t')
-        //->leftJoin('t.Order o')
-        ->orderby("now ASC, min_happens_at ASC, $a.name");
-        //->orderby("(SELECT min(m2.happens_at) FROM manifestation m2 WHERE m2.event_id = $a.id) DESC, $a.name");
+        ->orderby("(SELECT min(m4.happens_at) FROM manifestation m4 WHERE m4.event_id = $a.id) ".(sfConfig::get('app_listing_event_manif') != 'ASC' ? 'DESC' : 'ASC').", $a.name");
     }
   }
   

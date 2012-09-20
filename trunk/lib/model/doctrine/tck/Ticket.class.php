@@ -68,22 +68,29 @@ class Ticket extends PluginTicket
   
   public function preUpdate($event)
   {
-    if ( $this->Price->member_card_linked && ($this->printed || $this->integrated ) && is_null($this->cancelling) )
+    // only for normal tickets and member cards
+    if ( $this->Price->member_card_linked && ($this->printed || $this->integrated ) && is_null($this->cancelling) && is_null($this->duplicate) )
     {
-      foreach ( $this->Transaction->Contact->MemberCards as $card )
-      if ( strtotime($card->created_at) <= strtotime('now')
-        && strtotime($card->expire_at) > strtotime('now') )
-      {
-        foreach ( $card->MemberCardPrices as $mc_price )
-        if ( $mc_price->price_id == $this->price_id )
-        {
-          $mc_price->delete();
-          $this->member_card_id = $card->id;
-          break(2);
-        }
-      }
+      $q = Doctrine::getTable('MemberCard')->createQuery('mc')
+        ->leftJoin('mc.Contact c')
+        ->leftJoin('c.Transactions t')
+        ->leftJoin('mc.MemberCardPrices mcp')
+        ->leftJoin('mcp.Event e')
+        ->leftJoin('e.Manifestations m')
+        ->andWhere('t.id = ?',$this->transaction_id)
+        ->andWhere('mc.created_at <= ?',date('Y-m-d H:i:s'))
+        ->andWhere('mc.expire_at >  ?',date('Y-m-d H:i:s'))
+        ->andWhere('mcp.price_id = ?',$this->price_id)
+        ->andWhere('(mcp.event_id IS NULL OR m.id = ?)',$this->manifestation_id)
+        ->orderBy('mcp.event_id');
+      $card = $q->fetchOne();
       
-      if ( is_null($this->member_card_id) && !is_null($this->cancelling) )
+      if ( $card && $card->MemberCardPrices->count() > 0 )
+      {
+        $card->MemberCardPrices[0]->delete();
+        $this->member_card_id = $card->id;
+      }
+      else
       {
         $this->printed = false;
         throw new liEvenementException("No more ticket left on the contact's member card");

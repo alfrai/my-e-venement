@@ -124,12 +124,6 @@ class contactActions extends autoContactActions
     self::executeIndex($request);
     
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
-    /*$q = Doctrine_Core::getTable('Contact')
-      ->createQuery('c')
-      ->
-      ->andWhere('(SELECT count(*) FROM Contact c2 WHERE c2.id != c.id AND c.name ILIKE c2.name AND c2.firstname ILIKE c.firstname) > 0')
-      ->orderBy('name,firstname');
-    */
     $q = new Doctrine_RawSql();
     $q->from('Contact c')
       ->leftJoin('(select lower(name) as name, lower(firstname) as firstname, count(*) AS nb from contact group by lower(name), lower(firstname) order by lower(name), lower(firstname)) AS c2 ON c2.firstname ILIKE c.firstname AND c2.name ILIKE c.name')

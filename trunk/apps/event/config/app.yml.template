@@ -15,3 +15,6 @@ all:
   ticketting:
     dematerialized: true
     #hide_demands: true
+  listing:
+    manif_date: DESC
+      

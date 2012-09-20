@@ -18,7 +18,7 @@ class MemberCard extends PluginMemberCard
     return __($this->name).' #'.$this->id."\n(".format_date($this->expire_at,'D').')';
   }
   
-  public function postSave($event)
+  public function postInsert($event)
   {
     // prices
     $q = Doctrine::getTable('MemberCardPriceModel')->createQuery('pm')
@@ -30,8 +30,11 @@ class MemberCard extends PluginMemberCard
     {
       $mc_price = new MemberCardPrice;
       $mc_price->price_id = $model->price_id;
+      $mc_price->event_id = $model->event_id;
       $mc_price->member_card_id = $this->id;
       $mc_price->save();
     }
+    
+    parent::postInsert($event);
   }
 }

@@ -70,10 +70,10 @@ class TicketForm extends BaseTicketForm
         $tickets[] = $this->object;
         $this->object = $this->object->copy();
       }
+      catch ( liEvenementException $e )
+      { }
       catch ( Doctrine_Connection_Pgsql_Exception $e )
-      {
-        return $tickets;
-      }
+      { return $tickets; }
     }
     
     return $tickets;

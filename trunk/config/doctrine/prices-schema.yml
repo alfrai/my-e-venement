@@ -150,12 +150,17 @@ MemberCardPrice:
     price_id:
       type: integer
       notnull: true
+    event_id: integer
   relations:
     MemberCard:
       foreignAlias: MemberCardPrices
       onDelete: CASCADE
       onUpdate: CASCADE
     Price:
+      foreignAlias: MemberCardPrices
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Event:
       foreignAlias: MemberCardPrices
       onDelete: CASCADE
       onUpdate: CASCADE
@@ -175,13 +180,18 @@ MemberCardPriceModel:
     quantity:
       type: integer
       notnull: true
+    event_id: integer
   relations:
     Price:
       foreignAlias: MemberCardPriceModel
       onDelete: CASCADE
       onUpdate: CASCADE
+    Event:
+      foreignAlias: MemberCardPriceModel
+      onDelete: CASCADE
+      onUpdate: CASCADE
   indexes:
-    member_card_name_price_id:
-      fields: [member_card_name, price_id]
+    member_card_name_price_id_event_id:
+      fields: [member_card_name, price_id, event_id]
       unique: true
 
