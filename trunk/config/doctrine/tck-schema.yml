@@ -116,6 +116,7 @@ Ticket:
       notnull: true
     barcode: string(255)
     othercode: string(255)
+    member_card_id: integer
   indexes:
     manif_numerotation:
       fields: [numerotation, manifestation_id]
@@ -162,6 +163,10 @@ Ticket:
       local: next_grouped_with
       foreignAlias: PreviousGroupedWith
       class: Ticket
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    MemberCard:
+      foreignAlias: Tickets
       onDelete: RESTRICT
       onUpdate: CASCADE
 Cancellation:

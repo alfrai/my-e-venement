@@ -22,6 +22,17 @@ class member_cardActions extends autoMember_cardActions
     $this->card = $this->getRoute()->getObject();
     $this->contact = $this->card->Contact;
     $this->transaction_id = $this->card->Payments->count() > 0 ? $this->card->Payments[0]->transaction_id : NULL;
+    
+    // exception, if there are tickets linked with this member card
+    $tickets = Doctrine::getTable('Ticket')->createQuery('tck')
+      ->andWhere('tck.printed')
+      ->andWhere('tck.member_card_id = ?',$this->card->id);
+    if ( $tickets->count() > 0 )
+    {
+      $this->getUser()->setFlash('error','This member card has been used to print tickets');
+      return $this->redirect('contact/card?id='.$this->contact->id);
+    }
+    
     if ($this->card->delete())
     {
       $this->getUser()->setFlash('notice', 'The item was deleted successfully.');

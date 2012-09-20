@@ -70,7 +70,6 @@ class Ticket extends PluginTicket
   {
     if ( $this->Price->member_card_linked && ($this->printed || $this->integrated ) && is_null($this->cancelling) )
     {
-      $ok = false;
       foreach ( $this->Transaction->Contact->MemberCards as $card )
       if ( strtotime($card->created_at) <= strtotime('now')
         && strtotime($card->expire_at) > strtotime('now') )
@@ -79,12 +78,12 @@ class Ticket extends PluginTicket
         if ( $mc_price->price_id == $this->price_id )
         {
           $mc_price->delete();
-          $ok = true;
+          $this->member_card_id = $card->id;
           break(2);
         }
       }
       
-      if ( !$ok && !is_null($this->cancelling) )
+      if ( is_null($this->member_card_id) && !is_null($this->cancelling) )
       {
         $this->printed = false;
         throw new liEvenementException("No more ticket left on the contact's member card");

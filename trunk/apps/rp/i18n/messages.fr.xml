@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>This member card has been used to print tickets</source>
+        <target>Cette carte de membre a été utilisée pour imprimer des billets</target>
+      </trans-unit>
+      <trans-unit>
         <source>Payment method</source>
         <target>Méthode de paiement</target>
       </trans-unit>
