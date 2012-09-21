@@ -5,6 +5,34 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Member card List</source>
+        <target>Liste des cartes de membre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Member card</source>
+        <target>Carte de membre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Expire at</source>
+        <target>Date d'échéance</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Value</source>
+        <target>Montant</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List of payments</source>
+        <target>Liste des paiements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List of tickets</source>
+        <target>Liste des billets</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Associated prices still available</source>
+        <target>Prix associés encore disponibles</target>
+      </trans-unit>
+      <trans-unit>
         <source>This member card has been used to print tickets</source>
         <target>Cette carte de membre a été utilisée pour imprimer des billets</target>
       </trans-unit>

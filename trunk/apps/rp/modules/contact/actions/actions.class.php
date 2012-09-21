@@ -320,6 +320,11 @@ class contactActions extends autoContactActions
     
     if ( $this->card->isValid() )
     {
+      // to avoid adding two times the card's value (once here and once with the payment)
+      $value = $params['value'];
+      $params['value'] = 0;
+      $this->card->bind($params);
+      
       if ( $request->hasParameter('duplicate') )
       {
         $q = Doctrine::getTable('MemberCard')->createQuery('mc')
@@ -343,7 +348,7 @@ class contactActions extends autoContactActions
       $this->transaction = null;
       
       // payments in ticketting
-      if ( $this->card->value > 0 )
+      if ( $value > 0 )
       {
         $payment = new Payment;
         if ( intval($pmid = $request->getParameter('payment_method_id')) > 0 )
@@ -354,7 +359,7 @@ class contactActions extends autoContactActions
           $payment->payment_method_id = $pm->id;
         }
         $payment->member_card_id = $this->card->id;
-        $payment->value = -$this->card->value;
+        $payment->value = -$value;
         
         $this->transaction = new Transaction;
         $this->transaction->Contact = $this->card->Contact;

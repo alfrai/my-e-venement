@@ -13,6 +13,30 @@ require_once dirname(__FILE__).'/../lib/member_cardGeneratorHelper.class.php';
  */
 class member_cardActions extends autoMember_cardActions
 {
+  public function executeIndex(sfWebRequest $request)
+  {
+    $this->request = $request;
+    parent::executeIndex($request);
+  }
+  protected function getPager()
+  {
+    $q = $this->buildQuery();
+    if ( isset($this->request) && $this->request->hasParameter('contact_id') )
+    {
+      $this->forward404Unless(intval($this->request->getParameter('contact_id')) > 0 );
+      
+      $a = $q->getRootAlias();
+      $q->andWhere("$a.contact_id = ?",$this->request->getParameter('contact_id'));
+    }
+    
+    $pager = $this->configuration->getPager('MemberCard');
+    $pager->setQuery($q);
+    $pager->setPage($this->getPage());
+    $pager->init();
+    
+    return $pager;
+  }
+  
   public function executeDelete(sfWebRequest $request)
   {
     $request->checkCSRFProtection();

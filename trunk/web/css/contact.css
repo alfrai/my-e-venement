@@ -23,6 +23,7 @@
   padding: 5px 5px 5px 20px;
   margin-right: 405px;
 }
+#member-cards .list table { clear: none; }
 #member-cards .list .card { float: left; padding-right: 10px; }
 #member-cards .list .sf_admin_action_delete {
   list-style-type: none;

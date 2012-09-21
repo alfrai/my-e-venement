@@ -12,4 +12,9 @@
  */
 class MemberCardPrice extends PluginMemberCardPrice
 {
+  public function __toString()
+  {
+    $str = (string)$this->Price;
+    return $str;
+  }
 }
