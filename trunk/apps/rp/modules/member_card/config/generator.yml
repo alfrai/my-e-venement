@@ -2,7 +2,7 @@ generator:
   class: sfDoctrineGenerator
   param:
     model_class:           MemberCard
-    theme:                 admin
+    theme:                 jroller
     non_verbose_templates: true
     with_show:             false
     singular:              ~
@@ -14,8 +14,10 @@ generator:
     config:
       actions: ~
       fields:  ~
-      list:    ~
-      filter:  ~
+      list:
+        display: [name, Contact, expire_at]
+      filter:
+        display: [name, contact_id, expire_at]
       form:    ~
       edit:    ~
       new:     ~

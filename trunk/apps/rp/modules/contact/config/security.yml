@@ -38,3 +38,6 @@ csv:
   credentials: pr-contact-csv
 group:
   credentials: pr-group-perso
+
+card:
+  credentials: pr-card-view
