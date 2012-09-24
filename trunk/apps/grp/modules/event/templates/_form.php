@@ -54,7 +54,6 @@
           if ( !$entry_element )
           {
             $entry_element = new EntryElement;
-            $entry_element->entry_id = $entry->id;
             $entry_element->contact_entry_id = $ce->id;
             $entry_element->manifestation_entry_id = $me->id;
             $entry_element->save();

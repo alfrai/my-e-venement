@@ -12,5 +12,6 @@ class ProfessionalFormFilter extends BaseProfessionalFormFilter
 {
   public function configure()
   {
+    $this->widgetSchema['professional_type_id']->setOption('order_by',array('name',''));
   }
 }

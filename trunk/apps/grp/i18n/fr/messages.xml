@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Professional type</source>
+        <target>Type de fonction</target>
+      </trans-unit>
+      <trans-unit>
         <source>Transpose to ticketting</source>
         <target>Transposer en billetterie</target>
       </trans-unit>

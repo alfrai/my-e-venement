@@ -82,7 +82,7 @@ class eventActions extends autoEventActions
       ->leftJoin('e.ManifestationEntries me')
       ->leftJoin('me.Manifestation m')
       ->andWhere('e.event_id = ?',$request->getParameter('id'))
-      ->orderBy('ce.comment1, c.name, c.firstname, m.happens_at ASC')
+      ->orderBy("ce.comment1 IS NULL OR TRIM(ce.comment1) = '', ce.comment1, c.name, c.firstname, m.happens_at ASC")
       ->fetchOne();
     
     if ( !$this->entry )

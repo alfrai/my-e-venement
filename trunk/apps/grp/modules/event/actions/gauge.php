@@ -31,31 +31,24 @@
       ->leftJoin('g.Tickets t ON t.gauge_id = g.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.ManifestationEntries me')
-      ->leftJoin('me.Entries ee ON ee.manifestation_entry_id = me.id AND ee.accepted = true')
-      ->leftJoin('me.Entries ee1 ON ee1.manifestation_entry_id = me.id AND ee1.accepted = false')
-      ->leftJoin('ee.EntryTickets et')
-      ->leftJoin('ee1.EntryTickets et1')
+      ->addSelect('(SELECT sum(quantity) FROM EntryTickets et1 LEFT JOIN et1.EntryElement ee1 WHERE ee1.manifestation_entry_id = me.id AND ee1.accepted = true) AS accepted')
+      ->addSelect('(SELECT sum(quantity) FROM EntryTickets et2 LEFT JOIN et2.EntryElement ee2 WHERE ee2.manifestation_entry_id = me.id AND ee2.accepted = false) AS refused')
       ->leftJoin('ws.GroupWorkspace gws')
       ->andWhere('me.id = ?',$request->getParameter('manifestation_id'))
-      ->andWhere('gws.id IS NOT NULL')
-      ->addSelect('g.id, m.id')
-      ->addSelect('sum(et.quantity) AS validated')
-      ->addSelect('sum(et1.quantity) AS refused')
-      ->groupBy('g.id, m.id, g.workspace_id, g.manifestation_id, g.value, g.online, g.created_at, g.updated_at');
-    
+      ->andWhere('gws.id IS NOT NULL');
+
     $gauges = $q->execute();
     
     $nb_gauge = array('demanded' => 0, 'ordered' => 0, 'sold' => 0, 'free' => 0, 'value' => 0);
     foreach ( $gauges as $gauge )
     {
       $nb_gauge['sold']     += $gauge->ordered + $gauge->printed;
-      $nb_gauge['ordered']   = $gauge->validated;
-      $nb_gauge['demanded']  = $gauge->refused;
+      $nb_gauge['ordered']   = $gauge->accepted ? $gauge->accepted : 0;
+      //$nb_gauge['demanded']  = $gauge->refused ? $gauge->refused : 0;
       $nb_gauge['value']    += $gauge->value;
     }
     $nb_gauge['free']       += $nb_gauge['value'] - $nb_gauge['ordered'] - $nb_gauge['sold'];
-    
-    $nb_gauge['value'] = $nb_gauge['value'] > 0 ? $nb_gauge['value'] : 100;
+    $nb_gauge['value']       = $nb_gauge['value'] > 0 ? $nb_gauge['value'] : 100;
     
     $this->nb = $nb_gauge;
     $this->length = array(
