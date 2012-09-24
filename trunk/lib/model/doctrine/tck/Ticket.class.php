@@ -58,6 +58,10 @@ class Ticket extends PluginTicket
           $mcp = new MemberCardPrice;
           $mcp->price_id = $this->price_id;
           $mcp->member_card_id = $card->id;
+          
+          if ( $model->event_id == $this->Manifestation->event_id )
+            $mcp->event_id = $model->event_id;
+          
           $mcp->save();
         }
       }

@@ -43,7 +43,7 @@ class Payment extends PluginPayment
     }
     
     if ( is_null($this->member_card_id) && $this->Method->member_card_linked )
-      throw new sfDatabaseException('No MemberCard linked with this Payment whereas its Method requires it.');
+      throw new liEvenementException('No MemberCard linked with this Payment whereas its Method requires it.');
     
     parent::save($conn);
   }
