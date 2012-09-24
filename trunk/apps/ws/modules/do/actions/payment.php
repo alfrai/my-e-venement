@@ -84,13 +84,12 @@
       'payment_method_id' => $pmid,
       'value' => $paid,
     );
+    
     $payment[$form_payment->getCSRFFieldName()] = $form_payment->getCSRFToken();
     $form_payment->setWithUserId();
     $form_payment->bind($payment);
     if ( !$form_payment->isValid() )
     {
-      echo $form_payment->isCSRFProtected() ? 'oui' : 'non';
-      echo $form_payment;
       $this->getResponse()->setStatusCode('412');
       return sfView::NONE;
     }
