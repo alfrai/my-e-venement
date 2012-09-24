@@ -43,17 +43,18 @@ class Ticket extends PluginTicket
     // cancellation ticket with member cards
     if ( $this->Price->member_card_linked && !($this->printed || $this->integrated ) && !is_null($this->cancelling) )
     {
+      if ( !isset($models) )
+        $models = Doctrine::getTable('MemberCardPriceModel')->createQuery('mcpm')
+          ->andWhere('mcpm.price_id = ?',$this->price_id)
+          ->andWhere('(mcpm.event_id IS NULL OR mcpm.event_id = ?)',$this->Manifestation->event_id)
+          ->execute();
+      
       foreach ( $this->Transaction->Contact->MemberCards as $card )
       if ( strtotime($card->created_at) <= strtotime('now')
         && strtotime($card->expire_at) > strtotime('now') )
       {
-        if ( !isset($models) )
-          $models = Doctrine::getTable('MemberCardPriceModel')->createQuery('mcpm')
-            ->andWhere('mcpm.price_id = ?',$this->price_id)
-            ->execute();
-        
         foreach ( $models as $model )
-        if ( $card->name == $model->member_card_name && $model->price_id == $this->price_id )
+        if ( strcasecmp($card->name, $model->member_card_name) == 0 )
         {
           $mcp = new MemberCardPrice;
           $mcp->price_id = $this->price_id;
