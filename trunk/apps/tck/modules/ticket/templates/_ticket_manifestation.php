@@ -21,7 +21,7 @@
       <?php include_partial('ticket_manifestation_ws',array('ticket' => $ticket,'nb_gauges' => $manif->Gauges->count())) ?>
     <?php endif ?>
     <?php if ( is_null($ticket->duplicate) ): ?>
-    <input alt="#<?php echo $ticket->id ?>" type="hidden" name="ticket[prices][<?php echo $manif->id ?>][<?php echo $ticket->Price ?>][]" value="<?php echo $ticket->value ?>" title="PU: <?php echo format_currency($ticket->value,'€') ?>" />
+    <input alt="#<?php echo $ticket->id ?>" type="hidden" name="ticket[prices][<?php echo $manif->id ?>][<?php echo $ticket->Price ?>][]" value="<?php echo $ticket->value ?>" title="PU: <?php echo format_currency($ticket->value,'€') ?>" class="<?php echo $ticket->printed ? 'printed' : 'notprinted' ?>" />
     <?php $total += $ticket->value ?>
     <?php endif ?>
   <?php endforeach ?>

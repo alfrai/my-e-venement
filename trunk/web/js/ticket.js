@@ -304,16 +304,15 @@ function ticket_transform_hidden_to_span(all)
       price = $(this).attr('name')
         .replace(/^ticket\[prices\]\[\d+\]\[/g,'')
         .replace('][]','');
-      
-      if ( $(this).parent().find('.'+name).length > 0 )
+      if ( $(this).parent().find('.'+name+'.'+$(this).attr('class')).length > 0 )
       {
-        $(this).parent().find('.'+name+' input[type=text].nb').val(parseInt($(this).parent().find('.'+name+' input[type=text].nb').val())+1);
-        $(this).parent().find('.'+name+' input[type=hidden].nb').val(parseInt($(this).parent().find('.'+name+' input[type=hidden].nb').val())+1);
+        $(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=text].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=text].nb').val())+1);
+        $(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=hidden].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=hidden].nb').val())+1);
       }
       else
-        $('<span class="'+name+' ticket_prices" title="'+$(this).attr('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" /><input type="hidden" name="hidden_nb" value="1" class="nb"> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
+        $('<span class="'+name+' ticket_prices '+$(this).attr('class')+'" title="'+$(this).attr('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" /><input type="hidden" name="hidden_nb" value="1" class="nb"> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
           .appendTo($(this).parent());
-      $(this).parent().find('.'+name+' .tickets_id').append($(this).attr('alt')+'<br/>');
+      $(this).parent().find('.'+name+'.'+$(this).attr('class')+' .tickets_id').append($(this).attr('alt')+'<br/>');
     });
   });
   
@@ -325,7 +324,7 @@ function ticket_transform_hidden_to_span(all)
       return false;
     }
   });
-  $('#prices .manifestations_list .prices .ticket_prices input.nb').unbind().change(function(){
+  $('#prices .manifestations_list .prices .ticket_prices.notprinted input.nb').unbind().change(function(){
     nb = $(this).parent().find('input[type=text].nb').val() - $(this).parent().find('input[type=hidden].nb').val();
     orig = $('#prices input[name="ticket[nb]"]').val();
     
@@ -335,7 +334,7 @@ function ticket_transform_hidden_to_span(all)
   });
   
   // click to remove a ticket
-  $('#prices .manifestations_list .prices .ticket_prices .name').unbind().click(function(){
+  $('#prices .manifestations_list .prices .ticket_prices.notprinted .name').unbind().click(function(){
     gid = $(this).parent().parent().attr('class').replace(/.* gauge-(\d+).*/g,'$1');
     $(this).parent().parent().parent().parent().find('.workspaces [name="ticket[gauge_id]"]').val(gid);
     $('#prices [name=select_all]').attr('checked',false);

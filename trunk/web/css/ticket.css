@@ -61,7 +61,13 @@
   padding: 2px 7px 2px 0;
   border-radius: 3px;
   white-space: nowrap;
+}
+.manifestations_list .prices .ticket_prices.notprinted .name {
   cursor: pointer;
+}
+.manifestations_list .prices .ticket_prices.printed input[type=text],
+.manifestations_list .prices .ticket_prices.printed {
+  background-color: #ccc;
 }
 #prices .ticket_prices input.nb {
   width: 2em;

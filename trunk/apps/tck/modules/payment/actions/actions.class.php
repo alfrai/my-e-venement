@@ -20,6 +20,18 @@ class paymentActions extends autoPaymentActions
       $payment->delete();
     $this->redirect('payment/index?transaction_id='.$request->getParameter('transaction_id'));
   }
+  
+  public function executeCreate(sfWebRequest $request)
+  {
+    try {
+     parent::executeCreate($request);
+    }
+    catch ( liEvenementException $e )
+    {
+      $this->redirect('payment/new');
+    }
+  }
+
   public function executeIndex(sfWebRequest $request)
   {
     if ( $tid = intval($request->getParameter('transaction_id')) )
