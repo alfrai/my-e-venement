@@ -3,6 +3,7 @@
 	$maxsize = sfConfig::get('app_tickets_max_size');
   $maxsize['event_name'] = isset($maxsize['event_name']) && intval($maxsize['event_name']) != 0 ? intval($maxsize['event_name']) : 30;
   $maxsize['event_shortname'] = isset($maxsize['event_shortname']) && intval($maxsize['event_shortname']) != 0 ? intval($maxsize['event_shortname']) : 40;
+  $maxsize['event_name_right'] = isset($maxsize['event_name_right']) && intval($maxsize['event_name_right']) != 0 ? intval($maxsize['event_name_right']) : 21;
   $maxsize['place'] = isset($maxsize['place']) && intval($maxsize['place']) != 0 ? intval($maxsize['place']) : 30;
 ?>
 <div class="ticket">
@@ -70,7 +71,7 @@
       <span class="price"><?php echo format_currency($ticket->value,'€') ?></span>
     </p>
     <p class="spectator"><?php echo $ticket->Transaction->professional_id > 0 ? $ticket->Transaction->Professional->Organism : $ticket->Transaction->Contact ?></p>
-    <p class="event"><?php echo htmlspecialchars( strlen($buf = html_entity_decode($ticket->Manifestation->Event)) > 21 ? substr($buf,0,18).'...' : $buf ) ?></p>
+    <p class="event"><?php echo strlen($buf = (string)$ticket->getRaw('Manifestation')->Event) > $maxsize['event_name_right'] ? substr($buf,0,$maxsize['event_name_right']-3).'...' : $buf ?></p>
     <p class="cie"><?php echo strlen($buf = implode(', ',$creators)) > 20 ? substr($buf,0,17).'...' : $buf; ?></p>
     <p class="org"><?php echo isset($orgas[0]) ? $orgas[0] : '' ?></p>
     <p class="seat"><?php echo $ticket->numerotation ? __('Seat n°%%s%%',array('%%s%%' => $ticket->numerotation)) : '' ?></p>

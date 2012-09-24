@@ -27,6 +27,7 @@ all:
     max_size:
       event_name: 30
       event_shortname: 40
+      #event_name_right: 20
     #logo: private/logo-xxx.png
     authorize_grouped_tickets: false
   control:
