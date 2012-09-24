@@ -67,7 +67,7 @@
 }
 .manifestations_list .prices .ticket_prices.printed input[type=text],
 .manifestations_list .prices .ticket_prices.printed {
-  background-color: #ccc;
+  background-color: #ddd;
 }
 #prices .ticket_prices input.nb {
   width: 2em;
