@@ -65,6 +65,7 @@ class TicketsIntegrationForm extends BaseFormDoctrine
       ));
       $this->widgetSchema   ['translation_workspaces_dest'.$i] = new sfWidgetFormDoctrineChoice(array(
         'model' => 'Workspace',
+        'query' => $q = Doctrine::getTable('Workspace')->createQuery('ws')->leftJoin('ws.Gauges g')->andWhere('g.manifestation_id = ?',$this->manifestation->id),
         'label' => '',
         'order_by' => array('name',''),
         'add_empty' => true,
@@ -72,6 +73,7 @@ class TicketsIntegrationForm extends BaseFormDoctrine
       $this->validatorSchema['translation_workspaces_dest'.$i] = new sfValidatorDoctrineChoice(array(
         'required'  => false,
         'model' => 'Workspace',
+        'query' => $q,
       ));
       
       // prices
@@ -83,6 +85,7 @@ class TicketsIntegrationForm extends BaseFormDoctrine
       ));
       $this->widgetSchema   ['translation_prices_dest'.$i] = new sfWidgetFormDoctrineChoice(array(
         'model' => 'Price',
+        'query' => $q = Doctrine::getTable('Price')->createQuery('p')->leftJoin('p.Manifestations m')->andWhere('m.id = ?',$this->manifestation->id),
         'label' => '',
         'order_by' => array('name',''),
         'add_empty' => true,
@@ -90,6 +93,7 @@ class TicketsIntegrationForm extends BaseFormDoctrine
       $this->validatorSchema['translation_prices_dest'.$i] = new sfValidatorDoctrineChoice(array(
         'required'  => false,
         'model' => 'Price',
+        'query' => $q,
       ));
     }
   }
