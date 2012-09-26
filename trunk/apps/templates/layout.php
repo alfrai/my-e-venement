@@ -6,6 +6,7 @@
     <?php use_stylesheet('/private/main.css') ?>
     <?php use_stylesheet('about') ?>
     <?php use_javascript('/liFancyboxPlugin/jquery.fancybox-1.3.4.pack.js') ?>
+    <?php use_javascript('jquery.datepicker-fr.js') ?>
     <?php use_stylesheet('/liFancyboxPlugin/jquery.fancybox-1.3.4.css') ?>
     
     <?php $module_name = $sf_context->getModuleName() ?>

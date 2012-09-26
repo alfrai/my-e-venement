@@ -7,6 +7,10 @@
   <p class="postalcode"><?php echo sfConfig::get('app_seller_postalcode') ?></p>
   <p class="city"><?php echo strtoupper(sfConfig::get('app_seller_city')) ?></p>
   <p class="country"><?php echo strtoupper(sfConfig::get('app_seller_country')) ?></p>
-  <?php $translate = array('%%transaction_id%%' => $transaction->id, '%%invoice_id%%' => sfConfig::get('app_seller_invoice_prefix').$transaction->Invoice[0]->id) ?>
+  <?php $translate = array(
+    '%%transaction_id%%' => $transaction->id,
+    '%%order_id%%' => $type == 'order' ? $transaction->Order[0]->id : '',
+    '%%invoice_id%%' => $type == 'invoice' ? sfConfig::get('app_seller_invoice_prefix').$transaction->Invoice[0]->id : '',
+  ) ?>
   <p class="other"><?php echo str_replace(array_keys($translate),array_values($translate),nl2br(sfConfig::get('app_seller_other'))) ?></p>
 </div>
