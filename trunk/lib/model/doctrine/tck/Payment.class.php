@@ -26,19 +26,25 @@ class Payment extends PluginPayment
   {
     if ( $this->Method->member_card_linked )
     {
-      foreach ( $this->Transaction->Contact->MemberCards as $card )
-      if ( strtotime($card->expire_at) > strtotime('now')
-        && strtotime('now') > strtotime($card->created_at)
-        && $card->value >= $this->value  )
-        break;
-      else
-        $card = NULL;
-
-      if ( isset($card) && !is_null($card) )
+      if ( is_null($this->member_card_id) )
       {
-        $card->value -= $this->value;
-        $card->save();
-        $this->MemberCard = $card;
+        foreach ( $this->Transaction->Contact->MemberCards as $card )
+        if ( strtotime($card->expire_at) > strtotime('now')
+          && strtotime('now') > strtotime($card->created_at)
+          && $card->value >= $this->value  )
+          break;
+        else
+          $card = NULL;
+      
+        if ( isset($card) && !is_null($card) ) {
+          $card->value -= $this->value;
+          $card->save();
+          $this->member_card_id = $card->id;
+        }
+      }
+      else
+      {
+        $this->MemberCard->value -= $this->value;
       }
     }
     
