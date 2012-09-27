@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Number</source>
+        <target>Numéro</target>
+      </trans-unit>
+      <trans-unit>
         <source>Member card List</source>
         <target>Liste des cartes de membre</target>
       </trans-unit>

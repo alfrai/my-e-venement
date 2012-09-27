@@ -14,5 +14,6 @@ class sfGuardGroupForm extends PluginsfGuardGroupForm
   {
     $this->widgetSchema['permissions_list']->setOption('order_by',array('name',''));
     $this->widgetSchema['users_list']->setOption('order_by',array('first_name, last_name, username',''));
+    $this->widgetSchema['users_list']->setOption('expanded',true);
   }
 }

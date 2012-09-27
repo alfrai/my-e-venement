@@ -129,10 +129,15 @@ class sfGuardUserActions extends autoSfGuardUserActions
   {
     if ( !$this->getUser()->isSuperAdmin() )
     {
-      $q = Doctrine::getTable('SfGuardPermission')->createQuery()
-        ->whereIn('name',$this->getUser()->getCredentials())
-        ->orderBy('name');
-      $this->form->getWidget('permissions_list')->setOption('query',$q);
+      if ( !$this->getUser()->hasCredential('admin-power') )
+        $this->form->setWidget('permissions_list',new sfWidgetFormInputHidden());
+      else
+      {
+        $q = Doctrine::getTable('SfGuardPermission')->createQuery()
+          ->whereIn('name',$this->getUser()->getCredentials())
+          ->orderBy('name');
+        $this->form->getWidget('permissions_list')->setOption('query',$q);
+      }
       
       $q = Doctrine::getTable('SfGuardGroup')->createQuery()
         ->whereIn('name',$this->getUser()->getGroupnames())
