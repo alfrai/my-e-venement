@@ -126,3 +126,4 @@ html .specialized-form input[type=text] { padding: 1px 1px; padding-right: 0px; 
   background: rgb(223, 239, 252) url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat -16px -128px;
 }
   
+html button.fg-button-icon-left .ui-icon { left: 0.4em; }
