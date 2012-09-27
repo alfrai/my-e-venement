@@ -36,6 +36,8 @@
     ->andWhere('m.event_id = ?',$event->id)
     ->andWhere('ee.accepted = true')
     ->orderBy('o.name, c.name, pr.name');
+  if ( ($meid = intval($request->getParameter('manifestation_id'))) > 0 )
+    $q->andWhere('me.id = ?',$meid);
   $tickets = $q->execute();
   
   $contacts = $this->prices = array();

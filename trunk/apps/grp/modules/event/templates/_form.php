@@ -96,13 +96,7 @@
         <?php foreach ( $entry->ManifestationEntries as $me ): ?>
         <?php $manifs[] = $me->Manifestation->id ?>
         <td class="manifestation manifestation-<?php echo $me->id ?> <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>">
-          <a class="event" href="<?php echo cross_app_url_for('event','event/show?id='.$me->Manifestation->Event->id) ?>"><?php echo $me->Manifestation->Event ?></a>
-          <br/>
-          <a class="manifestation" href="<?php echo cross_app_url_for('event','manifestation/show?id='.$me->Manifestation->id) ?>">
-            <?php echo format_date($me->Manifestation->happens_at,'EEE, dd MMM yyyy HH:mm') ?>
-          </a>
-          -
-          <?php echo link_to(__('Delete',array(),'sf_admin'), 'manifestation_entry/del?id='.$me->id, array('class' => 'delete')); ?>
+          <?php include_partial('form_manifestation',array('me' => $me, )) ?>
         </td>
         <?php endforeach ?>
         <td id="manifestation_entry_new" class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>">
