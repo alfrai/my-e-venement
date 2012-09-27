@@ -250,28 +250,6 @@
       $('.ticketting .count .total').html(0);
       $('tfoot .count').each(function(){
         var curclass = /manifestation-\d+$/.exec($(this).attr('class'));
-        $('tbody .'+curclass+' .EntryTickets input[name="entry_tickets[quantity]"]').each(function(){
-          var price_id = $(this).closest('form').find('select').val();
-          var name = $(this).closest('form').find('select option:selected').html();
-          var nb = parseInt($(this).val());
-          if ( name != '' )
-          {
-            $('tfoot .'+curclass)
-              .append('<p><span class="tickets price-id-'+price_id+'"><span class="nb">'+nb+'</span><span class="name">'+name+'</span></span></p>');
-          }
-        });
-        
-        var total = 0;
-        $(this).find('.tickets').each(function(){
-          total += parseInt($(this).find('.nb').html());
-          price_id = /price-id-\d+$/.exec($(this).attr('class'));
-          if ( (elts = $(this).closest('.count').find('.'+price_id)).length > 1 )
-          {
-            elts.first().find('.nb').html(parseInt(elts.first().find('.nb').html())+parseInt(elts.last().find('.nb').html()));
-            elts.last().remove();
-          }
-        });
-        $(this).append('<p class="total">'+total+'</p>');
         
         $.get('<?php echo url_for('event/gauge') ?>?manifestation_id='+/\d+$/.exec(curclass),function(data){
           gauge = $(data).find('.gauge');

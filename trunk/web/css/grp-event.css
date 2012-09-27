@@ -3,6 +3,9 @@
   height: 1em;
   position: static;
 }
+tfoot td {
+  vertical-align: top;
+}
 .gauge .seat .nb { display: none; }
 .gauge .seat.free {
   display: inline-block;
@@ -26,6 +29,11 @@
   top: -6px;
   border: 0;
   background-color: blue;
+}
+.gauge .txt { display: block; }
+.gauge .txt.overbooking {
+  font-weight: bold;
+  color: red;
 }
 
 .grp-entry.thead tbody, .grp-entry.thead tfoot { visibility: hidden; }
@@ -183,3 +191,18 @@ tfoot .count p { display: inline-block; margin-left: 4px; }
   margin-bottom: 50px;
 }
 
+#sf_admin_container .fg-button.fg-button-mini {
+  font-size: 0;
+  padding: 16px 16px 0 0;
+  line-height: 0;
+  float: none;
+  display: inline-block;
+  width: 0;
+  margin: 0;
+}
+#sf_admin_container .sf_admin_action_extract_accepted {
+  background: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat scroll -48px -112px rgb(223, 239, 252);
+}
+#sf_admin_container .sf_admin_action_extract_refused {
+  background: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat scroll 0px -128px rgb(223, 239, 252);
+}

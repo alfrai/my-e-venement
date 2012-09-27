@@ -1,14 +1,5 @@
 $(document).ready(function(){
   
-  // fixing the first line
-  setTimeout(
-    function(){
-      $('.grp-entry tbody td:not(.contact), .grp-entry tfoot td:not(.contact)').each(function(){
-        str = /manifestation-\d+/.exec($(this).attr('class'));
-        $(this).attr('title',$.trim($('.grp-entry thead td.'+str+' a.manifestation').html()+"\n"+$(this).parent().find('.contact a:first').html()+"\n"+$(this).parent().find('.contact a + br + a').html()));
-      });
-    }, 2000);
-  
   $(document).mouseup(function(){
     $('.grp-entry tbody .copy').removeAttr('title');
     
@@ -66,7 +57,12 @@ $(document).ready(function(){
     $(this).attr('title',$('#copy-paste').html());
     $('.grp-entry tbody').mousemove(grp_mouse_move);
   });
-
+  
+  // the titles for manifestations' actions
+  $('.manifestation .fg-button-mini').each(function(){
+    $(this).attr('title',$.trim($(this).html()));
+  });
+                  
 });
 
 function grp_mouse_move(event)
