@@ -134,7 +134,7 @@ class cardsActions extends sfActions
     
     foreach ( $mc as $value )
     {
-      $data[]   = round($value['nb']/365);
+      $data[]   = round($value['nb']/365,2);
       $names[]  = __($value['name']);
     }
     

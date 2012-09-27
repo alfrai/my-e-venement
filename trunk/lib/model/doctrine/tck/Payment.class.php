@@ -22,7 +22,7 @@ class Payment extends PluginPayment
     parent::preDelete($event);
   }
   
-  public function save(Doctrine_Connection $conn = null)
+  public function preInsert($event)
   {
     if ( $this->Method->member_card_linked )
     {
@@ -45,12 +45,13 @@ class Payment extends PluginPayment
       else
       {
         $this->MemberCard->value -= $this->value;
+        $this->MemberCard->save();
       }
+      
+      if ( is_null($this->member_card_id) )
+        throw new liEvenementException('No MemberCard linked with this Payment whereas its Method requires it.');
     }
     
-    if ( is_null($this->member_card_id) && $this->Method->member_card_linked )
-      throw new liEvenementException('No MemberCard linked with this Payment whereas its Method requires it.');
-    
-    parent::save($conn);
+    parent::preInsert($event);
   }
 }

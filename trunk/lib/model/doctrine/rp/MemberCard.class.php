@@ -14,8 +14,9 @@ class MemberCard extends PluginMemberCard
 {
   public function __toString()
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('Number');
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
-    return __($this->name).' #'.$this->id."\n(".format_date($this->expire_at,'D').')';
+    return __($this->name).' #'.$this->id."\n(".format_date($this->expire_at,'D').($this->value > 0 ? ', '.format_currency($this->value,'€') : '').')';
   }
   
   public function postInsert($event)
