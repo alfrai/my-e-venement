@@ -34,5 +34,5 @@ generator:
       new:     ~
       show:
         display:
-          General: [_show_id, Contact, name, _show_value, expire_at, created_at]
           Ticketting: [_show_prices_list, _show_tickets_list, _show_payments_list]
+          General: [_show_id, Contact, name, _show_value, expire_at, created_at]
