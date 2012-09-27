@@ -13,7 +13,8 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        second_choice: { label: Needed }
       list:    ~
       filter:  ~
       form:

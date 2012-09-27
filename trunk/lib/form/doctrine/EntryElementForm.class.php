@@ -12,7 +12,6 @@ class EntryElementForm extends BaseEntryElementForm
 {
   public function configure()
   {
-    $this->widgetSchema['entry_id'] = new sfWidgetFormInputHidden();
     $this->widgetSchema['manifestation_entry_id'] = new sfWidgetFormInputHidden();
     $this->widgetSchema['contact_entry_id'] = new sfWidgetFormInputHidden();
     $this->enableCSRFProtection();
