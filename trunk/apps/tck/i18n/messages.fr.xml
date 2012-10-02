@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>No ticket found, no payment created</source>
+        <target>Pas de billet trouvé, pas de paiement ajouté</target>
+      </trans-unit>
+      <trans-unit>
         <source>Close</source>
         <target>Fermer</target>
       </trans-unit>

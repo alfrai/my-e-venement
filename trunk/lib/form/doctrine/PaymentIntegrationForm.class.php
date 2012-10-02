@@ -30,12 +30,17 @@ class PaymentIntegrationForm extends BaseFormDoctrine
       ->leftJoin('tck.Cancelling c')
       ->andWhere('tck.manifestation_id = ?',$this->manifestation->id)
       ->andWhere('tck.duplicate IS NULL')
-      ->andWhereIn('tck.price_id',$this->getValue('price_id'))
       ->andWhere('c.id IS NULL')
+      ->andWhereIn('tck.price_id',$this->getValue('price_id'))
       ->andWhere('tck.integrated = TRUE')
       ->andWhere('(SELECT count(*) FROM payment p WHERE p.transaction_id = t.id) = 0')
       ->andWhere('(SELECT count(DISTINCT tck2.manifestation_id) FROM ticket tck2 WHERE tck2.transaction_id = t.id) = 1');
     $transactions = $q->execute();
+    
+    if ( $transactions->count() == 0 )
+    {
+      throw new liEvenementException('No ticket integrated to pay...');
+    }
     
     $total = $nb = 0;
     foreach ( $transactions as $t )

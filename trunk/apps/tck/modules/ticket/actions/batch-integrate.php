@@ -195,7 +195,14 @@
     $this->payform->bind($request->getParameter('pay'));
     if ( $this->payform->isValid() )
     {
-      $this->payform->save();
-      $this->redirect('ticket/batchIntegrate?manifestation_id='.$mid);
+      try {
+        $this->payform->save();
+        $this->getUser()->setFlash('notice','Tickets paid');
+        $this->redirect('ticket/batchIntegrate?manifestation_id='.$mid);
+      }
+      catch ( liEvenementException $e )
+      {
+        $this->getUser()->setFlash('error',__('No ticket found, no payment created'));
+      }
     }
   }
