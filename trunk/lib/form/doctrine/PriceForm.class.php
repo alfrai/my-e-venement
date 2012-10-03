@@ -27,6 +27,8 @@ class PriceForm extends BasePriceForm
     $this->widgetSchema['manifestations_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     $this->widgetSchema['users_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     
+    $this->widgetSchema['workspaces_list']->setOption('expanded','true');
+    
     unset($this->widgetSchema['member_cards_list'], $this->validatorSchema['member_cards_list']);
   }
 }
