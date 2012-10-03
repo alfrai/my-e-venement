@@ -87,7 +87,7 @@ class Ticket extends PluginTicket
         ->andWhere('mc.expire_at >  ?',date('Y-m-d H:i:s'))
         ->andWhere('mcp.price_id = ?',$this->price_id)
         ->andWhere('(mcp.event_id IS NULL OR m.id = ?)',$this->manifestation_id)
-        ->orderBy('mcp.event_id');
+        ->orderBy('mcp.event_id IS NULL');
       $card = $q->fetchOne();
       
       if ( $card && $card->MemberCardPrices->count() > 0 )
