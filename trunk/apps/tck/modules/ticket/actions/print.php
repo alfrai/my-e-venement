@@ -98,7 +98,7 @@
                 && sfConfig::get('app_tickets_authorize_grouped_tickets')
                 && $request->hasParameter('grouped_tickets') )
               {
-                if ( isset($this->tickets[$id = $newticket->gauge_id.'-'.$newticket->price_id.'-'.$newticket->transaction_id]) )
+                if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
                 {
                   $this->tickets[$id]['ticket']->NextGroupedWith = $ticket;
                   $this->tickets[$id]['ticket']->save();
