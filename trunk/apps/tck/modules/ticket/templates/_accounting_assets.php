@@ -25,6 +25,44 @@ $(document).ready(function(){
         }
       }
     });
+    
+    // on the current line
+    $('#lines tbody .qty input').change(function(){
+      $(this).closest('tr').find('.pit').html(
+        (parseFloat($(this).closest('tr').find('.up').html()) * parseInt($(this).val())).toFixed(2)
+        + '&nbsp;€'
+      );
+      $(this).closest('tr').find('.tep').html(
+        (parseFloat($(this).closest('tr').find('.pit').html()) / (1 + parseFloat($(this).closest('tr').find('.vat .percent').html()) / 100)).toFixed(2)
+        + '&nbsp;€'
+      );
+      $(this).closest('tr').find('.vat .value').html(
+        (parseFloat($(this).closest('tr').find('.pit').html()) - parseFloat($(this).closest('tr').find('.tep').html())).toFixed(2)
+        + '&nbsp;€'
+      );
+      
+      // on totals
+      $('#totals .vat:not(:first)').remove();
+      $('#totals .vat span:first').html($('#lines thead .vat span').html()+':');
+      $('#totals .vat .float').html('0&nbsp;€');
+      $('#lines tbody .vat .value').each(function(){
+        $('#totals .vat .float').html(
+          (parseFloat($('#totals .vat .float').html()) + parseFloat($(this).html())).toFixed(2) + '&nbsp;€'
+        );
+      });
+      $('#totals .tep .float').html('0&nbsp;€');
+      $('#lines tbody .tep').each(function(){
+        $('#totals .tep .float').html(
+          (parseFloat($('#totals .tep .float').html()) + parseFloat($(this).html())).toFixed(2) + '&nbsp;€'
+        );
+      });
+      $('#totals .pit .float').html('0&nbsp;€');
+      $('#lines tbody .pit').each(function(){
+        $('#totals .pit .float').html(
+          (parseFloat($('#totals .pit .float').html()) + parseFloat($(this).html())).toFixed(2) + '&nbsp;€'
+        );
+      });
+    });
     return false;
   });
 });

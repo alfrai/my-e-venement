@@ -13,7 +13,7 @@
     <td class="city inline-modifiable"><?php echo $ticket->Manifestation->Location->city ?></td>
     <td class="price"><?php echo $ticket->Price->description ?></td>
     <td class="up"><?php echo format_currency($ticket->value,'€') ?></td>
-    <td class="qty"><?php
+    <td class="qty inline-modifiable"><?php
       $qty = isset($nocancel) && $nocancel && $tickets[$i]->Cancelling->count() > 0 ? 0 : 1;
       if ( $i+1 < $tickets->count() )
       while ( $tickets[$i+1]['manifestation_id'] == $ticket->manifestation_id
@@ -27,7 +27,10 @@
       echo $qty;
     ?></td>
     <td class="pit"><?php echo format_currency($tip = $ticket->value * $qty,'€'); $totals['tip'] += $tip ?></td>
-    <td class="vat"><?php echo format_currency(round($vat = $ticket->Manifestation->vat/100 * $tip,2),'€'); if ( !isset($totals['vat'][$ticket->Manifestation->vat]) ) $totals['vat'][$ticket->Manifestation->vat] = 0; $totals['vat'][$ticket->Manifestation->vat] += $vat ?></td>
+    <td class="vat">
+      <span class="value"><?php echo format_currency(round($vat = $ticket->Manifestation->vat/100 * $tip,2),'€'); if ( !isset($totals['vat'][$ticket->Manifestation->vat]) ) $totals['vat'][$ticket->Manifestation->vat] = 0; $totals['vat'][$ticket->Manifestation->vat] += $vat ?></span>
+      <span class="percent"><?php echo $ticket->Manifestation->vat ?></span>
+    </td>
     <td class="tep"><?php echo format_currency(round($pet = $ticket->value * $qty - $vat,2),'€'); $totals['pet'] += $pet ?></td>
   </tr>
 <?php endif ?>

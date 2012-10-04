@@ -733,8 +733,8 @@
         <target>&amp;lt;&amp;lt; &lt;a href="%%url%%"&gt;Retour&lt;/a&gt; vers une nouvelle opération</target>
       </trans-unit>
       <trans-unit id="135">
-        <source>&lt;span class="name inline-modifiable"&gt;Invoice&lt;/span&gt; #%%prefix%%&lt;span class="invoice_id inline-modifiable"&gt;%%iid%%&lt;/span&gt;&lt;span class="transaction"&gt;, for transaction #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt; from the &lt;span class="date inline-modifiable"&gt;%%d%%&lt;/span&gt;&lt;/span&gt;</source>
-        <target>&lt;span class="name inline-modifiable"&gt;Facture&lt;/span&gt; #%%prefix%%&lt;span class="invoice_id inline-modifiable"&gt;%%iid%%&lt;/span&gt;&lt;span class="transaction"&gt;, pour l'opération #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt; du &lt;span class="date inline-modifiable"&gt;%%d%%&lt;/pan&gt;&lt;/span&gt;</target>
+        <source>&lt;span class="name inline-modifiable"&gt;Invoice&lt;/span&gt; #%%prefix%%&lt;span class="invoice_id"&gt;%%iid%%-%%version%%&lt;/span&gt;&lt;span class="transaction"&gt;, for transaction #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt; from the &lt;span class="date inline-modifiable"&gt;%%d%%&lt;/span&gt;&lt;/span&gt;</source>
+        <target>&lt;span class="name inline-modifiable"&gt;Facture&lt;/span&gt; #%%prefix%%&lt;span class="invoice_id"&gt;%%iid%%-%%version%%&lt;/span&gt;&lt;span class="transaction"&gt;, pour l'opération #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt; du &lt;span class="date inline-modifiable"&gt;%%d%%&lt;/pan&gt;&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit id="136">
         <source>Verify and validate</source>
