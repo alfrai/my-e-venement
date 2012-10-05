@@ -8,19 +8,29 @@
   <?php
     $transaction = $contact = $pro = array();
     $contact = array('value' => 0, 'prices' => array(), 'ticket-ids' => array());
-    foreach ( $transac->Tickets as $t )
-    if ( $t->printed || $t->integrated )
+    $contact['transaction'] = $transac;
+    $contact['pro'] = $transac->Professional;
+    if ( !isset($transac->printed) )
     {
-      $contact['ticket-ids'][] = $t->id;
-      $contact['transaction'] = $transac;
-      $contact['pro'] = $transac->Professional;
-      isset($contact['prices'][$t->price_name])
-        ? $contact['prices'][$t->price_name]++
-        : $contact['prices'][$t->price_name] = 1;
-      $contact['value'] += $t->value;
-      
-      $total['qty']++;
-      $total['value'] += $t->value;
+      foreach ( $transac->Tickets as $t )
+      if ( $t->printed || $t->integrated )
+      {
+        $contact['ticket-ids'][] = $t->id;
+        isset($contact['prices'][$t->price_name])
+          ? $contact['prices'][$t->price_name]++
+          : $contact['prices'][$t->price_name] = 1;
+        $contact['value'] += $t->value;
+        $total['qty']++;
+        $total['value'] += $t->value;
+      }
+    }
+    elseif ( $transac->printed > 0 )
+    {
+      $contact['ticket-ids'][] = '-';
+      $contact['prices'][''] = $transac->printed;
+      $contact['value'] = $transac->printed_value;
+      $total['qty'] += $transac->printed;
+      $total['value'] += $transac->printed_value;
     }
   ?>
   <?php if ( $contact['ticket-ids'] ): ?>

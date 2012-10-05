@@ -14,7 +14,7 @@
 *
 *    You should have received a copy of the GNU General Public License
 *    along with e-venement; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*    Foundation, Inc., 5'.$rank.' Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
 *    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
 *    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
@@ -153,7 +153,7 @@ class manifestationActions extends autoManifestationActions
       EventFormFilter::addCredentialsQueryPart(
         Doctrine::getTable('Manifestation')->createQueryByEventId($this->event_id)
         ->select('*, g.*, l.*, tck.*, happens_at > NOW() AS after, (CASE WHEN ( happens_at < NOW() ) THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
-        ->leftJoin('m.Tickets tck')
+        //->leftJoin('m.Tickets tck')
         ->orderBy('before')
     ));
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
@@ -255,10 +255,25 @@ class manifestationActions extends autoManifestationActions
     $this->setLayout('nude');
   }
   
+  protected function countTickets($manifestation_id)
+  {
+    $q = 'SELECT count(*) AS nb FROM ticket WHERE cancelling IS NULL AND duplicate IS NULL AND manifestation_id = :manifestation_id';
+    $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    $stmt = $pdo->prepare($q);
+    $stmt->execute(array('manifestation_id' => $manifestation_id));
+    $tmp = $stmt->fetchAll();
+    
+    return $tmp[0]['nb'];
+  }
+  
   protected function getPrices($manifestation_id = NULL)
   {
-    $q = Doctrine::getTable('Price')->createQuery('p')
-      ->leftJoin('p.Tickets t')
+    $mid = $manifestation_id ? $manifestation_id : $this->manifestation->id;
+    $nb = $this->countTickets($mid);
+    $q = Doctrine::getTable('Price')->createQuery('p');
+    
+    if ( $nb < 7500 )
+    $q->leftJoin('p.Tickets t')
       ->leftJoin('t.Transaction tr')
       ->leftJoin('tr.Contact c')
       ->leftJoin('tr.Professional pro')
@@ -270,33 +285,76 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('t.cancelling IS NULL')
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
-      ->andWhere('t.manifestation_id = ?',$manifestation_id ? $manifestation_id : $this->manifestation->id)
+      ->andWhere('t.manifestation_id = ?',$mid)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
       ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->orderBy('p.name, tr.id, o.name, c.name, c.firstname');
+    else
+    {
+      $params = array();
+      for ( $i = 0 ; $i < 7 ; $i++ )
+        $params[] = $mid;
+      $q->select('p.*')
+        ->andWhere('p.id IN (SELECT DISTINCT t0.price_id FROM Ticket t0 WHERE t0.manifestation_id = ?)', $params) // the X $mid is a hack for doctrine
+        ->orderBy('p.name');
+      $rank = 0;
+      foreach ( array('printed' => '(t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE)', 'ordered' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)', 'asked' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id NOT IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)') as $col => $where )
+      {
+        $rank++;
+        $q->addSelect('(SELECT count(t'.$rank.'.id) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicate IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND t'.$rank.'.manifestation_id = ? AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.price_id = p.id) AS '.$col, $mid);
+        $rank++;
+        $q->addSelect('(SELECT sum(t'.$rank.'.value) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicate IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND t'.$rank.'.manifestation_id = ? AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.price_id = p.id) AS '.$col.'_value', $mid);
+      }
+    }
     $e = $q->execute();
     return $e;
   }
+  
   protected function getSpectators($manifestation_id = NULL)
   {
-    $q = Doctrine::getTable('Transaction')->createQuery('tr')
+    $mid = $manifestation_id ? $manifestation_id : $this->manifestation->id;
+    $nb = $this->countTickets($mid);
+    $q = new Doctrine_Query;
+    $q->from('Transaction tr')
       ->leftJoin('tr.Contact c')
       ->leftJoin('tr.Professional pro')
       ->leftJoin('tr.Order order')
+      ->leftJoin('tr.User u')
+      ->leftJoin('pro.Organism o');
+      
+    if ( $nb < 7500 )
+    $q->leftJoin('tr.Tickets tck')
+      ->leftJoin('tck.Cancelled cancelled')
+      ->leftJoin('tck.Manifestation m')
       ->leftJoin('tck.Controls ctrl')
       ->leftJoin('tck.Price p')
       ->leftJoin('ctrl.Checkpoint cp')
-      ->leftJoin('pro.Organism o')
       ->leftJoin('tck.Gauge g')
       ->andWhere('tck.cancelling IS NULL')
       ->andWhere('tck.duplicate IS NULL')
-      ->andWhere('tck.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
+      ->andWhere('tck.id NOT IN (SELECT tt2.cancelling FROM ticket tt2 WHERE tt2.cancelling IS NOT NULL)')
       ->andWhere('tck.manifestation_id = ?',$manifestation_id ? $manifestation_id : $this->manifestation->id)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
       ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhere('p.id IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?) OR (SELECT count(up2.price_id) FROM UserPrice up2 WHERE up2.sf_guard_user_id = ?) = 0',array($this->getUser()->getId(),$this->getUser()->getId()))
-      ->orderBy('c.name, c.firstname, o.name, p.name');
-    return $q->execute();
+      ->orderBy('c.name, c.firstname, o.name, p.name, tr.id');
+    else
+    {
+      $q->select('tr.*, c.*, pro.*, o.*, order.*, u.*')
+        ->andWhere('tr.id IN (SELECT DISTINCT t0.transaction_id FROM Ticket t0 WHERE t0.manifestation_id = ?)', $mid)
+        ->orderBy('c.name, c.firstname, o.name, tr.id');
+      $rank = 0;
+      foreach ( array('printed' => '(t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE)', 'ordered' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)', 'asked' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id NOT IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)') as $col => $where )
+      {
+        $rank++;
+        $q->addSelect('(SELECT count(t'.$rank.'.id) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicate IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.transaction_id = tr.id) AS '.$col);
+        $rank++;
+        $q->addSelect('(SELECT sum(t'.$rank.'.value) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicate IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.transaction_id = tr.id) AS '.$col.'_value');
+      }
+    }
+    
+    $spectators = $q->execute();
+    return $spectators;
   }
 
   protected function getUnbalancedTransactions()

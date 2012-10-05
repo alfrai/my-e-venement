@@ -6,6 +6,8 @@
   <?php if ( !isset($prices) ) $prices = $form->prices ?>
   <?php foreach ( $prices as $price ): ?>
   <?php
+  if ( !isset($price->printed) )
+  {
     $transaction = $contact = $pro = array();
     $qty = $value = 0;
     foreach ( $price->Tickets as $t )
@@ -24,8 +26,16 @@
       $value += $t->value;
       $qty++;
     }
-    $total['qty'] += $qty;
-    $total['value'] += $value;
+  }
+  else
+  {
+    $qty = $price->printed;
+    $value = $price->printed_value;
+    $transaction = $contact = array('-');
+  }
+  
+  $total['qty'] += $qty;
+  $total['value'] += $value;
   ?>
   <tr class="<?php echo ($overlined = !$overlined) ? 'overlined' : '' ?>">
     <td class="name"><?php echo $price ?></td>
