@@ -1,5 +1,5 @@
 <?php
-  use_stylesheet('ticket');
+  use_stylesheet('ticket','',array('media' => 'all'));
   use_stylesheet('gauge');
   use_stylesheet('/sfFormExtraPlugin/css/jquery.autocompleter.css');
 ?>

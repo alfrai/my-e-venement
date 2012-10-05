@@ -148,13 +148,13 @@ class manifestationActions extends autoManifestationActions
     $this->event_id = $request->getParameter('id');
     
     $this->pager = $this->configuration->getPager('Contact');
-    $this->pager->setMaxPerPage(5);
+    $this->pager->setMaxPerPage(10);
     $this->pager->setQuery(
       EventFormFilter::addCredentialsQueryPart(
         Doctrine::getTable('Manifestation')->createQueryByEventId($this->event_id)
         ->select('*, g.*, l.*, tck.*, happens_at > NOW() AS after, (CASE WHEN ( happens_at < NOW() ) THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
         ->leftJoin('m.Tickets tck')
-        ->orderBy('after DESC, before')
+        ->orderBy('before')
     ));
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
     $this->pager->init();
@@ -167,13 +167,13 @@ class manifestationActions extends autoManifestationActions
     $this->location_id = $request->getParameter('id');
     
     $this->pager = $this->configuration->getPager('Manifestation');
-    $this->pager->setMaxPerPage(5);
+    $this->pager->setMaxPerPage(10);
     $this->pager->setQuery(
       EventFormFilter::addCredentialsQueryPart(
         Doctrine::getTable('Manifestation')->createQueryByLocationId($this->location_id)
         ->select('*, g.*, l.*, tck.*, happens_at > NOW() AS after, (CASE WHEN ( happens_at < NOW() ) THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
         ->leftJoin('m.Tickets tck')
-        ->orderBy('after DESC, before')
+        ->orderBy('before')
     ));
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
     $this->pager->init();

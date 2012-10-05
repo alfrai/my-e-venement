@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Invoice List</source>
+        <target>Liste de factures</target>
+      </trans-unit>
+      <trans-unit>
         <source>No ticket found, no payment created</source>
         <target>Pas de billet trouvé, pas de paiement ajouté</target>
       </trans-unit>
