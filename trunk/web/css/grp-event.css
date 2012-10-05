@@ -95,11 +95,11 @@ tr.impair td.impair { background-color: #eff8cd; }
 
 .EntryTickets { float: left; }
 body #sf_admin_container .EntryTickets input[type=text] {
-  width: 20px;
+  width: 25px;
   text-align: right;
 }
 body #sf_admin_container .EntryTickets select {
-  width: 50px;
+  width: 60px;
 }
 
 .EntryElement {

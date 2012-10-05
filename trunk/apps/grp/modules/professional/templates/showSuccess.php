@@ -1,6 +1,5 @@
 <?php use_helper('I18N', 'Date', 'CrossAppLink') ?>
 <?php include_partial('assets') ?>
-<?php use_stylesheet('grp-event') ?>
 
 <div id="sf_admin_container" class="li_grp_professional sf_admin_show ui-widget ui-widget-content ui-corner-all">
   <div class="fg-toolbar ui-widget-header ui-corner-all">

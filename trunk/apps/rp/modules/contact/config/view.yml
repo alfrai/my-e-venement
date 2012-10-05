@@ -19,6 +19,9 @@ showSuccess:
 indexSuccess:
   javascripts: [contact-list, list-scroll]
   stylesheets: [list-print: {media: print}, contact-list, batch-actions]
+duplicatesSuccess:
+  javascripts: [contact-list, list-scroll, contact-duplicates]
+  stylesheets: [list-print: {media: print}, contact-list, batch-actions]
 filterSuccess:
   javascripts: [contact-list]
   stylesheets: [list-print: {media: print}, contact-list, batch-actions]

@@ -134,7 +134,6 @@ class contactActions extends autoContactActions
       $this->pager->setQuery($q);
     
     $this->pager->init();
-    $this->setTemplate('index');
   }
   public function executeBatchMerge(sfWebRequest $request)
   {

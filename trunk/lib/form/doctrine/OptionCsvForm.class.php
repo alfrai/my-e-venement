@@ -171,7 +171,8 @@ class OptionCsvForm extends BaseOptionCsvForm
       }
       
       if ( $contact['organism_email'] ) $contact['email'] = $contact['organism_email'];
-      if ( $contact['professional_email'] )  $contact['email'] = $contact['professional_email'];
+      if ( $contact['professional_email'] ) $contact['email'] = $contact['professional_email'];
+      $contact['organism_email'] = $contact['professional_email'] = '';
       
       if ( $contact['organism_phonenumber'] )
       {

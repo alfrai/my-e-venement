@@ -310,7 +310,7 @@ function ticket_transform_hidden_to_span(all)
         $(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=hidden].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=hidden].nb').val())+1);
       }
       else
-        $('<span class="'+name+' ticket_prices '+$(this).attr('class')+'" title="'+$(this).attr('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" /><input type="hidden" name="hidden_nb" value="1" class="nb"> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
+        $('<span class="'+name+' ticket_prices '+$(this).attr('class')+'" title="'+$(this).attr('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" maxlength="3" /><input type="hidden" name="hidden_nb" value="1" class="nb"> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
           .appendTo($(this).parent());
       $(this).parent().find('.'+name+'.'+$(this).attr('class')+' .tickets_id').append($(this).attr('alt')+'<br/>');
     });
