@@ -41,6 +41,10 @@
         <target>Les manifestations du lieu</target>
       </trans-unit>
       <trans-unit>
+        <source>Ticketting</source>
+        <target>Billetterie</target>
+      </trans-unit>
+      <trans-unit>
         <source>Preprinted ticketting</source>
         <target>Billetterie pré-imprimée</target>
       </trans-unit>
