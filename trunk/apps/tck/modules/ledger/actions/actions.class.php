@@ -17,7 +17,7 @@ class ledgerActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    $this->redirect('ledger/sales');
+    $this->redirect('ledger/cash');
   }
   
   protected function formatCriterias(sfWebRequest $request)

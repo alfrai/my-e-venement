@@ -3,24 +3,29 @@
   
   foreach ( $manifestation->Gauges as $gauge )
     $tickets['total'] += $gauge->value;
-
-  $cancelled = array();
-  foreach ( $manifestation->Tickets as $ticket )
-  if ( is_null($ticket->duplicate) )
+  
+  if ( $tickets['total'] < 7500 )
   {
-    if ( is_null($ticket->cancelling) )
+    $cancelled = array();
+    foreach ( $manifestation->Tickets as $ticket )
+    if ( is_null($ticket->duplicate) )
     {
-      $tickets[!$ticket->printed && !$ticket->integrated ? ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked') : 'printed']++;
-      if ( !sfConfig::get('app_ticketting_hide_demands') || $ticket->printed || $ticket->integrated || $ticket->Transaction->Order->count() > 0 )
-        $tickets['booked']++;
-    }
-    else if ( !in_array($ticket->cancelling, $cancelled) )
-    {
-      $cancelled[] = $ticket->cancelling;
-      $tickets['printed']--;
-      $tickets['booked']--;
+      if ( is_null($ticket->cancelling) )
+      {
+        $tickets[!$ticket->printed && !$ticket->integrated ? ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked') : 'printed']++;
+        if ( !sfConfig::get('app_ticketting_hide_demands') || $ticket->printed || $ticket->integrated || $ticket->Transaction->Order->count() > 0 )
+          $tickets['booked']++;
+      }
+      else if ( !in_array($ticket->cancelling, $cancelled) )
+      {
+        $cancelled[] = $ticket->cancelling;
+        $tickets['printed']--;
+        $tickets['booked']--;
+      }
     }
   }
+  else
+    $tickets = array('asked' => 'N/A', 'ordered' => 'N/A', 'printed' => 'N/A', 'booked' => 'N/A', 'total' => $tickets['total']);
 ?>
 <?php if ( sfConfig::get('app_ticketting_hide_demands') ): ?>
 <?php echo __('<strong class="booked">%%b%%</strong>/<strong>%%t%%</strong> (<span title="sold">%%p%%</span>-<span title="ordered">%%o%%</span>)', array(
