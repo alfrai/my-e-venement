@@ -23,7 +23,7 @@ generator:
         table_method: doSelectOnlyGrp
         title: By contact
       filter:
-        display: [professional_type_id, organism_id, groups_list]
+        display: [contact_name, organism_name, professional_type_id, organism_id, groups_list]
       form:    ~
       edit:
         actions: { _list: ~ }
