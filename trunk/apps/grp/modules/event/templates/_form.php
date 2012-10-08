@@ -41,7 +41,7 @@
     <tbody>
       <?php $i = 1 ?>
       <?php foreach ( $entry->getRaw('ContactEntries') as $ce ): ?>
-      <tr class="contact-<?php echo $ce->id ?> <?php echo ++$i%2 == 0 ? 'pair' : 'impair' ?> <?php if ( !is_null($ce->transaction_id) ) echo 'transposed' ?>">
+      <tr class="contact-<?php echo $ce->id ?> <?php echo ++$i%2 == 0 ? 'pair' : 'impair' ?> <?php if ( !is_null($ce->transaction_id) ) echo 'transposed' ?> <?php if ( $ce->confirmed ) echo 'confirmed' ?>">
         <?php $j = 0 ?>
         <td class="contact <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>"><?php $f = new ContactEntryForm($ce) ?>
           <?php echo form_tag_for($f, '@contact_entry') ?>
@@ -134,11 +134,16 @@
       // if we submit any form
       $('form').submit(function(){
         $(this).find('input[name="contact_entry_new[entry_id]"],input[name="contact_entry[entry_id]"],input[name="manifestation_entry[entry_id]"]').val('<?php echo $entry->id ?>');
+        form = this;
         $.post($(this).attr('action'),$(this).serialize(),function(data){
-          window.location.reload();
+          if ( $(form).closest('#manifestation_entry_new, #contact_entry_new').length > 0 )
+            window.location.reload();
+          else
+            $('#transition .close').click();
         });
         return false;
       });
+      
       // if we suppress any contact or manifestation
       $('.delete').click(function(){
         if ( confirm('<?php echo __('Are you sure?',array(),'sf_admin') ?>') )

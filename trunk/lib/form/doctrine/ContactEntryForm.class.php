@@ -21,9 +21,20 @@ class ContactEntryForm extends BaseContactEntryForm
       'url'   => cross_app_url_for('rp','professional/ajax'),
     ));
     
-    $this->widgetSchema['comment1'] = new sfWidgetFormInputText();
-    $this->widgetSchema['comment2'] = new sfWidgetFormInputText();
+    $this->widgetSchema['comment1'] = new sfWidgetFormInputText(array(
+    ));
+    $this->widgetSchema['comment2'] = new sfWidgetFormInputText(array(
+      'label' => 'Note',
+    ));
+    
+    $this->widgetSchema['transaction_id'] = new sfWidgetFormInputHidden;
     
     $this->enableCSRFProtection();
+  }
+  
+  public function reduce()
+  {
+    foreach ( array('comment1','professional_id',) as $field )
+      $this->widgetSchema[$field] = new sfWidgetFormInputHidden;
   }
 }

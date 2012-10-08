@@ -142,7 +142,7 @@ tfoot .count p { display: inline-block; margin-left: 4px; }
 .accepted .tickets, .accepted select, .accepted input[type=text] {
   border-color: red;
 }
-.transposed .tickets, .transposed select, .transposed input[type=text] {
+.confirmed .tickets, .confirmed select, .confirmed input[type=text] {
   color: green;
 }
 
