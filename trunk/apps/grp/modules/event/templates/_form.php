@@ -60,6 +60,11 @@
           }
         ?>
         <td class="manifestation-<?php echo $me->id ?> <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> <?php echo $entry_element->second_choice ? 'second_choice' : '' ?> <?php echo $entry_element->accepted ? 'accepted' : '' ?>">
+          <script type="text/javascript"><!--
+            $(document).ready(function(){
+              $('td.manifestation-<?php echo $me->id ?>').attr('title',"<?php echo $ce->Professional->Contact.' - '.$ce->Professional?>\n<?php echo $me->Manifestation ?>");
+            });
+          --></script>
           <div class="EntryTickets">
             <?php $et = new EntryTickets; $et->EntryElement = $entry_element; ?>
             <?php include_partial('entry_tickets',array('form' => new EntryTicketsForm($et), 'entry_element' => $entry_element)) ?>
