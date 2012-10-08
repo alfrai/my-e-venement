@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Add an attachment ...</source>
+        <target>Ajouter une pièce jointe ...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Attachments</source>
+        <target>Fichiers joints</target>
+      </trans-unit>
+      <trans-unit>
         <source>Number</source>
         <target>Numéro</target>
       </trans-unit>

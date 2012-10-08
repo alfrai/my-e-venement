@@ -16,12 +16,6 @@ abstract class PluginEmail extends BaseEmail
   public $test_address    = NULL;
   public $mailer          = NULL;
   public $to              = array();
-  protected $attachments  = array();
-  
-  public function addAttachment(Swift_Attachment $attachment)
-  {
-    $this->attachments[] = $attachment;
-  }
   
   protected function send()
   {
@@ -70,8 +64,10 @@ abstract class PluginEmail extends BaseEmail
     
     $message = $this->compose(Swift_Message::newInstance()->setTo($to));
     
-    foreach ( $this->attachments as $attachment )
-      $message->attach($attachment);
+    foreach ( $this->Attachments as $attachment )
+      $message->attach(Swift_Attachment::fromPath(sfConfig::get('sf_upload_dir').DIRECTORY_SEPARATOR.$attachment->filename)
+        ->setFilename($attachment->original_name)
+        ->setId('part.'.$attachment->id.'@e-venement'));
     
     return $immediatly === true
       ? $this->mailer->sendNextImmediately()->send($message)

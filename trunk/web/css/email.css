@@ -14,3 +14,9 @@
   position: static;
 }
 
+.sf_admin_form_field_attachments .fg-button {
+  float: none;
+  font-size: 0;
+  padding: 4px 16px 0 0;
+  display: inline-block;
+}

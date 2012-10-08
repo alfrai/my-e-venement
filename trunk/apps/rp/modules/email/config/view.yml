@@ -9,3 +9,5 @@ indexSuccess:
   javascripts: [list-scroll]
   stylesheets: [list-print: {media: print}]
 
+uploadSuccess:
+  javascripts: [-/liTinymcePlugin/tiny_mce]

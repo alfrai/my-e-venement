@@ -38,13 +38,13 @@ generator:
       form:    ~
       edit:
         display:
-          1. Content:   [field_from, field_subject, content, _load_button]
+          1. Content:   [field_from, field_subject, _attachments, content, _load_button]
           2. Recievers: [contacts_list, professionals_list, organisms_list]
           3. Validate:  [test_address, _test_button]
           4. Send:      [_send_button]
       new:
         display:
-          1. Content:   [field_from, field_subject, content, _load_button]
+          1. Content:   [field_from, field_subject, _attachments, content, _load_button]
           2. Recievers: [contacts_list, professionals_list, organisms_list]
           3. Validate:  [test_address, _test_button]
           4. Send (test first!):      [_send_empty]

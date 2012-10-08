@@ -5,6 +5,10 @@
     <header />
     <body>
       <trans-unit>
+        <source>File attached.</source>
+        <target>Fichier joint.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Integrate</source>
         <target>Intégrer</target>
       </trans-unit>

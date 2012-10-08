@@ -65,7 +65,7 @@ class EmailForm extends BaseEmailForm
     $this->widgetSchema['content'] = new sfWidgetFormTextareaTinyMCE(array(
       'width'   => 650,
       'height'  => 420,
-      'config'  => 'extended_valid_elements: "hr[class|width|size|noshade],iframe[src|width|height|name|align],style"',
+      'config'  => 'extended_valid_elements: "hr[class|width|size|noshade],iframe[src|width|height|name|align],style", convert_urls: false, urlconvertor_callback: "email_urlconvertor"',
     ));
     
     $this->widgetSchema   ['load'] = new sfWidgetFormInputText();
@@ -76,7 +76,7 @@ class EmailForm extends BaseEmailForm
     // validation / test forms
     $this->widgetSchema   ['test_address'] = new sfWidgetFormInputText();
     $this->validatorSchema['test_address'] = new sfValidatorEmail(array(
-      'required'    => true,
+      'required'    => false,
     ));
   }
   

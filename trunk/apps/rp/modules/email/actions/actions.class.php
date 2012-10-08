@@ -13,20 +13,37 @@ require_once dirname(__FILE__).'/../lib/emailGeneratorHelper.class.php';
  */
 class emailActions extends autoEmailActions
 {
-  /*
-  public function executeShow(sfWebRequest $request)
+  public function executeUpload(sfWebRequest $request)
   {
-    // not using the Doctrine::getTable('Email')->createQuery() because it's too long
-    $this->email = Doctrine_Query::create()
-      ->from('Email')
-      ->where('id = ?',$request->getParameter('id'))
-      ->limit(1)
-      ->execute();
-    $this->email = $this->email[0];
-    $this->forward404Unless($this->email);
-    $this->form = $this->configuration->getForm($this->email);
+    $this->email = $this->getRoute()->getObject();
   }
-  */
+  public function executeAttach(sfWebRequest $request) {
+    $email = $request->getParameter('email');
+    $this->email = Doctrine::getTable('email')->createQuery('e')
+      ->andWhere('id = ?',$email['id'])
+      ->fetchOne();
+    
+    $arr = $request->getFiles();
+    $file = new liFileAttachment($arr['attachment']['name'],$arr['attachment']['type'],$arr['attachment']['tmp_name'],$arr['attachment']['size'],sfConfig::get('sf_upload_dir'));
+    $file->setEmail($this->email);
+    $file->save(sfConfig::get('sf_upload_dir').'/'.$file->generateFilename());
+    
+    $this->getUser()->setFlash('notice','File attached.');
+    $this->redirect('email/edit?id='.$this->email->id);
+    return sfView::NONE;
+  }
+  public function executeDeleteAttachment(sfWebRequest $request)
+  {
+    $q = new Doctrine_Query;
+    $attachment = $q->from('Attachment a')
+      ->andWhere('a.id = ?',$request->getParameter('attachment_id'))
+      ->fetchOne();
+    unlink(sfConfig::get('sf_upload_dir').'/'.$attachment->filename);
+    $attachment->delete();
+    
+    $this->getUser()->setFlash('notice','The item was deleted successfully.');
+    $this->redirect('email/edit?id='.$request->getParameter('id'));
+  }
   
   public function executeContent(sfWebRequest $request)
   {
@@ -48,11 +65,16 @@ class emailActions extends autoEmailActions
 
   public function executeCopy(sfWebRequest $request)
   {
-    $this->email = $this->getRoute()->getObject()->copy(true);
+    $this->email = $this->getRoute()->getObject()->copy();
     $this->email->Professionals = $this->getRoute()->getObject()->Professionals;
     $this->email->Contacts = $this->getRoute()->getObject()->Contacts;
-    $this->form = $this->configuration->getForm($this->email);
-    $this->setTemplate('new');
+    $this->email->sent = false;
+    
+    foreach ( $this->email->Attachments as $key => $att )
+      $this->Attachments[$key] = $att->copy();
+    
+    $this->email->save();
+    $this->redirect('email/edit?id='.$this->email->id);
   }
   public function executeEdit(sfWebRequest $request)
   {

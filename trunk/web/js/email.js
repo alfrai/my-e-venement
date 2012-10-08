@@ -16,7 +16,45 @@ if ( $('.members .contacts').length > 0 )
 if ( $('.members .organisms').length > 0 )
   $.get(email_organisms_url, email_organisms_list);
 
+// attachments
+if ( $('[name="email[id]"]').val() == '' )
+{
+  $('.sf_admin_form_field_attachments').hide();
+  
+  setTimeout(function(){
+    tinyMCE.activeEditor.onChange.add(manage_attachment_widget);
+  },1000);
+  $('[name="email[field_subject]"]').change(manage_attachment_widget);
+}
+$('.attachment-new').click(function(){
+  if ( $.trim($('[name="email[field_subject]"]').val()) == '' || $.trim(tinyMCE.activeEditor.getContent()) == '' )
+    return false;
+  
+  // tinymce
+  tinyMCE.activeEditor.save();
+  
+  if ( $('[name="email[id]"]').val() == '' )
+  {
+    $.post($('form').attr('action'),$('form').serialize(),function(data){
+      window.location = $(data).find('.attachment-new a').attr('href');
+    });
+    return false;
+  }
+
+  $.post($('form').attr('action'),$('form').serialize());
+  return false;
 });
+
+});
+
+function manage_attachment_widget(ed, l)
+{
+  if ( $.trim($('[name="email[field_subject]"]').val()) != ''
+    && $.trim(tinyMCE.activeEditor.getContent()) != '' )
+    $('.sf_admin_form_field_attachments').fadeIn();
+  else
+    $('.sf_admin_form_field_attachments').fadeOut();
+}
 
 function email_contacts_list(data)
 {
@@ -33,4 +71,10 @@ function email_organisms_list(data)
     $.get($(this).attr('href'), email_organisms_list);
     return false;
   });
+}
+
+function email_urlconvertor(url, node, on_save)
+{
+  alert(url);
+  return url;
 }
