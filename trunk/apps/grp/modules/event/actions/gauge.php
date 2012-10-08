@@ -31,8 +31,8 @@
       ->leftJoin('g.Tickets t ON t.gauge_id = g.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.ManifestationEntries me')
-      ->addSelect('(SELECT sum(quantity) FROM EntryTickets et1 LEFT JOIN et1.EntryElement ee1 WHERE ee1.manifestation_entry_id = me.id AND ee1.accepted = true) AS accepted')
-      ->addSelect('(SELECT sum(quantity) FROM EntryTickets et2 LEFT JOIN et2.EntryElement ee2 WHERE ee2.manifestation_entry_id = me.id AND ee2.accepted = false) AS refused')
+      ->addSelect('(SELECT sum(quantity) FROM EntryTickets et1 LEFT JOIN et1.EntryElement ee1 LEFT JOIN ee1.ContactEntry ce1 WHERE ce1.transaction_id IS NULL AND ee1.manifestation_entry_id = me.id AND ee1.accepted = true) AS accepted')
+      ->addSelect('(SELECT sum(quantity) FROM EntryTickets et2 LEFT JOIN et2.EntryElement ee2 LEFT JOIN ee2.ContactEntry ce2 WHERE ce2.transaction_id IS NULL WHERE ee2.manifestation_entry_id = me.id AND ee2.accepted = false) AS refused')
       ->leftJoin('ws.GroupWorkspace gws')
       ->andWhere('me.id = ?',$request->getParameter('manifestation_id'))
       ->andWhere('gws.id IS NOT NULL');

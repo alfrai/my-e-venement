@@ -20,6 +20,7 @@ generator:
           _edit: ~
           _extract_accepted: { name: Accepted, action: accepted }
           _extract_refused: { name: Refused, action: refused }
+          _export: { name: Export accepted, action: export }
         batch_actions: {}
         actions: {}
         title: By event

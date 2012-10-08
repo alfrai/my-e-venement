@@ -36,6 +36,10 @@ require_once dirname(__FILE__).'/../lib/eventGeneratorHelper.class.php';
  */
 class eventActions extends autoEventActions
 {
+  public function executeExport(sfWebRequest $request)
+  {
+    require(dirname(__FILE__).'/export.php');
+  }
   public function executeRefused(sfWebRequest $request)
   {
     $request->setAttribute('type','refused');

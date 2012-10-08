@@ -22,6 +22,7 @@ tfoot td {
   display: inline-block;
   height: 100%;
   padding: 0;
+  max-width: 110%;
 }
 .gauge .seat.demands {
   height: 6px;
@@ -205,4 +206,7 @@ tfoot .count p { display: inline-block; margin-left: 4px; }
 }
 #sf_admin_container .sf_admin_action_extract_refused {
   background: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat scroll 0px -128px rgb(223, 239, 252);
+}
+#sf_admin_container .sf_admin_action_export_accepted {
+  background: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat scroll -144px -96px rgb(223, 239, 252);
 }

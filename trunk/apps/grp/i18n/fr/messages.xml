@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The group was not created successfully : there is no member to add.</source>
+        <target>Le groupe n'a pas été créé : il n'y a pas de membre à lui affecter.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Groups: %%name%%, created on %%date%%</source>
+        <target>Groupes: %%name%%, créé le %%date%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Export accepted</source>
+        <target>Export des acceptés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Professional type</source>
         <target>Type de fonction</target>
       </trans-unit>
