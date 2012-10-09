@@ -15,7 +15,7 @@ gaugeSuccess:
   stylesheets: [gauge]
 sellSuccess:
   javascripts: [/private/ticket.js]
-  stylesheets: [print-sell: { media: all }]
+  stylesheets: [print-sell: { media: print }]
 
 failedSuccess:
   stylesheets: [ticket]

@@ -10,6 +10,8 @@ $(document).ready(function(){
       window.onbeforeunload = null;
     });
   }
+  
+  $('link[rel=stylesheet]').attr('media','all');
 });
 
 function ticket_lauchpad(anchors)
