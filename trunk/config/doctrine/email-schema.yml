@@ -102,6 +102,7 @@ EmailLink:
     Email:
       foreignAlias: EmailLinks
       onDelete: CASCADE
+      onUpdate: CASCADE
 EmailContact:
   package: email
   inheritance:
