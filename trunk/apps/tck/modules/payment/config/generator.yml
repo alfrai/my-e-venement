@@ -16,11 +16,11 @@ generator:
       fields:
         created_at: { label: Dated }
       list:
-        display: [Method,_list_value]
+        display: [Method, _list_created_at, _list_value]
       filter:
         display: [version]
       form:    ~
       edit:    ~
       new:
         #display: [value,payment_method_id,created_at]
-        display: [value,payment_method_id,created_at]
+        display: [value,payment_method_id,created_at,member_card_id]

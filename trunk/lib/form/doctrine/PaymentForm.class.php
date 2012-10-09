@@ -28,6 +28,7 @@ class PaymentForm extends BasePaymentForm
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputHidden();
     
     $this->widgetSchema   ['payment_method_id']->setOption('add_empty',true);
+    $this->widgetSchema   ['payment_method_id']->setOption('order_by',array('name',''));
     $this->widgetSchema   ['payment_method_id']->setOption('query',$q = Doctrine::getTable('PaymentMethod')->createQuery('pm')
       ->andWhere('pm.member_card_linked != true OR ?',sfContext::getInstance()->getUser()->hasCredential('tck-member-cards')));
     $this->validatorSchema['payment_method_id']->setOption('query',$q);
@@ -37,6 +38,8 @@ class PaymentForm extends BasePaymentForm
     
     $this->widgetSchema['created_at'] = new liWidgetFormDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture()));
     $this->validatorSchema['created_at']->setOption('required',false);
+    
+    $this->widgetSchema['member_card_id'] = new sfWidgetFormInputHidden;
   }
   
   public function setWithUserId()

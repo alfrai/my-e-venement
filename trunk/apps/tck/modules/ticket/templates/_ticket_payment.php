@@ -4,7 +4,20 @@
     // adding the form
     $(data).find('.sf_admin_form form').prependTo('#payment');
     $('#payment form #payment_transaction_id').val('<?php echo $transaction->id ?>');
-    $('#payment form').addClass('ui-widget-content ui-corner-all').append('<p><input type="submit" name="submit" value="<?php echo __('Add') ?>" /><input type="hidden" name="_save_and_add" value="" /></p>');
+    $('#payment form').addClass('ui-widget-content ui-corner-all').append('<p class="submit"><input type="submit" name="submit" value="<?php echo __('Add') ?>" /><input type="hidden" name="_save_and_add" value="" /></p>');
+    if ( $(data).find('form select[name="payment[member_card_id]"]').length > 0 )
+    {
+      a = $('<a href="<?php echo url_for('payment/new') ?>" class="reset"><?php echo __('Reset','','sf_admin') ?></a>');
+      a.click(function(){
+        $.get($(this).attr('href'),function(data){
+          $('#payment form').remove();
+          ticket_payment_form(data);
+          ticket_payment_old(true);
+        });
+        return false;
+      });
+      $('#payment form .submit').append(a);
+    }
     $('#payment form .sf_admin_actions_block').remove();
     $('#payment form .label > *').each(function(){
       var tmp = $(this).parent();
@@ -79,9 +92,9 @@
       pay_total += parseFloat($(this).html().replace(',','.').replace('&nbsp;',''));
     });
     $('#payment tbody')
-      .append('<tr class="sf_admin_row ui-widget-content odd total"><td class="sf_admin_text"><?php echo __('Total') ?></td><td class="sf_admin_text sf_admin_list_td_list_value">'+pay_total.toFixed(2)+currency+'</td><td></td></tr>')
-      .append('<tr class="sf_admin_row ui-widget-content odd topay"><td class="sf_admin_text"><?php echo __('To pay') ?></td><td class="sf_admin_text sf_admin_list_td_list_value"></td><td></td></tr>')
-      .append('<tr class="sf_admin_row ui-widget-content odd change"><td class="sf_admin_text"><?php echo __('Still missing') ?></td><td class="sf_admin_text sf_admin_list_td_list_value"></td><td></td></tr>');
+      .append('<tr class="sf_admin_row ui-widget-content odd total"><td colspan="2" class="sf_admin_text"><?php echo __('Total') ?></td><td class="sf_admin_text sf_admin_list_td_list_value">'+pay_total.toFixed(2)+currency+'</td><td></td></tr>')
+      .append('<tr class="sf_admin_row ui-widget-content odd topay"><td colspan="2" class="sf_admin_text"><?php echo __('To pay') ?></td><td class="sf_admin_text sf_admin_list_td_list_value"></td><td></td></tr>')
+      .append('<tr class="sf_admin_row ui-widget-content odd change"><td colspan="2" class="sf_admin_text"><?php echo __('Still missing') ?></td><td class="sf_admin_text sf_admin_list_td_list_value"></td><td></td></tr>');
     ticket_process_amount(add);
   }
   

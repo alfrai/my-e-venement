@@ -17,6 +17,10 @@
         <target>Fermer</target>
       </trans-unit>
       <trans-unit>
+        <source>Member card</source>
+        <target>Carte de membre</target>
+      </trans-unit>
+      <trans-unit>
         <source>New Member card price model</source>
         <target>Nouveau model de carte de membre</target>
       </trans-unit>

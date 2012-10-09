@@ -24,14 +24,29 @@ class paymentActions extends autoPaymentActions
   public function executeCreate(sfWebRequest $request)
   {
     try {
-     parent::executeCreate($request);
+      parent::executeCreate($request);
     }
     catch ( liEvenementException $e )
     {
-      $this->redirect('payment/new');
+      $this->getUser()->setFlash('error',$e->getMessage().' - '.$this->payment->transaction_id);
+      $this->setTemplate('new');
+    }
+    catch ( liMemberCardPaymentException $e )
+    {
+      $this->getUser()->setFlash('notice','Please specify the member card you want to impact through this payment');
+      
+      $this->form->setWidget('member_card_id',new sfWidgetFormDoctrineChoice(array(
+        'query' => Doctrine::getTable('MemberCard')->createQuery('mc')->andWhereIn('mc.id',array_keys($this->payment->member_card_id)),
+        'model' => 'MemberCard',
+        'order_by' => array('value, expire_at',''),
+      )));
+      $this->form->setWidget('value',new sfWidgetFormInputHidden);
+      $this->form->setWidget('payment_method_id',new sfWidgetFormInputHidden);
+      
+      $this->setTemplate('new');
     }
   }
-
+  
   public function executeIndex(sfWebRequest $request)
   {
     if ( $tid = intval($request->getParameter('transaction_id')) )
