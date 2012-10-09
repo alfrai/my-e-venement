@@ -11,7 +11,7 @@ $(document).ready(function(){
     });
   }
   
-  $('link[rel=stylesheet]').attr('media','all');
+  $('link[rel=stylesheet][media=screen]').attr('media','all');
 });
 
 function ticket_lauchpad(anchors)
