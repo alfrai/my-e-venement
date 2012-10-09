@@ -88,7 +88,7 @@
     
     var pay_total = 0;
     var currency = '&nbsp;€'; //$('#prices .total .total').html().replace("\n",'').replace(/^\s*\d+[,\.]\d+/g,'');
-    $('#payment tbody td:first-child + td + td').each(function(){
+    $('#payment tbody .sf_admin_list_td_list_value').each(function(){
       pay_total += parseFloat($(this).html().replace(',','.').replace('&nbsp;',''));
     });
     $('#payment tbody')
