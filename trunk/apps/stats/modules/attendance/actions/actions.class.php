@@ -44,8 +44,11 @@ class attendanceActions extends sfActions
       // percentages
       $this->lines[$key]['printed_percentage'] = $line['gauge'] > 0 ? format_number(round($line['printed']*100/$line['gauge'],2)) : 'N/A';
       $this->lines[$key]['ordered_percentage'] = $line['gauge'] > 0 ? format_number(round($line['ordered']*100/$line['gauge'],2)) : 'N/A';
-      $this->lines[$key]['asked_percentage']   = $line['gauge'] > 0 ? format_number(round($line['asked']  *100/$line['gauge'],2)) : 'N/A';
-      $this->lines[$key]['free_percentage']    = $line['gauge'] > 0 ? format_number(round(($line['gauge']-$line['printed']-$line['asked']-$line['ordered'])*100/$line['gauge'],2)) : 'N/A';
+      if ( sfConfig::get('app_ticketting_show_demands') )
+        $this->lines[$key]['asked_percentage']   = $line['gauge'] > 0 ? format_number(round($line['asked']  *100/$line['gauge'],2)) : 'N/A';
+      else
+        unset($this->lines[$key]['asked']);
+      $this->lines[$key]['free_percentage']    = $line['gauge'] > 0 ? format_number(round(($line['gauge']-$line['printed']-(sfConfig::get('app_ticketting_show_demands')?$line['asked']:0)-$line['ordered'])*100/$line['gauge'],2)) : 'N/A';
       
       // cashflow
       $this->lines[$key]['cashflow']    = format_number(round($line['cashflow'],2));
@@ -62,6 +65,12 @@ class attendanceActions extends sfActions
       'tunnel' => false,
       'noheader' => false,
     );
+    
+    if ( !sfConfig::get('app_ticketting_show_demands') )
+    {
+      unset($this->options['fields'][array_search('asked_percentage',$this->options['fields'])]);
+      unset($this->options['fields'][array_search('asked',$this->options['fields'])]);
+    }
     
     $this->outstream = 'php://output';
     $this->delimiter = $this->options['ms'] ? ';' : ',';

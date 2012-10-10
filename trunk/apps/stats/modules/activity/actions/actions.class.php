@@ -49,6 +49,9 @@ class activityActions extends sfActions
       'fields'   => array('date','passing','printed','ordered','asked'),
     );
     
+    //if ( sfConfig::get('app_ticketting_hide_demands') )
+    //  unset($this->options->fields['asked']);
+    
     $this->outstream = 'php://output';
     $this->delimiter = $this->options['ms'] ? ';' : ',';
     $this->enclosure = '"';

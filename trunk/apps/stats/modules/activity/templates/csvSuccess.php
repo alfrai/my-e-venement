@@ -43,4 +43,7 @@
     'free'       => __('Free'),
   );
   
+  //if ( sfConfig::get('app_ticketting_hide_demands') )
+  //  unset($vars['options']['header']['asked']);
+  
   include_partial('global/csv',$vars);

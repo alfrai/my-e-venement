@@ -49,7 +49,10 @@
     'ordered_percentage'    => __('Engaged').' %',
     'asked_percentage'      => __('Asked').' %',
     'free_percentage'       => __('Free').' %',
-    'cashflow'                => __('Cashflow'),
+    'cashflow'              => __('Cashflow'),
   );
+  
+  if ( !sfConfig::get('app_transaction_show_demands') )
+    unset($vars['options']['header']['asked_percentage'],$vars['options']['header']['asked']);
   
   include_partial('global/csv',$vars);
