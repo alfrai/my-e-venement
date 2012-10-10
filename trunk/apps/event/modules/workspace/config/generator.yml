@@ -16,11 +16,16 @@ generator:
       fields:
         on_ticket: { label: On ticket }
       list:
-        display: [name, on_ticket]
+        display: [name, on_ticket, seated]
       filter:  ~
+      show:
+        display:
+          General: [name, on_ticket, _show_seated]
+          Ticketting: [_show_manifestations_list, _show_prices_list]
+          Users: [_show_users_list]
       form:
         display:
-          General: [name, on_ticket]
+          General: [name, on_ticket, seated]
           Ticketting: [manifestations_list, prices_list]
           Users: [users_list]
       edit:

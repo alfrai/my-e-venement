@@ -31,6 +31,10 @@ Workspace:
       notblank: true
       unique: true
     on_ticket: string(255)
+    seated:
+      type: boolean
+      default: false
+      notnull: true
   relations:
     Users:
       class: sfGuardUser
@@ -221,10 +225,6 @@ Manifestation:
       scale: 2
       notnull: true
       default: 0
-    seated:
-      type: boolean
-      default: false
-      notnull: true
     online_limit:
       type: integer
       default: 10

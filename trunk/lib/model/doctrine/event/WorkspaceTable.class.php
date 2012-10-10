@@ -17,7 +17,7 @@ class WorkspaceTable extends PluginWorkspaceTable
       return Doctrine_Core::getTable('Workspace');
     }
   
-  public function createQuery($alias = 'g',$full = false)
+  public function createQuery($alias = 'w',$full = false)
   {
     $q = parent::createQuery($alias);
     if ( sfContext::hasInstance('default') )
