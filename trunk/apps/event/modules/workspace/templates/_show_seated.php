@@ -1,3 +1,4 @@
+<?php if ( $sf_user->hasCredential('event-seated') ): ?>
 <div class="sf_admin_form_row">
   <label><?php echo __('Seated') ?>:</label>
   <?php
@@ -6,3 +7,4 @@
       : image_tag('/sfDoctrinePlugin/images/delete.png')
   ?>
 </div>
+<?php endif ?>

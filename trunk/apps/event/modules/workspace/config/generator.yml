@@ -15,6 +15,8 @@ generator:
       actions: ~
       fields:
         on_ticket: { label: On ticket }
+        seated: { credentials: [event-seated] }
+        _show_seated: { credentials: [event-seated] }
       list:
         display: [name, on_ticket, seated]
       filter:  ~

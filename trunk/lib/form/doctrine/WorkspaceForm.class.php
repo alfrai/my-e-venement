@@ -22,5 +22,8 @@ class WorkspaceForm extends BaseWorkspaceForm
     $this->widgetSchema['users_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     
     $this->widgetSchema['prices_list']->setOption('expanded',true);
+    
+    if ( !sfContext::getInstance()->getUser()->hasCredential('event-seated') )
+      $this->widgetSchema['seated'] = new sfWidgetFormInputHidden;
   }
 }
