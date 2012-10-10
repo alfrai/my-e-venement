@@ -280,8 +280,8 @@ function ticket_manif_list_events()
       {
         $('.manifestations_add').slideUp();
         $('#manifestations .gauge').fadeOut();
-        $('#prices .prices_list').fadeIn();
         ticket_activate_prices_gauge();
+        $('#prices .prices_list').fadeIn().css('opacity','1');
       }
       ticket_transform_hidden_to_span(true);
     });
@@ -440,6 +440,39 @@ function ticket_prices()
         setTimeout(function(){
           $('.sf_admin_flashes > *').fadeOut();
         },2500);
+      }
+      
+      // if it is a seating plan which is displaid
+      if ( $(data).find('#seating-plan').length > 0 )
+      {
+        // appearing
+        $('#transition').show();
+        $('#seating-plan').remove();
+        $('#prices').prepend($(data).find('#seating-plan'));
+        $('#seating-plan input:first').focus();
+        $('#seating-plan .reset').click(function(){
+          $('#transition').hide();
+          $('#seating-plan').remove();
+          ticket_transform_hidden_to_span();
+          $('#prices form [name="ticket[numerotation]"]').val('');
+        });
+        
+        // submitting
+        $('#seating-plan').submit(function(){
+          // preparing the form
+          $('#prices form input[name="ticket[numerotation]"]').val($('#seating-plan [name=numerotation]').val());
+          nb = $('#prices form input[name="ticket[nb]"]').val();
+          $('#prices form input[name="ticket[nb]"]').val($('#seating-plan [name=nb]').val());
+          
+          // submitting
+          $('#prices input[name="ticket[price_name]"][value="'+$(this).find('[name=price_name]').val()+'"]').click();
+          
+          // get back to initial state
+          $('#prices form input[name="ticket[nb]"]').val(nb);
+          $('#seating-plan .reset').click();
+          return false;
+        });
+        return true;
       }
       
       // the gauge

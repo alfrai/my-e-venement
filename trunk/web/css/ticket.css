@@ -290,3 +290,22 @@
 .manif:hover { background-color: #fffccc; }
 
 #payment .reset { margin-left: 10px; }
+
+#seating-plan {
+  position: absolute;
+  padding: 5px;
+  z-index: 701;
+  top: 100px;
+  bottom: 100px;
+  left: 100px;
+  right: 100px;
+}
+#seating-plan .ui-widget-content {
+  padding: 5px;
+}
+#seating-plan .direct {
+  margin-bottom: 10px;
+}
+#seating-plan .graphical {
+  min-height: 350px;
+}

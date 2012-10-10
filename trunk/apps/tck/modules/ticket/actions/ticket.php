@@ -44,6 +44,7 @@
     {
       $this->form->bind($values);
       
+      try {
       if ( $this->form->isValid() )
       {
         $this->tickets = $this->form->save();
@@ -55,15 +56,18 @@
         $this->form->setWidget('contact_id', new sfWidgetFormInputHidden());
         $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $this->tickets)));
       }
+      }
+      catch ( liSeatingException $e )
+      {
+        $this->error = $e->getMessage();
+        $this->setLayout('empty');
+        $this->setTemplate('seatedTicket');
+        return true;
+      }
     }
     
     $this->transaction = Doctrine::getTable('Transaction')
       ->findOneById($values['transaction_id'] ? $values['transaction_id'] : $request->getParameter('id'));
-    
-    // available workspaces
-    $workspaces = array();
-    foreach ( $this->getUser()->getGuardUser()->Workspaces as $ws )
-      $workspaces[] = $ws->id;
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->leftJoin('m.Tickets tck')
@@ -72,7 +76,7 @@
       ->leftJoin('g.Workspace ws')
       ->leftJoin('tck.Price tp')
       ->leftJoin('p.Users pu')
-      ->andWhereIn('tg.workspace_id',$workspaces)
+      ->andWhereIn('tg.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhere('t.id = ?',$this->transaction->id)
       ->andWhere('pu.id = ?',$this->getUser()->getId())
       ->andWhere('tck.duplicate IS NULL')

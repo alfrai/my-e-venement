@@ -5,6 +5,30 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Numerotation through the graphical plan</source>
+        <target>Numérotation par le plan de salle</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Direct numerotation</source>
+        <target>Numérotation directe</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Seated gauge</source>
+        <target>Placement numéroté</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>There is no ticket to remove on this seat for this gauge.</source>
+        <target>Il n'y a pas de billet à retirer sur cette place pour cette jauge.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>There are already some tickets on this seat for this gauge.</source>
+        <target>Il y a déjà des billets sur cette place pour cette jauge.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>No numerotation given.</source>
+        <target>Veuillez spécifier un numéro de place pour ce billet.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Invoice List</source>
         <target>Liste de factures</target>
       </trans-unit>
