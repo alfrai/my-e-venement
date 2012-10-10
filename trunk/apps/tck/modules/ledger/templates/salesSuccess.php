@@ -53,7 +53,7 @@
         {
           $qty += $manif->Tickets->count();
           
-          if ( !in_array($manif->vat, $vat) )
+          if ( !isset($vat[$manif->vat]) )
             $vat[$manif->vat] = array($event->id => array(
               'total'    => 0,
               $manif->id => 0,
@@ -66,13 +66,13 @@
             
             $value += $ticket->value;
             $vat[$manif->vat][$event->id][$manif->id]
-              += $ticket->value - $ticket->value / (1+$manif->vat/100);
+              += $ticket->value * $manif->vat/100;
             $vat[$manif->vat][$event->id]['total']
-              += $ticket->value - $ticket->value / (1+$manif->vat/100);
+              += $ticket->value * $manif->vat/100;
           }
         }
-        $total['value'] += $value;
-        //$total['qty']   += $qty;
+        
+        $total['value'] += $value; //$total['qty'] += $qty;
         
         foreach ( $vat as $name => $arr )
         {
@@ -129,10 +129,10 @@
         echo $qty;
       ?></td>
       <td class="value"><?php echo format_currency($value,'€') ?></td>
-    <?php foreach ( $total['vat'] as $v ): ?>
-    <td class="vat"></td>
-    <?php endforeach ?>
-    <td class="vat total"></td>
+      <?php foreach ( $total['vat'] as $v ): ?>
+      <td class="vat"></td>
+      <?php endforeach ?>
+      <td class="vat total"></td>
     </tr>
     <?php endfor; endforeach; endforeach; $buf = 0; ?>
   </tbody>
