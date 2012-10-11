@@ -49,7 +49,7 @@
         ?>
         <?php if ( !is_null($organism) ): ?>
           <a href="<?php echo cross_app_url_for('rp','organism/show?id='.$organism->id) ?>">
-            <?php echo $organism ?>
+            <?php echo $contact.' @ '.$organism ?>
           </a>
         <?php else: ?>
           <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$contact->id) ?>">
