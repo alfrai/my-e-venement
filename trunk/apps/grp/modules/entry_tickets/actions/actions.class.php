@@ -16,6 +16,6 @@ class entry_ticketsActions extends autoEntry_ticketsActions
   public function executeDel(sfWebRequest $request)
   {
     $this->getRoute()->getObject()->delete();
-    return $this->redirect('@entry_tickets');
+    return sfView::NONE;
   }
 }

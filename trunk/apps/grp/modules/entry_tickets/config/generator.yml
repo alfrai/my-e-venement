@@ -14,8 +14,11 @@ generator:
     config:
       actions: ~
       fields:  ~
-      list:    ~
-      filter:  ~
+      list:
+        display: []
+        max_per_page: 3
+      filter:
+        display: []
       form:    ~
       edit:    ~
       new:     ~
