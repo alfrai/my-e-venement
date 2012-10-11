@@ -78,6 +78,11 @@ MetaEventUser:
     meta_event_id:
       type: integer
       primary: true
+  relations:
+    User:
+      foreignAlias: MetaEventUsers
+      onDelete: CASCADE
+      onUpdate: CASCADE
 
 EventCategory:
   package: event
