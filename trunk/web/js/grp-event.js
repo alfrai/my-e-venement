@@ -10,6 +10,9 @@ $(document).ready(function(){
   });
   
   $('.grp-entry tbody td:not(.contact):not(.ticketting)').unbind().mouseup(function(){
+    // preventing gauges' multi-calculation
+    $('body').append('<div id="no-calculate-gauge"></div>');
+    
     src = $('.grp-entry .copy');
     if ( !$(this).hasClass('copy')
       && src.length == 1 )
@@ -41,13 +44,18 @@ $(document).ready(function(){
       src.find('a.delete').click();
       src.find('form:last input[type=checkbox]:checked').click();
       src.find('form').submit();
-      
     }
     
     $('.grp-entry tbody .copy').removeAttr('title');
     $('.grp-entry tbody .copy').removeClass('copy');
     $('.grp-entry tbody').removeClass('move');
     $('.grp-entry tbody').unbind('mousemove');
+    
+    // recalculate gauges
+    setTimeout(function(){
+      $('#no-calculate-gauge').remove();
+      calculate_gauges();
+    },2000);
   });
   
   $('.grp-entry tbody td:not(.ticketting):not(.contact)').mousedown(function(){
@@ -67,47 +75,4 @@ $(document).ready(function(){
 
 function grp_mouse_move(event)
 {
-  // down / top
-  if ( window.innerHeight - event.pageY < 30 )
-  {
-    $('.grp-entry tbody').unbind('mousemove');
-    $('html').animate({
-      scrollTop: ($('html').scrollTop()+150)+'px'
-    },{
-      duration: 500,
-      complete: function() { $('.grp-entry tbody').mousemove(grp_mouse_move); }
-    });
-  }
-  if ( event.pageY < 250 )
-  {
-    $('.grp-entry tbody').unbind('mousemove');
-    $('html').animate({
-      scrollTop: ($('html').scrollTop()-150)+'px'
-    },{
-      duration: 500,
-      complete: function() { $('.grp-entry tbody').mousemove(grp_mouse_move); }
-    });
-  }
-  
-  // left / right
-  if ( window.innerWidth - event.pageX < 100 )
-  {
-    $('.grp-entry tbody').unbind('mousemove');
-    $('html').animate({
-      scrollTop: ($('html').scrollLeft()+300)+'px'
-    },{
-      duration: 500,
-      complete: function() { $('.grp-entry tbody').mousemove(grp_mouse_move); }
-    });
-  }
-  if ( event.pageX < 100 && $('html').scrollLeft() > 10 )
-  {
-    $('.grp-entry tbody').unbind('mousemove');
-    $('html').animate({
-      scrollTop: ($('html').scrollLeft()-300)+'px'
-    },{
-      duration: 500,
-      complete: function() { $('.grp-entry tbody').mousemove(grp_mouse_move); }
-    });
-  }
 }

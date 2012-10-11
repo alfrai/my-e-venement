@@ -255,6 +255,9 @@
     
     function calculate_gauges()
     {
+      if ( $('#no-calculate-gauge').length > 0 )
+        return;
+      
       $('tfoot .count > *').remove();
       $('.ticketting .count > *:not(.total)').remove();
       $('.ticketting .count .total').html(0);
