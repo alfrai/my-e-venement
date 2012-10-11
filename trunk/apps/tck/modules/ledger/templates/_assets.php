@@ -5,7 +5,7 @@
 
 <?php use_helper('Number','Date') ?>
 <?php use_helper('CrossAppLink') ?>
-<?php use_stylesheet('ledger') ?>
+<?php use_stylesheet('ledger', '', array('media' => 'all')) ?>
 <?php use_javascript('ledger') ?>
 
 <?php use_stylesheet('/sfFormExtraPlugin/css/jquery.autocompleter.css') ?>
