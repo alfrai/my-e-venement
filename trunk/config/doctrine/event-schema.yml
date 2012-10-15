@@ -80,6 +80,7 @@ MetaEventUser:
       primary: true
   relations:
     User:
+      class: sfGuardUser
       foreignAlias: MetaEventUsers
       onDelete: CASCADE
       onUpdate: CASCADE
