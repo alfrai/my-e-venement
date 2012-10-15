@@ -72,7 +72,10 @@
     : Doctrine::getTable('Transaction')->findOneById($transaction->transaction_id);
   $translinked->type = 'cancellation';
   $translinked->transaction_id = $transaction->id;
+  $translinked->contact_id = $transaction->contact_id;
+  $translinked->professional_id = $transaction->professional_id;
   
+  $value = 0;
   if ( $tickets->count() > 0 )
   {
     foreach ( $tickets as $ticket )
@@ -83,16 +86,13 @@
       $cancel->sf_guard_user_id =
       $cancel->created_at =
       $cancel->updated_at = NULL;
+      $cancel->printed = $cancel->integrated = false;
       $cancel->value = -$cancel->value;
       $cancel->cancelling = $ticket->id;
       $translinked->Tickets[] = $cancel;
       $value += $ticket->value;
     }
   }
-  
-  $value = 0;
-  foreach ( $translinked->Tickets as $ticket )
-    $value += $ticket->value;
   
   // add payments
   $payment = new Payment;

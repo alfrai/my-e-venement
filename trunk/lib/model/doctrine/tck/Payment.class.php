@@ -46,7 +46,9 @@ class Payment extends PluginPayment
           && $card->value >= $this->value )
           $cards[$card->id] = $card;
         
-        if ( count($cards) == 1 ) {
+        if ( count($cards) == 1 )
+        {
+          $card = array_pop($cards);
           $card->value -= $this->value;
           $card->save();
           $this->member_card_id = $card->id;

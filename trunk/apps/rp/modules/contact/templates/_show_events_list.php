@@ -58,6 +58,7 @@
         else
           echo __('All printed');
       ?>)
+      <?php if ( $transaction->type == 'cancellation' ) echo __('Cancellation'); ?>
     </p>
     <p class="manifs"><?php
       echo implode('<br/>',$manifs);

@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Cancellation</source>
+        <target>Annulation</target>
+      </trans-unit>
+      <trans-unit>
         <source>Add an attachment ...</source>
         <target>Ajouter une pièce jointe ...</target>
       </trans-unit>

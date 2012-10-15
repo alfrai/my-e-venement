@@ -7,7 +7,7 @@
   <form action="" method="get" class="ui-widget-content ui-corner-all cancel">
     <p>
       <label for="ticket_id"><?php echo __('Ticket') ?></label>
-      #<input type="text" style="width: 120px" name="ticket_id" value="" title="ex: 289,401-407,512" />
+      #<input type="text" style="width: 120px" name="ticket_id" value="" autocomplete="off" title="ex: 289,401-407,512" />
     </p>
     <p>
       <label for=""></label>
@@ -17,7 +17,7 @@
   <form action="<?php echo url_for('ticket/pay') ?>" method="get" class="ui-widget-content ui-corner-all pay">
     <p>
       <label for="id"><?php echo __('Pay back for') ?></label>
-      #<input type="text" name="id" value="<?php echo $pay ?>" />
+      #<input type="text" name="id" value="<?php echo $pay ?>" autocomplete="off" />
     </p>
     <p>
       <label for=""></label>
@@ -30,7 +30,7 @@
     </div>
     <p>
       <label for="id"><?php echo __('Transaction') ?></label>
-      #<input type="text" name="id" value="" />
+      #<input type="text" name="id" value="" autocomplete="off" />
     </p>
     <p>
       <label for="payment_method"><?php echo __('Payment method') ?></label>
@@ -38,6 +38,7 @@
         $select = new sfWidgetFormDoctrineChoice(array(
           'model' => 'PaymentMethod',
           'add_empty' => true,
+          'query' => Doctrine::getTable('PaymentMethod')->createQuery('pm')->andWhere('pm.member_card_linked = false'),
           'order_by' => array('name',''),
         ));
         echo $select->render('payment_method_id');
