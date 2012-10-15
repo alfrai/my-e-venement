@@ -157,7 +157,7 @@ class OptionCsvForm extends BaseOptionCsvForm
   
   public static function tunnelingContact($contact)
   {
-      if ( $contact['organism_postalcode'] && $contact['organism_city'] )
+      if ( $contact['organism_postalcode'] && $contact['organism_city'] && !$contact['organism_npai'] )
       {
         $arr = array(
           'organism_address'    => 'address',
