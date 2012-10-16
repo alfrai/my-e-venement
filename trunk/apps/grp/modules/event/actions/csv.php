@@ -69,7 +69,7 @@
   {
     $this->lines[] = array(
       'event'         => (string) $contact['manifestation']->Event,
-      'date'          => (string) format_date($contact['manifestation']->happens_at),
+      'date'          => (string) format_datetime($contact['manifestation']->happens_at),
       'organism'      => (string) $contact['professional']->Organism,
       'contact'       => (string) $contact['professional']->Contact,
       'professional'  => (string) $contact['professional'],
