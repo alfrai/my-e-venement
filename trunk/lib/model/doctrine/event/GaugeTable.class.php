@@ -23,6 +23,7 @@ class GaugeTable extends PluginGaugeTable
     
     $q = parent::createQuery($alias);
     $where = "     duplicate IS NULL
+               AND cancelling IS NULL
                AND gauge_id = $alias.id";
     
     if ( $full )
@@ -32,21 +33,21 @@ class GaugeTable extends PluginGaugeTable
                     FROM Ticket tck1
                     WHERE (printed OR integrated)
                       AND $where
-                      AND id NOT IN (SELECT tck11.cancelling FROM Ticket tck11 WHERE cancelling IS NOT NULL)
+                      AND id NOT IN (SELECT tck11.cancelling FROM Ticket tck11 WHERE tck11.cancelling IS NOT NULL)
                    ) AS printed")
       ->addSelect("(SELECT count(*) AS nb
                     FROM Ticket tck2
                     WHERE NOT printed AND NOT integrated
                       AND transaction_id IN (SELECT o2.transaction_id FROM Order o2)
                       AND $where
-                      AND id NOT IN (SELECT tck22.cancelling FROM Ticket tck22 WHERE cancelling IS NOT NULL)
+                      AND id NOT IN (SELECT tck22.cancelling FROM Ticket tck22 WHERE tck22.cancelling IS NOT NULL)
                    ) AS ordered")
       ->addSelect("(SELECT count(*) AS nb
                     FROM Ticket tck3
                     WHERE NOT printed AND NOT integrated
                       AND transaction_id NOT IN (SELECT o3.transaction_id FROM Order o3)
                       AND $where
-                      AND id NOT IN (SELECT tck33.cancelling FROM Ticket tck33 WHERE cancelling IS NOT NULL)
+                      AND id NOT IN (SELECT tck33.cancelling FROM Ticket tck33 WHERE tck33.cancelling IS NOT NULL)
                    ) AS asked");
     return $q;
   }

@@ -33,8 +33,7 @@
         ? Doctrine::getTable('Workspace')->findOneById(intval($request->getParameter('wsid')))
         : $this->getUser()->getGuardUser()->Workspaces[0];
       $q->andWhere('g.workspace_id = ?', $workspace->id); // to be performed
-      $gauges = $q->execute();
-      $this->gauge = $gauges[0];
+      $this->gauge = $q->fetchOne();
     }
     else
     {
@@ -56,7 +55,7 @@
       ->andWhere('m.id = ?',$mid)
       //->andWhere('t.duplicate IS NULL')
       //->andWhere('t.cancelling IS NULL')
-      //->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE cancelling IS NOT NULL)')
+      //->andWhere('t.id NOT IN (SELECT ttt.cancelling FROM ticket ttt WHERE ttt.cancelling IS NOT NULL)')
       ->groupBy('m.id, e.name, me.name, m.happens_at, m.duration');
     
     // only tickets from asked gauge

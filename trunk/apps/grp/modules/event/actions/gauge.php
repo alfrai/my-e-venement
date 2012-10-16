@@ -28,7 +28,7 @@
       return false;
     
     $q = Doctrine::getTable('Gauge')->createQuery('g')
-      ->leftJoin('g.Tickets t ON t.gauge_id = g.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
+      //->leftJoin('g.Tickets t ON t.gauge_id = g.id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.ManifestationEntries me')
       ->addSelect('(SELECT sum(quantity) FROM EntryTickets et1 LEFT JOIN et1.EntryElement ee1 LEFT JOIN ee1.ContactEntry ce1 WHERE ce1.transaction_id IS NULL AND ee1.manifestation_entry_id = me.id AND ee1.accepted = true) AS accepted')
