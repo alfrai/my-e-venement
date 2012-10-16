@@ -22,6 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
+  $this->getContext()->getConfiguration()->loadHelpers('Date');
   $event = $this->getRoute()->getObject();
   
   $q = Doctrine::getTable('EntryTickets')->createQuery('et')
@@ -32,6 +33,7 @@
     ->leftJoin('p.Contact c')
     ->leftJoin('ee.ManifestationEntry me')
     ->leftJoin('me.Manifestation m')
+    ->leftJoin('m.Event e')
     ->leftJoin('et.Price pr')
     ->andWhere('m.event_id = ?',$event->id)
     ->andWhere('ee.accepted = true')
@@ -55,6 +57,7 @@
       $contacts[$ticket->EntryElement->ContactEntry->Professional->id] = array (
         'professional' => $ticket->EntryElement->ContactEntry->Professional,
         'tickets'      => $init,
+        'manifestation'=> $ticket->EntryElement->ManifestationEntry->Manifestation,
       );
     
     $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$ticket->Price->id]
@@ -65,6 +68,8 @@
   foreach ( $contacts as $contact )
   {
     $this->lines[] = array(
+      'event'         => (string) $contact['manifestation']->Event,
+      'date'          => (string) format_date($contact['manifestation']->happens_at),
       'organism'      => (string) $contact['professional']->Organism,
       'contact'       => (string) $contact['professional']->Contact,
       'professional'  => (string) $contact['professional'],
@@ -83,6 +88,8 @@
     'tunnel' => false,
     'noheader' => false,
     'fields'   => array(
+      'event',
+      'date',
       'organism',
       'contact',
       'professional',

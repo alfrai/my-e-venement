@@ -36,6 +36,8 @@
     unset($vars[$key]);
   }
   $vars['options']['header'] = array(
+    'event'         => __('Event'),
+    'date'          => __('Date'),
     'organism'      => __('Organism'),
     'contact'       => __('Contact'),
     'professional'  => __('Function'),
