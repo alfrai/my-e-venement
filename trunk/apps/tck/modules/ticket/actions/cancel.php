@@ -86,17 +86,15 @@
       $this->ticket->printed = false;
       $this->ticket->value = -$this->ticket->value;
       $this->transaction->Tickets[] = $this->ticket;
-      $this->transaction->save();
       
       // saving the old ticket for duplication
       if ( $duplicata )
-      {
-        $duplicata->duplicate = $this->ticket->id;
-        $duplicata->save();
-      }
+        $this->ticket->Duplicated[] = $duplicata;
+      
+      $this->transaction->save();
       
       // printing
-      $this->getUser()->setFlash('notice','Ticket canceled.');
+      $this->getUser()->setFlash('notice',__('Ticket canceled.'));
       $this->setTemplate('canceledTicket');
     }
     else

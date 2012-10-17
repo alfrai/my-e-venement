@@ -10,6 +10,10 @@
     </tr>
   <?php endforeach ?>
   </tbody>
+  <tfoot>
+      <td><?php echo __('%%nb%% slot(s)',array('%%nb%%' => $member_card->MemberCardPrices->count())) ?></td>
+      <td></td>
+  </tfoot>
   </table>
 </div>
 <?php endif ?>

@@ -66,7 +66,7 @@ class Ticket extends PluginTicket
     // cancellation ticket with member cards
     if ( $this->Price->member_card_linked
     && !( $this->printed || $this->integrated )
-    && !is_null($this->cancelling) && is_null($this->Duplicata) )
+    && !is_null($this->cancelling) && $this->Duplicated->count() == 0 )
     {
       if ( !isset($models) )
         $models = Doctrine::getTable('MemberCardPriceModel')->createQuery('mcpm')
