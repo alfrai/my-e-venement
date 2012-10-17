@@ -53,17 +53,16 @@ class member_cardActions extends autoMember_cardActions
       ->andWhere('tck.printed = true')
       ->andWhere('tck.member_card_id = ?',$this->card->id)
       ->execute();
-    if ( $tickets->count() > 0 )
+    try {
+      $this->card->delete();
+    }
+    catch ( liEvenementException $e )
     {
-      // add deactivation if printed tickets + cancelling tickets == 0 and value == 0
       $this->getUser()->setFlash('error',__('This member card has been used to print tickets'));
       return $this->redirect('contact/card?id='.$this->contact->id);
     }
     
-    if ($this->card->delete())
-    {
-      $this->getUser()->setFlash('notice', 'The item was deleted successfully.');
-    }
+    $this->getUser()->setFlash('notice', 'The item was deleted successfully.');
     
     if ( is_null($this->transaction_id) )
       $this->redirect('contact/card?id='.$this->contact->id);

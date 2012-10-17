@@ -53,4 +53,25 @@ class MemberCard extends PluginMemberCard
     
     parent::postInsert($event);
   }
+  
+  public function delete(Doctrine_Connection $con = NULL)
+  {
+    if ( $this->Payments->count() == 0 && $this->Tickets->count() == 0 )
+      return parent::delete($con);
+    
+    $payments = $tickets = 0;
+    
+    foreach ( $this->Tickets as $ticket )
+      $tickets += is_null($ticket->cancelling)*2-1;
+    foreach ( $this->Payments as $payment )
+      $payments += $payment->value;
+    
+    if ( $tickets == 0 && $payments == 0 )
+    {
+      $this->active = false;
+      return parent::save($con);
+    }
+    
+    throw new liEvenementException('The member card cannot be deleted neither deactivated.');
+  }
 }

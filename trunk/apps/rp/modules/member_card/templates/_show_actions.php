@@ -4,7 +4,7 @@
     <?php echo __("Back to list",array(),'sf_admin') ?>
   </a>
   <?php echo link_to(
-    UIHelper::addIcon(array('ui-icon' => 'trash')) . __('Cancel'),
+    UIHelper::addIcon(array('ui-icon' => 'trash')) . __('Delete','','sf_admin'),
     $helper->getUrlForAction('delete'),
     $form->getObject(),
     array(

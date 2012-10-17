@@ -28,6 +28,7 @@ class Payment extends PluginPayment
           ->leftJoin('t.Contact c')
           ->leftJoin('c.MemberCards mc')
           ->andWhere('t.id = ?',$this->transaction_id)
+          ->andWhere('mc.active = true')
           ->fetchOne();
         
         foreach ( $transaction->Contact->MemberCards as $card )

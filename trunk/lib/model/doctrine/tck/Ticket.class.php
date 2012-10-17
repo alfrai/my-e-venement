@@ -76,7 +76,8 @@ class Ticket extends PluginTicket
       
       foreach ( $this->Transaction->Contact->MemberCards as $card )
       if ( strtotime($card->created_at) <= strtotime('now')
-        && strtotime($card->expire_at) > strtotime('now') )
+        && strtotime($card->expire_at) > strtotime('now')
+        && $card->active )
       {
         foreach ( $models as $model )
         if ( strcasecmp($card->name, $model->member_card_name) == 0 )
@@ -115,6 +116,7 @@ class Ticket extends PluginTicket
         ->andWhere('t.id = ?',$this->transaction_id)
         ->andWhere('mc.created_at <= ?',date('Y-m-d H:i:s'))
         ->andWhere('mc.expire_at >  ?',date('Y-m-d H:i:s'))
+        ->andWhere('mc.active = true')
         ->andWhere('mcp.price_id = ?',$this->price_id)
         ->andWhere('(mcp.event_id IS NULL OR m.id = ?)',$this->manifestation_id)
         ->orderBy('mcp.event_id IS NULL');

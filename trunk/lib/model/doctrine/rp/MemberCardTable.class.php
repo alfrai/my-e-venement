@@ -16,4 +16,12 @@ class MemberCardTable extends PluginMemberCardTable
     {
         return Doctrine_Core::getTable('MemberCard');
     }
+  
+  public function retreiveListOfActivatedCards()
+  {
+    $q = $this->createQuery('mc');
+    $q->leftJoin('mc.Contact c')
+      ->andWhere('mc.active = true');
+    return $q;
+  }
 }
