@@ -121,6 +121,8 @@ function contact_load_professionals(i)
       $('#more #professional-'+i).html( $(data).find('form') );
       contact_ajax_form('#more #professional-'+i);
       contact_load_professionals(i+1);
+      if ( typeof(contact_disable_inputs) == 'function' )
+        contact_disable_inputs();
     });
   }
 }
