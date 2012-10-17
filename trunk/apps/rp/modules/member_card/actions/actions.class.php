@@ -48,11 +48,6 @@ class member_cardActions extends autoMember_cardActions
     $this->contact = $this->card->Contact;
     $this->transaction_id = $this->card->Payments->count() > 0 ? $this->card->Payments[0]->transaction_id : NULL;
     
-    // exception, if there are tickets linked with this member card
-    $tickets = Doctrine::getTable('Ticket')->createQuery('tck')
-      ->andWhere('tck.printed = true')
-      ->andWhere('tck.member_card_id = ?',$this->card->id)
-      ->execute();
     try {
       $this->card->delete();
     }

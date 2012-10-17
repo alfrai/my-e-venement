@@ -60,13 +60,12 @@ class MemberCard extends PluginMemberCard
       return parent::delete($con);
     
     $payments = $tickets = 0;
-    
     foreach ( $this->Tickets as $ticket )
       $tickets += is_null($ticket->cancelling)*2-1;
     foreach ( $this->Payments as $payment )
       $payments += $payment->value;
     
-    if ( $tickets == 0 && $payments == 0 )
+    if ( $tickets == 0 ) // && $payments == 0 )
     {
       $this->active = false;
       return parent::save($con);
