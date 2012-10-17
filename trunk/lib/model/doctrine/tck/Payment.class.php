@@ -12,16 +12,6 @@
  */
 class Payment extends PluginPayment
 {
-  public function preDelete($event)
-  {
-    if ( !is_null($this->member_card_id) )
-    {
-      $this->MemberCard->value += $this->value;
-      $this->MemberCard->save();
-    }
-    parent::preDelete($event);
-  }
-  
   public function preSave($event)
   {
     // to redirect stuff if we're not here for an insert
@@ -49,8 +39,6 @@ class Payment extends PluginPayment
         if ( count($cards) == 1 )
         {
           $card = array_pop($cards);
-          $card->value -= $this->value;
-          $card->save();
           $this->member_card_id = $card->id;
         }
         elseif ( count($cards) > 1 )
@@ -58,11 +46,6 @@ class Payment extends PluginPayment
           $this->member_card_id = $cards;
           throw new liMemberCardPaymentException("There is more than one available member cards for this Payment... Choose one.");
         }
-      }
-      else
-      {
-        $this->MemberCard->value -= $this->value;
-        $this->MemberCard->save();
       }
       
       if ( is_null($this->member_card_id) || is_array($this->member_card_id) )

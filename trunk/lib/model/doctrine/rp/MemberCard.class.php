@@ -12,11 +12,26 @@
  */
 class MemberCard extends PluginMemberCard
 {
+  protected $value;
+  
   public function __toString()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('Number');
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
     return __($this->name).' #'.$this->id."\n(".format_date($this->expire_at,'D').($this->value > 0 ? ', '.format_currency($this->value,'€') : '').')';
+  }
+  
+  public function getValue()
+  {
+    if ( isset($this->value) )
+      return $this->value;
+    
+    $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    $q = "SELECT -sum(value) AS value FROM payment WHERE member_card_id = :member_card_id";
+    $stmt = $pdo->prepare($q);
+    $stmt->execute(array('member_card_id' => $this->id));
+    $rec = $stmt->fetch();
+    return $this->value = $rec['value'] ? $rec['value'] : 0;
   }
   
   public function postInsert($event)

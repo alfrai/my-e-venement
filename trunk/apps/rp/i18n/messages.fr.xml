@@ -34,7 +34,7 @@
       </trans-unit>
       <trans-unit>
         <source>Value</source>
-        <target>Montant</target>
+        <target>Solde</target>
       </trans-unit>
       <trans-unit>
         <source>List of payments</source>

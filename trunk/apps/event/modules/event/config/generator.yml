@@ -29,7 +29,7 @@ generator:
         staging_label: { label: Staging label }
         writer_label: { label: Writer label }
         list_manifestations: { label: Manifestations }
-        list_manifestations_gauges: { label: Gauges [booked/total (sold-booked-demanded)] }
+        list_manifestations_gauges: { label: <span title="booked/total (sold-booked-demanded)">Gauges</span> }
       list:
         title: Event List
         display: [MetaEvent, name, EventCategory, duration, age_min_h_r, _list_manifestations, _list_manifestations_gauges]

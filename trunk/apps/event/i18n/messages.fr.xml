@@ -213,8 +213,8 @@
         <target>Billets</target>
       </trans-unit>
       <trans-unit>
-        <source>Gauges [booked/total (sold-booked-demanded)]</source>
-        <target>Jauges [places/total (vendus-rés.-dem.)]</target>
+        <source>&lt;span title="booked/total (sold-booked-demanded)"&gt;Gauges&lt;/span&gt;</source>
+        <target>&lt;span title="places/total (vendus-rés.-dem.)]"&gt;Jauges&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
         <source>&lt;strong class="booked"&gt;%%b%%&lt;/strong&gt;/&lt;strong&gt;%%t%%&lt;/strong&gt; (&lt;span title="sold"&gt;%%p%%&lt;/span&gt;-&lt;span title="ordered"&gt;%%o%%&lt;/span&gt;-&lt;span title="asked"&gt;%%a%%&lt;/span&gt;)</source>
