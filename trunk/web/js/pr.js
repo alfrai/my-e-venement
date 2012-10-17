@@ -15,7 +15,7 @@ $(document).ready(function(){
 
 function contact_disable_inputs()
 {
-  $('form:not(#list-integrated-search)').each(function(){
+  $(':not(#sf_admin_filter) > form:not(#list-integrated-search)').each(function(){
     if ( $(this).find('.submit').length == 0 )
       $(this).find('input[type=text], textarea, select').attr('disabled','disabled');
   });
