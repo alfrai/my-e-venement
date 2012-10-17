@@ -39,6 +39,7 @@ class member_cardActions extends autoMember_cardActions
   
   public function executeDelete(sfWebRequest $request)
   {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
     $request->checkCSRFProtection();
 
     $this->dispatcher->notify(new sfEvent($this, 'admin.delete_object', array('object' => $this->getRoute()->getObject())));
@@ -54,7 +55,8 @@ class member_cardActions extends autoMember_cardActions
       ->execute();
     if ( $tickets->count() > 0 )
     {
-      $this->getUser()->setFlash('error','This member card has been used to print tickets');
+      // add deactivation if printed tickets + cancelling tickets == 0 and value == 0
+      $this->getUser()->setFlash('error',__('This member card has been used to print tickets'));
       return $this->redirect('contact/card?id='.$this->contact->id);
     }
     
