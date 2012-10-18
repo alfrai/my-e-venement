@@ -20,7 +20,7 @@ generator:
       fields:
         expire_at: { label: Expire at }
       list:
-        display: [name, Contact, expire_at, value]
+        display: [_name, Contact, expire_at, _value]
         sort: [created_at, desc]
         object_actions:
           _show: ~
