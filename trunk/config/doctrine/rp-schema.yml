@@ -170,29 +170,3 @@ OptionLabels:
     type: column_aggregation
     keyField: type
     keyValue: 'labels'
-
-MemberCard:
-  package: rp
-  inheritance:
-    extends: Traceable
-    type: concrete
-  columns:
-    name:
-      type: string(255)
-      notnull: true
-      notblank: true
-    contact_id:
-      type: integer
-      notnull: true
-    expire_at:
-      type: timestamp
-      notnull: true
-    active:
-      type: boolean
-      notnull: true
-      default: true
-  relations:
-    Contact:
-      foreignAlias: MemberCards
-      onDelete: CASCADE
-      onUpdate: CASCADE
