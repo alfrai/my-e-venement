@@ -15,8 +15,6 @@
     <?php include_javascripts() ?>
   </head>
   <body class="nude">
-    <div id="content">
       <?php echo $sf_content ?>
-    </div>
   </body>
 </html>
