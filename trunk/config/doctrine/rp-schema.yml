@@ -39,6 +39,11 @@ Contact:
       type: boolean
       notnull: true
       default: true
+    organism_category_id: integer
+  relations:
+    Category:
+      class: OrganismCategory
+      foreignAlias: Contacts
 Organism:
   package: rp
   inheritance:

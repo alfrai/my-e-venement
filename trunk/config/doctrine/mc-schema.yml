@@ -20,99 +20,85 @@
 # 
 #**********************************************************************************/
 
-Group:
-  package: group
-  tableName: group_table
-  actAs:
-    Timestampable: ~
-    Sluggable:
-      fields: [name, sf_guard_user_id]
-      unique: true
+MemberCard:
+  package: mc
+  inheritance:
+    extends: Traceable
+    type: concrete
   columns:
     name:
       type: string(255)
+      notnull: true
       notblank: true
-      notnull: true
-    sf_guard_user_id: integer
-    description: string
-  indexes:
-    name_user:
-      fields: [name, sf_guard_user_id]
-      type: unique
-  relations:
-    Contacts:
-      class: Contact
-      refClass: GroupContact
-      foreignAlias: Groups
-    Professionals:
-      class: Professional
-      refClass: GroupProfessional
-      foreignAlias: Groups
-    Organisms:
-      class: Organism
-      refClass: GroupOrganism
-      foreignAlias: Groups
-    User:
-      class: sfGuardUser
-      foreignAlias: Groups
-      onDelete: CASCADE
-      onUpdate: CASCADE
-GroupDetail:
-  package: group
-  actAs: [Timestampable]
-  columns:
-    group_id:
-      type: integer
-      notnull: true
-      primary: true
-    information: string
-  relations:
-    Group:
-      foreignAlias: Members
-      onDelete: CASCADE
-      onUpdate: CASCADE
-GroupContact:
-  package: group
-  inheritance:
-    extends: GroupDetail
-    type: concrete
-  columns:
     contact_id:
       type: integer
       notnull: true
-      primary: true
+    expire_at:
+      type: timestamp
+      notnull: true
+    active:
+      type: boolean
+      notnull: true
+      default: true
   relations:
     Contact:
-      foreignAlias: ContactGroups
+      foreignAlias: MemberCards
       onDelete: CASCADE
       onUpdate: CASCADE
-GroupProfessional:
-  package: group
+MemberCardPrice:
+  package: mc
   inheritance:
-    extends: GroupDetail
+    extends: Traceable
     type: concrete
   columns:
-    professional_id:
+    member_card_id:
       type: integer
       notnull: true
-      primary: true
+    price_id:
+      type: integer
+      notnull: true
+    event_id: integer
   relations:
-    Professional:
-      foreignAlias: ProfessionalGroups
+    MemberCard:
+      foreignAlias: MemberCardPrices
       onDelete: CASCADE
       onUpdate: CASCADE
-GroupOrganism:
-  package: group
+    Price:
+      foreignAlias: MemberCardPrices
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Event:
+      foreignAlias: MemberCardPrices
+      onDelete: CASCADE
+      onUpdate: CASCADE
+MemberCardPriceModel:
+  package: mc
   inheritance:
-    extends: GroupDetail
+    extends: Traceable
     type: concrete
   columns:
-    organism_id:
+    member_card_name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    price_id:
       type: integer
       notnull: true
-      primary: true
+    quantity:
+      type: integer
+      notnull: true
+    event_id: integer
   relations:
-    Organism:
-      foreignAlias: OrganismGroups
+    Price:
+      foreignAlias: MemberCardPriceModel
       onDelete: CASCADE
       onUpdate: CASCADE
+    Event:
+      foreignAlias: MemberCardPriceModel
+      onDelete: CASCADE
+      onUpdate: CASCADE
+  indexes:
+    member_card_name_price_id_event_id:
+      fields: [member_card_name, price_id, event_id]
+      unique: true
+
