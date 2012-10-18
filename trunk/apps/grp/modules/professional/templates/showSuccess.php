@@ -44,7 +44,7 @@
         <ul>
       <?php endif ?>
       <?php if ( $entry->EntryTickets->count() ): ?>
-          <li class="<?php echo $entry->accepted ? 'accepted' : '' ?>">
+          <li class="<?php echo $entry->accepted ? 'accepted' : '' ?> <?php echo $entry->second_choice ? 'second_choice' : '' ?>">
             <span class="manifestation_happens_at"><?php echo cross_app_link_to($entry->ManifestationEntry->Manifestation->getFormattedDate(),'event','manifestation/show?id='.$entry->ManifestationEntry->Manifestation->id) ?></span>
             <?php foreach ( $entry->EntryTickets as $et ): ?>
             <span class="tickets" title="<?php echo $entry->accepted ? __('Accepted') : '' ?>"><?php echo $et->quantity.' '.$et->Price ?></span>

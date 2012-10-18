@@ -135,6 +135,8 @@ tfoot .count p { display: inline-block; margin-left: 4px; }
   padding: 2px 4px;
   background-color: white;
 }
+.entries .tickets { border-style: solid; }
+.entries .second_choice .tickets { border-style: dashed; }
 .ticketting .count .nb, tfoot .count .nb { margin-right: 2px; }
 .ticketting .count .total:before, tfoot .count .total:before { content: '='; margin: 0 4px; }
 
@@ -210,4 +212,9 @@ tfoot .count p { display: inline-block; margin-left: 4px; }
 }
 #sf_admin_container .sf_admin_action_export {
   background: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat scroll -144px -96px rgb(223, 239, 252);
+}
+
+@media print {
+.accepted .tickets, .second_choice .tickets { border-width: 3px; }
+.second_choice .tickets { border-style: dotted; }
 }
