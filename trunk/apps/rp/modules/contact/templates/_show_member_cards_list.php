@@ -5,7 +5,7 @@
   <label><?php echo link_to(__('Member cards'),'contact/card?id='.$contact->id) ?>:</label>
   <ul class="show_member_cards_list">
   <?php foreach ( $contact->MemberCards as $card ): ?>
-  <?php if ( strtotime($card->expire_at) > strtotime('now') ): ?>
+  <?php if ( strtotime($card->expire_at) > strtotime('now') && $card->active ): ?>
     <li><a href="<?php echo url_for('member_card/show?id='.$card->id) ?>"><?php echo $card ?></a></li>
   <?php endif ?>
   <?php endforeach ?>
