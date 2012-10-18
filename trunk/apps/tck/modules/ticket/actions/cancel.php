@@ -36,11 +36,13 @@
     }
     
     if ( count($ticket_ids) > 0 )
-    foreach ( $ticket_ids as $id )
+    foreach ( Doctrine::getTable('Ticket')
+      ->createQuery('tck')
+      ->leftJoin('tck.Transaction t')
+      ->leftJoin('t.Translinked t2')
+      ->andWhereIn('tck.id',$ticket_ids)
+      ->execute() as $ticket )
     {
-      // get back the ticket to cancel
-      $ticket = Doctrine::getTable('Ticket')
-        ->findOneById(intval($id));
       if ( !$ticket )
       {
         $this->getUser()->setFlash('error',__("Can't find the ticket #%%i%% in database...",array('%%i%%' => $ticket->id)));
@@ -58,9 +60,7 @@
       }
       
       // get back a potential existing transaction
-      $transactions = Doctrine::getTable('Transaction')->createQuery('t')
-        ->andWhere('t.transaction_id = ?',$ticket->transaction_id)
-        ->execute();
+      $transactions = $ticket->Transaction->Translinked;
       if ( $transactions->count() > 0 )
         $this->transaction = $transactions[0];
       else

@@ -74,23 +74,18 @@ class Ticket extends PluginTicket
           ->andWhere('(mcpm.event_id IS NULL OR mcpm.event_id = ?)',$this->Manifestation->event_id)
           ->execute();
       
-      foreach ( $this->Transaction->Contact->MemberCards as $card )
-      if ( strtotime($card->created_at) <= strtotime('now')
-        && strtotime($card->expire_at) > strtotime('now')
-        && $card->active )
+      foreach ( $models as $model )
+      if ( strcasecmp($this->MemberCard->name, $model->member_card_name) == 0 )
       {
-        foreach ( $models as $model )
-        if ( strcasecmp($card->name, $model->member_card_name) == 0 )
-        {
-          $mcp = new MemberCardPrice;
-          $mcp->price_id = $this->price_id;
-          $mcp->member_card_id = $card->id;
-          
-          if ( $model->event_id == $this->Manifestation->event_id )
-            $mcp->event_id = $model->event_id;
-          
-          $mcp->save();
-        }
+        $mcp = new MemberCardPrice;
+        $mcp->price_id = $this->price_id;
+        $mcp->member_card_id = $this->MemberCard->id;
+        
+        if ( $model->event_id == $this->Manifestation->event_id )
+          $mcp->event_id = $model->event_id;
+        
+        $mcp->save();
+        break;
       }
     }
     

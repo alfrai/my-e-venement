@@ -23,7 +23,7 @@ class member_cardActions extends autoMember_cardActions
     $q = $this->buildQuery();
     if ( isset($this->request) && $this->request->hasParameter('contact_id') )
     {
-      $this->forward404Unless(intval($this->request->getParameter('contact_id')) > 0 );
+      $this->forward404Unless( intval($this->request->getParameter('contact_id')) > 0 );
       
       $a = $q->getRootAlias();
       $q->andWhere("$a.contact_id = ?",$this->request->getParameter('contact_id'));

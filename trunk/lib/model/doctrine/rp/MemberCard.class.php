@@ -61,6 +61,7 @@ class MemberCard extends PluginMemberCard
     
     $payments = $tickets = 0;
     foreach ( $this->Tickets as $ticket )
+    if ( is_null($ticket->duplicate) )
       $tickets += is_null($ticket->cancelling)*2-1;
     foreach ( $this->Payments as $payment )
       $payments += $payment->value;

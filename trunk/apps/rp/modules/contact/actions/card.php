@@ -45,6 +45,7 @@
       // to avoid adding two times the card's value (once here and once with the payment's internal procedures)
       $value = $params['value'];
       $params['value'] = 0;
+      $params['active'] = true;
       $this->card->bind($params);
       
       if ( !$request->hasParameter('duplicate') )
