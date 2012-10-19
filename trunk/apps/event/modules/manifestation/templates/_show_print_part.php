@@ -1,5 +1,6 @@
 <p class="tab-print">
-  <a class="fg-button ui-state-default" href="#">
+  <a class="fg-button fg-button-icon-left ui-state-default" href="#">
+    <span class="ui-icon ui-icon-print"></span>
     <?php echo __('Print',array(),'menu') ?>
   </a>
   <script type="text/javascript">

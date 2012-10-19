@@ -1,6 +1,7 @@
 <?php use_helper('Number') ?>
 
 <?php include_partial('show_print_part',array('tab' => 'spectators')) ?>
+<?php include_partial('show_export_part',array('manifestation_id' => $manifestation_id)) ?>
 
 <?php $arr = isset($form) ? array('form' => $form) : array('spectators' => $spectators) ?>
 

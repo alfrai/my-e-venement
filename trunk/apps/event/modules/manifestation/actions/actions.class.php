@@ -36,6 +36,38 @@ require_once dirname(__FILE__).'/../lib/manifestationGeneratorHelper.class.php';
  */
 class manifestationActions extends autoManifestationActions
 {
+  public function executeExport(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers(array('Date','CrossAppLink'));
+    $manifestation = $this->getRoute()->getObject();
+    
+    $q = new Doctrine_Query;
+    $q->from('Contact c')
+      ->leftJoin('c.Transactions t')
+      ->leftJoin('t.Professional tp')
+      ->leftJoin('t.Tickets tck')
+      ->leftJoin('tck.Manifestation m')
+      ->leftJoin('c.Professionals cp')
+      ->select('c.*, cp.*')
+      ->andWhere('cp.id = tp.id OR cp.id IS NULL AND tp.id IS NULL')
+      ->andWhere('m.id = ?',$manifestation->id);
+    $contacts = $q->execute();
+    
+    $group = new Group;
+    $group->name = $manifestation.' / '.format_datetime(date('Y-m-d H:i:s'));
+    $group->sf_guard_user_id = $this->getUser()->getId();
+    
+    foreach ( $contacts as $contact )
+    if ( $contact->Professionals->count() > 0 )
+    foreach ( $contact->Professionals as $professional )
+      $group->Professionals[] = $professional;
+    else
+      $group->Contacts[] = $contact;
+    
+    $group->save();
+    $this->redirect(cross_app_url_for('rp','group/show?id='.$group->id));
+    return sfView::NONE;
+  }
   public function executeNew(sfWebRequest $request)
   {
     parent::executeNew($request);
@@ -245,6 +277,7 @@ class manifestationActions extends autoManifestationActions
   public function executeShowSpectators(sfWebRequest $request)
   {
     $this->securityAccessFiltering($request);
+    $this->manifestation_id = $request->getParameter('id');
     $this->spectators = $this->getSpectators($request->getParameter('id'));
     $this->setLayout('nude');
   }
