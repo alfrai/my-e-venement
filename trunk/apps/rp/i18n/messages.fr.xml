@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Controlled on checkpoints</source>
+        <target>Passés aux points de contrôle</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%nb%% slot(s)</source>
         <target>%%nb%% dispo(s)</target>
       </trans-unit>

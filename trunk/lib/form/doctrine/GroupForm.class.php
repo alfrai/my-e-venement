@@ -29,6 +29,14 @@ class GroupForm extends BaseGroupForm
     $this->widgetSchema['professionals_list']->getJavascripts();
     $this->widgetSchema['professionals_list']->getStylesheets();
     
+    $this->widgetSchema['organisms_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'model' => 'Organism',
+      'url'   => url_for('organism/ajax'),
+      'order_by' => array('name,postalcode,city',''),
+    ));
+    $this->widgetSchema['organisms_list']->getJavascripts();
+    $this->widgetSchema['organisms_list']->getStylesheets();
+    
     // the group's owner
     $sf_user = sfContext::getInstance()->getUser();
     $this->validatorSchema['sf_guard_user_id'] = new sfValidatorInteger(array(
