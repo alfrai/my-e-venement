@@ -49,4 +49,8 @@ div:hover > .sf_admin_form_field_cities { display: block; }
 .tab-print .fg-button {
   float: none;
 }
-
+.tab-export {
+  display: block;
+  margin-top: -20px;
+  margin-bottom: 40px;
+}
