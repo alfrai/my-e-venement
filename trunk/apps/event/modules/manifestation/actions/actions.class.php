@@ -47,13 +47,13 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('t.Professional tp')
       ->leftJoin('t.Tickets tck')
       ->leftJoin('tck.Manifestation m')
-      ->leftJoin('c.Professionals cp')
+      ->leftJoin('c.Professionals cp ON c.id = cp.contact_id AND (cp.id = tp.id OR cp.id IS NULL AND tp.id IS NULL)')
       ->select('c.*, cp.*')
-      ->andWhere('cp.id = tp.id OR cp.id IS NULL AND tp.id IS NULL')
       ->andWhere('m.id = ?',$manifestation->id)
-      ->andWhere('tck.printed OR tck.integrated')
+      ->andWhere('(tck.printed = true OR tck.integrated = true)')
       ->andWhere('tck.cancelling IS NULL')
-      ->andWhere('tck.id NOT IN (SELECT cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)');
+      ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)');
+
     $contacts = $q->execute();
     
     $group = new Group;

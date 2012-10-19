@@ -1,5 +1,5 @@
 <p class="tab-export">
-  <a class="fg-button fg-button-icon-left ui-state-default ui-priority-secondary" href="<?php echo url_for('manifestation/export?id='.$manifestation_id) ?>">
+  <a class="fg-button fg-button-icon-left ui-state-default ui-priority-secondary" href="<?php echo url_for('manifestation/export?id='.$manifestation_id) ?>" target="_blank">
     <span class="ui-icon ui-icon-person"></span>
     <?php echo __('Export') ?>
   </a>
