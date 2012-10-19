@@ -173,10 +173,12 @@ class ContactFormFilter extends BaseContactFormFilter
     // flow control
     $this->widgetSchema   ['control_manifestation_id'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'Manifestation',
+      'query' => $q = Doctrine::getTable('Manifestation')->createQuery('m')->select('m.*, e.*')->leftJoin('e.Checkpoints cp')->andWhere('cp.id IS NOT NULL'),
       'multiple'  => true,
     ));
     $this->validatorSchema['control_manifestation_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Manifestation',
+      'query' => $q,
       'required' => false,
       'multiple'  => true,
     ));

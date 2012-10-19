@@ -17,15 +17,21 @@
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
 *    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2011 Ayoub HIDRI <ayoub.hidri AT gmail.com>
 *    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
-<?php if ( !$form->isNew() ): ?>
-<div id="more">
-  <?php include_partial('group/contacts_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php include_partial('group/organisms_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php //include_partial('group/professionals_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php //include_partial('group/members_total', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-</div>
-<?php endif ?>
+<?php
+    if ( !$request->getParameter('id') )
+      $this->forward('organism','index');
+    
+    $this->group_id = $request->getParameter('id');
+    
+    $this->pager = $this->configuration->getPager('Contact');
+    $this->pager->setMaxPerPage(15);
+    $this->pager->setQuery(
+      Doctrine::getTable('Organism')->createQueryByGroupId($this->group_id)
+    );
+    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
+    $this->pager->init();

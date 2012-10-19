@@ -24,5 +24,17 @@
 <div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all members">
   <div class="contacts">
   </div>
-  <script type="text/javascript">var group_contacts_url = '<?php echo url_for('contact/groupList?id='.$group->id) ?>';</script>
+  <script type="text/javascript"><!--
+    function group_contacts_loaded(data)
+    {
+      $('#more .contacts').html($(data).find(' .sf_admin_list'));
+      $('#more .contacts tfoot a[href]').click(function(){
+        $.get($(this).attr('href'),group_contacts_loaded);
+        return false;
+      });
+    }
+    $(document).ready(function(){
+      $.get('<?php echo url_for('contact/groupList?id='.$group->id) ?>',group_contacts_loaded);
+    });
+  --></script>
 </div>

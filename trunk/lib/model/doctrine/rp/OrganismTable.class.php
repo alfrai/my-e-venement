@@ -7,6 +7,18 @@
  */
 class OrganismTable extends PluginOrganismTable
 {
+  public function createQueryByGroupId($id)
+  {
+    $q = $this->createQuery();
+    $a = $q->getRootAlias();
+    $q->leftJoin("$a.Groups g")
+      ->select("$a.*, g.*, count(p.id) AS nb_professionals")
+      ->andWhere('g.id = ?',$id)
+      ->orderBy("$a.name, $a.postalcode, $a.city")
+      ->groupBy("$a.id, g.id");
+    return $q;
+  }
+
   public function createQueryByEmailId($id)
   {
     $q = $this->createQuery();

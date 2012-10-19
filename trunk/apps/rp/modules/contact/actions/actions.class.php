@@ -170,18 +170,7 @@ class contactActions extends autoContactActions
   }
   public function executeGroupList(sfWebRequest $request)
   {
-    if ( !$request->getParameter('id') )
-      $this->forward('contact','index');
-    
-    $this->group_id = $request->getParameter('id');
-    
-    $this->pager = $this->configuration->getPager('Contact');
-    $this->pager->setMaxPerPage(15);
-    $this->pager->setQuery(
-      Doctrine::getTable('Contact')->createQueryByGroupId($this->group_id)
-    );
-    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
-    $this->pager->init();
+    require(dirname(__FILE__).'/group-list.php');
   }
   public function executeEmailList(sfWebRequest $request)
   {

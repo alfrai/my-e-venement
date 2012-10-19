@@ -21,11 +21,15 @@
 *
 ***********************************************************************************/
 ?>
-<?php if ( !$form->isNew() ): ?>
-<div id="more">
-  <?php include_partial('group/contacts_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php include_partial('group/organisms_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php //include_partial('group/professionals_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php //include_partial('group/members_total', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-</div>
-<?php endif ?>
+<td class="sf_admin_text sf_admin_list_td_name">
+  <?php echo link_to($organism->getName(),'organism/show?id='.$organism->id) ?>
+</td>
+<td class="sf_admin_text sf_admin_list_td_postalcode">
+  <?php echo $organism->postalcode ?>
+</td>
+<td class="sf_admin_text sf_admin_list_td_city">
+  <?php echo $organism->city ?>
+</td>
+<td class="sf_admin_text sf_admin_list_td_nb_professionals">
+  <?php echo $organism->nb_professionals ?>
+</td>

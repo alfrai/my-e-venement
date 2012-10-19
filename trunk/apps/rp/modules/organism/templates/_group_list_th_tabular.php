@@ -7,24 +7,25 @@
 </th>
 <?php end_slot(); ?>
 <?php include_slot('sf_admin.current_header') ?><?php slot('sf_admin.current_header') ?>
-<th class="sf_admin_text sf_admin_list_th_firstname ui-state-default ui-th-column">
+<th class="sf_admin_text sf_admin_list_th_postalcode ui-state-default ui-th-column">
     <a>
       <span class="ui-icon <?php echo ($sort[1] == 'asc' ? 'ui-icon-circle-triangle-s' : 'ui-icon-circle-triangle-n') ?>"></span>
-      <?php echo __('Firstname', array(), 'messages') ?>
+      <?php echo __('Postalcode', array(), 'messages') ?>
     </a>
 </th>
 <?php end_slot(); ?>
 <?php include_slot('sf_admin.current_header') ?><?php slot('sf_admin.current_header') ?>
-<th class="sf_admin_text sf_admin_list_th_professional ui-state-default ui-th-column">
+<th class="sf_admin_text sf_admin_list_th_city ui-state-default ui-th-column">
     <a>
-      <?php echo __('Professional', array(), 'messages') ?>
+      <span class="ui-icon <?php echo ($sort[1] == 'asc' ? 'ui-icon-circle-triangle-s' : 'ui-icon-circle-triangle-n') ?>"></span>
+      <?php echo __('City', array(), 'messages') ?>
     </a>
 </th>
 <?php end_slot(); ?>
 <?php include_slot('sf_admin.current_header') ?><?php slot('sf_admin.current_header') ?>
-<th class="sf_admin_text sf_admin_list_th_organism ui-state-default ui-th-column">
+<th class="sf_admin_text sf_admin_list_th_nb_professionals ui-state-default ui-th-column">
     <a>
-      <?php echo __('Organism', array(), 'messages') ?>
+      <?php echo __('Professionals', array(), 'messages') ?>
     </a>
 </th>
 <?php end_slot(); ?>

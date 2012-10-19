@@ -24,7 +24,7 @@
 <div class="sf_admin_list ui-grid-table ui-widget ui-corner-all ui-helper-reset ui-helper-clearfix">
   <table>
     <caption class="fg-toolbar ui-widget-header ui-corner-top">
-      <h2><span class="ui-icon ui-icon-triangle-1-s"></span> <?php echo __("Group's Contacts List", array(), 'messages') ?></h2>
+      <h2><span class="ui-icon ui-icon-triangle-1-s"></span> <?php echo __("Group's organisms List", array(), 'messages') ?></h2>
     </caption>
     <?php if (!$pager->getNbResults()): ?>
     <tbody>
@@ -51,18 +51,10 @@
     </tfoot>
 
     <tbody>
-      <?php foreach ($pager->getResults() as $i => $contact): $odd = fmod(++$i, 2) ? ' odd' : '' ?>
-        <?php if ( $contact->Professionals->count() > 0 ): ?>
-          <?php foreach ($contact->Professionals as $professional): $odd = fmod(++$i, 2) ? ' odd' : '' ?>
-            <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
-            <?php include_partial('group_list_td_tabular', array('contact' => $contact, 'professional' => $professional)) ?>
-            </tr>
-          <?php endforeach ?>
-        <?php else: ?>
-            <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
-            <?php include_partial('group_list_td_tabular', array('contact' => $contact, 'professional' => NULL)) ?>
-            </tr>
-        <?php endif; ?>
+      <?php foreach ($pager->getResults() as $i => $organism): $odd = fmod(++$i, 2) ? ' odd' : '' ?>
+        <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
+          <?php include_partial('group_list_td_tabular', array('organism' => $organism)) ?>
+        </tr>
       <?php endforeach; ?>
     </tbody>
   <?php endif; ?>

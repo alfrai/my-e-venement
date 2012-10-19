@@ -13,6 +13,10 @@ require_once dirname(__FILE__).'/../lib/organismGeneratorHelper.class.php';
  */
 class organismActions extends autoOrganismActions
 {
+  public function executeGroupList(sfWebRequest $request)
+  {
+    require(dirname(__FILE__).'/group-list.php');
+  }
   public function executeBatchAddToGroup(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');

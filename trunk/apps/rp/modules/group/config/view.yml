@@ -9,13 +9,13 @@ createSuccess:
   javascripts: [more-simple]
 updateSuccess:
   stylesheets: [view]
-  javascripts: [more-simple,group-list]
+  javascripts: [more-simple]
 editSuccess:
   stylesheets: [view]
-  javascripts: [more-simple,group-list]
+  javascripts: [more-simple]
 showSuccess:
   stylesheets: [view]
-  javascripts: [more-simple,group-list]
+  javascripts: [more-simple]
 
 indexSuccess:
   javascripts: [list-scroll]

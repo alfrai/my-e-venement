@@ -21,11 +21,20 @@
 *
 ***********************************************************************************/
 ?>
-<?php if ( !$form->isNew() ): ?>
-<div id="more">
-  <?php include_partial('group/contacts_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php include_partial('group/organisms_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php //include_partial('group/professionals_list', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php //include_partial('group/members_total', array('group' => $group, 'form' => $form, 'configuration' => $configuration)) ?>
+<div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all members">
+  <div class="organisms">
+  </div>
+  <script type="text/javascript"><!--
+    function group_organisms_loaded(data)
+    {
+      $('#more .organisms').html($(data).find(' .sf_admin_list'));
+      $('#more .organisms tfoot a[href]').click(function(){
+        $.get($(this).attr('href'),group_organisms_loaded);
+        return false;
+      });
+    }
+    $(document).ready(function(){
+      $.get('<?php echo url_for('organism/groupList?id='.$group->id) ?>',group_organisms_loaded);
+    });
+  --></script>
 </div>
-<?php endif ?>
