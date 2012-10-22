@@ -21,7 +21,7 @@
     $prints = 0;
     $other_events = array();
     foreach ( $transaction->Tickets as $ticket )
-    if ( in_array($ticket->manifestation_id,$manif_ids) )
+    if ( in_array($ticket->manifestation_id,$manif_ids) && is_null($ticket->duplicate) )
     {
       if ( $ticket->printed || $ticket->integrated )
       {
@@ -37,15 +37,21 @@
   ?>
   <li>
     <p class="infos">
+      <?php
+        $nb = 0;
+        foreach ( $transaction->Tickets as $ticket )
+        if ( is_null($ticket->duplicate) )
+          $nb++;
+      ?>
       #<?php echo cross_app_link_to($transaction, 'tck', $transaction->type != 'cancellation' ? 'ticket/sell?id='.$transaction->id : 'ticket/pay?id='.$transaction->id) ?>,
       <?php echo format_date($transaction->created_at) ?>
       <?php $sum = 0; foreach ( $transaction->Payments as $pay ) $sum += $pay->value; ?>
       <?php echo __('for %%i%% ticket(s) and %%p%% paid',array(
-        '%%i%%' => $transaction->Tickets->count(),
+        '%%i%%' => $nb,
         '%%p%%' => format_currency($sum,'€'),
       )) ?>
      (<?php
-        if ( $prints < $transaction->Tickets->count() )
+        if ( $prints < $nb )
         {
           if ( !$transaction->Order[0]->isNew() )
             echo __('Ordered').' ';

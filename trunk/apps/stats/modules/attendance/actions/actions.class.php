@@ -39,7 +39,7 @@ class attendanceActions extends sfActions
     foreach ( $this->lines as $key => $line )
     {
       // free seats
-      $this->lines[$key]['free'] = $line['gauge']-$line['printed']-$line['asked']-$line['ordered'];
+      $this->lines[$key]['free'] = $line['gauge']-$line['printed']-(sfConfig::get('app_ticketting_show_demands') ? $line['asked'] : 0)-$line['ordered'];
       
       // percentages
       $this->lines[$key]['printed_percentage'] = $line['gauge'] > 0 ? format_number(round($line['printed']*100/$line['gauge'],2)) : 'N/A';
@@ -48,7 +48,7 @@ class attendanceActions extends sfActions
         $this->lines[$key]['asked_percentage']   = $line['gauge'] > 0 ? format_number(round($line['asked']  *100/$line['gauge'],2)) : 'N/A';
       else
         unset($this->lines[$key]['asked']);
-      $this->lines[$key]['free_percentage']    = $line['gauge'] > 0 ? format_number(round(($line['gauge']-$line['printed']-(sfConfig::get('app_ticketting_show_demands')?$line['asked']:0)-$line['ordered'])*100/$line['gauge'],2)) : 'N/A';
+      $this->lines[$key]['free_percentage']    = $line['gauge'] > 0 ? format_number(round(($line['gauge']-$line['printed']-(sfConfig::get('app_ticketting_show_demands') ? $line['asked'] : 0)-$line['ordered'])*100/$line['gauge'],2)) : 'N/A';
       
       // cashflow
       $this->lines[$key]['cashflow']    = format_number(round($line['cashflow'],2));
@@ -98,8 +98,11 @@ class attendanceActions extends sfActions
     
     $bar0 = new stBarOutline( 40, '#7cec78', '#17b912' );
     $bar0->key( __('Free tickets'), 10 );
-    $bar1 = new stBarOutline( 40, '#789aec', '#1245b9' );
-    $bar1->key( __('Asked tickets'), 10 );
+    if ( sfConfig::get('app_ticketting_show_demands') )
+    {
+      $bar1->key( __('Asked tickets'), 10 );
+      $bar1 = new stBarOutline( 40, '#789aec', '#1245b9' );
+    }
     $bar2 = new stBarOutline( 40, '#eca478', '#fe8134' );
     $bar2->key( __('Engaged tickets'), 10 );
     $bar3 = new stBarOutline( 40, '#ec7890', '#fe3462' );
@@ -112,12 +115,14 @@ class attendanceActions extends sfActions
     {
       $names[] = $manif->Event.' @ '.format_date($manif->happens_at);
       
-      $max[] = 100 * ($manif->gauge-$manif->asked-$manif->ordered-$manif->printed)/($manif->gauge != 0 ? $manif->gauge : 1);
-      $max[] = 100 * $manif->asked/($manif->gauge != 0 ? $manif->gauge : 1);
+      $max[] = 100 * ($manif->gauge-(sfConfig::get('app_ticketting_show_demands') ? $manif->asked : 0)-$manif->ordered-$manif->printed)/($manif->gauge != 0 ? $manif->gauge : 1);
+      if ( sfConfig::get('app_ticketting_show_demands') )
+        $max[] = 100 * $manif->asked/($manif->gauge != 0 ? $manif->gauge : 1);
       $max[] = 100 * $manif->ordered/($manif->gauge != 0 ? $manif->gauge : 1);
       $max[] = 100 * $manif->printed/($manif->gauge != 0 ? $manif->gauge : 1);
-      $bar0->add_link(100 * ($manif->gauge-$manif->asked-$manif->ordered-$manif->printed)/($manif->gauge != 0 ? $manif->gauge : 1),cross_app_url_for('event','manifestation/show?id='.$manif->id,true));
-      $bar1->add_link(100 * $manif->asked/($manif->gauge != 0 ? $manif->gauge : 1),cross_app_url_for('event','manifestation/show?id='.$manif->id,true));
+      $bar0->add_link(100 * ($manif->gauge-(sfConfig::get('app_ticketting_show_demands') ? $manif->asked : 0)-$manif->ordered-$manif->printed)/($manif->gauge != 0 ? $manif->gauge : 1),cross_app_url_for('event','manifestation/show?id='.$manif->id,true));
+      if ( sfConfig::get('app_ticketting_show_demands') )
+        $bar1->add_link(100 * $manif->asked/($manif->gauge != 0 ? $manif->gauge : 1),cross_app_url_for('event','manifestation/show?id='.$manif->id,true));
       $bar2->add_link(100 * $manif->ordered/($manif->gauge != 0 ? $manif->gauge : 1),cross_app_url_for('event','manifestation/show?id='.$manif->id,true));
       $bar3->add_link(100 * $manif->printed/($manif->gauge != 0 ? $manif->gauge : 1),cross_app_url_for('event','manifestation/show?id='.$manif->id,true));
     }
@@ -132,7 +137,8 @@ class attendanceActions extends sfActions
     $g->y_axis_colour( '#8499A4', '#E4F5FC' );
  
     //Pass stBarOutline object i.e. $bar to graph
-    $g->data_sets[] = $bar1;
+    if ( sfConfig::get('app_ticketting_show_demands') )
+      $g->data_sets[] = $bar1;
     $g->data_sets[] = $bar2;
     $g->data_sets[] = $bar3;
     $g->data_sets[] = $bar0;
