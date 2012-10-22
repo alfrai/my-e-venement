@@ -32,21 +32,21 @@ generator:
         title: Organisms list
         display: [Category, name, postalcode, city, email, _contacts_list, npai]
       filter:
-        display: [name, postalcode, city, country, email, npai, organism_category_id, contacts_groups, professional_meta_event_id]
+        display: [name, postalcode, city, country, email, npai, organism_category_id, contacts_groups, professional_meta_event_id,groups_list]
       show:
         display:
-          NONE: [name, address, postalcode, city, country, _show_email, _show_phonenumbers_list, _show_url, Category]
+          NONE: [name, address, postalcode, city, country, _show_email, _show_phonenumbers_list, _show_url, Category, _show_groups_list]
           Details: [npai, description, created_at,updated_at,slug,longitude,latitude]
       form:
       edit:
         title: Organism %%name%%
         display:
-          NONE:  [name, address, postalcode, _cities, city, country, email, url, organism_category_id]
+          NONE:  [organism_category_id, name, address, postalcode, _cities, city, country, email, url, groups_list]
           Phonenumbers: [_form_phonenumbers_list]
           Details: [npai, description]
       new:
         title: New organism
         display:
-          NONE:  [name, address, postalcode, _cities, city, country, email, url, organism_category_id]
+          NONE:  [organism_category_id, name, address, postalcode, _cities, city, country, email, url]
           Phonenumbers: [phone_type,phone_number]
           Details: [npai, description]

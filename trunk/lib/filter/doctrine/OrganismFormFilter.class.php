@@ -15,6 +15,11 @@ class OrganismFormFilter extends BaseOrganismFormFilter
    */
   public function configure()
   {
+    $this->widgetSchema['groups_list']->setOption(
+      'order_by',
+      array('u.id IS NULL DESC, u.username, name','')
+    );
+    
     $this->widgetSchema['organism_category_id']->setOption('order_by',array('name',''));
     $this->widgetSchema['organism_category_id']->setOption('multiple',true);
     $this->widgetSchema['organism_category_id']->setOption('add_empty',false);

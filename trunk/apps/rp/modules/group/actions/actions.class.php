@@ -36,6 +36,31 @@ require_once dirname(__FILE__).'/../lib/groupGeneratorHelper.class.php';
  */
 class groupActions extends autoGroupActions
 {
+  public function executeEmailing(sfWebRequest $request)
+  {
+    $q = new Doctrine_Query;
+    $group = $q->from('Group g')
+      ->leftJoin('g.Contacts c')
+      ->leftJoin('g.Professionals p')
+      ->leftJoin('g.Organisms o')
+      ->andWhere('g.id = ?',$request->getParameter('id'))
+      ->fetchOne();
+
+    $email = new Email;
+    foreach ( array('Contacts','Professionals','Organisms') as $type )
+    foreach ( $group->$type as $obj )
+    {
+      $coll =& $email->$type;
+      $coll[] = $obj;
+    }
+    $email->field_from = $this->getUser()->getGuardUser()->email_address;
+    $email->field_subject = '-*-*-*-*-*-*-*-*-*-*-';
+    $email->content = '<p>-*-*-*-*-*-*-*-*-*-*-</p>';
+    $email->save();
+    
+    $this->redirect('email/edit?id='.$email->id);
+  }
+  
   public function executeEdit(sfWebRequest $request)
   {
     parent::executeEdit($request);

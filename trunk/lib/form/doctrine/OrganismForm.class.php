@@ -29,6 +29,11 @@ class OrganismForm extends BaseOrganismForm
       'required' => false,
     ));
     
+    $this->widgetSchema['groups_list']->setOption(
+      'order_by',
+      array('u.id IS NULL DESC, u.username, name','')
+    );
+    
     parent::configure();
   }    
 }
