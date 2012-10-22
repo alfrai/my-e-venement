@@ -6,7 +6,9 @@
   <p class="print" style="display: none"><?php echo link_to(__('Print ticket'),'ticket/print?id='.$transaction->id,array('target' => '_blank')) ?></p>
   <script type="text/javascript">
     $(document).ready(function(){
+      <?php if ( sfConfig::get('app_tickets_auto_print') ): ?>
       window.open($('#cancel-tickets .print a').attr('href'));
+      <?php endif ?>
       setTimeout(function(){
         document.location = $('#cancel-tickets .link a').attr('href');
       },1000);
