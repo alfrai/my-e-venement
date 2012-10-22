@@ -185,8 +185,8 @@
         <target>Retour à la manifestation</target>
       </trans-unit>
       <trans-unit>
-        <source>File importated with the last transaction's id %%tid%%, %%nbtck%% ticket(s).</source>
-        <target>Fichier importé avec le dernier identifiant d'opération %%tid%%, %%nbtck%% ticket(s).</target>
+        <source>File importated with the last transaction's id %%tid%%, %%nbtck%% ticket(s), %%nberr%% error(s).</source>
+        <target>Fichier importé avec le dernier identifiant d'opération %%tid%%, %%nbtck%% billet(s), %%nberr%% erreur(s).</target>
       </trans-unit>
       <trans-unit>
         <source>File</source>

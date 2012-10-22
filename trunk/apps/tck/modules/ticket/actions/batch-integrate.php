@@ -95,6 +95,7 @@
       foreach ( $this->manifestation->Gauges as $gauge )
         $gauges[$gauge->workspace_id] = $gauge->id;
       
+      $nbtck = $nberr = 0;
       // integrating normalized content
       foreach ( $tickets as $ticket )
       {
@@ -161,16 +162,22 @@
           $tck->gauge_id = $gauges[$ticket['workspace_id']];
           $tck->created_at = date('Y-m-d H:i:s',strtotime(isset($ticket['created_at']) ? $ticket['created_at'] : NULL));
           
-          $transaction->Tickets[] = $tck;
-          if ( $integrate['transaction_ref_id'] && $transaction_ref !== false )
+          if ( !$tck->gauge_id )
+            $nberr++;
+          else
           {
-            if ( $transaction_ref->Tickets->count() > 0 )
+            $nbtck++;
+            $transaction->Tickets[] = $tck;
+            if ( $integrate['transaction_ref_id'] && $transaction_ref !== false )
             {
-              $transaction_ref->Tickets[$transaction_ref->Tickets->count()-1]->delete();
-              unset($transaction_ref->Tickets[$transaction_ref->Tickets->count()-1]);
+              if ( $transaction_ref->Tickets->count() > 0 )
+              {
+                $transaction_ref->Tickets[$transaction_ref->Tickets->count()-1]->delete();
+                unset($transaction_ref->Tickets[$transaction_ref->Tickets->count()-1]);
+              }
+              else
+                $notices['no-more-refs'] = __("You've integrated more tickets than you've got in your base transaction.");
             }
-            else
-              $notices['no-more-refs'] = __("You've integrated more tickets than you've got in your base transaction.");
           }
         }
         else
@@ -181,7 +188,7 @@
 
       fclose($fp);
       sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url','I18N'));
-      $this->getUser()->setFlash('notice',__("File importated with the last transaction's id %%tid%%, %%nbtck%% ticket(s).",array('%%tid%%' => $transaction->id, '%%nbtck%%' => count($tickets))).' -- '.implode(' ',$notices));
+      $this->getUser()->setFlash('notice',__("File importated with the last transaction's id %%tid%%, %%nbtck%% ticket(s), %%nberr%% error(s).",array('%%tid%%' => $transaction->id, '%%nbtck%%' => $nbtck, '%%nberr%%' => $nberr)).' -- '.implode(' ',$notices));
       //$this->redirect(url_for('ticket/batchIntegrate?manifestation_id='.$this->manifestation->id));
     }
     else
