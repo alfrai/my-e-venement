@@ -468,7 +468,10 @@ class ContactFormFilter extends BaseContactFormFilter
     if ( $value )
     {
       $this->setProfessionalData(true);
-      $q->andWhereIn("o.organism_category_id",$value);
+      $q->andWhere('(TRUE')
+        ->andWhereIn('o.organism_category_id',$value)
+        ->orWhereIn("$a.organism_category_id",$value)
+        ->andWhere('TRUE)');
     }
     return $q;
   }
