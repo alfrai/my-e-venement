@@ -40,7 +40,8 @@
           <?php endif ?>
           <?php include_partial('global/menu_setup_events') ?>
           <?php if ( $sf_user->hasCredential('tck-admin-payment')
-                  || $sf_user->hasCredential('event-admin-price') ): ?>
+                  || $sf_user->hasCredential('event-admin-price')
+                  || $sf_user->hasCredential('tck-transaction') ): ?>
           <?php include_partial('global/menu_setup_ticketting') ?>
           <?php endif ?>
           <?php include_partial('global/menu_setup_groups') ?>

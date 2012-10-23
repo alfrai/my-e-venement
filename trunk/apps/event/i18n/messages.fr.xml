@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Rank</source>
+        <target>Rang</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ordering your workspaces...</source>
+        <target>Ordonnancer vos espaces de travail...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Prices</source>
         <target>Prix</target>
       </trans-unit>

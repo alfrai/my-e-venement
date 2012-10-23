@@ -53,6 +53,32 @@ WorkspaceUser:
       type: integer
       notnull: true
       primary: true
+WorkspaceUserOrdering:
+  package: event
+  columns:
+    sf_guard_user_id:
+      type: integer
+      notnull: true
+    workspace_id:
+      type: integer
+      notnull: true
+    rank:
+      type: integer
+      notnull: true
+  indexes:
+    sf_guard_user_id_workspace_id:
+      fields: [sf_guard_user_id, workspace_id]
+      unique: true
+  relations:
+    Workspace:
+      foreignAlias: Order
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Users:
+      class: sfGuardUser
+      foreignAlias: WorkspaceOrder
+      onDelete: CASCADE
+      onUpdate: CASCADE
 MetaEvent:
   package: event
   actAs: [Timestampable]

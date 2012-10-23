@@ -29,6 +29,9 @@
               <?php if ( $sf_user->hasCredential('event-admin-price') ): ?>
               <li><a href="<?php echo cross_app_url_for('event','price') ?>"><?php echo __('Prices',array(),'menu') ?></a></li>
               <?php endif ?>
+              <?php if ( $sf_user->hasCredential('tck-transaction') ): ?>
+              <li><a href="<?php echo cross_app_url_for('event','@workspace_user_ordering') ?>"><?php echo __('Ordering your workspaces',array(),'menu') ?></a></li>
+              <?php endif ?>
               <?php if ( $sf_user->hasCredential('tck-admin-member-cards') ): ?>
               <li><a href="<?php echo cross_app_url_for('tck','@member_card_price_model') ?>"><?php echo __("Prices association for member cards",array(),'menu') ?></a></li>
               <?php endif ?>
