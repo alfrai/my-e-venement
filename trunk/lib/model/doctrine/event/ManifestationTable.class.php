@@ -29,6 +29,7 @@ class ManifestationTable extends PluginManifestationTable
     $o  = $alias != 'o'  ? 'o'  : 'o1';
     $c  = $alias != 'c'  ? 'c'  : 'c1';
     $w  = $alias != 'w'  ? 'w'  : 'w1';
+    $wuo = $alias != 'wuo'  ? 'wuo'  : 'wuo1';
     $tck = $alias != 'tck'  ? 'tck'  : 'tck1';
     $tr = $alias != 'tr'  ? 'tr'  : 'tr1';
     
@@ -43,8 +44,9 @@ class ManifestationTable extends PluginManifestationTable
         ->leftJoin("$pm.Price $p")
         ->leftJoin("$alias.Gauges $g")
         ->leftJoin("$g.Workspace $w")
+        ->leftJoin("$w.Order $wuo ON $wuo.workspace_id = $w.id AND $wuo.sf_guard_user_id = ".intval(sfContext::getInstance()->getUser()->getId()))
         ->leftJoin("$alias.Organizers $o")
-        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name, $g.workspace_id");
+        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name, $wuo.rank");
       
       //if ( sfContext::hasInstance() && $uid = sfContext::getInstance()->getUser()->getId() )
       //  $q->andWhere("$pm.id IS NULL OR $pm.price_id IN (SELECT price_id FROM UserPrice up WHERE up.user_id = ?)",$uid);

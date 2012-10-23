@@ -76,6 +76,8 @@
         ->createQuery('m',true)
         ->leftJoin('m.Color color')
         ->leftJoin('m.Gauges g')
+        ->leftJoin('g.Workspace gw')
+        ->leftJoin('gw.Order gwo ON gwo.workspace_id = gw.id AND gwo.sf_guard_user_id = '.intval($this->getUser()->getId()))
         ->leftJoin('m.Prices p')
         ->leftJoin('p.Users u')
         ->leftJoin('p.Workspaces pw')
