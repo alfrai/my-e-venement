@@ -29,6 +29,31 @@ class organismActions extends autoOrganismActions
       ->execute();
     
     foreach ( $orgs as $organism )
+    foreach ( $groups as $group_id )
+    {
+      $go = new GroupOrganism();
+      $go->organism_id = $organism->id;
+      $go->group_id = $group_id;
+      
+      try { $go->save(); }
+      catch(Doctrine_Exception $e) {}
+    }
+    
+    $this->getUser()->setFlash('notice',__('The chosen organisms have been added to the selected groups.'));
+    $this->redirect('group/show?id='.$go->group_id);
+  }
+  public function executeBatchAddProToGroup(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    $ids = $request->getParameter('ids');
+    $groups = $request->getParameter('groups');
+    
+    $orgs = Doctrine::getTable('Organism')->createQuery('o')
+      ->whereIn('o.id',$ids)
+      ->execute();
+    
+    foreach ( $orgs as $organism )
     foreach ( $organism->Professionals as $pro )
     foreach ( $groups as $group_id )
     {
@@ -41,7 +66,7 @@ class organismActions extends autoOrganismActions
     }
     
     $this->getUser()->setFlash('notice',__('The contacts in chosen organisms have been added to the selected groups.'));
-    $this->redirect('@contact');
+    $this->redirect('group/show?id='.$gp->group_id);
   }
 
   public function executeEmailList(sfWebRequest $request)

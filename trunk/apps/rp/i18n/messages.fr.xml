@@ -221,12 +221,20 @@
         <target>Les contacts des organismes choisis ont été ajoutés aux groupes sélectionnés.</target>
       </trans-unit>
       <trans-unit>
+        <source>The chosen organisms have been added to the selected groups.</source>
+        <target>Les organismes choisis ont été ajoutés aux groupes sélectionnés.</target>
+      </trans-unit>
+      <trans-unit>
         <source>The chosen contacts have been added to the selected groups.</source>
         <target>Les contacts choisis ont été ajoutés aux groupes sélectionnés.</target>
       </trans-unit>
       <trans-unit>
         <source>Add in a group</source>
         <target>Ajouter à un groupe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Add professionals to a group</source>
+        <target>Ajouter les professionels dans un groupe</target>
       </trans-unit>
       <trans-unit>
         <source>Prices list</source>
