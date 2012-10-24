@@ -5,6 +5,10 @@
     <header />
     <body>
       <trans-unit>
+        <source>Invalid.</source>
+        <target>Non valide.</target>
+      </trans-unit>
+      <trans-unit>
         <source>File attached.</source>
         <target>Fichier joint.</target>
       </trans-unit>

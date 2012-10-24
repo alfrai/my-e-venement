@@ -49,6 +49,10 @@ class ContactForm extends BaseContactForm
       'required' => false,
     ));
     
+    $this->validatorSchema['email'] = new liValidatorEmail(array(
+      'required' => false,
+    ));
+    
     parent::configure();
   }
   
