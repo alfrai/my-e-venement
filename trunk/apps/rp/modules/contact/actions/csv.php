@@ -27,8 +27,8 @@
     $q = $this->buildQuery();
     $a = $q->getRootAlias();
     $q->select   ("$a.title, $a.name, $a.firstname, $a.address, $a.postalcode, $a.city, $a.country, $a.npai, $a.email, $a.description")
-      ->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonename")
-      ->addSelect("(SELECT tmp2.number FROM ContactPhonenumber tmp2 WHERE contact_id = $a.id ORDER BY updated_at LIMIT 1) AS phonenumber")
+      ->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE tmp.contact_id = $a.id ORDER BY tmp.updated_at LIMIT 1) AS phonename")
+      ->addSelect("(SELECT ttmp.number FROM ContactPhonenumber ttmp WHERE ttmp.contact_id = $a.id ORDER BY ttmp.updated_at LIMIT 1) AS phonenumber")
       ->leftJoin('o.Category oc')
       ->addSelect("oc.name AS organism_category, o.name AS organism_name")
       ->addSelect('p.department AS professional_department, p.contact_number AS professional_number, p.contact_email AS professional_email')
