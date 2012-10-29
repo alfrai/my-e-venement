@@ -77,9 +77,10 @@ class PaymentIntegrationForm extends BaseFormDoctrine
       $this->object->save();
       
       // counterpart for equilibrated transaction
-      $p = $this->object->copy(true);
+      $p = $this->object->copy();
       $p->payment_method_id = $this->getValue('payment_method_id2');
       $p->value = -$p->value;
+      $p->id = NULL;
       $p->save();
       
       // messages

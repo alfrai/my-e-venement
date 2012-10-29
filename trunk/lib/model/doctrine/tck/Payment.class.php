@@ -17,7 +17,7 @@ class Payment extends PluginPayment
     // to redirect stuff if we're not here for an insert
     // this is a hack to use preSave() to overcome a problem on tranasction_id updates...
     if ( !$this->isNew() )
-      parent::preSave($event);
+      return parent::preSave($event);
     
     $cards = array();
     if ( $this->Method->member_card_linked )
@@ -53,6 +53,6 @@ class Payment extends PluginPayment
         throw new liEvenementException('No MemberCard linked with this Payment whereas its Method requires it.');
     }
     
-    parent::preSave($event);
+    return parent::preSave($event);
   }
 }

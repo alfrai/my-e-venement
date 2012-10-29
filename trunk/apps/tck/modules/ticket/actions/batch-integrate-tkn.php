@@ -52,6 +52,7 @@ if ( strlen($line) >= 215 )
   $tck['country']   = trim(substr($line,200,7));
   $tck['bank_id']   = trim(substr($line,207,6));
   $tck['type']      = 'tkn';
+  $tck['created_at'] = date('Y-m-d H:i:s');
   
   if ( $tck['cancel'] )
     unset($tickets[$tck['id']]);
