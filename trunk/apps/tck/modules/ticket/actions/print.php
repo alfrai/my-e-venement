@@ -59,17 +59,37 @@
     
     foreach ( $this->transaction->Tickets as $ticket )
     {
+      $newticket = $ticket->copy();
+      $newticket->save();
+      $ticket->duplicate = $newticket->id;
+      $ticket->save();
+      
       if ( $request->getParameter('duplicate') == 'true' )
       {
+        // grouped tickets
         if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
           && $ticket->printed
           && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
         {
-          $newticket = $ticket->copy();
-          $newticket->save();
-          $ticket->duplicate = $newticket->id;
-          $ticket->save();
-          $this->tickets[] = $newticket;
+          // grouped tickets
+          if ( sfConfig::has('app_tickets_authorize_grouped_tickets')
+            && sfConfig::get('app_tickets_authorize_grouped_tickets')
+            && $request->hasParameter('grouped_tickets') )
+          {
+            if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
+            {
+              $this->tickets[$id]['ticket']->NextGroupedWith = $ticket;
+              $this->tickets[$id]['ticket']->save();
+              $this->tickets[$id]['ticket'] = $ticket;
+              $this->tickets[$id]['nb']++;
+            }
+            else
+              $this->tickets[$id] = array('nb' => 1, 'ticket' => $newticket);
+          }
+          
+          // normal tickets
+          else
+            $this->tickets[] = $ticket;
         }
       }
       else

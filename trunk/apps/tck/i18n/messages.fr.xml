@@ -221,6 +221,10 @@
         <target>Exclut les billets annulés de la facture.</target>
       </trans-unit>
       <trans-unit>
+        <source>Excludes cancelled tickets from order.</source>
+        <target>Exclut les billets annulés de la commande.</target>
+      </trans-unit>
+      <trans-unit>
         <source>updated on %%d%% by %%u%%</source>
         <target>mis à jour le %%d%% par %%u%%</target>
       </trans-unit>

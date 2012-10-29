@@ -62,6 +62,7 @@
     ?>
     <input type="submit" name="cancel-order" value="<?php echo __('Cancel order') ?>" <?php if ( !$order_id ): ?>style="display: none;"<?php endif ?> />
     <input type="submit" name="order" value="<?php echo __('Order') ?>" />
+    <input type="checkbox" name="nocancel" value="nocancel" title="<?php echo __("Excludes cancelled tickets from order.") ?>" />
   </p>
 </form>
 <?php endif ?>
