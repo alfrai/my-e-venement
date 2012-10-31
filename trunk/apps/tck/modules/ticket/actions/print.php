@@ -59,13 +59,13 @@
     
     foreach ( $this->transaction->Tickets as $ticket )
     {
-      $newticket = $ticket->copy();
-      $newticket->save();
-      $ticket->duplicate = $newticket->id;
-      $ticket->save();
-      
       if ( $request->getParameter('duplicate') == 'true' )
       {
+        $newticket = $ticket->copy();
+        $newticket->save();
+        $ticket->duplicate = $newticket->id;
+        $ticket->save();
+      
         // grouped tickets
         if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
           && $ticket->printed

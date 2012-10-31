@@ -160,7 +160,7 @@
           $tck->integrated = true;
           $tck->id = $ticket['id'];
           $tck->gauge_id = $gauges[$ticket['workspace_id']];
-          $tck->created_at = date('Y-m-d H:i:s',strtotime(isset($ticket['created_at']) ? $ticket['created_at'] : NULL));
+          $tck->created_at = date('Y-m-d H:i:s',strtotime(isset($ticket['created_at']) && $ticket['created_at'] ? $ticket['created_at'] : NULL));
           
           if ( !$tck->gauge_id )
             $nberr++;
