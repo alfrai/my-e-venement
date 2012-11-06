@@ -18,11 +18,14 @@ class EventFormFilter extends BaseEventFormFilter
     ));
     
     $this->widgetSchema   ['meta_event_id']->setOption('multiple',true);
+    $this->widgetSchema   ['meta_event_id']->setOption('query', Doctrine::getTable('MetaEvent')->createQuery('me')
+      ->andWhereIn('me.id',array_keys(sfContext::getInstance()->getUser()->getMetaEventsCredentials()))
+    );
     $this->widgetSchema   ['meta_event_id']->setOption('add_empty',false);
+    $this->widgetSchema   ['meta_event_id']->setOption('order_by',array('name',''));
     $this->validatorSchema['meta_event_id']->setOption('multiple',true);
     
     $this->widgetSchema['event_category_id']->setOption('order_by',array('name',''));
-    $this->widgetSchema['meta_event_id']->setOption('order_by',array('name',''));
   }
   public function buildQuery(array $values)
   {

@@ -15,7 +15,8 @@
   <p id="print-again"><a target="_blank" href="<?php echo url_for('ticket/print?'.
     'manifestation_id='.$manifestation_id.
     '&id='.$transaction->id.
-    (isset($duplicate) && $duplicate ? '&duplicate=duplicate' : '').
+    (isset($duplicate) && $duplicate ? '&duplicate=duplicate&price_name='.(isset($ticket['ticket']) ? $ticket['ticket']['price_name'] : $ticket->price_name) : '').
+    (isset($grouped_tickets) && $grouped_tickets ? '&grouped_tickets=true' : '').
     (isset($toprint) && $toprint ? '&toprint[]='.implode('&toprint[]=',$toprint) : '')
   ) ?>">&nbsp;</a></p>
   <?php endif ?>

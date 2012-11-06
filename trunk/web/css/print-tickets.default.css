@@ -152,7 +152,7 @@ span.eur { font-weight: normal; }
 
 .workspace { display: none; }
 
-.nb {
+.left .nb {
   position: absolute;
   top: 43mm;
   left: 400px;

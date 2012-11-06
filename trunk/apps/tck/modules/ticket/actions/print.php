@@ -54,97 +54,146 @@
     $this->transaction = $q->fetchOne();
     $this->manifestation_id = $request->getParameter('manifestation_id');
     
+    $this->print_again = false;
+    $this->grouped_tickets = false;
     $this->duplicate = $request->getParameter('duplicate') == 'true';
     $this->tickets = array();
+    $update = array('printed' => array(), 'integrated' => array());
     
-    foreach ( $this->transaction->Tickets as $ticket )
+    // grouped tickets
+    if ( sfConfig::has('app_tickets_authorize_grouped_tickets')
+      && sfConfig::get('app_tickets_authorize_grouped_tickets')
+      && $request->hasParameter('grouped_tickets') )
     {
-      if ( $request->getParameter('duplicate') == 'true' )
+      $this->grouped_tickets = true;
+      $cpt = 0;
+      foreach ( $this->transaction->Tickets as $ticket )
       {
-        $newticket = $ticket->copy();
-        $newticket->save();
-        $ticket->duplicate = $newticket->id;
-        $ticket->save();
-      
-        // grouped tickets
-        if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
-          && $ticket->printed
-          && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
-        {
-          // grouped tickets
-          if ( sfConfig::has('app_tickets_authorize_grouped_tickets')
-            && sfConfig::get('app_tickets_authorize_grouped_tickets')
-            && $request->hasParameter('grouped_tickets') )
+        try {
+          // duplicates
+          if ( $request->getParameter('duplicate') == 'true' )
           {
-            if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
+            if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
+              && $ticket->printed
+              && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
             {
-              $this->tickets[$id]['ticket']->NextGroupedWith = $ticket;
-              $this->tickets[$id]['ticket']->save();
-              $this->tickets[$id]['ticket'] = $ticket;
-              $this->tickets[$id]['nb']++;
-            }
-            else
-              $this->tickets[$id] = array('nb' => 1, 'ticket' => $newticket);
-          }
-          
-          // normal tickets
-          else
-            $this->tickets[] = $ticket;
-        }
-      }
-      else
-      {
-        //$this->duplicate = false;
-        if ( !$ticket->printed && !$ticket->integrated )
-        {
-          $ticket->sf_guard_user_id = NULL;
-          if ( $ticket->Manifestation->no_print )
-          {
-            try {
-              $ticket->integrated = true;
-              $ticket->save();
-            }
-            catch ( liEvenementException $e )
-            { }
-          }
-          else
-          {
-            try {
-              $ticket->printed = true;
+              if ( $cpt >= 150 )
+              {
+                $this->print_again = false;
+                break;
+              }
+        
+              $newticket = $ticket->copy();
+              $newticket->save();
+              $ticket->duplicate = $newticket->id;
               $ticket->save();
               
-              // grouped tickets
-              if ( sfConfig::has('app_tickets_authorize_grouped_tickets')
-                && sfConfig::get('app_tickets_authorize_grouped_tickets')
-                && $request->hasParameter('grouped_tickets') )
+              if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
               {
-                if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
-                {
-                  $this->tickets[$id]['ticket']->NextGroupedWith = $ticket;
-                  $this->tickets[$id]['ticket']->save();
-                  $this->tickets[$id]['ticket'] = $ticket;
-                  $this->tickets[$id]['nb']++;
-                }
-                else
-                  $this->tickets[$id] = array('nb' => 1, 'ticket' => $ticket);
+                $this->tickets[$id]['ticket'] = $newticket;
+                $this->tickets[$id]['nb']++;
               }
-            
-              // normal tickets
               else
-                $this->tickets[] = $ticket;
+                $this->tickets[$id] = array('nb' => 1, 'ticket' => $newticket);
+              
+              $cpt++;
             }
-            catch ( liEvenementException $e )
-            { }
+          }
+          
+          else // not duplicates
+          if ( !$ticket->printed && !$ticket->integrated )
+          {
+            if ( $cpt >= 50 )
+            {
+              $this->print_again = true;
+              break;
+            }
+        
+            if ( $ticket->Manifestation->no_print )
+              $update['integrated'][$ticket->id] = $ticket->id;
+            else
+            {
+              $ticket->printed = true;
+              
+              if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
+              {
+                $this->tickets[$id]['ticket']->NextGroupedWith = $ticket;
+                $this->tickets[$id]['ticket']->save();
+                $this->tickets[$id]['ticket'] = $ticket; // adding a new one not saved
+                $this->tickets[$id]['nb']++;
+              }
+              else // first ticket of the chain
+                $this->tickets[$id] = array('nb' => 1, 'ticket' => $ticket);
+              
+              $cpt++;
+            }
           }
         }
+        catch ( liEvenementException $e )
+        { }
       }
       
-      if ( count($this->tickets) >= 200 )
+      if ( $request->getParameter('duplicate') != 'true' )
+      foreach ( $this->tickets as $ticket )
+        $update['printed'][$ticket['ticket']->id] = $ticket['ticket']->id;
+    }
+    
+    // normal / not grouped tickets
+    else
+    {
+      foreach ( $this->transaction->Tickets as $ticket )
       {
-        $this->print_again = true;
-        break;
+        if ( count($this->tickets) >= 150 )
+        {
+          $this->print_again = true;
+          break;
+        }
+        
+        try {
+          // duplicates
+          if ( $request->getParameter('duplicate') == 'true' )
+          {
+            if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
+              && $ticket->printed
+              && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
+            {
+              $newticket = $ticket->copy();
+              $newticket->save();
+              $ticket->duplicate = $newticket->id;
+              $ticket->save();
+              $this->tickets[] = $ticket;
+            }
+          }
+          
+          else // $this->duplicate == false
+          {
+            if ( !$ticket->printed && !$ticket->integrated )
+            {
+              $ticket->sf_guard_user_id = NULL;
+              
+              if ( $ticket->Manifestation->no_print )
+                $ticket->integrated = true;
+              else
+              {
+                $update['printed'][$ticket->id] = $ticket->id;
+                $this->tickets[] = $ticket;
+              }
+            }
+          }
+        }
+        catch ( liEvenementException $e )
+        { }
       }
     }
+    
+    // bulk updates
+    foreach ( $update as $type => $ids )
+    if ( count($ids) > 0 )
+    Doctrine_Query::create()->update()
+      ->from('Ticket t')
+      ->whereIn('t.id',$ids)
+      ->set('t.'.$type,'true')
+      ->execute();
     
     // avoid that update, because it updates every tickets' updated_at value and it's quite useless
     //$this->transaction->updated_at = NULL;
