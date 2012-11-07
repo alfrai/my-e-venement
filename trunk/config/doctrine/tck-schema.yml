@@ -88,7 +88,9 @@ Ticket:
     manifestation_id:
       type: integer
       notnull: true
-    gauge_id: integer
+    gauge_id:
+      type: integer
+      notnull: true
     price_id:
       type: integer
       notnull: true
@@ -102,7 +104,7 @@ Ticket:
       notnull: true
     numerotation: string(255)
     duplicate: integer
-    next_grouped_with: integer
+    grouping_fingerprint: string(255)
     cancelling:
       type: integer
       unique: true
@@ -157,12 +159,6 @@ Ticket:
       onUpdate: CASCADE
     Gauge:
       foreignAlias: Tickets
-      onDelete: RESTRICT
-      onUpdate: CASCADE
-    NextGroupedWith:
-      local: next_grouped_with
-      foreignAlias: PreviousGroupedWith
-      class: Ticket
       onDelete: RESTRICT
       onUpdate: CASCADE
     MemberCard:

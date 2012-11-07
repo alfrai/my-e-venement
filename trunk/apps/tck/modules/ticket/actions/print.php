@@ -54,6 +54,7 @@
     $this->transaction = $q->fetchOne();
     $this->manifestation_id = $request->getParameter('manifestation_id');
     
+    $fingerprint = NULL;
     $this->print_again = false;
     $this->grouped_tickets = false;
     $this->duplicate = $request->getParameter('duplicate') == 'true';
@@ -65,7 +66,9 @@
       && sfConfig::get('app_tickets_authorize_grouped_tickets')
       && $request->hasParameter('grouped_tickets') )
     {
+      $fingerprint = date('YmdHis').'-'.$this->getUser()->getId();
       $this->grouped_tickets = true;
+      
       $cpt = 0;
       foreach ( $this->transaction->Tickets as $ticket )
       {
@@ -84,8 +87,14 @@
               }
         
               $newticket = $ticket->copy();
+              $newticket->sf_guard_user_id = NULL;
+              $newticket->created_at = NULL;
+              $newticket->updated_at = NULL;
+              $newticket->grouping_fingerprint = $fingerprint;
               $newticket->save();
+              
               $ticket->duplicate = $newticket->id;
+              $ticket->updated_at = NULL;
               $ticket->save();
               
               if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
@@ -103,7 +112,7 @@
           else // not duplicates
           if ( !$ticket->printed && !$ticket->integrated )
           {
-            if ( $cpt >= 50 )
+            if ( $cpt >= 150 )
             {
               $this->print_again = true;
               break;
@@ -113,12 +122,9 @@
               $update['integrated'][$ticket->id] = $ticket->id;
             else
             {
-              $ticket->printed = true;
-              
+              $update['printed'][$ticket->id] = $ticket->id;
               if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
               {
-                $this->tickets[$id]['ticket']->NextGroupedWith = $ticket;
-                $this->tickets[$id]['ticket']->save();
                 $this->tickets[$id]['ticket'] = $ticket; // adding a new one not saved
                 $this->tickets[$id]['nb']++;
               }
@@ -158,8 +164,13 @@
               && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
             {
               $newticket = $ticket->copy();
+              $newticket->sf_guard_user_id = NULL;
+              $newticket->created_at = NULL;
+              $newticket->updated_at = NULL;
               $newticket->save();
+              
               $ticket->duplicate = $newticket->id;
+              $ticket->updated_at = NULL;
               $ticket->save();
               $this->tickets[] = $ticket;
             }
@@ -169,10 +180,8 @@
           {
             if ( !$ticket->printed && !$ticket->integrated )
             {
-              $ticket->sf_guard_user_id = NULL;
-              
               if ( $ticket->Manifestation->no_print )
-                $ticket->integrated = true;
+                $update['integrated'][$ticket->id] = $ticket->id;
               else
               {
                 $update['printed'][$ticket->id] = $ticket->id;
@@ -189,15 +198,27 @@
     // bulk updates
     foreach ( $update as $type => $ids )
     if ( count($ids) > 0 )
-    Doctrine_Query::create()->update()
-      ->from('Ticket t')
-      ->whereIn('t.id',$ids)
-      ->set('t.'.$type,'true')
-      ->execute();
-    
-    // avoid that update, because it updates every tickets' updated_at value and it's quite useless
-    //$this->transaction->updated_at = NULL;
-    //$this->transaction->save();
+    {
+      $q = Doctrine_Query::create()->update()
+        ->from('Ticket t')
+        ->whereIn('t.id',$ids)
+        ->set('t.'.$type,'true')
+        ->set('t.updated_at','NOW()')
+        ->set('t.sf_guard_user_id',$this->getUser()->getId());
+      
+      // bulk update for grouped tickets
+      if ( sfConfig::has('app_tickets_authorize_grouped_tickets')
+        && sfConfig::get('app_tickets_authorize_grouped_tickets')
+        && $request->hasParameter('grouped_tickets') )
+      {
+        if ( is_null($fingerprint) )
+          throw new liEvenementException('Printing grouped tickets without a fingerprint is forbidden');
+        
+        $q->set('t.grouping_fingerprint',"'".$fingerprint."'");
+      }
+      
+      $q->execute();
+    }
     
     if ( count($this->tickets) <= 0 )
       $this->setTemplate('close');
