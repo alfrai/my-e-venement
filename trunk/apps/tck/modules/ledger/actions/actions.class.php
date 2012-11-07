@@ -81,13 +81,13 @@ class ledgerActions extends sfActions
       ->leftJoin('e.Manifestations m')
       ->leftJoin('m.Location l')
       ->leftJoin('m.Tickets tck')
+      ->leftJoin('tck.User u')
+      ->andWhere('tck.duplicate IS NULL')
       ->leftJoin('tck.Transaction t')
       ->leftJoin('tck.Gauge g')
       ->leftJoin('t.Contact c')
       ->leftJoin('t.Professional pro')
       ->leftJoin('pro.Organism o')
-      ->leftJoin('tck.User u')
-      ->andWhere('tck.duplicate IS NULL')
       ->orderBy('e.name, m.happens_at, l.name, tck.price_name, u.first_name, u.last_name, tck.sf_guard_user_id, tck.cancelling IS NULL DESC, tck.updated_at');
     
     if ( !isset($criterias['not-yet-printed']) )
@@ -133,6 +133,20 @@ class ledgerActions extends sfActions
     if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && $criterias['workspaces'][0] )
       $q->andWhereIn('g.workspace_id',$criterias['workspaces']);
 
+    // check if there are too much tickets to display them well
+    $test = $q->copy();
+    $events = $test->select('e.id, count(DISTINCT tck.id) AS nb_tickets')
+      ->groupBy('e.id')
+      ->orderBy('e.id')
+      ->fetchArray();
+    $this->nb_tickets = 0;
+    foreach ( $events as $event )
+      $this->nb_tickets += $event['nb_tickets'];
+    
+    // restrict the query if so...
+    if ( $this->nb_tickets > sfConfig::get('app_ledger_max_tickets',5000) )
+      $q->select('e.*, m.*, l.*');
+    
     $this->events = $q->execute();
     $this->dates = $dates;
   }

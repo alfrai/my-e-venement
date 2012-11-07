@@ -37,6 +37,24 @@ class Manifestation extends PluginManifestation
     return $this->getName();
   }
   
+  public function getInfosTickets()
+  {
+    $tickets = Doctrine::getTable('Ticket')->createQuery('tck')
+      ->andWhere('manifestation_id = ?',$this->id)
+      ->andWhere('tck.duplicate IS NULL')
+      ->andWhere('(tck.printed = true OR tck.integrated = true)')
+      ->fetchArray();
+    
+    $r = array('value' => 0, 'qty' => 0);
+    foreach ( $tickets as $ticket )
+    {
+      $r['value'] += $ticket['value'];
+      $r['qty']   += is_null($ticket['cancelling']) ? 1 : -1;
+    }
+    
+    return $r;
+  }
+  
   public function postInsert($event)
   {
     if ( $this->PriceManifestations->count() == 0 )
