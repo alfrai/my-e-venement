@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Tickets value</source>
+        <target>Montant des billets</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Numerotation through the graphical plan</source>
         <target>Numérotation par le plan de salle</target>
       </trans-unit> 

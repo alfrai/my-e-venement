@@ -17,8 +17,9 @@ generator:
         sf_guard_user_id: { label: User }
       list:
         display: [_id,_transaction_id,_contact,_manifestations,created_at,User]
+        sort: [id,desc]
       filter:
-        display: [transaction_id,created_at,sf_guard_user_id]
+        display: [transaction_id,created_at,sf_guard_user_id, tickets_value]
       form:    ~
       edit:    ~
       new:     ~

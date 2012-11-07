@@ -25,10 +25,31 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
     ));
     
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputText();
+    
+    $this->widgetSchema   ['tickets_value'] = new sfWidgetFormInputText();
+    $this->validatorSchema['tickets_value'] = new sfValidatorInteger(array(
+      'required' => false,
+    ));
   }
   public function setup()
   {
     $this->noTimestampableUnset = true;
     parent::setup();
+  }
+  public function getFields()
+  {
+    return array_merge(array('tickets_value' => 'TicketsValue'), parent::getFields());
+  }
+  
+  public function addTicketsValueColumnQuery(Doctrine_Query $query, $field, $value)
+  {
+    $fieldName = $this->getFieldName($field);
+    if ( $value )
+    {
+      $a = $query->getRootAlias();
+      $query->andWhere("(SELECT sum(value) FROM Ticket tck LEFT JOIN tck.Transaction tr WHERE tr.id = $a.transaction_id AND tck.duplicate IS NULL) = ?",$value);
+    }
+    
+    return $query;
   }
 }
