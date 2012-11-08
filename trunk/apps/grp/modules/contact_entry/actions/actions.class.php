@@ -49,12 +49,15 @@ class contact_entryActions extends autoContact_entryActions
         $ticket->manifestation_id = $element->ManifestationEntry->manifestation_id;
         $this->contact_entry->Transaction->Tickets[] = $ticket;
         
-        $gauge = Doctrine::getTable('GroupWorkspace')->createQuery('gw')
-          ->leftJoin('gw.Worspace w')
-          ->leftJoin('w.Gauges g')
+        $gauge = Doctrine::getTable('Gauge')->createQuery('g')
+          ->leftJoin('g.Workspace w')
+          ->leftJoin('w.GroupWorkspace gw')
           ->andWhere('g.manifestation_id = ?',$element->ManifestationEntry->Manifestation->id)
+          ->andWhere('gw.id IS NOT NULL')
           ->fetchOne();
-        $ticket->Gauge = $gauge;
+        if ( !$gauge )
+          $gauge = $element->ManifestationEntry->Manifestation->Gauges[0];
+        $ticket->gauge_id = $gauge->id;
       }
     }
     

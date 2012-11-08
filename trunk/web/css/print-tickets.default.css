@@ -158,3 +158,8 @@ span.eur { font-weight: normal; }
   left: 400px;
   font-weight: normal;
 }
+.right .nb {
+  position: absolute;
+  font-weight: normal;
+  font-size: 75%;
+}
