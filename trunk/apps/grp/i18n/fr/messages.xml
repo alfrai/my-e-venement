@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Transposition failed: no gauge available on this manifestation for the groups module</source>
+        <target>Transposition impossible : pas de jauge disponible sur cette manifestation pour le module groupes</target>
+      </trans-unit>
+      <trans-unit>
         <source>The group was not created successfully : there is no member to add.</source>
         <target>Le groupe n'a pas été créé : il n'y a pas de membre à lui affecter.</target>
       </trans-unit>

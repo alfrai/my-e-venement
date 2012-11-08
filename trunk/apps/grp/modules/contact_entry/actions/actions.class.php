@@ -56,7 +56,11 @@ class contact_entryActions extends autoContact_entryActions
           ->andWhere('gw.id IS NOT NULL')
           ->fetchOne();
         if ( !$gauge )
-          $gauge = $element->ManifestationEntry->Manifestation->Gauges[0];
+        {
+          $this->getContext()->getConfiguration()->loadHelpers('I18N');
+          $this->getUser()->setFlash('error',__('Transposition failed: no gauge available on this manifestation for the groups module'));
+          $this->redirect('professional/view?id='.$this->contact_entry->professional_id);
+        }
         $ticket->gauge_id = $gauge->id;
       }
     }
