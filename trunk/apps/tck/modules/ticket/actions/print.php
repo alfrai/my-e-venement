@@ -73,6 +73,10 @@
       foreach ( $this->transaction->Tickets as $ticket )
       {
         try {
+          // member cards
+          if ( $ticket->Price->member_card_linked )
+            throw new liEvenementException('It is forbidden to group tickets linked with a member card');
+          
           // duplicates
           if ( $request->getParameter('duplicate') == 'true' )
           {
@@ -123,6 +127,7 @@
             else
             {
               $update['printed'][$ticket->id] = $ticket->id;
+              
               if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
               {
                 $this->tickets[$id]['ticket'] = $ticket; // adding a new one not saved
@@ -181,10 +186,27 @@
             if ( !$ticket->printed && !$ticket->integrated )
             {
               if ( $ticket->Manifestation->no_print )
-                $update['integrated'][$ticket->id] = $ticket->id;
+              {
+                // member cards
+                if ( $ticket->Price->member_card_linked )
+                {
+                  $ticket->integrated = true;
+                  $ticket->save();
+                }
+                else
+                  $update['integrated'][$ticket->id] = $ticket->id;
+              }
               else
               {
-                $update['printed'][$ticket->id] = $ticket->id;
+                // member cards
+                if ( $ticket->Price->member_card_linked )
+                {
+                  $ticket->printed = true;
+                  $ticket->save();
+                }
+                else
+                  $update['printed'][$ticket->id] = $ticket->id;
+                
                 $this->tickets[] = $ticket;
               }
             }
