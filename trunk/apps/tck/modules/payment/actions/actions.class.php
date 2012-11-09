@@ -36,9 +36,9 @@ class paymentActions extends autoPaymentActions
       $this->getUser()->setFlash('notice','Please specify the member card you want to impact through this payment');
       
       $this->form->setWidget('member_card_id',new sfWidgetFormDoctrineChoice(array(
-        'query' => Doctrine::getTable('MemberCard')->createQuery('mc')->andWhereIn('mc.id',array_keys($this->payment->member_card_id)),
+        'query' => Doctrine::getTable('MemberCard')->createQuery('mc')->andWhereIn('mc.id',array_keys($this->payment->member_card_id))->andWhere('mc.expire_at > NOW()'),
         'model' => 'MemberCard',
-        'order_by' => array('value, expire_at',''),
+        'order_by' => array('(SELECT sum(value) FROM Payment p WHERE mc.id = p.member_card_id) DESC, id',''),
       )));
       $this->form->setWidget('value',new sfWidgetFormInputHidden);
       $this->form->setWidget('payment_method_id',new sfWidgetFormInputHidden);
