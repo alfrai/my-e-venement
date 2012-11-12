@@ -43,7 +43,10 @@
     {
       $vat[$manif->vat] = array();
       if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) )
-        $total['qty'] += $manif->Tickets->count();
+      foreach ( $manif->Tickets as $ticket )
+      {
+        $total['qty'] += is_null($ticket->cancelling)*2-1;
+      }
     }
     
     if ( $nb_tickets > sfConfig::get('app_ledger_max_tickets',5000) )
