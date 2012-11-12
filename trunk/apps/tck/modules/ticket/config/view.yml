@@ -37,3 +37,8 @@ integrateSuccess:
   stylesheets: [ticket-integrate]
 batchIntegrateSuccess:
   javascripts: [ticket-batch-integrate]
+
+showSelect:
+  stylesheets: [ticket-show]
+showSuccess:
+  stylesheets: [ticket-show]

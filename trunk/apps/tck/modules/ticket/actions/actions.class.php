@@ -20,6 +20,39 @@ class ticketActions extends sfActions
     $this->redirect('ticket/sell');
   }
   
+  public function executeShow(sfWebRequest $request)
+  {
+    if ( !$request->hasParameter('id') )
+      return 'Select';
+
+    $id = $request->getParameter('id');
+    
+    $this->ticket = Doctrine::getTable('Ticket')->createQuery('tck')
+      ->leftJoin('tck.Transaction t')
+      ->leftJoin('tck.User u')
+      ->leftJoin('tck.Cancelling c1')
+      ->leftJoin('tck.Cancelled c2')
+      ->leftJoin('tck.Duplicata d1')
+      ->leftJoin('tck.Duplicated d2')
+      ->leftJoin('tck.Price p')
+      ->leftJoin('tck.Gauge g')
+      ->leftJoin('g.Workspace w')
+      ->leftJoin('tck.MemberCard mc')
+      ->leftJoin('mc.Contact c')
+      ->leftJoin('t.Contact tc')
+      ->leftJoin('t.Professional tp')
+      ->leftJoin('tp.Organism o')
+      ->leftJoin('tck.Manifestation m')
+      ->leftJoin('m.Event e')
+      ->andWhere('tck.id = ?',$id)
+      ->fetchOne();
+    
+    $this->versions = Doctrine::getTable('TicketVersion')->createQuery('v')
+      ->andWhere('v.id = ?',$id)
+      ->orderBy('v.version DESC')
+      ->execute();
+  }
+  
   public function executeSell(sfWebRequest $request)
   {
     require('sell.php');

@@ -1,7 +1,11 @@
 <p class="tab-export">
-  <a class="fg-button fg-button-icon-left ui-state-default ui-priority-secondary" href="<?php echo url_for('manifestation/export?id='.$manifestation_id) ?>" target="_blank">
+  <a class="fg-button fg-button-icon-left ui-state-default ui-priority-secondary" href="<?php echo url_for('manifestation/export?status=printed&id='.$manifestation_id) ?>" target="_blank" title="<?php echo __('Export') ?>">
     <span class="ui-icon ui-icon-person"></span>
-    <?php echo __('Export') ?>
+    <?php echo __('With ticket') ?>
+  </a>
+  <a class="fg-button fg-button-icon-left ui-state-default ui-priority-secondary" href="<?php echo url_for('manifestation/export?status=ordered&id='.$manifestation_id) ?>" target="_blank" title="<?php echo __('Export') ?>">
+    <span class="ui-icon ui-icon-person"></span>
+    <?php echo __('Reservations') ?>
   </a>
 </p>
 <?php /*

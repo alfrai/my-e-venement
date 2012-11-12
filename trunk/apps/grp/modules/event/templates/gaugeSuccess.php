@@ -8,5 +8,5 @@
     style="margin-left: <?php echo ($size = $length['sold'] + $length['ordered']) + $length['demanded'] <= 100 ? $size : 100 - $length['demanded'] ?>%; width: <?php echo $length['demanded'] ?>%"
     title="<?php echo $nb['demanded'] ?>  - <?php echo $desc['demanded'] ?>"
   ></span>
-  <span class="txt <?php echo $nb['free'] <= 0 ? 'overbooking' : '' ?>"><?php echo __('%%nb%% pl.',array('%%nb%%' => $nb['value'])) ?></span>
+  <span class="txt <?php echo $nb['free'] <= 0 ? 'overbooking' : '' ?>" title="<?php echo $nb['free'] < 0 ? __('%%nb%% overbooked places',array('%%nb%%' => -$nb['free'])) : '' ?>"><?php echo __('%%nb%% pl.',array('%%nb%%' => $nb['value'])) ?></span>
 </div>

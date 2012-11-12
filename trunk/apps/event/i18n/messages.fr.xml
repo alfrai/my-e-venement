@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>With ticket</source>
+        <target>Avec billet</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Reservations</source>
+        <target>Réservations</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Acc.</source>
+        <target>Compta.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Rank</source>
         <target>Rang</target>
       </trans-unit>

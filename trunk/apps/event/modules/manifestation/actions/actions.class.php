@@ -50,9 +50,15 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('c.Professionals cp ON c.id = cp.contact_id AND (cp.id = tp.id OR cp.id IS NULL AND tp.id IS NULL)')
       ->select('c.*, cp.*')
       ->andWhere('m.id = ?',$manifestation->id)
-      ->andWhere('(tck.printed = true OR tck.integrated = true)')
       ->andWhere('tck.cancelling IS NULL')
       ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)');
+    
+    if ( $request->getParameter('status') == 'ordered' )
+      $q->leftJoin('t.Order o')
+        ->andWhere('o.id IS NOT NULL')
+        ->andWhere('tck.printed = false AND tck.integrated = false');
+    else
+      $q->andWhere('(tck.printed = true OR tck.integrated = true)');
 
     $contacts = $q->execute();
     
@@ -282,6 +288,12 @@ class manifestationActions extends autoManifestationActions
     $this->securityAccessFiltering($request);
     $this->manifestation_id = $request->getParameter('id');
     $this->spectators = $this->getSpectators($request->getParameter('id'));
+    $this->show_workspaces = Doctrine_Query::create()
+      ->from('Gauge g')
+      ->leftJoin('g.Manifestation m')
+      ->andWhere('m.id = ?',$this->manifestation_id)
+      ->execute()
+      ->count() > 1;
     $this->setLayout('nude');
   }
   public function executeShowTickets(sfWebRequest $request)
@@ -318,13 +330,14 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('t.Controls ctrl')
       ->leftJoin('ctrl.Checkpoint cp')
       ->leftJoin('t.Gauge g')
+      ->leftJoin('g.Workspace w')
       ->andWhere('t.cancelling IS NULL')
       ->andWhere('t.duplicate IS NULL')
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->andWhere('t.manifestation_id = ?',$mid)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
       ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
-      ->orderBy('p.name, tr.id, o.name, c.name, c.firstname');
+      ->orderBy('g.workspace_id, w.name, p.name, tr.id, o.name, c.name, c.firstname');
     else
     {
       $params = array();
@@ -360,12 +373,14 @@ class manifestationActions extends autoManifestationActions
       
     if ( $nb < 7500 )
     $q->leftJoin('tr.Tickets tck')
+      ->leftJoin('tr.Invoice invoice')
       ->leftJoin('tck.Cancelled cancelled')
       ->leftJoin('tck.Manifestation m')
       ->leftJoin('tck.Controls ctrl')
       ->leftJoin('tck.Price p')
       ->leftJoin('ctrl.Checkpoint cp')
       ->leftJoin('tck.Gauge g')
+      ->leftJoin('g.Workspace w')
       ->andWhere('tck.cancelling IS NULL')
       ->andWhere('tck.duplicate IS NULL')
       ->andWhere('tck.id NOT IN (SELECT tt2.cancelling FROM ticket tt2 WHERE tt2.cancelling IS NOT NULL)')
@@ -373,7 +388,7 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
       ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhere('p.id IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?) OR (SELECT count(up2.price_id) FROM UserPrice up2 WHERE up2.sf_guard_user_id = ?) = 0',array($this->getUser()->getId(),$this->getUser()->getId()))
-      ->orderBy('c.name, c.firstname, o.name, p.name, tr.id');
+      ->orderBy('c.name, c.firstname, o.name, p.name, g.workspace_id, w.name, tr.id');
     else
     {
       $q->select('tr.*, c.*, pro.*, o.*, order.*, u.*')

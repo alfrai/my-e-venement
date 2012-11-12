@@ -5,8 +5,36 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Updated at</source>
+        <target>Mis à jour le</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Printed or integrated</source>
+        <target>Imprimé ou intégré</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Workspace</source>
+        <target>Espace de travail</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Ticket #%%id%% log</source>
+        <target>Journal du billet #%%id%%</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Tickets value</source>
         <target>Montant des billets</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Ticket's id</source>
+        <target>Numéro de billet</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>TEP</source>
+        <target>HT</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>PIT</source>
+        <target>TTC</target>
       </trans-unit> 
       <trans-unit>
         <source>Numerotation through the graphical plan</source>
@@ -725,8 +753,8 @@
         <target>Quantité</target>
       </trans-unit>
       <trans-unit id="123">
-        <source>Total VAT</source>
-        <target>Total TVA</target>
+        <source>Tot.VAT</source>
+        <target>Tot.TVA</target>
       </trans-unit>
       <trans-unit id="124">
         <source>Manifestations</source>

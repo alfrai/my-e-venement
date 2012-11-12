@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ticket's log</source>
+        <target>Journal d'un billet</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ordering your workspaces</source>
         <target>Ordonnancer vos espaces de travail</target>
       </trans-unit>

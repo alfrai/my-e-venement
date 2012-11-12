@@ -66,7 +66,8 @@ class summaryActions extends autoSummaryActions
       ->leftJoin("$t.Professional p")
       ->leftJoin("$t.User u")
       ->leftJoin("$t.Payments pay")
-      ->leftJoin('p.Organism o');
+      ->leftJoin('p.Organism o')
+      ->orderBy("$t.id DESC");
 
     switch ( $this->type ) {
     case 'asks':

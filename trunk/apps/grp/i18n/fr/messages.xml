@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>%%nb%% overbooked places</source>
+        <target>%%nb%% places sur-réservées</target>
+      </trans-unit>
+      <trans-unit>
         <source>Transposition failed: no gauge available on this manifestation for the groups module</source>
         <target>Transposition impossible : pas de jauge disponible sur cette manifestation pour le module groupes</target>
       </trans-unit>

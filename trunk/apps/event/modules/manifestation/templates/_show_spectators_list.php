@@ -3,7 +3,10 @@
 <?php include_partial('show_print_part',array('tab' => 'spectators')) ?>
 <?php include_partial('show_export_part',array('manifestation_id' => $manifestation_id)) ?>
 
-<?php $arr = isset($form) ? array('form' => $form) : array('spectators' => $spectators) ?>
+<?php
+  $arr = isset($form) ? array('form' => $form) : array('spectators' => $spectators);
+  $arr = array_merge($arr,array('show_workspaces' => $show_workspaces));
+?>
 
 <?php include_partial('show_spectators_list_ordered',$arr); ?>
 <?php include_partial('show_spectators_list_printed',$arr); ?>
