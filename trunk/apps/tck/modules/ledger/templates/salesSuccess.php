@@ -112,7 +112,7 @@
     <?php foreach ( $event->Manifestations as $manif ): $buf = 0; ?>
     <tr class="manif event-<?php echo $event->id ?>">
       <td class="event"><?php echo cross_app_link_to(format_date($manif->happens_at).' @ '.$manif->Location,'event','manifestation/show?id='.$manif->id) ?></td>
-      <td class="see-more"></td>
+      <td class="see-more"><a href="#manif-<?php echo $manif->id ?>">-</a></td>
       <td class="id-qty">
         <?php if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) ): ?>
         <?php $nb = $manif->Tickets->count(); foreach ( $manif->Tickets as $t ) if ( !is_null($t->cancelling) ) $nb-=2; echo $nb; ?>
