@@ -249,9 +249,20 @@ class ledgerActions extends sfActions
     // restrict access to our own user
     $q = $this->restrictQueryToCurrentUser($q);
     
-    if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
+    if ( isset($criterias['users']) && is_array($criterias['users']) && isset($criterias['users'][0]) && $criterias['users'][0] )
       $q->andWhereIn('u.id',$criterias['users']);
     
+    // check how much tickets we have to deal with
+    $tmp = $q->copy()
+      ->select('count(tck.id) as nb_tickets, sum(tck.value) as value')
+      ->orderBy('count(tck.id)')
+      ->fetchArray();
+    $this->nb_tickets = $tmp[0]['nb_tickets'];
+    
+    //if ( $this->nb_tickets > sfConfig::get('app_ledger_max_tickets',5000) || true )
+    // optimizing stuff
+    $q->select('t.id, p.id, p.value, pm.id, pm.name, u.id, sum(tck.value) AS value_tck_total, (sum(tck.value * CASE WHEN tck.manifestation_id IN ('.implode(',',$criterias['manifestations']).') THEN 1 ELSE 0 END)) AS value_tck_in_manifs')
+      ->groupBy('t.id, p.id, p.value, pm.id, pm.name, u.id');
     $transactions = $q->execute();
     
     $pm = array();
@@ -259,6 +270,10 @@ class ledgerActions extends sfActions
     {
       $sum = array('total' => 0, 'partial' => 0);
       
+      // optimizing stuff
+      $sum['total'] += $transaction->value_tck_total;
+      $sum['partial'] += $transaction->value_tck_in_manifs;
+      /*
       foreach ( $transaction->Tickets as $t )
       {
         $sum['total'] += $t->value;
@@ -268,18 +283,20 @@ class ledgerActions extends sfActions
           $sum['partial'] += $t->value;
         }
       }
-
+      */
+      
       if ( $sum['partial'] != 0 && $sum['total'] != 0 )
       foreach ( $transaction->Payments as $p )
       {
-        if ( !isset($pm[$p->payment_method_id]) )
-          $pm[$p->payment_method_id] = array('value+' => 0, 'value-' => 0, 'name' => (string)$p->Method, 'nb' => 0);
-        $pm[$p->payment_method_id][$p->value > 0 ? 'value+' : 'value-']
+        if ( !isset($pm[$key = (string)$p->Method.' '.$p->payment_method_id]) )
+          $pm[$key] = array('value+' => 0, 'value-' => 0, 'name' => (string)$p->Method, 'nb' => 0);
+        $pm[$key][$p->value > 0 ? 'value+' : 'value-']
           += $p->value * $sum['partial']/$sum['total'];
-        $pm[$p->payment_method_id]['nb']++;
+        $pm[$key]['nb']++;
       }
     }
     
+    ksort($pm);
     $this->byPaymentMethod = $pm;
     
     // by price
@@ -292,9 +309,9 @@ class ledgerActions extends sfActions
       ->orderBy('p.name');
     if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
-    if ( is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
+    if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
       $q->andWhereIn('g.workspace_id',$criterias['workspaces']);
-    if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
+    if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
       $q->andWhereIn('t.manifestation_id',$criterias['manifestations']);
     else
       $q->andWhere('t.updated_at >= ? AND t.updated_at < ?',array(
@@ -305,6 +322,14 @@ class ledgerActions extends sfActions
     // restrict access to our own user
     $q = $this->restrictQueryToCurrentUser($q);
     
+    // optimizing stuff
+    $q->select('p.id, p.name, p.description')
+      ->addSelect('sum(t.value * CASE WHEN t.cancelling IS NOT NULL THEN 1 ELSE 0 END) AS tickets_cancelling_value')
+      ->addSelect('sum(t.value * CASE WHEN t.cancelling IS     NULL THEN 1 ELSE 0 END) AS tickets_normal_value')
+      ->addSelect('sum(t.cancelling IS NOT NULL) AS nb_cancelling')
+      ->addSelect('count(t.id) AS nb_tickets')
+      ->groupBy('p.id, p.name, p.description')
+      ->orderBy('p.name');
     $this->byPrice = $q->execute();
     
     // by price's value

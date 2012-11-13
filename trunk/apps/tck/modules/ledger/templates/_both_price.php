@@ -9,12 +9,12 @@
 <?php foreach ( $byPrice as $price ): ?>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo $price->description ?></td>
-    <?php $i=$o=$c=0; foreach ( $price->Tickets as $t ) if ( $t->cancelling ) { $o += $t->value; $c++; } else $i += $t->value; ?>
+    <?php $o = $price->tickets_cancelling_value; $i = $price->tickets_normal_value; $c = $price->nb_cancelling; ?>
     <td class="nb"><?php echo $c; $total['nb-'] += $c ?></td>
     <td class="outcomes amount"><?php echo format_currency($o,'€'); $total['value-'] += $o ?></td>
-    <td class="nb"><?php echo $price->Tickets->count()-$c; $total['nb+'] += $price->Tickets->count()-$c; ?></td>
+    <td class="nb"><?php echo $price->nb_tickets-$c; $total['nb+'] += $price->nb_tickets-$c; ?></td>
     <td class="incomes amount"><?php echo format_currency($i,'€'); $total['value+'] += $i; ?></td>
-    <td class="nb"><?php echo $price->Tickets->count()-$c*2; ?></td>
+    <td class="nb"><?php echo $price->nb_tickets-$c*2; ?></td>
     <td class="total"><?php echo format_currency($i+$o,'€'); ?></td>
   </tr>
 <?php endforeach ?>
