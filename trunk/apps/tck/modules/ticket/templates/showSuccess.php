@@ -36,5 +36,7 @@
         <tr><?php include_partial('show_version_header') ?></tr>
       </thead>
     </table>
+    
+    <div style="clear: both;"></div>
 
 </div>

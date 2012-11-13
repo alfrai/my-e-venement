@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Printed</source>
+        <target>Imprimé</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Integrated</source>
+        <target>Intégré</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Updated at</source>
         <target>Mis à jour le</target>
       </trans-unit> 
