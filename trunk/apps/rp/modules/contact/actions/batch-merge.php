@@ -71,6 +71,14 @@
         if ( !$base_contact->title )
           $base_contact->title = $contact->title;
         
+        // phonenumbers
+        foreach ( $contact->Phonenumbers as $phone )
+          $phone->contact_id = $base_contact->id;
+        
+        // membercards
+        foreach ( $contact->MemberCards as $mc )
+          $mc->contact_id = $base_contact->id;
+        
         // pro + groups
         foreach ( $contact->Professionals as $pro )
           $pro->contact_id = $base_contact->id;
