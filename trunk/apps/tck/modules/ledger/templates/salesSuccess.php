@@ -63,6 +63,13 @@
               'total'    => 0,
               $manif->id => 0,
             ));
+          else if ( !isset($vat[$manif->vat][$event->id]) )
+            $vat[$manif->vat][$event->id] = array(
+              'total'    => 0,
+              $manif->id => 0,
+            );
+          else
+            $vat[$manif->vat][$event->id][$manif->id] = 0;
           
           if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) )
           {
@@ -82,9 +89,9 @@
           }
           else
           {
-            $infos = $manif->getInfosTickets();
+            $infos = $manif->getInfosTickets($criterias);
             
-            $value = $infos['value'];
+            $value += $infos['value'];
             $qty = $infos['qty'];
             
             $vat[$manif->vat][$event->id][$manif->id]
@@ -101,7 +108,7 @@
         {
           if ( !isset($total['vat'][$name]) )
             $total['vat'][$name] = 0;
-          $total['vat'][$name] += $arr[$event->id]['total'];
+          $total['vat'][$name] += isset($arr[$event->id]['total']) ? $arr[$event->id]['total'] : 0;
         }
       ?>
       <td class="event"><?php echo cross_app_link_to($event,'event','event/show?id='.$event->id) ?></td>
@@ -109,7 +116,7 @@
       <td class="id-qty"><?php echo $qty ?></td>
       <td class="value"><?php echo format_currency($value,'€') ?></td>
       <?php foreach ( $vat as $name => $v ): ?>
-      <td class="vat"><?php $buf += round($v[$event->id]['total'],2); echo format_currency(round($v[$event->id]['total'],2),'€') ?></td>
+      <td class="vat"><?php $buf += round(isset($v[$event->id]) ? $v[$event->id]['total'] : 0,2); echo format_currency(round(isset($v[$event->id]) ? $v[$event->id]['total'] : 0,2),'€') ?></td>
       <?php endforeach ?>
       <td class="vat total"><?php echo format_currency(round($buf,2),'€'); ?></td>
       <td class="tep"><?php echo format_currency($value - round($buf,2),'€') ?></td>
@@ -122,7 +129,7 @@
         <?php if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) ): ?>
         <?php $nb = $manif->Tickets->count(); foreach ( $manif->Tickets as $t ) if ( !is_null($t->cancelling) ) $nb-=2; echo $nb; ?>
         <?php else: ?>
-        <?php $infos = $manif->getInfosTickets(); echo $infos['qty']; ?>
+        <?php $infos = $manif->getInfosTickets($criterias); echo $infos['qty']; ?>
         <?php endif ?>
       </td>
       <td class="value">

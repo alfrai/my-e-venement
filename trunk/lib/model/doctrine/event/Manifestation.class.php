@@ -37,13 +37,64 @@ class Manifestation extends PluginManifestation
     return $this->getName();
   }
   
-  public function getInfosTickets()
+  /**
+    * $options: modeled on sales ledger's criterias
+    * 
+    **/
+  public function getInfosTickets($options = array())
   {
-    $tickets = Doctrine::getTable('Ticket')->createQuery('tck')
+    $q = Doctrine::getTable('Ticket')->createQuery('tck')
       ->andWhere('manifestation_id = ?',$this->id)
-      ->andWhere('tck.duplicate IS NULL')
-      ->andWhere('(tck.printed = true OR tck.integrated = true)')
-      ->fetchArray();
+      ->andWhere('tck.duplicate IS NULL');
+        
+    if ( $options['workspaces'] )
+      $q->leftJoin('tck.Gauge g')
+        ->andWhereIn('g.workspace_id',$options['workspaces']);
+    
+    if (!( isset($options['not-yet-printed']) && $options['not-yet-printed']))
+      $q->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE');
+    else
+      $q->leftJoin('tck.Transaction t')
+        ->leftJoin('t.Payments p')
+        ->andWhere('p.id IS NOT NULL');
+    
+    if ( isset($options['dates']) && is_array($options['dates']) )
+    {
+      if ( !$options['tck_value_date_payment'] )
+        $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
+            $options['dates']['from'],
+            $options['dates']['to'],
+          ));
+      else
+      {
+        if ( !$q->contains('LEFT JOIN t.Payments p') )
+          $q->leftJoin('tck.Transaction t')
+            ->leftJoin('t.Payments p');
+        $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
+            $options['dates']['from'],
+            $options['dates']['to'],
+          ))
+          ->andWhere('p.id = (SELECT min(id) FROM Payment p2 WHERE transaction_id = t.id)');
+      }
+    }
+    
+    if ( !sfContext::getInstance()->getUser()->hasCredential('tck-ledger-all-users') && $context = sfContext::getInstance() )
+      $q->andWhere('tck.sf_guard_user_id = ?',$context->getUser()->getId());
+    else if ( isset($options['users']) && is_array($options['users']) && $options['users'][0] )
+    {
+      if ( $options['users'][''] ) unset($options['users']['']);
+      if ( !isset($criterias['tck_value_date_payment']) )
+        $q->andWhereIn('tck.sf_guard_user_id',$options['users']);
+      else
+      {
+        if ( !$q->contains('LEFT JOIN t.Payments p') )
+          $q->leftJoin('tck.Transaction t')
+            ->leftJoin('t.Payments p');
+        $q->andWhereIn('p.sf_guard_user_id',$options['users']);
+      }
+    }
+
+    $tickets = $q->fetchArray();
     
     $r = array('value' => 0, 'qty' => 0);
     foreach ( $tickets as $ticket )

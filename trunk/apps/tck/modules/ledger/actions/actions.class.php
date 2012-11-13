@@ -74,8 +74,10 @@ class ledgerActions extends sfActions
     set_time_limit(240);
     ini_set('memory_limit','512M');
     
-    $criterias = $this->formatCriterias($request);
-    $dates = $criterias['dates'];
+    $this->criterias = $this->formatCriterias($request);
+    $dates = $this->criterias['dates'];
+    
+    // BE CAREFUL : ALWAY CHECK Manifestation::getTicketsInfos() FOR CRITERIAS APPLYIANCE FOR BIG LEDGERS
     
     $q = Doctrine::getTable('Event')->createQuery('e')
       ->leftJoin('e.Manifestations m')
@@ -90,13 +92,13 @@ class ledgerActions extends sfActions
       ->leftJoin('pro.Organism o')
       ->orderBy('e.name, m.happens_at, l.name, tck.price_name, u.first_name, u.last_name, tck.sf_guard_user_id, tck.cancelling IS NULL DESC, tck.updated_at');
     
-    if ( !isset($criterias['not-yet-printed']) )
+    if ( !isset($this->criterias['not-yet-printed']) )
       $q->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE');
     else
       $q->leftJoin('t.Payments p')
         ->andWhere('p.id IS NOT NULL');
     
-    if ( !isset($criterias['tck_value_date_payment']) )
+    if ( !isset($this->criterias['tck_value_date_payment']) )
       $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
           date('Y-m-d',$dates[0]),
           date('Y-m-d',$dates[1]),
@@ -117,21 +119,24 @@ class ledgerActions extends sfActions
     // restrict access to our own user
     $q = $this->restrictQueryToCurrentUser($q);
     
-    if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
+    if ( isset($this->criterias['users']) && is_array($this->criterias['users']) && $this->criterias['users'][0] )
     {
-      if ( $criterias['users'][''] ) unset($criterias['users']['']);
-      if ( !isset($criterias['tck_value_date_payment']) )
-        $q->andWhereIn('tck.sf_guard_user_id',$criterias['users']);
+      if ( $this->criterias['users'][''] ) unset($this->criterias['users']['']);
+      if ( !isset($this->criterias['tck_value_date_payment']) )
+        $q->andWhereIn('tck.sf_guard_user_id',$this->criterias['users']);
       else
       {
         if ( !$q->contains('LEFT JOIN t.Payments p') )
           $q->leftJoin('t.Payments p');
-        $q->andWhereIn('p.sf_guard_user_id',$criterias['users']);
+        $q->andWhereIn('p.sf_guard_user_id',$this->criterias['users']);
       }
     }
     
-    if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && $criterias['workspaces'][0] )
-      $q->andWhereIn('g.workspace_id',$criterias['workspaces']);
+    if ( isset($this->criterias['workspaces']) && is_array($this->criterias['workspaces']) && $this->criterias['workspaces'][0] )
+    {
+      $q->andWhereIn('g.workspace_id',$this->criterias['workspaces']);
+      $this->workspaces = $this->criterias['workspaces'];
+    }
 
     // check if there are too much tickets to display them well
     $test = $q->copy();
