@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Cancelling</source>
+        <target>Annule</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Translation for categories</source>
         <target>Correspondance pour les catégories</target>
       </trans-unit> 
@@ -475,6 +479,10 @@
       <trans-unit>
         <source>This price doesn't exist for this manifestation or the contact's member card has got no more ticket !</source>
         <target>Ce tarif n'existe pas pour cette manifestation ou il n'y a plus de billet sur la carte de membre du contact !</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancellation</source>
+        <target>Annulation</target>
       </trans-unit>
       <trans-unit>
         <source>Cancellations</source>

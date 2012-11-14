@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Chained</source>
+        <target>Chaîné</target>
+      </trans-unit>
+      <trans-unit>
         <source>With ticket</source>
         <target>Avec billet</target>
       </trans-unit>

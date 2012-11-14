@@ -8,6 +8,7 @@
       <tr>
         <?php include_partial('gauge/batch_edit_th_tabular', array('sort' => $sort)) ?>
         <th id="sf_admin_list_th_actions" class="ui-state-default ui-th-column"><?php echo __('Actions', array(), 'sf_admin') ?></th>
+        <th id="sf_admin_list_th_chained" class="ui-state-default ui-th-column"><?php echo __('Chained', array(), 'messages') ?></th>
       </tr>
     </thead>
 
@@ -37,10 +38,14 @@
         <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
           <?php include_partial('gauge/batch_edit_td_tabular', array('gauge' => $gauge)) ?>
           <?php include_partial('gauge/batch_edit_td_actions', array('gauge' => $gauge, 'helper' => $helper)) ?>
+          <?php if ( $i == 1 ): ?>
+          <?php include_partial('gauge/batch_edit_td_rowspan', array('pager' => $pager)) ?>
+          <?php endif ?>
         </tr>
       <?php endforeach; ?>
         <tr class="sf_admin_row ui-widget-content sf_admin_new">
           <?php include_partial('gauge/batch_edit_td_new', array()) ?>
+          <td></td>
           <td></td>
         </tr>
     </tbody>

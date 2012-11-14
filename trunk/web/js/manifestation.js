@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  //$('select[name="manifestation[event_id]"], select[name="manifestation[location_id]"]').each(function(){
   $('select[name="manifestation[event_id]"]').each(function(){
     if ( $(this).find('option[selected=selected]').length > 0 )
     if ( $(this).val() != '' )

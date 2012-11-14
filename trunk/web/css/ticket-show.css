@@ -28,7 +28,7 @@
   width: auto;
 }
 .state td {
-  width: 70px;
+  width: 60px;
   text-align: center;
 }
 .ticket-show .state tbody td:first-child {

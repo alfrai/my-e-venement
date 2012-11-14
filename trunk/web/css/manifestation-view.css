@@ -5,7 +5,6 @@ html body #more    { width: 255px; margin-left: 200px; overflow: hidden; }
 #sf_fieldset_spectators tbody .transaction { text-align: right; }
 
 #sf_fieldset_unbalanced .contact { max-width: 130px; overflow: hidden; white-space: nowrap; }
-<<<<<<< .mine
 
 #sf_admin_pager td {
   width: 10%;
@@ -19,3 +18,13 @@ html body #more    { width: 255px; margin-left: 200px; overflow: hidden; }
   display: none;
 }
 
+#form_workspaces .gauge-transferts {
+  vertical-align: middle;
+}
+#form_workspaces .gauge-transferts p {
+  text-align: center;
+}
+#form_workspaces .gauge-transferts .ui-icon {
+  cursor: pointer;
+  background-image: url(../sfAdminThemejRollerPlugin/css/jquery/base/images/ui-icons_454545_256x240.png);
+}

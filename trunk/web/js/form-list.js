@@ -17,6 +17,7 @@ function form_list()
 
 function form_list_actions()
 {
+  // delete
   $('.sf_admin_form_list .sf_admin_action_delete a').unbind().removeAttr('onclick').click(function(){
     r = confirm('Are you sure?');
     if ( r )
@@ -29,6 +30,7 @@ function form_list_actions()
     return false;
   });
   
+  // update
   $('.sf_admin_form .sf_admin_form_list.ajax form:not(.sf_admin_new)').unbind().submit(function(){
     form = $(this);
     widget = $(this).closest('.ajax').get(0);
@@ -89,6 +91,7 @@ function form_list_focusout()
 
 function form_list_new()
 {
+  // new records
   $('.sf_admin_form .sf_admin_form_list.ajax .sf_admin_new select').unbind().change(function(){
     $(this).parent().submit();
   });
