@@ -26,6 +26,7 @@ $tickets = array();
 
 $separator = ';';
 $tarif_line = 'Type de tarif';
+$client_line = 'Categorie Client';
 $zone_line = 'Genre de Zone';
 $category_line = 'Categorie Client';
 $charset = sfContext::getInstance()->getConfiguration()->charset;
@@ -44,6 +45,18 @@ for ( $i = 0 ; $line = fgetcsv($fp, 0, $separator) ; $i++ )
         $tarif_line = $i+1;
       if ( trim($line[0]) == '' && is_int($tarif_line) )
         $tarif_line++;
+    }
+  }
+  if ( $line[0] === $client_line || $i === $client_line )
+  {
+    if ( is_int($client_line) && trim($line[0]) == '' || !is_int($client_line) )
+    if ( isset($line[1]) && isset($line[2]) )
+    {
+      $clients[$line[2]] = iconv($charset['ms'],$charset['db'],$line[1]);
+      if ( !is_int($client_line) )
+        $tarif_line = $i+1;
+      if ( trim($line[0]) == '' && is_int($client_line) )
+        $client_line++;
     }
   }
   
@@ -102,6 +115,3 @@ for ( $i = 0 ; $line = fgetcsv($fp, 0, $separator) ; $i++ )
     $tickets[] = $ticket;
   }
 }
-
-print_r($tickets);
-die();
