@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Translation for categories</source>
+        <target>Correspondance pour les catégories</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Printed</source>
         <target>Imprimé</target>
       </trans-unit> 

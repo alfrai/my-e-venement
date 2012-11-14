@@ -36,9 +36,9 @@
       #<?php echo $form['transaction_ref_id'] ?>
       <?php echo __("Enter here the id of the transaction where to delete tickets that you're going to integrate. This is not required.") ?>
     </div>
-    <div class="sf_admin_form_row sf_admin_text sf_admin_form_field_translation_workspaces">
+    <div class="sf_admin_form_row sf_admin_text sf_admin_form_field_translation_workspaces ui-widget-content ui-corner-all">
       <?php echo $form['translation_workspaces_ref1']->renderLabel() ?>
-      <span><?php echo __('Please have a look into the file you want to import to get the proper name, as given by your partnair.') ?></span>
+      <p><?php echo __('Please have a look into the file you want to import to get the proper name, as given by your partnair.') ?></p>
       <?php for ( $i = 0; isset($form['translation_workspaces_ref'.$i]) ; $i++ ): ?>
         <p>
         <?php echo $form['translation_workspaces_ref'.$i] ?>
@@ -47,12 +47,13 @@
         </p>
       <?php endfor ?>
     </div>
-    <div class="sf_admin_form_row sf_admin_text sf_admin_form_field_translation_prices">
+    <div class="sf_admin_form_row sf_admin_text sf_admin_form_field_translation_prices ui-widget-content ui-corner-all">
       <?php echo $form['translation_prices_ref1']->renderLabel() ?>
-      <span><?php echo __('Please have a look into the file you want to import to get the proper name, as given by your partnair.') ?></span>
+      <p><?php echo __('Please have a look into the file you want to import to get the proper name, as given by your partnair.') ?></p>
       <?php for ( $i = 0; isset($form['translation_prices_ref'.$i]) ; $i++ ): ?>
         <p>
-        <?php echo $form['translation_prices_ref'.$i] ?>
+        <?php echo $form['translation_prices_ref'.$i]->render(array('title' => __($form['translation_prices_ref'.$i]->getWidget()->getLabel()))) ?>
+        <?php echo $form['translation_categories_ref'.$i]->render(array('title' => __($form['translation_categories_ref'.$i]->getWidget()->getLabel()))) ?>
         &rarr;
         <?php echo $form['translation_prices_dest'.$i] ?>
         </p>

@@ -83,6 +83,12 @@ class TicketsIntegrationForm extends BaseFormDoctrine
       $this->validatorSchema['translation_prices_ref'.$i] = new sfValidatorString(array(
         'required'  => false,
       ));
+      $this->widgetSchema   ['translation_categories_ref'.$i] = new sfWidgetFormInput(array(
+        'label' => 'Translation for categories',
+      ));
+      $this->validatorSchema['translation_categories_ref'.$i] = new sfValidatorString(array(
+        'required'  => false,
+      ));
       $this->widgetSchema   ['translation_prices_dest'.$i] = new sfWidgetFormDoctrineChoice(array(
         'model' => 'Price',
         'query' => $q = Doctrine::getTable('Price')->createQuery('p')->leftJoin('p.Manifestations m')->andWhere('m.id = ?',$this->manifestation->id),

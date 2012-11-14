@@ -56,7 +56,8 @@
           ->andWhere('pm.manifestation_id = ?',$mid)
           ->orderBy('pm.id DESC')
           ->fetchOne();
-        $this->translation['prices'][$integrate['translation_prices_ref'.$i]] = array('id' => $integrate['translation_prices_dest'.$i], 'value' => $pm->value);
+        $this->translation['prices'][$integrate['translation_prices_ref'.$i].($integrate['translation_categories_ref'.$i] ? '/'.$integrate['translation_categories_ref'.$i] : '')]
+          = array('id' => $integrate['translation_prices_dest'.$i], 'value' => $pm->value);
       }
       
       $fp = fopen($files['file']['tmp_name'],'r');

@@ -27,9 +27,9 @@ $tickets = array();
 $separator = ';';
 $tarif_line = 'Type de tarif';
 $zone_line = 'Genre de Zone';
+$category_line = 'Categorie Client';
 $charset = sfContext::getInstance()->getConfiguration()->charset;
-$tarifs = array();
-$workspaces = array();
+$tarifs = $categories = $workspaces = array();
 
 for ( $i = 0 ; $line = fgetcsv($fp, 0, $separator) ; $i++ )
 {
@@ -44,6 +44,20 @@ for ( $i = 0 ; $line = fgetcsv($fp, 0, $separator) ; $i++ )
         $tarif_line = $i+1;
       if ( trim($line[0]) == '' && is_int($tarif_line) )
         $tarif_line++;
+    }
+  }
+  
+  // creation of categories database
+  if ( $line[0] === $category_line || $i === $category_line )
+  {
+    if ( is_int($category_line) && trim($line[0]) == '' || !is_int($category_line) )
+    if ( isset($line[1]) && isset($line[2]) )
+    {
+      $categories[$line[2]] = iconv($charset['ms'],$charset['db'],$line[1]);
+      if ( !is_int($category_line) )
+        $category_line = $i+1;
+      if ( trim($line[0]) == '' && is_int($category_line) )
+        $category_line++;
     }
   }
   
@@ -71,7 +85,7 @@ for ( $i = 0 ; $line = fgetcsv($fp, 0, $separator) ; $i++ )
     $ticket['city']       = '';
     $ticket['country']    = iconv($charset['ms'],$charset['db'],$line[13]);
     $ticket['cancel']     = $line[1] == 'V' ? false : true;
-    $ticket['price_name'] = $tarifs[$line[5]];
+    $ticket['price_name'] = $tarifs[$line[5]].'/'.$categories[$line[6]];
     $ticket['price_id']   = isset($this->translation['prices'][$ticket['price_name']]) ? $this->translation['prices'][$ticket['price_name']]['id'] : NULL;
     $ticket['workspace_id']=isset($this->translation['workspaces'][$workspaces[$line[8]]]) ? $this->translation['workspaces'][$workspaces[$line[8]]] : NULL;
     $ticket['value']      = isset($this->translation['prices'][$ticket['price_name']]) ? $this->translation['prices'][$ticket['price_name']]['value'] : $line[23];
@@ -88,3 +102,6 @@ for ( $i = 0 ; $line = fgetcsv($fp, 0, $separator) ; $i++ )
     $tickets[] = $ticket;
   }
 }
+
+print_r($tickets);
+die();
