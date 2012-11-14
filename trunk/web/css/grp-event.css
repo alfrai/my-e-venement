@@ -214,6 +214,17 @@ tfoot .count p { display: inline-block; margin-left: 4px; }
   background: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat scroll -144px -96px rgb(223, 239, 252);
 }
 
+#sf_admin_container .untranspose .cancelling {
+ margin-left: -16px;
+}
+#sf_admin_container .cancelling {
+  font-size: 0;
+  padding: 16px 16px 0 0;
+  background: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_cd0a0a_256x240.png") no-repeat scroll -224px -112px transparent;
+  border: 0;
+}
+
+
 @media print {
 .accepted .tickets, .second_choice .tickets { border-width: 3px; }
 .second_choice .tickets { border-style: dotted; }

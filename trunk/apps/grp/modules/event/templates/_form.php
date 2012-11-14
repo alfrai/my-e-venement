@@ -26,6 +26,7 @@
 <?php use_stylesheet('/sfFormExtraPlugin/css/jquery.autocompleter.css') ?>
 <?php use_javascript('/sfFormExtraPlugin/js/jquery.autocompleter.js') ?>
 <?php use_javascript('grp-event') ?>
+<?php use_helper('CrossAppLink') ?>
 
 <div class="sf_admin_form">
     <div class="sf_admin_actions_block ui-widget">
@@ -62,7 +63,7 @@
         <td class="manifestation-<?php echo $me->id ?> <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> <?php echo $entry_element->second_choice ? 'second_choice' : '' ?> <?php echo $entry_element->accepted ? 'accepted' : '' ?>">
           <script type="text/javascript"><!--
             $(document).ready(function(){
-              $('td.manifestation-<?php echo $me->id ?>').attr('title',"<?php echo $ce->Professional->Contact.' - '.$ce->Professional?>\n<?php echo $me->Manifestation ?>");
+              $('tr.contact-<?php echo $ce->id ?> td.manifestation-<?php echo $me->id ?>').attr('title',"<?php echo $ce->Professional->Contact.' - '.$ce->Professional?>\n<?php echo $me->Manifestation ?>");
             });
           --></script>
           <div class="EntryTickets">
@@ -81,6 +82,11 @@
               <span title="<?php echo __('Needed') ?>"><?php echo $f['second_choice'] ?></span><span title="<?php echo __('Accepted') ?>"><?php echo $f['accepted'] ?></span><!--<input type="submit" name="submit" value="<?php echo __('Save',null,'sf_admin') ?>" />-->
               <input type="hidden" name="<?php echo $f['manifestation_entry_id']->renderName() ?>" value="<?php echo $me->id ?>" />
               <input type="hidden" name="<?php echo $f['contact_entry_id']->renderName() ?>" value="<?php echo $ce->id ?>" />
+              <span class="translinked" title="<?php echo __('Related transactions, as in a cancellation case') ?>"><?php
+                if ( $entry_element->EntryTickets->count() > 0 && $ce->Transaction && $ce->Transaction->Translinked->count() > 0 )
+                foreach ( $ce->Transaction->Translinked as $tr )
+                  echo '<a class="cancelling" href="'.cross_app_url_for('tck','ticket/pay?id='.$tr->id).'">#'.$tr->id.'</a> ';
+              ?></span>
             </p>
           </form>
         </td>
@@ -88,7 +94,14 @@
         <td class="<?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?> ticketting"<?php if ( $ce->transaction_id ): ?> title="<?php echo __('Transaction #%%t%%',array('%%t%%' => $ce->transaction_id)); ?>"<?php endif ?>>
           <p class="count"><span class="total">0</span></p>
           <p class="transpose" title="<?php echo __('Transpose to ticketting') ?>"><a href="<?php echo url_for('contact_entry/transpose?id='.$ce->id) ?>">&gt;&gt;</a></p>
-          <?php if ( $ce->transaction_id ): ?><p class="untranspose"><a href="<?php echo url_for('contact_entry/untranspose?id='.$ce->id) ?>">&lt;&lt;</a></p><?php endif ?>
+          <?php if ( $ce->transaction_id ): ?><p class="untranspose">
+            <span class="translinked" title="<?php echo __('Related transactions, as in a cancellation case') ?>"><?php
+              if ( $ce->Transaction->Translinked->count() > 0 )
+                foreach ( $ce->Transaction->Translinked as $tr )
+                  echo '<a class="cancelling" href="'.cross_app_url_for('tck','ticket/pay?id='.$tr->id).'">#'.$tr->id.'</a> ';
+            ?></span>
+            <a href="<?php echo url_for('contact_entry/untranspose?id='.$ce->id) ?>">&lt;&lt;</a>
+          </p><?php endif ?>
         </td>
       </tr>
       <?php endforeach ?>

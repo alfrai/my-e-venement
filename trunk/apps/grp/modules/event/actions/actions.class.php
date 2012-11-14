@@ -80,6 +80,8 @@ class eventActions extends autoEventActions
     $q = new Doctrine_Query();
     $this->entry = $q->from('Entry e')
       ->leftJoin('e.ContactEntries ce')
+      ->leftJoin('ce.Transaction t')
+      ->leftJoin('t.Translinked t2')
       ->leftJoin('ce.Professional p')
       ->leftJoin('p.Contact c')
       ->leftJoin('p.Organism o')

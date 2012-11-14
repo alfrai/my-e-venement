@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Related transactions, as in a cancellation case</source>
+        <target>Opérations liées, comme dans le cas d'annulations</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%nb%% overbooked places</source>
         <target>%%nb%% places sur-réservées</target>
       </trans-unit>
