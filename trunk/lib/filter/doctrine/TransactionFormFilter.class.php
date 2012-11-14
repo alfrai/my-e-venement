@@ -22,7 +22,14 @@ class TransactionFormFilter extends BaseTransactionFormFilter
     ));
     $this->validatorSchema['organism_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Organism',
+      'required' => false,
     ));
+    
+    $this->widgetSchema   ['name'] = new sfWidgetFormInputText();
+    $this->validatorSchema['name'] = new sfValidatorString(array(
+      'required' => false,
+    ));
+    
     parent::configure();
   }
   public function setup()
@@ -30,16 +37,42 @@ class TransactionFormFilter extends BaseTransactionFormFilter
     $this->noTimestampableUnset = true;
     parent::setup();
   }
+  
   public function addOrganismIdColumnQuery(Doctrine_Query $query, $field, $values)
   {
     $a = $query->getRootAlias();
+    if ( !$query->contains("LEFT JOIN $a.Professional p") )
+      $query->leftJoin("$a.Professional p");
+    
     $query->andWhere("p.organism_id = ?",$values);
+    
+    return $query;
+  }
+  public function addNameColumnQuery(Doctrine_Query $query, $field, $values)
+  {
+    $a = $query->getRootAlias();
+    
+    if ( !$query->contains("LEFT JOIN $a.Professional p") )
+      $query->leftJoin("$a.Professional p");
+    if ( !$query->contains("LEFT JOIN $a.Contact c") )
+      $query->leftJoin("$a.Contact c");
+    if ( !$query->contains("LEFT JOIN p.Organism o") )
+      $query->leftJoin("p.Organism o");
+    
+    $query->andWhere('LOWER(o.name) LIKE LOWER(?) OR LOWER(c.name) LIKE LOWER(?) OR LOWER(c.firstname) LIKE LOWER(?)',array(
+        $values.'%',
+        $values.'%',
+        $values.'%',
+      ));
     
     return $query;
   }
 
   public function getFields()
   {
-    return array_merge(array('organism_id' => 'Organism Id'), parent::getFields());
+    return array_merge(array(
+      'organism_id' => 'Organism Id',
+      'name'        => 'Name',
+    ), parent::getFields());
   }
 }

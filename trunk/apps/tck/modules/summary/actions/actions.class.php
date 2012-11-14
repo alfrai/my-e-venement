@@ -15,6 +15,35 @@ class summaryActions extends autoSummaryActions
 {
   protected $type = 'debts';
   
+  public function executeFilter(sfWebRequest $request)
+  {
+    $this->type = $request->getParameter('type');
+    
+    $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+    $this->setPage(1);
+
+    if ($request->hasParameter('_reset'))
+    {
+      $this->setFilters($this->configuration->getFilterDefaults());
+      $this->redirect($this->type ? 'summary/'.$this->type : '@transaction');
+    }
+
+    $this->filters = $this->configuration->getFilterForm($this->getFilters());
+
+    $this->filters->bind($request->getParameter($this->filters->getName()));
+    if ($this->filters->isValid())
+    {
+      $this->setFilters($this->filters->getValues());
+      $this->redirect($this->type ? 'summary/'.$this->type : '@transaction');
+    }
+
+    $this->pager = $this->getPager();
+    $this->sort = $this->getSort();
+
+    $this->setTemplate('index');
+
+    parent::executeFilter($request);
+  }
   public function executeIndex(sfWebRequest $request)
   {
     $this->type = $this->type ? $this->type : 'debts';
@@ -62,12 +91,16 @@ class summaryActions extends autoSummaryActions
     $t = $q->getRootAlias();
     
     $q->andWhere('tck.id IS NOT NULL')
-      ->leftJoin("$t.Contact c")
-      ->leftJoin("$t.Professional p")
       ->leftJoin("$t.User u")
       ->leftJoin("$t.Payments pay")
-      ->leftJoin('p.Organism o')
       ->orderBy("$t.id DESC");
+    
+    if ( !$q->contains("LEFT JOIN $t.Professional p") )
+      $q->leftJoin("$t.Professional p");
+    if ( !$q->contains("LEFT JOIN p.Organism o") )
+      $q->leftJoin("p.Organism o");
+    if ( !$q->contains("LEFT JOIN $t.Contact c") )
+      $q->leftJoin("$t.Contact c");
 
     switch ( $this->type ) {
     case 'asks':

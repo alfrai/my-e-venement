@@ -8,7 +8,7 @@
     <?php include_partial('summary/list_header', array('pager' => $pager)) ?>
   </div>
 
-    <div id="sf_admin_bar ui-helper-hidden" style="display:none">
+    <div id="sf_admin_bar ui-helper-hidden" style="display: none;">
       <?php include_partial('summary/filters', array('form' => $filters, 'configuration' => $configuration)) ?>
     </div>
   

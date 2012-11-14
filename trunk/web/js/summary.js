@@ -23,4 +23,13 @@ $(document).ready(function(){
         return false;
       }
     });
+  
+  // specific filtering
+  action = /\/summary\/(.*)\/action/.exec(window.location)[1];
+  $('#sf_admin_filter form').each(function(){
+    $(this).attr('action',$(this).attr('action')+'?type='+action);
+  });
+  $('#sf_admin_filters_buttons a').each(function(){
+    $(this).attr('href',$(this).attr('href')+'&type='+action);
+  });
 });
