@@ -1,7 +1,7 @@
 <td class="sf_admin_text sf_admin_list_td_Workspace">
   <?php echo $gauge->Workspace ?>
 </td>
-<td class="sf_admin_text sf_admin_list_td_Gauge">
+<td class="sf_admin_text sf_admin_list_td_Gauge object-<?php echo $gauge->id ?>">
   <?php
     $g = new Gauge();
     $g->id = $gauge->getRaw('id');

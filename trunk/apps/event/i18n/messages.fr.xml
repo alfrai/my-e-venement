@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Cannot proceede to transfert because there is no gauge below this one</source>
+        <target>Impossible de procéder au transfert car il n'y a pas de jauge en-dessous de celle-ci</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Click to unchain gauges, deactivating transferts</source>
+        <target>Cliquer pour délier les jauges, désactivant ainsi les transferts</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Click to chain gauges from top to bottom, activating transferts</source>
+        <target>Cliquer pour chaîner les jauges depuis le haut vers le bas, activant ainsi les transferts</target>
+      </trans-unit>
+      <trans-unit>
         <source>Chained</source>
         <target>Chaîné</target>
       </trans-unit>

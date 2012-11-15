@@ -27,4 +27,12 @@ html body #more    { width: 255px; margin-left: 200px; overflow: hidden; }
 #form_workspaces .gauge-transferts .ui-icon {
   cursor: pointer;
   background-image: url(../sfAdminThemejRollerPlugin/css/jquery/base/images/ui-icons_454545_256x240.png);
+  transform: rotate(90deg);
+  font-size: 0;
+}
+#form_workspaces .gauge-transferts.active .ui-icon {
+  background-position: -80px -80px;
+}
+#form_workspaces #sf_admin_list_th_chained {
+  font-size: 0;
 }
