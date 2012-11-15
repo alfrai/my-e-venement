@@ -6,7 +6,9 @@
   </div>
   <?php include_partial('cancel_boot_ticket_id') ?>
   <?php include_partial('cancel_boot_pay',array('pay' => $pay)) ?>
+  <?php if ( !$sf_user->hasCredential('tck-control') && !$sf_user->hasCredential('tck-control-admin') ): ?>
   <?php include_partial('cancel_boot_partial_by_price') ?>
+  <?php endif ?>
   <?php include_partial('cancel_boot_complete_simplified') ?>
 </div>
 <?php include_partial('cancel_boot_js') ?>
