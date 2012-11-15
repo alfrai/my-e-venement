@@ -57,7 +57,7 @@
       $this->getUser()->setFlash('error',__("You can respawn here only normal transactions"));
       if ( $this->transaction->type == 'cancellation' )
         $this->redirect('ticket/pay?id='.$this->transaction->id);
-      $this->redirect('ticket/sell);
+      $this->redirect('ticket/sell');
     }
     
     $q = Doctrine::getTable('Price')->createQuery('p')
