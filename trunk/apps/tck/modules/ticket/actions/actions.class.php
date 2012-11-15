@@ -76,6 +76,10 @@ class ticketActions extends sfActions
   {
     require('cancel.php');
   }
+  public function executeCancelPartial(sfWebRequest $request)
+  {
+    require('cancel-partial.php');
+  }
   public function executeBatchCancel(sfWebRequest $request)
   {
     require('cancel-batch.php');

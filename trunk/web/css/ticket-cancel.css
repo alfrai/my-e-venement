@@ -7,3 +7,5 @@
   display: inline-block;
   width: 80px;
 }
+
+.partial-by-price .short input { width: 6em; }

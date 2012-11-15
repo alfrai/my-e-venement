@@ -42,3 +42,8 @@ showSelect:
   stylesheets: [ticket-show]
 showSuccess:
   stylesheets: [ticket-show]
+
+cancelBootSuccess:
+  javascripts: [jquery,menu,/sfFormExtraPlugin/js/jquery.autocompleter.js,/cxFormExtraPlugin/js/cx_open_list.js]
+  stylesheets: [/sfFormExtraPlugin/css/jquery.autocompleter.css]
+

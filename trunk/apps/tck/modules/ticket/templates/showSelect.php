@@ -7,7 +7,7 @@
 
 <form class="ui-corner-all ui-widget-content action" action="<?php echo url_for('ticket/show') ?>" method="get">
   <p>
-    <input type="text" name="id" value="" />
+    <input type="text" name="id" value="" autocomplete="off" />
     <input type="submit" value="<?php echo __('Show',null,'sf_admin') ?>" name="submit" />
   </p>
 </form>

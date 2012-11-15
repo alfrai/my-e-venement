@@ -51,12 +51,15 @@ class Ticket extends PluginTicket
     }
     
     // the transaction's last update
+    /*
     $q = new Doctrine_Query();
     $q->from('Transaction')
       ->where('id = ?',$this->transaction_id)
       ->set('updated_at','NOW()')
       ->update();
     $q->execute();
+    */
+    $this->Transaction->updated_at = NULL;
     
     parent::preSave($event);
   }
@@ -89,7 +92,12 @@ class Ticket extends PluginTicket
       }
     }
     
-    return parent::preInsert($event);
+    // resetting generic properties
+    $this->updated_at = NULL;
+    $this->created_at = NULL;
+    $this->sf_guard_user_id = NULL;
+    
+    parent::preInsert($event);
   }
   
   public function preUpdate($event)
