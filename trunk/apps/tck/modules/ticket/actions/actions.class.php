@@ -260,7 +260,15 @@ class ticketActions extends sfActions
       }
     }
     else
-      $this->transaction = $this->getRoute()->getObject();
+    {
+      $this->transaction = Doctrine::getTable('Transaction')->createQuery('t')
+        ->andWhere('tck.printed = TRUE OR tck.integrated = TRUE OR tck.cancelling IS NOT NULL')
+        ->andWhere('tck.duplicate IS NULL')
+        ->leftJoin('tck.Price p')
+        ->orderBy('p.name, tck.price_id, tck.id')
+        ->andWhere('t.id = ?',$request->getParameter('id'))
+        ->fetchOne();
+    }
   }
   
   public function executeContactPrices(sfWebRequest $request)

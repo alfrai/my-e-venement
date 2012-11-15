@@ -11,6 +11,9 @@
     <strong class="translinked"  title="#<?php echo $transaction->transaction_id ?>"><?php echo __('Transaction #%%id%%:',array('%%id%%' => $transaction->id)) ?></strong>
     <span id="to_pay"><?php echo format_currency(array_sum($ticks),'€') ?></span>
   </div>
+  <div class="ui-corner-all ui-widget-content action" id="tickets">
+    <?php include_partial('ticket_show',array('transaction' => $transaction,)) ?>
+  </div>
   <div class="ui-corner-all ui-widget-content action" id="print">
     <?php include_partial('ticket_print',array('transaction' => $transaction,'accounting' => false)) ?>
   </div>

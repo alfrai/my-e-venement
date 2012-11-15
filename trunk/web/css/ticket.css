@@ -309,3 +309,14 @@
 #seating-plan .graphical {
   min-height: 350px;
 }
+
+#tickets .tickets {
+  display: inline-block;
+  margin-left: 5px;
+  border: 1px dashed gray;
+  padding: 2px 7px 2px 7px;
+  border-radius: 3px 3px 3px 3px;
+  white-space: nowrap;
+}
+#tickets .total { float: right; font-weight: bold; padding-top: 3px; }
+#tickets .total:before { content: '= '; }
