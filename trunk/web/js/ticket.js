@@ -312,20 +312,12 @@ function ticket_transform_hidden_to_span(all)
         $(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=hidden].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=hidden].nb').val())+1);
       }
       else
-        $('<span class="'+name+' ticket_prices '+$(this).attr('class')+'" title="'+$(this).attr('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" maxlength="3" /><input type="hidden" name="hidden_nb" value="1" class="nb"> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
+        $('<span class="'+name+' ticket_prices '+$(this).attr('class')+'" title="'+$(this).attr('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" autocomplete="off" maxlength="3" /><input type="hidden" class="nb" name="hidden_nb" value="1"> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
           .appendTo($(this).parent());
       $(this).parent().find('.'+name+'.'+$(this).attr('class')+' .tickets_id').append($(this).attr('alt')+'<br/>');
     });
   });
   
-  // when changing quantities arbitrary through the input text
-  $('#prices .manifestations_list .prices .ticket_prices input.nb').unbind().keypress(function(e){
-    if ( e.which == '13' )
-    {
-      $(this).change();
-      return false;
-    }
-  });
   $('#prices .manifestations_list .prices .ticket_prices.notprinted input.nb').unbind().change(function(){
     nb = $(this).parent().find('input[type=text].nb').val() - $(this).parent().find('input[type=hidden].nb').val();
     orig = $('#prices input[name="ticket[nb]"]').val();
@@ -333,7 +325,11 @@ function ticket_transform_hidden_to_span(all)
     $('#prices input[name="ticket[nb]"]').val(nb);
     $('#prices input[name="ticket[price_name]"][value="'+$(this).parent().find('.name').html()+'"]').click();
     $('#prices input[name="ticket[nb]"]').val(orig);
-  });
+  }).keypress(function(e){ if ( e.which == '13' ) {
+    // when changing quantities arbitrary through the input text
+    $(this).change();
+    return false;
+  }});
   
   // click to remove a ticket
   $('#prices .manifestations_list .prices .ticket_prices.notprinted .name').unbind().click(function(){

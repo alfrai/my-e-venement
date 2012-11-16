@@ -144,9 +144,7 @@ span.eur { font-weight: normal; }
   width: 40mm;
   text-align: center;
   margin-left: -18mm;
-}
-.seating > * {
-  -moz-transform: rotate(270deg);
+  transform: rotate(270deg);
 }
 #options { display: none; }
 

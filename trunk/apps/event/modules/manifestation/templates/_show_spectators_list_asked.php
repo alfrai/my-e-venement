@@ -13,7 +13,7 @@
     if ( !isset($transac->asked) )
     {
       foreach ( $transac->Tickets as $t )
-      if ( $t->printed || $t->integrated )
+      if ( !$t->printed && !$t->integrated && $t->Transaction->Order->count() == 0 )
       {
         $contact['ticket-ids'][] = $t->id;
         if ( !isset($contact['prices'][$t->Gauge->workspace_id]) )
@@ -48,8 +48,8 @@
       <?php include_partial('show_spectators_list_tickets',array('tickets' => $ws, 'show_workspaces' => $show_workspaces)) ?>
     </td>
     <td class="price"><?php echo format_currency($contact['value'][$wsid],'€') ?></td>
-    <td class="transaction" title="<?php echo __('Updated at %%d%% by %%u%%',array('%%d%%' => format_datetime($transac->updated_at), '%%u%%' => $transac->User)) ?>">#<?php echo cross_app_link_to($contact['transaction'],'tck','ticket/sell?id='.$contact['transaction']) ?></td>
     <td class="accounting"></td>
+    <td class="transaction" title="<?php echo __('Updated at %%d%% by %%u%%',array('%%d%%' => format_datetime($transac->updated_at), '%%u%%' => $transac->User)) ?>">#<?php echo cross_app_link_to($contact['transaction'],'tck','ticket/sell?id='.$contact['transaction']) ?></td>
     <td class="ticket-ids">#<?php echo implode(', #',$contact['ticket-ids']) ?></td>
   </tr>
   <?php endforeach ?>
