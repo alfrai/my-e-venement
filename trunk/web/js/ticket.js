@@ -333,6 +333,7 @@ function ticket_transform_hidden_to_span(all)
   
   // click to remove a ticket
   $('#prices .manifestations_list .prices .ticket_prices.notprinted .name').unbind().click(function(){
+    $('#prices .prices_list').removeClass('cancel');
     gid = $(this).parent().parent().attr('class').replace(/.* gauge-(\d+).*/g,'$1');
     $(this).parent().parent().parent().parent().find('.workspaces [name="ticket[gauge_id]"]').val(gid);
     $('#prices [name=select_all]').attr('checked',false);
@@ -420,6 +421,22 @@ function ticket_prices()
     
     if ( $('#prices .manifestations_list input[type=radio]:checked').length == 0 )
       return false;
+    
+    // cancelling tickets
+    if ( $(this).closest('.prices_list.cancel').length > 0 )
+    {
+      mid = $('#prices .manifestations_list input[name="ticket[manifestation_id]"]:checked').val();
+      price_name = $(this).val();
+      qty = $('#prices .prices_list input[name="ticket[nb]"]').val();
+      tid = $('#global_transaction_id').html();
+      
+      url = $('#prices .prices_list a.cancel').attr('href');
+      
+      window.open(url+'?qty='+qty+'&manifestation_id='+mid+'&price_name='+price_name+'&id='+tid);
+      
+      $(this).closest('.prices_list.cancel').removeClass('cancel');
+      return false;
+    }
     
     // DB
     elt = $(this);

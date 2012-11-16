@@ -320,3 +320,13 @@
 }
 #tickets .total { float: right; font-weight: bold; padding-top: 3px; }
 #tickets .total:before { content: '= '; }
+
+#prices .prices_list .cancel {
+  font-size: 0;
+   background-position: -32px -80px;
+   display: inline-block;
+}
+#prices .prices_list.cancel {
+  background-color: orange;
+  border: 2px solid gray;
+}

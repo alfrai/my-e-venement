@@ -9,6 +9,10 @@
         <target>Il n'y a pas de billet disponible pour annulation correspondant à vos critères</target>
       </trans-unit> 
       <trans-unit>
+        <source>Cancel printed tickets as you click on prices now.</source>
+        <target>Annule des billets imprimés tel que vous cliquerez sur les tarifs maintenant.</target>
+      </trans-unit> 
+      <trans-unit>
         <source>%%nb%% ticket(s) have been correctly cancelled, with transaction #%%tid%%</source>
         <target>%%nb%% billet(s) ont été annulés correctement, sur l'operation #%%tid%%</target>
       </trans-unit> 
