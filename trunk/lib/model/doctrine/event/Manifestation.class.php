@@ -43,6 +43,9 @@ class Manifestation extends PluginManifestation
     **/
   public function getInfosTickets($options = array())
   {
+    if ( (isset($options['dates'][0]) || isset($options['dates'][1])) && (!isset($options['dates'][0]) || !isset($options['dates'][1])) )
+      unset($options['dates']);
+    
     $q = Doctrine::getTable('Ticket')->createQuery('tck')
       ->andWhere('manifestation_id = ?',$this->id)
       ->andWhere('tck.duplicate IS NULL');
@@ -62,8 +65,8 @@ class Manifestation extends PluginManifestation
     {
       if ( !$options['tck_value_date_payment'] )
         $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
-            $options['dates']['from'],
-            $options['dates']['to'],
+            date('Y-m-d',$options['dates'][0]),
+            date('Y-m-d',$options['dates'][1]),
           ));
       else
       {
@@ -71,8 +74,8 @@ class Manifestation extends PluginManifestation
           $q->leftJoin('tck.Transaction t')
             ->leftJoin('t.Payments p');
         $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
-            $options['dates']['from'],
-            $options['dates']['to'],
+            date('Y-m-d',$options['dates'][0]),
+            date('Y-m-d',$options['dates'][1]),
           ))
           ->andWhere('p.id = (SELECT min(id) FROM Payment p2 WHERE transaction_id = t.id)');
       }

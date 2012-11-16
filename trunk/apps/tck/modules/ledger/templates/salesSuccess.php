@@ -44,9 +44,7 @@
       $vat[$manif->vat] = array();
       if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) )
       foreach ( $manif->Tickets as $ticket )
-      {
         $total['qty'] += is_null($ticket->cancelling)*2-1;
-      }
     }
     
     if ( $nb_tickets > sfConfig::get('app_ledger_max_tickets',5000) )
@@ -89,7 +87,7 @@
           }
           else
           {
-            $infos = $manif->getInfosTickets($criterias);
+            $infos = $manif->getInfosTickets($options);
             
             $value += $infos['value'];
             $qty = $infos['qty'];
@@ -129,7 +127,7 @@
         <?php if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) ): ?>
         <?php $nb = $manif->Tickets->count(); foreach ( $manif->Tickets as $t ) if ( !is_null($t->cancelling) ) $nb-=2; echo $nb; ?>
         <?php else: ?>
-        <?php $infos = $manif->getInfosTickets($criterias); echo $infos['qty']; ?>
+        <?php $infos = $manif->getInfosTickets($options); echo $infos['qty']; ?>
         <?php endif ?>
       </td>
       <td class="value">
