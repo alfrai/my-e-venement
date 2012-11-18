@@ -420,7 +420,7 @@ class manifestationActions extends autoManifestationActions
                  AND ttt.duplicate IS NULL) AS topay,
               (SELECT sum(ppp.value) FROM Payment ppp WHERE ppp.transaction_id = t.id) AS paid,
               c.id AS c_id, c.name, c.firstname,
-              p.name AS p_name, o.id AS o_id, o.name AS o_name
+              p.name AS p_name, o.id AS o_id, o.name AS o_name, o.city AS o_city
        FROM transaction t
        LEFT JOIN contact c ON c.id = t.contact_id
        LEFT JOIN professional p ON p.id = t.professional_id
