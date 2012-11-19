@@ -1,0 +1,53 @@
+== v2.1 -> v2.2 ==
+
+Billetterie :
+- Possibilité d'importé l'historique des contacts depuis la v1.x
+- Limitation de l'affichage des prix en fonction des manifestations choisies
+- Pré-remplissage du champ "nom" lorsqu'on créé un contact depuis une opération
+- Possibilité d'ajouter un logo sur les billets
+- Importante amélioration de la vitesse de traitement des livre de vente et journal détaillé lorsqu'il s'agissait de traiter un nombre important de billets
+- Meilleure ergonomie des opérations de billetterie quant aux quantités de billets : chaque quantité est modifiable numériquement "en ligne"
+- Possibilité d'"abandonner" une opération de billetterie
+- Possibilité d'annuler des billets plus simplement pour les billetteries non-dématérialisées, soit directement dans une opération de billetterie, soit par un formulaire spécifique dans Billetterie > Annulation
+- Possibilité (illégale selon le CGI Français) d'imprimer des billets groupés (si l'option est activée)
+- Renforcement de la procédure d'import de billetteries externes (Ticketnet et La Fnac par exemple)
+- Calcul plus strict des arrondis sur la TVA
+- Possibilité de filtrer les dettes, duplicatas, factures, bons de commande, ...
+- Affichage du montant de la dette dans la liste des dettes (!!)
+- L'impression d'un grand nombre de billets a été profondément optimisée
+- Ajout d'un journal de billet, sorte de fiche d'identité / historique d'un billet
+- Affichage des billets, lors d'une opération de paiement simple, comme lors de l'annulation de billets
+- La numérotation des factures est maintenant indépendante de la numérotation des bons de commande, ce qui permet d'avoir des numéros qui se suivent
+- Améliorations de contrôles de permissions
+
+Événementiel :
+- Amélioration sensible de la vitesse d'affichage des manifestations et de leurs bilans lorsqu'elles contiennent un grand nombre de billets
+- L'ordonnancement dans la liste des événements se paramètre maintenant soit du plus vieux au plus récent (date de leurs manifestations) soit l'inverse
+- Possibilité d'extraire en CSV la liste des spectateurs d'une manifestation, possibilité d'exporter la liste dans un groupe
+- Le placement numéroté est maintenant associé aux jauges, et non plus aux manifestations, permettant d'avoir une manifestation avec, par exemple, un parterre en placement libre, et un gradin numéroté
+- Il est dorénavant possible d'ordonnancer utilisateur par utilisateur la liste des meta-événements, en particulier pour facilité les opérations en billetterie
+- Ajout d'une fonctionnalité de transfert de jauges
+
+Relations aux publics :
+- Cartes de membre : améliorations graphiques et ergonomiques
+- Cartes de membre : ajout de la possibilité d'avoir des places prépayées et différents modes d'interaction avec la billetterie, y compris un "solde" par carte, liés à des paiements en billetterie
+- Correction de bugs sur les exports des contacts
+- Possibilité d'ajouter des organismes à des groupes
+- Ajout de pièces-jointes aux emailings
+- Amélioration des contrôles de permissions
+
+Statistiques :
+- Ajout de statistiques sur les cartes de membre
+- L'affichage des demandes est maintenant optionnel
+
+Général :
+- Amélioration du support de la traduction, en particulier sur des éléments récurrents comme les filtres, et des calendriers dynamiques
+- Recherches en full-text : amélioration du support des caractères accentués, et des mots communs en anglais (!?)
+- Meilleur support de CSS3 et des version récentes de Mozilla Firefox (> 11)
+- Améliorations des impressions sur papier de différents écrans
+
+Scolaires et groupes :
+- Amélioration générale et conséquente du module, considérable comme valide pour des environnements de production
+
+API de vente en ligne :
+- Possibilité de forcer la "casse" sur les coordonnées des contacts remplies par les internautes
