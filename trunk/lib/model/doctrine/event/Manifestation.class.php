@@ -61,7 +61,7 @@ class Manifestation extends PluginManifestation
         ->leftJoin('t.Payments p')
         ->andWhere('p.id IS NOT NULL');
     
-    if ( isset($options['dates']) && is_array($options['dates']) )
+    if ( isset($options['dates']) )
     {
       if ( !$options['tck_value_date_payment'] )
         $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(

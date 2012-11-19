@@ -90,7 +90,7 @@
             $infos = $manif->getInfosTickets($options);
             
             $value += $infos['value'];
-            $qty = $infos['qty'];
+            $qty += $infos['qty'];
             
             $vat[$manif->vat][$event->id][$manif->id]
               = round($infos['value'] - $infos['value'] / (1+$manif->vat/100),2);
