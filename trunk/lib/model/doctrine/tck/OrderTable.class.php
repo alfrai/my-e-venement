@@ -17,6 +17,10 @@ class OrderTable extends PluginOrderTable
         return Doctrine_Core::getTable('Order');
     }
     
+    public function fetchOneById($id)
+    {
+      return $this->createQuery('a')->andWhere('id = ?',$id)->fetchOne();
+    }
     public function doSelectIndex(Doctrine_Query $q)
     {
       $o = $q->getRootAlias();

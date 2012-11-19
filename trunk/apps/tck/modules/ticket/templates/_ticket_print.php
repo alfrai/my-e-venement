@@ -56,9 +56,8 @@
   <p>
     <?php
       $order_id = 0;
-      foreach ( $transaction->Accountings as $accounting )
-      if ( $accounting->type == 'order' )
-        $order_id = $accounting->id;
+      if ( isset($transaction->Order[0]) )
+        $order_id = $$transaction->Order[0]->id;
     ?>
     <input type="submit" name="cancel-order" value="<?php echo __('Cancel order') ?>" <?php if ( !$order_id ): ?>style="display: none;"<?php endif ?> />
     <input type="submit" name="order" value="<?php echo __('Order') ?>" />

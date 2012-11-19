@@ -220,40 +220,44 @@ Accounting:
       notblank: true
       notnull: true
     manifestation_id: integer
-  indexes:
-    transaction_type:
-      fields: [transaction_id, type, manifestation_id]
-      type: unique
+Order:
+  package: tck
+  tableName: order_table
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    transaction_id:
+      type: integer
+      notnull: true
+    type: string(255)
+    manifestation_id: integer
   relations:
     Transaction:
-      foreignAlias: Accountings
+      foreignAlias: Order
       onDelete: CASCADE
       onUpdate: CASCADE
     Manifestation:
-      foreignAlias: Accountings
-      onDelete: CASCADE
-      onUpdate: CASCADE
-Order:
-  package: tck
-  inheritance:
-    extends: Accounting
-    type: column_aggregation
-    keyField: type
-    keyValue: 'order'
-  relations:
-    Transaction:
       foreignAlias: Order
       onDelete: CASCADE
       onUpdate: CASCADE
 Invoice:
   package: tck
   inheritance:
-    extends: Accounting
-    type: column_aggregation
-    keyField: type
-    keyValue: 'invoice'    
+    extends: Traceable
+    type: concrete
+  columns:
+    transaction_id:
+      type: integer
+      notnull: true
+    type: string(255)
+    manifestation_id: integer
   relations:
     Transaction:
+      foreignAlias: Invoice
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Manifestation:
       foreignAlias: Invoice
       onDelete: CASCADE
       onUpdate: CASCADE
@@ -263,15 +267,19 @@ RawAccounting:
     extends: Traceable
     type: concrete
   columns:
-    accounting_id:
-      type: integer
-      notnull: true
+    accounting_id: integer
+    order_id: integer
+    invoice_id: integer
     content:
       type: string
       notnull: true
       notblank: true
   relations:
-    Accounting:
+    Order:
+      foreignAlias: RawAccountings
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Invoice:
       foreignAlias: RawAccountings
       onDelete: SET NULL
       onUpdate: CASCADE

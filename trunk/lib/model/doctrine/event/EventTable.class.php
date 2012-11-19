@@ -43,7 +43,5 @@ class EventTable extends PluginEventTable
   {
     return $this->createQuery('e')
       ->leftJoin('e.Manifestations m');
-    //  ->leftJoin('m.Gauges g')
-    //  ->andWhere('g.value - (SELECT sum(tck.printed OR tck.integrated OR (SELECT count(o.id) > 0 FROM Accounting o WHERE tck.transaction_id = o.transaction_id AND o.type = ?)) FROM Ticket tck WHERE tck.gauge_id = g.id AND tck.duplicate IS NULL AND tck.cancelling IS NULL AND tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)) > 0','order');
   }
 }

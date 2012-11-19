@@ -16,4 +16,8 @@ class InvoiceTable extends PluginInvoiceTable
     {
         return Doctrine_Core::getTable('Invoice');
     }
+    public function fetchOneById($id)
+    {
+      return $this->createQuery('a')->andWhere('id = ?',$id)->fetchOne();
+    }
 }
