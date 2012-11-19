@@ -1,0 +1,58 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Organism
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          organism
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+    extra:                 [show]
+
+    config:
+      actions: ~
+      fields:
+        name:       { label: Name }
+        address:    { label: Address }
+        postalcode: { label: Postal code }
+        city:       { label: City }
+        email:      { label: Email }
+        npai:       { label: Has moved }
+        country:    { label: Country }
+        Category:   { label: Category }
+        organism_category_id { label: Category }
+        created_at: { label: Created at }
+        updated_at: { label: Updated at }
+        description: { label: Description }
+        url:        { label: URL }
+      list:
+        title: Organisms list
+        display: [Category, name, postalcode, city, email, _contacts_list, npai]
+        object_actions:
+          _edit: ~
+          _delete: ~
+      filter:
+        display: [name, postalcode, city, country, email, npai, organism_category_id, contacts_groups, professional_meta_event_id]
+      show:
+        display:
+          NONE: [name, address, postalcode, city, country, _show_email, _show_phonenumbers_list, _show_url, Category]
+          Details: [npai, description, created_at,updated_at,slug,longitude,latitude]
+      form:
+      edit:
+        title: Organism %%name%%
+        display:
+          NONE:  [name, address, postalcode, _cities, city, country, email, url, organism_category_id]
+          Phonenumbers: [_form_phonenumbers_list]
+          Details: [npai, description]
+        actions:
+          _save: ~
+          _delete: ~
+      new:
+        title: New organism
+        display:
+          NONE:  [name, address, postalcode, _cities, city, country, email, url, organism_category_id]
+          Phonenumbers: [phone_type,phone_number]
+          Details: [npai, description]

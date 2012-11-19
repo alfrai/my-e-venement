@@ -1,0 +1,13 @@
+all:
+  credentials: pr-card-view
+
+update:
+  credentials: pr-card-mod
+create:  
+  credentials: pr-card-mod
+new:
+  credentials: pr-card-mod
+edit:
+  credentials: pr-card-mod
+delete:
+  credentials: pr-card-mod

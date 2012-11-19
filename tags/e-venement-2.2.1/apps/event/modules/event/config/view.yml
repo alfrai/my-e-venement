@@ -1,0 +1,23 @@
+all:
+  javascripts: [/liTinymcePlugin/tiny_mce]
+  stylesheets: [manifestation]
+
+indexSuccess:
+  stylesheets: [event-list, list-print: {media: print}]
+  javascripts: [list-scroll]
+newSuccess:
+  stylesheets: [view,event]
+  javascripts:  [event]
+createSuccess:
+  stylesheets: [view,event]
+  javascripts:  [event]
+updateSuccess:
+  stylesheets: [view,event,checkpoint]
+  javascripts:  [event,checkpoint]
+editSuccess:
+  stylesheets: [view,event,checkpoint]
+  javascripts:  [event,checkpoint]
+showSuccess:
+  stylesheets: [view,event]
+  javascripts:  [event]
+
