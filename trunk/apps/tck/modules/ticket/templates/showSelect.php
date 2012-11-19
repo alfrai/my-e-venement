@@ -9,6 +9,11 @@
   <p>
     <input type="text" name="id" value="" autocomplete="off" />
     <input type="submit" value="<?php echo __('Show',null,'sf_admin') ?>" name="submit" />
+    <script type="text/javascript"><!--
+      $(document).ready(function(){
+        $('input[type=text]:first-child').focus();
+      });
+    --></script>
   </p>
 </form>
 

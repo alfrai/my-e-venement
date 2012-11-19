@@ -265,13 +265,16 @@ class ticketActions extends sfActions
     }
     else
     {
-      $this->transaction = Doctrine::getTable('Transaction')->createQuery('t')
-        ->andWhere('tck.printed = TRUE OR tck.integrated = TRUE OR tck.cancelling IS NOT NULL')
-        ->andWhere('tck.duplicate IS NULL')
+      $q = Doctrine_Query::create()
+        ->from('Transaction t')
+        ->leftJoin('t.Tickets tck ON tck.transaction_id = t.id AND tck.duplicate IS NULL AND (tck.printed = TRUE OR tck.integrated = TRUE OR tck.cancelling IS NOT NULL)')
+        ->leftJoin('tck.Cancelled cancelled')
+        ->leftJoin('tck.Manifestation m')
         ->leftJoin('tck.Price p')
         ->orderBy('p.name, tck.price_id, tck.id')
-        ->andWhere('t.id = ?',$request->getParameter('id'))
-        ->fetchOne();
+        ->andWhere('t.id = ?',$request->getParameter('id'));
+      
+      $this->transaction = $q->fetchOne();
     }
   }
   
