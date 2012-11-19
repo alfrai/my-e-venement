@@ -13,8 +13,8 @@
         <target>Cliquer pour délier les jauges, désactivant ainsi les transferts</target>
       </trans-unit>
       <trans-unit>
-        <source>Click to chain gauges from top to bottom, activating transferts</source>
-        <target>Cliquer pour chaîner les jauges depuis le haut vers le bas, activant ainsi les transferts</target>
+        <source>Click to chain gauges, activating transferts</source>
+        <target>Cliquer pour chaîner les jauges, activant ainsi les transferts</target>
       </trans-unit>
       <trans-unit>
         <source>Chained</source>

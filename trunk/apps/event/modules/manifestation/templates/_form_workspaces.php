@@ -12,6 +12,8 @@
       document.getElementById('form_workspaces').functions = [];
       document.getElementById('form_workspaces').functions.push(function(){
         $('#form_workspaces .gauge-transferts .ui-icon').unbind().click(function(){
+          if ( $('#form_workspaces .gauge-transferts.active').length > 1 )
+            $('#form_workspaces .gauge-transferts.active').toggleClass('active');
           $(this).closest('.gauge-transferts').toggleClass('active');
           
           // graphical stuff
@@ -21,24 +23,18 @@
         });
         
         // logical stuff
-        $('#form_workspaces .sf_admin_list_td_Gauge #gauge_value').change(function(event){
-          if ( $('#form_workspaces .gauge-transferts.active').length > 0 )
+        $('#form_workspaces .sf_admin_list_td_Gauge input[name="gauge[value]"]').change(function(event){
+          if ( $(this).closest('tr').find('.gauge-transferts.active').length == 1
+            && $('#form_workspaces .gauge-transferts.active').length > 1 )
           {
-            $('#form_workspaces .gauge-transferts.active').removeClass('active');
-            diff = $(this).val() - this.defaultValue;
-            elt = $(this).closest('tr').next().find('.sf_admin_list_td_Gauge #gauge_value');
+            $(this).closest('tr').find('.gauge-transferts').removeClass('active');
+            input = $('#form_workspaces .gauge-transferts.active').closest('tr').find('input[name="gauge[value]"][type=text]');
+            val = parseInt(input.val()) - parseInt($(this).val()) + parseInt(this.defaultValue);
+            val = val > 0 ? val : 0;
+            input.val(val);
+            input.change();
             
-            if ( elt.length > 0 )
-            {
-              elt.val(elt.val()-diff);
-              elt.change();
-            }
-            else
-            {
-              $(this).val(this.defaultValue);
-              $(this).change();
-              alert("<?php echo __("Cannot proceede to transfert because there is no gauge below this one") ?>");
-            }
+            // cf. web/js/form-list.js for the rest
           }
         });
       });

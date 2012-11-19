@@ -38,9 +38,7 @@
         <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
           <?php include_partial('gauge/batch_edit_td_tabular', array('gauge' => $gauge)) ?>
           <?php include_partial('gauge/batch_edit_td_actions', array('gauge' => $gauge, 'helper' => $helper)) ?>
-          <?php if ( $i == 1 ): ?>
-          <?php include_partial('gauge/batch_edit_td_rowspan', array('pager' => $pager)) ?>
-          <?php endif ?>
+          <?php include_partial('gauge/batch_edit_td_chain', array('pager' => $pager)) ?>
         </tr>
       <?php endforeach; ?>
         <tr class="sf_admin_row ui-widget-content sf_admin_new">
