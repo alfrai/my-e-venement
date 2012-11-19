@@ -234,7 +234,7 @@ class ledgerActions extends sfActions
       ->andWhere('tck.duplicate IS NULL')
       ->andWhere('tck.printed = true OR tck.integrated = true OR tck.cancelling IS NOT NULL')
       ->orderBy('pm.name');
-    if ( is_array($criterias['manifestations']) )
+    if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
     {
       $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))');
     }
@@ -252,17 +252,13 @@ class ledgerActions extends sfActions
     if ( isset($criterias['users']) && is_array($criterias['users']) && isset($criterias['users'][0]) && $criterias['users'][0] )
       $q->andWhereIn('u.id',$criterias['users']);
     
-    // check how much tickets we have to deal with
-    $tmp = $q->copy()
-      ->select('count(tck.id) as nb_tickets, sum(tck.value) as value')
-      ->orderBy('count(tck.id)')
-      ->fetchArray();
-    $this->nb_tickets = $tmp[0]['nb_tickets'];
-    
-    //if ( $this->nb_tickets > sfConfig::get('app_ledger_max_tickets',5000) || true )
     // optimizing stuff
-    $q->select('t.id, p.id, p.value, pm.id, pm.name, u.id, sum(tck.value) AS value_tck_total, (sum(tck.value * CASE WHEN tck.manifestation_id IN ('.implode(',',$criterias['manifestations']).') THEN 1 ELSE 0 END)) AS value_tck_in_manifs')
+    $q->select('t.id, p.id, p.value, pm.id, pm.name, u.id, sum(tck.value) AS value_tck_total')
       ->groupBy('t.id, p.id, p.value, pm.id, pm.name, u.id');
+    if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
+      $q->addSelect('(sum(tck.value * CASE WHEN tck.manifestation_id IN ('.implode(',',$criterias['manifestations']).') THEN 1 ELSE 0 END)) AS value_tck_in_manifs');
+    else
+      $q->addSelect('sum(tck.value) AS value_tck_in_manifs');
     $transactions = $q->execute();
     
     $pm = array();
@@ -273,17 +269,6 @@ class ledgerActions extends sfActions
       // optimizing stuff
       $sum['total'] += $transaction->value_tck_total;
       $sum['partial'] += $transaction->value_tck_in_manifs;
-      /*
-      foreach ( $transaction->Tickets as $t )
-      {
-        $sum['total'] += $t->value;
-        if ( (in_array($t->manifestation_id,$criterias['manifestations']) || count($criterias['manifestations']) == 0)
-          && (in_array($t->Gauge->workspace_id,$criterias['workspaces']) || count($criterias['workspaces']) == 0) )
-        {
-          $sum['partial'] += $t->value;
-        }
-      }
-      */
       
       if ( $sum['partial'] != 0 && $sum['total'] != 0 )
       foreach ( $transaction->Payments as $p )
