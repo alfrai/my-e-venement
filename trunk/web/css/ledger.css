@@ -24,7 +24,7 @@ table td.value { width: 50px; }
 table td.vat { width: 50px; }
 table td.vat.total { width: auto; }
 table td.date { width: 80px; }
-table td.ref { width: 200px; }
+table td.ref { max-width: 200px; }
 table td.see-more { width: 5px; padding-left: 0; }
 table td.see-more a { padding: 0 3px; }
 table td.id-qty, table td.value {
