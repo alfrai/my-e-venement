@@ -12,10 +12,10 @@ class OrganismTable extends PluginOrganismTable
     $q = $this->createQuery();
     $a = $q->getRootAlias();
     $q->leftJoin("$a.Groups g")
-      ->select("$a.*, g.*, count(p.id) AS nb_professionals")
+      ->select("$a.id, $a.name, $a.postalcode, $a.city, g.id, count(p.id) AS nb_professionals")
       ->andWhere('g.id = ?',$id)
       ->orderBy("$a.name, $a.postalcode, $a.city")
-      ->groupBy("$a.id, g.id");
+      ->groupBy("$a.id, $a.name, $a.postalcode, $a.city, g.id");
     return $q;
   }
 
