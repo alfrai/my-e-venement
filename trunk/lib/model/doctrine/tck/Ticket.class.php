@@ -45,7 +45,7 @@ class Ticket extends PluginTicket
         ->andWhere('m.id = ?',$this->manifestation_id)
         ->andWhere('p.name = ?',$this->price_name)
         ->orderBy('pm.updated_at DESC');
-      $pm = $q->execute()->get(0);
+      $pm = $q->fetchOne();
       $this->price_id = $pm->price_id;
       $this->value    = $pm->value;
     }
@@ -95,7 +95,8 @@ class Ticket extends PluginTicket
     // resetting generic properties
     $this->updated_at = NULL;
     $this->created_at = NULL;
-    $this->sf_guard_user_id = NULL;
+    if ( sfContext::getInstance()->getUser()->getId() )
+      $this->sf_guard_user_id = NULL;
     
     parent::preInsert($event);
   }
