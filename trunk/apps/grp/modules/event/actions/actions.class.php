@@ -42,12 +42,12 @@ class eventActions extends autoEventActions
   }
   public function executeRefused(sfWebRequest $request)
   {
-    $request->setAttribute('type','refused');
+    $request->setParameter('type','refused');
     $this->executeCsv($request);
   }
   public function executeAccepted(sfWebRequest $request)
   {
-    $request->setAttribute('type','accepted');
+    $request->setParameter('type','accepted');
     return $this->executeCsv($request);
   }
   public function executeCsv(sfWebRequest $request)

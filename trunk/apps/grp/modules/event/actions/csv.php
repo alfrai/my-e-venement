@@ -39,12 +39,12 @@
     ->orderBy('o.name, c.name, pr.name');
   if ( ($meid = intval($request->getParameter('manifestation_id'))) > 0 )
     $q->andWhere('me.id = ?',$meid);
-  switch ( $type ) {
+  switch ( $request->getParameter('type') ) {
   case 'refused':
-    $q->andWhere('ee.accepted = true');
+    $q->andWhere('ee.accepted = false');
     break;
   case 'accepted':
-    $q->andWhere('ee.accepted = false');
+    $q->andWhere('ee.accepted = true');
     break;
   }
   
