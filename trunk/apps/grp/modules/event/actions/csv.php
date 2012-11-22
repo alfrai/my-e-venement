@@ -36,10 +36,18 @@
     ->leftJoin('m.Event e')
     ->leftJoin('et.Price pr')
     ->andWhere('m.event_id = ?',$event->id)
-    ->andWhere('ee.accepted = true')
     ->orderBy('o.name, c.name, pr.name');
   if ( ($meid = intval($request->getParameter('manifestation_id'))) > 0 )
     $q->andWhere('me.id = ?',$meid);
+  switch ( $type ) {
+  case 'refused':
+    $q->andWhere('ee.accepted = true');
+    break;
+  case 'accepted':
+    $q->andWhere('ee.accepted = false');
+    break;
+  }
+  
   $tickets = $q->execute();
   
   $contacts = $this->prices = array();
