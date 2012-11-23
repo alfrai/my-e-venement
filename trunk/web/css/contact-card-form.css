@@ -40,3 +40,6 @@
   font-weight: bold;
   text-align: center;
 }
+#bip-card .card_expiration td + td {
+  font-weight: bold;
+}

@@ -14,14 +14,18 @@
     <td><?php echo __('Expire at') ?></td>
     <td><?php echo format_date($member_card->expire_at) ?></td>
   </tr>
+  <?php if ( $member_card->Payments->count() > 0 ): ?>
   <tr class="value">
     <?php use_helper('Number') ?>
     <td><?php echo __('Value') ?></td>
     <td><?php echo format_currency($member_card->value,'€') ?></td>
   </tr>
+  <?php endif ?>
+  <?php if ( $member_card->nb_prices > 0 ): ?>
   <tr class="prices">
     <td><?php echo __('Associated prices still available') ?></td>
     <td><?php echo $member_card->nb_prices ?></td>
   </tr>
+  <?php endif ?>
 </tbody>
 </table>
