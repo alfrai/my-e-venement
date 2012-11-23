@@ -1,0 +1,27 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           MemberCardPriceModel
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          member_card_price_model
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        member_card_name: { label: Type of member card }
+      list:
+        title: Prices association for member cards
+        sort: [member_card_name, asc]
+        display: [member_card_name, Price, quantity, Event, updated_at]
+      filter:
+        display: [member_card_name, price_id, quantity, event_id, updated_at]
+      form:
+        display: [member_card_name, price_id, quantity, event_id]
+      edit:    ~
+      new:     ~
