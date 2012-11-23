@@ -330,3 +330,11 @@
   background-color: orange;
   border: 2px solid gray;
 }
+
+#validation form p {
+  float: left;
+}
+#validation form + form p {
+  float: none;
+  text-align: right;
+}
