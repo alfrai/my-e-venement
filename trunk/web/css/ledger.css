@@ -8,6 +8,9 @@ table {
   margin-right: 240px;
   float: left;
 }
+@media print {
+  table { margin-right: 6px; }
+}
 table tfoot tr:first-child td { border-top: 1px solid #a6c9e2; }
 table thead tr:last-child td { border-bottom: 1px solid #a6c9e2; }
 table tfoot tr:first-child td,
