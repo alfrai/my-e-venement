@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Member card check</source>
+        <target>Contrôle des cartes de membre</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ticket's log</source>
         <target>Journal d'un billet</target>
       </trans-unit>
