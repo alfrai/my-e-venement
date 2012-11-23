@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Other cards</source>
+        <target>Autres cartes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Controlled on checkpoints</source>
         <target>Passés aux points de contrôle</target>
       </trans-unit>

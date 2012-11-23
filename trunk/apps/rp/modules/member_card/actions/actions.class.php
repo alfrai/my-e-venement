@@ -13,6 +13,41 @@ require_once dirname(__FILE__).'/../lib/member_cardGeneratorHelper.class.php';
  */
 class member_cardActions extends autoMember_cardActions
 {
+  public function executeCheck(sfWebRequest $request)
+  {
+    $this->type = '';
+    
+    if ( intval('9'.($id = $request->getParameter('id'))).'' !== '9'.$id || !$id )
+      return 'Success';
+    
+    try { $id = liBarcode::decode_ean($id); }
+    catch ( sfException $e )
+    { $id = intval($id); }
+    
+    $this->member_cards = Doctrine::getTable('MemberCard')->retreiveListOfActivatedCards()
+      ->select('mc.*, c.*')
+      ->addSelect('(SELECT sum(pp.value) FROM Payment pp WHERE pp.member_card_id = mc.id) AS value')
+      ->addSelect('(SELECT count(mcp.id) FROM MemberCardPrice mcp WHERE mcp.member_card_id = mc.id) AS nb_prices')
+      ->andWhere('c.id = ?',$id)
+      ->orderBy('mc.expire_at > NOW() DESC, CASE WHEN mc.expire_at > NOW() THEN NOW() - mc.expire_at ELSE mc.expire_at - NOW() END DESC, mc.created_at')
+      ->execute();
+    
+    if ( $this->member_cards->count() == 0 )
+    {
+      $this->type = 'failure';
+      return 'Success';
+    }
+    
+    $this->member_card = $this->member_cards[0];
+    $this->nb_valid = 0;
+    foreach ( $this->member_cards as $mc )
+    if ( strtotime($mc->expire_at) > strtotime('now') )
+      $this->nb_valid++;
+    
+    $this->type = $this->member_card && $this->nb_valid > 0
+      ? 'success'
+      : 'failure';
+  }
   public function executeIndex(sfWebRequest $request)
   {
     $this->request = $request;

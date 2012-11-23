@@ -38,7 +38,7 @@
     $this->executeShow($request);
     
     $this->card = new MemberCardForm();
-    $value = $params['value'];
+    $value = isset($params['value']) ? $params['value'] : 0;
     $params['value'] = 0;
     $params['active'] = true;
     $this->card->bind($params);

@@ -148,12 +148,12 @@ class contactActions extends autoContactActions
     
     if ( intval($request->getParameter('s')) > 0 )
     {
-      $value = intval($request->getParameter('s'));
+      $value = $request->getParameter('s');
       try { $value = liBarcode::decode_ean($value); }
       catch ( sfException $e )
       { $value = intval($value); }
       
-      $this->pager->setQuery($table->createQuery('c')->leftJoin('c.MemberCards mc')->andWhere('mc.id = ?',$value));
+      $this->pager->setQuery($table->createQuery('c')->leftJoin('c.MemberCards mc')->andWhere('c.id = ?',$value));
     }
     else
     {
