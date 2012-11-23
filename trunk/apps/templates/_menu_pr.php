@@ -43,6 +43,7 @@
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('pr-card-view') ): ?>
           <li class="spaced"></li>
+          <li><a href="<?php echo cross_app_url_for('rp','member_card/check') ?>"><?php echo __('Member card check',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('rp','member_card') ?>"><?php echo __('Member cards ledger',array(),'menu') ?></a></li>
           <?php endif ?>
         </ul>
