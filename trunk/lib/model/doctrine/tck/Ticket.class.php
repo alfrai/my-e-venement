@@ -37,17 +37,32 @@ class Ticket extends PluginTicket
 {
   public function preSave($event)
   {
-    if ( is_null($this->price_id) && !is_null($this->price_name) && !is_null($this->manifestation_id) )
+    if ( (is_null($this->manifestation_id) || is_null($this->value) || is_null($this->price_id)) && (!is_null($this->price_name) || !is_null($this->price_id)) && !is_null($this->gauge_id) )
     {
       $q = Doctrine::getTable('PriceManifestation')->createQuery('pm')
         ->leftJoin('pm.Manifestation m')
         ->leftJoin('pm.Price p')
-        ->andWhere('m.id = ?',$this->manifestation_id)
-        ->andWhere('p.name = ?',$this->price_name)
+        ->leftJoin('m.Gauges g')
+        ->andWhere('g.id = ?',$this->gauge_id)
         ->orderBy('pm.updated_at DESC');
+      
+      if ( !is_null($this->price_id) )
+        $q->andWhere('p.id = ?',$this->price_id);
+      else
+        $q->andWhere('p.name = ?',$this->price_name);
+      
       $pm = $q->fetchOne();
-      $this->price_id = $pm->price_id;
-      $this->value    = $pm->value;
+      if ( !$pm )
+        throw new liEvenementException('Object not found.');
+      
+      if ( is_null($this->manifestation_id) )
+        $this->manifestation_id = $pm->manifestation_id;
+      if ( is_null($this->price_name) )
+        $this->price_name = $pm->Price->name;
+      if ( is_null($this->price_id) )
+        $this->price_id = $pm->price_id;
+      if ( is_null($this->value) )
+        $this->value    = $pm->value;
     }
     
     // the transaction's last update
@@ -95,8 +110,7 @@ class Ticket extends PluginTicket
     // resetting generic properties
     $this->updated_at = NULL;
     $this->created_at = NULL;
-    if ( sfContext::getInstance()->getUser()->getId() )
-      $this->sf_guard_user_id = NULL;
+    $this->sf_guard_user_id = NULL;
     
     parent::preInsert($event);
   }

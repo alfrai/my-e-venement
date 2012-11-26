@@ -206,13 +206,16 @@
   width: 100px;
   display: inline-block;
 }
-#checkpoint .submit { margin-top: -120px; }
+#checkpoint .comment textarea { height: 40px; }
 #checkpoint .comment {
-  position: relative;
-  text-align: center;
-  top: -110px;
-  padding: 10px;
-  margin: 0 33%;
+}
+#checkpoint .checkpoint_id {
+  position: absolute;
+  margin-left: 280px;
+  margin-top: -1em;
+}
+#checkpoint .comment label, #checkpoint .checkpoint_id label {
+  display: block;
 }
 
 #prices .tickets_id {

@@ -1,0 +1,38 @@
+.sf_admin_filter select {
+  width: 180px;
+}
+
+#command .overbooked td {
+  border-top: 1px solid OrangeRed;
+  border-bottom: 1px solid OrangeRed;
+}
+#command .overbooked td:first-child {
+  border-left: 1px solid OrangeRed;
+  border-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+}
+#command .overbooked td:last-child {
+  border-right: 1px solid OrangeRed;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+#contact-form .field {
+  background-color: white;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+#contact-form .field input,
+#contact-form .field textarea {
+ border: transparent;
+}
+#contact-form .field label {
+  width: 140px;
+  display: block;
+  float: left;
+  margin-top: 3px;
+}
+#contact-form .field.error {
+  border: 1px solid red;
+}

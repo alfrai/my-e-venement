@@ -37,7 +37,7 @@ function list_integrated_search(data)
   }
   
   // if searched by id and only one result, going into the object's file
-  if ( parseInt($('#list-integrated-search input[name=s]').val()) == $('#list-integrated-search input[name=s]').val() && $('.sf_admin_list > table .sf_admin_action_show').length == 1 )
+  if ( parseInt($('#list-integrated-search input[name=s]').val().replace(/^0*/,''))+'' == $('#list-integrated-search input[name=s]').val().replace(/^0*/,'') && $('.sf_admin_list > table .sf_admin_action_show').length == 1 )
   {
     window.location = $('.sf_admin_list > table .sf_admin_action_show a:first').attr('href');
   }

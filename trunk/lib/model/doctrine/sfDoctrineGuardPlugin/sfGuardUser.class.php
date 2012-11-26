@@ -17,4 +17,9 @@ class sfGuardUser extends PluginsfGuardUser
     if ( $this->email_address && $this->username )
       parent::save($conn);
   }
+  
+  public function __toString()
+  {
+    return (string) $this->getUsername().' ('.$this->getName().')';
+  }
 }

@@ -33,6 +33,7 @@ generator:
       list:
         title: Event List
         display: [MetaEvent, name, EventCategory, duration, age_min_h_r, _list_manifestations, _list_manifestations_gauges]
+        table_method: RetrieveList
       filter:
         display: [meta_event_id, event_category_id, name, staging, writer, duration, age_min, age_max, companies_list]
       form:

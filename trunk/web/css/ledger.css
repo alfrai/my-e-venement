@@ -82,3 +82,9 @@ table tbody a:hover { text-decoration: underline; }
 #cash-ledger .workspaces {
   display: none;
 }
+
+#ledger .user {
+  white-space: nowrap;
+  max-width: 70px;
+  overflow: hidden;
+}

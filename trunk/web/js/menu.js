@@ -1,6 +1,8 @@
 $(document).ready(function(){
   // getting private script
-  $.getScript($('head script[src$="js/menu.js"]').attr('src').replace('js/menu.js','')+'private/menu.js');
+  src = $('head script[src$="js/menu.js"]').attr('src');
+  if ( src != undefined )
+    $.getScript(src.replace('js/menu.js','')+'private/menu.js');
   
   // doing a short effect on page unload
   $('a[href]:not([href^="#"]):not([target="_blank"]):not([href^="mailto:"]').click(window_transition);

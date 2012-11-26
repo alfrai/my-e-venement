@@ -103,7 +103,7 @@ class ContactForm extends BaseContactForm
   public function displayOnly($fieldname)
   {
     if ( !($this->widgetSchema[$fieldname] instanceof sfWidgetForm) )
-      throw new sfException('Fieldname "'.$fieldname.'" not found.');
+      throw new liEvenementException('Fieldname "'.$fieldname.'" not found.');
     
     foreach ( $this->widgetSchema->getFields() as $name => $widget )
     {

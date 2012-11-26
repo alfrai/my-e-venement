@@ -5,6 +5,14 @@
     <header />
     <body>
       <trans-unit>
+        <source>WARNING: CAPS Lock is off.</source>
+        <target>ATTENTION: Verr.Maj. désactivé.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>WARNING: CAPS Lock has to be on.</source>
+        <target>ATTENTION: Verr.Maj. doit être actif.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Invalid.</source>
         <target>Non valide.</target>
       </trans-unit>

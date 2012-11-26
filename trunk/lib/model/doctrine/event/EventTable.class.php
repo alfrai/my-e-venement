@@ -39,9 +39,11 @@ class EventTable extends PluginEventTable
       ->andWhere('gw.id IS NOT NULL');
   }
   
-  public function retrievePublicList()
+  public function retrieveList()
   {
     return $this->createQuery('e')
-      ->leftJoin('e.Manifestations m');
+      ->addSelect('e.*, me.*, ec.*, m.*, (SELECT max(mm2.happens_at) AS max_date FROM Manifestation mm2 WHERE mm2.event_id = e.id) AS max_date')
+      ->leftJoin('e.Manifestations m')
+      ->andWhere('m.happens_at > NOW()');
   }
 }
