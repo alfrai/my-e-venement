@@ -413,12 +413,12 @@ class manifestationActions extends autoManifestationActions
     $con = Doctrine_Manager::getInstance()->connection();
     $st = $con->execute(
       "SELECT t.*, tl.id AS translinked,
-              (SELECT sum(ttt.value)
+              (SELECT CASE WHEN sum(ttt.value) IS NULL THEN 0 ELSE sum(ttt.value) END
                FROM Ticket ttt
                WHERE ttt.transaction_id = t.id
                  AND (ttt.printed OR ttt.integrated OR cancelling IS NOT NULL)
                  AND ttt.duplicate IS NULL) AS topay,
-              (SELECT sum(ppp.value) FROM Payment ppp WHERE ppp.transaction_id = t.id) AS paid,
+              (SELECT CASE WHEN sum(ppp.value) IS NULL THEN 0 ELSE sum(ppp.value) END FROM Payment ppp WHERE ppp.transaction_id = t.id) AS paid,
               c.id AS c_id, c.name, c.firstname,
               p.name AS p_name, o.id AS o_id, o.name AS o_name, o.city AS o_city
        FROM transaction t
@@ -427,7 +427,8 @@ class manifestationActions extends autoManifestationActions
        LEFT JOIN organism o ON p.organism_id = o.id
        LEFT JOIN transaction tl ON tl.transaction_id = t.id
        WHERE t.id IN (SELECT DISTINCT tt.transaction_id FROM Ticket tt WHERE tt.manifestation_id = ".intval($this->manifestation->id).")
-         AND (SELECT sum(tt.value) FROM Ticket tt WHERE tt.transaction_id = t.id AND (tt.printed OR tt.integrated OR cancelling IS NOT NULL) AND tt.duplicate IS NULL) != (SELECT CASE WHEN count(pp.value) = 0 THEN 0 ELSE sum(pp.value) END FROM Payment pp WHERE pp.transaction_id = t.id)
+         AND (SELECT CASE WHEN sum(tt.value) IS NULL THEN 0 ELSE sum(tt.value) END FROM Ticket tt WHERE tt.transaction_id = t.id AND (tt.printed OR tt.integrated OR cancelling IS NOT NULL) AND tt.duplicate IS NULL)
+          != (SELECT CASE WHEN sum(pp.value) IS NULL THEN 0 ELSE sum(pp.value) END FROM Payment pp WHERE pp.transaction_id = t.id)
        ORDER BY t.id ASC");
     $transactions = $st->fetchAll();
     return $transactions;

@@ -24,7 +24,7 @@ class Transaction extends PluginTransaction
   {
     $price = 0;
     foreach ( $this->Tickets as $ticket )
-    if ( is_null($ticket->duplicate) && ($ticket->printed || $ticket->integrated) && is_null($ticket->cancelling) )
+    if ( is_null($ticket->duplicate) && ($ticket->printed || $ticket->integrated || !is_null($ticket->cancelling)) )
       $price += $ticket->value;
     return $price;
   }

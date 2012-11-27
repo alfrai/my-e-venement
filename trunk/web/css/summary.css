@@ -19,3 +19,6 @@
 
 .asks .sf_admin_list_th_delete_demands,
 .asks .sf_admin_list_td_delete_demands { display: table-cell; }
+
+.sf_admin_list_td_tickets_qty { text-align: right; }
+.total .sf_admin_list_td_debt .debt { float: right; }
