@@ -43,7 +43,11 @@ class EventTable extends PluginEventTable
   {
     return $this->createQuery('e')
       ->addSelect('e.*, me.*, ec.*, m.*, (SELECT max(mm2.happens_at) AS max_date FROM Manifestation mm2 WHERE mm2.event_id = e.id) AS max_date')
-      ->leftJoin('e.Manifestations m')
+      ->leftJoin('e.Manifestations m');
+  }
+  public function retrievePublicList()
+  {
+    return $this->retrieveList()
       ->andWhere('m.happens_at > NOW()');
   }
 }
