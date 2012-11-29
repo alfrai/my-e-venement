@@ -35,6 +35,8 @@ class OrganismFormFilter extends BaseOrganismFormFilter
       'required' => false,
       'multiple' => true,
     ));
+    $this->widgetSchema   ['not_groups_list'] = $this->widgetSchema   ['groups_list'];
+    $this->validatorSchema['not_groups_list'] = $this->validatorSchema['groups_list'];
     
     $this->widgetSchema['professional_meta_event_id'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'MetaEvent',
@@ -56,6 +58,7 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     $fields['postalcode']           = 'Postalcode';
     $fields['contacts_groups']      = 'ContactsGroups';
     $fields['professional_meta_event_id'] = 'ProfessionalMetaEventId';
+    $fields['not_groups_list']      = 'NotGroupsList';
     return $fields;
   }
   public function addContactsGroupsColumnQuery(Doctrine_Query $q, $field, $value)
@@ -90,6 +93,23 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     $c = $q->getRootAlias();
     if ( intval($value['text']) > 0 )
       $q->addWhere("$c.postalcode LIKE ?",intval($value['text']).'%');
+    
+    return $q;
+  }
+  
+  public function addNotGroupsListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+    {
+      $q1 = new Doctrine_Query();
+      $q1->select('tmp1.organism_id')
+        ->from('GroupOrganism tmp1')
+        ->andWhereIn('tmp1.group_id',$value);
+      
+      $q->andWhere("$a.id NOT IN (".$q1.")",$value); // hack for inserting $value
+    }
     
     return $q;
   }

@@ -28,11 +28,12 @@ generator:
         updated_at: { label: Updated at }
         description: { label: Description }
         url:        { label: URL }
+        not_groups_list: { label: Not member of groups }
       list:
         title: Organisms list
         display: [Category, name, postalcode, city, email, _contacts_list, npai]
       filter:
-        display: [name, postalcode, city, country, email, npai, organism_category_id, contacts_groups, professional_meta_event_id,groups_list]
+        display: [name, postalcode, city, country, email, npai, organism_category_id, contacts_groups, professional_meta_event_id, groups_list, not_groups_list]
       show:
         display:
           NONE: [name, address, postalcode, city, country, _show_email, _show_phonenumbers_list, _show_url, Category, _show_groups_list]
