@@ -49,9 +49,20 @@
       $this->totals['tip'] += $ticket->value;
       
       if ( !isset($this->totals['vat'][$ticket->Manifestation->vat]) )
-        $this->totals['vat'][$ticket->Manifestation->vat] = 0;
-      $this->totals['vat'][$ticket->Manifestation->vat] += $ticket->value - $ticket->value / (1+$ticket->Manifestation->vat/100);
-      $this->totals['vat']['total'] += $ticket->value - $ticket->value / (1+$ticket->Manifestation->vat/100);
+        $this->totals['vat'][$ticket->Manifestation->vat] = array($ticket->manifestation_id => 0);
+      if ( !isset($this->totals['vat'][$ticket->Manifestation->vat][$ticket->manifestation_id]) )
+        $this->totals['vat'][$ticket->Manifestation->vat][$ticket->manifestation_id] = 0;
+      $tmp = $ticket->value - $ticket->value / (1+$ticket->Manifestation->vat/100);
+      $this->totals['vat'][$ticket->Manifestation->vat][$ticket->manifestation_id] += $tmp;
+      $this->totals['vat']['total'] += $tmp;
+    }
+    
+    foreach ( $this->totals['vat'] as $tva => $manifs )
+    foreach ( $manifs as $manif )
+    {
+      if ( is_array($this->totals['vat'][$tva]) )
+        $this->totals['vat'][$tva] = 0;
+      $this->totals['vat'][$tva] += round($manif,2);
     }
     
     $this->setLayout('empty');
