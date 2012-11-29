@@ -110,19 +110,19 @@
       </trans-unit>
       <trans-unit>
         <source>Member card</source>
-        <target>Carte de membre</target>
+        <target>Carte d'abonnement</target>
       </trans-unit>
       <trans-unit>
         <source>New Member card price model</source>
-        <target>Nouveau model de carte de membre</target>
+        <target>Nouveau model de carte d'abonnement</target>
       </trans-unit>
       <trans-unit>
         <source>Prices association for member cards</source>
-        <target>Association de prix pour les cartes de membre</target>
+        <target>Association de prix pour les cartes d'abonnement</target>
       </trans-unit>
       <trans-unit>
         <source>Type of member card</source>
-        <target>Type de carte de membre</target>
+        <target>Type de carte d'abonnement</target>
       </trans-unit>
       <trans-unit>
         <source>Linked w/ MC ?</source>
@@ -498,7 +498,7 @@
       </trans-unit>
       <trans-unit>
         <source>This price doesn't exist for this manifestation or the contact's member card has got no more ticket !</source>
-        <target>Ce tarif n'existe pas pour cette manifestation ou il n'y a plus de billet sur la carte de membre du contact !</target>
+        <target>Ce tarif n'existe pas pour cette manifestation ou il n'y a plus de billet sur la carte d'abonnement du contact !</target>
       </trans-unit>
       <trans-unit>
         <source>Cancellation</source>

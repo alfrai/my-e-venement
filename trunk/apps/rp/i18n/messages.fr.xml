@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Member card type List</source>
+        <target>Liste des types de cartes d'abonnement</target>
+      </trans-unit>
+      <trans-unit>
         <source>Other cards</source>
         <target>Autres cartes</target>
       </trans-unit>
@@ -38,11 +42,11 @@
       </trans-unit>
       <trans-unit>
         <source>Member card List</source>
-        <target>Liste des cartes de membre</target>
+        <target>Liste des cartes d'abonnement</target>
       </trans-unit>
       <trans-unit>
         <source>View Member card</source>
-        <target>Carte de membre</target>
+        <target>Carte d'abonnement</target>
       </trans-unit>
       <trans-unit>
         <source>Expire at</source>
@@ -66,7 +70,7 @@
       </trans-unit>
       <trans-unit>
         <source>This member card has been used to print tickets</source>
-        <target>Cette carte de membre a été utilisée pour imprimer des billets</target>
+        <target>Cette carte d'abonnement a été utilisée pour imprimer des billets</target>
       </trans-unit>
       <trans-unit>
         <source>Payment method</source>
@@ -134,7 +138,7 @@
       </trans-unit>
       <trans-unit>
         <source>%%c%%'s member cards</source>
-        <target>Cartes de membre de %%c%%</target>
+        <target>Cartes d'abonnement de %%c%%</target>
       </trans-unit>
       <trans-unit>
         <source>Valid on</source>
@@ -142,7 +146,7 @@
       </trans-unit>
       <trans-unit>
         <source>Member cards</source>
-        <target>Cartes de membre</target>
+        <target>Cartes d'abonnement</target>
       </trans-unit>
       <trans-unit>
         <source>Phone type List</source>

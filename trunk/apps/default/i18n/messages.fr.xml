@@ -6,7 +6,7 @@
     <body>
       <trans-unit>
         <source>Prices association for member cards</source>
-        <target>Association de prix pour les cartes de membre</target>
+        <target>Association de prix pour les cartes d'abonnement</target>
       </trans-unit>
       <trans-unit>
         <source>The chosen user has been correctly duplicated, please verify its username and its email address</source>
