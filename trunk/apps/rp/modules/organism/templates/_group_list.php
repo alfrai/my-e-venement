@@ -37,7 +37,7 @@
     <?php else: ?>
     <thead class="ui-widget-header">
       <tr>
-        <?php include_partial('group_list_th_tabular') ?>
+        <?php include_partial('group_list_th_tabular',array('sort' => $sort)) ?>
       </tr>
     </thead>
     <tfoot>

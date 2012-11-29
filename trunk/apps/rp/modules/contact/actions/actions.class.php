@@ -226,41 +226,7 @@ class contactActions extends autoContactActions
   // creates a group from filter criterias
   public function executeGroup(sfWebRequest $request)
   {
-    $q = $this->buildQuery();
-    $a = $q->getRootAlias();
-    $q->select   ("$a.id, p.id AS professional_id");
-    $records = $q->fetchArray();
-    
-    if ( $q->count() > 0 )
-    {
-      $group = new Group();
-      if ( $this->getUser() instanceof sfGuardSecurityUser )
-        $group->sf_guard_user_id = $this->getUser()->id;
-      $group->name = __('Search group').' - '.date('Y-m-d H:i:s');
-      $group->sf_guard_user_id = $this->getUser()->getId();
-      $group->save();
-      
-      foreach ( $records as $record )
-      {
-        // contact
-        if ( !$record['professional_id'] )
-        {
-          $member = new GroupContact();
-          $member->contact_id = $record['id'];
-        }
-        else
-        {
-          $member = new GroupProfessional();
-          $member->professional_id = $record['professional_id'];
-        }
-        
-        $member->group_id   = $group->id;
-        $member->save();
-      }
-    }
-    
-    $this->redirect(url_for('group/show?id='.$group->id));
-    return sfView::NONE;
+    require(dirname(__FILE__).'/group.php');
   }
   
   public function executeMap(sfWebRequest $request)

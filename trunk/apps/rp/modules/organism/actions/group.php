@@ -23,18 +23,31 @@
 ***********************************************************************************/
 ?>
 <?php
-    if ( !$request->getParameter('id') )
-      $this->forward('organism','index');
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
     
-    $this->group_id = $request->getParameter('id');
+    $q = $this->buildQuery();
+    $a = $q->getRootAlias();
+    $q->select   ("$a.id");
+    $records = $q->fetchArray();
     
-    $this->pager = $this->configuration->getPager('Organism');
-    $this->pager->setMaxPerPage(15);
-    $this->pager->setQuery(
-      Doctrine::getTable('Organism')->createQueryByGroupId($this->group_id)
-    );
-    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
-    $this->pager->init();
+    if ( $q->count() > 0 )
+    {
+      $group = new Group();
+      if ( $this->getUser() instanceof sfGuardSecurityUser )
+        $group->sf_guard_user_id = $this->getUser()->getId();
+      $group->name = __('Search group').' - '.date('Y-m-d H:i:s');
+      $group->sf_guard_user_id = $this->getUser()->getId();
+      $group->save();
+      
+      foreach ( $records as $record )
+      {
+        $member = new GroupOrganism;
+        $member->organism_id = $record['id'];
+        
+        $member->group_id   = $group->id;
+        $member->save();
+      }
+    }
     
-    $this->sort = $this->getSort();
-
+    $this->redirect(url_for('group/show?id='.$group->id));
+    return sfView::NONE;

@@ -13,22 +13,22 @@ $last = $first + $pager->getMaxPerPage() - 1;
             <tr>
               <?php if ($pager->haveToPaginate()): ?>
               <td class="button">
-                <a href="<?php echo url_for('groupList?id='.$group_id.'&page=1') ?>"<?php if ($pager->getPage() == 1) echo ' class="ui-state-disabled"' ?>>
-                  <span class="ui-icon ui-icon-seek-first"></span>                </a>
+                <a href="<?php echo url_for('organism/groupList?id='.$group_id.'&page=1') ?>"<?php if ($pager->getPage() == 1) echo ' class="ui-state-disabled"' ?>>
+                  <span class="ui-icon ui-icon-seek-first"></span>               </a>
               </td>
 
               <td class="button">
-                <a href="<?php echo url_for('groupList?id='.$group_id.'&page='.$pager->getPreviousPage()) ?>"<?php if ($pager->getPage() == 1) echo ' class="ui-state-disabled"' ?>>
+                <a href="<?php echo url_for('organism/groupList?id='.$group_id.'&page='.$pager->getPreviousPage()) ?>"<?php if ($pager->getPage() == 1) echo ' class="ui-state-disabled"' ?>>
                   <span class="ui-icon ui-icon-seek-prev"></span>                </a>
               </td>
 
               <td class="button">
-                <a href="<?php echo url_for('groupList?id='.$group_id.'&page='.$pager->getNextPage()) ?>"<?php if ($pager->getPage() == $pager->getLastPage()) echo ' class="ui-state-disabled"' ?>>
+                <a href="<?php echo url_for('organism/groupList?id='.$group_id.'&page='.$pager->getNextPage()) ?>"<?php if ($pager->getPage() == $pager->getLastPage()) echo ' class="ui-state-disabled"' ?>>
                   <span class="ui-icon ui-icon-seek-next"></span>                </a>
               </td>
 
               <td class="button">
-                <a href="<?php echo url_for('groupList?id='.$group_id.'&page='.$pager->getLastPage()) ?>"<?php if ($pager->getPage() == $pager->getLastPage()) echo ' class="ui-state-disabled"' ?>>
+                <a href="<?php echo url_for('organism/groupList?id='.$group_id.'&page='.$pager->getLastPage()) ?>"<?php if ($pager->getPage() == $pager->getLastPage()) echo ' class="ui-state-disabled"' ?>>
                   <span class="ui-icon ui-icon-seek-end"></span>                </a>
               </td>
               <?php endif; ?>
