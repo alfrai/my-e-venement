@@ -42,9 +42,11 @@
   switch ( $request->getParameter('type') ) {
   case 'refused':
     $q->andWhere('ee.accepted = false');
+    $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename=refused.csv');
     break;
   case 'accepted':
     $q->andWhere('ee.accepted = true');
+    $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename=accepted.csv');
     break;
   }
   
@@ -118,12 +120,11 @@
   sfConfig::set('sf_escaping_strategy', false);
   sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
   
-  if ( !$request->hasParameter('debug') )
+  if ( $request->hasParameter('debug') )
   {
-    sfConfig::set('sf_web_debug', false);
-    $this->getResponse()->setContentType('text/comma-separated-values');
     $this->getResponse()->sendHttpHeaders();
+    $this->setLayout('layout');
   }
   else
-    $this->setLayout('layout');
+    sfConfig::set('sf_web_debug', false);
 

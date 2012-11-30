@@ -58,11 +58,5 @@
     if ( $request->hasParameter('debug') )
     {
       $this->setLayout('layout');
-    }
-    else
-    {
-      $this->getResponse()->setContentType('text/comma-separated-values');
-      $this->getResponse()->setHttpHeader('Content-Disposition', "attachment; filename=organisms.csv");
       $this->getResponse()->sendHttpHeaders();
     }
-    

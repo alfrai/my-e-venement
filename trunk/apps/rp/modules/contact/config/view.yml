@@ -32,7 +32,7 @@ csvSuccess:
   has_layout: false
   http_metas:
     content-type: text/comma-separated-values
-    content-disposition: attachment; filename="contacts-list.csv"
+    content-disposition: attachment; filename=contacts-list.csv
 
 cardSuccess:
   stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css: {media: all}, contact-card: {media: all}, /private/contact-card: {media: all}]

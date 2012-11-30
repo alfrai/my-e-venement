@@ -10,5 +10,4 @@ csvSuccess:
   has_layout: false
   http_metas:
     content-type: text/comma-separated-values
-    content-disposition: attachment; filename="accepted.csv"
-              
+    content-disposition: attachment; filename="extracted.csv"

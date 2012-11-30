@@ -51,21 +51,25 @@
     </tfoot>
 
     <tbody>
-      <?php foreach ($pager->getResults() as $i => $contact): $odd = fmod(++$i, 2) ? ' odd' : '' ?>
-        <?php if ( $contact->Professionals->count() > 0 ): ?>
-          <?php foreach ($contact->Professionals as $professional): $odd = fmod(++$i, 2) ? ' odd' : '' ?>
-            <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
-            <?php include_partial('group_list_td_tabular', array('contact' => $contact, 'professional' => $professional)) ?>
-            </tr>
-          <?php endforeach ?>
-        <?php else: ?>
-            <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
-            <?php include_partial('group_list_td_tabular', array('contact' => $contact, 'professional' => NULL)) ?>
-            </tr>
-        <?php endif; ?>
-      <?php endforeach; ?>
+      <?php foreach ($pager->getResults() as $i => $contact): ?>
+      <?php $nb = 0 ?>
+      <?php foreach ($contact->Professionals as $professional): ?>
+      <?php if ( $professional->ProfessionalGroups->count() > 0 ): $nb++; ?>
+        <?php $odd = fmod(++$i, 2) ? ' odd' : '' ?>
+        <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
+          <?php include_partial('group_list_td_tabular', array('contact' => $contact, 'professional' => $professional)) ?>
+        </tr>
+      <?php endif ?>
+      <?php endforeach ?>
+      <?php if ( $nb == 0 ): ?>
+        <?php $odd = fmod(++$i, 2) ? ' odd' : '' ?>
+        <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
+          <?php include_partial('group_list_td_tabular', array('contact' => $contact, 'professional' => NULL)) ?>
+        </tr>
+      <?php endif ?>
+      <?php endforeach ?>
     </tbody>
-  <?php endif; ?>
+    <?php endif ?>
   </table>
 
 </div>

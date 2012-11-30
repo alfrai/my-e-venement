@@ -613,8 +613,7 @@ class ContactFormFilter extends BaseContactFormFilter
   }
   public function buildQuery(array $values)
   {
-    if ( $values )
-      $this->setProfessionalData(false);
+    $this->setProfessionalData(false);
     return parent::buildQuery($values);
   }
 }

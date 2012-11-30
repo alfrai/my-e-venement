@@ -60,14 +60,13 @@ class activityActions extends sfActions
     sfConfig::set('sf_escaping_strategy', false);
     sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
     
-    if ( !$request->hasParameter('debug') )
+    if ( $request->hasParameter('debug') )
     {
-      sfConfig::set('sf_web_debug', false);
-      $this->getResponse()->setContentType('text/comma-separated-values');
       $this->getResponse()->sendHttpHeaders();
+      $this->setLayout(true);
     }
     else
-      $this->setLayout(true);
+      sfConfig::set('sf_web_debug', false);
   }
   
   public function executeData(sfWebRequest $request)

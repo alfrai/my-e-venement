@@ -28,9 +28,8 @@ class ContactTable extends PluginContactTable
     $q = $this->createQuery();
     $a = $q->getRootAlias();
     $q->leftJoin("$a.Groups gc")
-      ->leftJoin("p.Groups gp")
-      ->where('gc.id = ?',$id)
-      ->orWhere('gp.id = ?',$id)
+      ->leftJoin("p.ProfessionalGroups gp ON p.id = gp.professional_id AND gp.group_id = ?",$id)
+      ->andWhere('(gc.id = ? OR gp.group_id = ?)',array($id,$id))
       ->orderby('name','firstname');
     return $q;
   }
