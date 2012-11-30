@@ -53,6 +53,8 @@ class ContactForm extends BaseContactForm
       'required' => false,
     ));
     
+    $this->widgetSchema   ['confirmed'] = sfWidgetFormInputHidden();
+    
     parent::configure();
   }
   
