@@ -27,10 +27,14 @@ class liMailer extends sfMailer
   public function batchSend($message)
   {
     $arr = $message->getTo();
-    foreach ( $arr as $to )
+    foreach ( $arr as $address => $name )
     {
-      $message->setTo($to);
+      $message->setTo(is_int($address) ? $name : array($address => $name));
       $this->send($message);
+      
+      file_put_contents('/tmp/liMailer.log',date('Y-m-d H:i:s').' -- '.$address."\n", FILE_APPEND);
     }
+    
+    return count($arr) > 0;
   }
 }
