@@ -40,6 +40,10 @@ Contact:
       notnull: true
       default: true
     organism_category_id: integer
+    confirmed:
+      type: boolean
+      notnull: true
+      default: true
   relations:
     Category:
       class: OrganismCategory
