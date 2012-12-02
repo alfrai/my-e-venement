@@ -7,6 +7,7 @@
   </div>
   <div class="chart">
     <?php echo liWidgetOfc::createChart(800, 450, $sf_context->getModuleName().'/data',true); ?>
+    <p class="title"><?php $acc = $sf_user->getAttribute('stats.accounting',array(),'admin_module'); foreach ( $acc['price'] as $price ) if ( $price ) { echo __('By value'); break; } ?></p>
   </div>
   <div class="ui-widget-content ui-corner-all accounting">
   <form action="" method="get">

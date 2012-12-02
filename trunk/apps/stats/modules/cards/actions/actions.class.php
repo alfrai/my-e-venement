@@ -60,8 +60,8 @@ class cardsActions extends sfActions
       unset($this->lines[$key][0],$this->lines[$key][1]);
       $this->lines[$key]['percent'] = round($line['nb']*100/$total,1);
       $this->lines[$key]['name'] = __($line['name']);
-      $this->lines[$key]['nb'] = round($line['nb']);
-      $this->lines[$key]['pit'] = $this->lines[$key]['nb']*$this->accounting['price'][$line['name']];
+      $this->lines[$key]['nb'] = round($line['nb']/365);
+      $this->lines[$key]['pit'] = round($this->lines[$key]['nb']*$this->accounting['price'][$line['name']],2);
       if ( isset($this->accounting['vat']) && $this->accounting['vat'] )
       {
         $this->lines[$key]['tep'] = round($this->lines[$key]['pit']/(1+$this->accounting['vat']/100),2);
@@ -118,6 +118,7 @@ class cardsActions extends sfActions
   public function executeData(sfWebRequest $request)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
+    $this->accounting = $this->getUser()->getAttribute('stats.accounting',array(),'admin_module');
     
     // the graph
     $g = new stGraph();
@@ -131,7 +132,12 @@ class cardsActions extends sfActions
     
     foreach ( $mc as $value )
     {
-      $data[]   = round($value['nb']/365,2);
+      $byvalue = false;
+      foreach ( $this->accounting['price'] as $price )
+      if ( $price )
+        $byvalue = true;
+      
+      $data[]   = $byvalue ? round(round($value['nb']/365)*$this->accounting['price'][$value['name']],2) : round($value['nb']/365);
       $names[]  = __($value['name']);
     }
     

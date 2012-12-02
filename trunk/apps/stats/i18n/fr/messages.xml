@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>By value</source>
+        <target>En valeur</target>
+      </trans-unit>
+      <trans-unit>
         <source>Prices for %%price%%</source>
         <target>Prix pour %%price%%</target>
       </trans-unit>
