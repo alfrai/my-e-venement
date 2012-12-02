@@ -53,7 +53,7 @@ class byGroupActions extends sfActions
     
     $params = OptionCsvForm::getDBOptions();
     $this->options = array(
-      'ms' => in_array('microsoft',$params['option']['ms']),
+      'ms' => in_array('microsoft',$params['option']),
       'fields' => array('name'),
       'tunnel' => false,
       'noheader' => false,
