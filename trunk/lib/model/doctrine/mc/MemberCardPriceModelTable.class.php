@@ -7,13 +7,15 @@
  */
 class MemberCardPriceModelTable extends PluginMemberCardPriceModelTable
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object MemberCardPriceModelTable
-     */
-    public static function getInstance()
-    {
-        return Doctrine_Core::getTable('MemberCardPriceModel');
-    }
+  public function retrieveList()
+  {
+    return $this->createQuery('mcpm')
+      ->leftJoin('mcpm.MemberCardType mct')
+      ->leftJoin('mcpm.Price p');
+  }
+  
+  public static function getInstance()
+  {
+      return Doctrine_Core::getTable('MemberCardPriceModel');
+  }
 }

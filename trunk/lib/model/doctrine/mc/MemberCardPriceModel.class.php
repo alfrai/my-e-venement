@@ -12,4 +12,8 @@
  */
 class MemberCardPriceModel extends PluginMemberCardPriceModel
 {
+  public function getName()
+  {
+    return $this->MemberCardType->name;
+  }
 }

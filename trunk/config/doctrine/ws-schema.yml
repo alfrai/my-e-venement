@@ -56,9 +56,7 @@ BankPayment:
   actAs:
     Timestampable: ~
   columns:
-    payment_id:
-      type: integer
-      notnull: true
+    payment_id: integer
     serialized: string
     code: string(255)
     error: string

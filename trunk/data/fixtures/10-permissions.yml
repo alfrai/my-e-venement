@@ -519,6 +519,11 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_79
     created_at: '2012-10-10 18:10:09'
     updated_at: '2012-10-10 18:10:09'
+  sfGuardGroupPermission_28_80:
+    Group: sfGuardGroup_28
+    Permission: sfGuardPermission_80
+    created_at: '2012-11-28 18:10:09'
+    updated_at: '2012-11-28 18:10:09'
 sfGuardPermission:
   sfGuardPermission_18:
     name: admin-titles
@@ -895,6 +900,11 @@ sfGuardPermission:
     description: Permission to use seated ticketting
     created_at: '2012-10-10 18:09:41'
     updated_at: '2012-10-10 18:09:41'
+  sfGuardPermission_80:
+    name: pr-card-admin
+    description: 'Permission to create/del member card types'
+    created_at: '2012-11-28 11:09:41'
+    updated_at: '2012-11-28 11:09:41'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -1031,3 +1041,8 @@ sfGuardGroup:
     description: 'Permission to use seated ticketting'
     created_at: '2011-10-10 18:10:03'
     updated_at: '2011-10-10 18:10:03'
+  sfGuardGroup_28:
+    name: pr-card-admin
+    description: 'Permission to administrate member card types'
+    created_at: '2012-11-28 18:10:03'
+    updated_at: '2012-11-28 18:10:03'

@@ -14,8 +14,8 @@ abstract class PluginEmail extends BaseEmail
 {
   public $not_a_test      = false;
   public $test_address    = NULL;
-  public $mailer          = NULL;
   public $to              = array();
+  public $mailer          = NULL;
   
   protected function send()
   {
@@ -45,7 +45,7 @@ abstract class PluginEmail extends BaseEmail
       $this->to = array_merge($this->to,explode(',',str_replace(' ','',$this->field_to)));
     */
     $this->field_to = implode(', ',$this->to);
-    return $this->raw_send(null,$this->nospool ? true : false);
+    return $this->raw_send(null,$this->nospool);
   }
 
   protected function sendTest()
@@ -69,9 +69,23 @@ abstract class PluginEmail extends BaseEmail
         ->setFilename($attachment->original_name)
         ->setId('part.'.$attachment->id.'@e-venement'));
     
+    $this->setMailer();
     return $immediatly === true
       ? $this->mailer->sendNextImmediately()->send($message)
       : $this->mailer->batchSend($message);
+  }
+  
+  public function setMailer(sfMailer $mailer = NULL)
+  {
+    if ( $this->mailer instanceof sfMailer )
+      return $this;
+    
+    if ( $mailer instanceof sfMailer )
+      $this->mailer = $mailer;
+    else
+      $this->mailer = sfContext::getInstance()->getMailer();
+    
+    return $this;
   }
 
   protected function compose(Swift_Message $message)

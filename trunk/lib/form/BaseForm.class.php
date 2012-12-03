@@ -16,7 +16,8 @@ class BaseForm extends sfFormSymfony
   
   public function renderFormTag($url, array $attributes = array())
   {
-    $attributes['autocomplete'] = 'off';
+    if ( !isset($attributes['autocomplete']) )
+      $attributes['autocomplete'] = 'off';
     return parent::renderFormTag($url,$attributes);
   }
 }

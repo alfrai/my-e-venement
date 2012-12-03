@@ -20,16 +20,23 @@
 # 
 #**********************************************************************************/
 
+MemberCardType:
+  package: mc
+  columns:
+    name:
+      type: string(255)
+      unique: true
+      notnull: true
+      notblank: true
+    value:
+      type: integer
+      notnull: true
 MemberCard:
   package: mc
   inheritance:
     extends: Traceable
     type: concrete
   columns:
-    name:
-      type: string(255)
-      notnull: true
-      notblank: true
     contact_id:
       type: integer
       notnull: true
@@ -40,10 +47,17 @@ MemberCard:
       type: boolean
       notnull: true
       default: true
+    member_card_type_id:
+      type: integer
+      notnull: true
   relations:
     Contact:
       foreignAlias: MemberCards
       onDelete: CASCADE
+      onUpdate: CASCADE
+    MemberCardType:
+      foreignAlias: MemberCards
+      onDelete: RESTRICT
       onUpdate: CASCADE
 MemberCardPrice:
   package: mc
@@ -77,10 +91,9 @@ MemberCardPriceModel:
     extends: Traceable
     type: concrete
   columns:
-    member_card_name:
-      type: string(255)
+    member_card_type_id:
+      type: integer
       notnull: true
-      notblank: true
     price_id:
       type: integer
       notnull: true
@@ -90,15 +103,18 @@ MemberCardPriceModel:
     event_id: integer
   relations:
     Price:
-      foreignAlias: MemberCardPriceModel
+      foreignAlias: MemberCardPriceModels
       onDelete: CASCADE
       onUpdate: CASCADE
     Event:
-      foreignAlias: MemberCardPriceModel
+      foreignAlias: MemberCardPriceModels
       onDelete: CASCADE
       onUpdate: CASCADE
+    MemberCardType:
+      foreignAlias: MemberCardPriceModels
+      onDelete: RESTRICT
+      onUpdate: CASCADE
   indexes:
-    member_card_name_price_id_event_id:
-      fields: [member_card_name, price_id, event_id]
+    member_card_type_id_price_id_event_id:
+      fields: [member_card_type_id, price_id, event_id]
       unique: true
-

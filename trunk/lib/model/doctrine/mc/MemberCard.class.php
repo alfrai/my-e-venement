@@ -21,6 +21,11 @@ class MemberCard extends PluginMemberCard
     return __($this->name).' #'.$this->id."\n(".format_date($this->expire_at,'D').($this->value > 0 ? ', '.format_currency($this->value,'€') : '').')';
   }
   
+  public function getName()
+  {
+    return $this->MemberCardType->name;
+  }
+  
   public function getValue()
   {
     if ( isset($this->value) )
@@ -38,7 +43,7 @@ class MemberCard extends PluginMemberCard
   {
     // prices
     $q = Doctrine::getTable('MemberCardPriceModel')->createQuery('pm')
-      ->andWhere('UPPER(pm.member_card_name) = UPPER(?)',$this->name);
+      ->andWhere('pm.member_card_type_id = ?',$this->member_card_type_id);
     $models = $q->execute();
     
     foreach ( $models as $model )

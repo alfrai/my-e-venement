@@ -62,7 +62,7 @@ Transaction:
   relations:
     Contact:
       foreignAlias: Transactions
-      onDelete: CASCADE
+      onDelete: SET NULL
       onUpdate: CASCADE
     Professional:
       foreignAlias: Transactions

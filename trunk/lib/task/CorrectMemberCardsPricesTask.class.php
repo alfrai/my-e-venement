@@ -35,7 +35,7 @@ class CorrectMemberCardsPricesTask extends sfBaseTask
     ));
     $this->namespace = 'e-venement';
     $this->name = 'correct-member-cards-prices';
-    $this->briefDescription = 'Correct member cards regarding to the printed tickets and available prices';
+    $this->briefDescription = 'Correct member cards (printed tickets / available prices)';
     $this->detailedDescription = <<<EOF
       The [correct-member-cards-prices|INFO] Correct automatically member cards regarding to the printed tickets and available prices: 
       [./symfony e-venement:correct-member-cards-prices --execute|INFO]

@@ -20,8 +20,5 @@ class MemberCardForm extends BaseMemberCardForm
     unset($this->validatorSchema['expires_at']);
     
     $this->validatorSchema['sf_guard_user_id']->setOption('required',false);
-    
-    $this->widgetSchema   ['value'] = new sfWidgetFormInputText();
-    $this->validatorSchema['value'] = new sfValidatorNumber();
   }
 }

@@ -5,8 +5,12 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Types of member cards</source>
+        <target>Types de cartes d'abo.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Member card check</source>
-        <target>Contrôle des cartes d'abonnement</target>
+        <target>Cartes d'abo: contrôle</target>
       </trans-unit>
       <trans-unit>
         <source>Ticket's log</source>
@@ -18,7 +22,7 @@
       </trans-unit>
       <trans-unit>
         <source>Member cards ledger</source>
-        <target>Journal des cartes d'abonnement</target>
+        <target>Cartes d'abo: journal</target>
       </trans-unit>
       <trans-unit>
         <source>Prices association for member cards</source>

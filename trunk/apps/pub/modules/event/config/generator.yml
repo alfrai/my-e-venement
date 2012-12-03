@@ -1,0 +1,31 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Event
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          event
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        meta_event_id: { label: Programmation }
+        MetaEvent: { label: Programmation }
+      list:
+        batch_actions: []
+        object_actions: []
+        actions: []
+        display: [MetaEvent, =name, EventCategory, _age_min, _dates]
+        sort: [max_date, '']
+        table_method: retrievePublicList
+        title: Events list
+      filter:
+        display: [name, meta_event_id, event_category_id]
+      form:    ~
+      edit:    ~
+      new:     ~

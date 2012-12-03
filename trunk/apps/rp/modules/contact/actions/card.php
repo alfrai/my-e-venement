@@ -38,8 +38,6 @@
     $this->executeShow($request);
     
     $this->card = new MemberCardForm();
-    $value = isset($params['value']) ? $params['value'] : 0;
-    $params['value'] = 0;
     $params['active'] = true;
     $this->card->bind($params);
     
@@ -73,18 +71,20 @@
       $this->transaction = null;
       
       // payments in ticketting
-      if ( $value > 0 )
+      if ( $this->card->MemberCardType->value > 0 )
       {
         $payment = new Payment;
         if ( intval($pmid = $request->getParameter('payment_method_id')) > 0 )
           $payment->payment_method_id = $pmid;
         else
         {
-          $pm = Doctrine::getTable('PaymentMethod')->createQuery('pm')->andWhere('pm.member_card_linked = true')->fetchOne();
+          $pm = Doctrine::getTable('PaymentMethod')->createQuery('pm')
+            ->andWhere('pm.member_card_linked = true')
+            ->fetchOne();
           $payment->payment_method_id = $pm->id;
         }
         $payment->MemberCard = $this->card;
-        $payment->value = -$value;
+        $payment->value = -$this->card->MemberCardType->value;
         
         $this->transaction = new Transaction;
         $this->transaction->Contact = $this->card->Contact;

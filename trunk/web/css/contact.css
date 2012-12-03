@@ -12,7 +12,7 @@
   float: right;
   width: 380px;
 }
-#member-cards .new #card_type_value, #member-cards .new #card_type_payment_method { float: right; }
+#member-cards .new #card_duplicate, #member-cards .new #card_type_value, #member-cards .new #card_type_payment_method { float: right; }
 #member-cards .new #card_type_value input {
   width: 4em;
   text-align: right;

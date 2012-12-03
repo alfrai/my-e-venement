@@ -14,14 +14,19 @@ generator:
     config:
       actions: ~
       fields:
-        member_card_name: { label: Type of member card }
+        member_card_type_id: { label: Type of member card }
+        MemberCardType: { label: Type of member card }
       list:
         title: Prices association for member cards
-        sort: [member_card_name, asc]
-        display: [member_card_name, Price, quantity, Event, updated_at]
+        display: [name, Price, quantity, Event, updated_at]
+        table_method: retrieveList
+        sort: [mct.name, desc]
+        object_actions:
+          _delete: ~
+          _edit: ~
       filter:
-        display: [member_card_name, price_id, quantity, event_id, updated_at]
+        display: [member_card_type_id, price_id, quantity, event_id, updated_at]
       form:
-        display: [member_card_name, price_id, quantity, event_id]
+        display: [member_card_type_id, price_id, quantity, event_id]
       edit:    ~
       new:     ~

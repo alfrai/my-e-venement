@@ -151,18 +151,15 @@ class ContactFormFilter extends BaseContactFormFilter
     ));
     
     //cards
-    $arr = array();
-    if ( sfConfig::has('app_cards_types') && is_array(sfConfig::get('app_cards_types')) )
-    foreach ( sfConfig::get('app_cards_types') as $key => $value )
-      $arr[$value] = $value;
-    $this->widgetSchema   ['member_cards'] = new sfWidgetFormChoice(array(
-      'choices'  => $arr,
+    $this->widgetSchema   ['member_cards'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'MemberCardType',
+      'order_by' => array('name','asc'),
       'multiple' => true,
     ));
-    $this->validatorSchema['member_cards'] = new sfValidatorChoice(array(
+    $this->validatorSchema['member_cards'] = new sfValidatorDoctrineChoice(array(
       'required' => false,
       'multiple' => true,
-      'choices'  => $arr,
+      'model' => 'MemberCardType',
     ));
     $this->widgetSchema   ['member_cards_expire_at'] = new liWidgetFormDateText(array(
     ));
@@ -500,10 +497,8 @@ class ContactFormFilter extends BaseContactFormFilter
     if ( count($value) > 0 )
     {
       if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
-      $q->leftJoin("$c.MemberCards mc");
-      
-      $q->andWhereIn("mc.name",$value)
-        ->andWhere('mc.expire_at > NOW()');
+        $q->leftJoin("$c.MemberCards mc");
+      $q->andWhereIn("mc.member_card_type_id",$value);
    }
     
     return $q;

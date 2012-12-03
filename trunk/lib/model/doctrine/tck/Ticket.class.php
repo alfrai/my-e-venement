@@ -93,7 +93,7 @@ class Ticket extends PluginTicket
           ->execute();
       
       foreach ( $models as $model )
-      if ( strcasecmp($this->MemberCard->name, $model->member_card_name) == 0 )
+      if ( $this->MemberCard->member_card_type_id == $model->member_card_type_id )
       {
         $mcp = new MemberCardPrice;
         $mcp->price_id = $this->price_id;

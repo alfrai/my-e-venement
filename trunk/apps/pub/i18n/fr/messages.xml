@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2012-11-26T17:06:45Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit>
+        <source>A contact with the same values already exists, try to authenticate...</source>
+        <target>Un contact avec les mêmes valeurs existe déjà, essayez de vous authentifier...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You have just abandonned your payment, you can still empty / correct / validate your cart...</source>
+        <target>Vous venez d'abandonner votre paiement, vous pouvez toujours vider / corriger / valider votre panier...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You are authenticated.</source>
+        <target>Vous êtes authentifié.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Authentication failure.</source>
+        <target>Échec d'authentification.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>No cart to display</source>
+        <target>Pas de panier à afficher</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Meta event</source>
+        <target>Méta-événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Events list</source>
+        <target>Liste des événements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Dates list</source>
+        <target>Liste des dates</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Date unavailable, try an other one.</source>
+        <target>Date indisponible, essayez une autre.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Phone type</source>
+        <target>Type de téléphone</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Phone number</source>
+        <target>N° de téléphone</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Password</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Password again</source>
+        <target>MdP à nouveau</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Send</source>
+        <target>Envoyer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Event category</source>
+        <target>Catégorie d'événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Postalcode</source>
+        <target>Code postal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>City</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Country</source>
+        <target>Pays</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Email</source>
+        <target>Courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Firstname</source>
+        <target>Prénom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Required.</source>
+        <target>Obligatoire.</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>Your cart is still empty, select tickets first...</source>
+        <target>Votre panier est toujours vide, sélectionnez d'abord des billets...</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>[1]There is one overloaded gauge, please review your command.|(1,+Inf]There are %%nb%% overloaded gauges, please review your command.</source>
+        <target>[1]Il y a une une jauge dépassée, revoyez votre commande SVP.|(1,+Inf]Il y a %%nb%% jauges dépassées, revoyez votre commande SVP.</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>modify</source>
+        <target>modifier</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Event</source>
+        <target>Événement</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Space</source>
+        <target>Espace</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Price</source>
+        <target>Prix</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Qty</source>
+        <target>Qté</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Unit price</source>
+        <target>Prix unitaire</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Order</source>
+        <target>Commander</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Send</source>
+        <target>Envoyer</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Value</source>
+        <target>Valeur</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Quantity</source>
+        <target>Quantité</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>%%nb%% ticket(s) have been added to your cart</source>
+        <target>%%nb%% billets ont été ajoutés à votre panier</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>%%i%% years old</source>
+        <target>%%i%% ans</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>%%i%% month old</source>
+        <target>%%i%% mois</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

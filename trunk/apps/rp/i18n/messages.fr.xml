@@ -593,8 +593,8 @@
         <target>Prénom</target>
       </trans-unit>
       <trans-unit id="80">
-        <source>Precisions</source>
-        <target>Précisions</target>
+        <source>Technic</source>
+        <target>Technique</target>
       </trans-unit>
       <trans-unit id="81">
         <source>Numeric</source>

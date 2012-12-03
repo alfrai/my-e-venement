@@ -109,7 +109,7 @@ class emailActions extends autoEmailActions
     }
     
     // mailer
-    $this->email->mailer = $this->getMailer();
+    $this->email->setMailer($this->getMailer());
     $this->email->test_address = $email['test_address'];
     
     if ( $this->email->sent )

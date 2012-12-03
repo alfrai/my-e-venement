@@ -17,6 +17,8 @@ class MemberCardPriceModelForm extends BaseMemberCardPriceModelForm
   {
     parent::configure();
     
+    $this->widgetSchema   ['member_card_type_id']->setOption('order_by',array('name',''));
+    
     $this->widgetSchema   ['price_id']->setOption('order_by',array('name',''));
     $this->widgetSchema   ['price_id']->setOption('query',$q = Doctrine::getTable('Price')->createQuery('p')->andWhere('p.member_card_linked = true'));
     $this->validatorSchema['price_id']->setOption('query',$q);
