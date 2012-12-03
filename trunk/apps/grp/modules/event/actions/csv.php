@@ -42,11 +42,9 @@
   switch ( $request->getParameter('type') ) {
   case 'refused':
     $q->andWhere('ee.accepted = false');
-    $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename=refused.csv');
     break;
   case 'accepted':
     $q->andWhere('ee.accepted = true');
-    $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename=accepted.csv');
     break;
   }
   

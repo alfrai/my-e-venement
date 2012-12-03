@@ -53,7 +53,6 @@ class eventActions extends autoEventActions
   public function executeCsv(sfWebRequest $request)
   {
     require(dirname(__FILE__).'/csv.php');
-    $this->setTemplate('csv');
   }
   public function executeGauge(sfWebRequest $request)
   {

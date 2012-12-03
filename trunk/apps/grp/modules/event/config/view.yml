@@ -6,8 +6,13 @@ editSuccess:
 gaugeSuccess:
   stylesheets: [gauge, grp-event]
 
-csvSuccess:
+acceptedSuccess:
   has_layout: false
   http_metas:
     content-type: text/comma-separated-values
-    content-disposition: attachment; filename="extracted.csv"
+    content-disposition: attachment; filename="accepted.csv"
+refusedSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/comma-separated-values
+    content-disposition: attachment; filename="refused.csv"
