@@ -56,9 +56,15 @@ EOF;
     $this->logSection('Step 0', 'Did you think removing your previous migration files and dropping the migration_version table ?');
     
     // the schema, first
-    $migration = new Doctrine_Migration(sfConfig::get('sf_lib_dir').'/e-venement/from-v2.2');
-    $migration->migrate(1);
-    $this->logSection('Step 1', 'Schema update.');
+    try {
+      $migration = new Doctrine_Migration(sfConfig::get('sf_lib_dir').'/e-venement/from-v2.2');
+      $migration->migrate(1);
+      $this->logSection('Step 1', 'Schema update.');
+    }
+    catch ( Doctrine_Exception $e )
+    {
+      $this->logSection('Step 1', "Schema already updated (or it's a serious problem).");
+    }
     
     // the data
     $pm = Doctrine::getTable('PaymentMethod')->createQuery('pm')
