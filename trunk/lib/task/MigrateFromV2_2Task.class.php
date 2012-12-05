@@ -68,7 +68,8 @@ EOF;
       ->fetchOne();
     
     $cpt = 0;
-    $types = sfConfig::get('app_cards_types');
+    $types = sfConfig::get('app_cards_types',array());
+    if ( $pm )
     foreach ( $types as $type )
     {
       $mc = Doctrine::getTable('MemberCard')->createQuery('mc')
