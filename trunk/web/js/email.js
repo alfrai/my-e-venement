@@ -42,7 +42,6 @@ $('.attachment-new').click(function(){
   }
 
   $.post($('form').attr('action'),$('form').serialize());
-  return false;
 });
 
 });
