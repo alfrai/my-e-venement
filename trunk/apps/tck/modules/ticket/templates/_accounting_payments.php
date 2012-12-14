@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php if ( $transaction->Payments->count() > 0 ): ?>
-<div id="payments">
+<div id="payments" class="<?php echo isset($nocancel) && $nocancel ? 'nocancel' : '' ?>">
   <h2><?php echo __('Paid with') ?></h2>
   <div>
     <?php $value = 0 ?>
