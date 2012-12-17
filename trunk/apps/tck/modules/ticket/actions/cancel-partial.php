@@ -60,7 +60,7 @@
   $transaction = $tickets[0]->Transaction;
   
   if (( ($transaction->closed && !$this->getUser()->hasCredential('tck-unblock'))
-    || ($this->getUser()->hasCredential('tck-control') || $this->getUser()->hasCredential('tck-control-admin'))
+    || ($this->getUser()->hasCredential('tck-control'))
     ) && !$this->getUser()->isSuperAdmin() )
   {
     $this->getUser()->setFlash('error',__('Oops! The screen you asked for is secure and you do not have proper credentials.','sf_admin',array()));

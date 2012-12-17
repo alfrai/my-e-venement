@@ -344,11 +344,6 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_53
     created_at: '2011-05-19 15:43:10'
     updated_at: '2011-05-19 15:43:10'
-  sfGuardGroupPermission_15_54:
-    Group: sfGuardGroup_15
-    Permission: sfGuardPermission_54
-    created_at: '2011-05-19 15:43:10'
-    updated_at: '2011-05-19 15:43:10'
   sfGuardGroupPermission_15_55:
     Group: sfGuardGroup_15
     Permission: sfGuardPermission_55

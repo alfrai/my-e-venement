@@ -69,6 +69,7 @@
         $this->transaction = new Transaction();
         $this->transaction->type = 'cancellation';
         $this->transaction->transaction_id = $ticket->transaction_id;
+        $ticket->Transaction->Translinked[] = $this->transaction;
         // link the cancelling transaction to the previous contact/professional
         $this->transaction->contact_id = $ticket->Transaction->contact_id;
         $this->transaction->professional_id = $ticket->Transaction->professional_id;
