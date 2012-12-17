@@ -1,5 +1,5 @@
     <ul id="card_type_list">
-    <?php foreach ( Doctrine::getTable('MemberCardType')->createQuery('mct')->orderBy('mct.name')->execute() as $type ): ?>
+    <?php foreach ( $member_card_types as $type ): ?>
       <li><input type="radio" value="<?php echo $type->id ?>" name="member_card[member_card_type_id]"><span style="cursor: default;">&nbsp;<?php echo __($type); ?></span></li>
     <?php endforeach ?>
     </ul>

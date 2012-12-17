@@ -9,7 +9,7 @@
   </div>
   <div style="clear: both"></div>
   <div class="ui-widget-content ui-corner-all new">
-    <?php include_partial('card_new',array('form' => $form,'card' => $card, 'payment_methods' => $payment_methods)) ?>
+    <?php include_partial('card_new',array('form' => $form, 'member_card_types' => $member_card_types, 'card' => $card, 'payment_methods' => $payment_methods)) ?>
   </div>
   <div class="ui-widget-content ui-corner-all list">
     <?php include_partial('card_list',array('contact' => $contact,)) ?>

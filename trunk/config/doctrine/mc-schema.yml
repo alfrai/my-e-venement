@@ -34,9 +34,9 @@ MemberCardType:
   relations:
     Users:
       class: sfGuardUser
-      refClass: WorkspaceUser
-      foreignAlias: Workspaces
-      local: workspace_id
+      refClass: MemberCardTypeUser
+      foreignAlias: MemberCards
+      local: member_card_type_id
       foreign: sf_guard_user_id
 MemberCardTypeUser:
   package: mc
