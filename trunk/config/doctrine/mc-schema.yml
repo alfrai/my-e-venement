@@ -31,6 +31,24 @@ MemberCardType:
     value:
       type: integer
       notnull: true
+  relations:
+    Users:
+      class: sfGuardUser
+      refClass: WorkspaceUser
+      foreignAlias: Workspaces
+      local: workspace_id
+      foreign: sf_guard_user_id
+MemberCardTypeUser:
+  package: mc
+  columns:
+    sf_guard_user_id:
+      type: integer
+      notnull: true
+      primary: true
+    member_card_type_id:
+      type: integer
+      notnull: true
+      primary: true
 MemberCard:
   package: mc
   inheritance:

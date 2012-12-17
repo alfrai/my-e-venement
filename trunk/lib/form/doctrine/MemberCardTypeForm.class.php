@@ -12,5 +12,8 @@ class MemberCardTypeForm extends BaseMemberCardTypeForm
 {
   public function configure()
   {
+    $this->widgetSchema['users_list']
+      ->setOption('expanded',true)
+      ->setOption('order_by',array('username',''));
   }
 }
