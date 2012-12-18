@@ -30,6 +30,11 @@ class TransactionFormFilter extends BaseTransactionFormFilter
       'required' => false,
     ));
     
+    $this->widgetSchema   ['city'] = new sfWidgetFormInputText();
+    $this->validatorSchema['city'] = new sfValidatorString(array(
+      'required' => false,
+    ));
+    
     parent::configure();
   }
   public function setup()
@@ -67,12 +72,31 @@ class TransactionFormFilter extends BaseTransactionFormFilter
     
     return $query;
   }
+  public function addCityColumnQuery(Doctrine_Query $query, $field, $values)
+  {
+    $a = $query->getRootAlias();
+    
+    if ( !$query->contains("LEFT JOIN $a.Professional p") )
+      $query->leftJoin("$a.Professional p");
+    if ( !$query->contains("LEFT JOIN $a.Contact c") )
+      $query->leftJoin("$a.Contact c");
+    if ( !$query->contains("LEFT JOIN p.Organism o") )
+      $query->leftJoin("p.Organism o");
+    
+    $query->andWhere('LOWER(o.city) LIKE LOWER(?) OR LOWER(c.city) LIKE LOWER(?)',array(
+        $values.'%',
+        $values.'%',
+      ));
+    
+    return $query;
+  }
 
   public function getFields()
   {
     return array_merge(array(
       'organism_id' => 'Organism Id',
       'name'        => 'Name',
+      'city'        => 'City',
     ), parent::getFields());
   }
 }
