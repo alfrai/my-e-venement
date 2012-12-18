@@ -9,7 +9,7 @@
     <span class="title"><?php echo __('Contact') ?>:</span>
     <?php echo $form->renderHiddenFields() ?>
     <span class="contact">
-      <?php if ( !is_null($transaction->contact_id) ): ?>
+      <?php if ( !is_null($transaction->contact_id) && $transaction->Contact->confirmed ): ?>
         <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$transaction->contact_id) ?>"><?php echo $transaction->Contact ?></a>
         <?php $form->setWidget('contact_id',new sfWidgetFormInputHidden) ?>
       <?php endif ?>

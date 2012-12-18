@@ -60,7 +60,6 @@ class ContactForm extends BaseContactForm
   
   public function save($con = null)
   {
-    $obj = $this->object;
     $r = parent::save($con);
     
     // get back given values
@@ -68,7 +67,7 @@ class ContactForm extends BaseContactForm
     
     // get back existing records
     $indb = array();
-    foreach ( $obj->YOBs as $YOB )
+    foreach ( $this->object->YOBs as $YOB )
       $indb[$YOB->id] = $YOB;
     
     // forget all values / records which are already recorded

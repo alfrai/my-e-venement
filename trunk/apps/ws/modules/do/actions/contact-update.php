@@ -90,6 +90,7 @@
       $c[$to] = trim($client[$from]);
     $phonenumber = trim($client['telephone']);
     $c['description'] = 'e-voucher';
+    $c['confirmed'] = true;
     
     $form = new ContactForm();
     $c[$form->getCSRFFieldName()] = $form->getCSRFToken();
