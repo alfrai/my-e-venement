@@ -30,10 +30,14 @@ class TransactionTable extends PluginTransactionTable
     return $q;
   }
   
-  public function findOneById($id)
+  public function fetchOneById($id)
   {
     $q = $this->createQuery()
       ->andWhere('id = ?',$id);
     return $q->fetchOne();
+  }
+  public function findOneById($id)
+  {
+    return $this->fetchOneById($id);
   }
 }

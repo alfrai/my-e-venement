@@ -1,0 +1,12 @@
+create:  
+  credentials: pr-card-mod
+new:
+  credentials: super-admin
+edit:
+  credentials: super-admin
+update:
+  credentials: super-admin
+delete:
+  credentials: pr-card-mod
+index:
+  credentials: pr-card-view

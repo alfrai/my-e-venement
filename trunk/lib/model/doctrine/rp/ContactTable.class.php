@@ -79,6 +79,16 @@ class ContactTable extends PluginContactTable
     return $contacts[0];
   }
   
+  public function fetchOneById($id, $clear = true)
+  {
+    if ( ''.intval($id) !== ''.$id || intval($id) <= 0 )
+      return false;
+    
+    return !$clear
+      ? $this->createQuery('c')->andWhere('c.id = ?',$id)->orderBy('c.id')->fetchOne()
+      : $this->createQuery('c')->where('c.id = ?',$id)->orderBy('c.id')->fetchOne();
+  }
+  
   public function doSelectOnlyGrp(Doctrine_Query $q)
   {
     $a = $q->getRootAlias();

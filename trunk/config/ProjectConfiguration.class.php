@@ -60,5 +60,15 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins('liBarcodePlugin');
     $this->enablePlugins('stOfcPlugin');
     $this->enablePlugins('sfDomPDFPlugin');
+    
+    $this->loadProjectConfiguration();
+  }
+
+  protected function loadProjectConfiguration()
+  {
+    if ($this instanceof sfApplicationConfiguration)
+    {
+      require_once $this->getConfigCache()->checkConfig('config/project.yml');
+    }
   }
 }

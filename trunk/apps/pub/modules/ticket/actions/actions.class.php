@@ -19,17 +19,12 @@ class ticketActions extends sfActions
     foreach ( $prices as $gauge )
     foreach ( $gauge as $price )
     {
-      $form = new PricesPublicForm;
-      $price['transaction_id'] = $this->getUser()->hasAttribute('transaction_id')
-        ? $this->getUser()->getAttribute('transaction_id')
-        : NULL;
+      $form = new PricesPublicForm($this->getUser()->getTransaction());
+      $price['transaction_id'] = $this->getUser()->getTransaction()->id;
       
       $form->bind($price);
       if ( $form->isValid() )
       {
-        if ( $price['transaction_id'] )
-          $form->updateObject(array('id' => $price['transaction_id']));
-        
         $transaction = $form->save();
         $this->getUser()->setAttribute('transaction_id',$transaction->id);
         
@@ -37,7 +32,7 @@ class ticketActions extends sfActions
       }
     }
     
-    $this->getUser()->setFlash('notice',__('%%nb%% ticket(s) have been added to your cart'));
+    $this->getUser()->setFlash('notice',__('%%nb%% ticket(s) have been added to your cart',array('%%nb%%' => $cpt)));
     $this->redirect('cart/show');
   }
 }

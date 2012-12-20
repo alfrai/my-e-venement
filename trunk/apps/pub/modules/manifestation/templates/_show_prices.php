@@ -3,10 +3,37 @@
 <?php if ( $gauge->Manifestation->PriceManifestations->count() > 0 ): ?>
 <tbody>
 <?php foreach ( $gauge->Manifestation->PriceManifestations as $pm ): ?>
-  <?php $form->setPriceId($pm->price_id)->setQuantity($pm->Price->Tickets->count()) ?>
+  <?php
+    // price_id & default quantity
+    $form
+      ->setPriceId($pm->price_id)
+      ->setQuantity($pm->Price->Tickets->count());
+    
+    // limitting the max quantity, especially for prices linked to member cards
+    $max = $gauge->value - $gauge->printed - $gauge->ordered - (sfConfig::get('project_tickets_count_demands',false) ? $gauge->asked : 0);
+    if ( $pm->Price->member_card_linked )
+    {
+      $cpt = 0;
+      
+      if ( isset($mcp[$pm->price_id]) )
+      {
+        $cpt += $mcp[$pm->price_id][''];
+        if ( isset($mcp[$pm->price_id][$gauge->Manifestation->event_id]) )
+          $cpt += $mcp[$pm->price_id][$gauge->Manifestation->event_id];
+      }
+      
+      if ( $max > $cpt )
+        $max = $cpt;
+    }
+    
+    if ( $max <= 0 )
+      continue;
+    
+    $form->setMaxQuantity($max);
+  ?>
   <tr>
     <td class="price">
-      <?php echo $pm->Price->description ?>
+      <?php echo $pm->Price->description ? $pm->Price->description : $pm->Price ?>
       <?php echo $form->renderHiddenFields() ?>
     </td>
     <td class="value"><?php echo format_currency($pm->value,'€') ?></td>

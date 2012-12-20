@@ -16,4 +16,9 @@ class TitleTypeTable extends PluginTitleTypeTable
     {
         return Doctrine_Core::getTable('TitleType');
     }
+    
+    public function fetchOneById($id)
+    {
+      return $this->createQuery('q')->andWhere('q.id = ?',$id)->fetchOne();
+    }
 }

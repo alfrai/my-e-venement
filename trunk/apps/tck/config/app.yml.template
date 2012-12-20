@@ -8,7 +8,6 @@ all:
     date_end: tomorrow
     max_tickets: 5000
   transaction:
-    #hide_demands: true
     #gauge_alert: true
     #gauge_block: true
     manifs:

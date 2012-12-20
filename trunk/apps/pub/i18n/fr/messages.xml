@@ -5,6 +5,30 @@
     <header/>
     <body>
       <trans-unit>
+        <source>To order member cards, you need to be authenticated</source>
+        <target>Pour commander des cartes de membre, vous devez être identifié</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Tickets</source>
+        <target>Billets</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Member cards</source>
+        <target>Cartes d'abo.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You have been logged out.</source>
+        <target>Vous avez été déconnecté</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Update</source>
+        <target>Mettre à jour</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Contact updated</source>
+        <target>Contact mis à jour</target>
+      </trans-unit>
+      <trans-unit>
         <source>A contact with the same values already exists, try to authenticate...</source>
         <target>Un contact avec les mêmes valeurs existe déjà, essayez de vous authentifier...</target>
       </trans-unit>
@@ -95,6 +119,10 @@
       <trans-unit>
         <source>Email</source>
         <target>Courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Title</source>
+        <target>Titre</target>
       </trans-unit>
       <trans-unit>
         <source>Firstname</source>

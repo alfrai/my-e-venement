@@ -22,7 +22,6 @@
 ***********************************************************************************/
 ?>
 <?php
-  
   $bank = new BankPayment;
   $bank->code = $request->getParameter('error');
   $bank->payment_certificate = $request->getParameter('signature');
@@ -53,9 +52,25 @@
   $payment->value = $bank->amount/100;
   
   $this->getUser()->setAttribute('transaction_id',$bank->transaction_id);
-  $this->getCurrentTransaction()->Contact->confirmed = true;
-  $this->getCurrentTransaction()->Payments[] = $payment;
-  $this->getCurrentTransaction()->Orders[] = new Order;
-  $this->getCurrentTransaction()->save();
+  $transaction = $this->getUser()->getTransaction();
+  $transaction->Contact->confirmed = true;
+  foreach ( $transaction->MemberCards as $mc )
+  {
+    $mc->active = true;
+    $mc->contact_id = $transaction->contact_id;
+    $p = new Payment;
+    $p->transaction_id = $transaction->id;
+    $p->value = -$mc->MemberCardType->value;
+    $p->Method = Doctrine::getTable('PaymentMethod')->createQuery('pm')
+      ->andWhere('pm.member_card_linked = ?',true)
+      ->andWhere('pm.display = ?',true)
+      ->orderBy('id')
+      ->fetchOne();
+    $mc->Payments[] = $p;
+  }
+  $transaction->Contact->confirmed = true;
+  $transaction->Payments[] = $payment;
+  $transaction->Order[] = new Order;
+  $transaction->save();
   
   return sfView::NONE;

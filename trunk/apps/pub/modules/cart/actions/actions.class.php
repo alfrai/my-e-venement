@@ -12,14 +12,23 @@ class cartActions extends sfActions
 {
   protected $transaction = NULL;
   
+  public function executeWidget(sfWebRequest $request)
+  {
+    try { $this->transac = $this->getUser()->getTransaction(); }
+    catch ( liOnlineSaleException $e )
+    { $this->transac = new Transaction; }
+    
+    if ( $this->transac === false )
+      $this->transac = new Transaction;
+  }
   public function executeEmpty(sfWebRequest $request)
   {
-    $this->getUser()->setAttribute('transaction_id',NULL);
+    $this->getUser()->resetTransaction();
     $this->redirect('cart/show');
   }
   public function executeDone(sfWebRequest $request)
   {
-    try { $this->transaction = $this->getCurrentTransaction(); }
+    try { $this->transaction = $this->getUser()->getTransaction(); }
     catch ( liOnlineSaleException $e )
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
@@ -38,17 +47,29 @@ class cartActions extends sfActions
   }
   public function executeRegister(sfWebRequest $request)
   {
-    $contact = $this->getUser()->getAttribute('contact_form_values',array());
-    unset($contact['_csrf_token']);
+    $form_values = $this->getUser()->getAttribute('contact_form_values',array());
+    unset($form_values['_csrf_token']);
+    unset($form_values['id']);
+    
+    try { $contact = $this->getUser()->getContact() ? $this->getUser()->getContact() : new Contact; }
+    catch ( liEvenementException $e )
+    { $contact = new Contact; }
     
     if ( !isset($this->form) )
-      $this->form = new ContactPublicForm();
-    $this->form->setDefaults($contact);
+      $this->form = new ContactPublicForm($contact);
+    
+    if ( $contact->isNew() )
+      $this->form->setDefaults($form_values);
+    else
+      $this->form->removePassword();
   }
+  
   public function executeShow(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     $this->errors = array();
+    
+    $this->transaction_id = $this->getUser()->getTransaction()->id;
     
     $q = Doctrine_Query::create()->from('Event e')
       ->leftJoin('e.Manifestations m')
@@ -57,19 +78,24 @@ class cartActions extends sfActions
       ->leftJoin('g.Tickets tck')
       ->leftJoin('tck.Price p')
       ->leftJoin('tck.Transaction t')
-      ->andWhere('t.id = ?',$this->transaction instanceof Transaction ? $this->transaction_id : intval($this->getUser()->getAttribute('transaction_id')))
+      ->andWhere('t.id = ?',$this->transaction_id)
       ->andWhere('tck.id IS NOT NULL')
       ->andWhere('tck.sf_guard_user_id = ?',$this->getUser()->getId())
       ->andWhere('t.sf_guard_user_id = ?',$this->getUser()->getId())
       ->orderBy('e.name, m.happens_at, w.name, g.id, p.id, tck.id');
     $this->events = $q->execute();
-      
-    if ( $this->events->count() == 0 )
+    
+    $this->member_cards = Doctrine::getTable('MemberCard')->createQuery('mc')
+      ->leftJoin('mc.MemberCardType mct')
+      ->andWhere('mc.transaction_id = ?', $this->transaction_id)
+      ->orderBy('mc.expire_at, mct.name')
+      ->execute();
+    
+    if ( $this->events->count() == 0 && $this->member_cards->count() == 0 )
     {
-      $this->getUser()->setFlash(__('Your cart is still empty, select tickets first...'));
+      $this->getUser()->setFlash('notice',__('Your cart is still empty, select tickets first...'));
       $this->redirect('event/index');
     }
-    
   }
   
   public function executeOrder(sfWebRequest $request)
@@ -81,20 +107,5 @@ class cartActions extends sfActions
   {
     // WHERE THE BANK PINGS BACK WHEN THE ORDER IS PAID
     return require(dirname(__FILE__).'/response.php');
-  }
-  
-  protected function getCurrentTransaction()
-  {
-    if ( $this->transaction instanceof Transaction )
-      return $this->transaction;
-    
-    if ( !$this->getUser()->getAttribute('transaction_id') )
-      throw new liOnlineSaleException('No transaction_id available.');
-    
-    $this->transaction = Doctrine::getTable('Transaction')->createQuery('t')
-      ->leftJoin('t.Contact c')
-      ->andWhere('t.id = ?',$this->getUser()->getAttribute('transaction_id'))
-      ->fetchOne();
-    return $this->transaction;
   }
 }

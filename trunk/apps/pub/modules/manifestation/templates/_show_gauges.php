@@ -6,7 +6,7 @@
     <h3><?php echo $gauge ?></h3>
   <?php endif ?>
   <?php if ( ($free = $gauge->value - $gauge->printed - $gauge->ordered - (sfConfig::get('app_tickets_count_demands',false) ? $gauge->asked : 0) - $manifestation->online_limit) > 0 ): ?>
-    <?php include_partial('show_prices',array('gauge' => $gauge, 'free' => $free, 'form' => $form)) ?>
+    <?php include_partial('show_prices',array('gauge' => $gauge, 'free' => $free, 'form' => $form, 'mcp' => $mcp, )) ?>
   <?php endif ?>
 </div>
 <?php endforeach ?>

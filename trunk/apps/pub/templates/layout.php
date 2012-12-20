@@ -9,7 +9,6 @@
     <?php include_javascripts() ?>
   </head>
   <body>
-    test
     <?php echo $sf_content ?>
     <?php include_partial('menu') ?>
   </body>

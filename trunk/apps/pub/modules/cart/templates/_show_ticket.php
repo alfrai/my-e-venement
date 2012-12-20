@@ -1,6 +1,6 @@
   <td class="tickets">
     <span class="price-<?php echo $ticket->price_id ?>">
-      <?php echo $ticket->Price->description ?>
+      <?php echo $ticket->Price->description ? $ticket->Price->description : $ticket->Price ?>
     </span>
   </td>
   <td class="qty"></td>

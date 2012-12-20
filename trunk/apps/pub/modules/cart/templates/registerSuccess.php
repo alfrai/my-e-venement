@@ -1,17 +1,6 @@
-<?php if ( $form->getErrorSchema()->count() > 0 ): ?>
-<div class="errors"><?php echo $form->getErrorSchema() ?></div>
-<?php endif; $errors = $form->getErrorSchema()->getErrors() ?>
+<?php include_partial('global/form_errors',array('form' => $form)) ?>
 <?php echo $form->renderFormTag(url_for('cart/order'), array('id' => 'contact-form', 'autocomplete' => 'on')) ?>
-  <?php echo $form->renderHiddenFields() ?>
-  <?php foreach ( $form->getWidgetSchema()->getPositions() as $name ): ?>
-  <?php if ( !($form[$name]->getWidget() instanceof sfWidgetFormInputHidden) ): ?>
-  <p class="<?php echo $name ?> field <?php if ( isset($errors[$name]) ) echo 'error' ?>">
-    <?php echo $form[$name]->renderLabel() ?>
-    <span class="<?php echo $name ?>"><?php echo $form[$name] ?></span>
-    <span class="error"><?php if ( isset($errors[$name]) ) echo __($errors[$name]) ?></span>
-  </p>
-  <?php endif ?>
-  <?php endforeach ?>
+  <?php include_partial('global/register',array('form' => $form)) ?>
   <p class="submit"><input type="submit" name="submit" value="<?php echo __('Order') ?>" /></p>
 </form>
 <script type="text/javascript"><!--

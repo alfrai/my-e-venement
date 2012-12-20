@@ -1,3 +1,8 @@
+body {
+  line-height: 1;
+  font: 13px/1.231 arial,helvetica,clean,sans-serif;
+}
+
 .sf_admin_filter select {
   width: 180px;
 }
@@ -36,3 +41,52 @@
 #contact-form .field.error {
   border: 1px solid red;
 }
+
+#member_card_types .qty input, #member_card_types .qty,
+#member_card_types .total,
+#member_card_types .value {
+  text-align: right;
+}
+#member_card_types .qty input { width: 2em; }
+#member_card_types tfoot .qty { padding-right: 5px; }
+#member_card_types tfoot { font-weight: bold; }
+
+#command .value, #command .qty, #command .total {
+  text-align: right;
+}
+
+#cart-widget {
+  position: absolute;
+  right: 10px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 0;
+  height: 37px;
+  overflow: hidden;
+}
+#cart-widget .show {
+  float: left;
+  font-size: 0;
+  padding-top: 37px;
+  padding-right: 83px;
+  display: block;
+  background-image: url('../images/total.jpg');
+  background-repeat: none;
+}
+#cart-widget table {
+  margin: 0;
+  margin-left: 83px;
+  font-size: inherit;
+  border-collapse: collapse;
+  border-spacing: 0px;
+}
+#cart-widget tbody td { font-size: 9px; }
+#cart-widget td {
+  border: 0;
+  padding: 0 10px;
+  height: 10px;
+  margin: 0;
+}
+#cart-widget td.operand { text-align: center; }
+#cart-widget tfoot tr { font-weight: bold; }
+#cart-widget .value, #cart-widget .qty { text-align: right; }

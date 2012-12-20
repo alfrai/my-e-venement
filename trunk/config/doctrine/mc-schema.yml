@@ -28,6 +28,7 @@ MemberCardType:
       unique: true
       notnull: true
       notblank: true
+    description: string(255)
     value:
       type: integer
       notnull: true
@@ -55,9 +56,7 @@ MemberCard:
     extends: Traceable
     type: concrete
   columns:
-    contact_id:
-      type: integer
-      notnull: true
+    contact_id: integer
     expire_at:
       type: timestamp
       notnull: true
@@ -68,12 +67,17 @@ MemberCard:
     member_card_type_id:
       type: integer
       notnull: true
+    transaction_id: integer
   relations:
     Contact:
       foreignAlias: MemberCards
-      onDelete: CASCADE
+      onDelete: SET NULL
       onUpdate: CASCADE
     MemberCardType:
+      foreignAlias: MemberCards
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Transaction:
       foreignAlias: MemberCards
       onDelete: RESTRICT
       onUpdate: CASCADE

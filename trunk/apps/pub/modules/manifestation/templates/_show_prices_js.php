@@ -3,8 +3,12 @@
   $(document).ready(function(){
     $('.prices .quantity select').change(function(){
       // hiding options to limit the global qty to the max value
-      max_qty = $(this).find('option:last-child').val();
       selects = $(this).closest('.gauge').find('.quantity select');
+      var max_qty = 0;
+      selects.each(function(){
+        if ( parseInt($(this).find('option:last-child').val()) > max_qty )
+          max_qty = parseInt($(this).find('option:last-child').val());
+      });
       for ( quantities = i = 0 ; i < selects.length ; i++ )
         quantities += parseInt($(selects[i]).val());
       options = selects.find('option');
@@ -25,9 +29,6 @@
       for ( i = 0 ; i < totals.length ; i++ )
         val += parseFloat($(totals[i]).html().replace(',','.'));
       $(this).closest('.prices').find('tfoot .total').html(val.toFixed(2) + currency)
-    });
-    
-    // bootstrap
-    $('.prices .quantity select').change();
+    }).change();
   });
 --></script>

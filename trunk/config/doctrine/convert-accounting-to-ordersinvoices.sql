@@ -13,5 +13,5 @@ DELETE FROM accounting_version;
 
 UPDATE raw_accounting SET invoice_id = accounting_id, accounting_id = NULL WHERE accounting_id IS NOT NULL;
 
-SELECT setval('order_table_id_seq', (SELECT max(id) FROM order_table), false);
-SELECT setval('invoice_id_seq', (SELECT max(id) FROM invoice), false);
+SELECT setval('order_table_id_seq', (SELECT max(id)+1 FROM order_table), false);
+SELECT setval('invoice_id_seq', (SELECT max(id)+1 FROM invoice), false);

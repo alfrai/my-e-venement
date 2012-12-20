@@ -15,6 +15,14 @@ class loginActions extends sfActions
     $this->form = new LoginForm();
   }
   
+  public function executeOut(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $this->getUser()->logout();
+    $this->getUser()->setFlash('notice',__('You have been logged out.'));
+    $this->redirect('login/index');
+  }
+  
   public function executeValidate(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
@@ -25,8 +33,7 @@ class loginActions extends sfActions
     if ( $this->form->isValid() )
     {
       $this->getUser()->setFlash('notice',__('You are authenticated.'));
-      $this->getUser()->setAttribute('contact_id',$this->form->getContact()->id);
-      return $this->redirect('@homepage');
+      return $this->redirect('contact/index');
     }
     
     $this->errors = $this->form->getErrorSchema()->getErrors();

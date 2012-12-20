@@ -1,10 +1,9 @@
-<?php echo $form->renderFormTag(url_for('login/validate'), array('autocomplete' => 'on')) ?>
-<?php foreach ( array('email','password') as $fieldname ): ?>
-  <p class="<?php echo $fieldname ?>">
-    <?php echo $form[$fieldname]->renderLabel() ?>
-    <?php echo $form[$fieldname] ?>
-    <span class="error"><?php if ( isset($errors[$fieldname]) ) echo __($errors[$fieldname]) ?></span>
-  </p>
-<?php endforeach ?>
-  <p class="submit"><label></label><input type="submit" value="Ok" name="submit" /></p>
+<?php include_partial('global/flashes') ?>
+<?php echo $form->renderFormTag(url_for('login/validate'), array('autocomplete' => 'on', 'id' => 'login', )) ?>
+  <?php include_partial('login',array('form' => $form, )) ?>
 </form>
+<script type="text/javascript"><!--
+  $(document).ready(function(){
+    $('input[type=text]').first().focus();
+  });
+--></script>

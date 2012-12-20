@@ -27,11 +27,11 @@ class gaugeActions extends autoGaugeActions
         'id' => $this->gauge->id,
         'workspace' => (string)$this->gauge->Workspace,
         'total' => $this->gauge->value,
-        'free' => $this->gauge->value - ($this->gauge->printed + $this->gauge->ordered + (sfConfig::get('app_ticketting_hide_demands') ? 0 : $this->gauge->asked)),
+        'free' => $this->gauge->value - ($this->gauge->printed + $this->gauge->ordered + (sfConfig::get('project_tickets_count_demands',false) ? $this->gauge->asked : 0)),
         'booked' => array(
           'printed' => $this->gauge->printed,
           'ordered' => $this->gauge->ordered,
-          'asked' => sfConfig::get('app_ticketting_hide_demands') ? 0 : $this->gauge->asked,
+          'asked' => sfConfig::get('project_tickets_count_demands',false) ? $this->gauge->asked : 0,
         ),
       );
       

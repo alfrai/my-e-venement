@@ -17,22 +17,25 @@ class PricesPublicForm extends BaseFormDoctrine
     if ( $this->object->isNew() )
       $this->object->save();
     
-    // removing old tickets, to be replaced
-    Doctrine_Query::create()->from('Ticket tck')
-      ->andWhere('tck.price_id = ?',$values['price_id'])
-      ->andWhere('tck.gauge_id = ?',$values['gauge_id'])
-      ->andWhere('tck.transaction_id = ?',$this->object->id)
-      ->delete()
-      ->execute();
-    
+    $ids = array();
     for ( $i = 0 ; $i < $values['quantity'] ; $i++ )
     {
       $ticket = new Ticket;
       $ticket->price_id = $values['price_id'];
       $ticket->gauge_id = $values['gauge_id'];
-      $ticket->transaction_id = $this->object->id;
+      $ticket->Transaction = $this->object;
       $ticket->save();
+      $ids[] = $ticket->id;
     }
+    
+    // removing old tickets, to be replaced
+    Doctrine_Query::create()->from('Ticket tck')
+      ->andWhere('tck.price_id = ?',$values['price_id'])
+      ->andWhere('tck.gauge_id = ?',$values['gauge_id'])
+      ->andWhere('tck.transaction_id = ?',$this->object->id)
+      ->andWhereNotIn('tck.id',$ids)
+      ->delete()
+      ->execute();
     
     return $this->object;
   }
@@ -72,7 +75,6 @@ class PricesPublicForm extends BaseFormDoctrine
     $this->widgetSchema   ['price_id'] = new sfWidgetFormInputHidden();
     $this->validatorSchema['price_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Price',
-      // TODO: ajouter le filtre pour l'utilisateur courant / ses permissions
     ));
 
     $q = Doctrine_Query::create()->from('Transaction t')
@@ -86,7 +88,8 @@ class PricesPublicForm extends BaseFormDoctrine
     ));
     
     $choices = array();
-    for ( $i = 0 ; $i <= sfConfig::get('app_tickets_max_per_manifestation',9) ; $i++ ) $choices[] = $i;
+    for ( $i = 0 ; $i <= sfConfig::get('app_tickets_max_per_manifestation',9) ; $i++ )
+      $choices[] = $i;
     $this->widgetSchema   ['quantity'] = new sfWidgetFormChoice(array(
       'choices' => $choices,
     ));
@@ -99,11 +102,11 @@ class PricesPublicForm extends BaseFormDoctrine
   
   public function setMaxQuantity($qty)
   {
-    if ( $qty < 1 )
-      throw new sfEvenementException('You cannot set less than 1 as quantity');
+    if ( $qty < 0 )
+      throw new liEvenementException('You cannot set less than 0 as quantity');
     
     $choices = array();
-    for ( $i = 0 ; $i < $qty ; $i++ ) $choices[] = $i;
+    for ( $i = 0 ; $i <= $qty ; $i++ ) $choices[] = $i;
     $this->widgetSchema   ['quantity']->setOption('choices',$choices);
     $this->validatorSchema['quantity']->setOption('choices',$choices);
     
@@ -113,7 +116,7 @@ class PricesPublicForm extends BaseFormDoctrine
   public function setQuantity($qty)
   {
     if ( $qty < 0 && $qty > count($this->widgetSchema['quantity']->getOption('choices')) )
-      throw new sfEvenementException('You cannot select a quantity up to max quantity and less than 0');
+      throw new liEvenementException('You cannot select a quantity up to max quantity and less than 0');
     
     $this->setDefault('quantity',$qty);
     return $this;
@@ -122,7 +125,7 @@ class PricesPublicForm extends BaseFormDoctrine
   public function setGaugeId($id)
   {
     if ( $id < 1 )
-      throw new sfEvenementException("Invalid gauge's id");
+      throw new liEvenementException("Invalid gauge's id");
     
     $this->setDefault('gauge_id',$id);
     $this->reviewNameFormat();
@@ -132,7 +135,7 @@ class PricesPublicForm extends BaseFormDoctrine
   public function setPriceId($id)
   {
     if ( $id < 1 )
-      throw new sfEvenementException("Invalid price's id");
+      throw new liEvenementException("Invalid price's id");
     
     $this->setDefault('price_id',$id);
     $this->reviewNameFormat();

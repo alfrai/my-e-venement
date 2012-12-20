@@ -20,12 +20,20 @@ class Transaction extends PluginTransaction
       $toprint++;
     return $toprint;
   }
-  public function getPrice()
+  public function getPrice($all = false)
   {
     $price = 0;
     foreach ( $this->Tickets as $ticket )
-    if ( is_null($ticket->duplicate) && ($ticket->printed || $ticket->integrated || !is_null($ticket->cancelling)) )
+    if ( $all || is_null($ticket->duplicate) && ($ticket->printed || $ticket->integrated || !is_null($ticket->cancelling)) )
       $price += $ticket->value;
+    return $price;
+  }
+  public function getMemberCardPrice($all = false)
+  {
+    $price = 0;
+    foreach ( $this->MemberCards as $mc )
+    if ( $all || $mc->activated )
+      $price += $mc->MemberCardType->value;
     return $price;
   }
   public function getPaid()

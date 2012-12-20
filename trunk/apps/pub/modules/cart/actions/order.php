@@ -22,8 +22,16 @@
 ***********************************************************************************/
 ?>
 <?php
+    if ( !($this->getUser()->getTransaction() instanceof Transaction) )
+      return $this->redirect('event/index');
+    
     // add the contact to the DB
-    $this->form = new ContactPublicForm($this->getCurrentTransaction()->Contact);
+    try { $this->form = new ContactPublicForm($this->getUser()->getContact()); }
+    catch ( liEvenementException $e )
+    { $this->form = new ContactPublicForm; }
+    
+    if ( !$this->form->getObject()->isNew() )
+      $this->form->removePassword();
     $this->form->bind($request->getParameter('contact'));
     try {
     if ( !$this->form->isValid() )
@@ -35,78 +43,79 @@
     }
     catch ( liOnlineSaleException $e )
     {
-      $this->getUser()->setFlash('error',__((string)$e));
+      $this->getContext()->getConfiguration()->loadHelpers('I18N');
+      $this->getUser()->setFlash('error',__($e->getMessage()));
       return $this->redirect('login/index');
     }
     
     // remember the contact's informations
     $this->getUser()->setAttribute('contact_form_values', $this->form->getValues());
     
-    if ( !($this->getCurrentTransaction() instanceof Transaction) )
-      return $this->redirect('event/index');
-    
     // checks if there is no out-of-gauge
-    $ids = array();
-    foreach ( $this->getCurrentTransaction()->Tickets as $ticket )
-      $ids[$ticket->gauge_id] = $ticket->gauge_id;
+    if ( $this->getUser()->getTransaction()->Tickets->count() > 0 )
+    {
+      $ids = array();
+      foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
+        $ids[$ticket->gauge_id] = $ticket->gauge_id;
       
-    $q = Doctrine::getTable('Gauge')->createQuery('g')
-      ->andWhereIn('g.id',$ids);
-    
-    if ( !sfConfig::get('app_tickets_count_demands',false) )
-    {
-      $config = sfConfig::get('app_tickets_vel');
-      $q->addSelect("(SELECT count(*) AS nb
-                      FROM Ticket tck4
-                      WHERE NOT printed AND NOT integrated
-                        AND transaction_id NOT IN (SELECT o4.transaction_id FROM Order o4)
-                        AND duplicate IS NULL AND cancelling IS NULL AND gauge_id = g.id
-                        AND id NOT IN (SELECT tck44.cancelling FROM Ticket tck44 WHERE tck44.cancelling IS NOT NULL)
-                        AND sf_guard_user_id = '".$this->getUser()->getId()."'
-                        AND updated_at > NOW() - '".(isset($config['cart_timeout']) ? $config['cart_timeout'] : 20)." minutes'::interval
-                        AND transaction_id != '".$this->getCurrentTransaction()->id."'
-                     ) AS asked_from_vel")
-        ->addSelect("(SELECT count(*) AS nb
-                      FROM Ticket tck5
-                      WHERE NOT printed AND NOT integrated
-                        AND transaction_id NOT IN (SELECT o5.transaction_id FROM Order o5)
-                        AND duplicate IS NULL AND cancelling IS NULL AND gauge_id = g.id
-                        AND id NOT IN (SELECT tck55.cancelling FROM Ticket tck55 WHERE tck55.cancelling IS NOT NULL)
-                        AND sf_guard_user_id = '".$this->getUser()->getId()."'
-                        AND transaction_id = '".$this->getCurrentTransaction()->id."'
-                     ) AS nb_tickets_for_you");
-    }
-    
-    // check for errors / overbooking
-    $gauges = $q->execute();
-    $this->errors = array();
-    foreach ( $gauges as $gauge )
-    {
-      $free = $gauge->value - $gauge->printed - $gauge->ordered;
-      $free -= sfConfig::get('app_tickets_count_demands',false) ? $gauge->asked : $gauge->asked_from_vel;
-      $free -= sfConfig::get('app_tickets_count_demands',false) ? 0 : $gauge->nb_tickets_for_you;
+      $q = Doctrine::getTable('Gauge')->createQuery('g')
+        ->andWhereIn('g.id',$ids);
       
-      if ( $free < 0 )
-        $this->errors[] = $gauge->id;
-    }
-    if ( count($this->errors) > 0 )
-    {
-      $this->getContext()->getConfiguration()->loadHelpers('I18N');
-      $this->getUser()->setFlash('error',
-        format_number_choice(
-          '[1]There is one overloaded gauge, please review your command.|(1,+Inf]There are %%nb%% overloaded gauges, please review your command.',
-          array('%%nb%%' => count($this->errors)),
-          count($this->errors)
-        )
-      );
-      $this->executeShow($request);
-      $this->setTemplate('show');
+      if ( !sfConfig::get('app_tickets_count_demands',false) )
+      {
+        $config = sfConfig::get('app_tickets_vel');
+        $q->addSelect("(SELECT count(*) AS nb
+                        FROM Ticket tck4
+                        WHERE NOT printed AND NOT integrated
+                          AND transaction_id NOT IN (SELECT o4.transaction_id FROM Order o4)
+                          AND duplicate IS NULL AND cancelling IS NULL AND gauge_id = g.id
+                          AND id NOT IN (SELECT tck44.cancelling FROM Ticket tck44 WHERE tck44.cancelling IS NOT NULL)
+                          AND sf_guard_user_id = '".$this->getUser()->getId()."'
+                          AND updated_at > NOW() - '".(isset($config['cart_timeout']) ? $config['cart_timeout'] : 20)." minutes'::interval
+                          AND transaction_id != '".$this->getUser()->getTransaction()->id."'
+                       ) AS asked_from_vel")
+          ->addSelect("(SELECT count(*) AS nb
+                        FROM Ticket tck5
+                        WHERE NOT printed AND NOT integrated
+                          AND transaction_id NOT IN (SELECT o5.transaction_id FROM Order o5)
+                          AND duplicate IS NULL AND cancelling IS NULL AND gauge_id = g.id
+                          AND id NOT IN (SELECT tck55.cancelling FROM Ticket tck55 WHERE tck55.cancelling IS NOT NULL)
+                          AND sf_guard_user_id = '".$this->getUser()->getId()."'
+                          AND transaction_id = '".$this->getUser()->getTransaction()->id."'
+                       ) AS nb_tickets_for_you");
+      }
+      
+      // check for errors / overbooking
+      $gauges = $q->execute();
+      $this->errors = array();
+      foreach ( $gauges as $gauge )
+      {
+        $free = $gauge->value - $gauge->printed - $gauge->ordered;
+        $free -= sfConfig::get('app_tickets_count_demands',false) ? $gauge->asked : $gauge->asked_from_vel;
+        $free -= sfConfig::get('app_tickets_count_demands',false) ? 0 : $gauge->nb_tickets_for_you;
+        
+        if ( $free < 0 )
+          $this->errors[] = $gauge->id;
+      }
+      if ( count($this->errors) > 0 )
+      {
+        $this->getContext()->getConfiguration()->loadHelpers('I18N');
+        $this->getUser()->setFlash('error',
+          format_number_choice(
+            '[1]There is one overloaded gauge, please review your command.|(1,+Inf]There are %%nb%% overloaded gauges, please review your command.',
+            array('%%nb%%' => count($this->errors)),
+            count($this->errors)
+          )
+        );
+        $this->executeShow($request);
+        $this->setTemplate('show');
+      }
     }
     
     // save the contact, with a non-confirmed attribute
-    if ( !$this->getCurrentTransaction()->contact_id )
-      $this->form->getObject()->Transactions[] = $this->getCurrentTransaction();
+    if ( !$this->getUser()->getTransaction()->contact_id )
+      $this->form->getObject()->Transactions[] = $this->getUser()->getTransaction();
     $this->contact = $this->form->save();
     
     // setting up the vars to commit to the bank
-    $this->online_payment = PayboxPayment::create($this->getCurrentTransaction());
+    $this->online_payment = PayboxPayment::create($this->getUser()->getTransaction());

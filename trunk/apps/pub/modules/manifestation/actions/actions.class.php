@@ -52,20 +52,55 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('pw.id = ws.id')
       ->andWhere('pw.id = g.workspace_id')
       ->andWhere('m.id = ?',$request->getParameter('id'))
+      ->andWhere('m.happens_at > NOW() OR ?',sfContext::getInstance()->getConfiguration()->getEnvironment() == 'dev')
       ->execute();
-    
-    //if ( $this->getUser()->hasAttribute('transaction_id')
     
     if ( !$this->gauges || $this->gauges && $this->gauges->count() <= 0 )
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
       $this->getUser()->setFlash('error',__('Date unavailable, try an other one.'));
-      $this->redirect('event/index');
+      //$this->redirect('event/index');
     }
     
     $this->manifestation = $this->gauges[0]->Manifestation;
     $this->form = new PricesPublicForm;
+    
+    $this->mcp = $this->getAvailableMCPrices();
+  }
+  
+  protected function getAvailableMCPrices()
+  {
+    $mcp = array();
+    // get back available prices
+    foreach ( $this->getUser()->getContact()->MemberCards as $mc )
+    foreach ( $mc->MemberCardPrices as $price )
+    {
+      if ( !isset($mcp[$price->price_id]) )
+        $mcp[$price->price_id] = array('' => 0);
+      
+      if ( isset($mcp[$price->price_id][is_null($price->event_id) ? '' : $price->event_id]) )
+        $mcp[$price->price_id][is_null($price->event_id) ? '' : $price->event_id]++;
+      else
+        $mcp[$price->price_id][is_null($price->event_id) ? '' : $price->event_id] = 1;
+    }
+    
+    // get back already booked tickets
+    $tickets_to_count = Doctrine_Query::create()->from('Ticket tck')
+      ->andWhere('tck.printed = ?',false)
+      ->leftJoin('tck.Manifestation m')
+      ->leftJoin('tck.Price p')
+      ->andWhere('p.member_card_linked = ?',true)
+      ->leftJoin('tck.Transaction t')
+      ->andWhere('t.contact_id = ?',$this->getUser()->getContact()->id)
+      ->leftJoin('t.Order o')
+      ->andWhere('o.id IS NOT NULL')
+      ->execute();
+    foreach ( $tickets_to_count as $ticket )
+    if ( isset($mcp[$ticket->price_id][$ticket->Manifestation->event_id]) )
+      $mcp[$ticket->price_id][$ticket->Manifestation->event_id]--;
+    else
+      $mcp[$ticket->price_id]['']--;
+    
+    return $mcp;
   }
 }
-
-
