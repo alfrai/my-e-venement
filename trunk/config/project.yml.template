@@ -1,0 +1,10 @@
+all:
+  cards:
+    enable: true
+    #expiration_delay: 6 month
+    expiration_date: 09-01
+    date_extra: Cet abonnement est valable uniquement cette saison.
+    auto_close: true
+  tickets:
+    count_demands: false
+  
