@@ -1,0 +1,4 @@
+config/project.yml:
+  class:    sfDefineEnvironmentConfigHandler
+  param:
+    prefix:  project_
