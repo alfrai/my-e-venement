@@ -1,3 +1,4 @@
+<h1> Vos coordonnées </h1>
 <?php include_partial('global/form_errors',array('form' => $form)) ?>
 <?php echo $form->renderFormTag(url_for('cart/order'), array('id' => 'contact-form', 'autocomplete' => 'on')) ?>
   <?php include_partial('global/register',array('form' => $form)) ?>

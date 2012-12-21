@@ -46,7 +46,7 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('pm.Price p')
       ->leftJoin('p.Users pu')
       ->leftJoin('p.Workspaces pw')
-      ->leftJoin('p.Tickets tck ON tck.gauge_id = g.id AND tck.price_id = p.id AND tck.transaction_id = ?',$this->getUser()->getAttribute('transaction_id',0))
+      ->leftJoin('p.Tickets tck ON tck.gauge_id = g.id AND tck.price_id = p.id AND tck.transaction_id = ?',$this->getUser()->getTransaction()->id)
       ->andWhere('pu.id = ?',$this->getUser()->getId())
       ->andWhere('wu.id = pu.id')
       ->andWhere('pw.id = ws.id')
@@ -59,7 +59,7 @@ class manifestationActions extends autoManifestationActions
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
       $this->getUser()->setFlash('error',__('Date unavailable, try an other one.'));
-      //$this->redirect('event/index');
+      $this->redirect('event/index');
     }
     
     $this->manifestation = $this->gauges[0]->Manifestation;
@@ -71,8 +71,13 @@ class manifestationActions extends autoManifestationActions
   protected function getAvailableMCPrices()
   {
     $mcp = array();
+    try {
+
+    if ( !$this->getUser()->getContact()->MemberCards )
+      return $mcp;
+    
     // get back available prices
-    foreach ( $this->getUser()->getContact()->MemberCards as $mc )
+    foreach ( $contact->MemberCards as $mc )
     foreach ( $mc->MemberCardPrices as $price )
     {
       if ( !isset($mcp[$price->price_id]) )
@@ -102,5 +107,9 @@ class manifestationActions extends autoManifestationActions
       $mcp[$ticket->price_id]['']--;
     
     return $mcp;
+    
+    }
+    catch ( liEvenementException $e )
+    { return $mcp; }
   }
 }
