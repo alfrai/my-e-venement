@@ -71,6 +71,7 @@
   {
     $transaction->Translinked[] = new Transaction;
     $transaction->updated_at = NULL;
+    $transaction->type = 'cancellation';
     $transaction->sf_guard_user_id = NULL;
     $transaction->Translinked[0]->save();
   }
