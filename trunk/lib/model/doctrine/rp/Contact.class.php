@@ -27,6 +27,21 @@ class Contact extends PluginContact
     return ucfirst($this->firstname).' '.strtoupper($this->name);
   }
   
+  public function getDepartment()
+  {
+    if ( trim(strtolower($this->country)) !== 'france' && $this->country || !$this->postalcode )
+      return false;
+    
+    return Doctrine::getTable('GeoFrDepartment')->fetchOneByNumCP(substr($this->postalcode,0,2));
+  }
+  public function getRegion()
+  {
+    if ( $dpt = $this->getDepartment() )
+      return $dpt->Region;
+    else
+      return false;
+  }
+  
   public function getYOBsString()
   {
     $arr = array();

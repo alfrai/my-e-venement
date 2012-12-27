@@ -22,4 +22,19 @@ class Organism extends PluginOrganism
   {
     return $this->name.($this->city ? ' - '.$this->city : '');
   }
+  
+  public function getDepartment()
+  {
+    if ( trim(strtolower($this->country)) !== 'france' && $this->country || !$this->postalcode )
+      return false;
+    
+    return Doctrine::getTable('GeoFrDepartment')->fetchOneByNumCP(substr($this->postalcode,0,2));
+  }
+  public function getRegion()
+  {
+    if ( $dpt = $this->getDepartment() )
+      return $dpt->Region;
+    else
+      return false;
+  }
 }
