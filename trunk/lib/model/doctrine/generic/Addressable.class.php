@@ -90,7 +90,7 @@ class Addressable extends PluginAddressable
       ->limit(intval($display['max']))
       ->offset(intval($request->getParameter('offset')));
     
-    if ( $display['notices'] )
+    if ( $display['notices'] && sfContext::hasInstance() )
     {
       sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
       sfContext::getInstance()->getUser()->setFlash('notice',

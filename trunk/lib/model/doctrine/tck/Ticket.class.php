@@ -110,7 +110,7 @@ class Ticket extends PluginTicket
     // resetting generic properties
     $this->updated_at = NULL;
     $this->created_at = NULL;
-    if ( sfContext::getInstance()->getUser()->getId() ) // especially necessary for online sales
+    if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() ) // especially necessary for online sales
       $this->sf_guard_user_id = NULL;
     
     parent::preInsert($event);

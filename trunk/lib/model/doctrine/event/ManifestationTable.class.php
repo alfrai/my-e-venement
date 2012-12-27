@@ -40,12 +40,18 @@ class ManifestationTable extends PluginManifestationTable
     
     if ( !$light )
     {
+      $uid = sfContext::hasInstance()
+        ? intval(sfContext::getInstance()->getUser()->getId())
+        : 0;
+      
       $q->leftJoin("$alias.PriceManifestations $pm")
         ->leftJoin("$pm.Price $p")
         ->leftJoin("$alias.Gauges $g")
         ->leftJoin("$g.Workspace $w")
-        ->leftJoin("$w.Order $wuo ON $wuo.workspace_id = $w.id AND $wuo.sf_guard_user_id = ".intval(sfContext::getInstance()->getUser()->getId()))
         ->leftJoin("$alias.Organizers $o")
+        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name, $w.name");
+      if ( $uid )
+      $q->leftJoin("$w.Order $wuo ON $wuo.workspace_id = $w.id AND $wuo.sf_guard_user_id = ".$uid)
         ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name, $wuo.rank");
       
       //if ( sfContext::hasInstance() && $uid = sfContext::getInstance()->getUser()->getId() )

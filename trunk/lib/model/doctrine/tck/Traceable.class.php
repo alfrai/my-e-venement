@@ -24,7 +24,7 @@ class Traceable extends PluginTraceable
   
   public function preInsert($event)
   {
-    if ( is_null($this->sf_guard_user_id) )
+    if ( sfContext::hasInstance() && is_null($this->sf_guard_user_id) )
       $this->sf_guard_user_id = sfContext::getInstance()->getUser()->getId();
     parent::preInsert($event);
   }

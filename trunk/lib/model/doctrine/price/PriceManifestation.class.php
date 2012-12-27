@@ -29,7 +29,7 @@ class PriceManifestation extends PluginPriceManifestation
   
   public function getFullName()
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('Number');
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Number'));
     return $this->Price->description.' ('.$this->Price->name.'), '.format_currency($this->value,'€');
   }
 }

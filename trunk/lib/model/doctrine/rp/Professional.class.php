@@ -14,12 +14,12 @@ class Professional extends PluginProfessional
 {
   public function __toString()
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
     return ($this->name ? $this->name : $this->ProfessionalType).' '.__('at',array(),'contact').' '.$this->Organism;
   }
   public function getFullName()
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
     return $this->Contact.', '.($this->name ? $this->name : $this->ProfessionalType).' '.__('at').' '.$this->Organism;
   }
   public function getNameType()

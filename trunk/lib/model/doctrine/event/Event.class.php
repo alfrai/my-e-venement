@@ -27,7 +27,7 @@ class Event extends PluginEvent
   
   public static function getAgeHR($age)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+    sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
     
     // eg. if 18 month / 1.5 years
     if ( floor($age) != $age )

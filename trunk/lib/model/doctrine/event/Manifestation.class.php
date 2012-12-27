@@ -81,7 +81,9 @@ class Manifestation extends PluginManifestation
       }
     }
     
-    if ( !sfContext::getInstance()->getUser()->hasCredential('tck-ledger-all-users') && $context = sfContext::getInstance() )
+    if ( sfContext::hasInstance()
+      && !sfContext::getInstance()->getUser()->hasCredential('tck-ledger-all-users')
+      && $context = sfContext::getInstance() )
       $q->andWhere('tck.sf_guard_user_id = ?',$context->getUser()->getId());
     else if ( isset($options['users']) && is_array($options['users']) && $options['users'][0] )
     {
