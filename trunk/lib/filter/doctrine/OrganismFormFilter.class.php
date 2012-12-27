@@ -49,6 +49,16 @@ class OrganismFormFilter extends BaseOrganismFormFilter
       'multiple' => true,
     ));
     
+    $this->widgetSchema   ['region_id'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'GeoFrRegion',
+      'order_by' => array('name',''),
+      'add_empty' => true,
+    ));
+    $this->validatorSchema['region_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'GeoFrRegion',
+      'required' => false,
+    ));
+    
     parent::configure();
   }
   
@@ -59,8 +69,20 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     $fields['contacts_groups']      = 'ContactsGroups';
     $fields['professional_meta_event_id'] = 'ProfessionalMetaEventId';
     $fields['not_groups_list']      = 'NotGroupsList';
+    $fields['region']               = 'RegionId';
+
     return $fields;
   }
+
+  public function addRegionIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( intval($value) > 0 )
+      $q->andWhere("SUBSTRING($a.postalcode,1,2) IN (SELECT REGEXP_REPLACE(dpt.num, '[a-zA-Z]', '0') FROM GeoFrDepartment dpt LEFT JOIN dpt.Region reg WHERE reg.id = ?)",$value)
+        ->andWhere("LOWER($a.country) = ? OR TRIM($a.country) = ? OR $a.country IS NULL",array('france',''));
+  }
+
   public function addContactsGroupsColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $c = $q->getRootAlias();

@@ -106,6 +106,7 @@ $(document).ready(function(){
     .append($('#sf_admin_filter .sf_admin_filter_field_name'))
     .append($('#sf_admin_filter .sf_admin_filter_field_postalcode'))
     .append($('#sf_admin_filter .sf_admin_filter_field_city'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_region_id'))
     .append($('#sf_admin_filter .sf_admin_filter_field_country'))
     .append($('#sf_admin_filter .sf_admin_filter_field_email'));
   elt.find('h2').html('Personnel');
