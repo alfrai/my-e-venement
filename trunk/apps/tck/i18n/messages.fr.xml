@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ordered</source>
+        <target>Réservé</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Gauge</source>
+        <target>Jauge</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Involved gauges list</source>
+        <target>Liste des jauges impliquées</target>
+      </trans-unit> 
+      <trans-unit>
         <source>There is no ticket available for cancellation corresponding to your criterias</source>
         <target>Il n'y a pas de billet disponible pour annulation correspondant à vos critères</target>
       </trans-unit> 
@@ -329,8 +341,8 @@
         <target>Génère une facture pour la manifestation sélectionnée uniquement.</target>
       </trans-unit>
       <trans-unit>
-        <source>Manifestation ledger</source>
-        <target>Bordereau de manifestation</target>
+        <source>[1]Manifestation ledger|(1,+Inf]Manifestations ledger</source>
+        <target>[1]Bordereau de manifestation|(1,+Inf]Bordereau de manifestations</target>
       </trans-unit>
       <trans-unit>
         <source>Concerned manifestations</source>

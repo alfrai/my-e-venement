@@ -8,7 +8,7 @@
   width: 424px;
 }
 
-.ledger-both #byUser {
+.ledger-both #byUser, .ledger-both #gauges {
   float: none;
   clear: both;
   width: auto;
@@ -85,3 +85,5 @@
 #byPaymentMethod p {
   margin: 5px 5px 0 5px;
 }
+
+#gauges .nb.value { text-align: right; }

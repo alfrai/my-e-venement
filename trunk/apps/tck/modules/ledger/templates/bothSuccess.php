@@ -11,7 +11,7 @@
         if ( !isset($values['dates']['to']) ) $values['dates']['to'] = date('Y-m-d',strtotime('tomorrow'));
       ?>
       <?php if ( $manifestations ): ?>
-      <?php echo __('Manifestation ledger') ?>
+      <?php echo format_number_choice('[1]Manifestation ledger|(1,+Inf]Manifestations ledger',null,$manifestations->count()) ?>
       <?php else: ?>
       <?php echo __('Detailed Ledger') ?>
       (<?php echo __('from %%from%% to %%to%%',array('%%from%%' => format_date($values['dates']['from']), '%%to%%' => format_date($values['dates']['to']))) ?>)
@@ -44,5 +44,9 @@
 <?php include_partial('both_value',array('byValue' => $byValue)) ?>
 <div class="clear"></div>
 <?php include_partial('both_user',array('byUser' => $byUser)) ?>
+<?php if ( $manifestations ): ?>
+<div class="clear"></div>
+<?php include_partial('both_gauges',array('gauges' => $gauges)) ?>
+<?php endif ?>
 </div>
 
