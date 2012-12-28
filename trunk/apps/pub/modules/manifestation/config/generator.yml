@@ -19,8 +19,8 @@ generator:
         object_actions: []
         actions: []
         batch_actions: []
-        sort: [happens_at, '']
-        display: [=happens_at, Event, _MetaEvent]
+        sort: ['happens_at, rank', '']
+        display: [=happens_at, Event, Location, _MetaEvent]
         title: Dates list
       filter:
         display: [event_id, happens_at]

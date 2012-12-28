@@ -16,7 +16,7 @@ class ManifestationTable extends PluginManifestationTable
     {
         return Doctrine_Core::getTable('Manifestation');
     }
-
+  
   public function createQuery($alias = 'm', $light = false)
   {
     $e  = $alias != 'e'  ? 'e'  : 'e1';
@@ -29,9 +29,11 @@ class ManifestationTable extends PluginManifestationTable
     $o  = $alias != 'o'  ? 'o'  : 'o1';
     $c  = $alias != 'c'  ? 'c'  : 'c1';
     $w  = $alias != 'w'  ? 'w'  : 'w1';
-    $wuo = $alias != 'wuo'  ? 'wuo'  : 'wuo1';
-    $tck = $alias != 'tck'  ? 'tck'  : 'tck1';
-    $tr = $alias != 'tr'  ? 'tr'  : 'tr1';
+    $wuo = $alias != 'wuo' ? 'wuo' : 'wuo1';
+    $tck = $alias != 'tck' ? 'tck' : 'tck1';
+    $tr = $alias != 'tr'  ? 'tr' : 'tr1';
+    $wu = $alias != "$wu" ? 'wu' : 'wu1';
+    $meu = $alias != 'meu' ? 'meu' : 'meu1';
     
     $q = parent::createQuery($alias)
       ->leftJoin("$alias.Event $e")
@@ -49,10 +51,13 @@ class ManifestationTable extends PluginManifestationTable
         ->leftJoin("$alias.Gauges $g")
         ->leftJoin("$g.Workspace $w")
         ->leftJoin("$alias.Organizers $o")
-        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name, $w.name");
+        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $w.name");
       if ( $uid )
       $q->leftJoin("$w.Order $wuo ON $wuo.workspace_id = $w.id AND $wuo.sf_guard_user_id = ".$uid)
-        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $p.name, $wuo.rank");
+        ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $wuo.rank")
+        ->leftJoin("$w.Users $wu")
+        ->leftJoin("$me.Users $meu")
+        ->andWhere("$meu.id = ? AND $wu.id = ?",array($uid,$uid));
       
       //if ( sfContext::hasInstance() && $uid = sfContext::getInstance()->getUser()->getId() )
       //  $q->andWhere("$pm.id IS NULL OR $pm.price_id IN (SELECT price_id FROM UserPrice up WHERE up.user_id = ?)",$uid);
