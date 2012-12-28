@@ -23,7 +23,7 @@
     <?php include_partial('widget_item',array(
       'nb' => $transac->MemberCards->count() + $transac->Tickets->count(),
       'label' => __('Total'),
-      'price' => $transac->getMemberCardPrice() + $transac->getPrice(),
+      'price' => $transac->getMemberCardPrice(true) + $transac->getPrice(true),
     )) ?>
   </tr>
   </tfoot>
