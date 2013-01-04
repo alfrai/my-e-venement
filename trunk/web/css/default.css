@@ -30,3 +30,11 @@
 .ui-widget-content .ui-widget-header { margin-bottom: 10px; }
 
 #content .welcome ul { padding-left: 20px; }
+
+.login #ipv6 {
+  position: absolute;
+  margin-top: -50px;
+  margin-left: 490px;
+}
+.login #ipv6 .ready { margin-top: 5px; }
+.login #ipv6 .on { height: 31px; }

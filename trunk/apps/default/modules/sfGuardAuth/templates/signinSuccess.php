@@ -15,6 +15,20 @@
         <h2><?php echo __('Signin', null, 'sf_guard') ?></h2>
       </div>
       <?php echo get_partial('sfGuardAuth/signin_form', array('form' => $form)) ?>
+      <?php if ( true ): ?>
+        <div id="ipv6">
+          <p class="on">
+            <?php if ( $ipv6['on'] ): ?>
+            <?php echo image_tag('button-ipv6-on.png') ?>
+            <?php endif ?>
+          </p>
+          <?php if ( $ipv6['ready'] ): ?>
+          <p class="ready">
+            <?php echo image_tag('button-ipv6-ready.png') ?>
+          </p>
+          <?php endif ?>
+        </div>
+      <?php endif ?>
     </div>
     
     <?php if ( sfConfig::get('app_demo') ): ?>

@@ -19,4 +19,12 @@ require_once(dirname(__FILE__).'/../lib/BasesfGuardAuthActions.class.php');
  */
 class sfGuardAuthActions extends BasesfGuardAuthActions
 {
+  public function executeSignin(sfWebRequest $request)
+  {
+    $this->ipv6 = array(
+      'ready' => filter_var($request->getRemoteAddress(), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) || sfConfig::get('app_network_ipv6_ready',true),
+      'on' => filter_var($request->getRemoteAddress(), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)
+    );
+    return parent::executeSignin($request);
+  }
 }

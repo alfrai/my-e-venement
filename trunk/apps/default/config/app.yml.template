@@ -15,5 +15,7 @@ all:
     client:
       name: Xxxxx Xxxx
   demo: false
+  network:
+    ipv6_ready: false
   archive:
     url: /old/
