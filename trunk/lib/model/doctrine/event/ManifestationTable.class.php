@@ -32,7 +32,7 @@ class ManifestationTable extends PluginManifestationTable
     $wuo = $alias != 'wuo' ? 'wuo' : 'wuo1';
     $tck = $alias != 'tck' ? 'tck' : 'tck1';
     $tr = $alias != 'tr'  ? 'tr' : 'tr1';
-    $wu = $alias != "$wu" ? 'wu' : 'wu1';
+    $wu = $alias != 'wu'  ? 'wu' : 'wu1';
     $meu = $alias != 'meu' ? 'meu' : 'meu1';
     
     $q = parent::createQuery($alias)
