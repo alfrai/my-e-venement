@@ -91,6 +91,11 @@
     $phonenumber = trim($client['telephone']);
     $c['description'] = 'e-voucher';
     $c['confirmed'] = true;
+
+    // to for capitalization of some fields
+    if ( sfConfig::has('app_capitalize') && is_array($opts = sfConfig::get('app_capitalize')) )
+    foreach ( $opts as $field )
+      $c[$field] = strtoupper($c[$field]);
     
     $form = new ContactForm();
     $c[$form->getCSRFFieldName()] = $form->getCSRFToken();
