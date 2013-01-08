@@ -244,7 +244,7 @@ class manifestationActions extends autoManifestationActions
   
   protected function securityAccessFiltering(sfWebRequest $request)
   {
-    if ( intval($request->getParameter('id')).'' != ''.$request->getParameter('id') )
+    if ( intval($request->getParameter('id')).'' !== ''.$request->getParameter('id') )
       return;
     
     if ( !in_array($this->getRoute()->getObject()->Event->meta_event_id,array_keys($this->getUser()->getMetaEventsCredentials())) )
