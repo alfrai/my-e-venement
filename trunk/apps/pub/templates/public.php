@@ -4,7 +4,7 @@
     <?php $module_name = $sf_context->getModuleName() ?>
     <?php $sf_response->setTitle(sfConfig::get('app_title')) ?>
     <?php use_javascript('public') ?>
-    <?php use_javascript('private/public.js') ?>
+    <?php use_javascript('/private/public.js') ?>
     <?php include_http_metas() ?>
     <?php include_metas() ?>
     <?php include_title() ?>

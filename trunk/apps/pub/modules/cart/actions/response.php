@@ -46,11 +46,15 @@
   }
   $bank->save();
   
+  // direct payment
   $payment = new Payment;
   $payment->sf_guard_user_id = $this->getUser()->getId();
   $payment->payment_method_id = sfConfig::get('app_tickets_payment_method_id');
   $payment->value = $bank->amount/100;
   
+  $mc_pm = $this->getMemberCardPaymentMethod();
+  
+  // payments linked to member cards' credit
   $this->getUser()->setAttribute('transaction_id',$bank->transaction_id);
   $transaction = $this->getUser()->getTransaction();
   $transaction->Contact->confirmed = true;
@@ -61,16 +65,20 @@
     $p = new Payment;
     $p->transaction_id = $transaction->id;
     $p->value = -$mc->MemberCardType->value;
-    $p->Method = Doctrine::getTable('PaymentMethod')->createQuery('pm')
-      ->andWhere('pm.member_card_linked = ?',true)
-      ->andWhere('pm.display = ?',true)
-      ->orderBy('id')
-      ->fetchOne();
+    $p->Method = $mc_pm;
     $mc->Payments[] = $p;
   }
+  
+  // payments done by member card
+  $this->createPaymentsDoneByMemberCards($mc_pm);
+  
+  // contact
   $transaction->Contact->confirmed = true;
   $transaction->Payments[] = $payment;
   $transaction->Order[] = new Order;
   $transaction->save();
+  
+  // sending emails to contact and organizators
+  $this->sendConfirmationEmails($transaction);
   
   return sfView::NONE;

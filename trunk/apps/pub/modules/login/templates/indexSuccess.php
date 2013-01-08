@@ -1,5 +1,6 @@
 <?php include_partial('global/flashes') ?>
-<?php echo $form->renderFormTag(url_for('login/validate'), array('autocomplete' => 'on', 'id' => 'login', )) ?>
+<?php include_partial('global/ariane',array('active' => 1)) ?>
+<?php echo $form->renderFormTag(url_for('login/validate'.($register ? '?register=true' : '')), array('autocomplete' => 'on', 'id' => 'login', )) ?>
   <?php include_partial('login',array('form' => $form, )) ?>
 </form>
 <script type="text/javascript"><!--

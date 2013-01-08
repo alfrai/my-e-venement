@@ -21,18 +21,23 @@
 *
 ***********************************************************************************/
 ?>
-<?php include_partial('global/flashes') ?>
-<?php include_partial('global/ariane', array('active' => 0)) ?>
-<?php include_partial('index_contact',array('contact' => $contact)) ?>
-
-<?php if ( $contact->Transactions->count() > 0 ): ?>
-<?php include_partial('index_transactions',array('contact' => $contact)) ?>
-<?php endif ?>
-
-<?php if ( $manifestations->count() > 0 ): ?>
-<?php include_partial('index_manifestations',array('manifestations' => $manifestations)) ?>
-<?php endif ?>
-
-<?php if ( $contact->MemberCards->count() > 0 ): ?>
-<?php include_partial('index_member_cards',array('contact' => $contact)) ?>
-<?php endif ?>
+<div id="member_cards">
+<h2><?php echo __('Member cards') ?></h2>
+<ul>
+<?php foreach ( $contact->MemberCards as $mc ): ?>
+  <li class="mc-<?php echo $mc->id ?>">
+    <a href="<?php echo url_for('member_card/show?id='.$mc->id) ?>" class="mc"><?php echo $mc ?></a>
+  </li>
+<?php endforeach ?>
+</ul>
+<script type="text/javascript"><!--
+  $(document).ready(function(){
+    $('#member_cards li a').each(function(){
+      $.get($(this).attr('href'),function(data){
+        mcid = $(data).find('#id').html();
+        $('#member_cards .mc-'+mcid).html($(data).find('#sf_fieldset_none'));
+      });
+    });
+  });
+--></script>
+</div>

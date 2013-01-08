@@ -25,11 +25,11 @@
     if ( !($this->getUser()->getTransaction() instanceof Transaction) )
       return $this->redirect('event/index');
     
-    // add the contact to the DB
     try { $this->form = new ContactPublicForm($this->getUser()->getContact()); }
     catch ( liEvenementException $e )
     { $this->form = new ContactPublicForm; }
     
+    // add the contact to the DB
     if ( !$this->form->getObject()->isNew() )
       $this->form->removePassword();
     $this->form->bind($request->getParameter('contact'));
@@ -118,4 +118,20 @@
     $this->contact = $this->form->save();
     
     // setting up the vars to commit to the bank
-    $this->online_payment = PayboxPayment::create($this->getUser()->getTransaction());
+    if ( $this->getUser()->getTransaction()->getPrice(true,true) > 0 )
+      $this->online_payment = PayboxPayment::create($this->getUser()->getTransaction());
+    else
+    {
+      $this->getContext()->getConfiguration()->loadHelpers('I18N');
+      
+      $transaction = $this->getUser()->getTransaction();
+      $transaction->Order[] = new Order;
+      $this->createPaymentsDoneByMemberCards();
+      $transaction->save();
+      
+      $this->sendConfirmationEmails($transaction);
+      $this->getUser()->resetTransaction();
+      $this->getUser()->setFlash('notice',__("Your command has been passed on your member cards, you don't have to pay anything."));
+      
+      $this->redirect('transaction/show?id='.$transaction->id);
+    }

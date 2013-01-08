@@ -60,14 +60,18 @@ class myUser extends liGuardSecurityUser
   public function getContact()
   {
     if ( is_null($this->getTransaction()->contact_id) )
-      throw new liEvenementException('Not yet authenticated.');
+      throw new liOnlineSaleException('Not yet authenticated.');
     
     return $this->getTransaction()->Contact;
+  }
+  public function hasContact()
+  {
+    return !is_null($this->getTransaction()->contact_id);
   }
   public function setContact(Contact $contact)
   {
     if ( !$contact->id )
-      throw new liEvenementException('Your contact is not yet recorded or does not fit the system requirements');
+      throw new liOnlineSaleException('Your contact is not yet recorded or does not fit the system requirements');
     
     $this->getTransaction()->Contact = $contact;
     foreach ( $this->getTransaction()->MemberCards as $mc )
@@ -90,8 +94,10 @@ class myUser extends liGuardSecurityUser
       
     $q = Doctrine::getTable('Transaction')->createQuery('t')
       ->leftJoin('t.MemberCards tmc')
+      ->leftJoin('t.Order o')
       ->leftJoin('tmc.MemberCardPrices tmcp')
       ->leftJoin('t.Contact c')
+      ->leftJoin('c.Transactions tr')
       ->leftJoin('c.MemberCards cmc ON c.id = cmc.contact_id AND (cmc.active = TRUE OR cmc.transaction_id = t.id)')
       ->leftJoin('cmc.MemberCardPrices cmcp')
       ->andWhere('t.id = ?',$this->getAttribute('transaction_id'));

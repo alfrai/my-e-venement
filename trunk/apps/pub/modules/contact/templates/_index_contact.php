@@ -21,18 +21,8 @@
 *
 ***********************************************************************************/
 ?>
-<?php include_partial('global/flashes') ?>
-<?php include_partial('global/ariane', array('active' => 0)) ?>
-<?php include_partial('index_contact',array('contact' => $contact)) ?>
-
-<?php if ( $contact->Transactions->count() > 0 ): ?>
-<?php include_partial('index_transactions',array('contact' => $contact)) ?>
-<?php endif ?>
-
-<?php if ( $manifestations->count() > 0 ): ?>
-<?php include_partial('index_manifestations',array('manifestations' => $manifestations)) ?>
-<?php endif ?>
-
-<?php if ( $contact->MemberCards->count() > 0 ): ?>
-<?php include_partial('index_member_cards',array('contact' => $contact)) ?>
-<?php endif ?>
+<div id="contact">
+  <h2><?php echo $contact ?></h2>
+	<p><strong><?php echo __('Email') ?></strong>: <?php echo $contact->email ?></p>
+  <p><a class="actions" href="<?php echo url_for('contact/edit') ?>"><?php echo __('Update your contact information') ?></a></p>
+</div>

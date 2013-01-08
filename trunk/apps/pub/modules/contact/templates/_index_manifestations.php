@@ -21,18 +21,14 @@
 *
 ***********************************************************************************/
 ?>
-<?php include_partial('global/flashes') ?>
-<?php include_partial('global/ariane', array('active' => 0)) ?>
-<?php include_partial('index_contact',array('contact' => $contact)) ?>
-
-<?php if ( $contact->Transactions->count() > 0 ): ?>
-<?php include_partial('index_transactions',array('contact' => $contact)) ?>
-<?php endif ?>
-
-<?php if ( $manifestations->count() > 0 ): ?>
-<?php include_partial('index_manifestations',array('manifestations' => $manifestations)) ?>
-<?php endif ?>
-
-<?php if ( $contact->MemberCards->count() > 0 ): ?>
-<?php include_partial('index_member_cards',array('contact' => $contact)) ?>
-<?php endif ?>
+<div id="manifestations">
+<h2><?php echo __('List events on which you make command') ?> :</h2>
+<ul>
+<?php foreach ( $manifestations  as $manif ): ?>
+  <li>
+    <span class="manif"><?php echo $manif ?></span>
+    <span class="transaction_id"><?php $arr = array(); foreach ( $manif->Tickets AS $tck ) $arr[$tck->transaction_id] = $tck->Transaction; echo '#'.implode(', #',$arr); ?></span>
+  </li>
+<?php endforeach ?>
+</ul>
+</div>

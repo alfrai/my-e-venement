@@ -14,6 +14,18 @@ class MemberCard extends PluginMemberCard
 {
   protected $value;
   
+  public function hasPrice($price_id, $nb = 1)
+  {
+    foreach ( $this->MemberCardPrices as $mcp )
+    {
+      if ( $mcp->price_id == $price_id )
+        $nb--;
+      if ( $nb == 0 )
+        return true;
+    }
+    return false;
+  }
+  
   public function __toString()
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('Number','I18N','Date'));

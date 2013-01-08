@@ -18,11 +18,20 @@ class contactActions extends sfActions
   
   public function executeUpdate(sfWebRequest $request)
   {
+    // creating form
     try { $this->form = new ContactPublicForm($this->getUser()->getContact()); }
     catch ( liEvenementException $e )
     { $this->form = new ContactPublicForm; }
     
-    $this->form->bind($request->getParameter('contact'));
+    // formatting data
+    $contact = $request->getParameter('contact');
+    if ( sfConfig::has('app_contact_capitalize') && is_array($fields = sfConfig::get('app_contact_capitalize')) )
+    foreach ( $fields as $field )
+    if ( isset($contact[$field]) )
+      $contact[$field] = strtoupper($contact[$field]);
+    
+    // validating and saving form
+    $this->form->bind($contact);
     if ( $this->form->isValid() )
     {
       $this->form->save();
@@ -42,7 +51,11 @@ class contactActions extends sfActions
   }
   public function executeEdit(sfWebRequest $request)
   {
-    try { $this->form = new ContactPublicForm($this->getUser()->getContact()); }
+    try {
+      $this->form = new ContactPublicForm($this->getUser()->getContact());
+      $this->form->setDefault('phone_type',$this->getUser()->getContact()->Phonenumbers[0]->name);
+      $this->form->setDefault('phone_number',$this->getUser()->getContact()->Phonenumbers[0]->number);
+    }
     catch ( liEvenementException $e )
     { $this->form = new ContactPublicForm; }
   }

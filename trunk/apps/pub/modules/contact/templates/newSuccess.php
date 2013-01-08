@@ -1,3 +1,4 @@
+<?php include_partial('new_header') ?>
 <?php include_partial('global/form_errors',array('form' => $form)) ?>
 <?php echo $form->renderFormTag(url_for('contact/create'), array('id' => 'contact-form', 'autocomplete' => 'on')) ?>
   <?php include_partial('global/register',array('form' => $form)) ?>

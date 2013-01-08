@@ -1,11 +1,15 @@
 <?php include_partial('global/flashes') ?>
-<?php use_helper('Date') ?>
+<?php include_partial('global/ariane', array('active' => $current_transaction ? 2 : 0)) ?>
 
-<p>#<?php echo $transaction_id ?></p>
+<?php use_helper('Date') ?>
+<div id="title"><h1><?php echo __('Command summary') ?></h1>
+  <p><b><?php echo __('Transaction number') ?>:</b> #<?php echo $transaction->id ?> <b><?php echo __('Edition date') ?>:</b> <?php echo format_datetime(date('Y-m-d H:i:s'),'f') ?></p>
+  <p><b><?php echo __('Contact') ?>:</b> <?php echo $sf_user->hasContact() ? $sf_user->getContact() : 'N/A' ?></p>
+</div>
 
 <?php $last = array('event_id' => 0, 'manifestation_id' => 0, 'gauge_id' => 0) ?>
 <?php $nb_ws = 0 ?>
-<?php $total = array('qty' => 0, 'value' => 0) ?>
+<?php $total = array('qty' => 0, 'value' => 0, 'mc_qty' => 0, 'mc_value' => 0) ?>
 
 <table id="command">
 <tbody>
@@ -20,8 +24,12 @@
     <?php echo $gauge->Workspace ?>
     <?php $nb_ws++ ?>
   <?php endif ?></td>
-  <?php $total['qty']++; $total['value'] += $ticket->value; include_partial('show_ticket',array('ticket' => $ticket)) ?>
-  <td class="mod"><?php echo link_to(__('modify'),'manifestation/show?id='.$manif->id) ?></td>
+  <?php
+    $total[$ticket->Price->member_card_linked ? 'mc_qty' : 'qty']++;
+    $total[$ticket->Price->member_card_linked ? 'mc_value' : 'value'] += $ticket->value;
+  ?>
+  <?php include_partial('show_ticket',array('ticket' => $ticket)) ?>
+  <td class="mod"><?php if ( $current_transaction ) echo link_to(__('modify'),'manifestation/show?id='.$manif->id) ?></td>
   <?php $last['gauge_id'] = $gauge->id; ?>
 </tr>
 <?php endforeach ?>
@@ -38,19 +46,42 @@
   <td class="qty">1</td>
   <td class="value"><?php use_helper('Number'); echo format_currency($mc->MemberCardType->value,'€') ?></td>
   <td class="total"><?php echo format_currency($mc->MemberCardType->value,'€') ?></td>
-  <td class="mod"><?php echo link_to(__('modify'),'card/index') ?></td>
+  <td class="mod"><?php if ( $current_transaction ) echo link_to(__('modify'),'card/index') ?></td>
 </tr>
 <?php endforeach ?>
 </tbody>
 <tfoot>
-  <tr>
+  <?php if ( $total['mc_qty'] ): ?>
+  <tr class="total">
+    <td class="type"><?php echo __('Total') ?></td>
     <td></td>
+    <td></td>
+    <td></td>
+    <td class="qty"><?php echo $total['mc_qty'] + $total['qty'] ?></td>
+    <td></td>
+    <td class="total"><?php use_helper('Number'); echo format_currency($total['value']+$total['mc_value'],'€'); ?></td>
+    <td></td>
+  </tr>
+  <tr class="mc">
+    <td class="type"><?php echo __("Passed on member card") ?></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="qty">(<?php echo $total['mc_qty'] ?>)</td>
+    <td></td>
+    <td class="total"><?php use_helper('Number'); echo format_currency(-$total['mc_value'],'€'); ?></td>
+    <td></td>
+  </tr>
+  <?php endif ?>
+  <tr class="topay">
+    <td class="type"><?php echo $total['mc_qty'] ? __('To pay') : __('Total') ?></td>
     <td></td>
     <td></td>
     <td></td>
     <td class="qty"><?php echo $total['qty'] ?></td>
     <td></td>
     <td class="total"><?php use_helper('Number'); echo format_currency($total['value'],'€'); ?></td>
+    <td></td>
   </tr>
 </tfoot>
 <thead>
@@ -62,9 +93,24 @@
     <td><?php echo __('Qty') ?></td>
     <td><?php echo __('Unit price') ?></td>
     <td><?php echo __('Total') ?></td>
+    <td></td>
   </tr>
 </thead>
 </table>
 
 <?php include_partial('show_js') ?>
+
+<div id="details">
+<h3><?php echo __('Command status') ?> :</h3>
+<?php include_partial('show_details',array('transaction' => $transaction)) ?>
+</div>
+<div id="payments">
+<h3><?php echo __('Payment status') ?> :</h3>
+<?php include_partial('show_payments',array('transaction' => $transaction)) ?>
+</div>
+
+<?php if ( $current_transaction ): ?>
 <?php include_partial('show_order') ?>
+<?php endif ?>
+
+<?php include_partial('show_bottom',array('end' => $end)) ?>

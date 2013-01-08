@@ -21,18 +21,18 @@
 *
 ***********************************************************************************/
 ?>
-<?php include_partial('global/flashes') ?>
-<?php include_partial('global/ariane', array('active' => 0)) ?>
-<?php include_partial('index_contact',array('contact' => $contact)) ?>
-
-<?php if ( $contact->Transactions->count() > 0 ): ?>
-<?php include_partial('index_transactions',array('contact' => $contact)) ?>
+<?php use_helper('Date') ?>
+<div id="transactions">
+<h2><?php echo __('Your commands') ?> :</h2>
+<p class="help">(<?php echo __('You can review your previous orders by clicking on its number') ?>)</p>
+<ul>
+<?php foreach ( $contact->Transactions as $t ): ?>
+<?php if ( $t->Order->count() > 0 || $t->getPrice() > 0 ): ?>
+  <li class="transaction-<?php echo $t->id ?>">
+    #<a href="<?php echo url_for('transaction/show?id='.$t->id) ?>" class="transaction"><?php echo $t ?></a>
+    <span class="date"><?php echo format_date($t->created_at) ?></span>
+  </li>
 <?php endif ?>
-
-<?php if ( $manifestations->count() > 0 ): ?>
-<?php include_partial('index_manifestations',array('manifestations' => $manifestations)) ?>
-<?php endif ?>
-
-<?php if ( $contact->MemberCards->count() > 0 ): ?>
-<?php include_partial('index_member_cards',array('contact' => $contact)) ?>
-<?php endif ?>
+<?php endforeach ?>
+</ul>
+</div>

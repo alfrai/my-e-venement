@@ -5,6 +5,58 @@
     <header/>
     <body>
       <trans-unit>
+        <source>at</source>
+        <target>le</target>
+      </trans-unit>
+      <trans-unit>
+        <source>To pay</source>
+        <target>À payer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Your command has been passed on your member cards, you don't have to pay anything.</source>
+        <target>Votre commande a été prise en compte sur vos cartes d'abo., vous n'avez rien à payer.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Passed on member card</source>
+        <target>Passé sur carte d'abo.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>In progress...</source>
+        <target>En cours...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Payment method</source>
+        <target>Moyen de paiement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Amount</source>
+        <target>Montant</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Date</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Printed (event partially)</source>
+        <target>Imprimé (même partiellement)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Booked</source>
+        <target>Réservé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edition date</source>
+        <target>Date d'édition</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Command summary</source>
+        <target>Résumé de la commande</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Transaction number</source>
+        <target>N° d'opération</target>
+      </trans-unit>
+      <trans-unit>
         <source>To order member cards, you need to be authenticated</source>
         <target>Pour commander des cartes de membre, vous devez être identifié</target>
       </trans-unit>
@@ -14,7 +66,7 @@
       </trans-unit>
       <trans-unit>
         <source>Member cards</source>
-        <target>Cartes d'abo.</target>
+        <target>Cartes d'abonnement</target>
       </trans-unit>
       <trans-unit>
         <source>You have been logged out.</source>
@@ -89,18 +141,6 @@
         <target>Catégorie d'événement</target>
       </trans-unit>
       <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
         <source>Address</source>
         <target>Adresse</target>
       </trans-unit>
@@ -168,9 +208,21 @@
         <source>Unit price</source>
         <target>Prix unitaire</target>
       </trans-unit>
-      <trans-unit id="11">
+			<trans-unit id="11">
         <source>Order</source>
         <target>Commander</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Checkout</source>
+        <target>Passer commande</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Empty your basket</source>
+        <target>Vider votre panier</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Continue shopping</source>
+        <target>Poursuivre vos achats</target>
       </trans-unit>
       <trans-unit id="13">
         <source>Send</source>
@@ -196,6 +248,106 @@
         <source>%%i%% month old</source>
         <target>%%i%% mois</target>
       </trans-unit>
-    </body>
+      <trans-unit>
+        <source>Command status</source>
+        <target>Statut de la commande</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Payment status</source>
+        <target>État du réglement</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Payment of your order</source>
+        <target>Réglement de votre commande</target>
+      </trans-unit>
+			<trans-unit>
+				<source>Choose your payment method</source>
+				<target>Choisissez votre moyen de paiement</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Your contact</source>
+				<target>Vos coordonnées</target>
+			</trans-unit>
+			<trans-unit>
+        <source>Confirm</source>
+        <target>Valider</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Choose tickets</source>
+        <target>Choisissez vos billets</target>
+      </trans-unit>
+			<trans-unit>
+        <source>You can review your previous orders by clicking on its number</source>
+        <target>Vous pouvez revoir les anciennes commandes en cliquant sur leur numéro</target>
+      </trans-unit>
+			<trans-unit>
+				<source>Your commands</source>
+				<target>Vos commandes</target>
+			</trans-unit>
+			<trans-unit>
+        <source>List events on which you make command</source>
+        <target>Liste des manifestations sur lesquelles vous avez passé commande</target>
+      </trans-unit>
+			<trans-unit>
+				<source>Update your contact information</source>
+				<target>Modifier vos coordonnées</target>
+			</trans-unit>
+			<trans-unit>
+				<source>My account</source>
+				<target>Mon compte</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Create an account</source>
+				<target>Créer un compte</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Login</source>
+				<target>Se connecter</target>
+			</trans-unit>
+			<trans-unit>
+        <source>Logout</source>
+        <target>Déconnexion</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Dates</source>
+        <target>Évenements</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Cart</source>
+        <target>Mon panier</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Coordinates</source>
+        <target>Mes Coordonnées</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Command</source>
+        <target>Passer commande</target>
+      </trans-unit>
+			<trans-unit>
+				<source>password</source>
+				<target>Mot de passe</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Associated prices still available</source>
+				<target>Places asssociées encore disponibles</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Created_at</source>
+				<target>Date de création </target>
+			</trans-unit>
+			<trans-unit>
+				<source>Expire at</source>
+				<target>Date d'expiration </target>
+			</trans-unit>
+	    </body>
+			<trans-unit>
+				<source>Choose your membership card</source>
+				<target>Choisissez votre carte d'abonnement</target>
+			</trans-unit>
+			<trans-unit>
+				<source>You already have an account ? Login first...</source>
+				<target>Vous avez déjà un compte ? Connectez vous...</target>
+			</trans-unit>
   </file>
 </xliff>

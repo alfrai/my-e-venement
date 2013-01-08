@@ -12,6 +12,7 @@ class loginActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
   {
+    $this->register = $request->hasParameter('register');
     $this->form = new LoginForm();
   }
   
@@ -33,7 +34,7 @@ class loginActions extends sfActions
     if ( $this->form->isValid() )
     {
       $this->getUser()->setFlash('notice',__('You are authenticated.'));
-      return $this->redirect('contact/index');
+      return $this->redirect($request->hasParameter('register') ? 'cart/register' : 'contact/index');
     }
     
     $this->errors = $this->form->getErrorSchema()->getErrors();

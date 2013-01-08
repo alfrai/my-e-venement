@@ -20,8 +20,15 @@ class Transaction extends PluginTransaction
       $toprint++;
     return $toprint;
   }
-  public function getPrice($all = false)
+  public function getPrice($all = false, $all_inclusive = false)
   {
+    if ( $all_inclusive )
+    {
+      return $this->getPrice($all)
+        + $this->getMemberCardPrice($all)
+        - $this->getTicketsLinkedToMemberCardPrice($all);
+    }
+    
     $price = 0;
     foreach ( $this->Tickets as $ticket )
     if ( $all || is_null($ticket->duplicate) && ($ticket->printed || $ticket->integrated || !is_null($ticket->cancelling)) )
@@ -34,6 +41,41 @@ class Transaction extends PluginTransaction
     foreach ( $this->MemberCards as $mc )
     if ( $all || $mc->activated )
       $price += $mc->MemberCardType->value;
+    return $price;
+  }
+  public function getTicketsLinkedToMemberCardPrice($all = false)
+  {
+    $prices = array();
+    
+    // linked directly to this transaction
+    foreach ( $this->MemberCards as $mc )
+    if ( $all || $mc->activated )
+    foreach ( $mc->MemberCardPrices as $mcp )
+      if ( isset($prices[$mcp->price_id]) )
+        $prices[$mcp->price_id]++;
+      else
+        $prices[$mcp->price_id] = 1;
+    
+    // linked to the transaction's contact
+    if ( !is_null($this->contact_id) )
+    foreach ( $this->Contact->MemberCards as $mc )
+    if ( $mc->active && $mc->transaction_id != $this->id )
+    foreach ( $mc->MemberCardPrices as $mcp )
+      if ( isset($prices[$mcp->price_id]) )
+        $prices[$mcp->price_id]++;
+      else
+        $prices[$mcp->price_id] = 1;
+    
+    $price = 0;
+    foreach ( $this->Tickets as $ticket )
+    if ( $ticket->printed && $ticket->member_card_id )
+      $price += $ticket->value;
+    elseif ( $all && $ticket->Price->member_card_linked && !$ticket->printed
+          && isset($prices[$ticket->price_id]) && $prices[$ticket->price_id] > 0 )
+    {
+      $prices[$ticket->price_id]--;
+      $price += $ticket->value;
+    }
     return $price;
   }
   public function getPaid()

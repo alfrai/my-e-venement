@@ -66,6 +66,9 @@ class manifestationActions extends autoManifestationActions
     $this->form = new PricesPublicForm;
     
     $this->mcp = $this->getAvailableMCPrices();
+    
+    if ( strtotime('now + '.sfConfig::get('app_tickets_close_before','36 hours')) > strtotime($this->manifestation->happens_at) )
+      return 'Closed';
   }
   
   protected function getAvailableMCPrices()
@@ -73,7 +76,8 @@ class manifestationActions extends autoManifestationActions
     $mcp = array();
     try {
 
-    if ( !$this->getUser()->getContact()->MemberCards )
+    $contact = $this->getUser()->getContact();
+    if ( $contact->MemberCards->count() == 0 )
       return $mcp;
     
     // get back available prices

@@ -1,3 +1,5 @@
 <?php use_helper('Date') ?>
-<h1><?php echo $manifestation->Event ?></h1>
-<h2><?php echo $manifestation->getFormattedDate() ?></h2>
+<h1><?php echo __('Choose tickets') ?></h1></br>
+<div id="event"><?php echo $manifestation->Event ?></div>
+<div id="manifestation"><?php echo $manifestation->getFormattedDate() ?></div>
+<div id="location"><?php echo $manifestation->Location ?></div>
