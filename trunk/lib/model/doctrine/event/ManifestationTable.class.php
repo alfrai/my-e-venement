@@ -57,7 +57,7 @@ class ManifestationTable extends PluginManifestationTable
         ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $wuo.rank")
         ->leftJoin("$w.Users $wu")
         ->leftJoin("$me.Users $meu")
-        ->andWhere("$meu.id = ? AND $wu.id = ?",array($uid,$uid));
+        ->andWhere("$meu.id = ? AND ($wu.id = ? OR $wu.id IS NULL)",array($uid,$uid));
       
       //if ( sfContext::hasInstance() && $uid = sfContext::getInstance()->getUser()->getId() )
       //  $q->andWhere("$pm.id IS NULL OR $pm.price_id IN (SELECT price_id FROM UserPrice up WHERE up.user_id = ?)",$uid);
