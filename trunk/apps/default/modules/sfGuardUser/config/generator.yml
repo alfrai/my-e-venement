@@ -33,6 +33,7 @@ generator:
           "User":                   [username, password, password_again, first_name, last_name, email_address]
           "Permissions and groups": [is_active, is_super_admin, groups_list]
           "Ticketting items":       [meta_events_list, workspaces_list, prices_list]
+          "Misc":                   [member_cards_list]
         class: liGuardUserAdminForm
 
       edit:

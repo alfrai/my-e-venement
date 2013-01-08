@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Member cards list</source>
+        <target>Liste des cartes d'abo disponibles</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Misc</source>
+        <target>Autre</target>
+      </trans-unit>
+      <trans-unit>
         <source>Prices association for member cards</source>
         <target>Association de prix pour les cartes d'abonnement</target>
       </trans-unit>
