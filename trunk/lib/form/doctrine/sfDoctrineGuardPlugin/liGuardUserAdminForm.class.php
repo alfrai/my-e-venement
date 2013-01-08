@@ -26,5 +26,8 @@ class liGuardUserAdminForm extends sfGuardUserAdminForm
 
     $this->widgetSchema['prices_list']->setOption('order_by',array('name',''));
     $this->widgetSchema['prices_list']->setOption('expanded',true);
+
+    $this->widgetSchema['member_cards_list']->setOption('order_by',array('name',''))
+                                            ->setOption('expanded',true);
   }
 }

@@ -14,6 +14,7 @@ class sfGuardUserForm extends PluginsfGuardUserForm
   {
     $this->widgetSchema['permissions_list']->setOption('order_by',array('name',''));
     $this->widgetSchema['groups_list']->setOption('order_by',array('name',''));
-    $this->widgetSchema['workspaces_list']->setOption('query',Doctrine::getTable('Workspace')->createQuery('ws',true));
+    $this->widgetSchema['workspaces_list']->setOption('query',Doctrine::getTable('Workspace')->createQuery('ws',true))
+                                          ->setOption('order_by',array('name',''));
   }
 }
