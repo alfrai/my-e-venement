@@ -167,12 +167,15 @@ class OptionCsvForm extends BaseOptionCsvForm
           'organism_npai'       => 'npai',
         );
         foreach ( $arr as $origin => $target )
+        {
           $contact[$target] = $contact[$origin];
+          unset($contact[$origin]);
+        }
       }
       
       if ( $contact['organism_email'] ) $contact['email'] = $contact['organism_email'];
       if ( $contact['professional_email'] ) $contact['email'] = $contact['professional_email'];
-      $contact['organism_email'] = $contact['professional_email'] = '';
+      unset($contact['organism_email'], $contact['professional_email']);
       
       if ( $contact['organism_phonenumber'] )
       {
@@ -184,6 +187,7 @@ class OptionCsvForm extends BaseOptionCsvForm
         $contact['phonename']    = 'Professional';
         $contact['phonenumber']  = $contact['professional_number'];
       }
+      unset($contact['organism_phonename'], $contact['organism_phonenumber'], $contact['professional_number']);
       
       return $contact;
   }
