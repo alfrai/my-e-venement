@@ -1,2 +1,3 @@
 default:
   stylesheets: [contact-card-form]
+  javascripts: [list-scroll]

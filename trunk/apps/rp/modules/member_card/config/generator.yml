@@ -20,7 +20,7 @@ generator:
       fields:
         expire_at: { label: Expire at }
       list:
-        display: [_name, Contact, expire_at, _value]
+        display: [_id, _name, Contact, created_at, expire_at, _value]
         sort: [created_at, desc]
         object_actions:
           _show: ~
@@ -28,6 +28,7 @@ generator:
             credentials: [pr-card-mod]
         batch_actions: {}
         table_method: retreiveListOfActivatedCards
+        max_per_page: 50
       filter:
         display: [member_card_type_id, contact_id, expire_at]
       form:    ~
