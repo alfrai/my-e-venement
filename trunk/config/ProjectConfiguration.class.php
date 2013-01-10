@@ -69,6 +69,7 @@ class ProjectConfiguration extends sfProjectConfiguration
     if ($this instanceof sfApplicationConfiguration)
     {
       require_once $this->getConfigCache()->checkConfig('config/project.yml');
+      require_once $this->getConfigCache()->checkConfig('config/e-venement.yml');
     }
   }
 }

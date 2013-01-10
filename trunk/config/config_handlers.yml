@@ -2,3 +2,7 @@ config/project.yml:
   class:    sfDefineEnvironmentConfigHandler
   param:
     prefix:  project_
+config/e-venement.yml:
+  class:    sfDefineEnvironmentConfigHandler
+  param:
+    prefix:  software_
