@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Debts evolution</source>
+        <target>Évolution des dettes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Types of member cards</source>
         <target>Types de cartes d'abo.</target>
       </trans-unit>

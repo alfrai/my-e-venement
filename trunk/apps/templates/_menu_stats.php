@@ -37,6 +37,7 @@
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('stats-activity') ): ?>
           <li><a href="<?php echo cross_app_url_for('stats','activity/index') ?>"><?php echo __('Ticketting activity',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('stats','debts/index') ?>"><?php echo __('Debts evolution',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('stats-byGroup') ): ?>
           <li class="spaced"><a href="<?php echo cross_app_url_for('stats','byGroup/index') ?>"><?php echo __('Entrances by group',array(),'menu') ?></a></li>

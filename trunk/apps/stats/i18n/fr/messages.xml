@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Outcome</source>
+        <target>Vendu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Income</source>
+        <target>Encaissé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Debts value</source>
+        <target>Valeur de la dette</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Debts</source>
+        <target>Dette</target>
+      </trans-unit>
+      <trans-unit>
         <source>By value</source>
         <target>En valeur</target>
       </trans-unit>

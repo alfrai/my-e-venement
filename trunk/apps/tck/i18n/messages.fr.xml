@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Summary List</source>
+        <target>Résumé</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Ordered</source>
         <target>Réservé</target>
       </trans-unit> 
