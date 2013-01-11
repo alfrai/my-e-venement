@@ -305,7 +305,7 @@ class manifestationActions extends autoManifestationActions
   
   protected function countTickets($manifestation_id)
   {
-    $q = 'SELECT count(*) AS nb FROM ticket WHERE cancelling IS NULL AND duplicate IS NULL AND manifestation_id = :manifestation_id';
+    $q = 'SELECT count(*) AS nb FROM ticket WHERE cancelling IS NULL AND duplicating IS NULL AND manifestation_id = :manifestation_id';
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $pdo->prepare($q);
     $stmt->execute(array('manifestation_id' => $manifestation_id));
@@ -332,7 +332,7 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('t.Gauge g')
       ->leftJoin('g.Workspace w')
       ->andWhere('t.cancelling IS NULL')
-      ->andWhere('t.duplicate IS NULL')
+      ->andWhere('t.duplicating IS NULL')
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->andWhere('t.manifestation_id = ?',$mid)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
@@ -350,9 +350,9 @@ class manifestationActions extends autoManifestationActions
       foreach ( array('printed' => '(t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE)', 'ordered' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)', 'asked' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id NOT IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)') as $col => $where )
       {
         $rank++;
-        $q->addSelect('(SELECT count(t'.$rank.'.id) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicate IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND t'.$rank.'.manifestation_id = ? AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.price_id = p.id) AS '.$col, $mid);
+        $q->addSelect('(SELECT count(t'.$rank.'.id) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicating IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND t'.$rank.'.manifestation_id = ? AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.price_id = p.id) AS '.$col, $mid);
         $rank++;
-        $q->addSelect('(SELECT sum(t'.$rank.'.value) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicate IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND t'.$rank.'.manifestation_id = ? AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.price_id = p.id) AS '.$col.'_value', $mid);
+        $q->addSelect('(SELECT sum(t'.$rank.'.value) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicatinf IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND t'.$rank.'.manifestation_id = ? AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.price_id = p.id) AS '.$col.'_value', $mid);
       }
     }
     $e = $q->execute();
@@ -382,7 +382,7 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('tck.Gauge g')
       ->leftJoin('g.Workspace w')
       ->andWhere('tck.cancelling IS NULL')
-      ->andWhere('tck.duplicate IS NULL')
+      ->andWhere('tck.duplicatinf IS NULL')
       ->andWhere('tck.id NOT IN (SELECT tt2.cancelling FROM ticket tt2 WHERE tt2.cancelling IS NOT NULL)')
       ->andWhere('tck.manifestation_id = ?',$manifestation_id ? $manifestation_id : $this->manifestation->id)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
@@ -398,9 +398,9 @@ class manifestationActions extends autoManifestationActions
       foreach ( array('printed' => '(t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE)', 'ordered' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)', 'asked' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id NOT IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)') as $col => $where )
       {
         $rank++;
-        $q->addSelect('(SELECT count(t'.$rank.'.id) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicate IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.transaction_id = tr.id) AS '.$col);
+        $q->addSelect('(SELECT count(t'.$rank.'.id) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicating IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.transaction_id = tr.id) AS '.$col);
         $rank++;
-        $q->addSelect('(SELECT sum(t'.$rank.'.value) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicate IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.transaction_id = tr.id) AS '.$col.'_value');
+        $q->addSelect('(SELECT sum(t'.$rank.'.value) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicating IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.transaction_id = tr.id) AS '.$col.'_value');
       }
     }
     
@@ -418,7 +418,7 @@ class manifestationActions extends autoManifestationActions
                FROM Ticket ttt
                WHERE ttt.transaction_id = t.id
                  AND (ttt.printed OR ttt.integrated OR cancelling IS NOT NULL)
-                 AND ttt.duplicate IS NULL) AS topay,
+                 AND ttt.duplicating IS NULL) AS topay,
               (SELECT CASE WHEN sum(ppp.value) IS NULL THEN 0 ELSE sum(ppp.value) END FROM Payment ppp WHERE ppp.transaction_id = t.id) AS paid,
               c.id AS c_id, c.name, c.firstname,
               p.name AS p_name, o.id AS o_id, o.name AS o_name, o.city AS o_city
@@ -428,7 +428,7 @@ class manifestationActions extends autoManifestationActions
        LEFT JOIN organism o ON p.organism_id = o.id
        LEFT JOIN transaction tl ON tl.transaction_id = t.id
        WHERE t.id IN (SELECT DISTINCT tt.transaction_id FROM Ticket tt WHERE tt.manifestation_id = ".intval($this->manifestation->id).")
-         AND (SELECT CASE WHEN sum(tt.value) IS NULL THEN 0 ELSE sum(tt.value) END FROM Ticket tt WHERE tt.transaction_id = t.id AND (tt.printed OR tt.integrated OR tt.cancelling IS NOT NULL) AND tt.duplicate IS NULL)
+         AND (SELECT CASE WHEN sum(tt.value) IS NULL THEN 0 ELSE sum(tt.value) END FROM Ticket tt WHERE tt.transaction_id = t.id AND (tt.printed OR tt.integrated OR tt.cancelling IS NOT NULL) AND tt.duplicating IS NULL)
           != (SELECT CASE WHEN sum(pp.value) IS NULL THEN 0 ELSE sum(pp.value) END FROM Payment pp WHERE pp.transaction_id = t.id)
        ORDER BY t.id ASC");
     $transactions = $st->fetchAll();

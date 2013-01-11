@@ -66,14 +66,6 @@ class Ticket extends PluginTicket
     }
     
     // the transaction's last update
-    /*
-    $q = new Doctrine_Query();
-    $q->from('Transaction')
-      ->where('id = ?',$this->transaction_id)
-      ->set('updated_at','NOW()')
-      ->update();
-    $q->execute();
-    */
     $this->Transaction->updated_at = NULL;
     
     parent::preSave($event);
@@ -84,7 +76,7 @@ class Ticket extends PluginTicket
     // cancellation ticket with member cards
     if ( $this->Price->member_card_linked
     && !( $this->printed || $this->integrated )
-    && !is_null($this->cancelling) && $this->Duplicated->count() == 0 )
+    && !is_null($this->cancelling) && is_null($this->duplicating) )
     {
       if ( !isset($models) )
         $models = Doctrine::getTable('MemberCardPriceModel')->createQuery('mcpm')
@@ -124,7 +116,7 @@ class Ticket extends PluginTicket
     if ( $this->Price->member_card_linked
     && ( isset($mods['printed']) || isset($mods['integrated']) )
     && ( $this->printed || $this->integrated )
-    && is_null($this->cancelling) && is_null($this->duplicate) )
+    && is_null($this->cancelling) && $this->Duplicatas->count() == 0 )
     {
       $q = Doctrine::getTable('MemberCard')->createQuery('mc')
         ->leftJoin('mc.Contact c')
@@ -153,7 +145,7 @@ class Ticket extends PluginTicket
       }
     }
     
-    return parent::preUpdate($event);
+    parent::preUpdate($event);
   }
   
   public function getBarcode($salt = '')

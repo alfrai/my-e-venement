@@ -35,7 +35,7 @@
     ->leftJoin('tck.Transaction t')
     ->andWhereIn('m.id',$manifestations)
     ->andWhere('t.id = ?',$this->transaction_id)
-    ->andWhere('tck.duplicate IS NULL')
+    ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
     ->andWhere('tck.cancelling IS NULL')
     ->orderBy('m.happens_at, e.name, tck.price_name, tck.id');
   

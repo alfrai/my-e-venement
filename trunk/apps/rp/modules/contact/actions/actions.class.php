@@ -62,6 +62,12 @@ class contactActions extends autoContactActions
     $this->redirect('@contact');
   }
   
+  public function preExecute()
+  {
+    $this->getContext()->getConfiguration()->changeTemplatesDir($this);
+    return parent::preExecute();
+  }
+  
   public function executeShow(sfWebRequest $request)
   {
     $this->contact = Doctrine::getTable('Contact')->findWithTickets($request->getParameter('id'));

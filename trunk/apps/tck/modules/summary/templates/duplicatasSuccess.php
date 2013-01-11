@@ -21,7 +21,7 @@
         <?php
           $users = array();
           foreach ( $transaction->Tickets as $ticket )
-          if ( !is_null($ticket->duplicate) )
+          if ( !is_null($ticket->duplicating) )
             $users[$ticket->sf_guard_user_id] = $ticket->User;
           echo implode(', ',$users)
         ?>

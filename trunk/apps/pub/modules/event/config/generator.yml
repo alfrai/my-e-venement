@@ -20,9 +20,9 @@ generator:
         batch_actions: []
         object_actions: []
         actions: []
-        display: [MetaEvent, =name, EventCategory, _age_min, _dates]
-        sort: [max_date, '']
+        display: [=name, MetaEvent, EventCategory, _dates, _age_min]
         table_method: retrievePublicList
+        sort: ['max_date, m.happens_at', '']
         title: Events list
       filter:
         display: [name, meta_event_id, event_category_id]

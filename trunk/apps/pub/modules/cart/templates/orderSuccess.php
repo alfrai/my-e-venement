@@ -1,4 +1,5 @@
 <?php include_partial('global/ariane',array('active' => 4)) ?>
+<?php include_partial('global/oplog') ?>
 <script type="text/javascript"><!--
   $(document).ready(function(){
     $('form.autosubmit').hide().submit();

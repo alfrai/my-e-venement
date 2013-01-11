@@ -22,13 +22,13 @@
 ***********************************************************************************/
 ?>
 <?php
-  $firm = sfConfig::get('app_about_firm');
-  $client = sfConfig::get('app_about_client');
+  $firm = sfConfig::get('software_about_firm');
+  $client = sfConfig::get('project_about_client');
   $translate = array(
-    '%e%'       => '<strong>e-venement</strong>',
+    '%e%'       => '<strong>'.sfConfig::get('software_about_name').'</strong>',
     '%client%'  => $client['name'],
     '%author%'  => 'Baptiste SIMON',
-    '%firm%'    => 'Libre Informatique',
+    '%firm%'    => $firm['name'],
   );
 ?>
 <div class="ui-widget ui-corner-all ui-widget-about ui-widget-content">
@@ -40,22 +40,22 @@
     <p><?php echo __("there is worst, but it's more expensive",null,'about') ?></p>
     <ul>
       <li><strong><?php echo __('the contributors',null,'about') ?></strong></li>
-      <?php if ( is_array($c=sfConfig::get('app_about_contributors')) ) foreach ( $c as $contributor ): ?>
+      <?php if ( is_array($c=sfConfig::get('software_about_contributors')) ) foreach ( $c as $contributor ): ?>
       <li><?php echo $contributor ?></li>
       <?php endforeach ?>
     </ul>
   </div>
   <div class="desc">
     <h3>e-venement</h3>
-    <p class="version">version <?php echo sfConfig::get('app_about_version') ?></p>
+    <p class="version">version <?php echo sfConfig::get('software_about_version') ?></p>
     <p class="specific"><?php echo __('%e% for %client%',$translate,'about') ?></p>
     <p class="editor">
-      <?php if ( isset($firm['nowarranty']) && $firm['nowarranty'] === true ): ?>
+      <?php if ( sfConfig::get('project_about_nowarranty',false) ): ?>
       <?php echo __('By <a href="%%url%%">%%name%%</a>',array('%%url%%' => $firm['url'], '%%name%%' => $firm['name']),'about') ?>
       <?php else: ?>
       <?php echo __('Insurance: <a href="%%url%%">%%name%%</a>',array('%%url%%' => $firm['url'], '%%name%%' => $firm['name']),'about') ?>
       <?php endif ?>
-      <?php if ( sfConfig::get('app_about_nowarranty') === 'true' ): ?>
+      <?php if ( sfConfig::get('project_about_nowarranty',false) === 'true' ): ?>
       (<?php echo __('gov.',null,'about') ?>)
       <?php endif ?>
     </p>
@@ -66,7 +66,7 @@
   <div class="mentions">
     <p class="copyleft">
       &copy; 2006-<?php echo date('Y') ?>
-      <strong><a href="http://www.libre-informatique.fr/">libre informatique</a></strong>
+      <strong><a href="http://www.libre-informatique.fr/">Libre Informatique</a></strong>
       et
       <a href="#" class="show-contributors"><?php echo __('the contributors',null,'about') ?></a>.
       <?php echo __('All rights reserved',null,'about') ?>.

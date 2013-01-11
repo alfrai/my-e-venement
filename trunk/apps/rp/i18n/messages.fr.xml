@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Update filters</source>
+        <target>Mettre à jour les filtres</target>
+      </trans-unit>
+      <trans-unit>
         <source>Member card type List</source>
         <target>Liste des types de cartes d'abonnement</target>
       </trans-unit>
@@ -222,7 +226,11 @@
       </trans-unit>
       <trans-unit>
         <source>Organism's email</source>
-        <target>Courriel de l'organisme</target>
+        <target>Courriel de l'org.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Contact's email</source>
+        <target>Courriel personnel</target>
       </trans-unit>
       <trans-unit>
         <source>The contacts in chosen organisms have been added to the selected groups.</source>

@@ -32,7 +32,7 @@ generator:
         tickets_amount_min: { label: Minimum tickets amount }
         tickets_amount_max: { label: Maximum tickets amount }
       list:
-        display: [name, firstname, postalcode, city, email, _list_phones, _organisms_list, _organisms_email_list]
+        display: [name, firstname, postalcode, city, _list_emails, _list_phones, _organisms_list]
         max_per_page: 20
       show: 
         display:

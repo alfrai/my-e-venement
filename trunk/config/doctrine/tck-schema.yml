@@ -104,6 +104,7 @@ Ticket:
       notnull: true
     numerotation: string(255)
     duplicate: integer
+    duplicating: integer
     grouping_fingerprint: string(255)
     cancelling:
       type: integer
@@ -140,9 +141,9 @@ Ticket:
       foreignAlias: Tickets
       onDelete: RESTRICT
       onUpdate: CASCADE
-    Duplicata:
-      local: duplicate
-      foreignAlias: Duplicated
+    Duplicated:
+      local: duplicating
+      foreignAlias: Duplicatas
       class: Ticket
       onDelete: SET NULL
       onUpdate: CASCADE

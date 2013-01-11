@@ -79,7 +79,7 @@
       ->andWhereIn('tg.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhere('t.id = ?',$this->transaction->id)
       ->andWhere('pu.id = ?',$this->getUser()->getId())
-      ->andWhere('tck.duplicate IS NULL')
+      ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
       ->orderBy('e.name, m.happens_at, m.id, g.workspace_id, tg.workspace_id, tck.price_name, tck.printed, tck.id');
     if ( count($values['manifestation_id']) > 0 )
       $q->andWhereIn('m.id',$values['manifestation_id']);

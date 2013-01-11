@@ -12,12 +12,20 @@
  */
 class Traceable extends PluginTraceable
 {
+  private $no_updated_at = false;
+  
+  public function doNotUpdate()
+  {
+    $this->no_updated_at = true;
+  }
   public function preSave($event)
   {
-    if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() && $this->isModified() )
+    if ( $this->isModified() )
     {
-      $this->updated_at = date('Y-m-d H:i:s');
-      $this->sf_guard_user_id = sfContext::getInstance()->getUser()->getId();
+      if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() )
+        $this->sf_guard_user_id = sfContext::getInstance()->getUser()->getId();
+      if ( !$this->no_updated_at )
+        $this->updated_at = date('Y-m-d H:i:s');
     }
     parent::preSave($event);
   }

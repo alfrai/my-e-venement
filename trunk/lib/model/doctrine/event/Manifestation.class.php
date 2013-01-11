@@ -48,7 +48,7 @@ class Manifestation extends PluginManifestation
     
     $q = Doctrine::getTable('Ticket')->createQuery('tck')
       ->andWhere('manifestation_id = ?',$this->id)
-      ->andWhere('tck.duplicate IS NULL');
+      ->andWhere('tck.duplicating IS NULL');
         
     if ( $options['workspaces'] )
       $q->leftJoin('tck.Gauge g')

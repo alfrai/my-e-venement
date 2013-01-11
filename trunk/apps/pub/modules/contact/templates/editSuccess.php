@@ -1,4 +1,5 @@
-<?php include_partial('global/ariane',array('active' => 1)) ?>
+<?php include_partial('global/ariane',array('active' => 0)) ?>
+<?php include_partial('global/oplog') ?>
 <?php include_partial('edit_header') ?>
 <?php if ( $form->getErrorSchema()->count() > 0 ): ?>
 <div class="errors"><?php echo $form->getErrorSchema() ?></div>

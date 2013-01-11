@@ -53,7 +53,7 @@
         $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it has not yet been printed... Just try to suppress it",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
-      if ( !is_null($ticket->duplicate) )
+      if ( !is_null($ticket->Duplicatas->count() != 0) )
       {
         $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it is a duplicated ticket... Simply try to cancel the last duplicate of the series",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
@@ -79,7 +79,7 @@
       $q = Doctrine::getTable('Ticket')->createQuery('t')
         ->andWhere('cancelling = ?',$ticket->id)
         ->orderBy('id DESC');
-      $duplicata = $q->fetchOne();
+      $orig = $q->fetchOne();
       
       // linking a new cancel ticket to this transaction
       $this->ticket = $ticket->copy();
@@ -89,8 +89,8 @@
       $this->transaction->Tickets[] = $this->ticket;
       
       // saving the old ticket for duplication
-      if ( $duplicata )
-        $this->ticket->Duplicated[] = $duplicata;
+      if ( $orig )
+        $this->ticket->duplicating = $orig->id;
       
       $this->transaction->save();
       

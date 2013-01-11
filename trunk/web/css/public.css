@@ -21,6 +21,8 @@ body {
 #sf_admin_list.table {
 	margin-top: 220px;
 }
+.sf_admin_list_td_dates ul { margin: 0; }
+.sf_admin_list_td_dates li { list-style-type: none; }
 
 .sf_admin_filter select {
   width: 180px;
@@ -29,6 +31,8 @@ body {
 #title {
 	font-size: 14px;
 }
+
+#sf_admin_container h1 { font-size: 2em; }
 
 #command .overbooked td {
   border-top: 1px solid OrangeRed;
@@ -91,7 +95,7 @@ body {
   position: absolute;
   right: 20px;
 	margin-top: -50px;
-  background-color: white;
+  background-color: whitesmoke;
   border: 1px solid black;
   padding: 3px 0px 3px 0px;
   height: 37px;
@@ -310,15 +314,15 @@ a.actions a:hover {
 	background-image: none;
 	padding-right: 5px;
 }
+
 #ariane a {	text-decoration: none; }
 #ariane a:hover { text-decoration: underline; }
 .access a {
 	display: table-row;
 }
-#ariane.access {
-	text-align: center;
-}
-
+.active a, #sf_admin_container .active a, #ariane .active {	color: #AD0000; }
+.past a, #sf_admin_container .past a, #ariane .past  {	color: #888; }
+.future a, #sf_admin_container .future a, #ariane .future { color: #000; } 
 .errors {
 	color: red;
 }
@@ -335,9 +339,26 @@ a.actions a:hover {
 
 #oplog {
 	position: absolute;
+	top: 70px;
+	right: 20px;
+	width: 185px;
+	padding: 20px 10px 20px 10px;
+	background: whitesmoke;
+	border: 1px solid gray;
+	border-radius: 5px;
+	text-align: center;
 }
+#oplog a { text-decoration: none; color: red; font-weight: bold; display: block; padding-bottom: 10px; }
 
 tfoot, thead { font-weight: bold; }
 tbody .total {
   text-align: right;
+}
+
+#location, #manifestation { display: inline-block; }
+
+#location { font-weight: bold; }
+
+#manifestation {
+	padding: 0px 5px 15px 25px;
 }

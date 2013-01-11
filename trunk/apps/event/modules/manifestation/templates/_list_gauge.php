@@ -8,7 +8,7 @@
   {
     $cancelled = array();
     foreach ( $manifestation->Tickets as $ticket )
-    if ( is_null($ticket->duplicate) )
+    if ( $ticket->Duplicatas->count() == 0 )
     {
       if ( is_null($ticket->cancelling) )
       {

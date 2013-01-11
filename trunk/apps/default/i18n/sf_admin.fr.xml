@@ -58,6 +58,10 @@
         <target>Liste</target>
       </trans-unit>
       <trans-unit>
+        <source>Update</source>
+        <target>Mettre à jour</target>
+      </trans-unit>
+      <trans-unit>
         <source>Save</source>
         <target>Mettre à jour</target>
       </trans-unit>

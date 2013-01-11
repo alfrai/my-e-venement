@@ -16,6 +16,9 @@ showSuccess:
   stylesheets: [view]
   javascripts: [contact-show]
 
+_tdp/indexSuccess:
+  javascripts: [contact-list, list-scroll]
+  stylesheets: [list-print: {media: print}, contact-list, batch-actions]
 indexSuccess:
   javascripts: [contact-list, list-scroll]
   stylesheets: [list-print: {media: print}, contact-list, batch-actions]

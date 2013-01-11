@@ -32,7 +32,7 @@ class ticketActions extends sfActions
       ->leftJoin('tck.User u')
       ->leftJoin('tck.Cancelling c1')
       ->leftJoin('tck.Cancelled c2')
-      ->leftJoin('tck.Duplicata d1')
+      ->leftJoin('tck.Duplicatas d1')
       ->leftJoin('tck.Duplicated d2')
       ->leftJoin('tck.Price p')
       ->leftJoin('tck.Gauge g')
@@ -267,7 +267,8 @@ class ticketActions extends sfActions
     {
       $q = Doctrine_Query::create()
         ->from('Transaction t')
-        ->leftJoin('t.Tickets tck ON tck.transaction_id = t.id AND tck.duplicate IS NULL AND (tck.printed = TRUE OR tck.integrated = TRUE OR tck.cancelling IS NOT NULL)')
+        ->leftJoin('t.Tickets tck ON tck.transaction_id = t.id AND tck.duplicating IS NULL AND (tck.printed = TRUE OR tck.integrated = TRUE OR tck.cancelling IS NOT NULL)')
+        ->leftJoin('tck.Duplicatas duplis')
         ->leftJoin('tck.Cancelled cancelled')
         ->leftJoin('tck.Manifestation m')
         ->leftJoin('tck.Price p')

@@ -35,7 +35,7 @@
       ->leftJoin('e.MetaEvent me')
       ->leftJoin('e.Companies c')
       ->orderBy('m.happens_at, tck.price_name, tck.id')
-      ->andWhere('tck.duplicate IS NULL')
+      ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
       ->andWhere('tck.printed = ? AND tck.integrated = ?',array(false,false));
     if ( $request->hasParameter('toprint') )
     {

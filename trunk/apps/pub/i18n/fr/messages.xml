@@ -138,7 +138,7 @@
       </trans-unit>
       <trans-unit>
         <source>Event category</source>
-        <target>Catégorie d'événement</target>
+        <target>Genre</target>
       </trans-unit>
       <trans-unit>
         <source>Address</source>
@@ -310,7 +310,7 @@
       </trans-unit>
 			<trans-unit>
         <source>Dates</source>
-        <target>Évenements</target>
+        <target>Dates</target>
       </trans-unit>
 			<trans-unit>
         <source>Cart</source>
@@ -348,6 +348,18 @@
 			<trans-unit>
 				<source>You already have an account ? Login first...</source>
 				<target>Vous avez déjà un compte ? Connectez vous...</target>
+			</trans-unit>
+			<trans-unit>
+        <source>Not account yet? Create your own...</source>
+        <target>Pas encore de compte ? Créer le votre...</target>
+      </trans-unit>
+			<trans-unit>
+				<source>at </source>
+				<target>le </target>
+			</trans-unit>
+			<trans-unit>
+				<source>location</source>
+				<target>lieu</target>
 			</trans-unit>
   </file>
 </xliff>

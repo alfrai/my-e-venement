@@ -55,7 +55,7 @@
         $this->getUser()->setFlash('error',__("Can't duplicate the ticket #%%i%% because it was not yet printed... Just try to print it",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
-      if ( !is_null($ticket->duplicate) )
+      if ( $ticket->Duplicatas->count() != 0 )
       {
         $this->getUser()->setFlash('error',__("Can't duplicate the ticket #%%i%% because it has been already duplicated... Simply try to duplicate the last duplicate of the serie",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
@@ -73,11 +73,9 @@
       $this->ticket->updated_at = NULL;
       $this->ticket->sf_guard_user_id = NULL;
       $this->ticket->id = NULL;
+      $this->ticket->duplicating = $ticket->id;
       $this->ticket->save();
       $this->tickets[] = $this->ticket;
-      
-      $ticket->duplicate = $this->ticket->id;
-      $ticket->save();
     }
     
     $this->duplicate = true;

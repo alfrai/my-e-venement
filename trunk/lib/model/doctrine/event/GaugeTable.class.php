@@ -22,7 +22,7 @@ class GaugeTable extends PluginGaugeTable
     $ws = $alias != 'ws' ? 'ws' : 'ws1';
     
     $q = parent::createQuery($alias);
-    $where = "     duplicate IS NULL
+    $where = "     duplicating IS NULL
                AND cancelling IS NULL
                AND gauge_id = $alias.id";
     

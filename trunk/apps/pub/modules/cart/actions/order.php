@@ -68,7 +68,7 @@
                         FROM Ticket tck4
                         WHERE NOT printed AND NOT integrated
                           AND transaction_id NOT IN (SELECT o4.transaction_id FROM Order o4)
-                          AND duplicate IS NULL AND cancelling IS NULL AND gauge_id = g.id
+                          AND duplicating IS NULL AND cancelling IS NULL AND gauge_id = g.id
                           AND id NOT IN (SELECT tck44.cancelling FROM Ticket tck44 WHERE tck44.cancelling IS NOT NULL)
                           AND sf_guard_user_id = '".$this->getUser()->getId()."'
                           AND updated_at > NOW() - '".(isset($config['cart_timeout']) ? $config['cart_timeout'] : 20)." minutes'::interval
@@ -78,7 +78,7 @@
                         FROM Ticket tck5
                         WHERE NOT printed AND NOT integrated
                           AND transaction_id NOT IN (SELECT o5.transaction_id FROM Order o5)
-                          AND duplicate IS NULL AND cancelling IS NULL AND gauge_id = g.id
+                          AND duplicating IS NULL AND cancelling IS NULL AND gauge_id = g.id
                           AND id NOT IN (SELECT tck55.cancelling FROM Ticket tck55 WHERE tck55.cancelling IS NOT NULL)
                           AND sf_guard_user_id = '".$this->getUser()->getId()."'
                           AND transaction_id = '".$this->getUser()->getTransaction()->id."'

@@ -21,7 +21,7 @@
     $prints = 0;
     $other_events = array();
     foreach ( $transaction->Tickets as $ticket )
-    if ( in_array($ticket->manifestation_id,$manif_ids) && is_null($ticket->duplicate) )
+    if ( in_array($ticket->manifestation_id,$manif_ids) && is_null($ticket->duplicating) )
     {
       if ( $ticket->printed || $ticket->integrated )
       {
@@ -40,7 +40,7 @@
       <?php
         $nb = 0;
         foreach ( $transaction->Tickets as $ticket )
-        if ( is_null($ticket->duplicate) )
+        if ( is_null($ticket->duplicating) )
           $nb++;
       ?>
       #<?php echo cross_app_link_to($transaction, 'tck', $transaction->type != 'cancellation' ? 'ticket/sell?id='.$transaction->id : 'ticket/pay?id='.$transaction->id) ?>,

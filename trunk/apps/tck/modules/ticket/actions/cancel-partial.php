@@ -44,7 +44,7 @@
     ->andWhere('t.id = ?',$tid)
     ->andWhere('LOWER(p.name) = LOWER(?)',$price_name)
     ->andWhere('tck.manifestation_id = ?',$manifestation_id)
-    ->andWhere('tck.duplicate IS NULL')
+    ->andWhere('tck.id NOT IN (SELECT tck3.duplicating FROM Ticket tck3 WHERE tck3.duplicating IS NOT NULL)')
     ->andWhere('tck.printed = TRUE')
     ->andWhere('tck.cancelling IS NULL')
     ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
@@ -82,7 +82,7 @@
     $cancel = $ticket->copy();
     $cancel->value = -$cancel->value;
     $cancel->cancelling = $ticket->id;
-    $cancel->duplicate = NULL;
+    $cancel->duplicating = NULL;
     $cancel->printed = false;
     $cancel->integrated = false;
     $cancel->transaction_id = $transaction->Translinked[0]->id;

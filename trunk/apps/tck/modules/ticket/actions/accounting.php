@@ -34,7 +34,7 @@
       ->leftJoin('m.Event e')
       ->leftJoin('t.Price p')
       ->andWhere('t.transaction_id = ?',$this->transaction->id)
-      ->andWhere('t.duplicate IS NULL')
+      ->andWhere('t.duplicating IS NULL')
       ->orderBy('m.happens_at, e.name, p.description, t.value');
     if ( $printed )
       $q->andWhere('t.printed = TRUE OR t.integrated = TRUE');

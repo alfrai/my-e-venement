@@ -14,6 +14,15 @@ class rpConfiguration extends sfApplicationConfiguration
     $this->dispatcher->connect('user.change_authentication', array($this, 'logAuthentication'));
   }
   
+  public static function changeTemplatesDir(sfAction $action)
+  {
+    if ( sfConfig::get('app_options_design','') )
+    {
+      $params = $action->getRoute()->getParameters();
+      $action->setTemplate('_'.sfConfig::get('app_options_design','').'/'.($action->getTemplate() ? $action->getTemplate() : $params['action']));
+    }
+  }
+  
   public function addPhoneNumber(sfEvent $event)
   {
     $params = $event->getParameters();

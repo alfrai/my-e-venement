@@ -53,16 +53,16 @@
       ->addSelect('sum(NOT t.printed AND NOT t.integrated AND t.transaction_id IN (SELECT o.transaction_id FROM order o)) AS orders')
       ->addSelect('sum(NOT t.printed AND NOT t.integrated AND t.transaction_id NOT IN (SELECT o2.transaction_id FROM order o2)) AS demands')
       ->andWhere('m.id = ?',$mid)
-      //->andWhere('t.duplicate IS NULL')
+      //->andWhere('t.duplicating IS NULL')
       //->andWhere('t.cancelling IS NULL')
       //->andWhere('t.id NOT IN (SELECT ttt.cancelling FROM ticket ttt WHERE ttt.cancelling IS NOT NULL)')
       ->groupBy('m.id, e.name, me.name, m.happens_at, m.duration');
     
     // only tickets from asked gauge
     if ( intval($request->getParameter('wsid')) > 0 )
-      $q->leftJoin('m.Tickets t ON t.gauge_id = ? AND m.id = t.manifestation_id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE cancelling IS NOT NULL)',$this->gauge->id);
+      $q->leftJoin('m.Tickets t ON t.gauge_id = ? AND m.id = t.manifestation_id AND t.duplicating IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE cancelling IS NOT NULL)',$this->gauge->id);
     else
-      $q->leftJoin('m.Tickets t ON m.id = t.manifestation_id AND t.duplicate IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE cancelling IS NOT NULL)');
+      $q->leftJoin('m.Tickets t ON m.id = t.manifestation_id AND t.duplicating IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE cancelling IS NOT NULL)');
     
     $manifs = $q->execute();
     if ( $manifs->count() > 0 )

@@ -44,8 +44,9 @@ class transactionActions extends sfActions
       ->andWhere('t.id = ?',$this->transaction->id)
       ->andWhere('t.type = ?','normal')
       ->andWhere('o.id IS NOT NULL OR tck.printed = ? OR tck.integrated = ? OR tck.transaction_id = ?',array(true,true,$this->transaction->id))
-      ->andWhere('tck.cancelling IS NULL AND tck.duplicate IS NULL')
-      ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE cancelling IS NOT NULL)')
+      ->andWhere('tck.cancelling IS NULL')
+      ->andWhere('tck.id NOT IN (SELECT tck3.duplicating FROM Ticket tck3 WHERE tck3.duplicating IS NOT NULL)')
+      ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
       ->andWhere('tck.id IS NOT NULL')
       ->orderBy('e.name, m.happens_at, w.name, g.id, p.id, tck.id');
     

@@ -31,7 +31,7 @@
       <?php endif ?>
     </div>
     
-    <?php if ( sfConfig::get('app_demo') ): ?>
+    <?php if ( sfConfig::get('project_demo') ): ?>
     <div class="ui-widget-content ui-corner-all">
       <div class="ui-widget-header ui-corner-all fg-toolbar">
         <h2><?php echo __('Demonstration', null, 'sf_guard') ?></h2>

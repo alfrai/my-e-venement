@@ -144,7 +144,7 @@ ransaction id
     $q = Doctrine::getTable('Transaction')->createQuery('t')
       ->select('t.id, sum(tck.value) AS topay')
       ->andWhere('t.id = ?',$this->getUser()->getAttribute('transaction_id'))
-      ->andWhere('tck.cancelling IS NULL AND tck.duplicate IS NULL')
+      ->andWhere('tck.cancelling IS NULL AND tck.duplicating IS NULL')
       ->groupBy('t.id');
     return $q->fetchOne()->topay;
   }

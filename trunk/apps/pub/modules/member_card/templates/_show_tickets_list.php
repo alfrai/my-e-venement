@@ -6,7 +6,7 @@
   <table class="tickets_list ui-widget ui-corner-all ui-widget-content">
   <tbody>
   <?php foreach ( $member_card->Tickets as $ticket ): ?>
-  <?php if ( is_null($ticket->duplicate) && ($ticket->printed || $ticket->integrated || !is_null($ticket->cancelling) ) ): ?>
+  <?php if ( is_null($ticket->Duplicatas->count() == 0) && ($ticket->printed || $ticket->integrated || !is_null($ticket->cancelling) ) ): ?>
     <tr>
       <td class="transation_id"><?php echo cross_app_link_to('#'.$ticket->transaction_id,'tck','ticket/sell?id='.$ticket->transaction_id) ?></td>
       <td class="ticket_id"><?php echo '#'.$ticket->id ?></td>

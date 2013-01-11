@@ -29,7 +29,7 @@
     $q = Doctrine::getTable('Transaction')
       ->createQuery('t')
       ->andWhere('t.id = ?',$request->getParameter('id'))
-      ->andWhere('tck.duplicate IS NULL')
+      ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
       ->leftJoin('m.Location l')
       ->leftJoin('m.Organizers o')
       ->leftJoin('m.Event e')
@@ -95,11 +95,8 @@
               $newticket->created_at = NULL;
               $newticket->updated_at = NULL;
               $newticket->grouping_fingerprint = $fingerprint;
+              $newticket->Duplicated = $ticket;
               $newticket->save();
-              
-              $ticket->duplicate = $newticket->id;
-              $ticket->updated_at = NULL;
-              $ticket->save();
               
               if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
               {
@@ -172,12 +169,10 @@
               $newticket->sf_guard_user_id = NULL;
               $newticket->created_at = NULL;
               $newticket->updated_at = NULL;
+              $newticket->Duplicated = $ticket;
               $newticket->save();
               
-              $ticket->duplicate = $newticket->id;
-              $ticket->updated_at = NULL;
-              $ticket->save();
-              $this->tickets[] = $ticket;
+              $this->tickets[] = $newticket;
             }
           }
           
@@ -224,9 +219,11 @@
       $q = Doctrine_Query::create()->update()
         ->from('Ticket t')
         ->whereIn('t.id',$ids)
+        ->andWhere('t.'.$type.' != ?',true)
         ->set('t.'.$type,'true')
         ->set('t.updated_at','NOW()')
-        ->set('t.sf_guard_user_id',$this->getUser()->getId());
+        ->set('t.sf_guard_user_id',$this->getUser()->getId())
+        ->set('t.version','t.version + 1');
       
       // bulk update for grouped tickets
       if ( sfConfig::has('app_tickets_authorize_grouped_tickets')
@@ -240,6 +237,12 @@
       }
       
       $q->execute();
+      
+      // ticket version
+      $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+      $query = 'INSERT INTO ticket_version SELECT * FROM ticket WHERE id IN ('.implode(',',$ids).')';
+      $stmt = $pdo->prepare($query);
+      $stmt->execute();
     }
     
     if ( count($this->tickets) <= 0 )

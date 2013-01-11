@@ -16,7 +16,7 @@ class Transaction extends PluginTransaction
   {
     $toprint = 0;
     foreach ( $this->Tickets as $ticket )
-    if ( is_null($ticket->duplicate) && !$ticket->printed && !$ticket->integrated && is_null($ticket->cancelling) )
+    if ( $ticket->Duplicatas->count() == 0 && !$ticket->printed && !$ticket->integrated && is_null($ticket->cancelling) )
       $toprint++;
     return $toprint;
   }
@@ -31,7 +31,7 @@ class Transaction extends PluginTransaction
     
     $price = 0;
     foreach ( $this->Tickets as $ticket )
-    if ( $all || is_null($ticket->duplicate) && ($ticket->printed || $ticket->integrated || !is_null($ticket->cancelling)) )
+    if ( $all || $ticket->Duplicatas->count() == 0 && ($ticket->printed || $ticket->integrated || !is_null($ticket->cancelling)) )
       $price += $ticket->value;
     return $price;
   }

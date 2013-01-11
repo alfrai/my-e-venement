@@ -1,4 +1,5 @@
-<?php include_partial('global/ariane',array('active' => 2)) ?>
+<?php include_partial('global/ariane',array('active' => 1)) ?>
+<?php include_partial('global/oplog') ?>
 <?php use_helper('Number') ?>
 <h1><?php echo __('Choose your membership card') ?> :</h1>
 <form action="<?php echo url_for('card/order') ?>" method="post" autocomplete="off">

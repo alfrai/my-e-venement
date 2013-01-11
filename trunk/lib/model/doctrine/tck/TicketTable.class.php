@@ -16,4 +16,10 @@ class TicketTable extends PluginTicketTable
     {
         return Doctrine_Core::getTable('Ticket');
     }
+  
+  public function createQuery($alias = 'tck')
+  {
+    return parent::createQuery($alias)
+      ->leftJoin("$alias.Duplicatas duplicatas");
+  }
 }
