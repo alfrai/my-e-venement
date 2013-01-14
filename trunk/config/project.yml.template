@@ -7,4 +7,10 @@ all:
     auto_close: true
   tickets:
     count_demands: false
-  
+  about:
+    nowarranty: false
+    client:
+      name: dev
+  demo: false
+  network:
+    ipv6_ready: false
