@@ -25,7 +25,7 @@
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
     
     $tmp = explode(',',$request->getParameter('ticket_id'));
-    $ticket_ids = array();
+    $ticket_ids = array(0);
     foreach ( $tmp as $key => $ids )
     if ( $ids )
     {
@@ -35,8 +35,7 @@
         $ticket_ids[$i] = $i;
     }
     
-    if ( count($ticket_ids) > 0 )
-    foreach ( Doctrine::getTable('Ticket')
+    foreach ( $tickets = Doctrine::getTable('Ticket')
       ->createQuery('tck')
       ->leftJoin('tck.Transaction t')
       ->leftJoin('t.Translinked t2')
@@ -53,7 +52,7 @@
         $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it has not yet been printed... Just try to suppress it",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
-      if ( !is_null($ticket->Duplicatas->count() != 0) )
+      if ( $ticket->Duplicatas->count() != 0 )
       {
         $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it is a duplicated ticket... Simply try to cancel the last duplicate of the series",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
@@ -98,5 +97,9 @@
       $this->getUser()->setFlash('notice',__('Ticket canceled.'));
       $this->setTemplate('canceledTicket');
     }
-    else
+    
+    if ( $tickets->count() == 0 )
+    {
+      $this->getUser()->setFlash('error',__("Can't find the ticket #%%i%% in database...",array('%%i%%' => $request->getParameter('ticket_id'))));
       $this->executeCancelBoot($request);
+    }
