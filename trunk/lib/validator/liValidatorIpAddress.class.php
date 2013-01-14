@@ -22,18 +22,15 @@
 ***********************************************************************************/
 ?>
 <?php
-class liValidatorIpAddress extends sfValidatorRegex
+class liValidatorIpAddress extends sfValidatorString
 {
-  /**
-   * Configures the current validator.
-   *
-   * Validates either v4 and v6 addresses
-   *
-   */
-  protected function configure($options = array(), $messages = array())
+  protected function doClean($value)
   {
-    $this->options['pattern'] = '/^(?:(?>(?>([a-f0-9]{1,4})(?>:(?1)){7})|(?>(?!(?:.*[a-f0-9](?>:|$)){8,})((?1)(?>:(?1)){0,6})?::(?2)?))|(?>(?>(?>(?1)(?>:(?1)){5}:)|(?>(?!(?:.*[a-f0-9]:){6,})((?1)(?>:(?1)){0,4})?::(?>(?3):)?))?(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?>\.(?4)){3}))$/iD';
-    $this->options['required'] = true;
-    parent::configure($options,$messages);
+    $clean = parent::doClean($value);
+    
+    if ( !filter_var($value,FILTER_VALIDATE_IP) )
+      throw new sfValidatorError($this, 'invalid', array('value' => $value));
+    
+    return $clean;
   }
 }

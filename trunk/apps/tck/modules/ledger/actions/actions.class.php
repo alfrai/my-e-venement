@@ -84,7 +84,8 @@ class ledgerActions extends sfActions
       ->leftJoin('m.Location l')
       ->leftJoin('m.Tickets tck')
       ->leftJoin('tck.User u')
-      ->andWhere('tck.duplicate IS NULL')
+      ->leftJoin('tck.Duplicated d')
+      ->andWhere('d.id IS NULL') // to count only originals tickets, not duplicates
       ->leftJoin('tck.Transaction t')
       ->leftJoin('tck.Gauge g')
       ->leftJoin('t.Contact c')
