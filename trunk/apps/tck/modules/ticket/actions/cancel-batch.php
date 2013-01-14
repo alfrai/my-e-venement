@@ -98,7 +98,8 @@
   $payment = new Payment;
   $payment->value = -$value;
   $payment->payment_method_id = $pid;
-  $transaction->Payments[] = $payment;
+  $payment->transaction_id = $transaction->id;
+  $payment->save();
   
   $payment = new Payment;
   $payment->value = $value;
@@ -107,8 +108,6 @@
     
   // saving the transactions
   $translinked->save();
-  $transaction->transaction_id = $translinked->id;
-  $transaction->save();
   
   // get out
   $this->getUser()->setFlash('notice',__('Your transaction has been correctly cancelled'));

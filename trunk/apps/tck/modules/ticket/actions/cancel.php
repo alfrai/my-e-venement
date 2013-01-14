@@ -100,6 +100,7 @@
     
     if ( $tickets->count() == 0 )
     {
-      $this->getUser()->setFlash('error',__("Can't find the ticket #%%i%% in database...",array('%%i%%' => $request->getParameter('ticket_id'))));
+      if ( $request->hasParameter('ticket_id') )
+        $this->getUser()->setFlash('error',__("Can't find the ticket #%%i%% in database...",array('%%i%%' => $request->getParameter('ticket_id'))));
       $this->executeCancelBoot($request);
     }
