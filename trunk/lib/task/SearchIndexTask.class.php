@@ -38,7 +38,7 @@ class SearchIndexTask extends sfBaseTask{
     $this->name = 'search-index';
     $this->briefDescription = 'Updates the searchable data of the given model';
     $this->detailedDescription = <<<EOF
-      The [geo:geocode|INFO] Updates the searchable data of a model:
+      The [si:search-index|INFO] Updates the searchable data of a model:
       [./symfony e-venement:search-index model --env=dev|INFO]
 EOF;
   }
