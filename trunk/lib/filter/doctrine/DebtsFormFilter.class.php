@@ -30,7 +30,7 @@ class DebtsFormFilter extends TransactionFormFilter
     TransactionTable::addDebtsListBaseSelect($query);
     $query
       ->addSelect('(SELECT SUM(tck.value) FROM Ticket tck WHERE '.TransactionTable::getDebtsListTicketsCondition('tck',$values).') AS outcomes')
-      ->addSelect("(SELECT SUM(p.value)   FROM Payment p  WHERE p.transaction_id = t.id AND p.created_at < '".$values."') AS incomes")
+      ->addSelect("(SELECT SUM(pp.value)   FROM Payment pp  WHERE pp.transaction_id = t.id AND pp.created_at < '".$values."') AS incomes")
       ->where('((SELECT SUM(tck2.value)  FROM Ticket tck2 WHERE '.TransactionTable::getDebtsListTicketsCondition('tck2',$values).') - (SELECT sum(p2.value) FROM Payment p2 WHERE p2.transaction_id = t.id AND p2.created_at < ?)) != 0',$values);
     
     return $query;
@@ -40,6 +40,6 @@ class DebtsFormFilter extends TransactionFormFilter
   {
     return array_merge(array(
       'date' => 'Date',
-    ), parent::getFields());
+    ),parent::getFields());
   }
 }

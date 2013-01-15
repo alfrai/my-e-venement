@@ -7,6 +7,11 @@ function list_scroll()
 {
   $('.sf_admin_pagination .ui-icon-seek-next').parent().unbind().click(function(){
     $('.sf_admin_pagination .ui-icon-seek-next').parent().unbind().click(function(){return false;});
+    
+    if ( window.list_scroll_beginning != undefined )
+    for ( i = 0 ; i < window.list_scroll_beginning.length ; i++ )
+      window.list_scroll_beginning[i]();
+    
     $.get($(this).attr('href'),function(data){
       $('#transition .close').click();
       $('.sf_admin_list > table > tbody').append($(data).find('.sf_admin_list > table > tbody tr.sf_admin_row')
@@ -20,6 +25,10 @@ function list_scroll()
         .replaceWith($(data).find('#sf_admin_pager'));
       list_add_actions_titles();
       list_scroll();
+      
+      if ( window.list_scroll_end != undefined )
+      for ( i = 0 ; i < window.list_scroll_end.length ; i++ )
+        window.list_scroll_end[i]();
     });
     return false;
   });
