@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Debts report</source>
+        <target>État des dettes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Debts evolution</source>
         <target>Évolution des dettes</target>
       </trans-unit>
