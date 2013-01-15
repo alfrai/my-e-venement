@@ -162,7 +162,7 @@ class ContactFormFilter extends BaseContactFormFilter
       'model' => 'MemberCardType',
     ));
     $this->widgetSchema   ['member_cards_expire_at'] = new liWidgetFormDateText(array(
-      array('culture' => sfContext::getInstance()->getUser()->getCulture())
+      'culture' => sfContext::getInstance()->getUser()->getCulture(),
     ));
     $this->validatorSchema['member_cards_expire_at'] = new sfValidatorDate(array(
       'required' => false,
