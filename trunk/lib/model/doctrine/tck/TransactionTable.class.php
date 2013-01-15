@@ -50,7 +50,7 @@ class TransactionTable extends PluginTransactionTable
   }
   public static function getDebtsListTicketsCondition($ticket_table = 'tck', $date = NULL)
   {
-    $r = $ticket_table.'.transaction_id = t.id AND ('.$ticket_table.'.printed = TRUE OR '.$ticket_table.'.integrated = TRUE OR '.$ticket_table.'.cancelling IS NOT NULL)';
+    $r = $ticket_table.'.transaction_id = t.id AND '.$ticket_table.'.duplicating IS NULL AND ('.$ticket_table.'.printed = TRUE OR '.$ticket_table.'.integrated = TRUE OR '.$ticket_table.'.cancelling IS NOT NULL)';
     if ( !is_null($date) )
       $r .= ' AND '.$ticket_table.".updated_at < '$date'";
     return $r;
