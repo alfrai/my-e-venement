@@ -1,0 +1,29 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Transaction
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          transaction_debts
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+        display: [_id, Contact, Professional, _debt, closed, updated_at]
+        object_actions:
+          _show: ~
+        batch_actions: []
+        table_method: retrieveDebtsList
+        sort: [id, desc]
+      filter:
+        display: [date, name, city, contact_id, organism_id]
+        class: DebtsFormFilter
+      form:    ~
+      edit:    ~
+      new:     ~

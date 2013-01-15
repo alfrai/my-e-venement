@@ -47,8 +47,7 @@
           <li><a href="<?php echo cross_app_url_for('tck','ticket/duplicate') ?>"><?php echo __('Duplicate tickets',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('tck-reports') ): ?>
-          <li class="spaced show-ticket"><a href="<?php echo cross_app_url_for('tck','ticket/show') ?>"><?php echo __("Ticket's log",array(),'menu') ?></a></li>
-          <li class="demands"><a href="<?php echo cross_app_url_for('tck','summary/asks') ?>"><?php echo __('Asks',array(),'menu') ?></a></li>
+          <li class="spaced demands"><a href="<?php echo cross_app_url_for('tck','summary/asks') ?>"><?php echo __('Asks',array(),'menu') ?></a></li>
           <li class="orders"><a href="<?php echo cross_app_url_for('tck','order/index') ?>" class="order"><?php echo __('Orders',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','invoice/index') ?>" class="invoice"><?php echo __('Invoices',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','summary/debts') ?>"><?php echo __('Debts',array(),'menu') ?></a></li>
@@ -57,6 +56,10 @@
           <?php if ( (sfConfig::has('app_control_future') || sfConfig::has('app_control_past') || sfConfig::has('app_control_delays'))
                   && $sf_user->hasCredential('tck-control-overview') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','control/index') ?>"><?php echo __('Affichage des flux',array(),'menu') ?></a></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('tck-reports') ): ?>
+          <li class="spaced show-ticket"><a href="<?php echo cross_app_url_for('tck','ticket/show') ?>"><?php echo __("Ticket's log",array(),'menu') ?></a></li>
+          <li class="debts-report"><a href="<?php echo cross_app_url_for('tck','debts/index') ?>"><?php echo __("Debts report",array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('tck-ledger-sales') ): ?>
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','ledger/sales') ?>"><?php echo __('Sales Ledger',array(),'menu') ?></a></li>

@@ -24,3 +24,5 @@ order:
   credentials: [tck-accounting-order]
 invoice:
   credentials: [tck-accounting-invoice]
+show:
+  credentials: [tck-reports]
