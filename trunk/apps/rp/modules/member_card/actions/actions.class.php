@@ -13,6 +13,51 @@ require_once dirname(__FILE__).'/../lib/member_cardGeneratorHelper.class.php';
  */
 class member_cardActions extends autoMember_cardActions
 {
+  public function executeCsv(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers(array('Number','Date'));
+    $this->executeIndex($request);
+    
+    $this->lines = array();
+    $member_cards = $this->pager->getQuery()
+      ->select('mc.*, c.*')
+      ->execute();
+    
+    foreach ( $member_cards as $mc )
+      $this->lines[] = array(
+        'num' => $mc->id,
+        'name' => $mc->name,
+        'contact' => (string)$mc->Contact,
+        'created_at' => format_date($mc->created_at),
+        'expire_at' => format_date($mc->expire_at),
+        'value' => format_currency($mc->getValue(),'€'),
+      );
+    
+    $params = OptionCsvForm::getDBOptions();
+    $this->options = array(
+      'ms' => in_array('microsoft',$params['option']),
+      'tunnel' => false,
+      'noheader' => false,
+      'fields'   => array('num','name','contact','created_at','expire_at','value'),
+    );
+    
+    $this->outstream = 'php://output';
+    $this->delimiter = $this->options['ms'] ? ';' : ',';
+    $this->enclosure = '"';
+    $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
+    
+    sfConfig::set('sf_escaping_strategy', false);
+    sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
+    
+    if ( $request->hasParameter('debug') )
+    {
+      $this->getResponse()->sendHttpHeaders();
+      $this->setLayout(true);
+    }
+    else
+      sfConfig::set('sf_web_debug', false);
+  }
+  
   public function executeCheck(sfWebRequest $request)
   {
     $this->type = '';

@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Member card type</source>
+        <target>Type de carte d'abo.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Update filters</source>
         <target>Mettre à jour les filtres</target>
       </trans-unit>

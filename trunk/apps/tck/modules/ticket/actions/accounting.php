@@ -57,12 +57,13 @@
       $this->totals['vat']['total'] += $tmp;
     }
     
-    foreach ( $this->totals['vat'] as $tva => $manifs )
+    foreach ( $this->totals['vat'] as $vat => $manifs )
+    if ( is_array($manifs) )
     foreach ( $manifs as $manif )
     {
-      if ( is_array($this->totals['vat'][$tva]) )
-        $this->totals['vat'][$tva] = 0;
-      $this->totals['vat'][$tva] += round($manif,2);
+      if ( is_array($this->totals['vat'][$vat]) )
+        $this->totals['vat'][$vat] = 0;
+      $this->totals['vat'][$vat] += round($manif,2);
     }
     
     $this->setLayout('empty');
