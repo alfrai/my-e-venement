@@ -70,7 +70,7 @@ class modActions extends sfActions
     // to for capitalization of some fields
     if ( sfConfig::has('app_capitalize') && is_array($opts = sfConfig::get('app_capitalize')) )
     foreach ( $opts as $field )
-      $client[$field] = strtoupper($client[$field]);
+      $client[$field] = mb_strtoupper($client[$field],'UTF_8');
     
     $form = new ContactForm();
     $form->setStrict();

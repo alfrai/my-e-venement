@@ -95,7 +95,7 @@
     // to for capitalization of some fields
     if ( sfConfig::has('app_capitalize') && is_array($opts = sfConfig::get('app_capitalize')) )
     foreach ( $opts as $field )
-      $c[$field] = strtoupper($c[$field]);
+      $c[$field] = mb_strtoupper($c[$field],'UTF-8');
     
     $form = new ContactForm();
     $c[$form->getCSRFFieldName()] = $form->getCSRFToken();
