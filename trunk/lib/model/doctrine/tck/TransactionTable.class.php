@@ -41,4 +41,31 @@ class TransactionTable extends PluginTransactionTable
   {
     return $this->fetchOneById($id);
   }
+  
+  public static function addDebtsListBaseSelect(Doctrine_Query $q)
+  {
+    return $q
+      ->select($fields = 't.id, t.closed, t.updated_at, c.id, c.name, c.firstname, pro.id, pro.name, pt.id, pt.name, o.id, o.name, o.city')
+      ->groupBy($fields);
+  }
+  public static function getDebtsListTicketsCondition($ticket_table = 'tck', $date = NULL)
+  {
+    $r = $ticket_table.'.transaction_id = t.id AND ('.$ticket_table.'.printed = TRUE OR '.$ticket_table.'.integrated = TRUE OR '.$ticket_table.'.cancelling IS NOT NULL)';
+    if ( !is_null($date) )
+      $r .= ' AND '.$ticket_table.".updated_at < '$date'";
+    return $r;
+  }
+  public function retrieveDebtsList()
+  {
+    $q = Doctrine_Query::create()->from('Transaction t')
+      ->addSelect('(SELECT sum(tck.value) FROM Ticket tck WHERE '.$this->getDebtsListTicketsCondition().') AS incomes')
+      ->addSelect('(SELECT sum(p.value)   FROM Payment p  WHERE p.transaction_id   = t.id) AS incomes')
+      ->leftJoin('t.Contact c')
+      ->leftJoin('t.Professional pro')
+      ->leftJoin('pro.ProfessionalType pt')
+      ->leftJoin('pro.Organism o')
+      ->where('((SELECT sum(tck2.value) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2').') - (SELECT sum(p2.value) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
+    $this->addDebtsListBaseSelect($q);
+    return $q;
+  }
 }
