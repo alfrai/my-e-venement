@@ -57,15 +57,15 @@ class TransactionTable extends PluginTransactionTable
   }
   public function retrieveDebtsList()
   {
-    $q = Doctrine_Query::create()->from('Transaction t')
-      ->addSelect('(SELECT sum(tck.value) FROM Ticket tck WHERE '.$this->getDebtsListTicketsCondition().') AS incomes')
+    $q = Doctrine_Query::create()->from('Transaction t');
+    $this->addDebtsListBaseSelect($q);
+    $q->addSelect('(SELECT sum(tck.value) FROM Ticket tck WHERE '.$this->getDebtsListTicketsCondition().') AS outcomes')
       ->addSelect('(SELECT sum(p.value)   FROM Payment p  WHERE p.transaction_id   = t.id) AS incomes')
       ->leftJoin('t.Contact c')
       ->leftJoin('t.Professional pro')
       ->leftJoin('pro.ProfessionalType pt')
       ->leftJoin('pro.Organism o')
       ->where('((SELECT sum(tck2.value) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2').') - (SELECT sum(p2.value) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
-    $this->addDebtsListBaseSelect($q);
     return $q;
   }
 }
