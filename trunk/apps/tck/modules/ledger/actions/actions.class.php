@@ -139,7 +139,7 @@ class ledgerActions extends sfActions
       $this->workspaces = $criterias['workspaces'];
     }
 
-    // check if there are too much tickets to display them well
+    // check if there are too much tickets to display them correctly
     $test = $q->copy();
     $events = $test->select('e.id, count(DISTINCT tck.id) AS nb_tickets')
       ->groupBy('e.id')
