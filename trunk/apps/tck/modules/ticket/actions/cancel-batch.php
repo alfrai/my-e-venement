@@ -96,13 +96,13 @@
   
   // add payments
   $payment = new Payment;
-  $payment->value = -$value;
+  $payment->value = $value;
   $payment->payment_method_id = $pid;
   $payment->transaction_id = $transaction->id;
   $payment->save();
   
   $payment = new Payment;
-  $payment->value = $value;
+  $payment->value = -$value;
   $payment->payment_method_id = $pid;
   $translinked->Payments[] = $payment;
     
