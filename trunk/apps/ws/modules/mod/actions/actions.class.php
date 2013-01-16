@@ -68,7 +68,7 @@ class modActions extends sfActions
     unset($client['phonenumber']);
     
     // to for capitalization of some fields
-    if ( sfConfig::has('app_capitalize') && is_array($opts = sfConfig::get('app_capitalize')) )
+    if ( is_array($opts = sfConfig::get('app_infos_capitalize',array())) )
     foreach ( $opts as $field )
       $client[$field] = mb_strtoupper($client[$field],'UTF_8');
     

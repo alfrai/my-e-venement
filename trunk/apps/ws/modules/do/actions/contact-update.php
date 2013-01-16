@@ -93,7 +93,7 @@
     $c['confirmed'] = true;
 
     // to for capitalization of some fields
-    if ( sfConfig::has('app_capitalize') && is_array($opts = sfConfig::get('app_capitalize')) )
+    if ( is_array($opts = sfConfig::get('app_infos_capitalize',array())) )
     foreach ( $opts as $field )
       $c[$field] = mb_strtoupper($c[$field],'UTF-8');
     
