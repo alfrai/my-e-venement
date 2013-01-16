@@ -21,6 +21,8 @@ class member_cardActions extends autoMember_cardActions
     $this->lines = array();
     $member_cards = $this->pager->getQuery()
       ->select('mc.*, c.*')
+      ->removeDqlQueryPart('limit')
+      ->removeDqlQueryPart('offset')
       ->execute();
     
     foreach ( $member_cards as $mc )
