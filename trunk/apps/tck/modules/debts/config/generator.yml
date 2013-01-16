@@ -21,7 +21,7 @@ generator:
         batch_actions: []
         table_method: retrieveDebtsList
         sort: [id, desc]
-        max_per_page: 50
+        max_per_page: 500
       filter:
         display: [date, name, city, contact_id, organism_id]
         class: DebtsFormFilter

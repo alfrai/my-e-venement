@@ -46,26 +46,27 @@ class TransactionTable extends PluginTransactionTable
   {
     return $q
       ->select($fields = 't.id, t.closed, t.updated_at, c.id, c.name, c.firstname, p.id, p.name, pt.id, pt.name, o.id, o.name, o.city')
-      ->groupBy($fields);
+      ->addSelect("'yummy' AS yummy") // a trick to avoid an obvious bug which removes the name of the field following directly the first ones (??)
+      ;
   }
   public static function getDebtsListTicketsCondition($ticket_table = 'tck', $date = NULL)
   {
     $r = $ticket_table.'.transaction_id = t.id AND '.$ticket_table.'.duplicating IS NULL AND ('.$ticket_table.'.printed = TRUE OR '.$ticket_table.'.integrated = TRUE OR '.$ticket_table.'.cancelling IS NOT NULL)';
     if ( !is_null($date) )
-      $r .= ' AND '.$ticket_table.".updated_at < '$date'";
+      $r .= " AND $ticket_table.updated_at < '$date'";
     return $r;
   }
   public function retrieveDebtsList()
   {
     $q = Doctrine_Query::create()->from('Transaction t');
     $this->addDebtsListBaseSelect($q);
-    $q->addSelect('(SELECT sum(tck.value) FROM Ticket tck WHERE '.$this->getDebtsListTicketsCondition().') AS outcomes')
-      ->addSelect('(SELECT sum(pp.value)   FROM Payment pp  WHERE pp.transaction_id   = t.id) AS incomes')
+    $q->addSelect('(SELECT (CASE WHEN COUNT(tck.id) = 0 THEN 0 ELSE SUM(tck.value) END) FROM Ticket tck WHERE '.$this->getDebtsListTicketsCondition().') AS outcomes')
+      ->addSelect('(SELECT (CASE WHEN COUNT(pp.id)  = 0 THEN 0 ELSE SUM(pp.value)  END) FROM Payment pp WHERE pp.transaction_id = t.id) AS incomes')
       ->leftJoin('t.Contact c')
       ->leftJoin('t.Professional p')
       ->leftJoin('p.ProfessionalType pt')
       ->leftJoin('p.Organism o')
-      ->where('((SELECT sum(tck2.value) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2').') - (SELECT sum(p2.value) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
+      ->where('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(value) END) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2').') - (SELECT (CASE WHEN count(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
     return $q;
   }
 }

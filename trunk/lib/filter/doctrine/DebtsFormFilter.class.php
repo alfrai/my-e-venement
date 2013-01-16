@@ -31,13 +31,14 @@ class DebtsFormFilter extends TransactionFormFilter
     $query
       ->addSelect('(SELECT SUM(tck.value) FROM Ticket tck WHERE '.TransactionTable::getDebtsListTicketsCondition('tck',$values).') AS outcomes')
       ->addSelect("(SELECT SUM(pp.value)   FROM Payment pp  WHERE pp.transaction_id = t.id AND pp.created_at < '".$values."') AS incomes")
-      ->where('((SELECT SUM(tck2.value)  FROM Ticket tck2 WHERE '.TransactionTable::getDebtsListTicketsCondition('tck2',$values).') - (SELECT sum(p2.value) FROM Payment p2 WHERE p2.transaction_id = t.id AND p2.created_at < ?)) != 0',$values);
+      ->where('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(tck2.value) END) FROM Ticket tck2 WHERE '.TransactionTable::getDebtsListTicketsCondition('tck2',$values).') - (SELECT (CASE WHEN COUNT(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id AND p2.created_at < ?)) != 0',$values);
     
     return $query;
   }
 
   public function getFields()
   {
+    // the position of the "date" record in the array is very important because of this filter special behaviour
     return array_merge(array(
       'date' => 'Date',
     ),parent::getFields());
