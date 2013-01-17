@@ -42,8 +42,12 @@ class EventTable extends PluginEventTable
   public function retrieveList()
   {
     return $this->createQuery('e')
-      ->addSelect('e.*, me.*, ec.*, m.*, (SELECT max(mm2.happens_at) AS max_date FROM Manifestation mm2 WHERE mm2.event_id = e.id) AS max_date')
-      ->leftJoin('e.Manifestations m');
+      ->select('e.*, ec.*, me.*, m.*, l.*, c.*, g.*')
+      ->addSelect('(SELECT max(mm2.happens_at) AS max_date FROM Manifestation mm2 WHERE mm2.event_id = e.id) AS max_date')
+      ->leftJoin('e.Manifestations m')
+      ->leftJoin('m.Color c')
+      ->leftJoin('m.Gauges g')
+      ->leftJoin('m.Location l');
   }
   public function retrievePublicList()
   {
