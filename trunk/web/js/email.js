@@ -35,6 +35,7 @@ $('.attachment-new').click(function(){
   
   if ( $('[name="email[id]"]').val() == '' )
   {
+    $('.open_list_selected option').attr('selected',true); // not to loose all contacts & so
     $.post($('form').attr('action'),$('form').serialize(),function(data){
       window.location = $(data).find('.attachment-new a').attr('href');
     });

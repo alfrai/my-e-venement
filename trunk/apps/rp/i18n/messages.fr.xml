@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Upload attachment</source>
+        <target>Téléchargement de la pièce jointe</target>
+      </trans-unit>
+      <trans-unit>
         <source>Member card type</source>
         <target>Type de carte d'abo.</target>
       </trans-unit>
