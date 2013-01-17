@@ -1,3 +1,4 @@
+/* CONTENT */
 #tdp-content {
   border-top: 1px solid black;
   border-left: 1px solid black;
@@ -9,7 +10,84 @@
 #tdp-content, #tdp-top-bar {
   margin-left: 185px;
 }
+#tdp-content .sf_admin_flashes {
+  margin: 0;
+}
+#tdp-content .sf_admin_flashes .ui-state-highlight {
+  margin: 5px 0;
+}
 
+#tdp-content .sf_admin_list_td_list_phones span, #tdp-content .sf_admin_list_td_list_organism_phones_list span
+{ white-space: nowrap; }
+#tdp-content .sf_admin_list_th_list_professional_emails, #tdp-content .sf_admin_list_td_list_professional_emails,
+#tdp-content .sf_admin_list_th_list_professional_description, #tdp-content .sf_admin_list_td_list_professional_description
+{ max-width: 80px; overflow: hidden; word-wrap: break-word; }
+/* hide professional data */
+#tdp-content .sf_admin_list_td_list_see_orgs a { display: block; width: 0; float: none; padding-left: 16px; font-size: 0; height: 16px; }
+#tdp-content .sf_admin_list_th_list_professional_id, #tdp-content .sf_admin_list_td_list_professional_id,
+#tdp-content .sf_admin_list_th_list_organism, #tdp-content .sf_admin_list_td_list_organism,
+#tdp-content .sf_admin_list_th_list_professional, #tdp-content .sf_admin_list_td_list_professional,
+#tdp-content .sf_admin_list_th_list_professional_emails, #tdp-content .sf_admin_list_td_list_professional_emails,
+#tdp-content .sf_admin_list_th_list_professional_description, #tdp-content .sf_admin_list_td_list_professional_description,
+#tdp-content .sf_admin_list_th_list_more, #tdp-content .sf_admin_list_td_list_more,
+#tdp-content .sf_admin_list_th_list_contact, #tdp-content .sf_admin_list_td_list_contact,
+#tdp-content .sf_admin_list_th_list_organism_city, #tdp-content .sf_admin_list_td_list_organism_city,
+#tdp-content .sf_admin_list_th_list_organism_postalcode, #tdp-content .sf_admin_list_td_list_organism_postalcode,
+#tdp-content .sf_admin_list_th_list_organism_phones_list, #tdp-content .sf_admin_list_td_list_organism_phones_list
+{ display: none; }
+/* display professional data */
+#tdp-content .see-orgs .sf_admin_list_th_list_organism, #tdp-content .see-orgs .sf_admin_list_td_list_organism,
+#tdp-content .see-orgs .sf_admin_list_th_list_professional, #tdp-content .see-orgs .sf_admin_list_td_list_professional,
+#tdp-content .see-orgs .sf_admin_list_th_list_professional_id, #tdp-content .see-orgs .sf_admin_list_td_list_professional_id,
+#tdp-content .see-orgs .sf_admin_list_th_list_professional_emails, #tdp-content .see-orgs .sf_admin_list_td_list_professional_emails,
+#tdp-content .see-orgs .sf_admin_list_th_list_professional_description, #tdp-content .see-orgs .sf_admin_list_td_list_professional_description,
+#tdp-content .see-orgs .sf_admin_list_th_list_more, #tdp-content .see-orgs .sf_admin_list_td_list_more,
+#tdp-content .see-orgs .sf_admin_list_th_list_contact, #tdp-content .see-orgs .sf_admin_list_td_list_contact,
+#tdp-content .see-orgs .sf_admin_list_th_list_organism_city, #tdp-content .see-orgs .sf_admin_list_td_list_organism_city,
+#tdp-content .see-orgs .sf_admin_list_th_list_organism_postalcode, #tdp-content .see-orgs .sf_admin_list_td_list_organism_postalcode,
+#tdp-content .see-orgs .sf_admin_list_th_list_organism_phones_list, #tdp-content .see-orgs .sf_admin_list_td_list_organism_phones_list
+{ display: table-cell; }
+/* hide personal data */
+#tdp-content .see-orgs #sf_admin_list_th_actions { font-size: 0; }
+#tdp-content .see-orgs .sf_admin_td_actions,
+#tdp-content .see-orgs .sf_admin_list_th_firstname, #tdp-content .see-orgs .sf_admin_list_td_firstname,
+#tdp-content .see-orgs .sf_admin_list_th_name, #tdp-content .see-orgs .sf_admin_list_td_name,
+#tdp-content .see-orgs .sf_admin_list_th_postalcode, #tdp-content .see-orgs .sf_admin_list_td_postalcode,
+#tdp-content .see-orgs .sf_admin_list_th_city, #tdp-content .see-orgs .sf_admin_list_td_city,
+#tdp-content .see-orgs .sf_admin_list_th_list_emails, #tdp-content .see-orgs .sf_admin_list_td_list_emails,
+#tdp-content .see-orgs .sf_admin_list_th_list_phones, #tdp-content .see-orgs .sf_admin_list_td_list_phones,
+#tdp-content .see-orgs .sf_admin_list_th_organisms_list, #tdp-content .see-orgs .sf_admin_list_td_organisms_list
+{ display: none; }
+/* un-highlight professional data when it's only about contact */
+#tdp-content .ui-state-highlight .sf_admin_list_td_list_organism:not(.ui-state-highlight),
+#tdp-content .ui-state-highlight .sf_admin_list_td_list_professional:not(.ui-state-highlight),
+#tdp-content .ui-state-highlight .sf_admin_list_td_list_professional_id:not(.ui-state-highlight),
+#tdp-content .ui-state-highlight .sf_admin_list_td_list_professional_emails:not(.ui-state-highlight),
+#tdp-content .ui-state-highlight .sf_admin_list_td_list_professional_description:not(.ui-state-highlight),
+#tdp-content .ui-state-highlight .sf_admin_list_td_list_more:not(.ui-state-highlight),
+#tdp-content .ui-state-highlight .sf_admin_list_td_list_organism_city:not(.ui-state-highlight),
+#tdp-content .ui-state-highlight .sf_admin_list_td_list_organism_postalcode:not(.ui-state-highlight),
+#tdp-content .ui-state-highlight .sf_admin_list_td_list_organism_phones_list:not(.ui-state-highlight) {
+  border: 1px solid rgb(166, 201, 226);
+  background: url("/sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-bg_inset-hard_100_fcfdfd_1x100.png") repeat-x scroll 50% bottom rgb(252, 253, 253);
+  color: rgb(34, 34, 34);
+}
+/* hover when contact data's highlighted */
+#tdp-content .ui-state-highlight:hover .sf_admin_list_td_list_organism:not(.ui-state-highlight) *,
+#tdp-content .ui-state-highlight:hover .sf_admin_list_td_list_professional:not(.ui-state-highlight) *,
+#tdp-content .ui-state-highlight:hover .sf_admin_list_td_list_professional_id:not(.ui-state-highlight) *,
+#tdp-content .ui-state-highlight:hover .sf_admin_list_td_list_professional_emails:not(.ui-state-highlight) *,
+#tdp-content .ui-state-highlight:hover .sf_admin_list_td_list_professional_description:not(.ui-state-highlight) *,
+#tdp-content .ui-state-highlight:hover .sf_admin_list_td_list_more:not(.ui-state-highlight) *,
+#tdp-content .ui-state-highlight:hover .sf_admin_list_td_list_organism_city:not(.ui-state-highlight) *,
+#tdp-content .ui-state-highlight:hover .sf_admin_list_td_list_organism_postalcode:not(.ui-state-highlight) *,
+#tdp-content .ui-state-highlight:hover .sf_admin_list_td_list_organism_phones_list:not(.ui-state-highlight) * {
+  color: rgb(29, 89, 135);
+  background-image: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-bg_glass_75_d0e5f5_1x400.png");
+}
+#tdp-content .sf_admin_row .ui-state-highlight { border: 1px solid rgb(250, 212, 46); }
+
+/* LEFT SIDE */
 #tdp-side-bar {
   width: 180px;
   float: left;
@@ -18,7 +96,16 @@
 #tdp-side-bar ul { padding-left: 0; }
 #tdp-side-bar li { list-style-type: none; overflow: hidden; padding-right: 10px; }
 #tdp-side-bar li:hover { background-color: rgba(255,255,255,0.6); }
+#tdp-side-bar li label { padding-left: 0; }
+#tdp-side-bar .tdp-side-widget a { text-decoration: none; float: right; margin-top: -1em; }
+#tdp-side-bar .batch-add-to { display: none; }
 
+#tdp-side-bar.add-to #tdp-side-groups input[type=checkbox] { display: none; }
+#tdp-side-bar.add-to #tdp-side-groups li { padding-left: 21px; line-height: 20px; }
+#tdp-side-bar.add-to #tdp-side-groups h2 { margin-bottom: 2px; }
+#tdp-side-bar.add-to #tdp-side-groups label { cursor: pointer; }
+
+/* TOP */
 #tdp-top-bar {
   padding-bottom: 5px;
   padding-left: 10px;
@@ -42,9 +129,11 @@
 #tdp-top-bar-type a {
   padding: 6px 40px;
 }
+#tdp-top-bar #sf_admin_filter_button { font-weight: normal; }
 #tdp-top-bar #tdp-update-filters.blink { background-color: rgba(255,255,255,0.6); }
 #tdp-top-bar-type .current { background-color: rgba(255,255,255,0.6); }
 
+/* GENERIC */
 .clear { clear: both; }
 .skew { overflow: hidden; margin-bottom: -9px; }
 .skew > * {

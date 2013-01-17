@@ -1,1 +1,2 @@
-.sf_admin_list_td_list_emails .org { font-style: italic; }
+.sf_admin_list_td_list_emails .org,
+.sf_admin_list_td_list_professional_emails .org { font-style: italic; }

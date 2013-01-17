@@ -20,7 +20,7 @@ generator:
           _show: ~
         batch_actions: []
         table_method: retrieveDebtsList
-        sort: [id, desc]
+        sort: [updated_at, desc]
         max_per_page: 500
       filter:
         display: [date, name, city, contact_id, organism_id]

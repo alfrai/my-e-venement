@@ -130,7 +130,7 @@ function contact_batch_change()
     if ( $(this).html() == $('select[name=batch_action] option[value=batchAddToGroup]').html() )
     {
       $('.sf_admin_batch_actions_choice input[type=submit]').before(
-        $('#contact_filters_groups_list').clone(true)
+        $('#contact_filters_not_groups_list').clone(true)
           .attr('name','groups[]')
           .attr('id','batch_action_group')
           .addClass('ui-corner-all')

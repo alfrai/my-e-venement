@@ -87,6 +87,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $this->validatorSchema['YOB'] = new sfValidatorDateRange(array(
       'from_date' => new sfValidatorDate(array('required' => false,)),
       'to_date'   => new sfValidatorDate(array('required' => false,)),
+      'required'  => false,
     ));
     
     // events
@@ -205,6 +206,7 @@ class ContactFormFilter extends BaseContactFormFilter
         'date_output' => 'Y-m-d',
         'with_time'   => false,
       )),
+      'required' => false,
     ));
     
     $this->widgetSchema   ['region_id'] = new sfWidgetFormDoctrineChoice(array(

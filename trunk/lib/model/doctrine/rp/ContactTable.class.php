@@ -7,6 +7,11 @@
  */
 class ContactTable extends PluginContactTable
 {
+  public function retreiveList()
+  {
+    return $this->createQuery('c')
+      ->leftJoin('o.Phonenumbers oph');
+  }
   public function createQueryByEmailId($id)
   {
     $q = $this->createQuery();

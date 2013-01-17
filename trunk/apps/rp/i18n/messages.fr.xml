@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>More</source>
+        <target>Plus</target>
+      </trans-unit>
+      <trans-unit>
+        <source>See more</source>
+        <target>Voir plus</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Emails</source>
+        <target>Courriels</target>
+      </trans-unit>
+      <trans-unit>
         <source>Upload attachment</source>
         <target>Téléchargement de la pièce jointe</target>
       </trans-unit>
@@ -249,8 +261,8 @@
         <target>Les organismes choisis ont été ajoutés aux groupes sélectionnés.</target>
       </trans-unit>
       <trans-unit>
-        <source>The chosen contacts have been added to the selected groups.</source>
-        <target>Les contacts choisis ont été ajoutés aux groupes sélectionnés.</target>
+        <source>The chosen contacts and professionals have been added to the selected groups.</source>
+        <target>Les contacts et professionnels choisis ont été ajoutés aux groupes sélectionnés.</target>
       </trans-unit>
       <trans-unit>
         <source>Add in a group</source>

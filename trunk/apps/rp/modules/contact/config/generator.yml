@@ -31,9 +31,24 @@ generator:
         control_checkpoint_id: { label: Controlled on checkpoints }
         tickets_amount_min: { label: Minimum tickets amount }
         tickets_amount_max: { label: Maximum tickets amount }
+        list_emails: { label: Emails }
+        list_see_orgs: { label: '' }
+        organisms_list: { label: Organisms }
+        list_organism: { label: Organism }
+        list_professional: { label: Professional }
+        list_organism_phones_list: { label: Phonenumbers }
+        list_professional_emails: { label: Emails }
+        list_more: { label: More }
+        list_contact: { label: Contact }
+        list_organism_city: { label: City }
+        list_organism_postalcode: { label: Postalcode }
+        list_professional_description: { label: Description }
+        list_professional_id: { label: '' }
       list:
-        display: [name, firstname, postalcode, city, _list_emails, _list_phones, _organisms_list]
+        #display: [name, firstname, postalcode, city, _list_emails, _list_phones, _organisms_list]
+        display: [name, firstname, postalcode, city, _list_emails, _list_phones, _organisms_list <?php if ( sfConfig::get('app_options_design') == 'tdp' ): ?>, _list_see_orgs, _list_contact, _list_professional_id, _list_organism, _list_professional, _list_organism_postalcode, _list_organism_city, _list_professional_emails, _list_organism_phones_list, _list_professional_description<?php endif ?>]
         max_per_page: 20
+        table_method: retreiveList
       show: 
         display:
           NONE: [_show_who, address, postalcode, city, country, _show_region, _show_email, _show_phonenumbers_list, _show_member_cards_list, _show_groups_list]
@@ -41,7 +56,7 @@ generator:
           Technic: [created_at,updated_at,slug,longitude,latitude]
           Ticketting: [_show_events_list]
       filter:
-        display: [title, name, firstname, postalcode, city, region_id, country, email, YOB, family_contact, groups_list, not_groups_list, description, npai, organism_id, organism_category_id, professional_type_id, has_email, has_address, updated_at, emails_list, event_categories_list, meta_events_list, events_list, prices_list, tickets_amount_min, tickets_amount_max, member_cards, member_cards_expire_at, control_created_at, control_manifestation_id, control_checkpoint_id]
+        display: [title, name, firstname, postalcode, city, region_id, country, email, YOB, family_contact, <?php echo !sfConfig::get('app_options_design') ? 'groups_list,' : '' ?> not_groups_list, description, npai, organism_id, <?php echo !sfConfig::get('app_options_design') ? 'organism_category_id,' : '' ?> professional_type_id, has_email, has_address, updated_at, emails_list, event_categories_list, meta_events_list, events_list, prices_list, tickets_amount_min, tickets_amount_max, member_cards, member_cards_expire_at, control_created_at, control_manifestation_id, control_checkpoint_id]
       form: ~
       edit:
         title: Contact %%name%% %%firstname%%

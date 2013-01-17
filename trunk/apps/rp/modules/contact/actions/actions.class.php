@@ -43,12 +43,17 @@ class contactActions extends autoContactActions
   public function executeBatchAddToGroup(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $filters = $request->getParameter($this->getModuleName().'_filters');
     
     $ids = $request->getParameter('ids');
-    $groups = $request->getParameter('groups');
+    $pro_ids = $request->getParameter('professional_ids');
+    $groups = $request->hasParameter('groups') ? $request->getParameter('groups') : $filters['groups_list'];
     
+    // contacts
     foreach ( $ids as $contact_id )
+    if ( intval($contact_id).'' === $contact_id.'' )
     foreach ( $groups as $group_id )
+    if ( intval($group_id).'' === $group_id.'' )
     {
       $gc = new GroupContact();
       $gc->contact_id = $contact_id;
@@ -58,7 +63,21 @@ class contactActions extends autoContactActions
       catch(Doctrine_Exception $e) {}
     }
     
-    $this->getUser()->setFlash('notice',__('The chosen contacts have been added to the selected groups.'));
+    // professionals
+    foreach ( $pro_ids as $pro_id )
+    if ( intval($pro_id).'' === $pro_id.'' )
+    foreach ( $groups as $group_id )
+    if ( intval($group_id).'' === $group_id.'' )
+    {
+      $gc = new GroupProfessional();
+      $gc->professional_id = $pro_id;
+      $gc->group_id = $group_id;
+      
+      try { $gc->save(); }
+      catch(Doctrine_Exception $e) {}
+    }
+    
+    $this->getUser()->setFlash('notice',__('The chosen contacts and professionals have been added to the selected groups.'));
     $this->redirect('@contact');
   }
   
