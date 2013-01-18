@@ -39,3 +39,6 @@ all:
         
     standard_helpers: [I18N,Partial,Cache]
             
+  .actions:
+    error_404_module:       event
+    error_404_action:       index
