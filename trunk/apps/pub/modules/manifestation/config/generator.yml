@@ -22,6 +22,7 @@ generator:
         sort: ['happens_at, rank', '']
         display: [=happens_at, Event, Location, _MetaEvent]
         title: Dates list
+        table_method: retrievePublicList
       filter:
         display: [event_id, happens_at]
       form:    ~

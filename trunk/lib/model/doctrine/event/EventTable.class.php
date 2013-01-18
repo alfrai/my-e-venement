@@ -52,6 +52,7 @@ class EventTable extends PluginEventTable
   public function retrievePublicList()
   {
     return $this->retrieveList()
+      ->andWhere('g.online = TRUE')
       ->andWhere('m.happens_at > NOW()');
   }
 }

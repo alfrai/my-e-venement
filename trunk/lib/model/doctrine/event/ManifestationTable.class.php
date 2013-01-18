@@ -89,4 +89,10 @@ class ManifestationTable extends PluginManifestationTable
   {
     return $this->createQuery('m')->andWhere('g.id = ?',$id)->fetchOne();
   }
+  
+  public function retrievePublicList()
+  {
+    return $this->createQuery('m')
+      ->andWhere('g.online = TRUE');
+  }
 }
