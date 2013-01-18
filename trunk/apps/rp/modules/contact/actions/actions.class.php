@@ -1,4 +1,4 @@
-<?php
+  <?php
 /**********************************************************************************
 *
 *	    This file is part of e-venement.
@@ -42,18 +42,33 @@ class contactActions extends autoContactActions
   }
   public function executeBatchAddToGroup(sfWebRequest $request)
   {
+    $request->checkCSRFProtection();
+    
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     $filters = $request->getParameter($this->getModuleName().'_filters');
     
-    $ids = $request->getParameter('ids');
-    $pro_ids = $request->getParameter('professional_ids');
-    $groups = $request->hasParameter('groups') ? $request->getParameter('groups') : $filters['groups_list'];
+    try {
+      $validator = new sfValidatorDoctrineChoice(array('model' => 'Contact', 'multiple' => true, 'required' => false));
+      $ids = $validator->clean($request->getParameter('ids'));
+      $validator = new sfValidatorDoctrineChoice(array('model' => 'Professional', 'multiple' => true, 'required' => false));
+      $pro_ids = $validator->clean($request->getParameter('pro_ids'));
+      $validator = new sfValidatorDoctrineChoice(array('model' => 'Group', 'multiple' => true));
+      $groups = $request->getParameter('contact_filters');
+      $groups = $validator->clean(isset($groups['groups_list'])
+        ? $groups['groups_list']
+        : $filters['groups_list']
+      );
+    }
+    catch (sfValidatorError $e)
+    {
+      $this->getUser()->setFlash('error', 'A problem occurs when adding the selected items as some items do not exist anymore.');
+      return $this->redirect('@contact');
+    }
     
     // contacts
+    if ( count($ids) > 0 )
     foreach ( $ids as $contact_id )
-    if ( intval($contact_id).'' === $contact_id.'' )
     foreach ( $groups as $group_id )
-    if ( intval($group_id).'' === $group_id.'' )
     {
       $gc = new GroupContact();
       $gc->contact_id = $contact_id;
@@ -64,8 +79,8 @@ class contactActions extends autoContactActions
     }
     
     // professionals
+    if ( count($pro_ids) > 0 )
     foreach ( $pro_ids as $pro_id )
-    if ( intval($pro_id).'' === $pro_id.'' )
     foreach ( $groups as $group_id )
     if ( intval($group_id).'' === $group_id.'' )
     {
@@ -81,10 +96,10 @@ class contactActions extends autoContactActions
     $this->redirect('@contact');
   }
   
-  public function preExecute()
+  public function postExecute()
   {
     $this->getContext()->getConfiguration()->changeTemplatesDir($this);
-    return parent::preExecute();
+    return parent::postExecute();
   }
   
   public function executeShow(sfWebRequest $request)
@@ -92,12 +107,19 @@ class contactActions extends autoContactActions
     $this->contact = Doctrine::getTable('Contact')->findWithTickets($request->getParameter('id'));
     $this->forward404Unless($this->contact);
     $this->form = $this->configuration->getForm($this->contact);
+    
+    if ( sfConfig::get('app_options_design') == 'tdp' )
+    {
+      $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+      $this->filters = $this->configuration->getFilterForm($this->getFilters());
+      $this->setTemplate('edit');
+    }
   }
   public function executeEdit(sfWebRequest $request)
   {
     $this->executeShow($request);
     
-    if ( !$this->getUser()->hasCredential('pr-contact-edit') )
+    if ( sfConfig::get('app_options_design') != 'tdp' && !$this->getUser()->hasCredential('pr-contact-edit') )
       $this->setTemplate('show');
   }
   

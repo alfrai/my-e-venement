@@ -26,9 +26,7 @@
 
   $this->getContext()->getConfiguration()->loadHelpers('I18N');
   
-  $validator = new sfValidatorDoctrineChoice(array('model' => 'Contact', 'multiple' => true));
-  $ids = $validator->clean($request->getParameter('ids');
-  
+  $ids = $request->getParameter('ids');
   $q = Doctrine::getTable('Contact')->createQuery()
     ->whereIn('id',$ids)
     ->orderBy('id');

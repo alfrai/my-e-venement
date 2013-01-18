@@ -43,3 +43,8 @@
 #bip-card .card_expiration td + td {
   font-weight: bold;
 }
+
+#bip-card .sf_admin_actions_block {
+  margin-bottom: 35px;
+}
+#bip-card .submit { padding-left: 8px; }

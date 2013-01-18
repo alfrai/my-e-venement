@@ -9,6 +9,7 @@
     <h2><?php echo __('Groups') ?> <?php if ( $sf_user->hasCredential('pr-group-perso') || $sf_user->hasCredential('pr-group-common') ) echo link_to('+','group/new') ?></h2>
     <?php $filters['groups_list']->getWidget()->setOption('expanded',true) ?>
     <?php echo $filters['groups_list']; ?>
+    
     <a href="<?php echo url_for($sf_context->getModuleName().'/batchAddToGroup') ?>" class="batch-add-to group"></a>
   </div>
 </form>

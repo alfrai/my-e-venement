@@ -106,14 +106,16 @@ $(document).ready(function(){
     else
       $(this).closest('tr').find(subobjects_elts).removeClass('ui-state-highlight');
     
+    $('#tdp-side-groups label').unbind('click');
     if ( $('.sf_admin_batch_checkbox:checked').length > 0 )
     {
       $('#tdp-side-bar').addClass('add-to');
-      $('#tdp-side-groups label').unbind('click').click(function(){
+      $('#tdp-side-groups input[type=checkbox]"]:checked').removeAttr('checked');
+      $('#tdp-side-groups label').click(function(){
         $(this).closest('li').find('input[type=checkbox]').click();
         $.post($('#tdp-side-bar .batch-add-to.group').attr('href'),$('#tdp-side-bar').serialize()+'&'+$('#tdp-content').serialize(),function(data){
-          $('#tdp-side-groups input[type=checkbox]:checked').removeAttr('checked');
           $('#tdp-content input[type=checkbox]:checked').click().removeAttr('checked').change();
+          $('#tdp-side-groups input[type=checkbox]:checked').removeAttr('checked');
           $('.sf_admin_flashes').replaceWith($(data).find('.sf_admin_flashes').hide());
           $('.sf_admin_flashes').fadeIn('slow');
           setTimeout(function(){

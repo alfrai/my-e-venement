@@ -141,6 +141,10 @@
         <target>%%nb%% contacts ont été correctement fusionnés</target>
       </trans-unit>
       <trans-unit>
+        <source>Merge</source>
+        <target>Fusionner</target>
+      </trans-unit>
+      <trans-unit>
         <source>Merge contacts</source>
         <target>Fusionner les contacts</target>
       </trans-unit>
@@ -205,6 +209,10 @@
         <target>abonnement</target>
       </trans-unit>
       <trans-unit>
+        <source>Cards</source>
+        <target>Cartes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Card</source>
         <target>Carte</target>
       </trans-unit>
@@ -262,7 +270,7 @@
       </trans-unit>
       <trans-unit>
         <source>The chosen contacts and professionals have been added to the selected groups.</source>
-        <target>Les contacts et professionnels choisis ont été ajoutés aux groupes sélectionnés.</target>
+        <target>Les contacts et les professionnels choisis ont été ajoutés aux groupes sélectionnés.</target>
       </trans-unit>
       <trans-unit>
         <source>Add in a group</source>

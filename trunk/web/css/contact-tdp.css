@@ -7,15 +7,9 @@
   min-height: 500px;
   padding: 5px;
 }
-#tdp-content, #tdp-top-bar {
-  margin-left: 185px;
-}
-#tdp-content .sf_admin_flashes {
-  margin: 0;
-}
-#tdp-content .sf_admin_flashes .ui-state-highlight {
-  margin: 5px 0;
-}
+#tdp-content { margin-left: 185px; }
+#tdp-content .sf_admin_flashes { margin: 0; }
+#tdp-content .sf_admin_flashes .ui-state-highlight { margin: 5px 0; }
 
 #tdp-content .sf_admin_list_td_list_phones span, #tdp-content .sf_admin_list_td_list_organism_phones_list span
 { white-space: nowrap; }
@@ -126,12 +120,19 @@
   background-color: rgba(255,255,255,0.7);
   text-decoration: underline;
 }
-#tdp-top-bar-type a {
+#tdp-top-bar .tdp-top-modules a {
   padding: 6px 40px;
 }
 #tdp-top-bar #sf_admin_filter_button { font-weight: normal; }
 #tdp-top-bar #tdp-update-filters.blink { background-color: rgba(255,255,255,0.6); }
-#tdp-top-bar-type .current { background-color: rgba(255,255,255,0.6); }
+#tdp-top-bar .tdp-top-modules .current { background-color: rgba(255,255,255,0.6); }
+#tdp-top-bar a[href="#"] {
+  color: gray;
+}
+#tdp-top-bar a[href="#"]:hover {
+  text-decoration: none;
+  cursor: auto;
+}
 
 /* GENERIC */
 .clear { clear: both; }
@@ -161,3 +162,7 @@ a:not([href]) { color: gray; }
 #tdp-content .sf_admin_list table { clear: none; }
 #tdp-content .sf_admin_list { margin: 0; font-size: 85%; }
 #tdp-content .sf_admin_list table tbody tr.sf_admin_row td { padding: 0px 4px; }
+
+#tdp-content .sf_admin_edit .sf_admin_actions_block { display: none; }
+#tdp-content .sf_admin_edit .ui-helper-clearfix { clear: left; }
+  
