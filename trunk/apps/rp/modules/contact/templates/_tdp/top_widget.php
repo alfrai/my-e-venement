@@ -25,7 +25,7 @@
 )) ?>
 </div>
 <div id="sf_admin_bar ui-helper-hidden" style="display:none">
-  <?php include_partial('contact/filters', array('form' => $filters, 'configuration' => $configuration)) ?>
+  <?php include_partial($sf_context->getModuleName().'/filters', array('form' => $filters, 'configuration' => $configuration)) ?>
 </div>
 
 </div>

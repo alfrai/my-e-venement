@@ -1,0 +1,85 @@
+all:
+  active: false
+  config:
+    actions: ~
+    form: ~
+    edit:
+      object:
+        title: [title, name, firstname]
+        lines:
+          Address:
+            fields: [address, organism_category_id]
+          Post:
+            fields: [postalcode, city, _show_region, country]
+          Direct_Contact:
+            fields: [email, _form_phonenumbers_list]
+          State:
+            show_labels: true
+            fields: [family_contact, npai]
+          More:
+            show_title: true
+            show_labels: true
+            behaviour: optional
+            fields: [description, YOBs_list, password]
+      subobjects:
+        Professionals:
+          title: [Organism, name_type]
+          lines:
+            line1:
+              fields: [_organism_category]
+            line2:
+              fields: [professional_type_id, name]
+            Phonenumbers:
+              show_title: true
+              fields: [contact_number, _organism_phones_list]
+            Emails:
+              show_title: true
+              fields: [contact_email, _organism_email]
+            Correspondence:
+              show_messages: false
+              show_title: true
+              fields: [description, _organism_url]
+
+    new:
+      title: New contact
+      display:
+        NONE:  [title, name, firstname, address, postalcode, _cities, city, country, email, groups_list]
+        Phonenumber: [phone_type, phone_number]
+        Precisions: [family_contact, npai, description, YOBs_list, password]
+
+
+    fields:
+      description: { label: Keywords }
+      YOBs_list:  { label: "Years of Birth (x[, x [,..]])" }
+      YOB:      { label: Year of Birth }
+      not_groups_list: { label: Not member of groups }
+      email_list: { label: Email }
+      organisms_email_list: { label: Organism's email }
+      family_contact: { label: Family contact }
+      phone_type: { label: Type }
+      phone_number: { label: Phonenumber }
+      list_phones: { label: Phonenumbers }
+      member_cards_expire_at: { label: Valid on }
+      control_created_at: { label: Passed in between }
+      control_manifestation_id: { label: Passed on manifestations }
+      control_checkpoint_id: { label: Controlled on checkpoints }
+      tickets_amount_min: { label: Minimum tickets amount }
+      tickets_amount_max: { label: Maximum tickets amount }
+      list_emails: { label: Emails }
+      list_see_orgs: { label: '' }
+      organisms_list: { label: Organisms }
+      list_organism: { label: Organism }
+      list_professional: { label: Professional }
+      list_organism_phones_list: { label: Phonenumbers }
+      list_professional_emails: { label: Emails }
+      list_more: { label: More }
+      list_contact: { label: Contact }
+      list_organism_city: { label: City }
+      list_organism_postalcode: { label: Postalcode }
+      list_professional_description: { label: Description }
+      list_professional_id: { label: '' }
+      contact_email: { label: Direct email address }
+      contact_number: { label: Direct phonenumber }
+
+dev:
+  active: true

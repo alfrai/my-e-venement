@@ -2,7 +2,7 @@ $(document).ready(function(){
   var object_elts = 'td:first-child:not([class]), .sf_admin_list_td_name, .sf_admin_list_td_firstname, .sf_admin_list_td_postalcode, .sf_admin_list_td_city, .sf_admin_list_td_list_emails, .sf_admin_list_td_list_phones, .sf_admin_list_td_organisms_list, .sf_admin_list_td_list_see_orgs, .sf_admin_list_td_list_contact, td:last-child';
   var subobjects_elts = '.sf_admin_list_td_list_professional_id, .sf_admin_list_td_list_organism, .sf_admin_list_td_list_professional, .sf_admin_list_td_list_organism_postalcode, .sf_admin_list_td_list_organism_city, .sf_admin_list_td_list_professional_emails, .sf_admin_list_td_list_organism_phones_list, .sf_admin_list_td_list_professional_description';
   
-  // MULTIPLE PROFESSIONALS
+  // CONTENT: MULTIPLE PROFESSIONALS
   $('#tdp-content .sf_admin_row').each(function(){
     if ( (length = $(this).find('.sf_admin_list_td_list_organism .pro').length) > 1 )
     {
@@ -45,6 +45,22 @@ $(document).ready(function(){
     }
   });
   
+  // CONTENT: SEEING CONTACT'S ORGANISMS
+  $('#tdp-content .sf_admin_list_td_list_see_orgs').click(function(){
+    if ( !$(this).closest('table').hasClass('see-orgs') )
+    {
+      $(this).closest('table').addClass('see-orgs');
+      $(this).closest('table').find('.sf_admin_list_td_list_see_orgs span').removeClass('ui-icon-seek-next').addClass('ui-icon-seek-prev');
+    }
+    else
+    {
+      $(this).closest('table').removeClass('see-orgs');
+      $(this).closest('table').find('.sf_admin_list_td_list_see_orgs span').removeClass('ui-icon-seek-prev').addClass('ui-icon-seek-next');
+    }
+    
+    return false;
+  });
+  
   // FILTERS
   $('#tdp-update-filters').get(0).blink = function(){
     $(this).addClass('blink');
@@ -62,20 +78,16 @@ $(document).ready(function(){
     $('#tdp-update-filters').get(0).blink();
   });
   
-  // SEEING CONTACT'S ORGANISMS
-  $('#tdp-content .sf_admin_list_td_list_see_orgs').click(function(){
-    if ( !$(this).closest('table').hasClass('see-orgs') )
-    {
-      $(this).closest('table').addClass('see-orgs');
-      $(this).closest('table').find('.sf_admin_list_td_list_see_orgs span').removeClass('ui-icon-seek-next').addClass('ui-icon-seek-prev');
-    }
-    else
-    {
-      $(this).closest('table').removeClass('see-orgs');
-      $(this).closest('table').find('.sf_admin_list_td_list_see_orgs span').removeClass('ui-icon-seek-prev').addClass('ui-icon-seek-next');
-    }
-    
-    return false;
+  // TOPBAR
+  $('#tdp-top-bar .tdp-top-widget > a.group').mouseenter(function(){
+    $(this).parent().find('.tdp-submenu').fadeIn('medium')
+      .css('display','inline-block');
+  });
+  $('#tdp-top-bar .tdp-submenu, #tdp-top-bar .tdp-top-widget > a.group').mouseleave(function(){
+    setTimeout(function(){
+      if ( $('#tdp-top-bar .tdp-top-widget .tdp-submenu:hover').length + $('#tdp-top-bar .tdp-top-widget > a.group:hover').length == 0 )
+        $('#tdp-top-bar .tdp-top-widget .tdp-submenu').fadeOut('fast');
+    },500);
   });
   
   // ADDING CONTACTS TO GROUPS

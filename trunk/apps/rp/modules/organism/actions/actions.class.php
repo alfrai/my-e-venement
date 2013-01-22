@@ -13,10 +13,10 @@ require_once dirname(__FILE__).'/../lib/organismGeneratorHelper.class.php';
  */
 class organismActions extends autoOrganismActions
 {
-  public function preExecute()
+  public function postExecute()
   {
-    $this->getContext()->getConfiguration()->changeTemplatesDir($this);
-    return parent::preExecute();
+   $this->getContext()->getConfiguration()->changeTemplatesDir($this);
+   return parent::postExecute();
   }
   public function executeGroup(sfWebRequest $request)
   {

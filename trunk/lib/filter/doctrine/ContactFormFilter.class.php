@@ -19,6 +19,10 @@ class ContactFormFilter extends BaseContactFormFilter
   public function configure()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+    $this->widgetSchema['groups_list']->setOption('query',
+      Doctrine::getTable('Group')->createQuery('g')
+      ->andWhere('g.sf_guard_user_id IS NULL OR g.sf_guard_user_id = ?',sfContext::getInstance()->getUser()->getId())
+    );
     $this->widgetSchema['groups_list']->setOption(
       'order_by',
       array('u.id IS NULL DESC, u.username, name','')

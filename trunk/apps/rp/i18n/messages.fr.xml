@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Direct phonenumber</source>
+        <target>Numéro direct</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Direct email address</source>
+        <target>Courriel direct</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Correspondence</source>
+        <target>Correspondance</target>
+      </trans-unit>
+      <trans-unit>
         <source>More</source>
         <target>Plus</target>
       </trans-unit>
@@ -999,6 +1011,10 @@
       <trans-unit>
         <source>Extract to CSV</source>
         <target>Extraire (tableur)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Extract</source>
+        <target>Extraire</target>
       </trans-unit>
       <trans-unit>
         <source>Contacts' List</source>

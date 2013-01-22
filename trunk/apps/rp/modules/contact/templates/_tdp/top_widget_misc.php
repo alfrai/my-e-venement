@@ -29,7 +29,7 @@
   if ( $sf_user->hasCredential('pr-emailing') )
   {
     if ( $active_filters )
-      echo link_to(__('Emailing'),'contact/emailing',array('title' => __('Create emailing')));
+      echo link_to(__('Emailing'),$sf_context->getModuleName().'/emailing',array('title' => __('Create emailing')));
     else
       echo '<a href="#">'.__('Emailing').'</a>';
   }

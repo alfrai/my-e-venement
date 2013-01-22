@@ -16,7 +16,7 @@ class rpConfiguration extends sfApplicationConfiguration
   
   public static function changeTemplatesDir(sfAction $action)
   {
-    if ( sfConfig::get('app_options_design','') )
+    if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
     {
       $params = $action->getRoute()->getParameters();
       $action->setTemplate('_'.sfConfig::get('app_options_design','').'/'.($action->getTemplate() ? $action->getTemplate() : $params['action']));

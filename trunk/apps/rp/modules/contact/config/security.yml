@@ -31,6 +31,8 @@ delete:
   credentials: pr-contact-del
 batchDelete:
   credentials: pr-contact-del
+batchMerge:
+  credentials: [pr-contact-edit, pr-contact-del]
 
 labels:
   credentials: pr-contact-labels

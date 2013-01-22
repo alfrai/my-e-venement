@@ -6,3 +6,7 @@ config/e-venement.yml:
   class:    sfDefineEnvironmentConfigHandler
   param:
     prefix:  software_
+modules/*/config/tdp.yml:
+  class: sfDefineEnvironmentConfigHandler
+  param:
+    prefix: tdp_
