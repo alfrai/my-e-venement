@@ -148,6 +148,25 @@ class Ticket extends PluginTicket
     parent::preUpdate($event);
   }
   
+  public function hasBeenCancelled()
+  {
+    if ( $this->Cancelling->count() > 0 )
+      return true;
+    
+    foreach ( $this->Duplicatas as $dup )
+      return $dup->hasBeenCancelled();
+    
+    return false;
+  }
+  
+  public function getOriginal()
+  {
+    if ( !$this->Duplicated )
+      return $this;
+    
+    return $this->Duplicated->getOriginal();
+  }
+  
   public function getBarcode($salt = '')
   {
     return md5('#'.$this->id.'-'.$salt);

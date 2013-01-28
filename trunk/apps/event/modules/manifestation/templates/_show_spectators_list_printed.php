@@ -14,6 +14,7 @@
     {
       foreach ( $transac->Tickets as $t )
       if ( $t->printed || $t->integrated )
+      if ( !$t->hasBeenCancelled() )
       {
         $contact['ticket-ids'][] = $t->id;
         if ( !isset($contact['prices'][$t->Gauge->workspace_id]) )

@@ -39,6 +39,8 @@
       ->createQuery('tck')
       ->leftJoin('tck.Transaction t')
       ->leftJoin('t.Translinked t2')
+      ->leftJoin('tck.Duplicated dup')
+      ->leftJoin('dup.Duplicated dup2')
       ->andWhereIn('tck.id',$ticket_ids)
       ->execute() as $ticket )
     {
@@ -76,13 +78,13 @@
       
       // get back a potential cancellation ticket for this ticket_id
       $q = Doctrine::getTable('Ticket')->createQuery('t')
-        ->andWhere('cancelling = ?',$ticket->id)
+        ->andWhere('cancelling = ?',$ticket->getOriginal()->id)
         ->orderBy('id DESC');
       $orig = $q->fetchOne();
       
       // linking a new cancel ticket to this transaction
       $this->ticket = $ticket->copy();
-      $this->ticket->cancelling = $ticket->id;
+      $this->ticket->cancelling = $ticket->getOriginal()->id;
       $this->ticket->printed = false;
       $this->ticket->value = -$this->ticket->value;
       $this->transaction->Tickets[] = $this->ticket;

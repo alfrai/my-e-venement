@@ -186,7 +186,7 @@ class ledgerActions extends sfActions
     {
       $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))')
         ->leftJoin('t.Tickets tck')
-        ->andWhere('tck.duplicate IS NULL')
+        ->andWhere('tck.duplicating IS NULL')
         ->andWhere('tck.integrated = true OR tck.printed = true')
         ->andWhere('tck.cancelling IS NULL')
         ->andWhere('tck.id NOT IN (SELECT tck3.cancelling FROM ticket tck3 WHERE tck3.cancelling IS NOT NULL)');
@@ -232,7 +232,7 @@ class ledgerActions extends sfActions
       ->leftJoin('t.Tickets tck')
       ->leftJoin('p.User u')
       ->leftJoin('tck.Gauge g')
-      ->andWhere('tck.duplicate IS NULL')
+      ->andWhere('tck.duplicating IS NULL')
       ->andWhere('tck.printed = true OR tck.integrated = true OR tck.cancelling IS NOT NULL')
       ->orderBy('pm.name');
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
@@ -291,7 +291,7 @@ class ledgerActions extends sfActions
       ->leftJoin('t.Gauge g')
       ->leftJoin('t.User u')
       ->andWhere('t.printed OR t.cancelling IS NOT NULL OR t.integrated')
-      ->andWhere('t.duplicate IS NULL')
+      ->andWhere('t.duplicating IS NULL')
       ->orderBy('p.name');
     if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
@@ -353,7 +353,7 @@ class ledgerActions extends sfActions
       ->addSelect('(CASE WHEN sum(t.value > 0) > 0 THEN sum(case when t.value < 0 then 0 else t.value end)/sum(t.value > 0) ELSE 0 END) AS average_paying')
       ->addSelect('sum(case when t.value < 0 then 0 else t.value end) AS income')
       ->addSelect('sum(case when t.value > 0 then 0 else t.value end) AS outcome')
-      ->andWhere('t.duplicate IS NULL')
+      ->andWhere('t.duplicating IS NULL')
       ->andWhere('t.printed OR t.integrated OR t.cancelling IS NOT NULL')
       ->orderBy('u.last_name, u.first_name, u.username')
       ->groupBy('u.id, u.last_name, u.first_name, u.username');

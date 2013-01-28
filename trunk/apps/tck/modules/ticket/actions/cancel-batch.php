@@ -62,14 +62,18 @@
   $q = new Doctrine_Query;
   $value = 0;
   $tickets = $q->from('Ticket tck')
+    ->leftJoin('tck.Cancelled cancel')
+    ->leftJoin('tck.Duplicatas dup')
+    ->leftJoin('dup.Cancelled cancel2')
+    ->andWhere('tck.duplicating IS NULL')
+    ->andWhere('tck.cancelling IS NULL')
     ->andWhere('tck.transaction_id = ?',$tid)
     ->andWhere('tck.printed = true')
-    ->andWhere('(SELECT count(*) FROM ticket t2 WHERE t2.cancelling = tck.id) = 0')
     ->execute();
   
-  $translinked = is_null($transaction->transaction_id)
-    ? new Transaction
-    : Doctrine::getTable('Transaction')->findOneById($transaction->transaction_id);
+  $translinked = $transaction->Translinked->count() > 0
+    ? $transaction->Translinked[0]
+    : new Transaction;
   $translinked->type = 'cancellation';
   $translinked->transaction_id = $transaction->id;
   $translinked->contact_id = $transaction->contact_id;
@@ -111,5 +115,5 @@
   
   // get out
   $this->getUser()->setFlash('notice',__('Your transaction has been correctly cancelled'));
-  $this->redirect('ticket/cancel?pay='.$transaction->transaction_id);
+  $this->redirect('ticket/cancel?pay='.$translinked->id);
   return sfView::NONE;

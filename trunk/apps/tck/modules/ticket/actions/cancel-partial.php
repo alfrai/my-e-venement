@@ -44,9 +44,9 @@
     ->andWhere('t.id = ?',$tid)
     ->andWhere('LOWER(p.name) = LOWER(?)',$price_name)
     ->andWhere('tck.manifestation_id = ?',$manifestation_id)
-    ->andWhere('tck.id NOT IN (SELECT tck3.duplicating FROM Ticket tck3 WHERE tck3.duplicating IS NOT NULL)')
     ->andWhere('tck.printed = TRUE')
     ->andWhere('tck.cancelling IS NULL')
+    ->andWhere('tck.duplicating IS NULL')
     ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
     ->limit($qty);
   $tickets = $q->execute();
@@ -78,11 +78,16 @@
   
   // cancelling tickets
   foreach ( $tickets as $ticket )
+  if ( !$ticket->hasBeenCancelled() )
   {
     $cancel = $ticket->copy();
     $cancel->value = -$cancel->value;
     $cancel->cancelling = $ticket->id;
-    $cancel->duplicating = NULL;
+    $cancel->id =
+    $cancel->transaction_id =
+    $cancel->sf_guard_user_id =
+    $cancel->created_at =
+    $cancel->updated_at = NULL;
     $cancel->printed = false;
     $cancel->integrated = false;
     $cancel->transaction_id = $transaction->Translinked[0]->id;
