@@ -375,9 +375,9 @@ class manifestationActions extends autoManifestationActions
       
     if ( $nb < 7500 )
     $q->leftJoin('tr.Tickets tck')
-      ->leftJoin('t.Duplicatas duplicatas')
+      ->leftJoin('tck.Duplicatas duplicatas')
       ->leftJoin('duplicatas.Cancelling cancelling2')
-      ->leftJoin('t.Cancelling cancelling')
+      ->leftJoin('tck.Cancelling cancelling')
       ->leftJoin('tr.Invoice invoice')
       ->leftJoin('tck.Cancelled cancelled')
       ->leftJoin('tck.Manifestation m')

@@ -25,7 +25,7 @@
         <ul class="second">
           <li><a href="" target="_blank"><?php echo __('New screen',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('default','default') ?>"><?php echo __('Index',array(),'menu') ?></a></li>
-          <?php if ( $sf_user->isAuthenticated() && $url = sfConfig::get('app_archive_url') ): ?>
+          <?php if ( $sf_user->isAuthenticated() && $url = sfConfig::get('project_archive_url') ): ?>
           <li><a target="_blank" href="<?php echo $url ?>"><?php echo __('Archives',array(),'menu') ?></a></li>
           <?php endif ?>
           <li class="spaced"><a href="#" onclick="javascript: window.sidebar.addPanel(document.title,window.location,'');"><?php echo __('Bookmark',array(),'menu') ?></a></li>
