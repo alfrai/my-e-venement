@@ -1,7 +1,7 @@
 <h2><?php echo __('Spectators to be controlled') ?></h2>
 <table class="tobecontrolled">
   <tbody>
-  <?php $total = array('qty' => 0, 'value' => 0) ?>
+  <?php $total = array('qty' => array(0), 'value' => 0) ?>
   <?php $overlined = true ?>
   <?php if ( !isset($spectators) ) $spectators = $form->spectators ?>
   <?php foreach ( $spectators as $transac ): ?>
@@ -19,7 +19,7 @@
         : $contact['prices'][$t->price_name] = 1;
       $contact['value'] += $t->value;
 
-      $total['qty']++;
+      $total['qty'][0]++;
       $total['value'] += $t->value;
     }
   ?>
