@@ -63,7 +63,8 @@
   border-radius: 3px;
   white-space: nowrap;
 }
-.manifestations_list .prices .ticket_prices.notprinted .name {
+.manifestations_list .prices .ticket_prices.notprinted .name,
+.manifestations_list .prices .ticket_prices.integrated .name {
   cursor: pointer;
 }
 .manifestations_list .prices .ticket_prices.printed input[type=text],

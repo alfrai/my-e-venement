@@ -318,7 +318,7 @@ function ticket_transform_hidden_to_span(all)
     });
   });
   
-  $('#prices .manifestations_list .prices .ticket_prices.notprinted input.nb').unbind().change(function(){
+  $('#prices .manifestations_list .prices .ticket_prices.notprinted input.nb, #prices .manifestations_list .prices .ticket_prices.integrated input.nb').unbind().change(function(){
     nb = $(this).parent().find('input[type=text].nb').val() - $(this).parent().find('input[type=hidden].nb').val();
     orig = $('#prices input[name="ticket[nb]"]').val();
     
@@ -332,7 +332,7 @@ function ticket_transform_hidden_to_span(all)
   }});
   
   // click to remove a ticket
-  $('#prices .manifestations_list .prices .ticket_prices.notprinted .name').unbind().click(function(){
+  $('#prices .manifestations_list .prices .ticket_prices.notprinted .name, #prices .manifestations_list .prices .ticket_prices.integrated .name').unbind().click(function(){
     $('#prices .prices_list').removeClass('cancel');
     gid = $(this).parent().parent().attr('class').replace(/.* gauge-(\d+).*/g,'$1');
     $(this).parent().parent().parent().parent().find('.workspaces [name="ticket[gauge_id]"]').val(gid);
