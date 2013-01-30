@@ -332,7 +332,7 @@ class ledgerActions extends sfActions
             ".( is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 ? 'AND gauge_id IN (SELECT id FROM gauge g WHERE g.workspace_id IN ('.implode(',',$criterias['workspaces']).'))' : '')."
             ".( !$this->getUser()->hasCredential('tck-ledger-all-users') ? 'AND sf_guard_user_id = '.sfContext::getInstance()->getUser()->getId() : '' )."
             AND (printed OR integrated OR cancelling IS NOT NULL)
-            AND duplicate IS NULL
+            AND duplicating IS NULL
           GROUP BY value
           ORDER BY value DESC";
     //        ".( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 ? 'manifestation_id IN ('.implode(',',$criterias['manifestations']).')' : '')."
