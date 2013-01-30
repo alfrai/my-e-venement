@@ -3,10 +3,10 @@
 <?php $config = sfConfig::get('tdp_config_edit',array()) ?>
 
 <div id="tdp-content">
+
+<!-- ROOT OBJECT -->
+<div class="sf_admin_edit ui-widget tdp-object ui-widget-content ui-corner-all tdp-<?php echo $sf_context->getModuleName() ?>">
 <?php include_partial($sf_context->getModuleName().'/flashes') ?>
-
-
-<div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all tdp-<?php echo $sf_context->getModuleName() ?>">
 
   <div id="sf_admin_header">
     <?php include_partial($sf_context->getModuleName().'/form_header', array(
@@ -35,11 +35,13 @@
   <?php include_partial($sf_context->getModuleName().'/themeswitcher') ?>
 </div>
 
+<!-- SUBOBJECTS -->
 <?php if ( isset($config['subobjects']) ): ?>
 <?php foreach ( $config['subobjects'] as $link => $subconfig ): ?>
 <?php foreach ( $sf_data->getRaw('object')->$link as $subobject ): ?>
-<div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all tdp-<?php echo strtolower(get_class($subobject)) ?>">
-
+<div class="sf_admin_edit tdp-subobject ui-widget ui-widget-content ui-corner-all tdp-<?php echo strtolower(get_class($subobject)) ?>">
+  <div class="sf_admin_flashes ui-widget"></div>
+  
   <div id="sf_admin_header">
     <?php include_partial($sf_context->getModuleName().'/form_header', array(
       'object' => $subobject,

@@ -8,22 +8,23 @@ all:
         title: [title, name, firstname]
         lines:
           Address:
-            fields: [address, organism_category_id]
-          Post:
-            fields: [postalcode, city, _show_region, country]
+            show_labels: true
+            fields: [address, organism_category_id, email]
+          City:
+            extra_class: vertical
+            fields: [postalcode, _cities, city, country, _show_region]
           Direct_Contact:
-            fields: [email, _form_phonenumbers_list]
-          State:
-            show_labels: true
-            fields: [family_contact, npai]
+            fields: [_form_phonenumbers_list]
           More:
-            show_title: true
             show_labels: true
-            behaviour: optional
-            fields: [description, YOBs_list, password]
+            extra_class: tdp-vertical
+            fields: [family_contact, npai, YOBs_list, password]
+          Description:
+            show_title: true
+            fields: [description]
       subobjects:
         Professionals:
-          title: [Organism, name_type]
+          title: [Organism]
           lines:
             line1:
               fields: [_organism_category]
@@ -39,6 +40,7 @@ all:
               show_messages: false
               show_title: true
               fields: [description, _organism_url]
+          extra_hidden_fields: [contact_id, organism_id]
 
     new:
       title: New contact
@@ -80,6 +82,8 @@ all:
       list_professional_id: { label: '' }
       contact_email: { label: Direct email address }
       contact_number: { label: Direct phonenumber }
+      show_region: { label: Region }
+      organism_category_id: { label: Category }
 
 dev:
   active: true

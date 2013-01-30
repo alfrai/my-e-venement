@@ -2,6 +2,28 @@ $(document).ready(function(){
   var object_elts = 'td:first-child:not([class]), .sf_admin_list_td_name, .sf_admin_list_td_firstname, .sf_admin_list_td_postalcode, .sf_admin_list_td_city, .sf_admin_list_td_list_emails, .sf_admin_list_td_list_phones, .sf_admin_list_td_organisms_list, .sf_admin_list_td_list_see_orgs, .sf_admin_list_td_list_contact, td:last-child';
   var subobjects_elts = '.sf_admin_list_td_list_professional_id, .sf_admin_list_td_list_organism, .sf_admin_list_td_list_professional, .sf_admin_list_td_list_organism_postalcode, .sf_admin_list_td_list_organism_city, .sf_admin_list_td_list_professional_emails, .sf_admin_list_td_list_organism_phones_list, .sf_admin_list_td_list_professional_description';
   
+  // FORMS: submitting subobjects though AJAX
+  $('.tdp-subobject form').submit(function(){
+    // reset the form removing all alerts and errors
+    $(this).closest('.tdp-subobject').find('.sf_admin_flashes *').remove();
+    $(this).find('.errors').remove();
+    $(this).find('.ui-state-error').removeClass('ui-state-error').removeClass('ui-corner-all');
+    
+    $.post($(this).attr('action'), $(this).serialize(), contact_tdp_form_submit_ajax);
+    return false;
+  });
+  
+  // CONTENT: FOCUSING ON A FIELD
+  highlight = $('#tdp-content #sf_admin_content input, #tdp-content #sf_admin_content select, #tdp-content #sf_admin_content textarea');
+  highlight.focusin(function(){
+    $(this).closest('span')
+      .addClass('tdp-highlight');
+  });
+  highlight.focusout(function(){
+    $(this).closest('span')
+      .removeClass('tdp-highlight');
+  });
+  
   // CONTENT: MULTIPLE PROFESSIONALS
   $('#tdp-content .sf_admin_row').each(function(){
     if ( (length = $(this).find('.sf_admin_list_td_list_organism .pro').length) > 1 )
@@ -147,3 +169,62 @@ $(document).ready(function(){
     }
   });
 });
+
+function contact_tdp_submit_forms(i = 0)
+{
+  $('.form_phonenumbers .sf_admin_flashes').remove();
+  
+  if ( $('.tdp-subobject form').get(i) == undefined ) // the end of the loops
+  {
+    if ( $('.tdp-subobject .errors').length == 0 ) // no error
+    {
+      $('.tdp-object form').submit();
+      return true;
+    }
+    else // at least one error, stopping the process
+    {
+      $('.tdp-object .sf_admin_flashes').fadeOut('fast',function(){
+        $(this).replaceWith(
+          $('.tdp-subobject .errors').first()
+            .closest('.tdp-subobject')
+            .find('.sf_admin_flashes')
+            .clone(true)
+            .hide()
+            .fadeIn('medium')
+        );
+      });
+    }
+  }
+  
+  form = $('.tdp-subobject form').get(i);
+  $.post($(form).attr('action'), $(form).serialize(), function(data){
+    contact_tdp_form_submit_ajax(data);
+    contact_tdp_submit_forms(++i);
+  });
+}
+
+function contact_tdp_form_submit_ajax(data)
+{
+  subobject = $('[name="professional[id]"][value='+$(data).find('[name="professional[id]"]').val()+']')
+    .closest('.sf_admin_edit');
+  
+  // flashes
+  subobject.find('.sf_admin_flashes')
+    .replaceWith($(data).find('.sf_admin_flashes'));
+  setTimeout(function(){
+    $('[name="professional[id]"][value='+$(data).find('[name="professional[id]"]').val()+']')
+      .closest('.sf_admin_edit')
+      .find('.sf_admin_flashes > *').fadeOut('medium',function(){ $(this).remove(); });
+  },6000);
+  
+  // transition screen
+  $('#transition .close').click();
+  
+  // errornous fields
+  $(data).find('.errors').each(function(){
+    subobject.find('.tdp-'+$(this).closest('.sf_admin_form_row').attr('class').replace(/^.*sf_admin_form_field_([\w_]+).*$/g,'$1'))
+      .addClass('ui-state-error').addClass('ui-corner-all')
+      .append($(this));
+    
+  });
+}

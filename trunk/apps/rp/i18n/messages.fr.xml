@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Invalid.</source>
+        <target>Invalide.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Region</source>
+        <target>Région</target>
+      </trans-unit>
+      <trans-unit>
         <source>Direct phonenumber</source>
         <target>Numéro direct</target>
       </trans-unit>

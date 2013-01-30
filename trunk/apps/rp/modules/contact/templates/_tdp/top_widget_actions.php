@@ -8,7 +8,7 @@
     ? link_to(__('Delete',null,'sf_admin'), $sf_context->getModuleName().( isset($object) ? '/delete?id='.$object->id : '/batch?batch_action=batchDelete'), array(
       'class' => 'action',
       'onclick' => isset($object)
-        ? "javascript: $('.sf_admin_form .sf_admin_action_delete a').click(); return false;"
+        ? "javascript: $('.tdp-object .sf_admin_action_delete a').click(); return false;"
         : $js_add_ids_to_url,
     ))
     : '<a href="#">'.__('Delete',null,'sf_admin').'</a>';
@@ -31,7 +31,7 @@
 <?php else: ?>
 <?php if ( $sf_user->hasCredential('pr-'.$sf_context->getModuleName().'-edit') ): ?>
 <?php echo link_to(__('Update',null,'sf_admin'),$sf_context->getModuleName().'/update?id='.$object->id,array(
-          'onclick' => "javascript: $('.sf_admin_form .sf_admin_action_save a').click(); return false;",
+          'onclick' => "javascript: $('form form').submit(); contact_tdp_submit_forms(); return false;",
         )) ?>
 <?php else: ?>
 <a href="#"><?php echo __('Update',null,'sf_admin') ?></a>

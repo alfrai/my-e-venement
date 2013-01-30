@@ -29,7 +29,7 @@
 <script type="text/javascript">
   var phonetype_ajax = '<?php echo url_for('phone_type/ajax') ?>';
   var phonenumbers = [];
-  var pnid = '#<?php echo $form->getObject() instanceof Organism ? 'organism' : 'contact' ?>_phonenumber_id';
+  var pnid = '#<?php echo strtolower(get_class($form->getObject())) ?>_phonenumber_id';
 </script>
 <div class="sf_admin_form_row">
 <!--<label><?php echo __('Phone numbers') ?></label>-->

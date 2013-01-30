@@ -5,7 +5,8 @@
     'field' => $field,
     'object' => $object,
     'form' => $form,
-    'fields' => $fields,
+    'line' => $line,
     'config' => $config,
+    'fields' => $fields,
   )) ?>
 <?php endforeach ?>

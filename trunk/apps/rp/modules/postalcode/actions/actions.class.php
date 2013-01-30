@@ -15,7 +15,7 @@ class postalcodeActions extends autoPostalcodeActions
 {
   public function executeAjax(sfWebRequest $request)
   {
-    if ( strlen($request->getParameter('q')) > 3 )
+    if ( strlen($request->getParameter('q')) > 2 )
     {
       $charset = sfContext::getInstance()->getConfiguration()->charset;
       $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));

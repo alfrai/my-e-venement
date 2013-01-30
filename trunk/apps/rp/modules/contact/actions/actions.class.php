@@ -1,4 +1,4 @@
-  <?php
+<?php
 /**********************************************************************************
 *
 *	    This file is part of e-venement.
@@ -115,6 +115,16 @@ class contactActions extends autoContactActions
       $this->setTemplate('edit');
     }
   }
+  public function executeUpdate(sfWebRequest $request)
+  {
+    parent::executeUpdate($request);
+    if ( sfConfig::get('app_options_design') == 'tdp' )
+    {
+      $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+      $this->filters = $this->configuration->getFilterForm($this->getFilters());
+      $this->setTemplate('edit');
+    }
+  }
   public function executeEdit(sfWebRequest $request)
   {
     $this->executeShow($request);
@@ -145,6 +155,13 @@ class contactActions extends autoContactActions
       $pn->number = $params['phone_number'];
       $pn->contact_id = $this->contact->id;
       $pn->save();
+    }
+    
+    if ( sfConfig::get('app_options_design') == 'tdp' )
+    {
+      $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+      $this->filters = $this->configuration->getFilterForm($this->getFilters());
+      $this->setTemplate('edit');
     }
   }
   

@@ -6,6 +6,8 @@
         $sf_context->getModuleName() => $object,
         'object' => $object,
         'show_labels' => isset($show_labels) && $show_labels,
+        'field' => substr($field,1),
+        'fields' => $fields,
       ));
     }
     catch ( sfRenderException $e )
@@ -17,7 +19,15 @@
     }
   ?>
 <?php else: ?>
-<span title="<?php if ( !(isset($show_messages) && !$show_messages) ) echo __(isset($fields[$field]) && isset($fields[$field]['label']) ? $fields[$field]['label'] : ucfirst(str_replace('_',' ',$field))) ?>" class="tdp-<?php echo $field ?>">
+<?php
+  $class = array();
+  $class[] = 'tdp-'.$field;
+  $class[] = 'sf_admin_form_field_'.$field;
+  
+  if ( isset($form[$field]) && $form[$field]->hasError() )
+    $class[] = 'ui-state-error ui-corner-all';
+?>
+<span title="<?php if ( !(isset($show_messages) && !$show_messages) ) echo __(isset($fields[$field]) && isset($fields[$field]['label']) ? $fields[$field]['label'] : ucfirst(str_replace('_',' ',$field))) ?>" class="<?php echo implode(' ',$class) ?>">
   <?php if ( isset($form[$field]) ): ?>
     <?php if ( isset($show_labels) && $show_labels ): ?>
       <?php if ( isset($fields[$field]) ) $form[$field]->getWidget()->setLabel($fields[$field]['label']) ?>
@@ -25,6 +35,12 @@
     <?php endif ?>
     
     <?php echo $form[$field] ?>
+    <?php if ( $form[$field]->hasError() ): ?>
+      <div class="errors">
+        <span class="ui-icon ui-icon-alert floatleft"></span>
+        <?php echo $form[$field]->renderError() ?>
+      </div>
+    <?php endif ?>
   <?php elseif ( $object->hasColumn($field) && is_object($object->getRaw($field)) ): ?>
     <?php echo $object->$field ?>
   <?php elseif ( $object->get($field) ): ?>

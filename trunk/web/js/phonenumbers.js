@@ -6,7 +6,7 @@ function phonenumbers_add(data,beforethis)
   {
     // existing
     if ( beforethis == undefined )
-      $('#content .form_phonenumbers').prepend(li);
+      $('#content .form_phonenumbers').append(li);
     else
       li.insertBefore(beforethis);
   }
