@@ -154,7 +154,12 @@ class Ticket extends PluginTicket
       return true;
     
     foreach ( $this->Duplicatas as $dup )
-      return $dup->hasBeenCancelled();
+    if ( $dup->hasBeenCancelled() )
+      return true;
+    
+    if ( !is_null($this->duplicating) )
+    if ( $this->Duplicated->hasBeenCancelled() )
+      return true;
     
     return false;
   }
