@@ -5,28 +5,27 @@ all:
       actions:
         new:
           credential: pr-contact-new
-        delete:
-          credential: pr-contact-edit
+        batchDelete:
+          credential: pr-contact-del
+          attributes:
+            onclick: "javascript: form = $('#tdp-content').clone(true); form.find('[name=batch_action]').remove(); $(this).attr('href',$(this).attr('href')+'&'+form.serialize());"
         csv:
           credential: pr-contact-csv
           label: Extract
-        merge:
+        batchMerge:
           credential: pr-contact-edit
-        duplicates: ~
+          label: Merge
+        duplicates:
+          label: Duplicates
         labels:
           credential: pr-contact-labels
+          label: Labels
         map:
           label: Geolocalize
     edit:
       object:
-        actions:
-          new:
-            credential: pr-contact-new
-          delete:
-            credential: pr-contact-del
-          update:
-            credential: pr-contact-edit
         title: [title, name, firstname]
+        new_title: [title, name, firstname]
         lines:
           Address:
             show_labels: true
@@ -43,12 +42,21 @@ all:
           Description:
             show_title: true
             fields: [description]
+        actions:
+          new:
+            credential: pr-contact-new
+          delete:
+            credential: pr-contact-del
+            attributes:
+              onclick: "javascript: $('.tdp-object .sf_admin_action_delete a').click(); return false;"
+            with_id: true
+          update:
+            credential: pr-contact-edit
+            attributes:
+              onclick: "javascript: $('form form').submit(); contact_tdp_submit_forms(); return false;"
+            with_id: true
       subobjects:
         Professionals:
-          actions:
-            edit:
-              credential: pr-contact-edit
-            new: ~
           title: [Organism]
           new_title: [organism_id]
           lines:

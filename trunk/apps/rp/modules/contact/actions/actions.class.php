@@ -108,16 +108,15 @@ class contactActions extends autoContactActions
     $this->forward404Unless($this->contact);
     $this->form = $this->configuration->getForm($this->contact);
     
-    if ( sfConfig::get('app_options_design') == 'tdp' )
-    {
-      $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
-      $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      $this->setTemplate('edit');
-    }
+    $this->addExtraRequirements();
   }
   public function executeUpdate(sfWebRequest $request)
   {
     parent::executeUpdate($request);
+    $this->addExtraRequirements();
+  }
+  protected function addExtraRequirements()
+  {
     if ( sfConfig::get('app_options_design') == 'tdp' )
     {
       $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
@@ -136,7 +135,9 @@ class contactActions extends autoContactActions
   public function executeNew(sfWebRequest $request)
   {
     parent::executeNew($request);
+    $this->object = $this->form->getObject();
     $this->form->getWidget('name')->setOption('default',$request->getParameter('name'));
+    $this->addExtraRequirements();
   }
   public function executeCreate(sfWebRequest $request)
   {

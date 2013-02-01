@@ -1,6 +1,5 @@
 <?php use_helper('I18N', 'Date') ?>
 <?php include_partial($sf_context->getModuleName().'/assets') ?>
-<?php $config = sfConfig::get('tdp_config_edit',array()) ?>
 
 <div id="tdp-content">
 
@@ -36,7 +35,7 @@
 </div>
 
 <!-- SUBOBJECTS -->
-<?php if ( isset($config['subobjects']) ): ?>
+<?php if ( isset($config['subobjects']) && !$object->isNew() ): ?>
 <?php foreach ( $config['subobjects'] as $link => $subconfig ): ?>
 <?php foreach ( $sf_data->getRaw('object')->$link as $subobject ): ?>
   <?php include_partial('contact/tdp/edit_subobject',array(
