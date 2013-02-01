@@ -40,10 +40,11 @@ function contact_ajax_form(id, add, hide)
   
   // supprimer
   $(id+' form .sf_admin_actions_form a[onclick]').unbind().removeAttr('onclick').click(function(){
-    if ( !confirm("Êtes-vous sûr de vouloir supprimer cette fonction ?") )
+    var elt = $(this).closest('.sf_admin_edit');
+    
+    if ( !confirm(elt.find('._delete_confirm').html()) )
       return false;
     
-    var elt = $(this).parent().parent().parent().parent().parent().parent();
     elt.fadeOut('slow');
     $.ajax({
       url: $(this).attr('href'),
@@ -52,7 +53,7 @@ function contact_ajax_form(id, add, hide)
         sf_method: 'delete',
         _csrf_token: elt.find('._delete_csrf_token').html(),
       },
-      success: function(data) {
+      complete: function(data) {
         elt.remove();
         $('#more').prepend('<div class="sf_admin_flashes ui-widget ui-widget-content ui-corner-all"><div class="notice ui-state-highlight">Fonction supprimée.</div></div>');
         info = $('#more .sf_admin_flashes:first');
