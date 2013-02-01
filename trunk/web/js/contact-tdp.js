@@ -67,6 +67,49 @@ $(document).ready(function(){
     }
   });
   
+  // CONTENT: DELETING A SUBOBJECT
+  $('.tdp-subobject .tdp-actions .tdp-delete').click(function(){
+    elt = $(this).closest('.tdp-subobject');
+    if ( elt.length != 1 )
+      return false;
+    
+    if ( !confirm(elt.find('._delete_confirm').html()) )
+    {
+      $('#transition .close').click();
+      return false;
+    }
+    
+    elt.fadeOut('slow');
+    $.ajax({
+      url: $(this).attr('href'),
+      type: 'POST',
+      data: {
+        sf_method: 'delete',
+        _csrf_token: elt.find('._delete_csrf_token').html(),
+      },
+      complete: function(data) {
+        elt.remove();
+        $('#transition .close').click();
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        info = $('.tdp-object .sf_admin_flashes');
+        info.replaceWith('<div class="sf_admin_flashes ui-widget"><div class="notice ui-state-highlight">Fonction supprimée.</div></div>');
+        info.hide().fadeIn('slow');
+        setTimeout(function(){ info.fadeOut('slow',function(){ info.remove(); }) },5000);
+      },
+      error: function(data,error) {
+        elt.fadeIn('slow');
+        $('#transition .close').click();
+        info = elt.find('.sf_admin_flashes');
+        info.replaceWith('<div class="sf_admin_flashes ui-widget"><div class="error ui-state-error">Impossible de supprimer la fonction... ('+error+')</div>');
+        info.hide().fadeIn('slow');
+        setTimeout(function(){ info.fadeOut('slow',function(){ info.remove(); }) },5000);
+      },
+    });
+    
+    alert('glop');
+    return false;
+  });
+  
   // CONTENT: SEEING CONTACT'S ORGANISMS
   $('#tdp-content .sf_admin_list_td_list_see_orgs').click(function(){
     if ( !$(this).closest('table').hasClass('see-orgs') )
@@ -208,6 +251,9 @@ function contact_tdp_form_submit_ajax(data)
   subobject = $('[name="professional[id]"][value='+$(data).find('[name="professional[id]"]').val()+']')
     .closest('.sf_admin_edit');
   
+  if ( subobject.length == 0 )
+    subobject = $('.sf_admin_edit.tdp-object-new');
+  
   // flashes
   subobject.find('.sf_admin_flashes')
     .replaceWith($(data).find('.sf_admin_flashes'));
@@ -219,6 +265,12 @@ function contact_tdp_form_submit_ajax(data)
   
   // transition screen
   $('#transition .close').click();
+  
+  // new subobject and no error
+  if ( $(data).find('.errors').length == 0 && subobject.hasClass('tdp-object-new') )
+  {
+    $('#tdp-content .sf_admin_edit.tdp-object form').submit();
+  }
   
   // errornous fields
   $(data).find('.errors').each(function(){

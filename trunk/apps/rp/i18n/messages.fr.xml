@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You are about to remove this function. Are you sure?</source>
+        <target>Vous êtes sur le point de retirer cette fonction. Êtes-vous sûr(e) ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Invalid.</source>
         <target>Invalide.</target>
       </trans-unit>

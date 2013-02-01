@@ -41,7 +41,7 @@
         <?php echo $form[$field]->renderError() ?>
       </div>
     <?php endif ?>
-  <?php elseif ( $object->hasColumn($field) && is_object($object->getRaw($field)) ): ?>
+  <?php elseif ( $object->hasColumn($field) ): ?>
     <?php echo $object->$field ?>
   <?php elseif ( $object->get($field) ): ?>
     <?php echo $object->get($field) ?>

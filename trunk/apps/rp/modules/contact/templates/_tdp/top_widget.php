@@ -8,6 +8,7 @@
 <div class="tdp-top-widget vertical">
 <?php include_partial('contact/tdp/top_widget_actions',array(
   'object' => $object,
+  'config' => $config,
 )) ?>
 </div>
 <div class="tdp-top-widget vertical">

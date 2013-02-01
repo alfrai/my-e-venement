@@ -1,10 +1,31 @@
 all:
   active: false
   config:
-    actions: ~
-    form: ~
+    list:
+      actions:
+        new:
+          credential: pr-contact-new
+        delete:
+          credential: pr-contact-edit
+        csv:
+          credential: pr-contact-csv
+          label: Extract
+        merge:
+          credential: pr-contact-edit
+        duplicates: ~
+        labels:
+          credential: pr-contact-labels
+        map:
+          label: Geolocalize
     edit:
       object:
+        actions:
+          new:
+            credential: pr-contact-new
+          delete:
+            credential: pr-contact-del
+          update:
+            credential: pr-contact-edit
         title: [title, name, firstname]
         lines:
           Address:
@@ -24,7 +45,12 @@ all:
             fields: [description]
       subobjects:
         Professionals:
+          actions:
+            edit:
+              credential: pr-contact-edit
+            new: ~
           title: [Organism]
+          new_title: [organism_id]
           lines:
             line1:
               fields: [_organism_category]
@@ -51,6 +77,8 @@ all:
 
 
     fields:
+      organism_id: { label: Organism }
+      professional_type_id: { label: Professional type }
       description: { label: Keywords }
       YOBs_list:  { label: "Years of Birth (x[, x [,..]])" }
       YOB:      { label: Year of Birth }

@@ -39,36 +39,29 @@
 <?php if ( isset($config['subobjects']) ): ?>
 <?php foreach ( $config['subobjects'] as $link => $subconfig ): ?>
 <?php foreach ( $sf_data->getRaw('object')->$link as $subobject ): ?>
-<div class="sf_admin_edit tdp-subobject ui-widget ui-widget-content ui-corner-all tdp-<?php echo strtolower(get_class($subobject)) ?>">
-  <div class="sf_admin_flashes ui-widget"></div>
-  
-  <div id="sf_admin_header">
-    <?php include_partial($sf_context->getModuleName().'/form_header', array(
-      'object' => $subobject,
-      get_class($subobject) => $subobject,
-      'form' => $form,
-      'configuration' => $configuration,
-    )) ?>
-  </div>
-  
-  <div id="sf_admin_content">
-    <?php include_partial('contact/tdp/edit_object', array(
-      'object' => $subobject,
-      'form' => new ProfessionalForm($subobject),
-      'configuration' => $configuration,
-      'helper' => $helper,
-      'fields' => sfConfig::get('tdp_config_fields',array()),
-      'config' => $subconfig,
-    )) ?>
-  </div>
-
-  <div id="sf_admin_footer">
-    <?php //include_partial($sf_context->getModuleName().'/form_footer', array($sf_context->getModuleName() => $object, 'form' => $form, 'configuration' => $configuration)) ?>
-  </div>
-
-  <?php include_partial($sf_context->getModuleName().'/themeswitcher') ?>
-</div>
+  <?php include_partial('contact/tdp/edit_subobject',array(
+    'object' => $subobject,
+    'form' => new ProfessionalForm($subobject),
+    'configuration' => $configuration,
+    'helper' => $helper,
+    'fields' => sfConfig::get('tdp_config_fields',array()),
+    'config' => $subconfig,
+  )) ?>
 <?php endforeach ?>
+<?php
+  $subobject = new Professional;
+  $obj_class = get_class($sf_data->getRaw('object'));
+  $subobject->$obj_class = $sf_data->getRaw('object');
+  
+  include_partial('contact/tdp/edit_subobject',array(
+    'object' => $subobject,
+    'form' => new ProfessionalForm($subobject),
+    'configuration' => $configuration,
+    'helper' => $helper,
+    'fields' => sfConfig::get('tdp_config_fields',array()),
+    'config' => $subconfig,
+  ));
+?>
 <?php endforeach ?>
 <?php endif ?>
 

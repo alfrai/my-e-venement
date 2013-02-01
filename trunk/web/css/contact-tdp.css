@@ -15,15 +15,17 @@ body #content { width: auto; }
 
 /* objects */
 #tdp-content .errors, #tdp-content .error_list { display: inline-block; }
+#tdp-content .tdp-widget-header .errors { font-size: 11pt; }
 #tdp-content .ui-state-error { padding: 4px 4px 4px 0; }
+#tdp-content .tdp-widget-header .ui-state-error { padding: 0 4px 0 0; width: 99%; display: inline-block; }
 #tdp-content .sf_admin_actions_form { display: none; }
 #tdp-content .sf_admin_edit { margin-bottom: 10px; }
 #tdp-content #sf_admin_content .tdp-line.city,
-#tdp-content #sf_admin_content #tdp-widget-header h1 { border: 1px solid silver; border-radius: 4px; }
+#tdp-content #sf_admin_content .tdp-widget-header h1 { border: 1px solid silver; border-radius: 4px; }
 #tdp-content #sf_admin_content .tdp-line.city span,
-#tdp-content #sf_admin_content #tdp-widget-header span { border-color: silver; }
+#tdp-content #sf_admin_content .tdp-widget-header span { border-color: silver; }
 #tdp-content #sf_admin_content .tdp-line.city input,
-#tdp-content #sf_admin_content #tdp-widget-header input { width: 8em; padding: 0 3px; border: 0; border-radius: 4px; }
+#tdp-content #sf_admin_content .tdp-widget-header input { width: 8em; padding: 0 3px; border: 0; border-radius: 4px; }
 #tdp-content #sf_admin_content .tdp-line.more, #tdp-content #sf_admin_content .tdp-line.city { clear: both; }
 #tdp-content #sf_admin_content .tdp-line.address label { display: inline-block; width: 100px; }
 #tdp-content #sf_admin_content .tdp-line.address .tdp-address label { display: none; }
@@ -53,6 +55,9 @@ sdf#tdp-content #sf_admin_content .direct_contact { margin-top: 10px; }
 #tdp-content #sf_admin_content .sf_admin_form_field_cities select { margin: 0; min-width: 5em; }
 #tdp-content #sf_admin_content .tdp-line.description textarea { width: 96%; }
 #tdp-content #sf_admin_content .tdp-email { display: block; margin-left: 300px; }
+#tdp-content .tdp-subobject #sf_admin_content .tdp-widget-header input { width: 97%; }
+#tdp-content .tdp-subobject #sf_admin_content .tdp-widget-header .ui-state-error input { width: 80%; background: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-bg_glass_95_fef1ec_1x400.png") repeat-x scroll 50% 50% rgb(254, 241, 236); }
+#tdp-content .tdp-object .tdp-delete { display: none; }
 
 #tdp-content .sf_admin_list_td_list_phones span, #tdp-content .sf_admin_list_td_list_organism_phones_list span
 { white-space: nowrap; }
@@ -133,8 +138,23 @@ sdf#tdp-content #sf_admin_content .direct_contact { margin-top: 10px; }
 #tdp-side-bar ul { padding-left: 0; }
 #tdp-side-bar li { list-style-type: none; overflow: hidden; padding-right: 10px; }
 #tdp-side-bar li:hover { background-color: rgba(255,255,255,0.6); }
+#tdp-side-bar.object li:hover { background-color: transparent; }
+#tdp-side-bar.object li li:hover { background-color: rgba(255,255,255,0.6); }
 #tdp-side-bar li label { padding-left: 0; }
 #tdp-side-bar .tdp-side-widget a { text-decoration: none; float: right; margin-top: -1em; }
+#tdp-side-bar.object .tdp-side-widget { font-size: 80%; }
+#tdp-side-bar.object .tdp-side-widget li li > * { display: inline-block; }
+#tdp-side-bar.object .tdp-side-widget a { float: none; margin-top: 0; }
+#tdp-side-bar.object .tdp-side-widget .events a { width: 125px; overflow: hidden; margin-right: 3px; text-overflow: ellipsis; }
+#tdp-side-bar.object .tdp-side-widget a:hover { text-decoration: underline; }
+#tdp-side-bar.object .tdp-side-widget .nb, #tdp-side-bar.object .tdp-side-widget .value { text-align: right; }
+#tdp-side-bar.object .tdp-side-widget .nb { width: 20px; }
+#tdp-side-bar.object .tdp-side-widget .value { display: none; }
+#tdp-side-bar.object .tdp-side-widget .value:before { content: '/ '; }
+#tdp-side-bar.object .tdp-side-widget .total { font-weight: bold; }
+#tdp-side-bar.object .tdp-side-widget .total .value { display: inline-block; width: auto; }
+#tdp-side-bar.object .tdp-side-widget .total .event { width: 70px; }
+#tdp-side-bar.object .tdp-side-widget .total .nb { width: 3em; }
 #tdp-side-bar .batch-add-to { display: none; }
 
 #tdp-side-bar.add-to #tdp-side-groups input[type=checkbox] { display: none; }
@@ -220,4 +240,4 @@ a:not([href]) { color: gray; }
 #tdp-content .sf_admin_list table tbody tr.sf_admin_row td { padding: 0px 4px; }
 
 #tdp-content .sf_admin_edit .sf_admin_actions_block { display: none; }
-  
+
