@@ -148,17 +148,19 @@ class Ticket extends PluginTicket
     parent::preUpdate($event);
   }
   
-  public function hasBeenCancelled()
+  public function hasBeenCancelled($direction = 'both')
   {
     if ( $this->Cancelling->count() > 0 )
       return true;
     
+    if ( in_array($direction,array('both','down')) )
     foreach ( $this->Duplicatas as $dup )
-    if ( $dup->hasBeenCancelled() )
+    if ( $dup->hasBeenCancelled('down') )
       return true;
     
+    if ( in_array($direction,array('both','up')) )
     if ( !is_null($this->duplicating) )
-    if ( $this->Duplicated->hasBeenCancelled() )
+    if ( $this->Duplicated->hasBeenCancelled('up') )
       return true;
     
     return false;
