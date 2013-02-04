@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Price name</source>
+        <target>Tarif associé</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Debts List</source>
         <target>Liste des dettes</target>
       </trans-unit> 
