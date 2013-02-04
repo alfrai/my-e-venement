@@ -15,6 +15,8 @@ all:
         batchMerge:
           credential: pr-contact-edit
           label: Merge
+          attributes:
+            onclick: "javascript: form = $('#tdp-content').clone(true); form.find('[name=batch_action]').remove(); $(this).attr('href',$(this).attr('href')+'&'+form.serialize());"
         duplicates:
           label: Duplicates
         labels:
