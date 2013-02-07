@@ -76,6 +76,6 @@
 	@include(dirname(__FILE__).'/config.php');
 	ini_set("include_path",$config["website"]["libs"].":.:".$config["website"]["activecal"].":".$config["website"]["artichow"]);
 	
-	if ( ALLOPEN !== true )
+	if ( !(defined('ALLOPEN') && ALLOPEN === true) )
 	require(dirname(__FILE__).'/secu.php');
 ?>
