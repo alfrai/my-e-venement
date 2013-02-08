@@ -14,6 +14,7 @@
       $action['attributes']['class'] = 'action';
     else
       $action['attributes']['class'] .= ' action';
+    $action['attributes']['class'] .= ' '.$name;
     
     if ( $i == 3 )
     {
@@ -25,17 +26,25 @@
     if ( $i == 4 )
       echo '<div class="tdp-submenu">';
     
+    $attributes = '';
+    foreach ( $action['attributes'] as $attr => $value )
+      $attributes .= ' '.$attr.'="'.$value.'"';
+    
     echo !(isset($action['credential']) && !$sf_user->hasCredential($action['credential']))
       ? link_to(isset($action['label']) ? __($action['label']) : __(ucfirst(strpos($name,'batch') === 0 ? substr($name,5) : $name),null,'sf_admin'),$sf_context->getModuleName().'/'.(strpos($name,'batch') === 0 ? 'batch?batch_action='.$name : $name.(isset($object) && isset($action['with_id'])? '?id='.$object->id : '')),$action['attributes'])
-      : '<a href="#">'.(isset($action['label']) ? __($action['label']) : __(ucfirst(strpos($name,'batch') === 0 ? substr($name,5) : $name),null,'sf_admin')).'</a>';
+      : '<a href="#"'.$attributes.'>'.(isset($action['label']) ? __($action['label']) : __(ucfirst(strpos($name,'batch') === 0 ? substr($name,5) : $name),null,'sf_admin')).'</a>';
   }
   
   if ( $i > 3 )
     echo '</div>';
   if ( $last )
   {
+    $attributes = '';
+    foreach ( $last['action']['attributes'] as $attr => $value )
+      $attributes .= ' '.$attr.'="'.$value.'"';
+    
     echo !(isset($last['action']['credential']) && !$sf_user->hasCredential($last['action']['credential']))
       ? link_to(isset($last['action']['label']) ? __($last['action']['label']) : __(ucfirst(strpos($last['name'],'batch') === 0 ? substr($last['name'],5) : $last['name']),null,'sf_admin'),$sf_context->getModuleName().'/'.(strpos($last['name'],'batch') === 0 ? 'batch?batch_action='.$last['name'] : $last['name'].(isset($object) && isset($action['with_id'])? '?id='.$object->id : '')),$last['action']['attributes'])
-      : '<a href="#" class="'.$last['action']['attributes']['class'].'">'.(isset($last['action']['label']) ? __($last['action']['label']) : __(ucfirst(strpos($last['name'],'batch') === 0 ? substr($last['name'],5) : $last['name']),null,'sf_admin')).'</a>';
+      : '<a href="#"'.$attributes.'>'.(isset($last['action']['label']) ? __($last['action']['label']) : __(ucfirst(strpos($last['name'],'batch') === 0 ? substr($last['name'],5) : $last['name']),null,'sf_admin')).'</a>';
   }
 ?>

@@ -42,15 +42,15 @@
         <?php foreach ( $events as $event ): ?>
         <li>
           <?php echo cross_app_link_to($event['event'],'event','event/show?id='.$event['event']->id) ?>:
-          <span title="chouette" class="nb"><?php echo $event['nb'] ?></span>
-          <span class="value"><?php echo format_currency($event['value'],'€') ?></span>
+          <span class="nb"><?php echo $event['nb'] ?></span>
+          <?php if ( $sf_user->hasCredential('tck-ledger-sales') ): ?><span class="value"><?php echo format_currency($event['value'],'€') ?></span><?php endif ?>
         </li>
         <?php endforeach ?>
         <li class="total">
           <?php if ( $total['nb'] > 0 ): ?>
           <span class="event">Total</span>:
           <span class="nb"><?php echo $total['nb'] ?></span>
-          <span class="value"><?php echo format_currency($total['value'],'€') ?></span>
+          <?php if ( $sf_user->hasCredential('tck-ledger-sales') ): ?><span class="value"><?php echo format_currency($total['value'],'€') ?></span><?php endif ?>
           <?php else: ?>
           <?php echo __('No result',null,'sf_admin') ?>
           <?php endif ?>

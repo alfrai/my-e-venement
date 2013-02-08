@@ -1,3 +1,4 @@
+<?php if ( !(isset($line['credential']) && !$sf_user->hasCredential($line['credential'])) ): ?>
 <?php foreach ( $line['fields'] as $field ): ?>
   <?php include_partial($sf_context->getModuleName().'/tdp/edit_field',array(
     'show_labels' => isset($line['show_labels']) && $line['show_labels'],
@@ -10,3 +11,4 @@
     'fields' => $fields,
   )) ?>
 <?php endforeach ?>
+<?php endif ?>

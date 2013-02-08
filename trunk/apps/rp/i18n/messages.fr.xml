@@ -5,8 +5,16 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Not yet recorded</source>
+        <target>Pas encore enregistré</target>
+      </trans-unit>
+      <trans-unit>
         <source>You are about to remove this function. Are you sure?</source>
         <target>Vous êtes sur le point de retirer cette fonction. Êtes-vous sûr(e) ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Group's organisms List</source>
+        <target>Liste des organismes du groupe</target>
       </trans-unit>
       <trans-unit>
         <source>Invalid.</source>

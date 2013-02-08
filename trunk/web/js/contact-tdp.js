@@ -2,14 +2,19 @@ $(document).ready(function(){
   var object_elts = 'td:first-child:not([class]), .sf_admin_list_td_name, .sf_admin_list_td_firstname, .sf_admin_list_td_postalcode, .sf_admin_list_td_city, .sf_admin_list_td_list_emails, .sf_admin_list_td_list_phones, .sf_admin_list_td_organisms_list, .sf_admin_list_td_list_see_orgs, .sf_admin_list_td_list_contact, td:last-child';
   var subobjects_elts = '.sf_admin_list_td_list_professional_id, .sf_admin_list_td_list_organism, .sf_admin_list_td_list_professional, .sf_admin_list_td_list_organism_postalcode, .sf_admin_list_td_list_organism_city, .sf_admin_list_td_list_professional_emails, .sf_admin_list_td_list_organism_phones_list, .sf_admin_list_td_list_professional_description';
   
+  // READ ONLY: deactivating every field if the user has no credential for modification
+  if ( $('#tdp-top-bar .action.update[href=#]').length == 1 )
+  {
+    $('#tdp-content input, #tdp-content select, #tdp-content textarea')
+      .attr('disabled',true);
+    $('#tdp-side-bar .tdp-object-groups .new').remove();
+  }
+  
   // FORMS: submitting subobjects though AJAX
-  $('.tdp-subobject form').submit(function(){
-    // reset the form removing all alerts and errors
-    $(this).closest('.tdp-subobject').find('.sf_admin_flashes *').remove();
-    $(this).find('.errors').remove();
-    $(this).find('.ui-state-error').removeClass('ui-state-error').removeClass('ui-corner-all');
-    
-    $.post($(this).attr('action'), $(this).serialize(), contact_tdp_form_submit_ajax);
+  $('.tdp-subobject form, .tdp-object #sf_admin_content > form').submit(function(){
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    $('.sf_admin_flashes *').fadeOut('fast',function(){ $(this).remove(); });
+    contact_tdp_submit_forms();
     return false;
   });
   
@@ -106,7 +111,6 @@ $(document).ready(function(){
       },
     });
     
-    alert('glop');
     return false;
   });
   
@@ -155,7 +159,7 @@ $(document).ready(function(){
     },500);
   });
   
-  // ADDING CONTACTS TO GROUPS
+  // ADDING CONTACTS TO GROUPS (from list)
   $('#tdp-content .sf_admin_row').unbind('click'); // remove framework bind
   $('#tdp-content .sf_admin_row > :not(.sf_admin_list_td_list_see_orgs)').click(function(){
     if ( $(this).is(subobjects_elts) )
@@ -215,15 +219,47 @@ $(document).ready(function(){
 
 function contact_tdp_submit_forms(i = 0)
 {
-  $('.form_phonenumbers .sf_admin_flashes').remove();
-  
-  if ( $('.tdp-subobject form').get(i) == undefined ) // the end of the loops
+  $('select[multiple] option').attr('selected',true);
+  if ( i < $('.tdp-subobject form').length )
   {
+    $('.tdp-subobject form').eq(i).find('select[multiple] option').attr('selected',true);
+    $.post($('.tdp-subobject form').eq(i).attr('action'), $('.tdp-subobject form').eq(i).serialize(), function(data){
+      // retrieving corresponding subobject
+      subobject = $('[name="professional[id]"][value='+$(data).find('[name="professional[id]"]').val()+']')
+        .closest('.sf_admin_edit');
+      if ( subobject.length == 0 )
+        subobject = $('.sf_admin_edit.tdp-object-new');
+    
+      // flashes
+      subobject.find('.sf_admin_flashes')
+        .replaceWith($(data).find('.sf_admin_flashes'));
+      setTimeout(function(){
+        $('[name="professional[id]"][value='+$(data).find('[name="professional[id]"]').val()+']')
+          .closest('.sf_admin_edit')
+          .find('.sf_admin_flashes > *').fadeOut('medium',function(){ $(this).remove(); });
+      },6000);
+      
+      // errornous fields
+      if ( !subobject.hasClass('tdp-object-new') || subobject.find('.tdp-organism_id input').val() != '' )
+      $(data).find('.errors').each(function(){
+        subobject.find('.tdp-'+$(this).closest('.sf_admin_form_row').attr('class').replace(/^.*sf_admin_form_field_([\w_]+).*$/g,'$1'))
+          .addClass('ui-state-error').addClass('ui-corner-all')
+          .append($(this));
+      });
+      
+      i++;
+      contact_tdp_submit_forms(i);
+    });
+  }
+  else
+  {
+    $('.form_phonenumbers .sf_admin_flashes').remove();
+  
+    // included forms  
+    $('.tdp-object form form').submit();
+    
     if ( $('.tdp-subobject .errors').length == 0 ) // no error
-    {
-      $('.tdp-object form').submit();
-      return true;
-    }
+      $('.tdp-object #sf_admin_content > form').unbind().submit();
     else // at least one error, stopping the process
     {
       $('.tdp-object .sf_admin_flashes').fadeOut('fast',function(){
@@ -238,45 +274,4 @@ function contact_tdp_submit_forms(i = 0)
       });
     }
   }
-  
-  form = $('.tdp-subobject form').get(i);
-  $.post($(form).attr('action'), $(form).serialize(), function(data){
-    contact_tdp_form_submit_ajax(data);
-    contact_tdp_submit_forms(++i);
-  });
-}
-
-function contact_tdp_form_submit_ajax(data)
-{
-  subobject = $('[name="professional[id]"][value='+$(data).find('[name="professional[id]"]').val()+']')
-    .closest('.sf_admin_edit');
-  
-  if ( subobject.length == 0 )
-    subobject = $('.sf_admin_edit.tdp-object-new');
-  
-  // flashes
-  subobject.find('.sf_admin_flashes')
-    .replaceWith($(data).find('.sf_admin_flashes'));
-  setTimeout(function(){
-    $('[name="professional[id]"][value='+$(data).find('[name="professional[id]"]').val()+']')
-      .closest('.sf_admin_edit')
-      .find('.sf_admin_flashes > *').fadeOut('medium',function(){ $(this).remove(); });
-  },6000);
-  
-  // transition screen
-  $('#transition .close').click();
-  
-  // new subobject and no error
-  if ( $(data).find('.errors').length == 0 && subobject.hasClass('tdp-object-new') )
-  {
-    $('#tdp-content .sf_admin_edit.tdp-object form').submit();
-  }
-  
-  // errornous fields
-  $(data).find('.errors').each(function(){
-    subobject.find('.tdp-'+$(this).closest('.sf_admin_form_row').attr('class').replace(/^.*sf_admin_form_field_([\w_]+).*$/g,'$1'))
-      .addClass('ui-state-error').addClass('ui-corner-all')
-      .append($(this));
-    
-  });
 }

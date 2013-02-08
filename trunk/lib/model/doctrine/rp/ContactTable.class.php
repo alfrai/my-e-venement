@@ -63,7 +63,7 @@ class ContactTable extends PluginContactTable
       ->leftJoin("$alias.Phonenumbers $pn")
       ->leftJoin("$alias.YOBs $y")
       ->andWhere("$alias.confirmed = TRUE");
-
+    
     return $query;
   }
 

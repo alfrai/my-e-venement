@@ -29,9 +29,11 @@ all:
         title: [title, name, firstname]
         new_title: [title, name, firstname]
         lines:
-          Address:
+          Complements:
             show_labels: true
-            fields: [address, organism_category_id, email]
+            fields: [organism_category_id, email]
+          Address:
+            fields: [address]
           City:
             extra_class: vertical
             fields: [postalcode, _cities, city, country, _show_region]
@@ -44,6 +46,9 @@ all:
           Description:
             show_title: true
             fields: [description]
+          Groups:
+            credential: pr-group
+            fields: [groups_list]
         actions:
           new:
             credential: pr-contact-new
@@ -55,7 +60,7 @@ all:
           update:
             credential: pr-contact-edit
             attributes:
-              onclick: "javascript: $('form form').submit(); contact_tdp_submit_forms(); return false;"
+              onclick: "javascript: $('.tdp-object #sf_admin_content > form').submit(); return false;"
             with_id: true
       subobjects:
         Professionals:
@@ -76,6 +81,8 @@ all:
               show_messages: false
               show_title: true
               fields: [description, _organism_url]
+            Groups:
+              fields: [groups_list]
           extra_hidden_fields: [contact_id, organism_id]
 
     new:
