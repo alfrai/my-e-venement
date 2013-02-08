@@ -36,4 +36,11 @@ class OrganismForm extends BaseOrganismForm
     
     parent::configure();
   }    
+  
+  
+  public function saveGroupsList($con = null)
+  {
+    $this->correctGroupsListWithCredentials();
+    parent::saveGroupsList($con);
+  }
 }
