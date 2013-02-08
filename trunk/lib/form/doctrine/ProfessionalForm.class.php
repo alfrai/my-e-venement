@@ -19,4 +19,19 @@ class ProfessionalForm extends BaseProfessionalForm
     );
     parent::configure();
   }
+
+  public function saveGroupsList($con = null)
+  {
+    if ( !sfContext::hasInstance() )
+      return parent::saveGroupsList($con);
+    $user = sfContext::getInstance()->getUser();
+    
+    foreach ( $this->object->Groups as $group )
+    if ( !$user->hasCredential('pr-group-common') && is_null($group->sf_guard_user_id)
+      || $group->sf_guard_user_id != $user->getId() && !is_null($group->sf_guard_user_id) )
+    {
+      $this->values['groups_list'][] = $group->id;
+    }
+    return parent::saveGroupsList($con);
+  }
 }

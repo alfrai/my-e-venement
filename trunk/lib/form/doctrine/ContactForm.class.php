@@ -30,10 +30,18 @@ class ContactForm extends BaseContactForm
       'method_for_query' => 'findOneByName',
     ));
     
-    $this->widgetSchema['groups_list']->setOption(
-      'order_by',
-      array('u.id IS NULL DESC, u.username, name','')
-    );
+    $q = Doctrine::getTable('Group')->createQuery('g');
+    if ( sfContext::hasInstance() )
+    {
+      $q->where('g.sf_guard_user_id = ?',sfContext::getInstance()->getUser()->getId());
+      if ( sfContext::getInstance()->getUser()->hasCredential('pr-group-common') )
+        $q->orWhere('g.sf_guard_user_id IS NULL');
+    }
+    $this->widgetSchema   ['groups_list']
+      ->setOption('order_by', array('u.id IS NULL DESC, u.username, name',''))
+      ->setOption('query', $q);
+    $this->validatorSchema['groups_list']
+      ->setOption('query', $q);
     
     $this->widgetSchema   ['phone_number'] = new sfWidgetFormInputText();
     $this->validatorSchema['phone_number'] = new sfValidatorPass(array('required' => false));
@@ -114,5 +122,20 @@ class ContactForm extends BaseContactForm
     
     unset($this->widgetSchema['emails_list']);
     unset($this->widgetSchema['groups_list']);
+  }
+  
+  public function saveGroupsList($con = null)
+  {
+    if ( !sfContext::hasInstance() )
+      return parent::saveGroupsList($con);
+    $user = sfContext::getInstance()->getUser();
+    
+    foreach ( $this->object->Groups as $group )
+    if ( !$user->hasCredential('pr-group-common') && is_null($group->sf_guard_user_id)
+      || $group->sf_guard_user_id != $user->getId() && !is_null($group->sf_guard_user_id) )
+    {
+      $this->values['groups_list'][] = $group->id;
+    }
+    return parent::saveGroupsList($con);
   }
 }

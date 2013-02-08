@@ -26,7 +26,7 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
     ));
     
     if ( isset($this->widgetSchema['groups_list']) )
-    $this->widgetSchema['groups_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
+    $this->widgetSchema['groups_list']->setOption('renderer_class','liWidgetFormSelectDoubleListJQuery');
     
     $this->resetDates();
   }
