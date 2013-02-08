@@ -480,6 +480,10 @@
         <source>Users</source>
         <target>Utilisateurs</target>
       </trans-unit>
+      <trans-unit>
+        <source>Users list</source>
+        <target>List des utilisateurs</target>
+      </trans-unit>
       <trans-unit id="27">
         <source>Maintenance</source>
         <target>Maintenance</target>
