@@ -76,7 +76,7 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
 
   public function correctGroupsListWithCredentials()
   {
-    if ( !sfContext::hasInstance() )
+    if ( !sfContext::hasInstance() || !$this->object->hasRelation('Groups') )
       return $this;
     $user = sfContext::getInstance()->getUser();
     
