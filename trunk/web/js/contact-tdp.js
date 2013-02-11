@@ -240,7 +240,7 @@ function contact_tdp_submit_forms(i = 0)
       },6000);
       
       // errornous fields
-      if ( !subobject.hasClass('tdp-object-new') || subobject.find('.tdp-organism_id input').val() != '' )
+      if ( !subobject.hasClass('tdp-object-new') || subobject.find('.tdp-organism_id input, .tdp-contact_id input').val() != '' )
       $(data).find('.errors').each(function(){
         subobject.find('.tdp-'+$(this).closest('.sf_admin_form_row').attr('class').replace(/^.*sf_admin_form_field_([\w_]+).*$/g,'$1'))
           .addClass('ui-state-error').addClass('ui-corner-all')
@@ -262,6 +262,7 @@ function contact_tdp_submit_forms(i = 0)
       $('.tdp-object #sf_admin_content > form').unbind().submit();
     else // at least one error, stopping the process
     {
+      $('#transition .close').click();
       $('.tdp-object .sf_admin_flashes').fadeOut('fast',function(){
         $(this).replaceWith(
           $('.tdp-subobject .errors').first()

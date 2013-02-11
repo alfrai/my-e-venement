@@ -25,11 +25,13 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .tdp-widget-header h1 { border: 1px solid silver; border-radius: 4px; }
 #tdp-content #sf_admin_content .tdp-widget-header h1 a { text-decoration: none; }
 #tdp-content #sf_admin_content .tdp-widget-header h1 a:hover { text-decoration: underline; }
+#tdp-content #sf_admin_content .tdp-line.complements label { width: 120px; display: inline-block; }
 #tdp-content #sf_admin_content .tdp-line.city { margin-top: 5px; }
 #tdp-content #sf_admin_content .tdp-line.city span,
 #tdp-content #sf_admin_content .tdp-widget-header span { border-color: silver; }
 #tdp-content #sf_admin_content .tdp-line.city input,
 #tdp-content #sf_admin_content .tdp-widget-header input { width: 8em; padding: 0 3px; border: 0; border-radius: 4px; }
+#tdp-content .tdp-organism #sf_admin_content .tdp-widget-header input { width: 95%; }
 #tdp-content #sf_admin_content .tdp-line.address label { display: inline-block; width: 100px; }
 #tdp-content #sf_admin_content .tdp-line.address .tdp-address label { display: none; }
 #tdp-content #sf_admin_content .tdp-line.address textarea { display: block; margin: 0 70px 0 0; }

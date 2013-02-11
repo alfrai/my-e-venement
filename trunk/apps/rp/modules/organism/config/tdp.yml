@@ -12,13 +12,6 @@ all:
         csv:
           credential: pr-contact-csv
           label: Extract
-        batchMerge:
-          credential: pr-organism-edit
-          label: Merge
-          attributes:
-            onclick: "javascript: form = $('#tdp-content').clone(true); form.find('[name=batch_action]').remove(); $(this).attr('href',$(this).attr('href')+'&'+form.serialize());"
-        duplicates:
-          label: Duplicates
         labels:
           credential: pr-contact-labels
           label: Labels
@@ -31,7 +24,7 @@ all:
         lines:
           Complements:
             show_labels: true
-            fields: [organism_category_id, email]
+            fields: [organism_category_id, email, url]
           Address:
             fields: [address]
           City:
@@ -57,7 +50,6 @@ all:
             attributes:
               onclick: "javascript: $('.tdp-object .sf_admin_action_delete a').click(); return false;"
             with_id: true
-      
           update:
             credential: pr-organism-edit
             attributes:
@@ -65,7 +57,7 @@ all:
             with_id: true
       subobjects:
         Professionals:
-          title: [this]
+          title: [Contact]
           new_title: [contact_id]
           lines:
             line1:

@@ -93,7 +93,7 @@ function phonenumbers_add(data,beforethis)
         $('<div class="sf_admin_flashes ui-widget"></div>').html($(data).find('.notice, .error').addClass('ui-state-highlight').addClass('ui-corner-all'))
       );
       
-      info = $('#content .form_phonenumbers .phonenumber-'+$(data).find(pnid).val()+' .sf_admin_flashes')
+      var info = $('#content .form_phonenumbers .phonenumber-'+$(data).find(pnid).val()+' .sf_admin_flashes')
         .hide().fadeIn('slow',function(){
           setTimeout(function(){ info.fadeOut('slow',function(){info.remove()}); },5000);
         });
