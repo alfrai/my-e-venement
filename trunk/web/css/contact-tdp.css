@@ -23,6 +23,8 @@ body #content { width: auto; }
 #tdp-content .sf_admin_edit { margin-bottom: 10px; }
 #tdp-content #sf_admin_content .tdp-line.city,
 #tdp-content #sf_admin_content .tdp-widget-header h1 { border: 1px solid silver; border-radius: 4px; }
+#tdp-content #sf_admin_content .tdp-widget-header h1 a { text-decoration: none; }
+#tdp-content #sf_admin_content .tdp-widget-header h1 a:hover { text-decoration: underline; }
 #tdp-content #sf_admin_content .tdp-line.city { margin-top: 5px; }
 #tdp-content #sf_admin_content .tdp-line.city span,
 #tdp-content #sf_admin_content .tdp-widget-header span { border-color: silver; }

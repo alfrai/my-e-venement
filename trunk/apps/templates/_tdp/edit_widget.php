@@ -5,7 +5,7 @@
 
 <!-- ROOT OBJECT -->
 <div class="sf_admin_edit ui-widget tdp-object ui-widget-content ui-corner-all tdp-<?php echo $sf_context->getModuleName() ?>">
-<?php include_partial($sf_context->getModuleName().'/flashes') ?>
+<?php include_partial('global/flashes') ?>
 
   <div id="sf_admin_header">
     <?php include_partial($sf_context->getModuleName().'/form_header', array(
@@ -17,7 +17,7 @@
   </div>
 
   <div id="sf_admin_content">
-    <?php include_partial('contact/tdp/edit_object', array(
+    <?php include_partial('global/tdp/edit_object', array(
       'object' => $object,
       'form' => $form,
       'configuration' => $configuration,
@@ -38,7 +38,7 @@
 <?php if ( isset($config['subobjects']) && !$object->isNew() ): ?>
 <?php foreach ( $config['subobjects'] as $link => $subconfig ): ?>
 <?php foreach ( $sf_data->getRaw('object')->$link as $subobject ): ?>
-  <?php include_partial('contact/tdp/edit_subobject',array(
+  <?php include_partial('global/tdp/edit_subobject',array(
     'object' => $subobject,
     'form' => new ProfessionalForm($subobject),
     'configuration' => $configuration,
@@ -52,7 +52,7 @@
   $obj_class = get_class($sf_data->getRaw('object'));
   $subobject->$obj_class = $sf_data->getRaw('object');
   
-  include_partial('contact/tdp/edit_subobject',array(
+  include_partial('global/tdp/edit_subobject',array(
     'object' => $subobject,
     'form' => new ProfessionalForm($subobject),
     'configuration' => $configuration,

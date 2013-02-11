@@ -15,8 +15,21 @@ class organismActions extends autoOrganismActions
 {
   public function postExecute()
   {
-   $this->getContext()->getConfiguration()->changeTemplatesDir($this);
-   return parent::postExecute();
+    $this->addExtraRequirements();
+    $this->getContext()->getConfiguration()->changeTemplatesDir($this);
+    return parent::postExecute();
+  }
+  protected function addExtraRequirements()
+  {
+    if ( sfConfig::get('app_options_design') == 'tdp' )
+    {
+      if ( !isset($this->hasFilters) )
+        $this->hasFilters = $this->getUser()->getAttribute('organism.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+      if ( !isset($this->filters) )
+        $this->filters = $this->configuration->getFilterForm($this->getFilters());
+      if ( $this->getActionName() != 'index' )
+        $this->setTemplate('edit');
+    }
   }
   public function executeGroup(sfWebRequest $request)
   {
@@ -129,16 +142,9 @@ class organismActions extends autoOrganismActions
   }
   public function executeEdit(sfWebRequest $request)
   {
-    $q = Doctrine::getTable('Organism')->createQuery();
-    $q->where('id = ?',$request->getParameter('id'))
-      ->orderBy('c.name, c.firstname, pt.name, p.name');
-    $organisms = $q->execute();
+    $this->executeShow($request);
     
-    $this->organism = $organisms[0];
-    $this->forward404Unless($this->organism);
-    $this->form = $this->configuration->getForm($this->organism);
-    
-    if ( !$this->getUser()->hasCredential('pr-organism-edit') )
+    if ( sfConfig::get('app_options_design') != 'tdp' && !$this->getUser()->hasCredential('pr-organism-edit') )
       $this->setTemplate('show');
   }
   
@@ -193,6 +199,8 @@ class organismActions extends autoOrganismActions
     $table = Doctrine_Core::getTable('Organism');
     $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery()));
 
+    $this->addExtraRequirements();
+    
     $this->pager->init();
     $this->setTemplate('index');
   }

@@ -98,6 +98,7 @@ class contactActions extends autoContactActions
   
   public function postExecute()
   {
+    $this->addExtraRequirements();
     $this->getContext()->getConfiguration()->changeTemplatesDir($this);
     return parent::postExecute();
   }
@@ -107,21 +108,17 @@ class contactActions extends autoContactActions
     $this->contact = Doctrine::getTable('Contact')->findWithTickets($request->getParameter('id'));
     $this->forward404Unless($this->contact);
     $this->form = $this->configuration->getForm($this->contact);
-    
-    $this->addExtraRequirements();
-  }
-  public function executeUpdate(sfWebRequest $request)
-  {
-    parent::executeUpdate($request);
-    $this->addExtraRequirements();
   }
   protected function addExtraRequirements()
   {
     if ( sfConfig::get('app_options_design') == 'tdp' )
     {
-      $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
-      $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      $this->setTemplate('edit');
+      if ( !isset($this->hasFilters) )
+        $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+      if ( !isset($this->filters) )
+        $this->filters = $this->configuration->getFilterForm($this->getFilters());
+      if ( $this->getTemplate() != 'index' )
+        $this->setTemplate('edit');
     }
   }
   public function executeEdit(sfWebRequest $request)
@@ -137,7 +134,6 @@ class contactActions extends autoContactActions
     parent::executeNew($request);
     $this->object = $this->form->getObject();
     $this->form->getWidget('name')->setOption('default',$request->getParameter('name'));
-    $this->addExtraRequirements();
   }
   public function executeCreate(sfWebRequest $request)
   {
@@ -156,13 +152,6 @@ class contactActions extends autoContactActions
       $pn->number = $params['phone_number'];
       $pn->contact_id = $this->contact->id;
       $pn->save();
-    }
-    
-    if ( sfConfig::get('app_options_design') == 'tdp' )
-    {
-      $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
-      $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      $this->setTemplate('edit');
     }
   }
   

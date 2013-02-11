@@ -17,7 +17,7 @@
   <?php if ( count($config['title']) ): ?>
   <div class="tdp-widget-header">
     <h1 class="vertical"><?php foreach ( $config[$object->isNew() ? 'new_title' : 'title'] as $field ): ?>
-      <?php include_partial($sf_context->getModuleName().'/tdp/edit_field',array(
+      <?php include_partial('global/tdp/edit_field',array(
         'field' => $field,
         'object' => $object,
         'form' => $form,
@@ -41,7 +41,7 @@
     <div class="tdp-line <?php echo str_replace(' ','_',strtolower($title)) ?> <?php echo isset($line['extra_class']) ? $line['extra_class'] : '' ?>">
       <?php
         if ( isset($line['show_title']) && $line['show_title'] )
-        include_partial($sf_context->getModuleName().'/tdp/edit_line_title',array(
+        include_partial('global/tdp/edit_line_title',array(
           'line' => $line,
           'title' => $title,
           'config' => $config,
@@ -49,7 +49,7 @@
           'fields' => $fields,
         ))
       ?>
-      <?php include_partial($sf_context->getModuleName().'/tdp/edit_line',array(
+      <?php include_partial('global/tdp/edit_line',array(
         'line' => $line,
         'object' => $object,
         'form' => $form,

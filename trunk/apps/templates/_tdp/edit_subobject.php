@@ -11,7 +11,7 @@
   </div>
   
   <div id="sf_admin_content">
-    <?php include_partial('contact/tdp/edit_object', array(
+    <?php include_partial('global/tdp/edit_object', array(
       'object' => $object,
       'form' => new ProfessionalForm($sf_data->getRaw('object')),
       'configuration' => $configuration,

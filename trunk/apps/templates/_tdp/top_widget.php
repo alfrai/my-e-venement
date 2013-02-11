@@ -1,24 +1,24 @@
 <div id="tdp-top-bar">
 
 <div class="tdp-top-modules tdp-top-widget skew">
-<?php include_partial('contact/tdp/top_widget_modules',array(
+<?php include_partial('global/tdp/top_widget_modules',array(
   'object' => $object,
 )) ?>
 </div>
 <div class="tdp-top-widget vertical">
-<?php include_partial('contact/tdp/top_widget_actions',array(
+<?php include_partial('global/tdp/top_widget_actions',array(
   'object' => $object,
   'config' => $config,
 )) ?>
 </div>
 <div class="tdp-top-widget vertical">
-<?php include_partial('contact/tdp/top_widget_misc',array(
+<?php include_partial('global/tdp/top_widget_misc',array(
   'object' => $object,
   'hasFilters' => $hasFilters,
 )) ?>
 </div>
 <div class="tdp-top-widget vertical">
-<?php include_partial('contact/tdp/top_widget_filters_buttons',array(
+<?php include_partial('global/tdp/top_widget_filters_buttons',array(
   'object' => $object,
   'hasFilters' => $hasFilters,
   'filters' => $filters,

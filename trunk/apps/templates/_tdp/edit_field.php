@@ -43,8 +43,8 @@
     <?php endif ?>
   <?php elseif ( $object->hasColumn($field) ): ?>
     <?php echo $object->$field ?>
-  <?php elseif ( $object->get($field) ): ?>
-    <?php echo $object->get($field) ?>
+  <?php elseif ( $object->hasRelation($field) ): ?>
+    <?php echo link_to($object->get($field), strtolower($field).'/edit?id='.$object->get($field)->id) ?>
   <?php elseif ( $field == 'this' ): ?>
     <?php echo $object ?>
   <?php else: ?>

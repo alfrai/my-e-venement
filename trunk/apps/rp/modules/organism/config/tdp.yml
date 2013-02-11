@@ -4,16 +4,16 @@ all:
     list:
       actions:
         new:
-          credential: pr-contact-new
+          credential: pr-organism-new
         batchDelete:
-          credential: pr-contact-del
+          credential: pr-organism-del
           attributes:
             onclick: "javascript: form = $('#tdp-content').clone(true); form.find('[name=batch_action]').remove(); $(this).attr('href',$(this).attr('href')+'&'+form.serialize());"
         csv:
           credential: pr-contact-csv
           label: Extract
         batchMerge:
-          credential: pr-contact-edit
+          credential: pr-organism-edit
           label: Merge
           attributes:
             onclick: "javascript: form = $('#tdp-content').clone(true); form.find('[name=batch_action]').remove(); $(this).attr('href',$(this).attr('href')+'&'+form.serialize());"
@@ -26,8 +26,8 @@ all:
           label: Geolocalize
     edit:
       object:
-        title: [title, name, firstname]
-        new_title: [title, name, firstname]
+        title: [name]
+        new_title: [name]
         lines:
           Complements:
             show_labels: true
@@ -42,7 +42,7 @@ all:
           More:
             show_labels: true
             extra_class: tdp-vertical
-            fields: [family_contact, npai, YOBs_list, password]
+            fields: [npai]
           Description:
             show_title: true
             fields: [description]
@@ -51,36 +51,37 @@ all:
             fields: [groups_list]
         actions:
           new:
-            credential: pr-contact-new
+            credential: pr-organism-new
           delete:
-            credential: pr-contact-del
+            credential: pr-organism-del
             attributes:
               onclick: "javascript: $('.tdp-object .sf_admin_action_delete a').click(); return false;"
             with_id: true
+      
           update:
-            credential: pr-contact-edit
+            credential: pr-organism-edit
             attributes:
               onclick: "javascript: $('.tdp-object #sf_admin_content > form').submit(); return false;"
             with_id: true
       subobjects:
         Professionals:
-          title: [Organism]
-          new_title: [organism_id]
+          title: [this]
+          new_title: [contact_id]
           lines:
             line1:
-              fields: [_organism_category]
+              fields: [_contact_category]
             line2:
               fields: [professional_type_id, name]
             Phonenumbers:
               show_title: true
-              fields: [contact_number, _organism_phones_list]
+              fields: [contact_number, _contact_phones_list]
             Emails:
               show_title: true
-              fields: [contact_email, _organism_email]
+              fields: [contact_email, _contact_email]
             Correspondence:
               show_messages: false
               show_title: true
-              fields: [description, _organism_url]
+              fields: [description]
             Groups:
               fields: [groups_list]
           extra_hidden_fields: [contact_id, organism_id]

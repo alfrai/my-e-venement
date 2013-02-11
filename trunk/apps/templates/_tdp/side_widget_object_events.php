@@ -2,10 +2,14 @@
     $events = $sort = array();
     $total = array('nb' => 0, 'value' => 0);
     
-    $objects = array($object);
+    $objects = array();
+    if ( $object->hasRelation('Transactions') )
+      $objects[] = $object;
+    
     $config = $sf_data->getRaw('config');
     foreach ( $config['subobjects'] as $subobjects => $conf )
     foreach ( $object->$subobjects as $subobject )
+    if ( $object->hasRelation('Transactions') )
       $objects[] = $subobject;
   ?>
   <ul class="events">
@@ -58,4 +62,7 @@
       </ul>
     </li>
   <?php endforeach ?>
+  <?php if ( count($objects) == 0 ): ?>
+    <li><?php echo __('No result') ?></li>
+  <?php endif ?>
   </ul>

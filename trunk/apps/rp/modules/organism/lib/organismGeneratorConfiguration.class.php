@@ -16,6 +16,6 @@ class organismGeneratorConfiguration extends BaseOrganismGeneratorConfiguration
     
     if ( sfConfig::get('app_options_design',false) )
     require_once sfContext::getInstance()->getConfigCache()
-      ->checkConfig('modules/contact/config/'.sfConfig::get('app_options_design').'.yml',true);
+      ->checkConfig('modules/organism/config/'.sfConfig::get('app_options_design').'.yml',true);
   }
 }
