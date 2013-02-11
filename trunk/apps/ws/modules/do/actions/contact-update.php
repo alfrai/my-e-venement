@@ -91,6 +91,7 @@
     $phonenumber = trim($client['telephone']);
     $c['description'] = 'e-voucher';
     $c['confirmed'] = true;
+    $c['family_contact'] = true;
 
     // to for capitalization of some fields
     if ( is_array($opts = sfConfig::get('app_infos_capitalize',array())) )

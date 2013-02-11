@@ -19,16 +19,16 @@ class PriceForm extends BasePriceForm
       ->leftJoin("m.Location l")
       ->leftJoin("m.PriceManifestations pm")
       ->leftJoin("pm.Price p");
+    $this->validatorSchema['manifestations_list']->setOption('query',$q);
     $this->widgetSchema['manifestations_list']->setOption('query',$q);
     $this->widgetSchema['manifestations_list']->setOption(
       'order_by',
        array('happens_at, e.name','')
     );
+
     $this->widgetSchema['manifestations_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     $this->widgetSchema['users_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
-    
     $this->widgetSchema['workspaces_list']->setOption('expanded','true');
-    
     unset($this->widgetSchema['member_cards_list'], $this->validatorSchema['member_cards_list']);
   }
 }
