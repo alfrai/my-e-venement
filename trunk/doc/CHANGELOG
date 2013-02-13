@@ -1,7 +1,73 @@
+== v2.2 -> v2.3 ==
+Carte d'abonnement:
+- améliorations
+  - amélioration de la structure des données pour éviter les redondances d'informations
+  - amélioration du calcul de la date d'expiration lors d'un choix d'une date fixe
+  - il est désormais possible de restreindre un utilisateur sur le type de cartes d'abo qu'il peut vendre
+- nouveautés
+  - création de la notion de type de carte d'abonnement, pour éviter le paramétrage "en dur"
+  - ajout d'un module de vérification par codebare / numéro de carte de la validité de ces dernières
+  - possibilité d'extraction vers un tableur (MSExcel / Libre Office)
+
+Billetterie:
+- bugs
+  - correction de bugs dans les calculs de valeurs liées aux billets
+  - correction des arrondis dans les montants de TVA, afin que le total soit la somme stricte des arrondis, et non la somme des valeurs réelles
+  - correction d'un bug empêchant l'annulation d'un bon de commande (réservation) lors de la réouverture d'une opération
+  - importantes améliorations dans les processus d'annulation de billets
+- améliorations
+  - amélioration de l'impression des livres comptables
+  - amélioration de l'interface de contrôle des billets par code barre
+  - meilleur support des billets nombreux dans une ligne d'une opération
+  - migration de l'information de duplication du billet originel vers le billet duplicata, évitant ainsi des erreurs sur les dates de valeur des billets
+  - amélioration du support des billets intégrés dans les opérations de billetterie
+- nouveautés
+  - ajout d'un système de calcul des dettes
+  - possibilité de cacher (via CSS) la liste des paiements sur les factures
+  - retrait des dates des critères du journal détaillé dès qu'une manifestation est sélectionnée
+
+Événementiel:
+- bugs
+  - correction de bugs dans les déséquilibres comptables des manifestations
+- améliorations
+  - le paramètre "count_demands" qui était présent dans le fichier apps/event/config/app.yml est désormais déterminé dans config/project.yml
+
+RP:
+- bugs
+  - correction d'un bug sur la pagination des duplicatas
+  - correction d'un bug majeur sur l'ajout de pièces jointes dans les emails (les destinataires disparaîssaient)
+- améliorations
+  - amélioration du support des groupes d'organismes
+  - amélioration du support des contacts professionnels dans les groupes
+  - amélioration de l'extraction vers tableur des contacts professionels lorsque l'on "préfère les données professionnelles"
+- nouveautés
+  - un contact peut maintenant être noté comme "caché" par le système (pour la vente en ligne, afin de créer le contact sans le montrer jusqu'à ce que son paiement soit une preuve de validité)
+  - ajout de l'affichage des régions (dépendant du code postal) françaises dans les contacts
+  - introduction d'une nouvelle génération d'interface (nommée "TDP"), encore en cours de développement (pour tests uniquement)
+
+Vente en ligne:
+- nouveautés
+  - ajout d'un module de vente en ligne directe (sans passer par e-voucher), afin de pouvoir utiliser les cartes d'abonnement en particulier. le module peut être désactivé par une option dans le fichier config/pub/config/app.yml
+  - amélioration du contrôle de la casse pour les contacts créés en ligne
+
+Statistiques:
+- nouveautés
+ - ajout d'un module permettant de suivre la progression des créances spectateurs
+
+Général:
+- bugs
+  - correction d'un bug suite à la mise à jour de Swift_Mailer, concernant les envois d'emails en nombre
+  - correction de la manière dont Symfony utilise les fichiers view.yml (important en particulier pour les exports vers des logiciels tableurs, type MSExcel)
+- améliorations
+  - activation de l'option "se souvenir de moi" lors de l'authentification
+- nouveautés
+  - ajout de deux fichiers de configuration globaux : config/e-venement.yml (non personnalisable) et config/project.yml (qui reprend les variables globales d'e-venement, comme le numéro de version)
+  - support d'IPv6 et ajout d'un logo "IPv6 compliant" pour les serveurs supportant l'IPv6
+
 == v2.1 -> v2.2 ==
 
 Billetterie :
-- Possibilité d'importé l'historique des contacts depuis la v1.x
+- Possibilité d'importer l'historique des contacts depuis la v1.x
 - Limitation de l'affichage des prix en fonction des manifestations choisies
 - Pré-remplissage du champ "nom" lorsqu'on créé un contact depuis une opération
 - Possibilité d'ajouter un logo sur les billets
