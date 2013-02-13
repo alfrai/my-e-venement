@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>%%price%% (by %%user%%)</source>
+        <target>%%price%% (par %%user%%)</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Price name</source>
         <target>Tarif associé</target>
       </trans-unit> 

@@ -4,7 +4,7 @@
     <?php echo $form->renderHiddenFields() ?>
   </div>
   <ul>
-    <li class="dates">
+    <li class="dates" <?php if ( $ledger == 'both' && $form['manifestations']->getValue() ): ?>style="display: none"<?php endif ?>>
       <label for="dates"><?php echo __('Dates:') ?></label>
       <?php echo $form['dates'] ?>
     </li>

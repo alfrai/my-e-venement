@@ -67,6 +67,8 @@
 .manifestations_list .prices .ticket_prices.integrated .name {
   cursor: pointer;
 }
+.manifestations_list .prices .ticket_prices.integrated input[type=text],
+.manifestations_list .prices .ticket_prices.integrated,
 .manifestations_list .prices .ticket_prices.printed input[type=text],
 .manifestations_list .prices .ticket_prices.printed {
   background-color: #ddd;
