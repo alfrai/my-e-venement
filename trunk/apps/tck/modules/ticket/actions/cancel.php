@@ -59,6 +59,11 @@
         $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it is a duplicated ticket... Simply try to cancel the last duplicate of the series",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
+      if ( !is_null($ticket->cancelling) )
+      {
+        $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it is already a cancellation",array('%%i%%' => $ticket->id)));
+        $this->redirect('ticket/pay?id='.$ticket->transaction_id);
+      }
       
       // get back a potential existing transaction
       $transactions = $ticket->Transaction->Translinked;

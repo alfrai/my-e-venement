@@ -116,7 +116,7 @@ class Ticket extends PluginTicket
     if ( $this->Price->member_card_linked
     && ( isset($mods['printed']) || isset($mods['integrated']) )
     && ( $this->printed || $this->integrated )
-    && is_null($this->cancelling) && $this->Duplicatas->count() == 0 )
+    && is_null($this->cancelling) && is_null($this->duplicating) && $this->Duplicatas->count() == 0 )
     {
       $q = Doctrine::getTable('MemberCard')->createQuery('mc')
         ->leftJoin('mc.Contact c')

@@ -1,6 +1,8 @@
 <?php include_partial('assets') ?>
 <?php use_helper('Number') ?>
 
+<?php include_partial('flashes') ?>
+
 <div class="ui-widget-content ui-corner-all sf_admin_edit">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1><?php echo __('Single cash deal') ?></h1>

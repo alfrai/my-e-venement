@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Can't cancel the ticket #%%i%% because it is already a cancellation</source>
+        <target>Impossible d'annuler le billet #%%i%% parce qu'il s'agit déjà d'une annulation</target>
+      </trans-unit> 
+      <trans-unit>
         <source>%%price%% (by %%user%%)</source>
         <target>%%price%% (par %%user%%)</target>
       </trans-unit> 
