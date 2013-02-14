@@ -1,4 +1,6 @@
-<form id="tdp-side-bar" class="tdp-container filters" action="<?php echo url_for($sf_context->getModuleName().'_collection', array('action' => 'filter')) ?>" method="post">
+<div id="tdp-side-bar">
+<?php include_partial('global/list_header') ?>
+<form class="tdp-container filters" action="<?php echo url_for($sf_context->getModuleName().'_collection', array('action' => 'filter')) ?>" method="post">
   <?php echo $filters->renderHiddenFields() ?>
   <div class="tdp-side-widget" id="tdp-side-categories">
     <h2><?php echo __('Categories') ?> <?php if ( $sf_user->hasCredential('admin-org') ) echo link_to('+','organism_category/new') ?></h2>
@@ -13,3 +15,4 @@
     <a href="<?php echo url_for($sf_context->getModuleName().'/batchAddToGroup') ?>" class="batch-add-to group"></a>
   </div>
 </form>
+</div>

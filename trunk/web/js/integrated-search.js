@@ -25,7 +25,7 @@ function list_integrated_search(data)
     .attr('disabled','disabled')
     .attr('style','background-color: white');
   
-  // disabling the extra-actions
+  // disabling extra-actions
   if ( $('#sf_admin_actions_menu .sf_admin_action_group, #sf_admin_actions_menu .sf_admin_action_csv').length > 0 )
   {
     $('#sf_admin_actions_menu .sf_admin_action_group, #sf_admin_actions_menu .sf_admin_action_labels, #sf_admin_actions_menu .sf_admin_action_csv')

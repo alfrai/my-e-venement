@@ -146,6 +146,25 @@ $(document).ready(function(){
   $('#tdp-side-bar input[type=checkbox]').click(function(){
     $('#tdp-update-filters').get(0).blink();
   });
+  {
+    $('#tdp-side-bar #list-integrated-search input[type=text]')
+      .keydown(function(){
+        if ( $(this).closest('#list-integrated-search').find('label').html() == $(this).val() )
+          $(this).val('').removeClass('no-text');
+      })
+      .keyup(function(){
+        if ( '' == $(this).val() )
+        {
+          $(this).val($(this).closest('#list-integrated-search').find('label').html())
+            .attr('title',$(this).val())
+            .addClass('no-text');
+        }
+      })
+      .focusout(function(){
+        $(this).keyup();
+      })
+      .keyup();
+  }
   
   // TOPBAR
   $('#tdp-top-bar .tdp-top-widget > a.group').mouseenter(function(){

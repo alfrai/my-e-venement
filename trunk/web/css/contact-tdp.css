@@ -140,6 +140,10 @@ body #content { width: auto; }
   float: left;
   white-space: nowrap;
 }
+#tdp-side-bar #list-integrated-search { float: none; padding: 1px 3px 1px 1px; margin-top: 0; }
+#tdp-side-bar #list-integrated-search label { display: none; }
+#tdp-side-bar #list-integrated-search input { width: 164px; }
+#tdp-side-bar #list-integrated-search input.no-text { color: silver; font-style: italic; }
 #tdp-side-bar ul { padding-left: 0; }
 #tdp-side-bar li { list-style-type: none; overflow: hidden; padding-right: 10px; }
 #tdp-side-bar li:hover { background-color: rgba(255,255,255,0.6); }
