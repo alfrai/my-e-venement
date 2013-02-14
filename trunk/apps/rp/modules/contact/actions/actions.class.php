@@ -117,7 +117,7 @@ class contactActions extends autoContactActions
         $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
       if ( !isset($this->filters) )
         $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      if ( $this->getTemplate() != 'index' )
+      if ( $this->getActionName() != 'index' )
         $this->setTemplate('edit');
     }
   }
