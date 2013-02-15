@@ -3,3 +3,4 @@
     <span class="ws-gauge"><span class="url"><?php echo cross_app_url_for('event','gauge/state?id='.$ticket->gauge_id) ?></span></span>
     <span class="ws-name"><?php echo $ticket->Gauge->Workspace->name ?></span>
     <?php endif ?>
+  </span>
