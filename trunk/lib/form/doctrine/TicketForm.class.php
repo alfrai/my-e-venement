@@ -10,6 +10,11 @@
  */
 class TicketForm extends BaseTicketForm
 {
+  public function getCSRFToken($secret = '')
+  {
+    return md5(php_uname().session_id().get_class($this));
+  }
+  
   /**
    * @see TraceableForm
    */
