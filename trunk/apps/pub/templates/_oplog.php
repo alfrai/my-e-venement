@@ -23,7 +23,7 @@
 ?>
 <div id="oplog">
 	<?php if ( !$sf_user->hasContact() ): ?>
-	<?php echo link_to(__('Not account yet? Create your own...'),'contact/new') ?>
+	<?php echo link_to(__('No account yet? Create your own...'),'contact/new') ?>
   <?php echo link_to(__('Login'),'login/index') ?>
 	<?php else: ?>
 	<?php echo link_to(__('My account'),'contact/index') ?>

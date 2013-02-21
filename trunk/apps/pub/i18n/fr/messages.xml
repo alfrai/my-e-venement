@@ -350,7 +350,7 @@
 				<target>Vous avez déjà un compte ? Connectez vous...</target>
 			</trans-unit>
 			<trans-unit>
-        <source>Not account yet? Create your own...</source>
+        <source>No account yet? Create your own...</source>
         <target>Pas encore de compte ? Créer le votre...</target>
       </trans-unit>
 			<trans-unit>
