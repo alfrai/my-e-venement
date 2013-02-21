@@ -305,7 +305,13 @@ class manifestationActions extends autoManifestationActions
   
   protected function countTickets($manifestation_id)
   {
-    $q = 'SELECT count(*) AS nb FROM ticket WHERE cancelling IS NULL AND duplicating IS NULL AND manifestation_id = :manifestation_id';
+    $q = '
+      SELECT count(*) AS nb
+      FROM ticket
+      WHERE cancelling IS NULL
+        AND duplicating IS NULL
+        AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)
+        AND manifestation_id = :manifestation_id';
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $pdo->prepare($q);
     $stmt->execute(array('manifestation_id' => $manifestation_id));
