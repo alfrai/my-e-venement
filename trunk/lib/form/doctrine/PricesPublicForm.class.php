@@ -37,38 +37,26 @@ class PricesPublicForm extends BaseFormDoctrine
   {
     $values = $this->getValues();
     
-    if ( $this->object->isNew() )
-      $this->object->save();
-    
+    // cleaning out tickets
     $ids = array();
+    foreach ( $this->object->Tickets as $key => $ticket )
+    if ( $ticket->gauge_id == $values['gauge_id'] && $ticket->price_id == $values['price_id'] )
+      unset($this->object->Tickets[$key]);
+    
     for ( $i = 0 ; $i < $values['quantity'] ; $i++ )
     {
       $ticket = new Ticket;
       $ticket->price_id = $values['price_id'];
       $ticket->gauge_id = $values['gauge_id'];
-      $ticket->Transaction = $this->object;
-      $ticket->save();
+      $this->object->Tickets[] = $ticket;
     }
     
-    return $this->object;
+    return $this->object->save();
   }
   
   public function getModelName()
   {
     return 'Transaction';
-  }
-  
-  public function updateObject($values = NULL)
-  {
-    if ( isset($values['id']) )
-      //$this->object = Doctrine::getTable('Transaction')->createQuery('t')
-      $this->object = Doctrine_Query::create()->from('Transaction t')
-        ->andWhere('t.id = ?',$values['id'])
-        ->fetchOne();
-    else
-      $this->object = new Transaction;
-    
-    return $this;
   }
   
   public function configure()

@@ -107,9 +107,12 @@ class myUser extends liGuardSecurityUser
   
   public function resetTransaction()
   {
-    $contact = $this->getContact();
+    try { $contact = $this->getContact(); }
+    catch ( liOnlineSaleException $e ) { }
+    
     $this->logout();
-    $this->setContact($contact);
+    if ( isset($contact) )
+      $this->setContact($contact);
   }
   public function logout()
   {

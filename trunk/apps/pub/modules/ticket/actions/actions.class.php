@@ -16,22 +16,11 @@ class ticketActions extends sfActions
     $prices = $request->getParameter('price');
     $cpt = 0;
     
-    // cleaning of tickets
-    $q = Doctrine_Query::create()->from('Ticket tck')
-      ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
-      ->andWhereIn('tck.gauge_id',array_keys($prices))
-      ->delete();
-    $q->execute();
-    $this->getUser()->getTransaction()->Tickets->clear();
-    
     foreach ( $prices as $gauge )
     foreach ( $gauge as $price )
     {
       $form = new PricesPublicForm($this->getUser()->getTransaction());
       $price['transaction_id'] = $this->getUser()->getTransaction()->id;
-      
-      if ( $price['quantity'] == 0 )
-        continue;
       
       $form->bind($price);
       if ( $form->isValid() )
