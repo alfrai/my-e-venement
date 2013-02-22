@@ -4,7 +4,7 @@ var liDoubleList =
   {
     form = liDoubleList.get_current_form(id);
     $(form).submit(function(){
-      liDoubleList.submit(form, className);
+      liDoubleList.submit(this, className);
     });
   },
 
@@ -15,13 +15,13 @@ var liDoubleList =
 
   submit: function(form, className)
   {
-    $(form).find('select[multiple] option').attr('selected',true);
+    $(form).find(str = 'select[multiple].'+className+' option').attr('selected',true);
   },
 
   get_current_form: function(el)
   {
-    if ("form" != el.tagName.toLowerCase())
-      return $(el).closest('form').get(0);
-    return el;
+    if ("form" == el.tagName.toLowerCase())
+      return el;
+    return $(el).closest('form').get(0);
   }
 };

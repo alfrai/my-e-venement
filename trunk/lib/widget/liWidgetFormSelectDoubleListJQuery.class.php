@@ -25,6 +25,60 @@
 class liWidgetFormSelectDoubleListJQuery extends sfWidgetFormSelectDoubleList
 {
   /**
+   * Constructor.
+   *
+   * Available options:
+   *
+   * * js_file:            sfPath to JS file managing the double widget
+   * * js_object:          the name of the JS object in the JS file (used by default template)
+  **/
+  public function configure($options = array(), $attributes = array())
+  {
+    $this->addOption('js_file', 'li_double_list');
+    $this->addOption('js_object', 'liDoubleList');
+    parent::configure($options, $attributes);
+    
+    $associated_first = isset($options['associated_first']) ? $options['associated_first'] : true;
+    if ($associated_first)
+    {
+      $associate_image = 'previous.png';
+      $unassociate_image = 'next.png';
+      $float = 'left';
+    }
+    else
+    {
+      $associate_image = 'next.png';
+      $unassociate_image = 'previous.png';
+      $float = 'right';
+    }
+
+    $this->addOption('template', <<<EOF
+<div class="%class%">
+  <div style="float: left">
+    <div style="float: $float">
+      <div class="double_list_label">%label_associated%</div>
+      %associated%
+    </div>
+    <div style="float: $float; margin-top: 2em">
+      %associate%
+      <br />
+      %unassociate%
+    </div>
+    <div style="float: $float">
+      <div class="double_list_label">%label_unassociated%</div>
+      %unassociated%
+    </div>
+  </div>
+  <br style="clear: both" />
+  <script type="text/javascript">
+    %js_object%.init(document.getElementById('%id%'), '%class_select%-selected');
+  </script>
+</div>
+EOF
+);
+  }
+  
+  /**
    * Renders the widget.
    *
    * @param  string $name        The element name
@@ -81,6 +135,7 @@ class liWidgetFormSelectDoubleListJQuery extends sfWidgetFormSelectDoubleList
       '%unassociate%'        => sprintf('<a href="#" onclick="%s">%s</a>', "liDoubleList.move($(this).closest('.double_list').find('.double_list_select-selected'), $(this).closest('.double_list').find('.double_list_select')); return false;", $this->getOption('unassociate')),
       '%associated%'         => $associatedWidget->render($name),
       '%unassociated%'       => $unassociatedWidget->render('unassociated_'.$name),
+      '%js_object%'          => $this->getOption('js_object'),
     ));
   }
 
@@ -91,6 +146,6 @@ class liWidgetFormSelectDoubleListJQuery extends sfWidgetFormSelectDoubleList
    */
   public function getJavascripts()
   {
-    return array('li_double_list');
+    return array($this->getOption('js_file'));
   }
 }
