@@ -2,6 +2,9 @@
    French localisation for jQuery Datepicker.
    Stéphane Nahmani (sholby@sholby.net). */
 (function($) {
+  if ( $.datepicker == undefined )
+    return;
+  
 	$.datepicker.regional['fr'] = {
 		monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin',
 		'Juillet','Août','Septembre','Octobre','Novembre','Décembre'],

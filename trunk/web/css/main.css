@@ -62,7 +62,7 @@ a, a:active, a:visited { color: #000; }
 #logo {
   position: fixed;
   top: 0;
-  left: 620px;
+  left: 640px;
   height: 52px;
   width: 223px;
   background-image: url(../images/menu-e-venement.png);

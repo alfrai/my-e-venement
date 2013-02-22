@@ -68,19 +68,17 @@ all:
           new_title: [organism_id]
           lines:
             line1:
-              fields: [_organism_category]
-            line2:
               fields: [professional_type_id, name]
             Phonenumbers:
-              show_title: true
+              show_labels: true
               fields: [contact_number, _organism_phones_list]
-            Emails:
-              show_title: true
-              fields: [contact_email, _organism_email]
+            Internet:
+              show_labels: true
+              fields: [contact_email, _organism_email, _organism_url]
             Correspondence:
               show_messages: false
               show_title: true
-              fields: [description, _organism_url]
+              fields: [description]
             Groups:
               fields: [groups_list]
           extra_hidden_fields: [contact_id, organism_id]

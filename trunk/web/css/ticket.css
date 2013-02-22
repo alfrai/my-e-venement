@@ -30,6 +30,7 @@
   margin-right: 270px;
   overflow: auto;
 }
+#manifestations li .manif { padding: 5px; }
 #manifestations .manifestations_add span {
   background-color: white;
 }

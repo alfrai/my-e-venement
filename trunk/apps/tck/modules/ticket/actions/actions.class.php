@@ -57,6 +57,10 @@ class ticketActions extends sfActions
   {
     require('sell.php');
   }
+  public function executeTouchscreen(sfWebRequest $request)
+  {
+    require('touchscreen.php');
+  }
   
   public function executeBarcode(sfWebRequest $request)
   {

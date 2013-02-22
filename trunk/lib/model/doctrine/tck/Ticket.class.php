@@ -53,7 +53,7 @@ class Ticket extends PluginTicket
       
       $pm = $q->fetchOne();
       if ( !$pm )
-        throw new liEvenementException('Object not found.');
+        throw new liEvenementException('Associated price not found.');
       
       if ( is_null($this->manifestation_id) )
         $this->manifestation_id = $pm->manifestation_id;

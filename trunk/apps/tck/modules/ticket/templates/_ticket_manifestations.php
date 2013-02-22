@@ -26,10 +26,11 @@
   <div id="force-alert"><?php echo __("Warning: you've got full gauges !") ?></div>
   <div id="gauge-alert">dummy</div>
   <?php endif ?>
-  <form action="<?php echo url_for('ticket/manifs?id='.$transaction->id) ?>" method="post">
+  <form action="<?php echo url_for('ticket/manifs?id='.($transaction instanceof Transaction ? $transaction->id : 0)) ?>" method="post">
     <a href="<?php echo url_for('ticket/gauge') ?>" id="gauge_url"></a>
     <div class="gauge ui-widget-content ui-corner-all"></div>
     <p class="manif_new">
+      <input type="hidden" name="manifs-page" value="<?php echo isset($page) ? $page : 0 ?>" />
       <span class="title"><?php echo __('Manifestations') ?>:</span>
       <span>
         <input type="text" name="manif_new" value="" />

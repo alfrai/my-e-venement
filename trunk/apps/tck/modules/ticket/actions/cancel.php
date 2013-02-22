@@ -83,8 +83,8 @@
       
       // get back a potential cancellation ticket for this ticket_id
       $q = Doctrine::getTable('Ticket')->createQuery('t')
-        ->andWhere('cancelling = ?',$ticket->getOriginal()->id)
-        ->orderBy('id DESC');
+        ->andWhere('t.cancelling = ?',$ticket->getOriginal()->id)
+        ->orderBy('t.id DESC');
       $orig = $q->fetchOne();
       
       // linking a new cancel ticket to this transaction

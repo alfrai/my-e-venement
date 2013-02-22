@@ -24,12 +24,16 @@
 <?php
     sfContext::getInstance()->getConfiguration()->loadHelpers('CrossAppLink');
     $values = $request->getParameter('transaction');
-    $this->transaction = Doctrine::getTable('Transaction')
-      ->findOneById($values['id'] ? $values['id'] : $request->getParameter('id'));
-    
     $mids = array();
-    foreach ( $this->transaction->Tickets as $ticket )
-      $mids[$ticket->Manifestation->id] = $ticket->Manifestation->id;
+    $this->transaction = NULL;
+    
+    if ( isset($values['id']) || $request->getParameter('id') > 0 )
+    {
+      $this->transaction = Doctrine::getTable('Transaction')
+        ->findOneById($values['id'] ? $values['id'] : $request->getParameter('id'));
+      foreach ( $this->transaction->Tickets as $ticket )
+        $mids[$ticket->Manifestation->id] = $ticket->Manifestation->id;
+    }
     
     if ( $request->getParameter('manif_new') )
     {
@@ -71,6 +75,7 @@
     }
     else
     {
+      $config =  sfConfig::get('app_transaction_manifs',array());
       $eids = array();
       $q = Doctrine::getTable('Manifestation')
         ->createQuery('m',true)
@@ -79,6 +84,8 @@
         ->leftJoin('g.Workspace gw')
         ->leftJoin('gw.Order gwo ON gwo.workspace_id = gw.id AND gwo.sf_guard_user_id = '.intval($this->getUser()->getId()))
         ->leftJoin('m.Prices p')
+        ->leftJoin('p.PriceManifestations pm ON p.id = pm.price_id AND m.id = pm.manifestation_id')
+        ->leftJoin('m.PriceManifestations mp ON p.id = mp.price_id AND m.id = mp.manifestation_id')
         ->leftJoin('p.Users u')
         ->leftJoin('p.Workspaces pw')
         ->leftJoin('pw.Gauges pg ON pw.id = pg.workspace_id AND pg.manifestation_id = m.id')
@@ -86,8 +93,17 @@
         ->andWhereNotIn('m.id',$mids)
         ->andWhere('u.id = ?',$this->getUser()->getId())
         ->orderBy('m.happens_at, e.name')
-        ->limit(($config = sfConfig::get('app_transaction_manifs')) ? $config['max_display'] : 10);
-      //if ( !$this->getUser()->hasCredential('tck-unblock') )
+        ->limit(intval($request->getParameter('limit')) > 0 ? intval($request->getParameter('limit')) : (isset($config['max_display']) ? $config['max_display'] : 10));
+
+      $this->page = intval($request->getParameter('page',0));
+      
+      if ( !$this->getUser()->hasCredential('tck-unblock') || $this->page >= 0 )
         $q->andWhere('happens_at >= ?',date('Y-m-d'));
+      elseif ( $this->page < 0 )
+        $q->andWhere('happens_at < ?',date('Y-m-d'))
+          ->orderBy('m.happens_at DESC, e.name');
+
+      $q->offset(($this->page < 0 ? -$this->page - 1 : $this->page)*(isset($config['max_display']) ? $config['max_display'] : 10));
+      
       $this->manifestations_add = $q->execute();
     }

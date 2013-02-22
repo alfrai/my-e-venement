@@ -359,15 +359,14 @@ function ticket_transform_hidden_to_span(all)
 
 function ticket_display_prices()
 {
-  prices = JSON.parse($('.manifestations_list [name="ticket[manifestation_id]"]:checked').parent().parent().find('.manif_prices_list').html());
-  elts = $('.tickets_form .prices_list [name="ticket[price_name]"]');
-  elts.hide();
+  prices = JSON.parse($(search = '#ts-tickets [name="ticket[manifestation_id]"]:checked, #ts-manifestations [name="ticket[manifestation_id]"]:checked, .manifestations_list [name="ticket[manifestation_id]"]:checked').closest('li').find('.manif_prices_list').html());
+  elts = $('.tickets_form .prices_list [name="ticket[price_name]"]').hide().removeClass('show');
   for ( var id in prices )
   {
     elts.each(function(){
-      if ( $(this).is('[value='+prices[id]['price']+']') )
-      if ( prices[id]['gauges'][$('.manifestations_list [name="ticket[manifestation_id]"]:checked').parent().parent().find('[name="ticket[gauge_id]"]').val()] != undefined )
-        $(this).show();
+      if ( $(this).val() == prices[id]['price'] )
+      if ( prices[id]['gauges'][$(search).closest('li').find('[name="ticket[gauge_id]"]').val()] != undefined )
+        $(this).show().addClass('show');
     });
   }
 }
@@ -445,7 +444,7 @@ function ticket_prices()
     form.find('input[name="ticket[manifestation_id]"][value='+manif_id+']').attr('checked','checked');
     form.find('.prices .workspace input[type=hidden]').remove();
     form.find('input[name="ticket[gauge_id]"]').remove();
-    serialized = form.serialize()+'&'+encodeURIComponent('ticket[gauge_id]')+'='+$('#prices .manifestations_list input[type=radio]:checked').parent().parent().find('[name="ticket[gauge_id]"]').val()+'&'+$(this).attr('name')+'='+encodeURIComponent($(this).val());
+    serialized = form.serialize()+'&'+encodeURIComponent('ticket[gauge_id]')+'='+$('#prices .manifestations_list input[type=radio]:checked').closest('li').find('[name="ticket[gauge_id]"]').val()+'&'+$(this).attr('name')+'='+encodeURIComponent($(this).val());
     $.post($('.tickets_form').attr('action'),serialized,function(data){
       if ( $.trim($(data).find('.sf_admin_flashes').html()) != '' )
       {

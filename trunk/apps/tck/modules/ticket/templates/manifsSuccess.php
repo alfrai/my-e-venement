@@ -8,6 +8,7 @@
     <?php include_partial('ticket_manifestations',array(
       'transaction' => $transaction,
       'manifestations_add' => $manifestations_add,
+      'page' => isset($page) ? $page : 0,
     )); ?>
   </div>
 </div>

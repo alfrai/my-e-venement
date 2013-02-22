@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Accounting</source>
+        <target>Comptabilité</target>
+      </trans-unit>
+      <trans-unit>
         <source>Debts report</source>
         <target>État des dettes</target>
       </trans-unit>
@@ -113,8 +117,8 @@
         <target>Billets</target>
       </trans-unit>
       <trans-unit id="11">
-        <source>Cancelations</source>
-        <target>Annulation</target>
+        <source>Cancelling tickets</source>
+        <target>Annuler des billets</target>
       </trans-unit>
       <trans-unit id="12">
         <source>Deposit</source>
@@ -331,6 +335,10 @@
       <trans-unit>
         <source>New transaction</source>
         <target>Nouvelle opération</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New transaction (touchscreens)</source>
+        <target>Nouvelle opération (tactile)</target>
       </trans-unit>
       <trans-unit>
         <source>Respawn a transaction</source>

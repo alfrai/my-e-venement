@@ -289,6 +289,10 @@
         <target>Courriel de l'org.</target>
       </trans-unit>
       <trans-unit>
+        <source>Website</source>
+        <target>Site Internet</target>
+      </trans-unit>
+      <trans-unit>
         <source>Contact's email</source>
         <target>Courriel personnel</target>
       </trans-unit>

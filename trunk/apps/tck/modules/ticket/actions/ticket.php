@@ -33,7 +33,7 @@
     
     if ( !$tid )
       $this->redirect('ticket/sell');
-    
+
     unset($values['prices']);
 
     $ticket = new Ticket();
@@ -44,8 +44,7 @@
     {
       $this->form->bind($values);
       
-      try {
-      if ( $this->form->isValid() )
+      try { if ( $this->form->isValid() )
       {
         $this->tickets = $this->form->save();
         if ( count($this->tickets) != intval($values['nb']) && intval($values['nb']) >= 0 )
@@ -55,8 +54,7 @@
         }
         $this->form->setWidget('contact_id', new sfWidgetFormInputHidden());
         $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $this->tickets)));
-      }
-      }
+      }}
       catch ( liSeatingException $e )
       {
         $this->error = $e->getMessage();

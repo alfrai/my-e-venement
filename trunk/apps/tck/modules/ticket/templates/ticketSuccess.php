@@ -7,7 +7,6 @@
     <?php echo $form->renderHiddenFields(); $cpt = 0; ?>
     <ul>
     <?php foreach ( $manifestations as $manif ): ?>
-    <?php $gauge_id = $manif->Tickets[0]->gauge_id ?>
       <li class="manif"><?php echo include_partial('ticket_manifestation',array(
         'active' => true,
         'manif' => $manif,
