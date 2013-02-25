@@ -82,3 +82,19 @@
 .logo-marketing {
   margin-left: -15px;
 }
+
+iframe#about {
+  width: 302px;
+  height: 477px;
+  cursor: default;
+  position: fixed;
+  overflow: hidden;
+  background-color: white;
+  top: 60px;
+  border-radius: 5px;
+  padding: 0 10px 10px 10px;
+  border: 1px solid silver;
+  z-index: 1000;
+  left: 50%;
+  margin-left: -151px;
+}

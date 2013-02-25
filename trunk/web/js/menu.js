@@ -60,8 +60,9 @@ $(document).ready(function(){
   });
   
   $('#menu .fancybox').click(function(){
-    $('<iframe src="'+$(this).attr('href')+'" id="about"></iframe>')
-      .hide().appendTo('body').fadeIn('slow');
+    if ( $('#about').length == 0 )
+      $('<iframe src="'+$(this).attr('href')+'" id="about"></iframe>').hide().appendTo('body');
+    $('#about').fadeIn('slow');
     return false;
   });
   about_show_contributors();

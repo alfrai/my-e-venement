@@ -29,7 +29,7 @@
   cursor: default;
 }
 #menu .second li a:last-child { margin-bottom: 3px; }
-#menu .second li:hover > a,
+#menu .second li.onit > a,
 #menu li.show {
   background-color: silver;
   color: #414141;
