@@ -7,51 +7,158 @@ $(document).ready(function(){
   // doing a short effect on page unload
   $('a[href]:not([href^="#"]):not([target="_blank"]):not([href^="mailto:"]').click(window_transition);
   $('form:not([target=_blank]').submit(window_transition);
-  $('#transition .close').click(function(){ $('#transition').fadeOut('medium'); });
+  $('#transition .close').click(function(){ $('#transition, #about').fadeOut('medium'); $('#menu li').removeClass('show'); });
   
   // changing menu
   $('#menu > li > span').mouseenter(function(){
     if ( $('#menu li.show').length > 0 && !$(this).parent().hasClass('show') )
-      $(this).click();
+      $(this).click().focus();
   });
   // clicking everywhere but a menu
   $('body').click(function(){
     if ( $('#menu li:hover').length == 0 )
       $('#menu li').removeClass('show');
   });
-  // clicking to any menu
+  // clicking on any menu
   $('#menu > li').click(function(){
-    show = !$(this).hasClass('show');
+    addShow = !$(this).hasClass('show');
+    
     $('#menu li').removeClass('show');
-    if ( show )
-      $(this).addClass('show');
+    $('#menu li .onit').removeClass('onit');
+    $('#menu li .onsub').removeClass('onsub');
+    
+    if ( addShow )
+      $(this).addClass('show').focus();
   });
-  // clicking to a submenu
+  // clicking on any submenu
   $('#menu .second > li > a, #menu .third > li > a').click(function(){
     $('#menu .show').removeClass('show');
   });
   // subsubmenu
-  $('#menu .second a').mouseenter(function(){
-    if ( $(this).parent().find('.third').length > 0 )
-      $(this).parent().addClass('onit');
+  $('#menu .second > > a').mouseenter(function(){
+    $('#menu .onit').removeClass('onit');
+    $('#menu .onsub').removeClass('onsub');
+    $(this).focus().parent().addClass('onit');
   })
   .mouseleave(function(){
     if ( $(this).parent().find('.third').length > 0 )
       $(this).parent().removeClass('onit');
   });
   $('#menu .third').mouseenter(function(){
-    $(this).parent().addClass('onsub');
+    $(this).focus().closest('li').addClass('onsub');
   })
   .mouseleave(function(){
-    $(this).parent().removeClass('onsub');
+    $('#menu .onit').removeClass('onit');
+    $('#menu .onsub').removeClass('onsub');
+  });
+  $('#menu .third a').mouseenter(function(){
+    $('#menu .third .onit').removeClass('onit');
+    $(this).focus().closest('li').addClass('onit');
+  })
+  .mouseleave(function(){
+    $('#menu .third .onit').removeClass('onit');
   });
   
-  $('#menu .fancybox').fancybox({
-    width:  320,
-    height: 630,
-    onComplete: function(){ about_show_contributors() },
+  $('#menu .fancybox').click(function(){
+    $('<iframe src="'+$(this).attr('href')+'" id="about"></iframe>')
+      .hide().appendTo('body').fadeIn('slow');
+    return false;
   });
   about_show_contributors();
+  
+  $(document).keypress(function(e){
+    switch ( e.keyCode ) {
+    case 27:
+      $('#transition .close').click();
+      break;
+    case 39:
+    case 37:
+      if ( $('#menu > .show').length > 0 )
+      {
+        var lis = $('#menu > li');
+        var j = e.keyCode == 37 ? -1 : 1;
+        
+        // expanding a submenu
+        if ( $('#menu .onit .third').length > 0 )
+        {
+          if ( e.keyCode == 39 )
+          {
+            $('#menu .onit .third a:first').mouseenter();
+            return false;
+          }
+          else
+          {
+            $('#menu .onsub > a').mouseenter();
+            return false;
+          }
+        }
+        
+        for ( i = 0 ; i < lis.length ; i++ )
+        if ( lis.eq(i).is('.show') )
+        {
+          var k = i + j;
+          if ( k < 0 )
+            k = lis.length - 1;
+          else if ( k >= lis.length )
+            k = 0;
+          
+          lis.eq(k).click().focus();
+          break;
+        }
+        return false;
+      }
+      break;
+    case 38:
+    case 40:
+      if ( $('#menu > .show').length > 0 )
+      {
+        var j = e.keyCode == 38 ? -1 : 1;
+        
+        // expanding a submenu
+        if ( $('#menu .onsub .third .onit').length > 0 )
+        {
+          lis = $('#menu .onsub .third li');
+          for ( i = 0 ; i < lis.length ; i++ )
+          if ( lis.eq(i).is('.onit') )
+          {
+            var k = i + j;
+            if ( k < 0 )
+              k = lis.length - 1;
+            else if ( k >= lis.length )
+              k = 0;
+            
+            lis.eq(k).find('a').mouseenter();
+            break;
+          }
+          return false;
+        }
+        
+        if ( $('#menu > .show .onit').length == 0 )
+          $('#menu > .show .second > li:first-child > a').mouseenter();
+        else
+        {
+          lis = $('#menu > .show .second > li');
+          
+          for ( i = 0 ; i < lis.length ; i++ )
+          if ( lis.eq(i).is('.onit') )
+          {
+            var k = i + j;
+            if ( k < 0 )
+              k = lis.length - 1;
+            else if ( k > lis.length - 1 )
+              k = 0;
+            
+            lis.eq(k).find('> a').mouseenter();
+            break;
+          }
+        }
+        return false;
+      }
+      break;
+    default:
+      break;
+    } 
+  });
 });
 
 
