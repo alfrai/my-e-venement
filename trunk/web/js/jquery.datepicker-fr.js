@@ -2,7 +2,7 @@
    French localisation for jQuery Datepicker.
    Stéphane Nahmani (sholby@sholby.net). */
 (function($) {
-  if ( $.datepicker == undefined )
+  if ( $.datepicker === undefined )
     return;
   
 	$.datepicker.regional['fr'] = {

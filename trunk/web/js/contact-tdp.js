@@ -130,6 +130,17 @@ $(document).ready(function(){
     return false;
   });
   
+  // CONTENT: NEW FUNCTION FOR A CONTACT
+  $('.tdp-subobject.tdp-object-new .tdp-widget-header input[type=text]').each(function(){
+    $(this).focusin(function(){
+      if ( $(this).val() == $(this).closest('span').attr('title')+'...' )
+        $(this).val('');
+    }).focusout(function(){
+      if ( $(this).val() == '' )
+        $(this).val($(this).closest('span').attr('title')+'...');
+    }).focusout();
+  });
+  
   // FILTERS
   $('#tdp-update-filters').get(0).blink = function(){
     $(this).addClass('blink');
@@ -238,17 +249,24 @@ $(document).ready(function(){
 
 function contact_tdp_submit_forms(i = 0)
 {
-  $('select[multiple] option').attr('selected',true);
   if ( i < $('.tdp-subobject form').length )
   {
     $('.tdp-subobject form').eq(i).find('select[multiple] option').attr('selected',true);
-    $.post($('.tdp-subobject form').eq(i).attr('action'), $('.tdp-subobject form').eq(i).serialize(), function(data){
+    
+    alert($.jquery);
+    var request = $.ajax({
+      url: $('.tdp-subobject form').eq(i).attr('action'),
+      type: 'POST',
+      data: $('.tdp-subobject form').eq(i).serialize()
+    });
+    
+    request.done(function(data) {
       // retrieving corresponding subobject
       subobject = $('[name="professional[id]"][value='+$(data).find('[name="professional[id]"]').val()+']')
         .closest('.sf_admin_edit');
       if ( subobject.length == 0 )
         subobject = $('.sf_admin_edit.tdp-object-new');
-    
+      
       // flashes
       subobject.find('.sf_admin_flashes')
         .replaceWith($(data).find('.sf_admin_flashes'));
@@ -266,6 +284,11 @@ function contact_tdp_submit_forms(i = 0)
           .append($(this));
       });
       
+      i++;
+      contact_tdp_submit_forms(i);
+    });
+    
+    request.fail(function(){
       i++;
       contact_tdp_submit_forms(i);
     });
