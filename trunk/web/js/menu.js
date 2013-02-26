@@ -72,7 +72,7 @@ $(document).ready(function(){
     case 27:
       $('#transition .close').click();
       break;
-    case 39:
+    case 39: /* left-right */
     case 37:
       if ( $('#menu > .show').length > 0 )
       {
@@ -109,11 +109,12 @@ $(document).ready(function(){
         return false;
       }
       break;
-    case 38:
+    case 38: /* top-down */
     case 40:
       if ( $('#menu > .show').length > 0 )
       {
         var j = e.keyCode == 38 ? -1 : 1;
+        j = j * (e.shiftKey ? 2 : 1);
         
         // expanding a submenu
         if ( $('#menu .onsub .third .onit').length > 0 )
@@ -127,6 +128,9 @@ $(document).ready(function(){
               k = lis.length - 1;
             else if ( k >= lis.length )
               k = 0;
+            
+            if ( lis.eq(k).find('a').length == 0 )
+              k += j;
             
             lis.eq(k).find('a').mouseenter();
             break;
@@ -148,6 +152,9 @@ $(document).ready(function(){
               k = lis.length - 1;
             else if ( k > lis.length - 1 )
               k = 0;
+            
+            if ( lis.eq(k).find('a').length == 0 )
+              k += j;
             
             lis.eq(k).find('> a').mouseenter();
             break;
