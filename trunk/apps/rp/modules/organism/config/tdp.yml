@@ -61,14 +61,12 @@ all:
           new_title: [contact_id]
           lines:
             line1:
-              fields: [_contact_category]
-            line2:
               fields: [professional_type_id, name]
             Phonenumbers:
-              show_title: true
+              show_labels: true
               fields: [contact_number, _contact_phones_list]
-            Emails:
-              show_title: true
+            Internet:
+              show_labels: true
               fields: [contact_email, _contact_email]
             Correspondence:
               show_messages: false
@@ -76,6 +74,8 @@ all:
               fields: [description]
             Groups:
               fields: [groups_list]
+            contact:
+              fields: [_contact_category]
           extra_hidden_fields: [contact_id, organism_id]
       side_properties:
         Ticketting:
@@ -89,6 +89,7 @@ all:
           partial: global/tdp/side_widget_object_emails
 
     fields:
+      contact_id: { label: Contact }
       organism_id: { label: Organism }
       professional_type_id: { label: Professional type }
       description: { label: Keywords }

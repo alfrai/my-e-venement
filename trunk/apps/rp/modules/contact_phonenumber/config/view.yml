@@ -1,5 +1,6 @@
 default:
   javascripts: [jquery,menu]
+  layout: nude
 
 newSuccess:
   stylesheets: [view]

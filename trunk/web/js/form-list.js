@@ -53,6 +53,8 @@ function form_list_actions(widget)
     
     // post request
     $.post($(this).attr('action'),$(this).serialize(),function(data){
+      data = $.parseHTML(data);
+      
       var object_id = $(data).find('form').attr('action').match(/\/(\d+)$/)[1];
       var input = $('.sf_admin_form .sf_admin_form_list.ajax .object-'+object_id+' input[type=text]');
       var form = input.closest('form');
@@ -85,7 +87,7 @@ function form_list_pager(widget)
   $('#sf_admin_pager .button a').unbind().click(function(){
     elt = $(this).closest('.sf_admin_form_list');
     $.get($(this).attr('href'),function(data){
-      elt.html($(data).find('.sf_admin_list'));
+      elt.html($(.parseHTML(data)).find('.sf_admin_list'));
       form_list_new(widget);
       form_list_actions(widget);
       form_list_more(widget);

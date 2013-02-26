@@ -269,5 +269,6 @@ a:not([href]) { color: gray; }
 #tdp-content .sf_admin_list { margin: 0; font-size: 85%; }
 #tdp-content .sf_admin_list table tbody tr.sf_admin_row td { padding: 0px 4px; }
 
+#tdp-content.list .sf_admin_actions,
 #tdp-content .sf_admin_edit .sf_admin_actions_block { display: none; }
 

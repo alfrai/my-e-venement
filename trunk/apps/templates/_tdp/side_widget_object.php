@@ -1,5 +1,5 @@
 <?php use_helper('Number') ?>
-<div id="tdp-side-bar" class="tdp-container object">
+<div id="tdp-side-bar" class="tdp-container object ui-widget-content ui-corner-all">
   <?php foreach ( $config['side_properties'] as $name => $widget ): ?>
   <?php if ( $sf_user->hasCredential($widget['credential']) ): ?>
   <div class="tdp-side-widget" id="tdp-side-<?php strtolower($name) ?>">

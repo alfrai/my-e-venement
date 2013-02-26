@@ -76,6 +76,8 @@ function contact_ajax_form(id, add, hide)
     url = $(this).attr('action');
     $(this).find('.sf_admin_form_field_groups_list select[name="professional[groups_list][]"] option').attr('selected','selected');
     $.post(url,$(this).serialize(),function(data){
+      data = $.parseHTML(data);
+      
       if ( add )
       {
         $('#more #professional-new').toggle();
@@ -119,7 +121,7 @@ function contact_load_professionals(i)
   if ( professionals[i] )
   {
     $.get(professionals[i],function(data){
-      $('#more #professional-'+i).html( $(data).find('form') );
+      $('#more #professional-'+i).html( $($.parseHTML(data)).find('form') );
       contact_ajax_form('#more #professional-'+i);
       contact_load_professionals(i+1);
       if ( typeof(contact_disable_inputs) == 'function' )
@@ -139,7 +141,7 @@ $(document).ready(function(){
   // new professional
   if ( typeof(professional_new) != "undefined" )
   $.get(professional_new,function(data){
-    $('#more #professional-new').html( $(data).find('form') );
+    $('#more #professional-new').html( $($.parseHTML(data)).find('form') );
     $('#professional-new .sf_admin_form_field_contact_id').hide();
     contact_ajax_form('#more #professional-new',true);
     $('#more #professional-new input[name="professional[contact_id]"]').val($('#contact_id').val());

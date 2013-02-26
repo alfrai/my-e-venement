@@ -8,6 +8,8 @@ $(document).ready(function(){
 
 function manifestation_list_loaded(data)
 {
+  data = $.parseHTML(data);
+  
   $('#more .manifestation_list').html($(data).find(' .sf_admin_list'));
   $('#more .manifestation_list tfoot a[href]').click(function(){
     $.get($(this).attr('href'),manifestation_list_loaded);
@@ -20,6 +22,8 @@ function manifestation_new_clicked()
   form = $('.sf_admin_form form:first');
   anchor = $(this);
   $.post(form.attr('action'),form.serialize(),function(data){
+    data = $.parseHTML(data);
+    
     if ( $(data).find('.error').length > 0 )
     {
       // on event update error

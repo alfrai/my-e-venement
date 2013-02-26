@@ -5,6 +5,8 @@
   
   function get_member_card_index(data)
   {
+    data = $.parseHTML(data);
+    
     if ( $('#member-cards .list > table').length > 0 )
       $('#member-cards .list > table').replaceWith($(data).find('.sf_admin_list > table'));
     else

@@ -177,6 +177,7 @@
       $('form.EntryElement').unbind().submit(function(){
         var form = this;
         $.post($(this).attr('action'),$(this).serialize(),function(data){
+          data = $.parseHTML(data);
           $('#transition .close').click();
           
           $(form).find('input[name="entry_element[second_choice]"]:checked').length > 0
@@ -240,6 +241,7 @@
     {
       var form = this;
       $.post($(this).attr('action'),$(this).serialize(),function(data){
+        data = $.parseHTML(data);
         $('#transition .close').click();
         
         f = $(data).find('form');
@@ -278,7 +280,7 @@
         var curclass = /manifestation-\d+$/.exec($(this).attr('class'));
         
         $.get('<?php echo url_for('event/gauge') ?>?manifestation_id='+/\d+$/.exec(curclass),function(data){
-          gauge = $(data).find('.gauge');
+          gauge = $($.parseHTML(data)).find('.gauge');
           $('.count.'+gauge.attr('id')).append(gauge);
         });
       });

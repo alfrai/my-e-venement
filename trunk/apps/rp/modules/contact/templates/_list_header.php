@@ -44,7 +44,7 @@
         $('#sf_admin_filter select[name="contact_filters[groups_list][]"] option[value="'+$(this).val()+'"]').attr('selected','selected');
       });
       $.post($('#sf_admin_filter form').attr('action'),$('#sf_admin_filter form').serialize(),function(data){
-        $('.sf_admin_list').replaceWith($(data).find('.sf_admin_list'));
+        $('.sf_admin_list').replaceWith($($.parseHTML(data)).find('.sf_admin_list'));
       });
     },1000);
   }

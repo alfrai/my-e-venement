@@ -31,7 +31,7 @@ function ticket_lauchpad(anchors)
   }
   
   $.get($(a).attr('href'),function(data){
-    $('#'+$(data).find('form').parent().attr('id')).html($(data).find('form').parent().html());
+    $('#'+$($.parseHTML(data)).find('form').parent().attr('id')).html($($.parseHTML(data)).find('form').parent().html());
     return ticket_lauchpad(anchors);
   });
 }
@@ -47,7 +47,7 @@ function ticket_events()
     {
       $.get($(this).attr('href'),function(data){
         $('#contact #micro-show').find('#sf_fieldset_none, #sf_fieldset_address').remove();
-        $(data).find('#sf_fieldset_none, #sf_fieldset_address').appendTo('#contact #micro-show');
+        $($.parseHTML(data)).find('#sf_fieldset_none, #sf_fieldset_address').appendTo('#contact #micro-show');
         for ( i = 0 ; i < 3 ; i++ )
           $('#contact #micro-show #sf_fieldset_address').find('.sf_admin_form_row:first-child').remove();
       });
@@ -71,7 +71,7 @@ function ticket_events()
   
   $('#contact form').unbind().submit(function(){
     $.post($(this).attr('action'),$(this).serialize(),function(data){
-      $('#contact').html($(data).find('#contact').html());
+      $('#contact').html($($.parseHTML(data)).find('#contact').html());
       ticket_events();
     });
     return false;
@@ -80,7 +80,7 @@ function ticket_events()
   // delete contact link
   $('#contact .delete-contact').unbind().click(function(){
     $.post($('#contact form').attr('action'),$('#contact form').serialize()+'&delete-contact=yes',function(data){
-      $('#contact').html($(data).find('#contact').html());
+      $('#contact').html($($.parseHTML(data)).find('#contact').html());
       ticket_events();
     });
     return false;
@@ -119,7 +119,7 @@ function ticket_events()
     $.get($('#manifestations form').attr('action')+'?manif_new='+manifs,function(data){
       // take the list and add it in the GUI
       $('#manifestations .manifestations_add')
-        .html($(data).find('#manifestations .manifestations_add').html())
+        .html($($.parseHTML(data)).find('#manifestations .manifestations_add').html())
         .slideDown();
       ticket_activate_manifs_gauge();
       ticket_manif_new_events();
@@ -223,7 +223,7 @@ function ticket_get_gauge(manif_id, gauge_elt, force)
   {
     $.get($('#gauge_url').attr('href')+'?id='+manif_id,function(data){
       // display
-      gauge_elt.html($(data).find('.gauge').html());
+      gauge_elt.html($($.parseHTML(data)).find('.gauge').html());
       
       // alert
       if ( gauge_elt.find('.free .nb').html() < 0 )
@@ -446,21 +446,21 @@ function ticket_prices()
     form.find('input[name="ticket[gauge_id]"]').remove();
     serialized = form.serialize()+'&'+encodeURIComponent('ticket[gauge_id]')+'='+$('#prices .manifestations_list input[type=radio]:checked').closest('li').find('[name="ticket[gauge_id]"]').val()+'&'+$(this).attr('name')+'='+encodeURIComponent($(this).val());
     $.post($('.tickets_form').attr('action'),serialized,function(data){
-      if ( $.trim($(data).find('.sf_admin_flashes').html()) != '' )
+      if ( $.trim($($.parseHTML(data)).find('.sf_admin_flashes').html()) != '' )
       {
-        $('.sf_admin_flashes').replaceWith($(data).find('.sf_admin_flashes'));
+        $('.sf_admin_flashes').replaceWith($($.parseHTML(data)).find('.sf_admin_flashes'));
         setTimeout(function(){
           $('.sf_admin_flashes > *').fadeOut();
         },2500);
       }
       
       // if it is a seating plan which is displaid
-      if ( $(data).find('#seating-plan').length > 0 )
+      if ( $($.parseHTML(data)).find('#seating-plan').length > 0 )
       {
         // appearing
         $('#transition').show();
         $('#seating-plan').remove();
-        $('#prices').prepend($(data).find('#seating-plan'));
+        $('#prices').prepend($($.parseHTML(data)).find('#seating-plan'));
         $('#seating-plan input:first').focus();
         $('#seating-plan .reset').click(function(){
           $('#transition').hide();
@@ -493,14 +493,14 @@ function ticket_prices()
       // add the content
       $('#prices .manifestations_list input:checked').parent().parent().find('.prices')
         .html(
-          $(data).find('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+
+          $($.parseHTML(data)).find('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+
             $('#prices .manifestations_list input:checked').val()
           +']')
           .parent().parent().find('.prices').html()
         );
       $('#prices .manifestations_list input[type=radio]:checked').parent().parent().find('.total')
         .html(
-          $(data).find('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+
+          $($.parseHTML(data)).find('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+
             $('#prices .manifestations_list input:checked').val()
           +']')
           .parent().parent().find('.total').html()

@@ -34,11 +34,11 @@
 <div class="sf_admin_form_row">
 <!--<label><?php echo __('Phone numbers') ?></label>-->
 <ul class="form_phonenumbers">
-  <script type="text/javascript">
+  <script type="text/javascript"><!--
     <?php foreach ( $phonenumbers as $number ): ?>
     phonenumbers.push('<?php echo url_for(($form->getObject() instanceof Organism ? 'organism' : 'contact').'_phonenumber/edit?id='.$number->id) ?>');
     <?php endforeach ?>
     phonenumbers.push('<?php echo url_for(($form->getObject() instanceof Organism ? 'organism' : 'contact').'_phonenumber/new') ?>');
-  </script>
+  --></script>
 </ul>
 </div>

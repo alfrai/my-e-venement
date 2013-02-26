@@ -1,4 +1,4 @@
-<div id="tdp-top-bar">
+<div id="tdp-top-bar" class="ui-widget-content ui-corner-all">
 
 <div class="tdp-top-modules tdp-top-widget skew">
 <?php include_partial('global/tdp/top_widget_modules',array(

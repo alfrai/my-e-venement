@@ -14,7 +14,7 @@ function list_scroll()
     
     $.get($(this).attr('href'),function(data){
       $('#transition .close').click();
-      $('.sf_admin_list > table > tbody').append($(data).find('.sf_admin_list > table > tbody tr.sf_admin_row')
+      $('.sf_admin_list > table > tbody').append($($.parseHTML(data)).find('.sf_admin_list > table > tbody tr.sf_admin_row')
         .mouseenter(function(){
           $(this).addClass('ui-state-hover');
         })
@@ -22,7 +22,7 @@ function list_scroll()
           $(this).removeClass('ui-state-hover');
         }));
       $('#sf_admin_pager')
-        .replaceWith($(data).find('#sf_admin_pager'));
+        .replaceWith($($.parseHTML(data)).find('#sf_admin_pager'));
       list_add_actions_titles();
       list_scroll();
       
@@ -51,10 +51,10 @@ function list_edit()
     id = $(this).closest('.sf_admin_row').find('[name="ids[]"]').val();
     
     $(this).load(window.location+'/'+id+'/getSpecializedForm?field='+fieldname+' #nothing',function(data){
-      if ( $(data).find('.specialized-form input[type=text]').length > 0 )
+      if ( $($.parseHTML(data)).find('.specialized-form input[type=text]').length > 0 )
       {
         width = $(this).innerWidth()-13+'px';
-        $(this).html($(data).find('.specialized-form'));
+        $(this).html($($.parseHTML(data)).find('.specialized-form'));
         $(this).find('input[type=text]:first').css('width',width);
         $(this).find('input[type=text]:first').each(function(){ if(this.value == this.defaultValue) this.select(); });
         $(this).find('input[type=text]:first').focus();

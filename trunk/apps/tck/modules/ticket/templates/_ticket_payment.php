@@ -1,6 +1,8 @@
 <script type="text/javascript">
   function ticket_payment_form(data)
   {
+    data = $.parseHTML(data);
+    
     // adding the form
     $(data).find('.sf_admin_form form').prependTo('#payment');
     $('#payment form #payment_transaction_id').val('<?php echo $transaction->id ?>');
@@ -69,6 +71,8 @@
   }
   function ticket_payment_refresh(data,add)
   {
+    data = $.parseHTML(data);
+    
     $('#payment .sf_admin_list').remove();
     $(data).find('.sf_admin_list')
       .appendTo('#payment')

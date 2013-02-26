@@ -34,6 +34,7 @@
   $(document).ready(function(){
     $('#member_cards li a').each(function(){
       $.get($(this).attr('href'),function(data){
+        data = $.parseHTML(data);
         mcid = $(data).find('#id').html();
         $('#member_cards .mc-'+mcid).html($(data).find('#sf_fieldset_none'));
       });

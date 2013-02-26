@@ -30,7 +30,7 @@
       </trans-unit>
       <trans-unit>
         <source>Direct email address</source>
-        <target>Courriel direct</target>
+        <target>@ direct</target>
       </trans-unit>
       <trans-unit>
         <source>Correspondence</source>
@@ -286,7 +286,7 @@
       </trans-unit>
       <trans-unit>
         <source>Organism's email</source>
-        <target>Courriel de l'org.</target>
+        <target>@ de l'orga.</target>
       </trans-unit>
       <trans-unit>
         <source>Website</source>

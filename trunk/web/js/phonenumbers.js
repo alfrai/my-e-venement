@@ -1,6 +1,9 @@
 function phonenumbers_add(data,beforethis)
 {
-  li = $('<li class="phonenumber phonenumber-'+$(data).find(pnid).val()+'"></li>').html($(data).find('.sf_admin_form form'));
+  data = $.parseHTML(data);
+  
+  li = $('<li class="phonenumber phonenumber-'+$(data).find(pnid).val()+'"></li>')
+    .append($(data).find('.sf_admin_form form'));
   
   if ( $(data).find(pnid).val() != '' )
   {
@@ -104,10 +107,5 @@ function phonenumbers_add(data,beforethis)
 
 $(document).ready(function(){
   for ( i in phonenumbers )
-  {
-    // appearance / content
-    $.get(phonenumbers[i],function(data){
-      phonenumbers_add(data);
-    });
-  }
+  $.get(phonenumbers[i],phonenumbers_add);
 });

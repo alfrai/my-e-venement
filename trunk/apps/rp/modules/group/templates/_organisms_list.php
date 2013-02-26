@@ -27,7 +27,7 @@
   <script type="text/javascript"><!--
     function group_organisms_loaded(data)
     {
-      $('#more .organisms').html($(data).find(' .sf_admin_list'));
+      $('#more .organisms').html($($.parseHTML(data)).find(' .sf_admin_list'));
       $('#more .organisms tfoot a[href]').click(function(){
         $.get($(this).attr('href'),group_organisms_loaded);
         return false;

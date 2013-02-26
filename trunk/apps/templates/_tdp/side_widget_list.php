@@ -1,4 +1,4 @@
-<div id="tdp-side-bar">
+<div id="tdp-side-bar" class="tdp-container object ui-widget-content ui-corner-all">
 <?php include_partial('global/list_header') ?>
 <form class="tdp-container filters" action="<?php echo url_for($sf_context->getModuleName().'_collection', array('action' => 'filter')) ?>" method="post">
   <?php echo $filters->renderHiddenFields() ?>

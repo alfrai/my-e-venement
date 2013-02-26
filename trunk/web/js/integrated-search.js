@@ -1,5 +1,7 @@
 function list_integrated_search(data)
 {
+  data = $.parseHTML(data);
+  
   // replacing only necessary content
   filters = $('#sf_admin_filters_buttons').clone(true);
   $('.sf_admin_list > table').replaceWith($(data).find('.sf_admin_list > table'));

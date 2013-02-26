@@ -5,6 +5,7 @@
     function organism_integrate_pro(data)
     {
       // data
+      data = $.parseHTML(data);
       $('#professional-new').append($(data).find('#sf_admin_content'));
       
       // display
@@ -23,6 +24,7 @@
       // form
       $('#professional-new form').submit(function(){
         $.post($(this).attr('action'),$(this).serialize(),function(data){
+          data = $.parseHTML(data);
           $(data).find('#sf_admin_content').prepend($(data).find('.sf_admin_flashes'));
           if ( $(data).find('.sf_admin_flashes .error').length > 0 )
           {

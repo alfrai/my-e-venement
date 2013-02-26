@@ -15,7 +15,7 @@
   <?php include_partial('form_actions',array('form' => $form, 'helper' => $helper, 'contact' => $object,)) ?>
 
   <?php if ( count($config['title']) ): ?>
-  <div class="tdp-widget-header">
+  <div class="tdp-widget-header ui-widget-header ui-corner-all">
     <h1 class="vertical"><?php foreach ( $config[$object->isNew() ? 'new_title' : 'title'] as $field ): ?>
       <?php include_partial('global/tdp/edit_field',array(
         'field' => $field,

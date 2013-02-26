@@ -148,6 +148,7 @@ $(document).ready(function(){
     setTimeout(function(){ $('#tdp-update-filters').toggleClass('blink'); }, 670);
     setTimeout(function(){ $('#tdp-update-filters').toggleClass('blink'); },1000);
     setTimeout(function(){ $('#tdp-update-filters').toggleClass('blink'); },1330);
+    setTimeout(function(){ $('#tdp-update-filters').removeClass('blink'); },1670);
   };
   
   // SIDEBAR
@@ -221,10 +222,12 @@ $(document).ready(function(){
     if ( $('.sf_admin_batch_checkbox:checked').length > 0 )
     {
       $('#tdp-side-bar').addClass('add-to');
-      $('#tdp-side-groups input[type=checkbox]"]:checked').removeAttr('checked');
+      $('#tdp-side-groups input[type=checkbox]:checked').removeAttr('checked');
       $('#tdp-side-groups label').click(function(){
         $(this).closest('li').find('input[type=checkbox]').click();
         $.post($('#tdp-side-bar .batch-add-to.group').attr('href'),$('#tdp-side-bar').serialize()+'&'+$('#tdp-content').serialize(),function(data){
+          data = $.parseHTML(data);
+          
           $('#tdp-content input[type=checkbox]:checked').click().removeAttr('checked').change();
           $('#tdp-side-groups input[type=checkbox]:checked').removeAttr('checked');
           $('.sf_admin_flashes').replaceWith($(data).find('.sf_admin_flashes').hide());
@@ -253,14 +256,14 @@ function contact_tdp_submit_forms(i = 0)
   {
     $('.tdp-subobject form').eq(i).find('select[multiple] option').attr('selected',true);
     
-    alert($.jquery);
-    var request = $.ajax({
+    $.ajax({
       url: $('.tdp-subobject form').eq(i).attr('action'),
       type: 'POST',
       data: $('.tdp-subobject form').eq(i).serialize()
-    });
-    
-    request.done(function(data) {
+    })
+    .done(function(data) {
+      data = $.parseHTML(data);
+      
       // retrieving corresponding subobject
       subobject = $('[name="professional[id]"][value='+$(data).find('[name="professional[id]"]').val()+']')
         .closest('.sf_admin_edit');
@@ -286,9 +289,8 @@ function contact_tdp_submit_forms(i = 0)
       
       i++;
       contact_tdp_submit_forms(i);
-    });
-    
-    request.fail(function(){
+    })
+    .fail(function(){
       i++;
       contact_tdp_submit_forms(i);
     });
@@ -296,7 +298,7 @@ function contact_tdp_submit_forms(i = 0)
   else
   {
     $('.form_phonenumbers .sf_admin_flashes').remove();
-  
+    
     // included forms  
     $('.tdp-object form form').submit();
     

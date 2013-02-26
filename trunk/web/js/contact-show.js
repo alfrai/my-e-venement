@@ -4,7 +4,7 @@ function contact_load_professionals(i)
   if ( professionals[i] )
   {
     $.get(professionals[i],function(data){
-      $('#more #professional-'+i).html( $(data).find('#sf_admin_form_tab_menu') );
+      $('#more #professional-'+i).html( $($.parseHTML(data)).find('#sf_admin_form_tab_menu') );
       $('#more #professional-'+i+' #sf_admin_form_tab_menu').removeAttr('id').addClass('sf_admin_form_tab_menu');
       contact_load_professionals(i+1);
     });

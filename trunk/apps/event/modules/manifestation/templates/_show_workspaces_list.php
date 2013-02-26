@@ -25,7 +25,7 @@
       if( $('a.gauge-gfx').length > 0 )
       {
         $.get($('a.gauge-gfx:first').attr('href'),function(data){
-          $('a.gauge-gfx:first').replaceWith($(data).find('.gauge'));
+          $('a.gauge-gfx:first').replaceWith($($.parseHTML(data)).find('.gauge'));
           manifestation_gauge_gfx();
         });
       }

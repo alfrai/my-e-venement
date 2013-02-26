@@ -23,7 +23,6 @@
 ?>
 <?php use_helper('I18N', 'Date', 'CrossAppLink') ?>
 <?php include_partial('default/assets') ?>
-
 <div class="about-home">
   <?php include_partial('global/about') ?>
 </div>
