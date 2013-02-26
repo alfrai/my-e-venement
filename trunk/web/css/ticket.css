@@ -285,7 +285,7 @@
 .prices .workspace .ws-gauge .asked { background-color: blue; }
 .prices .manif_prices_list { display: none; }
 
-#manifestations .manif a.name, #prices .manif a.name {
+#manifestations .manif .name, #prices .manif .name {
   max-width: 140px;
   min-width: 100px;
   height: 1em;
@@ -293,6 +293,7 @@
   display: inline-block;
   white-space: nowrap;
 }
+#manifestations .manif .name { max-width: 350px; }
 
 .manif:hover { background-color: #fffccc; }
 
