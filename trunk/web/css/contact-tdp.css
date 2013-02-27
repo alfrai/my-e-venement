@@ -181,6 +181,8 @@ body #content { width: auto; }
 #tdp-side-bar.object .tdp-side-widget .total .event { width: 70px; }
 #tdp-side-bar.object .tdp-side-widget .total .nb { width: 3em; }
 #tdp-side-bar .batch-add-to { display: none; }
+#tdp-side-bar .tdp-side-widget h2 { margin: 2px 0; padding: 3px 2px; }
+#tdp-side-bar.object .tdp-side-widget h2 { font-size: 125%; }
 
 #tdp-side-bar.add-to #tdp-side-groups input[type=checkbox] { display: none; }
 #tdp-side-bar.add-to #tdp-side-groups li { padding-left: 21px; line-height: 20px; }

@@ -27,7 +27,7 @@ class organismActions extends autoOrganismActions
         $this->hasFilters = $this->getUser()->getAttribute('organism.filters', $this->configuration->getFilterDefaults(), 'admin_module');
       if ( !isset($this->filters) )
         $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      if ( !in_array($this->getActionName(), array('index','search')) )
+      if ( !in_array($this->getActionName(), array('index','search','map','labels')) )
         $this->setTemplate('edit');
     }
   }
