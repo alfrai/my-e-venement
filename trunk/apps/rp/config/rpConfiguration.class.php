@@ -43,7 +43,7 @@ class rpConfiguration extends sfApplicationConfiguration
         $pn->organism_id = $event->getSubject()->organism->id;
       }
       
-      if ( $event->getSubject()->form->isValid() && $params['phone_number'] )
+      if ( $event->getSubject()->form->isValid() && isset($params['phone_number']) && $params['phone_number'] )
       {
         $pn->name = $params['phone_type'];
         $pn->number = $params['phone_number'];

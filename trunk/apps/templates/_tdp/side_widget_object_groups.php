@@ -12,7 +12,9 @@
       <?php foreach ( $objects as $obj ): ?>
       <?php $cpt++ ?>
       <li class="groups-<?php echo $cpt == 1 ? 'object' : 'subobject-'.$obj->id ?>">
-        <?php if ( count($objects) > 1 ) echo $obj ?>
+        <?php if ( count($objects) > 1 ): ?>
+          <h3><?php echo $obj ?></h3>
+        <?php endif ?>
         <form action="#" method="get"><ul>
           <?php foreach ( $obj->Groups as $group ): ?>
           <li>
@@ -39,12 +41,12 @@
               select.find('*').remove();
               select.prepend(object.find('.tdp-groups_list select').eq(1).find('option').clone(true))
                 .prepend('<option value=""></option>')
-                .find('option:first-child').attr('selected',true);
+                .find('option:first-child').prop('selected',true);
               
               // adding a new group
               select.change(function(){
                 object = <?php echo $cpt == 1 ? "$('.tdp-object')" : "$('#tdp-content [name=\"professional[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
-                object.find('.tdp-groups_list select').eq(1).find('option[value='+$(this).val()+']').attr('selected',true);
+                object.find('.tdp-groups_list select').eq(1).find('option[value='+$(this).val()+']').prop('selected',true);
                 object.find('.tdp-groups_list a:first-child').click();
                 $('<li class="tmp" title="<?php echo __('Not yet recorded') ?>"><a onclick="javascript: contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?>(this);" href="#" class="remove">x</a><input type="hidden" value="'+$(this).val()+'" name="group_id" /> '+$(this).find('option:selected').html()+'</li>').hide().insertBefore($(this).closest('li').closest('ul').find('.new')).fadeIn('slow');
                 $(this).closest('ul').find('.empty').hide();
@@ -62,9 +64,9 @@
               
               object.find('.tdp-groups_list select').eq(0)
                 .find(str = 'option[value='+$(anchor).closest('li').find('[name=group_id]').val()+']')
-                .attr('selected',true)
+                .prop('selected',true)
                 .clone(true).prependTo(select)
-                .attr('selected',false).addClass('tmp');
+                .prop('selected',false).addClass('tmp');
               object.find('.tdp-groups_list a:last-child').click();
               $(anchor).closest('li').fadeOut('medium',function(){
                 if ( $(this).closest('ul').find('li:not(.empty):not(.new)').length <= 1 )

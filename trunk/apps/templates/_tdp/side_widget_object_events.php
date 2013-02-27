@@ -9,13 +9,18 @@
     $config = $sf_data->getRaw('config');
     foreach ( $config['subobjects'] as $subobjects => $conf )
     foreach ( $object->$subobjects as $subobject )
-    if ( $object->hasRelation('Transactions') )
+    if ( $subobject->hasRelation('Transactions') )
       $objects[] = $subobject;
+    $cpt = 0;
   ?>
   <ul class="events">
     <?php foreach ( $objects as $obj ): ?>
-    <li>
-      <?php if ( count($objects) > 1 ) echo $obj ?>
+    <?php $cpt++ ?>
+    <?php if ( $obj->Transactions->count() > 0 ): ?>
+    <li class="events-<?php echo $cpt == 1 ? 'object' : 'subobject-'.$obj->id ?>">
+      <?php if ( count($objects) > 1 ): ?>
+      <h3><?php echo $obj ?></h3>
+      <?php endif ?>
       <ul>
         <?php
           foreach ( $obj->Transactions as $transaction )
@@ -55,14 +60,13 @@
           <span class="event">Total</span>:
           <span class="nb"><?php echo $total['nb'] ?></span>
           <?php if ( $sf_user->hasCredential('tck-ledger-sales') ): ?><span class="value"><?php echo format_currency($total['value'],'€') ?></span><?php endif ?>
-          <?php else: ?>
-          <?php echo __('No result',null,'sf_admin') ?>
           <?php endif ?>
         </li>
       </ul>
     </li>
-  <?php endforeach ?>
-  <?php if ( count($objects) == 0 ): ?>
-    <li><?php echo __('No result') ?></li>
-  <?php endif ?>
+    <?php endif ?>
+    <?php endforeach ?>
+    <?php if ( count($objects) == 0 || $total['nb'] == 0 ): ?>
+    <li><?php echo __('No result',null,'sf_admin') ?></li>
+    <?php endif ?>
   </ul>

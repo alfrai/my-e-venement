@@ -7,24 +7,24 @@
       foreach ( $config['subobjects'] as $subobjects => $conf )
       foreach ( $object->$subobjects as $subobject )
         $objects[] = $subobject;
+      $cpt = 0;
     ?>
     <ul class="tdp-object-emails">
-      <?php $cpt = 0 ?>
       <?php foreach ( $objects as $obj ): ?>
       <?php $cpt++ ?>
       <?php $total['nb'] += $obj->Emails->count() ?>
+      <?php if ( $obj->Emails->count() > 0 ): ?>
       <li class="emails-<?php echo $cpt == 1 ? 'object' : 'subobject-'.$obj->id ?>">
-        <?php if ( count($objects) > 1 ) echo $obj ?>
+        <h3><?php if ( count($objects) > 1 ) echo $obj ?></h3>
         <ul>
           <?php foreach ( $obj->Emails as $email ): ?>
-          <li>
-            <?php echo link_to($email,'email/show?id='.$email->id) ?>
-          </li>
+          <li><?php echo link_to($email,'email/show?id='.$email->id) ?></li>
           <?php endforeach ?>
         </ul>
       </li>
+      <?php endif ?>
       <?php endforeach ?>
-      <?php if ( $total['nb'] == 0 ): ?>
+      <?php if ( $total['nb'] == 0 || $cpt == 0 ): ?>
       <li><?php echo __('No result',null,'sf_admin') ?></li>
       <?php endif ?>
     </ul>
