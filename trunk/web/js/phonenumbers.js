@@ -3,12 +3,12 @@ function phonenumbers_add(data,beforethis)
   data = $.parseHTML(data);
   
   li = $('<li class="phonenumber phonenumber-'+$(data).find(pnid).val()+'"></li>')
-    .append($(data).find('.sf_admin_form form'));
+    .append($(data).find('.sf_admin_form form').clone(true));
   
   if ( $(data).find(pnid).val() != '' )
   {
     // existing
-    if ( beforethis == undefined )
+    if ( beforethis == undefined || $(beforethis).length == 0 )
       $('#content .form_phonenumbers').append(li);
     else
       li.insertBefore(beforethis);
@@ -57,7 +57,7 @@ function phonenumbers_add(data,beforethis)
     elt.fadeOut('slow');
     
     $.ajax({
-      url: $(this).attr('href'),
+      url: $(this).prop('href'),
       type: 'POST',
       data: {
         sf_method: 'delete',
@@ -84,19 +84,19 @@ function phonenumbers_add(data,beforethis)
     
   // form validations for updates
   $('#content .form_phonenumbers .phonenumber-'+$(data).find(pnid).val()+' form').unbind().submit(function(){
-    $.post($(this).attr('action'),$(this).serialize(),function(data){
-      if ( $('#content .form_phonenumbers .phonenumber-'+$(data).find(pnid).val()).length <= 0 )
+    $.post($(this).prop('action'),$(this).serialize(),function(data){
+      if ( $('#content .form_phonenumbers .phonenumber-'+$($.parseHTML(data)).find(pnid).val()).length <= 0 )
       {
         // new object
         $('#content .form_phonenumbers .phonenumber- form').get(0).reset();
         phonenumbers_add(data,$('#content .form_phonenumbers .phonenumber-'));
       }
       
-      $('#content .form_phonenumbers .phonenumber-'+$(data).find(pnid).val()).prepend(
-        $('<div class="sf_admin_flashes ui-widget"></div>').html($(data).find('.notice, .error').addClass('ui-state-highlight').addClass('ui-corner-all'))
+      $('#content .form_phonenumbers .phonenumber-'+$($.parseHTML(data)).find(pnid).val()).prepend(
+        $('<div class="sf_admin_flashes ui-widget"></div>').html($($.parseHTML(data)).find('.notice, .error').addClass('ui-state-highlight').addClass('ui-corner-all'))
       );
       
-      var info = $('#content .form_phonenumbers .phonenumber-'+$(data).find(pnid).val()+' .sf_admin_flashes')
+      var info = $('#content .form_phonenumbers .phonenumber-'+$($.parseHTML(data)).find(pnid).val()+' .sf_admin_flashes')
         .hide().fadeIn('slow',function(){
           setTimeout(function(){ info.fadeOut('slow',function(){info.remove()}); },5000);
         });

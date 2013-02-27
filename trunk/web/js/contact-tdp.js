@@ -6,7 +6,7 @@ $(document).ready(function(){
   if ( $('#tdp-top-bar .action.update[href=#]').length == 1 )
   {
     $('#tdp-content input, #tdp-content select, #tdp-content textarea')
-      .attr('disabled',true);
+      .prop('disabled',true);
     $('#tdp-side-bar .tdp-object-groups .new').remove();
   }
   
@@ -41,7 +41,7 @@ $(document).ready(function(){
         tr.find('> :not('+subobjects_elts+')')
           .remove();
         $(this).find('> :not('+subobjects_elts+')')
-          .attr('rowspan',parseInt($(this).find('> :not('+subobjects_elts+')').attr('rowspan'))+1);
+          .prop('rowspan',parseInt($(this).find('> :not('+subobjects_elts+')').prop('rowspan'))+1);
         
         $(this).after(tr);
       }
@@ -86,7 +86,7 @@ $(document).ready(function(){
     
     elt.fadeOut('slow');
     $.ajax({
-      url: $(this).attr('href'),
+      url: $(this).prop('href'),
       type: 'POST',
       data: {
         sf_method: 'delete',
@@ -133,11 +133,11 @@ $(document).ready(function(){
   // CONTENT: NEW FUNCTION FOR A CONTACT
   $('.tdp-subobject.tdp-object-new .tdp-widget-header input[type=text]').each(function(){
     $(this).focusin(function(){
-      if ( $(this).val() == $(this).closest('span').attr('title')+'...' )
+      if ( $(this).val() == $(this).closest('span').prop('title')+'...' )
         $(this).val('');
     }).focusout(function(){
       if ( $(this).val() == '' )
-        $(this).val($(this).closest('span').attr('title')+'...');
+        $(this).val($(this).closest('span').prop('title')+'...');
     }).focusout();
   });
   
@@ -153,7 +153,7 @@ $(document).ready(function(){
   
   // SIDEBAR
   $('#tdp-side-bar li').each(function(){
-    $(this).attr('title',$(this).find('label').html());
+    $(this).prop('title',$(this).find('label').html());
   });
   $('#tdp-side-bar input[type=checkbox]').click(function(){
     $('#tdp-update-filters').get(0).blink();
@@ -169,7 +169,7 @@ $(document).ready(function(){
       if ( '' == $(this).val() )
       {
         $(this).val($(this).closest('#list-integrated-search').find('label').html())
-          .attr('title',$(this).val())
+          .prop('title',$(this).val())
           .addClass('no-text');
       }
     })
@@ -200,7 +200,7 @@ $(document).ready(function(){
       {
         $(this).closest('tr').find(subobjects_elts).toggleClass('ui-state-highlight');
         $(this).closest('tr').find('.sf_admin_batch_checkbox[name="professional_ids[]"]')
-          .attr('checked',$(this).closest('tr').find(subobjects_elts).hasClass('ui-state-highlight'))
+          .prop('checked',$(this).closest('tr').find(subobjects_elts).hasClass('ui-state-highlight'))
           .change();
       }
     }
@@ -208,7 +208,7 @@ $(document).ready(function(){
     {
       $(this).closest('tr').find('> :not('+subobjects_elts+')').toggleClass('ui-state-highlight');
       $(this).closest('tr').find('.sf_admin_batch_checkbox[name="ids[]"]')
-        .attr('checked',$(this).closest('tr').find('> :not('+subobjects_elts+'):first').hasClass('ui-state-highlight'))
+        .prop('checked',$(this).closest('tr').find('> :not('+subobjects_elts+'):first').hasClass('ui-state-highlight'))
         .change();
     }
   });
@@ -225,7 +225,7 @@ $(document).ready(function(){
       $('#tdp-side-groups input[type=checkbox]:checked').removeAttr('checked');
       $('#tdp-side-groups label').click(function(){
         $(this).closest('li').find('input[type=checkbox]').click();
-        $.post($('#tdp-side-bar .batch-add-to.group').attr('href'),$('#tdp-side-bar').serialize()+'&'+$('#tdp-content').serialize(),function(data){
+        $.post($('#tdp-side-bar .batch-add-to.group').prop('href'),$('#tdp-side-bar').serialize()+'&'+$('#tdp-content').serialize(),function(data){
           data = $.parseHTML(data);
           
           $('#tdp-content input[type=checkbox]:checked').click().removeAttr('checked').change();
@@ -254,10 +254,10 @@ function contact_tdp_submit_forms(i = 0)
 {
   if ( i < $('.tdp-subobject form').length )
   {
-    $('.tdp-subobject form').eq(i).find('select[multiple] option').attr('selected',true);
+    $('.tdp-subobject form').eq(i).find('select[multiple] option').prop('selected',true);
     
     $.ajax({
-      url: $('.tdp-subobject form').eq(i).attr('action'),
+      url: $('.tdp-subobject form').eq(i).prop('action'),
       type: 'POST',
       data: $('.tdp-subobject form').eq(i).serialize()
     })
@@ -282,7 +282,7 @@ function contact_tdp_submit_forms(i = 0)
       // errornous fields
       if ( !subobject.hasClass('tdp-object-new') || subobject.find('.tdp-organism_id input, .tdp-contact_id input').val() != '' )
       $(data).find('.errors').each(function(){
-        subobject.find('.tdp-'+$(this).closest('.sf_admin_form_row').attr('class').replace(/^.*sf_admin_form_field_([\w_]+).*$/g,'$1'))
+        subobject.find('.tdp-'+$(this).closest('.sf_admin_form_row').prop('class').replace(/^.*sf_admin_form_field_([\w_]+).*$/g,'$1'))
           .addClass('ui-state-error').addClass('ui-corner-all')
           .append($(this));
       });

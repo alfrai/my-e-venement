@@ -16,8 +16,9 @@ function load_calendar()
       success: function(data){
         // the calendar graphical representation has been also generated in the "html" var
         $('#calendar').contents().find('body')
-          .html(data)
+          .html($.parseHTML(data))
           .find('meta, title, link, .footer').remove();
+        
         $('#calendar').css('height',$('#calendar').contents().find('html').height());
         $('#calendar').contents().find('a:not([href^=http])').each(function(){
           $(this).attr('href',relative_url_phpicalendar+$(this).attr('href')+'&cal=nocal');
@@ -27,7 +28,7 @@ function load_calendar()
           load_calendar();
           return false;
         });
-        $('#transition').fadeOut('medium');
+        $('#transition .close').click();
       }
     });
   });

@@ -11,7 +11,7 @@ $(document).ready(function(){
     });
   }
   
-  $('link[rel=stylesheet][media=screen]').attr('media','all');
+  $('link[rel=stylesheet][media=screen]').prop('media','all');
 });
 
 function ticket_lauchpad(anchors)
@@ -30,8 +30,8 @@ function ticket_lauchpad(anchors)
     return true;
   }
   
-  $.get($(a).attr('href'),function(data){
-    $('#'+$($.parseHTML(data)).find('form').parent().attr('id')).html($($.parseHTML(data)).find('form').parent().html());
+  $.get($(a).prop('href'),function(data){
+    $('#'+$($.parseHTML(data)).find('form').parent().prop('id')).html($($.parseHTML(data)).find('form').parent().html());
     return ticket_lauchpad(anchors);
   });
 }
@@ -45,7 +45,7 @@ function ticket_events()
     $('#contact #micro-show').fadeIn();
     if ( $('#contact #micro-show #sf_fieldset_none').length == 0 )
     {
-      $.get($(this).attr('href'),function(data){
+      $.get($(this).prop('href'),function(data){
         $('#contact #micro-show').find('#sf_fieldset_none, #sf_fieldset_address').remove();
         $($.parseHTML(data)).find('#sf_fieldset_none, #sf_fieldset_address').appendTo('#contact #micro-show');
         for ( i = 0 ; i < 3 ; i++ )
@@ -59,7 +59,7 @@ function ticket_events()
   ticket_autocomplete(
     '#transaction_contact_id',
     '#autocomplete_transaction_contact_id',
-    $('#autocomplete_transaction_contact_id').parent().find('a').attr('href'));
+    $('#autocomplete_transaction_contact_id').parent().find('a').prop('href'));
   if ( $("#autocomplete_transaction_contact_id").length > 0 )
     $('#contact #autocomplete_transaction_contact_id').focus();
   else if ( $('#contact #transaction_professional_id').length > 0 )
@@ -70,7 +70,7 @@ function ticket_events()
   }
   
   $('#contact form').unbind().submit(function(){
-    $.post($(this).attr('action'),$(this).serialize(),function(data){
+    $.post($(this).prop('action'),$(this).serialize(),function(data){
       $('#contact').html($($.parseHTML(data)).find('#contact').html());
       ticket_events();
     });
@@ -79,7 +79,7 @@ function ticket_events()
   
   // delete contact link
   $('#contact .delete-contact').unbind().click(function(){
-    $.post($('#contact form').attr('action'),$('#contact form').serialize()+'&delete-contact=yes',function(data){
+    $.post($('#contact form').prop('action'),$('#contact form').serialize()+'&delete-contact=yes',function(data){
       $('#contact').html($($.parseHTML(data)).find('#contact').html());
       ticket_events();
     });
@@ -88,7 +88,7 @@ function ticket_events()
   
   // add contact link
   $('#contact .create-contact').unbind().click(function(){
-    var w = window.open($(this).attr('href')+'&name='+$('#contact #autocomplete_transaction_contact_id').val(),'new_contact');
+    var w = window.open($(this).prop('href')+'&name='+$('#contact #autocomplete_transaction_contact_id').val(),'new_contact');
     w.onload = function(){
       setTimeout(function(){
         $(w.document).ready(function(){
@@ -116,7 +116,7 @@ function ticket_events()
   // manifestations
   $('#manifestations form').unbind().submit(function(){
     manifs = $('#manifestations form [name=manif_new]').val().replace(/#/g,'%23');
-    $.get($('#manifestations form').attr('action')+'?manif_new='+manifs,function(data){
+    $.get($('#manifestations form').prop('action')+'?manif_new='+manifs,function(data){
       // take the list and add it in the GUI
       $('#manifestations .manifestations_add')
         .html($($.parseHTML(data)).find('#manifestations .manifestations_add').html())
@@ -144,7 +144,7 @@ function ticket_events()
     $('#manifestations .gauge').fadeToggle();
   });
   
-  $('.manifestations_list li:first').attr('checked','checked');
+  $('.manifestations_list li:first').prop('checked','checked');
   
   // auto-select a manifestation with a specific anchor ref in URL
   if ( document.location.hash.substring(1,7) == 'manif-' )
@@ -210,7 +210,7 @@ function ticket_activate_prices_gauge()
 function ticket_gauge_backup(gauge_elt)
 {
   // remove old 
-  eltid = gauge_elt.find('.backup').attr('id');
+  eltid = gauge_elt.find('.backup').prop('id');
   $('#manifestations > #'+eltid).remove();
   
   // backup new
@@ -221,7 +221,7 @@ function ticket_get_gauge(manif_id, gauge_elt, force)
   // get from DB
   if ( force || $('#gauge-'+manif_id).length == 0 )
   {
-    $.get($('#gauge_url').attr('href')+'?id='+manif_id,function(data){
+    $.get($('#gauge_url').prop('href')+'?id='+manif_id,function(data){
       // display
       gauge_elt.html($($.parseHTML(data)).find('.gauge').html());
       
@@ -252,7 +252,7 @@ function ticket_manif_new_events()
 {
   $('.manifestations_add input[type=radio]').unbind().click(function(){
     $(this).unbind();
-    if ( $('.manifestations_list input[name="'+$(this).attr('name')+'"][value='+$(this).val()+']').length <= 0 )
+    if ( $('.manifestations_list input[name="'+$(this).prop('name')+'"][value='+$(this).val()+']').length <= 0 )
     {
       $(this).parent().parent().find('span').unbind();
       ticket_gauge_backup($('.manifestations_add .gauge'));
@@ -266,7 +266,7 @@ function ticket_manif_new_events()
     else
     {
       $(this).parent().parent().remove();
-      $('.manifestations_list input[name="'+$(this).attr('name')+'"][value='+$(this).val()+']').attr('selected','selected');
+      $('.manifestations_list input[name="'+$(this).prop('name')+'"][value='+$(this).val()+']').prop('selected','selected');
     }
   });
 }
@@ -275,7 +275,7 @@ function ticket_manif_list_events()
 {
   if ( $('.tickets_form > div > a').length > 0 )
   {
-    $('.tickets_form > div').load($('.tickets_form > div > a').attr('href')+' .manifestations_list',function(){
+    $('.tickets_form > div').load($('.tickets_form > div > a').prop('href')+' .manifestations_list',function(){
       if ( $('.manifestations_list input[type=radio]').length > 0 )
       {
         $('.manifestations_add').slideUp();
@@ -302,19 +302,19 @@ function ticket_transform_hidden_to_span(all)
   $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).each(function(){
     $(this).parent().parent().find('.prices input[type=hidden]').each(function(){
       // adding the spans
-      name = $(this).attr('name').replace(/[\[\]]/g,'_').replace(/__/g,'_').replace(/_+$/,'').replace(/ /g,'_');
-      price = $(this).attr('name')
+      name = $(this).prop('name').replace(/[\[\]]/g,'_').replace(/__/g,'_').replace(/_+$/,'').replace(/ /g,'_');
+      price = $(this).prop('name')
         .replace(/^ticket\[prices\]\[\d+\]\[/g,'')
         .replace('][]','');
-      if ( $(this).parent().find('.'+name+'.'+$(this).attr('class')).length > 0 )
+      if ( $(this).parent().find('.'+name+'.'+$(this).prop('class')).length > 0 )
       {
-        $(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=text].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=text].nb').val())+1);
-        $(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=hidden].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).attr('class')+' input[type=hidden].nb').val())+1);
+        $(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=text].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=text].nb').val())+1);
+        $(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=hidden].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=hidden].nb').val())+1);
       }
       else
-        $('<span class="'+name+' ticket_prices '+$(this).attr('class')+'" title="'+$(this).attr('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" autocomplete="off" maxlength="3" /><input type="hidden" class="nb" name="hidden_nb" value="1"> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
+        $('<span class="'+name+' ticket_prices '+$(this).prop('class')+'" title="'+$(this).prop('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" autocomplete="off" maxlength="3" /><input type="hidden" class="nb" name="hidden_nb" value="1"> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
           .appendTo($(this).parent());
-      $(this).parent().find('.'+name+'.'+$(this).attr('class')+' .tickets_id').append($(this).attr('alt')+'<br/>');
+      $(this).parent().find('.'+name+'.'+$(this).prop('class')+' .tickets_id').append($(this).prop('alt')+'<br/>');
     });
   });
   
@@ -334,9 +334,9 @@ function ticket_transform_hidden_to_span(all)
   // click to remove a ticket
   $('#prices .manifestations_list .prices .ticket_prices.notprinted .name, #prices .manifestations_list .prices .ticket_prices.integrated .name').unbind().click(function(){
     $('#prices .prices_list').removeClass('cancel');
-    gid = $(this).parent().parent().attr('class').replace(/.* gauge-(\d+).*/g,'$1');
+    gid = $(this).parent().parent().prop('class').replace(/.* gauge-(\d+).*/g,'$1');
     $(this).parent().parent().parent().parent().find('.workspaces [name="ticket[gauge_id]"]').val(gid);
-    $('#prices [name=select_all]').attr('checked',false);
+    $('#prices [name=select_all]').prop('checked',false);
     price_name = $(this).html();
     selected = $('#prices [name="ticket[nb]"]').val();
     $(this).parent().find('.nb').val(parseInt($(this).parent().find('.nb').val())-selected);
@@ -385,7 +385,7 @@ function ticket_get_ws_gauge(json_url)
       .append('<span class="ordered" style="width: '+(parseInt(data.total) == 0 ? '0' : data.booked.ordered*100/(parseInt(data.total)+(parseInt(data.free) < 0 ? -parseInt(data.free) : 0)))+'%" title="'+data.booked.ordered+'">&nbsp;</span>')
       .append('<span class="asked" style="width: '+(parseInt(data.total) == 0 ? '0' : data.booked.asked*100/(parseInt(data.total)+(parseInt(data.free) < 0 ? -parseInt(data.free) : 0)))+'%" title="'+data.booked.asked+'">&nbsp;</span>')
       .append('<span class="free" style="width: '+(parseInt(data.total) == 0 ? '0' : (parseInt(data.free) < 0 ? 0 : parseInt(data.free))*100/(parseInt(data.total)+(parseInt(data.free) < 0 ? -parseInt(data.free) : 0)))+'%" title="'+parseInt(data.free)+'">&nbsp;</span>');
-    $('.manifestations_list .workspace.gauge-'+data.id+' .ws-name').attr('title',parseInt(data.total));
+    $('.manifestations_list .workspace.gauge-'+data.id+' .ws-name').prop('title',parseInt(data.total));
     
     if ( parseInt(data.free) <= 0 )
     {
@@ -404,7 +404,7 @@ function ticket_get_ws_gauge(json_url)
 function ticket_gauge_update_click(elt)
 {
   if ( elt )
-    $(elt).parent().parent().find('input[type=radio]').attr('selected','selected');
+    $(elt).parent().parent().find('input[type=radio]').prop('selected','selected');
   $('#prices .gauge').click();
 }
 
@@ -429,7 +429,7 @@ function ticket_prices()
       qty = $('#prices .prices_list input[name="ticket[nb]"]').val();
       tid = $('#global_transaction_id').html();
       
-      url = $('#prices .prices_list a.cancel').attr('href');
+      url = $('#prices .prices_list a.cancel').prop('href');
       
       window.open(url+'?qty='+qty+'&manifestation_id='+mid+'&price_name='+price_name+'&id='+tid);
       
@@ -441,11 +441,11 @@ function ticket_prices()
     elt = $(this);
     manif_id = $('#prices form input[name="ticket[manifestation_id]"]:checked').val();
     form = $('#prices form').clone(true);
-    form.find('input[name="ticket[manifestation_id]"][value='+manif_id+']').attr('checked','checked');
+    form.find('input[name="ticket[manifestation_id]"][value='+manif_id+']').prop('checked','checked');
     form.find('.prices .workspace input[type=hidden]').remove();
     form.find('input[name="ticket[gauge_id]"]').remove();
-    serialized = form.serialize()+'&'+encodeURIComponent('ticket[gauge_id]')+'='+$('#prices .manifestations_list input[type=radio]:checked').closest('li').find('[name="ticket[gauge_id]"]').val()+'&'+$(this).attr('name')+'='+encodeURIComponent($(this).val());
-    $.post($('.tickets_form').attr('action'),serialized,function(data){
+    serialized = form.serialize()+'&'+encodeURIComponent('ticket[gauge_id]')+'='+$('#prices .manifestations_list input[type=radio]:checked').closest('li').find('[name="ticket[gauge_id]"]').val()+'&'+$(this).prop('name')+'='+encodeURIComponent($(this).val());
+    $.post($('.tickets_form').prop('action'),serialized,function(data){
       if ( $.trim($($.parseHTML(data)).find('.sf_admin_flashes').html()) != '' )
       {
         $('.sf_admin_flashes').replaceWith($($.parseHTML(data)).find('.sf_admin_flashes'));
@@ -514,7 +514,7 @@ function ticket_prices()
         && $('#prices .prices_list [name="select_all"]:checked').length > 0
         && typeof($('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').val()) != 'undefined' )
       {
-        $('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').attr('checked',true);
+        $('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').prop('checked',true);
         $(elt).click();
       }
     });
@@ -590,13 +590,13 @@ function ticket_print()
     $(document).focus(function(){
       $(this).unbind();
       $('#print input[type=text]').val('');
-      $('#print input[type=checkbox]').attr('checked','').change();
+      $('#print input[type=checkbox]').prop('checked','').change();
       $('#print input[type=submit]:first').focus();
       $('#print #manifestation_id').remove();
     });
   });
   
-  $('#print input[type=text]').attr('disabled','disabled');
+  $('#print input[type=text]').prop('disabled','disabled');
   $('#print input[name="duplicate"]').change(function(){
     if ( $(this).is(':checked') )
     {
@@ -605,11 +605,11 @@ function ticket_print()
         .focus();
     }
     else
-      $('#print input[type=text]').attr('disabled','disabled');
+      $('#print input[type=text]').prop('disabled','disabled');
   });
   
   $('#print input[name=cancel-order]').click(function(){
-    $.get($('#print form.accounting').attr('action')+'?cancel-order',function(data){
+    $.get($('#print form.accounting').prop('action')+'?cancel-order',function(data){
       $('#print input[name=cancel-order]').fadeOut();
       $('#prices .gauge').click();
     });
