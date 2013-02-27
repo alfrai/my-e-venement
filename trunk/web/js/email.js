@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
 setTimeout(function() {
-  if ( $('#sf_admin_content a[href="#'+$('#sf_admin_form_tab_menu .ui-state-error:first').parent().attr('id')+'"]').length > 0 )
-    $('#sf_admin_content a[href="#'+$('#sf_admin_form_tab_menu .ui-state-error:first').parent().attr('id')+'"]').click();
+  if ( $('#sf_admin_content a[href="#'+$('#sf_admin_form_tab_menu .ui-state-error:first').parent().prop('id')+'"]').length > 0 )
+    $('#sf_admin_content a[href="#'+$('#sf_admin_form_tab_menu .ui-state-error:first').parent().prop('id')+'"]').click();
   else if ( $('.sf_admin_form .sf_admin_form_is_new').length == 0 )
     $('#sf_admin_content a[href="#sf_fieldset_3__validate"]').click();
 },1000);
@@ -35,14 +35,14 @@ $('.attachment-new').click(function(){
   
   if ( $('[name="email[id]"]').val() == '' )
   {
-    $('.open_list_selected option').attr('selected',true); // not to loose all contacts & so
-    $.post($('form').attr('action'),$('form').serialize(),function(data){
-      window.location = $(data).find('.attachment-new a').attr('href');
+    $('.open_list_selected option').prop('selected',true); // not to loose all contacts & so
+    $.post($('form').prop('action'),$('form').serialize(),function(data){
+      window.location = $(data).find('.attachment-new a').prop('href');
     });
     return false;
   }
 
-  $.post($('form').attr('action'),$('form').serialize());
+  $.post($('form').prop('action'),$('form').serialize());
 });
 
 });
@@ -60,7 +60,7 @@ function email_contacts_list(data)
 {
   $('.members .contacts').html($(data).find('.sf_admin_list'));
   $('.members .contacts tfoot a[href]').unbind().click(function(){
-    $.get($(this).attr('href'), email_contacts_list);
+    $.get($(this).prop('href'), email_contacts_list);
     return false;
   });
 }
@@ -68,7 +68,7 @@ function email_organisms_list(data)
 {
   $('.members .organisms').html($(data).find('.sf_admin_list'));
   $('.members .organisms tfoot a[href]').unbind().click(function(){
-    $.get($(this).attr('href'), email_organisms_list);
+    $.get($(this).prop('href'), email_organisms_list);
     return false;
   });
 }

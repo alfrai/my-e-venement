@@ -3,7 +3,7 @@ $(document).ready(function(){
   $('.sf_admin_row .sf_admin_text').dblclick(function(){
     $('.specialized-form').submit();
     
-    fieldname = $(this).attr('class').replace(/sf_admin_list_td_(\w+)/g,"$1").replace(/sf_admin_text/g,'').trim();
+    fieldname = $(this).prop('class').replace(/sf_admin_list_td_(\w+)/g,"$1").replace(/sf_admin_text/g,'').trim();
     id = $(this).closest('.sf_admin_row').find('[name="ids[]"]').val();
     
     $(this).load(window.location+'/'+id+'/getSpecializedForm?field='+fieldname+' #nothing',function(data){
@@ -16,7 +16,7 @@ $(document).ready(function(){
         $(this).find('input[type=text]:first').focus();
         $(this).find('.specialized-form').submit(function(){
           $(this).addClass('submitting');
-          $.post($(this).attr('action'), $(this).serialize(), function(data){
+          $.post($(this).prop('action'), $(this).serialize(), function(data){
             $('.specialized-form.submitting').each(function(){
               $(this).closest('.sf_admin_text').html($(this).find('input[type=text]:first').val());
             });
@@ -116,9 +116,9 @@ $(document).ready(function(){
   $('#sf_admin_filter .from_year select:first-child, #sf_admin_filter .to_year select:first-child').change(function(){
     $(this).parent().find('select + select option:selected').removeAttr('selected');
     if ( $(this).val() == '' )
-      $(this).parent().find('select + select option:first-child').attr('selected','selected');
+      $(this).parent().find('select + select option:first-child').prop('selected','selected');
     else
-      $(this).parent().find('select + select option:first-child + option').attr('selected','selected');
+      $(this).parent().find('select + select option:first-child + option').prop('selected','selected');
   });
   
   setTimeout(contact_batch_change,1000); // setTimeout is a hack...
@@ -131,8 +131,8 @@ function contact_batch_change()
     {
       $('.sf_admin_batch_actions_choice input[type=submit]').before(
         $('#contact_filters_not_groups_list').clone(true)
-          .attr('name','groups[]')
-          .attr('id','batch_action_group')
+          .prop('name','groups[]')
+          .prop('id','batch_action_group')
           .addClass('ui-corner-all')
       );
       $('.sf_admin_batch_actions_choice input[type=submit]').after('<div style="clear: both"></div>');

@@ -10,8 +10,8 @@ $(document).ready(function(){
   // specific paging
   action = /\/summary\/(.*)\/action/.exec(window.location)[1];
   $('#sf_admin_pager a').each(function(){
-    href = $(this).attr('href').replace(/\/summary\?/,'/summary/'+action+'/action?');
-    $(this).attr('href',href);
+    href = $(this).prop('href').replace(/\/summary\?/,'/summary/'+action+'/action?');
+    $(this).prop('href',href);
   });
   $('#sf_admin_pager input[onkeypress]').removeAttr('onkeypress')
     .keypress(function(event){
@@ -27,10 +27,10 @@ $(document).ready(function(){
   // specific filtering
   action = /\/summary\/(.*)\/action/.exec(window.location)[1];
   $('#sf_admin_filter form').each(function(){
-    $(this).attr('action',$(this).attr('action')+'?type='+action);
+    $(this).prop('action',$(this).prop('action')+'?type='+action);
   });
   $('#sf_admin_filters_buttons a').each(function(){
-    $(this).attr('href',$(this).attr('href')+'&type='+action);
+    $(this).prop('href',$(this).prop('href')+'&type='+action);
   });
   
   // calculate the page's total if there is something to calculate...

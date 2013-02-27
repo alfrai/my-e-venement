@@ -9,7 +9,7 @@ function load_calendar()
   $.get(relative_url_ics_content,function(post){
     // the ics/ical content has been generated in the "post" var
     $.ajax({
-      url: $('#calendar').attr('src'),
+      url: $('#calendar').prop('src'),
       type: 'POST',
       dataType: 'html',
       data: { ical: post },
@@ -21,10 +21,10 @@ function load_calendar()
         
         $('#calendar').css('height',$('#calendar').contents().find('html').height());
         $('#calendar').contents().find('a:not([href^=http])').each(function(){
-          $(this).attr('href',relative_url_phpicalendar+$(this).attr('href')+'&cal=nocal');
+          $(this).prop('href',relative_url_phpicalendar+$(this).prop('href')+'&cal=nocal');
         });
         $('#calendar').contents().find('a:not([href^=http])').click(function(){
-          $('#calendar').attr('src',$(this).attr('href'));
+          $('#calendar').prop('src',$(this).prop('href'));
           load_calendar();
           return false;
         });

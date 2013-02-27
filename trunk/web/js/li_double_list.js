@@ -15,7 +15,7 @@ var liDoubleList =
 
   submit: function(form, className)
   {
-    $(form).find(str = 'select[multiple].'+className+' option').attr('selected',true);
+    $(form).find(str = 'select[multiple].'+className+' option').prop('selected',true);
   },
 
   get_current_form: function(el)

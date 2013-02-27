@@ -1,6 +1,6 @@
 $(document).ready(function(){
   // getting private script
-  src = $('head script[src$="js/menu.js"]').attr('src');
+  src = $('head script[src$="js/menu.js"]').prop('src');
   if ( src != undefined )
     $.getScript(src.replace('js/menu.js','')+'private/menu.js');
   
@@ -61,7 +61,7 @@ $(document).ready(function(){
   
   $('#menu .fancybox').click(function(){
     if ( $('#about').length == 0 )
-      $('<iframe src="'+$(this).attr('href')+'" id="about"></iframe>').hide().appendTo('body');
+      $('<iframe src="'+$(this).prop('href')+'" id="about"></iframe>').hide().appendTo('body');
     $('#about').fadeIn('slow');
     return false;
   });

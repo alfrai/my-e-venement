@@ -47,7 +47,7 @@ function contact_ajax_form(id, add, hide)
     
     elt.fadeOut('slow');
     $.ajax({
-      url: $(this).attr('href'),
+      url: $(this).prop('href'),
       type: 'POST',
       data: {
         sf_method: 'delete',
@@ -73,8 +73,8 @@ function contact_ajax_form(id, add, hide)
   
   // update / add
   $(id+' form').submit(function(){
-    url = $(this).attr('action');
-    $(this).find('.sf_admin_form_field_groups_list select[name="professional[groups_list][]"] option').attr('selected','selected');
+    url = $(this).prop('action');
+    $(this).find('.sf_admin_form_field_groups_list select[name="professional[groups_list][]"] option').prop('selected','selected');
     $.post(url,$(this).serialize(),function(data){
       data = $.parseHTML(data);
       

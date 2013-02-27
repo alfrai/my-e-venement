@@ -2,11 +2,11 @@ $(document).ready(function(){
   $('#batch-integrate .sf_admin_form_field_filetype input').change(function(){
     if ( $(this).is('#integrate_filetype_fb:checked') )
       $('#batch-integrate .sf_admin_form_field_translation_prices input[type=text] + input[type=text]')
-        .attr('disabled',false)
+        .prop('disabled',false)
         .fadeIn();
     else
       $('#batch-integrate .sf_admin_form_field_translation_prices input[type=text] + input[type=text]')
-        .attr('disabled',true)
+        .prop('disabled',true)
         .fadeOut();
   });
   

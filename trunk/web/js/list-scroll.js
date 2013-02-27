@@ -12,7 +12,7 @@ function list_scroll()
     for ( i = 0 ; i < window.list_scroll_beginning.length ; i++ )
       window.list_scroll_beginning[i]();
     
-    $.get($(this).attr('href'),function(data){
+    $.get($(this).prop('href'),function(data){
       $('#transition .close').click();
       $('.sf_admin_list > table > tbody').append($($.parseHTML(data)).find('.sf_admin_list > table > tbody tr.sf_admin_row')
         .mouseenter(function(){
@@ -38,7 +38,7 @@ function list_add_actions_titles()
   $('.sf_admin_td_actions a').each(function(){
     elt = $(this).clone(true);
     elt.find('span').remove();
-    $(this).attr('title',elt.html());
+    $(this).prop('title',elt.html());
   });
 }
 
@@ -47,7 +47,7 @@ function list_edit()
   // adding the possibility to edit in the list itself the records
   $('.sf_admin_row .sf_admin_text').unbind().dblclick(function(){
 
-    fieldname = $(this).attr('class').replace(/sf_admin_list_td_(\w+)/g,"$1").replace(/sf_admin_text/g,'').trim();
+    fieldname = $(this).prop('class').replace(/sf_admin_list_td_(\w+)/g,"$1").replace(/sf_admin_text/g,'').trim();
     id = $(this).closest('.sf_admin_row').find('[name="ids[]"]').val();
     
     $(this).load(window.location+'/'+id+'/getSpecializedForm?field='+fieldname+' #nothing',function(data){
@@ -71,7 +71,7 @@ function list_edit()
         // submitting specialized form
         $(this).find('form').unbind().submit(function(){
           $(this).parent().addClass('submitting');
-          $.post($(this).attr('action'), $(this).serialize(), function(data){
+          $.post($(this).prop('action'), $(this).serialize(), function(data){
             $('.specialized-form.submitting').each(function(){
               $(this).closest('.sf_admin_text').html($(this).find('input[type=text]:first').val());
             });

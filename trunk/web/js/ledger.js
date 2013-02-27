@@ -1,7 +1,7 @@
 $(document).ready(function(){
   // cash ledger / method
   $('#ledger .method .see-more a').unbind().click(function(){
-    $('#ledger .payment.method-'+parseInt($(this).attr('href').substring(1))).fadeToggle();
+    $('#ledger .payment.method-'+parseInt($(this).prop('href').substring(1))).fadeToggle();
     $(this).html($(this).html() == '-' ? '+' : '-');
   });
   $('#ledger .method .see-more a').html('-');
@@ -12,13 +12,13 @@ $(document).ready(function(){
   $('#ledger .event .see-more a').unbind().click(function(){
     if ( $(this).html() == '+' )
     {
-      $('#ledger .event-'+parseInt($(this).attr('href').substring(7))).each(function(){
+      $('#ledger .event-'+parseInt($(this).prop('href').substring(7))).each(function(){
         $(this).fadeIn();
       });
     }
     else
     {
-      $('#ledger .event-'+parseInt($(this).attr('href').substring(7))).each(function(){
+      $('#ledger .event-'+parseInt($(this).prop('href').substring(7))).each(function(){
         $(this).fadeOut();
         if ( $(this).find('.see-more a').html() == '-' )
           $(this).find('.see-more a').click();
@@ -30,9 +30,9 @@ $(document).ready(function(){
   // sales ledger / manifs
   $('#ledger .manif .see-more a').unbind().click(function(){
     if ( $(this).html() == '+' )
-      $('#ledger .manif-'+parseInt($(this).attr('href').substring(7))).fadeIn();
+      $('#ledger .manif-'+parseInt($(this).prop('href').substring(7))).fadeIn();
     else
-      $('#ledger .manif-'+parseInt($(this).attr('href').substring(7))).fadeOut();
+      $('#ledger .manif-'+parseInt($(this).prop('href').substring(7))).fadeOut();
     $(this).html( $(this).html() == '-' ? '+' : '-' );
   });
   
@@ -49,7 +49,7 @@ $(document).ready(function(){
   
   // go to the other ledger
   $('#criterias .submit a').click(function(){
-    $('#criterias').attr('action',$(this).attr('href'));
+    $('#criterias').prop('action',$(this).prop('href'));
     $('#criterias').submit();
     return false;
   });

@@ -9,8 +9,8 @@ function batch_change()
     {
       $('.sf_admin_batch_actions_choice input[type=submit]').before(
         $('#organism_filters_contacts_groups').clone(true)
-          .attr('name','groups[]')
-          .attr('id','batch_action_group')
+          .prop('name','groups[]')
+          .prop('id','batch_action_group')
           .addClass('ui-corner-all')
       );
       $('.sf_admin_batch_actions_choice input[type=submit]').after('<div style="clear: both"></div>');

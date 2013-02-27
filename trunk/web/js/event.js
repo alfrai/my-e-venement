@@ -12,7 +12,7 @@ function manifestation_list_loaded(data)
   
   $('#more .manifestation_list').html($(data).find(' .sf_admin_list'));
   $('#more .manifestation_list tfoot a[href]').click(function(){
-    $.get($(this).attr('href'),manifestation_list_loaded);
+    $.get($(this).prop('href'),manifestation_list_loaded);
     return false;
   });
 }
@@ -21,7 +21,7 @@ function manifestation_new_clicked()
 {
   form = $('.sf_admin_form form:first');
   anchor = $(this);
-  $.post(form.attr('action'),form.serialize(),function(data){
+  $.post(form.prop('action'),form.serialize(),function(data){
     data = $.parseHTML(data);
     
     if ( $(data).find('.error').length > 0 )
@@ -36,7 +36,7 @@ function manifestation_new_clicked()
     else
     {
       // on event update success
-      window.location = anchor.attr('href');
+      window.location = anchor.prop('href');
     }
   });
   

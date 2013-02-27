@@ -30,7 +30,7 @@ function form_list_actions(widget)
   $('.sf_admin_form_list .sf_admin_action_delete a').unbind().removeAttr('onclick').click(function(){
     r = confirm('Are you sure?');
     if ( r )
-    $.post($(this).attr('href'),{
+    $.post($(this).prop('href'),{
       _csrf_token:  $('.sf_admin_form .sf_admin_form_list.ajax').find('._delete_csrf_token').html(),
       sf_method:    'delete',
     },function(data){
@@ -43,7 +43,7 @@ function form_list_actions(widget)
   $('.sf_admin_form .sf_admin_form_list.ajax form:not(.sf_admin_new)').unbind().submit(function(){
     // apply changes on similar fields forms
     $(this).find('input:not([type=hidden])').each(function(){
-      $('form[action="'+form.attr('action')+'"] [name="'+$(this).attr('name')+'"][type=hidden]')
+      $('form[action="'+form.prop('action')+'"] [name="'+$(this).prop('name')+'"][type=hidden]')
         .val(!$(this).is('input[type=checkbox]') ? $(this).val() : $(this).is(':checked') ? 1 : 0);
     });
     
@@ -52,10 +52,10 @@ function form_list_actions(widget)
     $(this).find('*:not(input)').remove();
     
     // post request
-    $.post($(this).attr('action'),$(this).serialize(),function(data){
+    $.post($(this).prop('action'),$(this).serialize(),function(data){
       data = $.parseHTML(data);
       
-      var object_id = $(data).find('form').attr('action').match(/\/(\d+)$/)[1];
+      var object_id = $(data).find('form').prop('action').match(/\/(\d+)$/)[1];
       var input = $('.sf_admin_form .sf_admin_form_list.ajax .object-'+object_id+' input[type=text]');
       var form = input.closest('form');
       var widget = form.closest('.ajax').get(0);
@@ -86,7 +86,7 @@ function form_list_pager(widget)
 {
   $('#sf_admin_pager .button a').unbind().click(function(){
     elt = $(this).closest('.sf_admin_form_list');
-    $.get($(this).attr('href'),function(data){
+    $.get($(this).prop('href'),function(data){
       elt.html($(.parseHTML(data)).find('.sf_admin_list'));
       form_list_new(widget);
       form_list_actions(widget);
@@ -112,7 +112,7 @@ function form_list_new()
   });
   
   $('.sf_admin_form .sf_admin_form_list.ajax .sf_admin_new form').unbind().submit(function(){
-    $.post($(this).attr('action'),$(this).serialize(),function(data){
+    $.post($(this).prop('action'),$(this).serialize(),function(data){
       form_list();
     });
     return false;

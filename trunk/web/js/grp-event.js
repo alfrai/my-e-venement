@@ -34,9 +34,9 @@ $(document).ready(function(){
       });
       
       // global statute
-      if ( src.find('form:last input[type=checkbox]:first').attr('checked') )
+      if ( src.find('form:last input[type=checkbox]:first').prop('checked') )
         target.find('form:last input[type=checkbox]:first').click();
-      if ( src.find('form:last input[type=checkbox]:last').attr('checked') )
+      if ( src.find('form:last input[type=checkbox]:last').prop('checked') )
         target.find('form:last input[type=checkbox]:last').click();
       target.find('form:last').submit();
       
@@ -62,13 +62,13 @@ $(document).ready(function(){
     $(this).addClass('copy');
     $('.grp-entry tbody').addClass('move');
     
-    $(this).attr('title',$('#copy-paste').html());
+    $(this).prop('title',$('#copy-paste').html());
     $('.grp-entry tbody').mousemove(grp_mouse_move);
   });
   
   // the titles for manifestations' actions
   $('.manifestation .fg-button-mini').each(function(){
-    $(this).attr('title',$.trim($(this).html()));
+    $(this).prop('title',$.trim($(this).html()));
   });
                   
 });

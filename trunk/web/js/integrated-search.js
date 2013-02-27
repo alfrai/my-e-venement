@@ -9,14 +9,14 @@ function list_integrated_search(data)
   
   // updating links to order_by and pagination
   $('.sf_admin_list > table > thead a, .sf_admin_list > table > tfoot a').each(function(){
-    $(this).attr('href',
-      $(this).attr('href').replace(
+    $(this).prop('href',
+      $(this).prop('href').replace(
         $('#list-integrated-search input[name=url]').val(),
-        $('#list-integrated-search').attr('action')
+        $('#list-integrated-search').prop('action')
       )+'&s='+$('#list-integrated-search input[name=s]').val()
     );
   }).click(function(){
-    $.get($(this).attr('href'),function(data){
+    $.get($(this).prop('href'),function(data){
       list_integrated_search(data);
     });
     return false;
@@ -24,8 +24,8 @@ function list_integrated_search(data)
   
   // disabling the input which permits to change current page arbitrary
   $('.sf_admin_list > table > tfoot [name=page]')
-    .attr('disabled','disabled')
-    .attr('style','background-color: white');
+    .prop('disabled','disabled')
+    .prop('style','background-color: white');
   
   // disabling extra-actions
   if ( $('#sf_admin_actions_menu .sf_admin_action_group, #sf_admin_actions_menu .sf_admin_action_csv').length > 0 )
@@ -41,7 +41,7 @@ function list_integrated_search(data)
   // if searched by id and only one result, going into the object's file
   if ( parseInt($('#list-integrated-search input[name=s]').val().replace(/^0*/,''))+'' == $('#list-integrated-search input[name=s]').val().replace(/^0*/,'') && $('.sf_admin_list > table .sf_admin_action_show').length == 1 )
   {
-    window.location = $('.sf_admin_list > table .sf_admin_action_show a:first').attr('href');
+    window.location = $('.sf_admin_list > table .sf_admin_action_show a:first').prop('href');
   }
 }
 
@@ -50,7 +50,7 @@ $(document).ready(function(){
   $('#list-integrated-search input[type=text]:first').focus();
   
   $('#list-integrated-search').unbind().submit(function(){
-    $.get($(this).attr('action'),{ s: $(this).find('input[name=s]').val() },function(data){
+    $.get($(this).prop('action'),{ s: $(this).find('input[name=s]').val() },function(data){
       list_integrated_search(data);
     });
     return false;

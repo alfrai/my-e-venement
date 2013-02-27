@@ -3,8 +3,8 @@ $(document).ready(function(){
     $('#select-all').click();
   
   $('#select-all').click(function(){
-    if ( $(this).attr('checked') )
-      $('.check input').attr('checked','checked');
+    if ( $(this).prop('checked') )
+      $('.check input').prop('checked','checked');
     else
       $('.check input').removeAttr('checked');
     

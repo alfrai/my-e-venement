@@ -18,7 +18,7 @@ function events_list(url)
     $('.events_list tfoot input').remove();
     
     $('.events_list tfoot a[href]').click(function(){
-      events_list($(this).attr('href'));
+      events_list($(this).prop('href'));
       return false;
     });
   });
