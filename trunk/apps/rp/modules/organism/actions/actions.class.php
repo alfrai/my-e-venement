@@ -27,7 +27,7 @@ class organismActions extends autoOrganismActions
         $this->hasFilters = $this->getUser()->getAttribute('organism.filters', $this->configuration->getFilterDefaults(), 'admin_module');
       if ( !isset($this->filters) )
         $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      if ( !in_array($this->getActionName(), array('index','search','map','labels')) )
+      if ( !in_array($this->getActionName(), array('index','search','map','labels','csv')) )
         $this->setTemplate('edit');
     }
   }
@@ -41,20 +41,33 @@ class organismActions extends autoOrganismActions
   }
   public function executeBatchAddToGroup(sfWebRequest $request)
   {
+    $request->checkCSRFProtection();
+    
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $filters = $request->getParameter($this->getModuleName().'_filters');
     
-    $ids = $request->getParameter('ids');
-    $groups = $request->getParameter('groups');
+    try {
+      $validator = new sfValidatorDoctrineChoice(array('model' => 'Organism', 'multiple' => true, 'required' => false));
+      $ids = $validator->clean($request->getParameter('ids'));
+      $validator = new sfValidatorDoctrineChoice(array('model' => 'Group', 'multiple' => true));
+      $groups = $request->getParameter('organism_filters');
+      $groups = $validator->clean(isset($groups['groups_list'])
+        ? $groups['groups_list']
+        : $filters['groups_list']
+      );
+    }
+    catch (sfValidatorError $e)
+    {
+      $this->getUser()->setFlash('error', 'A problem occurs when adding the selected items as some items do not exist anymore.');
+      return $this->redirect('@organism');
+    }
     
-    $orgs = Doctrine::getTable('Organism')->createQuery('o')
-      ->whereIn('o.id',$ids)
-      ->execute();
-    
-    foreach ( $orgs as $organism )
+    if ( count($ids) > 0 )
+    foreach ( $ids as $organism_id )
     foreach ( $groups as $group_id )
     {
-      $go = new GroupOrganism();
-      $go->organism_id = $organism->id;
+      $go = new GroupOrganism;
+      $go->organism_id = $organism_id;
       $go->group_id = $group_id;
       
       try { $go->save(); }
@@ -62,7 +75,7 @@ class organismActions extends autoOrganismActions
     }
     
     $this->getUser()->setFlash('notice',__('The chosen organisms have been added to the selected groups.'));
-    $this->redirect('group/show?id='.$go->group_id);
+    $this->redirect('@organism');
   }
   public function executeBatchAddProToGroup(sfWebRequest $request)
   {

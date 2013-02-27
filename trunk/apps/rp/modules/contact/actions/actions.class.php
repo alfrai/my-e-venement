@@ -70,7 +70,7 @@ class contactActions extends autoContactActions
     foreach ( $ids as $contact_id )
     foreach ( $groups as $group_id )
     {
-      $gc = new GroupContact();
+      $gc = new GroupContact;
       $gc->contact_id = $contact_id;
       $gc->group_id = $group_id;
       

@@ -5,6 +5,10 @@
     <header />
     <body>
       <trans-unit>
+        <source>A problem occurs when adding the selected items as some items do not exist anymore.</source>
+        <target>Impossible d'ajouter les objets sélectionnés car certains ont disparus.</target>
+      </trans-unit>
+      <trans-unit>
         <source>WARNING: CAPS Lock is off.</source>
         <target>ATTENTION: Verr.Maj. désactivé.</target>
       </trans-unit>

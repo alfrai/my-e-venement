@@ -224,8 +224,8 @@ $(document).ready(function(){
       $('#tdp-side-bar').addClass('add-to');
       $('#tdp-side-groups input[type=checkbox]:checked').removeAttr('checked');
       $('#tdp-side-groups label').click(function(){
-        $(this).closest('li').find('input[type=checkbox]').click();
-        $.post($('#tdp-side-bar .batch-add-to.group').prop('href'),$('#tdp-side-bar').serialize()+'&'+$('#tdp-content').serialize(),function(data){
+        $(this).closest('li').find('input[type=checkbox]').click().prop('checked',true);
+        $.post($('#tdp-side-bar .batch-add-to.group').prop('href'),$('#tdp-side-bar form').serialize()+'&'+$('#tdp-content').serialize(),function(data){
           data = $.parseHTML(data);
           
           $('#tdp-content input[type=checkbox]:checked').click().removeAttr('checked').change();
