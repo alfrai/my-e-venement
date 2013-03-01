@@ -34,17 +34,26 @@
   }
   
   $transaction = Doctrine::getTable('Transaction')->findOneById($tid);
-  
   if ( $transaction->closed && !$this->getUser()->hasCredential('tck-unblock') )
   {
     $this->getUser()->setFlash('error',__('Oops! The screen you asked for is secure and you do not have proper credentials.','sf_admin',array()));
     $this->redirect('ticket/cancel');
   }
+  $translinked = $transaction->Translinked->count() > 0
+    ? $transaction->Translinked[0]
+    : new Transaction;
+  $translinked->type = 'cancellation';
+  $translinked->transaction_id = $transaction->id;
+  $translinked->contact_id = $transaction->contact_id;
+  $translinked->professional_id = $transaction->professional_id;
   
-  // deleting all payments
+  // deleting all payments (including payments from previous cancelling transactions)
+  $tids = array($tid,$transaction->transaction_id);
+  foreach ( $transaction->Translinked as $tl )
+    $tids[] = $tl->id;
   $q = new Doctrine_Query();
   $q->from('Payment p')
-    ->andWhereIn('p.transaction_id',array($tid,$transaction->transaction_id))
+    ->andWhereIn('p.transaction_id',$tids)
     ->delete()
     ->execute();
   
@@ -71,29 +80,24 @@
     ->andWhere('tck.printed = true')
     ->execute();
   
-  $translinked = $transaction->Translinked->count() > 0
-    ? $transaction->Translinked[0]
-    : new Transaction;
-  $translinked->type = 'cancellation';
-  $translinked->transaction_id = $transaction->id;
-  $translinked->contact_id = $transaction->contact_id;
-  $translinked->professional_id = $transaction->professional_id;
-  
   $value = 0;
   if ( $tickets->count() > 0 )
   {
     foreach ( $tickets as $ticket )
     {
-      $cancel = $ticket->copy();
-      $cancel->id =
-      $cancel->transaction_id =
-      $cancel->sf_guard_user_id =
-      $cancel->created_at =
-      $cancel->updated_at = NULL;
-      $cancel->printed = $cancel->integrated = false;
-      $cancel->value = -$cancel->value;
-      $cancel->cancelling = $ticket->id;
-      $translinked->Tickets[] = $cancel;
+      if ( !$ticket->hasBeenCancelled() )
+      {
+        $cancel = $ticket->copy();
+        $cancel->id =
+        $cancel->transaction_id =
+        $cancel->sf_guard_user_id =
+        $cancel->created_at =
+        $cancel->updated_at = NULL;
+        $cancel->printed = $cancel->integrated = false;
+        $cancel->value = -$cancel->value;
+        $cancel->cancelling = $ticket->id;
+        $translinked->Tickets[] = $cancel;
+      }
       $value += $ticket->value;
     }
   }
