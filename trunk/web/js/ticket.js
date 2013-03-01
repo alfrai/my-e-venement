@@ -312,7 +312,7 @@ function ticket_transform_hidden_to_span(all)
         $(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=hidden].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=hidden].nb').val())+1);
       }
       else
-        $('<span class="'+name+' ticket_prices '+$(this).prop('class')+'" title="'+$(this).prop('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" autocomplete="off" maxlength="3" /><input type="hidden" class="nb" name="hidden_nb" value="1"> <span class="name">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
+        $('<span class="'+name+' ticket_prices '+$(this).prop('class')+'" title="'+$(this).prop('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" autocomplete="off" maxlength="3" /><input type="hidden" class="nb" name="hidden_nb" value="1"> <span class="price">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
           .appendTo($(this).parent());
       $(this).parent().find('.'+name+'.'+$(this).prop('class')+' .tickets_id').append($(this).prop('alt')+'<br/>');
     });
@@ -323,7 +323,7 @@ function ticket_transform_hidden_to_span(all)
     orig = $('#prices input[name="ticket[nb]"]').val();
     
     $('#prices input[name="ticket[nb]"]').val(nb);
-    $('#prices input[name="ticket[price_name]"][value="'+$(this).parent().find('.name').html()+'"]').click();
+    $('#prices input[name="ticket[price_name]"][value="'+$(this).parent().find('.price').html()+'"]').click();
     $('#prices input[name="ticket[nb]"]').val(orig);
   }).keypress(function(e){ if ( e.which == '13' ) {
     // when changing quantities arbitrary through the input text
@@ -332,7 +332,7 @@ function ticket_transform_hidden_to_span(all)
   }});
   
   // click to remove a ticket
-  $('#prices .manifestations_list .prices .ticket_prices.notprinted .name, #prices .manifestations_list .prices .ticket_prices.integrated .name').unbind().click(function(){
+  $('#prices .manifestations_list .prices .ticket_prices.notprinted .price, #prices .manifestations_list .prices .ticket_prices.integrated .price').unbind().click(function(){
     $('#prices .prices_list').removeClass('cancel');
     gid = $(this).parent().parent().prop('class').replace(/.* gauge-(\d+).*/g,'$1');
     $(this).parent().parent().parent().parent().find('.workspaces [name="ticket[gauge_id]"]').val(gid);

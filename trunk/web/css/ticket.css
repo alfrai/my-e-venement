@@ -64,8 +64,8 @@
   border-radius: 3px;
   white-space: nowrap;
 }
-.manifestations_list .prices .ticket_prices.notprinted .name,
-.manifestations_list .prices .ticket_prices.integrated .name {
+.manifestations_list .prices .ticket_prices.notprinted .price,
+.manifestations_list .prices .ticket_prices.integrated .price {
   cursor: pointer;
 }
 .manifestations_list .prices .ticket_prices.integrated input[type=text],
@@ -73,6 +73,7 @@
 .manifestations_list .prices .ticket_prices.printed input[type=text],
 .manifestations_list .prices .ticket_prices.printed {
   background-color: #ddd;
+  color: black;
 }
 #prices .ticket_prices input.nb {
   width: 2em;
