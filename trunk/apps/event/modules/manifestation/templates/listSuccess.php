@@ -21,8 +21,26 @@
 *
 ***********************************************************************************/
 ?>
-<div id="more">
-  <?php include_partial('event/manifestation_list', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php include_partial('event/manifestation_calendar', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
-</div>
-
+<?php
+  // JSON CONTENT
+  
+  $manifs = array();
+  
+  foreach ( $manifestations as $manif )
+  {
+    $manifs[] = array(
+      'id' => $manif->id,
+      'title' => !isset($event_id) ? (string)$manif->Event : (string)$manif->Location,
+      'start' => $manif->happens_at,
+      'end' => date('Y-m-d H:i:s',strtotime($manif->happens_at)+strtotime($manif->duration)-strtotime('0:00')),
+      'allDay' => false,
+      'hackurl' => url_for('manifestation/show?id='.$manif->id),
+      'editable' => $sf_user->hasCredential('event-manif-edit'),
+    );
+    
+    if ( $manif->color_id )
+    $manifs[count($manifs)-1]['backgroundColor'] = $manif->Color;
+  }
+  
+  echo json_encode($manifs);
+?>

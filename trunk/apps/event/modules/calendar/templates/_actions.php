@@ -7,7 +7,7 @@
     </a>
   </li>
   <li class="sf_admin_action_edit">
-    <a class="fg-button ui-state-default fg-button-icon-left" href="<?php echo url_for('event/calendar?id='.$sf_request->getParameter('id')) ?>">
+    <a class="fg-button ui-state-default fg-button-icon-left" href="<?php echo url_for('event/calendar') ?>">
       <span class="ui-icon ui-icon-circle-plus"></span>
       <?php echo __('Export') ?>
     </a>

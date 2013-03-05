@@ -22,6 +22,11 @@ class locationActions extends autoLocationActions
       $this->pager->getQuery()->orderby('name');
     }
   }
+  
+  public function executeCalendar(sfWebRequest $request)
+  {
+    $this->executeEdit($request);
+  }
 
   public function executeUpdateIndexes(sfWebRequest $request)
   {

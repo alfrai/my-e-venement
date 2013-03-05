@@ -37,9 +37,7 @@
           <?php if ( $sf_user->hasCredential('tck-unblock') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/respawn') ?>"><?php echo __('Respawn a transaction',array(),'menu') ?></a></li>
           <?php endif ?>
-          <?php if ( $sf_user->hasCredential('tck-control') ): ?>
-          <li><a href="<?php echo cross_app_url_for('tck','ticket/control') ?>"><?php echo __('Ticket control',array(),'menu') ?></a></li>
-          <?php endif ?>
+          
           <?php if ( $sf_user->hasCredential('tck-cancel') && $sf_user->hasCredential('tck-transaction') ): ?>
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','ticket/cancel') ?>"><?php echo __('Cancelling tickets',array(),'menu') ?></a></li>
           <?php endif ?>
@@ -49,6 +47,10 @@
           <?php if ( (sfConfig::has('app_control_future') || sfConfig::has('app_control_past') || sfConfig::has('app_control_delays'))
                   && $sf_user->hasCredential('tck-control-overview') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','control/index') ?>"><?php echo __('Affichage des flux',array(),'menu') ?></a></li>
+          <?php endif ?>
+          
+          <?php if ( $sf_user->hasCredential('tck-control') ): ?>
+          <li class="spaced"><a href="<?php echo cross_app_url_for('tck','ticket/control') ?>"><?php echo __('Ticket control',array(),'menu') ?></a></li>
           <?php endif ?>
         </ul>
         <span class="title"><?php echo __('Ticketting',array(),'menu') ?></span>

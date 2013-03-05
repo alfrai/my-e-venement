@@ -36,6 +36,39 @@ require_once dirname(__FILE__).'/../lib/manifestationGeneratorHelper.class.php';
  */
 class manifestationActions extends autoManifestationActions
 {
+  public function executeSlideHappensAt(sfWebRequest $request)
+  {
+    $this->manifestation = Doctrine::getTable('Manifestation')->createQuery('m')
+      ->andWhere('m.id = ?',$request->getParameter('id'))
+      ->fetchOne();
+    $this->forward404Unless($request->hasParameter('days') && $request->hasParameter('minutes') && $this->manifestation);
+    
+    $this->manifestation->happens_at = date('Y-m-d H:i:s',
+      strtotime($this->manifestation->happens_at) +
+      $request->getParameter('days') * 24 * 60 * 60 +
+      $request->getParameter('minutes') * 60 );
+    
+    $this->manifestation->save();
+    
+    return sfView::NONE;
+  }
+  
+  public function executeSlideDuration(sfWebRequest $request)
+  {
+    $this->manifestation = Doctrine::getTable('Manifestation')->createQuery('m')
+      ->andWhere('m.id = ?',$request->getParameter('id'))
+      ->fetchOne();
+    $this->forward404Unless($request->hasParameter('days') && $request->hasParameter('minutes') && $this->manifestation);
+    
+    $this->manifestation->duration = $str = strtotime($this->manifestation->duration) - strtotime('0:00') +
+      $request->getParameter('days') * 24 * 60 * 60 +
+      $request->getParameter('minutes') * 60;
+    
+    $this->manifestation->save();
+    
+    return sfView::NONE;
+  }
+  
   public function executeExport(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers(array('Date','CrossAppLink'));
@@ -181,6 +214,25 @@ class manifestationActions extends autoManifestationActions
     }
   }
 
+  public function executeList(sfWebRequest $request)
+  {
+    $this->location_id = $request->getParameter('location_id');
+    $this->event_id = $request->getParameter('event_id');
+    
+    $from = date('Y-m-01', $request->getParameter('start',strtotime('now')));
+    $to = date('Y-m-01', $request->getParameter('end',strtotime('+ 1 month')));
+    
+    $q = Doctrine::getTable('Manifestation')->createQuery('m')
+      ->select('m.*, l.*, e.*, g.*')
+      ->andWhere('m.happens_at >= ?',$from)
+      ->andWhere('m.happens_at <  ?',$to)
+      ->orderBy('happens_at');
+    if ( $this->location_id ) $q->andWhere('m.location_id = ?',$this->location_id);
+    if ( $this->event_id ) $q->andwhere('m.event_id = ?',$this->event_id);
+    EventFormFilter::addCredentialsQueryPart($q);
+    $this->manifestations = $q->execute();
+    $this->forward404Unless($this->manifestations);
+  }
   public function executeEventList(sfWebRequest $request)
   {
     if ( !$request->getParameter('id') )

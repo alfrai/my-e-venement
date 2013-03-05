@@ -21,8 +21,12 @@
 *
 ***********************************************************************************/
 ?>
-<div id="more">
-  <?php include_partial('event/manifestation_list', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php include_partial('event/manifestation_calendar', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
+<?php use_javascript('jquery','first') ?>
+<?php use_stylesheet('/sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css') ?>
+<?php use_stylesheet('/sfAdminThemejRollerPlugin/css/jroller.css') ?>
+<?php use_stylesheet('/sfAdminThemejRollerPlugin/css/fg.menu.css') ?>
+<?php use_stylesheet('/sfAdminThemejRollerPlugin/css/fg.buttons.css') ?>
+<?php use_stylesheet('/sfAdminThemejRollerPlugin/css/ui.selectmenu.css') ?>
+<div id="more" class="ui-widget-content ui-widget sf_admin_edit">
+<?php include_partial('manifestation_calendar', array('location' => $location, 'form' => $form, 'configuration' => $configuration)) ?>
 </div>
-

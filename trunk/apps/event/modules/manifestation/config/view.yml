@@ -16,3 +16,8 @@ createSuccess:
 templatingSuccess:
   stylesheets: [manifestation-templating.css,/sfFormExtraPlugin/css/jquery.autocompleter.css]
   javascripts: [/sfFormExtraPlugin/js/jquery.autocompleter.js]
+
+listSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
