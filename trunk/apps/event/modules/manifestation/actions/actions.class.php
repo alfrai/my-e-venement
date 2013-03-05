@@ -60,7 +60,7 @@ class manifestationActions extends autoManifestationActions
       ->fetchOne();
     $this->forward404Unless($request->hasParameter('days') && $request->hasParameter('minutes') && $this->manifestation);
     
-    $this->manifestation->duration = $str = strtotime($this->manifestation->duration) - strtotime('0:00') +
+    $this->manifestation->duration = $str = $this->manifestation->getDurationInSeconds() +
       $request->getParameter('days') * 24 * 60 * 60 +
       $request->getParameter('minutes') * 60;
     

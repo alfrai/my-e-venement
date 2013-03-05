@@ -37,6 +37,12 @@ class Manifestation extends PluginManifestation
     return $this->getName();
   }
   
+  public function getDurationInSeconds()
+  {
+    $duration = explode(':',$this->duration);
+    return $duration[0]*60*60 + $duration[1]*60;
+  }
+  
   /**
     * $options: modeled on sales ledger's criterias
     * 
