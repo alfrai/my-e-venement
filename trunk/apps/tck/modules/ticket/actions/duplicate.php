@@ -57,10 +57,10 @@
       }
       if ( $ticket->Cancelling->count() > 0 )
       {
-        $this->getUser()->setFlash('error',__("Can't duplicate the ticket #%%i%% because it was not yet printed... Just try to print it",array('%%i%%' => $ticket->id)));
+        $this->getUser()->setFlash('error',__("Can't duplicate the ticket #%%i%% because it has been cancelled already.",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
-      if ( $ticket->Duplicatas->count() != 0 )
+      if ( $ticket->Duplicatas->count() > 0 )
       {
         $this->getUser()->setFlash('error',__("Can't duplicate the ticket #%%i%% because it has been already duplicated... Simply try to duplicate the last duplicate of the serie",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);

@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Can't duplicate the ticket #%%i%% because it has been cancelled already.</source>
+        <target>Impossible de dupliquer le billet #%%i%% car ce billet a déjà été annulé.</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Can't duplicate the ticket #%%i%% because it was not yet printed... Just try to print it</source>
+        <target>Impossible de dupliquer le billet #%%i%%, il ne semble pas avoir été imprimé...</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Can't cancel the ticket #%%i%% because it is already a cancellation</source>
         <target>Impossible d'annuler le billet #%%i%% parce qu'il s'agit déjà d'une annulation</target>
       </trans-unit> 
