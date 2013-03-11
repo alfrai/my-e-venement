@@ -16,7 +16,8 @@
             $.each(json, function(key, val) {
               $('.sf_admin_form_field_cities select')
                 .append('<option value="'+key+'">'+val+'</option>')
-                .find('option:first-child').attr('selected',true);
+                .find('option:first-child').attr('selected',true)
+                .change();
             });
           });
         }
