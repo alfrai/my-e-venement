@@ -491,20 +491,20 @@ function ticket_prices()
       ticket_gauge_update_click();
       
       // add the content
-      $('#prices .manifestations_list input:checked').parent().parent().find('.prices')
-        .html(
-          $($.parseHTML(data)).find('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+
-            $('#prices .manifestations_list input:checked').val()
-          +']')
-          .parent().parent().find('.prices').html()
-        );
-      $('#prices .manifestations_list input[type=radio]:checked').parent().parent().find('.total')
-        .html(
-          $($.parseHTML(data)).find('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+
-            $('#prices .manifestations_list input:checked').val()
-          +']')
-          .parent().parent().find('.total').html()
-        );
+      if ( (elt = $($.parseHTML(data)).find('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+$('#prices .manifestations_list input:checked').val()+']')).length > 0 )
+      {
+        $('#prices .manifestations_list input:checked').parent().parent().find('.prices')
+          .html(elt.parent().parent().find('.prices').html());
+        $('#prices .manifestations_list input[type=radio]:checked').parent().parent().find('.total')
+          .html(elt.parent().parent().find('.total').html());
+      }
+      else
+      {
+        $('#prices .manifestations_list input:checked').parent().parent().find('.prices')
+          .html('');
+        $('#prices .manifestations_list input[type=radio]:checked').parent().parent().find('.total')
+          .html('');
+      }
       
       // transform input hidden into visual tickets
       ticket_transform_hidden_to_span();
