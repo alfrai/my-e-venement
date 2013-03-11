@@ -87,7 +87,7 @@ function form_list_pager(widget)
   $('#sf_admin_pager .button a').unbind().click(function(){
     elt = $(this).closest('.sf_admin_form_list');
     $.get($(this).prop('href'),function(data){
-      elt.html($(.parseHTML(data)).find('.sf_admin_list'));
+      elt.html($($.parseHTML(data)).find('.sf_admin_list'));
       form_list_new(widget);
       form_list_actions(widget);
       form_list_more(widget);
