@@ -99,6 +99,20 @@ class Ticket extends PluginTicket
       }
     }
     
+    // if the ticket's manifestation depends on an other one (and the ticket is not a cancellation nor a duplication
+    if ( !is_null($this->Manifestation->depends_on) && is_null($this->cancelling) && is_null($this->duplicating) )
+    {
+      $ticket = new Ticket;
+      $ticket->gauge_id = Doctrine_Query::create()->from('Gauge g')
+        ->andWhere('g.workspace_id IN (SELECT gg.workspace_id FROM Gauge gg WHERE gg.id = ?)',$this->gauge_id)
+        ->andWhere('g.manifestation_id = ?',$this->Manifestation->depends_on)
+        ->fetchOne()->id;
+      $ticket->price_name = $this->price_name;
+      $ticket->transaction_id = $this->transaction_id;
+      $ticket->save();
+      $this->Transaction->Tickets[] = $ticket;
+    }
+    
     // resetting generic properties
     $this->updated_at = NULL;
     $this->created_at = NULL;

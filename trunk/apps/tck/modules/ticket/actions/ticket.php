@@ -74,13 +74,36 @@
       ->leftJoin('g.Workspace ws')
       ->leftJoin('tck.Price tp')
       ->leftJoin('p.Users pu')
-      ->andWhereIn('tg.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
-      ->andWhere('t.id = ?',$this->transaction->id)
+      ->leftJoin('m.Color c')
+      ->leftJoin('p.Workspaces pws')
+      ->leftJoin('pws.Gauges pwsg ON pws.id = pwsg.workspace_id AND pwsg.manifestation_id = m.id')
       ->andWhere('pu.id = ?',$this->getUser()->getId())
+      ->andWhere('t.id = ?',$this->transaction->id)
       ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
+      ->andWhereIn('tg.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->orderBy('e.name, m.happens_at, m.id, g.workspace_id, tg.workspace_id, tck.price_name, tck.printed, tck.id');
-    if ( count($values['manifestation_id']) > 0 )
-      $q->andWhereIn('m.id',$values['manifestation_id']);
+    
+    if ( intval($values['manifestation_id']) > 0 )
+    {
+      $manifs = array(0);
+      $cache = array();
+      foreach ( $this->tickets as $ticket )
+      {
+        $manifs[$ticket->manifestation_id] = $ticket->manifestation_id;
+        
+        if ( $values['nb'] > 0 ) // do not display extra-manif if deleting tickets
+        {
+          if ( !isset($cache[$ticket->manifestation_id]) )
+            $cache[$ticket->manifestation_id] = $ticket->Manifestation->depends_on;
+          if ( !is_null($cache[$ticket->manifestation_id]) )
+            $manifs[$cache[$ticket->manifestation_id]] = $cache[$ticket->manifestation_id];
+        }
+      }
+      
+      $this->manifestation_id = $values['manifestation_id'];
+      $q->andWhereIn('m.id',$manifs);
+    }
+    
     $this->manifestations = $q->execute();
     
     // ?? but necessary for ajax requests

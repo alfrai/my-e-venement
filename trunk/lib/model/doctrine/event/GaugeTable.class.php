@@ -51,4 +51,15 @@ class GaugeTable extends PluginGaugeTable
                    ) AS asked");
     return $q;
   }
+  
+  public function retrieveList()
+  {
+    return $this->createQuery('g')
+      ->leftJoin('g.Manifestation m')
+      ->leftJoin('m.Event e')
+      ->addSelect('ws.*, m.*, e.*')
+      ->addSelect('e.name AS event_name')
+      ->addSelect('m.happens_at AS happens_at')
+      ->addSelect('ws.name AS workspace_name');
+  }
 }

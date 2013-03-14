@@ -4,6 +4,10 @@
 <form action="" method="post" id="prices">
 <div class="gauge ui-widget-content ui-corner-all"></div>
 <div class="manifestations_list ui-widget-content ui-corner-all">
+    <?php if ( $manifestations->count() == 0 ): ?>
+    <input class="empty_manifestation" type="hidden" name="empty_manifestation" value="<?php echo $manifestation_id ?>" />
+    <?php endif ?>
+    
     <?php echo $form->renderHiddenFields(); $cpt = 0; ?>
     <ul>
     <?php foreach ( $manifestations as $manif ): ?>

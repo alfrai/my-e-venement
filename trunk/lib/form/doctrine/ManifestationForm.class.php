@@ -23,6 +23,11 @@ class ManifestationForm extends BaseManifestationForm
     $this->widgetSchema['location_id']->setOption('order_by',array('name',''));
     
     $this->validatorSchema['duration'] = new sfValidatorString(array('required' => false));
+    
+    $this->widgetSchema['depends_on'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Manifestation',
+      'url'   => url_for('manifestation/ajax?except='.$this->object->id),
+    ));
   }
   protected function doSave($con = null)
   {

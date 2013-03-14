@@ -189,7 +189,7 @@ function ticket_activate_prices_gauge()
   $('.manifestations_list .workspaces').click(function(){
     $(this).parent().find('input[type=radio]').click();
   });
-  $('.manifestations_list .workspaces').change(ticket_display_prices);
+  $('.manifestations_list .workspaces select').change(ticket_display_prices);
   
   // when switching from manifestation, updating the gauge
   $('#prices .manifestations_list input[type=radio]').unbind().click(function(){
@@ -359,13 +359,21 @@ function ticket_transform_hidden_to_span(all)
 
 function ticket_display_prices()
 {
-  prices = JSON.parse($(search = '#ts-tickets [name="ticket[manifestation_id]"]:checked, #ts-manifestations [name="ticket[manifestation_id]"]:checked, .manifestations_list [name="ticket[manifestation_id]"]:checked').closest('li').find('.manif_prices_list').html());
-  elts = $('.tickets_form .prices_list [name="ticket[price_name]"]').hide().removeClass('show');
+  $(this).closest('li.manif').find('input[type=radio]').prop('checked',true);
+  elts = $(search = '#ts-tickets [name="ticket[manifestation_id]"]:checked, #ts-manifestations [name="ticket[manifestation_id]"]:checked, .manifestations_list [name="ticket[manifestation_id]"]:checked').closest('li').find('.manif_prices_list');
+  if ( elts.length == 0 )
+  {
+    console.log("Error proceeding to the display of prices, no JSON string found.");
+    return false;
+  }
+  
+  prices = JSON.parse(elts.html());
+  buttons = $('.tickets_form .prices_list [name="ticket[price_name]"]').hide().removeClass('show');
   for ( var id in prices )
   {
-    elts.each(function(){
+    buttons.each(function(){
       if ( $(this).val() == prices[id]['price'] )
-      if ( prices[id]['gauges'][$(search).closest('li').find('[name="ticket[gauge_id]"]').val()] != undefined )
+      if ( prices[id]['gauges'][elts.closest('li').find('[name="ticket[gauge_id]"]').val()] != undefined )
         $(this).show().addClass('show');
     });
   }
@@ -442,25 +450,28 @@ function ticket_prices()
     manif_id = $('#prices form input[name="ticket[manifestation_id]"]:checked').val();
     form = $('#prices form').clone(true);
     form.find('input[name="ticket[manifestation_id]"][value='+manif_id+']').prop('checked','checked');
-    form.find('.prices .workspace input[type=hidden]').remove();
-    form.find('input[name="ticket[gauge_id]"]').remove();
-    serialized = form.serialize()+'&'+encodeURIComponent('ticket[gauge_id]')+'='+$('#prices .manifestations_list input[type=radio]:checked').closest('li').find('[name="ticket[gauge_id]"]').val()+'&'+$(this).prop('name')+'='+encodeURIComponent($(this).val());
+    form.find('.prices .workspace input[type=hidden], input[name="ticket[gauge_id]"]').remove();
+    form.find('select[name="ticket[gauge_id]"]').prop('disabled',true);
+    serialized = form.serialize()+'&'+encodeURIComponent('ticket[gauge_id]')+'='+$('#prices .manifestations_list input[type=radio]:checked').closest('li').find('[name="ticket[gauge_id]"]').val()+'&'+encodeURIComponent($(this).prop('name'))+'='+encodeURIComponent($(this).val());
+    form.find('select[name="ticket[gauge_id]"]').prop('disabled',false);
     $.post($('.tickets_form').prop('action'),serialized,function(data){
-      if ( $.trim($($.parseHTML(data)).find('.sf_admin_flashes').html()) != '' )
+      data = $.parseHTML(data);
+      
+      if ( $(data).find('.sf_admin_flashes').html() != '' )
       {
-        $('.sf_admin_flashes').replaceWith($($.parseHTML(data)).find('.sf_admin_flashes'));
+        $('.sf_admin_flashes').replaceWith($(data).find('.sf_admin_flashes'));
         setTimeout(function(){
           $('.sf_admin_flashes > *').fadeOut();
         },2500);
       }
       
       // if it is a seating plan which is displaid
-      if ( $($.parseHTML(data)).find('#seating-plan').length > 0 )
+      if ( $(data).find('#seating-plan').length > 0 )
       {
         // appearing
         $('#transition').show();
         $('#seating-plan').remove();
-        $('#prices').prepend($($.parseHTML(data)).find('#seating-plan'));
+        $('#prices').prepend($(data).find('#seating-plan'));
         $('#seating-plan input:first').focus();
         $('#seating-plan .reset').click(function(){
           $('#transition').hide();
@@ -491,31 +502,48 @@ function ticket_prices()
       ticket_gauge_update_click();
       
       // add the content
-      if ( (elt = $($.parseHTML(data)).find('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+$('#prices .manifestations_list input:checked').val()+']')).length > 0 )
+      if ( $(data).find('#prices .manifestations_list li.manif').length > 0 )
       {
-        $('#prices .manifestations_list input:checked').parent().parent().find('.prices')
-          .html(elt.parent().parent().find('.prices').html());
-        $('#prices .manifestations_list input[type=radio]:checked').parent().parent().find('.total')
-          .html(elt.parent().parent().find('.total').html());
+        // saving checked manifestation
+        var checked = $('#prices .manifestations_list input:checked');
+        
+        // if few manifestations are given, replace the contents
+        $(data).find('#prices .manifestations_list input[name="ticket[manifestation_id]"]').each(function(){
+          if ( $('#prices .manifestations_list input[value='+$(this).val()+']').length > 0 )
+          {
+            $('#prices .manifestations_list input[value='+$(this).val()+']').closest('li.manif').find('.prices')
+              .html($(this).closest('li.manif').find('.prices').html());
+            $('#prices .manifestations_list input[value='+$(this).val()+']').closest('li.manif').find('.total')
+              .html($(this).closest('li.manif').find('.total').html());
+          }
+          else // the manifestation is not present already
+            $('#prices .manifestations_list ul').prepend($(this).closest('li.manif').clone(true));
+          
+          // transform input hidden into visual tickets
+          $('#prices .manifestations_list input[value='+$(this).val()+']').prop('checked',true);
+          ticket_transform_hidden_to_span();
+        });
+       
+        // restoring checked manifestation
+        checked.prop('checked',true);
       }
       else
       {
-        $('#prices .manifestations_list input:checked').parent().parent().find('.prices')
-          .html('');
-        $('#prices .manifestations_list input[type=radio]:checked').parent().parent().find('.total')
-          .html('');
+        // if no manifestation is given, it means that every ticket has to be removed
+        manif_input = $(data).find('[name=empty_manifestation]').length > 0
+          ? $('#prices .manifestations_list input[value='+$(data).find('[name=empty_manifestation]').val()+']')
+          : $('#prices .manifestations_list input:checked');
+        manif_input.closest('li.manif').find('.prices .workspace').html('');
+        manif_input.closest('li.manif').find('.total').html('');
+        ticket_process_amount();
       }
-      
-      // transform input hidden into visual tickets
-      ticket_transform_hidden_to_span();
       
       // the other line
       if ( $('#prices .prices_list [name="ticket[nb]"]').val() > 0
         && $('#prices .prices_list [name="select_all"]:checked').length > 0
-        && typeof($('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').val()) != 'undefined' )
+        && typeof($('#prices .manifestations_list input:checked').closest('li.manif').next().find('[type=radio]').val()) != 'undefined' )
       {
-        $('#prices .manifestations_list input:checked').parent().parent().next().find('[type=radio]').prop('checked',true);
-        $(elt).click();
+        $('#prices .manifestations_list input:checked').closest('li.manif').next().find('[type=radio]').prop('checked',true);
       }
     });
     

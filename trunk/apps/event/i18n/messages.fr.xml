@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Necessary to</source>
+        <target>Nécessaire à</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Depends on</source>
+        <target>Dépend de</target>
+      </trans-unit>
+      <trans-unit>
         <source>Cannot proceede to transfert because there is no gauge below this one</source>
         <target>Impossible de procéder au transfert car il n'y a pas de jauge en-dessous de celle-ci</target>
       </trans-unit>

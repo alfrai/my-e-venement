@@ -22,6 +22,7 @@
         $prices[$price->id] = array('gauges' => array(), 'price' => $price->name);
         foreach ( $price->Workspaces as $ws )
         foreach ( $ws->Gauges as $g )
+        if ( $g->manifestation_id == $manif->id )
           $prices[$price->id]['gauges'][$g->id] = $g->id;
       }
     }

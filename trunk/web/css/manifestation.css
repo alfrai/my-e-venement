@@ -96,9 +96,7 @@ select[disabled] {
 #sf_fieldset_unbalanced table td.nb { text-align: right; }
 #sf_fieldset_unbalanced table thead td { text-align: center; }
 #sf_fieldset_unbalanced table thead td,
-#sf_fieldset_unbalanced table tfoot td {
-  font-weight: bold;
-}
-.controlled .qty {
-  white-space: nowrap;
-}
+#sf_fieldset_unbalanced table tfoot td { font-weight: bold; }
+.controlled .qty { white-space: nowrap; }
+
+.is_necessary_to ul { list-style-type: none; }

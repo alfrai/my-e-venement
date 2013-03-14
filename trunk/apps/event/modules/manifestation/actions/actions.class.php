@@ -200,10 +200,11 @@ class manifestationActions extends autoManifestationActions
         ->orderBy('happens_at')
         ->limit($request->getParameter('limit'));
       $q = EventFormFilter::addCredentialsQueryPart($q);
-      $request = $q->execute()->getData();
+      $manifestations = $q->execute()->getData();
       
       $manifs = array();
-      foreach ( $request as $manif )
+      foreach ( $manifestations as $manif )
+      if ( $request->getParameter('except',false) != $manif->id )
        $manifs[$manif->id] = (string) $manif;
     
       return $this->renderText(json_encode($manifs));

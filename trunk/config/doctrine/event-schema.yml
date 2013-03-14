@@ -265,6 +265,7 @@ Manifestation:
       type: boolean
       default: false
       notnull: true
+    depends_on: integer
   relations:
     Event:
       foreignAlias: Manifestations
@@ -286,6 +287,13 @@ Manifestation:
       class: Workspace
       refClass: Gauge
       foreignAlias: Manifestations
+    DependsOn:
+      class: Manifestation
+      foreign: id
+      local: depends_on
+      onDelete: SET NULL
+      onUpdate: CASCADE
+      foreignAlias: IsNecessaryTo
 Gauge:
   package: event
   actAs: [Timestampable]
