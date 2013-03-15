@@ -47,7 +47,7 @@ all:
     other: 
     invoice_prefix: FB
     salt: xxxx
-	#case_normalise: true
+    #case_normalise: true
   google_maps:
     api_keys:
       default: YOURKEYHERE
