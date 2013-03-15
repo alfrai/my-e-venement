@@ -68,10 +68,6 @@ EventCategory:
   dance:
     name: Danse
 
-Workspace:
-  generic:
-    name: Générique
-
 PaymentMethod:
   check:
     name: Chèque
@@ -82,14 +78,43 @@ PaymentMethod:
   cancellation:
     name: Spécial Annulation
 
+Workspace:
+  generic:
+    name: Générique
 Price:
   normal:
     name: TN
     description: Tarif Normal
     online: true
+    value: 6
+    Workspaces: [generic]
   reduced:
     name: TR
     description: Tarif Réduit
+    value: 3
+    Workspaces: [generic]
   exo:
     name: EXO
     description: Exonéré
+    value: 0
+    Workspaces: [generic]
+  group:
+    name: TG
+    description: Tarif Groupes
+    value: 5
+    Workspaces: [generic]
+
+Color:
+  blue:
+    name: Bleu
+    color: d0ecff
+  green:
+    name: Vert
+    color: cfffc0
+  rose:
+    name: Rose
+    color: ffd7cb
+  yellow:
+    name: Jaune
+    color: fffaa1
+  

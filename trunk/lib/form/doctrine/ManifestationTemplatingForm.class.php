@@ -24,10 +24,11 @@ class ManifestationTemplatingForm extends BaseFormDoctrine
     ));
     
     // where to applicate it
-    $this->widgetSchema['manifestations_list'] = new sfWidgetFormDoctrineChoice(array(
+    $this->widgetSchema['manifestations_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Manifestation',
-      'multiple' => true,
-      'query' => Doctrine::getTable('Manifestation')->createQuery('m')->andWhere('happens_at >= now()')->orderBy('m.happens_at, e.name'),
+      'url' => url_for('manifestation/ajax?later=1'),
+      //'multiple' => true,
+      //'query' => Doctrine::getTable('Manifestation')->createQuery('m')->andWhere('happens_at >= now()')->orderBy('m.happens_at, e.name'),
     ));
     $this->validatorSchema['manifestations_list'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Manifestation',

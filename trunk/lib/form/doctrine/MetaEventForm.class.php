@@ -12,7 +12,8 @@ class MetaEventForm extends BaseMetaEventForm
 {
   public function configure()
   {
-    $this->widgetSchema   ['users_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
-    $this->widgetSchema   ['users_list']->setOption('order_by',array('username',''));
+    $this->widgetSchema   ['users_list']
+      ->setOption('order_by',array('username',''))
+      ->setOption('expanded',true);
   }
 }

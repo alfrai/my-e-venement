@@ -85,7 +85,7 @@
     
     if ( intval($values['manifestation_id']) > 0 )
     {
-      $manifs = array(0);
+      $manifs = array($values['manifestation_id']);
       $cache = array();
       foreach ( $this->tickets as $ticket )
       {

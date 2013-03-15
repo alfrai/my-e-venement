@@ -13,7 +13,8 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        list_color: { label: Color }
       list:
         display: [name, _list_color]
       filter:  ~

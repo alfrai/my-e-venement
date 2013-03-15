@@ -256,7 +256,6 @@ Manifestation:
       type: decimal(5)
       scale: 2
       notnull: true
-      default: 0
     online_limit:
       type: integer
       default: 10

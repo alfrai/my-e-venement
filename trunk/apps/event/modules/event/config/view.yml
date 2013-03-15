@@ -6,18 +6,18 @@ indexSuccess:
   stylesheets: [event-list, list-print: {media: print}]
   javascripts: [list-scroll]
 newSuccess:
-  stylesheets: [view,event]
+  stylesheets: [view,event,/private/event.css]
   javascripts:  [event]
 createSuccess:
-  stylesheets: [view,event]
+  stylesheets: [view,event,/private/event.css]
   javascripts:  [event]
 updateSuccess:
-  stylesheets: [view,event,checkpoint]
+  stylesheets: [view,event,checkpoint,/private/event.css]
   javascripts:  [event,checkpoint]
 editSuccess:
-  stylesheets: [view,event,checkpoint]
+  stylesheets: [view,event,checkpoint,/private/event.css]
   javascripts:  [event,checkpoint]
 showSuccess:
-  stylesheets: [view,event]
+  stylesheets: [view,event,/private/event.css]
   javascripts:  [event]
 

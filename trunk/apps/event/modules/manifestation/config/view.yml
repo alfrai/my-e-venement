@@ -15,7 +15,7 @@ createSuccess:
 
 templatingSuccess:
   stylesheets: [manifestation-templating.css,/sfFormExtraPlugin/css/jquery.autocompleter.css]
-  javascripts: [/sfFormExtraPlugin/js/jquery.autocompleter.js]
+  javascripts: [/sfFormExtraPlugin/js/jquery.autocompleter.js, /cxFormExtraPlugin/js/cx_open_list.js]
 
 listSuccess:
   has_layout: false

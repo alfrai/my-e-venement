@@ -121,6 +121,10 @@ class manifestationActions extends autoManifestationActions
       {
         $this->form->getWidget('event_id')->setDefault($event->id);
         $this->form->getObject()->event_id = $event->id;
+        
+        $ws = $this->form->getWidgetSchema();
+        $ws['duration']->setOption('default',$event->duration);
+        $ws['vat']->setOption('default',$event->EventCategory->vat);
       }
     }
     if ( $request->getParameter('location') )
@@ -200,6 +204,10 @@ class manifestationActions extends autoManifestationActions
         ->orderBy('happens_at')
         ->limit($request->getParameter('limit'));
       $q = EventFormFilter::addCredentialsQueryPart($q);
+      
+      if ( $request->hasParameter('later') )
+        $q->andWhere('happens_at > NOW()');
+      
       $manifestations = $q->execute()->getData();
       
       $manifs = array();

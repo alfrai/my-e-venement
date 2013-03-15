@@ -293,14 +293,14 @@ function ticket_transform_hidden_to_span(all)
   if ( typeof(all) == 'undefined' ) all = false;
   
   // action to update the workspace gauge
-  $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).parent().parent().find('.prices .workspace').unbind().click(function(){
+  $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).closest('li.manif').find('.prices .workspace').unbind().click(function(){
     ticket_get_ws_gauge($(this).find('.url').html());
   }).click();
   
   // visual tickets
-  $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).parent().parent().find('.prices .ticket_prices').remove();
+  $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).closest('li.manif').find('.prices .ticket_prices').remove();
   $('.manifestations_list li [type=radio]'+(all ? '' : ':checked')).each(function(){
-    $(this).parent().parent().find('.prices input[type=hidden]').each(function(){
+    $(this).closest('li.manif').find('.prices input[type=hidden]').each(function(){
       // adding the spans
       name = $(this).prop('name').replace(/[\[\]]/g,'_').replace(/__/g,'_').replace(/_+$/,'').replace(/ /g,'_');
       price = $(this).prop('name')
@@ -509,18 +509,18 @@ function ticket_prices()
         
         // if few manifestations are given, replace the contents
         $(data).find('#prices .manifestations_list input[name="ticket[manifestation_id]"]').each(function(){
-          if ( $('#prices .manifestations_list input[value='+$(this).val()+']').length > 0 )
+          if ( $('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+$(this).val()+']').length > 0 )
           {
-            $('#prices .manifestations_list input[value='+$(this).val()+']').closest('li.manif').find('.prices')
+            $('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+$(this).val()+']').closest('li.manif').find('.prices')
               .html($(this).closest('li.manif').find('.prices').html());
-            $('#prices .manifestations_list input[value='+$(this).val()+']').closest('li.manif').find('.total')
+            $('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+$(this).val()+']').closest('li.manif').find('.total')
               .html($(this).closest('li.manif').find('.total').html());
           }
-          else // the manifestation is not present already
+          else // the manifestation is not yet present
             $('#prices .manifestations_list ul').prepend($(this).closest('li.manif').clone(true));
           
           // transform input hidden into visual tickets
-          $('#prices .manifestations_list input[value='+$(this).val()+']').prop('checked',true);
+          $('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+$(this).val()+']').prop('checked',true);
           ticket_transform_hidden_to_span();
         });
        
@@ -529,7 +529,7 @@ function ticket_prices()
       }
       else
       {
-        // if no manifestation is given, it means that every ticket has to be removed
+        // if no manifestation is given, it means that every ticket of this manifestation has to be removed
         manif_input = $(data).find('[name=empty_manifestation]').length > 0
           ? $('#prices .manifestations_list input[value='+$(data).find('[name=empty_manifestation]').val()+']')
           : $('#prices .manifestations_list input:checked');
