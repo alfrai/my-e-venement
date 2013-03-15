@@ -4,7 +4,7 @@
 <form action="" method="post" id="prices">
 <div class="gauge ui-widget-content ui-corner-all"></div>
 <div class="manifestations_list ui-widget-content ui-corner-all">
-    <?php if ( $manifestations->count() == 0 ): ?>
+    <?php if ( $manifestations->count() == 0 && isset($manfestation_id) ): ?>
     <input class="empty_manifestation" type="hidden" name="empty_manifestation" value="<?php echo $manifestation_id ?>" />
     <?php endif ?>
     
