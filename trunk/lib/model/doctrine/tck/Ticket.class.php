@@ -109,6 +109,7 @@ class Ticket extends PluginTicket
         ->fetchOne()->id;
       $ticket->price_name = $this->price_name;
       $ticket->transaction_id = $this->transaction_id;
+      $ticket->sf_guard_user_id = $this->sf_guard_user_id;
       $ticket->save();
       $this->Transaction->Tickets[] = $ticket;
     }
