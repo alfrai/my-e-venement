@@ -100,7 +100,8 @@ class Ticket extends PluginTicket
     }
     
     // if the ticket's manifestation depends on an other one (and the ticket is not a cancellation nor a duplication
-    if ( !is_null($this->Manifestation->depends_on) && is_null($this->cancelling) && is_null($this->duplicating) )
+    if ( !is_null($this->Manifestation->depends_on)
+      && is_null($this->cancelling) && is_null($this->duplicating) )
     {
       $ticket = new Ticket;
       $ticket->gauge_id = Doctrine_Query::create()->from('Gauge g')

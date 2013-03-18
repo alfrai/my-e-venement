@@ -37,13 +37,17 @@
     
     // by event
     $q = Doctrine::getTable('Gauge')->createQuery('g')
-      ->select('m.*, e.*, g.*, p.*, pm.*, l.*')
+      ->select('m.*, e.*, g.*, p.*, pm.*, l.*, d.*, dg.*')
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.Event e')
       ->leftJoin('m.PriceManifestations pm')
       ->leftJoin('pm.Price p')
       ->leftJoin('m.Location l')
       ->leftJoin('p.Workspaces pw')
+      ->leftJoin('m.DependsOn d')
+      ->leftJoin('d.Event de')
+      ->leftJoin('d.Gauge dg')
+      ->leftJoin('d.PriceManifestations dpm')
       ->andWhere('m.happens_at > NOW()')
       ->andWhere('g.online')
       ->andWhere('p2.online')
@@ -64,7 +68,7 @@
       if ( !isset($this->content['events'][$event->id]) )
         $this->content['events'][$event->id] = array(
           'id'        => $event->id,
-          'name'      => $event->name,
+          'name'      => $event->name.(!is_null($manif->depends_on) ? ' + '.$manif->DependsOn->Event->name : ''),
           'extradesc' => $event->extradesc,
           'extraspec' => $event->extraspec,
           'ages'      => array($event->age_min, $event->age_max),
@@ -90,11 +94,20 @@
             'desc' => $pm->Price->description,
             'price' => $pm->value,
           );
+          
+          // if this price (for this manifestation) depends on an other one... add the other one's value
+          if ( !is_null($manif->depends_on) )
+          foreach ( $manif->DependsOn->PriceManifestations as $dpm )
+          {
+            if ( $dpm->price_id == $pm->price_id )
+              $tarifs[$pm->Price->name]['price'] += $dpm->value;
+          }
         }
         
+        $still_have = $g->value - $g->nb_tickets - $manif->online_limit > sfConfig::get('app_max_tickets') ? sfConfig::get('app_max_tickets') : ($g->value - $g->nb_tickets - $manif->online_limit > 0 ? $g->value - $g->nb_tickets - $manif->online_limit : 0);
         $tmp = array(
           'eventid' => $event->id,
-          'event' => $event->name,
+          'event' => $event->name.(!is_null($manif->depends_on) ? ' + '.$manif->DependsOn->Event->name : ''),
           'extradesc' => $event->extradesc,
           'extraspec' => $event->extraspec,
           'ages' => array($event->age_min, $event->age_max),
@@ -109,7 +122,7 @@
           'sitecity' => $manif->Location->city,
           'sitecountry' => $manif->Location->country,
           'price' => $manif->PriceManifestations[0]->value,
-          'still_have' => $g->value - $g->nb_tickets - $manif->online_limit > sfConfig::get('app_max_tickets') ? sfConfig::get('app_max_tickets') : ($g->value - $g->nb_tickets - $manif->online_limit > 0 ? $g->value - $g->nb_tickets - $manif->online_limit : 0),
+          'still_have' => $still_have,
     	    'tarifs' => $tarifs,
         );
         
