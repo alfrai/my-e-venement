@@ -192,14 +192,7 @@ function ticket_activate_prices_gauge()
   $('.manifestations_list .workspaces select').change(ticket_display_prices);
   
   // when switching from manifestation, updating the gauge
-  $('#prices .manifestations_list input[type=radio]').unbind().click(function(){
-    if ( $(this).is(':checked') )
-    {
-      ticket_get_gauge($(this).val(),$('#prices .gauge'));
-      // update prices display
-      ticket_display_prices();
-    }
-  });
+  ticket_gauge_trigger();
   
   // if reclicking on a gauge, it refreshes it from DB
   $('#prices .gauge').unbind().click(function(){
@@ -522,6 +515,8 @@ function ticket_prices()
           // transform input hidden into visual tickets
           $('#prices .manifestations_list input[name="ticket[manifestation_id]"][value='+$(this).val()+']').prop('checked',true);
           ticket_transform_hidden_to_span();
+          
+          ticket_gauge_trigger();
         });
        
         // restoring checked manifestation
@@ -548,6 +543,18 @@ function ticket_prices()
     });
     
     return false;
+  });
+}
+
+function ticket_gauge_trigger()
+{
+  $('#prices .manifestations_list input[type=radio]').unbind().click(function(){
+    if ( $(this).is(':checked') )
+    {
+      ticket_get_gauge($(this).val(),$('#prices .gauge'));
+      // update prices display
+      ticket_display_prices();
+    }
   });
 }
 
