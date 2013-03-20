@@ -49,7 +49,7 @@
       else
       {
         foreach ( Doctrine::getTable('Event')->search(
-          strtolower($request->getParameter('manif_new')).'*') as $id )
+          strtolower($request->getParameter('manif_new')).'*',$q) as $id )
           $eids[] = $id['id'];
       }
       
@@ -92,6 +92,7 @@
         ->andWhere('pg.id = g.id')
         ->andWhereNotIn('m.id',$mids)
         ->andWhere('u.id = ?',$this->getUser()->getId())
+        ->andWhere('e.display_by_default')
         ->orderBy('m.happens_at, e.name')
         ->limit(intval($request->getParameter('limit')) > 0 ? intval($request->getParameter('limit')) : (isset($config['max_display']) ? $config['max_display'] : 10));
 

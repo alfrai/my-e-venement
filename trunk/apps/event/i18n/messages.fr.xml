@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Display in ticketting</source>
+        <target>Affiché en billetterie</target>
+      </trans-unit>
+      <trans-unit>
         <source>Necessary to</source>
         <target>Nécessaire à</target>
       </trans-unit>

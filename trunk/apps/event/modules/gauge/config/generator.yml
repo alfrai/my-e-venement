@@ -13,8 +13,19 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
-      list:    ~
+      fields:  
+        value: { label: Gauge }
+        list_event: { label: Event }
+        list_manifestation: { label: Manifestation }   
+        Workspace: { label: Name }
+      list:    
+        display: [ _list_event, _list_manifestation, Workspace, value, online ]
+        table_method: retrieveList
+        sort: [ "event_name, happens_at DESC, workspace_name", "" ]
+        object_actions: { }
+        batch_actions:
+          _online: ~
+          _offline: ~
       filter:  ~
       form:    ~
       edit:    ~

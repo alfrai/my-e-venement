@@ -164,6 +164,10 @@ Event:
       type:         decimal(8)
       scale:        2
     image_url:      string(255)
+    display_by_default:
+      type: boolean
+      default: true
+      notnull: true
   relations:
     EventCategory:
       foreignAlias: Events
@@ -293,6 +297,19 @@ Manifestation:
       onDelete: SET NULL
       onUpdate: CASCADE
       foreignAlias: IsNecessaryTo
+Vat:
+  package: event
+  actAs: [Versionable, Timestampable]
+  columns:
+    name:
+      type: string(64)
+      notblank: true
+      notnull: true
+    value:
+      type: decimal(5)
+      scale: 4
+      notnull: true
+      default: 0
 Gauge:
   package: event
   actAs: [Timestampable]
