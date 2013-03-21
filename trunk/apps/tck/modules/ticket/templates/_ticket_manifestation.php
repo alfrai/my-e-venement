@@ -1,10 +1,37 @@
+<?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2012 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2012 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
 <?php use_helper('Date','Number') ?>
 <span class="manif" style="background-color: #<?php echo $manif->Color ? $manif->Color->color : '' ?>;">
   <input type="radio" name="ticket[manifestation_id]" value="<?php echo $manif->id ?>" <?php if ( isset($first) && $first ) echo 'checked="checked"' ?>  />
   <a class="name" title="<?php echo $manif->Event ?>" href="<?php echo cross_app_url_for('event','event/show?id='.$manif->event_id) ?>">
     <?php echo $manif->Event ?>
   </a>
-  <a class="happens_at" href="<?php echo cross_app_url_for('event','manifestation/show?id='.$manif->id) ?>"><?php echo format_datetime($manif->happens_at,'EEE d MMM yyyy HH:mm') ?></a>
+  <a  class="happens_at"
+      href="<?php echo cross_app_url_for('event','manifestation/show?id='.$manif->id) ?>"
+      title="<?php echo format_date(strtotime($manif->happens_at) + strtotime($manif->duration) - strtotime('0:00'), 'EEE d MMM yyyy HH:mm').' '.__('at').' '.$manif->Location ?>">
+    <?php echo format_datetime($manif->happens_at,'EEE d MMM yyyy HH:mm') ?>
+  </a>
 </span>
 <span class="workspaces">
   <?php include_partial('ticket_manifestation_wslist',array('manif' => $manif)) ?>
