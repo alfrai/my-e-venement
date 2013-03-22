@@ -26,10 +26,35 @@ function event_checkpoints_list_load(url)
       $('.sf_admin_form .checkpoint_new').load($(this).prop('href')+'/edit .sf_admin_form form',event_checkpoints_new_load);
       return false;
     });
+    
+    // delete
+    $('.sf_admin_form .sf_admin_action_delete a').unbind().removeAttr('onclick').click(function(){
+      if ( !confirm("Êtes-vous sûr de vouloir supprimer cet élément ?") )
+        return false;
+      
+      $.ajax({
+        url: $(this).prop('href'),
+        type: 'POST',
+        data: {
+          sf_method: 'delete',
+          _csrf_token: $('.checkpoints ._delete_csrf_token').html(),
+        },
+        success: function(data) {
+          $('.sf_admin_form .checkpoint_new').html($($.parseHTML(data)).find('.sf_admin_form form'));
+          event_checkpoints_new_load(data);
+          event_checkpoints_list_load();
+        }
+      });
+      
+      return false;
+    });
   });
 }
+
 function event_checkpoints_new_load(data)
 {
+  data = $.parseHTML(data);
+  
   event_checkpoints_autocompleter();
   $('.sf_admin_form .checkpoint_new').prepend($(data).find('.sf_admin_flashes'));
   setTimeout(function(){
@@ -57,30 +82,9 @@ function event_checkpoints_new_load(data)
   }); 
   $('.sf_admin_form .checkpoint_new form').submit(function(){
     $.post($(this).prop('action'),$(this).serialize()+'&_save_and_add=on',function(data){
-      $('.sf_admin_form .checkpoint_new').html($(data).find('.sf_admin_form form'));
+      $('.sf_admin_form .checkpoint_new').html($($.parseHTML(data)).find('.sf_admin_form form'));
       event_checkpoints_new_load(data);
       event_checkpoints_list_load();
-    });
-    return false;
-  });
-
-  // delete
-  $('.sf_admin_form .sf_admin_action_delete a').unbind().removeAttr('onclick').click(function(){
-    if ( !confirm("Êtes-vous sûr de vouloir supprimer cet élément ?") )
-      return false;
-    
-    $.ajax({
-      url: $(this).prop('href'),
-      type: 'POST',
-      data: {
-        sf_method: 'delete',
-        _csrf_token: $('.checkpoints ._delete_csrf_token').html(),
-      },
-      success: function(data) {
-        $('.sf_admin_form .checkpoint_new').html($(data).find('.sf_admin_form form'));
-        event_checkpoints_new_load(data);
-        event_checkpoints_list_load();
-      }
     });
     return false;
   });
