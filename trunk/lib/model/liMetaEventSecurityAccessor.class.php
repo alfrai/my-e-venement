@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-interface liEventSecurityAccessor
+interface liMetaEventSecurityAccessor
 {
   public function getMEid();
 }
