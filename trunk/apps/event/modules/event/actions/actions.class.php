@@ -172,4 +172,8 @@ class eventActions extends autoEventActions
     
     $this->redirect('event');
   }
+  
+  public function executeError404(sfWebRequest $request)
+  {
+  }
 }

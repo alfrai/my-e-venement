@@ -27,4 +27,7 @@ class sfGuardAuthActions extends BasesfGuardAuthActions
     );
     return parent::executeSignin($request);
   }
+  public function executeError404(sfWebRequest $request)
+  {
+  }
 }

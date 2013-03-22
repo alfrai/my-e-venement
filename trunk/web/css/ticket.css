@@ -293,8 +293,8 @@
   overflow: hidden;
   display: inline-block;
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
-#manifestations .manif .name { max-width: 350px; }
 
 .manif:hover { background-color: #fffccc; }
 

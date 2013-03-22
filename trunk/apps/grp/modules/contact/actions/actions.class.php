@@ -19,4 +19,8 @@ class contactActions extends sfActions
   {
     $this->forward('default', 'module');
   }
+  
+  public function executeError404(sfWebRequest $request)
+  {
+  }
 }

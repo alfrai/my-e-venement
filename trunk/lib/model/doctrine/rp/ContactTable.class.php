@@ -80,8 +80,8 @@ class ContactTable extends PluginContactTable
       */
       ->andWhere('c.id = ?',$id)
       ->orderBy('ea.happens_at DESC');
-    $contacts = $q->execute();
-    return $contacts[0];
+    $contact = $q->fetchOne();
+    return $contact;
   }
   
   public function fetchOneById($id, $clear = true)

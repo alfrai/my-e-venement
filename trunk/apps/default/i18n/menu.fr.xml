@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Object not found</source>
+        <target>Objet introuvable</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The requested object does not exist</source>
+        <target>L'objet demandé n'existe pas</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You can &lt;a href="javascript: window.history.back();"&gt;go back&lt;/a&gt; from where you came and try again...</source>
+        <target>Vous pouvez &lt;a href="javascript: window.history.back();"&gt;revenir&lt;/a&gt; d'où vous venez et essayer à nouveau...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Accounting</source>
         <target>Comptabilité</target>
       </trans-unit>

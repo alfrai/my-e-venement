@@ -48,4 +48,4 @@ all:
     
   .actions:
     error_404_module:       contact
-    error_404_action:       page404
+    error_404_action:       error404

@@ -49,4 +49,7 @@ class defaultActions extends sfActions
   public function executeError(sfWebRequest $request)
   {
   }
+  public function executeError404(sfWebRequest $request)
+  {
+  }
 }

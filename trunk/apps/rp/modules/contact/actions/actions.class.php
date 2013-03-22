@@ -106,7 +106,7 @@ class contactActions extends autoContactActions
   public function executeShow(sfWebRequest $request)
   {
     $this->contact = Doctrine::getTable('Contact')->findWithTickets($request->getParameter('id'));
-    $this->forward404Unless($this->contact);
+    $this->forward404Unless($this->contact instanceof Contact);
     $this->form = $this->configuration->getForm($this->contact);
   }
   protected function addExtraRequirements()
