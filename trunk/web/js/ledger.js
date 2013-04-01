@@ -1,7 +1,7 @@
 $(document).ready(function(){
   // cash ledger / method
   $('#ledger .method .see-more a').unbind().click(function(){
-    $('#ledger .payment.method-'+parseInt($(this).prop('href').substring(1))).fadeToggle();
+    $('#ledger .payment.method-'+parseInt(/#(\d+)$/.exec($(this).prop('href'))[1])).fadeToggle();
     $(this).html($(this).html() == '-' ? '+' : '-');
   });
   $('#ledger .method .see-more a').html('-');
@@ -10,15 +10,16 @@ $(document).ready(function(){
   // sales ledger / events
   $('#ledger .event .see-more a').html('-');
   $('#ledger .event .see-more a').unbind().click(function(){
+    event_id = parseInt(/#event-(\d+)/.exec($(this).prop('href'))[1]);
     if ( $(this).html() == '+' )
     {
-      $('#ledger .event-'+parseInt($(this).prop('href').substring(7))).each(function(){
+      $('#ledger .event-'+event_id).each(function(){
         $(this).fadeIn();
       });
     }
     else
     {
-      $('#ledger .event-'+parseInt($(this).prop('href').substring(7))).each(function(){
+      $('#ledger .event-'+event_id).each(function(){
         $(this).fadeOut();
         if ( $(this).find('.see-more a').html() == '-' )
           $(this).find('.see-more a').click();
@@ -29,10 +30,11 @@ $(document).ready(function(){
   
   // sales ledger / manifs
   $('#ledger .manif .see-more a').unbind().click(function(){
+    manif_id = parseInt(/#manif-(\d+)/.exec($(this).prop('href'))[1]);
     if ( $(this).html() == '+' )
-      $('#ledger .manif-'+parseInt($(this).prop('href').substring(7))).fadeIn();
+      $('#ledger .manif-'+manif_id).fadeIn();
     else
-      $('#ledger .manif-'+parseInt($(this).prop('href').substring(7))).fadeOut();
+      $('#ledger .manif-'+manif_id).fadeOut();
     $(this).html( $(this).html() == '-' ? '+' : '-' );
   });
   
