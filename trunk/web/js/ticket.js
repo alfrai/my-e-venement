@@ -337,7 +337,7 @@ function ticket_transform_hidden_to_span(all)
     $('#prices [name="ticket[nb]"]').val(-selected);
     
     // ajax call
-    $('#prices input[name="ticket[price_name]"][value='+price_name+']').click();
+    $('#prices input[name="ticket[price_name]"][value="'+price_name+'"]').click();
     $('#prices [name="ticket[nb]"]').val(selected);
     
     ticket_gauge_update_click(this);
