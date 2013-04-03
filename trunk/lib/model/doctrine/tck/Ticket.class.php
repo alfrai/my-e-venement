@@ -184,7 +184,7 @@ class Ticket extends PluginTicket
   
   public function getOriginal()
   {
-    if ( !$this->Duplicated )
+    if ( is_null($this->duplicating) )
       return $this;
     
     return $this->Duplicated->getOriginal();
