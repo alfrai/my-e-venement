@@ -6,7 +6,7 @@
 <?php endif ?>
   <p class="title"><?php echo __('Prices') ?>:</p>
   <p class="prices_list ui-corner-all">
-    <input name="ticket[nb]" value="1" type="text" size="4" maxlength="3" />
+    <input name="ticket[nb]" value="1" type="text" size="4" maxlength="3" autocomplete="off" />
     <input autocomplete="off" type="checkbox" name="select_all" value="true" title="<?php echo __('Add to all manifestations') ?>" />
   <?php foreach ( $prices as $price ): ?>
     <input type="submit" name="ticket[price_name]" value="<?php echo $price ?>" title="<?php echo $price->description.' (def: '.format_number(round($price->value,2)).'€)' ?>" />
