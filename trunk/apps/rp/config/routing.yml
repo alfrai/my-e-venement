@@ -1,3 +1,30 @@
+type_of_resources:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                TypeOfResources
+    module:               type_of_resources
+    prefix_path:          /type_of_resources
+    column:               id
+    with_wildcard_routes: true
+
+familial_situation:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                FamilialSituation
+    module:               familial_situation
+    prefix_path:          /familial_situation
+    column:               id
+    with_wildcard_routes: true
+
+familial_quotient:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                FamilialQuotient
+    module:               familial_quotient
+    prefix_path:          /familial_quotient
+    column:               id
+    with_wildcard_routes: true
+
 member_card_type:
   class: sfDoctrineRouteCollection
   options:

@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Familial quotients</source>
+        <target>Quotients familiaux</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Types of resources</source>
+        <target>Types de resources</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Familial situation</source>
+        <target>Situation familiale</target>
+      </trans-unit>
+      <trans-unit>
         <source>Object not found</source>
         <target>Objet introuvable</target>
       </trans-unit>

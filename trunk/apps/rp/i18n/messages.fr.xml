@@ -5,6 +5,54 @@
     <header/>
     <body>
       <trans-unit>
+        <source>List of familial quotients</source>
+        <target>Liste des quotients familiaux</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Familial quotient</source>
+        <target>Quotient familial</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit Familial quotient</source>
+        <target>Modification du quotient familial</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Familial quotient</source>
+        <target>Nouveau quotient familial</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List of types of resources</source>
+        <target>Liste des types de ressources</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit Type of resources</source>
+        <target>Modification du type de ressources</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Type of resources</source>
+        <target>Type de ressources</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Type of resources</source>
+        <target>Nouveau type de ressources</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List of familial situations</source>
+        <target>Liste des situations familiales</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit Familial situation</source>
+        <target>Modification de la situation familiale</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Familial situation</source>
+        <target>Situation familiale</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Familial situation</source>
+        <target>Nouvelle situation familiale</target>
+      </trans-unit>
+      <trans-unit>
         <source>Not yet recorded</source>
         <target>Pas encore enregistré</target>
       </trans-unit>

@@ -35,6 +35,11 @@
               <?php if ( $sf_user->hasCredential('admin-phone') ): ?>
               <li><a href="<?php echo cross_app_url_for('rp','phone_type') ?>"><?php echo __('Types of phones',array(),'menu') ?></a></li>
               <?php endif ?>
+              <?php if ( $sf_user->hasCredential('pr-social-admin') ): ?>
+              <li class="spaced"><a href="<?php echo cross_app_url_for('rp','familial_quotient') ?>"><?php echo __('Familial quotients',array(),'menu') ?></a></li>
+              <li><a href="<?php echo cross_app_url_for('rp','type_of_resources') ?>"><?php echo __('Types of resources',array(),'menu') ?></a></li>
+              <li><a href="<?php echo cross_app_url_for('rp','familial_situation') ?>"><?php echo __('Familial situations',array(),'menu') ?></a></li>
+              <?php endif ?>
               <?php if ( $sf_user->hasCredential('admin-pro') ): ?>
               <li class="spaced"><a href="<?php echo cross_app_url_for('rp','professional_type') ?>"><?php echo __('Types of functions',array(),'menu') ?></a></li>
               <?php endif ?>

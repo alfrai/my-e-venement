@@ -519,6 +519,26 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_80
     created_at: '2012-11-28 18:10:09'
     updated_at: '2012-11-28 18:10:09'
+  sfGuardGroupPermission_29_81:
+    Group: sfGuardGroup_29
+    Permission: sfGuardPermission_81
+    created_at: '2013-04-04 13:18:48'
+    updated_at: '2013-04-04 13:18:48'
+  sfGuardGroupPermission_29_82:
+    Group: sfGuardGroup_29
+    Permission: sfGuardPermission_82
+    created_at: '2013-04-04 13:18:48'
+    updated_at: '2013-04-04 13:18:48'
+  sfGuardGroupPermission_29_83:
+    Group: sfGuardGroup_29
+    Permission: sfGuardPermission_83
+    created_at: '2013-04-04 13:18:48'
+    updated_at: '2013-04-04 13:18:48'
+  sfGuardGroupPermission_30_84:
+    Group: sfGuardGroup_5
+    Permission: sfGuardPermission_84
+    created_at: '2013-04-04 13:18:48'
+    updated_at: '2013-04-04 13:18:48'
 sfGuardPermission:
   sfGuardPermission_18:
     name: admin-titles
@@ -900,6 +920,26 @@ sfGuardPermission:
     description: 'Permission to create/del member card types'
     created_at: '2012-11-28 11:09:41'
     updated_at: '2012-11-28 11:09:41'
+  sfGuardPermission_81:
+    name: pr-social-quotient
+    description: 'View and modify the Familial Quotient information on contacts'
+    created_at: '2013-04-04 13:16:31'
+    updated_at: '2012-11-28 13:16:31'
+  sfGuardPermission_82:
+    name: pr-social-situation
+    description: 'View and modify the Familial situation information on contacts'
+    created_at: '2013-04-04 13:16:31'
+    updated_at: '2012-11-28 13:16:31'
+  sfGuardPermission_83:
+    name: pr-social-resources
+    description: 'View and modify the Type of Resources information on contacts'
+    created_at: '2013-04-04 13:16:31'
+    updated_at: '2012-11-28 13:16:31'
+  sfGuardPermission_84:
+    name: pr-social-admin
+    description: 'Permission to access the social informations part of the admin part of the "rp" module'
+    created_at: '2013-04-04 13:16:31'
+    updated_at: '2012-11-28 13:16:31'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -1041,3 +1081,8 @@ sfGuardGroup:
     description: 'Permission to administrate member card types'
     created_at: '2012-11-28 18:10:03'
     updated_at: '2012-11-28 18:10:03'
+  sfGuardGroup_29:
+    name: pr-social
+    description: 'View and modify the social informations on contacts'
+    created_at: '2013-04-04 13:17:25'
+    updated_at: '2013-04-04 13:17:25'
