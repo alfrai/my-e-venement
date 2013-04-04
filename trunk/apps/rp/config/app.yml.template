@@ -10,6 +10,8 @@ sf_admin_theme_jroller_plugin:
 all:
   options:
     remove_ticketting: true
+    #design: tdp
+    #social_informations: true
   cards:
     #enable: true
     types: [membership, subscription]

@@ -63,7 +63,7 @@ EOF;
     }
     catch ( Doctrine_Exception $e )
     {
-      $this->logSection('Step 1', "Schema already updated (or it's a serious problem).");
+      $this->logSection('Step 1', "Schema already updated (or it's a serious problem)");
     }
     
     // the data
@@ -75,13 +75,12 @@ EOF;
     
     $cpt = 0;
     $types = sfConfig::get('app_cards_types',array());
-    if ( $pm )
     foreach ( $types as $type )
     {
+      $pmid = $pm ? $pm->id : 0;
       $mc = Doctrine::getTable('MemberCard')->createQuery('mc')
-        ->leftJoin('mc.Payments p')
+        ->leftJoin('mc.Payments p ON p.payment_method_id = '.$pmid.' AND p.member_card_id = mc.id')
         ->andWhere('mc.name = ?',$type)
-        ->andWhere('p.payment_method_id = ?',$pm->id)
         ->orderBy('id DESC')
         ->fetchOne();
       
