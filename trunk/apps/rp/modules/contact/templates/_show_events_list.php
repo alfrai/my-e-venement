@@ -1,5 +1,4 @@
 <?php use_helper('Date','Number') ?>
-<ul class="sf_form_field_events_list">
 <?php
   // get back authorized manifestation_ids through meta-events
   $q = new Doctrine_Query;
@@ -14,6 +13,8 @@
   foreach ( $manifs as $manif )
     $manif_ids[] = $manif->id;
 ?>
+<?php if ( $form->getObject()->Transactions->count() > 0 ): ?>
+<ul class="sf_form_field_events_list">
 <?php foreach ($form->getObject()->Transactions as $transaction): ?>
 <?php if ( $transaction->Tickets->count() > 0 ): ?>
   <?php
@@ -73,6 +74,7 @@
 <?php endif ?>
 <?php endforeach ?>
 </ul>
+<?php endif ?>
 <?php if ( $form->getObject()->EventArchives->count() > 0 ): ?>
 <hr />
 <ul class="sf_form_field_event_archives_list">

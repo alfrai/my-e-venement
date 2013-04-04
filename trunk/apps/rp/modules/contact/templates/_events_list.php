@@ -1,4 +1,5 @@
 <?php use_helper('Date','Number') ?>
+<?php if ( $form->getObject()->Transactions->count() > 0 ): ?>
 <ul class="sf_form_field_events_list">
 <?php foreach ($form->getObject()->Transactions as $transaction): ?>
 <?php if ( $transaction->Tickets->count() > 0 ): ?>
@@ -45,3 +46,4 @@
 <?php endif ?>
 <?php endforeach ?>
 </ul>
+<?php endif ?>

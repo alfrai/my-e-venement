@@ -1,4 +1,15 @@
 $(document).ready(function(){
+  // removing empty fieldset from jRoller modules
+  setTimeout(function(){
+    $('.ui-tabs-panel.ui-widget-content').each(function(){
+      if ( $(this).children().length == 0 )
+      {
+        $('.ui-tabs-nav li a[href="#'+$(this).prop('id')+'"]').parent().remove();
+        $(this).remove();
+      }
+    });
+  },500);
+  
   // getting private script
   src = $('head script[src$="js/menu.js"]').prop('src');
   if ( src != undefined )

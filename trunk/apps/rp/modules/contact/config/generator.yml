@@ -58,7 +58,7 @@ generator:
       show: 
         display:
           NONE: [_show_who, address, postalcode, city, country, _show_region, _show_email, _show_phonenumbers_list, _show_member_cards_list, _show_groups_list]
-          Precisions: [family_contact, npai, description, _YOBs]
+          Precisions: [_show_family_contact, npai, description, _YOBs]
           Technic: [created_at,updated_at,slug,longitude,latitude]
           Ticketting: [_show_events_list]
           Social: [_familial_situation_id, _type_of_resources_id, _familial_quotient_id]
