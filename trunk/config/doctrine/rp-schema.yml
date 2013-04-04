@@ -44,10 +44,25 @@ Contact:
       type: boolean
       notnull: true
       default: true
+    familial_quotient_id: integer
+    type_of_resources_id: integer
+    familial_situation_id: integer
   relations:
     Category:
       class: OrganismCategory
       foreignAlias: Contacts
+    FamilialQuotient:
+      foreignAlias: Contacts
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    TypeOfResources:
+      foreignAlias: Contacts
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    FamilialSituation:
+      foreignAlias: Contacts
+      onDelete: SET NULL
+      onUpdate: CASCADE
 Organism:
   package: rp
   inheritance:
@@ -112,6 +127,19 @@ YOB:
     Contact:
       foreignAlias: YOBs
       onDelete: CASCADE
+
+FamilialSituation:
+  package: rp
+  columns:
+    name: string(255)
+TypeOfResources:
+  package: rp
+  columns:
+    name: string(255)
+FamilialQuotient:
+  package: rp
+  columns:
+    name: string(255)
 
 ProfessionalType:
   package: rp
