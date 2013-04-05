@@ -27,7 +27,6 @@ Group:
     Timestampable: ~
     Sluggable:
       fields: [name, sf_guard_user_id]
-      unique: true
   columns:
     name:
       type: string(255)

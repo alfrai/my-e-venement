@@ -127,9 +127,7 @@ Event:
   package: event
   actAs:
     Timestampable: ~
-    Sluggable:
-      fields: [name]
-      unique: true
+    Sluggable: ~
     Searchable:
       fields: [name,writer,staging,short_name]
   columns:
