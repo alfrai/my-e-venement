@@ -32,6 +32,11 @@
       title="<?php echo format_date(strtotime($manif->happens_at) + strtotime($manif->duration) - strtotime('0:00'), 'EEE d MMM yyyy HH:mm').' '.__('at').' '.$manif->Location ?>">
     <?php echo format_datetime($manif->happens_at,'EEE d MMM yyyy HH:mm') ?>
   </a>
+  <?php if ( sfConfig::get('app_manifestations_show_location',false) ): ?>
+  <a class="location" title="<?php echo $manif->Location ?>" href="<?php echo cross_app_url_for('event','location/show?id='.$manif->location_id) ?>">
+    <?php echo $manif->Location ?>
+  </a>
+  <?php endif ?>
 </span>
 <span class="workspaces">
   <?php include_partial('ticket_manifestation_wslist',array('manif' => $manif)) ?>

@@ -3,6 +3,8 @@
 
 # default values
 all:
+  manifestations:
+    show_location: false
   ledger:
     date_begin: 1 week ago
     date_end: tomorrow
