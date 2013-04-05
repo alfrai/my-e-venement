@@ -25,6 +25,7 @@ body {
 #customer, #type { margin-right: 25mm; }
 
 #date { position: absolute; right: 30px; }
+#place { position: absolute; right: 60px; }
 
 #seller p { margin: 0; }
 #seller .name { font-weight: bold; }

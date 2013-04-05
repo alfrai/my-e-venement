@@ -5,6 +5,10 @@
     <header />
     <body>
       <trans-unit>
+        <source>Click to validate your modifications</source>
+        <target>Cliquez pour valider vos modifications</target>
+      </trans-unit>
+      <trans-unit>
         <source>A problem occurs when adding the selected items as some items do not exist anymore.</source>
         <target>Impossible d'ajouter les objets sélectionnés car certains ont disparus.</target>
       </trans-unit>

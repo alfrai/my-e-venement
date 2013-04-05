@@ -30,6 +30,7 @@ class ManifestationForm extends BaseManifestationForm
     $this->widgetSchema['depends_on'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Manifestation',
       'url'   => url_for('manifestation/ajax?except='.$this->object->id),
+      'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',10).' }',
     ));
     
   }

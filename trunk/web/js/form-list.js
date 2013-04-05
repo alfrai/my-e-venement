@@ -12,7 +12,9 @@ function form_list()
       form_list_new();
       form_list_actions(widget);
       form_list_more(widget);
+      form_on_quit();
     });
+    
   });
 }
 
@@ -100,8 +102,28 @@ function form_list_change(widget)
 {
   form_list_more(widget);
   $('.sf_admin_form .sf_admin_form_list.ajax form input[type=text], .sf_admin_form .sf_admin_form_list.ajax form input[type=checkbox]').change(function(){
-    $(this).parent().submit();
+    $(this).closest('form').submit();
+    var input = this;
+    setTimeout(function(){
+      $(input).get(0).defaultValue = $(input).val();
+    },1500);
   });
+}
+
+function form_on_quit()
+{
+  window.onbeforeunload = function(){
+    var count = 0;
+    
+    $('form form input[type=text]').each(function(){
+      if ( $(this).get(0).defaultValue !== $(this).val() )
+        count++;
+    });
+    
+    if ( count > 0 )
+    if ( msg = $('#form_prices').get(0).wait_msg )
+      alert(msg);
+  };
 }
 
 function form_list_new()

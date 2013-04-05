@@ -13,12 +13,21 @@ class ManifestationEntryForm extends BaseManifestationEntryForm
   public function configure()
   {
     $this->widgetSchema['entry_id'] = new sfWidgetFormInputHidden();
+    
+    $this->widgetSchema['manifestation_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Manifestation',
+      'url' => url_for('manifestation/ajax'),
+      'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',10).' }',
+    ));
+    
+    /*
     $this->widgetSchema['manifestation_id']->setOption('add_empty',true);
     $this->widgetSchema['manifestation_id']->setOption('query',
       Doctrine::getTable('Manifestation')->createQuery('m')
         ->leftJoin('w.GroupWorkspace gw')
         ->andWhere('gw.id IS NOT NULL')
     );
+    */
     $this->enableCSRFProtection();
   }
 }

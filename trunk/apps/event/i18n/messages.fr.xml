@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>This field's update is done automagically</source>
+        <target>La mise à jour de champs est fait automagiquement</target>
+      </trans-unit>
+      <trans-unit>
         <source>Display in ticketting</source>
         <target>Affiché en billetterie</target>
       </trans-unit>

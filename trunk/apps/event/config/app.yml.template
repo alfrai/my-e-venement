@@ -16,4 +16,5 @@ all:
     dematerialized: true
   listing:
     manif_date: DESC
-      
+  manifestation:
+    depends_on_limit: 10

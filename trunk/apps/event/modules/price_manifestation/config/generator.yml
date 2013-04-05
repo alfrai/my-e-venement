@@ -19,6 +19,7 @@ generator:
       filter:  ~
       form:    ~
       edit:
-        display: [_show_manifestation, _show_price, value]
+        #display: [_show_manifestation, _show_price, value]
+        display: [value]
       new:
         display: [manifestation_id, price_id, value]

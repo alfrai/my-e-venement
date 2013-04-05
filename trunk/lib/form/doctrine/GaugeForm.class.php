@@ -12,7 +12,12 @@ class GaugeForm extends BaseGaugeForm
 {
   public function configure()
   {
-    $this->widgetSchema['manifestation_id']->setOption('add_empty',true);
+    $this->widgetSchema['manifestation_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Manifestation',
+      'url' => url_for('manifestation/ajax'),
+      'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',10).' }',
+    ));
+    
     $this->widgetSchema['workspace_id']->setOption('add_empty',true);
     $this->widgetSchema['workspace_id']->setOption('query',Doctrine::getTable('Workspace')->createQuery()->orderBy('name'));
     $this->validatorSchema['value']->setOption('required',false);

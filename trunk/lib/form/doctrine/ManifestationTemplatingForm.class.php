@@ -18,6 +18,7 @@ class ManifestationTemplatingForm extends BaseFormDoctrine
     $this->widgetSchema['manifestation_model'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Manifestation',
       'url' => url_for('manifestation/ajax'),
+      'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',10).' }',
     ));
     $this->validatorSchema['manifestation_model'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Manifestation',
@@ -27,8 +28,7 @@ class ManifestationTemplatingForm extends BaseFormDoctrine
     $this->widgetSchema['manifestations_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Manifestation',
       'url' => url_for('manifestation/ajax?later=1'),
-      //'multiple' => true,
-      //'query' => Doctrine::getTable('Manifestation')->createQuery('m')->andWhere('happens_at >= now()')->orderBy('m.happens_at, e.name'),
+      'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',10).' }',
     ));
     $this->validatorSchema['manifestations_list'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Manifestation',
