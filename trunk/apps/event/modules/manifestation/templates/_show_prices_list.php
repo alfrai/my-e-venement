@@ -4,7 +4,13 @@
     <?php if ( $manifestation->Prices->count() == 0 ): ?>
       <li><?php echo __('No registered price') ?></li>
     <?php else: ?>
-    <?php foreach ( $manifestation->PriceManifestations as $price ): ?>
+    <?php
+      $prices = array();
+      foreach ( $manifestation->PriceManifestations as $price )
+        $prices[$price->Price->name] = $price;
+      ksort($prices);
+    ?>
+    <?php foreach ( $prices as $price ): ?>
     <li class="ui-corner-all">
       <?php echo $price->getFullName() ?>
     </li>
