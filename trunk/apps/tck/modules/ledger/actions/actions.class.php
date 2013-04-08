@@ -25,8 +25,10 @@ class ledgerActions extends sfActions
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     
     $this->form = new LedgerCriteriasForm();
-    $criterias = $request->getParameter($this->form->getName());
-
+    if ( $criterias = $request->getParameter($this->form->getName(),array()) )
+      $this->getUser()->setAttribute('ledger.criterias', $criterias, 'tck_module');
+    $criterias = $this->getUser()->getAttribute('ledger.criterias',$criterias,'tck_module');
+    
     // Hack for form validation
     if ( isset($criterias['users']) && $criterias['users'][0] === '' && count($criterias['users']) == 1 )
       unset($criterias['users']);
@@ -76,6 +78,10 @@ class ledgerActions extends sfActions
     
     $this->options = $criterias = $this->formatCriterias($request);
     $dates = $criterias['dates'];
+    
+    // redirect to avoid POST re-sending
+    if ( $request->getParameter($this->form->getName(),false) )
+      $this->redirect('ledger/sales');
     
     // BE CAREFUL : ALWAY CHECK Manifestation::getTicketsInfos() FOR CRITERIAS APPLYIANCE FOR BIG LEDGERS
     
@@ -161,6 +167,10 @@ class ledgerActions extends sfActions
   {
     $criterias = $this->formatCriterias($request);
     $this->dates = $criterias['dates'];
+    
+    // redirect to avoid POST re-sending
+    if ( $request->getParameter($this->form->getName(),false) )
+      $this->redirect('ledger/cash');
     
     $q = $this->buildCashQuery($criterias);
     

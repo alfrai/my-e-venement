@@ -25,7 +25,12 @@
     // filtering criterias
     $criterias = $this->formatCriterias($request);
     $dates = $criterias['dates'];
-    if ( !isset($criterias['users']) ) $criterias['users'] = array();
+    if ( !isset($criterias['users']) )
+      $criterias['users'] = array();
+    
+    // redirect to avoid POST re-sending
+    if ( $request->getParameter($this->form->getName(),false) )
+      $this->redirect('ledger/both');
     
     // by payment-type
     $q = new Doctrine_Query();
