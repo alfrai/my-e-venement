@@ -42,10 +42,10 @@ class ledgerActions extends sfActions
     }
     
     $dates = array(
-      $criterias['dates']['from']['day']
+      isset($criterias['dates']) && $criterias['dates']['from']['day']
         ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
         : strtotime(sfConfig::has('app_ledger_date_begin') ? sfConfig::get('app_ledger_date_begin').' 0:00' : '1 week ago 0:00'),
-      $criterias['dates']['to']['day']
+      isset($criterias['dates']) && $criterias['dates']['to']['day']
         ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'])
         : strtotime(sfConfig::has('app_ledger_date_end') ? sfConfig::get('app_ledger_date_end').' 0:00' : 'tomorrow 0:00'),
     );
@@ -163,6 +163,71 @@ class ledgerActions extends sfActions
     $this->dates = $dates;
   }
   
+  public function executeExtract(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('Date');
+    
+    $criterias = $this->formatCriterias($request);
+    $this->dates = $criterias['dates'];
+    
+    $params = OptionCsvForm::getDBOptions();
+    $this->options = array(
+      'ms' => in_array('microsoft',$params['option']),
+      'tunnel' => false,
+      'noheader' => false,
+    );
+    
+    $this->outstream = 'php://output';
+    $this->delimiter = $this->options['ms'] ? ';' : ',';
+    $this->enclosure = '"';
+    $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
+    
+    sfConfig::set('sf_escaping_strategy', false);
+    sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
+    
+    if ( $this->getContext()->getConfiguration()->getEnvironment() == 'dev' )
+    {
+      $this->getResponse()->sendHttpHeaders();
+      $this->setLayout('layout');
+    }
+    else
+      sfConfig::set('sf_web_debug', false);
+    
+    switch ( $request->getParameter('type','cash') ) {
+    case 'sales':
+      $this->executeSales($request);
+      return 'Sales';
+      break;
+    default:
+      $this->options['fields'] = array(
+        'method',
+        'value',
+        'account',
+        'transaction_id',
+        'contact',
+        'date',
+        'user',
+      );
+      $this->executeCash($request);
+      
+      $this->lines = array();
+      foreach ( $this->methods as $method )
+      foreach ( $method->Payments as $payment )
+        $this->lines[] = array(
+          'method'          => (string) $method,
+          'value'           => (string) $payment->value,
+          'reference'       => $method->account,
+          'transaction_id'  => '#'.$payment->transaction_id,
+          'contact'         => (string)( $payment->Transaction->professional_id ? $payment->Transaction->Professional : $payment->Transaction->Contact ),
+          'date'            => format_date($payment->created_at),
+          'user'            => (string)$payment->User,
+        );
+      
+      return 'Cash';
+      break;
+    }
+  }
+  
   public function executeCash(sfWebRequest $request)
   {
     $criterias = $this->formatCriterias($request);
@@ -172,9 +237,7 @@ class ledgerActions extends sfActions
     if ( $request->getParameter($this->form->getName(),false) )
       $this->redirect('ledger/cash');
     
-    $q = $this->buildCashQuery($criterias);
-    
-    $this->methods = $q->execute();
+    $this->methods = $this->buildCashQuery($criterias)->execute();
   }
   
   protected function buildCashQuery($criterias)
@@ -192,7 +255,7 @@ class ledgerActions extends sfActions
       ->leftJoin('u.Workspaces')
       ->orderBy('m.name, m.id, t.id, p.value, p.created_at');
     
-    if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
+    if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
     {
       $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))')
         ->leftJoin('t.Tickets tck')

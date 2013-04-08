@@ -7,6 +7,10 @@
       <?php echo __('Cash Ledger') ?>
       (<?php echo __('from %%from%% to %%to%%',array('%%from%%' => format_date($dates[0]), '%%to%%' => format_date($dates[1]))) ?>)
     </h1>
+    <a class="fg-button fg-button-icon-left ui-state-default" href="<?php echo url_for('ledger/extract?type=cash') ?>">
+      <span class="ui-icon ui-icon-cart"></span>
+      <?php echo __('Extract') ?>
+    </a>
   </div>
 
 <?php echo include_partial('criterias',array('form' => $form, 'ledger' => 'cash')) ?>

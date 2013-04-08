@@ -88,3 +88,5 @@ table tbody a:hover { text-decoration: underline; }
   max-width: 70px;
   overflow: hidden;
 }
+
+.ui-widget-header a { float: right; margin-top: -2em; }
