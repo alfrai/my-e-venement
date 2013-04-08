@@ -48,11 +48,4 @@ $(document).ready(function(){
   $('#ledger tbody tr').mouseleave(function(){
     $(this).removeClass('ui-state-hover');
   });
-  
-  // go to the other ledger
-  $('#criterias .submit a').click(function(){
-    $('#criterias').prop('action',$(this).prop('href'));
-    $('#criterias').submit();
-    return false;
-  });
 });
