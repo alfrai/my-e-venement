@@ -45,6 +45,7 @@
           <?php include_partial('global/menu_setup_ticketting') ?>
           <?php endif ?>
           <?php include_partial('global/menu_setup_groups') ?>
+          <?php include_partial('global/menu_setup_mc') ?>
           <?php include_partial('global/menu_setup_online') ?>
         </ul>
         <?php if ( $view ): ?>

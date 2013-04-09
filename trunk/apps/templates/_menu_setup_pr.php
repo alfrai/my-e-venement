@@ -46,8 +46,5 @@
               <?php if ( $sf_user->hasCredential('admin-org') ): ?>
               <li><a href="<?php echo cross_app_url_for('rp','organism_category') ?>"><?php echo __('Organism categories',array(),'menu') ?></a></li>
               <?php endif ?>
-              <?php if ( $sf_user->hasCredential('pr-card-admin') ): ?>
-              <li class="spaced"><a href="<?php echo cross_app_url_for('rp','member_card_type') ?>"><?php echo __('Types of member cards',array(),'menu') ?></a></li>
-              <?php endif ?>
             </ul>
           </li>

@@ -16,21 +16,20 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
-          <li><a><?php echo __('Ticketting',array(),'menu') ?></a>
+<?php if ( $sf_user->hasCredential('pr-card-admin') || $sf_user->hasCredential('tck-admin-member-cards') ): ?>
+          <li><a><?php echo __('Member cards',array(),'menu') ?></a>
             <ul class="third">
-              <?php if ( $sf_user->hasCredential('tck-admin-payment') ): ?>
-              <li><a href="<?php echo cross_app_url_for('tck','@payment_method') ?>"><?php echo __('Payment methods',array(),'menu') ?></a></li>
+              <?php if ( $sf_user->hasCredential('pr-card-admin') ): ?>
+              <li><a href="<?php echo cross_app_url_for('rp','member_card_type') ?>"><?php echo __('Types',array(),'menu') ?></a></li>
               <?php endif ?>
-              <?php if ( $sf_user->hasCredential('event-admin-price') ): ?>
-              <li><a href="<?php echo cross_app_url_for('event','price') ?>"><?php echo __('Prices',array(),'menu') ?></a></li>
-              <?php endif ?>
-              <?php if ( $sf_user->hasCredential('tck-transaction') ): ?>
-              <li><a href="<?php echo cross_app_url_for('event','@workspace_user_ordering') ?>"><?php echo __('Ordering your workspaces',array(),'menu') ?></a></li>
+              <?php if ( $sf_user->hasCredential('tck-admin-member-cards') ): ?>
+              <li><a href="<?php echo cross_app_url_for('tck','@member_card_price_model') ?>"><?php echo __("Prices association",array(),'menu') ?></a></li>
               <?php endif ?>
             </ul>
           </li>
+<?php endif ?>

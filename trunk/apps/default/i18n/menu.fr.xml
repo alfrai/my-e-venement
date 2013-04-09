@@ -14,7 +14,7 @@
       </trans-unit>
       <trans-unit>
         <source>Familial situations</source>
-        <target>Situations familiale</target>
+        <target>Situations familiales</target>
       </trans-unit>
       <trans-unit>
         <source>Object not found</source>
@@ -61,12 +61,12 @@
         <target>Cartes d'abo: journal</target>
       </trans-unit>
       <trans-unit>
-        <source>Prices association for member cards</source>
-        <target>Association de tarifs pour les cartes d'abonnement</target>
+        <source>Prices association</source>
+        <target>Association de tarifs</target>
       </trans-unit>
       <trans-unit>
         <source>Member cards</source>
-        <target>Cartes d'adhérents</target>
+        <target>Cartes d'abo.</target>
       </trans-unit>
       <trans-unit>
         <source>Transactions by price</source>
