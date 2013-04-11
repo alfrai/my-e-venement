@@ -32,8 +32,8 @@
   </div>
   <?php $nb++ ?>
   <div class="choices <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
-    <?php echo link_to(__('Dates'),'event/index') ?>
-    <?php echo link_to(__('Member cards'),'card/index') ?>
+    <?php echo link_to(sfConfig::get('app_informations_index',__('Dates')),'event/index') ?>
+    <?php echo link_to(__('Buy member cards'),'card/index') ?>
   </div>
   <?php $nb++ ?>
   <div class="cart <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">

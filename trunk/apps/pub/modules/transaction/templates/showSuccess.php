@@ -1,6 +1,5 @@
 <?php include_partial('global/flashes') ?>
 <?php include_partial('global/ariane', array('active' => $current_transaction ? 2 : 0)) ?>
-<?php include_partial('global/oplog') ?>
 
 <?php use_helper('Date') ?>
 <div id="title"><h1><?php echo __('Command summary') ?></h1>

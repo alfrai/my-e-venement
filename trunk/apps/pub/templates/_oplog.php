@@ -27,14 +27,16 @@
   <?php echo link_to(__('Login'),'login/index') ?>
 	<?php else: ?>
 	<?php echo link_to(__('My account'),'contact/index') ?>
-		<div id="contact">
+	<?php
+		/**<div id="contact">
 			<p class="name"><?php echo $sf_user->getContact() ?></p>
 			<p class="address"><?php echo $sf_user->getContact()->address ?></p>
 			<p>
 				<span class="postalcode"><?php echo $sf_user->getContact()->postalcode ?></span>
 				<span class="city"><?php echo $sf_user->getContact()->city ?></span>
 			</p>
-		</div>
+		</div>**/
+  ?>
 	<?php echo link_to(__('Logout'),'login/out') ?>
 	<?php endif ?>
 </div>

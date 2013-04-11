@@ -14,7 +14,7 @@
       </trans-unit>
       <trans-unit>
         <source>Your command has been passed on your member cards, you don't have to pay anything.</source>
-        <target>Votre commande a été prise en compte sur vos cartes d'abo., vous n'avez rien à payer.</target>
+        <target>Ma commande a été prise en compte sur mes cartes d'abonnement, je n'ai rien à payer.</target>
       </trans-unit>
       <trans-unit>
         <source>Passed on member card</source>
@@ -66,7 +66,11 @@
       </trans-unit>
       <trans-unit>
         <source>Member cards</source>
-        <target>Cartes d'abonnement</target>
+        <target>Cartes Abonné</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Buy member cards</source>
+        <target>Je m'abonne</target>
       </trans-unit>
       <trans-unit>
         <source>You have been logged out.</source>
@@ -90,7 +94,7 @@
       </trans-unit>
       <trans-unit>
         <source>You are authenticated.</source>
-        <target>Vous êtes authentifié.</target>
+        <target>Je suis authentifié.</target>
       </trans-unit>
       <trans-unit>
         <source>Authentication failure.</source>
@@ -130,7 +134,7 @@
       </trans-unit>
       <trans-unit>
         <source>Password again</source>
-        <target>MdP à nouveau</target>
+        <target>Retaper le mot de passe</target>
       </trans-unit>
       <trans-unit>
         <source>Send</source>
@@ -214,15 +218,15 @@
       </trans-unit>
       <trans-unit>
         <source>Checkout</source>
-        <target>Passer commande</target>
+        <target>Je passe commande</target>
       </trans-unit>
 			<trans-unit>
         <source>Empty your basket</source>
-        <target>Vider votre panier</target>
+        <target>Vider mon panier</target>
       </trans-unit>
 			<trans-unit>
         <source>Continue shopping</source>
-        <target>Poursuivre vos achats</target>
+        <target>Poursuivre mes achats</target>
       </trans-unit>
       <trans-unit id="13">
         <source>Send</source>
@@ -238,7 +242,7 @@
       </trans-unit>
       <trans-unit id="16">
         <source>%%nb%% ticket(s) have been added to your cart</source>
-        <target>%%nb%% billets ont été ajoutés à votre panier</target>
+        <target>%%nb%% billets ont été ajoutés à mon panier</target>
       </trans-unit>
       <trans-unit id="17">
         <source>%%i%% years old</source>
@@ -262,11 +266,11 @@
       </trans-unit>
 			<trans-unit>
 				<source>Choose your payment method</source>
-				<target>Choisissez votre moyen de paiement</target>
+				<target>Choisir mon moyen de paiement</target>
 			</trans-unit>
 			<trans-unit>
 				<source>Your contact</source>
-				<target>Vos coordonnées</target>
+				<target>Mes coordonnées</target>
 			</trans-unit>
 			<trans-unit>
         <source>Confirm</source>
@@ -274,7 +278,7 @@
       </trans-unit>
 			<trans-unit>
         <source>Choose tickets</source>
-        <target>Choisissez vos billets</target>
+        <target>Choisir mes billets</target>
       </trans-unit>
 			<trans-unit>
         <source>You can review your previous orders by clicking on its number</source>
@@ -282,7 +286,7 @@
       </trans-unit>
 			<trans-unit>
 				<source>Your commands</source>
-				<target>Vos commandes</target>
+				<target>Mes commandes</target>
 			</trans-unit>
 			<trans-unit>
         <source>List events on which you make command</source>
@@ -290,7 +294,7 @@
       </trans-unit>
 			<trans-unit>
 				<source>Update your contact information</source>
-				<target>Modifier vos coordonnées</target>
+				<target>Modifier mes coordonnées</target>
 			</trans-unit>
 			<trans-unit>
 				<source>My account</source>
@@ -298,11 +302,11 @@
 			</trans-unit>
 			<trans-unit>
 				<source>Create an account</source>
-				<target>Créer un compte</target>
+				<target>Je crée un compte</target>
 			</trans-unit>
 			<trans-unit>
 				<source>Login</source>
-				<target>Se connecter</target>
+				<target>Je me connecte</target>
 			</trans-unit>
 			<trans-unit>
         <source>Logout</source>
@@ -343,7 +347,7 @@
 	    </body>
 			<trans-unit>
 				<source>Choose your membership card</source>
-				<target>Choisissez votre carte d'abonnement</target>
+				<target>Choisir ma carte d'abonnement</target>
 			</trans-unit>
 			<trans-unit>
 				<source>You already have an account ? Login first...</source>
@@ -351,7 +355,7 @@
 			</trans-unit>
 			<trans-unit>
         <source>No account yet? Create your own...</source>
-        <target>Pas encore de compte ? Créer le votre...</target>
+        <target>Pas encore de compte ? Je crée le mien...</target>
       </trans-unit>
 			<trans-unit>
 				<source>at </source>
@@ -360,6 +364,10 @@
 			<trans-unit>
 				<source>location</source>
 				<target>lieu</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Location</source>
+				<target>Lieu</target>
 			</trans-unit>
   </file>
 </xliff>

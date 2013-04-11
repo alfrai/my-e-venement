@@ -14,6 +14,7 @@
   </head>
   <body>
     <div id="content">
+      <?php include_partial('global/oplog') ?>
       <?php echo $sf_content ?>
     </div>
     <ul id="menu" class="first">

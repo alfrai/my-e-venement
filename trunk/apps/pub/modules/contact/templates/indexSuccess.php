@@ -23,7 +23,6 @@
 ?>
 <?php include_partial('global/flashes') ?>
 <?php include_partial('global/ariane', array('active' => 0)) ?>
-<?php include_partial('global/oplog',array('contact' => $contact)) ?>
 <?php include_partial('index_contact',array('contact' => $contact)) ?>
 
 <?php if ( $contact->Transactions->count() > 0 ): ?>

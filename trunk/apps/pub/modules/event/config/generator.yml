@@ -16,6 +16,7 @@ generator:
       fields:
         meta_event_id: { label: Programmation }
         MetaEvent: { label: Programmation }
+        name: { label: <?php echo sfConfig::get('app_informations_events_title','Name') ?> }
       list:
         batch_actions: []
         object_actions: []
@@ -23,7 +24,7 @@ generator:
         display: [=name, MetaEvent, EventCategory, _dates, _age_min]
         table_method: retrievePublicList
         sort: ['max_date, m.happens_at', '']
-        title: Events list
+        title: <?php echo sfConfig::get('app_informations_index','Events list').PHP_EOL ?>
       filter:
         display: [name, meta_event_id, event_category_id]
       form:    ~
