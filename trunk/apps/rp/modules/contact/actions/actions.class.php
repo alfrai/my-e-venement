@@ -337,9 +337,18 @@ class contactActions extends autoContactActions
     return require(dirname(__FILE__).'/card.php');
   }
   
+  public function executeFilter(sfWebRequest $request)
+  {
+    if ( sfConfig::get('app_options_design',false) == 'tdp' && sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
+    {
+      $this->setFilters($this->configuration->getFilterDefaults());
+      $this->getUser()->setAttribute('organism.filters',$this->configuration->getFilterDefaults(),'admin_module');
+    }
+    return parent::executeFilter($request);
+  }
   protected function getFilters()
   {
-    if ( !sfConfig::get('app_options_design') == 'tdp' || !sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
+    if ( sfConfig::get('app_options_design') != 'tdp' || !sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
       return parent::getFilters();
     
     $filters = parent::getFilters();

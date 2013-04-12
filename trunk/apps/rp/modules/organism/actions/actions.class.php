@@ -243,6 +243,15 @@ class organismActions extends autoOrganismActions
     require(dirname(__FILE__).'/labels.php');
   }
   
+  public function executeFilter(sfWebRequest $request)
+  {
+    if ( sfConfig::get('app_options_design',false) == 'tdp' && sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
+    {
+      $this->setFilters($this->configuration->getFilterDefaults());
+      $this->getUser()->setAttribute('contact.filters',$this->configuration->getFilterDefaults(),'admin_module');
+    }
+    return parent::executeFilter($request);
+  }
   public function getFilters()
   {
     if ( sfConfig::get('app_options_design',false) != 'tdp' || !sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
