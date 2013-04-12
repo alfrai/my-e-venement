@@ -31,7 +31,7 @@ all:
         lines:
           Complements:
             show_labels: true
-            fields: [organism_category_id, email]
+            fields: [organism_category_id, email, email_no_newsletter]
           Address:
             fields: [address]
           City:
@@ -47,7 +47,7 @@ all:
             show_labels: true
             extra_class: tdp-vertical
             fields: [_familial_situation_id, _type_of_resources_id, _familial_quotient_id]
-          Description:
+          Personal description:
             show_title: true
             fields: [description]
           Groups:
@@ -72,14 +72,14 @@ all:
           new_title: [organism_id]
           lines:
             line1:
-              fields: [professional_type_id, name]
+              fields: [professional_type_id, name, _organism_category]
             Phonenumbers:
               show_labels: true
               fields: [contact_number, _organism_phones_list]
             Internet:
               show_labels: true
-              fields: [contact_email, _organism_email, _organism_url]
-            Correspondence:
+              fields: [contact_email, contact_email_no_newsletter, _organism_email, _organism_url]
+            Professional correspondence:
               show_messages: false
               show_title: true
               fields: [description]
@@ -133,6 +133,8 @@ all:
       contact_number: { label: Direct phonenumber }
       show_region: { label: Region }
       organism_category_id: { label: Category }
+      email_no_newsletter: { label: No newsletter }
+      contact_email_no_newsletter: { label: No newsletter }
 
 dev:
   active: true

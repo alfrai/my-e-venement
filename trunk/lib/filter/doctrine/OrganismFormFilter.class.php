@@ -59,6 +59,9 @@ class OrganismFormFilter extends BaseOrganismFormFilter
       'required' => false,
     ));
     
+    $this->widgetSchema   ['email_newsletter'] = $this->widgetSchema['npai'];
+    $this->validatorSchema['email_newsletter'] = $this->validatorSchema['npai'];
+    
     parent::configure();
   }
   
@@ -70,8 +73,21 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     $fields['professional_meta_event_id'] = 'ProfessionalMetaEventId';
     $fields['not_groups_list']      = 'NotGroupsList';
     $fields['region']               = 'RegionId';
+    $fields['email_newsletter']     = 'EmailNewsletter';
 
     return $fields;
+  }
+
+  public function addEmailNewsletterColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( $value === '' )
+      return $q;
+    
+    $a = $q->getRootAlias();
+    if ( $value )
+      return $q->addWhere("$a.email_no_newsletter = FALSE OR p.contact_email_no_newsletter = FALSE");
+    else
+      return $q->addWhere("$a.email_no_newsletter = TRUE AND p.contact_email_no_newsletter = TRUE");
   }
 
   public function addRegionIdColumnQuery(Doctrine_Query $q, $field, $value)

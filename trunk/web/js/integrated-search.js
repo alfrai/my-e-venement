@@ -38,6 +38,10 @@ function list_integrated_search(data)
     });
   }
   
+  // for TDP design, showing the informations of organisms if the arrow is clicked
+  if ( typeof(contact_tdp_show_orgs) == 'function' )
+    contact_tdp_show_orgs();
+  
   // if searched by id and only one result, going into the object's file
   if ( parseInt($('#list-integrated-search input[name=s]').val().replace(/^0*/,''))+'' == $('#list-integrated-search input[name=s]').val().replace(/^0*/,'') && $('.sf_admin_list > table .sf_admin_action_show').length == 1 )
   {

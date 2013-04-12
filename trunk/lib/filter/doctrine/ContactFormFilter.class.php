@@ -41,6 +41,10 @@ class ContactFormFilter extends BaseContactFormFilter
     $this->widgetSchema   ['has_email'] = $this->widgetSchema   ['npai'];
     $this->validatorSchema['has_email'] = $this->validatorSchema['npai'];
     
+    // no newsletter ?
+    $this->widgetSchema   ['email_newsletter'] = $this->widgetSchema   ['npai'];
+    $this->validatorSchema['email_newsletter'] = $this->validatorSchema['npai'];
+    
     // organism
     $this->widgetSchema   ['organism_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Organism',
@@ -235,6 +239,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['organism_category_id'] = 'OrganismCategoryId';
     $fields['professional_type_id'] = 'ProfessionalTypeId';
     $fields['has_email']            = 'HasEmail';
+    $fields['email_newsletter']     = 'EmailNewsletter';
     $fields['has_address']          = 'HasAddress';
     $fields['groups_list']          = 'GroupsList';
     $fields['not_groups_list']      = 'NotGroupsList';
@@ -454,6 +459,17 @@ class ContactFormFilter extends BaseContactFormFilter
       return $q->addWhere("$a.email IS NOT NULL AND $a.email != '' OR p.contact_email IS NOT NULL AND p.contact_email != ''");
     else
       return $q->addWhere("($a.email IS     NULL OR $a.email = '') AND (p.contact_email IS NULL OR p.contact_email = '')");
+  }
+  public function addEmailNewsletterColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( $value === '' )
+      return $q;
+    
+    $a = $q->getRootAlias();
+    if ( $value )
+      return $q->addWhere("$a.email_no_newsletter = FALSE OR p.contact_email_no_newsletter = FALSE");
+    else
+      return $q->addWhere("$a.email_no_newsletter = TRUE AND p.contact_email_no_newsletter = TRUE");
   }
   public function addEmailColumnQuery(Doctrine_Query $q, $field, $values)
   {

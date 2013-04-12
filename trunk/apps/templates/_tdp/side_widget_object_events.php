@@ -24,6 +24,7 @@
       <ul>
         <?php
           foreach ( $obj->Transactions as $transaction )
+          if ( is_null($transaction->professional_id) || $cpt > 1 )
           foreach ( $transaction->Tickets as $ticket )
           if ( is_null($ticket->duplicating) && is_null($ticket->cancelling) && !$ticket->hasBeenCancelled() )
           if ( $ticket->printed || $ticket->integrated || $transaction->Order->count() > 0 )
@@ -32,6 +33,7 @@
               $events[$ticket->Manifestation->Event->id] = array(
                 'happens_at' => 0,
                 'event' => $ticket->Manifestation->Event,
+                'title' => (string)$ticket->Manifestation->Event->MetaEvent,
                 'nb' => 0,
                 'value' => 0,
               );
@@ -50,7 +52,7 @@
         ?>
         <?php foreach ( $events as $event ): ?>
         <li>
-          <?php echo cross_app_link_to($event['event'],'event','event/show?id='.$event['event']->id) ?>:
+          <?php echo cross_app_link_to($event['event'],'event','event/show?id='.$event['event']->id,false,null,false, 'title="'.$event['title'].'"') ?>:
           <span class="nb"><?php echo $event['nb'] ?></span>
           <?php if ( $sf_user->hasCredential('tck-ledger-sales') ): ?><span class="value"><?php echo format_currency($event['value'],'€') ?></span><?php endif ?>
         </li>

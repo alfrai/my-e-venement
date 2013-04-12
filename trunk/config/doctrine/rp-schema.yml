@@ -165,6 +165,10 @@ Professional:
     contact_email:
       type: string(255)
       email: true
+    contact_email_no_newsletter:
+      type: boolean
+      notnull: true
+      default: false
     department: string(255)
     description: string
   relations:

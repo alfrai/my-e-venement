@@ -24,7 +24,7 @@ all:
         lines:
           Complements:
             show_labels: true
-            fields: [organism_category_id, email, url]
+            fields: [organism_category_id, email, email_no_newsletter, url]
           Address:
             fields: [address]
           City:
@@ -36,7 +36,7 @@ all:
             show_labels: true
             extra_class: tdp-vertical
             fields: [npai]
-          Description:
+          Correspondence:
             show_title: true
             fields: [description]
           Groups:
@@ -67,7 +67,7 @@ all:
               fields: [contact_number, _contact_phones_list]
             Internet:
               show_labels: true
-              fields: [contact_email, _contact_email]
+              fields: [contact_email, contact_email_no_newsletter, _contact_email]
             Correspondence:
               show_messages: false
               show_title: true
@@ -125,6 +125,8 @@ all:
       contact_number: { label: Direct phonenumber }
       show_region: { label: Region }
       organism_category_id: { label: Category }
+      email_no_newsletter: { label: No newsletter }
+      contact_email_no_newsletter: { label: No newsletter }
 
 dev:
   active: true

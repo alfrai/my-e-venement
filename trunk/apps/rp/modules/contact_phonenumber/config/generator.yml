@@ -12,7 +12,8 @@ generator:
     actions_base_class:    sfActions
 
     config:
-      actions: ~
+      actions:
+        save_and_add: { label: glop }
       fields:
         name:   { label: Type }
         number: { label: Phonenumber }

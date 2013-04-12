@@ -51,6 +51,10 @@ Addressable:
     email:
       type: string(255)
       email: true
+    email_no_newsletter:
+      type: boolean
+      notnull: true
+      default: false
     npai:
       type: boolean
       notnull: true

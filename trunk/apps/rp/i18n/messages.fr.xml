@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Organism's category</source>
+        <target>Catégorie de l'organisme</target>
+      </trans-unit>
+      <trans-unit>
+        <source>No newsletter</source>
+        <target>Pas de newsletter</target>
+      </trans-unit>
+      <trans-unit>
         <source>List of familial quotients</source>
         <target>Liste des quotients familiaux</target>
       </trans-unit>
@@ -74,15 +82,23 @@
       </trans-unit>
       <trans-unit>
         <source>Direct phonenumber</source>
-        <target>Numéro direct</target>
+        <target>Numéro pro.</target>
       </trans-unit>
       <trans-unit>
         <source>Direct email address</source>
-        <target>@ direct</target>
+        <target>@ pro</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Personal email address</source>
+        <target>@ perso</target>
       </trans-unit>
       <trans-unit>
         <source>Correspondence</source>
         <target>Correspondance</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Professional correspondence</source>
+        <target>Correspondance professionnelle</target>
       </trans-unit>
       <trans-unit>
         <source>More</source>
@@ -679,6 +695,10 @@
       <trans-unit id="63">
         <source>Updated at</source>
         <target>Modifié le</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Personal description</source>
+        <target>Description personnelle</target>
       </trans-unit>
       <trans-unit id="72">
         <source>Description</source>

@@ -115,20 +115,7 @@ $(document).ready(function(){
   });
   
   // CONTENT: SEEING CONTACT'S ORGANISMS
-  $('#tdp-content .sf_admin_list_td_list_see_orgs').click(function(){
-    if ( !$(this).closest('table').hasClass('see-orgs') )
-    {
-      $(this).closest('table').addClass('see-orgs');
-      $(this).closest('table').find('.sf_admin_list_td_list_see_orgs span').removeClass('ui-icon-seek-next').addClass('ui-icon-seek-prev');
-    }
-    else
-    {
-      $(this).closest('table').removeClass('see-orgs');
-      $(this).closest('table').find('.sf_admin_list_td_list_see_orgs span').removeClass('ui-icon-seek-prev').addClass('ui-icon-seek-next');
-    }
-    
-    return false;
-  });
+  contact_tdp_show_orgs();
   
   // CONTENT: NEW FUNCTION FOR A CONTACT
   $('.tdp-subobject.tdp-object-new .tdp-widget-header input[type=text]').each(function(){
@@ -248,7 +235,45 @@ $(document).ready(function(){
       $('#tdp-side-bar label').unbind('click');
     }
   });
+  
+  // no newsletter
+  $('.tdp-email_no_newsletter, .tdp-contact_email_no_newsletter').each(function(){
+    $(this).find('input').prop('title',$(this).find('label').html());
+  });
 });
+
+// CONTENT: SEEING CONTACT'S ORGANISMS
+function contact_tdp_show_orgs()
+{
+  $('#tdp-content .sf_admin_list_td_list_see_orgs').click(function(){
+    if ( !$(this).closest('table').hasClass('see-orgs') )
+    {
+      $(this).closest('table').addClass('see-orgs');
+      $(this).closest('table').find('.sf_admin_list_td_list_see_orgs span').removeClass('ui-icon-seek-next').addClass('ui-icon-seek-prev');
+    }
+    else
+    {
+      $(this).closest('table').removeClass('see-orgs');
+      $(this).closest('table').find('.sf_admin_list_td_list_see_orgs span').removeClass('ui-icon-seek-prev').addClass('ui-icon-seek-next');
+    }
+    
+    return false;
+  });
+  
+  // Normalize the lines' heights
+  $('#tdp-content .sf_admin_list tr').each(function(){
+    $(this).get(0).size = $(this).find('.sf_admin_list_td_name').height();
+  });
+  $('#tdp-content .sf_admin_list_td_list_see_orgs:first').click();
+  $('#tdp-content .sf_admin_list tr').each(function(){
+    if ( $(this).get(0).size < (height = $(this).find('.sf_admin_list_td_list_contact').height()) )
+      $(this).get(0).size = height;
+  });
+  $('#tdp-content .sf_admin_list_td_list_see_orgs:first').click();
+  $('#tdp-content .sf_admin_list tr').each(function(){
+    $(this).height($(this).get(0).size+2);
+  });
+}
 
 function contact_tdp_submit_forms(i = 0)
 {
