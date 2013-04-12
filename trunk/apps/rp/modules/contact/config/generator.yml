@@ -74,7 +74,7 @@ generator:
           Phonenumbers: [_form_phonenumbers_list]
           Precisions: [family_contact, npai, description, YOBs_list, password]
           Ticketting: [_events_list]
-          Social: [_familial_situation_id, _type_of_resources_id, _familial_quotient_id]
+          Social: [familial_situation_id, type_of_resources_id, familial_quotient_id]
       new:
         title: New contact
         display:
