@@ -37,9 +37,27 @@ require_once dirname(__FILE__).'/../lib/contactGeneratorHelper.class.php';
  */
 class contactActions extends autoContactActions
 {
+  private $force_classic_template_dir = false;
+  
   public function executeError404(sfWebRequest $request)
   {
   }
+  public function postExecute()
+  {
+    $this->addExtraRequirements();
+    if ( !$this->useClassicTemplateDir() )
+      $this->getContext()->getConfiguration()->changeTemplatesDir($this);
+    return parent::postExecute();
+  }
+  protected function useClassicTemplateDir($bool = NULL)
+  {
+    if ( is_null($bool) )
+      return $this->force_classic_template_dir;
+      
+    $this->force_classic_template_dir = $bool;
+    return $this;
+  }
+  
   public function executeBatchAddToGroup(sfWebRequest $request)
   {
     $request->checkCSRFProtection();
@@ -96,13 +114,6 @@ class contactActions extends autoContactActions
     $this->redirect('@contact');
   }
   
-  public function postExecute()
-  {
-    $this->addExtraRequirements();
-    $this->getContext()->getConfiguration()->changeTemplatesDir($this);
-    return parent::postExecute();
-  }
-  
   public function executeShow(sfWebRequest $request)
   {
     $this->contact = Doctrine::getTable('Contact')->findWithTickets($request->getParameter('id'));
@@ -111,13 +122,13 @@ class contactActions extends autoContactActions
   }
   protected function addExtraRequirements()
   {
-    if ( sfConfig::get('app_options_design') == 'tdp' )
+    if ( sfConfig::get('app_options_design') == 'tdp' && sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
     {
       if ( !isset($this->hasFilters) )
         $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
       if ( !isset($this->filters) )
         $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      if ( !in_array($this->getActionName(), array('index','search','map','labels','csv')) )
+      if ( !in_array($this->getActionName(), array('index','search','map','labels','getSpecializedForm', 'csv')) )
         $this->setTemplate('edit');
     }
   }
@@ -125,7 +136,8 @@ class contactActions extends autoContactActions
   {
     $this->executeShow($request);
     
-    if ( sfConfig::get('app_options_design') != 'tdp' && !$this->getUser()->hasCredential('pr-contact-edit') )
+    if ( (sfConfig::get('app_options_design',false) != 'tdp' || sfConfig::get('app_options_design',false) && !sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
+      && !$this->getUser()->hasCredential('pr-contact-edit') )
       $this->setTemplate('show');
   }
   
@@ -304,7 +316,20 @@ class contactActions extends autoContactActions
   {
     $this->executeEdit($request);
     $this->form->displayOnly($this->field = $request->getParameter('field'));
-    $this->setLayout('empty');
+    $this
+      ->useClassicTemplateDir(true)
+      ->setLayout('empty');
+  }
+  public function executeUpdate(sfWebRequest $request)
+  {
+    // BUG: 2013-04-12
+    $this->contact = $this->getRoute()->getObject();
+    $this->form = $this->configuration->getForm($this->contact);
+    $this->form->displayOnly();
+    
+    $this->processForm($request, $this->form);
+    
+    $this->setTemplate('edit');
   }
   
   public function executeCard(sfWebRequest $request)

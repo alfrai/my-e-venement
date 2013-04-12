@@ -111,8 +111,15 @@ class ContactForm extends BaseContactForm
       $this->validatorSchema[$key]->setOption('required',$strict);
   }
   
-  public function displayOnly($fieldname)
+  public function displayOnly($fieldname = NULL)
   {
+    unset($this->widgetSchema['emails_list']);
+    unset($this->widgetSchema['groups_list']);
+    
+    // BUG: 2013-04-12
+    if ( is_null($fieldname) )
+      return $this;
+    
     if ( !($this->widgetSchema[$fieldname] instanceof sfWidgetForm) )
       throw new liEvenementException('Fieldname "'.$fieldname.'" not found.');
     
@@ -122,13 +129,17 @@ class ContactForm extends BaseContactForm
         $this->widgetSchema[$name] = new sfWidgetFormInputHidden();
     }
     
-    unset($this->widgetSchema['emails_list']);
-    unset($this->widgetSchema['groups_list']);
+    return $this;
   }
   
   public function saveGroupsList($con = null)
   {
     $this->correctGroupsListWithCredentials();
     return parent::saveGroupsList($con);
+  }
+  public function saveEmailsList($con = null)
+  {
+    // BUG: 2013-04-12
+    return;
   }
 }

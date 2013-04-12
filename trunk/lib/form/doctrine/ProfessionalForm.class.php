@@ -28,7 +28,7 @@ class ProfessionalForm extends BaseProfessionalForm
       ->setOption('query', $q);
     $this->validatorSchema['groups_list']
       ->setOption('query', $q);
-
+    
     parent::configure();
   }
 
@@ -36,5 +36,10 @@ class ProfessionalForm extends BaseProfessionalForm
   {
     $this->correctGroupsListWithCredentials();
     return parent::saveGroupsList($con);
+  }
+  public function saveEmailsList($con = null)
+  {
+    // BUG: 2013-04-12
+    return;
   }
 }

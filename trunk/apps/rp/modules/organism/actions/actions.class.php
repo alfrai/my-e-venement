@@ -13,11 +13,22 @@ require_once dirname(__FILE__).'/../lib/organismGeneratorHelper.class.php';
  */
 class organismActions extends autoOrganismActions
 {
+  private $force_classic_template_dir = false;
+  
   public function postExecute()
   {
     $this->addExtraRequirements();
-    $this->getContext()->getConfiguration()->changeTemplatesDir($this);
+    if ( !$this->useClassicTemplateDir() )
+      $this->getContext()->getConfiguration()->changeTemplatesDir($this);
     return parent::postExecute();
+  }
+  protected function useClassicTemplateDir($bool = NULL)
+  {
+    if ( is_null($bool) )
+      return $this->force_classic_template_dir;
+
+    $this->force_classic_template_dir = $bool;
+    return $this;
   }
   protected function addExtraRequirements()
   {
