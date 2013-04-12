@@ -32,7 +32,7 @@ class organismActions extends autoOrganismActions
   }
   protected function addExtraRequirements()
   {
-    if ( sfConfig::get('app_options_design') == 'tdp' )
+    if ( sfConfig::get('app_options_design',false) == 'tdp' && sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
     {
       if ( !isset($this->hasFilters) )
         $this->hasFilters = $this->getUser()->getAttribute('organism.filters', $this->configuration->getFilterDefaults(), 'admin_module');
@@ -172,7 +172,8 @@ class organismActions extends autoOrganismActions
   {
     $this->executeShow($request);
     
-    if ( sfConfig::get('app_options_design') != 'tdp' && !$this->getUser()->hasCredential('pr-organism-edit') )
+    if ( sfConfig::get('app_options_design') != 'tdp' || sfConfig::get('app_options_design',false) && !sfConfig::get(sfConfig::get('app_options_design').'_active',false)
+      && !$this->getUser()->hasCredential('pr-organism-edit') )
       $this->setTemplate('show');
   }
   
