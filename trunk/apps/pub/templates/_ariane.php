@@ -27,11 +27,11 @@
   $nb = 0;
 ?>
 <div id="ariane">
-  <div class="choices <?php if ( $active == $nb ) echo 'active'; else echo 'past' ?> access">
+  <div class="login choices <?php if ( $active == $nb ) echo 'active'; else echo 'past' ?> access">
     <?php echo $sf_user->hasContact() ? link_to(__('My account'),'contact/index').' '.link_to(__('Logout'),'login/out') : link_to(__('Login'),'login/index').' '.link_to(__('Create an account'),'contact/new') ?>
   </div>
   <?php $nb++ ?>
-  <div class="choices <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
+  <div class="event choices <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
     <?php echo link_to(sfConfig::get('app_informations_index',__('Dates')),'event/index') ?>
     <?php echo link_to(__('Buy member cards'),'card/index') ?>
   </div>

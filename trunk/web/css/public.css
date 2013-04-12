@@ -9,14 +9,13 @@ body {
 #content {
 	background-color: #FFF;
 }
-
 #menu {
 	display: none;
 }
-
 #sf_admin_bar {
 	display: none
 }
+#sf_admin_container { position: static; }
 
 #sf_admin_list.table {
 	margin-top: 220px;
@@ -284,6 +283,7 @@ a.actions a:hover {
   background: linear-gradient(to bottom, #F4F4F4 0%,#E7E7E7 37%,#DBDBDB 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F4F4F4', endColorstr='#DBDBDB',GradientType=0 ); /* IE6-9 */
 }
+#ariane .command { display: none; }
 
 .access {
 	display: inline-table;

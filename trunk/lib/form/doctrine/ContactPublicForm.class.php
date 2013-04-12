@@ -17,7 +17,8 @@ class ContactPublicForm extends ContactForm
     foreach ( array(
         'YOBs_list', 'groups_list', 'emails_list', 'family_contact',
         'organism_category_id', 'description', 'password', 'npai',
-        'latitude', 'longitude', 'slug', 'confirmed',) as $field )
+        'latitude', 'longitude', 'slug', 'confirmed',
+        'familial_quotient_id', 'type_of_resources_id', 'familial_situation_id') as $field )
       unset($this->widgetSchema[$field], $this->validatorSchema[$field]);
     
     $this->widgetSchema['title'] = new sfWidgetFormDoctrineChoice(array(
@@ -83,22 +84,25 @@ class ContactPublicForm extends ContactForm
     if ( is_null($this->object->confirmed) )
       $this->object->confirmed = false;
     
-    $new_number = true;
-    foreach ( $this->object->Phonenumbers as $pn )
-    if ( strcasecmp($pn->name,$this->getValue('phone_type')) == 0 )
+    if ( $this->getValue('phone_number') )
     {
-      $pn->number = $this->getValue('phone_number');
-      $new_number = false;
-      break;
-    }
-    
-    if ( $new_number )
-    {
-      $pn = new ContactPhonenumber;
-      $pn->name = $this->getValue('phone_type');
-      $pn->number = $this->getValue('phone_number');
+      $new_number = true;
+      foreach ( $this->object->Phonenumbers as $pn )
+      if ( strcasecmp($pn->name,$this->getValue('phone_type')) == 0 )
+      {
+        $pn->number = $this->getValue('phone_number');
+        $new_number = false;
+        break;
+      }
       
-      $this->object->Phonenumbers[] = $pn;
+      if ( $new_number )
+      {
+        $pn = new ContactPhonenumber;
+        $pn->name = $this->getValue('phone_type');
+        $pn->number = $this->getValue('phone_number');
+        
+        $this->object->Phonenumbers[] = $pn;
+      }
     }
     
     return parent::save($con);

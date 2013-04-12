@@ -113,7 +113,10 @@
     public function __toString()
     {
       try {
-        return $this->render(array('class' => 'autosubmit', 'id' => 'payment-form'));
+        return $this->render(array(
+          'class' => sfConfig::get('app_payment_autosubmit',true) ? 'autosubmit' : '',
+          'id' => 'payment-form'
+        ));
       }
       catch ( sfException $e )
       {

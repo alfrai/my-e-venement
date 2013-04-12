@@ -1,11 +1,13 @@
 <?php include_partial('global/flashes') ?>
-<?php include_partial('global/ariane', array('active' => $current_transaction ? 2 : 0)) ?>
 
 <?php use_helper('Date') ?>
-<div id="title"><h1><?php echo __('Command summary') ?></h1>
+<div id="title">
+  <h1><?php echo __('Command summary') ?></h1>
   <p><b><?php echo __('Transaction number') ?>:</b> #<?php echo $transaction->id ?> <b><?php echo __('Edition date') ?>:</b> <?php echo format_datetime(date('Y-m-d H:i:s'),'f') ?></p>
   <p><b><?php echo __('Contact') ?>:</b> <?php echo $sf_user->hasContact() ? $sf_user->getContact() : 'N/A' ?></p>
 </div>
+
+<?php include_partial('global/ariane', array('active' => $current_transaction ? 2 : 0)) ?>
 
 <?php $last = array('event_id' => 0, 'manifestation_id' => 0, 'gauge_id' => 0) ?>
 <?php $nb_ws = 0 ?>
