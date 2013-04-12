@@ -154,13 +154,11 @@ class emailActions extends autoEmailActions
   public function executeNew(sfWebRequest $request)
   {
     $r = parent::executeNew($request);
+    
+    // CONTACTS
     $criterias = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
-    
     if ( !is_array($criterias) )
-      return $r;
-    
-    //$groups = isset($criterias['groups_list']) ? $criterias['groups_list'] : array();
-    //unset($criterias['groups_list']);
+      $criterias = array();
     
     foreach ( $criterias as $name => $criteria )
     if ( !$criteria || !is_string($criteria) && !(is_array($criteria) && implode('',$criteria)) )
@@ -202,6 +200,28 @@ class emailActions extends autoEmailActions
     
     $this->form->setDefault('contacts_list',$contacts_list);
     $this->form->setDefault('professionals_list',$professionals_list);
+    
+    // ORGANISMS
+    $criterias = $this->getUser()->getAttribute('organism.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+    if ( !is_array($criterias) )
+      $criterias = array();
+    
+    foreach ( $criterias as $name => $criteria )
+    if ( !$criteria || !is_string($criteria) && !(is_array($criteria) && implode('',$criteria)) )
+      unset($criterias[$name]);
+    
+    $organisms_list = array();
+    
+    if ( $criterias )
+    {
+      // standard filtering
+      $filters = new OrganismFormFilter($criterias);
+      $q = $filters->buildQuery($criterias);
+      foreach ( $q->fetchArray() as $organism )
+        $organisms_list[] = $organism['id'];
+    }
+    
+    $this->form->setDefault('organisms_list',$organisms_list);
     
     return $r;
   }

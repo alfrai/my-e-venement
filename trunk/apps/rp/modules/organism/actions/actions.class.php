@@ -50,6 +50,10 @@ class organismActions extends autoOrganismActions
   {
     require(dirname(__FILE__).'/group-list.php');
   }
+  public function executeEmailing(sfWebRequest $request)
+  {
+    $this->redirect('email/new');
+  }
   public function executeBatchAddToGroup(sfWebRequest $request)
   {
     $request->checkCSRFProtection();
