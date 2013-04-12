@@ -1,6 +1,7 @@
 <?php
+  $name = 'familial_quotient_id';
   include_partial('form_field_with_credential',array(
-    'name'  => $name = 'familial_quotient_id',
+    'name'  => $name,
     'label' => 'Familial quotient',
     'help'  => '',
     'class' => 'sf_admin_form_row sf_admin_foreignkey sf_admin_form_field_'.$name,

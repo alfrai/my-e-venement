@@ -29,6 +29,10 @@ class ProfessionalForm extends BaseProfessionalForm
     $this->validatorSchema['groups_list']
       ->setOption('query', $q);
     
+    $orgForm = new OrganismForm($this->getObject()->Organism);
+    $orgForm->useFields(array('description'));
+    $this->embedForm('organism',$orgForm);
+    
     parent::configure();
   }
 

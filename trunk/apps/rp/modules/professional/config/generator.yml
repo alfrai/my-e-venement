@@ -20,12 +20,13 @@ generator:
         professional_type_id: { label: Type of function }
         contact_email: { label: Email address }
         contact_number: { label: Phone number }
+        organism: { label: Organism's description }
       list:    ~
       show:
         display: [Organism, _organism_address, department, name, ProfessionalType, _contact_email, contact_number, description, _show_groups_list]
       filter:  ~
       form:
         display:
-          NONE: [contact_id, organism_id, professional_type_id, name, department, contact_number, contact_email, description, groups_list]
+          NONE: [contact_id, organism_id, professional_type_id, name, department, contact_number, contact_email, description, groups_list, organism]
       edit:    ~
       new:     ~

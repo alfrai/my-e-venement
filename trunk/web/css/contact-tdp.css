@@ -36,6 +36,7 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .tdp-line.address textarea { display: block; margin: 0 70px 0 0; width: 265px; height: 75px; }
 #tdp-content #sf_admin_content .tdp-line.complements .tdp-email { display: block; }
 #tdp-content #sf_admin_content .tdp-line.internet .tdp-contact_email input { width: 240px; }
+#tdp-content #sf_admin_content .tdp-line.complements .tdp-url input,
 #tdp-content #sf_admin_content .tdp-line.complements .tdp-email input { width: 270px; }
 #tdp-content #sf_admin_content .tdp-line.complements .tdp-email_no_newsletter,
 #tdp-content #sf_admin_content .tdp-contact_email_no_newsletter { position: absolute; margin-top: -1.5em; margin-left: 400px; }
@@ -67,9 +68,15 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .sf_admin_form_field_cities { position: absolute; border: 0; margin-top: -1px; padding: 0; display: none; }
 #tdp-content #sf_admin_content :hover > .sf_admin_form_field_cities { display: block; }
 #tdp-content #sf_admin_content .sf_admin_form_field_cities select { margin: 0; min-width: 5em; }
-#tdp-content #sf_admin_content .tdp-line.correspondence textarea, #tdp-content #sf_admin_content .tdp-line.description textarea,
-#tdp-content #sf_admin_content .tdp-line.personal_description textarea,
+#tdp-content #sf_admin_content .tdp-line.personal_description .tdp-description { width: 100%; display: inline-block; }
+#tdp-content #sf_admin_content .tdp-line.personal_description textarea { width: 96%; }
+#tdp-content #sf_admin_content .tdp-line.correspondence textarea,
+#tdp-content .tdp-subobject .tdp-line.professional_correspondence > span { width: 45%; }
 #tdp-content .tdp-subobject .tdp-line.professional_correspondence textarea { height: 70px; width: 96%; }
+#tdp-content .tdp-subobject .tdp-line.professional_correspondence .tdp-organism table { width: 100%; display: inline-table; margin-top: -79px; }
+#tdp-content .tdp-subobject .tdp-line.professional_correspondence .tdp-organism label { position: absolute; margin-top: -92px; }
+#tdp-content .tdp-subobject .tdp-line.professional_correspondence .tdp-organism th,
+#tdp-content .tdp-subobject #sf_admin_content .tdp-line.professional_correspondence .tdp-description label { display: none; }
 
 #tdp-content .tdp-subobject #sf_admin_content .tdp-widget-header { padding: 3px; font-family: Lucida Grande,Lucida Sans,Arial,sans-serif; }
 #tdp-content .tdp-subobject #sf_admin_content .tdp-widget-header span { border: 0; }

@@ -39,13 +39,8 @@
   padding-top: 12px;
 }
 
-#sf_admin_container .sf_form_field_event_archives_list {
-  margin-left: 20px;
-}
-#sf_admin_container .sf_form_field_event_archives_list .happens_at {
-  display: inline-block;
-  width: 80px;
-}
-#sf_admin_container .sf_form_field_event_archives_list .event {
-  text-decoration: underline;
-}
+#sf_admin_container .sf_form_field_event_archives_list { margin-left: 20px; }
+#sf_admin_container .sf_form_field_event_archives_list .happens_at { display: inline-block; width: 80px; }
+#sf_admin_container .sf_form_field_event_archives_list .event {   text-decoration: underline; }
+#sf_admin_container .sf_admin_form_field_organism th { display: none; }
+#sf_admin_container .sf_admin_form_field_organism textarea { margin-left: 20px; }

@@ -1,4 +1,5 @@
 <?php
+  $name = 'type_of_resources_id';
   include_partial('form_field_with_credential',array(
     'name'  => $name = 'type_of_resources_id',
     'label' => 'Type of resources',

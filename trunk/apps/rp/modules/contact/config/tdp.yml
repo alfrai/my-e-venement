@@ -46,7 +46,7 @@ all:
           Social:
             show_labels: true
             extra_class: tdp-vertical
-            fields: [familial_situation_id, type_of_resources_id, familial_quotient_id]
+            fields: [_familial_situation_id, _type_of_resources_id, _familial_quotient_id]
           Personal description:
             show_title: true
             fields: [description]
@@ -80,9 +80,10 @@ all:
               show_labels: true
               fields: [contact_email, contact_email_no_newsletter, _organism_email, _organism_url]
             Professional correspondence:
-              show_messages: false
+              show_labels: true
               show_title: true
-              fields: [description]
+              extra_class: tdp-vertical
+              fields: [description, organism]
             Groups:
               fields: [groups_list]
           extra_hidden_fields: [contact_id, organism_id]
@@ -135,6 +136,7 @@ all:
       organism_category_id: { label: Category }
       email_no_newsletter: { label: No newsletter }
       contact_email_no_newsletter: { label: No newsletter }
+      organism: { label: With the organism }
 
 dev:
   active: true

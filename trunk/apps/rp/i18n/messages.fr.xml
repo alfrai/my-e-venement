@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>With the organism</source>
+        <target>Avec l'organisme</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism's description</source>
+        <target>Description de l'organisme</target>
+      </trans-unit>
+      <trans-unit>
         <source>Organism's category</source>
         <target>Catégorie de l'organisme</target>
       </trans-unit>
