@@ -337,6 +337,26 @@ class contactActions extends autoContactActions
     return require(dirname(__FILE__).'/card.php');
   }
   
+  protected function getFilters()
+  {
+    if ( !sfConfig::get('app_options_design') == 'tdp' || !sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
+      return parent::getFilters();
+    
+    $filters = parent::getFilters();
+    $other_filters = $this->getUser()->getAttribute('organism.filters',null,'admin_module');
+    if ( !(isset($filters['organism_category_id']) && is_array($filters['organism_category_id'])) )
+      $filters['organism_category_id'] = array();
+    if ( !(isset($filters['groups_list']) && is_array($filters['groups_list'])) )
+      $filters['groups_list'] = array();
+    if ( !(isset($other_filters['organism_category_id']) && is_array($other_filters['organism_category_id'])) )
+      $other_filters['organism_category_id'] = array();
+    if ( !(isset($other_filters['groups_list']) && is_array($other_filters['groups_list'])) )
+      $other_filters['groups_list'] = array();
+    $filters['organism_category_id'] = array_merge($filters['organism_category_id'], $other_filters['organism_category_id']);
+    $filters['groups_list'] = array_merge($filters['groups_list'], $other_filters['groups_list']);
+    $this->setFilters($filters);
+    return $filters;
+  }
   public static function sanitizeSearch($search)
   {
     $nb = strlen($search);
