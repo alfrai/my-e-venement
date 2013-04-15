@@ -1,3 +1,12 @@
+option_accounting:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OptionAccounting
+    module:               option_accounting
+    prefix_path:          /option_accounting
+    column:               id
+    with_wildcard_routes: true
+
 transaction_debts:
   class: sfDoctrineRouteCollection
   options:

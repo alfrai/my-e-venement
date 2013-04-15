@@ -20,56 +20,6 @@ class ledgerActions extends sfActions
     $this->redirect('ledger/cash');
   }
   
-  protected function formatCriterias(sfWebRequest $request)
-  {
-    $this->getContext()->getConfiguration()->loadHelpers('I18N');
-    
-    $this->form = new LedgerCriteriasForm();
-    if ( $criterias = $request->getParameter($this->form->getName(),array()) )
-      $this->getUser()->setAttribute('ledger.criterias', $criterias, 'tck_module');
-    $criterias = $this->getUser()->getAttribute('ledger.criterias',$criterias,'tck_module');
-    
-    // Hack for form validation
-    if ( isset($criterias['users']) && $criterias['users'][0] === '' && count($criterias['users']) == 1 )
-      unset($criterias['users']);
-    if ( isset($criterias['workspaces']) && $criterias['workspaces'][0] === '' && count($criterias['workspaces']) == 1 )
-      unset($criterias['workspaces']);
-    
-    $this->form->bind($criterias, $request->getFiles($this->form->getName()));
-    if ( !$this->form->isValid() )
-    {
-      $this->getUser()->setFlash('error',__('Submitted values are invalid'));
-    }
-    
-    $dates = array(
-      isset($criterias['dates']) && $criterias['dates']['from']['day']
-        ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
-        : strtotime(sfConfig::has('app_ledger_date_begin') ? sfConfig::get('app_ledger_date_begin').' 0:00' : '1 week ago 0:00'),
-      isset($criterias['dates']) && $criterias['dates']['to']['day']
-        ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'])
-        : strtotime(sfConfig::has('app_ledger_date_end') ? sfConfig::get('app_ledger_date_end').' 0:00' : 'tomorrow 0:00'),
-    );
-    
-    if ( $dates[0] > $dates[1] )
-    {
-      $buf = $dates[1];
-      $dates[1] = $dates[0];
-      $dates[0] = $buf;
-    }
-    $criterias['dates'] = $dates;
-    
-    // get all selected users
-    $this->users = false;
-    if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
-    {
-      $q = Doctrine::getTable('sfGuardUser')->createQuery('u')
-        ->andWhereIn('u.id',$criterias['users']);
-      $this->users = $q->execute();
-    }
-    
-    return $criterias;
-  }
-  
   public function executeSales(sfWebRequest $request)
   {
     // because loading this page with a lot of data is really long
@@ -165,67 +115,7 @@ class ledgerActions extends sfActions
   
   public function executeExtract(sfWebRequest $request)
   {
-    $this->getContext()->getConfiguration()->loadHelpers('Date');
-    
-    $criterias = $this->formatCriterias($request);
-    $this->dates = $criterias['dates'];
-    
-    $params = OptionCsvForm::getDBOptions();
-    $this->options = array(
-      'ms' => in_array('microsoft',$params['option']),
-      'tunnel' => false,
-      'noheader' => false,
-    );
-    
-    $this->outstream = 'php://output';
-    $this->delimiter = $this->options['ms'] ? ';' : ',';
-    $this->enclosure = '"';
-    $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
-    
-    sfConfig::set('sf_escaping_strategy', false);
-    sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
-    
-    if ( $this->getContext()->getConfiguration()->getEnvironment() == 'dev' )
-    {
-      $this->getResponse()->sendHttpHeaders();
-      $this->setLayout('layout');
-    }
-    else
-      sfConfig::set('sf_web_debug', false);
-    
-    switch ( $request->getParameter('type','cash') ) {
-    case 'sales':
-      $this->executeSales($request);
-      return 'Sales';
-      break;
-    default:
-      $this->options['fields'] = array(
-        'method',
-        'value',
-        'account',
-        'transaction_id',
-        'contact',
-        'date',
-        'user',
-      );
-      $this->executeCash($request);
-      
-      $this->lines = array();
-      foreach ( $this->methods as $method )
-      foreach ( $method->Payments as $payment )
-        $this->lines[] = array(
-          'method'          => (string) $method,
-          'value'           => (string) $payment->value,
-          'reference'       => $method->account,
-          'transaction_id'  => '#'.$payment->transaction_id,
-          'contact'         => (string)( $payment->Transaction->professional_id ? $payment->Transaction->Professional : $payment->Transaction->Contact ),
-          'date'            => format_date($payment->created_at),
-          'user'            => (string)$payment->User,
-        );
-      
-      return 'Cash';
-      break;
-    }
+    return require(dirname(__FILE__).'/extract.php');
   }
   
   public function executeCash(sfWebRequest $request)
@@ -238,6 +128,61 @@ class ledgerActions extends sfActions
       $this->redirect('ledger/cash');
     
     $this->methods = $this->buildCashQuery($criterias)->execute();
+  }
+  
+  public function executeBoth(sfWebRequest $request)
+  {
+    require dirname(__FILE__).'/both.php';
+  }
+  
+  protected function formatCriterias(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    $this->form = new LedgerCriteriasForm();
+    if ( $criterias = $request->getParameter($this->form->getName(),array()) )
+      $this->getUser()->setAttribute('ledger.criterias', $criterias, 'tck_module');
+    $criterias = $this->getUser()->getAttribute('ledger.criterias',$criterias,'tck_module');
+    
+    // Hack for form validation
+    if ( isset($criterias['users']) && $criterias['users'][0] === '' && count($criterias['users']) == 1 )
+      unset($criterias['users']);
+    if ( isset($criterias['workspaces']) && $criterias['workspaces'][0] === '' && count($criterias['workspaces']) == 1 )
+      unset($criterias['workspaces']);
+    
+    $this->form->bind($criterias, $request->getFiles($this->form->getName()));
+    if ( !$this->form->isValid() )
+    {
+      $this->getUser()->setFlash('error',__('Submitted values are invalid'));
+    }
+    
+    $dates = array(
+      isset($criterias['dates']) && $criterias['dates']['from']['day']
+        ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
+        : strtotime(sfConfig::has('app_ledger_date_begin') ? sfConfig::get('app_ledger_date_begin').' 0:00' : '1 week ago 0:00'),
+      isset($criterias['dates']) && $criterias['dates']['to']['day']
+        ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'])
+        : strtotime(sfConfig::has('app_ledger_date_end') ? sfConfig::get('app_ledger_date_end').' 0:00' : 'tomorrow 0:00'),
+    );
+    
+    if ( $dates[0] > $dates[1] )
+    {
+      $buf = $dates[1];
+      $dates[1] = $dates[0];
+      $dates[0] = $buf;
+    }
+    $criterias['dates'] = $dates;
+    
+    // get all selected users
+    $this->users = false;
+    if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
+    {
+      $q = Doctrine::getTable('sfGuardUser')->createQuery('u')
+        ->andWhereIn('u.id',$criterias['users']);
+      $this->users = $q->execute();
+    }
+    
+    return $criterias;
   }
   
   protected function buildCashQuery($criterias)
@@ -288,10 +233,5 @@ class ledgerActions extends sfActions
     $q->andWhere('u.id = ?',sfContext::getInstance()->getUser()->getId());
     
     return $q;
-  }
-  
-  public function executeBoth(sfWebRequest $request)
-  {
-    require dirname(__FILE__).'/both.php';
   }
 }

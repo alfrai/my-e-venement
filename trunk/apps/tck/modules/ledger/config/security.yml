@@ -6,3 +6,6 @@ sales:
 
 both:
   credentials: [tck-ledger-sales, tck-ledger-cash]
+
+extract:
+  credentials: [tck-ledger-sales, tck-ledger-cash]

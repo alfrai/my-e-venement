@@ -126,10 +126,12 @@ EventCategory:
 Event:
   package: event
   actAs:
-    Timestampable: ~
     Sluggable: ~
     Searchable:
       fields: [name,writer,staging,short_name]
+  inheritance:
+    extends: Traceable
+    type: concrete
   columns:
     name:
       type:         string(255)
@@ -166,6 +168,8 @@ Event:
       type: boolean
       default: true
       notnull: true
+    accounting_account: string(50)
+    slug: string(255)
   relations:
     EventCategory:
       foreignAlias: Events
@@ -214,6 +218,9 @@ Location:
     organism_id:  integer
     gauge_max:    integer
     gauge_min:    integer
+    reservation_price:
+      type: decimal(11)
+      scale: 2
   relations:
     Organism:
       foreignAlias: Locations
@@ -239,8 +246,9 @@ SeatingPlan:
 
 Manifestation:
   package: event
-  actAs:
-    Timestampable: ~
+  inheritance:
+    extends: Traceable
+    type: concrete
   columns:
     event_id:
       type: integer
@@ -258,6 +266,9 @@ Manifestation:
       type: decimal(5)
       scale: 2
       notnull: true
+    vat_id:
+      type: integer
+      notnull: true
     online_limit:
       type: integer
       default: 10
@@ -267,6 +278,7 @@ Manifestation:
       default: false
       notnull: true
     depends_on: integer
+    contact_id: integer
   relations:
     Event:
       foreignAlias: Manifestations
@@ -283,6 +295,9 @@ Manifestation:
     Organizers:
       class: Organism
       refClass: ManifestationOrganizer
+      foreignAlias: Manifestations
+    Demander:
+      class: Contact
       foreignAlias: Manifestations
     Workspaces:
       class: Workspace
@@ -308,6 +323,7 @@ Vat:
       scale: 4
       notnull: true
       default: 0
+    accounting_account: string(50)
 Gauge:
   package: event
   actAs: [Timestampable]

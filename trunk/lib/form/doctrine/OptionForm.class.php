@@ -25,7 +25,7 @@ class OptionForm extends sfForm
   public function save($user_id = NULL, $params = NULL)
   {
     if ( !$this->model )
-      return false;
+      throw new liEvenementException('No model given to the form');
     
     if ( !$params ) $params = $this->getValues();
     

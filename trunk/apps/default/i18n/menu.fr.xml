@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Accounting informations</source>
+        <target>Informations comptables</target>
+      </trans-unit>
+      <trans-unit>
         <source>Familial quotients</source>
         <target>Quotients familiaux</target>
       </trans-unit>

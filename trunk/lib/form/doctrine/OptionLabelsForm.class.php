@@ -95,12 +95,7 @@ class OptionLabelsForm extends BaseOptionLabelsForm
   
   protected static function buildOptionsQuery()
   {
-    return $q = Doctrine::getTable('OptionLabels')->createQuery()
-      ->where('sf_guard_user_id IS NULL');
-    
-    if ( sfContext::getInstance()->getUser() instanceof sfGuardSecurityUser )
-      $q->where('sf_guard_user_id = ?',sfContext::getInstance()->getUser()->getId());
-    else
-      $q->where('sf_guard_user_id IS NULL');
+    return $q = Doctrine::getTable('OptionLabels')->createQuery('ol')
+      ->andWhere('ol.sf_guard_user_id IS NULL');
   }
 }

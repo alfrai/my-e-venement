@@ -40,6 +40,8 @@
       <?php echo link_to(__('Switch ledger...'), $ledger == 'cash' ? 'ledger/sales' : 'ledger/cash') ?>
       <br/>
       <?php echo link_to(__('Detailed Ledger',array(),'menu'), 'ledger/both') ?>
+      <br/>
+      <?php echo link_to(__('Extract'), 'ledger/extract?type='.$ledger) ?>
       <?php endif ?>
     </li>
   </ul>
