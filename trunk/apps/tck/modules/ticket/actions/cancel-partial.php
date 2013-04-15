@@ -84,6 +84,7 @@
     $cancel->value = -$cancel->value;
     $cancel->cancelling = $ticket->id;
     $cancel->id =
+    $cancel->duplicating =
     $cancel->transaction_id =
     $cancel->sf_guard_user_id =
     $cancel->created_at =
