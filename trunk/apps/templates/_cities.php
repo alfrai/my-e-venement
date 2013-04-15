@@ -19,11 +19,10 @@
             $.each(json, function(key, val) {
               $('.sf_admin_form_field_cities select')
                 .append('<option value="'+key+'">'+val+'</option>')
-                .find('option:first-child').attr('selected',true)
-                .change();
+                .find('option:first-child').attr('selected',true);
             });
             $('.sf_admin_form_field_cities select option').click(function(){
-              $('.sf_admin_form_field_postalcode input, .tdp-postalcode input').val(parseInt($(this).html()));
+              $('.sf_admin_form_field_postalcode input, .tdp-postalcode input').val($(this).html().substring(0,5));
             });
           });
         }
