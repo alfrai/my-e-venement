@@ -207,6 +207,5 @@
   </tr></thead>
 </table>
 
-<?php print_r(array_keys($vat)); ?>
 <div class="clear"></div>
 </div>
