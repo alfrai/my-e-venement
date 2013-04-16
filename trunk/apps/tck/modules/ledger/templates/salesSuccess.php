@@ -64,6 +64,7 @@
     <tr class="event">
       <?php
         $buf = $qty = $value = 0;
+        $infos = array();
         
         foreach ( $event->Manifestations as $manif )
         if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) )
@@ -74,24 +75,6 @@
           {
             if ( !is_null($ticket->cancelling) )
               $qty -= 2;
-            
-            /*
-            // taxes initialization
-            if ( !isset($vat[$ticket->vat]) )
-              $vat[$ticket->vat] = array($event->id => array(
-                'total'    => 0,
-                $manif->id => 0,
-              ));
-            else if ( !isset($vat[$ticket->vat][$event->id]) )
-              $vat[$ticket->vat][$event->id] = array(
-                'total'    => 0,
-                $manif->id => 0,
-              );
-            else if ( !isset($vat[$ticket->vat][$event->id][$manif->id]) )
-              $vat[$ticket->vat][$event->id][$manif->id] = 0;
-            if ( !isset($total['vat'][$ticket->vat]) )
-              $total['vat'][$ticket->vat] = 0;
-            */
             
             // taxes feeding
             $vat[$ticket->vat][$event->id][$manif->id]
@@ -105,17 +88,19 @@
             $value += $ticket->value;
           }
         }
-        else
+        else // more tickets than the limit
         {
-          $infos = $manif->getInfosTickets($sf_data->getRaw('options'));
+          $infos[$manif->id] = $manif->getInfosTickets($sf_data->getRaw('options'));
           
-          $value += $infos['value'];
-          $qty += $infos['qty'];
+          $total['value'] += $infos[$manif->id]['value'];
+          $value += $infos[$manif->id]['value'];
+          $qty += $infos[$manif->id]['qty'];
           
-          $vat[$manif->vat][$event->id][$manif->id]
-            = round($infos['value'] - $infos['value'] / (1+$manif->vat/100),2);
-          $vat[$manif->vat][$event->id]['total']
-            += $vat[$manif->vat][$event->id][$manif->id];
+          foreach ( $infos[$manif->id]['vat'] as $rate => $amount )
+          {
+            $vat[$rate][$event->id]['total'] += $vat[$rate][$event->id][$manif->id] = $amount; // taxes feeding
+            $total['vat'][$rate] += $amount; // total feeding
+          }
         } // endif; endforeach;
       ?>
       <td class="event"><?php echo cross_app_link_to($event,'event','event/show?id='.$event->id) ?></td>
@@ -136,14 +121,14 @@
         <?php if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) ): ?>
         <?php $nb = $manif->Tickets->count(); foreach ( $manif->Tickets as $t ) if ( !is_null($t->cancelling) ) $nb-=2; echo $nb; ?>
         <?php else: ?>
-        <?php $infos = $manif->getInfosTickets($sf_data->getRaw('options')); echo $infos['qty']; ?>
+        <?php echo $infos[$manif->id]['qty']; ?>
         <?php endif ?>
       </td>
       <td class="value">
         <?php if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) ): ?>
         <?php $value = 0; foreach ( $manif->Tickets as $ticket ) $value += $ticket->value; echo format_currency($value,'€'); ?>
         <?php else: ?>
-        <?php echo format_currency($value = $infos['value'],'€'); ?>
+        <?php echo format_currency($value = $infos[$manif->id]['value'],'€'); ?>
         <?php endif ?>
       </td>
       <?php foreach ( $vat as $t ): if ( isset($t[$event->id][$manif->id]) ): ?>

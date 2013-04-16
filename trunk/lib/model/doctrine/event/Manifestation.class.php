@@ -107,12 +107,20 @@ class Manifestation extends PluginManifestation
 
     $tickets = $q->fetchArray();
     
-    $r = array('value' => 0, 'qty' => 0);
+    $r = array('value' => 0, 'qty' => 0, 'vat' => array());
     foreach ( $tickets as $ticket )
     {
       $r['value'] += $ticket['value'];
       $r['qty']   += is_null($ticket['cancelling']) ? 1 : -1;
+      
+      if ( !isset($r['vat'][$ticket['vat']]) )
+        $r['vat'][$ticket['vat']] = 0;
+      $r['vat'][$ticket['vat']] += $ticket['value'] - $ticket['value'] / (1+$ticket['vat']);
     }
+    
+    // rounding VAT
+    foreach ( $r['vat'] as $rate => $value )
+      $r['vat'][$rate] = round($value,2);
     
     return $r;
   }
