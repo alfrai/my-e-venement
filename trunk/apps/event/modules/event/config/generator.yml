@@ -31,6 +31,7 @@ generator:
         writer_label: { label: Writer label }
         list_manifestations: { label: Manifestations }
         list_manifestations_gauges: { label: <span title="booked/total (sold-booked-demanded)">Gauges</span> }
+        accounting_account: { label: Account, help: For the accounting department }
       list:
         title: Event List
         display: [MetaEvent, name, EventCategory, duration, age_min_h_r, _list_manifestations, _list_manifestations_gauges]
@@ -40,7 +41,7 @@ generator:
       form:
         display:
           General:   [name, short_name, meta_event_id, event_category_id, event_category_description, companies_list]
-          Details:   [duration, display_by_default, age_min, age_max, staging_label, staging, writer_label, writer, description]
+          Details:   [duration, display_by_default, accounting_account, age_min, age_max, staging_label, staging, writer_label, writer, description]
           Web Content: [web_price, web_price_group, image_url, extradesc, extraspec]
           Checkpoints: [_form_checkpoints]
       edit:

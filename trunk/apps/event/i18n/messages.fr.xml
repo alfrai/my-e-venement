@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>For the accounting department</source>
+        <target>Pour le service comptable</target>
+      </trans-unit>
+      <trans-unit>
         <source>For accounting</source>
         <target>Pour la comptabilité</target>
       </trans-unit>
