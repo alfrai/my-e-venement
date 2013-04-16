@@ -5,6 +5,70 @@
     <header/>
     <body>
       <trans-unit>
+        <source>File number</source>
+        <target>Numéro de dossier</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>JA code</source>
+        <target>Code JA</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Analytic section</source>
+        <target>Section analytique</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Other section</source>
+        <target>Section "autre"</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Invoice document code</source>
+        <target>Code de document facture</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Credit side code</source>
+        <target>Code de document avoir</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Debit code</source>
+        <target>Code de débit</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Credit code</source>
+        <target>Code de crédit</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Analytic account number</source>
+        <target>Numéro du compte analytique</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Transaction record code</source>
+        <target>Code d'enregistrement "Transaction"</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Imputation record code</source>
+        <target>Code d'enregistrement "Imputation"</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Expiration record code</source>
+        <target>Code d'enregistrement "Expiration"</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Analytic record code</source>
+        <target>Code d'enregistrement analytique</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Generic account for incomes</source>
+        <target>Compte client générique</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Account for taxes</source>
+        <target>Compte pour la TVA</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Currency</source>
+        <target>Monnaie</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Your configuration has been updated with %i% option(s).</source>
         <target>Votre configuration a été mise à jour avec %i% paramètre(s).</target>
       </trans-unit>
