@@ -1,3 +1,5 @@
+body #content { width: 600px; }
+
 .sf_admin_form fieldset {
   padding: 0 2px 2px 2px;
   width: 215px;
@@ -21,7 +23,7 @@
 #content .sf_admin_flashes { margin: 10px 5px 10px 5px; }
 
 #content .sf_admin_form fieldset input[type=text] + label:after { content: ':'; }
-#content .sf_admin_form fieldset .helper { float: right; width: 30px; }
+#content .sf_admin_form fieldset .helper { float: right; width: 80px; }
 #content .sf_admin_form fieldset input[type=text],
 #content .sf_admin_form fieldset textarea {
   float: right;
