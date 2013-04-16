@@ -1,5 +1,5 @@
 all:
-  javascripts: [/liTinymcePlugin/tiny_mce]
+  javascripts: [/liTinymcePlugin/tiny_mce,duration]
   stylesheets: [manifestation]
 
 indexSuccess:

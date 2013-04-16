@@ -33,7 +33,9 @@ class ManifestationForm extends BaseManifestationForm
       'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',10).' }',
     ));
     
+    parent::configure();
   }
+  
   public function save($con = NULL)
   {
     $event = NULL;

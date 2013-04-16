@@ -32,5 +32,7 @@ class EventForm extends BaseEventForm
     $this->validatorSchema['duration'] = new sfValidatorString(array('required' => false));
     
     $this->widgetSchema['meta_event_id']->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('MetaEvent')->createQuery('me')));
+    
+    parent::configure();
   }
 }

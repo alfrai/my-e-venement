@@ -37,15 +37,9 @@ class Manifestation extends PluginManifestation
     return $this->getName();
   }
   
-  public function getDurationInSeconds()
-  {
-    $duration = explode(':',$this->duration);
-    return $duration[0]*60*60 + $duration[1]*60;
-  }
-  
   /**
     * $options: modeled on sales ledger's criterias
-    * 
+    *
     **/
   public function getInfosTickets($options = array())
   {
@@ -56,7 +50,7 @@ class Manifestation extends PluginManifestation
       ->andWhere('manifestation_id = ?',$this->id)
       ->andWhere('tck.duplicating IS NULL');
         
-    if ( $options['workspaces'] )
+    if (!( isset($options['workspaces']) && $options['workspaces'] ))
       $q->leftJoin('tck.Gauge g')
         ->andWhereIn('g.workspace_id',$options['workspaces']);
     
@@ -67,9 +61,9 @@ class Manifestation extends PluginManifestation
         ->leftJoin('t.Payments p')
         ->andWhere('p.id IS NOT NULL');
     
-    if ( isset($options['dates']) )
+    if ( isset($options['dates']) && is_array($options['dates']) )
     {
-      if ( !$options['tck_value_date_payment'] )
+      if (!( isset($options['tck_value_date_payment']) && $options['tck_value_date_payment'] ))
         $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
             date('Y-m-d',$options['dates'][0]),
             date('Y-m-d',$options['dates'][1]),

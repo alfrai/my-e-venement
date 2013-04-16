@@ -32,7 +32,7 @@
       'id' => $manif->id,
       'title' => !isset($event_id) ? (string)$manif->Event : (string)$manif->Location,
       'start' => $manif->happens_at,
-      'end' => date('Y-m-d H:i:s',strtotime($manif->happens_at)+$manif->getDurationInSeconds()),
+      'end' => date('Y-m-d H:i:s',strtotime($manif->happens_at)+$manif->duration),
       'allDay' => false,
       'hackurl' => url_for('manifestation/show?id='.$manif->id),
       'editable' => $sf_user->hasCredential('event-manif-edit'),

@@ -1,6 +1,6 @@
 all:
   stylesheets: [manifestation, manifestation-print: { media: all }]
-  javascripts: [manifestation]
+  javascripts: [manifestation,duration]
 
 showSuccess:
   stylesheets: [manifestation-view,view]

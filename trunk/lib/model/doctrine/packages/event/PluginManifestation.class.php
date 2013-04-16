@@ -14,19 +14,19 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
 {
   public function preSave($event)
   {
-    $this->duration = intval($this->rawGet('duration')).'' == ''.$this->rawGet('duration')
-      ? $this->rawGet('duration')
-      : intval(strtotime($this->rawGet('duration').'+0',0));
+    if ( intval($this->duration).'' != ''.$this->duration )
+    {
+      $this->duration = intval(strtotime($this->duration.'+0',0));
+    }
     parent::preSave($event);
   }
-  public function getDuration()
+  public function getDurationHR()
   {
-    $duration = $this->rawGet('duration');
-    if ( intval($this->rawGet('duration')).'' != ''.$this->rawGet('duration') )
-      return $duration;
+    if ( intval($this->duration).'' != ''.$this->duration )
+      return $this->duration;
     
-    $hours = floor($duration/3600);
-    $minutes = floor($duration%3600/60) > 9 ? floor($duration%3600/60) : '0'.floor($duration%3600/60);
+    $hours = floor($this->duration/3600);
+    $minutes = floor($this->duration%3600/60) > 9 ? floor($this->duration%3600/60) : '0'.floor($this->duration%3600/60);
     return $hours.':'.$minutes;
   }
   
