@@ -11,3 +11,15 @@
 <?php use_stylesheet('/sfFormExtraPlugin/css/jquery.autocompleter.css') ?>
 <?php use_javascript('/sfFormExtraPlugin/js/jquery.autocompleter.js') ?>
 <?php use_javascript('/cxFormExtraPlugin/js/cx_open_list.js') ?>
+
+
+<?php // additionnal stylesheet (filament group)
+  use_stylesheet('/sfAdminThemejRollerPlugin/css/fg.menu.css');
+  use_stylesheet('/sfAdminThemejRollerPlugin/css/fg.buttons.css');
+  use_stylesheet('/sfAdminThemejRollerPlugin/css/ui.selectmenu.css');
+?>
+<?php // additionnal javascript (filament group)
+  use_javascript('/sfAdminThemejRollerPlugin/js/fg.menu.js');
+  use_javascript('/sfAdminThemejRollerPlugin/js/jroller.js');
+  use_javascript('/sfAdminThemejRollerPlugin/js/ui.selectmenu.js');
+?>

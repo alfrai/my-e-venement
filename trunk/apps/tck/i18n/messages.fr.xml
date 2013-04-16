@@ -865,8 +865,8 @@
         <target>Utilisateurs:</target>
       </trans-unit>
       <trans-unit id="104">
-        <source>Switch ledger...</source>
-        <target>Changer de livre...</target>
+        <source>Switch ledger</source>
+        <target>Changer de livre</target>
       </trans-unit>
       <trans-unit id="105">
         <source>Price to pay</source>
