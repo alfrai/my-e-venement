@@ -5,6 +5,38 @@
     <header/>
     <body>
       <trans-unit>
+        <source>For accounting</source>
+        <target>Pour la comptabilité</target>
+      </trans-unit>
+      <trans-unit>
+        <source>eg. 9.20%</source>
+        <target>ex: 9,20%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>eg. 0.0920 for 9.20%</source>
+        <target>ex: 0.0920 pour 9,20%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New tax</source>
+        <target>Nouvelle taxe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit tax %%name%%</source>
+        <target>Modification de la taxe %%name%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Account</source>
+        <target>Compte</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Rate</source>
+        <target>Taux</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Taxes list</source>
+        <target>Liste des taxes</target>
+      </trans-unit>
+      <trans-unit>
         <source>This field's update is done automagically</source>
         <target>La mise à jour de champs est fait automagiquement</target>
       </trans-unit>

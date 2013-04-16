@@ -37,12 +37,15 @@ class Ticket extends PluginTicket
 {
   public function preSave($event)
   {
-    if ( (is_null($this->manifestation_id) || is_null($this->value) || is_null($this->price_id)) && (!is_null($this->price_name) || !is_null($this->price_id)) && !is_null($this->gauge_id) )
+    if ( (is_null($this->vat) || is_null($this->manifestation_id) || is_null($this->value) || is_null($this->price_id))
+      && (!is_null($this->price_name) || !is_null($this->price_id))
+      && !is_null($this->gauge_id) )
     {
       $q = Doctrine::getTable('PriceManifestation')->createQuery('pm')
         ->leftJoin('pm.Manifestation m')
         ->leftJoin('pm.Price p')
         ->leftJoin('m.Gauges g')
+        ->leftJoin('m.Vat v')
         ->andWhere('g.id = ?',$this->gauge_id)
         ->orderBy('pm.updated_at DESC');
       
@@ -57,6 +60,8 @@ class Ticket extends PluginTicket
       
       if ( is_null($this->manifestation_id) )
         $this->manifestation_id = $pm->manifestation_id;
+      if ( is_null($this->vat) )
+        $this->vat = $pm->Manifestation->Vat->value;
       if ( is_null($this->price_name) )
         $this->price_name = $pm->Price->name;
       if ( is_null($this->price_id) )
@@ -67,6 +72,12 @@ class Ticket extends PluginTicket
     
     // the transaction's last update
     $this->Transaction->updated_at = NULL;
+    
+    // last chance to set a VAT taxe rate, related to current manifestation's rate
+    if ( is_null($this->vat) && !is_null($this->manifestation_id) )
+      $this->vat = Doctrine::getTable('Manifestation')
+        ->findOneById($this->Manifestation->id)
+        ->Vat->value;
     
     parent::preSave($event);
   }

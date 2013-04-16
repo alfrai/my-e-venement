@@ -31,7 +31,7 @@ generator:
         display:
           General:      [happens_at, _id, event_id, location_id, _show_gauge_txt, color_id, _form_prices]
           Memo:         [description]
-          Technical:    [duration, vat, online_limit, depends_on, _show_is_necessary_to, organizers_list, no_print]
+          Technical:    [duration, vat_id, online_limit, depends_on, _show_is_necessary_to, organizers_list, no_print]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
           #Tickets:      [_show_tickets_list]
           #Spectators:   [_show_spectators_list]

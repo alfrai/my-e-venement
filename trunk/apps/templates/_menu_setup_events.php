@@ -39,6 +39,9 @@
               <?php if ( $sf_user->hasCredential('event-admin-color') ): ?>
               <li><a href="<?php echo cross_app_url_for('event','color') ?>"><?php echo __('Colors',array(),'menu') ?></a></li>
               <?php endif ?>
+              <?php if ( $sf_user->hasCredential('event-admin-vat') ): ?>
+              <li class="spaced"><a href="<?php echo cross_app_url_for('event','vat') ?>"><?php echo __('Taxes',array(),'menu') ?></a></li>
+              <?php endif ?>
             </ul>
           </li>
   <?php endif ?>

@@ -120,9 +120,12 @@ EventCategory:
       notblank: true
       notnull:  true
       unique:   true
-    vat:
-      type:     decimal(5)
-      scale:    2
+    vat_id: integer
+  relations:
+    Vat:
+      foreignAlias: EventCategories
+      onDelete: SET NULL
+      onUpdate: CASCADE
 Event:
   package: event
   actAs:
@@ -262,10 +265,6 @@ Manifestation:
       notnull: true
     duration: integer
     description: string
-    vat:
-      type: decimal(5)
-      scale: 2
-      notnull: true
     vat_id:
       type: integer
       notnull: true
@@ -310,6 +309,10 @@ Manifestation:
       onDelete: SET NULL
       onUpdate: CASCADE
       foreignAlias: IsNecessaryTo
+    Vat:
+      foreignAlias: Manifestations
+      onDelete: SET NULL
+      onUpdate: CASCADE
 Vat:
   package: event
   actAs: [Versionable, Timestampable]

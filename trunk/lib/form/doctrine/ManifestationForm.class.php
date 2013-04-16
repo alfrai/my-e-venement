@@ -38,10 +38,10 @@ class ManifestationForm extends BaseManifestationForm
   {
     $event = NULL;
     
-    if ( $this->values['vat'] === '' || is_null($this->values['vat']) )
+    if ( $this->values['vat_id'] == '' || is_null($this->values['vat_id']) )
     {
       $event = Doctrine::getTable('Event')->findOneById($this->values['event_id']);
-      $this->values['vat'] = $event->EventCategory->vat;
+      $this->values['vat_id'] = $event->EventCategory->vat_id;
     }
     if ( $this->values['duration'] === '' || is_null($this->values['duration']) )
     {

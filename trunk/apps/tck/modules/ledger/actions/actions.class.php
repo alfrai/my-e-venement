@@ -111,6 +111,15 @@ class ledgerActions extends sfActions
     
     $this->events = $q->execute();
     $this->dates = $dates;
+    
+    // total initialization / including taxes
+    $this->total = array('qty' => 0, 'vat' => array(), 'value' => 0);
+    $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    $q = 'SELECT DISTINCT vat FROM ticket';
+    $stmt = $pdo->prepare($q);
+    $stmt->execute();
+    foreach ( $arr = $stmt->fetchAll() as $vat )
+      $this->total['vat'][$vat['vat']] = 0;
   }
   
   public function executeExtract(sfWebRequest $request)

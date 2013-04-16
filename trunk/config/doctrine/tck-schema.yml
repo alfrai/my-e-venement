@@ -120,6 +120,9 @@ Ticket:
     barcode: string(255)
     othercode: string(255)
     member_card_id: integer
+    vat:
+      type: decimal(5)
+      scale: 4
   indexes:
     manif_numerotation:
       fields: [numerotation, manifestation_id]

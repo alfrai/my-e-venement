@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Taxes</source>
+        <target>Taxes (TVA)</target>
+      </trans-unit>
+      <trans-unit>
         <source>Accounting informations</source>
         <target>Informations comptables</target>
       </trans-unit>

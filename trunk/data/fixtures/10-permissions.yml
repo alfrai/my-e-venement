@@ -539,6 +539,11 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_84
     created_at: '2013-04-04 13:18:48'
     updated_at: '2013-04-04 13:18:48'
+  sfGuardGroupPermission_9_85:
+    Group: sfGuardGroup_9
+    Permission: sfGuardPermission_85
+    created_at: '2013-04-15 22:44:42'
+    update_at: '2013-04-15 22:44:42'
 sfGuardPermission:
   sfGuardPermission_18:
     name: admin-titles
@@ -940,6 +945,11 @@ sfGuardPermission:
     description: 'Permission to access the social informations part of the admin part of the "rp" module'
     created_at: '2013-04-04 13:16:31'
     updated_at: '2012-11-28 13:16:31'
+  sfGuardPermission_85:
+    name: event-admin-vat
+    description: 'Permission to manage VAT'
+    created_at: '2013-04-15 22:43:31'
+    updated_at: '2013-04-15 22:43:31'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view

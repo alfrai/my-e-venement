@@ -1,6 +1,7 @@
 #!/bin/bash
 # EXECUTE THIS SCRIPT BEFORE DOING A COMPLETE DB BACKUP, REBUILD AND RESTORE
 
+# preconditions
 [ ! -f ./symfony ] && echo 'The symfony file is not present... processus aborted' && exit 255
 [ -z $1 ] && echo 'You forgot the DB name as the first argument...' && exit 1
 [ ! -z $2 ] && echo 'You will do a restore-only procedure'
@@ -9,6 +10,7 @@
 if [ -z $2 ]
 then
 
+# pre-reorganization of data
 psql $1 <<EOF
 DROP TABLE vat;
 CREATE TABLE vat (
@@ -25,6 +27,11 @@ INSERT INTO vat(name,value,created_at,updated_at) (SELECT DISTINCT vat||'%' AS n
 
 ALTER TABLE manifestation ADD COLUMN vat_id INTEGER DEFAULT NULL;
 UPDATE manifestation m SET vat_id = (SELECT id FROM vat WHERE value = m.vat/100 ORDER BY id LIMIT 1);
+ALTER TABLE manifestation DROP COLUMN vat;
+
+ALTER TABLE event_category ADD COLUMN vat_id INTEGER DEFAULT NULL;
+UPDATE event_category ec SET vat_id = (SELECT id FROM vat WHERE value = ec.vat/100 ORDER BY id LIMIT 1);
+ALTER TABLE event_category DROP COLUMN vat;
 
 ALTER TABLE event ADD COLUMN sf_guard_user_id INTEGER DEFAULT NULL;
 UPDATE event SET sf_guard_user_id = (SELECT MIN(id) FROM sf_guard_user);
@@ -32,19 +39,36 @@ ALTER TABLE manifestation ADD COLUMN sf_guard_user_id INTEGER DEFAULT NULL;
 UPDATE manifestation SET sf_guard_user_id = (SELECT MIN(id) FROM sf_guard_user);
 EOF
 
+# backup
 pg_dump -Fc $1 > data/sql/${1}-`date +%Y%m%d`.pgdump
 
 fi
 
+# rebuild + reinjection
 dropdb $1 && createdb $1 &&
 echo "GRANT ALL ON  DATABASE $1 TO $1" | psql $1 &&
 php symfony doctrine:build  --all --no-confirmation   &&
 cat data/sql/$1-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $1 &&
 cat config/doctrine/functions-pgsql.sql | psql $1
 
+# versionning
 psql $1 <<EOF
 UPDATE event SET version = 1 WHERE version IS NULL;
 INSERT INTO event_version (SELECT * FROM event WHERE id NOT IN (SELECT id FROM event_version));
+
 UPDATE manifestation SET version = 1 WHERE version IS NULL;
 INSERT INTO manifestation_version (SELECT * FROM manifestation WHERE id NOT IN (SELECT id FROM manifestation_version));
+
+UPDATE ticket tck SET vat = v.value FROM manifestation m, vat v WHERE v.id = m.vat_id AND m.id = tck.manifestation_id;
+EOF
+
+# adding necessary permissions
+./symfony doctrine:data-load --append data/fixtures/11-permissions-v24.yml
+psql $1 <<EOF
+INSERT INTO sf_guard_group_permission(group_id, permission_id, created_at, updated_at)
+  VALUES (
+    (SELECT id FROM sf_guard_group WHERE name = 'event-admin'),
+    (SELECT id FROM sf_guard_permission WHERE name = 'event-admin-vat'),
+    now(), now()
+  );
 EOF
