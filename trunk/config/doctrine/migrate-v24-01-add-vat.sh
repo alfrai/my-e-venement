@@ -48,7 +48,8 @@ fi
 dropdb $1 && createdb $1 &&
 echo "GRANT ALL ON  DATABASE $1 TO $1" | psql $1 &&
 php symfony doctrine:build  --all --no-confirmation   &&
-cat data/sql/$1-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $1 &&
+php symfony cc &&
+cat data/sql/$1-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $1
 cat config/doctrine/functions-pgsql.sql | psql $1
 
 # versionning
