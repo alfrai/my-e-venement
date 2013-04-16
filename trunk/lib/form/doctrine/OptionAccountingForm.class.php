@@ -21,7 +21,7 @@ class OptionAccountingForm extends BaseOptionAccountingForm
     parent::configure();
     
     $this->widgets = array('' => array(
-      'file'                  => array('label' => 'File number',              'type' => 'string', 'options' => array('min_length' => 4, 'max_length' => 3)),
+      'file'                  => array('label' => 'File number',              'type' => 'string', 'options' => array('min_length' => 4, 'max_length' => 4)),
       'ja_code'               => array('label' => 'JA code',                  'type' => 'string', 'options' => array('min_length' => 2, 'max_length' => 2)),
       'acc_section_analytic'  => array('label' => 'Analytic section',         'type' => 'string', 'options' => array('min_length' => 1, 'max_length' => 3)),
       'acc_section_other'     => array('label' => 'Other section',            'type' => 'string', 'options' => array('min_length' => 1, 'max_length' => 3)),
