@@ -40,7 +40,7 @@ generator:
         display:
           General: [happens_at, event_id, location_id, color_id]
           Memo:    [description]
-          Technical: [duration, vat, online_limit, depends_on, organizers_list, no_print]
+          Technical: [duration, vat_id, online_limit, depends_on, organizers_list, no_print]
         actions: { _save: ~, _list: ~ }
       show:
         display:

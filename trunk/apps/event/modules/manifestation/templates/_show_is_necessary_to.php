@@ -1,3 +1,4 @@
+<?php if ( isset($manifestation) && $manifestation instanceof Manifestation ): ?>
 <div class="sf_admin_form_row is_necessary_to">
   <label><?php echo __('Necessary to') ?>:</label>
   <ul>
@@ -6,3 +7,4 @@
   <?php endforeach ?>
   </ul>
 </div>
+<?php endif ?>

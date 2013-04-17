@@ -10,7 +10,7 @@
   <div class="logo"><?php echo image_tag(sfConfig::get('app_tickets_logo')) ?></div>
   <div class="left">
     <p class="manifid">
-      #<?php echo $ticket->Manifestation->id ?><span class="tariftop"><?php echo $ticket->price_name ?></span>
+      <?php echo $ticket->Manifestation->id ?><span class="tariftop"><?php echo $ticket->price_name ?></span>
     </p>
     <p class="info <?php echo $ticket->Transaction->type ?> <?php echo $duplicate ? 'duplicate' : '' ?>"><span class="subtype"><?php echo __($ticket->Transaction->type) ?></span><span class="subtype"><?php echo $duplicate ? __('Duplicata') : '' ?></span></p>
     <p class="metaevt"><?php echo $ticket->Manifestation->Event->MetaEvent ?></p>
@@ -24,7 +24,7 @@
     <p class="event"><?php echo strlen($buf = (string)$ticket->Manifestation->Event) > $maxsize['event_name'] ? substr(nl2br($buf),0,$maxsize['event_name']).'...' : nl2br($buf) ?></p>
     <p class="event-short"><?php echo strlen($buf = $ticket->Manifestation->Event->short_name) > $maxsize['event_shortname'] ? substr($buf,0,$maxsize['event_shortname']).'...' : $buf ?></p>
     <p class="cie"><?php $creators = array(); $cpt = 0; foreach ( $ticket->Manifestation->Event->Companies as $company ) { if ( $cpt++ > 1 ) break; $creators[] .= $company->name; } echo implode(', ',$creators); ?></p>
-    <p class="org"><?php $orgas = array(sfConfig::get('app_seller_name')); $cpt = 0; foreach ( $ticket->Manifestation->Organizers as $orga ) { if ( $cpt++ > 2 ) break; if ( strpos($orgas[0],$orga->name) !== false ) $orgas[] = $orga->name; else $cpt--; } echo implode(', ',$orgas); ?></p>
+    <p class="org"><span class="orgas"><?php $orgas = array(sfConfig::get('app_seller_name')); $cpt = 0; foreach ( $ticket->Manifestation->Organizers as $orga ) { if ( $cpt++ > 2 ) break; if ( strpos($orgas[0],$orga->name) !== false ) $orgas[] = $orga->name; else $cpt--; } echo implode('</span>, <span class="orgas">',$orgas); ?></span></p>
     <p class="seat"><?php echo $ticket->numerotation ? __('Seat n°%%s%%',array('%%s%%' => $ticket->numerotation)) : '' ?></p>
     <p class="transaction">
       <span class="date"><?php echo format_date($ticket->updated_at,'dd/MM/yyyy HH:mm') ?></span>
@@ -73,7 +73,9 @@
     <p class="spectator"><?php echo $ticket->Transaction->professional_id > 0 ? $ticket->Transaction->Professional->Organism : $ticket->Transaction->Contact ?></p>
     <p class="event"><?php echo strlen($buf = (string)$ticket->getRaw('Manifestation')->Event) > $maxsize['event_name_right'] ? substr($buf,0,$maxsize['event_name_right']-3).'...' : $buf ?></p>
     <p class="cie"><?php echo strlen($buf = implode(', ',$creators)) > 20 ? substr($buf,0,17).'...' : $buf; ?></p>
-    <p class="org"><?php echo isset($orgas[0]) ? $orgas[0] : '' ?></p>
+    <p class="org">
+      <span class="orgas"><?php echo isset($orgas[0]) ? $orgas[0] : '' ?></span>
+    </p>
     <p class="seat"><?php echo $ticket->numerotation ? __('Seat n°%%s%%',array('%%s%%' => $ticket->numerotation)) : '' ?></p>
     <p class="transaction">
       <span class="date"><?php echo format_date($ticket->updated_at,'dd/MM/yyyy HH:mm') ?></span>

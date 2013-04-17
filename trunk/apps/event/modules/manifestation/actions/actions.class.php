@@ -124,7 +124,7 @@ class manifestationActions extends autoManifestationActions
         
         $ws = $this->form->getWidgetSchema();
         $ws['duration']->setOption('default',$event->duration);
-        $ws['vat']->setOption('default',$event->EventCategory->vat);
+        $ws['vat_id']->setOption('default',$event->EventCategory->vat_id);
       }
     }
     if ( $request->getParameter('location') )

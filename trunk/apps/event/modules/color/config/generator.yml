@@ -17,10 +17,12 @@ generator:
         list_color: { label: Color }
       list:
         display: [name, _list_color]
+        object_actions:
+          _delete: ~
+          _edit: ~
       filter:  ~
       form:
       edit:
         title: Edit Color "%%name%%"
       new:     ~
-      show:
-        display: [name, _show_color]
+      show:    ~

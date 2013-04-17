@@ -28,8 +28,8 @@
     ?></td>
     <td class="pit"><?php echo format_currency($tip = $ticket->value * $qty,'€'); $totals['tip'] += $tip ?></td>
     <td class="vat">
-      <span class="value"><?php echo format_currency(round($vat = $tip - $tip/(1+$ticket->Manifestation->vat/100),2),'€'); if ( !isset($totals['vat'][$ticket->Manifestation->vat]) ) $totals['vat'][$ticket->Manifestation->vat] = 0; $totals['vat'][$ticket->Manifestation->vat] += $vat ?></span>
-      <span class="percent"><?php echo $ticket->Manifestation->vat ?></span>
+      <span class="value"><?php echo format_currency(round($vat = $tip - $tip/(1+$ticket->vat),2),'€'); if ( !isset($totals['vat'][$ticket->vat]) ) $totals['vat'][$ticket->vat] = 0; $totals['vat'][$ticket->vat] += $vat ?></span>
+      <span class="percent"><?php echo $ticket->vat * 100 ?></span>
     </td>
     <td class="tep"><?php echo format_currency(round($pet = $ticket->value * $qty - $vat,2),'€'); $totals['pet'] += $pet ?></td>
   </tr>

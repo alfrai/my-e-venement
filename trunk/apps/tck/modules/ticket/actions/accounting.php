@@ -48,12 +48,12 @@
     {
       $this->totals['tip'] += $ticket->value;
       
-      if ( !isset($this->totals['vat'][$ticket->Manifestation->vat]) )
-        $this->totals['vat'][$ticket->Manifestation->vat] = array($ticket->manifestation_id => 0);
-      if ( !isset($this->totals['vat'][$ticket->Manifestation->vat][$ticket->manifestation_id]) )
-        $this->totals['vat'][$ticket->Manifestation->vat][$ticket->manifestation_id] = 0;
-      $tmp = $ticket->value - $ticket->value / (1+$ticket->Manifestation->vat/100);
-      $this->totals['vat'][$ticket->Manifestation->vat][$ticket->manifestation_id] += $tmp;
+      if ( !isset($this->totals['vat'][$ticket->vat]) )
+        $this->totals['vat'][$ticket->vat] = array($ticket->manifestation_id => 0);
+      if ( !isset($this->totals['vat'][$ticket->vat][$ticket->manifestation_id]) )
+        $this->totals['vat'][$ticket->vat][$ticket->manifestation_id] = 0;
+      $tmp = $ticket->value - $ticket->value / (1+$ticket->vat);
+      $this->totals['vat'][$ticket->vat][$ticket->manifestation_id] += $tmp;
       $this->totals['vat']['total'] += $tmp;
     }
     

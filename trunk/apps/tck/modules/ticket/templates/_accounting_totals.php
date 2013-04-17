@@ -8,7 +8,7 @@
     if ( $key != 'total' && $value != 0 ):
   ?>
   <p class="vat">
-    <span><?php echo __('VAT %%p%%:',array('%%p%%' => $key.'%')) ?></span>
+    <span><?php echo __('VAT %%p%%:',array('%%p%%' => ($key*100).'%')) ?></span>
     <span class="float"><?php echo format_currency(round($value,2),'€') ?></span>
   </p>
   <?php endif ?>

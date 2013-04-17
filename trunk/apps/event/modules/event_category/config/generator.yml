@@ -15,11 +15,13 @@ generator:
       actions: ~
       fields:  ~
       list:
-        display: [name, vat]
+        display: [name, Vat]
+        object_actions:
+          _delete: ~
+          _edit: ~
       filter:  ~
       form:    ~
       edit:
         title: Edit Event category "%%name%%"
       new:     ~
-      show:
-        display: [name, vat]
+      show:    ~
