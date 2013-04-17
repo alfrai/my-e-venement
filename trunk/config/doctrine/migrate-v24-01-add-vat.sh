@@ -45,6 +45,7 @@ pg_dump -Fc $1 > data/sql/${1}-`date +%Y%m%d`.pgdump
 fi
 
 # rebuild + reinjection
+rm -rf lib/model/doctrine/*/base lib/model/doctrine/packages/*/base
 dropdb $1 && createdb $1 &&
 echo "GRANT ALL ON  DATABASE $1 TO $1" | psql $1 &&
 php symfony doctrine:build  --all --no-confirmation   &&

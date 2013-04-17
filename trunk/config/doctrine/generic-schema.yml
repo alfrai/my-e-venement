@@ -71,6 +71,26 @@ Postalcode:
       notnull: true
       notblank: true
 
+Traceable:
+  package: generic
+  actAs:
+    Timestampable: ~
+    Versionable:
+      versionColumn: version
+      className: %CLASS%Version
+      auditLog: true
+  columns:
+    sf_guard_user_id:
+      type: integer
+      notnull: true
+  relations:
+    User:
+      class: sfGuardUser
+      foreignAlias: %CLASS%s
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+
+
 Phonenumber:
   package: generic
   actAs: [Timestampable]
