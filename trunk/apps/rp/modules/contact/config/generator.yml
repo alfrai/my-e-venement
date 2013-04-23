@@ -73,7 +73,7 @@ generator:
           NONE:  [title, name, firstname, address, postalcode, _cities, city, country, email, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>email_no_newsletter,<?php endif ?> _show_member_cards_list, groups_list]
           Phonenumbers: [_form_phonenumbers_list]
           Precisions: [family_contact, npai, description, YOBs_list, password]
-          Ticketting: [_events_list]
+          Ticketting: [_show_events_list]
           Social: [_familial_situation_id, _type_of_resources_id, _familial_quotient_id]
       new:
         title: New contact

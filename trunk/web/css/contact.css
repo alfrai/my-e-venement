@@ -1,6 +1,27 @@
 .sf_form_field_events_list li {
   margin-left: 20px;
 }
+#sf_fieldset_ticketting table .pro td {
+  font-weight: bold;
+  text-decoration: underline;
+}
+#sf_fieldset_ticketting table .meta_event td {
+  font-weight: bold;
+  font-style: italic;
+}
+#sf_fieldset_ticketting table td {
+  padding: 0 5px;
+}
+#sf_fieldset_ticketting table td span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 300px;
+  overflow: hidden;
+  display: block;
+}
+#sf_fieldset_ticketting table td.manif span {
+ white-space: normal;
+}
 #more .sf_admin_form_tab_menu > div > .sf_admin_form_field_contact_id { display: none; }
 #more .duplicates { padding-bottom: 5px; }
 

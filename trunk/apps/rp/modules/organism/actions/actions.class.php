@@ -50,24 +50,6 @@ class organismActions extends autoOrganismActions
   {
     require(dirname(__FILE__).'/group-list.php');
   }
-  /*
-  public function executeDuplicates(sfWebRequest $request)
-  {
-    self::executeIndex($request);
-    
-    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
-    $q = new Doctrine_RawSql();
-    $q->from('Organism c')
-      ->leftJoin('(select lower(name) as name, lower(city) as city, count(*) AS nb from organism group by lower(name), lower(city) order by lower(name), lower(city)) AS c2 ON c2.city ILIKE c.city AND c2.name ILIKE c.name')
-      ->where('c2.nb > 1')
-      ->orderBy('lower(c.name), lower(c.city), c.id')
-      ->addComponent('c','Organism')
-      ->addComponent('c2','Organism');
-      $this->pager->setQuery($q);
-    
-    $this->pager->init();
-  }
-  */
   public function executeBatchMerge(sfWebRequest $request)
   {
     require(dirname(__FILE__).'/batch-merge.php');
