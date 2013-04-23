@@ -62,12 +62,16 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     $this->widgetSchema   ['email_newsletter'] = $this->widgetSchema['npai'];
     $this->validatorSchema['email_newsletter'] = $this->validatorSchema['npai'];
     
+    $this->widgetSchema   ['duplicates'] = new sfWidgetFormInputCheckbox;
+    $this->validatorSchema['duplicates'] = new sfValidatorBoolean(array('required' => false));
+    
     parent::configure();
   }
   
   public function getFields()
   {
     $fields = parent::getFields();
+    $fields['duplicates']           = 'Duplicates';
     $fields['postalcode']           = 'Postalcode';
     $fields['contacts_groups']      = 'ContactsGroups';
     $fields['professional_meta_event_id'] = 'ProfessionalMetaEventId';
@@ -130,7 +134,34 @@ class OrganismFormFilter extends BaseOrganismFormFilter
   {
     $c = $q->getRootAlias();
     if ( $value['text'] )
-      $q->addWhere("$c.postalcode LIKE ?",$value['text'].'%');
+    {
+      $q->andWhere("$c.postalcode = ?",$value['text'].'%');
+    }
+    
+    return $q;
+  }
+  
+  public function addDuplicatesColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $c = $q->getRootAlias();
+    if ( $value )
+    {
+      $raw_q = new Doctrine_RawSql();
+      $raw_q->select('c.id')
+        ->from('Organism c')
+        ->leftJoin('(select lower(name) as name, lower(city) as city, count(*) AS nb from organism group by lower(name), lower(city) order by lower(name), lower(city)) AS c2 ON c2.city ILIKE c.city AND c2.name ILIKE c.name')
+        ->where('c2.nb > 1')
+        ->orderBy('lower(c.name), lower(c.city), c.id')
+        ->addComponent('c','Organism')
+        ->addComponent('c2','Organism');
+      $contact_ids = $raw_q->execute(array(),Doctrine::HYDRATE_ARRAY);
+      
+      $ids = array();
+      foreach ( $contact_ids as $id )
+        $ids[] = $id['id'];
+      
+      $q->andWhereIn("$c.id",$ids);
+    }
     
     return $q;
   }
