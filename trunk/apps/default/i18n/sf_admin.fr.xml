@@ -5,6 +5,14 @@
     <header />
     <body>
       <trans-unit>
+        <source>Merge</source>
+        <target>Fusionner</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Add in a group</source>
+        <target>Ajouter à un groupe</target>
+      </trans-unit>
+      <trans-unit>
         <source>Click to validate your modifications</source>
         <target>Cliquez pour valider vos modifications</target>
       </trans-unit>

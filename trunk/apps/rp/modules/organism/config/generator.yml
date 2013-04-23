@@ -34,6 +34,11 @@ generator:
       list:
         title: Organisms list
         display: [Category, name, postalcode, city, email, _contacts_list, npai]
+        batch_actions:
+          _delete: ~
+          _addToGroup:
+            label: Add in a group
+          _merge: ~
       filter:
         display: [name, postalcode, city, region_id, country, email, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>email_newsletter,<?php endif ?> npai, organism_category_id, contacts_groups, professional_meta_event_id, groups_list, not_groups_list]
       show:

@@ -64,24 +64,26 @@
         $base_contact->description = implode(' ',$arr);
         
         // family contact
-        if ( $contact->family_contact )
-          $base_contact->family_contact;
+        if ( !is_null($contact->family_contact)
+          && strtotime($contact->updated_at) > strtotime($base_contact->updated_at) )
+          $base_contact->family_contact = $contact->family_contact;
         
         // title
-        if ( !$base_contact->title )
+        if ( !$base_contact->title
+          && strtotime($contact->updated_at) > strtotime($base_contact->updated_at) )
           $base_contact->title = $contact->title;
         
         // phonenumbers
         foreach ( $contact->Phonenumbers as $phone )
-          $phone->contact_id = $base_contact->id;
+          $base_contact->Phonenumbers[] = $phone;
         
         // membercards
         foreach ( $contact->MemberCards as $mc )
-          $mc->contact_id = $base_contact->id;
+          $base_contact->MemberCards[] = $mc;
         
         // pro + groups
         foreach ( $contact->Professionals as $pro )
-          $pro->contact_id = $base_contact->id;
+          $base_contact->Professionals[] = $pro;
         
         // contact's groups
         foreach ( $contact->ContactGroups as $cgroup )
@@ -104,16 +106,10 @@
         
         // locations
         foreach ( $contact->Locations as $location )
-        {
-          $location->contact_id = $base_contact->id;
-          $location->save();
-        }
+          $base_contact->Locations[] = $location;
         
         foreach ( $contact->Transactions as $transaction )
-        {
-          $transaction->contact_id = $base_contact->id;
-          $transaction->save();
-        }
+          $base_contact->Transactions[] = $transaction;
         
         $base_contact->save();
         $contact->delete();

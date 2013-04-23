@@ -50,6 +50,10 @@ class organismActions extends autoOrganismActions
   {
     require(dirname(__FILE__).'/group-list.php');
   }
+  public function executeBatchMerge(sfWebRequest $request)
+  {
+    require(dirname(__FILE__).'/batch-merge.php');
+  }
   public function executeEmailing(sfWebRequest $request)
   {
     $this->redirect('email/new');
@@ -65,11 +69,8 @@ class organismActions extends autoOrganismActions
       $validator = new sfValidatorDoctrineChoice(array('model' => 'Organism', 'multiple' => true, 'required' => false));
       $ids = $validator->clean($request->getParameter('ids'));
       $validator = new sfValidatorDoctrineChoice(array('model' => 'Group', 'multiple' => true));
-      $groups = $request->getParameter('organism_filters');
-      $groups = $validator->clean(isset($groups['groups_list'])
-        ? $groups['groups_list']
-        : $filters['groups_list']
-      );
+      $groups = $request->getParameter('groups');
+      $groups = $validator->clean($groups);
     }
     catch (sfValidatorError $e)
     {
