@@ -22,7 +22,8 @@
     ->andWhere('t.professional_id = ?', is_object($pro) ? $pro->id : $pro)
     ->andWhere('tck.printed = TRUE OR tck.integrated = TRUE')
     ->andWhere('tck.cancelling IS NULL AND tck.duplicating IS NULL')
-    ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)');
+    ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
+    ->orderBy('me.name, e.name, m.happens_at DESC, t.id');
   $meta_events = $q->execute();
 ?>
   <?php if ( $meta_events->count() > 0 ): ?>
@@ -36,12 +37,12 @@
     </tr>
     <?php foreach( $me->Events as $event ): ?>
     <tr class="event">
-      <td class="name" colspan="4"><span><?php echo $event ?></span></td>
+      <td class="name" colspan="4"><span><?php echo cross_app_link_to($event,'event','event/show?id='.$event->id) ?></span></td>
     </tr>
     <?php foreach( $event->Manifestations as $manif ): ?>
     <tr class="manif">
-      <td class="name"><span><?php echo format_date($manif->happens_at) ?></span></td>
-      <td class="tickets_nb"><span><?php echo $manif->Tickets->count() ?></span></td>
+      <td class="name"><span><?php echo cross_app_link_to(format_date($manif->happens_at),'event','manifestation/show?id='.$manif->id) ?></span></td>
+      <td class="tickets_nb"><span><?php echo __('%%nb%% ticket(s)',array('%%nb%%' => $manif->Tickets->count())) ?></span></td>
       <td class="tickets_value"><span><?php $value = 0; foreach ( $manif->Tickets as $ticket ) $value += $ticket->value; echo format_currency($value,'€'); ?></span></td>
       <td class="transactions"><?php $arr = array(); foreach ( $manif->Tickets as $ticket ) $arr[$ticket->transaction_id] = '#'.cross_app_link_to($ticket->transaction_id,'tck','ticket/sell?id='.$ticket->transaction_id); echo implode(', ',$arr) ?></span></td>
     </tr>

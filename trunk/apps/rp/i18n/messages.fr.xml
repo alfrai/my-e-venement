@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>%%nb%% ticket(s)</source>
+        <target>%%nb%% billet(s)</target>
+      </trans-unit>
+      <trans-unit>
         <source>With the organism</source>
         <target>Avec l'organisme</target>
       </trans-unit>

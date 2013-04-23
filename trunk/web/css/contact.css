@@ -1,6 +1,8 @@
 .sf_form_field_events_list li {
   margin-left: 20px;
 }
+#sf_fieldset_ticketting a { text-decoration: none; }
+#sf_fieldset_ticketting a:hover { text-decoration: underline; }
 #sf_fieldset_ticketting table .pro td {
   font-weight: bold;
   text-decoration: underline;
