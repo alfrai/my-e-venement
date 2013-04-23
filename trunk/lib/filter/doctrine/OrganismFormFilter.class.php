@@ -129,8 +129,8 @@ class OrganismFormFilter extends BaseOrganismFormFilter
   public function addPostalcodeColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $c = $q->getRootAlias();
-    if ( intval($value['text']) > 0 )
-      $q->addWhere("$c.postalcode LIKE ?",intval($value['text']).'%');
+    if ( $value['text'] )
+      $q->addWhere("$c.postalcode LIKE ?",$value['text'].'%');
     
     return $q;
   }

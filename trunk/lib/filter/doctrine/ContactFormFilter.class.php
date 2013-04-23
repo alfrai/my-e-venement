@@ -526,8 +526,8 @@ class ContactFormFilter extends BaseContactFormFilter
   public function addPostalcodeColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $c = $q->getRootAlias();
-    if ( intval($value['text']) > 0 )
-      $q->addWhere("$c.postalcode LIKE ? OR (o.id IS NOT NULL AND o.postalcode LIKE ?)",array(intval($value['text']).'%',intval($value['text']).'%'));
+    if ( $value['text'] )
+      $q->addWhere("$c.postalcode LIKE ? OR (o.id IS NOT NULL AND o.postalcode LIKE ?)",array($value['text'].'%',$value['text'].'%'));
     
     return $q;
   }
