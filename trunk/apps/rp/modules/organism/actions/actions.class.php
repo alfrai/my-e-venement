@@ -173,7 +173,7 @@ class organismActions extends autoOrganismActions
   {
     $this->executeShow($request);
     
-    if ( sfConfig::get('app_options_design') != 'tdp' || sfConfig::get('app_options_design',false) && !sfConfig::get(sfConfig::get('app_options_design').'_active',false)
+    if ( (sfConfig::get('app_options_design',false) != 'tdp' || !sfConfig::get(sfConfig::get('app_options_design').'_active',false))
       && !$this->getUser()->hasCredential('pr-organism-edit') )
       $this->setTemplate('show');
   }
