@@ -33,13 +33,14 @@
     if ( !$this->form->getObject()->isNew() )
       $this->form->removePassword();
     $this->form->bind($request->getParameter('contact'));
-    try {
-    if ( !$this->form->isValid() )
+    try
     {
-      $this->executeRegister($request);
-      $this->setTemplate('register');
-      return;
-    }
+      if ( !$this->form->isValid() )
+      {
+        $this->executeRegister($request);
+        $this->setTemplate('register');
+        return;
+      }
     }
     catch ( liOnlineSaleException $e )
     {

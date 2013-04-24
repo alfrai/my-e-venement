@@ -71,11 +71,16 @@ class ContactPublicForm extends ContactForm
     
     if ( $this->object->isNew() )
     {
-      $login = new LoginForm();
-      $login->bind(array('email' => $this->getValue('email'), 'password' => $this->getValue('password')));
-      if ( $login->isValid()
-        && (!sfContext::getInstance()->getUser()->hasAttribute('contact_id') || sfContext::getInstance()->getUser()->getAttribute('contact_id') != $login->getContact()->id) )
-        throw new liOnlineSaleException('A contact with the same values already exists, try to authenticate...');
+    // looking for a need of contact merging
+    $q = Doctrine_Query::create()
+      ->from('Contact c')
+      ->andWhere('c.confirmed = TRUE')
+      ->limit(1);
+    foreach ( array('name', 'firstname', 'email') as $field )
+      $q->andWhere("c.$field ILIKE ?",$this->getValue($field));
+    if ( $contact = $q->fetchOne()
+      && (!sfContext::getInstance()->getUser()->hasAttribute('contact_id') || sfContext::getInstance()->getUser()->getAttribute('contact_id') != $login->getContact()->id) )
+        throw new liOnlineSaleException('A contact with the same informations already exists, try to authenticate or maybe you misspelled your email...');
     }
     
     return true;
@@ -83,6 +88,10 @@ class ContactPublicForm extends ContactForm
   
   public function save($con = NULL)
   {
+    // formatting central data
+    $this->object->name = trim($this->object->name);
+    $this->object->firstname = trim($this->object->firstname);
+    
     if ( is_null($this->object->confirmed) )
       $this->object->confirmed = false;
     
