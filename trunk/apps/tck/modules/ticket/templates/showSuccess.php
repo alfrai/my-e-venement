@@ -20,6 +20,9 @@
         <?php if ( $sf_user->hasCredential('tck-member-card') ): ?>
         <tr><?php include_partial('show_ticket_member_card',array('ticket' => $ticket)) ?></tr>
         <?php endif ?>
+        <?php if ( $sf_user->hasCredential('tck-control') ): ?>
+        <tr><?php include_partial('show_ticket_controls',array('ticket' => $ticket)) ?></tr>
+        <?php endif ?>
       </tbody>
     </table>
     

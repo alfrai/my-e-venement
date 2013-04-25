@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>No control</source>
+        <target>Pas de contrôle</target>
+      </trans-unit> 
+      <trans-unit>
         <source>File number</source>
         <target>Numéro de dossier</target>
       </trans-unit> 
