@@ -8,7 +8,7 @@
     foreach ( $price->Tickets as $t )
     if ( $t->printed || $t->integrated )
     {
-      $key = $t->Controls->count() > 0 ? 'controlled' : 'not_controlled';
+      $key = $t->Controls->count() > 0  && !$t->hasBeenCancelled() && $t->Duplicatas->count() == 0 ? 'controlled' : 'not_controlled';
       $tickets[$key][$t->id] = $t;
       $value[$key] += $t->value;
       $qty[$key]++;

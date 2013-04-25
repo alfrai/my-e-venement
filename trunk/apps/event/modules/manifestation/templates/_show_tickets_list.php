@@ -10,5 +10,5 @@
 <?php endif ?>
 
 <?php if ( sfConfig::get('app_ticketting_dematerialized') ): ?>
-  <?php //include_partial('show_tickets_list_controlled',$arr) ?>
+  <?php // BUGGY include_partial('show_tickets_list_controlled',$arr) ?>
 <?php endif ?>
