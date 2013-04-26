@@ -26,11 +26,10 @@ class postalcodeActions extends autoPostalcodeActions
         ->andWhere('postalcode LIKE ?',$request->getParameter('q').'%');
       $postalcodes = $q->execute();
       
-      $organisms = array();
+      $arr = array();
       foreach ( $postalcodes as $cp )
-        $organisms[$cp->city] = $cp->postalcode.' '.$cp->city;
-      
-      return $this->renderText(json_encode($organisms));
+        $arr[$cp->city.' %%'.$cp->postalcode.'%%'] = (string)$cp;
+      return $this->renderText(json_encode($arr));
     }
     
     // empty

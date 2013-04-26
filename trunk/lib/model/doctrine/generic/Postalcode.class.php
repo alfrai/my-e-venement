@@ -12,4 +12,8 @@
  */
 class Postalcode extends PluginPostalcode
 {
+  public function __toString()
+  {
+    return $this->postalcode.' '.$this->city;
+  }
 }

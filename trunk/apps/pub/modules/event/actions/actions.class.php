@@ -16,6 +16,7 @@ class eventActions extends autoEventActions
   public function executeEdit(sfWebRequest $request)
   {
     $this->event = $this->getRoute()->getObject();
+    $this->getUser()->getAttributeHolder()->remove('manifestation.filters');
     $this->getUser()->setAttribute('manifestation.filters', array('event_id' => $this->event->id), 'admin_module');
     $this->redirect('manifestation/index');
   }

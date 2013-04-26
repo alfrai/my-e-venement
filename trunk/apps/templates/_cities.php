@@ -22,16 +22,14 @@
                 .find('option:first-child').attr('selected',true);
             });
             $('.sf_admin_form_field_cities select option').click(function(){
-              $('.sf_admin_form_field_postalcode input, .tdp-postalcode input').val($(this).html().substring(0,5));
+              $('.sf_admin_form_field_postalcode input, .tdp-postalcode input').val($(this).val().replace(/.+ %%(\d+)%%$/,'$1'));
+              $('.sf_admin_form_field_city input, .tdp-city input').val($(this).val().replace(/ %%\d+%%$/,''));
             });
           });
         }
         if ( e.which == 40 )
           $('.sf_admin_form_field_cities select').focus();
       }).keyup();
-      $('.sf_admin_form_field_cities select').change(function(){
-        $('.sf_admin_form_field_city input, .tdp-city input').val($(this).val());
-      });
     });
   </script>
 </div>
