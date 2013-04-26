@@ -5,7 +5,7 @@ all:
     criterias:
       #fields:
       #  dates:
-      #    field: updated_at 
+      #    field: updated_at
       #    match: integer
       #  users:
       #    field: sf_guard_id

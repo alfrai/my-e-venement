@@ -39,7 +39,7 @@ class TransactionTable extends PluginTransactionTable
       ->leftJoin("$a.Invoice i")
       ->leftJoin('tck.Manifestation m')
       ->leftJoin('m.Event e')
-      ->andWhere('tck.id IS NOT NULL OR p.id IS NOT NULL')
+      //->andWhere('(tck.id IS NOT NULL OR p.id IS NOT NULL)')
       ->orderBy("$a.updated_at, $a.id, tck.updated_at");
     return $q;
   }
