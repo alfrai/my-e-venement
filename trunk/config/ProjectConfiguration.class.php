@@ -29,21 +29,17 @@ require_once dirname(__FILE__).'/autoload.inc.php';
 class ProjectConfiguration extends sfProjectConfiguration
 {
   public $yob;
-  public $charset = array(
-    'old' => 'ISO-8859-1',
-    'db' => 'UTF-8',
-    'ms' => 'WINDOWS-1252//TRANSLIT',
-    'ascii' => 'ASCII//TRANSLIT',
-  );
-  public $transliterate = array(
-    'ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ',
-    'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy');
+  public $charset       = array();
+  public $transliterate = array('from' => '', 'to' => '');
 
   protected $routings = array();
  
   
   public function setup()
   {
+    $charset       = sfConfig::get('software_internals_charset',array());
+    $transliterate = sfConfig::get('software_internals_transliterate',array('from' => '', 'to' => ''));
+    
     // year of birth
     $this->yob = array();
     for ( $i = 0 ; $i < 80 ; $i++ )

@@ -5,7 +5,7 @@
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1>
       <?php echo __('Cash Ledger') ?>
-      (<?php echo __('from %%from%% to %%to%%',array('%%from%%' => format_date($dates[0]), '%%to%%' => format_date($dates[1]))) ?>)
+      (<?php echo __('from %%from%% to %%to%%',array('%%from%%' => format_date(strtotime($dates[0])), '%%to%%' => format_date(strtotime($dates[1])))) ?>)
     </h1>
     <a class="fg-button fg-button-icon-left ui-state-default" href="<?php echo url_for('ledger/extract?type=cash') ?>">
       <span class="ui-icon ui-icon-cart"></span>

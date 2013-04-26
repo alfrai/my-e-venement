@@ -23,7 +23,16 @@ all:
   about:
     name: e-venement
     contributors: [Baptiste SIMON, Bevlhay FERRAND, Ludovic SOULIÉ, Ayoub HIDRI, Thomas RIBOULET, Très Tôt Théâtre, Libre Informatique, Symfony Team, #symfony-fr]
-    version: 2.4-pre1
+    version: 2.4-pre2
     firm:
       url: http://www.libre-informatique.fr/
       name: Libre Informatique
+  internals:
+    charset:
+      old:    ISO-8859-1
+      db:     UTF-8
+      ms:     WINDOWS-1252//TRANSLIT
+      ascii:  ASCII//TRANSLIT
+    transliterate:
+      from:   ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿœ
+      to:     SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyyo

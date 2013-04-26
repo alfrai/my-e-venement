@@ -33,7 +33,7 @@ class ledgerActions extends sfActions
     if ( $request->getParameter($this->form->getName(),false) )
       $this->redirect('ledger/sales');
     
-    // BE CAREFUL : ALWAY CHECK Manifestation::getTicketsInfos() FOR CRITERIAS APPLYIANCE FOR BIG LEDGERS
+    // BE CAREFUL : ALWAYS CHECK Manifestation::getTicketsInfos() FOR CRITERIAS APPLYIANCE FOR BIG LEDGERS
     
     $q = Doctrine::getTable('Event')->createQuery('e')
       ->leftJoin('e.Manifestations m')
@@ -57,16 +57,16 @@ class ledgerActions extends sfActions
     
     if ( !isset($criterias['tck_value_date_payment']) )
       $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
-          date('Y-m-d',$dates[0]),
-          date('Y-m-d',$dates[1]),
+          $dates[0],
+          $dates[1],
         ));
     else
     {
       if ( !$q->contains('LEFT JOIN t.Payments p') )
         $q->leftJoin('t.Payments p');
       $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
-          date('Y-m-d',$dates[0]),
-          date('Y-m-d',$dates[1]),
+          $dates[0],
+          $dates[1],
         ))
         ->andWhere('p.id = (SELECT min(id) FROM Payment p2 WHERE transaction_id = t.id)');
     }
@@ -180,6 +180,8 @@ class ledgerActions extends sfActions
       $dates[1] = $dates[0];
       $dates[0] = $buf;
     }
+    foreach ( $dates as $key => $value )
+      $dates[$key] = date('Y-m-d',$value);
     $criterias['dates'] = $dates;
     
     // get all selected users
@@ -221,8 +223,8 @@ class ledgerActions extends sfActions
     else
     {
       $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
-        date('Y-m-d',$dates[0]),
-        date('Y-m-d',$dates[1]),
+        $dates[0],
+        $dates[1],
       ));
     }
     

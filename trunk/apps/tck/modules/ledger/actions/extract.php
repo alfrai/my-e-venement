@@ -55,6 +55,10 @@
       $this->executeSales($request);
       return 'Sales';
       break;
+    case 'lineal':
+      require(dirname(__FILE__).'/extract-lineal.php');
+      return 'Lineal';
+      break;
     default:
       $this->options['fields'] = array(
         'method',

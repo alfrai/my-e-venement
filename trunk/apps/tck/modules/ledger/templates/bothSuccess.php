@@ -5,16 +5,14 @@
 <div><div class="ui-widget-content ui-corner-all">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1>
-      <?php
-        $values = $form->getValues();
-        if ( !isset($values['dates']['from']) ) $values['dates']['from'] = date('Y-m-d',strtotime('1 month ago'));
-        if ( !isset($values['dates']['to']) ) $values['dates']['to'] = date('Y-m-d',strtotime('tomorrow'));
-      ?>
       <?php if ( $manifestations ): ?>
       <?php echo format_number_choice('[1]Manifestation ledger|(1,+Inf]Manifestations ledger',null,$manifestations->count()) ?>
       <?php else: ?>
       <?php echo __('Detailed Ledger') ?>
-      (<?php echo __('from %%from%% to %%to%%',array('%%from%%' => format_date($values['dates']['from']), '%%to%%' => format_date($values['dates']['to']))) ?>)
+      (<?php echo __('from %%from%% to %%to%%',array(
+        '%%from%%' => format_date(strtotime($options['dates'][0])),
+        '%%to%%' => format_date(strtotime($options['dates'][1])),
+      )) ?>)
       <?php endif ?>
     </h1>
   </div>

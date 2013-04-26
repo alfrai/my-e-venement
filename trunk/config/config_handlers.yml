@@ -10,3 +10,7 @@ modules/*/config/tdp.yml:
   class: sfDefineEnvironmentConfigHandler
   param:
     prefix: tdp_
+modules/*/config/formats.yml:
+  class: sfDefineEnvironmentConfigHandler
+  param:
+    prefix: formats_

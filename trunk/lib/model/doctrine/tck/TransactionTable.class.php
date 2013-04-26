@@ -31,6 +31,19 @@ class TransactionTable extends PluginTransactionTable
     return $q;
   }
   
+  public function createQueryForLineal($a = 't')
+  {
+    $q = parent::createQuery($a);
+    $q->leftJoin("$a.Tickets tck ON tck.transaction_id = t.id AND tck.id NOT IN (SELECT tt.duplicating FROM Ticket tt WHERE tt.duplicating IS NOT NULL) AND (tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE)")
+      ->leftJoin("$a.Payments p")
+      ->leftJoin("$a.Invoice i")
+      ->leftJoin('tck.Manifestation m')
+      ->leftJoin('m.Event e')
+      ->andWhere('tck.id IS NOT NULL OR p.id IS NOT NULL')
+      ->orderBy("$a.updated_at, $a.id, tck.updated_at");
+    return $q;
+  }
+  
   public function fetchOneById($id)
   {
     $q = $this->createQuery()

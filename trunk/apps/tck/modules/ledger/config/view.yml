@@ -12,4 +12,8 @@ extractSales:
   http_metas:
     content-type: text/comma-separated-values
     content-disposition: attachment; filename=ledger.csv
-            
+extractLineal:
+  has_layout: false
+  http_metas:            
+    content-type: text/plain
+    content-disposition: attachment; filename=lineal.txt

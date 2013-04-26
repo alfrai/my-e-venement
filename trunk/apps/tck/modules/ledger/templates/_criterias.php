@@ -36,32 +36,7 @@
     <?php endif ?>
     <li class="submit">
       <input type="submit" name="s" value="ok" />
-      <script type="text/javascript"><!--
-        $(document).ready(function(){
-          $('#ledger_move').selectmenu({
-            style: 'dropdown',
-            width: 200
-          })
-          .change(function(){
-            if ( $(this).val() )
-              window.location = $(this).val();
-          });
-        });
-      --></script>
-      <select name="move" id="ledger_move">
-        <option value=""><?php echo __('Actions') ?></option>
-      <?php if ( $sf_user->hasCredential('tck-ledger-'.($ledger == 'cash' ? 'sales' : 'cash')) ): ?>
-        <option value="<?php echo url_for($ledger == 'cash' ? 'ledger/sales' : 'ledger/cash') ?>">
-          <?php echo __('Switch ledger') ?>
-        </option>
-        <option value="<?php echo url_for('ledger/both') ?>">
-          <?php echo __('Detailed Ledger',array(),'menu') ?>
-        </option>
-        <option value="<?php echo url_for('ledger/extract?type='.$ledger) ?>">
-          <?php echo __('Extract') ?>
-        </option>
-      <?php endif ?>
-      </select>
+      <?php include_partial('criterias_actions',array('ledger' => $ledger)) ?>
     </li>
   </ul>
 </form>
