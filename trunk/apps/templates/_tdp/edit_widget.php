@@ -40,7 +40,7 @@
 <?php foreach ( $sf_data->getRaw('object')->$link as $subobject ): ?>
   <?php include_partial('global/tdp/edit_subobject',array(
     'object' => $subobject,
-    'form' => new ProfessionalForm($subobject),
+    'form' => new ProfessionalForm($subobject), // TODO FOR REAL STANDARDIZATION
     'configuration' => $configuration,
     'helper' => $helper,
     'fields' => sfConfig::get('tdp_config_fields',array()),
@@ -54,7 +54,7 @@
   
   include_partial('global/tdp/edit_subobject',array(
     'object' => $subobject,
-    'form' => new ProfessionalForm($subobject),
+    'form' => new ProfessionalForm($subobject), // TODO FOR REAL STANDARDIZATION
     'configuration' => $configuration,
     'helper' => $helper,
     'fields' => sfConfig::get('tdp_config_fields',array()),

@@ -29,11 +29,25 @@ class ProfessionalForm extends BaseProfessionalForm
     $this->validatorSchema['groups_list']
       ->setOption('query', $q);
     
-    $orgForm = new OrganismForm($this->getObject()->Organism);
-    $orgForm->useFields(array('description'));
-    $this->embedForm('organism',$orgForm);
+    if ( !$this->object->isNew() && sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') )
+    {
+      $orgForm = new OrganismForm($this->getObject()->Organism);
+      $orgForm->useFields(array('description'));
+      $this->embedForm('organism',$orgForm);
+    }
     
     parent::configure();
+  }
+  
+  public function save($con = NULL)
+  {
+    if ( $this->object->isNew() )
+    {
+      // removing the potentially existing organism embed form
+      unset($this->widgetSchema['organism'],$this->validatorSchema['organism']);
+    }
+    
+    return parent::save();
   }
 
   public function saveGroupsList($con = null)

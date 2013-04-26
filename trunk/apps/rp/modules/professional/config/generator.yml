@@ -25,8 +25,10 @@ generator:
       show:
         display: [Organism, _organism_address, department, name, ProfessionalType, _contact_email, contact_number, description, _show_groups_list]
       filter:  ~
-      form:
+      form:    ~
+      edit:
         display:
-          NONE: [contact_id, organism_id, professional_type_id, name, department, contact_number, contact_email, description, groups_list, organism]
-      edit:    ~
-      new:     ~
+          NONE: [contact_id, organism_id, professional_type_id, name, department, contact_number, contact_email, description, groups_list<?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>, organism<?php endif ?>]
+      new:
+        display:
+          NONE: [contact_id, organism_id, professional_type_id, name, department, contact_number, contact_email, description, groups_list]

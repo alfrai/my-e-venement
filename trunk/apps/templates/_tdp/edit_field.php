@@ -48,7 +48,7 @@
   <?php elseif ( $field == 'this' ): ?>
     <?php echo $object ?>
   <?php else: ?>
-    <?php echo __($field) ?>
+    <?php //echo __($field) ?>
   <?php endif ?>
 </span>
 <?php endif ?>
