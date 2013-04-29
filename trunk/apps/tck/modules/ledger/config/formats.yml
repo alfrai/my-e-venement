@@ -8,7 +8,7 @@ all:
       #    field: updated_at
       #    match: integer
       #  users:
-      #    field: sf_guard_id
+      #    field: sf_guard_user_id
       #    match: in
       subobjects:
         Tickets:
@@ -18,7 +18,7 @@ all:
               field: updated_at
               match: integer
             users:
-              field: sf_guard_id
+              field: sf_guard_user_id
               match: in
         Payments:
           alias: p
@@ -27,7 +27,7 @@ all:
               field: created_at
               match: integer
             users:
-              field: sf_guard_id
+              field: sf_guard_user_id
               match: in
     extra_fields:
       class: OptionAccounting

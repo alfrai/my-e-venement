@@ -36,9 +36,16 @@
       <select name="move" id="ledger_move">
         <option value=""><?php echo __('Actions') ?></option>
       <?php if ( $sf_user->hasCredential('tck-ledger-'.($ledger == 'cash' ? 'sales' : 'cash')) ): ?>
-        <option value="<?php echo url_for($ledger == 'cash' ? 'ledger/sales' : 'ledger/cash') ?>">
-          <?php echo __('Switch ledger') ?>
+        <?php if ( $ledger == 'cash' ): ?>
+        <option value="<?php echo url_for('ledger/sales') ?>">
+          <?php echo __('Sales Ledger',NULL,'menu') ?>
         </option>
+        <?php endif ?>
+        <?php if ( $ledger == 'sales' ): ?>
+        <option value="<?php echo url_for('ledger/cash') ?>">
+          <?php echo __('Cash Ledger',NULL,'menu') ?>
+        </option>
+        <?php endif ?>
         <option value="<?php echo url_for('ledger/both') ?>">
           <?php echo __('Detailed Ledger',array(),'menu') ?>
         </option>

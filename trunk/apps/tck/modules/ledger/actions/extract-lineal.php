@@ -60,7 +60,7 @@
     $criterias['subobjects'][] = array('fields' => $criterias['fields'], 'alias' => $alias);
   foreach ( $criterias['subobjects'] as $subobject => $params )
   {
-    $q->orWhere('true');
+    //$q->orWhere('true'); // TO BE CONFIRMED, but it seems this OR condition was a bad idea...
     foreach ( $params['fields'] as $criteria => $field )
     {
       if ( !isset($this->criterias[$criteria]) )

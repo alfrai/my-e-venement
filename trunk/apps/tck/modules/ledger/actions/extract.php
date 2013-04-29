@@ -37,7 +37,7 @@
     $this->outstream = 'php://output';
     $this->delimiter = $this->options['ms'] ? ';' : ',';
     $this->enclosure = '"';
-    $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
+    $this->charset   = sfConfig::get('software_internals_charset');
     
     sfConfig::set('sf_escaping_strategy', false);
     sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);

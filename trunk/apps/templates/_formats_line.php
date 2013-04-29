@@ -63,8 +63,13 @@
     case '~':
       // pre-recorded value
       $fdesc = $fields_description[$name];
-      if ( !isset($extrafields[substr($field,1)]) && in_array($fdesc['type'], array('integer','float')) )
+      if ( !isset($extrafields[substr($field,1)])
+        ||  isset($extrafields[substr($field,1)]) && !in_array($fdesc['type'], array('integer','float')) )
+      {
+        if ( $fdesc['type'] == 'date' )
+          $fdesc['size'] = strlen(date($fdesc['format']));
         $fdesc['type'] = 'string';
+      }
       
       include_partial('global/formats_field',array(
         'name'              => $name,
