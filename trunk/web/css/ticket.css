@@ -106,6 +106,7 @@
 }
 #payment .sf_admin_list .sf_admin_list_td_list_value { text-align: right; }
 #payment .sf_admin_list .change .sf_admin_text,
+#payment .sf_admin_list .related.total .sf_admin_text,
 #payment .sf_admin_list .total .sf_admin_text,
 #payment .sf_admin_list .topay .sf_admin_text { padding-left: 30px; font-weight: bold; }
 #payment .sf_admin_list .change .sf_admin_list_td_list_value { text-decoration: underline; }
@@ -113,6 +114,7 @@
 #payment form .sf_admin_form_row { padding-top: 0; padding-bottom: 0; }
 #payment form label { display: inline-block; width: 100px; }
 #payment form .errors { padding-bottom: 8px; }
+#payment .sf_admin_list .related { font-style: italic; }
 
 #print form { display: inline-block; }
 #print .integrate { margin-right: 20px; }

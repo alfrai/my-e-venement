@@ -58,6 +58,32 @@
     });
   }
 
+  function ticket_payment_related()
+  {
+    $.get('<?php
+      $ids = array();
+      foreach ( $transaction->Translinked as $t )
+        $ids[] = $t->id;
+      
+      echo url_for('payment/index?transaction_id[]='.implode('&transaction_id[]=',$ids));
+    ?>',function(data){
+      data = $.parseHTML(data);
+      var currency = '&nbsp;€'; //$('#prices .total .total').html().replace("\n",'').replace(/^\s*\d+[,\.]\d+/g,'');
+      
+      total = parseFloat($('#payment .total .sf_admin_list_td_list_value').html());
+      related = 0;
+      $(data).find('.sf_admin_list >> tbody .sf_admin_list_td_list_value').each(function(){
+        related += parseFloat($(this).html().replace(',','.'));
+      });
+      
+      $(data).find('.sf_admin_list >> tbody')
+        .append('<tr class="sf_admin_row total ui-widget-content"><td></td><td colspan="2" class="sf_admin_text"><?php echo __('Total') ?></td><td class="sf_admin_text sf_admin_list_td_list_value">'+(total+related).toFixed(2)+currency+'</td><td></td></tr>');
+      lines = $(data).find('.sf_admin_list >> tbody > tr').addClass('related');
+      lines.find('td:first-child').hide();
+      lines.find('td:last-child').html('');
+      $('#payment .sf_admin_list >> tbody').append(lines);
+    });
+  }
   function ticket_payment_old(add)
   {
     <?php if ( !sfConfig::get('app_tickets_auto_print') ): ?>
@@ -77,6 +103,7 @@
     $(data).find('.sf_admin_list')
       .appendTo('#payment')
       .find('thead, tfoot, caption, .sf_admin_action_show, .sf_admin_action_edit').remove(); 
+    ticket_payment_related();
     if ( $('#payment td:first-child input[type=checkbox]').length > 0 )
       $('#payment td:first-child').hide();
     $('#payment .sf_admin_action_delete a').each(function(){

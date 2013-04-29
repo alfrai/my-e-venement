@@ -81,6 +81,10 @@
         <target>Extraire</target>
       </trans-unit> 
       <trans-unit>
+        <source>You gave bad informations... try again.</source>
+        <target>Vous avez fourni des informations incorrectes... essayez à nouveau.</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Extract (%%format%%)</source>
         <target>Extraire (%%format%%)</target>
       </trans-unit> 

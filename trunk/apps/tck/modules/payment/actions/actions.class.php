@@ -49,13 +49,16 @@ class paymentActions extends autoPaymentActions
   
   public function executeIndex(sfWebRequest $request)
   {
-    if ( $tid = intval($request->getParameter('transaction_id')) )
+    if ( $tid = $request->getParameter('transaction_id') )
     {
+      if ( !is_array($tid) )
+        $tid = array(intval($tid));
+      
       parent::executeIndex($request);
       $this->pager = new sfDoctrinePager('Payment',1000);
       $this->pager->setQuery(
         Doctrine::getTable('Payment')->createQuery()
-          ->andWhere('transaction_id = ?',$tid)
+          ->andWhereIn('transaction_id',$tid)
           ->orderBy('updated_at DESC')
       );
       $this->pager->setPage(1);
