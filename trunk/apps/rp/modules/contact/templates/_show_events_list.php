@@ -19,11 +19,16 @@
     ->leftJoin('m.Tickets tck')
     ->leftJoin('tck.Transaction t')
     ->where('t.contact_id = ?',$contact->id)
-    ->andWhere('t.professional_id = ?', is_object($pro) ? $pro->id : $pro)
     ->andWhere('tck.printed = TRUE OR tck.integrated = TRUE')
     ->andWhere('tck.cancelling IS NULL AND tck.duplicating IS NULL')
     ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
     ->orderBy('me.name, e.name, m.happens_at DESC, t.id');
+
+  if ( is_null($pro) )
+    $q->andWhere('t.professional_id IS NULL');
+  else
+    $q->andWhere('t.professional_id = ?',$pro->id);
+
   $meta_events = $q->execute();
 ?>
   <?php if ( $meta_events->count() > 0 ): ?>
@@ -37,7 +42,7 @@
     </tr>
     <?php foreach( $me->Events as $event ): ?>
     <tr class="event">
-      <td class="name" colspan="4"><span><?php echo cross_app_link_to($event,'event','event/show?id='.$event->id) ?></span></td>
+      <td class="name" colspan="4" title="<?php echo $event ?>"><span><?php echo cross_app_link_to($event,'event','event/show?id='.$event->id) ?></span></td>
     </tr>
     <?php foreach( $event->Manifestations as $manif ): ?>
     <tr class="manif">
