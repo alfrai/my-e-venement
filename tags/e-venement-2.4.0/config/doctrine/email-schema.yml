@@ -1,0 +1,152 @@
+#**********************************************************************************
+#
+#	    This file is part of e-venement.
+# 
+#    e-venement is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License.
+# 
+#    e-venement is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+# 
+#    You should have received a copy of the GNU General Public License
+#    along with e-venement; if not, write to the Free Software
+#    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+# 
+#    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+#    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+# 
+#**********************************************************************************/
+
+Email:
+  package: email
+  actAs:
+    Searchable:
+      fields: [subject,from,to]
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    sf_guard_user_id: integer
+    field_from:
+      type:     string(255)
+      email:    true
+      notnull:  true
+    field_to:         string
+    field_cc:         string
+    field_bcc:        string
+    field_subject:
+      type:     string
+      notnull:  true
+    content:
+      type:     string
+      notnull:  true
+    content_text:
+      type:     string
+    sent:
+      type: boolean
+      default: false
+  relations:
+    User:
+      class: sfGuardUser
+      foreignAlias: Emails
+      onDelete: SET NULL
+    Contacts:
+      class: Contact
+      refClass: EmailContact
+      foreignAlias: Emails
+    Professionals:
+      class: Professional
+      refClass: EmailProfessional
+      foreignAlias: Emails
+    Organisms:
+      class: Organism
+      refClass: EmailOrganism
+      foreignAlias: Emails
+Attachment:
+  package: email
+  actAs:
+    Versionable: ~
+    Timestampable: ~
+  columns:
+    email_id:
+      type: integer
+      notnull: true
+    original_name:
+      type: string
+      notblank: true
+    filename:
+      type: string
+      notblank: true
+    mime_type:
+      type: string
+      notblank: true
+    size:
+      type: float
+      notnull: true
+  relations:
+    Email:
+      foreignAlias: Attachments
+      onDelete: CASCADE
+EmailLink:
+  package: email
+  actAs:
+    Timestampable: ~
+    SoftDelete: ~
+  columns:
+    email_id:
+      type: integer
+      notnull: true
+  relations:
+    Email:
+      foreignAlias: EmailLinks
+      onDelete: CASCADE
+      onUpdate: CASCADE
+EmailContact:
+  package: email
+  inheritance:
+    extends: EmailLink
+    type: concrete
+  columns:
+    contact_id:
+      type: integer
+      notnull: true
+  relations:
+    Contact:
+      foreignAlias: EmailContacts
+      onDelete: CASCADE
+EmailOrganism:
+  package: email
+  inheritance:
+    extends: EmailLink
+    type: concrete
+  columns:
+    organism_id:
+      type: integer
+      notnull: true
+  relations:
+    Organism:
+      foreignAlias: EmailOrganisms
+      onDelete: CASCADE
+EmailProfessional:
+  package: email
+  inheritance:
+    extends: EmailLink
+    type: concrete
+  columns:
+    professional_id:
+      type: integer
+      notnull: true
+  relations:
+    Professional:
+      foreignAlias: EmailOrganisms
+      onDelete: CASCADE
+EmailSpool:
+  package: email
+  actAs: [Timestampable]
+  columns:
+    message:
+      type: text
+      notnull: true
+    priority: integer

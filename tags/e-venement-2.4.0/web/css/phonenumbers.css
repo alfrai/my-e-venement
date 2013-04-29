@@ -1,0 +1,30 @@
+.form_phonenumbers .phonenumber + .phonenumber {
+  border-top: 1px solid gray;
+  padding-top: 10px;
+  margin-top: 20px;
+}
+.form_phonenumbers .phonenumber {
+  list-style: none;
+}
+
+.form_phonenumbers .phonenumber .sf_admin_action_save_and_add,
+.form_phonenumbers .phonenumber .sf_admin_action_save { width: 100%; text-align: right; }
+
+.form_phonenumbers .phonenumber.phonenumber- .sf_admin_action_save,
+.form_phonenumbers .phonenumber .sf_admin_action_list a,
+.form_phonenumbers .phonenumber .sf_admin_form_field_contact_id,
+.form_phonenumbers .phonenumber .sf_admin_form_field_organism_id {
+  display: none;
+}
+
+.form_phonenumbers .phonenumber .sf_admin_action_save,
+.form_phonenumbers .phonenumber .sf_admin_action_save_and_add { margin-left: 80px; }
+.form_phonenumbers .phonenumber .sf_admin_action_delete a {
+  text-decoration: none;
+  border-radius: 3px;
+  border: 1px solid gray;
+  background-color: #D8D8D8;
+  padding: 2px 5px;
+  cursor: default;
+  color: #484848;
+}

@@ -1,0 +1,23 @@
+index:
+  credentials: pr-organism
+filter:
+  credentials: pr-organism
+ajax:
+  credentials: pr-organism
+show:
+  credentials: pr-organism
+
+new:
+  credentials: pr-organism-edit
+create:
+  credentials: pr-organism-edit
+
+edit:
+  credentials: pr-organism-edit
+update:
+  credentials: pr-organism-edit
+
+delete:
+  credentials: pr-organism-edit
+batchDelete:
+  credentials: pr-organism-edit
