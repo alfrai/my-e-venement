@@ -22,19 +22,6 @@
 ***********************************************************************************/
 ?>
 <?php
-  $total = array('val' => 0, 'valid' => 0, 'nb' => 0);
-  foreach ( $transactions as $t )
-  foreach ( $t->Tickets as $tck )
-  {
-    $total['val'] += $tck->value;
-    $total['valid']++;
-    $total['nb']  += is_null($tck->cancelling) ? 1 : -1;
-  }
-  
-  print_r($total);
-  die();
-
-  /*
   include_partial('global/formats',array(
     'lines'               => $lines,
     'objects'             => $transactions,
@@ -44,4 +31,3 @@
     'meta_format'         => $meta_format,
     'criterias'           => $criterias,
   ));
-  */
