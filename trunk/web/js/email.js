@@ -49,11 +49,13 @@ $('.attachment-new').click(function(){
 
 function manage_attachment_widget(ed, l)
 {
-  if ( $.trim($('[name="email[field_subject]"]').val()) != ''
-    && $.trim(tinyMCE.activeEditor.getContent()) != '' )
-    $('.sf_admin_form_field_attachments').fadeIn();
-  else
-    $('.sf_admin_form_field_attachments').fadeOut();
+  setTimeout(function(){
+    if ( $.trim($('[name="email[field_subject]"]').val()) != ''
+      && $.trim(tinyMCE.activeEditor.getContent()) != '' )
+      $('.sf_admin_form_field_attachments').fadeIn();
+    else
+      $('.sf_admin_form_field_attachments').fadeOut();
+  },500);
 }
 
 function email_contacts_list(data)
