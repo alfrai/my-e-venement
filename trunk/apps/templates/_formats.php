@@ -61,6 +61,6 @@
         'meta_format' => $meta_format,
         'criterias' => $criterias,
       ));
-      echo "\n";
+      echo $meta_format['crlf'] == 'microsoft' ? "\r\n" : "\n";
     }
   }

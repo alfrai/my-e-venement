@@ -20,20 +20,21 @@ all:
             users:
               field: sf_guard_user_id
               match: in
-        Payments:
-          alias: p
-          fields:
-            dates:
-              field: created_at
-              match: integer
-            users:
-              field: sf_guard_user_id
-              match: in
+        #Payments:
+        #  alias: p
+        #  fields:
+        #    dates:
+        #      field: created_at
+        #      match: integer
+        #    users:
+        #      field: sf_guard_user_id
+        #      match: in
     extra_fields:
       class: OptionAccounting
     meta_format:
       separator: ''
       decorator: ''
+      crlf: microsoft
     fields_description:
       file:               { size: 4,  type: integer }
       id:                 { size: 9,  type: integer }

@@ -72,4 +72,5 @@
   if ( isset($field_description['size']) && mb_strlen($value) > $field_description['size'] )
     $value = mb_substr($value,0,$field_description['size']);
   
-  echo $decorator.$value.$decorator;
+  $charset = sfconfig::get('software_internals_charset');
+  echo $decorator.iconv($charset['db'],$charset['ascii'],$value).$decorator;
