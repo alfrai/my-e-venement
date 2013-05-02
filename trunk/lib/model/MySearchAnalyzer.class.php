@@ -43,7 +43,7 @@ class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
   
     public function analyze($text, $encoding = null)
     {
-      $charset = sfContext::getInstance()->getConfiguration()->charset;
+      $charset = sfConfig::get('software_internals_charset');
       $text = strtolower(iconv($charset['db'],$charset['ascii'],$text));
       
       // directly copied from lib/vendor/symfony/lib/plugins/sfDoctrinePlugin/lib/vendor/doctrine/Doctrine/Search/Analyzer/Utf8.php

@@ -112,7 +112,7 @@ class groupActions extends autoGroupActions
     $this->outstream = 'php://output';
     $this->delimiter = $request->hasParameter('ms') ? ';' : ',';
     $this->enclosure = '"';
-    $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
+    $this->charset   = sfConfig::get('software_internals_charset');
     
     $criterias = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
     $this->options = array(

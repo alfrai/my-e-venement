@@ -29,7 +29,7 @@ $tarif_line = 'Type de tarif';
 $client_line = 'Categorie Client';
 $zone_line = 'Genre de Zone';
 $category_line = 'Categorie Client';
-$charset = sfContext::getInstance()->getConfiguration()->charset;
+$charset = sfConfig::get('software_internals_charset');
 $tarifs = $categories = $workspaces = array();
 
 for ( $i = 0 ; $line = fgetcsv($fp, 0, $separator) ; $i++ )

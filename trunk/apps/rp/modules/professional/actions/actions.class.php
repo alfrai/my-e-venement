@@ -17,7 +17,7 @@ class professionalActions extends autoProfessionalActions
   {
     $this->getResponse()->setContentType('application/json');
     
-    $charset = sfContext::getInstance()->getConfiguration()->charset;
+    $charset = sfConfig::get('software_internals_charset');
     $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
     
     $ids = array();

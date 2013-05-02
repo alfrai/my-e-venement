@@ -103,7 +103,7 @@
         // if the line references a named contact
         if ( $ticket['name'] && $ticket['firstname'] )
         {
-          $charset = sfContext::getInstance()->getConfiguration()->charset;
+          $charset = sfConfig::get('software_internals_charset');
           $search = array(implode('* ',explode(' ',$ticket['name'])).'*',implode('* ',explode(' ',$ticket['firstname'])).'*');
           $search = strtolower(iconv($charset['db'],$charset['ascii'],implode(' ',$search)));
           $q = Doctrine::getTable('Contact')->createQuery('c');

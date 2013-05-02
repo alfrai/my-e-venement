@@ -187,7 +187,7 @@ class manifestationActions extends autoManifestationActions
   
   public function executeAjax(sfWebRequest $request)
   {
-    $charset = sfContext::getInstance()->getConfiguration()->charset;
+    $charset = sfConfig::get('software_internals_charset');
     $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
     
     $e = Doctrine_Core::getTable('Event')->search($search.'*',Doctrine::getTable('Event')->createQuery());

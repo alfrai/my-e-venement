@@ -180,7 +180,7 @@ class organismActions extends autoOrganismActions
   
   public function executeAjax(sfWebRequest $request)
   {
-    $charset = sfContext::getInstance()->getConfiguration()->charset;
+    $charset = sfConfig::get('software_internals_charset');
     $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
     
     $q = Doctrine::getTable('Organism')
@@ -276,7 +276,7 @@ class organismActions extends autoOrganismActions
   public static function sanitizeSearch($search)
   {
     $nb = strlen($search);
-    $charset = sfContext::getInstance()->getConfiguration()->charset;
+    $charset = sfConfig::get('software_internals_charset');
     return strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search));
   }
 }

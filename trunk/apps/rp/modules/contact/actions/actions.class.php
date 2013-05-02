@@ -264,7 +264,7 @@ class contactActions extends autoContactActions
   {
     //$this->getResponse()->setContentType('application/json');
     
-    $charset = sfContext::getInstance()->getConfiguration()->charset;
+    $charset = sfConfig::get('software_internals_charset');
     $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
     
     $q = Doctrine::getTable('Contact')
@@ -325,7 +325,7 @@ class contactActions extends autoContactActions
     // BUG: 2013-04-12
     $this->contact = $this->getRoute()->getObject();
     $this->form = $this->configuration->getForm($this->contact);
-    $this->form->displayOnly();
+    //$this->form->displayOnly();
     
     $this->processForm($request, $this->form);
     
@@ -369,7 +369,7 @@ class contactActions extends autoContactActions
   public static function sanitizeSearch($search)
   {
     $nb = strlen($search);
-    $charset = sfContext::getInstance()->getConfiguration()->charset;
+    $charset = sfConfig::get('software_internals_charset');
     return strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search));
   }
 }

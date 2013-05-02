@@ -82,11 +82,11 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
     
     foreach ( $this->object->Groups as $group )
     if ( !$user->hasCredential('pr-group-common') && is_null($group->sf_guard_user_id)
-      || $group->sf_guard_user_id != $user->getId() && !is_null($group->sf_guard_user_id) )
+      || $group->sf_guard_user_id !== $user->getId() && !is_null($group->sf_guard_user_id) )
     {
       $this->values['groups_list'][] = $group->id;
     }
-
+    
     return $this;
   }
 }

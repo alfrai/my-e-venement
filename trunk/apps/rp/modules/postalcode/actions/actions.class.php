@@ -17,7 +17,7 @@ class postalcodeActions extends autoPostalcodeActions
   {
     if ( strlen($request->getParameter('q')) > 2 )
     {
-      $charset = sfContext::getInstance()->getConfiguration()->charset;
+      $charset = sfConfig::get('software_internals_charset');
       $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
       
       $q = Doctrine::getTable('Postalcode')

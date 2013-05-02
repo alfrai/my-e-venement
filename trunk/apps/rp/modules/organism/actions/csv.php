@@ -45,7 +45,7 @@
     $this->outstream = 'php://output';
     $this->delimiter = $this->options['ms'] ? ';' : ',';
     $this->enclosure = '"';
-    $this->charset   = sfContext::getInstance()->getConfiguration()->charset;
+    $this->charset   = sfConfig::get('software_internals_charset');
     
     if ( !$request->hasParameter('debug') )
       sfConfig::set('sf_web_debug', false);

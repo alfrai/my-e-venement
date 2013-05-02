@@ -23,7 +23,7 @@
 ?>
 <?php
 $tickets = array();
-$charset = sfContext::getInstance()->getConfiguration()->charset;
+$charset = sfConfig::get('software_internals_charset');
 
 for ( $i = 0 ; $line = fgets($fp) ; $i++ )
 // if !EOF and !BOF
