@@ -34,15 +34,21 @@ $('.attachment-new a').click(function(){
   // tinymce
   tinyMCE.activeEditor.save();
   
+  // not to loose all contacts & so
+  $('.open_list_selected option').each(function(){
+    $(this).prop('selected',true);
+  });
+  
+  // if new
   if ( $('[name="email[id]"]').val() == '' )
   {
-    $('.open_list_selected option').prop('selected',true); // not to loose all contacts & so
     $.post($('form').prop('action'),$('form').serialize(),function(data){
       window.location = $($.parseHTML(data)).find('.attachment-new a').prop('href');
     });
     return false;
   }
-
+  
+  // if already saved
   $.post($('form').prop('action'),$('form').serialize());
 });
 

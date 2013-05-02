@@ -23,7 +23,7 @@ all:
   about:
     name: e-venement
     contributors: [Baptiste SIMON, Bevlhay FERRAND, Ludovic SOULIÉ, Ayoub HIDRI, Thomas RIBOULET, Très Tôt Théâtre, Libre Informatique, Symfony Team, #symfony-fr]
-    version: 2.4 Sahariwian Beverage
+    version: 2.4.1-pre Sahariwian Beverage
     firm:
       url: http://www.libre-informatique.fr/
       name: Libre Informatique
