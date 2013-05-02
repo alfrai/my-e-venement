@@ -23,6 +23,9 @@
 ***********************************************************************************/
 ?>
 <?php
+    // do not use any specific design
+    $this->useClassicTemplateDir(true);
+    
     if ( !$request->getParameter('id') )
       $this->forward('contact','index');
     

@@ -74,12 +74,14 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
     }
     else if (is_array($values) && isset($values['text']) && '' != $values['text'])
     {
+      $transliterate = sfConfig::get('software_internals_transliterate');
+      $charset = sfConfig::get('software_internals_charset');
       $query->addWhere(
         sprintf("LOWER(translate(%s.%s,
           '%s',
           '%s')
-        ) LIKE LOWER(?)", $query->getRootAlias(), $fieldName, sfContext::getInstance()->getConfiguration()->transliterate[0], sfContext::getInstance()->getConfiguration()->transliterate[1]),
-        ''.iconv('UTF-8', 'ASCII//TRANSLIT', '%'.$values['text']).'%'
+        ) LIKE LOWER(?)", $query->getRootAlias(), $fieldName, $transliterate['from'], $transliterate['to']),
+        ''.iconv($charset['db'], $charset['ascii'], '%'.$values['text']).'%'
       );
     }
   }

@@ -53,7 +53,7 @@ class contactActions extends autoContactActions
   {
     if ( is_null($bool) )
       return $this->force_classic_template_dir;
-      
+    
     $this->force_classic_template_dir = $bool;
     return $this;
   }
@@ -128,7 +128,7 @@ class contactActions extends autoContactActions
         $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
       if ( !isset($this->filters) )
         $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      if ( !in_array($this->getActionName(), array('index','search','map','labels','getSpecializedForm', 'csv')) )
+      if ( !in_array($this->getActionName(), array('index','search','map','labels','getSpecializedForm','csv','groupList')) )
         $this->setTemplate('edit');
     }
   }
