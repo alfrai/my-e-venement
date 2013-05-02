@@ -71,6 +71,8 @@ all:
           title: [Organism]
           new_title: [organism_id]
           lines:
+            hidden:
+              fields: [organism_id, contact_id]
             line1:
               fields: [professional_type_id, name, _organism_category]
             Phonenumbers:

@@ -10,4 +10,12 @@
  */
 class professionalGeneratorConfiguration extends BaseProfessionalGeneratorConfiguration
 {
+  public function __construct()
+  {
+    parent::__construct();
+    
+    if ( sfConfig::get('app_options_design',false) )
+    require_once sfContext::getInstance()->getConfigCache()
+      ->checkConfig('modules/professional/config/'.sfConfig::get('app_options_design').'.yml',true);
+  }
 }

@@ -322,10 +322,11 @@ class contactActions extends autoContactActions
   }
   public function executeUpdate(sfWebRequest $request)
   {
-    // BUG: 2013-04-12
+    // BUG: 2013-04-12 & 2013-05-02
     $this->contact = $this->getRoute()->getObject();
     $this->form = $this->configuration->getForm($this->contact);
-    //$this->form->displayOnly();
+    if ( $request->getParameter('specialized-form',false) )
+      $this->form->displayOnly();
     
     $this->processForm($request, $this->form);
     

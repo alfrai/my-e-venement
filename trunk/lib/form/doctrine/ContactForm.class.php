@@ -113,8 +113,11 @@ class ContactForm extends BaseContactForm
   
   public function displayOnly($fieldname = NULL)
   {
-    unset($this->widgetSchema['emails_list']);
-    unset($this->widgetSchema['groups_list']);
+    unset(
+      $this->widgetSchema['emails_list'],
+      $this->widgetSchema['groups_list'],
+      $this->widgetSchema['YOBs_list']
+    );
     
     // BUG: 2013-04-12
     if ( is_null($fieldname) )
