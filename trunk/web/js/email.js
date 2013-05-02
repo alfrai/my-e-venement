@@ -26,7 +26,8 @@ if ( $('[name="email[id]"]').val() == '' )
   },1000);
   $('[name="email[field_subject]"]').change(manage_attachment_widget);
 }
-$('.attachment-new').click(function(){
+$('.attachment-new a').click(function(){
+
   if ( $.trim($('[name="email[field_subject]"]').val()) == '' || $.trim(tinyMCE.activeEditor.getContent()) == '' )
     return false;
   
@@ -37,7 +38,7 @@ $('.attachment-new').click(function(){
   {
     $('.open_list_selected option').prop('selected',true); // not to loose all contacts & so
     $.post($('form').prop('action'),$('form').serialize(),function(data){
-      window.location = $(data).find('.attachment-new a').prop('href');
+      window.location = $($.parseHTML(data)).find('.attachment-new a').prop('href');
     });
     return false;
   }
@@ -60,6 +61,7 @@ function manage_attachment_widget(ed, l)
 
 function email_contacts_list(data)
 {
+  data = $.parseHTML(data);
   $('.members .contacts').html($(data).find('.sf_admin_list'));
   $('.members .contacts tfoot a[href]').unbind().click(function(){
     $.get($(this).prop('href'), email_contacts_list);
@@ -68,6 +70,7 @@ function email_contacts_list(data)
 }
 function email_organisms_list(data)
 {
+  data = $.parseHTML(data);
   $('.members .organisms').html($(data).find('.sf_admin_list'));
   $('.members .organisms tfoot a[href]').unbind().click(function(){
     $.get($(this).prop('href'), email_organisms_list);
