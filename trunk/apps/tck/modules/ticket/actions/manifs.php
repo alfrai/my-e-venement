@@ -48,8 +48,9 @@
       }
       else
       {
+        $charset = sfConfig::get('software_internals_charset');
         foreach ( Doctrine::getTable('Event')->search(
-          strtolower($request->getParameter('manif_new')).'*',$q) as $id )
+          strtolower(iconv($charset['db'],$charset['ascii'],$request->getParameter('manif_new'))).'*',$q) as $id )
           $eids[] = $id['id'];
       }
       

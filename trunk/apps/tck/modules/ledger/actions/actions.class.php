@@ -49,11 +49,12 @@ class ledgerActions extends sfActions
       ->leftJoin('pro.Organism o')
       ->orderBy('e.name, m.happens_at, l.name, tck.price_name, u.first_name, u.last_name, tck.sf_guard_user_id, tck.cancelling IS NULL DESC, tck.updated_at');
     
+    $str = 'tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE';
     if ( !isset($criterias['not-yet-printed']) )
-      $q->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE');
+      $q->andWhere($str);
     else
       $q->leftJoin('t.Payments p')
-        ->andWhere('p.id IS NOT NULL');
+        ->andWhere('t.transaction_id IN (SELECT oo.transaction_id FROM Order oo) OR p.id IS NOT NULL OR '.$str);
     
     if ( !isset($criterias['tck_value_date_payment']) )
       $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
