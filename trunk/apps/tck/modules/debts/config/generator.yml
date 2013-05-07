@@ -15,7 +15,7 @@ generator:
       actions: ~
       fields:  ~
       list:
-        display: [_id, Contact, Professional, _debt, closed, updated_at]
+        display: [_id, _invoice_id, Contact, Professional, _debt, closed, updated_at]
         object_actions:
           _show: ~
         batch_actions: []
