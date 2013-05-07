@@ -18,6 +18,12 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
     parent::configure();
     sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
     
+    $this->widgetSchema   ['id'] = new sfWidgetFormInput;
+    $this->validatorSchema['id'] = new sfValidatorDoctrineChoice(array(
+      'model'    => 'Invoice',
+      'required' => false,
+    ));
+    
     $this->widgetSchema['created_at'] = new sfWidgetFormDateRange(array(
       'from_date' => new liWidgetFormDateText(),
       'to_date'   => new liWidgetFormDateText(),
@@ -38,9 +44,24 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
   }
   public function getFields()
   {
-    return array_merge(array('tickets_value' => 'TicketsValue'), parent::getFields());
+    return array_merge(array(
+      'tickets_value' => 'TicketsValue',
+      'id' => 'Id',
+    ), parent::getFields());
   }
   
+  public function addIdColumnQuery(Doctrine_Query $query, $field, $value)
+  {
+    $fieldName = $this->getFieldName($field);
+    if ( $value )
+    {
+      $a = $query->getRootAlias();
+      $query->andWhere("$a.$fieldName = ?",$value);
+    }
+    return $query;
+    
+    //return $this->addNumberQuery($query, $field, $value);
+  }
   public function addTicketsValueColumnQuery(Doctrine_Query $query, $field, $value)
   {
     $fieldName = $this->getFieldName($field);
