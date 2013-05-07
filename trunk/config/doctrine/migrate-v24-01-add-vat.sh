@@ -14,7 +14,7 @@ then
 psql $1 <<EOF
 DROP TABLE vat;
 CREATE TABLE vat (
-    id bigint NOT NULL,
+    id SERIAL NOT NULL,
     name character varying(64) NOT NULL,
     value numeric(5,4) DEFAULT 0 NOT NULL,
     accounting_account character varying(50),
@@ -46,7 +46,7 @@ fi
 
 # rebuild + reinjection
 rm -rf lib/model/doctrine/*/base lib/model/doctrine/packages/*/base
-dropdb $1 && createdb $1 &&
+dropdb $1 && createdb $1 && echo "DATABASE RECREATED" &&
 echo "GRANT ALL ON  DATABASE $1 TO $1" | psql $1 &&
 php symfony doctrine:build  --all --no-confirmation   &&
 php symfony cc &&
