@@ -305,12 +305,12 @@
         <target>&lt;span title="places/total (vendus-rés.-dem.)]"&gt;Jauges&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
-        <source>&lt;strong class="booked"&gt;%%b%%&lt;/strong&gt;/&lt;strong&gt;%%t%%&lt;/strong&gt; (&lt;span title="sold"&gt;%%p%%&lt;/span&gt;-&lt;span title="ordered"&gt;%%o%%&lt;/span&gt;-&lt;span title="asked"&gt;%%a%%&lt;/span&gt;)</source>
-        <target>&lt;strong class="booked"&gt;%%b%%&lt;/strong&gt;/&lt;strong&gt;%%t%%&lt;/strong&gt; (&lt;span title="vendus"&gt;%%p%%&lt;/span&gt;-&lt;span title="réservés"&gt;%%o%%&lt;/span&gt;-&lt;span title="demandés"&gt;%%a%%&lt;/span&gt;)</target>
+        <source>&lt;strong class="booked"&gt;%%b%%&lt;/strong&gt;/&lt;strong class="total"&gt;%%t%%&lt;/strong&gt; (&lt;span title="sold" class="sold"&gt;%%p%%&lt;/span&gt;-&lt;span title="ordered" class="ordered"&gt;%%o%%&lt;/span&gt;-&lt;span title="asked" class="asked"&gt;%%a%%&lt;/span&gt;)</source>
+        <target>&lt;strong class="booked"&gt;%%b%%&lt;/strong&gt;/&lt;strong class="total"&gt;%%t%%&lt;/strong&gt; (&lt;span title="vendus" class="sold"&gt;%%p%%&lt;/span&gt;-&lt;span title="réservés" class="ordered"&gt;%%o%%&lt;/span&gt;-&lt;span title="demandés" class="asked"&gt;%%a%%&lt;/span&gt;)</target>
       </trans-unit>
       <trans-unit>
-        <source>&lt;strong class="booked"&gt;%%b%%&lt;/strong&gt;/&lt;strong&gt;%%t%%&lt;/strong&gt; (&lt;span title="sold"&gt;%%p%%&lt;/span&gt;-&lt;span title="ordered"&gt;%%o%%&lt;/span&gt;)</source>
-        <target>&lt;strong class="booked"&gt;%%b%%&lt;/strong&gt;/&lt;strong&gt;%%t%%&lt;/strong&gt; (&lt;span title="vendus"&gt;%%p%%&lt;/span&gt;-&lt;span title="réservés"&gt;%%o%%&lt;/span&gt;)</target>
+        <source>&lt;strong class="booked"&gt;%%b%%&lt;/strong&gt;/&lt;strong class="total"&gt;%%t%%&lt;/strong&gt; (&lt;span title="sold" class="sold"&gt;%%p%%&lt;/span&gt;-&lt;span title="ordered" class="ordered"&gt;%%o%%&lt;/span&gt;)</source>
+        <target>&lt;strong class="booked"&gt;%%b%%&lt;/strong&gt;/&lt;strong class="total"&gt;%%t%%&lt;/strong&gt; (&lt;span title="vendus" class="sold"&gt;%%p%%&lt;/span&gt;-&lt;span title="réservés" class="ordered"&gt;%%o%%&lt;/span&gt;)</target>
       </trans-unit>
       <trans-unit>
         <source>Tickets to be controlled</source>

@@ -18,7 +18,7 @@
   }
 ?>
 <?php if ( sfConfig::get('project_tickets_count_demands',false) ): ?>
-<?php echo __('<strong class="booked">%%b%%</strong>/<strong>%%t%%</strong> (<span title="sold">%%p%%</span>-<span title="ordered">%%o%%</span>-<span title="asked">%%a%%</span>)', array(
+<?php echo __('<strong class="booked">%%b%%</strong>/<strong class="total">%%t%%</strong> (<span title="sold" class="sold">%%p%%</span>-<span title="ordered" class="ordered">%%o%%</span>-<span title="asked" class="asked">%%a%%</span>)', array(
     '%%p%%' => $tickets['printed'],
     '%%o%%' => $tickets['ordered'],
     '%%a%%' => $tickets['asked'],
@@ -26,7 +26,7 @@
     '%%t%%' => $tickets['total'],
   )) ?>
 <?php else: ?>
-<?php echo __('<strong class="booked">%%b%%</strong>/<strong>%%t%%</strong> (<span title="sold">%%p%%</span>-<span title="ordered">%%o%%</span>)', array(
+<?php echo __('<strong class="booked">%%b%%</strong>/<strong class="total">%%t%%</strong> (<span title="sold" class="sold">%%p%%</span>-<span title="ordered" class="ordered">%%o%%</span>)', array(
     '%%p%%' => $tickets['printed'],
     '%%o%%' => $tickets['ordered'],
     '%%b%%' => $tickets['booked'],

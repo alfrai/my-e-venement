@@ -3,8 +3,8 @@ all:
   stylesheets: [manifestation]
 
 indexSuccess:
-  stylesheets: [event-list, list-print: {media: print}]
-  javascripts: [list-scroll]
+  stylesheets: [event-list, list-print: {media: print}, gauge-small]
+  javascripts: [list-scroll, event-list, gauge-small]
 newSuccess:
   stylesheets: [view,event,/private/event.css]
   javascripts:  [event]

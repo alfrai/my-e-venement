@@ -4,5 +4,5 @@
 <?php endforeach ?>
 <?php ksort($manifs) ?>
 <?php foreach($manifs as $manif): ?>
-<?php include_partial('manifestation/list_gauge',array('manifestation' => $manif)) ?><br/>
+<span class="gauge"><?php include_partial('manifestation/list_gauge',array('manifestation' => $manif)) ?></span><br/>
 <?php endforeach ?>
