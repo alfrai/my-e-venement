@@ -20,6 +20,19 @@
 # 
 #**********************************************************************************/
 
+AutoGroup:
+  package: ws
+  columns:
+    group_id:
+      type: integer
+      notnull: true
+  relations:
+    Group:
+      class: Group
+      foreignAlias: Online
+      onDelete: CASCADE
+      onUpdate: CASCADE
+
 RemoteAuthentication:
   package: ws
   actAs:

@@ -98,7 +98,19 @@
     foreach ( $opts as $field )
       $c[$field] = mb_strtoupper($c[$field],'UTF-8');
     
-    $form = new ContactForm();
+    // the automatic groups
+    $groups = Doctrine::getTable('Group')->createQuery('g')
+      ->leftJoin('g.Online o')
+      ->andWhere('o.id IS NOT NULL')
+      ->execute();
+    if ( $groups->count() > 0 )
+    {
+      $c['groups_list'] = array();
+      foreach ( $groups as $group )
+        $c['groups_list'][] = = $group->id;
+    }
+    
+    $form = new ContactForm;
     $c[$form->getCSRFFieldName()] = $form->getCSRFToken();
     $form->setStrict();
     $form->bind($c);
