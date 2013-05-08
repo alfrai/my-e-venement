@@ -1,6 +1,8 @@
 function gauge_small()
 {
+  $('.sf_admin_list_td_list_manifestations_gauges').addClass('small-gauges'); // a trick for CSS to permit classical rendering compatibility
   $('.sf_admin_list_td_list_manifestations_gauges br').remove();
+  
   $('.sf_admin_list_td_list_manifestations_gauges .gauge').each(function(){
     $(this).find('> *').each(function(){
       // every children except for total
