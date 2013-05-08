@@ -1,4 +1,5 @@
-$(document).ready(function(){
+function gauge_small()
+{
   $('.sf_admin_list_td_list_manifestations_gauges br').remove();
   $('.sf_admin_list_td_list_manifestations_gauges .gauge').each(function(){
     $(this).find('> *').each(function(){
@@ -24,4 +25,17 @@ $(document).ready(function(){
     if ( booked > total )
       $(this).addClass('overbooked');
   });
+}
+
+$(document).ready(function(){
+  gauge_small();
+  
+  // for hypothetical pagination...
+  if ( window.list_scroll_end == undefined )
+  {
+    window.list_scroll_end = new Array()
+    window.list_scroll_end[0] = gauge_small;
+  }
+  else
+    window.list_scroll_end[window.list_scroll_end.length] = gauge_small;
 });
