@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Group</source>
+        <target>Groupe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Auto group List</source>
+        <target>Liste des groupes auto.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit Auto group</source>
+        <target>Modification du groupe automatique</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Auto group</source>
+        <target>Nouveau groupe automatique</target>
+      </trans-unit>
+      <trans-unit>
         <source>No transaction found.</source>
         <target>Pas d'opération identifiée.</target>
       </trans-unit>

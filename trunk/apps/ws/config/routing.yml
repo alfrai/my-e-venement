@@ -1,3 +1,12 @@
+auto_group:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                AutoGroup
+    module:               auto_group
+    prefix_path:          /auto_group
+    column:               id
+    with_wildcard_routes: true
+
 remote_authentication:
   class: sfDoctrineRouteCollection
   options:
