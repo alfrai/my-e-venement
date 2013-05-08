@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Authentication</source>
+        <target>Authentification</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Group association</source>
+        <target>Association de groupes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Taxes</source>
         <target>Taxes (TVA)</target>
       </trans-unit>

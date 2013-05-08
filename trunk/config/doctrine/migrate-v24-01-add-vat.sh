@@ -3,8 +3,10 @@
 
 # preconditions
 [ ! -f ./symfony ] && echo 'The symfony file is not present... processus aborted' && exit 255
-[ -z $1 ] && echo 'You forgot the DB name as the first argument...' && exit 1
-[ ! -z $2 ] && echo 'You will do a restore-only procedure'
+[ -z "$1" ] && echo 'You forgot the DB name as the first argument...' && exit 1
+[ ! -z "$2" ] && echo 'You will do a restore-only procedure'
+[ ! -z "$3" ] && echo "You'll use a specific DB user as $3" && DBU=$3
+[ -z "$3" ] && DBU=$1
 [ ! -d ./data/sql ] && echo 'The directory ./data/sql does not exist, cannot continue in that condition' && exit 2
 
 if [ -z $2 ]
@@ -47,7 +49,7 @@ fi
 # rebuild + reinjection
 rm -rf lib/model/doctrine/*/base lib/model/doctrine/packages/*/base
 dropdb $1 && createdb $1 && echo "DATABASE RECREATED" &&
-echo "GRANT ALL ON  DATABASE $1 TO $1" | psql $1 &&
+echo "GRANT ALL ON  DATABASE $1 TO $DBU" | psql $1 &&
 php symfony doctrine:build  --all --no-confirmation   &&
 php symfony cc &&
 cat data/sql/$1-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $1

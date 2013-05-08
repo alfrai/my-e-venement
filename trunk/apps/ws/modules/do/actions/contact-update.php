@@ -98,18 +98,6 @@
     foreach ( $opts as $field )
       $c[$field] = mb_strtoupper($c[$field],'UTF-8');
     
-    // the automatic groups
-    $groups = Doctrine::getTable('Group')->createQuery('g')
-      ->leftJoin('g.Online o')
-      ->andWhere('o.id IS NOT NULL')
-      ->execute();
-    if ( $groups->count() > 0 )
-    {
-      $c['groups_list'] = array();
-      foreach ( $groups as $group )
-        $c['groups_list'][] = = $group->id;
-    }
-    
     $form = new ContactForm;
     $c[$form->getCSRFFieldName()] = $form->getCSRFToken();
     $form->setStrict();
@@ -158,6 +146,15 @@
       $phone->save();
     }
     
+    // the automatic groups
+    $groups = Doctrine::getTable('Group')->createQuery('g')
+      ->leftJoin('g.Online o')
+      ->andWhere('o.id IS NOT NULL')
+      ->execute();
+    foreach ( $groups as $group )
+      $contact->Groups[] = $group;
+    $contact->save();
+    
     // storing the client ids in the current user
     $this->getUser()->setAttribute('contact_id',$contact->id);
     
@@ -165,7 +162,7 @@
     if ( $transaction = Doctrine::getTable('Transaction')
       ->findOneById($this->getUser()->getAttribute('transaction_id'),$this->getUser()->getAttribute('old_transaction_id')) )
     {
-      $transaction->contact_id = $contact->id;
+      $transaction->Contact = $contact;
       $transaction->sf_guard_user_id = $this->getUser()->getAttribute('ws_id');
       $transaction->save();
     }
