@@ -46,8 +46,26 @@ function ticket_events()
     if ( $('#contact #micro-show #sf_fieldset_none').length == 0 )
     {
       $.get($(this).prop('href'),function(data){
-        $('#contact #micro-show').find('#sf_fieldset_none, #sf_fieldset_address').remove();
-        $($.parseHTML(data)).find('#sf_fieldset_none, #sf_fieldset_address').appendTo('#contact #micro-show');
+        $('#contact #micro-show').find('#sf_fieldset_none, #sf_fieldset_address, .tdp-object').remove();
+        $($.parseHTML(data)).find('#sf_fieldset_none, #sf_fieldset_address, .tdp-object:first').appendTo('#contact #micro-show');
+        
+        // TDP design
+        $('#contact #micro-show .tdp-object').find('select, input[type=radio], input[type=checkbox]').each(function(){
+          if ( $(this).find('option:selected').length > 0 )
+            $(this).parent().append($(this).find('option:selected').html()+' ');
+          $(this).remove();
+        });
+        $('#contact #micro-show .tdp-object').find('input[type=text], textarea').each(function(){
+          $(this).parent().append($(this).val()+' ');
+          $(this).remove();
+        });
+        $('#contact #micro-show .tdp-object .tdp-widget-header').each(function(){
+          $(this).find('h1').prependTo($(this).closest('.tdp-object'));
+          $(this).remove();
+        });
+        $('#contact #micro-show .tdp-object .tdp-email').appendTo('#contact #micro-show .tdp-object:first');
+        
+        // CLASSICAL design
         for ( i = 0 ; i < 3 ; i++ )
           $('#contact #micro-show #sf_fieldset_address').find('.sf_admin_form_row:first-child').remove();
       });

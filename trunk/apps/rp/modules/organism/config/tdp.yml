@@ -88,6 +88,14 @@ all:
           credential: pr-emailing
           partial: global/tdp/side_widget_object_emails
 
+    new:
+      object:
+        lines:
+          Direct_Contact:
+            show_labels: true
+            extra_class: tdp-vertical
+            fields: [phone_type, phone_number]
+    
     fields:
       contact_id: { label: Contact }
       organism_id: { label: Organism }

@@ -176,6 +176,21 @@
   margin: 5px;
   padding: 0;
 }
+#contact #micro-show h1 { font-size: 12px; font-weight: bold; }
+#contact #micro-show .tdp-line.city .tdp-country { display: block; }
+#contact #micro-show .tdp-line.city .tdp-country { display: block; }
+#contact #micro-show textarea, #contact #micro-show input[type=text] {
+  border: 0;
+  font-size: 12px;
+}
+#contact #micro-show input[type=submit], #contact #micro-show button, #contact #micro-show label,
+#contact #micro-show .sf_admin_actions_form, #contact #micro-show .tdp-actions,
+#contact #micro-show .tdp-line.city .show_region,
+#contact #micro-show .tdp-line.city .sf_admin_form_field_cities,
+#contact #micro-show .tdp-line.more,
+#contact #micro-show .tdp-line.personal_description,
+#contact #micro-show .tdp-line.groups { display: none; }
+
 #contact .open {
   position: absolute;
   right: 395px;
