@@ -8,18 +8,22 @@ Général:
   - transfert des données génériques (transliteration, charsets...) de ProjectConfiguration::DATA vers e-venement.yml (donc accessible maintenant à travers sfConfig::get('DATA'))
   - déplacement du modèle Traceable du package tck vers generic
   - ajout de données génériques à importer directement via "./symfony doctrine:data --append data/fixtures/..."
+  - passage des charsets et des informations de transliteration vers la configuration générale (config/e-venement.yml)
 - nouveautés
   - navigation dans le menu par le clavier
   - nouveau menu "comptabilité" réduisant le menu "billetterie"
   - ajout dans toutes les applications où cela était nécessaire d'un error404
   - retrait des fieldsets non utilisés dans les modules admin-generated utilisant le thème jroller
   - ajout d'un script de migration pour passer de la v2.3 à la v2.4
+  - ajout de manuels dans le répertoire doc/
 
 RP:
 - bugs
   - retrait des groupes appartenant à d'autres personnes de la liste des groupes des contacts
   - correcting d'un bug d'interface sur le remplacement automatique des villes lors de la présence de plusieurs villes dans la liste correpondant au codepostal saisi
   - correction d'un bug qui empêchait l'édition des organismes dans certaines conditions
+  - correction de divers bugs liés à / révélés par l'arrivée du design TDP
+  - lors d'une recherche rapide sur les contacts et les organismes
 - améliorations
   - la sélection du code postal et de la ville ont été revus et complétés
   - optimisations mineures dans le modèle
@@ -27,6 +31,8 @@ RP:
   - ajout d'options dans le fichier rp/config/app.yml.template
   - réécriture des actions groupées dans les organismes pour être plus dans les normes de symfony
   - amélioration de l'affichage de l'historique de billetterie dans les contacts
+  - amélioration de l'activation de l'ajout de pièces jointes dans les emailings
+  - les recherches (via les filtres) sur les noms et prénoms (organismes et contacts) démarrent obligatoirement au début des champs (XXX*, contre *XXX* avant)
 - nouveautés
   - finition du design TDP, dont l'utilisation devrait être peu à peu généralisée (usage de tdp.yml.template pour permettre la personnalisation)
   - ajout d'informations sociales (à destination des centres sociaux) (et droits associés)
@@ -49,6 +55,7 @@ RP:
   - utilisation de fullcalendar pour l'affichage des calendriers de manifestation, permettant des modifications à la volée et beaucoup plus ergonomique
   - possibilité de rendre des manifestations dépendantes, utile pour simplifier le processus de billetterie dans des cas particuliers
   - possibilité de cacher des événements par défaut dans la liste des manifestations en billetterie
+  - affichage graphique des jauges dans la liste des événements
 
 Billetterie:
 - bugs
@@ -56,6 +63,7 @@ Billetterie:
   - des billets disparaîssaient sans raison (c'était lié à la fois à du JS et du PHP)
   - prise en charge des espaces et des caractères spéciaux dans les tarifs des billets (pour le process de billetterie)
   - correction d'un bug dans le calcul de certaines parties du journal détaillé (avec des billets dupliqués et annulés)
+  - correction de l'affichage des contacts dans la micro-fiche d'une opération de billetterie lors de l'utilisation du design TDP
 - améliorations
   - de l'affichage du nom des manifestations/événement dans le process de billetterie
   - de la vérification de la présence d'un contact dans une opération quand l'option force_contact est en place
@@ -67,16 +75,21 @@ Billetterie:
   - les critères de filtre des journaux comptables sont maintenant gérés comme dans les autres modules (en session) pour une continuité plus forte
   - gestion plus générique et plus fiable de la TVA dans les manifestations et les billets
   - ajout des points de contrôle passés dans le journal des billets
+  - revisite du calcul du livre des ventes lors de l'affichage des "billets encore non imprimés"
+  - les dettes affichent maintenant les numéros de factures
+  - il est maintenant possible de rechercher des factures via son identifiant
 - nouveautés
   - premières briques de la nouvelle interface de billetterie (pour la 2.5)
   - possibilité de rendre une manifestation dépendante d'une autre, et ainsi lorsqu'un ticket est sélectionné pour cette manifestation, un ticket similaire est ajouté pour sa manifestation dépendante
   - possibilité d'extraction des livres des ventes et de caisse (format CSV + format Sigma Lineal)
   - introduction d'un système de description des fichiers complexes en texte brut
+  - affichage des paiements des opérations liées (dont annulations) dans les opérations générales
 
 Vente en ligne:
 - améliorations:
   - ajout des dépendances entre manifestations pour le module (pub) de vente en ligne direct
-
+- nouveautés
+  - possibilité d'associer automatiquement à un ou des groupes les contacts créés par la vente en ligne (via e-voucher par exemple)
 
 == v2.2 -> v2.3 ==
 Carte d'abonnement:
