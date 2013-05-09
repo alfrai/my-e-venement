@@ -27,7 +27,9 @@
       <li>
         <ul class="second">
           <?php if ( $sf_user->hasCredential('tck-reports') ): ?>
+          <?php if ( sfConfig::get('project_tickets_count_demands',false) ): ?>
           <li class="demands"><a href="<?php echo cross_app_url_for('tck','summary/asks') ?>"><?php echo __('Asks',array(),'menu') ?></a></li>
+          <?php endif ?>
           <li class="orders"><a href="<?php echo cross_app_url_for('tck','order/index') ?>" class="order"><?php echo __('Orders',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('tck','invoice/index') ?>" class="invoice"><?php echo __('Invoices',array(),'menu') ?></a></li>
           <!--<li><a href="<?php echo cross_app_url_for('tck','summary/debts') ?>"><?php echo __('Debts',array(),'menu') ?></a></li>-->
