@@ -3,6 +3,8 @@
  */
 function slugify($text)
 {
+    $charset = sfConfig::get('software_internals_charset');
+    
     // replace non letter or digits by -
     $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
 
@@ -12,7 +14,7 @@ function slugify($text)
     // transliterate
     if (function_exists('iconv'))
     {
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        $text = iconv($charset['db'], $charset['ascii'], $text);
     }
 
     // lowercase

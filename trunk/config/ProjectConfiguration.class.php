@@ -37,9 +37,6 @@ class ProjectConfiguration extends sfProjectConfiguration
   
   public function setup()
   {
-    $charset       = sfConfig::get('software_internals_charset',array());
-    $transliterate = sfConfig::get('software_internals_transliterate',array('from' => '', 'to' => ''));
-    
     // year of birth
     $this->yob = array();
     for ( $i = 0 ; $i < 80 ; $i++ )
@@ -59,8 +56,10 @@ class ProjectConfiguration extends sfProjectConfiguration
     
     $this->loadProjectConfiguration();
     
-    // to help transliteration
-    setlocale(LC_ALL,sfConfig::get('project_locale',sfConfig::get('software_internals_locale')));
+    // transliteration & hyphenation
+    $charset       = sfConfig::get('software_internals_charset',array());
+    $transliterate = sfConfig::get('software_internals_transliterate',array('from' => '', 'to' => ''));
+    setlocale(LC_ALL,sfConfig::get('project_locale',sfConfig::get('software_internals_locale'))); // w/o it, sometimes transliteration fails
   }
 
   protected function loadProjectConfiguration()

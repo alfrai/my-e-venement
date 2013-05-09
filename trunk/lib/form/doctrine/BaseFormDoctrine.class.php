@@ -64,11 +64,12 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
     }
     else if (is_array($values) && isset($values['text']) && '' != $values['text'])
     {
+      $transliterate = sfConfig::get('software_internals_transliterate');
       $query->addWhere(
         sprintf("LOWER(translate(%s.%s,
           '%s',
           '%s')
-        ) LIKE LOWER(?)", $query->getRootAlias(), $fieldName, sfContext::getInstance()->getConfiguration()->transliterate[0], sfContext::getInstance()->getConfiguration()->transliterate[1]),
+        ) LIKE LOWER(?)", $query->getRootAlias(), $fieldName, $transliterate['from'], $transliterate['to']),
         '%'.iconv('UTF-8', 'ASCII//TRANSLIT', $values['text']).'%'
       );
     }
