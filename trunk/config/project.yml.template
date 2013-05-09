@@ -15,3 +15,4 @@ all:
   network:
     ipv6_ready: false
   #archive_url: /old/
+  locale: fr_FR.UTF8

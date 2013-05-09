@@ -209,7 +209,6 @@ class contactActions extends autoContactActions
   public function executeSearch(sfWebRequest $request)
   {
     self::executeIndex($request);
-    
     $table = Doctrine_Core::getTable('Contact');
     
     if ( intval($request->getParameter('s')) > 0 )
@@ -224,7 +223,7 @@ class contactActions extends autoContactActions
     else
     {
       $search = $this->sanitizeSearch($request->getParameter('s'));
-      $transliterate = sfContext::getInstance()->getConfiguration()->transliterate;
+      $transliterate = sfConfig::get('software_internals_transliterate',array());
       
       $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery())->orWhere('o.name ILIKE ?',$search.'%'));
     }
@@ -371,6 +370,6 @@ class contactActions extends autoContactActions
   {
     $nb = strlen($search);
     $charset = sfConfig::get('software_internals_charset');
-    return strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search));
+    return str_replace(array('-','+',','),' ',strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search)));
   }
 }

@@ -223,7 +223,7 @@ class organismActions extends autoOrganismActions
     self::executeIndex($request);
     
     $search = $this->sanitizeSearch($request->getParameter('s'));
-    $transliterate = sfContext::getInstance()->getConfiguration()->transliterate;
+    $transliterate = sfConfig::get('software_internals_transliterate',array());
     
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
     $table = Doctrine_Core::getTable('Organism');
@@ -277,6 +277,6 @@ class organismActions extends autoOrganismActions
   {
     $nb = strlen($search);
     $charset = sfConfig::get('software_internals_charset');
-    return strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search));
+    return str_replace(array('-','+',','),' ',strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search)));
   }
 }

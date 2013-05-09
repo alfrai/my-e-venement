@@ -58,6 +58,9 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins('sfDomPDFPlugin');
     
     $this->loadProjectConfiguration();
+    
+    // to help transliteration
+    setlocale(LC_ALL,sfConfig::get('project_locale',sfConfig::get('software_internals_locale')));
   }
 
   protected function loadProjectConfiguration()
