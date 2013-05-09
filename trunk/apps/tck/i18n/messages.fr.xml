@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You gave bad informations... try again.</source>
+        <target>Vous avez fourni des informations incorrectes... essayez à nouveau.</target>
+      </trans-unit> 
+      <trans-unit>
         <source>No control</source>
         <target>Pas de contrôle</target>
       </trans-unit> 
