@@ -47,11 +47,11 @@ pg_dump -Fc $1 > data/sql/${1}-`date +%Y%m%d`.pgdump
 fi
 
 # rebuild + reinjection
-rm -rf lib/model/doctrine/*/base lib/model/doctrine/packages/*/base
+rm -rf lib/model/doctrine/*/base lib/model/doctrine/packages/*/base lib/model/doctrine/ws
 dropdb $1 && createdb $1 && echo "DATABASE RECREATED" &&
-echo "GRANT ALL ON  DATABASE $1 TO $DBU" | psql $1 &&
-php symfony doctrine:build  --all --no-confirmation   &&
-php symfony cc &&
+echo "GRANT ALL ON  DATABASE $1 TO $DBU" | psql $1    &&
+php symfony doctrine:build --all --no-confirmation    &&
+php symfony cc                                        &&
 cat data/sql/$1-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $1
 cat config/doctrine/functions-pgsql.sql | psql $1
 
