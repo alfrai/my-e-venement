@@ -253,8 +253,8 @@
         <target>Type de carte d'abonnement</target>
       </trans-unit>
       <trans-unit>
-        <source>Linked w/ MC ?</source>
-        <target>Lié avec les CM ?</target>
+        <source>Linked w/ MC?</source>
+        <target>Lié avec les cartes d'abo.?</target>
       </trans-unit>
       <trans-unit>
         <source>Grouped tickets</source>

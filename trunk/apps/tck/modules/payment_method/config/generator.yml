@@ -14,7 +14,7 @@ generator:
     config:
       actions: ~
       fields:
-        member_card_linked: { label: "Linked w/ MC ?", credentials: [tck-admin-member-cards] }
+        member_card_linked: { label: "Linked w/ MC?", credentials: [tck-admin-member-cards] }
       list:    ~
       filter:  ~
       form:    ~
