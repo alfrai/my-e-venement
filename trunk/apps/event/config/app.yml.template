@@ -18,3 +18,13 @@ all:
     manif_date: DESC
   manifestation:
     depends_on_limit: 10
+  synchronization:
+    period:
+      from: now
+      to: +1 week
+    config:
+      format: email
+      to: [my-email@mydomain.tld, his-email@mydomain.tld]
+      from: e-venement@mydomain.tld
+      subject: Manifestations report for <?php $client = sfConfig::get('project_about_client'); echo $client['name'] ?> from %%from%% to %%to%%
+

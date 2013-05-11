@@ -439,7 +439,9 @@ class HtmlToText
      */
     function _convert()
     {
-        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+        sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
+        //if ( sfContext::hasInstance() )
+        //sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
         
         // Variables used for building the link list
         $this->_link_count = 0;

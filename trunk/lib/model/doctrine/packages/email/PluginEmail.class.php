@@ -19,7 +19,8 @@ abstract class PluginEmail extends BaseEmail
   
   protected function send()
   {
-    $this->to = array();
+    if ( !is_array($this->to) )
+      $this->to = array();
     
     // sending one by one to linked ...
     // contacts
@@ -44,7 +45,7 @@ abstract class PluginEmail extends BaseEmail
     if ( $this->field_to )
       $this->to = array_merge($this->to,explode(',',str_replace(' ','',$this->field_to)));
     */
-    $this->field_to = implode(', ',$this->to);
+    $this->field_to .= implode(', ',$this->to);
     return $this->raw_send(null,$this->nospool);
   }
 
@@ -59,7 +60,7 @@ abstract class PluginEmail extends BaseEmail
   protected function raw_send($to = array(), $immediatly = false)
   {
     $to = is_array($to) && count($to) > 0 ? $to : $this->to;
-    if ( !$to )
+    if ( !$to && !$this->field_to )
       return false;
     
     $message = $this->compose(Swift_Message::newInstance()->setTo($to));
