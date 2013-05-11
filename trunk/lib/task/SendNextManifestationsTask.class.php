@@ -43,6 +43,13 @@ EOF;
   protected function  execute($arguments = array(), $options = array()) {
     $period = sfConfig::get('app_synchronization_period',array('from' => 'now', 'to' => '+1 week'));
     $config = sfConfig::get('app_synchronization_config',array());
+    
+    if ( !$config )
+    {
+      $this->logSection('Setup','Not operational',null','ERROR');
+      return;
+    }
+    
     if ( !is_array($config['to']) )
       $config['to'] = array($config['to']);
 
