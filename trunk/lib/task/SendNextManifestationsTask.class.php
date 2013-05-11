@@ -46,7 +46,7 @@ EOF;
     
     if ( !$config )
     {
-      $this->logSection('Setup','Not operational',null','ERROR');
+      $this->logSection('Setup','Not operational',null,'ERROR');
       return;
     }
     
