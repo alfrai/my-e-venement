@@ -17,7 +17,7 @@ class EmailTable extends PluginEmailTable
         return Doctrine_Core::getTable('Email');
     }
   
-  public function createQuery($alias = 'a')
+  public function createQuery($alias = 'e')
   {
     $u  = 'u'  != $alias ? 'u'  : 'u1';
     $c  = 'c'  != $alias ? 'c'  : 'c1';

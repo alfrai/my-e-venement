@@ -49,6 +49,7 @@ class Email extends PluginEmail
     $this->updated_at = date('Y-m-d H:i:s');
     if ( sfContext::hasInstance() )
     if ( sfContext::getInstance()->getUser() instanceof sfGuardSecurityUser )
+    if ( sfContext::getInstance()->getUser()->getId() )
       $this->sf_guard_user_id = sfContext::getInstance()->getUser()->getId();
     
     return parent::save($conn);

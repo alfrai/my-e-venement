@@ -63,11 +63,6 @@ EOF;
       return;
     }
     
-    $user = Doctrine_Query::create()
-      ->from('SfGuardUser u')
-      ->orderBy('id')
-      ->fetchOne();
-    
     $this->logSection('Manifestations', sprintf('%d to be sent', $manifestations->count()));
     
     switch ( $config['format'] ) {
@@ -80,9 +75,9 @@ EOF;
       $email->to = $config['to'];
       $email->field_from = $config['from'];
       $email->field_subject = str_replace(array('%%from%%','%%to%%'),array($period['from'],$period['to']),$config['subject']);
-      $email->sf_guard_user_id = $user->id;
       $email->content = $this->formatContent($manifestations);
       $email->not_a_test = true;
+      $email->deleted_at = date('Y-m-d H:i:s');
       $email->save();
       $this->logSection('Synchronization', 'done');
       break;
