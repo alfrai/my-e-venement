@@ -76,12 +76,15 @@ class emailActions extends autoEmailActions
     $this->email->save();
     $this->redirect('email/edit?id='.$this->email->id);
   }
+  
   public function executeEdit(sfWebRequest $request)
   {
     $r = parent::executeEdit($request);
     
     // if object has been sent, cannot be modified again
-    if ( $this->email->sent )
+    if ( !$this->email->sent )
+      $this->form->removeAlreadyKnownReceipientsList();
+    else
       $this->setTemplate('show');
     
     return $r;
@@ -91,6 +94,7 @@ class emailActions extends autoEmailActions
     $email = $request->getParameter('email');
     $this->email = $this->getRoute()->getObject();
     $this->form = $this->configuration->getForm($this->email);
+    $this->form->removeAlreadyKnownReceipientsList();
     
     // testing
     if ( !$email['test_address']
@@ -131,7 +135,8 @@ class emailActions extends autoEmailActions
   }
   public function executeCreate(sfWebRequest $request)
   {
-    $this->form = $this->configuration->getForm();
+    $this->executeNew($request);
+    //$this->form = $this->configuration->getForm();
     $this->email = $this->form->getObject();
     $this->email->not_a_test = false;
     
@@ -164,14 +169,11 @@ class emailActions extends autoEmailActions
     if ( !$criteria || !is_string($criteria) && !(is_array($criteria) && implode('',$criteria)) )
       unset($criterias[$name]);
     
-    $professionals_list = $contacts_list = array();
-    
     if ( $criterias )
     {
       // standard filtering
       $filters = new ContactFormFilter($criterias);
-      $q = $filters->buildQuery($criterias);
-      foreach ( $q->execute() as $contact )
+      foreach ( $filters->buildQuery($criterias)->execute() as $contact )
       {
         // check if it's in a group because of a link to an organism or not
         $groups_pro = array();
@@ -192,14 +194,11 @@ class emailActions extends autoEmailActions
         if ( $contact->Professionals->count() > 0
           && ($filters->showProfessionalData() || $group_pro) )
         foreach ( $contact->Professionals as $pro )
-          $professionals_list[] = $pro->id;
+          $this->form->getObject()->Professionals[] = $pro;
         else
-          $contacts_list[] = $contact->id;
+          $this->form->getObject()->Contacts[] = $contact;
       }
     }
-    
-    $this->form->setDefault('contacts_list',$contacts_list);
-    $this->form->setDefault('professionals_list',$professionals_list);
     
     // ORGANISMS
     $criterias = $this->getUser()->getAttribute('organism.filters', $this->configuration->getFilterDefaults(), 'admin_module');
@@ -210,18 +209,18 @@ class emailActions extends autoEmailActions
     if ( !$criteria || !is_string($criteria) && !(is_array($criteria) && implode('',$criteria)) )
       unset($criterias[$name]);
     
-    $organisms_list = array();
-    
     if ( $criterias )
     {
       // standard filtering
       $filters = new OrganismFormFilter($criterias);
-      $q = $filters->buildQuery($criterias);
-      foreach ( $q->fetchArray() as $organism )
-        $organisms_list[] = $organism['id'];
+      foreach ( $filters->buildQuery($criterias)->execute() as $organism )
+        $this->form->getObject()->Organisms[] = $organism;
     }
     
-    $this->form->setDefault('organisms_list',$organisms_list);
+    //$this->form->setDefault('contacts_list',$contacts_list);
+    //$this->form->setDefault('professionals_list',$professionals_list);
+    //$this->form->setDefault('organisms_list',$organisms_list);
+    $this->form->removeAlreadyKnownReceipientsList();
     
     return $r;
   }

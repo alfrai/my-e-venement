@@ -86,4 +86,18 @@ class EmailForm extends BaseEmailForm
     $fields['validation']   = 'Validation';
     $fields['test_address'] = 'TestAdress';
   }
+  
+  // this is a trick/hack for a HTTP limitation on huge lists of receipients...
+  public function removeAlreadyKnownReceipientsList()
+  {
+    foreach (array(
+      'Contacts'      => 'contacts_list',
+      'Professionals' => 'professionals_list',
+      'Organisms'     => 'organisms_list',
+    ) as $collection => $fieldName )
+    {
+      if ( $this->object->$collection->count() > 0 )
+        unset($this->widgetSchema[$fieldName]);
+    }
+  }
 }

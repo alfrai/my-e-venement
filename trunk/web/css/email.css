@@ -25,3 +25,10 @@
   margin: 5px;
   padding: 10px;
 }
+
+.setbyfilter ol {
+  max-height: 100px;
+  overflow: auto;
+  border: 1px dashed gray;
+  padding: 2px 0 2px 30px;
+}

@@ -135,7 +135,7 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     $c = $q->getRootAlias();
     if ( $value['text'] )
     {
-      $q->andWhere("$c.postalcode = ?",$value['text'].'%');
+      $q->andWhere("$c.postalcode LIKE ?",$value['text'].'%');
     }
     
     return $q;
