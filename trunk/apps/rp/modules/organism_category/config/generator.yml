@@ -17,6 +17,9 @@ generator:
       list:
         display: [name]
         sort: [name, '']
+        object_actions:
+          _edit: ~
+          _delete: ~
       filter:
         display: [name]
       form:

@@ -34,6 +34,10 @@ generator:
       list:
         title: Organisms list
         display: [Category, name, postalcode, city, email, _contacts_list, npai]
+        object_actions:
+          <?php if ( sfConfig::get('app_options_design',false) != 'tdp' ): ?>_show: ~<?php endif; echo PHP_EOL; ?>
+          _edit: ~
+          _delete: ~
         batch_actions:
           _delete: ~
           _addToGroup:
