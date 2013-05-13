@@ -12,6 +12,8 @@ all:
     remove_ticketting: true
     #design: tdp
     #social_informations: true
+  #controls:
+  #  enable: true
   cards:
     #enable: true
     types: [membership, subscription]

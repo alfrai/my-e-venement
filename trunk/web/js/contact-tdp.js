@@ -264,11 +264,11 @@ function contact_tdp_show_orgs()
   });
   
   // Normalize the lines' heights
-  table = undefined;
-  if ( $('#tdp-content table.see-orgs').length() == 1 )
+  seeorgs = false;
+  if ( $('#tdp-content table.see-orgs').length == 1 )
   {
-    table = $('#tdp-content table.see-orgs');
-    $('#tdp-content table.see-orgs').removeClass('see-orgs');
+    seeorgs = true;
+    $('#tdp-content .sf_admin_list_td_list_see_orgs:first').click();
   }
   
   $('#tdp-content .sf_admin_list tr').each(function(){
@@ -284,8 +284,8 @@ function contact_tdp_show_orgs()
     $(this).height($(this).get(0).size+2);
   });
   
-  if ( table != undefined )
-    table.addClass('see-orgs');
+  if ( seeorgs )
+    $('#tdp-content .sf_admin_list_td_list_see_orgs:first').click();
 }
 
 function contact_tdp_submit_forms(i = 0)
