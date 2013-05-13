@@ -36,4 +36,4 @@ all:
     transliterate:
       from:   ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿœ
       to:     SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyyo
-    locale: fr_FR.UTF8
+    locale: LC_ALL.UTF8
