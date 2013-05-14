@@ -26,9 +26,14 @@ class PriceForm extends BasePriceForm
        array('happens_at, e.name','')
     );
 
-    $this->widgetSchema['manifestations_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
-    $this->widgetSchema['users_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
-    $this->widgetSchema['workspaces_list']->setOption('expanded','true');
-    unset($this->widgetSchema['member_cards_list'], $this->validatorSchema['member_cards_list']);
+    $this->widgetSchema['manifestations_list']
+      ->setOption('renderer_class','sfWidgetFormSelectDoubleList');
+    $this->widgetSchema['users_list']
+      ->setOption('expanded',true)
+      ->setOption('order_by',array('username',''));
+    $this->widgetSchema['workspaces_list']
+      ->setOption('expanded',true)
+      ->setOption('order_by',array('name',''));
+    unset($this->widgetSchema['member_cards_list'], $this->validatorSchema['member_cards_list'], $this->validatorSchema['manifestations_list']);
   }
 }

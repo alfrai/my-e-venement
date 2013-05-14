@@ -22,6 +22,6 @@ generator:
         display:
           General: [name, description, value]
           Options: [online, hide, member_card_linked]
-          Permissions: [manifestations_list, workspaces_list, users_list]
+          Permissions: [workspaces_list, users_list]
       edit:    ~
       new:     ~
