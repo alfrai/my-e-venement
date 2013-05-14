@@ -31,6 +31,7 @@
     
     $this->group_id = $request->getParameter('id');
     
+    $this->sort = $this->getSort();
     $this->pager = $this->configuration->getPager('Contact');
     $this->pager->setMaxPerPage(15);
     $this->pager->setQuery(

@@ -1,3 +1,4 @@
+<?php //if ( !isset($sort) ) $sort = array(1 => 'asc'); if ( !isset($sort[1]) ) $sort[1] = 'asc'; ?>
 <?php slot('sf_admin.current_header') ?>
 <th class="sf_admin_text sf_admin_list_th_name ui-state-default ui-th-column">
     <a>

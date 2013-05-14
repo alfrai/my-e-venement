@@ -57,6 +57,18 @@ class contactActions extends autoContactActions
     $this->force_classic_template_dir = $bool;
     return $this;
   }
+  protected function addExtraRequirements()
+  {
+    if ( sfConfig::get('app_options_design') == 'tdp' && sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
+    {
+      if ( !isset($this->hasFilters) )
+        $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+      if ( !isset($this->filters) )
+        $this->filters = $this->configuration->getFilterForm($this->getFilters());
+      if ( !in_array($this->getActionName(), array('index','search','map','labels','getSpecializedForm','csv','groupList','group')) )
+        $this->setTemplate('edit');
+    }
+  }
   
   public function executeBatchAddToGroup(sfWebRequest $request)
   {
@@ -119,18 +131,6 @@ class contactActions extends autoContactActions
     $this->contact = Doctrine::getTable('Contact')->findWithTickets($request->getParameter('id'));
     $this->forward404Unless($this->contact instanceof Contact);
     $this->form = $this->configuration->getForm($this->contact);
-  }
-  protected function addExtraRequirements()
-  {
-    if ( sfConfig::get('app_options_design') == 'tdp' && sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
-    {
-      if ( !isset($this->hasFilters) )
-        $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
-      if ( !isset($this->filters) )
-        $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      if ( !in_array($this->getActionName(), array('index','search','map','labels','getSpecializedForm','csv','groupList')) )
-        $this->setTemplate('edit');
-    }
   }
   public function executeEdit(sfWebRequest $request)
   {

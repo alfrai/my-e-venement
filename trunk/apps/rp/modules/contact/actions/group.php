@@ -33,9 +33,8 @@
     {
       $group = new Group();
       if ( $this->getUser() instanceof sfGuardSecurityUser )
-        $group->sf_guard_user_id = $this->getUser()->id;
+        $group->sf_guard_user_id = $this->getUser()->getId();
       $group->name = __('Search group').' - '.date('Y-m-d H:i:s');
-      $group->sf_guard_user_id = $this->getUser()->getId();
       $group->save();
       
       foreach ( $records as $record )
@@ -58,4 +57,5 @@
     }
     
     $this->redirect(url_for('group/show?id='.$group->id));
+    $this->useClassicTemplateDir(true);
     return sfView::NONE;
