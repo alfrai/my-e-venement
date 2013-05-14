@@ -49,26 +49,22 @@ class paymentActions extends autoPaymentActions
   
   public function executeIndex(sfWebRequest $request)
   {
-    if ( $tid = $request->getParameter('transaction_id') )
-    {
-      if ( !is_array($tid) )
-        $tid = array(intval($tid));
-      
-      parent::executeIndex($request);
-      $this->pager = new sfDoctrinePager('Payment',1000);
-      $this->pager->setQuery(
-        Doctrine::getTable('Payment')->createQuery()
-          ->andWhereIn('transaction_id',$tid)
-          ->orderBy('updated_at DESC')
-      );
-      $this->pager->setPage(1);
-      $this->pager->init();
-      $this->sort = array('updated_at','DESC');
-      $this->hasFilters = $this->getUser()->getAttribute('payment.filters', $this->configuration->getFilterDefaults(), 'admin_module');
-    }
-    else
-    {
-      parent::executeIndex($request);
-    }
+    if (!( $tid = $request->getParameter('transaction_id') ))
+      return parent::executeIndex($request);
+
+    if ( !is_array($tid) )
+      $tid = array(intval($tid));
+    
+    parent::executeIndex($request);
+    $this->pager = new sfDoctrinePager('Payment',1000);
+    $this->pager->setQuery(
+      Doctrine::getTable('Payment')->createQuery()
+        ->andWhereIn('transaction_id',$tid)
+        ->orderBy('updated_at DESC')
+    );
+    $this->pager->setPage(1);
+    $this->pager->init();
+    $this->sort = array('updated_at','DESC');
+    $this->hasFilters = $this->getUser()->getAttribute('payment.filters', $this->configuration->getFilterDefaults(), 'admin_module');
   }
 }
