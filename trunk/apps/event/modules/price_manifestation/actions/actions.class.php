@@ -21,8 +21,8 @@ class price_manifestationActions extends autoPrice_manifestationActions
     $q = Doctrine::getTable('PriceManifestation')->createQuery('pm')
       ->leftJoin('pm.Price p')
       ->where('manifestation_id = ?',$mid)
-      ->orderBy('p.name');
-    $this->sort = array('name','');
+      ->orderBy('pm.value DESC, p.name');
+    $this->sort = array('value','desc');
     
     $this->pager = $this->configuration->getPager('PriceManifestation');
     $this->pager->setQuery($q);

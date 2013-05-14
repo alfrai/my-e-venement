@@ -7,7 +7,7 @@
     <?php
       $prices = array();
       foreach ( $manifestation->PriceManifestations as $price )
-        $prices[$price->Price->name] = $price;
+        $prices[$price->value.$price->Price->name] = $price;
       ksort($prices);
     ?>
     <?php foreach ( $prices as $price ): ?>
