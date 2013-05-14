@@ -18,7 +18,7 @@
         <form action="#" method="get"><ul>
           <?php foreach ( $obj->Groups as $group ): ?>
           <li>
-            <?php if ( $group->sf_guard_user_id == $sf_user->getId() || (is_null($group->sf_guard_user_id) && $sf_user->hasCredential('pr-group-common')) ): ?>
+            <?php if ( $group->sf_guard_user_id === $sf_user->getId() || (is_null($group->sf_guard_user_id) && $sf_user->hasCredential('pr-group-common')) ): ?>
             <a href="#" class="remove" onclick="javascript: contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?>(this);">x</a>
             <input type="hidden" name="group_id" value="<?php echo $group->id ?>" />
             <?php else: ?>

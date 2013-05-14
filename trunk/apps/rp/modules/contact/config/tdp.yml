@@ -92,13 +92,13 @@ all:
           extra_hidden_fields: [contact_id, organism_id]
       side_properties:
         Ticketting:
-          credential: tck-overview
+          credentials: tck-overview
           partial: global/tdp/side_widget_object_events
         Groups:
-          credential: pr-group
+          credentials: pr-group
           partial: global/tdp/side_widget_object_groups
         Emails:
-          credential: pr-emailing
+          credentials: pr-emailing
           partial: global/tdp/side_widget_object_emails
 
     new:
