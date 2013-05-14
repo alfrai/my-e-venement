@@ -3,8 +3,8 @@ all:
   stylesheets: [manifestation]
 
 indexSuccess:
-  stylesheets: [event-list, list-print: {media: print}, gauge-small]
-  javascripts: [list-scroll, event-list, gauge-small]
+  stylesheets: [event-list, list-print: {media: print}<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, gauge-small<?php endif ?>]
+  javascripts: [list-scroll, event-list<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, gauge-small<?php endif ?>]
 newSuccess:
   stylesheets: [view,event,/private/event.css]
   javascripts:  [event]
