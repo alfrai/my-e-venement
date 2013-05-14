@@ -68,6 +68,7 @@ all:
             with_id: true
       subobjects:
         Professionals:
+          credentials: pr-organism
           title: [Organism]
           new_title: [organism_id]
           lines:

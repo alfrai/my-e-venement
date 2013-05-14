@@ -64,6 +64,7 @@ all:
         Professionals:
           title: [Contact]
           new_title: [contact_id]
+          credentials: pr-contact
           lines:
             line1:
               fields: [professional_type_id, name]

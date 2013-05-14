@@ -1,3 +1,5 @@
+<?php if ( !isset($config['credentials'])
+        || isset($config['credentials']) && $config['credentials'] && $sf_user->hasCredential($config['credentials']) ): ?>
 <?php
   $obj_class = get_class($sf_data->getRaw('object'));
   $ws = $form->getWidgetSchema();
@@ -63,3 +65,4 @@
   <?php endif ?>
 
 </form>
+<?php endif ?>
