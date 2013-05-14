@@ -22,7 +22,7 @@ class priceActions extends autoPriceActions
       $a = $this->pager->getQuery()->getRootAlias();
       $this->pager->getQuery()
         ->select('*')
-        ->orderby("$a.hide, $a.name");
+        ->orderby("$a.hide, $a.value DESC, $a.name");
     }
   }
 }
