@@ -557,7 +557,10 @@ function ticket_prices()
         && typeof($('#prices .manifestations_list input:checked').closest('li.manif').next().find('[type=radio]').val()) != 'undefined' )
       {
         $('#prices .manifestations_list input:checked').closest('li.manif').next().find('[type=radio]').prop('checked',true);
+        elt.click();
       }
+      else
+        $('#prices .prices_list [name="select_all"]:checked').removeProp('checked');
     });
     
     return false;
