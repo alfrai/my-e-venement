@@ -28,6 +28,16 @@ class GroupTable extends PluginGroupTable
     return $query;
   }
 
+  public function retrieveList()
+  {
+    $q = $this->createQuery('g');
+    if ( !sfContext::hasInstance() )
+      return $q;
+    
+    $sf_user = sfContext::getInstance()->getUser();
+    return $q->andWhere(($sf_user->hasCredential('pr-group-common') ? 'g.sf_guard_user_id IS NULL OR ' : '').'g.sf_guard_user_id = ?',$sf_user->getId());
+  }
+
     /**
      * Returns an instance of this class.
      *
