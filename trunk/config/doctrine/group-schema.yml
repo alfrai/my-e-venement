@@ -25,8 +25,8 @@ Group:
   tableName: group_table
   actAs:
     Timestampable: ~
-    Sluggable:
-      fields: [name, sf_guard_user_id]
+    #Sluggable:
+    #  fields: [name, sf_guard_user_id]
   columns:
     name:
       type: string(255)
@@ -34,6 +34,7 @@ Group:
       notnull: true
     sf_guard_user_id: integer
     description: string
+    slug: string
   indexes:
     name_user:
       fields: [name, sf_guard_user_id]
