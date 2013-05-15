@@ -27,6 +27,7 @@ generator:
       list:
         title: List of emails sent
         display: [User,field_subject,sent,created_at,updated_at]
+        sort: [updated_at,desc]
       filter:
         display: [sf_guard_user_id,sent,field_subject,contacts_list,professionals_list,organisms_list]
       show:

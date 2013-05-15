@@ -52,17 +52,6 @@ class emailActions extends autoEmailActions
     $this->object = $this->getRoute()->getObject();
     $this->column = 'content';
   }
-  public function executeIndex(sfWebRequest $request)
-  {
-    parent::executeIndex($request);
-    if ( !$this->sort[0] )
-    {
-      $this->sort = array('sent','');
-      $q = $this->pager->getQuery()
-        ->orderby("sent, updated_at DESC, created_at DESC");
-    }
-  }
-
   public function executeCopy(sfWebRequest $request)
   {
     $this->email = $this->getRoute()->getObject()->copy();
