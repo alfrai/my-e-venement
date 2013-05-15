@@ -35,6 +35,7 @@ all:
       separator: ''
       decorator: ''
       crlf: microsoft
+      charset: ASCII//TRANSLIT
     fields_description:
       file:               { size: 4,  type: integer }
       id:                 { size: 9,  type: integer }
