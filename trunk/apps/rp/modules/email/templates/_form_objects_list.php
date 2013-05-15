@@ -8,8 +8,21 @@
       <?php echo $form[$fieldName] ?>
     <?php else: ?>
       <h3><?php echo __('Set by filter').' ('.$str['nb'].')' ?></h3>
-      <ol><?php foreach ( $form->getObject()->get($str['collection']) as $object ): ?>
+      <?php $cpt = 0 ?>
+      <ol><?php foreach ( $collection = $form->getObject()->get($str['collection']) as $object ): ?>
         <li><?php echo $object ?></li>
+        <?php $cpt++ ?>
+        <?php if ( $cpt >= 50 ): ?>
+          <li class="hole">...</li>
+          <script type="text/javascript"><!--
+            $(document).ready(function(){
+              for ( i = 0 ; i < <?php echo $collection->count()-51 ?> ; i++ )
+                $('<li style="visibility: hidden; height: 0;"></li>').insertAfter('.sf_admin_form_field_<?php echo $fieldName ?> ol li.hole');
+            });
+          --></script>
+          <li><?php echo $collection[$collection->count()-1] ?></li>
+          <?php break ?>
+        <?php endif ?>
       <?php endforeach ?></ol>
     <?php endif ?>
   </div>
