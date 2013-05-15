@@ -32,6 +32,7 @@ class contact_entryActions extends autoContact_entryActions
     $this->contact_entry->Transaction->contact_id = $this->contact_entry->Professional->contact_id;
     
     foreach ( $this->contact_entry->Entries as $element )
+    if ( $element->accepted )
     foreach ( $element->EntryTickets as $tickets )
     {
       for ( $i = 0 ; $i < $tickets->quantity ; $i++ )
