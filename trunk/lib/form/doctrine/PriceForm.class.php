@@ -34,6 +34,10 @@ class PriceForm extends BasePriceForm
     $this->widgetSchema['workspaces_list']
       ->setOption('expanded',true)
       ->setOption('order_by',array('name',''));
-    unset($this->widgetSchema['member_cards_list'], $this->validatorSchema['member_cards_list'], $this->validatorSchema['manifestations_list']);
+    unset(
+      $this->widgetSchema['member_cards_list'],
+      $this->validatorSchema['member_cards_list'],
+      $this->widgetSchema['manifestations_list']
+    );
   }
 }
