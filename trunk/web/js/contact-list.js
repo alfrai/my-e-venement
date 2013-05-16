@@ -63,21 +63,27 @@ $(document).ready(function(){
   elt.find('h2').html('Additionnel');
   elt.prependTo('#sf_admin_filter > form > table > tbody');
   
-  elt = elt.clone(true);
-  elt.find('tbody').html('')
-    .append($('#sf_admin_filter .sf_admin_filter_field_control_created_at'))
-    .append($('#sf_admin_filter .sf_admin_filter_field_control_manifestation_id'))
-    .append($('#sf_admin_filter .sf_admin_filter_field_control_checkpoint_id'));
-  elt.find('h2').html('Gestion des flux');
-  elt.prependTo('#sf_admin_filter > form > table > tbody');
+  if ( $('#sf_admin_filter .sf_admin_filter_field_control_created_at').length > 0 )
+  {
+    elt = elt.clone(true);
+    elt.find('tbody').html('')
+      .append($('#sf_admin_filter .sf_admin_filter_field_control_created_at'))
+      .append($('#sf_admin_filter .sf_admin_filter_field_control_manifestation_id'))
+      .append($('#sf_admin_filter .sf_admin_filter_field_control_checkpoint_id'));
+    elt.find('h2').html('Gestion des flux');
+    elt.prependTo('#sf_admin_filter > form > table > tbody');
+  }
   
-  elt = elt.clone(true);
-  title = $('#sf_admin_filter .sf_admin_filter_field_member_cards label').html();
-  elt.find('tbody').html('')
-    .append($('#sf_admin_filter .sf_admin_filter_field_member_cards'))
-    .append($('#sf_admin_filter .sf_admin_filter_field_member_cards_expire_at'));
-  elt.find('h2').html(title);
-  elt.prependTo('#sf_admin_filter > form > table > tbody');
+  if ( $('#sf_admin_filter .sf_admin_filter_field_member_cards').length > 0 )
+  {
+    elt = elt.clone(true);
+    title = $('#sf_admin_filter .sf_admin_filter_field_member_cards label').html();
+    elt.find('tbody').html('')
+      .append($('#sf_admin_filter .sf_admin_filter_field_member_cards'))
+      .append($('#sf_admin_filter .sf_admin_filter_field_member_cards_expire_at'));
+    elt.find('h2').html(title);
+    elt.prependTo('#sf_admin_filter > form > table > tbody');
+  }
   
   elt = elt.clone(true);
   elt.find('tbody').html('')

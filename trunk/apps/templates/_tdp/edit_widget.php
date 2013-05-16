@@ -1,6 +1,12 @@
 <?php use_helper('I18N', 'Date') ?>
 <?php include_partial($sf_context->getModuleName().'/assets') ?>
 
+<?php
+  $config = $object->isNew()
+    ? array_replace_recursive(sfConfig::get('tdp_config_edit',array()),sfConfig::get('tdp_config_new',array()))
+    : sfConfig::get('tdp_config_edit',array());
+?>
+
 <div id="tdp-content">
 
 <!-- ROOT OBJECT -->
@@ -48,9 +54,15 @@
   )) ?>
 <?php endforeach ?>
 <?php
-  $subobject = new Professional;
-  $obj_class = get_class($sf_data->getRaw('object'));
-  $subobject->$obj_class = $sf_data->getRaw('object');
+  // overwritting
+  $subconfig_new = sfConfig::get('tdp_config_new',array('subobjects' => array()));
+  if ( isset($subconfig_new['subobjects'][$link]) )
+  $subconfig = array_replace_recursive($subconfig,$subconfig_new['subobjects'][$link]);
+  
+  $subclass = $subconfig['class'];
+  $subobject = new $subclass;
+  $alias = $subconfig['parentAlias'];
+  $subobject->$alias = $sf_data->getRaw('object');
   
   include_partial('global/tdp/edit_subobject',array(
     'object' => $subobject,

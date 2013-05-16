@@ -11,7 +11,8 @@
       <?php $cpt = 0 ?>
       <ol><?php foreach ( $collection = $form->getObject()->get($str['collection']) as $object ): ?>
         <li><?php echo $object ?></li>
-        <?php $cpt++ ?>
+        <?php $cpt++; if ( $cpt >= 50 ) break; ?>
+        <?php endforeach ?>
         <?php if ( $cpt >= 50 ): ?>
           <li class="hole">...</li>
           <script type="text/javascript"><!--
@@ -21,7 +22,6 @@
             });
           --></script>
           <li><?php echo $collection[$collection->count()-1] ?></li>
-          <?php break ?>
         <?php endif ?>
       <?php endforeach ?></ol>
     <?php endif ?>

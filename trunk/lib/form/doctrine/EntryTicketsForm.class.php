@@ -40,17 +40,27 @@ class EntryTicketsForm extends BaseEntryTicketsForm
     $this->widgetSchema->setPositions($arr);
     
     $prices = $userp = $manifp = array();
+    
+    $this->widgetSchema['price_id']->setOption('add_empty', true);
+    $this->restrictPriceIdQuery();
+    
+    $this->enableCSRFProtection();
+  }
+  
+  public function restrictPriceIdQuery($entry_element_id = NULL)
+  {
+    $prices = array();
     $q = Doctrine::getTable('Price')->createQuery('p')
+      ->select('p.*')
       ->leftJoin('p.Users u')
       ->andWhere('u.id = ?',sfContext::getInstance()->getUser()->getId())
       ->leftJoin('p.Manifestations m')
       ->leftJoin('m.ManifestationEntries me')
       ->leftJoin('me.Entries el')
-      ->andWhere('el.id = ?',$this->getObject()->entry_element_id);
+      ->andWhere('el.id = ?',$id = !is_null($entry_element_id) ? $entry_element_id : ($this->values['entry_element_id'] ? $this->values['entry_element_id'] : $this->getObject()->entry_element_id));
     foreach ( $q->execute() as $pm )
       $prices[] = $pm->id;
     
-    $this->widgetSchema['price_id']->setOption('add_empty', true);
     $this->widgetSchema['price_id']->setOption('query', $q = Doctrine::getTable('Price')
       ->createQuery('p')
       ->andWhere('p.hide = FALSE')
@@ -58,8 +68,6 @@ class EntryTicketsForm extends BaseEntryTicketsForm
       ->orderBy('p.name')
     );
     $this->validatorSchema['price_id']->setOption('query',$q);
-    
-    $this->enableCSRFProtection();
   }
 }
 

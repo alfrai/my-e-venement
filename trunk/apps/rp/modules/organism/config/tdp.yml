@@ -62,6 +62,8 @@ all:
             with_id: true
       subobjects:
         Professionals:
+          class: Professional
+          parentAlias: Organism
           title: [Contact]
           new_title: [contact_id]
           credentials: pr-contact

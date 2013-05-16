@@ -1,3 +1,7 @@
+function grp_extra_empty_fields_cleanup()
+{
+  // still theorical function which aims to remove extra empty TicketForm
+}
 $(document).ready(function(){
   
   $(document).mouseup(function(){
@@ -9,7 +13,7 @@ $(document).ready(function(){
     $('.grp-entry tbody').unbind('mousemove');
   });
   
-  $('.grp-entry tbody td:not(.contact):not(.ticketting)').unbind().mouseup(function(){
+  $('.grp-entry tbody td:not(.contact):not(.ticketting)').unbind().mouseup(function(e){
     // preventing gauges' multi-calculation
     $('body').append('<div id="no-calculate-gauge"></div>');
     
@@ -41,9 +45,14 @@ $(document).ready(function(){
       target.find('form:last').submit();
       
       // deleting source
-      src.find('a.delete').click();
-      src.find('form:last input[type=checkbox]:checked').click();
-      src.find('form').submit();
+      if ( !e.ctrlKey )
+      {
+        src.find('a.delete').click();
+        src.find('form:last input[type=checkbox]:checked').click();
+        src.find('form').submit();
+      }
+      
+      grp_extra_empty_fields_cleanup();
     }
     
     $('.grp-entry tbody .copy').removeAttr('title');

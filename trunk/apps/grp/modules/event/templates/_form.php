@@ -79,7 +79,7 @@
           <?php echo $f->renderHiddenFields() ?>
             <?php echo $f['second_choice']->getWidget()->getLabel() ?>
             <p>
-              <span title="<?php echo __('Needed') ?>"><?php echo $f['second_choice'] ?></span><span title="<?php echo __('Accepted') ?>"><?php echo $f['accepted'] ?></span><!--<input type="submit" name="submit" value="<?php echo __('Save',null,'sf_admin') ?>" />-->
+              <span title="<?php echo sfConfig::get('app_messages_dashed',__('Needed')) ?>"><?php echo $f['second_choice'] ?></span><span title="<?php echo __('Accepted') ?>"><?php echo $f['accepted'] ?></span><!--<input type="submit" name="submit" value="<?php echo __('Save',null,'sf_admin') ?>" />-->
               <input type="hidden" name="<?php echo $f['manifestation_entry_id']->renderName() ?>" value="<?php echo $me->id ?>" />
               <input type="hidden" name="<?php echo $f['contact_entry_id']->renderName() ?>" value="<?php echo $ce->id ?>" />
               <span class="translinked" title="<?php echo __('Related transactions, as in a cancellation case') ?>"><?php
@@ -202,6 +202,8 @@
             $(this).closest('form').submit();
           });
         });
+        
+        grp_extra_empty_fields_cleanup();
         return false;
       });
       
@@ -263,6 +265,7 @@
           $(form).replaceWith(f);
         
         calculate_gauges();
+        grp_extra_empty_fields_cleanup();
         change_tickets();   // auto submit tickets forms
       });
       return false;

@@ -18,4 +18,10 @@ class entry_ticketsActions extends autoEntry_ticketsActions
     $this->getRoute()->getObject()->delete();
     return sfView::NONE;
   }
+  public function executeCreate(sfWebRequest $request)
+  {
+    parent::executeCreate($request);
+    $et = $request->getParameter('entry_tickets',array());
+    $this->form->restrictPriceIdQuery($et['entry_element_id']);
+  }
 }

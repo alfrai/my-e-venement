@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Contact name</source>
+        <target>Nom de contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism name</source>
+        <target>Nom d'organisme</target>
+      </trans-unit>
+      <trans-unit>
         <source>Related transactions, as in a cancellation case</source>
         <target>Opérations liées, comme dans le cas d'annulations</target>
       </trans-unit>

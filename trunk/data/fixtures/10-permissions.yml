@@ -544,6 +544,21 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_85
     created_at: '2013-04-15 22:44:42'
     update_at: '2013-04-15 22:44:42'
+  sfGuardGroupPermission_30_86:
+    Group: sfGuardGroup_30
+    Permission: sfGuardPermission_86
+    created_at: '2013-05-15 22:44:42'
+    update_at: '2013-05-15 22:44:42'
+  sfGuardGroupPermission_30_87:
+    Group: sfGuardGroup_30
+    Permission: sfGuardPermission_87
+    created_at: '2013-05-15 22:44:42'
+    update_at: '2013-05-15 22:44:42'
+  sfGuardGroupPermission_30_88:
+    Group: sfGuardGroup_30
+    Permission: sfGuardPermission_88
+    created_at: '2013-05-15 22:44:42'
+    update_at: '2013-05-15 22:44:42'
 sfGuardPermission:
   sfGuardPermission_18:
     name: admin-titles
@@ -950,6 +965,21 @@ sfGuardPermission:
     description: 'Permission to manage VAT'
     created_at: '2013-04-15 22:43:31'
     updated_at: '2013-04-15 22:43:31'
+  sfGuardPermission_86:
+    name: grp-events
+    description: 'Permission to access events in the grp app'
+    created_at: '2013-05-15 22:43:31'
+    updated_at: '2013-05-15 22:43:31'
+  sfGuardPermission_87:
+    name: grp-professionals
+    description: 'Permission to access contacts in the grp app'
+    created_at: '2013-05-15 22:43:31'
+    updated_at: '2013-05-15 22:43:31'
+  sfGuardPermission_88:
+    name: grp-admin
+    description: 'Permission to administrate the grp app'
+    created_at: '2013-05-15 22:43:31'
+    updated_at: '2013-05-15 22:43:31'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -1096,3 +1126,8 @@ sfGuardGroup:
     description: 'View and modify the social informations on contacts'
     created_at: '2013-04-04 13:17:25'
     updated_at: '2013-04-04 13:17:25'
+  sfGuardGroup_30:
+    name: grp-access
+    description: 'Fully use the group app'
+    created_at: '2013-05-15 23:17:25'
+    updated_at: '2013-05-15 23:17:25'
