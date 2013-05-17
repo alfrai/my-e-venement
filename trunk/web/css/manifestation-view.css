@@ -37,3 +37,7 @@ html body #more { width: 70px; right: 10px; overflow: hidden; left: auto; }
 #form_workspaces #sf_admin_list_th_chained {
   font-size: 0;
 }
+
+.sf_admin_field_prices_list table { padding: 3px 10px; }
+.sf_admin_field_prices_list .name { padding-right: 10px; text-align: center; }
+.sf_admin_field_prices_list .value { padding-left: 10px; text-align: right; }

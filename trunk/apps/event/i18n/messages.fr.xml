@@ -13,6 +13,10 @@
         <target>Pour la comptabilité</target>
       </trans-unit>
       <trans-unit>
+        <source>Demands</source>
+        <target>Demandes</target>
+      </trans-unit>
+      <trans-unit>
         <source>eg. 9.20%</source>
         <target>ex: 9,20%</target>
       </trans-unit>

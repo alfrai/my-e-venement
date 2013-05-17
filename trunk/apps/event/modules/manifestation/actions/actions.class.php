@@ -86,12 +86,21 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('tck.cancelling IS NULL')
       ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)');
     
-    if ( $request->getParameter('status') == 'ordered' )
+    switch ( $request->getParameter('status') ) {
+    case 'asked':
+      $q->leftJoin('t.Order o')
+        ->andWhere('o.id IS NULL')
+        ->andWhere('tck.printed = false AND tck.integrated = false');
+      break;
+    case 'ordered':
       $q->leftJoin('t.Order o')
         ->andWhere('o.id IS NOT NULL')
         ->andWhere('tck.printed = false AND tck.integrated = false');
-    else
+      break;
+    default:
       $q->andWhere('(tck.printed = true OR tck.integrated = true)');
+      break;
+    }
 
     $contacts = $q->execute();
     
