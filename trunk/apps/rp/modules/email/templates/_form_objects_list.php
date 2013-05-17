@@ -23,7 +23,7 @@
           --></script>
           <li><?php echo $collection[$collection->count()-1] ?></li>
         <?php endif ?>
-      <?php endforeach ?></ol>
+      </ol>
     <?php endif ?>
   </div>
 </div>
