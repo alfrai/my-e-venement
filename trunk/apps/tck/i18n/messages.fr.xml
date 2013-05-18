@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Display even events hidden for ticketting</source>
+        <target>Afficher les événements non accessibles directement</target>
+      </trans-unit> 
+      <trans-unit>
         <source>You gave bad informations... try again.</source>
         <target>Vous avez fourni des informations incorrectes... essayez à nouveau.</target>
       </trans-unit> 

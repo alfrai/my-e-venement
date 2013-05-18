@@ -49,9 +49,18 @@
       else
       {
         $charset = sfConfig::get('software_internals_charset');
-        foreach ( Doctrine::getTable('Event')->search(
-          strtolower(iconv($charset['db'],$charset['ascii'],$request->getParameter('manif_new'))).'*',$q) as $id )
-          $eids[] = $id['id'];
+        $q = Doctrine::getTable('Event')->createQuery('e')
+          ->select('e.id')
+          ->leftJoin('me.Users u')
+          ->andWhere('u.id = ?',$this->getUser()->getId())
+          ->limit(intval($request->getParameter('limit')) > 0 ? intval($request->getParameter('limit')) : (isset($config['max_display']) ? $config['max_display'] : 30));
+        if ( $request->getParameter('display_all','false') !== 'true' )
+          $q->andWhere('e.display_by_default = TRUE');
+
+        $q = Doctrine_Core::getTable('Event')->search(
+          strtolower(iconv($charset['db'],$charset['ascii'],$request->getParameter('manif_new'))).'*',$q);
+        foreach ( $q->fetchArray() as $event )
+          $eids[] = $event['id'];
       }
       
       // prices to be shown for each manifestations
@@ -62,7 +71,9 @@
         ->andWhereNotIn('m.id',$mids)
         ->andWhere('u.id != ?',$this->getUser()->getId())
         ->andWhere('pu.id = ?',$this->getUser()->getId())
-        ->orderBy('happens_at ASC');
+        ->select('m.*, e.*, color.*, l.*, pm.*, p.*, g.*, ws.*')
+        ->orderBy('happens_at ASC')
+        ->limit(intval($request->getParameter('limit')) > 0 ? intval($request->getParameter('limit')) : (isset($config['max_display']) ? $config['max_display'] : 30));
       
       if ( !$mid )
         $q->andWhereIn('e.id',$eids);

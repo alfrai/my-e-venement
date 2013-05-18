@@ -32,9 +32,8 @@
     <p class="manif_new">
       <input type="hidden" name="manifs-page" value="<?php echo isset($page) ? $page : 0 ?>" />
       <span class="title"><?php echo __('Manifestations') ?>:</span>
-      <span>
-        <input type="text" name="manif_new" value="" />
-      </span>
+      <span><input type="text" name="manif_new" value="" /></span>
+      <span><input type="checkbox" name="display_all" value="true" title="<?php echo __('Display even events hidden for ticketting') ?>" /></span>
       <a href="#" class="toggle_view"><?php echo __('hide / show') ?></a>
     </p>
     <ul class="manifestations_add ui-widget-content ui-corner-all">
