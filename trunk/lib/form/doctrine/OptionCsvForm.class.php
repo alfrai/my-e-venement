@@ -40,6 +40,7 @@ class OptionCsvForm extends BaseOptionCsvForm
         'description' => 'Keywords',
         'phonename' => 'Phonetype',
         'phonenumber' => 'Phonenumber',
+        '__Groups__name' => 'Groups',
       ),
       'organism' => array(
         'organism_category' => 'Organism category',
@@ -54,6 +55,7 @@ class OptionCsvForm extends BaseOptionCsvForm
         'organism_description' => 'Description',
         'organism_phonename' => 'Phonetype',
         'organism_phonenumber' => 'Phonenumber',
+        '__Professionals__Organism__Groups__name' => "Organism's groups",
       ),
       'professional' => array(
         'professional_number' => 'Professional phonenumber',
@@ -61,6 +63,7 @@ class OptionCsvForm extends BaseOptionCsvForm
         'professional_type_name' => 'Professional type',
         'professional_name' => 'Professional',
         'professional_department' => 'Department',
+        '__Professionals__Groups__name' => 'Professional groups',
       ),
       'extra' => array(
         'information' => 'More informations',
@@ -102,6 +105,7 @@ class OptionCsvForm extends BaseOptionCsvForm
   	  'description'         => 'Keywords',
     	'phonename'           => 'Phonetype',
 	    'phonenumber'         => 'Phonenumber',
+	    '__Groups__name'   => 'Groups',
   	  'organism_category'   => 'Category of organism',
     	'organism_name'       => 'Organism',
 	    'professional_department' => 'Department',
@@ -109,6 +113,7 @@ class OptionCsvForm extends BaseOptionCsvForm
     	'professional_email'  => 'Professional email',
 	    'professional_type_name' => 'Type of function',
   	  'professional_name'   => 'Function',
+  	  '__Professionals__Groups__name' => "Professionals groups",
     	'organism_address'    => 'Address',
 	    'organism_postalcode' => 'Postalcode',
   	  'organism_city'       => 'City',
@@ -119,6 +124,7 @@ class OptionCsvForm extends BaseOptionCsvForm
  		  'organism_description'=> 'Description',
     	'organism_phonename'  => 'Phonetype',
     	'organism_phonenumber'=> 'Phonenumber',
+    	'__Professionals__Organism__Groups__name' => "Organism's group",
     	'information'         => 'Informations',
   	);
 		
@@ -190,5 +196,35 @@ class OptionCsvForm extends BaseOptionCsvForm
       unset($contact['organism_phonename'], $contact['organism_phonenumber'], $contact['professional_number']);
       
       return $contact;
+  }
+  
+  static function getImplodedData($data, $fields, $separator = ' + ')
+  {
+    if ( !isset($fields[0]) )
+      return false;
+    if ( !isset($data[$fields[0]]) && !isset($data[0]) )
+      return false;
+    
+    if ( isset($data[0]) )
+    {
+      $tmp = array();
+      foreach ( $data as $buf )
+        $tmp[] = self::getImplodedData($buf,$fields);
+      return implode($separator,$tmp);
+    }
+    
+    if ( is_array($data[$fields[0]]) ) // in case there is subelements
+    {
+      if ( count($fields) > 1 ) // if there lasts some subdata to get back
+      {
+        $tmp = $fields[0];
+        unset($fields[0]);
+        return self::getImplodedData($data[$tmp],array_values($fields));
+      }
+      else // no subdata, implode directy
+        return implode($separator,$data);
+    }
+    else // no subelement ? get back data directly
+      return $data[$fields[0]];
   }
 }

@@ -35,6 +35,7 @@
     'description' 				=> __('Keywords'),
     'phonename'  					=> __('Phonetype'),
     'phonenumber' 				=> __('Phonenumber'),
+    '__Groups__name'  => __('Groups'),
     'organism_category' 	=> __('Category of organism'),
     'organism_name'   		=> __('Organism'),
     'professional_department' => __('Department'),
@@ -52,6 +53,8 @@
     'organism_description'=> __('Description'),
     'organism_phonename'  => __('Phonetype'),
     'organism_phonenumber'=> __('Phonenumber'),
+    '__Professionals__Groups__name'  => __('Professional groups'),
+    '__Professionals__Organism__Groups__name'  => __("Organism's groups"),
     'information'         => __('Informations'),
   );
   

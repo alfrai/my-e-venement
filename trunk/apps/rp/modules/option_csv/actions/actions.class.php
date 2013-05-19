@@ -34,11 +34,12 @@ class option_csvActions extends sfActions
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     $this->form = new OptionCsvForm();
     $this->form->bind($request->getPostParameters());
+    $this->setTemplate('index');
     
     if ( !$this->form->isValid() )
     {
       $this->getUser()->setFlash('error',__('Your form cannot be validated.'));
-      $this->setTemplate('index');
+      return;
     }
     
     $user_id = $this->getUser() instanceof sfGuardSecurityUser

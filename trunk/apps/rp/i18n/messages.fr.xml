@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Professional groups</source>
+        <target>Groupes professionels</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism's groups</source>
+        <target>Groupes des organismes</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%nb%% contacts</source>
         <target>%%nb%% contacts</target>
       </trans-unit>

@@ -29,6 +29,7 @@
     $q->select   ("$a.title, $a.name, $a.firstname, $a.address, $a.postalcode, $a.city, $a.country, $a.npai, $a.email, $a.description")
       ->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE tmp.contact_id = $a.id ORDER BY tmp.updated_at LIMIT 1) AS phonename")
       ->addSelect("(SELECT ttmp.number FROM ContactPhonenumber ttmp WHERE ttmp.contact_id = $a.id ORDER BY ttmp.updated_at LIMIT 1) AS phonenumber")
+      ->addSelect('ggc.id, ggc.name, ggp.id, ggp.name, ggo.id, ggo.name')
       ->leftJoin('o.Category oc')
       ->addSelect("oc.name AS organism_category, o.name AS organism_name")
       ->addSelect('p.department AS professional_department, p.contact_number AS professional_number, p.contact_email AS professional_email')
@@ -36,6 +37,9 @@
       ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description")
       ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonename")
       ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonenumber")
+      ->leftJoin('c.Groups ggc')
+      ->leftJoin('p.Groups ggp')
+      ->leftJoin('o.Groups ggo')
       ->orderBy("$a.name, $a.firstname");
     
     // only when groups are a part of filters
@@ -45,6 +49,9 @@
         ->addSelect("(CASE WHEN mc.information IS NOT NULL THEN mc.information ELSE mp.information END) AS information")
         ->addSelect('mp.*, mc.*');
     $this->lines = $q->fetchArray();
+    
+    // get personal parameters for extractions
+    $params = OptionCsvForm::getDBOptions();
     
     foreach ( $this->lines as $key => $line )
     {
@@ -64,9 +71,17 @@
         }
       }
       
+      // searching into subobjects for nested information
+      foreach ( $params['field'] as $field )
+      if ( substr($field,0,2) === '__' )
+      {
+        $fields = explode('__',$field);
+        unset($fields[0]);
+        $this->lines[$key][$field] = OptionCsvForm::getImplodedData($line, array_values($fields));
+      }
+      
       // removing professionals objects to get a flat array
-      unset($this->lines[$key]['Professionals']);
-      unset($this->lines[$key]['ContactGroups']);
+      unset($this->lines[$key]['Groups'], $this->lines[$key]['Professionals'], $this->lines[$key]['ContactGroups']);
       
       // empty-ing links to professionals and organisms if not needed
       if ( !$this->filters->showProfessionalData() && !$group_pro )
@@ -75,7 +90,6 @@
         $this->lines[$key][$field] = '';
     }
     
-    $params = OptionCsvForm::getDBOptions();
     $this->options = array(
       'ms'        => in_array('microsoft',$params['option']),    // microsoft-compatible extraction
       'tunnel'    => in_array('tunnel',$params['option']),       // tunnel effect on fields to prefer organism fields when they exist
