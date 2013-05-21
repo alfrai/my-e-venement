@@ -35,6 +35,11 @@ Group:
     sf_guard_user_id: integer
     description: string
     slug: string
+    picture_id: integer
+    show_everywhere:
+      type: boolean
+      default: false
+      notnull: true
   indexes:
     name_user:
       fields: [name, sf_guard_user_id]

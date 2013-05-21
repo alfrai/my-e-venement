@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Height</source>
+        <target>Hauteur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Width</source>
+        <target>Largeur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Is valid ?</source>
+        <target>Est valide ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Member cards list</source>
         <target>Liste des cartes d'abo disponibles</target>
       </trans-unit>
