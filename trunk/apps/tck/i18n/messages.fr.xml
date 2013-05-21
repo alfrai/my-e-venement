@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Paybacks</source>
+        <target>Remboursements</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Really paid total</source>
+        <target>Total réellement payé</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Display even events hidden for ticketting</source>
         <target>Afficher les événements non accessibles directement</target>
       </trans-unit> 
