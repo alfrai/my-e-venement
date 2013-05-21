@@ -105,6 +105,7 @@
   width: 350px;
 }
 #payment .sf_admin_list .sf_admin_list_td_list_value { text-align: right; }
+#payment .sf_admin_list .related.label .sf_admin_text { font-weight: bold; font-style: normal; }
 #payment .sf_admin_list .change .sf_admin_text,
 #payment .sf_admin_list .related.total .sf_admin_text,
 #payment .sf_admin_list .total .sf_admin_text,
@@ -115,6 +116,7 @@
 #payment form label { display: inline-block; width: 100px; }
 #payment form .errors { padding-bottom: 8px; }
 #payment .sf_admin_list .related { font-style: italic; }
+#payment .end-line td { border-bottom-width: 3px; }
 
 #print form { display: inline-block; }
 #print .integrate { margin-right: 20px; }
