@@ -17,6 +17,7 @@ generator:
         member_card_linked: { label: "Linked w/ MC", credentials: [tck-admin-member-cards] }
       list:
         display: [name, description, value, online, hide, member_card_linked]
+        sort: ['hide, name', '']
       filter:  ~
       form:
         display:

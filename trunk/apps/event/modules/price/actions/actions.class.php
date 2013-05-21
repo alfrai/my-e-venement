@@ -13,16 +13,4 @@ require_once dirname(__FILE__).'/../lib/priceGeneratorHelper.class.php';
  */
 class priceActions extends autoPriceActions
 {
-  public function executeIndex(sfWebRequest $request)
-  {
-    parent::executeIndex($request);
-    if ( !$this->sort[0] )
-    {
-      $this->sort = array('name','');
-      $a = $this->pager->getQuery()->getRootAlias();
-      $this->pager->getQuery()
-        ->select('*')
-        ->orderby("$a.hide, $a.value DESC, $a.name");
-    }
-  }
 }
