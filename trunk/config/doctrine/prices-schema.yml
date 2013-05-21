@@ -110,6 +110,16 @@ WorkspacePrice:
     ws_price:
       fields: [workspace_id, price_id]
       unique: true
+  relations:
+    Workspace:
+      foreignAlias: WorkspacePrices
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Price:
+      foreignAlias: WorkspacePrices
+      onDelete: CASCADE
+      onUpdate: CASCADE
+
 PriceManifestation:
   package: price
   actAs: [Timestampable]
