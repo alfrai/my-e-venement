@@ -84,21 +84,10 @@
       $config =  sfConfig::get('app_transaction_manifs',array());
       $eids = array();
       $q = Doctrine::getTable('Manifestation')
-        ->createQuery('m',true)
+        ->createQuery('m')
         ->leftJoin('m.Color color')
-        ->leftJoin('m.Gauges g')
-        ->leftJoin('g.Workspace gw')
-        ->leftJoin('gw.Order gwo ON gwo.workspace_id = gw.id AND gwo.sf_guard_user_id = '.intval($this->getUser()->getId()))
-        ->leftJoin('m.Prices p')
-        ->leftJoin('p.PriceManifestations pm ON p.id = pm.price_id AND m.id = pm.manifestation_id')
-        ->leftJoin('m.PriceManifestations mp ON p.id = mp.price_id AND m.id = mp.manifestation_id')
-        ->leftJoin('p.Users u')
-        ->leftJoin('p.Workspaces pw')
-        ->leftJoin('pw.Gauges pg ON pw.id = pg.workspace_id AND pg.manifestation_id = m.id')
-        ->andWhere('pg.id = g.id')
         ->andWhereNotIn('m.id',$mids)
-        ->andWhere('u.id = ?',$this->getUser()->getId())
-        ->andWhere('e.display_by_default')
+        ->andWhere('e.display_by_default = TRUE')
         ->orderBy('m.happens_at, e.name')
         ->limit(intval($request->getParameter('limit')) > 0 ? intval($request->getParameter('limit')) : (isset($config['max_display']) ? $config['max_display'] : 10));
 
