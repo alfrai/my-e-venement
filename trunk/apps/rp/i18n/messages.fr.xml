@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Display everywhere</source>
+        <target>Afficher partout</target>
+      </trans-unit>
+      <trans-unit>
         <source>Professional groups</source>
         <target>Groupes professionels</target>
       </trans-unit>

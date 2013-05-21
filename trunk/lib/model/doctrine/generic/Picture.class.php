@@ -12,10 +12,10 @@
  */
 class Picture extends PluginPicture
 {
-  public function getImageTag($inline = true)
+  public function getImageTag($inline = false)
   {
     if ( !$inline )
-      return '<img src="data:'.$this->type.';base64,'.$this->getContent(true).'" alt="'.$this->name.'" />';
+      return '<img src="data:'.$this->type.';base64,'.$this->content.'" alt="'.$this->name.'" />';
     else
     {
       sfApplicationConfiguration::getActive()->loadHelpers(array('CrossAppLink'));
@@ -23,25 +23,19 @@ class Picture extends PluginPicture
     }
   }
   
+  public function getContentStream()
+  {
+    return $this->rawGet('content');
+  }
+  public function getDecodedContent()
+  {
+    return base64_decode($this->getContent());
+  }
   public function getContent()
   {
     if ( !is_resource($this->rawGet('content')) )
       return $this->rawGet('content');
     
-    //if ( $test )
-    //  throw new sfException(stream_get_contents($this->rawGet('content')));
-    
     return stream_get_contents($this->rawGet('content'));
   }
-  /*
-  public function getBase64Content()
-  {
-    echo $this->rawGet('content');
-    die('glop');
-    if ( !is_resource($this->rawGet('content')) )
-      return base64_encode($this->rawGet('content'));
-    
-    return fread($this->rawGet('content'),$this->getContentSize());
-  }
-  */
 }
