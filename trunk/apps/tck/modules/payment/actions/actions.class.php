@@ -49,9 +49,12 @@ class paymentActions extends autoPaymentActions
   
   public function executeIndex(sfWebRequest $request)
   {
-    if (!( $tid = $request->getParameter('transaction_id') ))
+    if (!( $tid = $request->getParameter('transaction_id',array()) ))
       return parent::executeIndex($request);
-
+    foreach ( $tid as $key => $id )
+    if ( !$id )
+      $tid[$key] = 0;
+    
     if ( !is_array($tid) )
       $tid = array(intval($tid));
     
