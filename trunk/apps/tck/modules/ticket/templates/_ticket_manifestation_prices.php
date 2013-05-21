@@ -1,6 +1,6 @@
 <span class="manif_prices_list">
   <?php
-    // hack for economizing SQL queries
+    // hack economizing SQL queries
     global $prices_obj, $workspaces_obj;
     if ( !isset($prices_obj) )
       $prices_obj = array();
@@ -17,7 +17,7 @@
         $prices_obj[$pm->price_id] = $price;
       }
       
-      if ( $price->Users[0]->id == $sf_user->getId() )
+      if ( $price->UserPrices[0]->sf_guard_user_id == $sf_user->getId() )
       {
         $prices[$price->id] = array('gauges' => array(), 'price' => $price->name);
         foreach ( $price->Workspaces as $ws )

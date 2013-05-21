@@ -84,15 +84,16 @@ UserPrice:
     user_price_index:
       fields: [sf_guard_user_id, price_id]
       unique: true
-#  relations:
-#    sfGuardUser:
-#      foreignAlias: UserPrices
-#      onDelete: CASCADE
-#      onUpdate: CASCADE
-#    Price:
-#      foreignAlias: UserPrices
-#      onDelete: CASCADE
-#      onUpdate: CASCADE
+  relations:
+    User:
+      class: sfGuardUser
+      foreignAlias: UserPrices
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Price:
+      foreignAlias: UserPrices
+      onDelete: CASCADE
+      onUpdate: CASCADE
       
       
 WorkspacePrice:
