@@ -36,7 +36,7 @@ Group:
     description: string
     slug: string
     picture_id: integer
-    show_everywhere:
+    display_everywhere:
       type: boolean
       default: false
       notnull: true
@@ -61,6 +61,10 @@ Group:
       class: sfGuardUser
       foreignAlias: Groups
       onDelete: CASCADE
+      onUpdate: CASCADE
+    Picture:
+      foreignAlias: Groups
+      onDelete: SET NULL
       onUpdate: CASCADE
 GroupDetail:
   package: group
