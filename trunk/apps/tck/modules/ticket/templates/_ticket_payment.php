@@ -60,6 +60,7 @@
 
   function ticket_payment_related()
   {
+    <?php if ( $sf_user->hasCredential('tck-cancel') ): ?>
     $.get('<?php
       $ids = array();
       foreach ( $transaction->Translinked as $t )
@@ -85,6 +86,7 @@
       $('#payment .sf_admin_list >> tbody tr:last').addClass('end-line');
       $('#payment .sf_admin_list >> tbody').append(lines);
     });
+    <?php endif ?>
   }
   function ticket_payment_old(add)
   {
