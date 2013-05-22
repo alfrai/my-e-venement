@@ -5,6 +5,10 @@
     <header />
     <body>
       <trans-unit>
+        <source>Some chars are not allowed here</source>
+        <target>Certains caractères ne sont pas autorisés ici</target>
+      </trans-unit>
+      <trans-unit>
         <source>Merge</source>
         <target>Fusionner</target>
       </trans-unit>

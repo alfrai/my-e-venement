@@ -34,6 +34,10 @@ class OrganismForm extends BaseOrganismForm
       array('u.id IS NULL DESC, u.username, name','')
     );
     
+    $this->validatorSchema['url'] = new sfValidatorUrl(array(
+      'required' => false,
+    ));
+    
     parent::configure();
   }    
   
