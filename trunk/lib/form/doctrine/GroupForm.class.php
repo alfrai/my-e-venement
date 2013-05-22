@@ -12,17 +12,33 @@ class GroupForm extends BaseGroupForm
 {
   public function doSave($con = NULL)
   {
-    $values = $this->values['picture'];
-    if ( $values['content_file'] instanceof sfValidatedFile )
+    $file = $this->values['picture']['content_file'];
+    if ( $file instanceof sfValidatedFile )
     {
-      $this->values['picture']['content']  = base64_encode(file_get_contents($values['content_file']->getTempName()));
-      $this->values['picture']['name']     = $values['content_file']->getOriginalName();
-      $this->values['picture']['type']     = $values['content_file']->getType();
-      $this->values['picture']['width']    = 16;
+      // data translation
+      $this->values['picture']['content']  = base64_encode(file_get_contents($file->getTempName()));
+      $this->values['picture']['name']     = $file->getOriginalName();
+      $this->values['picture']['type']     = $file->getType();
+      $this->values['picture']['width']    = 24;
       $this->values['picture']['height']   = 16;
       unset($this->values['picture']['content_file']);
+      
+      // removing old picture to avoid useless storage
+      if ( !$this->object->Picture->isNew() )
+        $this->object->Picture->delete();
+      
+      // giving values to the picture (hack)
+      foreach ( $this->values['picture'] as $field => $value )
+        $this->object->Picture->$field = $value;
+      $this->object->Picture->save($con);
+      
+      // associating the newly created picture to the current object (hack)
+      $this->object->picture_id = $this->object->Picture->id;
     }
-    else unset($this->values['picture']);
+    else
+    {
+      unset($this->values['picture']);
+    }
     
     return parent::doSave($con);
   }
@@ -72,13 +88,23 @@ class GroupForm extends BaseGroupForm
       'default'   => $this->isNew() ? $sf_user->getId() : $this->getObject()->sf_guard_user_id,
     ));
     
+    unset($this->widgetSchema['picture_id'], $this->validatorSchema['picture_id']);
+  }
+  
+  public function setup()
+  {
+    $r = parent::setup();
+    
     // pictures & co
     $picform = new PictureForm($this->object->Picture);
     $ws = $picform->getWidgetSchema();
     $vs = $picform->getValidatorSchema();
+    
     unset($ws['width'], $ws['height'], $ws['type'], $ws['version'], $ws['name']);
     $vs['content_file']->setOption('required',false);
     
     $this->embedForm('picture', $picform);
+    
+    return $r;
   }
 }
