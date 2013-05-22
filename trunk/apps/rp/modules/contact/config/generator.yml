@@ -32,33 +32,24 @@ generator:
         tickets_amount_min: { label: Minimum tickets amount }
         tickets_amount_max: { label: Maximum tickets amount }
         list_emails: { label: Emails }
-        list_see_orgs: { label: '' }
-        organisms_list: { label: Organisms }
+        list_see_orgs: { label: '', credentials: [pr-organism] }
+        organisms_list: { label: Organisms, credentials: [pr-organism] }
         list_organism: { label: Organism }
-        list_professional: { label: Professional }
-        list_organism_phones_list: { label: Phonenumbers }
+        list_professional: { label: Professional, credentials: [pr-organism] }
+        list_organism_phones_list: { label: Phonenumbers, credentials: [pr-organism] }
         list_professional_emails: { label: Emails }
         list_more: { label: More }
         list_contact: { label: Contact }
-        list_organism_city: { label: City }
-        list_organism_postalcode: { label: Postalcode }
-        list_professional_description: { label: Description }
-        list_professional_id: { label: '' }
+        list_organism_city: { label: City, credentials: [pr-organism] }
+        list_organism_postalcode: { label: Postalcode, credentials: [pr-organism] }
+        list_professional_description: { label: Description, credentials: [pr-organism] }
+        list_professional_id: { label: '', credentials: [pr-organism] }
+        list_professional_emails: { credentials: [pr-organism], label: Emails }
         familial_quotient_id: { credentials: [pr-social-quotient] }
         familial_situation_id: { credentials: [pr-social-situation] }
         type_of_resources_id: { credentials: [pr-social-resources] }
         email_no_newsletter: { label: No newsletter }
         email_newsletter: { label: Newsletter ? }
-        organisms_list: { credentials: [pr-organism] }
-        list_see_orgs: { credentials: [pr-organism] }
-        list_professional_id: { credentials: [pr-organism] }
-        list_organism: { credentials: [pr-organism] }
-        list_professional: { credentials: [pr-organism] }
-        list_organism_postalcode: { credentials: [pr-organism] }
-        list_organism_city: { credentials: [pr-organism] }
-        list_professional_emails: { credentials: [pr-organism] }
-        list_organism_phones_list: { credentials: [pr-organism] }
-        list_professional_description: { credentials: [pr-organism] }
         organism_category_id: { credentials: [pr-organism] }
       list:
         display: [name, firstname, postalcode, city, _list_emails, _list_phones, _organisms_list <?php if ( sfConfig::get('app_options_design',false) ): ?>, _list_see_orgs, _list_contact, _list_professional_id, _list_organism, _list_professional, _list_organism_postalcode, _list_organism_city, _list_professional_emails, _list_organism_phones_list, _list_professional_description<?php endif ?>]
