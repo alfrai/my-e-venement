@@ -43,7 +43,7 @@
   <?php if ( $contact['ticket-ids'] ): ?>
   <?php foreach ( $contact['prices'] as $wsid => $ws ): ?>
   <tr class="<?php echo ($overlined = !$overlined) ? 'overlined' : '' ?>">
-    <td class="name"><?php echo cross_app_link_to($transac->Contact,'rp','contact/show?id='.$transac->contact_id) ?></td>
+    <td class="name"><?php echo cross_app_link_to($transac->Contact,'rp','contact/show?id='.$transac->contact_id) ?><?php echo $transac->Contact->getRaw('groups_picto') ?></td>
     <td class="organism"><?php if ( $contact['pro'] ) echo cross_app_link_to($contact['pro']->Organism,'rp','organism/show?id='.$contact['pro']->Organism->id) ?></td>
     <td class="tickets">
       <?php include_partial('show_spectators_list_tickets',array('tickets' => $ws, 'show_workspaces' => $show_workspaces)) ?>

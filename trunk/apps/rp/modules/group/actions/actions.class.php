@@ -61,6 +61,15 @@ class groupActions extends autoGroupActions
     $this->redirect('email/edit?id='.$email->id);
   }
   
+  public function executeDelPicture(sfWebRequest $request)
+  {
+    $q = Doctrine_Query::create()->from('Picture p')
+      ->where('p.id IN (SELECT g.picture_id FROM Group g WHERE g.id = ?)',$request->getParameter('id'))
+      ->delete()
+      ->execute();
+    return $this->redirect('group/edit?id='.$request->getParameter('id'));
+  }
+  
   public function executeEdit(sfWebRequest $request)
   {
     parent::executeEdit($request);

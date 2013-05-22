@@ -60,14 +60,11 @@ class Contact extends PluginContact
     return $c;
   }
   
-  public function postInsert($event)
+  public function getGroupsPicto()
   {
-    foreach ( $this->Professionals as $pro )
-      $pro->contact_id = $this->id;
-    
-    foreach ( $this->Phonenumbers as $pn )
-      $pn->contact_id = $this->id;
-    
-    parent::postInsert($event);
+    $str = '';
+    foreach ( $this->Groups as $group )
+      $str .= $group->getHtmlTag();
+    return $str;
   }
 }

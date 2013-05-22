@@ -55,5 +55,6 @@ div:hover > .sf_admin_form_field_cities { display: block; }
   margin-bottom: 40px;
 }
 
-.sf_admin_form_field_picture th label { display: none; }
+.sf_admin_form_field_Picture th label { display: none; }
 .sf_admin_form_field_show_picture { text-align: center; }
+#sf_admin_container .sf_admin_form_field_picture_del { height: 16px; display: block; width: 16px; font-size: 0; float: right; margin-top: -25px; }

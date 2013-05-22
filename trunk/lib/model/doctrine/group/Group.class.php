@@ -19,4 +19,23 @@ class Group extends PluginGroup
     else
       return '('.$this->User->username.') '.parent::__toString();
   }
+  
+  public function getHtmlTag()
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('CrossAppLink'));
+    if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() )if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() )
+    {
+      $sf_user = sfContext::getInstance()->getUser();
+      if (!( $this->sf_guard_user_id == $sf_user->getId() || $this->sf_guard_user_id === null && $sf_user->hasCredential('pr-group-common') ))
+        return '';
+    }
+    
+    if ( $this->display_everywhere )
+      return '';
+    
+    if ( $this->Picture->isNew() )
+      return cross_app_link_to('G','rp','group/show?id='.$this->id,array('target' => '_blank', 'title' => 'G',));
+    else
+      return cross_app_link_to($this->Picture->getHtmlTag(array('title' => $this)),'rp','group/show?id='.$this->id,array('target' => '_blank'));
+  }
 }

@@ -12,15 +12,27 @@
  */
 class Picture extends PluginPicture
 {
-  public function getImageTag($inline = false)
+  public function getHtmlTagInline(array $attributes = array())
   {
-    if ( !$inline )
-      return '<img src="data:'.$this->type.';base64,'.$this->content.'" alt="'.$this->name.'" />';
-    else
-    {
-      sfApplicationConfiguration::getActive()->loadHelpers(array('CrossAppLink'));
-      return '<img src="'.cross_app_url_for('default', 'picture/display?id='.$this->id).'" alt="'.$this->name.'" />';
-    }
+    sfApplicationConfiguration::getActive()->loadHelpers(array('CrossAppLink'));
+    $attributes['src'] = cross_app_url_for('default', 'picture/display?id='.$this->id);
+    return $this->_getImageTag($attributes);
+  }
+  public function getHtmlTag(array $attributes = array())
+  {
+    $attributes['src'] = 'data:'.$this->type.';base64,'.$this->content;
+    return $this->_getImageTag($attributes);
+  }
+  protected function _getImageTag(array $attributes = array())
+  {
+    if ( !isset($attributes['alt']) )
+      $attributes['alt'] = $this->name;
+    
+    $tmp = array();
+    foreach ( $attributes as $key => $value )
+      $tmp[] = $key.'="'.$value.'"';
+    $tag = '<img '.implode(' ',$tmp).' />';
+    return $tag;
   }
   
   public function getContentStream()

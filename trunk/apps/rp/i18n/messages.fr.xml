@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Picture</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit>
         <source>Display everywhere</source>
         <target>Afficher partout</target>
       </trans-unit>
