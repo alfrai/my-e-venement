@@ -11,6 +11,7 @@
       </caption>
       <tbody>
         <tr><?php include_partial('show_ticket_user',array('ticket' => $ticket)) ?></tr>
+        <tr><?php include_partial('show_ticket_contact',array('ticket' => $ticket)) ?></tr>
         <tr><?php include_partial('show_ticket_transaction',array('ticket' => $ticket)) ?></tr>
         <tr><?php include_partial('show_ticket_manifestation',array('ticket' => $ticket)) ?></tr>
         <tr><?php include_partial('show_ticket_cancel',array('ticket' => $ticket)) ?></tr>

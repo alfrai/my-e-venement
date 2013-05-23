@@ -20,6 +20,9 @@ abstract class PluginPicture extends BasePicture
       if ( !$resizer->readImageBlob($this->getDecodedContent()) )
         throw new liEvenementException('A problem occurred during Image reading');
       
+      if ( $resizer->getImageWidth() <= $this->width && $resizer->getImageHeight() <= $this->height )
+        return $this;
+      
       $dest_scale = $this->width / $this->height;
       $orig_scale = $resizer->getImageWidth() / $resizer->getImageHeight();
       echo "dest: $dest_scale, orig: $orig_scale\n\n";
@@ -31,6 +34,8 @@ abstract class PluginPicture extends BasePicture
       $this->content = base64_encode($resizer->getImageBlob());
     }
     catch ( Exception $e ) {}
+    
+    return $this;
   }
   public function preSave($event)
   {

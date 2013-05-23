@@ -41,7 +41,7 @@ function ticket_events()
   // contact
   $('#contact #autocomplete_transaction_contact_id').keypress(function(e){ if ( e.which == '13' ) $(this).submit(); });
   $('#contact #transaction_professional_id').change(function(){ $(this).submit(); });
-  $('#contact a').unbind().mouseenter(function(){
+  $('#contact a:first').unbind().mouseenter(function(){
     $('#contact #micro-show').fadeIn();
     if ( $('#contact #micro-show #sf_fieldset_none').length == 0 )
     {
