@@ -39,7 +39,8 @@
 
 .clear { clear: both; }
 
-.accounting {
+.warning { border-color: chocolate; }
+.warning, .accounting {
   margin: 10px;
   padding: 5px;
 }

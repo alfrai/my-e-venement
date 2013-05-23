@@ -6,4 +6,4 @@
     <td class="price"><?php echo format_currency($contact['value'][$wsid],'€') ?></td>
     <td class="accounting"><?php if ( $contact['transaction']->Invoice[0]->id ): ?>#<?php echo $contact['transaction']->Invoice[0]->id ?><?php else: ?>-<?php endif ?></td>
     <td class="transaction" title="<?php echo __('Updated at %%d%% by %%u%%',array('%%d%%' => format_datetime($transac->updated_at), '%%u%%' => $transac->User)) ?>">#<?php echo cross_app_link_to($contact['transaction'],'tck','ticket/sell?id='.$contact['transaction']) ?></td>
-    <td class="ticket-ids">#<?php echo implode(', #',$contact['ticket-ids']) ?></td>
+    <td class="ticket-ids">#<?php if ( is_array($contact['ticket-ids']) ) echo implode(', #',$contact['ticket-ids']) ?></td>

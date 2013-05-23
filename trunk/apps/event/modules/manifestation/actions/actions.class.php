@@ -444,10 +444,13 @@ class manifestationActions extends autoManifestationActions
   {
     $mid = $manifestation_id ? $manifestation_id : $this->manifestation->id;
     $nb = $this->countTickets($mid);
-    $q = new Doctrine_Query;
-    $q->from('Transaction tr')
+    $q = Doctrine_Query::create()->from('Transaction tr')
       ->leftJoin('tr.Contact c')
+      ->leftJoin('c.Groups gc')
+      ->leftJoin('gc.Picture gcp')
       ->leftJoin('tr.Professional pro')
+      ->leftJoin('pro.Groups gpro')
+      ->leftJoin('gpro.Picture gprop')
       ->leftJoin('tr.Order order')
       ->leftJoin('tr.User u')
       ->leftJoin('pro.Organism o');

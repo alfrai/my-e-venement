@@ -42,7 +42,12 @@ class Addressable extends PluginAddressable
     }
     catch ( sfFactoryException $e )
     { }
-    parent::save($conn);
+    
+    foreach ( array('latitude','longitude') as $field )
+    if ( $this->$field === '' )
+      $this->$field = NULL;
+    
+    return parent::save($conn);
   }
   
   protected function getGmapLocalization()

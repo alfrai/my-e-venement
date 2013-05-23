@@ -108,6 +108,7 @@ body #content { width: auto; }
 #tdp-content .sf_admin_list_th_list_professional, #tdp-content .sf_admin_list_td_list_professional,
 #tdp-content .sf_admin_list_th_list_professional_emails, #tdp-content .sf_admin_list_td_list_professional_emails,
 #tdp-content .sf_admin_list_th_list_professional_description, #tdp-content .sf_admin_list_td_list_professional_description,
+#tdp-content .sf_admin_list_th_list_professional_groups_picto, #tdp-content .sf_admin_list_td_list_professional_groups_picto,
 #tdp-content .sf_admin_list_th_list_more, #tdp-content .sf_admin_list_td_list_more,
 #tdp-content .sf_admin_list_th_list_contact, #tdp-content .sf_admin_list_td_list_contact,
 #tdp-content .sf_admin_list_th_list_organism_city, #tdp-content .sf_admin_list_td_list_organism_city,
@@ -120,6 +121,7 @@ body #content { width: auto; }
 #tdp-content .see-orgs .sf_admin_list_th_list_professional_id, #tdp-content .see-orgs .sf_admin_list_td_list_professional_id,
 #tdp-content .see-orgs .sf_admin_list_th_list_professional_emails, #tdp-content .see-orgs .sf_admin_list_td_list_professional_emails,
 #tdp-content .see-orgs .sf_admin_list_th_list_professional_description, #tdp-content .see-orgs .sf_admin_list_td_list_professional_description,
+#tdp-content .see-orgs .sf_admin_list_th_list_professional_groups_picto, #tdp-content .see-orgs .sf_admin_list_td_list_professional_groups_picto,
 #tdp-content .see-orgs .sf_admin_list_th_list_more, #tdp-content .see-orgs .sf_admin_list_td_list_more,
 #tdp-content .see-orgs .sf_admin_list_th_list_contact, #tdp-content .see-orgs .sf_admin_list_td_list_contact,
 #tdp-content .see-orgs .sf_admin_list_th_list_organism_city, #tdp-content .see-orgs .sf_admin_list_td_list_organism_city,
@@ -135,6 +137,7 @@ body #content { width: auto; }
 #tdp-content .see-orgs .sf_admin_list_th_city, #tdp-content .see-orgs .sf_admin_list_td_city,
 #tdp-content .see-orgs .sf_admin_list_th_list_emails, #tdp-content .see-orgs .sf_admin_list_td_list_emails,
 #tdp-content .see-orgs .sf_admin_list_th_list_phones, #tdp-content .see-orgs .sf_admin_list_td_list_phones,
+#tdp-content .see-orgs .sf_admin_list_th_groups_picto, #tdp-content .see-orgs .sf_admin_list_td_groups_picto,
 #tdp-content .see-orgs .sf_admin_list_th_organisms_list, #tdp-content .see-orgs .sf_admin_list_td_organisms_list
 { display: none; }
 /* un-highlight professional data when it's only about contact */

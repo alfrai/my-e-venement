@@ -133,6 +133,7 @@ class cardsActions extends sfActions
     foreach ( $mc as $value )
     {
       $byvalue = false;
+      if ( is_array($this->accounting['price']) )
       foreach ( $this->accounting['price'] as $price )
       if ( $price )
         $byvalue = true;
@@ -151,6 +152,8 @@ class cardsActions extends sfActions
       echo $g->render();
       return sfView::NONE;
     }
+    
+    $this->content = $g->render();
   }
   
   protected function getMembersCards( $from = NULL, $until = NULL )
@@ -169,8 +172,8 @@ class cardsActions extends sfActions
           )/60/60/24 AS nb
           FROM member_card mc
           LEFT JOIN member_card_type mct ON mct.id = mc.member_card_type_id
-          WHERE expire_at::date - '1 year'::interval <= :from AND expire_at::date >= :from::date
-            OR expire_at::date >= :until AND expire_at::date - '1 year'::interval <= :until::date
+          WHERE (expire_at::date - '1 year'::interval <= :from AND expire_at::date >= :from::date OR expire_at::date >= :until AND expire_at::date - '1 year'::interval <= :until::date)
+            AND active
           GROUP BY name
           ORDER BY name";
     
@@ -186,7 +189,7 @@ class cardsActions extends sfActions
     $this->criterias = $this->getUser()->getAttribute('stats.criterias',array(),'admin_module');
     
     // dates
-    $dates = $this->criterias['dates'];
+    $dates = isset($this->criterias['dates']) ? $this->criterias['dates'] : array();
     if ( isset($dates['from'])
       && isset($dates['from']['day']) && isset($dates['from']['month']) && isset($dates['from']['year'])
       && $dates['from']['day'] && $dates['from']['month'] && $dates['from']['year'] )
