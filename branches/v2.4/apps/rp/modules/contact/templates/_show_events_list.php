@@ -8,9 +8,9 @@
   $pros = array(NULL);
   foreach ( $contact->Professionals as $pro )
     $pros[] = $pro;
-  
-  foreach ( $pros as $pro )
-  {
+?>
+<?php foreach ( $pros as $pro ): ?>
+<?php
   // hack for optimization
   $q = Doctrine_Query::create()
     ->from('MetaEvent me')
@@ -54,7 +54,24 @@
     <?php endforeach ?>
     <?php endforeach ?>
   <?php endforeach ?>
-<?php } ?>
+<?php endforeach ?>
 
+    <?php if ( $form->getObject()->EventArchives->count() > 0 ): ?>
+    <?php
+      $archives = array();
+      foreach ( $form->getObject()->EventArchives as $event )
+        $archives[$event->happens_at.$event->name.$event->id] = $event;
+      ksort($archives);
+    ?>
+    <tr class="archive meta_event">
+      <td colspan="4" class="name"><span><?php echo __('Archives') ?></span></td>
+    </tr>
+    <?php foreach ( array_reverse($archives) as $event ): ?>
+    <tr class="archive">
+      <td class="happens_at"><?php echo format_date($event->happens_at,'MMM yyyy') ?></td>
+      <td class="name" colspan="3" title="<?php echo $event->name ?>"><?php echo $event->name ?></td>
+    </tr>
+    <?php endforeach ?>
+    <?php endif ?>
   </tbody>
 </table>
