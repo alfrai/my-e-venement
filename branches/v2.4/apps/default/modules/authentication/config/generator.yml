@@ -16,6 +16,9 @@ generator:
       fields:  ~
       list:
         display: [User, description, ip_address, user_agent, referer, success, created_at]
+        object_actions: []
+        batch_actions: []
+        actions: []
       filter:  ~
       form:    ~
       edit:    ~
