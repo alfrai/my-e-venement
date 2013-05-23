@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Remarkable</source>
+        <target>Remarquable</target>
+      </trans-unit>
+      <trans-unit>
         <source>Picture</source>
         <target>Image</target>
       </trans-unit>

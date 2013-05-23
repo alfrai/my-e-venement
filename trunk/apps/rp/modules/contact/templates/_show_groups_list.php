@@ -24,7 +24,10 @@
 <label><?php echo __('Groups') ?>:</label>
 <ul class="show_groups">
   <?php foreach ( $contact->Groups as $group ): ?>
-  <li><a href="<?php echo url_for('group/show?id='.$group->id) ?>"><?php echo $group ?></a></li>
+  <li>
+    <?php echo $group->getRaw('html_tag') ?>
+    <a href="<?php echo url_for('group/show?id='.$group->id) ?>"><?php echo $group ?></a>
+  </li>
   <?php endforeach ?>
 </ul>
 <hr/>
@@ -37,7 +40,10 @@
     <a href="<?php echo url_for('organism/edit?id='.$pro->Organism->id) ?>"><?php echo $pro->Organism ?></a>
     <ul>
       <?php foreach ( $pro->Groups as $group ): ?>
-      <li><a href="<?php echo url_for('group/show?id='.$group->id) ?>"><?php echo $group ?></a></li>
+      <li>
+        <span class="picture"><?php echo $group->getRaw('html_tag') ?></span>
+        <a href="<?php echo url_for('group/show?id='.$group->id) ?>"><?php echo $group ?></a>
+      </li>
       <?php endforeach ?>
     </ul>
   </li>

@@ -30,12 +30,12 @@ class Group extends PluginGroup
         return '';
     }
     
-    if ( $this->display_everywhere )
+    if ( !$this->display_everywhere )
       return '';
     
     if ( $this->Picture->isNew() )
-      return cross_app_link_to('G','rp','group/show?id='.$this->id,array('target' => '_blank', 'title' => 'G',));
+      return cross_app_link_to('G','rp','group/show?id='.$this->id,false,null,false,'target="_blank" class="picto" title="'.$this.'"');
     else
-      return cross_app_link_to($this->Picture->getHtmlTag(array('title' => $this)),'rp','group/show?id='.$this->id,array('target' => '_blank'));
+      return cross_app_link_to($this->Picture->getHtmlTag(array('title' => $this, 'alt' => 'G',)),'rp','group/show?id='.$this->id,false,null,false,'target="_blank" class="picto"');
   }
 }

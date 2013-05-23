@@ -31,7 +31,7 @@ all:
         lines:
           Complements:
             show_labels: true
-            fields: [organism_category_id, email, email_no_newsletter]
+            fields: [organism_category_id, email, email_no_newsletter, _groups_picto]
           Address:
             fields: [address]
           City:
@@ -75,7 +75,7 @@ all:
           new_title: [organism_id]
           lines:
             line1:
-              fields: [professional_type_id, name, _organism_category]
+              fields: [professional_type_id, name, _organism_category, _groups_picto]
             Phonenumbers:
               show_labels: true
               fields: [contact_number, _organism_phones_list]

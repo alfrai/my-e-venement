@@ -52,7 +52,7 @@
 
     <tbody>
       <?php foreach ($pager->getResults() as $i => $contact): ?>
-      <?php if ( $contact->Groups->count() > 0 ): ?>
+      <?php if ( $contact->ContactGroups->count() > 0 ): ?>
         <?php $odd = fmod(++$i, 2) ? ' odd' : '' ?>
         <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
           <?php include_partial('group_list_td_tabular', array('contact' => $contact, 'professional' => NULL)) ?>

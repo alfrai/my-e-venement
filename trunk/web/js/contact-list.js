@@ -34,7 +34,11 @@ $(document).ready(function(){
   // making emails clickable except when filling down the list through AJAX
   $('.sf_admin_list_td_email').each(function(){
     if ( $(this).html().trim() )
-    $(this).html('<a title="'+$(this).html().trim()+'" href="mailto:'+$(this).html().trim()+'">'+$(this).html()+'</a>');
+      $(this).html('<a title="'+$(this).html().trim()+'" href="mailto:'+$(this).html().trim()+'">'+$(this).html()+'</a>');
+  });
+  // adding titles to emails when already clickables
+  $('.sf_admin_list_td_list_emails a').each(function(){
+    $(this).prop('title',$(this).closest('li').prop('title')+': '+$(this).html().trim());
   });
   
   // this does some make-up for filter form

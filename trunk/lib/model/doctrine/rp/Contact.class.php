@@ -64,7 +64,7 @@ class Contact extends PluginContact
   {
     $str = '';
     foreach ( $this->Groups as $group )
-      $str .= $group->getHtmlTag();
+      $str .= $group->getHtmlTag().' ';
     return $str;
   }
 }

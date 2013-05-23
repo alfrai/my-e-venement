@@ -43,4 +43,12 @@ class Professional extends PluginProfessional
       ->select('e.*') 
       ->execute();
   }
+  
+  public function getGroupsPicto()
+  {
+    $str = '';
+    foreach ( $this->Groups as $group )
+      $str .= $group->getHtmlTag().' ';
+    return $str;
+  }
 }

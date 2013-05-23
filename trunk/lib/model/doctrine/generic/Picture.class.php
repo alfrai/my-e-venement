@@ -12,13 +12,13 @@
  */
 class Picture extends PluginPicture
 {
-  public function getHtmlTagInline(array $attributes = array())
+  public function getHtmlTag(array $attributes = array())
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('CrossAppLink'));
     $attributes['src'] = cross_app_url_for('default', 'picture/display?id='.$this->id);
     return $this->_getImageTag($attributes);
   }
-  public function getHtmlTag(array $attributes = array())
+  public function getHtmlTagInline(array $attributes = array())
   {
     $attributes['src'] = 'data:'.$this->type.';base64,'.$this->content;
     return $this->_getImageTag($attributes);

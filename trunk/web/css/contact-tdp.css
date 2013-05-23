@@ -41,9 +41,10 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .tdp-line.complements .tdp-email_no_newsletter,
 #tdp-content #sf_admin_content .tdp-contact_email_no_newsletter { position: absolute; margin-top: -1.5em; margin-left: 400px; }
 #tdp-content #sf_admin_content .tdp-contact_email_no_newsletter { margin: 0; }
+#tdp-content #sf_admin_content .tdp-groups_picto > * { padding-top: 8px; }
 #tdp-content #sf_admin_content .tdp-contact_email_no_newsletter label,
 #tdp-content #sf_admin_content .tdp-line.complements .tdp-email_no_newsletter label { display: none; }
-#tdp-content #sf_admin_content .tdp-line.complements { position: absolute; margin-left: 300px; }
+#tdp-content #sf_admin_content .tdp-line.complements { position: absolute; margin-left: 300px; margin-top: -5px; }
 #tdp-content #sf_admin_content #contact_postalcode { width: 6em; }
 #tdp-content #sf_admin_content #contact_city { width: 15em; }
 #tdp-content #sf_admin_content .direct_contact { margin-top: 10px; }
