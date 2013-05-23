@@ -10,7 +10,7 @@
     <?php echo $form->renderHiddenFields() ?>
     <span class="contact">
       <?php if ( !is_null($transaction->contact_id) && $transaction->Contact->confirmed ): ?>
-        <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$transaction->contact_id) ?>"><?php echo $transaction->Contact ?></a>
+        <a href="<?php echo cross_app_url_for('rp','contact/show?id='.$transaction->contact_id) ?>"><?php echo $transaction->Contact ?></a> <span class="picto"><?php echo $transaction->getRaw('Contact')->groups_picto ?></span>
         <?php $form->setWidget('contact_id',new sfWidgetFormInputHidden) ?>
       <?php endif ?>
       <?php echo $form['contact_id'] ?>
@@ -23,6 +23,7 @@
       <?php echo $form['professional_id'] ?>
     <?php else: ?>
       <?php echo $transaction->Professional ?>
+      <span class="picto"><?php echo $transaction->getRaw('Professional')->groups_picto ?></span>
     <?php endif ?>
     </span>
     <?php endif ?>
