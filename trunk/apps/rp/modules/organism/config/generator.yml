@@ -31,9 +31,10 @@ generator:
         not_groups_list: { label: Not member of groups }
         email_no_newsletter: { label: No newsletter }
         email_newsletter: { label: Newsletter ? }
+        groups_picto: { credentials: [pr-group], label: Remarkable }
       list:
         title: Organisms list
-        display: [Category, name, postalcode, city, email, _contacts_list, npai]
+        display: [Category, name, postalcode, city, email, _groups_picto, _contacts_list, npai]
         object_actions:
           <?php if ( sfConfig::get('app_options_design',false) != 'tdp' ): ?>_show: ~<?php endif; echo PHP_EOL; ?>
           _edit: ~

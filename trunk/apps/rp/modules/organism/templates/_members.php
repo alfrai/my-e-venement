@@ -32,6 +32,7 @@
 <li>
   <a class="file" href="<?php echo url_for('contact/'.$action.'?id='.$professional->Contact['id']) ?>"><?php echo $professional->Contact ?></a>
   <span class="professional"><?php echo $professional ?> (<?php echo $professional->ProfessionalType ?>)</span>
+  <span class="pictos"><?php echo $professional->getRaw('groups_picto') ?></span>
   <?php echo $helper->linkToDeletePro($professional, array(  'params' => 'class= fg-button ui-state-default fg-button-icon-left ',  'confirm' => 'Are you sure?',  'class_suffix' => 'delete',  'label' => 'Delete',  'ui-icon' => '',)) ?>
 </li>
 <?php endforeach ?>

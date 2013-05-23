@@ -37,4 +37,12 @@ class Organism extends PluginOrganism
     else
       return false;
   }
+
+  public function getGroupsPicto()
+  {
+    $str = '';
+    foreach ( $this->Groups as $group )
+      $str .= $group->getHtmlTag().' ';
+    return $str;
+  }
 }
