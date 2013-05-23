@@ -10,7 +10,7 @@
       <h3><?php echo __('Set by filter').' ('.$str['nb'].')' ?></h3>
       <?php $cpt = 0 ?>
       <ol><?php foreach ( $collection = $form->getObject()->get($str['collection']) as $object ): ?>
-        <li><?php echo $object ?></li>
+        <li><?php echo $object ?> <?php echo $object->groups_picto ?></li>
         <?php $cpt++; if ( $cpt >= 50 ) break; ?>
         <?php endforeach ?>
         <?php if ( $cpt >= 50 ): ?>
