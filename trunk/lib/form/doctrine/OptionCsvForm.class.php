@@ -105,7 +105,7 @@ class OptionCsvForm extends BaseOptionCsvForm
   	  'description'         => 'Keywords',
     	'phonename'           => 'Phonetype',
 	    'phonenumber'         => 'Phonenumber',
-	    '__Groups__name'   => 'Groups',
+	    '__Groups__name'      => 'Groups',
   	  'organism_category'   => 'Category of organism',
     	'organism_name'       => 'Organism',
 	    'professional_department' => 'Department',
