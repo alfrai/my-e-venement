@@ -35,7 +35,8 @@
     'description' 				=> __('Keywords'),
     'phonename'  					=> __('Phonetype'),
     'phonenumber' 				=> __('Phonenumber'),
-    '__Groups__name'  => __('Groups'),
+    '__Groups__name'      => __('Groups'),
+    'events'              => __('Events'),
     'organism_category' 	=> __('Category of organism'),
     'organism_name'   		=> __('Organism'),
     'professional_department' => __('Department'),
@@ -43,6 +44,7 @@
     'professional_email'  => __('Professional email'),
     'professional_type_name' => __('Type of function'),
     'professional_name'   => __('Function'),
+    '__Professionals__events' => __('Events'),
     'organism_address'    => __('Address'),
     'organism_postalcode' => __('Postalcode'),
     'organism_city'   		=> __('City'),
@@ -58,13 +60,13 @@
     'information'         => __('Informations'),
   );
   
+  $line = array();
   if ( !$options['noheader'] )
   {
     if ( !isset($options['header']) )
     {
-    	foreach ( $fields as $fieldname => $field )
-     	if ( in_array($fieldname,$options['fields']) )
-  	    	$line[$fieldname] = $field;
+    	foreach ( $options['fields'] as $fieldName )
+  	    	$line[] = isset($fields[$fieldName]) ? $fields[$fieldName] : $fieldName;
     }
     else
     {

@@ -12,4 +12,14 @@
  */
 abstract class PluginContact extends BaseContact
 {
+  public function postInsert($event)
+  {
+    foreach ( $this->Professionals as $pro )
+      $pro->contact_id = $this->id;
+    
+    foreach ( $this->Phonenumbers as $pn )
+      $pn->contact_id = $this->id;
+    
+    parent::postInsert($event);
+  }
 }

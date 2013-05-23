@@ -30,4 +30,17 @@ class Professional extends PluginProfessional
   {
     return $this->Organism.' ('.($this->name ? $this->name : $this->ProfessionalType).')';
   }
+  public function getEvents()
+  {
+    if ( isset($this->events) )
+      return $this->events;
+      
+    return $this->events = Doctrine_Query::create()->from('Event e')
+      ->leftJoin('e.Manifestations m')
+      ->leftJoin('m.Tickets tck')
+      ->leftJoin('tck.Transaction t')
+      ->andWhere('professional_id = ?',$this->id)
+      ->select('e.*') 
+      ->execute();
+  }
 }

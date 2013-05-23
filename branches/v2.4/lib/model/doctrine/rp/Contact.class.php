@@ -60,14 +60,17 @@ class Contact extends PluginContact
     return $c;
   }
   
-  public function postInsert($event)
+  public function getEvents()
   {
-    foreach ( $this->Professionals as $pro )
-      $pro->contact_id = $this->id;
+    if ( isset($this->events) )
+      return $this->events;
     
-    foreach ( $this->Phonenumbers as $pn )
-      $pn->contact_id = $this->id;
-    
-    parent::postInsert($event);
+    return $this->events = Doctrine_Query::create()->from('Event e')
+      ->leftJoin('e.Manifestations m')
+      ->leftJoin('m.Tickets tck')
+      ->leftJoin('tck.Transaction t')
+      ->andWhere('t.contact_id = ?',$this->id)
+      ->select('e.*')
+      ->execute();
   }
 }

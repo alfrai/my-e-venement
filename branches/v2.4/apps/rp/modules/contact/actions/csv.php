@@ -37,7 +37,7 @@
       ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description")
       ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonename")
       ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonenumber")
-      ->leftJoin('c.Groups ggc')
+      ->leftJoin("$a.Groups ggc")
       ->leftJoin('p.Groups ggp')
       ->leftJoin('o.Groups ggo')
       ->orderBy("$a.name, $a.firstname");
