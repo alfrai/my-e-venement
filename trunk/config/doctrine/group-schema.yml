@@ -97,6 +97,10 @@ GroupContact:
       foreignAlias: ContactGroups
       onDelete: CASCADE
       onUpdate: CASCADE
+    Group:
+      foreignAlias: ContactGroups
+      onDelete: CASCADE
+      onUpdate: CASCADE
 GroupProfessional:
   package: group
   inheritance:
@@ -112,6 +116,10 @@ GroupProfessional:
       foreignAlias: ProfessionalGroups
       onDelete: CASCADE
       onUpdate: CASCADE
+    Group:
+      foreignAlias: ProfessionalGroups
+      onDelete: CASCADE
+      onUpdate: CASCADE
 GroupOrganism:
   package: group
   inheritance:
@@ -124,6 +132,10 @@ GroupOrganism:
       primary: true
   relations:
     Organism:
+      foreignAlias: OrganismGroups
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Group:
       foreignAlias: OrganismGroups
       onDelete: CASCADE
       onUpdate: CASCADE

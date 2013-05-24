@@ -32,9 +32,9 @@ generator:
         title: Group %%name%%
         display:
           NONE: [name, sf_guard_user_id, display_everywhere, Picture, _show_picture, _form_picture_del]
-          Individuals: [contacts_list]
-          Professionals: [professionals_list]
-          Organisms: [organisms_list]
+          Individuals:    [_form_contacts_add, _form_contacts_remove, _form_contacts_refresh]
+          Professionals:  [_form_professionals_add, _form_professionals_remove, _form_contacts_refresh]
+          Organisms:      [_form_organisms_add, _form_organisms_remove, _form_organisms_refresh]
           #Detail: [created_at, updated_at, slug]
       new:
         title: New group

@@ -36,6 +36,72 @@ require_once dirname(__FILE__).'/../lib/groupGeneratorHelper.class.php';
  */
 class groupActions extends autoGroupActions
 {
+  public function executeMember(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $this->executeEdit($request);
+    
+    /*
+    if ( $this->form->getCSRFToken() !== $request->getParameter('_csrf_token') )
+      throw new liEvenementException('CSRF Attack detected: '.$this->form->getCSRFToken().' - '.$request->getParameter('_csrf_token'));
+    */
+    
+    $r = array();
+    
+    try {
+      // is the asked model is supported
+      $validator = new sfValidatorChoice(array(
+        'choices' => array('contact', 'professional', 'organism'),
+      ), array('required' => 'Required.', 'invalid' => sprintf('Unsupported model %s.',$request->getParameter('type','unknown'))) );
+      $type = $validator->clean($request->getParameter('type'));
+      
+      // is the asked action is supported
+      $validator = new sfValidatorChoice(array(
+        'choices' => array('remove', 'add'),
+      ),array('required' => 'Required.', 'invalid' => sprintf('Unsupported modifier %s.',$request->getParameter('modifier','unknown'))) );
+      $modifier = $validator->clean($request->getParameter('modifier'));
+      
+      // tweaking the error messages
+      $invalid = array(
+        'remove' => __('Invalid or impossible to remove from this groupe because not a part of.'),
+        'add' => __('Invalid or impossible to add to this group because already a part of.'),
+      );
+      
+      $q = Doctrine_Query::create()->from(ucfirst($type).' o')
+        ->leftJoin('o.Groups g');
+      
+      // validating the current targetted object
+      $relations = array('contact' => 'ContactGroups', 'organism' => 'OrganismGroups', 'professional' => 'ProfessionalGroups');
+      $validator = new sfValidatorDoctrineChoice(array(
+        'model' => ucfirst($type),
+        'required' => true,
+        'query' => $q->copy()->select('o.id')
+          ->leftJoin(sprintf('g.%s og ON og.group_id = ? AND og.group_id = g.id AND og.%s_id = o.id', $relations[$type], $type), $this->form->getObject()->id)
+          ->having(sprintf('count(og.group_id) %s',$modifier == 'add' ? '= 0' : '= 1'))
+          ->groupBy('o.id') // big but beautiful SQL hack...
+      ), array('required' => 'Required.', 'invalid' => $invalid[$modifier]));
+      $object_id = $validator->clean($request->getParameter('object_id')); // throws an exception if it doesn't validate
+      
+      // adding / removing the object from the group
+      $object = $q->andWhere('o.id = ?',$object_id)->select('o.*, g.*')->fetchOne();
+      if ( $modifier == 'add' ) $object->Groups[] = $this->form->getObject();
+      else unset($object->Groups[0]);
+      $object->save();
+      
+      // messages
+      $r['success'] = __(ucfirst($type).' '.($modifier == 'add' ? 'added' : 'removed'));
+      $r['object_id'] = $object->id;
+    }
+    catch ( sfValidatorError $e )
+    {
+      $r['error'] = __($e->getMessage(), null, 'sf_admin');
+    }
+    
+    if ( !$request->hasParameter('debug') )
+      return $this->renderText(json_encode($r));
+    $this->content = $r;
+  }
+  
   public function executeEmailing(sfWebRequest $request)
   {
     $q = new Doctrine_Query;

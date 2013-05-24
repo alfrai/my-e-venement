@@ -31,18 +31,6 @@ class GroupForm extends BaseGroupForm
     return parent::doSave($con);
   }
   
-  /*
-  public function saveEmbeddedForms($con = null, $forms = null)
-  {
-    print_r($forms);
-    die();
-    if ( $forms !== null )
-      return parent::saveEmbeddedForms($con, $forms);
-    
-    parent::saveEmbeddedForms($con, $forms);
-  }
-  */
-  
   public function configure()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
@@ -96,5 +84,9 @@ class GroupForm extends BaseGroupForm
       unset($this->widgetSchema['Picture'][$fieldName], $this->validatorSchema['Picture'][$fieldName]);
     $this->validatorSchema['Picture']['content_file']->setOption('required',false);
     unset($this->widgetSchema['picture_id'], $this->validatorSchema['picture_id']);
+    
+    // removing too big widgets
+    foreach ( array('contacts_list', 'professionals_list', 'organisms_list') as $fieldName )
+      unset($this->widgetSchema[$fieldName]);
   }
 }

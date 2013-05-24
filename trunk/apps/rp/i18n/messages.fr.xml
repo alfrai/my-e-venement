@@ -5,6 +5,86 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Invalid or impossible to remove from this groupe because not a part of.</source>
+        <target>Non valide ou impossible à retirer car non membre de ce groupe.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Invalid or impossible to add to this group because already a part of.</source>
+        <target>Non valide ou impossible à ajouter car déjà membre de ce groupe.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Refresh</source>
+        <target>Rafraîchir</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Refresh the list of contacts</source>
+        <target>Rafraîchir la liste des contacts</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Refresh the list of professionals</source>
+        <target>Rafraîchir la liste des professionnels</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Refresh the list of organisms</source>
+        <target>Rafraîchir la liste des organismes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Remove</source>
+        <target>Retirer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Contact removed</source>
+        <target>Contact retiré</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Professional removed</source>
+        <target>Professionnel retiré</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism removed</source>
+        <target>Organisme retiré</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Remove a contact</source>
+        <target>Retirer un contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Remove a professional</source>
+        <target>Retirer un professionnel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Remove an organism</source>
+        <target>Retirer un organisme</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Add</source>
+        <target>Ajouter</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Contact added</source>
+        <target>Contact ajouté</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Professional added</source>
+        <target>Professionnel ajouté</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism added</source>
+        <target>Organisme ajouté</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Add a contact</source>
+        <target>Ajouter un contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Add a professional</source>
+        <target>Ajouter un professionnel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Add an organism</source>
+        <target>Ajouter un organisme</target>
+      </trans-unit>
+      <trans-unit>
         <source>Remarkable</source>
         <target>Remarquable</target>
       </trans-unit>

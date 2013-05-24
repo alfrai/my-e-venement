@@ -77,6 +77,9 @@
         related += parseFloat($(this).html().replace(',','.'));
       });
       
+      if ( !related )
+        return;
+      
       $(data).find('.sf_admin_list >> tbody')
         .append('<tr class="sf_admin_row total ui-widget-content"><td></td><td colspan="2" class="sf_admin_text"><?php echo __('Really paid total') ?></td><td class="sf_admin_text sf_admin_list_td_list_value">'+(total+related).toFixed(2)+currency+'</td><td></td></tr>')
         .prepend('<tr class="sf_admin_row label ui-widget-content"><td></td><td colspan="3" class="sf_admin_text"><?php echo __('Paybacks') ?></td><td></td></tr>');
