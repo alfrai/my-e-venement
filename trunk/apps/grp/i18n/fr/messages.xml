@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Remarkable</source>
+        <target>Remarquable</target>
+      </trans-unit>
+      <trans-unit>
         <source>Contact name</source>
         <target>Nom de contact</target>
       </trans-unit>

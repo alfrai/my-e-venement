@@ -65,7 +65,7 @@ tfoot td {
 #sf_admin_container td {
   width: 160px;
   min-width: 160px;
-  border: 1px solid gray;
+  /*border: 1px solid gray;*/
 }
 #sf_admin_container td:last-child {
   width: 100px;

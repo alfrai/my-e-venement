@@ -19,6 +19,7 @@
     (<?php echo cross_app_link_to($professional->Organism,'rp','organism/show?id='.$professional->Organism->id) ?>
     -
     <?php echo $professional->name ?>)
+    <span class="picto"><?php echo $professional->getRaw('groups_picto') ?></span>
   </p>
   
   <div class="ui-widget ui-widget-content ui-corner-all">

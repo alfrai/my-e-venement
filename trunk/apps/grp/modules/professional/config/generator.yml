@@ -15,8 +15,9 @@ generator:
       actions: ~
       fields:
         name: { label: Function }
+        groups_picto: { label: Remarkable }
       list:
-        display: [Contact, name, Organism, contact_email]
+        display: [Contact, _groups_picto, name, Organism, contact_email]
         batch_actions: {}
         object_actions: { _show: ~ }
         actions: {}
