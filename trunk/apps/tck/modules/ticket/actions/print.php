@@ -94,6 +94,7 @@
               $newticket->sf_guard_user_id = NULL;
               $newticket->created_at = NULL;
               $newticket->updated_at = NULL;
+              $newticket->printed_at = date('Y-m-d H:i:s');
               $newticket->grouping_fingerprint = $fingerprint;
               $newticket->Duplicated = $ticket;
               $newticket->save();
@@ -169,7 +170,7 @@
               $newticket->sf_guard_user_id = NULL;
               $newticket->created_at = NULL;
               $newticket->updated_at = NULL;
-              $newticket->printed_at = NULL;
+              $newticket->printed_at = date('Y-m-d H:i:s');
               $newticket->Duplicated = $ticket;
               $newticket->save();
               

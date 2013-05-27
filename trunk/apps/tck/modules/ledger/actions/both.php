@@ -40,7 +40,7 @@
       ->leftJoin('t.Tickets tck')
       ->leftJoin('p.User u')
       ->leftJoin('tck.Gauge g')
-      ->andWhere('tck.duplicating IS NULL')
+      ->andWhere('tck.duplicating IS NULL') // to count only original tickets, not duplicates
       ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL')
       ->orderBy('pm.name');
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )

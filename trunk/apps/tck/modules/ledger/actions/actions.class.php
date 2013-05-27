@@ -40,8 +40,7 @@ class ledgerActions extends sfActions
       ->leftJoin('m.Location l')
       ->leftJoin('m.Tickets tck')
       ->leftJoin('tck.User u')
-      ->leftJoin('tck.Duplicated d')
-      ->andWhere('d.id IS NULL') // to count only originals tickets, not duplicates
+      ->andWhere('tck.duplicating IS NULL') // to count only originals tickets, not duplicates
       ->leftJoin('tck.Transaction t')
       ->leftJoin('tck.Gauge g')
       ->leftJoin('t.Contact c')
@@ -57,11 +56,10 @@ class ledgerActions extends sfActions
         ->andWhere('t.transaction_id IN (SELECT oo.transaction_id FROM Order oo) OR p.id IS NOT NULL OR '.$str);
     
     if ( !isset($criterias['tck_value_date_payment']) )
-      $q->andWhere('(tck.printed_at IS NOT NULL AND tck.printed_at >= ? AND tck.printed_at < ? OR tck.integrated_at IS NOT NULL AND tck.integrated_at >= ? AND tck.integrated_at < ?)',array(
-          $dates[0],
-          $dates[1],
-          $dates[0],
-          $dates[1],
+      $q->andWhere('(tck.cancelling IS NOT NULL AND tck.updated_at >= ? AND tck.updated_at < ? OR tck.printed_at IS NOT NULL AND tck.printed_at >= ? AND tck.printed_at < ? OR tck.integrated_at IS NOT NULL AND tck.integrated_at >= ? AND tck.integrated_at < ?)',array(
+          $dates[0], $dates[1],
+          $dates[0], $dates[1],
+          $dates[0], $dates[1],
         ));
     else
     {
