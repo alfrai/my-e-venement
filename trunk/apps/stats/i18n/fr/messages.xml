@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Global stats on ticketting</source>
+        <target>Stats globales de billetterie</target>
+      </trans-unit>
+      <trans-unit>
         <source>This chart is calculated on the full selected period. If a member card expires or has been created within it, the total quantity will be impacted with a fraction of this member card and not a full one.</source>
         <target>Ce graphe est calculé sur la période sélectionnée. Si une carte d'abo. a été créée ou expire dans ce laps de temps, alors la quantité sera impactée d'une fraction de carte d'abo et non d'une entière.</target>
       </trans-unit>

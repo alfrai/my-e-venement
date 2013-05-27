@@ -89,11 +89,13 @@ class pricesActions extends sfActions
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date','CrossAppLink'));
     
-    $g = new stGraph();
+    $g = new liGraph();
     $g->bg_colour = '#FFFFFF';
     
     //Set the transparency, line colour to separate each slice etc.
-    $g->pie(80,'#78B9EC','{font-size: 12px; color: #78B9EC;');
+    $pie = new liPie();
+    $pie->set_alpha(0.8);
+    //$pie->set_style('{font-size: 12px; color: #78B9EC;');
     
     $prices = $this->getPrices(
       $request->getParameter('id') == 'asked',
@@ -107,21 +109,25 @@ class pricesActions extends sfActions
       $total += $price->nb;
     foreach ( $prices as $price )
     {
-      $data[] = round($price->nb*100/$total);
+      $data[] = $price->nb; //round($price->nb*100/$total);
       $names[] = $price->name.' ('.$price->nb.')';
     }
     
-    $g->pie_values($data,$names);
-    $g->pie_slice_colours( array('#d01f3c','#3537a0','#35a088','#d0841f','#cbd01f') );
+    $pie->set_values($data,$names);
+    //$g->pie_slice_colours( array('#d01f3c','#3537a0','#35a088','#d0841f','#cbd01f') );
     
     //To display value as tool tip
-    $g->set_tool_tip( __('#x_label# ticket(s): #val#%') );
+    $pie->set_tooltip( __('#val# ticket(s): #percent#') );
+    
+    $g->add_element($pie);
     
     if ( !$request->hasParameter('debug') )
     {
-      echo $g->render();
+      echo $g;
       return sfView::NONE;
     }
+    
+    $this->content = (string)$g;
   }
   
   protected function getPrices($asked = false, $ordered = false, $all = false, $type = NULL)
