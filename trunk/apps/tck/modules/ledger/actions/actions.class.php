@@ -49,7 +49,7 @@ class ledgerActions extends sfActions
       ->leftJoin('pro.Organism o')
       ->orderBy('e.name, m.happens_at, l.name, tck.price_name, u.first_name, u.last_name, tck.sf_guard_user_id, tck.cancelling IS NULL DESC, tck.updated_at');
     
-    $str = 'tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE';
+    $str = 'tck.printed_at IS NOT NULL OR tck.cancelling IS NOT NULL OR tck.integrated_at IS NOT NULL';
     if ( !isset($criterias['not-yet-printed']) )
       $q->andWhere($str);
     else
@@ -57,7 +57,9 @@ class ledgerActions extends sfActions
         ->andWhere('t.transaction_id IN (SELECT oo.transaction_id FROM Order oo) OR p.id IS NOT NULL OR '.$str);
     
     if ( !isset($criterias['tck_value_date_payment']) )
-      $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
+      $q->andWhere('(tck.printed_at IS NOT NULL AND tck.printed_at >= ? AND tck.printed_at < ? OR tck.integrated_at IS NOT NULL AND tck.integrated_at >= ? AND tck.integrated_at < ?)',array(
+          $dates[0],
+          $dates[1],
           $dates[0],
           $dates[1],
         ));
@@ -217,7 +219,7 @@ class ledgerActions extends sfActions
       $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))')
         ->leftJoin('t.Tickets tck')
         ->andWhere('tck.duplicating IS NULL')
-        ->andWhere('tck.integrated = true OR tck.printed = true')
+        ->andWhere('tck.integrated_at IS NOT NULL OR tck.printed_at IS NOT NULL')
         ->andWhere('tck.cancelling IS NULL')
         ->andWhere('tck.id NOT IN (SELECT tck3.cancelling FROM ticket tck3 WHERE tck3.cancelling IS NOT NULL)');
     }

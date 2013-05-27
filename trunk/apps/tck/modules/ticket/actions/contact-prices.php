@@ -38,7 +38,7 @@
   // check
   $q = Doctrine::getTable('Ticket')->createQuery('tck')
     ->select('tck.id')
-    ->andWhere('tck.printed = true OR tck.integrated = true OR t.id IN (SELECT o.transaction_id FROM Order o)')
+    ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR t.id IN (SELECT o.transaction_id FROM Order o)')
     ->andWhere('tck.duplicating IS NULL')
     ->andWhere('tck.cancelling IS NULL')
     ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')

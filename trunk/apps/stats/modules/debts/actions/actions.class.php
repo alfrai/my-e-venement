@@ -144,7 +144,7 @@ class debtsActions extends sfActions
     
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $q = "SELECT d.date,
-            (SELECT sum(value) FROM ticket WHERE updated_at <= d.date::date AND (printed OR integrated OR cancelling IS NOT NULL) AND duplicate IS NULL) AS outcome,
+            (SELECT sum(value) FROM ticket WHERE (printed_at IS NOT NULL AND printed_at <= d.date::date OR integrated_at IS NOT NULL AND integrated_at <= d.date::date OR cancelling IS NOT NULL AND created_at <= d.date::date) AND id NOT IN (SELECT cancelling FROM ticket WHERE cancelling IS NOT NULL)) AS outcome,
             (SELECT sum(value) FROM payment WHERE created_at <= d.date::date) AS income
           FROM (SELECT '".implode("'::date AS date UNION SELECT '",$days)."'::date AS date) AS d
           ORDER BY date";

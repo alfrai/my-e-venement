@@ -41,19 +41,17 @@
       ->leftJoin('p.User u')
       ->leftJoin('tck.Gauge g')
       ->andWhere('tck.duplicating IS NULL')
-      ->andWhere('tck.printed = true OR tck.integrated = true OR tck.cancelling IS NOT NULL')
+      ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL')
       ->orderBy('pm.name');
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
-    {
       $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))');
-    }
     else
-    {
-      $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
+      $q->andWhere('tck.printed_at IS NOT NULL AND tck.printed_at >= ? AND tck.printed_at < ? OR tck.integrated_at IS NOT NULL AND tck.integrated_at >= ? AND tck.integrated_at < ?',array(
+          $dates[0],
+          $dates[1],
           $dates[0],
           $dates[1],
         ));
-    }
     
     // restrict access to our own user
     $q = $this->restrictQueryToCurrentUser($q);
@@ -98,7 +96,7 @@
       ->leftJoin('p.Tickets t')
       ->leftJoin('t.Gauge g')
       ->leftJoin('t.User u')
-      ->andWhere('t.printed OR t.cancelling IS NOT NULL OR t.integrated')
+      ->andWhere('t.printed_at IS NOT NULL OR t.cancelling IS NOT NULL OR t.integrated_at IS NOT NULL')
       ->andWhere('t.duplicating IS NULL')
       ->orderBy('p.name');
     if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
@@ -108,7 +106,9 @@
     if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
       $q->andWhereIn('t.manifestation_id',$criterias['manifestations']);
     else
-      $q->andWhere('t.updated_at >= ? AND t.updated_at < ?',array(
+      $q->andWhere('t.printed_at IS NOT NULL AND t.printed_at >= ? AND t.printed_at < ? OR t.integrated_at IS NOT NULL AND t.integrated_at >= ? AND t.integrated_at < ?',array(
+          $dates[0],
+          $dates[1],
           $dates[0],
           $dates[1],
         ));
@@ -133,13 +133,13 @@
       $users[] = intval($user_id);
     $q = "SELECT value, count(id) AS nb, sum(value) AS total
           FROM ticket
-          WHERE ".( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 ? 'manifestation_id IN ('.implode(',',$criterias['manifestations']).')' : 'updated_at >= :date0 AND updated_at < :date1' )."
-            AND id NOT IN (SELECT cancelling FROM ticket WHERE ".(!is_array($criterias['manifestations']) || count($criterias['manifestations']) == 0 ? 'updated_at >= :date0 AND updated_at < :date1 AND ' : '')." cancelling IS NOT NULL AND duplicating IS NULL)
+          WHERE ".( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 ? 'manifestation_id IN ('.implode(',',$criterias['manifestations']).')' : '(printed_at IS NOT NULL AND printed_at >= :date0 AND printed_at < :date1 OR integrated_at IS NOT NULL AND integrated_at >= :date0 AND integrated_at < :date1)' )."
+            AND id NOT IN (SELECT cancelling FROM ticket WHERE ".(!is_array($criterias['manifestations']) || count($criterias['manifestations']) == 0 ? '(printed_at IS NOT NULL AND printed_at >= :date0 AND printed_at < :date1 OR integrated_at IS NOT NULL AND integrated_at >= :date0 AND integrated_at < :date1) AND ' : '')." cancelling IS NOT NULL AND duplicating IS NULL)
             AND cancelling IS NULL
             ".( is_array($criterias['users']) && count($criterias['users']) > 0 ? 'AND sf_guard_user_id IN ('.implode(',',$users).')' : '')."
             ".( is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 ? 'AND gauge_id IN (SELECT id FROM gauge g WHERE g.workspace_id IN ('.implode(',',$criterias['workspaces']).'))' : '')."
             ".( !$this->getUser()->hasCredential('tck-ledger-all-users') ? 'AND sf_guard_user_id = '.sfContext::getInstance()->getUser()->getId() : '' )."
-            AND (printed OR integrated OR cancelling IS NOT NULL)
+            AND (printed_at IS NOT NULL OR integrated_at IS NOT NULL OR cancelling IS NOT NULL)
             AND duplicating IS NULL
           GROUP BY value
           ORDER BY value DESC";
@@ -162,7 +162,7 @@
       ->addSelect('sum(case when t.value < 0 then 0 else t.value end) AS income')
       ->addSelect('sum(case when t.value > 0 then 0 else t.value end) AS outcome')
       ->andWhere('t.duplicating IS NULL')
-      ->andWhere('t.printed OR t.integrated OR t.cancelling IS NOT NULL')
+      ->andWhere('t.printed_at IS NOT NULL OR t.integrated_at IS NOT NULL OR t.cancelling IS NOT NULL')
       ->orderBy('u.last_name, u.first_name, u.username')
       ->groupBy('u.id, u.last_name, u.first_name, u.username');
     if ( is_array($criterias['users']) && count($criterias['users']) > 0 )
@@ -172,10 +172,12 @@
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
       $q->andWhereIn('t.manifestation_id',$criterias['manifestations']);
     else
-      $q->andWhere('t.updated_at >= ? AND t.updated_at < ?',array(
-        $dates[0],
-        $dates[1],
-      ));
+      $q->andWhere('t.printed_at IS NOT NULL AND t.printed_at >= ? AND t.printed_at < ? OR t.integrated_at IS NOT NULL AND t.integrated_at >= ? AND t.integrated_at < ?',array(
+          $dates[0],
+          $dates[1],
+          $dates[0],
+          $dates[1],
+        ));
     
     // restrict access to our own user
     $q = $this->restrictQueryToCurrentUser($q);

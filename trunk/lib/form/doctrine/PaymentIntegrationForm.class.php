@@ -28,11 +28,12 @@ class PaymentIntegrationForm extends BaseFormDoctrine
     $q->from('Transaction t')
       ->leftJoin('t.Tickets tck')
       ->leftJoin('tck.Cancelling c')
+      ->leftJoin('tck.Duplicating d')
       ->andWhere('tck.manifestation_id = ?',$this->manifestation->id)
-      ->andWhere('tck.duplicate IS NULL')
       ->andWhere('c.id IS NULL')
+      ->andWhere('d.id IS NULL')
       ->andWhereIn('tck.price_id',$this->getValue('price_id'))
-      ->andWhere('tck.integrated = TRUE')
+      ->andWhere('tck.integrated_at IS NOT NULL')
       ->andWhere('(SELECT count(*) FROM payment p WHERE p.transaction_id = t.id) = 0')
       ->andWhere('(SELECT count(DISTINCT tck2.manifestation_id) FROM ticket tck2 WHERE tck2.transaction_id = t.id) = 1');
     $transactions = $q->execute();

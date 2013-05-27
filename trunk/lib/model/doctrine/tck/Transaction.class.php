@@ -16,7 +16,7 @@ class Transaction extends PluginTransaction
   {
     $toprint = 0;
     foreach ( $this->Tickets as $ticket )
-    if ( $ticket->Duplicatas->count() == 0 && !$ticket->printed && !$ticket->integrated && is_null($ticket->cancelling) )
+    if ( $ticket->Duplicatas->count() == 0 && !$ticket->printed_at && !$ticket->integrated_at && is_null($ticket->cancelling) )
       $toprint++;
     return $toprint;
   }
@@ -31,7 +31,7 @@ class Transaction extends PluginTransaction
     
     $price = 0;
     foreach ( $this->Tickets as $ticket )
-    if ( $all || $ticket->Duplicatas->count() == 0 && ($ticket->printed || $ticket->integrated || !is_null($ticket->cancelling)) )
+    if ( $all || $ticket->Duplicatas->count() == 0 && ($ticket->printed_at || $ticket->integrated_at || !is_null($ticket->cancelling)) )
       $price += $ticket->value;
     return $price;
   }
@@ -68,9 +68,9 @@ class Transaction extends PluginTransaction
     
     $price = 0;
     foreach ( $this->Tickets as $ticket )
-    if ( $ticket->printed && $ticket->member_card_id )
+    if ( $ticket->printed_at && $ticket->member_card_id )
       $price += $ticket->value;
-    elseif ( $all && $ticket->Price->member_card_linked && !$ticket->printed
+    elseif ( $all && $ticket->Price->member_card_linked && !$ticket->printed_at
           && isset($prices[$ticket->price_id]) && $prices[$ticket->price_id] > 0 )
     {
       $prices[$ticket->price_id]--;

@@ -27,7 +27,7 @@
           if ( is_null($transaction->professional_id) || $cpt > 1 )
           foreach ( $transaction->Tickets as $ticket )
           if ( is_null($ticket->duplicating) && is_null($ticket->cancelling) && !$ticket->hasBeenCancelled() )
-          if ( $ticket->printed || $ticket->integrated || $transaction->Order->count() > 0 )
+          if ( $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 )
           {
             if ( !isset($events[$ticket->Manifestation->Event->id]) )
               $events[$ticket->Manifestation->Event->id] = array(

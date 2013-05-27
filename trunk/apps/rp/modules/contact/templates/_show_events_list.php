@@ -19,7 +19,7 @@
     ->leftJoin('m.Tickets tck')
     ->leftJoin('tck.Transaction t')
     ->where('t.contact_id = ?',$contact->id)
-    ->andWhere('tck.printed = TRUE OR tck.integrated = TRUE')
+    ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL')
     ->andWhere('tck.cancelling IS NULL AND tck.duplicating IS NULL')
     ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
     ->orderBy('me.name, e.name, m.happens_at DESC, t.id');

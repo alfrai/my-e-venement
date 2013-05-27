@@ -49,7 +49,7 @@
         $this->getUser()->setFlash('error',__("Can't find the ticket #%%i%% in database...",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/cancel');
       }
-      if ( !$ticket->printed )
+      if ( !$ticket->printed_at )
       {
         $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it has not yet been printed... Just try to suppress it",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
@@ -91,7 +91,7 @@
       $this->ticket = $ticket->copy();
       $this->ticket->cancelling = $ticket->getOriginal()->id;
       $this->ticket->duplicating = NULL;
-      $this->ticket->printed = false;
+      $this->ticket->printed_at = NULL;
       $this->ticket->value = -$this->ticket->value;
       $this->transaction->Tickets[] = $this->ticket;
       

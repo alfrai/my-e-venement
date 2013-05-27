@@ -15,7 +15,7 @@
       <input type="hidden" name="toprint" value="0" />
     </h2>
     <p class="prices"><?php foreach ( $manifestation->Tickets as $ticket ): ?>
-      <span class="ticket ticket_prices <?php echo $ticket->printed || $ticket->integrated ? 'done' : 'todo'?>" title="#<?php echo $ticket->id ?>">
+      <span class="ticket ticket_prices <?php echo $ticket->printed_at || $ticket->integrated_at ? 'done' : 'todo'?>" title="#<?php echo $ticket->id ?>">
         <?php echo $ticket->price_name ?>
         <input type="hidden" name="toprint[]" value="<?php echo $ticket->id ?>" disabled="disabled" />
       </span>

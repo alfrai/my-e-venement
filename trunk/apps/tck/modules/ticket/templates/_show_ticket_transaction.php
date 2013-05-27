@@ -5,7 +5,7 @@
 <td class="state">
   <table>
     <tbody><tr>
-      <td><?php echo image_tag( $ticket->printed ? '/sfDoctrinePlugin/images/tick.png' : '/sfDoctrinePlugin/images/delete.png') ?></td>
+      <td><?php echo image_tag( $ticket->printed_at ? '/sfDoctrinePlugin/images/tick.png' : '/sfDoctrinePlugin/images/delete.png') ?></td>
     </tr></tbody>
     <thead><tr>
       <td><?php echo __('Printed') ?></td>
@@ -21,7 +21,7 @@
   </table>
   <table>
     <tbody><tr>
-      <td><?php echo image_tag( $ticket->integrated ? '/sfDoctrinePlugin/images/tick.png' : '/sfDoctrinePlugin/images/delete.png') ?></td>
+      <td><?php echo image_tag( $ticket->integrated_at ? '/sfDoctrinePlugin/images/tick.png' : '/sfDoctrinePlugin/images/delete.png') ?></td>
     </tr></tbody>
     <thead><tr>
       <td><?php echo __('Integrated') ?></td>

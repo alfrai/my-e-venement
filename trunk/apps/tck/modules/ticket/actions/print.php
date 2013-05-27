@@ -59,7 +59,7 @@
     $this->grouped_tickets = false;
     $this->duplicate = $request->getParameter('duplicate') == 'true';
     $this->tickets = array();
-    $update = array('printed' => array(), 'integrated' => array());
+    $update = array('printed_at' => array(), 'integrated_at' => array());
     
     // grouped tickets
     if ( sfConfig::has('app_tickets_authorize_grouped_tickets')
@@ -81,7 +81,7 @@
           if ( $request->getParameter('duplicate') == 'true' )
           {
             if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
-              && $ticket->printed
+              && $ticket->printed_at
               && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
             {
               if ( $cpt >= 150 )
@@ -111,7 +111,7 @@
           }
           
           else // not duplicates
-          if ( !$ticket->printed && !$ticket->integrated )
+          if ( !$ticket->printed_at && !$ticket->integrated_at )
           {
             if ( $cpt >= 150 )
             {
@@ -120,10 +120,10 @@
             }
         
             if ( $ticket->Manifestation->no_print )
-              $update['integrated'][$ticket->id] = $ticket->id;
+              $update['integrated_at'][$ticket->id] = $ticket->id;
             else
             {
-              $update['printed'][$ticket->id] = $ticket->id;
+              $update['printed_at'][$ticket->id] = $ticket->id;
               
               if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
               {
@@ -143,7 +143,7 @@
       
       if ( $request->getParameter('duplicate') != 'true' )
       foreach ( $this->tickets as $ticket )
-        $update['printed'][$ticket['ticket']->id] = $ticket['ticket']->id;
+        $update['printed_at'][$ticket['ticket']->id] = $ticket['ticket']->id;
     }
     
     // normal / not grouped tickets
@@ -162,13 +162,14 @@
           if ( $request->getParameter('duplicate') == 'true' )
           {
             if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
-              && $ticket->printed
+              && $ticket->printed_at
               && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
             {
               $newticket = $ticket->copy();
               $newticket->sf_guard_user_id = NULL;
               $newticket->created_at = NULL;
               $newticket->updated_at = NULL;
+              $newticket->printed_at = NULL;
               $newticket->Duplicated = $ticket;
               $newticket->save();
               
@@ -178,29 +179,29 @@
           
           else // $this->duplicate == false
           {
-            if ( !$ticket->printed && !$ticket->integrated )
+            if ( !$ticket->printed_at && !$ticket->integrated_at )
             {
               if ( $ticket->Manifestation->no_print )
               {
                 // member cards
                 if ( $ticket->Price->member_card_linked )
                 {
-                  $ticket->integrated = true;
+                  $ticket->integrated_at = date('Y-m-d H:i:s');
                   $ticket->save();
                 }
                 else
-                  $update['integrated'][$ticket->id] = $ticket->id;
+                  $update['integrated_at'][$ticket->id] = $ticket->id;
               }
               else
               {
                 // member cards
                 if ( $ticket->Price->member_card_linked )
                 {
-                  $ticket->printed = true;
+                  $ticket->printed_at = date('Y-m-d H:i:s');
                   $ticket->save();
                 }
                 else
-                  $update['printed'][$ticket->id] = $ticket->id;
+                  $update['printed_at'][$ticket->id] = $ticket->id;
                 
                 $this->tickets[] = $ticket;
               }
@@ -219,8 +220,8 @@
       $q = Doctrine_Query::create()->update()
         ->from('Ticket t')
         ->whereIn('t.id',$ids)
-        ->andWhere('t.'.$type.' != ?',true)
-        ->set('t.'.$type,'true')
+        ->andWhere(sprintf('t.%s IS NULL',$type))
+        ->set('t.'.$type,'NOW()')
         ->set('t.updated_at','NOW()')
         ->set('t.sf_guard_user_id',$this->getUser()->getId())
         ->set('t.version','t.version + 1');

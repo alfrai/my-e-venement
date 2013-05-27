@@ -26,7 +26,7 @@ class Control extends PluginControl
         ->andWhere('t.manifestation_id IN (SELECT mm.id FROM checkpoint c LEFT JOIN c.Event e LEFT JOIN e.Manifestations mm WHERE c.id = ?)',$this->checkpoint_id)
         ->andWhere('m.happens_at < ?',date('Y-m-d H:i',strtotime('now + '.$future)))
         ->andWhere('m.happens_at >= ?',date('Y-m-d H:i',strtotime('now - '.$past)))
-        ->andWhere('t.printed')
+        ->andWhere('t.printed_at IS NOT NULL')
         ->orderBy('m.happens_at');
       $tickets = $q->execute();
 

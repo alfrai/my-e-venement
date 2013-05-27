@@ -55,7 +55,7 @@ class Manifestation extends PluginManifestation
         ->andWhereIn('g.workspace_id',$options['workspaces']);
     
     if (!( isset($options['not-yet-printed']) && $options['not-yet-printed']))
-      $q->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE');
+      $q->andWhere('tck.printed_at IS NOT NULL OR tck.cancelling IS NOT NULL OR tck.integrated_at IS NOT NULL');
     else
       $q->leftJoin('tck.Transaction t')
         ->leftJoin('t.Payments p')

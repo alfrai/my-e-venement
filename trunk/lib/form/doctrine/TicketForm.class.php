@@ -23,7 +23,7 @@ class TicketForm extends BaseTicketForm
     parent::configure();
     
     $this->validatorSchema['nb'] = new sfValidatorInteger(array('required' => false));
-    $this->validatorSchema['duplicate'] = new sfValidatorInteger(array('min' => 0, 'required' => false));
+    //$this->validatorSchema['duplicate'] = new sfValidatorInteger(array('min' => 0, 'required' => false));
     $this->validatorSchema['price_id']->setOption('required',false);
     $this->validatorSchema['value']->setOption('required',false);
     $this->validatorSchema['gauge_id'] = new sfValidatorDoctrineChoice(array(
@@ -52,7 +52,7 @@ class TicketForm extends BaseTicketForm
       $q = Doctrine::getTable('Ticket')->createQuery('tck')
         ->andWhere('tck.numerotation = ?',$this->getValue('numerotation'))
         ->andWhere('tck.gauge_id = ?',$this->getValue('gauge_id'))
-        ->andWhere('tck.cancelling IS NULL AND tck.duplicate IS NULL AND tck.id NOT IN (SELECT tt.id FROM Ticket tt WHERE tt.cancelling IS NOT NULL AND tt.gauge_id = tck.gauge_id)');
+        ->andWhere('tck.cancelling IS NULL AND tck.id NOT IN (SELECT tt.cancelling FROM Ticket tt WHERE tt.cancelling IS NOT NULL AND tt.gauge_id = tck.gauge_id)');
       $tickets = $q->execute();
       if ( $this->getValue('nb') < 0 && $tickets->count() == 0 )
         throw new liSeatingException('There is no ticket to remove on this seat for this gauge.');
@@ -84,9 +84,9 @@ class TicketForm extends BaseTicketForm
         ->andWhere('t.manifestation_id = ?', $this->object->manifestation_id)
         ->andWhere('t.transaction_id = ?', $this->object->transaction_id)
         ->andWhere('p.name = ?', $this->object->price_name)
-        ->andWhere('NOT t.printed')
+        ->andWhere('t.printed_at IS NULL')
         ->andWhere('t.gauge_id = ?',$this->object->gauge_id)
-        ->orderBy('t.integrated, t.id DESC')
+        ->orderBy('t.integrated_at, t.id DESC')
         ->limit(-$nb);
       $tickets = $q->execute();
       foreach ( $tickets as $ticket )

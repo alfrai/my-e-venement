@@ -34,7 +34,7 @@ class TransactionTable extends PluginTransactionTable
   public function createQueryForLineal($a = 't')
   {
     $q = parent::createQuery($a);
-    $q->leftJoin("$a.Tickets tck ON tck.transaction_id = t.id AND tck.duplicating IS NULL AND (tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE)")
+    $q->leftJoin("$a.Tickets tck ON tck.transaction_id = t.id AND tck.duplicating IS NULL AND (tck.printed_at IS NOT NULL OR tck.cancelling IS NOT NULL OR tck.integrated_at IS NOT NULL)")
       ->leftJoin("$a.Invoice i")
       ->leftJoin('tck.Manifestation m')
       ->leftJoin('m.Event e')
@@ -53,20 +53,6 @@ class TransactionTable extends PluginTransactionTable
     return $this->fetchOneById($id);
   }
   
-  public static function addDebtsListBaseSelect(Doctrine_Query $q)
-  {
-    return $q
-      ->select($fields = 't.id, t.closed, t.updated_at, c.id, c.name, c.firstname, p.id, p.name, pt.id, pt.name, o.id, o.name, o.city')
-      ->addSelect("'yummy' AS yummy") // a trick to avoid an obvious bug which removes the name of the field following directly the first ones (??)
-      ;
-  }
-  public static function getDebtsListTicketsCondition($ticket_table = 'tck', $date = NULL)
-  {
-    $r = $ticket_table.'.transaction_id = t.id AND '.$ticket_table.'.duplicating IS NULL AND ('.$ticket_table.'.printed = TRUE OR '.$ticket_table.'.integrated = TRUE OR '.$ticket_table.'.cancelling IS NOT NULL)';
-    if ( !is_null($date) )
-      $r .= " AND $ticket_table.updated_at < '$date'";
-    return $r;
-  }
   public function retrieveDebtsList()
   {
     $q = Doctrine_Query::create()->from('Transaction t');
@@ -79,5 +65,19 @@ class TransactionTable extends PluginTransactionTable
       ->leftJoin('p.Organism o')
       ->where('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(value) END) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2').') - (SELECT (CASE WHEN count(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
     return $q;
+  }
+  protected static function getDebtsListTicketsCondition($ticket_table = 'tck', $date = NULL)
+  {
+    $r = $ticket_table.'.transaction_id = t.id AND '.$ticket_table.'.duplicating IS NULL AND ('.$ticket_table.'.printed_at IS NOT NULL OR '.$ticket_table.'.integrated_at IS NOT NULL OR '.$ticket_table.'.cancelling IS NOT NULL)';
+    if ( !is_null($date) )
+      $r .= " AND ($ticket_table.printed_at IS NOT NULL AND $ticket_table.printed_at < '$date' OR $ticket_table.integrated_at IS NOT NULL AND $ticket_table.integrated_at < '$date')";
+    return $r;
+  }
+  protected static function addDebtsListBaseSelect(Doctrine_Query $q)
+  {
+    return $q
+      ->select($fields = 't.id, t.closed, t.updated_at, c.id, c.name, c.firstname, p.id, p.name, pt.id, pt.name, o.id, o.name, o.city')
+      ->addSelect("'yummy' AS yummy") // a trick to avoid an obvious bug which removes the name of the field following directly the first ones (??)
+      ;
   }
 }

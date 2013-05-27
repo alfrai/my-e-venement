@@ -36,7 +36,7 @@
       ->leftJoin('e.Companies c')
       ->orderBy('m.happens_at, tck.price_name, tck.id')
       ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
-      ->andWhere('tck.printed = ? AND tck.integrated = ?',array(false,false));
+      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL');
     if ( $request->hasParameter('toprint') )
     {
       $tids = $request->getParameter('toprint');
@@ -51,9 +51,9 @@
     
     $this->tickets = array();
     foreach ( $this->transaction->Tickets as $ticket )
-    if ( !$ticket->printed && !$ticket->integrated )
+    if ( !$ticket->printed_at && !$ticket->integrated_at )
     {
-      $ticket->integrated = true;
+      $ticket->integrated_at = date('Y-m-d H:i:s');
       $ticket->save();
       $this->tickets[] = $ticket;
     }

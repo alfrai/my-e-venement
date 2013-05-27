@@ -271,7 +271,7 @@ class ticketActions extends sfActions
     {
       $q = Doctrine_Query::create()
         ->from('Transaction t')
-        ->leftJoin('t.Tickets tck ON tck.transaction_id = t.id AND tck.duplicating IS NULL AND (tck.printed = TRUE OR tck.integrated = TRUE OR tck.cancelling IS NOT NULL)')
+        ->leftJoin('t.Tickets tck ON tck.transaction_id = t.id AND tck.duplicating IS NULL AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL)')
         ->leftJoin('tck.Duplicatas duplis')
         ->leftJoin('tck.Cancelled cancelled')
         ->leftJoin('tck.Manifestation m')

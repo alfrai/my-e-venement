@@ -67,7 +67,7 @@
       {
         // get back the original transaction
         $q = Doctrine::getTable('Transaction')->createQuery()
-          ->andWhere('tck.printed = false AND tck.integrated = false')
+          ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
           ->andWhere('tck.price_id = ?',$price_default_id)
           ->andWhere('tck.manifestation_id = ?',$this->manifestation->id)
           ->andWhere('id = ?',$integrate['transaction_ref_id'])
@@ -158,7 +158,7 @@
           $tck->price_name = $ticket['price_name'];
           $tck->price_id = $ticket['price_id'] ? $ticket['price_id'] : $price_default_id;
           $tck->value = $ticket['value'];
-          $tck->integrated = true;
+          $tck->integrated_at = date('Y-m-d H:i:s');
           $tck->id = $ticket['id'];
           $tck->gauge_id = $gauges[$ticket['workspace_id']];
           $tck->created_at = date('Y-m-d H:i:s',strtotime(isset($ticket['created_at']) && $ticket['created_at'] ? $ticket['created_at'] : NULL));

@@ -11,7 +11,7 @@
     $transaction = $contact = $pro = array();
     $qty = $value = 0;
     foreach ( $price->Tickets as $t )
-    if ( $t->printed || $t->integrated )
+    if ( $t->printed_at || $t->integrated_at )
     if ( !$t->hasBeenCancelled() )
     {
       $transaction[$t->transaction_id] = cross_app_link_to('#'.$t->transaction_id,'tck','ticket/sell?id='.$t->transaction_id);

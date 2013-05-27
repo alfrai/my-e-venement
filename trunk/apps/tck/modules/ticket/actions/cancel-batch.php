@@ -61,8 +61,7 @@
   $q = new Doctrine_Query;
   $q->from('Ticket tck')
     ->andWhere('tck.transaction_id = ?',$tid)
-    ->andWhere('tck.integrated = true')
-    ->andWhere('tck.printed = false')
+    ->andWhere('tck.integrated_at IS NOT NULL AND tck.printed_at IS NULL')
     ->andWhere('tck.id NOT IN (SELECT t2.cancelling FROM ticket t2)')
     ->delete()
     ->execute();
@@ -77,7 +76,7 @@
     ->andWhere('tck.duplicating IS NULL')
     ->andWhere('tck.cancelling IS NULL')
     ->andWhere('tck.transaction_id = ?',$tid)
-    ->andWhere('tck.printed = true')
+    ->andWhere('tck.printed_at IS NOT NULL')
     ->execute();
   
   $value = 0;
@@ -92,9 +91,8 @@
         $cancel->duplicating =
         $cancel->transaction_id =
         $cancel->sf_guard_user_id =
-        $cancel->created_at =
-        $cancel->updated_at = NULL;
-        $cancel->printed = $cancel->integrated = false;
+        $cancel->created_at = $cancel->updated_at = NULL;
+        $cancel->printed_at = $cancel->integrated_at = NULL;
         $cancel->value = -$cancel->value;
         $cancel->cancelling = $ticket->id;
         $translinked->Tickets[] = $cancel;

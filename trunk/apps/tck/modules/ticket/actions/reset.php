@@ -46,7 +46,7 @@
     $q->delete()
       ->from('Ticket')
       ->where('transaction_id = ?',$this->transaction->id)
-      ->andWhere('NOT printed')
+      ->andWhere('printed_at IS NULL')
       ->execute();
     $q->delete()
       ->from('Order')

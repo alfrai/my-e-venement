@@ -84,16 +84,17 @@ Ticket:
       scale: 3
       notnull: true
     numerotation: string(255)
-    duplicate: integer
     duplicating: integer
     grouping_fingerprint: string(255)
     cancelling:
       type: integer
       unique: true
+    printed_at: timestamp
     printed:
       type: boolean
       default: false
       notnull: true
+    integrated_at: timestamp
     integrated:
       type: boolean
       default: false

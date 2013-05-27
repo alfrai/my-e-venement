@@ -90,15 +90,15 @@ class manifestationActions extends autoManifestationActions
     case 'asked':
       $q->leftJoin('t.Order o')
         ->andWhere('o.id IS NULL')
-        ->andWhere('tck.printed = false AND tck.integrated = false');
+        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL');
       break;
     case 'ordered':
       $q->leftJoin('t.Order o')
         ->andWhere('o.id IS NOT NULL')
-        ->andWhere('tck.printed = false AND tck.integrated = false');
+        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL');
       break;
     default:
-      $q->andWhere('(tck.printed = true OR tck.integrated = true)');
+      $q->andWhere('(tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL)');
       break;
     }
 
@@ -428,7 +428,7 @@ class manifestationActions extends autoManifestationActions
         ->andWhere('p.id IN (SELECT DISTINCT t0.price_id FROM Ticket t0 WHERE t0.manifestation_id = ?)', $params) // the X $mid is a hack for doctrine
         ->orderBy('p.name');
       $rank = 0;
-      foreach ( array('printed' => '(t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE)', 'ordered' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)', 'asked' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id NOT IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)') as $col => $where )
+      foreach ( array('printed' => '(t%%i%%.printed_at IS NOT NULL OR t%%i%%.integrated_at IS NOT NULL)', 'ordered' => 'NOT (t%%i%%.printed_at IS NOT NULL OR t%%i%%.integrated_at IS NOT NULL) AND t%%i%%.transaction_id IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)', 'asked' => 'NOT (t%%i%%.printed_at IS NOT NULL OR t%%i%%.integrated_at IS NOT NULL) AND t%%i%%.transaction_id NOT IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)') as $col => $where )
       {
         $rank++;
         $q->addSelect('(SELECT count(t'.$rank.'.id) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.id NOT IN (SELECT ttd'.$rank.'.duplicating FROM Ticket ttd'.$rank.' WHERE ttd'.$rank.'.duplicating IS NOT NULL) AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND t'.$rank.'.manifestation_id = ? AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.price_id = p.id) AS '.$col, $mid);
@@ -482,7 +482,7 @@ class manifestationActions extends autoManifestationActions
         ->andWhere('tr.id IN (SELECT DISTINCT t0.transaction_id FROM Ticket t0 WHERE t0.manifestation_id = ?)', $mid)
         ->orderBy('c.name, c.firstname, o.name, tr.id');
       $rank = 0;
-      foreach ( array('printed' => '(t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE)', 'ordered' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)', 'asked' => 'NOT (t%%i%%.printed = TRUE OR t%%i%%.integrated = TRUE) AND t%%i%%.transaction_id NOT IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)') as $col => $where )
+      foreach ( array('printed' => '(t%%i%%.printed_at IS NOT NULL OR t%%i%%.integrated_at IS NOT NULL)', 'ordered' => 'NOT (t%%i%%.printed_at IS NOT NULL OR t%%i%%.integrated_at IS NOT NULL) AND t%%i%%.transaction_id IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)', 'asked' => 'NOT (t%%i%%.printed_at IS NOT NULL OR t%%i%%.integrated_at IS NOT NULL) AND t%%i%%.transaction_id NOT IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)') as $col => $where )
       {
         $rank++;
         $q->addSelect('(SELECT count(t'.$rank.'.id) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.id NOT IN (SELECT ttd'.$rank.'.duplicating FROM Ticket ttd'.$rank.' WHERE ttd'.$rank.'.duplicating IS NOT NULL) AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.transaction_id = tr.id) AS '.$col);

@@ -50,7 +50,7 @@
         $this->getUser()->setFlash('error',__("Can't find the ticket #%%i%% in database...",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/cancel');
       }
-      if ( !$ticket->printed )
+      if ( !$ticket->printed_at )
       {
         $this->getUser()->setFlash('error',__("Can't duplicate the ticket #%%i%% because it was not yet printed... Just try to print it",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
@@ -73,7 +73,7 @@
       
       // linking a new duplicating ticket to this ticket
       $this->ticket = $ticket->copy();
-      $this->ticket->printed = true;
+      $this->ticket->printed_at = date('Y-m-d H:i:s');
       $this->ticket->created_at = NULL;
       $this->ticket->updated_at = NULL;
       $this->ticket->sf_guard_user_id = NULL;
@@ -83,6 +83,6 @@
       $this->tickets[] = $this->ticket;
     }
     
-    $this->duplicate = true;
+    //$this->duplicate = true;
     $this->setLayout('nude');
     $this->setTemplate('print');

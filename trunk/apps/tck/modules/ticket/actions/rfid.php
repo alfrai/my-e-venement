@@ -41,7 +41,7 @@
           if ( $form->isValid() )
             $t->othercode = $ticket['othercode'];
           else
-            $t->printed = false;
+            $t->printed_at = NULL;
           $t->save();
         }
       }

@@ -150,7 +150,7 @@ class transactionsActions extends sfActions
       ->orWhere('tr.workspace_id IS NULL')
       ->andWhere('TRUE)')
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
-      ->andWhere('t.duplicate IS NULL')
+      ->andWhere('t.id NOT IN (SELECT ttd.duplicating FROM Ticket ttd WHERE ttd.duplicating IS NOT NULL)')
       ->andWhere('t.cancelling IS NULL')
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->andWhere('m.happens_at > ?',date('Y-m-d H:i:s',$dates['from']))
@@ -162,7 +162,7 @@ class transactionsActions extends sfActions
 
     if ( !$all )
     {
-      $q->andWhere($asked || $ordered ? 'NOT (t.printed OR t.integrated)' : '(t.printed OR t.integrated)');
+      $q->andWhere($asked || $ordered ? '(t.printed_at IS NULL AND t.integrated_at IS NULL)' : '(t.printed_at IS NOT NULL OR t.integrated_at IS NOT NULL)');
       if ( $ordered)
         $q->andWhere('t.transaction_id IN (SELECT oo.transaction_id FROM Order oo)');
       if ( $asked )

@@ -51,6 +51,7 @@ class paymentActions extends autoPaymentActions
   {
     if (!( $tid = $request->getParameter('transaction_id',array()) ))
       return parent::executeIndex($request);
+    if ( is_array($tid) )
     foreach ( $tid as $key => $id )
     if ( !$id )
       $tid[$key] = 0;

@@ -48,7 +48,7 @@ class byGroupActions extends sfActions
       if ( !isset($this->lines[$group['id']]['manif-'.$manif->id]) )
         $this->lines[$group['id']]['manif-'.$manif->id] = 0;
       
-      $this->lines[$group['id']]['manif-'.$group['manifestation_id']] = $group['nb_tickets'];
+      $this->lines[$group['id']]['manif-'.$group['manifestation_id']] = $group['nb_entries'];
     }
     
     $params = OptionCsvForm::getDBOptions();
@@ -106,10 +106,11 @@ class byGroupActions extends sfActions
     //Passing the random data to bar chart
     $names = $max = array();
     foreach ( $groups as $group )
+    if ( isset($bars[$group['manifestation_id']]) )
     {
       $names[] = $group['name'];
-      $max[] = $group['nb_tickets'];
-      $bars[$group['manifestation_id']]->add_link($group['nb_tickets'],cross_app_url_for('rp','group/show?id='.$group['id'],true));
+      $max[] = $group['nb_entries'];
+      $bars[$group['manifestation_id']]->add_link($group['nb_entries'],cross_app_url_for('rp','group/show?id='.$group['id'],true));
     }
     
     //Creating a stGraph object
@@ -148,14 +149,21 @@ class byGroupActions extends sfActions
   protected function getGroups()
   {
     /*
-    $criterias = $this->getUser()->getAttribute('stats.criterias',array(),'admin_module');
-    $dates['from'] = $criterias['dates']['from']['day'] && $criterias['dates']['from']['month'] && $criterias['dates']['from']['year']
-      ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
-      : strtotime('- 1 weeks');
-    $dates['to']   = $criterias['dates']['to']['day'] && $criterias['dates']['to']['month'] && $criterias['dates']['to']['year']
-      ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
-      : strtotime('+ 3 weeks + 1 day');
-    $dates = array(':date1' => date('Y-m-d H:i:s',$dates['from']), ':date2' => date('Y-m-d H:i:s',$date['to']));
+    $criterias = $this->getUser()->getAttribute('stats.criterias',array(
+      'dates' => array(
+        'from' => array('day' => '', 'month' => '', 'year' => ''),
+        'to' => array('day' => '', 'month' => '', 'year' => '')
+      )
+    ),'admin_module');
+    $dates = array(
+      'from' => $criterias['dates']['from']['day'] && $criterias['dates']['from']['month'] && $criterias['dates']['from']['year']
+        ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])
+        : strtotime('- 1 weeks'),
+      'to' => $criterias['dates']['to']['day'] && $criterias['dates']['to']['month'] && $criterias['dates']['to']['year']
+        ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
+        : strtotime('+ 3 weeks + 1 day')
+    );
+    $dates = array(':date1' => date('Y-m-d H:i:s',$dates['from']), ':date2' => date('Y-m-d H:i:s',$dates['to']));
     */
     
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
@@ -178,7 +186,7 @@ class byGroupActions extends sfActions
            GROUP BY g.id, g.name, m.id, m.happens_at, e.id, e.name, l.id, l.name, l.city
            ORDER BY g.name, m.happens_at, e.name, l.name';
     $stmt1 = $pdo->prepare($q);
-    $stmt1->execute($dates);
+    $stmt1->execute();
     
     $q = ' SELECT g.id, g.name,
                   m.id AS manifestation_id, m.happens_at,
@@ -199,7 +207,7 @@ class byGroupActions extends sfActions
            GROUP BY g.id, g.name, m.id, m.happens_at, e.id, e.name, l.id, l.name, l.city
            ORDER BY g.name, m.happens_at, e.name, l.name';
     $stmt2 = $pdo->prepare($q);
-    $stmt2->execute($dates);
+    $stmt2->execute();
     
     return array_merge($stmt1->fetchAll(),$stmt2->fetchAll());
   }
