@@ -5,8 +5,32 @@
     <header/>
     <body>
       <trans-unit>
-        <source>&gt;strong&lt;estimation&gt;/strong&lt;, even better if the standard deviation is low</source>
-        <target>&gt;strong&lt;estimation&gt;/strong&lt;, d'autant plus juste que l'écart-type est bas</target>
+        <source>Repartition for contacts only</source>
+        <target>Répartition pour les contacts seuls</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Repartition for professionals only</source>
+        <target>Répartition pour les professionnels seuls</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Number of persons</source>
+        <target>Nombre de contacts</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Number of tickets by person</source>
+        <target>Nombre de billets par contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Number of events by person</source>
+        <target>Nombre d'événements par contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Number of unique persons</source>
+        <target>Nombre de contacts uniques</target>
+      </trans-unit>
+      <trans-unit>
+        <source>&lt;strong&gt;estimation&lt;/strong&gt;, even better if the standard deviation is low</source>
+        <target>&lt;strong&gt;estimation&lt;/strong&gt;, d'autant plus juste que l'écart-type est bas</target>
       </trans-unit>
       <trans-unit>
         <source>Global stats on ticketting</source>
