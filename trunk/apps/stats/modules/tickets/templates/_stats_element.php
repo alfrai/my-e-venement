@@ -17,7 +17,7 @@
       <td><?php echo $values['nb'] != 0 ? format_number(round($values['events']/$values['nb'],2)) : 'N/A' ?></td>
     </tr>
     <tr>
-      <th><?php echo __('Number of unique persons (estimation)') ?><sup>*</sup></th>
+      <th><?php echo __('Number of unique persons') ?>*</th>
       <td><?php echo $values['events'] != 0 ? format_number(round($values['nb']*$values['tickets']/$values['events'],0)) : 'N/A' ?></td>
     </tr>
   </tbody></table>

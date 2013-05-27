@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>&gt;strong&lt;estimation&gt;/strong&lt;, even better if the standard deviation is low</source>
+        <target>&gt;strong&lt;estimation&gt;/strong&lt;, d'autant plus juste que l'écart-type est bas</target>
+      </trans-unit>
+      <trans-unit>
         <source>Global stats on ticketting</source>
         <target>Stats globales de billetterie</target>
       </trans-unit>
