@@ -5,6 +5,31 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Workspaces</source>
+        <target>Espaces de travail</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Meta events</source>
+        <target>Méta-événements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Tickets with contact</source>
+        <target>Billets avec contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Users</source>
+        <target>Utilisateurs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Interval</source>
+        <target>Interval</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Legend</source>
+        <target>Légende</target>
+      </trans-unit>
+      <trans-unit>
+      <trans-unit>
         <source>Repartition for contacts only</source>
         <target>Répartition pour les contacts seuls</target>
       </trans-unit>
@@ -155,14 +180,6 @@
       <trans-unit id="11">
         <source>Number of tickets</source>
         <target>Nombre de billets</target>
-      </trans-unit>
-      <trans-unit id="12">
-        <source>Dates:</source>
-        <target>Dates:</target>
-      </trans-unit>
-      <trans-unit id="13">
-        <source>Users:</source>
-        <target>Utilisateurs:</target>
       </trans-unit>
       <trans-unit id="14">
         <source>Global repartition</source>

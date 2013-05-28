@@ -3,7 +3,7 @@
 <div id="sf_admin_filter">
   <div aria-labelledby="ui-dialog-title-sf_admin_filter" role="dialog" tabindex="-1" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable">
     <div unselectable="on" class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
-      <span unselectable="on" id="ui-dialog-title-sf_admin_filter" class="ui-dialog-title">Filters</span>
+      <span unselectable="on" id="ui-dialog-title-sf_admin_filter" class="ui-dialog-title"><?php echo __('Filters',null,'sf_admin') ?></span>
       <a unselectable="on" role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#">
         <span unselectable="on" class="ui-icon ui-icon-closethick">close</span>
       </a>
