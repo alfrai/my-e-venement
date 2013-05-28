@@ -7,15 +7,10 @@
  */
 class ManifestationTable extends PluginManifestationTable
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object ManifestationTable
-     */
-    public static function getInstance()
-    {
-        return Doctrine_Core::getTable('Manifestation');
-    }
+  public static function getInstance()
+  {
+      return Doctrine_Core::getTable('Manifestation');
+  }
   
   public function createQuery($alias = 'm', $light = false)
   {
@@ -33,6 +28,9 @@ class ManifestationTable extends PluginManifestationTable
     $tck = $alias != 'tck' ? 'tck' : 'tck1';
     $tr = $alias != 'tr'  ? 'tr' : 'tr1';
     $wu = $alias != 'wu'  ? 'wu' : 'wu1';
+    $wwp = $alias != 'wwp'  ? 'wwp' : 'wwp1';
+    $pwp = $alias != 'pwp'  ? 'pwp' : 'pwp1';
+    $pu = $alias != 'pu'  ? 'pu' : 'pu1';
     $meu = $alias != 'meu' ? 'meu' : 'meu1';
     
     $q = parent::createQuery($alias)
@@ -57,7 +55,13 @@ class ManifestationTable extends PluginManifestationTable
         ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $wuo.rank")
         ->leftJoin("$w.Users $wu")
         ->leftJoin("$me.Users $meu")
-        ->andWhere("$meu.id = ? AND ($wu.id = ? OR $wu.id IS NULL)",array($uid,$uid));
+        ->andWhere("$meu.id = ?",$uid)
+        ->andWhere("$wu.id = ? OR $wu.id IS NULL",$uid)
+        ->leftJoin("$p.UserPrices $pu ON $pu.price_id = $p.id AND $pu.sf_guard_user_id = ".$uid)
+        //->leftJoin("$w.WorkspacePrices $wwp ON $wwp.workspace_id = $w.id AND $wwp.price_id = $p.id")
+        //->leftJoin("$p.WorkspacePrices $pwp ON $pwp.workspace_id = $w.id AND $pwp.price_id = $p.id")
+        //->andWhere("$meu.id = ? AND ($wu.id = ? OR $wu.id IS NULL) AND ($pu.id = ? OR $pu.id IS NULL)",array($uid,$uid,$uid))
+        ;
       
       //if ( sfContext::hasInstance() && $uid = sfContext::getInstance()->getUser()->getId() )
       //  $q->andWhere("$pm.id IS NULL OR $pm.price_id IN (SELECT price_id FROM UserPrice up WHERE up.user_id = ?)",$uid);
