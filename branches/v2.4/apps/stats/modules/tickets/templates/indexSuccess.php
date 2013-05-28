@@ -6,9 +6,9 @@
     <h1><?php echo __('Global stats on ticketting') ?></h1>
   </div>
 <?php include_partial('stats_all',array('contacts' => $contacts, 'professionals' => $professionals)) ?>
+<?php include_partial('stats_legend') ?>
 <div class="clear"></div>
 <?php include_partial('stats_perso', array('contacts' => $contacts)) ?>
 <?php include_partial('stats_pro', array('professionals' => $professionals)) ?>
 <div class="clear"></div>
-<?php include_partial('stats_footer') ?>
 </div>

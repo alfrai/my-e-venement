@@ -10,25 +10,54 @@
  */
 class ticketsActions extends sfActions
 {
-  protected static function addQueryParts(Doctrine_Query $q, $pro = false)
+  protected function addQueryParts(Doctrine_Query $q, $pro = false)
   {
     $q->andWhere(sprintf('t.professional_id IS %s NULL', $pro ? 'NOT' : ''))
-      ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL')
+      ->andWhere('(tck.printed = TRUE OR tck.integrated = TRUE)')
       ->andWhere('tck.duplicating IS NULL AND tck.cancelling IS NULL')
       ->leftJoin('tck.Manifestation m')
       ->leftJoin('m.Event e');
+    
+    $criterias = $this->form->getValues();
+
+    // dates
+    if ( !isset($criterias['dates']) )
+      $criterias['dates'] = array();
+    if ( !isset($criterias['dates']['from']) )
+      $criterias['dates']['from'] = date('Y-m-d',strtotime('1 month ago'));
+    if ( !isset($criterias['dates']['to']) )
+      $criterias['dates']['to'] = date('Y-m-d',strtotime('tomorrow'));
+    $q->andWhere('tck.updated_at >= ?',$criterias['dates']['from'])
+      ->andWhere('tck.updated_at <  ?',$criterias['dates']['to']);
+    
+    // workspaces
+    if ( isset($criterias['workspaces_list']) && is_array($criterias['workspaces_list']) )
+      $q->leftJoin('tck.Gauge g')
+        ->andWhereIn('g.workspace_id',$criterias['workspaces_list']);
+    
+    // metaevents
+    if ( isset($criterias['meta_events_list']) && is_array($criterias['meta_events_list']) )
+      $q->andWhereIn('e.meta_event_id',$criterias['meta_events_list']);
+    
     return $q;
   }
   
   public function executeIndex(sfWebRequest $request)
   {
+    if ( $request->hasParameter('criterias') )
+    {
+      $this->criterias = $request->getParameter('criterias');
+      $this->getUser()->setAttribute('stats.criterias',$this->criterias,'admin_module');
+      $this->redirect($this->getContext()->getModuleName().'/index');
+    }
+
     $this->form = new StatsCriteriasForm();
-    $this->form->addWithContactCriteria();
+    //$this->form->addWithContactCriteria();
     $this->form->addEventCriterias();
     if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )
       $this->form->bind($this->getUser()->getAttribute('stats.criterias',array(),'admin_module'));
     
-    $this->professionals = $this->contacts = array();
+    $this->professionals = $this->contacts = array('nb' => 0, 'tickets' => 0, 'events' => 0,);
     
     // PERSO
     
@@ -49,10 +78,11 @@ class ticketsActions extends sfActions
     $q = Doctrine_Query::create()->from('Ticket tck')
       ->leftJoin('tck.Transaction t')
       ->select('tck.id');
-    $this->contacts['tickets'] = $this->addQueryParts($q)->execute()->count();
+    $this->contacts['tickets'] = $this->addQueryParts($q)->count();
     
     // PRO
     
+    // number of contacts & nb of events/contacts
     $q = Doctrine_Query::create()->from('Professional p')
       ->leftJoin('p.Transactions t')
       ->leftJoin('t.Tickets tck')
@@ -60,15 +90,13 @@ class ticketsActions extends sfActions
       ->groupBy('p.id');
     $professionals = $this->addQueryParts($q,true)->execute();
     
-    // number of contacts & nb of events/contacts
     $this->professionals['nb'] = $professionals->count();
     $this->professionals['events'] = 0;
     foreach ( $professionals as $professional )
       $this->professionals['events'] += $professional->nb_events;
     
     $q = Doctrine_Query::create()->from('Ticket tck')
-      ->leftJoin('tck.Transaction t')
-      ->select('tck.id');
-    $this->professionals['tickets'] = $this->addQueryParts($q,true)->execute()->count();
+      ->leftJoin('tck.Transaction t');
+    $this->professionals['tickets'] = $this->addQueryParts($q,true)->count();
   }
 }
