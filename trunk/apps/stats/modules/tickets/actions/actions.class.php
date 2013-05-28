@@ -27,8 +27,8 @@ class ticketsActions extends sfActions
       $criterias['dates']['from'] = date('Y-m-d',strtotime('1 month ago'));
     if ( !isset($criterias['dates']['to']) )
       $criterias['dates']['to'] = date('Y-m-d',strtotime('tomorrow'));
-    $q->andWhere('tck.updated_at >= ?',$criterias['dates']['from'])
-      ->andWhere('tck.updated_at <  ?',$criterias['dates']['to']);
+    $q->andWhere('(tck.printed_at IS NOT NULL AND tck.printed_at >= ? OR tck.integrated_at IS NOT NULL AND tck.integrated_at >= ?)',array($criterias['dates']['from'],$criterias['dates']['from']))
+      ->andWhere('(tck.printed_at IS NOT NULL AND tck.printed_at <  ? OR tck.integrated_at IS NOT NULL AND tck.integrated_at <  ?)',array($criterias['dates']['to'],$criterias['dates']['to']));
     
     // workspaces
     if ( isset($criterias['workspaces_list']) && is_array($criterias['workspaces_list']) )
