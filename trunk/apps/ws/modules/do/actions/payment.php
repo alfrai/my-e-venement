@@ -101,21 +101,25 @@
     $bank['payment_id'] = $pid;
     $bank['serialized'] = serialize($bank);
     $bank['data_field'] = $bank['data'];
-    unset($bank['data']);
+    unset($bank['id']);
     $bank[$form_bank->getCSRFFieldName()] = $form_bank->getCSRFToken();
+    
+    // removing extra fields
+    $ws = $form_bank->getWidgetSchema();
+    foreach ( $bank as $name => $value )
+    if ( !isset($ws[$name]) )
+      unset($bank[$name]);
+    
+    // recording data
     $form_bank->bind($bank);
-    if ( !$form_bank->isValid() )
-    {
-      $this->getResponse()->setStatusCode('502');
-      return sfView::NONE;
-    }
-    $form_bank->save();
+    if ( $form_bank->isValid() )
+      $form_bank->save();
     
     // retreiving informations about ordering / reservation
     $transaction = Doctrine::getTable('Transaction')->findOneById($this->getUser()->getAttribute('transaction_id'));
     if ( $transaction->Order->count() <= 0 )
     {
-      $form_order = new OrderForm();
+      $form_order = new OrderForm($this->Transaction->Order[0]);
       $order = array(
         'transaction_id' => $transaction->id,
         'sf_guard_user_id' => $this->getUser()->getAttribute('ws_id'),
