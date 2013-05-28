@@ -57,7 +57,7 @@ class ManifestationTable extends PluginManifestationTable
         ->leftJoin("$me.Users $meu")
         ->andWhere("$meu.id = ?",$uid)
         ->andWhere("$wu.id = ? OR $wu.id IS NULL",$uid)
-        ->leftJoin("$p.UserPrices $pu ON $pu.price_id = $p.id AND $pu.sf_guard_user_id = ".$uid)
+        //->leftJoin("$p.UserPrices $pu ON $pu.price_id = $p.id AND $pu.sf_guard_user_id = ".$uid)
         //->leftJoin("$w.WorkspacePrices $wwp ON $wwp.workspace_id = $w.id AND $wwp.price_id = $p.id")
         //->leftJoin("$p.WorkspacePrices $pwp ON $pwp.workspace_id = $w.id AND $pwp.price_id = $p.id")
         //->andWhere("$meu.id = ? AND ($wu.id = ? OR $wu.id IS NULL) AND ($pu.id = ? OR $pu.id IS NULL)",array($uid,$uid,$uid))
