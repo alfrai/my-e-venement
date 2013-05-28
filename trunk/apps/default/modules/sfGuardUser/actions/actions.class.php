@@ -83,6 +83,19 @@ class sfGuardUserActions extends autoSfGuardUserActions
     $user = $this->getRoute()->getObject()->copy();
     $user->username .= 'XX';
     $user->email_address = '_'.$user->email_address;
+    
+    // groups
+    foreach ( $this->getRoute()->getObject()->Groups as $group )
+      $user->Groups[] = $group;
+    
+    // ticketting elements
+    foreach ( $this->getRoute()->getObject()->MetaEvents as $me )
+      $user->MetaEvents[] = $me;
+    foreach ( $this->getRoute()->getObject()->Workspaces as $ws )
+      $user->Workspaces[] = $ws;
+    foreach ( $this->getRoute()->getObject()->Prices as $price )
+      $user->Prices[] = $price;
+    
     $user->save();
     
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
