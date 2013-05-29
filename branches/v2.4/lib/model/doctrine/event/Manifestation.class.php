@@ -55,7 +55,7 @@ class Manifestation extends PluginManifestation
         ->andWhereIn('g.workspace_id',$options['workspaces']);
     
     if (!( isset($options['not-yet-printed']) && $options['not-yet-printed'] ))
-      $q->andWhere('tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE');
+      $q->andWhere('(tck.printed = TRUE OR tck.cancelling IS NOT NULL OR tck.integrated = TRUE)');
     else
       $q->leftJoin('tck.Transaction t')
         ->leftJoin('t.Payments p')
@@ -66,8 +66,8 @@ class Manifestation extends PluginManifestation
       if (!( isset($options['tck_value_date_payment']) && $options['tck_value_date_payment'] ))
       {
         $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
-            date('Y-m-d',$options['dates'][0]),
-            date('Y-m-d',$options['dates'][1]),
+            $options['dates'][0],
+            $options['dates'][1],
           ));
       }
       else
@@ -76,8 +76,8 @@ class Manifestation extends PluginManifestation
           $q->leftJoin('tck.Transaction t')
             ->leftJoin('t.Payments p');
         $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
-            date('Y-m-d',$options['dates'][0]),
-            date('Y-m-d',$options['dates'][1]),
+            $options['dates'][0],
+            $options['dates'][1],
           ))
           ->andWhere('p.id = (SELECT min(id) FROM Payment p2 WHERE transaction_id = t.id)');
       }
