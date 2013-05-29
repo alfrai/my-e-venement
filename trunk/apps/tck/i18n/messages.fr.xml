@@ -13,6 +13,10 @@
         <target>Total réellement payé</target>
       </trans-unit> 
       <trans-unit>
+        <source>Transaction resetted and closed</source>
+        <target>Opération remise à zéro et fermée</source>
+      </trans-unit>
+      <trans-unit>
         <source>Display even events hidden for ticketting</source>
         <target>Afficher les événements non accessibles directement</target>
       </trans-unit> 
