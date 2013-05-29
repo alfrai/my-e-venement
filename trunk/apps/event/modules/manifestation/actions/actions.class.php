@@ -504,7 +504,7 @@ class manifestationActions extends autoManifestationActions
               (SELECT CASE WHEN sum(ttt.value) IS NULL THEN 0 ELSE sum(ttt.value) END
                FROM Ticket ttt
                WHERE ttt.transaction_id = t.id
-                 AND (ttt.printed OR ttt.integrated OR cancelling IS NOT NULL)
+                 AND (ttt.printed_at IS NOT NULL OR ttt.integrated_at IS NOT NULL OR cancelling IS NOT NULL)
                  AND ttt.duplicating IS NULL) AS topay,
               (SELECT CASE WHEN sum(ppp.value) IS NULL THEN 0 ELSE sum(ppp.value) END FROM Payment ppp WHERE ppp.transaction_id = t.id) AS paid,
               c.id AS c_id, c.name, c.firstname,
@@ -515,7 +515,7 @@ class manifestationActions extends autoManifestationActions
        LEFT JOIN organism o ON p.organism_id = o.id
        LEFT JOIN transaction tl ON tl.transaction_id = t.id
        WHERE t.id IN (SELECT DISTINCT tt.transaction_id FROM Ticket tt WHERE tt.manifestation_id = ".intval($this->manifestation->id).")
-         AND (SELECT CASE WHEN sum(tt.value) IS NULL THEN 0 ELSE sum(tt.value) END FROM Ticket tt WHERE tt.transaction_id = t.id AND (tt.printed OR tt.integrated OR tt.cancelling IS NOT NULL) AND tt.duplicating IS NULL)
+         AND (SELECT CASE WHEN sum(tt.value) IS NULL THEN 0 ELSE sum(tt.value) END FROM Ticket tt WHERE tt.transaction_id = t.id AND (tt.printed_at IS NOT NULL OR tt.integrated_at IS NOT NULL OR tt.cancelling IS NOT NULL) AND tt.duplicating IS NULL)
           != (SELECT CASE WHEN sum(pp.value) IS NULL THEN 0 ELSE sum(pp.value) END FROM Payment pp WHERE pp.transaction_id = t.id)
        ORDER BY t.id ASC");
     $transactions = $st->fetchAll();

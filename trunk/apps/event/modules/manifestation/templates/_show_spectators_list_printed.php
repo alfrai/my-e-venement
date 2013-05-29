@@ -13,7 +13,7 @@
     if ( !isset($transac->printed) )
     {
       foreach ( $transac->Tickets as $t )
-      if ( $t->printed || $t->integrated )
+      if ( $t->printed_at || $t->integrated_at )
       if ( !$t->hasBeenCancelled() )
       {
         $contact['ticket-ids'][] = $t->id;

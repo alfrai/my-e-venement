@@ -9,7 +9,7 @@
     $transaction = $contact = $pro = array();
     $contact = array('value' => 0, 'prices' => array(), 'ticket-ids' => array());
     foreach ( $transac->Tickets as $t )
-    if ( ($t->printed || $t->integrated) && $t->Controls->count() > 0 )
+    if ( ($t->printed_at || $t->integrated_at) && $t->Controls->count() > 0 )
     {
       $contact['ticket-ids'][] = $t->id;
       $contact['transaction'] = $transac;

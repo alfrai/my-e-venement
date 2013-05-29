@@ -13,7 +13,7 @@
     if ( !isset($transac->ordered) )
     {
       foreach ( $transac->Tickets as $t )
-      if ( !$t->printed && !$t->integrated && $t->Transaction->Order->count() > 0 )
+      if ( !$t->printed_at && !$t->integrated_at && $t->Transaction->Order->count() > 0 )
       {
         $contact['ticket-ids'][] = $t->id;
         if ( !isset($contact['prices'][$t->Gauge->workspace_id]) )
