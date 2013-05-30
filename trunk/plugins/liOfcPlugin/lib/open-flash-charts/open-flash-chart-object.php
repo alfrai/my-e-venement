@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-function open_flash_chart_object_str( $width, $height, $url, $use_swfobject=true, $base='' )
+function open_flash_chart_object_str( $width, $height, $url, $use_swfobject=true, $base='', $message = '' )
 {
     //
     // return the HTML as a string
@@ -26,7 +26,7 @@ function open_flash_chart_object_str( $width, $height, $url, $use_swfobject=true
     return _ofc( $width, $height, $url, $use_swfobject, $base );
 }
 
-function open_flash_chart_object( $width, $height, $url, $use_swfobject=true, $base='' )
+function open_flash_chart_object( $width, $height, $url, $use_swfobject=true, $base='', $message = '' )
 {
     //
     // stream the HTML into the page
@@ -34,7 +34,7 @@ function open_flash_chart_object( $width, $height, $url, $use_swfobject=true, $b
     echo _ofc( $width, $height, $url, $use_swfobject, $base );
 }
 
-function _ofc( $width, $height, $url, $use_swfobject, $base )
+function _ofc( $width, $height, $url, $use_swfobject, $base, $message = '' )
 {
     //
     // I think we may use swfobject for all browsers,
@@ -101,6 +101,9 @@ function _ofc( $width, $height, $url, $use_swfobject, $base )
 		$out[] = 'var so = new SWFObject("'. $base .'open-flash-chart.swf", "'. $obj_id .'", "'. $width . '", "' . $height . '", "9", "#FFFFFF");';
 
 		$out[] = 'so.addVariable("data-file", "'. $url . '");';
+		
+		if ( $message )
+  		$out[] = 'so.addVariable("loading", "'. $message . '");';
 
 		$out[] = 'so.addParam("allowScriptAccess", "always" );//"sameDomain");';
 		$out[] = 'so.write("'. $div_name .'");';
