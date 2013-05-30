@@ -74,9 +74,13 @@
 .sf_admin_form_field_YOBs table table tr,
 .sf_admin_form_field_YOBs table table td { display: inline-block; }
 .sf_admin_form_field_YOBs table table td { width: 30%; }
+#tdp-content .sf_admin_form_field_YOBs table input[type=text],
 #content .sf_admin_form .sf_admin_form_field_YOBs table input[type=text] { width: 2em; }
+#tdp-content .sf_admin_form_field_YOBs table table tr + tr + tr input[type=text],
 #content .sf_admin_form .sf_admin_form_field_YOBs table table tr + tr + tr input[type=text] { width: 4em; }
 .sf_admin_form_field_YOBs table table tr + tr + tr + tr { display: block; }
 .sf_admin_form_field_YOBs table table tr + tr + tr + tr td { display: block; width: 100%; }
+#tdp-content .sf_admin_form_field_YOBs table table tr + tr + tr + tr input[type=text],
 #content .sf_admin_form .sf_admin_form_field_YOBs table table tr + tr + tr + tr input[type=text] { width: 15em; }
 
+#tdp-content .sf_admin_form_row .label label { font-size: inherit; }

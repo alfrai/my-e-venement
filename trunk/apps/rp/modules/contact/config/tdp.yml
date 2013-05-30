@@ -42,7 +42,7 @@ all:
           More:
             show_labels: true
             extra_class: tdp-vertical
-            fields: [family_contact, npai, YOBs_list, password]
+            fields: [family_contact, npai, YOBs, password]
           Social:
             show_labels: true
             extra_class: tdp-vertical
@@ -110,20 +110,20 @@ all:
             fields: [phone_type, phone_number]
     
     fields:
-      organism_id: { label: Organism }
-      phone_type: { label: Type }
+      organism_id:  { label: Organism }
+      phone_type:   { label: Type }
       phone_number: { label: Phonenumber }
       professional_type_id: { label: Professional type }
-      description: { label: Keywords }
-      YOBs_list:  { label: "Years of Birth (x[, x [,..]])" }
-      YOB:      { label: Year of Birth }
+      description:  { label: Keywords }
+      YOBs:         { label: Birthdays }
+      YOB:          { label: Birthdays }
       not_groups_list: { label: Not member of groups }
-      email_list: { label: Email }
+      email_list:   { label: Email }
       organisms_email_list: { label: Organism's email }
       family_contact: { label: Family contact }
-      phone_type: { label: Type }
+      phone_type:   { label: Type }
       phone_number: { label: Phonenumber }
-      list_phones: { label: Phonenumbers }
+      list_phones:  { label: Phonenumbers }
       member_cards_expire_at: { label: Valid on }
       control_created_at: { label: Passed in between }
       control_manifestation_id: { label: Passed on manifestations }
