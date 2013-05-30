@@ -60,8 +60,8 @@
     ));
     $bars->set_tooltip("#x_label#: #val#\nTotal: #total#");
     
-    $dot = new liDot;
-    $dot->size(3)->halo_size(1)->colour('#f00000');
+    $dot = new liDotSolid;
+    $dot->size(3)->halo_size(1); //->colour('#f00000');
     $line->set_values($line_values);
     $line->set_width(2);
     $line->set_colour('#17b912');

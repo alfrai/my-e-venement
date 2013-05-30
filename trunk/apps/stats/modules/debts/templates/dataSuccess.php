@@ -27,7 +27,7 @@
     $g = new liGraph;
     $line = new liLine;
     
-    $dot = new liDot;
+    $dot = new liDotSolid;
     $dot->size(3)->halo_size(1)->colour('#f00000');
     $line->set_width(2);
     $line->set_colour('#fe3462');

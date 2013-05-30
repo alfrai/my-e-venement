@@ -9,6 +9,10 @@
         <target>#label# pour un montant de #val#</target>
       </trans-unit>
       <trans-unit>
+        <source>e-venement is loading data</source>
+        <target>e-venement charge les données</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ordered tickets</source>
         <target>Billets réservés</target>
       </trans-unit>
