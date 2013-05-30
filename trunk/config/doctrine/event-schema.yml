@@ -53,6 +53,16 @@ WorkspaceUser:
       type: integer
       notnull: true
       primary: true
+  relations:
+    User:
+      class: sfGuardUser
+      foreignAlias: WorkspaceUsers
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Workspace:
+      foreignAlias: WorkspaceUsers
+      onDelete: CASCADE
+      onUpdate: CASCADE
 WorkspaceUserOrdering:
   package: event
   columns:
