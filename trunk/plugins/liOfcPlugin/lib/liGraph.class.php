@@ -13,13 +13,13 @@
  * Plugin
  */
 
-class liGraph extends OFC_Chart // graph
+class liGraph extends open_flash_chart // graph
 {
   public function liGraph()
   {
-    parent::OFC_Chart();
+    parent::open_flash_chart();
     $this->set_bg_colour('#E3F0FD');
-    //$this->set_number_format('2',false,true,true);
+    $this->set_number_format('2',false,true,true);
   }
   
   public function render()

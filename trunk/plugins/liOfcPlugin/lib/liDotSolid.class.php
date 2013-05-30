@@ -1,7 +1,7 @@
 <?php
 
 /**
- * liDot class.
+ * liDotSolid class.
  *
  * This class provides an abstraction layer to the PHP Ofc library
  *
@@ -13,6 +13,6 @@
  * Plugin
  */
 
-class liDot extends OFC_Charts_Line_Dot
+class liDotSolid extends solid_dot
 {
 }

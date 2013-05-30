@@ -13,6 +13,6 @@
  * Plugin
  */
 
-class liScatterLine extends OFC_Charts_Scatter
+class liScatterLine extends scatter
 {
 }

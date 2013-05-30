@@ -1,7 +1,7 @@
 <?php
 
 /**
- * liPieValue class.
+ * liDot class.
  *
  * This class provides an abstraction layer to the PHP Ofc library
  *
@@ -13,6 +13,6 @@
  * Plugin
  */
 
-class liPieValue extends pie_value
+class liDot extends dot
 {
 }

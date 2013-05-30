@@ -14,7 +14,7 @@
  */
 
 //include_once sfConfig::get('li_ofc_object');
-include_once ('ofc/open-flash-chart-object.php');
+require_once 'open-flash-chart/open-flash-chart-object.php';
 
 class liOfc
 {

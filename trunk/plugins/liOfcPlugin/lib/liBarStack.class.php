@@ -13,7 +13,7 @@
  * Plugin
  */
 
-class liBarStack extends OFC_Charts_Bar_Stack
+class liBarStack extends bar_stack
 {
   public function liBarStack()
   {
