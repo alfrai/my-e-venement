@@ -13,6 +13,7 @@
 class Contact extends PluginContact
 {
   protected $module = 'contact';
+  protected $yobs_ordered = false;
   
   public function __toString()
   {
@@ -45,10 +46,26 @@ class Contact extends PluginContact
   public function getYOBsString()
   {
     $arr = array();
-    foreach ( $this->YOBs as $YOB )
+    foreach ( $this->orderYOBs()->YOBs as $YOB )
       $arr[] = (string)$YOB;
-    sort($arr);
     return implode(', ',$arr);
+  }
+  public function orderYOBs()
+  {
+    if ( $this->yobs_ordered )
+      return $this;
+    
+    $arr = array();
+    foreach ( $this->YOBs as $YOB )
+      $arr[$YOB->year.$YOB->month.$YOB->day.$YOB->name] = $YOB;
+    ksort($arr);
+    
+    $this->YOBs->clear();
+    foreach ( $arr as $YOB )
+      $this->YOBs[] = $YOB;
+    
+    $this->yobs_ordered = true;
+    return $this;
   }
   
   public function getIdBarcoded()

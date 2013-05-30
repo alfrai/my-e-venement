@@ -122,6 +122,9 @@ YOB:
     year:
       type: integer
       notnull: true
+    month: integer
+    day: integer
+    name: string(255)
     contact_id: integer
   relations:
     Contact:

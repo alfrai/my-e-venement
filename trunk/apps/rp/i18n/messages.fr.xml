@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Birthdays</source>
+        <target>Anniversaires</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Year</source>
+        <target>Année</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Month</source>
+        <target>Mois</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Day</source>
+        <target>Jour</target>
+      </trans-unit>
+      <trans-unit>
         <source>Invalid or impossible to remove from this groupe because not a part of.</source>
         <target>Non valide ou impossible à retirer car non membre de ce groupe.</target>
       </trans-unit>
@@ -1117,11 +1133,11 @@
         <target>Mis à jour le</target>
       </trans-unit>
       <trans-unit id="10">
-        <source>Years of Birth</source>
+        <source>Birthdays</source>
         <target>Années de naissance</target>
       </trans-unit>
       <trans-unit id="11">
-        <source>Years of Birth (x[, x [,..]])</source>
+        <source>Birthdays (x[, x [,..]])</source>
         <target>Années de naissance (x[, x [,..]])</target>
       </trans-unit>
       <trans-unit id="11">

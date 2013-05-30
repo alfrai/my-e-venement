@@ -14,6 +14,15 @@ class YOB extends PluginYOB
 {
   function __toString()
   {
-    return (string)$this->year;
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
+    
+    if ( $this->day && $this->month )
+      $r = format_date($this->year.'-'.$this->month.'-'.$this->day);
+    else
+      $r = $this->year;
+     
+     $r .= $this->name ? $this->name : '';
+     
+     return $r;
   }
 }

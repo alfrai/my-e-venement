@@ -21,7 +21,9 @@
 *
 ***********************************************************************************/
 ?>
-<div class="sf_admin_form_row">
+<div class="sf_admin_form_row sf_admin_form_field_YOBs">
   <label><?php echo __('Years of Birth')?>:</label>
-  <?php echo $contact->getYOBsString() ?>
+  <ol><?php foreach ( $contact->orderYOBs()->YOBs as $YOB ): ?>
+    <li><?php echo $YOB ?></li>
+  <?php endforeach ?></ol>
 </div>

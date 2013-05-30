@@ -21,8 +21,10 @@ class ContactForm extends BaseContactForm
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Asset'));
     use_javascript('/sfFormExtraPlugin/js/double_list.js');
     
-    $this->widgetSchema   ['YOBs_list'] = new sfWidgetFormInputText(array('default' => $this->object->getYOBsString()));
-    $this->validatorSchema['YOBs_list'] = new sfValidatorString(array('required' => false));
+    //$this->widgetSchema   ['YOBs_list'] = new sfWidgetFormInputText(array('default' => $this->object->getYOBsString()));
+    //$this->validatorSchema['YOBs_list'] = new sfValidatorString(array('required' => false));
+    $this->getObject()->orderYOBs()->YOBs[] = new YOB;
+    $this->embedRelation('YOBs');
     
     $this->widgetSchema   ['title']     = new liWidgetFormDoctrineJQueryAutocompleterGuide(array(
       'model' => 'TitleType',
@@ -68,38 +70,49 @@ class ContactForm extends BaseContactForm
     parent::configure();
   }
   
+  protected function doSave($con = NULL)
+  {
+    foreach ( $this->values['YOBs'] as $key => $values )
+    if (! (isset($values['year']) && trim($values['year'])) )
+      unset($this->object->YOBs[$key], $this->embeddedForms['YOBs']->embeddedForms[$key], $this->values['YOBs'][$key]);
+    
+    return parent::doSave($con);
+  }
   public function save($con = null)
   {
     $r = parent::save($con);
     
-    // get back given values
-    $given = explode(',',str_replace(' ','',$this->getValue('YOBs_list')));
-    
-    // get back existing records
-    $indb = array();
-    foreach ( $this->object->YOBs as $YOB )
-      $indb[$YOB->id] = $YOB;
-    
-    // forget all values / records which are already recorded
-    foreach ( $given as $key => $value )
-    if ( ($id = array_search($value,$indb)) !== false )
+    if ( isset($this->widgetSchema['YOBs_list']) )
     {
-      unset($indb[$id]);
-      unset($given[$key]);
-    }
-    
-    // remove all existing records which have not been committed
-    foreach ( $indb as $id => $YOB )
-      $YOB->delete($con);
-    
-    // add all values committed which are not in DB
-    foreach ( $given as $key => $value )
-    if ( intval($value) )
-    {
-      $YOB = new YOB();
-      $YOB->year = $value;
-      $YOB->contact_id = $this->object->id;
-      $YOB->save($con);
+      // get back given values
+      $given = explode(',',str_replace(' ','',$this->getValue('YOBs_list')));
+      
+      // get back existing records
+      $indb = array();
+      foreach ( $this->object->YOBs as $YOB )
+        $indb[$YOB->id] = $YOB;
+      
+      // forget all values / records which are already recorded
+      foreach ( $given as $key => $value )
+      if ( ($id = array_search($value,$indb)) !== false )
+      {
+        unset($indb[$id]);
+        unset($given[$key]);
+      }
+      
+      // remove all existing records which have not been committed
+      foreach ( $indb as $id => $YOB )
+        $YOB->delete($con);
+      
+      // add all values committed which are not in DB
+      foreach ( $given as $key => $value )
+      if ( intval($value) )
+      {
+        $YOB = new YOB();
+        $YOB->year = $value;
+        $YOB->contact_id = $this->object->id;
+        $YOB->save($con);
+      }
     }
     
     return $r;

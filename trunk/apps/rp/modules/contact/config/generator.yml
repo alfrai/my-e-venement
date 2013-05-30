@@ -16,8 +16,9 @@ generator:
       actions: ~
       fields:
         description: { label: Keywords }
-        YOBs_list:  { label: "Years of Birth (x[, x [,..]])" }
-        YOB:        { label: Year of Birth }
+        YOBs_list:  { label: "Birthdays (x[, x [,..]])" }
+        YOB:        { label: Birthdays }
+        YOBs:       { label: Birthdays }
         not_groups_list: { label: Not member of groups }
         email_list: { label: Email }
         organisms_email_list: { label: Organism's email }
@@ -76,7 +77,7 @@ generator:
         display:
           NONE:  [title, name, firstname, address, postalcode, _cities, city, country, email, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>email_no_newsletter,<?php endif ?> _show_member_cards_list, groups_list]
           Phonenumbers: [_form_phonenumbers_list]
-          Precisions: [family_contact, npai, description, YOBs_list, password]
+          Precisions: [family_contact, npai, description, YOBs, password]
           Ticketting: [_show_events_list]
           Social: [_familial_situation_id, _type_of_resources_id, _familial_quotient_id]
       new:
@@ -84,5 +85,5 @@ generator:
         display:
           NONE:  [title, name, firstname, address, postalcode, _cities, city, country, email, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>email_no_newsletter,<?php endif ?>groups_list]
           Phonenumber: [phone_type, phone_number]
-          Precisions: [family_contact, npai, description, YOBs_list, password]
+          Precisions: [family_contact, npai, description, YOBs, password]
           Social: [familial_situation_id, type_of_resources_id, familial_quotient_id]

@@ -12,5 +12,16 @@ class YOBForm extends BaseYOBForm
 {
   public function configure()
   {
+    $this->validatorSchema['year']->setOption('required',false);
+    $this->useFields(array('day','month','year','name'));
+  }
+  
+  public function save($con = NULL)
+  {
+    die('pouet');
+    if ( !$this->year )
+      return false;
+    
+    return parent::save($con);
   }
 }
