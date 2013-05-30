@@ -33,7 +33,8 @@ class liOfc
 	 */
 	public static function createChartToString($width, $height, $url, $useSwfObject = true, $base = '', $message = '')
 	{
-		$url = url_for();
+	  if ( !$base )
+  		$base = self::getBaseDir();
 		$base = self::getBaseDir();
 
 		return _ofc($width, $height, $url, $useSwfObject, $base, $message);
@@ -54,7 +55,8 @@ class liOfc
 	 */
 	public static function createChart($width, $height, $url, $useSwfObject = true, $base = '', $message = '')
 	{
-		$base = self::getBaseDir();
+	  if ( !$base )
+  		$base = self::getBaseDir();
 		return _ofc( $width, $height, $url, $useSwfObject, $base, $message );
 	}
 
