@@ -5,7 +5,7 @@
     <h1><?php echo __('Gauge filling') ?></h1>
   </div>
   <div class="chart">
-    <?php echo liWidgetOfc::createChart(900,530,'attendance/data',true); ?>
+    <?php echo liWidgetOfc::createChart(900,700,'attendance/data',true); ?>
   </div>
   <div class="actions"><?php include_partial('global/chart_actions') ?></div>
 </div>

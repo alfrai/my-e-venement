@@ -9,12 +9,9 @@
     <?php echo liWidgetOfc::createChart(800, 450, $sf_context->getModuleName().'/data',true); ?>
     <p class="title"><?php $acc = $sf_user->getAttribute('stats.accounting',array(),'admin_module'); if ( is_array($acc) ) foreach ( $acc['price'] as $price ) if ( $price ) { echo __('By value'); break; } ?></p>
   </div>
-  <p class="ui-widget-content ui-corner-all warning">
-    <?php echo __('This chart is calculated on the full selected period. If a member card expires or has been created within it, the total quantity will be impacted with a fraction of this member card and not a full one.') ?>
-  </p>
   <div class="ui-widget-content ui-corner-all accounting">
   <form action="" method="get">
-    <p><span><?php echo __('VAT:') ?></span><span><input type="text" name="accounting[vat]" value="<?php echo $accounting['vat'] ?>" />%</span></p>
+    <p><span><?php echo __('VAT:') ?></span><span><input type="text" name="accounting[vat]" value="<?php echo isset($accounting['vat']) ? $accounting['vat'] : 0 ?>" />%</span></p>
     <?php foreach ( $cards as $card ): ?>
     <p>
       <span><?php echo __('Prices for %%price%%',array('%%price%%' => __($card['name']))) ?>:</span>
@@ -24,6 +21,9 @@
     <p><span></span><span><input type="submit" name="submit" value="ok" /></span></p>
   </form>
   </div>
+  <p class="ui-widget-content ui-corner-all warning">
+    <?php echo __('This chart is calculated on the full selected period. If a member card expires or has been created within it, the total quantity will be impacted with a fraction of this member card and not a full one.') ?>
+  </p>
   <div class="actions"><?php include_partial('global/chart_actions') ?></div>
 </div>
 

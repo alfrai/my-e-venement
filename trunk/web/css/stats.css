@@ -12,6 +12,7 @@
   margin: 3px 0 0 0;
   padding-left: 30px;
   border-top: 1px solid #948c7d;
+  clear: both;
 }
 .actions .arrow.pos1 {
   margin-left: 23px;
@@ -39,20 +40,14 @@
 
 .clear { clear: both; }
 
-.warning { border-color: chocolate; }
-.warning, .accounting {
-  margin: 10px;
-  padding: 5px;
-}
-.accounting form {
-  display: table;
-}
-.accounting form p {
-  display: table-row;
-}
-.accounting form p span {
-  display: table-cell;
-}
-.cards #sf_admin_filter_button {
-  margin-top: -28px;
-}
+.warning, .accounting { margin: 10px; padding: 5px; width: 30%; float: left; }
+.warning { border-color: chocolate; width: 60%; }
+.accounting form { display: table; }
+.accounting form p { display: table-row; }
+.accounting form p span { display: table-cell; }
+.accounting input[type=text] { text-align: right; width: 6em; }
+.cards #sf_admin_filter_button { margin-top: -28px; }
+
+.charts { width: 45%; float: left; margin: 5px; }
+.charts td { text-align: right; padding-left: 10px; }
+.charts table, .charts .legend { margin: 5px; }

@@ -91,82 +91,29 @@ class attendanceActions extends sfActions
   
   public function executeData(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date','CrossAppLink'));
-    
-    $manifs = $this->getManifs();
-    
-    $bar0 = new stBarOutline( 40, '#7cec78', '#17b912' );
-    $bar0->key( __('Free tickets'), 10 );
-    if ( sfConfig::get('app_ticketting_show_demands') )
+    $this->manifs = $this->getManifs();
+    if ( !$request->hasParameter('debug') )
     {
-      $bar1->key( __('Asked tickets'), 10 );
-      $bar1 = new stBarOutline( 40, '#789aec', '#1245b9' );
+      $this->setLayout('raw');
+      sfConfig::set('sf_web_debug', false);
+      $this->getResponse()->setContentType('application/json');
     }
-    $bar2 = new stBarOutline( 40, '#eca478', '#fe8134' );
-    $bar2->key( __('Engaged tickets'), 10 );
-    $bar3 = new stBarOutline( 40, '#ec7890', '#fe3462' );
-    $bar3->key( __('Printed tickets'), 10 );
-    
-    //Passing the random data to bar chart
-    $names = $max = array();
-    $bar0->data = $bar3->data = array();
-    foreach ( $manifs as $manif )
-    {
-      $names[] = $manif->Event.' @ '.format_date($manif->happens_at);
-      
-      $max[] = 100 * ($manif->gauge-(sfConfig::get('app_ticketting_show_demands') ? $manif->asked : 0)-$manif->ordered-$manif->printed)/($manif->gauge != 0 ? $manif->gauge : 1);
-      if ( sfConfig::get('app_ticketting_show_demands') )
-        $max[] = 100 * $manif->asked/($manif->gauge != 0 ? $manif->gauge : 1);
-      $max[] = 100 * $manif->ordered/($manif->gauge != 0 ? $manif->gauge : 1);
-      $max[] = 100 * $manif->printed/($manif->gauge != 0 ? $manif->gauge : 1);
-      $bar0->add_link(100 * ($manif->gauge-(sfConfig::get('app_ticketting_show_demands') ? $manif->asked : 0)-$manif->ordered-$manif->printed)/($manif->gauge != 0 ? $manif->gauge : 1),cross_app_url_for('event','manifestation/show?id='.$manif->id,true));
-      if ( sfConfig::get('app_ticketting_show_demands') )
-        $bar1->add_link(100 * $manif->asked/($manif->gauge != 0 ? $manif->gauge : 1),cross_app_url_for('event','manifestation/show?id='.$manif->id,true));
-      $bar2->add_link(100 * $manif->ordered/($manif->gauge != 0 ? $manif->gauge : 1),cross_app_url_for('event','manifestation/show?id='.$manif->id,true));
-      $bar3->add_link(100 * $manif->printed/($manif->gauge != 0 ? $manif->gauge : 1),cross_app_url_for('event','manifestation/show?id='.$manif->id,true));
-    }
-    
-    //Creating a stGraph object
-    $g = new stGraph();
-    //$g->title( __('Gauge filling'), '{font-size: 20px;}' );
-    $g->bg_colour = '#E4F5FC';
-    $g->bg_colour = '#FFFFFF';
-    $g->set_inner_background( '#E3F0FD', '#CBD7E6', 90 );
-    $g->x_axis_colour( '#8499A4', '#E4F5FC' );
-    $g->y_axis_colour( '#8499A4', '#E4F5FC' );
- 
-    //Pass stBarOutline object i.e. $bar to graph
-    if ( sfConfig::get('app_ticketting_show_demands') )
-      $g->data_sets[] = $bar1;
-    $g->data_sets[] = $bar2;
-    $g->data_sets[] = $bar3;
-    $g->data_sets[] = $bar0;
- 
-    //Setting labels for X-Axis
-    $g->set_x_labels($names);
- 
-    // to set the format of labels on x-axis e.g. font, color, step
-    $g->set_x_label_style( 10, '#18A6FF', 2, 1 );
- 
-    // To tick the values on x-axis
-    // 2 means tick every 2nd value
-    //$g->set_x_axis_steps( 1 );
- 
-    //set maximum value for y-axis
-    //we can fix the value as 20, 10 etc.
-    //but its better to use max of data
-    $max = ceil(max($max)/25)*25;
-    $g->set_y_max($max);
-    $g->y_label_steps( 4 );
-    $g->set_y_legend( __('Percentage on gauge'), 12, '#18A6FF' );
-    echo $g->render();
- 
-    return sfView::NONE;
   }
   
   protected function getManifs($type = NULL)
   {
-    $criterias = $this->getUser()->getAttribute('stats.criterias',array(),'admin_module');
+    $criterias = $this->getUser()->getAttribute('stats.criterias',array('dates' => array(
+      'from' => array(
+        'day' => NULL,
+        'month' => NULL,
+        'year' => NULL
+      ),
+      'to' => array(
+        'day' => NULL,
+        'month' => NULL,
+        'year' => NULL
+      )
+    )),'admin_module');
     
     $dates['from'] = $criterias['dates']['from']['day'] && $criterias['dates']['from']['month'] && $criterias['dates']['from']['year']
       ? strtotime($criterias['dates']['from']['year'].'-'.$criterias['dates']['from']['month'].'-'.$criterias['dates']['from']['day'])

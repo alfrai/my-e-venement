@@ -16,10 +16,29 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
 <?php
-  include_partial('prices/data',array('prices' => $prices));
+
+class liWidgetOfc extends liOfc
+{
+  public static function createChart($width, $height, $url, $useSwfObject = false, $base = '', $query_string = '')
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url','I18N'));
+    if ( $useSwfObject )
+    {
+      $message = __('e-venement is loading data...',null,'sf_admin');
+      return liOfc::createChart($width, $height, url_for($url), true, '', $message);
+    }
+    else
+    {
+      return sprintf('<iframe src="%s?data=%s" width="%d" height="%d"></iframe>',
+        image_path('/liOfcPlugin/images/open-flash-chart.swf'),
+        url_for($url),
+        $width, $height);
+    }
+  }
+}

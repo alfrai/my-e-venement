@@ -72,60 +72,13 @@ class debtsActions extends sfActions
   
   public function executeData(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
-    $dates = $this->getRawData();
-    
-    $bars = array();
-    $bars['debt'] = new stLineHollow(2,4,'#fe3462');
-    $bars['debt']->key(__('Debts'), 10);
-    
-    // Passing the random data to bar chart
-    $names = $max = array();
-    foreach ( $dates as $date )
+    $this->dates = $this->getRawData();
+    if ( !$request->hasParameter('debug') )
     {
-      // legend
-      $names[] = format_date($date['date']);
-      
-      // content
-      $debt = $date['outcome'] - $date['income'];
-      $values[] = $debt;
-      $bars['debt']->data[] = $debt;
+      $this->setLayout('raw');
+      sfConfig::set('sf_debug',false);
+      $this->getResponse()->setContentType('application/json');
     }
-    
-    //Creating a stGraph object
-    $g = new stGraph();
-    //$g->title( __('Gauge filling'), '{font-size: 20px;}' );
-    $g->bg_colour = '#E4F5FC';
-    $g->bg_colour = '#FFFFFF';
-    $g->set_inner_background( '#E3F0FD', '#CBD7E6', 90 );
-    $g->x_axis_colour( '#8499A4', '#E4F5FC' );
-    $g->y_axis_colour( '#8499A4', '#E4F5FC' );
- 
-    //Pass stBarOutline object i.e. $bar to graph
-    $g->data_sets = $bars;
- 
-    //Setting labels for X-Axis
-    $g->set_x_labels($names);
- 
-    // to set the format of labels on x-axis e.g. font, color, step
-    $g->set_x_label_style( 10, '#18A6FF', 2, count($names) > 61 ? 2 : 1 );
- 
-    // To tick the values on x-axis
-    // 2 means tick every 2nd value
-    //$g->set_x_axis_steps( count($names) < 32 ? 1 : 2 );
- 
-    //set maximum value for y-axis
-    //we can fix the value as 20, 10 etc.
-    //but its better to use max of data
-    $max = ceil(max($values) / 10) * 10;
-    $min = floor(min($values) / 10) * 10;
-    $g->set_y_max($max);
-    $g->set_y_min($min);
-    $g->y_label_steps(10);
-    $g->set_y_legend( __('Debts value'), 12, '#18A6FF' );
-    echo $g->render();
-    
-    return sfView::NONE;
   }
   
   protected function getRawData()

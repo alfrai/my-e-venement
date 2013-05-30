@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>#label# for an amount of #val#</source>
+        <target>#label# pour un montant de #val#</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ordered tickets</source>
+        <target>Billets réservés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Overbooked</source>
+        <target>Sur-réservés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Engaged</source>
+        <target>Réservés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Workspaces</source>
         <target>Espaces de travail</target>
       </trans-unit>
@@ -28,7 +44,6 @@
         <source>Legend</source>
         <target>Légende</target>
       </trans-unit>
-      <trans-unit>
       <trans-unit>
         <source>Repartition for contacts only</source>
         <target>Répartition pour les contacts seuls</target>
@@ -285,10 +300,6 @@
         <source>Asked</source>
         <target>Demandés</target>
       </trans-unit>
-      <trans-unit>
-        <source>Engaged</source>
-        <target>Réservés</target>
-      </trans-unit>
       <trans-unit id="110">
         <source>Chart</source>
         <target>Graphique</target>
@@ -297,7 +308,7 @@
         <source>Record</source>
         <target>Enregistrer</target>
       </trans-unit>
-      <trans-unit id="112">
+      <trans-unit>
         <source>Gauge filling</source>
         <target>Remplissage de la jauge</target>
       </trans-unit>

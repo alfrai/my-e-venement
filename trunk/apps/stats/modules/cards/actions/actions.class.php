@@ -36,7 +36,7 @@ class cardsActions extends sfActions
       $this->form->bind($this->getUser()->getAttribute('stats.criterias',array(),'admin_module'));
     
     if ( is_array($this->getUser()->getAttribute('stats.accounting',array(),'admin_module')) )
-      $this->accounting = $this->getUser()->getAttribute('stats.accounting',array(),'admin_module');
+      $this->accounting = $this->getUser()->getAttribute('stats.accounting',array('vat' => 0, 'price' => array()),'admin_module');
     
     $this->dates = $this->getDatesCriteria();
     $this->cards = $this->getMembersCards($this->dates['from'],$this->dates['to']);
@@ -117,43 +117,16 @@ class cardsActions extends sfActions
   
   public function executeData(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date'));
     $this->accounting = $this->getUser()->getAttribute('stats.accounting',array(),'admin_module');
-    
-    // the graph
-    $g = new stGraph();
-    $g->bg_colour = '#FFFFFF';
-    
-    //Set the transparency, line colour to separate each slice etc.
-    $g->pie(80,'#78B9EC','{font-size: 12px; color: #78B9EC;');
-    
-    $dates = $this->getDatesCriteria();
-    $mc = $this->getMembersCards($dates['from'], $dates['to']);
-    
-    foreach ( $mc as $value )
-    {
-      $byvalue = false;
-      if ( is_array($this->accounting['price']) )
-      foreach ( $this->accounting['price'] as $price )
-      if ( $price )
-        $byvalue = true;
-      
-      $data[]   = $byvalue ? round(round($value['nb']/365)*$this->accounting['price'][$value['name']],2) : round($value['nb']/365);
-      $names[]  = __($value['name']);
-    }
-    
-    $g->pie_values($data,$names);
-    $g->pie_slice_colours( array('#d01f3c','#3537a0','#35a088','#d0841f','#cbd01f') );
-    
-    $g->set_tool_tip('#x_label#: #val#');
+    $this->dates = $this->getDatesCriteria();
+    $this->mc = $this->getMembersCards($this->dates['from'], $this->dates['to']);
     
     if ( !$request->hasParameter('debug') )
     {
-      echo $g->render();
-      return sfView::NONE;
+      $this->setLayout('raw');
+      sfConfig::set('sf_debug',false);
+      $this->getResponse()->setContentType('application/json');
     }
-    
-    $this->content = $g->render();
   }
   
   protected function getMembersCards( $from = NULL, $until = NULL )

@@ -87,40 +87,17 @@ class transactionsActions extends sfActions
   
   public function executeData(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date','CrossAppLink'));
-    
-    $g = new stGraph();
-    $g->bg_colour = '#FFFFFF';
-    
-    //Set the transparency, line colour to separate each slice etc.
-    $g->pie(80,'#78B9EC','{font-size: 12px; color: #78B9EC;');
-    
-    $prices = $this->getTransactions(
+    $this->prices = $this->getTransactions(
       $request->getParameter('id') == 'asked',
       $request->getParameter('id') == 'ordered',
       $request->getParameter('id') == 'all'
     );
     
-    $total = 0;
-    $names = $data = array();
-    foreach ( $prices as $price )
-      $total += $price->nb;
-    foreach ( $prices as $price )
-    {
-      $data[] = round($price->nb*100/$total);
-      $names[] = $price->name.' ('.$price->nb.')';
-    }
-    
-    $g->pie_values($data,$names);
-    $g->pie_slice_colours( array('#d01f3c','#3537a0','#35a088','#d0841f','#cbd01f') );
-    
-    //To display value as tool tip
-    $g->set_tool_tip( __('#x_label# ticket(s): #val#%') );
-    
     if ( !$request->hasParameter('debug') )
     {
-      echo $g->render();
-      return sfView::NONE;
+      $this->setLayout('raw');
+      sfConfig::set('sf_debug',false);
+      $this->getResponse()->setContentType('application/json');
     }
   }
   

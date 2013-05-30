@@ -22,4 +22,18 @@
 ***********************************************************************************/
 ?>
 <?php
-  include_partial('prices/data',array('prices' => $prices));
+    $g = new liGraph;
+    
+    $pie = new liPie;
+    //$pie->set_style('{font-size: 12px; color: #78B9EC;');
+    
+    $names = $data = array();
+    foreach ( $prices as $price )
+      $data[] = new liPieValue($price->nb, $price->nb.' '.$price->name);
+    $pie->set_values($data);
+    
+    //To display value as tool tip
+    $pie->set_tooltip( __("#label#: #percent#\nTotal: #total#") );
+    $g->add_element($pie);
+    
+    echo $g;
