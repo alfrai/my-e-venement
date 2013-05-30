@@ -13,6 +13,6 @@
  * Plugin
  */
 
-class liBarStackValue extends bar_stack_value
+class liBarStackValue extends OFC_Charts_Bar_Stack_Value
 {
 }

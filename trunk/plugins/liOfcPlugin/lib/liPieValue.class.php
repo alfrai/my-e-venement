@@ -13,6 +13,6 @@
  * Plugin
  */
 
-class liPieValue extends pie_value
+class liPieValue extends OFC_Charts_Pie_Value
 {
 }

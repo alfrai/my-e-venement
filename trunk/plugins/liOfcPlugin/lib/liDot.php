@@ -13,6 +13,6 @@
  * Plugin
  */
 
-class liDot extends dot
+class liDot extends OFC_Charts_Line_Dot
 {
 }

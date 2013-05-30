@@ -13,6 +13,6 @@
  * Plugin
  */
 
-class liBarStackKey extends bar_stack_key
+class liBarStackKey extends OFC_Charts_Bar_Stack_Key
 {
 }

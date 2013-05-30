@@ -13,11 +13,11 @@
  * Plugin
  */
 
-class liPie extends pie
+class liPie extends OFC_Charts_Pie
 {
   public function liPie()
   {
-    parent::pie();
+    parent::OFC_Charts_Pie();
     $this->set_colours(array('#4ECDC4', '#C7F464', '#FF6B6B', '#C44D58', '#556270'));
     $this->set_alpha('0.7');
   }

@@ -13,6 +13,6 @@
  * Plugin
  */
 
-class liLine extends line
+class liLine extends OFC_Charts_Line
 {
 }
