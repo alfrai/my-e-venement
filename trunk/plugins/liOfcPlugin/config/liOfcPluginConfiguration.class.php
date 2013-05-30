@@ -31,7 +31,7 @@ class liOfcPluginConfiguration extends sfPluginConfiguration
     // OFC data dir
     sfConfig::set('li_ofc_data_dir', sfConfig::get('li_ofc_root_dir') . DIRECTORY_SEPARATOR . 'data');
     
-    // stOfcPlugin's images directory
-    sfConfig::set('li_ofc_images_dir', sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . 'stOfcPlugin' . DIRECTORY_SEPARATOR . 'images');
+    // liOfcPlugin's images directory
+    sfConfig::set('li_ofc_images_dir', sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . 'liOfcPlugin' . DIRECTORY_SEPARATOR . 'images');
   }
 }
