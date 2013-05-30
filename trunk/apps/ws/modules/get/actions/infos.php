@@ -53,7 +53,7 @@
       ->andWhere('p2.online')
       ->andWhere('g.workspace_id = pw.id')
       ->andWhere('e.display_by_default = TRUE')
-      ->orderBy('e.name, l.name, m.happens_at, pm.value DESC');
+      ->orderBy('e.name, m.happens_at, l.name, pm.value DESC');
     if ( sfConfig::has('app_count_demands') && sfConfig::get('app_count_demands') )
       $q->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.gauge_id = g.id AND t.duplicating IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL)) AS nb_tickets');
     else
