@@ -14,7 +14,7 @@
       </trans-unit> 
       <trans-unit>
         <source>Transaction resetted and closed</source>
-        <target>Opération remise à zéro et fermée</source>
+        <target>Opération remise à zéro et fermée</target>
       </trans-unit>
       <trans-unit>
         <source>Display even events hidden for ticketting</source>
