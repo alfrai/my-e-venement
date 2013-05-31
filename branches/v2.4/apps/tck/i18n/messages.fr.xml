@@ -169,6 +169,10 @@
         <target>Imprimé</target>
       </trans-unit> 
       <trans-unit>
+        <source>Asked</source>
+        <target>Demandé</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Integrated</source>
         <target>Intégré</target>
       </trans-unit> 
