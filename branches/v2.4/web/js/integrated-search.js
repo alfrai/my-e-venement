@@ -9,11 +9,10 @@ function list_integrated_search(data)
   
   // updating links to order_by and pagination
   $('.sf_admin_list > table > thead a, .sf_admin_list > table > tfoot a').each(function(){
-    $(this).prop('href',
-      $(this).prop('href').replace(
-        $('#list-integrated-search input[name=url]').val(),
-        $('#list-integrated-search').prop('action')
-      )+'&s='+$('#list-integrated-search input[name=s]').val()
+    $(this).attr('href',
+      $(this).attr('href')
+        .replace($('#list-integrated-search input[name=url]').val(),$('#list-integrated-search').attr('action'))
+      +'&s='+$('#list-integrated-search input[name=s]').val()
     );
   }).click(function(){
     $.get($(this).prop('href'),function(data){

@@ -56,7 +56,7 @@
       return sfView::NONE;
     }
     
-    if ( ($paid = floatval($request->getParameter('paid'))) <= 0 )
+    if ( ($paid = floatval($request->getParameter('paid',-1))) < 0 )
     {
       $this->getResponse()->setStatusCode('406');
       return sfView::NONE;
