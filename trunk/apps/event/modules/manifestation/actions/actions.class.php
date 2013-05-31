@@ -470,9 +470,9 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('g.Workspace w')
       ->andWhere('tck.cancelling IS NULL')
       ->andWhere('tck.id NOT IN (SELECT tt2.cancelling FROM ticket tt2 WHERE tt2.cancelling IS NOT NULL)')
-      ->andWhere('tck.id NOT IN (SELECT tt3.duplicating FROM ticket tt3 WHERE tt3.duplicating IS NOT NULL)')
+      ->andWhere('tck.id NOT IN (SELECT tt3.duplicating FROM ticket tt3 WHERE tt3.duplicating IS NOT NULL)') // we want only the last duplicates (or originals if no duplication has been made)
       ->andWhere('tck.manifestation_id = ?',$manifestation_id ? $manifestation_id : $this->manifestation->id)
-      ->andWhere('cp.legal IS NULL OR cp.legal = true')
+      ->andWhere('(cp.legal IS NULL OR cp.legal = true)')
       ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhere('p.id IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?) OR (SELECT count(up2.price_id) FROM UserPrice up2 WHERE up2.sf_guard_user_id = ?) = 0',array($this->getUser()->getId(),$this->getUser()->getId()))
       ->orderBy('c.name, c.firstname, o.name, p.name, g.workspace_id, w.name, tr.id');
