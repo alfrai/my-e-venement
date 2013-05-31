@@ -78,6 +78,12 @@ body #content { width: auto; }
 #tdp-content .tdp-subobject .tdp-line.professional_correspondence .tdp-organism label { position: absolute; margin-top: -92px; }
 #tdp-content .tdp-subobject .tdp-line.professional_correspondence .tdp-organism th,
 #tdp-content .tdp-subobject #sf_admin_content .tdp-line.professional_correspondence .tdp-description label { display: none; }
+#tdp-content .tdp-line.social, #tdp-content .tdp-line.personal_description { clear: both; }
+#tdp-content .tdp-line.family .tdp-YOBs > table > tbody,
+#tdp-content .tdp-line.family .tdp-YOBs > table > tbody > tr,
+#tdp-content .tdp-line.family .tdp-YOBs > table > tbody > tr > td,
+#tdp-content .tdp-line.family .tdp-YOBs table { display: block; }
+#tdp-content .tdp-line.family .tdp-YOBs > table > tbody > tr > td { float: left; margin-right: 10px; }
 
 #tdp-content .tdp-subobject #sf_admin_content .tdp-widget-header { padding: 3px; font-family: Lucida Grande,Lucida Sans,Arial,sans-serif; }
 #tdp-content .tdp-subobject #sf_admin_content .tdp-widget-header span { border: 0; }
@@ -264,6 +270,7 @@ body #content { width: auto; }
   border-top-left-radius: 0;
   background-color: rgba(255,255,255,0.7);
 }
+
 
 /* GENERIC */
 .clear { clear: both; }

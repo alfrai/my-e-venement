@@ -10,7 +10,22 @@ $(document).ready(function(){
     $('#tdp-side-bar .tdp-object-groups .new').remove();
   }
   
-  // FORMS: submitting subobjects though AJAX
+  // BIRTHDAYS DEALING WITH INTEGERS AND TIPPING TIPS
+  $('.sf_admin_form_field_YOBs table table tr').each(function(){
+    // adding titles to YOBs' inputs
+    $(this).prop('title', $(this).find('th label').html());
+  });
+  $('.sf_admin_form_field_YOBs table table tr input[type=text]').keyup(function(e){
+    if ( e.which == 8 && $(this).val() == '' )
+      $(this).closest('tr').prev().find('input[type=text]').focus();
+  });  
+  $('.sf_admin_form_field_YOBs table table tr:not(:last-child) input[type=text]').keyup(function(e){
+    $(this).val(isNaN(parseInt($(this).val())) ? '' : ($(this).val().substring(0,1) == '0' && $(this).val() !== '0' ? '0' : '')+parseInt($(this).val(),10));
+    if ( $(this).val().length >= ($(this).css('width') === $(this).closest('table').find('tr:first input[type=text]').css('width') ? 2 : 4) )
+      $(this).closest('tr').next().find('input[type=text]').focus();
+  });
+  
+  // FORMS: submitting subobjects though AJ$AX
   $('.tdp-subobject form, .tdp-object #sf_admin_content > form').submit(function(){
     $("html, body").animate({ scrollTop: 0 }, "slow");
     $('.sf_admin_flashes *').fadeOut('fast',function(){ $(this).remove(); });

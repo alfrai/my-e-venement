@@ -42,7 +42,9 @@ all:
           More:
             show_labels: true
             extra_class: tdp-vertical
-            fields: [family_contact, npai, YOBs, password]
+            fields: [family_contact, npai, password]
+          Family:
+            fields: [YOBs]
           Social:
             show_labels: true
             extra_class: tdp-vertical

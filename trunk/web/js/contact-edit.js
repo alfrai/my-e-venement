@@ -154,5 +154,5 @@ $(document).ready(function(){
   // adding titles to YOBs' inputs
   $('.sf_admin_form_field_YOBs table table tr').each(function(){
     $(this).prop('title', $(this).find('th label').html());
-  })
+  });
 });
