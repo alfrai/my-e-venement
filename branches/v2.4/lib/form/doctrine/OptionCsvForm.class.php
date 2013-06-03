@@ -179,16 +179,16 @@ class OptionCsvForm extends BaseOptionCsvForm
         }
       }
       
-      if ( $contact['organism_email'] ) $contact['email'] = $contact['organism_email'];
-      if ( $contact['professional_email'] ) $contact['email'] = $contact['professional_email'];
+      if ( isset($contact['organism_email']) && $contact['organism_email'] ) $contact['email'] = $contact['organism_email'];
+      if ( isset($contact['professional_email']) && $contact['professional_email'] ) $contact['email'] = $contact['professional_email'];
       unset($contact['organism_email'], $contact['professional_email']);
       
-      if ( $contact['organism_phonenumber'] )
+      if ( isset($contact['organism_phonenumber']) && $contact['organism_phonenumber'] )
       {
         $contact['phonename']    = $contact['organism_phonename'];
         $contact['phonenumber']  = $contact['organism_phonenumber'];
       }
-      if ( $contact['professional_number'] )
+      if ( isset($contact['professional_number']) && $contact['professional_number'] )
       {
         $contact['phonename']    = 'Professional';
         $contact['phonenumber']  = $contact['professional_number'];
