@@ -22,8 +22,10 @@
 ***********************************************************************************/
 ?>
 <div class="sf_admin_form_row sf_admin_form_field_YOBs">
-  <label><?php echo __('Years of Birth')?>:</label>
+  <label><?php echo __('Birthdays')?>:</label>
+  <?php if ( $contact->YOBs->count() ): ?>
   <ol><?php foreach ( $contact->orderYOBs()->YOBs as $YOB ): ?>
     <li><?php echo $YOB ?></li>
   <?php endforeach ?></ol>
+  <?php endif ?>
 </div>

@@ -15,16 +15,20 @@ class ContactForm extends BaseContactForm
    */
   public function configure()
   {
-    //unset($this->widgetSchema['emails_list']);
-    //unset($this->validatorSchema['emails_list']);
-    
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Asset'));
     use_javascript('/sfFormExtraPlugin/js/double_list.js');
     
     //$this->widgetSchema   ['YOBs_list'] = new sfWidgetFormInputText(array('default' => $this->object->getYOBsString()));
     //$this->validatorSchema['YOBs_list'] = new sfValidatorString(array('required' => false));
-    $this->getObject()->orderYOBs()->YOBs[] = new YOB;
+    $this->object->orderYOBs()->YOBs[] = new YOB;
     $this->embedRelation('YOBs');
+
+    $this->object->Relationships[] = new ContactRelationship;
+    $this->embedRelation('Relationships');
+    foreach ( $this->validatorSchema['Relationships']->getFields() as $arr )
+    foreach ( array('to_contact_id', 'contact_relationship_type_id') as $key )
+      $arr[$key]->setOption('required', false);
+    unset($this->widgetSchema['relations_list']);
     
     $this->widgetSchema   ['title']     = new liWidgetFormDoctrineJQueryAutocompleterGuide(array(
       'model' => 'TitleType',
@@ -73,10 +77,17 @@ class ContactForm extends BaseContactForm
   protected function doSave($con = NULL)
   {
     foreach ( $this->values['YOBs'] as $key => $values )
-    if (! (isset($values['year']) && trim($values['year'])) )
-      unset($this->object->YOBs[$key], $this->embeddedForms['YOBs']->embeddedForms[$key], $this->values['YOBs'][$key]);
+    if (!( isset($values['year']) && trim($values['year']) ))
+    {
+      unset(
+        $this->object->YOBs[$key],
+        $this->embeddedForms['YOBs']->embeddedForms[$key],
+        $this->values['YOBs'][$key]
+      );
+    }
     
-    return parent::doSave($con);
+    $r = parent::doSave($con);
+    return $r;
   }
   public function save($con = null)
   {
@@ -129,7 +140,9 @@ class ContactForm extends BaseContactForm
     unset(
       $this->widgetSchema['emails_list'],
       $this->widgetSchema['groups_list'],
-      $this->widgetSchema['YOBs_list']
+      $this->widgetSchema['YOBs_list'],
+      $this->widgetSchema['Relationships'],
+      $this->widgetSchema['relations_list']
     );
     
     // BUG: 2013-04-12

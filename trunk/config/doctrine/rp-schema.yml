@@ -71,6 +71,12 @@ Contact:
       foreignAlias: Contact
       onDelete: SET NULL
       onUpdate: SET NULL
+    Relations:
+      class: Contact
+      refClass: ContactRelationship
+      foreignAlias: BackRelations
+      local: from_contact_id
+      foreign: to_contact_id
 Organism:
   package: rp
   inheritance:
@@ -213,13 +219,13 @@ ContactRelationship:
       notnull: true
     contact_relationship_type_id: integer
   relations:
-    FromContact:
+    ContactOrig:
       local: from_contact_id
       class: Contact
       foreignAlias: Relationships
       onDelete: CASCADE
       onUpdate: CASCADE
-    ToContact:
+    Contact:
       local: to_contact_id
       class: Contact
       foreignAlias: ForeignRelationships

@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Linked contacts</source>
+        <target>Contacts liés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Referenced by</source>
+        <target>Référencé par</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Relationships</source>
+        <target>Relations</target>
+      </trans-unit>
+      <trans-unit>
         <source>New type of relationship</source>
         <target>Nouveau type de relation</target>
       </trans-unit>
