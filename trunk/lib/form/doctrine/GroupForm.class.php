@@ -78,7 +78,6 @@ class GroupForm extends BaseGroupForm
     ));
     
     // pictures & co
-    $this->object->Picture->Groups[] = $this->object;
     $this->embedRelation('Picture');
     foreach ( array('name', 'type', 'version', 'height', 'width',) as $fieldName )
       unset($this->widgetSchema['Picture'][$fieldName], $this->validatorSchema['Picture'][$fieldName]);

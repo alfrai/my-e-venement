@@ -47,6 +47,9 @@ Contact:
     familial_quotient_id: integer
     type_of_resources_id: integer
     familial_situation_id: integer
+    sf_guard_user_id:
+      type: integer
+      unique: true
   relations:
     Category:
       class: OrganismCategory
@@ -63,6 +66,11 @@ Contact:
       foreignAlias: Contacts
       onDelete: SET NULL
       onUpdate: CASCADE
+    User:
+      class: sfGuardUser
+      foreignAlias: Contact
+      onDelete: SET NULL
+      onUpdate: SET NULL
 Organism:
   package: rp
   inheritance:
@@ -184,6 +192,45 @@ Professional:
     Organism:
       foreignAlias: Professionals
       onDelete: CASCADE
+
+ContactRelationshipType:
+  package: rp
+  actAs: [Timestampable]
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+ContactRelationship:
+  package: rp
+  actAs: [Timestampable]
+  columns:
+    from_contact_id:
+      type: integer
+      notnull: true  
+    to_contact_id:
+      type: integer
+      notnull: true
+    contact_relationship_type_id: integer
+  relations:
+    FromContact:
+      local: from_contact_id
+      class: Contact
+      foreignAlias: Relationships
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    ToContact:
+      local: to_contact_id
+      class: Contact
+      foreignAlias: ForeignRelationships
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Type:
+      local: contact_relationship_type_id
+      class: ContactRelationshipType
+      foreignAlias: Relationships
+      onDelete: SET NULL
+      onUpdate: CASCADE
 
 TitleType:
   package: rp

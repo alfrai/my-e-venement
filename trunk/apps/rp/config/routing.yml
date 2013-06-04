@@ -1,3 +1,12 @@
+contact_relationship_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                ContactRelationshipType
+    module:               contact_relationship_type
+    prefix_path:          /contact_relationship_type
+    column:               id
+    with_wildcard_routes: true
+
 type_of_resources:
   class: sfDoctrineRouteCollection
   options:

@@ -18,6 +18,9 @@ generator:
         title: Group list
         display: [name, description]
         sort: [name, asc]
+        object_actions:
+          _edit: ~
+          _delete: ~
 
       form:
         display: [name, description, users_list, permissions_list]

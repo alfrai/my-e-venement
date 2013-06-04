@@ -12,9 +12,18 @@ class sfGuardUserForm extends PluginsfGuardUserForm
 {
   public function configure()
   {
-    $this->widgetSchema['permissions_list']->setOption('order_by',array('name',''));
-    $this->widgetSchema['groups_list']->setOption('order_by',array('name',''));
-    $this->widgetSchema['workspaces_list']->setOption('query',Doctrine::getTable('Workspace')->createQuery('ws',true))
-                                          ->setOption('order_by',array('name',''));
+    // apparently never used, see liGuardUserAdminForm
+    
+    parent::configure();
+    
+    $this->widgetSchema['permissions_list'] ->setOption('order_by',array('name',''));
+    $this->widgetSchema['groups_list']      ->setOption('order_by',array('name',''));
+    $this->widgetSchema['meta_events_list'] ->setOption('order_by',array('name',''));
+    $this->widgetSchema['prices_list']      ->setOption('order_by',array('name',''));
+    $this->widgetSchema['member_cards_list']->setOption('order_by',array('name',''));
+    
+    $this->validatorSchema['workspaces_list']->setOption('query', $q = Doctrine::getTable('Workspace')->createQuery('ws',true))
+    $this->widgetSchema   ['workspaces_list']->setOption('query',$q)
+                                             ->setOption('order_by',array('name',''));
   }
 }

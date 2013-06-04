@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>New type of relationship</source>
+        <target>Nouveau type de relation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Renaming type of relationship %%name%%</source>
+        <target>Renommer le type de relation %%name%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Types of relationships between contacts</source>
+        <target>Types de relations entre contacts</target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
         <source>Birthdays</source>
         <target>Anniversaires</target>
       </trans-unit>

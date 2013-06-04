@@ -14,20 +14,36 @@ class liGuardUserAdminForm extends sfGuardUserAdminForm
   {
     parent::configure();
     
-    $this->widgetSchema['groups_list']->setOption('order_by',array('name',''));
-    $this->widgetSchema['groups_list']->setOption('expanded',true);
+    // don't know why but parent::setup() is called before self::configure() so we need to specify the contact's widget correctly here and not in BaseDoctrineForm::setup()
+    $this->widgetSchema   ['contact_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Contact',
+      'url'   => cross_app_url_for('rp','contact/ajax'),
+      'default' => !$this->object->Contact[0]->isNew() ? $this->object->Contact[0]->id : '',
+    ));
+    $this->validatorSchema['contact_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Contact',
+      'required' => false,
+    ));
     
-    $this->widgetSchema['meta_events_list']->setOption('order_by',array('name',''));
-    $this->widgetSchema['meta_events_list']->setOption('expanded',true);
+    foreach ( array('groups_list', 'meta_events_list', 'prices_list', 'member_cards_list', 'permissions_list') as $key )
+      $this->widgetSchema[$key]
+        ->setOption('expanded',true)
+        ->setOption('order_by',array('name',''));
     
-    $this->widgetSchema   ['workspaces_list']->setOption('query',$q = Doctrine::getTable('Workspace')->createQuery('ws',true)->orderBy('name'));
-    $this->widgetSchema   ['workspaces_list']->setOption('expanded',true);
-    $this->validatorSchema['workspaces_list']->setOption('query',$q);
-
-    $this->widgetSchema['prices_list']->setOption('order_by',array('name',''));
-    $this->widgetSchema['prices_list']->setOption('expanded',true);
-
-    $this->widgetSchema['member_cards_list']->setOption('order_by',array('name',''))
-                                            ->setOption('expanded',true);
+    $this->validatorSchema['workspaces_list']->setOption('query', $q = Doctrine::getTable('Workspace')->createQuery('ws',true));
+    $this->widgetSchema   ['workspaces_list']->setOption('query',$q)
+                                             ->setOption('order_by',array('name',''));
+  }
+  
+  public function doSave($con = NULL)
+  {
+    // contact embedded form
+    if ( $this->values['contact_id'] )
+      $this->object->Contact[0] = Doctrine::getTable('Contact')->fetchOneById($this->values['contact_id']);
+    else
+      $this->object->Contact[0]->sf_guard_user_id = NULL;
+    unset($this->values['contact_id']);
+    
+    return parent::doSave($con);
   }
 }

@@ -106,8 +106,8 @@ class sfGuardUserActions extends autoSfGuardUserActions
   protected function restrictGiveSuperAdminFlag(sfWebRequest $request)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
-    $sf_guard_user = $request['sf_guard_user'];
-    if ( $request['sf_guard_user']['is_super_admin'] && !$this->getUser()->isSuperAdmin() )
+    $sf_guard_user = isset($request['sf_guard_user']) ? $request['sf_guard_user'] : array();
+    if ( isset($request['sf_guard_user']['is_super_admin']) && $request['sf_guard_user']['is_super_admin'] && !$this->getUser()->isSuperAdmin() )
     {
       $this->getUser()->setFlash('error',__("You can't add an account as a Super-Admin if you're not a Super-Admin youself. This flag has been simply deactivated."));
       unset($sf_guard_user['is_super_admin']);

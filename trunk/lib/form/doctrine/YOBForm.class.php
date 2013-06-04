@@ -18,7 +18,6 @@ class YOBForm extends BaseYOBForm
   
   public function save($con = NULL)
   {
-    die('pouet');
     if ( !$this->year )
       return false;
     

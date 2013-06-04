@@ -10,7 +10,7 @@
  */
 abstract class BaseFormDoctrine extends sfFormDoctrine
 {
-  public function configure()
+  public function setup()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink','Url'));
     

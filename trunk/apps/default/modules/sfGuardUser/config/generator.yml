@@ -13,19 +13,22 @@ generator:
     config:
       fields:
         password_again: { label: "Password (again)" }
-        is_super_admin: { label: Is super admin }
+        is_super_admin:
+          label: SA
+          helper: Is super admin
         is_active:      { label: Is active }
         username:       { label: Login }
         first_name:     { label: Firstname }
         last_name:      { label: Lastname }
         email_address:  { label: Email address }
+        list_contact:   { label: Linked contact }
       
       filter:
         display: [username, is_active, is_super_admin, last_name, first_name, email_address, meta_events_list, workspaces_list, prices_list]
       
       list:
         title:   User list
-        display: [username, is_active, is_super_admin, last_login, last_name, first_name, email_address]
+        display: [username, last_name, first_name, _list_contact, is_active, is_super_admin, last_login, last_name, first_name, email_address]
         object_actions: { _edit: ~, _duplicate: { name: Duplicate, action: duplicate }, _delete: ~ }
 
       form:
@@ -33,7 +36,7 @@ generator:
           "User":                   [username, password, password_again, first_name, last_name, email_address]
           "Permissions and groups": [is_active, is_super_admin, groups_list]
           "Ticketting items":       [meta_events_list, workspaces_list, prices_list]
-          "Misc":                   [member_cards_list]
+          "Misc":                   [contact_id, member_cards_list]
         class: liGuardUserAdminForm
 
       edit:

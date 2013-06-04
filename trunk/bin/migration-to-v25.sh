@@ -27,4 +27,6 @@ UPDATE ticket SET printed_at = updated_at WHERE printed;
 UPDATE ticket SET integrated_at = updated_at WHERE integrated;
 UPDATE ticket_version SET printed_at = updated_at WHERE printed;
 UPDATE ticket_version SET integrated_at = updated_at WHERE integrated;
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('pr-contact-relationships-admin', 'Permission to add and remove type of contacts relationships', '2013-06-03 13:14:58', '2013-06-03 13:14:58');
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT id FROM sf_guard_group WHERE name = 'pr-admin'), NOW(), NOW());
 EOF

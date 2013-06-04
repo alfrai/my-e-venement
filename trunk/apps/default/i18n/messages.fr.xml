@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Remove linked contact</source>
+        <target>Retirer le contact lié</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Linked contact</source>
+        <target>Contact lié</target>
+      </trans-unit>
+      <trans-unit>
         <source>Height</source>
         <target>Hauteur</target>
       </trans-unit>
