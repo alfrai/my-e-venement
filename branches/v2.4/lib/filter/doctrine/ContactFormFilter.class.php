@@ -12,12 +12,17 @@ class ContactFormFilter extends BaseContactFormFilter
 {
   protected $noTimestampableUnset = true;
   protected $showProfessionalData = true;
+  protected $tickets_having_query = NULL; // Doctrine_Query
 
   /**
    * @see AddressableFormFilter
    */
   public function configure()
   {
+    $this->tickets_having_query = Doctrine_Query::create()->from('Contact c')
+      ->groupBy('c.id')
+      ->select('c.id');
+    
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
     $this->widgetSchema['groups_list']->setOption('query',
       Doctrine::getTable('Group')->createQuery('g')
@@ -248,14 +253,16 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['event_categories_list']= 'EventCategoriesList';
     $fields['meta_events_list']     = 'MetaEventsList';
     $fields['prices_list']          = 'PricesList';
-    $fields['tickets_amount_min']   = 'TicketsAmountMin';
-    $fields['tickets_amount_max']   = 'TicketsAmountMax';
     $fields['member_cards']         = 'MemberCards';
     $fields['member_cards_expire_at'] = 'MemberCardsExpireAt';
     $fields['control_manifestation_id'] = 'ControlManifestationId';
     $fields['control_checkpoint_id'] = 'ControlCheckpointId';
     $fields['control_created_at']   = 'ControlCreatedAt';
     $fields['region']   = 'RegionId';
+    
+    // must be the last ones, because of a having() part which needs to be added lately
+    $fields['tickets_amount_min']   = 'TicketsAmountMin';
+    $fields['tickets_amount_max']   = 'TicketsAmountMax';
     
     return $fields;
   }
@@ -267,6 +274,8 @@ class ContactFormFilter extends BaseContactFormFilter
     if ( intval($value) > 0 )
       $q->andWhere("SUBSTRING($a.postalcode,1,2) IN (SELECT REGEXP_REPLACE(dpt.num, '[a-zA-Z]', '0') FROM GeoFrDepartment dpt LEFT JOIN dpt.Region reg WHERE reg.id = ?)",$value)
         ->andWhere("LOWER($a.country) = ? OR TRIM($a.country) = ? OR $a.country IS NULL",array('france',''));
+    
+    return $q;
   }
   public function addEmailsListColumnQuery(Doctrine_Query $q, $field, $value)
   {
@@ -291,17 +300,18 @@ class ContactFormFilter extends BaseContactFormFilter
     $a = $q->getRootAlias();
     
     if ( is_array($value) )
+    foreach ( array($q,$this->tickets_having_query) as $query )
     {
-      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
-      $q->leftJoin("$a.Transactions transac");
+      if ( !$query->contains("LEFT JOIN $a.Transactions transac") )
+      $query->leftJoin("$a.Transactions transac");
       
-      if ( !$q->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
-      $q->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
+      if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
+      $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
       
-      if ( !$q->contains("LEFT JOIN tck.Manifestation m") )
-      $q->leftJoin('tck.Manifestation m');
+      if ( !$query->contains("LEFT JOIN tck.Manifestation m") )
+      $query->leftJoin('tck.Manifestation m');
       
-      $q->andWhereIn('m.event_id',$value);
+      $query->andWhereIn('m.event_id',$value);
     }
     
     return $q;
@@ -311,20 +321,21 @@ class ContactFormFilter extends BaseContactFormFilter
     $a = $q->getRootAlias();
     
     if ( is_array($value) )
+    foreach ( array($q,$this->tickets_having_query) as $query )
     {
-      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
-      $q->leftJoin("$a.Transactions transac");
+      if ( !$query->contains("LEFT JOIN $a.Transactions transac") )
+      $query->leftJoin("$a.Transactions transac");
       
-      if ( !$q->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
-      $q->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
+      if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
+      $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
       
-      if ( !$q->contains("LEFT JOIN tck.Manifestation m") )
-      $q->leftJoin('tck.Manifestation m');
+      if ( !$query->contains("LEFT JOIN tck.Manifestation m") )
+      $query->leftJoin('tck.Manifestation m');
       
-      if ( !$q->contains("LEFT JOIN m.Event event") )
-      $q->leftJoin('m.Event event');
+      if ( !$query->contains("LEFT JOIN m.Event event") )
+      $query->leftJoin('m.Event event');
       
-      $q->andWhereIn('event.event_category_id',$value);
+      $query->andWhereIn('event.event_category_id',$value);
     }
     
     return $q;
@@ -334,23 +345,24 @@ class ContactFormFilter extends BaseContactFormFilter
     $a = $q->getRootAlias();
     
     if ( is_array($value) )
+    foreach ( array($q,$this->tickets_having_query) as $query )
     {
-      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
-      $q->leftJoin("$a.Transactions transac");
+      if ( !$query->contains("LEFT JOIN $a.Transactions transac") )
+      $query->leftJoin("$a.Transactions transac");
       
-      if ( !$q->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
-      $q->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
+      if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
+      $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
       
-      if ( !$q->contains("LEFT JOIN tck.Manifestation m") )
-      $q->leftJoin('tck.Manifestation m');
+      if ( !$query->contains("LEFT JOIN tck.Manifestation m") )
+      $query->leftJoin('tck.Manifestation m');
       
-      if ( !$q->contains("LEFT JOIN m.Event event") )
-      $q->leftJoin('m.Event event');
+      if ( !$query->contains("LEFT JOIN m.Event event") )
+      $query->leftJoin('m.Event event');
       
-      if ( !$q->contains("LEFT JOIN event.MetaEvent mev") )
-      $q->leftJoin('event.MetaEvent mev');
+      if ( !$query->contains("LEFT JOIN event.MetaEvent mev") )
+      $query->leftJoin('event.MetaEvent mev');
       
-      $q->andWhereIn('mev.id',$value);
+      $query->andWhereIn('mev.id',$value);
     }
     
     return $q;
@@ -361,38 +373,69 @@ class ContactFormFilter extends BaseContactFormFilter
     $a = $q->getRootAlias();
     
     if ( is_array($value) )
+    foreach ( array($q,$this->tickets_having_query) as $query )
     {
-      if ( !$q->contains("LEFT JOIN $a.Transactions transac") )
-      $q->leftJoin("$a.Transactions transac");
+      if ( !$query->contains("LEFT JOIN $a.Transactions transac") )
+      $query->leftJoin("$a.Transactions transac");
       
-      if ( !$q->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
-      $q->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
+      if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
+      $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
       
-      if ( !$q->contains("LEFT JOIN tck.Price price") )
-      $q->leftJoin('tck.Price price');
+      if ( !$query->contains("LEFT JOIN tck.Price price") )
+      $query->leftJoin('tck.Price price');
       
-      $q->andWhereIn('price.id',$value);
+      $query->andWhereIn('price.id',$value);
     }
     
     return $q;
   }
 
+  // having queries
   public function addTicketsAmountMinColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $a = $q->getRootAlias();
     
     if ( $value )
-      $q->andWhere("$a.id IN (SELECT ttr1.contact_id FROM Transaction ttr1 WHERE ttr1.id IN (SELECT (CASE WHEN SUM(tt1.value) >= ? THEN tt1.transaction_id ELSE 0 END) AS transaction_id FROM Ticket tt1 GROUP BY tt1.transaction_id) GROUP BY ttr1.contact_id)",$value);
+    {
+      foreach ( array($q,$this->tickets_having_query) as $query )
+      {
+        if ( !$query->contains("LEFT JOIN $a.Transactions transac") )
+        $query->leftJoin("$a.Transactions transac");
+        
+        if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
+        $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
+      }
+      
+      $this->tickets_having_query->having('sum(tck.value) >= ?',$value);
+      foreach ( $this->tickets_having_query->fetchArray() as $c )
+        $ids[] = $c['id'];
+      
+      $q->andWhereIn("$a.id",$ids);
+    }
     
     return $q;
   }
-
   public function addTicketsAmountMaxColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $a = $q->getRootAlias();
     
     if ( $value )
-      $q->andWhere("$a.id IN (SELECT ttr2.contact_id FROM Transaction ttr2 WHERE ttr2.id IN (SELECT (CASE WHEN SUM(tt2.value) < ? THEN tt2.transaction_id ELSE 0 END) AS transaction_id FROM Ticket tt2 GROUP BY tt2.transaction_id) GROUP BY ttr2.contact_id)",$value);
+    {
+      foreach ( array($q,$this->tickets_having_query) as $query )
+      {
+        if ( !$query->contains("LEFT JOIN $a.Transactions transac") )
+        $query->leftJoin("$a.Transactions transac");
+        
+        if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
+        $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed = TRUE OR tck.integrated = TRUE) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
+      }
+      
+      $this->tickets_having_query->having('sum(tck.value) < ?',$value);
+      foreach ( $this->tickets_having_query->fetchArray() as $c )
+        $ids[] = $c['id'];
+      
+      $q->andWhereIn("$a.id",$ids);
+    }
     
     return $q;
   }
@@ -652,6 +695,12 @@ class ContactFormFilter extends BaseContactFormFilter
   public function buildQuery(array $values)
   {
     $this->setProfessionalData(false);
-    return parent::buildQuery($values);
+    
+    // to limit execution time
+    $q = parent::buildQuery($values);
+    $a = $q->getRootAlias();
+    $q->select("$a.*, p.*, o.*, pn.*, y.*, pt.*, oph.*, gc.*, gp.*, go.*");
+    
+    return $q;
   }
 }
