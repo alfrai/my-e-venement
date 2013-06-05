@@ -108,8 +108,17 @@
         foreach ( $contact->Locations as $location )
           $base_contact->Locations[] = $location;
         
+        // transactions
         foreach ( $contact->Transactions as $transaction )
           $base_contact->Transactions[] = $transaction;
+        
+        // YOB
+        foreach ( $contact->YOBs as $YOB )
+          $base_contact->YOBs[] = $YOB;
+        
+        // Relationships
+        foreach ( $contact->Relationships as $relationship )
+          $base_contact->Relationships[] = $relationship;
         
         $base_contact->save();
         $contact->delete();
