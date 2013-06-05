@@ -70,6 +70,7 @@ class ContactForm extends BaseContactForm
     ));
     
     $this->widgetSchema   ['confirmed'] = new sfWidgetFormInputHidden();
+    $this->widgetSchema   ['sf_guard_user_id'] = new sfWidgetFormInputHidden();
     
     parent::configure();
   }
