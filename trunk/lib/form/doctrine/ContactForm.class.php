@@ -76,6 +76,19 @@ class ContactForm extends BaseContactForm
   
   protected function doSave($con = NULL)
   {
+    foreach ( $this->values['Relationships'] as $key => $values )
+    if (!( isset($values['to_contact_id']) && $values['to_contact_id'] )
+      ||!( isset($values['contact_relationship_type_id']) && $values['contact_relationship_type_id'] ))
+    {
+      unset(
+        $this->object->Relationships[$key],
+        $this->embeddedForms['Relationships']->embeddedForms[$key],
+        $this->values['Relationships'][$key]
+      );
+    }
+    else
+      $this->object->Relationships[$key]->Contact = NULL; // hack ... to avoid an Exception based on a not-correct ->Contact
+    
     foreach ( $this->values['YOBs'] as $key => $values )
     if (!( isset($values['year']) && trim($values['year']) ))
     {
@@ -86,8 +99,7 @@ class ContactForm extends BaseContactForm
       );
     }
     
-    $r = parent::doSave($con);
-    return $r;
+    return parent::doSave($con);
   }
   public function save($con = null)
   {
