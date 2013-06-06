@@ -24,7 +24,9 @@ done
 CPT=0
 CONTINUE=true
 while $CONTINUE; do
-  TEST=`echo 'update ticket t set cancelling = t2.duplicating from ticket t2 where t.cancelling = t2.id and t2.duplicating is not null and t.cancelling is not null;' | psql $DB`
+  TEST=`echo "UPDATE ticket t
+        SET duplicating = (select max(id) AS cancelling_max_id from ticket t2 where cancelling = t.cancelling and cancelling is not null and duplicating is null)
+        WHERE id IN (select max(id) AS cancelling_max_id from ticket t3 where cancelling is not null and duplicating is null and cancelling in (select cancelling from ticket where t.id != id and cancelling is not null and duplicating is null) group by cancelling);" | psql $DB`
   [ "$TEST" = 'UPDATE 0' ] && CONTINUE=false
   let "CPT++"
   echo iteration $CPT
