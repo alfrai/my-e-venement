@@ -6,14 +6,20 @@ graph G {
 	nodePostalcode [
 		label="{<table>Postalcode|<cols>postalcode (string)\lcity (string)}",
 		shape=record ];
+	nodePicture [
+		label="{<table>Picture|<cols>name (string)\ltype (string)\lcontent (blob)\lwidth (integer)\lheight (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		shape=record ];
 	nodeAddressable [
-		label="{<table>Addressable|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Addressable|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
 	nodeAuthentication [
 		label="{<table>Authentication|<cols>description (string)\lip_address (string)\luser_agent (string)\lreferer (string)\lsuccess (boolean)\lcreated_at (timestamp)}",
 		shape=record ];
 	nodePhonenumber [
 		label="{<table>Phonenumber|<cols>name (string)\lnumber (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeTraceable [
+		label="{<table>Traceable|<cols>created_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
 		shape=record ];
 	nodeOption [
 		label="{<table>Option|<cols>type (string)\lname (string)\lvalue (string)\lcreated_at (timestamp)}",
@@ -33,11 +39,11 @@ graph G {
 	nodeAccounting [
 		label="{<table>Accounting|<cols>transaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
 		shape=record ];
-	nodeTraceable [
-		label="{<table>Traceable|<cols>created_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+	nodeOptionAccounting [
+		label="{<table>OptionAccounting|<cols>type (string)\lname (string)\lvalue (string)\lcreated_at (timestamp)}",
 		shape=record ];
 	nodeTicket [
-		label="{<table>Ticket|<cols>price_name (string)\lvalue (decimal)\lnumerotation (string)\lduplicate (integer)\lgrouping_fingerprint (string)\lprinted (boolean)\lintegrated (boolean)\lbarcode (string)\lothercode (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		label="{<table>Ticket|<cols>price_name (string)\lvalue (decimal)\lnumerotation (string)\lgrouping_fingerprint (string)\lprinted_at (timestamp)\lprinted (boolean)\lintegrated_at (timestamp)\lintegrated (boolean)\lbarcode (string)\lothercode (string)\lvat (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
 		shape=record ];
 	nodeInvoice [
 		label="{<table>Invoice|<cols>type (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
@@ -100,7 +106,7 @@ graph G {
 		label="{<table>EmailSpool|<cols>message (text)\lpriority (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeContact [
-		label="{<table>Contact|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\lfamily_contact (boolean)\lconfirmed (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Contact|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\lfamily_contact (boolean)\lconfirmed (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
 	nodeOptionLabels [
 		label="{<table>OptionLabels|<cols>type (string)\lname (string)\lvalue (string)\lcreated_at (timestamp)}",
@@ -108,26 +114,41 @@ graph G {
 	nodeOrganismCategory [
 		label="{<table>OrganismCategory|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
+	nodeContactRelationshipType [
+		label="{<table>ContactRelationshipType|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
 	nodeYOB [
-		label="{<table>YOB|<cols>year (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>YOB|<cols>year (integer)\lmonth (integer)\lday (integer)\lname (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeOrganismPhonenumber [
 		label="{<table>OrganismPhonenumber|<cols>name (string)\lnumber (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeContactRelationship [
+		label="{<table>ContactRelationship|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeTypeOfResources [
+		label="{<table>TypeOfResources|<cols>name (string)}",
+		shape=record ];
+	nodeFamilialSituation [
+		label="{<table>FamilialSituation|<cols>name (string)}",
 		shape=record ];
 	nodeTitleType [
 		label="{<table>TitleType|<cols>name (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
 	nodeProfessional [
-		label="{<table>Professional|<cols>name (string)\lcontact_number (string)\lcontact_email (string)\ldepartment (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>Professional|<cols>name (string)\lcontact_number (string)\lcontact_email (string)\lcontact_email_no_newsletter (boolean)\ldepartment (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeGeoFrRegion [
 		label="{<table>GeoFrRegion|<cols>name (string)\lstrict_name (string)\lslug (string)}",
 		shape=record ];
 	nodeOrganism [
-		label="{<table>Organism|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\lurl (string)\ldescription (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Organism|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lurl (string)\ldescription (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
 	nodeContactPhonenumber [
 		label="{<table>ContactPhonenumber|<cols>name (string)\lnumber (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeFamilialQuotient [
+		label="{<table>FamilialQuotient|<cols>name (string)}",
 		shape=record ];
 	nodePhoneType [
 		label="{<table>PhoneType|<cols>name (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
@@ -187,13 +208,13 @@ graph G {
 		label="{<table>EntryTickets|<cols>quantity (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeEvent [
-		label="{<table>Event|<cols>name (string)\lshort_name (string)\levent_category_description (string)\lstaging (string)\lstaging_label (string)\lwriter (string)\lwriter_label (string)\lduration (integer)\lage_min (decimal)\lage_max (decimal)\ldescription (string)\lextradesc (string)\lextraspec (string)\lweb_price (decimal)\lweb_price_group (decimal)\limage_url (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Event|<cols>name (string)\lshort_name (string)\levent_category_description (string)\lstaging (string)\lstaging_label (string)\lwriter (string)\lwriter_label (string)\lduration (integer)\lage_min (decimal)\lage_max (decimal)\ldescription (string)\lextradesc (string)\lextraspec (string)\lweb_price (decimal)\lweb_price_group (decimal)\limage_url (string)\ldisplay_by_default (boolean)\laccounting_account (string)\lslug (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
 		shape=record ];
 	nodeColor [
 		label="{<table>Color|<cols>name (string)\lcolor (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeManifestation [
-		label="{<table>Manifestation|<cols>happens_at (timestamp)\lduration (integer)\ldescription (string)\lvat (decimal)\lonline_limit (integer)\lno_print (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>Manifestation|<cols>happens_at (timestamp)\lduration (integer)\ldescription (string)\lonline_limit (integer)\lno_print (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
 		shape=record ];
 	nodeSeatingPlan [
 		label="{<table>SeatingPlan|<cols>image_url (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -202,16 +223,19 @@ graph G {
 		label="{<table>Workspace|<cols>name (string)\lon_ticket (string)\lseated (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeLocation [
-		label="{<table>Location|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lnpai (boolean)\ldescription (string)\lgauge_max (integer)\lgauge_min (integer)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Location|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\ldescription (string)\lgauge_max (integer)\lgauge_min (integer)\lreservation_price (decimal)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
 	nodeEventCategory [
-		label="{<table>EventCategory|<cols>name (string)\lvat (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>EventCategory|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeGauge [
 		label="{<table>Gauge|<cols>value (integer)\lonline (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeWorkspaceUserOrdering [
 		label="{<table>WorkspaceUserOrdering|<cols>rank (integer)}",
+		shape=record ];
+	nodeVat [
+		label="{<table>Vat|<cols>name (string)\lvalue (decimal)\laccounting_account (string)\lversion (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeMetaEvent [
 		label="{<table>MetaEvent|<cols>name (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -226,10 +250,13 @@ graph G {
 		label="{<table>GroupOrganism|<cols>information (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeGroup [
-		label="{<table>Group|<cols>name (string)\ldescription (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Group|<cols>name (string)\ldescription (string)\lslug (string)\ldisplay_everywhere (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeGroupDetail [
 		label="{<table>GroupDetail|<cols>information (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodePictureVersion [
+		label="{<table>PictureVersion|<cols>name (string)\ltype (string)\lcontent (blob)\lwidth (integer)\lheight (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeTraceableVersion [
 		label="{<table>TraceableVersion|<cols>sf_guard_user_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -241,7 +268,7 @@ graph G {
 		label="{<table>AccountingVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeTicketVersion [
-		label="{<table>TicketVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\lmanifestation_id (integer)\lgauge_id (integer)\lprice_id (integer)\lprice_name (string)\lvalue (decimal)\lnumerotation (string)\lduplicate (integer)\lduplicating (integer)\lgrouping_fingerprint (string)\lcancelling (integer)\lprinted (boolean)\lintegrated (boolean)\lbarcode (string)\lothercode (string)\lmember_card_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		label="{<table>TicketVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\lmanifestation_id (integer)\lgauge_id (integer)\lprice_id (integer)\lprice_name (string)\lvalue (decimal)\lnumerotation (string)\lduplicating (integer)\lgrouping_fingerprint (string)\lcancelling (integer)\lprinted_at (timestamp)\lprinted (boolean)\lintegrated_at (timestamp)\lintegrated (boolean)\lbarcode (string)\lothercode (string)\lmember_card_id (integer)\lvat (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeInvoiceVersion [
 		label="{<table>InvoiceVersion|<cols>sf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -273,6 +300,15 @@ graph G {
 	nodeAttachmentVersion [
 		label="{<table>AttachmentVersion|<cols>email_id (integer)\loriginal_name (string)\lfilename (string)\lmime_type (string)\lsize (float)}",
 		shape=record ];
+	nodeEventVersion [
+		label="{<table>EventVersion|<cols>sf_guard_user_id (integer)\lname (string)\lshort_name (string)\lmeta_event_id (integer)\levent_category_id (integer)\levent_category_description (string)\lstaging (string)\lstaging_label (string)\lwriter (string)\lwriter_label (string)\lduration (integer)\lage_min (decimal)\lage_max (decimal)\ldescription (string)\lextradesc (string)\lextraspec (string)\lweb_price (decimal)\lweb_price_group (decimal)\limage_url (string)\ldisplay_by_default (boolean)\laccounting_account (string)\lslug (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeManifestationVersion [
+		label="{<table>ManifestationVersion|<cols>sf_guard_user_id (integer)\levent_id (integer)\llocation_id (integer)\lcolor_id (integer)\lhappens_at (timestamp)\lduration (integer)\ldescription (string)\lvat_id (integer)\lonline_limit (integer)\lno_print (boolean)\ldepends_on (integer)\lcontact_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
+		shape=record ];
+	nodeVatVersion [
+		label="{<table>VatVersion|<cols>name (string)\lvalue (decimal)\laccounting_account (string)}",
+		shape=record ];
 
 	nodeMemberCardPrice [
 		label="{<table>MemberCardPrice|<cols>created_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
@@ -297,6 +333,9 @@ graph G {
 		shape=Mrecord ];
 	nodeEmailOrganism [
 		label="{<table>EmailOrganism|<cols>created_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)}",
+		shape=Mrecord ];
+	nodeContactRelationship [
+		label="{<table>ContactRelationship|<cols>created_at (timestamp)\lupdated_at (timestamp)}",
 		shape=Mrecord ];
 	nodeGroupContact [
 		label="{<table>GroupContact|<cols>information (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -331,6 +370,9 @@ graph G {
 	nodeGauge [
 		label="{<table>Gauge|<cols>value (integer)\lonline (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=Mrecord ];
+	nodeAutoGroup [
+		label="{<table>AutoGroup|<cols>}",
+		shape=Mrecord ];
 	nodeGroupWorkspace [
 		label="{<table>GroupWorkspace|<cols>}",
 		shape=Mrecord ];
@@ -352,8 +394,14 @@ graph G {
 	nodeLocationIndex [
 		label="{<table>LocationIndex|<cols>}",
 		shape=Mrecord ];
+	nodePicture [
+		label="{<table>Picture|<cols>}",
+		shape=Mrecord ];
 	nodeAddressable [
 		label="{<table>Addressable|<cols>}",
+		shape=Mrecord ];
+	nodeTraceable [
+		label="{<table>Traceable|<cols>}",
 		shape=Mrecord ];
 	nodeCheckpoint [
 		label="{<table>Checkpoint|<cols>}",
@@ -363,9 +411,6 @@ graph G {
 		shape=Mrecord ];
 	nodeAccounting [
 		label="{<table>Accounting|<cols>}",
-		shape=Mrecord ];
-	nodeTraceable [
-		label="{<table>Traceable|<cols>}",
 		shape=Mrecord ];
 	nodeTicket [
 		label="{<table>Ticket|<cols>}",
@@ -427,8 +472,20 @@ graph G {
 	nodeContact [
 		label="{<table>Contact|<cols>}",
 		shape=Mrecord ];
+	nodeContactsfGuardUser [
+		label="{<table>ContactsfGuardUser|<cols>}",
+		shape=Mrecord ];
 	nodeOrganismCategory [
 		label="{<table>OrganismCategory|<cols>}",
+		shape=Mrecord ];
+	nodeContactRelationshipType [
+		label="{<table>ContactRelationshipType|<cols>}",
+		shape=Mrecord ];
+	nodeTypeOfResources [
+		label="{<table>TypeOfResources|<cols>}",
+		shape=Mrecord ];
+	nodeFamilialSituation [
+		label="{<table>FamilialSituation|<cols>}",
 		shape=Mrecord ];
 	nodeProfessional [
 		label="{<table>Professional|<cols>}",
@@ -438,6 +495,9 @@ graph G {
 		shape=Mrecord ];
 	nodeOrganism [
 		label="{<table>Organism|<cols>}",
+		shape=Mrecord ];
+	nodeFamilialQuotient [
+		label="{<table>FamilialQuotient|<cols>}",
 		shape=Mrecord ];
 	nodeProfessionalType [
 		label="{<table>ProfessionalType|<cols>}",
@@ -487,6 +547,9 @@ graph G {
 	nodeEventCategory [
 		label="{<table>EventCategory|<cols>}",
 		shape=Mrecord ];
+	nodeVat [
+		label="{<table>Vat|<cols>}",
+		shape=Mrecord ];
 	nodeMetaEvent [
 		label="{<table>MetaEvent|<cols>}",
 		shape=Mrecord ];
@@ -526,13 +589,17 @@ graph G {
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
+	nodeWorkspacePrice -- nodeWorkspace [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
 	nodeWorkspacePrice -- nodePrice [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
-	nodeWorkspacePrice -- nodeWorkspace [
+	nodeUserPrice -- nodesfGuardUser [
 		headlabel="0,n",
-		label="",
+		label="(User)",
 		labeldistance=3 ];
 	nodeUserPrice -- nodePrice [
 		headlabel="0,n",
@@ -566,19 +633,31 @@ graph G {
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
-	nodeGroupContact -- nodeGroup [
+	nodeContactRelationship -- nodeContact [
+		headlabel="0,n",
+		label="(ContactOrig)",
+		labeldistance=3 ];
+	nodeContactRelationship -- nodeContact [
 		headlabel="0,n",
 		label="",
+		labeldistance=3 ];
+	nodeContactRelationship -- nodeContactRelationshipType [
+		headlabel="0,n",
+		label="(Type)",
 		labeldistance=3 ];
 	nodeGroupContact -- nodeContact [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
-	nodeGroupProfessional -- nodeGroup [
+	nodeGroupContact -- nodeGroup [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
 	nodeGroupProfessional -- nodeProfessional [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeGroupProfessional -- nodeGroup [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
@@ -598,11 +677,11 @@ graph G {
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
-	nodeGroupOrganism -- nodeGroup [
+	nodeGroupOrganism -- nodeOrganism [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
-	nodeGroupOrganism -- nodeOrganism [
+	nodeGroupOrganism -- nodeGroup [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
@@ -632,9 +711,13 @@ graph G {
 		labeldistance=3 ];
 	nodeWorkspaceUser -- nodesfGuardUser [
 		headlabel="0,n",
-		label="",
+		label="(User)",
 		labeldistance=3 ];
 	nodeWorkspaceUser -- nodeWorkspace [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeWorkspaceUser -- nodesfGuardUser [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
@@ -655,6 +738,10 @@ graph G {
 		label="",
 		labeldistance=3 ];
 	nodeGauge -- nodeWorkspace [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeAutoGroup -- nodeGroup [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
@@ -686,9 +773,21 @@ graph G {
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
+	nodePicture -- nodeGroup [
+		headlabel="0,1",
+		label="(Groups)",
+		labeldistance=3 ];
+	nodePicture -- nodePictureVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
 	nodeAddressable -- nodeAddressableIndex [
 		headlabel="0,1",
 		label="",
+		labeldistance=3 ];
+	nodeTraceable -- nodeTraceableVersion [
+		headlabel="0,1",
+		label="(Version)",
 		labeldistance=3 ];
 	nodeCheckpoint -- nodeControl [
 		headlabel="0,1",
@@ -699,10 +798,6 @@ graph G {
 		label="(Version)",
 		labeldistance=3 ];
 	nodeAccounting -- nodeAccountingVersion [
-		headlabel="0,1",
-		label="(Version)",
-		labeldistance=3 ];
-	nodeTraceable -- nodeTraceableVersion [
 		headlabel="0,1",
 		label="(Version)",
 		labeldistance=3 ];
@@ -858,6 +953,14 @@ graph G {
 		headlabel="0,1",
 		label="(MemberCardPriceModels)",
 		labeldistance=3 ];
+	nodePrice -- nodeUserPrice [
+		headlabel="0,1",
+		label="(UserPrices)",
+		labeldistance=3 ];
+	nodePrice -- nodeWorkspacePrice [
+		headlabel="0,1",
+		label="(WorkspacePrices)",
+		labeldistance=3 ];
 	nodePrice -- nodePriceManifestation [
 		headlabel="0,1",
 		label="(PriceManifestations)",
@@ -914,6 +1017,10 @@ graph G {
 		headlabel="0,1",
 		label="",
 		labeldistance=3 ];
+	nodeContactsfGuardUser -- nodesfGuardUser [
+		headlabel="0,n",
+		label="(User)",
+		labeldistance=3 ];
 	nodeContact -- nodeEmailContact [
 		headlabel="0,1",
 		label="(EmailContacts)",
@@ -921,6 +1028,10 @@ graph G {
 	nodeContact -- nodeLocation [
 		headlabel="0,1",
 		label="(Locations)",
+		labeldistance=3 ];
+	nodeContact -- nodeManifestation [
+		headlabel="0,1",
+		label="(Manifestations)",
 		labeldistance=3 ];
 	nodeContact -- nodeGroupContact [
 		headlabel="0,1",
@@ -942,6 +1053,14 @@ graph G {
 		headlabel="0,1",
 		label="(Professionals)",
 		labeldistance=3 ];
+	nodeContact -- nodeContactRelationship [
+		headlabel="0,1",
+		label="(Relationships)",
+		labeldistance=3 ];
+	nodeContact -- nodeContactRelationship [
+		headlabel="0,1",
+		label="(ForeignRelationships)",
+		labeldistance=3 ];
 	nodeContact -- nodeTransaction [
 		headlabel="0,1",
 		label="(Transactions)",
@@ -949,6 +1068,10 @@ graph G {
 	nodeContact -- nodeContactEventArchives [
 		headlabel="0,1",
 		label="(EventArchives)",
+		labeldistance=3 ];
+	nodeContact -- nodeContactRelationship [
+		headlabel="0,1",
+		label="",
 		labeldistance=3 ];
 	nodeContact -- nodeEmailContact [
 		headlabel="0,1",
@@ -965,6 +1088,18 @@ graph G {
 	nodeOrganismCategory -- nodeOrganism [
 		headlabel="0,1",
 		label="(Organisms)",
+		labeldistance=3 ];
+	nodeContactRelationshipType -- nodeContactRelationship [
+		headlabel="0,1",
+		label="(Relationships)",
+		labeldistance=3 ];
+	nodeTypeOfResources -- nodeContact [
+		headlabel="0,1",
+		label="(Contacts)",
+		labeldistance=3 ];
+	nodeFamilialSituation -- nodeContact [
+		headlabel="0,1",
+		label="(Contacts)",
 		labeldistance=3 ];
 	nodeProfessional -- nodeEmailProfessional [
 		headlabel="0,1",
@@ -1046,6 +1181,10 @@ graph G {
 		headlabel="0,1",
 		label="",
 		labeldistance=3 ];
+	nodeFamilialQuotient -- nodeContact [
+		headlabel="0,1",
+		label="(Contacts)",
+		labeldistance=3 ];
 	nodeProfessionalType -- nodeProfessional [
 		headlabel="0,1",
 		label="(Professionals)",
@@ -1078,6 +1217,10 @@ graph G {
 		headlabel="0,1",
 		label="(Emails)",
 		labeldistance=3 ];
+	nodesfGuardUser -- nodeWorkspaceUser [
+		headlabel="0,1",
+		label="(WorkspaceUsers)",
+		labeldistance=3 ];
 	nodesfGuardUser -- nodeWorkspaceUserOrdering [
 		headlabel="0,1",
 		label="(WorkspaceOrder)",
@@ -1085,6 +1228,10 @@ graph G {
 	nodesfGuardUser -- nodeMetaEventUser [
 		headlabel="0,1",
 		label="(MetaEventUsers)",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodeTraceable [
+		headlabel="0,1",
+		label="(%CLASS%s)",
 		labeldistance=3 ];
 	nodesfGuardUser -- nodeOption [
 		headlabel="0,1",
@@ -1094,9 +1241,13 @@ graph G {
 		headlabel="0,1",
 		label="(Authentications)",
 		labeldistance=3 ];
-	nodesfGuardUser -- nodeTraceable [
+	nodesfGuardUser -- nodeUserPrice [
 		headlabel="0,1",
-		label="(%CLASS%s)",
+		label="(UserPrices)",
+		labeldistance=3 ];
+	nodesfGuardUser -- nodeContact [
+		headlabel="0,1",
+		label="",
 		labeldistance=3 ];
 	nodesfGuardUser -- nodeTicket [
 		headlabel="0,1",
@@ -1146,6 +1297,10 @@ graph G {
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
+	nodeEvent -- nodeEventVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
 	nodeEvent -- nodeEventCompany [
 		headlabel="0,1",
 		label="(EventCompanies)",
@@ -1181,6 +1336,14 @@ graph G {
 	nodeColor -- nodeManifestation [
 		headlabel="0,1",
 		label="(Manifestations)",
+		labeldistance=3 ];
+	nodeManifestation -- nodeManifestationVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
+	nodeManifestation -- nodeManifestation [
+		headlabel="0,1",
+		label="(IsNecessaryTo)",
 		labeldistance=3 ];
 	nodeManifestation -- nodeGauge [
 		headlabel="0,1",
@@ -1222,6 +1385,10 @@ graph G {
 		headlabel="0,1",
 		label="",
 		labeldistance=3 ];
+	nodeWorkspace -- nodeWorkspaceUser [
+		headlabel="0,1",
+		label="(WorkspaceUsers)",
+		labeldistance=3 ];
 	nodeWorkspace -- nodeWorkspaceUserOrdering [
 		headlabel="0,1",
 		label="(Order)",
@@ -1233,6 +1400,10 @@ graph G {
 	nodeWorkspace -- nodeGroupWorkspace [
 		headlabel="0,1",
 		label="",
+		labeldistance=3 ];
+	nodeWorkspace -- nodeWorkspacePrice [
+		headlabel="0,1",
+		label="(WorkspacePrices)",
 		labeldistance=3 ];
 	nodeWorkspace -- nodeTransaction [
 		headlabel="0,1",
@@ -1262,6 +1433,18 @@ graph G {
 		headlabel="0,1",
 		label="(Events)",
 		labeldistance=3 ];
+	nodeVat -- nodeEventCategory [
+		headlabel="0,1",
+		label="(EventCategories)",
+		labeldistance=3 ];
+	nodeVat -- nodeManifestation [
+		headlabel="0,1",
+		label="(Manifestations)",
+		labeldistance=3 ];
+	nodeVat -- nodeVatVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
 	nodeMetaEvent -- nodeEvent [
 		headlabel="0,1",
 		label="(Events)",
@@ -1273,6 +1456,22 @@ graph G {
 	nodeGroup -- nodeGroupDetail [
 		headlabel="0,1",
 		label="(Members)",
+		labeldistance=3 ];
+	nodeGroup -- nodeGroupContact [
+		headlabel="0,1",
+		label="(ContactGroups)",
+		labeldistance=3 ];
+	nodeGroup -- nodeGroupProfessional [
+		headlabel="0,1",
+		label="(ProfessionalGroups)",
+		labeldistance=3 ];
+	nodeGroup -- nodeGroupOrganism [
+		headlabel="0,1",
+		label="(OrganismGroups)",
+		labeldistance=3 ];
+	nodeGroup -- nodeAutoGroup [
+		headlabel="0,1",
+		label="(Online)",
 		labeldistance=3 ];
 	nodeGroup -- nodeGroupContact [
 		headlabel="0,1",
@@ -1297,11 +1496,15 @@ graph G {
 		arrowhead=normal ];
 	nodePostalcode -- nodeBasePostalcode [
 		arrowhead=normal ];
+	nodePicture -- nodeBasePicture [
+		arrowhead=normal ];
 	nodeAddressable -- nodeBaseAddressable [
 		arrowhead=normal ];
 	nodeAuthentication -- nodeBaseAuthentication [
 		arrowhead=normal ];
 	nodePhonenumber -- nodeBasePhonenumber [
+		arrowhead=normal ];
+	nodeTraceable -- nodeBaseTraceable [
 		arrowhead=normal ];
 	nodeOption -- nodeBaseOption [
 		arrowhead=normal ];
@@ -1315,7 +1518,7 @@ graph G {
 		arrowhead=normal ];
 	nodeAccounting -- nodeBaseAccounting [
 		arrowhead=normal ];
-	nodeTraceable -- nodeBaseTraceable [
+	nodeOptionAccounting -- nodeBaseOptionAccounting [
 		arrowhead=normal ];
 	nodeTicket -- nodeBaseTicket [
 		arrowhead=normal ];
@@ -1355,9 +1558,15 @@ graph G {
 		arrowhead=normal ];
 	nodeOrganismCategory -- nodeBaseOrganismCategory [
 		arrowhead=normal ];
+	nodeContactRelationshipType -- nodeBaseContactRelationshipType [
+		arrowhead=normal ];
 	nodeYOB -- nodeBaseYOB [
 		arrowhead=normal ];
 	nodeOrganismPhonenumber -- nodeBaseOrganismPhonenumber [
+		arrowhead=normal ];
+	nodeTypeOfResources -- nodeBaseTypeOfResources [
+		arrowhead=normal ];
+	nodeFamilialSituation -- nodeBaseFamilialSituation [
 		arrowhead=normal ];
 	nodeTitleType -- nodeBaseTitleType [
 		arrowhead=normal ];
@@ -1368,6 +1577,8 @@ graph G {
 	nodeOrganism -- nodeBaseOrganism [
 		arrowhead=normal ];
 	nodeContactPhonenumber -- nodeBaseContactPhonenumber [
+		arrowhead=normal ];
+	nodeFamilialQuotient -- nodeBaseFamilialQuotient [
 		arrowhead=normal ];
 	nodePhoneType -- nodeBasePhoneType [
 		arrowhead=normal ];
@@ -1416,6 +1627,8 @@ graph G {
 	nodeEventCategory -- nodeBaseEventCategory [
 		arrowhead=normal ];
 	nodeWorkspaceUserOrdering -- nodeBaseWorkspaceUserOrdering [
+		arrowhead=normal ];
+	nodeVat -- nodeBaseVat [
 		arrowhead=normal ];
 	nodeMetaEvent -- nodeBaseMetaEvent [
 		arrowhead=normal ];
