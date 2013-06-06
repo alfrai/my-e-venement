@@ -55,7 +55,6 @@
     $transactions = $q->execute();
     
     $pm = array();
-    //$total = array('value' => 0, 'nb' => 0);
     foreach ( $transactions as $transaction )
     {
       // if ( $transaction->value_tck_total != 0 && $transaction->value_tck_manifs != 0 )
@@ -66,9 +65,6 @@
         $pm[$key][$p->value > 0 ? 'value+' : 'value-']
           += $p->value * abs($transaction->value_tck_total == 0 ? 1 : $transaction->value_tck_in_manifs/$transaction->value_tck_total); // abs() to avoid "-10 * -30/+10" which, normally, won't happens but anyway...
         $pm[$key]['nb']++;
-        
-        //$total['value'] += $p->value;
-        //$total['nb']++;
       }
     }
     
