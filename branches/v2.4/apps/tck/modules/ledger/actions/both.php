@@ -128,7 +128,7 @@
     $q = "SELECT value, count(id) AS nb, sum(value) AS total
           FROM ticket
           WHERE ".( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 ? 'manifestation_id IN ('.implode(',',$criterias['manifestations']).')' : 'updated_at >= :date0 AND updated_at < :date1' )."
-            AND id NOT IN (SELECT cancelling FROM ticket WHERE ".(!is_array($criterias['manifestations']) || count($criterias['manifestations']) == 0 ? 'updated_at >= :date0 AND updated_at < :date1 AND ' : '')." cancelling IS NOT NULL AND duplicating IS NULL)
+            AND id NOT IN (SELECT cancelling FROM ticket WHERE ".(!is_array($criterias['manifestations']) || count($criterias['manifestations']) == 0 ? 'created_at >= :date0 AND created_at < :date1 AND ' : '')." cancelling IS NOT NULL AND duplicating IS NULL)
             AND cancelling IS NULL
             ".( is_array($criterias['users']) && count($criterias['users']) > 0 ? 'AND sf_guard_user_id IN ('.implode(',',$users).')' : '')."
             ".( is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 ? 'AND gauge_id IN (SELECT id FROM gauge g WHERE g.workspace_id IN ('.implode(',',$criterias['workspaces']).'))' : '')."
@@ -152,7 +152,6 @@
       ->addSelect('sum(t.value = 0 AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL AND t2.duplicating IS NULL)) AS nb_free')
       ->addSelect('sum(t.value > 0 AND t.id NOT IN (SELECT t3.cancelling FROM ticket t3 WHERE t3.cancelling IS NOT NULL AND t3.duplicating IS NULL)) AS nb_paying')
       ->addSelect('sum(t.value <= 0 AND cancelling IS NOT NULL) AS nb_cancelling')
-      ->addSelect('(CASE WHEN sum(t.value > 0) > 0 THEN sum(case when t.value < 0 then 0 else t.value end)/sum(t.value > 0) ELSE 0 END) AS average_paying')
       ->addSelect('sum(case when t.value < 0 then 0 else t.value end) AS income')
       ->addSelect('sum(case when t.value > 0 then 0 else t.value end) AS outcome')
       ->andWhere('t.duplicating IS NULL')

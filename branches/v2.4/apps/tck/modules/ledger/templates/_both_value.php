@@ -8,7 +8,7 @@
 <?php $total = array('nb' => 0, 'value' => 0, 'exo' => 0) ?>
 <?php foreach ( $byValue as $value ): ?>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
-    <td class="name"><?php echo format_currency($value['value'],'€') ?></td>
+    <td class="name nb"><?php echo format_currency($value['value'],'€') ?></td>
     <td class="nb"><?php echo $value['nb']; $total['nb'] += $value['nb']; ?></td>
     <td class="total"><?php echo format_currency($value['total'],'€'); $total['value'] += $value['total']; ?></td>
     <?php if ( $value['value'] == 0 ) $total['exo'] += $value['nb'] ?>
@@ -44,7 +44,7 @@
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo __('Quantity of tickets') ?></td>
     <td class="value"><?php echo $total['nb'] ?></td>
-    <td class="rating">-</td>
+    <td class="rating">100 %</td>
   </tr>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo __('Average price by ticket') ?></td>
@@ -54,12 +54,12 @@
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo __('Quantity of free tickets') ?></td>
     <td class="value"><?php echo $total['exo'] ?></td>
-    <td class="rating"><?php echo format_number(round(100*$total['exo'] / $total['nb'],1)) ?> %</td>
+    <td class="rating"><?php echo format_number($percent = round(100*$total['exo'] / $total['nb'],1)) ?> %</td>
   </tr>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo __('Quantity of paid tickets') ?></td>
     <td class="value"><?php echo $total['nb']-$total['exo'] ?></td>
-    <td class="rating"><?php echo format_number(round(100*($total['nb']-$total['exo']) / $total['nb'],1)) ?> %</td>
+    <td class="rating"><?php echo format_number(round(100 - $percent,1)) ?> %</td>
   </tr>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo __('Average price for paid tickets') ?></td>
