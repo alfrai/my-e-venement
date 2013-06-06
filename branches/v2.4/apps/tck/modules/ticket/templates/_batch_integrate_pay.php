@@ -21,7 +21,6 @@
 *
 ***********************************************************************************/
 ?>
-<?php use_javascript('/sfAdminThemejRollerPlugin/js/jquery-ui.custom.min.js') ?>
 <?php echo $form->renderFormTag(url_for('ticket/batchIntegrate?manifestation_id='.$manifestation->id),array('id' => 'pay')) ?>
   <div class="ui-widget-content ui-corner-all">
     <div class="fg-toolbar ui-widget-header ui-corner-all">
