@@ -22,18 +22,19 @@
 ***********************************************************************************/
 ?>
 <?php
-    // filtering criterias
-    $this->options = $criterias = $this->formatCriterias($request);
-    $dates = $criterias['dates'];
-    if ( !isset($criterias['users']) )
-      $criterias['users'] = array();
-    
-    // redirect to avoid POST re-sending
-    if ( $request->getParameter($this->form->getName(),false) )
-      $this->redirect('ledger/both');
-    
-    require(dirname(__FILE__).'/both-payment.php');
-    require(dirname(__FILE__).'/both-price.php');
-    require(dirname(__FILE__).'/both-ticket-value.php');
-    require(dirname(__FILE__).'/both-user.php');
-    require(dirname(__FILE__).'/both-manifestations.php');
+    // get all selected manifestations
+    $this->manifestations = false;
+    if ( count($criterias['manifestations']) > 0 )
+    {
+      $q = Doctrine::getTable('Manifestation')->createQuery('m')
+        ->andWhereIn('m.id',$criterias['manifestations']);
+      $this->manifestations = $q->execute();
+      
+      $q = Doctrine::getTable('Gauge')->createQuery('g')
+        ->leftJoin('g.Manifestation m')
+        ->leftJoin('m.Event e')
+        ->addSelect('(SELECT count(g2.id) FROM Manifestation m2 LEFT JOIN m2.Gauges g2 WHERE m2.id = g.manifestation_id AND g2.id IS NOT NULL) AS nb_ws')
+        ->andWhereIn('g.manifestation_id',$criterias['manifestations'])
+        ->orderBy('e.name, m.happens_at, ws.name');
+      $this->gauges = $q->execute();
+    }

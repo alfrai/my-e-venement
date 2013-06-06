@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Without cancellations</source>
+        <target>Sans les annulations</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Paybacks</source>
         <target>Remboursements</target>
       </trans-unit> 
