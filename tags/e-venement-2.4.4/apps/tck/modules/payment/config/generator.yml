@@ -1,0 +1,26 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Payment
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          payment
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+    
+    config:
+      actions: ~
+      fields:
+        created_at: { label: Dated }
+      list:
+        display: [Method, _list_created_at, _list_value]
+      filter:
+        display: [version]
+      form:    ~
+      edit:    ~
+      new:
+        #display: [value,payment_method_id,created_at]
+        display: [value,payment_method_id,created_at,member_card_id]
