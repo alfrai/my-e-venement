@@ -37,18 +37,14 @@
     $q->from('Transaction t')
       ->leftJoin('t.Payments p')
       ->leftJoin('p.Method pm')
-      ->leftJoin('t.Tickets tck')
+      ->leftJoin('t.Tickets tck ON tck.transaction_id = t.id AND tck.duplicating IS NULL AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL)')
       ->leftJoin('p.User u')
       ->leftJoin('tck.Gauge g')
-      ->andWhere('tck.duplicating IS NULL') // to count only original tickets, not duplicates
-      ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL')
       ->orderBy('pm.name');
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
       $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))');
     else
-      $q->andWhere('tck.printed_at IS NOT NULL AND tck.printed_at >= ? AND tck.printed_at < ? OR tck.integrated_at IS NOT NULL AND tck.integrated_at >= ? AND tck.integrated_at < ?',array(
-          $dates[0],
-          $dates[1],
+      $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
           $dates[0],
           $dates[1],
         ));
@@ -69,22 +65,20 @@
     $transactions = $q->execute();
     
     $pm = array();
+    //$total = array('value' => 0, 'nb' => 0);
     foreach ( $transactions as $transaction )
     {
-      $sum = array('total' => 0, 'partial' => 0);
-      
-      // optimizing stuff
-      $sum['total'] += $transaction->value_tck_total;
-      $sum['partial'] += $transaction->value_tck_in_manifs;
-      
-      if ( $sum['partial'] != 0 && $sum['total'] != 0 )
+      // if ( $transaction->value_tck_total != 0 && $transaction->value_tck_manifs != 0 )
       foreach ( $transaction->Payments as $p )
       {
         if ( !isset($pm[$key = (string)$p->Method.' '.$p->payment_method_id]) )
           $pm[$key] = array('value+' => 0, 'value-' => 0, 'name' => (string)$p->Method, 'nb' => 0);
         $pm[$key][$p->value > 0 ? 'value+' : 'value-']
-          += $p->value * $sum['partial']/$sum['total'];
+          += $p->value * abs($transaction->value_tck_total == 0 ? 1 : $transaction->value_tck_in_manifs/$transaction->value_tck_total); // abs() to avoid "-10 * -30/+10" which, normally, won't happens but anyway...
         $pm[$key]['nb']++;
+        
+        //$total['value'] += $p->value;
+        //$total['nb']++;
       }
     }
     
