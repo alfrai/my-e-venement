@@ -12,7 +12,24 @@
  */
 class YOB extends PluginYOB
 {
-  function __toString()
+  protected function getWithPadding($field, $pad = 2)
+  {
+    return $this->rawGet($field) ? str_pad($this->rawGet($field), $pad, '0', STR_PAD_LEFT) : '';
+  }
+  public function getDay()
+  {
+    return $this->getWithPadding('day');
+  }
+  public function getMonth()
+  {
+    return $this->getWithPadding('month');
+  }
+  public function getYear()
+  {
+    return $this->getWithPadding('year',4);
+  }
+  
+  public function __toString()
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
     
