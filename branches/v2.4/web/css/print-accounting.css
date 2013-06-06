@@ -23,6 +23,7 @@ body {
 #customer .id { display: none; }
 #customer .email { text-decoration: underline; font-size: 80%; }
 #customer, #type { margin-right: 25mm; }
+#customer .phonenumber { display: none; }
 
 #date { position: absolute; right: 30px; }
 #place { position: absolute; right: 60px; }
