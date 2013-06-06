@@ -28,7 +28,7 @@
     <td class="outcome amount"><?php echo format_currency($total['value-'],'€') ?></td>
     <td class="nb"><?php echo $total['nb_paying'] ?></td>
     <td class="income amount"><?php echo format_currency($total['value+'],'€') ?></td>
-    <td class="average"><?php echo $total['nb_paying'] > 0 ? format_currency($total['value+']/$total['nb_paying']),'€') : 'N/A' ?></td>
+    <td class="average"><?php echo $total['nb_paying'] > 0 ? format_currency($total['value+']/$total['nb_paying'],'€') : 'N/A' ?></td>
     <td class="nb"><?php echo $total['nb_free'] ?></td>
     <td class="average"><?php echo $total['nb_free']+$total['nb_paying'] > 0 ? format_currency(($total['value+']+$total['value-'])/($total['nb_free']+$total['nb_paying']+$total['nb_cancelling']),'€') : 'N/A' ?></td>
     <td class="nb"><?php echo $total['nb_free'] + $total['nb_paying'] ?></td>

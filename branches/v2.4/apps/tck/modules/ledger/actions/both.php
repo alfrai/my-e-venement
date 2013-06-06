@@ -37,7 +37,7 @@
     $q->from('Transaction t')
       ->leftJoin('t.Payments p')
       ->leftJoin('p.Method pm')
-      ->leftJoin('t.Tickets tck ON tck.transaction_id = t.id AND tck.duplicating IS NULL AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL)')
+      ->leftJoin('t.Tickets tck ON tck.transaction_id = t.id AND tck.duplicating IS NULL AND (tck.printed = TRUE OR tck.integrated = TRUE OR tck.cancelling IS NOT NULL)')
       ->leftJoin('p.User u')
       ->leftJoin('tck.Gauge g')
       ->orderBy('pm.name');
@@ -73,13 +73,13 @@
       $sum['total'] += $transaction->value_tck_total;
       $sum['partial'] += $transaction->value_tck_in_manifs;
       
-      if ( $sum['partial'] != 0 && $sum['total'] != 0 )
+      //if ( $sum['partial'] != 0 && $sum['total'] != 0 )
       foreach ( $transaction->Payments as $p )
       {
         if ( !isset($pm[$key = (string)$p->Method.' '.$p->payment_method_id]) )
           $pm[$key] = array('value+' => 0, 'value-' => 0, 'name' => (string)$p->Method, 'nb' => 0);
         $pm[$key][$p->value > 0 ? 'value+' : 'value-']
-          += $p->value * $sum['partial']/$sum['total'];
+          += $p->value * abs($sum['total'] == 0 ? 1 : $sum['partial']/$sum['total']);
         $pm[$key]['nb']++;
       }
     }
