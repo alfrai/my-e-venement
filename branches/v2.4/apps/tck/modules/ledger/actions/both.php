@@ -37,23 +37,17 @@
     $q->from('Transaction t')
       ->leftJoin('t.Payments p')
       ->leftJoin('p.Method pm')
-      ->leftJoin('t.Tickets tck')
+      ->leftJoin('t.Tickets tck ON tck.transaction_id = t.id AND tck.duplicating IS NULL AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL)')
       ->leftJoin('p.User u')
       ->leftJoin('tck.Gauge g')
-      ->andWhere('tck.duplicating IS NULL')
-      ->andWhere('tck.printed = true OR tck.integrated = true OR tck.cancelling IS NOT NULL')
       ->orderBy('pm.name');
     if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
-    {
       $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))');
-    }
     else
-    {
-      $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
+      $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
           $dates[0],
           $dates[1],
         ));
-    }
     
     // restrict access to our own user
     $q = $this->restrictQueryToCurrentUser($q);
