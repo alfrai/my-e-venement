@@ -1,0 +1,6 @@
+default:
+  stylesheets: [accounting]
+indexSuccess:
+  javascripts: [list-scroll]
+  stylesheets: [list-print: {media: print}]
+  
