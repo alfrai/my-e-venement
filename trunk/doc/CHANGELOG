@@ -1,4 +1,104 @@
+== v2.4 -> v2.5 ==
+2013-06-07
+
+Général:
+- bugs
+- améliorations
+  - la duplication d'utilisateur récupère également les permissions et les éléments de billetterie de l'utilisateur d'origine
+  - lorsqu'un usager n'a pas les droits suffisants pour modifier un utilisateur du système, un message explicite lui est dorénavant présenté
+  - dans les champs input "autocomplete", lorsqu'on met à zéro la valeur de l'autocomplete, l'id sauvegardée est également remise à zéro (à condition d'inclure le javascript prévu à cet effet)
+  - reconstruction des graphes illustrant le schéma des données
+- nouveautés
+  - possibilité de lier un Contact à un utilisateur, afin d'utiliser les informations personnelles au besoin
+  - ajout de données-type dans les fixtures
+  - script de migration de la v2.4 à la v2.5 dans le répertoire bin/
+  - ajout de permissions (via le script de migration)
+
+RP:
+- bugs
+  - gestion des codepostaux des organismes dans la recherche
+  - des professionnels étaient ajoutés automatiquement à des groupes même lorsque les critères ne concernaient que leurs contacts
+  - les billets annulés ne sont plus pris en compte dans les filtres des contacts
+  - correction d'une mauvaise condition liée aux cartes d'abo dans le paramétrage des modules
+  - retour de la pagination dans la recherche rapide
+- améliorations
+  - renforcement du contrôle des URL dans les fiches organisme
+  - retrait à plusieurs endroits de l'administration des RP du bouton "voir" là ce n'est vraiment pas utile
+  - limitation de l'affichage de la liste des groupes aux groupes personnels et communs (selon droits)
+  - retrait des données professionnelles si l'utilisateur n'a que les droits sur les organismes OU sur les contacts (l'organisation par défaut des droits regroupe les deux permissions), uniquement dans le design TDP
+  - idem dans la liste des organismes / contacts : les colonnes liées à l'autre module ne sont pas affichées si l'utilisateur courant n'a pas les droits sur l'autre module
+  - possibilité de retrait de filtres inutiles dans les contacts (via un paramètre de configuration ; contrôles et cartes d'abo.)
+  - améliorations diverses et nombreuses du design TDP (list-scrolling, liste des organismes, ...)
+  - amélioration notoire de l'affichage de l'historique en billetterie des contacts
+  - dorénavant la limitation du nombre de destinataires possibles lors de l'envoi d'un emailing a été réglée ; en contre-partie, on ne peut ajouter qu'une seule fois des Contacts, Organisms ou Professionals
+  - optimisation de la gestion des très gros groupes
+  - très grosse amélioration du filtre des contacts concernant sur le montant dépensé en billetterie
+  - prise en compte des dates de naissance et des relations entre contacts lors d'une fusion de contacts
+  - les filtres et autres recherches rapides fonctionnent beaucoup mieux avec des accents
+- nouveautés
+  - ajout en plus de chaque adresse email d'un champ "pas de newsletter", et prise en compte de ce champ lors de l'envoi d'un emailing
+  - possibilité d'extraire les groupes dont les contacts, les professionels et les organismes font partie, dans l'extraction des contacts
+  - possibilité d'ajouter un pictogramme aux groupes, et de demander à les voir afficher de manière transversale dans e-venement, dès que le contact est lui-même affiché
+  - les "années de naissance" ont été totalement revisitées pour permettre d'enregistrer des dates de naissance complètes ansi qu'un prénom.
+  - possibilité de lier un utilisateur système à un contact (mais pas d'incidence sur les fiches contact) (cf. Général)
+  - possibilité de lier les contacts entre eux (et éventuellement début de réseau social)
+
+Événementiel:
+- bugs:
+  - correction de l'agorithme permettant de retrouver les infos des billets d'une manifestation (class Manifestation)
+- améliorations:
+  - uniformisation de la présentation de la liste des espaces de travail des utilisateurs avec les autres données du même ordre
+  - possibilité d'activer/désactiver la présentation des jauges sous forme graphique dans la liste des événements, et ajout du total des jauges en chiffres bien visibles au bout des mini-jauges graphiques
+  - ordonnancement des tarifs par prix décroissant dans les manifestations
+  - possibilité d'exporter également les contact ayant des billets demandés d'une manifestation
+  - consolidation de la gestion de la date et heure d'impression d'un billet, pour éviter les bugs "dommages collatéraux"
+- nouveautés:
+  - ajout d'une tâche symfony pour synchroniser avec un outil externe le calendrier des prochains événements
+
+Billetterie:
+- bugs:
+  - correction d'un conflit jQuery dans l'intégration des paiements des ventes partenaires
+  - correction marginales diverses
+  - correction d'un bug sur la fonctionnalité permettant de réserver un même lot de billet pour toutes les manifestations d'une opération de billetterie
+  - retrait des logs de WARNINGs PHP non bloquants
+  - correction d'un bug bloquant sur l'affichage des tarifs, relatif à un cas particulier sur les permissions des utilisateurs
+  - ajout d'un script (répertoire bin/) permettant d'aller mettre à jour les données qui pourraient encore être mauvaises suite à de vieux bugs de la v2.1 / v2.2
+  - corrections de bugs marginaux mais non négligeables dans les calculs du journal détaillé / bordereau de manifestation
+- améliorations:
+  - des traductions en plus
+  - optimisations de code
+  - du module de paramétrage des tarifs
+  - gestion de la jauge sélectionnée lors de la modification d'une quantité directement dans la liste des billets
+  - les événements cachés par défaut le sont toujours lors d'une recherche spécifique, sauf si on décide explicitement de les montrer
+  - ajout des paiements relatifs aux annulations dans les opérations de billetterie
+  - dans le journal d'un billet, ajout du contact lié à son opération
+  - séparation stricte entre la date de dernière mise à jour d'un billet et sa date d'impression, évitera un nombre important de bugs critiques par la suite
+  - possibilité d'ajouter automatiquement la mention SPECIMEN sur des billets, afin d'avoir une instance e-venement de test conforme aux engagements de l'éditeur face au CGI français
+
+Scolaires et groupes:
+- bugs:
+  - multiple but minor bug corrections, code improvement, translations, make'ups...
+
+Vente en ligne:
+- bugs:
+  - correction d'un bug dans l'enregistrement des données bancaires en base de données lors du fonctionnement avec Paybox
+- améliorations:
+  - retrait de l'affichage des manifestations qui ne sont pas "affichées par défaut"
+- nouveautés:
+  - possibilité de faire des commandes à 0€, donc court-circuitant le mécanisme de paiement sécurisé
+
+Stats:
+- bugs:
+  - les statistiques d'activité en billetterie gardent l'attention uniquement sur les billets originaux, et non les duplicatas comme avant
+- améliorations:
+  - cartes d'abo: ajout d'un texte explicatif sous le graphe
+- nouveautés:
+  - passage en version 2 de Open Flash Charts, réécriture du plugin stOfcPlugin en liOfcPlugin
+  - nouveau module permettant de connaître des chiffres de base, tel que ça existait avec la v1
+
+
 == v2.3 -> v2.4 ==
+
 Général:
 - bugs
   - corrections mineures dans le datepicker en français pour éviter des warnings JS
@@ -92,6 +192,7 @@ Vente en ligne:
   - possibilité d'associer automatiquement à un ou des groupes les contacts créés par la vente en ligne (via e-voucher par exemple)
 
 == v2.2 -> v2.3 ==
+
 Carte d'abonnement:
 - améliorations
   - amélioration de la structure des données pour éviter les redondances d'informations
