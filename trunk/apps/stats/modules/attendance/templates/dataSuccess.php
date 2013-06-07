@@ -1,4 +1,6 @@
 <?php
+    use_helper('Date');
+    
     $g = new liGraph;
     $bars = new liBarStack;
     $bars->set_alpha(0.8);
