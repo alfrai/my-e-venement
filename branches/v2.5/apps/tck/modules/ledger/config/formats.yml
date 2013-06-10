@@ -101,7 +101,7 @@ all:
           ja_code:          ~ja_code
           acc_section:      ~acc_section_other
           code_doc:         ~code_doc_invoice
-          name:             .Manifestation
+          name:             _lineal_name
           ref_date:         ~null
           ref_piece:        id
           delivery_date:    ~null
@@ -128,7 +128,7 @@ all:
           ja_code:          ~ja_code
           acc_section:      ~acc_section_other
           code_doc:         ~code_doc_invoice
-          name:             .Manifestation
+          name:             _lineal_name
           ref_date:         ~null
           ref_piece:        ~null
           delivery_date:    ~null
@@ -155,7 +155,7 @@ all:
           ja_code:          ~ja_code
           acc_section:      ~acc_section_other
           code_doc:         ~code_doc_invoice
-          name:             .Manifestation
+          name:             _lineal_name
           ref_date:         ~null
           ref_piece:        ~null
           delivery_date:    ~null
@@ -182,7 +182,7 @@ all:
           ja_code:          ~ja_code
           acc_section:      ~acc_section_other
           code_doc:         ~code_doc_invoice
-          name:             .Manifestation
+          name:             _lineal_name
           ref_date:         ~null
           ref_piece:        ~null
           delivery_date:    ~null
@@ -209,7 +209,7 @@ all:
           ja_code:          ~ja_code
           acc_section:      ~acc_section_other
           code_doc:         ~code_doc_invoice
-          name:             .Manifestation
+          name:             _lineal_name
           ref_date:         ~null
           ref_piece:        ~null
           delivery_date:    ~null
