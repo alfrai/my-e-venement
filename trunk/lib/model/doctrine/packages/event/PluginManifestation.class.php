@@ -20,6 +20,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     }
     parent::preSave($event);
   }
+  
   public function getDurationHR()
   {
     if ( intval($this->duration).'' != ''.$this->duration )
@@ -33,5 +34,20 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
   public function getMEid()
   {
     return $this->Event->getMEid();
+  }
+  
+  public function postInsert($event)
+  {
+    if ( $this->PriceManifestations->count() == 0 )
+    foreach ( Doctrine::getTable('Price')->createQuery()->execute() as $price )
+    {
+      $pm = PriceManifestation::createPrice($price);
+      $pm->manifestation_id = $this->id;
+      //$pm->save();
+      $this->PriceManifestations[] = $pm;
+    }
+    $this->save();
+    
+    parent::postInsert($event);
   }
 }
