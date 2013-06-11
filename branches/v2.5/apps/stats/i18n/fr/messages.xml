@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>From %%from%% to %%to%%</source>
+        <target>Du %%from%% au %%to%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>#label# for an amount of #val#</source>
         <target>#label# pour un montant de #val#</target>
       </trans-unit>
