@@ -51,7 +51,16 @@ class ticketsActions extends sfActions
       $this->redirect($this->getContext()->getModuleName().'/index');
     }
 
-    $this->form = new StatsCriteriasForm();
+    if ( !isset($this->criterias) )
+      $this->criterias = array();
+    if ( !isset($this->criterias['dates']) )
+      $this->criterias['dates'] = array();
+    if ( !isset($this->criterias['dates']['from']) )
+      $this->criterias['dates']['from'] = date('Y-m-d',strtotime('1 month ago'));
+    if ( !isset($this->criterias['dates']['to']) )
+      $this->criterias['dates']['to'] = date('Y-m-d',strtotime('tomorrow'));
+
+    $this->form = new StatsCriteriasForm;
     //$this->form->addWithContactCriteria();
     $this->form->addEventCriterias();
     if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )
