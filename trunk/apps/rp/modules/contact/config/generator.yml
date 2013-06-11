@@ -86,4 +86,4 @@ generator:
           NONE:  [title, name, firstname, address, postalcode, _cities, city, country, email, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>email_no_newsletter,<?php endif ?>groups_list]
           Phonenumber: [phone_type, phone_number]
           Precisions: [family_contact, npai, description, YOBs, password]
-          Social: [Relationships, familial_situation_id, type_of_resources_id, familial_quotient_id]
+          Social: [familial_situation_id, type_of_resources_id, familial_quotient_id, Relationships]

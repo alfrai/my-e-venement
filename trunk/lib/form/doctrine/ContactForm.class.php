@@ -22,11 +22,12 @@ class ContactForm extends BaseContactForm
     //$this->validatorSchema['YOBs_list'] = new sfValidatorString(array('required' => false));
     $this->object->orderYOBs()->YOBs[] = new YOB;
     $this->embedRelation('YOBs');
-
-    $this->object->Relationships[] = new ContactRelationship;
+    
+    if ( !$this->object->isNew() )
+      $this->object->Relationships[] = new ContactRelationship;
     $this->embedRelation('Relationships');
     foreach ( $this->validatorSchema['Relationships']->getFields() as $arr )
-    foreach ( array('to_contact_id', 'contact_relationship_type_id') as $key )
+    foreach ( array('from_contact_id', 'to_contact_id', 'contact_relationship_type_id') as $key )
       $arr[$key]->setOption('required', false);
     unset($this->widgetSchema['relations_list']);
     
