@@ -1,4 +1,4 @@
-<p style="margin: 0 10px 20px 0; float: left;"><?php echo image_tag('logo-librinfo.png') ?></p>
+<p style="margin: 0 10px 20px 0; float: left;"><?php echo image_tag('logo-librinfo.png','alt=Libre Informatique') ?></p>
 <p style="margin-bottom: 10px;">
   <a href="http://www.libre-informatique.fr" target="_blank">Libre Informatique</a> est une entreprise spécialisée dans les logiciels libres.
   À ce titre, nous profitons tous les jours des outils libres, le plus souvent
