@@ -5,6 +5,7 @@
     <?php use_stylesheet('menu') ?>
     <?php use_stylesheet('/private/main.css') ?>
     <?php use_stylesheet('about') ?>
+    <?php if ( sfConfig::get('project_messaging_enable',false) ) use_stylesheet('jappix') ?>
     <?php use_javascript('jquery.datepicker-fr.js') ?>
     
     <?php $module_name = $sf_context->getModuleName() ?>
@@ -36,5 +37,6 @@
       <?php include_partial('global/date') ?>
     </div>
     <div id="transition"><span class="close"></span></div>
+    <?php echo include_partial('global/instant_messaging') ?>
   </body>
 </html>

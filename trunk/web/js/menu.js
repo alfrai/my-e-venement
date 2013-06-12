@@ -180,7 +180,6 @@ $(document).ready(function(){
   });
 });
 
-
 function about_show_contributors()
 {
   $('.ui-widget-about .show-contributors').unbind().click(function(){

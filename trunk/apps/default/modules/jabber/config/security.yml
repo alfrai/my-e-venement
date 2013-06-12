@@ -1,0 +1,2 @@
+all:
+  <?php echo sfConfig::get('project_messaging_enable',false) ? '' : 'credentials: admin-power' ?>

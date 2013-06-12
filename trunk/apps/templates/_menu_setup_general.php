@@ -33,5 +33,8 @@
               <li><a href=""><?php echo __('Archiving',array(),'menu') ?></a></li>
               <li class="spaced"><a href="<?php echo cross_app_url_for('default','authentication') ?>"><?php echo __('System Logs',array(),'menu') ?></a></li>
               <?php endif ?>
+              <?php if ( sfConfig::get('project_messaging_enable',false) ): ?>
+              <li class="spaced"><a href="<?php echo cross_app_url_for('default','jabber') ?>"><?php echo __('Messaging','','menu') ?></a></li>
+              <?php endif ?>
             </ul>
           </li>

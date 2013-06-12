@@ -190,3 +190,22 @@ Picture:
     width: integer
     height: integer
 
+Jabber:
+  package: generic
+  columns:
+    jabber_id:
+      type: string(255)
+      email: true
+      notnull: true
+    password:
+      type: string(255)
+      notnull: true
+      notblank: true
+    sf_guard_user_id:
+      type: integer
+      unique: true
+      notnull: true
+  relations:
+    User:
+      class: sfGuardUser
+      foreignAlias: Jabber

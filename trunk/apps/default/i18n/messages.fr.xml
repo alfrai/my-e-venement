@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Edit the %%User%%'s Jabber account</source>
+        <target>Modification du compte Jabber de %%User%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
         <source>Remove linked contact</source>
         <target>Retirer le contact lié</target>
       </trans-unit>
