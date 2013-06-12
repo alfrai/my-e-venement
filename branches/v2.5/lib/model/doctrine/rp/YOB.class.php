@@ -38,6 +38,7 @@ class YOB extends PluginYOB
     else
       $r = $this->year;
      
+     $r .= ' ';
      $r .= $this->name ? $this->name : '';
      
      return $r;
