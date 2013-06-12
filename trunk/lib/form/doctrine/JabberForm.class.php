@@ -14,9 +14,12 @@ class JabberForm extends BaseJabberForm
   
   public function configure()
   {
-    $this->widgetSchema['sf_guard_user_id']->setOption('query', $q = Doctrine_Query::create()->from('SfGuardUser u')
-      ->leftJoin('u.Jabber j')
-      ->andWhere('j.id IS NULL'));
+    $this->widgetSchema['sf_guard_user_id']
+      ->setOption('add_empty', true)
+      ->setOption('query', $q = Doctrine_Query::create()->from('SfGuardUser u')
+        ->leftJoin('u.Jabber j')
+        ->andWhere('j.id IS NULL')
+      );
     $this->validatorSchema['sf_guard_user_id']->setOption('query', $q);
     
     $this->password = $this->object->password;
