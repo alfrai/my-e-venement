@@ -122,8 +122,9 @@ class manifestationActions extends autoManifestationActions
   public function executeDuplicate(sfWebRequest $request)
   {
     $manifestation = Doctrine_Query::create()->from('Manifestation m')
-      ->leftJoin('m.Prices p')
+      ->leftJoin('m.PriceManifestations p')
       ->leftJoin('m.Gauges g')
+      ->leftJoin('m.Organizers o')
       ->andWhere('m.id = ?',$request->getParameter('id',0))
       ->fetchOne();
     $values = array();
@@ -131,15 +132,15 @@ class manifestationActions extends autoManifestationActions
     $manif = $manifestation->copy();
     foreach ( array('id', 'updated_at', 'created_at', 'sf_guard_user_id') as $property )
       $manif->$property = NULL;
-    foreach ( array('Gauges', 'Prices') as $subobjects )
+    foreach ( array('Gauges', 'PriceManifestations', 'Organizers') as $subobjects )
     foreach ( $manifestation->$subobjects as $subobject )
     {
       $collection = $manif->$subobjects;
       $collection[] = $subobject->copy();
     }
-    $manifestation->save();
+    $manif->save();
     
-    $this->redirect('manifestation/edit?id='.$manifestation->id);
+    $this->redirect('manifestation/edit?id='.$manif->id);
   }
   public function executeNew(sfWebRequest $request)
   {
