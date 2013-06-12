@@ -41,9 +41,12 @@
 	
 	includeLib("login-check");
 	includeLib("headers");
-	$arr = parse_url($_SERVER["HTTP_REFERER"]);
-	if ( strpos($arr["path"],"login.php") != FALSE )
-		$user->addAlert('Vous êtes maintenant authentifié(e). Félicitations.');
+	if ( isset($_SERVER["HTTP_REFERER"]) )
+	{
+	  $arr = parse_url($_SERVER["HTTP_REFERER"]);
+	  if ( strpos($arr["path"],"login.php") != FALSE )
+		  $user->addAlert('Vous êtes maintenant authentifié(e). Félicitations.');
+  }
 ?>
 <h1>e-venement&nbsp;: <?php echo $user->getUserName(); ?>, bienvenue</h1>
 <?php includeLib("tree-view"); ?>
