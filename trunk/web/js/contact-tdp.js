@@ -15,6 +15,7 @@ $(document).ready(function(){
     // adding titles to YOBs' inputs
     $(this).prop('title', $(this).find('th label').html());
   });
+  // navigation between birth date fields
   $('.sf_admin_form_field_YOBs table table tr input[type=text]').keyup(function(e){
     if ( e.which == 8 && $(this).val() == '' )
       $(this).closest('tr').prev().find('input[type=text]').focus();
@@ -24,6 +25,28 @@ $(document).ready(function(){
     if ( $(this).val().length >= ($(this).css('width') === $(this).closest('table').find('tr:first input[type=text]').css('width') ? 2 : 4) )
       $(this).closest('tr').next().find('input[type=text]').focus();
   });
+  // adding the captain's age to birth dates
+  $('.sf_admin_form_field_YOBs table table').each(function(){
+    inputs = $(this).find('input[type=text]');
+    if ( inputs.eq(2).val() )
+    {
+      date   = new Date(inputs.eq(2).val(), inputs.eq(1).val(), inputs.eq(0).val());
+      now    = new Date();
+      nYears = now.getUTCFullYear() - date.getUTCFullYear();
+      nMonth = now.getUTCMonth()    - date.getUTCMonth();
+
+      plus = '';
+      if ( nMonth < -3 )
+      {
+        nYears -= 1;
+        plus = '½';
+      }
+      if ( nMonth >  3 )
+        plus = '½';
+
+      $(this).append('<tfoot><tr><th></th><td>'+nYears+(nYears < 21 ? '<br/>'+plus : '')+'</td></tr></tfoot>');
+    }
+  });  
   
   // FORMS: submitting subobjects though AJ$AX
   $('.tdp-subobject form, .tdp-object #sf_admin_content > form').submit(function(){

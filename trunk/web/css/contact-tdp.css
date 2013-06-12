@@ -82,9 +82,12 @@ body #content { width: auto; }
 #tdp-content .tdp-line.relations .tdp-Relationships > table > tbody, #tdp-content .tdp-line.relations .tdp-Relationships > table > tbody > tr, #tdp-content .tdp-line.relations .tdp-Relationships > table > tbody > tr > td,
 #tdp-content .tdp-line.relations .tdp-YOBs > table > tbody, #tdp-content .tdp-line.relations .tdp-YOBs > table > tbody > tr, #tdp-content .tdp-line.relations .tdp-YOBs > table > tbody > tr > td,
 #tdp-content .tdp-line.relations .tdp-Relationships table, tdp-content .tdp-line.relations .tdp-YOBs table { display: block; }
+#tdp-content .sf_admin_form_field_YOBs table input[type=text] { width: 15px; text-align: right; border: 2px solid rgb(187, 187, 187); padding: 3px 5px; font-size: 0.9em; } 
+#tdp-content .sf_admin_form_field_YOBs table table tr + tr + tr input[type=text] { width: 30px; }
 #tdp-content .tdp-line.relations .tdp-Relationships > table > tbody > tr > td,
 #tdp-content .tdp-line.relations .tdp-YOBs > table > tbody > tr { float: left; margin-right: 10px; }
 #tdp-content .tdp-line.relations .tdp-YOBs { float: left; }
+#tdp-content .sf_admin_form_field_YOBs table table tfoot { margin-left: 110px; }
 #tdp-content .tdp-line.relations .tdp-Relationships table table tr { display: block; }
 #tdp-content .tdp-line.relations .tdp-Relationships table table tr + tr { margin-top: 2px; }
 #tdp-content .tdp-line.relations .tdp-Relationships table table select { margin: 0; }

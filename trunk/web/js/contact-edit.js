@@ -155,4 +155,26 @@ $(document).ready(function(){
   $('.sf_admin_form_field_YOBs table table tr').each(function(){
     $(this).prop('title', $(this).find('th label').html());
   });
+  // adding the captain's age to birth dates
+  $('.sf_admin_form_field_YOBs table table').each(function(){
+    inputs = $(this).find('input[type=text]');
+    if ( inputs.eq(2).val() )
+    {
+      date   = new Date(inputs.eq(2).val(), inputs.eq(1).val(), inputs.eq(0).val());
+      now    = new Date();
+      nYears = now.getUTCFullYear() - date.getUTCFullYear();
+      nMonth = now.getUTCMonth()    - date.getUTCMonth();
+      
+      plus = '';
+      if ( nMonth < -3 )
+      {
+        nYears -= 1;
+        plus = '½';
+      }
+      if ( nMonth >  3 )
+        plus = '½';
+      
+      $(this).append('<tfoot><tr><th></th><td>'+nYears+(nYears < 21 ? '<br/>'+plus : '')+'</td></tr></tfoot>');
+    }
+  });
 });
