@@ -1,4 +1,4 @@
-<?php if ( sfConfig::get('project_messaging_enable',false) && $sf_user->getJabber()->count() > 0 ): ?>
+<?php if ( sfConfig::get('project_messaging_enable',false) && is_object($sf_user->getJabber()) && $sf_user->getJabber()->count() > 0 ): ?>
   <?php $jabber_id = explode('@',$sf_user->getJabber(0)->jabber_id) ?>
     <script type="text/javascript">
       jQuery.ajaxSetup({cache: true});
