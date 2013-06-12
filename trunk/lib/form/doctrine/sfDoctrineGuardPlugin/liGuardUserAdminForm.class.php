@@ -41,7 +41,7 @@ class liGuardUserAdminForm extends sfGuardUserAdminForm
     if ( $this->values['contact_id'] )
       $this->object->Contact[0] = Doctrine::getTable('Contact')->fetchOneById($this->values['contact_id']);
     else
-      $this->object->Contact[0]->sf_guard_user_id = NULL;
+      unset($this->object->Contact[0]);
     unset($this->values['contact_id']);
     
     return parent::doSave($con);
