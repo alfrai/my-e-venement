@@ -52,9 +52,11 @@
 		$request->free();
 	}
 
+/*
 	if ( $user->scolevel < $config["sco"]["right"]["view"] && !$user->hasRight($config["right"]["param"]) && !headers_sent() )
 	{
 		$user->addAlert($msg = "Vous n'avez pas le droit de visionner cette page");
 		$nav->redirect($config["website"]["base"],$msg);
 	}
+*/
 ?>
