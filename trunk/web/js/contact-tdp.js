@@ -10,6 +10,14 @@ $(document).ready(function(){
     $('#tdp-side-bar .tdp-object-groups .new').remove();
   }
   
+  // LINK TO RELATIONSHIPS
+  $('.sf_admin_form_field_Relationships table table').each(function(){
+    $(this).find('input[type=hidden]').each(function(){
+      if ( /contact\[Relationships\]\[\d+\]\[url\]/.test($(this).attr('name')) )
+        $(this).closest('table').append('<tfoot><tr><th></th><td><a href="'+$(this).val()+'"><span class="ui-icon ui-icon-person"></span></a></td></tr></tfoot>');
+   });
+  });
+  
   // BIRTHDAYS DEALING WITH INTEGERS AND TIPPING TIPS
   $('.sf_admin_form_field_YOBs table table tr').each(function(){
     // adding titles to YOBs' inputs

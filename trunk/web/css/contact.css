@@ -42,7 +42,7 @@
 #sf_fieldset_ticketting tr:not(.archive) + .archive > * > span { border-top: 1px dashed black; padding-top: 10px; }
 #sf_fieldset_ticketting tr:not(.archive) + .archive > * { padding-top: 10px; }
 
-.sf_admin_form_field_Relationships ol, .sf_admin_form_field_YOBs ol { margin-left: 15px; }
+.sf_admin_form_field_Relationships ol, .sf_admin_form_field_YOBs ol { margin-left: 25px; }
 .sf_admin_form_field_Relationships th,
 .sf_admin_form_field_YOBs table input.ac_input, .sf_admin_form_field_YOBs th { display: none; }
 .sf_admin_form_field_Relationships table table, .sf_admin_form_field_YOBs table table { border: 1px solid #C0C0C0; border-radius: 4px; padding: 5px; margin-bottom: 5px; }
