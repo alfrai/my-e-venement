@@ -21,9 +21,9 @@
 *
 ***********************************************************************************/
 ?>
-<?php use_javascript('/liFullcalendarPlugin/fullcalendar.min.js') ?>
-<?php use_stylesheet('/liFullcalendarPlugin/fullcalendar.css') ?>
-<?php use_stylesheet('/liFullcalendarPlugin/fullcalendar.print.css','',array('media' => 'print')) ?>
+<?php use_javascript('/liFullcalendarPlugin/fullcalendar/fullcalendar.min.js') ?>
+<?php use_stylesheet('/liFullcalendarPlugin/fullcalendar/fullcalendar.css') ?>
+<?php use_stylesheet('/liFullcalendarPlugin/fullcalendar/fullcalendar.print.css','',array('media' => 'print')) ?>
 <div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all">
   <div class="manifestation_calendar">
   </div>
