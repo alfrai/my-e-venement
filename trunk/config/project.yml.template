@@ -18,4 +18,4 @@ all:
   #locale: LC_ALL.UTF8 # cf. config/e-venement.yml
   #messaging:
   #  enable: true
-  #  chatrooms: [e-venement-support@conference.jabber.e-glop.net]
+  #  chatrooms: [e-venement-support@conference.jabber.libre-informatique.fr]
