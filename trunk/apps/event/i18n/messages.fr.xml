@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Costs</source>
+        <target>Coûts</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Reservation costs</source>
+        <target>Coûts de réservation</target>
+      </trans-unit>
+      <trans-unit>
         <source>For the accounting department</source>
         <target>Pour le service comptable</target>
       </trans-unit>
