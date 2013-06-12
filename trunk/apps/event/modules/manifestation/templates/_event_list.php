@@ -42,7 +42,7 @@
     </thead>
     <tfoot>
       <tr>
-        <th colspan="4">
+        <th colspan="5">
           <div class="ui-state-default ui-th-column ui-corner-bottom">
             <?php include_partial('manifestation/event_pagination', array('pager' => $pager, 'event_id' => $event_id)) ?>
           </div>

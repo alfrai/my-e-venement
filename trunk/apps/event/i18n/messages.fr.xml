@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Duplicate</source>
+        <target>Dupliquer</target>
+      </trans-unit>
+      <trans-unit>
         <source>Costs</source>
         <target>Coûts</target>
       </trans-unit>

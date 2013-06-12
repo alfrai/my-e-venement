@@ -119,6 +119,28 @@ class manifestationActions extends autoManifestationActions
     $this->redirect(cross_app_url_for('rp','group/show?id='.$group->id));
     return sfView::NONE;
   }
+  public function executeDuplicate(sfWebRequest $request)
+  {
+    $manifestation = Doctrine_Query::create()->from('Manifestation m')
+      ->leftJoin('m.Prices p')
+      ->leftJoin('m.Gauges g')
+      ->andWhere('m.id = ?',$request->getParameter('id',0))
+      ->fetchOne();
+    $values = array();
+    
+    $manif = $manifestation->copy();
+    foreach ( array('id', 'updated_at', 'created_at', 'sf_guard_user_id') as $property )
+      $manif->$property = NULL;
+    foreach ( array('Gauges', 'Prices') as $subobjects )
+    foreach ( $manifestation->$subobjects as $subobject )
+    {
+      $collection = $manif->$subobjects;
+      $collection[] = $subobject->copy();
+    }
+    $manifestation->save();
+    
+    $this->redirect('manifestation/edit?id='.$manifestation->id);
+  }
   public function executeNew(sfWebRequest $request)
   {
     parent::executeNew($request);

@@ -25,7 +25,7 @@ body #more {
 #more .ui-widget-header { cursor: pointer; }
 
 #more label { min-width: 130px; }
-#more ul li { margin-left: 20px; margin-top: 10px; }
+#more ul:not(.sf_admin_td_actions) li { margin-left: 20px; margin-top: 10px; }
 #more .sf_admin_form { line-height: 1.4em; }
 #more .sf_admin_form input[type=text],
 #more .sf_admin_form textarea,
