@@ -9,18 +9,6 @@
         <target>Modification du compte Jabber de %%User%%</target>
       </trans-unit>
       <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
         <source>Remove linked contact</source>
         <target>Retirer le contact lié</target>
       </trans-unit>
