@@ -51,20 +51,26 @@ class ticketsActions extends sfActions
       $this->redirect($this->getContext()->getModuleName().'/index');
     }
 
-    if ( !isset($this->criterias) )
-      $this->criterias = array();
-    if ( !isset($this->criterias['dates']) )
-      $this->criterias['dates'] = array();
-    if ( !isset($this->criterias['dates']['from']) )
-      $this->criterias['dates']['from'] = date('Y-m-d',strtotime('1 month ago'));
-    if ( !isset($this->criterias['dates']['to']) )
-      $this->criterias['dates']['to'] = date('Y-m-d',strtotime('tomorrow'));
-
     $this->form = new StatsCriteriasForm;
     //$this->form->addWithContactCriteria();
     $this->form->addEventCriterias();
     if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )
-      $this->form->bind($this->getUser()->getAttribute('stats.criterias',array(),'admin_module'));
+    {
+      $criterias = $this->getUser()->getAttribute('stats.criterias',array('dates' => array(
+        'from' => date('Y-m-d',strtotime('1 month ago')),
+        'to'   => date('Y-m-d',strtotime('tomorrow')),
+      )),'admin_module');
+      
+      if ( !isset($criterias['dates']) )
+        $criterias['dates'] = array();
+      if ( !isset($criterias['dates']['from']) || isset($criterias['dates']['from']) && !$criterias['dates']['from']['day'] )
+        $criterias['dates']['from'] = date('Y-m-d',strtotime('1 month ago'));
+      if ( !isset($criterias['dates']['to']) || isset($criterias['dates']['to']) && !$criterias['dates']['to']['day'] )
+        $criterias['dates']['to'] = date('Y-m-d',strtotime('tomorrow'));
+      
+      $this->form->bind($criterias);
+    }
+    $this->criterias = $this->form->getValues();
     
     $this->professionals = $this->contacts = array('nb' => 0, 'tickets' => 0, 'events' => 0,);
     
