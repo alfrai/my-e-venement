@@ -85,6 +85,7 @@ class GroupForm extends BaseGroupForm
     unset($this->widgetSchema['picture_id'], $this->validatorSchema['picture_id']);
     
     // removing too big widgets
+    if ( !$this->object->isNew() )
     foreach ( array('contacts_list', 'professionals_list', 'organisms_list') as $fieldName )
       unset($this->widgetSchema[$fieldName]);
   }
