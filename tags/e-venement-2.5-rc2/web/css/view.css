@@ -1,0 +1,60 @@
+body #content, body #more { width: 455px; overflow: hidden; }
+body #more {
+  position: absolute;
+  top: 0;
+  min-height: 280px;
+  max-height: 500px;
+  left: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+#more .sf_admin_action_list a { display: none; }
+
+#more .sf_admin_form_tab_menu > div { display: table; margin-top: 10px; }
+#more .sf_admin_form_tab_menu > div > div { display: table-row; }
+#more .sf_admin_form_tab_menu > div > div > * { margin-left: 20px; display: table-cell; vertical-align: top; }
+#more .sf_admin_form_tab_menu > div > div > input[type=hidden] { display: none; }
+#more .sf_admin_form_tab_menu > div > div > label { padding: 2px 20px; }
+
+#more .sf_admin_action_save_and_add,
+#more .sf_admin_action_save_and_add input { display: none; }
+#more #professional-new .sf_admin_form_field_organism_id { display: table-row; }
+
+#more .nb { text-align: right; margin: 5px 4px 2px 4px; }
+#more .sf_admin_form_row .show_groups { max-height: 150px; }
+#more .ui-widget-header { cursor: pointer; }
+
+#more label { min-width: 130px; }
+#more ul li { margin-left: 20px; margin-top: 10px; }
+#more .sf_admin_form { line-height: 1.4em; }
+#more .sf_admin_form input[type=text],
+#more .sf_admin_form textarea,
+#more .sf_admin_form select {
+  width: 215px
+}
+ 
+#more .ui-widget-gmap {
+  margin: 10px 0;
+  padding: 0 5px;
+}
+
+.sf_admin_form_field_cities { margin-top: -25px; display: none; }
+div:hover > .sf_admin_form_field_cities { display: block; }
+
+#more #professional-new { margin-left: 10px; }
+
+.tab-print {
+  text-align: right;
+}
+.tab-print .fg-button {
+  float: none;
+}
+.tab-export {
+  display: block;
+  margin-top: -20px;
+  margin-bottom: 40px;
+}
+
+.sf_admin_form_field_Picture th label { display: none; }
+.sf_admin_form_field_show_picture { text-align: center; }
+#sf_admin_container .sf_admin_form_field_picture_del { height: 16px; display: block; width: 16px; font-size: 0; float: right; margin-top: -25px; }
