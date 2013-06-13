@@ -15,7 +15,7 @@ generator:
       actions: ~
       fields:
         sf_guard_user_id: { label: User }
-        picture: { help: 24px x 16px max (resized) }
+        Picture: { help: 24px x 16px max (resized) }
         list_picture: { label: '' }
       list:
         display: [_list_picture, User, name, display_everywhere, created_at]
@@ -39,8 +39,7 @@ generator:
       new:
         title: New group
         display:
-          NONE: [name, sf_guard_user_id, display_everywhere, picture]
+          NONE: [name, sf_guard_user_id, display_everywhere, Picture]
           Individuals: [contacts_list]
           Professionals: [professionals_list]
           Organisms: [organisms_list]
-          #Detail: [created_at, updated_at, slug]
