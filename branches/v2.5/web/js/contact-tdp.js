@@ -14,7 +14,13 @@ $(document).ready(function(){
   $('.sf_admin_form_field_Relationships table table').each(function(){
     $(this).find('input[type=hidden]').each(function(){
       if ( /contact\[Relationships\]\[\d+\]\[url\]/.test($(this).attr('name')) )
-        $(this).closest('table').append('<tfoot><tr><th></th><td><a href="'+$(this).val()+'"><span class="ui-icon ui-icon-person"></span></a></td></tr></tfoot>');
+      {
+        relationship = $(this).closest('table');
+        tfoot = $('<tfoot><tr><th></th><td><a><span class="ui-icon ui-icon-person"></span></a></td></tr></tfoot>');
+        tfoot.prop('title', relationship.find('input[type=text]').val())
+          .find('a').prop('href',$(this).val());
+        tfoot.appendTo(relationship);
+      }
    });
   });
   
@@ -44,12 +50,12 @@ $(document).ready(function(){
       nMonth = now.getUTCMonth()    - date.getUTCMonth();
 
       plus = '';
-      if ( nMonth < -3 )
+      if ( nMonth < 0 )
       {
         nYears -= 1;
-        plus = '½';
+        nMonth  = 12+nMonth;
       }
-      if ( nMonth >  3 )
+      if ( nMonth >= 6 )
         plus = '½';
 
       $(this).append('<tfoot><tr><th></th><td>'+nYears+(nYears < 21 ? '<br/>'+plus : '')+'</td></tr></tfoot>');
