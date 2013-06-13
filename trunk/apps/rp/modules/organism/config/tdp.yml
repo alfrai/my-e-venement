@@ -40,7 +40,7 @@ all:
           More:
             show_labels: true
             extra_class: tdp-vertical
-            fields: [npai]
+            fields: [administrative_number, npai]
           Correspondence:
             show_title: true
             fields: [description]
@@ -143,6 +143,7 @@ all:
       organism_category_id: { label: Category }
       email_no_newsletter: { label: No newsletter }
       contact_email_no_newsletter: { label: No newsletter }
+      administrative_number: { label: Admin. ID }
 
 dev:
   active: true

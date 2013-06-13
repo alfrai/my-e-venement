@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Admin. ID</source>
+        <target>Identifiant</target>
+      </trans-unit>
+      <trans-unit>
         <source>Linked contacts</source>
         <target>Contacts liés</target>
       </trans-unit>
