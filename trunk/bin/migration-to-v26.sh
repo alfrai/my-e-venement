@@ -26,7 +26,7 @@ read
 dropdb $DB && createdb $DB && \
 echo "GRANT ALL ON DATABASE $DB TO $USER" | psql $DB && \
 ./symfony doctrine:build  --all --no-confirmation && \
-cat data/sql/$DB-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $DB && \
+cat data/sql/$DB-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $DB
 cat config/doctrine/functions-pgsql.sql | psql $DB && \
 ./symfony cc
 
