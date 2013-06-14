@@ -69,7 +69,7 @@ all:
           credentials: pr-contact
           lines:
             line1:
-              fields: [professional_type_id, name, _groups_picto]
+              fields: [professional_type_id, name, department, _groups_picto]
             Phonenumbers:
               show_labels: true
               fields: [contact_number, _contact_phones_list]
