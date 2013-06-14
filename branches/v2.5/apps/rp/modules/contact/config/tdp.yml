@@ -77,7 +77,7 @@ all:
           new_title: [organism_id]
           lines:
             line1:
-              fields: [professional_type_id, name, _organism_category, _groups_picto]
+              fields: [professional_type_id, name, department, _organism_category, _groups_picto]
             Phonenumbers:
               show_labels: true
               fields: [contact_number, _organism_phones_list]
