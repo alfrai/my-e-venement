@@ -35,7 +35,7 @@ $(document).ready(function(){
       $(this).closest('tr').prev().find('input[type=text]').focus();
   });  
   $('.sf_admin_form_field_YOBs table table tr:not(:last-child) input[type=text]').keyup(function(e){
-    $(this).val(isNaN(parseInt($(this).val())) ? '' : ($(this).val().substring(0,1) == '0' && $(this).val() !== '0' ? '0' : '')+parseInt($(this).val(),10));
+    $(this).val(isNaN(parseInt($(this).val(),10)) ? '' : ($(this).val().substring(0,1) == '0' && $(this).val() !== '0' ? '0' : '')+parseInt($(this).val(),10));
     if ( $(this).val().length >= ($(this).css('width') === $(this).closest('table').find('tr:first input[type=text]').css('width') ? 2 : 4) )
       $(this).closest('tr').next().find('input[type=text]').focus();
   });
@@ -93,7 +93,7 @@ $(document).ready(function(){
         tr.find('> :not('+subobjects_elts+')')
           .remove();
         $(this).find('> :not('+subobjects_elts+')')
-          .prop('rowspan',parseInt($(this).find('> :not('+subobjects_elts+')').prop('rowspan'))+1);
+          .prop('rowspan',parseInt($(this).find('> :not('+subobjects_elts+')').prop('rowspan'),10)+1);
         
         $(this).after(tr);
       }

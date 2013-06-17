@@ -319,8 +319,8 @@ function ticket_transform_hidden_to_span(all)
         .replace('][]','');
       if ( $(this).parent().find('.'+name+'.'+$(this).prop('class')).length > 0 )
       {
-        $(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=text].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=text].nb').val())+1);
-        $(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=hidden].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=hidden].nb').val())+1);
+        $(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=text].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=text].nb').val(),10)+1);
+        $(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=hidden].nb').val(parseInt($(this).parent().find('.'+name+'.'+$(this).prop('class')+' input[type=hidden].nb').val(),10)+1);
       }
       else
         $('<span class="'+name+' ticket_prices '+$(this).prop('class')+'" title="'+$(this).prop('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" autocomplete="off" maxlength="3" /><input type="hidden" class="nb" name="hidden_nb" value="1"> <span class="price">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
@@ -353,7 +353,7 @@ function ticket_transform_hidden_to_span(all)
     $('#prices [name=select_all]').prop('checked',false);
     price_name = $(this).html();
     selected = $('#prices [name="ticket[nb]"]').val();
-    $(this).parent().find('.nb').val(parseInt($(this).parent().find('.nb').val())-selected);
+    $(this).parent().find('.nb').val(parseInt($(this).parent().find('.nb').val(),10)-selected);
     $(this).parent().parent().parent().parent().find('input[type=radio]').click();
     $('#prices [name="ticket[nb]"]').val(-selected);
     
@@ -403,13 +403,13 @@ function ticket_get_ws_gauge(json_url)
     $('.manifestations_list .workspace.gauge-'+data.id+' .ws-gauge span').remove();
     $('.manifestations_list .workspace.gauge-'+data.id+' .ws-gauge')
       .append(url)
-      .append('<span class="printed" style="width: '+(parseInt(data.total) == 0 ? '0' : data.booked.printed*100/(parseInt(data.total)+(parseInt(data.free) < 0 ? -parseInt(data.free) : 0)))+'%" title="'+data.booked.printed+'">&nbsp;</span>')
-      .append('<span class="ordered" style="width: '+(parseInt(data.total) == 0 ? '0' : data.booked.ordered*100/(parseInt(data.total)+(parseInt(data.free) < 0 ? -parseInt(data.free) : 0)))+'%" title="'+data.booked.ordered+'">&nbsp;</span>')
-      .append('<span class="asked" style="width: '+(parseInt(data.total) == 0 ? '0' : data.booked.asked*100/(parseInt(data.total)+(parseInt(data.free) < 0 ? -parseInt(data.free) : 0)))+'%" title="'+data.booked.asked+'">&nbsp;</span>')
-      .append('<span class="free" style="width: '+(parseInt(data.total) == 0 ? '0' : (parseInt(data.free) < 0 ? 0 : parseInt(data.free))*100/(parseInt(data.total)+(parseInt(data.free) < 0 ? -parseInt(data.free) : 0)))+'%" title="'+parseInt(data.free)+'">&nbsp;</span>');
-    $('.manifestations_list .workspace.gauge-'+data.id+' .ws-name').prop('title',parseInt(data.total));
+      .append('<span class="printed" style="width: '+(parseInt(data.total,10) == 0 ? '0' : data.booked.printed*100/(parseInt(data.total,10)+(parseInt(data.free,10) < 0 ? -parseInt(data.free,10) : 0)))+'%" title="'+data.booked.printed+'">&nbsp;</span>')
+      .append('<span class="ordered" style="width: '+(parseInt(data.total,10) == 0 ? '0' : data.booked.ordered*100/(parseInt(data.total,10)+(parseInt(data.free,10) < 0 ? -parseInt(data.free,10) : 0)))+'%" title="'+data.booked.ordered+'">&nbsp;</span>')
+      .append('<span class="asked" style="width: '+(parseInt(data.total,10) == 0 ? '0' : data.booked.asked*100/(parseInt(data.total,10)+(parseInt(data.free,10) < 0 ? -parseInt(data.free,10) : 0)))+'%" title="'+data.booked.asked+'">&nbsp;</span>')
+      .append('<span class="free" style="width: '+(parseInt(data.total,10) == 0 ? '0' : (parseInt(data.free,10) < 0 ? 0 : parseInt(data.free,10))*100/(parseInt(data.total,10)+(parseInt(data.free,10) < 0 ? -parseInt(data.free,10) : 0)))+'%" title="'+parseInt(data.free,10)+'">&nbsp;</span>');
+    $('.manifestations_list .workspace.gauge-'+data.id+' .ws-name').prop('title',parseInt(data.total,10));
     
-    if ( parseInt(data.free) <= 0 )
+    if ( parseInt(data.free,10) <= 0 )
     {
       $('.manifestations_list .workspace.gauge-'+data.id).addClass('alert');
       if ( $('#manifestations #force-alert').length > 0 )

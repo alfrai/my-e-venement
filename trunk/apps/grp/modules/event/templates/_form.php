@@ -234,7 +234,7 @@
     {
       $('.EntryTickets form input, .EntryTickets form select').unbind().change(function(){
         form = $(this).closest('form');
-        if ( parseInt(form.find('input').val()) != 0 && form.find('select').val() != '' )
+        if ( parseInt(form.find('input').val(),10) != 0 && form.find('select').val() != '' )
           form.submit();
       });
     }
@@ -295,7 +295,7 @@
           if ( $(this).closest('tr').find('.ticketting .count .price-id-'+$(this).closest('form').find('select').val()).length > 0 )
           {
             nb = $(this).closest('tr').find('.ticketting .count .price-id-'+$(this).closest('form').find('select').val()+' .nb');
-            nb.html(parseInt(nb.html())+parseInt($(this).val()));
+            nb.html(parseInt(nb.html(),10)+parseInt($(this).val(),10));
           }
           else
           {
@@ -305,7 +305,7 @@
           
           // total calculation
           total = $(this).closest('tr').find('.ticketting .count .total');
-          total.html(parseInt(total.html())+parseInt($(this).val()));
+          total.html(parseInt(total.html(),10)+parseInt($(this).val(),10));
         }
       });
     }

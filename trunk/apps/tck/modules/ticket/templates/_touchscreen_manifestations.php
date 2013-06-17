@@ -13,7 +13,7 @@
         ts_manifestations_select();
         
         // pagination
-        current_page = parseInt($(data).find('[name=manifs-page]').val());
+        current_page = parseInt($(data).find('[name=manifs-page]').val(),10);
         $('#ts-manifestations').append('<li class="new-line"></li><li class="previous pager"><a href="<?php echo url_for('ticket/manifs?limit='.$config['manifs_max_display']) ?>&page='+(current_page-1)+'">&lt;&lt;</a></li><li class="pager beginning"><a href="<?php echo url_for('ticket/manifs?limit='.$config['manifs_max_display']) ?>">o</a></li><li class="pager next"><a href="<?php echo url_for('ticket/manifs?limit='.$config['manifs_max_display']) ?>&page='+(current_page+1)+'">&gt;&gt;</a></li>');
         $('#ts-manifestations .pager a').unbind().click(function(){
           $.get($(this).attr('href'),ts_manifestations);

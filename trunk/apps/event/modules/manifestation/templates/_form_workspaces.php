@@ -29,7 +29,7 @@
           {
             $(this).closest('tr').find('.gauge-transferts').removeClass('active');
             input = $('#form_workspaces .gauge-transferts.active').closest('tr').find('input[name="gauge[value]"][type=text]');
-            val = parseInt(input.val()) - parseInt($(this).val()) + parseInt(this.defaultValue);
+            val = parseInt(input.val(),10) - parseInt($(this).val(),10) + parseInt(this.defaultValue,10);
             val = val > 0 ? val : 0;
             input.val(val);
             input.change();
