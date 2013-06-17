@@ -27,3 +27,14 @@
 .show_checkpoint {
   margin-left: 30px;
 }
+
+.sf_admin_form_field_Manifestations > table > tbody > tr + tr > td { padding-top: 10px; }
+.sf_admin_form_field_Manifestations > table > tbody > tr + tr > td > table { border-top: 1px solid rgb(166, 201, 226); padding-top: 10px; }
+.sf_admin_form_field_Manifestations > table > tbody > tr > th { display: none; }
+.sf_admin_form_field_Manifestations th { padding-right: 5px; }
+#content .sf_admin_form_field_Manifestations select,
+#content .sf_admin_form_field_Manifestations input[type=text] { width: 200px; }
+#content .sf_admin_form_field_Manifestations input[type=text][size="2"] { width: 15px; }
+#content .sf_admin_form_field_Manifestations input[type=text][size="4"] { width: 30px; }
+.ui-widget-content .sf_admin_form_field_Manifestations.ui-state-error { border: 0; background: none; }
+.ui-widget-content .sf_admin_form_field_Manifestations table.ui-state-error { padding: 3px; }

@@ -4,6 +4,18 @@ $(document).ready(function(){
     $.get(manifestation_list_url,manifestation_list_loaded);
     $('#manifestation-new').click(manifestation_new_clicked);
   }
+  
+  // error management for embedded forms
+  $('.sf_admin_form_field_Manifestations.ui-state-error [colspan="2"] > .error_list').remove();
+  $('.sf_admin_form_field_Manifestations.ui-state-error :not([colspan="2"]) > .error_list').closest('table')
+    .addClass('ui-state-error')
+    .addClass('ui-widget-content')
+    .addClass('ui-corner-all');
+  setTimeout(function(){
+    $('.sf_admin_form_field_Manifestations.ui-state-error').removeClass('ui-state-error')
+      .find('.errors').remove();
+  }, 1000);
+  
 });
 
 function manifestation_list_loaded(data)
@@ -58,4 +70,3 @@ function checkpoint_autocompleter()
   }, { }))
   .result(function(event, data) { jQuery(id+' input[name="checkpoint[organism_id]"]').val(data[1]); });
 }
-

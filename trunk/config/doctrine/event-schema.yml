@@ -288,6 +288,21 @@ Manifestation:
       notnull: true
     depends_on: integer
     contact_id: integer
+    reservation_begins_at:
+      type: timestamp
+      notnull: true
+    reservation_ends_at:
+      type: timestamp
+      notnull: true
+    reservation_description: text
+    blocking:
+      type: boolean
+      notnull: true
+      default: true
+    optional:
+      type: boolean
+      notnull: true
+      default: false
   relations:
     Event:
       foreignAlias: Manifestations
@@ -305,7 +320,7 @@ Manifestation:
       class: Organism
       refClass: ManifestationOrganizer
       foreignAlias: Manifestations
-    Demander:
+    Applicant:
       class: Contact
       foreignAlias: Manifestations
     Workspaces:

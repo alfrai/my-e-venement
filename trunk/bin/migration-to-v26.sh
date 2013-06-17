@@ -20,6 +20,14 @@ echo "To cancel press CTRL+C NOW !!"
 read
 
 # preliminary modifications & backup
+psql $DB <<EOF
+ALTER TABLE manifestation ADD COLUMN reservation_begins_at TIMESTAMP;
+ALTER TABLE manifestation ADD COLUMN reservation_ends_at TIMESTAMP;
+UPDATE manifestation SET
+  reservation_begins_at = happens_at,
+  reservation_ends_at = happens_at + (duration||' second')::interval
+;
+EOF
 [ -z "$3" ] && pg_dump -Fc $DB > data/sql/$DB-`date +%Y%m%d`.pgdump && echo "DB dumped"
 
 # recreation and data backup
@@ -29,9 +37,15 @@ echo "GRANT ALL ON DATABASE $DB TO $USER" | psql $DB && \
 cat data/sql/$DB-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $DB
 cat config/doctrine/functions-pgsql.sql | psql $DB && \
 ./symfony cc
+echo ""
 
 # final data modifications
-
+echo "Adding permissions and groups";
+psql $DB <<EOF
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-change-contact', 'Permission to change the contact of any reservation', '2013-06-17 17:14:50', '2013-06-17 17:14:50');
+INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-reservation-admin', 'Permission to manage reservations', '2013-06-17 17:14:50', '2013-06-17 17:14:50');
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT last_value FROM sf_guard_group_id_seq), NOW(), NOW());
+EOF
 
 # final informations
 echo ""
@@ -40,4 +54,8 @@ echo "Don't forget to configure those extra features :"
 echo "e-venement messaging system: http://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin + config/project.yml + per-users settings"
 
 echo ""
+echo "Don't forget to add some users into the event-reservations-admin group"
+
+echo ""
 echo "Don't forget to inform your users about those evolutions"
+

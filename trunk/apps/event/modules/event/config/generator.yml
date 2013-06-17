@@ -38,15 +38,20 @@ generator:
         table_method: RetrieveList
       filter:
         display: [meta_event_id, event_category_id, name, staging, writer, duration, age_min, age_max, companies_list]
-      form:
+      form: ~
+      edit:
+        title: Edit Event %%name%%
         display:
           General:   [name, short_name, meta_event_id, event_category_id, event_category_description, companies_list]
           Details:   [duration, display_by_default, accounting_account, age_min, age_max, staging_label, staging, writer_label, writer, description]
           Web Content: [web_price, web_price_group, image_url, extradesc, extraspec]
           Checkpoints: [_form_checkpoints]
-      edit:
-        title: Edit Event %%name%%
       new:
+        display:
+          General:   [name, short_name, meta_event_id, event_category_id, event_category_description, companies_list]
+          Details:   [duration, display_by_default, accounting_account, age_min, age_max, staging_label, staging, writer_label, writer, description]
+          Manifestations: [Manifestations]
+          Web Content: [web_price, web_price_group, image_url, extradesc, extraspec]
       show:
         display:
           General:   [name, short_name, _show_meta_event, _show_event_category, event_category_description, _show_companies_list]

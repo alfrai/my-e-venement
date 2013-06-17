@@ -23,6 +23,10 @@ generator:
         online_limit: { label: Online limit }
         description: { label: Memo }
         no_print: { label: Preprinted ticketting }
+        optional: { label: This is an option }
+        reservation_ends_at: { label: Ends at }
+        reservation_begins_at: { label: Begins at }
+        contact_id: { label: The applicant, credentials: event-reservations-change-contact }
       list:
         display: [_list_event, happens_at, _list_location, _list_description]
       filter:  ~
@@ -34,6 +38,7 @@ generator:
           Memo:         [description]
           Technical:    [duration, vat_id, online_limit, depends_on, _show_is_necessary_to, organizers_list, no_print]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
+          Reservation:  [_form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, optional, description]
           #Tickets:      [_show_tickets_list]
           #Spectators:   [_show_spectators_list]
           #Unbalanced:   [_show_unbalanced_list]
@@ -42,6 +47,7 @@ generator:
           General: [happens_at, ends_at, event_id, location_id, color_id]
           Memo:    [description]
           Technical: [duration, vat_id, online_limit, depends_on, organizers_list, no_print]
+          Reservation:  [_form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, optional, description]
         actions: { _save: ~, _list: ~ }
       show:
         display:
@@ -52,3 +58,4 @@ generator:
           Tickets:    [_show_tickets_list_empty]
           Spectators: [_show_spectators_list_empty]
           Unbalanced: [_show_unbalanced_list]
+          Reservation:  [_show_applicant_id, reservation_begins_at, reservation_ends_at, blocking, optional, description]

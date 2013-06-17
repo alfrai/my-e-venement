@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The applicant</source>
+        <target>Le demandeur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Begins at</source>
+        <target>Commence le</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Blocking</source>
+        <target>Bloquante</target>
+      </trans-unit>
+      <trans-unit>
+        <source>This is an option</source>
+        <target>Ceci est une option</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ends at</source>
         <target>Se termine le</target>
       </trans-unit>
