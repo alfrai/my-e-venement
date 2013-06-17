@@ -22,7 +22,8 @@ class manifestationGeneratorHelper extends BaseManifestationGeneratorHelper
   {
     if (!key_exists('ui-icon', $params)) $params['ui-icon'] = '';
     $params['params'] = UIHelper::addClasses($params, '');
-    $params['ui-icon'] = $this->getIcon($params['extra-icon'], $params);
+    if ( isset($params['extra-icon']) )
+      $params['ui-icon'] = $this->getIcon($params['extra-icon'], $params);
     return '<li class="sf_admin_action_'.$params['action'].'">'
       .($params['app']
         ? cross_app_link_to(UIHelper::addIcon($params) . __($params['label']), $params['app'], ($params['module'] ? $params['module'] : sfContext::getInstance()->getModuleName()).'/'.$params['action'], false, '', false, 'class="fg-button ui-state-default fg-button-icon-left"')
