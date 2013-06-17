@@ -1,5 +1,6 @@
 $(document).ready(function(){
   // ends_at field... which is only a JS trick
+  if ( li_manifestation_happens_at()+'' !== 'Invalid Date' )
   li_manifestation_ends_at(new Date(
     Date.parse(li_manifestation_happens_at()) +
     parseInt($('.sf_admin_form_field_duration input[name="manifestation[duration]"]').val(),10) * 1000
@@ -8,37 +9,21 @@ $(document).ready(function(){
   // if ends_at changes, updating the duration
   $('.sf_admin_form_field_ends_at input[type=text]').change(function(){
     field = $(this).closest('.sf_admin_form_row');
-    go = true;
-    field.find('input[type=text]').each(function(){
-      if ( isNaN(parseInt($(this).val(),10)) )
-        go = false;
-    });
-    if ( go )
+    if ( li_manifestation_ends_at()+'' !== 'Invalid Date' && li_manifestation_happens_at()+'' !== 'Invalid Date' )
       li_manifestation_duration( (Date.parse(li_manifestation_ends_at()) - Date.parse(li_manifestation_happens_at())) / 1000);      
   });
   
   // if duration or happens_at change, updating the ends_at date (for coherence only)
   $('.sf_admin_form_field_duration input[type=text]').change(function(){
     arr = /(\d+):(\d{1,2})/.exec($(this).val());
-    if ( arr )
+    if ( arr && li_manifestation_happens_at()+'' !== 'Invalid Date' )
       li_manifestation_ends_at(new Date(
         Date.parse(li_manifestation_happens_at()) +
         (parseInt(arr[1],10)*3600 + parseInt(arr[2],10)*60) * 1000
       ));
   });
   $('.sf_admin_form_field_happens_at input[type=text]').change(function(){
-    field = $(this).closest('.sf_admin_form_row');
-    go = true;
-    field.find('input[type=text]').each(function(){
-      if ( isNaN(parseInt($(this).val(),10)) )
-        go = false;
-    });
-    arr = /(\d+):(\d{1,2})/.exec($('.sf_admin_form_field_duration input[type=text]').val());
-    if ( arr && go )
-      li_manifestation_ends_at(new Date(
-        Date.parse(li_manifestation_happens_at()) +
-        (parseInt(arr[1],10)*3600 + parseInt(arr[2],10)*60) * 1000
-      ));
+    $('.sf_admin_form_field_duration input[type=text]').change();
   });
   
   // transforming seconds into HH:ii
@@ -51,7 +36,8 @@ function li_manifestation_duration(duration = null)
     $('.sf_admin_form_field_duration input[type=text]').val(duration);
   
   $('.sf_admin_form_field_duration input[type=text]').each(function(){
-    $(this).val(Math.floor(parseInt($(this).val(),10)/3600)+':'+('0'+Math.floor(parseInt($(this).val(),10)%3600/60)).slice(-2));
+    if ( !isNaN(parseInt($(this).val(),10)) )
+      $(this).val(Math.floor(parseInt($(this).val(),10)/3600)+':'+('0'+Math.floor(parseInt($(this).val(),10)%3600/60)).slice(-2));
   });
   
   return duration;
