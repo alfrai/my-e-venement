@@ -17,14 +17,28 @@ $(document).ready(function(){
       li_manifestation_duration( (Date.parse(li_manifestation_ends_at()) - Date.parse(li_manifestation_happens_at())) / 1000);      
   });
   
-  // if duration changes, updating the ends_at date (for coherence only)
+  // if duration or happens_at change, updating the ends_at date (for coherence only)
   $('.sf_admin_form_field_duration input[type=text]').change(function(){
     arr = /(\d+):(\d{1,2})/.exec($(this).val());
     if ( arr )
-    {
-      duration = parseInt(arr[1],10)*3600 + parseInt(arr[2],10)*60;
-      li_manifestation_ends_at(new Date(Date.parse(li_manifestation_happens_at()) + duration*1000));
-    }
+      li_manifestation_ends_at(new Date(
+        Date.parse(li_manifestation_happens_at()) +
+        (parseInt(arr[1],10)*3600 + parseInt(arr[2],10)*60) * 1000
+      ));
+  });
+  $('.sf_admin_form_field_happens_at input[type=text]').change(function(){
+    field = $(this).closest('.sf_admin_form_row');
+    go = true;
+    field.find('input[type=text]').each(function(){
+      if ( isNaN(parseInt($(this).val(),10)) )
+        go = false;
+    });
+    arr = /(\d+):(\d{1,2})/.exec($('.sf_admin_form_field_duration input[type=text]').val());
+    if ( arr && go )
+      li_manifestation_ends_at(new Date(
+        Date.parse(li_manifestation_happens_at()) +
+        (parseInt(arr[1],10)*3600 + parseInt(arr[2],10)*60) * 1000
+      ));
   });
   
   // transforming seconds into HH:ii
