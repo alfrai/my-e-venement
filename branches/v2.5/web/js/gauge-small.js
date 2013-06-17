@@ -14,8 +14,8 @@ function gauge_small()
         return true;
       
       // get back local data
-      count = parseInt($(this).html());
-      total = parseInt($(this).closest('.gauge').find('.total').html());
+      count = parseInt($(this).html(),10);
+      total = parseInt($(this).closest('.gauge').find('.total').html(),10);
       
       // set properties
       $(this)
@@ -23,7 +23,7 @@ function gauge_small()
         .css('width',(count/total*100)+'px');
     });
     
-    $(this).prop('title', (total=parseInt($(this).find('.total').html())) - (booked=parseInt($(this).find('.booked').html()))+' / '+total);
+    $(this).prop('title', (total=parseInt($(this).find('.total').html()),10) - (booked=parseInt($(this).find('.booked').html()),10)+' / '+total);
     if ( booked > total )
       $(this).addClass('overbooked');
     $(this).addClass('done');

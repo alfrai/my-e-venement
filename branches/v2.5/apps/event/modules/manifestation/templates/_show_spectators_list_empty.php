@@ -28,7 +28,7 @@
         {
           trs.eq(i).insertAfter(workspaces.eq(j));
           for ( k = trs.eq(i).find('.tickets .tickets').length - 1 ; k >= 0 ; k-- )
-            workspaces.eq(j).find('.tickets').html(parseInt(workspaces.eq(j).find('.tickets').html())+parseInt(trs.eq(i).find('.tickets .tickets').eq(k).find('.qty').html()));
+            workspaces.eq(j).find('.tickets').html(parseInt(workspaces.eq(j).find('.tickets').html(),10)+parseInt(trs.eq(i).find('.tickets .tickets').eq(k).find('.qty').html(),10));
           str = workspaces.eq(j).find('.price').html();
           workspaces.eq(j).find('.price').html((parseFloat(workspaces.eq(j).find('.price').html())+parseFloat(trs.eq(i).find('.price').html().replace(',','.'))).toFixed(2)+'&nbsp;€');
         }
