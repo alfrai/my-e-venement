@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ends at</source>
+        <target>Se termine le</target>
+      </trans-unit>
+      <trans-unit>
         <source>Duplicate</source>
         <target>Dupliquer</target>
       </trans-unit>

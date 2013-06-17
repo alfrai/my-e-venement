@@ -24,6 +24,11 @@ class ManifestationForm extends BaseManifestationForm
       ->setOption('order_by',array('name',''));
     $this->widgetSchema['color_id']->setOption('order_by',array('name',''));
     
+    $this->widgetSchema['ends_at'] = new liWidgetFormDateTime(array(
+      'date' => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+      'time' => new liWidgetFormTimeText(),
+    ));
+    $this->validatorSchema['ends_at'] = new sfValidatorDateTime(array('required' => false));
     $this->validatorSchema['duration'] = new sfValidatorString(array('required' => false));
     $this->validatorSchema['vat'] = new sfValidatorString(array('required' => false));
     

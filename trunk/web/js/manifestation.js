@@ -22,6 +22,7 @@ $(document).ready(function(){
     }
   });
   
+  // set titles on contacts in the tickets list
   $('#sf_fieldset_tickets .contact a').each(function(){
     $(this).prop('title',$(this).html());
   });
