@@ -1,5 +1,5 @@
 <?php if ( isset($manifestation) && $manifestation instanceof Manifestation ): ?>
-<div class="sf_admin_form_row is_necessary_to">
+<div class="sf_admin_form_row is_necessary_to sf_admin_form_field_is_necessary_to">
   <label><?php echo __('Necessary to') ?>:</label>
   <ul>
   <?php foreach ( $manifestation->IsNecessaryTo as $manif ): ?>
