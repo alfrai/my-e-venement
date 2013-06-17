@@ -28,7 +28,7 @@ function event_checkpoints_list_load(url)
     });
     
     // delete
-    $('.sf_admin_form .sf_admin_action_delete a').unbind().removeAttr('onclick').click(function(){
+    $('.sf_admin_form .sf_admin_list .sf_admin_action_delete a').unbind().removeAttr('onclick').click(function(){
       if ( !confirm("Êtes-vous sûr de vouloir supprimer cet élément ?") )
         return false;
       
