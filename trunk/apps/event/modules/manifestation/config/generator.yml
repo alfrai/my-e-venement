@@ -39,13 +39,13 @@ generator:
           #Unbalanced:   [_show_unbalanced_list]
       new:
         display:
-          General: [happens_at, event_id, location_id, color_id]
+          General: [happens_at, ends_at, event_id, location_id, color_id]
           Memo:    [description]
           Technical: [duration, vat_id, online_limit, depends_on, organizers_list, no_print]
         actions: { _save: ~, _list: ~ }
       show:
         display:
-          General:    [_show_event, id, _show_happens_at, _show_location, _show_gauge_txt, _show_color, _show_prices_list]
+          General:    [_show_event, id, _show_happens_at, _show_ends_at, _show_location, _show_gauge_txt, _show_color, _show_prices_list]
           Memo:       [_show_description]
           Technical:  [_show_duration, _show_vat, online_limit, _show_depends_on, _show_is_necessary_to, _show_organizers_list, _show_no_print]
           Workspaces: [_show_workspaces_list]
