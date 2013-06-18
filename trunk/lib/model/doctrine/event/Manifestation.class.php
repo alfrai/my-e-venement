@@ -37,6 +37,10 @@ class Manifestation extends PluginManifestation
     sfApplicationConfiguration::getActive()->loadHelpers(array('I18N','Date'));
     return $this->Event->name.' '.__('at').' '.format_date($this->happens_at);
   }
+  public function getEndsAt()
+  {
+    return date('Y-m-d H:i:s',strtotime($this->happens_at)+$this->duration);
+  }
   public function __toString()
   {
     return $this->getName();

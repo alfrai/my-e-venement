@@ -45,7 +45,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
       || $this->reservation_begins_at && $this->reservation_begins_at > $this->happens_at )
       $this->reservation_begins_at = $this->happens_at;
     if ( !$this->reservation_ends_at
-      || $this->reservation_ends_at && $this->reservation_ends_at > date('Y-m-d H:i:s',strtotime($this->happens_at)+$this->duration) )
+      || $this->reservation_ends_at && $this->reservation_ends_at < date('Y-m-d H:i:s',strtotime($this->happens_at)+$this->duration) )
       $this->reservation_ends_at = date('Y-m-d H:i:s',strtotime($this->happens_at)+$this->duration);
     if ( sfContext::hasInstance() )
     {
