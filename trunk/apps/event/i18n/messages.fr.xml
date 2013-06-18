@@ -5,8 +5,20 @@
     <header/>
     <body>
       <trans-unit>
-        <source>The applicant</source>
-        <target>Le demandeur</target>
+        <source>No extra location booked</source>
+        <target>Pas de ressource supplémentaire réservée</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Reservation</source>
+        <target>Réservation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Extra locations</source>
+        <target>Ressources suppl.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Applicant</source>
+        <target>Demandeur</target>
       </trans-unit>
       <trans-unit>
         <source>Begins at</source>

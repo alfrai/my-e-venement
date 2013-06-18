@@ -100,3 +100,11 @@ select[disabled] {
 .controlled .qty { white-space: nowrap; }
 
 .is_necessary_to ul { list-style-type: none; }
+
+#sf_fieldset_reservation .sf_admin_form_field_booking_list { position: absolute; margin-left: 350px; line-height: 1em; width: 230px; }
+#sf_fieldset_reservation .sf_admin_form_field_optional .ui-helper-clearfix,
+#sf_fieldset_reservation .sf_admin_form_field_blocking .ui-helper-clearfix { float: left; }
+#sf_fieldset_reservation .sf_admin_form_field_booking_list label { width: 200px; }
+#sf_fieldset_reservation .sf_admin_form_field_booking_list.show ul { padding: 5px 5px 5px 25px; line-height: 1.5em; }
+#sf_fieldset_reservation .sf_admin_form_field_contact_id.sf_admin_foreignkey a { padding-left: 5px; font-size: 0; }
+#sf_fieldset_reservation .sf_admin_form_field_contact_id.sf_admin_foreignkey a .ui-icon { position: absolute; margin-top: 2px; display: inline-block; }

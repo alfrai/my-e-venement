@@ -26,4 +26,24 @@ $(document).ready(function(){
   $('#sf_fieldset_tickets .contact a').each(function(){
     $(this).prop('title',$(this).html());
   });
+
+  // select the locations' list in one click, or revert the current choice
+  $('#sf_fieldset_reservation .sf_admin_form_field_booking_list .label label')
+    .prepend('<input type="checkbox" name="revert_selection" value="" /> ');
+  $('#sf_fieldset_reservation .sf_admin_form_field_booking_list [name="revert_selection"]').click(function(){
+    $('#sf_fieldset_reservation .sf_admin_form_field_booking_list input[type=checkbox]').each(function(){
+      $(this).prop('checked',!$(this).prop('checked'));
+    });
+  });
+  
+  // two fields for application : minimize that !
+  if ( $('#sf_fieldset_reservation .sf_admin_form_field_contact_id').length > 1 )
+  {
+    $('#sf_fieldset_reservation .sf_admin_form_field_contact_id.sf_admin_foreignkey input[type=text]')
+      .after($('#sf_fieldset_reservation .sf_admin_form_field_contact_id:not(.sf_admin_foreignkey) a')
+        .each(function(){ $(this).prop('title',$(this).html()); })
+        .prepend('<span class="ui-icon ui-icon-person"></span>')
+      );
+    $('#sf_fieldset_reservation .sf_admin_form_field_contact_id:not(.sf_admin_foreignkey)').hide();
+  }
 });

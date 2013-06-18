@@ -253,12 +253,20 @@ class manifestationActions extends autoManifestationActions
     $to = date('Y-m-01', $request->getParameter('end',strtotime('+ 1 month')));
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
-      ->select('m.*, l.*, e.*, g.*')
+      ->select('m.*, l.*, c.*, e.*, g.*')
+      ->leftJoin('m.Color c')
       ->andWhere('m.happens_at >= ?',$from)
       ->andWhere('m.happens_at <  ?',$to)
       ->orderBy('happens_at');
-    if ( $this->location_id ) $q->andWhere('m.location_id = ?',$this->location_id);
-    if ( $this->event_id ) $q->andwhere('m.event_id = ?',$this->event_id);
+    if ( $this->location_id )
+      $q->andWhere('(TRUE')
+        ->andWhere('m.location_id = ?',$this->location_id)
+        ->leftJoin('m.Booking b')
+        ->orWhere('b.id = ?',$this->location_id)
+        ->andWhere('TRUE)');
+    if ( $this->event_id )
+      $q->andwhere('m.event_id = ?',$this->event_id);
+    
     EventFormFilter::addCredentialsQueryPart($q);
     $this->manifestations = $q->execute();
     $this->forward404Unless($this->manifestations);

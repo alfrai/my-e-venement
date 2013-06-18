@@ -1,5 +1,5 @@
 <?php use_helper('Number') ?>
-<div class="sf_admin_form_row sf_admin_field_prices_list">
+<div class="sf_admin_form_row sf_admin_form_field_prices_list">
   <label><?php echo __('Prices list') ?>:</label>
   <table class="ui-corner-all ui-widget-content"><tbody>
     <?php if ( $manifestation->Prices->count() == 0 ): ?>

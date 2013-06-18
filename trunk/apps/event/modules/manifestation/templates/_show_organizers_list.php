@@ -1,4 +1,4 @@
-<div class="sf_admin_form_row sf_admin_field_organizers_list">
+<div class="sf_admin_form_row sf_admin_form_field_organizers_list">
   <label><?php echo __('Organizers list') ?>:</label>
   <ul class="ui-corner-all ui-widget-content">
     <?php if ( $manifestation->Organizers->count() == 0 ): ?>

@@ -24,6 +24,7 @@ class ManifestationForm extends BaseManifestationForm
       ->setOption('order_by',array('name',''));
     $this->widgetSchema['color_id']->setOption('order_by',array('name',''));
     
+    // duration stuff
     $this->widgetSchema['ends_at'] = new liWidgetFormDateTime(array(
       'date' => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
       'time' => new liWidgetFormTimeText(),
@@ -47,9 +48,11 @@ class ManifestationForm extends BaseManifestationForm
         $this->widgetSchema[$fieldName] = new sfWidgetFormInputHidden;
     }
     
+    // reservation
     // removing required options from fields that should be filled automatically in the Manifestation objet
     foreach ( array('reservation_begins_at', 'reservation_ends_at',) as $fieldName )
       $this->validatorSchema[$fieldName]->setOption('required', false);
+    $this->widgetSchema['booking_list']->setOption('expanded', true);
     
     parent::configure();
   }
@@ -77,6 +80,7 @@ class ManifestationForm extends BaseManifestationForm
   protected function doSave($con = null)
   {
     $this->saveOrganizersList($con);
+    $this->saveBookingList($con);
     if ( $this->isNew() )
       $this->saveWorkspacesList($con);
     

@@ -338,6 +338,28 @@ Manifestation:
       foreignAlias: Manifestations
       onDelete: SET NULL
       onUpdate: CASCADE
+    Booking:
+      class: Location
+      refClass: LocationBooking
+      foreignAlias: BookedBy
+LocationBooking:
+  package: event
+  columns:
+    manifestation_id:
+      type: integer
+      notnull: true
+    location_id:
+      type: integer
+      notnull: true
+  relations:
+    Manifestation:
+      foreignAlias: LocationBookings
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Location:
+      foreignAlias: LocationBookings
+      onDelete: CASCADE
+      onUpdate: CASCADE
 Vat:
   package: event
   actAs: [Versionable, Timestampable]
