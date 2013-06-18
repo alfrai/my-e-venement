@@ -31,6 +31,7 @@
 $(document).ready(function(){
   $('#fullcalendar, #more .manifestation_calendar').fullCalendar({
     firstDay: 1,
+    minTime: '15:00',
     theme: true,
     monthNames: [ 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
     monthNamesShort: [ 'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc' ],
