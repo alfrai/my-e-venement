@@ -49,11 +49,13 @@ $(document).ready(function(){
     allDayDefault: false,
     header: { left: 'today prev,next', center: 'title', right: 'month,agendaWeek,agendaDay' },
     
+    eventTextColor: 'black',
+    eventBackgroundColor: 'white',
     eventSources: [
       <?php foreach ( $urls as $url ): ?>
       {
         url: '<?php echo $url ?>',
-        color: 'LightGreen',
+        //color: 'LightGreen',
         error: function(){ alert('<?php echo __('Error loading the data from manifestations') ?>'); }
       },
       <?php endforeach ?>
