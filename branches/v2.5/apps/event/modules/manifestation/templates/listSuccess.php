@@ -39,8 +39,11 @@
     );
     
     if ( $manif->color_id )
-      $manifs[count($manifs)-1]['backgroundColor'] = $manif->Color;
+      $manifs[count($manifs)-1]['backgroundColor'] = '#'.$manif->Color->color;
   }
-  
-  echo json_encode($manifs);
 ?>
+<?php if ( $debug ): ?>
+<pre><?php print_r($manifs) ?></pre>
+<?php else: ?>
+<?php echo json_encode($manifs) ?>
+<?php endif ?>
