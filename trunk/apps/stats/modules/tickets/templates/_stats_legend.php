@@ -5,7 +5,7 @@
     <h2><?php echo __('Legend') ?></h2>
   </div>
   <div class="legend">
-    <p>*<?php echo __('<strong>estimation</strong>, even better if the standard deviation is low') ?></p>
+    <p>*<?php echo __('<strong>pessimistic estimation</strong>, even better if the standard deviation is low') ?></p>
     <p><?php echo __('From %%from%% to %%to%%',array('%%from%%' => format_date($dates['from']), '%%to%%' => format_date($dates['to']))) ?></p>
   </div>
 </div>
