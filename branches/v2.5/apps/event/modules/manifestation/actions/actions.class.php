@@ -342,16 +342,18 @@ class manifestationActions extends autoManifestationActions
   }
   public function executeEdit(sfWebRequest $request)
   {
-    $this->securityAccessFiltering($request);
     parent::executeEdit($request);
+    $this->securityAccessFiltering($request);
     //$this->form->prices = $this->getPrices();
     //$this->form->spectators = $this->getSpectators();
     //$this->form->unbalanced = $this->getUnbalancedTransactions();
   }
   public function executeShow(sfWebRequest $request)
   {
+    $this->manifestation = $this->getRoute()->getObject();
     $this->securityAccessFiltering($request);
-    parent::executeShow($request);
+    $this->forward404Unless($this->manifestation);
+    $this->form = $this->configuration->getForm($this->manifestation);
     //$this->form->prices = $this->getPrices();
     //$this->form->spectators = $this->getSpectators();
     $this->form->unbalanced = $this->getUnbalancedTransactions();
