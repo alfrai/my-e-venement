@@ -29,27 +29,26 @@ if ( $('[name="email[id]"]').val() == '' )
 $('.attachment-new a').click(function(){
 
   if ( $.trim($('[name="email[field_subject]"]').val()) == '' || $.trim(tinyMCE.activeEditor.getContent()) == '' )
+  {
+    $('#transition .close').click();
+    alert('Please fill in the subject AND some content...');
     return false;
+  }
   
   // tinymce
   tinyMCE.activeEditor.save();
   
   // not to loose all contacts & so
-  $('.open_list_selected option').each(function(){
-    $(this).prop('selected',true);
+  $('.open_list_selected option').prop('selected',true);
+  
+  // add the information that we are attaching some file to this email, and not to send it
+  $('form').append('<input type="hidden" name="email[attach]" value="true" />');
+  
+  // post data before loading the new URL
+  $.post($('form').prop('action'),$('form').serialize(),function(data){
+    window.location = $($.parseHTML(data)).find('.attachment-new a').prop('href');
   });
-  
-  // if new
-  if ( $('[name="email[id]"]').val() == '' )
-  {
-    $.post($('form').prop('action'),$('form').serialize(),function(data){
-      window.location = $($.parseHTML(data)).find('.attachment-new a').prop('href');
-    });
-    return false;
-  }
-  
-  // if already saved
-  $.post($('form').prop('action'),$('form').serialize());
+  return false;
 });
 
 });
