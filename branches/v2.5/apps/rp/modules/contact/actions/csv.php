@@ -16,42 +16,59 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
 *    Copyright (c) 2011 Ayoub HIDRI <ayoub.hidri AT gmail.com>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
 <?php
     $criterias = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+    
+    // get personal parameters for extractions
+    $params = OptionCsvForm::getDBOptions();
+    
     $q = $this->buildQuery();
     $a = $q->getRootAlias();
     $q->select   ("$a.title, $a.name, $a.firstname, $a.address, $a.postalcode, $a.city, $a.country, $a.npai, $a.email, $a.description")
-      ->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE tmp.contact_id = $a.id ORDER BY tmp.updated_at LIMIT 1) AS phonename")
-      ->addSelect("(SELECT ttmp.number FROM ContactPhonenumber ttmp WHERE ttmp.contact_id = $a.id ORDER BY ttmp.updated_at LIMIT 1) AS phonenumber")
-      ->addSelect('p.id, o.id, ggc.id, ggc.name, ggp.id, ggp.name, ggo.id, ggo.name')
       ->leftJoin('o.Category oc')
       ->addSelect("oc.name AS organism_category, o.name AS organism_name")
       ->addSelect('p.department AS professional_department, p.contact_number AS professional_number, p.contact_email AS professional_email')
       ->addSelect('pt.name AS professional_type_name, p.name AS professional_name')
       ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description")
-      ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonename")
-      ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonenumber")
-      ->leftJoin("$a.Groups ggc")
-      ->leftJoin('p.Groups ggp')
-      ->leftJoin('o.Groups ggo')
       ->orderBy("$a.name, $a.firstname");
     
+    // phonembers
+    if ( in_array('phonename',$params) )
+      $q->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE tmp.contact_id = $a.id ORDER BY tmp.updated_at LIMIT 1) AS phonename");
+    if ( in_array('phonenumber',$params) )
+      $q->addSelect("(SELECT ttmp.number FROM ContactPhonenumber ttmp WHERE ttmp.contact_id = $a.id ORDER BY ttmp.updated_at LIMIT 1) AS phonenumber");
+    if ( in_array('organism_phonename',$params) )
+      $q->addSelect("(SELECT tmp3.name FROM OrganismPhonenumber tmp3 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonename");
+    if ( in_array('organism_phonenumber',$params) )
+      $q->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonenumber");
+    
+    // groups
+    if ( in_array('__Groups__name', $params) || in_array('__Professionals__Organism__Groups__name', $params) || in_array('__Professionals__Groups__name', $params) )
+      $q->addSelect('p.id, o.id');
+    if ( in_array('__Groups__name', $params) )
+      $q->leftJoin("$a.Groups ggc")
+        ->addSelect('ggc.id, ggc.name');
+    if ( in_array('__Professionals__Organism__Groups__name', $params) )
+      $q->leftJoin('o.Groups ggo')
+        ->addSelect('ggo.id, ggo.name');
+    if ( in_array('__Professionals__Groups__name', $params) )
+      $q->leftJoin('p.Groups ggp')
+        ->addSelect('ggp.id, ggp.name');
+
     // only when groups are a part of filters
     if ( in_array("LEFT JOIN $a.Groups gc",$q->getDqlPart('from')) )
       $q->leftJoin(" p.ProfessionalGroups mp ON mp.group_id = gp.id AND mp.professional_id = p.id")
         ->leftJoin("$a.ContactGroups      mc ON mc.group_id = gc.id AND mc.contact_id      = $a.id")
         ->addSelect("(CASE WHEN mc.information IS NOT NULL THEN mc.information ELSE mp.information END) AS information")
         ->addSelect('mp.*, mc.*');
-    $this->lines = $q->fetchArray();
     
-    // get personal parameters for extractions
-    $params = OptionCsvForm::getDBOptions();
+    $this->lines = $q->fetchArray();
     
     foreach ( $this->lines as $key => $line )
     {
