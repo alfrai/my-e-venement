@@ -1,0 +1,230 @@
+all:
+  lineal:
+    class: Transaction
+    method: createQueryForLineal
+    criterias:
+      #fields:
+      #  dates:
+      #    field: updated_at
+      #    match: integer
+      #  users:
+      #    field: sf_guard_user_id
+      #    match: in
+      subobjects:
+        Tickets:
+          alias: tck
+          fields:
+            dates:
+              field: updated_at
+              match: integer
+            users:
+              field: sf_guard_user_id
+              match: in
+        #Payments:
+        #  alias: p
+        #  fields:
+        #    dates:
+        #      field: created_at
+        #      match: integer
+        #    users:
+        #      field: sf_guard_user_id
+        #      match: in
+    extra_fields:
+      class: OptionAccounting
+    meta_format:
+      separator: ''
+      decorator: ''
+      crlf: microsoft
+      charset: ASCII//TRANSLIT
+    fields_description:
+      file:               { size: 4,  type: integer }
+      id:                 { size: 9,  type: integer }
+      line_num:           { size: 3,  type: integer }
+      date:               { format: dmY,  type: date }
+      ja_code:            { size: 2,  type: integer }
+      acc_section:        { size: 3,  type: integer }
+      code_doc:           { size: 1  }
+      name:               { size: 50 }
+      ref_date:           { format: dmY,  type: date }
+      ref_piece:          { size: 10, type: string }
+      delivery_date:      { format: dmY,  type: date }
+      analytic_account:   { size: 12 }
+      rec_code:           { size: 1  }
+      due_date:           { format: dmY,  type: date }
+      payment_method:     { size: 2,  type: string }
+      acc_account:        { size: 12 }
+      acc_counterpart:    { size: 12 }
+      direction:          { size: 1  }
+      value:              { size: 15, type: float, toFixed: 2, dot: '' }
+      tax_value:          { size: 15, type: float, toFixed: 2, dot: '' }
+      tax_code:           { size: 2,  type: integer }
+      letter_code:        { size: 2  }
+      letter_date:        { format: dmY,  type: date }
+      filter:             { size: 67 }
+      currency:           { size: 3  }
+      other:              { size: 34 }
+    lines:
+      header:
+        file:             ~file
+        id:               id
+        line_num:         _lineal_line_num
+        date:             updated_at
+        ja_code:          ~ja_code
+        acc_section:      ~acc_section_other
+        code_doc:         ~code_doc_invoice
+        name:             _lineal_name
+        ref_date:         ~null
+        ref_piece:        ~null
+        delivery_date:    ~null
+        analytic_account: ~null
+        rec_code:         ~rec_code_transaction
+        due_date:         ~null
+        payment_method:   ~null
+        acc_account:      ~null
+        acc_counterpart:  ~null
+        direction:        ~null
+        value:            ~null
+        tax_value:        ~null
+        tax_code:         ~null
+        letter_code:      ~null
+        letter_date:      ~null
+        filter:           _lineal_filter
+        currency:         ~currency
+        other:            ~null
+      loop:
+        subobjects: Tickets
+        line_e1:
+          file:             ~file
+          id:               transaction_id
+          line_num:         _lineal_line_num
+          date:             updated_at
+          ja_code:          ~ja_code
+          acc_section:      ~acc_section_other
+          code_doc:         ~code_doc_invoice
+          name:             _lineal_name
+          ref_date:         ~null
+          ref_piece:        id
+          delivery_date:    ~null
+          analytic_account: ~null
+          rec_code:         ~rec_code_imputation
+          due_date:         ~null
+          payment_method:   ~null
+          acc_account:      ~incomes_acc_generic
+          acc_counterpart:  ~null
+          direction:        ~code_debit
+          value:            value
+          tax_value:        _lineal_tax_value
+          tax_code:         ~null
+          letter_code:      ~null
+          letter_date:      ~null
+          filter:           ~null
+          currency:         ~null
+          other:            ~null
+        line_e2:
+          file:             ~file
+          id:               transaction_id
+          line_num:         _lineal_line_num
+          date:             updated_at
+          ja_code:          ~ja_code
+          acc_section:      ~acc_section_other
+          code_doc:         ~code_doc_invoice
+          name:             _lineal_name
+          ref_date:         ~null
+          ref_piece:        ~null
+          delivery_date:    ~null
+          analytic_account: ~null
+          rec_code:         ~rec_code_expiration
+          due_date:         updated_at
+          payment_method:   ~null
+          acc_account:      ~incomes_acc_generic
+          acc_counterpart:  ~null
+          direction:        ~code_debit
+          value:            value
+          tax_value:        _lineal_tax_value
+          tax_code:         .Manifestation.Vat.accounting_account
+          letter_code:      ~null
+          letter_date:      ~null
+          filter:           ~null
+          currency:         ~null
+          other:            ~null
+        line_y1:
+          file:             ~file
+          id:               transaction_id
+          line_num:         _lineal_line_num
+          date:             updated_at
+          ja_code:          ~ja_code
+          acc_section:      ~acc_section_other
+          code_doc:         ~code_doc_invoice
+          name:             _lineal_name
+          ref_date:         ~null
+          ref_piece:        ~null
+          delivery_date:    ~null
+          analytic_account: ~null
+          rec_code:         ~rec_code_imputation
+          due_date:         ~null
+          payment_method:   ~null
+          acc_account:      .Manifestation.Event.accounting_account
+          acc_counterpart:  ~null
+          direction:        ~code_credit
+          value:            value
+          tax_value:        ~null
+          tax_code:         .Manifestation.Vat.accounting_account
+          letter_code:      ~null
+          letter_date:      ~null
+          filter:           ~null
+          currency:         ~null
+          other:            ~null
+        line_y2:
+          file:             ~file
+          id:               transaction_id
+          line_num:         _lineal_line_num
+          date:             updated_at
+          ja_code:          ~ja_code
+          acc_section:      ~acc_section_other
+          code_doc:         ~code_doc_invoice
+          name:             _lineal_name
+          ref_date:         ~null
+          ref_piece:        ~null
+          delivery_date:    ~null
+          analytic_account: ~analytic_account
+          rec_code:         ~rec_code_analytic
+          due_date:         ~null
+          payment_method:   ~null
+          acc_account:      .Manifestation.Event.accounting_account
+          acc_counterpart:  ~null
+          direction:        ~code_credit
+          value:            _lineal_pet_value
+          tax_value:        _lineal_tax_value
+          tax_code:         ~null
+          letter_code:      ~null
+          letter_date:      ~null
+          filter:           ~null
+          currency:         ~null
+          other:            ~null
+        line_i:
+          file:             ~file
+          id:               transaction_id
+          line_num:         _lineal_line_num
+          date:             updated_at
+          ja_code:          ~ja_code
+          acc_section:      ~acc_section_other
+          code_doc:         ~code_doc_invoice
+          name:             _lineal_name
+          ref_date:         ~null
+          ref_piece:        ~null
+          delivery_date:    ~null
+          analytic_account: ~null
+          rec_code:         ~rec_code_imputation
+          due_date:         ~null
+          payment_method:   ~null
+          acc_account:      ~incomes_acc_vat
+          acc_counterpart:  ~null
+          direction:        ~code_credit
+          value:            _lineal_tax_value
+          tax_value:        ~null
+          tax_code:         ~null
+          letter_code:      ~null
+          letter_date:      ~null
+          filter:           ~null
+          currency:         ~null
+          other:            ~null

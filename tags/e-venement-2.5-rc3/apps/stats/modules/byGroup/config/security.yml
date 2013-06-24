@@ -1,0 +1,5 @@
+all:
+  credentials: stats-byGroup
+csv:
+  credentials: [stats-byGroup, stats-csv]
+  

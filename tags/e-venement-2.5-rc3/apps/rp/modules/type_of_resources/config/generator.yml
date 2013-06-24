@@ -1,0 +1,26 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           TypeOfResources
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          type_of_resources
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+        display: [name]
+        object_actions:
+          _edit: ~
+          _delete: ~
+        title: List of types of resources
+      filter:  ~
+      form:    ~
+      edit:    ~
+      new:     ~
