@@ -1,0 +1,46 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Group
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          group
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        sf_guard_user_id: { label: User }
+        Picture: { help: 24px x 16px max (resized) }
+        list_picture: { label: '' }
+        display_everywhere: { label: Remarkable }
+      list:
+        display: [_list_picture, User, name, display_everywhere, created_at]
+        table_method: retrieveList
+        sort: ['g.sf_guard_user_id, g.name','']
+      filter:
+        display: [name, sf_guard_user_id, display_everywhere]
+      show:
+        display:
+          NONE: [name, User, _display_everywhere, _show_picture]
+          Detail: [created_at, updated_at, slug]
+      form:
+      edit:
+        title: Group %%name%%
+        display:
+          NONE: [name, sf_guard_user_id, display_everywhere, Picture, _show_picture, _form_picture_del]
+          Individuals:    [_form_contacts_add, _form_contacts_remove, _form_contacts_refresh]
+          Professionals:  [_form_professionals_add, _form_professionals_remove, _form_contacts_refresh]
+          Organisms:      [_form_organisms_add, _form_organisms_remove, _form_organisms_refresh]
+          #Detail: [created_at, updated_at, slug]
+      new:
+        title: New group
+        display:
+          NONE: [name, sf_guard_user_id, display_everywhere, Picture]
+          Individuals: [contacts_list]
+          Professionals: [professionals_list]
+          Organisms: [organisms_list]

@@ -1,0 +1,135 @@
+option_accounting:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OptionAccounting
+    module:               option_accounting
+    prefix_path:          /option_accounting
+    column:               id
+    with_wildcard_routes: true
+
+transaction_debts:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Transaction
+    module:               debts
+    prefix_path:          /debts
+    column:               id
+    with_wildcard_routes: true
+
+member_card_price_model:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                MemberCardPriceModel
+    module:               member_card_price_model
+    prefix_path:          /member_card_price_model
+    column:               id
+    with_wildcard_routes: true
+
+control:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Control
+    module:               control
+    prefix_path:          /control
+    column:               id
+    with_wildcard_routes: true
+
+transaction:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Transaction
+    module:               summary
+    prefix_path:          /summary
+    column:               id
+    with_wildcard_routes: true
+
+order:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                order
+    module:               order
+    prefix_path:          /order
+    column:               id
+    with_wildcard_routes: true
+
+invoice:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                invoice
+    module:               invoice
+    prefix_path:          /invoice
+    column:               id
+    with_wildcard_routes: true
+
+authentication:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Authentication
+    module:               authentication
+    prefix_path:          /authentication
+    column:               id
+    with_wildcard_routes: true
+
+payment:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Payment
+    module:               payment
+    prefix_path:          /payment
+    column:               id
+    with_wildcard_routes: true
+
+payment_method:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                PaymentMethod
+    module:               payment_method
+    prefix_path:          /payment_method
+    column:               id
+    with_wildcard_routes: true
+
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/10-Routing
+
+ticket_contact:
+  class: sfDoctrineRoute
+  url: /ticket/contact
+  options:
+    model: Transaction
+    type: object
+        
+ticket:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Transaction
+    module:               ticket
+    prefix_path:          /ticket
+    column:               id
+    with_wildcard_routes: true
+    
+
+sf_guard_signin:
+  url:   /login
+  param: { module: sfGuardAuth, action: signin }
+    
+sf_guard_signout:
+  url:   /logout
+  param: { module: sfGuardAuth, action: signout }
+
+sf_guard_password:
+  url:   /request_password
+  param: { module: sfGuardAuth, action: password }
+            
+# default rules
+homepage:
+  url:   /
+  param: { module: ticket, action: respawn }
+
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*
