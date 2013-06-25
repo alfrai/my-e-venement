@@ -1,4 +1,0 @@
-default:
-  javascripts: [-*,jquery,about]
-  stylesheets: [-*,about]
-  layout: empty

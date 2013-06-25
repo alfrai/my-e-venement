@@ -1,4 +1,0 @@
-all:
-  credentials: [tck-accounting-order]
-cancel:
-  credentials: [tck-transaction]

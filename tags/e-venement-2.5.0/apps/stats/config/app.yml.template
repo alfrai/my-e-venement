@@ -1,5 +1,0 @@
-#all:
-#  cards:
-#    expiration_delay: 1 year
-#  ticketting:
-#    hide_demands: true      
