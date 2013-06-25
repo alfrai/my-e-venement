@@ -48,6 +48,7 @@ class ticketActions extends sfActions
       ->fetchOne();
     
     $this->versions = Doctrine::getTable('TicketVersion')->createQuery('v')
+      ->select('v.*, (SELECT s.username FROM SfGuardUser s WHERE s.id = v.sf_guard_user_id) as user')
       ->andWhere('v.id = ?',$id)
       ->orderBy('v.version DESC')
       ->execute();
