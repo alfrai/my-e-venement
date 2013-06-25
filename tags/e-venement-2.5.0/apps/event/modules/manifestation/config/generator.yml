@@ -1,0 +1,53 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Manifestation
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          manifestation
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        list_event: { label: Event }
+        list_location: { label: Location }
+        list_description: { label: Memo }
+        happens_at: { label: Date }
+        id: { label: ID Manif }
+        online_limit: { label: Online limit }
+        description: { label: Memo }
+        no_print: { label: Preprinted ticketting }
+      list:
+        display: [_list_event, happens_at, _list_location, _list_description]
+      filter:  ~
+      form: ~
+      edit:
+        title: Edit Manifestation %%name%%
+        display:
+          General:      [happens_at, _id, event_id, location_id, _show_gauge_txt, color_id, _form_prices]
+          Memo:         [description]
+          Technical:    [duration, vat_id, online_limit, depends_on, _show_is_necessary_to, organizers_list, no_print]
+          Workspaces:   [_form_workspaces, _show_workspaces_list]
+          #Tickets:      [_show_tickets_list]
+          #Spectators:   [_show_spectators_list]
+          #Unbalanced:   [_show_unbalanced_list]
+      new:
+        display:
+          General: [happens_at, event_id, location_id, color_id]
+          Memo:    [description]
+          Technical: [duration, vat_id, online_limit, depends_on, organizers_list, no_print]
+        actions: { _save: ~, _list: ~ }
+      show:
+        display:
+          General:    [_show_event, id, _show_happens_at, _show_location, _show_gauge_txt, _show_color, _show_prices_list]
+          Memo:       [_show_description]
+          Technical:  [_show_duration, _show_vat, online_limit, _show_depends_on, _show_is_necessary_to, _show_organizers_list, _show_no_print]
+          Workspaces: [_show_workspaces_list]
+          Tickets:    [_show_tickets_list_empty]
+          Spectators: [_show_spectators_list_empty]
+          Unbalanced: [_show_unbalanced_list]
