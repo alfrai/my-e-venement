@@ -28,7 +28,7 @@ class PaymentIntegrationForm extends BaseFormDoctrine
     $q->from('Transaction t')
       ->leftJoin('t.Tickets tck')
       ->leftJoin('tck.Cancelling c')
-      ->leftJoin('tck.Duplicating d')
+      ->leftJoin('tck.Duplicated d')
       ->andWhere('tck.manifestation_id = ?',$this->manifestation->id)
       ->andWhere('c.id IS NULL')
       ->andWhere('d.id IS NULL')
