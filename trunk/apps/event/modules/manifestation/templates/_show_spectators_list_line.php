@@ -1,4 +1,4 @@
-    <td class="name"><?php echo cross_app_link_to($transac->Contact,'rp','contact/show?id='.$transac->contact_id) ?> <span class="pictos"><?php echo $transac->Contact->getRaw('groups_picto') ?></span></td>
+    <td class="name"><?php echo cross_app_link_to($transac->Contact,'rp','contact/show?id='.$transac->contact_id) ?> <span class="pictos"><?php if ( is_object($transac->Contact) ) echo $sf_data->getRaw('transac')->Contact->groups_picto ?></span></td>
     <td class="organism"><?php if ( $contact['pro'] ) echo cross_app_link_to($contact['pro']->Organism,'rp','organism/show?id='.$contact['pro']->Organism->id) ?></td>
     <td class="tickets">
       <?php include_partial('show_spectators_list_tickets',array('tickets' => $ws, 'show_workspaces' => $show_workspaces)) ?>
