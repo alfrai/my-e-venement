@@ -19,7 +19,7 @@
     ->leftJoin('m.Tickets tck')
     ->leftJoin('tck.Transaction t')
     ->where('t.contact_id = ?',$contact->id)
-    ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL')
+    ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.transaction_id IN (SELECT o.transaction_id FROM Order o)')
     ->andWhere('tck.cancelling IS NULL AND tck.duplicating IS NULL')
     ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
     ->orderBy('me.name, e.name, m.happens_at DESC, t.id');
@@ -47,7 +47,10 @@
     <?php foreach( $event->Manifestations as $manif ): ?>
     <tr class="manif">
       <td class="name"><span><?php echo cross_app_link_to(format_date($manif->happens_at),'event','manifestation/show?id='.$manif->id) ?></span></td>
-      <td class="tickets_nb"><span><?php echo __('%%nb%% ticket(s)',array('%%nb%%' => $manif->Tickets->count())) ?></span></td>
+      <td class="tickets_nb"><?php $printed = 0; foreach ( $manif->Tickets as $tck ) if ( $tck->printed ) $printed++; ?>
+        <span><?php echo __('%%nb%% ticket(s)',array('%%nb%%' => $printed)) ?></span>
+        <?php if ( $printed < $manif->Tickets->count() ): ?><span><?php echo __('%%nb%% booked',array('%%nb%%' => $manif->Tickets->count() - $printed )) ?></span><?php endif ?>
+      </td>
       <td class="tickets_value"><span><?php $value = 0; foreach ( $manif->Tickets as $ticket ) $value += $ticket->value; echo format_currency($value,'€'); ?></span></td>
       <td class="transactions"><?php $arr = array(); foreach ( $manif->Tickets as $ticket ) $arr[$ticket->transaction_id] = '#'.cross_app_link_to($ticket->transaction_id,'tck','ticket/sell?id='.$ticket->transaction_id); echo implode(', ',$arr) ?></span></td>
     </tr>
