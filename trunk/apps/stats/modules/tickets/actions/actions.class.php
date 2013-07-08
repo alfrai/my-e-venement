@@ -13,7 +13,7 @@ class ticketsActions extends sfActions
   protected function addQueryParts(Doctrine_Query $q, $pro = false)
   {
     $q->andWhere(sprintf('t.professional_id IS %s NULL', $pro ? 'NOT' : ''))
-      ->andWhere('(tck.printed = TRUE OR tck.integrated = TRUE)')
+      ->andWhere('(tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL)')
       ->andWhere('tck.duplicating IS NULL AND tck.cancelling IS NULL')
       ->leftJoin('tck.Manifestation m')
       ->leftJoin('m.Event e');

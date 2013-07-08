@@ -177,6 +177,10 @@
         <target>%%nb%% billet(s)</target>
       </trans-unit>
       <trans-unit>
+        <source>%%nb%% booked</source>
+        <target>%%nb%% réservation(s)</target>
+      </trans-unit>
+      <trans-unit>
         <source>With the organism</source>
         <target>Avec l'organisme</target>
       </trans-unit>
