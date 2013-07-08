@@ -23,7 +23,7 @@ all:
   about:
     name: e-venement
     contributors: [Baptiste SIMON, Bevlhay FERRAND, Ludovic SOULIÉ, Ayoub HIDRI, Thomas RIBOULET, Très Tôt Théâtre, Libre Informatique, Symfony Team, #symfony-fr]
-    version: 2.5.0 "Guinness Draght"
+    version: 2.5.1 "Guinness Draght"
     firm:
       url: http://www.libre-informatique.fr/
       name: Libre Informatique
