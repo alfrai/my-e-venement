@@ -47,7 +47,7 @@
     <?php foreach( $event->Manifestations as $manif ): ?>
     <tr class="manif">
       <td class="name"><span><?php echo cross_app_link_to(format_date($manif->happens_at),'event','manifestation/show?id='.$manif->id) ?></span></td>
-      <td class="tickets_nb"><?php $printed = 0; foreach ( $manif->Tickets as $tck ) if ( $tck->printed ) $printed++; ?>
+      <td class="tickets_nb"><?php $printed = 0; foreach ( $manif->Tickets as $tck ) if ( $tck->printed_at ) $printed++; ?>
         <span><?php echo __('%%nb%% ticket(s)',array('%%nb%%' => $printed)) ?></span>
         <?php if ( $printed < $manif->Tickets->count() ): ?><span><?php echo __('%%nb%% booked',array('%%nb%%' => $manif->Tickets->count() - $printed )) ?></span><?php endif ?>
       </td>
