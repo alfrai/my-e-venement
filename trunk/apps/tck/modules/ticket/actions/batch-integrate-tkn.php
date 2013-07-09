@@ -27,7 +27,7 @@ $charset = sfConfig::get('software_internals_charset');
 
 for ( $i = 0 ; $line = fgets($fp) ; $i++ )
 // if !EOF and !BOF
-if ( strlen($line) >= 215 )
+if ( strlen($line) == 215 || strlen($line) == 108 )
 {
   $line = iconv($charset['old'],$charset['db'],$line);
   
@@ -41,6 +41,7 @@ if ( strlen($line) >= 215 )
   $tck['fiscal']    = trim(substr($line,39,10));
   $tck['zone']      = trim(substr($line,49,4));
   $tck['rank']      = trim(substr($line,53,4));
+
   $tck['seat']      = trim(substr($line,57,4));
   $tck['value']     = isset($this->translation['prices'][$tck['price_name']]) ? $this->translation['prices'][$tck['price_name']]['value'] : trim(substr($line,61,10));
   $tck['devise']    = trim(substr($line,71,3));
