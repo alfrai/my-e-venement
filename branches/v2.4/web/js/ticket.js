@@ -331,6 +331,7 @@ function ticket_transform_hidden_to_span(all)
   
   $('#prices .manifestations_list .prices .ticket_prices.notprinted input.nb, #prices .manifestations_list .prices .ticket_prices.integrated input.nb').unbind().focus(function(){
     gauge_id = /gauge-(\d+)/.exec($(this).closest('.workspace').prop('class'))[1];
+    $(this).closest('.manif').find('input[type=radio][name="ticket[manifestation_id]"]').prop('checked',true);
     $(this).closest('.manif').find('.workspaces select option[value='+gauge_id+']').prop('selected',true);
   }).change(function(){
     nb = $(this).parent().find('input[type=text].nb').val() - $(this).parent().find('input[type=hidden].nb').val();
