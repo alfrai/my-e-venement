@@ -1,0 +1,23 @@
+all:
+  javascripts: [/liTinymcePlugin/tiny_mce,duration]
+  stylesheets: [manifestation]
+
+indexSuccess:
+  stylesheets: [event-list, list-print: {media: print}<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, gauge-small<?php endif ?>]
+  javascripts: [list-scroll, event-list<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, gauge-small<?php endif ?>]
+newSuccess:
+  stylesheets: [view,event,/private/event.css]
+  javascripts:  [event]
+createSuccess:
+  stylesheets: [view,event,/private/event.css]
+  javascripts:  [event]
+updateSuccess:
+  stylesheets: [view,event,checkpoint,/private/event.css]
+  javascripts:  [event,checkpoint]
+editSuccess:
+  stylesheets: [view,event,checkpoint,/private/event.css]
+  javascripts:  [event,checkpoint]
+showSuccess:
+  stylesheets: [view,event,/private/event.css]
+  javascripts:  [event]
+
