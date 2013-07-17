@@ -39,25 +39,25 @@
       ->orderBy("$a.name, $a.firstname");
     
     // phonembers
-    if ( in_array('phonename',$params) )
+    if ( in_array('phonename',$params['field']) )
       $q->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE tmp.contact_id = $a.id ORDER BY tmp.updated_at LIMIT 1) AS phonename");
-    if ( in_array('phonenumber',$params) )
+    if ( in_array('phonenumber',$params['field']) )
       $q->addSelect("(SELECT ttmp.number FROM ContactPhonenumber ttmp WHERE ttmp.contact_id = $a.id ORDER BY ttmp.updated_at LIMIT 1) AS phonenumber");
-    if ( in_array('organism_phonename',$params) )
+    if ( in_array('organism_phonename',$params['field']) )
       $q->addSelect("(SELECT tmp3.name FROM OrganismPhonenumber tmp3 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonename");
-    if ( in_array('organism_phonenumber',$params) )
+    if ( in_array('organism_phonenumber',$params['field']) )
       $q->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonenumber");
     
     // groups
-    if ( in_array('__Groups__name', $params) || in_array('__Professionals__Organism__Groups__name', $params) || in_array('__Professionals__Groups__name', $params) )
+    if ( in_array('__Groups__name', $params['field']) || in_array('__Professionals__Organism__Groups__name', $params['field']) || in_array('__Professionals__Groups__name', $params['field']) )
       $q->addSelect('p.id, o.id');
-    if ( in_array('__Groups__name', $params) )
+    if ( in_array('__Groups__name', $params['field']) )
       $q->leftJoin("$a.Groups ggc")
         ->addSelect('ggc.id, ggc.name');
-    if ( in_array('__Professionals__Organism__Groups__name', $params) )
+    if ( in_array('__Professionals__Organism__Groups__name', $params['field']) )
       $q->leftJoin('o.Groups ggo')
         ->addSelect('ggo.id, ggo.name');
-    if ( in_array('__Professionals__Groups__name', $params) )
+    if ( in_array('__Professionals__Groups__name', $params['field']) )
       $q->leftJoin('p.Groups ggp')
         ->addSelect('ggp.id, ggp.name');
 
