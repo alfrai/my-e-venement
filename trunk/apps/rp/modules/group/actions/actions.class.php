@@ -175,39 +175,7 @@ class groupActions extends autoGroupActions
     );
     $this->getUser()->setAttribute('contact.filters', $criterias, 'admin_module');
     
-    $this->forward('contact','index');
-    return sfView::NONE;
-    
-    $q = $this->createQueryByRoute()
-      ->leftJoin('c.Phonenumbers cpn')
-      ->limit(1);
-    $groups = $q->execute();
-    $this->group = $groups[0];
-    
-    $this->outstream = 'php://output';
-    $this->delimiter = $request->hasParameter('ms') ? ';' : ',';
-    $this->enclosure = '"';
-    $this->charset   = sfConfig::get('software_internals_charset');
-    
-    $criterias = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
-    $this->options = array(
-      'ms'        => $request->hasParameter('ms'),
-      'noheader'  => $request->hasParameter('noheader'),
-    );
-    
-    sfConfig::set('sf_web_debug', false);
-    sfConfig::set('sf_escaping_strategy', false);
-    sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
-    
-    if ( !$request->hasParameter('debug') )
-    {
-      $this->getResponse()->clearHttpHeaders();
-      $this->getResponse()->setContentType('text/comma-separated-values');
-      $this->getResponse()->addHttpMeta('content-disposition', 'attachment; filename="'.$this->getModuleName().'s-list.csv"',true);
-      $this->getResponse()->sendHttpHeaders();
-    }
-    
-    $this->setLayout(false);
+    $this->redirect('contact','index');
   }
   
   protected function createQueryByRoute()
