@@ -34,6 +34,7 @@
     *     . 201 if tickets have been well pre-reserved
     *     . 403 if authentication as a valid webservice has failed
     *     . 406 if the input json content doesn't embed the required values or contact is not registered
+    *     . 409 if one of the inputed gauge will be overbooked by the current booking
     *     . 412 if the input json array is not conform with its checksum
     *     . 500 if there was a problem processing the demand
     *   - a json array containing :
@@ -93,14 +94,23 @@
     foreach ( $json as $gauge_id => $tarifs )
     foreach ( $tarifs as $tarif => $qty )
     {
-      $manif = Doctrine::getTable('Manifestation')->fetchOneByGaugeId($gauge_id);
-      if ( !in_array(intval(gauge_id),$gauges) )
+      if ( !in_array(intval($gauge_id),$gauges) )
         $gauges[] = intval($gauge_id);
+      
+      $gauge = Doctrine::getTable('Gauge')->findOneById($gauge_id);
+      
+      // out of gauge
+      if ( $gauge->getFree(sfConfig::get('project_tickets_count_demands',false)) - $qty < 0 )
+      {
+        $this->getResponse()->setStatusCode('409');
+        // possibility of improving the online process to point exactly on the good manifestation which has changed
+        return sfView::NONE;
+      }
       
       for ( $i = $qty ; $i > 0 ; $i-- )
       {
         $ticket = new Ticket();
-        $ticket->manifestation_id = $manif->id;
+        $ticket->manifestation_id = $gauge->manifestation_id;
         $ticket->gauge_id = $gauge_id;
         $ticket->price_name = $tarif;
         $ticket->transaction_id = $transaction->id;
