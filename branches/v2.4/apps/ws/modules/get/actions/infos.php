@@ -57,7 +57,7 @@
     if ( sfConfig::has('app_count_demands') && sfConfig::get('app_count_demands') )
       $q->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.gauge_id = g.id AND t.duplicating IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL)) AS nb_tickets');
     else
-      $q->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.gauge_id = g.id AND t.duplicating IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL) AND (t.printed OR t.integrated OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets');
+      $q->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.gauge_id = g.id AND t.duplicating IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL) AND (t.printed_at IS NOT NULL OR t.integrated_at IS NOT NULL OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets');
     $gauges = $q->execute();
     
     foreach ( $gauges as $g )
@@ -105,7 +105,13 @@
           }
         }
         
-        $still_have = $g->value - $g->nb_tickets - $manif->online_limit > sfConfig::get('app_max_tickets') ? sfConfig::get('app_max_tickets') : ($g->value - $g->nb_tickets - $manif->online_limit > 0 ? $g->value - $g->nb_tickets - $manif->online_limit : 0);
+        $still_have = $g->value - $g->nb_tickets - $manif->online_limit > sfConfig::get('app_max_tickets')
+          ? sfConfig::get('app_max_tickets')
+          : ($g->value - $g->nb_tickets - $manif->online_limit > 0
+              ? $g->value - $g->nb_tickets - $manif->online_limit
+              : 0
+            )
+          ;
         $tmp = array(
           'eventid' => $event->id,
           'event' => $event->name.(!is_null($manif->depends_on) ? ' + '.$manif->DependsOn->Event->name : ''),
