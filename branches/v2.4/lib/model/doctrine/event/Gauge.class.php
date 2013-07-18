@@ -16,6 +16,15 @@ class Gauge extends PluginGauge
   {
     return $this->Workspace->name;
   }
+  
+  public function getFree($count_demands = false)
+  {
+    return $this->value
+      - $this->printed
+      - $this->ordered
+      - ($count_demands ? $this->asked : 0);
+  }
+  
   public function preSave($event)
   {
     if ( is_null($this->value) )

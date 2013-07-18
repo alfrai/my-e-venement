@@ -57,7 +57,7 @@
     if ( sfConfig::has('app_count_demands') && sfConfig::get('app_count_demands') )
       $q->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.gauge_id = g.id AND t.duplicating IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL)) AS nb_tickets');
     else
-      $q->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.gauge_id = g.id AND t.duplicating IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL) AND (t.printed_at IS NOT NULL OR t.integrated_at IS NOT NULL OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets');
+      $q->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.gauge_id = g.id AND t.duplicating IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL) AND (t.printed OR t.integrated OR t.transaction_id IN (SELECT Order.transaction_id FROM Order))) AS nb_tickets');
     $gauges = $q->execute();
     
     foreach ( $gauges as $g )
