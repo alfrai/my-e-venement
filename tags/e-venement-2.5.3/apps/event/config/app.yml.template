@@ -1,0 +1,31 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/11-App
+
+# default values
+#all:
+
+all:
+  phpicalendar:
+    web_dir: phpicalendar
+  google_maps:
+    api_keys:
+      default: "ENTER YOUR API KEY HERE"
+      max_display: 200
+      default_country: France
+  ticketting:
+    dematerialized: true
+    #gauge_small: false
+  listing:
+    manif_date: DESC
+  manifestation:
+    depends_on_limit: 10
+  synchronization:
+    period:
+      from: now
+      to: +1 week
+    config:
+      format: email
+      to: [my-email@mydomain.tld, his-email@mydomain.tld]
+      from: e-venement@mydomain.tld
+      subject: Manifestations report for <?php $client = sfConfig::get('project_about_client'); echo $client['name'] ?> from %%from%% to %%to%%
+
