@@ -56,7 +56,7 @@ class ledgerActions extends sfActions
         ->andWhere('t.transaction_id IN (SELECT oo.transaction_id FROM Order oo) OR p.id IS NOT NULL OR '.$str);
     
     if ( !isset($criterias['tck_value_date_payment']) )
-      $q->andWhere('(tck.cancelling IS NOT NULL AND tck.updated_at >= ? AND tck.updated_at < ? OR tck.printed_at IS NOT NULL AND tck.printed_at >= ? AND tck.printed_at < ? OR tck.integrated_at IS NOT NULL AND tck.integrated_at >= ? AND tck.integrated_at < ?)',array(
+      $q->andWhere('(tck.cancelling IS NOT NULL AND tck.created_at >= ? AND tck.created_at < ? OR tck.printed_at IS NOT NULL AND tck.printed_at >= ? AND tck.printed_at < ? OR tck.integrated_at IS NOT NULL AND tck.integrated_at >= ? AND tck.integrated_at < ?)',array(
           $dates[0], $dates[1],
           $dates[0], $dates[1],
           $dates[0], $dates[1],
