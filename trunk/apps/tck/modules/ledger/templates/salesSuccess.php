@@ -76,9 +76,14 @@
             if ( !is_null($ticket->cancelling) )
               $qty -= 2;
             
+            // extremely weird behaviour, only for specific cases... it's about an early error in the VAT calculation in e-venement
+            $tmp = sfConfig::get('app_ledger_sum_rounding_before',false) && strtotime($ticket['printed_at']) < sfConfig::get('app_ledger_sum_rounding_before')
+              ? $ticket->value - $ticket->value / (1+$ticket->vat);
+              : round($ticket->value - $ticket->value / (1+$ticket->vat),2);
+            
             // taxes feeding
             $vat[$ticket->vat][$event->id][$manif->id]
-              += $tmp = round($ticket->value - $ticket->value / (1+$ticket->vat),2);
+              += $tmp;
             $vat[$ticket->vat][$event->id]['total']
               += $tmp;
             
