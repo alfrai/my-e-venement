@@ -84,8 +84,8 @@
             // taxes feeding
             $vat[$ticket->vat][$event->id][$manif->id]
               += $tmp;
-            $vat[$ticket->vat][$event->id]['total']
-              += $tmp;
+            //$vat[$ticket->vat][$event->id]['total']
+            //  += $tmp;
             
             // total feeding
             $total['vat'][$ticket->vat] += $tmp;
@@ -107,13 +107,24 @@
             $total['vat'][$rate] += $amount; // total feeding
           }
         } // endif; endforeach;
+        
+        // extremely weird behaviour, only for specific cases... it's about an early error in the VAT calculation in e-venement
+        if ( sfConfig::get('app_ledger_sum_rounding_before',false) && sfConfig::get('app_ledger_sum_rounding_before',false) < strtotime($dates[0]) )
+        foreach ( $vat as $rate => $content )
+        foreach ( $content as $event_id => $manifs )
+        if ( $event_id !== 'total' )
+        {
+          $vat[$rate][$event_id]['total'] = 0;
+          foreach ( $manifs as $manif_id => $manif )
+            $vat[$rate][$event_id][$manif_id] = round($manif,2);
+        }
       ?>
       <td class="event"><?php echo cross_app_link_to($event,'event','event/show?id='.$event->id) ?></td>
       <td class="see-more"><a href="#event-<?php echo $event->id ?>">-</a></td>
       <td class="id-qty"><?php echo $qty ?></td>
       <td class="value"><?php echo format_currency($value,'€') ?></td>
       <?php foreach ( $vat as $name => $v ): ?>
-      <td class="vat"><?php $buf += round(isset($v[$event->id]) ? $v[$event->id]['total'] : 0,2); echo format_currency(round(isset($v[$event->id]) ? $v[$event->id]['total'] : 0,2),'€') ?></td>
+      <td class="vat"><?php $buf += round(isset($v[$event->id]) ? array_sum($v[$event->id]) : 0,2); echo format_currency(round(isset($v[$event->id]) ? array_sum($v[$event->id]) : 0,2),'€') ?></td>
       <?php endforeach ?>
       <td class="vat total"><?php echo format_currency(round($buf,2),'€'); ?></td>
       <td class="tep"><?php echo format_currency($value - round($buf,2),'€') ?></td>
