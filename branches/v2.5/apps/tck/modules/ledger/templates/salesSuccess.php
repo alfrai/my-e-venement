@@ -78,7 +78,7 @@
             
             // extremely weird behaviour, only for specific cases... it's about an early error in the VAT calculation in e-venement
             $tmp = sfConfig::get('app_ledger_sum_rounding_before',false) && strtotime($ticket['printed_at']) < sfConfig::get('app_ledger_sum_rounding_before')
-              ? $ticket->value - $ticket->value / (1+$ticket->vat);
+              ? $ticket->value - $ticket->value / (1+$ticket->vat)
               : round($ticket->value - $ticket->value / (1+$ticket->vat),2);
             
             // taxes feeding
