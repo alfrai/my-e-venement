@@ -7,6 +7,7 @@
 .ticket-show table caption { margin: 0; }
 .ticket-show table { float: left; }
 .ticket-show table {
+  width: 48%;
   margin: 5px 5px;
   border-top: 1px solid rgb(197, 219, 236);
   border-right: 1px solid rgb(197, 219, 236);
