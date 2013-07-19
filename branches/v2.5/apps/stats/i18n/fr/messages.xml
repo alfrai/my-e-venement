@@ -5,7 +5,27 @@
     <header/>
     <body>
       <trans-unit>
+        <source>With</source>
+        <target>Avec</target>
+      </trans-unit>
+      <trans-unit>
+        <source>%%nb%% workspace(s)</source>
+        <target>%%nb%% espace(s) de travail</target>
+      </trans-unit>
+      <trans-unit>
+        <source>%%nb%% meta-event(s)</source>
+        <target>%%nb%% Méta-Événement(s)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>%%nb%% user(s)</source>
+        <target>%%nb%% utilisateur(s)</target>
+      </trans-unit>
+      <trans-unit>
         <source>From %%from%% to %%to%%</source>
+        <target>Du %%from%% au %%to%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>To %%to%% from %%from%%</source>
         <target>Du %%from%% au %%to%%</target>
       </trans-unit>
       <trans-unit>

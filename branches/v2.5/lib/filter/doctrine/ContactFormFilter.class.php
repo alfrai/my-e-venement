@@ -350,7 +350,7 @@ class ContactFormFilter extends BaseContactFormFilter
       if ( !$query->contains("LEFT JOIN $a.Transactions transac") )
       $query->leftJoin("$a.Transactions transac");
       
-      if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)')") )
+      if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
       $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
       
       if ( !$query->contains("LEFT JOIN tck.Manifestation m") )
@@ -378,7 +378,7 @@ class ContactFormFilter extends BaseContactFormFilter
       if ( !$query->contains("LEFT JOIN $a.Transactions transac") )
       $query->leftJoin("$a.Transactions transac");
       
-      if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)')") )
+      if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
       $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
       
       if ( !$query->contains("LEFT JOIN tck.Price price") )
@@ -402,7 +402,7 @@ class ContactFormFilter extends BaseContactFormFilter
         if ( !$query->contains("LEFT JOIN $a.Transactions transac") )
         $query->leftJoin("$a.Transactions transac");
         
-        if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)')") )
+        if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
         $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
       }
       
@@ -426,7 +426,7 @@ class ContactFormFilter extends BaseContactFormFilter
         if ( !$query->contains("LEFT JOIN $a.Transactions transac") )
         $query->leftJoin("$a.Transactions transac");
         
-        if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)')") )
+        if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
         $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
       }
       
