@@ -52,3 +52,6 @@
 .charts td { text-align: right; padding-left: 10px; }
 .charts table, .charts .legend { margin: 5px; }
 .charts .legend p + p { margin-top: 5px; }
+
+.ui-widget-content .show-criterias { padding: 5px; margin: 5px 5px 0 5px; }
+.ui-widget-content .show-criterias ul { list-style: none; }
