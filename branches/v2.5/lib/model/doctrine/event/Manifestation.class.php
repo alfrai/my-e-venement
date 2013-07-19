@@ -114,7 +114,11 @@ class Manifestation extends PluginManifestation
       
       if ( !isset($r['vat'][$ticket['vat']]) )
         $r['vat'][$ticket['vat']] = 0;
-      $r['vat'][$ticket['vat']] += $ticket['value'] - $ticket['value'] / (1+$ticket['vat']);
+      
+      // extremely weird behaviour, only for specific cases... it's about an early error in the VAT calculation in e-venement
+      $r['vat'][$ticket['vat']] += sfConfig::get('app_ledger_sum_rounding_before',false) && strtotime($ticket['printed_at']) < sfConfig::get('app_ledger_sum_rounding_before')
+        ? $ticket['value'] - $ticket['value'] / (1+$ticket['vat']);
+        : round($ticket['value'] - $ticket['value'] / (1+$ticket['vat']),2);
     }
     
     // rounding VAT
