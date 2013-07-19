@@ -103,7 +103,7 @@
           
           foreach ( $infos[$manif->id]['vat'] as $rate => $amount )
           {
-            $vat[$rate][$event->id]['total'] += $vat[$rate][$event->id][$manif->id] = $amount; // taxes feeding
+            $vat[$rate][$event->id][$manif->id] = $amount; // taxes feeding
             $total['vat'][$rate] += $amount; // total feeding
           }
         } // endif; endforeach;
