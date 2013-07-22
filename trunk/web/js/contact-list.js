@@ -112,6 +112,14 @@ $(document).ready(function(){
   
   elt = elt.clone(true);
   elt.find('tbody').html('')
+    .append($('#sf_admin_filter .sf_admin_filter_field_familial_quotient_id'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_familial_situation_id'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_type_of_resources_id'));
+  elt.find('h2').html('Informations sociales');
+  elt.prependTo('#sf_admin_filter > form > table > tbody');
+
+  elt = elt.clone(true);
+  elt.find('tbody').html('')
     .append($('#sf_admin_filter .sf_admin_filter_field_title'))
     .append($('#sf_admin_filter .sf_admin_filter_field_firstname'))
     .append($('#sf_admin_filter .sf_admin_filter_field_name'))
