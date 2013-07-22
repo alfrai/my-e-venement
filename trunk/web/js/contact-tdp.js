@@ -44,7 +44,7 @@ $(document).ready(function(){
     inputs = $(this).find('input[type=text]');
     if ( inputs.eq(2).val() )
     {
-      date   = new Date(inputs.eq(2).val(), inputs.eq(1).val(), inputs.eq(0).val());
+      date   = new Date(inputs.eq(2).val(), inputs.eq(1).val()-1, inputs.eq(0).val());
       now    = new Date();
       nYears = now.getUTCFullYear() - date.getUTCFullYear();
       nMonth = now.getUTCMonth()    - date.getUTCMonth();
