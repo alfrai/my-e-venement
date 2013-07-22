@@ -41,6 +41,7 @@ class contactActions extends autoContactActions
   
   public function executeError404(sfWebRequest $request)
   {
+    $this->useClassicTemplateDir(true);
   }
   public function postExecute()
   {
@@ -65,7 +66,7 @@ class contactActions extends autoContactActions
         $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
       if ( !isset($this->filters) )
         $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      if ( !in_array($this->getActionName(), array('index','search','map','labels','getSpecializedForm','csv','groupList','group')) )
+      if ( !in_array($this->getActionName(), array('error404','index','search','map','labels','getSpecializedForm','csv','groupList','group')) )
         $this->setTemplate('edit');
     }
   }
