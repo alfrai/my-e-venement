@@ -73,6 +73,10 @@ class ContactForm extends BaseContactForm
     $this->widgetSchema   ['confirmed'] = new sfWidgetFormInputHidden();
     $this->widgetSchema   ['sf_guard_user_id'] = new sfWidgetFormInputHidden();
     
+    $this->widgetSchema['type_of_resources_id']->setOption('order_by',array('name',''));
+    $this->widgetSchema['familial_situation_id']->setOption('order_by',array('name',''));
+    $this->widgetSchema['familial_quotient_id']->setOption('order_by',array('name',''));
+    
     parent::configure();
   }
   
@@ -92,7 +96,7 @@ class ContactForm extends BaseContactForm
       $this->object->Relationships[$key]->Contact = NULL; // hack ... to avoid an Exception based on a not-correct ->Contact
     
     foreach ( $this->values['YOBs'] as $key => $values )
-    if (!( isset($values['year']) && trim($values['year']) ))
+    if (!( isset($values['year']) && trim($values['year']) ) && !( isset($values['name']) && trim($values['name']) ))
     {
       unset(
         $this->object->YOBs[$key],
