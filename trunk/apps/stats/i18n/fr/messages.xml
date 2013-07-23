@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Social statistics</source>
+        <target>Statistiques sociales</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Familial situations</source>
+        <target>Situations familiales</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Familial quotients</source>
+        <target>Quotients familiaux</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Types of resources</source>
+        <target>Ressources principales</target>
+      </trans-unit>
+      <trans-unit>
         <source>With</source>
         <target>Avec</target>
       </trans-unit>

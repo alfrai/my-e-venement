@@ -214,19 +214,19 @@
       </trans-unit>
       <trans-unit>
         <source>List of types of resources</source>
-        <target>Liste des types de ressources</target>
+        <target>Liste de ressources principales</target>
       </trans-unit>
       <trans-unit>
         <source>Edit Type of resources</source>
-        <target>Modification du type de ressources</target>
+        <target>Modification de la ressource principale</target>
       </trans-unit>
       <trans-unit>
         <source>Type of resources</source>
-        <target>Type de ressources</target>
+        <target>Ressource principale</target>
       </trans-unit>
       <trans-unit>
         <source>New Type of resources</source>
-        <target>Nouveau type de ressources</target>
+        <target>Nouvelle ressource principale</target>
       </trans-unit>
       <trans-unit>
         <source>List of familial situations</source>
