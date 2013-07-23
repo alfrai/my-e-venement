@@ -389,6 +389,31 @@ sfGuardPermission:
     description: 'Permission to change the contact of any reservation'
     created_at: '2013-06-17 17:14:50'
     updated_at: '2013-06-17 17:14:50' 
+  sfGuardPermission_80:
+    name: stats-pr-social
+    description: 'Permission to change the contact of any reservation'
+    created_at: '2013-07-23 10:14:50'
+    updated_at: '2013-07-23 10:14:50' 
+  sfGuardPermission_81:
+    name: pr-social-quotient
+    description: 'View and modify the Familial Quotient information on contacts'
+    created_at: '2013-07-23 10:14:50'
+    updated_at: '2013-07-23 10:14:50' 
+  sfGuardPermission_82:
+    name: pr-social-situation
+    description: 'View and modify the Familial Situation information on contacts'
+    created_at: '2013-07-23 10:14:50'
+    updated_at: '2013-07-23 10:14:50' 
+  sfGuardPermission_83:
+    name: pr-social-resources
+    description: 'View and modify the Type of Resources information on contacts'
+    created_at: '2013-07-23 10:14:50'
+    updated_at: '2013-07-23 10:14:50' 
+  sfGuardPermission_84:
+    name: pr-social-admin
+    description: 'Permission to access the social informations part of the admin part of the "rp" module'
+    created_at: '2013-07-23 10:14:50'
+    updated_at: '2013-07-23 10:14:50' 
 sfGuardGroupPermission:
   sfGuardGroupPermission_1_7:
     Group: sfGuardGroup_1
@@ -915,6 +940,31 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_79
     created_at: '2013-06-04 13:42:31.775561'
     updated_at: '2013-06-04 13:42:31.775561'
+  sfGuardGroupPermission_29_80:
+    Group: sfGuardGroup_29
+    Permission: sfGuardPermission_80
+    created_at: '2013-07-23 10:37:00'
+    updated_at: '2013-07-23 10:37:00'
+  sfGuardGroupPermission_29_81:
+    Group: sfGuardGroup_29
+    Permission: sfGuardPermission_81
+    created_at: '2013-07-23 10:37:00'
+    updated_at: '2013-07-23 10:37:00'
+  sfGuardGroupPermission_29_82:
+    Group: sfGuardGroup_29
+    Permission: sfGuardPermission_82
+    created_at: '2013-07-23 10:37:00'
+    updated_at: '2013-07-23 10:37:00'
+  sfGuardGroupPermission_29_83:
+    Group: sfGuardGroup_29
+    Permission: sfGuardPermission_83
+    created_at: '2013-07-23 10:37:00'
+    updated_at: '2013-07-23 10:37:00'
+  sfGuardGroupPermission_29_84:
+    Group: sfGuardGroup_29
+    Permission: sfGuardPermission_84
+    created_at: '2013-07-23 10:37:00'
+    updated_at: '2013-07-23 10:37:00'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -1056,3 +1106,8 @@ sfGuardGroup:
     description: 'Permission to manage reservations'
     created_at: '2013-06-17 17:14:50'
     updated_at: '2013-06-17 17:14:50' 
+  sfGuardGroup_29:
+    name: pr-social
+    description: 'View and modify the social informations on contacts'
+    created_at: '2013-07-03 10:14:50'
+    updated_at: '2013-07-23 10:14:50' 

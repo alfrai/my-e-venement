@@ -40,11 +40,13 @@ cat config/doctrine/functions-pgsql.sql | psql $DB && \
 echo ""
 
 # final data modifications
-echo "Adding permissions and groups";
+echo "Adding required permissions and groups";
 psql $DB <<EOF
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-change-contact', 'Permission to change the contact of any reservation', '2013-06-17 17:14:50', '2013-06-17 17:14:50');
 INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-reservation-admin', 'Permission to manage reservations', '2013-06-17 17:14:50', '2013-06-17 17:14:50');
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT last_value FROM sf_guard_group_id_seq), NOW(), NOW());
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('stats-pr-social', 'Permission to access to social stats', '2013-07-22 10:14:58', '2013-07-22 10:14:58');
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT id FROM sf_guard_group WHERE name = 'pr-social'), NOW(), NOW());
 EOF
 
 # final informations
