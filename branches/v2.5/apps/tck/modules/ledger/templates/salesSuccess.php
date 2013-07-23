@@ -121,7 +121,7 @@
         if ( sfConfig::get('app_ledger_sum_rounding_before',false) && sfConfig::get('app_ledger_sum_rounding_before',false) > strtotime($dates[0]) )
         {
           // initialization
-          foreach ( $total['vat'] as $rate => $value )
+          foreach ( $total['vat'] as $rate => $amount )
             $total['vat'][$rate] = 0;
           
           // completions
