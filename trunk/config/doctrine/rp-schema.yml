@@ -137,13 +137,13 @@ YOB:
   package: rp
   actAs: [Timestampable]
   columns:
-    year:
-      type: integer
-      notnull: true
+    year: integer
     month: integer
     day: integer
     name: string(255)
-    contact_id: integer
+    contact_id:
+      type: integer
+      notnull: true
   relations:
     Contact:
       foreignAlias: YOBs
