@@ -121,7 +121,7 @@
         if ( sfConfig::get('app_ledger_sum_rounding_before',false) && sfConfig::get('app_ledger_sum_rounding_before',false) > strtotime($dates[0]) )
         {
           // initialization
-          foreach ( $total['vat'] as $rate => $value )
+          foreach ( $total['vat'] as $rate => $amount )
             $total['vat'][$rate] = 0;
           
           // completions
@@ -140,7 +140,9 @@
       <td class="id-qty"><?php echo $qty ?></td>
       <td class="value"><?php echo format_currency($value,'€') ?></td>
       <?php foreach ( $vat as $name => $v ): ?>
-      <td class="vat"><?php $local_vat += $tmp = round(isset($v[$event->id]) ? array_sum($v[$event->id]) : 0, 2); echo format_currency($tmp,'€') ?></td>
+      <td class="vat">
+        <?php //$local_vat += $tmp = round(isset($v[$event->id]) ? array_sum($v[$event->id]) : 0, 2); echo format_currency($tmp,'€') ?>
+      </td>
       <?php endforeach ?>
       <td class="vat total"><?php echo format_currency(round($local_vat,2),'€'); ?></td>
       <td class="tep"><?php echo format_currency($value - round($local_vat,2),'€') ?></td>
