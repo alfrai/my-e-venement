@@ -86,20 +86,11 @@
             // taxes feeding
             $vat[$ticket->vat][$event->id][$manif->id]
               += $tmp;
-            //$vat[$ticket->vat][$event->id]['total']
-            //  += $tmp;
             
             // total feeding
             $total['vat'][$ticket->vat] += $tmp;
             $total['value'] += $ticket->value;
             $value += $ticket->value;
-          }
-          if ( $manif->id == 121 )
-          {
-            echo 'date: '.date('Y-m-d',sfConfig::get('app_ledger_sum_rounding_before'));
-            print_r($arr);
-            echo count($arr);
-            echo 'value: '.$ticket->value;
           }
         }
         else // more tickets than the limit
@@ -117,7 +108,7 @@
           }
         } // endif; endforeach;
         
-        // extremely weird behaviour, only for specific cases... it's about an early error in the VAT calculation in e-venement
+        // extremely weird behaviour, only for specific cases... it's about an early mysanalysis in the VAT calculation in e-venement
         if ( sfConfig::get('app_ledger_sum_rounding_before',false) && sfConfig::get('app_ledger_sum_rounding_before',false) > strtotime($dates[0]) )
         {
           // initialization
