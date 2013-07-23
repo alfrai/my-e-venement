@@ -5,10 +5,6 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Social statistics</source>
-        <target>Statistiques sociales</target>
-      </trans-unit>
-      <trans-unit>
         <source>Familial situations</source>
         <target>Situations familiales</target>
       </trans-unit>

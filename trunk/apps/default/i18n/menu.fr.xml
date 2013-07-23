@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Social statistics</source>
+        <target>Statistiques sociales</target>
+      </trans-unit>
+      <trans-unit>
         <source>Messaging</source>
         <target>Messagerie</target>
       </trans-unit>
