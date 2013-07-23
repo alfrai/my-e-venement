@@ -1,5 +1,6 @@
 <div id="tdp-side-bar" class="tdp-container list ui-widget-content ui-corner-all">
 <?php include_partial('global/list_header') ?>
+<?php if ( is_object($sf_data->getRaw('filters')) ): ?>
 <form class="tdp-container filters" action="<?php echo url_for($sf_context->getModuleName().'_collection', array('action' => 'filter')) ?>" method="post">
   <?php echo $filters->renderHiddenFields() ?>
   <div class="tdp-side-widget" id="tdp-side-categories">
@@ -15,4 +16,5 @@
     <a href="<?php echo url_for($sf_context->getModuleName().'/batchAddToGroup') ?>" class="batch-add-to group"></a>
   </div>
 </form>
+<?php endif ?>
 </div>
