@@ -111,7 +111,6 @@ class pricesActions extends sfActions
       ? strtotime($criterias['dates']['to']['year'].'-'.$criterias['dates']['to']['month'].'-'.$criterias['dates']['to']['day'].' 23:59:59')
       : strtotime('+ 3 weeks + 1 day');
     $criterias['dates'] = $dates;
-    $this->getUser()->setAttribute('stats.criterias',$criterias,'admin_module');
     if ( isset($criterias['users']) && count($criterias['users']) > 0 )
     {
       if ( !$criterias['users'][0] )
