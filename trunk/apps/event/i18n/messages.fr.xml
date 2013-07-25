@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Extra informations</source>
+        <target>Informations suppl.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Periodicities for %%manifestation%%</source>
+        <target>Périodicités pour %%manifestation%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Periodicity</source>
+        <target>Périodicité</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Required.</source>
+        <target>Requis.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Confirmed</source>
+        <target>Confirmé</target>
+      </trans-unit>
+      <trans-unit>
         <source>No extra location booked</source>
         <target>Pas de ressource supplémentaire réservée</target>
       </trans-unit>
@@ -543,6 +563,10 @@
       <trans-unit>
         <source>Organization</source>
         <target>Organisation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Manifestation %%name%%</source>
+        <target>Fiche manifestation %%name%%</target>
       </trans-unit>
       <trans-unit>
         <source>View Manifestation</source>
