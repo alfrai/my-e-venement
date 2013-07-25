@@ -78,7 +78,7 @@
               $qty -= 2;
             
             // extremely weird behaviour, only for specific cases... it's about an early error in the VAT calculation in e-venement
-            $date = $ticket->cancelling ? $ticket->created_at : $ticket->printed_at ? $ticket->printed_at : $ticket->integrated_at;
+            $date = $ticket->cancelling ? $ticket->created_at : ($ticket->printed_at ? $ticket->printed_at : $ticket->integrated_at);
             $tmp = sfConfig::get('app_ledger_sum_rounding_before',false) && $date < sfConfig::get('app_ledger_sum_rounding_before')
               ? $ticket->value - $ticket->value / (1+$ticket->vat) // exception
               : round($ticket->value - $ticket->value / (1+$ticket->vat),2); // regular

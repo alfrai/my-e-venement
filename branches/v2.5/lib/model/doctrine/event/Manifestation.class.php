@@ -69,9 +69,10 @@ class Manifestation extends PluginManifestation
     if ( isset($options['dates']) && is_array($options['dates']) )
     {
       if (!( isset($options['tck_value_date_payment']) && $options['tck_value_date_payment'] ))
-        $q->andWhere('tck.updated_at >= ? AND tck.updated_at < ?',array(
-            $options['dates'][0],
-            $options['dates'][1],
+        $q->andWhere('tck.printed_at IS NOT NULL AND tck.printed_at >= ? AND tck.printed_at < ? OR integrated_at IS NOT NULL AND tck.integrated_at >= ? AND tck.integrated_at < ? OR tck.cancelling IS NOT NULL AND tck.created_at >= ? AND tck.created_at < ?',array(
+            $options['dates'][0], $options['dates'][1],
+            $options['dates'][0], $options['dates'][1],
+            $options['dates'][0], $options['dates'][1],
           ));
       else
       {
