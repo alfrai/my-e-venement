@@ -37,13 +37,10 @@
     if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
       $q->andWhereIn('t.manifestation_id',$criterias['manifestations']);
     else
-      $q->andWhere('t.printed_at IS NOT NULL AND t.printed_at >= ? AND t.printed_at < ? OR t.integrated_at IS NOT NULL AND t.integrated_at >= ? AND t.integrated_at < ? OR t.cancelling IS NOT NULL AND t.created_at >= ? AND t.created_at < ?',array(
-          $dates[0],
-          $dates[1],
-          $dates[0],
-          $dates[1],
-          $dates[0],
-          $dates[1],
+      $q->andWhere('t.cancelling IS NULL AND (t.printed_at IS NOT NULL AND t.printed_at >= ? AND t.printed_at < ? OR t.integrated_at IS NOT NULL AND t.integrated_at >= ? AND t.integrated_at < ?) OR t.cancelling IS NOT NULL AND t.created_at >= ? AND t.created_at < ?',array(
+          $dates[0], $dates[1],
+          $dates[0], $dates[1],
+          $dates[0], $dates[1],
         ));
 
     // restrict access to our own user
