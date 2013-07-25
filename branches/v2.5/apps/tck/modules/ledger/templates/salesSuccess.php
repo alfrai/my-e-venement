@@ -57,8 +57,6 @@
         $total['qty'] += is_null($ticket->cancelling)*2-1;
     }
     
-    if ( $nb_tickets > sfConfig::get('app_ledger_max_tickets',5000) )
-      $total['qty'] = $nb_tickets;
     $arr = array();
   ?>
   <tbody><?php foreach ( $events as $event ): ?>
@@ -144,7 +142,7 @@
         <?php if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) ): ?>
         <?php $nb = $manif->Tickets->count(); foreach ( $manif->Tickets as $t ) if ( !is_null($t->cancelling) ) $nb-=2; echo $nb; ?>
         <?php else: ?>
-        <?php echo $infos[$manif->id]['qty']; ?>
+        <?php echo $infos[$manif->id]['qty']; $total['qty'] += $infos[$manif->id]['qty']; ?>
         <?php endif ?>
       </td>
       <td class="value">
