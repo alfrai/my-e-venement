@@ -27,6 +27,7 @@ class pricesActions extends sfActions
     $this->form = new StatsCriteriasForm();
     $this->form->addUsersCriteria();
     $this->form->addEventCriterias();
+    $this->form->addManifestationCriteria();
     if ( is_array($this->getUser()->getAttribute('stats.criterias',array(),'admin_module')) )
       $this->form->bind($this->getUser()->getAttribute('stats.criterias',array(),'admin_module'));
   }
@@ -136,6 +137,8 @@ class pricesActions extends sfActions
       ->groupBy('p.id, p.name, p.value')
       ->orderBy('p.name, p.value');
     
+    if ( isset($criterias['manifestations_list']) && count($criterias['manifestations_list']) > 0 )
+      $q->andWhereIn('t.manifestation_id',$criterias['manifestations_list']);
     if ( isset($criterias['users']) && count($criterias['users']) > 0 )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
 
