@@ -27,6 +27,21 @@ class StatsCriteriasForm extends BaseForm
     $this->disableCSRFProtection();
   }
   
+  public function addManifestationCriteria()
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url','CrossAppLink'));
+    
+    $this->widgetSchema['manifestations_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'url' => cross_app_url_for('event','manifestation/ajax'),
+      'model' => 'Manifestation',
+      'config'=> '{ max: 50 }',
+    ));
+    $this->validatorSchema['manifestations_list'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Manifestation',
+      'required' => false,
+      'multiple' => true,
+    ));
+  }
   public function addEventCriterias()
   {
     $this->widgetSchema['workspaces_list'] = new sfWidgetFormDoctrineChoice(array(
