@@ -501,6 +501,10 @@
         <target>Organisation</target>
       </trans-unit>
       <trans-unit>
+        <source>View Manifestation %%name%%</source>
+        <target>Fiche manifestation %%name%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>View Manifestation</source>
         <target>Fiche manifestation</target>
       </trans-unit>
