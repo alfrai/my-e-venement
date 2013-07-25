@@ -45,6 +45,7 @@ class LedgerCriteriasForm extends BaseForm
     $this->widgetSchema['manifestations'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Manifestation',
       'url'   => cross_app_url_for('event','manifestation/ajax'),
+      'config'=> '{ max: 50 }',
     ));
     $this->validatorSchema['manifestations'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Manifestation',
