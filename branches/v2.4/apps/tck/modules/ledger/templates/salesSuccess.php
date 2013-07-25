@@ -56,9 +56,6 @@
       foreach ( $manif->Tickets as $ticket )
         $total['qty'] += is_null($ticket->cancelling)*2-1;
     }
-    
-    if ( $nb_tickets > sfConfig::get('app_ledger_max_tickets',5000) )
-      $total['qty'] = $nb_tickets;
   ?>
   <tbody><?php foreach ( $events as $event ): ?>
     <tr class="event">
@@ -95,6 +92,7 @@
           $total['value'] += $infos[$manif->id]['value'];
           $value += $infos[$manif->id]['value'];
           $qty += $infos[$manif->id]['qty'];
+          $total['qty'] += $qty;
           
           foreach ( $infos[$manif->id]['vat'] as $rate => $amount )
           {
@@ -105,7 +103,7 @@
       ?>
       <td class="event"><?php echo cross_app_link_to($event,'event','event/show?id='.$event->id) ?></td>
       <td class="see-more"><a href="#event-<?php echo $event->id ?>">-</a></td>
-      <td class="id-qty"><?php echo $qty ?></td>
+      <td class="id-qty"><?php echo $qty; ?></td>
       <td class="value"><?php echo format_currency($value,'€') ?></td>
       <?php foreach ( $vat as $name => $v ): ?>
       <td class="vat"><?php $buf += round(isset($v[$event->id]) ? $v[$event->id]['total'] : 0,2); echo format_currency(round(isset($v[$event->id]) ? $v[$event->id]['total'] : 0,2),'€') ?></td>

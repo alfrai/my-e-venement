@@ -111,7 +111,7 @@ class Manifestation extends PluginManifestation
       
       if ( !isset($r['vat'][$ticket['vat']]) )
         $r['vat'][$ticket['vat']] = 0;
-      $r['vat'][$ticket['vat']] += $ticket['value'] - $ticket['value'] / (1+$ticket['vat']);
+      $r['vat'][$ticket['vat']] += round($ticket['value'] - $ticket['value'] / (1+$ticket['vat']),2);
     }
     
     // rounding VAT
