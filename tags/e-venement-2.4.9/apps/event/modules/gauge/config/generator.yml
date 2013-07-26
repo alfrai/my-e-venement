@@ -1,0 +1,32 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Gauge
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          gauge
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  
+        value: { label: Gauge }
+        list_event: { label: Event }
+        list_manifestation: { label: Manifestation }   
+        Workspace: { label: Name }
+      list:    
+        display: [ _list_event, _list_manifestation, Workspace, value, online ]
+        table_method: retrieveList
+        sort: [ "event_name, happens_at DESC, workspace_name", "" ]
+        object_actions: { }
+        batch_actions:
+          _online: ~
+          _offline: ~
+      filter:  ~
+      form:    ~
+      edit:    ~
+      new:     ~
