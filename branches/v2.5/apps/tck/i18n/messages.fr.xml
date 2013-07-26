@@ -21,6 +21,14 @@
         <target>Opération remise à zéro et fermée</target>
       </trans-unit>
       <trans-unit>
+        <source>Even closed transactions ?</source>
+        <target>Même les opérations verrouillées ?</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Needs a while for calculation...</source>
+        <target>Prends du temps pour le calcul...</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Display even events hidden for ticketting</source>
         <target>Afficher les événements non accessibles directement</target>
       </trans-unit> 
