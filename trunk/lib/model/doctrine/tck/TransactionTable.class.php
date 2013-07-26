@@ -63,14 +63,15 @@ class TransactionTable extends PluginTransactionTable
       ->leftJoin('t.Professional p')
       ->leftJoin('p.ProfessionalType pt')
       ->leftJoin('p.Organism o')
-      ->where('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(value) END) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2').') - (SELECT (CASE WHEN count(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
+      ->andWhere('t.closed = false')
+      ->andWhere('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(value) END) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2').') - (SELECT (CASE WHEN count(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
     return $q;
   }
   protected static function getDebtsListTicketsCondition($ticket_table = 'tck', $date = NULL)
   {
     $r = $ticket_table.'.transaction_id = t.id AND '.$ticket_table.'.duplicating IS NULL AND ('.$ticket_table.'.printed_at IS NOT NULL OR '.$ticket_table.'.integrated_at IS NOT NULL OR '.$ticket_table.'.cancelling IS NOT NULL)';
     if ( !is_null($date) )
-      $r .= " AND ($ticket_table.printed_at IS NOT NULL AND $ticket_table.printed_at < '$date' OR $ticket_table.integrated_at IS NOT NULL AND $ticket_table.integrated_at < '$date')";
+      $r .= " AND ($ticket_table.cancelling IS NULL AND ($ticket_table.printed_at IS NOT NULL AND $ticket_table.printed_at < '$date' OR $ticket_table.integrated_at IS NOT NULL AND $ticket_table.integrated_at < '$date') OR $ticket_table.cancelling IS NOT NULL AND $ticket_table.created_at < '$date')";
     return $r;
   }
   protected static function addDebtsListBaseSelect(Doctrine_Query $q)
