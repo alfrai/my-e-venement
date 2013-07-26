@@ -77,7 +77,6 @@ class TransactionTable extends PluginTransactionTable
       ->leftJoin('t.Professional p')
       ->leftJoin('p.ProfessionalType pt')
       ->leftJoin('p.Organism o')
-      ->andWhere('t.closed = false')
       ->andWhere('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(value) END) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2').') - (SELECT (CASE WHEN count(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
     return $q;
   }

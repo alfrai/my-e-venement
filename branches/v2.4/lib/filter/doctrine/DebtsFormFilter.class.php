@@ -20,6 +20,13 @@ class DebtsFormFilter extends TransactionFormFilter
       'required' => false,
     ));
     
+    $this->widgetSchema   ['all'] = new sfWidgetFormInputCheckbox(array(
+      'value_attribute_value' => 1,
+    ));
+    $this->validatorSchema['all'] = new sfValidatorBoolean(array(
+      'required'  => false,
+    ));
+    
     parent::configure();
   }
   
@@ -31,8 +38,20 @@ class DebtsFormFilter extends TransactionFormFilter
     $query
       ->addSelect('(SELECT SUM(tck.value) FROM Ticket tck WHERE '.TransactionTable::getDebtsListTicketsCondition('tck',$values).') AS outcomes')
       ->addSelect("(SELECT SUM(pp.value)   FROM Payment pp  WHERE pp.transaction_id = t.id AND pp.created_at < '".$values."') AS incomes")
-      ->where('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(tck2.value) END) FROM Ticket tck2 WHERE '.TransactionTable::getDebtsListTicketsCondition('tck2',$values).') - (SELECT (CASE WHEN COUNT(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id AND p2.created_at < ?)) != 0',$values);
+      ->andWhere('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(tck2.value) END) FROM Ticket tck2 WHERE '.TransactionTable::getDebtsListTicketsCondition('tck2',$values).') - (SELECT (CASE WHEN COUNT(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id AND p2.created_at < ?)) != 0',$values);
     
+    return $query;
+  }
+
+  public function addAllColumnQuery(Doctrine_Query $query, $field, $values)
+  {
+    $a = $query->getRootAlias();
+    
+    if ( !$values )
+    {
+      $query
+        ->andWhere('t.closed = false');
+    }
     return $query;
   }
 
@@ -40,7 +59,8 @@ class DebtsFormFilter extends TransactionFormFilter
   {
     // the position of the "date" record in the array is very important because of this filter special behaviour
     return array_merge(array(
-      'date' => 'Date',
+      'date'  => 'Date',
+      'all'   => 'All',
     ),parent::getFields());
   }
 }
