@@ -10,4 +10,8 @@
  */
 class debtsGeneratorConfiguration extends BaseDebtsGeneratorConfiguration
 {
+  public function getFilterDefaults()
+  {
+    return array('all' => false);
+  }
 }

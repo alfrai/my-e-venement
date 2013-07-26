@@ -20,6 +20,13 @@ class DebtsFormFilter extends TransactionFormFilter
       'required' => false,
     ));
     
+    $this->widgetSchema   ['all'] = new sfWidgetFormInputCheckbox(array(
+      'value_attribute_value' => 1,
+    ));
+    $this->validatorSchema['all'] = new sfValidatorBoolean(array(
+      'required'  => false,
+    ));
+    
     parent::configure();
   }
   
@@ -38,11 +45,25 @@ class DebtsFormFilter extends TransactionFormFilter
     return $q;
   }
 
-  public function getFields()
-  {
-    // the position of the "date" record in the array is very important because of this filter special behaviour
-    return array_merge(array(
-      'date' => 'Date',
-    ),parent::getFields());
-  }
+   public function addAllColumnQuery(Doctrine_Query $query, $field, $values)
+   {
+     $a = $query->getRootAlias();
+     
+     if ( !$values )
+     {
+       $query
+         ->andWhere('t.closed = false');
+     }
+     return $query;
+   }
+
+   public function getFields()
+   {
+     // the position of the "date" record in the array is very important because of this filter special behaviour
+     return array_merge(array(
+       'date'  => 'Date',
+       'all'   => 'All',
+     ),parent::getFields());
+   }
+ }
 }

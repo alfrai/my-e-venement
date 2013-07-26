@@ -13,7 +13,8 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        all: { label: "Even closed transactions ?", help: "Needs a while for calculation..." }
       list:
         display: [_id, _invoice_id, Contact, Professional, _debt, closed, updated_at]
         object_actions:
@@ -23,7 +24,7 @@ generator:
         sort: [updated_at, desc]
         max_per_page: 500
       filter:
-        display: [date, name, city, contact_id, organism_id]
+        display: [date, all, name, city, contact_id, organism_id]
         class: DebtsFormFilter
       form:    ~
       edit:    ~
