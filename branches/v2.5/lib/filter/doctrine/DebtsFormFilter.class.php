@@ -65,5 +65,4 @@ class DebtsFormFilter extends TransactionFormFilter
        'all'   => 'All',
      ),parent::getFields());
    }
- }
 }
