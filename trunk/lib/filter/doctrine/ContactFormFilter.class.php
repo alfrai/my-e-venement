@@ -240,6 +240,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields = parent::getFields();
     $fields['postalcode']           = 'Postalcode';
     $fields['YOB']                  = 'YOB';
+    $fields['not_contacts_list']    = 'NotContactsList';
     $fields['organism_id']          = 'OrganismId';
     $fields['organism_category_id'] = 'OrganismCategoryId';
     $fields['professional_type_id'] = 'ProfessionalTypeId';
@@ -267,6 +268,16 @@ class ContactFormFilter extends BaseContactFormFilter
     return $fields;
   }
   
+  public function addNotContactsListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( $value )
+    if ( count($value) > 0 )
+      $q->andWhereNotIn("$a.id",$value);
+    
+    return $q;
+  }
   public function addRegionIdColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $a = $q->getRootAlias();
