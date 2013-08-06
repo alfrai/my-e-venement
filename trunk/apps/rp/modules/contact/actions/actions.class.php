@@ -71,6 +71,55 @@ class contactActions extends autoContactActions
     }
   }
   
+  public function executeBatch(sfWebRequest $request)
+  {
+    $request->checkCSRFProtection();
+
+    if ( !($ids = $request->getParameter('ids',array())) && !($pro_ids = $request->getParameter('professional_ids',array())) )
+    {
+      $this->getUser()->setFlash('error', 'You must at least select one item.');
+
+      $this->redirect('@contact');
+    }
+
+    if (!$action = $request->getParameter('batch_action'))
+    {
+      $this->getUser()->setFlash('error', 'You must select an action to execute on the selected items.');
+
+      $this->redirect('@contact');
+    }
+
+    if (!method_exists($this, $method = 'execute'.ucfirst($action)))
+    {
+      throw new InvalidArgumentException(sprintf('You must create a "%s" method for action "%s"', $method, $action));
+    }
+
+    if (!$this->getUser()->hasCredential($this->configuration->getCredentials($action)))
+    {
+      $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+    }
+
+    $contacts = new sfValidatorDoctrineChoice(array('model' => 'Contact', 'multiple' => true));
+    $professionals = new sfValidatorDoctrineChoice(array('model' => 'Professional', 'multiple' => true));
+    try
+    {
+      // validate ids
+      if ( $ids )
+        $request->setParameter('ids',$contacts->clean($ids));
+      if ( $pro_ids )
+        $request->setParameter('professional_ids',$professionals->clean($pro_ids));
+
+      // execute batch
+      $this->$method($request);
+    }
+    catch (sfValidatorError $e)
+    {
+      $this->getUser()->setFlash('error', 'A problem occurs when deleting the selected items as some items do not exist anymore.');
+    }
+
+    $this->redirect('@contact');
+  }
+  
   public function executeBatchAddToGroup(sfWebRequest $request)
   {
     $request->checkCSRFProtection();
@@ -205,6 +254,10 @@ class contactActions extends autoContactActions
   public function executeBatchMerge(sfWebRequest $request)
   {
     require(dirname(__FILE__).'/batch-merge.php');
+  }
+  public function executeBatchRemoveFromFilters(sfWebRequest $request)
+  {
+    require(dirname(__FILE__).'/batch-remove-from-filters.php');
   }
   public function executeBatchRemoveFromFilters(sfWebRequest $request)
   {

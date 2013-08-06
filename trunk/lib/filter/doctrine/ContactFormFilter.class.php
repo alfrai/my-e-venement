@@ -241,6 +241,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['postalcode']           = 'Postalcode';
     $fields['YOB']                  = 'YOB';
     $fields['not_contacts_list']    = 'NotContactsList';
+    $fields['not_professionals_list'] = 'NotProfessionalsList';
     $fields['organism_id']          = 'OrganismId';
     $fields['organism_category_id'] = 'OrganismCategoryId';
     $fields['professional_type_id'] = 'ProfessionalTypeId';
@@ -275,6 +276,18 @@ class ContactFormFilter extends BaseContactFormFilter
     if ( $value )
     if ( count($value) > 0 )
       $q->andWhereNotIn("$a.id",$value);
+    
+    return $q;
+  }
+  public function addNotProfessionalsListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    // remove completly a contact from a list if it's got only one "professional" and this one is selected for removal
+    if ( $value )
+    if ( count($value) > 0 )
+      $q->andWhere('(TRUE')
+        ->andWhereNotIn('p.id',$value)
+        ->orWhere('p.id IS NULL')
+        ->andWhere('TRUE)');
     
     return $q;
   }

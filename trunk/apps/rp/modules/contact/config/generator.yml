@@ -53,6 +53,7 @@ generator:
         email_newsletter: { label: Newsletter ? }
         organism_category_id: { credentials: [pr-organism] }
         groups_picto: { credentials: [pr-group], label: Remarkable }
+        list_professional_groups_picto: { credentials: [pr-group], label: Remarkable }
         professional_groups_picto: { credentials: [pr-group], label: Remarkable }
         list_professional_groups_picto: { credentials: [pr-group], label: Remarkable }
       list:
