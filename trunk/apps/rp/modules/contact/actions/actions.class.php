@@ -260,10 +260,6 @@ class contactActions extends autoContactActions
   {
     require(dirname(__FILE__).'/batch-remove-from-filters.php');
   }
-  public function executeBatchRemoveFromFilters(sfWebRequest $request)
-  {
-    require(dirname(__FILE__).'/batch-remove-from-filters.php');
-  }
   
   public function executeSearch(sfWebRequest $request)
   {
