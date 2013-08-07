@@ -499,8 +499,8 @@ class ContactFormFilter extends BaseContactFormFilter
         ->from('GroupProfessional tmp2')
         ->andWhereIn('tmp2.group_id',$value);
       
-      $q->andWhere("$a.id NOT IN (".$q1.")",$value) // hack for inserting $value
-        ->andWhere("p.id NOT IN (".$q2.")",$value); // hack for inserting $value
+      $q->andWhere("$a.id NOT IN ($q1)",$value) // hack for inserting $value
+        ->andWhere("p.id IS NULL OR p.id NOT IN ($q2)",$value); // hack for inserting $value
     }
     
     return $q;
