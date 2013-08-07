@@ -1,6 +1,6 @@
 $(document).ready(function(){
   var object_elts = 'td:first-child:not([class]), .sf_admin_list_td_name, .sf_admin_list_td_firstname, .sf_admin_list_td_postalcode, .sf_admin_list_td_city, .sf_admin_list_td_list_emails, .sf_admin_list_td_list_phones, .sf_admin_list_td_organisms_list, .sf_admin_list_td_list_see_orgs, .sf_admin_list_td_list_contact, td:last-child';
-  var subobjects_elts = '.sf_admin_list_td_list_professional_id, .sf_admin_list_td_list_organism, .sf_admin_list_td_list_professional, .sf_admin_list_td_list_organism_postalcode, .sf_admin_list_td_list_organism_city, .sf_admin_list_td_list_professional_emails, .sf_admin_list_td_list_organism_phones_list, .sf_admin_list_td_list_professional_description';
+  var subobjects_elts = '.sf_admin_list_td_list_professional_id, .sf_admin_list_td_list_organism, .sf_admin_list_td_list_professional, .sf_admin_list_td_list_organism_postalcode, .sf_admin_list_td_list_organism_city, .sf_admin_list_td_list_professional_emails, .sf_admin_list_td_list_organism_phones_list, .sf_admin_list_td_list_professional_description, .sf_admin_list_td_list_professional_groups_picto';
   
   // READ ONLY: deactivating every field if the user has no credential for modification
   if ( $('#tdp-top-bar .action.update[href=#]').length == 1 )
