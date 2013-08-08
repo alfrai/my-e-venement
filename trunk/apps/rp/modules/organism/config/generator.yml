@@ -20,10 +20,11 @@ generator:
         postalcode: { label: Postal code }
         city:       { label: City }
         email:      { label: Email }
+        list_email: { label: Email }
         npai:       { label: Has moved }
         country:    { label: Country }
         Category:   { label: Category }
-        organism_category_id { label: Category }
+        organism_category_id: { label: Category }
         created_at: { label: Created at }
         updated_at: { label: Updated at }
         description: { label: Description }
@@ -35,7 +36,7 @@ generator:
         administrative_number: { label: Admin. ID }
       list:
         title: Organisms list
-        display: [Category, name, postalcode, city, email, administrative_number, _groups_picto, _contacts_list, npai]
+        display: [Category, name, postalcode, city, _list_email, administrative_number, _groups_picto, _contacts_list]
         object_actions:
           <?php if ( sfConfig::get('app_options_design',false) != 'tdp' ): ?>_show: ~<?php endif; echo PHP_EOL; ?>
           _edit: ~

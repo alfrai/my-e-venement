@@ -9,6 +9,10 @@
         <target>Identifiant</target>
       </trans-unit>
       <trans-unit>
+        <source>Remove through filters</source>
+        <target>Retirer via les filtres</target>
+      </trans-unit>
+      <trans-unit>
         <source>Linked contacts</source>
         <target>Contacts liés</target>
       </trans-unit>
@@ -1203,6 +1207,10 @@
       <trans-unit id="16">
         <source>Has address</source>
         <target>A une adresse ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Has category</source>
+        <target>A une catégorie ?</target>
       </trans-unit>
       <trans-unit id="17">
         <source>Personal groups</source>
