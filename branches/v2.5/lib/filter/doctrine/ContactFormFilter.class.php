@@ -42,6 +42,10 @@ class ContactFormFilter extends BaseContactFormFilter
     $this->widgetSchema   ['has_address'] = $this->widgetSchema   ['npai'];
     $this->validatorSchema['has_address'] = $this->validatorSchema['npai'];
     
+    // has postal address ?
+    $this->widgetSchema   ['has_category'] = $this->widgetSchema   ['npai'];
+    $this->validatorSchema['has_category'] = $this->validatorSchema['npai'];
+    
     // has email address ?
     $this->widgetSchema   ['has_email'] = $this->widgetSchema   ['npai'];
     $this->validatorSchema['has_email'] = $this->validatorSchema['npai'];
@@ -248,6 +252,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['has_email']            = 'HasEmail';
     $fields['email_newsletter']     = 'EmailNewsletter';
     $fields['has_address']          = 'HasAddress';
+    $fields['has_category']         = 'HasCategory';
     $fields['groups_list']          = 'GroupsList';
     $fields['not_groups_list']      = 'NotGroupsList';
     $fields['emails_list']          = 'EmailsList';
@@ -504,6 +509,17 @@ class ContactFormFilter extends BaseContactFormFilter
     }
     
     return $q;
+  }
+  public function addHasCategoryColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( $value === '' )
+      return $q;
+    
+    $a = $q->getRootAlias();
+    if ( $value )
+      return $q->addWhere("$a.organism_category_id IS NOT NULL AND (o.organism_category_id IS NOT NULL OR o.id IS NULL)");
+    else
+      return $q->addWhere("$a.organism_category_id IS     NULL AND (o.organism_category_id IS     NULL)");
   }
   public function addHasAddressColumnQuery(Doctrine_Query $q, $field, $value)
   {

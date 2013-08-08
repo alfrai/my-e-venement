@@ -1204,6 +1204,10 @@
         <source>Has address</source>
         <target>A une adresse ?</target>
       </trans-unit>
+      <trans-unit>
+        <source>Has category</source>
+        <target>A une catégorie ?</target>
+      </trans-unit>
       <trans-unit id="17">
         <source>Personal groups</source>
         <target>Groupes personnels</target>
