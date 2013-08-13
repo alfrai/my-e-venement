@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-  $firm = sfConfig::get('software_about_firm');
+  $firm = sfConfig::get('project_about_firm');
   $client = sfConfig::get('project_about_client');
   $translate = array(
     '%e%'       => '<strong>'.sfConfig::get('software_about_name').'</strong>',
