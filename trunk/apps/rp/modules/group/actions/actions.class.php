@@ -76,7 +76,7 @@ class groupActions extends autoGroupActions
         'model' => ucfirst($type),
         'required' => true,
         'query' => $q->copy()->select('o.id')
-          ->leftJoin(sprintf('g.%s og ON og.group_id = ? AND og.group_id = g.id AND og.%s_id = o.id', $relations[$type], $type), $this->form->getObject()->id)
+          ->leftJoin(sprintf('g.%s og ON og.group_id = ? AND og.group_id = g.id AND og.%s_id = o.id', $relation = $relations[$type], $type), $this->form->getObject()->id)
           ->having(sprintf('count(og.group_id) %s',$modifier == 'add' ? '= 0' : '= 1'))
           ->groupBy('o.id') // big but beautiful SQL hack...
       ), array('required' => 'Required.', 'invalid' => $invalid[$modifier]));
@@ -84,9 +84,21 @@ class groupActions extends autoGroupActions
       
       // adding / removing the object from the group
       $object = $q->andWhere('o.id = ?',$object_id)->select('o.*, g.*')->fetchOne();
-      if ( $modifier == 'add' ) $object->Groups[] = $this->form->getObject();
-      else unset($object->Groups[0]);
-      $object->save();
+      if ( $modifier == 'add' )
+      {
+        $object->Groups[] = $this->form->getObject();
+        $object->save();
+      }
+      else
+      {
+        $rel = $object->$relation;
+        $del = new GroupDeleted; // save the deletion for stats
+        $del->created_at = $rel[0]->created_at;
+        $del->group_id   = $rel[0]->group_id;
+        $del->information = $rel[0]->information;
+        $rel[0]->delete();
+        $del->save();
+      }
       
       // messages
       $r['success'] = __(ucfirst($type).' '.($modifier == 'add' ? 'added' : 'removed'));
