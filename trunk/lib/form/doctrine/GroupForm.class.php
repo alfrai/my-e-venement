@@ -88,5 +88,7 @@ class GroupForm extends BaseGroupForm
     if ( !$this->object->isNew() )
     foreach ( array('contacts_list', 'professionals_list', 'organisms_list') as $fieldName )
       unset($this->widgetSchema[$fieldName]);
+    
+    $this->widgetSchema['users_list']->setOption('expanded', true);
   }
 }

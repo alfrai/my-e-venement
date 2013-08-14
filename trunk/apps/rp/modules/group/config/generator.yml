@@ -37,6 +37,7 @@ generator:
           Professionals:  [_form_professionals_add, _form_professionals_remove, _form_contacts_refresh]
           Organisms:      [_form_organisms_add, _form_organisms_remove, _form_organisms_refresh]
           #Detail: [created_at, updated_at, slug]
+          Permissions:    [users_list]
       new:
         title: New group
         display:

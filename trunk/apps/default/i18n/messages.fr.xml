@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>List of authorized groups</source>
+        <target>Liste des groupes autorisés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Public relations</source>
+        <target>Relations publiques</target>
+      </trans-unit>
+      <trans-unit>
         <source>Edit the %%User%%'s Jabber account</source>
         <target>Modification du compte Jabber de %%User%%</target>
       </trans-unit>

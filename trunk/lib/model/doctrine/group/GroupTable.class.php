@@ -17,7 +17,9 @@ class GroupTable extends PluginGroupTable
     $o  = 'o'  != $alias ? 'o'  : 'o1';
     
     $query = parent::createQuery($alias)
-      ->leftJoin("$alias.User $u");
+      ->leftJoin("$alias.User $u")
+      //->leftJoin("$alias.Picture $p")
+      ;
 /*
       ->leftJoin("$alias.Professionals $p")
       ->leftJoin("$p.Contact $pc")
@@ -25,17 +27,16 @@ class GroupTable extends PluginGroupTable
       ->leftJoin("$p.Organism $o")
       ->leftJoin("$alias.Contacts $c");
 */
-    return $query;
-  }
-
-  public function retrieveList()
-  {
-    $q = $this->createQuery('g');
     if ( !sfContext::hasInstance() )
-      return $q;
+      return $query;
     
     $sf_user = sfContext::getInstance()->getUser();
-    return $q->andWhere(($sf_user->hasCredential('pr-group-common') ? 'g.sf_guard_user_id IS NULL OR ' : '').'g.sf_guard_user_id = ?',$sf_user->getId());
+    return $query->andWhere(($sf_user->hasCredential('pr-group-common') ? "$alias.sf_guard_user_id IS NULL OR " : '')."$alias.sf_guard_user_id = ?",$sf_user->getId())
+      ->leftJoin("$alias.Users auth_users")
+      ->andWhere("$alias.sf_guard_user_id IS NOT NULL OR auth_users.id = ? OR ?",array(
+        $sf_user->getId(),
+        $sf_user->hasCredential(array('super-admin','admin'),false),
+      ));
   }
 
     /**

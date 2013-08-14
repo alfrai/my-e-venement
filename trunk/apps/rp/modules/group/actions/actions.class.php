@@ -136,9 +136,18 @@ class groupActions extends autoGroupActions
     return $this->redirect('group/edit?id='.$request->getParameter('id'));
   }
   
+  public function executeShow(sfWebRequest $request)
+  {
+    $this->group = $this->getRoute()->getObject();
+    $this->form = $this->configuration->getForm($this->group);
+  }
   public function executeEdit(sfWebRequest $request)
   {
     parent::executeEdit($request);
+    
+    $users = array();
+    foreach ( $this->group->Users as $user )
+      $users[] = $user->id;
     
     /**
       * if the user cannot modify anything
@@ -146,12 +155,9 @@ class groupActions extends autoGroupActions
       * if the group is not his own
       *
       **/
-    if ( !$this->getUser()->hasCredential('pr-group-perso')
-      && !$this->getUser()->hasCredential('pr-group-common')
-      || is_null($this->group->sf_guard_user_id)
-      && !$this->getUser()->hasCredential('pr-group-common')
-      || $this->group->sf_guard_user_id !== $this->getUser()->getId()
-      && !is_null($this->group->sf_guard_user_id) )
+    if ( !$this->getUser()->hasCredential('pr-group-perso') && !$this->getUser()->hasCredential('pr-group-common')
+      || is_null($this->group->sf_guard_user_id) && !$this->getUser()->hasCredential('pr-group-common')
+      || $this->group->sf_guard_user_id !== $this->getUser()->getId() && !is_null($this->group->sf_guard_user_id) )
     $this->setTemplate('show');
   }
 

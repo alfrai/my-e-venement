@@ -64,6 +64,10 @@ Group:
       foreignAlias: Groups
       onDelete: CASCADE
       onUpdate: CASCADE
+    Users:
+      class: sfGuardUser
+      refClass: GroupUser
+      foreignAlias: AuthForGroups
     Picture:
       foreignAlias: Groups
       onDelete: SET NULL
@@ -99,6 +103,25 @@ GroupContact:
       onUpdate: CASCADE
     Group:
       foreignAlias: ContactGroups
+      onDelete: CASCADE
+      onUpdate: CASCADE
+GroupUser:
+  package: group
+  inheritance:
+    extends: GroupDetail
+    type: concrete
+  columns:
+    sf_guard_user_id:
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    User:
+      foreignAlias: UserGroups
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Group:
+      foreignAlias: UserGroups
       onDelete: CASCADE
       onUpdate: CASCADE
 GroupProfessional:

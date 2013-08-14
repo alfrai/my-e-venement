@@ -47,6 +47,7 @@ INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('e
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT last_value FROM sf_guard_group_id_seq), NOW(), NOW());
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('stats-pr-social', 'Permission to access to social stats', '2013-07-22 10:14:58', '2013-07-22 10:14:58');
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT id FROM sf_guard_group WHERE name = 'pr-social'), NOW(), NOW());
+INSERT INTO group_user(group_id, sf_guard_user_id, updated_at, created_at) (select g.id, u.id, now(), now() from group_table g, sf_guard_user u where g.sf_guard_user_id is null);
 EOF
 
 # final informations
