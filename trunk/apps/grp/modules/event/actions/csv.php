@@ -79,8 +79,10 @@
       'event'         => (string) $contact['manifestation']->Event,
       'date'          => (string) format_datetime($contact['manifestation']->happens_at),
       'organism'      => (string) $contact['professional']->Organism,
+      'organism_an'   => (string) $contact['professional']->Organism->administrative_number,
       'contact'       => (string) $contact['professional']->Contact,
       'professional'  => (string) $contact['professional'],
+      'department'    => (string) $contact['professional']->department,
       'address'       => $contact['professional']->Organism->address,
       'postalcode'    => $contact['professional']->Organism->postalcode,
       'city'          => $contact['professional']->Organism->city,
@@ -99,8 +101,10 @@
       'event',
       'date',
       'organism',
+      'organism_an',
       'contact',
       'professional',
+      'department',
       //'address',
       'postalcode',
       'city',
@@ -125,4 +129,3 @@
   }
   else
     sfConfig::set('sf_web_debug', false);
-

@@ -35,18 +35,5 @@
     $vars[$value] = $$value;
     unset($vars[$key]);
   }
-  $vars['options']['header'] = array(
-    'event'         => __('Event'),
-    'date'          => __('Date'),
-    'organism'      => __('Organism'),
-    'contact'       => __('Contact'),
-    'professional'  => __('Function'),
-    'address'       => __('Address'),
-    'postalcode'    => __('Postalcode'),
-    'city'          => __('City'),
-    'country'       => __('Country'),
-  );
-  foreach ( $prices as $id => $price )
-    $vars['options']['header'][$id] = $price;
   
-  include_partial('global/csv',$vars);
+  include_partial('csv',$vars);
