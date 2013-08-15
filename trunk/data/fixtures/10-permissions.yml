@@ -414,6 +414,11 @@ sfGuardPermission:
     description: 'Permission to access the social informations part of the admin part of the "rp" module'
     created_at: '2013-07-23 10:14:50'
     updated_at: '2013-07-23 10:14:50' 
+  sfGuardPermission_85:
+    name: stats-pr-groups
+    description: Permission to access the groups evolution statistics
+    created_at: '2013-08-15 10:14:50'
+    updated_at: '2013-08-15 10:14:50' 
 sfGuardGroupPermission:
   sfGuardGroupPermission_1_7:
     Group: sfGuardGroup_1
@@ -965,6 +970,11 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_84
     created_at: '2013-07-23 10:37:00'
     updated_at: '2013-07-23 10:37:00'
+  sfGuardGroupPermission_22_85:
+    Group: sfGuardGroup_22
+    Permission: sfGuardPermission_85
+    created_at: '2013-08-15 10:37:00'
+    updated_at: '2013-08-15 10:37:00'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view

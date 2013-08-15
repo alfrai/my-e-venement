@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Evolution of groups</source>
+        <target>Évolution des groupes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Social statistics</source>
         <target>Statistiques sociales</target>
       </trans-unit>

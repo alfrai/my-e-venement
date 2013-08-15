@@ -46,8 +46,11 @@
           <?php if ( false && $sf_user->hasCredential('stats-byGroup') ): ?>
           <li><a href="<?php echo cross_app_url_for('stats','byGroup/index') ?>"><?php echo __('Entrances by group',array(),'menu') ?></a></li>
           <?php endif ?>
-          <?php if ( $sf_user->hasCredential('stats-pr-cards') || $sf_user->hasCredential('stats-pr-social') ): ?>
+          <?php if ( $sf_user->hasCredential('stats-pr-cards') || $sf_user->hasCredential('stats-pr-social') || $sf_user->hasCredential('stats-pr-social') ): ?>
           <li class="spaced"></li>
+          <?php endif ?>
+          <?php if ( $sf_user->hasCredential('stats-pr-groups') ): ?>
+          <li><a href="<?php echo cross_app_url_for('stats','groups/index') ?>"><?php echo __('Evolution of groups',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('stats-pr-cards') ): ?>
           <li><a href="<?php echo cross_app_url_for('stats','cards/index') ?>"><?php echo __('Member cards',array(),'menu') ?></a></li>

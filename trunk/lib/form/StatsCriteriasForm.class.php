@@ -125,4 +125,18 @@ class StatsCriteriasForm extends BaseForm
     ));
     return $this;
   }
+  public function addGroupsCriteria()
+  {
+    $this->widgetSchema   ['groups_list'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Group',
+      'multiple' => true,
+      'order_by' => array('sf_guard_user_id DESC, name',''),
+    ));
+    $this->validatorSchema['groups_list'] = new sfValidatorDoctrineChoice(array(
+      'required' => false,
+      'model' => 'Group',
+      'multiple' => true,
+    ));
+    return $this;
+  }
 }

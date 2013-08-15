@@ -47,6 +47,12 @@
       <span><?php echo $form['interval'] ?> <?php echo __('day(s)') ?></span>
     </li>
     <?php endif ?>
+    <?php if ( isset($form['groups_list']) ): ?>
+    <li class="interval">
+      <label for="interval"><?php echo __('Groups') ?>:</label>
+      <span><?php echo $form['groups_list'] ?></span>
+    </li>
+    <?php endif ?>
     <li class="submit">
       <span><input type="submit" name="s" value="ok" /></span>
     </li>

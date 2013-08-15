@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Groups</source>
+        <target>Groupes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Familial situations</source>
         <target>Situations familiales</target>
       </trans-unit>
