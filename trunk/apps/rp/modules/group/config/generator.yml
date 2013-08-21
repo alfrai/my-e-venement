@@ -45,3 +45,4 @@ generator:
           Individuals: [contacts_list]
           Professionals: [professionals_list]
           Organisms: [organisms_list]
+          Permissions:    [users_list]

@@ -39,6 +39,11 @@ class GroupTable extends PluginGroupTable
       ));
   }
 
+  public function retrieveList()
+  {
+    return $this->createQuery('g');
+  }
+  
     /**
      * Returns an instance of this class.
      *
