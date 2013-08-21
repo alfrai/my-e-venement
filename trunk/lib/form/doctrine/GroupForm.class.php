@@ -89,6 +89,8 @@ class GroupForm extends BaseGroupForm
     foreach ( array('contacts_list', 'professionals_list', 'organisms_list') as $fieldName )
       unset($this->widgetSchema[$fieldName]);
     
-    $this->widgetSchema['users_list']->setOption('expanded', true);
+    $this->widgetSchema   ['users_list']->setOption('expanded', true);
+    $this->widgetSchema   ['users_list']->setOption('query', $q = Doctrine::getTable('sfGuardUser')->createQuery('u')->andWhere('u.is_active = TRUE'));
+    $this->validatorSchema['users_list']->setOption('query', $q);
   }
 }
