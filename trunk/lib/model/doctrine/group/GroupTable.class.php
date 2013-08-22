@@ -35,7 +35,7 @@ class GroupTable extends PluginGroupTable
       ->leftJoin("$alias.Users auth_users")
       ->andWhere("$alias.sf_guard_user_id IS NOT NULL OR auth_users.id = ? OR ?",array(
         $sf_user->getId(),
-        $sf_user->hasCredential(array('super-admin','admin'),false),
+        $sf_user->hasCredential(array('admin-users','admin-power'),false),
       ));
   }
 

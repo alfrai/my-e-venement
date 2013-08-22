@@ -157,9 +157,8 @@ class groupActions extends autoGroupActions
   {
     parent::executeEdit($request);
     
-    $users = array();
-    foreach ( $this->group->Users as $user )
-      $users[] = $user->id;
+    if ( !$this->getUser()->hasCredential(array('admin-users', 'admin-power'), false) )
+      $this->form->removeUsersList();
     
     /**
       * if the user cannot modify anything
@@ -171,6 +170,28 @@ class groupActions extends autoGroupActions
       || is_null($this->group->sf_guard_user_id) && !$this->getUser()->hasCredential('pr-group-common')
       || $this->group->sf_guard_user_id !== $this->getUser()->getId() && !is_null($this->group->sf_guard_user_id) )
     $this->setTemplate('show');
+  }
+  public function executeUpdate(sfWebRequest $request)
+  {
+    $this->group = $this->getRoute()->getObject();
+    $this->form = $this->configuration->getForm($this->group);
+    if ( !$this->getUser()->hasCredential(array('admin-users', 'admin-power'), false) )
+      $this->form->removeUsersList();
+    
+    /**
+      * if the user cannot modify anything
+      * if the user cannot modify common groups and this group is common
+      * if the group is not his own
+      *
+      **/
+    if ( !$this->getUser()->hasCredential('pr-group-perso') && !$this->getUser()->hasCredential('pr-group-common')
+      || is_null($this->group->sf_guard_user_id) && !$this->getUser()->hasCredential('pr-group-common')
+      || $this->group->sf_guard_user_id !== $this->getUser()->getId() && !is_null($this->group->sf_guard_user_id) )
+    $this->redirect('group/index');
+    
+    $this->processForm($request, $this->form);
+    $this->setTemplate('edit');
+    
   }
 
   public function executeIndex(sfWebRequest $request)

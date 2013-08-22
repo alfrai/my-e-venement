@@ -26,23 +26,23 @@ generator:
         display: [name, sf_guard_user_id, display_everywhere]
       show:
         display:
-          NONE: [name, User, _display_everywhere, _show_picture]
-          Detail: [created_at, updated_at, slug]
+          NONE:           [name, User, _display_everywhere, _show_picture]
+          Detail:         [created_at, updated_at, slug]
       form:
       edit:
         title: Group %%name%%
         display:
-          NONE: [name, sf_guard_user_id, display_everywhere, Picture, _show_picture, _form_picture_del]
+          NONE:           [name, sf_guard_user_id, display_everywhere, Picture, _show_picture, _form_picture_del]
           Individuals:    [_form_contacts_add, _form_contacts_remove, _form_contacts_refresh]
           Professionals:  [_form_professionals_add, _form_professionals_remove, _form_contacts_refresh]
           Organisms:      [_form_organisms_add, _form_organisms_remove, _form_organisms_refresh]
-          #Detail: [created_at, updated_at, slug]
-          Permissions:    [users_list]
+          #Detail:        [created_at, updated_at, slug]
+          Permissions:    [_users_list]
       new:
         title: New group
         display:
-          NONE: [name, sf_guard_user_id, display_everywhere, Picture]
-          Individuals: [contacts_list]
-          Professionals: [professionals_list]
-          Organisms: [organisms_list]
-          Permissions:    [users_list]
+          NONE:           [name, sf_guard_user_id, display_everywhere, Picture]
+          Individuals:    [contacts_list]
+          Professionals:  [professionals_list]
+          Organisms:      [organisms_list]
+          Permissions:    [_users_list]

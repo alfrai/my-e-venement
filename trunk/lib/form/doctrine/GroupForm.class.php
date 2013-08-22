@@ -93,4 +93,10 @@ class GroupForm extends BaseGroupForm
     $this->widgetSchema   ['users_list']->setOption('query', $q = Doctrine::getTable('sfGuardUser')->createQuery('u')->andWhere('u.is_active = TRUE'));
     $this->validatorSchema['users_list']->setOption('query', $q);
   }
+  
+  public function removeUsersList()
+  {
+    unset($this->widgetSchema['users_list']);
+    return $this;
+  }
 }
