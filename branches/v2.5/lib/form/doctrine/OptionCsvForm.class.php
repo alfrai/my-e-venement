@@ -133,8 +133,8 @@ class OptionCsvForm extends BaseOptionCsvForm
     foreach ( $fields as $fieldname => $field )
  	  if ( in_array($fieldname,$data) )
 			$ordered[] = $fieldname;
-		else if ( isset($data[$fieldname]) )
-			$ordered[$fieldname] = $data[$fieldname];
+		else if ( !$data )
+			$ordered[] = $fieldname;
     
     return $ordered;
   }
