@@ -50,7 +50,7 @@
         $this->getUser()->setFlash('error',__("Can't find the ticket #%%i%% in database...",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/cancel');
       }
-      if ( !$ticket->Transaction->closed )
+      if ( $ticket->Transaction->closed )
       {
         $this->getUser()->setFlash('error',__("Can't duplicate the ticket #%%i%% because its transaction has been closed already.",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
