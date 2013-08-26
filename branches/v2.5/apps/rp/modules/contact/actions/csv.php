@@ -41,12 +41,20 @@
     // phonembers
     if ( in_array('phonename',$params['field']) )
       $q->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE tmp.contact_id = $a.id ORDER BY tmp.updated_at LIMIT 1) AS phonename");
+    else
+      $q->addSelect("'' AS phonename");
     if ( in_array('phonenumber',$params['field']) )
       $q->addSelect("(SELECT ttmp.number FROM ContactPhonenumber ttmp WHERE ttmp.contact_id = $a.id ORDER BY ttmp.updated_at LIMIT 1) AS phonenumber");
+    else
+      $q->addSelect("'' AS phonenumber");
     if ( in_array('organism_phonename',$params['field']) )
       $q->addSelect("(SELECT tmp3.name FROM OrganismPhonenumber tmp3 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonename");
+    else
+      $q->addSelect("'' AS organism_phonename");
     if ( in_array('organism_phonenumber',$params['field']) )
       $q->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonenumber");
+    else
+      $q->addSelect("'' AS phonenumber");
     
     // groups
     if ( in_array('__Groups__name', $params['field']) || in_array('__Professionals__Organism__Groups__name', $params['field']) || in_array('__Professionals__Groups__name', $params['field']) )
@@ -66,7 +74,7 @@
       $q->leftJoin(" p.ProfessionalGroups mp ON mp.group_id = gp.id AND mp.professional_id = p.id")
         ->leftJoin("$a.ContactGroups      mc ON mc.group_id = gc.id AND mc.contact_id      = $a.id")
         ->addSelect("(CASE WHEN mc.information IS NOT NULL THEN mc.information ELSE mp.information END) AS information")
-        ->addSelect('mp.*, mc.*');
+        ->addSelect('mp.*, p.id, mc.*');
     
     $this->lines = $q->fetchArray();
     
