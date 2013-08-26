@@ -26,7 +26,7 @@
     $q = $this->buildQuery();
     $a = $q->getRootAlias();
     $q->select   ("$a.id")
-      ->addSelect(($this->filters->showProfessionalData() ? 'p.id' : 'NULL').' AS professional_id');
+      ->addSelect('transac.professional_id AS professional_id');
     $records = $q->fetchArray();
     
     if ( $q->count() > 0 )
