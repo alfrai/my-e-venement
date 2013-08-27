@@ -21,6 +21,10 @@
         <target>Ressources principales</target>
       </trans-unit>
       <trans-unit>
+        <source>City</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit>
         <source>With</source>
         <target>Avec</target>
       </trans-unit>
