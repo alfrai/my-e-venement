@@ -158,8 +158,10 @@ GroupUser:
       foreignAlias: UserGroups
       onDelete: CASCADE
       onUpdate: CASCADE
+      local: sf_guard_user_id
+      class: sfGuardUser
     Group:
-      foreignAlias: UserGroups
+      foreignAlias: GroupUsers
       onDelete: CASCADE
       onUpdate: CASCADE
 GroupDeleted:
