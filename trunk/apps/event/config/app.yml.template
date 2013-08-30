@@ -17,6 +17,7 @@ all:
     #gauge_small: false
   listing:
     manif_date: DESC
+    #max_per_page: 15
   manifestation:
     depends_on_limit: 10
   synchronization:

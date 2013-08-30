@@ -36,6 +36,7 @@ generator:
         title: Event List
         display: [MetaEvent, name, EventCategory, duration_h_r, age_min_h_r, _list_manifestations, _list_manifestations_gauges]
         table_method: RetrieveList
+        max_per_page: <?php echo sfConfig::get('app_listing_max_per_page',20).PHP_EOL ?>
       filter:
         display: [meta_event_id, event_category_id, name, staging, writer, duration, age_min, age_max, companies_list]
       form: ~
