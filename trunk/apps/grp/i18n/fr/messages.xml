@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Department</source>
+        <target>Service</target>
+      </trans-unit>
+      <trans-unit>
         <source>Remarkable</source>
         <target>Remarquable</target>
       </trans-unit>

@@ -29,8 +29,14 @@
     ->leftJoin('et.EntryElement ee')
     ->leftJoin('ee.ContactEntry ce')
     ->leftJoin('ce.Professional p')
+    ->leftJoin('p.ProfessionalGroups ggp')
+    ->leftJoin('ggp.Group gp ON ggp.group_id = gp.id AND gp.display_everywhere = TRUE AND (gp.sf_guard_user_id IS NULL OR gp.sf_guard_user_id = ?)', $this->getUser()->getId())
     ->leftJoin('p.Organism o')
+    ->leftJoin('o.OrganismGroups ggo')
+    ->leftJoin('ggo.Group go ON ggo.group_id = go.id AND go.display_everywhere = TRUE AND (go.sf_guard_user_id IS NULL OR go.sf_guard_user_id = ?)', $this->getUser()->getId())
     ->leftJoin('p.Contact c')
+    ->leftJoin('c.ContactGroups ggc')
+    ->leftJoin('ggc.Group gc ON ggc.group_id = gc.id AND gc.display_everywhere = TRUE AND (gc.sf_guard_user_id IS NULL OR gc.sf_guard_user_id = ?)', $this->getUser()->getId())
     ->leftJoin('ee.ManifestationEntry me')
     ->leftJoin('me.Manifestation m')
     ->leftJoin('m.Event e')
@@ -75,13 +81,27 @@
   $this->lines = array();
   foreach ( $contacts as $contact )
   {
+    $grps = array('contact' => array(), 'professional' => array(), 'organism' => array());
+    foreach ( $contact['professional']->Contact->ContactGroups as $g )
+    if ( $g->Group )
+      $grps['contact'][] = (string)$g->Group;
+    foreach ( $contact['professional']->ProfessionalGroups as $g )
+    if ( $g->Group )
+      $grps['professional'][] = (string)$g->Group;
+    foreach ( $contact['professional']->Organism->OrganismGroups as $g )
+    if ( $g->Group )
+      $grps['organism'][] = (string)$g->Group;
+
     $this->lines[] = array(
       'event'         => (string) $contact['manifestation']->Event,
       'date'          => (string) format_datetime($contact['manifestation']->happens_at),
       'organism'      => (string) $contact['professional']->Organism,
       'organism_an'   => (string) $contact['professional']->Organism->administrative_number,
+      'organism_groups' => implode(', ',$grps['organism']),
       'contact'       => (string) $contact['professional']->Contact,
+      'groups'        => implode(', ',$grps['contact']),
       'professional'  => (string) $contact['professional'],
+      'professional_groups' => implode(', ',$grps['professional']),
       'department'    => (string) $contact['professional']->department,
       'address'       => $contact['professional']->Organism->address,
       'postalcode'    => $contact['professional']->Organism->postalcode,
@@ -102,8 +122,11 @@
       'date',
       'organism',
       'organism_an',
+      'organism_groups',
       'contact',
+      'groups',
       'professional',
+      'professional_groups',
       'department',
       //'address',
       'postalcode',

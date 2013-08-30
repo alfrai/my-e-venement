@@ -87,6 +87,8 @@ class sfGuardUserActions extends autoSfGuardUserActions
     // groups
     foreach ( $this->getRoute()->getObject()->Groups as $group )
       $user->Groups[] = $group;
+    foreach ( $this->getRoute()->getObject()->AuthForGroups as $group )
+      $user->AuthForGroups[] = $group;
     
     // ticketting elements
     foreach ( $this->getRoute()->getObject()->MetaEvents as $me )
