@@ -206,7 +206,6 @@ body #content { width: auto; }
 #tdp-side-bar.object li li:hover { background-color: rgba(255,255,255,0.6); }
 #tdp-side-bar li label { padding-left: 0; }
 #tdp-side-bar .tdp-side-widget a { text-decoration: none; float: right; margin-top: -1em; }
-#tdp-side-bar.object .tdp-side-widget { font-size: 90%; }
 #tdp-side-bar.object .tdp-side-widget li li > * { display: inline-block; }
 #tdp-side-bar.object .tdp-side-widget a { float: none; margin-top: 0; }
 #tdp-side-bar.object .tdp-side-widget .events a { width: 125px; overflow: hidden; margin-right: 3px; text-overflow: ellipsis; }
