@@ -1,0 +1,6 @@
+.sf_admin_list .sf_admin_list_td_list_manifestations a { padding: 0 5px; white-space: nowrap; }
+.sf_admin_list .sf_admin_list_td_list_manifestations a:hover {  text-decoration: underline; }
+.sf_admin_list .sf_admin_list_td_list_manifestations_gauges { white-space: nowrap; }
+
+.sf_admin_list .sf_admin_list_td_list_manifestations_gauges,
+.sf_admin_list .sf_admin_list_td_list_manifestations { line-height: 18px; }
