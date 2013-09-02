@@ -73,6 +73,8 @@
     $transaction->updated_at = NULL;
     $transaction->Translinked[0]->type = 'cancellation';
     $transaction->sf_guard_user_id = NULL;
+    $transaction->Translinked[0]->contact_id = $transaction->contact_id;
+    $transaction->Translinked[0]->professional_id = $transaction->professional_id;
     $transaction->save();
   }
   

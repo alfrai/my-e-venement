@@ -60,7 +60,7 @@
 
   function ticket_payment_related()
   {
-    <?php if ( $sf_user->hasCredential('tck-cancel') ): ?>
+    <?php if ( $sf_user->hasCredential('tck-cancel') && $transaction->Translinked->count() > 0 ): ?>
     $.get('<?php
       $ids = array();
       foreach ( $transaction->Translinked as $t )

@@ -141,7 +141,7 @@ abstract class PluginTicket extends BaseTicket
     
     // only for normal tickets w/ member cards
     if ( $this->Price->member_card_linked
-    && ( isset($mods['printed']) || isset($mods['integrated']) )
+    && ( isset($mods['printed_at']) || isset($mods['integrated_at']) )
     && ( $this->printed_at || $this->integrated_at )
     && is_null($this->cancelling) && is_null($this->duplicating) && $this->Duplicatas->count() == 0 )
     {
