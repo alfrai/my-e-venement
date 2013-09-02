@@ -1,0 +1,57 @@
+.chart {
+  text-align: center;
+  margin-top: 5px;
+}
+.charts-4 {
+  margin: 5px;
+  width: 420px;
+  float: left;
+}
+.actions {
+  text-align: left;
+  margin: 3px 0 0 0;
+  padding-left: 30px;
+  border-top: 1px solid #948c7d;
+  clear: both;
+}
+.actions .arrow.pos1 {
+  margin-left: 23px;
+}
+.actions .arrow {
+  display: block;
+  width: 20px;
+  height: 4px;
+  background-image: url('../images/little-arrow-bottom.png');
+}
+.actions a {
+  text-decoration: none;
+  background-color: #f2f1ed;
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding: 2px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+.actions a:hover { background-color: #e1e0db; }
+.actions a span { display: none; }
+.actions a.record { background-image: url('../images/export.png'); }
+.actions a.chart { background-image: url('../images/chart_bar.png'); border: 0; }
+
+.clear { clear: both; }
+
+.warning, .accounting { margin: 10px; padding: 5px; width: 30%; float: left; }
+.warning { border-color: chocolate; width: 60%; }
+.accounting form { display: table; }
+.accounting form p { display: table-row; }
+.accounting form p span { display: table-cell; }
+.accounting input[type=text] { text-align: right; width: 6em; }
+.cards #sf_admin_filter_button { margin-top: -28px; }
+
+.charts { width: 45%; float: left; margin: 5px; }
+.charts td { text-align: right; padding-left: 10px; }
+.charts table, .charts .legend { margin: 5px; }
+.charts .legend p + p { margin-top: 5px; }
+
+.ui-widget-content .show-criterias { padding: 5px; margin: 5px 5px 0 5px; }
+.ui-widget-content .show-criterias ul { list-style: none; }
