@@ -61,7 +61,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
   public function postInsert($event)
   {
     if ( $this->PriceManifestations->count() == 0 )
-    foreach ( Doctrine::getTable('Price')->createQuery()->execute() as $price )
+    foreach ( Doctrine::getTable('Price')->createQuery('p')->andWhere('p.hide = FALSE')->execute() as $price )
     {
       $pm = PriceManifestation::createPrice($price);
       $pm->manifestation_id = $this->id;
