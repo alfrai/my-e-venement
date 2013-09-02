@@ -1,7 +1,6 @@
 function gauge_small()
 {
   $('.sf_admin_list_td_list_manifestations_gauges').addClass('small-gauges'); // a trick for CSS to permit classical rendering compatibility
-  //$('.sf_admin_list_td_list_manifestations_gauges br').remove();
   
   $('.sf_admin_list_td_list_manifestations_gauges .gauge:not(.done)').each(function(){
     $(this).find('> *').each(function(){
@@ -23,7 +22,7 @@ function gauge_small()
         .css('width',(count/total*100)+'px');
     });
     
-    $(this).prop('title', (total=parseInt($(this).find('.total').html()),10) - (booked=parseInt($(this).find('.booked').html()),10)+' / '+total);
+    $(this).prop('title', (total=parseInt($(this).find('.total').html(),10)) - (booked=parseInt($(this).find('.booked').html(),10))+' / '+total);
     if ( booked > total )
       $(this).addClass('overbooked');
     $(this).addClass('done');
