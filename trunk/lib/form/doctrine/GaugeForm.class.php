@@ -18,8 +18,16 @@ class GaugeForm extends BaseGaugeForm
       'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',10).' }',
     ));
     
-    $this->widgetSchema['workspace_id']->setOption('add_empty',true);
-    $this->widgetSchema['workspace_id']->setOption('query',Doctrine::getTable('Workspace')->createQuery()->orderBy('name'));
+    $q = Doctrine::getTable('Workspace')->createQuery('ws');
+    if ( sfContext::hasInstance() )
+      $q->leftJoin('ws.Users u')
+        ->andWhere('u.id = ?',sfContext::getInstance()->getUser()->getId());
+    $this->widgetSchema['workspace_id']->setOption('add_empty',true)
+      ->setOption('order_by',array('name',''))
+      ->setOption('query',$q);
+    $this->validatorSchema['workspace_id']
+      ->setOption('query',$q);
+    
     $this->validatorSchema['value']->setOption('required',false);
   }
   public function setHidden($hides = array('manifestation_id','workspace_id'))

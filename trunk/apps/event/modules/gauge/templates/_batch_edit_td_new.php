@@ -8,6 +8,8 @@
   $form['workspace_id']->getWidget()->setOption('query', Doctrine::getTable('Workspace')->createQuery('w')
     ->leftJoin('w.Gauge g ON g.workspace_id = w.id AND g.manifestation_id = ?',$g->manifestation_id)
     ->andWhere('g.id IS NULL')
+    ->leftJoin('w.Users u')
+    ->andWhere('u.id = ?',$sf_user->getId())
     ->orderBy('w.name')
   );
 ?>
