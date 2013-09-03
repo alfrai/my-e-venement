@@ -7,6 +7,7 @@
   
   $form['price_id']->getWidget()->setOption('query', Doctrine::getTable('Price')->createQuery('p')
     ->andWhere('p.id NOT IN (SELECT pm.price_id FROM PriceManifestation pm WHERE pm.manifestation_id = ?)',$pm->manifestation_id)
+    ->andWhere('p.hide = FALSE')
     ->orderBy('p.name')
   );
 ?>

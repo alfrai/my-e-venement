@@ -294,15 +294,19 @@ Manifestation:
     reservation_ends_at:
       type: timestamp
       notnull: true
-    reservation_description: text
-    blocking:
+    reservation_description: string
+    reservation_blocking:
       type: boolean
       notnull: true
       default: true
-    optional:
+    reservation_optional:
       type: boolean
       notnull: true
       default: false
+    reservation_confirmed:
+      type: boolean
+      notnull: true
+      default: true
   relations:
     Event:
       foreignAlias: Manifestations
@@ -362,7 +366,7 @@ LocationBooking:
       onUpdate: CASCADE
 Vat:
   package: event
-  actAs: [Versionable, Timestampable]
+  actAs: [Timestampable, Versionable]
   columns:
     name:
       type: string(64)
@@ -404,7 +408,33 @@ Gauge:
     manifestation_workspace:
       fields: [manifestation_id, workspace_id]
       unique: true
-                      
+
+ManifestationExtraInformation:
+  package: event
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    value:
+      type: string(255)
+      notnull: true
+    checked:
+      type: boolean
+      notnull: true
+      default: false
+    manifestation_id:
+      type: integer
+      notnull: true
+  relations:
+    Manifestation:
+      foreignAlias: ExtraInformations
+      onDelete: CASCADE
+      onUpdate: CASCADE
+
 Color:
   package: event
   actAs: [Timestampable]

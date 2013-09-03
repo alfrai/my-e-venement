@@ -1,5 +1,5 @@
 <?php include_partial('show_datetime',array(
   'form' => $form,
-  'fieldName' => 'ends_at',
+  'fieldName' => 'reservation_ends_at',
   'label' => __('Ends at'),
 )) ?>

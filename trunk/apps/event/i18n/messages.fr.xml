@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Comment</source>
+        <target>Commentaire</target>
+      </trans-unit>
+      <trans-unit>
         <source>Extra informations</source>
         <target>Informations suppl.</target>
       </trans-unit>
@@ -22,7 +26,7 @@
       </trans-unit>
       <trans-unit>
         <source>Confirmed</source>
-        <target>Confirmé</target>
+        <target>Confirmée</target>
       </trans-unit>
       <trans-unit>
         <source>No extra location booked</source>

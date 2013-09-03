@@ -8,7 +8,7 @@ $(document).ready(function(){
     if ( arr && li_manifestation_datetime('happens_at')+'' !== 'Invalid Date' )
       li_manifestation_datetime('ends_at', new Date(
         Date.parse(li_manifestation_datetime('happens_at')) +
-        (parseInt(arr[1],10)*3600 + parseInt(arr[2],10)*60) * 1000
+        (parseInt(arr[1],10)*3600 + parseInt(arr[2],10)*60)*1000
       ));
     li_manifestation_coherence();
   }).change();
@@ -96,7 +96,7 @@ function li_manifestation_datetime(name = 'happens_at', value = null)
   if ( value )
   {
     $('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][year]"]').val(value.getFullYear());
-    $('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][month]"]').val(value.getMonth());
+    $('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][month]"]').val(value.getMonth()+1);
     $('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][day]"]').val(value.getDate());
     $('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][hour]"]').val(value.getHours());
     $('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][minute]"]').val(value.getMinutes());
@@ -104,7 +104,7 @@ function li_manifestation_datetime(name = 'happens_at', value = null)
   
   return new Date(
     parseInt($('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][year]"]').val(),10),
-    parseInt($('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][month]"]').val(),10),
+    parseInt($('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][month]"]').val(),10) - 1,
     parseInt($('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][day]"]').val(),10),
     parseInt($('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][hour]"]').val(),10),
     parseInt($('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][minute]"]').val(),10)

@@ -43,10 +43,23 @@ class manifestationActions extends autoManifestationActions
       ->fetchOne();
     $this->forward404Unless($request->hasParameter('days') && $request->hasParameter('minutes') && $this->manifestation);
     
+    // manifestation
     $this->manifestation->happens_at = date('Y-m-d H:i:s',
       strtotime($this->manifestation->happens_at) +
       $request->getParameter('days') * 24 * 60 * 60 +
       $request->getParameter('minutes') * 60 );
+    
+    // reservation
+    $this->manifestation->reservation_begins_at = date('Y-m-d H:i:s',
+      strtotime($this->manifestation->reservation_begins_at) +
+      $request->getParameter('days') * 24 * 60 * 60 +
+      $request->getParameter('minutes') * 60
+    );
+    $this->manifestation->reservation_ends_at = date('Y-m-d H:i:s',
+      strtotime($this->manifestation->reservation_ends_at) +
+      $request->getParameter('days') * 24 * 60 * 60 +
+      $request->getParameter('minutes') * 60
+    );
     
     $this->manifestation->save();
     
@@ -55,14 +68,22 @@ class manifestationActions extends autoManifestationActions
   
   public function executeSlideDuration(sfWebRequest $request)
   {
-    $this->manifestation = Doctrine::getTable('Manifestation')->createQuery('m')
+    $this->manifestation = Doctrine_Query::create()->from('Manifestation m')
       ->andWhere('m.id = ?',$request->getParameter('id'))
       ->fetchOne();
     $this->forward404Unless($request->hasParameter('days') && $request->hasParameter('minutes') && $this->manifestation);
     
+    // manifestation
     $this->manifestation->duration = $str = $this->manifestation->duration +
       $request->getParameter('days') * 24 * 60 * 60 +
       $request->getParameter('minutes') * 60;
+    
+    // reservation
+    $this->manifestation->reservation_ends_at = date('Y-m-d H:i:s',
+      strtotime($this->manifestation->reservation_ends_at) +
+      $request->getParameter('days') * 24 * 60 * 60 +
+      $request->getParameter('minutes') * 60
+    );
     
     $this->manifestation->save();
     
@@ -130,6 +151,20 @@ class manifestationActions extends autoManifestationActions
       ->duplicate();
     
     $this->redirect('manifestation/edit?id='.$manif->id);
+  }
+  public function executePeriodicity(sfWebRequest $request)
+  {
+    $this->manifestation = $this->getRoute()->getObject();
+    $this->form = new BaseForm;
+    $this->form->bind(array(
+      $this->form->getCSRFFieldName() => $request->getParameter($this->form->getCSRFFieldName(),'')
+    ));
+    if ( $this->form->isValid() && $request->getParameter('periodicity',array()) )
+    {
+      die();
+      // TODO
+      $this->redirect('event/edit?id='.$this->manifestation->event_id);
+    }
   }
   public function executeNew(sfWebRequest $request)
   {
@@ -257,7 +292,7 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('m.Color c')
       ->andWhere('m.happens_at >= ?',$from)
       ->andWhere('m.happens_at <  ?',$to)
-      ->orderBy('happens_at');
+      ->orderBy('m.happens_at DESC');
     if ( $this->location_id )
       $q->andWhere('(TRUE')
         ->andWhere('m.location_id = ?',$this->location_id)
@@ -270,6 +305,14 @@ class manifestationActions extends autoManifestationActions
     EventFormFilter::addCredentialsQueryPart($q);
     $this->manifestations = $q->execute();
     $this->forward404Unless($this->manifestations);
+    
+    $this->debug = false;
+    if ( $request->hasParameter('debug') )
+    {
+      $this->getResponse()->setContentType('text/html');
+      $this->setLayout('layout');
+      $this->debug = true;
+    }
   }
   public function executeEventList(sfWebRequest $request)
   {
@@ -281,11 +324,11 @@ class manifestationActions extends autoManifestationActions
     $this->pager = $this->configuration->getPager('Contact');
     $this->pager->setMaxPerPage(10);
     $this->pager->setQuery(
-      EventFormFilter::addCredentialsQueryPart(
+      $q = EventFormFilter::addCredentialsQueryPart(
         Doctrine::getTable('Manifestation')->createQueryByEventId($this->event_id)
-        ->select('*, g.*, l.*, tck.*, happens_at > NOW() AS after, (CASE WHEN ( happens_at < NOW() ) THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
+        ->select('*, g.*, l.*, tck.*, m.happens_at > NOW() AS after, (CASE WHEN happens_at < NOW() THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
         //->leftJoin('m.Tickets tck')
-        ->orderBy('before')
+        ->orderBy('after DESC, before')
     ));
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
     $this->pager->init();
@@ -371,7 +414,9 @@ class manifestationActions extends autoManifestationActions
   public function executeShow(sfWebRequest $request)
   {
     $this->securityAccessFiltering($request);
-    parent::executeShow($request);
+    $this->manifestation = $this->getRoute()->getObject();
+    $this->forward404Unless($this->manifestation);
+    $this->form = $this->configuration->getForm($this->manifestation);
     //$this->form->prices = $this->getPrices();
     //$this->form->spectators = $this->getSpectators();
     $this->form->unbalanced = $this->getUnbalancedTransactions();

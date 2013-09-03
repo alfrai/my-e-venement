@@ -23,12 +23,15 @@ generator:
         online_limit: { label: Online limit }
         description: { label: Memo }
         no_print: { label: Preprinted ticketting }
-        optional: { label: This is an option, type: Boolean }
-        blocking: { type: Boolean }
-        reservation_ends_at: { label: Ends at }
-        reservation_begins_at: { label: Begins at }
+        reservation_optional: { label: This is an option, type: Boolean }
+        reservation_blocking: { label: Blocking, type: Boolean }
+        reservation_ends_at: { label: Ends at, type: Date }
+        reservation_begins_at: { label: Begins at, type: Date }
+        reservation_confirmed: { label: Confirmed, credentials: event-reservations-confirm }
+        reservation_description: { label: Comment }
         contact_id: { label: Applicant, credentials: event-reservations-change-contact }
         booking_list: { label: Extra locations }
+        ExtraInformations: { label: Extra informations }
       list:
         display: [_list_event, happens_at, _list_location, _list_description]
       filter:
@@ -41,7 +44,12 @@ generator:
           Memo:         [description]
           Technical:    [duration, vat_id, online_limit, depends_on, _show_is_necessary_to, organizers_list, no_print]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
-          Reservation:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, optional, description]
+          <?php if ( sfConfig::get('app_manifestation_reservations_enabled',true) ): echo PHP_EOL; ?>
+          Reservation:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, reservation_blocking, reservation_confirmed, reservation_optional, reservation_description]
+          <?php endif; echo PHP_EOL; ?>
+          <?php if ( sfConfig::get('app_manifestation_extra_informations_enabled',true) ): echo PHP_EOL; ?>
+          Extra informations:  [ExtraInformations]
+          <?php endif; echo PHP_EOL ?>
           #Tickets:      [_show_tickets_list]
           #Spectators:   [_show_spectators_list]
           #Unbalanced:   [_show_unbalanced_list]
@@ -50,7 +58,9 @@ generator:
           General: [happens_at, ends_at, event_id, location_id, color_id]
           Memo:    [description]
           Technical: [duration, vat_id, online_limit, depends_on, organizers_list, no_print]
-          Reservation:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, optional, description]
+          <?php if ( sfConfig::get('app_manifestation_reservations_enabled',true) ): echo PHP_EOL; ?>
+          Reservation:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, reservation_blocking, reservation_confirmed, reservation_optional, reservation_description]
+          <?php endif; echo PHP_EOL; ?>
         actions: { _save: ~, _list: ~ }
       show:
         display:
@@ -61,4 +71,6 @@ generator:
           Tickets:    [_show_tickets_list_empty]
           Spectators: [_show_spectators_list_empty]
           Unbalanced: [_show_unbalanced_list]
-          Reservation:  [_show_booking_list, _show_applicant_id, reservation_begins_at, reservation_ends_at, _show_blocking, _show_optional, description]
+          <?php if ( sfConfig::get('app_manifestation_reservations_enabled',true) ): echo PHP_EOL; ?>
+          Reservation:  [_show_booking_list, _show_applicant_id, _show_reservation_begins_at, _show_reservation_ends_at, _show_blocking, _show_confirmed, _show_optional, _show_reservation_description]
+          <?php endif; echo PHP_EOL; ?>

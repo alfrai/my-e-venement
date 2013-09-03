@@ -41,3 +41,5 @@ html body #more { width: 70px; right: 10px; overflow: hidden; left: auto; }
 .sf_admin_field_prices_list table { padding: 3px 10px; }
 .sf_admin_field_prices_list .name { padding-right: 10px; text-align: center; }
 .sf_admin_field_prices_list .value { padding-left: 10px; text-align: right; }
+
+.periodicities > .ui-widget-content { padding: 5px; margin: 5px 3px 0 3px; }

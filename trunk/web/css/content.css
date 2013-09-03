@@ -98,11 +98,12 @@ body .ui-widget-header { margin: 2px 2px auto 2px; }
 }
 
 #content .sf_admin_date select,
-#content .sf_admin_date input[type=text],
-#content .sf_admin_date select,
 #content .sf_admin_date input[type=text] {
   text-align: center;
   width: 4em;
+}
+#content .sf_admin_date input[type=text][size="2"] {
+  width: 2em;
 }
 
 #content .sf_admin_form {

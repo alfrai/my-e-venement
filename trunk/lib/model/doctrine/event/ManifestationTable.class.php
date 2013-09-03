@@ -72,7 +72,7 @@ class ManifestationTable extends PluginManifestationTable
 
   public function createQueryByEventId($id)
   {
-    $q = $this->createQuery();
+    $q = $this->createQuery('m',true);
     $a = $q->getRootAlias();
     $q
       ->where('e.id = ?',$id)

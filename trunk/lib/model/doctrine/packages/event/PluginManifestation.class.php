@@ -50,8 +50,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     if ( sfContext::hasInstance() )
     {
       $sf_user = sfContext::getInstance()->getUser();
-      if ( (!$sf_user->hasCredential($this->credentials['contact_id']) || !$this->contact_id)
-        && $sf_user->getContact() )
+      if ( !$sf_user->hasCredential($this->credentials['contact_id']) && $sf_user->getContact() )
         $this->Applicant = $sf_user->getContact();
     }
     

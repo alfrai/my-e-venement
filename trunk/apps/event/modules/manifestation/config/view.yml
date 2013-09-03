@@ -1,12 +1,14 @@
 all:
   stylesheets: [manifestation, manifestation-print: { media: all }]
-  javascripts: [manifestation,duration]
+  javascripts: [manifestation,manifestation-duration]
 
 showSuccess:
   stylesheets: [manifestation-view,view]
 editSuccess:
   stylesheets: [manifestation-view,view]
 newSuccess:
+  stylesheets: [manifestation-view,view]
+periodicitySuccess:
   stylesheets: [manifestation-view,view]
 updateSuccess:
   stylesheets: [manifestation-view,view]

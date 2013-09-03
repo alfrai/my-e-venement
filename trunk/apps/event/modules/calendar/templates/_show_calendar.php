@@ -31,7 +31,9 @@
 $(document).ready(function(){
   $('#fullcalendar, #more .manifestation_calendar').fullCalendar({
     firstDay: 1,
-    minTime: '15:00',
+    minTime: '<?php echo sfConfig::get('app_listing_min_time','8') ?>',
+    maxTime: '<?php echo sfConfig::get('app_listing_max_time','24') ?>',
+    firstHour: '<?php echo sfConfig::get('app_listing_first_hour','15') ?>',
     theme: true,
     monthNames: [ 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
     monthNamesShort: [ 'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc' ],
@@ -57,21 +59,23 @@ $(document).ready(function(){
       {
         url: '<?php echo $url ?>',
         //color: 'LightGreen',
-        error: function(){ alert('<?php echo __('Error loading the data from manifestations') ?>'); }
+        error: function(){ alert('<?php echo __('Error loading the data from manifestations','','sf_admin') ?>'); }
       },
       <?php endforeach ?>
     ],
     
-    eventResize: function(event, dayDelta, minuteDelta){
+    eventResize: function(event, dayDelta, minuteDelta, revertFunc){
       $.ajax({
         url: '<?php echo url_for('manifestation/slideDuration') ?>',
         data: { id: event.id, days: dayDelta, minutes: minuteDelta },
         type: 'post'
       })
       .done(function(){
+        $('#fullcalendar, #more .manifestation_calendar').fullCalendar('refetchEvents');
       })
       .fail(function(){
-        alert("<?php echo __("Error changing the event's duration") ?>");
+        revertFunc();
+        alert("<?php echo __("Error changing the manifestation's duration",null,'sf_admin') ?>");
       });
     },
     eventDrop: function(event, dayDelta, minuteDelta, revertFunc){
@@ -81,13 +85,22 @@ $(document).ready(function(){
         type: 'post'
       })
       .done(function(){
+        $('#fullcalendar, #more .manifestation_calendar').fullCalendar('refetchEvents');
       })
       .fail(function(){
-        alert('<?php echo __('Error moving the event') ?>');
+        revertFunc();
+        alert('<?php echo __('Error moving the manifestation') ?>');
       });
     },
     eventClick: function(event){
+      if ( event.hackurl != undefined )
       window.open(event.hackurl);
+    },
+    eventAfterRender: function(event, element){
+      if ( event.css )
+      $.each(event.css, function(index, value){
+        $(element).css(index, value);
+      });
     }
   });
 });

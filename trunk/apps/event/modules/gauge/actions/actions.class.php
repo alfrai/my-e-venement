@@ -58,4 +58,19 @@ class gaugeActions extends autoGaugeActions
     
     $this->hasFilters = $this->getUser()->getAttribute('gauge.list_filters', $this->configuration->getFilterDefaults(), 'admin_module');
   }
+  
+  public function executeBatchOnline(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    $ids = $request->getParameter('ids');
+
+    Doctrine_Query::from('Gauge g')
+      ->whereIn('g.id',$ids)
+      ->set('online',true)
+      ->update()
+      ->execute();
+    
+    // AJOUTER UN FLASH SUR LE USER ET REDIRECT VERS L'INDEX ET C'EST FINI
+  }
 }

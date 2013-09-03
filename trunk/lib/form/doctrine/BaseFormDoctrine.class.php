@@ -15,12 +15,12 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink','Url'));
     
     if ( isset($this->widgetSchema['contact_id']) )
-    $this->widgetSchema['contact_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+    $this->widgetSchema['contact_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Contact',
       'url'   => cross_app_url_for('rp','contact/ajax'),
     ));
     if ( isset($this->widgetSchema['organism_id']) )
-    $this->widgetSchema['organism_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+    $this->widgetSchema['organism_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Organism',
       'url'   => cross_app_url_for('rp','organism/ajax'),
     ));

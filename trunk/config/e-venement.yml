@@ -30,7 +30,9 @@ all:
       db:     UTF-8
       ms:     WINDOWS-1252//TRANSLIT
       ascii:  ASCII//TRANSLIT
+    csv:
+      set_charset: false
     transliterate:
       from:   ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿœ
       to:     SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyyo
-    locale: LC_ALL.UTF8
+    locale: C.UTF-8

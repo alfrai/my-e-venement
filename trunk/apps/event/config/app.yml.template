@@ -5,8 +5,6 @@
 #all:
 
 all:
-  phpicalendar:
-    web_dir: phpicalendar
   google_maps:
     api_keys:
       default: "ENTER YOUR API KEY HERE"
@@ -17,9 +15,16 @@ all:
     #gauge_small: false
   listing:
     manif_date: DESC
+    #min_time: '10:00'
+    #max_time: '22:00'
+    #first_hour: 15
     #max_per_page: 15
   manifestation:
     depends_on_limit: 10
+    #defaults:
+    #  reservation_confirmed: false
+    #reservations_enabled: false
+    #extra_informations_enabled: false
   synchronization:
     period:
       from: now

@@ -36,14 +36,25 @@ $(document).ready(function(){
     });
   });
   
-  // two fields for application : minimize that !
-  if ( $('#sf_fieldset_reservation .sf_admin_form_field_contact_id').length > 1 )
+  // two fields for applicant : minimize that !
+  if ( $('#sf_fieldset_reservation .sf_admin_form_field_contact_id').length > 0
+    && $('#sf_fieldset_reservation .sf_admin_form_field_applicant a').length > 0 )
   {
     $('#sf_fieldset_reservation .sf_admin_form_field_contact_id.sf_admin_foreignkey input[type=text]')
-      .after($('#sf_fieldset_reservation .sf_admin_form_field_contact_id:not(.sf_admin_foreignkey) a')
+      .after($('#sf_fieldset_reservation .sf_admin_form_field_applicant a')
         .each(function(){ $(this).prop('title',$(this).html()); })
         .prepend('<span class="ui-icon ui-icon-person"></span>')
       );
-    $('#sf_fieldset_reservation .sf_admin_form_field_contact_id:not(.sf_admin_foreignkey)').hide();
+    $('#sf_fieldset_reservation .sf_admin_form_field_applicant').hide();
   }
+  else
+  {
+    // if no applicant, then remove the field from the form
+    $('#sf_fieldset_reservation .sf_admin_form_field_applicant').hide();
+  }
+  
+  // add titles on extra-informations fields
+  $('#sf_fieldset_extra_informations table table tr').each(function(){
+    $(this).find('td').prop('title',$(this).find('th label').html());
+  });
 });

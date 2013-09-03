@@ -11,6 +11,8 @@ create:
   credentials: [event-manif-new]
 templating:
   credentials: [event-manif-new]
+periodicity:
+  credentials: [event-manif-new]
 delete:
   credentials: [event-manif-del]
 batchDelete:

@@ -54,6 +54,28 @@ class ManifestationForm extends BaseManifestationForm
       $this->validatorSchema[$fieldName]->setOption('required', false);
     $this->widgetSchema['booking_list']->setOption('expanded', true);
     
+    // extra informations
+    if ( !$this->object->isNew() && sfConfig::get('app_manifestation_extra_informations_enabled',true) )
+    {
+      for ( $i = 0 ; $i < 3 ; $i++ )
+        $this->object->ExtraInformations[] = new ManifestationExtraInformation;
+      $this->embedRelation('ExtraInformations');
+      for ( $i = 0 ; $i < $this->object->ExtraInformations->count() ; $i++ )
+      {
+        $this->validatorSchema['ExtraInformations'][$i]['name']->setOption('required', false);
+        $this->validatorSchema['ExtraInformations'][$i]['value']->setOption('required', false);
+      }
+    }
+    
+    // default values from config file
+    foreach ( sfConfig::get('app_manifestation_defaults',array()) as $fieldName => $default )
+      $this->setDefault($fieldName, $default);
+    
+    // default contact
+    if ( sfContext::hasInstance() && $this->object->isNew() )
+    if ( $contact = sfContext::getInstance()->getUser()->getContact() )
+      $this->setDefault('contact_id', $contact->id);
+    
     parent::configure();
   }
   
@@ -83,6 +105,16 @@ class ManifestationForm extends BaseManifestationForm
     $this->saveBookingList($con);
     if ( $this->isNew() )
       $this->saveWorkspacesList($con);
+    
+    foreach ( $this->values['ExtraInformations'] as $key => $ei )
+    if ( !(isset($ei['name']) && $ei['name']) )
+    {
+      unset(
+        $this->embeddedForms['ExtraInformations'][$key],
+        $this->values['ExtraInformations'][$key],
+        $this->object->ExtraInformations[$key]
+      );
+    }
     
     BaseFormDoctrine::doSave($con);
   }
