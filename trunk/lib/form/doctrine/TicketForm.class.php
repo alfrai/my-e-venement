@@ -86,7 +86,7 @@ class TicketForm extends BaseTicketForm
         ->andWhere('p.name = ?', $this->object->price_name)
         ->andWhere('t.printed_at IS NULL')
         ->andWhere('t.gauge_id = ?',$this->object->gauge_id)
-        ->orderBy('t.integrated_at, t.id DESC')
+        ->orderBy('t.integrated_at DESC, t.id DESC')
         ->limit(-$nb);
       $tickets = $q->execute();
       foreach ( $tickets as $ticket )
