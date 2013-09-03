@@ -38,106 +38,19 @@ class manifestationActions extends autoManifestationActions
 {
   public function executeSlideHappensAt(sfWebRequest $request)
   {
-    $this->manifestation = Doctrine::getTable('Manifestation')->createQuery('m')
-      ->andWhere('m.id = ?',$request->getParameter('id'))
-      ->fetchOne();
-    $this->forward404Unless($request->hasParameter('days') && $request->hasParameter('minutes') && $this->manifestation);
-    
-    // manifestation
-    $this->manifestation->happens_at = date('Y-m-d H:i:s',
-      strtotime($this->manifestation->happens_at) +
-      $request->getParameter('days') * 24 * 60 * 60 +
-      $request->getParameter('minutes') * 60 );
-    
-    // reservation
-    $this->manifestation->reservation_begins_at = date('Y-m-d H:i:s',
-      strtotime($this->manifestation->reservation_begins_at) +
-      $request->getParameter('days') * 24 * 60 * 60 +
-      $request->getParameter('minutes') * 60
-    );
-    $this->manifestation->reservation_ends_at = date('Y-m-d H:i:s',
-      strtotime($this->manifestation->reservation_ends_at) +
-      $request->getParameter('days') * 24 * 60 * 60 +
-      $request->getParameter('minutes') * 60
-    );
-    
-    $this->manifestation->save();
-    
+    require(dirname(__FILE__).'/slide-happens-at.php');
     return sfView::NONE;
   }
   
   public function executeSlideDuration(sfWebRequest $request)
   {
-    $this->manifestation = Doctrine_Query::create()->from('Manifestation m')
-      ->andWhere('m.id = ?',$request->getParameter('id'))
-      ->fetchOne();
-    $this->forward404Unless($request->hasParameter('days') && $request->hasParameter('minutes') && $this->manifestation);
-    
-    // manifestation
-    $this->manifestation->duration = $str = $this->manifestation->duration +
-      $request->getParameter('days') * 24 * 60 * 60 +
-      $request->getParameter('minutes') * 60;
-    
-    // reservation
-    $this->manifestation->reservation_ends_at = date('Y-m-d H:i:s',
-      strtotime($this->manifestation->reservation_ends_at) +
-      $request->getParameter('days') * 24 * 60 * 60 +
-      $request->getParameter('minutes') * 60
-    );
-    
-    $this->manifestation->save();
-    
+    require(dirname(__FILE__).'/slide-duration.php');
     return sfView::NONE;
   }
   
   public function executeExport(sfWebRequest $request)
   {
-    $this->getContext()->getConfiguration()->loadHelpers(array('Date','CrossAppLink'));
-    $manifestation = $this->getRoute()->getObject();
-    
-    $q = new Doctrine_Query;
-    $q->from('Contact c')
-      ->leftJoin('c.Transactions t')
-      ->leftJoin('t.Professional tp')
-      ->leftJoin('t.Tickets tck')
-      ->leftJoin('tck.Manifestation m')
-      ->leftJoin('c.Professionals cp ON c.id = cp.contact_id AND (cp.id = tp.id OR cp.id IS NULL AND tp.id IS NULL)')
-      ->select('c.*, cp.*')
-      ->andWhere('m.id = ?',$manifestation->id)
-      ->andWhere('tck.cancelling IS NULL')
-      ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)');
-    
-    switch ( $request->getParameter('status') ) {
-    case 'asked':
-      $q->leftJoin('t.Order o')
-        ->andWhere('o.id IS NULL')
-        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL');
-      break;
-    case 'ordered':
-      $q->leftJoin('t.Order o')
-        ->andWhere('o.id IS NOT NULL')
-        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL');
-      break;
-    default:
-      $q->andWhere('(tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL)');
-      break;
-    }
-
-    $contacts = $q->execute();
-    
-    $group = new Group;
-    $group->name = $manifestation.' / '.format_datetime(date('Y-m-d H:i:s'));
-    $group->sf_guard_user_id = $this->getUser()->getId();
-    
-    foreach ( $contacts as $contact )
-    if ( $contact->Professionals->count() > 0 )
-    foreach ( $contact->Professionals as $professional )
-      $group->Professionals[] = $professional;
-    else
-      $group->Contacts[] = $contact;
-    
-    $group->save();
-    $this->redirect(cross_app_url_for('rp','group/show?id='.$group->id));
+    require(dirname(__FILE__).'/export.php');
     return sfView::NONE;
   }
   public function executeDuplicate(sfWebRequest $request)
@@ -154,17 +67,7 @@ class manifestationActions extends autoManifestationActions
   }
   public function executePeriodicity(sfWebRequest $request)
   {
-    $this->manifestation = $this->getRoute()->getObject();
-    $this->form = new BaseForm;
-    $this->form->bind(array(
-      $this->form->getCSRFFieldName() => $request->getParameter($this->form->getCSRFFieldName(),'')
-    ));
-    if ( $this->form->isValid() && $request->getParameter('periodicity',array()) )
-    {
-      die();
-      // TODO
-      $this->redirect('event/edit?id='.$this->manifestation->event_id);
-    }
+    require(dirname(__FILE__).'/export.php');
   }
   public function executeNew(sfWebRequest $request)
   {
@@ -281,38 +184,7 @@ class manifestationActions extends autoManifestationActions
 
   public function executeList(sfWebRequest $request)
   {
-    $this->location_id = $request->getParameter('location_id');
-    $this->event_id = $request->getParameter('event_id');
-    
-    $from = date('Y-m-01', $request->getParameter('start',strtotime('now')));
-    $to = date('Y-m-01', $request->getParameter('end',strtotime('+ 1 month')));
-    
-    $q = Doctrine::getTable('Manifestation')->createQuery('m')
-      ->select('m.*, l.*, c.*, e.*, g.*')
-      ->leftJoin('m.Color c')
-      ->andWhere('m.happens_at >= ?',$from)
-      ->andWhere('m.happens_at <  ?',$to)
-      ->orderBy('m.happens_at DESC');
-    if ( $this->location_id )
-      $q->andWhere('(TRUE')
-        ->andWhere('m.location_id = ?',$this->location_id)
-        ->leftJoin('m.Booking b')
-        ->orWhere('b.id = ?',$this->location_id)
-        ->andWhere('TRUE)');
-    if ( $this->event_id )
-      $q->andwhere('m.event_id = ?',$this->event_id);
-    
-    EventFormFilter::addCredentialsQueryPart($q);
-    $this->manifestations = $q->execute();
-    $this->forward404Unless($this->manifestations);
-    
-    $this->debug = false;
-    if ( $request->hasParameter('debug') )
-    {
-      $this->getResponse()->setContentType('text/html');
-      $this->setLayout('layout');
-      $this->debug = true;
-    }
+    require(dirname(__FILE__).'/list.php');
   }
   public function executeEventList(sfWebRequest $request)
   {
@@ -358,24 +230,7 @@ class manifestationActions extends autoManifestationActions
   
   public function executeTemplating(sfWebRequest $request)
   {
-    $this->form = new ManifestationTemplatingForm();
-    
-    $template = $request->getParameter('template');
-    if ( $template )
-    {
-      sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
-      $this->form->bind($template);
-      if ( $this->form->isValid() )
-      {
-        $this->form->save();
-        $this->getUser()->setFlash('notice',__('The template has been applied correctly.'));
-        $this->redirect('manifestation/templating');
-      }
-      else
-      {
-        $this->getUser()->setFlash('error',__('The template has not been applied correctly !'));
-      }
-    }
+    require(dirname(__FILE__).'/templating.php');
   }
   
   protected function securityAccessFiltering(sfWebRequest $request)
