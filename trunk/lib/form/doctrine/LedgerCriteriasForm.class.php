@@ -54,7 +54,6 @@ class LedgerCriteriasForm extends BaseForm
     
     $this->widgetSchema['workspaces'] = new sfWidgetFormDoctrineChoice(array(
       'model'     => 'Workspace',
-      'add_empty' => true,
       'order_by'  => array('name',''),
       'multiple'  => true,
     ));
