@@ -22,8 +22,8 @@ generator:
         table_method: retrieveList
         sort: [mct.name, desc]
         object_actions:
-          _delete: ~
           _edit: ~
+          _delete: ~
       filter:
         display: [member_card_type_id, price_id, quantity, event_id, updated_at]
       form:
