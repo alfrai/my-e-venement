@@ -24,6 +24,11 @@
 <?php
   use_helper('Colors');
   
+  // STYLES OF CALENDAR ELEMENTS
+  $css_around = array(
+    'font-size' => '80%',
+  );
+  
   // JSON CONTENT
   
   $manifs = array();
@@ -38,18 +43,16 @@
       'allDay' => false,
       'hackurl' => url_for('manifestation/show?id='.$manif->id),
       'editable' => $sf_user->hasCredential('event-manif-edit'),
-      'css' => array(
-        'border-style' => 'solid',
-      ),
-    );
+      'css' => array_merge($css_base = array(
+          'border-style'  => $manif->reservation_confirmed ? 'solid' : 'dashed',
+          'font-style'    => $manif->reservation_blocking ? 'normal' : 'italic',
+        ), array(
+          'opacity'       => !$manif->reservation_optional || $manif->reservation_confirmed  ? '1' : '0.7',
+        ))
+      );
+    
     if ( $manif->color_id )
       $manifs[count($manifs)-1]['backgroundColor'] = '#'.$manif->Color->color;
-    
-    // default CSS properties for preparation / finition
-    $css = array(
-      'opacity' => '0.6',
-      'border-style' => 'dashed',
-    );
     
     // preparation
     if ( $manif->reservation_begins_at < $manif->happens_at )
@@ -59,7 +62,9 @@
       $manifs[count($manifs)-1]['start'] = $manif->reservation_begins_at;
       $manifs[count($manifs)-1]['end'] = $manif->happens_at;
       $manifs[count($manifs)-1]['editable'] = false;
-      $manifs[count($manifs)-1]['css'] = array_merge($css,array(
+      $manifs[count($manifs)-1]['css'] = array_merge($css_around, $css_base, $css = array(
+        'opacity'       => !$manif->reservation_optional || $manif->reservation_confirmed  ? '0.7' : '0.5',
+      ), array(
         'border-bottom-left-radius' => '0',
         'border-bottom-right-radius' => '0',
         'border-bottom-width' => '0',
@@ -77,7 +82,7 @@
       $manifs[count($manifs)-1]['start'] = $manif->ends_at;
       $manifs[count($manifs)-1]['end'] = $manif->reservation_ends_at;
       $manifs[count($manifs)-1]['editable'] = false;
-      $manifs[count($manifs)-1]['css'] = array_merge($css,array(
+      $manifs[count($manifs)-1]['css'] = array_merge($css_around, $css_base, $css, array(
         'border-top-left-radius' => '0',
         'border-top-right-radius' => '0',
         'border-top-width' => '0',
