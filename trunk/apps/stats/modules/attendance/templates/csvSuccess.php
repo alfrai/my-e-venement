@@ -35,6 +35,7 @@
     $vars[$value] = $$value;
     unset($vars[$key]);
   }
+  
   $vars['options']['header'] = array(
     'event_name' => __('Event'),
     'happens_at' => __('Date'),

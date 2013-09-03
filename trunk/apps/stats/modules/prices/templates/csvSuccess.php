@@ -37,8 +37,8 @@
   }
   
   $vars['options']['header'] = array(
-    'name' => $name,
-    'nb' => __('Number'),
+    'name'    => $name,
+    'nb'      => __('Number'),
     'percent' => __('Proportion'),
   );
   
