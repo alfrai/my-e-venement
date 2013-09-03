@@ -58,7 +58,7 @@ class activityActions extends sfActions
     $this->charset   = sfConfig::get('software_internals_charset');
     
     sfConfig::set('sf_escaping_strategy', false);
-    sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
+    $confcsv = sfConfig::get('software_internals_csv'); if ( isset($confcsv['set_charset']) && $confcsv['set_charset'] ) sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
     
     if ( $request->hasParameter('debug') )
     {
