@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>New Jabber account</source>
+        <target>Nouveau compte Jabber</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List of jabber accounts</source>
+        <target>Liste des comptes jabber</target>
+      </trans-unit>
+      <trans-unit>
         <source>List of authorized groups</source>
         <target>Liste des groupes autorisés</target>
       </trans-unit>

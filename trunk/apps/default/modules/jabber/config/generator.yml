@@ -16,6 +16,7 @@ generator:
       fields:
         sf_guard_user_id: { label: User }
       list:
+        title: List of jabber accounts
         display: [jabber_id, User]
         object_actions:
           _edit: ~
@@ -24,4 +25,5 @@ generator:
       form:    ~
       edit:
         title: Edit the %%User%%'s Jabber account
-      new:     ~
+      new:
+        title: New Jabber account
