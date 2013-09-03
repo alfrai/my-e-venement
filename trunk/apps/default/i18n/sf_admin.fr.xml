@@ -5,6 +5,18 @@
     <header />
     <body>
       <trans-unit>
+        <source>Error moving the manifestation</source>
+        <target>Une erreur est survenue lors du déplacement de la manifestation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Error changing the manifestation's duration</source>
+        <target>Une erreur est survenue lors du changement de la durée de la manifestation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Error loading the data from manifestations</source>
+        <target>Une erreur est survenue lors du chargement des données des manifestations</target>
+      </trans-unit>
+      <trans-unit>
         <source>Some chars are not allowed here</source>
         <target>Certains caractères ne sont pas autorisés ici</target>
       </trans-unit>
