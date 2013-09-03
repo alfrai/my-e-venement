@@ -305,6 +305,10 @@
         <target>Téléchargement de la pièce jointe</target>
       </trans-unit>
       <trans-unit>
+        <source>Edit Member card type</source>
+        <target>Modification du type de carte d'abo.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Member card type</source>
         <target>Type de carte d'abo.</target>
       </trans-unit>
