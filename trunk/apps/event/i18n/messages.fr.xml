@@ -5,6 +5,46 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Repeat every</source>
+        <target>Répéter tous les</target>
+      </trans-unit>
+      <trans-unit>
+        <source>hours</source>
+        <target>heures</target>
+      </trans-unit>
+      <trans-unit>
+        <source>days</source>
+        <target>jours</target>
+      </trans-unit>
+      <trans-unit>
+        <source>weeks</source>
+        <target>semaines</target>
+      </trans-unit>
+      <trans-unit>
+        <source>month</source>
+        <target>mois</target>
+      </trans-unit>
+      <trans-unit>
+        <source>years</source>
+        <target>années</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Repeat</source>
+        <target>Répéter</target>
+      </trans-unit>
+      <trans-unit>
+        <source>times</source>
+        <target>fois</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Until</source>
+        <target>Jusqu'au</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Only one occurrence</source>
+        <target>Seulement une fois</target>
+      </trans-unit>
+      <trans-unit>
         <source>Comment</source>
         <target>Commentaire</target>
       </trans-unit>
@@ -13,8 +53,12 @@
         <target>Informations suppl.</target>
       </trans-unit>
       <trans-unit>
-        <source>Periodicities for %%manifestation%%</source>
-        <target>Périodicités pour %%manifestation%%</target>
+        <source>Periodicity for %%manifestation%%</source>
+        <target>Périodicité pour %%manifestation%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The manifestation has been duplicated successfully.</source>
+        <target>La manifestation a été dupliquée avec succès.</target>
       </trans-unit>
       <trans-unit>
         <source>Periodicity</source>

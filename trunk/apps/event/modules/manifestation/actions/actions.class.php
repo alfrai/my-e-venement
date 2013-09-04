@@ -55,6 +55,8 @@ class manifestationActions extends autoManifestationActions
   }
   public function executeDuplicate(sfWebRequest $request)
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    
     $manif = Doctrine_Query::create()->from('Manifestation m')
       ->leftJoin('m.PriceManifestations p')
       ->leftJoin('m.Gauges g')
@@ -63,11 +65,12 @@ class manifestationActions extends autoManifestationActions
       ->fetchOne()
       ->duplicate();
     
+    $this->getUser()->setFlash('notice',__('The manifestation has been duplicated successfully.'));
     $this->redirect('manifestation/edit?id='.$manif->id);
   }
   public function executePeriodicity(sfWebRequest $request)
   {
-    require(dirname(__FILE__).'/export.php');
+    require(dirname(__FILE__).'/periodicity.php');
   }
   public function executeNew(sfWebRequest $request)
   {
