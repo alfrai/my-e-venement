@@ -1,7 +1,7 @@
 <?php
 
 // calendar's first day calculation
-$now = $time = strtotime('2014-12-20');
+$now = $time = strtotime('now');
 foreach ( $form->getObject()->Manifestations as $manif )
 if ( strtotime($manif->happens_at) > $now ) // if this manifestation happens after now
 {
