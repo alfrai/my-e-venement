@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <div id="more">
-  <?php include_partial('event/manifestation_list', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
   <?php include_partial('event/manifestation_calendar', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
+  <?php include_partial('event/manifestation_list', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
 </div>
 
