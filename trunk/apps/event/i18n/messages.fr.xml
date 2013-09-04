@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Try again with valid informations.</source>
+        <target>Essayez à nouveau, avec des informations valides.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Repeat every</source>
         <target>Répéter tous les</target>
       </trans-unit>

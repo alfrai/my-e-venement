@@ -120,3 +120,7 @@ select[disabled] {
 #sf_fieldset_extra_informations table table tr:first-child input[type=text] { width: 120px; }
 #sf_fieldset_extra_informations table table input[type=text][value=""] { border-style: dashed; }
 #sf_fieldset_extra_informations .sf_admin_form_field_ExtraInformations .errors { display: none; }
+
+.periodicity h2 { font-size: 120%; margin-bottom: 5px; }
+.periodicity .ui-widget-content { display: inline-block; min-width: 300px; margin: 5px; vertical-align: top; padding: 5px; }
+.periodicity .number { text-align: right; }

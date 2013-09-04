@@ -1,6 +1,6 @@
 $(document).ready(function(){
   // when clicking on a text field, the related radio button is selected automatically
-  $('#periodicity_behaviour input[type=text]').click(function(){
+  $('#periodicity_behaviour input[type=text], #periodicity_behaviour input.ui-datepicker-trigger').click(function(){
     $(this).parent().find('input[type=radio]').prop('checked',true).change();
   });
   
@@ -13,5 +13,5 @@ $(document).ready(function(){
       $('#periodicity_repeat input').prop('disabled',true);
     else
       $('#periodicity_repeat input').prop('disabled',false);
-  });
+  }).first().change();
 });
