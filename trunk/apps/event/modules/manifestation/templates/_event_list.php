@@ -53,7 +53,7 @@
     <tbody>
       <?php foreach ($pager->getResults() as $i => $manifestation): $odd = fmod(++$i, 2) ? ' odd' : '' ?>
       <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
-        <?php include_partial('manifestation/event_list_td_tabular', array('manifestation' => $manifestation)) ?>
+        <?php include_partial('manifestation/event_list_td_tabular', array('manifestation' => $manifestation, 'helper' => $helper,)) ?>
       </tr>
       <?php endforeach; ?>
     </tbody>

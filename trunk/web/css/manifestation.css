@@ -122,5 +122,8 @@ select[disabled] {
 #sf_fieldset_extra_informations .sf_admin_form_field_ExtraInformations .errors { display: none; }
 
 .periodicity h2 { font-size: 120%; margin-bottom: 5px; }
-.periodicity .ui-widget-content { display: inline-block; min-width: 300px; margin: 5px; vertical-align: top; padding: 5px; }
+.periodicity .ui-widget-content { display: inline-block; min-width: 280px; margin: 5px; vertical-align: top; padding: 5px; }
 .periodicity .number { text-align: right; }
+.periodicity .submit, .periodicity .back { margin: 5px; }
+.periodicity .back a { float: none; }
+.periodicity .back { margin-top: 10px; }

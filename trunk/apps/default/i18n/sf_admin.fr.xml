@@ -25,6 +25,10 @@
         <target>Fusionner</target>
       </trans-unit>
       <trans-unit>
+        <source>Back</source>
+        <target>Retour</target>
+      </trans-unit>
+      <trans-unit>
         <source>Add in a group</source>
         <target>Ajouter à un groupe</target>
       </trans-unit>

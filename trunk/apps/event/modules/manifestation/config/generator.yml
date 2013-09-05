@@ -34,6 +34,14 @@ generator:
         ExtraInformations: { label: Extra informations }
       list:
         display: [_list_event, happens_at, _list_location, _list_description]
+        object_actions:
+          _edit:
+            credentials: event-manif-edit
+          _periodicity:
+            action: periodicity
+            credentials: event-manif-edit
+          #_delete:
+          #  credentials: event-manif-edit
       filter:
         display: []
       form: ~

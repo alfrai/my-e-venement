@@ -13,7 +13,5 @@
   <?php echo get_partial('manifestation/list_gauge', array('type' => 'list', 'manifestation' => $manifestation)) ?>
 </td>
 <?php if ( $sf_user->hasCredential('event-manif-edit') ): ?>
-<td class="sf_admin_text sf_admin_list_td_list_duplicate">
-  <?php echo get_partial('manifestation/list_actions', array('type' => 'list', 'manifestation' => $manifestation)) ?>
-</td>
+  <?php echo get_partial('manifestation/list_td_actions', array('manifestation' => $manifestation, 'helper' => $helper,)) ?>
 <?php endif ?>

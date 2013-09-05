@@ -5,8 +5,20 @@
     <header/>
     <body>
       <trans-unit>
+        <source>%%nb%% manifestation(s) have been created during the duplication process.</source>
+        <target>%%nb%% manifestation(s) ont été créées durant le processus de duplication.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Manifestation duplicated successfully.</source>
+        <target>Manifestation dupliquée avec succès.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Try again with valid informations.</source>
         <target>Essayez à nouveau, avec des informations valides.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Unknown manifestation.</source>
+        <target>Manifestation non spécifiée.</target>
       </trans-unit>
       <trans-unit>
         <source>Repeat every</source>
