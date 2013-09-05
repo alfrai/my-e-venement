@@ -27,7 +27,6 @@ if ( $('[name="email[id]"]').val() == '' )
   $('[name="email[field_subject]"]').change(manage_attachment_widget);
 }
 $('.attachment-new a').click(function(){
-
   if ( $.trim($('[name="email[field_subject]"]').val()) == '' || $.trim(tinyMCE.activeEditor.getContent()) == '' )
   {
     $('#transition .close').click();
