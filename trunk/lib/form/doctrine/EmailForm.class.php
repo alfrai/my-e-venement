@@ -73,6 +73,10 @@ class EmailForm extends BaseEmailForm
       'required' => false,
     ));
     
+    $this->validatorSchema['attach'] = new sfValidatorPass(array(
+      'required' => false,
+    ));
+    
     // validation / test forms
     $this->widgetSchema   ['test_address'] = new sfWidgetFormInputText();
     $this->validatorSchema['test_address'] = new sfValidatorEmail(array(
