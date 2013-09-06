@@ -16,9 +16,9 @@
           <h3><?php echo $obj ?></h3>
         <?php endif ?>
         <form action="#" method="get"><ul>
-          <?php foreach ( $obj->Groups as $group ): ?>
+          <?php foreach ( $obj->getGroups() as $group ): ?>
           <?php $users = array(); foreach ( $group->Users as $user ) $users[] = $user->id; ?>
-          <?php if ( in_array($sf_user->getId(), $users) || $sf_user->hasCredential(array('super-admin','admin'),false) || $group->sf_guard_user_id === $sf_user->getId() ): ?>
+          <?php if ( is_null($group->sf_guard_user_id) && (in_array($sf_user->getId(), $users) || $sf_user->hasCredential(array('super-admin','admin'),false)) || $group->sf_guard_user_id === $sf_user->getId() ): ?>
           <li>
             <?php if ( $group->sf_guard_user_id === $sf_user->getId() || (is_null($group->sf_guard_user_id) && $sf_user->hasCredential('pr-group-common')) ): ?>
             <a href="#" class="remove" onclick="javascript: contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?>(this);">x</a>
