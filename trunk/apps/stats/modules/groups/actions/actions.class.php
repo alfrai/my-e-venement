@@ -74,7 +74,7 @@ class groupsActions extends sfActions
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $where_groups = !$groups_list ? '' : 'group_id IN ('.implode(',',$groups_list).') AND';
     $q = "SELECT d.date, d.date + '$interval days'::interval AS end,
-            (SELECT sum(CASE WHEN (SELECT count(yy.id) FROM y_o_b yy WHERE yy.contact_id = gc.contact_id) > 0 THEN (SELECT count(y.id) FROM y_o_b y WHERE y.contact_id = gc.contact_id) ELSE 1 END)      FROM Group_Contact      gc WHERE $where_groups gc.created_at <= d.date::date) +
+            (SELECT sum(CASE WHEN (SELECT count(yy.id) FROM y_o_b yy WHERE yy.contact_id = gc.contact_id) > 0 THEN (SELECT count(y.id) FROM y_o_b y WHERE y.contact_id = gc.contact_id) ELSE 1 END)::integer      FROM Group_Contact      gc WHERE $where_groups gc.created_at <= d.date::date) +
             (SELECT count(gp.professional_id) FROM Group_Professional gp WHERE $where_groups gp.created_at <= d.date::date) +
             (SELECT count(go.organism_id)     FROM Group_Organism     go WHERE $where_groups go.created_at <= d.date::date) +
             (SELECT count(gd1.*)              FROM Group_Deleted     gd1 WHERE $where_groups gd1.created_at <= d.date::date) -

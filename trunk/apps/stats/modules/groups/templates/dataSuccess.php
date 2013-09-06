@@ -39,8 +39,8 @@
         : format_date($date['date'])
       , '#000', 11, 45);
       
-      $max[] = $date['nb'];
-      $line_values[] = $date['nb'];
+      $max[] = (int)$date['nb'];
+      $line_values[] = (int)$date['nb'];
     }
     
     $dot = new liDotSolid;
