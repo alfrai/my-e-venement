@@ -1,2 +1,0 @@
-all:
-  stylesheets: [grp-event: { media: all }]

@@ -1,8 +1,0 @@
-/*.sf_admin_list_td_list_manifestations_gauges.small-gauges br { display: none; }*/
-.sf_admin_list_td_list_manifestations_gauges.small-gauges .txt { display: inline-block; height: 14px; font-size: 12px; position: relative; top: -5px; margin-left: 3px; }
-.sf_admin_list_td_list_manifestations_gauges.small-gauges .gauge { display: inline-block; width: 100px; height: 14px; font-size: 0; overflow: hidden; background-color: green; margin-bottom: 2px; opacity: 0.8; cursor: crosshair; border-radius: 3px; }
-.sf_admin_list_td_list_manifestations_gauges.small-gauges .gauge.overbooked { outline: 2px solid orange; }
-.sf_admin_list_td_list_manifestations_gauges.small-gauges .gauge > * { display: inline-block; height: 14px; }
-.sf_admin_list_td_list_manifestations_gauges.small-gauges .gauge .asked   { background-color: blue; }
-.sf_admin_list_td_list_manifestations_gauges.small-gauges .gauge .ordered { background-color: orange; }
-.sf_admin_list_td_list_manifestations_gauges.small-gauges .gauge .sold    { background-color: red; }

@@ -1,4 +1,0 @@
-all:
-  credentials: stats-activity
-csv:
-  credentials: [stats-activity, stats-csv]
