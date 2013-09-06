@@ -46,14 +46,7 @@
       $(this).find('tr .workspace').hide();
     });
     
-    $('#sf_fieldset_spectators .tab-print a').click(function(){
-      $('body').addClass('sf_fieldset_spectators'); print();
-      
-      // time out permitting the system to prepare the print before restoring things
-      setTimeout(function(){ $('body').removeClass('sf_fieldset_spectators'); },500);
-      
-      return false;
-    });
+    <?php include_partial('show_print_part_js',array('tab' => 'spectators')) ?>
   });
 </script>
 

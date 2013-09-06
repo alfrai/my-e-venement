@@ -53,6 +53,10 @@ class manifestationActions extends autoManifestationActions
     require(dirname(__FILE__).'/export.php');
     return sfView::NONE;
   }
+  public function executeCsv(sfWebRequest $request)
+  {
+    require(dirname(__FILE__).'/csv.php');
+  }
   public function executeDuplicate(sfWebRequest $request)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');

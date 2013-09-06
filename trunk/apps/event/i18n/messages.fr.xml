@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Department</source>
+        <target>Service</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Admin. ID</source>
+        <target>Admin. ID</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Qty</source>
+        <target>Qté</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Extract</source>
+        <target>Extraire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>... the list of spectators with a ticket</source>
+        <target>... la liste des spectateurs avec billet</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%nb%% manifestation(s) have been created during the duplication process.</source>
         <target>%%nb%% manifestation(s) ont été créées durant le processus de duplication.</target>
       </trans-unit>
