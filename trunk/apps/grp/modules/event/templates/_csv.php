@@ -54,5 +54,6 @@
   );
   foreach ( $prices as $id => $price )
     $vars['options']['header'][$id] = $price;
+  $vars['options']['header']['total'] = __('Total');
   
   include_partial('global/csv',$vars);

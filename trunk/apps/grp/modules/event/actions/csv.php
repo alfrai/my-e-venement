@@ -56,15 +56,22 @@
   
   $tickets = $q->execute();
   
+  // prices preconditions to normalization
+  $total = array('total' => 0, 'prices' => array());
   $contacts = $this->prices = array();
   foreach ( $tickets as $ticket )
   if ( !isset($this->prices['price_'.$ticket->Price->id]) )
+  {
+    $this->total ['price_'.$ticket->Price->id] =
     $this->prices['price_'.$ticket->Price->id] = $ticket->Price->name;
+  }
   
+  // formatting data for normalization (prices)
   $init = array();
   foreach ( $this->prices as $id => $value )
     $init[$id] = 0;
   
+  // compulsing data
   foreach ( $tickets as $ticket )
   {
     if ( !isset($contacts[$ticket->EntryElement->ContactEntry->Professional->id]) )
@@ -72,15 +79,20 @@
         'professional' => $ticket->EntryElement->ContactEntry->Professional,
         'tickets'      => $init,
         'manifestation'=> $ticket->EntryElement->ManifestationEntry->Manifestation,
+        'total'        => 0,
       );
     
     $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$ticket->Price->id]
       += $ticket->quantity;
+    $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['total'] += $ticket->quantity;
+    $total['price_'.$ticket->Price->id] += $ticket->quantity;
+    $total['total'] += $ticket->quantity;
   }
   
   $this->lines = array();
   foreach ( $contacts as $contact )
   {
+    // contact + pro + org's groups management
     $grps = array('contact' => array(), 'professional' => array(), 'organism' => array());
     foreach ( $contact['professional']->Contact->ContactGroups as $g )
     if ( $g->Group )
@@ -91,7 +103,8 @@
     foreach ( $contact['professional']->Organism->OrganismGroups as $g )
     if ( $g->Group )
       $grps['organism'][] = (string)$g->Group;
-
+    
+    // real data
     $this->lines[] = array(
       'event'         => (string) $contact['manifestation']->Event,
       'date'          => (string) format_datetime($contact['manifestation']->happens_at),
@@ -112,6 +125,9 @@
     
     $this->lines[count($this->lines)-1] = array_merge($this->lines[count($this->lines)-1],$contact['tickets']);
   }
+  
+  // total of totals
+  $this->lines[] = $total;
   
   $params = OptionCsvForm::getDBOptions();
   $this->options = array(
@@ -138,6 +154,7 @@
   );
   foreach ( $this->prices as $id => $price )
     $this->options['fields'][] = $id;
+  $this->options['fields'][] = 'total';
   
   $this->outstream = 'php://output';
   $this->delimiter = $this->options['ms'] ? ';' : ',';
