@@ -139,4 +139,10 @@ class StatsCriteriasForm extends BaseForm
     ));
     return $this;
   }
+  
+  public function removeDatesCriteria()
+  {
+    unset($this->widgetSchema['dates'], $this->validatorSchema['dates']);
+    return $this;
+  }
 }

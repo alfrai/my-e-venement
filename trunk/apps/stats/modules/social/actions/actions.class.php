@@ -20,9 +20,26 @@ class socialActions extends sfActions
     if ( $request->hasParameter('criterias') )
     {
       $this->criterias = $request->getParameter('criterias');
-      $this->getUser()->setAttribute('stats.criterias',$this->criterias,'admin_module');
+      $this->setCriterias($this->criterias);
       $this->redirect($this->getContext()->getModuleName().'/index');
     }
+    
+    $this->form = new StatsCriteriasForm();
+    $this->form
+      ->addGroupsCriteria()
+      ->removeDatesCriteria();
+    if ( is_array($this->getCriterias()) )
+      $this->form->bind($this->getCriterias());
+  }
+  
+  protected function getCriterias()
+  {
+    return $this->getUser()->getAttribute('stats.criterias',array(),'admin_module');
+  }
+  protected function setCriterias($values)
+  {
+    $this->getUser()->setAttribute('stats.criterias',$values,'admin_module');
+    return $this;
   }
   
   public function executeCsv(sfWebRequest $request)
@@ -104,12 +121,18 @@ class socialActions extends sfActions
       throw new liEvenementException("You forgot to specify what kind of data you are expecting or you requested something not implemented.");
     }
     
-    return Doctrine_Query::create()->from($table.' t')
+    $q = Doctrine_Query::create()->from($table.' t')
       ->select('t.id, t.name')
       ->leftJoin('t.Contacts c')
+      ->leftJoin('c.Groups g')
       ->addSelect('count(t.id) as nb')
       ->groupBy('t.id, t.name')
-      ->orderBy('t.name')
-      ->execute();
+      ->orderBy('t.name');
+    
+    $criterias = $this->getCriterias();
+    if ( isset($criterias['groups_list']) && $criterias['groups_list'] )
+      $q->andWhereIn('g.id',$criterias['groups_list']);
+    
+    return $q->execute();
   }
 }

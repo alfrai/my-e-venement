@@ -3,10 +3,12 @@
     <?php echo $form->renderHiddenFields() ?>
   </div>
   <ul>
+    <?php if ( isset($form['dates']) ): ?>
     <li class="dates">
       <label for="dates"><?php echo __('Dates') ?>:</label>
       <span><?php echo $form['dates'] ?></span>
     </li>
+    <?php endif ?>
     <?php if ( isset($form['workspaces_list']) ): ?>
     <li class="workspaces_list">
       <label for="workspaces_list"><?php echo __('Workspaces') ?>:</label>
