@@ -24,7 +24,7 @@ generator:
         description: { label: Memo }
         no_print: { label: Preprinted ticketting }
         reservation_optional: { label: This is an option, type: Boolean }
-        reservation_blocking: { label: Blocking, type: Boolean }
+        blocking: { label: Blocking, type: Boolean }
         reservation_ends_at: { label: Ends at, type: Date }
         reservation_begins_at: { label: Begins at, type: Date }
         reservation_confirmed: { label: Confirmed, credentials: event-reservations-confirm }
@@ -53,7 +53,7 @@ generator:
           Technical:    [duration, vat_id, online_limit, depends_on, _show_is_necessary_to, organizers_list, no_print]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
           <?php if ( sfConfig::get('app_manifestation_reservations_enabled',true) ): echo PHP_EOL; ?>
-          Reservation:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, reservation_blocking, reservation_confirmed, reservation_optional, reservation_description]
+          Reservation:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, reservation_confirmed, reservation_optional, reservation_description]
           <?php endif; echo PHP_EOL; ?>
           <?php if ( sfConfig::get('app_manifestation_extra_informations_enabled',true) ): echo PHP_EOL; ?>
           Extra informations:  [ExtraInformations]
@@ -67,7 +67,7 @@ generator:
           Memo:    [description]
           Technical: [duration, vat_id, online_limit, depends_on, organizers_list, no_print]
           <?php if ( sfConfig::get('app_manifestation_reservations_enabled',true) ): echo PHP_EOL; ?>
-          Reservation:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, reservation_blocking, reservation_confirmed, reservation_optional, reservation_description]
+          Reservation:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, reservation_confirmed, reservation_optional, reservation_description]
           <?php endif; echo PHP_EOL; ?>
         actions: { _save: ~, _list: ~ }
       show:

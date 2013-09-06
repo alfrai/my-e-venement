@@ -55,7 +55,7 @@ class EventForm extends BaseEventForm
           'depends_on', 'contact_id',
           'ends_at',
           'ExtraInformations',
-          'reservation_optional', 'reservation_blocking', 'reservation_ends_at', 'reservation_begins_at',
+          'reservation_optional', 'blocking', 'reservation_ends_at', 'reservation_begins_at',
           'reservation_confirmed', 'reservation_description', 'contact_id', 'booking_list',
         ) as $field )
           unset($this->widgetSchema['Manifestations'][$key][$field]);

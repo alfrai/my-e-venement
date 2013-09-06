@@ -45,7 +45,7 @@
       'editable' => $sf_user->hasCredential('event-manif-edit'),
       'css' => array_merge($css_base = array(
           'border-style'  => $manif->reservation_confirmed ? 'solid' : 'dashed',
-          'font-style'    => $manif->reservation_blocking ? 'normal' : 'italic',
+          'font-style'    => $manif->blocking ? 'normal' : 'italic',
         ), array(
           'opacity'       => !$manif->reservation_optional || $manif->reservation_confirmed  ? '1' : '0.7',
         ))

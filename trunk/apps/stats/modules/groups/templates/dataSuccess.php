@@ -51,7 +51,7 @@
     $line->set_default_dot_style($dot);
     
     $y = new liYAxis;
-    $y->set_range(min($line_values)-round((max($line_values)-min($line_values))/10), max($line_values)+round((max($line_values)-min($line_values))/10), round((max($line_values)+(max($line_values)-min($line_values))/10-min($line_values)+(max($line_values)-min($line_values))/10)/100)*10);
+    $y->set_range(min($line_values)-ceil((max($line_values)-min($line_values))/10), max($line_values)+ceil((max($line_values)-min($line_values))/10), round((max($line_values)+(max($line_values)-min($line_values))/10-min($line_values)+(max($line_values)-min($line_values))/10)/100)*10);
     
     $x = new liXAxis;
     $x->set_labels_from_array($names);

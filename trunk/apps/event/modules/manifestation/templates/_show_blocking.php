@@ -1,5 +1,5 @@
 <?php include_partial('show_boolean',array(
   'form' => $form,
-  'fieldName' => 'reservation_blocking',
+  'fieldName' => 'blocking',
   'label' => __('Blocking'),
 )) ?>

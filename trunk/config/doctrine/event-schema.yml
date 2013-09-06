@@ -288,6 +288,10 @@ Manifestation:
       notnull: true
     depends_on: integer
     contact_id: integer
+    blocking:
+      type: boolean
+      notnull: true
+      default: true
     reservation_begins_at:
       type: timestamp
       notnull: true
@@ -295,10 +299,6 @@ Manifestation:
       type: timestamp
       notnull: true
     reservation_description: string
-    reservation_blocking:
-      type: boolean
-      notnull: true
-      default: true
     reservation_optional:
       type: boolean
       notnull: true
