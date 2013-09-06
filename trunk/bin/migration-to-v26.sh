@@ -22,25 +22,52 @@ read
 # preliminary modifications & backup
 psql $DB <<EOF
 ALTER TABLE ticket DROP COLUMN duplicate;
+ALTER TABLE ticket DROP COLUMN printed;
+ALTER TABLE ticket DROP COLUMN integrated;
 ALTER TABLE ticket_version DROP COLUMN duplicate;
+ALTER TABLE ticket_version DROP COLUMN printed;
+ALTER TABLE ticket_version DROP COLUMN integrated;
+
+ALTER TABLE manifestation ADD COLUMN blocking BOOLEAN;
 ALTER TABLE manifestation ADD COLUMN reservation_begins_at TIMESTAMP;
 ALTER TABLE manifestation ADD COLUMN reservation_ends_at TIMESTAMP;
 ALTER TABLE manifestation ADD COLUMN reservation_confirmed BOOLEAN;
+ALTER TABLE manifestation ADD COLUMN reservation_description BOOLEAN;
+ALTER TABLE manifestation ADD COLUMN reservation_optional BOOLEAN;
+ALTER TABLE manifestation_version ADD COLUMN blocking BOOLEAN;
 ALTER TABLE manifestation_version ADD COLUMN reservation_begins_at TIMESTAMP;
 ALTER TABLE manifestation_version ADD COLUMN reservation_ends_at TIMESTAMP;
 ALTER TABLE manifestation_version ADD COLUMN reservation_confirmed BOOLEAN;
+ALTER TABLE manifestation_version ADD COLUMN reservation_description BOOLEAN;
+ALTER TABLE manifestation_version ADD COLUMN reservation_optional BOOLEAN;
 UPDATE manifestation SET
   reservation_begins_at = happens_at,
   reservation_ends_at = happens_at + (duration||' second')::interval,
   reservation_confirmed = true
+WHERE reservation_begins_at IS NULL
+  AND reservation_ends_at IS NULL
+  AND reservation_confirmed IS NULL
 ;
 UPDATE manifestation_version SET
   reservation_begins_at = happens_at,
   reservation_ends_at = happens_at + (duration||' second')::interval,
-  reservation_confirmed = false
+  reservation_confirmed = true
+WHERE reservation_begins_at IS NULL
+  AND reservation_ends_at IS NULL
+  AND reservation_confirmed IS NULL
 ;
+
+--ALTER TABLE vat ADD COLUMN created_at timestamp without time zone;
+--ALTER TABLE vat ADD COLUMN updated_at timestamp without time zone;
+--ALTER TABLE vat_version ADD COLUMN created_at timestamp without time zone;
+--ALTER TABLE vat_version ADD COLUMN updated_at timestamp without time zone;
+--UPDATE vat SET created_at = NOW(), updated_at = NOW() WHERE created_at IS NULL AND updated_at IS NULL;
+--UPDATE vat_version SET created_at = NOW(), updated_at = NOW() WHERE created_at IS NULL AND updated_at IS NULL;
 EOF
 [ -z "$3" ] && pg_dump -Fc $DB > data/sql/$DB-`date +%Y%m%d`.pgdump && echo "DB dumped"
+
+echo To continue press ENTER
+read
 
 # recreation and data backup
 dropdb $DB && createdb $DB && \
@@ -65,6 +92,7 @@ INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updat
 INSERT INTO group_user(group_id, sf_guard_user_id, updated_at, created_at) (select g.id, u.id, now(), now() from group_table g, sf_guard_user u where g.id IS NOT NULL AND g.sf_guard_user_id is null);
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('stats-pr-groups', 'Permission to access the groups evolution statistics', '2013-08-15 10:14:50', '2013-08-15 10:14:50');
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT id FROM sf_guard_group WHERE name = 'stats-others'), NOW(), NOW());
+UPDATE postalcode SET postalcode = '86580' WHERE city = 'BIARD' AND postalcode = '86000';
 EOF
 
 # final informations
