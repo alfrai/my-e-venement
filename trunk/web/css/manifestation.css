@@ -14,6 +14,7 @@ select[disabled] {
 
 #content .sf_admin_field_organizers_list ul,
 #content .sf_admin_field_workspaces_list ul,
+#content .sf_admin_form_field_prices_list table td { padding: 0 5px; }
 #content .sf_admin_field_prices_list ul {
   padding: 5px 10px;
   margin-bottom: 10px;
