@@ -90,15 +90,7 @@ Ticket:
       type: integer
       unique: true
     printed_at: timestamp
-    printed:
-      type: boolean
-      default: false
-      notnull: true
     integrated_at: timestamp
-    integrated:
-      type: boolean
-      default: false
-      notnull: true
     barcode: string(255)
     othercode: string(255)
     member_card_id: integer
