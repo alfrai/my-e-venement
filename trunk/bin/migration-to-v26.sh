@@ -28,6 +28,8 @@ ALTER TABLE ticket_version DROP COLUMN duplicate;
 ALTER TABLE ticket_version DROP COLUMN printed;
 ALTER TABLE ticket_version DROP COLUMN integrated;
 
+ALTER TABLE manifestation DROP COLUMN optional;
+ALTER TABLE manifestation_version DROP COLUMN optional;
 ALTER TABLE manifestation ADD COLUMN blocking BOOLEAN;
 ALTER TABLE manifestation ADD COLUMN reservation_begins_at TIMESTAMP;
 ALTER TABLE manifestation ADD COLUMN reservation_ends_at TIMESTAMP;
@@ -43,29 +45,34 @@ ALTER TABLE manifestation_version ADD COLUMN reservation_optional BOOLEAN;
 UPDATE manifestation SET
   reservation_begins_at = happens_at,
   reservation_ends_at = happens_at + (duration||' second')::interval,
-  reservation_confirmed = true
-WHERE reservation_begins_at IS NULL
-  AND reservation_ends_at IS NULL
-  AND reservation_confirmed IS NULL
+  reservation_confirmed = true,
+  reservation_optional = false,
+  blocking = true
+--WHERE reservation_begins_at IS NULL
+--  AND reservation_ends_at IS NULL
+--  AND reservation_confirmed IS NULL
 ;
 UPDATE manifestation_version SET
   reservation_begins_at = happens_at,
   reservation_ends_at = happens_at + (duration||' second')::interval,
-  reservation_confirmed = true
-WHERE reservation_begins_at IS NULL
-  AND reservation_ends_at IS NULL
-  AND reservation_confirmed IS NULL
+  reservation_confirmed = true,
+  reservation_optional = false,
+  blocking = true
+--WHERE reservation_begins_at IS NULL
+--  AND reservation_ends_at IS NULL
+--  AND reservation_confirmed IS NULL
 ;
 
---ALTER TABLE vat ADD COLUMN created_at timestamp without time zone;
---ALTER TABLE vat ADD COLUMN updated_at timestamp without time zone;
---ALTER TABLE vat_version ADD COLUMN created_at timestamp without time zone;
---ALTER TABLE vat_version ADD COLUMN updated_at timestamp without time zone;
---UPDATE vat SET created_at = NOW(), updated_at = NOW() WHERE created_at IS NULL AND updated_at IS NULL;
---UPDATE vat_version SET created_at = NOW(), updated_at = NOW() WHERE created_at IS NULL AND updated_at IS NULL;
+ALTER TABLE vat ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE vat ADD COLUMN updated_at timestamp without time zone;
+ALTER TABLE vat_version ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE vat_version ADD COLUMN updated_at timestamp without time zone;
+UPDATE vat SET created_at = NOW(), updated_at = NOW() WHERE created_at IS NULL AND updated_at IS NULL;
+UPDATE vat_version SET created_at = NOW(), updated_at = NOW() WHERE created_at IS NULL AND updated_at IS NULL;
 EOF
 [ -z "$3" ] && pg_dump -Fc $DB > data/sql/$DB-`date +%Y%m%d`.pgdump && echo "DB dumped"
 
+echo ""
 echo To continue press ENTER
 read
 
@@ -73,7 +80,7 @@ read
 dropdb $DB && createdb $DB && \
 echo "GRANT ALL ON DATABASE $DB TO $USER" | psql $DB && \
 ./symfony doctrine:build  --all --no-confirmation && \
-cat data/sql/$DB-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $DB
+cat data/sql/$DB-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -d $DB -a
 cat config/doctrine/functions-pgsql.sql | psql $DB && \
 ./symfony cc &> /dev/null
 echo ""
