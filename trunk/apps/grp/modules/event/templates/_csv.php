@@ -44,6 +44,7 @@
     'contact'       => __('Contact'),
     'groups'        => __('Remarkable'),
     'professional'  => __('Function'),
+    'professional_phonenumber' => __('Phonenumber'),
     'professional_groups' => __('Remarkable'),
     'department'    => __('Department'),
     'address'       => __('Address'),
