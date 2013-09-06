@@ -25,3 +25,4 @@
 .sf_admin_list .sf_admin_list_td_organisms_list { max-width: 145px; }
 .sf_admin_list td:last-child { max-width: 50px; }
 
+.sf_admin_list .sf_admin_row .sf_admin_list_td_list_nb { text-align: right; }
