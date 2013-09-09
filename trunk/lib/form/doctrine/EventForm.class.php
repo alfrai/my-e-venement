@@ -18,9 +18,9 @@ class EventForm extends BaseEventForm
       'width'   => 425,
       'height'  => 300,
     );
-    $this->widgetSchema['description'] = new sfWidgetFormTextareaTinyMCE($tinymce);
-    $this->widgetSchema['extradesc'] = new sfWidgetFormTextareaTinyMCE($tinymce);
-    $this->widgetSchema['extraspec'] = new sfWidgetFormTextareaTinyMCE($tinymce);
+    $this->widgetSchema['description'] = new liWidgetFormTextareaTinyMCE($tinymce);
+    $this->widgetSchema['extradesc'] = new liWidgetFormTextareaTinyMCE($tinymce);
+    $this->widgetSchema['extraspec'] = new liWidgetFormTextareaTinyMCE($tinymce);
     $this->widgetSchema['name'] = new sfWidgetFormTextarea(array(), array('rows' => '1', 'cols' => 58));
     
     $this->widgetSchema['meta_event_id']->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('MetaEvent')->createQuery('me')));

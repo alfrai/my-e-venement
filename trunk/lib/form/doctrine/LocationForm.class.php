@@ -21,6 +21,6 @@ class LocationForm extends BaseLocationForm
       'width'   => 400,
       'height'  => 300,
     );
-    $this->widgetSchema['description'] = new sfWidgetFormTextareaTinyMCE($tinymce);
+    $this->widgetSchema['description'] = new liWidgetFormTextareaTinyMCE($tinymce);
   }
 }

@@ -1,5 +1,5 @@
 all:
-  javascripts: [/liTinymcePlugin/tiny_mce]
+  javascripts: [/liTinymcePlugin/tinymce.min.js, /liTinymcePlugin/jquery.tinymce.min.js]
   stylesheets: [location,manifestation]
 
 showSuccess:

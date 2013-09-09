@@ -37,7 +37,7 @@ class sfWidgetFormTextareaTinyMCE extends sfWidgetFormTextarea
    */
   protected function configure($options = array(), $attributes = array())
   {
-    $this->addOption('theme', 'advanced');
+    $this->addOption('theme', 'modern');
     $this->addOption('width');
     $this->addOption('height');
     $this->addOption('config', '');
