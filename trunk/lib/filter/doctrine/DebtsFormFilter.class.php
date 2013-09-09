@@ -32,29 +32,27 @@ class DebtsFormFilter extends TransactionFormFilter
   
   public function addDateColumnQuery(Doctrine_Query $q, $field, $values)
   {
-    $a = $query->getRootAlias();
+    $a = $q->getRootAlias();
     
     if ( $values )
     {
-      TransactionTable::addDebtsListBaseSelect($query);
+      TransactionTable::addDebtsListBaseSelect($q);
       $q->addSelect('(SELECT SUM(tck.value)  FROM Ticket tck  WHERE '.TransactionTable::getDebtsListTicketsCondition('tck',$values).') AS outcomes')
         ->addSelect("(SELECT SUM(pp.value)   FROM Payment pp  WHERE pp.transaction_id = t.id AND pp.created_at < '".$values."') AS incomes")
-        ->andWhere('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(tck2.value) END) FROM Ticket tck2 WHERE '.TransactionTable::getDebtsListTicketsCondition('tck2',$values).') - (SELECT (CASE WHEN COUNT(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id AND p2.created_at < ?)) != 0',$values);
+        ->andWhere('((SELECT (CASE WHEN COUNT(tck3.id) = 0 THEN 0 ELSE SUM(tck3.value) END) FROM Ticket tck3 WHERE '.TransactionTable::getDebtsListTicketsCondition('tck3',$values).') - (SELECT (CASE WHEN COUNT(p3.id) = 0 THEN 0 ELSE SUM(p3.value) END) FROM Payment p3 WHERE p3.transaction_id = t.id AND p3.created_at < ?)) != 0',$values);
     }
     
     return $q;
   }
 
-   public function addAllColumnQuery(Doctrine_Query $query, $field, $values)
+   public function addAllColumnQuery(Doctrine_Query $q, $field, $values)
    {
-     $a = $query->getRootAlias();
+     $a = $q->getRootAlias();
      
      if ( !$values )
-     {
-       $query
-         ->andWhere('t.closed = false');
-     }
-     return $query;
+       $q->andWhere('t.closed = false');
+     
+     return $q;
    }
 
    public function getFields()
