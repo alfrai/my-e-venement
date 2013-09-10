@@ -140,12 +140,11 @@ class attendanceActions extends sfActions
       $gids = array();
       foreach ( $gauges as $gauge )
         $gids[] = $gauge->id;
-      
     }
     
     // gauge
     $criteria_gg = $ws ? ' AND gg.workspace_id IN ('.implode(',',$ws).')' : '';
-    $criteria_tt_gauge = $ws ? ' AND tt%%d%%.gauge_id IN ('.implode(',',$gids).')' : '';
+    $criteria_tt_gauge = $gids ? ' AND tt%%d%%.gauge_id IN ('.implode(',',$gids).')' : '';
     
     // tickets with or without contact
     $criteria_tt_contact = isset($criterias['with_contact']) && $criterias['with_contact']
