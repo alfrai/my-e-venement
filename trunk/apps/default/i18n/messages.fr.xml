@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>is empty</source>
+        <target>vide ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Error loading the data from manifestations</source>
         <target>Erreur de chargement des données des manifestations</target>
       </trans-unit>
