@@ -23,6 +23,7 @@ generator:
         reservation_price: { label: Costs, help: Reservation costs }
       list:
         display: [name, postalcode, city, email, Contact, Organism, reservation_price]
+        table_method: retrievePlaces
       filter:
         display: [name, postalcode, city, country, email, contact_id, organism_id, npai]
       form:

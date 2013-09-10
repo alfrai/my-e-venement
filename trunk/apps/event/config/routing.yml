@@ -88,6 +88,14 @@ event_category:
     column:               id
     with_wildcard_routes: true
 
+resource:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Location
+    module:               resource
+    prefix_path:          /resource
+    column:               id
+    with_wildcard_routes: true
 location:
   class: sfDoctrineRouteCollection
   options:

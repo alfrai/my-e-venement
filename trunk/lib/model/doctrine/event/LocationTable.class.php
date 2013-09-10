@@ -17,6 +17,15 @@ class LocationTable extends PluginLocationTable
         return Doctrine_Core::getTable('Location');
     }
 
+  public function retrievePlaces()
+  {
+    return $this->createQuery('l')->andWhere('l.place = TRUE');
+  }
+  public function retrieveResources()
+  {
+    return $this->createQuery('l')->andWhere('l.place = FALSE');
+  }
+  
   public function createQuery($alias = 'a')
   {
     $o  = 'o'   != $alias ? 'o'   : 'o1';

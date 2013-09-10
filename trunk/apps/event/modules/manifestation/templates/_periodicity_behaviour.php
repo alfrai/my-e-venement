@@ -17,7 +17,7 @@
       </p>
       <p>
         <input type="radio" name="periodicity[behaviour]" value="one_occurrence" />
-        <label for="periodicity_until"><?php echo __('Only one occurrence') ?>:</label>
+        <label for="periodicity_one_occurrence"><?php echo __('Only one occurrence') ?>:</label>
         <?php
           $widget = new liWidgetFormJQueryDateText(array('culture' => 'fr'));
           echo $widget->render('periodicity[one_occurrence]', null, array('id' => 'periodicity_one_occurrence'));

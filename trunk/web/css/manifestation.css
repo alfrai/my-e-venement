@@ -104,8 +104,9 @@ select[disabled] {
 
 #sf_fieldset_reservation .sf_admin_form_row { margin-right: 260px; }
 #sf_fieldset_reservation .sf_admin_form_field_booking_list { position: absolute; right: -120px; line-height: 1em; width: 230px; max-height: 430px; overflow-y: auto; }
-#sf_fieldset_reservation .sf_admin_form_field_optional .ui-helper-clearfix,
-#sf_fieldset_reservation .sf_admin_form_field_blocking .ui-helper-clearfix { float: left; }
+#sf_fieldset_reservation .sf_admin_form_field_reservation_confirmed .ui-helper-clearfix,
+#sf_fieldset_reservation .sf_admin_form_field_reservation_optional .ui-helper-clearfix,
+#sf_fieldset_reservation .sf_admin_form_field_blocking .ui-helper-clearfix { float: left; width: 200px; }
 #sf_fieldset_reservation .sf_admin_form_field_booking_list label,
 #sf_fieldset_reservation .sf_admin_form_field_booking_list .label { width: 200px; white-space: nowrap; display: inline-block; overflow: hidden; text-overflow: ellipsis; }
 #sf_fieldset_reservation .sf_admin_form_field_booking_list label { width: 180px; }
@@ -128,3 +129,4 @@ select[disabled] {
 .periodicity .submit, .periodicity .back { margin: 5px; }
 .periodicity .back a { float: none; }
 .periodicity .back { margin-top: 10px; }
+c

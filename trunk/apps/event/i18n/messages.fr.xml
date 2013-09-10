@@ -5,6 +5,54 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Change the details of the reservation</source>
+        <target>Changer les détails de réservation</target>
+      </trans-unit>
+        <trans-unit>
+        <source>Validated</source>
+        <target>Validé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Title</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Resource's Bookings List</source>
+        <target>Liste des réservations de la ressource</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Resource %%name%%</source>
+        <target>Fiche de la ressource %%name%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Editting resource %%name%%</source>
+        <target>Fiche de la ressource %%name%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Resource</source>
+        <target>Nouvelle ressource</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List of resources</source>
+        <target>Liste des ressources</target>
+      </trans-unit>
+      <trans-unit>
+        <source>is empty</source>
+        <target>vide ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes or no</source>
+        <target>oui ou non</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes</source>
+        <target>oui</target>
+      </trans-unit>
+      <trans-unit>
+        <source>no</source>
+        <target>non</target>
+      </trans-unit>
+      <trans-unit>
         <source>Department</source>
         <target>Service</target>
       </trans-unit>
@@ -135,6 +183,10 @@
       <trans-unit>
         <source>This is an option</source>
         <target>Ceci est une option</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Optional</source>
+        <target>Optionnel</target>
       </trans-unit>
       <trans-unit>
         <source>Ends at</source>

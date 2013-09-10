@@ -217,6 +217,8 @@ class manifestationActions extends autoManifestationActions
     if ( !$request->getParameter('id') )
       $this->forward('manifestation','index');
     
+    $place = !$request->hasParameter('resource');
+    
     $this->location_id = $request->getParameter('id');
     
     $this->pager = $this->configuration->getPager('Manifestation');

@@ -48,12 +48,19 @@
         $time = strtotime($periodicity['one_occurrence']['year'].'-'.$periodicity['one_occurrence']['month'].'-'.$periodicity['one_occurrence']['day'].' '.date('H:i',strtotime($this->manifestation->happens_at)));
         $diff = $time - strtotime($this->manifestation->happens_at);
         
+        // periodicity stuff
         $manif = $this->manifestation->duplicate(false); // duplicating w/o saving (for the moment)
         $manif->happens_at            = date('Y-m-d H:i',$time);
         $manif->reservation_ends_at   = date('Y-m-d H:i',strtotime($manif->reservation_ends_at)+$diff);
         $manif->reservation_begins_at = date('Y-m-d H:i',strtotime($manif->reservation_begins_at)+$diff);
+        
+        // booking details
+        foreach ( array('blocking', 'reservation_optional', 'reservation_confirmed') as $field )
+          $manif->$field = isset($periodicity['options'][$field]);
+        
         $manif->save();
         
+        // redirect
         $this->getUser()->setFlash('notice',__('Manifestation duplicated successfully.'));
         $this->redirect('manifestation/edit?id='.$manif->id);
         break;
@@ -108,6 +115,12 @@
         // duplication
         $cpt = 0;
         $manif = $this->manifestation->duplicate(false);
+        
+        // booking details
+        foreach ( array('blocking', 'reservation_optional', 'reservation_confirmed') as $field )
+          $manif->$field = isset($periodicity['options'][$field]);
+        
+        // date / periodicity related stuff
         for (
           $i = 0 ;
           $periodicity['behaviour'] == 'nb'
@@ -118,11 +131,13 @@
         {
           foreach ( array('happens_at', 'reservation_begins_at', 'reservation_ends_at') as $field )
             $manif->$field = date('Y-m-d H:i:s',strtotime($manif->$field) + $interval);
+          
           $manif->save();
           $cpt++;
           $manif = $manif->duplicate(false);
         }
         
+        // redirect
         $this->getUser()->setFlash('notice',__('%%nb%% manifestation(s) have been created during the duplication process.',array('%%nb%%',$cpt)));
         $this->redirect('event/edit?id='.$this->manifestation->event_id);
         break;

@@ -14,7 +14,7 @@
   <?php echo $form->renderFormTag(url_for('manifestation/periodicity')) ?>
     <?php include_partial('periodicity_behaviour') ?>
     <?php include_partial('periodicity_repeat') ?>
-    <?php include_partial('periodicity_reservation_mods') ?>
+    <?php include_partial('periodicity_reservation_mods', array('manifestation' => $manifestation,)) ?>
     <?php include_partial('periodicity_submit',array('form' => $form, 'manifestation' => $manifestation,)) ?>
   </form>
 </div>

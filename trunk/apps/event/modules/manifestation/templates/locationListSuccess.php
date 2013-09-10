@@ -6,7 +6,7 @@
 
   <div id="sf_admin_content">
     <form action="<?php echo url_for('manifestation_collection', array('action' => 'batch')) ?>" method="post" id="sf_admin_content_form">
-      <?php include_partial('manifestation/location_list', array('pager' => $pager, 'helper' => $helper, 'location_id' => $location_id)) ?>
+      <?php include_partial('manifestation/location_list', array('pager' => $pager, 'helper' => $helper, 'location_id' => $location_id, "place" => $place,)) ?>
     </form>
   </div>
 

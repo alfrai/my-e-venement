@@ -19,10 +19,13 @@ class ManifestationForm extends BaseManifestationForm
     ));
     $this->widgetSchema['workspaces_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     $this->widgetSchema['event_id']->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery()));
+    $this->widgetSchema['color_id']->setOption('order_by',array('name',''));
+    
     $this->widgetSchema['location_id']
       ->setOption('add_empty',true)
-      ->setOption('order_by',array('name',''));
-    $this->widgetSchema['color_id']->setOption('order_by',array('name',''));
+      ->setOption('order_by',array('name',''))
+      ->setOption('query', $q = Doctrine::getTable('Location')->retrievePlaces());
+    $this->validatorSchema['location_id']->setOption('query', $q);
     
     // duration stuff
     $this->widgetSchema['ends_at'] = new liWidgetFormDateTime(array(
@@ -52,7 +55,8 @@ class ManifestationForm extends BaseManifestationForm
     // removing required options from fields that should be filled automatically in the Manifestation objet
     foreach ( array('reservation_begins_at', 'reservation_ends_at',) as $fieldName )
       $this->validatorSchema[$fieldName]->setOption('required', false);
-    $this->widgetSchema['booking_list']->setOption('expanded', true);
+    $this->widgetSchema['booking_list']->setOption('expanded', true)
+      ->setOption('order_by', array('place DESC, name',''));
     
     // extra informations
     if ( !$this->object->isNew() && sfConfig::get('app_manifestation_extra_informations_enabled',true) )
