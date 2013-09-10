@@ -17,6 +17,7 @@ class ContactPublicForm extends ContactForm
     $this->disableCSRFProtection();
     
     foreach ( array(
+        'sf_guard_user_id', 'back_relations_list', 'Relationships', 'YOBs',
         'YOBs_list', 'groups_list', 'emails_list', 'family_contact',
         'organism_category_id', 'description', 'password', 'email_no_newsletter', 'npai',
         'latitude', 'longitude', 'slug', 'confirmed',
