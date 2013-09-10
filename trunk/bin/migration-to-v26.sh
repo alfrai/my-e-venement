@@ -19,6 +19,8 @@ echo "To continue press ENTER"
 echo "To cancel press CTRL+C NOW !!"
 read
 
+if [ -z "$3" ]; then
+
 # preliminary modifications & backup
 psql $DB <<EOF
 ALTER TABLE ticket DROP COLUMN duplicate;
@@ -69,12 +71,18 @@ ALTER TABLE vat_version ADD COLUMN created_at timestamp without time zone;
 ALTER TABLE vat_version ADD COLUMN updated_at timestamp without time zone;
 UPDATE vat SET created_at = NOW(), updated_at = NOW() WHERE created_at IS NULL AND updated_at IS NULL;
 UPDATE vat_version SET created_at = NOW(), updated_at = NOW() WHERE created_at IS NULL AND updated_at IS NULL;
+
+ALTER TABLE location ADD COLUMN place BOOLEAN DEFAULT true NOT NULL;
 EOF
-[ -z "$3" ] && pg_dump -Fc $DB > data/sql/$DB-`date +%Y%m%d`.pgdump && echo "DB dumped"
+
+echo "DUMPING DB..."
+pg_dump -Fc $DB > data/sql/$DB-`date +%Y%m%d`.pgdump && echo "DB dumped"
 
 echo ""
 echo To continue press ENTER
 read
+
+fi #end of "allow dumps" condition
 
 # recreation and data backup
 dropdb $DB && createdb $DB && \
@@ -99,6 +107,12 @@ INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updat
 INSERT INTO group_user(group_id, sf_guard_user_id, updated_at, created_at) (select g.id, u.id, now(), now() from group_table g, sf_guard_user u where g.id IS NOT NULL AND g.sf_guard_user_id is null);
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('stats-pr-groups', 'Permission to access the groups evolution statistics', '2013-08-15 10:14:50', '2013-08-15 10:14:50');
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT id FROM sf_guard_group WHERE name = 'stats-others'), NOW(), NOW());
+
+INSERT INTO sf_guard_permission(name, description, updated_at, created_at) VALUES ('ws-group', 'Permission to associate automatically a group to a contact created online', now(), now());
+INSERT INTO sf_guard_group(name, description, updated_at, created_at) VALUES ('ws-group', 'Associate automatically a group to a contact created online', now(), now());
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES ((SELECT id FROM sf_guard_permission WHERE name = 'ws-group'), (SELECT id FROM sf_guard_group WHERE name = 'ws-group'), now(), now());
+INSERT INTO sf_guard_user_group (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'ws-group'), now(), now() FROM sf_guard_user WHERE id in (SELECT ug.user_id FROM sf_guard_user_group ug LEFT JOIN sf_guard_group g ON g.id = ug.group_id WHERE g.name IN ('admin', 'tck-admin')));
+
 UPDATE postalcode SET postalcode = '86580' WHERE city = 'BIARD' AND postalcode = '86000';
 EOF
 

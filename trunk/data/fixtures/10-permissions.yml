@@ -424,6 +424,11 @@ sfGuardPermission:
     description: 'Permission to confirm a reservation'
     created_at: '2013-06-17 17:14:50'
     updated_at: '2013-06-17 17:14:50' 
+  sfGuardPermission_87:
+    name: ws-group
+    description: 'Permission to associate automatically a group to a contact created online'
+    created_at: '2013-09-10 12:14:50'
+    updated_at: '2013-09-10 12:14:50' 
 sfGuardGroupPermission:
   sfGuardGroupPermission_1_7:
     Group: sfGuardGroup_1
@@ -995,6 +1000,11 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_86
     created_at: '2013-08-15 16:37:00'
     updated_at: '2013-08-15 16:37:00'
+  sfGuardGroupPermission_30_87:
+    Group: sfGuardGroup_30
+    Permission: sfGuardPermission_87
+    created_at: '2013-09-10 12:16:00'
+    updated_at: '2013-09-10 12:16:00'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -1141,3 +1151,8 @@ sfGuardGroup:
     description: 'View and modify the social informations on contacts'
     created_at: '2013-07-03 10:14:50'
     updated_at: '2013-07-23 10:14:50' 
+  sfGuardGroup_30:
+    name: ws-group
+    description: 'Associate automatically a group to a contact created online'
+    created_at: '2013-09-10 12:14:50'
+    updated_at: '2013-09-10 12:14:50' 
