@@ -123,27 +123,35 @@ class ManifestationTable extends PluginManifestationTable
       throw new sfInitializationException('Bad value given: ('.gettype($id).') '.$id);
     
     // the root raw query
+    $m2_start = "CASE WHEN m2.happens_at < m2.reservation_begins_at THEN m2.happens_at ELSE m2.reservation_begins_at END";
+    $m_start  = "CASE WHEN m.happens_at < m.reservation_begins_at THEN m.happens_at ELSE m.reservation_begins_at END";
+    $m2_stop  = "CASE WHEN m2.happens_at + (m2.duration||' seconds')::interval > m2.reservation_ends_at THEN m2.happens_at + (m2.duration||' seconds')::interval ELSE m2.reservation_ends_at END";
+    $m_stop   = "CASE WHEN m.happens_at + (m.duration||' seconds')::interval > m.reservation_ends_at THEN m.happens_at + (m.duration||' seconds')::interval ELSE m.reservation_ends_at END";
+    $loc_cond1 = "m2.location_id = m.location_id";  // same location
+    $loc_cond2 = "m2.location_id IN (SELECT llb.location_id FROM location_booking llb  WHERE llb.manifestation_id = m.id)"; // location1 is used in resources2
+    $loc_cond3 = "m.location_id IN (SELECT llb2.location_id FROM location_booking llb2 WHERE llb2.manifestation_id = m2.id)"; // location2 is used in resources1
+    $loc_cond4 = "SELECT count(lb3.id) > 1 FROM location_booking lb3 WHERE lb3.manifestation_id IN (m.id, m2.id)"; // there are at least one resource that is used in m1 AND m2 at the same time
     $q = "SELECT m.id, m2.id AS conflicted_id,
-            CASE WHEN m2.location_id = m.location_id
+            CASE WHEN $loc_cond1
               THEN m.location_id
               ELSE
-            CASE WHEN m2.location_id IN (SELECT llb.location_id FROM location_booking llb  WHERE llb.manifestation_id = m.id)
+            CASE WHEN $loc_cond2
               THEN m2.location_id
               ELSE
-            CASE WHEN m.location_id IN (SELECT llb2.location_id FROM location_booking llb2 WHERE llb2.manifestation_id = m2.id)
+            CASE WHEN $loc_cond3
               THEN m.location_id
               ELSE (SELECT DISTINCT llb3.location_id FROM location_booking llb3 WHERE llb3.manifestation_id IN (m.id, m2.id) LIMIT 1)
             END END END AS resource_id
           FROM manifestation m
           LEFT JOIN manifestation m2
-            ON ( m2.happens_at >= m.happens_at AND m2.happens_at < m.happens_at + (m.duration||' seconds')::interval
-              OR m2.happens_at + (m2.duration||' seconds')::interval > m.happens_at AND m2.happens_at + (m2.duration||' seconds')::interval <= m.happens_at + (m.duration||' seconds')::interval
-              OR m2.happens_at < m.happens_at AND m2.happens_at + (m2.duration||' seconds')::interval > m.happens_at + (m.duration||' seconds')::interval )
+            ON ( $m2_start >= $m_start AND $m2_start < $m_stop
+              OR $m2_stop  >= $m_start AND $m2_stop  < $m_stop
+              OR $m2_start <= $m_start AND $m2_stop >= $m_stop )
             AND m2.id != m.id
-            AND (m2.location_id = m.location_id
-              OR m2.location_id IN (SELECT lb.location_id FROM location_booking lb  WHERE lb.manifestation_id = m.id)
-              OR m.location_id IN (SELECT lb2.location_id FROM location_booking lb2 WHERE lb2.manifestation_id = m2.id )
-              OR (SELECT count(lb3.id) > 1 FROM location_booking lb3 WHERE lb3.manifestation_id IN (m.id, m2.id)) )
+            AND ($loc_cond1
+              OR $loc_cond2
+              OR $loc_cond3
+              OR ($loc_cond4))
           WHERE m2.blocking AND m.blocking
             AND m2.id IS NOT NULL
             ".($id ? 'AND m.id = :mid' : '')."

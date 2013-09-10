@@ -48,46 +48,6 @@
             </tr>
           <?php endif ?>
         <?php endforeach ?>
-        <?php /* ?>
-        <td class="sf_admin_text conflicts_td_resource">
-          <?php echo link_to($manifestations[$i]->Location, 'location/show?id='.$manifestations[$i]->Location->id) ?>
-        </td>
-        <td class="sf_admin_text conflicts_td_date">
-          <?php echo $manifestations[$i]->getShortenedDate() ?>
-        </td>
-        <td class="sf_admin_text conflicts_td_meta_event">
-          <?php echo $manifestations[$i]->Event->MetaEvent ?>
-        </td>
-        <td class="sf_admin_text conflicts_td_event">
-          <?php echo link_to($manifestations[$i]->Event, 'event/show?id='.$manifestations[$i]->Event->id) ?>
-        </td>
-        <td class="sf_admin_text conflicts_td_manifestation">
-          <?php echo link_to($manifestations[$i]->getShortenedDate(), 'manifestation/show?id='.$manifestations[$i]->id) ?>
-        </td>
-        <td class="sf_admin_text conflicts_td_location">
-          <?php echo link_to($manifestations[$i]->Location, 'location/show?id='.$manifestations[$i]->Location->id) ?>
-        </td>
-            <tr class="sf_admin_row ui-widget-content <?php echo $i%2 == 0 ? '' : 'odd' ?>">
-              <td class="sf_admin_text conflicts_td_resource">
-              </td>
-              <td class="sf_admin_text conflicts_td_date">
-              </td>
-              <td class="sf_admin_text conflicts_td_meta_event">
-                <?php echo $manifestations[$i]->Event->MetaEvent ?>
-              </td>
-              <td class="sf_admin_text conflicts_td_event">
-                <?php echo link_to($manifestations[$i]->Event, 'event/show?id='.$manifestations[$i]->Event->id) ?>
-              </td>
-              <td class="sf_admin_text conflicts_td_manifestation">
-                <?php echo link_to($manifestations[$i]->getShortenedDate(), 'manifestation/show?id='.$manifestations[$i]->id) ?>
-              </td>
-              <td class="sf_admin_text conflicts_td_location">
-                <?php echo link_to($manifestations[$i]->Location, 'location/show?id='.$manifestations[$i]->Location->id) ?>
-              </td>
-            </tr>
-          <?php endif ?>
-        <?php endforeach ?>
-        <?php */ ?>
       </tr>
     <?php endfor ?>
     </tbody>
