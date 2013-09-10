@@ -53,6 +53,10 @@
         <target>non</target>
       </trans-unit>
       <trans-unit>
+        <source>New workspace order</source>
+        <target>Nouvel ordre d'espace de travail</target>
+      </trans-unit>
+      <trans-unit>
         <source>Department</source>
         <target>Service</target>
       </trans-unit>

@@ -24,5 +24,6 @@ generator:
         display: [workspace_id, rank]
       form:
         display: [workspace_id, rank]
-      edit:    ~
-      new:     ~
+      edit: ~
+      new:
+        title: New workspace order
