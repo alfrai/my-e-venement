@@ -37,6 +37,7 @@
           <li class="spaced"></li>
           <li><a href="<?php echo cross_app_url_for('event','location') ?>"><?php echo __('Locations',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('event','resource') ?>"><?php echo __('Resources',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('event','conflict/index') ?>"><?php echo __('Use conflicts',array(),'menu') ?></a></li>
           <?php endif ?>
         </ul>
         <span class="title"><?php echo __('Events',array(),'menu') ?></span>

@@ -1,4 +1,27 @@
 <?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
+<?php
 
 /**
  * ManifestationTable
@@ -92,6 +115,58 @@ class ManifestationTable extends PluginManifestationTable
   public function fetchOneByGaugeId($id)
   {
     return $this->createQuery('m')->andWhere('g.id = ?',$id)->fetchOne();
+  }
+  
+  public function getConflicts($id = NULL)
+  {
+    if ( !(is_null($id) || is_int($id)) )
+      throw new sfInitializationException('Bad value given: ('.gettype($id).') '.$id);
+    
+    // the root raw query
+    $q = "SELECT m.id, m2.id AS conflicted_id,
+            CASE WHEN m2.location_id = m.location_id
+              THEN m.location_id
+              ELSE
+            CASE WHEN m2.location_id IN (SELECT llb.location_id FROM location_booking llb  WHERE llb.manifestation_id = m.id)
+              THEN m2.location_id
+              ELSE
+            CASE WHEN m.location_id IN (SELECT llb2.location_id FROM location_booking llb2 WHERE llb2.manifestation_id = m2.id)
+              THEN m.location_id
+              ELSE (SELECT DISTINCT llb3.location_id FROM location_booking llb3 WHERE llb3.manifestation_id IN (m.id, m2.id) LIMIT 1)
+            END END END AS resource_id
+          FROM manifestation m
+          LEFT JOIN manifestation m2
+            ON ( m2.happens_at >= m.happens_at AND m2.happens_at < m.happens_at + (m.duration||' seconds')::interval
+              OR m2.happens_at + (m2.duration||' seconds')::interval > m.happens_at AND m2.happens_at + (m2.duration||' seconds')::interval <= m.happens_at + (m.duration||' seconds')::interval
+              OR m2.happens_at < m.happens_at AND m2.happens_at + (m2.duration||' seconds')::interval > m.happens_at + (m.duration||' seconds')::interval )
+            AND m2.id != m.id
+            AND (m2.location_id = m.location_id
+              OR m2.location_id IN (SELECT lb.location_id FROM location_booking lb  WHERE lb.manifestation_id = m.id)
+              OR m.location_id IN (SELECT lb2.location_id FROM location_booking lb2 WHERE lb2.manifestation_id = m2.id )
+              OR (SELECT count(lb3.id) > 1 FROM location_booking lb3 WHERE lb3.manifestation_id IN (m.id, m2.id)) )
+          WHERE m2.blocking AND m.blocking
+            AND m2.id IS NOT NULL
+            ".($id ? 'AND m.id = :mid' : '')."
+          ORDER BY m.id";
+    $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    $stmt = $pdo->prepare($q);
+    $stmt->execute($id ? array(':mid' => $id) : array());
+    $manifs = $stmt->fetchAll();
+    
+    $conflicts = array();
+    foreach ( $manifs as $manif )
+    {
+      $infos = array(
+        'manifestation_id' => $manif['conflicted_id'],
+        'location_id' => $manif['resource_id'],
+      );
+      if ( isset($conflicts[$manif['id']]) )
+        $conflicts[$manif['id']][] = $infos;
+      else
+        $conflicts[$manif['id']]   = array($infos);
+    }
+    
+    return $conflicts;
   }
   
   public function retrievePublicList()

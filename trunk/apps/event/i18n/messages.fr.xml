@@ -8,7 +8,15 @@
         <source>Change the details of the reservation</source>
         <target>Changer les détails de réservation</target>
       </trans-unit>
-        <trans-unit>
+      <trans-unit>
+        <source>Booked until</source>
+        <target>Fin de réservation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Booked from</source>
+        <target>Début de réservation</target>
+      </trans-unit>
+      <trans-unit>
         <source>Validated</source>
         <target>Validé</target>
       </trans-unit>
@@ -35,6 +43,10 @@
       <trans-unit>
         <source>List of resources</source>
         <target>Liste des ressources</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Resource</source>
+        <target>Ressource</target>
       </trans-unit>
       <trans-unit>
         <source>is empty</source>
