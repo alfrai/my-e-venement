@@ -1,5 +1,5 @@
   <?php if ( $manif->Gauges->count() > 1 ): ?>
-    <?php $gauges = array(); foreach ( $manif->Gauges as $gauge ) $gauges[$gauge->Workspace->Order[0]->rank.'-'.$gauge->workspace_id] = $gauge; ksort($gauges); ?>
+    <?php $gauges = array(); foreach ( $manif->Gauges as $gauge ) $gauges[(is_null($gauge->Workspace->Order[0]->rank) ? '999999' : $gauge->Workspace->Order[0]->rank).'-'.$gauge->workspace_id] = $gauge; ksort($gauges); ?>
   <select name="ticket[gauge_id]">
     <?php foreach ( $gauges as $gauge ): ?>
     <?php $authws = $sf_user->getWorkspacesCredentials(); if ( isset($authws[$gauge->workspace_id]) ): ?>
