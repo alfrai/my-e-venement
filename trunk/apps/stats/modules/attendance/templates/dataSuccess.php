@@ -9,7 +9,7 @@
     $x_labels = array();
     foreach ( $manifs as $manif )
     {
-      $x_labels[] = new liXAxisLabel($manif->Event.' @ '.format_date($manif->happens_at), '#000', 11, 45);
+      $x_labels[] = new liXAxisLabel(((string)$manif->Event > '40' ? ($manif->Event->short_name ? $manif->Event->short_name : substr($manif->Event,0,40)) : $manif->Event).' @ '.format_date($manif->happens_at), '#000', 11, 45);
      
       $asked = sfConfig::get('project_tickets_count_demands',false) ? $manif->asked : 0;
       $free = $manif->gauge - $manif->printed - $manif->ordered - $asked;
