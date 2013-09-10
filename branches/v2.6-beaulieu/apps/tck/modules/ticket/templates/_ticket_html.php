@@ -17,6 +17,7 @@
     <p class="datetime"><?php echo format_date($ticket->Manifestation->happens_at,'dddd dd MMMM yyyy HH:mm') ?></p>
     <p class="placeprice">
       <span class="place"><?php echo $ticket->Manifestation->Location ?></span>
+      <span class="address"><?php echo $ticket->Manifestation->Location->address.' - '.$ticket->Manifestation->Location->city ?></span>
       /
       <span class="price"><?php echo format_currency($ticket->value,'€') ?></span>
     </p>
