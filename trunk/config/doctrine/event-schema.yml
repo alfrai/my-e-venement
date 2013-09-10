@@ -219,6 +219,9 @@ EventCompany:
  
 Location:
   package: event
+  indexes:
+    location_place:
+      fields: [place]
   inheritance:
     extends: Addressable
     type: concrete
@@ -234,6 +237,10 @@ Location:
     reservation_price:
       type: decimal(11)
       scale: 2
+    place:
+      type: boolean
+      notnull: true
+      default: true
   relations:
     Organism:
       foreignAlias: Locations
