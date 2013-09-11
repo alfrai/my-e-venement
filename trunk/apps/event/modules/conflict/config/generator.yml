@@ -1,0 +1,40 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Manifestation
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          manifestation_conflict
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        list_meta_event   : { label: Meta event }
+        list_booked_until : { label: Booked until }
+        list_booked_from  : { label: Booked from }
+        list_location     : { label: Location }
+        list_event        : { label: Event }
+        list_resource     : { label: Conflict on }
+        location_id       : { label: Place/Resource }
+      list:
+        title: Use conflicts
+        display: [_list_resource, =happens_at, _list_booked_from, _list_booked_until, _list_event, _list_location, _list_meta_event]
+        table_method: retrieveConflicts
+        sort: [happens_at, '']
+        actions: []
+        batch_actions: []
+        object_actions:
+          _show:
+            credentials: event-manif
+          _edit:
+            credentials: event-manif-edit
+      filter:
+        display: [location_id, happens_at, event_id, meta_event_id, workspace_id]
+      form:    ~
+      edit:    ~
+      new:     ~
