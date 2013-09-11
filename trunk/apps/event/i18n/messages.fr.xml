@@ -13,8 +13,8 @@
         <target>Pas une option</target>
       </trans-unit>
       <trans-unit>
-        <source>List of manifestations waiting for approval</source>
-        <target>Liste des manifestations en attente de confirmation</target>
+        <source>List of bookings waiting for approval</source>
+        <target>Liste des réservations en attente de confirmation</target>
       </trans-unit>
       <trans-unit>
         <source>From %from_date%</source>

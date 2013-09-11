@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Bookings to confirm</source>
+        <target>Réservations à confirmer</target>
+      </trans-unit>
+      <trans-unit>
         <source>Use conflicts</source>
         <target>Conflits d'usage</target>
       </trans-unit>

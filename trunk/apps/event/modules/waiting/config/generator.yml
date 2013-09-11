@@ -27,7 +27,7 @@ generator:
         reservation_optional: { label: Optional, type: boolean }
         list_blocking     : { label: Blocking, type: boolean }
       list:
-        title: List of manifestations waiting for approval
+        title: List of bookings waiting for approval
         display: [=happens_at, _list_booked_by, _list_booked_from, _list_booked_until, _list_resource, _list_event, _list_location, _list_meta_event, _list_workspaces, _list_blocking, _list_optional]
         table_method: retrieveWaiting
         sort: [happens_at, '']
