@@ -276,6 +276,10 @@ Manifestation:
       fields: reservation_begins_at
     manifestation_reservation_ends_at:
       fields: reservation_ends_at
+    manifestation_blocking:
+      fields: blocking
+    manifestation_reservation_confirmed:
+      fields: reservation_confirmed
   columns:
     event_id:
       type: integer
