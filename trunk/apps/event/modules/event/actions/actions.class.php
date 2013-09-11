@@ -173,6 +173,27 @@ class eventActions extends autoEventActions
     $this->redirect('event');
   }
   
+  public function executeAjax(sfWebRequest $request)
+  {
+    $charset = sfConfig::get('software_internals_charset');
+    $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
+    
+    $q = Doctrine::getTable('Event')
+      ->createQuery('e')
+      ->orderBy('name')
+      ->limit($request->getParameter('limit'))
+      ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()));
+    $q = Doctrine_Core::getTable('Event')
+      ->search($search.'*',$q);
+    $request = $q->execute()->getData();
+
+    $events = array();
+    foreach ( $request as $event )
+      $events[$event->id] = (string) $event;
+    
+    return $this->renderText(json_encode($events));
+  }
+  
   public function executeError404(sfWebRequest $request)
   {
   }
