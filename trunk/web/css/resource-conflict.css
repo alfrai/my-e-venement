@@ -5,3 +5,8 @@
 #sf_admin_filter .sf_admin_date span { display: block; text-align: right; max-width: 220px; }
 #sf_admin_filter .sf_admin_date input[type="text"] { margin-right: 0; }
 .sf_admin_list table tbody tr.sf_admin_row .sf_admin_boolean { text-align: center; }
+
+.sf_admin_list .sf_admin_action_confirm .fg-button-mini {
+  background-image: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png");
+  background-position: -64px -144px;
+}

@@ -5,6 +5,10 @@
     <header />
     <body>
       <trans-unit>
+        <source>Confirm</source>
+        <target>Confirmer</target>
+      </trans-unit>
+      <trans-unit>
         <source>Error moving the manifestation</source>
         <target>Une erreur est survenue lors du déplacement de la manifestation</target>
       </trans-unit>

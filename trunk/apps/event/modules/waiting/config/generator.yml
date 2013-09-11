@@ -32,10 +32,13 @@ generator:
         table_method: retrieveWaiting
         sort: [happens_at, '']
         actions: []
-        batch_actions: []
+        batch_actions:
+          _confirm: ~
         object_actions:
           _show: ~
           _edit: ~
+          _confirm:
+            action: confirm
       filter:
         display: [location_id, happens_at, blocking, reservation_optional, event_id, meta_event_id, workspace_id]
       form:    ~

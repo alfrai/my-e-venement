@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>%%nb%% manifestation(s) confirmed</source>
+        <target>%%nb%% manifestations confirmées</target>
+      </trans-unit>
+      <trans-unit>
         <source>Not an option</source>
         <target>Pas une option</target>
       </trans-unit>

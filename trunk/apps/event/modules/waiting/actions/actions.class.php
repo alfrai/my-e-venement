@@ -13,6 +13,38 @@ require_once dirname(__FILE__).'/../lib/waitingGeneratorHelper.class.php';
  */
 class waitingActions extends autoWaitingActions
 {
+  public function executeBatchConfirm(sfWebRequest $request)
+  {
+    $this->doConfirm($request->getParameter('ids'));
+    $this->redirect('waiting/index');
+  }
+  public function executeConfirm(sfWebRequest $request)
+  {
+    $id = $request->getParameter('id');
+    $this->doConfirm(array($id));
+    
+    $this->redirect('waiting/index');
+  }
+  public function doConfirm(array $ids)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    
+    try
+    {
+      $this->manifestations = Doctrine_Query::create()->from('Manifestation m')->andWhereIn('m.id',$ids)->execute();
+      
+      foreach ( $this->manifestations as $manif )
+      {
+        $manif->reservation_confirmed = true;
+        $manif->save();
+      }
+      $this->getUser()->setFlash('success', __('%%nb%% manifestation(s) confirmed', array('%%nb%%' => $this->manifestations->count())));
+    }
+    catch ( Doctrine_Connection_Exception $e )
+    {
+      $this->getUser()->setFlash('error', __('Error confirming the manifestation'));
+    }
+  }
   public function executeEdit(sfWebRequest $request)
   {
     $this->redirect('manifestation/edit?id='.$request->getParameter('id'));
