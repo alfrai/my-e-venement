@@ -269,6 +269,13 @@ Manifestation:
   inheritance:
     extends: Traceable
     type: concrete
+  indexes:
+    manifestation_happens_at:
+      fields: happens_at
+    manifestation_reservation_begins_at:
+      fields: reservation_begins_at
+    manifestation_reservation_ends_at:
+      fields: reservation_ends_at
   columns:
     event_id:
       type: integer
