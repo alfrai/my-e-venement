@@ -106,7 +106,7 @@ class TicketForm extends BaseTicketForm
       }
       catch ( liEvenementException $e )
       { }
-      catch ( Doctrine_Connection_Pgsql_Exception $e )
+      catch ( Doctrine_Connection_Exception $e )
       { return $tickets; }
     }
     
