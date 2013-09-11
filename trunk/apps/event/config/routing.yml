@@ -1,3 +1,12 @@
+manifestation_conflict:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Manifestation
+    module:               conflict
+    prefix_path:          /conflict
+    column:               id
+    with_wildcard_routes: true
+
 vat:
   class: sfDoctrineRouteCollection
   options:

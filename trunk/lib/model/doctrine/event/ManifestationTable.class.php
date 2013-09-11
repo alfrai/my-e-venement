@@ -117,10 +117,20 @@ class ManifestationTable extends PluginManifestationTable
     return $this->createQuery('m')->andWhere('g.id = ?',$id)->fetchOne();
   }
   
-  public function getConflicts($id = NULL)
+  public function retrieveConflicts()
   {
-    if ( !(is_null($id) || is_int($id)) )
-      throw new sfInitializationException('Bad value given: ('.gettype($id).') '.$id);
+    $conflicts = $this->getConflicts();
+    $q = $this->createQuery('m')
+      ->andWhereIn('m.id',array_keys($conflicts))
+      ->removeDqlQueryPart('orderby')
+    ;
+    return $q;
+  }
+  public function getConflicts(array $filters = array())
+  {
+    // preconditions
+    if ( isset($filters['id']) && !is_int($filters['id']) )
+      throw new sfInitializationException('Bad value given: ('.gettype($filters['id']).') '.$filters['id']);
     
     // the root raw query
     $m2_start = "CASE WHEN m2.happens_at < m2.reservation_begins_at THEN m2.happens_at ELSE m2.reservation_begins_at END";
@@ -154,11 +164,11 @@ class ManifestationTable extends PluginManifestationTable
               OR ($loc_cond4))
           WHERE m2.blocking AND m.blocking
             AND m2.id IS NOT NULL
-            ".($id ? 'AND m.id = :mid' : '')."
+            ".(isset($filters['id']) ? 'AND m.id = :id' : '')."
           ORDER BY m.id";
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $pdo->prepare($q);
-    $stmt->execute($id ? array(':mid' => $id) : array());
+    $stmt->execute($filters);
     $manifs = $stmt->fetchAll();
     
     $conflicts = array();

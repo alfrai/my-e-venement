@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>From %from_date%</source>
+        <target>Entre le %from_date%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>to %to_date%</source>
+        <target>et le %to_date%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Place/Resource</source>
+        <target>Lieu/Ressource</target>
+      </trans-unit>
+      <trans-unit>
         <source>Change the details of the reservation</source>
         <target>Changer les détails de réservation</target>
       </trans-unit>
@@ -19,6 +31,14 @@
       <trans-unit>
         <source>Validated</source>
         <target>Validé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Conflict on</source>
+        <target>Conflit sur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Use conflicts</source>
+        <target>Conflits d'usage</target>
       </trans-unit>
       <trans-unit>
         <source>Title</source>
