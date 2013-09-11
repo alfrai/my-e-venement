@@ -1,4 +1,28 @@
 <?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
+<?php if ( $manifestation->reservation_confirmed ): ?>
+<?php
   $tickets = array('asked' => 0, 'ordered' => 0, 'printed' => 0, 'booked' => 0, 'total' => 0);
   
   if ( $manifestation->Gauges->count() > 0 && !isset($manifestation->Gauges[0]->printed) )
@@ -32,4 +56,11 @@
     '%%b%%' => $tickets['booked'],
     '%%t%%' => $tickets['total'],
   )) ?>
+<?php endif ?>
+<?php else: ?>
+<?php echo image_tag($manifestation->reservation_confirmed ? '/sfDoctrinePlugin/images/tick.png' : '/sfDoctrinePlugin/images/delete.png', array('title' => __('Confirmed'))) ?>
+<?php echo image_tag($manifestation->reservation_optional ? '/sfDoctrinePlugin/images/tick.png' : '/sfDoctrinePlugin/images/delete.png', array('title' => $manifestation->reservation_optional ? __('Option') : __('Not an option'))) ?>
+<?php
+  $conflicts = Doctrine::getTable('Manifestation')->getConflicts(array('id' => $manifestation->id, 'potentially' => $manifestation->id));
+  echo image_tag(($conflict = isset($conflicts[$manifestation->id]) && isset($conflicts[$manifestation->id][0])) ? '/sfDoctrinePlugin/images/delete.png' : '/sfDoctrinePlugin/images/tick.png', array('title' => $conflict ? __('Use conflicts') : __('No use conflicts'))) ?>
 <?php endif ?>

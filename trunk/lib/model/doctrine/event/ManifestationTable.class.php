@@ -121,7 +121,18 @@ class ManifestationTable extends PluginManifestationTable
   {
     $conflicts = $this->getConflicts();
     $q = $this->createQuery('m')
+      ->andWhere('m.reservation_confirmed = TRUE')
+      ->andWhere('m.blocking = TRUE')
       ->andWhereIn('m.id',array_keys($conflicts))
+      ->removeDqlQueryPart('orderby')
+    ;
+    return $q;
+  }
+  
+  public function retrieveWaiting()
+  {
+    $q = $this->createQuery('m')
+      ->andWhere('m.reservation_confirmed = FALSE')
       ->removeDqlQueryPart('orderby')
     ;
     return $q;
@@ -138,9 +149,9 @@ class ManifestationTable extends PluginManifestationTable
   {
     // preconditions
     if ( isset($filters['id']) && !is_int($filters['id']) )
-      throw new sfInitializationException('Bad value given: ('.gettype($filters['id']).') '.$filters['id']);
+      throw new sfInitializationException('Bad value given for ID: ('.gettype($filters['id']).') '.$filters['id']);
     if ( isset($filters['potentially']) && !is_int($filters['potentially']) )
-      throw new sfInitializationException('Bad value given: ('.gettype($filters['potentially']).') '.$filters['potentially']);
+      throw new sfInitializationException('Bad value given for "potentially": ('.gettype($filters['potentially']).') '.$filters['potentially']);
     
     // the root raw query
     $m2_start = "CASE WHEN m2.happens_at < m2.reservation_begins_at THEN m2.happens_at ELSE m2.reservation_begins_at END";

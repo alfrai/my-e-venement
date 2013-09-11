@@ -14,11 +14,14 @@ elseif ( $time <= $now ) // if this manifestation happens before now and no mani
     $time = strtotime($manif->happens_at);
 }
 
-include_partial('calendar/show_calendar',array(
-  'urls' => array(
-    url_for('manifestation/list?event_id='.$event->id),
-  ),
-  'start_date' => date('Y-m-d', $time),
-));
+// options to give to the manifestation action
+$type = isset($type) ? $type : 'event';
 
 ?>
+
+<?php include_partial('calendar/show_calendar',array(
+  'urls' => array(
+    url_for('manifestation/list?'.$type.'_id='.$form->getObject()->id),
+  ),
+  'start_date' => date('Y-m-d', $time),
+)) ?>

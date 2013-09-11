@@ -21,8 +21,12 @@
 *
 ***********************************************************************************/
 ?>
+<?php use_javascript('event') ?>
+
+<?php $type = isset($type) ? $type : 'event' ?>
+
 <div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all">
   <div class="manifestation_list">
   </div>
-  <script type="text/javascript">var manifestation_list_url = '<?php echo url_for('manifestation/eventList?id='.$event->id) ?>';</script>
+  <script type="text/javascript">var manifestation_list_url = '<?php echo url_for('manifestation/'.$type.'List?id='.$form->getObject()->id) ?>';</script>
 </div>

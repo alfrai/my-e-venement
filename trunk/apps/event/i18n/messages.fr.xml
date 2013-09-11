@@ -5,12 +5,24 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Not an option</source>
+        <target>Pas une option</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List of manifestations waiting for approval</source>
+        <target>Liste des manifestations en attente de confirmation</target>
+      </trans-unit>
+      <trans-unit>
         <source>From %from_date%</source>
         <target>Entre le %from_date%</target>
       </trans-unit>
       <trans-unit>
         <source>to %to_date%</source>
         <target>et le %to_date%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Be careful on</source>
+        <target>Attention à</target>
       </trans-unit>
       <trans-unit>
         <source>Place/Resource</source>
@@ -29,6 +41,10 @@
         <target>Début de résa.</target>
       </trans-unit>
       <trans-unit>
+        <source>Booked by</source>
+        <target>Réservé par</target>
+      </trans-unit>
+      <trans-unit>
         <source>Validated</source>
         <target>Validé</target>
       </trans-unit>
@@ -39,6 +55,10 @@
       <trans-unit>
         <source>Use conflicts</source>
         <target>Conflits d'usage</target>
+      </trans-unit>
+      <trans-unit>
+        <source>No use conflicts</source>
+        <target>Pas de conflits d'usage</target>
       </trans-unit>
       <trans-unit>
         <source>Title</source>

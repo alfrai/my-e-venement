@@ -1,3 +1,12 @@
+manifestation_waiting:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Manifestation
+    module:               waiting
+    prefix_path:          /waiting
+    column:               id
+    with_wildcard_routes: true
+
 manifestation_conflict:
   class: sfDoctrineRouteCollection
   options:

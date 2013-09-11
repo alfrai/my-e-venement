@@ -206,6 +206,7 @@ class manifestationActions extends autoManifestationActions
       $q = EventFormFilter::addCredentialsQueryPart(
         Doctrine::getTable('Manifestation')->createQueryByEventId($this->event_id)
         ->select('*, g.*, l.*, tck.*, m.happens_at > NOW() AS after, (CASE WHEN happens_at < NOW() THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
+        ->andWhere('m.reservation_confirmed = TRUE OR m.contact_id = ?', $this->getUser()->getContactId())
         //->leftJoin('m.Tickets tck')
         ->orderBy('after DESC, before')
     ));
@@ -228,6 +229,7 @@ class manifestationActions extends autoManifestationActions
         Doctrine::getTable('Manifestation')->createQueryByLocationId($this->location_id)
         ->select('m.*, e.*, c.*, g.*, l.*')
         ->leftJoin('m.Color c')
+        ->andWhere('m.reservation_confirmed = TRUE OR m.contact_id = ?', $this->getUser()->getContactId())
         ->addSelect('m.happens_at > NOW() AS after, (CASE WHEN ( m.happens_at < NOW() ) THEN NOW()-m.happens_at ELSE m.happens_at-NOW() END) AS before')
         //->addSelect('tck.*')
         //->leftJoin('m.Tickets tck')

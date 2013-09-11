@@ -24,7 +24,7 @@
 <div class="sf_admin_list ui-grid-table ui-widget ui-corner-all ui-helper-reset ui-helper-clearfix">
   <table>
     <caption class="fg-toolbar ui-widget-header ui-corner-top">
-      <h2><span class="ui-icon ui-icon-triangle-1-s"></span> <?php echo $place ? __("Location's Manifestations List") : __("Resource's Bookings List") ?></h2>
+      <h2><span class="ui-icon ui-icon-triangle-1-s"></span> <?php echo __("Location's Manifestations List") ?></h2>
     </caption>
     <?php if (!$pager->getNbResults()): ?>
     <tbody>
@@ -42,7 +42,7 @@
     </thead>
     <tfoot>
       <tr>
-        <th colspan="4">
+        <th colspan="5">
           <div class="ui-state-default ui-th-column ui-corner-bottom">
             <?php include_partial('manifestation/location_pagination', array('pager' => $pager, 'location_id' => $location_id)) ?>
           </div>
@@ -53,7 +53,7 @@
     <tbody>
       <?php foreach ($pager->getResults() as $i => $manifestation): $odd = fmod(++$i, 2) ? ' odd' : '' ?>
       <tr class="sf_admin_row ui-widget-content <?php echo $odd ?>">
-        <?php include_partial('manifestation/location_list_td_tabular', array('manifestation' => $manifestation)) ?>
+        <?php include_partial('manifestation/location_list_td_tabular', array('manifestation' => $manifestation, 'helper' => $helper,)) ?>
       </tr>
       <?php endforeach; ?>
     </tbody>

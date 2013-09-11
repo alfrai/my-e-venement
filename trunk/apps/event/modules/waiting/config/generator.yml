@@ -7,7 +7,7 @@ generator:
     with_show:             false
     singular:              ~
     plural:                ~
-    route_prefix:          manifestation_conflict
+    route_prefix:          manifestation_waiting
     with_doctrine_route:   true
     actions_base_class:    sfActions
 
@@ -19,25 +19,25 @@ generator:
         list_booked_from  : { label: Booked from }
         list_location     : { label: Location }
         list_event        : { label: Event }
-        list_resource     : { label: Conflict on }
+        list_resource     : { label: Be careful on }
         location_id       : { label: Place/Resource }
         list_booked_by    : { label: Booked by }
         list_workspaces   : { label: Workspaces }
         list_optional     : { label: Optional, type: boolean }
+        reservation_optional: { label: Optional, type: boolean }
+        list_blocking     : { label: Blocking, type: boolean }
       list:
-        title: Use conflicts
-        display: [_list_resource, =happens_at, _list_booked_by, _list_booked_from, _list_booked_until, _list_event, _list_location, _list_meta_event, _list_workspaces, _list_optional]
-        table_method: retrieveConflicts
+        title: List of manifestations waiting for approval
+        display: [=happens_at, _list_booked_by, _list_booked_from, _list_booked_until, _list_resource, _list_event, _list_location, _list_meta_event, _list_workspaces, _list_blocking, _list_optional]
+        table_method: retrieveWaiting
         sort: [happens_at, '']
         actions: []
         batch_actions: []
         object_actions:
-          _show:
-            credentials: event-manif
-          _edit:
-            credentials: event-manif-edit
+          _show: ~
+          _edit: ~
       filter:
-        display: [location_id, happens_at, optional, event_id, meta_event_id, workspace_id]
+        display: [location_id, happens_at, blocking, reservation_optional, event_id, meta_event_id, workspace_id]
       form:    ~
       edit:    ~
       new:     ~
