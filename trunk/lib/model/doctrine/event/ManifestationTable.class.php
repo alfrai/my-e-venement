@@ -126,11 +126,21 @@ class ManifestationTable extends PluginManifestationTable
     ;
     return $q;
   }
+  
+  /**
+    * Method which returns an array of conflicts, depending on filters
+    * Filters are used with values :
+    * - id, for the manifestation's id to focus on
+    * - potentially, an manifestation's id which is not yet confirmed, to check the potential conflicts if it would be confirmed
+    *
+    **/
   public function getConflicts(array $filters = array())
   {
     // preconditions
     if ( isset($filters['id']) && !is_int($filters['id']) )
       throw new sfInitializationException('Bad value given: ('.gettype($filters['id']).') '.$filters['id']);
+    if ( isset($filters['potentially']) && !is_int($filters['potentially']) )
+      throw new sfInitializationException('Bad value given: ('.gettype($filters['potentially']).') '.$filters['potentially']);
     
     // the root raw query
     $m2_start = "CASE WHEN m2.happens_at < m2.reservation_begins_at THEN m2.happens_at ELSE m2.reservation_begins_at END";
@@ -162,10 +172,11 @@ class ManifestationTable extends PluginManifestationTable
               OR $loc_cond2
               OR $loc_cond3
               OR ($loc_cond4))
-          WHERE m2.blocking AND m.blocking
+          WHERE m2.blocking AND m.blocking AND m2.reservation_confirmed AND ".(isset($filters['potentially']) ? '(m.reservation_confirmed OR m.id = :potentially)' : 'm.reservation_confirmed')."
             AND m2.id IS NOT NULL
             ".(isset($filters['id']) ? 'AND m.id = :id' : '')."
           ORDER BY m.id";
+    
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $pdo->prepare($q);
     $stmt->execute($filters);
