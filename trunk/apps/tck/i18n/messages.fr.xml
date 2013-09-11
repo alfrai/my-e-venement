@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>It is forbidden to integrate foreign sales on an unconfirmed manifestation</source>
+        <target>Il est interdit d'intégrer des ventes de partenaires sur une manifestation non confirmée</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Without cancellations</source>
         <target>Sans les annulations</target>
       </trans-unit> 

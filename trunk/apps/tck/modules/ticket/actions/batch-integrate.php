@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-  $this->getContext()->getConfiguration()->loadHelpers('I18N');
+  $this->getContext()->getConfiguration()->loadHelpers(array('I18N','CrossAppLink'));
   $notices = array();
   
   // get back the manifestation
@@ -30,6 +30,14 @@
   $q = Doctrine::getTable('Manifestation')->createQuery('m')
     ->where('id = ?',$mid);
   $this->manifestation = $q->fetchOne();
+  
+  // preconditions
+  if ( !$this->manifestation->reservation_confirmed )
+  {
+    $this->getUser()->setFlash('error', __('It is forbidden to integrate foreign sales on an unconfirmed manifestation'));
+    $this->redirect(cross_app_url_for('event', 'manifestation/show?id='.$this->manifestation->id));
+  }
+  
   $this->payform = new PaymentIntegrationForm($this->manifestation);
   $this->importform = new TicketsIntegrationForm($this->manifestation);
   
