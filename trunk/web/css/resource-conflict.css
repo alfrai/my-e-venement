@@ -1,6 +1,6 @@
 .sf_admin_list tbody a:hover { text-decoration: underline; }
-.sf_admin_list_td_list_booked_from, .sf_admin_list_td_list_booked_until,
-.sf_admin_list_td_happens_at, .sf_admin_list_td_list_workspaces .workspace { white-space: nowrap; }
+.sf_admin_date, .sf_admin_list_td_list_workspaces .workspace { white-space: nowrap; }
+.sf_admin_date { font-size: 90%; }
 .sf_admin_list_td_happens_at, .sf_admin_list_td_list_resource { font-weight: bold; }
 #sf_admin_filter .sf_admin_date span { display: block; text-align: right; max-width: 220px; }
 #sf_admin_filter .sf_admin_date input[type="text"] { margin-right: 0; }

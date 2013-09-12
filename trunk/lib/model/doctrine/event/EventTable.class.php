@@ -41,10 +41,14 @@ class EventTable extends PluginEventTable
   
   public function retrieveList()
   {
+    $cid = 0;
+    if ( sfContext::hasInstance() && method_exists(sfContext::getInstance()->getUser(), 'getContactId') )
+      $cid = sfContext::getInstance()->getUser()->getContactId();
+    
     return $this->createQuery('e')
       ->select('e.*, ec.*, me.*, m.*, l.*, c.*, g.*')
       ->addSelect('(SELECT max(mm2.happens_at) AS max_date FROM Manifestation mm2 WHERE mm2.event_id = e.id) AS max_date')
-      ->leftJoin('e.Manifestations m ON m.event_id = e.id AND m.reservation_confirmed = TRUE')
+      ->leftJoin('e.Manifestations m ON m.event_id = e.id AND (m.reservation_confirmed = TRUE OR m.contact_id = '.$cid.')')
       ->leftJoin('m.Color c')
       ->leftJoin('m.Gauges g')
       ->leftJoin('m.Location l');

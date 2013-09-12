@@ -3,6 +3,15 @@ function gauge_small()
   $('.sf_admin_list_td_list_manifestations_gauges').addClass('small-gauges'); // a trick for CSS to permit classical rendering compatibility
   
   $('.sf_admin_list_td_list_manifestations_gauges .gauge:not(.done)').each(function(){
+    // if the gauge is not numeric, let go...
+    if ( $(this).find('.total').length == 0 || parseInt($(this).find('.total').html()) == 0 )
+    {
+      if ( $(this).find('.total').length > 0 )
+        $(this).html('n/a');
+      $(this).addClass('done').addClass('other').removeClass('gauge');
+      return true;
+    }
+    
     $(this).find('> *').each(function(){
       // every children except for total
       if ( $(this).hasClass('total') )

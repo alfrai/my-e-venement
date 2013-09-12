@@ -142,7 +142,9 @@ class ManifestationTable extends PluginManifestationTable
     * Method which returns an array of conflicts, depending on filters
     * Filters are used with values :
     * - id, for the manifestation's id to focus on
-    * - potentially, an manifestation's id which is not yet confirmed, to check the potential conflicts if it would be confirmed
+    * - potentially:
+    *   - TRUE if all manifestations have to be checked, confirmed or not
+    *   - can be focused on a particular manifestation's id, to check the potential conflicts which will happen if it would be confirmed
     *
     **/
   public function getConflicts(array $filters = array())
@@ -150,43 +152,35 @@ class ManifestationTable extends PluginManifestationTable
     // preconditions
     if ( isset($filters['id']) && !is_int($filters['id']) )
       throw new sfInitializationException('Bad value given for ID: ('.gettype($filters['id']).') '.$filters['id']);
-    if ( isset($filters['potentially']) && !is_int($filters['potentially']) )
+    if ( isset($filters['potentially']) && $filters['potentially'] !== true && !is_int($filters['potentially']) )
       throw new sfInitializationException('Bad value given for "potentially": ('.gettype($filters['potentially']).') '.$filters['potentially']);
     
     // the root raw query
     $m2_start = "CASE WHEN m2.happens_at < m2.reservation_begins_at THEN m2.happens_at ELSE m2.reservation_begins_at END";
-    $m_start  = "CASE WHEN m.happens_at < m.reservation_begins_at THEN m.happens_at ELSE m.reservation_begins_at END";
+    $m_start  = "CASE WHEN m1.happens_at < m1.reservation_begins_at THEN m1.happens_at ELSE m1.reservation_begins_at END";
     $m2_stop  = "CASE WHEN m2.happens_at + (m2.duration||' seconds')::interval > m2.reservation_ends_at THEN m2.happens_at + (m2.duration||' seconds')::interval ELSE m2.reservation_ends_at END";
-    $m_stop   = "CASE WHEN m.happens_at + (m.duration||' seconds')::interval > m.reservation_ends_at THEN m.happens_at + (m.duration||' seconds')::interval ELSE m.reservation_ends_at END";
-    $loc_cond1 = "m2.location_id = m.location_id";  // same location
-    $loc_cond2 = "m2.location_id IN (SELECT llb.location_id FROM location_booking llb  WHERE llb.manifestation_id = m.id)"; // location1 is used in resources2
-    $loc_cond3 = "m.location_id IN (SELECT llb2.location_id FROM location_booking llb2 WHERE llb2.manifestation_id = m2.id)"; // location2 is used in resources1
-    $loc_cond4 = "SELECT count(lb3.id) > 1 FROM location_booking lb3 WHERE lb3.manifestation_id IN (m.id, m2.id)"; // there are at least one resource that is used in m1 AND m2 at the same time
-    $q = "SELECT m.id, m2.id AS conflicted_id,
-            CASE WHEN $loc_cond1
-              THEN m.location_id
-              ELSE
-            CASE WHEN $loc_cond2
-              THEN m2.location_id
-              ELSE
-            CASE WHEN $loc_cond3
-              THEN m.location_id
-              ELSE (SELECT DISTINCT llb3.location_id FROM location_booking llb3 WHERE llb3.manifestation_id IN (m.id, m2.id) LIMIT 1)
-            END END END AS resource_id
-          FROM manifestation m
+    $m_stop   = "CASE WHEN m1.happens_at + (m1.duration||' seconds')::interval > m1.reservation_ends_at THEN m1.happens_at + (m1.duration||' seconds')::interval ELSE m1.reservation_ends_at END";
+    $q = "SELECT m1.id, m2.id AS conflicted_id,
+                 CASE WHEN l1.id           = l2.id           THEN l1.id           ELSE
+                 CASE WHEN lb1.location_id = lb2.location_id THEN lb1.location_id ELSE
+                 CASE WHEN l1.id           = lb2.location_id THEN l1.id           ELSE
+                 CASE WHEN l2.id           = lb1.location_id THEN l2.id           ELSE
+                 NULL END END END END AS resource_id
+          FROM manifestation m1
           LEFT JOIN manifestation m2
             ON ( $m2_start >= $m_start AND $m2_start < $m_stop
               OR $m2_stop  >= $m_start AND $m2_stop  < $m_stop
               OR $m2_start <= $m_start AND $m2_stop >= $m_stop )
-            AND m2.id != m.id
-            AND ($loc_cond1
-              OR $loc_cond2
-              OR $loc_cond3
-              OR ($loc_cond4))
-          WHERE m2.blocking AND m.blocking AND m2.reservation_confirmed AND ".(isset($filters['potentially']) ? '(m.reservation_confirmed OR m.id = :potentially)' : 'm.reservation_confirmed')."
+            AND m2.id != m1.id
+          LEFT JOIN location l1 ON l1.id = m1.location_id
+          LEFT JOIN location l2 ON l2.id = m2.location_id
+          LEFT JOIN location_booking lb1 ON lb1.manifestation_id = m1.id
+          LEFT JOIN location_booking lb2 ON lb2.manifestation_id = m2.id
+          WHERE m2.blocking AND m1.blocking AND ".( isset($filters['potentially']) && $filters['potentially'] === true ? 'TRUE = :potentially' : 'm2.reservation_confirmed' ).' AND '.(isset($filters['potentially']) ? ($filters['potentially'] === true ? 'TRUE = :potentially' : '(m1.reservation_confirmed OR m1.id = :potentially)') : 'm1.reservation_confirmed')."
+            AND (m1.location_id = m2.location_id OR m1.location_id = lb2.location_id OR m2.location_id = lb1.location_id OR lb1.location_id = lb2.location_id)
             AND m2.id IS NOT NULL
-            ".(isset($filters['id']) ? 'AND m.id = :id' : '')."
-          ORDER BY m.id";
+            ".(isset($filters['id']) ? 'AND m1.id = :id' : '')."
+          ORDER BY m1.id";
     
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $pdo->prepare($q);
@@ -196,14 +190,11 @@ class ManifestationTable extends PluginManifestationTable
     $conflicts = array();
     foreach ( $manifs as $manif )
     {
-      $infos = array(
-        'manifestation_id' => $manif['conflicted_id'],
-        'location_id' => $manif['resource_id'],
-      );
-      if ( isset($conflicts[$manif['id']]) )
-        $conflicts[$manif['id']][] = $infos;
-      else
-        $conflicts[$manif['id']]   = array($infos);
+      if ( !isset($conflicts[$manif['id']]) )
+        $conflicts[$manif['id']] = array();
+      if ( !isset($conflicts[$manif['id']][$manif['resource_id']]) )
+        $conflicts[$manif['id']][$manif['resource_id']] = array();
+      $conflicts[$manif['id']][$manif['resource_id']][] = $manif['conflicted_id'];
     }
     
     return $conflicts;

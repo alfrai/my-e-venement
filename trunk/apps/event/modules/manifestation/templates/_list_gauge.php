@@ -58,9 +58,9 @@
   )) ?>
 <?php endif ?>
 <?php else: ?>
-<?php echo image_tag($manifestation->reservation_confirmed ? '/sfDoctrinePlugin/images/tick.png' : '/sfDoctrinePlugin/images/delete.png', array('title' => __('Confirmed'))) ?>
-<?php echo image_tag($manifestation->reservation_optional ? '/sfDoctrinePlugin/images/tick.png' : '/sfDoctrinePlugin/images/delete.png', array('title' => $manifestation->reservation_optional ? __('Option') : __('Not an option'))) ?>
+<?php echo image_tag('/sfDoctrinePlugin/images/delete.png', array('title' => __('Not confirmed'))) ?>
+<?php echo image_tag(!$manifestation->reservation_optional ? '/sfDoctrinePlugin/images/tick.png' : '/sfDoctrinePlugin/images/delete.png', array('title' => $manifestation->reservation_optional ? __('Option') : __('Not an option'))) ?>
 <?php
   $conflicts = Doctrine::getTable('Manifestation')->getConflicts(array('id' => $manifestation->id, 'potentially' => $manifestation->id));
-  echo image_tag(($conflict = isset($conflicts[$manifestation->id]) && isset($conflicts[$manifestation->id][0])) ? '/sfDoctrinePlugin/images/delete.png' : '/sfDoctrinePlugin/images/tick.png', array('title' => $conflict ? __('Use conflicts') : __('No use conflicts'))) ?>
+  echo image_tag(($conflict = isset($conflicts[$manifestation->id]) && count(array_keys($conflicts[$manifestation->id]))) ? '/sfDoctrinePlugin/images/delete.png' : '/sfDoctrinePlugin/images/tick.png', array('title' => $conflict ? __('There are use conflicts') : __('There is no use conflict'))) ?>
 <?php endif ?>

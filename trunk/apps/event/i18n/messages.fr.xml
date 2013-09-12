@@ -5,6 +5,38 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Last mod.</source>
+        <target>Modifié le</target>
+      </trans-unit>
+      <trans-unit>
+        <source>doesn't matter</source>
+        <target>qu'importe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>only them</source>
+        <target>uniquement...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>exclude them</source>
+        <target>tout sauf...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Blocking manifestations</source>
+        <target>Manifestations bloquantes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Confirmed manifestations</source>
+        <target>Manifestations confirmées</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Problematic manifestations</source>
+        <target>Manifestations problématiques</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Optional manifestations</source>
+        <target>Manifestations optionnelles</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%nb%% manifestation(s) confirmed</source>
         <target>%%nb%% manifestations confirmées</target>
       </trans-unit>
@@ -61,8 +93,12 @@
         <target>Conflits d'usage</target>
       </trans-unit>
       <trans-unit>
-        <source>No use conflicts</source>
-        <target>Pas de conflits d'usage</target>
+        <source>There is no use conflict</source>
+        <target>Pas de conflit d'usage</target>
+      </trans-unit>
+      <trans-unit>
+        <source>There are use conflicts</source>
+        <target>Conflits d'usage !</target>
       </trans-unit>
       <trans-unit>
         <source>Title</source>
@@ -215,6 +251,10 @@
       <trans-unit>
         <source>Confirmed</source>
         <target>Confirmée</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Not confirmed</source>
+        <target>Pas confirmée</target>
       </trans-unit>
       <trans-unit>
         <source>No extra location booked</source>

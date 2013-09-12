@@ -18,6 +18,7 @@ class waitingActions extends autoWaitingActions
     $this->doConfirm($request->getParameter('ids'));
     $this->redirect('waiting/index');
   }
+  /*
   public function executeConfirm(sfWebRequest $request)
   {
     $id = $request->getParameter('id');
@@ -25,7 +26,8 @@ class waitingActions extends autoWaitingActions
     
     $this->redirect('waiting/index');
   }
-  public function doConfirm(array $ids)
+  */
+  protected function doConfirm(array $ids)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
     
