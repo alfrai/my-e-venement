@@ -12,6 +12,8 @@
  */
 class Manifestation extends PluginManifestation
 {
+  var $conflict = true;
+  
   public function getName()
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('I18N','Date'));
@@ -47,6 +49,34 @@ class Manifestation extends PluginManifestation
   }
   
   /**
+    * method hasAnyConflict()
+    * returns if the object is or would be in conflict with an other one
+    * concerning the resources management
+    *
+    * Precondition: the values that are used are those which are recorded in DB
+    *
+    **/
+  public function hasAnyConflict()
+  {
+    // precondition
+    if ( $this->isNew() )
+      throw new liBookingException('Only created manifestations can be checked for conflicts');
+    if ( $this->isModified() )
+      throw new liBookingException('Only recorded manifestations can be checked for conflicts');
+    
+    if ( !is_null($this->conflict) )
+      return $this->conflict;
+    
+    $conflicts = Doctrine::getTable('Manifestation')->getConflicts(array(
+      'id' => $this->id,
+      'potentially' => $this->id,
+    ));
+    
+    return isset($conflicts[$this->id]);
+  }
+  
+  /**
+    * Get all needed informations about the manifestation's gauges usage
     * $options: modeled on sales ledger's criterias
     *
     **/
