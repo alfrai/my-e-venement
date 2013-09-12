@@ -23,6 +23,15 @@
 Price:
   package: price
   actAs: [Timestampable]
+  indexes:
+    price_name:
+      fields: [name]
+    price_online:
+      fields: [online]
+    price_hide:
+      fields: [hide]
+    price_member_card_linked:
+      fields: [member_card_linked]
   columns:
     name:
       type: string(63)
@@ -71,6 +80,10 @@ Price:
 
 UserPrice:
   package: price
+  indexes:
+    user_price_index:
+      fields: [sf_guard_user_id, price_id]
+      unique: true
   columns:
     price_id:
       type: integer
@@ -80,10 +93,6 @@ UserPrice:
       type: integer
       notnull: true
       primary: true
-  indexes:
-    user_price_index:
-      fields: [sf_guard_user_id, price_id]
-      unique: true
   relations:
     User:
       class: sfGuardUser
@@ -124,6 +133,12 @@ WorkspacePrice:
 PriceManifestation:
   package: price
   actAs: [Timestampable]
+  indexes:
+    price_manifestation_price:
+      fields: [manifestation_id, price_id]
+      unique: true
+    price_manifestation_value:
+      fields: [value]
   columns:
     manifestation_id:
       type: integer
@@ -135,10 +150,6 @@ PriceManifestation:
       type:  decimal(8)
       scale: 3
       notnull: true
-  indexes:
-    manif_price:
-      fields: [manifestation_id, price_id]
-      unique: true
   relations:
     Manifestation:
       foreignAlias: PriceManifestations

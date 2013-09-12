@@ -145,6 +145,9 @@ Event:
   inheritance:
     extends: Traceable
     type: concrete
+  indexes:
+    event_name:
+      fields: [name]
   columns:
     name:
       type:         string(255)
@@ -402,6 +405,9 @@ Vat:
 Gauge:
   package: event
   actAs: [Timestampable]
+  indexes:
+    gauge_online:
+      fields: [online]
   columns:
     workspace_id:
       type: integer
@@ -468,6 +474,7 @@ Color:
       type:     string(255)
       notnull:  true
       notblank: true
+
 ManifestationOrganizer:
   package: event
   columns:

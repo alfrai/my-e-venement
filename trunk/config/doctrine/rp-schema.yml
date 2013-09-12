@@ -30,6 +30,11 @@ Contact:
       fields: [name,firstname]
     Sluggable:
       fields: [name,firstname]
+  indexes:
+    contact_name:
+      fields: [name]
+    contact_firstname:
+      fields: [firstname]
   columns:
     firstname: string(255)
     title: string(255)
@@ -85,6 +90,9 @@ Organism:
   inheritance:
     extends: Addressable
     type: concrete
+  indexes:
+    organism_name:
+      fields: [name]
   columns:
     url: string(255)
     description: string

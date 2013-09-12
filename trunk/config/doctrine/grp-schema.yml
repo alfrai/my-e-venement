@@ -25,6 +25,9 @@ ContactEntry:
   package: grp
   actAs:
     Timestampable: ~
+  indexes:
+    contact_entry_confirmed:
+      fields: [confirmed]
   columns:
     professional_id:
       type: integer
@@ -98,6 +101,11 @@ EntryElement:
   package: grp
   actAs:
     Timestampable: ~
+  indexes:
+    entry_element_second_choice:
+      fields: [second_choice]
+    entry_element_accepted:
+      fields: [accepted]
   columns:
     manifestation_entry_id:
       type: integer

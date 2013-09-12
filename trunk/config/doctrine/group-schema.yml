@@ -27,6 +27,14 @@ Group:
     Timestampable: ~
     #Sluggable:
     #  fields: [name, sf_guard_user_id]
+  indexes:
+    group_name:
+      fields: [name]
+    group_display_everywhere:
+      fields: [display_everywhere]
+    name_user:
+      fields: [name, sf_guard_user_id]
+      type: unique
   columns:
     name:
       type: string(255)
@@ -42,10 +50,6 @@ Group:
       type: boolean
       default: false
       notnull: true
-  indexes:
-    name_user:
-      fields: [name, sf_guard_user_id]
-      type: unique
   relations:
     Contacts:
       class: Contact

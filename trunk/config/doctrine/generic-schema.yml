@@ -37,6 +37,15 @@ Addressable:
     Sluggable:
       unique: true
       fields: [name]
+  indexes:
+    addressable_postalcode:
+      fields: [postalcode]
+    addressable_country:
+      fields: [country]
+    addressable_npai:
+      fields: [npai]
+    addressable_email_no_newsletter:
+      fields: [email_no_newsletter]
   columns:
     name:
       type: string(255)
@@ -61,6 +70,9 @@ Addressable:
       default: false
 Postalcode:
   package: generic
+  indexes:
+    postalcode:
+      fields: [postalcode]
   columns:
     postalcode:
       type: string(7)
@@ -79,6 +91,11 @@ Traceable:
       versionColumn: version
       className: %CLASS%Version
       auditLog: true
+  indexes:
+    traceable_updated_at:
+      fields: [updated_at]
+    traceable_created_at:
+      fields: [created_at]
   columns:
     sf_guard_user_id:
       type: integer
@@ -175,6 +192,9 @@ Picture:
   actAs:
     Timestampable: ~
     Versionable: ~
+  indexes:
+    picture_type:
+      fields: [type]
   columns:
     name:
       type: string(255)
@@ -192,6 +212,9 @@ Picture:
 
 Jabber:
   package: generic
+  indexes:
+    jabber_jabber_id:
+      fields: [jabber_id]
   columns:
     jabber_id:
       type: string(255)

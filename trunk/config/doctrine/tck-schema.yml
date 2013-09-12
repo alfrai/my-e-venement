@@ -25,6 +25,9 @@ Transaction:
   inheritance:
     extends: Traceable
     type: concrete
+  indexes:
+    transaction_closed:
+      fields: [closed]
   columns:
     contact_id: integer
     professional_id: integer
@@ -62,6 +65,9 @@ Ticket:
   inheritance:
     extends: Traceable
     type: concrete
+  indexes:
+    ticket_updated_at:
+      fields: [updated_at]
   columns:
     transaction_id:
       type: integer
@@ -98,13 +104,19 @@ Ticket:
       type: decimal(5)
       scale: 4
   indexes:
-    manif_numerotation:
+    ticket_manif_numerotation:
       fields: [numerotation, manifestation_id]
       unique: true
-    barcode:
+    ticket_barcode:
       fields: [barcode]
-    othercode:
+    ticket_othercode:
       fields: [othercode]
+    ticket_duplicating:
+      fields: [duplicating]
+    ticket_printed_at:
+      fields: [printed_at]
+    ticket_integrated_at:
+      fields: [integrated_at]
   relations:
     Manifestation:
       foreignAlias: Tickets
@@ -189,6 +201,9 @@ Accounting:
   inheritance:
     extends: Traceable
     type: concrete
+  indexes:
+    accounting_type:
+      fields: [type]
   columns:
     transaction_id:
       type: integer
@@ -204,6 +219,9 @@ Order:
   inheritance:
     extends: Traceable
     type: concrete
+  indexes:
+    order_type:
+      fields: [type]
   columns:
     transaction_id:
       type: integer
@@ -224,6 +242,9 @@ Invoice:
   inheritance:
     extends: Traceable
     type: concrete
+  indexes:
+    invoice_type:
+      fields: [type]
   columns:
     transaction_id:
       type: integer
@@ -264,6 +285,9 @@ RawAccounting:
 
 PaymentMethod:
   package: tck
+  indexes:
+    payment_method_display:
+      fields: [display]
   columns:
     name:
       type: string(255)
@@ -283,6 +307,9 @@ Payment:
   inheritance:
     extends: Traceable
     type: concrete
+  indexes:
+    payment_created_at:
+      fields: [created_at]
   columns:
     transaction_id:
       type: integer
