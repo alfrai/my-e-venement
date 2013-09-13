@@ -27,14 +27,20 @@ class locationActions extends autoLocationActions
   {
     $this->executeEdit($request);
   }
-
-  public function executeUpdateIndexes(sfWebRequest $request)
+  
+  public function executeNewManif(sfWebRequest $request)
   {
-    $table = Doctrine_Core::getTable('Location');
-    $table->batchUpdateIndex();
+    // preconditions
+    $this->executeEdit($request);
+    if ( !$request->getParameter('event_name',false) )
+      throw new liEvenementException('Bad request.');
     
-    $this->getUser()->setFlash('notice',"Locations' index table has been updated.");
+    $event = new Event;
+    $event->name = $request->getParameter('event_name');
+    $me = array_keys($this->getUser()->getMetaEventsCredentials());
+    $event->meta_event_id = $me[0];
+    $event->save();
     
-    $this->redirect('location');
+    $this->redirect('manifestation/new?event='.$event->slug.'&location='.$this->location->slug);
   }
 }

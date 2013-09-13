@@ -13,6 +13,6 @@ newSuccess:
 createSuccess:
   stylesheets: [view]
 indexSuccess:
-  javascripts: [list-scroll]
+  javascripts: [list-scroll, location]
   stylesheets: [list-print: {media: print}]
 

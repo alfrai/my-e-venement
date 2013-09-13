@@ -42,13 +42,18 @@ class EventTable extends PluginEventTable
   public function retrieveList()
   {
     $cid = 0;
+    $admin = false;
     if ( sfContext::hasInstance() && method_exists(sfContext::getInstance()->getUser(), 'getContactId') )
-      $cid = sfContext::getInstance()->getUser()->getContactId();
+    {
+      $sf_user = sfContext::getInstance()->getUser();
+      $cid = $sf_user->getContactId();
+      $admin = $sf_user->hasCredential('event-reservation-admin');
+    }
     
     return $this->createQuery('e')
       ->select('e.*, ec.*, me.*, m.*, l.*, c.*, g.*')
       ->addSelect('(SELECT max(mm2.happens_at) AS max_date FROM Manifestation mm2 WHERE mm2.event_id = e.id) AS max_date')
-      ->leftJoin('e.Manifestations m ON m.event_id = e.id AND (m.reservation_confirmed = TRUE OR m.contact_id = '.$cid.')')
+      ->leftJoin('e.Manifestations m ON m.event_id = e.id AND (m.reservation_confirmed = TRUE OR m.contact_id = '.$cid.' OR '.($admin ? 'TRUE' : 'FALSE').')')
       ->leftJoin('m.Color c')
       ->leftJoin('m.Gauges g')
       ->leftJoin('m.Location l');
@@ -57,6 +62,7 @@ class EventTable extends PluginEventTable
   {
     return $this->retrieveList()
       ->andWhere('g.online = TRUE')
+      ->andWhere('m.reservation_confirmed = TRUE')
       ->andWhere('m.happens_at > NOW()');
   }
 }

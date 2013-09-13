@@ -23,5 +23,5 @@ $type = isset($type) ? $type : 'event';
   'urls' => array(
     url_for('manifestation/list?'.$type.'_id='.$form->getObject()->id),
   ),
-  'start_date' => date('Y-m-d', $time),
+  'start_date' => date('Y-m-01', $time),
 )) ?>

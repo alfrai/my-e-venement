@@ -25,8 +25,10 @@
     $this->location_id = $request->getParameter('location_id');
     $this->event_id = $request->getParameter('event_id');
     
-    $from = date('Y-m-01', $request->getParameter('start',strtotime('now')));
-    $to = date('Y-m-01', $request->getParameter('end',strtotime('+ 1 month')));
+    $from = date('Y-m-d H:i', $request->getParameter('start',strtotime('now')));
+    $to = date('Y-m-d H:i', $request->getParameter('end',strtotime('+ 1 month')));
+    $no_ids = $request->getParameter('no_ids',array());
+    if ( !is_array($no_ids) ) $no_ids = array();
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.*, l.*, c.*, e.*, g.*')
@@ -42,6 +44,8 @@
         ->andWhere('TRUE)');
     if ( $this->event_id )
       $q->andwhere('m.event_id = ?',$this->event_id);
+    if ( $no_ids )
+      $q->andWhereNotIn('m.id',$no_ids);
     
     EventFormFilter::addCredentialsQueryPart($q);
     $this->manifestations = $q->execute();

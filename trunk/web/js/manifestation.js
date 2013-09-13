@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  // fix the event_id, a manifestation cannot change the event it belongs to
   $('select[name="manifestation[event_id]"]').each(function(){
     if ( $(this).find('option[selected=selected]').length > 0 )
     if ( $(this).val() != '' )

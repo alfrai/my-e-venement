@@ -24,6 +24,7 @@
 <?php if ( !$manifestation->isNew() ): ?>
 <div id="more">
   <?php include_partial('gmap', array('form' => $form, 'width' => '200px', 'height' => '200px')) ?>
+  <?php include_partial('form_resources_test', array('manifestation' => $form->getObject())) ?>
 </div>
 <?php endif ?>
 

@@ -61,12 +61,19 @@ class ManifestationTable extends PluginManifestationTable
       ->leftJoin("$e.MetaEvent $me")
       ->leftJoin("$alias.Location $l");
     
+    // security features: limitating manifestation's access to owner, or confirmed manifestation, or confirmations administrator
+    $uid = 0;
+    if ( sfContext::hasInstance() )
+    {
+      $q->andWhere("$alias.reservation_confirmed = ? OR $alias.contact_id = ? OR ?", array(
+        true,
+        $uid = sfContext::getInstance()->getUser()->getId(),
+        sfContext::getInstance()->getUser()->hasCredential('event-reservation-confirm'),
+      ));
+    }
+    
     if ( !$light )
     {
-      $uid = sfContext::hasInstance()
-        ? intval(sfContext::getInstance()->getUser()->getId())
-        : 0;
-      
       $q->leftJoin("$alias.PriceManifestations $pm")
         ->leftJoin("$pm.Price $p")
         ->leftJoin("$alias.Gauges $g")

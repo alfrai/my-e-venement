@@ -53,7 +53,7 @@ $(document).ready(function(){
     titleFormat: { month: 'MMMM yyyy', week: "d[ MMM][ yyyy]{ - d MMM yyyy}", day: 'dddd d MMM yyyy' },
     columnFormat: { week: 'ddd d/M', day: 'dddd d/M' },
     timeFormat: 'H(:mm)',
-    allDayText: 'Journée entière',
+    allDayText: '<?php echo __('All day long') ?>',
     allDayDefault: false,
     header: { left: 'today prev,next', center: 'title', right: 'month,agendaWeek,agendaDay' },
     

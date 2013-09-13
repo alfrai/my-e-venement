@@ -101,51 +101,6 @@ class manifestationActions extends autoManifestationActions
     }
   }
   
-  /*
-   * overriding that to redirect the user to the parent event/location's screen
-   * instead of the list of manifestations
-   *
-   */
-  protected function processForm(sfWebRequest $request, sfForm $form)
-  {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
-    
-    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
-    if ($form->isValid())
-    {
-      // "credentials"
-      $form->updateObject($request->getParameter($form->getName()), $request->getFiles($form->getName()));
-      if ( !in_array($form->getObject()->Event->meta_event_id,array_keys($this->getUser()->getMetaEventsCredentials())) )
-      {
-        $this->getUser()->setFlash('error', "You don't have permissions to modify this event.");
-        $this->redirect('@manifestation_new');
-      }
-      
-      $notice = __($form->getObject()->isNew() ? "The item was created successfully. Don't forget to update prices if necessary." : 'The item was updated successfully.');
-      
-      $manifestation = $form->save();
-
-      $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $manifestation)));
-
-      if ($request->hasParameter('_save_and_add'))
-      {
-        $this->getUser()->setFlash('success', $notice.' You can add another one below.');
-
-        $this->redirect('@manifestation_new');
-      }
-      else
-      {
-        $this->getUser()->setFlash('success', $notice);
-        
-        $this->redirect(array('sf_route' => 'manifestation_edit', 'sf_subject' => $manifestation));
-      }
-    }
-    else
-    {
-      $this->getUser()->setFlash('error', 'The item has not been saved due to some errors.', false);
-    }
-  }
-
   public function executeIndex(sfWebRequest $request)
   {
     $this->redirect('@event');
@@ -451,5 +406,50 @@ class manifestationActions extends autoManifestationActions
        ORDER BY t.id ASC");
     $transactions = $st->fetchAll();
     return $transactions;
+  }
+
+  /*
+   * overriding that to redirect the user to the parent event/location's screen
+   * instead of the list of manifestations
+   *
+   */
+  protected function processForm(sfWebRequest $request, sfForm $form)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    
+    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
+    if ($form->isValid())
+    {
+      // "credentials"
+      $form->updateObject($request->getParameter($form->getName()), $request->getFiles($form->getName()));
+      if ( !in_array($form->getObject()->Event->meta_event_id,array_keys($this->getUser()->getMetaEventsCredentials())) )
+      {
+        $this->getUser()->setFlash('error', "You don't have permissions to modify this event.");
+        $this->redirect('@manifestation_new');
+      }
+      
+      $notice = __($form->getObject()->isNew() ? "The item was created successfully. Don't forget to update prices if necessary." : 'The item was updated successfully.');
+      
+      $manifestation = $form->save();
+
+      $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $manifestation)));
+
+      if ($request->hasParameter('_save_and_add'))
+      {
+        $this->getUser()->setFlash('success', $notice.' You can add another one below.');
+
+        $this->redirect('@manifestation_new');
+      }
+      else
+      {
+        $this->getUser()->setFlash('success', $notice);
+        
+        $this->redirect(array('sf_route' => 'manifestation_edit', 'sf_subject' => $manifestation));
+      }
+    }
+    else
+    {
+      $this->getUser()->setFlash('error', 'The item has not been saved due to some errors.', false);
+    }
   }
 }

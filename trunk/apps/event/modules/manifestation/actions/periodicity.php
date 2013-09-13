@@ -33,6 +33,10 @@
     
     if ( $this->form->isValid() && $request->getParameter('periodicity',array()) )
     {
+      $details = array('blocking' => false, 'reservation_optional' => NULL, 'reservation_confirmed' => NULL);
+      if ( $this->getUser()->hasCredential('event-reservation-confirm') )
+        $details['blocking'] = NULL;
+      
       $this->manifestation = Doctrine::getTable('Manifestation')->findOneById($periodicity['manifestation_id']);
       switch ( $periodicity['behaviour'] ) {
       case 'one_occurrence':
@@ -55,8 +59,8 @@
         $manif->reservation_begins_at = date('Y-m-d H:i',strtotime($manif->reservation_begins_at)+$diff);
         
         // booking details
-        foreach ( array('blocking', 'reservation_optional', 'reservation_confirmed') as $field )
-          $manif->$field = isset($periodicity['options'][$field]);
+        foreach ( $details as $field => $value )
+          $manif->$field = is_null($value) ? isset($periodicity['options'][$field]) : $value;
         
         $manif->save();
         
@@ -117,8 +121,8 @@
         $manif = $this->manifestation->duplicate(false);
         
         // booking details
-        foreach ( array('blocking', 'reservation_optional', 'reservation_confirmed') as $field )
-          $manif->$field = isset($periodicity['options'][$field]);
+        foreach ( $details as $field => $value )
+          $manif->$field = is_null($value) ? isset($periodicity['options'][$field]) : $value;
         
         // date / periodicity related stuff
         for (
