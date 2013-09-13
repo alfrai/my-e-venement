@@ -85,7 +85,7 @@ class manifestationActions extends autoManifestationActions
       $event = Doctrine::getTable('Event')->findOneBySlug($request->getParameter('event'));
       if ( $event->id )
       {
-        $this->form->getWidget('event_id')->setDefault($event->id);
+        $this->form->setDefault('event_id', $event->id);
         $this->form->getObject()->event_id = $event->id;
         
         $ws = $this->form->getWidgetSchema();
@@ -97,7 +97,13 @@ class manifestationActions extends autoManifestationActions
     {
       $location = Doctrine::getTable('Location')->findOneBySlug($request->getParameter('location'));
       if ( $location->id )
-      $this->form->getWidget('location_id')->setDefault($location->id);
+      $this->form->setDefault('location_id', $location->id);
+    }
+    
+    // booking_list
+    if ( ($list = $request->getParameter('booking_list',array())) && is_array($list) )
+    {
+      $this->form->setDefault('booking_list', $list);
     }
   }
   

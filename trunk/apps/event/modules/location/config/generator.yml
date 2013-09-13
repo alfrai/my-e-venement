@@ -39,7 +39,7 @@ generator:
             label: New Manifestation
             action: newManif
             params:
-              onclick: return li_location_new_manif(this, "<?php sfApplicationConfiguration::getActive()->loadHelpers(array('I18N')); echo __("Are you sure?").'\n'.__("New event's name:") ?>");
+              onclick: return li_location_new_manif(this, "<?php sfApplicationConfiguration::getActive()->loadHelpers(array('I18N')); echo __("Are you sure?").'\n'.__("New transitional event's name:") ?>");
           _delete: ~
       filter:
         display: [name, postalcode, city, country, email, contact_id, organism_id, npai]

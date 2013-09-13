@@ -13,8 +13,8 @@
         <target>Êtes-vous sûr(e) ?</target>
       </trans-unit>
       <trans-unit>
-        <source>New event's name:</source>
-        <target>Nom du nouvel événement :</target>
+        <source>New transitional event's name:</source>
+        <target>Nom du nouvel événement transitionnel :</target>
       </trans-unit>
       <trans-unit>
         <source>All day long</source>

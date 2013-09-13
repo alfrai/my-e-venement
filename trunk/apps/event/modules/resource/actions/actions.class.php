@@ -17,4 +17,20 @@ class resourceActions extends autoResourceActions
   {
     $this->executeEdit($request);
   }
+
+  public function executeNewManif(sfWebRequest $request)
+  {
+    // preconditions
+    $this->executeEdit($request);
+    if ( !$request->getParameter('event_name',false) )
+      throw new liEvenementException('Bad request.');
+    
+    $event = new Event;
+    $event->name = $request->getParameter('event_name');
+    $me = array_keys($this->getUser()->getMetaEventsCredentials());
+    $event->meta_event_id = $me[0];
+    $event->save();
+    
+    $this->redirect('manifestation/new?event='.$event->slug.'&booking_list[]='.$this->location->id);
+  }
 }
