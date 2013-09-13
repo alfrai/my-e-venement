@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>This manifestation conflicts with another.</source>
+        <target>Cette manifestation entre en conflit avec une autre.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Its status "confirmed" has been disabled.</source>
+        <target>Son statut "confirmé" a été retiré.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>But it is not yet confirmed.</source>
+        <target>Mais elle n'est pas encore confirmée.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Its status "confirmed" has been kept, because you've got specific credentials for that.</source>
+        <target>Son statut "confirmé" a été conservé, car vous avez des autorisations spéciales pour cela.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Last mod.</source>
         <target>Modifié le</target>
       </trans-unit>

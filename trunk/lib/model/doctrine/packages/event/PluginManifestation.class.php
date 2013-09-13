@@ -56,6 +56,36 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     
     parent::preSave($event);
   }
+  public function postSave($event)
+  {
+    parent::postSave($event);
+    
+    // manifestation in conflict
+    if ( $this->hasAnyConflict() )
+    {
+      sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
+      
+      // manifestation confirmed
+      if ( $this->reservation_confirmed )
+      {
+        // no credential to tolerate conflicts
+        if ( sfContext::hasInstance() && !sfContext::getInstance()->getUser()->hasCredential('event-reservation-confirm') )
+        {
+          $this->reservation_confirmed = false;
+          $this->save();
+          $notice = __('Its status "confirmed" has been disabled.');
+        }
+        else // special credentials for conflicts
+          $notice = __('Its status "confirmed" has been kept, because you\'ve got specific credentials for that.');
+      }
+      else // not yet confirmed
+        $notice = __('But it is not yet confirmed.');
+      
+      // global notice if any conflict is possible
+      if ( sfContext::hasInstance() )
+        sfContext::getInstance()->getUser()->setFlash('notice',__('This manifestation conflicts with another.').' '.$notice);
+    }
+  }
   
   public function postInsert($event)
   {

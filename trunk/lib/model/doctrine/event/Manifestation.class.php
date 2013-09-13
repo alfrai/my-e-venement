@@ -12,7 +12,7 @@
  */
 class Manifestation extends PluginManifestation
 {
-  var $conflict = true;
+  var $conflict = NULL;
   
   public function getName()
   {
@@ -59,10 +59,8 @@ class Manifestation extends PluginManifestation
   public function hasAnyConflict()
   {
     // precondition
-    if ( $this->isNew() )
-      throw new liBookingException('Only created manifestations can be checked for conflicts');
-    if ( $this->isModified() )
-      throw new liBookingException('Only recorded manifestations can be checked for conflicts');
+    if ( $this->isNew() || $this->isModified() )
+      throw new liBookingException('A manifestation has to be recorded to be checked for conflicts. Save it before...');
     
     if ( !is_null($this->conflict) )
       return $this->conflict;

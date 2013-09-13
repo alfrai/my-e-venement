@@ -129,13 +129,13 @@ class manifestationActions extends autoManifestationActions
 
       if ($request->hasParameter('_save_and_add'))
       {
-        $this->getUser()->setFlash('notice', $notice.' You can add another one below.');
+        $this->getUser()->setFlash('success', $notice.' You can add another one below.');
 
         $this->redirect('@manifestation_new');
       }
       else
       {
-        $this->getUser()->setFlash('notice', $notice);
+        $this->getUser()->setFlash('success', $notice);
         
         $this->redirect(array('sf_route' => 'manifestation_edit', 'sf_subject' => $manifestation));
       }
