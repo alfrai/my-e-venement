@@ -147,12 +147,13 @@ class eventActions extends autoEventActions
 
     $q = Doctrine_Query::create()
       ->delete()
-      ->from('Event')
-      ->whereIn('id', $ids);
-    $count = EventFormFilter::addCredentialsQueryPart($q)->execute();
-
+      ->from('Event e')
+      ->whereIn('e.id', $ids);
+    $count = EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery('e')->whereIn('e.id', $ids)->select('e.*'))->execute()->count();
+    
     if ($count >= count($ids))
     {
+      $q->execute();
       $this->getUser()->setFlash('notice', 'The selected items have been deleted successfully.');
     }
     else
