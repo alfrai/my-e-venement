@@ -95,24 +95,46 @@ echo ""
 
 # final data modifications
 echo "Adding required permissions and groups";
+echo " - member cards (correction)"
 psql $DB <<EOF
+-- mc / pr
 UPDATE sf_guard_permission SET name = 'pr-card-admin' WHERE name = ' pr-card-admin';
+EOF
+
+echo " - resources reservation"
+psql $DB <<EOF
+-- event
 INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-reservation-admin', 'Permission to manage reservations', '2013-06-17 17:14:50', '2013-06-17 17:14:50');
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-change-contact', 'Permission to change the contact of any reservation', '2013-06-17 17:14:50', '2013-06-17 17:14:50');
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT last_value FROM sf_guard_group_id_seq), NOW(), NOW());
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-confirm', 'Permission to confirm a reservation', '2013-06-17 17:14:50', '2013-06-17 17:14:50');
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT last_value FROM sf_guard_group_id_seq), NOW(), NOW());
+INSERT INTO sf_guard_user_group(group_id, user_id, created_at, updated_at) (SELECT (SELECT id FROM sf_guard_group WHERE name = 'event-reservation-admin'), user_id, now(), now() FROM sf_guard_user_group ug LEFT JOIN sf_guard_group g ON g.id = ug.group_id WHERE g.name = 'event-admin');
+EOF
+
+echo " - stats"
+psql $DB <<EOF
+-- stats
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('stats-pr-social', 'Permission to access to social stats', '2013-07-22 10:14:58', '2013-07-22 10:14:58');
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT id FROM sf_guard_group WHERE name = 'pr-social'), NOW(), NOW());
 INSERT INTO group_user(group_id, sf_guard_user_id, updated_at, created_at) (select g.id, u.id, now(), now() from group_table g, sf_guard_user u where g.id IS NOT NULL AND g.sf_guard_user_id is null);
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('stats-pr-groups', 'Permission to access the groups evolution statistics', '2013-08-15 10:14:50', '2013-08-15 10:14:50');
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT id FROM sf_guard_group WHERE name = 'stats-others'), NOW(), NOW());
+EOF
 
+echo " - workspaces"
+psql $DB <<EOF
+-- ws
 INSERT INTO sf_guard_permission(name, description, updated_at, created_at) VALUES ('ws-group', 'Permission to associate automatically a group to a contact created online', now(), now());
 INSERT INTO sf_guard_group(name, description, updated_at, created_at) VALUES ('ws-group', 'Associate automatically a group to a contact created online', now(), now());
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES ((SELECT id FROM sf_guard_permission WHERE name = 'ws-group'), (SELECT id FROM sf_guard_group WHERE name = 'ws-group'), now(), now());
 INSERT INTO sf_guard_user_group (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'ws-group'), now(), now() FROM sf_guard_user WHERE id in (SELECT ug.user_id FROM sf_guard_user_group ug LEFT JOIN sf_guard_group g ON g.id = ug.group_id WHERE g.name IN ('admin', 'tck-admin')));
+EOF
 
+echo ""
+echo "Correcting a postalcode on BIARD, France"
+psql $DB <<EOF
+-- other
 UPDATE postalcode SET postalcode = '86580' WHERE city = 'BIARD' AND postalcode = '86000';
 EOF
 
