@@ -15,4 +15,3 @@ createSuccess:
 indexSuccess:
   javascripts: [list-scroll, location]
   stylesheets: [list-print: {media: print}]
-

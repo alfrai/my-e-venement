@@ -101,7 +101,7 @@ class manifestationActions extends autoManifestationActions
     }
     
     // booking_list
-    if ( ($list = $request->getParameter('booking_list',array())) && is_array($list) )
+    if ( ($list = $request->getParameter('booking_list',$this->getUser()->getFlash('booking_list',array()))) && is_array($list) )
     {
       $this->form->setDefault('booking_list', $list);
     }

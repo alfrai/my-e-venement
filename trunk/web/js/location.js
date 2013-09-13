@@ -1,3 +1,4 @@
+// called by the newManif action, in the generator.yml
 function li_location_new_manif(elt, msg)
 {
   name = prompt(msg);
@@ -7,3 +8,4 @@ function li_location_new_manif(elt, msg)
   window.location = $(elt).prop('href')+'?event_name='+encodeURIComponent(name);
   return false;
 }
+
