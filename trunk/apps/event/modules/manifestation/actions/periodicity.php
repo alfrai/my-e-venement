@@ -61,7 +61,7 @@
         $manif->save();
         
         // redirect
-        $this->getUser()->setFlash('notice',__('Manifestation duplicated successfully.'));
+        $this->getUser()->setFlash('success',__('Manifestation duplicated successfully.'));
         $this->redirect('manifestation/edit?id='.$manif->id);
         break;
       
@@ -138,7 +138,7 @@
         }
         
         // redirect
-        $this->getUser()->setFlash('notice',__('%%nb%% manifestation(s) have been created during the duplication process.',array('%%nb%%',$cpt)));
+        $this->getUser()->setFlash('success',__('%%nb%% manifestation(s) have been created during the duplication process.',array('%%nb%%',$cpt)));
         $this->redirect('event/edit?id='.$this->manifestation->event_id);
         break;
       }
