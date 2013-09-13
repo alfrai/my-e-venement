@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Are you sure?</source>
+        <target>Êtes-vous sûr(e) ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Groups</source>
         <target>Groupes</target>
       </trans-unit>

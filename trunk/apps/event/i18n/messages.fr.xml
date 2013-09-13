@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source>Are you sure?</source>
+        <target>Êtes-vous sûr(e) ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New event's name:</source>
+        <target>Nom du nouvel événement :</target>
+      </trans-unit>
+      <trans-unit>
+        <source>All day long</source>
+        <target>Journée entière</target>
+      </trans-unit>
+      <trans-unit>
         <source>This manifestation conflicts with another.</source>
         <target>Cette manifestation entre en conflit avec une autre.</target>
       </trans-unit>
