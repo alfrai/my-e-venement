@@ -35,7 +35,7 @@ generator:
         object_actions:
           _show: ~
           _edit: ~
-          _new_manif:
+          _newManif:
             label: New Manifestation
             action: newManif
             params:

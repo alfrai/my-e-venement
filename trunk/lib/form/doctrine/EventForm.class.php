@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /**
  * Event form.
@@ -73,20 +73,30 @@ class EventForm extends BaseEventForm
     parent::configure();
   }
   
+  public function removeManifestations()
+  {
+    foreach ( $this->object->Manifestations as $key => $manif )
+      unset($this->object->Manifestations[$key], $this->embeddedForms['Manifestations'][$key]);
+    unset($this->validatorSchema['Manifestations']);
+  }
+  
   // for embedded Manifestations
   public function bind(array $taintedValues = null, array $taintedFiles = null)
   {
-    foreach ( $taintedValues['Manifestations'] as $key => $manif )
-    if ( !(isset($manif['location_id']) && $manif['location_id'])
-      || !(isset($manif['happens_at'])  && isset($manif['happens_at']['minute']) && $manif['happens_at']['minute'] && isset($manif['happens_at']['hour']) && $manif['happens_at']['hour'] && isset($manif['happens_at']['day']) && $manif['happens_at']['day'] && isset($manif['happens_at']['month']) && $manif['happens_at']['month'] && isset($manif['happens_at']['year']) && $manif['happens_at']['year'])
-      || !(isset($manif['vat_id'])      && $manif['vat_id']) )
+    if ( isset($taintedValues['Manifestations']) && is_array($taintedValues['Manifestations']) )
     {
-      unset(
-        $taintedValues['Manifestations'][$key],
-        $this->validatorSchema['Manifestations'][$key],
-        $this->embeddedForms['Manifestations'][$key],
-        $this->object->Manifestations[$key]
-      );
+      foreach ( $taintedValues['Manifestations'] as $key => $manif )
+      if ( !(isset($manif['location_id']) && $manif['location_id'])
+        || !(isset($manif['happens_at'])  && isset($manif['happens_at']['minute']) && $manif['happens_at']['minute'] && isset($manif['happens_at']['hour']) && $manif['happens_at']['hour'] && isset($manif['happens_at']['day']) && $manif['happens_at']['day'] && isset($manif['happens_at']['month']) && $manif['happens_at']['month'] && isset($manif['happens_at']['year']) && $manif['happens_at']['year'])
+        || !(isset($manif['vat_id'])      && $manif['vat_id']) )
+      {
+        unset(
+          $taintedValues['Manifestations'][$key],
+          $this->validatorSchema['Manifestations'][$key],
+          $this->embeddedForms['Manifestations'][$key],
+          $this->object->Manifestations[$key]
+        );
+      }
     }
     
     return parent::bind($taintedValues, $taintedFiles);

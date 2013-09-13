@@ -122,6 +122,7 @@
 #print .integrate { margin-right: 20px; }
 #print .partial { margin-left: 20px; }
 #print .all, .partial-print .all { margin-left: 20px; }
+#print input[type=submit].ui-state-default { padding: 3px 10px; cursor: pointer; }
 
 .submit .tickets {
   margin-left: 10px;
