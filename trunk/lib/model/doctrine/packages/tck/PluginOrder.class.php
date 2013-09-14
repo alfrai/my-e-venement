@@ -12,4 +12,8 @@
  */
 abstract class PluginOrder extends BaseOrder
 {
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

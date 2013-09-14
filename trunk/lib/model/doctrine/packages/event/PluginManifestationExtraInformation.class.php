@@ -12,4 +12,8 @@
  */
 abstract class PluginManifestationExtraInformation extends BaseManifestationExtraInformation
 {
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

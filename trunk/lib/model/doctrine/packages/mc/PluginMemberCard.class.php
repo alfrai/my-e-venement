@@ -12,4 +12,8 @@
  */
 abstract class PluginMemberCard extends BaseMemberCard
 {
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

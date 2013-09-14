@@ -12,4 +12,8 @@
  */
 abstract class PluginAccounting extends BaseAccounting
 {
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

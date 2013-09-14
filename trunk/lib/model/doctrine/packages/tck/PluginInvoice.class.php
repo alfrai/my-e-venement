@@ -12,4 +12,8 @@
  */
 abstract class PluginInvoice extends BaseInvoice
 {
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

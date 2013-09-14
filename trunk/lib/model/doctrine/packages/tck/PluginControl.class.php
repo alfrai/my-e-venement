@@ -12,4 +12,8 @@
  */
 abstract class PluginControl extends BaseControl
 {
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

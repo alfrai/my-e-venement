@@ -33,4 +33,9 @@ abstract class PluginEvent extends BaseEvent implements liMetaEventSecurityAcces
   {
     return $this->meta_event_id;
   }
+
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

@@ -12,4 +12,8 @@
  */
 abstract class PluginMemberCardPriceModel extends BaseMemberCardPriceModel
 {
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

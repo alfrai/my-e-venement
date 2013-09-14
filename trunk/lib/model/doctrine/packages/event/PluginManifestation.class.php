@@ -130,4 +130,9 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
   {
     return self::$credentials;
   }
+
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

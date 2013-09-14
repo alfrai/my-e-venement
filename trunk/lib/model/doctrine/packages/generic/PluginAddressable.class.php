@@ -12,4 +12,9 @@
  */
 abstract class PluginAddressable extends BaseAddressable
 {
+  public function index($name, array $definition = array()) 
+  {
+    $name = str_replace('%CLASS%', method_exists($this, 'getIndexesPrefix') ? $this->getIndexesPrefix() : $this->getTable()->getInstance()->getTableName(), $name);
+    return parent::index($name, $definition);
+  }
 }

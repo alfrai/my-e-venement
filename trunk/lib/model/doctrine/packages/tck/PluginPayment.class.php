@@ -55,4 +55,9 @@ abstract class PluginPayment extends BasePayment
     
     return parent::preSave($event);
   }
+
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

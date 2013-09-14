@@ -12,4 +12,8 @@
  */
 abstract class PluginOrganism extends BaseOrganism
 {
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

@@ -12,4 +12,8 @@
  */
 abstract class PluginLocation extends BaseLocation
 {
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }
