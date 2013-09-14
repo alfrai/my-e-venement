@@ -28,13 +28,13 @@ Group:
     #Sluggable:
     #  fields: [name, sf_guard_user_id]
   indexes:
-    group_name:
+    group_name_idx:
       fields: [name]
-    group_display_everywhere:
+    group_display_everywhere_idx:
       fields: [display_everywhere]
-    group_name_user:
+    group_name_user_idx:
       fields: [name, sf_guard_user_id]
-      type: unique
+      type_idx: unique
   columns:
     name:
       type: string(255)

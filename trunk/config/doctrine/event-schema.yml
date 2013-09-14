@@ -76,7 +76,7 @@ WorkspaceUserOrdering:
       type: integer
       notnull: true
   indexes:
-    sf_guard_user_id_workspace_id:
+    sf_guard_user_id_workspace_id_idx:
       fields: [sf_guard_user_id, workspace_id]
       unique: true
   relations:
@@ -146,7 +146,7 @@ Event:
     extends: Traceable
     type: concrete
   indexes:
-    event_name:
+    event_name_idx:
       fields: [name]
   columns:
     name:
@@ -223,7 +223,7 @@ EventCompany:
 Location:
   package: event
   indexes:
-    location_place:
+    location_place_idx:
       fields: [place]
   inheritance:
     extends: Addressable
@@ -273,15 +273,15 @@ Manifestation:
     extends: Traceable
     type: concrete
   indexes:
-    manifestation_happens_at:
+    manifestation_happens_at_idx:
       fields: [happens_at]
-    manifestation_reservation_begins_at:
+    manifestation_reservation_begins_at_idx:
       fields: [reservation_begins_at]
-    manifestation_reservation_ends_at:
+    manifestation_reservation_ends_at_idx:
       fields: [reservation_ends_at]
-    manifestation_blocking:
+    manifestation_blocking_idx:
       fields: [blocking]
-    manifestation_reservation_confirmed:
+    manifestation_reservation_confirmed_idx:
       fields: [reservation_confirmed]
   columns:
     event_id:

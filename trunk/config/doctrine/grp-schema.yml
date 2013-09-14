@@ -26,7 +26,7 @@ ContactEntry:
   actAs:
     Timestampable: ~
   indexes:
-    contact_entry_confirmed:
+    contact_entry_confirmed_idx:
       fields: [confirmed]
   columns:
     professional_id:
@@ -53,7 +53,7 @@ ContactEntry:
       onUpdate: CASCADE
       onDelete: SET NULL
   indexes:
-    contact_entry_index:
+    contact_entry_index_idx:
       fields: [professional_id,entry_id]
       unique: true
 
@@ -78,7 +78,7 @@ ManifestationEntry:
       onUpdate: CASCADE
       onDelete: CASCADE
   indexes:
-    manif_entry_index:
+    manif_entry_index_idx:
       fields: [manifestation_id,entry_id]
       unique: true
 
@@ -102,9 +102,9 @@ EntryElement:
   actAs:
     Timestampable: ~
   indexes:
-    entry_element_second_choice:
+    entry_element_second_choice_idx:
       fields: [second_choice]
-    entry_element_accepted:
+    entry_element_accepted_idx:
       fields: [accepted]
   columns:
     manifestation_entry_id:
@@ -155,7 +155,7 @@ EntryTickets:
       onUpdate: CASCADE
       onDelete: CASCADE
   indexes:
-    entry_price_index:
+    entry_price_index_idx:
       fields: [entry_element_id,price_id]
       unique: true
 

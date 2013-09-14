@@ -56,9 +56,9 @@ MemberCard:
     extends: Traceable
     type: concrete
   indexes:
-    member_card_expire_at:
+    member_card_expire_at_idx:
       fields: [expire_at]
-    member_card_active:
+    member_card_active_idx:
       fields: [active]
   columns:
     contact_id: integer
@@ -118,7 +118,7 @@ MemberCardPriceModel:
     extends: Traceable
     type: concrete
   indexes:
-    member_card_type_id_price_id_event_id:
+    member_card_type_id_price_id_event_id_idx:
       fields: [member_card_type_id, price_id, event_id]
       unique: true
   columns:

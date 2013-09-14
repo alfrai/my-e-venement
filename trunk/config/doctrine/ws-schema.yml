@@ -54,7 +54,7 @@ RemoteAuthentication:
       notnull: true
       notblank: true
   indexes:
-    user_ipaddress:
+    user_ipaddress_idx:
       fields: [sf_guard_user_id, ipaddress]
       type: unique
   relations:

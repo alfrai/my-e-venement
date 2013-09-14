@@ -31,9 +31,9 @@ Contact:
     Sluggable:
       fields: [name,firstname]
   indexes:
-    contact_name:
+    contact_name_idx:
       fields: [name]
-    contact_firstname:
+    contact_firstname_idx:
       fields: [firstname]
   columns:
     firstname: string(255)
@@ -91,7 +91,7 @@ Organism:
     extends: Addressable
     type: concrete
   indexes:
-    organism_name:
+    organism_name_idx:
       fields: [name]
   columns:
     url: string(255)
