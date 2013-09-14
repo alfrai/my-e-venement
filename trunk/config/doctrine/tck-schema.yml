@@ -68,6 +68,19 @@ Ticket:
   indexes:
     ticket_updated_at:
       fields: [updated_at]
+    ticket_manif_numerotation:
+      fields: [numerotation, manifestation_id]
+      unique: true
+    ticket_barcode:
+      fields: [barcode]
+    ticket_othercode:
+      fields: [othercode]
+    ticket_duplicating:
+      fields: [duplicating]
+    ticket_printed_at:
+      fields: [printed_at]
+    ticket_integrated_at:
+      fields: [integrated_at]
   columns:
     transaction_id:
       type: integer
@@ -103,20 +116,6 @@ Ticket:
     vat:
       type: decimal(5)
       scale: 4
-  indexes:
-    ticket_manif_numerotation:
-      fields: [numerotation, manifestation_id]
-      unique: true
-    ticket_barcode:
-      fields: [barcode]
-    ticket_othercode:
-      fields: [othercode]
-    ticket_duplicating:
-      fields: [duplicating]
-    ticket_printed_at:
-      fields: [printed_at]
-    ticket_integrated_at:
-      fields: [integrated_at]
   relations:
     Manifestation:
       foreignAlias: Tickets
@@ -202,7 +201,7 @@ Accounting:
     extends: Traceable
     type: concrete
   indexes:
-    accounting_type:
+    %CLASS%_type:
       fields: [type]
   columns:
     transaction_id:

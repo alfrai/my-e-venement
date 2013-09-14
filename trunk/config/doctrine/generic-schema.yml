@@ -38,13 +38,13 @@ Addressable:
       unique: true
       fields: [name]
   indexes:
-    addressable_postalcode:
+    %CLASS%_postalcode:
       fields: [postalcode]
-    addressable_country:
+    %CLASS%_country:
       fields: [country]
-    addressable_npai:
+    %CLASS%_npai:
       fields: [npai]
-    addressable_email_no_newsletter:
+    %CLASS%_email_no_newsletter:
       fields: [email_no_newsletter]
   columns:
     name:
@@ -71,7 +71,7 @@ Addressable:
 Postalcode:
   package: generic
   indexes:
-    postalcode:
+    postalcode_postalcode:
       fields: [postalcode]
   columns:
     postalcode:
@@ -92,9 +92,9 @@ Traceable:
       className: %CLASS%Version
       auditLog: true
   indexes:
-    traceable_updated_at:
+    %CLASS%_updated_at:
       fields: [updated_at]
-    traceable_created_at:
+    %CLASS%_created_at:
       fields: [created_at]
   columns:
     sf_guard_user_id:
@@ -163,7 +163,7 @@ Option:
       foreignAlias: Options
       onDelete: CASCADE
   indexes:
-    option_name_user_value_type:
+    %CLASS%_name_user_value_type:
       fields: [name, sf_guard_user_id, value, type]
       type: unique
 

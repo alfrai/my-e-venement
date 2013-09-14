@@ -32,7 +32,7 @@ Group:
       fields: [name]
     group_display_everywhere:
       fields: [display_everywhere]
-    name_user:
+    group_name_user:
       fields: [name, sf_guard_user_id]
       type: unique
   columns:
