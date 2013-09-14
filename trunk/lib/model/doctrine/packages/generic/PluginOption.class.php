@@ -12,4 +12,11 @@
  */
 abstract class PluginOption extends BaseOption
 {
+  // a major Doctrine hack to permit using indexes within inheritance
+  public function index($name, array $definition = array()) 
+  {
+    $name = str_replace('%CLASS%', method_exists($this, 'getIndexesPrefix') ? $this->getIndexesPrefix() : $this->getTable()->getInstance()->getTableName(), $name);
+    return parent::index($name, $definition);
+  }
+}
 }

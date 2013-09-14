@@ -12,4 +12,8 @@
  */
 abstract class PluginOptionCsv extends BaseOptionCsv
 {
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }
