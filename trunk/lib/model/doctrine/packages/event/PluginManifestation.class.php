@@ -58,33 +58,46 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
   }
   public function postSave($event)
   {
+    $notice1 = $notice2 = false;
     parent::postSave($event);
+    
+    if ( sfContext::hasInstance() )
+    if ( !sfContext::getInstance()->getUser()->hasCredential('event-reservervation-confirm') && $this->reservation_confirmed )
+    {
+      $this->reservation_confirmed = false;
+      $notice1 = __('You do not have the credential to confirm any manifestation.');
+      $this->save();
+    }
     
     // manifestation in conflict
     if ( $this->hasAnyConflict() )
     {
-      sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
-      
       // manifestation confirmed
       if ( $this->reservation_confirmed )
       {
+        sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
+        
         // no credential to tolerate conflicts
         if ( sfContext::hasInstance() && !sfContext::getInstance()->getUser()->hasCredential('event-reservation-confirm') )
         {
           $this->reservation_confirmed = false;
           $this->save();
-          $notice = __('Its status "confirmed" has been disabled.');
+          $notice2 = __('Its status "confirmed" has been disabled.');
         }
         else // special credentials for conflicts
-          $notice = __('Its status "confirmed" has been kept, because you\'ve got specific credentials for that.');
+          $notice2 = __('Its status "confirmed" has been kept, because you\'ve got specific credentials for that.');
       }
       else // not yet confirmed
-        $notice = __('But it is not yet confirmed.');
+        $notice2 = __('But it is not yet confirmed.');
       
       // global notice if any conflict is possible
-      if ( sfContext::hasInstance() )
-        sfContext::getInstance()->getUser()->setFlash('notice',__('This manifestation conflicts with another.').' '.$notice);
+      $notice2 = __('This manifestation conflicts with another.').' '.$notice2;
     }
+    
+    if ( $notice1 ) $notices[] = $notice1;
+    if ( $notice2 ) $notices[] = $notice2;
+    if ( sfContext::hasInstance() && $notices )
+      sfContext::getInstance()->getUser()->setFlash('notice',implode(' | ', $notices));
   }
   
   public function postInsert($event)

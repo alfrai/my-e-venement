@@ -5,6 +5,14 @@
     <header />
     <body>
       <trans-unit>
+        <source>You cannot access this object, you do not have the required credentials.</source>
+        <target>Vous ne pouvez accéder à cet objet, faute d'accréditation requise.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You cannot edit this object, you do not have the required credentials.</source>
+        <target>Vous ne pouvez modifier cet objet, faute d'accréditation requise.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Confirm</source>
         <target>Confirmer</target>
       </trans-unit>

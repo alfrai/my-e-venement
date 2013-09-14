@@ -19,4 +19,3 @@ abstract class PluginOption extends BaseOption
     return parent::index($name, $definition);
   }
 }
-}

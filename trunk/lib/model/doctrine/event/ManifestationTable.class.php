@@ -67,7 +67,7 @@ class ManifestationTable extends PluginManifestationTable
     {
       $q->andWhere("$alias.reservation_confirmed = ? OR $alias.contact_id = ? OR ?", array(
         true,
-        $uid = sfContext::getInstance()->getUser()->getId(),
+        $cid = sfContext::getInstance()->getUser()->getContactId(),
         sfContext::getInstance()->getUser()->hasCredential('event-reservation-confirm'),
       ));
     }
@@ -80,8 +80,8 @@ class ManifestationTable extends PluginManifestationTable
         ->leftJoin("$g.Workspace $w")
         ->leftJoin("$alias.Organizers $o")
         ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $w.name");
-      if ( $uid )
-      $q->leftJoin("$w.Order $wuo ON $wuo.workspace_id = $w.id AND $wuo.sf_guard_user_id = ".$uid)
+      if ( sfContext::hasInstance() )
+      $q->leftJoin("$w.Order $wuo ON $wuo.workspace_id = $w.id AND $wuo.sf_guard_user_id = ".($uid = sfContext::getInstance()->getUser()->getId() ))
         ->orderBy("$e.name, $me.name, $alias.happens_at, $alias.duration, $wuo.rank")
         ->leftJoin("$w.Users $wu")
         ->leftJoin("$me.Users $meu")
@@ -133,6 +133,10 @@ class ManifestationTable extends PluginManifestationTable
       ->andWhereIn('m.id',array_keys($conflicts))
       ->removeDqlQueryPart('orderby')
     ;
+    
+    if ( sfContext::hasInstance() && !sfContext::getInstance()->getUser()->hasCredential('event-access-all') )
+      $q->andWhere('m.contact_id = ?',sfContext::getInstance()->getUser()->getContactId());
+    
     return $q;
   }
   
@@ -142,6 +146,10 @@ class ManifestationTable extends PluginManifestationTable
       ->andWhere('m.reservation_confirmed = FALSE')
       ->removeDqlQueryPart('orderby')
     ;
+    
+    if ( sfContext::hasInstance() && !sfContext::getInstance()->getUser()->hasCredential('event-access-all') )
+      $q->andWhere('m.contact_id = ?',sfContext::getInstance()->getUser()->getContactId());
+    
     return $q;
   }
   

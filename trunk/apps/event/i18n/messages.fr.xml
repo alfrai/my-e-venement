@@ -5,8 +5,8 @@
     <header/>
     <body>
       <trans-unit>
-        <source></source>
-        <target></target>
+        <source>You do not have the credential to confirm any manifestation.</source>
+        <target>Vous n'êtes pas accrédité pour confirmer une manifestation.</target>
       </trans-unit>
       <trans-unit>
         <source>Are you sure?</source>

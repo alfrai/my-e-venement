@@ -206,15 +206,22 @@ class manifestationActions extends autoManifestationActions
     require(dirname(__FILE__).'/templating.php');
   }
   
-  protected function securityAccessFiltering(sfWebRequest $request)
+  protected function securityAccessFiltering(sfWebRequest $request, $deep = true)
   {
     if ( intval($request->getParameter('id')).'' !== ''.$request->getParameter('id') )
       return;
     
-    if ( !in_array($this->getRoute()->getObject()->Event->meta_event_id,array_keys($this->getUser()->getMetaEventsCredentials())) )
+    $sf_user = $this->getUser();
+    $manifestation = $this->getRoute()->getObject();
+    if ( !in_array($manifestation->Event->meta_event_id,array_keys($sf_user->getMetaEventsCredentials())) )
     {
-      $this->getUser()->setFlash('error',"You can't access this object, you don't have the required permissions.");
+      $this->getUser()->setFlash('error',"You cannot access this object, you do not have the required credentials.");
       $this->redirect('@event');
+    }
+    if ( $deep && ($manifestation->reservation_confirmed || !$sf_user->hasCredential('event-access-all') && $manifestation->contact_id != $sf_user->getContactId()) )
+    {
+      $this->getUser()->setFlash('error',"You cannot edit this object, you do not have the required credentials.");
+      $this->redirect('manifestation/show?id='.$manifestation->id);
     }
   }
   
@@ -239,9 +246,17 @@ class manifestationActions extends autoManifestationActions
     //$this->form->spectators = $this->getSpectators();
     //$this->form->unbalanced = $this->getUnbalancedTransactions();
   }
-  public function executeShow(sfWebRequest $request)
+  public function executeUpdate(sfWebRequest $request)
   {
     $this->securityAccessFiltering($request);
+    parent::executeUpdate($request);
+    //$this->form->prices = $this->getPrices();
+    //$this->form->spectators = $this->getSpectators();
+    //$this->form->unbalanced = $this->getUnbalancedTransactions();
+  }
+  public function executeShow(sfWebRequest $request)
+  {
+    $this->securityAccessFiltering($request, false);
     $this->manifestation = $this->getRoute()->getObject();
     $this->forward404Unless($this->manifestation);
     $this->form = $this->configuration->getForm($this->manifestation);
@@ -251,7 +266,7 @@ class manifestationActions extends autoManifestationActions
   }
   public function executeShowSpectators(sfWebRequest $request)
   {
-    $this->securityAccessFiltering($request);
+    $this->securityAccessFiltering($request, false);
     $this->manifestation_id = $request->getParameter('id');
     $this->spectators = $this->getSpectators($request->getParameter('id'));
     $this->show_workspaces = Doctrine_Query::create()
@@ -264,7 +279,7 @@ class manifestationActions extends autoManifestationActions
   }
   public function executeShowTickets(sfWebRequest $request)
   {
-    $this->securityAccessFiltering($request);
+    $this->securityAccessFiltering($request, false);
     $this->prices = $this->getPrices($request->getParameter('id'));
     $this->setLayout('nude');
   }
