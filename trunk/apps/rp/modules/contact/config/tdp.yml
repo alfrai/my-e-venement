@@ -32,8 +32,8 @@ all:
         labels:
           credential: pr-contact-labels
           label: Labels
-        map:
-          label: Geolocalize
+        #map:
+        #  label: Geolocalize
     edit:
       object:
         title: [title, name, firstname]

@@ -1,3 +1,4 @@
+<?php return ?>
 <?php use_helper('I18N', 'Date') ?>
 <?php use_helper('GMap') ?>
 <?php include_partial('assets') ?>
