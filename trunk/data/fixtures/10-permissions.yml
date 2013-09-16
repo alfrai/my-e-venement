@@ -429,6 +429,11 @@ sfGuardPermission:
     description: 'Permission to associate automatically a group to a contact created online'
     created_at: '2013-09-10 12:14:50'
     updated_at: '2013-09-10 12:14:50' 
+  sfGuardPermission_88:
+    name: event-access-all
+    description: Permission to access all manifestations & events, including those which belong to others and to no one.
+    created_at: '2013-09-16 14:10:50'
+    updated_at: '2013-09-16 14:10:50' 
 sfGuardGroupPermission:
   sfGuardGroupPermission_1_7:
     Group: sfGuardGroup_1
@@ -1005,6 +1010,61 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_87
     created_at: '2013-09-10 12:16:00'
     updated_at: '2013-09-10 12:16:00'
+  sfGuardGroupPermission_10_88:
+    Group: sfGuardGroup_10
+    Permission: sfGuardPermission_88
+    created_at: '2013-09-16 14:11:00'
+    updated_at: '2013-09-16 14:11:00'
+  sfGuardGroupPermission_31_23:
+    Group: sfGuardGroup_31
+    Permission: sfGuardPermission_23
+    created_at: '2013-09-16 14:15:00'
+    updated_at: '2013-09-16 14:15:00'
+  sfGuardGroupPermission_31_27:
+    Group: sfGuardGroup_31
+    Permission: sfGuardPermission_27
+    created_at: '2013-09-16 14:15:00'
+    updated_at: '2013-09-16 14:15:00'
+  sfGuardGroupPermission_31_28:
+    Group: sfGuardGroup_31
+    Permission: sfGuardPermission_28
+    created_at: '2013-09-16 14:15:00'
+    updated_at: '2013-09-16 14:15:00'
+  sfGuardGroupPermission_31_29:
+    Group: sfGuardGroup_31
+    Permission: sfGuardPermission_29
+    created_at: '2013-09-16 14:15:00'
+    updated_at: '2013-09-16 14:15:00'
+  sfGuardGroupPermission_31_30:
+    Group: sfGuardGroup_31
+    Permission: sfGuardPermission_30
+    created_at: '2013-09-16 14:15:00'
+    updated_at: '2013-09-16 14:15:00'
+  sfGuardGroupPermission_31_32:
+    Group: sfGuardGroup_31
+    Permission: sfGuardPermission_32
+    created_at: '2013-09-16 14:15:00'
+    updated_at: '2013-09-16 14:15:00'
+  sfGuardGroupPermission_31_33:
+    Group: sfGuardGroup_31
+    Permission: sfGuardPermission_33
+    created_at: '2013-09-16 14:15:00'
+    updated_at: '2013-09-16 14:15:00'
+  sfGuardGroupPermission_31_34:
+    Group: sfGuardGroup_31
+    Permission: sfGuardPermission_34
+    created_at: '2013-09-16 14:15:00'
+    updated_at: '2013-09-16 14:15:00'
+  sfGuardGroupPermission_31_35:
+    Group: sfGuardGroup_31
+    Permission: sfGuardPermission_35
+    created_at: '2013-09-16 14:15:00'
+    updated_at: '2013-09-16 14:15:00'
+  sfGuardGroupPermission_31_36:
+    Group: sfGuardGroup_31
+    Permission: sfGuardPermission_36
+    created_at: '2013-09-16 14:15:00'
+    updated_at: '2013-09-16 14:15:00'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -1156,3 +1216,8 @@ sfGuardGroup:
     description: 'Associate automatically a group to a contact created online'
     created_at: '2013-09-10 12:14:50'
     updated_at: '2013-09-10 12:14:50' 
+  sfGuardGroup_31:
+    name: event-access-restricted
+    description: Ability to add, del & modify one''s own manifestations and events
+    created_at: '2013-09-16 14:11:50'
+    updated_at: '2013-09-16 14:11:50' 

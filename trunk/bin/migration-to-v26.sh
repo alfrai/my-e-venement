@@ -105,11 +105,16 @@ echo " - resources reservation"
 psql $DB <<EOF
 -- event
 INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-reservation-admin', 'Permission to manage reservations', '2013-06-17 17:14:50', '2013-06-17 17:14:50');
-INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-change-contact', 'Permission to change the contact of any reservation', '2013-06-17 17:14:50', '2013-06-17 17:14:50');
-INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT last_value FROM sf_guard_group_id_seq), NOW(), NOW());
-INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-confirm', 'Permission to confirm a reservation', '2013-06-17 17:14:50', '2013-06-17 17:14:50');
-INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT last_value FROM sf_guard_permission_id_seq), (SELECT last_value FROM sf_guard_group_id_seq), NOW(), NOW());
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-change-contact', 'Permission to change the contact of any reservation', now(), now());
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT id FROM sf_guard_permission WHERE name = 'event-reservation-change-contact'), (SELECT id FROM sf_guard_group WHERE name = 'event-reservation-admin'), NOW(), NOW());
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-confirm', 'Permission to confirm a reservation', now(), now());
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT id FROM sf_guard_permission WHERE name = 'event-reservation-confirm'), (SELECT id FROM sf_guard_group WHERE name = 'event-reservation-admin'), NOW(), NOW());
 INSERT INTO sf_guard_user_group(group_id, user_id, created_at, updated_at) (SELECT (SELECT id FROM sf_guard_group WHERE name = 'event-reservation-admin'), user_id, now(), now() FROM sf_guard_user_group ug LEFT JOIN sf_guard_group g ON g.id = ug.group_id WHERE g.name = 'event-admin');
+
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-access-all', 'Permission to access all manifestations & events, including those which belong to others and to no one.', now(), now());
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT id FROM sf_guard_permission WHERE name = 'event-access-all'), (SELECT id FROM sf_guard_group WHERE name = 'event-mod'), NOW(), NOW());
+INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-access-restricted', 'Ability to add, del & modify one''s own manifestations and events', now(), now());
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'event-access-restricted'), NOW(), NOW() FROM sf_guard_permission WHERE name IN ('event-event', 'event-event-new', 'event-event-edit', 'event-event-del', 'event-location', 'event-manif', 'event-manif-new', 'event-manif-del', 'event-manif-edit', 'event-calendar-gui'));
 EOF
 
 echo " - stats"
