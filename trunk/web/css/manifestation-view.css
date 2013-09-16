@@ -2,6 +2,9 @@ html body #content { width: auto; margin-right: 100px; overflow: hidden; }
 html body #more:hover { width: 255px; }
 html body #more { width: 70px; right: 10px; overflow: hidden; left: auto; }
 
+html body #more { display: none; }
+html body #content { margin-right: 0; }
+
 #sf_fieldset_spectators .ticket-ids { display: none; }
 #sf_fieldset_spectators tbody .transaction { text-align: right; }
 
