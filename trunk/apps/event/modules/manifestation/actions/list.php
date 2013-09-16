@@ -27,8 +27,11 @@
     
     $from = date('Y-m-d H:i', $request->getParameter('start',strtotime('now')));
     $to = date('Y-m-d H:i', $request->getParameter('end',strtotime('+ 1 month')));
+    
     $no_ids = $request->getParameter('no_ids',array());
     if ( !is_array($no_ids) ) $no_ids = array();
+    foreach ( $no_ids as $key => $value )
+      unset($no_ids[$key]);
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.*, l.*, c.*, e.*, g.*')
