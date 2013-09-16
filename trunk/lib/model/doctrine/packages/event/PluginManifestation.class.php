@@ -62,7 +62,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     parent::postSave($event);
     
     if ( sfContext::hasInstance() )
-    if ( !sfContext::getInstance()->getUser()->hasCredential('event-reservervation-confirm') && $this->reservation_confirmed )
+    if ( $this->reservation_confirmed && !sfContext::getInstance()->getUser()->hasCredential('event-reservervation-confirm') )
     {
       $this->reservation_confirmed = false;
       $notice1 = __('You do not have the credential to confirm any manifestation.');

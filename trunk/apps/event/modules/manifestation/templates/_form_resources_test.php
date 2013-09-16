@@ -19,13 +19,14 @@
   {
     var start = li_manifestation_datetime('reservation_begins_at').getTime()/1000;
     var stop  = li_manifestation_datetime('reservation_ends_at').getTime()/1000;
-    if ( !start || !stop )
+    var location_id = $(elt).val();
+    if ( !start || !stop || !location_id )
       return;
     
     $.get('<?php echo url_for('manifestation/list') ?>',{
       start: start,
       end: stop,
-      location_id: $(elt).val(),
+      location_id: location_id,
       no_ids: ['<?php echo $manifestation->id ?>'],
     }, function(data){
       if ( data.length > 0 )

@@ -34,18 +34,18 @@ class eventActions extends autoEventActions
   }
   public function executeEdit(sfWebRequest $request)
   {
-    $this->securityAccessFiltering($request);
+    $this->securityAccessFiltering($request, true);
     parent::executeEdit($request);
   }
   public function executeUpdate(sfWebRequest $request)
   {
-    $this->securityAccessFiltering($request);
+    $this->securityAccessFiltering($request, true);
     parent::executeUpdate($request);
   }
   public function executeDelete(sfWebRequest $request)
   {
     try {
-      $this->securityAccessFiltering($request);
+      $this->securityAccessFiltering($request, true);
       parent::executeDelete($request);
     }
     catch ( Doctrine_Connection_Exception $e )
@@ -56,17 +56,27 @@ class eventActions extends autoEventActions
     }
   }
   
-  protected function securityAccessFiltering(sfWebRequest $request)
+  protected function securityAccessFiltering(sfWebRequest $request, $deep = false)
   {
     if ( intval($request->getParameter('id')).'' != ''.$request->getParameter('id') )
       return;
+    
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    
+    if ( $deep && !$this->getUser()->hasCredential('event-access-all') )
+    foreach ( $this->getRoute()->getObject()->Manifestations as $manif )
+    if ( $manif->contact_id !== $this->getUser()->getContactId() )
+    {
+      $this->getUser()->setFlash('error', __("You cannot edit an event object in which there are manifestations that do not belong to you."));
+      $this->redirect('event/show?id='.$this->getRoute()->getObject()->getId());
+    }
     
     if (!in_array(
           $this->getRoute()->getObject()->meta_event_id,
           array_keys($this->getUser()->getMetaEventsCredentials())
        ))
     {
-      $this->getUser()->setFlash("You can't access this object, you don't have the required permissions.");
+      $this->getUser()->setFlash('error', "You can't access this object, you don't have the required permissions.");
       $this->redirect('@event');
     }
   }
@@ -148,7 +158,8 @@ class eventActions extends autoEventActions
     $q = Doctrine_Query::create()
       ->delete()
       ->from('Event e')
-      ->whereIn('e.id', $ids);
+      ->whereIn('e.id', $ids)
+      ->andWhere('(SELECT count(m.id) FROM Manifestation m WHERE m.event_id = e.id AND m.contact_id != ?) = 0', $this->getUser()->getContactId());
     $count = EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery('e')->whereIn('e.id', $ids)->select('e.*'))->execute()->count();
     
     if ($count >= count($ids))
@@ -162,16 +173,6 @@ class eventActions extends autoEventActions
     }
 
     $this->redirect('@event');
-  }
-  
-  public function executeUpdateIndexes(sfWebRequest $request)
-  {
-    $table = Doctrine_Core::getTable('Event');
-    $table->batchUpdateIndex();
-    
-    $this->getUser()->setFlash('notice',"Events' index table has been updated.");
-    
-    $this->redirect('event');
   }
   
   public function executeAjax(sfWebRequest $request)

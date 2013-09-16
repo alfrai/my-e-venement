@@ -47,6 +47,13 @@ function li_manifestation_duration(duration = null)
 // errors/coherence anticipation ...
 function li_manifestation_coherence()
 {
+  if ( li_manifestation_datetime('reservation_begins_at')+'' === 'Invalid Date'
+    && li_manifestation_datetime('happens_at')           +'' !== 'Invalid Date' )
+    li_manifestation_datetime('reservation_begins_at', li_manifestation_datetime('happens_at'));
+  if ( li_manifestation_datetime('reservation_ends_at')  +'' === 'Invalid Date'
+    && li_manifestation_datetime('ends_at')              +'' !== 'Invalid Date' )
+    li_manifestation_datetime('reservation_ends_at', li_manifestation_datetime('ends_at'));
+  
   _li_manifestation_coherence('reservation_begins_at',  '<=', 'happens_at');
   _li_manifestation_coherence('reservation_ends_at',    '>=', 'ends_at');
   _li_manifestation_coherence('ends_at',                '>=', 'happens_at', 'duration');
@@ -54,9 +61,8 @@ function li_manifestation_coherence()
 
 function _li_manifestation_coherence(field1, operand, field2, extrafield = null)
 {
-  if ( li_manifestation_datetime(field1)+'' === 'Invalid Date' )
-    return false;
-  if ( li_manifestation_datetime(field2)+'' === 'Invalid Date' )
+  if ( li_manifestation_datetime(field1)+'' === 'Invalid Date'
+    || li_manifestation_datetime(field2)+'' === 'Invalid Date' )
     return false;
   
   var bool;

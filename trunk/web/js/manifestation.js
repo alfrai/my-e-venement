@@ -49,6 +49,8 @@ $(document).ready(function(){
     $('#sf_fieldset_reservation .sf_admin_form_field_applicant').hide();
   }
   else
+  if ( $('#sf_fieldset_reservation .sf_admin_form_field_contact_id').length == 0
+    && $('#sf_fieldset_reservation .sf_admin_form_field_applicant a').length == 0 )
   {
     // if no applicant, then remove the field from the form
     $('#sf_fieldset_reservation .sf_admin_form_field_applicant').hide();

@@ -101,4 +101,16 @@ class EventForm extends BaseEventForm
     
     return parent::bind($taintedValues, $taintedFiles);
   }
+  
+  public function doSave($con = NULL)
+  {
+    if ( sfContext::hasInstance() && !sfContext::getInstance()->getUser()->hasCredential('event-access-all') )
+    {
+      foreach ( $this->object->Manifestations as $manif )
+      if ( $manif->contact_id !== sfContext::getInstance()->getUser()->getContactId() )
+        throw new liBookingException('You cannot save an event object that has manifestations which does not belong to you.');
+    }
+    
+    parent::doSave($con);
+  }
 }

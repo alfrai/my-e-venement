@@ -24,7 +24,7 @@
 <div id="more">
   <?php if ( !$event->isNew() ): ?>
   <?php include_partial('manifestation_calendar', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
-  <?php include_partial('manifestation_new', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
+  <?php if ( $sf_user->hasCredential('event-manif-new') ) include_partial('manifestation_new', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
   <?php include_partial('manifestation_list', array('event' => $event, 'form' => $form, 'configuration' => $configuration)) ?>
   <?php endif ?>
 </div>

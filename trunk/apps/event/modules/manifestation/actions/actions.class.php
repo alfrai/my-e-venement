@@ -103,9 +103,13 @@ class manifestationActions extends autoManifestationActions
     // booking_list
     if ( ($list = $request->getParameter('booking_list', $this->getUser()->getFlash('booking_list',array())))
       && is_array($list) )
-    {
       $this->form->setDefault('booking_list', $list);
-    }
+    
+    // displaying or not the confirmed field, depending on user's credentials
+    if ( !$this->getUser()->hasCredential('event-reservation-confirm') )
+      $this->form->setWidget('reservation_confirmed', new sfWidgetFormInputHidden);
+    else
+      $this->form->setDefault('reservation_confirmed', true);
   }
   
   public function executeIndex(sfWebRequest $request)
@@ -218,7 +222,8 @@ class manifestationActions extends autoManifestationActions
       $this->getUser()->setFlash('error',"You cannot access this object, you do not have the required credentials.");
       $this->redirect('@event');
     }
-    if ( $deep && ($manifestation->reservation_confirmed || !$sf_user->hasCredential('event-access-all') && $manifestation->contact_id != $sf_user->getContactId()) )
+    if ( $deep && $manifestation->reservation_confirmed && !$sf_user->hasCredential('event-access-all')
+      || $deep && $manifestation->contact_id != $sf_user->getContactId() && !$sf_user->hasCredential('event-access-all') )
     {
       $this->getUser()->setFlash('error',"You cannot edit this object, you do not have the required credentials.");
       $this->redirect('manifestation/show?id='.$manifestation->id);
@@ -242,6 +247,11 @@ class manifestationActions extends autoManifestationActions
   {
     $this->securityAccessFiltering($request);
     parent::executeEdit($request);
+    
+    // displaying or not the confirmed field, depending on user's credentials
+    if ( !$this->getUser()->hasCredential('event-reservation-confirm') )
+      $this->form->setWidget('reservation_confirmed', new sfWidgetFormInputHidden);
+    
     //$this->form->prices = $this->getPrices();
     //$this->form->spectators = $this->getSpectators();
     //$this->form->unbalanced = $this->getUnbalancedTransactions();

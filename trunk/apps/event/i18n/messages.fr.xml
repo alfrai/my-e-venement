@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You cannot edit an event object in which there are manifestations that do not belong to you.</source>
+        <target>Vous ne pouvez pas modifier un événement dans lequel se trouvent des manifestations ne vous étant pas rattachées.</target>
+      </trans-unit>
+      <trans-unit>
         <source>You do not have the credential to confirm any manifestation.</source>
         <target>Vous n'êtes pas accrédité pour confirmer une manifestation.</target>
       </trans-unit>

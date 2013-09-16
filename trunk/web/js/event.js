@@ -32,27 +32,30 @@ function manifestation_list_loaded(data)
 function manifestation_new_clicked()
 {
   form = $('.sf_admin_form form:first');
-  anchor = $(this);
-  $.post(form.prop('action'),form.serialize(),function(data){
-    data = $.parseHTML(data);
-    
-    if ( $(data).find('.error').length > 0 )
-    {
-      // on event update error
-      form.replaceWith($(data).find('.sf_admin_form form:first'));
-      $('#sf_admin_form_tab_menu').tabs()
-        .addClass('ui-tabs-vertical ui-helper-clearfix');
-      $('#sf_admin_form_tab_menu li')
-        .removeClass('ui-corner-top').addClass('ui-corner-all');
-    }
-    else
-    {
-      // on event update success
-      window.location = anchor.prop('href');
-    }
-  });
-  
-  return false;
+  if ( form.lenfth > 0 )
+  {
+    anchor = $(this);
+    $.post(form.prop('action'),form.serialize(),function(data){
+      data = $.parseHTML(data);
+      
+      if ( $(data).find('.error').length > 0 )
+      {
+        // on event update error
+        form.replaceWith($(data).find('.sf_admin_form form:first'));
+        $('#sf_admin_form_tab_menu').tabs()
+          .addClass('ui-tabs-vertical ui-helper-clearfix');
+        $('#sf_admin_form_tab_menu li')
+          .removeClass('ui-corner-top').addClass('ui-corner-all');
+      }
+      else
+      {
+        // on event update success
+        window.location = anchor.prop('href');
+      }
+    });
+    return false;
+  }
+  return true;
 }
 
 function checkpoint_autocompleter()
