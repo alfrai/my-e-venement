@@ -31,6 +31,7 @@
     $no_ids = $request->getParameter('no_ids',array());
     if ( !is_array($no_ids) ) $no_ids = array();
     foreach ( $no_ids as $key => $value )
+    if ( !$value )
       unset($no_ids[$key]);
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
