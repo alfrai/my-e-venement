@@ -46,7 +46,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
       if ( !$this->duration )
       {
         $arr = explode(':', $str);
-        $this->duration = intval($arr[1]) + intval($arr[0])*60;
+        $this->duration = intval($arr[1])*60 + intval($arr[0])*3600;
       }
     }
     
