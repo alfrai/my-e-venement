@@ -72,6 +72,7 @@ ALTER TABLE vat_version ADD COLUMN updated_at timestamp without time zone;
 UPDATE vat SET created_at = NOW(), updated_at = NOW() WHERE created_at IS NULL AND updated_at IS NULL;
 UPDATE vat_version SET created_at = NOW(), updated_at = NOW() WHERE created_at IS NULL AND updated_at IS NULL;
 
+ALTER TABLE meta_event ADD COLUMN hide_in_month_calendars BOOLEAN DEFAULT false NOT NULL;
 ALTER TABLE location ADD COLUMN place BOOLEAN DEFAULT true NOT NULL;
 EOF
 

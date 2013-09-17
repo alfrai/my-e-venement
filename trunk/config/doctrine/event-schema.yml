@@ -92,12 +92,19 @@ WorkspaceUserOrdering:
 MetaEvent:
   package: event
   actAs: [Timestampable]
+  indexes:
+    meta_event_hide_in_month_calendars_idx:
+      fields: [hide_in_month_calendars]
   columns:
     name:
       type:     string(255)
       notblank: true
       notnull:  true
       unique:   true
+    hide_in_month_calendars:
+      type: boolean
+      default: false
+      notnull: true
   relations:
     Users:
       class: sfGuardUser
