@@ -38,7 +38,17 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
   {
     // converting duration from "1:00" to 3600 (seconds)
     if ( intval($this->duration).'' != ''.$this->duration )
+    {
+      $str = $this->duration;
       $this->duration = intval(strtotime($this->duration.'+0',0));
+      
+      // for durations > 24h
+      if ( !$this->duration )
+      {
+        $arr = explode(':', $str);
+        $this->duration = intval($arr[1]) + intval($arr[0])*60;
+      }
+    }
     
     // completing or correcting reservation fields
     if ( !$this->reservation_begins_at
