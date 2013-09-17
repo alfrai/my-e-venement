@@ -78,6 +78,17 @@ class manifestationActions extends autoManifestationActions
   }
   public function executeNew(sfWebRequest $request)
   {
+    if ( !$this->getUser()->hasCredential('event-reservation-change-contact') && !$this->getUser()->getContact() )
+    {
+      if ( $request->hasParameter('event') )
+        $event_id = $request->hasParameter('event')
+          ? Doctrine::getTable('Event')->findOneBySlug($request->getParameter('event'))->id
+          : $event_id = 0;
+      
+      $this->getUser()->setFlash('error','You cannot access this object, you do not have the required credentials.');
+      $this->redirect($event_id ? 'event/show?id='.$event_id : 'event/index');
+    }
+    
     parent::executeNew($request);
     
     if ( $request->getParameter('event') )
