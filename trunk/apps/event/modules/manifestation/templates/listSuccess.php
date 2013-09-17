@@ -35,6 +35,17 @@
   
   foreach ( $manifestations as $manif )
   {
+    // case of big manifestations shown exceptionnally because of their size
+    if ( $month_view && $manif->Event->MetaEvent->hide_in_month_calendars )
+    {
+      $raw_manif = $manif->getRawValue();
+      if ( $raw_manif->reservation_begins_at < $raw_manif->happens_at )
+        $raw_manif->happens_at = $raw_manif->reservation_begins_at;
+      if ( $raw_manif->reservation_ends_at > $raw_manif->ends_at )
+        $raw_manif->duration = strtotime($raw_manif->reservation_ends_at) - strtotime($raw_manif->happens_at);
+    }
+    
+    // the manif itself
     $manifs[] = array(
       'id' => $manif->id,
       'title' => !isset($event_id) ? (string)$manif->Event : (string)$manif->Location,
@@ -54,6 +65,7 @@
     if ( $manif->color_id )
       $manifs[count($manifs)-1]['backgroundColor'] = '#'.$manif->Color->color;
     
+    $css = array( 'opacity'       => !$manif->reservation_optional || $manif->reservation_confirmed  ? '0.7' : '0.5', );
     // preparation
     if ( $manif->reservation_begins_at < $manif->happens_at )
     {
@@ -62,9 +74,7 @@
       $manifs[count($manifs)-1]['start'] = $manif->reservation_begins_at;
       $manifs[count($manifs)-1]['end'] = $manif->happens_at;
       $manifs[count($manifs)-1]['editable'] = false;
-      $manifs[count($manifs)-1]['css'] = array_merge($css_around, $css_base, $css = array(
-        'opacity'       => !$manif->reservation_optional || $manif->reservation_confirmed  ? '0.7' : '0.5',
-      ), array(
+      $manifs[count($manifs)-1]['css'] = array_merge($css_around, $css_base, $css, array(
         'border-bottom-left-radius' => '0',
         'border-bottom-right-radius' => '0',
         'border-bottom-width' => '0',
