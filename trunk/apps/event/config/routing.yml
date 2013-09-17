@@ -1,9 +1,9 @@
-manifestation_waiting:
+manifestation_pending:
   class: sfDoctrineRouteCollection
   options:
     model:                Manifestation
-    module:               waiting
-    prefix_path:          /waiting
+    module:               pending
+    prefix_path:          /pending
     column:               id
     with_wildcard_routes: true
 

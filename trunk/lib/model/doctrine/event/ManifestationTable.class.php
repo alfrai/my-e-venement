@@ -140,7 +140,7 @@ class ManifestationTable extends PluginManifestationTable
     return $q;
   }
   
-  public function retrieveWaiting()
+  public function retrievePending()
   {
     $q = $this->createQuery('m')
       ->andWhere('m.reservation_confirmed = FALSE')

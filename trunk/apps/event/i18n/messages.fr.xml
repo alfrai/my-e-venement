@@ -89,7 +89,7 @@
         <target>Pas une option</target>
       </trans-unit>
       <trans-unit>
-        <source>List of bookings waiting for approval</source>
+        <source>List of pending bookings</source>
         <target>Liste des réservations en attente de confirmation</target>
       </trans-unit>
       <trans-unit>
