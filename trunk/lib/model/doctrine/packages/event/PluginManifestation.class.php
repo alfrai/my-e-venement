@@ -13,7 +13,8 @@
 abstract class PluginManifestation extends BaseManifestation implements liMetaEventSecurityAccessor
 {
   protected static $credentials = array(
-    'contact_id' => 'event-reservations-change-contact',
+    'contact_id' => 'event-reservation-change-contact',
+    'reservation_confirmed' => 'event-reservation-confirm',
   );
   
   public function duplicate($save = true)
@@ -60,8 +61,13 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     if ( sfContext::hasInstance() )
     {
       $sf_user = sfContext::getInstance()->getUser();
-      if ( !$sf_user->hasCredential($this->credentials['contact_id']) && $sf_user->getContact() )
-        $this->Applicant = $sf_user->getContact();
+      if ( !$sf_user->hasCredential($this->credentials['contact_id']) )
+      {
+        if ( $sf_user->getContact() )
+          $this->Applicant = $sf_user->getContact();
+        else
+          throw new liBookingException('The current user %%name%% is not linked to any contact, and does not have the %%credential%% credential', array('%%name%%' => (string)$sf_user, '%%credential%%' => $this->credentials['contact_id']));
+      }
     }
     
     parent::preSave($event);
@@ -72,7 +78,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     parent::postSave($event);
     
     if ( sfContext::hasInstance() )
-    if ( $this->reservation_confirmed && !sfContext::getInstance()->getUser()->hasCredential('event-reservervation-confirm') )
+    if ( $this->reservation_confirmed && !sfContext::getInstance()->getUser()->hasCredential(self::$credentials['reservation_confirmed']) )
     {
       $this->reservation_confirmed = false;
       $notice1 = __('You do not have the credential to confirm any manifestation.');
@@ -88,7 +94,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
         sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
         
         // no credential to tolerate conflicts
-        if ( sfContext::hasInstance() && !sfContext::getInstance()->getUser()->hasCredential('event-reservation-confirm') )
+        if ( sfContext::hasInstance() && !sfContext::getInstance()->getUser()->hasCredential(self::$credentials['reservation_confirmed']) )
         {
           $this->reservation_confirmed = false;
           $this->save();
