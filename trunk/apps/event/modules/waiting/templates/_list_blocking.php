@@ -1,1 +1,1 @@
-<?php include_partial('list_boolean', array('bool' => $manifestation->blocking)) ?>
+<?php include_partial('global/list_boolean', array('bool' => $manifestation->blocking)) ?>

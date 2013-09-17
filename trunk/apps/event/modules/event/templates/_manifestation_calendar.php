@@ -1,7 +1,10 @@
 <?php
 
+// options to give to the manifestation action
+$type = isset($type) ? $type : 'event';
+
 // calendar's first day calculation
-$now = $time = strtotime('now');
+$now = $time = time();
 foreach ( $form->getObject()->Manifestations as $manif )
 if ( strtotime($manif->happens_at) > $now ) // if this manifestation happens after now
 {
@@ -14,11 +17,7 @@ elseif ( $time <= $now ) // if this manifestation happens before now and no mani
     $time = strtotime($manif->happens_at);
 }
 
-// options to give to the manifestation action
-$type = isset($type) ? $type : 'event';
-
 ?>
-
 <?php include_partial('calendar/show_calendar',array(
   'urls' => array(
     url_for('manifestation/list?'.$type.'_id='.$form->getObject()->id),

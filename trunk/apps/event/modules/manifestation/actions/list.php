@@ -25,8 +25,9 @@
     $this->location_id = $request->getParameter('location_id');
     $this->event_id = $request->getParameter('event_id');
     
-    $from = date('Y-m-d H:i', $request->getParameter('start',strtotime('now')));
-    $to = date('Y-m-d H:i', $request->getParameter('end',strtotime('+ 1 month')));
+    $from = date('Y-m-d H:i', $request->getParameter('start',$time = time()));
+    $to = date('Y-m-d H:i', $request->getParameter('end',strtotime('+ 1 month', $time)));
+    $month_view = strtotime($to) - strtotime($from) >= strtotime('+ 1 month',$time) - $time;
     
     $no_ids = $request->getParameter('no_ids',array());
     if ( !is_array($no_ids) ) $no_ids = array();
@@ -47,7 +48,9 @@
         ->orWhere('b.id = ?',$this->location_id)
         ->andWhere('TRUE)');
     if ( $this->event_id )
-      $q->andwhere('m.event_id = ?',$this->event_id);
+      $q->andWhere('m.event_id = ?', $this->event_id);
+    elseif ( $month_view )
+      $q->andWhere('me.hide_in_month_calendars = FALSE');
     if ( $no_ids )
       $q->andWhereNotIn('m.id',$no_ids);
     

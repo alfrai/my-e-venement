@@ -13,14 +13,16 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        list_hide_in_month_calendars: { label: In calendars? }
+        hide_in_month_calendars: { label: To be hidden in calendars? }
       list:
-        display: [name]
+        display: [name, _list_hide_in_month_calendars]
         sort: [name,'']
       filter:  ~
       form:
         display:
-          General: [name]
+          General: [name, hide_in_month_calendars]
           Users:   [users_list]
       edit:
         title: Edit Meta event "%%name%%"

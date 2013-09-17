@@ -64,10 +64,11 @@ $(document).ready(function(){
       {
         url: '<?php echo $url ?>',
         //color: 'LightGreen',
-        error: function(){ alert('<?php echo __('Error loading the data from manifestations','','sf_admin') ?>'); }
+        error: function(){ alert('<?php echo __('Error loading the data from manifestations',null,'sf_admin') ?>'); }
       },
       <?php endforeach ?>
     ],
+    lazyFetching: false,
     
     eventResize: function(event, dayDelta, minuteDelta, revertFunc){
       $.ajax({
