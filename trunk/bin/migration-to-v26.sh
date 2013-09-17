@@ -144,6 +144,13 @@ psql $DB <<EOF
 UPDATE postalcode SET postalcode = '86580' WHERE city = 'BIARD' AND postalcode = '86000';
 EOF
 
+echo ""
+echo ""
+echo "Patching framework..."
+patch -N -p0 < data/diff/*.diff
+rm -f `find lib/vendor/ -iname '*.rej'`
+rm -f `find lib/vendor/ -iname '*.orig'`
+
 # final informations
 echo ""
 echo ""
