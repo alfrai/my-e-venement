@@ -1,2 +1,2 @@
 all:
-  credentials: [event-location, event-manif]
+  credentials: [event-location, event-manif, event-manif-new]
