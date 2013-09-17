@@ -14,6 +14,7 @@ generator:
     config:
       actions: ~
       fields:
+        mini_date         : { label: Happens at, type: date }
         list_meta_event   : { label: Meta event }
         list_booked_until : { label: Booked until }
         list_booked_from  : { label: Booked from }
@@ -28,7 +29,7 @@ generator:
         list_blocking     : { label: Blocking, type: boolean }
       list:
         title: List of bookings waiting for approval
-        display: [=happens_at, _list_booked_by, _list_booked_from, _list_booked_until, _list_resource, _list_event, _list_location, _list_meta_event, _list_workspaces, _list_blocking, _list_optional]
+        display: [=mini_date, _list_booked_by, _list_booked_from, _list_booked_until, _list_resource, _list_event, _list_location, _list_meta_event, _list_workspaces, _list_blocking, _list_optional]
         table_method: retrieveWaiting
         sort: [happens_at, '']
         actions: []
