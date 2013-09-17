@@ -8,5 +8,10 @@
       ).' <a class="sell" title="'.__('Sell').'" href="'.cross_app_url_for('tck','ticket/sell#manif-'.$manif->id).'"><span class="ui-icon-li ui-icon ui-icon-microplus"></span></a>'
   ?>
 <?php endforeach ?>
-<?php ksort($manifs) ?>
+<?php
+  if ( sfConfig::get('app_listing_manif_date','DESC') == 'DESC' )
+    krsort($manifs);
+  else
+    ksort($manifs);
+?>
 <?php echo implode('<br/>',$manifs) ?>
