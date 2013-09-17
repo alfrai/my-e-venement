@@ -18,11 +18,6 @@ class myUser extends liGuardSecurityUser
     $this->addCredentials($this->getMetaEventsCredentials());
   }
   
-  public function getContactId()
-  {
-    return ($id = $this->getGuardUser()->Contact[0]->id) ? $id : 0;
-  }
-  
   public function getWorkspacesCredentials()
   {
     $this->getGuardUser();

@@ -50,6 +50,12 @@ class liGuardSecurityUser extends sfGuardSecurityUser
     
     return $this->getGuardUser()->Contact[0];
   }
+  public function getContactId()
+  {
+    if ( $this->getContact() )
+      return $id;
+    return 0;
+  }
   
   public function getJabber($i = NULL)
   {
