@@ -1,4 +1,4 @@
-<?php // ALSO USED BY the waiting module, in its index... ?>
+<?php // ALSO USED BY the pending module, in its index... ?>
 
 <?php
   $options = array('id' => $manifestation->id);

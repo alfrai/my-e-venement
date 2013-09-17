@@ -7,7 +7,7 @@ generator:
     with_show:             false
     singular:              ~
     plural:                ~
-    route_prefix:          manifestation_waiting
+    route_prefix:          manifestation_pending
     with_doctrine_route:   true
     actions_base_class:    sfActions
 
@@ -28,9 +28,9 @@ generator:
         reservation_optional: { label: Optional, type: boolean }
         list_blocking     : { label: Blocking, type: boolean }
       list:
-        title: List of bookings waiting for approval
+        title: List of pending bookings
         display: [=mini_date, _list_booked_by, _list_booked_from, _list_booked_until, _list_resource, _list_event, _list_location, _list_meta_event, _list_workspaces, _list_blocking, _list_optional]
-        table_method: retrieveWaiting
+        table_method: retrievePending
         sort: [happens_at, '']
         actions: []
         batch_actions:
