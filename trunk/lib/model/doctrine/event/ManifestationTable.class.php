@@ -165,10 +165,10 @@ class ManifestationTable extends PluginManifestationTable
   public function getConflicts(array $filters = array())
   {
     // preconditions
-    if ( isset($filters['id']) && !is_int($filters['id']) )
-      throw new sfInitializationException('Bad value given for ID (INT expected): ('.gettype($filters['id']).') '.$filters['id']);
-    if ( isset($filters['potentially']) && $filters['potentially'] !== true && !is_int($filters['potentially']) )
-      throw new sfInitializationException('Bad value given for "potentially (TRUE or INT expected)": ('.gettype($filters['potentially']).') '.$filters['potentially']);
+    if ( isset($filters['id']) && intval($filters['id']).'' !== ''.$filters['id'] )
+      throw new sfInitializationException('Bad value given for "ID" (INT expected): ('.gettype($filters['id']).') '.$filters['id']);
+    if ( isset($filters['potentially']) && $filters['potentially'] !== true && intval($filters['potentially']).'' !== ''.$filters['potentially'] )
+      throw new sfInitializationException('Bad value given for "potentially" (TRUE or INT expected): ('.gettype($filters['potentially']).') '.$filters['potentially']);
     
     // the root raw query
     $m2_start = "CASE WHEN m2.happens_at < m2.reservation_begins_at THEN m2.happens_at ELSE m2.reservation_begins_at END";

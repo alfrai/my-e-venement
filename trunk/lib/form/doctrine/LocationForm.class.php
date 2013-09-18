@@ -23,4 +23,11 @@ class LocationForm extends BaseLocationForm
     );
     $this->widgetSchema['description'] = new liWidgetFormTextareaTinyMCE($tinymce);
   }
+  
+  public function doSave($con = NULL)
+  {
+    $this->values['place'] = true;
+    $this->object->place = true;
+    return parent::doSave($con);
+  }
 }
