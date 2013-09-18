@@ -23,7 +23,7 @@
 ?>
 <?php if ( !$location->isNew() ): ?>
 <div id="more">
-  <?php include_partial('event/manifestation_calendar', array('location' => $location, 'form' => $form, 'configuration' => $configuration, 'type' => 'location_id',)) ?>
+  <?php include_partial('event/manifestation_calendar', array('location' => $location, 'form' => $form, 'configuration' => $configuration, 'type' => 'location',)) ?>
   <?php include_partial('event/manifestation_list', array('location' => $location, 'form' => $form, 'configuration' => $configuration, 'type' => 'location',)) ?>
   <?php include_partial('gmap', array('form' => $form, 'width' => '400px', 'height' => '350px')) ?>
 </div>

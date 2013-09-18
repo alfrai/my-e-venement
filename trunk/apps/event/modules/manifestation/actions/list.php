@@ -51,7 +51,7 @@
       $q->andWhere('m.event_id = ?', $this->event_id);
     elseif ( $this->month_view )
       // if the manifestation's duration > 1 day or the manifestation's reservation starts one day and stops another and duration > 18h
-      $q->andWhere('me.hide_in_month_calendars = FALSE OR m.duration > ? OR EXTRACT(day FROM m.reservation_begins_at) != EXTRACT(day FROM m.reservation_ends_at) AND m.duration > ?', array(24*60*60, 18*60*60 ,));
+      $q->andWhere("(me.hide_in_month_calendars = FALSE OR m.duration > ? OR DATE_TRUNC('day', m.reservation_begins_at) != DATE_TRUNC('day', m.reservation_ends_at) AND m.duration > ?)", array(24*60*60, 18*60*60 ,));
     if ( $no_ids )
       $q->andWhereNotIn('m.id',$no_ids);
     
