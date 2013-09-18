@@ -31,18 +31,22 @@ generator:
         writer_label: { label: Writer label }
         list_manifestations: { label: Manifestations }
         list_manifestations_gauges: { label: <span title="booked/total (sold-booked-demanded)">Gauges</span> }
+        list_manifestations_places: { label: Locations }
         accounting_account: { label: Account, help: For the accounting department }
         manif_blocking : { label: Blocking manifestations }
         manif_confirmed: { label: Confirmed manifestations }
-        manif_conflict : { label: Problematic manifestations }
+        manif_conflict : { label: Conflicted manifestations }
         manif_optional : { label: Optional manifestations }
       list:
         title: Event List
-        display: [MetaEvent, name, EventCategory, duration_h_r, age_min_h_r, _list_manifestations, _list_manifestations_gauges]
+        display: [MetaEvent, name, EventCategory, duration_h_r, age_min_h_r, _list_manifestations,_list_manifestations_gauges, _list_manifestations_places]
         table_method: RetrieveList
         max_per_page: <?php echo sfConfig::get('app_listing_max_per_page',20).PHP_EOL ?>
       filter:
-        display: [meta_event_id, event_category_id, name, staging, writer, duration, age_min, age_max, companies_list, manif_confirmed, manif_blocking, manif_conflict, manif_optional]
+        display:
+          Event:              [meta_event_id, event_category_id, name, duration]
+          Bookings:           [resource_id, contact_id, manif_confirmed, manif_blocking, manif_conflict, manif_optional]
+          Extra informations: [staging, writer, age_min, age_max, companies_list]
       form: ~
       edit:
         title: Edit Event %%name%%

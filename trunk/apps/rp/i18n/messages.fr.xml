@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Personal</source>
+        <target>Personnel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Additional</source>
+        <target>Additionnel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Social informations</source>
+        <target>Informations sociales</target>
+      </trans-unit>
+      <trans-unit>
         <source>Admin. ID</source>
         <target>Identifiant</target>
       </trans-unit>

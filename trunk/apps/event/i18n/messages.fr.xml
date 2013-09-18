@@ -9,6 +9,10 @@
         <target>Dans les calendriers ?</target>
       </trans-unit>
       <trans-unit>
+        <source>Filters</source>
+        <target>Filtres</target>
+      </trans-unit>
+      <trans-unit>
         <source>To be hidden in calendars?</source>
         <target>À cacher dans les calendriers ?</target>
       </trans-unit>
@@ -73,8 +77,8 @@
         <target>Manifestations confirmées</target>
       </trans-unit>
       <trans-unit>
-        <source>Problematic manifestations</source>
-        <target>Manifestations problématiques</target>
+        <source>Conflicted manifestations</source>
+        <target>Manifestations en conflit</target>
       </trans-unit>
       <trans-unit>
         <source>Optional manifestations</source>
@@ -87,6 +91,10 @@
       <trans-unit>
         <source>Not an option</source>
         <target>Pas une option</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Bookings</source>
+        <target>Réservations</target>
       </trans-unit>
       <trans-unit>
         <source>List of pending bookings</source>

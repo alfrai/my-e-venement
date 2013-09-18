@@ -78,4 +78,4 @@ generator:
           <?php if ( sfConfig::get('app_manifestation_reservations_enabled',true) ): echo PHP_EOL; ?>
           Reservation:  [_show_booking_list, _show_applicant_id, _show_reservation_begins_at, _show_reservation_ends_at, _show_blocking, _show_confirmed, _show_optional, _show_reservation_description]
           <?php endif; echo PHP_EOL; ?>
-          ExtraInformations: [_show_description]
+          Extra informations: [_show_description]

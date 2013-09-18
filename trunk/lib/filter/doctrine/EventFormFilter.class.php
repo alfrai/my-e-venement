@@ -27,6 +27,26 @@ class EventFormFilter extends BaseEventFormFilter
     
     $this->widgetSchema['event_category_id']->setOption('order_by',array('name',''));
     
+    $this->widgetSchema   ['resource_id'] = new sfWidgetFormDoctrineChoice(array(
+      'add_empty' => true,
+      'model'     => 'Location',
+      'order_by'  => array('place DESC, name',''),
+    ));
+    $this->validatorSchema['resource_id'] = new sfValidatorDoctrineChoice(array(
+      'required'  => false,
+      'model'     => 'Location',
+    ));
+    
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink'));
+    $this->widgetSchema   ['contact_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model'     => 'Contact',
+      'url'       => cross_app_url_for('rp', 'contact/ajax'),
+    ));
+    $this->validatorSchema['contact_id'] = new sfValidatorDoctrineChoice(array(
+      'required'  => false,
+      'model'     => 'Contact',
+    ));
+    
     $this->widgetSchema   ['manif_confirmed'] =
     $this->widgetSchema   ['manif_optional'] =
     $this->widgetSchema   ['manif_conflict'] =
@@ -79,6 +99,23 @@ class EventFormFilter extends BaseEventFormFilter
       ->andWhere('TRUE)');
   }
   
+  public function addResourceIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( inval($value) > 0 )
+      return $q
+        ->leftJoin('m.Booking b')
+        ->andWhere('(TRUE')
+        ->andWhere('m.location_id = ?', intval($value))
+        ->orWhere('b.id = ?', intval($value))
+        ->andWhere('TRUE)');
+    return $q;
+  }
+  public function addContactIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( intval($value) > 0 )
+      return $q->andWhere('m.contact_id = ?',intval($value));
+    return $q;
+  }
   public function addManifConflictColumnQuery(Doctrine_Query $q, $field, $value)
   {
     if ( !in_array($value,array(0,1)) )
