@@ -109,12 +109,10 @@
         }
         
         // interval calculation
-        $interval = 'now';
-        foreach ( array('hours', 'days', 'weeks', 'month', 'years') as $fieldname )
+        $interval = 0;
+        foreach ( array('days', 'weeks', 'month', 'years') as $fieldname )
         if ( intval($periodicity['repeat'][$fieldname]) > 0 )
-          $interval .= '+ '.intval($periodicity['repeat'][$fieldname]).' '.$fieldname;
-        $now = time();
-        $interval = strtotime($interval,$now) - $now;
+          $interval = strtotime('+'.intval($periodicity['repeat'][$fieldname]).' '.$fieldname,$interval);
         
         // duplication
         $cpt = 0;
@@ -134,7 +132,14 @@
         )
         {
           foreach ( array('happens_at', 'reservation_begins_at', 'reservation_ends_at') as $field )
-            $manif->$field = date('Y-m-d H:i:s',strtotime($manif->$field) + $interval);
+          {
+            // to avoid timezone (winter/summer times) mistakes duplicating a manifestation
+            $local_interval = $interval;
+            if ( ($from = date('P',strtotime($manif->$field))) != ($to = date('P', strtotime($manif->$field) + $interval)) )
+              $local_interval = $interval + strtotime($to) - strtotime($from);
+
+            $manif->$field = date('Y-m-d H:i:s',strtotime($manif->$field) + $local_interval);
+          }
           
           $manif->save();
           $cpt++;
