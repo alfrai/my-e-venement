@@ -10,4 +10,8 @@
  */
 class locationGeneratorConfiguration extends BaseLocationGeneratorConfiguration
 {
+  public function getFormClass()
+  {
+    return 'PlaceForm';
+  }
 }

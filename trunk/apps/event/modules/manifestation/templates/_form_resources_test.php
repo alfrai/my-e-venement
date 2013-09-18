@@ -28,6 +28,7 @@
       end: stop,
       location_id: location_id,
       no_ids: ['<?php echo $manifestation->id ?>'],
+      only_blocking: true,
     }, function(data){
       if ( data.length > 0 )
         $(elt).parent().addClass('ui-state-error').addClass('ui-corner-all');

@@ -47,6 +47,7 @@ generator:
           _newManif:
             label: <?php echo __('New Manifestation').PHP_EOL ?>
             action: batchNewManif
+        sort: [name, asc]
       filter:
         display: [name, email, contact_id, organism_id, npai]
       form:

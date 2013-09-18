@@ -22,8 +22,9 @@
 ***********************************************************************************/
 ?>
 <?php
-    $this->location_id = $request->getParameter('location_id');
-    $this->event_id = $request->getParameter('event_id');
+    $this->location_id    = $request->getParameter('location_id');
+    $this->event_id       = $request->getParameter('event_id');
+    $this->only_blocking  = $request->hasParameter('only_blocking');
     
     $from = date('Y-m-d H:i', $request->getParameter('start',$time = time()));
     $to = date('Y-m-d H:i', $request->getParameter('end',strtotime('+ 1 month', $time)));
@@ -35,11 +36,15 @@
     if ( !$value )
       unset($no_ids[$key]);
     
+    $end = "m.happens_at + (m.duration||' seconds')::interval";
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.*, l.*, c.*, e.*, g.*')
       ->leftJoin('m.Color c')
-      ->andWhere('m.happens_at >= ?',$from)
-      ->andWhere('m.happens_at <  ?',$to)
+      ->andWhere('(TRUE')
+      ->andWhere("m.happens_at >= ? AND m.happens_at < ?", array($from, $to))
+      ->orWhere("$end > ? AND $end <= ?", array($from, $to))
+      ->orWhere("m.happens_at < ? AND $end > ?", array($from, $to))
+      ->andWhere('TRUE)')
       ->orderBy('m.happens_at DESC');
     if ( $this->location_id )
       $q->andWhere('(TRUE')
@@ -47,11 +52,15 @@
         ->leftJoin('m.Booking b')
         ->orWhere('b.id = ?',$this->location_id)
         ->andWhere('TRUE)');
+    if ( $this->only_blocking )
+      $q->andWhere('m.blocking = TRUE');
     if ( $this->event_id )
       $q->andWhere('m.event_id = ?', $this->event_id);
     elseif ( $this->month_view )
+    {
       // if the manifestation's duration > 1 day or the manifestation's reservation starts one day and stops another and duration > 18h
       $q->andWhere("(me.hide_in_month_calendars = FALSE OR m.duration > ? OR DATE_TRUNC('day', m.reservation_begins_at) + '1 day'::interval < DATE_TRUNC('day', m.reservation_ends_at) AND m.duration > ?)", array(24*60*60, 18*60*60, ));
+    }
     if ( $no_ids )
       $q->andWhereNotIn('m.id',$no_ids);
     
