@@ -1,7 +1,6 @@
 <?php
   $ws = array();
   foreach ( $manifestation->Gauges as $gauge )
-    $ws[] = (string)$gauge->Workspace;
-  
-  echo '<span class="workspace">'.implode('</span>, <span class="workspace">', $ws).'</span>';
+    $ws[] = '<span class="workspace" title="'.$gauge->Workspace.'">'.$gauge->Workspace.'</span>';
+  echo implode('', $ws);
 ?>

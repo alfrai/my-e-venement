@@ -145,6 +145,10 @@
         <target>Conflits d'usage</target>
       </trans-unit>
       <trans-unit>
+        <source>Conflicts</source>
+        <target>Conflits</target>
+      </trans-unit>
+      <trans-unit>
         <source>There is no use conflict</source>
         <target>Pas de conflit d'usage</target>
       </trans-unit>
