@@ -147,7 +147,10 @@ EOF
 echo ""
 echo ""
 echo "Patching framework..."
-patch -N -p0 < data/diff/*.diff
+for elt in data/diff/*.diff
+do
+  patch -N -p0 < $elt
+done
 rm -f `find lib/vendor/ -iname '*.rej'`
 rm -f `find lib/vendor/ -iname '*.orig'`
 
