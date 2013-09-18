@@ -12,4 +12,10 @@
  */
 abstract class PluginContactRelationship extends BaseContactRelationship
 {
+  public function save(Doctrine_Connection $con = NULL)
+  {
+    if ( !$this->to_contact_id )
+      return false;
+    parent::save($con);
+  }
 }
