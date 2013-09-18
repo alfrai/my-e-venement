@@ -34,6 +34,7 @@ generator:
         email_newsletter: { label: Newsletter ? }
         groups_picto: { credentials: [pr-group], label: Remarkable }
         administrative_number: { label: Admin. ID }
+        professional_meta_event_id: { label: Meta events }
       list:
         title: Organisms list
         display: [Category, name, postalcode, city, _list_email, administrative_number, _groups_picto, _contacts_list]
@@ -61,7 +62,11 @@ generator:
             label: Get labels
             credentials: pr-contact-label
       filter:
-        display: [name, postalcode, city, region_id, country, email, administrative_number, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>email_newsletter,<?php endif ?> npai, organism_category_id, contacts_groups, professional_meta_event_id, groups_list, not_groups_list, duplicates]
+        display:
+          Organism:   [name, postalcode, city, region_id, country, email, administrative_number, organism_category_id]
+          Relations:  [contacts_groups, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>groups_list,<?php endif ?> not_groups_list]
+          Communication: [npai <?php if ( !sfConfig::get('app_options_design',false) || !sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>, email_newsletter<?php endif ?>]
+          Others:     [duplicates, professional_meta_event_id]
       show:
         display:
           NONE: [name, address, postalcode, city, country, _show_region, _show_email, _show_phonenumbers_list, _show_url, Category, _show_groups_list]
