@@ -78,6 +78,7 @@ class ContactForm extends BaseContactForm
   
   protected function doSave($con = NULL)
   {
+    if ( isset($this->widgetSchema['Relationships']) )
     foreach ( $this->values['Relationships'] as $key => $values )
     if (!( isset($values['to_contact_id']) && $values['to_contact_id'] )
       ||!( isset($values['contact_relationship_type_id']) && $values['contact_relationship_type_id'] ))
@@ -91,6 +92,7 @@ class ContactForm extends BaseContactForm
     else
       $this->object->Relationships[$key]->Contact = NULL; // hack ... to avoid an Exception based on a not-correct ->Contact
     
+    if ( isset($this->widgetSchema['YOBs']) )
     foreach ( $this->values['YOBs'] as $key => $values )
     if (!( isset($values['year']) && trim($values['year']) ))
     {
