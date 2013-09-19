@@ -20,7 +20,7 @@ generator:
         list_booked_from  : { label: Booked from, type: date }
         list_location     : { label: Location }
         list_event        : { label: Event }
-        list_resource     : { label: Be careful on }
+        list_resources    : { label: Be careful on }
         location_id       : { label: Place/Resource }
         list_booked_by    : { label: Booked by }
         list_workspaces   : { label: Workspaces }
