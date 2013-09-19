@@ -46,3 +46,6 @@ html body #content { margin-right: 0; }
 .sf_admin_field_prices_list .value { padding-left: 10px; text-align: right; }
 
 .periodicities > .ui-widget-content { padding: 5px; margin: 5px 3px 0 3px; }
+
+.error.conflict a { text-decoration: none; font-size: 80%; }
+.error.conflict a:hover { text-decoration: underline; }

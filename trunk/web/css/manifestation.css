@@ -103,7 +103,7 @@ select[disabled] {
 .is_necessary_to ul { list-style-type: none; }
 
 #sf_fieldset_reservation .sf_admin_form_row { margin-right: 260px; }
-#sf_fieldset_reservation .sf_admin_form_field_booking_list { position: absolute; right: -220px; line-height: 1em; width: 230px; max-height: 400px; overflow-y: auto; }
+#sf_fieldset_reservation .sf_admin_form_field_booking_list { position: absolute; right: -220px; line-height: 1em; width: 230px; max-height: 360px; overflow-y: auto; }
 #sf_fieldset_reservation .sf_admin_form_field_reservation_confirmed .ui-helper-clearfix,
 #sf_fieldset_reservation .sf_admin_form_field_reservation_optional .ui-helper-clearfix,
 #sf_fieldset_reservation .sf_admin_form_field_blocking .ui-helper-clearfix { float: left; width: 200px; }
