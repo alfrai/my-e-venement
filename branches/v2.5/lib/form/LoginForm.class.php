@@ -24,10 +24,32 @@ class LoginForm extends BaseForm
     parent::configure();
   }
   
-  public function isValid()
+  public function isRecovering($email, $code)
+  {
+    $this->validatorSchema['password']->setOption('required', true);
+    $this->validatorSchema['password_again'] = $this->validatorSchema['password'];
+    $this->widgetSchema   ['password_again'] = $this->widgetSchema   ['password'];
+    $this->widgetSchema   ['code']  = new sfWidgetFormInput;
+    $this->validatorSchema['code']  = new sfValidatorChoice(array('choices' => array($code )));
+    $this->validatorSchema['email'] = new sfValidatorChoice(array('choices' => array($email)));
+  }
+  
+  public function isRecovery()
+  {
+    unset($this->widgetSchema['password'], $this->validatorSchema['password']);
+    $this->validatorSchema['email'] = new sfValidatorDoctrineChoice(array(
+      'model'   => 'Contact',
+      'column'  => 'email',
+    ));
+  }
+  
+  public function isValid($complete = true)
   {
     if ( !parent::isValid() )
       return false;
+    
+    if ( !$complete )
+      return true;
     
     $contact = Doctrine_Query::create()->from('Contact c')
       ->where('c.email = ?',$this->getValue('email'))
