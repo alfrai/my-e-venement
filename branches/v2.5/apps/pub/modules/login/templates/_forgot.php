@@ -1,4 +1,4 @@
-<?php foreach ( array('email','password') as $fieldname ): ?>
+<?php foreach ( array('email') as $fieldname ): ?>
   <p class="<?php echo $fieldname ?>">
     <?php echo $form[$fieldname]->renderLabel() ?>
     <?php echo $form[$fieldname] ?>
@@ -7,7 +7,7 @@
 <?php endforeach ?>
   <p class="submit">
     <label></label>
-    <input type="submit" value="Ok" name="submit" />
-    <a href="<?php echo url_for('login/forgot') ?>" class="forgot"><?php echo __('You forgot your password?') ?></a>
+    <input type="submit" value="<?php echo __('Send') ?>" name="submit" />
+    <?php $form->renderHiddenFields() ?>
   </p>
 

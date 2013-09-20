@@ -19,8 +19,10 @@ abstract class PluginEmail extends BaseEmail
   
   protected function send()
   {
-    if ( !is_array($this->to) )
+    if ( !$this->to )
       $this->to = array();
+    if ( !is_array($this->to) )
+      $this->to = array($this->to);
     
     // sending one by one to linked ...
     // contacts

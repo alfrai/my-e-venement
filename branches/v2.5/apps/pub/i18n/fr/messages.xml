@@ -5,6 +5,42 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The code to reset your password is %%code%%</source>
+        <target>Le code pour redéfinir votre mot de passe est %%code%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Reset your password for %%name%%</source>
+        <target>Redéfinir votre mot de passe pour %%name%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>An email has been sent to your address (%%addr%%). Check it to continue.</source>
+        <target>Un email a été envoyé à votre adresse (%%addr%%). Ouvrez-le pour continuer.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Passwords do not match. Please try again.</source>
+        <target>Vos mots de passe ne concordent pas. Essayez à nouveau...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Your password has been changed. Please login now.</source>
+        <target>Votre mot de passe a été changé. Vous pouvez maintenant vous connecter.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You forgot your password?</source>
+        <target>Mot de passe oublié ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Invalid email address, please try again.</source>
+        <target>Adresse email invalide, essayez à nouveau SVP.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Please try again.</source>
+        <target>Essayez à nouveau SVP.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Are you sure?</source>
+        <target>Êtes-vous sûr(e) ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>at</source>
         <target>le</target>
       </trans-unit>

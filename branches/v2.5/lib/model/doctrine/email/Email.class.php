@@ -37,14 +37,11 @@ class Email extends PluginEmail
     if ( $this->sent )
       return $this;
     
-    if ( !$this->sent )
-    {
-      // send email
-      if ( $this->not_a_test )
-        $this->sent = $this->send();
-      else
-        $this->sendTest();
-    }
+    // send email
+    if ( $this->not_a_test )
+      $this->sent = $this->send();
+    else
+      $this->sendTest();
     
     $this->updated_at = date('Y-m-d H:i:s');
     if ( sfContext::hasInstance() )
