@@ -65,7 +65,11 @@ class EmailForm extends BaseEmailForm
     $this->widgetSchema['content'] = new liWidgetFormTextareaTinyMCE(array(
       'width'   => 650,
       'height'  => 420,
-      'config'  => 'extended_valid_elements: "hr[class|width|size|noshade],iframe[src|width|height|name|align],style", convert_urls: false, urlconvertor_callback: "email_urlconvertor",',
+      'config'  => array(
+        'extended_valid_elements' => 'hr[class|width|size|noshade],iframe[src|width|height|name|align],style',
+        'convert_urls' => false,
+        'urlconvertor_callback' => 'email_urlconvertor',
+      ),
     ));
     
     $this->widgetSchema   ['load'] = new sfWidgetFormInputText();
