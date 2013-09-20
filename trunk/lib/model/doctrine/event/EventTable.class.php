@@ -43,12 +43,15 @@ class EventTable extends PluginEventTable
   {
     $cid = 0;
     $admin = false;
+    try {
     if ( sfContext::hasInstance() && method_exists(sfContext::getInstance()->getUser(), 'getContactId') )
     {
       $sf_user = sfContext::getInstance()->getUser();
       $cid = $sf_user->getContactId();
       $admin = $sf_user->hasCredential('event-reservation-admin');
-    }
+    } }
+    catch ( liOnlineSaleException $e )
+    { }
     
     return $this->createQuery('e')
       ->select('e.*, ec.*, me.*, m.*, l.*, c.*, g.*')
