@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The code to reset your password is %%code%%</source>
+        <target>Le code pour redéfinir votre mot de passe est %%code%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Reset your password for %%name%%</source>
+        <target>Redéfinir votre mot de passe pour %%name%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>An email has been sent to your address (%%addr%%). Check it to continue.</source>
         <target>Un email a été envoyé à votre adresse (%%addr%%). Ouvrez-le pour continuer.</target>
       </trans-unit>
