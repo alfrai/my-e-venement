@@ -96,7 +96,7 @@ class manifestationActions extends autoManifestationActions
     
     // get back already booked tickets
     $tickets_to_count = Doctrine_Query::create()->from('Ticket tck')
-      ->andWhere('tck.printed = ?',false)
+      ->andWhere('tck.printed_at IS NULL')
       ->leftJoin('tck.Manifestation m')
       ->leftJoin('tck.Price p')
       ->andWhere('p.member_card_linked = ?',true)

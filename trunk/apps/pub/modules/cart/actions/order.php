@@ -67,7 +67,7 @@
         $config = sfConfig::get('app_tickets_vel');
         $q->addSelect("(SELECT count(*) AS nb
                         FROM Ticket tck4
-                        WHERE NOT printed AND NOT integrated
+                        WHERE printed_at IS NULL AND integrated_at IS NULL
                           AND transaction_id NOT IN (SELECT o4.transaction_id FROM Order o4)
                           AND duplicating IS NULL AND cancelling IS NULL AND gauge_id = g.id
                           AND id NOT IN (SELECT tck44.cancelling FROM Ticket tck44 WHERE tck44.cancelling IS NOT NULL)
@@ -77,7 +77,7 @@
                        ) AS asked_from_vel")
           ->addSelect("(SELECT count(*) AS nb
                         FROM Ticket tck5
-                        WHERE NOT printed AND NOT integrated
+                        WHERE printed_at IS NULL AND integrated_at IS NULL
                           AND transaction_id NOT IN (SELECT o5.transaction_id FROM Order o5)
                           AND duplicating IS NULL AND cancelling IS NULL AND gauge_id = g.id
                           AND id NOT IN (SELECT tck55.cancelling FROM Ticket tck55 WHERE tck55.cancelling IS NOT NULL)

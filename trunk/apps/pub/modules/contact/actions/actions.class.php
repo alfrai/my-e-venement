@@ -70,7 +70,7 @@ class contactActions extends sfActions
       ->leftJoin('m.Tickets tck')
       ->leftJoin('tck.Transaction t')
       ->leftJoin('t.Order order')
-      ->andWhere('order.id IS NOT NULL OR tck.printed = TRUE OR tck.integrated = TRUE')
+      ->andWhere('order.id IS NOT NULL OR tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL')
       ->andWhere('t.contact_id = ?',$this->getUser()->getContact()->id)
       ->execute();
     
