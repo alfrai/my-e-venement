@@ -145,12 +145,19 @@ EntryTickets:
     quantity:
       type: integer
       notnull: true
+    gauge_id:
+      type: integer
+      notnull: true
   relations:
     EntryElement:
       foreignAlias: EntryTickets
       onUpdate: CASCADE
       onDelete: CASCADE
     Price:
+      foreignAlias: EntryTickets
+      onUpdate: CASCADE
+      onDelete: CASCADE
+    Gauge:
       foreignAlias: EntryTickets
       onUpdate: CASCADE
       onDelete: CASCADE

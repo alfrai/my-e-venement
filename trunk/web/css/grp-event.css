@@ -103,6 +103,9 @@ body #sf_admin_container .EntryTickets input[type=text] {
 body #sf_admin_container .EntryTickets select {
   width: 60px;
 }
+body #sf_admin_container .EntryTickets select[name="entry_tickets[gauge_id]"] {
+  width: 50px;
+}
 
 .EntryElement {
   /*text-align: center;*/

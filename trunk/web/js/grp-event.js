@@ -79,7 +79,12 @@ $(document).ready(function(){
   $('.manifestation .fg-button-mini').each(function(){
     $(this).prop('title',$.trim($(this).html()));
   });
-                  
+  
+  // hidding the gauges selection if there is only one choice
+  $('.EntryTickets select[name="entry_tickets[gauge_id]"]').each(function(){
+    if ( $(this).find('option').length < 2 )
+      $(this).replaceWith('<input type="hidden" value="'+$(this).find('option:first').val()+'" name="'+$(this).prop('name')+'" />');
+  });
 });
 
 function grp_mouse_move(event)

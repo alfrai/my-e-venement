@@ -36,15 +36,46 @@ class EntryTicketsForm extends BaseEntryTicketsForm
   public function configure()
   {
     $this->widgetSchema['entry_element_id'] = new sfWidgetFormInputHidden();
-    $arr = array('id','entry_element_id','quantity','price_id');
-    $this->widgetSchema->setPositions($arr);
     
     $prices = $userp = $manifp = array();
     
     $this->widgetSchema['price_id']->setOption('add_empty', true);
     $this->restrictPriceIdQuery();
     
+    $this->validatorSchema['gauge_id']->setOption('query', $q = Doctrine::getTable('Gauge')
+      ->createQuery('g')
+      ->select('g.*')
+      ->leftJoin('g.Manifestation m')
+      ->leftJoin('m.ManifestationEntries me')
+      ->leftJoin('me.Entries ee')
+      ->leftJoin('g.Workspace w')
+      ->leftJoin('w.GroupWorkspace gw')
+      ->andWhere('gw.id IS NOT NULL')
+    );
+    $this->widgetSchema   ['gauge_id']
+      ->setOption('query', $q->copy())
+      ->setOption('order_by', array('w.name', ''));
+    if ( !$this->isNew() )
+      $this->widgetSchema ['gauge_id'] = new sfWidgetFormInputHidden;
+
+    $arr = array('id','entry_element_id','quantity','price_id', 'gauge_id');
+    $this->widgetSchema->setPositions($arr);
     $this->enableCSRFProtection();
+  }
+  
+  public function doBind(array $values)
+  {
+    $this->restrictGaugeIdQuery($this->validatorSchema['entry_element_id']->clean($values['entry_element_id']));
+    parent::doBind($values);
+  }
+  
+  public function restrictGaugeIdQuery($entry_element_id)
+  {
+    $manifid = Doctrine::getTable('EntryElement')->findOneById($entry_element_id)->ManifestationEntry->manifestation_id;
+    if ( $this->widgetSchema['gauge_id']->getOption('query') instanceof Doctrine_Query )
+      $this->widgetSchema   ['gauge_id']->getOption('query')->andWhere('g.manifestation_id = ?', $manifid);
+    $this->validatorSchema['gauge_id']->getOption('query')->andWhere('g.manifestation_id = ?', $manifid);
+    return $this;
   }
   
   public function restrictPriceIdQuery($entry_element_id = NULL)

@@ -12,5 +12,10 @@ class GroupWorkspaceForm extends BaseGroupWorkspaceForm
 {
   public function configure()
   {
+    $this->validatorSchema   ['workspace_id']
+      ->setOption('query', $q = Doctrine::getTable('Workspace')->createQuery('w')->leftJoin('w.GroupWorkspace gw')->andWhere('gw.id IS NULL'));
+    $this->widgetSchema   ['workspace_id']
+      ->setOption('order_by', array('name', ''))
+      ->setOption('query', $q);
   }
 }
