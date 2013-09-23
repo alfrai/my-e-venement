@@ -1,0 +1,17 @@
+all:
+  credentials: [event-event]
+  
+edit:
+  credentials: [event-event-edit]
+update:
+  credentials: [event-event-edit]
+new:
+  credentials: [event-event-new]
+create:
+  credentials: [event-event-new]
+delete:
+  credentials: [event-event-del]
+batchDelete:
+  credentials: [event-event-del]
+calendar:
+  credentials: [event-event-calendar]
