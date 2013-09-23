@@ -50,11 +50,13 @@ class contact_entryActions extends autoContact_entryActions
         $ticket->manifestation_id = $element->ManifestationEntry->manifestation_id;
         $this->contact_entry->Transaction->Tickets[] = $ticket;
         
+        /*
         $gauge = Doctrine::getTable('Gauge')->createQuery('g')
           ->leftJoin('g.Workspace w')
           ->leftJoin('w.GroupWorkspace gw')
           ->andWhere('g.manifestation_id = ?',$element->ManifestationEntry->Manifestation->id)
           ->andWhere('gw.id IS NOT NULL')
+          ->andWhere('g.id = ?', $tickets->gauge_id)
           ->fetchOne();
         if ( !$gauge )
         {
@@ -62,7 +64,8 @@ class contact_entryActions extends autoContact_entryActions
           $this->getUser()->setFlash('error',__('Transposition failed: no gauge available on this manifestation for the groups module'));
           $this->redirect('professional/view?id='.$this->contact_entry->professional_id);
         }
-        $ticket->gauge_id = $gauge->id;
+        */
+        $ticket->gauge_id = $tickets->gauge_id;
       }
     }
     
