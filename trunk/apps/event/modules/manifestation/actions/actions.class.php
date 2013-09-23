@@ -233,8 +233,10 @@ class manifestationActions extends autoManifestationActions
       $this->getUser()->setFlash('error',"You cannot access this object, you do not have the required credentials.");
       $this->redirect('@event');
     }
-    if ( $deep && $manifestation->reservation_confirmed && !$sf_user->hasCredential('event-access-all')
-      || $deep && $manifestation->contact_id != $sf_user->getContactId() && !$sf_user->hasCredential('event-access-all') )
+    
+    if ( $deep )
+    if ( $manifestation->contact_id !== $sf_user->getContactId() && !$sf_user->hasCredential('event-access-all')
+      || $manifestation->reservation_confirmed && !$sf_user->hasCredential('event-manif-edit-confirmed') )
     {
       $this->getUser()->setFlash('error',"You cannot edit this object, you do not have the required credentials.");
       $this->redirect('manifestation/show?id='.$manifestation->id);

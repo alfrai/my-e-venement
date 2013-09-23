@@ -74,6 +74,20 @@ UPDATE vat_version SET created_at = NOW(), updated_at = NOW() WHERE created_at I
 
 ALTER TABLE meta_event ADD COLUMN hide_in_month_calendars BOOLEAN DEFAULT false NOT NULL;
 ALTER TABLE location ADD COLUMN place BOOLEAN DEFAULT true NOT NULL;
+
+ALTER TABLE entry_tickets ADD COLUMN gauge_id INTEGER;
+UPDATE entry_tickets SET gauge_id =
+  (SELECT g.id
+   FROM gauge g
+   LEFT JOIN manifestation m ON m.id = g.manifestation_id
+   LEFT JOIN workspace w ON g.workspace_id = w.id
+   LEFT JOIN group_workspace gw ON gw.workspace_id = w.id
+   LEFT JOIN manifestation_entry em ON m.id = em.manifestation_id
+   LEFT JOIN entry_element ee ON ee.manifestation_entry_id = em.id
+   WHERE ee.id = entry_element_id
+     AND gw.id IS NOT NULL
+   LIMIT 1)
+WHERE gauge_id IS NULL;
 EOF
 
 echo "DUMPING DB..."
@@ -104,18 +118,31 @@ EOF
 
 echo " - resources reservation"
 psql $DB <<EOF
--- event
-INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-reservation-admin', 'Permission to manage reservations', '2013-06-17 17:14:50', '2013-06-17 17:14:50');
-INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-change-contact', 'Permission to change the contact of any reservation', now(), now());
-INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT id FROM sf_guard_permission WHERE name = 'event-reservation-change-contact'), (SELECT id FROM sf_guard_group WHERE name = 'event-reservation-admin'), NOW(), NOW());
-INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-confirm', 'Permission to confirm a reservation', now(), now());
-INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT id FROM sf_guard_permission WHERE name = 'event-reservation-confirm'), (SELECT id FROM sf_guard_group WHERE name = 'event-reservation-admin'), NOW(), NOW());
-INSERT INTO sf_guard_user_group(group_id, user_id, created_at, updated_at) (SELECT (SELECT id FROM sf_guard_group WHERE name = 'event-reservation-admin'), user_id, now(), now() FROM sf_guard_user_group ug LEFT JOIN sf_guard_group g ON g.id = ug.group_id WHERE g.name = 'event-admin');
 
+-- super admin access
+INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-reservation-super-admin', 'Permission to save manifestations that are in conflict whith others !', now(), now());
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-conflicts', 'Permission to create real conflicts in reservations !', now(), now());
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT (SELECT id FROM sf_guard_permission WHERE name = 'event-reservation-conflicts'), id, now(), now() FROM sf_guard_group WHERE name IN ('event-reservation-super-admin') AND (id, (SELECT id FROM sf_guard_permission WHERE name = 'event-reservation-conflicts')) NOT IN (SELECT group_id, permission_id FROM sf_guard_group_permission) AND (id, (SELECT id FROM sf_guard_permission WHERE name = 'event-reservation-conflicts')) NOT IN (SELECT group_id, permission_id FROM sf_guard_group_permission));
+
+-- admin access
+INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-reservation-admin', 'Permission to administrate reservations, editting confirmed manifestations', now(), now());
+INSERT INTO sf_guard_user_group(group_id, user_id, created_at, updated_at) (SELECT (SELECT id FROM sf_guard_group WHERE name = 'event-reservation-admin'), user_id, now(), now() FROM sf_guard_user_group ug LEFT JOIN sf_guard_group g ON g.id = ug.group_id WHERE g.name = 'event-admin');
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-manif-edit-confirmed', 'Permission to edit confirmed reservations / manifestations', now(), now());
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT (SELECT id FROM sf_guard_permission WHERE name = 'event-manif-edit-confirmed'), id, now(), now() FROM sf_guard_group WHERE name IN ('event-reservation-admin', 'event-reservation-super-admin') AND (id, (SELECT id FROM sf_guard_permission WHERE name = 'event-manif-edit-confirmed')) NOT IN (SELECT group_id, permission_id FROM sf_guard_group_permission));
+DELETE FROM sf_guard_group_permission WHERE ((SELECT id FROM sf_guard_permission WHERE name = 'event-manif-edit-confirmed'), (SELECT id FROM sf_guard_group WHERE name = 'event-mod')) = (permission_id, group_id);
+
+-- manager access event-mod
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-access-all', 'Permission to access all manifestations & events, including those which belong to others and to no one.', now(), now());
-INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) VALUES((SELECT id FROM sf_guard_permission WHERE name = 'event-access-all'), (SELECT id FROM sf_guard_group WHERE name = 'event-mod'), NOW(), NOW());
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-change-contact', 'Permission to change the contact of any reservation', now(), now());
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-reservation-confirm', 'Permission to confirm a reservation', now(), now());
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT (SELECT id FROM sf_guard_permission WHERE name = 'event-access-all'), id, now(), now() FROM sf_guard_group WHERE name IN ('event-reservation-admin','event-mod', 'event-reservation-super-admin') AND (id, (SELECT id FROM sf_guard_permission WHERE name = 'event-access-all')) NOT IN (SELECT group_id, permission_id FROM sf_guard_group_permission));
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT (SELECT id FROM sf_guard_permission WHERE name = 'event-reservation-change-contact'), id, now(), now() FROM sf_guard_group WHERE name IN ('event-mod', 'event-reservation-admin', 'event-reservation-superadmin') AND (id, (SELECT id FROM sf_guard_permission WHERE name = 'event-reservation-change-contact')) NOT IN (SELECT group_id, permission_id FROM sf_guard_group_permission));
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT (SELECT id FROM sf_guard_permission WHERE name = 'event-reservation-confirm'), id, now(), now() FROM sf_guard_group WHERE name IN ('event-reservation-admin','event-mod', 'event-reservation-super-admin') AND (id, (SELECT id FROM sf_guard_permission WHERE name = 'event-reservation-confirm')) NOT IN (SELECT group_id, permission_id FROM sf_guard_group_permission));
+
+-- restricted access
 INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-access-restricted', 'Ability to add, del & modify one''s own manifestations and events', now(), now());
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'event-access-restricted'), NOW(), NOW() FROM sf_guard_permission WHERE name IN ('event-event', 'event-event-new', 'event-event-edit', 'event-event-del', 'event-location', 'event-manif', 'event-manif-new', 'event-manif-del', 'event-manif-edit', 'event-calendar-gui'));
+
 EOF
 
 echo " - stats"

@@ -22,5 +22,5 @@
 ***********************************************************************************/
 ?>
 <div id="more">
-  <?php include_partial('gmap', array('form' => $form, 'width' => '400px', 'height' => '350px')) ?>
+  <?php include_partial('global/gmap', array('form' => $form, 'width' => '400px', 'height' => '350px')) ?>
 </div>

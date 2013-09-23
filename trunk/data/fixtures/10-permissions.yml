@@ -434,6 +434,16 @@ sfGuardPermission:
     description: Permission to access all manifestations & events, including those which belong to others and to no one.
     created_at: '2013-09-16 14:10:50'
     updated_at: '2013-09-16 14:10:50' 
+  sfGuardPermission_89:
+    name: event-reservation-conflicts
+    description: Permission to create real conflicts in reservations !
+    created_at: '2013-09-19 14:10:50'
+    updated_at: '2013-09-19 14:10:50' 
+  sfGuardPermission_90:
+    name: event-manif-edit-confirmed
+    description: Permission to edit confirmed reservations / manifestations
+    created_at: '2013-09-19 14:10:50'
+    updated_at: '2013-09-19 14:10:50' 
 sfGuardGroupPermission:
   sfGuardGroupPermission_1_7:
     Group: sfGuardGroup_1
@@ -1015,6 +1025,16 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_88
     created_at: '2013-09-16 14:11:00'
     updated_at: '2013-09-16 14:11:00'
+  sfGuardGroupPermission_10_79:
+    Group: sfGuardGroup_10
+    Permission: sfGuardPermission_79
+    created_at: '2013-09-16 14:11:00'
+    updated_at: '2013-09-16 14:11:00'
+  sfGuardGroupPermission_10_86:
+    Group: sfGuardGroup_10
+    Permission: sfGuardPermission_86
+    created_at: '2013-09-16 14:11:00'
+    updated_at: '2013-09-16 14:11:00'
   sfGuardGroupPermission_31_23:
     Group: sfGuardGroup_31
     Permission: sfGuardPermission_23
@@ -1065,6 +1085,36 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_36
     created_at: '2013-09-16 14:15:00'
     updated_at: '2013-09-16 14:15:00'
+  sfGuardGroupPermission_28_90:
+    Group: sfGuardGroup_28
+    Permission: sfGuardPermission_90
+    created_at: '2013-09-23 14:15:00'
+    updated_at: '2013-09-23 14:15:00'
+  sfGuardGroupPermission_32_89:
+    Group: sfGuardGroup_32
+    Permission: sfGuardPermission_89
+    created_at: '2013-09-23 14:15:00'
+    updated_at: '2013-09-23 14:15:00'
+  sfGuardGroupPermission_28_86:
+    Group: sfGuardGroup_28
+    Permission: sfGuardPermission_86
+    created_at: '2013-09-23 14:15:00'
+    updated_at: '2013-09-23 14:15:00'
+  sfGuardGroupPermission_32_86:
+    Group: sfGuardGroup_32
+    Permission: sfGuardPermission_86
+    created_at: '2013-09-23 14:15:00'
+    updated_at: '2013-09-23 14:15:00'
+  sfGuardGroupPermission_28_88:
+    Group: sfGuardGroup_28
+    Permission: sfGuardPermission_88
+    created_at: '2013-09-23 14:15:00'
+    updated_at: '2013-09-23 14:15:00'
+  sfGuardGroupPermission_32_88:
+    Group: sfGuardGroup_32
+    Permission: sfGuardPermission_88
+    created_at: '2013-09-23 14:15:00'
+    updated_at: '2013-09-23 14:15:00'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -1221,3 +1271,8 @@ sfGuardGroup:
     description: Ability to add, del & modify one''s own manifestations and events
     created_at: '2013-09-16 14:11:50'
     updated_at: '2013-09-16 14:11:50' 
+  sfGuardGroup_32:
+    name: event-reservation-super-admin
+    description: 'Permission to manage reservations that are in conflict with others !'
+    created_at: '2013-06-17 17:14:50'
+    updated_at: '2013-06-17 17:14:50' 

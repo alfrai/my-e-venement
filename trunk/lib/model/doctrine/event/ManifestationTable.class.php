@@ -65,12 +65,17 @@ class ManifestationTable extends PluginManifestationTable
     $uid = 0;
     if ( sfContext::hasInstance() )
     {
-      $q->andWhere("$alias.reservation_confirmed = ? OR $alias.contact_id = ? OR ?", array(
-        true,
+      $credentials = Manifestation::getCredentials();
+      $q->andWhere("($alias.reservation_confirmed = ? OR ?)",array(
+        false,
+        sfContext::getInstance()->getUser()->hasCredential($credentials['reservation_confirmed']),
+      ));
+      $q->andWhere("($alias.contact_id IS NOT NULL AND $alias.contact_id = ? OR ?)", array(
         $cid = sfContext::getInstance()->getUser()->getContactId(),
-        sfContext::getInstance()->getUser()->hasCredential('event-reservation-confirm'),
+        sfContext::getInstance()->getUser()->hasCredential($credentials['contact_id'])
       ));
     }
+    
     
     if ( !$light )
     {

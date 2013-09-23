@@ -27,9 +27,9 @@ generator:
         blocking: { label: Blocking, type: Boolean }
         reservation_ends_at: { label: Ends at, type: Date }
         reservation_begins_at: { label: Begins at, type: Date }
-        reservation_confirmed: { label: Confirmed, credentials: event-reservations-confirm }
+        reservation_confirmed: { label: Confirmed, credentials: event-reservation-confirm }
         reservation_description: { label: Comment }
-        contact_id: { label: Applicant, credentials: event-reservations-change-contact }
+        contact_id: { label: Applicant, credentials: event-reservation-change-contact }
         booking_list: { label: Extra locations }
         ExtraInformations: { label: Extra informations }
       list:

@@ -249,7 +249,7 @@ EOF;
     $this->getFilesystem()->execute('neato ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_NEATO_PNG_FILE));
     $this->getFilesystem()->execute('twopi ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_TWOPI_PNG_FILE));
     //$this->getFilesystem()->execute('circo ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_CIRCO_PNG_FILE));
-    $this->getFilesystem()->execute('fdp ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_FDP_PNG_FILE));
+    //$this->getFilesystem()->execute('fdp ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_FDP_PNG_FILE));
 
     $this->logSection('graphviz', 'generating MLD');
 

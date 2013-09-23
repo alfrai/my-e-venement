@@ -12,9 +12,11 @@
  */
 abstract class PluginManifestation extends BaseManifestation implements liMetaEventSecurityAccessor
 {
-  protected static $credentials = array(
-    'contact_id' => 'event-reservation-change-contact',
+  static protected $credentials = array(
+    'contact_id'            => 'event-reservation-change-contact',
     'reservation_confirmed' => 'event-reservation-confirm',
+    'authorize_conflicts'   => 'event-reservation-conflicts',
+    'access_all'            => 'event-access-all',
   );
   
   public function duplicate($save = true)
@@ -61,13 +63,21 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     if ( sfContext::hasInstance() )
     {
       $sf_user = sfContext::getInstance()->getUser();
-      if ( !$sf_user->hasCredential($this->credentials['contact_id']) )
+      if ( !$sf_user->hasCredential(self::$credentials['contact_id']) )
       {
         if ( $sf_user->getContact() )
           $this->Applicant = $sf_user->getContact();
         else
-          throw new liBookingException('The current user %%name%% is not linked to any contact, and does not have the %%credential%% credential', array('%%name%%' => (string)$sf_user, '%%credential%%' => $this->credentials['contact_id']));
+          throw new liBookingException('User %%name%% is not linked to any contact, and does not have the %%credential%% credential', array('%%name%%' => (string)$sf_user, '%%credential%%' => self::$credentials['contact_id']));
       }
+      
+      if ( !$sf_user->hasCredential(self::$credentials['access_all']) && $this->contact_id !== $sf_user->getContactId() )
+        throw new liBookingException('The current user %%name%% cannot access manifestations which does not belong to itself', array('%%name%%' => (string)$sf_user));
+      
+      // maybe add something to limit pre-confirmed manifestations editting
+      
+      if ( !$sf_user->hasCredential(self::$credentials['reservation_confirmed']) && $this->reservation_confirmed )
+        throw new liBookingException('The current user %%name%% does not have the credentials to confirm a manifestation, nor to modify a confirmed manifestation.', array('%%name%%' => (string)$sf_user));
     }
     
     parent::preSave($event);
@@ -94,7 +104,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
         sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
         
         // no credential to tolerate conflicts
-        if ( sfContext::hasInstance() && !sfContext::getInstance()->getUser()->hasCredential(self::$credentials['reservation_confirmed']) )
+        if ( sfContext::hasInstance() && !sfContext::getInstance()->getUser()->hasCredential(self::$credentials['authorize_conflicts']) )
         {
           $this->reservation_confirmed = false;
           $this->save();
@@ -150,16 +160,16 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     return $hours.':'.$minutes;
   }
   
+  public static function getCredentials()
+  {
+    return self::$credentials;
+  }
+  
   public function getMEid()
   {
     return $this->Event->getMEid();
   }
   
-  public static function getCredentials()
-  {
-    return self::$credentials;
-  }
-
   public function getIndexesPrefix()
   {
     return strtolower(get_class($this));

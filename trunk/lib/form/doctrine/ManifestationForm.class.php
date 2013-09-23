@@ -47,7 +47,7 @@ class ManifestationForm extends BaseManifestationForm
     foreach ( Manifestation::getCredentials() as $fieldName => $credential )
     {
       $sf_user = sfContext::getInstance()->getUser();
-      if ( !$sf_user->hasCredential($credential) )
+      if ( !$sf_user->hasCredential($credential) && isset($this->widgetSchema[$fieldName]) )
         $this->widgetSchema[$fieldName] = new sfWidgetFormInputHidden;
     }
     

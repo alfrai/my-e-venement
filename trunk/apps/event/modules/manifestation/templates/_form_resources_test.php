@@ -8,13 +8,9 @@
       if ( $(this).is(':checked') )
         li_manifestation_check_resource(this);
     }).change();
-    $('.sf_admin_form input[name="manifestation[blocking]"]').change(function(){
-      $('.sf_admin_form input[name="manifestation[booking_list][]"]').change();
-      $('.sf_admin_form select[name="manifestation[location_id]"]').change();
-    });
     
-    // for every change in reservation dates
-    $('.sf_admin_form_field_happens_at, .sf_admin_form_field_ends_at, .sf_admin_form_field_reservation_begins_at, .sf_admin_form_field_reservation_ends_at').change(function(){
+    // for every change in reservation dates or in blocking state
+    $('.sf_admin_form_field_happens_at, .sf_admin_form_field_ends_at, .sf_admin_form_field_reservation_begins_at, .sf_admin_form_field_reservation_ends_at, .sf_admin_form input[name="manifestation[blocking]"]').change(function(){
       $('.sf_admin_form input[name="manifestation[booking_list][]"], .sf_admin_form select[name="manifestation[location_id]"]').change();
     });
   });
