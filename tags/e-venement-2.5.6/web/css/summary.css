@@ -1,0 +1,24 @@
+.summary tbody td {
+  padding-top: 5px;
+  padding-bottom: 3px;
+}
+.summary .id {
+  width: 150px;
+}
+.summary td a:hover {
+  text-decoration: underline;
+}
+
+.sf_admin_list_td_debt { white-space: nowrap; }
+.sf_admin_list_td_debt .debt {
+  font-weight: bold;
+}
+
+.sf_admin_list_th_delete_demands,
+.sf_admin_list_td_delete_demands { display: none; }
+
+.asks .sf_admin_list_th_delete_demands,
+.asks .sf_admin_list_td_delete_demands { display: table-cell; }
+
+.sf_admin_list_td_tickets_qty { text-align: right; }
+.total .sf_admin_list_td_debt .debt { float: right; }
