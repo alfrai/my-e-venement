@@ -362,3 +362,7 @@ tbody .total {
 #manifestation {
 	padding: 0px 5px 15px 25px;
 }
+
+#login label { min-width: 125px; display: inline-block; }
+#login .submit { margin-left: 0; }
+#login .submit input { margin-left: 5px; }
