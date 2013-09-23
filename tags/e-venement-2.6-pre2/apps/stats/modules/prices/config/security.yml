@@ -1,5 +1,0 @@
-all:
-  credentials: stats-prices
-csv:
-  credentials: [stats-prices, stats-csv]
-  
