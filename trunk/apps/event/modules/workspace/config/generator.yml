@@ -28,7 +28,7 @@ generator:
       form:
         display:
           General: [name, on_ticket, seated]
-          Ticketting: [prices_list, manifestations_list]
+          Ticketting: [prices_list]
           Users: [users_list]
       edit:
         title: Edit Workspace %%name%%
