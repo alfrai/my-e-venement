@@ -1,0 +1,51 @@
+html body #content { width: auto; margin-right: 100px; overflow: hidden; }
+html body #more:hover { width: 255px; }
+html body #more { width: 70px; right: 10px; overflow: hidden; left: auto; }
+
+html body #more { display: none; }
+html body #content { margin-right: 0; }
+
+#sf_fieldset_spectators .ticket-ids { display: none; }
+#sf_fieldset_spectators tbody .transaction { text-align: right; }
+
+#sf_fieldset_unbalanced .contact { max-width: 130px; overflow: hidden; white-space: nowrap; }
+
+#sf_admin_pager td {
+  width: 10%;
+}
+
+#sf_admin_pager td.left {
+  display: none;
+}
+
+#sf_admin_pager td.left {
+  display: none;
+}
+
+#form_workspaces .gauge-transferts {
+  vertical-align: middle;
+}
+#form_workspaces .gauge-transferts p {
+  text-align: center;
+}
+#form_workspaces .gauge-transferts .ui-icon {
+  cursor: pointer;
+  background-image: url(../sfAdminThemejRollerPlugin/css/jquery/base/images/ui-icons_454545_256x240.png);
+  transform: rotate(180deg);
+  font-size: 0;
+}
+#form_workspaces .gauge-transferts.active .ui-icon {
+  background-position: -80px -80px;
+}
+#form_workspaces #sf_admin_list_th_chained {
+  font-size: 0;
+}
+
+.sf_admin_field_prices_list table { padding: 3px 10px; }
+.sf_admin_field_prices_list .name { padding-right: 10px; text-align: center; }
+.sf_admin_field_prices_list .value { padding-left: 10px; text-align: right; }
+
+.periodicities > .ui-widget-content { padding: 5px; margin: 5px 3px 0 3px; }
+
+.error.conflict a { text-decoration: none; font-size: 80%; }
+.error.conflict a:hover { text-decoration: underline; }
