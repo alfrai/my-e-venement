@@ -24,11 +24,12 @@ class ProfessionalTable extends PluginProfessionalTable
   public function doSelectOnlyGrp(Doctrine_Query $q)
   {
     $a = $q->getRootAlias();
-    $o = $alias != 'o' ? 'o' : 'o1';
-    $c = $alias != 'c' ? 'c' : 'c1';
-    $t = $alias != 't' ? 't' : 't1';
+    $o = $a != 'o' ? 'o' : 'o1';
+    $c = $a != 'c' ? 'c' : 'c1';
+    $t = $a != 't' ? 't' : 't1';
+    $gce = $a != 'gce' ? 'gce' : 'gce1';
     
-    $q->leftJoin("$a.ContactEntries gce")
+    $q->leftJoin("$a.ContactEntries $gce")
       ->andWhere('gce.id IS NOT NULL')
       ->select("$a.*, $t.*, $c.*, $gce.*");
     
