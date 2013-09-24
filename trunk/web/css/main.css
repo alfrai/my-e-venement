@@ -14,6 +14,10 @@ h1, h2, h3, h4, h5, h6, strong {
   font-weight: bold;
 }
 a, a:active, a:visited { color: #000; }
+.ui-state-success {
+  background-color: #ecfeed;
+  border: 1px solid #0acd12;
+}
 
 #more, #content { 
   margin-top: 58px;
