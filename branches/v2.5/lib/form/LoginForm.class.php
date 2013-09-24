@@ -29,8 +29,8 @@ class LoginForm extends BaseForm
     $this->validatorSchema['password']->setOption('required', true);
     $this->validatorSchema['password_again'] = $this->validatorSchema['password'];
     $this->widgetSchema   ['password_again'] = $this->widgetSchema   ['password'];
-    $this->widgetSchema   ['code']  = new sfWidgetFormInput;
-    $this->validatorSchema['code']  = new sfValidatorChoice(array('choices' => array($code )));
+    $this->widgetSchema   ['recovery_code']  = new sfWidgetFormInput;
+    $this->validatorSchema['recovery_code']  = new sfValidatorChoice(array('choices' => array($code )));
     $this->validatorSchema['email'] = new sfValidatorChoice(array('choices' => array($email)));
   }
   

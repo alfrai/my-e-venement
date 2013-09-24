@@ -24,7 +24,7 @@ class loginActions extends sfActions
   }
   public function executeSend(sfWebRequest $request)
   {
-    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $this->getContext()->getConfiguration()->loadHelpers(array('I18N', 'Url'));
     $this->form = new LoginForm();
     $this->form->isRecovery();
     $this->form->bind($request->getParameter('login'));
@@ -39,7 +39,8 @@ class loginActions extends sfActions
       $this->email->field_from = sfConfig::get('app_informations_email','web@libre-informatique.fr');
       $this->email->to = $this->getRecoveryEmail();
       $this->email->field_subject = __('Reset your password for %%name%%', array('%%name%%' => sfConfig::get('app_informations_title','')));
-      $this->email->content = __('The code to reset your password is %%code%%', array('%%code%%' => $code));
+      $this->email->content = __('The recovery code to reset your password is %%code%%. Copy it into the password recovery form where you just have been redirected or follow this link:', array('%%code%%' => $code));
+      $this->email->content .= "\n".url_for('login/recover?code='.$code, true);
       $this->email->setMailer($this->getMailer());
       $this->email->save();
       if ( !$this->email->sent )
@@ -48,7 +49,7 @@ class loginActions extends sfActions
         $this->redirect('login/forgot');
       }
       
-      $this->getUser()->setFlash('notice', __('An email has been sent to your address (%%addr%%). Check it to continue.', array('%%addr%%' => $this->form->getValue('email'))));
+      $this->getUser()->setFlash('notice', __('An email has been sent to your address (%%addr%%). Check it and copy the given code below.', array('%%addr%%' => $this->form->getValue('email'))));
       $this->redirect('login/recover');
     }
     
@@ -68,6 +69,9 @@ class loginActions extends sfActions
       $this->redirect('login/forgot');
     }
     
+    $this->getUser()->setFlash('success', 'Now, fill your new password twice.');
+    if ( $request->hasParameter('code') )
+      $this->form->setDefault('recovery_code', $request->getParameter('code', ''));
     $this->form->isRecovering($email, $code);
   }
   public function executeReset(sfWebRequest $request)

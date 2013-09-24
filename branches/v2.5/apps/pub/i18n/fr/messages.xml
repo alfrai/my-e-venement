@@ -5,16 +5,24 @@
     <header/>
     <body>
       <trans-unit>
-        <source>The code to reset your password is %%code%%</source>
-        <target>Le code pour redéfinir votre mot de passe est %%code%%</target>
+        <source>Recovery code</source>
+        <target>Code de récupération</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The recovery code to reset your password is %%code%%. Copy it into the password recovery form where you just have been redirected or follow this link:</source>
+        <target>Le code de récupération pour définir un nouveau mot de passe est %%code%%. Copiez le dans le formulaire de récupération de mot de passe où vous venez d'être redirigé ou bien suivez ce lien :</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Now, fill your new password twice.</source>
+        <target>Maintenant, saisissez deux fois votre nouveau mot de passe.</target>
       </trans-unit>
       <trans-unit>
         <source>Reset your password for %%name%%</source>
-        <target>Redéfinir votre mot de passe pour %%name%%</target>
+        <target>Nouveau votre mot de passe pour %%name%%</target>
       </trans-unit>
       <trans-unit>
-        <source>An email has been sent to your address (%%addr%%). Check it to continue.</source>
-        <target>Un email a été envoyé à votre adresse (%%addr%%). Ouvrez-le pour continuer.</target>
+        <source>An email has been sent to your address (%%addr%%). Check it and copy the given code below.</source>
+        <target>Un email a été envoyé à votre adresse (%%addr%%). Ouvrez-le et copiez le code indiqué ci-dessous.</target>
       </trans-unit>
       <trans-unit>
         <source>Passwords do not match. Please try again.</source>
