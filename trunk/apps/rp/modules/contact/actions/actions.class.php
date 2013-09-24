@@ -69,6 +69,8 @@ class contactActions extends autoContactActions
       //if ( !in_array($this->getActionName(), array('error404','index','search','map','labels','getSpecializedForm','csv','groupList','group')) )
       if ( in_array($this->getActionName(), array('edit','new','show','create','update','delete')) )
         $this->setTemplate('edit');
+      if ( in_array($this->getActionName(), array('duplicates')) )
+        $this->setTemplate('index');
     }
   }
   
