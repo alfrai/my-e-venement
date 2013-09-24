@@ -1,3 +1,21 @@
+professional_full:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Professional
+    module:               professional_full
+    prefix_path:          /professional_full
+    column:               id
+    with_wildcard_routes: true
+
+contact_entry_by_contact:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                ContactEntry
+    module:               contact_entry_by_contact
+    prefix_path:          /contact_entry_by_contact
+    column:               id
+    with_wildcard_routes: true
+
 group_workspace:
   class: sfDoctrineRouteCollection
   options:
