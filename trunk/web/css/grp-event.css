@@ -62,11 +62,8 @@ tfoot td {
   width: auto;
   overflow-x: auto;
 }
-#sf_admin_container td {
-  width: 160px;
-  min-width: 160px;
-  /*border: 1px solid gray;*/
-}
+#sf_admin_container td { width: 160px; min-width: 160px; }
+#sf_admin_container #sf_admin_pager td { min-width: inherit; }
 #sf_admin_container td:last-child {
   width: 100px;
 }
