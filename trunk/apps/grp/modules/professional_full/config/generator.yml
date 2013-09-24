@@ -16,15 +16,19 @@ generator:
       fields:
         name: { label: Function }
         groups_picto: { label: Remarkable }
+        professional_id: { label: Contact }
       list:
         display: [Contact, _groups_picto, name, Organism, contact_email]
         batch_actions: {}
         object_actions: { _edit: ~ }
-        actions: {}
         table_method: doSelectOnlyGrp
         title: By contact
       filter:
         display: [contact_name, organism_name, professional_type_id, organism_id, groups_list]
       form:    ~
       edit:    ~
-      new:     ~
+      new:
+        display: [professional_id, event_id]
+        actions:
+          _list: ~
+          _save: ~

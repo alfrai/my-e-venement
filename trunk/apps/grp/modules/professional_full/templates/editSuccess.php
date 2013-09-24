@@ -13,7 +13,7 @@
   </div>
 
   <div id="sf_admin_content">
-    <?php include_partial('form', array('entry' => $entry, 'professional' => $professional, 'form' => $form, 'configuration' => $configuration, 'helper' => $helper)) ?>
+    <?php include_partial('form_edit', array('entry' => $entry, 'professional' => $professional, 'form' => $form, 'configuration' => $configuration, 'helper' => $helper)) ?>
   </div>
 
   <div id="sf_admin_footer">

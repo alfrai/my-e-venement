@@ -23,7 +23,6 @@ generator:
           _show: ~
           _edit:
             credentials: grp-events
-        actions: {}
         table_method: doSelectOnlyGrp
         title: By contact
       filter:

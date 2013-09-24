@@ -46,11 +46,11 @@ class professionalActions extends autoProfessionalActions
     $this->form = $this->configuration->getForm($this->professional);
   }
   
+  public function executeNew(sfWebRequest $request)
+  { $this->redirect('professional_full/new'); }
   public function executeEdit(sfWebRequest $request)
   { $this->redirect('professional_full/edit?id='.$request->getParameter('id')); }
   public function executeUpdate(sfWebRequest $request)
-  { throw new liEvenementException('This action is not implemented.'); }
-  public function executeNew(sfWebRequest $request)
   { throw new liEvenementException('This action is not implemented.'); }
   public function executeCreate(sfWebRequest $request)
   { throw new liEvenementException('This action is not implemented.'); }

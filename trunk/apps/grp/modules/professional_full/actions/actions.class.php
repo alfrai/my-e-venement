@@ -18,11 +18,27 @@ class professional_fullActions extends autoProfessional_fullActions
     $this->redirect('professional/index');
   }
   
-  public function executeUpdate(sfWebRequest $request)
-  { throw new liEvenementException('This action is not implemented.'); }
   public function executeNew(sfWebRequest $request)
-  { throw new liEvenementException('This action is not implemented.'); }
+  {
+    $this->form = new ContactEntryByContactForm;
+    $this->form->restoreProfessionalId();
+  }
   public function executeCreate(sfWebRequest $request)
+  {
+    $this->form = new ContactEntryByContactForm;
+    $this->form->restoreProfessionalId();
+    $this->form->bind($request->getParameter('contact_entry_new'));
+    if ( $this->form->isValid() )
+    {
+      $this->form->save();
+      $this->getUser()->setFlash('success', 'The item was created successfully.');
+      $this->redirect('professional_full/edit?id='.$this->form->getObject()->Professional->id);
+    }
+    
+    $this->getUser()->setFlash('error', 'The item has not been saved due to some errors.', false);
+    $this->setTemplate('new');
+  }
+  public function executeUpdate(sfWebRequest $request)
   { throw new liEvenementException('This action is not implemented.'); }
   public function executeDelete(sfWebRequest $request)
   { throw new liEvenementException('This action is not implemented.'); }
