@@ -71,9 +71,9 @@
           --></script>
           <div class="EntryTickets">
             <?php $et = new EntryTickets; $et->EntryElement = $entry_element; ?>
-            <?php include_partial('entry_tickets',array('form' => new EntryTicketsForm($et), 'entry_element' => $entry_element)) ?>
+            <?php include_partial('event/entry_tickets',array('form' => new EntryTicketsForm($et), 'entry_element' => $entry_element)) ?>
             <?php foreach ( $entry_element->EntryTickets as $et ): ?>
-            <?php include_partial('entry_tickets',array('form' => new EntryTicketsForm($et), 'entry_element' => $entry_element)) ?>
+            <?php include_partial('event/entry_tickets',array('form' => new EntryTicketsForm($et), 'entry_element' => $entry_element)) ?>
             <?php endforeach ?>
           </div>
           <div style="clear: both"></div>
