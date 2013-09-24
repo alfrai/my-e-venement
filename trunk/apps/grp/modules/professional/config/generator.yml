@@ -19,7 +19,10 @@ generator:
       list:
         display: [Contact, _groups_picto, name, Organism, contact_email]
         batch_actions: {}
-        object_actions: { _show: ~ }
+        object_actions:
+          _show: ~
+          _edit:
+            credentials: grp-events
         actions: {}
         table_method: doSelectOnlyGrp
         title: By contact

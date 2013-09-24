@@ -47,7 +47,7 @@ class professionalActions extends autoProfessionalActions
   }
   
   public function executeEdit(sfWebRequest $request)
-  { $this->redirect('professional/show?id='.$request->getParameter('id')); }
+  { $this->redirect('professional_full/edit?id='.$request->getParameter('id')); }
   public function executeUpdate(sfWebRequest $request)
   { throw new liEvenementException('This action is not implemented.'); }
   public function executeNew(sfWebRequest $request)

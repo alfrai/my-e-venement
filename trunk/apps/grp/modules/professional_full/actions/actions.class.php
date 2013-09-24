@@ -13,4 +13,19 @@ require_once dirname(__FILE__).'/../lib/professional_fullGeneratorHelper.class.p
  */
 class professional_fullActions extends autoProfessional_fullActions
 {
+  public function executeIndex(sfWebRequest $request)
+  {
+    $this->redirect('professional/index');
+  }
+  
+  public function executeUpdate(sfWebRequest $request)
+  { throw new liEvenementException('This action is not implemented.'); }
+  public function executeNew(sfWebRequest $request)
+  { throw new liEvenementException('This action is not implemented.'); }
+  public function executeCreate(sfWebRequest $request)
+  { throw new liEvenementException('This action is not implemented.'); }
+  public function executeDelete(sfWebRequest $request)
+  { throw new liEvenementException('This action is not implemented.'); }
+  public function executeBatchDelete(sfWebRequest $request)
+  { throw new liEvenementException('This action is not implemented.'); }
 }
