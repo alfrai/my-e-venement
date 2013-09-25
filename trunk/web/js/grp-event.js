@@ -87,14 +87,32 @@ $(document).ready(function(){
   });
   
   // fixing thead & tfoot
-  var h = $(window).height()-250;
-  $('table.grp-entry').hide();
-  if ( $('#content').height() > h )
-    h = $('#content').height();
-  $('table.grp-entry').show();
-  $('table.grp-entry').tableScroll({
-    height: h - $('table.grp-entry thead').height() - $('table.grp-entry tfoot').height(),
-  });
+  if ( $.tableScroll !== 'undefined' )
+  {
+    var h = $(window).height()-250;
+    $('table.grp-entry').hide();
+    if ( $('#content').height() > h )
+      h = $('#content').height();
+    $('table.grp-entry').show();
+    
+    setTimeout(function(){
+      var d1 = new Date();
+      // HACK: minimizing content to optimize tableScroll calculation - it permits a gain of time of 50% on big arrays
+      $('table.grp-entry tbody tr:first td').css('height',$('table.grp-entry tbody').height()+"px");
+      trs = $('table.grp-entry tbody tr:not(:first)').clone();
+      $('table.grp-entry tbody tr:not(:first)').remove();
+      
+      $('table.grp-entry').tableScroll({
+        height: h - $('table.grp-entry thead').height() - $('table.grp-entry tfoot').height(),
+      });
+      
+      // HACK: re-establishing content
+      $('table.grp-entry tbody tr:first td').css('height','auto');
+      $('table.grp-entry tbody').append(trs);
+      var d2 = new Date();
+      alert(d2.getTime() - d1.getTime());
+    },10);
+  }
 });
 
 function grp_mouse_move(event)
