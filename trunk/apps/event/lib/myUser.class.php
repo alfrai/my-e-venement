@@ -7,6 +7,7 @@ class myUser extends liGuardSecurityUser
   
   protected $metaevents = array();
   protected $workspaces = array();
+  protected $force_contact_id = false;
   
   public function initialize(sfEventDispatcher $dispatcher, sfStorage $storage, $options = array())
   {
@@ -16,6 +17,18 @@ class myUser extends liGuardSecurityUser
     
     $this->addCredentials($this->getWorkspacesCredentials());
     $this->addCredentials($this->getMetaEventsCredentials());
+  }
+  
+  public function forceContact($bool = true)
+  {
+    $this->force_contact_id = $bool;
+    return $this;
+  }
+  public function getContactId()
+  {
+    if ( $this->force_contact_id )
+      return NULL;
+    return parent::getContactid();
   }
   
   public function getWorkspacesCredentials()
