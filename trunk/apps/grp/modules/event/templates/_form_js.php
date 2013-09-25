@@ -32,7 +32,7 @@
       $('form').submit(function(){
         $(this).find('input[name="contact_entry_new[entry_id]"],input[name="contact_entry[entry_id]"],input[name="manifestation_entry[entry_id]"]').val('<?php echo $entry->id ?>');
         form = this;
-        $.post($(this).attr('action'),$(this).serialize(),function(data){
+        $.post($(this).prop('action'),$(this).serialize(),function(data){
           if ( $(form).closest('#manifestation_entry_new, #contact_entry_new').length > 0 )
             window.location.reload();
           else
@@ -45,7 +45,7 @@
       $('.delete').click(function(){
         if ( confirm('<?php echo __('Are you sure?',array(),'sf_admin') ?>') )
         {
-          $.get($(this).attr('href'),function(){
+          $.get($(this).prop('href'),function(){
             window.location.reload();
           });
           return false;
@@ -55,7 +55,7 @@
       // if we submit a cell
       $('form.EntryElement').unbind().submit(function(){
         var form = this;
-        $.post($(this).attr('action'),$(this).serialize(),function(data){
+        $.post($(this).prop('action'),$(this).serialize(),function(data){
           data = $.parseHTML(data);
           $('#transition .close').click();
           
@@ -70,7 +70,7 @@
           $(form).html($(data).find('form').html());
           $(form).prepend('<p></p>');
           $(form).find('label').each(function(){
-            $(form).find('p:first').prepend($('<span></span> ').attr('title',$(this).html()).prepend($(this).parent().find('input')));
+            $(form).find('p:first').prepend($('<span></span> ').prop('title',$(this).html()).prepend($(this).parent().find('input')));
           });
           //$(form).find('p:last').append($(form).find('.sf_admin_action_save input[type=submit]'));
           
@@ -87,7 +87,7 @@
       });
       
       // if a line has already been transposed, we disable any action on it
-      $('tbody tr.transposed td:not(.contact) input, tbody tr.transposed select').attr('disabled','disabled');
+      $('tbody tr.transposed td:not(.contact) input, tbody tr.transposed select').prop('disabled',true);
       $('tbody tr.transposed a.delete').remove();
       
       calculate_gauges(); // calculate how many tickets we've got
@@ -103,7 +103,7 @@
     
     function a_entry_tickets()
     {
-      $.get($(this).attr('href'));
+      $.get($(this).prop('href'));
       $(this).closest('form').remove();
       calculate_gauges();
       return false;
@@ -125,7 +125,7 @@
     {
       var form = this;
       
-      $.post($(this).attr('action'),$(this).serialize(),function(data){
+      $.post($(this).prop('action'),$(this).serialize(),function(data){
         data = $.parseHTML(data);
         $('#transition .close').click();
         

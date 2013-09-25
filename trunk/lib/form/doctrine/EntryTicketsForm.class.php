@@ -33,16 +33,13 @@
  */
 class EntryTicketsForm extends BaseEntryTicketsForm
 {
-  const CACHE_TIMEOUT = 2; // timeout, in minutes
+  const CACHE_TIMEOUT = 5; // timeout, in minutes
   
   public function configure()
   {
     $this->widgetSchema['entry_element_id'] = new sfWidgetFormInputHidden();
     
-    $prices = $userp = $manifp = array();
-    
     $this->widgetSchema['price_id']->setOption('add_empty', true);
-    $this->restrictPriceIdQuery();
     
     $this->validatorSchema['gauge_id']->setOption('query', $q = Doctrine::getTable('Gauge')
       ->createQuery('g')
@@ -68,6 +65,7 @@ class EntryTicketsForm extends BaseEntryTicketsForm
   public function doBind(array $values)
   {
     $this->restrictGaugeIdQuery($this->validatorSchema['entry_element_id']->clean($values['entry_element_id']));
+    $this->restrictPriceIdQuery($this->validatorSchema['entry_element_id']->clean($values['entry_element_id']));
     parent::doBind($values);
   }
   
@@ -76,8 +74,9 @@ class EntryTicketsForm extends BaseEntryTicketsForm
     if (!( $this->widgetSchema['gauge_id'] instanceof sfWidgetFormDoctrineChoice ))
       return;
     
-    //$manifid = Doctrine::getTable('EntryElement')->findOneById($entry_element_id)->ManifestationEntry->manifestation_id;
-    $manifid = $this->getObject()->EntryElement->ManifestationEntry->manifestation_id;
+    $manifid = !is_null($entry_element_id) && $this->object->isNew()
+      ? Doctrine::getTable('EntryElement')->findOneById($entry_element_id)->ManifestationEntry->manifestation_id
+      : $this->getObject()->EntryElement->ManifestationEntry->manifestation_id;
     
     if ( $this->widgetSchema['gauge_id']->getOption('query') instanceof Doctrine_Query )
       $this->widgetSchema   ['gauge_id']->getOption('query')->andWhere('g.manifestation_id = ?', $manifid);
@@ -104,7 +103,18 @@ class EntryTicketsForm extends BaseEntryTicketsForm
     if (!( $this->widgetSchema['price_id'] instanceof sfWidgetFormDoctrineChoice ))
       return;
     
-    $manifid = $this->getObject()->EntryElement->ManifestationEntry->manifestation_id;
+    if ( !is_null($entry_element_id) && $this->object->isNew() )
+    {
+      $entry_element = Doctrine::getTable('EntryElement')->findOneById(
+        intval($entry_element_id) > 0
+          ? $entry_element_id
+          : ($this->values['entry_element_id'] ? $this->values['entry_element_id'] : $this->getObject()->entry_element_id)
+      );
+    }
+    else
+      $entry_element = $this->getObject()->EntryElement;
+    
+    $manifid = $entry_element->ManifestationEntry->manifestation_id;
     
     $this->widgetSchema['price_id']->setOption('query', $q = Doctrine::getTable('Price')
       ->createQuery('p')
