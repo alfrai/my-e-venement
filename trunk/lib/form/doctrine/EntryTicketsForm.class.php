@@ -71,7 +71,7 @@ class EntryTicketsForm extends BaseEntryTicketsForm
     parent::doBind($values);
   }
   
-  public function restrictGaugeIdQuery($entry_element_id)
+  public function restrictGaugeIdQuery($entry_element_id = NULL)
   {
     if (!( $this->widgetSchema['gauge_id'] instanceof sfWidgetFormDoctrineChoice ))
       return;
@@ -88,7 +88,7 @@ class EntryTicketsForm extends BaseEntryTicketsForm
     {
       $this->timeout();
       $gauges = sfContext::getInstance()->getUser()->getAttribute('gauges', array(), 'grp');
-      if ( !isset($gauges[$manifid]) )
+      if ( !isset($gauges[$manifid]) && $this->widgetSchema['gauge_id'] instanceof sfWidgetFormDoctrineChoice )
       {
         $gauges[$manifid] = $this->widgetSchema['gauge_id']->getChoices();
         sfContext::getInstance()->getUser()->setAttribute('gauges', $gauges, 'grp');
@@ -101,6 +101,9 @@ class EntryTicketsForm extends BaseEntryTicketsForm
   
   public function restrictPriceIdQuery($entry_element_id = NULL)
   {
+    if (!( $this->widgetSchema['price_id'] instanceof sfWidgetFormDoctrineChoice ))
+      return;
+    
     $manifid = $this->getObject()->EntryElement->ManifestationEntry->manifestation_id;
     
     $this->widgetSchema['price_id']->setOption('query', $q = Doctrine::getTable('Price')
@@ -120,7 +123,7 @@ class EntryTicketsForm extends BaseEntryTicketsForm
     {
       $this->timeout();
       $prices = sfContext::getInstance()->getUser()->getAttribute('prices', array(), 'grp');
-      if ( !isset($prices[$manifid]) )
+      if ( !isset($prices[$manifid]) && $this->widgetSchema['price_id'] instanceof sfWidgetFormDoctrineChoice )
       {
         $prices[$manifid] = $this->widgetSchema['price_id']->getChoices();
         sfContext::getInstance()->getUser()->setAttribute('prices', $prices, 'grp');
