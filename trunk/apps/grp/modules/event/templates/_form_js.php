@@ -21,6 +21,12 @@
 *
 ***********************************************************************************/
 ?>
+<?php
+/**
+  * THIS FILE IS USED BY THE EVENT MODULE BUT ALSO BY THE PROFESSIONAL_FULL MODULE...
+  *
+  **/
+?>
     $(document).ready(function(){
       // if we submit any form
       $('form').submit(function(){
