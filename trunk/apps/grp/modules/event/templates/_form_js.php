@@ -94,11 +94,11 @@
       change_tickets();   // auto submit tickets forms
       $('.EntryTickets form').unbind().submit(form_entry_tickets); // if we submit a tickets' form
       $('.EntryTickets a').unbind().click(a_entry_tickets); // if we submit a deletion on tickets lines
-    });
     
-    // autosubmit on ticking checkbox
-    $('form.EntryElement input[type=checkbox]').change(function(){
-      $(this).closest('form').submit();
+      // autosubmit on ticking checkbox
+      $('form.EntryElement input[type=checkbox]').change(function(){
+        $(this).closest('form').submit();
+      });
     });
     
     function a_entry_tickets()

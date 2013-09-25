@@ -25,7 +25,6 @@
 <?php include_javascripts_for_form($form) ?>
 <?php use_stylesheet('/sfFormExtraPlugin/css/jquery.autocompleter.css') ?>
 <?php use_javascript('/sfFormExtraPlugin/js/jquery.autocompleter.js') ?>
-<?php use_javascript('grp-event') ?>
 <?php use_helper('CrossAppLink') ?>
 
 <div class="sf_admin_form">
