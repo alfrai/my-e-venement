@@ -96,7 +96,6 @@ $(document).ready(function(){
     $('table.grp-entry').show();
     
     setTimeout(function(){
-      var d1 = new Date();
       // HACK: minimizing content to optimize tableScroll calculation - it permits a gain of time of 50% on big arrays
       $('table.grp-entry tbody tr:first td').css('height',$('table.grp-entry tbody').height()+"px");
       trs = $('table.grp-entry tbody tr:not(:first)').clone();
@@ -109,8 +108,6 @@ $(document).ready(function(){
       // HACK: re-establishing content
       $('table.grp-entry tbody tr:first td').css('height','auto');
       $('table.grp-entry tbody').append(trs);
-      var d2 = new Date();
-      alert(d2.getTime() - d1.getTime());
     },10);
   }
 });
