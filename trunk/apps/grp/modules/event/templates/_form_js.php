@@ -89,10 +89,10 @@
       $('tbody tr.transposed td:not(.contact) input, tbody tr.transposed select').prop('disabled',true);
       $('tbody tr.transposed a.delete').remove();
       
-      setTimeout(calculate_gauges,10); // calculate how many tickets we've got, in an independant thread
-      setTimeout(change_tickets,10);   // auto submit tickets forms, intiating in an independant thread
       $('.EntryTickets form').unbind().submit(form_entry_tickets); // if we submit a tickets' form
       $('.EntryTickets a').unbind().click(a_entry_tickets); // if we submit a deletion on tickets lines
+      change_tickets();   // auto submit tickets forms, intiating in an independant thread
+      calculate_gauges(); // calculate how many tickets we've got, in an independant thread
       
       // autosubmit on ticking checkbox
       $('form.EntryElement input[type=checkbox]').change(function(){

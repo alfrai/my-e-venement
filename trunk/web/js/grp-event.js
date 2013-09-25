@@ -94,20 +94,18 @@ $(document).ready(function(){
       h = $('#content').height();
     $('table.grp-entry').show();
     
-    setTimeout(function(){
-      // HACK: minimizing content to optimize tableScroll calculation - it permits a gain of time of 50% on big arrays
-      $('table.grp-entry tbody tr:first td').css('height',$('table.grp-entry tbody').height()+"px");
-      trs = $('table.grp-entry tbody tr:not(:first)').clone();
-      $('table.grp-entry tbody tr:not(:first)').remove();
-      
-      $('table.grp-entry').tableScroll({
-        height: h - $('table.grp-entry thead').height() - $('table.grp-entry tfoot').height(),
-      });
-      
-      // HACK: re-establishing content
-      $('table.grp-entry tbody tr:first td').css('height','auto');
-      $('table.grp-entry tbody').append(trs);
-    },10);
+    // HACK: minimizing content to optimize tableScroll calculation - it permits a gain of time of 50% on big arrays
+    $('table.grp-entry tbody tr:first td').css('height',$('table.grp-entry tbody').height()+"px");
+    trs = $('table.grp-entry tbody tr:not(:first)').clone();
+    $('table.grp-entry tbody tr:not(:first)').remove();
+    
+    $('table.grp-entry').tableScroll({
+      height: h - $('table.grp-entry thead').height() - $('table.grp-entry tfoot').height(),
+    });
+    
+    // HACK: re-establishing content
+    $('table.grp-entry tbody tr:first td').css('height','auto');
+    $('table.grp-entry tbody').append(trs);
   }
 });
 

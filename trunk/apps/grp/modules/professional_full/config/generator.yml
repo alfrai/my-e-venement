@@ -28,6 +28,7 @@ generator:
       form:    ~
       edit:    ~
       new:
+        title: New Entry
         display: [professional_id, event_id]
         actions:
           _list: ~

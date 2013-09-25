@@ -9,6 +9,10 @@
         <target>Presser ENTRÉE pour ajouter ces billets</target>
       </trans-unit>
       <trans-unit>
+        <source>New Entry</source>
+        <target>Nouvelle entrée</target>
+      </trans-unit>
+      <trans-unit>
         <source>Are you sure?</source>
         <target>Êtes-vous sûr(e) ?</target>
       </trans-unit>
