@@ -43,7 +43,7 @@ class EntryTicketsForm extends BaseEntryTicketsForm
     
     $this->validatorSchema['gauge_id']->setOption('query', $q = Doctrine::getTable('Gauge')
       ->createQuery('g')
-      ->select('g.*')
+      ->select('g.*, w.*')
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.ManifestationEntries me')
       ->leftJoin('me.Entries ee')
