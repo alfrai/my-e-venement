@@ -12,4 +12,8 @@
  */
 class Color extends PluginColor
 {
+  public function __toString()
+  {
+    return $this->name ? '#'.$this->color : '';
+  }
 }
