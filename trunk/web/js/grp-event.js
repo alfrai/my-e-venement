@@ -81,9 +81,8 @@ $(document).ready(function(){
   });
   
   // hidding the gauges selection if there is only one choice
-  $('.EntryTickets select[name="entry_tickets[gauge_id]"]').each(function(){
-    if ( $(this).find('option').length < 2 )
-      $(this).replaceWith('<input type="hidden" value="'+$(this).find('option:first').val()+'" name="'+$(this).prop('name')+'" />');
+  $('.EntryTickets select[name="entry_tickets[gauge_id]"] option:only-child').each(function(){
+    $(this).parent().replaceWith('<input type="hidden" value="'+$(this).val()+'" name="'+$(this).parent().prop('name')+'" />');
   });
   
   // fixing thead & tfoot

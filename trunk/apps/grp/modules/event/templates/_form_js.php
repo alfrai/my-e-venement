@@ -72,7 +72,6 @@
           $(form).find('label').each(function(){
             $(form).find('p:first').prepend($('<span></span> ').prop('title',$(this).html()).prepend($(this).parent().find('input')));
           });
-          //$(form).find('p:last').append($(form).find('.sf_admin_action_save input[type=submit]'));
           
           $(form).find('.content, .sf_admin_form_row, label, fieldset, .sf_admin_actions, input[name=_save_and_add]').remove();
           
@@ -90,11 +89,11 @@
       $('tbody tr.transposed td:not(.contact) input, tbody tr.transposed select').prop('disabled',true);
       $('tbody tr.transposed a.delete').remove();
       
-      calculate_gauges(); // calculate how many tickets we've got
-      change_tickets();   // auto submit tickets forms
+      setTimeout(calculate_gauges,10); // calculate how many tickets we've got, in an independant thread
+      setTimeout(change_tickets,10);   // auto submit tickets forms, intiating in an independant thread
       $('.EntryTickets form').unbind().submit(form_entry_tickets); // if we submit a tickets' form
       $('.EntryTickets a').unbind().click(a_entry_tickets); // if we submit a deletion on tickets lines
-    
+      
       // autosubmit on ticking checkbox
       $('form.EntryElement input[type=checkbox]').change(function(){
         $(this).closest('form').submit();
@@ -114,7 +113,7 @@
       $('.EntryTickets form input, .EntryTickets form select').unbind().keypress(function(k){
         if ( k.which == '13' )
         {
-          form = $(this).closest('form');
+          var form = $(this).closest('form');
           if ( parseInt(form.find('input').val(),10) != 0 && form.find('select').val() != '' )
             form.submit();
         }
