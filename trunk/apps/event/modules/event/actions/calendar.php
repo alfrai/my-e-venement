@@ -33,6 +33,7 @@
     {
       if ( !isset($token[$request->getParameter('token')]) )
         throw new liSecurityException('You do not have the permission to use this feature');
+      
       $this->getUser()->forceContact();
       $q->removeDqlQueryPart('where')
         ->leftJoin('me.Users u')
@@ -47,8 +48,11 @@
     // filename
     $this->caldir   = sfConfig::get('sf_module_cache_dir').'/calendars/';
     $this->calfile = intval($eid = $request->getParameter('id')) > 0
-      ? Doctrine::getTable('Event')->find(intval($eid))->slug.'.ics'
-      : 'all.ics';
+      ? Doctrine::getTable('Event')->find(intval($eid))->slug
+      : 'all';
+    $this->calfile .= '-';
+    $this->calfile .= $this->getUser()->isAuthenticated() ? $this->getUser()->getGuardUSer()->username : $token[$request->getParameter('token')];
+    $this->calfile .= '.ics';
     
     $v = new vcalendar();
     $v->setConfig(array(
