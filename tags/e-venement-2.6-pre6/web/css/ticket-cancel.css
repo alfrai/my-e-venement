@@ -1,0 +1,11 @@
+#cancel-tickets form {
+  margin: 2px;
+  padding: 5px;
+  min-height: 100px;
+}
+#cancel-tickets label {
+  display: inline-block;
+  width: 80px;
+}
+
+.partial-by-price .short input { width: 6em; }

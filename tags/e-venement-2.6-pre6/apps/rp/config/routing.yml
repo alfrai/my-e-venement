@@ -1,0 +1,253 @@
+contact_relationship_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                ContactRelationshipType
+    module:               contact_relationship_type
+    prefix_path:          /contact_relationship_type
+    column:               id
+    with_wildcard_routes: true
+
+type_of_resources:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                TypeOfResources
+    module:               type_of_resources
+    prefix_path:          /type_of_resources
+    column:               id
+    with_wildcard_routes: true
+
+familial_situation:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                FamilialSituation
+    module:               familial_situation
+    prefix_path:          /familial_situation
+    column:               id
+    with_wildcard_routes: true
+
+familial_quotient:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                FamilialQuotient
+    module:               familial_quotient
+    prefix_path:          /familial_quotient
+    column:               id
+    with_wildcard_routes: true
+
+member_card_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                MemberCardType
+    module:               member_card_type
+    prefix_path:          /member_card_type
+    column:               id
+    with_wildcard_routes: true
+
+member_card:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                MemberCard
+    module:               member_card
+    prefix_path:          /member_card
+    column:               id
+    with_wildcard_routes: true
+
+email:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Email
+    module:               email
+    prefix_path:          /email
+    column:               id
+    with_wildcard_routes: true
+
+organism_category:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OrganismCategory
+    module:               organism_category
+    prefix_path:          /organism_category
+    column:               id
+    with_wildcard_routes: true
+
+professional_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                ProfessionalType
+    module:               professional_type
+    prefix_path:          /professional_type
+    column:               id
+    with_wildcard_routes: true
+
+phone_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                PhoneType
+    module:               phone_type
+    prefix_path:          /phone_type
+    column:               id
+    with_wildcard_routes: true
+
+title_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                TitleType
+    module:               title_type
+    prefix_path:          /title_type
+    column:               id
+    with_wildcard_routes: true
+
+str_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                StrType
+    module:               str_type
+    prefix_path:          /str_type
+    column:               id
+    with_wildcard_routes: true
+
+organism_phonenumber:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OrganismPhonenumber
+    module:               organism_phonenumber
+    prefix_path:          /organism_phonenumber
+    column:               id
+    with_wildcard_routes: true
+
+contact_phonenumber:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                ContactPhonenumber
+    module:               contact_phonenumber
+    prefix_path:          /contact_phonenumber
+    column:               id
+    with_wildcard_routes: true
+
+professional:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Professional
+    module:               professional
+    prefix_path:          /professional
+    column:               id
+    with_wildcard_routes: true
+
+group:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Group
+    module:               group
+    prefix_path:          /group
+    column:               id
+    with_wildcard_routes: true
+
+organism:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Organism
+    module:               organism
+    prefix_path:          /organism
+    column:               id
+    with_wildcard_routes: true
+
+contact:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Contact
+    module:               contact
+    prefix_path:          /contact
+    column:               id
+    with_wildcard_routes: true
+
+option_csv:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OptionCsv
+    module:               option_csv
+    prefix_path:          /option_csv
+    column:               id
+    with_wildcard_routes: true
+
+organism_category:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OrganismCategory
+    module:               organism_category
+    prefix_path:          /organism_category
+    column:               id
+    with_wildcard_routes: true
+
+title_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                TitleType
+    module:               title_type
+    prefix_path:          /title_type
+    column:               id
+    with_wildcard_routes: true
+
+phone_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                PhoneType
+    module:               phone_type
+    prefix_path:          /phone_type
+    column:               id
+    with_wildcard_routes: true
+
+professional_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                ProfessionalType
+    module:               professional_type
+    prefix_path:          /professional_type
+    column:               id
+    with_wildcard_routes: true
+
+option_labels:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OptionLabels
+    module:               option_labels
+    prefix_path:          /option_labels
+    column:               id
+    with_wildcard_routes: true
+
+option_csv:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                OptionCsv
+    module:               option_csv
+    prefix_path:          /option_csv
+    column:               id
+    with_wildcard_routes: true
+
+sf_guard_signin:
+  url:   /login
+  param: { module: sfGuardAuth, action: signin }
+
+sf_guard_signout:
+  url:   /logout
+  param: { module: sfGuardAuth, action: signout }
+
+sf_guard_password:
+  url:   /request_password
+  param: { module: sfGuardAuth, action: password }
+
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/10-Routing
+
+# default rules
+homepage:
+  url:   /
+  param: { module: contact, action: index }
+
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*
