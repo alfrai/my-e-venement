@@ -95,11 +95,10 @@ EOF;
     
     $q = Doctrine::getTable('Contact')->createQuery('c')
       ->limit(isset($options['nb']) ? intval($options['nb']) : 0)
-      ->andWhere('p.id IS NULL')
       ->orderBy('c.created_at, c.updated_at DESC')
       ;
     if (!( isset($options['force']) && $options['force'] ))
-      $q->andWhere('c.updated_at > ?', date('Y-m-d H:i:s', strtotime($con->getLastUpdate())));
+      $q->andWhere('c.updated_at >= ?', date('Y-m-d H:i:s', strtotime($con->getLastUpdate())));
     
     $i = 0;
     foreach ( $q->execute() as $contact )
