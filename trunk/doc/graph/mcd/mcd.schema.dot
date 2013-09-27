@@ -10,10 +10,10 @@ graph G {
 		label="{<table>FamilialQuotient|<cols>name (string)}",
 		shape=record ];
 	nodeContact [
-		label="{<table>Contact|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\lfamily_contact (boolean)\lconfirmed (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Contact|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\lfamily_contact (boolean)\lconfirmed (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\lversion (integer)}",
 		shape=record ];
 	nodeOrganism [
-		label="{<table>Organism|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lurl (string)\ldescription (string)\ladministrative_number (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Organism|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\lurl (string)\ldescription (string)\ladministrative_number (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\lversion (integer)}",
 		shape=record ];
 	nodeFamilialSituation [
 		label="{<table>FamilialSituation|<cols>name (string)}",
@@ -166,7 +166,7 @@ graph G {
 		label="{<table>Option|<cols>type (string)\lname (string)\lvalue (string)\lcreated_at (timestamp)}",
 		shape=record ];
 	nodeAddressable [
-		label="{<table>Addressable|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Addressable|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
 	nodeAuthentication [
 		label="{<table>Authentication|<cols>description (string)\lip_address (string)\luser_agent (string)\lreferer (string)\lsuccess (boolean)\lcreated_at (timestamp)}",
@@ -241,7 +241,7 @@ graph G {
 		label="{<table>Workspace|<cols>name (string)\lon_ticket (string)\lseated (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
 	nodeLocation [
-		label="{<table>Location|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\ldescription (string)\lgauge_max (integer)\lgauge_min (integer)\lreservation_price (decimal)\lplace (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		label="{<table>Location|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\ldescription (string)\lgauge_max (integer)\lgauge_min (integer)\lreservation_price (decimal)\lplace (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
 	nodeMetaEvent [
 		label="{<table>MetaEvent|<cols>name (string)\lhide_in_month_calendars (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -255,9 +255,6 @@ graph G {
 	nodeColor [
 		label="{<table>Color|<cols>name (string)\lcolor (string)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
-	nodePlace [
-		label="{<table>Place|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\ldescription (string)\lgauge_max (integer)\lgauge_min (integer)\lreservation_price (decimal)\lplace (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
-		shape=record ];
 	nodeGauge [
 		label="{<table>Gauge|<cols>value (integer)\lonline (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
 		shape=record ];
@@ -269,6 +266,12 @@ graph G {
 		shape=record ];
 	nodeVat [
 		label="{<table>Vat|<cols>name (string)\lvalue (decimal)\laccounting_account (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)}",
+		shape=record ];
+	nodeContactVersion [
+		label="{<table>ContactVersion|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\lfamily_contact (boolean)\lorganism_category_id (integer)\lconfirmed (boolean)\lfamilial_quotient_id (integer)\ltype_of_resources_id (integer)\lfamilial_situation_id (integer)\lsf_guard_user_id (integer)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
+		shape=record ];
+	nodeOrganismVersion [
+		label="{<table>OrganismVersion|<cols>name (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\lurl (string)\ldescription (string)\lorganism_category_id (integer)\ladministrative_number (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)}",
 		shape=record ];
 	nodeTraceableVersion [
 		label="{<table>TraceableVersion|<cols>sf_guard_user_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)}",
@@ -418,9 +421,6 @@ graph G {
 	nodeEventIndex [
 		label="{<table>EventIndex|<cols>}",
 		shape=Mrecord ];
-	nodePlaceIndex [
-		label="{<table>PlaceIndex|<cols>}",
-		shape=Mrecord ];
 	nodeFamilialQuotient [
 		label="{<table>FamilialQuotient|<cols>}",
 		shape=Mrecord ];
@@ -468,6 +468,9 @@ graph G {
 		shape=Mrecord ];
 	nodeEntryTicketsPrice [
 		label="{<table>EntryTicketsPrice|<cols>}",
+		shape=Mrecord ];
+	nodeEntryTicketsGauge [
+		label="{<table>EntryTicketsGauge|<cols>}",
 		shape=Mrecord ];
 	nodeManifestationEntry [
 		label="{<table>ManifestationEntry|<cols>}",
@@ -579,9 +582,6 @@ graph G {
 		shape=Mrecord ];
 	nodeColor [
 		label="{<table>Color|<cols>}",
-		shape=Mrecord ];
-	nodePlace [
-		label="{<table>Place|<cols>}",
 		shape=Mrecord ];
 	nodeEventCategory [
 		label="{<table>EventCategory|<cols>}",
@@ -797,10 +797,6 @@ graph G {
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
-	nodeLocationBooking -- nodePlace [
-		headlabel="0,n",
-		label="",
-		labeldistance=3 ];
 	nodeGroupWorkspace -- nodeWorkspace [
 		headlabel="0,n",
 		label="",
@@ -830,10 +826,6 @@ graph G {
 		label="",
 		labeldistance=3 ];
 	nodeEventIndex -- nodeEvent [
-		headlabel="0,n",
-		label="",
-		labeldistance=3 ];
-	nodePlaceIndex -- nodePlace [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
@@ -897,6 +889,10 @@ graph G {
 		headlabel="0,1",
 		label="(EventArchives)",
 		labeldistance=3 ];
+	nodeContact -- nodeContactVersion [
+		headlabel="0,1",
+		label="(Version)",
+		labeldistance=3 ];
 	nodeContact -- nodeContactRelationship [
 		headlabel="0,1",
 		label="",
@@ -944,6 +940,10 @@ graph G {
 	nodeOrganism -- nodeProfessional [
 		headlabel="0,1",
 		label="(Professionals)",
+		labeldistance=3 ];
+	nodeOrganism -- nodeOrganismVersion [
+		headlabel="0,1",
+		label="(Version)",
 		labeldistance=3 ];
 	nodeOrganism -- nodeEmailOrganism [
 		headlabel="0,1",
@@ -1034,6 +1034,10 @@ graph G {
 		label="",
 		labeldistance=3 ];
 	nodeEntryTicketsPrice -- nodePrice [
+		headlabel="0,n",
+		label="",
+		labeldistance=3 ];
+	nodeEntryTicketsGauge -- nodeGauge [
 		headlabel="0,n",
 		label="",
 		labeldistance=3 ];
@@ -1525,22 +1529,6 @@ graph G {
 		headlabel="0,1",
 		label="(Manifestations)",
 		labeldistance=3 ];
-	nodePlace -- nodePlaceIndex [
-		headlabel="0,1",
-		label="",
-		labeldistance=3 ];
-	nodePlace -- nodeManifestation [
-		headlabel="0,1",
-		label="(Manifestations)",
-		labeldistance=3 ];
-	nodePlace -- nodeLocationBooking [
-		headlabel="0,1",
-		label="(LocationBookings)",
-		labeldistance=3 ];
-	nodePlace -- nodeLocationBooking [
-		headlabel="0,1",
-		label="",
-		labeldistance=3 ];
 	nodeEventCategory -- nodeEvent [
 		headlabel="0,1",
 		label="(Events)",
@@ -1627,8 +1615,6 @@ graph G {
 	nodesfGuardUser -- nodesfGuardForgotPassword [
 		arrowhead=normal ];
 	nodeLocation -- nodeSeatingPlan [
-		arrowhead=normal ];
-	nodePlace -- nodeSeatingPlan [
 		arrowhead=normal ];
 	nodeFamilialQuotient -- nodeBaseFamilialQuotient [
 		arrowhead=normal ];
@@ -1771,8 +1757,6 @@ graph G {
 	nodeSeatingPlan -- nodeBaseSeatingPlan [
 		arrowhead=normal ];
 	nodeColor -- nodeBaseColor [
-		arrowhead=normal ];
-	nodePlace -- nodeBasePlace [
 		arrowhead=normal ];
 	nodeEventCategory -- nodeBaseEventCategory [
 		arrowhead=normal ];
