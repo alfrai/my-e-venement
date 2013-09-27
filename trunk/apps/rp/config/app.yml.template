@@ -35,3 +35,10 @@ all:
     display:
       max: 100
       notices: true
+  #carddav_sync:
+  #  auth:
+  #    userName: xxx
+  #    password: PAssWOrd
+  #    #proxy: xx
+  #  contacts_url: https://mail.domain.tld/dav/zimbrauser/Contacts
+

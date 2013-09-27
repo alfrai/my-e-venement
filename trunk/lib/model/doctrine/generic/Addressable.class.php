@@ -20,6 +20,17 @@ class Addressable extends PluginAddressable
       ->getPlugin()
       ->setOption('analyzer',new MySearchAnalyzer());
   }
+  
+  public function getUpdatedAtIso8601()
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Date8601'));
+    return format_datetime_iso8601($this->updated_at);
+  }
+  public function getCreatedAtIso8601()
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Date8601'));
+    return format_datetime_iso8601($this->created_at);
+  }
 
   public function isGeolocalized()
   {

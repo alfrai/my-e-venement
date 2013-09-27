@@ -53,6 +53,7 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins('liBarcodePlugin');
     $this->enablePlugins('liOfcPlugin');
     $this->enablePlugins('sfDomPDFPlugin');
+    $this->enablePlugins('liCardDavPlugin');
     
     $this->loadProjectConfiguration();
     

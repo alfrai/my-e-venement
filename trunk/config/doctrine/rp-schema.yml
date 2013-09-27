@@ -30,6 +30,7 @@ Contact:
       fields: [name,firstname]
     Sluggable:
       fields: [name,firstname]
+    Versionable: ~
   indexes:
     contact_name_idx:
       fields: [name]
@@ -87,6 +88,7 @@ Organism:
   actAs:
     Searchable:
       fields: [name, administrative_number]
+    Versionable: ~
   inheritance:
     extends: Addressable
     type: concrete

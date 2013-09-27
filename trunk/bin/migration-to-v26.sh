@@ -88,6 +88,9 @@ UPDATE entry_tickets SET gauge_id =
      AND gw.id IS NOT NULL
    LIMIT 1)
 WHERE gauge_id IS NULL;
+
+ALTER TABLE contact ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE organism ADD COLUMN version INTEGER DEFAULT 1;
 EOF
 
 echo "DUMPING DB..."
@@ -169,6 +172,12 @@ echo "Correcting a postalcode on BIARD, France"
 psql $DB <<EOF
 -- other
 UPDATE postalcode SET postalcode = '86580' WHERE city = 'BIARD' AND postalcode = '86000';
+EOF
+
+echo ""
+echo "Creating first contacts versions"
+psql $DB <<EOF
+INSERT INTO contact_version (SELECT * FROM contact WHERE id NOT IN (SELECT id FROM contact_version));
 EOF
 
 echo ""

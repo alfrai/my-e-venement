@@ -62,8 +62,8 @@ class ContactForm extends BaseContactForm
       'required' => false,
     ));
     
-    $this->widgetSchema   ['confirmed'] = new sfWidgetFormInputHidden();
-    $this->widgetSchema   ['sf_guard_user_id'] = new sfWidgetFormInputHidden();
+    $this->widgetSchema   ['sf_guard_user_id'] =
+    $this->widgetSchema   ['confirmed'] = new sfWidgetFormInputHidden;
     
     $this->widgetSchema['type_of_resources_id']->setOption('order_by',array('name',''));
     $this->widgetSchema['familial_situation_id']->setOption('order_by',array('name',''));

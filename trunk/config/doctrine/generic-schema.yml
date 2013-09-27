@@ -46,6 +46,8 @@ Addressable:
       fields: [npai]
     %CLASS%_email_no_newsletter_idx:
       fields: [email_no_newsletter]
+    %CLASS%_vcard_uid_idx:
+      fields: [vcard_uid]
   columns:
     name:
       type: string(255)
@@ -68,6 +70,9 @@ Addressable:
       type: boolean
       notnull: true
       default: false
+    vcard_uid:
+      type: string(255)
+      unique: true
 Postalcode:
   package: generic
   indexes:
