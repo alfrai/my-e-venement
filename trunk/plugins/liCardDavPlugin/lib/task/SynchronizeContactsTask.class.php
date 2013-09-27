@@ -103,7 +103,7 @@ EOF;
     $i = 0;
     foreach ( $q->execute() as $contact )
     {
-      $nb = str_pad(++$i,5,'0',STR_PAD_RIGHT);
+      $nb = str_pad(++$i,5,'0',STR_PAD_LEFT);
       $contact_str = mb_str_pad($contact, 30);
       
       $vcard = array('e' => new liCardDavVCard($con, $contact->vcard_uid, (string)$vc = new liVCardContact($contact, array('timezone_hack' => true,))));
@@ -201,7 +201,7 @@ EOF;
       // deleting foreign data
       foreach ( $stmt->fetchAll() as $uid )
       {
-        $nb = str_pad(++$i,5,'0',STR_PAD_RIGHT);
+        $nb = str_pad(++$i,5,'0',STR_PAD_LEFT);
         $vcard = NULL;
         $vcard = $con->getVCard($uid['id']);
         $contact_str = mb_str_pad($vcard['fn'], 30);
