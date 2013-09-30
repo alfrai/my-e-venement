@@ -39,14 +39,16 @@
       $pem = sfConfig::get('app_payment_pem',array());
       if ( !isset($pem['local'] ) ) $pem['local']  = 'paybox.pem';
       if ( !isset($pem['remote']) ) $pem['remote'] = 'http://www1.paybox.com/telechargements/pubkey.pem';
-      $fp = fopen($path = sfConfig::get('sf_upload_dir').'/'.$pem['local'],'a+');
+      if ( !file_exists($path = sfConfig::get('sf_module_cache_dir').'/paybox/') )
+        mkdir($path);
+      $fp = fopen($path.$pem['local'],'a+');
       $stat = fstat($fp);
       if ( $stat['size'] == 0 || $stat['mtime'] < strtotime('yesterday') )
         fwrite($fp, file_get_contents($pem['remote']));
       fclose($fp);
       
       // getting the paybox's public key
-      $cert = file_get_contents(sfConfig::get('sf_upload_dir').'/'.$pem['local']);
+      $cert = file_get_contents($path.$pem['local']);
       $pubkeyid = openssl_get_publickey($cert);
       
       $signature = base64_decode($get['signature']);
