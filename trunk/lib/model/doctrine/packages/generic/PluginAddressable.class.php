@@ -1,4 +1,27 @@
 <?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
+<?php
 
 /**
  * PluginAddressable
@@ -17,5 +40,75 @@ abstract class PluginAddressable extends BaseAddressable
   {
     $name = str_replace('%CLASS%', method_exists($this, 'getIndexesPrefix') ? $this->getIndexesPrefix() : $this->getTable()->getInstance()->getTableName(), $name);
     return parent::index($name, $definition);
+  }
+  
+  // to avoid recording any UID = ''
+  public function preSave($event)
+  {
+    if ( !$this->vcard_uid )
+      $this->vcard_uid = NULL;
+    parent::preSave($event);
+  }
+
+/**
+ * function getVCard()
+ * generates a vCard from Contact $this
+ * It is optimized for the Zimbra data structure but fits to the vCard standard.
+ *
+ * Reversible fields:
+ *  * n:LastName / Contact::name
+ *  * n:;FirstName / Contact::firstname
+ *  * n:;;;Prefixes / Contact::title
+ *  * adr:;;StreetAddress / Contact::address
+ *  * adr:;;;Locality / Contact::address
+ *  * adr:;;;;;PostalCode / Contact::postalcode
+ *  * adr:;;;;;;Country / Contact::country
+ *  * tel: / Contact::Phonenumbers -- with smart/random updates from CardDAV to e-venement
+ *  * email: / Contact::email -- with smart/random updates from CardDAV to e-venement (under the condition that orders have not changed or changes are understandable)
+ *  * rev: / Contact::updated_at
+ *  * note: / Contact::description
+ *  * uid: / Contact::vcard_uid
+ *
+ * Non-reversible fields (will be resetted on every change in the e-venement datas)
+ *  * org:
+ *  * adr:;;;;Region
+ *  * adr:TYPE=WORK
+ *  * fn:
+ *
+ */
+  public function getVcard($pro = false)
+  {
+    $vCard = new liVCard;
+    
+    $vCard['fn'] = (string)$this;
+    $vCard['n']  = array(
+      'LastName'  => $this->name,
+    );
+
+    $vCard['adr'] = array(
+      'StreetAddress' => liVCard::realNLToVcfNL($this->address),
+      'Locality'      => $this->city,
+      'PostalCode'    => $this->postalcode,
+      'Region'        => $this->region,
+      'Country'       => $this->country,
+      'Type'          => array($pro ? 'work' : 'home', 'postal', 'parcel'),
+    );
+    
+    if ( trim($this->email) )
+    $vCard['email'] = array(
+      'Value' => $this->email,
+      'Type'  => array('pref','internet'),
+    );
+    
+    if ( sfConfig::get('app_carddav_sync_timezone_hack', false) )
+    {
+      $time = strtotime($this->updated_at);
+      $vCard['rev'] = date('Y-m-d',$time).'T'.date('H:i:s',$time).'Z';
+    }
+    else
+      $vCard['rev'] = $this->updated_at_iso_8601;
+    
+    // END
+    return $vCard;
   }
 }

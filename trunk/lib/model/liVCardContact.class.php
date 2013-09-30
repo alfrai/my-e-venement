@@ -47,7 +47,7 @@
  *  * fn:
  *
  */
-  class liVCardContact extends vCardLI
+  class liVCardContact extends liVCard
   {
     protected $contact;
     protected $timezone_hack = false;

@@ -106,6 +106,7 @@ EOF;
       $nb = str_pad(++$i,5,'0',STR_PAD_LEFT);
       $contact_str = mb_str_pad($contact, 30);
       
+      sfConfig::set('app_carddav_sync_timezone_hack', true); // to be used by Contact::getVCard()
       $vcard = array('e' => new liCardDavVCard($con, $contact->vcard_uid, (string)$vc = new liVCardContact($contact, array('timezone_hack' => true,))));
       
       // try to stop the process if the distant data is up2date or exists in a newer version

@@ -29,8 +29,8 @@
   if ( $sf_user->hasCredential('pr-emailing') )
   {
     if ( $active_filters )
-      echo link_to(__('Emailing'),$sf_context->getModuleName().'/emailing',array('title' => __('Create emailing')));
+      echo link_to(__('Emailing'), $sf_context->getModuleName().'/emailing',array('title' => __('Create emailing')));
     else
-      echo '<a href="#">'.__('Emailing').'</a>';
+      echo link_to(__('vCard'), $sf_context->getModuleName().'/vcf?id='.$object->id);
   }
 ?>

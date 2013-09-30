@@ -13,5 +13,8 @@ class AddressableForm extends BaseAddressableForm
   public function configure()
   {
     $this->widgetSchema['vcard_uid'] = new sfWidgetFormInputHidden;
+    
+    if ( is_null($this->object->vcard_uid) )
+      unset($this->widgetSchema['vcard_uid']);
   }
 }

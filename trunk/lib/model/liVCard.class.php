@@ -23,13 +23,13 @@
 ?>
 <?php
 /**
- * vCardLI class for parsing a vCard and/or creating/updating one
+ * liVCard class for parsing a vCard and/or creating/updating one
  *
 */
-	class vCardLI extends vCardBase implements ArrayAccess
+	class liVCard extends vCardBase implements ArrayAccess
 	{
 		/**
-		 * vCardLI constructor
+		 * liVCard constructor
 		 *
 		 * @param string Path to file, optional.
 		 * @param string Raw data, optional.
@@ -307,6 +307,15 @@
 	      $this->Data[$offset] = array($value);
 	    else
   	    $this->Data[$offset][] = $value;
+	  }
+	  
+	  public static function realNLToVcfNL($str)
+	  {
+	    return str_replace(array("\n","\r"),array('\n',''),$str);
+	  }
+	  public static function vcfNLToRealNL($str)
+	  {
+	    return str_replace(array('\n'),array("\r\n"),$str);
 	  }
 	  
 	  /**

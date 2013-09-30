@@ -45,3 +45,10 @@ csvSuccess:
     content-type: text/comma-separated-values
     content-disposition: attachment; filename="organism-list.csv"
               
+
+vcfSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/vcard
+    content-disposition: attachment; filename=organism.vcf
+            

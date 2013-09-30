@@ -389,6 +389,12 @@ class contactActions extends autoContactActions
     $this->setTemplate('edit');
   }
   
+  public function executeVcf(sfWebRequest $request)
+  {
+    $this->executeShow($request);
+    $this->useClassicTemplateDir(true);
+  }
+  
   public function executeCard(sfWebRequest $request)
   {
     return require(dirname(__FILE__).'/card.php');

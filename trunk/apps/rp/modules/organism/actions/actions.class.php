@@ -38,7 +38,8 @@ class organismActions extends autoOrganismActions
         $this->hasFilters = $this->getUser()->getAttribute('organism.filters', $this->configuration->getFilterDefaults(), 'admin_module');
       if ( !isset($this->filters) )
         $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      if ( !in_array($this->getActionName(), array('index','search','map','labels','csv','groupList')) )
+      //if ( !in_array($this->getActionName(), array('index','search','map','labels','csv','groupList')) )
+      if ( in_array($this->getActionName(), array('edit','new','show','create','update','delete')) )
         $this->setTemplate('edit');
     }
   }
@@ -163,9 +164,8 @@ class organismActions extends autoOrganismActions
     $q = Doctrine::getTable('Organism')->createQuery();
     $q->where('id = ?',$request->getParameter('id'))
       ->orderBy('c.name, c.firstname, pt.name, p.name');
-    $organisms = $q->execute();
+    $this->organism = $q->fetchOne();
     
-    $this->organism = $organisms[0];
     $this->forward404Unless($this->organism);
     $this->form = $this->configuration->getForm($this->organism);
   }
@@ -242,6 +242,12 @@ class organismActions extends autoOrganismActions
   public function executeLabels(sfWebRequest $request)
   {
     require(dirname(__FILE__).'/labels.php');
+  }
+  
+  public function executeVcf(sfWebRequest $request)
+  {
+    $this->executeShow($request);
+    $this->useClassicTemplateDir(true);
   }
   
   public function executeFilter(sfWebRequest $request)

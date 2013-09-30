@@ -55,3 +55,9 @@ cardSuccessAndPay:
   stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css: {media: all}, contact-card: {media: all}, /private/contact-card: {media: all}]
   javascripts: [-menu]
 
+vcfSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/vcard
+    content-disposition: attachment; filename=contact.vcf
+            
