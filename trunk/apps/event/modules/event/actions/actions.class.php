@@ -83,7 +83,7 @@ class eventActions extends autoEventActions
   
   public function executeCalendar(sfWebRequest $request)
   {
-    return require(dirname(__FILE__).'/calendar.php');
+    require(dirname(__FILE__).'/calendar.php');
   }
   
   public function executeBatchDelete(sfWebRequest $request)

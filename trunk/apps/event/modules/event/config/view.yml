@@ -21,3 +21,8 @@ showSuccess:
   stylesheets: [view,event,/private/event.css]
   javascripts:  [event]
 
+calendarSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/ical
+    content-disposition: attachment; filename=calendar.ics

@@ -29,6 +29,7 @@
     // security stuff
     $token = sfConfig::get('app_synchronization_security_token', array());
     if ( !is_array($token) ) $token = array($token);
+    
     if ( !$this->getUser()->isAuthenticated() )
     {
       if ( !isset($token[$request->getParameter('token')]) )
@@ -62,10 +63,10 @@
     
     $updated = Doctrine_Query::create()->copy($q)
       ->select('max(updated_at) AS last_updated_at')
-      ->fetchOne();
+      ->fetchArray();
     
     if ( file_exists($this->caldir.$this->calfile)
-      && strtotime($updated->last_updated_at) <= filemtime($this->caldir.$this->calfile)
+      && strtotime($updated['last_updated_at']) <= filemtime($this->caldir.$this->calfile)
       && !$request->hasParameter('no-cache') )
     {
       $v->parse();
@@ -99,7 +100,7 @@
         $e->setProperty('status', 'CONFIRMED');
         
         // alarms
-        if ( $alarms = sfConfig::get('app_synchronization_alarms', array()) )
+        if ( $alarms = sfConfig::get('app_synchronization_alarms', array('-1 hour')) )
         {
           if ( !is_array($alarms) )
             $alarms = array($alarms);
@@ -135,5 +136,4 @@
       chmod($this->caldir.'/'.$this->calfile,0777);
     }
 
-    $v->returnCalendar();
-    return sfView::NONE;
+    $this->calendar = $v->createCalendar();
