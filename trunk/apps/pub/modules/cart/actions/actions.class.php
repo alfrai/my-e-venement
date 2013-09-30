@@ -151,7 +151,7 @@ class cartActions extends sfActions
       
       if ( is_null($p_mc->member_card_id) )
       foreach ( $this->getUser()->getContact()->MemberCards as $mc )
-      if ( $mc->transaction_id != $transaction->id && $mc->active
+      if ( $mc->transaction_id != $this->transaction->id && $mc->active
         && $mc->hasPrice($ticket->price_id) && $mc->getValue() >= $ticket->value )
         $p_mc->member_card_id = $mc->id;
       
