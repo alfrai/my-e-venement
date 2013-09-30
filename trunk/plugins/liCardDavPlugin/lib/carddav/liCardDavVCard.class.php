@@ -23,7 +23,7 @@
 ?>
 <?php
 
-  class liCardDavVCard extends vCardLI
+  class liCardDavVCard extends liVCard
   {
     protected $id = NULL, $con = NULL, $etag = NULL;
     public $last_error = NULL;

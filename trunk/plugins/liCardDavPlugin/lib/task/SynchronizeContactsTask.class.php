@@ -32,15 +32,16 @@ class SynchronizeContactsTask extends sfBaseTask{
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application', 'rp'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environement', 'prod'),
       new sfCommandOption('sync', null, sfCommandOption::PARAMETER_REQUIRED, 'The sync direction (both by default or dav2e or e2dav)', 'both'),
+      new sfCommandOption('model', null, sfCommandOption::PARAMETER_REQUIRED, 'The objects to be sync\'ed (both by default or contact or organism', 'both'),
       new sfCommandOption('nb', null, sfCommandOption::PARAMETER_REQUIRED, 'The number of contacts you want to synchronize (mainly for tests purposes, 0 = no limit)', '0'),
       new sfCommandOption('debug', null, sfCommandOption::PARAMETER_NONE, 'Display debug informations'),
       new sfCommandOption('force', null, sfCommandOption::PARAMETER_NONE, 'Force complete upload to the DAV repository (use with precaution, can take a loooong time)'),
     ));
     $this->namespace = 'e-venement';
     $this->name = 'synchronize-contacts';
-    $this->briefDescription = "Synchronize your e-venement's contacts with your distant CardDAV plateform";
+    $this->briefDescription = "Synchronize your e-venement's contacts & organisms with your distant CardDAV plateform";
     $this->detailedDescription = <<<EOF
-      The [sc:synchronize-contacts|INFO] synchronizes your e-venement's contacts with a distant CardDAV plateform:
+      The [sc:synchronize-contacts|INFO] synchronizes your e-venement's contacts & organisms with a distant CardDAV plateform:
       [./symfony e-venement:synchronize-contacts --env=dev --sync=e2dav --application=rp|INFO]
 EOF;
   }
@@ -64,6 +65,9 @@ EOF;
       $this->e2dav($con, $options);
     if ( in_array($options['sync'], array('both', 'dav2e')) )
       $this->dav2e($con, $options);
+    
+    $con->resetLastUpdate();
+    $this->logSection('last-update',$con->getLastUpdate());
   }
   
   /**
@@ -86,6 +90,14 @@ EOF;
    **/
   protected function e2dav(liCardDavConnection $con, array $options)
   {
+    if ( in_array($options['model'], array('both', 'contact')) )
+      $this->e2dav_sync($con, $options, Doctrine::getTable('Contact'), 'contact');
+    if ( in_array($options['model'], array('both', 'organism')) )
+      $this->e2dav_sync($con, $options, Doctrine::getTable('Organism'), 'organism');
+  }
+  
+  protected function e2dav_sync(liCardDavConnection $con, array $options, $table, $toprint)
+  {
     $cpt = array(
       'up2date' => 0,
       'uploaded' => 0,
@@ -93,7 +105,7 @@ EOF;
       'deleted' => 0,
     );
     
-    $q = Doctrine::getTable('Contact')->createQuery('c')
+    $q = $table->createQuery('c')
       ->limit(isset($options['nb']) ? intval($options['nb']) : 0)
       ->orderBy('c.created_at, c.updated_at DESC')
       ;
@@ -101,24 +113,24 @@ EOF;
       $q->andWhere('c.updated_at >= ?', date('Y-m-d H:i:s', strtotime($con->getLastUpdate())));
     
     $i = 0;
-    foreach ( $q->execute() as $contact )
+    foreach ( $q->execute() as $object )
     {
       $nb = str_pad(++$i,5,'0',STR_PAD_LEFT);
-      $contact_str = mb_str_pad($contact, 30);
+      $object_str = mb_str_pad($object, 30);
       
-      sfConfig::set('app_carddav_sync_timezone_hack', true); // to be used by Contact::getVCard()
-      $vcard = array('e' => new liCardDavVCard($con, $contact->vcard_uid, (string)$vc = new liVCardContact($contact, array('timezone_hack' => true,))));
+      sfConfig::set('app_carddav_sync_timezone_hack', true); // to be used by Contact::getVcard()
+      $vcard = array('e' => new liCardDavVCard($con, $object->vcard_uid, (string)$vc = $object->vcard));
       
       // try to stop the process if the distant data is up2date or exists in a newer version
-      if ( $contact->vcard_uid )
+      if ( $object->vcard_uid )
       {
-        $vcard['dav'] = new liCardDavVCard($con, $contact->vcard_uid);
+        $vcard['dav'] = new liCardDavVCard($con, $object->vcard_uid);
         
         if ( isset($vcard['dav']['rev']) && strtotime($vcard['dav']['rev']) >= strtotime($vcard['e']['rev']) )
         {
           $cpt['up2date']++;
-          $this->weirds[] = $contact;
-          $this->logSection('e2dav', sprintf('%s Contact %s has been kept (uid %s)', $nb, $contact_str, $contact->vcard_uid), null, 'COMMAND');
+          $this->weirds[] = $object;
+          $this->logSection('e2dav', sprintf('%s %s %s has been kept (uid %s)', $nb, $toprint, $object_str, $object->vcard_uid), null, 'COMMAND');
           
           // debug
           if ( $options['debug'] )
@@ -151,11 +163,11 @@ EOF;
         
         // adding the object
         $response = $vcard['e']->save();
-        $contact->vcard_uid = $response->getUid();
-        $contact->save();
+        $object->vcard_uid = $response->getUid();
+        $object->save();
         
         $cpt[$deleted ? 'uploaded' : 'added']++;
-        $this->logSection('e2dav', sprintf('%s Contact %s has been sent (uid %s)', $nb, $contact_str, $contact->vcard_uid), null, 'COMMAND');
+        $this->logSection('e2dav', sprintf('%s %s %s has been sent (uid %s)', $nb, $toprint, $object_str, $object->vcard_uid), null, 'COMMAND');
       }
       else // DEVELOPMENT ENV - tests only
       {
@@ -166,7 +178,7 @@ EOF;
         { $delete = false; }
         
         $cpt[$deleted ? 'uploaded' : 'added']++;
-        $this->logSection('e2dav', sprintf('%s Contact %s has not been sent (uid %s)', $nb, $contact_str, $contact->vcard_uid), null, 'ERROR');
+        $this->logSection('e2dav', sprintf('%s %s %s has not been sent (uid %s)', $nb, $toprint, $object_str, $object->vcard_uid), null, 'ERROR');
       }
       
       // debug code
@@ -179,47 +191,10 @@ EOF;
       
     }
     
-    // DELETE vCards already deleted on e-venement
-    $table_name = 'sync_'.time(); // prepare a temporary table
-    $ids = $con->getIdsList();    // gets the remaining ids
-    if ( count($ids) > 0 )
-    {
-      $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
-      
-      // creates the temp table
-      $stmt = $pdo->prepare("CREATE TEMP TABLE $table_name (id TEXT PRIMARY KEY);");
-      $res = $stmt->execute();
-      
-      // inserts the ids
-      foreach ( $ids as $id )
-        $pdo->prepare("INSERT INTO $table_name VALUES ('$id');")->execute();
-
-      // retrieving deleted contacts
-      $q = "SELECT id FROM $table_name WHERE id NOT IN (SELECT vcard_uid FROM contact WHERE vcard_uid IS NOT NULL)";
-      $stmt = $pdo->prepare($q);
-      $stmt->execute();
-      
-      // deleting foreign data
-      foreach ( $stmt->fetchAll() as $uid )
-      {
-        $nb = str_pad(++$i,5,'0',STR_PAD_LEFT);
-        $vcard = NULL;
-        $vcard = $con->getVCard($uid['id']);
-        $contact_str = mb_str_pad($vcard['fn'], 30);
-        $this->logSection('e2dav', sprintf('%s Contact %s has been deleted (uid %s)', $nb, $contact_str, $uid['id']), null, 'COMMAND');
-        
-        $vcard->delete();
-        $cpt['deleted']++;
-      }
-    }
-    
-    $this->logSection('e2dav', sprintf('%d contact(s) added into the DAV repository', $cpt['added']));
-    $this->logSection('e2dav', sprintf('%d contact(s) that have been updated in the DAV repository', $cpt['uploaded']));
-    $this->logSection('e2dav', sprintf('%d contact(s) that did not need any synchronization', $cpt['up2date']));
-    $this->logSection('e2dav', sprintf('%d contact(s) have been deleted from the DAV repository', $cpt['deleted']));
-    
-    $con->resetLastUpdate();
-    $this->logSection('last-update',$con->getLastUpdate());
+    $this->logSection('e2dav', sprintf('%d %s(s) added into the DAV repository', $cpt['added'], $toprint));
+    $this->logSection('e2dav', sprintf('%d %s(s) that have been updated in the DAV repository', $cpt['uploaded'], $toprint));
+    $this->logSection('e2dav', sprintf('%d %s(s) that did not need any synchronization', $cpt['up2date'], $toprint));
+    //$this->logSection('e2dav', sprintf('%d %s(s) have been deleted from the DAV repository', $cpt['deleted'], $toprint));
     
     return $this;
   }
