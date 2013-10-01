@@ -105,6 +105,7 @@ class ContactForm extends BaseContactForm
   {
     $r = parent::save($con);
     
+    // this is useless with the TDP design:
     if ( isset($this->widgetSchema['YOBs_list']) )
     {
       // get back given values

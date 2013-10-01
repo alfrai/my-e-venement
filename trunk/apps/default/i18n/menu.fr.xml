@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Activity related to the PR module</source>
+        <target>Activité liée au module RP</target>
+      </trans-unit>
+      <trans-unit>
         <source>Bookings to confirm</source>
         <target>Réservations à confirmer</target>
       </trans-unit>

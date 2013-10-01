@@ -139,7 +139,7 @@
           }
         }
         catch ( liEvenementException $e )
-        { }
+        { error_log($e->getMessage()); }
       }
       
       if ( $request->getParameter('duplicate') != 'true' )
