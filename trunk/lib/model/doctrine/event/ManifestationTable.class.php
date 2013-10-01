@@ -66,13 +66,11 @@ class ManifestationTable extends PluginManifestationTable
     if ( sfContext::hasInstance() )
     {
       $credentials = Manifestation::getCredentials();
-      $q->andWhere("($alias.reservation_confirmed = ? OR ?)",array(
-        false,
-        sfContext::getInstance()->getUser()->hasCredential($credentials['reservation_confirmed']),
-      ));
-      $q->andWhere("($alias.contact_id IS NOT NULL AND $alias.contact_id = ? OR ?)", array(
-        $cid = sfContext::getInstance()->getUser()->getContactId(),
-        sfContext::getInstance()->getUser()->hasCredential($credentials['contact_id'])
+      $q->andWhere("($alias.reservation_confirmed = ? OR ? OR ($alias.contact_id IS NOT NULL AND $alias.contact_id = ?) OR ?)", array(
+        true, // confirmed
+        sfContext::getInstance()->getUser()->hasCredential($credentials['reservation_confirmed']), // can access to all manifs
+        $cid = sfContext::getInstance()->getUser()->getContactId(), // the manif has got a contact_id and it's yours
+        sfContext::getInstance()->getUser()->hasCredential($credentials['contact_id']), // you can modify the manif's contact
       ));
     }
     
