@@ -21,6 +21,10 @@
         <target>Numéro de téléphone</target>
       </trans-unit>
       <trans-unit>
+        <source>Phonenumbers</source>
+        <target>Numéros de téléphone</target>
+      </trans-unit>
+      <trans-unit>
         <source>Department</source>
         <target>Service</target>
       </trans-unit>

@@ -32,6 +32,7 @@
     ->leftJoin('p.ProfessionalGroups ggp')
     ->leftJoin('ggp.Group gp ON ggp.group_id = gp.id AND gp.display_everywhere = TRUE AND (gp.sf_guard_user_id IS NULL OR gp.sf_guard_user_id = ?)', $this->getUser()->getId())
     ->leftJoin('p.Organism o')
+    ->leftJoin('o.Phonenumbers opn')
     ->leftJoin('o.OrganismGroups ggo')
     ->leftJoin('ggo.Group go ON ggo.group_id = go.id AND go.display_everywhere = TRUE AND (go.sf_guard_user_id IS NULL OR go.sf_guard_user_id = ?)', $this->getUser()->getId())
     ->leftJoin('p.Contact c')
@@ -104,12 +105,17 @@
     if ( $g->Group )
       $grps['organism'][] = (string)$g->Group;
     
+    $opn = array();
+    foreach ( $contact['professional']->Organism->Phonenumbers as $pn )
+      $opn[] = (string)$pn;
+    
     // real data
     $this->lines[] = array(
       'event'         => (string) $contact['manifestation']->Event,
       'date'          => (string) format_datetime($contact['manifestation']->happens_at),
       'organism'      => (string) $contact['professional']->Organism,
       'organism_an'   => (string) $contact['professional']->Organism->administrative_number,
+      'organism_phones' => implode(', ',$opn),
       'organism_groups' => implode(', ',$grps['organism']),
       'contact'       => (string) $contact['professional']->Contact,
       'groups'        => implode(', ',$grps['contact']),
@@ -139,6 +145,7 @@
       'date',
       'organism',
       'organism_an',
+      'organism_phones',
       'organism_groups',
       'contact',
       'groups',

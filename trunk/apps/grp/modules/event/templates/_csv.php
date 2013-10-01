@@ -40,6 +40,7 @@
     'date'          => __('Date'),
     'organism'      => __('Organism'),
     'organism_an'   => __('Admin. ID'),
+    'organism_phones' => __('Phonenumbers'),
     'organism_groups' => __('Remarkable'),
     'contact'       => __('Contact'),
     'groups'        => __('Remarkable'),
