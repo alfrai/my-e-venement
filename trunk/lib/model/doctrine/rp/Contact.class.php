@@ -57,7 +57,7 @@ class Contact extends PluginContact
     
     $arr = array();
     foreach ( $this->YOBs as $YOB )
-      $arr[$YOB->year.$YOB->month.$YOB->day.$YOB->name] = $YOB;
+      $arr[$YOB->year.$YOB->month.$YOB->day.$YOB->name.$YOB->id] = $YOB;
     ksort($arr);
     
     $this->YOBs->clear();

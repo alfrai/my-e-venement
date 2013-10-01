@@ -37,10 +37,6 @@ abstract class PluginContact extends BaseContact
 {
   public function preSave($event)
   {
-    foreach ( $this->YOBs as $key => $yob )
-    if ( !$yob['year'] )
-      unset($this->YOBs[$key]);
-    
     foreach ( $this->Relationships as $key => $rel )
     if ( !$rel['to_contact_id'] )
       unset($this->Relationships[$key]);

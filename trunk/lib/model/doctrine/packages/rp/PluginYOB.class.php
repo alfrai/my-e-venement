@@ -16,9 +16,6 @@ abstract class PluginYOB extends BaseYOB
   {
     if ( !$this->year && !$this->name || !$this->contact_id )
       return;
-    try { parent::save($con); } // a hack to avoid problems due to YOBs (that are a side-interest compared to the contact itself)
-    catch ( Doctrine_Connection_Pgsql_Exception $e )
-    { error_log($e->getMessage()); }
+    parent::save($con);
   }
 }
-

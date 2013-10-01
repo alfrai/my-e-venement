@@ -101,6 +101,7 @@ class ContactForm extends BaseContactForm
     
     return parent::doSave($con);
   }
+  
   public function save($con = null)
   {
     $r = parent::save($con);
