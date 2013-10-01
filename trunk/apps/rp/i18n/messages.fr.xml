@@ -1349,6 +1349,10 @@
         <target>De %1% à %2% sur %3%</target>
       </trans-unit>
       <trans-unit>
+        <source>View %1% - %2% of %3% (%4)</source>
+        <target>De %1% à %2% sur %3% (%4)</target>
+      </trans-unit>
+      <trans-unit>
         <source>of %1%</source>
         <target>sur %1%</target>
       </trans-unit>
