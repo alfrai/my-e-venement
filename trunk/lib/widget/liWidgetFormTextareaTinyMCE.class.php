@@ -42,8 +42,11 @@ class liWidgetFormTextareaTinyMCE extends sfWidgetFormTextareaTinyMCE
     
     if ( sfContext::hasInstance() )
       $options['config']['language'] = sfContext::getInstance()->getUser()->getCulture();
-    $options['config']['plugins'] = 'paste';
-    $options['config']['paste_as_text'] = true;
+    if ( !isset($options['config']['paste_as_text']) )
+    {
+      $options['config']['plugins'] = 'paste';
+      $options['config']['paste_as_text'] = true;
+    }
     
     $config = array();
     foreach ( $options['config'] as $key => $value )

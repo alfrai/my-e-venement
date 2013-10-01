@@ -69,6 +69,7 @@ class EmailForm extends BaseEmailForm
         'extended_valid_elements' => 'hr[class|width|size|noshade],iframe[src|width|height|name|align],style',
         'convert_urls' => false,
         'urlconvertor_callback' => 'email_urlconvertor',
+        'paste_as_text' => false,
       ),
     ));
     
