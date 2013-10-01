@@ -32,10 +32,12 @@ class Addressable extends PluginAddressable
     return format_datetime_iso8601($this->created_at);
   }
 
-  public function isGeolocalized()
+  public function getJSSlug()
   {
-    return $this->latitude && $this->longitude;
+    return str_replace('-','_',$this->slug);
   }
+
+/*
   public function updateGeolocalization()
   {
     $geoLocAddress   = $this->getGmapLocalization();
@@ -43,6 +45,11 @@ class Addressable extends PluginAddressable
     $this->latitude  = $geoLocAddress->getLat();
     $this->longitude = $geoLocAddress->getLng();
     return $this;
+  }
+  
+  public function isGeolocalized()
+  {
+    return $this->latitude && $this->longitude;
   }
   
   public function save(Doctrine_Connection $conn = null)
@@ -82,21 +89,12 @@ class Addressable extends PluginAddressable
     return $geoLocAddress;
   }
   
-  public function getJSSlug()
-  {
-    return str_replace('-','_',$this->slug);
-  }
   public function getGmapString()
   {
     return
       '<a href="'.url_for($this->module.'/show?id='.$this->id).'">'.
         $this.
       '</a>';
-    /*
-      $this->address.'<br/>'.
-      $this->postalcode.' '.$this->city.'<br/>'.
-      $this->country;
-    */
   }
 
   public static function getGmapFromQuery(Doctrine_Query $query, sfWebRequest $request)
@@ -143,4 +141,5 @@ class Addressable extends PluginAddressable
     $gmap->centerAndZoomOnMarkers();
     return $gmap;
   }
+*/
 }
