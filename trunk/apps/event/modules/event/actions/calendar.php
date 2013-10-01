@@ -66,7 +66,7 @@
       ->fetchArray();
     
     if ( file_exists($this->caldir.$this->calfile)
-      && strtotime($updated['last_updated_at']) <= filemtime($this->caldir.$this->calfile)
+      && strtotime($updated[0]['last_updated_at']) <= filemtime($this->caldir.$this->calfile)
       && !$request->hasParameter('no-cache') )
     {
       $v->parse();
@@ -90,9 +90,14 @@
         $e->setProperty('dtend', $stop );
         
         $e->setProperty('summary', $manif->Event );
-        $e->setProperty('location', $manif->Location );
         $e->setProperty('url', url_for('manifestation/show?id='.$manif->id,true));
         
+        $location = array((string)$manif->Location);
+        if ( $manif->Location->city )
+        foreach ( array('address', 'postalcode', 'city', 'country') as $prop )
+          $location[] = $manif->Location->$prop;
+        $e->setProperty('location', implode(', ', $location));
+
         // extra properties
         $client = sfConfig::get('project_about_client',array());
         $e->setProperty('description', $client['name']);
