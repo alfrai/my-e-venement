@@ -60,6 +60,9 @@
       $this->url = $url;
       $this->auth = $auth;
       $this->options = $options;
+      
+      if ( sfContext::hasInstance() )
+        sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent($this, 'carddav.connect', array('url' => $this->url, 'auth' => $this->auth, 'options' => $this->options)));
     }
     
     /**
@@ -216,6 +219,10 @@
       $r = array_values(
         $this->backend->propPatch('',array('{DAV:}getlastmodified' => date('c'),))
       );
+
+      if ( sfContext::hasInstance() )
+        sfContext::getInstance()->getEventDispatcher()->notify(new sfEvent($this, 'carddav.reset_last_update', array('datetime' => date('c',strtotime($r[0])))));
+
       return date('c',strtotime($r[0]));
     }
     

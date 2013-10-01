@@ -90,7 +90,17 @@
       // updates existing vCard
       if ( $this->id )
       {
-        $response = $this->con->rawUpdateVCard((string)$this, $this->id, $this->etag);
+        if ( $this->etag )
+        {
+          // update w/ etag, risking any 409 response
+          $response = $this->con->rawUpdateVCard((string)$this, $this->id, $this->etag);
+        }
+        else
+        {
+          // delete first, then add, doing a fake update
+          $this->delete();
+          $response = $this->con->rawInsertVCard((string)$this, $this->id);
+        }
       }
       
       // inserts new vCard

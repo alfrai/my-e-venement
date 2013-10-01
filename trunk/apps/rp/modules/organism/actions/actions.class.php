@@ -55,6 +55,16 @@ class organismActions extends autoOrganismActions
   {
     require(dirname(__FILE__).'/batch-merge.php');
   }
+  public function executeBatchDelete(sfWebRequest $request)
+  {
+    $this->dispatcher->notify(new sfEvent($this, 'admin.delete_objects', array(
+      'objects' => Doctrine::getTable('Organism')->createQuery('o')
+        ->andWhereIn('o.id',$request->getParameter('ids'))
+        ->select('o.*')
+        ->execute(),
+    )));
+    return parent::executeBatchDelete($request);
+  }
   public function executeEmailing(sfWebRequest $request)
   {
     $this->redirect('email/new');

@@ -29,13 +29,14 @@ class SynchronizeContactsTask extends sfBaseTask{
 
   protected function configure() {
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application', 'rp'),
-      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environement', 'prod'),
       new sfCommandOption('sync', null, sfCommandOption::PARAMETER_REQUIRED, 'The sync direction (both by default or dav2e or e2dav)', 'both'),
       new sfCommandOption('model', null, sfCommandOption::PARAMETER_REQUIRED, 'The objects to be sync\'ed (both by default or contact or organism', 'both'),
-      new sfCommandOption('nb', null, sfCommandOption::PARAMETER_REQUIRED, 'The number of contacts you want to synchronize (mainly for tests purposes, 0 = no limit)', '0'),
-      new sfCommandOption('debug', null, sfCommandOption::PARAMETER_NONE, 'Display debug informations'),
+      new sfCommandOption('no-del', null, sfCommandOption::PARAMETER_NONE, 'Do not try to delete data'),
       new sfCommandOption('force', null, sfCommandOption::PARAMETER_NONE, 'Force complete upload to the DAV repository (use with precaution, can take a loooong time)'),
+      new sfCommandOption('nb', null, sfCommandOption::PARAMETER_REQUIRED, 'The number of contacts you want to synchronize (mainly for tests purposes, 0 = no limit)', '0'),
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application', 'rp'),
+      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environement', 'prod'),
+      new sfCommandOption('debug', null, sfCommandOption::PARAMETER_NONE, 'Display debug informations'),
     ));
     $this->namespace = 'e-venement';
     $this->name = 'synchronize-contacts';
@@ -53,10 +54,10 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     sfContext::createInstance($this->configuration,$options['env']);
     
-    if ( !sfConfig::get('app_carddav_sync_auth', array()) || !sfConfig::get('app_carddav_sync_contacts_url','') )
+    if ( !sfConfig::get('app_carddav_sync_auth', array()) || !sfConfig::get('app_carddav_sync_cards_url','') )
       throw new sfCommandException(printf('The %s application is not configured for CardDAV features', $option['application']));
     
-    $con = new liCardDavConnectionZimbra(sfConfig::get('app_carddav_sync_contacts_url'), sfConfig::get('app_carddav_sync_auth'), sfConfig::get('app_carddav_sync_options',array()));
+    $con = new liCardDavConnectionZimbra(sfConfig::get('app_carddav_sync_cards_url'), sfConfig::get('app_carddav_sync_auth'), sfConfig::get('app_carddav_sync_options',array()));
     $con->isValid();
     $this->logSection('connection','Connected');
     $this->logSection('last-update',$con->getLastUpdate());
@@ -90,12 +91,66 @@ EOF;
    **/
   protected function e2dav(liCardDavConnection $con, array $options)
   {
+    // add data
     if ( in_array($options['model'], array('both', 'contact')) )
       $this->e2dav_sync($con, $options, Doctrine::getTable('Contact'), 'contact');
     if ( in_array($options['model'], array('both', 'organism')) )
       $this->e2dav_sync($con, $options, Doctrine::getTable('Organism'), 'organism');
+    
+    // delete data
+    if (!( isset($options['no-del']) && $options['no-del'] ))
+    {
+      $tables = array();
+      $toprint = array('Contact' => 'contact', 'Organism' => 'organism');
+      if ( in_array($options['model'], array('both', 'contact')) )
+        $tables[] = 'Contact';
+      if ( in_array($options['model'], array('both', 'organism')) )
+        $tables[] = 'Organism';
+      $this->e2dav_del($con, $options, $tables, $toprint);
+    }
   }
   
+  // DELETE vCards already deleted on e-venement
+  protected function e2dav_del(liCardDavConnection $con, array $options, $tables, $toprint)
+  {
+    $table_name = 'sync_'.time(); // prepare a temporary table
+    $ids = $con->getIdsList();    // gets the remaining ids
+    $i = 0;
+    if ( count($ids) > 0 )
+    {
+      $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+      
+      // creates the temp table
+      $stmt = $pdo->prepare("CREATE TEMP TABLE $table_name (id TEXT PRIMARY KEY);");
+      $stmt->execute();
+      
+      // inserts the ids
+      foreach ( $ids as $id )
+        $pdo->prepare("INSERT INTO $table_name VALUES ('$id');")->execute();
+
+      // retrieving deleted contacts
+      $where = array();
+      foreach ( $tables as $table )
+        $where[] = "SELECT vcard_uid FROM $table WHERE vcard_uid IS NOT NULL";
+      
+      $q = "SELECT id FROM $table_name WHERE id NOT IN (".implode(") AND id NOT IN (",$where).")";
+      $stmt = $pdo->prepare($q);
+      $stmt->execute();
+      
+      // deleting foreign data
+      foreach ( $stmt->fetchAll() as $uid )
+      {
+        $nb = str_pad(++$i,5,'0',STR_PAD_LEFT);
+        $vcard = NULL;
+        $vcard = $con->getVCard($uid['id']);
+        $contact_str = mb_str_pad($vcard['fn'], 30);
+        $this->logSection('e2dav', sprintf('%s %s %s has been deleted (uid %s)', $nb, implode(' or ', $toprint), $contact_str, $uid['id']), null, 'COMMAND');
+        
+        $vcard->delete();
+        $cpt['deleted']++;
+      }
+    }
+  }
   protected function e2dav_sync(liCardDavConnection $con, array $options, $table, $toprint)
   {
     $cpt = array(
