@@ -46,9 +46,9 @@
 	  
 	  public function setOptions(array $options = null)
 	  {
-			if ($Options)
+			if ($options)
 			{
-				$this -> Options = array_merge($this -> Options, $Options);
+				$this->Options = array_merge($this->Options, $options);
 			}
 			return $this;
 	  }
@@ -91,7 +91,7 @@
 				return true;
 			}
 
-      $this->setOptions($options)->reset();
+      $this->setOptions($Options)->reset();
 	    
 			// Counting the begin/end separators. If there aren't any or the count doesn't match, there is a problem with the file.
 			// If there is only one, this is a single vCard, if more, multiple vCards are combined.

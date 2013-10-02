@@ -30,6 +30,7 @@ class liCardDavPluginConfiguration extends sfPluginConfiguration
    * sends the saved data into the DAV directory
    **/
   public function listenToSaveObject(sfEvent $event)
+  { try
   {
     if ( !$this->canBeSynchronized($event) )
       return;
@@ -38,14 +39,19 @@ class liCardDavPluginConfiguration extends sfPluginConfiguration
     $davcon = $this->initDavConnection();
     
     // save the object
-    $davcard = new liCardDavVCard($davcon, $event['object']->vcard_uid, (string)$event['object']->vcard);
+    $davcard = liCardDavVCard::create($davcon, $event['object']->vcard_uid, (string)$event['object']->vcard);
     $davcard->save();
   }
+  catch ( Exception $e )
+  {
+    $this->log($e);
+  } }
   
   /**
    * delete the deleted object in the DAV directory
    **/
   public function listenToDeleteObject(sfEvent $event)
+  { try
   {
     if ( !$this->canBeSynchronized($event)
       || !$event['object']->vcard_uid )
@@ -59,11 +65,16 @@ class liCardDavPluginConfiguration extends sfPluginConfiguration
       ->getVCard($event['object']->vcard_uid)
       ->delete();
   }
+  catch ( Exception $e )
+  {
+    $this->log($e);
+  } }
   
   /**
    * delete the deleted objects in the DAV directory
    **/
   public function listenToDeleteObjects(sfEvent $event)
+  { try
   {
     if ( !$this->canBeSynchronized($event, true) )
       return;
@@ -81,6 +92,10 @@ class liCardDavPluginConfiguration extends sfPluginConfiguration
       ->getVCard($object->vcard_uid)
       ->delete();
   }
+  catch ( Exception $e )
+  {
+    $this->log($e);
+  } }
   
   /**
    * creates the DAV connection
@@ -121,5 +136,18 @@ class liCardDavPluginConfiguration extends sfPluginConfiguration
   public function getDispatcher()
   {
     return $this->dispatcher;
+  }
+  
+  /**
+   * Function that helps making dispatcher calls fail-proof
+   * @param $e Exception
+   * @return void
+   **/
+  public function log(Exception $e)
+  {
+    if ( sfContext::hasInstance() && sfConfig::get('sf_debug') )
+      error_log($e);
+    else
+      error_log($e->getMessage());
   }
 }

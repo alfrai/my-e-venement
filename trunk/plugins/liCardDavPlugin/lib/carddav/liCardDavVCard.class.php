@@ -28,7 +28,16 @@
     protected $id = NULL, $con = NULL, $etag = NULL;
     public $last_error = NULL;
     
-    public function __construct(liCardDavConnection $con, $id = NULL, $data = NULL, array $options = null)
+    /**
+     * @return new liCardDavVCard
+     */
+    public static function create(liCardDavConnection $con, $id = NULL, $data = NULL, array $options = null)
+    {
+      $obj = new liCardDavVCard;
+      return $obj->init($con, $id, $data, $options);
+    }
+    
+    public function init(liCardDavConnection $con, $id = NULL, $data = NULL, array $options = null)
     {
       $this->con = $con;
       $this->id = $id;
@@ -40,11 +49,13 @@
       }
       
       // initialize this w/ given data
-      $this->setData($data, $options);
+      $this->setDataOnly($data, $options);
 
       // completing the uid after creation if one is given inside data
       if ( $this['uid'] )
         $this->id = $this['uid'];
+      
+      return $this;
     }
     
     /**
@@ -67,7 +78,7 @@
       
       try {
         $response = $this->con->rawGetVCard($this->id);
-        $this->setData((string)$response);
+        $this->setDataOnly((string)$response);
         $this->etag = $response->getETag();
       }
       catch ( liCardDavResponse404Exception $e )
@@ -76,20 +87,25 @@
       return $this;
     }
     
-    protected function setData($data, array $options = NULL)
+    protected function setDataOnly($data, array $options = NULL)
     {
       return parent::setData(NULL, $data, $options);
     }
     
     /**
      * function save() saves this liCardDavVCard into the CardDAV repository
-     * @return string vCard's id in the CardDAV repository
+     * @return array request's response if updated
+     * @return FALSE if nothing needs to be done
      */
     public function save()
     {
       // updates existing vCard
       if ( $this->id )
       {
+        $card = $this->con->getVCard($this->id);
+        if ( $card['rev'] == $this['rev'] ) // nothing to update
+          return false;
+        
         if ( $this->etag )
         {
           // update w/ etag, risking any 409 response
@@ -98,7 +114,9 @@
         else
         {
           // delete first, then add, doing a fake update
-          $this->delete();
+          try { $this->delete(); }
+          catch ( liCardDavResponse404Exception $e )
+          { error_log($e->getMessage()); }
           $response = $this->con->rawInsertVCard((string)$this, $this->id);
         }
       }

@@ -174,12 +174,12 @@ EOF;
       $object_str = mb_str_pad($object, 30);
       
       sfConfig::set('app_carddav_sync_timezone_hack', true); // to be used by Contact::getVcard()
-      $vcard = array('e' => new liCardDavVCard($con, $object->vcard_uid, (string)$vc = $object->vcard));
+      $vcard = array('e' => liCardDavVCard::create($con, $object->vcard_uid, (string)$vc = $object->vcard));
       
       // try to stop the process if the distant data is up2date or exists in a newer version
       if ( $object->vcard_uid )
       {
-        $vcard['dav'] = new liCardDavVCard($con, $object->vcard_uid);
+        $vcard['dav'] = liCardDavVCard::create($con, $object->vcard_uid);
         
         if ( isset($vcard['dav']['rev']) && strtotime($vcard['dav']['rev']) >= strtotime($vcard['e']['rev']) )
         {

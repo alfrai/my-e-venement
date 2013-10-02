@@ -147,7 +147,7 @@
      */
     public function getVCard($id)
     {
-      return new liCardDavVCard($this, $id);
+      return liCardDavVCard::create($this, $id);
     }
     
     /**

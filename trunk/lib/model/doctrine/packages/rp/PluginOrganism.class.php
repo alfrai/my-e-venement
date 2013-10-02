@@ -87,10 +87,7 @@ abstract class PluginOrganism extends BaseOrganism
       ),
     );
     
-    $vCard['url'] = array(
-      'Value' => $this->url,
-      'Type' => array('work'),
-    );
+    $vCard['url'] = $this->url;
     
     // description
     $vCard['note'] = $this->description;

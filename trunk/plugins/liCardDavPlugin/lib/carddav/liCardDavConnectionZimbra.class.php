@@ -56,7 +56,7 @@
           if ( !trim($vcard) )
             continue;
           $vcard .= $str."\n";
-          $vcard = new liCardDavVCard($this, NULL, $vcard);
+          $vcard = liCardDavVCard::create($this, NULL, $vcard);
           $this->vcards[$vcard['uid']] = $vcard;
         }
         
