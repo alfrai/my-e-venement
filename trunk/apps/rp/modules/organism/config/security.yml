@@ -30,6 +30,8 @@ batchDelete:
 
 csv:
   credentials: [ pr-contact-csv, pr-organism ]
+vcf:
+  credentials: [ pr-contact-csv, pr-organism ]
 labels:
   credentials: [ pr-contact-labels, pr-organism ]
 group:
