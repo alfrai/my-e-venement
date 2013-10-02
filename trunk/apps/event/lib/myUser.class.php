@@ -19,6 +19,9 @@ class myUser extends liGuardSecurityUser
     $this->addCredentials($this->getMetaEventsCredentials());
   }
   
+  /**
+   * if set true, then the getContactId() function will return NULL in the place of the user's contact id (or 0 if none)
+   **/
   public function forceContact($bool = true)
   {
     $this->force_contact_id = $bool;

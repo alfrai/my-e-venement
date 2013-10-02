@@ -77,8 +77,6 @@
       $alarms['what'] = array();
     if ( !is_array($alarms['what']) )
       $alarms['what'] = array($alarms['what']);
-    if ( !in_array('display', $alarms['what']) )
-      $alarms['what'][] = 'display';
     foreach ( $alarms['what'] as $key => $type )
     {
       switch ( $type ) {
@@ -87,6 +85,9 @@
           break;
         case 'email':
           $alarms['what'][$key] = 'EMAIL';
+          break;
+        case 'audio':
+          $alarms['what'][$key] = 'AUDIO';
           break;
       }
     }

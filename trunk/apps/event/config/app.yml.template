@@ -38,5 +38,5 @@ all:
     #  xxxxxxxmytokenxxxxxxx: my_username
     alarms:
       when: [-4 hours, -1 hour]
-      what: [email]
+      what: [display, email]
             
