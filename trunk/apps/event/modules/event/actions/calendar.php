@@ -25,6 +25,8 @@
     sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
     
     $q = $this->buildQuery();
+    if ( $request->getParameter('id',false) )
+      $q->andWhere('e.id = ?', $request->getParameter('id'));
     
     // security stuff
     $token = sfConfig::get('app_synchronization_security_token', array());
@@ -65,9 +67,34 @@
       ->select('max(updated_at) AS last_updated_at')
       ->fetchArray();
     
+    // settings
+    $alarms = sfConfig::get('app_synchronization_alarms', array('when' => array('-1 hour'), 'what' => array('display')));
+    if ( !isset($alarms['when']) )
+      $alarms['when'] = array('-1 hour');
+    if ( !is_array($alarms['when']) )
+      $alarms['when'] = array($alarms['when']);
+    if ( !isset($alarms['what']) )
+      $alarms['what'] = array();
+    if ( !is_array($alarms['what']) )
+      $alarms['what'] = array($alarms['what']);
+    if ( !in_array('display', $alarms['what']) )
+      $alarms['what'][] = 'display';
+    foreach ( $alarms['what'] as $key => $type )
+    {
+      switch ( $type ) {
+        case 'display':
+          $alarms['what'][$key] = 'DISPLAY';
+          break;
+        case 'email':
+          $alarms['what'][$key] = 'EMAIL';
+          break;
+      }
+    }
+    
     if ( file_exists($this->caldir.$this->calfile)
       && strtotime($updated[0]['last_updated_at']) <= filemtime($this->caldir.$this->calfile)
-      && !$request->hasParameter('no-cache') )
+      && !$request->hasParameter('no-cache')
+      && $this->getContext()->getConfiguration()->getEnvironment() != 'dev' )
     {
       $v->parse();
     }
@@ -82,11 +109,11 @@
         $e->setProperty('last-modified', date('YmdTHis',strtotime($manif->updated_at)) );
         
         $time = strtotime($manif->happens_at);
-        $start = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time));
+        $start = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time),'tz'=>date('T'));
         $e->setProperty('dtstart', $start);
         
         $time = strtotime($manif->ends_at);
-        $stop = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time));
+        $stop = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time),'tz'=>date('T'));
         $e->setProperty('dtend', $stop );
         
         $e->setProperty('summary', $manif->Event );
@@ -100,25 +127,54 @@
 
         // extra properties
         $client = sfConfig::get('project_about_client',array());
-        $e->setProperty('description', $client['name']);
+        $e->setProperty('description', $client['name']."\nURL: ".url_for('manifestation/show?id='.$manif->id, true));
         $e->setProperty('transp', $request->hasParameter('transp') ? 'TRANSPARENT' : 'OPAQUE');
         $e->setProperty('status', 'CONFIRMED');
         
-        // alarms
-        if ( $alarms = sfConfig::get('app_synchronization_alarms', array('-1 hour')) )
+        $orgs = array();
+        if ( $manif->Organizers->count() > 0 )
         {
-          if ( !is_array($alarms) )
-            $alarms = array($alarms);
-          
-          foreach ( $alarms as $alarm )
+          $email = '';
+          foreach ( $manif->Organizers as $org )
           {
-            $a = &$e->newComponent( 'valarm' );
-            $a->setProperty('action', 'DISPLAY');
-            
-            $time = strtotime($alarm, strtotime($manif->happens_at));
-            $datetime = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time));
-            $a->setProperty('trigger', $datetime);
+            $orgs[] = (string)$org;
+            if ( $org->email )
+              $email = $org->email;
+            elseif ( !$email )
+              $email = $org->url;
           }
+          $e->setProperty('organizer', $email, array('CN' => implode(', ', $orgs)));
+        }
+        
+        // preparing email alerts
+        $to = array();
+        if ( in_array('EMAIL', $alarms['what']) )
+        {
+          if ( $manif->contact_id && ($manif->Applicant->sf_guard_user_id || $manif->Applicant->email) )
+            $to[] = $manif->Applicant->sf_guard_user_id ? $manif->Applicant->User->email_address : $manif->Applicant->email;
+          foreach ( $manif->Organizers as $org )
+          if ( $org->email )
+            $to[] = $org->email;
+        }
+        
+        // alarms
+        foreach ( $alarms['when'] as $when )
+        foreach ( $alarms['what'] as $what )
+        {
+          if ( $what == 'EMAIL' && count($to) == 0 )
+            continue;
+          
+          $a = &$e->newComponent( 'valarm' );
+          
+          if ( $what == 'EMAIL' )
+          foreach ( $to as $email )
+            $a->setProperty('attendee', $email);
+          
+          $a->setProperty('action', $what);
+          
+          $time = strtotime($when, strtotime($manif->happens_at)) - date('Z');
+          $datetime = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time));
+          $a->setProperty('trigger', $datetime);
         }
         
         $v->addComponent( $e );

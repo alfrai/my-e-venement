@@ -1,1 +1,1 @@
-<?php echo $calendar ?>
+<?php echo $sf_data->getRaw('calendar') ?>

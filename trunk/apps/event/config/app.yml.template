@@ -36,4 +36,7 @@ all:
       subject: Manifestations report for <?php $client = sfConfig::get('project_about_client'); echo $client['name'] ?> from %%from%% to %%to%%
     #security_token:
     #  xxxxxxxmytokenxxxxxxx: my_username
-    alarms: [-4 hours, -1 hour] 
+    alarms:
+      when: [-4 hours, -1 hour]
+      what: [email]
+            
