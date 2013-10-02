@@ -117,6 +117,10 @@
         <target>Lieu/Ressource</target>
       </trans-unit>
       <trans-unit>
+        <source>Resources</source>
+        <target>Ressources</target>
+      </trans-unit>
+      <trans-unit>
         <source>Change the details of the reservation</source>
         <target>Changer les détails de réservation</target>
       </trans-unit>

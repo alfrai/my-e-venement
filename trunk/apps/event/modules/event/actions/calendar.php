@@ -150,11 +150,11 @@
         $to = array();
         if ( in_array('EMAIL', $alarms['what']) )
         {
-          if ( $manif->contact_id && ($manif->Applicant->sf_guard_user_id || $manif->Applicant->email) )
-            $to[] = $manif->Applicant->sf_guard_user_id ? $manif->Applicant->User->email_address : $manif->Applicant->email;
           foreach ( $manif->Organizers as $org )
           if ( $org->email )
             $to[] = $org->email;
+          if ( $manif->contact_id && ($manif->Applicant->sf_guard_user_id || $manif->Applicant->email) )
+            $to[] = $manif->Applicant->sf_guard_user_id ? $manif->Applicant->User->email_address : $manif->Applicant->email;
         }
         
         // alarms
