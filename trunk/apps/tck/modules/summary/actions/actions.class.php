@@ -77,7 +77,7 @@ class summaryActions extends autoSummaryActions
     Doctrine::getTable('Ticket')->createQuery('tck')
       ->delete()
       ->andWhere('tck.transaction_id = ?',$request->getParameter('id'))
-      ->andWhere('tck.printed = false AND tck.integrated = false')
+      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
       ->andWhere('tck.transaction_id NOT IN (SELECT o.transaction_id FROM Order o)')
       ->execute();
       
@@ -103,12 +103,12 @@ class summaryActions extends autoSummaryActions
 
     switch ( $this->type ) {
     case 'asks':
-      $q->andWhere('tck.printed = FALSE')
+      $q->andWhere('tck.printed_at IS NULL')
         ->andWhere('tck.duplicating IS NULL');
       break;
     case 'duplicatas':
       $q->andWhere('tck.id IN (SELECT tck2.duplicating FROM Ticket tck2)')
-        ->andWhere('tck.printed = TRUE OR tck.integrated = TRUE');
+        ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL');
       break;
     case 'debts':
       // debts
@@ -117,7 +117,7 @@ class summaryActions extends autoSummaryActions
         ->from('Transaction t')
         ->addComponent('t','Transaction')
         //->andWhere("(SELECT CASE WHEN SUM(tt.value) IS NULL THEN 0 ELSE SUM(tt.value) END FROM Ticket tt WHERE transaction_id = t.id AND (tt.printed OR tt.cancelling IS NOT NULL) AND tt.duplicating IS NULL) != (CASE WHEN (SELECT SUM(pp.value) FROM Payment pp WHERE pp.transaction_id = t.id) IS NULL THEN 0 ELSE (SELECT SUM(pp.value) FROM Payment pp WHERE pp.transaction_id = t.id) END)");
-        ->andWhere("(SELECT CASE WHEN SUM(tt.value) IS NULL THEN 0 ELSE SUM(tt.value) END FROM Ticket tt WHERE transaction_id = t.id AND (tt.printed OR tt.cancelling IS NOT NULL OR tt.integrated) AND tt.duplicating IS NULL) != (SELECT CASE WHEN SUM(pp.value) IS NULL THEN 0 ELSE SUM(pp.value) END FROM Payment pp WHERE pp.transaction_id = t.id)");
+        ->andWhere("(SELECT CASE WHEN SUM(tt.value) IS NULL THEN 0 ELSE SUM(tt.value) END FROM Ticket tt WHERE transaction_id = t.id AND (tt.printed_at IS NOT NULL OR tt.cancelling IS NOT NULL OR tt.integrated_at IS NOT NULL) AND tt.duplicating IS NULL) != (SELECT CASE WHEN SUM(pp.value) IS NULL THEN 0 ELSE SUM(pp.value) END FROM Payment pp WHERE pp.transaction_id = t.id)");
       $ids = $rq->execute(array(),Doctrine::HYDRATE_NONE);
       foreach ( $ids as $key => $id )
         $ids[$key] = $id[0];
