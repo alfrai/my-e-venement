@@ -9,7 +9,7 @@
     <?php use_javascript('jquery.datepicker-fr.js') ?>
     
     <?php $module_name = $sf_context->getModuleName() ?>
-    <?php $sf_response->setTitle('e-venement, '.($sf_user->isAuthenticated() ? __(strtoupper(substr($module_name,0,1)).substr($module_name,1)) : __('The free ticketting system',null,'menu'))) ?>
+    <?php $sf_response->setTitle('e-venement, '.($sf_user->isAuthenticated() ? __(ucwords($module_name)) : __('The free ticketting system',null,'menu'))) ?>
     <?php include_http_metas() ?>
     <?php include_metas() ?>
     <?php include_title() ?>
