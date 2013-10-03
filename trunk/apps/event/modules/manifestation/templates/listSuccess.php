@@ -65,6 +65,13 @@
     if ( $manif->color_id )
       $manifs[count($manifs)-1]['backgroundColor'] = '#'.$manif->Color->color;
     
+    // to show preparation and finition stuff or not to show
+    $options = sfConfig::get('app_manifestation_reservations', array());
+    if ( !isset($options['enable']) || isset($options['enable']) && !$options['enable'] )
+      continue;
+    if ( isset($options['shown_in_calendar']) && !$options['shown_in_calendar'] )
+      continue;
+    
     $css = array( 'opacity'       => !$manif->reservation_optional || $manif->reservation_confirmed  ? '0.7' : '0.5', );
     // preparation
     if ( $manif->reservation_begins_at < $manif->happens_at )

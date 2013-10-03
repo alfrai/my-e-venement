@@ -23,7 +23,9 @@ all:
     depends_on_limit: 10
     #defaults:
     #  reservation_confirmed: false
-    #reservations_enabled: false
+    reservations:
+      enabled: true
+      #shown_in_calendar: false
     #extra_informations_enabled: false
   synchronization:
     period:
