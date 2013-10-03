@@ -7,6 +7,9 @@
     $('.sf_admin_form input[name="manifestation[booking_list][]"]').change(function(){
       if ( $(this).is(':checked') )
         li_manifestation_check_resource(this);
+      else
+        $(this).parent().removeClass('ui-state-error')
+          .find('.error.conflict').remove();
     }).change();
     
     // for every change in reservation dates or in blocking state
@@ -59,7 +62,10 @@
         $(elt).parent().addClass('ui-state-error').addClass('ui-corner-all');
       }
       else
-        $(elt).parent().removeClass('ui-state-error');
+      {
+        $(elt).parent().removeClass('ui-state-error')
+          .find('.error.conflict').remove();
+      }
     }, 'json');
   }
 --></script>
