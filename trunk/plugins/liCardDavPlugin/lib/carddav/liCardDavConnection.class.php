@@ -192,7 +192,7 @@
       }
       catch (Exception $e)
       {
-        throw new liCardDavException($e->getMessage(), 'Generating a new vCard UID was impossible. See details: '.$e);
+        throw new liCardDavException('Generating a new vCard UID was impossible. See details: '.$e->getMessage());
       }
     }
     

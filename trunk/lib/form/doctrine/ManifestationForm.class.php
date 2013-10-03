@@ -56,7 +56,7 @@ class ManifestationForm extends BaseManifestationForm
     foreach ( array('reservation_begins_at', 'reservation_ends_at',) as $fieldName )
       $this->validatorSchema[$fieldName]->setOption('required', false);
     $this->widgetSchema['booking_list']->setOption('expanded', true)
-      ->setOption('order_by', array('place DESC, name',''));
+      ->setOption('order_by', array('place, name',''));
     
     // extra informations
     if ( !$this->object->isNew() && sfConfig::get('app_manifestation_extra_informations_enabled',true) )

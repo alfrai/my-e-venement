@@ -76,6 +76,57 @@ abstract class PluginAddressable extends BaseAddressable
  *  * fn:
  *
  */
+  /**
+   * sets the current Addressable object's properties with a given vCard
+   * @param bool $pro defines whether or not the address and the email have to be pro or personal...
+   * @return PluginAddressable $this
+   **/
+  public function setVcard($vcard, $pro = false)
+  {
+    if (!( $vcard instanceof liVCard ))
+      $vcard = new liVCard($vcard);
+    
+    $this->name = $vcard['n']['LastName'];
+    
+    // getting back the first private address
+    $tmp_adrs = array();
+    $adrs = !isset($vcard['adr'][0]) ? array($vcard['adr']) : $vcard['adr'];
+    foreach ( $adrs as $adr )
+    if (!isset($adr['Type']) || isset($adr['Type']) && in_array($pro ? 'work' : 'home', $adr['Type']) )
+      $tmp_adrs[] = $adr['Value'];
+    if ( isset($tmp_adrs[0]) )
+    {
+      $adr = $tmp_adrs[0];
+      $this->address    = liVCard::vcfNLToRealNL($adr['StreetAddress']);
+      $this->city       = $adr['Locality'];
+      $this->postalcode = $adr['PostalCode'];
+      $this->country    = $adr['Country'];
+    }
+    
+    // getting back the first private email
+    $tmp_emails = array();
+    $emails = !isset($vcard['email'][0]) ? array($vcard['email']) : $vcard['email'];
+    foreach ( $emails as $email )
+    if (!isset($email['Type']) || isset($email['Type']) && in_array('pref', $email['Type']) )
+      $tmp_emails[] = $email['Value'];
+    foreach ( $tmp_emails as $email )
+    if ( trim($email) )
+    {
+      $this->email = trim($email);
+      break;
+    }
+    
+    // updated_at
+    $this->updated_at = $vCard['rev'];
+    
+    return $this;
+  }
+  
+  /**
+   * get the current Addressable object as a vCard
+   * @param bool $pro defines whether or not the address and the email are pro...
+   * @return liVCard
+   **/
   public function getVcard($pro = false)
   {
     $vCard = new liVCard;

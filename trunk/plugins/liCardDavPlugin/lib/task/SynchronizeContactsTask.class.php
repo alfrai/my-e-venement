@@ -80,6 +80,8 @@ EOF;
    **/
   protected function dav2e(liCardDavConnection $con, array $options)
   {
+    $vcard = $con->getVCard('0A7B56A4-376BC2A4-A2D7475A');
+    print_r($vcard);
   }
 
   /**

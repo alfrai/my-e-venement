@@ -77,6 +77,24 @@ class Contact extends PluginContact
     return $c;
   }
   
+  /**
+   * @see PluginContact::getVcard()
+   **/
+  public function getVcard($dummy = NULL)
+  {
+    return parent::getVcard();
+  }
+  
+  /**
+   * @see PluginContact::setVcard()
+   **/
+  public function setVcard($vcard, $dummy = NULL)
+  {
+    if (!( $vcard instanceof liVCard ))
+      $vcard = new liVCard(NULL, $vcard);
+    return parent::setVcard($vcard);
+  }
+  
   public function getGroupsPicto()
   {
     $str = '';

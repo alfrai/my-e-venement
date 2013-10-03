@@ -34,6 +34,6 @@
   else
   {
     if ( $sf_user->hasCredential('pr-contact-csv') )
-      echo link_to(__('vCard'), $sf_context->getModuleName().'/vcf?id='.$object->id);
+      echo link_to(__('vCard'), $sf_context->getModuleName().'/vcf?id='.$object->id, array('target' => '_blank'));
   }
 ?>

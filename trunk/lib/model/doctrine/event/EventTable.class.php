@@ -48,7 +48,7 @@ class EventTable extends PluginEventTable
     {
       $sf_user = sfContext::getInstance()->getUser();
       $cid = $sf_user->getContactId();
-      $admin = $sf_user->hasCredential('event-reservation-admin');
+      $admin = $sf_user->hasCredential('event-access-all');
     } }
     catch ( liOnlineSaleException $e )
     { }

@@ -61,7 +61,7 @@ abstract class PluginContact extends BaseContact
   }
   
 /**
- * function getVCard()
+ * functions getVcard() setVcard()
  * generates a vCard from Contact $this
  * It is optimized for the Zimbra data structure but fits to the vCard standard.
  *
@@ -73,7 +73,6 @@ abstract class PluginContact extends BaseContact
  *  * adr:;;;Locality / Contact::address
  *  * adr:;;;;;PostalCode / Contact::postalcode
  *  * adr:;;;;;;Country / Contact::country
- *  * tel: / Contact::Phonenumbers -- with smart/random updates from CardDAV to e-venement
  *  * email: / Contact::email -- with smart/random updates from CardDAV to e-venement (under the condition that orders have not changed or changes are understandable)
  *  * rev: / Contact::updated_at
  *  * note: / Contact::description
@@ -84,8 +83,47 @@ abstract class PluginContact extends BaseContact
  *  * adr:;;;;Region
  *  * adr:TYPE=WORK
  *  * fn:
+ *  * tel: / Contact::Phonenumbers -- with smart/random updates from CardDAV to e-venement
  *
  */
+  
+  /**
+   * function setVcard
+   * @param $vcard liVCard
+   * @return PluginContact $this
+   **/
+  public function setVcard($vcard, $dummy = NULL)
+  {
+    if (!( $vcard instanceof liVCard ))
+      $vcard = new liVCard($vcard);
+    
+    parent::setVcard($vcard);
+    
+    // reset name to add firstname
+    $this->firstname = $vcard['n']['FirstName'];
+    $this->title = $vcard['n']['Prefixes'];
+    
+    // HAZARDOUS TREATMENT !!
+    /*
+    // add pro emails
+    foreach ( $this->Professionals as $pro )
+    {
+      if ( trim($pro->contact_email) )
+      $vCard['email'] = array(
+        'Value' => $pro->contact_email,
+        'Type'  => array('work','internet'),
+      );
+      if ( trim($pro->Organism->url) )
+      $vCard['url'] = $pro->Organism->url;
+    }
+    */
+    
+    // description
+    $this->description = $vcard['note'];
+    
+    return $this;
+  }
+
   /**
    * function getVcard()
    * @return liVCard matching $this
@@ -98,7 +136,7 @@ abstract class PluginContact extends BaseContact
     unset($vCard['n']);
     $vCard['n']  = array(
       'LastName'  => $this->name,
-      'FirstName'  => $this->firstname,
+      'FirstName' => $this->firstname,
       'Prefixes'  => $this->title,
     );
     

@@ -183,7 +183,11 @@ class manifestationActions extends autoManifestationActions
       $q = EventFormFilter::addCredentialsQueryPart(
         Doctrine::getTable('Manifestation')->createQueryByEventId($this->event_id)
         ->select('*, g.*, l.*, tck.*, m.happens_at > NOW() AS after, (CASE WHEN happens_at < NOW() THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
-        ->andWhere('m.reservation_confirmed = TRUE OR m.contact_id = ?', $this->getUser()->getContactId())
+        ->andWhere('m.reservation_confirmed = TRUE OR m.contact_id = ? OR ?', array(
+          $this->getUser()->getContactId(),
+          $this->getUser()->hasCredential(array(
+            'event-access-all',
+          ), false)))
         //->leftJoin('m.Tickets tck')
         ->orderBy('after DESC, before')
     ));
