@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Summary</source>
+        <target>Résumé</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Ledger</source>
+        <target>Journal</target>
+      </trans-unit> 
+      <trans-unit>
         <source>It is forbidden to integrate foreign sales on an unconfirmed manifestation</source>
         <target>Il est interdit d'intégrer des ventes de partenaires sur une manifestation non confirmée</target>
       </trans-unit> 
