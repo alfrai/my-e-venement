@@ -8,7 +8,7 @@
     <?php include_partial('actions') ?>
     <div id="fullcalendar">
       <?php include_partial('show_calendar',array('urls' => array(
-        url_for('manifestation/list'),
+        url_for('manifestation/list'.($only_pending ? '?only_pending=true' : '')),
       ))) ?>
     </div>
   </div>

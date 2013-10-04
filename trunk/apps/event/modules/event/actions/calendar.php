@@ -23,8 +23,10 @@
 ?>
 <?php
     sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
+    $only_pending = $request->hasParameter('only_pending');
     
-    $q = $this->buildQuery();
+    $q = $this->buildQuery()
+      ->andWhere('reservation_confirmed = ?', $only_pending);
     if ( $request->getParameter('id',false) )
       $q->andWhere('e.id = ?', $request->getParameter('id'));
     
@@ -68,7 +70,7 @@
       ->fetchArray();
     
     // settings
-    $alarms = sfConfig::get('app_synchronization_alarms', array('when' => array('-1 hour'), 'what' => array('display')));
+    $alarms = sfConfig::get('app_synchronization'.($only_pending ? 'pending_alarms' : 'alarms'), array('when' => array('-1 hour'), 'what' => array('display')));
     if ( !isset($alarms['when']) )
       $alarms['when'] = array('-1 hour');
     if ( !is_array($alarms['when']) )
