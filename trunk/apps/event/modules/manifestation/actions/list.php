@@ -25,7 +25,7 @@
     $this->location_id    = $request->getParameter('location_id');
     $this->event_id       = $request->getParameter('event_id');
     $this->only_blocking  = $request->hasParameter('only_blocking');
-    $this->only_pending  = $request->hasParameter('only_pending');
+    $this->only_pending   = $request->hasParameter('only_pending');
     
     $from = date('Y-m-d H:i', $request->getParameter('start',$time = time()));
     $to = date('Y-m-d H:i', $request->getParameter('end',strtotime('+ 1 month', $time)));
@@ -69,7 +69,32 @@
     if ( $no_ids )
       $q->andWhereNotIn('m.id',$no_ids);
     
+    // security filtering
     EventFormFilter::addCredentialsQueryPart($q);
+    
+    // event filters
+    $data = $this->getUser()->getAttribute('event.filters', array(), 'admin_module');
+    if ( $data )
+    {
+      $filters = new EventFormFilter;
+      $data[$filters->getCSRFFieldName()] = $filters->getCSRFToken();
+      $filters->bind($data);
+      if ( $filters->isValid() )
+      {
+        $query = $filters->getQuery($data);
+        $a = $query->getRootAlias();
+        $query->leftJoin("$a.Manifestations m");
+        $manifs = array();
+        foreach ( $query->select("$a.id, m.id, m.event_id")->andWhere('m.id IS NOT NULL')->execute() as $event )
+        foreach ( $event->Manifestations as $manif )
+          $manifs[] = $manif->id;
+        
+        // add filters into the "mother" query;
+        $q->andWhereIn('m.id',$manifs);
+      }
+      else error_log('Cannot apply event filters to calendar ('.$filters->getErrorSchema().').');
+    }
+    
     $this->manifestations = $q->execute();
     $this->forward404Unless($this->manifestations);
     

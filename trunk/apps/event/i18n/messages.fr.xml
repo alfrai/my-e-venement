@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You have requested the version %%v%% that does not exist</source>
+        <target>Vous avez demandé la version %%v%% qui n'existe pas</target>
+      </trans-unit>
+      <trans-unit>
         <source>Pending</source>
         <target>En attente</target>
       </trans-unit>
@@ -543,6 +547,10 @@
       <trans-unit>
         <source>Memo</source>
         <target>Mémo</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Current memo</source>
+        <target>Mémo actuel</target>
       </trans-unit>
       <trans-unit>
         <source>Unbalanced</source>

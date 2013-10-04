@@ -281,6 +281,29 @@ class manifestationActions extends autoManifestationActions
     //$this->form->spectators = $this->getSpectators();
     $this->form->unbalanced = $this->getUnbalancedTransactions();
   }
+  public function executeVersions(sfWebRequest $request)
+  {
+    $this->executeShow($request);
+    
+    if ( !($v = $request->getParameter('version',false)) )
+      $v = $this->manifestation->version - 1;
+    
+    if ( intval($v).'' == ''.$v )
+    foreach ( $this->manifestation->Version as $version )
+    if ( $version->version == $v )
+    {
+      $this->manifestation->current_version = $version;
+      break;
+    }
+    
+    if ( !$this->manifestation->current_version )
+    {
+      sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+      $this->getUser()->setFlash('error', __('You have requested the version %%v%% that does not exist', array('%%v%%' => $v)));
+      $this->redirect('manifestation/show?id='.$this->manifestation->id);
+    }
+  }
+  
   public function executeShowSpectators(sfWebRequest $request)
   {
     $this->securityAccessFiltering($request, false);

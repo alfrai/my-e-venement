@@ -13,6 +13,10 @@
         <target>Vous ne pouvez modifier cet objet, faute d'accréditation requise.</target>
       </trans-unit>
       <trans-unit>
+        <source>Current</source>
+        <target>Actuel</target>
+      </trans-unit>
+      <trans-unit>
         <source>Confirm</source>
         <target>Confirmer</target>
       </trans-unit>
