@@ -88,7 +88,9 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     parent::postSave($event);
     
     if ( sfContext::hasInstance() )
-    if ( $this->reservation_confirmed && !sfContext::getInstance()->getUser()->hasCredential(self::$credentials['reservation_confirmed']) )
+    if ( $this->reservation_confirmed
+      && !sfContext::getInstance()->getUser()->hasCredential(self::$credentials['reservation_confirmed'])
+      && sfContext::getInstance()->getUser()->getContactId() !== $this->contact_id )
     {
       $this->reservation_confirmed = false;
       $notice1 = __('You do not have the credential to confirm any manifestation.');
@@ -104,7 +106,8 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
         sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
         
         // no credential to tolerate conflicts
-        if ( sfContext::hasInstance() && !sfContext::getInstance()->getUser()->hasCredential(self::$credentials['authorize_conflicts']) )
+        if ( sfContext::hasInstance()
+          && !sfContext::getInstance()->getUser()->hasCredential(self::$credentials['authorize_conflicts']) )
         {
           $this->reservation_confirmed = false;
           $this->save();

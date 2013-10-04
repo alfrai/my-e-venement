@@ -137,6 +137,10 @@
         <target>Début de résa.</target>
       </trans-unit>
       <trans-unit>
+        <source>Booked dates</source>
+        <target>Dates de résa.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Booked by</source>
         <target>Réservé par</target>
       </trans-unit>

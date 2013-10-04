@@ -38,6 +38,12 @@ class pendingActions extends autoPendingActions
       $this->getUser()->setFlash('error', __('Error confirming the manifestation'));
     }
   }
+  
+  public function executeCalendar(sfWebRequest $request)
+  {
+    $this->redirect('calendar/index?only_pending=true');
+  }
+  
   public function executeEdit(sfWebRequest $request)
   {
     $this->redirect('manifestation/edit?id='.$request->getParameter('id'));

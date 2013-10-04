@@ -14,10 +14,9 @@ generator:
     config:
       actions: ~
       fields:
-        mini_date         : { label: Happens at, type: date }
+        list_date         : { label: Happens at, type: date }
         list_meta_event   : { label: Meta event }
-        list_booked_until : { label: Booked until, type: date }
-        list_booked_from  : { label: Booked from, type: date }
+        list_booked_from_until: { label: Booked dates, type: date }
         list_location     : { label: Location }
         list_event        : { label: Event }
         list_resources    : { label: Be careful on }
@@ -30,10 +29,12 @@ generator:
         list_conflict     : { label: Conflicts, type: boolean }
       list:
         title: List of pending bookings
-        display: [=mini_date, _list_booked_by, _list_booked_from, _list_booked_until, _list_event, _list_location, _list_meta_event, _list_workspaces, _list_resources, _list_conflict, _list_blocking, _list_optional]
+        display: [_list_date, _list_booked_by, _list_booked_from_until, _list_event, _list_location, _list_meta_event, _list_workspaces, _list_resources, _list_conflict, _list_blocking, _list_optional]
         table_method: retrievePending
         sort: [happens_at, '']
-        actions: []
+        actions:
+          _calendar:
+            action: calendar
         batch_actions:
           _confirm: ~
         object_actions:
