@@ -117,10 +117,12 @@ class manifestationActions extends autoManifestationActions
       $this->form->setDefault('booking_list', $list);
     
     // displaying or not the confirmed field, depending on user's credentials
+    /*
     if ( !$this->getUser()->hasCredential('event-reservation-confirm') )
       $this->form->setWidget('reservation_confirmed', new sfWidgetFormInputHidden);
     else
       $this->form->setDefault('reservation_confirmed', true);
+    */
   }
   
   public function executeIndex(sfWebRequest $request)
@@ -240,7 +242,7 @@ class manifestationActions extends autoManifestationActions
     
     if ( $deep )
     if ( $manifestation->contact_id !== $sf_user->getContactId() && !$sf_user->hasCredential('event-access-all')
-      || $manifestation->reservation_confirmed && !$sf_user->hasCredential('event-manif-edit-confirmed') )
+      || $manifestation->reservation_confirmed && !$sf_user->hasCredential('event-manif-edit-confirmed') && $manifestation->contact_id !== $sf_user->getContactId() )
     {
       $this->getUser()->setFlash('error',"You cannot edit this object, you do not have the required credentials.");
       $this->redirect('manifestation/show?id='.$manifestation->id);
@@ -265,9 +267,12 @@ class manifestationActions extends autoManifestationActions
     $this->securityAccessFiltering($request);
     parent::executeEdit($request);
     
+    /* done in the form directly
     // displaying or not the confirmed field, depending on user's credentials
-    if ( !$this->getUser()->hasCredential('event-reservation-confirm') )
+    if ( !$this->getUser()->hasCredential('event-reservation-confirm')
+      && $this->getUser()->getContactId() !== $this->manifestation->contact_id )
       $this->form->setWidget('reservation_confirmed', new sfWidgetFormInputHidden);
+    */
     
     //$this->form->prices = $this->getPrices();
     //$this->form->spectators = $this->getSpectators();

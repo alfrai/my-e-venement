@@ -44,11 +44,16 @@ class ManifestationForm extends BaseManifestationForm
     
     // misc permissions for single fields (but particularly on reservation stuff)
     if ( sfContext::hasInstance() )
-    foreach ( Manifestation::getCredentials() as $fieldName => $credential )
     {
+      $credentials = Manifestation::getCredentials();
       $sf_user = sfContext::getInstance()->getUser();
-      if ( !$sf_user->hasCredential($credential) && isset($this->widgetSchema[$fieldName]) )
-        $this->widgetSchema[$fieldName] = new sfWidgetFormInputHidden;
+      
+      if ( !$sf_user->hasCredential($credentials['contact_id']) )
+        $this->widgetSchema['contact_id'] = new sfWidgetFormInputHidden;
+      
+      if ( !$sf_user->hasCredential($credentials['reservation_confirmed'])
+        && $sf_user->getContactId() !== $this->object->contact_id )
+        $this->widgetSchema['reservation_confirmed'] = new sfWidgetFormInputHidden;
     }
     
     // reservation
