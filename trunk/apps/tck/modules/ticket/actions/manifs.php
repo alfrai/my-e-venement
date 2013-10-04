@@ -64,6 +64,7 @@
       // prices to be shown for each manifestations
       $q = Doctrine::getTable('Manifestation')->createQuery('m')
         ->leftJoin('m.Color color')
+        ->andWhere('g.id IS NOT NULL')
         ->andWhereNotIn('m.id',$mids)
         ->select('m.*, e.*, color.*, l.*, pm.*, p.*, g.*, me.*, w.*, pu.*, wu.*, meu.*')
         ->orderBy('happens_at ASC')
@@ -86,6 +87,7 @@
       $q = Doctrine::getTable('Manifestation')
         ->createQuery('m')
         ->leftJoin('m.Color color')
+        ->andWhere('g.id IS NOT NULL')
         ->andWhereNotIn('m.id',$mids)
         ->andWhere('m.reservation_confirmed = TRUE')
         ->andWhere('e.display_by_default = TRUE')
