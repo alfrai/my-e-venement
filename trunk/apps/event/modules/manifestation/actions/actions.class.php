@@ -115,14 +115,6 @@ class manifestationActions extends autoManifestationActions
     if ( ($list = $request->getParameter('booking_list', $this->getUser()->getFlash('booking_list',array())))
       && is_array($list) )
       $this->form->setDefault('booking_list', $list);
-    
-    // displaying or not the confirmed field, depending on user's credentials
-    /*
-    if ( !$this->getUser()->hasCredential('event-reservation-confirm') )
-      $this->form->setWidget('reservation_confirmed', new sfWidgetFormInputHidden);
-    else
-      $this->form->setDefault('reservation_confirmed', true);
-    */
   }
   
   public function executeIndex(sfWebRequest $request)
@@ -266,13 +258,6 @@ class manifestationActions extends autoManifestationActions
   {
     $this->securityAccessFiltering($request);
     parent::executeEdit($request);
-    
-    /* done in the form directly
-    // displaying or not the confirmed field, depending on user's credentials
-    if ( !$this->getUser()->hasCredential('event-reservation-confirm')
-      && $this->getUser()->getContactId() !== $this->manifestation->contact_id )
-      $this->form->setWidget('reservation_confirmed', new sfWidgetFormInputHidden);
-    */
     
     //$this->form->prices = $this->getPrices();
     //$this->form->spectators = $this->getSpectators();
