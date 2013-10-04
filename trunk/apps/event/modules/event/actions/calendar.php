@@ -64,7 +64,7 @@
     ));
     
     $updated = Doctrine_Query::create()->copy($q)
-      ->select('max(updated_at) AS last_updated_at')
+      ->select('max(m.updated_at) AS last_updated_at')
       ->fetchArray();
     
     // settings
