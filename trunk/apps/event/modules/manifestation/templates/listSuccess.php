@@ -47,13 +47,19 @@
         $raw_manif->duration = strtotime($raw_manif->reservation_ends_at) - strtotime($raw_manif->happens_at);
     }
     
+    // the used resources
+    $resources = array('resource-'.$manif->location_id);
+    foreach ( $manif->Booking as $resource )
+    if ( $resource->place )
+      $resources[] = 'resource-'.$resource->id;
+    
     // the manif itself
     $manifs[] = array(
       'id' => $manif->id,
       'title' => !isset($event_id) ? (string)$manif->Event : (string)$manif->Location,
       'start' => $manif->happens_at,
       'end' => $manif->ends_at,
-      'resource' => 'resource-'.$manif->location_id,
+      'resource' => $resources,
       'allDay' => false,
       'hackurl' => url_for('manifestation/show?id='.$manif->id),
       'editable' => $sf_user->hasCredential('event-manif-edit'),
