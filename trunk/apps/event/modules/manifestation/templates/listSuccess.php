@@ -38,7 +38,9 @@
     // case of big manifestations shown exceptionnally because of their size
     if ( $month_view && $manif->Event->MetaEvent->hide_in_month_calendars )
     {
-      $raw_manif = $manif->getRawValue();
+      $raw_manif = ( $manif instanceof sfOutputEscaperObjectDecorator )
+        ? $manif->getRawValue()
+        : $manif;
       if ( $raw_manif->reservation_begins_at < $raw_manif->happens_at )
         $raw_manif->happens_at = $raw_manif->reservation_begins_at;
       if ( $raw_manif->reservation_ends_at > $raw_manif->ends_at )
@@ -51,6 +53,7 @@
       'title' => !isset($event_id) ? (string)$manif->Event : (string)$manif->Location,
       'start' => $manif->happens_at,
       'end' => $manif->ends_at,
+      'resource' => 'resource-'.$manif->location_id,
       'allDay' => false,
       'hackurl' => url_for('manifestation/show?id='.$manif->id),
       'editable' => $sf_user->hasCredential('event-manif-edit'),
@@ -59,17 +62,14 @@
           'font-style'    => $manif->blocking ? 'normal' : 'italic',
         ), array(
           'opacity'       => !$manif->reservation_optional || $manif->reservation_confirmed  ? '1' : '0.7',
-        ))
-      );
+      )),
+    );
     
     if ( $manif->color_id )
       $manifs[count($manifs)-1]['backgroundColor'] = '#'.$manif->Color->color;
     
     // to show preparation and finition stuff or not to show
-    $options = sfConfig::get('app_manifestation_reservations', array());
-    if ( !isset($options['enable']) || isset($options['enable']) && !$options['enable'] )
-      continue;
-    if ( isset($options['shown_in_calendar']) && !$options['shown_in_calendar'] )
+    if ( !$display_reservations )
       continue;
     
     $css = array( 'opacity'       => !$manif->reservation_optional || $manif->reservation_confirmed  ? '0.7' : '0.5', );
@@ -80,6 +80,7 @@
       $manifs[count($manifs)-1]['id'] = $manif->id.'-before';
       $manifs[count($manifs)-1]['start'] = $manif->reservation_begins_at;
       $manifs[count($manifs)-1]['end'] = $manif->happens_at;
+      $manifs[count($manifs)-1]['resource'] = 'resource-'.$manif->location_id;
       $manifs[count($manifs)-1]['editable'] = false;
       $manifs[count($manifs)-1]['css'] = array_merge($css_around, $css_base, $css, array(
         'border-bottom-left-radius' => '0',
@@ -98,6 +99,7 @@
       $manifs[count($manifs)-1]['id'] = $manif->id.'-after';
       $manifs[count($manifs)-1]['start'] = $manif->ends_at;
       $manifs[count($manifs)-1]['end'] = $manif->reservation_ends_at;
+      $manifs[count($manifs)-1]['resource'] = 'resource-'.$manif->location_id;
       $manifs[count($manifs)-1]['editable'] = false;
       $manifs[count($manifs)-1]['css'] = array_merge($css_around, $css_base, $css, array(
         'border-top-left-radius' => '0',

@@ -10,3 +10,4 @@ iframe {
 h1 { font-size: 22px; }
 
 #fullcalendar { margin-top: 10px; }
+#fullcalendar .fc-view-resourceDay { overflow-x: auto; }

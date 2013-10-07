@@ -155,7 +155,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
       return $this->duration;
     
     $hours = floor($this->duration/3600);
-    $minutes = floor($this->duration%3600/60) > 9 ? floor($this->duration%3600/60) : '0'.floor($this->duration%3600/60);
+    $minutes = str_pad(floor($this->duration%3600/60), 2, '0', STR_PAD_LEFT);
     return $hours.':'.$minutes;
   }
   

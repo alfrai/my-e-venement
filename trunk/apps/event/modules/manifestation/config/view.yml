@@ -25,6 +25,10 @@ listSuccess:
   has_layout: false
   http_metas:
     content-type: application/json
+listFbLocationSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
 csvSuccess:
   has_layout: false
   http_metas:

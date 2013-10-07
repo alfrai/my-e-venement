@@ -13,6 +13,7 @@
 class Manifestation extends PluginManifestation
 {
   var $conflict = NULL;
+  public $current_version = NULL;
   
   public function getName()
   {
@@ -52,6 +53,11 @@ class Manifestation extends PluginManifestation
   public function getEndsAt()
   {
     return date('Y-m-d H:i:s',strtotime($this->happens_at)+$this->duration);
+  }
+  public function setEndsAt($ends_at)
+  {
+    $this->duration = strtotime($ends_at) - strtotime($this->happens_at);
+    return $this;
   }
   public function __toString()
   {

@@ -48,14 +48,23 @@ $(document).ready(function(){
       today:    "aujourd'hui",
       month:    'mois',
       week:     'semaine',
-      day:      'jour'
+      day:      'jour',
+      resourceWeek: 'sem./lieu',
+      resourceDay:  'jour/lieu',
     },
     titleFormat: { month: 'MMMM yyyy', week: "d[ MMM][ yyyy]{ - d MMM yyyy}", day: 'dddd d MMM yyyy' },
     columnFormat: { week: 'ddd d/M', day: 'dddd d/M' },
     timeFormat: 'H(:mm)',
     allDayText: '<?php echo __('All day long') ?>',
     allDayDefault: false,
-    header: { left: 'today prev,next', center: 'title', right: 'month,agendaWeek,agendaDay' },
+    header: { left: 'today prev,next', center: 'title', right: 'month,agendaWeek,resourceWeek,agendaDay,resourceDay' },
+    
+    <?php $resources = Doctrine::getTable('Location')->createQuery('l')->andWhere('l.place = TRUE')->orderBy('l.name')->execute() ?>
+    resources: [
+      <?php foreach ( $resources as $res ): ?>
+      { name: '<?php echo $res ?>', id: 'resource-<?php echo $res->id ?>', readonly: true },
+      <?php endforeach ?>
+    ],
     
     eventTextColor: 'black',
     eventBackgroundColor: 'white',
@@ -107,7 +116,11 @@ $(document).ready(function(){
       $.each(event.css, function(index, value){
         $(element).css(index, value);
       });
-    }
+    },
+  });
+  
+  $('#fullcalendar .fc-header .fc-button').click(function(){
+    $('#fullcalendar .fc-view').animate({scrollLeft: 0}, 150);
   });
 });
 --></script>

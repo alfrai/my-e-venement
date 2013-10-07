@@ -27,9 +27,9 @@
     $this->only_blocking  = $request->hasParameter('only_blocking');
     $this->only_pending   = $request->hasParameter('only_pending');
     
-    $from = date('Y-m-d H:i', $request->getParameter('start',$time = time()));
-    $to = date('Y-m-d H:i', $request->getParameter('end',strtotime('+ 1 month', $time)));
-    $this->month_view = strtotime($to) - strtotime($from) >= strtotime('+ 1 month',$time) - $time;
+    $this->from = date('Y-m-d H:i:00', $request->getParameter('start',$time = time()));
+    $this->to = date('Y-m-d H:i:00', $request->getParameter('end',strtotime('+ 1 month', $time)));
+    $this->month_view = strtotime($this->to) - strtotime($this->from) >= strtotime('+ 1 month',$time) - $time;
     
     $no_ids = $request->getParameter('no_ids',array());
     if ( !is_array($no_ids) ) $no_ids = array();
@@ -42,9 +42,9 @@
       ->select('m.*, l.*, c.*, e.*, g.*')
       ->leftJoin('m.Color c')
       ->andWhere('(TRUE')
-      ->andWhere("m.happens_at >= ? AND m.happens_at < ?", array($from, $to))
-      ->orWhere("$end > ? AND $end <= ?", array($from, $to))
-      ->orWhere("m.happens_at < ? AND $end > ?", array($from, $to))
+      ->andWhere("m.happens_at >= ? AND m.happens_at < ?", array($this->from, $this->to))
+      ->orWhere("$end > ? AND $end <= ?", array($this->from, $this->to))
+      ->orWhere("m.happens_at < ? AND $end > ?", array($this->from, $this->to))
       ->andWhere('TRUE)')
       ->orderBy('m.happens_at DESC');
     if ( $this->location_id )
@@ -95,8 +95,23 @@
       else error_log('Cannot apply event filters to calendar ('.$filters->getErrorSchema().').');
     }
     
+    // for the "global locations usage (free/busy)" display
+    if ( $request->hasParameter('fblocation') )
+    {
+      $q->orderBy('m.happens_at ASC') // very important !!
+        ->andWhere('m.reservation_confirmed = TRUE');
+      //$this->locations = Doctrine::getTable('Location')->createQuery('l')->andWhere('place = TRUE')->orderBy('name')->execute();
+      //$this->setTemplate('listFbLocation');
+    }
+    
     $this->manifestations = $q->execute();
     $this->forward404Unless($this->manifestations);
+    
+    // the configuration
+    $options = sfConfig::get('app_manifestation_reservations', array());
+    $this->display_reservations =
+         isset($options['enable']) && $options['enable']
+      && isset($options['shown_in_calendar']) && $options['shown_in_calendar'];
     
     $this->debug = false;
     if ( $request->hasParameter('debug') )
@@ -105,3 +120,5 @@
       $this->setLayout('layout');
       $this->debug = true;
     }
+    else
+      sfConfig::set('sf_escaping_strategy', false);
