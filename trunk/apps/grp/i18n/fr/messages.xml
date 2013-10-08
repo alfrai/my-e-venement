@@ -33,6 +33,10 @@
         <target>Remarquable</target>
       </trans-unit>
       <trans-unit>
+        <source>Print</source>
+        <target>Imprimer</target>
+      </trans-unit>
+      <trans-unit>
         <source>Contact name</source>
         <target>Nom de contact</target>
       </trans-unit>

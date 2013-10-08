@@ -29,7 +29,7 @@
           <li><a target="_blank" href="<?php echo $url ?>"><?php echo __('Archives',array(),'menu') ?></a></li>
           <?php endif ?>
           <li class="spaced"><a href="#" onclick="javascript: window.sidebar.addPanel(document.title,window.location,'');"><?php echo __('Bookmark',array(),'menu') ?></a></li>
-          <li><a href="#" onclick="javascript: print()"><?php echo __('Print',array(),'menu') ?></a></li>
+          <li><a href="#" onclick="javascript: if ( $('.sf_admin_action_print a').length > 0 ) $('.sf_admin_action_print a:first').click(); else print();"><?php echo __('Print',array(),'menu') ?></a></li>
           <li class="spaced"></li>
           <?php if ( $sf_user->isAuthenticated() ): ?>
           <li><a href="<?php echo cross_app_url_for('default','sf_guard_signout') ?>"><?php echo __('Logout',array(),'menu') ?></a></li>

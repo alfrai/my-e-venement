@@ -30,6 +30,10 @@ generator:
       form: ~
       edit:
         title: Entry %%name%%
-        actions: { _list: ~ }
+        actions:
+          _list: ~
+          _print:
+            action: print
+            label: Print
       new:
         actions: { _list: ~ }
