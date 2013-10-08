@@ -96,6 +96,7 @@ $(document).ready(function(){
     .append($('#sf_admin_filter .sf_admin_filter_field_meta_events_list'))
     .append($('#sf_admin_filter .sf_admin_filter_field_events_list'))
     .append($('#sf_admin_filter .sf_admin_filter_field_prices_list'))
+    .append($('#sf_admin_filter .sf_admin_filter_field_event_archives'))
     .append($('#sf_admin_filter .sf_admin_filter_field_tickets_amount_min'))
     .append($('#sf_admin_filter .sf_admin_filter_field_tickets_amount_max'));
   elt.find('h2').html('Evenementiel');

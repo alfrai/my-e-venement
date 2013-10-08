@@ -80,6 +80,15 @@ $(document).ready(function(){
     $(this).prop('title',$.trim($(this).html()));
   });
                   
+  // fixing thead & tfoot
+  var h = $(window).height()-250;
+  $('table.grp-entry').hide();
+  if ( $('#content').height() > h )
+    h = $('#content').height();
+  $('table.grp-entry').show();
+  $('table.grp-entry').tableScroll({
+    height: h - $('table.grp-entry thead').height() - $('table.grp-entry tfoot').height(),
+  });
 });
 
 function grp_mouse_move(event)

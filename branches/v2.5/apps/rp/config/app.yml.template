@@ -12,6 +12,7 @@ all:
     remove_ticketting: true
     #design: tdp
     #social_informations: true
+    #no_event_archives: false
   #controls:
   #  enable: true
   cards:

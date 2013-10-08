@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ticketting archives</source>
+        <target>Archives billetterie</target>
+      </trans-unit>
+      <trans-unit>
         <source>Remove through filters</source>
         <target>Retirer via les filtres</target>
       </trans-unit>
