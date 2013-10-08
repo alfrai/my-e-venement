@@ -89,6 +89,18 @@ $(document).ready(function(){
   $('table.grp-entry').tableScroll({
     height: h - $('table.grp-entry thead').height() - $('table.grp-entry tfoot').height(),
   });
+  
+  // using the print button ... to print
+  $('.sf_admin_action_print a')
+    .prepend('<span class="ui-icon ui-icon-print"></span>')
+    .click(function(){
+      var height = $('.tablescroll_wrapper').css('height');
+      $('.tablescroll_wrapper').css('height','auto');
+      $('#transition .close').click();
+      print();
+      $('.tablescroll_wrapper').css('height',height);
+      return false;
+    });
 });
 
 function grp_mouse_move(event)
