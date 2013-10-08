@@ -156,6 +156,12 @@ class ContactFormFilter extends BaseContactFormFilter
       'multiple' => true,
     ));
     
+    $this->widgetSchema   ['event_archives'] = new sfWidgetFormChoice($opt = array(
+      'choices' => $choices = $this->getEventArchivesChoices(),
+      'multiple' => true,
+    ));
+    $this->validatorSchema['event_archives'] = new sfValidatorChoice($opt);
+    
     $this->widgetSchema   ['tickets_amount_min'] = new sfWidgetFormInput();
     $this->validatorSchema['tickets_amount_min'] = new sfValidatorInteger(array(
       'required' => false,
@@ -256,6 +262,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['events_list']          = 'EventsList';
     $fields['event_categories_list']= 'EventCategoriesList';
     $fields['meta_events_list']     = 'MetaEventsList';
+    $fields['event_archives']       = 'EventArchives';
     $fields['prices_list']          = 'PricesList';
     $fields['member_cards']         = 'MemberCards';
     $fields['member_cards_expire_at'] = 'MemberCardsExpireAt';
@@ -411,6 +418,21 @@ class ContactFormFilter extends BaseContactFormFilter
       $query->leftJoin('tck.Price price');
       
       $query->andWhereIn('price.id',$value);
+    }
+    
+    return $q;
+  }
+
+  public function addEventArchivesColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+    {
+      if ( !$q->contains("LEFT JOIN $a.EventArchives ea") )
+      $q->leftJoin("$a.EventArchives ea");
+      
+      $q->andWhereIn('ea.name',$value);
     }
     
     return $q;
@@ -739,5 +761,19 @@ class ContactFormFilter extends BaseContactFormFilter
     $q->select("$a.*, p.*, o.*, pn.*, y.*, pt.*, oph.*, gc.*, gp.*, go.*");
     
     return $q;
+  }
+  
+  protected function getEventArchivesChoices()
+  {
+    $names = Doctrine::getTable('ContactEventArchives')->createQuery('a')
+      ->select('DISTINCT a.name')
+      ->orderBy('name')
+      ->fetchArray();
+    
+    $choices = array();
+    foreach ( $names as $name )
+      $choices[$name['name']] = $name['name'];
+    
+    return $choices;
   }
 }

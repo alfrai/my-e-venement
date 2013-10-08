@@ -15,6 +15,7 @@ generator:
     config:
       actions: ~
       fields:
+        event_archives: { label: Ticketting archives }
         description: { label: Keywords }
         YOBs_list:  { label: "Birthdays (x[, x [,..]])" }
         YOB:        { label: Birthdays }
@@ -80,7 +81,7 @@ generator:
           <?php if ( sfConfig::get('app_cards_enable',false) ): ?><?php echo PHP_EOL ?>
           Member cards: [member_cards, member_cards_expire_at]
           <?php endif ?><?php echo PHP_EOL ?>
-          Events: [event_categories_list, meta_events_list, events_list, prices_list, tickets_amount_min, tickets_amount_max]
+          Events: [event_categories_list, meta_events_list, events_list, prices_list, <?php if ( sfConfig::get('app_no_event_archives',true) ): ?>event_archives,<?php endif ?> tickets_amount_min, tickets_amount_max]
           <?php if ( sfConfig::get('app_controls_enabled',false) ): ?><?php echo PHP_EOL ?>
           Flow management: [control_created_at, control_manifestation_id, control_checkpoint_id]
           <?php endif ?><?php echo PHP_EOL ?>
