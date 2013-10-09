@@ -44,13 +44,19 @@ $last = $first + $pager->getMaxPerPage() - 1;
       </td>
       <td class="right">
         <?php
-          $res = $pager->getQuery()->copy()
-            ->select('count(DISTINCT (c.id,y.id)) AS nb_indiv')
-            ->removeDqlQueryPart('orderby')
-            ->removeDqlQueryPart('limit')
-            ->removeDqlQueryPart('offset')
-            ->fetchArray();
-          $nb_indiv = $res[0]['nb_indiv'];
+          $q = $pager->getQuery()->getRawValue();
+          if ( $q instanceof Doctrine_Query )
+          {
+            $q->copy()
+              ->select('count(DISTINCT (c.id,y.id)) AS nb_indiv')
+              ->removeDqlQueryPart('orderby')
+              ->removeDqlQueryPart('limit')
+              ->removeDqlQueryPart('offset');
+            $res = $q->fetchArray();
+            $nb_indiv = $res[0]['nb_indiv'];
+          }
+          else
+            $nb_indiv = '-';
         ?>
         <?php
       	echo __('View %1% - %2% of %3% (%4%)',
