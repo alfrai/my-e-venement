@@ -1,5 +1,0 @@
-[symfony]
-  name=e-venement
-  author=Baptiste SIMON <baptiste.simon AT e-glop.net>
-  orm=Doctrine
-        

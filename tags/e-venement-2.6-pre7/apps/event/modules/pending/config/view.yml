@@ -1,3 +1,0 @@
-default:
-  stylesheets: [resource-conflict]
-  javascripts: [resource-conflict]

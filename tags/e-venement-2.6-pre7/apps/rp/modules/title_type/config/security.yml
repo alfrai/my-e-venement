@@ -1,4 +1,0 @@
-all:
-  credentials: admin-titles
-ajax:
-  credentials: pr-contact

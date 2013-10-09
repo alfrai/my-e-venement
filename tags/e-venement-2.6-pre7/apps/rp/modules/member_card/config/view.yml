@@ -1,9 +1,0 @@
-default:
-  stylesheets: [contact-card-form]
-  javascripts: [list-scroll]
-csvSuccess:
-  has_layout: false
-  http_metas:
-    content-type: text/comma-separated-values
-    content-disposition: attachment; filename="membercards.csv"
-            
