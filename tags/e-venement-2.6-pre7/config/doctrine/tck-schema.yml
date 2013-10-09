@@ -1,0 +1,363 @@
+#**********************************************************************************
+#
+#	    This file is part of e-venement.
+# 
+#    e-venement is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License.
+# 
+#    e-venement is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+# 
+#    You should have received a copy of the GNU General Public License
+#    along with e-venement; if not, write to the Free Software
+#    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+# 
+#    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+#    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+# 
+#**********************************************************************************/
+
+Transaction:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  indexes:
+    transaction_closed_idx:
+      fields: [closed]
+  columns:
+    contact_id: integer
+    professional_id: integer
+    transaction_id: integer
+    type:
+      type: enum
+      values: [normal, cancellation, deposit]
+      default: normal
+      notnull: true
+    closed:
+      type: boolean
+      default: false
+      notnull: true
+    workspace_id:
+      type: integer
+  relations:
+    Contact:
+      foreignAlias: Transactions
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Professional:
+      foreignAlias: Transactions
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Transaction:
+      foreignAlias: Translinked
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Workspace:
+      foreignAlias: Transactions
+      onDelete: SET NULL
+      onUpdate: CASCADE
+Ticket:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  indexes:
+    ticket_updated_at_idx:
+      fields: [updated_at]
+    ticket_manif_numerotation_idx:
+      fields: [numerotation, manifestation_id]
+      unique: true
+    ticket_barcode_idx:
+      fields: [barcode]
+    ticket_othercode_idx:
+      fields: [othercode]
+    ticket_duplicating_idx:
+      fields: [duplicating]
+    ticket_printed_at_idx:
+      fields: [printed_at]
+    ticket_integrated_at_idx:
+      fields: [integrated_at]
+  columns:
+    transaction_id:
+      type: integer
+      notnull: true
+    manifestation_id:
+      type: integer
+      notnull: true
+    gauge_id:
+      type: integer
+      notnull: true
+    price_id:
+      type: integer
+      notnull: true
+    price_name:
+      type: string(63)
+      notnull: true
+      notblank: true
+    value:
+      type: decimal(8)
+      scale: 3
+      notnull: true
+    numerotation: string(255)
+    duplicating: integer
+    grouping_fingerprint: string(255)
+    cancelling:
+      type: integer
+      unique: true
+    printed_at: timestamp
+    integrated_at: timestamp
+    barcode: string(255)
+    othercode: string(255)
+    member_card_id: integer
+    vat:
+      type: decimal(5)
+      scale: 4
+  relations:
+    Manifestation:
+      foreignAlias: Tickets
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Transaction:
+      foreignAlias: Tickets
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Price:
+      foreignAlias: Tickets
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Duplicated:
+      local: duplicating
+      foreignAlias: Duplicatas
+      class: Ticket
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Cancelled:
+      local: cancelling
+      foreignAlias: Cancelling
+      class: Ticket
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    User:
+      class: sfGuardUser
+      foreignAlias: Tickets
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Gauge:
+      foreignAlias: Tickets
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    MemberCard:
+      foreignAlias: Tickets
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+Cancellation:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    transaction_id:
+      type: integer
+      notnull: true
+    ticket_id:
+      type: integer
+      notnull: true
+      unique: true
+  relations:
+    Ticket:
+      foreignAlias: Cancellation
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+Control:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    ticket_id:
+      type: integer
+      notnull: true
+    checkpoint_id:
+      type: integer
+      notnull: true
+    comment: text
+  relations:
+    Ticket:
+      foreignAlias: Controls
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Checkpoint:
+      foreignAlias: Controls
+      onDelete: CASCADE
+      onUpdate: CASCADE
+
+Accounting:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  indexes:
+    accounting_type_idx:
+      fields: [type]
+  columns:
+    transaction_id:
+      type: integer
+      notnull: true
+    type:
+      type: string(255)
+      notblank: true
+      notnull: true
+    manifestation_id: integer
+Order:
+  package: tck
+  tableName: order_table
+  inheritance:
+    extends: Traceable
+    type: concrete
+  indexes:
+    order_type_idx:
+      fields: [type]
+  columns:
+    transaction_id:
+      type: integer
+      notnull: true
+    type: string(255)
+    manifestation_id: integer
+  relations:
+    Transaction:
+      foreignAlias: Order
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Manifestation:
+      foreignAlias: Order
+      onDelete: CASCADE
+      onUpdate: CASCADE
+Invoice:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  indexes:
+    invoice_type_idx:
+      fields: [type]
+  columns:
+    transaction_id:
+      type: integer
+      notnull: true
+    type: string(255)
+    manifestation_id: integer
+  relations:
+    Transaction:
+      foreignAlias: Invoice
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Manifestation:
+      foreignAlias: Invoice
+      onDelete: CASCADE
+      onUpdate: CASCADE
+RawAccounting:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    accounting_id: integer
+    order_id: integer
+    invoice_id: integer
+    content:
+      type: string
+      notnull: true
+      notblank: true
+  relations:
+    Order:
+      foreignAlias: RawAccountings
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Invoice:
+      foreignAlias: RawAccountings
+      onDelete: SET NULL
+      onUpdate: CASCADE
+
+PaymentMethod:
+  package: tck
+  indexes:
+    payment_method_display_idx:
+      fields: [display]
+  columns:
+    name:
+      type: string(255)
+      notblank: true
+      notnull: true
+    account: string(63)
+    display:
+      type: boolean
+      notnull: true
+      default: true
+    member_card_linked:
+      type: boolean
+      notnull: true
+      default: false
+Payment:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  indexes:
+    payment_created_at_idx:
+      fields: [created_at]
+  columns:
+    transaction_id:
+      type: integer
+      notnull: true
+    payment_method_id:
+      type: integer
+      notnull: true
+    value:
+      type: decimal(10)
+      scale: 3
+      notnull: true
+    member_card_id: integer
+  relations:
+    Transaction:
+      foreignAlias: Payments
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Method:
+      class: PaymentMethod
+      foreignAlias: Payments
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    MemberCard:
+      foreignAlias: Payments
+      onDelete: SET NULL
+      onUpdate: CASCADE
+
+ContactEventArchives:
+  package: tck
+  columns:
+    contact_id:
+      type: integer
+      notnull: true
+    happens_at:
+      type: timestamp
+      notnull: true
+    name:
+      type: string
+      notnull: true
+  relations:
+    Contact:
+      foreignAlias: EventArchives
+      onDelete: CASCADE
+      onUpdate: CASCADE
+
+OptionAccounting:
+  package: tck
+  inheritance:
+    extends: Option
+    type: column_aggregation
+    keyField: type
+    keyValue: 'accounting'
