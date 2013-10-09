@@ -44,15 +44,15 @@ $last = $first + $pager->getMaxPerPage() - 1;
       </td>
       <td class="right">
         <?php
-          $q = $pager->getQuery()->getRawValue();
-          if ( $q instanceof Doctrine_Query )
+          $q = $pager->getQuery();
+          if ( $q->getRawValue() instanceof Doctrine_Query )
           {
-            $q->copy()
+            $res = $q->copy()
               ->select('count(DISTINCT (c.id,y.id)) AS nb_indiv')
               ->removeDqlQueryPart('orderby')
               ->removeDqlQueryPart('limit')
-              ->removeDqlQueryPart('offset');
-            $res = $q->fetchArray();
+              ->removeDqlQueryPart('offset')
+              ->fetchArray();
             $nb_indiv = $res[0]['nb_indiv'];
           }
           else
