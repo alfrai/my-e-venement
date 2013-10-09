@@ -1,0 +1,39 @@
+#sf_admin_container .action {
+  padding: 5px;
+  margin: 5px 2px 0px;
+}
+#sf_admin_container .action input { font-size: 15px; font-family: arial,helvetica,clean,sans-serif; }
+
+.ticket-show table caption { margin: 0; }
+.ticket-show table { float: left; }
+.ticket-show table {
+  width: 48%;
+  margin: 5px 5px;
+  border-top: 1px solid rgb(197, 219, 236);
+  border-right: 1px solid rgb(197, 219, 236);
+}
+.ticket-show table td {
+  border-left: 1px solid rgb(197, 219, 236);
+  border-bottom: 1px solid rgb(197, 219, 236);
+  padding: 4px;
+}
+.ticket-show .tickets td:first-child,
+.ticket-show table thead td {
+  background: none repeat-x scroll 50% 50% rgb(223, 239, 252);
+  font-weight: bold;
+  color: rgb(46, 110, 158);
+}
+
+.state table {
+  display: inline-block;
+  width: auto;
+}
+.state td {
+  width: 60px;
+  text-align: center;
+}
+.ticket-show .state tbody td:first-child {
+  background: none;
+  font-weight: normal;
+  color: black;
+}
