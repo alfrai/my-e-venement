@@ -160,7 +160,9 @@ class ContactFormFilter extends BaseContactFormFilter
       'choices' => $choices = $this->getEventArchivesChoices(),
       'multiple' => true,
     ));
-    $this->validatorSchema['event_archives'] = new sfValidatorChoice($opt);
+    $this->validatorSchema['event_archives'] = new sfValidatorChoice(array_merge($opt,array(
+      'required' => false,
+    )));
     
     $this->widgetSchema   ['tickets_amount_min'] = new sfWidgetFormInput();
     $this->validatorSchema['tickets_amount_min'] = new sfValidatorInteger(array(
