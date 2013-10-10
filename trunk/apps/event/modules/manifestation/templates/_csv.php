@@ -36,15 +36,15 @@
     unset($vars[$key]);
   }
   $vars['options']['header'] = array_merge(array(
-    'contact'       => __('Contact'),
-    'organism'      => __('Organism'),
-    'department'    => __('Department'),
     'organism_an'   => __('Admin. ID'),
+    'organism'      => __('Organism'),
+    'contact'       => __('Contact'),
+    'department'    => __('Department'),
   ),$prices,array(
-    'total_qty'     => __('Total'),
+    'total_qty'     => __('Qty'),
     'total_value'   => __('Value'),
-    'accounting'    => __('Acc.'),
     'transaction'   => __('Transaction'),
+    'accounting'    => __('Acc.'),
   ));
   foreach ( $prices as $id => $price )
     $vars['options']['header'][$id] = $price;

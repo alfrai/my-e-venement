@@ -22,24 +22,28 @@
 ***********************************************************************************/
 ?>
 <?php
+  sfContext::getInstance()->getConfiguration()->loadHelpers(array('Number','I18N'));
   $this->manifestation = $this->getRoute()->getObject();
-  $this->spectators = $this->getSpectators($this->manifestation->id);
+  $this->spectators = $this->getSpectators($this->manifestation->id, true);
   
   $this->prices = array();
   foreach ( $this->spectators as $spectator )
   foreach ( $spectator->Tickets as $ticket )
   if ( !isset($this->prices['price_'.$ticket->price_id]) )
-    $this->prices['price_'.$ticket->price_id] = $ticket->price_name;
+  {
+    $this->prices['price_'.$ticket->price_id] = $ticket->price_name.' ('.format_currency($ticket->value,'€').')';
+    $this->prices['price_'.$ticket->price_id.'_value'] = __('Value');
+  }
   
   $this->lines = array();
   foreach ( $this->spectators as $spectator )
   {
     // contact infos
     $this->lines[] = array(
-      'contact'     => $spectator->Contact ? (string)$spectator->Contact : '-',
-      'organism'    => $spectator->Professional ? (string)$spectator->Professional->Organism : '-',
-      'department'  => $spectator->Professional ? (string)$spectator->Professional->department : '-',
-      'organism_at' => $spectator->Professional ? $spectator->Professional->Organism->administrative_number : '-',
+      'contact'     => $spectator->Contact ? (string)$spectator->Contact : '',
+      'organism'    => $spectator->Professional ? (string)$spectator->Professional->Organism : '',
+      'department'  => $spectator->Professional ? (string)$spectator->Professional->department : '',
+      'organism_an' => $spectator->Professional ? $spectator->Professional->Organism->administrative_number : '',
     );
     
     // prices infos
@@ -49,8 +53,10 @@
     // tickets infos
     $total = array('qty' => 0, 'value' => 0);
     foreach ( $spectator->Tickets as $ticket )
+    if ( !$ticket->hasBeenCancelled() )
     {
       $this->lines[count($this->lines)-1]['price_'.$ticket->price_id]++;
+      $this->lines[count($this->lines)-1]['price_'.$ticket->price_id.'_value'] += $ticket->value;
       $total['qty']++;
       $total['value'] += $ticket->value;
     }
@@ -60,21 +66,47 @@
     $this->lines[count($this->lines)-1]['transaction']  = '#'.$spectator->id;
   }
   
+  // adding the last "total" line
+  $totals = array(
+    'contact'     => __('Total'),
+    'organism'    => '',
+    'department'  => '',
+    'organism_an' => '',
+    'accounting'  => '',
+    'transaction' => '',
+    'total_value' => 0,
+    'total_qty'   => 0,
+  );
+  foreach ( $this->prices as $key => $name )
+    $totals[$key] = 0;
+  foreach ( $this->lines as $key => $line )
+  foreach ( array_merge(array('total_qty', 'total_value',), array_keys($this->prices)) as $field )
+    $totals[$field] += $line[$field];
+  $this->lines[] = $totals;
+  
+  // formatting numbers w/ digits
+  foreach ( $this->lines as $key => $line )
+  {
+    $this->lines[$key]['total_value'] = format_number($line['total_value']);
+    foreach ( $this->prices as $name => $name )
+      $this->lines[$key][$name] = format_number($line[$name]);
+  }
+  
   $params = OptionCsvForm::getDBOptions();
   $this->options = array(
     'ms' => in_array('microsoft',$params['option']),
     'tunnel' => false,
     'noheader' => false,
     'fields'   => array_merge(array(
-      'contact',
-      'organism',
-      'department',
       'organism_an',
+      'organism',
+      'contact',
+      'department',
       ),array_keys($this->prices),array(
       'total_qty',
       'total_value',
-      'accounting',
       'transaction',
+      'accounting',
     )),
   );
   

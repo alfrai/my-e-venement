@@ -388,7 +388,7 @@ class manifestationActions extends autoManifestationActions
     return $e;
   }
   
-  protected function getSpectators($manifestation_id = NULL)
+  protected function getSpectators($manifestation_id = NULL, $only_printed_tck = false)
   {
     $mid = $manifestation_id ? $manifestation_id : $this->manifestation->id;
     $nb = $this->countTickets($mid);
@@ -404,7 +404,7 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('pro.Organism o');
       
     if ( $nb < 7500 )
-    $q->leftJoin('tr.Tickets tck')
+    $q->leftJoin('tr.Tickets tck'.($only_printed_tck ? ' ON tck.transaction_id = tr.id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL)' : ''))
       ->leftJoin('tck.Duplicatas duplicatas')
       ->leftJoin('duplicatas.Cancelling cancelling2')
       ->leftJoin('tck.Cancelling cancelling')
