@@ -18,7 +18,7 @@ class WorkspaceForm extends BaseWorkspaceForm
       'url'   => 'manifestation/ajax',
     ));
     */
-    $this->widgetSchema['manifestations_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
+    unset($this->widgetSchema['manifestations_list']); //->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     $this->widgetSchema['users_list']->setOption('expanded', 'true');
     
     $this->widgetSchema['prices_list']->setOption('expanded',true);

@@ -17,7 +17,8 @@ class Workspace extends PluginWorkspace
     return $this->on_ticket ? $this->on_ticket : $this->name;
   }
   
-  // hack to be able to unlink manifesations from a workspace
+  /*
+  // hack to be able to unlink manifestations from a workspace
   public function unlinkInDb($alias, $ids = array())
   {
     $rel = $this->getTable()->getRelation($alias);
@@ -38,4 +39,5 @@ class Workspace extends PluginWorkspace
     else
       return parent::unlinkInDb($alias, $ids);
   }
+  */
 }
