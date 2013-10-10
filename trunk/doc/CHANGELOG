@@ -1,5 +1,5 @@
 == v2.4 -> v2.5 ==
-2013-06-07
+2013-06-07 "Guinness Draught"
 
 Général:
 - bugs
@@ -98,6 +98,7 @@ Stats:
 
 
 == v2.3 -> v2.4 ==
+29 avril 2013 "Saharawian Beverage"
 
 Général:
 - bugs
@@ -191,7 +192,9 @@ Vente en ligne:
 - nouveautés
   - possibilité d'associer automatiquement à un ou des groupes les contacts créés par la vente en ligne (via e-voucher par exemple)
 
+
 == v2.2 -> v2.3 ==
+13 février 2013 "Kentucky Blend"
 
 Carte d'abonnement:
 - améliorations
@@ -258,7 +261,9 @@ Général:
   - ajout de deux fichiers de configuration globaux : config/e-venement.yml (non personnalisable) et config/project.yml (qui reprend les variables globales d'e-venement, comme le numéro de version)
   - support d'IPv6 et ajout d'un logo "IPv6 compliant" pour les serveurs supportant l'IPv6
 
+
 == v2.1 -> v2.2 ==
+19 novembre 2012 "Crazi Raki"
 
 Billetterie :
 - Possibilité d'importer l'historique des contacts depuis la v1.x
@@ -311,3 +316,130 @@ Scolaires et groupes :
 
 API de vente en ligne :
 - Possibilité de forcer la "casse" sur les coordonnées des contacts remplies par les internautes
+
+
+== v2.0 -> v2.1 ==
+30 juillet 2012 "Sant Erwann"
+
+Événementiel :
+- optimisations sensibles pour les jauges moyennes et grandes
+
+Billetterie :
+- ajout de filtres (dont par utilisateur) dans les livres comptables
+- possibilité de contrôler des billets (billetterie dématérialisée) en ligne de commande (CLI)
+- amélioration de l'intégration de billets depuis Ticketnet et La Fnac (FranceBillet)
+- affinage des statistiques
+- optimisation de l'impression de billets
+
+Relations aux publics :
+- ajout de plusieurs filtres en relation avec la billetterie
+- ajout d'un système de droits
+
+Vente en ligne :
+- ajout d'informations affichables en ligne
+
+Autres :
+- première pré-version Release Candidate du module « scolaires et groupes »
+
+== v2.0-RC1 -> v2.0 ==
+4 mars 2012 "Irish Baileys"
+
+Général
+- traductions
+- les recherches en « full-text » se font sans tenir compte de la casse (majuscules/minuscules)
+- ajout d'une page d'erreur, le cas échéant, plutôt que « erreur symfony »
+- ajout du prochain événement dans l'écran d'accueil
+
+Relations publiques
+- possibilité d'extraire et de faire des étiquettes à partir des organismes
+- la recherche rapide sur les contacts prend également en compte le nom des organismes dont ils font partie
+- possibilité de dater arbitrairement une carte de membre
+- possibilité de fusionner des contacts, en reprenant tous leurs historiques divers
+- amélioration de l'extraction et de l'emailing sur les données pro/perso des contacts
+- amélioration de l'interface :
+  - lien entre contacts et opérations de billetterie
+  - retrait de la partie « billetterie » des contacts si cela est paramétré
+  - affichage des homonymes lors de la création d'un contact
+  - correction du bug sur la prise en compte du titre lors de la création d'un contact
+  - ajout d'une fonctionnalité optionnelle pour gérer et éditer des cartes d'adhérents
+  - prise en compte de l'adresse de courriel pro dans la recherche par courriel dans les contacts
+  - possibilité de manipuler les liens entre contacts et organismes depuis les fiches organismes
+  - améliorations dans la gestion de l'extraction de contacts
+
+Événementiel
+- améliorations d'interface :
+  - réactivation du tri par date
+  - ajout du numéro des opérations liées dans la partie « déséquilibres » des manifestations
+  - ajout du jour de la semaine dans les dates des manifestations
+  - ajout, dans les lieux, de la liste de leurs manifestations
+- corrections de bugs :
+  - éviter une erreur lorsque la géolocalisation n'est pas activée
+  - correction sur le tri des manifestations et des jauges liées dans la liste des événements
+  - correction de l'apparence des jauges, en particulier des grosses jauges
+  - ajout d'une option dans les manifestations pour forcer l'intégration en billetterie, plutôt que l'impression
+  - on peut désormais supprimer le lien (jauges) entre espaces de travail et manifestations directement depuis les espaces de travail
+  - possibilité d'écrire le nom des événements sur deux lignes, qui peuvent alors s'afficher sur les tickets (si le design des billets le permet)
+- ajout d'une information « sur le ticket » dans les espaces de travail
+- ajout d'un espace pour les mémos
+
+Billetterie
+- factures / bons de commande :
+  - ajout de la possibilité d'exclure l'affichage des billets annulés dans les factures
+  - possibilité de modifier à l'écran le contenu de factures, qui seront enregistrées après modification
+  - ajout des paiements déjà effectués sur les factures
+  - retrait de la TVA si le taux est 0%
+  - correction de bugs :
+    - noms de tarifs très longs
+    - usage déviant du paiement des annulations
+    - référencement d'une opération d'annulation au contact de l'opération d'origine
+    - meilleure prise en charge de la date de création des paiements dans les livres
+    - etc.
+- journaux :
+  - ajout de permissions spécifiques pour accéder au journal détaillé
+  - ajout d'un filtre sur les espaces de travail
+- processus de vente
+  - amélioration de l'usage des boutons de paiement raccourcis (ne remplace plus la valeur qu'un utilisateur aurait saisi à la main)
+  - intégration des billets vendus par Ticketnet et FranceBillet (fonctionnalité toujours en phase de tests)
+  - possibilité de sélectionner des groupes de billets dans l'impression partielle (MAJ+CLICK)
+  - possibilité de forcer la date d'un paiement
+  - ajout d'une possibilité fléchage entre espaces de travail et tarifs
+- ajouts de termes et améliorations du vocabulaire de l'interface
+  - ajout d'informations sur la temporalité des opérations (dernière mise à jour : qui, quand)
+  - possibilité de flécher l'espace de travail où le billet doit être affecté
+  - possibilité d'ajouter le nom de l'espace de travail sur lequel le billet a été affecté
+  - la liste des tarifs dans une opération de billetterie est réduite visuellement aux tarifs disponibles pour la manifestation sélectionnée
+  - amélioration du processus d'alerte lorsqu'une jauge est pleine
+
+Webservices / vente en ligne
+- mise à jour pour mieux prendre en charge les espaces de travail / jauges
+- prise en compte du fléchage des tarifs
+- correction d'un bug sur les numéros de téléphone
+- ajout de la possibilité d'enregistrer le pays du contact
+- correction de bug dans le processus de sécurisation des échanges entre e-voucher et e-venement
+
+
+== v2.0-RC1 ==
+mai 2011
+
+Au menu, une refonte totale du code et du schéma de données :
+- migration sur le Framework Symfony (comme promis depuis près de deux ans) ;
+- ergonomie totalement repensée ;
+- intégration AJAX plus importante (via jQuery) ;
+- gestion des droits affinée à chaque fonctionnalité du logiciel, accessible à travers des groupes de droits pour en simplifier l'usage ;
+- internationalisation de l'interface utilisateur (pour le moment anglais et français).
+
+Relations Publiques :
+- moteur de recherche sur les contacts bien plus fin et poussé, intégrant les informations issues de la billetterie ;
+- fonctionnalités d'emailing de masse, d'extraction CSV, de géolocalisation, etc.
+
+Sur la partie événementielle :
+- intégration plus fine des espaces de travail, pour un fonctionnement inter-structures plus poussé ;
+- intégration (qui doit encore évoluer) d'une présentation beaucoup plus ergonomique sous forme de calendrier, possibilité d'exports iCal, etc. ;
+- intégration d'une gestion des flux (spectateurs, visiteurs, supporters, etc.) pour prévoir des stands, des points de contrôle différenciés, des vestiaires.
+
+Sur la partie billetterie :
+- apparition d'un journal comptable détaillé (en plus des livres des ventes et de caisse) ;
+- refonte visuelle des statistiques (ce n'est que le début) pour une lecture plus précise (via OFC) ;
+- sécurisation approfondie des données, suivi plus fin des différentes actions menées par chaque utilisateur ;
+- avancées sur la billetterie dématérialisée (codes-barre, puces RFID...) ;
+- processus de vente en ligne consolidé.
