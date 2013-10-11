@@ -176,6 +176,10 @@
         <source>Events</source>
         <target>Événements</target>
       </trans-unit>
+      <trans-unit>
+        <source>Event</source>
+        <target>Événementiel</target>
+      </trans-unit>
       <trans-unit id="8">
         <source>Agenda</source>
         <target>Agenda</target>
@@ -398,7 +402,7 @@
       </trans-unit>
       <trans-unit>
         <source>The free ticketting system</source>
-        <target>La billetterie informatisée libre</target>
+        <target>La billetterie informatique libre</target>
       </trans-unit>
       <trans-unit>
         <source>Prices</source>

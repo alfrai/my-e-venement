@@ -44,6 +44,6 @@
           <li><a href="<?php echo cross_app_url_for('event','pending/index') ?>"><?php echo __('Bookings to confirm', null, 'menu') ?></a></li>
           <?php endif ?>
         </ul>
-        <span class="title"><?php echo __('Events',array(),'menu') ?></span>
+        <span class="title"><?php echo __('Event',array(),'menu') ?></span>
       </li>
     <?php endif ?>
