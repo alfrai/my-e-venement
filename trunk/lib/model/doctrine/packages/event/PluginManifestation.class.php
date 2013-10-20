@@ -76,7 +76,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
       
       // maybe add something to limit pre-confirmed manifestations editting
       
-      if ( !$sf_user->hasCredential(self::$credentials['reservation_confirmed']) && $this->reservation_confirmed )
+      if ( !($sf_user->hasCredential(self::$credentials['reservation_confirmed']) || $sf_user->getContactId() == $this->contact_id) && $this->reservation_confirmed )
         throw new liBookingException('The current user %%name%% does not have the credentials to confirm a manifestation, nor to modify a confirmed manifestation.', array('%%name%%' => (string)$sf_user));
     }
     
