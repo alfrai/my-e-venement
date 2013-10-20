@@ -137,7 +137,10 @@ select[disabled] {
 .sf_admin_action_version { padding-top: 4px; padding-bottom: 4px; }
 
 .diff {
-  display: inline-block; margin-bottom: -4px;
+  display: table-cell; margin-bottom: -4px;
   width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   font-style: italic;
 }
+.report-versions { margin-bottom: 10px; font-weight: bold; }
+.report-versions span { text-align: center; display: table-cell; }
+.report-versions .ui-icon { display: none; }
