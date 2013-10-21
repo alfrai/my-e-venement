@@ -24,7 +24,7 @@ all:
     #defaults:
     #  reservation_confirmed: false
     reservations:
-      enabled: true
+      enable: true
       #shown_in_calendar: false
     #extra_informations_enabled: false
   synchronization:
