@@ -101,6 +101,10 @@ class EventFormFilter extends BaseEventFormFilter
   
   public function addResourceIdColumnQuery(Doctrine_Query $q, $field, $value)
   {
+    $a = $q->getRootAlias();
+    if ( !$q->contains("LEFT JOIN $a.Manifestations m") )
+      $q->leftJoin("$a.Manifestations m");
+    
     if ( inval($value) > 0 )
       return $q
         ->leftJoin('m.Booking b')
@@ -112,6 +116,10 @@ class EventFormFilter extends BaseEventFormFilter
   }
   public function addContactIdColumnQuery(Doctrine_Query $q, $field, $value)
   {
+    $a = $q->getRootAlias();
+    if ( !$q->contains("LEFT JOIN $a.Manifestations m") )
+      $q->leftJoin("$a.Manifestations m");
+    
     if ( intval($value) > 0 )
       return $q->andWhere('m.contact_id = ?',intval($value));
     return $q;
@@ -120,6 +128,10 @@ class EventFormFilter extends BaseEventFormFilter
   {
     if ( !in_array($value,array(0,1)) )
       return $q;
+    
+    $a = $q->getRootAlias();
+    if ( !$q->contains("LEFT JOIN $a.Manifestations m") )
+      $q->leftJoin("$a.Manifestations m");
     
     $conflicts = Doctrine::getTable('Manifestation')->getConflicts(array('potentially' => true));
     return $q->andWhereIn('m.id', array_keys($conflicts));
@@ -132,6 +144,10 @@ class EventFormFilter extends BaseEventFormFilter
   { return $this->addTranslatedBooleanQuery($q, $field, $value); }
   public function addTranslatedBooleanQuery(Doctrine_Query $q, $field, $value)
   {
+    $a = $q->getRootAlias();
+    if ( !$q->contains("LEFT JOIN $a.Manifestations m") )
+      $q->leftJoin("$a.Manifestations m");
+    
     if ( !in_array($value,array(0,1)) )
       return $q;
     return $q->andWhere($this->getTranslatedFields($field).' = ?', $value == 1);

@@ -83,7 +83,9 @@
       {
         $query = $filters->getQuery($data);
         $a = $query->getRootAlias();
+        if ( !$query->contains("LEFT JOIN $a.Manifestations m") )
         $query->leftJoin("$a.Manifestations m");
+        
         $manifs = array();
         foreach ( $query->select("$a.id, m.id, m.event_id")->andWhere('m.id IS NOT NULL')->execute() as $event )
         foreach ( $event->Manifestations as $manif )
