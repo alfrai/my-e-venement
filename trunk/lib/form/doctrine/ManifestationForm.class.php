@@ -19,7 +19,9 @@ class ManifestationForm extends BaseManifestationForm
     ));
     $this->widgetSchema['workspaces_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     $this->widgetSchema['event_id']->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery()));
-    $this->widgetSchema['color_id']->setOption('order_by',array('name',''));
+    $this->widgetSchema['color_id']
+      ->setOption('order_by',array('name',''))
+      ->setOption('method', 'getName');
     
     $this->widgetSchema['location_id']
       ->setOption('add_empty',true)

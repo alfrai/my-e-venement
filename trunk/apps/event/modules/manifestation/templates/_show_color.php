@@ -13,6 +13,6 @@
   </span>
   <?php endif ?>
   <span style="background-color: #<?php echo $manifestation->Color->color ?>; padding: 2px 30px;">
-    <?php echo $manifestation->Color ?>
+    <?php echo $manifestation->Color->name ?>
   </span>
 </div>
