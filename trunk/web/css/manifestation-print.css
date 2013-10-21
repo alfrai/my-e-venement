@@ -3,9 +3,7 @@ body.sf_fieldset_spectators #sf_fieldset_technical, body.sf_fieldset_tickets #sf
 body.sf_fieldset_spectators #sf_fieldset_workspaces, body.sf_fieldset_tickets #sf_fieldset_workspaces,
 body.sf_fieldset_spectators #sf_fieldset_tickets, body.sf_fieldset_tickets #sf_fieldset_spectators,
 body.sf_fieldset_spectators #more, body.sf_fieldset_tickets #more
-{
-  display: none;
-}
+{ display: none; }
 
 @media print {
 
