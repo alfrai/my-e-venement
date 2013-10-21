@@ -122,6 +122,17 @@ $(document).ready(function(){
   
   $('#fullcalendar .fc-header .fc-button').click(function(){
     $('#fullcalendar .fc-view').animate({scrollLeft: 0}, 150);
+    
+    if ( $('.fc-view.fc-view-resourceDay').length > 0 && $('.fc-view.fc-view-resourceDay tfoot').length == 0 )
+    {
+      $('.fc-view.fc-view-resourceDay table').append('<tfoot></tfoot>');
+      $('.fc-view.fc-view-resourceDay tfoot').html(
+        $('.fc-view.fc-view-resourceDay thead').html()
+      );
+      $('.fc-view.fc-view-resourceDay tbody tr').each(function(){
+        $(this).append($(this).find('td.fc-resourceName').clone());
+      });
+    }
   });
 });
 --></script>
