@@ -37,8 +37,8 @@
         <target>Cela vous donne des libertés, mais vous devez également respecter ses clauses (citer les sources, partager de la même manière)</target>
       </trans-unit>
       <trans-unit>
-        <source>%e% and the %e% logo are the properties of %author% and %firm%</source>
-        <target>%e% et le logo d'%e% sont les propriétés de %author% et %firm%</target>
+        <source>%e% and the %e% logo are the properties of %firm%</source>
+        <target>%e% et le logo d'%e% sont les propriétés de %firm%</target>
       </trans-unit>
       <trans-unit>
         <source>%e% for %client%</source>

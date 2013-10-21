@@ -11,9 +11,17 @@ all:
     nowarranty: false
     client:
       name: dev
+      url: http://www.their-web-site.tld/
+      logo: http://www.their-web-site.tld/logo.png
+      address: |
+        Libre Informatique
+        2a allée Franz Stock
+        29000 QUIMPER
+        France
     firm:
       url: http://www.my-web-site.tld/
       name: My Company
+  #museum: true
   demo: false
   network:
     ipv6_ready: false

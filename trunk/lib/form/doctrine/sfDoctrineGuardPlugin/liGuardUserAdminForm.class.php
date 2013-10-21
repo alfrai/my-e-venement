@@ -30,6 +30,10 @@ class liGuardUserAdminForm extends sfGuardUserAdminForm
         ->setOption('expanded',true)
         ->setOption('order_by',array('name',''));
     
+    $this->widgetSchema['groups_list']
+      ->setOption('method', 'getNameWithDescription')
+      ->setOption('renderer_class', NULL);
+
     $this->validatorSchema['workspaces_list']->setOption('query', $q = Doctrine::getTable('Workspace')->createQuery('ws',true));
     $this->widgetSchema   ['workspaces_list']->setOption('query',$q)
                                              ->setOption('order_by',array('name',''));

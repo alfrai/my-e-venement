@@ -1,6 +1,6 @@
-.about-home .ui-widget.ui-widget-about {
-  position: absolute;
-}
+.about-home { position: absolute; }
+.ui-widget-customer, 
+.ui-widget-last-version,
 .ui-widget.ui-widget-about {
   width: 260px;
   min-height: 425px;
@@ -10,6 +10,7 @@
   overflow: hidden;
   font-size: 13px;
 }
+.ui-widget-customer, .ui-widget-last-version { min-height: auto; background-image: none; }
 
 .ui-widget.ui-widget-about a {
   text-decoration: none;
@@ -27,21 +28,15 @@
   margin-bottom: 30px;
 }
 .ui-widget-about .desc, .ui-widget-about .desc a { color: #5b595a; }
-.ui-widget-about.ui-widget .ui-widget-header {
-  margin: -18px -18px 0 -18px;
-}
+.ui-widget-about.ui-widget .ui-widget-header { margin: -18px -18px 0 -18px; }
 .ui-widget-about h3 {
   font-size: 25px;
-  color: #679519;
+  color: #055271;
   margin-bottom: 3px;
 }
-.ui-widget-about .desc .specific {
-  margin-top: 10px;
-}
+.ui-widget-about .desc .specific { margin-top: 10px; }
 
-.ui-widget-about .mentions p {
-  margin-top: 10px;
-}
+.ui-widget-about .mentions p { margin-top: 10px; }
 .ui-widget-about .mentions .button-contribs {
   margin-top: 10px;
   text-align: center;
@@ -98,3 +93,11 @@ iframe#about {
   left: 50%;
   margin-left: -151px;
 }
+
+.ui-widget-customer .name, #careful .dedicated-to { font-weight: bold; }
+.ui-widget-customer .logo img { max-width: 260px; }
+#careful .name, #careful .logo, #careful .address { text-align: center; }
+#careful .address, .ui-widget-customer .address { font-size: 90%; }
+.ui-widget-customer .address { line-height: 1.2em; }
+.ui-widget-last-version .content { max-height: 400px; overflow: auto; margin-right: -10px; padding-right: 5px; }
+.ui-widget-last-version ul { margin-left: 20px; }

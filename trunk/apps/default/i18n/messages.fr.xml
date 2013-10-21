@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Your organism</source>
+        <target>Votre organisme</target>
+      </trans-unit>
+      <trans-unit>
+        <source>What's new?</source>
+        <target>Quoi de neuf ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Are you sure?</source>
         <target>Êtes-vous sûr(e) ?</target>
       </trans-unit>
@@ -145,8 +153,8 @@
         <target>Erreur ! L'écran que vous avez demandé est sécurisé et vous n'avez pas les droits nécessaires.</target>
       </trans-unit>
       <trans-unit>
-        <source>Last updates</source>
-        <target>Dernières mises à jour</target>
+        <source>Last actions</source>
+        <target>Dernières actions réalisées</target>
       </trans-unit>
       <trans-unit>
         <source>Emails</source>
@@ -249,8 +257,8 @@
         <target>Utilisateurs</target>
       </trans-unit>
       <trans-unit>
-        <source>Welcome on e-venement</source>
-        <target>Bienvenue sur e-venement</target>
+        <source>Welcome %%user%%</source>
+        <target>Bienvenue %%user%%</target>
       </trans-unit>
       <trans-unit>
         <source>Login</source>

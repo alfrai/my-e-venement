@@ -65,14 +65,15 @@ a, a:active, a:visited { color: #000; }
 
 #logo {
   position: fixed;
-  top: 0;
-  left: 640px;
-  height: 52px;
+  top: -5px;
+  left: 700px;
+  height: 57px;
   width: 223px;
-  background-image: url(../images/menu-e-venement.png);
+  background-image: url(../images/logo-evenement-small.png);
   background-repeat: no-repeat;
   z-index: 1200;
 }
+#logo.museum { background-image: url(../images/logo-emusee-small.png); }
 
 #transition {
   position: fixed;

@@ -24,7 +24,8 @@
 <?php use_helper('I18N', 'Date', 'CrossAppLink') ?>
 <?php include_partial('default/assets') ?>
 <div class="about-home">
-  <?php include_partial('global/about') ?>
+  <?php include_partial('global/customer') ?>
+  <?php include_partial('global/last_version') ?>
 </div>
 
 <div id="sf_admin_container">
@@ -34,9 +35,9 @@
   <div class="welcome ui-grid-table ui-widget ui-corner-all ui-helper-reset ui-helper-clearfix">
     <div class="ui-widget-content ui-corner-all">
       <div class="ui-widget-header ui-corner-all fg-toolbar">
-        <h2><?php echo __('Welcome on e-venement', array(), 'messages') ?></h2>
+        <h2><?php echo __('Welcome %%user%%', array('%%user%%' => $sf_user->getGuardUser()->first_name.' '.$sf_user->getGuardUser()->last_name)) ?></h2>
       </div>
-      <h3><?php echo __('Last updates') ?></h3>
+      <h3><?php echo __('Last actions') ?></h3>
       <ul>
         <?php if ( $sf_user->hasCredential('pr-emailing') ): ?>
         <li><?php echo __('Emails') ?>

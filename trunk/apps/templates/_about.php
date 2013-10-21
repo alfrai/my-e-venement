@@ -77,7 +77,7 @@
       <?php //echo __('This gives you freedoms, but also you must respect its clauses (attribution, share-alike)',null,'about') ?>
     </p>
     <p class="tm">
-      <?php echo __("%e% and the %e% logo are the properties of %author% and %firm%",$translate,'about') ?>.
+      <?php echo __("%e% and the %e% logo are the properties of %firm%",$translate,'about') ?>.
       <?php echo __('All rights reserved',null,'about') ?>.
     </p>
     <form action="#" method="get" class="button-contribs">

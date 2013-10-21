@@ -10,6 +10,13 @@
   <div id="sf_admin_content">
   
   <div class="ui-grid-table ui-widget ui-helper-reset ui-helper-clearfix">
+    <div class="ui-widget-content ui-corner-all" id="careful">
+      <div class="ui-widget-header ui-corner-all fg-toolbar">
+        <h2><?php echo __('This plateform is dedicated to',null,'menu') ?></h2>
+      </div>
+      <?php include_partial('global/careful') ?>
+    </div>
+    
     <div class="ui-widget-content ui-corner-all login">
       <div class="ui-widget-header ui-corner-all fg-toolbar">
         <h2><?php echo __('Signin', null, 'sf_guard') ?></h2>

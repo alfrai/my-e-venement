@@ -27,16 +27,20 @@
     <div id="banner">
       <a href="<?php echo cross_app_url_for('default','sf_guard_signout') ?>" onclick="javascript: window.close()"><?php echo image_tag("close.png",array('alt' => 'close')) ?></a>
       <h1>
-        <?php echo image_tag("logo-evenement.png",array('alt' => '')); ?>
+        <?php echo image_tag(sfConfig::get('project_museum',false) ? 'logo-emusee.png' : 'logo-evenement.png', array('alt' => '')); ?>
         <?php echo $sf_response->getTitle() ?>
       </h1>
     </div>
-    <div id="logo"></div>
+    <div id="logo" class="<?php echo sfConfig::get('project_museum',false) ? 'museum' : '' ?>"></div>
     <div id="footer">
       <?php include_partial('global/footer') ?>
       <?php include_partial('global/date') ?>
     </div>
     <div id="transition"><span class="close"></span></div>
     <?php echo include_partial('global/instant_messaging') ?>
+    
+    <?php if ( sfConfig::get('project_experimentations',false) ): ?>
+    <div id="experimentations"><?php echo sfConfig::get('project_experimentations') ?></div>
+    <?php endif ?>
   </body>
 </html>

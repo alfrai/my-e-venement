@@ -111,6 +111,8 @@ cat config/doctrine/functions-pgsql.sql | psql $DB && \
 ./symfony cc &> /dev/null
 echo ""
 
+[ ! -f apps/default/config/app.yml ] && cp apps/default/config/app.yml.template apps/default/config/app.yml
+
 # final data modifications
 echo "Adding required permissions and groups";
 echo " - member cards (correction)"
