@@ -107,14 +107,6 @@ $(document).ready(function(){
     $('table.grp-entry tbody tr:first td').css('height','auto');
     $('table.grp-entry tbody').append(trs);
   }
-
-
---- web/js/grp-event.js	(révision 2593)
-+++ web/js/grp-event.js	(copie de travail)
-@@ -89,6 +89,18 @@
-   $('table.grp-entry').tableScroll({
-     height: h - $('table.grp-entry thead').height() - $('table.grp-entry tfoot').height(),
-   });
   
   // using the print button ... to print
   $('.sf_admin_action_print a')
