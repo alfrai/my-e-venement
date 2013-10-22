@@ -54,30 +54,40 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     }
     
     // completing or correcting reservation fields
-    if ( !$this->reservation_begins_at
-      || $this->reservation_begins_at && $this->reservation_begins_at > $this->happens_at )
-      $this->reservation_begins_at = $this->happens_at;
-    if ( !$this->reservation_ends_at
-      || $this->reservation_ends_at && $this->reservation_ends_at < date('Y-m-d H:i:s',strtotime($this->happens_at)+$this->duration) )
-      $this->reservation_ends_at = date('Y-m-d H:i:s',strtotime($this->happens_at)+$this->duration);
-    if ( sfContext::hasInstance() )
+    $config = sfConfig::get('app_manifestation_reservations',array('enable' => false));
+    if ( isset($config['enable']) && $config['enable'] )
     {
-      $sf_user = sfContext::getInstance()->getUser();
-      if ( !$sf_user->hasCredential(self::$credentials['contact_id']) )
+      if ( !$this->reservation_begins_at
+        || $this->reservation_begins_at && $this->reservation_begins_at > $this->happens_at )
+        $this->reservation_begins_at = $this->happens_at;
+      if ( !$this->reservation_ends_at
+        || $this->reservation_ends_at && $this->reservation_ends_at < date('Y-m-d H:i:s',strtotime($this->happens_at)+$this->duration) )
+        $this->reservation_ends_at = date('Y-m-d H:i:s',strtotime($this->happens_at)+$this->duration);
+      if ( sfContext::hasInstance() )
       {
-        if ( $sf_user->getContact() )
-          $this->Applicant = $sf_user->getContact();
-        else
-          throw new liBookingException('User %%name%% is not linked to any contact, and does not have the %%credential%% credential', array('%%name%%' => (string)$sf_user, '%%credential%%' => self::$credentials['contact_id']));
+        $sf_user = sfContext::getInstance()->getUser();
+        if ( !$sf_user->hasCredential(self::$credentials['contact_id']) )
+        {
+          if ( $sf_user->getContact() )
+            $this->Applicant = $sf_user->getContact();
+          else
+            throw new liBookingException('User %%name%% is not linked to any contact, and does not have the %%credential%% credential', array('%%name%%' => (string)$sf_user, '%%credential%%' => self::$credentials['contact_id']));
+        }
+        
+        if ( !$sf_user->hasCredential(self::$credentials['access_all']) && $this->contact_id !== $sf_user->getContactId() )
+          throw new liBookingException('The current user %%name%% cannot access manifestations which does not belong to itself', array('%%name%%' => (string)$sf_user));
+      
+        // maybe add something to limit pre-confirmed manifestations editting
+        
+        if ( !($sf_user->hasCredential(self::$credentials['reservation_confirmed']) || $sf_user->getContactId() == $this->contact_id) && $this->reservation_confirmed )
+          throw new liBookingException('The current user %%name%% does not have the credentials to confirm a manifestation, nor to modify a confirmed manifestation.', array('%%name%%' => (string)$sf_user));
       }
-      
-      if ( !$sf_user->hasCredential(self::$credentials['access_all']) && $this->contact_id !== $sf_user->getContactId() )
-        throw new liBookingException('The current user %%name%% cannot access manifestations which does not belong to itself', array('%%name%%' => (string)$sf_user));
-      
-      // maybe add something to limit pre-confirmed manifestations editting
-      
-      if ( !($sf_user->hasCredential(self::$credentials['reservation_confirmed']) || $sf_user->getContactId() == $this->contact_id) && $this->reservation_confirmed )
-        throw new liBookingException('The current user %%name%% does not have the credentials to confirm a manifestation, nor to modify a confirmed manifestation.', array('%%name%%' => (string)$sf_user));
+      else
+      {
+        $this->reservation_begins_at = $this->happens_at;
+        $this->reservation_ends_at = $this->ends_at;
+        $this->reservation_confirmed = true;
+      }
     }
     
     parent::preSave($event);
@@ -86,6 +96,10 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
   {
     $notice1 = $notice2 = false;
     parent::postSave($event);
+    
+    $config = sfConfig::get('app_manifestation_reservations',array('enable' => false));
+    if (!( isset($config['enable']) && $config['enable'] ))
+      return;
     
     if ( sfContext::hasInstance() )
     if ( $this->reservation_confirmed

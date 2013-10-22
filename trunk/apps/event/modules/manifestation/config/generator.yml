@@ -51,7 +51,7 @@ generator:
           General:      [happens_at, ends_at, _id, event_id, location_id, _show_gauge_txt, color_id, _form_prices]
           Ticketting:   [duration, vat_id, online_limit, depends_on, _show_is_necessary_to, organizers_list, no_print]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
-          <?php if ( sfConfig::get('app_manifestation_reservations_enabled',true) ): echo PHP_EOL; ?>
+          <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($configs['enable']) && $config['enable'] ): echo PHP_EOL; ?>
           Resources:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, reservation_confirmed, reservation_optional, reservation_description]
           <?php endif; echo PHP_EOL; ?>
           Extra informations:  [description<?php if ( sfConfig::get('app_manifestation_extra_informations_enabled',true) ): ?>, ExtraInformations<?php endif ?>]
@@ -62,7 +62,7 @@ generator:
         display:
           General: [happens_at, ends_at, event_id, location_id, color_id]
           Ticketting: [duration, vat_id, online_limit, depends_on, organizers_list, no_print]
-          <?php if ( sfConfig::get('app_manifestation_reservations_enabled',true) ): echo PHP_EOL; ?>
+          <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($configs['enable']) && $config['enable'] ): echo PHP_EOL; ?>
           Resources:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, reservation_confirmed, reservation_optional, reservation_description]
           <?php endif; echo PHP_EOL; ?>
           Extra informations:  [description]
@@ -75,7 +75,7 @@ generator:
           Tickets:    [_show_tickets_list_empty]
           Spectators: [_show_spectators_list_empty]
           Unbalanced: [_show_unbalanced_list]
-          <?php if ( sfConfig::get('app_manifestation_reservations_enabled',true) ): echo PHP_EOL; ?>
+          <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($configs['enable']) && $config['enable'] ): echo PHP_EOL; ?>
           Resources:  [_show_booking_list, _show_applicant_id, _show_reservation_begins_at, _show_reservation_ends_at, _show_blocking, _show_confirmed, _show_optional, _show_reservation_description]
           <?php endif; echo PHP_EOL; ?>
           Extra informations: [_show_description]
