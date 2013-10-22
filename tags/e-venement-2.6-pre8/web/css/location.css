@@ -1,0 +1,12 @@
+#more .sf_admin_edit .sf_admin_list { margin: 0; }
+
+.sf_admin_list .sf_admin_action_newmanif .fg-button {
+  background-image: url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png");
+  background-position: -16px -128px;
+}
+
+.batch.ui-widget-content {
+  padding: 5px;
+  margin: 5px;
+}
+.batch label { display: block; }
