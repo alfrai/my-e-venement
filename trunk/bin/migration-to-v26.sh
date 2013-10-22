@@ -85,7 +85,7 @@ UPDATE entry_tickets SET gauge_id =
    LEFT JOIN manifestation_entry em ON m.id = em.manifestation_id
    LEFT JOIN entry_element ee ON ee.manifestation_entry_id = em.id
    WHERE ee.id = entry_element_id
-     AND gw.id IS NOT NULL
+   ORDER BY gw.id IS NOT NULL DESC
    LIMIT 1)
 WHERE gauge_id IS NULL;
 
