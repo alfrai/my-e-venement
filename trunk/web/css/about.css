@@ -10,7 +10,7 @@
   overflow: hidden;
   font-size: 13px;
 }
-.ui-widget-customer, .ui-widget-last-version { min-height: auto; background-image: none; }
+.ui-widget-customer, .ui-widget-last-version { min-height: 0; background-image: none; }
 
 .ui-widget.ui-widget-about a {
   text-decoration: none;
