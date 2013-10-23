@@ -22,9 +22,10 @@ And take it easy, relax, have a beer, a coke, a cigarette... and why not a cofee
 4. create a first user : ./symfony help guard:create-user
 5. promote this first user to "super-admin" : ./symfony guard:promote [xxxx]
 6. import pre-defined permissions and groups : ./symfony doctrine:data-load --append data/fixtures/10-permissions.yml
-7. (optional) add french postalcodes for autocompletion (it takes lots of time and memory) : ./symfony doctrine:data-load --append data/fixture/20-postalcodes.yml
-8. read the user documentation
-9. start funny things with e-venement...
+7. patch symfony running bin/patch-symfony.sh
+8. (optional) add french postalcodes for autocompletion (it takes lots of time and memory) : ./symfony doctrine:data-load --append data/fixture/20-postalcodes.yml
+9. read the user documentation
+10. start funny things with e-venement...
 
 == options ==
 
