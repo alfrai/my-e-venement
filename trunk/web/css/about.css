@@ -99,5 +99,5 @@ iframe#about {
 #careful .name, #careful .logo, #careful .address { text-align: center; }
 #careful .address, .ui-widget-customer .address { font-size: 90%; }
 .ui-widget-customer .address { line-height: 1.2em; }
-.ui-widget-last-version .content { max-height: 400px; overflow: auto; margin-right: -10px; padding-right: 5px; }
+.ui-widget-last-version .content { max-height: 350px; overflow: auto; margin-right: -10px; padding-right: 5px; }
 .ui-widget-last-version ul { margin-left: 20px; }
