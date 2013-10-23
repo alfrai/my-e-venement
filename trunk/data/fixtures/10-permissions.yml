@@ -1160,9 +1160,14 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_37
     created_at: '2013-10-22 14:15:00'
     updated_at: '2013-10-22 14:15:00'
-  sfGuardGroupPermission_33_38:
+  sfGuardGroupPermission_33_79:
     Group: sfGuardGroup_33
-    Permission: sfGuardPermission_38
+    Permission: sfGuardPermission_79
+    created_at: '2013-10-22 14:15:00'
+    updated_at: '2013-10-22 14:15:00'
+  sfGuardGroupPermission_33_86:
+    Group: sfGuardGroup_33
+    Permission: sfGuardPermission_86
     created_at: '2013-10-22 14:15:00'
     updated_at: '2013-10-22 14:15:00'
   sfGuardGroupPermission_33_88:
@@ -1337,7 +1342,7 @@ sfGuardGroup:
     created_at: '2013-06-17 17:14:50'
     updated_at: '2013-06-17 17:14:50' 
   sfGuardGroup_33:
-    name: event-managers
+    name: event-reservation-manager
     description: Ability to manage manifestations, including manifestations that don't belong to you
     created_at: '2013-10-22 14:11:50'
     updated_at: '2013-10-22 14:11:50' 
