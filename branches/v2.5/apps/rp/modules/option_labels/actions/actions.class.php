@@ -16,6 +16,7 @@ class option_labelsActions extends sfActions
     $this->form = new OptionLabelsForm();
     $this->params = $this->form->getDBOptions();
     
+    sfConfig::set('sf_escaping_strategy', false);
     sfConfig::set('sf_web_debug', false);
   }
   
