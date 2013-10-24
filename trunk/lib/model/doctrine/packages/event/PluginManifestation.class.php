@@ -82,7 +82,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
         if ( !($sf_user->hasCredential(self::$credentials['reservation_confirmed']) || $sf_user->getContactId() == $this->contact_id) && $this->reservation_confirmed )
           throw new liBookingException('The current user %%name%% does not have the credentials to confirm a manifestation, nor to modify a confirmed manifestation.', array('%%name%%' => (string)$sf_user));
       }
-      else
+      else // when reservations are not enabled
       {
         $this->reservation_begins_at = $this->happens_at;
         $this->reservation_ends_at = $this->ends_at;
