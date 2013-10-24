@@ -29,8 +29,9 @@ And take it easy, relax, have a beer, a coke, a cigarette... and why not a cofee
 
 == options ==
 
-1. the google maps api key : generate it and put it in rp/config/app.yml and event/config/app.yml
+1. e-venement messaging system: http://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin + config/project.yml + per-users settings
 2. sending emails :
- . setup the SMTP serveur for outgoing messages well
+ . setup the SMTP serveur for outgoing messages
  . add a cron job using doc/sh/e-venement.sh -> /etc/cron.hourly/e-venement.cron.sh after doing the needed changes in pathes
- . verify the permissions : chmod a+x /etc/cron.hourly/e-venement.cron.sh
+ . verify the permissions : chmod a+x /etc/cron.hourly/e-venement.cron.sh (or whatever is your filename)
+
