@@ -188,6 +188,7 @@
                 if ( $ticket->Price->member_card_linked )
                 {
                   $ticket->integrated_at = date('Y-m-d H:i:s');
+                  $ticket->vat = $ticket->Manifestation->Vat->value;
                   $ticket->save();
                 }
                 else
@@ -199,6 +200,7 @@
                 if ( $ticket->Price->member_card_linked )
                 {
                   $ticket->printed_at = date('Y-m-d H:i:s');
+                  $ticket->vat = $ticket->Manifestation->Vat->value;
                   $ticket->save();
                 }
                 else
@@ -218,12 +220,12 @@
     foreach ( $update as $type => $ids )
     if ( count($ids) > 0 )
     {
-      $q = Doctrine_Query::create()->update()
-        ->from('Ticket t')
+      $q = Doctrine_Query::create()->update('Ticket t')
         ->whereIn('t.id',$ids)
         ->andWhere(sprintf('t.%s IS NULL',$type))
         ->set('t.'.$type,'NOW()')
         ->set('t.updated_at','NOW()')
+        ->set('t.vat', '(SELECT v.value FROM Manifestation m LEFT JOIN Vat v ON v.id = m .vat_id WHERE m.id = manifestation_id)')
         ->set('t.sf_guard_user_id',$this->getUser()->getId())
         ->set('t.version','t.version + 1');
       
