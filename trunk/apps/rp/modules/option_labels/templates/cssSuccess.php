@@ -76,7 +76,7 @@ body.labels .labels > li > div.margin {
   height: 0;
 }
 body.labels .labels > li > div div.content {
-  height: <?php echo $cellheight - floatval($params['padding-y'])*2 ?>mm;
+  /* removal proposition // height: <?php echo $cellheight - floatval($params['padding-y'])*2 ?>mm; */
   padding: <?php echo floatval($params['padding-y']).'mm '.floatval($params['padding-x']).'mm' ?>;
   overflow: hidden;
 }
