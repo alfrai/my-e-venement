@@ -82,7 +82,7 @@ a, a:active, a:visited { color: #000; }
   left: 0;
   right: 0;
   background-color: rgba(114,159,207,0.7);
-  background-image: url('../images/wait.gif');
+  background-image: url('../images/wait.png');
   background-repeat: no-repeat;
   background-position: center center;
   display: none;
