@@ -28,14 +28,6 @@ all:
       05 59 27 60 52 - 08 92 68 68 87 (0,34&nbsp;€/min)
     date_extra: Cette inscription est valable 1 an (date de fin indiquée) et ouvre droit au tarif abonné.
     auto_close: true
-  google_maps:
-    api_keys:
-      default: "PUT YOUR API KEY HERE"
-      max_display: 200
-      default_country: France
-    display:
-      max: 100
-      notices: true
   #carddav_sync:
   #  auth:
   #    userName: xxx

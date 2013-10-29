@@ -33,7 +33,7 @@ all:
       event_name: 30
       event_shortname: 40
       #event_name_right: 20
-    #logo: private/logo-xxx.png
+    #logo: /private/logo-xxx.png
     authorize_grouped_tickets: false
   control:
     future: 6 hours
@@ -51,14 +51,6 @@ all:
     invoice_prefix: FB
     salt: xxxx
     #case_normalise: true
-  google_maps:
-    api_keys:
-      default: YOURKEYHERE
-      max_display: 200
-      default_country: France
-    display:
-      max: 200
-      notices: true
 
 dev:
   tickets:

@@ -5,11 +5,6 @@
 #all:
 
 all:
-  google_maps:
-    api_keys:
-      default: "ENTER YOUR API KEY HERE"
-      max_display: 200
-      default_country: France
   ticketting:
     dematerialized: true
     #gauge_small: false
