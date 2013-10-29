@@ -1,6 +1,6 @@
 body {
-  width: 210mm;
-  min-height: 297mm;
+  width: 100%;
+  min-height: 277mm;
   font-family: arial, sans;
   font-size: 13px;
 }
@@ -87,10 +87,14 @@ body.bdc #echeance { display: none; }
 .inline-modifiable input { width: 100px; }
 #lines .inline-modifiable.qty input { width: 4em; }
 
+#min-height { height: 250mm; float: left; }
 .footer {
+  clear: both;
+  /*
   position: absolute;
-  top: 270mm;
+  top: 260mm;
   width: 100%;
+  */
   text-align: center;
 }
 #payments {
