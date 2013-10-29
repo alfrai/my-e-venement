@@ -1,0 +1,50 @@
+<?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*
+***********************************************************************************/
+?>
+<?php
+	/**
+	  * Configuration manuelle
+	  * 
+	  **/
+	$config["website"]["libs"]	= "/usr/share/www/beta-libs/";
+	
+	$config["database"]["server"]		= "localhost";
+	$config["database"]["port"]		= NULL;
+	$config["database"]["name"]		= "e-venement";
+	$config["database"]["user"]		= "";
+	$config["database"]["passwd"]	= "";
+	
+	$config["database2"]["server"]		= "localhost";
+	$config["database2"]["port"]		= NULL;
+	$config["database2"]["name"]		= "e-venement-2";
+	$config["database2"]["user"]		= "";
+	$config["database2"]["passwd"]	= "";
+
+	/**
+	  * Configuration automatique
+	  * 
+	  **/
+	require(dirname(__FILE__).'/config.default.php');
+	ini_set("include_path",".:".$config["website"]["libs"]);
+	require_once("config.mods.php");
+	require_once($config["website"]["libs"]."/utils.lib.php");
+?>

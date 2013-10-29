@@ -1,0 +1,30 @@
+== What it does ==
+
+this script migrates (from a postgresql DB to an other postgresql one) :
+
+- contacts
+- organisms
+- professionals
+- phonenumbers
+- groups
+- users (see next chapter for more details)
+
+== What it does not ==
+
+this script cannot migrate all data, this is where are its limits :
+
+- it doesn't migrate users' passwords
+- it doesn't migrate users' rights
+- it doesn't support duplicated accounts and expired account (by date)
+- it migrates all data from groups, even contacts or professionals who are not "included", don't forget to delete them before
+
+== How does it work ? ==
+
+copy config.php.template into config.php and set it up.
+then run "php all.php"
+
+eventually you can run the script model by model like that (looking into all.php) :
+php all.php contact
+php all.php organism_category
+php all.php organism
+...
