@@ -52,7 +52,7 @@
   text-align: center;
   display: none;
 }
-.ui-widget-about .contributors ul { margin-top: 40px; }
+.ui-widget-about .contributors ul { margin-top: 20px; }
 .ui-widget-about .contributors li { list-style: none; }
 
 .ui-widget-about .ui-widget-header {

@@ -28,7 +28,8 @@
   </div>
 
   <?php if ( isset($client['logo']) && $client['logo'] ): ?>
-  <p class="logo"><?php echo link_to(image_tag($client['logo'], array('alt' => $client['name'])), $client['url'], array('target' => '_blank')) ?></p>
+  <?php if ( !is_array($client['logo_attributes']) ) $client['logo_attributes'] = array(); ?>
+  <p class="logo"><?php echo link_to(image_tag($client['logo'], array_merge($client['logo_attributes'], array('alt' => $client['name']))), $client['url'], array('target' => '_blank')) ?></p>
   <?php endif ?>
 
   <p class="name">

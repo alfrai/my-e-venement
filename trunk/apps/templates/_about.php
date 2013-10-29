@@ -37,7 +37,7 @@
   </div>
   <div class="contributors">
     <h3>e-venement</h3>
-    <p><?php echo __("there is worst, but it's more expensive",null,'about') ?></p>
+    <p><?php echo __("the ticketting software to accompany your development",null,'about') ?></p>
     <ul>
       <li><strong><?php echo __('the contributors',null,'about') ?></strong></li>
       <?php if ( is_array($c=sfConfig::get('software_about_contributors')) ) foreach ( $c as $contributor ): ?>
