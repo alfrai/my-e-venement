@@ -28,12 +28,12 @@
     if ( $strict )
       $bd->beginTransaction();
     
-    $query = ' SELECT '.$from.' FROM '.pg_escape_string($from_table).' ';
+    $query = ' SELECT '.$from.' FROM '.(substr($from_table,0,1) === '(' ? $from_table : pg_escape_string($from_table)).' ';
     if ( $where )
       $query .= 'WHERE '.$where;
     $request = new bdRequest($bd2,$query);
     
-    $cpt = array();
+    $cpt = array('ok' => 0, 'ko' => 0);
     while ( $rec = $request->getRecordNext() )
     {
       $callbacks = array();
@@ -77,7 +77,7 @@
             $count = 1;
             for ( $i = 0 ; $count > 0 ; $i++ )
             {
-              $sluggable = ($arr['firstname'] ? $arr['firstname'].' ' : '').$arr['name'];
+              $sluggable = (isset($arr['firstname']) && $arr['firstname'] ? $arr['firstname'].' ' : '').$arr['name'];
               if ( $i > 0 ) $sluggable .= ' '.$i;
               $sluggable = slugify($sluggable);
               $arr[$new] = $sluggable;

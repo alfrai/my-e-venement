@@ -101,6 +101,8 @@
 	$config["right"]["del"]		= 5;	// droit de supprimer des données
 	$config["right"]["view"]	= 0;	// droit de consulter les données
 	
+	$config['indispo'] = false;
+	
 	/**
 	  * Configuration automatique
 	  * 

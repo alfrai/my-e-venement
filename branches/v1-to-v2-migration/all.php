@@ -63,11 +63,11 @@
       'creation'    => 'created_at',
       'modification'=> 'updated_at',
       'description' => 'description',
-      'password'    => 'password',
+      //'password'    => 'password',
       'adresse'     => 'address',
       'cp'          => 'postalcode',
       'ville'       => 'city',
-      'state'       => 'country',
+      'pays'        => 'country',
       'email'       => 'email',
       'npai'        => 'npai',
     );
@@ -109,7 +109,7 @@
       'adresse'     => 'address',
       'cp'          => 'postalcode',
       'ville'       => 'city',
-      'state'       => 'country',
+      'pays'        => 'country',
       'email'       => 'email',
       'npai'        => 'npai',
       'url'         => 'url',
@@ -215,6 +215,22 @@
     $tables[] = $to_table;
     $cpt = migrate($from_table,$conversion,$to_table,false);
     print_r($cpt);
+  }
+  function no_sf_guard_user_id($rec)
+  {
+    global $bd, $sf_guard_user_id;
+    
+    if ( isset($sf_guard_user_id) )
+      return $sf_guard_user_id;
+    
+    $request = new bdRequest($bd,"SELECT min(id) id FROM sf_guard_user");
+    if ( $request->countRecords() > 0 )
+    {
+      $sf_guard_user_id = $request->getRecord('id');
+      return $request->getRecord('id');
+    }
+    
+    return NULL;
   }
   
   // users
@@ -337,7 +353,7 @@
       'sf_guard_user_id'    => 'accountid',
       'field_from'          => 'from',
       'field_to'            => 'to',
-      'field_cc'            => 'cc',
+      //'field_cc'            => 'cc',
       'field_bcc'           => 'bcc',
       'field_subject'       => 'subject',
       'content'             => 'content',
@@ -369,6 +385,39 @@
     print_r($cpt);
   }
   
+  // vat
+  $to_table = 'vat';
+  $from_table = "(select * from (select txtva||'%' AS txtva, txtva/100 AS value from billeterie.evt_categorie group by txtva) as truc) AS vat";
+  if ( in_array($to_table,$do) || count($do) == 0 )
+  {
+    $conversion = array(
+      'name' => 'txtva',
+      'value' => 'value',
+      'created_at' => NULL,
+      'updated_at' => NULL,
+    );
+    echo $to_table.' ';
+    $tables[] = $to_table;
+    $cpt = migrate($from_table,$conversion,$to_table);
+    print_r($cpt);
+  }
+  function find_vat_id($rec)
+  {
+    global $bd, $vat_ids;
+    
+    if ( isset($vat_ids) && isset($vat_ids[$rec['txtva']]) )
+      return $vat_ids[$rec['txtva']];
+    
+    $request = new bdRequest($bd,"SELECT * FROM vat WHERE name = '".pg_escape_string($rec['txtva'])."%'");
+    if ( $request->countRecords() > 0 )
+    {
+      $vat_ids[$request->getRecord('name')] = $request->getRecord('id');
+      return $request->getRecord('id');
+    }
+    
+    return NULL;
+  }
+  
   // event_category
   $to_table = 'event_category';
   $from_table = 'billeterie.evt_categorie';
@@ -377,7 +426,7 @@
     $conversion = array(
       'id' => 'id',
       'name' => 'libelle',
-      'vat' => 'txtva',
+      'vat_id' => '_find_vat_id',
       'created_at' => NULL,
       'updated_at' => NULL,
     );
@@ -468,6 +517,7 @@
       'web_price' => 'tarifweb',
       'web_price_group' => 'tarifwebgroup',
       'image_url' => 'imageurl',
+      'sf_guard_user_id' => '_no_sf_guard_user_id',
     );
     echo $to_table.' ';
     $tables[] = $to_table;
@@ -563,18 +613,34 @@
   $from_table = 'billeterie.manifestation';
   if ( in_array($to_table,$do) || count($do) == 0 )
   {
+    function reservation_begins_at($rec)
+    {
+      return $rec['date'];
+    }
+    function reservation_ends_at($rec)
+    {
+      return date('Y-m-d H:i:s', $rec['seconds'] + strtotime($rec['date']));
+    }
+    function manif_duree($rec)
+    {
+      return strtotime('+'.$rec['duree']) - strtotime('now');
+    }
+    
     $conversion = array(
       'id' => 'id',
       'event_id' => 'evtid',
       'location_id' => 'siteid',
       'color_id' => 'colorid',
       'happens_at' => 'date',
-      'duration'   => 'duree',
+      'duration'   => '_manif_duree',
       'description' => 'description',
-      'vat' => 'txtva',
-      'seated' => 'plnum',
+      'vat_id' => '_find_vat_id',
+      //'seated' => 'plnum',
       'created_at' => NULL,
       'updated_at' => NULL,
+      'sf_guard_user_id'      => '_no_sf_guard_user_id',
+      'reservation_begins_at' => '_reservation_begins_at',
+      'reservation_ends_at'   => '_reservation_ends_at',
     );
     echo $to_table.' ';
     $tables[] = $to_table;
@@ -621,12 +687,21 @@
     print_r($cpt);
   }
   $from_table = 'billeterie.manifestation';
-  $spaceid = 3;
   if ( in_array($to_table,$do) || count($do) == 0 )
   {
+    function gauge_spaceid($rec)
+    {
+      global $default_wsid, $bd;
+      if ( isset($default_wsid) )
+        return $default_wsid;
+      
+      $request = new bdRequest($bd,"SELECT min(id) id FROM workspace");
+      return $default_wsid = $request->getRecord('id');
+    }
+    
     $conversion = array(
       'manifestation_id'  => 'id',
-      'workspace_id'      => 'spaceid',
+      'workspace_id'      => '_gauge_spaceid',
       'value'             => 'jauge',
       'online'            => 'vel',
       'created_at'        => NULL,
@@ -634,7 +709,7 @@
     );
     echo $to_table.' ';
     $tables[] = $to_table;
-    $cpt = migrate($from_table,$conversion,$to_table,true,'',"*, CASE WHEN jauge IS NULL THEN 0 ELSE jauge END AS jauge, $spaceid AS spaceid");
+    $cpt = migrate($from_table,$conversion,$to_table,true,'',"*, CASE WHEN jauge IS NULL THEN 0 ELSE jauge END AS jauge");
     print_r($cpt);
   }
   
