@@ -105,7 +105,7 @@ class EventFormFilter extends BaseEventFormFilter
     if ( !$q->contains("LEFT JOIN $a.Manifestations m") )
       $q->leftJoin("$a.Manifestations m");
     
-    if ( inval($value) > 0 )
+    if ( intval($value) > 0 )
       return $q
         ->leftJoin('m.Booking b')
         ->andWhere('(TRUE')
