@@ -63,7 +63,7 @@ $(document).ready(function(){
     <?php $resources = Doctrine::getTable('Location')->createQuery('l')->andWhere('l.place = TRUE')->orderBy('l.name')->execute() ?>
     resources: [
       <?php foreach ( $resources as $res ): ?>
-      { name: '<?php echo $res ?>', id: 'resource-<?php echo $res->id ?>', readonly: true },
+      { name: '<?php echo str_replace("'", "\\'", $res) ?>', id: 'resource-<?php echo $res->id ?>', readonly: true },
       <?php endforeach ?>
     ],
     

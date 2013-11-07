@@ -18,7 +18,7 @@ class liCardDavPluginConfiguration extends sfPluginConfiguration
    */
   public function initialize()
   {
-    require_once __DIR__.'/../lib/vendor/sabredav/vendor/autoload.php';
+    require_once __DIR__.'/../lib/vendor/SabreDAV/vendor/autoload.php';
     
     // the events
     $this->dispatcher->connect('admin.save_object',     array($this, 'listenToSaveObject'));
