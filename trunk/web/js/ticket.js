@@ -139,6 +139,7 @@ function ticket_events()
       $('#manifestations .manifestations_add')
         .html($($.parseHTML(data)).find('#manifestations .manifestations_add').html())
         .slideDown();
+      $('#manifestations .gauge').fadeIn();
       ticket_activate_manifs_gauge();
       ticket_manif_new_events();
       if ( $('#manifestations form [name=manif_new]').val().substring(0,7) == '#manif-' )
