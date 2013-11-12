@@ -106,10 +106,13 @@ abstract class PluginEmail extends BaseEmail
       '</body></html>';
     
     $h2t = new HtmlToText($content);
-    return $message
+    $message
       ->setFrom($this->field_from)
       ->setSubject($this->field_subject)
       ->setBody($h2t->get_html(),'text/html')
       ->addPart($h2t->get_text(),'text/plain');
+    if ( $this->read_receipt )
+      $message->setReadReceiptTo($this->field_from);
+    return $message;
   }
 }

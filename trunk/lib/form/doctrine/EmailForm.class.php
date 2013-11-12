@@ -78,6 +78,14 @@ class EmailForm extends BaseEmailForm
       'required' => false,
     ));
     
+    $this->widgetSchema   ['read_receipt'] = new sfWidgetFormInputCheckbox(array(
+      'value_attribute_value' => 1,
+    ));
+    $this->validatorSchema['read_receipt'] = new sfValidatorBoolean(array(
+      'true_values' => array(1),
+      'required' => false,
+    ));
+    
     $this->validatorSchema['attach'] = new sfValidatorPass(array(
       'required' => false,
     ));

@@ -5,6 +5,10 @@
     <header />
     <body>
       <trans-unit>
+        <source>Your email have been sent correctly.</source>
+        <target>Votre email a été envoyé correctement.</target>
+      </trans-unit>
+      <trans-unit>
         <source>You cannot access this object, you do not have the required credentials.</source>
         <target>Vous ne pouvez accéder à cet objet, faute d'accréditation requise.</target>
       </trans-unit>
