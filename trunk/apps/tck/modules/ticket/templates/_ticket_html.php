@@ -28,7 +28,7 @@
     <p class="org"><span class="orgas"><?php $orgas = array(sfConfig::get('app_seller_name')); $cpt = 0; foreach ( $ticket->Manifestation->Organizers as $orga ) { if ( $cpt++ > 2 ) break; if ( strpos($orgas[0],$orga->name) !== false ) $orgas[] = $orga->name; else $cpt--; } echo implode('</span>, <span class="orgas">',$orgas); ?></span></p>
     <p class="seat"><?php echo $ticket->numerotation ? __('Seat n°%%s%%',array('%%s%%' => $ticket->numerotation)) : '' ?></p>
     <p class="transaction">
-      <span class="date"><?php echo format_date($ticket->updated_at,'dd/MM/yyyy HH:mm') ?></span>
+      <span class="date"><?php echo format_date($now = time(),'dd/MM/yyyy HH:mm') ?></span>
       /
       <span class="num">#<?php echo $ticket->Transaction->id ?>-<?php echo $sf_user->getId() ?></span>
     </p>
@@ -79,7 +79,7 @@
     </p>
     <p class="seat"><?php echo $ticket->numerotation ? __('Seat n°%%s%%',array('%%s%%' => $ticket->numerotation)) : '' ?></p>
     <p class="transaction">
-      <span class="date"><?php echo format_date($ticket->updated_at,'dd/MM/yyyy HH:mm') ?></span>
+      <span class="date"><?php echo format_date($now,'dd/MM/yyyy HH:mm') ?></span>
       /
       <span class="num">#<?php echo $ticket->Transaction->id ?>-<?php echo $sf_user->getId() ?></span>
     </p>
