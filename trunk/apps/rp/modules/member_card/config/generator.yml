@@ -20,6 +20,7 @@ generator:
       fields:
         expire_at: { label: Expire at }
       list:
+        title: List of active member cards on the period (cf. filters)
         display: [_id, _name, Contact, created_at, expire_at, _value]
         sort: [created_at, desc]
         object_actions:

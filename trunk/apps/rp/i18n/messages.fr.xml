@@ -333,12 +333,12 @@
         <target>Type de carte d'abo.</target>
       </trans-unit>
       <trans-unit>
-        <source>Update filters</source>
-        <target>Mettre à jour les filtres</target>
+        <source>Member card type List</source>
+        <target>Liste des type de carte d'abo.</target>
       </trans-unit>
       <trans-unit>
-        <source>Member card type List</source>
-        <target>Liste des types de cartes d'abonnement</target>
+        <source>Update filters</source>
+        <target>Mettre à jour les filtres</target>
       </trans-unit>
       <trans-unit>
         <source>Other cards</source>
@@ -371,6 +371,10 @@
       <trans-unit>
         <source>Number</source>
         <target>Numéro</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List of active member cards on the period (cf. filters)</source>
+        <target>Liste des types de cartes d'abo. actives sur la période (cf. filtres)</target>
       </trans-unit>
       <trans-unit>
         <source>Member card List</source>
