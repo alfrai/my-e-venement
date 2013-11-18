@@ -108,9 +108,9 @@
 
     <div class="ui-widget-content ui-corner-all" id="company">
       <div class="ui-widget-header ui-corner-all fg-toolbar">
-        <h2><?php echo __('Libre Informatique', array(), 'messages') ?></h2>
+        <h2><?php echo sfConfig::get('app_feed_name','e-venement.org') ?></h2>
       </div>
-      <?php include_partial('global/libre-informatique') ?>
+      <?php include_partial('global/e-venement') ?>
     </div>
   </div>
   </div>
