@@ -12,3 +12,5 @@
 <?php include_partial('stats_pro', array('professionals' => $professionals)) ?>
 <div class="clear"></div>
 </div>
+<?php echo __("coucou
+sdfsdf") ?>

@@ -1183,12 +1183,12 @@ sfGuardGroupPermission:
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
-    description: "The right to view contacts, organisms, groups\r\nBut only this"
+    description: "The right to view contacts, organisms, groups But only this"
     created_at: '2011-01-18 15:22:32'
     updated_at: '2011-01-18 15:32:12'
   sfGuardGroup_2:
     name: pr-export
-    description: "Ability to export/extract data...\r\nIt inclues CSV extraction, labels creation, group export..."
+    description: "Ability to export/extract data... It includes CSV extraction, labels creation, group export..."
     created_at: '2011-01-18 15:40:21'
     updated_at: '2011-01-18 15:41:14'
   sfGuardGroup_3:
