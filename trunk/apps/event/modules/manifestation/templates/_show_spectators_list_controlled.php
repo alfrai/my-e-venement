@@ -28,9 +28,9 @@
     <?php include_partial('show_spectators_list_line',array(
       'transac' => $transac,
       'contact' => $contact,
-      'ws'      => $ws,
+      'ws'      => $contact['prices'],
       'show_workspaces' => $show_workspaces,
-      'wsid'    => $wsid,
+      'wsid'    => 0,
     )) ?>
   </tr>
   <?php endif ?>

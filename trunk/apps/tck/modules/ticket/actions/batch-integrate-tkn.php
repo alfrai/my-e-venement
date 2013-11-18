@@ -27,7 +27,7 @@ $charset = sfConfig::get('software_internals_charset');
 
 for ( $i = 0 ; $line = fgets($fp) ; $i++ )
 // if !EOF and !BOF
-if ( strlen($line) == 216 || strlen($line) == 108 )
+if ( strlen($line) == 216 || strlen($line) >= 107 && strlen($line) <= 108 )
 {
   $line = iconv($charset['old'],$charset['db'],$line);
   
