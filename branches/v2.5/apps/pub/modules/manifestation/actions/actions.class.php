@@ -85,8 +85,8 @@ class manifestationActions extends autoManifestationActions
     foreach ( $contact->MemberCards as $mc )
     foreach ( $mc->MemberCardPrices as $price )
     {
-      if ( !isset($mcp[$price->price_id]) )
-        $mcp[$price->price_id] = array('' => 0);
+      if ( !isset($mcp[$price->price_id]['']) )
+        $mcp[$price->price_id][''] = 0;
       
       if ( isset($mcp[$price->price_id][is_null($price->event_id) ? '' : $price->event_id]) )
         $mcp[$price->price_id][is_null($price->event_id) ? '' : $price->event_id]++;
@@ -97,6 +97,7 @@ class manifestationActions extends autoManifestationActions
     // get back already booked tickets
     $tickets_to_count = Doctrine_Query::create()->from('Ticket tck')
       ->andWhere('tck.printed = ?',false)
+      ->andWhere('tck.member_card_id IS NOT NULL')
       ->leftJoin('tck.Manifestation m')
       ->leftJoin('tck.Price p')
       ->andWhere('p.member_card_linked = ?',true)
@@ -106,10 +107,12 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('o.id IS NOT NULL')
       ->execute();
     foreach ( $tickets_to_count as $ticket )
-    if ( isset($mcp[$ticket->price_id][$ticket->Manifestation->event_id]) )
-      $mcp[$ticket->price_id][$ticket->Manifestation->event_id]--;
-    else
-      $mcp[$ticket->price_id]['']--;
+    {
+      if ( isset($mcp[$ticket->price_id][$ticket->Manifestation->event_id]) )
+        $mcp[$ticket->price_id][$ticket->Manifestation->event_id]--;
+      else
+        $mcp[$ticket->price_id]['']--;
+    }
     
     return $mcp;
     

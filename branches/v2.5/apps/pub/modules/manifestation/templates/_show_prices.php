@@ -20,7 +20,7 @@
       
       if ( isset($mcp[$pm->price_id]) )
       {
-        $cpt += $mcp[$pm->price_id][''];
+        $cpt += $mcp[$pm->price_id][''] < 0 ? 0 : $mcp[$pm->price_id][''];
         if ( isset($mcp[$pm->price_id][$gauge->Manifestation->event_id]) )
           $cpt += $mcp[$pm->price_id][$gauge->Manifestation->event_id];
       }
