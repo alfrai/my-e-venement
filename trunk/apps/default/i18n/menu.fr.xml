@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Frequently Asked Questions</source>
+        <target>Foire Aux Questions</target>
+      </trans-unit>
+      <trans-unit>
         <source>This plateform is dedicated to</source>
         <target>Cette plateforme est dédiée à</target>
       </trans-unit>
