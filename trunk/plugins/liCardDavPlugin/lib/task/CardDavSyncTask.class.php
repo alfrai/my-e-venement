@@ -23,14 +23,14 @@
 ***********************************************************************************/
 ?>
 <?php
-class SynchronizeContactsTask extends sfBaseTask{
+class CardDavSyncTask extends sfBaseTask{
 
   protected $weirds = array();
 
   protected function configure() {
     $this->addOptions(array(
       new sfCommandOption('sync', null, sfCommandOption::PARAMETER_REQUIRED, 'The sync direction (both by default or dav2e or e2dav)', 'both'),
-      new sfCommandOption('model', null, sfCommandOption::PARAMETER_REQUIRED, 'The objects to be sync\'ed (both by default or contact or organism', 'both'),
+      new sfCommandOption('model', null, sfCommandOption::PARAMETER_REQUIRED, 'The objects to be sync\'ed (both by default or contact or organism)', 'both'),
       new sfCommandOption('no-del', null, sfCommandOption::PARAMETER_NONE, 'Do not try to delete data'),
       new sfCommandOption('force', null, sfCommandOption::PARAMETER_NONE, 'Force complete upload to the DAV repository (use with precaution, can take a loooong time)'),
       new sfCommandOption('nb', null, sfCommandOption::PARAMETER_REQUIRED, 'The number of contacts you want to synchronize (mainly for tests purposes, 0 = no limit)', '0'),
@@ -39,11 +39,11 @@ class SynchronizeContactsTask extends sfBaseTask{
       new sfCommandOption('debug', null, sfCommandOption::PARAMETER_NONE, 'Display debug informations'),
     ));
     $this->namespace = 'e-venement';
-    $this->name = 'synchronize-contacts';
+    $this->name = 'carddav-sync';
     $this->briefDescription = "Synchronize your e-venement's contacts & organisms with your distant CardDAV plateform";
     $this->detailedDescription = <<<EOF
-      The [sc:synchronize-contacts|INFO] synchronizes your e-venement's contacts & organisms with a distant CardDAV plateform:
-      [./symfony e-venement:synchronize-contacts --env=dev --sync=e2dav --application=rp|INFO]
+      The [sc:carddav-sync|INFO] synchronizes your e-venement's contacts & organisms with a distant CardDAV plateform:
+      [./symfony e-venement:carddav-sync --env=dev --sync=e2dav --application=rp|INFO]
 EOF;
   }
 
@@ -80,8 +80,10 @@ EOF;
    **/
   protected function dav2e(liCardDavConnection $con, array $options)
   {
-    $vcard = $con->getVCard('0A7B56A4-376BC2A4-A2D7475A');
-    print_r($vcard);
+    //$vcard = $con->getVCard('0A9E82FF-CD35EEE2-3ADE6A1F');
+    //print_r($vcard);
+    
+    $con->test();
   }
 
   /**

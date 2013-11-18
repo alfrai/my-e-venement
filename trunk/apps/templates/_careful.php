@@ -1,7 +1,7 @@
 <?php $client = sfConfig::get('project_about_client', array()) ?>
 
 <?php if ( isset($client['logo']) && $client['logo'] ): ?>
-<?php if ( !is_array($client['logo_attributes']) ) $client['logo_attributes'] = array(); ?>
+<?php if (!( isset($client['logo_attributes']) && is_array($client['logo_attributes']) )) $client['logo_attributes'] = array(); ?>
 <p class="logo"><?php echo link_to(image_tag($client['logo'], array_merge($client['logo_attributes'], array('alt' => $client['name']))), $client['url'], array('target' => '_blank')) ?></p>
 <?php endif ?>
 

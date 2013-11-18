@@ -228,27 +228,30 @@
     
     public function test()
     {
-      print_r($this->backend->request('GET','/dav/baptiste@netacces.biz/e-venement/9B5B3B74-5AFCAF5C-25BD2055.vcf'));
-      return;
-
+/*
       $r = $this->backend->request('REPORT', '', <<<EOF
 <?xml version="1.0" encoding="utf-8" ?>
-<C:addressbook-query xmlns:D="DAV:" xmlns:C="urn:ietf:params:xml:ns:carddav">
+<C:addressbook-query xmlns:D="DAV:"
+                     xmlns:C="urn:ietf:params:xml:ns:carddav">
      <D:prop>
        <D:getetag/>
+       <C:address-data>
+         <C:prop name="REV"/>
+         <C:prop name="UID"/>
+       </C:address-data>
      </D:prop>
-     <C:filter test="anyof">
-       <C:prop-filter name="REV">
-         <C:text-match collation="i;unicode-casemap" match-type="contains">plat</C:text-match>
+     <C:filter>
+       <C:prop-filter name="FN">
+         <C:text-match collation="i;unicode-casemap"
+                       match-type="starts-with"
+         >pl</C:text-match>
        </C:prop-filter>
      </C:filter>
-     <C:limit>
-       <C:nresults>2</C:nresults>
-     </C:limit>
    </C:addressbook-query>
 EOF
-);
-      //$r = $this->backend->propFind('',array('{CARDDAV:}addressbook-multiget',));
+      );
+*/
+      $r = $this->backend->request('PROPFIND');
       print_r($r);
     }
     
