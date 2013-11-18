@@ -1,3 +1,140 @@
+== v2.5 -> v2.6 ==
+2013-11-18 "Guinness Draught"
+
+Général:
+- bugs
+  - reprise de quelques traductions
+  - correction du widget liWidgetFormDoctrineJQueryAutocompleterGuide, à cause de conflits sur des noms de variable
+- améliorations
+  - reprise du CHANGELOG pour lister les changements depuis les premières pré-versions de la série 2.0
+  - reprise du fichier INSTALL pour prendre en compte les nouveaux scripts (dont le patch de Symfony)
+  - ajout d'indexes dans la base de données partout où cela a été possible, afin d'accélérer les actions de lecture (dont un bon hack de doctrine pour que cela fonctionne dans les héritages entre modèles)
+  - ajout des schémas de données mis à jour
+  - déplacement des informations sur la structure depuis l'espace de nom "software" à "project" pour plus de cohérence
+  - ajout de templates pour les erreur 404 dans l'ensemble des modules
+  - mise à jour de TinyMCE à la dernière version
+  - les filtres classés par catégorie (pour les longues listes de filtres) se structurent maintenant via le generator.yml, et non plus par une astuce javascript
+  - plusieurs éléments esthétiques ont été améliorés (écran d'attente, les inputs text, des icônes sur les messages flash de succès, )
+  - prise en compte des nouvelles URL pour accéder à la documentation (via www.e-venement.net)
+- nouveautés
+  - retrait des fonctionnalités de géolocalisation (rapporté comme inutiles par les utilisateurs et lourd à l'usage)
+  - plusieurs exceptions "catchées" ajoutent maintenant un log via apache, afin de ne pas perdre la trace de ce qui s'est passé
+  - ajout d'un script de migration depuis e-venement v2.5 vers e-venement v2.6 ; ajout d'un script applicant directement des patches pour Symfony
+  - ajout de groupes et de permissions pour la réservation de ressources
+  - ajout et réécriture de widgets présents transversalement dans e-venement, sur l'écran d'authentification et sur l'écran d'accueil
+  - ajout d'un lien dans l'aide pour accéder directement aux FAQ
+  - ajout de l'e-venement instant messaging system, pour la messagerie interne
+
+Événementiel:
+- bugs
+  - correction d'appels incorrects dans la liste des spectateurs des manifestations
+  - retrait de la liste des manifestations dans les fiches "espace de travail" pour éviter les retrait massif dûs à de fausses manipulations
+  - correction d'un bug sur les filtres des événements
+  - une manifestation peut maintenant durer plus de 24 heures
+  - amélioration de l'affichage des âges en dessous de 1 an (pour les événements)
+  - limitation la liste des jauges disponibles à ce à quoi ont réellement accès les utilisateurs
+- améliorations
+  - traductions
+  - il est maintenant possible de définir le nombre d'événements à afficher dans la liste des événements dans le fichier apps/event/config/app.yml
+  - ajout d'un "helper" pour les couleurs des manifestations
+  - dans le menu principal, le module événementiel porte maintenant ce nom
+  - les tarifs "cachés" (n'étant plus actifs) ne sont plus ajoutés automatiquement lors de la création d'une nouvelle manifestation
+  - le "retour à la liste" dans une fiche manifestation renvoie maintenant systématiquement à l'événement correspondant, et non plus parfois à la liste complète des événements
+  - reprise de la jauge miniature pour que les bulles d'aide soient plus utiles (par exemple, ajout du nombre de places restantes)
+  - optimisation du premier jour affiché dans les calendriers, dépendant du contexte
+  - ajout d'une recherche rapide sur les événements
+- nouveautés
+  - possibilité d'extraire (CSV) la liste des spectateurs de chaque manifestation
+  - possibilité d'exporter via HTTP/iCal (cela étant presque du CalDAV) le calendrier d'e-venement vers un client CalDAV ou assimilable
+  - il est maintenant possible d'accéder aux différentes versions des manifestations
+  - les manifestations sont maintenant potentiellement "demandées par quelqu'un", ce qui se fait de manière automatique pour les utilisateurs liés à des contacts n'ayant pas un haut niveau de droit dans la réservation de ressources
+  - ajout d'une vue "par salle" dans les calendriers
+  - possibilité d'utiliser le principe de périodicité pour dupliquer les manifestations
+  - ajout de la notion de ressources, au delà des salles (qui restent la ressource principale)
+  - ajout d'un système de réservation de ressources, de son monitoring, de son usage collaboratif, de ses droits d'accès différentiés, de créneaux avant et après une manifestation où la ressource est toujours bloquée, gestion des conflits d'usage, etc...
+
+Groupe et scolaires:
+- bugs
+  - limitation des listes de contacts aux meta-événements disponibles pour l'utilisateur en cours
+- améliorations
+  - améliorations SQL/DQL
+  - optimisations importantes de temps de calcul et d'affichage lors de la manipulation de grandes quantités de données
+  - possibilité d'imprimer de manière plus propre les tableaux
+  - il est dorénavant possible de flêcher les tarifs sur une jauge particulière à partir du moment où plusieurs sont disponibles
+  - l'entête et le pied du tableau "par événement" est maintenant fixe pour plus d'aisance en cas de grande quantité d'information
+- nouveautés
+  - extractions : ajout de l'identification administrative de l'organisme, du service et du numéro de tel professionnel ; des tarifs affectés et des totaux économiques et quantitatifs ; des groupes remarquables
+  - ajout d'une possibilité de saisir par contact les sélections de billets, plus que "par événement" (pratique en début de période où toutes les demandes affluent)
+
+RP:
+- bugs
+  - correction des champs printed_at et integrated_at dans les filtres des contacts conformément au changement de schéma de la v2.5
+  - correction d'un bug lors du passage d'un groupe à la liste de ses contacts
+  - correction des extractions concernant des champs conditionnels
+  - correction du filtre sur "non membre des groupes", qui ne filtrait alors que les professionnels
+  - correction d'un effet de bord fâcheux dans les emailings, concernant les fichiers joints
+  - correction d'une limitation insensée sur les titres des contacts, qui n'étaient accessibles qu'aux users ayant la permission admin-title
+  - correction du comportement de l'erreur 404 dans le cadre du design TDP
+  - correction du calcul de l'âge dans le design TDP
+  - correction d'un bug de sécurité dans le widget TDP latéral
+  - reprise du traitement des doublons via le design TDP
+- améliorations
+  - amélioration du schéma de la base de données pour les "années de naissance"
+  - ajout d'une permission spécifique pour les informations sociales
+  - quelques retourches de surface sur les étiquettes
+  - amélioration générale du design TDP
+  - ajout de filtres sur les informations sociales
+  - ajout de l'affichage des billets réservés dans l'historique de billetterie des contacts
+  - possibilité de retirer des contacts individuellement de la liste via les filtres, permettant un tri plus fin dans le but de créer des groupes ou des emailings
+- nouveautés
+  - ajout d'un filtre sur les archives billetterie de e-venement v1 pour les contacts
+  - décompte des contacts supprimés afin de retrouver ces différences dans les stats
+  - décompte d'individus sont "représentés" par une fiche contact (1 = 1 ou 0 année de naissance, 2 = 2 années de naissance, etc.)
+  - ajout de permissions sur les groupes communs, permettant de gérer un accès par utilisateur à chaque groupe
+  - ajout d'un accusé de réception optionnel dans les emailings
+  - ajout d'une extraction par vCard des contacts
+  - ajout d'une synchronisation des contacts et organismes via CardDAV (pour le moment unidirectionnelle de e-venement vers le service CardDAV, la bidirectionnalité est prévue pour les sous-versions de la v2.6) (utilise SabreDAV pour la partie WebDAV cliente), pour un accès sur les téléphones portables, les logiciels de messagerie, etc.
+
+Billetterie:
+- bugs
+  - retrait de logs apache d'erreurs inutiles sur les paiements
+  - correction d'un bug d'affichage de la jauge de nouvelles manifestations lors de la repreise d'opérations ayant déjà des billets
+  - correction de la date de valeur imprimé sur les billets (c'était la date de la dernière mise à jour qui apparaîssait)
+  - correction d'un bug sur la suppression de billets partiellement intégrés... lorsque l'on souhaitait supprimer des billets intégrer, il fallait d'abord supprimer tous les billets en attente
+  - correction d'un bug mineur sur les duplicatas
+  - correction du journal des ventes sur les gros volumes à propos de la date de valeur des billets
+  - correction d'un bug isolé concernant les dates de valeur des annulations de billets imprimés tardivement
+  - correction d'un bug concernant les filtres sur les dates des dettes
+  - correction d'un bug d'affichage de la date de fin dans la liste des manifestations en billetterie
+  - retrait des manifestations sans jauge des manifestations sélectionnables en billetterie
+  - correction d'un bug dans la génération des codes barre, lié à des tags PHP invalides (<? au lieu de <?php), fonctionnels seulement sur certaines configuration de PHP
+- améliorations
+  - petites réorganisations du code dans le modèle, retrait des champs printed et integrated issus des versions ≤ 2.4
+  - rejet des duplicatas directs (via le numéro de billet) sur les opérations déjà clôturées
+  - ajout d'une date de transition dans le calcul de la TVA (pour la migration de versions antérieures à la v2.5), pour éviter les écritures comptables faussées
+  - la valeur de la TVA est maintenant celle qui est en cours au moment de l'impression/intégration des billets
+  - ajout du format d'import TicketNet réduit (108 caractères de large)
+  - ajout d'informations dans le journal des billets
+  - optimisation du temps de calcul des dettes (avec une option pour refaire une vérification complète de l'état des comptes)
+  - possibilité d'imprimer sur les billets les lieux où auront lieu les événements
+  - amélioration du rendu des boutons dans le processus de vente de billets
+- nouveautés
+  - prise en compte des nouveautés sur les réservations dans la gestion événementielle
+
+Vente en Ligne / e-voucher intégré :
+- bugs
+  - correction du schema conformément aux évolutions de la v2.5 (printed_at et integrated_at)
+  - correction de plusieurs bugs bloquant sur des champs inappropriés ou plus à jour lors de l'enregistrement de contacts
+  - renforcement de la résistance aux exceptions PHP volontaires
+- améliorations
+  - déplacement du fichier paybox.pem de web/uploads à sf_module_cache_dir/paybox/ pour pouvoir plus facilement le remettre à zéro avec un clear:cache, et cela évite des fuites d'information possibles
+  - correction d'un bug croisé entre les cartes d'abonnement ayant des tarifs non flêchés vers un événement et celles qui ont des tarifs orientés
+  - amélioration des messages et traductions
+  - ajout d'un texte explicatif si un visiteur arrive par hasard sur le module et que celui-ci est fermé
+  - amélioration du formulaire de login
+  - possibilité de récupérer un mot de passe oublié
+
+
 == v2.4 -> v2.5 ==
 2013-06-07 "Guinness Draught"
 
