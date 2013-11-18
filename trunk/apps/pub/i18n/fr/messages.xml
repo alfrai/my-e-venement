@@ -13,6 +13,10 @@
         <target>Code de récupération</target>
       </trans-unit>
       <trans-unit>
+        <source>List of tickets</source>
+        <target>Liste des billets</target>
+      </trans-unit>
+      <trans-unit>
         <source>The recovery code to reset your password is %%code%%. Copy it into the password recovery form where you just have been redirected or follow this link:</source>
         <target>Le code de récupération pour définir un nouveau mot de passe est %%code%%. Copiez le dans le formulaire de récupération de mot de passe où vous venez d'être redirigé ou bien suivez ce lien :</target>
       </trans-unit>
