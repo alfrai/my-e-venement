@@ -1,3 +1,0 @@
-default:
-  javascripts: [debts, list-scroll]
-  stylesheets: [debts]
