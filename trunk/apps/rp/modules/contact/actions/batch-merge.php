@@ -63,15 +63,15 @@
         if ( $contact->description ) $arr[] = $contact->description;
         $base_contact->description = implode(' ',$arr);
         
-        // family contact
-        if ( !is_null($contact->family_contact)
-          && strtotime($contact->updated_at) > strtotime($base_contact->updated_at) )
-          $base_contact->family_contact = $contact->family_contact;
-        
-        // title
-        if ( !$base_contact->title
-          && strtotime($contact->updated_at) > strtotime($base_contact->updated_at) )
-          $base_contact->title = $contact->title;
+        if ( strtotime($contact->updated_at) > strtotime($base_contact->updated_at) )
+        {
+          // family contact
+          if ( !is_null($contact->family_contact) )
+            $base_contact->family_contact = $contact->family_contact;
+          // title
+          if ( trim($contact->title) )
+            $base_contact->title = $contact->title;
+        }
         
         // phonenumbers
         foreach ( $contact->Phonenumbers as $phone )
@@ -83,7 +83,42 @@
         
         // pro + groups
         foreach ( $contact->Professionals as $pro )
+        {
+          // search for a professional merge
+          foreach ( $base_contact->Professionals as $base_pro )
+          if ( $base_pro->organism_id === $pro->organism_id && $base_pro->professional_type_id === $pro->professional_type_id )
+          {
+            // merging
+            if ( $base_pro->updated_at > $pro->updated_at )
+            {
+              $newer = $base_pro->copy();
+              $older = $pro;
+            }
+            else
+            {
+              $newer = $pro->copy();
+              $older = $base_pro;
+            }
+            $newer->contact_id = NULL;
+            
+            foreach ( array('name', 'contact_number', 'contact_email', 'department') as $key )
+            if ( !trim($newer->$key) && trim($older->$key) )
+              $newer->$key = trim($older->$key);
+            
+            if ( trim($older->description) )
+            {
+              if ( trim($newer->description) )
+                $newer->description .= "\n";
+              $newer->description .= trim($older->description);
+            }
+            
+            $base_pro->delete();
+            $pro = $newer;
+          }
+          
+          // nothing to merge
           $base_contact->Professionals[] = $pro;
+        }
         
         // contact's groups
         foreach ( $contact->ContactGroups as $cgroup )
