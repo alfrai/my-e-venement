@@ -20,7 +20,9 @@ The most common procedure :
 2. backup your data
 3. backup your software
 4. cd into your root directory
-5. svn update
+5. upgrade your subversion repository
+  - if necessary : svn switch svn+ssh://svn.gna.org/svn/e-venement/branches/v2.6 .
+  - then : svn update
 6. bin/migration-to-v26.sh [DB] [USER]
 7. follow the instructions
 8. verify the event-reservations-admin's users
