@@ -1,0 +1,54 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/13-View
+
+default:
+  javascripts: [menu,organism]
+  stylesheets: [organism]
+
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+newSuccess:
+  stylesheets: [view]
+  javascripts: [more-simple]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+createSuccess:
+  stylesheets: [view]
+  javascripts: [more-simple]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+updateSuccess:
+  stylesheets: [view]
+  javascripts: [more-simple]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+editSuccess:
+  stylesheets: [view<?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>, /private/contact-tdp.css<?php endif ?>]
+  javascripts: [more-simple]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+showSuccess:
+  stylesheets: [view]
+  javascripts: [more-simple]
+
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+indexSuccess:
+  javascripts: [list-scroll]
+  stylesheets: [list-print: {media: print}, batch-actions]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+filterSuccess:
+  javascripts: [list-scroll]
+  stylesheets: [list-print: {media: print}, batch-actions]
+
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+labelsSuccess:
+  has_layout: false
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+csvSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/comma-separated-values
+    content-disposition: attachment; filename="organism-list.csv"
+              
+
+vcfSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/vcard
+    content-disposition: attachment; filename=organism.vcf
+            
