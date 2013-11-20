@@ -199,6 +199,10 @@ $(document).ready(function(){
   });
   $('#tdp-side-bar input[type=checkbox]').click(function(){
     $('#tdp-update-filters').get(0).blink();
+    if ( $(this).closest('.tdp-side-widget').is('#tdp-side-categories') )
+      $('#sf_admin_filter .sf_admin_filter_field_organism_category_id select option[value='+$(this).val()+']').prop('selected',$(this).prop('checked'));
+    if ( $(this).closest('.tdp-side-widget').is('#tdp-side-groups') )
+      $('#sf_admin_filter .sf_admin_filter_field_groups_list          select option[value='+$(this).val()+']').prop('selected',$(this).prop('checked'));
   });
   
   // integrated search
@@ -219,6 +223,12 @@ $(document).ready(function(){
       $(this).keyup();
     })
     .keyup();
+  
+  // filters
+  $('#tdp-side-bar .filters').submit(function(){
+    $('#sf_admin_filter form').submit();
+    return false;
+  });
   
   // TOPBAR
   $('#tdp-top-bar .tdp-top-widget > a.group').mouseenter(function(){

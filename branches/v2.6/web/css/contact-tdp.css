@@ -257,6 +257,8 @@ body #content { width: auto; }
 #tdp-top-bar #sf_admin_filter_button { font-weight: normal; }
 #tdp-top-bar #tdp-update-filters.blink { background-color: rgba(255,255,255,0.6); }
 #tdp-top-bar .tdp-top-modules .current { background-color: white; }
+#sf_admin_filter .sf_admin_filter_field_organism_category_id,
+#sf_admin_filter .sf_admin_filter_field_groups_list { display: none; }
 
 #tdp-top-bar a[href="#"] {
   color: gray;
