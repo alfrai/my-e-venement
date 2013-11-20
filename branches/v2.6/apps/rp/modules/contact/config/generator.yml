@@ -85,7 +85,7 @@ generator:
           <?php if ( sfConfig::get('app_controls_enabled',false) ): ?><?php echo PHP_EOL ?>
           Flow management: [control_created_at, control_manifestation_id, control_checkpoint_id]
           <?php endif ?><?php echo PHP_EOL ?>
-          Additional: [description, YOB, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>email_newsletter,<?php endif ?> family_contact, npai, has_address, has_email, has_category, emails_list, updated_at]
+          Additional: [description, YOB, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>email_newsletter,<?php endif ?> family_contact, npai, has_address, has_email, has_category, email_no_newsletter, emails_list, updated_at]
       form: ~
       edit:
         title: Contact %%name%% %%firstname%%
