@@ -64,7 +64,7 @@ generator:
       filter:
         display:
           Organism:   [name, postalcode, city, region_id, country, email, administrative_number, organism_category_id]
-          Relations:  [contacts_groups, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>groups_list,<?php endif ?> not_groups_list]
+          Relations:  [contacts_groups, groups_list, not_groups_list]
           Communication: [npai <?php if ( !sfConfig::get('app_options_design',false) || !sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>, email_newsletter<?php endif ?>]
           Others:     [duplicates, professional_meta_event_id, email_no_newsletter]
       show:
