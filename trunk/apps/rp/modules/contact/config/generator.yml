@@ -77,7 +77,7 @@ generator:
         display:
           Personal: [title, name, firstname, postalcode, city, region_id, country, email]
           Social informations: [familial_quotient_id, familial_situation_id, type_of_resources_id]
-          Relations: [<?php echo !sfConfig::get('app_options_design',false) ? 'groups_list,' : '' ?> not_groups_list, organism_id, <?php echo !sfConfig::get('app_options_design',false) ? 'organism_category_id,' : '' ?> professional_type_id]
+          Relations: [groups_list, not_groups_list, organism_id, organism_category_id, professional_type_id]
           <?php if ( sfConfig::get('app_cards_enable',false) ): ?><?php echo PHP_EOL ?>
           Member cards: [member_cards, member_cards_expire_at]
           <?php endif ?><?php echo PHP_EOL ?>

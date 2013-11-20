@@ -27,6 +27,8 @@
     $a = $q->getRootAlias();
     $q->select   ("$a.id")
       ->addSelect('transac.professional_id AS professional_id');
+    if ( !$q->contains("LEFT JOIN $a.Transactions transac ON $a.id = transac.contact_id AND (p.id = transac.professional_id OR transac.professional_id IS NULL)") )
+      $q->leftJoin("$a.Transactions transac ON $a.id = transac.contact_id AND (p.id = transac.professional_id OR transac.professional_id IS NULL)");
     $records = $q->fetchArray();
     
     if ( $q->count() > 0 )
