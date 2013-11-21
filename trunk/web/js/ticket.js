@@ -107,29 +107,42 @@ function ticket_events()
   // add contact link
   $('#contact .create-contact').unbind().click(function(){
     var w = window.open($(this).prop('href')+'&name='+$('#contact #autocomplete_transaction_contact_id').val(),'new_contact');
+
+    // function to go back to the ticketting transaction from the contact window
+    function ticket_go_back_to_transaction(){
+      setTimeout(function(){
+        $(w.document).ready(function(){
+          if ( contact_id = $(w.document).find('[name="contact[id]"]').val() )
+          {
+            $('#contact form [name="transaction[contact_id]"]').val(contact_id);
+            $('#contact form').submit();
+            w.close();
+          }
+          else
+          {
+            // one level deeper through the dream layers
+            $(w.document).ready(function(){
+              $(w.document).find('.sf_admin_actions_form .sf_admin_action_list, .sf_admin_actions_form .sf_admin_action_save_and_add')
+                .remove();
+            });
+            w.onunload = ticket_go_back_to_transaction;
+          }
+        });
+      },2500);
+    };
+  
     w.onload = function(){
       setTimeout(function(){
         $(w.document).ready(function(){
           $(w.document).find('.sf_admin_actions_form .sf_admin_action_list, .sf_admin_actions_form .sf_admin_action_save_and_add')
             .remove();
         });
-        w.onunload = function(){
-          setTimeout(function(){
-            $(w.document).ready(function(){
-              if ( contact_id = $(w.document).find('[name="contact[id]"]').val() )
-              {
-                $('#contact form [name="transaction[contact_id]"]').val(contact_id);
-                $('#contact form').submit();
-              }
-              w.close();
-            });
-          },2500);
-        };
+        w.onunload = ticket_go_back_to_transaction;
       },2500);
     };
+    
     return false;
   });
-  
   
   // manifestations
   $('#manifestations form').unbind().submit(function(){
