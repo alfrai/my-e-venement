@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Do not ask</source>
+        <target>Directement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Hop</source>
+        <target>Saut</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Picture</source>
+        <target>Plan</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Seat's name</source>
+        <target>Nom de la place</target>
+      </trans-unit>
+      <trans-unit>
         <source>You have requested the version %%v%% that does not exist</source>
         <target>Vous avez demandé la version %%v%% qui n'existe pas</target>
       </trans-unit>

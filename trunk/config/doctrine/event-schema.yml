@@ -260,19 +260,6 @@ Location:
       foreignAlias: Locations
       onDelete: SET NULL
       onUpdate: CASCADE
-SeatingPlan:
-  package: event
-  actAs: [Timestampable]
-  columns:
-    image_url:    string(255)
-    location_id:
-      type: integer
-      unique: true
-  relations:
-    Location:
-      foreignType: one
-      onDelete: CASCADE
-      onUpdate: CASCADE
 
 Manifestation:
   package: event
@@ -502,3 +489,53 @@ ManifestationOrganizer:
       foreignAlias: ManifestationOrganizers
       onDelete: CASCADE
       onUpdate: CASCADE
+
+SeatedPlan:
+  package: event
+  actAs:
+    Timestampable: ~
+    Versionable: ~
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    seat_diameter:
+      type: integer
+      notnull: true
+      default: 1
+    description: string
+    picture_id:
+      type: integer
+      unique: true
+    location_id: integer
+    background:
+      type: string(255)
+      default: white
+  relations:
+    Picture:
+      foreignAlias: SeatedPlan
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Location:
+      foreignAlias: SeatedPlans
+      onDelete: SET NULL
+      onUpdate: CASCADE
+Seat:
+  package: event
+  actAs:
+    Timestampable: ~
+  indexes:
+    seat_name_idx:
+      fields: [name]
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    x:
+      type: integer
+      notnull: true
+    y:
+      type: integer
+      notnull: true

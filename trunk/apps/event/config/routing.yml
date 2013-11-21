@@ -1,3 +1,12 @@
+seated_plan:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                SeatedPlan
+    module:               seated_plan
+    prefix_path:          /seated_plan
+    column:               id
+    with_wildcard_routes: true
+
 manifestation_pending:
   class: sfDoctrineRouteCollection
   options:
