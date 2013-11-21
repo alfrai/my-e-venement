@@ -1,5 +1,0 @@
-all:
-  credentials: stats-pr-cards
-csv:
-  credentials: [stats-pr-cards, stats-csv]
-    
