@@ -23,7 +23,7 @@ all:
   about:
     name: e-venement
     contributors: [Baptiste SIMON, Bevlhay FERRAND, Ludovic SOULIÉ, Ayoub HIDRI, Thomas RIBOULET, Très Tôt Théâtre, Libre Informatique, Symfony Team, #symfony-fr]
-    version: 2.6.0 "Breizh Hydromel"
+    version: 2.6.2 "Breizh Hydromel"
   internals:
     charset:
       old:    ISO-8859-1
