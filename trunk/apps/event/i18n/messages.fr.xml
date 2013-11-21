@@ -9,6 +9,10 @@
         <target>Une erreur est survenue en enregistrant la place. Essayez encore.</target>
       </trans-unit>
       <trans-unit>
+        <source>This seat's name has already been given.</source>
+        <target>Ce nom de place a déjà été donné.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Do not ask</source>
         <target>Directement</target>
       </trans-unit>

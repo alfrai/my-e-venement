@@ -38,15 +38,31 @@ class seated_planActions extends autoSeated_planActions
 {
   public function executeSeatAdd(sfWebRequest $request)
   {
-    if (!( $data = $request->getParameter('seat',array() ))
+    if (!( $data = $request->getParameter('seat',array()) ))
       throw new liSeatingException('Given data do not permit the seat recording (no data).');
-    if ( !isset($data['x']) || !isset($data['y']) || !isset($data['diameter']) || !isset($data['name']) )
+    if ( !isset($data['x']) || !isset($data['y']) || !isset($data['diameter']) || !isset($data['name']) || !intval($request->getParameter('id',0)) > 0 )
       throw new liSeatingException('Given data do not permit the seat recording (bad data).');
     
     $seat = new Seat;
+    $seat->seated_plan_id = $request->getParameter('id');
     foreach ( array('name', 'x', 'y', 'diameter') as $fieldName )
       $seat->$fieldName = $data[$fieldName];
     $seat->save();
+    
+    return sfView::NONE;
+  }
+  
+  public function executeSeatDel(sfWebRequest $request)
+  {
+    if (!( $data = $request->getParameter('seat',array()) ))
+      throw new liSeatingException('Given data do not permit the seat deletion (no data).');
+    if ( !isset($data['name']) || !intval($request->getParameter('id',0)) > 0 )
+      throw new liSeatingException('Given data do not permit the seat deletion (bad data).');
+    
+    $q = Doctrine::getTable('Seat')->createQuery('s')
+      ->andWhere('s.seated_plan_id = ?', $request->getParameter('id'))
+      ->andWhere('s.name = ?', $data['name']);
+    $q->delete()->execute();
     
     return sfView::NONE;
   }
@@ -58,5 +74,19 @@ class seated_planActions extends autoSeated_planActions
       ->delete()
       ->execute();
     return $this->redirect('seated_plan/edit?id='.$request->getParameter('id'));
+  }
+  
+  public function executeShow(sfWebRequest $request)
+  { $this->executeEdit($request); }
+  public function executeEdit(sfWebRequest $request)
+  {
+    $this->seated_plan = Doctrine::getTable('SeatedPlan')->createQuery('sp')
+      ->andWhere('sp.id = ?',$request->getParameter('id'))
+      ->leftJoin('sp.Seats s')
+      ->orderBy('s.name')
+      ->fetchOne();
+    
+    $this->forward404Unless($this->seated_plan);
+    $this->form = $this->configuration->getForm($this->seated_plan);
   }
 }

@@ -509,6 +509,7 @@ SeatedPlan:
       type: integer
       unique: true
     location_id: integer
+    gauge_id: integer
     background:
       type: string(255)
       default: white
@@ -532,6 +533,9 @@ Seat:
       fields: [seated_plan_id, name]
       unique: true
   columns:
+    seated_plan_id:
+      type: integer
+      notnull: true
     name:
       type: string(255)
       notnull: true
@@ -546,9 +550,6 @@ Seat:
       type: integer
       notnull: true
       default: 10 #px
-    seated_plan_id:
-      type: integer
-      notnull: true
   relations:
     SeatedPlan:
       foreignAlias: Seats

@@ -1,14 +1,29 @@
 <div class="js_seated_plan_useful">
   <span class="prompt_seat_name"><?php echo __("Seat's name") ?></span>
+  <span class="alert_seat_duplicate"><?php echo __("This seat's name has already been given.") ?></span>
   <span class="save_error"><?php echo __("An error occurred during the plot recording. Try again.") ?></span>
-  <form class="seat_add" action="<?php echo url_for('seated_plan/seatAdd') ?>" method="get"><p>
+  <form class="seat_add" action="<?php echo url_for('seated_plan/seatAdd?id='.$form->getObject()->id) ?>" method="get"><p>
     <input type="text" name="seat[name]" value="" />
     <input type="text" name="seat[x]" value="" />
     <input type="text" name="seat[y]" value="" />
     <input type="text" name="seat[diameter]" value="" />
   </p></form>
-  <a class="seat_del" href="<?php echo url_for('seated_plan/seatDel?id=') ?>"></a>
+  <form class="seat_del" action="<?php echo url_for('seated_plan/seatDel?id='.$form->getObject()->id) ?>" method="get"><p>
+    <input type="text" name="seat[name]" value="" />
+  </p></form>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.sf_admin_form_field_show_picture .picture img').load(function(){
+      var ref = $('.sf_admin_form_field_show_picture .picture');
+      var f = seated_plan_mouseup;
+      var dec = decodeURIComponent;
+      <?php $seats = array(); foreach ( $form->getObject()->Seats as $seat ) $seats[$seat->name] = $seat; ksort($seats); foreach ( $seats as $seat ):  ?>f({position:{x:<?php echo $seat->x ?>,y:<?php echo $seat->y ?>},name:dec("<?php echo rawurlencode($seat->name); ?>"),object:ref});<?php endforeach ?>
+    });
+  });
+</script>
+
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -52,7 +67,7 @@
         .addClass('pre-seat-'+$('.sf_admin_form_field_show_picture .seat').length)
         .css('width', $('#seated_plan_seat_diameter').val()+'px')
         .css('height', $('#seated_plan_seat_diameter').val()+'px')
-        .css('position', 'absolute').each(function(){
+        .each(function(){
           $(this)
             .css('left', (x = Math.round(position['x']-$(this).width()/2))+'px')
             .css('top',  (y = Math.round(position['y']-$(this).width()/2))+'px');
@@ -77,26 +92,47 @@
     
     // seat plots
     $('.sf_admin_form_field_show_picture .picture .anti-handling').mouseup(function(event){
-      // removing pre-seat and pre-seat behaviour
-      $('.sf_admin_form_field_show_picture .pre-seat').remove();
-      
       // left click
       if ( event.which != 1 )
         return;
       
-      ref = $(this).parent();
-      var name;
-      var position = {
-        x: Math.round(event.pageX-ref.position().left),
-        y: Math.round(event.pageY-ref.position().top)
-      };
-      
-      // the seat's name
-      if ( $('.sf_admin_form_field_show_picture .donotask').is(':checked') && $('.sf_admin_form_field_show_picture .seat:first').length > 0 )
+      return seated_plan_mouseup({
+        position: {
+          x: Math.round(event.pageX-ref.position().left),
+          y: Math.round(event.pageY-ref.position().top)
+        },
+        object: $(this).parent(),
+        record: true,
+      });
+    });
+    
+    // removing last plot
+    $(document).keypress(function(event){
+      if ( event.which == 122 && event.ctrlKey )
+        $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
+    });
+    
+  });
+  
+  // the function that add a seat on every click (mouseup) or on data loading
+  function seated_plan_mouseup(data)
+  {
+    // removing pre-seat and pre-seat behaviour
+    $('.sf_admin_form_field_show_picture .pre-seat').remove();
+    
+    var position = data.position;
+    var ref = $(data.object);
+    var name = data.name;
+    
+    // the seat's name
+    if ( name == undefined )
+    {
+      if ( $('.sf_admin_form_field_show_picture .donotask').is(':checked')
+        && $('.sf_admin_form_field_show_picture .seat:first').length > 0 )
       {
         name =
           $('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(/\d+/,'')+
-          (parseInt($('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(new RegExp($('.sf_admin_form_field_show_picture .regexp').val()),''))+parseInt($('.sf_admin_form_field_show_picture .hop').val()))
+          (parseInt($('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(new RegExp($('.sf_admin_form_field_show_picture .regexp').val()),''))+parseInt($('.sf_admin_form_field_show_picture .hop').val()));
       }
       else
       {
@@ -108,53 +144,69 @@
             (parseInt($('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(new RegExp($('.sf_admin_form_field_show_picture .regexp').val()),''))+parseInt($('.sf_admin_form_field_show_picture .hop').val()))
         );
       }
-      // then verify its unicity for this seated plan
+    }
+    
+    // avoid white space ending or beginning
+    if ( name != undefined )
+      $.trim(name);
+    
+    // need a non empty string
+    if ( !name )
+      return false;
       
-      // adding the seat / plot
-      if ( name )
-      $('<div class="seat" title="'+name+'"><span class="txt">'+name+'</span></div>')
-        .addClass('seat-'+$('.sf_admin_form_field_show_picture .seat').length)
-        .css('width', $('#seated_plan_seat_diameter').val()+'px')
-        .css('height', $('#seated_plan_seat_diameter').val()+'px')
-        .css('position', 'absolute').each(function(){
-          // -4 to count the border's width, width/2 to find the center
-          $(this)
-            .css('left', (x = Math.round(position['x']-($(this).width()-4)/2))+'px')
-            .css('top',  (y = Math.round(position['y']-($(this).width()-4)/2))+'px');
-        }).prependTo(ref)
-        .clone(true).addClass('txt').prependTo(ref)
-        .dblclick(function(){ // plot removal
-          // DB removal
-          // TODO
-          
-          // graphical removal
-          $(this).parent().find('.seat.'+$(this).clone(true).removeClass('seat').removeClass('txt').attr('class')).remove();
-        });
+    // then verify its unicity for this seated plan
+    if ( $('.sf_admin_form_field_show_picture .seat .txt[value="'+name+'"]').length > 0 )
+    {
+      alert($('.js_seated_plan_useful .alert_seat_duplicate').html());
+      return false;
+    }
+    
+    // adding the seat / plot
+    $('<div class="seat" title="'+name+'"><input class="txt" type="hidden" value="'+name+'" /></div>')
+      .addClass('seat-'+$('.sf_admin_form_field_show_picture .seat').length)
+      .css('width', $('#seated_plan_seat_diameter').val()+'px')
+      .css('height', $('#seated_plan_seat_diameter').val()+'px')
+      .css('position', 'absolute').each(function(){
+        // width/2 to find the center
+        $(this)
+          .css('left', (x = Math.round(position['x']-($(this).width())/2))+'px')
+          .css('top',  (y = Math.round(position['y']-($(this).width())/2))+'px');
+      }).prependTo(ref)
+      .clone(true).addClass('txt').prependTo(ref)
       
-      // save the plot record
-      // x, y, name, diameter
-      $('.js_seated_plan_useful .seat_add').each(function(){
-        $(this).find('[name="seat[name]"]').val(name);
-        $(this).find('[name="seat[x]"]').val(position['x']);
-        $(this).find('[name="seat[y]"]').val(position['y']);
-        $(this).find('[name="seat[diameter]"]').val($('#seated_plan_seat_diameter').val());
-        $.ajax({
-          url: $(this).prop('action'),
-          data: $(this).serialize(),
-          error: function(){
-            alert($('.js_seated_plan_useful .save_error').html());
-            $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
-          }
+      // plot removal
+      .dblclick(function(event){
+        // DB removal
+        var seat = this;
+        $('.js_seated_plan_useful .seat_del').each(function(){
+          $(this).find('[name="seat[name]"]').val(name);
+          $.ajax({
+            url: $(this).prop('action'),
+            data: $(this).serialize(),
+            complete: function(){
+              // graphical removal
+              $(seat).parent().find('.seat.'+$(seat).clone(true).removeClass('seat').removeClass('txt').attr('class')).remove();
+              $('.sf_admin_form_field_show_picture .pre-seat').remove();
+            }
+          });
         });
       });
-      // TODO
-    });
     
-    // removing last plot
-    $(document).keypress(function(event){
-      if ( event.which == 122 && event.ctrlKey )
-        $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
+    // DB seat recording
+    if ( data.record )
+    $('.js_seated_plan_useful .seat_add').each(function(){
+      $(this).find('[name="seat[name]"]').val(name);
+      $(this).find('[name="seat[x]"]').val(position['x']);
+      $(this).find('[name="seat[y]"]').val(position['y']);
+      $(this).find('[name="seat[diameter]"]').val($('#seated_plan_seat_diameter').val());
+      $.ajax({
+        url: $(this).prop('action'),
+        data: $(this).serialize(),
+        error: function(){
+          alert($('.js_seated_plan_useful .save_error').html());
+          $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
+        }
+      });
     });
-    
-  });
+  }
 </script>

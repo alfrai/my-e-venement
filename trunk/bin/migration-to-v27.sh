@@ -51,7 +51,7 @@ echo ""
 
 # final data modifications
 echo ""
-echo "Doing something"
+echo "Doing something (yummy)"
 psql $DB <<EOF
 EOF
 
