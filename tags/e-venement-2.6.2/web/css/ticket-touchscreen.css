@@ -1,0 +1,42 @@
+#contact { margin-bottom: 5px; }
+.touchscreen { margin: 0 2px; }
+#ts-tickets, #ts-manifestations { list-style-type: none; width: 48%; display: inline-block; }
+#ts-tickets { display: block; }
+#ts-prices input, #ts-prices .prices-nav,
+#ts-tickets > li, #ts-manifestations > li { width: 105px; height: 70px; display: inline-block; overflow: hidden; border: 1px dashed silver; margin: 2px; border-radius: 4px; cursor: pointer; text-align: center; }
+#ts-tickets > li.selected, #ts-manifestations > li.selected { border: 1px solid gray; background-color: rgb(255, 252, 204); }
+#ts-tickets > li > span, #ts-manifestations > li > span { padding: 3px 0; }
+#ts-tickets > li:hover, #ts-manifestations > li:hover { border-color: gray; }
+#ts-tickets > li > span,
+#ts-manifestations > .pager > a,
+#ts-manifestations > li > span { width: 100%; height: 100%; display: block; }
+#ts-tickets > li > .workspaces,
+#ts-tickets > li > .total,
+#ts-tickets > li > .prices { display: inline; }
+#ts-tickets > li input[type=radio],
+#ts-manifestations > li input { display: none; }
+#ts-manifestations > .new-line { display: block; width: 0; height: 0; margin: 0; border: 0; padding: 0; }
+#ts-manifestations > .pager a { padding-top: 30px; }
+#ts-manifestations > .pager a:hover { text-decoration: none; }
+#ts-manifestations > .pager { text-align: center; }
+#ts-manifestations > .previous { margin-left: 114px; }
+#ts-tickets a, #ts-manifestations a { text-decoration: none; }
+#ts-tickets a:hover, #ts-manifestations a:hover { text-decoration: underline; }
+#ts-tickets .name, #ts-manifestations .name { font-weight: bold; display: block; height: 4em; overflow: hidden; text-overflow: ellipsis; }
+
+#ts-tickets .name { height: 1em; }
+#ts-tickets .ticket_prices { display: block; height: auto; font-weight: bold; font-size: 110%; }
+#ts-tickets .ticket_prices .total { padding-left: 1em; font-size: 100%; font-size: 95%; display: block; }
+#ts-tickets .nb { width: 2em; text-align: right; border: 0; font-size: 95%; font-weight: bold; }
+#ts-tickets .ts-tickets-list .ticket { display: inline-block; width: auto; height: auto; padding: 0 2px; border: 1px solid gray; border-radius: 3px; margin-top: 2px; font-size: 80%; }
+#ts-tickets .ts-tickets-list .ticket.printed, #ts-tickets .ts-tickets-list .ticket.integrated { background-color: rgb(200, 200, 200); }
+
+
+#ts-prices { width: 48%; margin-left: 50%; position: absolute; }
+#ts-prices .tickets_form { margin: 0; }
+#ts-prices .title, #ts-prices .cancel,
+#ts-prices input[type=checkbox],
+#ts-prices .gauge { display: none; }
+#ts-prices input[type=text] { cursor: default; padding: 0; }
+#ts-prices .prices-nav { margin-bottom: -30px; text-decoration: none; padding-top: 30px; height: 40px; width: 103px; }
+#ts-prices .prices-nav.useless { visibility: hidden; }
