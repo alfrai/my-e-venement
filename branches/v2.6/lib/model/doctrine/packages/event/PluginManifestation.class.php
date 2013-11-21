@@ -55,7 +55,8 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     
     // completing or correcting reservation fields
     $config = sfConfig::get('app_manifestation_reservations',array('enable' => false));
-    if ( isset($config['enable']) && $config['enable'] )
+    $enable = isset($config['enable']) && $config['enable'];
+    if ( $enable )
     {
       if ( !$this->reservation_begins_at
         || $this->reservation_begins_at && $this->reservation_begins_at > $this->happens_at )
@@ -82,12 +83,12 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
         if ( !($sf_user->hasCredential(self::$credentials['reservation_confirmed']) || $sf_user->getContactId() == $this->contact_id) && $this->reservation_confirmed )
           throw new liBookingException('The current user %%name%% does not have the credentials to confirm a manifestation, nor to modify a confirmed manifestation.', array('%%name%%' => (string)$sf_user));
       }
-      else // when reservations are not enabled
-      {
-        $this->reservation_begins_at = $this->happens_at;
-        $this->reservation_ends_at = $this->ends_at;
-        $this->reservation_confirmed = true;
-      }
+    }
+    else // when reservations are not enabled
+    {
+      $this->reservation_begins_at = $this->happens_at;
+      $this->reservation_ends_at = $this->ends_at;
+      $this->reservation_confirmed = true;
     }
     
     parent::preSave($event);
