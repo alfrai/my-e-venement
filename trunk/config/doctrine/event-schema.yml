@@ -503,7 +503,7 @@ SeatedPlan:
     seat_diameter:
       type: integer
       notnull: true
-      default: 1
+      default: 10 #px
     description: string
     picture_id:
       type: integer
@@ -528,6 +528,9 @@ Seat:
   indexes:
     seat_name_idx:
       fields: [name]
+    seat_name_seated_plan_id_idx:
+      fields: [seated_plan_id, name]
+      unique: true
   columns:
     name:
       type: string(255)
@@ -539,3 +542,15 @@ Seat:
     y:
       type: integer
       notnull: true
+    diameter:
+      type: integer
+      notnull: true
+      default: 10 #px
+    seated_plan_id:
+      type: integer
+      notnull: true
+  relations:
+    SeatedPlan:
+      foreignAlias: Seats
+      onDelete: CASCADE
+      onUpdate: CASCADE

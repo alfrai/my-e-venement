@@ -1,0 +1,28 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           SeatedPlan
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          seated_plan
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        seat_diameter:
+          label: Plot diameter behind a seat
+          help: em
+      list:    ~
+      filter:
+        display: [name, background, location_id]
+      form:
+        display:
+          General: [location_id, name, description]
+          Plan:    [seat_diameter, background, Picture, _show_picture, _form_picture_del]
+      edit:    ~
+      new:     ~

@@ -1,0 +1,11 @@
+newSuccess:
+  stylesheets: [picture, seated_plan]
+createSuccess:
+  stylesheets: [picture, seated_plan]
+updateSuccess:
+  stylesheets: [picture, seated_plan]
+editSuccess:
+  stylesheets: [picture, seated_plan]
+showSuccess:
+  stylesheets: [picture, seated_plan]
+
