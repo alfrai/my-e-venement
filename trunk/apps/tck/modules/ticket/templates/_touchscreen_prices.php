@@ -3,7 +3,7 @@
         // NAVIGATION INSIDE PRICES
         $('#ts-prices .prices_list').prepend('<a href="#0" class="prices-nav"><span>..</span></a>').append('<a href="#14" class="prices-nav"><span>..</span></a>');
         $('#ts-prices .prices_list .prices-nav').click(function(){
-          ts_prices(parseInt($(this).attr('href').substr(1)));
+          ts_prices(parseInt($(this).attr('href').substr(1),10));
           return false;
         });
         
