@@ -9,8 +9,8 @@ sf_admin_theme_jroller_plugin:
   css_reset:    true # default. reset default css (from Blueprint CSS)
 all:
   options:
-    remove_ticketting: true
-    #design: tdp
+    #remove_ticketting: true
+    design: tdp
     #social_informations: true
     #no_event_archives: false
   #controls:
