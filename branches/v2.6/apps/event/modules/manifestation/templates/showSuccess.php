@@ -9,7 +9,7 @@
   <?php include_partial('manifestation/flashes') ?>
 
   <div class="sf_admin_actions_block ui-widget">
-    <?php include_partial('manifestation/show_actions', array('form' => $form, 'manifestation' => $manifestation, 'configuration' => $configuration, 'helper' => $helper, 'display_versions' => $display_versions,)) ?>
+    <?php include_partial('manifestation/show_actions', array('form' => $form, 'manifestation' => $manifestation, 'configuration' => $configuration, 'helper' => $helper, 'display_versions' => !isset($display_versions) ? true : $display_versions,)) ?>
   </div>
 
   <div class="ui-helper-clearfix"></div>
