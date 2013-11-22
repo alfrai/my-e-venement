@@ -1,0 +1,19 @@
+#sf_fieldset_plan .sf_admin_form_field_picture_del { margin-top: 0; }
+
+#sf_fieldset_plan .sf_admin_form_field_show_picture { margin-left: -24.5em; }
+#sf_fieldset_plan .sf_admin_form_field_show_picture *:not(input) { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+#sf_fieldset_plan .sf_admin_form_field_show_picture .label { margin-left: 24.5em; }
+#sf_fieldset_plan .sf_admin_form_field_show_picture .tools { position: absolute; right: 4em; margin-top: 2em; z-index: 2; background-color: rgba(255,255,255,0.6); padding: 0 0.3em; text-align: left; z-index: 3; }
+#sf_fieldset_plan .sf_admin_form_field_show_picture .tools label { display: inline-block; width: 6em; margin-right: 1em; }
+#sf_fieldset_plan .sf_admin_form_field_show_picture .tools input { width: 8em; }
+
+.picture.seated-plan { position: relative; }
+.picture.seated-plan img { left: 0; position: absolute; }
+.picture.seated-plan .pre-seat, .picture.seated-plan .seat { position: absolute; background-color: green; border-radius: calc(40%); }
+.picture.seated-plan .pre-seat, .picture.seated-plan .seat.txt { background-color: transparent; z-index: 3; margin: -2px 0 0 -2px; }
+.picture.seated-plan .pre-seat { z-index: 2; }
+.picture.seated-plan .pre-seat, .picture.seated-plan .seat.txt:hover { border: 2px solid black; }
+.picture.seated-plan .anti-handling { width: 100%; height: 100%; background-color: transparent; position: absolute; z-index: 2; }
+.picture.seated-plan * { cursor: crosshair; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+
+.js_seated_plan_useful { display: none; }

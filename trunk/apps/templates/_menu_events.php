@@ -38,6 +38,9 @@
           <li><a href="<?php echo cross_app_url_for('event','location') ?>"><?php echo __('Locations',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('event','resource') ?>"><?php echo __('Resources',array(),'menu') ?></a></li>
           <?php endif ?>
+          <?php if ( $sf_user->hasCredential('event-seated-plan') ): ?>
+          <li><a href="<?php echo cross_app_url_for('event','seated_plan') ?>"><?php echo __('Seated plans',array(),'menu') ?></a></li>
+          <?php endif ?>
           <?php if ( $sf_user->hasCredential(array('event-location','event-manif')) ): ?>
           <li class="spaced"></li>
           <li><a href="<?php echo cross_app_url_for('event','conflict/index') ?>"><?php echo __('Use conflicts',array(),'menu') ?></a></li>

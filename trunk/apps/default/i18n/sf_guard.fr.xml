@@ -9,6 +9,10 @@
         <target>Administration des utilisateurs</target>
       </trans-unit>
       <trans-unit>
+        <source>Ability to manage seated plans</source>
+        <target>Capacité à administrer les plans numérotés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ability to add, del &amp; modify one's own manifestations and events</source>
         <target>Capacité à ajouter, modifier, supprimer ses propres manifestations et événements tant qu'ils ne sont pas confirmés</target>
       </trans-unit>

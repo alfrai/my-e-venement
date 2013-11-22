@@ -3,7 +3,8 @@ all:
   javascripts: [manifestation,manifestation-duration]
 
 showSuccess:
-  stylesheets: [manifestation-view,view]
+  stylesheets: [manifestation-view, view, seated-plan]
+  javascripts:  [seated-plan]
 editSuccess:
   stylesheets: [manifestation-view,view]
 newSuccess:

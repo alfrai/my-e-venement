@@ -55,8 +55,15 @@ echo ""
 
 # final data modifications
 echo ""
-echo "Doing something (yummy)"
+echo "Creating permissions for seated plans features"
 psql $DB <<EOF
+-- restricted access
+INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-seated-plan', 'Ability to manage seated plans', now(), now());
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-seated-plan', 'Permission to see seated plans', now(), now());
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-seated-plan-new', 'Permission to create seated plans', now(), now());
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-seated-plan-edit', 'Permission to edit seated plans', now(), now());
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-seated-plan-del', 'Permission to delete seated plans', now(), now());
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'event-seated-plan'), NOW(), NOW() FROM sf_guard_permission WHERE name IN ('event-seated-plan', 'event-seated-plan-new', 'event-seated-plan-edit', 'event-seated-plan-del'));
 EOF
 
 echo ""

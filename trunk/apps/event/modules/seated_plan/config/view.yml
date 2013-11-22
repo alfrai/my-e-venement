@@ -1,11 +1,21 @@
 newSuccess:
-  stylesheets: [picture, seated_plan]
+  stylesheets: [picture, seated-plan]
+  javascripts: [seated-plan]
 createSuccess:
-  stylesheets: [picture, seated_plan]
+  stylesheets: [picture, seated-plan]
+  javascripts: [seated-plan]
 updateSuccess:
-  stylesheets: [picture, seated_plan]
+  stylesheets: [picture, seated-plan]
+  javascripts: [seated-plan]
 editSuccess:
-  stylesheets: [picture, seated_plan]
+  stylesheets: [picture, seated-plan]
+  javascripts: [seated-plan]
 showSuccess:
-  stylesheets: [picture, seated_plan]
+  stylesheets: [picture, seated-plan]
+  javascripts: [seated-plan]
+  layout: nude
 
+getSeatsSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json

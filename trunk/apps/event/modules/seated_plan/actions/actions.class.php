@@ -36,6 +36,11 @@ require_once dirname(__FILE__).'/../lib/seated_planGeneratorHelper.class.php';
  */
 class seated_planActions extends autoSeated_planActions
 {
+  public function executeGetSeats(sfWebRequest $request)
+  {
+    $this->executeEdit($request);
+  }
+  
   public function executeSeatAdd(sfWebRequest $request)
   {
     if (!( $data = $request->getParameter('seat',array()) ))

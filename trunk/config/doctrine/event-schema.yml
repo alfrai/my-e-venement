@@ -509,6 +509,10 @@ SeatedPlan:
     background:
       type: string(255)
       default: white
+  indexes:
+    location_id_workspace_id_idx:
+      fields: [location_id, workspace_id]
+      type: unique
   relations:
     Picture:
       foreignAlias: SeatedPlan

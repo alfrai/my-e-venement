@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Seated plans</source>
+        <target>Plans numérotés</target>
+      </trans-unit>
+      <trans-unit>
         <source>Frequently Asked Questions</source>
         <target>Foire Aux Questions</target>
       </trans-unit>

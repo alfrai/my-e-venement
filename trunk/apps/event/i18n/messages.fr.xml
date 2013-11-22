@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>This is the number of seats when the screen loaded.</source>
+        <target>Ceci est le nombre de place au moment du chargement de l'écran.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Nb of seats</source>
+        <target>Nb de places</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Seated plan</source>
+        <target>Nouveau plan de salle</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit Seated plan</source>
+        <target>Modification du plan de salle</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Seated plan List</source>
+        <target>Liste des plans de salle</target>
+      </trans-unit>
+      <trans-unit>
         <source>Plot diameter behind a seat</source>
         <target>Diamètre du point derrière un siège</target>
       </trans-unit>

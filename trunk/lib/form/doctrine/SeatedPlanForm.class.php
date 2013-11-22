@@ -66,5 +66,10 @@ class SeatedPlanForm extends BaseSeatedPlanForm
     $this->widgetSchema['location_id']
       ->setOption('query', Doctrine::getTable('Location')->createQuery())
       ->setOption('order_by', array('name',''));
+    
+    $this->widgetSchema   ['workspace_id']->setOption('query', $q = Doctrine::getTable('Workspace')->createQuery('ws')
+      ->andWhere('ws.seated = ?',true)
+    );
+    $this->validatorSchema['workspace_id']->setOption('query', $this->widgetSchema['workspace_id']->getOption('query'));
   }
 }
