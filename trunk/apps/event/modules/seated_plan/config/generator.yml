@@ -16,13 +16,18 @@ generator:
       fields:
         seat_diameter:
           label: Plot diameter behind a seat
-          help: em
-      list:    ~
+          help: px
+        background:
+          label: Background color
+          help: HTML colors
+      list:
+        display: [Location, Workspace, description]
+        table_method: retreiveOrderedList
       filter:
-        display: [name, background, location_id]
+        display: [location_id, workspace_id, background]
       form:
         display:
-          General: [location_id, name, description]
+          General: [location_id, workspace_id, description]
           Plan:    [seat_diameter, background, Picture, _show_picture, _form_picture_del]
       edit:    ~
       new:     ~

@@ -5,8 +5,12 @@
     <header/>
     <body>
       <trans-unit>
-        <source>An error occurred during the plot recording. Try again.</source>
-        <target>Une erreur est survenue en enregistrant la place. Essayez encore.</target>
+        <source>Plot diameter behind a seat</source>
+        <target>Diamètre du point derrière un siège</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Background color</source>
+        <target>Couleur de fond</target>
       </trans-unit>
       <trans-unit>
         <source>This seat's name has already been given.</source>

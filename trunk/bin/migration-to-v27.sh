@@ -26,17 +26,17 @@ psql $DB <<EOF
   DROP TABLE seating_plan;
 EOF
 
-rm -rf lib/*/doctrine/
-svn update
-
 echo "DUMPING DB..."
 pg_dump -Fc $DB > data/sql/$DB-`date +%Y%m%d`.pgdump && echo "DB dumped"
 
-echo ""
-echo To continue press ENTER
-read
-
 fi #end of "allow dumps" condition
+
+echo ""
+read -p "Do you want to resset properly your lib/model, lib/form & lib/filter files using SVN ? [y/N] " reset
+if [ "$reset" = 'y' ]; then
+  rm -rf lib/*/doctrine/
+  svn update
+fi
 
 # recreation and data backup
 dropdb $DB && createdb $DB && \
@@ -48,6 +48,10 @@ cat config/doctrine/functions-pgsql.sql | psql $DB && \
 echo ""
 
 [ ! -f apps/default/config/app.yml ] && cp apps/default/config/app.yml.template apps/default/config/app.yml
+
+echo ""
+echo "Be careful with DB errors. A table with an error is an empty table !... If necessary take back the DB backup and correct things by hand before to retry this migration script."
+echo ""
 
 # final data modifications
 echo ""

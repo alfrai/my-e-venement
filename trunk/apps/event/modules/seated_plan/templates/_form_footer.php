@@ -155,6 +155,7 @@
       return false;
       
     // then verify its unicity for this seated plan
+    if ( data.record )
     if ( $('.sf_admin_form_field_show_picture .seat .txt[value="'+name+'"]').length > 0 )
     {
       alert($('.js_seated_plan_useful .alert_seat_duplicate').html());

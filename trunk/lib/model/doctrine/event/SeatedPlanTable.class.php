@@ -16,4 +16,12 @@ class SeatedPlanTable extends PluginSeatedPlanTable
     {
         return Doctrine_Core::getTable('SeatedPlan');
     }
+    
+    public function retreiveOrderedList()
+    {
+      return $this->createQuery('sp')
+        ->leftJoin('sp.Location l')
+        ->leftJoin('sp.Workspace w')
+        ->orderBy('l.name, w.name');
+    }
 }
