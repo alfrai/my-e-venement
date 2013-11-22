@@ -141,7 +141,7 @@ ModelType:
   indexes:
     name_type_idx:
       fields: [name, type]
-      unique: true
+      type: unique
 
 Option:
   package: generic

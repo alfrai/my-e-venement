@@ -83,7 +83,7 @@ UserPrice:
   indexes:
     user_price_index_idx:
       fields: [sf_guard_user_id, price_id]
-      unique: true
+      type: unique
   columns:
     price_id:
       type: integer
@@ -119,7 +119,7 @@ WorkspacePrice:
   indexes:
     ws_price_idx:
       fields: [workspace_id, price_id]
-      unique: true
+      type: unique
   relations:
     Workspace:
       foreignAlias: WorkspacePrices
@@ -136,7 +136,7 @@ PriceManifestation:
   indexes:
     price_manifestation_price_idx:
       fields: [manifestation_id, price_id]
-      unique: true
+      type: unique
     price_manifestation_value_idx:
       fields: [value]
   columns:

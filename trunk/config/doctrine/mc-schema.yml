@@ -120,7 +120,7 @@ MemberCardPriceModel:
   indexes:
     member_card_type_id_price_id_event_id_idx:
       fields: [member_card_type_id, price_id, event_id]
-      unique: true
+      type: unique
   columns:
     member_card_type_id:
       type: integer

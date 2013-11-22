@@ -78,7 +78,7 @@ WorkspaceUserOrdering:
   indexes:
     sf_guard_user_id_workspace_id_idx:
       fields: [sf_guard_user_id, workspace_id]
-      unique: true
+      type: unique
   relations:
     Workspace:
       foreignAlias: Order
@@ -428,7 +428,7 @@ Gauge:
   indexes:
     manifestation_workspace:
       fields: [manifestation_id, workspace_id]
-      unique: true
+      type: unique
 
 ManifestationExtraInformation:
   package: event
@@ -496,10 +496,6 @@ SeatedPlan:
     Timestampable: ~
     Versionable: ~
   columns:
-    name:
-      type: string(255)
-      notnull: true
-      notblank: true
     seat_diameter:
       type: integer
       notnull: true
@@ -509,7 +505,7 @@ SeatedPlan:
       type: integer
       unique: true
     location_id: integer
-    gauge_id: integer
+    workspace_id: integer
     background:
       type: string(255)
       default: white
@@ -522,6 +518,10 @@ SeatedPlan:
       foreignAlias: SeatedPlans
       onDelete: SET NULL
       onUpdate: CASCADE
+    Workspace:
+      foreignAlias: SeatedPlans
+      onDelete: SET NULL
+      onUpdate: CASCADE
 Seat:
   package: event
   actAs:
@@ -531,7 +531,7 @@ Seat:
       fields: [name]
     seat_name_seated_plan_id_idx:
       fields: [seated_plan_id, name]
-      unique: true
+      type: unique
   columns:
     seated_plan_id:
       type: integer
