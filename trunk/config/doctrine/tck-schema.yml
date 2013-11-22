@@ -81,6 +81,8 @@ Ticket:
       fields: [printed_at]
     ticket_integrated_at_idx:
       fields: [integrated_at]
+    ticket_numerotation_idx:
+      fields: [numerotation]
   columns:
     transaction_id:
       type: integer

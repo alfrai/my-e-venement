@@ -96,6 +96,7 @@
     var ref = $(data.object);
     var name = data.name;
     var diameter = data.diameter;
+    var occupied = data.occupied == undefined ? false : data.occupied;
     
     // the seat's name
     if ( name == undefined && $('.sf_admin_form_field_show_picture').length > 0 )
@@ -136,10 +137,10 @@
     }
     
     // adding the seat / plot
-    $('<div class="seat" title="'+name+'"><input class="txt" type="hidden" value="'+name+'" /></div>')
-      .addClass('seat-'+$('.picture.seated-plan .seat').length)
-      .width(diameter)
-      .height(diameter)
+    $('<div class="seat"><input class="txt" type="hidden" value="'+name+'" /></div>')
+      .attr('title', !occupied ? name : name+' ('+occupied.transaction_id+')')
+      .addClass('seat-'+$('.picture.seated-plan .seat').length).addClass(occupied ? occupied.type : '')
+      .width(diameter).height(diameter)
       .each(function(){
         // width/2 to find the center
         $(this)

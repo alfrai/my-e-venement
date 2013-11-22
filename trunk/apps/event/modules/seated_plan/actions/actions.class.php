@@ -39,6 +39,30 @@ class seated_planActions extends autoSeated_planActions
   public function executeGetSeats(sfWebRequest $request)
   {
     $this->executeEdit($request);
+    $this->occupied = array();
+    
+    if ( intval($request->getParameter('gauge_id', 0)) > 0 )
+    {
+      $q = Doctrine::getTable('Ticket')->createQuery('tck')
+        ->leftJoin('tck.Transaction t')
+        ->leftJoin('t.Order o')
+        ->leftJoin('tck.Gauge g')
+        ->leftJoin('g.Manifestation m')
+        ->leftJoin('tck.Cancelling c')
+        
+        ->andWhere('tck.cancelling IS NULL')
+        ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR o.id IS NOT NULL')
+        ->andWhere('duplicatas.id IS NULL AND c.id IS NULL')
+        ->andWhere('tck.numerotation IS NOT NULL AND tck.numerotation != ?','')
+        
+        ->andWhere('g.id = ?', $request->getParameter('gauge_id'))
+        ->andWhere('m.location_id = ?', $this->seated_plan->location_id);
+      foreach ( $q->execute() as $ticket )
+        $this->occupied[$ticket->numerotation] = array(
+          'type' => $ticket->printed_at || $ticket->integrated_at ? 'printed' : 'ordered',
+          'transaction_id' => '#'.$ticket->transaction_id,
+        );
+    }
   }
   
   public function executeSeatAdd(sfWebRequest $request)
