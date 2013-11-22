@@ -117,6 +117,11 @@ all:
         Emails:
           credentials: pr-emailing
           partial: global/tdp/side_widget_object_emails
+        <?php if ( !sfConfig::get('app_options_no_event_archives',true) ): echo PHP_EOL; ?>
+        Archives:
+          credentials: tck-reports
+          partial: global/tdp/side_widget_object_events_archive
+        <?php endif; echo PHP_EOL; ?>
 
     new:
       object:
