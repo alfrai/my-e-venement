@@ -18,7 +18,7 @@ class pictureActions extends autoPictureActions
     $this->executeShow($request);
     $this->getResponse()->addHttpMeta('Content-Type',$this->picture->type);
     $this->getResponse()->addHttpMeta('Content-Disposition','inline; filename='.$this->picture->name);
-    $this->getResponse()->addHttpMeta('Cache-Control',$cache = 'public, no-store');
+    $this->getResponse()->addHttpMeta('Cache-Control',$cache = 'public, max-age='.(60*60*48)); // caching data for 48h
     $this->getResponse()->addHttpMeta('Pragma',$cache);
   }
 }
