@@ -1,4 +1,26 @@
   $(document).ready(function(){
+    // transform a simple HTML call into a seated plan widget (seated-plan.css is also needed)
+    // something simple as <a href="json.url" class="picture seated-plan"><?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture)) ?></a>
+    $('a.picture.seated-plan img').each(function(){
+      var widget = $(this).parent();
+      var url = widget.prop('href');
+      var elt = $('<span></span>').prop('class',widget.prop('class')).prop('style',widget.prop('style'))
+        .append('<div class="anti-handling"></div>')
+        .prepend($(this));
+      widget.replaceWith(elt);
+      $(this).load(function(){
+        $.get(url,function(json){
+          for ( i = 0 ; i < json.length ; i++ )
+          {
+            data = json[i];
+            data.object = elt;
+            seated_plan_mouseup(data);
+          }
+        });
+      });
+      
+    });
+    
     // background
     $('#seated_plan_background').change(function(){
       $('.sf_admin_form_field_show_picture .picture')
@@ -95,7 +117,7 @@
     var position = data.position;
     var ref = $(data.object);
     var name = data.name;
-    var diameter = data.diameter;
+    var diameter = data.diameter == undefined ? $(ref).closest('form').find('[name="seated_plan[seat_diameter]"]').val() : data.diameter;
     var occupied = data.occupied == undefined ? false : data.occupied;
     
     // the seat's name

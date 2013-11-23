@@ -18,11 +18,9 @@
       <?php if ( $gauge->Workspace->seated ): ?>
         <?php $seated_plan = NULL; foreach ( $gauge->Workspace->SeatedPlans as $sp ) if ( $sp->location_id == $form->getObject()->location_id ) { $seated_plan = $sp; break; } ?>
         <?php if ( $seated_plan ): ?>
-          <span class="picture seated-plan" style="background-color: <?php echo $seated_plan->background ?>;">
+          <a class="picture seated-plan" href="<?php echo url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id) ?>" style="background-color: <?php echo $seated_plan->background ?>;">
             <?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture)) ?>
-            <div class="anti-handling"></div>
-            <a class="json" href="<?php echo url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id) ?>" style="display: none"></a>
-          </span>
+          </a>
         <?php endif ?>
       <?php endif ?>
     </li>
@@ -40,27 +38,8 @@
         });
       }
     }
-    
-    function manifestation_seated_plan()
-    {
-      $('.picture.seated-plan img').each(function(){
-        var plan = $(this).closest('.picture.seated-plan');
-        $(this).load(function(){
-          $.get(plan.find('a.json').prop('href'),function(json){
-            for ( i = 0 ; i < json.length ; i++ )
-            {
-              data = json[i];
-              data.object = plan;
-              seated_plan_mouseup(data);
-            }
-          });
-        });
-      });
-    }
-    
     $(document).ready(function(){
       manifestation_gauge_gfx();
-      manifestation_seated_plan();
     });
   </script>
 </div>
