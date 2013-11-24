@@ -1,11 +1,12 @@
-  $(document).ready(function(){
-    // transform a simple HTML call into a seated plan widget (seated-plan.css is also needed)
-    // something simple as <a href="json.url" class="picture seated-plan"><?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture)) ?></a>
+  // transforms a simple HTML call into a seated plan widget (seated-plan.css is also needed)
+  // you can use something as simple as <a href="<?php url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id') ?>" class="picture seated-plan"><?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture)) ?></a>
+  function seated_plan_init()
+  {
     $('a.picture.seated-plan img').each(function(){
       var widget = $(this).parent();
       var url = widget.prop('href');
-      var elt = $('<span></span>').prop('class',widget.prop('class')).prop('style',widget.prop('style'))
-        .append('<div class="anti-handling"></div>')
+      var elt = $('<span></span>').prop('class',widget.prop('class')).attr('style',widget.attr('style'))
+        .append($('<div></div>').addClass('anti-handling'))
         .prepend($(this));
       widget.replaceWith(elt);
       $(this).load(function(){
@@ -16,98 +17,15 @@
             data.object = elt;
             seated_plan_mouseup(data);
           }
-        });
-      });
-      
-    });
-    
-    // background
-    $('#seated_plan_background').change(function(){
-      $('.sf_admin_form_field_show_picture .picture')
-        .css('background-color', $(this).val());
-    }).change();
-    
-    // seat plots precondition for a good display
-    $('.picture.seated-plan img').load(function(){
-      // to avoid graphical bugs, relaunch the box resizing
-      if ( $(this).height() == 0 )
-      {
-        var img = this;
-        setTimeout(function(){ $(img).load(); },1500);
-        return;
-      }
-      
-      // box resizing
-      $(this).parent()
-        .css('display', 'block')
-        .width($(this).width())
-        .height($(this).height());
-    });
-    
-    // seat pre-plots
-    $('.sf_admin_form_field_show_picture .picture').mousedown(function(event){
-      // left click
-      if ( event.which != 1 )
-        return;
-      
-      ref = $(this);
-      position = {
-        x: Math.round(event.pageX-ref.position().left),
-        y: Math.round(event.pageY-ref.position().top)
-      };
-      
-      // the graphical pre-seat
-      $('<div class="pre-seat"></div>')
-        .addClass('pre-seat-'+$('.sf_admin_form_field_show_picture .seat').length)
-        .css('width', $('#seated_plan_seat_diameter').val()+'px')
-        .css('height', $('#seated_plan_seat_diameter').val()+'px')
-        .each(function(){
-          $(this)
-            .css('left', (x = Math.round(position['x']-$(this).width()/2))+'px')
-            .css('top',  (y = Math.round(position['y']-$(this).width()/2))+'px');
-        }).prependTo(ref);
-      
-      // adding a behaviour to pre-seat
-      $('.sf_admin_form_field_show_picture .picture .anti-handling').mousemove(function(event){
-        ref = $(this).parent();
-        position = {
-          x: Math.round(event.pageX-ref.position().left),
-          y: Math.round(event.pageY-ref.position().top)
-        };
-        
-        // moving
-        ref.find('.pre-seat').each(function(){
-          $(this)
-            .css('left', (x = Math.round(position['x']-$(this).width()/2))+'px')
-            .css('top',  (y = Math.round(position['y']-$(this).width()/2))+'px');
+          
+          // triggers
+          for ( i = 0 ; i < document.seated_plan_functions.length ; i++ )
+            document.seated_plan_functions[i]();
         });
       });
     });
-    
-    // seat plots
-    $('.sf_admin_form_field_show_picture .picture .anti-handling').mouseup(function(event){
-      // left click
-      if ( event.which != 1 )
-        return;
-      
-      return seated_plan_mouseup({
-        position: {
-          x: Math.round(event.pageX-ref.position().left),
-          y: Math.round(event.pageY-ref.position().top)
-        },
-        object: $(this).parent(),
-        record: true,
-      });
-    });
-    
-    // removing last plot
-    $(document).keypress(function(event){
-      if ( event.which == 122 && event.ctrlKey )
-        $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
-    });
-    
-  });
-  
+  }
+
   // the function that add a seat on every click (mouseup) or on data loading
   function seated_plan_mouseup(data)
   {
@@ -209,3 +127,95 @@
       });
     });
   }
+
+  $(document).ready(function(){
+    document.seated_plan_functions = [];
+    // automagically loads plans when the HTML call is in the page
+    seated_plan_init();
+    
+    // background
+    $('#seated_plan_background').change(function(){
+      $('.sf_admin_form_field_show_picture .picture')
+        .css('background-color', $(this).val());
+    }).change();
+    
+    // seat plots precondition for a good display
+    $('.picture.seated-plan img').load(function(){
+      // to avoid graphical bugs, relaunch the box resizing
+      if ( $(this).height() == 0 )
+      {
+        var img = this;
+        setTimeout(function(){ $(img).load(); },1500);
+        return;
+      }
+      
+      // box resizing
+      $(this).parent()
+        .css('display', 'block')
+        .width($(this).width())
+        .height($(this).height());
+    });
+    
+    // seat pre-plots
+    $('.sf_admin_form_field_show_picture .picture').mousedown(function(event){
+      // left click
+      if ( event.which != 1 )
+        return;
+      
+      ref = $(this);
+      position = {
+        x: Math.round(event.pageX-ref.position().left),
+        y: Math.round(event.pageY-ref.position().top)
+      };
+      
+      // the graphical pre-seat
+      $('<div class="pre-seat"></div>')
+        .addClass('pre-seat-'+$('.sf_admin_form_field_show_picture .seat').length)
+        .css('width', $('#seated_plan_seat_diameter').val()+'px')
+        .css('height', $('#seated_plan_seat_diameter').val()+'px')
+        .each(function(){
+          $(this)
+            .css('left', (x = Math.round(position['x']-$(this).width()/2))+'px')
+            .css('top',  (y = Math.round(position['y']-$(this).width()/2))+'px');
+        }).prependTo(ref);
+      
+      // adding a behaviour to pre-seat
+      $('.sf_admin_form_field_show_picture .picture .anti-handling').mousemove(function(event){
+        ref = $(this).parent();
+        position = {
+          x: Math.round(event.pageX-ref.position().left),
+          y: Math.round(event.pageY-ref.position().top)
+        };
+        
+        // moving
+        ref.find('.pre-seat').each(function(){
+          $(this)
+            .css('left', (x = Math.round(position['x']-$(this).width()/2))+'px')
+            .css('top',  (y = Math.round(position['y']-$(this).width()/2))+'px');
+        });
+      });
+    });
+    
+    // seat plots
+    $('.sf_admin_form_field_show_picture .picture .anti-handling').mouseup(function(event){
+      // left click
+      if ( event.which != 1 )
+        return;
+      
+      return seated_plan_mouseup({
+        position: {
+          x: Math.round(event.pageX-ref.position().left),
+          y: Math.round(event.pageY-ref.position().top)
+        },
+        object: $(this).parent(),
+        record: true,
+      });
+    });
+    
+    // removing last plot
+    $(document).keypress(function(event){
+      if ( event.which == 122 && event.ctrlKey )
+        $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
+    });
+    
+  });

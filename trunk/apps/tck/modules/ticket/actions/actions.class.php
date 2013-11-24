@@ -152,6 +152,11 @@ class ticketActions extends sfActions
   {
   }
   
+  public function executePlacing(sfWebRequest $request)
+  {
+    require('placing.php');
+  }
+  
   public function executeAccounting(sfWebRequest $request, $printed = true, $manifestation_id = false)
   {
     require('accounting.php');
@@ -159,17 +164,7 @@ class ticketActions extends sfActions
   // order
   public function executeOrder(sfWebRequest $request)
   {
-    $this->executeAccounting($request,false);
-    $this->order = $this->transaction->Order[0];
-    
-    if ( $request->hasParameter('cancel-order') )
-    {
-      $this->order->delete();
-      return true;
-    }
-    else
-    if ( is_null($this->order->id) )
-      $this->order->save();
+    return require('order.php');
   }
   public function executeRecordAccounting(sfWebRequest $request)
   {

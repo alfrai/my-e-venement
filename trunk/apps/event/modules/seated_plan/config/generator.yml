@@ -43,4 +43,4 @@ generator:
       edit:    ~
       new:     ~
       show:
-        display: [_show_raw_picture, _show_picture_seats]
+        display: [_show_raw_picture]

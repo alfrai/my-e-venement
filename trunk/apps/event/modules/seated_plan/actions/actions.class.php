@@ -109,13 +109,31 @@ class seated_planActions extends autoSeated_planActions
   { $this->executeEdit($request); }
   public function executeEdit(sfWebRequest $request)
   {
-    $this->seated_plan = Doctrine::getTable('SeatedPlan')->createQuery('sp')
-      ->andWhere('sp.id = ?',$request->getParameter('id'))
-      ->leftJoin('sp.Seats s')
-      ->orderBy('s.name')
-      ->fetchOne();
+    if ( $request->getParameter('id',false) )
+    {
+      $this->seated_plan = Doctrine::getTable('SeatedPlan')->createQuery('sp')
+        ->andWhere('sp.id = ?',$request->getParameter('id'))
+        ->leftJoin('sp.Seats s')
+        ->orderBy('s.name')
+        ->fetchOne();
+    }
+    else
+    {
+      // if only gauge_id is set
+      $this->seated_plan = Doctrine::getTable('SeatedPlan')->createQuery('sp')
+        ->leftJoin('sp.Seats s')
+        ->leftJoin('sp.Workspace ws')
+        ->leftJoin('ws.Gauges g')
+        ->leftJoin('g.Manifestation m')
+        ->andWhere('sp.location_id = m.location_id')
+        ->andWhere('g.id = ?', $request->getParameter('gauge_id',0))
+        ->fetchOne();
+    }
     
     $this->forward404Unless($this->seated_plan);
     $this->form = $this->configuration->getForm($this->seated_plan);
+    
+    if ( $request->getParameter('gauge_id',false) )
+      $this->form->gauge_id = $request->getParameter('gauge_id');
   }
 }

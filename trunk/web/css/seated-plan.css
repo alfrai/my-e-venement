@@ -6,6 +6,7 @@
 .picture.seated-plan .seat.ordered { background-color: orange; }
 .picture.seated-plan .pre-seat, .picture.seated-plan .seat.txt { background-color: transparent; z-index: 3; margin: -2px 0 0 -2px; }
 .picture.seated-plan .pre-seat { z-index: 2; }
+.picture.seated-plan .seat.txt.in-progress { border: 2px solid red; }
 .picture.seated-plan .pre-seat, .picture.seated-plan .seat.txt:hover { border: 2px solid black; }
 .picture.seated-plan .anti-handling { width: 100%; height: 100%; background-color: transparent; position: absolute; z-index: 2; }
 .picture.seated-plan * { cursor: crosshair; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }

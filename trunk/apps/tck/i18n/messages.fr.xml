@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You still have to give some tickets a seat...</source>
+        <target>Vous devez encore donner une place numérotée à des billets...</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>An error occured. Please try again.</source>
+        <target>Une erreur est survenue. Essayez à nouveau SVP.</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Seats allocation</source>
+        <target>Distribution des places</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Summary</source>
         <target>Résumé</target>
       </trans-unit> 

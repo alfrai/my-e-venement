@@ -22,6 +22,6 @@
 ***********************************************************************************/
 ?>
 <?php
-class liSeatingException extends sfException
+class liSeatedException extends liEvenementException
 {
 }

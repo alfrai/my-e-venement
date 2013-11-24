@@ -26,6 +26,7 @@ a, a:active, a:visited { color: #000; }
   border-radius: 7px;
   background-color: #bddcff;
 }
+.nude { padding: 0; background-color: white; }
 .nude #more, .nude #content {
   margin-top: 10px;
 }
