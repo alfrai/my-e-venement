@@ -1,6 +1,6 @@
 <?php use_helper('Date','Number') ?>
 <script type="text/javascript" language="javascript">
-  print();
+  //print();
   //close();
 </script>
 <?php if ( isset($modifiable) && $modifiable ): ?>
