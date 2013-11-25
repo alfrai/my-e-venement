@@ -19,9 +19,11 @@ class WorkspaceForm extends BaseWorkspaceForm
     ));
     */
     unset($this->widgetSchema['manifestations_list']); //->setOption('renderer_class','sfWidgetFormSelectDoubleList');
-    $this->widgetSchema['users_list']->setOption('expanded', 'true');
+    $this->widgetSchema['users_list']->setOption('expanded', 'true')
+      ->setOption('order_by', array('u.username', ''));
     
-    $this->widgetSchema['prices_list']->setOption('expanded',true);
+    $this->widgetSchema['prices_list']->setOption('expanded',true)
+      ->setOption('order_by', array('p.name', ''));
     
     if ( !sfContext::getInstance()->getUser()->hasCredential('event-seated') )
       $this->widgetSchema['seated'] = new sfWidgetFormInputHidden;
