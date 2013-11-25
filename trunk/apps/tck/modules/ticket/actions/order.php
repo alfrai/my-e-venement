@@ -34,7 +34,8 @@
         $q = Doctrine_Query::create()->from('Ticket tck')
           ->select('tck.id')
           ->andWhere('tck.transaction_id = ?',$this->transaction->id)
-          ->andWhere('tck.numerotation IS NOT NULL OR tck.numerotation != ?', '');
+          ->andWhere('tck.numerotation IS NOT NULL OR tck.numerotation != ?', '')
+          ->andWhere('tck.printed_at IS NOT NULL AND tck.integrated_at IS NOT NULL');
         $tickets = array();
         foreach ( $q->fetchArray() as $t )
           $tickets[] = $t['id'];
