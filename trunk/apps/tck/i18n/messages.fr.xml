@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Force reloading the plan</source>
+        <target>Forcer le rechargement du plan</target>
+      </trans-unit> 
+      <trans-unit>
         <source>You still have to give some tickets a seat...</source>
         <target>Vous devez encore donner une place numérotée à des billets...</target>
       </trans-unit> 
@@ -15,6 +19,10 @@
       <trans-unit>
         <source>Seats allocation</source>
         <target>Distribution des places</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Next</source>
+        <target>Suite</target>
       </trans-unit> 
       <trans-unit>
         <source>Summary</source>

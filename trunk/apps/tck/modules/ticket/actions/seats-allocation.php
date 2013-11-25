@@ -24,13 +24,26 @@
 <?php
   sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Url'));
   
-  $this->transaction = Doctrine::getTable('Transaction')->createQuery('t')
+  if (! $this->url_next = $this->getUser()->getFlash('referer') )
+  {
+    $this->getUser()->setFlash('error', __('You need to come from somewhere mate...'));
+    $this->redirect('ticket/sell?id='.$request->getParameter('id'));
+  }
+
+  $q = Doctrine::getTable('Transaction')->createQuery('t')
     ->leftJoin('m.Location l')
     ->leftJoin('l.SeatedPlans sp')
+    ->leftJoin('sp.Picture p')
     ->leftJoin('tck.Gauge g')
+    ->leftJoin('g.Workspace ws')
+    ->leftJoin('m.Event e')
     ->andWhere('t.id = ?',$request->getParameter('id',0))
     ->andWhere('tck.gauge_id = ?',$request->getParameter('gauge_id',0))
-    ->fetchOne();
+    ->andWhere('tck.numerotation IS NULL OR tck.numerotation = ?', '')
+    ->orderBy('tck.price_name');
+  if ( $request->getParameter('toprint',false) && is_array($request->getParameter('toprint')) )
+    $q->andwhereIn('tck.id', $request->getParameter('toprint'));
+  $this->transaction = $q->fetchOne();
   
   // error
   if ( ! $this->transaction instanceof Transaction )
@@ -43,8 +56,7 @@
   $sample_ticket = $this->transaction->Tickets[0];
   $this->seated_plan = $sample_ticket->Manifestation->Location->getWorkspaceSeatedPlan($this->transaction->Tickets[0]->Gauge->workspace_id);
   $this->gauge = $sample_ticket->Gauge;
-  $this->url_next = url_for('ticket/order?id='.$this->transaction->id);
   
-  // if no plan available, try again the order (RISK OF LOOPHOLES...)
+  // if no plan available, try again the previous screen (RISK OF LOOPHOLES...)
   if ( !$this->seated_plan )
-    $this->redirect('ticket/order?id='.$this->transaction->id);
+    $this->redirect($request->getReferer());

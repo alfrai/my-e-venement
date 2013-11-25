@@ -30,9 +30,30 @@
       $this->order->delete();
       foreach ( $this->transaction->Tickets as $ticket )
       {
-        // OPTIMIZATION NEEDED
-        $ticket->numerotation = NULL;
-        $ticket->save();
+        // updating tickets in bulk
+        $q = Doctrine_Query::create()->from('Ticket tck')
+          ->select('tck.id')
+          ->andWhere('tck.transaction_id = ?',$this->transaction->id)
+          ->andWhere('tck.numerotation IS NOT NULL OR tck.numerotation != ?', '');
+        $tickets = array();
+        foreach ( $q->fetchArray() as $t )
+          $tickets[] = $t['id'];
+        
+        $q->update()
+          ->set('numerotation','NULL')
+          ->set('updated_at', 'NOW()')
+          ->set('version', 'version + 1')
+          ->set('sf_guard_user_id',$this->getUser()->getId())
+          ->execute();
+        
+        // tickets version
+        if ( $tickets )
+        {
+          $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+          $query = 'INSERT INTO ticket_version SELECT * FROM ticket WHERE id IN ('.implode(',',$tickets).')';
+          $stmt = $pdo->prepare($query);
+          $stmt->execute();
+        }
       }
       
       return sfView::NONE;
@@ -42,18 +63,8 @@
     if ( is_null($this->order->id) )
       $this->order->save();
 
-    // checks if any tickets need a seat
-    foreach ( $this->transaction->Tickets as $ticket )
-    if ( !$ticket->numerotation
-      && $ticket->Gauge->Workspace->seated
-      && $seated_plan = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)
-    )
-    {
-      // if so ask the user which one to use for this ticket
-      sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Url'));
-      $this->getUser()->setFlash('notice', __('You still have to give some tickets a seat...'));
-      return $this->redirect(url_for('ticket/placing?id='.$this->transaction->id.'&gauge_id='.$ticket->gauge_id));
-    }
+    // if any ticket needs a seat, do what's needed
+    $this->redirectToSeatsAllocationIfNeeded('order');
     
     // if everything's ok, prints out the order
     return 'Success';

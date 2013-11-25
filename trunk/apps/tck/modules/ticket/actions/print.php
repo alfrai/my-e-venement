@@ -22,8 +22,10 @@
 ***********************************************************************************/
 ?>
 <?php
-    if ( !($this->getRoute() instanceof sfObjectRoute) )
+    if ( !($this->getRoute() instanceof sfObjectRoute) && !$request->getParameter('id',false) )
+    {
       return $this->redirect('ticket/sell');
+    }
     
     //$this->transaction = $this->getRoute()->getObject();
     $q = Doctrine::getTable('Transaction')
@@ -53,6 +55,9 @@
     
     $this->transaction = $q->fetchOne();
     $this->manifestation_id = $request->getParameter('manifestation_id');
+    
+    // if any ticket needs a seat, do what's needed
+    $this->redirectToSeatsAllocationIfNeeded('print');
     
     $fingerprint = NULL;
     $this->print_again = false;

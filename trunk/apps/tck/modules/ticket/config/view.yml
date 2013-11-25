@@ -49,6 +49,6 @@ cancelBootSuccess:
   javascripts: [jquery,menu,/sfFormExtraPlugin/js/jquery.autocompleter.js,/cxFormExtraPlugin/js/cx_open_list.js]
   stylesheets: [/sfFormExtraPlugin/css/jquery.autocompleter.css]
 
-placingSuccess:
+seatsAllocationSuccess:
   javascripts: [seated-plan]
   stylesheets: [seated-plan]
