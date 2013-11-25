@@ -76,8 +76,14 @@
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
       
-      // linking a new duplicating ticket to this ticket
+      // copying the current ticket
       $this->ticket = $ticket->copy();
+      
+      // removing the numerotation before saving the duplicata
+      $ticket->numerotation = NULL;
+      $ticket->save();
+      
+      // creating a duplicata
       $this->ticket->printed_at = date('Y-m-d H:i:s');
       $this->ticket->created_at = NULL;
       $this->ticket->updated_at = NULL;

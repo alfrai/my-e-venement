@@ -22,12 +22,6 @@
 ***********************************************************************************/
 ?>
 <?php
-    if ( !($this->getRoute() instanceof sfObjectRoute) && !$request->getParameter('id',false) )
-    {
-      return $this->redirect('ticket/sell');
-    }
-    
-    //$this->transaction = $this->getRoute()->getObject();
     $q = Doctrine::getTable('Transaction')
       ->createQuery('t')
       ->andWhere('t.id = ?',$request->getParameter('id'))
@@ -94,8 +88,9 @@
                 $this->print_again = false;
                 break;
               }
-        
+              
               $newticket = $ticket->copy();
+              $ticket->numerotation = NULL;
               $newticket->sf_guard_user_id = NULL;
               $newticket->created_at = NULL;
               $newticket->updated_at = NULL;
@@ -103,6 +98,8 @@
               $newticket->grouping_fingerprint = $fingerprint;
               $newticket->Duplicated = $ticket;
               $newticket->save();
+              if ( $newticket->numerotation )
+                $ticket->save();
               
               if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
               {
@@ -172,12 +169,15 @@
               && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
             {
               $newticket = $ticket->copy();
+              $ticket->numerotation = NULL;
               $newticket->sf_guard_user_id = NULL;
               $newticket->created_at = NULL;
               $newticket->updated_at = NULL;
               $newticket->printed_at = date('Y-m-d H:i:s');
               $newticket->Duplicated = $ticket;
               $newticket->save();
+              if ( $newticket->numerotation )
+                $ticket->save();
               
               $this->tickets[] = $newticket;
             }
