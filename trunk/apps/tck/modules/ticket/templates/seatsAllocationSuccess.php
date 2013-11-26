@@ -46,6 +46,7 @@
       <input type="hidden" name="id" value="<?php echo $ticket->id ?>" />
     </span>
   <?php endforeach ?>
+  <span class="total"><?php echo $transaction->Tickets->count() ?></span>
 </form>
 <p id="arrow">&nbsp;↓</p>
 <div id="done">
@@ -57,7 +58,7 @@
       <span class="error_msg"><?php echo __('An error occurred, retry please.') ?></span>
     </p>
   </form>
-  &nbsp;
+  <span class="total">0</span>
 </div>
 
 <p id="plan"><a class="picture seated-plan" href="<?php echo cross_app_url_for('event', 'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id) ?>" style="background-color: <?php echo $seated_plan->background ?>;">
@@ -89,6 +90,8 @@ $(document).ready(function(){
           $('#done form input[name="ticket[numerotation]"], #done form input[name="ticket[id]"]').val('');
           var id = $(seat).clone(true).removeClass('seat').removeClass('txt').attr('class');
           $('#todo .ticket:first').prependTo('#done');
+          $('#todo .total').html(parseInt($('#todo .total').html())-1);
+          $('#done .total').html(parseInt($('#todo .total').html())+1);
           $('.seated-plan .'+id).addClass('ordered')
           $(seat).addClass('in-progress').unbind('click');
           

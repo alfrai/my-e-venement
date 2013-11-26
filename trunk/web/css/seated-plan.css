@@ -39,5 +39,8 @@
 .seats-allocation #context { margin-bottom: 10px; }
 .seats-allocation #todo, .seats-allocation #done { height: 20px; }
 .seats-allocation #done form { display: none; }
+.seats-allocation .total:before { content: ' = '; }
+.seats-allocation .total { font-weight: bold; }
+
 #menu li.disabled { color: silver; }
 
