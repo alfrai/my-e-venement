@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>seat</source>
+        <target>pl.</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Force reloading the plan</source>
         <target>Forcer le rechargement du plan</target>
       </trans-unit> 

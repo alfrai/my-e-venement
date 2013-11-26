@@ -40,6 +40,7 @@ class seated_planActions extends autoSeated_planActions
   {
     $this->executeEdit($request);
     $this->occupied = array();
+    $this->transaction_id = intval($request->getParameter('transaction_id', 0));
     
     if ( intval($request->getParameter('gauge_id', 0)) > 0 )
     {
@@ -63,7 +64,7 @@ class seated_planActions extends autoSeated_planActions
         ->andWhere('m.location_id = ?', $this->seated_plan->location_id);
       foreach ( $q->execute() as $ticket )
         $this->occupied[$ticket->numerotation] = array(
-          'type' => $ticket->printed_at || $ticket->integrated_at ? 'printed' : 'ordered',
+          'type' => ($ticket->printed_at || $ticket->integrated_at ? 'printed' : 'ordered').($ticket->transaction_id === $this->transaction_id ? ' in-progress' : ''),
           'transaction_id' => '#'.$ticket->transaction_id,
           'spectator'      => $ticket->Transaction->professional_id ? $ticket->Transaction->Professional->Contact.' '.$ticket->Transaction->Professional : (string)$ticket->Transaction->Contact,
         );
@@ -111,7 +112,11 @@ class seated_planActions extends autoSeated_planActions
   }
   
   public function executeShow(sfWebRequest $request)
-  { $this->executeEdit($request); }
+  {
+    $this->executeEdit($request);
+    if ( $request->getParameter('transaction_id',false) )
+      $this->form->transaction_id = $request->getParameter('transaction_id',false);
+  }
   public function executeEdit(sfWebRequest $request)
   {
     if ( $request->getParameter('id',false) )

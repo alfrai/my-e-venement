@@ -11,7 +11,7 @@
     <input type="hidden" value="<?php echo $manif->Gauges[0]->id ?>" name="ticket[gauge_id]" />
     <?php if ( $manif->Gauges[0]->Workspace->seated && $seated_plan = $manif->Location->getWorkspaceSeatedPlan($manif->Gauges[0]->workspace_id) ): ?>
       <a class="ws-name"
-         href="<?php echo cross_app_url_for('event','seated_plan/show?gauge_id='.$manif->Gauges[0]->id) ?>"
+         href="<?php echo cross_app_url_for('event','seated_plan/show?gauge_id='.$manif->Gauges[0]->id.'&transaction_id='.$transaction->id) ?>"
          target="_blank"><?php echo $manif->Gauges[0]->Workspace->name ?></a>
     <?php endif ?>
   <?php /* </span> */ // trick for multiple gauges, see parent partial ?>

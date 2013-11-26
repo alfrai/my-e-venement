@@ -13,6 +13,10 @@
         <target>Nb de places</target>
       </trans-unit>
       <trans-unit>
+        <source>An error occurred during the plot recording. Try again.</source>
+        <target>Nb de places</target>
+      </trans-unit>
+      <trans-unit>
         <source>Magnify</source>
         <target>Effet loupe</target>
       </trans-unit>

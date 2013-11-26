@@ -340,7 +340,7 @@ function ticket_transform_hidden_to_span(all)
       else
         $('<span class="'+name+' ticket_prices '+$(this).prop('class')+'" title="'+$(this).prop('title')+'"><input type="text" class="nb" name="hidden_nb" value="1" autocomplete="off" maxlength="3" /><input type="hidden" class="nb" name="hidden_nb" value="1"> <span class="price">'+price+'</span><span class="tickets_id"></span><span class="value">'+$(this).val()+'</span></span>')
           .appendTo($(this).parent());
-      $(this).parent().find('.'+name+'.'+$(this).prop('class')+' .tickets_id').append($(this).prop('alt')+'<br/>');
+      $(this).parent().find('.'+name+'.'+$(this).prop('class')+' .tickets_id').append($(this).prop('alt')+', ');
     });
   });
   
@@ -433,7 +433,7 @@ function ticket_display_seated_plan()
   $('.manifestations_list .workspaces [name="ticket[gauge_id]"]').click(function(event){
     if ( event.ctrlKey )
     {
-      go('/event.php/seated_plan/show/action?gauge_id='+$(this).val());
+      go('/event.php/seated_plan/show/action?transaction_id='+$.trim($('#global_transaction_id').html())+'&gauge_id='+$(this).val());
       
       // a trick to close the select menu, that makes a better GUI interaction
       $(this).hide();

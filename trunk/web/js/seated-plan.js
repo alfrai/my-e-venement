@@ -248,7 +248,7 @@
           $('.sf_admin_form_field_show_picture .tools .magnify-out').click();
         if ( event.key == 'Add' || event.which == 61 )
           $('.sf_admin_form_field_show_picture .tools .magnify-in').click();
-        if ( (event.which == 96 || event.which == 48) && event.ctrlKey )
+        if ( (event.which == 96 || event.which == 48 && event.shiftKey) && event.ctrlKey )
           $('.sf_admin_form_field_show_picture .tools .magnify-zero').click();
       });
     }
