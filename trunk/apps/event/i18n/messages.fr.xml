@@ -13,6 +13,10 @@
         <target>Nb de places</target>
       </trans-unit>
       <trans-unit>
+        <source>Magnify</source>
+        <target>Effet loupe</target>
+      </trans-unit>
+      <trans-unit>
         <source>New Seated plan</source>
         <target>Nouveau plan de salle</target>
       </trans-unit>

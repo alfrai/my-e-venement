@@ -29,6 +29,14 @@
     <div><label><?php echo __('Regexp') ?></label><input type="text" name="yummy" class="regexp" value="^[A-Za-z\-\.\/]*" /></div>
     <div><label><?php echo __('Hop') ?></label><input type="text" name="yummy" class="hop" value="1" /></div>
     <div><label><?php echo __('Do not ask') ?></label><input type="checkbox" name="yummy" class="donotask" value="1" /></div>
+    <div>
+      <label><?php echo __('Magnify') ?></label>
+      <a href="#" class="magnify-in">+</a>
+      /
+      <a href="#" class="magnify-zero">0</a>
+      /
+      <a href="#" class="magnify-out">-</a>
+    </div>
   </div>
   <?php endif ?>
   <div class="label ui-helper-clearfix"><label for="group_show_picture"><?php echo __('Picture').':' ?></label></div>

@@ -163,9 +163,12 @@
         return;
       
       ref = $(this);
+      
+      if ( scale == undefined )
+        scale = 1;
       position = {
-        x: Math.round(event.pageX-ref.position().left),
-        y: Math.round(event.pageY-ref.position().top)
+        x: Math.round((event.pageX-ref.position().left)/scale),
+        y: Math.round((event.pageY-ref.position().top) /scale)
       };
       
       // the graphical pre-seat
@@ -182,9 +185,12 @@
       // adding a behaviour to pre-seat
       $('.sf_admin_form_field_show_picture .picture .anti-handling').mousemove(function(event){
         ref = $(this).parent();
+        
+        if ( scale == undefined )
+          scale = 1;
         position = {
-          x: Math.round(event.pageX-ref.position().left),
-          y: Math.round(event.pageY-ref.position().top)
+          x: Math.round((event.pageX-ref.position().left)/scale),
+          y: Math.round((event.pageY-ref.position().top) /scale)
         };
         
         // moving
@@ -202,10 +208,13 @@
       if ( event.which != 1 )
         return;
       
+      if ( scale == undefined )
+        scale = 1;
+      
       return seated_plan_mouseup({
         position: {
-          x: Math.round(event.pageX-ref.position().left),
-          y: Math.round(event.pageY-ref.position().top)
+          x: Math.round((event.pageX-ref.position().left)/scale),
+          y: Math.round((event.pageY-ref.position().top) /scale)
         },
         object: $(this).parent(),
         record: true,
@@ -218,4 +227,18 @@
         $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
     });
     
+    // magnifying
+    var scale = 1;
+    $('.sf_admin_form_field_show_picture .tools .magnify-in').click(function(){
+      $('.sf_admin_form_field_show_picture .picture').css('transform','scale('+(scale = scale*1.1)+')');
+      return false;
+    });
+    $('.sf_admin_form_field_show_picture .tools .magnify-out').click(function(){
+      $('.sf_admin_form_field_show_picture .picture').css('transform','scale('+(scale = scale/1.1)+')');
+      return false;
+    });
+    $('.sf_admin_form_field_show_picture .tools .magnify-zero').click(function(){
+      $('.sf_admin_form_field_show_picture .picture').css('transform','scale('+(scale = 1)+')');
+      return false;
+    });
   });
