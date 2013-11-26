@@ -6,15 +6,15 @@ showSuccess:
   stylesheets: [manifestation-view, view, seated-plan]
   javascripts:  [seated-plan]
 editSuccess:
-  stylesheets: [manifestation-view,view]
+  stylesheets: [manifestation-view,view, seated-plan]
 newSuccess:
   stylesheets: [manifestation-view,view]
 periodicitySuccess:
   stylesheets: [manifestation-view,view]
 updateSuccess:
-  stylesheets: [manifestation-view,view]
+  stylesheets: [manifestation-view,view, seated-plan]
 createSuccess:
-  stylesheets: [manifestation-view,view]
+  stylesheets: [manifestation-view,view, seated-plan]
 versionsSuccess:
   javascripts: [manifestation-versionning]
 
