@@ -1222,7 +1222,7 @@
       </trans-unit>
       <trans-unit>
         <source>Prices</source>
-        <target>Prix</target>
+        <target>Tarifs</target>
       </trans-unit>
       <trans-unit id="71">
         <source>Paid tickets</source>

@@ -29,7 +29,7 @@
   <div class="ui-corner-all ui-widget-content ui-widget">
 
 <p id="reload">
-  <a href="javascript: window.reload();"
+  <a href="javascript: location.reload();"
      class="fg-button ui-state-default fg-button-icon-right">
     <?php echo __('Force reloading the plan') ?>
   </a>

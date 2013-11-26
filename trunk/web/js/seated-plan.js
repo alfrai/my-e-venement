@@ -241,4 +241,12 @@
       $('.sf_admin_form_field_show_picture .picture').css('transform','scale('+(scale = 1)+')');
       return false;
     });
+    $(document).keyup(function(event){
+      if ( event.key == 'Subtract' )
+        $('.sf_admin_form_field_show_picture .tools .magnify-out').click();
+      if ( event.key == 'Add' )
+        $('.sf_admin_form_field_show_picture .tools .magnify-in').click();
+      if ( event.which == 96 && event.ctrlKey )
+        $('.sf_admin_form_field_show_picture .tools .magnify-zero').click();
+    });
   });

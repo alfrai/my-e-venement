@@ -28,33 +28,32 @@
     if ( $request->hasParameter('cancel-order') )
     {
       $this->order->delete();
-      foreach ( $this->transaction->Tickets as $ticket )
+      
+      // numerotation matters
+      // updating tickets in bulk
+      $q = Doctrine_Query::create()->from('Ticket tck')
+        ->select('tck.id')
+        ->andWhere('tck.transaction_id = ?',$this->transaction->id)
+        ->andWhere('tck.numerotation IS NOT NULL OR tck.numerotation != ?', '')
+        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL');
+      $tickets = array();
+      foreach ( $q->fetchArray() as $t )
+        $tickets[] = $t['id'];
+      
+      $q->update()
+        ->set('numerotation','NULL')
+        ->set('updated_at', 'NOW()')
+        ->set('version', 'version + 1')
+        ->set('sf_guard_user_id',$this->getUser()->getId())
+        ->execute();
+      
+      // tickets version
+      if ( $tickets )
       {
-        // updating tickets in bulk
-        $q = Doctrine_Query::create()->from('Ticket tck')
-          ->select('tck.id')
-          ->andWhere('tck.transaction_id = ?',$this->transaction->id)
-          ->andWhere('tck.numerotation IS NOT NULL OR tck.numerotation != ?', '')
-          ->andWhere('tck.printed_at IS NOT NULL AND tck.integrated_at IS NOT NULL');
-        $tickets = array();
-        foreach ( $q->fetchArray() as $t )
-          $tickets[] = $t['id'];
-        
-        $q->update()
-          ->set('numerotation','NULL')
-          ->set('updated_at', 'NOW()')
-          ->set('version', 'version + 1')
-          ->set('sf_guard_user_id',$this->getUser()->getId())
-          ->execute();
-        
-        // tickets version
-        if ( $tickets )
-        {
-          $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
-          $query = 'INSERT INTO ticket_version SELECT * FROM ticket WHERE id IN ('.implode(',',$tickets).')';
-          $stmt = $pdo->prepare($query);
-          $stmt->execute();
-        }
+        $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+        $query = 'INSERT INTO ticket_version SELECT * FROM ticket WHERE id IN ('.implode(',',$tickets).')';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
       }
       
       return sfView::NONE;
