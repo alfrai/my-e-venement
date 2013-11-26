@@ -78,7 +78,7 @@
     
     // adding the seat / plot
     $('<div class="seat"><input class="txt" type="hidden" value="'+name+'" /></div>')
-      .attr('title', !occupied ? name : name+' ('+occupied.transaction_id+')')
+      .attr('title', !occupied ? name : name+' ('+occupied.transaction_id+(occupied.spectator ? ', '+occupied.spectator : '')+')')
       .addClass('seat-'+$('.picture.seated-plan .seat').length).addClass(occupied ? occupied.type : '')
       .width(diameter).height(diameter)
       .each(function(){

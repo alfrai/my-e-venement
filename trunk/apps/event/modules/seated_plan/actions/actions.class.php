@@ -45,14 +45,18 @@ class seated_planActions extends autoSeated_planActions
     {
       $q = Doctrine::getTable('Ticket')->createQuery('tck')
         ->leftJoin('tck.Transaction t')
+        ->leftJoin('t.Contact c')
+        ->leftJoin('t.Professional pro')
+        ->leftJoin('pro.Organism org')
+        ->leftJoin('pro.Contact pc')
         ->leftJoin('t.Order o')
         ->leftJoin('tck.Gauge g')
         ->leftJoin('g.Manifestation m')
-        ->leftJoin('tck.Cancelling c')
+        ->leftJoin('tck.Cancelling cancel')
         
         ->andWhere('tck.cancelling IS NULL')
         ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR o.id IS NOT NULL')
-        ->andWhere('duplicatas.id IS NULL AND c.id IS NULL')
+        ->andWhere('duplicatas.id IS NULL AND cancel.id IS NULL')
         ->andWhere('tck.numerotation IS NOT NULL AND tck.numerotation != ?','')
         
         ->andWhere('g.id = ?', $request->getParameter('gauge_id'))
@@ -61,6 +65,7 @@ class seated_planActions extends autoSeated_planActions
         $this->occupied[$ticket->numerotation] = array(
           'type' => $ticket->printed_at || $ticket->integrated_at ? 'printed' : 'ordered',
           'transaction_id' => '#'.$ticket->transaction_id,
+          'spectator'      => $ticket->Transaction->professional_id ? $ticket->Transaction->Professional->Contact.' '.$ticket->Transaction->Professional : (string)$ticket->Transaction->Contact,
         );
     }
   }
