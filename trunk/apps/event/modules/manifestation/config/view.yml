@@ -7,14 +7,18 @@ showSuccess:
   javascripts:  [seated-plan]
 editSuccess:
   stylesheets: [manifestation-view,view, seated-plan]
+  javascripts:  [seated-plan]
 newSuccess:
   stylesheets: [manifestation-view,view]
+  javascripts:  [seated-plan]
 periodicitySuccess:
   stylesheets: [manifestation-view,view]
 updateSuccess:
   stylesheets: [manifestation-view,view, seated-plan]
+  javascripts:  [seated-plan]
 createSuccess:
   stylesheets: [manifestation-view,view, seated-plan]
+  javascripts:  [seated-plan]
 versionsSuccess:
   javascripts: [manifestation-versionning]
 

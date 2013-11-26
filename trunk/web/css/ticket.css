@@ -276,7 +276,7 @@
   padding-left: 3px;
   margin-left: -5px;
 }
-#prices .workspaces .ws-name { padding: 1px 22px 1px 4px; border: 2px solid silver; font-size: 10px; text-decoration: none; width: 80px; }
+#prices .workspaces .ws-name { padding: 1px 22px 1px 4px; border: 2px solid silver; font-size: 10px; text-decoration: none; width: 80px; white-space: nowrap; }
 #prices .workspaces select { cursor: pointer; }
 #prices .workspaces option { cursor: default; }
 #prices .workspaces option.alert { font-style: italic; border: 0; color: orange; }
