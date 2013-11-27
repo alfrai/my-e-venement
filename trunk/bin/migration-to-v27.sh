@@ -81,6 +81,7 @@ echo ""
 echo ""
 echo "Don't forget to configure those extra features :"
 echo "- Seated plans for your locations"
+echo "- Setup again the e-venement Messaging Network : http://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin"
 
 echo ""
 echo "Don't forget to inform your users about those evolutions"

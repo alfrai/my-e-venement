@@ -196,7 +196,7 @@ rm -f `find lib/vendor/ -iname '*.orig'`
 echo ""
 echo ""
 echo "Don't forget to configure those extra features :"
-echo "e-venement messaging system: http://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin + config/project.yml + per-users settings"
+echo "e-venement messaging network: http://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin + config/project.yml + per-users settings"
 
 echo ""
 echo "Don't forget to add some users into the event-reservations-admin group"
