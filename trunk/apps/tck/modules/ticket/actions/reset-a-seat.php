@@ -49,7 +49,7 @@
   
   $form->bind($ticket);
   if ( !$form->isValid() ) // security checks
-    throw new liSeatedException($form->getErrorSchema());
+    throw new liSeatedException("The submitted data are not correct to reset the ticket's seat. ".$form->getErrorSchema());
   
   $this->ticket = Doctrine_Query::create()->from('Ticket tck')
     ->andWhere('tck.gauge_id = ?',$ticket['gauge_id'])

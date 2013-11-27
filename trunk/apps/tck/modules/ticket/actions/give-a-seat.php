@@ -33,20 +33,21 @@
   $validators['numerotation'] = new sfValidatorDoctrineChoice(array(
     'model' => 'Seat',
     'column' => 'name',
-    'query' => Doctrine::getTable('Seat')->createQuery('s')
+    'query' => $q = Doctrine::getTable('Seat')->createQuery('s')
       ->leftJoin('s.SeatedPlan sp')
       ->leftJoin('sp.Workspace ws')
       ->leftJoin('ws.Gauges g')
       ->leftJoin('g.Tickets tck')
       ->leftJoin('tck.Transaction t')
       ->andWhere('t.closed = ?',false)
-      ->andWhere('tck.numerotation = NULL OR tck.numerotation = '')
-      ->andWhere('tck.id = ?',$ticket['id']),
+      ->andWhere('(tck.numerotation IS NULL OR tck.numerotation = ?)','')
+      ->andWhere('tck.id = ?',$ticket['id'])
+      ->andWhere('tck.transaction_id = ?', $request->getParameter('id')),
   ));
   
   $form->bind($ticket);
   if ( !$form->isValid() ) // security checks
-    throw new liSeatedException();
+    throw new liSeatedException('The submitted data are not correct to give a seat to this ticket... '.$form->getErrorSchema());
   
   $this->ticket = Doctrine::getTable('Ticket')->findOneById($ticket['id']);
   $this->ticket->numerotation = $ticket['numerotation'];

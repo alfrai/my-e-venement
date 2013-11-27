@@ -70,7 +70,7 @@ Ticket:
       fields: [updated_at]
     ticket_gauge_id_numerotation_id_idx:
       fields: [numerotation, gauge_id]
-      unique: true
+      type: unique
     ticket_barcode_idx:
       fields: [barcode]
     ticket_othercode_idx:

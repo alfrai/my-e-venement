@@ -26,3 +26,9 @@ invoice:
   credentials: [tck-accounting-invoice]
 show:
   credentials: [tck-reports]
+giveASeat:
+  credentials: [tck-seat-allocation]
+resetASeat:
+  credentials: [tck-seat-allocation]
+seatAllocation:
+  credentials: [tck-seat-allocation]
