@@ -249,6 +249,9 @@
   border: 1px solid gray;
   background-color: silver;
   padding: 2px 3px;
+  max-width: 120px;
+  white-space: normal;
+  text-align: left;
 }
 #prices .ticket_prices:hover .tickets_id { display: block; }
 #prices [name="ticket[nb]"] { text-align: center; }

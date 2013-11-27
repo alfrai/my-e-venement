@@ -43,6 +43,7 @@
         'manif' => $manif,
         'active' => false,
         'workspace' => isset($workspace) ? $workspace : true,
+        'transaction' => $transaction,
       )) ?>
       </li>
     <?php endforeach ?>

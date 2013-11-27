@@ -39,7 +39,7 @@
   <?php endif ?>
 </span>
 <span class="workspaces">
-  <?php include_partial('ticket_manifestation_wslist',array('manif' => $manif, 'transaction' => $manif->Tickets[0]->Transaction,)) ?>
+  <?php include_partial('ticket_manifestation_wslist',array('manif' => $manif, 'transaction' => $transaction,)) ?>
 </span>
 <span class="prices">
 <?php include_partial('ticket_manifestation_prices',array('manif' => $manif,)) ?>
