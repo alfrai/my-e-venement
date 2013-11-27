@@ -155,6 +155,7 @@ function ticket_events()
       $('#manifestations .gauge').fadeIn();
       ticket_activate_manifs_gauge();
       ticket_manif_new_events();
+      ticket_display_seated_plan();
       if ( $('#manifestations form [name=manif_new]').val().substring(0,7) == '#manif-' )
       {
         setTimeout(function(){
@@ -169,6 +170,7 @@ function ticket_events()
   });
   ticket_activate_manifs_gauge();
   ticket_manif_new_events();
+  ticket_display_seated_plan();
   
   // toggle link "hide / show"
   $('#manifestations .manif_new .toggle_view').unbind().click(function(){
@@ -427,17 +429,17 @@ function ticket_display_seated_plan()
   };
   
   // opening the seated plan as a dialog widget
-  $('.manifestations_list .workspace a.ws-name, .manifestations_list .workspaces a.ws-name').unbind().click(function(){
+  $('.manif .workspace a.ws-name, .manif .workspaces a.ws-name').unbind().click(function(){
     return go($(this).prop('href'));
   });
-  $('.manifestations_list .workspaces [name="ticket[gauge_id]"]').click(function(event){
+  $('.manif .workspaces [name="ticket[gauge_id]"]').click(function(event){
     if ( event.ctrlKey )
     {
       go('/event.php/seated_plan/show/action?transaction_id='+$.trim($('#global_transaction_id').html())+'&gauge_id='+$(this).val());
       
       // a trick to close the select menu, that makes a better GUI interaction
       $(this).hide();
-      setTimeout(function(){ $('.manifestations_list .workspaces [name="ticket[gauge_id]"]').show(); },250);
+      setTimeout(function(){ $('.manif .workspaces [name="ticket[gauge_id]"]').show(); },250);
     }
   });
 }
