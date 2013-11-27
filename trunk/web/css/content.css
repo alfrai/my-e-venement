@@ -13,7 +13,7 @@ body .ui-tabs-vertical .ui-tabs-nav li { width: 97%; }
 #content .show_groups { margin-left: 30px; line-height: 1.5em; }
 
 .sf_admin_show .sf_admin_form_row { display: table-row; }
-.sf_admin_show .sf_admin_form_row label { display: table-cell; width: 80px; padding-bottom: 4px; }
+.sf_admin_show .sf_admin_form_row label { display: table-cell; width: 110px; padding-bottom: 4px; }
 
 .open_list > div, .double_list > div > div { width: 100%; text-align: center; }
 .open_list > div:first-child, .double_list > div > div:first-child { margin-bottom: -2em; }
