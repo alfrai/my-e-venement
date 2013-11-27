@@ -33,6 +33,10 @@ class TicketForm extends BaseTicketForm
     ));
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputHidden();
     $this->widgetSchema['numerotation'] = new sfWidgetFormInputHidden();
+    $this->validatorSchema['numerotation'] = new sfValidatorString(array(
+      'min_length' => 1,
+      'required' => false,
+    ));
   }
   
   public function save($con = NULL)

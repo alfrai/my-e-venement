@@ -42,6 +42,8 @@
     
     if ( $values )
     {
+      if ( !$values['numerotation'] )
+        unset($values['numerotation']);
       $this->form->bind($values);
       
       try { if ( $this->form->isValid() )

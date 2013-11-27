@@ -79,6 +79,10 @@ abstract class PluginTicket extends BaseTicket
         ->findOneById($this->Manifestation->id)
         ->Vat->value;
     
+    // force numerotation to null if needed
+    if ( !$this->numerotation )
+      $this->numerotation = NULL;
+    
     parent::preSave($event);
   }
 
