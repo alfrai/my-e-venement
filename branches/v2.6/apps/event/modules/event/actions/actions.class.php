@@ -91,11 +91,11 @@ class eventActions extends autoEventActions
     $ids = $request->getParameter('ids');
 
     $q = Doctrine_Query::create()
-      ->delete()
       ->from('Event e')
       ->whereIn('e.id', $ids)
-      ->andWhere('(SELECT count(m.id) FROM Manifestation m WHERE m.event_id = e.id AND m.contact_id != ?) = 0', $this->getUser()->getContactId());
-    $count = EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery('e')->whereIn('e.id', $ids)->select('e.*'))->execute()->count();
+      ->andWhere('(SELECT count(m.id) FROM Manifestation m WHERE m.event_id = id AND m.contact_id != ?) = 0', $this->getUser()->getContactId())
+      ->delete();
+    $count = EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery('e')->whereIn('e.id', $ids)->select('e.id'))->execute()->count();
     
     if ($count >= count($ids))
     {
