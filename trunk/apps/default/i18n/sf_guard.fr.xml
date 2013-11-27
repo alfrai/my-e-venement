@@ -133,6 +133,10 @@
         <target>Capacité à utiliser le placement numéroté</target>
       </trans-unit>
       <trans-unit>
+        <source>Ability to deal with seated ticketting</source>
+        <target>Capacité à utiliser le placement numéroté</target>
+      </trans-unit>
+      <trans-unit>
         <source>Permission add/remove/modify accounts for webservices</source>
         <target>Capacité à modifier les accès pour les webservices (vente en ligne)</target>
       </trans-unit>

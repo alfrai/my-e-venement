@@ -91,8 +91,15 @@
       
       // plot removal
       .dblclick(function(event){
-        if ( $('.sf_admin_form_field_show_picture').length == 0 )
-          return;
+        // reset a seat allocation ...
+        if ( $('.sf_admin_form_field_show_picture').length == 0
+          && $(this).is('.in-progress')
+          && !$(this).is('.printed')
+          && $('.reset-a-seat').length > 0 )
+        {
+          seated_plan_unallocate_seat(this);
+          return; // ... and this only
+        }
         
         // DB removal
         var seat = this;
@@ -128,6 +135,25 @@
     });
   }
 
+  function seated_plan_unallocate_seat(seat)
+  {
+    if ( $('#todo').length == 0 && !confirm($('form.reset-a-seat:first .confirm').html()) )
+      return false;
+    
+    $('form.reset-a-seat:first [name="ticket[numerotation]"]').val($(seat).find('input').val());
+    var id = $(seat).clone(true).removeClass('seat').removeClass('txt').removeClass('ordered').removeClass('in-progress').attr('class');
+    $('form.reset-a-seat:first').unbind().submit(function(){
+      $.ajax({
+        url: $('form.reset-a-seat:first').prop('action'),
+        data: $('form.reset-a-seat:first').serialize(),
+        success: function(){
+          $('.seated-plan .'+id).removeClass('ordered').removeClass('in-progress');
+      },
+      });
+      return false;
+    }).submit();
+  }
+  
   $(document).ready(function(){
     document.seated_plan_functions = [];
     // automagically loads plans when the HTML call is in the page

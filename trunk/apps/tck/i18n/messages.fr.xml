@@ -9,6 +9,10 @@
         <target>pl.</target>
       </trans-unit> 
       <trans-unit>
+        <source>An error occurred during the seat allocation. Please try again.</source>
+        <target>Une erreur est survenue durant l'affectation d'un siège. Essayer encore SVP.</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Force reloading the plan</source>
         <target>Forcer le rechargement du plan</target>
       </trans-unit> 

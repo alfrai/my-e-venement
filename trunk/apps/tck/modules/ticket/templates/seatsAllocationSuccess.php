@@ -39,14 +39,19 @@
   <span class="gauge"><?php echo $transaction->Tickets[0]->Gauge->Workspace ?></span>
 </p>
 
-<form action="#" method="get" id="todo">
+<form action="<?php echo url_for('ticket/resetASeat?id='.$transaction->id) ?>" method="get" id="todo" class="reset-a-seat">
   <?php foreach ( $transaction->Tickets as $ticket ): ?>
-    <span class="ticket" title="#<?php echo $ticket->id ?>">
-      <?php echo $ticket->price_name ?>
-      <input type="hidden" name="id" value="<?php echo $ticket->id ?>" />
-    </span>
+  <span class="ticket" title="#<?php echo $ticket->id ?>">
+    <?php echo $ticket->price_name ?>
+    <input type="hidden" name="ticket_id" value="<?php echo $ticket->id ?>" />
+  </span>
   <?php endforeach ?>
   <span class="total"><?php echo $transaction->Tickets->count() ?></span>
+  <span style="display: none;">
+    <input type="hidden" name="ticket[_csrf_token]" value="<?php $f = new sfForm; echo $f->getCSRFToken() ?>" />
+    <input type="hidden" name="ticket[numerotation]" value="" />
+    <input type="hidden" name="ticket[gauge_id]" value="<?php echo $transaction->Tickets[0]->gauge_id ?>" />
+  </span>
 </form>
 <p id="arrow">&nbsp;↓</p>
 <div id="done">
@@ -55,13 +60,13 @@
       <input type="hidden" name="ticket[_csrf_token]" value="<?php $f = new sfForm; echo $f->getCSRFToken() ?>" />
       <input type="hidden" name="ticket[id]" value="" />
       <input type="hidden" name="ticket[numerotation]" value="" />
-      <span class="error_msg"><?php echo __('An error occurred, retry please.') ?></span>
+      <span class="error_msg"><?php echo __('An error occurred during the seat allocation. Please try again.') ?></span>
     </p>
   </form>
   <span class="total">0</span>
 </div>
 
-<p id="plan"><a class="picture seated-plan" href="<?php echo cross_app_url_for('event', 'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id) ?>" style="background-color: <?php echo $seated_plan->background ?>;">
+<p id="plan"><a class="picture seated-plan" href="<?php echo cross_app_url_for('event', 'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id.'&transaction_id='.$transaction->id) ?>" style="background-color: <?php echo $seated_plan->background ?>;">
   <?php echo $seated_plan->getRaw('Picture')->getHtmlTag(array('title' => $seated_plan->Picture)) ?>
 </a></p>
 
@@ -76,8 +81,9 @@
 $(document).ready(function(){
   document.seated_plan_functions.push(function()
   {
-    $('.seated-plan .seat.txt:not(.printed):not(.ordered)').click(function(){
-      if ( $('#todo .ticket').length == 0 )
+    var click;
+    $('.seated-plan .seat.txt').click(click = function(){
+      if ( $('#todo .ticket').length == 0 || $(this).is('.printed') || $(this).is('.ordered') )
         return false;
       
       var seat = this;
@@ -92,8 +98,8 @@ $(document).ready(function(){
           $('#todo .ticket:first').prependTo('#done');
           $('#todo .total').html(parseInt($('#todo .total').html())-1);
           $('#done .total').html(parseInt($('#todo .total').html())+1);
-          $('.seated-plan .'+id).addClass('ordered')
-          $(seat).addClass('in-progress').unbind('click');
+          $('.seated-plan .'+id).addClass('ordered');
+          $(seat).addClass('in-progress').dblclick(seated_plan_unallocate_seat);
           
           // if there is no more ticket, go to the next step, including editting the order
           if ( $('#todo .ticket').length == 0 )

@@ -183,6 +183,10 @@ class ticketActions extends sfActions
   {
     return require('give-a-seat.php');
   }
+  public function executeResetASeat(sfWebRequest $request)
+  {
+    return require('reset-a-seat.php');
+  }
   
   public function executeAccounting(sfWebRequest $request, $printed = true, $manifestation_id = false)
   {

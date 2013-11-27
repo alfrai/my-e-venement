@@ -25,31 +25,37 @@
   $ticket = $request->getParameter('ticket');
   $form = new sfForm;
   $validators = $form->getValidatorSchema();
-  $validators['id'] = new sfValidatorDoctrineChoice(array(
-    'model' => 'Ticket',
-    'query' => Doctrine::getTable('Ticket')->createQuery('tck')
+  $validators['gauge_id'] = new sfValidatorDoctrineChoice(array(
+    'model' => 'Gauge',
+    'query' => Doctrine::getTable('Gauge')->createQuery('g')
+      ->select('g.*')
+      ->leftJoin('g.Tickets tck')
       ->andWhere('tck.transaction_id = ?', $request->getParameter('id')),
   ));
   $validators['numerotation'] = new sfValidatorDoctrineChoice(array(
     'model' => 'Seat',
     'column' => 'name',
     'query' => Doctrine::getTable('Seat')->createQuery('s')
+      ->select('s.*')
       ->leftJoin('s.SeatedPlan sp')
       ->leftJoin('sp.Workspace ws')
       ->leftJoin('ws.Gauges g')
       ->leftJoin('g.Tickets tck')
       ->leftJoin('tck.Transaction t')
       ->andWhere('t.closed = ?',false)
-      ->andWhere('tck.numerotation = NULL OR tck.numerotation = '')
-      ->andWhere('tck.id = ?',$ticket['id']),
+      ->andWhere('tck.gauge_id = ?',$ticket['gauge_id'])
+      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL'),
   ));
   
   $form->bind($ticket);
   if ( !$form->isValid() ) // security checks
-    throw new liSeatedException();
+    throw new liSeatedException($form->getErrorSchema());
   
-  $this->ticket = Doctrine::getTable('Ticket')->findOneById($ticket['id']);
-  $this->ticket->numerotation = $ticket['numerotation'];
+  $this->ticket = Doctrine_Query::create()->from('Ticket tck')
+    ->andWhere('tck.gauge_id = ?',$ticket['gauge_id'])
+    ->andWhere('tck.numerotation = ?',$ticket['numerotation'])
+    ->fetchOne();
+  $this->ticket->numerotation = NULL;
   $this->ticket->save();
   
   return sfView::NONE;
