@@ -111,8 +111,6 @@
               }
               else
                 $this->tickets[$id] = array('nb' => 1, 'ticket' => $newticket);
-              
-              $cpt++;
             }
           }
           
@@ -138,10 +136,9 @@
               }
               else // first ticket of the chain
                 $this->tickets[$id] = array('nb' => 1, 'ticket' => $ticket);
-              
-              $cpt++;
             }
           }
+          $cpt++;
         }
         catch ( liEvenementException $e )
         { error_log($e->getMessage()); }
@@ -183,8 +180,6 @@
               
               $this->tickets[] = $newticket;
             }
-            
-            $cpt++;
           }
           
           else // $this->duplicate == false
@@ -223,10 +218,9 @@
                 
                 $this->tickets[] = $ticket;
               }
-              
-              $cpt++;
             }
           }
+          $cpt++;
         }
         catch ( liEvenementException $e )
         { }
