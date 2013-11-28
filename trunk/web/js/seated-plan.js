@@ -171,7 +171,16 @@
       if ( $(this).height() == 0 )
       {
         var img = this;
-        setTimeout(function(){ $(img).load(); },1500);
+        setTimeout(function(){
+          // display quickly the image's tab to avoid loopholes
+          if ( $('#sf_admin_form_tab_menu').length > 0 )
+          {
+            var id = '#'+$(img).closest('[role=tabpanel]').attr('id');
+            $('.ui-tabs-nav [href='+id+']').click();
+            setTimeout(function(){ $('.ui-tabs-nav #ui-id-1.ui-tabs-anchor').click(); }, 10);
+          }
+          $(img).load();
+        },1500);
         return;
       }
       
