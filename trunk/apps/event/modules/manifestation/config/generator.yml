@@ -51,7 +51,7 @@ generator:
           General:      [happens_at, ends_at, _id, event_id, location_id, _show_gauge_txt, color_id, _form_prices]
           Ticketting:   [duration, vat_id, online_limit, depends_on, _show_is_necessary_to, organizers_list, no_print]
           Workspaces:   [_form_workspaces, _show_workspaces_list]
-          <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($configs['enable']) && $config['enable'] ): echo PHP_EOL; ?>
+          <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($config['enable']) && $config['enable'] ): echo PHP_EOL; ?>
           Resources:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, reservation_confirmed, reservation_optional, reservation_description]
           <?php endif; echo PHP_EOL; ?>
           Extra informations:  [description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, ExtraInformations<?php endif ?>]
