@@ -22,6 +22,7 @@ class workspaceActions extends autoWorkspaceActions
       ->leftJoin('w.Prices p')
       ->andWhereIn('w.id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhereIn('e.meta_event_id IS NULL OR e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
+      ->andWhere('w.id = ?',$request->getParameter('id'))
       ->orderBy('w.name, u.username, m.happens_at, p.name')
       ->fetchOne();
     $this->forward404Unless($this->workspace);
