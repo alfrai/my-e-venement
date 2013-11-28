@@ -16,6 +16,7 @@
       if ( $t->printed_at || $t->integrated_at )
       if ( !$t->hasBeenCancelled() )
       {
+        if ( $t->numerotation ) $contact['ticket-nums'][] = $t->numerotation;
         $contact['ticket-ids'][] = $t->id;
         if ( !isset($contact['prices'][$t->Gauge->workspace_id]) )
           $contact['prices'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
@@ -33,6 +34,7 @@
     }
     elseif ( $transac->printed > 0 )
     {
+      $contact['ticket-nums'][] = '-';
       $contact['ticket-ids'][] = '-';
       $contact['prices'][''] = $transac->printed;
       $contact['value'] = $transac->printed_value;

@@ -65,6 +65,7 @@ select[disabled] {
 #sf_fieldset_spectators table tbody tr.overlined:hover td, #sf_fieldset_tickets table tbody tr.overlined:hover td {
   background-color: #e4d4b1;
 }
+#sf_fieldset_spectators table tbody .ticket-nums,
 #sf_fieldset_spectators table tbody .ticket-ids { font-size: 80%; }
 
 #sf_fieldset_tickets .contact {

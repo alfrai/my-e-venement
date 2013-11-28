@@ -11,6 +11,7 @@
     foreach ( $transac->Tickets as $t )
     if ( ($t->integrated_at || $t->printed_at) && $t->Controls->count() == 0 && !$t->hasBeenCancelled() && $t->Duplicatas->count() == 0 )
     {
+      if ( $t->numerotation ) $contact['ticket-nums'][] = $t->numerotation;
       $contact['ticket-ids'][] = $t->id;
       $contact['transaction'] = $transac;
       $contact['pro'] = $transac->Professional;

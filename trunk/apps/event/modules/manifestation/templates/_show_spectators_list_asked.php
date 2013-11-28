@@ -15,6 +15,7 @@
       foreach ( $transac->Tickets as $t )
       if ( !$t->printed_at && !$t->integrated_at && $t->Transaction->Order->count() == 0 )
       {
+        if ( $t->numerotation ) $contact['ticket-nums'][] = $t->numerotation;
         $contact['ticket-ids'][] = $t->id;
         if ( !isset($contact['prices'][$t->Gauge->workspace_id]) )
           $contact['prices'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
@@ -32,6 +33,7 @@
     }
     elseif ( $transac->asked > 0 )
     {
+      $contact['ticket-nums'][] = '-';
       $contact['ticket-ids'][] = '-';
       $contact['prices'][''] = $transac->asked;
       $contact['value'] = $transac->asked_value;

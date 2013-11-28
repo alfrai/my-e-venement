@@ -8,5 +8,6 @@
     <td class="transaction">-</td>
     <td class="accounting">-</td>
     <td class="ticket-ids">-</td>
+    <td class="ticket-nums">-</td>
   </tr>
 </tfoot>
