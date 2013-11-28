@@ -22,6 +22,12 @@
 ***********************************************************************************/
 ?>
 <?php
+    $cpt = 0;
+    $max = array(
+      'print'     => 150,
+      'duplicate' => 30,
+    );
+    
     $q = Doctrine::getTable('Transaction')
       ->createQuery('t')
       ->andWhere('t.id = ?',$request->getParameter('id'))
@@ -36,10 +42,9 @@
       ->orderBy('m.happens_at, tck.price_name, tck.id');
     
     // partial printing
-    if ( $request->hasParameter('toprint') )
+    $this->toprint = array();
+    if ( $tids = $request->getParameter('toprint',array()) )
     {
-      $this->toprint = $tids = $request->getParameter('toprint');
-      
       if ( !is_array($tids) ) $tickets = array($tids);
       foreach ( $tids as $key => $value )
         $tids[$key] = intval($value);
@@ -68,7 +73,6 @@
       $fingerprint = date('YmdHis').'-'.$this->getUser()->getId();
       $this->grouped_tickets = true;
       
-      $cpt = 0;
       foreach ( $this->transaction->Tickets as $ticket )
       {
         try {
@@ -79,16 +83,15 @@
           // duplicates
           if ( $request->getParameter('duplicate') == 'true' )
           {
-            if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
+            if ( $cpt >= $max['duplicate'] ) // duplicating is MUCH longer than simple printing
+            {
+              $this->toprint[] = $ticket->id;
+              $this->print_again = true;
+            }
+            elseif ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
               && $ticket->printed_at
               && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
             {
-              if ( $cpt >= 150 )
-              {
-                $this->print_again = false;
-                break;
-              }
-              
               $newticket = $ticket->copy();
               $ticket->numerotation = NULL;
               $newticket->sf_guard_user_id = NULL;
@@ -116,7 +119,7 @@
           else // not duplicates
           if ( !$ticket->printed_at && !$ticket->integrated_at )
           {
-            if ( $cpt >= 150 )
+            if ( $cpt >= $max['print'] )
             {
               $this->print_again = true;
               break;
@@ -154,17 +157,16 @@
     {
       foreach ( $this->transaction->Tickets as $ticket )
       {
-        if ( count($this->tickets) >= 150 )
-        {
-          $this->print_again = true;
-          break;
-        }
-        
         try {
           // duplicates
           if ( $request->getParameter('duplicate') == 'true' )
           {
-            if ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
+            if ( $cpt >= $max['duplicate'] ) // duplicating is MUCH longer than simple printing
+            {
+              $this->toprint[] = $ticket->id;
+              $this->print_again = true;
+            }
+            elseif ( strcasecmp($ticket->price_name,$request->getParameter('price_name')) == 0
               && $ticket->printed_at
               && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
             {
@@ -181,10 +183,18 @@
               
               $this->tickets[] = $newticket;
             }
+            
+            $cpt++;
           }
           
           else // $this->duplicate == false
           {
+            if ( $cpt >= $max['print'] ) // duplicating is MUCH longer than simple printing
+            {
+              $this->print_again = true;
+              break;
+            }
+            
             if ( !$ticket->printed_at && !$ticket->integrated_at )
             {
               if ( $ticket->Manifestation->no_print )
@@ -213,6 +223,8 @@
                 
                 $this->tickets[] = $ticket;
               }
+              
+              $cpt++;
             }
           }
         }
