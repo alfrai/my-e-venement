@@ -21,7 +21,7 @@ all:
     reservations:
       enable: true
       #shown_in_calendar: false
-    #extra_informations_enabled: false
+    #extra_informations_enable: false
   synchronization:
     #period:
     #  from: now
