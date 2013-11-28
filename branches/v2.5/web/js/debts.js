@@ -33,14 +33,14 @@ function debts_add_total()
   if ( paid.length > 0 )
   {
     for ( i = total = 0 ; i < paid.length ; i++ )
-      total += parseFloat($(paid[i]).html().replace(',','.').replace('&nbsp;',''));
+      total += parseFloat((str = $(paid[i]).html().replace(',','.').replace('&nbsp;','')) ? str : 0);
     $('.sf_admin_list > table > tbody tr:last .sf_admin_list_td_debt').prepend('<span class="paid">'+total.toFixed(2)+currency+'</span> =');
   }
   prices = $('.sf_admin_list_td_debt .price');
   if ( prices.length > 0 )
   {
     for ( i = total = 0 ; i < prices.length ; i++ )
-      total += parseFloat($(prices[i]).html().replace(',','.').replace('&nbsp;',''));
+      total += parseFloat((str = $(prices[i]).html().replace(',','.').replace('&nbsp;','')) ? str : 0);
     $('.sf_admin_list > table > tbody tr:last .sf_admin_list_td_debt').prepend('<span class="price">'+total.toFixed(2)+currency+'</span> -');
   }
 }
