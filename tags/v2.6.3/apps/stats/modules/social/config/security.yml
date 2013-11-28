@@ -1,0 +1,5 @@
+all:
+  credentials: stats-pr-social
+csv:
+  credentials: [stats-pr-social, stats-csv]
+  

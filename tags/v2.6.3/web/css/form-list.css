@@ -1,0 +1,16 @@
+#content .sf_admin_form_list.ajax .sf_admin_list_th_value {
+  width: 250px;
+}
+#content .sf_admin_form_list.ajax .sf_admin_list_th_online {
+  width: 150px;
+}
+#content .sf_admin_form_list.ajax select { width: auto; }
+#content .sf_admin_form_list.ajax input[type=text] { width: 100px; margin-left: 50px; }
+#content .sf_admin_form_list.ajax div input[type=text] { margin-left: 40px; }
+#content .sf_admin_form_list.ajax .sf_admin_flashes div.ui-state-error,
+#content .sf_admin_form_list.ajax .sf_admin_flashes div.ui-state-highlight,
+#content .sf_admin_form_list.ajax .sf_admin_flashes div.ui-state-success {
+  padding: 3px 8px;
+  font-size: 80%;
+  margin: -8px 0 -13px 0;
+}
