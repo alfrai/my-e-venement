@@ -63,7 +63,8 @@ class TransactionTable extends PluginTransactionTable
       ->leftJoin('t.Professional p')
       ->leftJoin('p.ProfessionalType pt')
       ->leftJoin('p.Organism o')
-      ->andWhere('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(value) END) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2').') - (SELECT (CASE WHEN count(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
+      ->leftJoin('t.Invoice i')
+      ->andWhere('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(tck2.value) END) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2').') - (SELECT (CASE WHEN count(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
     return $q;
   }
   public static function getDebtsListTicketsCondition($ticket_table = 'tck', $date = NULL)
@@ -76,7 +77,7 @@ class TransactionTable extends PluginTransactionTable
   public static function addDebtsListBaseSelect(Doctrine_Query $q)
   {
     return $q
-      ->select($fields = 't.id, t.closed, t.updated_at, c.id, c.name, c.firstname, p.id, p.name, pt.id, pt.name, o.id, o.name, o.city')
+      ->select($fields = 't.id, t.closed, t.updated_at, c.id, c.name, c.firstname, p.id, p.name, pt.id, pt.name, o.id, o.name, o.city, i.id')
       ->addSelect("'yummy' AS yummy") // a trick to avoid an obvious bug which removes the name of the field following directly the first ones (??)
       ;
   }
