@@ -8,6 +8,6 @@
     <td class="transaction">-</td>
     <td class="accounting">-</td>
     <td class="ticket-ids">-</td>
-    <td class="ticket-nums">-</td>
+    <td class="ticket-nums"><?php if ( $sf_user->hasCredential('seats-allocation') ): ?>-<?php endif ?></td>
   </tr>
 </tfoot>

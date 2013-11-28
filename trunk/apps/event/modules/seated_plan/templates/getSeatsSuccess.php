@@ -9,7 +9,9 @@
       ),
       'diameter'  => $seat->diameter,
       'name'      => $seat->name,
-      'occupied'  => isset($occupied) && isset($occupied[$seat->name]) ? $occupied->getRaw($seat->name) : false,
+      'occupied'  => $sf_user->hasCredential('event-seats-allocation')
+        ? (isset($occupied) && isset($occupied[$seat->name]) ? $occupied->getRaw($seat->name) : false)
+        : array('type' => 'not-allowed'),
     );
   
   echo json_encode($seats);

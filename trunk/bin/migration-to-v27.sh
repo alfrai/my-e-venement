@@ -68,7 +68,8 @@ INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updat
 -- seated ticketting access
 INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('tck-seated', 'Ability to Ability to deal with seated ticketting', now(), now());
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('tck-seat-allocation', 'Permission to allocate a seat', now(), now());
-INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'tck-seated'), NOW(), NOW() FROM sf_guard_permission WHERE name IN ('tck-seat-allocation'));
+INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-seats-allocation', 'Permission to display the seats allocation in the event module', now(), now());
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'tck-seated'), NOW(), NOW() FROM sf_guard_permission WHERE name IN ('tck-seat-allocation','event-seated-allocation'));
 EOF
 
 echo ""
