@@ -146,6 +146,10 @@
   border: 1px dashed silver;
 }
 
+#description { width: 350px; padding: 2px 5px; float: right; margin-top: 5px; }
+#description textarea { width: 335px; height: 3em; font-size: 80%; }
+
+#contact { display: inline-block; }
 #contact .delete-contact {
   padding-left: 16px;
   margin-left: 5px;

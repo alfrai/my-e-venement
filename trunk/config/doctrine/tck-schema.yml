@@ -41,8 +41,7 @@ Transaction:
       type: boolean
       default: false
       notnull: true
-    workspace_id:
-      type: integer
+    description: text
   relations:
     Contact:
       foreignAlias: Transactions
@@ -54,10 +53,6 @@ Transaction:
       onUpdate: CASCADE
     Transaction:
       foreignAlias: Translinked
-      onDelete: SET NULL
-      onUpdate: CASCADE
-    Workspace:
-      foreignAlias: Transactions
       onDelete: SET NULL
       onUpdate: CASCADE
 Ticket:

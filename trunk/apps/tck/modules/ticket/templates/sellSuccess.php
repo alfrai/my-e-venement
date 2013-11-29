@@ -11,6 +11,10 @@
   <div class="ui-corner-all ui-widget-content action" id="contact">
     <?php echo link_to('contact','ticket/contact?id='.$transaction->id) ?>
   </div>
+  <form class="ui-corner-all ui-widget-content description" id="description" action="#" method="get">
+    <textarea name="transaction[description]"><?php echo $transaction->description ?></textarea>
+    <input type="hidden" name="transaction[_csrf_token]" value="<?php $f = new sfForm; echo $f->getCSRFToken() ?>" />
+  </form>
   <div id="transaction-id"
     class="<?php echo $transaction->Translinked->count() > 0 ? 'translinked' : '' ?>"
     title="<?php $arr = array(); foreach ( $transaction->Translinked as $trans ) $arr[] = '#'.$trans->id.' ('.__($trans->type).')'; echo implode(', ',$arr); ?>">

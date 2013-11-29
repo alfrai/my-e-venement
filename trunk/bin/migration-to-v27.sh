@@ -21,9 +21,14 @@ read
 
 if [ -z "$3" ]; then
 
+echo "DUMPING DB..."
+pg_dump -Fc $DB > data/sql/$DB-`date +%Y%m%d`.before.pgdump && echo "DB pre dumped"
+
 # preliminary modifications & backup
 psql $DB <<EOF
   DROP TABLE seating_plan;
+  ALTER TABLE transaction DROP COLUMN workspace_id;
+  ALTER TABLE transaction_version DROP COLUMN workspace_id;
   UPDATE ticket SET numerotation = NULL WHERE trim(numerotation) = '';
 EOF
 
