@@ -24,6 +24,7 @@ if [ -z "$3" ]; then
 # preliminary modifications & backup
 psql $DB <<EOF
   DROP TABLE seating_plan;
+  UPDATE ticket SET numerotation = NULL WHERE trim(numerotation) = '';
 EOF
 
 echo "DUMPING DB..."

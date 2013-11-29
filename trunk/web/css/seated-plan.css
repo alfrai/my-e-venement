@@ -1,5 +1,5 @@
 /* GENERIC */
-.picture.seated-plan { position: relative; }
+.picture.seated-plan { position: relative; z-index: 1; }
 .picture.seated-plan img { left: 0; position: absolute; }
 .picture.seated-plan .pre-seat, .picture.seated-plan .seat { position: absolute; background-color: green; border-radius: 40%; }
 .picture.seated-plan .seat.not-allowed { background-color: #9a9ac9; }
@@ -11,6 +11,10 @@
 .picture.seated-plan .pre-seat, .picture.seated-plan .seat.txt:hover { border: 2px solid black; }
 .picture.seated-plan .anti-handling { width: 100%; height: 100%; background-color: transparent; position: absolute; z-index: 2; }
 .picture.seated-plan * { cursor: crosshair; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+
+/* LIST */
+.sf_admin_list table tbody .sf_admin_row .sf_admin_number { text-align: right; }
+.sf_admin_list table .sf_admin_number { width: 3em; overflow: hidden; }
 
 /* FOR EDITION */
 #sf_fieldset_plan .sf_admin_form_field_picture_del { margin-top: 0; }

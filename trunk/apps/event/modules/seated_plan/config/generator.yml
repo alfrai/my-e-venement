@@ -28,15 +28,18 @@ generator:
         background:
           label: Background color
           help: HTML colors
+        list_nb_seats:
+          label: Size
+          type: number
       list:
-        display: [Location, Workspace, description]
+        display: [Location, Workspace, _list_nb_seats, description]
         table_method: retreiveOrderedList
         sort: ['l.name, w.name', '']
         object_actions:
           _edit: ~
           _delete: ~
       filter:
-        display: [location_id, workspace_id, background]
+        display: [location_id, workspace_id, _list_nb_seats, background]
       form:
         display:
           General: [location_id, workspace_id, description, _show_nb_seats]
