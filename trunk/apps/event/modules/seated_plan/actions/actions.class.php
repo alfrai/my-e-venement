@@ -57,7 +57,6 @@ class seated_planActions extends autoSeated_planActions
         ->leftJoin('tck.Cancelling cancel')
         
         ->andWhere('tck.cancelling IS NULL')
-        ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR o.id IS NOT NULL')
         ->andWhere('duplicatas.id IS NULL AND cancel.id IS NULL')
         ->andWhere('tck.numerotation IS NOT NULL AND tck.numerotation != ?','')
         
@@ -65,7 +64,7 @@ class seated_planActions extends autoSeated_planActions
         ->andWhere('m.location_id = ?', $this->seated_plan->location_id);
       foreach ( $q->execute() as $ticket )
         $this->occupied[$ticket->numerotation] = array(
-          'type' => ($ticket->printed_at || $ticket->integrated_at ? 'printed' : 'ordered').($ticket->transaction_id === $this->transaction_id ? ' in-progress' : ''),
+          'type' => ($ticket->printed_at || $ticket->integrated_at ? 'printed' : ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked')).($ticket->transaction_id === $this->transaction_id ? ' in-progress' : ''),
           'transaction_id' => '#'.$ticket->transaction_id,
           'spectator'      => $ticket->Transaction->professional_id ? $ticket->Transaction->Professional->Contact.' '.$ticket->Transaction->Professional : (string)$ticket->Transaction->Contact,
         );

@@ -3,8 +3,9 @@
 .picture.seated-plan img { left: 0; position: absolute; }
 .picture.seated-plan .pre-seat, .picture.seated-plan .seat { position: absolute; background-color: green; border-radius: 40%; }
 .picture.seated-plan .seat.not-allowed { background-color: #9a9ac9; }
-.picture.seated-plan .seat.printed { background-color: red; }
+.picture.seated-plan .seat.asked { background-color: blue; }
 .picture.seated-plan .seat.ordered { background-color: orange; }
+.picture.seated-plan .seat.printed { background-color: red; }
 .picture.seated-plan .pre-seat, .picture.seated-plan .seat.txt { background-color: transparent; z-index: 3; margin: -2px 0 0 -2px; }
 .picture.seated-plan .pre-seat { z-index: 2; }
 .picture.seated-plan .seat.txt.in-progress { border: 2px solid red; }
