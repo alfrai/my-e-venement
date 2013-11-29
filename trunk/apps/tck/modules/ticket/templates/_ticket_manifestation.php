@@ -45,7 +45,7 @@
 <?php include_partial('ticket_manifestation_prices',array('manif' => $manif,)) ?>
 <?php if ( $active ): ?>
   <?php $total = 0; $gid = $manif->Tickets[0]->gauge_id ?>
-  <?php include_partial('ticket_manifestation_ws',array('ticket' => $manif->Tickets[0],'nb_gauges' => $manif->Gauges->count())) ?>
+  <?php include_partial('ticket_manifestation_ws',array('ticket' => $manif->Tickets[0], 'nb_gauges' => $manif->Gauges->count())) ?>
   <?php foreach ( $manif->Tickets as $ticket ): ?>
     <?php if ( $gid != $ticket->gauge_id ): ?>
       <?php $gid = $ticket->gauge_id ?>
