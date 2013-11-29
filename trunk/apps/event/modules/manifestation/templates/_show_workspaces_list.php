@@ -10,7 +10,13 @@
       <a class="gauge-gfx" href="<?php echo cross_app_url_for('tck','ticket/gauge?id='.$form->getObject()->id.'&wsid=all') ?>">gauge</a>
     </li>
     <?php endif; ?>
-    <?php foreach ( $form->getObject()->Gauges as $gauge ): ?>
+    <?php
+      $gauges = array();
+      foreach ( $form->getObject()->Gauges as $gauge )
+        $gauges[$gauge->Workspace->name.'-'.$gauge->id] = $gauge;
+      ksort($gauges);
+    ?>
+    <?php foreach ( $gauges as $gauge ): ?>
     <li class="ui-corner-all">
       <a href="<?php echo url_for('workspace/show?id='.$gauge->Workspace->id) ?>"><?php echo $gauge->Workspace ?></a>
       (<?php echo $gauge->online ? __('Online') : '' ?>)

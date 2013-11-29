@@ -7,7 +7,7 @@
   <?php foreach ( $spectators as $transac ): ?>
   <?php
     $transaction = $contact = $pro = array();
-    $contact = array('value' => array(), 'prices' => array(), 'ticket-ids' => array());
+    $contact = array('value' => array(), 'prices' => array(), 'tickets-nums' => array(), 'ticket-ids' => array());
     $contact['transaction'] = $transac;
     $contact['pro'] = $transac->Professional;
     if ( !isset($transac->printed) )
@@ -16,17 +16,29 @@
       if ( $t->printed_at || $t->integrated_at )
       if ( !$t->hasBeenCancelled() )
       {
-        if ( $sf_user->hasCredential('seats-allocation') && $t->numerotation ) $contact['ticket-nums'][] = $t->numerotation;
-        $contact['ticket-ids'][] = $t->id;
+        if ( $sf_user->hasCredential('seats-allocation') && $t->numerotation )
+        {
+          if ( !isset($contact['ticket-nums'][$t->Gauge->workspace_id]) )
+            $contact['ticket-nums'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
+          $contact['ticket-nums'][$t->Gauge->workspace_id][$t->gauge_id.$t->numerotation] = $t->numerotation;
+        }
+        
+        if ( !isset($contact['ticket-ids'][$t->Gauge->workspace_id]) )
+          $contact['ticket-ids'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
+        $contact['ticket-ids'][$t->Gauge->workspace_id][$t->id] = $t->id;
+        
         if ( !isset($contact['prices'][$t->Gauge->workspace_id]) )
           $contact['prices'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
         isset($contact['prices'][$t->Gauge->workspace_id][$t->price_name])
           ? $contact['prices'][$t->Gauge->workspace_id][$t->price_name]++
           : $contact['prices'][$t->Gauge->workspace_id][$t->price_name] = 1;
+        
         if ( !isset($contact['value'][$t->Gauge->workspace_id]) )
           $contact['value'][$t->Gauge->workspace_id] = 0;
         $contact['value'][$t->Gauge->workspace_id] += $t->value;
+        
         if ( !isset($total['qty'][$t->gauge_id]) ) $total['qty'][$t->gauge_id] = 0;
+        
         $total['qty'][$t->gauge_id]++;
         $workspaces[$t->gauge_id] = $t->Gauge->Workspace->name;
         $total['value'] += $t->value;

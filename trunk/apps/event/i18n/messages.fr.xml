@@ -9,6 +9,10 @@
         <target>Ceci est le nombre de place au moment du chargement de l'écran.</target>
       </trans-unit>
       <trans-unit>
+        <source>Size</source>
+        <target>Taille</target>
+      </trans-unit>
+      <trans-unit>
         <source>Nb of seats</source>
         <target>Nb de places</target>
       </trans-unit>

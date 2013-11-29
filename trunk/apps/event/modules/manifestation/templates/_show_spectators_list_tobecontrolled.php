@@ -11,8 +11,17 @@
     foreach ( $transac->Tickets as $t )
     if ( ($t->integrated_at || $t->printed_at) && $t->Controls->count() == 0 && !$t->hasBeenCancelled() && $t->Duplicatas->count() == 0 )
     {
-      if ( $sf_user->hasCredential('seats-allocation') && $t->numerotation ) $contact['ticket-nums'][] = $t->numerotation;
-      $contact['ticket-ids'][] = $t->id;
+      if ( $sf_user->hasCredential('seats-allocation') && $t->numerotation )
+      {
+        if ( !isset($contact['ticket-nums'][$t->Gauge->workspace_id]) )
+          $contact['ticket-nums'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
+        $contact['ticket-nums'][$t->Gauge->workspace_id][] = $t->numerotation;
+      }
+      
+      if ( !isset($contact['ticket-ids'][$t->Gauge->workspace_id]) )
+        $contact['ticket-ids'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
+      $contact['ticket-ids'][$t->Gauge->workspace_id][] = $t->id;
+      
       $contact['transaction'] = $transac;
       $contact['pro'] = $transac->Professional;
       isset($contact['prices'][$t->price_name])

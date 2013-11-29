@@ -6,7 +6,7 @@
     $('#sf_fieldset_spectators table tbody').each(function(){
       
       // create the workspace list
-      workspaces = new Array();
+      var workspaces = new Array();
       $(this).find('tr').each(function(){
         if ( $(this).find('.workspace').length > 0 && $.trim($(this).find('.workspace').html()) )
         if ( workspaces.indexOf($.trim($(this).find('.workspace').html())) == -1 )
