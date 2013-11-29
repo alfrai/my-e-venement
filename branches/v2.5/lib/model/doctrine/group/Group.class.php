@@ -32,10 +32,5 @@ class Group extends PluginGroup
     
     if ( !$this->display_everywhere )
       return '';
-    
-    if ( $this->Picture->isNew() )
-      return cross_app_link_to('G','rp','group/show?id='.$this->id,false,null,false,'target="_blank" class="picto" title="'.$this.'"');
-    else
-      return cross_app_link_to($this->Picture->getHtmlTag(array('title' => $this, 'alt' => 'G',)),'rp','group/show?id='.$this->id,false,null,false,'target="_blank" class="picto"');
   }
 }
