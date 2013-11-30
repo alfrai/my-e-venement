@@ -111,6 +111,8 @@
 <?php include_partial('show_payments',array('transaction' => $transaction)) ?>
 </div>
 
+<?php include_partial('show_comment',array('transaction' => $transaction, 'form' => $form)) ?>
+
 <?php if ( $current_transaction ): ?>
 <?php include_partial('show_order') ?>
 <?php endif ?>

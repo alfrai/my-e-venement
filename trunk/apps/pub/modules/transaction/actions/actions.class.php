@@ -49,32 +49,53 @@ class transactionActions extends sfActions
       ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
       ->andWhere('tck.id IS NOT NULL')
       ->orderBy('e.name, m.happens_at, w.name, g.id, p.id, tck.id');
-    
     if ( $this->getUser()->hasContact() )
       $q->andWhere('t.contact_id = ?',$this->getUser()->getContact()->id);
     else
       $q->andWhere('t.id = ?',$this->getUser()->getTransaction()->id);
-    
     $this->events = $q->execute();
 
     $q = Doctrine::getTable('MemberCard')->createQuery('mc')
       ->leftJoin('mc.MemberCardType mct')
       ->andWhere('mc.transaction_id = ?', $this->transaction->id)
       ->orderBy('mc.expire_at, mct.name');
-    
     if ( $this->getUser()->hasContact() )
       $q->andWhere('mc.contact_id = ?',$this->getUser()->getContact()->id);
     else
       $q->andWhere('mc.transaction_id = ?',$this->getUser()->getTransaction()->id);
-    
     $this->member_cards = $q->execute();
     
     $this->end = $request->hasParameter('end');
+    
+    $this->form = new sfForm;
+    $widgets = $this->form->getWidgetSchema();
+    $widgets->setNameFormat('transaction[%s]');
+    $widgets['description'] = new sfWidgetFormTextArea;
     
     }
     catch ( liOnlineSaleException $e )
     {
       $this->redirect('login/index');
     }
+  }
+  
+  public function executeAddComment(sfWebRequest $request)
+  {
+    $transaction = Doctrine::getTable('Transaction')->findOneById($request->getParameter('id',0));
+    $this->forward404Unless($transaction);
+    
+    $form = new sfForm;
+    $validators = $form->getValidatorSchema();
+    $validators['description'] = new sfValidatorString(array('required' => false));
+    $values = $request->getParameter('transaction');
+    $form->bind($values);
+    
+    if ( $form->isValid() )
+    {
+      $transaction->description = $values['description'];
+      $transaction->save();
+    }
+    
+    return sfView::NONE;
   }
 }

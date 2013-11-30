@@ -1,12 +1,7 @@
 .alert { border: 2px solid orange; border-radius: 4px; }
-.action {
-  margin: 5px 2px 0 2px;
-  padding: 5px;
-}
+.action { margin: 5px 2px 0 2px; padding: 5px; }
 
-#manifestations > .backup {
-  display: none;
-}
+#manifestations > .backup { display: none; }
 
 #transaction-id {
   position: absolute;
@@ -17,26 +12,17 @@
   font-size: 150%;
 }
 #transaction-id span { font-weight: normal; }
-#transaction-id.translinked {
-  border-bottom: 1px solid red;
-}
+#transaction-id.translinked { border-bottom: 1px solid red; }
 
-#manifestations select, .manifestations_list select {
-  font-size: 10px;
-  width: 80px;
-}
+#manifestations select, .manifestations_list select { font-size: 10px; width: 80px; }
 #manifestations .manifestations_add {
   height: 200px;
   margin-right: 270px;
   overflow: auto;
 }
 #manifestations li .manif { padding: 5px; }
-#manifestations .manifestations_add span {
-  background-color: white;
-}
-#manifestations .manifestations_add .selected {
-  border-bottom: 1px gray dashed;
-}
+#manifestations .manifestations_add span { background-color: white; }
+#manifestations .manifestations_add .selected { border-bottom: 1px gray dashed; }
 .manifestations_list, #manifestations ul {
   padding: 3px 0 10px 0;
   margin: 5px 0;
@@ -52,9 +38,7 @@
   display: table-cell;
   padding: 0 5px;
 }
-.manifestations_list li > .manif {
-  white-space: nowrap;
-}
+.manifestations_list li > .manif { white-space: nowrap; }
 .manifestations_list .prices { width: 100%; }
 .manifestations_list .prices .ticket_prices {
   display: inline-block;
@@ -65,9 +49,7 @@
   white-space: nowrap;
 }
 .manifestations_list .prices .ticket_prices.notprinted .price,
-.manifestations_list .prices .ticket_prices.integrated .price {
-  cursor: pointer;
-}
+.manifestations_list .prices .ticket_prices.integrated .price { cursor: pointer; }
 .manifestations_list .prices .ticket_prices.integrated input[type=text],
 .manifestations_list .prices .ticket_prices.integrated,
 .manifestations_list .prices .ticket_prices.printed input[type=text],
@@ -85,17 +67,13 @@
 .manifestations_list .prices .done { background-color: gray; }
 .manifestations_list .prices .selected { background-color: silver; }
 
-.sf_admin_flashes {
-  margin: 5px 0;
-}
+.sf_admin_flashes { margin: 5px 0; }
 
 .manifestations_list .total { font-weight: bold; text-align: right; }
 .manifestations_list .total { text-align: right; }
 .manifestations_list .total .total { text-decoration: underline; padding-top: 5px; }
 
-#payment {
-  min-height: 250px;
-}
+#payment { min-height: 250px; }
 #payment form {
   position: absolute;
   width: 400px;

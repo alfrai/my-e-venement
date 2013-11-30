@@ -17,5 +17,6 @@ class TransactionForm extends BaseTransactionForm
   {
     parent::configure();
     $this->widgetSchema['contact_id']->setOption('config','{ max: 30 }');
+    $this->widgetSchema['description'] = new sfWidgetFormTextArea;
   }
 }

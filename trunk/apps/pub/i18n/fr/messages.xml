@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Any comment?</source>
+        <target>Un commentaire ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Display venue</source>
         <target>Afficher le plan</target>
       </trans-unit>

@@ -127,6 +127,9 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 }
 #payments thead { background-color: whitesmoke; font-weight: bold; }
 
+#comment .textarea, #comment textarea { width: 350px; height: 3em; font-size: 10px; }
+#comment .textarea { border: 2px solid silver; overflow: auto; padding: 3px 8px; }
+
 #actions { margin: 20px 0px 0px 400px; }
 #actions a {
 	font-size: 14px;
