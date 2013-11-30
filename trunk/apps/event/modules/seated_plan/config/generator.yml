@@ -31,6 +31,7 @@ generator:
         list_nb_seats:
           label: Size
           type: number
+        OnlinePicture: { label: Picture }
       list:
         display: [Location, Workspace, _list_nb_seats, description]
         table_method: retreiveOrderedList
@@ -45,6 +46,7 @@ generator:
         display:
           General: [location_id, workspace_id, description, _show_nb_seats]
           Plan:    [seat_diameter, background, Picture, _show_picture, _form_picture_del]
+          Online Sales: [OnlinePicture, _show_online_picture, _form_online_picture_del]
       edit:    ~
       new:     ~
       show:
