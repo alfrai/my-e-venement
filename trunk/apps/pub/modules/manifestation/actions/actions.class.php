@@ -53,7 +53,9 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('pw.id = g.workspace_id')
       ->andWhere('m.id = ?',$request->getParameter('id'))
       ->andWhere('m.happens_at > NOW() OR ?',sfContext::getInstance()->getConfiguration()->getEnvironment() == 'dev')
-      ->andWhere('g.online = TRUE')
+      ->andWhere('g.online = ?', true)
+      ->andWhere('p.online = ?', true)
+      ->andWhere('m.reservation_confirmed = ?',true)
       ->execute();
     
     if ( !$this->gauges || $this->gauges && $this->gauges->count() <= 0 )
