@@ -182,6 +182,11 @@
         .width($(this).width())
         .height($(this).height());
     });
+    $(document).focus(function(){
+      // useful when loading seated plan in a new window/tab
+      $(document).unbind('focus');
+      $('.picture.seated-plan img').load();
+    });
     
     // seat pre-plots
     $('.sf_admin_form_field_show_picture .picture').mousedown(function(event){
