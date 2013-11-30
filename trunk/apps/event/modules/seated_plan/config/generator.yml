@@ -35,6 +35,7 @@ generator:
         display: [Location, Workspace, _list_nb_seats, description]
         table_method: retreiveOrderedList
         sort: ['l.name, w.name', '']
+        max_per_page: 50
         object_actions:
           _edit: ~
           _delete: ~
