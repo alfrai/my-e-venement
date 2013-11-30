@@ -501,9 +501,8 @@ SeatedPlan:
       notnull: true
       default: 10 #px
     description: string
-    picture_id:
-      type: integer
-      unique: true
+    picture_id: integer
+    online_picture_id: integer
     location_id: integer
     workspace_id: integer
     background:
@@ -514,6 +513,12 @@ SeatedPlan:
       fields: [location_id, workspace_id]
       type: unique
   relations:
+    OnlinePicture:
+      foreignAlias: SeatedPlanOnline
+      local: online_picture_id
+      class: Picture
+      onDelete: SET NULL
+      onUpdate: CASCADE
     Picture:
       foreignAlias: SeatedPlan
       onDelete: SET NULL
