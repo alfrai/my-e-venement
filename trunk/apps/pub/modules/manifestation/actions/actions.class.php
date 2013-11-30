@@ -41,7 +41,7 @@ class manifestationActions extends autoManifestationActions
       ->addSelect('m.*, pm.*, p.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.Location l')
-      ->leftJoin('ws.SeatedPlans sp ON sp.location_id = l.id AND sp.workspace_id = ws.id')
+      ->leftJoin('ws.SeatedPlans sp ON sp.location_id = l.id AND sp.workspace_id = ws.id AND ws.seated = TRUE')
       ->leftJoin('sp.OnlinePicture op')
       ->leftJoin('ws.Users wu')
       ->leftJoin('m.Event e')
@@ -59,6 +59,7 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('g.online = ?', true)
       ->andWhere('p.online = ?', true)
       ->andWhere('m.reservation_confirmed = ?',true)
+      ->orderBy('ws.name, p.name')
       ->execute();
     
     if ( !$this->gauges || $this->gauges && $this->gauges->count() <= 0 )

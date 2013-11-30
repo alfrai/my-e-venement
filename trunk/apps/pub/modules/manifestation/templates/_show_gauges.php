@@ -1,11 +1,5 @@
 <?php echo $form->renderFormTag(url_for('ticket/commit')) ?>
-<?php
-  $ordered = array();
-  foreach ( $gauges as $gauge )
-    $ordered[$gauge->Workspace->name.'-'.$gauge->id] = $gauge;
-  ksort($ordered);
-?>
-<?php foreach ( $ordered as $gauge ): ?>
+<?php foreach ( $gauges as $gauge ): ?>
 <div class="gauge" id="gauge-<?php echo $gauge->id ?>">
   <?php $form->setGaugeId($gauge->id) ?>
   <?php if ( $gauges->count() > 1 ): ?>
