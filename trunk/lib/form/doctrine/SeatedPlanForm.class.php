@@ -35,20 +35,22 @@ class SeatedPlanForm extends BaseSeatedPlanForm
 {
   public function doSave($con = NULL)
   {
-    $picform_name = 'Picture';
-    $file = $this->values[$picform_name]['content_file'];
-    unset($this->values[$picform_name]['content_file']);
-    
-    if (!( $file instanceof sfValidatedFile ))
-      unset($this->embeddedForms[$picform_name]);
-    else
+    foreach ( array('Picture' => array('width' => 1024, 'height' => '1200'), 'OnlinePicture' => array('width' => 500, 'height' => '400')) as $picform_name => $dimensions )
     {
-      // data translation
-      $this->values[$picform_name]['content']  = base64_encode(file_get_contents($file->getTempName()));
-      $this->values[$picform_name]['name']     = $file->getOriginalName();
-      $this->values[$picform_name]['type']     = $file->getType();
-      $this->values[$picform_name]['width']    = 1024;
-      $this->values[$picform_name]['height']   = 1200;
+      $file = $this->values[$picform_name]['content_file'];
+      unset($this->values[$picform_name]['content_file']);
+      
+      if (!( $file instanceof sfValidatedFile ))
+        unset($this->embeddedForms[$picform_name]);
+      else
+      {
+        // data translation
+        $this->values[$picform_name]['content']  = base64_encode(file_get_contents($file->getTempName()));
+        $this->values[$picform_name]['name']     = $file->getOriginalName();
+        $this->values[$picform_name]['type']     = $file->getType();
+        $this->values[$picform_name]['width']    = $dimensions['width'];
+        $this->values[$picform_name]['height']   = $dimensions['height'];
+      }
     }
     
     return parent::doSave($con);
@@ -57,11 +59,14 @@ class SeatedPlanForm extends BaseSeatedPlanForm
   public function configure()
   {
     // pictures & co
-    $this->embedRelation('Picture');
-    foreach ( array('name', 'type', 'version', 'height', 'width',) as $fieldName )
-      unset($this->widgetSchema['Picture'][$fieldName], $this->validatorSchema['Picture'][$fieldName]);
-    $this->validatorSchema['Picture']['content_file']->setOption('required',false);
-    unset($this->widgetSchema['picture_id'], $this->validatorSchema['picture_id']);
+    foreach ( array('picture_id' => 'Picture', 'online_picture_id' => 'OnlinePicture') as $field => $rel )
+    {
+      $this->embedRelation($rel);
+      foreach ( array('name', 'type', 'version', 'height', 'width',) as $fieldName )
+        unset($this->widgetSchema[$rel][$fieldName], $this->validatorSchema[$rel][$fieldName]);
+      $this->validatorSchema[$rel]['content_file']->setOption('required',false);
+      unset($this->widgetSchema[$field], $this->validatorSchema[$field]);
+    }
     
     $this->widgetSchema['location_id']
       ->setOption('query', Doctrine::getTable('Location')->createQuery()->andWhere('place = ?',true))
