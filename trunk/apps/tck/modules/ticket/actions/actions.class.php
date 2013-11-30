@@ -58,6 +58,10 @@ class ticketActions extends sfActions
   {
     require('sell.php');
   }
+  public function executeAddDescription(sfWebRequest $request)
+  {
+    return require('add-description.php');
+  }
   public function executeTouchscreen(sfWebRequest $request)
   {
     require('touchscreen.php');

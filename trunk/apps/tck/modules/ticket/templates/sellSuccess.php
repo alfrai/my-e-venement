@@ -11,8 +11,9 @@
   <div class="ui-corner-all ui-widget-content action" id="contact">
     <?php echo link_to('contact','ticket/contact?id='.$transaction->id) ?>
   </div>
-  <form class="ui-corner-all ui-widget-content description" id="description" action="#" method="get">
-    <textarea name="transaction[description]"><?php echo $transaction->description ?></textarea>
+  <form class="ui-corner-all ui-widget-content description" id="description" action="<?php echo url_for('ticket/addDescription?id='.$transaction->id) ?>" method="get">
+    <textarea onchange="javascript: $.ajax({ url: $(this).closest('form').prop('action'), data: $(this).closest('form').serialize(), error: function(){ alert('<?php echo __('An error occured. Please try again.') ?>'); }}); " name="transaction[description]"><?php echo $transaction->description ?></textarea>
+    <input type="hidden" name="transaction[id]" value="<?php echo $transaction->id ?>" />
     <input type="hidden" name="transaction[_csrf_token]" value="<?php $f = new sfForm; echo $f->getCSRFToken() ?>" />
   </form>
   <div id="transaction-id"
