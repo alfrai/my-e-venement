@@ -38,8 +38,11 @@ class manifestationActions extends autoManifestationActions
   public function executeShow(sfWebRequest $request)
   {
     $this->gauges = Doctrine::getTable('Gauge')->createQuery('g')
-      ->addSelect('m.*, pm.*, p.*, tck.*, e.*')
+      ->addSelect('m.*, pm.*, p.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
       ->leftJoin('g.Manifestation m')
+      ->leftJoin('m.Location l')
+      ->leftJoin('ws.SeatedPlans sp ON sp.location_id = l.id AND sp.workspace_id = ws.id')
+      ->leftJoin('sp.OnlinePicture op')
       ->leftJoin('ws.Users wu')
       ->leftJoin('m.Event e')
       ->leftJoin('m.PriceManifestations pm')

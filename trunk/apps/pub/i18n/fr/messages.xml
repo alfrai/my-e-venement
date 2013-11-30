@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Display venue</source>
+        <target>Afficher le plan</target>
+      </trans-unit>
+      <trans-unit>
         <source>Be sure to keep this window opened, otherwise you will have to restart the entire processus of password recovery.</source>
         <target>Assurez-vous de laisser cette fenêtre ouverte, sinon vous devrez recommencer le processus de récupération de mot de passe au début.</target>
       </trans-unit>
