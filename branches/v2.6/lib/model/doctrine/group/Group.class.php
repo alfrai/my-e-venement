@@ -23,7 +23,7 @@ class Group extends PluginGroup
   public function getHtmlTag()
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('CrossAppLink'));
-    if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() )if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() )
+    if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() )
     {
       $sf_user = sfContext::getInstance()->getUser();
       if (!( $this->sf_guard_user_id == $sf_user->getId() || $this->sf_guard_user_id === null && $sf_user->hasCredential('pr-group-common') ))

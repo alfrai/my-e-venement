@@ -1,2 +1,5 @@
 all:
   stylesheets: [grp-event: { media: all }]
+indexSuccess:
+  stylesheets: [grp-event-list: { media: all }]
+  javascripts: [grp-professional, list-scroll]

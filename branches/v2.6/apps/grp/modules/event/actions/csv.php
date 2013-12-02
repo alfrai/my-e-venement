@@ -53,6 +53,8 @@
   case 'accepted':
     $q->andWhere('ee.accepted = true');
     break;
+  default:
+    break;
   }
   
   $tickets = $q->execute();
