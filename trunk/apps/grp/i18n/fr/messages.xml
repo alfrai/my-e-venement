@@ -97,6 +97,10 @@
         <target>Fonction</target>
       </trans-unit>
       <trans-unit>
+        <source>Extract</source>
+        <target>Extraire</target>
+      </trans-unit>
+      <trans-unit>
         <source>Extract refused</source>
         <target>Extraire les refusés</target>
       </trans-unit>
