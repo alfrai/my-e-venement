@@ -52,25 +52,27 @@
   $payment->payment_method_id = sfConfig::get('app_tickets_payment_method_id');
   $payment->value = $bank->amount/100;
   
-  $mc_pm = $this->getMemberCardPaymentMethod();
-  
-  // payments linked to member cards' credit
+  // confirm already recorded data
   $this->getUser()->setAttribute('transaction_id',$bank->transaction_id);
   $transaction = $this->getUser()->getTransaction();
-  $transaction->Contact->confirmed = true;
-  foreach ( $transaction->MemberCards as $mc )
-  {
-    $mc->active = true;
-    $mc->contact_id = $transaction->contact_id;
-    $p = new Payment;
-    $p->transaction_id = $transaction->id;
-    $p->value = -$mc->MemberCardType->value;
-    $p->Method = $mc_pm;
-    $mc->Payments[] = $p;
-  }
   
-  // payments done by member card
-  $this->createPaymentsDoneByMemberCards($mc_pm);
+  if ( $mc_pm = $this->getMemberCardPaymentMethod() )
+  {
+    // payments linked to member cards' credit
+    foreach ( $transaction->MemberCards as $mc )
+    {
+      $mc->active = true;
+      $mc->contact_id = $transaction->contact_id;
+      $p = new Payment;
+      $p->transaction_id = $transaction->id;
+      $p->value = -$mc->MemberCardType->value;
+      $p->Method = $mc_pm;
+      $mc->Payments[] = $p;
+    }
+    
+    // payments done by member card
+    $this->createPaymentsDoneByMemberCards($mc_pm);
+  }
   
   // contact
   $transaction->Contact->confirmed = true;

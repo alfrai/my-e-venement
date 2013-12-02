@@ -262,20 +262,21 @@ function barcode_outhtml($code, $bars, $scale = 1, $total_y = 0, $space = ''){
 
 
     /* generate html-code */
-    $height=round($total_y-($scale*10));
+    $height=round($total_y)-$space['bottom']; //-($scale*10));
     $height2=round($total_y)-$space['bottom'];
     $out=
-      '<table border=0 cellspacing=0 cellpadding=0 bgcolor="white">'."\n".
-      '<tr><td><img src="white.png" height="'.$space['top'].'" width="1" alt=" "></td></tr>'."\n".
+      '<style media="all" type="text/css">.php-barcode td > div { display: inline-block; } .php-barcode .black { width: 0; border: 0 solid black; border-width: 0 1px; } .php-barcode .white { background-color: white !important; }</style>'.
+      '<table class="php-barcode" border=0 cellspacing=0 cellpadding=0 bgcolor="white">'."\n".
+      '<tr><td><div class="white" style="height: '.$space['top'].'px; width: 1px;" alt=" "></td></tr>'."\n".
       '<tr><td>'."\n".
-      '<img src="white.png" height="'.$height2.'" width="'.$space['left'].'" alt="#"/>';
+      '<div class="white" style="height: '.$height2.'px; width: '.$space['left'].'px;"></div>';
     
     $width=true;
     for ($i=0;$i<strlen($bars);$i++){
 	$val=strtolower($bars[$i]);
 	if ($width){
 	    $w=$val*$scale;
-	    if ($w>0) $out.='<img src="white.png" height="'.$total_y.'" width="'.$w.'" align="top" alt="" />';
+	    if ($w>0) $out.='<div class="white" style="height: '.$total_y.'px; width: '.$w.'px;"></div>';
 	    $width=false;
 	    continue;
 	}
@@ -285,13 +286,13 @@ function barcode_outhtml($code, $bars, $scale = 1, $total_y = 0, $space = ''){
 	    $h=$height2;
 	}else $h=$height;
 	$w=$val*$scale;
-	if ($w>0) $out.='<img src="black.png" height="'.$h.'" width="'.$w.'" align="top" />';
+	if ($w>0) $out.='<div class="black" style="height: '.$h.'px; border-width: 0 '.($w/2).'px;"></div>';
 	$width=true;
     }
     $out.=
-      '<img src="white.png" height="'.$height2.'" width=".'.$space['right'].'" />'.
+      '<div class="white" style="height: '.$height2.'px; width: '.$space['right'].'px;"></div>'.
       '</td></tr>'."\n".
-      '<tr><td><img src="white.png" height="'.$space['bottom'].'" width="1"></td></tr>'."\n".
+      '<tr><td><div class="white" style="height: '.$space['bottom'].'px; width: 1px;"></div></td></tr>'."\n".
       '</table>'."\n";
     //for ($i=0;$i<strlen($bars);$i+=2) print $line[$i]."<B>".$line[$i+1]."</B>&nbsp;";
     return $out;
