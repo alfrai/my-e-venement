@@ -3,3 +3,9 @@ all:
 indexSuccess:
   stylesheets: [grp-event-list: { media: all }]
   javascripts: [grp-professional, list-scroll]
+extractSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/comma-separated-values
+    content-disposition: attachment; filename="professionals.csv"
+            

@@ -22,7 +22,8 @@ generator:
         display: [Contact, _groups_picto, name, Organism, contact_email, nb_events, nb_manifestations]
         batch_actions: {}
         object_actions: { _show: ~ }
-        actions: {}
+        actions:
+          _extract: { action: extract }
         table_method: doSelectOnlyGrp
         title: By contact
         max_per_page: 50

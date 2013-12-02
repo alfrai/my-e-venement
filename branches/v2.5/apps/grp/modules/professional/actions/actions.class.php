@@ -71,4 +71,54 @@ class professionalActions extends autoProfessionalActions
     ;
     return $pager;
   }
+  
+  public function executeExtract(sfWebRequest $request)
+  {
+    $pager = $this->getPager();
+    $q = $pager->getQuery()
+      ->removeDqlQueryPart('offset')
+      ->removeDqlQueryPart('limit');
+    $a = $q->getRootAlias();
+    $q->select("o.name AS organism_name, $a.name AS function, c.name||' '||c.firstname AS name, $a.contact_email")
+//      ->addSelect('o.administrative_number')
+      ->addSelect('count(DISTINCT eem.event_id) as nb_events, count(DISTINCT eem.id) as nb_manifestations');
+    $this->lines = $q->fetchArray();
+    for ( $i = 0 ; $i < count($this->lines) ; $i++ )
+    {
+      unset($this->lines[$i]['Contact']);
+      unset($this->lines[$i]['Organism']);
+    }
+    
+    $params = OptionCsvForm::getDBOptions();
+    $this->options = array(
+      'ms' => in_array('microsoft',$params['option']),
+      'tunnel' => false,
+      'noheader' => false,
+      'fields'   => array(
+        'organism_name',
+        'function',
+        'name',
+        'contact_email',
+//        'administrative_number',
+        'nb_events',
+        'nb_manifestations',
+      ),
+    );
+    
+    $this->outstream = 'php://output';
+    $this->delimiter = $this->options['ms'] ? ';' : ',';
+    $this->enclosure = '"';
+    $this->charset   = sfConfig::get('software_internals_charset');
+    
+    sfConfig::set('sf_escaping_strategy', false);
+    sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
+    
+    if ( $request->hasParameter('debug') )
+    {
+      $this->getResponse()->sendHttpHeaders();
+      $this->setLayout('layout');
+    }
+    else
+      sfConfig::set('sf_web_debug', false);
+  }
 }
