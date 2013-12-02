@@ -66,8 +66,9 @@ class professionalActions extends autoProfessionalActions
     $q = $pager->getQuery();
     $a = $q->getRootAlias();
     $q->select("$a.*, c.*, o.*, g.id, g.name, g.display_everywhere, g.sf_guard_user_id, pic.id, pic.name, pic.content")
+      ->addSelect('o.city AS organism_city')
       ->addSelect('count(DISTINCT eem.event_id) as nb_events, count(DISTINCT eem.id) as nb_manifestations')
-      ->groupBy("$a.id, c.id, c.name, c.firstname, o.id, o.name, t.name, g.id, g.name, u.id, pic.id, pic.name, pic.content, g.display_everywhere, g.sf_guard_user_id")
+      ->groupBy("$a.id, c.id, c.name, c.firstname, o.id, o.name, o.city, t.name, g.id, g.name, u.id, pic.id, pic.name, pic.content, g.display_everywhere, g.sf_guard_user_id")
     ;
     return $pager;
   }
@@ -79,7 +80,7 @@ class professionalActions extends autoProfessionalActions
       ->removeDqlQueryPart('offset')
       ->removeDqlQueryPart('limit');
     $a = $q->getRootAlias();
-    $q->select("o.name AS organism_name, $a.name AS function, c.name||' '||c.firstname AS name, $a.contact_email")
+    $q->select("o.name AS organism_name, o.city AS organism_city, $a.name AS function, c.name||' '||c.firstname AS name, $a.contact_email")
       ->addSelect('o.administrative_number')
       ->addSelect('count(DISTINCT eem.event_id) as nb_events, count(DISTINCT eem.id) as nb_manifestations');
     $this->lines = $q->fetchArray();
@@ -96,8 +97,9 @@ class professionalActions extends autoProfessionalActions
       'noheader' => false,
       'fields'   => array(
         'organism_name',
-        'function',
+        'organism_city',
         'name',
+        'function',
         'contact_email',
         'administrative_number',
         'nb_events',

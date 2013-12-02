@@ -37,8 +37,9 @@
   }
   $vars['options']['header'] = array(
     'organism_name' => __('Organism'),
-    'function'      => __('Function'),
+    'organism_city' => __('City'),
     'name'          => __('Contact'),
+    'function'      => __('Function'),
     'contact'       => __('Contact'),
     'contact_email' => __('Email address'),
     'administrative_number' => __('Admin.ID'),
