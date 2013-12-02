@@ -20,7 +20,7 @@ class ContactPublicForm extends ContactForm
         'sf_guard_user_id', 'back_relations_list', 'Relationships', 'YOBs',
         'YOBs_list', 'groups_list', 'emails_list', 'family_contact',
         'organism_category_id', 'description', 'password', 'email_no_newsletter', 'npai',
-        'latitude', 'longitude', 'slug', 'confirmed',
+        'latitude', 'longitude', 'slug', 'confirmed', 'version',
         'familial_quotient_id', 'type_of_resources_id', 'familial_situation_id') as $field )
       unset($this->widgetSchema[$field], $this->validatorSchema[$field]);
     
