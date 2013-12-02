@@ -36,10 +36,6 @@ $(document).ready(function(){
   
   // for hypothetical pagination...
   if ( window.list_scroll_end == undefined )
-  {
     window.list_scroll_end = new Array()
-    window.list_scroll_end[0] = gauge_small;
-  }
-  else
-    window.list_scroll_end[window.list_scroll_end.length] = gauge_small;
+  window.list_scroll_end[window.list_scroll_end.length] = gauge_small;
 });

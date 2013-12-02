@@ -1,6 +1,6 @@
 indexSuccess:
   stylesheets: [grp-event-list]
-  javascripts: [lists]
+  javascripts: [lists, list-scroll]
 editSuccess:
   stylesheets: [gauge, grp-event: { media: all }]
   javascripts: [jquery.tablescroll.js]

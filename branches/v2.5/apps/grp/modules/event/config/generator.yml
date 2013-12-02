@@ -22,7 +22,6 @@ generator:
           _extract_refused: { name: Refused, action: refused }
           _export: { name: Export accepted, action: export }
         batch_actions: {}
-        actions: {}
         title: By event
         table_method: getOnlyGroupEvents
       filter:

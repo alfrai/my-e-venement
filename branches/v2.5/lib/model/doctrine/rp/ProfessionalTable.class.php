@@ -20,7 +20,7 @@ class ProfessionalTable extends PluginProfessionalTable
         ->orderBy("$c.name, $c.firstname, $o.name, $alias.name, $t.name");
     return $query;
   }
-
+  
   public function doSelectOnlyGrp(Doctrine_Query $q)
   {
     $a = $q->getRootAlias();
@@ -33,7 +33,19 @@ class ProfessionalTable extends PluginProfessionalTable
       ->leftJoin('ge.ManifestationEntries gme')
       ->leftJoin('gme.Manifestation m')
       ->leftJoin('m.Event e')
-      ->andWhereIn('e.meta_event_id',array_keys(sfContext::getInstance()->getUser()->getMetaEventsCredentials()));
+      ->leftJoin("$a.Groups g")
+      ->leftJoin('g.Picture pic')
+      ->andWhereIn('e.meta_event_id',array_keys(sfContext::getInstance()->getUser()->getMetaEventsCredentials()))
+      ->leftJoin('gce.Entries gee ON gee.accepted = TRUE AND gee.contact_entry_id = gce.id')
+      ->leftJoin('gee.ManifestationEntry gmee')
+      ->leftJoin('gmee.Manifestation eem')
+      ->leftJoin('g.User u')
+      /* has to be reported into the action to avoir counting errors
+      ->select("$a.*, c.*, o.*, g.id, g.name, g.display_everywhere, g.sf_guard_user_id, pic.id, pic.name, pic.content")
+      ->addSelect('count(DISTINCT eem.event_id) as nb_events, count(DISTINCT eem.id) as nb_manifestations')
+      ->groupBy("$a.id, c.id, c.name, c.firstname, o.id, o.name, t.name, g.id, g.name, u.id, pic.id, pic.name, pic.content, g.display_everywhere, g.sf_guard_user_id")
+      */
+      ;
     
     return $q;
   }
