@@ -16,8 +16,10 @@ generator:
       fields:
         name: { label: Function }
         groups_picto: { label: Remarkable }
+        nb_manifestations: { label: Manifs, type: numeric }
+        nb_events: { label: Events, type: numeric }
       list:
-        display: [Contact, _groups_picto, name, Organism, contact_email]
+        display: [Contact, _groups_picto, name, Organism, contact_email, list_organism_administrative_number, nb_events, nb_manifestations]
         batch_actions: {}
         object_actions:
           _show: ~
@@ -25,6 +27,7 @@ generator:
             credentials: grp-events
         table_method: doSelectOnlyGrp
         title: By contact
+        max_per_page: 50
       filter:
         display: [contact_name, organism_name, professional_type_id, organism_id, groups_list]
       form:    ~
