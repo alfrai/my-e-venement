@@ -22,6 +22,8 @@ generator:
       list:
         display: [Contact, _groups_picto, name, Organism, contact_email, _list_organism_administrative_number, nb_events, nb_manifestations]
         batch_actions: {}
+        actions:
+          _extract: { action: extract }
         object_actions:
           _show: ~
           _edit:
