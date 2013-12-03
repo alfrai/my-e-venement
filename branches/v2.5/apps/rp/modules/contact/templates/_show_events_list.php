@@ -22,7 +22,7 @@
     ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.transaction_id IN (SELECT o.transaction_id FROM Order o)')
     ->andWhere('tck.cancelling IS NULL AND tck.duplicating IS NULL')
     ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
-    ->orderBy('me.name, e.name, m.happens_at DESC, t.id');
+    ->orderBy('me.name DESC, e.name, m.happens_at DESC, t.id');
 
   if ( is_null($pro) )
     $q->andWhere('t.professional_id IS NULL');
