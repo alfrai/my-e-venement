@@ -49,6 +49,11 @@
       if ( e.which == 13 )
         $('#checkpoint').submit();
     });
+    
+    $(document).keydown(function(){
+      if ( $('#checkpoint input[name="control[ticket_id]"]:focus, #control_comment:focus').length == 0 )
+        $('#checkpoint input[name="control[ticket_id]"]').focus();
+    });
 });
 </script>
 
