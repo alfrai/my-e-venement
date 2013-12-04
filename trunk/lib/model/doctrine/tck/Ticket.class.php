@@ -119,7 +119,7 @@ EOF
       , $this->transaction_id
       , $this->id
       , $this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : (string)$this->Transaction->Contact
-      , __('This ticket is a duplicate of #%%tid%%, it replaces any previous version you might have recieved', array('%%tid%%' => $this->transaction_id.'-'.$this->duplicating), 'li_tickets_email')
+      , __('This ticket is a duplicate of #%%tid%%, it replaces and cancels any previous version of this ticket you might have recieved', array('%%tid%%' => $this->transaction_id.'-'.$this->duplicating), 'li_tickets_email')
     );
   }
   

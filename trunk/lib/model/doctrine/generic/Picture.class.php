@@ -15,7 +15,8 @@ class Picture extends PluginPicture
   public function getHtmlTag(array $attributes = array())
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('CrossAppLink'));
-    $attributes['src'] = cross_app_url_for('default', 'picture/display?id='.$this->id);
+    $attributes['src'] = cross_app_url_for(isset($attributes['app']) ? $attributes['app'] : 'default', 'picture/display?id='.$this->id);
+    unset($attributes['app']);
     return $this->_getImageTag($attributes);
   }
   public function getHtmlTagInline(array $attributes = array())
