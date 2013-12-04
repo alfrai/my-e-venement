@@ -68,7 +68,7 @@
           for ( $i = intval($ids[0]) ; $i <= intval($ids[1]) ; $i++ )
             $params['ticket_id'][$i] = $i;
           else
-            $params['ticket_id'][] = $ids[0];
+            $params['ticket_id'][] = intval($ids[0]);
         }
         
         // decode EAN if it exists
@@ -104,8 +104,8 @@
           ->andWhere('c.id = ?',$params['checkpoint_id']);
         $checkpoint = $q->fetchOne();
         
-        $cancontrol = true;
-        if ( $checkpoint->legal )
+        $cancontrol = $checkpoint instanceof Checkpoint;
+        if ( $cancontrol && $checkpoint->legal )
         {
           $q = Doctrine::getTable('Control')->createQuery('c')
             ->leftJoin('c.Checkpoint c2')
