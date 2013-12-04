@@ -54,7 +54,7 @@ generator:
           General:   [name, short_name, meta_event_id, event_category_id, event_category_description, companies_list]
           Details:   [duration, display_by_default, accounting_account, age_min, age_max, staging_label, staging, writer_label, writer, description]
           Web Content: [web_price, web_price_group, image_url, extradesc, extraspec]
-          Checkpoints: [_form_checkpoints]
+          <?php if ( sfConfig::get('app_ticketting_dematerialized',false) ): ?>Checkpoints: [_form_checkpoints]<?php endif; echo PHP_EOL; ?>
       new:
         display:
           General:   [name, short_name, meta_event_id, event_category_id, event_category_description, companies_list]
