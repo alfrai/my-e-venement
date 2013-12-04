@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2012 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2012 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -73,6 +73,54 @@ class Ticket extends PluginTicket
     for ( $i = 12-$n ; $i > 0 ; $i-- )
       $c = '0'.$c;
     return $c;
+  }
+  
+  public function renderSimplified()
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Url', 'Number'));
+    
+    // the barcode
+    $c = curl_init();
+    curl_setopt_array($c, array(
+      CURLOPT_URL => $url = public_path('/liBarcodePlugin/php-barcode/barcode.php?mode=html&scale=3&code='.$this->getIdBarcoded(),true),
+      CURLOPT_SSL_VERIFYPEER => false,
+      CURLOPT_SSL_VERIFYHOST => false,
+      CURLOPT_RETURNTRANSFER => true,
+    ));
+    if (!( $barcode = curl_exec($c) ))
+      error_log('Error loading the barcode: '.curl_error($c));
+    curl_close($c);
+    
+    // the HTML code
+    return sprintf(<<<EOF
+  <div class="cmd-ticket">
+    <div class="bc">%s</div>
+    <div class="desc"><p>%s: %s</p>
+      <p>%s: %s, %s</p>
+      <p>%s: %s</p>
+      <p>%s: %s %s</p>
+      <p>%s</p>
+      <p>#%s-%s<!-- transaction_id --></p>
+      <p>%s</p>
+      <p class="duplicate">%s</p></div><div class="clear"></div></div>
+EOF
+      , $barcode
+      , __('Event', null, 'li_tickets_email')
+      , (string)$this->Manifestation->Event
+      , __('Venue', null, 'li_tickets_email')
+      , (string)$this->Manifestation->Location
+      , (string)$this->Gauge
+      , __('Date', null, 'li_tickets_email')
+      , $this->Manifestation->getShortenedDate()
+      , __('Price', null, 'li_tickets_email')
+      , $this->price_name
+      , format_currency($this->value,'€')
+      , $this->numerotation ? __('Seat #%%num%%', array('%%num%%' => $this->numerotation), 'li_tickets_email') : ($this->Manifestation->Location->getWorkspaceSeatedPlan($this->Gauge->workspace_id) ? __('Not yet allocated', null, 'li_tickets_email') : __('Seat #%%num%%', array('%%num%%' => ' N/A'), 'li_tickets_email'))
+      , $this->transaction_id
+      , $this->id
+      , $this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : (string)$this->Transaction->Contact
+      , __('This ticket is a duplicate of #%%tid%%, it replaces any previous version you might have recieved', array('%%tid%%' => $this->transaction_id.'-'.$this->duplicating), 'li_tickets_email')
+    );
   }
   
   public function __toString()

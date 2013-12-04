@@ -281,3 +281,10 @@
         $this->setTemplate('rfid');
       }
     }
+
+    $this->getContext()->getEventDispatcher()->notify(new sfEvent($this, 'tck.tickets_print', array(
+      'transaction' => $this->transaction,
+      'tickets'     => $this->tickets,
+      'duplicate'   => $this->duplicate,
+      'user'        => $this->getUser(),
+    )));

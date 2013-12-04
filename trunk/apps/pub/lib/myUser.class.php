@@ -108,8 +108,18 @@ class myUser extends liGuardSecurityUser
     if ( !$this->hasAttribute('transaction_id') )
     {
       $this->transaction = new Transaction;
+      $this->dispatcher->notify(new sfEvent($this, 'pub.transaction_before_creation', array(
+        'transaction' => $this->transaction,
+        'user' => $this,
+      )));
+      
       $this->transaction->save();
       $this->setAttribute('transaction_id',$this->transaction->id);
+      
+      $this->dispatcher->notify(new sfEvent($this, 'pub.transaction_after_creation', array(
+        'transaction' => $this->transaction,
+        'user' => $this,
+      )));
     }
     
     if ( $this->transaction instanceof Transaction )

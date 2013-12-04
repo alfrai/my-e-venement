@@ -5,8 +5,20 @@
     <header/>
     <body>
       <trans-unit>
+        <source>seat allocations for your order #%%transaction_id%%</source>
+        <target>affectation des places numérotées pour votre commande #%%transaction_id%%</target>
+      </trans-unit> 
+      <trans-unit>
         <source>seat</source>
         <target>pl.</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Empowered by %%software%%</source>
+        <target>Porté par %%software%%</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>By %%firm%%</source>
+        <target>Par %%firm%%</target>
       </trans-unit> 
       <trans-unit>
         <source>An error occurred during the seat allocation. Please try again.</source>

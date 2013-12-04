@@ -47,7 +47,7 @@
   
   $form->bind($ticket);
   if ( !$form->isValid() ) // security checks
-    throw new liSeatedException('The submitted data are not correct to give a seat to this ticket... '.$form->getErrorSchema());
+    throw new liSeatedException('The submitted data is not correct to give a seat to this ticket... '.$form->getErrorSchema());
   
   $this->ticket = Doctrine::getTable('Ticket')->findOneById($ticket['id']);
   $this->ticket->numerotation = $ticket['numerotation'];

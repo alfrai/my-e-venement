@@ -89,49 +89,19 @@
     $command .= "  ".__('Member cards').": ".format_currency($amount,'€')."\n";
     $command .= "  ".__('Credit card').": ".format_currency($transaction->getPrice(true,true),'€')."\n";
     
-    // tickets w/ barcode
-    $tickets_html = '<div style="clear: both">';
-    $tickets_html .= '</div><style type="text/css" media="all">.cmd-ticket { padding: 5px; border: 1px solid silver; margin: 2em 0; page-break-after: always; page-break-before: always; background-color: whitesmoke } .cmd-ticket br { display: none; } .cmd-ticket .bc { float: right; border: 1px solid silver; padding: 10px; } .cmd-ticket .desc { margin-right: 300px; } </style>';
-    
-    foreach ( $transaction->Tickets as $ticket )
-    {
-      $tickets_html .= sprintf(<<<EOF
-  <div class="cmd-ticket">
-    <div class="bc">%s</div>
-    <div class="desc"><p>%s: %s</p>
-      <p>%s: %s, %s</p>
-      <p>%s: %s</p>
-      <p>%s%s</p>
-      <p>#%s-%s<!-- transaction_id --></p></div><div style="clear: both"></div></div>
-EOF
-      , file_get_contents(public_path('/liBarcodePlugin/php-barcode/barcode.php?mode=html&scale=3&code='.$ticket->getIdBarcoded(),true))
-      , __('Event')
-      , (string)$ticket->Manifestation->Event
-      , __('Venue')
-      , (string)$ticket->Manifestation->Location
-      , (string)$ticket->Gauge
-      , __('Date')
-      , (string)$ticket->Manifestation->getFormattedDate()
-      , $ticket->numerotation ? __('Seat #') : ($ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id) ? __('Not yet allocated') : __('Seat #').' N/A')
-      , $ticket->numerotation ? $ticket->numerotation : ''
-      , (string)$ticket->transaction_id
-      , (string)$ticket->id
-      );
-    }
-    
     $replace = array(
       '%%DATE%%' => format_date(date('Y-m-d')),
       '%%CONTACT%%' => (string)$transaction->Contact,
       '%%TRANSACTION_ID%%' => $transaction->id,
       '%%SELLER%%' => sfConfig::get('app_informations_title'),
       '%%COMMAND%%' => '<pre>'.$command.'</pre>',
-      '%%TICKETS%%' => $tickets_html,
+      '%%TICKETS%%' => $transaction->renderSimplifiedTickets(), // HTML tickets w/ barcode
     );
     
     $email = new Email;
     $email->Contacts[] = $transaction->Contact;
     $email->field_bcc = sfConfig::get('app_informations_email','webdev@libre-informatique.fr');
-    $email->field_subject = sfConfig::get('app_informations_title').': votre commande #'.$transaction->id;
+    $email->field_subject = sfConfig::get('app_informations_title').': '.__('your order #').$transaction->id;
     $email->field_from = sfConfig::get('app_informations_email','contact@libre-informatique.fr');
     $email->content = nl2br(str_replace(array_keys($replace),$replace,sfConfig::get('app_texts_email_confirmation')));
     $email->content .= nl2br("\n\n  * ".sfConfig::get('app_text_email_seated_tickets',

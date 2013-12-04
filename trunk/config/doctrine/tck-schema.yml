@@ -42,6 +42,9 @@ Transaction:
       default: false
       notnull: true
     description: text
+    send_an_email:
+      type: boolean
+      default: false
   relations:
     Contact:
       foreignAlias: Transactions

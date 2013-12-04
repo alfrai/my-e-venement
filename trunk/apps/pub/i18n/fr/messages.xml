@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>your order #</source>
+        <target>votre commande #</target>
+      </trans-unit>
+      <trans-unit>
         <source>Seat #</source>
         <target>Place n°</target>
       </trans-unit>
