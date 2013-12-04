@@ -9,7 +9,23 @@
         .append($('<div></div>').addClass('anti-handling'))
         .prepend($(this));
       widget.replaceWith(elt);
-      $(this).load(function(){
+      $(this).unbind('load').load(function(){
+        // to avoid graphical bugs, relaunch the box resizing
+        if ( $(this).height() == 0 )
+        {
+          // display and remove a clone of the current image simply to get its sizes
+          clone = $(this).clone().appendTo('#footer');
+          $(this).height(clone.height()).width(clone.width());
+          clone.remove();
+        }
+        
+        // box resizing
+        $(this).parent()
+          .css('display', 'block')
+          .width($(this).width())
+          .height($(this).height());
+        
+        // loads the content/data
         $.get(url,function(json){
           for ( i = 0 ; i < json.length ; i++ )
           {
@@ -19,11 +35,19 @@
           }
           
           // triggers
-          for ( i = 0 ; i < document.seated_plan_functions.length ; i++ )
-            document.seated_plan_functions[i]();
+          while ( fct = document.seated_plan_functions.shift() )
+            fct();
         });
       });
     });
+    /*
+    // too precautionous, and source of doubled-actions
+    $(document).focus(function(){
+      // useful when loading seated plan in a new window/tab
+      $(document).unbind('focus');
+      $('.picture.seated-plan img').load();
+    });
+    */
   }
 
   // the function that add a seat on every click (mouseup) or on data loading
@@ -164,29 +188,6 @@
       $('.sf_admin_form_field_show_picture .picture')
         .css('background-color', $(this).val());
     }).change();
-    
-    // seat plots precondition for a good display
-    $('.picture.seated-plan img').load(function(){
-      // to avoid graphical bugs, relaunch the box resizing
-      if ( $(this).height() == 0 )
-      {
-        // display and remove a clone of the current image simply to get its sizes
-        clone = $(this).clone().appendTo('#footer');
-        $(this).height(clone.height()).width(clone.width());
-        clone.remove();
-      }
-      
-      // box resizing
-      $(this).parent()
-        .css('display', 'block')
-        .width($(this).width())
-        .height($(this).height());
-    });
-    $(document).focus(function(){
-      // useful when loading seated plan in a new window/tab
-      $(document).unbind('focus');
-      $('.picture.seated-plan img').load();
-    });
     
     // seat pre-plots
     $('.sf_admin_form_field_show_picture .picture').mousedown(function(event){

@@ -170,7 +170,6 @@ function ticket_events()
   });
   ticket_activate_manifs_gauge();
   ticket_manif_new_events();
-  ticket_display_seated_plan();
   
   // toggle link "hide / show"
   $('#manifestations .manif_new .toggle_view').unbind().click(function(){
@@ -312,6 +311,7 @@ function ticket_manif_list_events()
         $('#prices .prices_list').fadeIn().css('opacity','1');
       }
       ticket_transform_hidden_to_span(true);
+      ticket_display_seated_plan();
     });
   }
 }
@@ -432,7 +432,7 @@ function ticket_display_seated_plan()
   $('.manif .workspace a.ws-name, .manif .workspaces a.ws-name').unbind().click(function(){
     return go($(this).prop('href'));
   });
-  $('.manif .workspaces [name="ticket[gauge_id]"]').click(function(event){
+  $('.manif .workspaces [name="ticket[gauge_id]"]').unbind().click(function(event){
     if ( event.ctrlKey )
     {
       go('/event.php/seated_plan/show/action?transaction_id='+$.trim($('#global_transaction_id').html())+'&gauge_id='+$(this).val());
@@ -449,7 +449,11 @@ function ticket_get_ws_gauge(json_url)
   if ( json_url == null )
     return;
   
-  $.getJSON(json_url+'?json',function(data){
+  $.ajax({
+    url: json_url,
+    data: { json: '' },
+    dataType: 'json',
+    success: function(data){
     url = $('.manifestations_list .workspace.gauge-'+data.id+' .ws-gauge .url');
     $('.manifestations_list .workspace.gauge-'+data.id+' .ws-gauge span').remove();
     $('.manifestations_list .workspace.gauge-'+data.id+' .ws-gauge')
@@ -470,6 +474,10 @@ function ticket_get_ws_gauge(json_url)
         setTimeout(function(){ $('#gauge-alert').fadeOut() },2000);
       }
       $('.manifestations_list select[name="ticket[gauge_id]"] option[value='+data.id+']').addClass('alert').parent().addClass('alert');
+    }
+    },
+    error: function(data){
+      alert('error');
     }
   });
 }
