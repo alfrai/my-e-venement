@@ -70,6 +70,9 @@ class EmailForm extends BaseEmailForm
         'convert_urls' => false,
         'urlconvertor_callback' => 'email_urlconvertor',
         'paste_as_text' => false,
+        'plugins' => 'textcolor link image',
+        'toolbar1' => 'formatselect fontselect fontsizeselect | link image | forecolor backcolor | undo redo',
+        'toolbar2' => 'bold underline italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent blockquote',
       ),
     ));
     
