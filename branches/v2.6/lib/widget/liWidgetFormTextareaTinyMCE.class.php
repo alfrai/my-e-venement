@@ -55,6 +55,8 @@ class liWidgetFormTextareaTinyMCE extends sfWidgetFormTextareaTinyMCE
         $value = $value ? 'true' : 'false';
       elseif ( is_array($value) )
         $value = '["'.implode('", "',$value).'"]';
+      elseif ( substr($value,0,2) === '__' )
+        $value = substr($value,2);
       else
         $value = '"'.$value.'"';
       $config[] = $key.': '.$value;
