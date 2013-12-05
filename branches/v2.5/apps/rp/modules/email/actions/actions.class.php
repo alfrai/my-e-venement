@@ -127,6 +127,11 @@ class emailActions extends autoEmailActions
       $this->getUser()->setFlash('error','An error occured sending the email (smtp unreachable)');
       $this->redirect('email/edit?id='.$this->email->id);
     }
+    catch(Swift_RfcComplianceException $e)
+    {
+      $this->getUser()->setFlash('error','An error occured sending the email ('.$e->getMessage().')');
+      $this->redirect('email/edit?id='.$this->email->id);
+    }
     
     $this->setTemplate('edit');
   }
