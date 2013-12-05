@@ -66,13 +66,20 @@ class EmailForm extends BaseEmailForm
       'width'   => 650,
       'height'  => 420,
       'config'  => array(
-        'extended_valid_elements' => 'hr[class|width|size|noshade],iframe[src|width|height|name|align],style',
+        'extended_valid_elements' => 'html,head,body,hr[class|width|size|noshade],iframe[src|width|height|name|align],style',
         'convert_urls' => false,
         'urlconvertor_callback' => 'email_urlconvertor',
         'paste_as_text' => false,
-        'plugins' => 'textcolor link image',
+        'plugins' => 'textcolor link image code fullpage',
         'toolbar1' => 'formatselect fontselect fontsizeselect | link image | forecolor backcolor | undo redo',
         'toolbar2' => 'bold underline italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent blockquote',
+        'setup' => "__function(ed){
+          ed.on('LoadContent', function(e) {
+            $('#email_content_ifr').contents().find('html').html($('#email_content').val()).find('body')
+              .addClass('mce-content-body').prop('id','tinymce').prop('contenteditable','true')
+              .load(function(){ window.parent.tinymce.get('email_content').fire('load'); });
+          });
+        }",
       ),
     ));
     
