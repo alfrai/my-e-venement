@@ -22,7 +22,7 @@ if ( $('[name="email[id]"]').val() == '' )
   $('.sf_admin_form_field_attachments').hide();
   
   setTimeout(function(){
-    tinyMCE.activeEditor.onChange.add(manage_attachment_widget);
+    tinyMCE.activeEditor.on('change', manage_attachment_widget);
   },1000);
   $('[name="email[field_subject]"]').change(manage_attachment_widget);
 }

@@ -75,6 +75,14 @@ class EmailForm extends BaseEmailForm
         'toolbar2' => 'bold underline italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent blockquote',
         'setup' => "__function(ed){
           ed.on('LoadContent', function(e) {
+            if ( $($.parseHTML($('[name=\"email[content]\"]').val())).find('body').length > 0 )
+            $('#email_content_ifr').contents().find('html').html($('[name=\"email[content]\"]').val()).find('body')
+              .addClass('mce-content-body').prop('id','tinymce').prop('contenteditable','true')
+              .load(function(){ window.parent.tinymce.get('email_content').fire('load'); });
+          });
+        }",
+        'setup' => "__function(ed){
+          ed.on('LoadContent', function(e) {
             $('#email_content_ifr').contents().find('html').html($('#email_content').val()).find('body')
               .addClass('mce-content-body').prop('id','tinymce').prop('contenteditable','true')
               .load(function(){ window.parent.tinymce.get('email_content').fire('load'); });
@@ -101,7 +109,7 @@ class EmailForm extends BaseEmailForm
     ));
     
     // validation / test forms
-    $this->widgetSchema   ['test_address'] = new sfWidgetFormInputText();
+    $this->widgetSchema   ['test_address'] = new sfWidgetFormInputText;
     $this->validatorSchema['test_address'] = new sfValidatorEmail(array(
       'required'    => false,
     ));
@@ -126,5 +134,12 @@ class EmailForm extends BaseEmailForm
       if ( $this->object->$collection->count() > 0 )
         unset($this->widgetSchema[$fieldName]);
     }
+  }
+  
+  public function renderFormTag($url, array $attributes = array())
+  {
+    if ( !isset($attributes['autocomplete']) )
+      $attributes['autocomplete'] = 'on';
+    return parent::renderFormTag($url,$attributes);
   }
 }
