@@ -182,16 +182,6 @@ psql $DB <<EOF
 INSERT INTO contact_version (SELECT * FROM contact WHERE id NOT IN (SELECT id FROM contact_version));
 EOF
 
-echo ""
-echo ""
-echo "Patching framework..."
-for elt in data/diff/*.diff
-do
-  patch -N -p0 < $elt
-done
-rm -f `find lib/vendor/ -iname '*.rej'`
-rm -f `find lib/vendor/ -iname '*.orig'`
-
 # final informations
 echo ""
 echo ""
