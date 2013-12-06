@@ -13,8 +13,7 @@
     if ( !isset($transac->printed) )
     {
       foreach ( $transac->Tickets as $t )
-      if ( $t->printed_at || $t->integrated_at )
-      if ( !$t->hasBeenCancelled() )
+      if ( ($t->printed_at || $t->integrated_at) && !$t->hasBeenCancelled() )
       {
         if ( $sf_user->hasCredential('seats-allocation') && $t->numerotation )
         {
