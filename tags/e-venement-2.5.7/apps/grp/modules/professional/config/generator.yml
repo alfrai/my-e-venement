@@ -1,0 +1,37 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Professional
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          professional
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        name: { label: Function }
+        groups_picto: { label: Remarkable }
+        nb_manifestations: { label: Manifs, type: numeric }
+        nb_events: { label: Events, type: numeric }
+        organism_city: { label: City }
+      list:
+        display: [Organism, organism_city, Contact, name, _groups_picto, contact_email, nb_events, nb_manifestations]
+        batch_actions: {}
+        object_actions: { _show: ~ }
+        actions:
+          _extract: { action: extract }
+        table_method: doSelectOnlyGrp
+        title: By contact
+        max_per_page: 50
+        sort: ['o.name, o.city','']
+      filter:
+        display: [contact_name, organism_name, professional_type_id, organism_id, groups_list]
+      form:    ~
+      edit:
+        actions: { _list: ~ }
+      new:     ~
