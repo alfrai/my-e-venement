@@ -45,6 +45,7 @@
     'administrative_number' => __('Admin.ID'),
     'nb_events'     => __('Events'),
     'nb_manifestations' => __('Manifs'),
+    'nb_tickets'    => __('Tick.Avg.'),
   );
   
   include_partial('global/csv',$vars);

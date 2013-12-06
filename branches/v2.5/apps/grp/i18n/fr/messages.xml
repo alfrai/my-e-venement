@@ -9,6 +9,10 @@
         <target>Remarquable</target>
       </trans-unit>
       <trans-unit>
+        <source>Tick.Avg.</source>
+        <target>Moy.bill.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Print</source>
         <target>Imprimer</target>
       </trans-unit>
