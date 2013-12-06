@@ -4,7 +4,7 @@
 # default values
 all:
   sf_guard:
-    display_group_description: false
+    display_group_description: true
   feed:
     url: http://www.e-venement.net/feed/
     name: e-venement.net
