@@ -323,7 +323,7 @@ abstract class sfFormFilterDoctrine extends sfFormFilter
 
   protected function camelize($text)
   {
-    return sfToolkit::pregtr($text, array('#/(.?)#' => function($m) { return '::'.strtoupper($m[1]) }, '/(^|_|-)+(.)/' => function($m) { return strtoupper($m[2]); }));
+    return sfToolkit::pregtr($text, array('#/(.?)#' => function($m) { return '::'.strtoupper($m[1]); }, '/(^|_|-)+(.)/' => function($m) { return strtoupper($m[2]); }));
   }
 
   protected function getTable()
