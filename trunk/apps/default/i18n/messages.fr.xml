@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Try again your global search with a valid string</source>
+        <target>Reprenez votre recherche globale correctement SVP</target>
+      </trans-unit>
+      <trans-unit>
         <source>Your organism</source>
         <target>Votre organisme</target>
       </trans-unit>

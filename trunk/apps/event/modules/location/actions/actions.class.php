@@ -43,4 +43,26 @@ class locationActions extends autoLocationActions
     
     $this->redirect('manifestation/new?event='.$event->slug.'&location='.$this->location->slug);
   }
+
+  public function executeSearch(sfWebRequest $request)
+  {
+    self::executeIndex($request);
+    $table = Doctrine::getTable('Location');
+    
+    $search = $this->sanitizeSearch($request->getParameter('s'));
+    $transliterate = sfConfig::get('software_internals_transliterate',array());
+    
+    $a = $this->pager->getQuery()->getRootAlias();
+    $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery()->andWhere("$a.place = ?",true)));
+    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
+    $this->pager->init();
+    
+    $this->setTemplate('index');
+  }
+  public static function sanitizeSearch($search)
+  {
+    $nb = strlen($search);
+    $charset = sfConfig::get('software_internals_charset');
+    return str_replace(array('-','+',','),' ',strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search)));
+  }
 }
