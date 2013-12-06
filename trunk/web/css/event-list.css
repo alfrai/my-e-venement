@@ -11,3 +11,6 @@
 .sf_admin_list .sf_admin_list_td_list_manifestations .sell { float: right; margin-top: -17px; }
 
 .sf_admin_list .sf_admin_list_td_list_manifestations_places .place { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 100px; }
+
+.sf_admin_list .sf_admin_action_add_manif a { background-position: -16px -128px; background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png') }
+.sf_admin_list .sf_admin_action_add_manif a.ui-state-active { background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_f9bd01_256x240.png') }

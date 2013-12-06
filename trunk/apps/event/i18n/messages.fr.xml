@@ -5,7 +5,11 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Content file</source>
+        <source>Search</source>
+        <target>Recherche</target>
+      </trans-unit>
+      <trans-unit>
+          <source>Content file</source>
         <target>Fichier</target>
       </trans-unit>
       <trans-unit>
@@ -15,6 +19,10 @@
       <trans-unit>
         <source>This is the number of seats when the screen loaded.</source>
         <target>Ceci est le nombre de place au moment du chargement de l'écran.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Add a manifestation</source>
+        <target>Ajouter une manifestation</target>
       </trans-unit>
       <trans-unit>
         <source>Size</source>

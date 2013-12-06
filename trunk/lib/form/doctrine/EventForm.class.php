@@ -23,7 +23,8 @@ class EventForm extends BaseEventForm
     $this->widgetSchema['extraspec'] = new liWidgetFormTextareaTinyMCE($tinymce);
     $this->widgetSchema['name'] = new sfWidgetFormTextarea(array(), array('rows' => '1', 'cols' => 58));
     
-    $this->widgetSchema['meta_event_id']->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('MetaEvent')->createQuery('me')));
+    $this->widgetSchema['meta_event_id']->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('MetaEvent')->createQuery('me')))
+      ->setOption('order_by', array('me.name',''));
     $this->widgetSchema['companies_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Organism',
       'url'   => cross_app_url_for('rp','organism/ajax'),

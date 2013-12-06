@@ -37,15 +37,16 @@ function list_integrated_search(data)
     });
   }
   
-  // for TDP design, showing the informations of organisms if the arrow is clicked
-  if ( typeof(contact_tdp_show_orgs) == 'function' )
-    contact_tdp_show_orgs();
-  
   // if searched by id and only one result, going into the object's file
   if ( parseInt($('#list-integrated-search input[name=s]').val().replace(/^0*/,''),10)+'' == $('#list-integrated-search input[name=s]').val().replace(/^0*/,'') && $('.sf_admin_list > table .sf_admin_action_show').length == 1 )
   {
     window.location = $('.sf_admin_list > table .sf_admin_action_show a:first').prop('href');
   }
+
+  // for recorded function to execute after an Ajax reloading
+  if ( window.integrated_search_end != undefined )
+  for ( i = 0 ; i < window.integrated_search_end.length ; i++ )
+    window.integrated_search_end[i]();
 }
 
 $(document).ready(function(){

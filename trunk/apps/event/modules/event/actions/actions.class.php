@@ -23,8 +23,23 @@ class eventActions extends autoEventActions
       $this->pager->getQuery()
         ->addSelect("(SELECT min(m2.happens_at) FROM manifestation m2 WHERE m2.event_id = $a.id) AS min_happens_at")
         ->addSelect("(SELECT (CASE WHEN max(m3.happens_at) IS NULL THEN false ELSE max(m3.happens_at) > now() END) FROM manifestation m3 WHERE m3.event_id = $a.id) AS now")
-        ->orderby("max_date ".(sfConfig::get('app_listing_manif_date') != 'ASC' ? 'DESC' : 'ASC').", $a.name");
+        ->orderby("max_date ".(sfConfig::get('app_listing_manif_date','DESC') != 'ASC' ? 'DESC' : 'ASC').", $a.name");
     }
+  }
+  
+  public function executeSearch(sfWebRequest $request)
+  {
+    self::executeIndex($request);
+    $table = Doctrine::getTable('Event');
+    
+    $search = $this->sanitizeSearch($request->getParameter('s'));
+    $transliterate = sfConfig::get('software_internals_transliterate',array());
+    
+    $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery()));
+    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
+    $this->pager->init();
+    
+    $this->setTemplate('index');
   }
   
   public function executeShow(sfWebRequest $request)
@@ -133,5 +148,18 @@ class eventActions extends autoEventActions
   
   public function executeError404(sfWebRequest $request)
   {
+  }
+  
+  public function executeAddManifestation(sfWebRequest $request)
+  {
+    $this->executeEdit($request);
+    $this->redirect('manifestation/new?event='.$this->event->slug);
+  }
+
+  public static function sanitizeSearch($search)
+  {
+    $nb = strlen($search);
+    $charset = sfConfig::get('software_internals_charset');
+    return str_replace(array('-','+',','),' ',strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search)));
   }
 }

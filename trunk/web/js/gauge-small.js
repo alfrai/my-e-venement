@@ -46,4 +46,9 @@ $(document).ready(function(){
   if ( window.list_scroll_end == undefined )
     window.list_scroll_end = new Array()
   window.list_scroll_end[window.list_scroll_end.length] = gauge_small;
+  
+  // for hypothetical integrated search...
+  if ( window.integrated_search_end == undefined )
+    window.integrated_search_end = new Array()
+  window.integrated_search_end[window.integrated_search_end.length] = gauge_small;
 });

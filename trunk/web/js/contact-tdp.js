@@ -171,6 +171,9 @@ $(document).ready(function(){
   if ( window.list_scroll_end == undefined )
     window.list_scroll_end = new Array();
   window.list_scroll_end[window.list_scroll_end.length] = contact_tdp_show_orgs;
+  if ( window.integrated_search_end == undefined )
+    window.integrated_search_end = new Array();
+  window.integrated_search_end[window.integrated_search_end.length] = contact_tdp_show_orgs;
   
   // CONTENT: NEW FUNCTION FOR A CONTACT
   $('.tdp-subobject.tdp-object-new .tdp-widget-header input[type=text]').each(function(){
