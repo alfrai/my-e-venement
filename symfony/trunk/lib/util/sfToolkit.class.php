@@ -348,7 +348,7 @@ class sfToolkit
    */
   public static function replaceConstants($value)
   {
-    return is_string($value) ? preg_replace_callback('/%(.+?)%/', create_function('$v', 'return sfConfig::has(strtolower($v[1])) ? sfConfig::get(strtolower($v[1])) : "%{$v[1]}%";'), $value) : $value;
+    return is_string($value) ? preg_replace_callback('/%(.+?)%/', function($v) { return sfConfig::has(strtolower($v[1])) ? sfConfig::get(strtolower($v[1])) : "%{$v[1]}%"; }, $value) : $value;
   }
 
   /**
@@ -359,7 +359,12 @@ class sfToolkit
    */
   public static function pregtr($search, $replacePairs)
   {
-    return preg_replace(array_keys($replacePairs), array_values($replacePairs), $search);
+    foreach ( $replacePairs as $key => $value )
+    if ( $value instanceof Closure )
+      $search = preg_replace_callback($key, $value, $search);
+    else
+      $search = preg_replace($key, $value, $search);
+    return $search;
   }
 
   /**
