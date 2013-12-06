@@ -1475,12 +1475,20 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
             } else {
                 $old = $this->_data[$fieldName];
             }
+
+            # http://www.doctrine-project.org/jira/browse/DC-797?page=com.atlassian.jira.plugin.system.issuetabpanels:changehistory-tabpanel
+      	    # DRP: I moved the next four lines here from inside the
+	          # _isValueModified block to work around an issue where Doctrine
+	          # set the record state to dirty during hydration when a NULL
+	          # relationship field was replaced with a Doctrine_Null object.
+	          if ($value === null) {
+          		$value = $this->_table->getDefaultValueOf($fieldName);
+      	    }
+      	    $this->_data[$fieldName] = $value;
             
             if ($this->_isValueModified($type, $old, $value)) {
-                if ($value === null) {
-                    $value = $this->_table->getDefaultValueOf($fieldName); 
-                }
-                $this->_data[$fieldName] = $value;
+          		# DRP: This is where I moved the four lines mentioned above
+        	  	# from.
                 $this->_modified[] = $fieldName;
                 $this->_oldValues[$fieldName] = $old;
 
@@ -1533,6 +1541,15 @@ abstract class Doctrine_Record extends Doctrine_Record_Abstract implements Count
      */
     protected function _isValueModified($type, $old, $new)
     {
+    	# DRP: enforce equivalency between DB NULL & Doctrine_Null.  This
+    	# works around an issue where the hydration engine marks relationships
+    	# that were just loaded from the DB as dirty.  See the comment in
+    	# _set() with my initials.
+    	if ((is_null($old) || $old === self::$_null)
+	      && (is_null($new) || $new === self::$_null)) {
+	      return false;
+    	}
+
         if ($new instanceof Doctrine_Expression) {
             return true;
         }

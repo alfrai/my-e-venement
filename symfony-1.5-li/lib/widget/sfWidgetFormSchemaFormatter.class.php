@@ -88,6 +88,10 @@ abstract class sfWidgetFormSchemaFormatter
       return self::$translationCallable->call($subject, $parameters, $catalogue);
     }
 
+    // LIBRINFO - 29/08/2011
+    if ( is_callable('__') )
+      $this->setTranslationCallable('__');
+    
     return call_user_func(self::$translationCallable, $subject, $parameters, $catalogue);
   }
 
