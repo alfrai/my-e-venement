@@ -67,7 +67,7 @@ class professionalActions extends autoProfessionalActions
     $a = $q->getRootAlias();
     $q->select("$a.*, c.*, o.*, g.id, g.name, g.display_everywhere, g.sf_guard_user_id, pic.id, pic.name, pic.content")
       ->addSelect('o.city AS organism_city')
-      ->addSelect('count(DISTINCT eem.event_id) as nb_events, count(DISTINCT eem.id) as nb_manifestations')
+      ->addSelect('count(DISTINCT eem.event_id) AS nb_events, count(DISTINCT eem.id) AS nb_manifestations')
       ->groupBy("$a.id, c.id, c.name, c.firstname, o.id, o.name, o.city, t.name, g.id, g.name, u.id, pic.id, pic.name, pic.content, g.display_everywhere, g.sf_guard_user_id")
     ;
     return $pager;
@@ -80,7 +80,7 @@ class professionalActions extends autoProfessionalActions
       ->removeDqlQueryPart('offset')
       ->removeDqlQueryPart('limit');
     $a = $q->getRootAlias();
-    $q->select("o.name AS organism_name, o.city AS organism_city, $a.name AS function, c.name||' '||c.firstname AS name, $a.contact_email")
+    $q->select("$a.id AS professional_id, o.name AS organism_name, o.city AS organism_city, $a.name AS function, c.name||' '||c.firstname AS name, $a.contact_email")
       ->addSelect('o.administrative_number')
       ->addSelect('count(DISTINCT eem.event_id) as nb_events, count(DISTINCT eem.id) as nb_manifestations');
     $this->lines = $q->fetchArray();
@@ -88,6 +88,32 @@ class professionalActions extends autoProfessionalActions
     {
       unset($this->lines[$i]['Contact']);
       unset($this->lines[$i]['Organism']);
+      
+      $this->lines[$i]['nb_tickets'] = 'N/A';
+      if ( count($this->lines) < 5000 )
+      {
+        $q = Doctrine_Query::create()->from('EntryTickets et')
+          ->select('et.*, ee.id, me.id')
+          ->leftJoin('et.EntryElement ee')
+          ->leftJoin('ee.ContactEntry ce')
+          ->leftJoin('ee.ManifestationEntry me')
+          ->leftJoin('me.Manifestation m')
+          ->leftJoin('m.Event e')
+          ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
+          ->andWhere('ce.professional_id = ?',$this->lines[$i]['professional_id'])
+          ->andWhere('ee.accepted = ?',true) 
+        ;
+        
+        $nb = 0;
+        $mids = array();
+        foreach ( $q->execute() as $tickets )
+        {
+          $mids[$tickets->EntryElement->ManifestationEntry->id] = 1;
+          $nb += $tickets->quantity;
+        }
+      
+        $this->lines[$i]['nb_tickets'] = round($nb/array_sum($mids));
+      }
     }
     
     $params = OptionCsvForm::getDBOptions();
@@ -104,6 +130,7 @@ class professionalActions extends autoProfessionalActions
         'administrative_number',
         'nb_events',
         'nb_manifestations',
+        'nb_tickets',
       ),
     );
     

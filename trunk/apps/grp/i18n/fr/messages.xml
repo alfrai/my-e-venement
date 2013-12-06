@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Tick.Avg.</source>
+        <target>Moy.bill.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Press ENTER to add those tickets</source>
         <target>Presser ENTRÉE pour ajouter ces billets</target>
       </trans-unit>
