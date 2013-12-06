@@ -200,6 +200,14 @@ class emailActions extends autoEmailActions
         else
           $this->form->getObject()->Contacts[] = $contact;
       }
+      
+      $this->form->getObject()->field_from = $this->getUser()->getGuardUser()->getEmailAddress();
+      $this->form->getObject()->field_subject = '*****';
+      $this->form->getObject()->content = '*****';
+      $this->form->getObject()->save();
+      
+      $this->getUser()->setFlash('notice', __('Your email has been temporary recorded. Please be careful, modify its subject and its content before sending...'));
+      $this->redirect('email/edit?id='.$this->form->getObject()->id);
     }
     
     // ORGANISMS
