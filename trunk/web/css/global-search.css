@@ -1,0 +1,35 @@
+.new-title { display: none; }
+.wait { display: block; margin: 50px auto; }
+.main.ui-widget-header { padding: 5px; margin-bottom: 10px; }
+#global-search .ui-widget-header { margin: 0; }
+
+.sf_admin_list table thead th span,
+.sf_admin_list .sf_admin_pagination,
+.sf_admin_list > table > thead th + th:last-child, .sf_admin_list > table > tbody td + td:last-child,
+.ui-widget-header .fg-buttonset-multi { display: none; }
+
+#contacts .sf_admin_list_th_list_see_orgs,
+#contacts .sf_admin_list_th_list_contact,
+#contacts .sf_admin_list_th_list_professional_id,
+#contacts .sf_admin_list_th_list_organism,
+#contacts .sf_admin_list_th_list_professional,
+#contacts .sf_admin_list_th_list_organism_postalcode,
+#contacts .sf_admin_list_th_list_organism_city,
+#contacts .sf_admin_list_th_list_professional_emails,
+#contacts .sf_admin_list_th_list_organism_phones_list,
+#contacts .sf_admin_list_th_list_professional_groups_picto,
+#contacts .sf_admin_list_th_list_professional_description,
+#contacts .sf_admin_list_td_list_see_orgs,
+#contacts .sf_admin_list_td_list_contact,
+#contacts .sf_admin_list_td_list_professional_id,
+#contacts .sf_admin_list_td_list_organism,
+#contacts .sf_admin_list_td_list_professional,
+#contacts .sf_admin_list_td_list_organism_postalcode,
+#contacts .sf_admin_list_td_list_organism_city,
+#contacts .sf_admin_list_td_list_professional_emails,
+#contacts .sf_admin_list_td_list_organism_phones_list,
+#contacts .sf_admin_list_td_list_professional_groups_picto,
+#contacts .sf_admin_list_td_list_professional_description
+{ display: none; }
+
+#transactions .sf_admin_list_td_delete_demands, #transactions .sf_admin_list_th_delete_demands { display: none; }
