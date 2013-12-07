@@ -85,6 +85,36 @@ class summaryActions extends autoSummaryActions
     $this->redirect('summary/asks');
   }
   
+  public function executeSearch(sfWebRequest $request)
+  {
+    $this->type = false;
+    parent::executeIndex($request);
+    
+    $q = array('Contact' => NULL, 'Organism' => NULL);
+    $cpt = 0;
+    foreach ( $q as $tname => $query )
+    {
+      $cpt++;
+      $table = Doctrine::getTable($tname);
+      $search = $this->sanitizeSearch($s = $request->getParameter('s'));
+      $transliterate = sfConfig::get('software_internals_transliterate',array());
+      $q[$tname] = $table->search($search.'*',Doctrine_Query::create()->from($tname.' tt'.$cpt));
+      $q[$tname]->select("tt$cpt.id");
+    }
+    
+    $a = $this->pager->getQuery()->getRootAlias();
+    $this->pager->getQuery()->andWhere("$a.contact_id IN (".$q['Contact'].") OR p.organism_id IN (".$q['Organism'].")",array($s,$s));
+    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
+    $this->pager->init();
+    
+    $this->setTemplate('index');
+  }
+  public static function sanitizeSearch($search)
+  {
+    $nb = strlen($search);
+    $charset = sfConfig::get('software_internals_charset');
+    return str_replace(array('-','+',','),' ',strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search)));
+  }
   public function buildQuery()
   {
     $q = parent::buildQuery();
@@ -122,6 +152,7 @@ class summaryActions extends autoSummaryActions
       foreach ( $ids as $key => $id )
         $ids[$key] = $id[0];
       $q->andWhereIn("$t.id",$ids);
+      break;
     default:
       // all transactions
       break;

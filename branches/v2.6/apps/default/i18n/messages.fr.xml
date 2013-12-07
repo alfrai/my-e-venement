@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Transactions</source>
+        <target>Opérations</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Schools &amp; Groups</source>
+        <target>Scolaires &amp; groupes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Search</source>
+        <target>Rechercher</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Global Search</source>
+        <target>Recherche globale</target>
+      </trans-unit>
+      <trans-unit>
         <source>Your organism</source>
         <target>Votre organisme</target>
       </trans-unit>
