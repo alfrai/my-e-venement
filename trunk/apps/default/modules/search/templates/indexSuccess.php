@@ -9,18 +9,25 @@
       <input type="submit" name="go" value="<?php echo __('Search') ?>" />
     </p>
   </form>
+  <?php if ( $sf_user->hasCredential('pr-contact') ): ?>
   <div class="ui-widget-content ui-corner-all" id="contacts">
     <a href="<?php echo cross_app_url_for('rp', 'contact/search?s='.$search) ?>"></a>
     <?php echo image_tag('wait.png', 'class="wait"') ?>
   </div>
+  <?php endif ?>
+  <?php if ( $sf_user->hasCredential('pr-organism') ): ?>
   <div class="ui-widget-content ui-corner-all" id="organisms">
     <a href="<?php echo cross_app_url_for('rp', 'organism/search?s='.$search) ?>"></a>
     <?php echo image_tag('wait.png', 'class="wait"') ?>
   </div>
+  <?php endif ?>
+  <?php if ( $sf_user->hasCredential('event-event') ): ?>
   <div class="ui-widget-content ui-corner-all" id="events">
     <a href="<?php echo cross_app_url_for('event', 'event/search?s='.$search) ?>"></a>
     <?php echo image_tag('wait.png', 'class="wait"') ?>
   </div>
+  <?php endif ?>
+  <?php if ( $sf_user->hasCredential('event-location') ): ?>
   <div class="ui-widget-content ui-corner-all" id="locations">
     <a href="<?php echo cross_app_url_for('event', 'location/search?s='.$search) ?>"></a>
     <?php echo image_tag('wait.png', 'class="wait"') ?>
@@ -29,16 +36,21 @@
     <a href="<?php echo cross_app_url_for('event', 'resource/search?s='.$search) ?>"></a>
     <?php echo image_tag('wait.png', 'class="wait"') ?>
   </div>
+  <?php endif ?>
+  <?php if ( $sf_user->hasCredential('tck-reports') ): ?>
   <div class="ui-widget-content ui-corner-all" id="transactions">
     <a href="<?php echo cross_app_url_for('tck', 'summary/search?s='.$search) ?>"></a>
     <?php echo image_tag('wait.png', 'class="wait"') ?>
     <span class="new-title"><?php echo __('Transactions') ?></span>
   </div>
+  <?php endif ?>
+  <?php if ( $sf_user->hasCredential('grp-professionals') ): ?>
   <div class="ui-widget-content ui-corner-all" id="grp">
     <a href="<?php echo cross_app_url_for('grp', 'professional/search?s='.$search) ?>"></a>
     <?php echo image_tag('wait.png', 'class="wait"') ?>
     <span class="new-title"><?php echo __('Schools & Groups') ?></span>
   </div>
+  <?php endif ?>
 </div>
 
 <script type="text/javascript">
