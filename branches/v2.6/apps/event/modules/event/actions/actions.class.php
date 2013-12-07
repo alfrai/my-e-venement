@@ -27,6 +27,21 @@ class eventActions extends autoEventActions
     }
   }
   
+  public function executeSearch(sfWebRequest $request)
+  {
+    self::executeIndex($request);
+    $table = Doctrine::getTable('Event');
+    
+    $search = $this->sanitizeSearch($request->getParameter('s'));
+    $transliterate = sfConfig::get('software_internals_transliterate',array());
+    
+    $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery()));
+    $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
+    $this->pager->init();
+    
+    $this->setTemplate('index');
+  }
+  
   public function executeShow(sfWebRequest $request)
   {
     $this->securityAccessFiltering($request);
@@ -133,5 +148,12 @@ class eventActions extends autoEventActions
   
   public function executeError404(sfWebRequest $request)
   {
+  }
+
+  public static function sanitizeSearch($search)
+  {
+    $nb = strlen($search);
+    $charset = sfConfig::get('software_internals_charset');
+    return str_replace(array('-','+',','),' ',strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search)));
   }
 }
