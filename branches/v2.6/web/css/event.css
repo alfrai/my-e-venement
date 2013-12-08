@@ -37,3 +37,5 @@
 #content .sf_admin_form_field_Manifestations input[type=text][size="4"] { width: 30px; }
 .ui-widget-content .sf_admin_form_field_Manifestations.ui-state-error { border: 0; background: none; }
 .ui-widget-content .sf_admin_form_field_Manifestations table.ui-state-error { padding: 3px; }
+
+.manifestation_list .sf_admin_date { white-space: nowrap; }

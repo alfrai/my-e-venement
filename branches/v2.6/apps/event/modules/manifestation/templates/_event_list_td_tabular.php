@@ -1,6 +1,6 @@
 <td class="sf_admin_date sf_admin_list_td_happens_at">
   <a href="<?php echo url_for('manifestation/show?id='.$manifestation->id) ?>">
-    <?php echo false !== strtotime($manifestation->getHappensAt()) ? format_date($manifestation->getHappensAt()) : '&nbsp;' ?>
+    <?php echo $manifestation->happens_at ? $manifestation->getShortenedDate() : '&nbsp;' ?>
   </a>
 </td>
 <td class="sf_admin_text sf_admin_list_td_list_location">
