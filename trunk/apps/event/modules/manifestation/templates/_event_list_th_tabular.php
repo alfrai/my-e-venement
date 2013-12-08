@@ -21,7 +21,7 @@
 <?php if ( $sf_user->hasCredential('event-manif-edit') ): ?>
 <?php include_slot('sf_admin.current_header') ?><?php slot('sf_admin.current_header') ?>
 <th class="sf_admin_text sf_admin_list_th_list_actions ui-state-default ui-th-column">
-  <?php echo __('Actions', array(), 'messages') ?>
+  <?php //echo __('Actions', array(), 'messages') ?>
 </th>
 <?php end_slot(); ?>
 <?php endif ?>
