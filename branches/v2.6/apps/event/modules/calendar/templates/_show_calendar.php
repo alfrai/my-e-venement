@@ -117,6 +117,9 @@ $(document).ready(function(){
       $.each(event.css, function(index, value){
         $(element).css(index, value);
       });
+      
+      if ( event.hacktitle )
+        $(element).prop('title', event.hacktitle);
     },
   });
   

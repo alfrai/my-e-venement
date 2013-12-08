@@ -62,6 +62,7 @@
       'resource' => $resources,
       'allDay' => false,
       'hackurl' => url_for('manifestation/show?id='.$manif->id),
+      'hacktitle' => (string)$manif->Location,
       'editable' => $sf_user->hasCredential('event-manif-edit'),
       'css' => array_merge($css_base = array(
           'border-style'  => $manif->reservation_confirmed ? 'solid' : 'dashed',

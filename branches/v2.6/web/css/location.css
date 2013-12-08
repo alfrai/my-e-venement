@@ -10,3 +10,5 @@
   margin: 5px;
 }
 .batch label { display: block; }
+
+#sf_admin_footer .new-manif.dialog { display: none; }

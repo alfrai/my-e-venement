@@ -36,17 +36,9 @@ generator:
         object_actions:
           _show: ~
           _edit: ~
-          _newManif:
-            label: New Manifestation
-            action: newManif
-            params:
-              onclick: return li_location_new_manif(this, "<?php sfApplicationConfiguration::getActive()->loadHelpers(array('I18N')); echo __("Are you sure?").'\n'.__("New transitional event's name:") ?>");
           _delete: ~
         batch_actions:
           _delete: ~
-          _newManif:
-            label: <?php echo __('New Manifestation').PHP_EOL ?>
-            action: batchNewManif
         sort: [name, asc]
       filter:
         display: [name, email, contact_id, organism_id, npai]

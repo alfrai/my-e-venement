@@ -32,14 +32,19 @@ class locationActions extends autoLocationActions
   {
     // preconditions
     $this->executeEdit($request);
-    if ( !$request->getParameter('event_name',false) )
+    if ( !$request->getParameter('event_name',false) && !$request->getParameter('event_id',false) )
       throw new liEvenementException('Bad request.');
     
-    $event = new Event;
-    $event->name = $request->getParameter('event_name');
-    $me = array_keys($this->getUser()->getMetaEventsCredentials());
-    $event->meta_event_id = $me[0];
-    $event->save();
+    if ( $eid = $request->getParameter('event_id',false) )
+      $event = Doctrine::getTable('Event')->createQuery('e')->andWhere('e.id = ?',$eid)->fetchOne();
+    else
+    {
+      $event = new Event;
+      $event->name = $request->getParameter('event_name');
+      $me = array_keys($this->getUser()->getMetaEventsCredentials());
+      $event->meta_event_id = $me[0];
+      $event->save();
+    }
     
     $this->redirect('manifestation/new?event='.$event->slug.'&location='.$this->location->slug);
   }

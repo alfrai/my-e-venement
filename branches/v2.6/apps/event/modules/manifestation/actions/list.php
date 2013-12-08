@@ -39,8 +39,9 @@
     
     $end = "m.happens_at + (m.duration||' seconds')::interval";
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
-      ->select('m.*, l.*, c.*, e.*, g.*')
+      ->select('m.*, l.*, mb.*, me.*, c.*, e.*, g.*')
       ->leftJoin('m.Color c')
+      ->leftJoin('m.Booking mb')
       ->andWhere('(TRUE')
       ->andWhere("m.happens_at >= ? AND m.happens_at < ?", array($this->from, $this->to))
       ->orWhere("$end > ? AND $end <= ?", array($this->from, $this->to))
@@ -68,7 +69,6 @@
     }
     if ( $no_ids )
       $q->andWhereNotIn('m.id',$no_ids);
-    
     // security filtering
     EventFormFilter::addCredentialsQueryPart($q);
     
