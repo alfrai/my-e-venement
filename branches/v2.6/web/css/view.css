@@ -3,10 +3,12 @@ body #more {
   position: absolute;
   top: 0;
   min-height: 280px;
-  max-height: 500px;
   left: 500px;
   overflow-y: scroll;
   overflow-x: hidden;
+  width: calc(100% - 535px);
+  padding-bottom: 20px;
+  max-height: calc(100% - 100px);
 }
 #more .sf_admin_action_list a { display: none; }
 
