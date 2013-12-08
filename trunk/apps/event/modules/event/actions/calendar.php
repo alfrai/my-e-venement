@@ -26,7 +26,7 @@
     $only_pending = $request->hasParameter('only_pending');
     
     $q = $this->buildQuery()
-      ->andWhere('reservation_confirmed = ?', $only_pending);
+      ->andWhere('reservation_confirmed = ?', !$only_pending);
     if ( $request->getParameter('id',false) )
       $q->andWhere('e.id = ?', $request->getParameter('id'));
     

@@ -47,7 +47,7 @@ class sfGuardUserActions extends autoSfGuardUserActions
       $this->getUser()->setFlash('error', __('A problem occurs when deleting the selected items.'));
     else
     {
-      $this->getUser()->setFlash('error', __('A problem occurs when deleting some of the selected item (you probably tried to delete one or more Super-Admin accounts without being a Super-Admin yourself).'));
+      $this->getUser()->setFlash('error', __('A problem occurs when deleting some of the selected item (you probably tried to delete one or more (Super)Admin accounts without being a (Super)Admin yourself).'));
       $this->getUser()->setFlash('notice', __('Some of the selected items have been deleted successfully.'));
     }
 
@@ -111,7 +111,7 @@ class sfGuardUserActions extends autoSfGuardUserActions
     $sf_guard_user = isset($request['sf_guard_user']) ? $request['sf_guard_user'] : array();
     if ( isset($request['sf_guard_user']['is_super_admin']) && $request['sf_guard_user']['is_super_admin'] && !$this->getUser()->isSuperAdmin() )
     {
-      $this->getUser()->setFlash('error',__("You can't add an account as a Super-Admin if you're not a Super-Admin youself. This flag has been simply deactivated."));
+      $this->getUser()->setFlash('error',__("You can't add an account as a (Super)Admin if you're not a (Super)Admin youself. This flag has been simply deactivated."));
       unset($sf_guard_user['is_super_admin']);
     }
     $request->setParameter('sf_guard_user',$sf_guard_user);
@@ -135,7 +135,7 @@ class sfGuardUserActions extends autoSfGuardUserActions
         $redirect_route = strpos('sfGuardUser/show',$redirect_route) !== false
           ? $redirect_route.'?id='.$request->getParameter('id')
           : $redirect_route;
-        $this->getUser()->setFlash('error',__("You are not allowed to access account %%user%%, it is a Super-Admin account.",array('%%user%%' => $sf_guard_user)));
+        $this->getUser()->setFlash('error',__("You are not allowed to access account %%user%%, it is a (Super)Admin account.",array('%%user%%' => $sf_guard_user)));
         return $redirect_route ? $this->redirect($redirect_route) : $redirect_route;
       }
     }

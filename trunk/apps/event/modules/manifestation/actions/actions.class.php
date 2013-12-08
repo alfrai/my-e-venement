@@ -286,7 +286,7 @@ class manifestationActions extends autoManifestationActions
     $this->executeShow($request);
     
     if ( !($v = $request->getParameter('version',false)) )
-      $v = $this->manifestation->version - 1;
+      $v = $this->manifestation->version > 1 ? $this->manifestation->version - 1 : 1;
     
     if ( intval($v).'' == ''.$v )
     foreach ( $this->manifestation->Version as $version )

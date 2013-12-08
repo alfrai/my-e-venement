@@ -9,7 +9,7 @@
         <target>Recherche</target>
       </trans-unit>
       <trans-unit>
-          <source>Content file</source>
+        <source>Content file</source>
         <target>Fichier</target>
       </trans-unit>
       <trans-unit>
@@ -911,6 +911,10 @@
       <trans-unit>
         <source>Technical</source>
         <target>Technique</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Technical informations</source>
+        <target>Informations techniques</target>
       </trans-unit>
       <trans-unit>
         <source>Details</source>
