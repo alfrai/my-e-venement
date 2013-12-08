@@ -40,8 +40,8 @@ generator:
           _periodicity:
             action: periodicity
             credentials: event-manif-edit
-          #_delete:
-          #  credentials: event-manif-edit
+          _delete:
+            credentials: event-manif-del
       filter:
         display: []
       form: ~
