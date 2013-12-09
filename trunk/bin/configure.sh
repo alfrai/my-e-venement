@@ -66,6 +66,7 @@ if [ "$db" != 'n' ]; then
   [ -n "$pguser" ] && echo "GRANT ALL ON DATABASE $PGDATABASE TO $pguser" | psql
   
   ./symfony doctrine:build --all --no-confirmation
+  psql < config/doctrine/functions-pgsql.sql
 fi
 
 
@@ -100,7 +101,7 @@ if [ "$fixtures" = 'y' ]; then
   read -p "Load french geo-datas (postalcodes, regions, ...) ? [Y/n] " f
   [ "$f" != 'n' ] && ./symfony doctrine:data-load --append data/fixtures/20-postalcodes.yml data/fixtures/50-geo-fr-data.yml
   
-  read -p "Load basic & not-so-relevant demo data for Public Relations & demo accounts ? [N/y] " f
+  read -p "Load basic & not-so-relevant demo data for Public Relations & demo accounts ? [y/N] " f
   [ "$f" = 'y' ] && ./symfony doctrine:data-load --append data/fixtures/30-demo.yml data/fixtures/40-accounts-demo.yml
   read -p "Load seated-plan (pertinent) data ? [Y/n] "
   [ "$f" != 'n' ] && ./symfony doctrine:data-load --append data/fixtures/41-seated-plans-demo.yml
