@@ -21,7 +21,7 @@ generator:
         nb_tickets: { label: Tick.Avg., type: numeric }
         organism_city: { label: City }
       list:
-        display: [Organism, organism_city, Contact, name, _groups_picto, contact_email, nb_events, nb_manifestations, nb_tickets]
+        display: [Organism, organism_city, Contact, name, _groups_picto, contact_email, nb_events, nb_manifestations, _nb_tickets]
         batch_actions: {}
         object_actions: { _show: ~ }
         actions:
