@@ -47,16 +47,19 @@ EOF;
     if(!class_exists('Manifestation'))
       throw new sfCommandException(sprintf('Model "%s" doesn\'t exist.', $arguments['model']));
     
-    $this->configuration->loadHelpers(array('CrossAppLink', 'I18N', 'Date'));
+    $this->configuration->loadHelpers(array('CrossAppLink', 'Url', 'I18N', 'Date', 'Tag'));
     
     // setting alarms
     $period   = sfConfig::get('app_synchronization_cron_period','1 hour');
+    $base_url = sfConfig::get('app_synchronization_base_url',false);
     $from     = sfConfig::get('app_synchronization_email_from');
     $tocome   = sfConfig::get('app_synchronization_alarms',false);
     $pendings = sfConfig::get('app_synchronization_pending_alarms',false);
 
     $q = Doctrine_Query::create()->from('Manifestation m')
-      ->leftJoin('m.Event e');
+      ->leftJoin('m.Event e')
+      ->leftJoin('m.Applicant a')
+      ->leftJoin('m.Organizers o');
     
     foreach ( array('tocome', 'pendings') as $type )
     {
@@ -90,24 +93,65 @@ EOF;
       foreach ( $emails as $emailaddr )
       {
         $email = new Email;
+        $email->setMailer($this->getMailer());
         $email->not_a_test = true;
         $email->setNoSpool(true);
         
+        $email->field_from = $from;
+        $email->to = $emailaddr;
         $email->field_subject = $manif->reservation_confirmed
           ? __('Notification for %%manif%%', array('%%manif%%' => (string)$manif))
           : __('Notification of a pending manifestation on the %%date%%', array('%%date%%' => format_date($manif->happens_at)))
         ;
-        $email->field_to = $emailaddr;
-        $email->field_from = $from;
+        
+        // preparing the content
+        $orgs = array();
+        foreach ( $manif->Organizers as $org )
+          $orgs[] = $org;
+        $state = '';
+        foreach ( array(
+          '!reservation_confirmed' => __('A confirmer'),
+          '!blocking'              => __('Non bloquante')
+        ) as $prop => $msg )
+        {
+          $bool = true;
+          $field = $prop;
+          if ( substr($prop,0,1) == '!' )
+          {
+            $bool = false;
+            $field = substr($prop,1);
+          }
+          
+          if ( $manif->$field === $bool )
+            $state .= $msg;
+        }
         
         // content
-        $email->content = 'TEST';
+        $email->content = sprintf(<<<EOF
+          %s<br/><br/>
+          %s: %s<br/><br/><br/>
+          %s: %s - %s<br/><br/>
+          %s: %s<br/><br/>
+          %s: %s<br/><br/>
+          %s: %s<br/><br/>
+          %s: %s<br/><br/>
+EOF
+          , (string)$manif
+          , __('State'), $state
+          , __('When'), $manif->mini_date, $manif->mini_end_date
+          , __('Where'), (string)$manif->Location
+          , __('Applicant'), (string)$manif->Applicant
+          , __('Organizers'), implode(', ',$orgs)
+          , __('Memo'), $manif->description
+        );
         
+        $email->deleted_at = date('Y-m-d H:i:s');
         $email->save();
-        $this->logSection('notification', sprintf('A notification for manifestation %s has been sent to %s', (string)$manif, $emailaddr));
+        //$email->delete();
+        $this->logSection('Notification', sprintf('for manifestation %s sent to %s', (string)$manif, $emailaddr));
       }
       
-      $this->logSection('notification', sprintf('Manifestation %s done.', (string)$manif));
+      $this->logSection('Manifestation', sprintf('%s done.', (string)$manif));
     }
   }
 }

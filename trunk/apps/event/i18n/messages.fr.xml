@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Notification for %%manif%%</source>
+        <target>Notification pour %%manif%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Notification of a pending manifestation on the %%date%%</source>
+        <target>Notification d'une manifestation en attente pour le %%date%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Where</source>
+        <target>Où</target>
+      </trans-unit>
+      <trans-unit>
+        <source>When</source>
+        <target>Quand</target>
+      </trans-unit>
+      <trans-unit>
         <source>Search</source>
         <target>Recherche</target>
       </trans-unit>
