@@ -5,7 +5,8 @@
 
 .sf_admin_list table thead th span,
 .sf_admin_list .sf_admin_pagination,
-.sf_admin_list > table > thead th + th:last-child, .sf_admin_list > table > tbody td + td:last-child,
+.sf_admin_list .sf_admin_td_actions > :not(.sf_admin_action_show):not(.sf_admin_action_edit),
+.sf_admin_list > table > thead th:first-child #sf_admin_list_batch_checkbox, .sf_admin_list > table > tbody td:first-child .sf_admin_batch_checkbox,
 .ui-widget-header .fg-buttonset-multi { display: none; }
 
 #contacts .sf_admin_list_th_list_see_orgs,
