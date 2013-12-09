@@ -39,7 +39,8 @@ class AddPricesToAllWSTask extends sfBaseTask{
 EOF;
   }
 
-  protected function  execute($arguments = array(), $options = array()) {
+  protected function execute($arguments = array(), $options = array())
+  {
     $databaseManager = new sfDatabaseManager($this->configuration);
 
     if(!class_exists('PriceTable') || !class_exists('WorkspaceTable')){

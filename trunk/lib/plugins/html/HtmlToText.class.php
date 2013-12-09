@@ -135,111 +135,13 @@ class HtmlToText
     var $width = 70;
 
     /**
-     *  List of preg* regular expression patterns to search for,
-     *  used in conjunction with $replace.
-     *
-     *  @var array $search
-     *  @access public
-     *  @see $replace
-     */
-    var $search = array(
-        "/\r/",                                  // Non-legal carriage return
-        "/[\n\t]+/",                             // Newlines and tabs
-        '/[ ]{2,}/',                             // Runs of spaces, pre-handling
-        '/<script[^>]*>.*?<\/script>/i',         // <script>s -- which strip_tags supposedly has problems with
-        '/<style[^>]*>.*?<\/style>/i',           // <style>s -- which strip_tags supposedly has problems with
-        //'/<!-- .* -->/',                         // Comments -- which strip_tags might have problem a with
-        '/<h[123][^>]*>(.*?)<\/h[123]>/ie',      // H1 - H3
-        '/<h[456][^>]*>(.*?)<\/h[456]>/ie',      // H4 - H6
-        '/<p[^>]*>/i',                           // <P>
-        '/<br[^>]*>/i',                          // <br>
-        '/<b[^>]*>(.*?)<\/b>/i',                // <b>
-        '/<strong[^>]*>(.*?)<\/strong>/i',      // <strong>
-        '/<i[^>]*>(.*?)<\/i>/i',                 // <i>
-        '/<em[^>]*>(.*?)<\/em>/i',               // <em>
-        '/(<ul[^>]*>|<\/ul>)/i',                 // <ul> and </ul>
-        '/(<ol[^>]*>|<\/ol>)/i',                 // <ol> and </ol>
-        '/<li[^>]*>(.*?)<\/li>/i',               // <li> and </li>
-        '/<li[^>]*>/i',                          // <li>
-        '/<a [^>]*href="([^"]+)"[^>]*>(.*?)<\/a>/ie',
-                                                 // <a href="">
-        '/<hr[^>]*>/i',                          // <hr>
-        '/(<table[^>]*>|<\/table>)/i',           // <table> and </table>
-        '/(<tr[^>]*>|<\/tr>)/i',                 // <tr> and </tr>
-        '/<td[^>]*>(.*?)<\/td>/i',               // <td> and </td>
-        '/<th[^>]*>(.*?)<\/th>/ie',              // <th> and </th>
-        '/&(nbsp|#160);/i',                      // Non-breaking space
-        '/&(quot|rdquo|ldquo|#8220|#8221|#147|#148);/i',
-		                                         // Double quotes
-        '/&(apos|rsquo|lsquo|#8216|#8217);/i',   // Single quotes
-        '/&gt;/i',                               // Greater-than
-        '/&lt;/i',                               // Less-than
-        '/&(amp|#38);/i',                        // Ampersand
-        '/&(copy|#169);/i',                      // Copyright
-        '/&(trade|#8482|#153);/i',               // Trademark
-        '/&(reg|#174);/i',                       // Registered
-        '/&(mdash|#151|#8212);/i',               // mdash
-        '/&(ndash|minus|#8211|#8722);/i',        // ndash
-        '/&(bull|#149|#8226);/i',                // Bullet
-        '/&(pound|#163);/i',                     // Pound sign
-        '/&(euro|#8364);/i',                     // Euro sign
-        '/(&[^&;]+;)/ie',                           // Unknown/unhandled entities
-        '/[ ]{2,}/',                             // Runs of spaces, post-handling
-        '/<img [^>]*alt="([^"]*)"[^>]*>/i',
-                 // images with alternative text
-    );
-
-    /**
      *  List of pattern replacements corresponding to patterns searched.
      *
      *  @var array $replace
      *  @access public
      *  @see $search
      */
-    var $replace = array(
-        '',                                     // Non-legal carriage return
-        ' ',                                    // Newlines and tabs
-        ' ',                                    // Runs of spaces, pre-handling
-        '',                                     // <script>s -- which strip_tags supposedly has problems with
-        '',                                     // <style>s -- which strip_tags supposedly has problems with
-        //'',                                     // Comments -- which strip_tags might have problem a with
-        "strtoupper(\"\n\n\\1\n\n\")",          // H1 - H3
-        "ucwords(\"\n\n\\1\n\n\")",             // H4 - H6
-        "\n\n\t",                               // <P>
-        "\n",                                   // <br>
-        "*\\1*",                    // <b>
-        "*\\1*",                    // <strong>
-        "/\\1/",                                // <i>
-        "/\\1/",                                // <em>
-        "\n\n",                                 // <ul> and </ul>
-        "\n\n",                                 // <ol> and </ol>
-        "\t* \\1\n",                            // <li> and </li>
-        "\n\t* ",                               // <li>
-        '$this->_build_link_list("\\1", "\\2")',
-                                                // <a href="">
-        "\n-------------------------\n",        // <hr>
-        "\n\n",                                 // <table> and </table>
-        "\n",                                   // <tr> and </tr>
-        "\t\t\\1\n",                            // <td> and </td>
-        "strtoupper(\"\t\t\\1\n\")",            // <th> and </th>
-        ' ',                                    // Non-breaking space
-        '"',                                    // Double quotes
-        "'",                                    // Single quotes
-        '>',
-        '<',
-        '&',
-        '(c)',
-        '(tm)',
-        '(R)',
-        '--',
-        '-',
-        '*',
-        '£',
-        'EUR',                                  // Euro sign. € ?
-        'html_entity_decode("\\1", ENT_COMPAT, "UTF-8")',                                     // Unknown/unhandled entities
-        ' ',                                    // Runs of spaces, post-handling
-        "\\1",                                   // <img alt="...">
-    );
+    var $search_and_replace = array();
     
     /**
      *  Contains a list of HTML tags to allow in the resulting text.
@@ -304,6 +206,62 @@ class HtmlToText
             $this->set_html($source, $from_file);
         }
         $this->set_base_url();
+        
+    
+    /**
+     *  List of preg* regular expression patterns to search for,
+     *  used in conjunction with $replace.
+     *
+     *  @var array $search
+     *  @access public
+     *  @see $replace
+     */
+        $this->search_and_replace = array(
+          "/\r/" => '',                                  // Non-legal carriage return
+          "/[\n\t]+/" => ' ',                             // Newlines and tabs
+          '/[ ]{2,}/' => ' ',                             // Runs of spaces, pre-handling
+          '/<script[^>]*>.*?<\/script>/i' => '',         // <script>s -- which strip_tags supposedly has problems with
+          '/<style[^>]*>.*?<\/style>/i' => '',           // <style>s -- which strip_tags supposedly has problems with
+          //'/<!-- .* -->/',                         // Comments -- which strip_tags might have problem a with
+          '/<h[123][^>]*>(.*?)<\/h[123]>/ie' => function($m){ return strtoupper("\n\n".$m[1]."\n\n"); },          // H1 - H3
+          '/<h[456][^>]*>(.*?)<\/h[456]>/ie' => function($m){ return ucwords("\n\n".$m[1]."\n\n"); },             // H4 - H6
+          '/<p[^>]*>/i' => "\n\n\t",                           // <P>
+          '/<br[^>]*>/i' => "\n",                          // <br>
+          '/<b[^>]*>(.*?)<\/b>/i' => "*\\1*",                // <b>
+          '/<strong[^>]*>(.*?)<\/strong>/i' => "*\\1*",      // <strong>
+          '/<i[^>]*>(.*?)<\/i>/i' => "/\\1/",                 // <i>
+          '/<em[^>]*>(.*?)<\/em>/i' => "/\\1/",               // <em>
+          '/(<ul[^>]*>|<\/ul>)/i' => "\n\n",                 // <ul> and </ul>
+          '/(<ol[^>]*>|<\/ol>)/i' => "\n\n",                 // <ol> and </ol>
+          '/<li[^>]*>(.*?)<\/li>/i' => "\t* \\1\n",               // <li> and </li>
+          '/<li[^>]*>/i' => "\n\t* ",                          // <li>
+          '/<a [^>]*href="([^"]+)"[^>]*>(.*?)<\/a>/ie' => function($m) { return $this->_build_link_list($m[1], $m[2]); },
+                                                   // <a href="">
+          '/<hr[^>]*>/i' => "\n-------------------------\n",                          // <hr>
+          '/(<table[^>]*>|<\/table>)/i' => "\n\n",           // <table> and </table>
+          '/(<tr[^>]*>|<\/tr>)/i' => "\n",                 // <tr> and </tr>
+          '/<td[^>]*>(.*?)<\/td>/i' => "\t\t\\1\n",               // <td> and </td>
+          '/<th[^>]*>(.*?)<\/th>/ie' => function($m) { return strtoupper("\t\t".$m[1]."\n"); },              // <th> and </th>
+          '/&(nbsp|#160);/i' => ' ',                      // Non-breaking space
+          '/&(quot|rdquo|ldquo|#8220|#8221|#147|#148);/i' => '"',
+	  	                                         // Double quotes
+          '/&(apos|rsquo|lsquo|#8216|#8217);/i' => "'",   // Single quotes
+          '/&gt;/i' => '>',                               // Greater-than
+          '/&lt;/i' => '<',                               // Less-than
+          '/&(amp|#38);/i' => '&',                        // Ampersand
+          '/&(copy|#169);/i' => '(c)',                      // Copyright
+          '/&(trade|#8482|#153);/i' => '(tm)',               // Trademark
+          '/&(reg|#174);/i' => '(R)',                       // Registered
+          '/&(mdash|#151|#8212);/i' => '--',               // mdash
+          '/&(ndash|minus|#8211|#8722);/i' => '-',        // ndash
+          '/&(bull|#149|#8226);/i' => '*',                // Bullet
+          '/&(pound|#163);/i' => 'Â£',                     // Pound sign
+          '/&(euro|#8364);/i' => 'EUR',                     // Euro sign
+          '/(&[^&;]+;)/ie' => function($m) { return html_entity_decode($m[1], ENT_COMPAT, "UTF-8"); },                           // Unknown/unhandled entities
+          '/[ ]{2,}/' => ' ',                             // Runs of spaces, post-handling
+          '/<img [^>]*alt="([^"]*)"[^>]*>/i' => "\\1",
+                   // images with alternative text
+      );
     }
 
     /**
@@ -450,7 +408,13 @@ class HtmlToText
         $text = trim(stripslashes($this->html));
         
         // Run our defined search-and-replace
-        $text = preg_replace($this->search, $this->replace, $text);
+        foreach ( $this->search_and_replace as $search => $replace )
+        {
+          if ( is_string($search) && substr($search,-1) == 'e' )
+            $search = substr($search,0,-1);
+          
+          $text = $replace instanceof Closure ? preg_replace_callback($search, $replace, $text) : preg_replace($search, $replace, $text);
+        }
 
         // Strip any other HTML tags
         $text = strip_tags($text, $this->allowed_tags);
