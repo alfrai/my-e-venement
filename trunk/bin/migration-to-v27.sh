@@ -35,11 +35,11 @@ SFUSER="$1"
 
 echo "Usage: bin/migration-to-v27.sh SFUSER [DB [USER [HOST [PORT]]]]"
 echo "Are you sure you want to continue with those parameters :"
-echo The e-venement's DB user: $SFUSER
-echo Database: $PGDATABASE
-echo User: $PGUSER
-echo Host: $PGHOST
-echo Port: $PGPORT
+echo "The e-venement's DB user: $SFUSER"
+echo "Database: $PGDATABASE"
+echo "User: $PGUSER"
+echo "Host: $PGHOST"
+echo "Port: $PGPORT"
 echo ""
 echo "To continue press ENTER"
 echo "To cancel press CTRL+C NOW !!"
