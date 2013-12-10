@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Filters list</source>
+        <target>Liste des filtres</target>
+      </trans-unit>
+      <trans-unit>
         <source>Transactions</source>
         <target>Opérations</target>
       </trans-unit>

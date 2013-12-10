@@ -237,3 +237,36 @@ Jabber:
     User:
       class: sfGuardUser
       foreignAlias: Jabber
+
+Filter:
+  package: generic
+  indexes:
+    filter_name_idx:
+      fields: [name]
+    filter_type_idx:
+      fields: [type]
+    filter_name_type_user_id_idx:
+      fields: [name, type, sf_guard_user_id]
+      type: unique
+  columns:
+    sf_guard_user_id:
+      type: integer
+      notnull: true
+    type:
+      type: string(255)
+      notnull: true
+      notblank: true
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    filter:
+      type: text
+      notnull: true
+      notblank: true
+  relations:
+    User:
+      class: sfGuardUser
+      foreignAlias: Filters
+      
+      

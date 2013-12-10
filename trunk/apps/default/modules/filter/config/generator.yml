@@ -1,0 +1,29 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           filter
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          filter
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+        display: [User, type, name]
+        title: Filters list
+        max_per_page: 100
+        sort: ['type, name','']
+        object_actions:
+          _show: ~
+          _delete: ~
+      filter:
+        display: [sf_guard_user_id, type, name]
+      form:    ~
+      edit:    ~
+      new:     ~

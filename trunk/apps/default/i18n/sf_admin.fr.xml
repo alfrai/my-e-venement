@@ -5,6 +5,18 @@
     <header />
     <body>
       <trans-unit>
+        <source>Filter's name</source>
+        <target>Nom du filtre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Record</source>
+        <target>Enregistrer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>An object with the same "%column%" already exist.</source>
+        <target>Un objet avec la même "%column%" existe déjà.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Your email have been sent correctly.</source>
         <target>Votre email a été envoyé correctement.</target>
       </trans-unit>
@@ -116,6 +128,10 @@
       <trans-unit>
         <source>Update</source>
         <target>Mettre à jour</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Validate</source>
+        <target>Valider</target>
       </trans-unit>
       <trans-unit>
         <source>Save</source>
