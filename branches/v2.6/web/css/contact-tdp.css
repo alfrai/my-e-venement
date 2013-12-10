@@ -146,7 +146,8 @@ body #content { width: auto; }
 { display: table-cell; }
 /* hide personal data */
 #tdp-content .see-orgs #sf_admin_list_th_actions { font-size: 0; }
-#tdp-content .see-orgs .sf_admin_td_actions, #tdp-content .see-orgs .sf_admin_list_td_list_nb,
+#tdp-content .see-orgs .sf_admin_td_actions,
+#tdp-content .see-orgs .sf_admin_list_td_list_nb, #tdp-content .see-orgs .sf_admin_list_th_list_nb,
 #tdp-content .see-orgs .sf_admin_list_th_firstname, #tdp-content .see-orgs .sf_admin_list_td_firstname,
 #tdp-content .see-orgs .sf_admin_list_th_name, #tdp-content .see-orgs .sf_admin_list_td_name,
 #tdp-content .see-orgs .sf_admin_list_th_postalcode, #tdp-content .see-orgs .sf_admin_list_td_postalcode,
