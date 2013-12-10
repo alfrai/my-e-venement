@@ -1,6 +1,6 @@
 function filter_record_init()
 {
-  $('#tdp-top-bar #sf_admin_filter_save').submit(function(){
+  $('#sf_admin_filter_save').submit(function(){
     if (!( name = prompt($(this).find('[name=s]').attr('alt')) ))
       return false;
     
