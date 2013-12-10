@@ -25,13 +25,17 @@
 # preconditions
 [ ! -d "data/sql" ] && echo "cd to your project's root directory please" && exit 3;
 
-[ -n "$1" ] && export PGDATABASE="$1"
-[ -n "$2" ] && export PGUSER="$2"
-[ -n "$3" ] && PGHOST="$3"
-[ -n "$4" ] && PGPORT="$4"
+[ -z "$1" ] && echo "You must specify the DB user that is used by e-venement as the first parameter" && exit 1
+SFUSER="$1"
+[ -n "$2" ] && export PGDATABASE="$2"
+[ -n "$3" ] && export PGUSER="$3"
+[ -n "$4" ] && PGHOST="$4"
+[ -n "$5" ] && PGPORT="$5"
 
-echo "Usage: bin/migration-to-v27.sh [DB [USER [HOST [PORT]]]]"
+
+echo "Usage: bin/migration-to-v27.sh SFUSER [DB [USER [HOST [PORT]]]]"
 echo "Are you sure you want to continue with those parameters :"
+echo The e-venement's DB user: $SFUSER
 echo Database: $PGDATABASE
 echo User: $PGUSER
 echo Host: $PGHOST
@@ -72,12 +76,10 @@ fi
 
 db="$PGDATABASE"
 [ -z "$db" ] && db=$USER
-user=$PGUSER
-[ -z "$user" ] && user=$USER
 
 # recreation and data backup
 dropdb $db && createdb && \
-echo "GRANT ALL ON DATABASE $db TO $user" | psql && \
+echo "GRANT ALL ON DATABASE $db TO $SFUSER" | psql && \
 ./symfony doctrine:build  --all --no-confirmation && \
 cat data/sql/$db-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $db
 cat config/doctrine/functions-pgsql.sql | psql && \
