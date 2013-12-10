@@ -23,31 +23,35 @@
 #**********************************************************************************/
 
 # preconditions
-[ -z "$1" ] && echo "You forgot to specify your DB name as the first parameter" && exit 1;
-[ -z "$2" ] && echo "You forgot to specify your user for DB access as the second parameter" && exit 2;
 [ ! -d "data/sql" ] && echo "cd to your project's root directory please" && exit 3;
-[ ! -z "$3" ] && echo "You'll do a restore-only procedure"
 
-DB=$1
-USER=$2
+[ -n "$1" ] && export PGDATABASE="$1"
+[ -n "$2" ] && export PGUSER="$2"
+[ -n "$3" ] && PGHOST="$3"
+[ -n "$4" ] && PGPORT="$4"
 
+echo "Usage: bin/migration-to-v27.sh [DB [USER [HOST [PORT]]]]"
 echo "Are you sure you want to continue with those parameters :"
-echo Database: $DB
-echo User: $USER
-[ ! -z "$3" ] && echo "With a restore only procedure (no DB backup, no previous backup overwritting)"
-[ -z "$3" ] && echo "With a backup which is going to be written in data/sql/$DB-`date +%Y%m%d`.pgdump"
+echo Database: $PGDATABASE
+echo User: $PGUSER
+echo Host: $PGHOST
+echo Port: $PGPORT
 echo ""
 echo "To continue press ENTER"
 echo "To cancel press CTRL+C NOW !!"
 read
 
-if [ -z "$3" ]; then
+read -p "Do you wan to reset your dump & patch your database for e-venement v2.7 ? [Y/n] " dump
+if [ "$dump" != "n" ]; then
+
+name="$PGDATABASE"
+[ -z "$name" ] && name=db
 
 echo "DUMPING DB..."
-pg_dump -Fc $DB > data/sql/$DB-`date +%Y%m%d`.before.pgdump && echo "DB pre dumped"
+pg_dump -Fc > data/sql/$name-`date +%Y%m%d`.before.pgdump && echo "DB pre dumped"
 
 # preliminary modifications & backup
-psql $DB <<EOF
+psql <<EOF
   DROP TABLE seating_plan;
   ALTER TABLE transaction DROP COLUMN workspace_id;
   ALTER TABLE transaction_version DROP COLUMN workspace_id;
@@ -55,23 +59,28 @@ psql $DB <<EOF
 EOF
 
 echo "DUMPING DB..."
-pg_dump -Fc $DB > data/sql/$DB-`date +%Y%m%d`.pgdump && echo "DB dumped"
+pg_dump -Fc > data/sql/$name-`date +%Y%m%d`.pgdump && echo "DB dumped"
 
 fi #end of "allow dumps" condition
 
 echo ""
-read -p "Do you want to resset properly your lib/model, lib/form & lib/filter files using SVN ? [y/N] " reset
+read -p "Do you want to reset properly your lib/model, lib/form & lib/filter files using SVN ? [y/N] " reset
 if [ "$reset" = 'y' ]; then
   rm -rf lib/*/doctrine/
   svn update
 fi
 
+db="$PGDATABASE"
+[ -z "$db" ] && db=$USER
+user=$PGUSER
+[ -z "$user" ] && user=$USER
+
 # recreation and data backup
-dropdb $DB && createdb $DB && \
-echo "GRANT ALL ON DATABASE $DB TO $USER" | psql $DB && \
+dropdb $db && createdb && \
+echo "GRANT ALL ON DATABASE $db TO $user" | psql && \
 ./symfony doctrine:build  --all --no-confirmation && \
-cat data/sql/$DB-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -d $DB -a
-cat config/doctrine/functions-pgsql.sql | psql $DB && \
+cat data/sql/$db-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $db
+cat config/doctrine/functions-pgsql.sql | psql && \
 ./symfony cc &> /dev/null
 echo ""
 
@@ -84,7 +93,7 @@ echo ""
 # final data modifications
 echo ""
 echo "Creating permissions for seated plans features"
-psql $DB <<EOF
+psql <<EOF
 -- seated plan access
 INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-seated-plan', 'Ability to manage seated plans', now(), now());
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-seated-plan', 'Permission to see seated plans', now(), now());
@@ -99,16 +108,6 @@ INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUE
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-seats-allocation', 'Permission to display the seats allocation in the event module', now(), now());
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'tck-seated'), NOW(), NOW() FROM sf_guard_permission WHERE name IN ('tck-seat-allocation','event-seated-allocation'));
 EOF
-
-echo ""
-echo ""
-echo "Patching framework..."
-for elt in data/diff/*.diff
-do
-  patch -N -p0 < $elt
-done
-rm -f `find lib/vendor/ -iname '*.rej'`
-rm -f `find lib/vendor/ -iname '*.orig'`
 
 # final informations
 echo ""
