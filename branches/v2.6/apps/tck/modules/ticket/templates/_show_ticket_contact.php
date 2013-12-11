@@ -1,6 +1,6 @@
 <td><?php echo __('Contact') ?></td>
 <td>
-  <?php echo $ticket->Transaction->Contact ?>
+  <?php echo cross_app_link_to($ticket->Transaction->Contact, 'rp', 'contact/show?id='.$ticket->Transaction->contact_id) ?>
   <span class="picto"><?php echo $sf_data->getRaw('ticket')->Transaction->Contact->groups_picto ?></span>
 </td>
 <td>
