@@ -32,7 +32,7 @@
           <li><a href="<?php echo cross_app_url_for('tck','ticket/sell') ?>"><?php echo __('New transaction',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('tck-transaction') && $sf_user->hasCredential('tck-transaction-touchy') ): ?>
-          <li><a href="<?php echo cross_app_url_for('tck','ticket/touchscreen') ?>"><?php echo __('New transaction (touchscreens)',array(),'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('tck','transaction/new') ?>"><?php echo __('New transaction (touchscreens)',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('tck-unblock') ): ?>
           <li><a href="<?php echo cross_app_url_for('tck','ticket/respawn') ?>"><?php echo __('Respawn a transaction',array(),'menu') ?></a></li>
