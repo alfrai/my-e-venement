@@ -166,7 +166,7 @@ class ticketActions extends sfActions
     )
     {
       // if so ask the user which one to use for this ticket
-      sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Url'));
+      $this->getContext()->getConfiguration()->loadHelpers(array('I18N','Url'));
       $this->getUser()->setFlash('notice', __('You still have to give some tickets a seat...'));
       $this->getUser()->setFlash('referer', $_SERVER['REQUEST_URI'].(!$_SERVER['QUERY_STRING'] ? '?'.file_get_contents("php://input") : ''));
       

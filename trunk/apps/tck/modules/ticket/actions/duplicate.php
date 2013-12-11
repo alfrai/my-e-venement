@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+    $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
     
     if ( !$request->hasParameter('ticket_id') )
       return sfView::NONE;

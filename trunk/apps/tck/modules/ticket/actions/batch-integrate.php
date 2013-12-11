@@ -196,7 +196,7 @@
       }
 
       fclose($fp);
-      sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url','I18N'));
+      $this->getContext()->getConfiguration()->loadHelpers(array('Url','I18N'));
       $this->getUser()->setFlash('notice',__("File importated with the last transaction's id %%tid%%, %%nbtck%% ticket(s), %%nberr%% error(s).",array('%%tid%%' => $transaction->id, '%%nbtck%%' => $nbtck, '%%nberr%%' => $nberr)).' -- '.implode(' ',$notices));
       //$this->redirect(url_for('ticket/batchIntegrate?manifestation_id='.$this->manifestation->id));
     }

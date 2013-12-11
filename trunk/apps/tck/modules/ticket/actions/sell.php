@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
+    $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
     
     if ( !($this->getRoute() instanceof sfObjectRoute) )
     {

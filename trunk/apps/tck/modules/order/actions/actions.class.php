@@ -15,7 +15,7 @@ class orderActions extends autoOrderActions
 {
   public function executeCancel(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
+    $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
     
     if ( intval($id = intval($request->getParameter('id'))) > 0 )
     {

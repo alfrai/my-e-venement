@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
+    $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
     $this->config = sfConfig::get('app_transaction_touchscreen',array(
       'prices_max_display' => 13,
       'manifs_max_display' => 12,

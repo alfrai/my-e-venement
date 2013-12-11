@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
+    $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
     $this->form = new ControlForm();
     $this->form->getWidget('checkpoint_id')->setOption('default', $this->getUser()->getAttribute('control.checkpoint_id'));
     $q = Doctrine::getTable('Checkpoint')->createQuery('c');

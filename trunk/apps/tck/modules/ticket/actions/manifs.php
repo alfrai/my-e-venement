@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-    sfContext::getInstance()->getConfiguration()->loadHelpers('CrossAppLink');
+    $this->getContext()->getConfiguration()->loadHelpers('CrossAppLink');
     $values = $request->getParameter('transaction');
     $mids = array();
     $this->transaction = NULL;

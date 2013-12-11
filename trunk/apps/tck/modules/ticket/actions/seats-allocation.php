@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-  sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Url'));
+  $this->getContext()->getConfiguration()->loadHelpers(array('I18N','Url'));
   
   if (! $this->url_next = $this->getUser()->getFlash('referer') )
   {

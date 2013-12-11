@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+    $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
     
     // with '$this->transaction = $this->getRoute()->getObject();' it updates the tickets updated_at information........
     $q = new Doctrine_Query;
