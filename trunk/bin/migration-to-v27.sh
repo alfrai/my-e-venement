@@ -29,8 +29,8 @@
 SFUSER="$1"
 [ -n "$2" ] && export PGDATABASE="$2"
 [ -n "$3" ] && export PGUSER="$3"
-[ -n "$4" ] && PGHOST="$4"
-[ -n "$5" ] && PGPORT="$5"
+[ -n "$4" ] && export PGHOST="$4"
+[ -n "$5" ] && export PGPORT="$5"
 
 
 echo "Usage: bin/migration-to-v27.sh SFUSER [DB [USER [HOST [PORT]]]]"
@@ -45,7 +45,7 @@ echo "To continue press ENTER"
 echo "To cancel press CTRL+C NOW !!"
 read
 
-read -p "Do you wan to reset your dump & patch your database for e-venement v2.7 ? [Y/n] " dump
+read -p "Do you want to reset your dump & patch your database for e-venement v2.7 ? [Y/n] " dump
 if [ "$dump" != "n" ]; then
 
 name="$PGDATABASE"

@@ -38,7 +38,7 @@
     'query' => Doctrine::getTable('Seat')->createQuery('s')
       ->select('s.*')
       ->leftJoin('s.SeatedPlan sp')
-      ->leftJoin('sp.Workspace ws')
+      ->leftJoin('sp.Workspaces ws')
       ->leftJoin('ws.Gauges g')
       ->leftJoin('g.Tickets tck')
       ->leftJoin('tck.Transaction t')

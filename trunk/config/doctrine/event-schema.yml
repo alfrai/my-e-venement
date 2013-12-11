@@ -504,14 +504,9 @@ SeatedPlan:
     picture_id: integer
     online_picture_id: integer
     location_id: integer
-    workspace_id: integer
     background:
       type: string(255)
       default: white
-  indexes:
-    location_id_workspace_id_idx:
-      fields: [location_id, workspace_id]
-      type: unique
   relations:
     OnlinePicture:
       foreignAlias: SeatedPlanOnline
@@ -527,9 +522,27 @@ SeatedPlan:
       foreignAlias: SeatedPlans
       onDelete: SET NULL
       onUpdate: CASCADE
-    Workspace:
+    Workspaces:
       foreignAlias: SeatedPlans
-      onDelete: SET NULL
+      refClass: SeatedPlanWorkspace
+      class: Workspace
+SeatedPlanWorkspace:
+  package: event
+  columns:
+    seated_plan_id:
+      type: integer
+      notnull: true
+    workspace_id:
+      type: integer
+      notnull: true
+  relations:
+    SeatedPlan:
+      foreignAlias: SeatedPlanWorkspaces
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Workspace:
+      foreignAlias: SeatedPlanWorkspaces
+      onDelete: CASCADE
       onUpdate: CASCADE
 Seat:
   package: event

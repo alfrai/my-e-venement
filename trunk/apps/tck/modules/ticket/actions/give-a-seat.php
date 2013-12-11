@@ -28,21 +28,21 @@
   $validators['id'] = new sfValidatorDoctrineChoice(array(
     'model' => 'Ticket',
     'query' => Doctrine::getTable('Ticket')->createQuery('tck')
-      ->andWhere('tck.transaction_id = ?', $request->getParameter('id')),
+      ->leftJoin('tck.Transaction t')
+      ->andWhere('t.id = ?', $request->getParameter('id'))
+      ->andWhere('t.closed = ?', false),
   ));
   $validators['numerotation'] = new sfValidatorDoctrineChoice(array(
     'model' => 'Seat',
     'column' => 'name',
     'query' => $q = Doctrine::getTable('Seat')->createQuery('s')
+      ->select('s.*')
       ->leftJoin('s.SeatedPlan sp')
-      ->leftJoin('sp.Workspace ws')
+      ->leftJoin('sp.Workspaces ws')
       ->leftJoin('ws.Gauges g')
       ->leftJoin('g.Tickets tck')
       ->leftJoin('tck.Transaction t')
-      ->andWhere('t.closed = ?',false)
-      ->andWhere('(tck.numerotation IS NULL OR tck.numerotation = ?)','')
-      ->andWhere('tck.id = ?',$ticket['id'])
-      ->andWhere('tck.transaction_id = ?', $request->getParameter('id')),
+      ->andWhere('(tck.id IS NULL OR tck.id = ? OR tck.numerotation IS NOT NULL AND tck.numerotation = ? AND tck.numerotation != ?)',array($ticket['id'], '', $ticket['numerotation']))
   ));
   
   $form->bind($ticket);

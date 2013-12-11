@@ -46,6 +46,7 @@ class seated_planActions extends autoSeated_planActions
       && intval($request->getParameter('gauge_id', 0)) > 0 )
     {
       $q = Doctrine::getTable('Ticket')->createQuery('tck')
+        ->select('tck.*, t.*, c.*, pro.*, org.*, o.*, pc.*')
         ->leftJoin('tck.Transaction t')
         ->leftJoin('t.Contact c')
         ->leftJoin('t.Professional pro')
@@ -53,15 +54,19 @@ class seated_planActions extends autoSeated_planActions
         ->leftJoin('pro.Contact pc')
         ->leftJoin('t.Order o')
         ->leftJoin('tck.Gauge g')
+        ->leftJoin('g.Workspace ws')
+        ->leftJoin('ws.SeatedPlans sp')
+        ->leftJoin('sp.Workspaces spws')
+        ->leftJoin('spws.Gauges spwsg')
         ->leftJoin('g.Manifestation m')
         ->leftJoin('tck.Cancelling cancel')
-        
         ->andWhere('tck.cancelling IS NULL')
         ->andWhere('duplicatas.id IS NULL AND cancel.id IS NULL')
         ->andWhere('tck.numerotation IS NOT NULL AND tck.numerotation != ?','')
-        
-        ->andWhere('g.id = ?', $request->getParameter('gauge_id'))
+        ->andWhere('spwsg.id = ? AND spwsg.manifestation_id = g.manifestation_id', $request->getParameter('gauge_id')) // a trick to get all tickets from all related gauge
+        ->andWhere('sp.id = ?', $request->getParameter('id'))
         ->andWhere('m.location_id = ?', $this->seated_plan->location_id);
+      
       foreach ( $q->execute() as $ticket )
         $this->occupied[$ticket->numerotation] = array(
           'type' => ($ticket->printed_at || $ticket->integrated_at ? 'printed' : ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked')).($ticket->transaction_id === $this->transaction_id ? ' in-progress' : ''),
@@ -132,7 +137,7 @@ class seated_planActions extends autoSeated_planActions
       // if only gauge_id is set
       $this->seated_plan = Doctrine::getTable('SeatedPlan')->createQuery('sp')
         ->leftJoin('sp.Seats s')
-        ->leftJoin('sp.Workspace ws')
+        ->leftJoin('sp.Workspaces ws')
         ->leftJoin('ws.Gauges g')
         ->leftJoin('g.Manifestation m')
         ->andWhere('sp.location_id = m.location_id')
