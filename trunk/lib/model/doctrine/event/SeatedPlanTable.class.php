@@ -21,7 +21,7 @@ class SeatedPlanTable extends PluginSeatedPlanTable
     {
       return $this->createQuery('sp')
         ->leftJoin('sp.Location l')
-        ->leftJoin('sp.Workspace w')
+        ->leftJoin('sp.Workspaces w')
         ->orderBy('l.name, w.name');
     }
 }
