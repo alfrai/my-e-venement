@@ -27,3 +27,5 @@ generator:
       form:    ~
       edit:    ~
       new:     ~
+      show:
+        display: [User, type, name, filter]
