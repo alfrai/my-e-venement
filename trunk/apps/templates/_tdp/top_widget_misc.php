@@ -20,7 +20,7 @@
   // groups
   if ( $sf_user->hasCredential('pr-group') )
   {
-    echo link_to(__('Groups'), $active_filters ? 'contact/group' : '@group',array(
+    echo link_to(__('Groups'), $active_filters ? $sf_context->getModuleName().'/group' : '@group',array(
       'title' => $active_filters ? __('Export to group') : __('Group List'),
     ));
   }
