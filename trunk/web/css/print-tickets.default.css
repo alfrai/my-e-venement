@@ -144,8 +144,10 @@ span.eur { font-weight: normal; }
   top: 44mm;
   width: 40mm;
   text-align: center;
-  margin-left: -18mm;
+  margin-left: -103mm;
+  margin-top: 8mm;
   transform: rotate(270deg);
+  transform-origin: top left;
 }
 #options { display: none; }
 

@@ -1600,6 +1600,10 @@
         <source>Events list</source>
         <target>Événements</target>
       </trans-unit>
+      <trans-unit>
+	<source>Url</source>
+	<target>Site Web</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
