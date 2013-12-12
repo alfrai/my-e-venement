@@ -58,7 +58,8 @@ pg_dump -Fc > data/sql/$name-272-`date +%Y%m%d`.before.pgdump && echo "DB pre du
 psql <<EOF
   CREATE TABLE seated_plan_workspace (workspace_id integer, seated_plan_id integer);
   INSERT INTO seated_plan_workspace(workspace_id, seated_plan_id) (SELECT workspace_id, id FROM seated_plan);
-  ALTER TABLE seated_plan_workspace DROP COLUMN workspace_id;
+  ALTER TABLE seated_plan DROP COLUMN workspace_id;
+  ALTER TABLE seated_plan_version DROP COLUMN workspace_id;
 EOF
 
 echo "DUMPING DB..."

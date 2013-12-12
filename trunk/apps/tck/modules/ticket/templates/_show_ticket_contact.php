@@ -1,3 +1,4 @@
+<?php use_helper('CrossAppLink') ?>
 <td><?php echo __('Contact') ?></td>
 <td>
   <?php echo cross_app_link_to($ticket->Transaction->Contact, 'rp', 'contact/show?id='.$ticket->Transaction->contact_id) ?>
