@@ -42,7 +42,7 @@ class seated_planActions extends autoSeated_planActions
     $this->occupied = array();
     $this->transaction_id = intval($request->getParameter('transaction_id', 0));
     
-    if ( $this->getUser()->hasCredential('seats-allocation')
+    if ( $this->getUser()->hasCredential('tck-seat-allocation')
       && intval($request->getParameter('gauge_id', 0)) > 0 )
     {
       $q = Doctrine::getTable('Ticket')->createQuery('tck')
