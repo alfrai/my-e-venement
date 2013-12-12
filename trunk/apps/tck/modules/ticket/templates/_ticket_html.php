@@ -50,7 +50,7 @@
       <?php endif ?>
       <span class="ticket-id">#<?php echo $ticket->id ?></span>
       <span class="keep-it"><?php echo __('Keep it') ?></span>
-      <span class="seating"><span><?php echo __('Free seating') ?></span></span>
+      <span class="seating"><span><?php echo $ticket->numerotation ? '' : __('Free seating') ?></span></span>
     </p>
     <p class="workspace <?php echo $ticket->Manifestation->Gauges->count() > 1 ? 'has_many' : 'one' ?>">
       <?php echo $ticket->Gauge->Workspace->getNameForTicket() ?>
