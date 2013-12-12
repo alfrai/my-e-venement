@@ -47,6 +47,8 @@ class ticketActions extends sfActions
       ->andWhere('tck.id = ?',$id)
       ->fetchOne();
     
+    $this->forward404Unless($this->ticket);
+    
     $this->versions = Doctrine::getTable('TicketVersion')->createQuery('v')
       ->select('v.*, (SELECT s.username FROM SfGuardUser s WHERE s.id = v.sf_guard_user_id) as user')
       ->andWhere('v.id = ?',$id)

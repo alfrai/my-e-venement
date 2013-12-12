@@ -1,7 +1,7 @@
 <?php use_helper('CrossAppLink') ?>
 
 <td><?php echo __('Transaction') ?></td>
-<td>#<?php echo link_to($ticket->Transaction,'ticket/'.($ticket->Transaction->type == 'normal' ? 'sell' : 'pay').'?id='.$ticket->Transaction->id) ?></td>
+<td>#<?php echo link_to($ticket->Transaction->id,'ticket/'.($ticket->Transaction->type == 'normal' ? 'sell' : 'pay').'?id='.$ticket->Transaction->id) ?></td>
 <td class="state">
   <table title="<?php echo format_datetime($ticket->printed_at) ?>">
     <tbody><tr>
