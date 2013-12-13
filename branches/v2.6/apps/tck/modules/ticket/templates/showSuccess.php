@@ -41,6 +41,23 @@
       </thead>
     </table>
     
+    <?php if ( $sf_user->isSuperAdmin() ): ?>
+    <table class="versions sf_admin_list">
+      <caption class="fg-toolbar ui-widget-header ui-corner-top">
+        <h1><?php echo __('Super Administration') ?></h1>
+      </caption>
+      <tbody>
+        <tr><td><center>
+          <?php $f = new sfForm ?>
+          <a
+            href="<?php echo url_for('ticket/resetPrinting?id='.$ticket->id.'&_csrf_token='.$f->getCSRFToken()) ?>"
+            onclick="javascript: return confirm('<?php echo __('Are you sure?',null,'sf_admin') ?>');"
+          >Reset printing state</a>
+        </center></td></tr>
+      </tbody>
+    </table>
+    <?php endif ?>
+    
     <div style="clear: both;"></div>
 
 </div>
