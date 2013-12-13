@@ -172,7 +172,7 @@
         data: $('form.reset-a-seat:first').serialize(),
         success: function(){
           $('.seated-plan .'+id).removeClass('ordered').removeClass('in-progress');
-      },
+        },
       });
       return false;
     }).submit();
