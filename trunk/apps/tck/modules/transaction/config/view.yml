@@ -1,0 +1,8 @@
+all:
+  javascripts: [tck-touchscreen, vcard]
+  stylesheets: [tck-touchscreen]
+
+json:
+  has_layout: false
+  http_metas:
+    content-type: application/json

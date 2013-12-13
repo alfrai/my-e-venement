@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Enter</source>
+        <target>Entrée</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Transaction created.</source>
+        <target>Opération créée.</target>
+      </trans-unit> 
+      <trans-unit>
         <source>seat allocations for your order #%%transaction_id%%</source>
         <target>affectation des places numérotées pour votre commande #%%transaction_id%%</target>
       </trans-unit> 
@@ -701,8 +709,8 @@
         <target>Impossible de supprimer le billet #%%i%% parce qu'il n'a pas encore été imprimé... Essayez simplement de le supprimer</target>
       </trans-unit>
       <trans-unit>
-        <source>Can't find the ticket #%%i%% in database...</source>
-        <target>Impossible de retrouver le billet #%%i%% pour l'annuler...</target>
+        <source>Can't find the ticket #%%i%% in database... Perhaps the related transaction is closed already.</source>
+        <target>Impossible de retrouver le billet #%%i%% pour l'annuler... Peut-être que l'opération est déjà clôturée.</target>
       </trans-unit>
       <trans-unit>
         <source>Don't forget to specify a checkpoint and a ticket id</source>
@@ -1131,6 +1139,10 @@
       <trans-unit id="151">
         <source>Selling tickets</source>
         <target>Vente de billets</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Selling transaction #%%id%%</source>
+        <target>Opération de vente #%%id%%</target>
       </trans-unit>
       <trans-unit id="152">
         <source>Transaction #%%id%%</source>

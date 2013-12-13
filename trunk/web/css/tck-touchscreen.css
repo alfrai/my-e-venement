@@ -1,0 +1,77 @@
+/* generic */
+#sf_admin_content { font-size: 13px; width: 1000px; }
+#sf_admin_content .li_fieldset > div { display: inline-block; padding: 5px; margin: 10px 5px; overflow: hidden; }
+#sf_admin_content .li_fieldset > div > * { display: inline-block; }
+
+#sf_admin_content .li_fieldset .li_table > * { display: table; }
+#sf_admin_content .li_table > * > * { display: table-row; }
+#sf_admin_content .li_table > * > * > * { display: table-cell; }
+#sf_admin_content .li_table > * > * > *:not(:last-child) { padding-right: 10px; }
+
+/* specific */
+#li_transaction_field_contact_id, #li_transaction_field_professional_id { width: 20em; white-space: nowrap; }
+#sf_admin_content .li_fieldset #li_transaction_field_professional_id { margin-left: calc(-21em - 8px); border-top: 0; border-top-right-radius: 0; border-top-left-radius: 0; height: 2.5em; text-align: center; padding-top: 0; }
+#sf_admin_content .li_fieldset #li_transaction_field_contact_id { position: relative; top: -2.8em; border-bottom: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0; padding-bottom: 0; }
+#li_transaction_field_contact_id .data a { font-size: 0; }
+
+#li_transaction_field_description textarea { height: 3.3em; width: 30em; }
+#li_transaction_field_professional_id label, #li_transaction_field_description label { display: none; }
+
+#sf_admin_content #li_transaction_field_informations { max-width: 19em; height: 5em; overflow-y: auto; white-space: nowrap; }
+#sf_admin_content #li_transaction_field_informations .form_field_id { font-weight: bold; }
+#sf_admin_content #li_transaction_field_informations .vcard { display: block; margin-bottom: 20px; }
+#li_transaction_field_informations .vcard > * { display: block; }
+#li_transaction_field_informations .vcard > * > * { display: inline; }
+#li_transaction_field_informations .vcard > * > * > * { display: block; }
+#li_transaction_field_informations .vcard .region { display: none; }
+#li_transaction_field_informations .vcard .postal-code { float: left; margin-right: 1em; }
+#li_transaction_field_informations .vcard .locality { clear: right; }
+#li_transaction_field_informations .vcard address { border-bottom: 1px solid rgb(166, 201, 226); margin-bottom: 2px; padding-bottom: 2px; }
+#li_transaction_field_informations .vcard hr { border: 0; border-bottom: 1px solid rgb(166, 201, 226); margin: 2px 0; }
+
+/* content */
+#sf_admin_content #li_fieldset_content > div { display: block; overflow-y: auto; }
+#li_transaction_field_board, #li_transaction_field_product_infos { width: 35%; }
+#li_transaction_field_product_infos { height: 208px; margin-top: 0 !important; }
+#li_transaction_field_board { height: 170px; }
+#li_transaction_field_content { height: 400px; width: 60%; float: left; margin-top: 0 !important; }
+
+#sf_admin_content #li_transaction_field_content > div { display: block; }
+#li_transaction_field_content .sample { display: none; }
+#li_transaction_field_content h2 { margin: 5px 0; }
+#li_transaction_field_content h2, #li_transaction_field_content h3 { cursor: pointer; }
+#li_transaction_field_content h4 { display: inline-block; white-space: nowrap; font-weight: normal; vertical-align: top; width: 40%; }
+#li_transaction_field_content .highlight { border: 1px solid transparent; }
+#li_transaction_field_content .ui-widget-header { padding: 3px 5px; }
+#li_transaction_field_content .items { cursor: default; }
+#li_transaction_field_content .item { padding: 0 15px; }
+#li_transaction_field_content .item tr > * { vertical-align: top; }
+#li_transaction_field_content .item .nb { text-align: right; }
+#li_transaction_field_content .declinations { display: inline-table; width: 58% }
+#li_transaction_field_content .declinations td { vertical-align: bottom; }
+#li_transaction_field_content .declinations tr:hover td { font-weight: bold; }
+#li_transaction_field_content .declinations .total > *, #li_transaction_field_content .declination > * { width: 30%; padding-right: 10px; }
+#li_transaction_field_content .item.total * { font-weight: bold; }
+#li_transaction_field_content .total { font-style: italic; }
+#li_transaction_field_content .currency { display: none; }
+#li_transaction_field_content .item .tep, #li_transaction_field_content .item .vat { font-size: 75%; width: 15%; }
+#li_transaction_field_content .item .qty { width: 3em; }
+#li_transaction_field_content .family.total .item { padding-top: 15px; font-style: normal; }
+#li_transaction_field_content .family.total .item h4,
+#li_transaction_field_content .family.total .item .total { font-style: normal; text-decoration: underline; }
+#li_transaction_field_content .family.total .item h4 { margin-left: -15px; margin-right: 15px; }
+
+/* payments */
+#li_fieldset_payments { clear: both; }
+
+/* board */
+#sf_admin_content #li_fieldset_content #li_transaction_field_board { overflow-y: hidden; }
+#sf_admin_content #li_transaction_field_board table { height: 100%; width: 100%; }
+#sf_admin_content #li_transaction_field_board tbody { height: 170px; }
+#li_transaction_field_board td { width: 85px; }
+#li_transaction_field_board button { width: 100%; height: 100%; }
+#li_transaction_field_board button, #li_transaction_field_board tr { height: 42px; }
+#li_transaction_field_board td[rowspan] button { height: 128px; }
+#li_transaction_field_board.alpha button .num, #li_transaction_field_board button .alpha { display: none; }
+#li_transaction_field_board.alpha button .alpha { display: inline; }
+#li_transaction_field_board.alpha button[value=" "] .alpha:after { content: '_'; }

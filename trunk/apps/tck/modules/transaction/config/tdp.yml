@@ -1,0 +1,33 @@
+<?php sfApplicationConfiguration::getActive()->loadHelpers(array('I18N')) ?>
+all:
+  transaction:
+    display:
+      intro:
+        contact_id:
+          class: board-alpha highlight
+        professional_id:
+          class: board-alpha highlight
+        description:
+          class: board-alpha highlight
+        informations:
+          class: li_table highlight
+      content:
+        content: ~
+        product_infos:
+          class: highlight
+        board: ~
+      payments:
+        payments_list:
+          class: highlight
+        payment_new:
+          class: highlight
+    selling:
+      manifestations:
+        title: <?php echo __('Manifestations').PHP_EOL ?>
+        data_url: transaction/getManifestations
+      museum:
+        title: <?php echo __('Museum').PHP_EOL ?>
+        fake: true
+      pointofsales:
+        title: <?php echo __('Point of sales').PHP_EOL ?>
+        fake: true
