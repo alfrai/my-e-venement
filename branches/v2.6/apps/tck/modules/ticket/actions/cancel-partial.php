@@ -42,6 +42,7 @@
     ->leftJoin('tck.Price p')
     ->leftJoin('t.Translinked t2')
     ->andWhere('t.id = ?',$tid)
+    ->andWhere('t.closed = ?', false)
     ->andWhere('LOWER(p.name) = LOWER(?)',$price_name)
     ->andWhere('tck.manifestation_id = ?',$manifestation_id)
     ->andWhere('tck.printed_at IS NOT NULL')

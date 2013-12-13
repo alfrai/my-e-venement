@@ -70,12 +70,14 @@
   $q = new Doctrine_Query;
   $value = 0;
   $tickets = $q->from('Ticket tck')
+    ->leftJoin('tck.Transaction t')
     ->leftJoin('tck.Cancelled cancel')
     ->leftJoin('tck.Duplicatas dup')
     ->leftJoin('dup.Cancelled cancel2')
     ->andWhere('tck.duplicating IS NULL')
     ->andWhere('tck.cancelling IS NULL')
     ->andWhere('tck.transaction_id = ?',$tid)
+    ->andWhere('t.closed = ?',false)
     ->andWhere('tck.printed_at IS NOT NULL')
     ->execute();
   
