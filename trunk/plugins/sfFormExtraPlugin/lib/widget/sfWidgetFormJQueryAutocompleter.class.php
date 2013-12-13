@@ -81,7 +81,7 @@ class sfWidgetFormJQueryAutocompleter extends sfWidgetFormInput
         return parsed;
       }
     }, %s))
-    .result(function(event, data) { jQuery(this).closest('form').find("#%s").val(data[1]); });
+    .result(function(event, data) { jQuery(this).closest('form').find("#%s").val(data[1]).change(); });
   });
 </script>
 EOF

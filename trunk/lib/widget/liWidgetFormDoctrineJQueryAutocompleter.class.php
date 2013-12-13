@@ -51,19 +51,23 @@ class liWidgetFormDoctrineJQueryAutocompleter extends sfWidgetFormDoctrineJQuery
            sprintf(<<<EOF
 <script type="text/javascript"><!--
   jQuery(document).ready(function() {
-    jQuery('#%s').closest('form').submit(function(){
-      if ( jQuery('#%s').val() === '' )
+    jQuery('#%s').change(function(){
+      if ( jQuery(this).val() === '' )
       {
-        jQuery('#%s').val('');
+        jQuery('#%s').val('').change();
       }
     });
   });
 --></script>
 EOF
       ,
-      $this->generateId($name),
       $this->generateId('autocomplete_'.$name),
       $this->generateId($name)
     );
+  }
+  
+  public function getVisibleValue($value)
+  {
+    return $this->toString($value);
   }
 }
