@@ -295,6 +295,23 @@ class ticketActions extends sfActions
     require('partial.php');
   }
   
+  public function executeResetPrinting(sfWebRequest $request)
+  {
+    $this->forward404Unless($this->getUser()->isSuperAdmin());
+    
+    $f = new sfForm;
+    $this->forward404Unless($f->getCSRFToken() == $request->getParameter('_csrf_token'));
+    
+    $ticket = Doctrine::getTable('Ticket')->findOneById($request->getParameter('id',false));
+    $this->forward404Unless($ticket);
+    
+    // WARNIIIING CAUTION
+    $ticket->printed_at = NULL;
+    $ticket->save();
+    
+    $this->redirect('ticket/show?id='.$ticket->id);
+  }
+  
   // returns how many tickets exist for a contact on a metaevent for given price names
   protected function createTransactionForm($excludes = array(), $parameters = null)
   {
