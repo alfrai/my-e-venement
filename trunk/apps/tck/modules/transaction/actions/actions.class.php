@@ -57,87 +57,37 @@ class transactionActions extends autoTransactionActions
     $vs = $this->form['description']->getValidatorSchema();
     $ws['description'] = new sfWidgetFormTextarea();
     $vs['description'] = new sfValidatorString(array('required' => false,));
+    
+    $this->form['price_new'] = new sfForm;
+    $ws = $this->form['price_new']->getWidgetSchema()->setNameFormat('transaction[price_new][%s]');
+    $vs = $this->form['price_new']->getValidatorSchema();
+    $ws['qty'] = new sfWidgetFormInput;
+    $vs['qty'] = new sfValidatorInteger(array(
+      'max' => 251,
+      'required' => false, // if no qty is set, then "1" is used
+    ));
+    $ws['price_id'] = new sfWidgetFormInputHidden;
+    $vs['price_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Price',
+      // already includes in PriceTable the control of user's credentials
+    ));
+    $ws['gauge_id'] = new sfWidgetFormInputHidden;
+    $vs['gauge_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Gauge',
+      'query' => Doctrine_Query::create()->from('Gauge g')
+        ->leftJoin('g.Workspace w')
+        ->leftJoin('w.Users wu')
+        ->andWhere('wu.id = ?', $this->getUser()->getId()),
+    ));
   }
   
   public function executeComplete(sfWebRequest $request)
   {
     // initialization
     $this->executeEdit($request);
-    
-    // prepare response
-    $this->json = array(
-      'error' => array(false, ''),
-      'success' => array(
-        'success_fields' => array(),
-        'error_fields'   => array(),
-      ),
-      'base_model' => 'transaction',
-    );
-    
-    // get back data
-    $params = $request->getParameter('transaction',array());
-    if (!( is_array($params) && count($params) > 0 ))
-      $this->json['error'] = array('true', 'The given data is incorrect');
-    
-    if ( !isset($params['_csrf_token']) )
-    {
-      $this->json['error'] = array(true, 'No CSRF tocken given.');
-      return '';
-    }
-    
-    // direct transaction's fields
-    foreach ( array('contact_id', 'professional_id', 'description') as $field )
-    if ( isset($params[$field]) )
-    {
-      $this->form[$field]->bind(array($field => $params[$field], '_csrf_token' => $params['_csrf_token']));
-      if ( $this->form[$field]->isValid() )
-      {
-        $this->json['success']['success_fields'][$field] = array(
-          'data' => $params[$field],
-          'content' => array(
-            'url'   => '',
-            'text'  => '',
-            'load'  => array(
-              'target' => NULL,
-              'type'   => NULL,
-              'data'   => NULL,
-              'reset'  => true,
-              'default'=> NULL,
-            ),
-          ),
-        );
-        
-        // data to bring back
-        switch($field) {
-        case 'contact_id':
-          $this->json['success']['success_fields'][$field]['content']['load']['target'] = '#li_transaction_field_professional_id select:first';
-          $this->json['success']['success_fields'][$field]['content']['load']['type']   = 'options';
-          
-          if ( $params[$field] )
-          {
-            $object = Doctrine::getTable('Contact')->findOneById($params[$field]);
-            foreach ( $object->Professionals as $pro )
-              $this->json['success']['success_fields'][$field]['content']['load']['data'][$pro->id]
-                = $pro->full_desc;
-            $this->json['success']['success_fields'][$field]['content']['load']['default'] = $this->transaction->professional_id;
-            
-            $this->json['success']['success_fields'][$field]['content']['url']  = cross_app_url_for('rp', 'contact/show?id='.$params[$field], true);
-            $this->json['success']['success_fields'][$field]['content']['text'] = (string)$object;
-          }
-          break;
-        }
-        
-        $this->transaction->$field = $params[$field] ? $params[$field] : NULL;
-        $this->transaction->save();
-      }
-      else
-      {
-        $this->json['success']['error_fields'][$field] = (string)$this->form[$field]->getErrorSchema();
-      }
-    }
-    
-    $this->setTemplate('json');
     $this->dealWithDebugMode($request);
+    
+    require(dirname(__FILE__).'/complete.php');
     return '';
   }
   
@@ -148,6 +98,7 @@ class transactionActions extends autoTransactionActions
    * @display a json array containing :
    * json:
    *   [manifestation_id]: integer
+   *     id: integer
    *     name: string
    *     happens_at: string (PGSQL format)
    *     ends_at: string
@@ -157,13 +108,21 @@ class transactionActions extends autoTransactionActions
    *     location_url: xxx (absolute) link
    *     gauge_url: xxx (absolute) data to display the global gauge
    *     gauges:
-   *       [gauge_id]: integer
+   *       [gauge_id]:
    *         name: xxx
-   *         gauge_url: xxx (absolute) data to display the gauge
+   *         id: integer
+   *         url: xxx (absolute) data to display the gauge
    *         seated_plan_url: xxx (optional) the absolute path to the plan's picture
    *         seated_plan_seats_url: xxx (optional) the absolute path to the seats definition and allocation
+   *         available_prices:
+   *           []:
+   *             id: integer
+   *             name: string, short name
+   *             description: string, description
+   *             value: string, contextualized price w/ currency (for the current manifestation)
    *         prices:
-   *           [id-cancellation_state-printed_state]: integer
+   *           [price_id]:
+   *             id: integer
    *             printed: boolean
    *             cancelling: boolean
    *             qty: integer, the quantity of ticket
@@ -178,72 +137,11 @@ class transactionActions extends autoTransactionActions
    **/
   public function executeGetManifestations(sfWebRequest $request)
   {
-    parent::executeShow($request);
-    $this->json = array();
-    
-    foreach ( $this->transaction->Tickets as $ticket )
-    {
-      // by manifestation
-      if ( !isset($this->json[$ticket->Gauge->manifestation_id]) )
-        $this->json[$ticket->Gauge->manifestation_id] = array(
-          'name' => (string)$ticket->Gauge->Manifestation->Event,
-          'event_url' => cross_app_url_for('event', 'event/show?id='.$ticket->Gauge->Manifestation->event_id, true),
-          'happens_at' => (string)$ticket->Gauge->Manifestation->happens_at,
-          'ends_at' => (string)$ticket->Gauge->Manifestation->ends_at,
-          'manifestation_url'  => cross_app_url_for('event', 'manifestation/show?id='.$ticket->Gauge->manifestation_id,true),
-          'location' => (string)$ticket->Manifestation->Location,
-          'location_url' => cross_app_url_for('event', 'location/show?id='.$ticket->Manifestation->location_id,true),
-          'gauge_url' => cross_app_url_for('event','',true),
-        );
-      
-      // by manifestation's gauge
-      if ( !isset($this->json[$ticket->Gauge->manifestation_id]['gauges']) )
-        $this->json[$ticket->Gauge->manifestation_id]['gauges'] = array();
-      if ( !isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]) )
-        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id] = array(
-          'name' => (string)$ticket->Gauge->Workspace,
-          'gauge_url' => cross_app_url_for('event','',true)
-        );
-      if ( $seated_plan = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id) )
-      {
-        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['seated_plan_url']
-          = cross_app_url_for('default', 'picture/display?id='.$seated_plan->picture_id,true);
-        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['seated_plan_seats_url']
-          = cross_app_url_for('event',   'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$ticket->gauge_id.'&transaction_id='.$this->transaction->id,true);
-      }
-      
-      // by price
-      if ( !isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices']) )
-        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'] = array();
-      $pname = $ticket->price_id.'-'
-        .($ticket->cancelling ? 'cancel' : 'normal').'-'
-        .($ticket->printed_at || $ticket->integrated_at ? 'done' : 'todo')
-      ;
-      if ( !isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]) )
-        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname] = array(
-          'printed' => $ticket->printed_at || $ticket->integrated_at,
-          'cancelling' => $ticket->cancelling ? true : false,
-          'qty' => 0,
-          'pit' => 0,
-          'vat' => 0,
-          'tep' => 0,
-          'price_name' => '',
-          'ids' => array(),
-          'numerotation' => array()
-        );
-      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['ids'][] = $ticket->id;
-      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['numerotation'][] = $ticket->numerotation;
-      
-      // by group of tickets
-      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['price_name'] = $ticket->price_name;
-      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['qty']++;
-      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['pit'] += $ticket->value;
-      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['tep'] += $tep = round($ticket->value/(1+$ticket->vat),2);
-      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['vat'] += $ticket->value - $tep;
-    }
-    
+    // initialization
+    $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'Number'));
     $this->dealWithDebugMode($request);
-    $this->setTemplate('json');
+    
+    require(dirname(__FILE__).'/get-manifestations.php');
     return '';
   }
   
@@ -270,12 +168,18 @@ class transactionActions extends autoTransactionActions
   
   protected function dealWithDebugMode(sfWebRequest $request)
   {
-    sfConfig::set('sf_debug',false);
+    $this->setTemplate('json');
+    
     if ( $request->hasParameter('debug') && $this->getContext()->getConfiguration()->getEnvironment() == 'dev' )
     {
       $this->getResponse()->setContentType('text/html');
       sfConfig::set('sf_debug',true);
       $this->setLayout('layout');
+    }
+    else
+    {
+      sfConfig::set('sf_debug',false);
+      sfConfig::set('sf_escaping_strategy', false);
     }
   }
 }

@@ -51,6 +51,9 @@
 #li_transaction_field_content .declinations td { vertical-align: bottom; }
 #li_transaction_field_content .declinations tr:hover td { font-weight: bold; }
 #li_transaction_field_content .declinations .total > *, #li_transaction_field_content .declination > * { width: 30%; padding-right: 10px; }
+#li_transaction_field_content .declination.printed td { background-color: silver; }
+#li_transaction_field_content .declination.printed td:first-child { border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+#li_transaction_field_content .declination.printed td:last-child { border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
 #li_transaction_field_content .item.total * { font-weight: bold; }
 #li_transaction_field_content .total { font-style: italic; }
 #li_transaction_field_content .currency { display: none; }
@@ -61,8 +64,11 @@
 #li_transaction_field_content .family.total .item .total { font-style: normal; text-decoration: underline; }
 #li_transaction_field_content .family.total .item h4 { margin-left: -15px; margin-right: 15px; }
 
-/* payments */
+/* payments & prices */
 #li_fieldset_payments { clear: both; }
+#li_fieldset_payments .ui-widget-content { width: 47%; }
+#sf_admin_content #li_transaction_field_price_new { position: absolute; display: none; }
+#li_transaction_field_price_new input[type=text] { width: 2em; text-align: right; }
 
 /* board */
 #sf_admin_content #li_fieldset_content #li_transaction_field_board { overflow-y: hidden; }

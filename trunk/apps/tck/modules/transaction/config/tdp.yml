@@ -17,9 +17,9 @@ all:
           class: highlight
         board: ~
       payments:
+        price_new: ~
+        payment_new: ~
         payments_list:
-          class: highlight
-        payment_new:
           class: highlight
     selling:
       manifestations:

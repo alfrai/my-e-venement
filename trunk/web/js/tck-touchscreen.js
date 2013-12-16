@@ -7,6 +7,7 @@ $(document).ready(function(){
   
   // ALL FORMS VALIDATION
   $('#sf_admin_content form').submit(function(){
+    var form = this;
     $.ajax({
       url: $(this).prop('action'),
       data: $(this).serialize(),
@@ -45,8 +46,17 @@ $(document).ready(function(){
           // any select's options to add
           if ( value.content && value.content.load )
           switch ( value.content.load.type ) {
+          case 'gauge_price':
+            $.ajax({
+              url: value.content.load.url,
+              complete: function(data){ form.pending = undefined; },
+              success: function(data){
+                liCompleteContent(data, 'manifestations', false);
+              }
+            });
+            break;
           case 'options':
-            var select = $(value.content.load.target ? value.content.load.target : 'select:first');
+            var select = value.content.load.target ? $(value.content.load.target) : $(form).find('select:first');
             
             if ( value.content.load.reset ) // reset
               select.find('option:not(:first-child)').remove();
@@ -265,15 +275,17 @@ $(document).ready(function(){
   
   // THE BOARD
   $('#li_transaction_field_board button').click(function(){
-    var elt = $('.li_fieldset > .ui-widget-content.ui-state-highlight').find('textarea, input:not([type=hidden])');
+    var elt = $('.li_fieldset .ui-state-highlight').find('textarea, input:not([type=hidden])');
+    if ( $('.li_fieldset .ui-state-highlight').closest('#li_transaction_field_content').length == 1 )
+      elt = $('#li_transaction_field_price_new').find('input[type=text]'); // case of qty of "products"
+    
     if ( $(this).val().substring(0,1) != '_' )
     {
       if ( !$(this).closest('#li_transaction_field_board').hasClass('alpha') )
-        elt.val(elt.val()+$(this).val()); // num
+        elt.val(elt.val()+parseInt($(this).find('.num').html(),10)); // num
       else // alpha
       {
-        // init
-        var button = this;
+        var button = this; // init
         
         if ( $(button).hasClass('selected') )
         {
