@@ -86,6 +86,7 @@ float: left;
 .placeprice { margin-top: 0.5mm; }
 .placeprice .address { display: none; }
 .price_name .name { display: none; }
+.right .price_name { display: none; }
 .event { font-size: 26px; margin-top: 1mm; height: 30px; }
 .event-short { display: none; }
 .cie { font-size: 12pt; margin-top: 1mm; height: 14pt; }
