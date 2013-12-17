@@ -70,6 +70,7 @@
     $q = Doctrine::getTable('Transaction')->createQuery('t')
       ->andWhere('t.id = ?', $request->getParameter('id'))
       ->leftJoin('tck.Gauge g')
+      ->leftJoin('tck.Price p')
       ->andWhere('tck.duplicating IS NULL'); // TODO: to be performed
     
     // retrictive parameters
@@ -155,9 +156,9 @@
             
             if ( $pm->Price->UserPrices->count() > 0 && $pw )
               $this->json[$manifestation->id]['gauges'][$gauge->id]['available_prices'][] = array(
-                'id' => $pm->Price->id,
-                'name' => $pm->Price->name,
-                'description' => $pm->Price->description,
+                'id'  => $pm->price_id,
+                'name'  => $pm->Price->name,
+                'description'  => $pm->Price->description,
                 'value' => format_currency($pm->value,'€'),
               );
           }
@@ -179,8 +180,8 @@
           'pit' => 0,
           'vat' => 0,
           'tep' => 0,
-          'name' => '',
-          'description' => '',
+          'name' => $ticket->Price->name,
+          'description' => '$ticket->Price->description',
           'id' => $ticket->price_id,
           'ids' => array(),
           'numerotation' => array()
@@ -189,8 +190,6 @@
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['numerotation'][] = $ticket->numerotation;
       
       // by group of tickets
-      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['name'] = $ticket->Price->name;
-      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['description'] = $ticket->Price->description;
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['qty']++;
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['pit'] += $ticket->value;
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['tep'] += $tep = round($ticket->value/(1+$ticket->vat),2);

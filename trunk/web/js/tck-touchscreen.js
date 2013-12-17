@@ -14,8 +14,7 @@ $(document).ready(function(){
       type: $(this).prop('method'),
       success: function(data){
         // main error
-        if ( data.error[0] )
-        {
+        if ( data.error[0] )        {
           alert(data.error[1]);
           return;
         }
@@ -41,6 +40,25 @@ $(document).ready(function(){
             $('<a></a>').prop('href', value.content.url).prop('target', '_blank')
               .html(value.content.text)
               .appendTo($(elt).find('.data'));
+          }
+          
+          // any data to play with
+          if ( value.data && value.data.type )
+          switch ( value.data.type ) {
+          case 'gauge_price':
+            if ( !value.data.reset )
+              return;
+            
+            elt = $('#li_transaction_gauge_'+value.data.gauge_id+' .declination'+(value.data.printed ? '.printed' : ':not(.printed)')+'[data-price-id='+value.data.price_id+']');
+            if ( value.data.qty > 0 )
+            {
+              elt.find('.qty').html(value.data.qty);
+              elt.closest('.item').find('.total').select();
+            }
+            else
+              elt.remove();
+            
+            break;
           }
           
           // any select's options to add

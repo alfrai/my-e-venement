@@ -22,6 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
+  $time = microtime(true);
     // prepare response
     $this->json = array(
       'error' => array(false, ''),
@@ -54,28 +55,30 @@
       return;
     }
     
+    $success = array(
+      'data' => array(),
+      'content' => array(
+        'url'   => '',
+        'text'  => '',
+        'load'  => array(
+          'target' => NULL,
+          'type'   => NULL,
+          'data'   => NULL,
+          'reset'  => true,
+          'default'=> NULL,
+        ),
+      ),
+    );
+    
     // direct transaction's fields
     foreach ( array('contact_id', 'professional_id', 'description',) as $field )
     if ( isset($params[$field]) && isset($this->form[$field]) )
     {
+      $this->json['success']['success_fields'][$field] = $success;
+      $this->json['success']['success_fields'][$field]['data'] = $params[$field];
       $this->form[$field]->bind(array($field => $params[$field], '_csrf_token' => $params['_csrf_token']));
       if ( $this->form[$field]->isValid() )
       {
-        $this->json['success']['success_fields'][$field] = array(
-          'data' => $params[$field],
-          'content' => array(
-            'url'   => '',
-            'text'  => '',
-            'load'  => array(
-              'target' => NULL,
-              'type'   => NULL,
-              'data'   => NULL,
-              'reset'  => true,
-              'default'=> NULL,
-            ),
-          ),
-        );
-        
         // data to bring back
         switch($field) {
         case 'contact_id':
@@ -109,37 +112,51 @@
     foreach ( array('price_new') as $field )
     if ( isset($params[$field]) && is_array($params[$field]) && isset($this->form[$field]) )
     {
+      $this->json['success']['success_fields'][$field] = $success;
+      
       $this->form[$field]->bind($params[$field]);
       if ( $this->form[$field]->isValid() )
       {
         if ( !$params[$field]['qty'] )
           $params[$field]['qty'] = 1;
         
-        $qty = $params[$field]['qty'];
-        if ( $qty > 0 )
+        // preparing the DELETE and COUNT queries
+        $q = Doctrine_Query::create()->from('Ticket tck')
+          ->andWhere('tck.gauge_id = ?',$params[$field]['gauge_id'])
+          ->andWhere('tck.price_id = ?',$params[$field]['price_id'])
+          ->andWhere('tck.transaction_id = ?',$request->getParameter('id'))
+          ->andWhere('tck.printed_at IS NULL')
+          ->orderBy('tck.integrated_at IS NULL DESC, tck.integrated_at, tck.numerotation IS NULL DESC, id DESC');
+        
+        $this->json['success']['success_fields'][$field]['data'] = array(
+          'type'  => 'gauge_price',
+          'reset' => true,
+          'qty'   => $q->count() + $params[$field]['qty'],
+          'price_id'  => $params[$field]['price_id'],
+          'gauge_id'  => $params[$field]['gauge_id'],
+          'printed'   => false,
+          'transaction_id' => $request->getParameter('id'),
+        );
+        
+        if ( $params[$field]['qty'] > 0 ) // add
         for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )
         {
-            $ticket = new Ticket;
-            $ticket->gauge_id = $params[$field]['gauge_id'];
-            $ticket->price_id = $params[$field]['price_id'];
-            $ticket->transaction_id = $request->getParameter('id');
-            $ticket->save();
-        }
-        else
-        {
-          $q = Doctrine_Query::create()->from('Ticket tck')
-            ->andWhere('tck.gauge_id = ?',$params[$field]['gauge_id'])
-            ->andWhere('tck.price_id = ?',$params[$field]['price_id'])
-            ->andWhere('tck.transaction_id = ?',$request->getParameter('id'))
-            ->andWhere('tck.printed_at IS NULL')
-            ->orderBy('tck.integrated_at IS NULL DESC, tck.integrated_at, tck.numerotation IS NULL DESC, id DESC')
-            ->limit(abs($qty));
-          $tickets = $q->execute();
-          $tickets->delete();
-        }
+          $ticket = new Ticket;
+          $ticket->gauge_id = $params[$field]['gauge_id'];
+          $ticket->price_id = $params[$field]['price_id'];
+          $ticket->transaction_id = $request->getParameter('id');
+          $ticket->save();
         
-        $this->json['success']['success_fields'][$field]['content']['load']['type'] = 'gauge_price';
-        $this->json['success']['success_fields'][$field]['content']['load']['url']  = url_for('transaction/getManifestations?id='.$request->getParameter('id').'&printed=false&gauge_id='.$params[$field]['gauge_id'].'&price_id='.$params[$field]['price_id'], true);
+          $this->json['success']['success_fields'][$field]['content']['load']['type'] = 'gauge_price';
+          $this->json['success']['success_fields'][$field]['content']['load']['url']  = url_for('transaction/getManifestations?id='.$request->getParameter('id').'&printed=false&gauge_id='.$params[$field]['gauge_id'].'&price_id='.$params[$field]['price_id'], true);
+        }
+        else // delete
+        {
+          error_log('qty: '.$params[$field]['qty']);
+          $q->limit(abs($params[$field]['qty']))
+            ->execute()
+            ->delete();
+        }
       }
       else
       {
