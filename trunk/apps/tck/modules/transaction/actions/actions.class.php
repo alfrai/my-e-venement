@@ -51,6 +51,7 @@ class transactionActions extends autoTransactionActions
       'required' => false,
     ));
     
+    // DESCRIPTION
     $this->form['description'] = new sfForm;
     $this->form['description']->setDefault('description', $this->transaction->description);
     $ws = $this->form['description']->getWidgetSchema()->setNameFormat('transaction[%s]');
@@ -58,6 +59,7 @@ class transactionActions extends autoTransactionActions
     $ws['description'] = new sfWidgetFormTextarea();
     $vs['description'] = new sfValidatorString(array('required' => false,));
     
+    // PRICES
     $this->form['price_new'] = new sfForm;
     $ws = $this->form['price_new']->getWidgetSchema()->setNameFormat('transaction[price_new][%s]');
     $vs = $this->form['price_new']->getValidatorSchema();
@@ -78,6 +80,23 @@ class transactionActions extends autoTransactionActions
         ->leftJoin('g.Workspace w')
         ->leftJoin('w.Users wu')
         ->andWhere('wu.id = ?', $this->getUser()->getId()),
+    ));
+    
+    // NEW "PRODUCTS"
+    $this->form['content'] = array();
+    $this->form['content']['manifestations'] = new sfForm;
+    $ws = $this->form['content']['manifestations']->getWidgetSchema();
+    $vs = $this->form['content']['manifestations']->getValidatorSchema();
+    $ws['manifestation_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Manifestation',
+      'url'   => cross_app_url_for('event', 'manifestation/ajax?except_transaction='.$this->transaction->id),
+      'config' => '{max: 50}',
+    ));
+    $vs['manifestation_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Manifestation',
+      'query' => Doctrine::getTable('Manifestation')->createQuery('m')->select('m.id')
+        ->andWhere('m.reservation_confirmed = ?',true)
+        ->andWhere('pu.sf_guard_user_id = ?', $this->getUser()->getId()),
     ));
   }
   

@@ -28,6 +28,20 @@
    * @return ''
    * @display a json array containing :
    * json:
+   * error:
+   *   0: boolean true if errorful, false else
+   *   1: string explanation
+   * success:
+   *   success_fields:
+   *     manifestations:
+   *       data:
+   *         type: manifestations
+   *         reset: boolean
+   *         content: Array (see below)
+   *   error_fields: only if any error happens
+   *     manifestations: string explanation
+   *
+   * the data Array is :
    *   [manifestation_id]: integer
    *     id: integer
    *     name: string
@@ -67,36 +81,48 @@
    *               tickets' numerotation
    **/
 
-    $q = Doctrine::getTable('Transaction')->createQuery('t')
-      ->andWhere('t.id = ?', $request->getParameter('id'))
-      ->leftJoin('tck.Gauge g')
-      ->leftJoin('tck.Price p')
-      ->andWhere('tck.duplicating IS NULL'); // TODO: to be performed
+    if ( $request->getParameter('id',false) )
+    {
+      $q = Doctrine::getTable('Transaction')->createQuery('t')
+        ->andWhere('t.id = ?', $request->getParameter('id'))
+        ->leftJoin('tck.Gauge g')
+        ->leftJoin('tck.Price p')
+        ->andWhere('tck.duplicating IS NULL'); // TODO: to be performed
+      
+      // retrictive parameters
+      if ( $pid = $request->getParameter('price_id', false) )
+        $q->andWhere('tck.price_id = ?',$pid);
+      if ( $request->hasParameter('printed') )
+      {
+        if ( in_array($request->getParameter('printed'),array('0','false')) )
+          $q->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL');
+        else
+          $q->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL');
+      }
+    }
+    elseif ( $request->getParameter('manifestation_id',false) )
+    {
+      $q = Doctrine::getTable('Manifestation')->createQuery('m')
+        ->andWhere('m.id = ?',$request->getParameter('manifestation_id'));
+    }
     
     // retrictive parameters
     if ( $mid = $request->getParameter('manifestation_id', false) )
       $q->andWhere('m.id = ?',$mid);
     if ( $gid = $request->getParameter('gauge_id', false) )
       $q->andWhere('g.id = ?',$gid);
-    if ( $pid = $request->getParameter('price_id', false) )
-      $q->andWhere('tck.price_id = ?',$pid);
-    if ( $request->hasParameter('printed') )
-    {
-      if ( in_array($request->getParameter('printed'),array('0','false')) )
-        $q->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL');
-      else
-        $q->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL');
-    }
     
-    $this->transaction = $q->fetchOne();
     $this->json = array();
-    if ( !$this->transaction )
+    $this->transaction = false;
+    if ( $request->getParameter('id',false) )
+      $this->transaction = $q->fetchOne();
+    elseif ( $q->count() == 0 )
       return;
     
-    foreach ( $this->transaction->Tickets as $ticket )
+    foreach ( $this->transaction ? $this->transaction->Tickets : array(true) as $ticket )
     {
       // by manifestation
-      if ( !isset($this->json[$ticket->manifestation_id]) )
+      if ( !isset($this->json[$mid = $ticket instanceof Ticket ? $ticket->manifestation_id : $request->getParameter('manifestation_id')]) )
       {
         $manifestation = Doctrine::getTable('Manifestation')->createQuery('m',true)
           ->leftJoin('m.PriceManifestations pm')
@@ -107,7 +133,7 @@
           ->orderBy('e.name, me.name, m.happens_at, m.duration, wuo.rank, w.name, p.name')
           ->leftJoin('p.WorkspacePrices pwp ON pwp.price_id = p.id AND pwp.workspace_id = w.id')
           ->leftJoin('p.UserPrices      pup ON pup.price_id = p.id AND pup.sf_guard_user_id = '.$this->getUser()->getId())
-          ->andWhere('m.id = ?',$ticket->manifestation_id)
+          ->andWhere('m.id = ?',$mid)
           ->fetchOne();
         
         $this->json[$manifestation->id] = array(
@@ -139,11 +165,10 @@
             $this->json[$manifestation->id]['gauges'][$gauge->id]['seated_plan_url']
               = cross_app_url_for('default', 'picture/display?id='.$seated_plan->picture_id,true);
             $this->json[$manifestation->id]['gauges'][$gauge->id]['seated_plan_seats_url']
-              = cross_app_url_for('event',   'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id.'&transaction_id='.$this->transaction->id,true);
+              = cross_app_url_for('event',   'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id.($this->transaction ? '&transaction_id='.$this->transaction->id : ''),true);
           }
         
           // available prices
-          $this->json[$manifestation->id]['available_prices'] = array();
           foreach ( $manifestation->PriceManifestations as $pm )
           {
             $pw = false;
@@ -164,6 +189,9 @@
           }
         }
       }
+      
+      if (! $ticket instanceof Ticket )
+        continue;
       
       // by price
       if ( !isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices']) )
@@ -195,3 +223,19 @@
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['tep'] += $tep = round($ticket->value/(1+$ticket->vat),2);
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['vat'] += $ticket->value - $tep;
     }
+  
+  $this->json = array(
+    'error' => array(false, ''),
+    'success' => array(
+      'success_fields' => array(
+        'manifestations' => array(
+          'data' => array(
+            'type' => 'manifestations',
+            'reset' => $this->transaction ? true : false,
+            'content' => $this->json,
+          ),
+        ),
+      ),
+      'error_fields' => array(),
+    ),
+  );

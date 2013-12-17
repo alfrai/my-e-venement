@@ -22,6 +22,35 @@
 ***********************************************************************************/
 ?>
 <?php
+  /**
+   * function executeComplete()
+   * @param sfWebRequest $request
+   * @return ''
+   * @display a JSON array containing
+   * error:
+   *   0: boolean true if errorful, false else
+   *   1: string explanation
+   * success:
+   *   success_fields:
+   *     [FIELD_NAME]:
+   *       data:
+   *         type: string
+   *         reset: boolean
+   *         content: mixed DATA
+   *       remote_content:
+   *         url: string url to GET after recieved this response
+   *         text: string
+   *         load:
+   *           target:  string the target of this result (to be deprecated?)
+   *           type:    string the type of result
+   *           data:    mixed
+   *           reset:   boolean
+   *           default: mixed default value
+   *   error_fields:
+   *     [FIELD_NAME]: string explanation
+   *
+   **/
+
   $time = microtime(true);
     // prepare response
     $this->json = array(
@@ -57,7 +86,7 @@
     
     $success = array(
       'data' => array(),
-      'content' => array(
+      'remote_content' => array(
         'url'   => '',
         'text'  => '',
         'load'  => array(
@@ -82,19 +111,19 @@
         // data to bring back
         switch($field) {
         case 'contact_id':
-          $this->json['success']['success_fields'][$field]['content']['load']['target'] = '#li_transaction_field_professional_id select:first';
-          $this->json['success']['success_fields'][$field]['content']['load']['type']   = 'options';
+          $this->json['success']['success_fields'][$field]['remote_content']['load']['target'] = '#li_transaction_field_professional_id select:first';
+          $this->json['success']['success_fields'][$field]['remote_content']['load']['type']   = 'options';
           
           if ( $params[$field] )
           {
             $object = Doctrine::getTable('Contact')->findOneById($params[$field]);
             foreach ( $object->Professionals as $pro )
-              $this->json['success']['success_fields'][$field]['content']['load']['data'][$pro->id]
+              $this->json['success']['success_fields'][$field]['remote_content']['load']['data'][$pro->id]
                 = $pro->full_desc;
-            $this->json['success']['success_fields'][$field]['content']['load']['default'] = $this->transaction->professional_id;
+            $this->json['success']['success_fields'][$field]['remote_content']['load']['default'] = $this->transaction->professional_id;
             
-            $this->json['success']['success_fields'][$field]['content']['url']  = cross_app_url_for('rp', 'contact/show?id='.$params[$field], true);
-            $this->json['success']['success_fields'][$field]['content']['text'] = (string)$object;
+            $this->json['success']['success_fields'][$field]['remote_content']['url']  = cross_app_url_for('rp', 'contact/show?id='.$params[$field], true);
+            $this->json['success']['success_fields'][$field]['remote_content']['text'] = (string)$object;
           }
           break;
         }
@@ -131,11 +160,13 @@
         $this->json['success']['success_fields'][$field]['data'] = array(
           'type'  => 'gauge_price',
           'reset' => true,
-          'qty'   => $q->count() + $params[$field]['qty'],
-          'price_id'  => $params[$field]['price_id'],
-          'gauge_id'  => $params[$field]['gauge_id'],
-          'printed'   => false,
-          'transaction_id' => $request->getParameter('id'),
+          'content' => array(
+            'qty'   => $q->count() + $params[$field]['qty'],
+            'price_id'  => $params[$field]['price_id'],
+            'gauge_id'  => $params[$field]['gauge_id'],
+            'printed'   => false,
+            'transaction_id' => $request->getParameter('id'),
+          ),
         );
         
         if ( $params[$field]['qty'] > 0 ) // add
@@ -147,8 +178,8 @@
           $ticket->transaction_id = $request->getParameter('id');
           $ticket->save();
         
-          $this->json['success']['success_fields'][$field]['content']['load']['type'] = 'gauge_price';
-          $this->json['success']['success_fields'][$field]['content']['load']['url']  = url_for('transaction/getManifestations?id='.$request->getParameter('id').'&printed=false&gauge_id='.$params[$field]['gauge_id'].'&price_id='.$params[$field]['price_id'], true);
+          $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'gauge_price';
+          $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getManifestations?id='.$request->getParameter('id').'&printed=false&gauge_id='.$params[$field]['gauge_id'].'&price_id='.$params[$field]['price_id'], true);
         }
         else // delete
         {

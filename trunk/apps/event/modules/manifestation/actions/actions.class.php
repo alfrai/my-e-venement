@@ -149,9 +149,18 @@ class manifestationActions extends autoManifestationActions
       
       $manifs = array();
       foreach ( $manifestations as $manif )
-      if ( $request->getParameter('except',false) != $manif->id )
-       $manifs[$manif->id] = (string) $manif;
-    
+      {
+        $go = $request->getParameter('except',false) !== $manif->id;
+        if ( $go && $request->getParameter('except_transaction',false) )
+          $go = Doctrine_Query::create()->from('ticket tck')
+            ->andWhere('tck.manifestation_id = ?', $manif->id)
+            ->andWhere('tck.transaction_id = ?', intval($request->getParameter('except_transaction')))
+            ->count() == 0;
+        
+        if ( $go )
+          $manifs[$manif->id] = (string)$manif;
+      }
+      
       return $this->renderText(json_encode($manifs));
     }
     else

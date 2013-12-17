@@ -30,16 +30,16 @@ $(document).ready(function(){
         // successes
         $.each(data.success.success_fields, function(index, value){
           var elt = '#li_'+data.base_model+'_field_'+index;
-          var content = $(elt).find('.data').length > 0 && value.content != undefined;
+          var remote_content = $(elt).find('.data').length > 0 && value.remote_content != undefined;
           
           $(elt).find('.data').remove();
           $(elt).append('<div class="data"></div>');
           
           // if link
-          if ( content && value.content.url != undefined && value.content.text != undefined )
+          if ( remote_content && value.remote_content.url != undefined && value.remote_content.text != undefined )
           {
-            $('<a></a>').prop('href', value.content.url).prop('target', '_blank')
-              .html(value.content.text)
+            $('<a></a>').prop('href', value.remote_content.url).prop('target', '_blank')
+              .html(value.remote_content.text)
               .appendTo($(elt).find('.data'));
           }
           
@@ -60,36 +60,44 @@ $(document).ready(function(){
               elt.remove();
             
             break;
+          case 'manifestations':
+            liCompleteContent(value.data.content, 'manifestations', false);
+            break;
           }
           
           // any select's options to add
-          if ( value.content && value.content.load )
-          switch ( value.content.load.type ) {
+          if ( value.remote_content && value.remote_content.load )
+          switch ( value.remote_content.load.type ) {
           case 'gauge_price':
             $.ajax({
-              url: value.content.load.url,
+              url: value.remote_content.load.url,
               complete: function(data){ form.pending = undefined; },
-              success: function(data){ liCompleteContent(data, 'manifestations', false); }
+              success: function(data){
+                if ( data.error[0] ) { alert(data.error[1]); return; }
+                if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined )) { alert(data.success.error_fields.manifestations); return; }
+                if ( data.success.success_fields.manifestations !== undefined && data.success.success_fields.manifestations.data !== undefined )
+                  liCompleteContent(data.success.success_fields.manifestations.data.content, 'manifestations', false);
+              }
             });
             break;
           case 'options':
-            var select = value.content.load.target ? $(value.content.load.target) : $(form).find('select:first');
+            var select = value.remote_content.load.target ? $(value.remote_content.load.target) : $(form).find('select:first');
             
-            if ( value.content.load.reset ) // reset
+            if ( value.remote_content.load.reset ) // reset
               select.find('option:not(:first-child)').remove();
             
-            if ( value.content.load.data ) // complete
-            $.each(value.content.load.data, function(index, value){
+            if ( value.remote_content.load.data ) // complete
+            $.each(value.remote_content.load.data, function(index, value){
               $('<option />').val(index).html(value)
                 .appendTo(select);
             });
             
             // default val
-            if ( value.content.load.default )
-              select.val(value.content.load.default);
+            if ( value.remote_content.load.default )
+              select.val(value.remote_content.load.default);
             
             // init an other widget
-            var sel = value.content.load.target.replace(/^(.*)\s.*$/, '$1');
+            var sel = value.remote_content.load.target.replace(/^(.*)\s.*$/, '$1');
             if ( sel != elt ) touchscreen_init(sel);
             
             break;
@@ -149,6 +157,10 @@ $(document).ready(function(){
     });
   });
   
+  // retrieve focusout()s
+  $('#li_transaction_field_contact_id input, #li_transaction_field_professional_id select, #li_transaction_field_description textarea')
+     .focusout(function(){ return false; });
+  
   // changing quantities
   $('#li_transaction_field_content .qty a').click(function(){ var input = $(this).closest('.qty').find('input'); input.val(parseInt(input.val(),10)+($(this).is(':first-child') ? -1 : 1)).change(); });
   $('#li_transaction_field_content .qty input').focusout(function(){ return false; }).select(function(){
@@ -160,15 +172,18 @@ $(document).ready(function(){
     
     if ( $(this).prop('defaultValue') !== $(this).val() )
     {
+      var diff = $(this).val() - $(this).prop('defaultValue');
+      $(this).select();
+      
       var form = $('#li_transaction_field_price_new form');
       var orig = form.find('[name="transaction[price_new][qty]"]').val();
       
       // set values & subit
-      form.find('[name="transaction[price_new][qty]"]').val($(this).val() - $(this).prop('defaultValue'));
+      form.find('[name="transaction[price_new][qty]"]').val(diff);
       form.find('[name="transaction[price_new][price_id]"]').val($(this).closest('.declination').attr('data-price-id'));
       form.find('[name="transaction[price_new][gauge_id]"]').val($(this).closest('.item').attr('data-gauge-id'));
       form.submit();
-        
+      
       // reinit
       form.find('[name="transaction[price_new][qty]"]').val(orig);
     }
