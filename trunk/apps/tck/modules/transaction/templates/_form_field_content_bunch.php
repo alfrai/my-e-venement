@@ -91,12 +91,16 @@
             {
               wprice = tmp;
               add = false;
-              wprice.find('.qty').html(price.qty);
+              wprice.find('.qty input').val(price.qty).select();
             }
             
             //wprice.addClass(price.cancelling ? 'cancelling' : '');
-            wprice.addClass(price.printed ? 'printed' : '');
-            wprice.find('.qty').html(price.qty);
+            if ( price.printed )
+            {
+              wprice.addClass('printed');
+              wprice.find('.qty input').prop('readonly', true);
+            }
+            wprice.find('.qty input').val(price.qty).select();
             wprice.find('.price_name').html(price.name).prop('title', price.description);
             wprice.find('.pit').html(price.pit.toFixed(2)+' '+currency);
             wprice.find('.vat').html(price.vat.toFixed(2)+' '+currency);

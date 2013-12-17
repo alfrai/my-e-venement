@@ -4,7 +4,7 @@
   'autocomplete' => false,
 )) ?><p>
   <?php echo $form->renderHiddenFields() ?>
-  <?php echo $form['qty'] ?>
+  <?php echo $form['qty']->render(array('pattern' => '-{0,1}[1-9]+', 'title' => __('Positive or negative numbers only'), 'maxlength' => 4)) ?>
 </p>
 <script type="text/javascript">
   $(document).ready(function(){

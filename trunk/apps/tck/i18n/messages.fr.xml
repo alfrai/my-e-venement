@@ -5,8 +5,16 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Enter</source>
-        <target>Entrée</target>
+        <source>Positive or negative numbers only</source>
+        <target>Uniquement des nombres positifs ou négatifs</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Museum</source>
+        <target>Musée</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Point of Sales</source>
+        <target>Point de ventes</target>
       </trans-unit> 
       <trans-unit>
         <source>Transaction created.</source>

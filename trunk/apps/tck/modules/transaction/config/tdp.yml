@@ -29,5 +29,5 @@ all:
         title: <?php echo __('Museum').PHP_EOL ?>
         fake: true
       pointofsales:
-        title: <?php echo __('Point of sales').PHP_EOL ?>
+        title: <?php echo __('Point of Sales').PHP_EOL ?>
         fake: true

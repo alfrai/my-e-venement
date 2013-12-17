@@ -14,7 +14,8 @@ $(document).ready(function(){
       type: $(this).prop('method'),
       success: function(data){
         // main error
-        if ( data.error[0] )        {
+        if ( data.error[0] )
+        {
           alert(data.error[1]);
           return;
         }
@@ -52,7 +53,7 @@ $(document).ready(function(){
             elt = $('#li_transaction_gauge_'+value.data.gauge_id+' .declination'+(value.data.printed ? '.printed' : ':not(.printed)')+'[data-price-id='+value.data.price_id+']');
             if ( value.data.qty > 0 )
             {
-              elt.find('.qty').html(value.data.qty);
+              elt.find('.qty input').val(value.data.qty).select();
               elt.closest('.item').find('.total').select();
             }
             else
@@ -68,9 +69,7 @@ $(document).ready(function(){
             $.ajax({
               url: value.content.load.url,
               complete: function(data){ form.pending = undefined; },
-              success: function(data){
-                liCompleteContent(data, 'manifestations', false);
-              }
+              success: function(data){ liCompleteContent(data, 'manifestations', false); }
             });
             break;
           case 'options':
@@ -133,6 +132,7 @@ $(document).ready(function(){
   }
   
   // PLAYING W/ CART'S CONTENT
+  // sliding content
   $('#li_transaction_field_content h2').click(function(){
     $(this).closest('.bunch').find('.families').slideToggle(function(){
       if ( !$(this).is(':hidden') )
@@ -148,6 +148,32 @@ $(document).ready(function(){
       if ( !showing ) $(this).find('.ui-state-highlight').focusout();
     });
   });
+  
+  // changing quantities
+  $('#li_transaction_field_content .qty a').click(function(){ var input = $(this).closest('.qty').find('input'); input.val(parseInt(input.val(),10)+($(this).is(':first-child') ? -1 : 1)).change(); });
+  $('#li_transaction_field_content .qty input').focusout(function(){ return false; }).select(function(){
+    $(this).prop('defaultValue',$(this).val()); // quite useless... but whatever
+  }).change(function(){
+    $(this).closest('.highlight').focusin();
+    if ( isNaN(parseInt($(this).val(),10)) )
+      $(this).val($(this).prop('defaultValue'));
+    
+    if ( $(this).prop('defaultValue') !== $(this).val() )
+    {
+      var form = $('#li_transaction_field_price_new form');
+      var orig = form.find('[name="transaction[price_new][qty]"]').val();
+      
+      // set values & subit
+      form.find('[name="transaction[price_new][qty]"]').val($(this).val() - $(this).prop('defaultValue'));
+      form.find('[name="transaction[price_new][price_id]"]').val($(this).closest('.declination').attr('data-price-id'));
+      form.find('[name="transaction[price_new][gauge_id]"]').val($(this).closest('.item').attr('data-gauge-id'));
+      form.submit();
+        
+      // reinit
+      form.find('[name="transaction[price_new][qty]"]').val(orig);
+    }
+  });
+  
   // total calculation
   $('#li_transaction_field_content .item .total').select(function(){
     if ( $(this).closest('.families.sample').length > 0 )
@@ -170,9 +196,11 @@ $(document).ready(function(){
     var elt = this;
     var totals = new Object;
     $(this).closest($(this).closest('.declinations.total').length > 0 ? '.items' : '.declinations').find('.declination .nb').each(function(){
+      var val = $(this).is('.qty') ? $(this).find('input').val() : $(this).html();
       if ( totals[$(this).attr('class')] == undefined )
        totals[$(this).attr('class')] = 0;
-      i = parseFloat($(this).html().replace(',','.'));
+      
+      i = parseFloat(val.replace(',','.'));
       if ( !isNaN(i) )
         totals[$(this).attr('class')] += i;
     });
@@ -182,16 +210,20 @@ $(document).ready(function(){
       var total = $(elt).find('.'+index.replace(/\s+/g,'.'));
       if ( $(total).hasClass('monney') )
         value = value.toFixed(2)+' '+currency;
-      total.html(value);
+      if ( total.is('.qty') )
+        total.find('.qty').html(value);
+      else
+        total.html(value);
     });
     
     // megatotal
     var megaelt = $('#li_transaction_field_content .families:not(.sample) .family.total');
     totals = new Object;
     $('#li_transaction_field_content .families:not(.sample) .family:not(.total) .item.total .nb').each(function(){
+      var val = $(this).is('.qty') ? $(this).find('.qty').html() : $(this).html();
       if ( totals[$(this).attr('class')] == undefined )
        totals[$(this).attr('class')] = 0;
-      i = parseFloat($(this).html().replace(',','.'));
+      i = parseFloat(val.replace(',','.'));
       if ( !isNaN(i) )
         totals[$(this).attr('class')] += i;
     });
@@ -199,7 +231,10 @@ $(document).ready(function(){
       var total = $(megaelt).find('.'+index.replace(/\s+/g,'.'));
       if ( $(total).hasClass('monney') )
         value = value.toFixed(2)+' '+currency;
-      total.html(value);
+      if ( total.is('.qty') )
+        total.find('.qty').html(value);
+      else
+        total.html(value);
     });
   }).select();
   
