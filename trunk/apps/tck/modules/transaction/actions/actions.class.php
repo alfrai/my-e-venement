@@ -87,15 +87,10 @@ class transactionActions extends autoTransactionActions
     $this->form['content']['manifestations'] = new sfForm;
     $ws = $this->form['content']['manifestations']->getWidgetSchema();
     $vs = $this->form['content']['manifestations']->getValidatorSchema();
-    $ws['manifestation_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
-      'model' => 'Manifestation',
-      'url'   => cross_app_url_for('event', 'manifestation/ajax?except_transaction='.$this->transaction->id),
-      'config' => '{max: 50}',
-    ));
     $vs['manifestation_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Manifestation',
       'query' => Doctrine::getTable('Manifestation')->createQuery('m')->select('m.id')
-        ->andWhere('m.reservation_confirmed = ?',true)
+        ->andWhere('m.reservation_confirmed = ? AND m.blocking = ?',array(true,true))
         ->andWhere('pu.sf_guard_user_id = ?', $this->getUser()->getId()),
     ));
   }

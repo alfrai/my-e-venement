@@ -1,3 +1,6 @@
+// the global var that can be used everywhere as a "root"
+var li = {};
+
 $(document).ready(function(){
   // AUTO VALIDATIONS
   $('[name="transaction[contact_id]"]'+
@@ -5,139 +8,7 @@ $(document).ready(function(){
   ', [name="transaction[description]"]')
     .change(function(){ $(this).closest('form').submit(); });
   
-  // ALL FORMS VALIDATION
-  $('#sf_admin_content form').submit(function(){
-    var form = this;
-    $.ajax({
-      url: $(this).prop('action'),
-      data: $(this).serialize(),
-      type: $(this).prop('method'),
-      success: function(data){
-        // main error
-        if ( data.error[0] )
-        {
-          alert(data.error[1]);
-          return;
-        }
-        
-        // detailed errors
-        var msg = '';
-        $.each(data.success.error_fields, function( index, value ){
-          msg += index+': '+value+"\n";
-        });
-        if ( msg ) alert(msg);
-        
-        // successes
-        $.each(data.success.success_fields, function(index, value){
-          var elt = '#li_'+data.base_model+'_field_'+index;
-          var remote_content = $(elt).find('.data').length > 0 && value.remote_content != undefined;
-          
-          $(elt).find('.data').remove();
-          $(elt).append('<div class="data"></div>');
-          
-          // if link
-          if ( remote_content && value.remote_content.url != undefined && value.remote_content.text != undefined )
-          {
-            $('<a></a>').prop('href', value.remote_content.url).prop('target', '_blank')
-              .html(value.remote_content.text)
-              .appendTo($(elt).find('.data'));
-          }
-          
-          // any data to play with
-          if ( value.data && value.data.type )
-          switch ( value.data.type ) {
-          case 'gauge_price':
-            if ( !value.data.reset )
-              return;
-            
-            elt = $('#li_transaction_gauge_'+value.data.gauge_id+' .declination'+(value.data.printed ? '.printed' : ':not(.printed)')+'[data-price-id='+value.data.price_id+']');
-            if ( value.data.qty > 0 )
-            {
-              elt.find('.qty input').val(value.data.qty).select();
-              elt.closest('.item').find('.total').select();
-            }
-            else
-              elt.remove();
-            
-            break;
-          case 'manifestations':
-            liCompleteContent(value.data.content, 'manifestations', false);
-            break;
-          }
-          
-          // any select's options to add
-          if ( value.remote_content && value.remote_content.load )
-          switch ( value.remote_content.load.type ) {
-          case 'gauge_price':
-            $.ajax({
-              url: value.remote_content.load.url,
-              complete: function(data){ form.pending = undefined; },
-              success: function(data){
-                if ( data.error[0] ) { alert(data.error[1]); return; }
-                if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined )) { alert(data.success.error_fields.manifestations); return; }
-                if ( data.success.success_fields.manifestations !== undefined && data.success.success_fields.manifestations.data !== undefined )
-                  liCompleteContent(data.success.success_fields.manifestations.data.content, 'manifestations', false);
-              }
-            });
-            break;
-          case 'options':
-            var select = value.remote_content.load.target ? $(value.remote_content.load.target) : $(form).find('select:first');
-            
-            if ( value.remote_content.load.reset ) // reset
-              select.find('option:not(:first-child)').remove();
-            
-            if ( value.remote_content.load.data ) // complete
-            $.each(value.remote_content.load.data, function(index, value){
-              $('<option />').val(index).html(value)
-                .appendTo(select);
-            });
-            
-            // default val
-            if ( value.remote_content.load.default )
-              select.val(value.remote_content.load.default);
-            
-            // init an other widget
-            var sel = value.remote_content.load.target.replace(/^(.*)\s.*$/, '$1');
-            if ( sel != elt ) touchscreen_init(sel);
-            
-            break;
-          }
-          
-          touchscreen_init(elt);
-        });
-      }
-    });
-    
-    // debug purposes
-    if ( location.hash === '#debug' )
-      return true;
-    
-    return false;
-  });
-  
-  // GENERIC FORMS INITIALIZATION
-  function touchscreen_init(elt)
-  {
-    switch ( elt ) {
-    
-    case '#li_transaction_field_contact_id':
-      if ( $(elt+' [name="transaction[contact_id]"]').val() == '' )
-        $(elt+' .data a').remove();
-      else
-        $(elt+' .data a').prepend('<span class="ui-icon ui-icon-person"></span>');
-      $(elt+' .li_touchscreen_new').toggle($(elt+' .data a').length == 0);
-      $('#li_transaction_field_informations .vcard').remove();
-      $(elt).click();
-      break;
-    
-    case '#li_transaction_field_professional_id':
-      if ( $(elt+' select option').length == 0 || $(elt+' select option').length == 1 && !$(elt+' select option:first').val() )
-        $(elt+' select').fadeOut('fast');
-      else
-        $(elt+' select').fadeIn('medium');
-      break;
-    }
-  }
+  $('#sf_admin_content form').submit(li.formSubmit);
   
   // PLAYING W/ CART'S CONTENT
   // sliding content
@@ -151,15 +22,16 @@ $(document).ready(function(){
   $('#li_transaction_field_content h3').click(function(){
     $(this).closest('.family').find('.items').each(function(){
       var showing = $(this).is(':hidden');
-        
+      
       $(this).slideToggle();
       if ( !showing ) $(this).find('.ui-state-highlight').focusout();
     });
   });
   
   // retrieve focusout()s
-  $('#li_transaction_field_contact_id input, #li_transaction_field_professional_id select, #li_transaction_field_description textarea')
-     .focusout(function(){ return false; });
+  $('.highlight input, .highlight select, .highlight textarea')
+    .focusout(function(){ return false; })
+    .focusin (function(){ $(this).closest('.highlight').focusin(); return false; });
   
   // changing quantities
   $('#li_transaction_field_content .qty a').click(function(){ var input = $(this).closest('.qty').find('input'); input.val(parseInt(input.val(),10)+($(this).is(':first-child') ? -1 : 1)).change(); });
@@ -190,101 +62,17 @@ $(document).ready(function(){
   });
   
   // total calculation
-  $('#li_transaction_field_content .item .total').select(function(){
-    if ( $(this).closest('.families.sample').length > 0 )
-      return;
-    
-    // remove totals if there is only one line
-    if ( !$(this).closest('.family').is('.total')
-      && $(this).closest('.declinations').length > 0
-      && $(this).closest('.declinations').find('.declination').length <= 1 )
-    {
-      if ( $(this).closest('.declinations').is('.total') )
-      {
-        if ( $(this).closest('.items').find('.item:not(.total) .declinations').length <= 1 )
-          $(this).closest('.item').hide();
-      }
-      else
-        $(this).hide();
-    }
-    
-    var elt = this;
-    var totals = new Object;
-    $(this).closest($(this).closest('.declinations.total').length > 0 ? '.items' : '.declinations').find('.declination .nb').each(function(){
-      var val = $(this).is('.qty') ? $(this).find('input').val() : $(this).html();
-      if ( totals[$(this).attr('class')] == undefined )
-       totals[$(this).attr('class')] = 0;
-      
-      i = parseFloat(val.replace(',','.'));
-      if ( !isNaN(i) )
-        totals[$(this).attr('class')] += i;
-    });
-    // total of subtotals
-    var currency = $(elt).closest('.item').find('.currency').html();
-    $.each(totals, function(index, value){
-      var total = $(elt).find('.'+index.replace(/\s+/g,'.'));
-      if ( $(total).hasClass('monney') )
-        value = value.toFixed(2)+' '+currency;
-      if ( total.is('.qty') )
-        total.find('.qty').html(value);
-      else
-        total.html(value);
-    });
-    
-    // megatotal
-    var megaelt = $('#li_transaction_field_content .families:not(.sample) .family.total');
-    totals = new Object;
-    $('#li_transaction_field_content .families:not(.sample) .family:not(.total) .item.total .nb').each(function(){
-      var val = $(this).is('.qty') ? $(this).find('.qty').html() : $(this).html();
-      if ( totals[$(this).attr('class')] == undefined )
-       totals[$(this).attr('class')] = 0;
-      i = parseFloat(val.replace(',','.'));
-      if ( !isNaN(i) )
-        totals[$(this).attr('class')] += i;
-    });
-    $.each(totals, function(index, value){
-      var total = $(megaelt).find('.'+index.replace(/\s+/g,'.'));
-      if ( $(total).hasClass('monney') )
-        value = value.toFixed(2)+' '+currency;
-      if ( total.is('.qty') )
-        total.find('.qty').html(value);
-      else
-        total.html(value);
-    });
-  }).select();
+  $('#li_transaction_field_content .item .total').select(li.calculateTotals).select();
   
   // CONTACT CHANGE & INIT
   $.each([
     '#li_transaction_field_contact_id',
     '#li_transaction_field_professional_id'
-  ], function(index, value){ touchscreen_init(value); });
+  ], function(index, value){ li.initTouchscreen(value); });
   
   // CONTACT CREATION
   $('#li_transaction_field_contact_id .create-contact').click(function(){
     var w = window.open($(this).prop('href')+'&name='+$('#li_transaction_field_contact_id [name="autocomplete_transaction[contact_id]"]').val(),'new_contact');
-
-    // function to go back to the ticketting transaction from the contact window
-    function ticket_go_back_to_transaction(){
-      setTimeout(function(){
-        $(w.document).ready(function(){
-          if ( contact_id = $(w.document).find('[name="contact[id]"]').val() )
-          {
-            $('#li_transaction_field_contact_id [name="transaction[contact_id]"]').val(contact_id);
-            $('#contact form').submit();
-            w.close();
-          }
-          else
-          {
-            // one level deeper through the dream layers
-            $(w.document).ready(function(){
-              $(w.document).find('.sf_admin_actions_form .sf_admin_action_list, .sf_admin_actions_form .sf_admin_action_save_and_add')
-                .remove();
-            });
-            w.onunload = ticket_go_back_to_transaction;
-          }
-        });
-      },2500);
-    };
     
     w.onload = function(){
       setTimeout(function(){
@@ -292,7 +80,7 @@ $(document).ready(function(){
           $(w.document).find('.sf_admin_actions_form .sf_admin_action_list, .sf_admin_actions_form .sf_admin_action_save_and_add')
             .remove();
         });
-        w.onunload = ticket_go_back_to_transaction;
+        w.onunload = li.goBackToTransaction;
       },2500);
     };
     
@@ -342,67 +130,7 @@ $(document).ready(function(){
   });
   
   // THE BOARD
-  $('#li_transaction_field_board button').click(function(){
-    var elt = $('.li_fieldset .ui-state-highlight').find('textarea, input:not([type=hidden])');
-    if ( $('.li_fieldset .ui-state-highlight').closest('#li_transaction_field_content').length == 1 )
-      elt = $('#li_transaction_field_price_new').find('input[type=text]'); // case of qty of "products"
-    
-    if ( $(this).val().substring(0,1) != '_' )
-    {
-      if ( !$(this).closest('#li_transaction_field_board').hasClass('alpha') )
-        elt.val(elt.val()+parseInt($(this).find('.num').html(),10)); // num
-      else // alpha
-      {
-        var button = this; // init
-        
-        if ( $(button).hasClass('selected') )
-        {
-          // same button
-          var index = $(button).val().indexOf($(button).prop('title'))+1;
-          var letter = $(button).val().substring(index, index+1);
-          if ( !letter )
-            letter = $(button).val().substring(0,1);
-          
-          $(button).prop('title', letter);
-        }
-        else
-        {
-          // changing button
-          if ( $('#li_transaction_field_board .selected').length > 0 )
-            elt.val(elt.val()+$('#li_transaction_field_board .selected').prop('title'));
-          $('#li_transaction_field_board .selected').removeClass('selected').prop('title',false);
-          
-          // recording the current one...
-          $(button).addClass('selected').prop('title',$(button).val().substring(0,1));
-        }
-        
-        // completion
-        setTimeout(function(){
-          if ( $(button).is('.selected') )
-          {
-            elt.val(elt.val()+$(button).prop('title'));
-            $('#li_transaction_field_board .selected').removeClass('selected').prop('title',false);
-          }
-        },500);
-      }
-    }
-    else
-    {
-      switch ( $(this).val() ) {
-      case '_ACTION_':
-        if ( elt.is('textarea') )
-          elt.val(elt.val()+"\n");
-        else
-          elt.keydown();
-          elt.closest('form').submit();
-        break;
-      case '_BACKSPACE_':
-        elt.val(elt.val().substring(0,elt.val().length-1));
-        break;
-      }
-    }
-    elt.focus();
-  });
+  $('#li_transaction_field_board button').click(li.boardClick)
   
   // make the flashes to disapear
   setTimeout(function(){ $('.sf_admin_flashes > *').fadeOut('slow',function(){ $(this).remove(); }); }, 3500);
@@ -428,3 +156,179 @@ $(document).ready(function(){
     );
   }).resize();
 });
+
+// GENERIC FORMS INITIALIZATION
+li.initTouchscreen = function(elt)
+{
+  switch ( elt ) {
+  case '#li_transaction_field_contact_id':
+    if ( $(elt+' [name="transaction[contact_id]"]').val() == '' )
+      $(elt+' .data a').remove();
+    else
+      $(elt+' .data a').prepend('<span class="ui-icon ui-icon-person"></span>');
+    $(elt+' .li_touchscreen_new').toggle($(elt+' .data a').length == 0);
+    $('#li_transaction_field_informations .vcard').remove();
+    $(elt).click();
+    break;
+  
+  case '#li_transaction_field_professional_id':
+    if ( $(elt+' select option').length == 0 || $(elt+' select option').length == 1 && !$(elt+' select option:first').val() )
+      $(elt+' select').fadeOut('fast');
+    else
+      $(elt+' select').fadeIn('medium');
+    break;
+  }
+}
+
+// THE TOTALS
+li.calculateTotals = function(){
+  if ( $(this).closest('.families.sample').length > 0 )
+   return;
+    
+  // remove totals if there is only one line
+  if ( !$(this).closest('.family').is('.total')
+    && $(this).closest('.declinations').length > 0
+    && $(this).closest('.declinations').find('.declination').length <= 1 )
+  {
+    if ( $(this).closest('.declinations').is('.total') )
+    {
+      if ( $(this).closest('.items').find('.item:not(.total) .declinations').length <= 1 )
+        $(this).closest('.item').hide();
+    }
+    else
+      $(this).hide();
+  }
+    
+  var elt = this;
+  var totals = new Object;
+  $(this).closest($(this).closest('.declinations.total').length > 0 ? '.items' : '.declinations').find('.declination .nb').each(function(){
+    var val = $(this).is('.qty') ? $(this).find('input').val() : $(this).html();
+    if ( !val ) val = '';
+    
+    if ( totals[$(this).attr('class')] == undefined )
+      totals[$(this).attr('class')] = 0;
+    
+    i = parseFloat(val.replace(',','.'));
+    if ( !isNaN(i) )
+      totals[$(this).attr('class')] += i;
+  });
+  
+  // total of subtotals
+  var currency = $(elt).closest('.item').find('.currency').html();
+  $.each(totals, function(index, value){
+    var total = $(elt).find('.'+index.replace(/\s+/g,'.'));
+    if ( $(total).hasClass('monney') )
+      value = value.toFixed(2)+' '+currency;
+    if ( total.is('.qty') )
+      total.find('.qty').html(value);
+    else
+      total.html(value);
+  });
+    
+  // megatotal
+  var megaelt = $(this).closest('.families').find('.family.total');
+  totals = new Object;
+  $(this).closest('.families').find('.family:not(.total) .item.total .nb').each(function(){
+    var val = $(this).is('.qty') ? $(this).find('.qty').html() : $(this).html();
+    if ( totals[$(this).attr('class')] == undefined )
+      totals[$(this).attr('class')] = 0;
+    i = parseFloat(val.replace(',','.'));
+    if ( !isNaN(i) )
+      totals[$(this).attr('class')] += i;
+  });
+  $.each(totals, function(index, value){
+    var total = $(megaelt).find('.'+index.replace(/\s+/g,'.'));
+    if ( $(total).hasClass('monney') )
+      value = value.toFixed(2)+' '+currency;
+    if ( total.is('.qty') )
+      total.find('.qty').html(value);
+    else
+      total.html(value);
+  });
+}
+
+// function to go back to the ticketting transaction from the contact window
+li.goBackToTransaction = function(){
+  setTimeout(function(){
+    $(w.document).ready(function(){
+    if ( contact_id = $(w.document).find('[name="contact[id]"]').val() )
+    {
+      $('#li_transaction_field_contact_id [name="transaction[contact_id]"]').val(contact_id);
+      $('#contact form').submit();
+      w.close();
+    }
+    else
+    {
+      // one level deeper through the dream layers
+      $(w.document).ready(function(){
+        $(w.document).find('.sf_admin_actions_form .sf_admin_action_list, .sf_admin_actions_form .sf_admin_action_save_and_add')
+          .remove();
+      });
+      w.onunload = li.goBackToTransaction;
+    }
+    });
+  },2500);
+}
+
+// click on virtual keyboard
+li.clickBoard = function(){
+  var elt = $('.li_fieldset .ui-state-highlight').find('textarea, input:not([type=hidden])');
+  if ( $('.li_fieldset .ui-state-highlight').closest('#li_transaction_field_content').length == 1 )
+    elt = $('#li_transaction_field_price_new').find('input[type=text]'); // case of qty of "products"
+  
+  if ( $(this).val().substring(0,1) != '_' )
+  {
+    if ( !$(this).closest('#li_transaction_field_board').hasClass('alpha') )
+      elt.val(elt.val()+parseInt($(this).find('.num').html(),10)); // num
+    else // alpha
+    {
+      var button = this; // init
+      
+      if ( $(button).hasClass('selected') )
+      {
+        // same button
+        var index = $(button).val().indexOf($(button).prop('title'))+1;
+        var letter = $(button).val().substring(index, index+1);
+        if ( !letter )
+          letter = $(button).val().substring(0,1);
+        
+        $(button).prop('title', letter);
+      }
+      else
+      {
+        // changing button
+        if ( $('#li_transaction_field_board .selected').length > 0 )
+          elt.val(elt.val()+$('#li_transaction_field_board .selected').prop('title'));
+        $('#li_transaction_field_board .selected').removeClass('selected').prop('title',false);
+        
+        // recording the current one...
+        $(button).addClass('selected').prop('title',$(button).val().substring(0,1));
+      }
+      
+      // completion
+      setTimeout(function(){
+        if ( $(button).is('.selected') )
+        {
+          elt.val(elt.val()+$(button).prop('title'));
+          $('#li_transaction_field_board .selected').removeClass('selected').prop('title',false);
+        }
+      },500);
+    }
+  }
+  else
+  {
+    switch ( $(this).val() ) {
+    case '_ACTION_':
+      if ( elt.is('textarea') )
+        elt.val(elt.val()+"\n");
+      else
+        elt.keydown();
+        elt.closest('form').submit();
+      break;
+    case '_BACKSPACE_':
+      elt.val(elt.val().substring(0,elt.val().length-1));
+      break;
+    }
+  }
+  elt.focus();
+}

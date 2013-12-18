@@ -41,3 +41,9 @@ csvSuccess:
   http_metas:
     content-type: text/comma-separated-values
     content-disposition: attachment; filename=spectators.csv
+
+ajaxSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+        

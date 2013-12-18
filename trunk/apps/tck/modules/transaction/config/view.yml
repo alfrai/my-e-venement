@@ -1,5 +1,5 @@
 all:
-  javascripts: [tck-touchscreen, vcard]
+  javascripts: [tck-touchscreen, tck-touchscreen-forms, vcard]
   stylesheets: [tck-touchscreen]
 
 json:

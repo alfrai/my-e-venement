@@ -1,4 +1,4 @@
-function liCompleteContent(data, type, replaceAll = true)
+li.completeContent = function(data, type, replaceAll = true)
 {
   if ( typeof data != 'object' )
   {
@@ -6,7 +6,7 @@ function liCompleteContent(data, type, replaceAll = true)
     return;
   }
   
-  var wglobal = $('#li_transaction_'+type+' .families'); // first element, parent of all
+  var wglobal = $('#li_transaction_'+type+' .families:not(.sample)'); // first element, parent of all
   var currency = $('#li_transaction_'+type+' .currency').html(); // currency (€, £, $...)
   
   if ( replaceAll )
@@ -41,6 +41,7 @@ function liCompleteContent(data, type, replaceAll = true)
     wmanif.find('h3 .event').text(manifestation.name).prop('href',manifestation.event_url);
     wmanif.find('h3 .happens_at').text(happens_at.toLocaleString().replace(/:\d\d \w+$/,'')).prop('href',manifestation.manifestation_url).prop('title', ends_at.toLocaleString().replace(/:\d\d \w+$/,''));
     wmanif.find('h3 .location').text(manifestation.location).prop('href',manifestation.location_url);
+    wmanif.find('h3').css('background-color', manifestation.color);
     // TODO: gauge_url
     
     if ( add )

@@ -24,7 +24,7 @@
 <?php
   /**
    * function executeGetManifestations
-   * @param sfWebRequest $request, given by the framework (required: id, optional: manifestation_id || (price_id, gauge_id, printed))
+   * @param sfWebRequest $request, given by the framework (required: id, optional: Array|int manifestation_id || (price_id, gauge_id, printed))
    * @return ''
    * @display a json array containing :
    * json:
@@ -51,6 +51,7 @@
    *     manifestation_url:  xxx (absolute) link
    *     location: string
    *     location_url: xxx (absolute) link
+   *     color: string CSS color of the manifestation
    *     gauge_url: xxx (absolute) data to display the global gauge
    *     gauges:
    *       [gauge_id]:
@@ -101,14 +102,16 @@
       }
     }
     elseif ( $request->getParameter('manifestation_id',false) )
-    {
-      $q = Doctrine::getTable('Manifestation')->createQuery('m')
-        ->andWhere('m.id = ?',$request->getParameter('manifestation_id'));
-    }
+      $q = Doctrine::getTable('Manifestation')->createQuery('m');
+    
+    if ( $request->getParameter('manifestation_id',false) )
+      $mid = is_array($request->getParameter('manifestation_id'))
+        ? $request->getParameter('manifestation_id')
+        : array($request->getParameter('manifestation_id'));
     
     // retrictive parameters
-    if ( $mid = $request->getParameter('manifestation_id', false) )
-      $q->andWhere('m.id = ?',$mid);
+    if ( $request->getParameter('manifestation_id',false) )
+      $q->andWhereIn('m.id',$mid);
     if ( $gid = $request->getParameter('gauge_id', false) )
       $q->andWhere('g.id = ?',$gid);
     
@@ -119,10 +122,10 @@
     elseif ( $q->count() == 0 )
       return;
     
-    foreach ( $this->transaction ? $this->transaction->Tickets : array(true) as $ticket )
+    foreach ( $this->transaction ? $this->transaction->Tickets : $mid as $ticket )
     {
       // by manifestation
-      if ( !isset($this->json[$mid = $ticket instanceof Ticket ? $ticket->manifestation_id : $request->getParameter('manifestation_id')]) )
+      if ( !isset($this->json[$mid = $ticket instanceof Ticket ? $ticket->manifestation_id : $ticket]) )
       {
         $manifestation = Doctrine::getTable('Manifestation')->createQuery('m',true)
           ->leftJoin('m.PriceManifestations pm')
@@ -137,15 +140,16 @@
           ->fetchOne();
         
         $this->json[$manifestation->id] = array(
-          'id'   => $manifestation->id,
-          'name' => (string)$manifestation->Event,
-          'event_url' => cross_app_url_for('event', 'event/show?id='.$manifestation->event_id, true),
-          'happens_at' => (string)$manifestation->happens_at,
-          'ends_at' => (string)$manifestation->ends_at,
-          'manifestation_url'  => cross_app_url_for('event', 'manifestation/show?id='.$manifestation->id,true),
-          'location' => (string)$manifestation->Location,
-          'location_url' => cross_app_url_for('event', 'location/show?id='.$manifestation->location_id,true),
-          'gauge_url' => cross_app_url_for('event','',true),
+          'id'            => $manifestation->id,
+          'name'          => (string)$manifestation->Event,
+          'event_url'     => cross_app_url_for('event', 'event/show?id='.$manifestation->event_id, true),
+          'happens_at'    => (string)$manifestation->happens_at,
+          'ends_at'       => (string)$manifestation->ends_at,
+          'manifestation_url' => cross_app_url_for('event', 'manifestation/show?id='.$manifestation->id,true),
+          'location'      => (string)$manifestation->Location,
+          'location_url'  => cross_app_url_for('event', 'location/show?id='.$manifestation->location_id,true),
+          'color'         => (string)$manifestation->Color,
+          'gauge_url'     => cross_app_url_for('event','',true),
         );
         
         // gauges

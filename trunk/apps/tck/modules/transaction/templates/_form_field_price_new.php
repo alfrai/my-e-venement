@@ -13,7 +13,7 @@
       $(this).find('input[type=text]').focus();
     });
     
-    $('#li_transaction_field_content .highlight').focusin(function(){
+    $('#li_transaction_field_content .highlight:not(.new-family)').focusin(function(){
       form.find('button').remove();
       var infos = $.parseJSON($(this).find('.infos').text());
       $.each(infos.available_prices, function(i, price){
