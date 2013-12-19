@@ -7,7 +7,6 @@ li.completeContent = function(data, type, replaceAll = true)
   }
   
   var wglobal = $('#li_transaction_'+type+' .families:not(.sample)'); // first element, parent of all
-  var currency = $('#li_transaction_'+type+' .currency').html(); // currency (€, £, $...)
   
   if ( replaceAll )
   {
@@ -15,7 +14,7 @@ li.completeContent = function(data, type, replaceAll = true)
       .removeClass('sample');
     $('#li_transaction_'+type+' .families:not(.sample)').remove();
     wglobal.find('.family:not(.total)').remove();
-    wglobal.appendTo($('#li_transaction_'+type));
+    wglobal.insertBefore($('#li_transaction_'+type+' .footer'));
   }
   
   $.each(data, function(id, manifestation){
@@ -30,7 +29,7 @@ li.completeContent = function(data, type, replaceAll = true)
     else
     {
       wmanif.prop('id', wmanif.prop('id')+manifestation.id);
-      wmanif.attr('data-manifestation-id', manifestation.id);
+      wmanif.attr('data-family-id', manifestation.id);
       wmanif.find('.item:not(.total)').remove();
     }
     
@@ -99,9 +98,9 @@ li.completeContent = function(data, type, replaceAll = true)
         }
         wprice.find('.qty input').val(price.qty).select();
         wprice.find('.price_name').html(price.name).prop('title', price.description);
-        wprice.find('.pit').html(price.pit.toFixed(2)+' '+currency);
-        wprice.find('.vat').html(price.vat.toFixed(2)+' '+currency);
-        wprice.find('.tep').html(price.tep.toFixed(2)+' '+currency);
+        wprice.find('.pit').html(li.format_currency(price.pit));
+        wprice.find('.vat').html(li.format_currency(price.vat));
+        wprice.find('.tep').html(li.format_currency(price.tep));
         wprice.attr('data-price-id', price.id);
         // TODO: ids
         // TODO: nums

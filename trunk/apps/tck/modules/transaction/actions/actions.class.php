@@ -93,6 +93,26 @@ class transactionActions extends autoTransactionActions
         ->andWhere('m.reservation_confirmed = ? AND m.blocking = ?',array(true,true))
         ->andWhere('pu.sf_guard_user_id = ?', $this->getUser()->getId()),
     ));
+
+    // NEW PAYMENT
+    $this->form['payment_new'] = new sfForm;
+    $ws = $this->form['payment_new']->getWidgetSchema()->setNameFormat('transaction[payment_new][%s]');
+    $vs = $this->form['payment_new']->getValidatorSchema();
+    $ws['payment_method_id'] = new sfWidgetFormDoctrineChoice(array(
+      'expanded' => true,
+      'model' => 'PaymentMethod',
+      'order_by' => array('name', ''),
+      'query' => $q = Doctrine::getTable('PaymentMethod')->createQuery('pm')
+        ->andWhere('pm.display = ?',true),
+    ));
+    $vs['payment_method_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'PaymentMethod',
+      'query' => $q,
+    ));
+    $ws['value'] = new sfWidgetFormInput;
+    $vs['value'] = new sfValidatorInteger;
+    $ws['created_at'] = new liWidgetFormJQueryDateText;
+    $vs['created_at'] = new sfValidatorDate(array('required' => false));
   }
   
   public function executeComplete(sfWebRequest $request)

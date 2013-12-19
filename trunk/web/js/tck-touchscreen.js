@@ -8,7 +8,8 @@ $(document).ready(function(){
   ', [name="transaction[description]"]')
     .change(function(){ $(this).closest('form').submit(); });
   
-  $('#sf_admin_content form').submit(li.formSubmit);
+  li.initContent();
+  $('#sf_admin_content form:not(.noajax)').submit(li.formSubmit);
   
   // PLAYING W/ CART'S CONTENT
   // sliding content
@@ -157,6 +158,28 @@ $(document).ready(function(){
   }).resize();
 });
 
+li.initContent = function(){
+  $.each(li.urls, function(id, url){
+    $.get(url,function(data){
+      if ( data.error[0] )
+      {
+        alert(data.error[1]);
+        return;
+      }
+      if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined ))
+      {
+        alert(data.success.error_fields.manifestations);
+        return;
+      }
+      
+      if ( data.success.success_fields.manifestations !== undefined && data.success.success_fields.manifestations.data !== undefined )
+      {
+        li.completeContent(data.success.success_fields.manifestations.data.content, 'manifestations');
+      }
+    });
+  });
+}
+
 // GENERIC FORMS INITIALIZATION
 li.initTouchscreen = function(elt)
 {
@@ -180,8 +203,26 @@ li.initTouchscreen = function(elt)
   }
 }
 
+// THE CURRENCY
+li.format_currency = function(value, nbsp, nodot)
+{
+  if ( nbsp  == undefined ) nbsp  = true;
+  if ( nodot == undefined ) nodot = true;
+  
+  var r = $('.currency:first').length > 0
+    ? $('.currency:first').html()
+    : '%d €';
+  value = r.replace('%d',value.toFixed(2));
+  
+  if ( nbsp  ) value = value.replace(' ','&nbsp;');
+  if ( nodot ) value = value.replace('.',',');
+  
+  return value;
+}
+
 // THE TOTALS
-li.calculateTotals = function(){
+li.calculateTotals = function()
+{
   if ( $(this).closest('.families.sample').length > 0 )
    return;
     
@@ -213,12 +254,10 @@ li.calculateTotals = function(){
       totals[$(this).attr('class')] += i;
   });
   
-  // total of subtotals
-  var currency = $(elt).closest('.item').find('.currency').html();
   $.each(totals, function(index, value){
     var total = $(elt).find('.'+index.replace(/\s+/g,'.'));
     if ( $(total).hasClass('monney') )
-      value = value.toFixed(2)+' '+currency;
+      value = li.format_currency(value);
     if ( total.is('.qty') )
       total.find('.qty').html(value);
     else
@@ -239,11 +278,32 @@ li.calculateTotals = function(){
   $.each(totals, function(index, value){
     var total = $(megaelt).find('.'+index.replace(/\s+/g,'.'));
     if ( $(total).hasClass('monney') )
-      value = value.toFixed(2)+' '+currency;
+      value = li.format_currency(value);
     if ( total.is('.qty') )
       total.find('.qty').html(value);
     else
       total.html(value);
+  });
+  
+  // total of totals
+  var total = { pit: 0, vat: 0, tep: 0 };
+  $('.family.total .item.total tr.total').each(function(){
+    var family = this;
+    $.each(total, function(index, value){
+      var tmp = parseFloat($(family).find('.'+index).html().replace(',','.'));
+      if ( !isNaN(tmp) )
+        total[index] += tmp;
+    });
+  });
+  $.each(total, function(index, value){
+    $('#li_transaction_field_payments_list .topay .'+index).html(li.format_currency(value));
+    
+    var tmp = parseFloat($('#li_transaction_field_payments_list tfoot .total .sf_admin_list_td_list_value').html());
+    tmp = isNaN(tmp) ? 0 : tmp;
+    tmp = total[index] - tmp * total[index]/total.pit;
+    tmp = isNaN(tmp) ? 0 : tmp;
+    $('#li_transaction_field_payments_list .change .'+index)
+      .html(li.format_currency(tmp));
   });
 }
 

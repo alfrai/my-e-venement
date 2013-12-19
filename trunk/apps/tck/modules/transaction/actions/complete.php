@@ -195,5 +195,8 @@
       }
     }
     
+    if ( count($this->json['success']['error_fields']) == 0 && count($this->json['success']['success_fields']) == 0 )
+      $this->json['error'] = array(true, 'Unknown request');
+    
     return;
 

@@ -18,16 +18,20 @@ all:
         board: ~
       payments:
         price_new: ~
-        payment_new: ~
+        payment_new:
+          class: highlight
         payments_list:
           class: highlight
     selling:
       manifestations:
+        model: Manifestation
         title: <?php echo __('Manifestations').PHP_EOL ?>
         data_url: transaction/getManifestations
       museum:
+        model: MuseumEntry
         title: <?php echo __('Museum').PHP_EOL ?>
         fake: true
       pointofsales:
+        model: Product
         title: <?php echo __('Point of Sales').PHP_EOL ?>
         fake: true

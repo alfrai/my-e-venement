@@ -12,7 +12,6 @@
                 <td class="tep nb monney" title="<?php echo __('PET') ?>"></td>
                 <td class="vat nb monney" title="<?php echo __('VAT') ?>"></td>
                 <td class="pit nb monney" title="<?php echo __('Total') ?>"></td>
-                <td class="currency">€</td>
               </tr>
             </tbody>
           </table>

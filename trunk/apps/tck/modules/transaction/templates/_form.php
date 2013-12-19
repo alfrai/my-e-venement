@@ -17,3 +17,4 @@
   <?php endforeach ?>
   </div>
 <?php endforeach ?>
+<div style="clear: both"></div>

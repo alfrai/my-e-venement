@@ -49,7 +49,7 @@ li.formSubmit = function(){
           if ( !value.data.reset )
             return;
           
-          elt = $('#li_transaction_gauge_'+value.data.gauge_id+' .declination'+(value.data.printed ? '.printed' : ':not(.printed)')+'[data-price-id='+value.data.price_id+']');
+          elt = $('#li_transaction_item_'+value.data.gauge_id+' .declination'+(value.data.printed ? '.printed' : ':not(.printed)')+'[data-price-id='+value.data.price_id+']');
           if ( value.data.qty > 0 )
           {
             elt.find('.qty input').val(value.data.qty).select();

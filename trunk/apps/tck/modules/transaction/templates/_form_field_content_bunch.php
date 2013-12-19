@@ -2,7 +2,7 @@
 <?php if (! (isset($detail['fake']) && $detail['fake']) ): ?>
   <?php use_javascript('tck-touchscreen-dataloader') ?>
   <div class="families sample">
-    <div class="family" id="li_transaction_manifestation_">
+    <div class="family" id="li_transaction_<?php echo strtolower($detail['model']) ?>_" data-family-id="">
       <h3 class="ui-corner-all">
         <a target="_blank" class="event"></a>
         <a target="_blank" class="happens_at" title=""></a>
@@ -13,7 +13,7 @@
         </a>
       </h3>
       <div class="items">
-        <div class="item ui-corner-all highlight" id="li_transaction_gauge_">
+        <div class="item ui-corner-all highlight" id="li_transaction_item_">
           <?php include_partial('form_field_content_item_sample') ?>
         </div>
         <div class="item total">
@@ -30,25 +30,9 @@
     </div>
   </div>
   <script type="text/javascript">
-    $(document).ready(function(){
-      $.get('<?php echo url_for($detail['data_url'].'?id='.$transaction->id) ?>',function(data){
-        if ( data.error[0] )
-        {
-          alert(data.error[1]);
-          return;
-        }
-        if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined ))
-        {
-          alert(data.success.error_fields.manifestations);
-          return;
-        }
-        
-        if ( data.success.success_fields.manifestations !== undefined && data.success.success_fields.manifestations.data !== undefined )
-        {
-          li.completeContent(data.success.success_fields.manifestations.data.content, 'manifestations');
-        }
-      });
-    });
+    if ( li.urls == undefined )
+      li.urls = {};
+    li.urls['<?php echo $id ?>'] = '<?php echo url_for($detail['data_url'].'?id='.$transaction->id) ?>';
   </script>
 <?php else: ?>
   <?php include_partial('form_field_content_fake') ?>

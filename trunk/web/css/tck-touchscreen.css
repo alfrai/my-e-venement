@@ -35,11 +35,17 @@
 #li_transaction_field_product_infos { height: 208px; margin-top: 0 !important; }
 #li_transaction_field_board { height: 170px; }
 #li_transaction_field_content { height: 400px; width: 60%; float: left; margin-top: 0 !important; }
+#li_transaction_field_content .footer > .ui-widget-content { padding: 3px; margin-top: 10px; } 
+#li_transaction_field_content .footer > .ui-widget-content > form { display: inline-block; width: 32%; }
+#li_transaction_field_content .footer > .ui-widget-content > form:first-child + form { text-align: center; }
+#li_transaction_field_content .footer > .ui-widget-content > form:last-child { text-align: right; }
 #li_transaction_field_content .new-family { overflow: hidden; height: 1.8em; margin-bottom: 5px; padding: 3px; }
-#li_transaction_field_content .new-family input, #li_transaction_field_content .new-family select { vertical-align: top; width: 35%; }
+#li_transaction_field_content .new-family input, #li_transaction_field_content .new-family select { vertical-align: top; }
+#li_transaction_field_content .new-family input { width: 30%; }
 #li_transaction_field_content .new-family.ui-state-highlight { overflow: visible; }
-#li_transaction_field_content .new-family select { height: 10em; margin-top: 2px; width: 55%; }
+#li_transaction_field_content .new-family select { height: 10em; margin-top: 2px; width: 50%; }
 #li_transaction_field_content .new-family.ui-state-highlight select { margin-left: 4px; position: absolute; }
+#li_transaction_field_content .new-family select option { font-size: 1.3em; }
 #li_transaction_field_content .new-family input[type=submit] { float: right; width: auto; }
 
 #sf_admin_content #li_transaction_field_content > div { display: block; }
@@ -81,9 +87,32 @@
 
 /* payments & prices */
 #li_fieldset_payments { clear: both; }
-#li_fieldset_payments .ui-widget-content { width: 47%; }
-#sf_admin_content #li_transaction_field_price_new { position: absolute; display: none; }
+#li_fieldset_payments #li_transaction_field_payment_new { width: 44%; }
+#li_fieldset_payments #li_transaction_field_payments_list { width: 50%; }
+#sf_admin_content #li_transaction_field_price_new { position: absolute; display: none; z-index: 1; overflow-y: auto; }
+#li_transaction_field_payment_new, #li_transaction_field_price_new { width: 440px; height: 95px; }
 #li_transaction_field_price_new input[type=text] { width: 2em; text-align: right; }
+#li_transaction_field_payments_list { font-size: 0; min-height: 210px; }
+#li_transaction_field_payments_list .sf_admin_list_td_list_created_at { text-align: center; }
+#li_transaction_field_payments_list table { background-color: white; }
+#li_transaction_field_payments_list tfoot { font-size: 75%; }
+#li_transaction_field_payments_list tfoot td:first-child, #li_transaction_field_payments_list tfoot .pit { font-weight: bold; font-size: 13px; }
+#li_transaction_field_payments_list tfoot td { padding: 4px; margin: 0px; text-align: left; overflow: hidden; border-bottom: 1px solid rgb(166, 201, 226); border-right: 1px solid rgb(166, 201, 226); }
+#li_transaction_field_payments_list tfoot td, #li_transaction_field_payments_list .sf_admin_list_td_list_value { text-align: right; }
+#li_transaction_field_payments_list tfoot td:first-child { text-align: left; }
+#li_transaction_field_payments_list .change * { text-decoration: underline; }
+#sf_admin_content #li_transaction_field_payments_list > * { font-size: 13px; display: block; }
+#li_transaction_field_payments_list .accounting.order { float: left; }
+#li_transaction_field_payments_list .accounting.invoice { display: block; text-align: right; }
+#sf_admin_content #li_transaction_field_payments_list > *,
+#sf_admin_content #li_transaction_field_payment_new > * { display: block; }
+#li_transaction_field_payment_new .field_payment_method_id { float: left; width: 50%; }
+#li_transaction_field_payment_new label { width: 60px; display: inline-block; }
+#li_transaction_field_payment_new ul label { width: auto; }
+#li_transaction_field_payment_new .field_value, #li_transaction_field_payment_new .field_created_at { margin-bottom: 1em; }
+#li_transaction_field_payment_new .field_value input { width: 60px; }
+#li_transaction_field_payment_new .field input[type=text] { text-align: center; }
+#li_transaction_field_payment_new .submit { float: right; margin-top: -8px }
 
 /* board */
 #sf_admin_content #li_fieldset_content #li_transaction_field_board { overflow-y: hidden; }

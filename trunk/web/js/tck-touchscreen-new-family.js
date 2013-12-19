@@ -22,8 +22,8 @@
           // disabling the selection of any manif that is already selected (including those w/o any ticket yet) 
           var except = [];
           $(elt).closest('.bunch').find('.family:not(.total)').each(function(){
-            if ( $(this).attr('data-manifestation-id') )
-              except.push($(this).attr('data-manifestation-id'));
+            if ( $(this).attr('data-family-id') )
+              except.push($(this).attr('data-family-id'));
           });
         
           $.ajax({
@@ -33,7 +33,8 @@
             success: function(data){
               families.html('');
               $.each(data, function(id, manif){
-                $('<option></option>').css('background-color', manif.color).val(id).html(manif.name)
+                $('<option></option>').css('background-color', manif.color).val(id)
+                  .html(manif.name).prop('title', manif.name)
                   .appendTo(families);
               });
             }
