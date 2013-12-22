@@ -8,9 +8,24 @@
     </td>
     <td colspan="2"></td>
   </tr>
+  <tr class="sf_admin_row ui-widget-content sample" data-payment-id="">
+    <td style="display: none;">
+      <input name="ids[]" value="" class="sf_admin_batch_checkbox" type="checkbox" />
+    </td>
+    <td class="sf_admin_text sf_admin_list_td_Method"></td>
+    <td class="sf_admin_text sf_admin_list_td_list_created_at" colspan="2"></td>
+    <td class="sf_admin_text sf_admin_list_td_list_value"></td>
+    <td style="white-space: nowrap;">
+      <ul class="sf_admin_td_actions fg-buttonset fg-buttonset-single">
+        <li class="sf_admin_action_delete">
+          <a class="fg-button-mini fg-button ui-state-default fg-button-icon-left ui-priority-secondary" href="/e-venement/web/tck_dev.php/payment/"><span class="ui-icon ui-icon-trash"></span>Supprimer</a>
+        </li>
+      </ul>
+    </td>
+  </tr>
   <?php else: ?>
   <?php foreach ( $transaction->Payments as $i => $payment ): ?>
-  <tr class="sf_admin_row ui-widget-content<?php echo $i % 2 == 0 ? '' : ' odd' ?>">
+  <tr class="sf_admin_row ui-widget-content<?php echo $i % 2 == 0 ? '' : ' odd' ?>" data-payment-id="<?php echo $payment->id ?>">
     <td style="display: none;">
       <input name="ids[]" value="<?php echo $payment->id ?>" class="sf_admin_batch_checkbox" type="checkbox" />
     </td>

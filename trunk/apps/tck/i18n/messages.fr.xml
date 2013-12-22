@@ -9,6 +9,22 @@
         <target>Uniquement des nombres positifs ou négatifs</target>
       </trans-unit> 
       <trans-unit>
+        <source>Enter</source>
+        <target>Entrée</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Creation</source>
+        <target>Création</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Last mod.</source>
+        <target>Dern.mod.</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>By</source>
+        <target>Par</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Museum</source>
         <target>Musée</target>
       </trans-unit> 

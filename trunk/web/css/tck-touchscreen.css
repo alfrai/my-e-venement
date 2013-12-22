@@ -121,7 +121,7 @@
 #li_transaction_field_board td { width: 85px; }
 #li_transaction_field_board button { width: 100%; height: 100%; }
 #li_transaction_field_board button, #li_transaction_field_board tr { height: 42px; }
-#li_transaction_field_board td[rowspan] button { height: 128px; }
+#li_transaction_field_board td[rowspan] button { height: 84px; }
 #li_transaction_field_board.alpha button .num, #li_transaction_field_board button .alpha { display: none; }
 #li_transaction_field_board.alpha button .alpha { display: inline; }
 #li_transaction_field_board.alpha button[value=" "] .alpha:after { content: '_'; }
