@@ -75,7 +75,7 @@ li.formSubmit = function(){
               if ( data.error[0] ) { alert(data.error[1]); return; }
               if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined )) { alert(data.success.error_fields.manifestations); return; }
               if ( data.success.success_fields.manifestations !== undefined && data.success.success_fields.manifestations.data !== undefined )
-                liCompleteContent(data.success.success_fields.manifestations.data.content, 'manifestations', false);
+                li.completeContent(data.success.success_fields.manifestations.data.content, 'manifestations', false);
             }
           });
           break;

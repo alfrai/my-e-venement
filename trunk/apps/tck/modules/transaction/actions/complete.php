@@ -177,9 +177,6 @@
           $ticket->price_id = $params[$field]['price_id'];
           $ticket->transaction_id = $request->getParameter('id');
           $ticket->save();
-        
-          $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'gauge_price';
-          $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getManifestations?id='.$request->getParameter('id').'&printed=false&gauge_id='.$params[$field]['gauge_id'].'&price_id='.$params[$field]['price_id'], true);
         }
         else // delete
         {
@@ -188,6 +185,9 @@
             ->execute()
             ->delete();
         }
+          
+        $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'gauge_price';
+        $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getManifestations?id='.$request->getParameter('id').'&printed=false&gauge_id='.$params[$field]['gauge_id'].'&price_id='.$params[$field]['price_id'], true);
       }
       else
       {
