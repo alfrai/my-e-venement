@@ -166,15 +166,15 @@ li.initContent = function(){
         alert(data.error[1]);
         return;
       }
-      if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined ))
+      if (!( data.success.error_fields !== undefined && data.success.error_fields[id] === undefined ))
       {
-        alert(data.success.error_fields.manifestations);
+        alert(data.success.error_fields[id]);
         return;
       }
       
-      if ( data.success.success_fields.manifestations !== undefined && data.success.success_fields.manifestations.data !== undefined )
+      if ( data.success.success_fields[id] !== undefined && data.success.success_fields[id].data !== undefined )
       {
-        li.completeContent(data.success.success_fields.manifestations.data.content, 'manifestations');
+        li.completeContent(data.success.success_fields[id].data.content, id);
       }
     });
   });
@@ -208,6 +208,7 @@ li.format_currency = function(value, nbsp, nodot)
 {
   if ( nbsp  == undefined ) nbsp  = true;
   if ( nodot == undefined ) nodot = true;
+  if ( !value ) value = 0;
   
   var r = $('.currency:first').length > 0
     ? $('.currency:first').html()

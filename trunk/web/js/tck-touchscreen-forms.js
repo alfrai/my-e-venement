@@ -79,6 +79,17 @@ li.formSubmit = function(){
             }
           });
           break;
+        case 'payments':
+          $.ajax({
+            url: value.remote_content.load.url,
+            success: function(data){
+              if ( data.error[0] ) { alert(data.error[1]); return; }
+              if (!( data.success.error_fields !== undefined && data.success.error_fields.payments === undefined )) { alert(data.success.error_fields.payments); return; }
+              if ( data.success.success_fields.payments !== undefined && data.success.success_fields.payments.data !== undefined )
+                li.completeContent(data.success.success_fields.payments.data.content, 'payments');
+            }
+          });
+          break;
         case 'options':
           var select = value.remote_content.load.target ? $(value.remote_content.load.target) : $(form).find('select:first');
           

@@ -9,9 +9,9 @@
       <?php foreach ( $form[$field]->getStylesheets() as $css => $media ) use_stylesheet($css, '', 'media="'.$media.'"'); ?>
     <?php endif ?>
     <?php
-      try { include_partial('form_field_'.$field, array('field' => $field, 'form' => isset($form[$field]) ? $form[$field] : NULL, 'transaction' => $transaction,)); }
+      try { include_partial('form_field_'.$field, array('field' => $field, 'form' => isset($form[$field]) ? $form[$field] : NULL, 'transaction' => $transaction, 'options' => $options)); }
       catch ( sfRenderException $e )
-      { include_partial('form_field_generic', array('field' => $field, 'form' => isset($form[$field]) ? $form[$field] : NULL, 'transaction' => $transaction,)); }
+      { include_partial('form_field_generic', array('field' => $field, 'form' => isset($form[$field]) ? $form[$field] : NULL, 'transaction' => $transaction, 'options' => $options)); }
     ?>&nbsp;
     </div>
   <?php endforeach ?>

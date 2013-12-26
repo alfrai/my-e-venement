@@ -110,7 +110,7 @@ class transactionActions extends autoTransactionActions
       'query' => $q,
     ));
     $ws['value'] = new sfWidgetFormInput;
-    $vs['value'] = new sfValidatorInteger;
+    $vs['value'] = new sfValidatorInteger(array('required' => false));
     $ws['created_at'] = new liWidgetFormJQueryDateText;
     $vs['created_at'] = new sfValidatorDate(array('required' => false));
   }
@@ -125,50 +125,6 @@ class transactionActions extends autoTransactionActions
     return '';
   }
   
-  /**
-   * function executeGetManifestations
-   * @param sfWebRequest $request, given by the framework
-   * @return ''
-   * @display a json array containing :
-   * json:
-   *   [manifestation_id]: integer
-   *     id: integer
-   *     name: string
-   *     happens_at: string (PGSQL format)
-   *     ends_at: string
-   *     event_url:  xxx (absolute) link
-   *     manifestation_url:  xxx (absolute) link
-   *     location: string
-   *     location_url: xxx (absolute) link
-   *     gauge_url: xxx (absolute) data to display the global gauge
-   *     gauges:
-   *       [gauge_id]:
-   *         name: xxx
-   *         id: integer
-   *         url: xxx (absolute) data to display the gauge
-   *         seated_plan_url: xxx (optional) the absolute path to the plan's picture
-   *         seated_plan_seats_url: xxx (optional) the absolute path to the seats definition and allocation
-   *         available_prices:
-   *           []:
-   *             id: integer
-   *             name: string, short name
-   *             description: string, description
-   *             value: string, contextualized price w/ currency (for the current manifestation)
-   *         prices:
-   *           [price_id]:
-   *             id: integer
-   *             printed: boolean
-   *             cancelling: boolean
-   *             qty: integer, the quantity of ticket
-   *             pit: float, the price including taxes
-   *             vat: float, the current VAT value
-   *             tep: float, the price excluding taxes
-   *             price_name: string, the price's name
-   *             [ids]:
-   *               tickets' id
-   *             [numerotation]:
-   *               tickets' numerotation
-   **/
   public function executeGetManifestations(sfWebRequest $request)
   {
     // initialization
@@ -176,6 +132,16 @@ class transactionActions extends autoTransactionActions
     $this->dealWithDebugMode($request);
     
     require(dirname(__FILE__).'/get-manifestations.php');
+    return '';
+  }
+  
+  public function executeGetPayments(sfWebRequest $request)
+  {
+    // initialization
+    $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'Number'));
+    $this->dealWithDebugMode($request);
+    
+    require(dirname(__FILE__).'/get-payments.php');
     return '';
   }
   

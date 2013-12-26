@@ -39,7 +39,7 @@
 #li_transaction_field_content .footer > .ui-widget-content > form { display: inline-block; width: 32%; }
 #li_transaction_field_content .footer > .ui-widget-content > form:first-child + form { text-align: center; }
 #li_transaction_field_content .footer > .ui-widget-content > form:last-child { text-align: right; }
-#li_transaction_field_content .new-family { margin-bottom: 5px; height: 1.8em; padding: 3px; transition-duration: 2s; overflow: hidden; }
+#li_transaction_field_content .new-family { margin-bottom: 5px; height: 1.8em; padding: 3px; transition-duration: 1s; overflow: hidden; }
 #li_transaction_field_content .new-family.ui-state-highlight { height: 10em; transition-duration: 2s; }
 #li_transaction_field_content .new-family input, #li_transaction_field_content .new-family select { vertical-align: top; }
 #li_transaction_field_content .new-family input { width: 30%; }
@@ -94,6 +94,7 @@
 #li_transaction_field_payments_list { font-size: 0; min-height: 210px; }
 #li_transaction_field_payments_list .sf_admin_list_td_list_created_at { text-align: center; }
 #li_transaction_field_payments_list table { background-color: white; }
+#li_transaction_field_payments_list .template { display: none; }
 #li_transaction_field_payments_list tfoot { font-size: 75%; }
 #li_transaction_field_payments_list tfoot td:first-child, #li_transaction_field_payments_list tfoot .pit { font-weight: bold; font-size: 13px; }
 #li_transaction_field_payments_list tfoot td { padding: 4px; margin: 0px; text-align: left; overflow: hidden; border-bottom: 1px solid rgb(166, 201, 226); border-right: 1px solid rgb(166, 201, 226); }

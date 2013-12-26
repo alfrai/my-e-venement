@@ -6,6 +6,34 @@ li.completeContent = function(data, type, replaceAll = true)
     return;
   }
   
+  // PAYMENTS
+  if ( type == 'payments' )
+  {
+    if ( data.length == 0 )
+      return false;
+    
+    var content = $('#li_transaction_field_payments_list tbody');
+    var template = content.find('tr.template');
+    content.find('tr:not(.template)').remove();
+    
+    $.each(data, function(index, value){
+      var tr = template.clone(true).removeClass('template');
+      
+      tr.find('[name="ids[]"]').val(value.id);
+      tr.find('.sf_admin_list_td_Method').html(value.method);
+      tr.find('.sf_admin_list_td_list_value').html(li.format_currency(parseFloat(value.value)));
+      tr.find('.sf_admin_td_actions .sf_admin_action_delete a').prop('href', value.delete_url);
+      
+      var date = new Date(value.date.replace(' ','T'));
+      tr.find('.sf_admin_list_td_list_created_at').html(date.toLocaleDateString());
+      
+      tr.prependTo(content);
+    });
+    
+    return true;
+  }
+  
+  // MANIFESTATIONS
   var wglobal = $('#li_transaction_'+type+' .families:not(.sample)'); // first element, parent of all
   
   if ( replaceAll )
@@ -112,4 +140,16 @@ li.completeContent = function(data, type, replaceAll = true)
   }); // each manifestation
   
   $('#li_transaction_'+type+' .item .total').select();
+}
+
+li.sumPayments = function()
+{
+  var val = 0;
+  $('#li_transaction_field_payments_list tbody tr .sf_admin_list_td_list_value').each(function(){
+    val += isNaN(parseFloat($(this).html(),10))
+      ? 0
+      : parseFloat($(this).html(),10);
+  });
+  $('#li_transaction_field_payments_list tfoot .total .sf_admin_list_td_list_value')
+    .html(li.format_currency(val));
 }

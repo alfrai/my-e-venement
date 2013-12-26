@@ -138,14 +138,15 @@
     }
     
     // more complex data
-    foreach ( array('price_new') as $field )
+    foreach ( array('price_new', 'payment_new',) as $field )
     if ( isset($params[$field]) && is_array($params[$field]) && isset($this->form[$field]) )
     {
       $this->json['success']['success_fields'][$field] = $success;
       
       $this->form[$field]->bind($params[$field]);
       if ( $this->form[$field]->isValid() )
-      {
+      switch ( $field ) {
+      case 'price_new':
         if ( !$params[$field]['qty'] )
           $params[$field]['qty'] = 1;
         
@@ -185,9 +186,23 @@
             ->execute()
             ->delete();
         }
-          
+        
         $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'gauge_price';
         $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getManifestations?id='.$request->getParameter('id').'&printed=false&gauge_id='.$params[$field]['gauge_id'].'&price_id='.$params[$field]['price_id'], true);
+        
+        break;
+      case 'payment_new':
+        $p = new Payment;
+        $p->transaction_id = $this->transaction->id;
+        $p->value = $this->form[$field]->getValue('value') ? $this->form[$field]->getValue('value') : $this->transaction->price - $this->transaction->paid;
+        $p->payment_method_id = $this->form[$field]->getValue('payment_method_id');
+        $p->created_at = $this->form[$field]->getValue('created_at');
+        $p->save();
+        
+        $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'payments';
+        $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getPayments?id='.$request->getParameter('id'), true);
+        
+        break;
       }
       else
       {

@@ -1,14 +1,13 @@
 <div class="sf_admin_list ui-grid-table ui-widget ui-corner-all ui-helper-reset ui-helper-clearfix">
 <table>
 <tbody>
-  <?php if ( $transaction->Payments->count() == 0 ): ?>
   <tr class="sf_admin_row ui-widget-content">
     <td align="center" height="30" colspan="3">
       <p align="center"><?php echo __('No result', null, 'sf_admin') ?></p>
     </td>
     <td colspan="2"></td>
   </tr>
-  <tr class="sf_admin_row ui-widget-content sample" data-payment-id="">
+  <tr class="sf_admin_row ui-widget-content template" data-payment-id="">
     <td style="display: none;">
       <input name="ids[]" value="" class="sf_admin_batch_checkbox" type="checkbox" />
     </td>
@@ -23,25 +22,6 @@
       </ul>
     </td>
   </tr>
-  <?php else: ?>
-  <?php foreach ( $transaction->Payments as $i => $payment ): ?>
-  <tr class="sf_admin_row ui-widget-content<?php echo $i % 2 == 0 ? '' : ' odd' ?>" data-payment-id="<?php echo $payment->id ?>">
-    <td style="display: none;">
-      <input name="ids[]" value="<?php echo $payment->id ?>" class="sf_admin_batch_checkbox" type="checkbox" />
-    </td>
-    <td class="sf_admin_text sf_admin_list_td_Method"><?php echo $payment->Method ?></td>
-    <td class="sf_admin_text sf_admin_list_td_list_created_at" colspan="2"><?php echo format_date($payment->created_at) ?></td>
-    <td class="sf_admin_text sf_admin_list_td_list_value"><?php echo format_currency($payment->value,'€') ?></td>
-    <td style="white-space: nowrap;">
-      <ul class="sf_admin_td_actions fg-buttonset fg-buttonset-single">
-        <li class="sf_admin_action_delete">
-          <a class="fg-button-mini fg-button ui-state-default fg-button-icon-left ui-priority-secondary" href="/e-venement/web/tck_dev.php/payment/199"><span class="ui-icon ui-icon-trash"></span>Supprimer</a>
-        </li>
-      </ul>
-    </td>
-  </tr>
-  <?php endforeach ?>
-  <?php endif ?>
 </tbody>
 <tfoot>
   <tr class="sf_admin_row ui-widget-content odd total">
@@ -73,17 +53,8 @@ $(document).ready(function(){
     .mouseleave(function(){ $(this).removeClass('ui-state-hover'); });
   li.sumPayments();
 });
-li.sumPayments = function()
-{
-  var val = 0;
-  $('#li_transaction_field_payments_list tbody tr .sf_admin_list_td_list_value').each(function(){
-    val += isNaN(parseFloat($(this).html(),10))
-      ? 0
-      : parseFloat($(this).html(),10);
-  });
-  $('#li_transaction_field_payments_list tfoot .total .sf_admin_list_td_list_value')
-    .html(li.format_currency(val));
-}
+
+li.urls['payments'] = '<?php echo url_for($options->getRaw('data_url').'?id='.$transaction->id) ?>';
 </script>
 </div>
 
