@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Total: %%total%% Free: %%free%%</source>
+        <target>Total: %%total%% Libres: %%free%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Sells: %%printed%% Orders: %%ordered%% Demands: %%asked%%</source>
+        <target>Ventes: %%printed%% Réservations: %%ordered%% Demandes: %%asked%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Sells: %%printed%% Orders: %%ordered%%</source>
+        <target>Ventes: %%printed%% Réservations: %%ordered%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>Notification for %%manif%%</source>
         <target>Notification pour %%manif%%</target>
       </trans-unit>

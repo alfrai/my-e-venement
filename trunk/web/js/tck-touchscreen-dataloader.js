@@ -103,9 +103,18 @@ li.completeContent = function(data, type, replaceAll = true)
         seated_plan_seats_url: gauge.seated_plan_seats_url,
       };
       wgauge.find('.infos').html(JSON.stringify(infos));
-      // TODO: gauge_url
-      // TODO: seated_plan_url
-      // TODO: seated_plan_seats_url
+      
+      // graphical gauges
+      
+      $('<a></a>')
+        .prop('href', gauge.url)
+        .addClass('gauge').addClass('raw')
+        .appendTo(wgauge.find('.gauge-data'));
+      if ( gauge.seated_plan_url && gauge.seated_plan_seats_url )
+      $('<a></a>').addClass('gauge').addClass('seated')
+        .prop('href', gauge.seated_plan_seats_url)
+        .append($('<img/>').prop('src', gauge.seated_plan_url).prop('alt', 'seated-plan'))
+        .appendTo(wgauge.find('.gauge-data'));
       
       if ( add )
         wgauge.insertBefore(wmanif.find('.item.total'));

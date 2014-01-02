@@ -23,6 +23,7 @@ class gaugeActions extends autoGaugeActions
     
     if ( $request->hasParameter('json') )
     {
+      $this->getContext()->getConfiguration()->loadHelpers('I18N');
       $arr = array(
         'id' => $this->gauge->id,
         'workspace' => (string)$this->gauge->Workspace,
@@ -35,6 +36,23 @@ class gaugeActions extends autoGaugeActions
         ),
       );
       
+      $arr['txt'] = __('Total: %%total%% Free: %%free%%', array(
+        '%%total%%' => $arr['total'],
+        '%%free%%'  => $arr['free'],
+      ));
+      if ( !sfConfig::get('project_tickets_count_demands',false) )
+        $arr['booked_txt'] = __('Sells: %%printed%% Orders: %%ordered%%', array(
+          '%%printed%%' => $arr['booked']['printed'],
+          '%%ordered%%' => $arr['booked']['ordered'],
+        ));
+      else
+        $arr['booked_txt'] = __('Sells: %%printed%% Orders: %%ordered%% Demands: %%asked%%', array(
+          '%%printed%%' => $arr['booked']['printed'],
+          '%%ordered%%' => $arr['booked']['ordered'],
+          '%%asked%%'   => $arr['booked']['asked'],
+        ));
+      
+      $this->getResponse()->setContentType('application/json');
       return $this->renderText(json_encode($arr));
     }
   }

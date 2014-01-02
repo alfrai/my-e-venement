@@ -73,7 +73,7 @@
 #li_transaction_field_content .currency { display: none; }
 #li_transaction_field_content .item .tep, #li_transaction_field_content .item .vat { font-size: 75%; width: 15%; }
 #li_transaction_field_content .item .qty { width: 8em; }
-#li_transaction_field_content .item .qty .qty { width: 2em; display: inline-block; text-align: right; border: 1px solid silver; border-top: 0; padding: 0 5px; }
+#li_transaction_field_content .item .qty .qty { width: 2em; display: inline-block; text-align: right; border: 1px solid silver; border-top: 0; padding: 0 5px; background-color: white; }
 #li_transaction_field_content .item .qty a { float: none; padding: 0; cursor: default; display: inline-block; margin: 0; position: static; }
 #li_transaction_field_content .item .qty a .ui-icon { margin: -2px 0 0 0; position: static; }
 #li_transaction_field_content .item .total .qty a,
@@ -84,8 +84,9 @@
 #li_transaction_field_content .family.total .item .total .qty { text-decoration: none; }
 #li_transaction_field_content .family.total .item h4 { margin-left: -15px; margin-right: 15px; }
 
-#li_transaction_field_content .item .ids { display: none; position: absolute; }
-#li_transaction_field_content .item .ids.show { display: block; margin-left: 108px; margin-top: -1.3em; max-width: 100px; border: 1px solid silver; padding: 1px 4px; background-color: whitesmoke; font-weight: normal; }
+#li_transaction_field_content .item .ids { display: none; position: absolute; margin-left: 10px; margin-top: -1.3em; max-width: 100px; border: 1px solid silver; padding: 1px 4px; background-color: whitesmoke; font-weight: normal; }
+#li_transaction_field_content .item .ids.show { display: block; }
+#li_transaction_field_content .item .gauge-data { display: none; }
 
 /* payments & prices */
 #li_fieldset_payments { clear: both; }
@@ -128,3 +129,12 @@
 #li_transaction_field_board.alpha button .num, #li_transaction_field_board button .alpha { display: none; }
 #li_transaction_field_board.alpha button .alpha { display: inline; }
 #li_transaction_field_board.alpha button[value=" "] .alpha:after { content: '_'; }
+
+/* PRODUCT INFOS */
+#li_transaction_field_product_infos .gauge.raw { display: block; height: 3em; background-color: green; border-radius: 7px; overflow: hidden; }
+#li_transaction_field_product_infos .gauge.raw > * { display: inline-block; height: 100%; font-size: 0; }
+#li_transaction_field_product_infos .gauge.raw > .text { font-size: 1em; height: 1.25em; background-color: rgba(255,255,255,0.5); position: relative; width: 100%; margin-bottom: -1.5em; text-align: center; padding-top: 0.25em; overflow: hidden; }
+#li_transaction_field_product_infos .gauge.raw > .text .total { font-weight: bold; }
+#li_transaction_field_product_infos .gauge.raw .printed { background-color: red; }
+#li_transaction_field_product_infos .gauge.raw .ordered { background-color: orange; }
+#li_transaction_field_product_infos .gauge.raw .asked   { background-color: blue; }

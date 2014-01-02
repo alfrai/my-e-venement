@@ -73,6 +73,20 @@ $(document).ready(function(){
     $('#li_transaction_field_content .ids').removeClass('show');
   });
   
+  // showing the gauges
+  $('#li_transaction_field_content .item').click(function(){
+    if ( !$(this).find('.gauge.raw').html() )
+    {
+      var gauge = this;
+      $.get($(this).find('.gauge.raw').prop('href'), function(data){
+        $(gauge).find('.gauge.raw').html(JSON.stringify(data));
+        li.renderGauge(gauge);
+      });
+    }
+    else
+      li.renderGauge(this);
+  });
+  
   // CONTACT CHANGE & INIT
   $.each([
     '#li_transaction_field_contact_id',
@@ -148,10 +162,24 @@ $(document).ready(function(){
   li.responsiveDesign();
 });
 
+li.renderGauge = function(item)
+{
+  data = $.parseJSON($(item).find('.gauge.raw').html());
+  $('#li_transaction_field_product_infos *').remove();
+  $('<div></div>').addClass('gauge').addClass('raw')
+    .appendTo($('#li_transaction_field_product_infos'))
+    .append($('<span></span>').addClass('printed').css('width', (data.booked.printed/data.total*100)+'%').html(data.booked.printed).prop('title',data.booked.printed))
+    .append($('<span></span>').addClass('ordered').css('width', (data.booked.ordered/data.total*100)+'%').html(data.booked.ordered).prop('title',data.booked.ordered))
+    .append($('<span></span>').addClass('asked')  .css('width', (data.booked.asked  /data.total*100)+'%').html(data.booked.asked).prop('title', data.booked.asked))
+    .append($('<span></span>').addClass('free')   .css('width', (data.free          /data.total*100)+'%').html(data.free).prop('title',data.free))
+    .prepend($('<span></span>').addClass('text').html('<span class="total">'+data.txt+'</span> <span>'+data.booked_txt+'</span>'))
+  ;
+}
+
 li.responsiveDesign = function(){
   $(window).resize(function(){
     var margin;
-    var scale = { x: $(window).width()/1030, y: $(window).height()/900 };
+    var scale = { x: $(window).width()/1040, y: $(window).height()/900 };
     if ( scale.x / scale.y > 1.3 ) scale.y = scale.x / 1.3;
     if ( scale.y / scale.x > 1.3 ) scale.x = scale.y / 1.3;
     $('#sf_admin_content').css('transform', 'scale(1)');

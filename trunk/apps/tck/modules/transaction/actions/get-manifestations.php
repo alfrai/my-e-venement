@@ -159,9 +159,16 @@
           $this->json[$manifestation->id]['gauges'][$gauge->id] = array(
             'id' => $gauge->id,
             'name' => (string)$gauge->Workspace,
-            'url' => cross_app_url_for('event','',true)
+            'url' => cross_app_url_for('event','gauge/state?id='.$gauge->id.'&json=true',true),
           );
           
+          if ( $seated_plan = $manifestation->Location->getWorkspaceSeatedPlan($gauge->workspace_id) )
+          {
+            $this->json[$manifestation->id]['gauges'][$gauge->id]['seated_plan_url'] =
+              cross_app_url_for('default', 'picture/display?id='.$seated_plan->picture_id);
+            $this->json[$manifestation->id]['gauges'][$gauge->id]['seated_plan_seats_url'] =
+              cross_app_url_for('event', 'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id.'&transaction_id='.$transaction->id);
+          }
           
           // seated plans
           if ( $seated_plan = $manifestation->Location->getWorkspaceSeatedPlan($gauge->workspace_id) )
