@@ -65,6 +65,14 @@ $(document).ready(function(){
   // total calculation
   $('#li_transaction_field_content .item .total').select(li.calculateTotals).select();
   
+  // showing numerotation & ids
+  $('#li_transaction_field_content .item .price_name').mousedown(function(){
+    $(this).closest('.declination').find('.ids').addClass('show');
+  });
+  $(document).mouseup(function(){
+    $('#li_transaction_field_content .ids').removeClass('show');
+  });
+  
   // CONTACT CHANGE & INIT
   $.each([
     '#li_transaction_field_contact_id',
@@ -137,7 +145,7 @@ $(document).ready(function(){
   setTimeout(function(){ $('.sf_admin_flashes > *').fadeOut('slow',function(){ $(this).remove(); }); }, 3500);
   
   // RESPONSIVE DESIGN
-  li.reponsiveDesign();
+  li.responsiveDesign();
 });
 
 li.responsiveDesign = function(){

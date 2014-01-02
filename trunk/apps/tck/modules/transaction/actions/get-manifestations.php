@@ -213,7 +213,7 @@
           'vat' => 0,
           'tep' => 0,
           'name' => $ticket->Price->name,
-          'description' => '$ticket->Price->description',
+          'description' => $ticket->Price->description,
           'id' => $ticket->price_id,
           'ids' => array(),
           'numerotation' => array()

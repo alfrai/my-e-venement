@@ -47,6 +47,7 @@ li.completeContent = function(data, type, replaceAll = true)
     wglobal.insertBefore($('#li_transaction_'+type+' .footer'));
   }
   
+  // manifestations
   $.each(data, function(id, manifestation){
     
     var wmanif = $('#li_transaction_'+type+' .families.sample .family:not(.total)').clone(true);
@@ -76,6 +77,7 @@ li.completeContent = function(data, type, replaceAll = true)
     if ( add )
       wmanif.insertBefore(wglobal.find('.family.total'));
     
+    // gauges
     $.each(manifestation.gauges, function(index, gauge){
       var wgauge = $('#li_transaction_'+type+' .families.sample .item:not(.total)').clone(true);
       var add = true;
@@ -132,8 +134,13 @@ li.completeContent = function(data, type, replaceAll = true)
         wprice.find('.vat').html(li.format_currency(price.vat));
         wprice.find('.tep').html(li.format_currency(price.tep));
         wprice.attr('data-price-id', price.id);
-        // TODO: ids
-        // TODO: nums
+        
+        // ids & numerotation
+        var ids = [];
+        $.each(price.ids, function(index, value){
+          ids.push(value+( price.numerotation[index] ? ' '+price.numerotation[index] : '' ));
+        });
+        wprice.find('.ids').html('#'+ids.join(', #'));
         
         if ( add )
           wprice.appendTo(wgauge.find('.declinations tbody'));

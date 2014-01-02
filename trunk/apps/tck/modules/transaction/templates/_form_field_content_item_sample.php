@@ -7,6 +7,7 @@
                   <a class="fg-button-mini fg-button ui-state-default fg-button-icon-left"><span class="ui-icon ui-icon-minus"></span></a>
                   <input class="qty" type="text" name="qty" value="" pattern="\d*" maxlength="3" />
                   <a class="fg-button-mini fg-button ui-state-default fg-button-icon-left"><span class="ui-icon ui-icon-plus"></span></a>
+                  <span class="ids"></span>
                 </td>
                 <td class="price_name"></td>
                 <td class="tep nb monney" title="<?php echo __('PET') ?>"></td>

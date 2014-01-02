@@ -84,6 +84,9 @@
 #li_transaction_field_content .family.total .item .total .qty { text-decoration: none; }
 #li_transaction_field_content .family.total .item h4 { margin-left: -15px; margin-right: 15px; }
 
+#li_transaction_field_content .item .ids { display: none; position: absolute; }
+#li_transaction_field_content .item .ids.show { display: block; margin-left: 108px; margin-top: -1.3em; max-width: 100px; border: 1px solid silver; padding: 1px 4px; background-color: whitesmoke; font-weight: normal; }
+
 /* payments & prices */
 #li_fieldset_payments { clear: both; }
 #li_fieldset_payments #li_transaction_field_payment_new { width: 44%; }
