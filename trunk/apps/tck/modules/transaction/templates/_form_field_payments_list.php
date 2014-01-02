@@ -16,9 +16,16 @@
     <td class="sf_admin_text sf_admin_list_td_list_value"></td>
     <td style="white-space: nowrap;">
       <ul class="sf_admin_td_actions fg-buttonset fg-buttonset-single">
-        <li class="sf_admin_action_delete">
-          <a class="fg-button-mini fg-button ui-state-default fg-button-icon-left ui-priority-secondary" href="/e-venement/web/tck_dev.php/payment/"><span class="ui-icon ui-icon-trash"></span>Supprimer</a>
-        </li>
+        <li class="sf_admin_action_delete"><?php echo $form->renderFormTag(url_for('transaction/complete?id='.$transaction->id), array(
+          'target' => '_blank',
+          'method' => 'get',
+        )) ?>
+          <?php echo $form->renderHiddenFields() ?>
+          <a class="fg-button-mini fg-button ui-state-default fg-button-icon-left ui-priority-secondary"
+                  href="#"
+                  onclick="javascript: if ( confirm('<?php echo __('Are you sure?', null, 'sf_admin') ?>') ) $(this).closest('form').submit(); return false;"
+                  ><span class="ui-icon ui-icon-trash"></span>Supprimer</a>
+        </form></li>
       </ul>
     </td>
   </tr>

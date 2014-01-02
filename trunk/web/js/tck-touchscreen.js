@@ -137,26 +137,32 @@ $(document).ready(function(){
   setTimeout(function(){ $('.sf_admin_flashes > *').fadeOut('slow',function(){ $(this).remove(); }); }, 3500);
   
   // RESPONSIVE DESIGN
+  li.reponsiveDesign();
+});
+
+li.responsiveDesign = function(){
   $(window).resize(function(){
     var margin;
-    var scale = $(window).width()/1050;
+    var scale = { x: $(window).width()/1030, y: $(window).height()/900 };
+    if ( scale.x / scale.y > 1.3 ) scale.y = scale.x / 1.3;
+    if ( scale.y / scale.x > 1.3 ) scale.x = scale.y / 1.3;
     $('#sf_admin_content').css('transform', 'scale(1)');
     var dimensions = [$('#sf_admin_content').width(), $('#sf_admin_content').height()];
     
     $('#sf_admin_content')
-      .css('transform', 'scale('+scale+')')
-      .css('margin-left', (dimensions[0]*(scale-1)/2)+'px')
-      .css('margin-top', (margin = dimensions[1]*(scale-1)/2)+'px')
+      .css('transform', 'scale('+scale.x+','+scale.y+')')
+      .css('margin-left', (dimensions[0]*(scale.x-1)/2)+'px')
+      .css('margin-top', (margin = dimensions[1]*(scale.y-1)/2)+'px')
     ;
     
     $('#sf_admin_container').height(
-        $('#sf_admin_content').height()*scale + Math.abs(margin/2) + 20
+        $('#sf_admin_content').height()*scale.y + Math.abs(margin/2) + 20
       + $('.ui-widget-header').height()
       + $('.sf_admin_flashes').height()
       + $('#sf_admin_header').height()
     );
   }).resize();
-});
+}
 
 li.initContent = function(){
   $.each(li.urls, function(id, url){

@@ -51,7 +51,6 @@
    *
    **/
 
-  $time = microtime(true);
     // prepare response
     $this->json = array(
       'error' => array(false, ''),
@@ -138,7 +137,7 @@
     }
     
     // more complex data
-    foreach ( array('price_new', 'payment_new',) as $field )
+    foreach ( array('price_new', 'payment_new', 'payments_list',) as $field )
     if ( isset($params[$field]) && is_array($params[$field]) && isset($this->form[$field]) )
     {
       $this->json['success']['success_fields'][$field] = $success;
@@ -203,6 +202,15 @@
         $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getPayments?id='.$request->getParameter('id'), true);
         
         break;
+      case 'payments_list':
+        Doctrine::getTable('Payment')
+          ->findOneById($this->form[$field]->getValue('id'))
+          ->delete();
+        
+        $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'payments';
+        $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getPayments?id='.$request->getParameter('id'), true);
+        
+        break;
       }
       else
       {
@@ -211,7 +219,10 @@
     }
     
     if ( count($this->json['success']['error_fields']) == 0 && count($this->json['success']['success_fields']) == 0 )
+    {
+      error_log('touchscreen: unknown request ['.implode(', ',array_keys($params)).']');
       $this->json['error'] = array(true, 'Unknown request');
+    }
     
     return;
 

@@ -113,6 +113,18 @@ class transactionActions extends autoTransactionActions
     $vs['value'] = new sfValidatorInteger(array('required' => false));
     $ws['created_at'] = new liWidgetFormJQueryDateText;
     $vs['created_at'] = new sfValidatorDate(array('required' => false));
+    
+    // DELETE PAYMENT
+    $this->form['payments_list'] = new sfForm;
+    $ws = $this->form['payments_list']->getWidgetSchema()->setNameFormat('transaction[payments_list][%s]');
+    $vs = $this->form['payments_list']->getValidatorSchema();
+    $ws['id'] = new sfWidgetFormInputHidden;
+    $vs['id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Payment',
+      'query' => Doctrine::getTable('Payment')->createQuery('p')
+        ->leftJoin('p.Transaction t')
+        ->andWhere('t.closed = ?', false),
+    ));
   }
   
   public function executeComplete(sfWebRequest $request)
