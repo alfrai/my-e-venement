@@ -1,5 +1,6 @@
 // the global var that can be used everywhere as a "root"
-var li = {};
+if ( li == undefined )
+  var li = {};
 
 $(document).ready(function(){
   // AUTO VALIDATIONS
@@ -39,7 +40,8 @@ $(document).ready(function(){
   $('#li_transaction_field_content .qty input').focusout(function(){ return false; }).select(function(){
     $(this).prop('defaultValue',$(this).val()); // quite useless... but whatever
   }).change(function(){
-    $(this).closest('.highlight').focusin();
+    if ( $(this).closest('.highlight.ui-state-highlight').length == 0 )
+      $(this).closest('.highlight').focusin();
     if ( isNaN(parseInt($(this).val(),10)) )
       $(this).val($(this).prop('defaultValue'));
     
@@ -74,17 +76,35 @@ $(document).ready(function(){
   });
   
   // showing the gauges
-  $('#li_transaction_field_content .item').click(function(){
-    if ( !$(this).find('.gauge.raw').html() )
+  $('#li_transaction_field_content .item').focusin(function(){
+    $('#li_transaction_field_product_infos *').remove(); // cleaning products infos
+    
+    if ( $(this).find('.data .gauge.raw').length > 0 )
     {
-      var gauge = this;
-      $.get($(this).find('.gauge.raw').prop('href'), function(data){
-        $(gauge).find('.gauge.raw').html(JSON.stringify(data));
-        li.renderGauge(gauge);
-      });
+      if ( !$(this).find('.data .gauge.raw').html() )
+      {
+        var gauge = this;
+        $.get($(this).find('.data .gauge.raw').prop('href'), function(data){
+          $(gauge).find('.data .gauge.raw').html(JSON.stringify(data));
+          li.renderGauge(gauge);
+        });
+      }
+      else
+      {
+        li.renderGauge(this);
+      }
     }
-    else
-      li.renderGauge(this);
+  }).dblclick(function(){
+    $(this).find('.data .gauge.raw').html('');
+    $(this).find('.data .gauge.seated.picture').remove();
+    $(this).focusin();
+  });
+  
+  // refreshing the gauges if the document has lost focus
+  $(window).blur(function(){
+    $('#li_transaction_field_product_infos *').remove(); // cleaning products infos
+    $('#li_transaction_field_content .item .data .gauge.raw').html('');
+    $('#li_transaction_field_content .item .data .gauge.seated.picture').remove();
   });
   
   // CONTACT CHANGE & INIT
@@ -112,7 +132,8 @@ $(document).ready(function(){
   
   // CLICK WIDGETS
   $('#sf_admin_content .highlight').focusout(function(){
-    $(this).removeClass('ui-state-highlight');
+    $(this).removeClass('ui-state-highlight'); // removing any highlight 
+    return false; // to avoid the event to go up in the JS tree
   }).focusin(function(){
     $('#sf_admin_content .ui-state-highlight').focusout();
     $(this).addClass('ui-state-highlight');
@@ -128,6 +149,8 @@ $(document).ready(function(){
     
     if ( !$(this).is('#li_transaction_field_professional_id, #li_transaction_field_contact_id') )
       $('#li_transaction_field_informations .vcard').slideUp();
+    
+    return false; // to avoid the event to go up in the JS tree
   }).click(function(){
     $(this).focusin();
   });
@@ -164,16 +187,46 @@ $(document).ready(function(){
 
 li.renderGauge = function(item)
 {
-  data = $.parseJSON($(item).find('.gauge.raw').html());
-  $('#li_transaction_field_product_infos *').remove();
-  $('<div></div>').addClass('gauge').addClass('raw')
-    .appendTo($('#li_transaction_field_product_infos'))
-    .append($('<span></span>').addClass('printed').css('width', (data.booked.printed/data.total*100)+'%').html(data.booked.printed).prop('title',data.booked.printed))
-    .append($('<span></span>').addClass('ordered').css('width', (data.booked.ordered/data.total*100)+'%').html(data.booked.ordered).prop('title',data.booked.ordered))
-    .append($('<span></span>').addClass('asked')  .css('width', (data.booked.asked  /data.total*100)+'%').html(data.booked.asked).prop('title', data.booked.asked))
-    .append($('<span></span>').addClass('free')   .css('width', (data.free          /data.total*100)+'%').html(data.free).prop('title',data.free))
-    .prepend($('<span></span>').addClass('text').html('<span class="total">'+data.txt+'</span> <span>'+data.booked_txt+'</span>'))
-  ;
+  // the small gauge
+  if ( $(item).find('.data .gauge.raw').length > 0 )
+  {
+    data = JSON.parse($(item).find('.data .gauge.raw').html());
+    var total = data.total > data.booked.printed + data.booked.ordered + data.booked.asked
+      ? data.total
+      : data.booked.printed + data.booked.ordered + data.booked.asked;
+    $('<div></div>').addClass('gauge').addClass('raw')
+      .appendTo($('#li_transaction_field_product_infos'))
+      .append($('<span></span>').addClass('printed').css('width', (data.booked.printed/total*100)+'%').html(data.booked.printed).prop('title',data.booked.printed))
+      .append($('<span></span>').addClass('ordered').css('width', (data.booked.ordered/total*100)+'%').html(data.booked.ordered).prop('title',data.booked.ordered))
+      .append($('<span></span>').addClass('asked')  .css('width', (data.booked.asked  /total*100)+'%').html(data.booked.asked).prop('title', data.booked.asked))
+      .append($('<span></span>').addClass('free')   .css('width', ((data.free < 0 ? 0 : data.free)/total*100)+'%').html(data.free).prop('title',data.free))
+      .prepend($('<span></span>').addClass('text').html('<span class="total">'+data.txt+'</span> <span class="details">'+data.booked_txt+'</span>'));
+    ;
+  }
+  
+  // gauge for seated plan
+  if ( $(item).find('.data .gauge.seated').length > 0 )
+  {
+    if ( $(item).find('.data .gauge.seated.picture').length > 0 )
+    {
+      // cache
+      $(item).find('.data .gauge.seated.picture').clone(true)
+        .appendTo($('#li_transaction_field_product_infos'));
+    }
+    else
+    {
+      // remote loading
+      $(item).find('.data .gauge.seated').clone(true)
+        .addClass('picture').addClass('seated-plan')
+        .appendTo($('#li_transaction_field_product_infos'));
+      
+      li.seatedPlanInitializationFunctions.push(function(){
+        $('#li_transaction_field_product_infos .gauge.seated.picture').clone(true)
+          .appendTo($(item).find('.data'));
+      });
+      li.seatedPlanInitialization($('#li_transaction_field_product_infos'));
+    }
+  }
 }
 
 li.responsiveDesign = function(){

@@ -1,21 +1,21 @@
 newSuccess:
-  stylesheets: [picture, seated-plan]
-  javascripts: [seated-plan]
+  stylesheets: [picture, event-seated-plan]
+  javascripts: [event-seated-plan]
 createSuccess:
-  stylesheets: [picture, seated-plan]
-  javascripts: [seated-plan]
+  stylesheets: [picture, event-seated-plan]
+  javascripts: [event-seated-plan]
 updateSuccess:
-  stylesheets: [picture, seated-plan]
-  javascripts: [seated-plan]
+  stylesheets: [picture, event-seated-plan]
+  javascripts: [event-seated-plan]
 editSuccess:
-  stylesheets: [picture, seated-plan]
-  javascripts: [seated-plan]
+  stylesheets: [picture, event-seated-plan]
+  javascripts: [event-seated-plan]
 showSuccess:
-  stylesheets: [picture, seated-plan]
-  javascripts: [seated-plan]
+  stylesheets: [picture, event-seated-plan]
+  javascripts: [event-seated-plan]
   layout: nude
 indexSuccess:
-  stylesheets: [seated-plan]
+  stylesheets: [event-seated-plan]
 
 getSeatsSuccess:
   has_layout: false

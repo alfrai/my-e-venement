@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php use_helper('CrossAppLink') ?>
-<?php use_javascript('seated-plan-tck') ?>
+<?php use_javascript('tck-seated-plan') ?>
 <div class="ui-widget-content ui-corner-all seats-allocation">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1><?php echo __('Seats allocation') ?> / <span class="transaction_id"><?php echo __('Transaction #%%id%%',array('%%id%%' => $transaction->id)) ?></span></h1>

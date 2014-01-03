@@ -1,14 +1,37 @@
+// the global var that can be used everywhere as a "root"
+if ( li == undefined )
+  var li = {};
+
+
   // transforms a simple HTML call into a seated plan widget (seated-plan.css is also needed)
   // you can use something as simple as <a href="<?php url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id') ?>" class="picture seated-plan"><?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture)) ?></a>
-  function seated_plan_init()
+  li.seatedPlanInitialization = function(root)
   {
-    $('a.picture.seated-plan img').each(function(){
+    if ( root == undefined )
+      root = $('body');
+    
+    $(root).find('a.picture.seated-plan img').each(function(){
       var widget = $(this).parent();
       var url = widget.prop('href');
       var elt = $('<span></span>').prop('class',widget.prop('class')).attr('style',widget.attr('style'))
         .append($('<div></div>').addClass('anti-handling'))
         .prepend($(this));
       widget.replaceWith(elt);
+      
+      // loads the content/data
+      $.get(url,function(json){
+        for ( i = 0 ; i < json.length ; i++ )
+        {
+          data = json[i];
+          data.object = elt;
+          li.seatedPlanMouseup(data);
+        }
+        
+        // triggers
+        while ( fct = li.seatedPlanInitializationFunctions.shift() )
+          fct();
+      });
+      
       $(this).unbind('load').load(function(){
         // to avoid graphical bugs, relaunch the box resizing
         if ( $(this).height() == 0 )
@@ -24,34 +47,12 @@
           .css('display', 'block')
           .width($(this).width())
           .height($(this).height());
-        
-        // loads the content/data
-        $.get(url,function(json){
-          for ( i = 0 ; i < json.length ; i++ )
-          {
-            data = json[i];
-            data.object = elt;
-            seated_plan_mouseup(data);
-          }
-          
-          // triggers
-          while ( fct = document.seated_plan_functions.shift() )
-            fct();
-        });
       });
     });
-    /*
-    // too precautionous, and source of doubled-actions
-    $(document).focus(function(){
-      // useful when loading seated plan in a new window/tab
-      $(document).unbind('focus');
-      $('.picture.seated-plan img').load();
-    });
-    */
   }
 
   // the function that add a seat on every click (mouseup) or on data loading
-  function seated_plan_mouseup(data)
+  li.seatedPlanMouseup = function(data)
   {
     // removing pre-seat and pre-seat behaviour
     $('.picture.seated-plan .pre-seat').remove();
@@ -121,7 +122,7 @@
           && !$(this).is('.printed')
           && $('.reset-a-seat').length > 0 )
         {
-          seated_plan_unallocate_seat(this);
+          li.seatedPlanUnallocatedSeat(this);
           return; // ... and this only
         }
         
@@ -159,7 +160,7 @@
     });
   }
 
-  function seated_plan_unallocate_seat(seat)
+  li.seatedPlanUnallocatedSeat = function(seat)
   {
     if ( $('#todo').length == 0 && !confirm($('form.reset-a-seat:first .confirm').html()) )
       return false;
@@ -179,9 +180,9 @@
   }
   
   $(document).ready(function(){
-    document.seated_plan_functions = [];
+    li.seatedPlanInitializationFunctions = [];
     // automagically loads plans when the HTML call is in the page
-    seated_plan_init();
+    li.seatedPlanInitialization();
     
     // background
     $('#seated_plan_background').change(function(){
@@ -244,7 +245,7 @@
       if ( scale == undefined )
         scale = 1;
       
-      return seated_plan_mouseup({
+      return li.seatedPlanMouseup({
         position: {
           x: Math.round((event.pageX-ref.position().left)/scale),
           y: Math.round((event.pageY-ref.position().top) /scale)

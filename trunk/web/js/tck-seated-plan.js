@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  document.seated_plan_functions.push(function()
+  li.seatedPlanInitializationFunctions.push(function()
   {
     var click;
     $('.seated-plan .seat.txt').click(click = function(){

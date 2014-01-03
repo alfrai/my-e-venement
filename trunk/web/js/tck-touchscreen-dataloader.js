@@ -95,26 +95,25 @@ li.completeContent = function(data, type, replaceAll = true)
       
       wgauge.find('h4').text(gauge.name);
       
-      infos = {
-        id: gauge.id,
-        available_prices: gauge.available_prices,
-        gauge_url: gauge.url,
-        seated_plan_url: gauge.seated_plan_url,
-        seated_plan_seats_url: gauge.seated_plan_seats_url,
-      };
-      wgauge.find('.infos').html(JSON.stringify(infos));
+      // prices
+      wgauge.find('.data .available_prices').remove();
+      $('<span></span>').addClass('available_prices').html(JSON.stringify(gauge.available_prices))
+        .appendTo(wgauge.find('.data'));
       
       // graphical gauges
-      
+      wgauge.find('.data .gauge.raw').remove();
       $('<a></a>')
         .prop('href', gauge.url)
         .addClass('gauge').addClass('raw')
-        .appendTo(wgauge.find('.gauge-data'));
+        .appendTo(wgauge.find('.data'));
       if ( gauge.seated_plan_url && gauge.seated_plan_seats_url )
-      $('<a></a>').addClass('gauge').addClass('seated')
-        .prop('href', gauge.seated_plan_seats_url)
-        .append($('<img/>').prop('src', gauge.seated_plan_url).prop('alt', 'seated-plan'))
-        .appendTo(wgauge.find('.gauge-data'));
+      {
+        wgauge.find('.data .gauge.seated:not(.picture)').remove();
+        $('<a></a>').addClass('gauge').addClass('seated')
+          .prop('href', gauge.seated_plan_seats_url)
+          .append($('<img/>').prop('src', gauge.seated_plan_url).prop('alt', 'seated-plan'))
+          .appendTo(wgauge.find('.data'));
+      }
       
       if ( add )
         wgauge.insertBefore(wmanif.find('.item.total'));

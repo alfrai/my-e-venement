@@ -261,7 +261,9 @@
     }
     
     if ( count($this->tickets) <= 0 )
+    {
       $this->setTemplate('close');
+    }
     else
     {
       if ( sfConfig::get('app_tickets_id') != 'othercode' )

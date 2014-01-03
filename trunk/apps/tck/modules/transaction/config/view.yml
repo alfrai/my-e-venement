@@ -1,6 +1,6 @@
 all:
-  javascripts: [tck-touchscreen, tck-touchscreen-forms, tck-touchscreen-board, vcard]
-  stylesheets: [tck-touchscreen]
+  javascripts: [tck-touchscreen, tck-touchscreen-forms, tck-touchscreen-board, vcard, event-seated-plan]
+  stylesheets: [tck-touchscreen, event-seated-plan]
 
 json:
   has_layout: false

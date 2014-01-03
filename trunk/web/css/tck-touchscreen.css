@@ -58,7 +58,7 @@
 #li_transaction_field_content .highlight:not(.new-family) { border: 1px solid transparent; }
 #li_transaction_field_content .ui-widget-header { padding: 3px 5px; }
 #li_transaction_field_content .items { cursor: default; }
-#li_transaction_field_content .item { padding: 0 15px; }
+#li_transaction_field_content .item { padding: 0 15px; user-select: none; -moz-user-select: none; }
 #li_transaction_field_content .item tr > * { vertical-align: top; }
 #li_transaction_field_content .item .nb { text-align: right; }
 #li_transaction_field_content .declinations { display: inline-table; width: 65% }
@@ -84,9 +84,9 @@
 #li_transaction_field_content .family.total .item .total .qty { text-decoration: none; }
 #li_transaction_field_content .family.total .item h4 { margin-left: -15px; margin-right: 15px; }
 
-#li_transaction_field_content .item .ids { display: none; position: absolute; margin-left: 10px; margin-top: -1.3em; max-width: 100px; border: 1px solid silver; padding: 1px 4px; background-color: whitesmoke; font-weight: normal; }
+#li_transaction_field_content .item .ids { display: none; position: absolute; margin-left: 10px; margin-top: -1.3em; max-width: 100px; border: 1px solid silver; padding: 1px 4px; background-color: whitesmoke; font-weight: normal; z-index: 1; }
 #li_transaction_field_content .item .ids.show { display: block; }
-#li_transaction_field_content .item .gauge-data { display: none; }
+#li_transaction_field_content .item .data { display: none; }
 
 /* payments & prices */
 #li_fieldset_payments { clear: both; }
@@ -138,3 +138,4 @@
 #li_transaction_field_product_infos .gauge.raw .printed { background-color: red; }
 #li_transaction_field_product_infos .gauge.raw .ordered { background-color: orange; }
 #li_transaction_field_product_infos .gauge.raw .asked   { background-color: blue; }
+#li_transaction_field_product_infos .gauge.seated { transform: scale(0.4); margin-top: -90%; margin-left: -62%; background-color: white; }

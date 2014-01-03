@@ -52,7 +52,13 @@ class gaugeActions extends autoGaugeActions
           '%%asked%%'   => $arr['booked']['asked'],
         ));
       
-      $this->getResponse()->setContentType('application/json');
+      if ( !$request->hasParameter('debug') )
+      {
+        $this->getResponse()->setContentType('application/json');
+        sfConfig::set('sf_debug',false);
+        sfConfig::set('sf_escaping_strategy', false);
+      }
+      
       return $this->renderText(json_encode($arr));
     }
   }
