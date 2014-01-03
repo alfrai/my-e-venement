@@ -57,7 +57,7 @@
    *       [gauge_id]:
    *         name: xxx
    *         id: integer
-   *         url: xxx (absolute) data to display the gauge
+   *         url: xxx (absolute) data to calculate / display the gauge
    *         seated_plan_url: xxx (optional) the absolute path to the plan's picture
    *         seated_plan_seats_url: xxx (optional) the absolute path to the seats definition and allocation
    *         available_prices:

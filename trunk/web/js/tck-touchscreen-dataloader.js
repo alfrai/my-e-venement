@@ -72,7 +72,7 @@ li.completeContent = function(data, type, replaceAll = true)
     wmanif.find('h3 .happens_at').text(happens_at.toLocaleString().replace(/:\d\d \w+$/,'')).prop('href',manifestation.manifestation_url).prop('title', ends_at.toLocaleString().replace(/:\d\d \w+$/,''));
     wmanif.find('h3 .location').text(manifestation.location).prop('href',manifestation.location_url);
     wmanif.find('h3').css('background-color', manifestation.color);
-    // TODO: gauge_url
+    // TODO (or not): gauge_url
     
     if ( add )
       wmanif.insertBefore(wglobal.find('.family.total'));

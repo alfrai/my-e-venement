@@ -1,6 +1,6 @@
 <?php use_javascript('tck-touchscreen-manifestations-print') ?>
 <div class="ui-corner-all ui-widget-content">
-<form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>" method="get" target="_blank" class="print noajax" onsubmit="javascript: li.initContent()">
+<form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>" method="get" target="_blank" class="print noajax" onsubmit="javascript: return li.printingTickets(this);">
   <p>
     <input type="submit" name="s" value="<?php echo __('Print') ?>" class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button" />
     <?php if ( sfConfig::has('app_tickets_authorize_grouped_tickets') && sfConfig::get('app_tickets_authorize_grouped_tickets') ): ?>

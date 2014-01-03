@@ -185,8 +185,68 @@ $(document).ready(function(){
   li.responsiveDesign();
 });
 
-li.renderGauge = function(item)
+
+li.printingTickets = function(form){
+  var qty = 0;
+  var go = true;
+  
+  $('#li_transaction_field_content #li_transaction_manifestations .families:not(.sample) .item').each(function(){
+    if ( go == false )
+      return;
+    
+    if ( $(this).find('tbody .declination [name="qty"]').length > 0 )
+    {
+      var gauge = this;
+      qty++;
+      $.get($(this).find('.data .gauge.raw').prop('href'), function(data){
+        var elts = $(gauge).find('tbody .declination:not(.printed) [name="qty"]');
+        $(gauge).find('.data .gauge.raw').html(JSON.stringify(data));
+        li.renderGauge(gauge, true);
+        
+        // overbooking
+        var total = 0;
+        
+        // a loophole for the tickets of the current transaction
+        if ( $('#li_transaction_field_payments_list [name="cancel-order"]').css('visibility') == 'hidden' )
+        elts.each(function(){
+          total += parseInt($(this).val(),10);
+        });
+        
+        if ( data.free - total < 0 )
+        {
+          go = false;
+          elts.addClass('blink');
+          li.blinkQuantities(elts);
+        }
+        
+        qty--;
+        if ( qty == 0 )
+        {
+          // TODO: taking account of the app's configuration
+          // TODO: take care if the user can overcome the app's configuration
+          if ( go == false )
+          {
+            alert('overbooking'); // TODO: a better way to display the error
+          }
+          else
+          {
+            // all gauges are ready to be filled... let's goooo
+            $(form).clone(true).removeAttr('onsubmit').appendTo('body').submit().remove();
+            //setTimeout(function(){ li.initContent(); }, 1000);
+          }
+        }
+      });
+    }
+  });
+  
+  return false;
+}
+
+li.renderGauge = function(item, only_inline_gauge)
 {
+  if ( only_inline_gauge == undefined )
+    only_inline_gauge = false;
+  
   // the small gauge
   if ( $(item).find('.data .gauge.raw').length > 0 )
   {
@@ -205,7 +265,7 @@ li.renderGauge = function(item)
   }
   
   // gauge for seated plan
-  if ( $(item).find('.data .gauge.seated').length > 0 )
+  if ( !only_inline_gauge && $(item).find('.data .gauge.seated').length > 0 )
   {
     if ( $(item).find('.data .gauge.seated.picture').length > 0 )
     {

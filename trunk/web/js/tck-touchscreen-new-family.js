@@ -61,23 +61,27 @@
       else
       {
         var elts = $(this).closest('.family').find('.qty.blink');
-        elts.blink = 0;
-        
-        var blink = function(){
-          if ( elts.blink % 2 == 0 )
-            elts.css('border-color', 'red');
-          else
-            elts.css('border-color', '');
-          
-          if ( elts.blink < 3 )
-            setTimeout(blink,500);
-          else
-            elts.removeClass('blink');
-          elts.blink++;
-        }
-        blink();
+        li.blinkQuantities(elts);
       }
       
       return false;
     });
   });
+
+li.blinkQuantities = function(elts){
+  elts.blink = 0;
+  
+  var blink = function(){
+    if ( elts.blink % 2 == 0 )
+      elts.css('border-color', 'red');
+    else
+      elts.css('border-color', '');
+    
+    if ( elts.blink < 5 )
+      setTimeout(blink,500);
+    else
+      elts.removeClass('blink');
+    elts.blink++;
+  }
+  blink();
+}
