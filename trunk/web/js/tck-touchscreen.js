@@ -216,7 +216,7 @@ li.printingTickets = function(form){
         {
           go = false;
           elts.addClass('blink');
-          li.blinkQuantities(elts);
+          li.blinkQuantities(elts, true);
         }
         
         qty--;

@@ -40,7 +40,7 @@
 #li_transaction_field_content .footer > .ui-widget-content > form:first-child + form { text-align: center; }
 #li_transaction_field_content .footer > .ui-widget-content > form:last-child { text-align: right; }
 #li_transaction_field_content .new-family { margin-bottom: 5px; height: 1.8em; padding: 3px; transition-duration: 1s; overflow: hidden; }
-#li_transaction_field_content .new-family.ui-state-highlight { height: 10em; transition-duration: 2s; }
+#li_transaction_field_content .new-family.ui-state-highlight { height: 10em; transition-duration: 1s; }
 #li_transaction_field_content .new-family input, #li_transaction_field_content .new-family select { vertical-align: top; }
 #li_transaction_field_content .new-family input { width: 30%; }
 #li_transaction_field_content .new-family select { height: 10em; margin-top: 0; }

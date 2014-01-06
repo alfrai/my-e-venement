@@ -68,14 +68,14 @@
     });
   });
 
-li.blinkQuantities = function(elts){
+li.blinkQuantities = function(elts, full = false){
   elts.blink = 0;
   
   var blink = function(){
     if ( elts.blink % 2 == 0 )
-      elts.css('border-color', 'red');
+      elts.css('border-color', 'red').css('color', full ? 'red' : '');
     else
-      elts.css('border-color', '');
+      elts.css('border-color', '').css('color', '');
     
     if ( elts.blink < 5 )
       setTimeout(blink,500);

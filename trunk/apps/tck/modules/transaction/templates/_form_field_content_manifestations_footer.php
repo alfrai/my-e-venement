@@ -13,28 +13,27 @@
   </p>
 </form>
 <?php if ( $sf_user->hasCredential('tck-integrate') ): ?>
-<form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>" method="get" target="_blank" class="integrate noajax" onsubmit="javascript: li.initContent()">
+<form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>" method="get" target="_blank" class="integrate noajax"  onsubmit="javascript: return li.printingTickets(this);">
   <p>
     <input type="submit" name="s" value="<?php echo __('Integrate') ?>" title="<?php echo __("Integrate from an external seller") ?>" class="ui-widget-content ui-state-default fg-button ui-corner-all ui-widget" />
   </p>
 </form>
 <?php endif ?>
-<form action="<?php echo url_for('ticket/partial?id='.$transaction->id) ?>" method="get" target="_blank" class="partial noajax" onsubmit="javascript: li.initContent()">
+<form action="<?php echo url_for('ticket/partial?id='.$transaction->id) ?>" method="get" target="_blank" class="partial noajax">
   <script type="text/javascript">
-    // TODO
-    /*
     $(document).ready(function(){
-      $('#print form.partial').submit(function(){
-        if ( $('.manifestations_list [name="ticket[manifestation_id]"]:checked').length > 0 )
-          $(this).find('[name=manifestation_id]').val($('.manifestations_list [name="ticket[manifestation_id]"]:checked').val());
-        else
+      $('#li_transaction_manifestations .footer .partial').submit(function(){
+        if ( $('#li_transaction_manifestations .ui-state-highlight').length == 0 )
         {
-          alert('<?php echo __('You must have at least one manifestation selected.') ?>');
-          return false;
+           alert("<?php echo __('You must have at least one manifestation selected.') ?>");
+           $(this).find('[name=manifestation_id]').val('');
+           return false;
         }
+        
+        $(this).find('[name=manifestation_id]').val($('#li_transaction_field_content .ui-state-highlight').attr('data-gauge-id'));
+        return li.printingTickets(this);
       });
     });
-    */
   </script>
   <p>
     <input type="submit" value="<?php echo __('Partial printing') ?>" name="partial" title="<?php echo __('Only on the selected line/manifestation') ?>" class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button" />

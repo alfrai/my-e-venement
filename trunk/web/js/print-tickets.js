@@ -2,7 +2,8 @@ $(document).ready(function(){
   window.print();
   
   // update the parent window's content
-  window.opener.li.initContent();
+  if ( typeof window.opener.li === 'object' )
+    window.opener.li.initContent();
   
   // print again
   if ( $('#options #print-again').length > 0 )
