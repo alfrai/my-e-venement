@@ -179,6 +179,42 @@ $(document).ready(function(){
   // THE BOARD
   $('#li_transaction_field_board button').click(li.boardClick)
   
+  // ARROWS ON DOCUMENT / ON ITEMS
+  $(document).keydown(function(e){
+    if ( $('#li_transaction_field_content .item.ui-state-highlight').length == 0
+      || $('#li_transaction_field_content .item').length == 1 )
+      return true;
+    
+    if ( e.which != 38 && e.which != 40 )
+      return true;
+    
+    var items = $('#li_transaction_field_content .families:not(.sample) .family:not(.total) .item:not(.total)').toArray();
+    switch ( e.which ) {
+    case 40: // arrow down
+      for ( i = 0 ; i < items.length ; i++ )
+      {
+        if ( $(items[i]).is('.ui-state-highlight') )
+        {
+          $(items[++i]).focusin();
+          break;
+        }
+      }
+      break;
+    case 38: // arrow up
+      for ( i = 0 ; i < items.length ; i++ )
+      {
+        if ( $(items[i]).is('.ui-state-highlight') )
+        {
+          $(items[--i]).focusin();
+          break;
+        }
+      }
+      break;
+    }
+    
+    return false;
+  });
+  
   // make the flashes to disapear
   setTimeout(function(){ $('.sf_admin_flashes > *').fadeOut('slow',function(){ $(this).remove(); }); }, 3500);
   
