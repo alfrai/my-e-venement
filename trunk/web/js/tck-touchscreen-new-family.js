@@ -32,7 +32,6 @@
             method: 'get',
             success: function(data){
               families.html('');
-              console.log(data.toSource());
               $.each(data, function(id, manif){
                 $('<option></option>').css('background-color', manif.color).val(id)
                   .html(manif.name).prop('title', manif.name)

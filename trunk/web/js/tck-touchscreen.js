@@ -183,6 +183,17 @@ $(document).ready(function(){
   
   // RESPONSIVE DESIGN
   li.responsiveDesign();
+  
+  // NEW PAYMENT
+  $('#li_transaction_field_payment_new [name="transaction[payment_new][payment_method_id]"]').each(function(){
+    $(this).closest('li').find('input, label').hide();
+    $('<button />').text($(this).closest('li').find('label').text())
+      .click(function(){
+        $(this).closest('li').find('input').prop('checked',true);
+      })
+      .appendTo($(this).closest('li'));
+  });
+  $('#li_transaction_field_payment_new .submit').hide();
 });
 
 
