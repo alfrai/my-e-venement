@@ -45,7 +45,7 @@ li.boardClick = function(){
           $('#li_transaction_field_board .selected').removeClass('selected').prop('title',false);
           elt.keydown().keyup().keypress();
         }
-      },500);
+      },1000);
     }
   }
   else
