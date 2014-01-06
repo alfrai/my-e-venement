@@ -9,17 +9,22 @@ li.completeContent = function(data, type, replaceAll = true)
   // PAYMENTS
   if ( type == 'payments' )
   {
+    var content = $('#li_transaction_field_payments_list tbody');
+    var template = content.find('tr.template');
+    
+    content.find('tr[data-payment-id]:not(.template)').remove();
+    content.find('tr:not([data-payment-id])').show();
+    
     if ( data.length == 0 )
       return false;
     
-    var content = $('#li_transaction_field_payments_list tbody');
-    var template = content.find('tr.template');
-    content.find('tr:not(.template)').remove();
-    
+    content.find('tr:not([data-payment-id])').hide();
+
     $.each(data, function(index, value){
       var tr = template.clone(true).removeClass('template');
       
       tr.find('[name="ids[]"]').val(value.id);
+      tr.attr('data-payment-id', value.id);
       tr.find('.sf_admin_list_td_Method').html(value.method);
       tr.find('.sf_admin_list_td_list_value').html(li.format_currency(parseFloat(value.value)));
       tr.find('.sf_admin_td_actions .sf_admin_action_delete form').prop('action', value.delete_url);
