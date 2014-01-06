@@ -303,10 +303,21 @@ li.renderGauge = function(item, only_inline_gauge)
 li.responsiveDesign = function(){
   $(window).resize(function(){
     var margin;
-    var scale = { x: $(window).width()/1040, y: $(window).height()/900 };
-    if ( scale.x / scale.y > 1.3 ) scale.y = scale.x / 1.3;
-    if ( scale.y / scale.x > 1.3 ) scale.x = scale.y / 1.3;
     $('#sf_admin_content').css('transform', 'scale(1)');
+    
+    var scale = {
+      x: $('#sf_admin_container').width()/$('#sf_admin_content').width(),
+      y: ( $(window).height()
+          - $('#sf_admin_content').position().top
+         )/$('#sf_admin_content').height()
+    };
+    
+    // if gap between the two scales is too important, choose the smallest
+    if ( scale.x / scale.y > 1.3 )
+      scale.x = scale.y * 1.3;
+    if ( scale.y / scale.x > 1.3 )
+      scale.y = scale.x * 1.3;
+    
     var dimensions = [$('#sf_admin_content').width(), $('#sf_admin_content').height()];
     
     $('#sf_admin_content')
