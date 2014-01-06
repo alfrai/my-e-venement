@@ -93,7 +93,9 @@
 #li_fieldset_payments #li_transaction_field_payment_new { width: 44%; }
 #li_fieldset_payments #li_transaction_field_payments_list { width: 50%; }
 #sf_admin_content #li_transaction_field_price_new { position: absolute; display: none; z-index: 1; overflow-y: auto; }
-#li_transaction_field_price_new, #li_transaction_field_payment_new { width: 440px; min-height: 95px; }
+#li_transaction_field_price_new, #li_transaction_field_payment_new { width: 440px; }
+#li_transaction_field_price_new { max-height: 95px; }
+#li_transaction_field_payment_new { min-height: 95px; }
 #li_transaction_field_price_new input[type=text] { width: 2em; text-align: right; }
 #li_transaction_field_payments_list { font-size: 0; min-height: 210px; }
 #li_transaction_field_payments_list .sf_admin_list_td_list_created_at { text-align: center; }
@@ -139,4 +141,4 @@
 #li_transaction_field_product_infos .gauge.raw .printed { background-color: red; }
 #li_transaction_field_product_infos .gauge.raw .ordered { background-color: orange; }
 #li_transaction_field_product_infos .gauge.raw .asked   { background-color: blue; }
-#li_transaction_field_product_infos .gauge.seated { transform: scale(0.4); margin-top: -90%; margin-left: -62%; background-color: white; }
+#li_transaction_field_product_infos .gauge.seated { transform: scale(0.4); transform-origin: top left; margin-top: 5px; background-color: white; }

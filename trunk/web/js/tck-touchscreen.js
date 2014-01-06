@@ -70,6 +70,7 @@ $(document).ready(function(){
   // showing numerotation & ids
   $('#li_transaction_field_content .item .price_name').mousedown(function(){
     $(this).closest('.declination').find('.ids').addClass('show');
+    $(this).closest('.highlight').focusin();
   });
   $(document).mouseup(function(){
     $('#li_transaction_field_content .ids').removeClass('show');
@@ -292,11 +293,20 @@ li.renderGauge = function(item, only_inline_gauge)
         .appendTo($('#li_transaction_field_product_infos'));
       
       li.seatedPlanInitializationFunctions.push(function(){
-        $('#li_transaction_field_product_infos .gauge.seated.picture').clone(true)
+        var elt = $('#li_transaction_field_product_infos .gauge.seated.picture');
+        var scale = ($('#li_transaction_field_product_infos').width()-15)/$(elt).width();
+        
+        $(elt)
+          .css('transform', 'scale('+scale+')') // the scale
+          .css('margin-bottom', -$('#li_transaction_field_product_infos .gauge.seated').height()*(1-scale)+10) // the margin bottom
+          .clone(true)
           .appendTo($(item).find('.data'));
       });
       li.seatedPlanInitialization($('#li_transaction_field_product_infos'));
     }
+    
+    setTimeout(function(){
+    },700); // arbitrary...
   }
 }
 
