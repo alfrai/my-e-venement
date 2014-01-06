@@ -215,8 +215,21 @@ $(document).ready(function(){
     return false;
   });
   
-  // make the flashes to disapear
-  setTimeout(function(){ $('.sf_admin_flashes > *').fadeOut('slow',function(){ $(this).remove(); }); }, 3500);
+  // FLASHES
+  // hide the flashes after a while
+  setTimeout(
+    function(){ $('.sf_admin_flashes > *').fadeOut('slow',function(){ $(this).remove(); }); }
+    , 2500
+  );
+  
+  // DISPLAYS A WARNING MESSAGE WHEN THE WINDOW ATTEMPS TO BE CLOSED
+  $(window).on('beforeunload', function(){
+    alert('pas normal!!');
+    // TODO, probably a synchronous $.ajax request to ckeck if everything's correct
+    // if correct, $.ajax async request to close the transaction and unload the page
+    // if uncorrect, alert the user on what's going on... and ask for a confirmation before unloading
+    return false;
+  });
   
   // RESPONSIVE DESIGN
   li.responsiveDesign();
@@ -364,18 +377,11 @@ li.responsiveDesign = function(){
     if ( scale.y / scale.x > 1.3 )
       scale.y = scale.x * 1.3;
     
-    var dimensions = [$('#sf_admin_content').width(), $('#sf_admin_content').height()];
-    
-    $('#sf_admin_content')
-      .css('transform', 'scale('+scale.x+','+scale.y+')')
-      .css('margin-left', (dimensions[0]*(scale.x-1)/2)+'px')
-      .css('margin-top', (margin = dimensions[1]*(scale.y-1)/2)+'px')
-    ;
+    $('#sf_admin_content').css('transform', 'scale('+scale.x+','+scale.y+')');
     
     $('#sf_admin_container').height(
-        $('#sf_admin_content').height()*scale.y + Math.abs(margin/2) + 20
+        $('#sf_admin_content').height()*scale.y + 20
       + $('.ui-widget-header').height()
-      + $('.sf_admin_flashes').height()
       + $('#sf_admin_header').height()
     );
   }).resize();

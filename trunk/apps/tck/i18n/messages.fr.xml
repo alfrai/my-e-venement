@@ -33,8 +33,8 @@
         <target>Point de ventes</target>
       </trans-unit> 
       <trans-unit>
-        <source>Transaction created.</source>
-        <target>Opération créée.</target>
+        <source>Transaction created</source>
+        <target>Opération créée</target>
       </trans-unit> 
       <trans-unit>
         <source>seat allocations for your order #%%transaction_id%%</source>

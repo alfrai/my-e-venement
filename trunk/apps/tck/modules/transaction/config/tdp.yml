@@ -11,6 +11,7 @@ all:
           class: board-alpha highlight
         informations:
           class: li_table highlight
+        new_transaction: ~
       content:
         content: ~
         product_infos:

@@ -1,5 +1,5 @@
 /* generic */
-#sf_admin_content { font-size: 13px; width: 1000px; }
+#sf_admin_content { font-size: 13px; width: 1000px; transform-origin: top left; }
 #sf_admin_content .li_fieldset > div { display: inline-block; padding: 5px; margin: 10px 5px; overflow: hidden; }
 #sf_admin_content .li_fieldset > div > * { display: inline-block; }
 
@@ -14,8 +14,10 @@
 #sf_admin_content .li_fieldset #li_transaction_field_contact_id { position: relative; top: -2.8em; border-bottom: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0; padding-bottom: 0; }
 #li_transaction_field_contact_id .data a { font-size: 0; }
 
-#li_transaction_field_description textarea { height: 3.3em; width: 30em; }
+#li_transaction_field_description textarea { height: 3.3em; width: 24em; }
 #li_transaction_field_professional_id label, #li_transaction_field_description label { display: none; }
+#li_transaction_field_new_transaction { width: 4em; text-align: center; }
+#li_transaction_field_new_transaction a { display: block; width: 1.5em; height: 3em; margin-bottom: -0.7em; }
 
 #sf_admin_content #li_transaction_field_informations { max-width: 19em; height: 5em; overflow-y: auto; white-space: nowrap; }
 #sf_admin_content #li_transaction_field_informations .form_field_id { font-weight: bold; }
@@ -142,3 +144,6 @@
 #li_transaction_field_product_infos .gauge.raw .ordered { background-color: orange; }
 #li_transaction_field_product_infos .gauge.raw .asked   { background-color: blue; }
 #li_transaction_field_product_infos .gauge.seated { transform: scale(0.4); transform-origin: top left; margin-top: 5px; background-color: white; }
+
+/* OTHERS */
+.sf_admin_flashes { position: absolute; width: 94%; z-index: 2; margin-left: 5px; }
