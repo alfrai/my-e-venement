@@ -1,4 +1,3 @@
-<?php use_javascript('tck-touchscreen-manifestations-print') ?>
 <div class="ui-corner-all ui-widget-content">
 <form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>" method="get" target="_blank" class="print noajax" onsubmit="javascript: return li.printingTickets(this);">
   <p>

@@ -6,7 +6,7 @@
     'autocomplete' => 'off',
     'method' => 'get',
     'target' => '_blank',
-    'class'  => 'new-family highlight ui-corner-all ui-widget-content board.alpha',
+    'class'  => 'new-family highlight ui-corner-all ui-widget-content board-alpha',
   )) ?><p>
     <?php echo $form[$id] ?>
     <input type="text" name="autocompleter" value="" />

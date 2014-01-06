@@ -124,7 +124,6 @@ class manifestationActions extends autoManifestationActions
   
   public function executeAjax(sfWebRequest $request)
   {
-    $time = microtime();
     $charset = sfConfig::get('software_internals_charset');
     $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
     
