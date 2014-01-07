@@ -19,7 +19,7 @@ $(document).ready(function(){
           $('#todo .total').html(parseInt($('#todo .total').html())-1);
           $('#done .total').html(parseInt($('#todo .total').html())+1);
           $('.seated-plan .'+id).addClass('ordered');
-          $(seat).addClass('in-progress').dblclick(seated_plan_unallocate_seat);
+          $(seat).addClass('in-progress').dblclick(li.seatedPlanUnallocatedSeat);
           
           // if there is no more ticket, go to the next step, including editting the order
           if ( $('#todo .ticket').length == 0 )
