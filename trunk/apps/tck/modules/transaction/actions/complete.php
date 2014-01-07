@@ -137,7 +137,7 @@
     }
     
     // more complex data
-    foreach ( array('price_new', 'payment_new', 'payments_list',) as $field )
+    foreach ( array('price_new', 'payment_new', 'payments_list', 'close') as $field )
     if ( isset($params[$field]) && is_array($params[$field]) && isset($this->form[$field]) )
     {
       $this->json['success']['success_fields'][$field] = $success;
@@ -210,6 +210,38 @@
         $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'payments';
         $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getPayments?id='.$request->getParameter('id'), true);
         
+        break;
+      case 'close':
+        $semaphore = array('products' => true, 'amount' => 0);
+        foreach ( $this->transaction->Tickets as $ticket )
+        {
+          if ( !$ticket->printed_at && !$ticket->cancelling && !$ticket->integrated_at )
+            $semaphore['products'] = false;
+          else
+            $semaphore['amount'] += $ticket->value;
+        }
+        foreach ( $this->transaction->Payments as $payment )
+        {
+          $semaphore['amount'] -= $payment->value;
+        }
+        
+        if ( !$semaphore['products'] || $semaphore['amount'] > 0 )
+        {
+          $this->json['success']['error_fields']['close'] = $this->json['success']['success_fields']['close'];
+          unset($this->json['success']['success_fields']['close']);
+          
+          $this->json['success']['error_fields']['close']['data']['generic'] = __('This transaction cannot be closed properly:');
+          if ( !$semaphore['products'] )
+            $this->json['success']['error_fields']['close']['data']['tck'] = __('Some tickets are not printed yet');
+          if ( $semaphore['amount'] > 0 )
+            $this->json['success']['error_fields']['close']['data']['pay'] = __('This transaction is not yet totally paid');
+        }
+        else
+        {
+          $this->transaction->closed = true;
+          $this->transaction->save();
+          error_log('Transaction #'.$this->transaction->id.' closed by user.');
+        }
         break;
       }
       else

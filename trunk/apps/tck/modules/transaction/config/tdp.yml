@@ -24,6 +24,8 @@ all:
         payments_list:
           class: highlight
           data_url: transaction/getPayments
+      hidden:
+        close: ~
     selling:
       manifestations:
         model: Manifestation

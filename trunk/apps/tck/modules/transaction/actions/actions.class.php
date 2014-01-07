@@ -18,6 +18,12 @@ class transactionActions extends autoTransactionActions
     $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
     parent::executeEdit($request);
     
+    if ( $this->transaction->closed )
+    {
+      $this->getUser()->setFlash('error', __('You have to re-open the transaction before accessing it'));
+      $this->redirect('transaction/respawn?id='.$this->transaction->id);
+    }
+    
     $this->form = array();
     
     // Contact
@@ -125,6 +131,40 @@ class transactionActions extends autoTransactionActions
         ->leftJoin('p.Transaction t')
         ->andWhere('t.closed = ?', false),
     ));
+    
+    // CLOSE THE TRANSACTION
+    $this->form['close'] = new sfForm;
+    $ws = $this->form['close']->getWidgetSchema()->setNameFormat('transaction[close][%s]');
+    $vs = $this->form['close']->getValidatorSchema();
+    $ws['id'] = new sfWidgetFormInputHidden;
+    $vs['id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Transaction',
+      'query' => Doctrine::getTable('Transaction')->createQuery('t')
+        ->andWhere('t.closed = ?', false)
+        ->andWhere('t.id = ?', $this->transaction->id),
+    ));
+    $this->form['close']->setDefault('id', $this->transaction->id);
+  }
+  
+  public function executeRespawn(sfWebRequest $request)
+  {
+    $this->sf_request = $request;
+  }
+  public function executeAccess(sfWebRequest $request)
+  {
+    $transaction = Doctrine::getTable('Transaction')->findOneById($request->getParameter('id'));
+    
+    // reopen the transaction
+    if ( $transaction->closed
+      && $request->hasParameter('reopen')
+      && $this->getUser()->hasCredential('tck-unblock')
+    )
+    {
+      $transaction->closed = false;
+      $transaction->save();
+    }
+    
+    $this->redirect('transaction/edit?id='.$request->getParameter('id'));
   }
   
   public function executeComplete(sfWebRequest $request)

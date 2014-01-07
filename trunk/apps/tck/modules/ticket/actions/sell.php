@@ -47,7 +47,7 @@
     // if closed
     if ( $this->transaction->closed )
     {
-      $this->getUser()->setFlash('error',__('You have to re-open the transaction before to access it'));
+      $this->getUser()->setFlash('error',__('You have to re-open the transaction before accessing it'));
       return $this->redirect('ticket/respawn?id='.$this->transaction->id);
     }
     

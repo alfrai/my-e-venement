@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Do you really want to exit this transaction?</source>
+        <target>Souhaitez-vous vraiment sortir de cette opération ?</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>This transaction is not yet totally paid</source>
+        <target>Cette opération n'a pas été totalement payée</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Some tickets are not printed yet</source>
+        <target>Plusieurs billets n'ont pas été encore imprimés</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>This transaction cannot be closed properly:</source>
+        <target>Cette opération ne peut être clôturée :</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Positive or negative numbers only</source>
         <target>Uniquement des nombres positifs ou négatifs</target>
       </trans-unit> 
@@ -697,7 +713,7 @@
         <target>Vous ne pouvez accéder ici qu'à des opérations normales</target>
       </trans-unit>
       <trans-unit>
-        <source>You have to re-open the transaction before to access it</source>
+        <source>You have to re-open the transaction before accessing it</source>
         <target>Vous devez ré-ouvrir l'opération avant d'y accéder (case à cocher)</target>
       </trans-unit>
       <trans-unit>

@@ -223,13 +223,7 @@ $(document).ready(function(){
   );
   
   // DISPLAYS A WARNING MESSAGE WHEN THE WINDOW ATTEMPS TO BE CLOSED
-  $(window).on('beforeunload', function(){
-    alert('pas normal!!');
-    // TODO, probably a synchronous $.ajax request to ckeck if everything's correct
-    // if correct, $.ajax async request to close the transaction and unload the page
-    // if uncorrect, alert the user on what's going on... and ask for a confirmation before unloading
-    return false;
-  });
+  $(window).on('beforeunload', li.closeTransaction);
   
   // RESPONSIVE DESIGN
   li.responsiveDesign();
@@ -621,4 +615,57 @@ li.clickBoard = function(){
     }
   }
   elt.focus();
+}
+
+// DISPLAYS A WARNING MESSAGE WHEN THE WINDOW ATTEMPS TO BE CLOSED
+li.closeTransaction = function(event){
+  $('#transition').show();
+  var go = { ok: true, text: '' };
+  
+  $.ajax({
+    url: $('#li_transaction_field_close form').prop('action'),
+    type: $('#li_transaction_field_close form').prop('method'),
+    data: $('#li_transaction_field_close form').serialize(),
+    async: false,
+    success: function(data){
+      if ( data.error[0] )
+      {
+        go.ok   = error[0];
+        go.text = error[1];
+        return;
+      }
+      var buf = [];
+      
+      // success
+      if ( data.success.success_fields.close !== undefined )
+      {
+        go.ok   = true;
+        $.each(data.success.error_fields.close.data, function(index, text){
+          buf.push(text);
+        });
+        go.text = buf.join("\n");
+        return;
+      }
+      
+      // error
+      if ( data.success.error_fields.close !== undefined )
+      {
+        go.ok   = false;
+        $.each(data.success.error_fields.close.data, function(index, text){
+          buf.push(text);
+        });
+        buf.push('');
+        buf.push($('#li_transaction_field_close .confirmation').text());
+        go.text = buf.join("\n");
+        return;
+      }
+    }
+  });
+  
+  // the GUI behaviour
+  if ( !go.ok && !confirm(go.text) )
+  {
+    setTimeout(function(){ window.stop(); }, 1);
+    $('#transition .close').click();
+  }
 }

@@ -147,3 +147,4 @@
 
 /* OTHERS */
 .sf_admin_flashes { position: absolute; width: 94%; z-index: 2; margin-left: 5px; }
+#li_fieldset_hidden { display: none; }
