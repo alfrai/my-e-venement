@@ -240,63 +240,6 @@ $(document).ready(function(){
   $('#li_transaction_field_payment_new .submit').hide();
 });
 
-
-li.checkGauges = function(form){
-  var qty = 0;
-  var go = true;
-  
-  $('#li_transaction_field_content #li_transaction_manifestations .families:not(.sample) .item').each(function(){
-    if ( go == false )
-      return;
-    
-    if ( $(this).find('tbody .declination [name="qty"]').length > 0 )
-    {
-      var gauge = this;
-      qty++;
-      $.get($(this).find('.data .gauge.raw').prop('href'), function(data){
-        var elts = $(gauge).find('tbody .declination:not(.printed) [name="qty"]');
-        $(gauge).find('.data .gauge.raw').html(JSON.stringify(data));
-        li.renderGauge(gauge, true);
-        
-        // overbooking
-        var total = 0;
-        
-        // a loophole for the tickets of the current transaction
-        if ( $('#li_transaction_field_payments_list [name="cancel-order"]').css('visibility') == 'hidden' )
-        elts.each(function(){
-          total += parseInt($(this).val(),10);
-        });
-        
-        if ( data.free - total < 0 )
-        {
-          go = false;
-          elts.addClass('blink');
-          li.blinkQuantities(elts, true);
-        }
-        
-        qty--;
-        if ( qty == 0 )
-        {
-          var type = $('#li_transaction_field_close .overbooking .type').attr('data-type');
-          if ( go == false && type == 'block' )
-          {
-            // if the user cannot overbook, give him an alert
-            li.alert($('#li_transaction_field_close .overbooking .msg.'+type).html());
-          }
-          else if ( go || confirm($('#li_transaction_field_close .overbooking .msg.warn').text()) )
-          {
-            // all gauges are ready to be filled... let's goooo
-            $(form).clone(true).removeAttr('onsubmit').appendTo('body').submit().remove();
-            setTimeout(function(){ li.initContent(); }, 1000);
-          }
-        }
-      });
-    }
-  });
-  
-  return false;
-}
-
 // display a flash for a limited time
 li.alert = function(msg, type = 'notice', time = 4000)
 {

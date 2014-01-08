@@ -19,6 +19,7 @@ li.completeContent = function(data, type, replaceAll = true)
       return false;
     
     content.find('tr:not([data-payment-id])').hide();
+    var total = 0;
 
     $.each(data, function(index, value){
       var tr = template.clone(true).removeClass('template');
@@ -35,8 +36,10 @@ li.completeContent = function(data, type, replaceAll = true)
       tr.find('.sf_admin_list_td_list_created_at').html(date.toLocaleDateString());
       
       tr.prependTo(content);
+      total += value.value;
     });
     
+    li.sumPayments();
     return true;
   }
   
@@ -166,6 +169,7 @@ li.completeContent = function(data, type, replaceAll = true)
 
 li.sumPayments = function()
 {
+  var ratio = parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.vat').html())/parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.tep').html());
   var val = 0;
   $('#li_transaction_field_payments_list tbody tr .sf_admin_list_td_list_value').each(function(){
     val += isNaN(parseFloat($(this).html(),10))
@@ -174,4 +178,18 @@ li.sumPayments = function()
   });
   $('#li_transaction_field_payments_list tfoot .total .sf_admin_list_td_list_value')
     .html(li.format_currency(val));
+  
+  // difference
+  $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.pit')
+    .html(li.format_currency(parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.pit').html())-val));
+  
+  // VAT & co.
+  $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.vat')
+    .html(li.format_currency(vat = ratio > 0 ? (parseFloat($('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.pit').html())-val)/ratio : 0));
+  $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.tep')
+    .html(li.format_currency(
+      parseFloat($('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.pit').html())
+      -
+      parseFloat($('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.vat').html())
+    ));
 }
