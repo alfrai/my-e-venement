@@ -15,7 +15,7 @@ li.formSubmit = function(){
       // main error
       if ( data.error[0] )
       {
-        alert(data.error[1]);
+        li.alert(data.error[1],'error');
         return;
       }
       
@@ -24,7 +24,7 @@ li.formSubmit = function(){
       $.each(data.success.error_fields, function( index, value ){
         msg += index+': '+value+"\n";
       });
-      if ( msg ) alert(msg);
+      if ( msg ) li.alert(msg,'error');
       
       // successes
       $.each(data.success.success_fields, function(index, value){
@@ -49,10 +49,10 @@ li.formSubmit = function(){
           if ( !value.data.reset )
             return;
           
-          elt = $('#li_transaction_item_'+value.data.gauge_id+' .declination'+(value.data.printed ? '.printed' : ':not(.printed)')+'[data-price-id='+value.data.price_id+']');
-          if ( value.data.qty > 0 )
+          elt = $(str = '#li_transaction_item_'+value.data.content.gauge_id+' .declination'+(value.data.printed ? '.printed' : ':not(.printed)')+'[data-price-id='+value.data.content.price_id+']');
+          if ( value.data.content.qty > 0 )
           {
-            elt.find('.qty input').val(value.data.qty).select();
+            elt.find('.qty input').val(value.data.content.qty).select();
             elt.closest('.item').find('.total').select();
           }
           else
@@ -72,8 +72,8 @@ li.formSubmit = function(){
             url: value.remote_content.load.url,
             complete: function(data){ form.pending = undefined; },
             success: function(data){
-              if ( data.error[0] ) { alert(data.error[1]); return; }
-              if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined )) { alert(data.success.error_fields.manifestations); return; }
+              if ( data.error[0] ) { li.alert(data.error[1],'error'); return; }
+              if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined )) { li.alert(data.success.error_fields.manifestations,'error'); return; }
               if ( data.success.success_fields.manifestations !== undefined && data.success.success_fields.manifestations.data !== undefined )
                 li.completeContent(data.success.success_fields.manifestations.data.content, 'manifestations', false);
             }
@@ -83,8 +83,8 @@ li.formSubmit = function(){
           $.ajax({
             url: value.remote_content.load.url,
             success: function(data){
-              if ( data.error[0] ) { alert(data.error[1]); return; }
-              if (!( data.success.error_fields !== undefined && data.success.error_fields.payments === undefined )) { alert(data.success.error_fields.payments); return; }
+              if ( data.error[0] ) { li.alert(data.error[1],'error'); return; }
+              if (!( data.success.error_fields !== undefined && data.success.error_fields.payments === undefined )) { li.alert(data.success.error_fields.payments,'error'); return; }
               if ( data.success.success_fields.payments !== undefined && data.success.success_fields.payments.data !== undefined )
                 li.completeContent(data.success.success_fields.payments.data.content, 'payments');
             }

@@ -2,7 +2,7 @@ li.completeContent = function(data, type, replaceAll = true)
 {
   if ( typeof data != 'object' )
   {
-    alert("<?php echo __('An error occured. Please try again.') ?>");
+    li.alert('An error occured. Please try again.','error');
     return;
   }
   

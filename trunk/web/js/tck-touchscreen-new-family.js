@@ -77,7 +77,7 @@ li.blinkQuantities = function(elts, full = false){
     else
       elts.css('border-color', '').css('color', '');
     
-    if ( elts.blink < 5 )
+    if ( elts.blink < 7 )
       setTimeout(blink,500);
     else
       elts.removeClass('blink');

@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The blinking quantities mean that those gauges are or will be full.</source>
+        <target>Les quantités qui clignotent signifient que ces jauges sont ou vont être pleines.</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Please confirm that you allow this overbooking.</source>
+        <target>Confirmez que vous autorisez cette sur-réservation SVP.</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>You cannot proceed your action though.</source>
+        <target>Vous ne pouvez donc pas effectuer votre action.</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Do you really want to exit this transaction?</source>
         <target>Souhaitez-vous vraiment sortir de cette opération ?</target>
       </trans-unit> 

@@ -241,7 +241,7 @@ $(document).ready(function(){
 });
 
 
-li.printingTickets = function(form){
+li.checkGauges = function(form){
   var qty = 0;
   var go = true;
   
@@ -277,17 +277,17 @@ li.printingTickets = function(form){
         qty--;
         if ( qty == 0 )
         {
-          // TODO: taking account of the app's configuration
-          // TODO: take care if the user can overcome the app's configuration
-          if ( go == false )
+          var type = $('#li_transaction_field_close .overbooking .type').attr('data-type');
+          if ( go == false && type == 'block' )
           {
-            alert('overbooking'); // TODO: a better way to display the error
+            // if the user cannot overbook, give him an alert
+            li.alert($('#li_transaction_field_close .overbooking .msg.'+type).html());
           }
-          else
+          else if ( go || confirm($('#li_transaction_field_close .overbooking .msg.warn').text()) )
           {
             // all gauges are ready to be filled... let's goooo
             $(form).clone(true).removeAttr('onsubmit').appendTo('body').submit().remove();
-            //setTimeout(function(){ li.initContent(); }, 1000);
+            setTimeout(function(){ li.initContent(); }, 1000);
           }
         }
       });
@@ -295,6 +295,22 @@ li.printingTickets = function(form){
   });
   
   return false;
+}
+
+// display a flash for a limited time
+li.alert = function(msg, type = 'notice', time = 4000)
+{
+  var icons = {
+    success: 'ui-icon-circle-check',
+    notice:  'ui-icon-info',
+    error:   'ui-icon-alert',
+  }
+  var flash = '<div class="%%type%% ui-state-highlight ui-corner-all"><span class="ui-icon %%icon%% floatleft"></span>&nbsp;%%msg%%</div>';
+  
+  $('.sf_admin_flashes').append($(flash.replace('%%msg%%',msg).replace('%%type%%',type).replace('%%icon%%', icons[type])).hide().fadeIn('slow'));
+  setTimeout(function(){
+    $('.sf_admin_flashes > *').fadeOut(function(){ $(this).remove(); })
+  },time);
 }
 
 li.renderGauge = function(item, only_inline_gauge)
@@ -386,12 +402,12 @@ li.initContent = function(){
     $.get(url,function(data){
       if ( data.error[0] )
       {
-        alert(data.error[1]);
+        li.alert(data.error[1],'error');
         return;
       }
       if (!( data.success.error_fields !== undefined && data.success.error_fields[id] === undefined ))
       {
-        alert(data.success.error_fields[id]);
+        li.alert(data.success.error_fields[id],'error');
         return;
       }
       

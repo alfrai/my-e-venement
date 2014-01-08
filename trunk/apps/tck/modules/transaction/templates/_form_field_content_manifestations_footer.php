@@ -1,5 +1,5 @@
 <div class="ui-corner-all ui-widget-content">
-<form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>" method="get" target="_blank" class="print noajax" onsubmit="javascript: return li.printingTickets(this);">
+<form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>" method="get" target="_blank" class="print noajax" onsubmit="javascript: return li.checkGauges(this);">
   <p>
     <input type="submit" name="s" value="<?php echo __('Print') ?>" class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button" />
     <?php if ( sfConfig::has('app_tickets_authorize_grouped_tickets') && sfConfig::get('app_tickets_authorize_grouped_tickets') ): ?>
@@ -12,7 +12,7 @@
   </p>
 </form>
 <?php if ( $sf_user->hasCredential('tck-integrate') ): ?>
-<form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>" method="get" target="_blank" class="integrate noajax"  onsubmit="javascript: return li.printingTickets(this);">
+<form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>" method="get" target="_blank" class="integrate noajax"  onsubmit="javascript: return li.checkGauges(this);">
   <p>
     <input type="submit" name="s" value="<?php echo __('Integrate') ?>" title="<?php echo __("Integrate from an external seller") ?>" class="ui-widget-content ui-state-default fg-button ui-corner-all ui-widget" />
   </p>
@@ -30,7 +30,7 @@
         }
         
         $(this).find('[name=manifestation_id]').val($('#li_transaction_field_content .ui-state-highlight').attr('data-gauge-id'));
-        return li.printingTickets(this);
+        return li.checkGauges(this);
       });
     });
   </script>
