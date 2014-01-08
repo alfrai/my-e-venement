@@ -32,7 +32,7 @@
 #li_transaction_field_informations .vcard hr { border: 0; border-bottom: 1px solid rgb(166, 201, 226); margin: 2px 0; }
 
 /* content */
-#sf_admin_content #li_fieldset_content > div { display: block; overflow-y: auto; }
+#sf_admin_content #li_fieldset_content > div { display: block; overflow-y: scroll; }
 #li_transaction_field_board, #li_transaction_field_product_infos { width: 35%; }
 #li_transaction_field_product_infos { height: 208px; margin-top: 0 !important; }
 #li_transaction_field_board { height: 170px; }
