@@ -68,12 +68,10 @@ $(document).ready(function(){
   $('#li_transaction_field_content .item .total').select(li.calculateTotals).select();
   
   // showing numerotation & ids
-  $('#li_transaction_field_content .item .price_name').mousedown(function(){
-    $(this).closest('.declination').find('.ids').addClass('show');
+  $('#li_transaction_field_content .item .ids').click(function(){ $(this).closest('.declination').find('.price_name').click(); });
+  $('#li_transaction_field_content .item .price_name').click(function(){
+    $(this).closest('.declination').find('.ids').toggleClass('show');
     $(this).closest('.highlight').focusin();
-  });
-  $(document).mouseup(function(){
-    $('#li_transaction_field_content .ids').removeClass('show');
   });
   
   // showing the gauges
