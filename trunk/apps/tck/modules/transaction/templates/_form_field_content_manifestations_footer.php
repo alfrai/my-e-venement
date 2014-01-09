@@ -1,15 +1,49 @@
 <div class="ui-corner-all ui-widget-content">
-<form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>" method="get" target="_blank" class="print noajax" onsubmit="javascript: return li.checkGauges(this);">
+<form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>" method="get" target="_blank" class="print noajax board-alpha" onsubmit="javascript: return li.printDuplicates(this);" autocomplete="off">
   <p>
     <input type="submit" name="s" value="<?php echo __('Print') ?>" class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button" />
     <?php if ( sfConfig::has('app_tickets_authorize_grouped_tickets') && sfConfig::get('app_tickets_authorize_grouped_tickets') ): ?>
     <input type="checkbox" name="grouped_tickets" value="true" title="<?php echo __('Grouped tickets') ?>" />
     <?php endif ?>
-    <?php if ( isset($accounting) && $accounting !== false ): ?>
-    <input type="checkbox" name="duplicate" value="true" title="<?php echo __('Duplicatas') ?>" />
-    <input type="text" name="price_name" value="" class="price" />
-    <?php endif ?>
+    <input type="checkbox" name="duplicate" value="true" title="<?php echo __('Duplicatas') ?>" onclick="javascript: if ( $('#li_transaction_manifestations .item.ui-state-highlight').length == 0 ) { $(this).prop('checked',false); li.alert($(this).closest('form').find('.choose-a-manifestation').text()); return false; } $(this).hide(); $(this).closest('form').find('[name=price_name]').show().focus();" />
+    <input type="text" name="price_name" value="" title="<?php echo __('Duplicatas') ?>" class="price" size="5" style="display: none;" />
+    <input type="hidden" name="manifestation_id" value="" />
+    <span style="display: none;" class="choose-a-manifestation"><?php echo __('You must choose a manifestation first') ?></span>
   </p>
+  <script type="text/javascript">
+    li.resetDuplicates = function(form){
+      $(form).find('[name=price_name]').val('').hide();
+      $(form).find('[name=duplicate]').prop('checked',false).show();
+      $(form).find('[name=manifestation_id]').val('');
+    }
+    li.printDuplicates = function(form){
+      if ( $('#li_transaction_manifestations .item.ui-state-highlight').length == 0
+        && $(form).find('[name=manifestation_id]').prop('checked') )
+      {
+        $(form).focusout();
+        return li.checkGauges(form);
+      }
+      if ( $(form).find('[name=duplicate]').prop('checked') && $(form).find('[name=price_name]').val() )
+        $(form).find('[name=manifestation_id]').val($('#li_transaction_manifestations .item.ui-state-highlight').closest('.family').attr('data-family-id'));
+      setTimeout(function(){ $('#li_transaction_manifestations .footer .print [name=price_name]').val('').blur(); }, 2500);
+      return li.checkGauges(form);
+    }
+    $(document).ready(function(){
+      // dealing w/ the text field that aims to define the price_name to duplicate
+      $('#li_transaction_manifestations .footer .print [name=price_name]').focusin(function(){
+        $('#li_transaction_field_board').addClass('alpha');
+      }).focusout(function(){
+        if ( !$(this).val() )
+        $('#li_transaction_field_board').removeClass('alpha');
+      }).click(function(){
+        if ( !$(this).val() ) $(this).val(' ');
+      }).blur(function(){
+        if ( $(this).val() )
+          return;
+        li.resetDuplicates($(this).closest('form'));
+      });
+    });
+  </script>
 </form>
 <?php if ( $sf_user->hasCredential('tck-integrate') ): ?>
 <form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>" method="get" target="_blank" class="integrate noajax"  onsubmit="javascript: return li.checkGauges(this);">

@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You must choose a manifestation first</source>
+        <target>Vous devez au préalable choisir une manifestation</target>
+      </trans-unit> 
+      <trans-unit>
         <source>The blinking quantities mean that those gauges are or will be full.</source>
         <target>Les quantités qui clignotent signifient que ces jauges sont ou vont être pleines.</target>
       </trans-unit> 
