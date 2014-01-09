@@ -94,6 +94,7 @@
               && $ticket->printed_at
               && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
             {
+              $cpt++;
               $newticket = $ticket->copy();
               $newticket->sf_guard_user_id = NULL;
               $newticket->created_at = NULL;
@@ -121,6 +122,7 @@
               $this->print_again = true;
               break;
             }
+            $cpt++;
             
             if ( $ticket->Manifestation->no_print )
               $update['integrated_at'][$ticket->id] = $ticket->id;
@@ -137,7 +139,6 @@
                 $this->tickets[$id] = array('nb' => 1, 'ticket' => $ticket);
             }
           }
-          $cpt++;
         }
         catch ( liEvenementException $e )
         { }
@@ -166,6 +167,7 @@
               && $ticket->printed_at
               && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
             {
+              $cpt++;
               $newticket = $ticket->copy();
               $newticket->sf_guard_user_id = NULL;
               $newticket->created_at = NULL;
@@ -185,6 +187,7 @@
               $this->print_again = true;
               break;
             }
+            $cpt++;
             
             if ( !$ticket->printed_at && !$ticket->integrated_at )
             {
@@ -214,7 +217,6 @@
               }
             }
           }
-          $cpt++;
         }
         catch ( liEvenementException $e )
         { }
