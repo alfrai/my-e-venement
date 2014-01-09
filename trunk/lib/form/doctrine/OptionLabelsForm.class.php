@@ -30,22 +30,21 @@ class OptionLabelsForm extends BaseOptionLabelsForm
     
     $this->widgets = array(
       '' => array(
-        'width'         => array('label' => 'Page width', 'type' => 'number', 'helper' => 'mm', 'default' => '210'),
-        'height'        => array('label' => 'Page height', 'type' => 'number', 'helper' => 'mm', 'default' => '297'),
+        'page-format'   => array('label' => 'Page format', 'type' => 'string', 'helper' => 'a4, letter...', 'default' => 'a4'),
         'nb-x'          => array('label' => 'How many rows', 'type' => 'integer', 'helper' => '', 'default' => '2'),
         'nb-y'          => array('label' => 'How many lines', 'type' => 'integer', 'helper' => '', 'default' => '7'),
         'left-right'    => array('label' => 'Horizontal margins', 'type' => 'number', 'helper' => 'mm', 'default' => '15'),
         'top-bottom'    => array('label' => 'Vertical margins', 'type' => 'number', 'helper' => 'mm', 'default' => '4'),
-        'printer-x'     => array('label' => 'Horizontal printer margins', 'type' => 'number', 'helper' => 'mm', 'default' => '14'),
-        'printer-y'     => array('label' => 'Vertical printer margins', 'type' => 'number', 'helper' => 'mm', 'default' => '12'),
+        //'printer-x'     => array('label' => 'Horizontal printer margins', 'type' => 'number', 'helper' => 'mm', 'default' => '14'),
+        //'printer-y'     => array('label' => 'Vertical printer margins', 'type' => 'number', 'helper' => 'mm', 'default' => '12'),
         'margin-x'      => array('label' => 'Horizontal margin between rows', 'type' => 'number', 'helper' => 'mm', 'default' => '3'),
         'margin-y'      => array('label' => 'Vertical margin between lines', 'type' => 'number', 'helper' => 'mm', 'default' => '0'),
         'padding-x'     => array('label' => 'Horizontal padding', 'type' => 'number', 'helper' => 'mm', 'default' => '2.5'),
         'padding-y'     => array('label' => 'Vertical padding', 'type' => 'number', 'helper' => 'mm', 'default' => '1.5'),
-        'font-family'   => array('label' => 'Font', 'type' => 'string', 'helper' => '', 'default' => 'verdana'),
+        'font-family'   => array('label' => 'Font', 'type' => 'string', 'helper' => '', 'default' => 'dejavusans'),
         'font-size'     => array('label' => 'Font size', 'type' => 'integer', 'helper' => 'px', 'default' => '11'),
         'free-css'      => array('label' => 'Free CSS', 'type' => 'string', 'helper' => '', 'default' => ''),
-        'free-js'       => array('label' => 'Free JS', 'type' => 'string', 'helper' => '', 'default' => ''),
+        //'free-js'       => array('label' => 'Free JS', 'type' => 'string', 'helper' => '', 'default' => ''),
       ),
     );
 
@@ -66,7 +65,6 @@ class OptionLabelsForm extends BaseOptionLabelsForm
       ));
     }
     $this->widgetSchema['free-css']   = new sfWidgetFormTextarea(array('label' => $fieldset['free-css']['label'],));
-    $this->widgetSchema['free-js']    = new sfWidgetFormTextarea(array('label' => $fieldset['free-js']['label'],));
   }
   
   

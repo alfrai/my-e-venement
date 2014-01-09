@@ -40,3 +40,5 @@ body #content { width: 600px; }
 #content .sf_admin_form .ui-state-error .errors span { margin-top: 5px; }
 
 fieldset.professional.check { clear: left; }
+
+.templates { margin: 5px; padding: 5px; }

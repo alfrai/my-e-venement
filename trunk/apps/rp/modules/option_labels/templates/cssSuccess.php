@@ -25,9 +25,9 @@
 
 /* static */
 
-.param ul { display: table; }
-.param ul li { display: table-row; }
-.param ul li > span { display: table-cell; padding-right: 10px; padding-bottom: 3px; }
+.param ul { display: block; }
+.param ul li { display: block; }
+.param ul li > span { display: inline-block; padding-right: 10px; padding-bottom: 3px; }
 .param ul li > .name { text-align: right; }
 .param ul li > .defaults { font-size: 80%; }
 .param ul li > span > input { text-align: right; }
@@ -60,42 +60,43 @@ body.labels .page.last-child { page-break-after: auto; height: <?php echo $heigh
 body.labels {
   width: <?php echo $width = floatval($params['width']) - floatval($params['printer-x'])*2 - $pleft*2 ?>mm;
 }
-body.labels .labels { display: table; }
-body.labels .labels > li { display: table-row; }
-body.labels .labels > li > div { display: table-cell; }
+body.labels .labels { display: block; }
+body.labels .labels > div { display: block; }
+body.labels .labels > div > div { display: inline-block; }
 
-body.labels .labels > li > div {
-  width:  <?php echo round(( $width-$pleft*2-floatval($params['margin-x'])*(intval($params['nb-x'])-1) )/intval($params['nb-x'])) ?>mm;
-  height: <?php echo $cellheight = round(( $height-$ptop*2-floatval($params['margin-y'])*(intval($params['nb-y'])-1) )/intval($params['nb-y'])) ?>mm;
+body.labels .labels > div > div {
+  outline: 1px solid red;
+  width:  <?php echo ( $width-$pleft*2-floatval($params['margin-x'])*(intval($params['nb-x'])-1) )/intval($params['nb-x']) ?>mm;
+  height: <?php echo $cellheight = ( $height-$ptop*2-floatval($params['margin-y'])*(intval($params['nb-y'])-1) )/intval($params['nb-y']) ?>mm;
   overflow: hidden;
   vertical-align: middle;
 }
-body.labels .labels > li > div.margin {
+body.labels .labels > div > div.margin {
   width: <?php echo floatval($params['margin-x']) ?>mm;
   outline: 0;
   height: 0;
 }
-body.labels .labels > li > div div.content {
+body.labels .labels > div > div div.content {
   /* removal proposition // height: <?php echo $cellheight - floatval($params['padding-y'])*2 ?>mm; */
   padding: <?php echo floatval($params['padding-y']).'mm '.floatval($params['padding-x']).'mm' ?>;
   overflow: hidden;
 }
 
 /* compensating printer margins */
-body.labels .labels > li > div:first-child div.content {
+body.labels .labels > div > div:first-child div.content {
   padding-left: <?php echo $pleft+floatval($params['padding-x']) < 0 ? 0 : $pleft+floatval($params['padding-x']) ?>mm;
 }
-body.labels .labels > li > div:last-child div.content {
+body.labels .labels > div > div:last-child div.content {
   padding-right: <?php echo $pleft+floatval($params['padding-x']) < 0 ? 0 : $pleft+floatval($params['padding-x']) ?>mm;
 }
 
 /* text style */
 body.labels { font-size: 12px; }
-body.labels .labels > li .content p { text-align: center; }
-body.labels .labels > li .content .org { font-weight: bold; }
-body.labels .labels > li .content .org { text-transform: uppercase; }
-body.labels .labels > li .content .tels,
-body.labels .labels > li .content .email,
-body.labels .labels > li .content .pro { font-size: 9px; }
+body.labels .labels > div .content p { text-align: center; }
+body.labels .labels > div .content .org { font-weight: bold; }
+body.labels .labels > div .content .org { text-transform: uppercase; }
+body.labels .labels > div .content .tels,
+body.labels .labels > div .content .email,
+body.labels .labels > div .content .pro { font-size: 9px; }
 
 <?php echo $params['free-css'] ?>
