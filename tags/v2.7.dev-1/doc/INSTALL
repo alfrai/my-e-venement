@@ -1,0 +1,37 @@
+How to install a new instance of e-venement v2 ?
+
+== Prerequisites ==
+
+For the moment just take your time, keep things step by step, know that it's a symfony-based app...
+And take it easy, relax, have a beer, a coke, a cigarette... and why not a cofee ?
+
+== e-venement ==
+
+1. checkout the subversion repository : svn co http://svn.gna.org/svn/e-venement/trunk
+2. transform all the tamplated files into files that fits your needs : find -iname '*.template'
+3. verify that your web/uploads, log/ and cache/ directories are read/writable by the web server
+4. install Symfony & PHP5 as explained in the specific section
+5. create a first user : ./symfony help guard:create-user
+6. promote this first user to "super-admin" : ./symfony guard:promote [xxxx]
+7. import pre-defined permissions and groups : ./symfony doctrine:data-load --append data/fixtures/10-permissions.yml
+8. patch symfony running bin/patch-symfony.sh
+9. (optional) add french postalcodes for autocompletion (it takes lots of time and memory) : ./symfony doctrine:data-load --append data/fixture/20-postalcodes.yml
+10. read the user documentation
+11. start funny things with e-venement...
+12. (optional) configure the e-venement Instant Messaging System and Jabber accounts
+
+== PHP & Symfony ==
+
+1. install PHP5 (cli + apache2) and the required module for your environment (databases, etc.)
+2. install the latest Symfony 1.4 the way you prefer
+3. test if Symfony has got all it needs : php [SYMFONY_DIR]/data/bin/check_configuration.php 
+4. create a symlink in your e-venement's directory : ln -s [SYMFONY_DIR]/data/bin/symfony [E-VENEMENT_DIR]/.
+
+== options ==
+
+1. e-venement messaging system: http://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin + config/project.yml + per-users settings
+2. sending emails :
+ . setup the SMTP serveur for outgoing messages
+ . add a cron job using doc/sh/e-venement.sh -> /etc/cron.hourly/e-venement.cron.sh after doing the needed changes in pathes
+ . verify the permissions : chmod a+x /etc/cron.hourly/e-venement.cron.sh (or whatever is your filename)
+

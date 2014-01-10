@@ -1,0 +1,54 @@
+default:
+  javascripts: [jquery,menu]
+
+printSuccess:
+  javascripts: [-*, jquery, print-tickets, /private/print-tickets.js]
+  stylesheets: [-*, print-tickets.default.css: {media: all}, /private/print-tickets.css: {media: all}<?php echo sfConfig::get('app_tickets_specimen',false) ? ', print-tickets-specimen' : '' ?>]
+orderSuccess:
+  javascripts: [-*, jquery, print-tickets]
+  stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css: {media: all}]
+invoiceSuccess:
+  javascripts: [-*, jquery, print-tickets]
+  stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css: {media: all}]
+
+gaugeSuccess:
+  stylesheets: [gauge]
+sellSuccess:
+  javascripts: [/private/ticket.js, event-seated-plan]
+  stylesheets: [print-sell: { media: print }, /private/ticket.css, event-seated-plan]
+touchscreenSuccess:
+  stylesheets: [ticket-touchscreen]
+
+failedSuccess:
+  stylesheets: [ticket]
+passedSuccess:
+  stylesheets: [ticket]
+controlSuccess:
+  stylesheets: [ticket]
+  javascripts: [ticket-control]
+
+duplicateSuccess:
+  stylesheets: [ticket-cancel]
+cancelSuccess:
+  stylesheets: [ticket-cancel]
+cancelBootSuccess:
+  stylesheets: [ticket-cancel]
+canceledTicketSuccess:
+  stylesheets: [ticket]
+integrateSuccess:
+  stylesheets: [ticket-integrate]
+batchIntegrateSuccess:
+  javascripts: [ticket-batch-integrate]
+
+showSelect:
+  stylesheets: [ticket-show]
+showSuccess:
+  stylesheets: [ticket-show]
+
+cancelBootSuccess:
+  javascripts: [jquery,menu,/sfFormExtraPlugin/js/jquery.autocompleter.js,/cxFormExtraPlugin/js/cx_open_list.js]
+  stylesheets: [/sfFormExtraPlugin/css/jquery.autocompleter.css]
+
+seatsAllocationSuccess:
+  javascripts: [event-seated-plan]
+  stylesheets: [event-seated-plan]
