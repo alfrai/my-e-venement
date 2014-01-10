@@ -1,5 +1,9 @@
 <div class="ui-corner-all ui-widget-content">
-<form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>" method="get" target="_blank" class="print noajax board-alpha" onsubmit="javascript: return li.printDuplicates(this);" autocomplete="off">
+<form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>"
+      method="get"
+      target="_blank" class="print noajax board-alpha"
+      onsubmit="javascript: return li.printTickets(this);"
+      autocomplete="off">
   <p>
     <input type="submit" name="s" value="<?php echo __('Print') ?>" class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button" />
     <?php if ( sfConfig::has('app_tickets_authorize_grouped_tickets') && sfConfig::get('app_tickets_authorize_grouped_tickets') ): ?>
@@ -16,7 +20,7 @@
       $(form).find('[name=duplicate]').prop('checked',false).show();
       $(form).find('[name=manifestation_id]').val('');
     }
-    li.printDuplicates = function(form){
+    li.printTickets = function(form){
       if ( $('#li_transaction_manifestations .item.ui-state-highlight').length == 0
         && $(form).find('[name=manifestation_id]').prop('checked') )
       {
@@ -46,13 +50,22 @@
   </script>
 </form>
 <?php if ( $sf_user->hasCredential('tck-integrate') ): ?>
-<form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>" method="get" target="_blank" class="integrate noajax"  onsubmit="javascript: return li.checkGauges(this);">
+<form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>"
+      method="get" target="_blank" class="integrate noajax"
+      onsubmit="javascript: return li.checkGauges(this);">
   <p>
-    <input type="submit" name="s" value="<?php echo __('Integrate') ?>" title="<?php echo __("Integrate from an external seller") ?>" class="ui-widget-content ui-state-default fg-button ui-corner-all ui-widget" />
+    <input type="submit" name="s"
+           value="<?php echo __('Integrate') ?>"
+           title="<?php echo __("Integrate from an external seller") ?>"
+           class="ui-widget-content ui-state-default fg-button ui-corner-all ui-widget"
+    />
   </p>
 </form>
 <?php endif ?>
-<form action="<?php echo url_for('ticket/partial?id='.$transaction->id) ?>" method="get" target="_blank" class="partial noajax">
+<form action="<?php echo url_for('ticket/partial?id='.$transaction->id) ?>"
+      method="get"
+      target="_blank"
+      class="partial noajax">
   <script type="text/javascript">
     $(document).ready(function(){
       $('#li_transaction_manifestations .footer .partial').submit(function(){

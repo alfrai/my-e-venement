@@ -87,6 +87,11 @@ class transactionActions extends autoTransactionActions
         ->leftJoin('w.Users wu')
         ->andWhere('wu.id = ?', $this->getUser()->getId()),
     ));
+    $ws['state'] = new sfWidgetFormInputHidden;
+    $vs['state'] = new sfValidatorChoice(array(
+      'choices' => array('', 'integrated'),
+      'required' => false,
+    ));
     
     // NEW "PRODUCTS"
     $this->form['content'] = array();

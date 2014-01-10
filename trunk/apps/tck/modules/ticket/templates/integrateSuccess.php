@@ -7,6 +7,9 @@
   <p class="link ui-corner-all"><?php echo __('Your tickets have been integrated correctly into your ticketing system...') ?></p>
   <script type="text/javascript">
     $(document).ready(function(){
+      // refresh the content of the parent window, if possible
+      if ( typeof window.opener.li == 'object' )
+        window.opener.li.initContent();
       setTimeout(function(){
         window.close();
       },2500);

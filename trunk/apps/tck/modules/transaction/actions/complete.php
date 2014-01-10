@@ -157,6 +157,15 @@
           ->andWhere('tck.printed_at IS NULL')
           ->orderBy('tck.integrated_at IS NULL DESC, tck.integrated_at, tck.numerotation IS NULL DESC, id DESC');
         
+        $state = 'false';
+        if ( isset($params[$field]['state']) && $params[$field]['state'] == 'integrated' )
+        {
+          $state = 'integrated';
+          $q->andWhere('tck.integrated_at IS NOT NULL');
+        }
+        else
+          $q->andWhere('tck.integrated_at IS NULL');
+        
         $this->json['success']['success_fields'][$field]['data'] = array(
           'type'  => 'gauge_price',
           'reset' => true,
@@ -164,7 +173,7 @@
             'qty'   => $q->count() + $params[$field]['qty'],
             'price_id'  => $params[$field]['price_id'],
             'gauge_id'  => $params[$field]['gauge_id'],
-            'printed'   => false,
+            'state'   => isset($params[$field]['state']) && $params[$field]['state'] ? $params[$field]['state'] : NULL,
             'transaction_id' => $request->getParameter('id'),
           ),
         );
@@ -180,14 +189,15 @@
         }
         else // delete
         {
-          error_log('qty: '.$params[$field]['qty']);
           $q->limit(abs($params[$field]['qty']))
             ->execute()
             ->delete();
         }
         
-        $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'gauge_price';
-        $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getManifestations?id='.$request->getParameter('id').'&printed=false&gauge_id='.$params[$field]['gauge_id'].'&price_id='.$params[$field]['price_id'], true);
+        $this->json['success']['success_fields'][$field]['remote_content']['load']['type']
+          = 'gauge_price';
+        $this->json['success']['success_fields'][$field]['remote_content']['load']['url']
+          = url_for('transaction/getManifestations?id='.$request->getParameter('id').'&state='.$state.'&gauge_id='.$params[$field]['gauge_id'].'&price_id='.$params[$field]['price_id'], true);
         
         break;
       case 'payment_new':

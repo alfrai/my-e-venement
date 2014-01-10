@@ -49,7 +49,7 @@ li.formSubmit = function(){
           if ( !value.data.reset )
             return;
           
-          elt = $(str = '#li_transaction_item_'+value.data.content.gauge_id+' .declination'+(value.data.printed ? '.printed' : ':not(.printed)')+'[data-price-id='+value.data.content.price_id+']');
+          elt = $(str = '#li_transaction_item_'+value.data.content.gauge_id+' .declination'+(value.data.content.state ? '.active.'+value.data.content.state : ':not(.active)')+'[data-price-id='+value.data.content.price_id+']');
           if ( value.data.content.qty > 0 )
           {
             elt.find('.qty input').val(value.data.content.qty).select();
@@ -70,7 +70,10 @@ li.formSubmit = function(){
         case 'gauge_price':
           $.ajax({
             url: value.remote_content.load.url,
-            complete: function(data){ form.pending = undefined; },
+            complete: function(data){
+              form.pending = undefined;
+              $(form).find('[name="transaction[price_new][state]"]').val('');
+            },
             success: function(data){
               if ( data.error[0] ) { li.alert(data.error[1],'error'); return; }
               if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined )) { li.alert(data.success.error_fields.manifestations,'error'); return; }

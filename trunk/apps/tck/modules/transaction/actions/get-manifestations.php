@@ -69,8 +69,7 @@
    *         prices:
    *           [price_id]:
    *             id: integer
-   *             printed: boolean
-   *             cancelling: boolean
+   *             state: enum(NULL, 'printed', 'integrated', 'cancelling')
    *             qty: integer, the quantity of ticket
    *             pit: float, the price including taxes
    *             vat: float, the current VAT value
@@ -88,22 +87,33 @@
         ->andWhere('t.id = ?', $request->getParameter('id'))
         ->leftJoin('tck.Gauge g')
         ->leftJoin('tck.Price p')
-        ->andWhere('tck.duplicating IS NULL'); // TODO: to be performed
+        ->andWhere('tck.id NOT IN (SELECT tt.duplicating FROM ticket tt WHERE tt.duplicating IS NOT NULL)');
       
       // retrictive parameters
       if ( $pid = $request->getParameter('price_id', false) )
         $q->andWhere('tck.price_id = ?',$pid);
-      if ( $request->hasParameter('printed') )
+      if ( $request->hasParameter('state') )
       {
-        if ( in_array($request->getParameter('printed'),array('0','false')) )
+        switch ( $request->getParameter('state') ){
+        case 'printed':
+          $q->andWhere('tck.printed_at IS NOT NULL');
+          break;
+        case 'integrated':
+          $q->andWhere('tck.integrated_at IS NOT NULL');
+          break;
+        case 'cancelling':
+          $q->andWhere('tck.cancelling IS NOT NULL');
+          break;
+        default:
           $q->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL');
-        else
-          $q->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL');
+          break;
+        }
       }
     }
     elseif ( $request->getParameter('manifestation_id',false) )
       $q = Doctrine::getTable('Manifestation')->createQuery('m');
     
+    $mid = array();
     if ( $request->getParameter('manifestation_id',false) )
       $mid = is_array($request->getParameter('manifestation_id'))
         ? $request->getParameter('manifestation_id')
@@ -167,7 +177,7 @@
             $this->json[$manifestation->id]['gauges'][$gauge->id]['seated_plan_url'] =
               cross_app_url_for('default', 'picture/display?id='.$seated_plan->picture_id);
             $this->json[$manifestation->id]['gauges'][$gauge->id]['seated_plan_seats_url'] =
-              cross_app_url_for('event', 'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id.'&transaction_id='.$transaction->id);
+              cross_app_url_for('event', 'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id.'&transaction_id='.$this->transaction->id);
           }
           
           // seated plans
@@ -205,16 +215,21 @@
         continue;
       
       // by price
+      $state = NULL;
+      if ( $ticket->cancelling )
+        $state = 'cancelling';
+      elseif ( $ticket->printed_at )
+        $state = 'printed';
+      elseif ( $ticket->integrated_at )
+        $state = 'integrated';
+      
       if ( !isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices']) )
         $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'] = array();
-      $pname = $ticket->price_id.'-'
-        .($ticket->cancelling ? 'cancel' : 'normal').'-'
-        .($ticket->printed_at || $ticket->integrated_at ? 'done' : 'todo')
-      ;
+      $pname = $ticket->price_id.'-'.$state;
+      
       if ( !isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]) )
         $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname] = array(
-          'printed' => $ticket->printed_at || $ticket->integrated_at,
-          'cancelling' => $ticket->cancelling ? true : false,
+          'state' => $state,
           'qty' => 0,
           'pit' => 0,
           'vat' => 0,

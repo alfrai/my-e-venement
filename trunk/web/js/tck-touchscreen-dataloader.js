@@ -131,17 +131,16 @@ li.completeContent = function(data, type, replaceAll = true)
       $.each(gauge['prices'], function(index, price){
         var wprice = $('#li_transaction_'+type+' .families.sample .declination').clone(true);
         var add = true;
-        if ( (tmp = wgauge.find(str = '[data-price-id='+price.id+'].declination'+(price.printed ? '.printed' : ':not(.printed)'))).length > 0 )
+        if ( (tmp = wgauge.find(str = '[data-price-id='+price.id+'].declination'+(price.state ? '.active.'+price.state : ':not(.active)'))).length > 0 )
         {
           wprice = tmp;
           add = false;
           wprice.find('.qty input').val(price.qty).select();
         }
         
-        //wprice.addClass(price.cancelling ? 'cancelling' : '');
-        if ( price.printed )
+        if ( price.state )
         {
-          wprice.addClass('printed');
+          wprice.addClass('active').addClass(price.state);
           wprice.find('.qty input').prop('readonly', true);
         }
         wprice.find('.qty input').val(price.qty).select();

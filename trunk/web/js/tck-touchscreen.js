@@ -38,20 +38,33 @@ $(document).ready(function(){
   // changing quantities
   $('#li_transaction_field_content .qty a').click(function(){ var input = $(this).closest('.qty').find('input'); input.val(parseInt(input.val(),10)+($(this).is(':first-child') ? -1 : 1)).change(); });
   $('#li_transaction_field_content .qty input').focusout(function(){ return false; }).select(function(){
-    $(this).prop('defaultValue',$(this).val()); // quite useless... but whatever
+    $(this).prop('defaultValue',$(this).val());
   }).change(function(){
     if ( $(this).closest('.highlight.ui-state-highlight').length == 0 )
       $(this).closest('.highlight').focusin();
-    if ( isNaN(parseInt($(this).val(),10)) )
+    if ( isNaN(parseInt($(this).val(),10)) || $(this).closest('.declination').is('.active.printed') )
       $(this).val($(this).prop('defaultValue'));
     
     if ( $(this).prop('defaultValue') !== $(this).val() )
     {
       var diff = $(this).val() - $(this).prop('defaultValue');
-      $(this).select();
-      
       var form = $('#li_transaction_field_price_new form');
       var orig = form.find('[name="transaction[price_new][qty]"]').val();
+      
+      // if the tickets to treat are integrated
+      if ( $(this).closest('.declination').is('.active.integrated') )
+      {
+        // and the qty is increasing
+        if ( diff > 0 )
+        {
+          $(this).val($(this).prop('defaultValue'));
+          return;
+        }
+        else
+          form.find('[name="transaction[price_new][state]"]').val('integrated');
+      } 
+      
+      $(this).select();
       
       // set values & subit
       form.find('[name="transaction[price_new][qty]"]').val(diff);
@@ -252,7 +265,7 @@ li.checkGauges = function(form){
       var gauge = this;
       qty++;
       $.get($(this).find('.data .gauge.raw').prop('href'), function(data){
-        var elts = $(gauge).find('tbody .declination:not(.printed) [name="qty"]');
+        var elts = $(gauge).find('tbody .declination:not(.active) [name="qty"]');
         $(gauge).find('.data .gauge.raw').html(JSON.stringify(data));
         li.renderGauge(gauge, true);
         
