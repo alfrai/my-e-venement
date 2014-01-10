@@ -10,6 +10,17 @@
         'padding-x'     => 2.5,
         'padding-y'     => 5,
       ),
+      'L7159' => array(
+        'page-format'   => 'a4',
+        'nb-x'          => 3,
+        'nb-y'          => 8,
+        'left-right'    => 3,
+        'top-bottom'    => 9,
+        'margin-x'      => 0,
+        'margin-y'      => 0,
+        'padding-x'     => 2.5,
+        'padding-y'     => 4,
+      ),
 ) ?>
 
 <form method="get" action="#" class="ui-corner-all ui-widget-content templates" onsubmit="javascript: return false;">
