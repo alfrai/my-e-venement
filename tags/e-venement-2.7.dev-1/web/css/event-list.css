@@ -1,0 +1,16 @@
+.sf_admin_list .sf_admin_list_td_list_manifestations a:first-child { margin-right: 5px; }
+.sf_admin_list .sf_admin_list_td_list_manifestations { white-space: nowrap; }
+.sf_admin_list .sf_admin_list_td_list_manifestations a { padding: 0 5px; white-space: nowrap; }
+.sf_admin_list .sf_admin_list_td_list_manifestations_places a:hover,
+.sf_admin_list .sf_admin_list_td_list_manifestations a:hover {  text-decoration: underline; }
+.sf_admin_list .sf_admin_list_td_list_manifestations_gauges { white-space: nowrap; }
+
+.sf_admin_list .sf_admin_list_td_list_manifestations_gauges,
+.sf_admin_list .sf_admin_list_td_list_manifestations_places,
+.sf_admin_list .sf_admin_list_td_list_manifestations { line-height: 17.3px; }
+.sf_admin_list .sf_admin_list_td_list_manifestations .sell { float: right; margin-top: -17px; }
+
+.sf_admin_list .sf_admin_list_td_list_manifestations_places .place { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 100px; }
+
+.sf_admin_list .sf_admin_action_add_manif a { background-position: -16px -128px; background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png') }
+.sf_admin_list .sf_admin_action_add_manif a.ui-state-active { background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_f9bd01_256x240.png') }
