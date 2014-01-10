@@ -369,13 +369,15 @@ li.renderGauge = function(item, only_inline_gauge)
         .appendTo($('#li_transaction_field_product_infos'))
         .css('transform', 'scale('+scale+')') // the scale
       ;
-      $('<button />').addClass('show-seated-plan')
+      button = $('<button />')
         .html($('#li_transaction_field_close .show-seated-plan').text())
-        .appendTo($('#li_transaction_field_product_infos'))
         .click(function(){
           li.seatedPlanInitialization($('#li_transaction_field_product_infos'));
           $(this).hide();
         });
+      $('<div />').addClass('show-seated-plan')
+        .append(button)
+        .appendTo($('#li_transaction_field_product_infos'));
       
       // caching
       li.seatedPlanInitializationFunctions.push(function(){

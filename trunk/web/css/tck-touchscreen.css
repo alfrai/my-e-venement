@@ -147,6 +147,7 @@
 #li_transaction_field_product_infos .gauge.raw .ordered { background-color: orange; }
 #li_transaction_field_product_infos .gauge.raw .asked   { background-color: blue; }
 #li_transaction_field_product_infos .gauge.seated { transform: scale(0.4); transform-origin: top left; margin-top: 5px; margin-bottom: 10px; background-color: white; }
+#sf_admin_content #li_transaction_field_product_infos .show-seated-plan { text-align: center; display: block; margin-top: 30px; }
 
 /* OTHERS */
 .sf_admin_flashes { position: absolute; width: 94%; z-index: 2; margin-left: 5px; }
