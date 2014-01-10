@@ -14,8 +14,7 @@ all:
         new_transaction: ~
       content:
         content: ~
-        product_infos:
-          class: highlight
+        product_infos: ~
         board: ~
       payments:
         price_new: ~

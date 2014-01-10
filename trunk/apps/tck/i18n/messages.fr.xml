@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Display the seated plan</source>
+        <target>Afficher le plan numéroté</target>
+      </trans-unit> 
+      <trans-unit>
         <source>You must choose a manifestation first</source>
         <target>Vous devez au préalable choisir une manifestation</target>
       </trans-unit> 

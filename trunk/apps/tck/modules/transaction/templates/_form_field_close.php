@@ -3,6 +3,7 @@
   'target' => '_blank',
 )) ?>
 <?php echo $form ?>
+<span class="show-seated-plan"><?php echo __('Display the seated plan') ?></span>
 <span class="confirmation"><?php echo __('Do you really want to exit this transaction?') ?></span>
 <ul class="overbooking">
   <li class="msg block"><?php echo __('The blinking quantities mean that those gauges are or will be full.') ?><br/><?php echo PHP_EOL ?><?php echo __('You cannot proceed your action though.') ?></li>

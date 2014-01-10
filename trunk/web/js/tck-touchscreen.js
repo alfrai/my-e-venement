@@ -90,14 +90,14 @@ $(document).ready(function(){
   // showing the gauges
   $('#li_transaction_field_content .item').focusin(function(){
     $('#li_transaction_field_product_infos *').remove(); // cleaning products infos
-    
+      
     if ( $(this).find('.data .gauge.raw').length > 0 )
     {
-      if ( !$(this).find('.data .gauge.raw').html() )
+      if ( !$(this).find('.data .gauge.raw').text() )
       {
         var gauge = this;
         $.get($(this).find('.data .gauge.raw').prop('href'), function(data){
-          $(gauge).find('.data .gauge.raw').html(JSON.stringify(data));
+          $(gauge).find('.data .gauge.raw').text(JSON.stringify(data));
           li.renderGauge(gauge);
         });
       }
@@ -114,9 +114,11 @@ $(document).ready(function(){
   
   // refreshing the gauges if the document has lost focus
   $(window).blur(function(){
+    if ( location.hash === '#debug' )
+      return;
     $('#li_transaction_field_product_infos *').remove(); // cleaning products infos
-    $('#li_transaction_field_content .item .data .gauge.raw').html('');
-    $('#li_transaction_field_content .item .data .gauge.seated.picture').remove();
+    $('#li_transaction_field_content .item .data .gauge.raw').html(''); // cleaning cached raw gauge
+    $('#li_transaction_field_content .item .data .gauge.seated.picture').remove(); // cleaning cached seated plan
   });
   
   // CONTACT CHANGE & INIT
@@ -353,30 +355,36 @@ li.renderGauge = function(item, only_inline_gauge)
     {
       // cache
       $(item).find('.data .gauge.seated.picture').clone(true)
-        .appendTo($('#li_transaction_field_product_infos'));
+        .appendTo($('#li_transaction_field_product_infos'))
+        .css('margin-bottom',(-$('#li_transaction_field_product_infos .gauge.seated.picture').height())+'px') // hack to avoid a stupid margin-bottom to be added
+      ;
     }
     else
     {
       // remote loading
-      $(item).find('.data .gauge.seated').clone(true)
-        .addClass('picture').addClass('seated-plan')
-        .appendTo($('#li_transaction_field_product_infos'));
+      var plan = $(item).find('.data .gauge.seated').clone(true).hide();
+      plan.appendTo('#footer');
+      var scale = ($('#li_transaction_field_product_infos').width()-15)/plan.width();
+      $(plan).addClass('picture').addClass('seated-plan')
+        .appendTo($('#li_transaction_field_product_infos'))
+        .css('transform', 'scale('+scale+')') // the scale
+      ;
+      $('<button />').addClass('show-seated-plan')
+        .html($('#li_transaction_field_close .show-seated-plan').text())
+        .appendTo($('#li_transaction_field_product_infos'))
+        .click(function(){
+          li.seatedPlanInitialization($('#li_transaction_field_product_infos'));
+          $(this).hide();
+        });
       
+      // caching
       li.seatedPlanInitializationFunctions.push(function(){
-        var elt = $('#li_transaction_field_product_infos .gauge.seated.picture');
-        var scale = ($('#li_transaction_field_product_infos').width()-15)/$(elt).width();
-        
-        $(elt)
-          .css('transform', 'scale('+scale+')') // the scale
-          .css('margin-bottom', -$('#li_transaction_field_product_infos .gauge.seated').height()*(1-scale)+10) // the margin bottom
-          .clone(true)
-          .appendTo($(item).find('.data'));
+        $(item).find('.data .gauge.seated.picture').remove(); // to ensure that we've got only one plan cached
+        $('#li_transaction_field_product_infos .gauge.seated.picture')
+          .show()
+          .clone(true).appendTo($(item).find('.data'));
       });
-      li.seatedPlanInitialization($('#li_transaction_field_product_infos'));
     }
-    
-    setTimeout(function(){
-    },700); // arbitrary...
   }
 }
 
