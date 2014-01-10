@@ -24,13 +24,28 @@
 <?php
   $this->getContext()->getConfiguration()->loadHelpers('I18N');
   
-  $tid = $request->getParameter('id');
-  $price_name = $request->getParameter('price_name');
-  $qty = $request->getParameter('qty');
-  $manifestation_id = $request->getParameter('manifestation_id');
+  $price_name = $price_id = $manifestation_id = $gauge_id = NULL;
+  
+  // compatibility w/ the new ticketting process
+  if ( $params = $request->getParameter('transaction') )
+  {
+    $tid = $params['price_new']['id'];
+    $price_id = $params['price_new']['price_id'];
+    $qty = $params['price_new']['qty'];
+    $qty = intval($qty) > 0 ? $qty : 1;
+    $gauge_id = $params['price_new']['gauge_id'];
+  }
+  else
+  {
+    $tid = $request->getParameter('id');
+    $price_name = $request->getParameter('price_name');
+    $qty = $request->getParameter('qty');
+    $manifestation_id = $request->getParameter('manifestation_id');
+  }
   
   if ( intval($tid).'' !== ''.$tid || intval($qty).'' !== ''.$qty
-    || intval($manifestation_id).'' !== ''.$manifestation_id || !$price_name )
+    || intval($manifestation_id).'' !== ''.$manifestation_id && intval($gauge_id).'' !== ''.$gauge_id
+    || !$price_name && !$price_id )
   {
     $this->getUser()->setFlash('error',__('Error reading the given values'));
     $this->redirect('ticket/cancel');
@@ -43,13 +58,22 @@
     ->leftJoin('t.Translinked t2')
     ->andWhere('t.id = ?',$tid)
     ->andWhere('t.closed = ?', false)
-    ->andWhere('LOWER(p.name) = LOWER(?)',$price_name)
-    ->andWhere('tck.manifestation_id = ?',$manifestation_id)
     ->andWhere('tck.printed_at IS NOT NULL')
     ->andWhere('tck.cancelling IS NULL')
     ->andWhere('tck.duplicating IS NULL')
     ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
     ->limit($qty);
+  
+  if ( $price_id )
+    $q->andWhere('p.id = ?',$price_id);
+  else
+    $q->andWhere('LOWER(p.name) = LOWER(?)',$price_name);
+  
+  if ( $gauge_id )
+    $q->andWhere('tck.gauge_id = ?',$gauge_id);
+  else
+    $q->andWhere('tck.manifestation_id = ?',$manifestation_id);
+  
   $tickets = $q->execute();
   
   if ( $tickets->count() == 0 )

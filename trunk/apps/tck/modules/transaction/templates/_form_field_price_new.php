@@ -1,3 +1,10 @@
+<a href="<?php echo url_for('ticket/cancelPartial') ?>"
+   class="ui-icon-left cancel"
+   target="_blank"
+   title="<?php echo __('Cancel printed tickets as you click on prices now.') ?>">
+  <span class="ui-icon ui-icon-extlink"></span>
+  <?php echo __('Cancel printed tickets as you click on prices now.') ?>
+</a>
 <?php echo $form->renderFormTag(url_for('transaction/complete?id='.$transaction->id), array(
   'method' => 'get',
   'target' => '_blank',

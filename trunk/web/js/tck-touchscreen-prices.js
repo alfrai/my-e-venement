@@ -4,6 +4,21 @@
       $(this).find('input[type=text]').focus();
     });
     
+    // dealing w/ the GUI for cancellations
+    $('#li_transaction_field_price_new .cancel').click(function(){
+      var url = $(this).prop('href');
+      $(this).prop('href', form.prop('action'));
+      form.prop('action', url);
+      $('#li_transaction_field_price_new').toggleClass('cancelling').find('form').toggleClass('noajax');
+      $('#li_transaction_field_price_new').find('a, input, button').unbind('focusout').focusout(function(){ return false; });
+      $('#li_transaction_field_price_new [name="transaction[price_new][qty]"]').focus();
+      return false;
+    });
+    $('.highlight').focusin(function(){
+      if ( $('#li_transaction_field_price_new').hasClass('cancelling') )
+        $('#li_transaction_field_price_new .cancel').click();
+    });
+    
     $('#li_transaction_field_content .highlight:not(.new-family)').focusin(function(){
       form.find('button').remove();
       var item = this;

@@ -1,6 +1,9 @@
 // ALL FORMS VALIDATION
 li.formSubmit = function(){
   var form = this;
+  if ( $(form).hasClass('noajax') )
+    return true;
+  
   $.ajax({
     url: $(form).prop('action'),
     data: $(form).serialize(),

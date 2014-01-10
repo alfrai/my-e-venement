@@ -87,6 +87,14 @@ class transactionActions extends autoTransactionActions
         ->leftJoin('w.Users wu')
         ->andWhere('wu.id = ?', $this->getUser()->getId()),
     ));
+    $ws['id'] = new sfWidgetFormInputHidden;
+    $vs['id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Transaction',
+      'query' => Doctrine::getTable('Transaction')->createQuery('t')
+        ->andWhere('t.closed = ?', false)
+        ->andWhere('t.id = ?', $this->transaction->id),
+    ));
+    $this->form['price_new']->setDefault('id', $this->transaction->id);
     $ws['state'] = new sfWidgetFormInputHidden;
     $vs['state'] = new sfValidatorChoice(array(
       'choices' => array('', 'integrated'),
