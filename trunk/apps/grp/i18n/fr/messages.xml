@@ -153,6 +153,10 @@
         <target>Email du contact</target>
       </trans-unit>
       <trans-unit>
+        <source>Email address</source>
+        <target>Adresse email</target>
+      </trans-unit>
+      <trans-unit>
         <source>By contact</source>
         <target>Par contact</target>
       </trans-unit>
