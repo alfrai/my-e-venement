@@ -25,10 +25,12 @@
 
 <form method="get" action="#" class="ui-corner-all ui-widget-content templates" onsubmit="javascript: return false;">
   <label><?php echo __('Templates') ?>:</label>
-  <select name="label-formats"><?php foreach ( $formats as $name => $values ): ?>
+  <select name="label-formats">
     <option></option>
+    <?php foreach ( $formats as $name => $values ): ?>
     <option><?php echo $name ?></option>
-  <?php endforeach ?></select>
+    <?php endforeach ?>
+  </select>
   <div style="display: none;">
     <script type="text/javascript">
       $(document).ready(function(){
