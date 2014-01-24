@@ -43,15 +43,13 @@ body.labels .page {
   overflow: hidden;
 }
 body.labels .page.last-child { page-break-after: auto; }
-<?php $height = floatval($params['height']) ?>
-<?php $width = floatval($params['width']) - $pleft*2 ?>
 body.labels .labels { display: block; }
 body.labels .labels > div { display: block; }
 body.labels .labels > div > div { display: inline-block; }
 
 body.labels .labels > div > div {
-  width:  <?php echo ( $width-$pleft*2-floatval($params['margin-x'])*(intval($params['nb-x'])-1) )/intval($params['nb-x']) ?>mm;
-  height: <?php echo $cellheight = ( $height-$ptop*2-floatval($params['margin-y'])*(intval($params['nb-y'])-1) )/intval($params['nb-y']) ?>mm;
+  width:  <?php echo ( floatval($params['width'])-$pleft*2-floatval($params['margin-x'])*(intval($params['nb-x'])-1) )/intval($params['nb-x']) ?>mm;
+  height: <?php echo $cellheight = ( floatval($params['height'])-$ptop*2-floatval($params['margin-y'])*(intval($params['nb-y'])-1) )/intval($params['nb-y']) ?>mm;
   overflow: hidden;
 }
 body.labels .labels > div > div > * {
@@ -63,17 +61,18 @@ body.labels .labels > div > div.margin {
   height: 0;
 }
 body.labels .labels > div > div div.content {
-  padding: <?php echo floatval($params['padding-y']).'mm '.floatval($params['padding-x']).'mm' ?>;
+  padding: <?php echo floatval($params['padding-y']).'mm' ?> 0; /*.floatval($params['padding-x']).'mm' ?>; */
   overflow: hidden;
 }
 
-/* compensating printer margins */
+/* compensating printer margins
 body.labels .labels > div > div:first-child div.content {
   padding-left: <?php echo $pleft+floatval($params['padding-x']) < 0 ? 0 : $pleft+floatval($params['padding-x']) ?>mm;
 }
 body.labels .labels > div > div:last-child div.content {
   padding-right: <?php echo $pleft+floatval($params['padding-x']) < 0 ? 0 : $pleft+floatval($params['padding-x']) ?>mm;
 }
+*/
 
 /* text style */
 body.labels { font-size: 12px; }
