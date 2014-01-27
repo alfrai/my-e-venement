@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <trans-unit>
+        <source>Your email have been sent correctly.</source>
+        <target>Votre email a été envoyé correctement.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You cannot access this object, you do not have the required credentials.</source>
+        <target>Vous ne pouvez accéder à cet objet, faute d'accréditation requise.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You cannot edit this object, you do not have the required credentials.</source>
+        <target>Vous ne pouvez modifier cet objet, faute d'accréditation requise.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Current</source>
+        <target>Actuel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Confirm</source>
+        <target>Confirmer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Error moving the manifestation</source>
+        <target>Une erreur est survenue lors du déplacement de la manifestation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Error changing the manifestation's duration</source>
+        <target>Une erreur est survenue lors du changement de la durée de la manifestation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Error loading the data from manifestations</source>
+        <target>Une erreur est survenue lors du chargement des données des manifestations</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Some chars are not allowed here</source>
+        <target>Certains caractères ne sont pas autorisés ici</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Merge</source>
+        <target>Fusionner</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Back</source>
+        <target>Retour</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Add in a group</source>
+        <target>Ajouter à un groupe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Click to validate your modifications</source>
+        <target>Cliquez pour valider vos modifications</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when adding the selected items as some items do not exist anymore.</source>
+        <target>Impossible d'ajouter les objets sélectionnés car certains ont disparus.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>WARNING: CAPS Lock is off.</source>
+        <target>ATTENTION: Verr.Maj. désactivé.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>WARNING: CAPS Lock has to be on.</source>
+        <target>ATTENTION: Verr.Maj. doit être actif.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Invalid.</source>
+        <target>Non valide.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>File attached.</source>
+        <target>Fichier joint.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Integrate</source>
+        <target>Intégrer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Login below to gain access</source>
+        <target>Vous pouvez changer de compte avec le formulaire ci-dessous ou utiliser le menu pour continuer d'utiliser e-venement avec votre compte</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Oops! The screen you asked for is secure and you do not have proper credentials.</source>
+        <target>Vous n'avez pas les droits suffisants pour accéder à cette fonctionnalité</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Back to contact</source>
+        <target>Retour au contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ledger</source>
+        <target>Bordereau</target>
+      </trans-unit>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Nouveau</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Modifier</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Liste</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Update</source>
+        <target>Mettre à jour</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Mettre à jour</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Mettre à jour et ajouter</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Choose an action</source>
+        <target>Choisir une action</target>
+      </trans-unit>
+      <trans-unit>
+        <source>go</source>
+        <target>ok</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Back to list</source>
+        <target>Liste</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Effacer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Filtrer</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Aucun résultat.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(page %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>asc</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>desc</target>
+      </trans-unit>
+      <trans-unit>
+        <source>[0] no result|[1] 1 result|(1,+Inf] %1% results</source>
+        <target>[0] aucun résultat|[1] 1 résultat|(1,+Inf] %1% résultats</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Première page</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Page précédente</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Page suivante</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Dernière page</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>L'objet a été ajouté avec succès.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>L'objet a été mis à jour avec succès.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>L'objet a été ajouté avec succès. Vous pouvez en ajouter un autre.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>L'objet a été mis à jour avec succès. Vous pouvez en ajouter un autre.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>L'objet n'a pu être mis à jour.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>L'objet a été supprimé avec succès.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Vous devez au moins sélectionner un objet.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Vous devez sélectionner une action à executer sur les objets sélectionnés.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Un problème est survenu lors de la suppression des objets sélectionnés car certains objets n'existent plus.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>Les objets sélectionnés ont été supprimés avec succès.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Un problème est survenu lors de la suppression des objets sélectionnés.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>is empty</source>
+        <target>est vide</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes or no</source>
+        <target>oui ou non</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes</source>
+        <target>oui</target>
+      </trans-unit>
+      <trans-unit>
+        <source>no</source>
+        <target>non</target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[from %from_date% to %to_date%]]></source>
+        <target><![CDATA[du %from_date% au %to_date%]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[from %from_date%<br />to %to_date%]]></source>
+        <target><![CDATA[du %from_date%<br />au %to_date%]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filters</source>
+        <target>Filtres</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Show</source>
+        <target>Voir</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
