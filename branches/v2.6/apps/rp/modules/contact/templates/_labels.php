@@ -24,11 +24,8 @@
 ?>
 <?php $i = count($labels) ?>
 <?php foreach ( $labels as $page ): ?>
-<div class="page <?php $i--; echo $i == 0 ? 'last-child' : ''; ?>"><ul class="labels">
-  <?php foreach ( $page as $line ): ?>
-  <li>
-    <?php foreach ( $line as $key => $cell ): ?>
-    <div><div class="content">
+<div class="page <?php $i--; echo $i == 0 ? 'last-child' : ''; ?>"><div class="labels table">
+<?php foreach ( $page as $line ): ?><div class="row"><?php foreach ( $line as $key => $cell ): ?><div class="cell"><div class="content">
     <p class="perso">
       <span class="titre"><?php echo $cell['title'] ?></span>
       <span class="prenom"><?php echo $cell['firstname'] ?></span>
@@ -44,12 +41,5 @@
     <p class="pays"><?php echo $cell['country'] ?></p>
     <p class="email"><?php echo $cell['email'] ?></p>
     <p class="tel"><?php echo $cell['phonenumber'] ?></p>
-    </div></div>
-    <?php if ( isset($line[$key+1]) ): ?>
-      <div class="margin"></div>
-    <?php endif ?>
-    <?php endforeach; ?>
-  </li>
-  <?php endforeach; ?>
-</ul></div>
-<?php endforeach; ?>
+</div></div><?php if ( isset($line[$key+1]) ): ?><div class="margin cell"></div><?php endif ?>
+<?php endforeach; ?></div><?php endforeach; ?></div></div><?php endforeach; ?>
