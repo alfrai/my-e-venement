@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <script src="<?php echo url_for('contact') ?>/../../js/jquery.js" type="text/javascript"></script>
     <script src="<?php echo url_for('option_labels/js') ?>" type="text/javascript"></script>
+    <link rel="stylesheet" media="all" type="text/css" href="<?php echo url_for('option_labels/css') ?>" />
   </head>
   <body class="labels">
     <?php include_partial('contact/labels',array('labels' => $labels, 'params' => $params, 'fields' => $fields, )) ?>
