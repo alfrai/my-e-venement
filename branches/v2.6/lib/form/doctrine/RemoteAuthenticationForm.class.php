@@ -21,32 +21,36 @@ class RemoteAuthenticationForm extends BaseRemoteAuthenticationForm
   public function bind(array $taintedValues = null, array $taintedFiles = null, $auth = false)
   {
     if ( !$auth )
-      parent::bind($taintedValues,$taintedFiles);
-    else
+      return parent::bind($taintedValues,$taintedFiles);
+
+    $key = $taintedValues['key'];
+    $ipaddr = $taintedValues['ipaddress'];
+    
+    $this->isBound = false;
+    if ( !$key )
+      return;
+    
+    $q = Doctrine::getTable('RemoteAuthentication')->createQuery('ra')
+      ->andWhere('ipaddress = ?',$ipaddr)
+      ->andWhere('active');
+    $ra = $q->execute();
+    
+    if ( $ra->count() == 0 )
     {
-      $key = $taintedValues['key'];
-      $ipaddr = $taintedValues['ipaddress'];
-      
-      $this->isBound = false;
-      if ( !$key )
-        return;
-      
-      $q = Doctrine::getTable('RemoteAuthentication')->createQuery('ra')
-        ->andWhere('ipaddress = ?',$ipaddr)
-        ->andWhere('active');
-      $ra = $q->execute();
-      
-      if ( $ra->count() > 0 )
-      foreach ( $ra as $auth )
-      if ( md5($auth->User->username.$auth->User->password.$auth->salt) == $key )
-      {
-        $user = sfContext::getInstance()->getUser();
-        $user->setAttribute('salt',$auth->salt);
-        $user->setAttribute('ws_id',$auth->User->id);
-        
-        $this->isBound = true;
-        return;
-      }
+      error_log('IP address unknown in the database.');
+      return;
     }
+    foreach ( $ra as $auth )
+    if ( md5($auth->User->username.$auth->User->password.$auth->salt) == $key )
+    {
+      $user = sfContext::getInstance()->getUser();
+      $user->setAttribute('salt',$auth->salt);
+      $user->setAttribute('ws_id',$auth->User->id);
+      
+      $this->isBound = true;
+      return;
+    }
+    
+    error_log('Bad given key, the authentication cannot proceed.');
   }
 }

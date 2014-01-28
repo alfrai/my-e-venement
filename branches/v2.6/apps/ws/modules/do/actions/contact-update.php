@@ -147,10 +147,10 @@
     }
     
     // the automatic groups
-    $groups = Doctrine::getTable('Group')->createQuery('g')
+    $q = Doctrine::getTable('Group')->createQuery('g')
       ->leftJoin('g.Online o')
-      ->andWhere('o.id IS NOT NULL')
-      ->execute();
+      ->andWhere('o.id IS NOT NULL');
+    $groups = $q->execute();
     foreach ( $groups as $group )
       $contact->Groups[] = $group;
     $contact->save();
