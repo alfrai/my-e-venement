@@ -9,30 +9,3 @@ all:
   count_demands: false
   #infos:
   #  capitalize: [name, firstname, city, country, address]
-  
-  melody:
-    create_user: false
-    redirect_register: false
-    
-    name:
-      key: 6qAOB371Qbio
-      secret: ThisIsASecret
-      callback: @evoucher
-      
-      provider: evoucher
-      request_token_url: http://www.    # override the url - for OAuth 1 implementation only
-      request_auth_url: url
-      access_token_url: url
-                  
-      
-      user:
-        username:
-          call: me
-          path: id
-          prefix: evoucher_
-        first_name:
-          call: me
-          path: first_name
-        last_name:
-          call: me
-          path: last_name
