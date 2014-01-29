@@ -60,4 +60,14 @@ $(document).ready(function(){
   $('#sf_fieldset_extra_informations table table tr').each(function(){
     $(this).find('td').prop('title',$(this).find('th label').html());
   });
+  
+  // highlight the extra-information fieldset if some information is present here
+  if ( $.trim($('#sf_fieldset_technical_informations .sf_admin_form_field_description div:not(.label)').html())
+    || $.trim($('#sf_fieldset_technical_informations .sf_admin_form_field_description textarea').val())
+    || $('.sf_admin_form_field_ExtraInformations.show table tr').length > 0
+    || $('.sf_admin_form_field_ExtraInformations table table').length > 3 )
+  {
+    $('.ui-tabs-nav [href="#sf_fieldset_technical_informations"]')
+      .prepend('<span class="ui-icon ui-icon-alert floatright"></span>');
+  }
 });

@@ -8,6 +8,6 @@
     <?php echo nl2br($manifestation->description) ?>
   <?php else: ?>
     <label><?php echo __('Memo') ?>:</label>
-    <?php echo nl2br($manifestation->description) ?>
+    <div><?php echo nl2br($manifestation->description) ?></div>
   <?php endif ?>
 </div>
