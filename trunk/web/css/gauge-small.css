@@ -5,4 +5,8 @@
 .sf_admin_list_td_list_manifestations_gauges.small-gauges .gauge > * { display: inline-block; height: 14px; }
 .sf_admin_list_td_list_manifestations_gauges.small-gauges .gauge .asked   { background-color: blue; }
 .sf_admin_list_td_list_manifestations_gauges.small-gauges .gauge .ordered { background-color: orange; }
-.sf_admin_list_td_list_manifestations_gauges.small-gauges .gauge .sold    { background-color: red; }
+.sf_admin_list_td_list_manifestations_gauges.small-gauges .gauge .sold    { background-color: red; }  
+
+/* resource booking management */
+.sf_admin_list_td_list_manifestations_gauges .other .option { display: none; }
+

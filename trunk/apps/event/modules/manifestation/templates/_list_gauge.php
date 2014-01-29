@@ -58,10 +58,10 @@
   )) ?>
 <?php endif ?>
 <?php else: ?>
-<?php echo image_tag('/sfDoctrinePlugin/images/delete.png', array('title' => __('Not confirmed'))) ?>
-<?php echo image_tag(!$manifestation->reservation_optional ? '/sfDoctrinePlugin/images/tick.png' : '/sfDoctrinePlugin/images/delete.png', array('title' => $manifestation->reservation_optional ? __('Option') : __('Not an option'))) ?>
+<?php echo image_tag('/sfDoctrinePlugin/images/delete.png', array('title' => __('Not confirmed'), 'class' => 'confirmed')) ?>
+<?php echo image_tag(!$manifestation->reservation_optional ? '/sfDoctrinePlugin/images/tick.png' : '/sfDoctrinePlugin/images/delete.png', array('title' => $manifestation->reservation_optional ? __('Option') : __('Not an option'), 'class' => 'option')) ?>
 <?php
-  try { echo image_tag($manifestation->hasAnyConflict() ? '/sfDoctrinePlugin/images/delete.png' : '/sfDoctrinePlugin/images/tick.png', array('title' => $manifestation->hasAnyConflict() ? __('There are use conflicts') : __('There is no use conflict'))); }
+  try { echo image_tag($manifestation->hasAnyConflict() ? '/sfDoctrinePlugin/images/delete.png' : '/sfDoctrinePlugin/images/tick.png', array('title' => $manifestation->hasAnyConflict() ? __('There are use conflicts') : __('There is no use conflict'), 'class' => 'conflict')); }
   catch ( liBookingException $e )
   { }
 ?>

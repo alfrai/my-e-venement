@@ -37,3 +37,7 @@
   position: absolute;
   width: 244px;
 }
+
+/* resource booking management */
+.sf_admin_form_field_gauge_txt .option { display: none; }
+
