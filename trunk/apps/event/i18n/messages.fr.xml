@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Refresh</source>
+        <target>Rafraîchir</target>
+      </trans-unit>
+      <trans-unit>
         <source>Total: %%total%% Free: %%free%%</source>
         <target>Total: %%total%% Libres: %%free%%</target>
       </trans-unit>

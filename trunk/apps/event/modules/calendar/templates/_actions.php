@@ -6,6 +6,7 @@
       <?php echo __('Back to list',null,'sf_admin') ?>
     </a>
   </li>
+  <li class="sf_admin_action_refetch_data fg-button-mini fg-button ui-state-default fg-button-icon-left"><a href="#" onclick="javascript: $('#fullcalendar').fullCalendar('refetchEvents'); return false;"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span><?php echo __('Refresh') ?></a></li>
   <li class="sf_admin_action_jump_to_date"><form class="fg-button ui-state-default" method="get" action="#"><p><?php
     $w = new liWidgetFormJQueryDateText(array('culture' => $sf_user->getCulture()));
     echo $w->render('jumpToDate');
