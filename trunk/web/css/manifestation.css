@@ -145,3 +145,7 @@ select[disabled] {
 .report-versions { margin-bottom: 10px; font-weight: bold; }
 .report-versions span { text-align: center; display: table-cell; }
 .report-versions .ui-icon { display: none; }
+
+/* resource booking management */
+.sf_admin_form_field_reservation_optional, .sf_admin_form_field_gauge_txt .option { display: none; }
+
