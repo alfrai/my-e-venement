@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Refresh</source>
+        <target>Rafraîchir</target>
+      </trans-unit>
+      <trans-unit>
         <source>Notification for %%manif%%</source>
         <target>Notification pour %%manif%%</target>
       </trans-unit>
