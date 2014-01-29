@@ -53,8 +53,8 @@ $(document).ready(function(){
       resourceWeek: 'sem./lieu',
       resourceDay:  'jour/lieu',
     },
-    titleFormat: { month: 'MMMM yyyy', week: "d[ MMM][ yyyy]{ - d MMM yyyy}", day: 'dddd d MMM yyyy' },
-    columnFormat: { week: 'ddd d/M', day: 'dddd d/M' },
+    titleFormat: { month: 'MMMM yyyy', week: "d[ MMM][ yyyy]{ - d MMM yyyy}", day: 'dddd d MMM yyyy', resourceDay: 'dddd d MMM yyyy', resourceWeek: "d[ MMM][ yyyy]{ - d MMM yyyy}" },
+    columnFormat: { week: 'ddd d/M', day: 'dddd d/M', resourceWeek: 'ddd d/M' },
     timeFormat: {'': 'H(:mm)'},
     axisFormat: {'': 'H:mm'},
     allDayText: '<?php echo __('All day long') ?>',
@@ -109,9 +109,14 @@ $(document).ready(function(){
         alert('<?php echo __('Error moving the manifestation') ?>');
       });
     },
-    eventClick: function(event){
+    eventClick: function(event, e){
       if ( event.hackurl != undefined )
-      window.open(event.hackurl);
+      {
+        if ( e.ctrlKey || e.which == 2 )
+          window.open(event.hackurl);
+        else
+          window.location = event.hackurl;
+      }
     },
     eventAfterRender: function(event, element){
       if ( event.css )
