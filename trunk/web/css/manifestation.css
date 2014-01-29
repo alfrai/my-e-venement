@@ -147,7 +147,7 @@ select[disabled] {
 .report-versions .ui-icon { display: none; }
 
 /* resource booking management */
-.sf_admin_form_field_reservation_optional, .sf_admin_form_field_gauge_txt .option { display: none; }
+.sf_admin_form_field_reservation_optional, .sf_admin_form_field_gauge_txt .option { display: none !important; }
 .sf_admin_form_field_ExtraInformations:not(.show) th { display: none; }  
 .sf_admin_form_field_ExtraInformations table table th { display: table-cell; padding-right: 10px; }  
 .sf_admin_form_field_ExtraInformations.show th, .sf_admin_form_field_ExtraInformations.show td { padding-right: 10px; }
