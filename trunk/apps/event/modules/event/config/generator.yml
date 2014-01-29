@@ -37,9 +37,10 @@ generator:
         manif_confirmed: { label: Confirmed manifestations }
         manif_conflict : { label: Conflicted manifestations }
         manif_optional : { label: Optional manifestations }
+        list_manifestations_extra_informations: { label: "" }
       list:
         title: Event List
-        display: [MetaEvent, name, EventCategory, duration_h_r, age_min_h_r, _list_manifestations,_list_manifestations_gauges, _list_manifestations_places]
+        display: [MetaEvent, name, EventCategory, duration_h_r, age_min_h_r, _list_manifestations,_list_manifestations_gauges, _list_manifestations_places, _list_manifestations_extra_informations]
         table_method: RetrieveList
         max_per_page: <?php echo sfConfig::get('app_listing_max_per_page',20).PHP_EOL ?>
         object_actions:
