@@ -28,6 +28,8 @@
   $q = Doctrine::getTable('EntryTickets')->createQuery('et')
     ->leftJoin('et.EntryElement ee')
     ->leftJoin('ee.ContactEntry ce')
+    ->leftJoin('ce.Transaction tr')
+    ->leftJoin('tr.Translinked tcancel')
     ->leftJoin('ce.Professional p')
     ->leftJoin('p.ProfessionalGroups ggp')
     ->leftJoin('ggp.Group gp ON ggp.group_id = gp.id AND gp.display_everywhere = TRUE AND (gp.sf_guard_user_id IS NULL OR gp.sf_guard_user_id = ?)', $this->getUser()->getId())
@@ -75,6 +77,7 @@
     $init[$id] = 0;
   
   // compulsing data
+  $translinked = array();
   foreach ( $tickets as $ticket )
   {
     if ( !isset($contacts[$ticket->EntryElement->ContactEntry->Professional->id]) )
@@ -90,6 +93,25 @@
     $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['total'] += $ticket->quantity;
     $total['price_'.$ticket->Price->id] += $ticket->quantity;
     $total['total'] += $ticket->quantity;
+    
+    // if tickets has been cancelled
+    if ( $ticket->EntryElement->ContactEntry->transaction_id )
+    if ( $ticket->EntryElement->ContactEntry->Transaction->Translinked->count() > 0 )
+    foreach ( $ticket->EntryElement->ContactEntry->Transaction->Translinked as $tr )
+    if ( !in_array($tr->id, $translinked) )
+    {
+      $translinked[] = $tr->id;
+      foreach ( $tr->Tickets as $tck )
+      if ( $tck->cancelling )
+      {
+        if ( !isset($contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id]) )
+          $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id] = 0;
+        $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id]
+          -= 1;
+        $total['price_'.$tck->price_id] -= 1;
+        $total['total'] -= 1;
+      }
+    }
   }
   
   $this->lines = array();
