@@ -35,6 +35,7 @@ $(document).ready(function(){
     month: <?php echo date('m', strtotime($start_date))-1 ?>,
     year: <?php echo date('Y', strtotime($start_date)) ?>,
     <?php endif ?>
+    <?php if ( isset($defaultView) ) echo "defaultView: '".$defaultView."'," ?>
     firstDay: 1,
     minTime: '<?php echo sfConfig::get('app_listing_min_time','8') ?>',
     maxTime: '<?php echo sfConfig::get('app_listing_max_time','24') ?>',

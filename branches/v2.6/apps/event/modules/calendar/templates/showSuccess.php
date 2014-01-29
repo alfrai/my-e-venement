@@ -7,9 +7,12 @@
   <div class="ui-widget-content ui-corner-all">
     <?php include_partial('actions', array('export_url' => url_for('event/calendar'.($only_pending ? '?only_pending=true' : '')))) ?>
     <div id="fullcalendar">
-      <?php include_partial('show_calendar',array('urls' => array(
-        url_for('manifestation/list'.($only_pending ? '?only_pending=true' : '')),
-      ))) ?>
+      <?php include_partial('show_calendar',array(
+        'defaultView' => sfConfig::get('app_listing_default_view','month'),
+        'urls' => array(
+          url_for('manifestation/list'.($only_pending ? '?only_pending=true' : '')),
+        ),
+      )) ?>
     </div>
   </div>
 </div>

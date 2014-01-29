@@ -14,6 +14,7 @@ all:
     #max_time: '22:00'
     #first_hour: 15
     #max_per_page: 15
+    #default_view: resourceDay
   manifestation:
     depends_on_limit: 10
     #defaults:
