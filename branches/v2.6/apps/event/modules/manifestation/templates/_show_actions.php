@@ -1,5 +1,5 @@
 <ul class="sf_admin_actions_form">
-  <?php echo $helper->linkToList(array(  'params' => 'class= fg-button ui-state-default fg-button-icon-left ',  'class_suffix' => 'list',  'label' => 'Back to list',  'ui-icon' => '',),$manifestation) ?>
+  <?php echo $helper->linkToList(array(  'params' => 'class= fg-button ui-state-default fg-button-icon-left ',  'class_suffix' => 'list',  'label' => __('Event'),  'ui-icon' => '',),$manifestation) ?>
   <?php if ( $manifestation->current_version ): ?>
     
     <li class="sf_admin_action_version_by fg-button ui-state-default fg-button-icon-left">
