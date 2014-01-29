@@ -28,6 +28,8 @@
   $q = Doctrine::getTable('EntryTickets')->createQuery('et')
     ->leftJoin('et.EntryElement ee')
     ->leftJoin('ee.ContactEntry ce')
+    ->leftJoin('ce.Transaction tr')
+    ->leftJoin('tr.Translinked tcancel')
     ->leftJoin('ce.Professional p')
     ->leftJoin('p.Organism o')
     ->leftJoin('p.Contact c')
@@ -61,6 +63,7 @@
   foreach ( $this->prices as $id => $value )
     $init[$id] = 0;
   
+  $translinked = array();
   foreach ( $tickets as $ticket )
   {
     if ( !isset($contacts[$ticket->EntryElement->ContactEntry->Professional->id]) )
@@ -72,6 +75,23 @@
     
     $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$ticket->Price->id]
       += $ticket->quantity;
+    
+    // if tickets has been cancelled
+    if ( $ticket->EntryElement->ContactEntry->transaction_id )
+    if ( $ticket->EntryElement->ContactEntry->Transaction->Translinked->count() > 0 )
+    foreach ( $ticket->EntryElement->ContactEntry->Transaction->Translinked as $tr )
+    if ( !in_array($tr->id, $translinked) )
+    {
+      $translinked[] = $tr->id;
+      foreach ( $tr->Tickets as $tck )
+      if ( $tck->cancelling )
+      {
+        if ( !isset($contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id]) )
+          $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id] = 0;
+        $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id]
+          -= 1;
+      }
+    }
   }
   
   $this->lines = array();
