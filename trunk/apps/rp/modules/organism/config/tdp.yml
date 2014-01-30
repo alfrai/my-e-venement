@@ -9,6 +9,11 @@ all:
           credential: pr-organism-del
           attributes:
             onclick: "javascript: form = $('#tdp-content').clone(true); form.find('[name=batch_action]').remove(); $(this).attr('href',$(this).attr('href')+'&'+form.serialize());"
+        actions:
+          label: Actions
+          attributes:
+            onclick: "javascript: return false;"
+            target: _blank
         csv:
           credential: pr-contact-csv
           label: Extract
