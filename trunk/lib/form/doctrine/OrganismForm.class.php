@@ -38,6 +38,14 @@ class OrganismForm extends BaseOrganismForm
       'required' => false,
     ));
     
+    // adding artificial mandatory fields
+    if ( is_array($force = sfConfig::get('app_options_force_fields', array())) )
+    foreach ( $force as $field )
+    {
+      if ( isset($this->validatorSchema[$field]) )
+        $this->validatorSchema[$field]->setOption('required', true);
+    }
+
     parent::configure();
   }    
   

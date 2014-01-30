@@ -73,9 +73,8 @@ class ContactForm extends BaseContactForm
     if ( is_array($force = sfConfig::get('app_options_force_fields', array())) )
     foreach ( $force as $field )
     {
-      $f = $this->validatorSchema[$subform][0]->getFields();
-      if ( isset($f[$field]) )
-        $f[$field]->setOption('required', true);
+      if ( isset($this->validatorSchema[$field]) )
+        $this->validatorSchema[$field]->setOption('required', true);
     }
     
     parent::configure();
