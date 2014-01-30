@@ -72,8 +72,10 @@
 </a></p>
 
 <p id="next">
+  <?php $opt = sfConfig::get('app_transaction_seated_plan', array()) ?>
+  <?php if ( !isset($opt['auto_next']) ) $opt['auto_next'] = true; ?>
   <a href="<?php echo $url_next ?>"
-     class="fg-button ui-state-default fg-button-icon-right">
+     class="fg-button ui-state-default fg-button-icon-right <?php echo $opt['auto_next'] ? 'auto-click' : '' ?>">
     <?php echo __('Next') ?>
   </a>
 </p>

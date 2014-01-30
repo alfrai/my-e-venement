@@ -22,7 +22,7 @@ $(document).ready(function(){
           $(seat).addClass('in-progress').dblclick(li.seatedPlanUnallocatedSeat);
           
           // if there is no more ticket, go to the next step, including editting the order
-          if ( $('#todo .ticket').length == 0 )
+          if ( $('#todo .ticket').length == 0 && $('#next a').hasClass('auto-click') )
             window.location = $('#next a').prop('href');
         },
         error: function(){

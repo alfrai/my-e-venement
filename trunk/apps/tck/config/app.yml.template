@@ -21,6 +21,8 @@ all:
     #force_contact: true
     #member_cards: [payment, price]
     #force_payment_before_printing: true
+    #seated_plan:
+    #  auto_next: false
   tickets:
     mentions:
       optional: licences: 350970 / 350971 / 350972
