@@ -41,7 +41,7 @@ all:
         #  label: Geolocalize
     edit:
       object:
-        title: [title, name, firstname]
+        title: [title, name, firstname, _show_dates]
         new_title: [title, name, firstname]
         lines:
           Complements:
