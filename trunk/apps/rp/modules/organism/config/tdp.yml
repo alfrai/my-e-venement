@@ -24,7 +24,7 @@ all:
             onclick: "javascript: form = $('#tdp-content').clone(true); form.find('[name=batch_action]').remove(); $(this).attr('href',$(this).attr('href')+'&'+form.serialize());"
     edit:
       object:
-        title: [name]
+        title: [name, _show_dates]
         new_title: [name]
         lines:
           Complements:
