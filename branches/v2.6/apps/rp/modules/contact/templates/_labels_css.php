@@ -42,10 +42,10 @@ body.labels .page {
   page-break-after: always;
   overflow: hidden;
 }
-body.labels .page.last-child { page-break-after: auto; }
-body.labels .labels { display: block; }
-body.labels .labels > div { display: block; }
-body.labels .labels > div > div { display: inline-block; }
+body.labels .page.last-child  { page-break-after: auto; }
+body.labels .table            { display: table; }
+body.labels .table .row       { display: table-row; }
+body.labels .table .row .cell { display: table-cell; vertical-align: middle; }
 
 body.labels .labels > div > div {
   width:  <?php echo ( floatval($params['width'])-$pleft*2-floatval($params['margin-x'])*(intval($params['nb-x'])-1) )/intval($params['nb-x']) ?>mm;
