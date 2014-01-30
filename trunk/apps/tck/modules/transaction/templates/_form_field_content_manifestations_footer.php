@@ -1,8 +1,10 @@
+<?php use_javascript('tck-touchscreen-print') ?>
 <div class="ui-corner-all ui-widget-content">
+
 <form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>"
       method="get"
       target="_blank" class="print noajax board-alpha"
-      onsubmit="javascript: return li.printTickets(this);"
+      onsubmit="javascript: return li.printTickets(this,<?php echo sfConfig::get('app_transaction_force_payment_before_printing',false) ? 'true' : 'false' ?>);"
       autocomplete="off">
   <p>
     <input type="submit" name="s" value="<?php echo __('Print') ?>" class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button" />
@@ -14,41 +16,8 @@
     <input type="hidden" name="manifestation_id" value="" />
     <span style="display: none;" class="choose-a-manifestation"><?php echo __('You must choose a manifestation first') ?></span>
   </p>
-  <script type="text/javascript">
-    li.resetDuplicates = function(form){
-      $(form).find('[name=price_name]').val('').hide();
-      $(form).find('[name=duplicate]').prop('checked',false).show();
-      $(form).find('[name=manifestation_id]').val('');
-    }
-    li.printTickets = function(form){
-      if ( $('#li_transaction_manifestations .item.ui-state-highlight').length == 0
-        && $(form).find('[name=manifestation_id]').prop('checked') )
-      {
-        $(form).focusout();
-        return li.checkGauges(form);
-      }
-      if ( $(form).find('[name=duplicate]').prop('checked') && $(form).find('[name=price_name]').val() )
-        $(form).find('[name=manifestation_id]').val($('#li_transaction_manifestations .item.ui-state-highlight').closest('.family').attr('data-family-id'));
-      setTimeout(function(){ $('#li_transaction_manifestations .footer .print [name=price_name]').val('').blur(); }, 2500);
-      return li.checkGauges(form);
-    }
-    $(document).ready(function(){
-      // dealing w/ the text field that aims to define the price_name to duplicate
-      $('#li_transaction_manifestations .footer .print [name=price_name]').focusin(function(){
-        $('#li_transaction_field_board').addClass('alpha');
-      }).focusout(function(){
-        if ( !$(this).val() )
-        $('#li_transaction_field_board').removeClass('alpha');
-      }).click(function(){
-        if ( !$(this).val() ) $(this).val(' ');
-      }).blur(function(){
-        if ( $(this).val() )
-          return;
-        li.resetDuplicates($(this).closest('form'));
-      });
-    });
-  </script>
 </form>
+
 <?php if ( $sf_user->hasCredential('tck-integrate') ): ?>
 <form action="<?php echo url_for('ticket/integrate?id='.$transaction->id) ?>"
       method="get" target="_blank" class="integrate noajax"
@@ -62,28 +31,15 @@
   </p>
 </form>
 <?php endif ?>
+
 <form action="<?php echo url_for('ticket/partial?id='.$transaction->id) ?>"
       method="get"
       target="_blank"
       class="partial noajax">
-  <script type="text/javascript">
-    $(document).ready(function(){
-      $('#li_transaction_manifestations .footer .partial').submit(function(){
-        if ( $('#li_transaction_manifestations .ui-state-highlight').length == 0 )
-        {
-           alert("<?php echo __('You must have at least one manifestation selected.') ?>");
-           $(this).find('[name=manifestation_id]').val('');
-           return false;
-        }
-        
-        $(this).find('[name=manifestation_id]').val($('#li_transaction_field_content .ui-state-highlight').attr('data-gauge-id'));
-        return li.checkGauges(this);
-      });
-    });
-  </script>
   <p>
     <input type="submit" value="<?php echo __('Partial printing') ?>" name="partial" title="<?php echo __('Only on the selected line/manifestation') ?>" class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button" />
     <input type="hidden" name="manifestation_id" value="" />
   </p>
 </form>
+
 </div>

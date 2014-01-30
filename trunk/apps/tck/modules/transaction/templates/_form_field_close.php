@@ -10,4 +10,8 @@
   <li class="msg warn"><?php echo __('The blinking quantities mean that those gauges are or will be full.') ?><br/><?php echo PHP_EOL ?><?php echo __('Please confirm that you allow this overbooking.') ?></li>
   <li class="type" data-type="<?php echo sfConfig::get('app_transaction_gauge_block') && !$sf_user->hasCredential('tck-admin') ? 'block' : 'warn' ?>"></li>
 </ul>
+<ul class="print">
+  <li class="pay-before"><?php echo __('You must record the payment(s) before printing the ticket(s)') ?></li>
+  <li class="partial-print-error"><?php echo __('You must have at least one manifestation selected.') ?></li>
+</ul>
 </form>

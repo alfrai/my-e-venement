@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You must record the payment(s) before printing the ticket(s)</source>
+        <target>Vous devez enregistrer le(s) paiement(s) avant d'imprimer le(s) billet(s)</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Display the seated plan</source>
         <target>Afficher le plan numéroté</target>
       </trans-unit> 
