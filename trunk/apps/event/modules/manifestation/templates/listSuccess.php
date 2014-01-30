@@ -73,7 +73,7 @@
     );
     
     if ( $manif->color_id )
-      $manifs[count($manifs)-1]['backgroundColor'] = '#'.$manif->Color->color;
+      $manifs[count($manifs)-1]['backgroundColor'] = $manif->Color->color;
     
     // to show preparation and finition stuff or not to show
     if ( !$display_reservations )
@@ -95,7 +95,7 @@
         'border-bottom-width' => '0',
       ));
       if ( $manif->color_id )
-        $manifs[count($manifs)-1]['backgroundColor'] = '#'.$manif->Color->color;
+        $manifs[count($manifs)-1]['backgroundColor'] = $manif->Color->color;
       unset($manifs[count($manifs)-1]['hackurl']);
     }
     
@@ -114,7 +114,7 @@
         'border-top-width' => '0',
       ));
       if ( $manif->color_id )
-        $manifs[count($manifs)-1]['backgroundColor'] = '#'.$manif->Color->color;
+        $manifs[count($manifs)-1]['backgroundColor'] = $manif->Color->color;
       unset($manifs[count($manifs)-1]['hackurl']);
     }
   }
