@@ -31,7 +31,6 @@
     $this->fields = $this->fields['field'];
     
     // get back data for labels
-    $request->setParameter('debug','true');
     $this->executeCsv($request,true);
     
     // format data for the specific labels' view
@@ -74,5 +73,8 @@
     
       $this->labels[$nbpages-1][$nblines-1][] = $organism;
     }
+
+    if ( !$request->hasParameter('debug') )
+      sfConfig::set('sf_debug', false);
     
     $this->setLayout(false);

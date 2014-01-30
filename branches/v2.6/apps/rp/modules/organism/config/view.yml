@@ -38,6 +38,10 @@ filterSuccess:
 <?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
 labelsSuccess:
   has_layout: false
+  <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): echo PHP_EOL; ?>
+  http_metas:
+    content-type: application/pdf; charset=utf-8
+  <?php endif; echo PHP_EOL; ?>
 <?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
 csvSuccess:
   has_layout: false
