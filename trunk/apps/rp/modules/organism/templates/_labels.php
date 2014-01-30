@@ -24,23 +24,13 @@
 ?>
 <?php $i = count($labels) ?>
 <?php foreach ( $labels as $page ): ?>
-<div class="page <?php $i--; echo $i == 0 ? 'last-child' : ''; ?>"><ul class="labels">
-  <?php foreach ( $page as $line ): ?>
-  <li>
-    <?php foreach ( $line as $key => $cell ): ?>
-    <div><div class="content">
+<div class="page <?php $i--; echo $i == 0 ? 'last-child' : ''; ?>"><div class="labels table">
+<?php foreach ( $page as $line ): ?><div class="row"><?php foreach ( $line as $key => $cell ): ?><div class="cell"><div class="content">
     <p class="org"><span class="nom"><?php echo $cell['organism_name'] ?></span></p>
     <p class="adresse"><?php echo nl2br($cell['organism_address']) ?></p>
     <p class="ville"><span class="cp"><?php echo $cell['organism_postalcode'] ?></span> <span class="ville"><?php echo $cell['organism_city'] ?></span></p>
     <p class="pays"><?php echo $cell['organism_country'] ?></p>
     <p class="email"><?php echo $cell['organism_email'] ?></p>
     <p class="tel"><?php echo $cell['organism_phonenumber'] ?></p>
-    </div></div>
-    <?php if ( isset($line[$key+1]) ): ?>
-      <div class="margin"></div>
-    <?php endif ?>
-    <?php endforeach; ?>
-  </li>
-  <?php endforeach; ?>
-</ul></div>
-<?php endforeach; ?>
+</div></div><?php if ( isset($line[$key+1]) ): ?><div class="margin"></div><?php endif ?>
+<?php endforeach; ?></div><?php endforeach; ?></div></div><?php endforeach; ?>
