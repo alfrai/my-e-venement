@@ -8,6 +8,7 @@
   </div>
   <form class="ui-corner-all ui-widget-content action"
         id="operation"
+        autocomplete="off"
         action="<?php echo url_for('transaction/access') ?>"
         method="get">
     <p>

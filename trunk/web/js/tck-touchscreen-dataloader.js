@@ -28,12 +28,23 @@ li.completeContent = function(data, type, replaceAll = true)
       tr.attr('data-payment-id', value.id);
       tr.find('.sf_admin_list_td_Method').html(value.method);
       tr.find('.sf_admin_list_td_list_value').html(li.format_currency(parseFloat(value.value)));
-      tr.find('.sf_admin_td_actions .sf_admin_action_delete form').prop('action', value.delete_url);
-      tr.find('.sf_admin_td_actions .sf_admin_action_delete a').prop('href', '#'+value.id);
+      if ( value.delete_url )
+      {
+        tr.find('.sf_admin_td_actions .sf_admin_action_delete form').prop('action', value.delete_url);
+        tr.find('.sf_admin_td_actions .sf_admin_action_delete a').prop('href', '#'+value.id);
+      }
+      else
+        tr.find('.sf_admin_td_actions .sf_admin_action_delete').remove();
       tr.find('.sf_admin_td_actions .sf_admin_action_delete [name="transaction[payments_list][id]"]').val(value.id);
       
       var date = new Date(value.date.replace(' ','T'));
       tr.find('.sf_admin_list_td_list_created_at').html(date.toLocaleDateString());
+      
+      if ( value.translinked )
+      {
+        tr.addClass('cancellation');
+        tr.prop('title', $('#li_transaction_field_close .payments .translinked').text().replace('%%id%%', value.translinked));
+      }
       
       tr.prependTo(content);
       total += value.value;

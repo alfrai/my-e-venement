@@ -14,4 +14,7 @@
   <li class="pay-before"><?php echo __('You must record the payment(s) before printing the ticket(s)') ?></li>
   <li class="partial-print-error"><?php echo __('You must have at least one manifestation selected.') ?></li>
 </ul>
+<ul class="payments">
+  <li class="translinked"><?php echo __('This payment is linked to the cancelling transaction #%%id%%') ?></li>
+</ul>
 </form>

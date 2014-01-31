@@ -49,6 +49,7 @@
    *     payment_method_id: integer
    *     date: string (PGSQL format)
    *     delete_url: string URL
+   *     translinked: id of the original transaction, NULL if the payment is linked to the current transaction
    **/
 
   $this->transaction = false;
@@ -73,6 +74,22 @@
       'payment_method_id' => $payment->Method->id,
       'date'          => $payment->created_at,
       'delete_url'    => cross_app_url_for('tck','transaction/complete?id='.$this->transaction->id, true),
+      'translinked'   => NULL,
+    );
+  }
+  
+  // translinked transactions
+  foreach ( $this->transaction->Translinked as $translinked )
+  foreach ( $translinked->Payments as $payment )
+  {
+    $this->json[$payment->id] = array(
+      'id'            => $payment->id,
+      'value'         => $payment->value,
+      'method'        => (string)$payment->Method,
+      'payment_method_id' => $payment->Method->id,
+      'date'          => $payment->created_at,
+      'delete_url'    => NULL,
+      'translinked'   => $translinked->id,
     );
   }
   
