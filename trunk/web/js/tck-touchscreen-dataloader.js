@@ -46,7 +46,7 @@ li.completeContent = function(data, type, replaceAll = true)
         tr.prop('title', $('#li_transaction_field_close .payments .translinked').text().replace('%%id%%', value.translinked));
       }
       
-      tr.prependTo(content);
+      tr.appendTo(content);
       total += value.value;
     });
     

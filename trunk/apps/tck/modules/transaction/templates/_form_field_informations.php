@@ -1,5 +1,9 @@
 <div>
-  <p><label><?php echo __('Transaction') ?></label><span class="form_field_id">#<span><?php echo $transaction->id ?></span> <span class="cancellation"><?php echo $transaction->Translinked->count() > 0 ? '#'.$transaction->Translinked[0]->id : '' ?></span></span></p>
+  <p>
+    <label><?php echo __('Transaction') ?></label>
+    <span class="form_field_id">
+      #<span><?php echo $transaction->id ?></span>
+      <span title="<?php echo __('Cancellation') ?>" class="cancellation"><?php echo $transaction->Translinked->count() > 0 ? '#'.link_to($transaction->Translinked[0]->id, 'ticket/pay?id='.$transaction->Translinked[0]->id) : '' ?></span></span></p>
   <p>
     <label><?php echo __('Creation') ?></label>
     <span class="form_field_created_at"><?php echo format_datetime($transaction->created_at,'r') ?></span>

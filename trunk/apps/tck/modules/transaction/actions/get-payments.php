@@ -82,7 +82,7 @@
   foreach ( $this->transaction->Translinked as $translinked )
   foreach ( $translinked->Payments as $payment )
   {
-    $this->json[$payment->id] = array(
+    $this->json['c'.$payment->id] = array(
       'id'            => $payment->id,
       'value'         => $payment->value,
       'method'        => (string)$payment->Method,
