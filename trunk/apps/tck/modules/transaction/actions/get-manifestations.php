@@ -88,7 +88,6 @@
         ->leftJoin('tck.Gauge g')
         ->leftJoin('tck.Price p')
         ->leftJoin('tck.Cancelled tckc')
-        ->leftJoin('tckc.Price tckcp')
         ->andWhere('tck.id NOT IN (SELECT tt.duplicating FROM ticket tt WHERE tt.duplicating IS NOT NULL)')
       ;
       
@@ -255,7 +254,7 @@
       // cancelling tickets
       if ( $ticket->Cancelling->count() > 0 )
       {
-        $pname = $ticket->Cancelling[0]->price_id.'-cancelling';
+        $pname = $ticket->price_id.'-cancelling';
         if ( !isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]) )
           $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname] = array(
             'state' => 'cancelling',
@@ -263,14 +262,14 @@
             'pit' => 0,
             'vat' => 0,
             'tep' => 0,
-            'name' => $ticket->Cancelling[0]->Price->name,
-            'description' => $ticket->Cancelling[0]->Price->description,
+            'name' => $ticket->Price->name,
+            'description' => $ticket->Price->description,
             'id' => $ticket->price_id,
             'ids' => array(),
             'numerotation' => array()
           );
-        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->Cancelling[0]->gauge_id]['prices'][$pname]['ids'][] = $ticket->Cancelling[0]->id;
-        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->Cancelling[0]->gauge_id]['prices'][$pname]['numerotation'][] = $ticket->Cancelling[0]->numerotation;
+        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['ids'][] = $ticket->Cancelling[0]->id;
+        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['numerotation'][] = $ticket->Cancelling[0]->numerotation;
         
         // by group of tickets
         $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['qty']--;
