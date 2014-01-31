@@ -21,8 +21,21 @@
 *
 ***********************************************************************************/
 ?>
-      <?php // those lines above come directly from e-venement v1.10 with only few modifications ?>
+<?php // those lines above come directly from e-venement v1.10 with only few modifications ?>
 /* dynamic */
+
+<?php
+  switch ( $params['page-format'] ) {
+  case 'a4':
+  case 'A4':
+    $height = '297'; // mm
+    $width  = '210'; // mm
+    break;
+  }
+  
+  // dompdf vertical error with tables
+  $error = array('y' => 10);
+?>
 
 html body.labels {
   <?php if ( $opt = $params['font-family'] ): ?>
@@ -48,8 +61,8 @@ body.labels .table .row       { display: table-row; }
 body.labels .table .row .cell { display: table-cell; vertical-align: middle; }
 
 body.labels .labels > div > div {
-  width:  <?php echo ( floatval($params['width'])-$pleft*2-floatval($params['margin-x'])*(intval($params['nb-x'])-1) )/intval($params['nb-x']) ?>mm;
-  height: <?php echo $cellheight = ( floatval($params['height'])-$ptop*2-floatval($params['margin-y'])*(intval($params['nb-y'])-1) )/intval($params['nb-y']) ?>mm;
+  width:  <?php echo ( floatval($width)-$pleft*2-floatval($params['margin-x'])*(intval($params['nb-x'])-1) )/intval($params['nb-x']) ?>mm;
+  height: <?php echo $cellheight = ( floatval($height)-$ptop*2-(floatval($params['margin-y'])+$error['y'])*(intval($params['nb-y'])-1) )/intval($params['nb-y']) ?>mm;
   overflow: hidden;
 }
 body.labels .labels > div > div > * {
