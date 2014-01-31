@@ -38,6 +38,7 @@
     ->leftJoin('g.Workspace ws')
     ->leftJoin('m.Event e')
     ->andWhere('t.id = ?',$request->getParameter('id',0))
+    ->andWhere('tck.cancelling IS NULL')
     ->andWhere('tck.id NOT IN (SELECT tt.duplicating FROM ticket tt  WHERE tt.duplicating IS NOT NULL AND tt.transaction_id = t.id)')
     ->andWhere('tck.id NOT IN (SELECT ttt.cancelling FROM ticket ttt LEFT JOIN ttt.Transaction tttr WHERE ttt.cancelling IS NOT NULL AND tttr.transaction_id = t.id)')
     ->andWhere('tck.gauge_id = ?',$request->getParameter('gauge_id',0))
