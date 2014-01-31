@@ -93,7 +93,7 @@
   }
   function ticket_payment_old(add)
   {
-    <?php if ( !sfConfig::get('app_tickets_auto_print') ): ?>
+    <?php if ( !sfConfig::get('app_tickets_auto_print',false) ): ?>
     add = false;
     <?php else: ?>
     if ( add == 'undefined' ) add = false;
@@ -118,7 +118,7 @@
       $(this).click(function(){
         if ( confirm('<?php echo __('Are you sure?',null,'sf_admin') ?>') )
         $.get('<?php echo url_for('payment/quickDelete?transaction_id='.$transaction->id) ?>&id='+$(this).parent().parent().parent().parent().find('input[name="ids[]"]').val(),function(data){
-          ticket_payment_refresh(data,true);
+          ticket_payment_refresh(data,add);
         });
         return false;
       });
