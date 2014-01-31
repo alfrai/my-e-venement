@@ -25,7 +25,7 @@ class EventForm extends BaseEventForm
     
     $this->widgetSchema['meta_event_id']
       ->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('MetaEvent')->createQuery('me')))
-      ->setOption('order_by', array('name',''));
+      ->setOption('order_by', array('me.name',''));
     $this->widgetSchema['event_category_id']->setOption('order_by', array('name',''));
     $this->widgetSchema['companies_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Organism',
