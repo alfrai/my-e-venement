@@ -42,12 +42,16 @@
       ->leftJoin('tck.Duplicated dup')
       ->leftJoin('dup.Duplicated dup2')
       ->andWhereIn('tck.id',$ticket_ids)
-      ->andWhere('t.closed = ?',false)
       ->execute() as $ticket )
     {
       if ( !$ticket )
       {
         $this->getUser()->setFlash('error',__("Can't find the ticket #%%i%% in database... Perhaps the related transaction is closed already.",array('%%i%%' => $ticket->id)));
+        $this->redirect('ticket/cancel');
+      }
+      if ( $ticket->Transaction->closed )
+      {
+        $this->getUser()->setFlash('error',__("Can't cancel a ticket #%%i%% because its transaction #%%t%% is already closed".,array('%%i%%' => $ticket->id, '%%t%%' => $ticket->transaction_id)));
         $this->redirect('ticket/cancel');
       }
       if ( !$ticket->printed_at )
