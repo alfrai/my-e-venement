@@ -36,12 +36,15 @@
                 'title' => (string)$ticket->Manifestation->Event->MetaEvent,
                 'nb' => 0,
                 'value' => 0,
+                'transaction_ids' => array()
               );
             if ( $events[$ticket->Manifestation->Event->id]['happens_at'] < $ticket->Manifestation->happens_at )
               $sort[$ticket->Manifestation->Event->id] =
               $events[$ticket->Manifestation->Event->id]['happens_at'] = $ticket->Manifestation->happens_at;
             $events[$ticket->Manifestation->Event->id]['nb']++;
             $events[$ticket->Manifestation->Event->id]['value'] += $ticket->value;
+            $events[$ticket->Manifestation->Event->id]['transaction_links'][(($p = $ticket->printed_at || $ticket->integrated_at || $ticket->cancelling) ? 'p' : 'r').$ticket->transaction_id]
+              = '#'.cross_app_link_to($ticket->transaction_id, 'tck', 'ticket/sell?id='.$ticket->transaction_id, false, null, false, $p ? 'title="'.__('All printed').'"' : 'class="not-printed" title="'.__('Ordered').'"');
             $total['nb']++;
             $total['value'] += $ticket->value;
           }
@@ -53,6 +56,7 @@
         <?php foreach ( $events as $event ): ?>
         <li>
           <?php echo cross_app_link_to($event['event'],'event','event/show?id='.$event['event']->id,false,null,false, 'title="'.$event['title'].'"') ?>:
+          <?php if ( $sf_user->hasCredential('tck-transaction') ): ?><span class="transactions ui-widget-content ui-corner-all"><?php echo implode('<br/>', $event['transaction_links']) ?></span><?php endif ?>
           <span class="nb"><?php echo $event['nb'] ?></span>
           <?php if ( $sf_user->hasCredential('tck-ledger-sales') ): ?><span class="value"><?php echo format_currency($event['value'],'€') ?></span><?php endif ?>
         </li>

@@ -10,6 +10,12 @@ $(document).ready(function(){
     $('#tdp-side-bar .tdp-object-groups .new').remove();
   }
   
+  // LINKS TO TRANSACTIONS
+  $('#tdp-side-ticketting').click(function(){ $(this).find('.transactions').fadeOut(100); });
+  $('#tdp-side-ticketting .nb').click(function(){ var elt = this; setTimeout(function(){
+    $(elt).closest('li').find('.transactions').fadeIn();
+  },200); });
+  
   // LINK TO RELATIONSHIPS
   $('.sf_admin_form_field_Relationships table table').each(function(){
     $(this).find('input[type=hidden]').each(function(){

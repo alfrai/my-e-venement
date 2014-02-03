@@ -233,6 +233,10 @@ body #content { width: auto; }
 #tdp-side-bar .tdp-object-groups .tmp { font-style: italic; }
 #tdp-side-bar .tdp-object-groups select { width: 170px; margin: 0; font-size: 100%; }
 
+#tdp-side-bar #tdp-side-ticketting .nb { cursor: pointer; }
+#tdp-side-bar #tdp-side-ticketting .transactions { display: none; position: absolute; padding: 2px 3px; }
+#tdp-side-bar #tdp-side-ticketting .transactions .not-printed { font-style: italic; }
+
 /* TOP */
 #tdp-top-bar { padding: 5px 5px 3px 5px; margin: -5px 0 3px -5px; }
 #tdp-top-bar .tdp-top-widget {
