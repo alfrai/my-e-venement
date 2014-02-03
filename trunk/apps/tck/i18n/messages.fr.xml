@@ -121,6 +121,10 @@
         <target>Suite</target>
       </trans-unit> 
       <trans-unit>
+        <source>Can't cancel a ticket #%%i%% because its transaction #%%t%% is already closed</source>
+        <target>Impossible d'annuler le billet #%%i%% car son opération a été clôturée</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Summary</source>
         <target>Résumé</target>
       </trans-unit> 
