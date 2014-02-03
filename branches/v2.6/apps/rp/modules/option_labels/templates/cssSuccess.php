@@ -64,9 +64,9 @@ body.labels .labels { display: block; }
 body.labels .labels > div { display: block; }
 body.labels .labels > div > div { display: inline-block; }
 
-body.labels .labels > div > div {
-  width:  <?php echo ( $width-$pleft*2-floatval($params['margin-x'])*(intval($params['nb-x'])-1) )/intval($params['nb-x']) ?>mm;
-  height: <?php echo $cellheight = ( $height-$ptop*2-floatval($params['margin-y'])*(intval($params['nb-y'])-1) )/intval($params['nb-y']) ?>mm;
+body.labels .labels > li > div {
+  width:  <?php echo round(( $width-floatval($params['margin-x'])*(intval($params['nb-x'])-1) )/intval($params['nb-x'])) ?>mm;
+  height: <?php echo $cellheight = round(( $height-$ptop*2-floatval($params['margin-y'])*(intval($params['nb-y'])-1) )/intval($params['nb-y'])) ?>mm;
   overflow: hidden;
   vertical-align: middle;
 }
