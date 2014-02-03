@@ -51,7 +51,7 @@
       }
       if ( $ticket->Transaction->closed )
       {
-        $this->getUser()->setFlash('error',__("Can't cancel a ticket #%%i%% because its transaction #%%t%% is already closed".,array('%%i%%' => $ticket->id, '%%t%%' => $ticket->transaction_id)));
+        $this->getUser()->setFlash('error',__("Can't cancel a ticket #%%i%% because its transaction #%%t%% is already closed.",array('%%i%%' => $ticket->id, '%%t%%' => $ticket->transaction_id)));
         $this->redirect('ticket/cancel');
       }
       if ( !$ticket->printed_at )
