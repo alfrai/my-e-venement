@@ -64,14 +64,16 @@ class TransactionTable extends PluginTransactionTable
       ->leftJoin('p.ProfessionalType pt')
       ->leftJoin('p.Organism o')
       ->leftJoin('t.Invoice i')
-      ->andWhere('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(tck2.value) END) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2').') - (SELECT (CASE WHEN count(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
+      ->andWhere('((SELECT (CASE WHEN COUNT(tck2.id) = 0 THEN 0 ELSE SUM(tck2.value) END) FROM Ticket tck2 WHERE '.$this->getDebtsListTicketsCondition('tck2', '2014-01-01', '2013-09-01').') - (SELECT (CASE WHEN count(p2.id) = 0 THEN 0 ELSE SUM(p2.value) END) FROM Payment p2 WHERE p2.transaction_id = t.id)) != 0');
     return $q;
   }
-  public static function getDebtsListTicketsCondition($ticket_table = 'tck', $date = NULL)
+  public static function getDebtsListTicketsCondition($ticket_table = 'tck', $date = NULL, $from = NULL)
   {
     $r = $ticket_table.'.transaction_id = t.id AND '.$ticket_table.'.duplicating IS NULL AND ('.$ticket_table.'.printed_at IS NOT NULL OR '.$ticket_table.'.integrated_at IS NOT NULL OR '.$ticket_table.'.cancelling IS NOT NULL)';
     if ( !is_null($date) )
       $r .= " AND ($ticket_table.cancelling IS NULL AND ($ticket_table.printed_at IS NOT NULL AND $ticket_table.printed_at < '$date' OR $ticket_table.integrated_at IS NOT NULL AND $ticket_table.integrated_at < '$date') OR $ticket_table.cancelling IS NOT NULL AND $ticket_table.created_at < '$date')";
+    if ( !is_null($from) )
+      $r .= " AND ($ticket_table.cancelling IS NULL AND ($ticket_table.printed_at IS NOT NULL AND $ticket_table.printed_at > '$from' OR $ticket_table.integrated_at IS NOT NULL AND $ticket_table.integrated_at > '$from') OR $ticket_table.cancelling IS NOT NULL AND $ticket_table.created_at > '$from')";
     return $r;
   }
   public static function addDebtsListBaseSelect(Doctrine_Query $q)
