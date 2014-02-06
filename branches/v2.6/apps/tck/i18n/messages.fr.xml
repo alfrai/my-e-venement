@@ -641,6 +641,10 @@
         <target>Organisme</target>
       </trans-unit>
       <trans-unit>
+        <source>Restrict payments to payments with tickets whose date is bounded within the given dates</source>
+        <target>Restreindre les paiements à ceux dont les billets liés ont une date de valeur inclue dans les dates fournies</target>
+      </trans-unit>
+      <trans-unit>
         <source>Closed</source>
         <target>Verr.</target>
       </trans-unit>

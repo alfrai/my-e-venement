@@ -208,8 +208,8 @@ class ledgerActions extends sfActions
       ->leftJoin('t.Professional pro')
       ->leftJoin('pro.Organism o')
       ->leftJoin('p.User u')
-      ->leftJoin('u.MetaEvents')
-      ->leftJoin('u.Workspaces')
+      ->leftJoin('u.MetaEvents me')
+      ->leftJoin('u.Workspaces ws')
       ->orderBy('m.name, m.id, t.id, p.value, p.created_at');
     
     if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
@@ -227,6 +227,18 @@ class ledgerActions extends sfActions
         $dates[0],
         $dates[1],
       ));
+      
+      if ( $criterias['payment_limit_with_tck_date'] )
+      {
+        $q->andWhere('t.id IN (SELECT tck.transaction_id FROM Ticket tck WHERE (tck.cancelling IS NULL AND tck.printed_at >= ? AND tck.printed_at < ?) OR (tck.cancelling IS NULL AND tck.integrated_at >= ? AND tck.integrated_at < ?) OR (tck.cancelling IS NOT NULL AND tck.created_at >= ? AND tck.created_at < ?))',array(
+          $dates[0],
+          $dates[1],
+          $dates[0],
+          $dates[1],
+          $dates[0],
+          $dates[1],
+        ));
+      }
     }
     
     if ( isset($criterias['users']) && is_array($criterias['users']) && isset($criterias['users'][0]) )
