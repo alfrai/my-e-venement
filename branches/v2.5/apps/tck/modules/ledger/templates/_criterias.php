@@ -18,6 +18,12 @@
       <?php echo $form['not-yet-printed'] ?>
     </li>
     <?php endif ?>
+    <?php if ( $ledger == 'cash' ): ?>
+    <li>
+      <label for="payment_limit_with_tck_date"><?php echo __('Restrict payments to payments with tickets whose date is bounded within the given dates') ?>:</label>
+      <?php echo $form['payment_limit_with_tck_date'] ?>
+    </li>
+    <?php endif ?>
     <?php if ( $ledger == 'sales' ): ?>
     <li>
       <label for="tck_value_date_payment"><?php echo __('Display tickets from payment') ?>:</label>
