@@ -24,11 +24,9 @@
 <?php
     sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
     $only_pending = $request->hasParameter('only_pending');
+    $nourl = $request->hasParameter('nourl');
     
-    $q = $this->buildQuery()
-      ->andWhere('reservation_confirmed = ?', !$only_pending);
-    if ( $request->getParameter('id',false) )
-      $q->andWhere('e.id = ?', $request->getParameter('id'));
+    $q = $this->buildQuery();
     
     // security stuff
     $token = sfConfig::get('app_synchronization_security_token', array());
@@ -59,11 +57,15 @@
     $this->calfile .= $this->getUser()->isAuthenticated() ? $this->getUser()->getGuardUSer()->username : $token[$request->getParameter('token')];
     $this->calfile .= '.ics';
     
-    $v = new vcalendar();
+    $v = new vcalendar;
     $v->setConfig(array(
       'directory' => $this->caldir,
       'filename'  => $this->calfile,
     ));
+    
+    if ( $request->getParameter('id',false) )
+      $q->andWhere('e.id = ?', $request->getParameter('id'));
+    $q->andWhere('reservation_confirmed = ?', !$only_pending);
     
     $updated = Doctrine_Query::create()->copy($q)
       ->select('max(m.updated_at) AS last_updated_at')
@@ -119,8 +121,9 @@
         $stop = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time),'tz'=>date('T'));
         $e->setProperty('dtend', $stop );
         
-        $e->setProperty('summary', $manif->Event );
-        $e->setProperty('url', url_for('manifestation/show?id='.$manif->id,true));
+        $e->setProperty('summary', $manif->Event);
+        if ( !$nourl )
+          $e->setProperty('url', url_for('manifestation/show?id='.$manif->id,true));
         
         $location = array((string)$manif->Location);
         if ( $manif->Location->city )
@@ -130,7 +133,7 @@
 
         // extra properties
         $client = sfConfig::get('project_about_client',array());
-        $e->setProperty('description', $client['name']."\nURL: ".url_for('manifestation/show?id='.$manif->id, true));
+        $e->setProperty('description', $client['name'].(!$nourl ? "\nURL: ".url_for('manifestation/show?id='.$manif->id, true) : ''));
         $e->setProperty('transp', $request->hasParameter('transp') ? 'TRANSPARENT' : 'OPAQUE');
         $e->setProperty('status', 'CONFIRMED');
         
