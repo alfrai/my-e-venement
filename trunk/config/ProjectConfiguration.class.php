@@ -49,7 +49,7 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins('sfAdminThemejRollerPlugin');
     $this->enablePlugins('cxFormExtraPlugin');
     //$this->enablePlugins('sfEasyGMapPlugin');
-    //$this->enablePlugins('sfiCalCreatorPlugin');
+    $this->enablePlugins('sfiCalCreatorPlugin');
     $this->enablePlugins('liBarcodePlugin');
     $this->enablePlugins('liOfcPlugin');
     $this->enablePlugins('sfDomPDFPlugin');
