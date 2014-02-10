@@ -655,7 +655,7 @@ class ContactFormFilter extends BaseContactFormFilter
     if ( $value )
     {
       if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
-      $q->leftJoin("$c.MemberCards mc");
+        $q->leftJoin("$c.MemberCards mc");
       
       $q->andWhere("mc.expire_at > ?",date('Y-m-d',strtotime($value)));
     }
