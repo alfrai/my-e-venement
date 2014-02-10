@@ -71,10 +71,10 @@
 
     // only when groups are a part of filters
     if ( in_array("LEFT JOIN $a.Groups gc",$q->getDqlPart('from')) )
-      $q->leftJoin(" p.ProfessionalGroups mp ON mp.group_id = gp.id AND mp.professional_id = p.id")
-        ->leftJoin("$a.ContactGroups      mc ON mc.group_id = gc.id AND mc.contact_id      = $a.id")
-        ->addSelect("(CASE WHEN mc.information IS NOT NULL THEN mc.information ELSE mp.information END) AS information")
-        ->addSelect('mp.*, p.id, mc.*');
+      $q->leftJoin(" p.ProfessionalGroups mpg ON mpg.group_id = gp.id AND mpg.professional_id = p.id")
+        ->leftJoin("$a.ContactGroups      mcg ON mcg.group_id = gc.id AND mcg.contact_id      = $a.id")
+        ->addSelect("(CASE WHEN mcg.information IS NOT NULL THEN mcg.information ELSE mpg.information END) AS information")
+        ->addSelect('mpg.*, p.id, mcg.*');
     
     $this->lines = $q->fetchArray();
     
