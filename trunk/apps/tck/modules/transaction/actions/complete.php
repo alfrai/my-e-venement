@@ -178,6 +178,7 @@
           ),
         );
         
+        $manifs = array();
         if ( $params[$field]['qty'] > 0 ) // add
         for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )
         {

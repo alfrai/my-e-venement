@@ -517,7 +517,7 @@ li.calculateTotals = function()
   
   $.each(totals, function(index, value){
     var total = $(elt).find('.'+index.replace(/\s+/g,'.'));
-    if ( $(total).hasClass('monney') )
+    if ( $(total).hasClass('money') )
       value = li.format_currency(value);
     if ( total.is('.qty') )
       total.find('.qty').html(value);
@@ -538,7 +538,7 @@ li.calculateTotals = function()
   });
   $.each(totals, function(index, value){
     var total = $(megaelt).find('.'+index.replace(/\s+/g,'.'));
-    if ( $(total).hasClass('monney') )
+    if ( $(total).hasClass('money') )
       value = li.format_currency(value);
     if ( total.is('.qty') )
       total.find('.qty').html(value);

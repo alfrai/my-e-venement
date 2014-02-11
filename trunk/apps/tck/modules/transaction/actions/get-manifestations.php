@@ -115,6 +115,9 @@
     elseif ( $request->getParameter('manifestation_id',false) )
       $q = Doctrine::getTable('Manifestation')->createQuery('m');
     
+    $q->leftJoin('m.IsNecessaryTo n')
+      ->leftJoin('n.Gauges ng');
+    
     $mid = array();
     if ( $request->getParameter('manifestation_id',false) )
       $mid = is_array($request->getParameter('manifestation_id'))
@@ -123,9 +126,14 @@
     
     // retrictive parameters
     if ( $request->getParameter('manifestation_id',false) )
-      $q->andWhereIn('m.id',$mid);
+    {
+      $q->andWhere('(TRUE')
+        ->andWhereIn('n.id',$mid)
+        ->orWhereIn('m.id',$mid)
+        ->andWhere('TRUE)');
+    }
     if ( $gid = $request->getParameter('gauge_id', false) )
-      $q->andWhere('g.id = ?',$gid);
+      $q->andWhere('(g.id = ? OR ng.id = ? AND g.workspace_id = ng.workspace_id)',array($gid, $gid));
     
     $this->json = array();
     $this->transaction = false;

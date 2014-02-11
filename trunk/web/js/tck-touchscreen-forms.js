@@ -52,14 +52,18 @@ li.formSubmit = function(){
           if ( !value.data.reset )
             return;
           
-          elt = $(str = '#li_transaction_item_'+value.data.content.gauge_id+' .declination'+(value.data.content.state ? '.active.'+value.data.content.state : ':not(.active)')+'[data-price-id='+value.data.content.price_id+']');
+          var elt = $(str = '#li_transaction_item_'+value.data.content.gauge_id+' .declination'+(value.data.content.state ? '.active.'+value.data.content.state : ':not(.active)')+'[data-price-id='+value.data.content.price_id+']');
           if ( value.data.content.qty > 0 )
           {
             elt.find('.qty input').val(value.data.content.qty).select();
             elt.closest('.item').find('.total').select();
           }
           else
-            elt.remove();
+          {
+            elt.find('.qty input').val(value.data.content.qty).select();
+            elt.find('.money').html(li.format_currency(0));
+            setTimeout(function(){ if ( parseInt(elt.find('.qty input').val(),10) == 0 ) elt.remove(); },5000);
+          }
           
           break;
         case 'manifestations':
