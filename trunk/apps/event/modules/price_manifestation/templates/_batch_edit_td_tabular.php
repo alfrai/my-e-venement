@@ -15,7 +15,7 @@
     $form->setHidden();
     $form['value']->getWidget()->setLabel('');
   ?>
-  <form action="<?php echo url_for('price_manifestation/update?id='.$pm->id) ?>" method="post" title="<?php echo __("This field's update is done automagically") ?>">
+  <form action="<?php echo url_for('price_manifestation/update?id='.$pm->id) ?>" method="post" title="<?php echo __("This field is updated automagically") ?>">
   <input name="sf_method" value="put" type="hidden">
   <?php foreach ( $form as $field ) echo $field; ?>
   </form>

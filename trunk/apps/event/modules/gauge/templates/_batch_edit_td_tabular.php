@@ -25,7 +25,7 @@
     $form->setHidden();
     $form->setHidden(array('value'));
   ?>
-<form action="<?php echo url_for('gauge/update?id='.$g->id) ?>" method="post" title="<?php echo __("Updating this field is done automagically") ?>">
+<form action="<?php echo url_for('gauge/update?id='.$g->id) ?>" method="post" title="<?php echo __("This field is updated automagically") ?>">
   <input name="sf_method" value="put" type="hidden">
   <?php foreach ( $form as $field ) echo $field; ?>
 </form>
