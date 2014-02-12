@@ -525,7 +525,7 @@
         <target>Liste des taxes</target>
       </trans-unit>
       <trans-unit>
-        <source>This field's update is done automagically</source>
+        <source>This field is updated automagically</source>
         <target>La mise à jour de champs est fait automagiquement</target>
       </trans-unit>
       <trans-unit>
