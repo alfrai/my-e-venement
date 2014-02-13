@@ -57,7 +57,7 @@
         ->andWhere('p.transaction_id = ?',$all['transaction_id'])
         ->andWhere('p.payment_method_id = ?', sfConfig::get('app_tickets_payment_method_id',''))
         ->count() > 0 )
-          throw new liOnlineSaleException('TIPI ERROR: The payment has already been recorded (common TIPI mistake based on a strange TIPI behaviour)');
+        throw new liOnlineSaleException('TIPI ERROR: The payment has already been recorded (common TIPI mistake based on a strange TIPI behaviour)');
       
       return true;
     }
@@ -72,7 +72,7 @@
       // the configuration
       $this->id       = str_pad(sfConfig::get('app_payment_id', 194), 6, '0', STR_PAD_LEFT);
       $this->refdet   = str_pad(sfConfig::get('app_payment_refdet', 999900000000999999),18,'0',STR_PAD_LEFT);
-      $this->email    = 'test@test.tld';
+      $this->email    = $transaction->Contact->email;
       $url = sfConfig::get('app_payment_url', array('response' => 'cart/response'));
       $this->url      = url_for($url['response'].'?transaction_id='.$transaction->id.'&token='.self::getToken($transaction->id),true);
       $this->subject  = 'Transaction n'.$transaction->id;
