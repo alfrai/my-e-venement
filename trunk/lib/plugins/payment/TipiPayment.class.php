@@ -48,8 +48,9 @@
       
       // tokens
       if ( $all['token'] != $all['given_token'] )
-        throw new liOnlineSaleException('TIPI ERROR: The given token is uncorrect');
+        throw new liOnlineSaleException('TIPI ERROR: The given token is incorrect');
       
+      // the result given by TIPI
       if ( $all['result'] !== 'P' )
         throw new liOnlineSaleException('TIPI ERROR: The payment has been refused or cancelled');
       
@@ -62,9 +63,9 @@
       return true;
     }
     
-    public static function getToken($id = '')
+    public static function getToken($id = '', $amount = 0)
     {
-      return md5($id.sfConfig::get('app_payment_salt','26bc277b00189a32f8349cbf0a361519'));
+      return md5($id.'-'.$amount.'-'.sfConfig::get('app_payment_salt','26bc277b00189a32f8349cbf0a361519'));
     }
     
     protected function __construct(Transaction $transaction)
@@ -74,7 +75,6 @@
       $this->refdet   = str_pad(sfConfig::get('app_payment_refdet', 999900000000999999),18,'0',STR_PAD_LEFT);
       $this->email    = $transaction->Contact->email;
       $url = sfConfig::get('app_payment_url', array('response' => 'cart/response'));
-      $this->url      = url_for($url['response'].'?transaction_id='.$transaction->id.'&token='.self::getToken($transaction->id),true);
       $this->subject  = 'Transaction n'.$transaction->id;
       $this->mode     = sfConfig::get('app_payment_prod', false) ? 'X' : 'T';
       $this->autosubmit = sfConfig::get('app_payment_autosubmit',true);
@@ -84,6 +84,11 @@
       $this->value = $this->transaction->getPrice(true)
         + $this->transaction->getMemberCardPrice(true)
         - $this->transaction->getTicketsLinkedToMemberCardPrice(true);
+      
+      $this->url      = url_for($url['response']
+        .'?transaction_id='.$transaction->id
+        .'&token='.self::getToken($transaction->id, $this->value)
+      ,true);
     }
     
     public function render($attributes)

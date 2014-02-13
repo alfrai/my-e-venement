@@ -38,11 +38,11 @@
     
     try {
       TipiPayment::response(array(
-        'result' => $request->getParameter('resultrans',false),
-        'token'  => TipiPayment::getToken($request->getParameter('transaction_id')),
-        'given_token' => $request->getParameter('token'),
-        'ip_address'  => $request->getRemoteAddress(),
-        'transaction_id' => $request->getParameter('transaction_id'),
+        'result'          => $request->getParameter('resultrans',false),
+        'token'           => TipiPayment::getToken($bank->transaction_id, $bank->amount/100),
+        'given_token'     => $request->getParameter('token'),
+        'ip_address'      => $request->getRemoteAddress(),
+        'transaction_id'  => $bank->transaction_id,
       ));
     }
     catch ( sfException $e )
