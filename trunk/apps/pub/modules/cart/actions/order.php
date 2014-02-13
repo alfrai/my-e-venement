@@ -120,6 +120,7 @@
     
     // setting up the vars to commit to the bank
     if ( $this->getUser()->getTransaction()->getPrice(true,true) > 0 )
+    {
       $class = 'PayboxPayment';
       switch ( sfConfig::get('app_payment_type','paybox') ) {
       case 'tipi':
@@ -127,7 +128,8 @@
         break;
       }
       $this->online_payment = $class::create($this->getUser()->getTransaction());
-    else
+    }
+    else // no payment to be done
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
       
