@@ -18,6 +18,7 @@ all:
   contact:
     capitalize: [name, firstname, city, country, address]
   payment:
+    type: paybox
     autosubmit: false
     id: "1"
     rank: "32"
@@ -33,6 +34,15 @@ all:
     pem:
       remote: http://www1.paybox.com/telechargements/pubkey.pem
       local: paybox.pem
+    #type: tipi
+    #  id: 194
+    #  refdet: 999900000000999999
+    #  mode: T #X for prod purposes
+    #  salt: xxxx
+    #  url:
+    #    payment: [https://www.jepaiemesserviceslocaux.dgfip.finances.gouv.fr/]
+    #    uri: tpa/paiement.web
+    #    response: cart/response
   texts:
     cart_bottom: <p style="text-align: center; margin-top: 10px;"><a href="http://www.facebook.com/pages/Le-Fracas-CDN-de-Montlu%C3%A7onAuvergne/240968945966456" target="_blank">Rejoignez-nous sur Facebook</a></p>
     when_closed: La vente en ligne est actuelle fermée... Veuillez réessayer ultérieurement.
