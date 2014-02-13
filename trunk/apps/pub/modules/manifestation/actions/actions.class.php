@@ -41,8 +41,6 @@ class manifestationActions extends autoManifestationActions
       ->addSelect('m.*, pm.*, p.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.Location l')
-      ->leftJoin('ws.SeatedPlans sp ON sp.location_id = l.id AND sp.workspace_id = ws.id AND ws.seated = TRUE')
-      ->leftJoin('sp.OnlinePicture op')
       ->leftJoin('ws.Users wu')
       ->leftJoin('m.Event e')
       ->leftJoin('m.PriceManifestations pm')
