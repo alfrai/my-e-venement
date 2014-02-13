@@ -37,15 +37,15 @@
     if ( !$value )
       unset($no_ids[$key]);
     
-    $end = "m.happens_at + (m.duration||' seconds')::interval";
+    $end = "m.reservation_ends_at"; // + (m.duration||' seconds')::interval";
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
       ->select('m.*, l.*, mb.*, me.*, c.*, e.*, g.*')
       ->leftJoin('m.Color c')
       ->leftJoin('m.Booking mb')
       ->andWhere('(TRUE')
-      ->andWhere("m.happens_at >= ? AND m.happens_at < ?", array($this->from, $this->to))
+      ->andWhere("m.reservation_begins_at >= ? AND m.reservation_begins_at < ?", array($this->from, $this->to))
       ->orWhere("$end > ? AND $end <= ?", array($this->from, $this->to))
-      ->orWhere("m.happens_at < ? AND $end > ?", array($this->from, $this->to))
+      ->orWhere("m.reservation_begins_at < ? AND $end > ?", array($this->from, $this->to))
       ->andWhere('TRUE)')
       ->orderBy('m.happens_at DESC');
     if ( $this->location_id )
