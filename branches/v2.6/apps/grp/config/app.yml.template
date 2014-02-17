@@ -5,3 +5,5 @@
 all:
   messages:
     dashed: Second choix
+  options:
+    remove_slow_js: false
