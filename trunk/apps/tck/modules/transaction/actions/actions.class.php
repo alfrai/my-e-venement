@@ -23,6 +23,10 @@ class transactionActions extends autoTransactionActions
       $this->getUser()->setFlash('error', __('You have to re-open the transaction before accessing it'));
       $this->redirect('transaction/respawn?id='.$this->transaction->id);
     }
+    if ( $this->transaction->type == 'cancellation' )
+    {
+      $this->redirect('ticket/pay?id='.$this->transaction->id);
+    }
     
     $this->form = array();
     

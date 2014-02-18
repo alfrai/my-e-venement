@@ -6,7 +6,7 @@
   <?php echo $form->renderHiddenFields() ?>
   <?php echo $form[$field]->renderLabel() ?>
   </span><?php echo $form[$field] ?></span>
-  <a class="create-contact li_touchscreen_new" target="_blank" href="/web/rp_dev.php/contact/new?close"><?php echo image_tag('/sfDoctrinePlugin/images/new.png') ?></a>
+  <a class="create-contact li_touchscreen_new" target="_blank" href="<?php echo cross_app_url_for('rp','contact/new') ?>?close"><?php echo image_tag('/sfDoctrinePlugin/images/new.png') ?></a>
 </p>
 </form>
 <div class="data">

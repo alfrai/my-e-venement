@@ -216,6 +216,8 @@ class HtmlToText
      *  @access public
      *  @see $replace
      */
+        global $obj;
+        $obj = $this;
         $this->search_and_replace = array(
           "/\r/" => '',                                  // Non-legal carriage return
           "/[\n\t]+/" => ' ',                             // Newlines and tabs
@@ -235,7 +237,7 @@ class HtmlToText
           '/(<ol[^>]*>|<\/ol>)/i' => "\n\n",                 // <ol> and </ol>
           '/<li[^>]*>(.*?)<\/li>/i' => "\t* \\1\n",               // <li> and </li>
           '/<li[^>]*>/i' => "\n\t* ",                          // <li>
-          '/<a [^>]*href="([^"]+)"[^>]*>(.*?)<\/a>/ie' => function($m) { return $this->_build_link_list($m[1], $m[2]); },
+          '/<a [^>]*href="([^"]+)"[^>]*>(.*?)<\/a>/ie' => function($m) { global $obj; return $obj->_build_link_list($m[1], $m[2]); },
                                                    // <a href="">
           '/<hr[^>]*>/i' => "\n-------------------------\n",                          // <hr>
           '/(<table[^>]*>|<\/table>)/i' => "\n\n",           // <table> and </table>

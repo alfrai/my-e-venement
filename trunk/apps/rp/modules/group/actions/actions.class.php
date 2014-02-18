@@ -48,7 +48,8 @@ class groupActions extends autoGroupActions
     
     $r = array();
     
-    try {
+    //try
+    {
       // is the asked model is supported
       $validator = new sfValidatorChoice(array(
         'choices' => array('contact', 'professional', 'organism'),
@@ -104,9 +105,9 @@ class groupActions extends autoGroupActions
       $r['success'] = __(ucfirst($type).' '.($modifier == 'add' ? 'added' : 'removed'));
       $r['object_id'] = $object->id;
     }
-    catch ( sfValidatorError $e )
+    //catch ( sfValidatorError $e )
     {
-      $r['error'] = __($e->getMessage(), null, 'sf_admin');
+      //$r['error'] = __($e->getMessage(), null, 'sf_admin');
     }
     
     if ( !$request->hasParameter('debug') )
