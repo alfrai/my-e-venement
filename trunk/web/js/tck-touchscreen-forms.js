@@ -49,6 +49,7 @@ li.formSubmit = function(){
         if ( value.data && value.data.type )
         switch ( value.data.type ) {
         case 'gauge_price':
+          $('#li_transaction_field_price_new [name="transaction[price_new][qty]"]').val('');
           if ( !value.data.reset )
             return;
           
@@ -90,6 +91,7 @@ li.formSubmit = function(){
           });
           break;
         case 'payments':
+          $('#li_transaction_field_payment_new [name="transaction[payment_new][value]"]').val('').focus();
           $.ajax({
             url: value.remote_content.load.url,
             success: function(data){

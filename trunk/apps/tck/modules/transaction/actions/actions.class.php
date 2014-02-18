@@ -25,6 +25,7 @@ class transactionActions extends autoTransactionActions
     }
     if ( $this->transaction->type == 'cancellation' )
     {
+      $this->getUser()->setFlash('error',__("You can respawn here only normal transactions"));
       $this->redirect('ticket/pay?id='.$this->transaction->id);
     }
     

@@ -95,6 +95,7 @@
 #li_transaction_field_content .item .ids { display: none; position: absolute; margin-left: 10px; margin-top: -1.3em; max-width: 100px; border: 1px solid silver; padding: 1px 4px; background-color: whitesmoke; font-weight: normal; z-index: 1; }
 #li_transaction_field_content .item .ids.show { display: block; }
 #li_transaction_field_content .item .data { display: none; }
+#li_transaction_field_content .item .price_name { width: 20px; }
 
 /* payments & prices */
 #li_fieldset_payments { clear: both; }
