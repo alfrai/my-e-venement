@@ -24,7 +24,7 @@
 <?php if ( !$manifestation->isNew() ): ?>
 <div id="more">
   <?php include_partial('global/gmap', array('form' => $form, 'width' => '200px', 'height' => '200px')) ?>
+  <span style="display: none" class="i18n are-you-sure"><?php echo __('Are you sure?','','sf_admin') ?></span>
 </div>
 <?php endif ?>
 <?php include_partial('form_resources_test', array('manifestation' => $form->getObject())) ?>
-

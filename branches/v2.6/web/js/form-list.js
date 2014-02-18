@@ -30,7 +30,7 @@ function form_list_actions(widget)
 {
   // delete
   $('.sf_admin_form_list .sf_admin_action_delete a').unbind().removeAttr('onclick').click(function(){
-    r = confirm('Are you sure?');
+    r = confirm($('#more .i18n.are-you-sure').html());
     if ( r )
     $.post($(this).prop('href'),{
       _csrf_token:  $('.sf_admin_form .sf_admin_form_list.ajax').find('._delete_csrf_token').html(),
