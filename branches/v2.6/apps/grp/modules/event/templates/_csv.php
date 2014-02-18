@@ -49,6 +49,7 @@
     'professional_phonenumber' => __('Phonenumber'),
     'professional_email'  => __('Contact email'),
     'professional_groups' => __('Remarkable'),
+    'function'      => __('Fonction'),
     'department'    => __('Department'),
     'address'       => __('Address'),
     'postalcode'    => __('Postalcode'),
