@@ -37,7 +37,7 @@
       ->andWhere('tck.cancelling IS NULL')
       ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)');
     
-    switch ( $request->getParameter('status') ) {
+    switch ( $type = $request->getParameter('status') ) {
     case 'asked':
       $q->leftJoin('t.Order o')
         ->andWhere('o.id IS NULL')
@@ -55,8 +55,15 @@
 
     $contacts = $q->execute();
     
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    $i18n = array(
+      'asked'   => __('Asked tickets'),
+      'ordered' => __('Ordered tickets'),
+      'printed' => __('Printed tickets'),
+    );
+    
     $group = new Group;
-    $group->name = $manifestation.' / '.format_datetime(date('Y-m-d H:i:s'));
+    $group->name = $manifestation.' / '.format_datetime(date('Y-m-d H:i:s')).' ('.strtolower($i18n[$type]).')';
     $group->sf_guard_user_id = $this->getUser()->getId();
     
     foreach ( $contacts as $contact )
