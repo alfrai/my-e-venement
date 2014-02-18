@@ -152,4 +152,17 @@ class EventFormFilter extends BaseEventFormFilter
       return $q;
     return $q->andWhere($this->getTranslatedFields($field).' = ?', $value == 1);
   }
+  
+  public function addAgeMinColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    if ( isset($value['text']) && $value['text'] )
+      $q->andWhere("$a.$field <= ?",$value['text']);
+  }
+  public function addAgeMaxColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    if ( isset($value['text']) && $value['text'] )
+      $q->andWhere("$a.$field >= ?",$value['text']);
+  }
 }
