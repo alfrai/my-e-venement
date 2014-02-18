@@ -14,7 +14,7 @@
     <td class="price"><?php echo $ticket->Price->description ?></td>
     <td class="up"><?php echo format_currency($ticket->value,'€') ?></td>
     <td class="qty inline-modifiable"><?php
-      $qty = isset($nocancel) && $nocancel && $tickets[$i]->Cancelling->count() > 0 ? 0 : 1;
+      $qty = isset($nocancel) && $nocancel && $tickets[$i]->Cancelling->count() > 0 ? 0 : ($tickets[$i]->cancelling ? -1 : 1);
       if ( $i+1 < $tickets->count() )
       while ( $tickets[$i+1]['manifestation_id'] == $ticket->manifestation_id
            && $tickets[$i+1]['price_id']         == $ticket->price_id

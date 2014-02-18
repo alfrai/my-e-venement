@@ -37,7 +37,7 @@
       ->andWhere('t.duplicating IS NULL')
       ->orderBy('m.happens_at, e.name, p.description, t.value');
     if ( $printed )
-      $q->andWhere('t.printed_at IS NOT NULL OR t.integrated_at IS NOT NULL');
+      $q->andWhere('t.printed_at IS NOT NULL OR t.integrated_at IS NOT NULL OR t.cancelling IS NOT NULL');
     if ( intval($manifestation_id) > 0 )
       $q->andWhere('t.manifestation_id = ?',intval($manifestation_id));
     $this->tickets = $q->execute();

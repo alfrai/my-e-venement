@@ -17,7 +17,7 @@
     <?php include_partial('ticket_show',array('transaction' => $transaction,)) ?>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="print">
-    <?php include_partial('ticket_print',array('transaction' => $transaction,'accounting' => false)) ?>
+    <?php include_partial('ticket_print',array('transaction' => $transaction, 'accounting' => true, 'display_simple' => true,)) ?>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="payment">
     <?php include_partial('ticket_payment',array('transaction' => $transaction)) ?>
