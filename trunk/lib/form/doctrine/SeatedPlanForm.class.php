@@ -50,6 +50,8 @@ class SeatedPlanForm extends BaseSeatedPlanForm
         $this->values[$picform_name]['type']     = $file->getType();
         $this->values[$picform_name]['width']    = $dimensions['width'];
         $this->values[$picform_name]['height']   = $dimensions['height'];
+        
+        $this->values['updated_at'] = date('Y-m-d H:i:s'); // this is a hack to force root object update
       }
     }
     
