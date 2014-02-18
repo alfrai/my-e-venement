@@ -38,17 +38,17 @@ class Ticket extends PluginTicket
   public function hasBeenCancelled($direction = 'both')
   {
     if ( $this->Cancelling->count() > 0 )
-      return true;
+      return $this->Cancelling;
     
     if ( in_array($direction,array('both','down')) )
     foreach ( $this->Duplicatas as $dup )
-    if ( $dup->hasBeenCancelled('down') )
-      return true;
+    if ( $buf = $dup->hasBeenCancelled('down') )
+      return $buf;
     
     if ( in_array($direction,array('both','up')) )
     if ( !is_null($this->duplicating) )
-    if ( $this->Duplicated->hasBeenCancelled('up') )
-      return true;
+    if ( $buf = $this->Duplicated->hasBeenCancelled('up') )
+      return $buf;
     
     return false;
   }
