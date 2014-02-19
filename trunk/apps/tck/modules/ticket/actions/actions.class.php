@@ -219,7 +219,7 @@ class ticketActions extends sfActions
   // invoice
   public function executeInvoice(sfWebRequest $request)
   {
-    $this->executeAccounting($request,true,$request->hasParameter('partial') ? $request->getParameter('manifestation_id') : false);
+    $this->executeAccounting($request,true,$request->hasParameter('partial') ? (intval($request->getParameter('partial')).'' === $request->getParameter('partial') ? intval($request->getParameter('partial')) : $request->getParameter('manifestation_id')) : false);
     
     $this->partial = false;
     $this->invoice = false;

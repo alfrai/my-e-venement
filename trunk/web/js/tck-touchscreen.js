@@ -169,6 +169,27 @@ $(document).ready(function(){
     $(this).focusin();
   });
   
+  // AVOIDING FOCUSIN IF A CLICK ON SOME PAYMENTS WIDGETS HAPPENS
+  $('#li_transaction_field_payments_list [name=partial]').mousedown(function(){
+    if ( $('#li_transaction_field_content .highlight.ui-state-highlight').length == 0 )
+      return true;
+    
+    $(this).appendTo('body');
+    elt = this;
+    $(this).click();
+    setTimeout(function(){ $(elt).insertBefore($('#li_transaction_field_payments_list input:last')); }, 250);
+  });
+  $('#li_transaction_field_payments_list [name=invoice]').mousedown(function(){
+    if ( $('#li_transaction_field_content .highlight.ui-state-highlight').length == 0 )
+      return true;
+    
+    form = $(this).closest('form');
+    $(this).appendTo('body');
+    form.submit();
+    elt = this;
+    setTimeout(function(){ $(elt).insertAfter($('#li_transaction_field_payments_list input:last')); }, 250);
+  });
+  
   // vCard & co
   $('#li_transaction_field_professional_id, #li_transaction_field_contact_id').click(function(){
     $('#li_transaction_field_professional_id').addClass('ui-state-highlight');
