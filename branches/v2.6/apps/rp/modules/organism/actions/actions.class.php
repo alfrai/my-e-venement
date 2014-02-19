@@ -167,6 +167,8 @@ class organismActions extends autoOrganismActions
       $this->sort = array('name','');
       $this->pager->getQuery()->orderby('name');
     }
+    if ( $contact_id = intval($request->getParameter('contact_id')) )
+      $this->pager->getQuery()->andWhere('c.id = ?', $contact_id);
   }
 
   public function executeShow(sfWebRequest $request)
