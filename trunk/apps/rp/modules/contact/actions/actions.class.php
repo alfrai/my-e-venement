@@ -329,6 +329,8 @@ class contactActions extends autoContactActions
       $this->sort = array('name','');
       $this->pager->getQuery()->orderby('name');
     }
+    if ( $organism_id = intval($request->getParameter('organism_id')) )
+      $this->pager->getQuery()->andWhere('o.id = ?', $organism_id);
   }
   public function executeAjax(sfWebRequest $request)
   {
