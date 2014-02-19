@@ -134,7 +134,7 @@ class transactionActions extends autoTransactionActions
       'query' => $q,
     ));
     $ws['value'] = new sfWidgetFormInput;
-    $vs['value'] = new sfValidatorInteger(array('required' => false));
+    $vs['value'] = new sfValidatorNumber(array('required' => false));
     $ws['created_at'] = new liWidgetFormJQueryDateText;
     $vs['created_at'] = new sfValidatorDate(array('required' => false));
     
