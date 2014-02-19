@@ -137,7 +137,7 @@ class contactActions extends autoContactActions
       $validator = new sfValidatorDoctrineChoice(array('model' => 'Contact', 'multiple' => true, 'required' => false));
       $ids = $validator->clean($request->getParameter('ids'));
       $validator = new sfValidatorDoctrineChoice(array('model' => 'Professional', 'multiple' => true, 'required' => false));
-      $pro_ids = $validator->clean($request->getParameter('pro_ids'));
+      $pro_ids = $validator->clean($request->getParameter('professional_ids'));
       $validator = new sfValidatorDoctrineChoice(array('model' => 'Group', 'multiple' => true));
       $groups = $request->getParameter('contact_filters');
       $groups = $validator->clean(isset($groups['groups_list'])
