@@ -317,8 +317,8 @@
         <target>Correspondance</target>
       </trans-unit>
       <trans-unit>
-        <source>Professional correspondence</source>
-        <target>Correspondance professionnelle</target>
+        <source>Professional memo</source>
+        <target>Mémo professionnel</target>
       </trans-unit>
       <trans-unit>
         <source>More</source>

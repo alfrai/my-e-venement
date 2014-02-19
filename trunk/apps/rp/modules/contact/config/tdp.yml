@@ -99,7 +99,7 @@ all:
             Internet:
               show_labels: true
               fields: [contact_email, contact_email_no_newsletter, _organism_email, _organism_url]
-            Professional correspondence:
+            Professional memo:
               show_labels: true
               show_title: true
               extra_class: tdp-vertical
