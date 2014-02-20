@@ -116,6 +116,7 @@ echo ""
 echo ""
 echo "Don't forget to configure those extra features :"
 echo "- Seated plans for your locations"
+echo "- Change the apps/rp/config/factories.yml to replace sfMailer with liMailer"
 echo "- Setup again the e-venement Messaging Network : http://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin"
 
 echo ""

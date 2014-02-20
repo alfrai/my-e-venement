@@ -1,7 +1,4 @@
   <?php
-    $events = $sort = array();
-    $total = array('nb' => 0, 'value' => 0);
-    
     $objects = array();
     if ( $object->hasRelation('Transactions') )
       $objects[] = $object;
@@ -15,22 +12,26 @@
   ?>
   <ul class="events">
     <?php foreach ( $objects as $obj ): ?>
+    <?php $total = array('nb' => 0, 'value' => 0); ?>
     <?php $cpt++ ?>
     <?php if ( $obj->Transactions->count() > 0 ): ?>
     <li class="events-<?php echo $cpt == 1 ? 'object' : 'subobject-'.$obj->id ?>">
       <?php if ( count($objects) > 1 ): ?>
       <h3><?php echo $obj ?></h3>
       <?php endif ?>
-      <ul>
+      <ul class="metaevents">
         <?php
+          $events = $sort = array();
           foreach ( $obj->Transactions as $transaction )
           if ( is_null($transaction->professional_id) || $cpt > 1 )
           foreach ( $transaction->Tickets as $ticket )
           if ( is_null($ticket->duplicating) && is_null($ticket->cancelling) && !$ticket->hasBeenCancelled() )
           if ( $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 )
           {
-            if ( !isset($events[$ticket->Manifestation->Event->id]) )
-              $events[$ticket->Manifestation->Event->id] = array(
+            if ( !isset($events[$ticket->Manifestation->Event->meta_event_id]) )
+              $events[$ticket->Manifestation->Event->meta_event_id] = array('name' => (string)$ticket->Manifestation->Event->MetaEvent);
+            if ( !isset($events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]) )
+              $events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id] = array(
                 'happens_at' => 0,
                 'event' => $ticket->Manifestation->Event,
                 'title' => (string)$ticket->Manifestation->Event->MetaEvent,
@@ -38,12 +39,12 @@
                 'value' => 0,
                 'transaction_ids' => array()
               );
-            if ( $events[$ticket->Manifestation->Event->id]['happens_at'] < $ticket->Manifestation->happens_at )
-              $sort[$ticket->Manifestation->Event->id] =
-              $events[$ticket->Manifestation->Event->id]['happens_at'] = $ticket->Manifestation->happens_at;
-            $events[$ticket->Manifestation->Event->id]['nb']++;
-            $events[$ticket->Manifestation->Event->id]['value'] += $ticket->value;
-            $events[$ticket->Manifestation->Event->id]['transaction_links'][(($p = $ticket->printed_at || $ticket->integrated_at || $ticket->cancelling) ? 'p' : 'r').$ticket->transaction_id]
+            if ( $events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]['happens_at'] < $ticket->Manifestation->happens_at )
+              $sort[$ticket->Manifestation->Event->id] = $ticket->Manifestation->Event->MetaEvent->name.
+                ($events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]['happens_at'] = $ticket->Manifestation->happens_at);
+            $events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]['nb']++;
+            $events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]['value'] += $ticket->value;
+            $events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]['transaction_links'][(($p = $ticket->printed_at || $ticket->integrated_at || $ticket->cancelling) ? 'p' : 'r').$ticket->transaction_id]
               = '#'.cross_app_link_to($ticket->transaction_id, 'tck', 'ticket/sell?id='.$ticket->transaction_id, false, null, false, $p ? 'title="'.__('All printed').'"' : 'class="not-printed" title="'.__('Ordered').'"');
             $total['nb']++;
             $total['value'] += $ticket->value;
@@ -53,13 +54,26 @@
           array_multisort($sort,$events);
           $events = array_reverse($events);
         ?>
-        <?php foreach ( $events as $event ): ?>
+        <?php foreach ( $events as $id => $meta_event ): ?>
+        <!-- METAEVT -->
+        <li class="metaevent <?php echo in_array($id, array_keys($sf_user->getMetaEventsCredentials()->getRawValue())) ? 'hidden' : '' ?>">
+        <?php foreach ( $meta_event as $id => $event ): ?>
+        <?php if ( $id == 'name' ): ?>
+        <span class="name"><?php echo $event ?></span>
+        <ul class="events">
+        <?php else: ?>
+        <!-- EVENT -->
         <li>
           <?php echo cross_app_link_to($event['event'],'event','event/show?id='.$event['event']->id,false,null,false, 'title="'.$event['title'].'"') ?>:
           <?php if ( $sf_user->hasCredential('tck-transaction') ): ?><span class="transactions ui-widget-content ui-corner-all"><?php echo implode('<br/>', $event['transaction_links']) ?></span><?php endif ?>
           <span class="nb"><?php echo $event['nb'] ?></span>
           <?php if ( $sf_user->hasCredential('tck-ledger-sales') ): ?><span class="value"><?php echo format_currency($event['value'],'€') ?></span><?php endif ?>
         </li>
+        <!-- /EVENT -->
+        <?php endif ?>
+        <?php endforeach ?>
+        </ul></li>
+        <!-- /METAEVT -->
         <?php endforeach ?>
         <li class="total">
           <?php if ( $total['nb'] > 0 ): ?>

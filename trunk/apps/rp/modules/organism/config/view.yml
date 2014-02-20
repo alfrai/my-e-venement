@@ -19,7 +19,7 @@ updateSuccess:
   javascripts: [more-simple]
 <?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
 editSuccess:
-  stylesheets: [view<?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>, /private/contact-tdp.css<?php endif ?>]
+  stylesheets: [view<?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>, /private/rp-tdp.css<?php endif ?>]
   javascripts: [more-simple]
 <?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
 showSuccess:
