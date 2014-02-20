@@ -15,13 +15,13 @@ all:
         labels:
           credential: pr-contact-labels
           label: Labels
-        #map:
-        #  label: Geolocalize
         batchMerge:
           credential: pr-contact-edit
           label: Merge
           attributes:
             onclick: "javascript: form = $('#tdp-content').clone(true); form.find('[name=batch_action]').remove(); $(this).attr('href',$(this).attr('href')+'&'+form.serialize());"
+        #map:
+        #  label: Geolocalize
     edit:
       object:
         title: [name]

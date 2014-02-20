@@ -4,7 +4,9 @@
   <?php if ( !isset($widget['credentials'])
           || isset($widget['credentials']) && $widget['credentials'] && $sf_user->hasCredential($widget['credentials']) ): ?>
   <div class="tdp-side-widget" id="tdp-side-<?php echo strtolower($name) ?>">
+    <?php if (!( isset($widget['show_title']) && !$widget['show_title'] )): ?>
     <h2 class="ui-widget-header ui-corner-all"><?php echo __($name) ?></h2>
+    <?php endif ?>
     <?php include_partial($widget['partial'],array('object' => $object, 'config' => $config,)) ?>
   </div>
   <?php endif ?>

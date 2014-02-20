@@ -334,6 +334,18 @@ class contactActions extends autoContactActions
   public function executeAjax(sfWebRequest $request)
   {
     //$this->getResponse()->setContentType('application/json');
+    $this->useClassicTemplateDir(true);
+    if ( $request->hasParameter('debug') && $this->getContext()->getConfiguration()->getEnvironment() == 'dev' )
+    {
+      $this->getResponse()->setContentType('text/html');
+      sfConfig::set('sf_debug',true);
+      $this->setLayout('layout');
+    }
+    else
+    {
+      sfConfig::set('sf_debug',false);
+      sfConfig::set('sf_escaping_strategy', false);
+    }
     
     $charset = sfConfig::get('software_internals_charset');
     $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
@@ -352,7 +364,7 @@ class contactActions extends autoContactActions
     foreach ( $request as $contact )
       $contacts[$contact->id] = (string) $contact;
     
-    return $this->renderText(json_encode($contacts));
+    $this->contacts = $contacts;
   }
   
   public function executeCsv(sfWebRequest $request, $labels = false)
