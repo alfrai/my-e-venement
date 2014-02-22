@@ -68,7 +68,7 @@
           for ( $i = intval($ids[0]) ; $i <= intval($ids[1]) ; $i++ )
             $params['ticket_id'][$i] = $i;
           else
-            $params['ticket_id'][] = intval($ids[0]);
+            $params['ticket_id'][] = $ids[0];
         }
         
         // decode EAN if it exists
