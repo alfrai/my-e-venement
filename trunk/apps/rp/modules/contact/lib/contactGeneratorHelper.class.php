@@ -54,4 +54,15 @@ class contactGeneratorHelper extends BaseContactGeneratorHelper
     
     return '<li class="sf_admin_action_'.$params['action'].'">'.link_to($icon . __($params['label']), sfContext::getInstance()->getModuleName().'/'.$params['action'].$params['query_string'], $params['params']).'</li>';
   }
+
+  public function linkToDelete($object, $params)
+  {
+    $params['params'] = UIHelper::arrayToString(array('class' => UIHelper::getClasses($params['params']).' ui-priority-secondary'));
+
+    if ($object->isNew() )
+      return '';
+
+    $params['ui-icon'] = $this->getIcon('delete', $params);
+    return '<li class="sf_admin_action_delete">'.link_to(UIHelper::addIcon($params) . __($params['label'], array(), 'sf_admin'), $this->getUrlForAction('delete'), $object, array('class' => UIHelper::getClasses($params['params']),'method' => 'delete', 'confirm' => !empty($params['confirm']) ? __($params['confirm'], array(), 'sf_admin') : $params['confirm'])).'</li>';
+  }
 }

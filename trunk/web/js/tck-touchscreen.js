@@ -592,12 +592,16 @@ li.calculateTotals = function()
 
 // function to go back to the ticketting transaction from the contact window
 li.goBackToTransaction = function(){
+  var w = this;
   setTimeout(function(){
     $(w.document).ready(function(){
+    var contact_id = $(w.document).find('[name="contact[id]"]').val();
+    var contact_name = $(w.document).find('[name="contact[name]"]').val()+' '+$(w.document).find('[name="contact[firstname]"]').val();
     if ( contact_id = $(w.document).find('[name="contact[id]"]').val() )
     {
       $('#li_transaction_field_contact_id [name="transaction[contact_id]"]').val(contact_id);
-      $('#contact form').submit();
+      $('#li_transaction_field_contact_id [name="autocomplete_transaction[contact_id]"]').val(contact_name);
+      $('#li_transaction_field_contact_id form').submit();
       w.close();
     }
     else
