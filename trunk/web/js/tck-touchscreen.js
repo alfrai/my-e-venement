@@ -359,6 +359,7 @@ li.renderGauge = function(item, only_inline_gauge)
     var total = data.total > data.booked.printed + data.booked.ordered + data.booked.asked
       ? data.total
       : data.booked.printed + data.booked.ordered + data.booked.asked;
+    $('#li_transaction_field_product_infos *').remove();
     $('<div></div>').addClass('gauge').addClass('raw')
       .appendTo($('#li_transaction_field_product_infos'))
       .append($('<span></span>').addClass('printed').css('width', (data.booked.printed/total*100)+'%').html(data.booked.printed).prop('title',data.booked.printed))

@@ -144,10 +144,11 @@
 #li_transaction_field_board.alpha button[value=" "] .alpha:after { content: '_'; }
 
 /* PRODUCT INFOS */
-#li_transaction_field_product_infos .gauge.raw { display: block; height: 3em; background-color: green; border-radius: 7px; overflow: hidden; }
+#li_transaction_field_product_infos .gauge.raw { display: block; height: 5em; background-color: green; border-radius: 7px; overflow: hidden; }
 #li_transaction_field_product_infos .gauge.raw > * { display: inline-block; height: 100%; font-size: 0; }
-#li_transaction_field_product_infos .gauge.raw > .text { font-size: 1em; height: 1.25em; background-color: rgba(255,255,255,0.5); position: relative; width: 100%; margin-bottom: -1.5em; text-align: center; padding-top: 0.25em; overflow: hidden; }
+#li_transaction_field_product_infos .gauge.raw > .text { font-size: 1em; height: 2.25em; background-color: rgba(255,255,255,0.5); position: relative; width: 100%; margin-bottom: -2.5em; text-align: center; padding-top: 0.25em; overflow: hidden; }
 #li_transaction_field_product_infos .gauge.raw > .text .total { font-weight: bold; }
+#li_transaction_field_product_infos .gauge.raw > .text .details { display: block; }
 #li_transaction_field_product_infos .gauge.raw .printed { background-color: red; }
 #li_transaction_field_product_infos .gauge.raw .ordered { background-color: orange; }
 #li_transaction_field_product_infos .gauge.raw .asked   { background-color: blue; }
