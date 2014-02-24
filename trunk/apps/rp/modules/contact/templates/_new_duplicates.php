@@ -13,7 +13,7 @@
           $.getJSON('<?php echo url_for('contact/ajax')?>?limit=10&q='+encodeURI($.trim(search.toLowerCase())),function(json){
             $.each(json, function(key, val) {
               $('#tdp-side-duplicates .duplicates, #more .duplicates')
-               .append('<li><a href="<?php echo url_for('contact/show') ?>?id='+key+'">'+val+'</a></li>');
+               .append('<li><a href="<?php echo url_for('contact/edit') ?>?id='+key+'">'+val+'</a></li>');
             });
           });
         }
