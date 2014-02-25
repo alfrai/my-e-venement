@@ -259,7 +259,6 @@
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['tep'] += $tep = round($ticket->value/(1+$ticket->vat),2);
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['vat'] += $ticket->value - $tep;
       
-      error_log('id: '.$ticket->id.' cancelled: '.($ticket->hasBeenCancelled() ? 'oui' : 'non'));
       // cancelling tickets
       if ( $cancelling = $ticket->hasBeenCancelled() )
       {
