@@ -1,6 +1,7 @@
 <thead>
   <tr>
     <td class="name"><?php echo __('Contact') ?></td>
+    <td class="pro-groups"></td>
     <td class="name"><?php echo __('Organism') ?></td>
     <td class="qty"><?php echo __('Tickets') ?></td>
     <td class="qty"><?php echo __('Value') ?></td>
