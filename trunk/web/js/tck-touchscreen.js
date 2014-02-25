@@ -726,9 +726,18 @@ li.closeTransaction = function(event){
   });
   
   // the GUI behaviour
-  if ( !go.ok && !confirm(go.text) )
+  if ( !go.ok ) //&& !confirm(go.text) )
   {
-    setTimeout(function(){ window.stop(); }, 1);
-    $('#transition .close').click();
+    var w = window.open('','confirm-dialog','height=200, width=500, location=no, menubar=no, resizable=no, scrollbars=no, status=no, toolbar=no, top='+(screen.height/2-200/2)+', left='+(screen.width/2-500/2));
+    w.parent = window;
+    w.document.write('<html><head></head><body onblur="javascript: window.close();"></body></html>');
+    $(w.document).find('body').append(go.text.replace(/\n/g,'<br/>'));
+    submit = $('<form class="submit" onsubmit="javascript: window.opener.location = this.action; window.close(); return false;"></form>')
+      .prop('action', window.location)
+      .attr('method', 'get')
+      .attr('target', '_parent')
+      .append('<button onclick="javascript: window.close(); return false;">'+$('#li_transaction_field_close .messages .ok').html()+'</button><button>'+$('#li_transaction_field_close .messages .cancel').html()+'</button>');
+    $(w.document).find('body').append(submit);
+    ;
   }
 }
