@@ -15,7 +15,7 @@
       var count = 0;
       $(this).find('input[type=text]').each(function(){ if ( $(this).val() ) count++; });
       if ( count == 3 )
-        $('#fullcalendar').fullCalendar('gotoDate', $(this).find('[name="jumpToDate[year]"]').val(), parseInt($(this).find('[name="jumpToDate[month]"]').val())-1, $(this).find('[name="jumpToDate[day]"]').val());
+        $('#fullcalendar .calendar').fullCalendar('gotoDate', $(this).find('[name="jumpToDate[year]"]').val(), parseInt($(this).find('[name="jumpToDate[month]"]').val())-1, $(this).find('[name="jumpToDate[day]"]').val());
       $('#transition .close').click();
       return false;
     });
