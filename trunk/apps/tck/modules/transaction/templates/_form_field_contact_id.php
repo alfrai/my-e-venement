@@ -16,3 +16,6 @@
   </a>
 <?php endif ?>
 </div>
+<div class="picto">
+  <?php echo $sf_data->getRaw('transaction')->Contact->groups_picto ?>
+</div>

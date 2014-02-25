@@ -24,6 +24,7 @@
     <?php else: ?>
       <?php echo $transaction->Professional ?>
       <span class="picto"><?php echo $transaction->getRaw('Professional')->groups_picto ?></span>
+      <span class="picto"><?php echo $transaction->getRaw('Professional')->Organism->groups_picto ?></span>
     <?php endif ?>
     </span>
     <?php endif ?>
