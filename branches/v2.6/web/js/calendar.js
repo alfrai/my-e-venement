@@ -19,7 +19,7 @@ function load_calendar()
           .html($.parseHTML(data))
           .find('meta, title, link, .footer').remove();
         
-        $('#calendar').css('height',$('#calendar').contents().find('html').height());
+        //$('#calendar').css('height',$('#calendar').contents().find('html').height());
         $('#calendar').contents().find('a:not([href^=http])').each(function(){
           $(this).prop('href',relative_url_phpicalendar+$(this).prop('href')+'&cal=nocal');
         });

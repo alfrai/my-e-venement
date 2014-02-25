@@ -25,17 +25,19 @@
 <?php use_stylesheet('/liFullcalendarPlugin/fullcalendar/fullcalendar.css') ?>
 <?php use_stylesheet('/liFullcalendarPlugin/fullcalendar/fullcalendar.print.css','',array('media' => 'print')) ?>
 <div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all">
-  <div class="manifestation_calendar">
+  <div class="calendar">
   </div>
 <script type="text/javascript"><!--
 $(document).ready(function(){
-  $('#fullcalendar, #more .manifestation_calendar').fullCalendar({
+  $('#fullcalendar .calendar, #more .calendar').fullCalendar({
     <?php if ( isset($start_date) && $start_date && strtotime($start_date) > 0 ): ?>
     day: <?php echo date('d', strtotime($start_date)) ?>,
     month: <?php echo date('m', strtotime($start_date))-1 ?>,
     year: <?php echo date('Y', strtotime($start_date)) ?>,
     <?php endif ?>
-    <?php if ( isset($defaultView) ) echo "defaultView: '".$defaultView."'," ?>
+    <?php if ( isset($defaultView) ): ?>
+    defaultView: '<?php echo $defaultView ?>',
+    <?php endif ?>
     firstDay: 1,
     minTime: '<?php echo sfConfig::get('app_listing_min_time','8') ?>',
     maxTime: '<?php echo sfConfig::get('app_listing_max_time','24') ?>',
@@ -55,10 +57,11 @@ $(document).ready(function(){
     },
     titleFormat: { month: 'MMMM yyyy', week: "d[ MMM][ yyyy]{ - d MMM yyyy}", day: 'dddd d MMM yyyy', resourceDay: 'dddd d MMM yyyy', resourceWeek: "d[ MMM][ yyyy]{ - d MMM yyyy}" },
     columnFormat: { week: 'ddd d/M', day: 'dddd d/M', resourceWeek: 'ddd d/M' },
-    timeFormat: {'': 'H(:mm)'},
+    timeFormat: {'': 'H(:mm)', agenda: 'H(:mm)' },
     axisFormat: {'': 'H:mm'},
-    allDayText: '<?php echo __('All day long') ?>',
+    allDayText: "<?php echo __('All day long') ?>",
     allDayDefault: false,
+    allDaySlot: false,
     header: { left: 'today prev,next', center: 'title', right: 'month,agendaWeek,resourceWeek,agendaDay,resourceDay' },
     
     <?php $resources = Doctrine::getTable('Location')->createQuery('l')->andWhere('l.place = TRUE')->orderBy('l.name')->execute() ?>
