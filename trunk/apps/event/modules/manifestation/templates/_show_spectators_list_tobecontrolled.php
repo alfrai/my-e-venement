@@ -1,4 +1,4 @@
-<h2><?php echo __('Confirmed spectators') ?></h2>
+<h2><?php echo __('Spectators to be controlled') ?></h2>
 <table class="printed">
   <tbody>
   <?php $workspaces = array(); $total = array('qty' => array(), 'value' => 0) ?>
