@@ -6,17 +6,21 @@ $type = isset($type) ? $type : 'event';
 // calendar's first day calculation
 $now = $time = time();
 foreach ( $form->getObject()->Manifestations as $manif )
-if ( strtotime($manif->happens_at) > $now ) // if this manifestation happens after now
+if ( in_array($manif->Event->meta_event_id, array_keys($sf_user->getRawValue()->getMetaEventsCredentials())) )
 {
-  if ( $time > strtotime($manif->happens_at) || $time <= $now ) // and if this manifestation is anterior than the manifestations processed before, take its date
-    $time = strtotime($manif->happens_at);
+  if ( strtotime($manif->happens_at) > $now ) // if this manifestation happens after now
+  {
+    if ( $time > strtotime($manif->happens_at) || $time <= $now ) // and if this manifestation is anterior than the manifestations processed before, take its date
+      $time = strtotime($manif->happens_at);
+  }
+  elseif ( $time <= $now ) // if this manifestation happens before now and no manifestation happens after now for the moment
+  {
+    if ( $time < strtotime($manif->happens_at) || $time == $now ) // if this manifestation is the last one ever processed
+    {
+      $time = strtotime($manif->happens_at);
+    }
+  }
 }
-elseif ( $time <= $now ) // if this manifestation happens before now and no manifestation happens after now for the moment
-{
-  if ( $time < strtotime($manif->happens_at) || $time == $now ) // if this manifestation is the last one ever processed
-    $time = strtotime($manif->happens_at);
-}
-
 ?>
 <?php include_partial('calendar/show_calendar',array(
   'urls' => array(
