@@ -4,7 +4,7 @@
 )) ?>
 <?php echo $form ?>
 <span class="show-seated-plan"><?php echo __('Display the seated plan') ?></span>
-<span class="confirmation"><?php echo __('Do you really want to exit this transaction?') ?></span>
+<span class="confirmation"><?php echo __('Did you really want to exit this transaction?') ?></span>
 <ul class="overbooking">
   <li class="msg block"><?php echo __('The blinking quantities mean that those gauges are or will be full.') ?><br/><?php echo PHP_EOL ?><?php echo __('You cannot proceed your action though.') ?></li>
   <li class="msg warn"><?php echo __('The blinking quantities mean that those gauges are or will be full.') ?><br/><?php echo PHP_EOL ?><?php echo __('Please confirm that you allow this overbooking.') ?></li>
@@ -16,5 +16,9 @@
 </ul>
 <ul class="payments">
   <li class="translinked"><?php echo __('This payment is linked to the cancelling transaction #%%id%%') ?></li>
+</ul>
+<ul class="messages">
+  <li class="ok"><?php echo __('yes',null,'sf_admin') ?></li>
+  <li class="cancel"><?php echo __('no',null,'sf_admin') ?></li>
 </ul>
 </form>

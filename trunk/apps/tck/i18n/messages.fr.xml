@@ -33,8 +33,8 @@
         <target>Vous ne pouvez donc pas effectuer votre action.</target>
       </trans-unit> 
       <trans-unit>
-        <source>Do you really want to exit this transaction?</source>
-        <target>Souhaitez-vous vraiment sortir de cette opération ?</target>
+        <source>Did you really want to exit this transaction?</source>
+        <target>Souhaitiez-vous vraiment sortir de cette opération ?</target>
       </trans-unit> 
       <trans-unit>
         <source>This transaction is not yet totally paid</source>
