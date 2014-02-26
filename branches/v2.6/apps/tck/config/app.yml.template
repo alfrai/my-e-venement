@@ -9,7 +9,7 @@ all:
     date_begin: 1 week ago
     date_end: tomorrow
     max_tickets: 5000
-    #sum_rounding_before: 2013-01-01 # BE EXTREMELY CAREFUL IF YOU WANT TO USE THIS OPTION
+    #sum_rounding_before: '2013-01-01' # BE EXTREMELY CAREFUL IF YOU WANT TO USE THIS OPTION, USE THIS IN PRODUCTION ONLY IF YOU HAVE NO DOUBT
   transaction:
     #gauge_alert: true
     #gauge_block: true
