@@ -68,4 +68,4 @@ table tbody a:hover { text-decoration: underline; }
 #ledger .user { white-space: nowrap; max-width: 70px; overflow: hidden; }
 
 .ui-widget-header a { float: right; margin-top: -2em; }
-
+.ui-datepicker a { float: none; margin-top: 0; }
