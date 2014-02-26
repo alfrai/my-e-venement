@@ -76,8 +76,8 @@
               $qty -= 2;
             
             // extremely weird behaviour, only for specific cases... it's about an early error in the VAT calculation in e-venement
-            $date = $ticket->cancelling ? $ticket->created_at : ($ticket->printed_at ? $ticket->printed_at : $ticket->integrated_at);
-            $tmp = sfConfig::get('app_ledger_sum_rounding_before',false) && $date < sfConfig::get('app_ledger_sum_rounding_before')
+            $time = strtotime($ticket->cancelling ? $ticket->created_at : ($ticket->printed_at ? $ticket->printed_at : $ticket->integrated_at));
+            $tmp = sfConfig::get('app_ledger_sum_rounding_before',false) && $time < strtotime(sfConfig::get('app_ledger_sum_rounding_before'))
               ? $ticket->value - $ticket->value / (1+$ticket->vat) // exception
               : round($ticket->value - $ticket->value / (1+$ticket->vat),2); // regular
             
@@ -107,7 +107,7 @@
         } // endif; endforeach;
         
         // extremely weird behaviour, only for specific cases... it's about an early mysanalysis in the VAT calculation in e-venement
-        if ( sfConfig::get('app_ledger_sum_rounding_before',false) && sfConfig::get('app_ledger_sum_rounding_before',false) > strtotime($dates[0]) )
+        if ( sfConfig::get('app_ledger_sum_rounding_before',false) && strtotime(sfConfig::get('app_ledger_sum_rounding_before',false)) > strtotime($dates[0]) )
         {
           // initialization
           foreach ( $total['vat'] as $rate => $amount )
@@ -130,10 +130,17 @@
       <td class="value"><?php echo format_currency($value,'€') ?></td>
       <?php foreach ( $vat as $name => $v ): ?>
       <td class="vat">
-        <?php //$local_vat += $tmp = round(isset($v[$event->id]) ? array_sum($v[$event->id]) : 0, 2); echo format_currency($tmp,'€') ?>
+        <?php
+          $tmp = 0;
+          if ( isset($v[$event->id]) )
+          foreach ( $v[$event->id] as $m )
+            $tmp += round($m,2);
+          $local_vat += $tmp;
+        ?>
+        <?php echo format_currency($tmp,'€') ?>
       </td>
       <?php endforeach ?>
-      <td class="vat total"><?php echo format_currency(round($local_vat,2),'€'); ?></td>
+      <td class="vat total"><?php echo format_currency($local_vat,'€'); ?></td>
       <td class="tep"><?php echo format_currency($value - round($local_vat,2),'€') ?></td>
     </tr>
     <?php foreach ( $event->Manifestations as $manif ): $local_vat = 0; ?>
@@ -184,8 +191,19 @@
         echo $qty;
       ?></td>
       <td class="value"><?php echo format_currency($value,'€') ?></td>
-      <?php foreach ( $total['vat'] as $v ): ?>
-      <td class="vat"><?php if ( $manif->Tickets->count() < 25 ) { $x = 0; foreach ( $manif->Tickets as $ticket ) if ( $ticket->vat == $v ) $x += round($ticket->value - $ticket->value/(1+$ticket->vat),2); echo format_currency($x,'€'); } ?></td>
+      <?php foreach ( $total['vat'] as $t => $v ): ?>
+      <td class="vat"><?php
+        if ( !sfConfig::get('app_ledger_sum_rounding_before',false)
+          && strtotime($ticket->cancelling ? $ticket->created_at : ($ticket->printed_at ? $ticket->printed_at : $ticket->integrated_at)) >= strtotime(sfConfig::get('app_ledger_sum_rounding_before')) )
+        if ( $manif->Tickets->count() < 25 )
+        {
+          $x = 0;
+          foreach ( $manif->Tickets as $ticket )
+          if ( $ticket->vat == $t )
+            $x += round($ticket->value - $ticket->value/(1+$ticket->vat),2);
+          echo format_currency($x,'€');
+        }
+      ?></td>
       <?php endforeach ?>
       <td class="vat total"></td>
       <td class="value"></td>
