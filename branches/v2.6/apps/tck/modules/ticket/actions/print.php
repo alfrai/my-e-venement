@@ -187,10 +187,10 @@
               $this->print_again = true;
               break;
             }
-            $cpt++;
             
             if ( !$ticket->printed_at && !$ticket->integrated_at )
             {
+              $cpt++;
               if ( $ticket->Manifestation->no_print )
               {
                 // member cards
