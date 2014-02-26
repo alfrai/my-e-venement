@@ -296,10 +296,9 @@ li.checkGauges = function(form){
         var total = 0;
         
         // a loophole for the tickets of the current transaction
-        if ( $('#li_transaction_field_payments_list [name="cancel-order"]').css('visibility') == 'hidden' )
-        elts.each(function(){
-          total += parseInt($(this).val(),10);
-        });
+        if ( $('#li_transaction_field_payments_list [name="cancel-order"]').css('visibility') == 'hidden'
+          && $('#li_transaction_field_price_new .count-demands').length == 0 )
+          elts.each(function(){ total += parseInt($(this).val(),10); });
         
         if ( data.free - total < 0 )
         {
