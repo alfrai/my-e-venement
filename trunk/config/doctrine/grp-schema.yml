@@ -52,9 +52,6 @@ ContactEntry:
   indexes:
     contact_entry_confirmed_idx:
       fields: [confirmed]
-    contact_entry_index_idx:
-      fields: [professional_id,entry_id]
-      type: unique
 
 ManifestationEntry:
   package: grp

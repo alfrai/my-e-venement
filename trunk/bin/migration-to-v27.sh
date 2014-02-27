@@ -61,6 +61,14 @@ psql <<EOF
   ALTER TABLE transaction_version DROP COLUMN workspace_id;
   UPDATE ticket SET numerotation = NULL WHERE trim(numerotation) = '';
   ALTER TABLE group_deleted DROP COLUMN information;
+  
+  -- issue of duplicated unique index due to bad definition in the past
+  UPDATE entry_tickets et
+     SET quantity = (SELECT sum(quantity) FROM entry_tickets sub WHERE (et.entry_element_id, et.price_id, et.gauge_id) = (sub.entry_element_id, sub.price_id, sub.gauge_id) GROUP BY entry_element_id, price_id, gauge_id HAVING count(*) > 1)
+   WHERE (entry_element_id, price_id, gauge_id) IN (SELECT entry_element_id, price_id, gauge_id FROM entry_tickets GROUP BY entry_element_id, price_id, gauge_id HAVING count(*) > 1);
+  DELETE FROM entry_tickets
+   WHERE id IN (SELECT id FROM entry_tickets WHERE (entry_element_id, price_id, gauge_id) IN (SELECT entry_element_id, price_id, gauge_id FROM entry_tickets GROUP BY entry_element_id, price_id, gauge_id HAVING count(*) > 1))
+     AND id NOT IN (SELECT min(id) FROM entry_tickets WHERE (entry_element_id, price_id, gauge_id) IN (SELECT entry_element_id, price_id, gauge_id FROM entry_tickets GROUP BY entry_element_id, price_id, gauge_id HAVING count(*) > 1) GROUP BY entry_element_id, price_id, gauge_id, quantity);
 EOF
 
 echo "DUMPING DB..."
