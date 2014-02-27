@@ -60,6 +60,7 @@ psql <<EOF
   ALTER TABLE transaction DROP COLUMN workspace_id;
   ALTER TABLE transaction_version DROP COLUMN workspace_id;
   UPDATE ticket SET numerotation = NULL WHERE trim(numerotation) = '';
+  ALTER TABLE group_deleted DROP COLUMN information;
 EOF
 
 echo "DUMPING DB..."

@@ -96,7 +96,7 @@ class groupActions extends autoGroupActions
         $del = new GroupDeleted; // save the deletion for stats
         $del->created_at = $rel[0]->created_at;
         $del->group_id   = $rel[0]->group_id;
-        $del->information = $rel[0]->information;
+        //$del->information = $rel[0]->information;
         $rel[0]->delete();
         $del->save();
       }
