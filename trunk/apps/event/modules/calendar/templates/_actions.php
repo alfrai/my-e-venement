@@ -3,7 +3,11 @@
   <li class="sf_admin_action_list">
     <a class="fg-button ui-state-default fg-button-icon-left" href="<?php echo url_for($sf_request->getParameter('id') ? 'event/show?id='.$sf_request->getParameter('id') : '@event') ?>">
       <span class="ui-icon ui-icon-arrowreturnthick-1-w"></span>
+      <?php if ( $sf_request->getParameter('id') ): ?>
+      <?php echo __('Event') ?>
+      <?php else: ?>
       <?php echo __('Back to list',null,'sf_admin') ?>
+      <?php endif ?>
     </a>
   </li>
   <li class="sf_admin_action_refetch_data fg-button-mini fg-button ui-state-default fg-button-icon-left"><a href="#" onclick="javascript: $('#fullcalendar').fullCalendar('refetchEvents'); return false;"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span><?php echo __('Refresh') ?></a></li>
