@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>[1]Workspace|(1,+Inf]Workspaces</source>
+        <target>[1]Espace de travail|(1,+Inf]Espaces de travail</target>
+      </trans-unit> 
+      <trans-unit>
         <source>This payment is linked to the cancelling transaction #%%id%%</source>
         <target>Ce paiement est lié à l'opération d'annulation #%%id%%</target>
       </trans-unit> 
