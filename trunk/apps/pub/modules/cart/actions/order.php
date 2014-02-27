@@ -119,7 +119,7 @@
     $this->contact = $this->form->save();
     
     // setting up the vars to commit to the bank
-    if ( $this->getUser()->getTransaction()->getPrice(true,true) > 0 )
+    if ( ($topay = $this->getUser()->getTransaction()->getPrice(true,true)) > 0 && sfConfig::get('app_payment_type','paybox') != 'onthespot' )
     {
       $class = 'PayboxPayment';
       switch ( sfConfig::get('app_payment_type','paybox') ) {
@@ -140,7 +140,10 @@
       
       $this->sendConfirmationEmails($transaction);
       $this->getUser()->resetTransaction();
-      $this->getUser()->setFlash('notice',__("Your command has been passed on your member cards, you don't have to pay anything."));
+      if ( $transaction->Payments->count() > 0 )
+        $this->getUser()->setFlash('notice',__("Your command has been passed on your member cards, you don't have to pay anything."));
+      elseif ( sfConfig::get('app_payment_type', 'paybox') == 'onthespot' )
+        $this->getUser()->setFlash('notice',__("Your command has been booked, you will have to pay for it directly with us."));
       
       $this->redirect('transaction/show?id='.$transaction->id);
     }

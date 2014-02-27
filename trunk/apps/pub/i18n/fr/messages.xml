@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Your command has been booked, you will have to pay for it directly with us.</source>
+        <target>Votre commande a été enregistrée, vous devrez vous en acquiter directement avec nous.</target>
+      </trans-unit>
+      <trans-unit>
         <source>your order #</source>
         <target>votre commande #</target>
       </trans-unit>
