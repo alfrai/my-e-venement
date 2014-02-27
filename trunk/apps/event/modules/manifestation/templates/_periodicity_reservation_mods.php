@@ -11,7 +11,7 @@
           $fields['reservation_confirmed'] = __('Confirmed');
       ?>
       <?php foreach ( $fields as $field => $label ): ?>
-      <p>
+      <p class="mods_<?php echo $field ?>">
         <input type="checkbox"
                name="periodicity[options][<?php echo $field ?>]"
                value="true"
