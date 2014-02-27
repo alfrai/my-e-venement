@@ -86,9 +86,8 @@ $(document).ready(function(){
   });
   
   // fixing thead & tfoot
-  if ( $.tableScroll !== undefined )
+  if ( $.fn.tableScroll !== undefined )
   {
-    alert('glop');
     var h = $(window).height()-250;
     $('table.grp-entry').hide();
     if ( $('#content').height() > h )

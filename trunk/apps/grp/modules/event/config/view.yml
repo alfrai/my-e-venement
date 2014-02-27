@@ -3,7 +3,7 @@ indexSuccess:
   javascripts: [lists]
 editSuccess:
   stylesheets: [gauge, grp-event: { media: all }]
-  javascripts: [grp-event, <?php if ( !sfConfig::get('app_options_remove_slow_js',false) ): ?>jquery.tablescroll.js<?php endif ?>]
+  javascripts: [<?php if ( !sfConfig::get('app_options_remove_slow_js',false) ): ?>jquery.tablescroll.js<?php endif ?>, grp-event]
 gaugeSuccess:
   stylesheets: [gauge, grp-event]
 
