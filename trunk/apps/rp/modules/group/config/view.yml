@@ -3,16 +3,16 @@ default:
 
 newSuccess:
   stylesheets: [view, picture]
-  javascripts: [more-simple]
+  javascripts: [more-simple, default-check-all]
 createSuccess:
   stylesheets: [view, picture]
-  javascripts: [more-simple]
+  javascripts: [more-simple, default-check-all]
 updateSuccess:
   stylesheets: [view, picture]
-  javascripts: [more-simple]
+  javascripts: [more-simple, default-check-all]
 editSuccess:
   stylesheets: [view, picture]
-  javascripts: [more-simple]
+  javascripts: [more-simple, default-check-all]
 showSuccess:
   stylesheets: [view, picture]
   javascripts: [more-simple]
