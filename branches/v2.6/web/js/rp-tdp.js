@@ -316,7 +316,7 @@ $(document).ready(function(){
     // tick the box and highlight the contact only if there is something to deal with
     $('#tdp-content .sf_admin_batch_checkbox[name="ids[]"]').click();
   })
-  .closest('tr').find('.sf_admin_list_th_list_professional_id').append('<input id="sf_admin_list_batch_checkbox_pro" type="checkbox"></input>');
+  .closest('tr').find('.sf_admin_list_th_list_professional_id').append('<input id="sf_admin_list_batch_checkbox_pro" type="checkbox"/>');
   $('#tdp-content #sf_admin_list_batch_checkbox_pro').removeAttr('onclick').click(function(){
     // tick the box and highlight the professional only if there is something to deal with
     $('#tdp-content .sf_admin_batch_checkbox[name="professional_ids[]"]').click();
