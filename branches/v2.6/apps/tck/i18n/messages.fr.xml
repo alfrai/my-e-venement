@@ -4,6 +4,10 @@
   <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2011-06-28T02:05:40Z" product-name="messages">
     <header/>
     <body>
+       <trans-unit>
+        <source>[1]Workspace|(1,+Inf]Workspaces</source>
+        <target>[1]Espace de travail|(1,+Inf]Espaces de travail</target>
+      </trans-unit>
       <trans-unit>
         <source>Can't cancel a ticket #%%i%% because its transaction #%%t%% is already closed</source>
         <target>Impossible d'annuler le billet #%%i%% car son opération a été clôturée</target>

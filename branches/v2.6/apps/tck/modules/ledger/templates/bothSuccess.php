@@ -5,8 +5,8 @@
 <div><div class="ui-widget-content ui-corner-all">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1>
-      <?php if ( $manifestations ): ?>
-      <?php echo format_number_choice('[1]Manifestation ledger|(1,+Inf]Manifestations ledger',null,$manifestations->count()) ?>
+      <?php if ( $manifestations || $workspaces ): ?>
+      <?php echo format_number_choice('[1]Manifestation ledger|(1,+Inf]Manifestations ledger',null,$workspaces ? 2 : $manifestations->count()) ?>
       <?php else: ?>
       <?php echo __('Detailed Ledger') ?>
       (<?php echo __('from %%from%% to %%to%%',array(
@@ -33,6 +33,10 @@
 
 <?php if ( $users ): ?>
 <?php include_partial('users',array('users' => $users)) ?>
+<?php endif ?>
+
+<?php if ( $workspaces ): ?>
+<?php include_partial('workspaces',array('workspaces' => $workspaces, 'options' => $options)) ?>
 <?php endif ?>
 
 <div class="ledger-both">

@@ -31,13 +31,18 @@
       ->leftJoin('p.User u')
       ->leftJoin('tck.Gauge g')
       ->orderBy('pm.name');
-    if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
+    if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
       $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))');
     else
+    {
+      if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
+        $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 LEFT JOIN tck2.Gauge g2 WHERE g2.workspace_id IN ('.implode(',',$criterias['workspaces']).'))');
+      
       $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
-          $dates[0],
-          $dates[1],
-        ));
+        $dates[0],
+        $dates[1],
+      ));
+    }
     
     // restrict access to our own user
     $q = $this->restrictQueryToCurrentUser($q);
@@ -49,7 +54,9 @@
     $q->select('t.id, p.id, p.value, pm.id, pm.name, u.id, sum(tck.value) AS value_tck_total')
       ->groupBy('t.id, p.id, p.value, pm.id, pm.name, u.id');
     if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
-      $q->addSelect('(sum(tck.value * CASE WHEN tck.manifestation_id IN ('.implode(',',$criterias['manifestations']).') THEN 1 ELSE 0 END)) AS value_tck_in_manifs');
+      $q->addSelect('(sum(CASE WHEN tck.manifestation_id IN ('.implode(',',$criterias['manifestations']).') THEN tck.value ELSE 0 END)) AS value_tck_in_manifs');
+    elseif ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
+      $q->addSelect('(sum(CASE WHEN g.workspace_id IN ('.implode(',',$criterias['workspaces']).') THEN tck.value ELSE 0 END)) AS value_tck_in_manifs');
     else
       $q->addSelect('sum(tck.value) AS value_tck_in_manifs');
     $transactions = $q->execute();

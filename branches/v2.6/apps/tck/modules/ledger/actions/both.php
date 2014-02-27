@@ -37,3 +37,4 @@
     require(dirname(__FILE__).'/both-ticket-value.php');
     require(dirname(__FILE__).'/both-user.php');
     require(dirname(__FILE__).'/both-manifestations.php');
+    require(dirname(__FILE__).'/both-workspaces.php');
