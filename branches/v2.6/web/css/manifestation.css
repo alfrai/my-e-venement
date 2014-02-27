@@ -130,6 +130,7 @@ select[disabled] {
 .periodicity .submit, .periodicity .back { margin: 5px; }
 .periodicity .back a { float: none; }
 .periodicity .back { margin-top: 10px; }
+.periodicity .mods_reservation_optional { display: none; }
 
 .sf_admin_action_version input { border-width: 0; padding: 0; width: 3em; text-align: right; }
 .sf_admin_action_version label { padding-right: 10px; }

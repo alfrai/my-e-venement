@@ -21,9 +21,11 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
   
   public function duplicate($save = true)
   {
+    $manif = $this->copy();
+    
     foreach ( array('id', 'updated_at', 'created_at', 'sf_guard_user_id') as $property )
       $manif->$property = NULL;
-    foreach ( array('Gauges', 'PriceManifestations', 'Organizers', 'LocationBookings') as $subobjects )
+    foreach ( array('Gauges', 'PriceManifestations', 'Organizers', 'LocationBookings', 'ExtraInformations',) as $subobjects )
     {
       $collection = $manif->$subobjects;
       foreach ( $this->$subobjects as $subobject )
@@ -33,7 +35,6 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     if ( $save )
       $manif->save();
     
-    $manif = $this->copy();
     return $manif;
   }
   
