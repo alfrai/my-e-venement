@@ -57,7 +57,7 @@ $(document).ready(function(){
     },
     titleFormat: { month: 'MMMM yyyy', week: "d[ MMM][ yyyy]{ - d MMM yyyy}", day: 'dddd d MMM yyyy', resourceDay: 'dddd d MMM yyyy', resourceWeek: "d[ MMM][ yyyy]{ - d MMM yyyy}" },
     columnFormat: { week: 'ddd d/M', day: 'dddd d/M', resourceWeek: 'ddd d/M' },
-    timeFormat: {'': 'H(:mm)', agenda: 'H(:mm)' },
+    timeFormat: {'': 'H(:mm)', agenda: 'H:mm' },
     axisFormat: {'': 'H:mm'},
     allDayText: "<?php echo __('All day long') ?>",
     allDayDefault: false,
