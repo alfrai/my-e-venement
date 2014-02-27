@@ -21,7 +21,7 @@
         'padding-x'     => 2.5,
         'padding-y'     => 4,
       ),
-      '9934P' => array(
+      'L7562' => array(
         'page-format'   => 'a4',
         'nb-x'          => 2,
         'nb-y'          => 8,
