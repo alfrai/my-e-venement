@@ -144,3 +144,5 @@ html button.fg-button-icon-left .ui-icon { left: 0.4em; }
 .sf_admin_text input[type=file] { border: 0; }
 
 .welcome { min-height: 600px; }
+
+.sf_admin_form_row .label input[type=checkbox][name=all] { margin-right: 0.5em; }
