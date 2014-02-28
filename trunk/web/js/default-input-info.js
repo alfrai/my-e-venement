@@ -11,7 +11,7 @@ $(document).ready(function(){
     var title = $(this).closest('[title]').prop('title');
     
     // the content
-    $('<span></span>')
+    span = $('<span></span>')
       .addClass('tdp-subtitle')
       .html(title)
       .prependTo($(this).parent())
@@ -21,6 +21,8 @@ $(document).ready(function(){
       .css('width',$(this).width())
       .css('height',$(this).height())
     ;
+    if ( parseFloat($(this).css('margin-top')) )
+      span.css('margin-top',$(this).css('margin-top'))
     
     // the behaviour
     $(this).focus(function(){
@@ -28,6 +30,6 @@ $(document).ready(function(){
     }).focusout(function(){
       if ( $.trim($(this).val()) == '' )
         $(this).parent().find('.tdp-subtitle').css('z-index',0);
-    }).focus().focusout();
+    }).focusout();
   });
 });

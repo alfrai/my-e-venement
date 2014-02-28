@@ -74,6 +74,7 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .sf_admin_form_field_department input[type=text] { width: 8em; }
 #tdp-content #sf_admin_content .tdp-line.personal_description .tdp-description { width: 100%; display: inline-block; }
 #tdp-content #sf_admin_content .tdp-line.personal_description textarea { width: 96%; }
+#tdp-content #sf_admin_content .tdp-line.more .tdp-password { display: none; }
 #tdp-content #sf_admin_content .tdp-line.correspondence textarea,
 #tdp-content .tdp-subobject .tdp-line.professional_memo > span { width: 45%; }
 #tdp-content .tdp-subobject .tdp-line.professional_memo textarea { height: 70px; width: 96%; }
