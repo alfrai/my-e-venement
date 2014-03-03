@@ -85,7 +85,7 @@ $(document).ready(function(){
     $(this).parent().replaceWith('<input type="hidden" value="'+$(this).val()+'" name="'+$(this).parent().prop('name')+'" />');
   });
   
-  // fixing thead & tfoot
+  // hooking thead & tfoot
   if ( $.fn.tableScroll !== undefined )
   {
     var h = $(window).height()-250;

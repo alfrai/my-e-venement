@@ -116,6 +116,7 @@
           var form = $(this).closest('form');
           if ( parseInt(form.find('input').val(),10) != 0 && form.find('select').val() != '' )
             form.submit();
+          return false;
         }
       });
     }
