@@ -1,0 +1,102 @@
+#content .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_description {
+  padding: 0;
+}
+#content .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_description div {
+  height: 100%;
+  margin: 0;
+  padding: 8px 4px;
+  text-align: center;
+}
+
+select[disabled] {
+  color: #444;
+}
+
+#content .sf_admin_field_organizers_list ul,
+#content .sf_admin_field_workspaces_list ul,
+#content .sf_admin_field_prices_list ul {
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+#content .sf_admin_field_organizers_list ul li,
+#content .sf_admin_field_workspaces_list ul li,
+#content .sf_admin_field_prices_list ul li {
+  margin-left: 10px;
+}
+
+#content .sf_admin_list_td_Price select[name="price_manifestation[price_id]"] { width: 100px; }
+#content .sf_admin_list_td_value input[type=text] { width: 100px; margin-left: 50px; }
+#content .sf_admin_list_td_value div input[type=text] { margin-left: 40px; }
+#content .sf_admin_list_td_value .sf_admin_flashes div.ui-state-error,
+#content .sf_admin_list_td_value .sf_admin_flashes div.ui-state-highlight,
+#content .sf_admin_list_td_value .sf_admin_flashes div.ui-state-success {
+  padding: 3px 8px;
+  font-size: 80%;
+  margin: -8px 0 -13px 0;
+}
+
+.sf_admin_form_field_prices_list .ajax .sf_admin_list_td_price_description { width: 250px; }
+.sf_admin_form_field_prices_list .ajax {
+  margin-left: -150px;
+  width: 580px;
+}
+
+#sf_fieldset_spectators table, #sf_fieldset_tickets table { margin-bottom: 10px; }
+#sf_fieldset_spectators table thead td, #sf_fieldset_tickets table thead td { border-bottom: 1px solid gray; }
+#sf_fieldset_spectators table tfoot td, #sf_fieldset_tickets table tfoot td { border-top: 1px solid gray; }
+#sf_fieldset_spectators table table td.name, #sf_fieldset_tickets table td.name { font-weight: bold; }
+#sf_fieldset_spectators table tbody td a, #sf_fieldset_tickets table tbody td a { text-decoration: none; }
+#sf_fieldset_spectators table table tbody td a:hover, #sf_fieldset_tickets table tbody td a:hover { text-decoration: underline; }
+#sf_fieldset_spectators table td, #sf_fieldset_tickets table td { padding-right: 10px; }
+#sf_fieldset_spectators table tfoot td.price, #sf_fieldset_tickets table tfoot td.price,
+#sf_fieldset_spectators table tbody td.price, #sf_fieldset_tickets table tbody td.price,
+#sf_fieldset_spectators table tfoot td.qty, #sf_fieldset_tickets table tfoot td.qty,
+#sf_fieldset_spectators table tbody td.qty, #sf_fieldset_tickets table tbody td.qty { text-align: right; }
+
+#sf_fieldset_spectators table .overlined td, #sf_fieldset_tickets table .overlined td {
+  background-color: #ddd;
+}
+#sf_fieldset_spectators table tfoot tr:hover td, #sf_fieldset_tickets table tfoot tr:hover td,
+#sf_fieldset_spectators table tbody tr:hover td, #sf_fieldset_tickets table tbody tr:hover td {
+  background-color: #fff0d0;
+}
+#sf_fieldset_spectators table tfoot tr.overlined:hover td, #sf_fieldset_tickets table tfoot tr.overlined:hover td,
+#sf_fieldset_spectators table tbody tr.overlined:hover td, #sf_fieldset_tickets table tbody tr.overlined:hover td {
+  background-color: #e4d4b1;
+}
+#sf_fieldset_spectators table tbody .ticket-ids { font-size: 80%; }
+
+#sf_fieldset_tickets .contact {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 230px;
+}
+
+#sf_fieldset_tickets .workspace td.name, #sf_fieldset_spectators .workspace td.name {
+  text-transform: uppercase;
+  padding: 3px 10px 3px 20px;
+}
+#sf_fieldset_tickets .workspace td, #sf_fieldset_spectators .workspace td {
+  border-top: 1px solid black;
+  padding: 3px 10px 3px 0;
+}
+#sf_fieldset_tickets .workspace:first-child td, #sf_fieldset_spectators .workspace:first-child td {
+  border: 0;
+}
+#sf_fieldset_tickets td .workspace, #sf_fieldset_spectators td .workspace {
+  display: none;
+}
+#sf_fieldset_tickets td .tickets, #sf_fieldset_spectators td .tickets {
+  display: block;
+}
+
+#sf_fieldset_unbalanced table,
+#sf_fieldset_unbalanced h2 { margin-bottom: 15px; }
+#sf_fieldset_unbalanced table td { padding-right: 10px; }
+#sf_fieldset_unbalanced table td.nb { text-align: right; }
+#sf_fieldset_unbalanced table thead td { text-align: center; }
+#sf_fieldset_unbalanced table thead td,
+#sf_fieldset_unbalanced table tfoot td { font-weight: bold; }
+.controlled .qty { white-space: nowrap; }
+
+.is_necessary_to ul { list-style-type: none; }

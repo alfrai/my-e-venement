@@ -1,0 +1,18 @@
+all:
+  javascripts: [/liTinymcePlugin/tiny_mce]
+  stylesheets: [location,manifestation]
+
+showSuccess:
+  stylesheets: [view]
+editSuccess:
+  stylesheets: [view]
+updateSuccess:
+  stylesheets: [view]
+newSuccess:
+  stylesheets: [view]
+createSuccess:
+  stylesheets: [view]
+indexSuccess:
+  javascripts: [list-scroll]
+  stylesheets: [list-print: {media: print}]
+

@@ -1,0 +1,306 @@
+#**********************************************************************************
+#
+#	    This file is part of e-venement.
+# 
+#    e-venement is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License.
+# 
+#    e-venement is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+# 
+#    You should have received a copy of the GNU General Public License
+#    along with e-venement; if not, write to the Free Software
+#    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+# 
+#    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+#    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+# 
+#**********************************************************************************/
+
+Contact:
+  package: rp
+  inheritance:
+    extends: Addressable
+    type: concrete
+  actAs: 
+    Searchable:
+      fields: [name,firstname]
+    Sluggable:
+      fields: [name,firstname]
+  columns:
+    firstname: string(255)
+    title: string(255)
+    description: string
+    password: string(255)
+    family_contact:
+      type: boolean
+      notnull: true
+      default: true
+    organism_category_id: integer
+    confirmed:
+      type: boolean
+      notnull: true
+      default: true
+    familial_quotient_id: integer
+    type_of_resources_id: integer
+    familial_situation_id: integer
+    sf_guard_user_id:
+      type: integer
+      unique: true
+  relations:
+    Category:
+      class: OrganismCategory
+      foreignAlias: Contacts
+    FamilialQuotient:
+      foreignAlias: Contacts
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    TypeOfResources:
+      foreignAlias: Contacts
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    FamilialSituation:
+      foreignAlias: Contacts
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    User:
+      class: sfGuardUser
+      foreignAlias: Contact
+      onDelete: SET NULL
+      onUpdate: SET NULL
+    Relations:
+      class: Contact
+      refClass: ContactRelationship
+      foreignAlias: BackRelations
+      local: from_contact_id
+      foreign: to_contact_id
+Organism:
+  package: rp
+  inheritance:
+    extends: Addressable
+    type: concrete
+  columns:
+    url: string(255)
+    description: string
+    organism_category_id: integer
+  relations:
+    Category:
+      class: OrganismCategory
+      foreignAlias: Organisms
+
+ContactPhonenumber:
+  package: rp
+  inheritance:
+    extends: Phonenumber
+    type: concrete
+  columns:
+    contact_id:
+      type: integer
+      notnull: true
+  relations:
+    Contact:
+      foreignAlias: Phonenumbers
+      onDelete: CASCADE
+OrganismPhonenumber:
+  package: rp
+  inheritance:
+    extends: Phonenumber
+    type: concrete
+  columns:
+    organism_id:
+      type: integer
+      notnull: true
+  relations:
+    Organism:
+      foreignAlias: Phonenumbers
+      onDelete: CASCADE
+
+OrganismCategory:
+  package: rp
+  actAs: 
+    Timestampable: ~
+    Sluggable:
+      fields: [name]
+  columns:
+    name:
+      type: string(255)
+      notblank: true
+      notnull: true
+YOB:
+  package: rp
+  actAs: [Timestampable]
+  columns:
+    year:
+      type: integer
+      notnull: true
+    month: integer
+    day: integer
+    name: string(255)
+    contact_id: integer
+  relations:
+    Contact:
+      foreignAlias: YOBs
+      onDelete: CASCADE
+
+FamilialSituation:
+  package: rp
+  columns:
+    name: string(255)
+TypeOfResources:
+  package: rp
+  columns:
+    name: string(255)
+FamilialQuotient:
+  package: rp
+  columns:
+    name: string(255)
+
+ProfessionalType:
+  package: rp
+  actAs: [Timestampable]
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+Professional:
+  package: rp
+  actAs: [Timestampable]
+  columns:
+    name: string(255)
+    organism_id:
+      type: integer
+      notnull: true
+    contact_id:
+      type: integer
+      notnull: true
+    professional_type_id: integer
+    contact_number: string(255)
+    contact_email:
+      type: string(255)
+      email: true
+    contact_email_no_newsletter:
+      type: boolean
+      notnull: true
+      default: false
+    department: string(255)
+    description: string
+  relations:
+    ProfessionalType:
+      foreignAlias: Professionals
+      onDelete: SET NULL
+    Contact:
+      foreignAlias: Professionals
+      onDelete: CASCADE
+    Organism:
+      foreignAlias: Professionals
+      onDelete: CASCADE
+
+ContactRelationshipType:
+  package: rp
+  actAs: [Timestampable]
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+ContactRelationship:
+  package: rp
+  actAs: [Timestampable]
+  columns:
+    from_contact_id:
+      type: integer
+      notnull: true  
+    to_contact_id:
+      type: integer
+      notnull: true
+    contact_relationship_type_id: integer
+  relations:
+    ContactOrig:
+      local: from_contact_id
+      class: Contact
+      foreignAlias: Relationships
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Contact:
+      local: to_contact_id
+      class: Contact
+      foreignAlias: ForeignRelationships
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Type:
+      local: contact_relationship_type_id
+      class: ContactRelationshipType
+      foreignAlias: Relationships
+      onDelete: SET NULL
+      onUpdate: CASCADE
+
+TitleType:
+  package: rp
+  inheritance:
+    extends: ModelType
+    type: column_aggregation
+    keyField: type
+    keyValue: 'title'
+PhoneType:
+  package: rp
+  inheritance:
+    extends: ModelType
+    type: column_aggregation
+    keyField: type
+    keyValue: 'phone'
+
+OptionCsv:
+  package: rp
+  inheritance:
+    extends: Option
+    type: column_aggregation
+    keyField: type
+    keyValue: 'csv'
+OptionLabels:
+  package: rp
+  inheritance:
+    extends: Option
+    type: column_aggregation
+    keyField: type
+    keyValue: 'labels'
+
+GeoFrDepartment:
+  package: rp
+  columns:
+    geo_fr_region_id:
+      type: integer
+      notnull: true
+    num:
+      type: string(3)
+      notnull: true
+    name:
+      type: string(255)
+      notnull: true
+    strict_name:
+      type: string(255)
+      notnull: true
+    slug:
+      type: string(255)
+      notnull: true
+  relations:
+    Region:
+      class: GeoFrRegion
+      foreignAlias: Departments
+      onDelete: CASCADE
+      onUpdate: CASCADE
+GeoFrRegion:
+  package: rp
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+    strict_name:
+      type: string(255)
+      notnull: true
+    slug:
+      type: string(255)
+      notnull: true

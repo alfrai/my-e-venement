@@ -1,0 +1,29 @@
+#event_extradesc_tbl,
+#event_extraspec_tbl,
+#event_description_tbl {
+  margin-top: 10px;
+  margin-left: -130px;
+}
+
+#content .sf_admin_field_companies_list ul {
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+.sf_admin_field_companies_list ul li {
+  margin-left: 10px;
+}
+
+#more .sf_admin_edit .sf_admin_list { margin: 0; }
+
+.checkpoint_new .sf_admin_form_field_event_id { display: none; }
+
+.sf_admin_show .sf_admin_field_description label, .sf_admin_show .sf_admin_field_description .rich-content {
+  display: table-cell;
+}
+.sf_admin_show .sf_admin_field_description .rich-content p {
+  margin-bottom: 10px;
+}
+
+.show_checkpoint {
+  margin-left: 30px;
+}

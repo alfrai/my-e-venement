@@ -1,0 +1,27 @@
+all:
+  credentials: [event-manif]
+
+edit:
+  credentials: [event-manif-edit]
+update:
+  credentials: [event-manif-edit]
+new:
+  credentials: [event-manif-new]
+create:
+  credentials: [event-manif-new]
+templating:
+  credentials: [event-manif-new]
+delete:
+  credentials: [event-manif-del]
+batchDelete:
+  credentials: [event-manif-del]
+
+showSpectators:
+  credentials: [[tck-ledger-sales, tck-reports]]
+showTickets:
+  credentials: [[tck-ledger-sales, tck-reports]]
+
+slideHappensAt:
+  credentials: [event-manif-edit]
+slideDuration:
+  credentials: [event-manif-edit]
