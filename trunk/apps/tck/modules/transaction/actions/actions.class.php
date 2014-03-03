@@ -135,7 +135,7 @@ class transactionActions extends autoTransactionActions
     ));
     $ws['value'] = new sfWidgetFormInput;
     $vs['value'] = new sfValidatorNumber(array('required' => false));
-    $ws['created_at'] = new liWidgetFormJQueryDateText;
+    $ws['created_at'] = new liWidgetFormJQueryDateText(array('culture' => $this->getUser()->getCulture()));
     $vs['created_at'] = new sfValidatorDate(array('required' => false));
     
     // DELETE PAYMENT

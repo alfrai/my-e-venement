@@ -21,7 +21,7 @@
     </span>
     <span id="card_type_actions">
       <input type="submit" name="submit" value="Ok" />
-      <span title="<?php echo __('Optional, printing date') ?>"><?php $date = new liWidgetFormJQueryDateText(); echo $date->render('member_card[created_at]'); ?></span>
+      <span title="<?php echo __('Optional, printing date') ?>"><?php $date = new liWidgetFormJQueryDateText(array('culture' => $sf_user->getCulture())); echo $date->render('member_card[created_at]'); ?></span>
       <input type="hidden" name="member_card[_csrf_token]" value="<?php echo $card->getCSRFToken() ?>" />
       <input type="hidden" name="member_card[contact_id]" value="<?php echo $form->getObject()->id ?>" />
     </span>

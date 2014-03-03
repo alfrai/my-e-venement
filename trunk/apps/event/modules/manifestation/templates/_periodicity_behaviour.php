@@ -11,7 +11,7 @@
         <input type="radio" name="periodicity[behaviour]" value="until" />
         <label for="periodicity_until"><?php echo __('Until') ?></label>
         <?php
-          $widget = new liWidgetFormJQueryDateText(array('culture' => 'fr'));
+          $widget = new liWidgetFormJQueryDateText(array('culture' => $sf_user->getCulture()));
           echo $widget->render('periodicity[until]', null, array('id' => 'periodicity_until'));
         ?>
       </p>
