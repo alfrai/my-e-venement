@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -33,7 +33,7 @@
     $this->redirect('ticket/cancel');
   }
   
-  $transaction = Doctrine::getTable('Transaction')->findOneById($tid);
+  $this->forward404Unless($transaction = Doctrine::getTable('Transaction')->findOneById($tid));
   if ( $transaction->closed && !$this->getUser()->hasCredential('tck-unblock') )
   {
     $this->getUser()->setFlash('error',__('Oops! The screen you asked for is secure and you do not have proper credentials.','sf_admin',array()));
@@ -77,7 +77,7 @@
     ->andWhere('tck.duplicating IS NULL')
     ->andWhere('tck.cancelling IS NULL')
     ->andWhere('tck.transaction_id = ?',$tid)
-    ->andWhere('t.closed = ?',false)
+    ->andWhere('t.closed = ?',false || $this->getUser()->hasCredential('tck-unblock'))
     ->andWhere('tck.printed_at IS NOT NULL')
     ->execute();
   
@@ -93,7 +93,7 @@
         $cancel->duplicating =
         $cancel->transaction_id =
         $cancel->sf_guard_user_id =
-        $cancel->created_at = $cancel->updated_at = NULL;
+        $cancel->created_at = $cancel->updated_at =
         $cancel->printed_at = $cancel->integrated_at = NULL;
         $cancel->value = -$cancel->value;
         $cancel->cancelling = $ticket->id;
