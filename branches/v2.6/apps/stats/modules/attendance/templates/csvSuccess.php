@@ -53,7 +53,7 @@
     'cashflow'              => __('Cashflow'),
   );
   
-  if ( !sfConfig::get('app_transaction_show_demands') )
+  if ( !sfConfig::get('project_tickets_count_demands',false) )
     unset($vars['options']['header']['asked_percentage'],$vars['options']['header']['asked']);
   
   include_partial('global/csv',$vars);

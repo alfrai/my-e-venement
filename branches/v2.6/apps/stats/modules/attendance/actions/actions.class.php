@@ -39,16 +39,16 @@ class attendanceActions extends sfActions
     foreach ( $this->lines as $key => $line )
     {
       // free seats
-      $this->lines[$key]['free'] = $line['gauge']-$line['printed']-(sfConfig::get('app_ticketting_show_demands') ? $line['asked'] : 0)-$line['ordered'];
+      $this->lines[$key]['free'] = $line['gauge']-$line['printed']-(sfConfig::get('project_tickets_count_demands',false) ? $line['asked'] : 0)-$line['ordered'];
       
       // percentages
       $this->lines[$key]['printed_percentage'] = $line['gauge'] > 0 ? format_number(round($line['printed']*100/$line['gauge'],2)) : 'N/A';
       $this->lines[$key]['ordered_percentage'] = $line['gauge'] > 0 ? format_number(round($line['ordered']*100/$line['gauge'],2)) : 'N/A';
-      if ( sfConfig::get('app_ticketting_show_demands') )
+      if ( sfConfig::get('project_tickets_count_demands',false) )
         $this->lines[$key]['asked_percentage']   = $line['gauge'] > 0 ? format_number(round($line['asked']  *100/$line['gauge'],2)) : 'N/A';
       else
         unset($this->lines[$key]['asked']);
-      $this->lines[$key]['free_percentage']    = $line['gauge'] > 0 ? format_number(round(($line['gauge']-$line['printed']-(sfConfig::get('app_ticketting_show_demands') ? $line['asked'] : 0)-$line['ordered'])*100/$line['gauge'],2)) : 'N/A';
+      $this->lines[$key]['free_percentage']    = $line['gauge'] > 0 ? format_number(round(($line['gauge']-$line['printed']-(sfConfig::get('project_tickets_count_demands',false) ? $line['asked'] : 0)-$line['ordered'])*100/$line['gauge'],2)) : 'N/A';
       
       // cashflow
       $this->lines[$key]['cashflow']    = format_number(round($line['cashflow'],2));
@@ -66,7 +66,7 @@ class attendanceActions extends sfActions
       'noheader' => false,
     );
     
-    if ( !sfConfig::get('app_ticketting_show_demands') )
+    if ( !sfConfig::get('project_tickets_count_demands',false) )
     {
       unset($this->options['fields'][array_search('asked_percentage',$this->options['fields'])]);
       unset($this->options['fields'][array_search('asked',$this->options['fields'])]);
