@@ -25,6 +25,7 @@ all:
     #force_payment_before_printing: true
     #seated_plan:
     #  auto_next: false
+    #gui: touchy
   tickets:
     mentions:
       optional: licences: 350970 / 350971 / 350972

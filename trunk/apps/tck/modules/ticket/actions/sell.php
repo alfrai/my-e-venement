@@ -24,6 +24,12 @@
 <?php
     $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
     
+    if ( $request->getParameter('id') && sfConfig::get('app_transaction_gui', false) == 'touchy' )
+    {
+      $this->getUser()->setFlash('notice', __('Please use this new GUI'));
+      $this->redirect('transaction/edit?id='.$request->getParameter('id'));
+    }
+    
     if ( !($this->getRoute() instanceof sfObjectRoute) )
     {
       if ( intval($request->getParameter('id')) > 0 )
