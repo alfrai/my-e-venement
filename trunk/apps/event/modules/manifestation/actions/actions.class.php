@@ -169,7 +169,7 @@ class manifestationActions extends autoManifestationActions
       $go = true;
       if ( $request->getParameter('except_transaction',false) )
       {
-        $go = $manif->reservation_confirmed && $manif->blocking;
+        $go = $manif->reservation_confirmed;
         $go = $go && Doctrine_Query::create()->from('ticket tck')
           ->andWhere('tck.manifestation_id = ?', $manif->id)
           ->andWhere('tck.transaction_id = ?', intval($request->getParameter('except_transaction')))
