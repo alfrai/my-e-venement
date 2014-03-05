@@ -135,7 +135,7 @@ class manifestationActions extends autoManifestationActions
         $eids[] = $event['id'];
     }
     
-    if (!( $max = sfConfig::get('app_manifestations_max_ajax') ))
+    if (!( $max = $request->getParameter('max',sfConfig::get('app_manifestations_max_ajax')) ))
     {
       $conf = sfConfig::get('app_transaction_manifs', array());
       $max = isset($conf['max_display']) && $conf['max_display'] ? $conf['max_display'] : 10;
@@ -177,9 +177,22 @@ class manifestationActions extends autoManifestationActions
       }
       
       if ( $go )
-        $manifs[$manif->id] = $request->hasParameter('with_colors')
-          ? array('name' => (string)$manif, 'color' => (string)$manif->Color)
-          : (string)$manif;
+      {
+        if ( $request->hasParameter('keep-order') )
+        {
+          $manifs[] = array(
+            'name'  => (string)$manif,
+            'color' => (string)$manif->Color,
+            'id'    => $manif->id,
+          );
+        }
+        else
+        {
+          $manifs[$manif->id] = $request->hasParameter('with_colors')
+            ? array('name' => (string)$manif, 'color' => (string)$manif->Color)
+            : (string)$manif;
+        }
+      }
     }
     
     if ( $request->hasParameter('debug') && $this->getContext()->getConfiguration()->getEnvironment() == 'dev' )

@@ -10,7 +10,8 @@
   )) ?><p>
     <?php echo $form[$id] ?>
     <input type="text" name="autocompleter" value="" />
-    <select name="manifestation_id[]" multiple="multiple" data-content-url="<?php echo cross_app_url_for('event', 'manifestation/ajax?except_transaction='.$transaction->id) ?>"><option></option></select>
+    <?php $opt = sfConfig::get('app_transaction_manifs',array()) ?>
+    <select name="manifestation_id[]" multiple="multiple" data-content-url="<?php echo cross_app_url_for('event', 'manifestation/ajax?except_transaction='.$transaction->id) ?>" data-content-qty="<?php echo isset($opt['max_display']) ? $opt['max_display'] : 10 ?>"><option></option></select>
     <input type="submit" name="s" onclick="javascript: return false;" value="<?php echo __('Go') ?>" />
   </p></form>
   <?php endif ?>

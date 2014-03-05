@@ -28,12 +28,12 @@
         
           $.ajax({
             url: families.attr('data-content-url'),
-            data: { with_colors: true, q: $(elt).val(), except: except },
+            data: { with_colors: true, q: $(elt).val(), except: except, max: families.attr('data-content-qty'), 'keep-order': true },
             method: 'get',
             success: function(data){
               families.html('');
               $.each(data, function(id, manif){
-                $('<option></option>').css('background-color', manif.color).val(id)
+                $('<option></option>').css('background-color', manif.color).val(manif.id)
                   .html(manif.name).prop('title', manif.name)
                   .appendTo(families);
               });
