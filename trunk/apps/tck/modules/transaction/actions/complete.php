@@ -236,7 +236,7 @@
           $semaphore['amount'] -= $payment->value;
         }
         
-        if ( !$semaphore['products'] || $semaphore['amount'] > 0 )
+        if ( !$semaphore['products'] || $semaphore['amount'] != 0 )
         {
           $this->json['success']['error_fields']['close'] = $this->json['success']['success_fields']['close'];
           unset($this->json['success']['success_fields']['close']);
@@ -246,6 +246,8 @@
             $this->json['success']['error_fields']['close']['data']['tck'] = __('Some tickets are not printed yet');
           if ( $semaphore['amount'] > 0 )
             $this->json['success']['error_fields']['close']['data']['pay'] = __('This transaction is not yet totally paid');
+          if ( $semaphore['amount'] < 0 )
+            $this->json['success']['error_fields']['close']['data']['pay'] = __('This transaction has more money than needed');
         }
         else
         {
