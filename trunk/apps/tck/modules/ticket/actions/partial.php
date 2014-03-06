@@ -22,21 +22,29 @@
 ***********************************************************************************/
 ?>
 <?php
-  $manifestations = $request->getParameter('manifestation_id');
-  
+  $manifestations = $request->getParameter('manifestation_id', array());
   if ( !is_array($manifestations) ) $manifestations = array($manifestations);
   foreach ( $manifestations as $key => $value )
     $manifestations[$key] = intval($value);
+  
+  $gauges = $request->getParameter('gauge_id', array());
+  if ( !is_array($gauges) ) $gauges = array($gauges);
+  foreach ( $gauges as $key => $value )
+    $gauges[$key] = intval($value);
   
   $this->transaction_id = intval($request->getParameter('id'));
   
   $q = Doctrine::getTable('Manifestation')->createQuery('m')
     ->leftJoin('m.Tickets tck')
     ->leftJoin('tck.Transaction t')
-    ->andWhereIn('m.id',$manifestations)
     ->andWhere('t.id = ?',$this->transaction_id)
     ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
     ->andWhere('tck.cancelling IS NULL')
     ->orderBy('m.happens_at, e.name, tck.price_name, tck.id');
+
+  if ( $manifestations )
+    $q->andWhereIn('m.id',$manifestations);
+  if ( $gauges )
+    $q->andWhereIn('tck.gauge_id',$gauges);
   
   $this->manifestations = $q->execute();

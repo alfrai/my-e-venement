@@ -38,7 +38,7 @@
       class="partial noajax">
   <p>
     <input type="submit" value="<?php echo __('Partial printing') ?>" name="partial" title="<?php echo __('Only on the selected line/manifestation') ?>" class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button" />
-    <input type="hidden" name="manifestation_id" value="" />
+    <input type="hidden" name="gauge_id" value="" />
   </p>
 </form>
 

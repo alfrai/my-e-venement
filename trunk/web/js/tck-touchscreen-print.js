@@ -47,7 +47,7 @@
            return false;
         }
         
-        $(this).find('[name=manifestation_id]').val($('#li_transaction_field_content .ui-state-highlight').attr('data-gauge-id'));
+        $(this).find('[name=gauge_id]').val($('#li_transaction_field_content .ui-state-highlight').attr('data-gauge-id'));
         return li.checkGauges(this);
       });
     });
