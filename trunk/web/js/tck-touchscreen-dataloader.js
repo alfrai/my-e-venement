@@ -149,9 +149,15 @@ li.completeContent = function(data, type, replaceAll = true)
           wprice.find('.qty input').val(price.qty).select();
         }
         
-        if ( price.state )
+        // check if price is available for this user
+        var mod = false;
+        $.each(gauge.available_prices, function(k, p){
+          if ( p.id === price.id )
+            mod = true;
+        });
+        if ( !mod || price.state )
         {
-          wprice.addClass('active').addClass(price.state);
+          wprice.addClass('active').addClass(price.state ? price.state : 'readonly');
           wprice.find('.qty input').prop('readonly', true);
         }
         wprice.find('.qty input').val(price.qty).select();

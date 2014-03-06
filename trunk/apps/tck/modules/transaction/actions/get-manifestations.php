@@ -116,7 +116,8 @@
       $q = Doctrine::getTable('Manifestation')->createQuery('m');
     
     $q->leftJoin('m.IsNecessaryTo n')
-      ->leftJoin('n.Gauges ng');
+      ->leftJoin('n.Gauges ng')
+    ;
     
     $mid = array();
     if ( $request->getParameter('manifestation_id',false) )
@@ -142,7 +143,7 @@
     elseif ( $q->count() == 0 )
       return;
     
-    foreach ( $this->transaction ? $this->transaction->Tickets : $mid as $ticket )
+    foreach ( $this->transaction ? $this->transaction->Tickets : $mid as $ticket ) // loophole
     {
       // by manifestation
       if ( !isset($this->json[$mid = $ticket instanceof Ticket ? $ticket->manifestation_id : $ticket]) )
@@ -152,10 +153,11 @@
           ->leftJoin('pm.Price p')
           ->leftJoin('m.Gauges g')
           ->leftJoin('g.Workspace w')
-          ->leftJoin('w.Order wuo ON wuo.workspace_id = w.id AND wuo.sf_guard_user_id = '.$this->getUser()->getId())
+          ->leftJoin('w.Order wuo ON wuo.workspace_id = w.id AND wuo.sf_guard_user_id = ?',$this->getUser()->getId())
           ->orderBy('e.name, me.name, m.happens_at, m.duration, wuo.rank, w.name, p.name')
           ->leftJoin('p.WorkspacePrices pwp ON pwp.price_id = p.id AND pwp.workspace_id = w.id')
-          ->leftJoin('p.UserPrices      pup ON pup.price_id = p.id AND pup.sf_guard_user_id = '.$this->getUser()->getId())
+          ->leftJoin('p.UserPrices      pup ON pup.price_id = p.id AND pup.sf_guard_user_id = ?',$this->getUser()->getId())
+          //->leftJoin('w.WorkspaceUsers wsu ON wsu.workspace_id = w.id AND wsu.sf_guard_user_id = ?',$this->getUser()->getId())
           ->andWhere('m.id = ?',$mid)
           ->fetchOne();
         
@@ -200,8 +202,10 @@
           }
         
           // available prices
+          $this->json[$manifestation->id]['gauges'][$gauge->id]['available_prices'] = array();
           foreach ( $manifestation->PriceManifestations as $pm )
           {
+            // this price is correctly associated to this gauge
             $pw = false;
             foreach ( $pm->Price->WorkspacePrices as $pwp )
             if ( $pwp->workspace_id === $gauge->workspace_id )
@@ -209,14 +213,27 @@
               $pw = true;
               break;
             }
+            if ( !$pw ) continue;
             
-            if ( $pm->Price->UserPrices->count() > 0 && $pw )
-              $this->json[$manifestation->id]['gauges'][$gauge->id]['available_prices'][] = array(
-                'id'  => $pm->price_id,
-                'name'  => $pm->Price->name,
-                'description'  => $pm->Price->description,
-                'value' => format_currency($pm->value,'€'),
-              );
+            // access to this meta event
+            if ( !in_array($manifestation->Event->meta_event_id, array_keys($this->getUser()->getMetaEventsCredentials())) )
+              continue;
+            
+            // access to this price
+            if ( $pm->Price->UserPrices->count() == 0 )
+              continue;
+            
+            // access to this workspace
+            if ( !in_array($gauge->workspace_id, array_keys($this->getUser()->getWorkspacesCredentials())) )
+              continue;
+            
+            // then add the price...
+            $this->json[$manifestation->id]['gauges'][$gauge->id]['available_prices'][] = array(
+              'id'  => $pm->price_id,
+              'name'  => $pm->Price->name,
+              'description'  => $pm->Price->description,
+              'value' => format_currency($pm->value,'€'),
+            );
           }
         }
       }
@@ -286,19 +303,24 @@
         $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['vat'] += $cancelling[0]->value - $tep;
       }
     }
-  
-  $this->json = array(
-    'error' => array(false, ''),
-    'success' => array(
-      'success_fields' => array(
-        'manifestations' => array(
-          'data' => array(
-            'type' => 'manifestations',
-            'reset' => $this->transaction ? true : false,
-            'content' => $this->json,
+    
+    foreach ( $this->json as $mid => $manif )
+    foreach ( $manif['gauges'] as $gid => $gauge )
+    if ( count($gauge['prices']) == 0 && count($gauge['available_prices']) == 0 )
+      unset($this->json[$mid]['gauges'][$gid]);
+    
+    $this->json = array(
+      'error' => array(false, ''),
+      'success' => array(
+        'success_fields' => array(
+          'manifestations' => array(
+            'data' => array(
+              'type' => 'manifestations',
+              'reset' => $this->transaction ? true : false,
+              'content' => $this->json,
+            ),
           ),
         ),
+        'error_fields' => array(),
       ),
-      'error_fields' => array(),
-    ),
-  );
+    );
