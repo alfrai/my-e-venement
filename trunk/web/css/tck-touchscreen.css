@@ -47,8 +47,8 @@
 #li_transaction_field_content .new-family { margin-bottom: 5px; height: 1.8em; padding: 3px; transition-duration: 1s; overflow: hidden; }
 #li_transaction_field_content .new-family.ui-state-highlight { height: 10em; transition-duration: 1s; }
 #li_transaction_field_content .new-family input, #li_transaction_field_content .new-family select { vertical-align: top; }
-#li_transaction_field_content .new-family input { width: 30%; }
-#li_transaction_field_content .new-family select { height: 10em; margin-top: 0; }
+#li_transaction_field_content .new-family input { width: 15%; }
+#li_transaction_field_content .new-family select { height: 10em; margin-top: 0; width: 75%; max-width: 500px;}
 #li_transaction_field_content .new-family select option { font-size: 1.3em; }
 #li_transaction_field_content .new-family input[type=submit] { float: right; width: auto; }
 
