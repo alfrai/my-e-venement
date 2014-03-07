@@ -42,8 +42,15 @@
         $base_organism = $organism;
       else
       {
+        $recent = strtotime($contact->updated_at) > strtotime($base_contact->updated_at);
+        
+        // personal informations
+        if ( $recent )
+          $base_organism->name       = $organism->name;
+
         // address
-        if ( !$base_organism->address && !$base_organism->postalcode && !$base_organism->city )
+        if ( !$base_organism->address && !$base_organism->postalcode && !$base_organism->city
+          || $recent )
         if ( $organism->address && $organism->postalcode && $organism->city && !$organism->npai )
         {
           $base_organism->address = $organism->address;
@@ -54,7 +61,7 @@
         
         // email
         if ( !$base_organism->email && $organism->email
-          && strtotime($organism->updated_at) > strtotime($base_organism->updated_at) )
+          || $organism->email && $recent )
           $base_organism->email = $organism->email;
         
         // password & description
@@ -89,14 +96,24 @@
         ) as $elts )
         foreach ( $organism->$elts as $obj )
         {
-          $collection = $base_organism->$elts;
-          $collection[] = $obj;
+          $collection = $base_organism->{$elts}[] = $obj;
+          if ( isset($obj->organism_id) )
+          {
+            $obj->organism_id = $base_organism->id
+            $obj->save();
+          }
         }
         
-        $base_organism->save();
+        // for multiple merges
+        if ( $recent )
+          $base_contact->updated_at = $contact->updated_at;
+        
         $organism->delete();
       }
     }
+    if ( $base_organism )
+      $base_organism->save();
+    
     $this->getUser()->setFlash('notice',__('%%nb%% organisms properly merged into one',array('%%nb%%' => $cpt)));
   }
   else

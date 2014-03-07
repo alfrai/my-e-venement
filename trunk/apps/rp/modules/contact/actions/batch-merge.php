@@ -67,7 +67,7 @@
         
         // email
         if ( !$base_contact->email && $contact->email
-          || $recent )
+          || $contact->email && $recent )
           $base_contact->email = $contact->email;
         
         // password & description
