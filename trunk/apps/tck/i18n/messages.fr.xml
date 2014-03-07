@@ -525,8 +525,8 @@
         <target>Utilisateurs concernés</target>
       </trans-unit>
       <trans-unit>
-        <source>Display tickets from payment</source>
-        <target>Paiement faisant foi</target>
+        <source>Display tickets from payment date</source>
+        <target>Date de paiement faisant foi</target>
       </trans-unit>
       <trans-unit>
         <source>Display not-yet-printed tickets</source>
