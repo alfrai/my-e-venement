@@ -29,7 +29,7 @@
   $ids = $request->getParameter('ids');
   $q = Doctrine::getTable('Contact')->createQuery()
     ->whereIn('id',$ids)
-    ->orderBy('updated_at ASC');
+    ->orderBy('id');
   $contacts = $q->execute();
   
   $cpt = $contacts->count();
@@ -42,8 +42,20 @@
         $base_contact = $contact;
       else
       {
+        $recent = strtotime($contact->updated_at) > strtotime($base_contact->updated_at);
+        
+        // personal informations
+        if ( trim($contact->title) && $recent )
+          $base_contact->title      = $contact->title;
+        if ( $recent )
+        {
+          $base_contact->name       = $contact->name;
+          $base_contact->firstname  = $contact->firstname;
+        }
+        
         // address
-        if ( !$base_contact->address && !$base_contact->postalcode && !$base_contact->city )
+        if ( !$base_contact->address && !$base_contact->postalcode && !$base_contact->city
+          || $recent )
         if ( $contact->address && $contact->postalcode && $contact->city && !$contact->npai )
         {
           $base_contact->address = $contact->address;
@@ -53,25 +65,22 @@
         }
         
         // email
-        if ( !$base_contact->email && $contact->email )
+        if ( !$base_contact->email && $contact->email
+          || $recent )
           $base_contact->email = $contact->email;
         
         // password & description
-        $base_contact->password = $contact->password;
+        if ( $recent )
+          $base_contact->password = $contact->password;
+        
         $arr = array();
         if ( $base_contact->description ) $arr[] = $base_contact->description;
         if ( $contact->description ) $arr[] = $contact->description;
         $base_contact->description = implode(' ',$arr);
         
-        if ( strtotime($contact->updated_at) > strtotime($base_contact->updated_at) )
-        {
-          // family contact
-          if ( !is_null($contact->family_contact) )
-            $base_contact->family_contact = $contact->family_contact;
-          // title
-          if ( trim($contact->title) )
-            $base_contact->title = $contact->title;
-        }
+        // family contact
+        if ( !is_null($contact->family_contact) && $recent )
+          $base_contact->family_contact = $contact->family_contact;
         
         // phonenumbers
         foreach ( $contact->Phonenumbers as $phone )
