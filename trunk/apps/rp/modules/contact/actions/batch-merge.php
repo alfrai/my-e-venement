@@ -71,7 +71,7 @@
           $base_contact->email = $contact->email;
         
         // password & description
-        if ( $recent )
+        if ( $contact->password && $recent )
           $base_contact->password = $contact->password;
         
         $arr = array();
@@ -85,11 +85,19 @@
         
         // phonenumbers
         foreach ( $contact->Phonenumbers as $phone )
+        {
           $base_contact->Phonenumbers[] = $phone;
+          $phone->contact_id = $base_contact->id;
+          $phone->save();
+        }
         
         // membercards
         foreach ( $contact->MemberCards as $mc )
+        {
           $base_contact->MemberCards[] = $mc;
+          $mc->contact_id = $base_contact->id;
+          $mc->save();
+        }
         
         // pro + groups
         foreach ( $contact->Professionals as $pro )
@@ -128,6 +136,8 @@
           
           // nothing to merge
           $base_contact->Professionals[] = $pro;
+          $pro->contact_id = $base_contact->id;
+          $pro->save();
         }
         
         // contact's groups
