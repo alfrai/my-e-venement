@@ -129,7 +129,7 @@
 #li_transaction_field_payment_new .field_created_at, #li_transaction_field_payment_new .field_value { width: 50%; float: right; margin-left: 1em; }
 #li_transaction_field_payment_new label { width: 60px; display: inline-block; }
 #li_transaction_field_payment_new ul label { width: auto; }
-#li_transaction_field_payment_new .field_value, #li_transaction_field_payment_new .field_created_at { margin-bottom: 1em; }
+#li_transaction_field_payment_new .field_value, #li_transaction_field_payment_new .field_created_at { margin-bottom: 0.5em; }
 #li_transaction_field_payment_new .field_value input { width: 60px; }
 #li_transaction_field_payment_new .field input[type=text] { text-align: center; }
 #li_transaction_field_payment_new .submit { float: right; margin-top: -8px }
