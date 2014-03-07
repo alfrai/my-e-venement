@@ -16,7 +16,10 @@ li.completeContent = function(data, type, replaceAll = true)
     content.find('tr:not([data-payment-id])').show();
     
     if ( data.length == 0 )
+    {
+      li.sumPayments();
       return false;
+    }
     
     content.find('tr:not([data-payment-id])').hide();
     var total = 0;
@@ -185,6 +188,7 @@ li.completeContent = function(data, type, replaceAll = true)
 
 li.sumPayments = function()
 {
+  console.log('sumPayments');
   var ratio = parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.vat').html())/parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.tep').html().replace(',','.'));
   var val = 0;
   $('#li_transaction_field_payments_list tbody tr .sf_admin_list_td_list_value').each(function(){
