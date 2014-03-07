@@ -61,7 +61,7 @@ table tbody a:hover { text-decoration: underline; }
 #criterias input[type=text][size="4"] { text-align: right; }
 #criterias input[type=text][size="2"] { width: 22px; }
 #criterias input[type=text][size="4"] { width: 44px; }
-
+#criterias select { width: 220px; }
 
 #cash-ledger .workspaces { display: none; }
 

@@ -25,7 +25,8 @@ class LedgerCriteriasForm extends BaseForm
       'required' => false,
     ));
 
-    $q = Doctrine::getTable('sfGuardUser')->createQuery('u');
+    $q = Doctrine::getTable('sfGuardUser')->createQuery('u')
+      ->andWhere('u.is_active = ?',true);
     if ( !sfContext::getInstance()->getUser()->hasCredential('tck-ledger-all-users') )
       $q->andWhere('u.id = ?',sfContext::getInstance()->getUser()->getId());
     $this->widgetSchema['users'] = new sfWidgetFormDoctrineChoice(array(
