@@ -73,6 +73,9 @@ class EmailForm extends BaseEmailForm
         'plugins' => 'textcolor link image code fullpage',
         'toolbar1' => 'formatselect fontselect fontsizeselect | link image | forecolor backcolor | undo redo',
         'toolbar2' => 'bold underline italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent blockquote',
+        'force_br_newlines' => false,
+        'force_p_newlines'  => false,
+        'forced_root_block' => '',
         'setup' => "__function(ed){
           ed.on('LoadContent', function(e) {
             if ( $($.parseHTML($('[name=\"email[content]\"]').val())).find('body').length > 0 )
