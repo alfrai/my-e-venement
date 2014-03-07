@@ -31,6 +31,7 @@
     ->whereIn('id',$ids)
     ->orderBy('id');
   $contacts = $q->execute();
+  $base_contact = false;
   
   $cpt = $contacts->count();
   
@@ -38,7 +39,7 @@
   {
     foreach ( $contacts as $contact )
     {
-      if ( !isset($base_contact) )
+      if ( !$base_contact )
         $base_contact = $contact;
       else
       {
@@ -164,10 +165,16 @@
         foreach ( $contact->Relationships as $relationship )
           $base_contact->Relationships[] = $relationship;
         
-        $base_contact->save();
+        // for multiple merges
+        if ( $recent )
+          $base_contact->updated_at = $contact->updated_at;
+        
         $contact->delete();
       }
     }
+    if ( $base_contact )
+      $base_contact->save();
+    
     $this->getUser()->setFlash('notice',__('%%nb%% contacts properly merged into one',array('%%nb%%' => $cpt)));
   }
   else
