@@ -29,7 +29,7 @@
   $ids = $request->getParameter('ids');
   $q = Doctrine::getTable('Contact')->createQuery()
     ->whereIn('id',$ids)
-    ->orderBy('id');
+    ->orderBy('updated_at ASC');
   $contacts = $q->execute();
   
   $cpt = $contacts->count();
