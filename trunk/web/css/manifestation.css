@@ -116,14 +116,14 @@ select[disabled] {
 #sf_fieldset_resources .sf_admin_form_field_contact_id.sf_admin_foreignkey a { padding-left: 5px; font-size: 0; }
 #sf_fieldset_resources .sf_admin_form_field_contact_id.sf_admin_foreignkey a .ui-icon { position: absolute; margin-top: 2px; display: inline-block; }
 
-#sf_fieldset_extra_informations table th { display: none; }
-#sf_fieldset_extra_informations table table tbody,
-#sf_fieldset_extra_informations table table td,
-#sf_fieldset_extra_informations table table { display: block; }
-#sf_fieldset_extra_informations table table tr { display: inline-block; }
-#sf_fieldset_extra_informations table table tr:first-child input[type=text] { width: 120px; }
-#sf_fieldset_extra_informations table table input[type=text][value=""] { border-style: dashed; }
-#sf_fieldset_extra_informations .sf_admin_form_field_ExtraInformations .errors { display: none; }
+#sf_fieldset_technical_informations table th { display: none; }
+#sf_fieldset_technical_informations table table tbody,
+#sf_fieldset_technical_informations table table td,
+#sf_fieldset_technical_informations table table { display: block; }
+#sf_fieldset_technical_informations table table tr { display: inline-block; }
+#sf_fieldset_technical_informations table table tr:first-child input[type=text] { width: 120px; }
+#sf_fieldset_technical_informations table table input[type=text][value=""] { border-style: dashed; }
+#sf_fieldset_technical_informations .sf_admin_form_field_ExtraInformations .errors { display: none; }
 
 .periodicity h2 { font-size: 120%; margin-bottom: 5px; }
 .periodicity .ui-widget-content { display: inline-block; min-width: 280px; margin: 5px; vertical-align: top; padding: 5px; }
