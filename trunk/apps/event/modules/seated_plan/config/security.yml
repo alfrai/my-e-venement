@@ -15,3 +15,5 @@ batchDelete:
   credentials: [event-seated-plan-del]
 show:
   credentials: [[event-seated-plan, tck-seat-allocation]]
+getSeats:
+  credentials: [tck-seat-allocation]
