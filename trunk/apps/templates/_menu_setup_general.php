@@ -21,7 +21,7 @@
 *
 ***********************************************************************************/
 ?>
-          <li><a><?php echo __('General',array(),'menu') ?></a>
+          <li class="menu-setup-general"><a><?php echo __('General',array(),'menu') ?></a>
             <ul class="third">
               <?php if ( $sf_user->hasCredential('admin-users') ): ?>
               <li><a href="<?php echo cross_app_url_for('default','sfGuardUser') ?>"><?php echo __('Users',array(),'menu') ?></a></li>

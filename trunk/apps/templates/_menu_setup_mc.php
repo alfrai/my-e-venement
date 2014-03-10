@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php if ( $sf_user->hasCredential('pr-card-admin') || $sf_user->hasCredential('tck-admin-member-cards') ): ?>
-          <li><a><?php echo __('Member cards',array(),'menu') ?></a>
+          <li class="menu-setup-mc"><a><?php echo __('Member cards',array(),'menu') ?></a>
             <ul class="third">
               <?php if ( $sf_user->hasCredential('pr-card-admin') ): ?>
               <li><a href="<?php echo cross_app_url_for('rp','member_card_type') ?>"><?php echo __('Types',array(),'menu') ?></a></li>

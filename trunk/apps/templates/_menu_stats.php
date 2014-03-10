@@ -27,7 +27,7 @@
         || $sf_user->hasCredential('stats-byGroup')
         || $sf_user->hasCredential('stats-pr-social')
         || $sf_user->hasCredential('stats-pr-cards') ): ?>
-      <li>
+      <li class="menu-stats">
         <ul class="second">
           <?php if ( $sf_user->hasCredential('stats-attendance') ): ?>
           <li><a href="<?php echo cross_app_url_for('stats','attendance/index') ?>"><?php echo __('Attendance',array(),'menu') ?></a></li>

@@ -26,7 +26,7 @@
             || $sf_user->hasCredential('tck-control')
             || $sf_user->hasCredential('tck-cancel')
             || $sf_user->hasCredential('tck-print-ticket') ): ?>
-      <li>
+      <li class="menu-ticketting">
         <ul class="second">
           <?php if ( $sf_user->hasCredential('tck-transaction') ): ?>
           <li class="old"><a href="<?php echo cross_app_url_for('tck','ticket/sell') ?>"><?php echo __('New transaction',array(),'menu') ?></a></li>

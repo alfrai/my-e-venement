@@ -26,7 +26,7 @@
           || $sf_user->hasCredential('pr-group')
           || $sf_user->hasCredential('pr-emailing')
           ): ?>
-      <li>
+      <li class="menu-pr">
         <ul class="second">
           <?php if ( $sf_user->hasCredential('pr-contact') ): ?>
           <li><a href="<?php echo cross_app_url_for('rp','contact') ?>"><?php echo __('Contacts',array(),'menu') ?></a></li>

@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
       <?php $view = false ?>
-      <li>
+      <li class="menu-setup">
         <ul class="second">
           <?php if ( $sf_user->hasCredential('admin-power') || $sf_user->hasCredential('admin-users') ): ?>
             <?php $view = true ?>

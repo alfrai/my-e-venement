@@ -21,7 +21,7 @@
 *
 ***********************************************************************************/
 ?>
-      <li>
+      <li class="menu-help">
         <ul class="second">
           <li><a href="http://www.e-venement.org/documentation/" target="_blank"><?php echo __('Documentation',array(),'menu') ?></a></li>
           <li><a href="http://www.e-venement.org/documentation/faq/" target="_blank"><?php echo __('Frequently Asked Questions',array(),'menu') ?></a></li>

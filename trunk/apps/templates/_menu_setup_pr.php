@@ -21,7 +21,7 @@
 *
 ***********************************************************************************/
 ?>
-          <li><a><?php echo __('P.R.',array(),'menu') ?></a>
+          <li class="menu-setup-pr"><a><?php echo __('P.R.',array(),'menu') ?></a>
             <ul class="third">
               <?php if ( $sf_user->hasCredential('admin-csv') ): ?>
               <li><a href="<?php echo cross_app_url_for('rp','option_csv') ?>"><?php echo __('Extractions',array(),'menu') ?></a></li>

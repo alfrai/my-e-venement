@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php if ( $sf_user->hasCredential('grp-events') || $sf_user->hasCredential('grp-professionals') ): ?>
-      <li>
+      <li class="menu-groups">
         <ul class="second">
           <?php if ( $sf_user->hasCredential('grp-events') ): ?>
           <li><a href="<?php echo cross_app_url_for('grp','event/index') ?>"><?php echo __('By event',array(),'menu') ?></a></li>

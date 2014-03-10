@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php if ( $sf_user->hasCredential('grp-admin') ): ?>
-          <li><a><?php echo __('Groups',null,'menu')?></a>
+          <li class="menu-setup-groups"><a><?php echo __('Groups',null,'menu')?></a>
             <ul class="third">
               <li><a href="<?php echo cross_app_url_for('grp','group_workspace/index') ?>"><?php echo __('Workspaces',array(),'menu') ?></a></li>
             </ul>

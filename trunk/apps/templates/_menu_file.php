@@ -21,7 +21,7 @@
 *
 ***********************************************************************************/
 ?>
-      <li>
+      <li class="menu-file">
         <ul class="second">
           <li><a href="" target="_blank"><?php echo __('New screen',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('default','default') ?>"><?php echo __('Index',array(),'menu') ?></a></li>

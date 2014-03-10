@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
   <?php if ( $sf_user->hasCredential('event-admin') ): ?>
-          <li><a><?php echo __('Events',array(),'menu') ?></a>
+          <li class="menu-setup-events"><a><?php echo __('Events',array(),'menu') ?></a>
             <ul class="third">
               <?php if ( $sf_user->hasCredential('event-admin-metaevt') ): ?>
               <li><a href="<?php echo cross_app_url_for('event','meta_event') ?>"><?php echo __('Meta-events',array(),'menu') ?></a></li>

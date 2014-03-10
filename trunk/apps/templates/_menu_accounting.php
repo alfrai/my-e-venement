@@ -24,7 +24,7 @@
     <?php if ( $sf_user->hasCredential('tck-reports')
             || $sf_user->hasCredential('tck-ledger-sales')
             || $sf_user->hasCredential('tck-ledger-cash') ): ?>
-      <li>
+      <li class="menu-accounting">
         <ul class="second">
           <?php if ( $sf_user->hasCredential('tck-reports') ): ?>
           <?php if ( sfConfig::get('project_tickets_count_demands',false) ): ?>
