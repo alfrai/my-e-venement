@@ -70,7 +70,7 @@ class ManifestationForm extends BaseManifestationForm
       $this->widgetSchema[$fieldName] = new sfWidgetFormInputHidden;
     
     // extra informations
-    if ( !$this->object->isNew() && sfConfig::get('app_manifestation_extra_informations_enabled',true) )
+    if ( !$this->object->isNew() && sfConfig::get('app_manifestation_extra_informations_enable',true) )
     {
       for ( $i = 0 ; $i < 3 ; $i++ )
         $this->object->ExtraInformations[] = new ManifestationExtraInformation;
