@@ -6,5 +6,5 @@ all:
   sf_guard:
     display_group_description: false
   feed:
-    url: http://www.e-venement.net/feed/
-    name: e-venement.net
+    url: http://www.e-venement.org/feed/
+    name: e-venement.org
