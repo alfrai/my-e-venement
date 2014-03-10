@@ -57,7 +57,16 @@
       });
       
       if ( can_be_deleted )
+      {
+        $('<option></option>')
+          .val($(this).closest('.family').attr('data-family-id'))
+          .html($(this).closest('.family').find('h3').text())
+          //.prop('title',$(this).closest('.family').find('h3').text().replace("\n",''))
+          .css('background-color', $(this).closest('.family').find('h3').css('background-color'))
+          .appendTo($(this).closest('.bunch').find('.new-family select'));
+        console.log('added');
         $(this).closest('.family').remove();
+      }
       else
       {
         var elts = $(this).closest('.family').find('.qty.blink');
