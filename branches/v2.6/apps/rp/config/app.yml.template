@@ -13,6 +13,7 @@ all:
     design: tdp
     #social_informations: true
     #no_event_archives: false
+    #contact_force_one_phonenumber: true
   #controls:
   #  enable: true
   cards:
