@@ -69,8 +69,8 @@
         <target>Types de relations entre contacts</target>
       </trans-unit>
       <trans-unit>
-        <source></source>
-        <target></target>
+        <source>You need to add at least one phonenumber</source>
+        <target>Vous devez ajouter au moins un numéro de téléphone</target>
       </trans-unit>
       <trans-unit>
         <source></source>

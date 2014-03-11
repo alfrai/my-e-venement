@@ -45,7 +45,7 @@ class ContactForm extends BaseContactForm
       ->setOption('query', $q);
     
     $this->widgetSchema   ['phone_number'] = new sfWidgetFormInputText();
-    $this->validatorSchema['phone_number'] = new sfValidatorPass(array('required' => false));
+    $this->validatorSchema['phone_number'] = new sfValidatorString(array('required' => false));
     
     $this->widgetSchema   ['phone_type']   = new liWidgetFormDoctrineJQueryAutocompleterGuide(array(
       'model' => 'PhoneType',
@@ -78,6 +78,26 @@ class ContactForm extends BaseContactForm
     }
     
     parent::configure();
+  }
+  
+  public function isValid()
+  {
+    $v = parent::isValid();
+    $su = sfContext::hasInstance() && sfContext::getInstance()->getUser()->hasCredential('pr-admin');
+    if ( !sfConfig::get('app_options_contact_force_one_phonenumber',false) || $su )
+      return $v;
+    
+    if ( $this->object->Phonenumbers->count() == 0 )
+    {
+      $this->errorSchema->addError(new sfValidatorError(
+        $this->validatorSchema['phone_number']->setMessage('required','required'),
+        'You need to add at least one phonenumber',
+        array()
+      ), 'phone_number');
+      return false;
+    }
+    
+    return $v;
   }
   
   protected function doSave($con = NULL)

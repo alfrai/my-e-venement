@@ -33,6 +33,19 @@
 </script>
 <div class="sf_admin_form_row">
 <!--<label><?php echo __('Phone numbers') ?></label>-->
+
+<?php $errors = $form->getErrorSchema() ?>
+<?php if ( isset($errors['phone_number']) ): ?>
+<div class="ui-corner-all ui-state-error">
+  <div class="errors">
+    <span class="ui-icon ui-icon-alert floatleft"></span>
+    <ul class="error_list">
+      <li><?php echo __($errors['phone_number']) ?></li>
+    </ul>
+  </div>
+</div>
+<?php endif ?>
+
 <ul class="form_phonenumbers">
   <script type="text/javascript"><!--
     <?php foreach ( $phonenumbers as $number ): ?>

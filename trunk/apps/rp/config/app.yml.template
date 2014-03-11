@@ -14,6 +14,7 @@ all:
     #social_informations: true
     #no_event_archives: false
     #force_fields: [firstname, postalcode, city]
+    #contact_force_one_phonenumber: true
   #controls:
   #  enable: true
   cards:
