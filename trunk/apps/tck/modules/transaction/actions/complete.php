@@ -228,7 +228,7 @@
         {
           if ( !$ticket->printed_at && !$ticket->cancelling && !$ticket->integrated_at )
             $semaphore['products'] = false;
-          else
+          elseif ( !$ticket->duplicating )
             $semaphore['amount'] += $ticket->value;
         }
         foreach ( $this->transaction->Payments as $payment )
