@@ -75,7 +75,8 @@ class ContactForm extends BaseContactForm
   public function isValid()
   {
     $v = parent::isValid();
-    if ( !sfConfig::get('app_options_contact_force_one_phonenumber',false) )
+    $su = sfContext::hasInstance() && sfContext::getInstance()->getUser()->hasCredential('pr-admin');
+    if ( !sfConfig::get('app_options_contact_force_one_phonenumber',false) || $su )
       return $v;
     
     if ( $this->object->Phonenumbers->count() == 0 )
