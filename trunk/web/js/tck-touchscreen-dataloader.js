@@ -188,8 +188,6 @@ li.completeContent = function(data, type, replaceAll = true)
 
 li.sumPayments = function()
 {
-  console.log('sumPayments');
-  var ratio = parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.vat').html())/parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.tep').html().replace(',','.'));
   var val = 0;
   $('#li_transaction_field_payments_list tbody tr .sf_admin_list_td_list_value').each(function(){
     val += isNaN(parseFloat($(this).html().replace(',','.')))
@@ -199,17 +197,24 @@ li.sumPayments = function()
   $('#li_transaction_field_payments_list tfoot .total .sf_admin_list_td_list_value')
     .html(li.format_currency(val));
   
+  var ratio = val / parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.pit').html().replace(',','.'));
+  if ( isNaN(ratio) )
+    ratio = 0;
+  
   // difference
-  $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.pit')
-    .html(li.format_currency(parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.pit').html().replace(',','.'))-val));
+  $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.pit').html(li.format_currency(
+    parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.pit').html().replace(',','.'))
+    - val
+  ));
   
   // VAT & co.
-  $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.vat')
-    .html(li.format_currency(vat = ratio > 0 ? (parseFloat($('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.pit').html().replace(',','.'))-val)/ratio : 0));
-  $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.tep')
-    .html(li.format_currency(
-      parseFloat($('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.pit').html().replace(',','.'))
-      -
-      parseFloat($('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.vat').html().replace(',','.'))
-    ));
+  var topay = parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.pit').html().replace(',','.'));
+  $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.vat').html(li.format_currency(
+    parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.vat').html().replace(',','.'))
+    * ratio
+  ));
+  $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.tep').html(li.format_currency(
+    parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.tep').html().replace(',','.'))
+    * ratio
+  ));
 }
