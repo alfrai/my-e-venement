@@ -1,4 +1,25 @@
 # apps/rp/config/app.yml
 all:
   zoocreator_sync:
+    auth: xxx
+    url: https://creator.zoho.com/api/
+    appname: activites
+    matches:
+      Organism:
+        form: F_organismes
+        view: vOrganismes
+        fields:
+          vcard_uid:  ID
+          name:       Organisme
+          address:    adresse_rue_BP
+          city:       __substr([[CP_Ville_Cedex_Pays]],6)
+          postalcode: __substr([[CP_Ville_Cedex_Pays]],0,5)
+          Category:
+            name: name
+            dist: [Type_d_organisme]
+          Groups:
+            name: name
+            dist: [Familles, Type_Org_simpl1, Type_Org_simpl2, Regroupement, CCommunes]
+            #local:
+            #  type: glop
     

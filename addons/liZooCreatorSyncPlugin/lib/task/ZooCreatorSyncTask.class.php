@@ -25,6 +25,7 @@
 class ZooCreatorSyncTask extends sfBaseTask{
 
   protected $weirds = array();
+  protected $collections = array();
 
   protected function configure() {
     $this->addOptions(array(
@@ -142,91 +143,39 @@ EOF;
         $local = new $model;
         
         foreach ( $distant['fields'] as $field => $dfield )
-        if ( is_array($dfield) )
+        if ( is_array($dfield) && isset($dfield['name']) && isset($dfield['dist']) )
+        foreach ( $dfield['dist'] as $name )
         {
           // CASE OF COMPLEXE FOREIGN RELATIONS
-          $tmp = array('dfield' => NULL, 'field' => NULL, 'data' => array());
-          foreach ( $dfield as $key => $value )
+          if ( isset($object->$name) && trim($object->$name) )
           {
-            if ( $key == '__distant__' )
-            {
-              if ( isset($object->$value) && trim($object->$value) )
-                $tmp['dfield'] = trim($object->$value);
-            }
-            elseif ( $value == '___' )
-              $tmp['field'] = $key;
-            else
-              $tmp['data'][$key] = $value;
-          }
-          
-          if ( $tmp['dfield'] )
-          {
-            foreach ( $tmp['data'] as $key => $value )
-              $local->{$field}[0]->$key = $value;
-            $local->{$field}[0]->{$tmp['field']} = $tmp['dfield'];
-            $this->logSection(get_class($local->{$field}[0]), 'created.');
-          }
-        }
-        elseif ( substr($dfield,0,1) == '[' && substr($dfield,-1) == ']' )
-        {
-          if ( !isset($object->{substr($dfield,1,-1)}) )
-            continue;
-          
-          // CASE OF ARRAYS IN DISTANT OBJECT
-          $list = $object->{substr($dfield,1,-1)};
-          $list = explode(',',substr($list,1,-1));
-          foreach ( $list as $i => $item )
-            $list[$i] = trim($item);
-          
-          if ( !isset($this->collections[$field]) )
-            $this->collections[$field] = array();
-          
-          foreach ( $list as $item )
-          {
-            // buffering
-            if ( !isset($this->collections[$field][$item]) )
-            {
-              $m = get_class($local->{$field}[0]);
-              if ( $local->{$field}[0]->isNew() )
-                unset($local->{$field}[0]);
-              
-              $q = Doctrine_Query::create()->from($m.' m')
-                ->andWhere('m.name = ?', $item)
-                ->select('m.*');
-              $elt = $q->limit(1)->fetchOne();
-              $q->free();
-              
-              if ( !$elt )
-              {
-                $elt = new $m;
-                $elt->name = $item;
-                $elt->save();
-                $this->logSection($m, $item.' created.');
-              }
-              $this->collections[$field][$item] = $elt;
-            }
+            // defining the value(s) to add into the current object
+            $val = NULL;
+            if (!( $val = $this->zoo2e_func($object, $name) ))
+            if (!( $val = $this->zoo2e_array($object, $name) ))
+              $val = trim($object->$name);
             
-            // associating the subobject from the collection to the local object
-            $local->{$field}[] = $this->collections[$field][$item];
+            $this->zoo2e_associate($local, $field, $dfield['name'], $val, isset($dfield['local']) ? $dfield['local'] : array());
           }
         }
         else
         {
           // NORMAL CASES
           if ( isset($object->$dfield) && trim($object->$dfield) )
-            $local->$field = trim($object->$dfield);
+          {
+            $val = NULL;
+            if (! ($val = $this->zoo2e_func($object, $dfield) ));
+              $val = trim($object->$dfield);
+            
+            $local->$field = $val;
+          }
         }
         
         // saving the new object locally
         try
         {
-          if ( isset($local->name) && !$local->name )
-            $this->logSection($model.' '.$local->vcard_uid, $local->name.' '.$local->firstname, null, 'ERROR');
-          else
-          {
             $local->save();
-            $nb = $local->Groups->count();
-            $this->logSection($model.' '.$local->vcard_uid, $local->name.' '.$local->firstname.' ('.$nb.' group(s))');
+            $this->logSection($model.' '.$local->vcard_uid, (string)$local);
             $cpt++;
             
             if ( $cpt%10 == 0 )
@@ -238,12 +187,12 @@ EOF;
               unset($before, $after, $dummy);
               $this->logSection('Memory', round(memory_get_usage()/1024/1024).' Mo / '.$size);
             }
-          }
         }
         catch ( Doctrine_Connection_Exception $e ) // ERROR
         {
-          unset($e);
           $this->logSection($model.' (SQL) '.$local->vcard_uid, (string)$local, null, 'ERROR');
+          $this->logSection($e->getMessage());
+          unset($e);
         }
         
         $local->free(); // freeing memory
@@ -253,6 +202,85 @@ EOF;
       
       $this->logSection('Sync', $model.'s: '.$cpt);
     }
+  }
+  
+  protected function zoo2e_func($zoo_object, $field)
+  {
+    if ( !preg_match('/^__[\w_]+\(.*\)$/', $field) )
+      return false;
+    
+    $regexp = '/^__([\w_]+)\(\[\[([\w_]+)\]\](,.*)*\)$/';
+    $args = array($zoo_object[preg_replace($regexp, '$2', $field)]);
+    $func = preg_replace($regexp, '$1', $field);
+    $args = array_merge($args, explode(',', substr(preg_replace($regexp, '$3', $field), 1)));
+    
+    return call_user_func_array($func, $args);
+  }
+  protected function zoo2e_array($zoo_object, $field)
+  {
+    // PRECONDITIONS
+    if (!( substr($zoo_object->$field,0,1) == '[' && substr($zoo_object->$field,-1) == ']' ))
+      return false;
+    
+    // CASE OF ARRAYS IN DISTANT OBJECT
+    return explode(',',substr($zoo_object->$field,1,-1));
+  }
+  // associates the local object's collections w/ the given data
+  protected function zoo2e_associate(Doctrine_Record $ev_object, $collection, $name, $val, $local = array())
+  {
+    if ( !is_array($val) )
+      $val = array($val);
+    
+    foreach ( $val as $i => $item )
+      $val[$i] = trim($item);
+    
+    if ( !isset($this->collections[$collection]) )
+      $this->collections[$collection] = array();
+    
+    foreach ( $val as $item )
+    {
+      // buffering
+      if ( !isset($this->collections[$collection][$item]) )
+      {
+        if ( $ev_object->{$collection} instanceof Doctrine_Collection )
+        {
+          $m = get_class($ev_object->{$collection}[0]);
+          if ( $ev_object->{$collection}[0]->isNew() )
+            unset($ev_object->{$collection}[0]);
+        }
+        else
+        {
+          $m = get_class($ev_object->{$collection});
+          if ( $ev_object->{$collection}->isNew() )
+            unset($ev_object->{$collection});
+        }
+        
+        $q = Doctrine_Query::create()->from($m.' m')
+          ->andWhere('m.'.$name.' = ?', $item)
+          ->select('m.*');
+        $elt = $q->limit(1)->fetchOne();
+        $q->free();
+        
+        if ( !$elt )
+        {
+          $elt = new $m;
+          $elt->$name = $item;
+          foreach ( $local as $k => $v )
+            $elt->$k = $v;
+          $elt->save();
+          $this->logSection($m, $item.' created.');
+        }
+        $this->collections[$collection][$item] = $elt;
+      }
+      
+      // associating the subobject from the collection to the local object
+      if ( $ev_object->{$collection} instanceof Doctrine_Collection )
+        $ev_object->{$collection}[] = $this->collections[$collection][$item];
+      else
+        $ev_object->{$collection} = $this->collections[$collection][$item];
+    }
+    
+    return $val;
   }
 
   /**
