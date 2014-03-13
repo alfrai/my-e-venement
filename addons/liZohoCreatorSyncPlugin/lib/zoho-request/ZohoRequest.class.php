@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-  class ZooRequest extends \Httpful\Request
+  class ZohoRequest extends \Httpful\Request
   {
     protected $auth, $base_uri, $appname, $scope = 'creatorapi', $type = 'json', $task = NULL;
     
@@ -31,7 +31,7 @@
       foreach ( array('base_uri', 'auth', 'appname') as $prop )
       {
         if ( !$prop )
-          throw new liZooCreatorException('Configuration missing...');
+          throw new liZohoCreatorException('Configuration missing...');
         $this->$prop = $$prop;
       }
       $this->task = $task;
@@ -45,7 +45,7 @@
     public function go(Array $request = array())
     {
       if (!( is_array($request) && $module = $request['module'] ))
-        throw new liZooCreatorException('URI missing');
+        throw new liZohoCreatorException('URI missing');
       
       $method = NULL;
       $params = array();

@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-class liZooCreatorException extends sfException
+class liZohoCreatorException extends sfException
 {
   public function __construct($message = '')
   {
