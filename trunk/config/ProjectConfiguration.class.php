@@ -57,6 +57,11 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins('sfFeed2Plugin');
     $this->enablePlugins('liCardDavPlugin');
     
+    $modules = array();
+    @include(dirname(__FILE__).'/extra-modules.php');
+    foreach ( $modules as $module )
+      $this->enablePlugins($module);
+    
     $this->loadProjectConfiguration();
     
     // transliteration & hyphenation
