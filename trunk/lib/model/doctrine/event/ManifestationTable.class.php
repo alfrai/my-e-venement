@@ -94,7 +94,7 @@ class ManifestationTable extends PluginManifestationTable
         //->leftJoin("$w.WorkspacePrices $wwp ON $wwp.workspace_id = $w.id AND $wwp.price_id = $p.id")
         //->leftJoin("$p.WorkspacePrices $pwp ON $pwp.workspace_id = $w.id AND $pwp.price_id = $p.id")
         //->andWhere("$meu.id = ? AND ($wu.id = ? OR $wu.id IS NULL) AND ($pu.id = ? OR $pu.id IS NULL)",array($uid,$uid,$uid))
-        ;
+      ;
       
       //if ( sfContext::hasInstance() && $uid = sfContext::getInstance()->getUser()->getId() )
       //  $q->andWhere("$pm.id IS NULL OR $pm.price_id IN (SELECT price_id FROM UserPrice up WHERE up.user_id = ?)",$uid);

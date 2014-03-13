@@ -59,6 +59,22 @@ class Manifestation extends PluginManifestation
     $this->duration = strtotime($ends_at) - strtotime($this->happens_at);
     return $this;
   }
+  public function getEndsAtTime()
+  {
+    return strtotime($this->happens_at)+$this->duration;
+  }
+  public function getHappensAtTime()
+  {
+    return strtotime($this->happens_at);
+  }
+  public function getCreatedAtTime()
+  {
+    return strtotime($this->created_at);
+  }
+  public function getUpdatedAtTime()
+  {
+    return strtotime($this->happens_at);
+  }
   public function __toString()
   {
     return $this->getName();
