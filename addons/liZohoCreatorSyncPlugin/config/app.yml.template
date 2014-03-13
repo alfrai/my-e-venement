@@ -1,13 +1,16 @@
 # apps/rp/config/app.yml
 all:
   zoocreator_sync:
-    auth: xxx
+    auth: 4c9ab036ccca05b51c26a744d419ca5b
     url: https://creator.zoho.com/api/
     appname: activites
     matches:
       Organism:
         form: F_organismes
         view: vOrganismes
+        uid:
+          local: vcard_uid
+          distant: ID
         fields:
           vcard_uid:  ID
           name:       Organisme
@@ -22,4 +25,3 @@ all:
             dist: [Familles, Type_Org_simpl1, Type_Org_simpl2, Regroupement, CCommunes]
             #local:
             #  type: glop
-    
