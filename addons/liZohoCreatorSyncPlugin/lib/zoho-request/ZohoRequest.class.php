@@ -24,11 +24,11 @@
 <?php
   class ZohoRequest extends \Httpful\Request
   {
-    protected $auth, $base_uri, $appname, $scope = 'creatorapi', $type = 'json', $task = NULL;
+    protected $auth, $base_uri, $appname, $ownername, $scope = 'creatorapi', $type = 'json', $task = NULL;
     
-    public function __construct($base_uri, $auth, $appname, sfTask $task = NULL)
+    public function __construct($base_uri, $auth, $appname, $ownername, sfTask $task = NULL)
     {
-      foreach ( array('base_uri', 'auth', 'appname') as $prop )
+      foreach ( array('base_uri', 'auth', 'appname', 'ownername') as $prop )
       {
         if ( !$prop )
           throw new liZohoCreatorException('Configuration missing...');
@@ -37,18 +37,15 @@
       $this->task = $task;
     }
     
-    public function getBaseUri()
+    public function getBaseUri($with_owner = false)
     {
-      return $this->base_uri.$this->type.'/'.$this->appname;
+      return $this->base_uri.($with_owner ? $this->ownername.'/' : '').$this->type.'/'.$this->appname;
     }
     
     public function go(Array $request = array())
     {
       if (!( is_array($request) && $module = $request['module'] ))
         throw new liZohoCreatorException('URI missing');
-      
-      $method = NULL;
-      $params = array();
       
       $name = NULL;
       if ( isset($request['name']) )
@@ -63,7 +60,11 @@
         unset($request['action']);
       }
       
+      $method = NULL;
       switch ( $module ) {
+      case 'form':
+        $method = 'post';
+        break;
       default:
         $method = 'get';
         break;
@@ -72,14 +73,14 @@
       
       $request['authtoken'] = $this->auth;
       $request['scope']     = $this->scope;
-      $request['raw']       = 'true';
       
       switch ( $method ) {
       case 'get':
+        $request['raw']       = 'true';
         $req = parent::get($url = $this->getBaseUri().'/'.$module.'/'.($name ? $name.'/' : '').($action ? $action.'/' : '').http_build_query($request));
         break;
-      case 'post':
-        $req = parent::post($url = $this->getBaseUri().'/'.$module.'/'.($name ? $name.'/' : '').($action ? $action.'/' : ''))
+      default:
+        $req = parent::post($url = $this->getBaseUri(true).'/'.$module.'/'.($name ? $name.'/' : '').($action ? $action.'/' : ''))
           ->body(http_build_query($request));
         break;
       }

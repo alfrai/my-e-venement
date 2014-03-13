@@ -11,7 +11,7 @@ all:
         uid:
           local: vcard_uid
           distant: ID
-        fields:
+        z2e:
           vcard_uid:  ID
           name:       Organisme
           address:    adresse_rue_BP
@@ -25,3 +25,21 @@ all:
             dist: [Familles, Type_Org_simpl1, Type_Org_simpl2, Regroupement, CCommunes]
             #local:
             #  type: glop
+      Manifestation:
+        form: F_ActionsEven
+        view: Imports_MAJ_externes
+        uid:
+          local: id
+          distant: ev_ID
+        e2z:
+          Titre:          Event
+          Titre_info_compl: Event
+          description:    description
+          Date_de_debut:  __date(d/m/Y H:i:s,[[happens_at_time]])
+          Date_de_fin:    __date(d/m/Y H:i:s,[[ends_at_time]])
+          Added_Time:     __date(d/m/Y H:i:s,[[created_at_time]])
+          Date_simple:    __date(d/m/Y,[[happens_at_time]])
+          #Nb_adultes:     gauge_total
+          #LieuDaccueil:   Location
+          #Catalogue:      Event
+          

@@ -67,6 +67,7 @@ EOF;
       sfConfig::get('app_zohocreator_sync_url'),
       sfConfig::get('app_zohocreator_sync_auth'),
       sfConfig::get('app_zohocreator_sync_appname'),
+      sfConfig::get('app_zohocreator_sync_ownername'),
       $this
     );
     
@@ -129,9 +130,11 @@ EOF;
    **/
   protected function z2e(array $options)
   {
-    $this->collections = array(); // for buffering
+    if ( !is_array($this->collections) )
+      $this->collections = array(); // for buffering
     
     foreach ( sfConfig::get('app_zohocreator_sync_matches') as $model => $distant )
+    if ( isset($distant['z2e']) )
     {
       $this->logSection('Sync',$model);
       $response = $this->request->go(array('module' => 'view', 'action' => $distant['view']))
@@ -149,7 +152,7 @@ EOF;
         if ( !$local )
           $local = new $model;
         
-        foreach ( $distant['fields'] as $field => $dfield )
+        foreach ( $distant['z2e'] as $field => $dfield )
         if ( is_array($dfield) && isset($dfield['name']) && isset($dfield['dist']) )
         foreach ( $dfield['dist'] as $name )
         {
@@ -216,13 +219,21 @@ EOF;
   
   protected function z2e_func($z_object, $field)
   {
-    if ( !preg_match('/^__[\w_]+\(.*\)$/', $field) )
+    $regexp = '/^__([\w_]+)\((.*\s*,\s*)*\[\[([\w_]+)\]\](\s*,\s*.*)*\)$/';
+    $regexp = '/^__([\w_]+)\((.*\s*,\s*)*\[\[([\w_]+)\]\](\s*,\s*.*)*\)$/';
+    
+    if ( !preg_match($regexp, $field) )
       return false;
     
-    $regexp = '/^__([\w_]+)\(\[\[([\w_]+)\]\](,.*)*\)$/';
-    $args = array($z_object[preg_replace($regexp, '$2', $field)]);
     $func = preg_replace($regexp, '$1', $field);
-    $args = array_merge($args, explode(',', substr(preg_replace($regexp, '$3', $field), 1)));
+    $args = array();
+    $args = array_merge($args, preg_split('/\s*,\s*/', preg_replace($regexp, '$2', $field)));
+    $args = array_merge($args, array($z_object[preg_replace($regexp, '$3', $field)]));
+    $args = array_merge($args, preg_split('/\s*,\s*/', preg_replace($regexp, '$4', $field)));
+    
+    foreach ( $args as $key => $value )
+    if ( !trim($value) )
+      unset($args[$key]);
     
     return call_user_func_array($func, $args);
   }
@@ -235,6 +246,7 @@ EOF;
     // CASE OF ARRAYS IN DISTANT OBJECT
     return explode(',',substr($z_object->$field,1,-1));
   }
+  
   // associates the local object's collections w/ the given data
   protected function z2e_associate(Doctrine_Record $ev_object, $collection, $name, $val, $local = array())
   {
@@ -301,6 +313,82 @@ EOF;
    **/
   protected function e2z(array $option)
   {
-    $this->logSection('Not Implemented', 'This feature is not yet available.', NULL, 'ERROR');
+    if ( !is_array($this->collections) )
+      $this->collections = array(); // for buffering
+    
+    foreach ( sfConfig::get('app_zohocreator_sync_matches') as $model => $distant )
+    if ( isset($distant['e2z']) )
+    {
+      $this->logSection('Sync',$model);
+      
+      $cpt = 0;
+      $q = Doctrine::getTable('Manifestation')->createQuery('m', true)
+        ->andWhere('m.happens_at > NOW()')
+        ->orderBy('m.happens_at ASC');
+      
+      foreach ( $q->execute() as $object )
+      {
+        $response = $this->request->go(array(
+          'module' => 'view',
+          'action' => $distant['view'],
+          'criteria' => $distant['uid']['distant'].'='.$object->{$distant['uid']['local']},
+        ))->send();
+        
+        if ( !is_array($response->body) && !is_object($response->body) )
+          $response->body = json_decode($response->body);
+        
+        $zobject = isset($response->body->{$distant['form']}[0])
+          ? $response->body->{$distant['form']}[0]
+          : array();
+        $zobject[$distant['uid']['distant']] = $object->{$distant['uid']['local']};
+        foreach ( $distant['e2z'] as $df => $lf )
+        {
+          if (!( $val = $this->z2e_func($object, $lf) ))
+            $val = (string)$object->$lf;
+          $zobject[$df] = $val;
+        }
+        
+        if ( !isset($response->body->{$distant['form']}[0]) )
+        {
+          // creation
+          $response = $this->request->go(array_merge(array(
+            'module' => 'form',
+            'action' => 'record/add',
+            'name'   => $distant['form'],
+          ), $zobject))->send();
+          if ( !is_array($response->body) && !is_object($response->body) ) // hack
+            $response->body = json_decode($response->body);
+          
+          // LOG
+          if ( count($response->body->errorlist->error) > 0 )
+          foreach ( $response->body->errorlist->error as $error )
+            $this->logSection($model.' creating', $error->message, NULL, 'ERROR');
+          else
+          {
+            $this->logSection($model.' created', $object);
+            $cpt++;
+          }
+        }
+        else
+        {
+          // edition
+          $response = $this->request->go(array_merge(array(
+            'module' => 'form',
+            'action' => 'record/add',
+            'name'   => $distant['form'],
+            'criteria' => $distant['uid']['distant'].'='.$object->{$distant['uid']['local']},
+          ), $zobject))->send();
+          if ( !is_array($response->body) && !is_object($response->body) ) // hack
+            $response->body = json_decode($response->body);
+          
+          // LOG
+          $this->logSection($model.' updated', $object);
+          $cpt++;
+        }
+        
+      }
+      
+      $this->logSection('Sync', $model.'s: '.$cpt);
+    }
   }
 }
