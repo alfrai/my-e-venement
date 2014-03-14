@@ -207,14 +207,15 @@ class groupActions extends autoGroupActions
   public function executeCsv(sfWebRequest $request)
   {
     $criterias = array(
-      'groups_list'           => array(sfContext::getInstance()->getRequest()->getParameter('id')),
+      'groups_list'           => array($request->getParameter('id')),
       'organism_id'           => NULL,
       'organism_category_id'  => NULL,
       'professional_type_id'  => NULL,
     );
     $this->getUser()->setAttribute('contact.filters', $criterias, 'admin_module');
+    $this->getUser()->setAttribute('organism.filters', $criterias, 'admin_module');
     
-    $this->redirect('contact','index');
+    $this->redirect('contact/index');
   }
   
   protected function createQueryByRoute()
