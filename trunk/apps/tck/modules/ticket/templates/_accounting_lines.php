@@ -15,17 +15,23 @@
     <td class="up"><?php echo format_currency($ticket->value,'€') ?></td>
     <td class="qty inline-modifiable"><?php
       $qty = isset($nocancel) && $nocancel && $tickets[$i]->Cancelling->count() > 0 ? 0 : ($tickets[$i]->cancelling ? -1 : 1);
+      $nums = $ticket->numerotation ? array($ticket->numerotation) : array();
       if ( $i+1 < $tickets->count() )
       while ( $tickets[$i+1]['manifestation_id'] == $ticket->manifestation_id
            && $tickets[$i+1]['price_id']         == $ticket->price_id
            && $tickets[$i+1]['value']            == $ticket->value )
       {
         if ( isset($nocancel) && !$nocancel || $tickets[$i+1]->Cancelling->count() == 0 )
+        {
           $qty++;
+          if ( $tickets[$i+1]->numerotation )
+            $nums[] = $tickets[$i+1]->numerotation;
+        }
         $i++;
       }
       echo $qty;
     ?></td>
+    <td class="seats"><?php echo count($nums) > 20 ? '' : implode(', ', $nums) ?></span></td>
     <td class="pit"><?php echo format_currency($tip = $ticket->value * $qty,'€'); $totals['tip'] += $tip ?></td>
     <td class="vat">
       <span class="value"><?php echo format_currency(round($vat = $tip - $tip/(1+$ticket->vat),2),'€'); if ( !isset($totals['vat'][$ticket->vat]) ) $totals['vat'][$ticket->vat] = 0; $totals['vat'][$ticket->vat] += $vat ?></span>
@@ -46,6 +52,7 @@
   <th class="price"><span><?php echo __('Price') ?></span></th>
   <th class="up"><span><?php echo __('Unit TIP') ?></span></th>
   <th class="qty"><span><?php echo __('Qty') ?></span></th>
+  <th class="seats"><span><?php echo __('seat') ?></span></th>
   <th class="pit"><span><?php echo __('TIP') ?></span></th>
   <th class="vat"><span><?php echo __('VAT') ?></span></th>
   <th class="tep"><span><?php echo __('PET') ?></span></th>

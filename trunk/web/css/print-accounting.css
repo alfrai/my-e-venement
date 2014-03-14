@@ -42,6 +42,7 @@ body {
 #lines .tip, #lines .pet { font-weight: bold; }
 #lines .postalcode { display: none; }
 #lines .vat .percent { display: none; }
+#lines .seats { display: none; }
 
 .tip:after, .pet:after, .up:after { content: ''; padding-left: 2px; }
 #lines .tip, #lines .pet, #lines .up, #lines .vat { text-align: right; }
