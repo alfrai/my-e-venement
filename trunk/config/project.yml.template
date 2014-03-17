@@ -30,3 +30,6 @@ all:
   #messaging:
   #  enable: true
   #  chatrooms: [e-venement-public@conference.jabber.libre-informatique.fr]
+  #system:
+  #  extra_modules: [liZohoCreatorSyncPlugin]
+      
