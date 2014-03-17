@@ -1,7 +1,7 @@
 # apps/rp/config/app.yml
 all:
   zohocreator_sync:
-    auth: 4c9ab036ccca05b51c26a744d419ca5b
+    auth: xxxxxx_token_xxxxxx
     url: https://creator.zoho.com/api/
     appname: activites
     matches:
