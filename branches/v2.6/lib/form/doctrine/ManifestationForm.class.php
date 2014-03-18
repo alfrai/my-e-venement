@@ -44,6 +44,9 @@ class ManifestationForm extends BaseManifestationForm
       'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',10).' }',
     ));
     
+    // reservation
+    $config = sfConfig::get('app_manifestation_reservations',array('enable' => false));
+    
     // misc permissions for single fields (but particularly on reservation stuff)
     if ( sfContext::hasInstance() )
     {
@@ -53,18 +56,19 @@ class ManifestationForm extends BaseManifestationForm
       if ( !$sf_user->hasCredential($credentials['contact_id']) )
         $this->widgetSchema['contact_id'] = new sfWidgetFormInputHidden;
       
-      if ( !$sf_user->hasCredential($credentials['reservation_confirmed'])
-        && $sf_user->getContactId() !== $this->object->contact_id )
+      if ( !$sf_user->hasCredential($credentials['reservation_confirmed']) && !(
+           isset($config['let_restricted_users_confirm'])
+        && $config['let_restricted_users_confirm']
+        && $sf_user->getContactId() === $this->object->contact_id
+      ))
         $this->widgetSchema['reservation_confirmed'] = new sfWidgetFormInputHidden;
     }
     
-    // reservation
     // removing required options from fields that should be filled automatically in the Manifestation objet
     foreach ( array('reservation_begins_at', 'reservation_ends_at',) as $fieldName )
       $this->validatorSchema[$fieldName]->setOption('required', false);
     $this->widgetSchema['booking_list']->setOption('expanded', true)
       ->setOption('order_by', array('place, name',''));
-    $config = sfConfig::get('app_manifestation_reservations',array('enable' => false));
     if (!( isset($config['enable']) && $config['enable'] ))
     foreach ( array('contact_id', 'reservation_begins_at', 'reservation_ends_at', 'blocking', 'reservation_confirmed', 'reservation_optional', 'reservation_description') as $fieldName )
       $this->widgetSchema[$fieldName] = new sfWidgetFormInputHidden;
