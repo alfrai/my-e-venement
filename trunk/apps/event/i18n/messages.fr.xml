@@ -169,7 +169,7 @@
         <target>Mais elle n'est pas encore confirmée.</target>
       </trans-unit>
       <trans-unit>
-        <source>Its status "confirmed" has been kept, because you've got specific credentials for that.</source>
+        <source>Its status "confirmed" has been kept, because you have specific credentials for that.</source>
         <target>Son statut "confirmé" a été conservé, car vous avez des autorisations spéciales pour cela.</target>
       </trans-unit>
       <trans-unit>

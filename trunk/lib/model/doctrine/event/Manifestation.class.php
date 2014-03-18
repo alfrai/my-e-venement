@@ -12,7 +12,6 @@
  */
 class Manifestation extends PluginManifestation
 {
-  var $conflict = NULL;
   public $current_version = NULL;
   
   public function getName()
@@ -90,19 +89,26 @@ class Manifestation extends PluginManifestation
     **/
   public function hasAnyConflict()
   {
-    // precondition
-    if ( $this->isNew() || $this->isModified() )
-      throw new liBookingException('A manifestation has to be recorded to be checked for conflicts. Save it before...');
+    $rids = array();
+    foreach ( $this->Booking as $r )
+      $rids[] = $r->id;
+    $rids[] = $this->location_id;
     
-    if ( !is_null($this->conflict) )
-      return $this->conflict;
+    $m2_start = "CASE WHEN m.happens_at < m.reservation_begins_at THEN m.happens_at ELSE m.reservation_begins_at END";
+    $m2_stop  = "CASE WHEN m.happens_at + (m.duration||' seconds')::interval > m.reservation_ends_at THEN m.happens_at + (m.duration||' seconds')::interval ELSE m.reservation_ends_at END";
+    $start = $this->happens_at > $this->reservation_begins_at ? $this->reservation_begins_at : $this->happens_at;
+    $stop = $this->ends_at > $this->reservation_ends_at ? $this->ends_at : $this->reservation_ends_at;
     
-    $conflicts = Doctrine::getTable('Manifestation')->getConflicts(array(
-      'id' => $this->id,
-      'potentially' => $this->id,
-    ));
+    $q = Doctrine::getTable('Manifestation')->createQuery('m', true)
+      ->leftJoin('m.Booking b')
+      ->andWhere("$m2_start < ? AND $m2_stop > ?", array($stop, $start))
+      ->andWhere('m.reservation_confirmed = ?', true)
+      ->andWhere('(TRUE')
+      ->andWhereIn('b.id',$rids)
+      ->orWhereIn('m.location_id',$rids)
+      ->andWhere('TRUE)');
     
-    return isset($conflicts[$this->id]);
+    return $q->count() > 0;
   }
   
   /**
