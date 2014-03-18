@@ -232,9 +232,13 @@ class manifestationActions extends autoManifestationActions
       $this->redirect('@event');
     }
     
+    $config = sfConfig::get('app_manifestation_reservations',array('enable' => false));
+    if ( !$sf_user->hasCredential('event-manif-edit-confirmed') && !(isset($config['let_restricted_users_confirm']) && $config['let_restricted_users_confirm']) )
+      error_log('no edition');
     if ( $deep )
     if ( $manifestation->contact_id !== $sf_user->getContactId() && !$sf_user->hasCredential('event-access-all')
-      || $manifestation->reservation_confirmed && !$sf_user->hasCredential('event-manif-edit-confirmed') && $manifestation->contact_id !== $sf_user->getContactId() )
+      || $manifestation->reservation_confirmed && !$sf_user->hasCredential('event-manif-edit-confirmed') && $manifestation->contact_id !== $sf_user->getContactId()
+      || !(isset($config['let_restricted_users_confirm']) && $config['let_restricted_users_confirm']) && !$sf_user->hasCredential('event-manif-edit-confirmed') )
     {
       $this->getUser()->setFlash('error',"You cannot edit this object, you do not have the required credentials.");
       $this->redirect('manifestation/show?id='.$manifestation->id);
