@@ -130,7 +130,7 @@ class ManifestationTable extends PluginManifestationTable
   public function retrieveConflicts()
   {
     $conflicts = $this->getConflicts();
-    $conflicts[] = 0;
+    $conflicts[-1] = 0;
     $q = $this->createQuery('m')
       ->andWhere('m.reservation_confirmed = TRUE')
       ->andWhere('m.blocking = TRUE')
