@@ -68,7 +68,7 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
     if ( $value )
     {
       $a = $query->getRootAlias();
-      $query->andWhere("(SELECT sum(value) FROM Ticket tck LEFT JOIN tck.Transaction tr WHERE tr.id = $a.transaction_id AND tck.duplicate IS NULL AND (printed OR integrated)) = ?",$value);
+      $query->andWhere("(SELECT sum(value) FROM Ticket tck LEFT JOIN tck.Transaction tr WHERE tr.id = $a.transaction_id AND tck.duplicating IS NULL AND (printed OR integrated)) = ?",$value);
     }
     
     return $query;
