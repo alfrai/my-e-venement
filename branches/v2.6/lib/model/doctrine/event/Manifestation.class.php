@@ -88,6 +88,7 @@ class Manifestation extends PluginManifestation
       ->andWhere("$m2_start < ? AND $m2_stop > ?", array($stop, $start))
       ->andWhere('m.reservation_confirmed = ?', true)
       ->andWhere('m.blocking = ?', true)
+      ->andWhere('m.id != ?', $this->id)
       ->andWhere('(TRUE')
       ->andWhereIn('b.id',$rids)
       ->orWhereIn('m.location_id',$rids)
