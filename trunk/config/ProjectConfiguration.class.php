@@ -78,4 +78,9 @@ class ProjectConfiguration extends sfProjectConfiguration
       require_once $this->getConfigCache()->checkConfig('config/e-venement.yml');
     }
   }
+  
+  public function configureDoctrine(Doctrine_Manager $manager)
+  {
+    $manager->setAttribute(Doctrine_Core::ATTR_QUERY_CLASS, 'liDoctrineQuery');
+  }
 }
