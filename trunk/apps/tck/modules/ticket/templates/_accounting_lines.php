@@ -57,5 +57,4 @@
   <th class="vat"><span><?php echo __('VAT') ?></span></th>
   <th class="tep"><span><?php echo __('PET') ?></span></th>
 </tr></thead>
-</thead>
 </table>
