@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>For global efficiency needs, your search was truncated of its criteria related to the amount spent in ticketting. To avoid this, remove your criteria on groups.</source>
+        <target>Pour des besoins d'efficacité, votre recherche a été réduite de son critère lié au montant dépensé en billetterie. Pour éviter cela, retirez votre critère sur les groupes.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Your email has been temporary recorded. Please be careful, modify its subject and its content before sending...</source>
         <target>Votre email a été temporairement enregistré. Soyez vigilant, pensez à modifier son sujet et son contenu avant de l'envoyer...</target>
       </trans-unit>
@@ -73,8 +77,8 @@
         <target>Vous devez ajouter au moins un numéro de téléphone</target>
       </trans-unit>
       <trans-unit>
-        <source></source>
-        <target></target>
+        <source>Takes a long time</source>
+        <target>Prends du temps...</target>
       </trans-unit>
       <trans-unit>
         <source>Birthdays</source>

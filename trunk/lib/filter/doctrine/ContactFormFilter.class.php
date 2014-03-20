@@ -21,9 +21,9 @@ class ContactFormFilter extends BaseContactFormFilter
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
     
-    $this->tickets_having_query = Doctrine_Query::create()->from('Contact c')
-      ->groupBy('c.id')
-      ->select('c.id');
+    $this->tickets_having_query = Doctrine_Query::create()->from('Contact hqc')
+      ->groupBy('hqc.id')
+      ->select('hqc.id');
     
     $this->widgetSchema['groups_list']->setOption(
       'order_by',
@@ -444,23 +444,40 @@ class ContactFormFilter extends BaseContactFormFilter
   public function addTicketsAmountMinColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $a = $q->getRootAlias();
+    $prefix = 'hq';
     
     if ( $value )
     {
-      foreach ( array($q,$this->tickets_having_query) as $query )
+      if ( $q->contains("LEFT JOIN $a.Groups gc") || $q->contains("LEFT JOIN p.Groups gp") )
       {
-        if ( !$query->contains("LEFT JOIN $a.Transactions transac ON $a.id = transac.contact_id AND (p.id = transac.professional_id OR transac.professional_id IS NULL)") )
-        $query->leftJoin("$a.Transactions transac ON $a.id = transac.contact_id AND (p.id = transac.professional_id OR transac.professional_id IS NULL)");
-        
-        if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
-        $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
+        if ( sfContext::hasInstance() )
+        {
+          sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+          sfContext::getInstance()->getUser()->setFlash('notice', __('For global efficiency needs, your search was truncated of its criteria related to the amount spent in ticketting. To avoid this, remove your criteria on groups.'));
+        }
+        return $q;
       }
       
-      $this->tickets_having_query->having('sum(tck.value) >= ?',$value);
+      foreach ( array('' => $q, $prefix => $this->tickets_having_query) as $p => $query )
+      {
+        $r = $query->getRootAlias();
+        
+        if ( !$query->contains("LEFT JOIN $r.Professionals ".$p."p") )
+        $query->leftJoin("$r.Professionals ".$p."p");
+        
+        if ( !$query->contains("LEFT JOIN $r.Transactions ".$p."transac ON ".$p."$r.id = ".$p."transac.contact_id AND (".$p."p.id = ".$p."transac.professional_id OR ".$p."transac.professional_id IS NULL)") )
+        $query->leftJoin("$r.Transactions ".$p."transac ON $r.id = ".$p."transac.contact_id AND (".$p."p.id = ".$p."transac.professional_id OR ".$p."transac.professional_id IS NULL)");
+        
+        if ( !$query->contains("LEFT JOIN ".$p."transac.Tickets ".$p."tck ON ".$p."transac.id = ".$p."tck.transaction_id AND (tck.printed_at IS NOT NULL OR ".$p."tck.integrated_at IS NOT NULL) AND ".$p."tck.id NOT IN (SELECT ".$p."ttck.cancelling FROM ticket ".$p."ttck WHERE ".$p."ttck.cancelling IS NOT NULL)") )
+        $query->leftJoin($p."transac.Tickets ".$p."tck ON ".$p."transac.id = ".$p."tck.transaction_id AND (".$p."tck.printed_at IS NOT NULL OR ".$p."tck.integrated_at IS NOT NULL) AND ".$p."tck.id NOT IN (SELECT ".$p."ttck.cancelling FROM ticket ".$p."ttck WHERE ".$p."ttck.cancelling IS NOT NULL)");
+      }
+      
+      $this->tickets_having_query->having("sum(".$p."tck.value) >= ?", $value);
       foreach ( $this->tickets_having_query->fetchArray() as $c )
         $ids[] = $c['id'];
       
-      $q->andWhereIn("$a.id",$ids);
+      //$q->andWhere("$a.id IN (".$this->tickets_having_query.")", $value);
+      $q->andWhereIn("$a.id", $ids);
     }
     
     return $q;
@@ -471,20 +488,36 @@ class ContactFormFilter extends BaseContactFormFilter
     
     if ( $value )
     {
-      foreach ( array($q,$this->tickets_having_query) as $query )
+      if ( $q->contains("LEFT JOIN $a.Groups gc") || $q->contains("LEFT JOIN p.Groups gp") )
       {
-        if ( !$query->contains("LEFT JOIN $a.Transactions transac ON $a.id = transac.contact_id AND (p.id = transac.professional_id OR transac.professional_id IS NULL)") )
-        $query->leftJoin("$a.Transactions transac ON $a.id = transac.contact_id AND (p.id = transac.professional_id OR transac.professional_id IS NULL)");
-        
-        if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
-        $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
+        if ( sfContext::hasInstance() )
+        {
+          sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+          sfContext::getInstance()->getUser()->setFlash('notice', __('For global efficiency needs, your search was truncated of its criteria related to the amount spent in ticketting. To avoid this, remove your criteria on groups.'));
+        }
+        return $q;
       }
       
-      $this->tickets_having_query->having('sum(tck.value) < ?',$value);
+      foreach ( array('' => $q, $prefix => $this->tickets_having_query) as $p => $query )
+      {
+        $r = $query->getRootAlias();
+        
+        if ( !$query->contains("LEFT JOIN $r.Professionals ".$p."p") )
+        $query->leftJoin("$r.Professionals ".$p."p");
+        
+        if ( !$query->contains("LEFT JOIN $r.Transactions ".$p."transac ON ".$p."$r.id = ".$p."transac.contact_id AND (".$p."p.id = ".$p."transac.professional_id OR ".$p."transac.professional_id IS NULL)") )
+        $query->leftJoin("$r.Transactions ".$p."transac ON $r.id = ".$p."transac.contact_id AND (".$p."p.id = ".$p."transac.professional_id OR ".$p."transac.professional_id IS NULL)");
+        
+        if ( !$query->contains("LEFT JOIN ".$p."transac.Tickets ".$p."tck ON ".$p."transac.id = ".$p."tck.transaction_id AND (tck.printed_at IS NOT NULL OR ".$p."tck.integrated_at IS NOT NULL) AND ".$p."tck.id NOT IN (SELECT ".$p."ttck.cancelling FROM ticket ".$p."ttck WHERE ".$p."ttck.cancelling IS NOT NULL)") )
+        $query->leftJoin($p."transac.Tickets ".$p."tck ON ".$p."transac.id = ".$p."tck.transaction_id AND (".$p."tck.printed_at IS NOT NULL OR ".$p."tck.integrated_at IS NOT NULL) AND ".$p."tck.id NOT IN (SELECT ".$p."ttck.cancelling FROM ticket ".$p."ttck WHERE ".$p."ttck.cancelling IS NOT NULL)");
+      }
+      
+      $this->tickets_having_query->having("sum(".$p."tck.value) < ?", $value);
       foreach ( $this->tickets_having_query->fetchArray() as $c )
         $ids[] = $c['id'];
       
-      $q->andWhereIn("$a.id",$ids);
+      //$q->andWhere("$a.id IN (".$this->tickets_having_query.")", $value);
+      $q->andWhereIn("$a.id", $ids);
     }
     
     return $q;
@@ -494,7 +527,7 @@ class ContactFormFilter extends BaseContactFormFilter
   {
     $a = $q->getRootAlias();
     
-    if ( is_array($value) )
+    if ( is_array($value) && count($value) )
     {
       if ( !$q->contains("LEFT JOIN $a.Groups gc") )
         $q->leftJoin("$a.Groups gc");
@@ -514,7 +547,7 @@ class ContactFormFilter extends BaseContactFormFilter
   {
     $a = $q->getRootAlias();
     
-    if ( is_array($value) )
+    if ( is_array($value) && count($value) )
     {
       $q1 = new Doctrine_Query();
       $q1->select('tmp1.contact_id')
