@@ -31,8 +31,8 @@ generator:
         control_created_at: { label: Passed in between }
         control_manifestation_id: { label: Passed on manifestations }
         control_checkpoint_id: { label: Controlled on checkpoints }
-        tickets_amount_min: { label: Minimum tickets amount }
-        tickets_amount_max: { label: Maximum tickets amount }
+        tickets_amount_min: { label: Minimum tickets amount, help: Takes a long time }
+        tickets_amount_max: { label: Maximum tickets amount, help: Takes a long time }
         list_emails: { label: Emails }
         list_see_orgs: { label: '', credentials: [pr-organism] }
         organisms_list: { label: Organisms, credentials: [pr-organism] }
