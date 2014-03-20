@@ -36,6 +36,23 @@ class Addressable extends PluginAddressable
   {
     return str_replace('-','_',$this->slug);
   }
+  
+  public function setLatitude($value)
+  {
+    if ( !$value )
+      $this->latitude = NULL;
+    else
+      $this->latitude = $value;
+    return $this;
+  }
+  public function setLongitude($value)
+  {
+    if ( !$value )
+      $this->longitude = NULL;
+    else
+      $this->longitude = $value;
+    return $this;
+  }
 
 /*
   public function updateGeolocalization()

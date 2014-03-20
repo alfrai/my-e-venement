@@ -71,10 +71,15 @@ function list_edit()
         // submitting specialized form
         $(this).find('form').unbind().submit(function(){
           $(this).parent().addClass('submitting');
-          $.post($(this).prop('action'), $(this).serialize(), function(data){
-            $('.specialized-form.submitting').each(function(){
-              $(this).closest('.sf_admin_text').html($(this).find('input[type=text]:first').val());
-            });
+          $.ajax({
+            url: $(this).prop('action'),
+            data: $(this).serialize(),
+            method: 'post',
+            success: function(data){
+              $('.specialized-form.submitting').each(function(){
+                $(this).closest('.sf_admin_text').html($(this).find('input[type=text]:first').val());
+              });
+            }
           });
           return false;
         });
@@ -83,7 +88,7 @@ function list_edit()
   });
   // submit all specialized forms when submitting any form on the page
   window.onbeforeunload = function(){
-    $('.specialized-form form').each(function(){
+    $('.specialized-form:not(.submitting) form').each(function(){
       $(this).submit();
     });
     window_transition();
