@@ -206,14 +206,29 @@ class ticketActions extends sfActions
   }
   public function executeRecordAccounting(sfWebRequest $request)
   {
+    if ( $request->getParameter('invoice_id',false) && $request->getParameter('order_id',false) )
+      throw new sfError404Exception();
+    
     $accounting = new RawAccounting();
-    $invoice = Doctrine::getTable('Invoice')->fetchOneById(intval($request->getParameter('invoice_id')));
-    if ( !$invoice ) throw new sfError404Exception();
+    
+    if ( $request->getParameter('invoice_id',false) )
+    {
+      $invoice = Doctrine::getTable('Invoice')->fetchOneById(intval($request->getParameter('invoice_id')));
+      if ( !$invoice ) throw new sfError404Exception();
+      $accounting->invoice_id = $invoice->id;
+    }
+    if ( $request->getParameter('order_id',false) )
+    {
+      $order = Doctrine::getTable('Order')->fetchOneById(intval($request->getParameter('order_id')));
+      if ( !$order ) throw new sfError404Exception();
+      $accounting->order_id = $order->id;
+    }
     
     $accounting->content = $request->getParameter('content');
-    $accounting->invoice_id = $invoice->id;
     
     $accounting->save();
+    error_log(print_r($accounting->toArray(),true));
+    throw new sfException('here');
     return sfView::NONE;
   }
   // invoice
