@@ -175,8 +175,10 @@ class ContactForm extends BaseContactForm
       $this->widgetSchema['emails_list'],
       $this->widgetSchema['groups_list'],
       $this->widgetSchema['YOBs_list'],
+      $this->widgetSchema['YOBs'],
       $this->widgetSchema['Relationships'],
-      $this->widgetSchema['relations_list']
+      $this->widgetSchema['relations_list'],
+      $this->widgetSchema['back_relations_list']
     );
     
     // BUG: 2013-04-12
