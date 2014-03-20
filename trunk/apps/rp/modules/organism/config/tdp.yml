@@ -70,7 +70,7 @@ all:
           class: Professional
           parentAlias: Organism
           title: [Contact]
-          new_title: [contact_id]
+          new_title: [contact_id, _new_contact]
           credentials: pr-contact
           lines:
             line1:

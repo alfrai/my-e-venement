@@ -84,7 +84,7 @@ all:
           parentAlias: Contact
           credentials: pr-organism
           title: [Organism]
-          new_title: [organism_id]
+          new_title: [organism_id, _new_organism]
           lines:
             line1:
               fields: [professional_type_id, name, department, _organism_category, _groups_picto]
