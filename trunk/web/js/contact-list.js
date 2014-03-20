@@ -1,7 +1,7 @@
 $(document).ready(function(){
   // adding the possibility to edit in the list itself the records
   $('.sf_admin_row .sf_admin_text').dblclick(function(){
-    $('.specialized-form').submit();
+    $('form.specialized-form:not(.submitting)').submit();
     
     fieldname = $(this).prop('class').replace(/sf_admin_list_td_(\w+)/g,"$1").replace(/sf_admin_text/g,'').trim();
     id = $(this).closest('.sf_admin_row').find('[name="ids[]"]').val();
@@ -28,7 +28,7 @@ $(document).ready(function(){
   });
   // submit all specialized forms when submitting any form on the page
   $('form:not(.specialized-form').submit(function(){
-    $('.specialized-form').submit();
+    $('form.specialized-form:not(.submitting)').submit();
   });
   
   // making emails clickable except when filling down the list through AJAX
