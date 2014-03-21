@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <div class="ui-widget-content ui-corner-all criterias" id="users">
-  <div class="fg-toolbar ui-widget-header ui-corner-all">
+  <div class="fg-toolbar ui-widget-header ui-corner-all" onclick="javascript: $(this).closest('.criterias').toggleClass('hide');">
     <h2><?php echo __("Concerned users") ?></h2>
   </div>
   <ul><?php foreach ($users as $user): ?>
