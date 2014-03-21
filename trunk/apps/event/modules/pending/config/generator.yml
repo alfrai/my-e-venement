@@ -43,7 +43,7 @@ generator:
           #_confirm:
           #  action: confirm
       filter:
-        display: [location_id, happens_at, blocking, reservation_optional, event_id, meta_event_id, workspace_id]
+        display: [location_id, contact_id, happens_at, blocking, reservation_optional, event_id, meta_event_id, workspace_id]
       form:    ~
       edit:    ~
       new:     ~
