@@ -3,7 +3,7 @@
 
 <div id="sf_admin_container" class="sf_admin_show ui-widget ui-widget-content ui-corner-all">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
-    <h1><?php echo __('View Manifestation %%name%%', array('%%name%%' => $manifestation->name), 'messages') ?></h1>
+    <h1><?php echo $manifestation->name.' @ '.$manifestation->Location ?></h1>
   </div>
   
   <?php include_partial('manifestation/flashes') ?>

@@ -46,7 +46,7 @@ generator:
         display: []
       form: ~
       edit:
-        title: Edit Manifestation %%name%%
+        title: %%name%% @ %%Location%%
         display:
           General:      [happens_at, ends_at, _id, event_id, location_id, _show_gauge_txt, color_id, _form_prices]
           Ticketting:   [duration, vat_id, online_limit, depends_on, _show_is_necessary_to, organizers_list, no_print]
