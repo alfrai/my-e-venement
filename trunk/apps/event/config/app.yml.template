@@ -24,6 +24,7 @@ all:
       #shown_in_calendar: false
       #let_restricted_users_confirm: true
     #extra_informations_enable: false
+    #editable_in_calendar: false
   synchronization:
     #period:
     #  from: now
