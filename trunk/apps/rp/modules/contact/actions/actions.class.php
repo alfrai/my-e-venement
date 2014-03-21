@@ -428,6 +428,45 @@ class contactActions extends autoContactActions
     return require(dirname(__FILE__).'/card.php');
   }
   
+  protected function processForm(sfWebRequest $request, sfForm $form)
+  {
+    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
+    if ($form->isValid())
+    {
+      $notice = $form->getObject()->isNew() ? 'The item was created successfully.' : 'The item was updated successfully.';
+
+      $contact = $form->save();
+
+      $this->dispatcher->notify(new sfEvent($this, 'admin.save_object', array('object' => $contact)));
+
+      if ($request->hasParameter('_duplicate'))
+      {
+        $this->getUser()->setFlash('notice', $notice.' You can add another one below.');
+
+        $contact = $contact->copy();
+        $contact->slug = NULL;
+        $contact->save();
+        $this->redirect(array('sf_route' => 'contact_edit', 'sf_subject' => $contact));
+      }
+      elseif ($request->hasParameter('_save_and_add'))
+      {
+        $this->getUser()->setFlash('notice', $notice.' You can add another one below.');
+
+        $this->redirect('@contact_new');
+      }
+      else
+      {
+        $this->getUser()->setFlash('notice', $notice);
+
+        $this->redirect(array('sf_route' => 'contact_edit', 'sf_subject' => $contact));
+      }
+    }
+    else
+    {
+      $this->getUser()->setFlash('error', 'The item has not been saved due to some errors.', false);
+    }
+  }
+  
   public function executeFilter(sfWebRequest $request)
   {
     if ( sfConfig::get('app_options_design',false) == 'tdp' && sfConfig::get(sfConfig::get('app_options_design').'_active',false) )
