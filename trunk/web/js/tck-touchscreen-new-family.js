@@ -68,6 +68,10 @@
           .css('background-color', $(this).closest('.family').find('h3').css('background-color'))
           .appendTo($(this).closest('.bunch').find('.new-family select'));
         console.log('added');
+        $('#li_transaction_field_new_transaction a').prop('href', $('#li_transaction_field_new_transaction a').prop('href').replace(
+          '#'+$(this).closest('.bunch').prop('id').replace('li_transaction_','')+'-'+$(this).closest('.family').attr('data-family-id'),
+          ''
+        ));
         $(this).closest('.family').remove();
       }
       else
