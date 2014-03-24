@@ -30,7 +30,7 @@
             'field'      => $field,
             'class'      => 'sf_admin_form_row sf_admin_'.strtolower($field->getType()).' sf_admin_filter_field_'.$name,
           )) ?]
-        [?php else: ?]
+        [?php elseif ( $sf_data->getRaw('field') !== NULL ): ?]
         [?php include_partial('<?php echo $this->getModuleName() ?>/filters_fieldset', array(
           'name'       => $name,
           'form'       => $form,
