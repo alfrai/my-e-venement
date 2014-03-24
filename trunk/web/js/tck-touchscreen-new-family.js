@@ -5,9 +5,12 @@
       if ( $(this).val() )
       {
         $(this).closest('form').submit();
+        $('#li_transaction_field_new_transaction a').prop('href', $('#li_transaction_field_new_transaction a').prop('href')+'#'+$(this).closest('.bunch').prop('id').replace('li_transaction_','')+'-'+$(this).val()); // keep the same manifestations for the next transaction
         $(this).find('option:selected').remove();
       }
     });
+    
+    li.autoAddFamilies();
     
     // the autocompleter & the manifestation's selector
     $('#li_transaction_field_content .new-family [name=autocompleter]').keyup(function(e){
@@ -94,3 +97,23 @@ li.blinkQuantities = function(elts, full = false){
   }
   blink();
 }
+
+// add automatically manifestations to the current transaction
+li.autoAddFamilies = function(form){
+  $(location.hash.split('#')).each(function(key, value){
+    if ( !value )
+      return;
+    type = value.replace(/-\d+$/,'');
+    id = value.replace(/^\w+-/,'');
+
+    switch ( type ) {
+    case 'manifestations':
+      $('#li_transaction_manifestations .new-family [name="manifestation_id[]"] *').remove();
+      $('#li_transaction_manifestations .new-family [name="manifestation_id[]"]')
+        .append($('<option>'+id+'</option>').val(id).prop('selected',true))
+        .focusout();
+      break;
+    }
+  });
+}
+
