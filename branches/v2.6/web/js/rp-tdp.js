@@ -10,6 +10,15 @@ $(document).ready(function(){
     $('#tdp-side-bar .tdp-object-groups .new').remove();
   }
   
+  // LINKS TO TRANSACTIONS
+  $('#tdp-side-ticketting').click(function(){ $(this).find('.transactions').fadeOut(100); });
+  $('#tdp-side-ticketting .nb').click(function(){ var elt = this; setTimeout(function(){
+    $(elt).closest('li').find('.transactions').fadeIn();
+  },200); });
+  
+  // METAEVENTS
+  $('#tdp-side-ticketting .metaevent .name').click(function(){ $(this).closest('.metaevent').find('.events').slideToggle(); });
+  
   // LINK TO RELATIONSHIPS
   $('.sf_admin_form_field_Relationships table table').each(function(){
     $(this).find('input[type=hidden]').each(function(){
@@ -171,6 +180,9 @@ $(document).ready(function(){
   if ( window.list_scroll_end == undefined )
     window.list_scroll_end = new Array();
   window.list_scroll_end[window.list_scroll_end.length] = contact_tdp_show_orgs;
+  if ( window.integrated_search_end == undefined )
+    window.integrated_search_end = new Array();
+  window.integrated_search_end[window.integrated_search_end.length] = contact_tdp_show_orgs;
   
   // CONTENT: NEW FUNCTION FOR A CONTACT
   $('.tdp-subobject.tdp-object-new .tdp-widget-header input[type=text]').each(function(){
@@ -299,6 +311,15 @@ $(document).ready(function(){
       $('#tdp-side-bar').removeClass('add-to');
       $('#tdp-side-bar label').unbind('click');
     }
+  });
+  $('#tdp-content #sf_admin_list_batch_checkbox').removeAttr('onclick').click(function(){
+    // tick the box and highlight the contact only if there is something to deal with
+    $('#tdp-content .sf_admin_batch_checkbox[name="ids[]"]').click();
+  })
+  .closest('tr').find('.sf_admin_list_th_list_professional_id').append('<input id="sf_admin_list_batch_checkbox_pro" type="checkbox" />');
+  $('#tdp-content #sf_admin_list_batch_checkbox_pro').removeAttr('onclick').click(function(){
+    // tick the box and highlight the professional only if there is something to deal with
+    $('#tdp-content .sf_admin_batch_checkbox[name="professional_ids[]"]').click();
   });
   
   // no newsletter
