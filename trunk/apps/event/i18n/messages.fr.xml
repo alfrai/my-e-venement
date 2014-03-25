@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>No extra information</source>
+        <target>Pas d'information suppl.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Search</source>
         <target>Recherche</target>
       </trans-unit>

@@ -24,7 +24,9 @@ class ManifestationFormFilter extends BaseManifestationFormFilter
     
     $this->widgetSchema['happens_at']->setOption('template', '<span class="from">'.__('From %from_date%').'</span> <span class="to">'.__('to %to_date%').'</span>');
     
-    $this->widgetSchema['location_id']->setOption('order_by', array('place DESC, name',''));
+    $this->widgetSchema['location_id']->setOption('order_by', array('l.place DESC, l.name',''))
+      ->setOption('query', Doctrine::getTable('Location')->retrievePlaces());
+    $this->widgetSchema['booking_list']->setOption('order_by', array('place ASC, name',''));
     
     $this->widgetSchema ['meta_event_id'] = new sfWidgetFormDoctrineChoice(array(
       'model'     => 'MetaEvent',
@@ -51,6 +53,8 @@ class ManifestationFormFilter extends BaseManifestationFormFilter
       'query'     => $q,
       'required'  => false,
     ));
+    
+    $this->widgetSchema['color_id']->setOption('method', 'getName');
   }
 
   public function getFields()

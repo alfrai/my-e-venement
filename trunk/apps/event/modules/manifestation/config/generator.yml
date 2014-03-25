@@ -30,10 +30,13 @@ generator:
         reservation_confirmed: { label: Confirmed, credentials: event-reservation-confirm }
         reservation_description: { label: Comment }
         contact_id: { label: Applicant, credentials: event-reservation-change-contact }
+        list_contact: { label: Applicant }
         booking_list: { label: Extra locations }
+        list_booking_list: { label: Extra locations }
+        list_extra_informations_list: { label: Extra informations }
         ExtraInformations: { label: Extra informations }
       list:
-        display: [_list_event, happens_at, _list_location, _list_description]
+        display: [happens_at, _list_event, _list_contact, _list_location, _list_booking_list, _list_description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, _list_extra_informations_list<?php endif ?>]
         object_actions:
           _edit:
             credentials: event-manif-edit
@@ -42,8 +45,9 @@ generator:
             credentials: event-manif-edit
           _delete:
             credentials: event-manif-del
+        sort: [happens_at, asc]
       filter:
-        display: [event_id, location_id, color_id]
+        display: [happens_at, event_id, contact_id, location_id, booking_list, color_id]
       form: ~
       edit:
         title: %%name%% @ %%Location%%

@@ -155,3 +155,6 @@ select[disabled] {
 .sf_admin_form_field_ExtraInformations.show th { font-weight: bold; }
 .sf_admin_form_field_ExtraInformations > table > tbody > tr table { border-bottom: 1px solid rgb(166, 201, 226); }  
 .sf_admin_form_field_ExtraInformations > table > tbody > tr:last-child table { border-bottom: 0; }
+
+/* the filters */
+#sf_admin_filter .sf_admin_date span { display: block; }
