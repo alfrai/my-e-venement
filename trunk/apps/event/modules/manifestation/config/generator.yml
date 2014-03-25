@@ -43,7 +43,7 @@ generator:
           _delete:
             credentials: event-manif-del
       filter:
-        display: []
+        display: [event_id, location_id, color_id]
       form: ~
       edit:
         title: %%name%% @ %%Location%%

@@ -117,11 +117,6 @@ class manifestationActions extends autoManifestationActions
       $this->form->setDefault('booking_list', $list);
   }
   
-  public function executeIndex(sfWebRequest $request)
-  {
-    $this->redirect('@event');
-  }
-  
   public function executeAjax(sfWebRequest $request)
   {
     $charset = sfConfig::get('software_internals_charset');
