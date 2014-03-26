@@ -21,9 +21,9 @@ generator:
         batch_actions: []
         object_actions: []
         actions: []
-        display: [=name, MetaEvent, EventCategory, _dates, _age_min]
+        display: [_month, =name, MetaEvent, EventCategory, _dates, _age_min]
         table_method: retrievePublicList
-        sort: ['max_date, m.happens_at', '']
+        sort: ['min_date, m.happens_at', '']
         title: <?php echo sfConfig::get('app_informations_index','Events list').PHP_EOL ?>
       filter:
         display: [name, meta_event_id, event_category_id]

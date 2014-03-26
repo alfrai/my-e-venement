@@ -9,6 +9,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #sf_admin_list.table { margin-top: 220px; }
 .sf_admin_list_td_dates ul { margin: 0; }
 .sf_admin_list_td_dates li { list-style-type: none; }
+.sf_admin_list .sf_admin_list_th_month, .sf_admin_list .sf_admin_list_td_month { display: none; }
 
 .sf_admin_filter select { width: 180px; }
 

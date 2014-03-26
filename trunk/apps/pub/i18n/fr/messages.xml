@@ -21,6 +21,10 @@
         <target>Lieu</target>
       </trans-unit>
       <trans-unit>
+        <source>Month</source>
+        <target>Mois</target>
+      </trans-unit>
+      <trans-unit>
         <source>Not yet allocated</source>
         <target>Pas encore numéroté</target>
       </trans-unit>
