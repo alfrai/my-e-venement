@@ -57,14 +57,14 @@
     ->delete()
     ->execute();
   
-  // deleting integrated tickets
+  // deleting all not-printed tickets (including the integrated tickets)
   $q = new Doctrine_Query;
   $q->from('Ticket tck')
     ->andWhere('tck.transaction_id = ?',$tid)
-    ->andWhere('tck.integrated_at IS NOT NULL AND tck.printed_at IS NULL')
-    ->andWhere('tck.id NOT IN (SELECT t2.cancelling FROM ticket t2)')
-    ->delete()
-    ->execute();
+    ->andWhere('tck.printed_at IS NULL')
+    ->andWhere('tck.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE cancelling IS NOT NULL)')
+    ->delete();
+  $q->execute();
   
   // cancelling printed tickets
   $q = new Doctrine_Query;
