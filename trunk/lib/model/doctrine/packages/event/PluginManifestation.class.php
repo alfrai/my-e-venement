@@ -40,6 +40,8 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
   
   public function preSave($event)
   {
+    parent::preSave($event);
+    
     // converting duration from "1:00" to 3600 (seconds)
     if ( intval($this->duration).'' != ''.$this->duration )
     {
