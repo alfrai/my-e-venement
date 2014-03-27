@@ -20,4 +20,13 @@ class InvoiceTable extends PluginInvoiceTable
     {
       return $this->createQuery('a')->andWhere('id = ?',$id)->fetchOne();
     }
+    public function retrieveList()
+    {
+      return $this->createQuery('i')
+        ->leftJoin('i.Transaction t')
+        ->leftJoin('t.Contact c')
+        ->leftJoin('t.Professional p')
+        ->leftJoin('p.Organism o')
+      ;
+    }
 }

@@ -19,8 +19,7 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
     sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
     
     $this->widgetSchema   ['id'] = new sfWidgetFormInput;
-    $this->validatorSchema['id'] = new sfValidatorDoctrineChoice(array(
-      'model'    => 'Invoice',
+    $this->validatorSchema['id'] = new sfValidatorInteger(array(
       'required' => false,
     ));
     
@@ -33,7 +32,8 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputText();
     
     $this->widgetSchema   ['tickets_value'] = new sfWidgetFormInputText();
-    $this->validatorSchema['tickets_value'] = new sfValidatorInteger(array(
+    $this->validatorSchema['tickets_value'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Invoice',
       'required' => false,
     ));
   }
@@ -59,16 +59,15 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
       $query->andWhere("$a.$fieldName = ?",$value);
     }
     return $query;
-    
-    //return $this->addNumberQuery($query, $field, $value);
   }
+  
   public function addTicketsValueColumnQuery(Doctrine_Query $query, $field, $value)
   {
     $fieldName = $this->getFieldName($field);
     if ( $value )
     {
       $a = $query->getRootAlias();
-      $query->andWhere("(SELECT sum(value) FROM Ticket tck LEFT JOIN tck.Transaction tr WHERE tr.id = $a.transaction_id AND tck.duplicating IS NULL AND (printed OR integrated)) = ?",$value);
+      $query->andWhere("(SELECT sum(ttck.value) FROM Ticket ttck LEFT JOIN ttck.Transaction tt WHERE tt.id = $a.transaction_id AND ttck.duplicating IS NULL AND (ttck.printed_at IS NOT NULL OR ttck.integrated_at IS NOT NULL)) = ?",$value);
     }
     
     return $query;
