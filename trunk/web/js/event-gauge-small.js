@@ -1,8 +1,19 @@
 function gauge_small()
 {
-  $('.sf_admin_list_td_list_manifestations_gauges').addClass('small-gauges'); // a trick for CSS to permit classical rendering compatibility
+  $('.sf_admin_list_td_list_gauge, .sf_admin_list_td_list_manifestations_gauges').addClass('small-gauges'); // a trick for CSS to permit classical rendering compatibility
   
-  $('.sf_admin_list_td_list_manifestations_gauges .gauge:not(.done)').each(function(){
+  // creating the same HTML context, independently of the original context (list of manifs or list of events)
+  if ( $('.sf_admin_list_td_list_gauge').length > 0 )
+  {
+    $('.sf_admin_list_td_list_gauge').each(function(){
+      var div = $('<div></div>').addClass('gauge')
+        .html($(this).html());
+      $(this).html('');
+      $(this).append(div);
+    });
+  }
+  
+  $('.sf_admin_list_td_list_gauge .gauge:not(.done), .sf_admin_list_td_list_manifestations_gauges .gauge:not(.done)').each(function(){
     // if the gauge is not numeric, let go...
     if ( $(this).find('.total').length == 0 || parseInt($(this).find('.total').html()) == 0 )
     {
@@ -12,6 +23,8 @@ function gauge_small()
       return true;
     }
     
+    var total;
+    var booked;
     $(this).find('> *').each(function(){
       // every children except for total
       if ( $(this).hasClass('total') )
@@ -23,7 +36,7 @@ function gauge_small()
       
       // get back local data
       count = parseInt($(this).html(),10);
-      total = parseInt($(this).closest('.gauge').find('.total').html(),10);
+      total = parseInt($(this).closest('.gauge, .sf_admin_list_td_list_gauge').find('.total').html(),10);
       
       // set properties
       $(this)

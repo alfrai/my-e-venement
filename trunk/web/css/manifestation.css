@@ -158,3 +158,8 @@ select[disabled] {
 
 /* the filters */
 #sf_admin_filter .sf_admin_date span { display: block; }
+
+/* the list */
+.sf_admin_list .sf_admin_list_td_list_dates span { display: block; white-space: nowrap; text-align: right; }
+.sf_admin_list .sf_admin_list_td_list_dates .to { color: gray; }
+.sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_location { text-align: center; }

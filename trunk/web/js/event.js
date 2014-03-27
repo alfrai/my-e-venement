@@ -27,6 +27,8 @@ function manifestation_list_loaded(data)
     $.get($(this).prop('href'),manifestation_list_loaded);
     return false;
   });
+  
+  gauge_small();
 }
 
 function manifestation_new_clicked()

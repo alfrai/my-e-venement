@@ -17,6 +17,7 @@ generator:
         list_event: { label: Event }
         list_location: { label: Location }
         list_description: { label: Memo }
+        list_dates: { label: Date }
         happens_at: { label: Date }
         ends_at: { type: Date }
         id: { label: ID Manif }
@@ -35,8 +36,9 @@ generator:
         list_booking_list: { label: Extra locations }
         list_extra_informations_list: { label: Extra informations }
         ExtraInformations: { label: Extra informations }
+        list_gauge: { label: Gauge }
       list:
-        display: [happens_at, _list_event, _list_contact, _list_location, _list_booking_list, _list_description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, _list_extra_informations_list<?php endif ?>]
+        display: [_list_dates, _list_event, _list_contact, _list_location, _list_booking_list, _list_gauge, _list_description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, _list_extra_informations_list<?php endif ?>]
         object_actions:
           _edit:
             credentials: event-manif-edit
@@ -46,6 +48,7 @@ generator:
           _delete:
             credentials: event-manif-del
         sort: [happens_at, asc]
+        title: Manifestations
       filter:
         display: [happens_at, event_id, contact_id, location_id, booking_list, color_id]
       form: ~
