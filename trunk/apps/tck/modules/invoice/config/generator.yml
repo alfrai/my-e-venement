@@ -18,6 +18,7 @@ generator:
       list:
         display: [_id,_transaction_id,_contact,_manifestations,created_at,User]
         sort: [id,desc]
+        table_method: retrieveList
       filter:
         display: [_filter_id,transaction_id,created_at,sf_guard_user_id, tickets_value]
       form:    ~
