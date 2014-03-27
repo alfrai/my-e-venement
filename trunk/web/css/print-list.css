@@ -11,3 +11,4 @@
 
 /* specifics */
 #sf_admin_content_form .sf_admin_list .sf_admin_list_td_list_gauge .txt, .sf_admin_list ul .empty { display: none; }
+.sf_admin_list .sf_admin_list_td_list_dates span { display: block; white-space: nowrap; text-align: right; }
