@@ -7,7 +7,7 @@ contentSuccess:
 
 indexSuccess:
   javascripts: [list-scroll]
-  stylesheets: [list-print: {media: print}]
+  stylesheets: [print-list: {media: print}]
 
 uploadSuccess:
   javascripts: [-/liTinymcePlugin/tinymce.min.js, -/liTinymcePlugin/jquery.tinymce.min.js]

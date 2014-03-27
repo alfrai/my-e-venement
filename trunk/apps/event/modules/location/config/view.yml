@@ -14,5 +14,5 @@ createSuccess:
   stylesheets: [view]
 indexSuccess:
   javascripts: [list-scroll, location]
-  stylesheets: [list-print: {media: print}]
+  stylesheets: [print-list: {media: print}]
 
