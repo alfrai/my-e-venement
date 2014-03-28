@@ -55,6 +55,16 @@ class ManifestationFormFilter extends BaseManifestationFormFilter
     ));
     
     $this->widgetSchema['color_id']->setOption('method', 'getName');
+    
+    $this->widgetSchema   ['has_description'] =
+    $this->widgetSchema   ['has_extra_infos'] = new sfWidgetFormChoice(array(
+      'choices' => $choices = array('' => 'yes or no', 1 => 'yes', 0 => 'no'),
+    ));
+    $this->validatorSchema['has_extra_infos'] =
+    $this->validatorSchema['has_description'] = new sfValidatorChoice(array(
+      'choices' => array_keys($choices),
+      'required' => false,
+    ));
   }
 
   public function getFields()
@@ -62,6 +72,8 @@ class ManifestationFormFilter extends BaseManifestationFormFilter
     return array_merge(parent::getFields(),array(
       'meta_event_id'   => 'MetaEventId',
       'workspace_id'    => 'WorkspaceId',
+      'has_extra_infos' => 'HasExtraInfos',
+      'has_description' => 'HasDescription',
     ));
   }
   
@@ -100,6 +112,27 @@ class ManifestationFormFilter extends BaseManifestationFormFilter
       $q->andWhereIn("g.$field", $value);
     else
       $q->andWhere("g.$field = ?", $value);
+    
+    return $q;
+  }
+  
+  public function addHasDescriptionColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    if ( $value === '0' )
+      $q->andWhere("$a.description IS NULL OR trim($a.description) = ?",'');
+    elseif ( $value === '1' )
+      $q->andWhere("$a.description IS NOT NULL AND trim($a.description) != ?",'');
+    
+    return $q;
+  }
+  public function addHasExtraInfosColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    if ( $value === '0' )
+      $q->andWhere("$a.id NOT IN (SELECT DISTINCT mei.manifestation_id FROM ManifestationExtraInformation mei)");
+    elseif ( $value === '1' )
+      $q->andWhere("$a.id IN (SELECT DISTINCT mei.manifestation_id FROM ManifestationExtraInformation mei)");
     
     return $q;
   }
