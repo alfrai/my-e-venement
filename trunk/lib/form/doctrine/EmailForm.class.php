@@ -79,13 +79,6 @@ class EmailForm extends BaseEmailForm
         'setup' => "__function(ed){
           ed.on('LoadContent', function(e) {
             if ( $($.parseHTML($('[name=\"email[content]\"]').val())).find('body').length > 0 )
-            $('#email_content_ifr').contents().find('html').html($('[name=\"email[content]\"]').val()).find('body')
-              .addClass('mce-content-body').prop('id','tinymce').prop('contenteditable','true')
-              .load(function(){ window.parent.tinymce.get('email_content').fire('load'); });
-          });
-        }",
-        'setup' => "__function(ed){
-          ed.on('LoadContent', function(e) {
             $('#email_content_ifr').contents().find('html').html($('#email_content').val()).find('body')
               .addClass('mce-content-body').prop('id','tinymce').prop('contenteditable','true')
               .load(function(){ window.parent.tinymce.get('email_content').fire('load'); });
