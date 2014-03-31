@@ -677,7 +677,8 @@ class ContactFormFilter extends BaseContactFormFilter
     {
       if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
         $q->leftJoin("$c.MemberCards mc");
-      $q->andWhereIn("mc.member_card_type_id",$value);
+      $q->andWhereIn("mc.member_card_type_id",$value)
+        ->andWhere('mc.active = ?',true);
    }
     
     return $q;
@@ -689,8 +690,8 @@ class ContactFormFilter extends BaseContactFormFilter
     {
       if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
         $q->leftJoin("$c.MemberCards mc");
-      
-      $q->andWhere("mc.expire_at > ?",date('Y-m-d',strtotime($value)));
+      $q->andWhere("mc.expire_at > ?",date('Y-m-d',strtotime($value)))
+        ->andWhere('mc.active = ?',true);
     }
     
     return $q;
