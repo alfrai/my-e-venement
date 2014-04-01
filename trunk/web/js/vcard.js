@@ -17,7 +17,7 @@ vCard = {
   },
   parse: function(_input, fields) {
     var regexps = {
-      simple: /^(version|fn|title|org)\:(.+)$/i,
+      simple: /^(version|fn|title|org|note)\:(.+)$/i,
       complex: /^([^\:\;]+);([^\:]+)\:(.+)$/,
       key: /item\d{1,2}\./,
       properties: /((type=)?(.+);?)+/
@@ -144,6 +144,11 @@ vCard = {
           output += '</span>';
         }
       }
+      
+      output += '<hr/>'
+      
+      if ( this.note )
+        output += '<span class="note">'+this.note+'</span>';
       
       output += '</div>';
       output = output.replace(/\\n/g, '<br/>');

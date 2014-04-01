@@ -29,7 +29,7 @@ class MemberCard extends PluginMemberCard
   public function __toString()
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('Number','I18N','Date'));
-    return __($this->name).' #'.$this->id."\n(".format_date($this->expire_at,'D').($this->value > 0 ? ', '.format_currency($this->value,'€') : '').')';
+    return __($this->name).' #'.$this->id." (".format_date($this->expire_at,'D').($this->value > 0 ? ', '.format_currency($this->value,'€') : '').')';
   }
   
   public function getName()
