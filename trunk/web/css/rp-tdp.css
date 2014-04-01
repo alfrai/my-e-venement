@@ -61,6 +61,12 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .direct_contact .sf_admin_action_save,
 #tdp-content #sf_admin_content .direct_contact .sf_admin_action_save_and_add { margin: 0; }
 #tdp-content #sf_admin_content .direct_contact li + li .sf_admin_actions { margin-top: 2px; }
+#tdp-content #sf_admin_content .direct_contact .sf_admin_form_row { margin-right: 20px; }
+#tdp-content #sf_admin_content .direct_contact .show_member_cards_list { margin: 10px 0 0px 20px; }
+#tdp-content #sf_admin_content .direct_contact .show_member_cards_list a,
+#tdp-content #sf_admin_content .direct_contact .sf_admin_form_row label a { text-decoration: none; }
+#tdp-content #sf_admin_content .direct_contact .show_member_cards_list a:hover,
+#tdp-content #sf_admin_content .direct_contact .sf_admin_form_row label a:hover { text-decoration: underline; }
 #tdp-content #sf_admin_content .tdp-vertical > span { display: inline-block; text-align: center; }
 #tdp-content #sf_admin_content .tdp-vertical > span + span { margin-left: 30px; }
 #tdp-content #sf_admin_content .tdp-vertical label { display: block; }
