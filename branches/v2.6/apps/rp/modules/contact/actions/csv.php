@@ -40,21 +40,21 @@
     
     // phonembers
     if ( in_array('phonename',$params['field']) )
-      $q->addSelect("(SELECT tmp.name FROM ContactPhonenumber tmp WHERE tmp.contact_id = $a.id ORDER BY tmp.updated_at LIMIT 1) AS phonename");
+      $q->addSelect("(SELECT tmp1.name FROM ContactPhonenumber tmp1 WHERE tmp1.contact_id = $a.id ORDER BY tmp1.updated_at LIMIT 1) AS phonename");
     else
       $q->addSelect("'' AS phonename");
     if ( in_array('phonenumber',$params['field']) )
-      $q->addSelect("(SELECT ttmp.number FROM ContactPhonenumber ttmp WHERE ttmp.contact_id = $a.id ORDER BY ttmp.updated_at LIMIT 1) AS phonenumber");
+      $q->addSelect("(SELECT tmp2.number FROM ContactPhonenumber tmp2 WHERE tmp2.contact_id = $a.id ORDER BY tmp2.updated_at LIMIT 1) AS phonenumber");
     else
       $q->addSelect("'' AS phonenumber");
     if ( in_array('organism_phonename',$params['field']) )
-      $q->addSelect("(SELECT tmp3.name FROM OrganismPhonenumber tmp3 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonename");
+      $q->addSelect("(SELECT tmp3.name FROM OrganismPhonenumber tmp3 WHERE tmp3.organism_id = o.id ORDER BY tmp3.name, tmp3.updated_at LIMIT 1) AS organism_phonename");
     else
       $q->addSelect("'' AS organism_phonename");
     if ( in_array('organism_phonenumber',$params['field']) )
-      $q->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = o.id ORDER BY name,updated_at LIMIT 1) AS organism_phonenumber");
+      $q->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE tmp4.organism_id = o.id ORDER BY tmp4.name, tmp4.updated_at LIMIT 1) AS organism_phonenumber");
     else
-      $q->addSelect("'' AS phonenumber");
+      $q->addSelect("'' AS organism_phonenumber");
     
     // groups
     if ( in_array('__Groups__name', $params['field']) || in_array('__Professionals__Organism__Groups__name', $params['field']) || in_array('__Professionals__Groups__name', $params['field']) )
@@ -68,13 +68,14 @@
     if ( in_array('__Professionals__Groups__name', $params['field']) )
       $q->leftJoin('p.Groups ggp')
         ->addSelect('ggp.id, ggp.name');
-
+    
     // only when groups are a part of filters
     if ( in_array("LEFT JOIN $a.Groups gc",$q->getDqlPart('from')) )
       $q->leftJoin(" p.ProfessionalGroups mpg ON mpg.group_id = gp.id AND mpg.professional_id = p.id")
         ->leftJoin("$a.ContactGroups      mcg ON mcg.group_id = gc.id AND mcg.contact_id      = $a.id")
         ->addSelect("(CASE WHEN mcg.information IS NOT NULL THEN mcg.information ELSE mpg.information END) AS information")
-        ->addSelect('mpg.*, p.id, mcg.*');
+        ->addSelect('mpg.*, p.id, mcg.*')
+      ;
     
     $this->lines = $q->fetchArray();
     

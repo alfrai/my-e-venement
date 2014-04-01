@@ -168,7 +168,7 @@ class professionalActions extends autoProfessionalActions
     }
     
     $a = $this->pager->getQuery()->getRootAlias();
-    $this->pager->getQuery()->andWhere("$a.contact_id IN (".$q['Contact'].") OR $a.organism_id IN (".$q['Organism'].")",array($s,$s));
+    $this->pager->getQuery()->andWhere("$a.contact_id IN (".$q['Contact'].") OR $a.organism_id IN (".$q['Organism'].")",array($s,$s,$s,$s));
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
     $this->pager->init();
     
