@@ -32,8 +32,7 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputText();
     
     $this->widgetSchema   ['tickets_value'] = new sfWidgetFormInputText();
-    $this->validatorSchema['tickets_value'] = new sfValidatorDoctrineChoice(array(
-      'model' => 'Invoice',
+    $this->validatorSchema['tickets_value'] = new sfValidatorInteger(array(
       'required' => false,
     ));
   }
