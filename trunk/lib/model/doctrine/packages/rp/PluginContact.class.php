@@ -197,21 +197,23 @@ abstract class PluginContact extends BaseContact
     }
     
     // description
-    $arr = $this->description ? array($this->description) : array();
+    $arr = array();
     if ( sfConfig::has('app_cards_enable') )
     {
       if ( $this->MemberCards->count() > 0 )
       {
-        if ( count($arr) > 0 )
+        foreach ( $this->MemberCards as $mc )
+        if ( strtotime($mc->expire_at) > strtotime('now') && $mc->active )
+          $arr[] = (string)$mc;
+        if ( $this->description )
         {
           $arr[] = '';
           $arr[] = '- -- ---';
         }
-        foreach ( $this->MemberCards as $mc )
-        if ( strtotime($mc->expire_at) > strtotime('now') && $mc->active )
-          $arr[] = (string)$mc;
       }
     }
+    if ( $this->description )
+      $arr[] = str_replace("\r\n", '\n', $this->description);
     $vCard['note'] = implode('\n',$arr);
     
     // END
