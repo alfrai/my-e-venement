@@ -88,6 +88,6 @@
       $this->tickets[] = $this->ticket;
     }
     
-    //$this->duplicate = true;
+    $this->duplicate = true;
     $this->setLayout('nude');
     $this->setTemplate('print');
