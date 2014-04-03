@@ -13,6 +13,7 @@
     <?php include_javascripts() ?>
   </head>
   <body>
+    <div id="client-header"></div>
     <div id="content">
       <?php include_partial('global/oplog') ?>
       <?php echo $sf_content ?>

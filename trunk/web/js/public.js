@@ -61,7 +61,7 @@ $(document).ready(function(){
       if ( month != $(this).find('.month:first').html() )
       {
         month = $(this).find('.month:first').html();
-        $('<tr></tr>').insertBefore($(this).closest('tr'))
+        $('<tr></tr>').addClass('sf_admin_month').insertBefore($(this).closest('tr'))
           .append($('<td></td>').html(month).prop('colspan', colspan));
       }
       $(this).html('');
