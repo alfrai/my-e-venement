@@ -83,6 +83,22 @@ Contact:
       foreignAlias: BackRelations
       local: from_contact_id
       foreign: to_contact_id
+ContactArchive:
+  package: rp
+  indexes:
+    old_id_idx:
+      fields: [old_id]
+  columns:
+    contact_id:
+      type: integer
+      notnull: true
+    old_id:
+      type: integer
+      notnull: true
+  relations:
+    Contact:
+      foreignAlias: Archives
+      onDelete: CASCADE
 Organism:
   package: rp
   actAs:

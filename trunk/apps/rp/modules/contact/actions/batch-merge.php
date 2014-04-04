@@ -174,6 +174,17 @@
         // Relationships
         foreach ( $contact->Relationships as $relationship )
           $base_contact->Relationships[] = $relationship;
+          
+        // Archives
+        foreach ( $contact->Archives as $old_archive )
+        {
+          $archive = new ContactArchive;
+          $archive->old_id = $old_archive->old_id;
+          $base_contact->Archives[] = $archive;
+        }
+        $archive = new ContactArchive;
+        $archive->old_id = $contact->id;
+        $base_contact->Archives[] = $archive;
         
         // for multiple merges
         if ( $recent )

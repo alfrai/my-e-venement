@@ -73,9 +73,10 @@ class member_cardActions extends autoMember_cardActions
     
     $this->member_cards = Doctrine::getTable('MemberCard')->retreiveListOfActivatedCards()
       ->select('mc.*, c.*')
+      ->leftJoin('c.Archives ca')
       ->addSelect('(SELECT sum(pp.value) FROM Payment pp WHERE pp.member_card_id = mc.id) AS value')
       ->addSelect('(SELECT count(mcp.id) FROM MemberCardPrice mcp WHERE mcp.member_card_id = mc.id) AS nb_prices')
-      ->andWhere('c.id = ?',$id)
+      ->andWhere('c.id = ? OR ca.old_id = ?',array($id,$id))
       ->orderBy('mc.expire_at > NOW() DESC, CASE WHEN mc.expire_at > NOW() THEN NOW() - mc.expire_at ELSE mc.expire_at - NOW() END DESC, mc.created_at')
       ->execute();
     
