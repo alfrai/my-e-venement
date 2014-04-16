@@ -45,6 +45,17 @@ function ticket_events()
     $('#contact #micro-show').fadeIn();
     if ( $('#contact #micro-show #sf_fieldset_none').length == 0 )
     {
+      $.get($(this).prop('href')+'/vcf', function(data){
+        var vcard = vCard.initialize(data);
+        data = $.parseHTML(vcard.to_html());
+        
+        $(data).find('.type').remove();
+        $(data).find('.postal-code').each(function(){ $(this).insertBefore($(this).closest('address').find('.locality')); });
+        
+        $('#contact #micro-show').append($(data));
+      });
+      return;
+      
       $.get($(this).prop('href'),function(data){
         $('#contact #micro-show').find('#sf_fieldset_none, #sf_fieldset_address, .tdp-object').remove();
         $($.parseHTML(data)).find('#sf_fieldset_none, #sf_fieldset_address, .tdp-object:first').appendTo('#contact #micro-show');
