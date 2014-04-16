@@ -5,7 +5,8 @@
       if ( $(this).val() )
       {
         $(this).closest('form').submit();
-        $('#li_transaction_field_new_transaction a').prop('href', $('#li_transaction_field_new_transaction a').prop('href')+'#'+$(this).closest('.bunch').prop('id').replace('li_transaction_','')+'-'+$(this).val()); // keep the same manifestations for the next transaction
+        if ( $('#li_transaction_field_new_transaction a').hasClass('persistant') )
+          $('#li_transaction_field_new_transaction a').prop('href', $('#li_transaction_field_new_transaction a').prop('href')+'#'+$(this).closest('.bunch').prop('id').replace('li_transaction_','')+'-'+$(this).val()); // keep the same manifestations for the next transaction
         $(this).find('option:selected').remove();
       }
     });

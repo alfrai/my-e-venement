@@ -20,6 +20,7 @@ all:
     touchscreen:
       prices_max_display: 13
       manifs_max_display: 12
+    #persistent_manifestations: false
     #force_contact: true
     #member_cards: [payment, price]
     #force_payment_before_printing: true
