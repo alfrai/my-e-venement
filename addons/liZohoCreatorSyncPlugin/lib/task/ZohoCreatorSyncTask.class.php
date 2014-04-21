@@ -122,6 +122,118 @@ EOF;
       $this->z2e($options);
   }
   
+
+  /**
+   * function e2z exports e-venement's data into the Zoho Creator service
+   *
+   * @param $option, the task options from the execute() function
+   *
+   **/
+  protected function e2z(array $option)
+  {
+    if ( !is_array($this->collections) )
+      $this->collections = array(); // for buffering
+    
+    foreach ( sfConfig::get('app_zohocreator_sync_matches') as $model => $distant )
+    if ( isset($distant['e2z']) )
+    {
+      $this->logSection('Sync',$model);
+      
+      $cpt = 0;
+      $q = Doctrine::getTable('Manifestation')->createQuery('m', true)
+        ->andWhere('m.happens_at > NOW()')
+        ->orderBy('m.happens_at ASC');
+      
+      foreach ( $q->execute() as $num => $object )
+      {
+        $response = $this->request->go(array(
+          'module' => 'view',
+          'action' => $distant['view'],
+          'criteria' => $distant['uid']['distant'].'='.$object->{$distant['uid']['local']},
+        ))->send();
+        
+        if ( !is_array($response->body) && !is_object($response->body) )
+          $response->body = json_decode($response->body);
+        
+        $zobject = isset($response->body->{$distant['form']}[0])
+          ? $response->body->{$distant['form']}[0]
+          : array();
+        $zobject[$distant['uid']['distant']] = $object->{$distant['uid']['local']};
+        foreach ( $distant['e2z'] as $df => $lf )
+        {
+          if (!( $val = $this->z2e_func($object, $lf) ))
+          {
+            if ( strpos($lf, '->') !== false )
+            {
+              $arr = explode('->', $lf);
+              $val = $object;
+              foreach ( $arr as $field )
+                $val = $val->$field;
+            }
+            elseif ( preg_match('/^".*"$/',$lf) )
+              $val = substr($lf,1,-1);
+            else
+              $val = $object->$lf;
+          }
+          $zobject[$df] = (string)$val;
+        }
+        
+        if ( !isset($response->body->{$distant['form']}[0]) )
+        {
+          // creation
+          $response = $this->request->go(array_merge(array(
+            'module' => 'form',
+            'action' => 'record/add',
+            'name'   => $distant['form'],
+          ), $zobject))->send();
+          var_dump($zobject);
+          if ( !is_array($response->body) && !is_object($response->body) ) // hack
+            $response->body = json_decode($response->body);
+          
+          // LOG
+          if ( count($response->body->errorlist->error) > 0 )
+          foreach ( $response->body->errorlist->error as $error )
+            $this->logSection($model.' creating', $error->message, NULL, 'ERROR');
+          else
+          {
+            if ( (array)$response->body->formname[1]->operation[1]->values )
+            {
+              $this->logSection($model.' created', $object);
+              $cpt++;
+            }
+            else
+            {
+              error_log($response->body->formname[1]->operation[1]->status);
+              $this->logSection($model.' creating', $response->body->formname[1]->operation[1]->status, NULL, 'ERROR');
+              $cpt++;
+            }
+          }
+          //print_r($response);
+          die();
+        }
+        else
+        {
+          // edition
+          $response = $this->request->go(array_merge(array(
+            'module' => 'form',
+            'action' => 'record/add',
+            'name'   => $distant['form'],
+            'criteria' => $distant['uid']['distant'].'='.$object->{$distant['uid']['local']},
+          ), $zobject))->send();
+          if ( !is_array($response->body) && !is_object($response->body) ) // hack
+            $response->body = json_decode($response->body);
+          
+          // LOG
+          $this->logSection($model.' updated', $object);
+          $cpt++;
+        }
+        
+      }
+      
+      $this->logSection('Sync', $model.'s: '.$cpt);
+    }
+  }
+  
   /**
    * function z2e imports Zoho Creator service's data into e-venement
    *
@@ -140,7 +252,7 @@ EOF;
       $response = $this->request->go(array('module' => 'view', 'action' => $distant['view']))
         ->send();
       $cpt = 0;
-      foreach ( $response->body->{$distant['form']} as $object )
+      foreach ( $response->body->{$distant['form']} as $num => $object )
       {
         if ( !isset($object->{$distant['uid']['distant']}) )
         {
@@ -151,6 +263,7 @@ EOF;
         $local = Doctrine::getTable($model)->findOneByVcardUid($object->{$distant['uid']['distant']});
         if ( !$local )
           $local = new $model;
+        $local->{$distant['uid']['local']} = $object->{$distant['uid']['distant']};
         
         foreach ( $distant['z2e'] as $field => $dfield )
         if ( is_array($dfield) && isset($dfield['name']) && isset($dfield['dist']) )
@@ -203,7 +316,7 @@ EOF;
         }
         catch ( Doctrine_Connection_Exception $e ) // ERROR
         {
-          $this->logSection($model.' (SQL) '.$local->vcard_uid, (string)$local, null, 'ERROR');
+          $this->logSection($model.' (SQL) #'.$num.' '.$local->vcard_uid, (string)$local, null, 'ERROR');
           $this->logSection($e->getMessage());
           unset($e);
         }
@@ -220,8 +333,6 @@ EOF;
   protected function z2e_func($z_object, $field)
   {
     $regexp = '/^__([\w_]+)\((.*\s*,\s*)*\[\[([\w_]+)\]\](\s*,\s*.*)*\)$/';
-    $regexp = '/^__([\w_]+)\((.*\s*,\s*)*\[\[([\w_]+)\]\](\s*,\s*.*)*\)$/';
-    
     if ( !preg_match($regexp, $field) )
       return false;
     
@@ -303,92 +414,5 @@ EOF;
     }
     
     return $val;
-  }
-
-  /**
-   * function e2z exports e-venement's data into the Zoho Creator service
-   *
-   * @param $option, the task options from the execute() function
-   *
-   **/
-  protected function e2z(array $option)
-  {
-    if ( !is_array($this->collections) )
-      $this->collections = array(); // for buffering
-    
-    foreach ( sfConfig::get('app_zohocreator_sync_matches') as $model => $distant )
-    if ( isset($distant['e2z']) )
-    {
-      $this->logSection('Sync',$model);
-      
-      $cpt = 0;
-      $q = Doctrine::getTable('Manifestation')->createQuery('m', true)
-        ->andWhere('m.happens_at > NOW()')
-        ->orderBy('m.happens_at ASC');
-      
-      foreach ( $q->execute() as $object )
-      {
-        $response = $this->request->go(array(
-          'module' => 'view',
-          'action' => $distant['view'],
-          'criteria' => $distant['uid']['distant'].'='.$object->{$distant['uid']['local']},
-        ))->send();
-        
-        if ( !is_array($response->body) && !is_object($response->body) )
-          $response->body = json_decode($response->body);
-        
-        $zobject = isset($response->body->{$distant['form']}[0])
-          ? $response->body->{$distant['form']}[0]
-          : array();
-        $zobject[$distant['uid']['distant']] = $object->{$distant['uid']['local']};
-        foreach ( $distant['e2z'] as $df => $lf )
-        {
-          if (!( $val = $this->z2e_func($object, $lf) ))
-            $val = (string)$object->$lf;
-          $zobject[$df] = $val;
-        }
-        
-        if ( !isset($response->body->{$distant['form']}[0]) )
-        {
-          // creation
-          $response = $this->request->go(array_merge(array(
-            'module' => 'form',
-            'action' => 'record/add',
-            'name'   => $distant['form'],
-          ), $zobject))->send();
-          if ( !is_array($response->body) && !is_object($response->body) ) // hack
-            $response->body = json_decode($response->body);
-          
-          // LOG
-          if ( count($response->body->errorlist->error) > 0 )
-          foreach ( $response->body->errorlist->error as $error )
-            $this->logSection($model.' creating', $error->message, NULL, 'ERROR');
-          else
-          {
-            $this->logSection($model.' created', $object);
-            $cpt++;
-          }
-        }
-        else
-        {
-          // edition
-          $response = $this->request->go(array_merge(array(
-            'module' => 'form',
-            'action' => 'record/add',
-            'name'   => $distant['form'],
-            'criteria' => $distant['uid']['distant'].'='.$object->{$distant['uid']['local']},
-          ), $zobject))->send();
-          if ( !is_array($response->body) && !is_object($response->body) ) // hack
-            $response->body = json_decode($response->body);
-          
-          // LOG
-          $this->logSection($model.' updated', $object);
-          $cpt++;
-        }
-        
-      }
-      
-      $this->logSection('Sync', $model.'s: '.$cpt);
-    }
   }
 }

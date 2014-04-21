@@ -8,6 +8,7 @@ all:
       Organism:
         form: F_organismes
         view: vOrganismes
+        appname: emf_poitiers
         uid:
           local: vcard_uid
           distant: ID
