@@ -69,11 +69,14 @@ class ManifestationFormFilter extends BaseManifestationFormFilter
 
   public function getFields()
   {
-    return array_merge(parent::getFields(),array(
+    $arr = parent::getFields();
+    unset($arr['location_id']);
+    return array_merge($arr,array(
       'meta_event_id'   => 'MetaEventId',
       'workspace_id'    => 'WorkspaceId',
       'has_extra_infos' => 'HasExtraInfos',
       'has_description' => 'HasDescription',
+      'location_id'     => 'LocationId',
     ));
   }
   
@@ -83,7 +86,13 @@ class ManifestationFormFilter extends BaseManifestationFormFilter
       return $q;
     
     $a = $q->getRootAlias();
-    $q->andWhere("$a.$field = ? OR $a.id IN (SELECT lb.manifestation_id FROM LocationBooking lb WHERE lb.location_id = ?)",array($value, $value));
+    
+    if ( !$q->contains("LEFT JOIN $a.LocationBooking LocationBooking") )
+      $q->leftJoin("$a.LocationBooking LocationBooking");
+    $q->andWhere('(TRUE')
+      ->andWhere("$a.$field = ?",$value)
+      ->orWhere("LocationBooking.$field = ?",$value)
+      ->andWhere('TRUE)');
     
     return $q;
   }
