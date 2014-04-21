@@ -52,7 +52,7 @@ generator:
         sort: [happens_at, asc]
         title: Manifestations
       filter:
-        display: [happens_at, event_id, contact_id, location_id, booking_list, color_id, has_description, has_extra_infos]
+        display: [happens_at, event_id, contact_id, location_id, booking_list, color_id, has_description, has_extra_infos, description]
       form: ~
       edit:
         title: %%name%% @ %%Location%%
