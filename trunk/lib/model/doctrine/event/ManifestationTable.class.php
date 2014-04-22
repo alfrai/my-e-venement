@@ -35,6 +35,11 @@ class ManifestationTable extends PluginManifestationTable
       return Doctrine_Core::getTable('Manifestation');
   }
   
+  public function retrieveList()
+  {
+    return $this->createQuery()
+      ->removeDqlQueryPart('orderby');
+  }
   public function createQuery($alias = 'm', $light = false)
   {
     $e  = $alias != 'e'  ? 'e'  : 'e1';
