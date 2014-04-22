@@ -26,6 +26,7 @@
     $this->event_id       = $request->getParameter('event_id');
     $this->only_blocking  = $request->hasParameter('only_blocking');
     $this->only_pending   = $request->hasParameter('only_pending');
+    $this->display_by_default = $request->hasParameter('display_by_default');
     
     $this->from = date('Y-m-d H:i:00', $request->getParameter('start',$time = time()));
     $this->to = date('Y-m-d H:i:00', $request->getParameter('end',strtotime('+ 1 month', $time)));
@@ -58,6 +59,8 @@
       $q->andWhere('m.blocking = TRUE');
     if ( $this->only_pending )
       $q->andWhere('m.reservation_confirmed = FALSE');
+    if ( $this->only_display_by_default )
+      $q->andWhere('e.display_by_default = TRUE');
     if ( $this->event_id )
       $q->andWhere('m.event_id = ?', $this->event_id);
     elseif ( $this->month_view )

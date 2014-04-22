@@ -148,7 +148,10 @@ class manifestationActions extends autoManifestationActions
     
     if ( $e = $request->getParameter('except',false) )
       $q->andWhereNotIn('m.id', is_array($e) ? $e : array($e));
-     
+    
+    if ( $request->hasParameter('display_by_default') )
+      $q->andWhere('e.display_by_default = ?',true);
+    
     $q = EventFormFilter::addCredentialsQueryPart($q);
     
     if ( !$search
