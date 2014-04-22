@@ -16,11 +16,15 @@ generator:
       fields:
         sf_guard_user_id: { label: User }
         cancel: { label: Del. }
+        event_name: { label: Name }
+        manifestation_happens_at: { label: Date }
       list:
         display: [_id,_transaction_id,_cancel,_contact,_manifestations,created_at,User]
         table_method: doSelectIndex
       filter:
-        display: [transaction_id,created_at,sf_guard_user_id]
+        display:
+          Transaction: [transaction_id, created_at, sf_guard_user_id]
+          Manifestation: [event_name, manifestation_happens_at]
       form:    ~
       edit:    ~
       new:     ~

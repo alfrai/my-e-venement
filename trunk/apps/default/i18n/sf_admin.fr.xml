@@ -274,6 +274,10 @@
         <target>non</target>
       </trans-unit>
       <trans-unit>
+        <source><![CDATA[<span class="dates"><span>from %from_date%</span> <span>to %to_date%</span>]]></source>
+        <target><![CDATA[<span class="dates"><span>du %from_date%</span> <span>au %to_date%</span>]]></target>
+      </trans-unit>
+      <trans-unit>
         <source><![CDATA[from %from_date% to %to_date%]]></source>
         <target><![CDATA[du %from_date% au %to_date%]]></target>
       </trans-unit>
