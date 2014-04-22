@@ -53,7 +53,7 @@ generator:
         table_method: retrieveList
         title: Manifestations
       filter:
-        display: [happens_at, event_id, contact_id, location_id, booking_list, color_id, has_description, has_extra_infos, description]
+        display: [happens_at, event_id, contact_id, location_id, booking_list, color_id, has_description, has_extra_infos, description, reservation_confirmed]
       form: ~
       edit:
         title: %%name%% @ %%Location%%
