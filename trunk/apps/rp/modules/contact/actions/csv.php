@@ -68,6 +68,9 @@
     if ( in_array('__Professionals__Groups__name', $params['field']) )
       $q->leftJoin('p.Groups ggp')
         ->addSelect('ggp.id, ggp.name');
+    if ( in_array('__YOBs', $params['field']) )
+      $q->leftJoin("$a.YOBs yobs")
+        ->addSelect('yobs.id, yobs.name, yobs.year, yobs.month, yobs.day');
     
     // only when groups are a part of filters
     if ( in_array("LEFT JOIN $a.Groups gc",$q->getDqlPart('from')) )
