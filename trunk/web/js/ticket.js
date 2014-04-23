@@ -43,7 +43,7 @@ function ticket_events()
   $('#contact #transaction_professional_id').change(function(){ $(this).submit(); });
   $('#contact a:first').unbind().mouseenter(function(){
     $('#contact #micro-show').fadeIn();
-    if ( $('#contact #micro-show #sf_fieldset_none').length == 0 )
+    if ( $('#contact #micro-show .vcard ').length == 0 )
     {
       $.get($(this).prop('href')+'/vcf', function(data){
         var vcard = vCard.initialize(data);
