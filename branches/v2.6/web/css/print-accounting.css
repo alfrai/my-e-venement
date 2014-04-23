@@ -97,43 +97,17 @@ body.bdc #echeance { display: none; }
   */
   text-align: center;
 }
-#payments {
-  border: 1px solid silver;
-  margin-left: 4px;
-  padding: 5px 10px;
-  width: 280px;
-  position: relative;
-  bottom: 30px;
-}
-#payments h2 {
-  font-size: 13px;
-  margin: 0 10px 0 0;
-  float: left;
-}
-#payments div {
-  display: table;
-}
-#payments div p {
-  display: table-row;
-}
-#payments div p span {
-  display: table-cell;
-  padding-right: 1em;
-}
-#payments div p span + span {
-  text-align: right;
-  padding-right: 0;
-}
-#payments div p span:last-child {
-  padding-right: 0;
-}
-#payments div p.total span {
-  text-decoration: underline;
-}
+#payments { border: 1px solid silver; margin-left: 4px; padding: 5px 10px; width: 280px; position: relative; bottom: 30px; }
+#payments h2 { font-size: 13px; margin: 0 10px 0 0; float: left; }
+#payments div { display: table; }
+#payments div p { display: table-row; }
+#payments div p span { display: table-cell; padding-right: 1em; }
+#payments div p span + span { text-align: right; padding-right: 0; }
+#payments div p span:last-child { padding-right: 0; }
+#payments div p.total span { text-decoration: underline; }
+#payments div p.topay { text-decoration: underline; font-weight: bold; }
 
-tbody {
-  font-size: 80%;
-}
+tbody { font-size: 80%; }
 
 @media print {
 
