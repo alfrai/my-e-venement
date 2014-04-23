@@ -154,6 +154,15 @@
   border-top: 0;
   border-radius-topright: 0px;
 }
+#contact #micro-show .vcard { padding-top: 5px; }
+#contact #micro-show .vcard > * { display: block; }
+#contact #micro-show .vcard > * > * { display: inline; }
+#contact #micro-show .vcard > * > * > * { display: block; }
+#contact #micro-show .vcard .region { display: none; }
+#contact #micro-show .vcard .postal-code { float: left; margin-right: 1em; }
+#contact #micro-show .vcard .locality { clear: right; }
+#contact #micro-show .vcard address { border-bottom: 1px solid rgb(166, 201, 226); margin-bottom: 2px; padding-bottom: 2px; }
+#contact #micro-show .vcard hr { border: 0; border-bottom: 1px solid rgb(166, 201, 226); margin: 2px 0; }
 #contact #micro-show label {
   min-width: 75px;
   display: inline-block;

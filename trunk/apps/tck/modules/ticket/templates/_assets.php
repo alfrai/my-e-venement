@@ -5,6 +5,7 @@
 ?>
 <?php
   use_javascript('/sfFormExtraPlugin/js/jquery.autocompleter.js');
+  use_javascript('vcard');
   use_javascript('ticket');
 ?>
 <?php use_helper('CrossAppLink') ?>
