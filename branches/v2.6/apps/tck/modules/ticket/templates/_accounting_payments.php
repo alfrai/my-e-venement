@@ -48,6 +48,10 @@
       <span class="method"><?php echo __('Total') ?></span>
       <span class="value"><?php echo format_currency($value,'€') ?></span>
     </p>
+    <p class="topay">
+      <span class="method"><?php echo __('Still missing') ?></span>
+      <span class="value"><?php echo format_currency($totals['tip']-$value,'€') ?></span>
+    </p>
   </div>
 </div>
 <?php endif ?>
