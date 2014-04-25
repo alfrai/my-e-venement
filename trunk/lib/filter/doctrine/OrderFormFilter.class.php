@@ -32,13 +32,30 @@ class OrderFormFilter extends BaseOrderFormFilter
       'template'  => __('<span class="dates"><span>from %from_date%</span> <span>to %to_date%</span>', null, 'sf_admin'),
     ));
     $this->validatorSchema['manifestation_happens_at'] = new sfValidatorDateRange(array(
-      'from_date' => new sfValidatorDate,
-      'to_date'   => new sfValidatorDate,
+      'from_date' => new sfValidatorDate(array('required' => false)),
+      'to_date'   => new sfValidatorDate(array('required' => false)),
       'required'  => false,
     ));
     
     $this->widgetSchema   ['event_name'] = new sfWidgetFormInput;
     $this->validatorSchema['event_name'] = new sfValidatorString(array('required' => false));
+    
+    $this->widgetSchema['contact_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Contact',
+      'url'   => cross_app_url_for('rp','contact/ajax'),
+    ));
+    $this->validatorSchema['contact_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Contact',
+      'required' => false,
+    ));
+    $this->widgetSchema['organism_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Organism',
+      'url'   => cross_app_url_for('rp','organism/ajax'),
+    ));
+    $this->validatorSchema['organism_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Organism',
+      'required' => false,
+    ));
   }
   public function setup()
   {
@@ -48,9 +65,31 @@ class OrderFormFilter extends BaseOrderFormFilter
   public function getFields()
   {
     $fields = parent::getFields();
-    $fields['event_name'] = 'EventName';
+    $fields['event_name']               = 'EventName';
+    $fields['contact_id']               = 'ContactId';
+    $fields['organism_id']              = 'OrganismId';
     $fields['manifestation_happens_at'] = 'ManifestationHappensAt';
     return $fields;
+  }
+  
+  public function addContactIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( !trim($value) )
+      return $q;
+    
+    $q->andWhere('c.id = ?', $value);
+    
+    return $q;
+  }
+  public function addOrganismIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( !trim($value) )
+      return $q;
+    
+    $q->leftJoin('p.Organism o')
+      ->andWhere('o.id = ?', $value);
+    
+    return $q;
   }
   
   public function addEventNameColumnQuery(Doctrine_Query $q, $field, $value)
@@ -58,14 +97,23 @@ class OrderFormFilter extends BaseOrderFormFilter
     if ( !trim($value) )
       return $q;
     
-    $q->andWhere('e.name ILIKE ?',$value.'%');
+    $events = Doctrine::getTable('Event')->search($value.'*', Doctrine::getTable('Event')->createQuery('e'))
+      ->select('e.id')
+      ->limit(500)
+      ->fetchArray();
+    $eids = array();
+    foreach ( $events as $event )
+      $eids[] = $event['id'];
+    $q->andWhereIn('e.id',$eids);
     
     return $q;
   }
   
   public function addManifestationHappensAtColumnQuery(Doctrine_Query $q, $field, $value)
   {
-    if (!( $value && is_array($value) && trim($value['from']) && trim($value['to']) ))
+    if (!( $value && is_array($value)
+        && isset($value['to']) && isset($value['from'])
+        && trim($value['from']) && trim($value['to']) ))
       return $q;
     
     $q->andWhere('m.happens_at >= ?', $value['from'])
