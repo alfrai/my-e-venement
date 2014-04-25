@@ -163,3 +163,4 @@ select[disabled] {
 .sf_admin_list .sf_admin_list_td_list_dates span { display: block; white-space: nowrap; text-align: right; }
 .sf_admin_list .sf_admin_list_td_list_dates .to { color: gray; }
 .sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_location { text-align: center; }
+.sf_admin_list .sf_admin_action_sell a { background: rgb(223, 239, 252) url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat -16px -128px; }

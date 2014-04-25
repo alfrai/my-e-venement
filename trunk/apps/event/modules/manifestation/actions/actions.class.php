@@ -48,6 +48,14 @@ class manifestationActions extends autoManifestationActions
     return sfView::NONE;
   }
   
+  public function executeSell(sfWebRequest $request)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('CrossAppLink');
+    
+    $this->forward404Unless($request->hasParameter('id'));
+    $this->redirect(cross_app_url_for('tck', 'transaction/new#manifestations-'.$request->getParameter('id')));
+  }
+  
   public function executeExport(sfWebRequest $request)
   {
     require(dirname(__FILE__).'/export.php');

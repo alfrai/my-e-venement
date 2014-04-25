@@ -47,6 +47,10 @@ generator:
           _periodicity:
             action: periodicity
             credentials: event-manif-edit
+          _sell:
+            action: sell
+            credentials: tck-transaction
+            label: Sell
           _delete:
             credentials: event-manif-del
         sort: [happens_at, asc]
