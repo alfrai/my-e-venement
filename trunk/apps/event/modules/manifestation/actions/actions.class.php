@@ -305,7 +305,14 @@ class manifestationActions extends autoManifestationActions
   {
     try {
       $this->securityAccessFiltering($request);
-      parent::executeDelete($request);
+      
+      $request->checkCSRFProtection();
+      $this->dispatcher->notify(new sfEvent($this, 'admin.delete_object', array('object' => $this->getRoute()->getObject())));
+      $this->manifestation = $this->getRoute()->getObject();
+      $eid = $this->manifestation->event_id;
+      $this->manifestation->delete();
+      $this->getUser()->setFlash('notice', 'The item was deleted successfully.');
+      $this->redirect('event/show?id='.$eid);
     }
     catch ( Doctrine_Connection_Exception $e )
     {
