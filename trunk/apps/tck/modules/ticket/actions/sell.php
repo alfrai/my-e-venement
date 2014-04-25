@@ -44,7 +44,7 @@
         
         $this->transaction = new Transaction();
         $this->transaction->save();
-        $this->redirect('ticket/sell?id='.$this->transaction->id);
+        $this->redirect('ticket/sell?id='.$this->transaction->id.($request->hasParameter('hash') ? '#manifestations-'.$request->getParameter('hash') : ''));
       }
     }
     

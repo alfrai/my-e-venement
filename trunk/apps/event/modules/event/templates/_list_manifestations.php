@@ -5,7 +5,7 @@
       link_to(format_date($manif->happens_at,'EEE d MMM yyyy HH:mm'),
         'manifestation/show?id='.$manif->id,
         array('title' => '-> '.format_date(strtotime($manif->ends_at), 'EEE d MMM yyyy HH:mm').' @ '.$manif->Location, 'style' => 'background-color: '.$manif->Color.';')
-      ).' <a class="sell" title="'.__('Sell').'" href="'.cross_app_url_for('tck','ticket/sell#manif-'.$manif->id).'"><span class="ui-icon-li ui-icon ui-icon-microplus"></span></a>'
+      ).' <a class="sell" title="'.__('Sell').'" href="'.cross_app_url_for('tck','ticket/sell?hash='.$manif->id.'#manif-'.$manif->id).'"><span class="ui-icon-li ui-icon ui-icon-microplus"></span></a>'
   ?>
 <?php endforeach ?>
 <?php
