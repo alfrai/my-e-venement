@@ -14,6 +14,10 @@ class Phonenumber extends PluginPhonenumber
 {
   public function __toString()
   {
-    return $this->name.': '.$this->number;
+    $arr = array();
+    if ( trim($this->name) )
+      $arr[] = $this->name;
+    $arr[] = $this->number;
+    return implode(': ', $arr);
   }
 }
