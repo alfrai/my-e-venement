@@ -42,12 +42,21 @@
       $('#li_transaction_manifestations .footer .partial').submit(function(){
         if ( $('#li_transaction_manifestations .ui-state-highlight').length == 0 )
         {
-           alert($('#li_transaction_field_close .print .pay-before').html());
+           li.alert($('#li_transaction_field_close .print .partial-print-error').html());
            $(this).find('[name=manifestation_id]').val('');
            return false;
         }
         
         $(this).find('[name=gauge_id]').val($('#li_transaction_field_content .ui-state-highlight').attr('data-gauge-id'));
-        return li.checkGauges(this);
+        if ( li.checkGauges(this) )
+        {
+          // refresh the gauge, as soon as the focus is back on the transaction
+          $(window).focus(function(){
+            li.initContent();
+            $(this).unbind('focus');
+          });
+        }
+        else return false;
+        return true;
       });
     });
