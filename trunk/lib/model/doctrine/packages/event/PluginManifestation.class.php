@@ -165,9 +165,11 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     if ( intval($this->duration).'' != ''.$this->duration )
       return $this->duration;
     
-    $hours = floor($this->duration/3600);
+    sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
+    $days = floor($this->duration/(3600*24));
+    $hours = floor($this->duration%(3600*24))/3600;
     $minutes = str_pad(floor($this->duration%3600/60), 2, '0', STR_PAD_LEFT);
-    return $hours.':'.$minutes;
+    return ($days > 0 ? __('%%d%% day(s)',array('%%d%%' => $days)) : '').' '.$hours.':'.$minutes;
   }
   
   public function getMEid()
