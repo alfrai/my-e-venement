@@ -28,6 +28,9 @@
   <div class="calendar">
   </div>
 <script type="text/javascript"><!--
+if ( li == undefined )
+  var li = {};
+
 $(document).ready(function(){
   $('#fullcalendar .calendar, #more .calendar').fullCalendar({
     <?php if ( isset($start_date) && $start_date && strtotime($start_date) > 0 ): ?>
@@ -132,7 +135,9 @@ $(document).ready(function(){
     },
   });
   
-  $('#fullcalendar .fc-header .fc-button').click(function(){
+  
+  li.addCalendarBars = function()
+  {
     $('#fullcalendar .fc-view').animate({scrollLeft: 0}, 150);
     
     if ( $('.fc-view.fc-view-resourceDay').length > 0 && $('.fc-view.fc-view-resourceDay tfoot').length == 0 )
@@ -145,7 +150,9 @@ $(document).ready(function(){
         $(this).append($(this).find('td.fc-resourceName').clone());
       });
     }
-  });
+  }
+  $('#fullcalendar .fc-header .fc-button').click(li.addCalendarBars);
+  li.addCalendarBars();
 });
 --></script>
 </div>
