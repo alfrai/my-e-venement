@@ -7,3 +7,7 @@ h1 { font-size: 22px; }
 #fullcalendar .fc-view-resourceDay { overflow-x: auto; }
 
 #fullcalendar .fc-header .fc-button-resourceDay { z-index: 1; }
+
+#fullcalendar .fc-resourceName { white-space: nowrap; }
+#fullcalendar .fc-view-resourceWeek tbody tr:hover td:not(.fc-today),
+#fullcalendar .fc-view-resourceDay tbody tr:hover td { background: rgba(255,237,189,0.5); }
