@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>%%d%% day(s)</source>
+        <target>%%d%% jour(s)</target>
+      </trans-unit>
+      <trans-unit>
         <source>Has a description</source>
         <target>A une description</target>
       </trans-unit>
