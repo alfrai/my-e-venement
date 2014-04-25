@@ -1017,6 +1017,10 @@
         <target>Jauges</target>
       </trans-unit>
       <trans-unit>
+        <source>Direct phonenumber</source>
+        <target>Numéro pro.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Postalcode</source>
         <target>Code Postal</target>
       </trans-unit>

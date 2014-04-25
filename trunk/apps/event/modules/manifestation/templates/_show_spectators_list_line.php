@@ -1,6 +1,20 @@
-    <td class="name"><?php echo cross_app_link_to($transac->Contact,'rp','contact/show?id='.$transac->contact_id) ?> <span class="pictos"><?php if ( is_object($transac->Contact) ) echo $sf_data->getRaw('transac')->Contact->groups_picto ?></span></td>
+    <?php
+      $arr = array();
+      foreach ( $transac->Contact->YOBs as $yob )
+        $arr[] = (string)$yob;
+      foreach ( $transac->Contact->Phonenumbers as $pn )
+        $arr[] = (string)$pn;
+    ?>
+    <td class="name" title="<?php echo implode(', ', $arr) ?>"><?php echo cross_app_link_to($transac->Contact,'rp','contact/show?id='.$transac->contact_id) ?> <span class="pictos"><?php if ( is_object($transac->Contact) ) echo $sf_data->getRaw('transac')->Contact->groups_picto ?></span></td>
     <td class="pro-groups"><?php echo $sf_data->getRaw('transac')->Professional->groups_picto ?></td>
-    <td class="organism">
+    <?php
+      $arr = array();
+      if ( trim($transac->Professional->contact_number) )
+        $arr[] = __('Direct phonenumber').': '.$transac->Professional->contact_number;
+      foreach ( $transac->Professional->Organism->Phonenumbers as $pn )
+        $arr[] = (string)$pn;
+    ?>
+    <td class="organism" title="<?php echo implode(', ',$arr) ?>">
       <?php if ( $contact['pro'] ) echo cross_app_link_to($contact['pro']->Organism,'rp','organism/show?id='.$contact['pro']->Organism->id) ?>
       <?php echo $sf_data->getRaw('transac')->Professional->Organism->groups_picto ?>
     </td>
