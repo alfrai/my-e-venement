@@ -21,13 +21,10 @@ function phonenumbers_add(data,beforethis)
   
   $('.phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_organism_phonenumber[name]"]')
     .change(function(){
-      // a hack for getting the selected value from autocompleter
-      setTimeout(function(){
-        elt = $('.phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_organism_phonenumber[name]"]');
-        elt.parent().parent()
-          .find('input[name="contact_phonenumber[name]"], input[name="organism_phonenumber[name]"]')
-          .val(elt.val());
-      },150);
+      elt = $('.phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_organism_phonenumber[name]"]');
+      elt.closest('form')
+        .find('input[name="contact_phonenumber[name]"], input[name="organism_phonenumber[name]"]')
+        .val(elt.val());
     })
     .autocomplete(phonetype_ajax, jQuery.extend({}, {
       dataType: 'json',
