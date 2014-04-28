@@ -44,6 +44,7 @@
     $.get('<?php echo url_for('manifestation/list') ?>',{
       start: start,
       end: stop,
+      conflicts: true,
       location_id: location_id,
       no_ids: ['<?php echo $manifestation->id ?>'],
       only_blocking: true,

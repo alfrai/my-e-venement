@@ -70,14 +70,16 @@
         18*60*60, // starts and stops in differents days, and length > 18h
       ));
     }
+    
     if ( $no_ids )
       $q->andWhereNotIn('m.id',$no_ids);
+    
     // security filtering
     EventFormFilter::addCredentialsQueryPart($q);
     
     // event filters
     $data = $this->getUser()->getAttribute('event.filters', array(), 'admin_module');
-    if ( $data )
+    if ( $data && !$request->hasParameter('conflicts') )
     {
       $filters = new EventFormFilter;
       $data[$filters->getCSRFFieldName()] = $filters->getCSRFToken();
