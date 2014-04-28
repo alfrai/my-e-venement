@@ -12,7 +12,7 @@
 <?php echo $form['value']->renderLabel() ?>
 <?php echo $form['value']->render(array('class' => 'for-board')) ?>
 </p>
-<?php if ( $sf_user->hasCredential('tck-payement') ): ?>
+<?php if ( $sf_user->hasCredential('tck-payment') ): ?>
 <div class="field_payment_method_id field">
 <?php echo $form['payment_method_id'] ?>
 </div>
