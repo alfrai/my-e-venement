@@ -61,7 +61,7 @@
     <span class="ui-icon ui-icon-arrowthickstop-1-s"></span><?php echo __('Integrate', array(), 'sf_admin') ?>
   </a></li>
   <?php endif ?>
-  <?php echo $helper->linkToExtraAction(array(  'params' => 'class= fg-button ui-state-default  ', 'app' => 'tck', 'action'=>'sell#manif-'.$manifestation->id, 'module'=>'ticket',  'extra-icon'=>'show', 'class_suffix' => 'sell',  'label' => 'Sell',)) ?>
+  <?php echo $helper->linkToExtraAction(array(  'params' => 'class= fg-button ui-state-default  ', 'app' => 'event', 'action'=> 'sell?id='.$manifestation->id, 'module'=>'manifestation',  'extra-icon'=>'show', 'class_suffix' => 'sell',  'label' => 'Sell',)) ?>
   <?php endif ?>
   <?php echo $helper->linkToEdit($manifestation, array(  'params' => 'class= fg-button ui-state-default fg-button-icon-left ',  'class_suffix' => 'edit',  'label' => 'Edit',  'ui-icon' => '',)) ?>
   <?php echo $helper->linkToDelete($form->getObject(), array(  'params' => 'class= fg-button ui-state-default fg-button-icon-left ',  'confirm' => 'Are you sure?',  'class_suffix' => 'delete',  'label' => 'Delete',  'ui-icon' => '',)) ?>
