@@ -9,6 +9,14 @@
         <target>%%d%% jour(s)</target>
       </trans-unit>
       <trans-unit>
+        <source>The filters on events have been all removed.</source>
+        <target>Les filtres sur les événements ont été remis à zéro.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Reset filters</source>
+        <target>Effacer les filtres</target>
+      </trans-unit>
+      <trans-unit>
         <source>Has a description</source>
         <target>A une description</target>
       </trans-unit>

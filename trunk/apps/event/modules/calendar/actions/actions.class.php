@@ -40,6 +40,14 @@ class calendarActions extends sfActions
     
     $this->setNow($range);
   }
+  
+  public function executeReset(sfWebRequest $request)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    $this->getUser()->setAttribute('event.filters', array(), 'admin_module');
+    $this->getUser()->setFlash('notice',__('The filters on events have been all removed.'));
+    $this->redirect('calendar/index');
+  }
 
   protected function setNow($range = array())
   {

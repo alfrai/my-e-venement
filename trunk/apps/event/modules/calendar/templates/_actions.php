@@ -10,6 +10,9 @@
       <?php endif ?>
     </a>
   </li>
+  <?php if (!( is_array($f = $sf_data->getRaw('sf_user')->getAttribute('event.filters', array(), 'admin_module')) && count($f) == 0 )): ?>
+  <li class="sf_admin_action_reset_filters fg-button-mini fg-button ui-state-default fg-button-icon-left"><a href="<?php echo url_for('calendar/reset') ?>"><span class="ui-icon ui-icon-circle-close"></span><?php echo __('Reset filters') ?></a></a></li>
+  <?php endif ?>
   <li class="sf_admin_action_refetch_data fg-button-mini fg-button ui-state-default fg-button-icon-left"><a href="#" onclick="javascript: $('#fullcalendar').fullCalendar('refetchEvents'); return false;"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span><?php echo __('Refresh') ?></a></li>
   <li class="sf_admin_action_jump_to_date"><form class="fg-button ui-state-default" method="get" action="#"><p><?php
     $w = new liWidgetFormJQueryDateText(array('culture' => $sf_user->getCulture()));
