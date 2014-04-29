@@ -164,3 +164,5 @@ select[disabled] {
 .sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_location { text-align: center; }
 .sf_admin_list .sf_admin_action_sell a { background: rgb(223, 239, 252) url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat -16px -128px; }
 .sf_admin_list .sf_admin_list_td_duration_h_r { white-space: nowrap; }
+
+#sf_admin_actions_menu_list .fg-menu-has-icons a { padding-left: 30px; width: calc(92% - 25px); }

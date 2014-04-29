@@ -58,6 +58,11 @@ generator:
         sort: [happens_at, asc]
         table_method: retrieveList
         title: Manifestations
+        actions:
+          _new: ~
+          csv:
+            label: Extract
+            action: csv
       filter:
         display: [happens_at, event_id, contact_id, location_id, booking_list, color_id, has_description, has_extra_infos, description, reservation_confirmed]
       form: ~

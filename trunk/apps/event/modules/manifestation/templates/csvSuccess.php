@@ -30,6 +30,7 @@
     'charset',
     'lines',
     'prices',
+    'type',
   );
   foreach ( $vars as $key => $value )
   {
