@@ -118,6 +118,10 @@ INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('t
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('tck-seat-allocation', 'Permission to allocate a seat', now(), now());
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-seats-allocation', 'Permission to display the seats allocation in the event module', now(), now());
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'tck-seated'), NOW(), NOW() FROM sf_guard_permission WHERE name IN ('tck-seat-allocation','event-seated-allocation'));
+
+-- delete & create locations / resources, dedicated to the event-admin group
+DELETE FROM sf_guard_group_permission WHERE permission_id IN (SELECT id FROM sf_guard_permission WHERE name IN ('event-location-del', 'event-location-new'));
+INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'event-admin'), NOW(), NOW() FROM sf_guard_permission WHERE name IN ('event-location-del','event-location-new'));
 EOF
 
 # final informations

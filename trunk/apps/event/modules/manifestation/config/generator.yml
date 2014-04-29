@@ -70,7 +70,7 @@ generator:
           <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($config['enable']) && $config['enable'] ): echo PHP_EOL; ?>
           Resources:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, reservation_confirmed, reservation_optional, reservation_description]
           <?php endif; echo PHP_EOL; ?>
-          Technical informations:  [description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, ExtraInformations<?php endif ?>]
+          Extra informations:  [description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, ExtraInformations<?php endif ?>]
           #Tickets:      [_show_tickets_list]
           #Spectators:   [_show_spectators_list]
           #Unbalanced:   [_show_unbalanced_list]
@@ -81,7 +81,7 @@ generator:
           <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($config['enable']) && $config['enable'] ): echo PHP_EOL; ?>
           Resources:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, reservation_confirmed, reservation_optional, reservation_description]
           <?php endif; echo PHP_EOL; ?>
-          Technical informations:  [description]
+          Extra informations:  [description]
         actions: { _save: ~, _list: ~ }
       show:
         display:
@@ -94,4 +94,4 @@ generator:
           Tickets:    [_show_tickets_list_empty]
           Spectators: [_show_spectators_list_empty]
           Unbalanced: [_show_unbalanced_list]
-          Technical informations:  [_show_description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, _show_extra_informations<?php endif ?>]
+          Extra informations:  [_show_description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, _show_extra_informations<?php endif ?>]
