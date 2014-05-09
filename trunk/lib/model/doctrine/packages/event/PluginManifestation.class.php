@@ -167,7 +167,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     
     sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
     $days = floor($this->duration/(3600*24));
-    $hours = floor($this->duration%(3600*24))/3600;
+    $hours = floor($this->duration%(3600*24)/3600);
     $minutes = str_pad(floor($this->duration%3600/60), 2, '0', STR_PAD_LEFT);
     return ($days > 0 ? __('%%d%% day(s)',array('%%d%%' => $days)) : '').' '.$hours.':'.$minutes;
   }
