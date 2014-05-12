@@ -269,6 +269,10 @@
         <target>Impossible de dupliquer le billet #%%i%% car son opération est verrouillée.</target>
       </trans-unit> 
       <trans-unit>
+        <source>You can not cancel any closed transaction (like the #%%t%%).</source>
+        <target>Vous ne pouvez pas annuler une opération déjà clôturée (comme la #%%t%%).</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Can't duplicate the ticket #%%i%% because it has been cancelled already.</source>
         <target>Impossible de dupliquer le billet #%%i%% car ce billet a déjà été annulé.</target>
       </trans-unit> 
