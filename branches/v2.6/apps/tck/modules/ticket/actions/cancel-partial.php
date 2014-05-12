@@ -42,7 +42,6 @@
     ->leftJoin('tck.Price p')
     ->leftJoin('t.Translinked t2')
     ->andWhere('t.id = ?',$tid)
-    ->andWhere('t.closed = ?', false)
     ->andWhere('LOWER(p.name) = LOWER(?)',$price_name)
     ->andWhere('tck.manifestation_id = ?',$manifestation_id)
     ->andWhere('tck.printed_at IS NOT NULL')
@@ -60,11 +59,9 @@
   
   $transaction = $tickets[0]->Transaction;
   
-  if (( ($transaction->closed && !$this->getUser()->hasCredential('tck-unblock'))
-    || ($this->getUser()->hasCredential('tck-control'))
-    ) && !$this->getUser()->isSuperAdmin() )
+  if ( $transaction->closed && !$this->getUser()->hasCredential('tck-unblock') )
   {
-    $this->getUser()->setFlash('error',__('Oops! The screen you asked for is secure and you do not have proper credentials.','sf_admin',array()));
+    $this->getUser()->setFlash('error',__("You can not cancel any closed transaction (like the #%%t%%).",array('%%t%%' => $transaction->id)));
     $this->redirect('ticket/cancel');
   }
   

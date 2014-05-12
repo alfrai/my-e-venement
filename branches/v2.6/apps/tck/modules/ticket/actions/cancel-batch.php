@@ -36,7 +36,7 @@
   $this->forward404Unless($transaction = Doctrine::getTable('Transaction')->findOneById($tid));
   if ( $transaction->closed && !$this->getUser()->hasCredential('tck-unblock') )
   {
-    $this->getUser()->setFlash('error',__('Oops! The screen you asked for is secure and you do not have proper credentials.','sf_admin',array()));
+    $this->getUser()->setFlash('error',__("You can not cancel any closed transaction (like the #%%t%%).",array('%%t%%' => $transaction->id)));
     $this->redirect('ticket/cancel');
   }
   $translinked = $transaction->Translinked->count() > 0
@@ -69,7 +69,7 @@
   // cancelling printed tickets
   $q = new Doctrine_Query;
   $value = 0;
-  $tickets = $q->from('Ticket tck')
+  $q->from('Ticket tck')
     ->leftJoin('tck.Transaction t')
     ->leftJoin('tck.Cancelled cancel')
     ->leftJoin('tck.Duplicatas dup')
@@ -77,9 +77,10 @@
     ->andWhere('tck.duplicating IS NULL')
     ->andWhere('tck.cancelling IS NULL')
     ->andWhere('tck.transaction_id = ?',$tid)
-    ->andWhere('t.closed = ?',false || $this->getUser()->hasCredential('tck-unblock'))
-    ->andWhere('tck.printed_at IS NOT NULL')
-    ->execute();
+    ->andWhere('tck.printed_at IS NOT NULL');
+  if ( !$this->getUser()->hasCredential('tck-unblock') )
+    $q->andWhere('t.closed = ?', false);
+  $tickets = $q->execute();
   
   $value = 0;
   if ( $tickets->count() > 0 )
