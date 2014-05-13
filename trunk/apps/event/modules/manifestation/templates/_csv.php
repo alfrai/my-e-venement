@@ -52,16 +52,22 @@
     break;
   case 'manifestations_list':
     $vars['options']['header'] = array(
+      'manifid'            => __('Id'),
+      'meta_event'    => __('Meta event'),
+      'event'         => __('Event'),
       'date_from'     => __('Happens at'),
       'date_to'       => __('Ends at'),
       'duration'      => __('Duration'),
+      'age_min'       => __('Age min'),
+      'age_max'       => __('Age max'),
+      'event_description' => __('Description'),
+      'category'      => __('Category'),
+      'location'      => __('Location'),
       'reservation_from'  => __('Booked from'),
       'reservation_to'    => __('Booked until'),
-      'event'         => __('Event'),
-      'location'      => __('Location'),
       'applicant'     => __('Applicant'),
       'booking'       => __('Bookings'),
-      'age_min'       => __('Age min'),
+      'confirmed'     => __('Confirmed'),
       'description'   => __('Memo'),
       'extra_informations' => __('Extra informations'),
     );
