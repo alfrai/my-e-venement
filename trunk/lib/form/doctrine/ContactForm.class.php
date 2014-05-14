@@ -69,6 +69,8 @@ class ContactForm extends BaseContactForm
     $this->widgetSchema['familial_situation_id']->setOption('order_by',array('name',''));
     $this->widgetSchema['familial_quotient_id']->setOption('order_by',array('name',''));
     
+    $this->widgetSchema['organism_category_id']->setOption('order_by',array('name',''));
+    
     // adding artificial mandatory fields
     if ( is_array($force = sfConfig::get('app_options_force_fields', array())) )
     foreach ( $force as $field )
