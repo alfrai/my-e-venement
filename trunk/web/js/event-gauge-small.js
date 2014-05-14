@@ -18,7 +18,7 @@ function gauge_small()
     if ( $(this).find('.total').length == 0 || parseInt($(this).find('.total').html()) == 0 )
     {
       if ( $(this).find('.total').length > 0 )
-        $(this).html('n/a');
+        $(this).html('<img class="conflict" src="../sfDoctrinePlugin/images/tick.png" title="Pas de conflit d\'usage" />');
       $(this).addClass('done').addClass('other').removeClass('gauge');
       return true;
     }
