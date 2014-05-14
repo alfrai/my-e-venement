@@ -110,8 +110,8 @@ EOF;
           $orgs[] = $org;
         $state = array();
         foreach ( array(
-          '!reservation_confirmed' => __('A confirmer'),
-          '!blocking'              => __('Non bloquante')
+          '!reservation_confirmed' => __('To be confirmed'),
+          '!blocking'              => __('Not blocking'),
         ) as $prop => $msg )
         {
           $bool = true;

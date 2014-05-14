@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>To be confirmed</source>
+        <target>À confirmer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Not blocking</source>
+        <target>Non bloquant</target>
+      </trans-unit>
+      <trans-unit>
+        <source>State</source>
+        <target>État</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%d%% day(s)</source>
         <target>%%d%% jour(s)</target>
       </trans-unit>
