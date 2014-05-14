@@ -501,6 +501,11 @@ li.format_currency = function(value, nbsp, nodot)
   
   return value;
 }
+// parsing a string representating a i18n float to a real float
+li.parseFloat(string)
+{
+  return parseFloat(string.replace(',','.'));
+}
 
 // THE TOTALS
 li.calculateTotals = function()
@@ -531,7 +536,7 @@ li.calculateTotals = function()
     if ( totals[$(this).attr('class')] == undefined )
       totals[$(this).attr('class')] = 0;
     
-    i = parseFloat(val.replace(',','.'));
+    i = li.parseFloat(val);
     if ( !isNaN(i) )
       totals[$(this).attr('class')] += i;
   });
@@ -553,7 +558,7 @@ li.calculateTotals = function()
     var val = $(this).is('.qty') ? $(this).find('.qty').html() : $(this).html();
     if ( totals[$(this).attr('class')] == undefined )
       totals[$(this).attr('class')] = 0;
-    i = parseFloat(val.replace(',','.'));
+    i = li.parseFloat(val);
     if ( !isNaN(i) )
       totals[$(this).attr('class')] += i;
   });
@@ -572,15 +577,16 @@ li.calculateTotals = function()
   $('.family.total .item.total tr.total').each(function(){
     var family = this;
     $.each(total, function(index, value){
-      var tmp = parseFloat($(family).find('.'+index).html().replace(',','.'));
+      var tmp = li.parseFloat($(family).find('.'+index).html());
       if ( !isNaN(tmp) )
         total[index] += tmp;
     });
   });
+  console.log(total.toSource());
   $.each(total, function(index, value){
     $('#li_transaction_field_payments_list .topay .'+index).html(li.format_currency(value));
     
-    var tmp = parseFloat($('#li_transaction_field_payments_list tfoot .total .sf_admin_list_td_list_value').html());
+    var tmp = li.parseFloat($('#li_transaction_field_payments_list tfoot .total .sf_admin_list_td_list_value').html());
     tmp = isNaN(tmp) ? 0 : tmp;
     tmp = total[index] - tmp * total[index]/total.pit;
     tmp = isNaN(tmp) ? 0 : tmp;

@@ -192,29 +192,29 @@ li.sumPayments = function()
   $('#li_transaction_field_payments_list tbody tr .sf_admin_list_td_list_value').each(function(){
     val += isNaN(parseFloat($(this).html().replace(',','.')))
       ? 0
-      : parseFloat($(this).html().replace(',','.'));
+      : li.parseFloat($(this).html());
   });
   $('#li_transaction_field_payments_list tfoot .total .sf_admin_list_td_list_value')
     .html(li.format_currency(val));
   
-  var ratio = val / parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.pit').html().replace(',','.'));
+  var ratio = val / li.parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.pit').html());
   if ( isNaN(ratio) )
     ratio = 0;
   
   // difference
   $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.pit').html(li.format_currency(
-    parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.pit').html().replace(',','.'))
+    li.parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.pit').html())
     - val
   ));
   
   // VAT & co.
-  var topay = parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.pit').html().replace(',','.'));
+  var topay = li.parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.pit').html());
   $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.vat').html(li.format_currency(
-    parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.vat').html().replace(',','.'))
+    li.parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.vat').html())
     * ratio
   ));
   $('#li_transaction_field_payments_list tfoot .change .sf_admin_list_td_list_value.tep').html(li.format_currency(
-    parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.tep').html().replace(',','.'))
+    li.parseFloat($('#li_transaction_field_payments_list tfoot .topay .sf_admin_list_td_list_value.tep').html())
     * ratio
   ));
 }

@@ -5,7 +5,7 @@
     }
     
     li.printTickets = function(form, pay_before = false){
-      if ( pay_before && parseFloat($('#li_transaction_field_payments_list .change .pit').html()) > 0 )
+      if ( pay_before && li.parseFloat($('#li_transaction_field_payments_list .change .pit').html()) > 0 )
       {
         li.alert($('#li_transaction_field_close .print .pay-before').html());
         return false;
