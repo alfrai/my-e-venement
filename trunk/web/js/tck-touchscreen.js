@@ -501,8 +501,9 @@ li.format_currency = function(value, nbsp, nodot)
   
   return value;
 }
+
 // parsing a string representating a i18n float to a real float
-li.parseFloat(string)
+li.parseFloat = function(string)
 {
   return parseFloat(string.replace(',','.'));
 }
@@ -582,7 +583,7 @@ li.calculateTotals = function()
         total[index] += tmp;
     });
   });
-  console.log(total.toSource());
+  
   $.each(total, function(index, value){
     $('#li_transaction_field_payments_list .topay .'+index).html(li.format_currency(value));
     
