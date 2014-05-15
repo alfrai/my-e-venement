@@ -17,7 +17,7 @@
     <?php include_stylesheets() ?>
     <?php include_javascripts() ?>
   </head>
-  <body>
+  <body class="<?php echo 'app-'.$sf_context->getConfiguration()->getApplication().' mod-'.$module_name ?>">
     <div id="content">
       <?php echo $sf_content ?>
     </div>
