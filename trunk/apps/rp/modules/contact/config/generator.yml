@@ -63,7 +63,13 @@ generator:
         max_per_page: <?php if ( sfConfig::get('app_options_design',false) ): ?>50<?php else: ?>20<?php endif; echo PHP_EOL; ?>
         table_method: retreiveList
         object_actions:
-          <?php if ( sfConfig::get('app_options_design',false) != 'tdp' ): ?>_show: ~<?php endif; echo PHP_EOL; ?>
+          <?php if ( sfConfig::get('app_options_design',false) != 'tdp' ): echo PHP_EOL; ?>
+          _show: ~
+          <?php else: echo PHP_EOL; ?>
+          _showUp:
+            label: Show up
+            action: edit
+          <?php endif; echo PHP_EOL; ?>
           _edit: ~
           _delete: ~
       show: 

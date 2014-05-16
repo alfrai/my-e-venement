@@ -103,7 +103,7 @@ body #content { width: auto; }
 #tdp-content .tdp-line.relations .tdp-Relationships table table tr + tr { margin-top: 2px; }
 #tdp-content .tdp-line.relations .tdp-Relationships table table select { margin: 0; }
 
-@media screen and (min-width: 1550px) {
+@media screen and (min-width: 1500px) {
 
 #tdp-content .tdp-line.more { position: absolute; margin-top: -105px; margin-left: 800px; }
 #tdp-content .tdp-line.direct_contact { float: left; margin-right: 50px; }
@@ -141,12 +141,12 @@ body #content { width: auto; }
 #tdp-content .sf_admin_list_th_list_professional_description, #tdp-content .sf_admin_list_td_list_professional_description
 { max-width: 80px; overflow: hidden; word-wrap: break-word; }
 
-@media screen and (min-width: 1900px) {
+@media screen and (min-width: 1820px) {
 #tdp-content .sf_admin_list_td_list_contact, #tdp-content .sf_admin_list_th_list_contact,
 #tdp-content .sf_admin_list_td_list_professional_id, #tdp-content .sf_admin_list_th_list_professional_id,
 #tdp-content .sf_admin_list_td_list_see_orgs, #tdp-content .sf_admin_list_th_list_see_orgs { display: none; }
 }
-@media screen and (max-width: 1900px) {
+@media screen and (max-width: 1820px) {
 /* hide professional data */
 #tdp-content .sf_admin_list_td_list_see_orgs a { display: block; width: 0; float: none; padding-left: 16px; font-size: 0; height: 16px; }
 #tdp-content .sf_admin_list_th_list_professional_id, #tdp-content .sf_admin_list_td_list_professional_id,
@@ -345,3 +345,14 @@ a:not([href]) { color: gray; }
 #tdp-content.list .sf_admin_actions,
 #tdp-content .sf_admin_edit .sf_admin_actions_block { display: none; }
 
+/* displaying content inside an iframe */
+#tdp-content .sf_admin_list .sf_admin_action_showup .fg-button { background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png'); background-position: -192px -48px; }
+#tdp-content .inner-edition { width: 100%; height: 500px; margin-bottom: 10px; border: 1px solid #A6C9E2; display: none; }
+#tdp-content .inner-edition iframe { width: 100%; height: 100%; }
+.tdp-iframe #jappix_mini, .tdp-iframe #menu, .tdp-iframe #banner, .tdp-iframe #tdp-top-bar, .tdp-iframe #logo, .tdp-iframe #sfWebDebug, .tdp-iframe #footer { display: none !important; }
+.tdp-iframe #content { margin: 0; border: 0; }
+.tdp-iframe { padding: 0 0 0 0; }
+.tdp-iframe #content { padding-top: 18px; }
+#tdp-content .inner-actions { background-image: url(../images/close.png); height: 18px; background-repeat: no-repeat; width: 60px; position: absolute; display: none; }
+#tdp-content .inner-actions .close, #tdp-content .inner-actions .open { line-height: 18px; padding-left: 40px; }
+#tdp-content .inner-actions .open { padding-left: 20px; }

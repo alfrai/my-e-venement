@@ -330,6 +330,15 @@ $(document).ready(function(){
   $('.tdp-email_no_newsletter, .tdp-contact_email_no_newsletter').each(function(){
     $(this).find('input').prop('title',$(this).find('label').html());
   });
+  
+  // slide down objects
+  var showupfct = function(){
+    $('#tdp-content .sf_admin_list .sf_admin_action_showup a').unbind().click(function(){
+      return li.tdp_show_up_object(this);
+    });
+  }
+  showupfct();
+  window.list_scroll_end.push(showupfct);
 });
 
 // CONTENT: SEEING CONTACT'S ORGANISMS
@@ -441,4 +450,29 @@ li.tdp_submit_forms = function(i = 0)
       });
     }
   }
+}
+
+li.tdp_show_up_object = function(elt)
+{
+  $('#transition .close').click();
+  $('#tdp-content .inner-actions .close').click();
+  $('<div><a href="#close" class="close"></a><a href="#open" class="open"></a></div>')
+    .addClass('inner-actions')
+    .insertBefore($('#tdp-content .sf_admin_list'));
+  $('#tdp-content .inner-actions .close').click(function(){
+    $('#tdp-content .inner-actions').fadeOut('slow', function(){ $(this).remove(); });
+    $('#tdp-content .inner-edition, #tdp-content .inner-action')
+      .slideUp('slow', function(){ $(this).remove(); });
+  });
+  $('#tdp-content .inner-actions .open').click(function(){
+    window.location = $('#tdp-content .inner-edition iframe').prop('src');
+  });
+  $('<div><iframe src="'+$(elt).prop('href')+'"></iframe></div>')
+    .addClass('inner-edition').addClass('ui-widget').addClass('ui-corner-all')
+    .insertBefore($('#tdp-content .sf_admin_list'))
+    .find('iframe').load(function(){
+      $(this).contents().find('body').addClass('tdp-iframe');
+      $(this).parent().slideDown('slow', function(){ $('#tdp-content .inner-actions').fadeIn(); });
+    });
+  return false;
 }
