@@ -1,3 +1,7 @@
+// the global var that can be used everywhere as a "root"
+if ( li == undefined )
+  var li = {};
+
 $(document).ready(function(){
   var object_elts = 'td:first-child:not([class]), .sf_admin_list_td_name, .sf_admin_list_td_firstname, .sf_admin_list_td_postalcode, .sf_admin_list_td_city, .sf_admin_list_td_list_emails, .sf_admin_list_td_list_phones, .sf_admin_list_td_organisms_list, .sf_admin_list_td_list_see_orgs, .sf_admin_list_td_list_contact, td:last-child';
   var subobjects_elts = '.sf_admin_list_td_list_professional_id, .sf_admin_list_td_list_organism, .sf_admin_list_td_list_professional, .sf_admin_list_td_list_organism_postalcode, .sf_admin_list_td_list_organism_city, .sf_admin_list_td_list_professional_emails, .sf_admin_list_td_list_organism_phones_list, .sf_admin_list_td_list_professional_description, .sf_admin_list_td_list_professional_groups_picto';
@@ -75,7 +79,7 @@ $(document).ready(function(){
   $('.tdp-subobject form, .tdp-object #sf_admin_content > form').submit(function(){
     $("html, body").animate({ scrollTop: 0 }, "slow");
     $('.sf_admin_flashes *').fadeOut('fast',function(){ $(this).remove(); });
-    contact_tdp_submit_forms();
+    li.tdp_submit_forms();
     return false;
   });
   
@@ -176,13 +180,13 @@ $(document).ready(function(){
   });
   
   // CONTENT: SEEING CONTACT'S ORGANISMS
-  contact_tdp_show_orgs();
+  li.tdp_show_orgs();
   if ( window.list_scroll_end == undefined )
     window.list_scroll_end = new Array();
-  window.list_scroll_end[window.list_scroll_end.length] = contact_tdp_show_orgs;
+  window.list_scroll_end[window.list_scroll_end.length] = li.tdp_show_orgs;
   if ( window.integrated_search_end == undefined )
     window.integrated_search_end = new Array();
-  window.integrated_search_end[window.integrated_search_end.length] = contact_tdp_show_orgs;
+  window.integrated_search_end[window.integrated_search_end.length] = li.tdp_show_orgs;
   
   // CONTENT: NEW FUNCTION FOR A CONTACT
   $('.tdp-subobject.tdp-object-new .tdp-widget-header input[type=text]').each(function(){
@@ -329,7 +333,7 @@ $(document).ready(function(){
 });
 
 // CONTENT: SEEING CONTACT'S ORGANISMS
-function contact_tdp_show_orgs()
+li.tdp_show_orgs = function()
 {
   $('#tdp-content .sf_admin_list_td_list_see_orgs').unbind().click(function(){
     if ( !$(this).closest('table').hasClass('see-orgs') )
@@ -368,7 +372,7 @@ function contact_tdp_show_orgs()
     $('#tdp-content .sf_admin_list_td_list_see_orgs:first').click();
 }
 
-function contact_tdp_submit_forms(i = 0)
+li.tdp_submit_forms = function(i = 0)
 {
   if ( i < $('.tdp-subobject form').length )
   {
@@ -406,11 +410,11 @@ function contact_tdp_submit_forms(i = 0)
       });
       
       i++;
-      contact_tdp_submit_forms(i);
+      li.tdp_submit_forms(i);
     })
     .fail(function(){
       i++;
-      contact_tdp_submit_forms(i);
+      li.tdp_submit_forms(i);
     });
   }
   else
