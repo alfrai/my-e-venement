@@ -456,16 +456,13 @@ li.tdp_show_up_object = function(elt)
 {
   $('#transition .close').click();
   $('#tdp-content .inner-actions .close').click();
-  $('<div><a href="#close" class="close"></a><a href="#open" class="open"></a></div>')
+  $('<div><a href="#close" class="close"></a><a href="'+$(elt).prop('href')+'" class="open"></a></div>')
     .addClass('inner-actions')
     .insertBefore($('#tdp-content .sf_admin_list'));
   $('#tdp-content .inner-actions .close').click(function(){
     $('#tdp-content .inner-actions').fadeOut('slow', function(){ $(this).remove(); });
     $('#tdp-content .inner-edition, #tdp-content .inner-action')
       .slideUp('slow', function(){ $(this).remove(); });
-  });
-  $('#tdp-content .inner-actions .open').click(function(){
-    window.location = $('#tdp-content .inner-edition iframe').prop('src');
   });
   $('<div><iframe src="'+$(elt).prop('href')+'"></iframe></div>')
     .addClass('inner-edition').addClass('ui-widget').addClass('ui-corner-all')
