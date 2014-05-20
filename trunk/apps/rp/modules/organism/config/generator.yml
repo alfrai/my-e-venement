@@ -40,7 +40,13 @@ generator:
         display: [Category, name, postalcode, city, _list_email, administrative_number, _groups_picto, _contacts_list]
         max_per_page: 50
         object_actions:
-          <?php if ( sfConfig::get('app_options_design',false) != 'tdp' ): ?>_show: ~<?php endif; echo PHP_EOL; ?>
+          <?php if ( sfConfig::get('app_options_design',false) != 'tdp' ): echo PHP_EOL; ?>
+          _show: ~
+          <?php else: echo PHP_EOL; ?>
+          _showUp:
+            label: Show up
+            action: edit
+          <?php endif; echo PHP_EOL; ?>
           _edit: ~
           _delete: ~
         batch_actions:
