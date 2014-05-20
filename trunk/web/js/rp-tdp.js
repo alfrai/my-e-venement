@@ -456,7 +456,7 @@ LI.tdp_show_up_object = function(elt)
 {
   $('#transition').fadeIn();
   $('#tdp-content .inner-actions .close').click();
-  $('<div><a href="#close" class="close"></a><a href="#close" class="mini"><a href="'+$(elt).prop('href')+'" class="maxi"></a></div>')
+  $('<div><a href="#close" class="close"></a><a href="#close" class="mini"><a href="'+$(elt).prop('href')+'" target="_blank" class="maxi"></a></div>')
     .addClass('inner-actions').addClass('ui-corner-all')
     .insertBefore($('#tdp-content .sf_admin_list'));
   $('#tdp-content .inner-actions .close, #tdp-content .inner-actions .mini').click(function(){
