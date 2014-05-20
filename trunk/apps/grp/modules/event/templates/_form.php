@@ -40,7 +40,7 @@
   <table class="grp-entry">
     <tbody>
       <?php $i = 1 ?>
-      <?php foreach ( $entry->getRaw('ContactEntries') as $ce ): ?>
+      <?php foreach ( $sf_data->getRaw('entry')->ContactEntries as $ce ): ?>
       <tr class="contact-<?php echo $ce->id ?> <?php echo ++$i%2 == 0 ? 'pair' : 'impair' ?> <?php if ( !is_null($ce->transaction_id) ) echo 'transposed' ?> <?php if ( $ce->confirmed ) echo 'confirmed' ?>">
         <?php $j = 0 ?>
         <td class="contact <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>"><?php $f = new ContactEntryForm($ce) ?>
