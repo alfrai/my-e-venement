@@ -454,7 +454,7 @@ li.tdp_submit_forms = function(i = 0)
 
 li.tdp_show_up_object = function(elt)
 {
-  $('#transition .close').click();
+  $('#transition').fadeIn();
   $('#tdp-content .inner-actions .close').click();
   $('<div><a href="#close" class="close"></a><a href="'+$(elt).prop('href')+'" class="open"></a></div>')
     .addClass('inner-actions')
@@ -468,7 +468,9 @@ li.tdp_show_up_object = function(elt)
     .addClass('inner-edition').addClass('ui-widget').addClass('ui-corner-all')
     .insertBefore($('#tdp-content .sf_admin_list'))
     .find('iframe').load(function(){
+      $('#transition .close').click();
       $(this).contents().find('body').addClass('tdp-iframe');
+      $(this).contents().find('a[href]').prop('target', '_parent');
       $(this).parent().slideDown('slow', function(){ $('#tdp-content .inner-actions').fadeIn(); });
     });
   return false;

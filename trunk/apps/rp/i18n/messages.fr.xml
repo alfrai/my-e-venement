@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Show up</source>
+        <target>Afficher</target>
+      </trans-unit>
+      <trans-unit>
         <source>For global efficiency needs, your search was truncated of its criteria related to the amount spent in ticketting. To avoid this, remove your criteria on groups.</source>
         <target>Pour des besoins d'efficacité, votre recherche a été réduite de son critère lié au montant dépensé en billetterie. Pour éviter cela, retirez votre critère sur les groupes.</target>
       </trans-unit>
