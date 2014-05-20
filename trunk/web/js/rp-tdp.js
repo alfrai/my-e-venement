@@ -456,10 +456,10 @@ li.tdp_show_up_object = function(elt)
 {
   $('#transition').fadeIn();
   $('#tdp-content .inner-actions .close').click();
-  $('<div><a href="#close" class="close"></a><a href="'+$(elt).prop('href')+'" class="open"></a></div>')
-    .addClass('inner-actions')
+  $('<div><a href="#close" class="close"></a><a href="#close" class="mini"><a href="'+$(elt).prop('href')+'" class="maxi"></a></div>')
+    .addClass('inner-actions').addClass('ui-corner-all')
     .insertBefore($('#tdp-content .sf_admin_list'));
-  $('#tdp-content .inner-actions .close').click(function(){
+  $('#tdp-content .inner-actions .close, #tdp-content .inner-actions .mini').click(function(){
     $('#tdp-content .inner-actions').fadeOut('slow', function(){ $(this).remove(); });
     $('#tdp-content .inner-edition, #tdp-content .inner-action')
       .slideUp('slow', function(){ $(this).remove(); });
