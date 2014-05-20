@@ -353,6 +353,8 @@ a:not([href]) { color: gray; }
 .tdp-iframe #content { margin: 0; border: 0; }
 .tdp-iframe { padding: 0 0 0 0; }
 .tdp-iframe #content { padding-top: 18px; }
-#tdp-content .inner-actions { background-image: url(../images/close.png); height: 18px; background-repeat: no-repeat; width: 60px; position: absolute; display: none; }
-#tdp-content .inner-actions .close, #tdp-content .inner-actions .open { line-height: 18px; padding-left: 40px; }
-#tdp-content .inner-actions .open { padding-left: 20px; }
+#tdp-content .inner-actions { padding-bottom: 2px; background-repeat: no-repeat; position: absolute; display: none; background-color: white; }
+#tdp-content .inner-actions .close, #tdp-content .inner-actions .mini, #tdp-content .inner-actions .maxi { line-height: 16px; padding-left: 16px; background: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png'); }
+#tdp-content .inner-actions .close { background-position: -32px -192px; }
+#tdp-content .inner-actions .mini { background-position: -64px -192px; }
+#tdp-content .inner-actions .maxi { background-position: -96px -192px; }
