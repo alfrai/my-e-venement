@@ -11,7 +11,7 @@
       }
     });
     
-    li.autoAddFamilies();
+    LI.autoAddFamilies();
     
     // the autocompleter & the manifestation's selector
     $('#li_transaction_field_content .new-family [name=autocompleter]').keyup(function(e){
@@ -78,14 +78,14 @@
       else
       {
         var elts = $(this).closest('.family').find('.qty.blink');
-        li.blinkQuantities(elts);
+        LI.blinkQuantities(elts);
       }
       
       return false;
     });
   });
 
-li.blinkQuantities = function(elts, full = false){
+LI.blinkQuantities = function(elts, full = false){
   elts.blink = 0;
   
   var blink = function(){
@@ -104,7 +104,7 @@ li.blinkQuantities = function(elts, full = false){
 }
 
 // add automatically manifestations to the current transaction
-li.autoAddFamilies = function(form){
+LI.autoAddFamilies = function(form){
   $(location.hash.split('#')).each(function(key, value){
     if ( !value )
       return;

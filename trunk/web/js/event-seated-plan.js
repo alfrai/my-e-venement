@@ -1,11 +1,11 @@
 // the global var that can be used everywhere as a "root"
-if ( li == undefined )
-  var li = {};
+if ( LI == undefined )
+  var LI = {};
 
 
   // transforms a simple HTML call into a seated plan widget (seated-plan.css is also needed)
   // you can use something as simple as <a href="<?php url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id') ?>" class="picture seated-plan"><?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture)) ?></a>
-  li.seatedPlanInitialization = function(root)
+  LI.seatedPlanInitialization = function(root)
   {
     if ( root == undefined )
       root = $('body');
@@ -24,11 +24,11 @@ if ( li == undefined )
         {
           data = json[i];
           data.object = elt;
-          li.seatedPlanMouseup(data);
+          LI.seatedPlanMouseup(data);
         }
         
         // triggers
-        while ( fct = li.seatedPlanInitializationFunctions.shift() )
+        while ( fct = LI.seatedPlanInitializationFunctions.shift() )
           fct();
       });
       
@@ -52,7 +52,7 @@ if ( li == undefined )
   }
 
   // the function that add a seat on every click (mouseup) or on data loading
-  li.seatedPlanMouseup = function(data)
+  LI.seatedPlanMouseup = function(data)
   {
     // removing pre-seat and pre-seat behaviour
     $('.picture.seated-plan .pre-seat').remove();
@@ -122,7 +122,7 @@ if ( li == undefined )
           && !$(this).is('.printed')
           && $('.reset-a-seat').length > 0 )
         {
-          li.seatedPlanUnallocatedSeat(this);
+          LI.seatedPlanUnallocatedSeat(this);
           return; // ... and this only
         }
         
@@ -160,7 +160,7 @@ if ( li == undefined )
     });
   }
 
-  li.seatedPlanUnallocatedSeat = function(seat)
+  LI.seatedPlanUnallocatedSeat = function(seat)
   {
     if ( $('#todo').length == 0 && !confirm($('form.reset-a-seat:first .confirm').html()) )
       return false;
@@ -180,9 +180,9 @@ if ( li == undefined )
   }
   
   $(document).ready(function(){
-    li.seatedPlanInitializationFunctions = [];
+    LI.seatedPlanInitializationFunctions = [];
     // automagically loads plans when the HTML call is in the page
-    li.seatedPlanInitialization();
+    LI.seatedPlanInitialization();
     
     // background
     $('#seated_plan_background').change(function(){
@@ -245,7 +245,7 @@ if ( li == undefined )
       if ( scale == undefined )
         scale = 1;
       
-      return li.seatedPlanMouseup({
+      return LI.seatedPlanMouseup({
         position: {
           x: Math.round((event.pageX-ref.position().left)/scale),
           y: Math.round((event.pageY-ref.position().top) /scale)

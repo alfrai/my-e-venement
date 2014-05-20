@@ -30,9 +30,9 @@
     </div>
   </div>
   <script type="text/javascript">
-    if ( li.urls == undefined )
-      li.urls = {};
-    li.urls['<?php echo $id ?>'] = '<?php echo url_for($detail['data_url'].'?id='.$transaction->id) ?>';
+    if ( LI.urls == undefined )
+      LI.urls = {};
+    LI.urls['<?php echo $id ?>'] = '<?php echo url_for($detail['data_url'].'?id='.$transaction->id) ?>';
   </script>
 <?php else: ?>
   <?php include_partial('form_field_content_fake') ?>

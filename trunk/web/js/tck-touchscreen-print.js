@@ -1,13 +1,13 @@
-    li.resetDuplicates = function(form){
+    LI.resetDuplicates = function(form){
       $(form).find('[name=price_name]').val('').hide();
       $(form).find('[name=duplicate]').prop('checked',false).show();
       $(form).find('[name=manifestation_id]').val('');
     }
     
-    li.printTickets = function(form, pay_before = false){
-      if ( pay_before && li.parseFloat($('#li_transaction_field_payments_list .change .pit').html()) > 0 )
+    LI.printTickets = function(form, pay_before = false){
+      if ( pay_before && LI.parseFloat($('#li_transaction_field_payments_list .change .pit').html()) > 0 )
       {
-        li.alert($('#li_transaction_field_close .print .pay-before').html());
+        LI.alert($('#li_transaction_field_close .print .pay-before').html());
         return false;
       }
       
@@ -15,12 +15,12 @@
         && $(form).find('[name=manifestation_id]').prop('checked') )
       {
         $(form).focusout();
-        return li.checkGauges(form);
+        return LI.checkGauges(form);
       }
       if ( $(form).find('[name=duplicate]').prop('checked') && $(form).find('[name=price_name]').val() )
         $(form).find('[name=manifestation_id]').val($('#li_transaction_manifestations .item.ui-state-highlight').closest('.family').attr('data-family-id'));
       setTimeout(function(){ $('#li_transaction_manifestations .footer .print [name=price_name]').val('').blur(); }, 2500);
-      return li.checkGauges(form);
+      return LI.checkGauges(form);
     }
     
     $(document).ready(function(){
@@ -35,24 +35,24 @@
       }).blur(function(){
         if ( $(this).val() )
           return;
-        li.resetDuplicates($(this).closest('form'));
+        LI.resetDuplicates($(this).closest('form'));
       });
       
       // partial printing
       $('#li_transaction_manifestations .footer .partial').submit(function(){
         if ( $('#li_transaction_manifestations .ui-state-highlight').length == 0 )
         {
-           li.alert($('#li_transaction_field_close .print .partial-print-error').html());
+           LI.alert($('#li_transaction_field_close .print .partial-print-error').html());
            $(this).find('[name=manifestation_id]').val('');
            return false;
         }
         
         $(this).find('[name=gauge_id]').val($('#li_transaction_field_content .ui-state-highlight').attr('data-gauge-id'));
-        if ( li.checkGauges(this) )
+        if ( LI.checkGauges(this) )
         {
           // refresh the gauge, as soon as the focus is back on the transaction
           $(window).focus(function(){
-            li.initContent();
+            LI.initContent();
             $(this).unbind('focus');
           });
         }

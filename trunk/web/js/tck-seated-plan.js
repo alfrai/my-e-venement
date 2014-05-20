@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  li.seatedPlanInitializationFunctions.push(function()
+  LI.seatedPlanInitializationFunctions.push(function()
   {
     var click;
     $('.seated-plan .seat.txt').click(click = function(){
@@ -19,7 +19,7 @@ $(document).ready(function(){
           $('#todo .total').html(parseInt($('#todo .total').html())-1);
           $('#done .total').html(parseInt($('#todo .total').html())+1);
           $('.seated-plan .'+id).addClass('ordered');
-          $(seat).addClass('in-progress').dblclick(li.seatedPlanUnallocatedSeat);
+          $(seat).addClass('in-progress').dblclick(LI.seatedPlanUnallocatedSeat);
           
           // if there is no more ticket, go to the next step, including editting the order
           if ( $('#todo .ticket').length == 0 && $('#next a').hasClass('auto-click') )

@@ -136,7 +136,7 @@ $(document).ready(function(){
   });
   
   
-  li.addCalendarBars = function()
+  LI.addCalendarBars = function()
   {
     $('#fullcalendar .fc-view').animate({scrollLeft: 0}, 150);
     
@@ -151,8 +151,8 @@ $(document).ready(function(){
       });
     }
   }
-  $('#fullcalendar .fc-header .fc-button').click(li.addCalendarBars);
-  li.addCalendarBars();
+  $('#fullcalendar .fc-header .fc-button').click(LI.addCalendarBars);
+  LI.addCalendarBars();
 });
 --></script>
 </div>

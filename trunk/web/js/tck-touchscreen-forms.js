@@ -1,5 +1,5 @@
 // ALL FORMS VALIDATION
-li.formSubmit = function(){
+LI.formSubmit = function(){
   var form = this;
   if ( $(form).hasClass('noajax') )
     return true;
@@ -18,7 +18,7 @@ li.formSubmit = function(){
       // main error
       if ( data.error[0] )
       {
-        li.alert(data.error[1],'error');
+        LI.alert(data.error[1],'error');
         return;
       }
       
@@ -27,7 +27,7 @@ li.formSubmit = function(){
       $.each(data.success.error_fields, function( index, value ){
         msg += index+': '+value+"\n";
       });
-      if ( msg ) li.alert(msg,'error');
+      if ( msg ) LI.alert(msg,'error');
       
       // successes
       $.each(data.success.success_fields, function(index, value){
@@ -62,13 +62,13 @@ li.formSubmit = function(){
           else
           {
             elt.find('.qty input').val(value.data.content.qty).select();
-            elt.find('.money').html(li.format_currency(0));
+            elt.find('.money').html(LI.format_currency(0));
             setTimeout(function(){ if ( parseInt(elt.find('.qty input').val(),10) == 0 ) elt.remove(); },5000);
           }
           
           break;
         case 'manifestations':
-          li.completeContent(value.data.content, 'manifestations', false);
+          LI.completeContent(value.data.content, 'manifestations', false);
           break;
         }
         
@@ -83,10 +83,10 @@ li.formSubmit = function(){
               $(form).find('[name="transaction[price_new][state]"]').val('');
             },
             success: function(data){
-              if ( data.error[0] ) { li.alert(data.error[1],'error'); return; }
-              if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined )) { li.alert(data.success.error_fields.manifestations,'error'); return; }
+              if ( data.error[0] ) { LI.alert(data.error[1],'error'); return; }
+              if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined )) { LI.alert(data.success.error_fields.manifestations,'error'); return; }
               if ( data.success.success_fields.manifestations !== undefined && data.success.success_fields.manifestations.data !== undefined )
-                li.completeContent(data.success.success_fields.manifestations.data.content, 'manifestations', false);
+                LI.completeContent(data.success.success_fields.manifestations.data.content, 'manifestations', false);
             }
           });
           break;
@@ -95,10 +95,10 @@ li.formSubmit = function(){
           $.ajax({
             url: value.remote_content.load.url,
             success: function(data){
-              if ( data.error[0] ) { li.alert(data.error[1],'error'); return; }
-              if (!( data.success.error_fields !== undefined && data.success.error_fields.payments === undefined )) { li.alert(data.success.error_fields.payments,'error'); return; }
+              if ( data.error[0] ) { LI.alert(data.error[1],'error'); return; }
+              if (!( data.success.error_fields !== undefined && data.success.error_fields.payments === undefined )) { LI.alert(data.success.error_fields.payments,'error'); return; }
               if ( data.success.success_fields.payments !== undefined && data.success.success_fields.payments.data !== undefined )
-                li.completeContent(data.success.success_fields.payments.data.content, 'payments');
+                LI.completeContent(data.success.success_fields.payments.data.content, 'payments');
             }
           });
           break;
@@ -120,12 +120,12 @@ li.formSubmit = function(){
           
           // init an other widget
           var sel = value.remote_content.load.target.replace(/^(.*)\s.*$/, '$1');
-          if ( sel != elt ) li.initTouchscreen(sel);
+          if ( sel != elt ) LI.initTouchscreen(sel);
           
           break;
         }
         
-        li.initTouchscreen(elt);
+        LI.initTouchscreen(elt);
       });
     }
   });

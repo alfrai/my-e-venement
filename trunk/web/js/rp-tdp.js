@@ -1,6 +1,6 @@
 // the global var that can be used everywhere as a "root"
-if ( li == undefined )
-  var li = {};
+if ( LI == undefined )
+  var LI = {};
 
 $(document).ready(function(){
   var object_elts = 'td:first-child:not([class]), .sf_admin_list_td_name, .sf_admin_list_td_firstname, .sf_admin_list_td_postalcode, .sf_admin_list_td_city, .sf_admin_list_td_list_emails, .sf_admin_list_td_list_phones, .sf_admin_list_td_organisms_list, .sf_admin_list_td_list_see_orgs, .sf_admin_list_td_list_contact, td:last-child';
@@ -75,11 +75,11 @@ $(document).ready(function(){
     }
   });  
   
-  // FORMS: submitting subobjects though AJ$AX
+  // FORMS: submitting subobjects though AJAX
   $('.tdp-subobject form, .tdp-object #sf_admin_content > form').submit(function(){
     $("html, body").animate({ scrollTop: 0 }, "slow");
     $('.sf_admin_flashes *').fadeOut('fast',function(){ $(this).remove(); });
-    li.tdp_submit_forms();
+    LI.tdp_submit_forms();
     return false;
   });
   
@@ -180,13 +180,13 @@ $(document).ready(function(){
   });
   
   // CONTENT: SEEING CONTACT'S ORGANISMS
-  li.tdp_show_orgs();
+  LI.tdp_show_orgs();
   if ( window.list_scroll_end == undefined )
     window.list_scroll_end = new Array();
-  window.list_scroll_end[window.list_scroll_end.length] = li.tdp_show_orgs;
+  window.list_scroll_end[window.list_scroll_end.length] = LI.tdp_show_orgs;
   if ( window.integrated_search_end == undefined )
     window.integrated_search_end = new Array();
-  window.integrated_search_end[window.integrated_search_end.length] = li.tdp_show_orgs;
+  window.integrated_search_end[window.integrated_search_end.length] = LI.tdp_show_orgs;
   
   // CONTENT: NEW FUNCTION FOR A CONTACT
   $('.tdp-subobject.tdp-object-new .tdp-widget-header input[type=text]').each(function(){
@@ -334,7 +334,7 @@ $(document).ready(function(){
   // slide down objects
   var showupfct = function(){
     $('#tdp-content .sf_admin_list .sf_admin_action_showup a').unbind().click(function(){
-      return li.tdp_show_up_object(this);
+      return LI.tdp_show_up_object(this);
     });
   }
   showupfct();
@@ -342,7 +342,7 @@ $(document).ready(function(){
 });
 
 // CONTENT: SEEING CONTACT'S ORGANISMS
-li.tdp_show_orgs = function()
+LI.tdp_show_orgs = function()
 {
   $('#tdp-content .sf_admin_list_td_list_see_orgs').unbind().click(function(){
     if ( !$(this).closest('table').hasClass('see-orgs') )
@@ -381,7 +381,7 @@ li.tdp_show_orgs = function()
     $('#tdp-content .sf_admin_list_td_list_see_orgs:first').click();
 }
 
-li.tdp_submit_forms = function(i = 0)
+LI.tdp_submit_forms = function(i = 0)
 {
   if ( i < $('.tdp-subobject form').length )
   {
@@ -419,11 +419,11 @@ li.tdp_submit_forms = function(i = 0)
       });
       
       i++;
-      li.tdp_submit_forms(i);
+      LI.tdp_submit_forms(i);
     })
     .fail(function(){
       i++;
-      li.tdp_submit_forms(i);
+      LI.tdp_submit_forms(i);
     });
   }
   else
@@ -452,7 +452,7 @@ li.tdp_submit_forms = function(i = 0)
   }
 }
 
-li.tdp_show_up_object = function(elt)
+LI.tdp_show_up_object = function(elt)
 {
   $('#transition').fadeIn();
   $('#tdp-content .inner-actions .close').click();

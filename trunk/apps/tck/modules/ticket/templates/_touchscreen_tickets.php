@@ -15,7 +15,7 @@
         if ( $('#ts-tickets .manif.rendered [name="'+$(this).prop('name')+'"]').length == 0 )
         {
           price = $(this).prop('name').replace(/^ticket\[prices\]\[\d+\]\[/g,'').replace('][]','');
-          li = $(this).closest('li').clone(true).addClass('rendered');
+          var li = $(this).closest('li').clone(true).addClass('rendered');
           li.find('input[type=hidden]:not([name="ticket[gauge_id]"])').remove();
           li.find('input[type=radio]').removeAttr('checked');
           li.find('.manif').prepend($('<span class="ticket_prices"><input type="text" value="'+$(data).find('[name="'+$(this).prop('name')+'"]').length+'" class="nb" autocomplete="off" maxlength="3" name="hidden_nb" />&nbsp;<span class="price_name">'+price+'</span></span>'));

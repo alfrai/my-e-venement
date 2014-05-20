@@ -1,6 +1,6 @@
 // the global var that can be used everywhere as a "root"
-if ( li == undefined )
-  var li = {};
+if ( LI == undefined )
+  var LI = {};
 
 $(document).ready(function(){
   // AUTO VALIDATIONS
@@ -9,8 +9,8 @@ $(document).ready(function(){
   ', [name="transaction[description]"]')
     .change(function(){ $(this).closest('form').submit(); });
   
-  li.initContent();
-  $('#sf_admin_content form:not(.noajax)').submit(li.formSubmit);
+  LI.initContent();
+  $('#sf_admin_content form:not(.noajax)').submit(LI.formSubmit);
   
   // PLAYING W/ CART'S CONTENT
   // sliding content
@@ -78,7 +78,7 @@ $(document).ready(function(){
   });
   
   // total calculation
-  $('#li_transaction_field_content .item .total').select(li.calculateTotals).select();
+  $('#li_transaction_field_content .item .total').select(LI.calculateTotals).select();
   
   // showing numerotation & ids
   $('#li_transaction_field_content .item .ids').click(function(){ $(this).closest('.declination').find('.price_name').click(); });
@@ -98,12 +98,12 @@ $(document).ready(function(){
         var gauge = this;
         $.get($(this).find('.data .gauge.raw').prop('href'), function(data){
           $(gauge).find('.data .gauge.raw').text(JSON.stringify(data));
-          li.renderGauge(gauge);
+          LI.renderGauge(gauge);
         });
       }
       else
       {
-        li.renderGauge(this);
+        LI.renderGauge(this);
       }
     }
   }).dblclick(function(){
@@ -125,7 +125,7 @@ $(document).ready(function(){
   $.each([
     '#li_transaction_field_contact_id',
     '#li_transaction_field_professional_id'
-  ], function(index, value){ li.initTouchscreen(value); });
+  ], function(index, value){ LI.initTouchscreen(value); });
   
   // CONTACT CREATION
   $('#li_transaction_field_contact_id .create-contact').click(function(){
@@ -137,7 +137,7 @@ $(document).ready(function(){
           $(w.document).find('.sf_admin_actions_form .sf_admin_action_list, .sf_admin_actions_form .sf_admin_action_save_and_add')
             .remove();
         });
-        w.onunload = li.goBackToTransaction;
+        w.onunload = LI.goBackToTransaction;
       },2500);
     };
     
@@ -211,7 +211,7 @@ $(document).ready(function(){
   });
   
   // THE BOARD
-  $('#li_transaction_field_board button').click(li.boardClick)
+  $('#li_transaction_field_board button').click(LI.boardClick)
   
   // ARROWS ON DOCUMENT / ON ITEMS
   $(document).keydown(function(e){
@@ -257,10 +257,10 @@ $(document).ready(function(){
   );
   
   // DISPLAYS A WARNING MESSAGE WHEN THE WINDOW ATTEMPS TO BE CLOSED
-  $(window).on('beforeunload', li.closeTransaction);
+  $(window).on('beforeunload', LI.closeTransaction);
   
   // RESPONSIVE DESIGN
-  li.responsiveDesign();
+  LI.responsiveDesign();
   
   // NEW PAYMENT
   $('#li_transaction_field_payment_new [name="transaction[payment_new][payment_method_id]"]').each(function(){
@@ -275,7 +275,7 @@ $(document).ready(function(){
 });
 
 // check gauges for overbooking
-li.checkGauges = function(form){
+LI.checkGauges = function(form){
   var qty = 0;
   var go = true;
   
@@ -290,7 +290,7 @@ li.checkGauges = function(form){
       $.get($(this).find('.data .gauge.raw').prop('href'), function(data){
         var elts = $(gauge).find('tbody .declination:not(.active) [name="qty"]');
         $(gauge).find('.data .gauge.raw').html(JSON.stringify(data));
-        li.renderGauge(gauge, true);
+        LI.renderGauge(gauge, true);
         
         // overbooking
         var total = 0;
@@ -304,7 +304,7 @@ li.checkGauges = function(form){
         {
           go = false;
           elts.addClass('blink');
-          li.blinkQuantities(elts, true);
+          LI.blinkQuantities(elts, true);
         }
         
         qty--;
@@ -314,13 +314,13 @@ li.checkGauges = function(form){
           if ( go == false && type == 'block' )
           {
             // if the user cannot overbook, give him an alert
-            li.alert($('#li_transaction_field_close .overbooking .msg.'+type).html());
+            LI.alert($('#li_transaction_field_close .overbooking .msg.'+type).html());
           }
           else if ( go || confirm($('#li_transaction_field_close .overbooking .msg.warn').text()) )
           {
             // all gauges are ready to be filled... let's goooo
             $(form).clone(true).removeAttr('onsubmit').appendTo('body').submit().remove();
-            setTimeout(function(){ li.initContent(); }, 1000);
+            setTimeout(function(){ LI.initContent(); }, 1000);
           }
         }
       });
@@ -331,7 +331,7 @@ li.checkGauges = function(form){
 }
 
 // display a flash for a limited time
-li.alert = function(msg, type = 'notice', time = 4000)
+LI.alert = function(msg, type = 'notice', time = 4000)
 {
   var icons = {
     success: 'ui-icon-circle-check',
@@ -346,7 +346,7 @@ li.alert = function(msg, type = 'notice', time = 4000)
   },time);
 }
 
-li.renderGauge = function(item, only_inline_gauge)
+LI.renderGauge = function(item, only_inline_gauge)
 {
   if ( only_inline_gauge == undefined )
     only_inline_gauge = false;
@@ -393,7 +393,7 @@ li.renderGauge = function(item, only_inline_gauge)
       button = $('<button />')
         .html($('#li_transaction_field_close .show-seated-plan').text())
         .click(function(){
-          li.seatedPlanInitialization($('#li_transaction_field_product_infos'));
+          LI.seatedPlanInitialization($('#li_transaction_field_product_infos'));
           $(this).hide();
         });
       $('<div />').addClass('show-seated-plan')
@@ -401,7 +401,7 @@ li.renderGauge = function(item, only_inline_gauge)
         .appendTo($('#li_transaction_field_product_infos'));
       
       // caching
-      li.seatedPlanInitializationFunctions.push(function(){
+      LI.seatedPlanInitializationFunctions.push(function(){
         $(item).find('.data .gauge.seated.picture').remove(); // to ensure that we've got only one plan cached
         $('#li_transaction_field_product_infos .gauge.seated.picture')
           .show()
@@ -411,7 +411,7 @@ li.renderGauge = function(item, only_inline_gauge)
   }
 }
 
-li.responsiveDesign = function(){
+LI.responsiveDesign = function(){
   $(window).resize(function(){
     var margin;
     $('#sf_admin_content').css('transform', 'scale(1)');
@@ -439,30 +439,30 @@ li.responsiveDesign = function(){
   }).resize();
 }
 
-li.initContent = function(){
-  $.each(li.urls, function(id, url){
+LI.initContent = function(){
+  $.each(LI.urls, function(id, url){
     $.get(url,function(data){
       if ( data.error[0] )
       {
-        li.alert(data.error[1],'error');
+        LI.alert(data.error[1],'error');
         return;
       }
       if (!( data.success.error_fields !== undefined && data.success.error_fields[id] === undefined ))
       {
-        li.alert(data.success.error_fields[id],'error');
+        LI.alert(data.success.error_fields[id],'error');
         return;
       }
       
       if ( data.success.success_fields[id] !== undefined && data.success.success_fields[id].data !== undefined )
       {
-        li.completeContent(data.success.success_fields[id].data.content, id);
+        LI.completeContent(data.success.success_fields[id].data.content, id);
       }
     });
   });
 }
 
 // GENERIC FORMS INITIALIZATION
-li.initTouchscreen = function(elt)
+LI.initTouchscreen = function(elt)
 {
   switch ( elt ) {
   case '#li_transaction_field_contact_id':
@@ -485,7 +485,7 @@ li.initTouchscreen = function(elt)
 }
 
 // THE CURRENCY
-li.format_currency = function(value, nbsp, nodot)
+LI.format_currency = function(value, nbsp, nodot)
 {
   if ( nbsp  == undefined ) nbsp  = true;
   if ( nodot == undefined ) nodot = true;
@@ -503,13 +503,13 @@ li.format_currency = function(value, nbsp, nodot)
 }
 
 // parsing a string representating a i18n float to a real float
-li.parseFloat = function(string)
+LI.parseFloat = function(string)
 {
   return parseFloat(string.replace(',','.'));
 }
 
 // THE TOTALS
-li.calculateTotals = function()
+LI.calculateTotals = function()
 {
   if ( $(this).closest('.families.sample').length > 0 )
    return;
@@ -537,7 +537,7 @@ li.calculateTotals = function()
     if ( totals[$(this).attr('class')] == undefined )
       totals[$(this).attr('class')] = 0;
     
-    i = li.parseFloat(val);
+    i = LI.parseFloat(val);
     if ( !isNaN(i) )
       totals[$(this).attr('class')] += i;
   });
@@ -545,7 +545,7 @@ li.calculateTotals = function()
   $.each(totals, function(index, value){
     var total = $(elt).find('.'+index.replace(/\s+/g,'.'));
     if ( $(total).hasClass('money') )
-      value = li.format_currency(value);
+      value = LI.format_currency(value);
     if ( total.is('.qty') )
       total.find('.qty').html(value);
     else
@@ -559,14 +559,14 @@ li.calculateTotals = function()
     var val = $(this).is('.qty') ? $(this).find('.qty').html() : $(this).html();
     if ( totals[$(this).attr('class')] == undefined )
       totals[$(this).attr('class')] = 0;
-    i = li.parseFloat(val);
+    i = LI.parseFloat(val);
     if ( !isNaN(i) )
       totals[$(this).attr('class')] += i;
   });
   $.each(totals, function(index, value){
     var total = $(megaelt).find('.'+index.replace(/\s+/g,'.'));
     if ( $(total).hasClass('money') )
-      value = li.format_currency(value);
+      value = LI.format_currency(value);
     if ( total.is('.qty') )
       total.find('.qty').html(value);
     else
@@ -578,26 +578,26 @@ li.calculateTotals = function()
   $('.family.total .item.total tr.total').each(function(){
     var family = this;
     $.each(total, function(index, value){
-      var tmp = li.parseFloat($(family).find('.'+index).html());
+      var tmp = LI.parseFloat($(family).find('.'+index).html());
       if ( !isNaN(tmp) )
         total[index] += tmp;
     });
   });
   
   $.each(total, function(index, value){
-    $('#li_transaction_field_payments_list .topay .'+index).html(li.format_currency(value));
+    $('#li_transaction_field_payments_list .topay .'+index).html(LI.format_currency(value));
     
-    var tmp = li.parseFloat($('#li_transaction_field_payments_list tfoot .total .sf_admin_list_td_list_value').html());
+    var tmp = LI.parseFloat($('#li_transaction_field_payments_list tfoot .total .sf_admin_list_td_list_value').html());
     tmp = isNaN(tmp) ? 0 : tmp;
     tmp = total[index] - tmp * total[index]/total.pit;
     tmp = isNaN(tmp) ? 0 : tmp;
     $('#li_transaction_field_payments_list .change .'+index)
-      .html(li.format_currency(tmp));
+      .html(LI.format_currency(tmp));
   });
 }
 
 // function to go back to the ticketting transaction from the contact window
-li.goBackToTransaction = function(){
+LI.goBackToTransaction = function(){
   var w = this;
   setTimeout(function(){
     $(w.document).ready(function(){
@@ -617,14 +617,14 @@ li.goBackToTransaction = function(){
         $(w.document).find('.sf_admin_actions_form .sf_admin_action_list, .sf_admin_actions_form .sf_admin_action_save_and_add')
           .remove();
       });
-      w.onunload = li.goBackToTransaction;
+      w.onunload = LI.goBackToTransaction;
     }
     });
   },2500);
 }
 
 // click on virtual keyboard
-li.clickBoard = function(){
+LI.clickBoard = function(){
   var elt = $('.li_fieldset .ui-state-highlight').find('textarea, input:not([type=hidden])');
   if ( $('.li_fieldset .ui-state-highlight').closest('#li_transaction_field_content').length == 1 )
     elt = $('#li_transaction_field_price_new').find('input[type=text]'); // case of qty of "products"
@@ -687,7 +687,7 @@ li.clickBoard = function(){
 }
 
 // DISPLAYS A WARNING MESSAGE WHEN THE WINDOW ATTEMPS TO BE CLOSED
-li.closeTransaction = function(event){
+LI.closeTransaction = function(event){
   $('#transition').show();
   var go = { ok: true, text: '' };
   

@@ -1,4 +1,4 @@
-li.boardClick = function(){
+LI.boardClick = function(){
   var elt = $('.li_fieldset .ui-state-highlight .for-board').length > 0
     ? $('.li_fieldset .ui-state-highlight .for-board:first')
     : $('.li_fieldset .ui-state-highlight').find('textarea, input[type=text]').first();
