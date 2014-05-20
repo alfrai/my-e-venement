@@ -26,6 +26,7 @@
 class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
 {
   protected static $_stopwords = array(
+    'l',
     'le',
     'la',
     'les',
@@ -56,8 +57,9 @@ class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
             $text = iconv($encoding, 'UTF-8', $text);
         }
 
+        $text = str_replace("'", ' ', $text);
         $text = preg_replace('/[^\p{L}\p{N}]+/u', ' ', $text);
-        $text = str_replace('  ', ' ', $text);
+        $text = preg_replace('/\s\s+/', ' ', $text);
 
         $terms = explode(' ', $text);
         
