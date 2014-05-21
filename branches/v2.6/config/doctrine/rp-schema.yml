@@ -27,9 +27,9 @@ Contact:
     type: concrete
   actAs: 
     Searchable:
-      fields: [name,firstname]
+      fields: [name, firstname, city]
     Sluggable:
-      fields: [name,firstname]
+      fields: [name, firstname]
     Versionable: ~
   indexes:
     contact_name_idx:
@@ -87,7 +87,7 @@ Organism:
   package: rp
   actAs:
     Searchable:
-      fields: [name, administrative_number]
+      fields: [name, administrative_number, city]
     Versionable: ~
   inheritance:
     extends: Addressable
