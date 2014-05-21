@@ -18,6 +18,7 @@ all:
         2a allée Franz Stock
         29000 QUIMPER
         France
+      #country: France
     firm:
       url: http://www.my-web-site.tld/
       name: My Company

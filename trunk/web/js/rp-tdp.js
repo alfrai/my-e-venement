@@ -334,7 +334,7 @@ $(document).ready(function(){
   // slide down objects
   var showupfct = function(){
     $('#tdp-content .sf_admin_list .sf_admin_action_showup a').unbind().click(function(){
-      return LI.tdp_show_up_object(this);
+      return LI.tdp_open_object(this);
     });
   }
   showupfct();
@@ -452,10 +452,12 @@ LI.tdp_submit_forms = function(i = 0)
   }
 }
 
-LI.tdp_show_up_object = function(elt)
+LI.tdp_open_object = function(elt)
 {
   $('#transition').fadeIn();
   $('#tdp-content .inner-actions .close').click();
+  var colspan = $(elt).closest('tr').find('> td').length;
+  /*
   $('<div><a href="#close" class="close"></a><a href="#close" class="mini"><a href="'+$(elt).prop('href')+'" target="_blank" class="maxi"></a></div>')
     .addClass('inner-actions').addClass('ui-corner-all')
     .insertBefore($('#tdp-content .sf_admin_list'));
@@ -464,14 +466,18 @@ LI.tdp_show_up_object = function(elt)
     $('#tdp-content .inner-edition, #tdp-content .inner-action')
       .slideUp('slow', function(){ $(this).remove(); });
   });
-  $('<div><iframe src="'+$(elt).prop('href')+'"></iframe></div>')
-    .addClass('inner-edition').addClass('ui-widget').addClass('ui-corner-all')
-    .insertBefore($('#tdp-content .sf_admin_list'))
-    .find('iframe').load(function(){
+  */
+  var iframe = $('<div><iframe src="'+$(elt).prop('href')+'"></iframe></div>')
+    .addClass('inner-edition').addClass('ui-widget').addClass('ui-corner-all');
+  iframe.find('iframe').load(function(){
       $('#transition .close').click();
-      $(this).contents().find('body').addClass('tdp-iframe');
+      $(this).contents().find('html').addClass('tdp-iframe');
       $(this).contents().find('a[href]').prop('target', '_parent');
       $(this).parent().slideDown('slow', function(){ $('#tdp-content .inner-actions').fadeIn(); });
+      // must add the form auto-validation
     });
+  $('<tr></tr>').append($('<td colspan="'+colspan+'"></td>').append(iframe))
+    .addClass('ui-widget-content')
+    .insertAfter($(elt).closest('tr'));
   return false;
 }
