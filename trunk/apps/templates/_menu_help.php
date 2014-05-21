@@ -26,6 +26,7 @@
           <li><a href="http://www.e-venement.org/documentation/" target="_blank"><?php echo __('Documentation',array(),'menu') ?></a></li>
           <li><a href="http://www.e-venement.org/documentation/faq/" target="_blank"><?php echo __('Frequently Asked Questions',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('default','about') ?>" class="fancybox"><?php echo __('About',array(),'menu') ?></a></li>
+          <?php include_partial('global/menu_extra', array('name' => 'help')) ?>
         </ul>
         <span class="title"><?php echo __('Help',array(),'menu') ?></span>
       </li>

@@ -47,6 +47,7 @@
           <?php include_partial('global/menu_setup_groups') ?>
           <?php include_partial('global/menu_setup_mc') ?>
           <?php include_partial('global/menu_setup_online') ?>
+          <?php include_partial('global/menu_extra', array('name' => 'setup')) ?>
         </ul>
         <?php if ( $view ): ?>
         <span class="title"><?php echo __('Settings',array(),'menu') ?></span>

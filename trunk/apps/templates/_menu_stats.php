@@ -58,6 +58,7 @@
           <?php if ( $sf_user->hasCredential('stats-pr-social') ): ?>
           <li><a href="<?php echo cross_app_url_for('stats','social/index') ?>"><?php echo __('Social statistics',array(),'menu') ?></a></li>
           <?php endif ?>
+          <?php include_partial('global/menu_extra', array('name' => 'stats')) ?>
         </ul>
         <span class="title"><?php echo __('Stats',array(),'menu') ?></span>
       </li>

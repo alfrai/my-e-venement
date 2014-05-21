@@ -30,6 +30,7 @@
           <?php if ( $sf_user->hasCredential('grp-professionals') ): ?>
           <li><a href="<?php echo cross_app_url_for('grp','professional/index') ?>"><?php echo __('By contact',array(),'menu') ?></a></li>
           <?php endif ?>
+          <?php include_partial('global/menu_extra', array('name' => 'groups')) ?>
         </ul>
         <span class="title"><?php echo __('Groups',array(),'menu') ?></span>
       </li>

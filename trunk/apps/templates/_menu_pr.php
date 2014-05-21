@@ -46,6 +46,7 @@
           <li><a href="<?php echo cross_app_url_for('rp','member_card/check') ?>"><?php echo __('Member card check',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('rp','member_card') ?>"><?php echo __('Member cards ledger',array(),'menu') ?></a></li>
           <?php endif ?>
+          <?php include_partial('global/menu_extra', array('name' => 'pr')) ?>
         </ul>
         <span class="title"><?php echo __('Pub. Rel.',array(),'menu') ?></span>
       </li>

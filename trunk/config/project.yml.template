@@ -33,6 +33,15 @@ all:
       La date anniversaire de votre contrat est le
       25 décembre, passé cette date vous ne pourrez
       plus bénéficier des services de votre prestataire
+  #menu:
+  #  help:
+  #    Perso:
+  #      url: http://www.e-venement.net/e-venement/references/
+  #      credential: test
+  #      target: _blank
+  #      extra_properties:
+  #        class: spaced
+  #        test: test
   #archive_url: /old/
   #locale: LC_ALL.UTF8 # cf. config/e-venement.yml
   #messaging:

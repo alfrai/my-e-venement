@@ -55,6 +55,7 @@
           <?php if ( $sf_user->hasCredential('tck-control') ): ?>
           <li class="spaced"><a href="<?php echo cross_app_url_for('tck','ticket/control') ?>"><?php echo __('Ticket control',array(),'menu') ?></a></li>
           <?php endif ?>
+          <?php include_partial('global/menu_extra', array('name' => 'ticketting')) ?>
         </ul>
         <span class="title"><?php echo __('Ticketting',array(),'menu') ?></span>
       </li>

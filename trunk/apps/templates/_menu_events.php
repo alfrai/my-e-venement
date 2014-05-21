@@ -49,6 +49,7 @@
           <li><a class="menu-event-booking-to-confirm" href="<?php echo cross_app_url_for('event','pending/index') ?>"><?php echo __('Bookings to confirm', null, 'menu') ?></a></li>
           <?php endif ?>
           <?php endif ?>
+          <?php include_partial('global/menu_extra', array('name' => 'events')) ?>
        </ul>
         <span class="title"><?php echo __('Event',array(),'menu') ?></span>
       </li>
