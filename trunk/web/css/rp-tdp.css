@@ -218,7 +218,8 @@ body #content { width: auto; }
 }
 #tdp-content .sf_admin_row .ui-state-highlight { border: 1px solid rgb(250, 212, 46); }
 #tdp-content .sf_admin_list thead th { height: 26px; }
-#tdp-content .sf_admin_list tbody .sf_admin_list_td_list_professional_description > div { max-height: 200px; overflow: auto; }
+#tdp-content .sf_admin_list tbody .sf_admin_list_td_list_professional_description > div { max-height: 100px; overflow: auto; padding-right: 2px; }
+#tdp-content .sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_professional_description { padding-right: 0; }
 
 /* LEFT SIDE */
 #tdp-side-bar {
