@@ -148,7 +148,7 @@ Event:
   actAs:
     Sluggable: ~
     Searchable:
-      fields: [name,writer,staging,short_name]
+      fields: [name, writer, staging, short_name, city]
   inheritance:
     extends: Traceable
     type: concrete
