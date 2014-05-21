@@ -348,14 +348,10 @@ a:not([href]) { color: gray; }
 
 /* displaying content inside an iframe */
 #tdp-content .sf_admin_list .sf_admin_action_showup .fg-button { background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png'); background-position: -224px -48px; }
+#tdp-content .sf_admin_list .sf_admin_action_showup .fg-button.tdp-opened { background-position: -192px -48px; }
 #tdp-content .inner-edition { width: 100%; height: 500px; margin-bottom: 10px; display: none; }
 #tdp-content .inner-edition iframe { width: 100%; height: 100%; }
 .tdp-iframe #jappix_mini, .tdp-iframe #menu, .tdp-iframe #banner, .tdp-iframe #tdp-top-bar, .tdp-iframe #logo, .tdp-iframe #sfWebDebug, .tdp-iframe #footer { display: none !important; }
 .tdp-iframe #content { margin: 0; border: 0; background-color: transparent !important; }
 .tdp-iframe { padding: 0 0 0 0; background-color: transparent; }
 .tdp-iframe #content { padding-top: 18px; }
-#tdp-content .inner-actions { padding-bottom: 2px; background-repeat: no-repeat; position: absolute; display: none; background-color: white; }
-#tdp-content .inner-actions .close, #tdp-content .inner-actions .mini, #tdp-content .inner-actions .maxi { line-height: 16px; padding-left: 16px; background: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png'); }
-#tdp-content .inner-actions .close { background-position: -32px -192px; }
-#tdp-content .inner-actions .mini { background-position: -64px -192px; }
-#tdp-content .inner-actions .maxi { background-position: -96px -192px; }

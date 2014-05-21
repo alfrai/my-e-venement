@@ -455,29 +455,34 @@ LI.tdp_submit_forms = function(i = 0)
 LI.tdp_open_object = function(elt)
 {
   $('#transition').fadeIn();
-  $('#tdp-content .inner-actions .close').click();
-  var colspan = $(elt).closest('tr').find('> td').length;
-  /*
-  $('<div><a href="#close" class="close"></a><a href="#close" class="mini"><a href="'+$(elt).prop('href')+'" target="_blank" class="maxi"></a></div>')
-    .addClass('inner-actions').addClass('ui-corner-all')
-    .insertBefore($('#tdp-content .sf_admin_list'));
-  $('#tdp-content .inner-actions .close, #tdp-content .inner-actions .mini').click(function(){
-    $('#tdp-content .inner-actions').fadeOut('slow', function(){ $(this).remove(); });
-    $('#tdp-content .inner-edition, #tdp-content .inner-action')
-      .slideUp('slow', function(){ $(this).remove(); });
-  });
-  */
-  var iframe = $('<div><iframe src="'+$(elt).prop('href')+'"></iframe></div>')
-    .addClass('inner-edition').addClass('ui-widget').addClass('ui-corner-all');
-  iframe.find('iframe').load(function(){
+  var tobeclosed = $(elt).hasClass('tdp-opened');
+  $('#tdp-content .fg-button.tdp-opened').not(elt).click();
+  
+  if ( tobeclosed )
+  {
+    var tr = $(elt).closest('tr').next();
+    tr.find('iframe').contents().find('#tdp-top-bar .update').click();
+    setTimeout(function(){
+      $('#transition .close').click();
+      tr.remove();
+      $(elt).removeClass('tdp-opened');
+    },2000);
+  }
+  else
+  {
+    var colspan = $(elt).closest('tr').find('> td').length;
+    var iframe = $('<div><iframe src="'+$(elt).prop('href')+'"></iframe></div>')
+      .addClass('inner-edition').addClass('ui-widget').addClass('ui-corner-all');
+    iframe.find('iframe').load(function(){
+      $(elt).addClass('tdp-opened');
       $('#transition .close').click();
       $(this).contents().find('html').addClass('tdp-iframe');
       $(this).contents().find('a[href]').prop('target', '_parent');
       $(this).parent().slideDown('slow', function(){ $('#tdp-content .inner-actions').fadeIn(); });
-      // must add the form auto-validation
     });
-  $('<tr></tr>').append($('<td colspan="'+colspan+'"></td>').append(iframe))
-    .addClass('ui-widget-content')
-    .insertAfter($(elt).closest('tr'));
+    $('<tr></tr>').addClass('tdp-content').addClass('ui-widget-content')
+      .append($('<td colspan="'+colspan+'"></td>').append(iframe))
+      .insertAfter($(elt).closest('tr'));
+  }
   return false;
 }
