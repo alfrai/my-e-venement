@@ -38,7 +38,6 @@ class organismActions extends autoOrganismActions
         $this->hasFilters = $this->getUser()->getAttribute('organism.filters', $this->configuration->getFilterDefaults(), 'admin_module');
       if ( !isset($this->filters) )
         $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      //if ( !in_array($this->getActionName(), array('index','search','map','labels','csv','groupList')) )
       if ( in_array($this->getActionName(), array('edit','new','show','create','update','delete')) )
         $this->setTemplate('edit');
     }
@@ -68,6 +67,14 @@ class organismActions extends autoOrganismActions
   public function executeEmailing(sfWebRequest $request)
   {
     $this->redirect('email/new');
+  }
+  public function executeGetSpecializedForm(sfWebRequest $request)
+  {
+    $this->executeEdit($request);
+    $this->form->displayOnly($this->field = $request->getParameter('field'));
+    $this
+      ->useClassicTemplateDir(true)
+      ->setLayout('empty');
   }
   public function executeBatchAddToGroup(sfWebRequest $request)
   {

@@ -66,7 +66,6 @@ class contactActions extends autoContactActions
         $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
       if ( !isset($this->filters) )
         $this->filters = $this->configuration->getFilterForm($this->getFilters());
-      //if ( !in_array($this->getActionName(), array('error404','index','search','map','labels','getSpecializedForm','csv','groupList','group')) )
       if ( in_array($this->getActionName(), array('edit','new','show','create','update','delete')) )
         $this->setTemplate('edit');
       if ( in_array($this->getActionName(), array('duplicates')) )

@@ -25,15 +25,15 @@ showSuccess:
 
 <?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
 indexSuccess:
-  javascripts: [contact-list, list-scroll]
+  javascripts: [rp-list-inline-modifiable, list-scroll]
   stylesheets: [print-list: {media: print}, contact-list, batch-actions]
 <?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
 duplicatesSuccess:
-  javascripts: [contact-list, contact-duplicates]
+  javascripts: [rp-list-inline-modifiable, contact-duplicates]
   stylesheets: [print-list: {media: print}, contact-list, batch-actions]
 <?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
 filterSuccess:
-  javascripts: [contact-list]
+  javascripts: [rp-list-inline-modifiable]
   stylesheets: [print-list: {media: print}, contact-list, batch-actions]
 
 <?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>

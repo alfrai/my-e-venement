@@ -1,12 +1,37 @@
+// the global var that can be used everywhere as a "root"
+if ( LI == undefined )
+  var LI = {};
+
 $(document).ready(function(){
+  LI.contact_list_behaviour();
+  
+  // submit all specialized forms when submitting any form on the page
+  $('form:not(.specialized-form').submit(function(){
+    $('form.specialized-form:not(.submitting)').submit();
+  });
+  
+  // for the scrolling feature
+  if ( window.list_scroll_end == undefined )
+    window.list_scroll_end = new Array();
+  window.list_scroll_end[window.list_scroll_end.length] = LI.contact_list_behaviour;
+  if ( window.integrated_search_end == undefined )
+    window.integrated_search_end = new Array();
+  window.integrated_search_end[window.integrated_search_end.length] = LI.contact_list_behaviour;
+});
+
+LI.contact_list_behaviour = function()
+{
+  /*
   // adding the possibility to edit in the list itself the records
   $('.sf_admin_row .sf_admin_text').dblclick(function(){
+    alert('glop');
     $('form.specialized-form:not(.submitting)').submit();
     
     fieldname = $(this).prop('class').replace(/sf_admin_list_td_(\w+)/g,"$1").replace(/sf_admin_text/g,'').trim();
     id = $(this).closest('.sf_admin_row').find('[name="ids[]"]').val();
     
     $(this).load(window.location+'/'+id+'/getSpecializedForm?field='+fieldname+' #nothing',function(data){
+      alert('glop');
       if ( $(data).find('.specialized-form input[type=text]').length > 0 )
       {
         width = $(this).innerWidth()-10+'px';
@@ -26,10 +51,7 @@ $(document).ready(function(){
       }
     });
   });
-  // submit all specialized forms when submitting any form on the page
-  $('form:not(.specialized-form').submit(function(){
-    $('form.specialized-form:not(.submitting)').submit();
-  });
+  */
   
   // making emails clickable except when filling down the list through AJAX
   $('.sf_admin_list_td_email').each(function(){
@@ -50,10 +72,11 @@ $(document).ready(function(){
       $(this).parent().find('select + select option:first-child + option').prop('selected','selected');
   });
   
-  setTimeout(contact_batch_change,1000); // setTimeout is a hack...
-});
+  setTimeout(LI.contact_batch_change,1000); // setTimeout is a hack... useless w/ the TDP design
+}
 
-function contact_batch_change()
+// useless w/ the TDP design
+LI.contact_batch_change = function()
 {
   $('.ui-selectmenu-menu-dropdown a[role=option]').click(function(){
     if ( $(this).html() == $('select[name=batch_action] option[value=batchAddToGroup]').html() )

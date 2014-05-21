@@ -49,12 +49,36 @@ class OrganismForm extends BaseOrganismForm
     }
 
     parent::configure();
-  }    
-  
+  }
   
   public function saveGroupsList($con = null)
   {
     $this->correctGroupsListWithCredentials();
     parent::saveGroupsList($con);
+  }
+
+  public function displayOnly($fieldname = NULL)
+  {
+    unset(
+      $this->widgetSchema['emails_list'],
+      $this->widgetSchema['groups_list'],
+      $this->widgetSchema['events_list'],
+      $this->widgetSchema['manifestations_list']
+    );
+    
+    // BUG: 2013-04-12
+    if ( is_null($fieldname) )
+      return $this;
+    
+    if ( !($this->widgetSchema[$fieldname] instanceof sfWidgetForm) )
+      throw new liEvenementException('Fieldname "'.$fieldname.'" not found.');
+    
+    foreach ( $this->widgetSchema->getFields() as $name => $widget )
+    {
+      if ( $name != $fieldname )
+        $this->widgetSchema[$name] = new sfWidgetFormInputHidden();
+    }
+    
+    return $this;
   }
 }

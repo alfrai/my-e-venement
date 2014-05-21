@@ -1,9 +1,13 @@
+// the global var that can be used everywhere as a "root"
+if ( LI == undefined )
+  var LI = {};
+
 $(document).ready(function(){
-  list_add_actions_titles();
-  list_scroll();
-  list_edit();
+  LI.list_add_actions_titles();
+  LI.list_scroll();
+  LI.list_edit();
 });
-function list_scroll()
+LI.list_scroll = function()
 {
   $('.sf_admin_pagination .ui-icon-seek-next').parent().unbind().click(function(){
     $('.sf_admin_pagination .ui-icon-seek-next').parent().unbind().click(function(){return false;});
@@ -23,8 +27,9 @@ function list_scroll()
         }));
       $('#sf_admin_pager')
         .replaceWith($($.parseHTML(data)).find('#sf_admin_pager'));
-      list_add_actions_titles();
-      list_scroll();
+      LI.list_add_actions_titles();
+      LI.list_scroll();
+      LI.list_edit();
       
       if ( window.list_scroll_end != undefined )
       for ( i = 0 ; i < window.list_scroll_end.length ; i++ )
@@ -33,7 +38,7 @@ function list_scroll()
     return false;
   });
 }
-function list_add_actions_titles()
+LI.list_add_actions_titles = function()
 {
   $('.sf_admin_td_actions a').each(function(){
     elt = $(this).clone(true);
@@ -42,7 +47,7 @@ function list_add_actions_titles()
   });
 }
 
-function list_edit()
+LI.list_edit = function()
 {
   // adding the possibility to edit in the list itself the records
   $('.sf_admin_row .sf_admin_text').unbind().dblclick(function(){
