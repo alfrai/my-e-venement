@@ -29,7 +29,7 @@
 </div>
 
 <div id="sf_admin_container">
-  <?php include_partial('default/flashes') ?>
+  <?php include_partial('global/flashes') ?>
 
   <div id="sf_admin_content">
   <div class="welcome ui-grid-table ui-widget ui-corner-all ui-helper-reset ui-helper-clearfix">
