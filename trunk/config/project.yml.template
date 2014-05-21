@@ -26,6 +26,13 @@ all:
   demo: false
   network:
     ipv6_ready: false
+  login_alert:
+    beginning_at: 2014-02-22 # optional
+    ending_at: 2014-06-22
+    message: |
+      La date anniversaire de votre contrat est le
+      25 décembre, passé cette date vous ne pourrez
+      plus bénéficier des services de votre prestataire
   #archive_url: /old/
   #locale: LC_ALL.UTF8 # cf. config/e-venement.yml
   #messaging:

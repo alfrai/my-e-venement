@@ -20,6 +20,11 @@ class eventConfiguration extends sfApplicationConfiguration
     if ( !is_object($user) )
       return false;
 
+    if (( sfConfig::get('project_login_alert_beginning_at', false) && sfConfig::get('project_login_alert_beginning_at') < time() || !sfConfig::get('project_login_alert_beginning_at', false) )
+      &&( sfConfig::get('project_login_alert_ending_at', false) && sfConfig::get('project_login_alert_ending_at') > time() || !sfConfig::get('project_login_alert_ending_at', false) )
+      && sfConfig::get('project_login_alert_message', false) )
+      $user->setFlash('error', sfConfig::get('project_login_alert_message'));
+
     $auth = new Authentication();
     $auth->sf_guard_user_id = $user->getId();
     $auth->description      = $user;

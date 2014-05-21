@@ -1,6 +1,6 @@
 <div class="sf_admin_flashes ui-widget">
 <?php if ($sf_user->hasFlash('error')): ?>
-  <div class="success ui-state-error ui-corner-all">
+  <div class="error ui-state-error ui-corner-all">
     <span class="ui-icon ui-icon-alert floatleft"></span>&nbsp;
     <?php echo __($sf_user->getFlash('error'), array(), 'sf_admin') ?>
   </div>
