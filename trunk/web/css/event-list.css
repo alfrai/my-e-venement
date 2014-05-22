@@ -1,6 +1,6 @@
 .sf_admin_list .sf_admin_list_td_list_manifestations a:first-child { margin-right: 5px; }
 .sf_admin_list .sf_admin_list_td_list_manifestations { white-space: nowrap; }
-.sf_admin_list .sf_admin_list_td_list_manifestations a { padding: 0 5px; white-space: nowrap; }
+.sf_admin_list .sf_admin_list_td_list_manifestations a { padding: 0; white-space: nowrap; }
 .sf_admin_list .sf_admin_list_td_list_manifestations_places a:hover,
 .sf_admin_list .sf_admin_list_td_list_manifestations a:hover {  text-decoration: underline; }
 .sf_admin_list .sf_admin_list_td_list_manifestations_gauges { white-space: nowrap; }
@@ -9,6 +9,7 @@
 .sf_admin_list .sf_admin_list_td_list_manifestations_places,
 .sf_admin_list .sf_admin_list_td_list_manifestations { line-height: 17.3px; }
 .sf_admin_list .sf_admin_list_td_list_manifestations .sell { float: right; margin-top: -17px; }
+#content .sf_admin_list .sf_admin_list_td_list_manifestations .sell .ui-icon { padding-left: 16px; }
 
 .sf_admin_list .sf_admin_list_td_list_manifestations_places .place { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 100px; }
 

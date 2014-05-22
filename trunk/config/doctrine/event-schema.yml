@@ -239,6 +239,7 @@ Location:
     Searchable:
       fields: [name, address, city]
   columns:
+    rank:         integer
     description:  string
     contact_id:   integer
     organism_id:  integer

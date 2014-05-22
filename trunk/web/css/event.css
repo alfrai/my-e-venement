@@ -44,7 +44,7 @@
 .sf_admin_list_td_list_gauge .option { display: none; }
 #more .sf_admin_list_td_list_gauge.small-gauges { text-align: center; }
 #more .sf_admin_list_td_list_gauge.small-gauges .gauge { text-align: left; }
-#more .sf_admin_list_td_list_gauge.small-gauges .txt { display: block; margin-top: 3px; }
+#more .sf_admin_list_td_list_gauge.small-gauges .txt { margin-top: 3px; }
 
 #more .sf_admin_list_td_list_extra_informations_list, #more .sf_admin_list_th_list_extra_informations_list { display: none; }
 @media screen and (min-width: 1400px) {

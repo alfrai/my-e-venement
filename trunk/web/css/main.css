@@ -113,11 +113,8 @@ a, a:active, a:visited { color: #000; }
 
 }
 
-#content .ui-icon-li {
-  padding: 0 0 0 10px;
-  display: inline;
-}
-#content .ui-icon-microplus { background-position: -2px -210px; }
+#content .ui-icon-li { padding: 0 0 0 10px; display: inline; }
+#content .ui-icon-microplus { background-position: -48px -113px; border: 1px solid #C5DBEC; background-color: #DFEFFC; }
 
 .testing {
   padding: 5px 10px;

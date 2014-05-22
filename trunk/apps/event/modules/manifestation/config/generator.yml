@@ -37,7 +37,7 @@ generator:
         list_extra_informations_list: { label: Extra informations }
         ExtraInformations: { label: Extra informations }
         list_gauge: { label: Gauge }
-        has_description: { label: Has a description }
+        has_description: { label: Has a memo }
         has_extra_infos: { label: Has extra informations }
         list_age_min: { label: Age min }
         duration_h_r: { label: Duration }

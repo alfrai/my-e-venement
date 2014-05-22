@@ -29,8 +29,8 @@
         <target>Effacer les filtres</target>
       </trans-unit>
       <trans-unit>
-        <source>Has a description</source>
-        <target>A une description</target>
+        <source>Has a memo</source>
+        <target>A un memo</target>
       </trans-unit>
       <trans-unit>
         <source>Has extra informations</source>
