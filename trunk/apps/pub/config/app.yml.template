@@ -32,7 +32,7 @@ all:
       cancel: cart/cancel
       automatic: cart/response
     pem:
-      remote: http://www1.paybox.com/telechargements/pubkey.pem
+      remote: http://www1.paybox.com/wp-content/uploads/2014/03/pubkey.pem
       local: paybox.pem
     #type: tipi
     #id: 194
