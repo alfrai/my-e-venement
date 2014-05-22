@@ -173,9 +173,9 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     if ( is_array($value) )
     {
       $q1 = new Doctrine_Query();
-      $q1->select('tmp1.organism_id')
-        ->from('GroupOrganism tmp1')
-        ->andWhereIn('tmp1.group_id',$value);
+      $q1->select('gotmp.organism_id')
+        ->from('GroupOrganism gotmp')
+        ->andWhereIn('gotmp.group_id',$value);
       
       $q->andWhere("$a.id NOT IN (".$q1.")",$value); // hack for inserting $value
     }

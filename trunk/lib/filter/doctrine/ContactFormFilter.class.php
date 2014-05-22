@@ -550,13 +550,13 @@ class ContactFormFilter extends BaseContactFormFilter
     if ( is_array($value) && count($value) )
     {
       $q1 = new Doctrine_Query();
-      $q1->select('tmp1.contact_id')
-        ->from('GroupContact tmp1')
-        ->andWhereIn('tmp1.group_id',$value);
+      $q1->select('gctmp.contact_id')
+        ->from('GroupContact gctmp')
+        ->andWhereIn('gctmp.group_id',$value);
       $q2 = new Doctrine_Query();
-      $q2->select('tmp2.professional_id')
-        ->from('GroupProfessional tmp2')
-        ->andWhereIn('tmp2.group_id',$value);
+      $q2->select('gptmp.professional_id')
+        ->from('GroupProfessional gptmp')
+        ->andWhereIn('gptmp.group_id',$value);
       
       $q->andWhere("$a.id NOT IN ($q1)",$value) // hack for inserting $value
         ->andWhere("p.id IS NULL OR p.id NOT IN ($q2)",$value); // hack for inserting $value
