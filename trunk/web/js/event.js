@@ -28,6 +28,8 @@ function manifestation_list_loaded(data)
     return false;
   });
   
+  $('#more .manifestation_list .sf_admin_td_actions a').each(function(){ $(this).prop('title', $(this).text()); });
+  
   gauge_small();
 }
 
