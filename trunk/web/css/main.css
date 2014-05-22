@@ -140,7 +140,7 @@ html button.fg-button-icon-left .ui-icon { left: 0.4em; }
 .ui-dialog { z-index: 1200; }
 .ui-dialog .ui-button-icon-only .ui-button-text { display: none; }
 .ui-dialog .ui-button-icon-only .ui-icon { margin-top: -2px; margin-left: -3px; }
-#ui-datepicker-div { display: none; }
+#ui-datepicker-div { display: none; z-index: 8 !important; }
 
 .sf_admin_text input[type=file] { border: 0; }
 
