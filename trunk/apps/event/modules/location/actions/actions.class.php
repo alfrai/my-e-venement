@@ -13,16 +13,6 @@ require_once dirname(__FILE__).'/../lib/locationGeneratorHelper.class.php';
  */
 class locationActions extends autoLocationActions
 {
-  public function executeIndex(sfWebRequest $request)
-  {
-    parent::executeIndex($request);
-    if ( !$this->sort[0] )
-    {
-      $this->sort = array('name','');
-      $this->pager->getQuery()->orderby('name');
-    }
-  }
-  
   public function executeCalendar(sfWebRequest $request)
   {
     $this->executeEdit($request);

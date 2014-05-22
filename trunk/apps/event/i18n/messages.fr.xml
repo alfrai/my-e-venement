@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Number</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit>
         <source>To be confirmed</source>
         <target>À confirmer</target>
       </trans-unit>
