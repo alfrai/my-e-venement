@@ -29,8 +29,9 @@ generator:
         gauge_max:    { label: Gauge max }
         gauge_min:    { label: Gauge min }
         reservation_price: { label: Costs, help: Reservation costs }
+        rank:         { helper: Number }
       list:
-        display: [name, email, Contact, Organism, reservation_price]
+        display: [rank, name, email, Contact, Organism, reservation_price]
         table_method: retrieveResources
         title: List of resources
         object_actions:
@@ -39,17 +40,17 @@ generator:
           _delete: ~
         batch_actions:
           _delete: ~
-        sort: [name, asc]
+        sort: ['rank IS NULL, rank, name', '']
       filter:
         display: [name, email, contact_id, organism_id, npai]
       form:
       edit:
         title: Editting resource %%name%%
         display:
-          General: [name, email, contact_id, organism_id, reservation_price, description]
+          General: [name, rank, email, contact_id, organism_id, reservation_price, description]
       new:
         display:
-          General: [name, email, contact_id, organism_id, reservation_price, description]
+          General: [name, rank, email, contact_id, organism_id, reservation_price, description]
       show:
         display:
           General: [name, _show_email, _show_contact, _show_organism, _show_reservation_price, _show_description]
