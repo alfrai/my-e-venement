@@ -74,8 +74,9 @@ body.labels .labels > div > div.margin {
   height: 0;
 }
 body.labels .labels > div > div div.content {
-  padding: <?php echo floatval($params['padding-y']).'mm' ?> 0; /*.floatval($params['padding-x']).'mm' ?>; */
+  padding: <?php echo $cellpad = floatval($params['padding-y']).'mm' ?> 0; /*.floatval($params['padding-x']).'mm' ?>; */
   overflow: hidden;
+  max-height: <?php echo $cellheight - $cellpad*2 ?>mm;
 }
 
 /* compensating printer margins
