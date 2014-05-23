@@ -38,6 +38,10 @@
       ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description")
       ->orderBy("$a.name, $a.firstname");
     
+    if ( $labels )
+      $q->limit($request->getParameter('limit', 500))
+        ->offset($request->getParameter('offset', 0));
+    
     // phonembers
     if ( in_array('phonename',$params['field']) )
       $q->addSelect("(SELECT tmp1.name FROM ContactPhonenumber tmp1 WHERE tmp1.contact_id = $a.id ORDER BY tmp1.updated_at LIMIT 1) AS phonename");

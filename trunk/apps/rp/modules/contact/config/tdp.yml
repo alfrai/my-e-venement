@@ -25,6 +25,8 @@ all:
         labels:
           credential: pr-contact-labels
           label: Labels
+          attributes:
+            target: _blank
         duplicates:
           label: Duplicates
         batchMerge:
