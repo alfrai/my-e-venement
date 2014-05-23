@@ -30,6 +30,10 @@
       ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonename")
       ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonenumber");
     
+    if ( $labels )
+      $q->limit($request->getParameter('limit', 500))
+        ->offset($request->getParameter('offset', 0));
+    
     $this->lines = $q->fetchArray();
     
     $params = OptionCsvForm::getDBOptions();

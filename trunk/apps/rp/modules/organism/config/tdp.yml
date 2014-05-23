@@ -20,7 +20,8 @@ all:
         labels:
           credential: pr-contact-labels
           label: Labels
-          target: _blank
+          attributes:
+            target: _blank
         batchMerge:
           credential: pr-contact-edit
           label: Merge
