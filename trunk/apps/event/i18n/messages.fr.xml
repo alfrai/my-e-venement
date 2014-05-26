@@ -570,7 +570,7 @@
       </trans-unit>
       <trans-unit>
         <source>This field is updated automagically</source>
-        <target>La mise à jour de champs est fait automagiquement</target>
+        <target>Les champs se mettent à jour automagiquement</target>
       </trans-unit>
       <trans-unit>
         <source>Display in ticketting</source>
