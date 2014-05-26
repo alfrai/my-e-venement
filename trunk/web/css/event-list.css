@@ -7,7 +7,7 @@
 
 .sf_admin_list .sf_admin_list_td_list_manifestations_gauges,
 .sf_admin_list .sf_admin_list_td_list_manifestations_places,
-.sf_admin_list .sf_admin_list_td_list_manifestations { line-height: 17.3px; }
+.sf_admin_list .sf_admin_list_td_list_manifestations { line-height: 16px; }
 .sf_admin_list .sf_admin_list_td_list_manifestations .sell { float: right; margin-top: -17px; }
 #content .sf_admin_list .sf_admin_list_td_list_manifestations .sell .ui-icon { padding-left: 16px; }
 
