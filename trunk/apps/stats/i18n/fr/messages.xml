@@ -5,6 +5,50 @@
     <header/>
     <body>
       <trans-unit>
+        <source>From your localization</source>
+        <target>Depuis votre localité</target>
+      </trans-unit>
+      <trans-unit>
+        <source>By postalcode</source>
+        <target>Par code postal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>By department</source>
+        <target>Par département</target>
+      </trans-unit>
+      <trans-unit>
+        <source>By region</source>
+        <target>Par région</target>
+      </trans-unit>
+      <trans-unit>
+        <source>By country</source>
+        <target>Par pays</target>
+      </trans-unit>
+      <trans-unit>
+        <source>others</source>
+        <target>autres</target>
+      </trans-unit>
+      <trans-unit>
+        <source>department</source>
+        <target>département</target>
+      </trans-unit>
+      <trans-unit>
+        <source>region</source>
+        <target>région</target>
+      </trans-unit>
+      <trans-unit>
+        <source>exact</source>
+        <target>exacte</target>
+      </trans-unit>
+      <trans-unit>
+        <source>country</source>
+        <target>pays</target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
         <source>Are you sure?</source>
         <target>Êtes-vous sûr(e) ?</target>
       </trans-unit>

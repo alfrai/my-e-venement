@@ -47,7 +47,7 @@ class geoActions extends sfActions
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date','CrossAppLink','Number'));
     $param = $request->getParameter('id');
     
-    $this->lines = $this->getData()->toArray();
+    $this->lines = $this->getData($request->getParameter('type','ego'))->toArray();
     
     $total = 0;
     foreach ( $this->lines as $line )
@@ -83,7 +83,7 @@ class geoActions extends sfActions
   
   public function executeData(sfWebRequest $request)
   {
-    $this->data = $this->getData();
+    $this->data = $this->getData($request->getParameter('type','ego'));
     
     if ( !$request->hasParameter('debug') )
     {
@@ -144,33 +144,190 @@ class geoActions extends sfActions
     return $q;
   }
   
-  protected function getData()
+  protected function getData($type = 'ego')
   {
-    $res = array('exact' => 0, 'department' => 0, 'region' => 0, 'country' => 0, 'others' => 0);
+    $this->type = $type;
+    $res = array();
+    switch ( $type ) {
     
-    $client = sfConfig::get('app_about_client',array());
-    
-    $res['exact'] = $this->buildQuery()
-      ->andWhere('c.postalcode = ?', $client['postalcode'])
-      ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
-      ->count();
-    
-    $res['department'] = $this->buildQuery()
-      ->andWhere('substring(c.postalcode, 1, 2) = substring(?, 1, 2)', $client['postalcode'])
-      ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
-      ->count() - $res['exact'];
-    
-    $res['region'] = $this->buildQuery()
-      ->andWhere('substring(c.postalcode, 1, 2) IN (SELECT gd.num FROM GeoFrRegion gr LEFT JOIN gr.Departments gd LEFT JOIN gr.Departments gdc WHERE gdc.num = substring(?, 1, 2))', $client['postalcode'])
-      ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
-      ->count() - $res['department'] - $res['exact'];
-    
-    $res['country'] = $this->buildQuery()
-      ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
-      ->count() - $res['region'] - $res['department'] - $res['exact'];
+    case 'postalcodes':
+      foreach ( $this->buildQuery()
+        ->select('c.id, c.postalcode')
+        ->fetchArray() as $pc )
+      {
+        if ( !isset($res[$pc['postalcode']]) )
+          $res[$pc['postalcode']] = 0;
+        $res[$pc['postalcode']]++;
+      }
+      arsort($res);
       
-    $res['others'] = $this->buildQuery()
-      ->count() - $res['country'] - $res['region'] - $res['department'] - $res['exact'];
+      $cpt = 0;
+      $others = 0;
+      foreach ( $res as $code => $qty )
+      {
+        if ( intval($code).'' !== ''.$code )
+        {
+          $others += $qty;
+          unset($res[$code]);
+          continue;
+        }
+        if ( $cpt >= sfConfig::get('app_geo_limits_'.$type, 9) )
+        {
+          $others += $qty;
+          unset($res[$code]);
+        }
+        $cpt++;
+      }
+      $res['others'] = $others;
+    break;
+    
+    case 'departments':
+      foreach ( $this->buildQuery()
+        ->select('c.id, substr(c.postalcode,1,2) AS dpt')
+        ->fetchArray() as $pc )
+      {
+        if ( !isset($res[$pc['dpt']]) )
+          $res[$pc['dpt']] = 0;
+        $res[$pc['dpt']]++;
+      }
+      arsort($res);
+      
+      $cpt = 0;
+      $others = 0;
+      foreach ( $res as $code => $qty )
+      {
+        if ( intval($code).'' !== ''.$code )
+        {
+          $others += $qty;
+          unset($res[$code]);
+          continue;
+        }
+        if ( $cpt >= sfConfig::get('app_geo_limits_'.$type, 9) )
+        {
+          $others += $qty;
+          unset($res[$code]);
+        }
+        $cpt++;
+      }
+      $res['others'] = $others;
+      
+      foreach ( Doctrine::getTable('GeoFrDepartment')->createQuery('gd')
+        ->andWhereIn('gd.num', array_keys($res))
+        ->execute() as $dpt )
+      {
+        $res[$dpt->name] = $res[$dpt->num];
+        unset($res[$dpt->num]);
+      }
+    break;
+    
+    case 'regions':
+      $dpts = array();
+      foreach ( Doctrine::getTable('GeoFrDepartment')->createQuery('gd')
+        ->leftJoin('gd.Region gr')
+        ->select('gd.num, gr.id AS region_id, gr.name AS region')
+        ->fetchArray() as $dpt )
+        $dpts[$dpt['num']] = $dpt['region'];
+      $dpts[''] = '';
+      
+      foreach ( $this->buildQuery()
+        ->select('c.id, substr(c.postalcode,1,2) AS dpt')
+        ->fetchArray() as $pc )
+      {
+        if ( !isset($dpts[trim($pc['dpt'])]) )
+          $pc['dpt'] = '';
+        if ( !isset($res[$dpts[trim($pc['dpt'])]]) )
+          $res[$dpts[trim($pc['dpt'])]] = 0;
+        $res[$dpts[trim($pc['dpt'])]]++;
+      }
+      $others = 0;
+      if ( isset($res['']) )
+      {
+        $others += $res[''];
+        unset($res['']);
+      }
+      
+      $cpt = 0;
+      foreach ( $res as $code => $qty )
+      {
+        if ( $cpt >= sfConfig::get('app_geo_limits_'.$type, 4) )
+        {
+          $others += $qty;
+          unset($res[$code]);
+        }
+        $cpt++;
+      }
+      $res['others'] = $others;
+      
+    break;
+    
+    case 'countries':
+      $dpts = array();
+      $tmp = sfConfig::get('app_about_client', array());
+      $default_country = isset($tmp['country']) ? $tmp['country'] : '';
+      
+      foreach ( $this->buildQuery()
+        ->select('c.id, c.country')
+        ->fetchArray() as $pc )
+      {
+        if ( !trim($pc['country']) )
+          $pc['country'] = $default_country;
+        $pc['country'] = trim(strtolower($pc['country']));
+        if ( !isset($res[$pc['country']]) )
+          $res[$pc['country']] = 0;
+        $res[$pc['country']]++;
+      }
+      $others = 0;
+      if ( isset($res['']) )
+      {
+        $others += $res[''];
+        unset($res['']);
+      }
+      
+      $cpt = 0;
+      foreach ( $res as $country => $qty )
+      {
+        if ( $cpt >= sfConfig::get('app_geo_limits_'.$type, 4) )
+        {
+          $others += $qty;
+          unset($res[$country]);
+        }
+        elseif ( ucwords($country) != $country )
+        {
+          $res[ucwords($country)] = $res[$country];
+          unset($res[$country]);
+        }
+        $cpt++;
+      }
+      $res['others'] = $others;
+      
+    break;
+    
+    default:
+      $client = sfConfig::get('app_about_client',array());
+      $res = array('exact' => 0, 'department' => 0, 'region' => 0, 'country' => 0, 'others' => 0);
+      $res['exact'] = $this->buildQuery()
+        ->andWhere('c.postalcode = ?', $client['postalcode'])
+        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
+        ->count();
+      
+      $res['department'] = $this->buildQuery()
+        ->andWhere('substring(c.postalcode, 1, 2) = substring(?, 1, 2)', $client['postalcode'])
+        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
+        ->count() - $res['exact'];
+      
+      $res['region'] = $this->buildQuery()
+        ->andWhere('substring(c.postalcode, 1, 2) IN (SELECT gd.num FROM GeoFrRegion gr LEFT JOIN gr.Departments gd LEFT JOIN gr.Departments gdc WHERE gdc.num = substring(?, 1, 2))', $client['postalcode'])
+        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
+        ->count() - $res['department'] - $res['exact'];
+      
+      $res['country'] = $this->buildQuery()
+        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
+        ->count() - $res['region'] - $res['department'] - $res['exact'];
+      
+      $res['others'] = $this->buildQuery()
+        ->count() - $res['country'] - $res['region'] - $res['department'] - $res['exact'];
+      break;
+    }
     
     return $res;
   }

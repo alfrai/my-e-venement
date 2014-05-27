@@ -22,4 +22,4 @@
 ***********************************************************************************/
 ?>
 <?php
-  include_partial('data',array('geo' => $data));
+  include_partial('data',array('geo' => $data, 'type' => $type));

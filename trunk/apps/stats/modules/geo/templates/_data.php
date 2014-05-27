@@ -29,7 +29,7 @@
     
     $names = $data = array();
     foreach ( $geo as $name => $value )
-      $data[] = new liPieValue($value, $value.' '.$name);
+      $data[] = new liPieValue($value, $type != 'postalcodes' ? $value.' '.__($name) : __($name));
     $pie->set_values($data);
     
     //To display value as tool tip
