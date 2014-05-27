@@ -26,8 +26,8 @@ class geoActions extends sfActions
     
     $this->form = new StatsCriteriasForm();
     $this->form
-      ->addGroupsCriteria()
-      ->removeDatesCriteria();
+      ->addEventCriterias()
+      ->addGroupsCriteria();
     if ( is_array($this->getCriterias()) )
       $this->form->bind($this->getCriterias());
   }
@@ -93,34 +93,85 @@ class geoActions extends sfActions
     }
   }
   
+  protected function buildQuery()
+  {
+    return  $this->addFiltersToQuery(Doctrine_Query::create()->from('Contact c'))
+      ->leftJoin('c.Transactions t')
+      ->leftJoin('t.Tickets tck')
+      ->leftJoin('tck.Gauge g')
+      ->leftJoin('tck.Manifestation m')
+      ->leftJoin('m.Event e')
+      ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL')
+      ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE cancelling IS NOT NULL)')
+      ->andWhere('tck.duplicating IS NULL');
+  }
+  protected function addFiltersToQuery(Doctrine_Query $q)
+  {
+    $criterias = $this->getCriterias();
+    
+    if ( isset($criterias['groups_list']) && is_array($criterias['groups_list']) )
+      $q->leftJoin('c.Groups gc')
+        ->andWhereIn('gc.id',$criterias['groups_list']);
+    
+    if ( isset($criterias['meta_events_list']) && is_array($criterias['meta_events_list']) )
+      $q->andWhereIn('e.meta_event_id', $criterias['meta_events_list']);
+    if ( isset($criterias['event_categories_list']) && is_array($criterias['event_categories_list']) )
+      $q->andWhereIn('e.event_category_id', $criterias['event_categories_list']);
+    if ( isset($criterias['workspaces_list']) && is_array($criterias['workspaces_list']) )
+      $q->andWhereIn('g.workspace_id', $criterias['workspaces_list']);
+    if ( isset($criterias['sf_guard_users_list']) && is_array($criterias['sf_guard_users_list']) )
+      $q->andWhereIn('tck.sf_guard_user_id', $criterias['sf_guard_users_list']);
+    if ( isset($criterias['events_list']) && is_array($criterias['events_list']) )
+      $q->andWhereIn('m.event_id', $criterias['events_list']);
+    
+    if ( isset($criterias['dates']) && is_array($criterias['dates']) )
+    {
+      foreach ( array('from' => '>=', 'to' => '<') as $margin => $operand )
+      if ( isset($criterias['dates'][$margin]) && is_array($criterias['dates'][$margin]) )
+      if ( isset($criterias['dates'][$margin]['day']) && isset($criterias['dates'][$margin]['month']) && isset($criterias['dates'][$margin]['year']) )
+      if ( $criterias['dates'][$margin]['day'] && $criterias['dates'][$margin]['month'] && $criterias['dates'][$margin]['year'])
+      {
+        $q->andWhere(
+          'tck.printed_at '.$operand.' ? OR tck.printed_at IS NULL AND tck.integrated_at '.$operand.' ?',
+          array(
+            $criterias['dates'][$margin]['year'].'-'.$criterias['dates'][$margin]['month'].'-'.$criterias['dates'][$margin]['day'],
+            $criterias['dates'][$margin]['year'].'-'.$criterias['dates'][$margin]['month'].'-'.$criterias['dates'][$margin]['day']
+          )
+        );
+      }
+    }
+    
+    return $q;
+  }
+  
   protected function getData()
   {
-    $cp = 74700;
     $res = array('exact' => 0, 'department' => 0, 'region' => 0, 'country' => 0, 'others' => 0);
     
     $client = sfConfig::get('app_about_client',array());
     
-    $res['exact'] = Doctrine_Query::create()->from('Contact c')
-      ->andWhere('c.postalcode = ?', $cp)
-      ->andWhere('c.country ILIKE ?', isset($client['country']) ? $client['country'] : 'France')
+    $res['exact'] = $this->buildQuery()
+      ->andWhere('c.postalcode = ?', $client['postalcode'])
+      ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
       ->count();
     
-    $res['department'] = Doctrine_Query::create()->from('Contact c')
-      ->andWhere('substring(c.postalcode, 1, 2) = substring(?, 1, 2)', $cp)
-      ->andWhere('c.country ILIKE ?', isset($client['country']) ? $client['country'] : 'France')
+    $res['department'] = $this->buildQuery()
+      ->andWhere('substring(c.postalcode, 1, 2) = substring(?, 1, 2)', $client['postalcode'])
+      ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
       ->count() - $res['exact'];
     
-    $res['region'] = Doctrine_Query::create()->from('Contact c')
-      ->andWhere('substring(c.postalcode, 1, 2) IN (SELECT gd.num FROM GeoFrDepartment gd WHERE gd.num = substring(?, 1, 2))', $cp)
-      ->andWhere('c.country ILIKE ?', isset($client['country']) ? $client['country'] : 'France')
+    $res['region'] = $this->buildQuery()
+      ->andWhere('substring(c.postalcode, 1, 2) IN (SELECT gd.num FROM GeoFrRegion gr LEFT JOIN gr.Departments gd LEFT JOIN gr.Departments gdc WHERE gdc.num = substring(?, 1, 2))', $client['postalcode'])
+      ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
       ->count() - $res['department'] - $res['exact'];
     
-    return $res;
+    $res['country'] = $this->buildQuery()
+      ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
+      ->count() - $res['region'] - $res['department'] - $res['exact'];
+      
+    $res['others'] = $this->buildQuery()
+      ->count() - $res['country'] - $res['region'] - $res['department'] - $res['exact'];
     
-    /*
-    $criterias = $this->getCriterias();
-    if ( isset($criterias['groups_list']) && $criterias['groups_list'] )
-      $q->andWhereIn('g.id',$criterias['groups_list']);
-    */
+    return $res;
   }
 }

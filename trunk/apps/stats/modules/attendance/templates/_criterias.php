@@ -21,6 +21,16 @@
       <span><?php echo $form['meta_events_list'] ?></span>
     </li>
     <?php endif ?>
+    <?php if ( isset($form['events_list']) ): ?>
+    <?php use_javascript('/sfAdminThemejRollerPlugin/js/jquery-ui.custom.min.js') ?>
+    <?php use_javascript('/sfFormExtraPlugin/js/jquery.autocompleter.js') ?>
+    <?php use_javascript('/cxFormExtraPlugin/js/cx_open_list.js') ?>
+    <?php use_stylesheet('/sfFormExtraPlugin/css/jquery.autocompleter.css') ?>
+    <li class="events_list">
+      <label for="events_list"><?php echo __('Events') ?>:</label>
+      <span><?php echo $form['events_list'] ?></span>
+    </li>
+    <?php endif ?>
     <?php if ( isset($form['manifestations_list']) ): ?>
     <?php use_javascript('/sfAdminThemejRollerPlugin/js/jquery-ui.custom.min.js') ?>
     <?php use_javascript('/sfFormExtraPlugin/js/jquery.autocompleter.js') ?>

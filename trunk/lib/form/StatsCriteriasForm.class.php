@@ -44,6 +44,18 @@ class StatsCriteriasForm extends BaseForm
   }
   public function addEventCriterias()
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url','CrossAppLink'));
+    
+    $this->widgetSchema['events_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'url' => cross_app_url_for('event','event/ajax'),
+      'model' => 'Event',
+    ));
+    $this->validatorSchema['events_list'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Event',
+      'required' => false,
+      'multiple' => true,
+    ));
+    
     $this->widgetSchema['workspaces_list'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'Workspace',
       'order_by' => array('name',''),
@@ -54,7 +66,7 @@ class StatsCriteriasForm extends BaseForm
       'multiple' => true,
       'required' => false,
     ));
-
+    
     $this->widgetSchema['meta_events_list'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'MetaEvent',
       'order_by' => array('name',''),
@@ -65,6 +77,7 @@ class StatsCriteriasForm extends BaseForm
       'multiple' => true,
       'required' => false,
     ));
+    
     return $this;
   }
   

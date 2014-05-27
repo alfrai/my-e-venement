@@ -33,6 +33,10 @@
         <target>Avec</target>
       </trans-unit>
       <trans-unit>
+        <source>%%nb%% group(s)</source>
+        <target>%%nb%% groupe(s)</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%nb%% workspace(s)</source>
         <target>%%nb%% espace(s) de travail</target>
       </trans-unit>
@@ -41,8 +45,20 @@
         <target>%%nb%% Méta-Événement(s)</target>
       </trans-unit>
       <trans-unit>
+        <source>%%nb%% event(s)</source>
+        <target>%%nb%% événement(s)</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%nb%% user(s)</source>
         <target>%%nb%% utilisateur(s)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>From %%from%%</source>
+        <target>Du %%from%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>To %%to%%</source>
+        <target>Jusqu'au %%to%%</target>
       </trans-unit>
       <trans-unit>
         <source>From %%from%% to %%to%%</source>
