@@ -18,7 +18,12 @@ function gauge_small()
     if ( $(this).find('.total').length == 0 || parseInt($(this).find('.total').html()) == 0 )
     {
       if ( $(this).find('.total').length > 0 )
-        $(this).html('<img class="conflict" src="/sfDoctrinePlugin/images/tick.png" title="Pas de conflit d\'usage" />'); // TODO: replacing the absolute URI w/ a contextual URI generator
+        $(this).html(
+          $('<img></img>')
+            .addClass('conflict')
+            .prop('src',$('head link:first').prop('href')+'/../../sfDoctrinePlugin/images/tick.png')
+            .prop('title' , "Pas de conflit d'usage")
+        );
       $(this).addClass('done').addClass('other').removeClass('gauge');
       return true;
     }
