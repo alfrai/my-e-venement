@@ -110,6 +110,12 @@ GeoFrDepartment:
     name: Allier
     strict_name: ALLIER
     slug: allier
+  GeoFrDepartment_4:
+    Region: GeoFrRegion_20
+    num: '04'
+    name: 'Alpes de Haute-Provence'
+    strict_name: 'ALPES DE HAUTE PROVENCE'
+    slug: alpes-de-haute-provence
   GeoFrDepartment_5:
     Region: GeoFrRegion_21
     num: '05'

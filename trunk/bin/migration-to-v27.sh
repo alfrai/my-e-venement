@@ -122,6 +122,9 @@ INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updat
 -- delete & create locations / resources, dedicated to the event-admin group
 DELETE FROM sf_guard_group_permission WHERE permission_id IN (SELECT id FROM sf_guard_permission WHERE name IN ('event-location-del', 'event-location-new'));
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'event-admin'), NOW(), NOW() FROM sf_guard_permission WHERE name IN ('event-location-del','event-location-new'));
+
+-- adding a missing french department
+INSERT INTO geo_fr_department(geo_fr_region_id, num, name, strict_name, slug) (SELECT id, '04', 'Alpes de Haute-Provence', 'ALPES DE HAUTE PROVENCE', 'alpes-de-haute-provence' FROM geo_fr_region WHERE slug = 'provence-alpes-cote-dazur');
 EOF
 
 # final informations
