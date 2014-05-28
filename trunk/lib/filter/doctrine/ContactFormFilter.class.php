@@ -155,6 +155,22 @@ class ContactFormFilter extends BaseContactFormFilter
         ->andWhere('u.id = ?',sfContext::getInstance()->getUser()->getId()),
       'multiple' => true,
     ));
+    $this->widgetSchema   ['workspaces_list'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Workspace',
+      'query' => Doctrine::getTable('Workspace')->createQuery('ws')
+        ->leftJoin('ws.Users u')
+        ->andWhere('ws.id = ?',sfContext::getInstance()->getUser()->getId()),
+      'order_by' => array('name',''),
+      'multiple' => true,
+    ));
+    $this->validatorSchema['workspaces_list'] = new sfValidatorDoctrineChoice(array(
+      'required' => false,
+      'model'    => 'Workspace',
+      'query' => Doctrine::getTable('Workspace')->createQuery('ws')
+        ->leftJoin('ws.Users u')
+        ->andWhere('ws.id = ?',sfContext::getInstance()->getUser()->getId()),
+      'multiple' => true,
+    ));
     
     $this->widgetSchema   ['event_archives'] = new sfWidgetFormChoice($opt = array(
       'choices' => $choices = $this->getEventArchivesChoices(),
@@ -264,6 +280,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['events_list']          = 'EventsList';
     $fields['event_categories_list']= 'EventCategoriesList';
     $fields['meta_events_list']     = 'MetaEventsList';
+    $fields['workspaces_list']      = 'WorkspacesList';
     $fields['event_archives']       = 'EventArchives';
     $fields['prices_list']          = 'PricesList';
     $fields['member_cards']         = 'MemberCards';
@@ -398,6 +415,27 @@ class ContactFormFilter extends BaseContactFormFilter
       $query->leftJoin('event.MetaEvent mev');
       
       $query->andWhereIn('mev.id',$value);
+    }
+    
+    return $q;
+  }
+  public function addWorkspacesListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+    foreach ( array($q,$this->tickets_having_query) as $query )
+    {
+      if ( !$query->contains("LEFT JOIN $a.Transactions transac ON $a.id = transac.contact_id AND (p.id = transac.professional_id OR transac.professional_id IS NULL)") )
+      $query->leftJoin("$a.Transactions transac ON $a.id = transac.contact_id AND (p.id = transac.professional_id OR transac.professional_id IS NULL)");
+      
+      if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
+      $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
+      
+      if ( !$query->contains("LEFT JOIN tck.Gauge g") )
+      $query->leftJoin('tck.Gauge g');
+      
+      $query->andWhereIn('g.workspace_id',$value);
     }
     
     return $q;
