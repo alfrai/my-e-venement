@@ -174,7 +174,7 @@ class geoActions extends sfActions
           unset($res[$code]);
           continue;
         }
-        if ( $cpt >= sfConfig::get('app_geo_limits_'.$type, 9) )
+        if ( $cpt >= sfConfig::get('app_geo_limits_'.$type, 8) )
         {
           $others += $qty;
           unset($res[$code]);
@@ -206,7 +206,7 @@ class geoActions extends sfActions
           unset($res[$code]);
           continue;
         }
-        if ( $cpt >= sfConfig::get('app_geo_limits_'.$type, 9) )
+        if ( $cpt >= sfConfig::get('app_geo_limits_'.$type, 4) )
         {
           $others += $qty;
           unset($res[$code]);
