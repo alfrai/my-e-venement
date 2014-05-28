@@ -1,0 +1,5 @@
+all:
+  credentials: stats-geo
+csv:
+  credentials: [stats-geo, stats-csv]
+  
