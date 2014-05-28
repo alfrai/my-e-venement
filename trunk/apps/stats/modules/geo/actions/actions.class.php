@@ -114,12 +114,18 @@ class geoActions extends sfActions
     return  $this->addFiltersToQuery(Doctrine_Query::create()->from('Contact c'))
       ->leftJoin('c.Transactions t')
       ->leftJoin('t.Tickets tck')
-      ->leftJoin('tck.Gauge g')
-      ->leftJoin('tck.Manifestation m')
-      ->leftJoin('m.Event e')
       ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL')
       ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE cancelling IS NOT NULL)')
-      ->andWhere('tck.duplicating IS NULL');
+      ->andWhere('tck.duplicating IS NULL')
+      ->leftJoin('tck.Gauge g')
+      ->andWhereIn('g.workspace_id', array_keys($this->getUser()->getWorkspacesCredentials()))
+      ->leftJoin('tck.Manifestation m')
+      ->leftJoin('m.Event e')
+      ->andWhereIn('e.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()))
+      ->leftJoin('tck.Price p')
+      ->leftJoin('p.Users u')
+      ->andWhere('u.id = ?', $this->getUser()->getId())
+    ;
   }
   protected function addFiltersToQuery(Doctrine_Query $q)
   {

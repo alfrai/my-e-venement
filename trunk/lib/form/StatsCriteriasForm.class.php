@@ -60,6 +60,8 @@ class StatsCriteriasForm extends BaseForm
     
     $this->widgetSchema['workspaces_list'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'Workspace',
+      'query' => Doctrine::getTable('Workspace')->createQuery('ws')
+        ->andWhereIn('ws.id',array_keys(sfContext::getInstance()->getUser()->getWorkspacesCredentials())),
       'order_by' => array('name',''),
       'multiple' => true,
       'label' => 'Workspaces',
@@ -72,6 +74,8 @@ class StatsCriteriasForm extends BaseForm
     
     $this->widgetSchema['meta_events_list'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'MetaEvent',
+      'query' => Doctrine::getTable('MetaEvent')->createQuery('me')
+        ->andWhereIn('me.id',array_keys(sfContext::getInstance()->getUser()->getMetaEventsCredentials())),
       'order_by' => array('name',''),
       'multiple' => true,
       'label' => 'Meta events',
