@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Counting tickets</source>
+        <target>Décompte les billets</target>
+      </trans-unit>
+      <trans-unit>
         <source>From your localization</source>
         <target>Depuis votre localité</target>
       </trans-unit>
