@@ -35,6 +35,7 @@ class StatsCriteriasForm extends BaseForm
       'url' => cross_app_url_for('event','manifestation/ajax'),
       'model' => 'Manifestation',
       'config'=> '{ max: 50 }',
+      'label' => 'Manifestations',
     ));
     $this->validatorSchema['manifestations_list'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Manifestation',
@@ -49,6 +50,7 @@ class StatsCriteriasForm extends BaseForm
     $this->widgetSchema['events_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'url' => cross_app_url_for('event','event/ajax'),
       'model' => 'Event',
+      'label' => 'Events',
     ));
     $this->validatorSchema['events_list'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Event',
@@ -60,6 +62,7 @@ class StatsCriteriasForm extends BaseForm
       'model' => 'Workspace',
       'order_by' => array('name',''),
       'multiple' => true,
+      'label' => 'Workspaces',
     ));
     $this->validatorSchema['workspaces_list'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Workspace',
@@ -71,6 +74,7 @@ class StatsCriteriasForm extends BaseForm
       'model' => 'MetaEvent',
       'order_by' => array('name',''),
       'multiple' => true,
+      'label' => 'Meta events',
     ));
     $this->validatorSchema['meta_events_list'] = new sfValidatorDoctrineChoice(array(
       'model' => 'MetaEvent',
@@ -87,6 +91,7 @@ class StatsCriteriasForm extends BaseForm
       'model'     => 'sfGuardUser',
       'order_by'  => array('first_name, last_name',''),
       'multiple'  => true,
+      'label' => 'Users',
     ));
     $this->validatorSchema['users'] = new sfValidatorDoctrineChoice(array(
       'model' => 'sfGuardUser',
@@ -121,6 +126,7 @@ class StatsCriteriasForm extends BaseForm
     
     $this->widgetSchema   ['with_contact'] = new sfWidgetFormChoice(array(
       'choices' => $choices,
+      'label' => 'Tickets with contact',
     ));
     $this->validatorSchema['with_contact'] = new sfValidatorChoice(array(
       'choices' => array_keys($choices),
@@ -144,11 +150,24 @@ class StatsCriteriasForm extends BaseForm
       'model' => 'Group',
       'multiple' => true,
       'order_by' => array('sf_guard_user_id DESC, name',''),
+      'label' => 'Groups',
     ));
     $this->validatorSchema['groups_list'] = new sfValidatorDoctrineChoice(array(
       'required' => false,
       'model' => 'Group',
       'multiple' => true,
+    ));
+    return $this;
+  }
+  public function addByTicketsCriteria()
+  {
+    $this->widgetSchema   ['by_tickets'] = new sfWidgetFormInputCheckbox(array(
+      'value_attribute_value'   => 'y',
+      'label' => 'Counting tickets',
+    ));
+    $this->validatorSchema['by_tickets'] = new sfValidatorBoolean(array(
+      'required' => false,
+      'true_values' => array('y'),
     ));
     return $this;
   }
