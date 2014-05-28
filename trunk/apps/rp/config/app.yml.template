@@ -15,6 +15,7 @@ all:
     #no_event_archives: false
     #force_fields: [firstname, postalcode, city]
     #contact_force_one_phonenumber: true
+    #labels_offset: 500
   #controls:
   #  enable: true
   cards:

@@ -34,7 +34,7 @@
     if ( !$request->hasParameter('limit') || !$request->hasParameter('go') )
     {
       $this->offset = $request->getParameter('offset', 0);
-      $this->limit  = ceil($request->getParameter('limit',500)/(intval($this->params['nb-x'])*intval($this->params['nb-y'])))*intval($this->params['nb-x'])*intval($this->params['nb-y']); // limit to avoid reaching the PHP memory_limit generating PDF files
+      $this->limit  = ceil($request->getParameter('limit',sfConfig::get('app_options_labels_offset', 500))/(intval($this->params['nb-x'])*intval($this->params['nb-y'])))*intval($this->params['nb-x'])*intval($this->params['nb-y']); // limit to avoid reaching the PHP memory_limit generating PDF files
       $this->stop   = $this->offset+$this->limit > $this->buildQuery()->offset($this->offset)->limit($this->limit)->count();
       
       $request->setParameter('limit', $this->limit);
