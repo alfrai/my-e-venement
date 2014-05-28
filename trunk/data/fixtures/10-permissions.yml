@@ -474,6 +474,11 @@ sfGuardPermission:
     description: Permission to display the seats allocation in the event module
     created_at: '2013-11-28 16:59:25'
     updated_at: '2013-11-28 16:59:25'
+  sfGuardPermission_97:
+    name: stats-geo
+    description: 'Permission to access the geographical statistics'
+    created_at: '2014-05-28 09:20:41'
+    updated_at: '2014-05-58 09:20:41'
 sfGuardGroupPermission:
   sfGuardGroupPermission_1_7:
     Group: sfGuardGroup_1
@@ -1245,6 +1250,11 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_3
     created_at: '2013-12-21 15:15:00'
     updated_at: '2013-12-21 15:15:00'
+  sfGuardGroupPermission_97_36:
+    Group: sfGuardGroup_36
+    Permission: sfGuardPermission_97
+    created_at: '2014-05-28 09:20:00'
+    updated_at: '2014-05-28 09:20:00'
 sfGuardGroup:
   sfGuardGroup_1:
     name: pr-view
@@ -1421,3 +1431,8 @@ sfGuardGroup:
     description: Ability to deal with seated ticketting
     created_at: '2013-11-27 14:11:50'
     updated_at: '2013-11-27 14:11:50' 
+  sfGuardGroup_36:
+    name: stats-geo
+    description: 'Permission to access the geographical statistics'
+    created_at: '2014-05-28 09:20:41'
+    updated_at: '2014-05-58 09:20:41'
