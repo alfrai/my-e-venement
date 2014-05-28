@@ -46,21 +46,34 @@ class geoActions extends sfActions
   public function executeCsv(sfWebRequest $request)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date','CrossAppLink','Number'));
-    $param = $request->getParameter('id');
     
-    $this->lines = $this->getData($request->getParameter('type','ego'))->toArray();
+    $criterias = $this->getCriterias();
+    $this->data = $this->getData($request->getParameter('type','ego'), isset($criterias['by_tickets']) && $criterias['by_tickets'] === 'y');
     
     $total = 0;
-    foreach ( $this->lines as $line )
-      $total += $line['nb'];
+    foreach ( $this->data as $data )
+      $total += $data;
     
-    foreach ( $this->lines as $key => $line )
-      $this->lines[$key]['percent'] = format_number(round($line['nb']*100/$total,2));
+    $this->lines = array();
+    foreach ( $this->data as $name => $data )
+    {
+      $this->lines[] = array(
+        'name' => __($name),
+        'qty' => $data,
+        'percent' => format_number(round($data*100/$total,2)),
+      );
+    }
+    
+    $this->lines[] = array(
+      'name' => __('Total'),
+      'qty'   => $total,
+      'percent' => 100,
+    );
     
     $params = OptionCsvForm::getDBOptions();
     $this->options = array(
       'ms' => in_array('microsoft',$params['option']),
-      'fields' => array('name','nb','percent'),
+      'fields' => array('name','qty','percent'),
       'tunnel' => false,
       'noheader' => false,
     );
@@ -71,11 +84,12 @@ class geoActions extends sfActions
     $this->charset   = sfConfig::get('software_internals_charset');
     
     sfConfig::set('sf_escaping_strategy', false);
-    $confcsv = sfConfig::get('software_internals_csv'); if ( isset($confcsv['set_charset']) && $confcsv['set_charset'] ) sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
+    $confcsv = sfConfig::get('software_internals_csv');
+    if ( isset($confcsv['set_charset']) && $confcsv['set_charset'] ) sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
     
     if ( $request->hasParameter('debug') )
     {
-      $this->setLayout(true);
+      $this->setLayout('layout');
       $this->getResponse()->sendHttpHeaders();
     }
     else
@@ -182,6 +196,7 @@ class geoActions extends sfActions
         $cpt++;
       }
       $res['others'] = $others;
+      arsort($res);
     break;
     
     case 'departments':
@@ -222,6 +237,7 @@ class geoActions extends sfActions
         $res[$dpt->name] = $res[$dpt->num];
         unset($res[$dpt->num]);
       }
+      arsort($res);
     break;
     
     case 'regions':
@@ -262,7 +278,7 @@ class geoActions extends sfActions
         $cpt++;
       }
       $res['others'] = $others;
-      
+      arsort($res);
     break;
     
     case 'countries':
@@ -305,7 +321,7 @@ class geoActions extends sfActions
         $cpt++;
       }
       $res['others'] = $others;
-      
+      arsort($res);
     break;
     
     default:

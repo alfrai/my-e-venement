@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Quantity</source>
+        <target>Quantité</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Percent</source>
+        <target>Pourcentage</target>
+      </trans-unit>
+      <trans-unit>
         <source>Counting tickets</source>
         <target>Décompte les billets</target>
       </trans-unit>
