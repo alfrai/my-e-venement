@@ -3,3 +3,14 @@
 #    expiration_delay: 1 year
 #  ticketting:
 #    hide_demands: true      
+#  about:
+#    client:
+#      postalcode: 38400
+#      country: france
+#  geo_limits: # +1 w/ "others" / only 5 colors by default, be careful of color proximity depending on your choice
+#    postalcodes: 8
+#    departments: 4
+#    regions: 4
+#    countries: 4
+    
+      
