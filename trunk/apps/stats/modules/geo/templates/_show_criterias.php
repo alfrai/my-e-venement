@@ -2,6 +2,9 @@
   
   <div class="ui-widget-content show-criterias ui-corner-all">
     <ul>
+      <?php if ( isset($criterias['by_tickets']) && $criterias['by_tickets'] === 'y' ): ?>
+      <li class="by_tickets"><?php echo __('Counting tickets') ?></li>
+      <?php endif ?>
       <?php
         foreach ( array('from' => '- 1 week', 'to' => '+ 3 weeks + 1 day') as $key => $period )
         {

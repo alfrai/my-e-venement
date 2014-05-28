@@ -26,6 +26,7 @@ class geoActions extends sfActions
     
     $this->form = new StatsCriteriasForm();
     $this->form
+      ->addByTicketsCriteria()
       ->addEventCriterias()
       ->addGroupsCriteria();
     if ( is_array($this->getCriterias()) )
@@ -83,7 +84,8 @@ class geoActions extends sfActions
   
   public function executeData(sfWebRequest $request)
   {
-    $this->data = $this->getData($request->getParameter('type','ego'));
+    $criterias = $this->getCriterias();
+    $this->data = $this->getData($request->getParameter('type','ego'), isset($criterias['by_tickets']) && $criterias['by_tickets'] === 'y');
     
     if ( !$request->hasParameter('debug') )
     {
@@ -144,7 +146,7 @@ class geoActions extends sfActions
     return $q;
   }
   
-  protected function getData($type = 'ego')
+  protected function getData($type = 'ego', $count_tickets = false)
   {
     $this->type = $type;
     $res = array();
@@ -152,12 +154,13 @@ class geoActions extends sfActions
     
     case 'postalcodes':
       foreach ( $this->buildQuery()
-        ->select('c.id, c.postalcode')
+        ->select('c.id, c.postalcode, count(tck.id) AS qty')
+        ->groupBy('c.id, c.postalcode')
         ->fetchArray() as $pc )
       {
         if ( !isset($res[$pc['postalcode']]) )
           $res[$pc['postalcode']] = 0;
-        $res[$pc['postalcode']]++;
+        $res[$pc['postalcode']] += $count_tickets ? $pc['qty'] : 1;
       }
       arsort($res);
       
@@ -183,12 +186,13 @@ class geoActions extends sfActions
     
     case 'departments':
       foreach ( $this->buildQuery()
-        ->select('c.id, substr(c.postalcode,1,2) AS dpt')
+        ->select('c.id, substr(c.postalcode,1,2) AS dpt, count(tck.id) AS qty')
+        ->groupBy('c.id, c.postalcode')
         ->fetchArray() as $pc )
       {
         if ( !isset($res[$pc['dpt']]) )
           $res[$pc['dpt']] = 0;
-        $res[$pc['dpt']]++;
+        $res[$pc['dpt']] += $count_tickets ? $pc['qty'] : 1;
       }
       arsort($res);
       
@@ -230,14 +234,15 @@ class geoActions extends sfActions
       $dpts[''] = '';
       
       foreach ( $this->buildQuery()
-        ->select('c.id, substr(c.postalcode,1,2) AS dpt')
+        ->select('c.id, substr(c.postalcode,1,2) AS dpt, count(tck.id) AS qty')
+        ->groupBy('c.id, c.postalcode')
         ->fetchArray() as $pc )
       {
         if ( !isset($dpts[trim($pc['dpt'])]) )
           $pc['dpt'] = '';
         if ( !isset($res[$dpts[trim($pc['dpt'])]]) )
           $res[$dpts[trim($pc['dpt'])]] = 0;
-        $res[$dpts[trim($pc['dpt'])]]++;
+        $res[$dpts[trim($pc['dpt'])]] += $count_tickets ? $pc['qty'] : 1;
       }
       $others = 0;
       if ( isset($res['']) )
@@ -266,7 +271,8 @@ class geoActions extends sfActions
       $default_country = isset($tmp['country']) ? $tmp['country'] : '';
       
       foreach ( $this->buildQuery()
-        ->select('c.id, c.country')
+        ->select('c.id, c.country, count(tck.id) AS qty')
+        ->groupBy('c.id, c.country')
         ->fetchArray() as $pc )
       {
         if ( !trim($pc['country']) )
@@ -274,7 +280,7 @@ class geoActions extends sfActions
         $pc['country'] = trim(strtolower($pc['country']));
         if ( !isset($res[$pc['country']]) )
           $res[$pc['country']] = 0;
-        $res[$pc['country']]++;
+        $res[$pc['country']] += $count_tickets ? $pc['qty'] : 1;
       }
       $others = 0;
       if ( isset($res['']) )
@@ -305,27 +311,62 @@ class geoActions extends sfActions
     default:
       $client = sfConfig::get('app_about_client',array());
       $res = array('exact' => 0, 'department' => 0, 'region' => 0, 'country' => 0, 'others' => 0);
-      $res['exact'] = $this->buildQuery()
+      $q = $this->buildQuery()
+        ->select('c.id, count(tck.id) AS qty')
+        ->groupBy('c.id')
         ->andWhere('c.postalcode = ?', $client['postalcode'])
-        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
-        ->count();
+        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
+      $res['exact'] = 0;
+      if ( $count_tickets )
+      foreach ( $q->fetchArray() as $c )
+        $res['exact'] += $c['qty'];
+      else
+        $res['exact'] = $q->count();
       
-      $res['department'] = $this->buildQuery()
+      $q = $this->buildQuery()
+        ->select('c.id, count(tck.id) AS qty')
+        ->groupBy('c.id')
         ->andWhere('substring(c.postalcode, 1, 2) = substring(?, 1, 2)', $client['postalcode'])
-        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
-        ->count() - $res['exact'];
+        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
+      $res['department'] = -$res['exact'];
+      if ( $count_tickets )
+      foreach ( $q->fetchArray() as $c )
+        $res['department'] += $c['qty'];
+      else
+        $res['department'] += $q->count();
       
-      $res['region'] = $this->buildQuery()
+      $q = $this->buildQuery()
+        ->select('c.id, count(tck.id) AS qty')
+        ->groupBy('c.id')
         ->andWhere('substring(c.postalcode, 1, 2) IN (SELECT gd.num FROM GeoFrRegion gr LEFT JOIN gr.Departments gd LEFT JOIN gr.Departments gdc WHERE gdc.num = substring(?, 1, 2))', $client['postalcode'])
-        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
-        ->count() - $res['department'] - $res['exact'];
+        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
+      $res['region'] = -$res['department'] -$res['exact'];
+      if ( $count_tickets )
+      foreach ( $q->fetchArray() as $c )
+        $res['region'] += $c['qty'];
+      else
+        $res['region'] += $q->count();
       
-      $res['country'] = $this->buildQuery()
-        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''))
-        ->count() - $res['region'] - $res['department'] - $res['exact'];
+      $q = $this->buildQuery()
+        ->select('c.id, count(tck.id) AS qty')
+        ->groupBy('c.id')
+        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
+      $res['country'] = -$res['region'] -$res['department'] -$res['exact'];
+      if ( $count_tickets )
+      foreach ( $q->fetchArray() as $c )
+        $res['country'] += $c['qty'];
+      else
+        $res['country'] += $q->count();
       
-      $res['others'] = $this->buildQuery()
-        ->count() - $res['country'] - $res['region'] - $res['department'] - $res['exact'];
+      $q = $this->buildQuery()
+        ->select('c.id, count(tck.id) AS qty')
+        ->groupBy('c.id');
+      $res['others'] = -$res['country'] -$res['region'] -$res['department'] -$res['exact'];
+      if ( $count_tickets )
+      foreach ( $q->fetchArray() as $c )
+        $res['others'] += $c['qty'];
+      else
+        $res['others'] += $q->count();
       break;
     }
     
