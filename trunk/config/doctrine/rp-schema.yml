@@ -307,6 +307,7 @@ GeoFrDepartment:
     num:
       type: string(3)
       notnull: true
+      unique: true
     name:
       type: string(255)
       notnull: true
