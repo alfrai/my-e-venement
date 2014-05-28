@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Geographical approach</source>
+        <target>Approche géographique</target>
+      </trans-unit>
+      <trans-unit>
         <source>Seated plans</source>
         <target>Plans numérotés</target>
       </trans-unit>
