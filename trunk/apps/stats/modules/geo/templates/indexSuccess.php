@@ -4,7 +4,7 @@
   <a name="chart-title"></a>
   <div class="ui-widget-header ui-corner-all fg-toolbar">
     <?php include_partial('attendance/filters_buttons') ?>
-    <h1><?php echo __('Geographical approach',null,'menu') ?></h1>
+    <h1><?php echo __('Geographical approach',null,'menu') ?> (beta)</h1>
   </div>
 <?php include_partial('show_criterias') ?>
 <?php include_partial('chart', array('title' => __('From your localization'), 'type' => 'ego')) ?>

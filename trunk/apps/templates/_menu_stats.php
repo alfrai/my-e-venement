@@ -45,7 +45,7 @@
           <li><a href="<?php echo cross_app_url_for('stats','tickets/index') ?>"><?php echo __('Ticketting',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('stats-geo') ): ?>
-          <li><a href="<?php echo cross_app_url_for('stats', 'geo/index') ?>"><?php echo __('Geographical approach', null, 'menu') ?></a></li>
+          <li><a href="<?php echo cross_app_url_for('stats', 'geo/index') ?>"><?php echo __('Geographical approach', null, 'menu') ?> (beta)</a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('stats-pr-cards') || $sf_user->hasCredential('stats-pr-social') || $sf_user->hasCredential('stats-pr-social') ): ?>
           <li class="spaced"></li>
