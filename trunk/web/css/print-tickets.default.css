@@ -85,6 +85,7 @@ float: left;
 .datetime { margin-top: 1.5mm; }
 .placeprice { margin-top: 0.5mm; }
 .placeprice .address { display: none; }
+.price_vat { display: none; }
 .price_name .name { display: none; }
 .right .price_name { display: none; }
 .event { font-size: 26px; margin-top: 1mm; height: 30px; }
