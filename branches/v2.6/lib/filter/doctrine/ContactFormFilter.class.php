@@ -155,6 +155,21 @@ class ContactFormFilter extends BaseContactFormFilter
         ->andWhere('u.id = ?',sfContext::getInstance()->getUser()->getId()),
       'multiple' => true,
     ));
+    $this->widgetSchema   ['workspaces_list'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Workspace',
+      'query' => Doctrine::getTable('Workspace')->createQuery('ws')
+        ->andWhereIn('ws.id', array_keys(sfContext::getInstance()->getUser()->getWorkspacesCredentials())),
+      'order_by' => array('name',''),
+      'multiple' => true,
+    ));
+    $this->validatorSchema['workspaces_list'] = new sfValidatorDoctrineChoice(array(
+      'required' => false,
+      'model'    => 'Workspace',
+      'query' => Doctrine::getTable('Workspace')->createQuery('ws')
+        ->leftJoin('ws.Users u')
+        ->andWhere('ws.id = ?',sfContext::getInstance()->getUser()->getId()),
+      'multiple' => true,
+    ));
     
     $this->widgetSchema   ['event_archives'] = new sfWidgetFormChoice($opt = array(
       'choices' => $choices = $this->getEventArchivesChoices(),
@@ -184,10 +199,16 @@ class ContactFormFilter extends BaseContactFormFilter
       'multiple' => true,
       'model' => 'MemberCardType',
     ));
-    $this->widgetSchema   ['member_cards_expire_at'] = new liWidgetFormDateText(array(
+    $this->widgetSchema   ['member_cards_valid_at'] = new liWidgetFormDateText(array(
       'culture' => sfContext::getInstance()->getUser()->getCulture(),
     ));
-    $this->validatorSchema['member_cards_expire_at'] = new sfValidatorDate(array(
+    $this->validatorSchema['member_cards_valid_at'] = new sfValidatorDate(array(
+      'required' => false,
+    ));
+    $this->widgetSchema   ['member_cards_not_valid_at'] = new liWidgetFormDateText(array(
+      'culture' => sfContext::getInstance()->getUser()->getCulture(),
+    ));
+    $this->validatorSchema['member_cards_not_valid_at'] = new sfValidatorDate(array(
       'required' => false,
     ));
     
@@ -264,10 +285,12 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['events_list']          = 'EventsList';
     $fields['event_categories_list']= 'EventCategoriesList';
     $fields['meta_events_list']     = 'MetaEventsList';
+    $fields['workspaces_list']      = 'WorkspacesList';
     $fields['event_archives']       = 'EventArchives';
     $fields['prices_list']          = 'PricesList';
     $fields['member_cards']         = 'MemberCards';
-    $fields['member_cards_expire_at'] = 'MemberCardsExpireAt';
+    $fields['member_cards_valid_at'] = 'MemberCardsValidAt';
+    $fields['member_cards_not_valid_at'] = 'MemberCardsNotValidAt';
     $fields['control_manifestation_id'] = 'ControlManifestationId';
     $fields['control_checkpoint_id'] = 'ControlCheckpointId';
     $fields['control_created_at']   = 'ControlCreatedAt';
@@ -398,6 +421,27 @@ class ContactFormFilter extends BaseContactFormFilter
       $query->leftJoin('event.MetaEvent mev');
       
       $query->andWhereIn('mev.id',$value);
+    }
+    
+    return $q;
+  }
+  public function addWorkspacesListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( is_array($value) )
+    foreach ( array($q,$this->tickets_having_query) as $query )
+    {
+      if ( !$query->contains("LEFT JOIN $a.Transactions transac ON $a.id = transac.contact_id AND (p.id = transac.professional_id OR transac.professional_id IS NULL)") )
+      $query->leftJoin("$a.Transactions transac ON $a.id = transac.contact_id AND (p.id = transac.professional_id OR transac.professional_id IS NULL)");
+      
+      if ( !$query->contains("LEFT JOIN transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)") )
+      $query->leftJoin('transac.Tickets tck ON transac.id = tck.transaction_id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) AND tck.id NOT IN (SELECT ttck.cancelling FROM ticket ttck WHERE ttck.cancelling IS NOT NULL)');
+      
+      if ( !$query->contains("LEFT JOIN tck.Gauge g") )
+      $query->leftJoin('tck.Gauge g');
+      
+      $query->andWhereIn('g.workspace_id',$value);
     }
     
     return $q;
@@ -550,13 +594,13 @@ class ContactFormFilter extends BaseContactFormFilter
     if ( is_array($value) && count($value) )
     {
       $q1 = new Doctrine_Query();
-      $q1->select('tmp1.contact_id')
-        ->from('GroupContact tmp1')
-        ->andWhereIn('tmp1.group_id',$value);
+      $q1->select('gctmp.contact_id')
+        ->from('GroupContact gctmp')
+        ->andWhereIn('gctmp.group_id',$value);
       $q2 = new Doctrine_Query();
-      $q2->select('tmp2.professional_id')
-        ->from('GroupProfessional tmp2')
-        ->andWhereIn('tmp2.group_id',$value);
+      $q2->select('gptmp.professional_id')
+        ->from('GroupProfessional gptmp')
+        ->andWhereIn('gptmp.group_id',$value);
       
       $q->andWhere("$a.id NOT IN ($q1)",$value) // hack for inserting $value
         ->andWhere("p.id IS NULL OR p.id NOT IN ($q2)",$value); // hack for inserting $value
@@ -677,20 +721,34 @@ class ContactFormFilter extends BaseContactFormFilter
     {
       if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
         $q->leftJoin("$c.MemberCards mc");
-      $q->andWhereIn("mc.member_card_type_id",$value);
+      $q->andWhereIn("mc.member_card_type_id",$value)
+        ->andWhere('mc.active = ?',true);
    }
     
     return $q;
   }
-  public function addMemberCardsExpireAtColumnQuery(Doctrine_Query $q, $field, $value)
+  public function addMemberCardsValidAtColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $c = $q->getRootAlias();
     if ( $value )
     {
       if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
-      $q->leftJoin("$c.MemberCards mc");
-      
-      $q->andWhere("mc.expire_at > ?",date('Y-m-d',strtotime($value)));
+        $q->leftJoin("$c.MemberCards mc");
+      $q->andWhere("mc.expire_at > ?",date('Y-m-d',strtotime($value)))
+        ->andWhere('mc.active = ?',true);
+    }
+    
+    return $q;
+  }
+  public function addMemberCardsNotValidAtColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $c = $q->getRootAlias();
+    if ( $value )
+    {
+      if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
+        $q->leftJoin("$c.MemberCards mc");
+      $q->andWhere("mc.expire_at <= ?",date('Y-m-d',strtotime($value)))
+        ->andWhere('mc.active = ?',true);
     }
     
     return $q;

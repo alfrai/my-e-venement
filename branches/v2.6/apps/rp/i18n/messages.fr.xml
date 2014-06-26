@@ -505,6 +505,10 @@
         <target>Valide le</target>
       </trans-unit>
       <trans-unit>
+        <source>Not valid on</source>
+        <target>Non valide le</target>
+      </trans-unit>
+      <trans-unit>
         <source>Member cards</source>
         <target>Cartes d'abonnement</target>
       </trans-unit>
