@@ -4,3 +4,5 @@
 .feed article h1 { font-size: 1.3em; }
 .feed article h2 { font-size: 1.1em; }
 .feed article h3 { font-size: 1.0em; }
+.feed img.alignright { float: right; }
+.feed img.alignleft { float: left; }
