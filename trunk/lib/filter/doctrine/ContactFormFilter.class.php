@@ -199,10 +199,16 @@ class ContactFormFilter extends BaseContactFormFilter
       'multiple' => true,
       'model' => 'MemberCardType',
     ));
-    $this->widgetSchema   ['member_cards_expire_at'] = new liWidgetFormDateText(array(
+    $this->widgetSchema   ['member_cards_valid_at'] = new liWidgetFormDateText(array(
       'culture' => sfContext::getInstance()->getUser()->getCulture(),
     ));
-    $this->validatorSchema['member_cards_expire_at'] = new sfValidatorDate(array(
+    $this->validatorSchema['member_cards_valid_at'] = new sfValidatorDate(array(
+      'required' => false,
+    ));
+    $this->widgetSchema   ['member_cards_not_valid_at'] = new liWidgetFormDateText(array(
+      'culture' => sfContext::getInstance()->getUser()->getCulture(),
+    ));
+    $this->validatorSchema['member_cards_not_valid_at'] = new sfValidatorDate(array(
       'required' => false,
     ));
     
@@ -283,7 +289,8 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['event_archives']       = 'EventArchives';
     $fields['prices_list']          = 'PricesList';
     $fields['member_cards']         = 'MemberCards';
-    $fields['member_cards_expire_at'] = 'MemberCardsExpireAt';
+    $fields['member_cards_valid_at'] = 'MemberCardsValidAt';
+    $fields['member_cards_not_valid_at'] = 'MemberCardsNotValidAt';
     $fields['control_manifestation_id'] = 'ControlManifestationId';
     $fields['control_checkpoint_id'] = 'ControlCheckpointId';
     $fields['control_created_at']   = 'ControlCreatedAt';
@@ -720,7 +727,7 @@ class ContactFormFilter extends BaseContactFormFilter
     
     return $q;
   }
-  public function addMemberCardsExpireAtColumnQuery(Doctrine_Query $q, $field, $value)
+  public function addMemberCardsValidAtColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $c = $q->getRootAlias();
     if ( $value )
@@ -728,6 +735,19 @@ class ContactFormFilter extends BaseContactFormFilter
       if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
         $q->leftJoin("$c.MemberCards mc");
       $q->andWhere("mc.expire_at > ?",date('Y-m-d',strtotime($value)))
+        ->andWhere('mc.active = ?',true);
+    }
+    
+    return $q;
+  }
+  public function addMemberCardsNotValidAtColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $c = $q->getRootAlias();
+    if ( $value )
+    {
+      if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
+        $q->leftJoin("$c.MemberCards mc");
+      $q->andWhere("mc.expire_at <= ?",date('Y-m-d',strtotime($value)))
         ->andWhere('mc.active = ?',true);
     }
     

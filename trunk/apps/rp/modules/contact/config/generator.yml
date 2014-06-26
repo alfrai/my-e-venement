@@ -27,7 +27,8 @@ generator:
         phone_type: { label: Type }
         phone_number: { label: Phonenumber }
         list_phones: { label: Phonenumbers }
-        member_cards_expire_at: { label: Valid on }
+        member_cards_valid_at: { label: Valid on }
+        member_cards_not_valid_at: { label: Not valid on }
         control_created_at: { label: Passed in between }
         control_manifestation_id: { label: Passed on manifestations }
         control_checkpoint_id: { label: Controlled on checkpoints }
@@ -88,7 +89,7 @@ generator:
           <?php endif ?><?php echo PHP_EOL ?>
           Relations: [groups_list, not_groups_list, organism_id, organism_category_id, professional_type_id]
           <?php if ( sfConfig::get('app_cards_enable',false) ): ?><?php echo PHP_EOL ?>
-          Member cards: [member_cards, member_cards_expire_at]
+          Member cards: [member_cards, member_cards_valid_at, member_cards_not_valid_at]
           <?php endif ?><?php echo PHP_EOL ?>
           Events: [event_categories_list, meta_events_list, events_list, workspaces_list, prices_list, <?php if ( sfConfig::get('app_no_event_archives',true) ): ?>event_archives,<?php endif ?> tickets_amount_min, tickets_amount_max]
           <?php if ( sfConfig::get('app_controls_enabled',false) ): ?><?php echo PHP_EOL ?>
