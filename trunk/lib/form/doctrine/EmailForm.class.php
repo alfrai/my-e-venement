@@ -88,7 +88,7 @@ class EmailForm extends BaseEmailForm
     ));
     
     $this->widgetSchema   ['load'] = new sfWidgetFormInputText();
-    $this->validatorSchema['load'] = new sfValidatorUrl(array(
+    $this->validatorSchema['load'] = new liValidatorUrl(array(
       'required' => false,
     ));
     

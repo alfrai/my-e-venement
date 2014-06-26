@@ -96,6 +96,7 @@ $(document).ready(function(){
   
   // CONTENT: MULTIPLE PROFESSIONALS
   $('#tdp-content .sf_admin_row').each(function(){
+    $(this).prop('title', $.trim($(this).find('.sf_admin_list_td_description').html()));
     if ( (length = $(this).find('.sf_admin_list_td_list_organism .pro').length) > 1 )
     {
       // duplicating professional lines
