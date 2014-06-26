@@ -202,16 +202,30 @@
         
         break;
       case 'payment_new':
-        $p = new Payment;
-        $p->transaction_id = $this->transaction->id;
-        $p->value = $this->form[$field]->getValue('value') ? $this->form[$field]->getValue('value') : $this->transaction->price - $this->transaction->paid;
-        $p->payment_method_id = $this->form[$field]->getValue('payment_method_id');
-        $p->created_at = $this->form[$field]->getValue('created_at');
-        $p->save();
-        
-        $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'payments';
-        $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getPayments?id='.$request->getParameter('id'), true);
-        
+        try {
+          $p = new Payment;
+          $p->transaction_id = $this->transaction->id;
+          $p->value = $this->form[$field]->getValue('value') ? $this->form[$field]->getValue('value') : $this->transaction->price - $this->transaction->paid;
+          $p->payment_method_id = $this->form[$field]->getValue('payment_method_id');
+          $p->created_at = $this->form[$field]->getValue('created_at');
+          if ( $this->form[$field]->getValue('member_card_id') )
+            $p->member_card_id = $this->form[$field]->getValue('member_card_id');
+          $p->save();
+          $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'payments';
+          $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getPayments?id='.$request->getParameter('id'), true);
+        }
+        catch ( liMemberCardPaymentException $e )
+        {
+          $this->json['success']['success_fields'][$field]['data']['type'] = 'choose_mc';
+          $this->json['success']['success_fields'][$field]['data']['content'] = array('payment_id' => $this->form[$field]->getValue('payment_method_id'));
+          foreach ( Doctrine::getTable('MemberCard')->createQuery('mc')
+            ->andWhere('mc.contact_id = ?', $this->transaction->contact_id)
+            ->andWhere('mc.expire_at > NOW()')
+            ->orderBy('(SELECT SUM(p.value) FROM Payment p WHERE mc.id = p.member_card_id) DESC, mc.id')
+            ->execute() as $mc )
+            $this->json['success']['success_fields'][$field]['data']['content'][]
+              = array('id' => $mc->id, 'name' => (string)$mc);
+        }
         break;
       case 'payments_list':
         Doctrine::getTable('Payment')

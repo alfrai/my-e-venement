@@ -709,7 +709,7 @@ LI.closeTransaction = function(event){
       if ( data.success.success_fields.close !== undefined )
       {
         go.ok   = true;
-        $.each(data.success.error_fields.close.data, function(index, text){
+        $.each(data.success.success_fields.close.data, function(index, text){
           buf.push(text);
         });
         go.text = buf.join("\n");

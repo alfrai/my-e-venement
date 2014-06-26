@@ -133,6 +133,13 @@ class transactionActions extends autoTransactionActions
       'model' => 'PaymentMethod',
       'query' => $q,
     ));
+    $vs['member_card_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'MemberCard',
+      'query' => Doctrine::getTable('MemberCard')->createQuery('mc')
+        ->andWhere('mc.expire_at > NOW()')
+        ->andWhere('mc.contact_id = ?', $this->transaction->contact_id),
+      'required' => false,
+    ));
     $ws['value'] = new sfWidgetFormInput;
     $vs['value'] = new sfValidatorNumber(array('required' => false));
     $ws['created_at'] = new liWidgetFormJQueryDateText(array('culture' => $this->getUser()->getCulture()));

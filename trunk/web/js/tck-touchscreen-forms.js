@@ -70,6 +70,27 @@ LI.formSubmit = function(){
         case 'manifestations':
           LI.completeContent(value.data.content, 'manifestations', false);
           break;
+        
+        case 'choose_mc':
+          $('#li_transaction_field_payment_new [name="transaction[payment_new][member_card_id]"]').remove();
+          var select = $('<select></select>').append('<option></option>')
+            .prop('name', 'transaction[payment_new][member_card_id]')
+            .change(function(){
+              $('#li_transaction_field_payment_new [name="transaction[payment_new][payment_method_id]"][value='+$(this).attr('data-payment-id')+']')
+                .parent().find('button').click();
+            })
+          ;
+          //for ( i = 0 ; i < value.data.content.length ; i++ )
+          $.each(value.data.content, function(i, mc){
+            if ( mc === Object(mc) )
+              $('<option></option>').val(mc.id).html(mc.name)
+                .appendTo(select);
+            else
+              select.attr('data-payment-id', mc);
+          });
+          $('<p class="field_mc"></p>').append(select)
+            .appendTo($('#li_transaction_field_payment_new form'));
+          break;
         }
         
         // any select's options to add
@@ -91,6 +112,7 @@ LI.formSubmit = function(){
           });
           break;
         case 'payments':
+          $('#li_transaction_field_payment_new [name="transaction[payment_new][member_card_id]"]').remove();
           $('#li_transaction_field_payment_new [name="transaction[payment_new][value]"]').val('').focus();
           $.ajax({
             url: value.remote_content.load.url,
@@ -101,7 +123,7 @@ LI.formSubmit = function(){
                 LI.completeContent(data.success.success_fields.payments.data.content, 'payments');
             }
           });
-          break;
+        break;
         case 'options':
           var select = value.remote_content.load.target ? $(value.remote_content.load.target) : $(form).find('select:first');
           
