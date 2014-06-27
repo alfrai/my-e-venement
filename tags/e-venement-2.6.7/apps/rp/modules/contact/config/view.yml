@@ -1,0 +1,72 @@
+default:
+  javascripts: [menu,/sfFormExtraPlugin/js/jquery.autocompleter.js]
+  stylesheets: [contact]
+
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+createSuccess:
+  stylesheets: [view]
+  javascripts: [autocomplete-setnull]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+newSuccess:
+  stylesheets: [view]
+  javascripts: [autocomplete-setnull]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+updateSuccess:
+  stylesheets: [view]
+  javascripts: [contact-edit, autocomplete-setnull]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+editSuccess:
+  stylesheets: [view<?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>, /private/rp-tdp.css<?php endif ?>]
+  javascripts: [contact-edit, autocomplete-setnull]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+showSuccess:
+  stylesheets: [view]
+  javascripts: [contact-show]
+
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+indexSuccess:
+  javascripts: [contact-list, list-scroll]
+  stylesheets: [list-print: {media: print}, contact-list, batch-actions]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+duplicatesSuccess:
+  javascripts: [contact-list, contact-duplicates]
+  stylesheets: [list-print: {media: print}, contact-list, batch-actions]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+filterSuccess:
+  javascripts: [contact-list]
+  stylesheets: [list-print: {media: print}, contact-list, batch-actions]
+
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+labelsSuccess:
+  has_layout: false
+  <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): echo PHP_EOL; ?>
+  http_metas:
+    content-type: application/pdf; charset=utf-8
+  <?php endif; echo PHP_EOL; ?>
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+csvSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/comma-separated-values
+    content-disposition: attachment; filename=contacts-list.csv
+
+<?php //echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+cardSuccess:
+  stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css: {media: all}, contact-card: {media: all}, /private/contact-card: {media: all}]
+  javascripts: [-menu]
+<?php echo sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ? '_'.sfConfig::get('app_options_design').'/' : '' ?>
+cardSuccessAndPay:
+  stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css: {media: all}, contact-card: {media: all}, /private/contact-card: {media: all}]
+  javascripts: [-menu]
+
+vcfSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/vcard
+    content-disposition: attachment; filename=contact.vcf
+            
+ajaxSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+        
