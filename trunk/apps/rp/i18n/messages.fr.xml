@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Any function?</source>
+        <target>Une fonction ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Has close contact</source>
+        <target>A un contact privilégié</target>
+      </trans-unit>
+      <trans-unit>
         <source>Close contact</source>
         <target>Contact privilégié</target>
       </trans-unit>

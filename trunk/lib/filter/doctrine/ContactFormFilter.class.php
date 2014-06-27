@@ -81,6 +81,13 @@ class ContactFormFilter extends BaseContactFormFilter
       'required' => false,
       'multiple' => true,
     ));
+    $this->widgetSchema   ['has_professional_type_id'] = new sfWidgetFormChoice(array(
+      'choices' => $arr = array('' => 'yes or no', 0 => 'no', 1 => 'yes'),
+    ));
+    $this->validatorSchema['has_professional_type_id'] = new sfValidatorChoice(array(
+      'choices' => array_keys($arr),
+      'required' => false,
+    ));
     // organism's prefered contact
     $this->widgetSchema   ['organism_professional_id'] = new sfWidgetFormChoice(array(
       'choices' => $arr = array(
@@ -287,6 +294,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['organism_category_id'] = 'OrganismCategoryId';
     $fields['organism_professional_id'] = 'OrganismProfessionalId';
     $fields['professional_type_id'] = 'ProfessionalTypeId';
+    $fields['has_professional_type_id'] = 'HasProfessionalTypeId';
     $fields['has_email']            = 'HasEmail';
     $fields['email_newsletter']     = 'EmailNewsletter';
     $fields['has_address']          = 'HasAddress';
@@ -679,7 +687,23 @@ class ContactFormFilter extends BaseContactFormFilter
     if ( $value )
     {
       $this->setProfessionalData(true);
-      $q->andWhereIn("pt.id",$value);
+      $q->andWhereIn('pt.id',$value);
+    }
+    return $q;
+  }
+  public function addHasProfessionalTypeIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    if ( $value === '0' )
+    {
+      $this->setProfessionalData(true);
+      $q->andWhere('pt.id IS NULL')
+        ->andWhere('p.id IS NOT NULL');
+    }
+    if ( $value === '1' )
+    {
+      $this->setProfessionalData(true);
+      $q->andWhere('pt.id IS NOT NULL');
     }
     return $q;
   }
