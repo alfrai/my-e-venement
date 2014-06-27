@@ -1,0 +1,580 @@
+#**********************************************************************************
+#
+#	    This file is part of e-venement.
+# 
+#    e-venement is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License.
+# 
+#    e-venement is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+# 
+#    You should have received a copy of the GNU General Public License
+#    along with e-venement; if not, write to the Free Software
+#    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+# 
+#    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+#    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+# 
+#**********************************************************************************/
+
+Workspace:
+  package: event
+  actAs:
+    Timestampable: ~
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+      unique: true
+    on_ticket: string(255)
+    seated:
+      type: boolean
+      default: false
+      notnull: true
+  relations:
+    Users:
+      class: sfGuardUser
+      refClass: WorkspaceUser
+      foreignAlias: Workspaces
+      local: workspace_id
+      foreign: sf_guard_user_id
+WorkspaceUser:
+  package: event
+  columns:
+    sf_guard_user_id:
+      type: integer
+      notnull: true
+      primary: true
+    workspace_id:
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    User:
+      class: sfGuardUser
+      foreignAlias: WorkspaceUsers
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Workspace:
+      foreignAlias: WorkspaceUsers
+      onDelete: CASCADE
+      onUpdate: CASCADE
+WorkspaceUserOrdering:
+  package: event
+  columns:
+    sf_guard_user_id:
+      type: integer
+      notnull: true
+    workspace_id:
+      type: integer
+      notnull: true
+    rank:
+      type: integer
+      notnull: true
+  indexes:
+    sf_guard_user_id_workspace_id_idx:
+      fields: [sf_guard_user_id, workspace_id]
+      type: unique
+  relations:
+    Workspace:
+      foreignAlias: Order
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Users:
+      class: sfGuardUser
+      foreignAlias: WorkspaceOrder
+      onDelete: CASCADE
+      onUpdate: CASCADE
+MetaEvent:
+  package: event
+  actAs: [Timestampable]
+  indexes:
+    meta_event_hide_in_month_calendars_idx:
+      fields: [hide_in_month_calendars]
+  columns:
+    name:
+      type:     string(255)
+      notblank: true
+      notnull:  true
+      unique:   true
+    hide_in_month_calendars:
+      type: boolean
+      default: false
+      notnull: true
+  relations:
+    Users:
+      class: sfGuardUser
+      refClass: MetaEventUser
+      foreignAlias: MetaEvents
+      local: meta_event_id
+      foreign: sf_guard_user_id
+MetaEventUser:
+  package: event
+  columns:
+    sf_guard_user_id:
+      type: integer
+      primary: true
+    meta_event_id:
+      type: integer
+      primary: true
+  relations:
+    User:
+      class: sfGuardUser
+      foreignAlias: MetaEventUsers
+      onDelete: CASCADE
+      onUpdate: CASCADE
+
+EventCategory:
+  package: event
+  actAs: [Timestampable]
+  columns:
+    name:
+      type:     string(255)
+      notblank: true
+      notnull:  true
+      unique:   true
+    vat_id: integer
+  relations:
+    Vat:
+      foreignAlias: EventCategories
+      onDelete: SET NULL
+      onUpdate: CASCADE
+Event:
+  package: event
+  actAs:
+    Sluggable: ~
+    Searchable:
+      fields: [name,writer,staging,short_name]
+  inheritance:
+    extends: Traceable
+    type: concrete
+  indexes:
+    event_name_idx:
+      fields: [name]
+  columns:
+    name:
+      type:         string(255)
+      notblank:     true
+      notnull:     true
+    short_name:     string(127)
+    meta_event_id:
+      type: integer
+      notnull: true
+    event_category_id: integer
+    event_category_description: string(255)
+    staging:        string(255)
+    staging_label:  string(255)
+    writer:         string(255)
+    writer_label:   string(255)
+    duration:       integer
+    age_min:
+      type:         decimal(3)
+      scale:        1
+    age_max:
+      type:         decimal(3)
+      scale:        1
+    description:    string
+    extradesc:      string
+    extraspec:      string
+    web_price:
+      type:         decimal(8)
+      scale:        2
+    web_price_group:
+      type:         decimal(8)
+      scale:        2
+    image_url:      string(255)
+    display_by_default:
+      type: boolean
+      default: true
+      notnull: true
+    accounting_account: string(50)
+    slug: string(255)
+  relations:
+    EventCategory:
+      foreignAlias: Events
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    MetaEvent:
+      foreignAlias: Events
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Companies:
+      class: Organism
+      refClass: EventCompany
+      foreignAlias: Events
+EventCompany:
+  package: event
+  columns:
+    organism_id:
+      type:     integer
+      notnull:  true
+      primary:  true
+    event_id:
+      type:     integer
+      notnull:  true
+      primary:  true
+  relations:
+    Organism:
+      foreignAlias: EventCompanies
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Event:
+      foreignAlias: EventCompanies
+      onDelete: CASCADE
+      onUpdate: CASCADE
+ 
+Location:
+  package: event
+  indexes:
+    location_place_idx:
+      fields: [place]
+  inheritance:
+    extends: Addressable
+    type: concrete
+  actAs:
+    Searchable:
+      fields: [name, address, city]
+  columns:
+    rank:         integer
+    description:  string
+    contact_id:   integer
+    organism_id:  integer
+    gauge_max:    integer
+    gauge_min:    integer
+    reservation_price:
+      type: decimal(11)
+      scale: 2
+    place:
+      type: boolean
+      notnull: true
+      default: true
+  relations:
+    Organism:
+      foreignAlias: Locations
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Contact:
+      foreignAlias: Locations
+      onDelete: SET NULL
+      onUpdate: CASCADE
+
+Manifestation:
+  package: event
+  inheritance:
+    extends: Traceable
+    type: concrete
+  indexes:
+    manifestation_happens_at_idx:
+      fields: [happens_at]
+    manifestation_reservation_begins_at_idx:
+      fields: [reservation_begins_at]
+    manifestation_reservation_ends_at_idx:
+      fields: [reservation_ends_at]
+    manifestation_blocking_idx:
+      fields: [blocking]
+    manifestation_reservation_confirmed_idx:
+      fields: [reservation_confirmed]
+  columns:
+    event_id:
+      type: integer
+      notnull: true
+    location_id:
+      type: integer
+      notnull: true
+    color_id: integer
+    happens_at:
+      type: timestamp
+      notnull: true
+    duration: integer
+    description: string
+    vat_id:
+      type: integer
+      notnull: true
+    online_limit:
+      type: integer
+      default: 10
+      notnull: true
+    no_print:
+      type: boolean
+      default: false
+      notnull: true
+    depends_on: integer
+    contact_id: integer
+    blocking:
+      type: boolean
+      notnull: true
+      default: true
+    reservation_begins_at:
+      type: timestamp
+      notnull: true
+    reservation_ends_at:
+      type: timestamp
+      notnull: true
+    reservation_description: string
+    reservation_optional:
+      type: boolean
+      notnull: true
+      default: false
+    reservation_confirmed:
+      type: boolean
+      notnull: true
+      default: true
+  relations:
+    Event:
+      foreignAlias: Manifestations
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Location:
+      foreignAlias: Manifestations
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Color:
+      foreignAlias: Manifestations
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Organizers:
+      class: Organism
+      refClass: ManifestationOrganizer
+      foreignAlias: Manifestations
+    Applicant:
+      local: contact_id
+      class: Contact
+      foreignAlias: Manifestations
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Workspaces:
+      class: Workspace
+      refClass: Gauge
+      foreignAlias: Manifestations
+    DependsOn:
+      class: Manifestation
+      foreign: id
+      local: depends_on
+      onDelete: SET NULL
+      onUpdate: CASCADE
+      foreignAlias: IsNecessaryTo
+    Vat:
+      foreignAlias: Manifestations
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Booking:
+      class: Location
+      refClass: LocationBooking
+      foreignAlias: BookedBy
+LocationBooking:
+  package: event
+  columns:
+    manifestation_id:
+      type: integer
+      notnull: true
+    location_id:
+      type: integer
+      notnull: true
+  relations:
+    Manifestation:
+      foreignAlias: LocationBookings
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Location:
+      foreignAlias: LocationBookings
+      onDelete: CASCADE
+      onUpdate: CASCADE
+Vat:
+  package: event
+  actAs: [Timestampable, Versionable]
+  columns:
+    name:
+      type: string(64)
+      notblank: true
+      notnull: true
+    value:
+      type: decimal(5)
+      scale: 4
+      notnull: true
+      default: 0
+    accounting_account: string(50)
+Gauge:
+  package: event
+  actAs: [Timestampable]
+  indexes:
+    gauge_online:
+      fields: [online]
+  columns:
+    workspace_id:
+      type: integer
+      notnull: true
+    manifestation_id:
+      type: integer
+      notnull: true
+    value:
+      type: integer
+      notnull: true
+    online:
+      type: boolean
+      default: false
+      notnull: true
+  relations:
+    Manifestation:
+      foreignAlias: Gauges
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Workspace:
+      foreignAlias: Gauges
+      onDelete: CASCADE
+      onUpdate: CASCADE
+  indexes:
+    manifestation_workspace:
+      fields: [manifestation_id, workspace_id]
+      type: unique
+
+ManifestationExtraInformation:
+  package: event
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    value:
+      type: string(255)
+      notnull: true
+    checked:
+      type: boolean
+      notnull: true
+      default: false
+    manifestation_id:
+      type: integer
+      notnull: true
+  relations:
+    Manifestation:
+      foreignAlias: ExtraInformations
+      onDelete: CASCADE
+      onUpdate: CASCADE
+
+Color:
+  package: event
+  actAs: [Timestampable]
+  columns:
+    name:
+      type:     string(255)
+      notnull:  true
+      notblank: true
+    color:
+      type:     string(255)
+      notnull:  true
+      notblank: true
+
+ManifestationOrganizer:
+  package: event
+  columns:
+    organism_id:
+      type:     integer
+      notnull:  true
+      primary:  true
+    manifestation_id:
+      type:     integer
+      notnull:  true
+      primary:  true
+  relations:
+    Organism:
+      foreignAlias: ManifestationOrganizers
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Manifestation:
+      foreignAlias: ManifestationOrganizers
+      onDelete: CASCADE
+      onUpdate: CASCADE
+
+SeatedPlan:
+  package: event
+  actAs:
+    Timestampable: ~
+    Versionable: ~
+  columns:
+    seat_diameter:
+      type: integer
+      notnull: true
+      default: 10 #px
+    description: string
+    picture_id: integer
+    online_picture_id: integer
+    location_id: integer
+    background:
+      type: string(255)
+      default: white
+  relations:
+    OnlinePicture:
+      foreignAlias: SeatedPlanOnline
+      local: online_picture_id
+      class: Picture
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Picture:
+      foreignAlias: SeatedPlan
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Location:
+      foreignAlias: SeatedPlans
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Workspaces:
+      foreignAlias: SeatedPlans
+      refClass: SeatedPlanWorkspace
+      class: Workspace
+SeatedPlanWorkspace:
+  package: event
+  columns:
+    seated_plan_id:
+      type: integer
+      notnull: true
+    workspace_id:
+      type: integer
+      notnull: true
+  relations:
+    SeatedPlan:
+      foreignAlias: SeatedPlanWorkspaces
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Workspace:
+      foreignAlias: SeatedPlanWorkspaces
+      onDelete: CASCADE
+      onUpdate: CASCADE
+Seat:
+  package: event
+  actAs:
+    Timestampable: ~
+  indexes:
+    seat_name_idx:
+      fields: [name]
+    seat_name_seated_plan_id_idx:
+      fields: [seated_plan_id, name]
+      type: unique
+  columns:
+    seated_plan_id:
+      type: integer
+      notnull: true
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    x:
+      type: integer
+      notnull: true
+    y:
+      type: integer
+      notnull: true
+    diameter:
+      type: integer
+      notnull: true
+      default: 10 #px
+  relations:
+    SeatedPlan:
+      foreignAlias: Seats
+      onDelete: CASCADE
+      onUpdate: CASCADE

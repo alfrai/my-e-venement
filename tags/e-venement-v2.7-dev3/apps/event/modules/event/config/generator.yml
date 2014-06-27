@@ -1,0 +1,78 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Event
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          event
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        display_by_default: { label: Display in ticketting }
+        EventCategory: { label: Category }
+        event_category_id: { label: Category }
+        event_category_description: { label: Detailed category }
+        duration: { label: Duration }
+        companies_list: { label: Compagnies }
+        extradesc: { label: Extra description }
+        extraspec: { label: Extra specification }
+        image_url: { label: Image URL }
+        age_min_h_r: { label: Age min }
+        age_max_h_r: { label: Age max }
+        duration_h_r: { label: Duration }
+        short_name: { label: Short name }
+        staging_label: { label: Staging label }
+        writer_label: { label: Writer label }
+        list_manifestations: { label: Manifestations }
+        list_manifestations_gauges: { label: <span title="booked/total (sold-booked-demanded)">Gauges</span> }
+        list_manifestations_places: { label: Locations }
+        accounting_account: { label: Account, help: For the accounting department }
+        manif_blocking : { label: Blocking manifestations }
+        manif_confirmed: { label: Confirmed manifestations }
+        manif_conflict : { label: Conflicted manifestations }
+        manif_optional : { label: Optional manifestations }
+        list_manifestations_extra_informations: { label: "" }
+      list:
+        title: Event List
+        display: [MetaEvent, name, EventCategory, duration_h_r, age_min_h_r, _list_manifestations,_list_manifestations_gauges, _list_manifestations_places, _list_manifestations_extra_informations]
+        table_method: RetrieveList
+        max_per_page: <?php echo sfConfig::get('app_listing_max_per_page',20).PHP_EOL ?>
+        object_actions:
+          _show: ~
+          _edit: ~
+          _delete: ~
+          add_manif:
+            action: addManifestation
+            credentials: [event-manif-new]
+            label: Add a manifestation
+      filter:
+        display:
+          Event:              [meta_event_id, event_category_id, name, duration]
+          Bookings:           [resource_id, contact_id, manif_confirmed, manif_blocking, manif_conflict, manif_optional]
+          Extra informations: [staging, writer, age_min, age_max, companies_list, display_by_default]
+      form: ~
+      edit:
+        title: Edit Event %%name%%
+        display:
+          General:   [name, short_name, meta_event_id, event_category_id, event_category_description, companies_list]
+          Details:   [duration, display_by_default, accounting_account, age_min, age_max, staging_label, staging, writer_label, writer, description]
+          Web Content: [web_price, web_price_group, image_url, extradesc, extraspec]
+          <?php if ( sfConfig::get('app_ticketting_dematerialized',false) ): ?>Checkpoints: [_form_checkpoints]<?php endif; echo PHP_EOL; ?>
+      new:
+        display:
+          General:   [name, short_name, meta_event_id, event_category_id, event_category_description, companies_list]
+          Details:   [duration, display_by_default, accounting_account, age_min, age_max, staging_label, staging, writer_label, writer, description]
+          Manifestations: [Manifestations]
+          Web Content: [web_price, web_price_group, image_url, extradesc, extraspec]
+      show:
+        display:
+          General:   [name, short_name, _show_meta_event, _show_event_category, event_category_description, _show_companies_list]
+          Details:   [_show_duration, _show_display_by_default, age_min_h_r, age_max_h_r, staging_label, staging, writer_label, writer, _show_description]
+          Web Content: [_show_extradesc, _show_extraspec, web_price, web_price_group, _show_image_url]
+          Checkpoints: [_show_checkpoints]

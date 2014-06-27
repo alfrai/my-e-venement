@@ -1,0 +1,30 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           order
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          order
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        sf_guard_user_id: { label: User }
+        cancel: { label: Del. }
+        event_name: { label: Name }
+        manifestation_happens_at: { label: Date }
+      list:
+        display: [_id,_transaction_id,_cancel,_contact,_manifestations,created_at,User]
+        table_method: doSelectIndex
+      filter:
+        display:
+          Transaction: [transaction_id, created_at, contact_id, organism_id, sf_guard_user_id]
+          Manifestation: [event_name, manifestation_happens_at]
+      form:    ~
+      edit:    ~
+      new:     ~
