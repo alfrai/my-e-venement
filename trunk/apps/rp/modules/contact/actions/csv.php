@@ -128,6 +128,7 @@
       'tunnel'    => in_array('tunnel',$params['option']),       // tunnel effect on fields to prefer organism fields when they exist
       'noheader'  => in_array('noheader',$params['option']),     // no header
       'fields'    => $params['field'],
+      'class'     => 'Contact',
     );
     
     $this->outstream = 'php://output';

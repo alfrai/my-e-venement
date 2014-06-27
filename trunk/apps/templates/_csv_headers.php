@@ -45,7 +45,6 @@
     'professional_email'  => __('Professional email'),
     'professional_type_name' => __('Type of function'),
     'professional_name'   => __('Function'),
-    'professional_important' => __('Close contact'),
     '__Professionals__events' => __('Events'),
     'organism_address'    => __('Address'),
     'organism_postalcode' => __('Postalcode'),
@@ -61,6 +60,16 @@
     '__Professionals__Organism__Groups__name'  => __("Organism's groups"),
     'information'         => __('Informations'),
   );
+  
+  // for organisms' close contact
+  $fields['professional_important'] = __('Close contact');
+  $fields['cc_title']     = __('Title');
+  $fields['cc_name']      = __('Name');
+  $fields['cc_firstname'] = __('Firstname');
+  $fields['cc_type']      = __('Type');
+  $fields['cc_function']    = __('Function');
+  $fields['cc_phonenumber'] = __('Phonenumber');
+  $fields['cc_email']     = __('Email');
   
   $line = array();
   if ( !$options['noheader'] )

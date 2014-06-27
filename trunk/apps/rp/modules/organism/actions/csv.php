@@ -26,7 +26,11 @@
     $q = $this->buildQuery();
     $a = $q->getRootAlias();
     $q->select("$a.name AS organism_name, $a.address AS organism_address, $a.postalcode AS organism_postalcode, $a.city AS organism_city, $a.country AS organism_city, $a.country AS organism_country, $a.email AS organism_email, $a.url AS organism_url, $a.npai AS organism_npai, $a.description AS organism_description")
+      ->leftJoin("$a.CloseContact cc")
+      ->leftJoin('cc.Contact ccc')
+      ->leftJoin('cc.ProfessionalType cct')
       ->addSelect("oc.name AS organism_category")
+      ->addSelect('ccc.title AS cc_title, ccc.name AS cc_name, ccc.firstname AS cc_firstname, cct.name AS cc_type, cc.name AS cc_function, cc.contact_number AS cc_phonenumber, cc.contact_email AS cc_email')
       ->addSelect("(SELECT tmp3.name   FROM OrganismPhonenumber tmp3 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonename")
       ->addSelect("(SELECT tmp4.number FROM OrganismPhonenumber tmp4 WHERE organism_id = $a.id ORDER BY updated_at LIMIT 1) AS organism_phonenumber");
     
@@ -37,13 +41,25 @@
     $this->lines = $q->fetchArray();
     
     $params = OptionCsvForm::getDBOptions();
+    if ( in_array('professional_important', $params['field']) )
+    {
+      unset($params['field'][$s=array_search('professional_important', $params['field'])]);
+      $params['field'][] = 'cc_title';
+      $params['field'][] = 'cc_name';
+      $params['field'][] = 'cc_firstname';
+      $params['field'][] = 'cc_type';
+      $params['field'][] = 'cc_function';
+      $params['field'][] = 'cc_phonenumber';
+      $params['field'][] = 'cc_email';
+    }
     foreach ( $params['field'] AS $key => $name )
-    if ( substr($name,0,9) != 'organism_' )
+    if ( substr($name,0,9) != 'organism_' && substr($name,0,3) != 'cc_' )
       unset($params['field'][$key]);
     $this->options = array(
       'ms'        => in_array('microsoft',$params['option']),    // microsoft-compatible extraction
       'noheader'  => in_array('noheader',$params['option']),     // no header
       'fields'    => $params['field'],
+      'class'     => 'Organism',
     );
     
     $this->outstream = 'php://output';
