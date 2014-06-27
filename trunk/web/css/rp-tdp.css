@@ -266,6 +266,7 @@ body #content { width: auto; }
 #tdp-side-bar.add-to #tdp-side-groups li { padding-left: 21px; line-height: 20px; }
 #tdp-side-bar.add-to #tdp-side-groups h2 { margin-bottom: 2px; }
 #tdp-side-bar.add-to #tdp-side-groups label { cursor: pointer; }
+#tdp-side-bar.add-to #tdp-side-groups li:hover { background: url('images/ui-bg_glass_75_d0e5f5_1x400.png') repeat-x scroll 50% 50% #D0E5F5; }
 
 #tdp-side-bar .tdp-object-groups .new { margin-bottom: 5px; }
 #tdp-side-bar .tdp-object-groups .tmp { font-style: italic; }
