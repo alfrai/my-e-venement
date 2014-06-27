@@ -10,7 +10,6 @@
         $(this).find('option:selected').remove();
       }
     });
-    
     LI.autoAddFamilies();
     
     // the autocompleter & the manifestation's selector
@@ -108,15 +107,17 @@ LI.autoAddFamilies = function(form){
   $(location.hash.split('#')).each(function(key, value){
     if ( !value )
       return;
-    type = value.replace(/-\d+$/,'');
-    id = value.replace(/^\w+-/,'');
+    var type = value.replace(/-\d+(,\d+)*$/,'');
+    var id = value.replace(/^\w+-/,'');
 
     switch ( type ) {
     case 'manifestations':
       $('#li_transaction_manifestations .new-family [name="manifestation_id[]"] *').remove();
-      $('#li_transaction_manifestations .new-family [name="manifestation_id[]"]')
-        .append($('<option>'+id+'</option>').val(id).prop('selected',true))
-        .focusout();
+      $(id.split(',')).each(function(i, v){
+        $('#li_transaction_manifestations .new-family [name="manifestation_id[]"]')
+          .append($('<option>'+id+'</option>').val(v).prop('selected',true));
+      });
+      $('#li_transaction_manifestations .new-family [name="manifestation_id[]"]').focusout();
       break;
     }
   });
