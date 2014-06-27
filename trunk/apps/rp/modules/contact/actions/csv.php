@@ -34,7 +34,7 @@
       ->leftJoin('o.Category oc')
       ->addSelect("oc.name AS organism_category, o.name AS organism_name")
       ->addSelect('p.department AS professional_department, p.contact_number AS professional_number, p.contact_email AS professional_email')
-      ->addSelect('pt.name AS professional_type_name, p.name AS professional_name')
+      ->addSelect('pt.name AS professional_type_name, p.name AS professional_name, (p.id = o.professional_id) AS professional_important')
       ->addSelect("o.address AS organism_address, o.postalcode AS organism_postalcode, o.city AS organism_city, o.country AS organism_country, o.email AS organism_email, o.url AS organism_url, o.npai AS organism_npai, o.description AS organism_description")
       ->orderBy("$a.name, $a.firstname");
     

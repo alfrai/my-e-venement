@@ -81,6 +81,17 @@ class ContactFormFilter extends BaseContactFormFilter
       'required' => false,
       'multiple' => true,
     ));
+    // organism's prefered contact
+    $this->widgetSchema   ['organism_professional_id'] = new sfWidgetFormChoice(array(
+      'choices' => $arr = array(
+        '' => '',
+        1  => 'yes',
+      ),
+    ));
+    $this->validatorSchema['organism_professional_id'] = new sfValidatorChoice(array(
+      'choices' => array_keys($arr),
+      'required' => false,
+    ));
     
     $this->widgetSchema   ['not_groups_list'] = $this->widgetSchema   ['groups_list'];
     $this->validatorSchema['not_groups_list'] = $this->validatorSchema['groups_list'];
@@ -274,6 +285,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['not_professionals_list'] = 'NotProfessionalsList';
     $fields['organism_id']          = 'OrganismId';
     $fields['organism_category_id'] = 'OrganismCategoryId';
+    $fields['organism_professional_id'] = 'OrganismProfessionalId';
     $fields['professional_type_id'] = 'ProfessionalTypeId';
     $fields['has_email']            = 'HasEmail';
     $fields['email_newsletter']     = 'EmailNewsletter';
@@ -668,6 +680,16 @@ class ContactFormFilter extends BaseContactFormFilter
     {
       $this->setProfessionalData(true);
       $q->andWhereIn("pt.id",$value);
+    }
+    return $q;
+  }
+  public function addOrganismProfessionalIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    if ( $value )
+    {
+      $this->setProfessionalData(true);
+      $q->andWhere("o.professional_id = p.id");
     }
     return $q;
   }

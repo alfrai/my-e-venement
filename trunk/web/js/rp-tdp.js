@@ -94,6 +94,24 @@ $(document).ready(function(){
       .removeClass('tdp-highlight');
   });
   
+  $('#tdp-content .tdp-object .tdp-professional_id').hide();
+  $('#tdp-content .tdp-object .tdp-professional_id [name="organism[professional_id]"]').each(function(){
+    var orig = $(this);
+    var copy = $(this).clone(true)
+      .prop('name', 'close-contact')
+      .click(function(){
+        if ( orig.prop('checked') )
+          $(this).prop('checked', false);
+        orig.prop('checked', $(this).prop('checked'));
+        $('#tdp-content [name=close-contact]').prop('checked', false);
+        $(this).prop('checked', orig.prop('checked'));
+      })
+      .appendTo(
+        $('#tdp-content .tdp-subobject [name="professional[id]"][value='+$(this).val()+']')
+          .closest('.tdp-subobject').find('h1')
+      );
+  });
+  
   // CONTENT: MULTIPLE PROFESSIONALS
   $('#tdp-content .sf_admin_row').each(function(){
     $(this).prop('title', $.trim($(this).find('.sf_admin_list_td_description').html()));

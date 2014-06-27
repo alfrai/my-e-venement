@@ -39,6 +39,10 @@ class OrganismForm extends BaseOrganismForm
     ));
     
     $this->widgetSchema['organism_category_id']->setOption('order_by',array('name',''));
+    $this->widgetSchema['professional_id']
+      ->setOption('query', Doctrine::getTable('Professional')->createQuery('p')->andWhere('o.id = ?', $this->object->id))
+      ->setOption('order_by',array('c.name, c.firstname',''))
+      ->setOption('expanded', true);
     
     // adding artificial mandatory fields
     if ( is_array($force = sfConfig::get('app_options_force_fields', array())) )

@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Close contact</source>
+        <target>Contact privilégié</target>
+      </trans-unit>
+      <trans-unit>
         <source>Show up</source>
         <target>Afficher</target>
       </trans-unit>
@@ -195,6 +199,10 @@
       <trans-unit>
         <source>Professional groups</source>
         <target>Groupes professionels</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Close contact / Important organism</source>
+        <target>Contact privilégié / Organisme important</target>
       </trans-unit>
       <trans-unit>
         <source>Organism's groups</source>

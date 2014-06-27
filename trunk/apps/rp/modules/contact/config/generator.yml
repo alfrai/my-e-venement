@@ -55,6 +55,7 @@ generator:
         email_no_newsletter: { label: No newsletter }
         email_newsletter: { label: Newsletter ? }
         organism_category_id: { credentials: [pr-organism] }
+        organism_professional_id: { label: Close contact }
         groups_picto: { credentials: [pr-group], label: Remarkable }
         list_professional_groups_picto: { credentials: [pr-group], label: Remarkable }
         professional_groups_picto: { credentials: [pr-group], label: Remarkable }
@@ -87,7 +88,7 @@ generator:
           <?php if ( sfConfig::get('app_options_social_informations', false) ): echo PHP_EOL; ?>
           Social informations: [familial_quotient_id, familial_situation_id, type_of_resources_id]
           <?php endif ?><?php echo PHP_EOL ?>
-          Relations: [groups_list, not_groups_list, organism_id, organism_category_id, professional_type_id]
+          Relations: [groups_list, not_groups_list, organism_id, organism_category_id, professional_type_id, organism_professional_id]
           <?php if ( sfConfig::get('app_cards_enable',false) ): ?><?php echo PHP_EOL ?>
           Member cards: [member_cards, member_cards_valid_at, member_cards_not_valid_at]
           <?php endif ?><?php echo PHP_EOL ?>

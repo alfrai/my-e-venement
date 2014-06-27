@@ -65,6 +65,7 @@ class OptionCsvForm extends BaseOptionCsvForm
         'professional_name' => 'Professional',
         'professional_department' => 'Department',
         '__Professionals__Groups__name' => 'Professional groups',
+        'professional_important' => 'Close contact / Important organism',
       ),
       'extra' => array(
         'information' => 'More informations',
@@ -116,6 +117,7 @@ class OptionCsvForm extends BaseOptionCsvForm
 	    'professional_type_name' => 'Type of function',
   	  'professional_name'   => 'Function',
   	  '__Professionals__Groups__name' => "Professionals groups",
+  	  'professional_important' => 'Close contact / Important organism',
     	'organism_address'    => 'Address',
 	    'organism_postalcode' => 'Postalcode',
   	  'organism_city'       => 'City',

@@ -47,7 +47,7 @@ all:
           More:
             show_labels: true
             extra_class: tdp-vertical
-            fields: [administrative_number, npai]
+            fields: [administrative_number, npai, professional_id]
           Correspondence:
             show_title: true
             fields: [description]

@@ -16,3 +16,5 @@
 .sf_admin_list .sf_admin_list_td_city,
 .sf_admin_list .sf_admin_list_td_list_email,
 .sf_admin_list .sf_admin_list_td_Category { font-size: 80%; }
+
+.sf_admin_list_td_contacts_list .important { font-weight: bold; }

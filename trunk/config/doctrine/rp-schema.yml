@@ -116,10 +116,14 @@ Organism:
     description: string
     organism_category_id: integer
     administrative_number: string(255)
+    professional_id: integer
   relations:
     Category:
       class: OrganismCategory
       foreignAlias: Organisms
+    CloseContact:
+      class: Professional
+      foreignAlias: ImportantOrganism
 
 ContactPhonenumber:
   package: rp
