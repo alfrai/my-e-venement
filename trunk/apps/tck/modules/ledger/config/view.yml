@@ -6,12 +6,12 @@ extractCash:
   has_layout: false
   http_metas:
     content-type: text/comma-separated-values
-    content-disposition: attachment; filename=ledger.csv
+    content-disposition: attachment; filename=cash.csv
 extractSales:
   has_layout: false
   http_metas:
     content-type: text/comma-separated-values
-    content-disposition: attachment; filename=ledger.csv
+    content-disposition: attachment; filename=sales.csv
 extractLineal:
   has_layout: false
   http_metas:            

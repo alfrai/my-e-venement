@@ -42,7 +42,7 @@
     sfConfig::set('sf_escaping_strategy', false);
     $confcsv = sfConfig::get('software_internals_csv'); if ( isset($confcsv['set_charset']) && $confcsv['set_charset'] ) sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
     
-    if ( $this->getContext()->getConfiguration()->getEnvironment() == 'dev' )
+    if ( $this->getContext()->getConfiguration()->getEnvironment() == 'dev' && $request->hasParameter('debug') )
     {
       $this->getResponse()->sendHttpHeaders();
       $this->setLayout('layout');
@@ -53,6 +53,61 @@
     switch ( $request->getParameter('type','cash') ) {
     case 'sales':
       $this->executeSales($request);
+      $this->lines = array();
+      $this->options['fields'] = array(
+        'event', 'manifestation', 'location',
+        'price', 'qty',
+        'pit', 'vat', 'tep',
+      );
+      
+      /*
+      $this->lines[] = array(
+        __('Sales ledger'),
+        '('.__('from %%from%% to %%to%%', array('%%from%%' => format_date($dates[0]), '%%to%%' => format_date($dates[1]))).')'
+      );
+      */
+      
+      foreach ( $this->events as $event )
+      foreach ( $event->Manifestations as $manif )
+      if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) )
+      foreach ( $manif->Tickets as $ticket )
+      {
+        if ( !isset($this->lines[$key = 'e'.$event->id.'m'.$manif->id.'p'.$ticket->price_id.($ticket->cancelling ? 'a' : '')]) )
+          $this->lines[$key] = array(
+            'event'         => (string)$event,
+            'manifestation' => (string)$manif,
+            'location'      => (string)$manif->Location,
+            'price'         => (string)$ticket->Price,
+            'qty'           => 0,
+            'pit'           => 0,
+            'vat'           => 0,
+            'tep'           => 0,
+          );
+        $this->lines[$key]['qty'] += $ticket->cancelling ? -1 : 1;
+        $this->lines[$key]['pit'] += $ticket->value;
+        $this->lines[$key]['vat'] += $tmp = round($ticket->value - $ticket->value / (1+$ticket->vat),2);
+        $this->lines[$key]['tep'] += $ticket->value - $tmp;
+      }
+      else
+      {
+        $infos = $manif->getInfosTickets($sf_data->getRaw('options'));
+        if ( !isset($this->lines[$key = 'e'.$event->id.'m'.$manif->id]) )
+          $this->lines[$key] = array(
+            'event'         => (string)$event,
+            'manifestation' => (string)$manif,
+            'location'      => (string)$manif->Location,
+            'price'         => '',
+            'qty'           => $infos[$manif->id]['qty'],
+            'pit'           => $infos[$manif->id]['value'],
+            'vat'           => 0,
+            'tep'           => $infos[$manif->id]['value'],
+          );
+        foreach ( $infos[$manif->id]['vat'] as $rate => $amount )
+        {
+          $this->lines[$key]['vat'] += $tmp = round($amount,2);
+          $this->lines[$key]['tep'] -= $tmp;
+        }
+      }
       return 'Sales';
       break;
     case 'lineal':
