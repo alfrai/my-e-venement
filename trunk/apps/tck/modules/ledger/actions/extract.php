@@ -56,28 +56,22 @@
       $this->lines = array();
       $this->options['fields'] = array(
         'event', 'manifestation', 'location',
-        'price', 'qty',
+        'price', 'user', 'qty',
         'pit', 'vat', 'tep',
       );
-      
-      /*
-      $this->lines[] = array(
-        __('Sales ledger'),
-        '('.__('from %%from%% to %%to%%', array('%%from%%' => format_date($dates[0]), '%%to%%' => format_date($dates[1]))).')'
-      );
-      */
       
       foreach ( $this->events as $event )
       foreach ( $event->Manifestations as $manif )
       if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) )
       foreach ( $manif->Tickets as $ticket )
       {
-        if ( !isset($this->lines[$key = 'e'.$event->id.'m'.$manif->id.'p'.$ticket->price_id.($ticket->cancelling ? 'a' : '')]) )
+        if ( !isset($this->lines[$key = 'e'.$event->id.'m'.$manif->id.'p'.$ticket->price_id.'u'.$ticket->sf_guard_user_id.($ticket->cancelling ? 'a' : '')]) )
           $this->lines[$key] = array(
             'event'         => (string)$event,
             'manifestation' => (string)$manif,
             'location'      => (string)$manif->Location,
             'price'         => (string)$ticket->Price,
+            'user'          => (string)$ticket->User,
             'qty'           => 0,
             'pit'           => 0,
             'vat'           => 0,
@@ -97,6 +91,7 @@
             'manifestation' => (string)$manif,
             'location'      => (string)$manif->Location,
             'price'         => '',
+            'user'          => '',
             'qty'           => $infos[$manif->id]['qty'],
             'pit'           => $infos[$manif->id]['value'],
             'vat'           => 0,

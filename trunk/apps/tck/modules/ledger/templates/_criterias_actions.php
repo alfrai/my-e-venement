@@ -49,11 +49,9 @@
         <option value="<?php echo url_for('ledger/both') ?>">
           <?php echo __('Detailed Ledger',array(),'menu') ?>
         </option>
-        <?php if ( $ledger == 'cash' ): ?>
         <option value="<?php echo url_for('ledger/extract') ?>?type=<?php echo $ledger ?>">
           <?php echo __('Extract (%%format%%)',array('%%format%%' => 'standard, csv')) ?>
         </option>
-        <?php endif ?>
         <option value="<?php echo url_for('ledger/extract') ?>?type=lineal">
           <?php echo __('Extract (%%format%%)',array('%%format%%' => 'Lineal, Sigma')) ?>
         </option>
