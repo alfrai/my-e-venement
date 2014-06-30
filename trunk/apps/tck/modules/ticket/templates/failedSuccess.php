@@ -1,8 +1,17 @@
 <div class="ui-widget-content ui-corner-all failed" id="checkpoint">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1><?php echo __('Checkpoint failed !') ?></h1>
+    <?php if ( count($errors) > 0 ): ?>
+    <?php endif ?>
   </div>
-  <p class="link ui-corner-all"><?php echo link_to(__('Try again...'),'ticket/control') ?></p>
+  <div class="link ui-corner-all">
+    <ul>
+      <?php foreach ( $errors as $e ): ?>
+      <li><?php echo $e ?></li>
+      <?php endforeach ?>
+    </ul>
+    <p><?php echo link_to(__('Try again...'),'ticket/control') ?></p>
+  </div>
   <?php $delays = sfConfig::get('app_control_delays') ?>
   <script type="text/javascript">
     $(document).ready(function(){

@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The ticket #%%id%% has been already control on this checkpoint before (%%datetime%% by %%user%%)</source>
+        <target>Le billet #%%id%% a déjà été contrôlé sur ce point de contrôle (%%datetime%% par %%user%%)</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>The ticket #%%id%% is unfoundable in the list of available tickets</source>
+        <target>Le billet #%%id%% est introuvable dans la liste des billets disponibles</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>It has been impossible to save the control of ticket #%%id%%</source>
+        <target>Il a été impossible d'enregistrer le contrôle du billet #%%id%%</target>
+      </trans-unit> 
+      <trans-unit>
         <source>Please use this new GUI</source>
         <target>Utilisez cette nouvelle interface SVP</target>
       </trans-unit> 

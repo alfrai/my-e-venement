@@ -26,6 +26,7 @@
     $this->form = new ControlForm();
     $this->form->getWidget('checkpoint_id')->setOption('default', $this->getUser()->getAttribute('control.checkpoint_id'));
     $q = Doctrine::getTable('Checkpoint')->createQuery('c');
+    $this->errors = array();
     
     $past = sfConfig::get('app_control_past') ? sfConfig::get('app_control_past') : '6 hours';
     $future = sfConfig::get('app_control_future') ? sfConfig::get('app_control_future') : '1 day';
@@ -105,6 +106,8 @@
         $checkpoint = $q->fetchOne();
         
         $cancontrol = $checkpoint instanceof Checkpoint;
+        if ( !$cancontrol )
+          $this->errors[] = __('The ticket #%%id%% is unfoundable in the list of available tickets', array('%%id%%', $params['ticket_id']));
         if ( $cancontrol && $checkpoint->legal )
         {
           $q = Doctrine::getTable('Control')->createQuery('c')
@@ -113,12 +116,19 @@
             ->leftJoin('e.Manifestations m')
             ->leftJoin('m.Tickets t')
             ->leftJoin('c.Ticket tc')
+            ->leftJoin('c.User u')
             ->andWhereIn('tc.'.$field,$params['ticket_id'])
             ->andWhere("tc.$field = t.$field")
             ->andWhere('c.checkpoint_id = ?',$params['checkpoint_id'])
             ->orderBy('c.id DESC');
           $controls = $q->execute();
           $cancontrol = $controls->count() == 0;
+          if ( !$cancontrol )
+            $this->errors[] = __('The ticket #%%id%% has been already control on this checkpoint before (%%datetime%% by %%user%%)', array(
+              '%%id%%' => $controls[0]->Ticket->id,
+              '%%datetime%%' => $controls[0]->created_at,
+              '%%user%%' => (string)$controls[0]->User,
+            ));
         }
         
         $this->getUser()->setAttribute('control.checkpoint_id',$params['checkpoint_id']);
@@ -146,8 +156,8 @@
             }
             else
             {
-              $ids = $params['ticket_id'];
               $err = array();
+              $ids = $params['ticket_id'];
               foreach ( $ids as $id )
               {
                 $params['ticket_id'] = $id;
@@ -158,7 +168,8 @@
                 else
                   $err[] = $id;
               }
-              $this->errors = $err;
+              foreach ( $err as $e )
+                $this->errors[] = __('It has been impossible to save the control of ticket #%%id%%', array('%%id%%' => $e));
               $this->setTemplate('passed');
             }
           }
