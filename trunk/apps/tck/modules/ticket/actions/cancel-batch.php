@@ -34,7 +34,7 @@
   }
   
   $this->forward404Unless($transaction = Doctrine::getTable('Transaction')->findOneById($tid));
-  if ( $transaction->closed && !$this->getUser()->hasCredential('tck-unblock') )
+  if ( $transaction->closed ) //&& !$this->getUser()->hasCredential('tck-unblock') )
   {
     $this->getUser()->setFlash('error',__("You can not cancel any closed transaction (like the #%%t%%).",array('%%t%%' => $transaction->id)));
     $this->redirect('ticket/cancel');
