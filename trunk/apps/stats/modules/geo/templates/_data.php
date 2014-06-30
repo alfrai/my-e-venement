@@ -22,18 +22,20 @@
 ***********************************************************************************/
 ?>
 <?php
+    use_helper('Number');
     $g = new liGraph;
     
     $pie = new liPie;
     //$pie->set_style('{font-size: 12px; color: #78B9EC;');
     
+    $total = array_sum($sf_data->getRaw('geo'));
     $names = $data = array();
     foreach ( $geo as $name => $value )
-      $data[] = new liPieValue($value, $type != 'postalcodes' ? $value.' '.__($name) : __($name));
+      $data[] = new liPieValue($value, $type != 'postalcodes' ? __($name).' '.format_number(round(($value*100/$total),2)).'%' : __($name));
     $pie->set_values($data);
     
     //To display value as tool tip
-    $pie->set_tooltip( __("#label#: #percent#\nTotal: #total#") );
+    $pie->set_tooltip( __("#label#: ".($type != 'postalcodes' ? '#val#' : '#percent#')."\nTotal: #total#") );
     $g->add_element($pie);
     
     echo $g;

@@ -170,6 +170,7 @@ class geoActions extends sfActions
   {
     $this->type = $type;
     $res = array();
+    $total = 0;
     switch ( $type ) {
     
     case 'postalcodes':
@@ -214,6 +215,7 @@ class geoActions extends sfActions
         if ( !isset($res[$pc['dpt']]) )
           $res[$pc['dpt']] = 0;
         $res[$pc['dpt']] += $count_tickets ? $pc['qty'] : 1;
+        $total += $count_tickets ? $pc['qty'] : 1;
       }
       arsort($res);
       
@@ -265,6 +267,7 @@ class geoActions extends sfActions
         if ( !isset($res[$dpts[trim($pc['dpt'])]]) )
           $res[$dpts[trim($pc['dpt'])]] = 0;
         $res[$dpts[trim($pc['dpt'])]] += $count_tickets ? $pc['qty'] : 1;
+        $total += $count_tickets ? $pc['qty'] : 1;
       }
       $others = 0;
       if ( isset($res['']) )
@@ -303,6 +306,7 @@ class geoActions extends sfActions
         if ( !isset($res[$pc['country']]) )
           $res[$pc['country']] = 0;
         $res[$pc['country']] += $count_tickets ? $pc['qty'] : 1;
+        $total = $count_tickets ? $pc['qty'] : 1;
       }
       $others = 0;
       if ( isset($res['']) )
@@ -341,9 +345,15 @@ class geoActions extends sfActions
       $res['exact'] = 0;
       if ( $count_tickets )
       foreach ( $q->fetchArray() as $c )
+      {
         $res['exact'] += $c['qty'];
+        $total += $c['qty'];
+      }
       else
+      {
         $res['exact'] = $q->count();
+        $total = 1;
+      }
       
       $q = $this->buildQuery()
         ->select('c.id, count(tck.id) AS qty')
@@ -353,9 +363,15 @@ class geoActions extends sfActions
       $res['department'] = -$res['exact'];
       if ( $count_tickets )
       foreach ( $q->fetchArray() as $c )
+      {
         $res['department'] += $c['qty'];
+        $total += $c['qty'];
+      }
       else
+      {
         $res['department'] += $q->count();
+        $total += 1;
+      }
       
       $q = $this->buildQuery()
         ->select('c.id, count(tck.id) AS qty')
@@ -365,9 +381,15 @@ class geoActions extends sfActions
       $res['region'] = -$res['department'] -$res['exact'];
       if ( $count_tickets )
       foreach ( $q->fetchArray() as $c )
+      {
         $res['region'] += $c['qty'];
+        $total += $c['qty'];
+      }
       else
+      {
         $res['region'] += $q->count();
+        $total += 1;
+      }
       
       $q = $this->buildQuery()
         ->select('c.id, count(tck.id) AS qty')
@@ -376,9 +398,15 @@ class geoActions extends sfActions
       $res['country'] = -$res['region'] -$res['department'] -$res['exact'];
       if ( $count_tickets )
       foreach ( $q->fetchArray() as $c )
+      {
         $res['country'] += $c['qty'];
+        $total += $c['qty'];
+      }
       else
+      {
         $res['country'] += $q->count();
+        $total += 1;
+      }
       
       $q = $this->buildQuery()
         ->select('c.id, count(tck.id) AS qty')
@@ -386,9 +414,15 @@ class geoActions extends sfActions
       $res['others'] = -$res['country'] -$res['region'] -$res['department'] -$res['exact'];
       if ( $count_tickets )
       foreach ( $q->fetchArray() as $c )
+      {
         $res['others'] += $c['qty'];
+        $total += $c['qty'];
+      }
       else
+      {
         $res['others'] += $q->count();
+        $total += 1;
+      }
       break;
     }
     
