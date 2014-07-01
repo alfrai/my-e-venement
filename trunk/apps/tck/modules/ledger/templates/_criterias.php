@@ -34,15 +34,14 @@
       <label for="workspaces"><?php echo __('Workspaces') ?>:</label>
       <?php echo $form['workspaces'] ?>
     </li>
-    <?php if ( $ledger == 'both' ): ?>
     <li class="manifestations">
       <label for="manifestations"><?php echo __('Manifestations:') ?></label>
       <?php echo $form['manifestations'] ?>
     </li>
-    <?php endif ?>
     <li class="submit">
       <input type="submit" name="s" value="ok" />
       <?php include_partial('criterias_actions',array('ledger' => $ledger)) ?>
     </li>
   </ul>
+<div style="clear: both"></div>
 </form>

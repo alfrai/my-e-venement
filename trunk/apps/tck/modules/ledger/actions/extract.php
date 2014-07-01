@@ -126,7 +126,7 @@
       foreach ( $method->Payments as $payment )
         $this->lines[] = array(
           'method'          => (string) $method,
-          'value'           => (string) $payment->value,
+          'value'           => (string) $payment->weight_value,
           'reference'       => $method->account,
           'transaction_id'  => '#'.$payment->transaction_id,
           'contact'         => (string)( $payment->Transaction->professional_id ? $payment->Transaction->Professional : $payment->Transaction->Contact ),

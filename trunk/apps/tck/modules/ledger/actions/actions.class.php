@@ -96,7 +96,7 @@ class ledgerActions extends sfActions
       $this->workspaces = $criterias['workspaces'];
     }
 
-    // check if there are too much tickets to display them correctly
+    // check if there are too many tickets to display them correctly
     $test = $q->copy();
     $events = $test->select('e.id, count(DISTINCT tck.id) AS nb_tickets')
       ->groupBy('e.id')
@@ -132,12 +132,40 @@ class ledgerActions extends sfActions
   {
     $criterias = $this->formatCriterias($request);
     $this->dates = $criterias['dates'];
+    $this->not_a_ledger = false;
     
     // redirect to avoid POST re-sending
     if ( $request->getParameter($this->form->getName(),false) )
       $this->redirect('ledger/cash');
     
     $this->methods = $this->buildCashQuery($criterias)->execute();
+    
+    $ratios = array();
+    if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 
+      || isset($criterias['workspaces']) && is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
+    {
+      $this->not_a_ledger = true;
+      foreach ( $this->methods as $method )
+      foreach ( $method->Payments as $key => $payment )
+      {
+        if ( !isset($ratios[$payment->transaction_id]) )
+        {
+          $q = Doctrine_Query::create()->from('Transaction t')
+            ->select('t.id')
+            ->addSelect('(SELECT SUM(tck1.value) FROM Ticket tck1 WHERE (tck1.printed_at IS NOT NULL OR tck1.integrated_at IS NOT NULL OR tck1.cancelling IS NOT NULL) AND tck1.duplicating IS NULL AND tck1.transaction_id = t.id) AS total')
+            ->andWhere('t.id = ?',$payment->transaction_id);
+          if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
+            $q->addSelect('(SELECT SUM(tck2.value) FROM Ticket tck2 WHERE (tck2.printed_at IS NOT NULL OR tck2.integrated_at IS NOT NULL OR tck2.cancelling IS NOT NULL) AND tck2.duplicating IS NULL AND tck2.transaction_id = t.id AND tck2.manifestation_id IN ('.implode(',', $criterias['manifestations']).')) AS subtotal');
+          if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
+            $q->addSelect('(SELECT SUM(tck2.value) FROM Ticket tck2 LEFT JOIN tck2.Gauge tckg WHERE (tck2.printed_at IS NOT NULL OR tck2.integrated_at IS NOT NULL OR tck2.cancelling IS NOT NULL) AND tck2.duplicating IS NULL AND tck2.transaction_id = t.id AND tckg.workspace_id IN ('.implode(',', $criterias['workspaces']).')) AS subtotal');
+          $tr = $q->fetchArray();
+          $ratios[$payment->transaction_id] = floatval($tr[0]['total']) > 0 ? $tr[0]['subtotal']/$tr[0]['total'] : 0;
+        }
+        $payment->ratio = $ratios[$payment->transaction_id];
+        if ( $ratios[$payment->transaction_id] == 0 )
+          unset($method->Payments[$key]);
+      }
+    }
   }
   
   public function executeBoth(sfWebRequest $request)
@@ -210,35 +238,24 @@ class ledgerActions extends sfActions
       ->leftJoin('p.User u')
       ->leftJoin('u.MetaEvents me')
       ->leftJoin('u.Workspaces ws')
-      ->orderBy('m.name, m.id, t.id, p.value, p.created_at');
+      ->orderBy('m.name, m.id, t.id, p.value, p.created_at')
+      ->select('m.*, p.*, t.*, u.*, c.*, pro.*, o.*');
     
-    if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
+    $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
+      $dates[0],
+      $dates[1],
+    ));
+    
+    if ( isset($criterias['payment_limit_with_tck_date']) && $criterias['payment_limit_with_tck_date'] )
     {
-      $q->andWhere('t.id IN (SELECT tck2.transaction_id FROM ticket tck2 WHERE tck2.manifestation_id IN ('.implode(',',$criterias['manifestations']).'))')
-        ->leftJoin('t.Tickets tck')
-        ->andWhere('tck.duplicating IS NULL')
-        ->andWhere('tck.integrated_at IS NOT NULL OR tck.printed_at IS NOT NULL')
-        ->andWhere('tck.cancelling IS NULL')
-        ->andWhere('tck.id NOT IN (SELECT tck3.cancelling FROM ticket tck3 WHERE tck3.cancelling IS NOT NULL)');
-    }
-    else
-    {
-      $q->andWhere('p.created_at >= ? AND p.created_at < ?',array(
+      $q->andWhere('t.id IN (SELECT tck.transaction_id FROM Ticket tck WHERE (tck.cancelling IS NULL AND tck.printed_at >= ? AND tck.printed_at < ?) OR (tck.cancelling IS NULL AND tck.integrated_at >= ? AND tck.integrated_at < ?) OR (tck.cancelling IS NOT NULL AND tck.created_at >= ? AND tck.created_at < ?))',array(
+        $dates[0],
+        $dates[1],
+        $dates[0],
+        $dates[1],
         $dates[0],
         $dates[1],
       ));
-      
-      if ( $criterias['payment_limit_with_tck_date'] )
-      {
-        $q->andWhere('t.id IN (SELECT tck.transaction_id FROM Ticket tck WHERE (tck.cancelling IS NULL AND tck.printed_at >= ? AND tck.printed_at < ?) OR (tck.cancelling IS NULL AND tck.integrated_at >= ? AND tck.integrated_at < ?) OR (tck.cancelling IS NOT NULL AND tck.created_at >= ? AND tck.created_at < ?))',array(
-          $dates[0],
-          $dates[1],
-          $dates[0],
-          $dates[1],
-          $dates[0],
-          $dates[1],
-        ));
-      }
     }
     
     if ( isset($criterias['users']) && is_array($criterias['users']) && isset($criterias['users'][0]) )

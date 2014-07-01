@@ -1040,6 +1040,10 @@
         <source>Sales Ledger</source>
         <target>Livre des ventes</target>
       </trans-unit>
+      <trans-unit>
+        <source>Cash report</source>
+        <target>Rapport de caisse</target>
+      </trans-unit>
       <trans-unit id="67">
         <source>Cash Ledger</source>
         <target>Livre de caisse</target>
