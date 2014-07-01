@@ -5,8 +5,8 @@
   <div class="fg-toolbar ui-widget-header ui-corner-all">
     <h1>
       <?php echo $not_a_ledger
-        ? __('Cash report')
-        : __('Cash Ledger').' (BETA)' ?>
+        ? __('Cash report').' (BETA)'
+        : __('Cash Ledger') ?>
       (<?php echo __('from %%from%% to %%to%%',array('%%from%%' => format_date(strtotime($dates[0])), '%%to%%' => format_date(strtotime($dates[1])))) ?>)
     </h1>
     <a class="fg-button fg-button-icon-left ui-state-default" href="<?php echo url_for('ledger/extract?type=cash') ?>">
