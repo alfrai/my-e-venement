@@ -28,6 +28,13 @@
     // options
     $this->params = OptionLabelsForm::getDBOptions();
     $this->fields = OptionCsvForm::getDBOptions();
+    if ( in_array('professional_important', $this->fields['field']) )
+    {
+      unset($this->fields['field'][array_search('professional_important', $this->fields['field'])]);
+      $this->fields['field'][] = 'cc_title';
+      $this->fields['field'][] = 'cc_name';
+      $this->fields['field'][] = 'cc_firstname';
+    }
     $tunnel = true; //in_array('tunnel',$this->fields['option']);
     $this->fields = $this->fields['field'];
     

@@ -26,6 +26,11 @@
 <?php foreach ( $labels as $page ): ?>
 <div class="page <?php $i--; echo $i == 0 ? 'last-child' : ''; ?>"><div class="labels table">
 <?php foreach ( $page as $line ): ?><div class="row"><?php foreach ( $line as $key => $cell ): ?><div class="cell"><div class="content">
+    <?php if ( $cell['cc_name'] ): ?><p class="closecontact">
+      <span class="title"><?php echo $cell['cc_title'] ?></span>
+      <span class="name"><?php echo $cell['cc_name'] ?></span>
+      <span class="firstname"><?php echo $cell['cc_firstname'] ?></span>
+    </p><?php endif ?>
     <p class="org"><span class="nom"><?php echo $cell['organism_name'] ?></span></p>
     <p class="adresse"><?php echo nl2br($cell['organism_address']) ?></p>
     <p class="ville"><span class="cp"><?php echo $cell['organism_postalcode'] ?></span> <span class="ville"><?php echo $cell['organism_city'] ?></span></p>
