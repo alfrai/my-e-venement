@@ -988,6 +988,10 @@
         <source>Description</source>
         <target></target>
       </trans-unit>
+      <trans-unit>
+        <source>With the same selection</source>
+        <target>Avec la même sélection</target>
+      </trans-unit>
       <trans-unit id="54">
         <source>New transaction</source>
         <target>Nouvelle opération</target>
