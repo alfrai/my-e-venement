@@ -42,6 +42,7 @@ all:
       #event_name_right: 20
     #logo: /private/logo-xxx.png
     authorize_grouped_tickets: false
+    spectator_display_all: false
   control:
     future: 6 hours
     past:   1 day

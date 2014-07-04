@@ -43,7 +43,10 @@
       break;
     }
     ?></p>
-    <p class="spectator"><?php echo $ticket->Transaction->professional_id > 0 ? $ticket->Transaction->Professional->Organism : $ticket->Transaction->Contact ?></p>
+    <p class="spectator"><?php if ( sfConfig::get('app_tickets_spectator_display_all', false) ): ?>
+             <span class="organism"><?php echo $ticket->Transaction->Professional->Organism ?></span>
+             <span class="contact"><?php echo $ticket->Transaction->Contact ?></span>
+         <?php else: ?><?php echo $ticket->Transaction->professional_id > 0 ? $ticket->Transaction->Professional->Organism : $ticket->Transaction->Contact ?><?php endif ?></p>
     <p class="mentions">
       <span class="optional"><?php $mentions = sfConfig::get('app_tickets_mentions'); echo nl2br($mentions['optional']) ?></span>
       <?php if ( $ticket->cancelling ): ?>
