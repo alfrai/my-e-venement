@@ -120,6 +120,7 @@
           'extraspec' => $event->extraspec,
           'ages' => array($event->age_min, $event->age_max),
           'manifid' => $g->id,
+          'limit_per_transaction' => $manif->online_limit_per_transaction,
           'date' => $manif->happens_at,
           'jauge' => $g->value,
           'space' => $g->Workspace->on_ticket ? (string)$g : '',
