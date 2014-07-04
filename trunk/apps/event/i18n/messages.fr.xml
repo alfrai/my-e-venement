@@ -749,6 +749,10 @@
         <target>Limite vente en ligne</target>
       </trans-unit>
       <trans-unit>
+        <source>Online limit per transaction</source>
+        <target>Limite vente en ligne par transaction</target>
+      </trans-unit>
+      <trans-unit>
         <source>[0]|[1]%y% year|(1,+Inf]%y% years old</source>
         <target>[0]|[1]%y% an|(1,+Inf]%y% ans</target>
       </trans-unit>
