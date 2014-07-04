@@ -70,6 +70,7 @@
         $this->content['events'][$event->id] = array(
           'id'        => $event->id,
           'name'      => $event->name.(!is_null($manif->depends_on) ? ' + '.$manif->DependsOn->Event->name : ''),
+          'short_name'=> $event->short_name,
           'extradesc' => $event->extradesc,
           'extraspec' => $event->extraspec,
           'ages'      => array($event->age_min, $event->age_max),
