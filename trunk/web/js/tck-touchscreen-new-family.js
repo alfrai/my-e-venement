@@ -115,7 +115,7 @@ LI.autoAddFamilies = function(form){
       $('#li_transaction_manifestations .new-family [name="manifestation_id[]"] *').remove();
       $(id.split(',')).each(function(i, v){
         $('#li_transaction_manifestations .new-family [name="manifestation_id[]"]')
-          .append($('<option>'+id+'</option>').val(v).prop('selected',true));
+          .append($('<option>'+v+'</option>').val(v).prop('selected',true));
       });
       $('#li_transaction_manifestations .new-family [name="manifestation_id[]"]').focusout();
       break;
