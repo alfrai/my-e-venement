@@ -135,6 +135,8 @@ $(document).ready(function(){
     },
   });
   
+  if ( typeof LI === "undefined" )
+    LI = {};
   
   LI.addCalendarBars = function()
   {

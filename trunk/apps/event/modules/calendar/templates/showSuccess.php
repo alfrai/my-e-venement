@@ -1,5 +1,4 @@
 <?php use_javascript('jquery','first') ?>
-<?php use_javascript('calendar') ?>
 <?php include_partial('global/assets') ?>
 
 <div class="ui-widget">

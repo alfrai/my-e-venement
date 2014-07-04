@@ -27,6 +27,13 @@ class eventActions extends autoEventActions
     }
   }
   
+  public function executeOnlyFilters(sfWebRequest $request)
+  {
+    parent::executeIndex($request);
+    $a = $this->pager->getQuery()->getRootAlias();
+    $this->pager->getQuery()->select("$a.id");
+  }
+  
   public function executeSearch(sfWebRequest $request)
   {
     self::executeIndex($request);

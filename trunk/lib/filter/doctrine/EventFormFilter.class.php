@@ -12,9 +12,10 @@ class EventFormFilter extends BaseEventFormFilter
 {
   public function configure()
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink'));
     $this->widgetSchema['companies_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Organism',
-      'url'   => 'organism/ajax',
+      'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
     
     $this->widgetSchema   ['meta_event_id']->setOption('multiple',true);

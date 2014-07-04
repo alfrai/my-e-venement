@@ -26,3 +26,6 @@ calendarSuccess:
   http_metas:
     content-type: text/ical
     content-disposition: attachment; filename=calendar.ics
+
+onlyFiltersSuccess:
+  layout: nude
