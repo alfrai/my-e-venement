@@ -65,8 +65,6 @@ table tbody a:hover { text-decoration: underline; }
 #criterias input[type=text][size="4"] { width: 44px; }
 #criterias select { width: 220px; }
 
-#cash-ledger .workspaces { display: none; }
-
 #ledger .user { white-space: nowrap; max-width: 70px; overflow: hidden; }
 
 .ui-widget-header a { float: right; margin-top: -2em; }

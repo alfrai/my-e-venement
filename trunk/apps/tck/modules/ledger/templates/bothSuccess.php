@@ -1,6 +1,6 @@
 <?php include_partial('assets') ?>
 <?php include_partial('global/flashes') ?>
-<?php use_stylesheet('ledger-both','',array('media' => 'all')) ?>
+<?php use_stylesheet('tck-ledger-both','',array('media' => 'all')) ?>
 
 <div><div class="ui-widget-content ui-corner-all">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
