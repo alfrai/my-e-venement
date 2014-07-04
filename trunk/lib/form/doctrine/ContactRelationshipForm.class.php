@@ -20,12 +20,6 @@ class ContactRelationshipForm extends BaseContactRelationshipForm
     $this->widgetSchema['from_contact_id'] = new sfWidgetFormInputHidden;
     $this->widgetSchema['contact_relationship_type_id']->setLabel('Relationship');
     
-    if ( !$this->object->isNew() )
-    {
-      $this->defaults['url'] = $this->object->url;
-      $this->widgetSchema   ['url'] = new sfWidgetFormInputHidden;
-      $this->validatorSchema['url'] = new sfValidatorString(array('required' => false));
-    }
     $fields = array('to_contact_id', 'contact_relationship_type_id',);
     $this->useFields($fields);
   }
