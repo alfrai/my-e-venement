@@ -25,6 +25,19 @@ class EventFormFilter extends BaseEventFormFilter
     $this->widgetSchema   ['meta_event_id']->setOption('add_empty',false);
     $this->widgetSchema   ['meta_event_id']->setOption('order_by',array('name',''));
     $this->validatorSchema['meta_event_id']->setOption('multiple',true);
+    $this->widgetSchema   ['workspaces_list'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Workspace',
+      'query' => $q = Doctrine::getTable('Workspace')->createQuery('ws')
+        ->andWhereIn('ws.id', array_keys(sfContext::getInstance()->getUser()->getWorkspacesCredentials())),
+      'multiple' => true,
+      'order_by' => array('name',''),
+    ));
+    $this->validatorSchema['workspaces_list'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Workspace',
+      'query' => $q,
+      'required' => false,
+      'multiple' => true,
+    ));
     
     $this->widgetSchema['event_category_id']->setOption('order_by',array('name',''));
     
@@ -69,15 +82,12 @@ class EventFormFilter extends BaseEventFormFilter
     );
   }
   
-  /*
   public function getFields()
   {
     return array_merge(parent::getFields(),array(
-      'manif_confirmed' => 'TranslatedBoolean',
-      'manif_blocking'  => 'TranslatedBoolean',
+      'workspaces_list' => 'WorkspacesList',
     ));
   }
-  */
   protected function getTranslatedFields($fieldName = NULL)
   {
     $fields = array(
@@ -113,6 +123,18 @@ class EventFormFilter extends BaseEventFormFilter
         ->andWhere('m.location_id = ?', intval($value))
         ->orWhere('b.id = ?', intval($value))
         ->andWhere('TRUE)');
+    return $q;
+  }
+  public function addWorkspacesListColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    if ( !$q->contains("LEFT JOIN $a.Manifestations m") )
+      $q->leftJoin("$a.Manifestations m");
+    if ( !$q->contains("LEFT JOIN m.Gauges g") )
+      $q->leftJoin("m.Gauges g");
+    
+    if ( $value )
+      return $q->andWhereIn('g.workspace_id', $value);
     return $q;
   }
   public function addContactIdColumnQuery(Doctrine_Query $q, $field, $value)
