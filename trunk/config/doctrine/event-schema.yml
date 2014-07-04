@@ -298,6 +298,7 @@ Manifestation:
       type: integer
       default: 10
       notnull: true
+    online_limit_per_transaction: integer
     no_print:
       type: boolean
       default: false
