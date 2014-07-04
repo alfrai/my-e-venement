@@ -18,6 +18,9 @@
     // limitting the max quantity, especially for prices linked to member cards
     $vel = sfConfig::get('app_tickets_vel');
     $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
+    if ( $gauge->Manifestation->online_limit_per_transaction && $gauge->Manifestation->online_limit_per_transaction < $vel['max_per_manifestation'] )
+      $vel['max_per_manifestation'] = $gauge->Manifestation->online_limit_per_transaction;
+      
     $max = $gauge->value - $gauge->printed - $gauge->ordered - $gauge->Manifestation->online_limit - (sfConfig::get('project_tickets_count_demands',false) ? $gauge->asked : 0);
     $max = $max > $vel['max_per_manifestation'] ? $vel['max_per_manifestation'] : $max;
     if ( $pm->Price->member_card_linked )
