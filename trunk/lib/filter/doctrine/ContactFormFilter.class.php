@@ -672,6 +672,17 @@ class ContactFormFilter extends BaseContactFormFilter
     else
       return $q->addWhere("$a.email_no_newsletter = TRUE AND p.contact_email_no_newsletter = TRUE");
   }
+  public function addNpaiColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( $value === '' )
+      return $q;
+    
+    $a = $q->getRootAlias();
+    return $q->andWhere("$a.npai = ? AND (o.npai = ? OR o.id IS NULL)", array(
+      $value ? true : false,
+      $value ? true : false,
+    ));
+  }
   public function addEmailColumnQuery(Doctrine_Query $q, $field, $values)
   {
     $a = $q->getRootAlias();
