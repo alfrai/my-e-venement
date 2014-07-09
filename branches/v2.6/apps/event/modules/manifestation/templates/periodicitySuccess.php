@@ -14,7 +14,11 @@
   <?php echo $form->renderFormTag(url_for('manifestation/periodicity')) ?>
     <?php include_partial('periodicity_behaviour') ?>
     <?php include_partial('periodicity_repeat') ?>
-    <?php include_partial('periodicity_reservation_mods', array('manifestation' => $manifestation,)) ?>
+    <?php $config = sfConfig::get('app_manifestation_reservations', array('enable' => false)); if ( isset($config['enable']) && $config['enable'] ): ?>
+      <?php include_partial('periodicity_reservation_mods', array('manifestation' => $manifestation,)) ?>
+    <?php else: ?>
+      <?php include_partial('periodicity_reservation_mods_hidden', array('manifestation' => $manifestation,)) ?>
+    <?php endif ?>
     <?php include_partial('periodicity_submit',array('form' => $form, 'manifestation' => $manifestation,)) ?>
   </form>
 </div>
