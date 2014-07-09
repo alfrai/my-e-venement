@@ -42,30 +42,142 @@ EOF;
   protected function execute($arguments = array(), $options = array())
   {
     $databaseManager = new sfDatabaseManager($this->configuration);
+    $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     
-    $data = <<<EOF
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:Zimbra-Calendar-Provider
-BEGIN:VEVENT
-UID:696c51bc-4d0d-4683-8fd9-b755559b4499
-SUMMARY:Absent (bout du monde)
-ORGANIZER;CN=Baptiste SIMON - Netacces:mailto:baptiste@netacces.biz
-DTSTART;VALUE=DATE:20130802
-DTEND;VALUE=DATE:20130806
-STATUS:CONFIRMED
-CLASS:PUBLIC
-X-MICROSOFT-CDO-ALLDAYEVENT:TRUE
-TRANSP:OPAQUE
-LAST-MODIFIED:20130401T153127Z
-DTSTAMP:20130401T153127Z
-SEQUENCE:0
-END:VEVENT
-END:VCALENDAR
-EOF;
-    $ical = Sabre\VObject\Reader::read($data);
-    foreach ( $ical->VEVENT as $event );
-      echo $event->TRANSP;
-    echo "\n";
+    $q = 'SELECT * FROM tmp';
+    $stmt = $pdo->prepare($q);
+    $stmt->execute();
+    $rows = $stmt->fetchAll();
+    
+    $orgs = array();
+    
+    foreach ( $groups = array(
+      'amis' => '1003 AMIS',
+      'pro'  => '1001 PRO',
+      'cdn'  => 'CDN',
+      'scenenationale' => 'SCENE NATIONALE',
+      'theatrenational' => 'THEATRE NATIONAL',
+      'sceneconventionnee' => 'SCENE CONVENTIONNEE',
+      'scenedediffusion' => 'SCENE DE DIFFUSION',
+      'festival' => 'FESTIVAL',
+      'comcom' => 'COM COM',
+      'compagnieregionale' => 'COMPAGNIE REGIONALE',
+      'danse' => 'DANSE',
+      'international' => '1002 INTERNATIONAL',
+    ) as $tmp => $grp )
+    {
+      if ( $group = Doctrine_Query::create()->from('Group g')
+        ->andWhere('g.name = ?', $grp)
+        ->fetchOne() );
+      else
+      {
+        $group = new Group;
+        $group->name = $grp;
+        $group->save();
+      }
+      $groups[$tmp] = $group;
+    }
+    
+    foreach ( $rows as $c )
+    if ( !$c['nom'] && !$c['prenom'] )
+    {
+      echo 'ERROR: '.$c['num'];
+      error_log('ERROR: '.$c['num']);
+    }
+    else
+    {
+      if ( !$c['nom'] )
+      {
+        $c['nom'] = $c['prenom'];
+        $c['prenom'] = null;
+      }
+      echo $c['num'].' - '.$c['nom'].' '.$c['prenom'];
+      echo "\n";
+      
+      $contact = new Contact;
+      $contact->description = $c['num'];
+      $contact->title       = $c['titre'];
+      $contact->firstname   = $c['prenom'];
+      $contact->name        = $c['nom'];
+      $contact->address     = $c['adresse'];
+      $contact->postalcode  = $c['codepostal'];
+      $contact->city        = $c['ville'];
+      $contact->country     = $c['pays'] ? $c['pays'] : 'France';
+      $contact->email       = $c['couriel'];
+      
+      // phonenumbers
+      if ( $c['telephonefixe'] )
+      {
+        $pn = new ContactPhonenumber;
+        $pn->name = 'Fixe personnel';
+        $pn->number = $c['telephonefixe'];
+        $contact->Phonenumbers[] = $pn;
+      }
+      if ( $c['telephoneportable'] )
+      {
+        $pn = new ContactPhonenumber;
+        $pn->name = 'Portable personnel';
+        $pn->number = $c['telephoneportable'];
+        $contact->Phonenumbers[] = $pn;
+      }
+      
+      // professional
+      if ( $c['organisme'] )
+      {
+        if ( !isset($orgs[$c['orgville'].'--'.$c['organisme']]) )
+        {
+          $o = new Organism;
+          $o->name = $c['organisme'];
+          $o->city = $c['orgville'];
+          $o->address = $c['orgadresse'];
+          $o->postalcode = $c['orgcp'];
+          $o->country = $c['pays'] && $c['pays'] != 'FR' ? $c['pays'] : 'France';
+          
+          // professional phonenumbers
+          if ( $c['numeroadmin'] )
+          {
+            $pn = new OrganismPhonenumber;
+            $pn->number = $c['numeroadmin'];
+            $pn->name = 'Standard';
+            $o->Phonenumbers[] = $pn;
+          }
+          if ( $c['fixeprof'] && $c['portableprof'] )
+          {
+            $pn = new OrganismPhonenumber;
+            $pn->number = $c['fixeprof'];
+            $pn->name = 'Fixe professionnel '.$c['titre'].' '.$c['nom'].' '.$c['prenom'];
+            $o->Phonenumbers[] = $pn;
+          }
+          if ( $c['fixeprof'] && !$c['portableprof'] )
+          {
+            $contact->Professionals[0]->contact_number = $c['fixeprof'];
+          }
+          if ( $c['portableprof'] )
+            $contact->Professionals[0]->contact_number = $c['portableprof'];
+          
+          $o->url = $c['siteprof'];
+          $o->email = $c['courrielorga'];
+          $o->description = $c['num'];
+          
+          $o->save();
+          $orgs[$o->city.'--'.$o->name] = $o;
+        }
+        $contact->Professionals[0]->Organism = $orgs[$c['orgville'].'--'.$c['organisme']];
+
+        $contact->Professionals[0]->name = $c['fonction'];
+        $contact->Professionals[0]->contact_email = $c['mailprof'];
+      }
+      
+      // groups
+      if ( $c['organisme'] )
+        $obj = $contact->Professionals[0];
+      else
+        $obj = $contact;
+      foreach ( $groups as $name => $group )
+      if ( $c[$name] )
+        $obj->Groups[] = $group;
+      
+      $contact->save();
+    }
   }
 }
