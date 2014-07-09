@@ -16,7 +16,7 @@ $(document).ready(function(){
     elt.find('form').submit(function(){
       $('.sf_admin_actions_form .event_filters #sf_admin_filters_buttons #sf_admin_filter_button').click();
       $.post($(this).prop('action'), $(this).serialize(), function(){
-        $('.sf_admin_actions_form .sf_admin_action_refetch_data').click();
+        $('.sf_admin_actions_form .sf_admin_action_refetch_data a').click();
       });
       return false;
     });
