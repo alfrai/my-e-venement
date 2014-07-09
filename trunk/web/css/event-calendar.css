@@ -10,4 +10,6 @@ h1 { font-size: 22px; }
 #fullcalendar .fc-view-resourceWeek tbody tr:hover td:not(.fc-today),
 #fullcalendar .fc-view-resourceDay tbody tr:hover td { background: rgba(255,237,189,0.5); }
 
-#sf_admin_filter { display: none; position: absolute; background-color: white; z-index: 1000; width: auto; padding-left: 15px; padding-right: 20px; overflow: auto; left: 25%; }
+#sf_admin_filter { display: none; position: absolute; background-color: white; z-index: 1000; width: auto; padding: 0; left: 25%; padding-bottom: 50px; top: 70px; bottom: 0px; }
+#sf_admin_filter form { overflow: auto; max-height: 100%; padding-right: 15px; padding-left: 10px; }
+#sf_admin_filter tfoot { position: absolute; display: block; bottom: 10px; right: 10px; }
