@@ -32,6 +32,7 @@
     * Returns :
     *   - HTTP return code
     *     . 201 if tickets have been well pre-reserved
+    *     . 400 if the payment has already been processed
     *     . 403 if authentication as a valid webservice has failed
     *     . 406 if the input json content doesn't embed the required values or contact is not registered
     *     . 409 if one of the inputed gauge will be overbooked by the current booking
@@ -84,6 +85,12 @@
     if ( $this->getUser()->hasAttribute('transaction_id') )
       $this->getUser()->setAttribute('old_transaction_id',$this->getUser()->getAttribute('transaction_id'));
     $this->getUser()->setAttribute('transaction_id',$transaction->id);
+    
+    if ( $transaction->Payments->count() > 0 )
+    {
+      $this->getResponse()->setStatusCode('400');
+      return sfView::NONE;
+    }
     
     // reinitializing the transaction
     $transaction->Tickets->delete();
