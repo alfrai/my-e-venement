@@ -87,7 +87,7 @@ db="$PGDATABASE"
 [ -z "$db" ] && db=$USER
 
 # recreation and data backup
-dropdb $db && createdb && \
+dropdb $db && createdb $db && \
 echo "GRANT ALL ON DATABASE $db TO $SFUSER" | psql && \
 ./symfony doctrine:build  --all --no-confirmation && \
 cat data/sql/$db-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $db
@@ -104,7 +104,7 @@ echo ""
 # final data modifications
 echo ""
 echo "Creating permissions for seated plans features"
-psql <<EOF
+psql $db <<EOF
 -- seated plan access
 INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('event-seated-plan', 'Ability to manage seated plans', now(), now());
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-seated-plan', 'Permission to see seated plans', now(), now());
@@ -118,7 +118,10 @@ INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('t
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('tck-seat-allocation', 'Permission to allocate a seat', now(), now());
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('event-seats-allocation', 'Permission to display the seats allocation in the event module', now(), now());
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'tck-seated'), NOW(), NOW() FROM sf_guard_permission WHERE name IN ('tck-seat-allocation','event-seated-allocation'));
+EOF
 
+echo "Updating data for geo-stats, credentials, and french departments
+psql $db <<EOF
 -- geographical stats access
 INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('stats-geo', 'Permission to access the geographical statistics', now(), now());
 INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUES ('stats-geo', 'Permission to access the geographical statistics', now(), now());
@@ -131,6 +134,17 @@ INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updat
 -- adding a missing french department
 INSERT INTO geo_fr_department(geo_fr_region_id, num, name, strict_name, slug) (SELECT id, '04', 'Alpes de Haute-Provence', 'ALPES DE HAUTE PROVENCE', 'alpes-de-haute-provence' FROM geo_fr_region WHERE slug = 'provence-alpes-cote-dazur');
 EOF
+
+echo ''
+read -p "Do you want to refresh your Searchable data for Contacts & Organisms (recommanded, but it can take a while) ? [y/N] " reset
+if [ "$reset" = 'y' ]; then
+  psql $db <<EOF
+DELETE FROM contact_index;
+DELETE FROM organism_index;
+EOF
+  ./symfony e-venement:search-index Contact
+  ./symfony e-venement:search-index Organism
+fi
 
 # final informations
 echo ""
