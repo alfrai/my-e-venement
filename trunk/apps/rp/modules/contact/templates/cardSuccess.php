@@ -4,10 +4,14 @@
 <script type="text/javascript">
 $(document).ready(function(){
   window.print();
-  <?php if ( sfConfig::has('app_cards_auto_close') && is_null($transaction) ): ?>
+  <?php if ( sfConfig::get('app_cards_auto_close', true) ): ?>
+  <?php if ( is_null($transaction) ): ?>
   window.close();
-  <?php elseif ( !is_null($transaction) ): ?>
+  <?php else: ?>
   window.location = '<?php echo cross_app_url_for('tck','ticket/pay?id='.$transaction->id) ?>';
+  <?php endif ?>
+  <?php elseif ( !is_null($transaction) ): ?>
+  //window.open('<?php echo cross_app_url_for('tck','ticket/pay?id='.$transaction->id) ?>');
   <?php endif ?>
 });
 </script>
