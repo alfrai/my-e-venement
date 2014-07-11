@@ -99,7 +99,7 @@
     );
     
     // direct transaction's fields
-    foreach ( array('contact_id', 'professional_id', 'description',) as $field )
+    foreach ( array('contact_id', 'professional_id', 'description', 'deposit',) as $field )
     if ( isset($params[$field]) && isset($this->form[$field]) )
     {
       $this->json['success']['success_fields'][$field] = $success;

@@ -46,7 +46,6 @@ class transactionActions extends autoTransactionActions
     ));
     
     // Professional
-    $this->form['professional_id'] = false;
     $this->form['professional_id'] = new sfForm;
     $this->form['professional_id']->setDefault('professional_id', $this->transaction->professional_id);
     $ws = $this->form['professional_id']->getWidgetSchema()->setNameFormat('transaction[%s]');
@@ -59,6 +58,17 @@ class transactionActions extends autoTransactionActions
     ));
     $vs['professional_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Professional',
+      'required' => false,
+    ));
+    
+    // Deposit
+    $this->form['deposit'] = new sfForm;
+    $this->form['deposit']->setDefault('deposit', $this->transaction->deposit);
+    $ws = $this->form['deposit']->getWidgetSchema()->setNameFormat('transaction[%s]');
+    $vs = $this->form['deposit']->getValidatorSchema();
+    $ws['deposit'] = new sfWidgetFormInputCheckbox(array(
+    ));
+    $vs['deposit'] = new sfValidatorBoolean(array(
       'required' => false,
     ));
     

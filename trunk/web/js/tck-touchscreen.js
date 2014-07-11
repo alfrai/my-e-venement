@@ -6,6 +6,7 @@ $(document).ready(function(){
   // AUTO VALIDATIONS
   $('[name="transaction[contact_id]"]'+
   ', [name="transaction[professional_id]"]'+
+  ', [name="transaction[deposit]"]'+
   ', [name="transaction[description]"]')
     .change(function(){ $(this).closest('form').submit(); });
   
@@ -161,7 +162,7 @@ $(document).ready(function(){
         $(this).val($(this).closest('#li_transaction_field_board').hasClass('num') ? $(this).find('.num').html() : $(this).find('.alpha').html());
     });
     
-    if ( !$(this).is('#li_transaction_field_professional_id, #li_transaction_field_contact_id') )
+    if ( !$(this).is('#li_transaction_field_professional_id, #li_transaction_field_contact_id, #li_transaction_field_deposit') )
       $('#li_transaction_field_informations .vcard').slideUp();
     
     return false; // to avoid the event to go up in the JS tree
@@ -191,9 +192,8 @@ $(document).ready(function(){
   });
   
   // vCard & co
-  $('#li_transaction_field_professional_id, #li_transaction_field_contact_id').click(function(){
-    $('#li_transaction_field_professional_id').addClass('ui-state-highlight');
-    $('#li_transaction_field_contact_id').addClass('ui-state-highlight');
+  $('#li_transaction_field_professional_id, #li_transaction_field_contact_id, #li_transaction_field_deposit').click(function(){
+    $('#li_transaction_field_professional_id, #li_transaction_field_contact_id, #li_transaction_field_deposit').addClass('ui-state-highlight');
     if ( $('#li_transaction_field_contact_id .data a').length > 0
       && $('#li_transaction_field_informations .vcard').length == 0 )
     {

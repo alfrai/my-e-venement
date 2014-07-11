@@ -7,6 +7,8 @@ all:
           class: board-alpha highlight
         professional_id:
           class: board-alpha highlight
+        deposit:
+          class: highlight
         description:
           class: board-alpha highlight
         informations:

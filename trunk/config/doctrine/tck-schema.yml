@@ -45,6 +45,11 @@ Transaction:
     send_an_email:
       type: boolean
       default: false
+      notnull: true
+    deposit:
+      type: boolean
+      default: false
+      notnull: true
   relations:
     Contact:
       foreignAlias: Transactions
