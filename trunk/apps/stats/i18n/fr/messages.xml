@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Day</source>
+        <target>Jour</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Time</source>
+        <target>Heure</target>
+      </trans-unit>
+      <trans-unit>
         <source>Description</source>
         <target>Description</target>
       </trans-unit>

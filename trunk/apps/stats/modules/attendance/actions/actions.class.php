@@ -33,7 +33,7 @@ class attendanceActions extends sfActions
   
   public function executeCsv(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Number'));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Number', 'Date'));
     $this->lines = $this->getManifs('array');
     
     foreach ( $this->lines as $key => $line )
@@ -52,13 +52,18 @@ class attendanceActions extends sfActions
       
       // cashflow
       $this->lines[$key]['cashflow']    = format_number(round($line['cashflow'],2));
+      
+      $this->lines[$key]['dotw'] = format_datetime($this->lines[$key]['happens_at'],'EEEE');
+      $this->lines[$key]['date'] = format_date($this->lines[$key]['happens_at'],'d');
+      $this->lines[$key]['time'] = format_date($this->lines[$key]['happens_at'],'hh:mm');
+      unset($this->lines[$key]['happens_at']);
     }
     
     $params = OptionCsvForm::getDBOptions();
     $this->options = array(
       'ms' => in_array('microsoft',$params['option']),
       'fields' => array(
-        'event_name','happens_at','location_name','location_city',
+        'event_name','dotw','date','time','location_name','location_city',
         'gauge','printed','ordered','asked','free',
         'printed_percentage','ordered_percentage','asked_percentage','free_percentage',
         'cashflow',),

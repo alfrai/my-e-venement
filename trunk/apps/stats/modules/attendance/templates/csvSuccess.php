@@ -38,7 +38,9 @@
   
   $vars['options']['header'] = array(
     'event_name' => __('Event'),
-    'happens_at' => __('Date'),
+    'dotw'       => __('Day'),
+    'date'       => __('Date'),
+    'time'       => __('Time'),
     'location_name' => __('Location'),
     'location_city' => __('City'),
     'gauge'      => __('Gauge'),
