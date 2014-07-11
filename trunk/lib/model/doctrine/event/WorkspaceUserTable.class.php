@@ -16,4 +16,21 @@ class WorkspaceUserTable extends PluginWorkspaceUserTable
     {
         return Doctrine_Core::getTable('WorkspaceUser');
     }
+  
+  public function createQuery($alias = 'wu')
+  {
+    $q = parent::createQuery($alias);
+    if ( sfContext::hasInstance() )
+      $q->andWhere($alias.'.sf_guard_user_id = ?', sfContext::getInstance()->getUser()->getId());
+    return $q;
+  }
+  
+  public function getObjects()
+  {
+    $q = $this->createQuery()
+      ->leftJoin('wu.Workspace w')
+      ->orderBy('wu.personal_order IS NULL DESC, wu.personal_order, w.name', '');
+    
+    return $q;
+  }
 }

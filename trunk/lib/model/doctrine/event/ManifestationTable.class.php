@@ -113,7 +113,10 @@ class ManifestationTable extends PluginManifestationTable
     $q = $this->createQuery('m',true);
     $a = $q->getRootAlias();
     $q
-      ->where('e.id = ?',$id)
+      ->leftJoin("$a.Gauges g")
+      ->leftJoin("g.Workspace w")
+      ->leftJoin("w.Order wuo ON wuo.workspace_id = w.id AND wuo.sf_guard_user_id = ".($uid = sfContext::getInstance()->getUser()->getId() ))
+      ->andWhere('e.id = ?',$id)
       ->orderby("e.name, $a.happens_at DESC, l.name");
     return $q;
   }
@@ -122,7 +125,7 @@ class ManifestationTable extends PluginManifestationTable
     $q = $this->createQuery();
     $a = $q->getRootAlias();
     $q
-      ->where('l.id = ?',$id)
+      ->andWhere('l.id = ?',$id)
       ->orderby("e.name, $a.happens_at DESC, l.name");
     return $q;
   }

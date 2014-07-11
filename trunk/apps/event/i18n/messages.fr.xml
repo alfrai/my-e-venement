@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Expected income</source>
+        <target>Chiffre d'affaire attendu</target>
+      </trans-unit>
+      <trans-unit>
         <source>Number</source>
         <target>Nombre</target>
       </trans-unit>

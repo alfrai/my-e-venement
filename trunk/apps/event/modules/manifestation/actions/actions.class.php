@@ -232,7 +232,7 @@ class manifestationActions extends autoManifestationActions
     $this->pager->setQuery(
       $q = EventFormFilter::addCredentialsQueryPart(
         Doctrine::getTable('Manifestation')->createQueryByEventId($this->event_id)
-        ->select('*, g.*, l.*, tck.*, m.happens_at > NOW() AS after, (CASE WHEN happens_at < NOW() THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
+        ->select('*, g.*, w.*, wuo.*, l.*, tck.*, m.happens_at > NOW() AS after, (CASE WHEN happens_at < NOW() THEN NOW()-happens_at ELSE happens_at-NOW() END) AS before')
         ->andWhere('m.reservation_confirmed = TRUE OR m.contact_id = ? OR ?', array(
           $this->getUser()->getContactId(),
           $this->getUser()->hasCredential(array(
@@ -258,7 +258,7 @@ class manifestationActions extends autoManifestationActions
     $this->pager->setQuery(
       EventFormFilter::addCredentialsQueryPart(
         Doctrine::getTable('Manifestation')->createQueryByLocationId($this->location_id)
-        ->select('m.*, e.*, c.*, g.*, l.*')
+        ->select('m.*, e.*, c.*, g.*, l.*, w.*, wuo.*')
         ->leftJoin('m.Color c')
         ->andWhere('m.reservation_confirmed = TRUE OR m.contact_id = ?', $this->getUser()->getContactId())
         ->addSelect('m.happens_at > NOW() AS after, (CASE WHEN ( m.happens_at < NOW() ) THEN NOW()-m.happens_at ELSE m.happens_at-NOW() END) AS before')

@@ -3,11 +3,14 @@ all:
   stylesheets: [location,manifestation]
 
 showSuccess:
-  stylesheets: [view]
+  stylesheets: [view<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, event-gauge-small<?php endif ?>]
+  javascripts: [<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>event-gauge-small<?php endif ?>]
 editSuccess:
-  stylesheets: [view]
+  stylesheets: [view<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, event-gauge-small<?php endif ?>]
+  javascripts: [<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>event-gauge-small<?php endif ?>]
 updateSuccess:
-  stylesheets: [view]
+  stylesheets: [view<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, event-gauge-small<?php endif ?>]
+  javascripts: [<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>event-gauge-small<?php endif ?>]
 newSuccess:
   stylesheets: [view]
 createSuccess:

@@ -32,13 +32,29 @@
   
   foreach ( $manifestation->Gauges as $gauge )
   {
-    $tickets['total']   += $gauge->value;
-    $tickets['asked']   += $gauge->asked;
-    $tickets['ordered'] += $gauge->ordered;
-    $tickets['printed'] += $gauge->printed;
-    $tickets['booked']  += $gauge->ordered + $gauge->printed;
-    if ( sfConfig::get('project_tickets_count_demands',false) )
-      $tickets['booked'] += $gauge->asked;
+    if ( isset($gauge->Workspace->Order[0])
+      && !is_null($gauge->Workspace->Order[0]->rank)
+      && $gauge->Workspace->Order[0]->rank < 0 )
+    {
+      $tickets['total']   = $gauge->value;
+      $tickets['asked']   = $gauge->asked;
+      $tickets['ordered'] = $gauge->ordered;
+      $tickets['printed'] = $gauge->printed;
+      $tickets['booked']  = $gauge->ordered + $gauge->printed;
+      if ( sfConfig::get('project_tickets_count_demands',false) )
+        $tickets['booked'] += $gauge->asked;
+      break;
+    }
+    else
+    {
+      $tickets['total']   += $gauge->value;
+      $tickets['asked']   += $gauge->asked;
+      $tickets['ordered'] += $gauge->ordered;
+      $tickets['printed'] += $gauge->printed;
+      $tickets['booked']  += $gauge->ordered + $gauge->printed;
+      if ( sfConfig::get('project_tickets_count_demands',false) )
+        $tickets['booked'] += $gauge->asked;
+    }
   }
 ?>
 <?php if ( sfConfig::get('project_tickets_count_demands',false) ): ?>
