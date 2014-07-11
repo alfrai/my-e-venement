@@ -11,7 +11,7 @@ $(document).ready(function(){
   window.location = '<?php echo cross_app_url_for('tck','ticket/pay?id='.$transaction->id) ?>';
   <?php endif ?>
   <?php elseif ( !is_null($transaction) ): ?>
-  //window.open('<?php echo cross_app_url_for('tck','ticket/pay?id='.$transaction->id) ?>');
+  window.open('<?php echo cross_app_url_for('tck','ticket/pay?id='.$transaction->id) ?>');
   <?php endif ?>
 });
 </script>
