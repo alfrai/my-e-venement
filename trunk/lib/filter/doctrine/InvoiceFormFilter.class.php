@@ -35,6 +35,23 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
     $this->validatorSchema['tickets_value'] = new sfValidatorInteger(array(
       'required' => false,
     ));
+    
+    $this->widgetSchema   ['contact_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Contact',
+      'url'   => cross_app_url_for('rp','contact/ajax'),
+    ));
+    $this->validatorSchema['contact_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Contact',
+      'required' => false,
+    ));
+    $this->widgetSchema['organism_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Organism',
+      'url'   => cross_app_url_for('rp','organism/ajax'),
+    ));
+    $this->validatorSchema['organism_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Organism',
+      'required' => false,
+    ));
   }
   public function setup()
   {
@@ -46,6 +63,8 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
     return array_merge(array(
       'tickets_value' => 'TicketsValue',
       'id' => 'Id',
+      'contact_id' => 'ContactId',
+      'organism_id' => 'OrganismId',
     ), parent::getFields());
   }
   
@@ -58,6 +77,25 @@ class InvoiceFormFilter extends BaseInvoiceFormFilter
       $query->andWhere("$a.$fieldName = ?",$value);
     }
     return $query;
+  }
+  
+  public function addContactIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( !trim($value) )
+      return $q;
+    
+    $q->andWhere('c.id = ?', $value);
+    
+    return $q;
+  }
+  public function addOrganismIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( !trim($value) )
+      return $q;
+    
+    $q->andWhere('o.id = ?', $value);
+    
+    return $q;
   }
   
   public function addTicketsValueColumnQuery(Doctrine_Query $query, $field, $value)

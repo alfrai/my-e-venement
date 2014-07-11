@@ -40,7 +40,7 @@ class OrderFormFilter extends BaseOrderFormFilter
     $this->widgetSchema   ['event_name'] = new sfWidgetFormInput;
     $this->validatorSchema['event_name'] = new sfValidatorString(array('required' => false));
     
-    $this->widgetSchema['contact_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+    $this->widgetSchema['contact_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Contact',
       'url'   => cross_app_url_for('rp','contact/ajax'),
     ));
@@ -48,7 +48,7 @@ class OrderFormFilter extends BaseOrderFormFilter
       'model' => 'Contact',
       'required' => false,
     ));
-    $this->widgetSchema['organism_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+    $this->widgetSchema['organism_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Organism',
       'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
