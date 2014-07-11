@@ -5,8 +5,16 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Day</source>
-        <target>Jour</target>
+        <source>Printed with a payment</source>
+        <target>Imprimés + paiement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Printed for free</source>
+        <target>Imprimés gratuits</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Printed for deposit</source>
+        <target>Dépôts</target>
       </trans-unit>
       <trans-unit>
         <source>Time</source>

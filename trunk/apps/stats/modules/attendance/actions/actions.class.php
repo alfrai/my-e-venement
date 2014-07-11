@@ -34,7 +34,7 @@ class attendanceActions extends sfActions
   public function executeCsv(sfWebRequest $request)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Number', 'Date'));
-    $this->lines = $this->getManifs('array');
+    $this->lines = $this->getManifs('array', true);
     
     foreach ( $this->lines as $key => $line )
     {
@@ -48,11 +48,15 @@ class attendanceActions extends sfActions
         $this->lines[$key]['asked_percentage']   = $line['gauge'] > 0 ? format_number(round($line['asked']  *100/$line['gauge'],2)) : 'N/A';
       else
         unset($this->lines[$key]['asked']);
+      $this->lines[$key]['printed_gifts_percentage'] = $line['printed'] > 0 ? format_number(round($line['printed_gifts']*100/$line['printed'],2)) : 'N/A';
+      $this->lines[$key]['printed_with_payment_percentage'] = $line['printed'] > 0 ? format_number(round($line['printed_with_payment']*100/$line['printed'],2)) : 'N/A';
+      $this->lines[$key]['printed_deposits_percentage'] = $line['printed'] > 0 ? format_number(round($line['printed_deposits']*100/$line['printed'],2)) : 'N/A';
       $this->lines[$key]['free_percentage']    = $line['gauge'] > 0 ? format_number(round(($line['gauge']-$line['printed']-(sfConfig::get('project_tickets_count_demands',false) ? $line['asked'] : 0)-$line['ordered'])*100/$line['gauge'],2)) : 'N/A';
       
       // cashflow
       $this->lines[$key]['cashflow']    = format_number(round($line['cashflow'],2));
       
+      // datetime
       $this->lines[$key]['dotw'] = format_datetime($this->lines[$key]['happens_at'],'EEEE');
       $this->lines[$key]['date'] = format_date($this->lines[$key]['happens_at'],'d');
       $this->lines[$key]['time'] = format_date($this->lines[$key]['happens_at'],'hh:mm');
@@ -64,8 +68,8 @@ class attendanceActions extends sfActions
       'ms' => in_array('microsoft',$params['option']),
       'fields' => array(
         'event_name','dotw','date','time','location_name','location_city',
-        'gauge','printed','ordered','asked','free',
-        'printed_percentage','ordered_percentage','asked_percentage','free_percentage',
+        'gauge','printed','printed_with_payment','printed_gifts','ordered','printed_deposits','asked','free',
+        'printed_percentage','printed_with_payment_percentage','printed_gifts_percentage','ordered_percentage','asked_percentage','printed_deposits_percentage','free_percentage',
         'cashflow',),
       'tunnel' => false,
       'noheader' => false,
@@ -105,7 +109,7 @@ class attendanceActions extends sfActions
     }
   }
   
-  protected function getManifs($type = NULL)
+  protected function getManifs($type = NULL, $extra_data = false)
   {
     $criterias = $this->getUser()->getAttribute('stats.criterias',array('dates' => array(
       'from' => array(
@@ -169,7 +173,12 @@ class attendanceActions extends sfActions
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
       ->orderBy('m.happens_at, e.name')
       ->groupBy('m.id, m.happens_at, e.id, e.name, l.id, l.name, l.city');
-      
+    
+    if ( $extra_data )
+    $q->addSelect('(SELECT sum((tt5.printed_at IS NOT NULL OR tt5.integrated_at IS NOT NULL) AND duplicating IS NULL AND cancelling IS NULL) FROM ticket tt5 LEFT JOIN tt5.Transaction ttr5 WHERE m.id = tt5.manifestation_id AND tt5.id NOT IN (SELECT ttt5.cancelling FROM ticket ttt5 WHERE ttt5.cancelling IS NOT NULL AND ttt5.manifestation_id = m.id) '.str_replace('%%d%%','5',$criteria_tt_gauge).' '.str_replace('%%d%%','5',$criteria_tt_contact).' AND (SELECT count(ttp5.id) FROM Payment ttp5 WHERE ttp5.transaction_id = ttr5.id) > 0) AS printed_with_payment')
+      ->addSelect('(SELECT sum((tt6.printed_at IS NOT NULL OR tt6.integrated_at IS NOT NULL) AND duplicating IS NULL AND cancelling IS NULL) FROM ticket tt6 LEFT JOIN tt6.Transaction ttr6 WHERE m.id = tt6.manifestation_id AND tt6.id NOT IN (SELECT ttt6.cancelling FROM ticket ttt6 WHERE ttt6.cancelling IS NOT NULL AND ttt6.manifestation_id = m.id) '.str_replace('%%d%%','',$criteria_tt_gauge).' '.str_replace('%%d%%','',$criteria_tt_contact).'  AND tt6.value = 0) AS printed_gifts')
+      ->addSelect('(SELECT sum((tt7.printed_at IS NOT NULL OR tt7.integrated_at IS NOT NULL) AND duplicating IS NULL AND cancelling IS NULL) FROM ticket tt7 LEFT JOIN tt7.Transaction ttr7 LEFT JOIN ttr7.Payments ttp WHERE m.id = tt7.manifestation_id AND tt7.id NOT IN (SELECT ttt7.cancelling FROM ticket ttt7 WHERE ttt7.cancelling IS NOT NULL AND ttt7.manifestation_id = m.id) '.str_replace('%%d%%','7',$criteria_tt_gauge).' '.str_replace('%%d%%','7',$criteria_tt_contact).' AND ttr7.deposit = TRUE) AS printed_deposits');
+    
     if ( isset($criterias['meta_events_list']) && $criterias['meta_events_list'][0] )
       $q->andWhereIn('e.meta_event_id',$criterias['meta_events_list']);
     if ( $gids )

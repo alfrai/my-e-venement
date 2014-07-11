@@ -76,15 +76,14 @@
   {
     if ( !isset($options['header']) )
     {
-    	foreach ( $options['fields'] as $fieldName )
-  	    	$line[] = isset($fields[$fieldName]) ? $fields[$fieldName] : $fieldName;
+      foreach ( $options['fields'] as $fieldName )
+ 	      $line[] = isset($fields[$fieldName]) ? $fields[$fieldName] : $fieldName;
     }
     else
     {
-    	foreach ( $options['header'] as $fieldname => $field )
-    	{
-	    	if ( in_array($fieldname,$options['fields']) )
-  	    	$line[$fieldname] = $field;
+      foreach ( $options['fields'] as $fieldname )
+      {
+        $line[$fieldname] = $options['header'][$fieldname];
   	  }
     }
     
