@@ -36,7 +36,8 @@ class liGuardUserAdminForm extends sfGuardUserAdminForm
 
     $this->validatorSchema['workspaces_list']->setOption('query', $q = Doctrine::getTable('Workspace')->createQuery('ws',true));
     $this->widgetSchema   ['workspaces_list']->setOption('query',$q)
-                                             ->setOption('order_by',array('name',''));
+                                             ->setOption('order_by',array('name',''))
+                                             ->setOption('expanded', true);
     
     $this->validatorSchema['auth_for_groups_list']->setOption('query',$q = Doctrine::getTable('Group')->createQuery('g')->andWhere('g.sf_guard_user_id IS NULL'));
     $this->widgetSchema   ['auth_for_groups_list']->setOption('query',$q)
