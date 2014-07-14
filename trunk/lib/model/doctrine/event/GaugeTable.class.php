@@ -29,26 +29,27 @@ class GaugeTable extends PluginGaugeTable
     if ( $full )
     $q->select("$alias.*")
       ->leftJoin("$alias.Workspace ws")
-      ->addSelect("(SELECT count(*) AS nb
+      ->addSelect("(SELECT ".($full === 'with_value' ? 'sum(value)' : 'count(*)')." AS nb
                     FROM Ticket tck1
                     WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL)
                       AND $where
                       AND id NOT IN (SELECT tck11.cancelling FROM Ticket tck11 WHERE tck11.cancelling IS NOT NULL)
                    ) AS printed")
-      ->addSelect("(SELECT count(*) AS nb
+      ->addSelect("(SELECT ".($full === 'with_value' ? 'sum(value)' : 'count(*)')." AS nb
                     FROM Ticket tck2
                     WHERE printed_at IS NULL AND integrated_at IS NULL
                       AND transaction_id IN (SELECT o2.transaction_id FROM Order o2)
                       AND $where
                       AND id NOT IN (SELECT tck22.cancelling FROM Ticket tck22 WHERE tck22.cancelling IS NOT NULL)
                    ) AS ordered")
-      ->addSelect("(SELECT count(*) AS nb
+      ->addSelect("(SELECT ".($full === 'with_value' ? 'sum(value)' : 'count(*)')." AS nb
                     FROM Ticket tck3
                     WHERE printed_at IS NULL AND integrated_at IS NULL
                       AND transaction_id NOT IN (SELECT o3.transaction_id FROM Order o3)
                       AND $where
                       AND id NOT IN (SELECT tck33.cancelling FROM Ticket tck33 WHERE tck33.cancelling IS NOT NULL)
                    ) AS asked");
+    
     return $q;
   }
   

@@ -40,20 +40,20 @@ function gauge_small()
         return true;
       
       // get back local data
-      count = parseInt($(this).html(),10);
-      total = parseInt($(this).closest('.gauge, .sf_admin_list_td_list_gauge').find('.total').html(),10);
+      count = parseInt(count_html = $(this).html().replace('&nbsp;',' '),10);
+      total = parseInt(total_html = $(this).closest('.gauge, .sf_admin_list_td_list_gauge').find('.total').html().replace('&nbsp;',' '),10);
       
       // set properties
       $(this)
-        .prop('title',count+' '+$(this).prop('title')+' / '+total)
+        .prop('title',count_html+' '+$(this).prop('title')+' / '+total_html)
         .css('width',(count/total*100)+'px');
     });
     
-    $(this).prop('title', (total=parseInt($(this).find('.total').html(),10)) - (booked=parseInt($(this).find('.booked').html(),10))+' / '+total);
+    $(this).prop('title', (total=parseInt($(this).find('.total').html(),10)) - (booked=parseInt($(this).find('.booked').html(),10))+' / '+total_html);
     if ( booked > total )
       $(this).addClass('overbooked');
     $(this).addClass('done');
-    $('<span class="txt">'+total+'</span>').insertAfter($(this));
+    $('<span class="txt">'+total_html+'</span>').insertAfter($(this));
   });
 }
 
