@@ -6,5 +6,6 @@
     <td class="price"><?php echo format_currency($total['value'],'€') ?></td>
     <td class="transaction">-</td>
     <td class="contact">-</td>
+    <td class="nb_contacts">-</td>
   </tr>
 </tfoot>

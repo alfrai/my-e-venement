@@ -42,19 +42,12 @@
           .' <span class="pictos">'.$t->Transaction->Contact->getRaw('groups_picto').'</span>'
         : '';
     ?></td>
+    <td class="nb_contacts"><?php if ( count($contact) > 0 ): ?><span class="nb"><?php $cpt = 0; foreach ( $contact as $c ) if ( $c != '&nbsp;' ) $cpt++; echo $cpt ?></span>/<span class="total"><?php echo count($contact) ?></span><?php endif ?></td>
   </tr>
   <?php endforeach ?>
   <tbody>
   <?php include_partial('show_tickets_list_table_footer',array('total' => $total['not_controlled'])) ?>
-  <thead>
-    <tr>
-      <td class="name"><?php echo __('Ticket') ?></td>
-      <td class="qty"><?php echo __('Price') ?></td>
-      <td class="price"><?php echo __('Value') ?></td>
-      <td class="transaction"><?php echo __('Transaction') ?></td>
-      <td class="contact"><?php echo __('Contact') ?></td>
-    </tr>
-  </thead>
+  <?php include_partial('show_tickets_list_table_header')) ?>
 </table>
 
 <h2><?php echo __('Controlled tickets') ?></h2>
@@ -74,17 +67,10 @@
         ? cross_app_link_to($ticket->Transaction->Contact,'rp','contact/show?id='.$ticket->Transaction->Contact->id)
         : '';
     ?></td>
+    <td class="nb_contacts"><?php if ( count($contact) > 0 ): ?><span class="nb"><?php $cpt = 0; foreach ( $contact as $c ) if ( $c != '&nbsp;' ) $cpt++; echo $cpt ?></span>/<span class="total"><?php echo count($contact) ?></span><?php endif ?></td>
   </tr>
   <?php endforeach ?>
   </tbody>
   <?php include_partial('show_tickets_list_table_footer',array('total' => $total['controlled'])) ?>
-  <thead>
-    <tr>
-      <td class="name"><?php echo __('Ticket') ?></td>
-      <td class="qty"><?php echo __('Price') ?></td>
-      <td class="price"><?php echo __('Value') ?></td>
-      <td class="transaction"><?php echo __('Transaction') ?></td>
-      <td class="contact"><?php echo __('Contact') ?></td>
-    </tr>
-  </thead>
+  <?php include_partial('show_tickets_list_table_header') ?>
 </table>

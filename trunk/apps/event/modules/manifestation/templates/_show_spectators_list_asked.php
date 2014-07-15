@@ -1,7 +1,7 @@
 <h2><?php echo __('Asked spectators') ?></h2>
 <table class="asked">
   <tbody>
-  <?php $workspaces = array(); $total = array('qty' => array(), 'value' => 0) ?>
+  <?php $workspaces = array(); $total = array('qty' => array(), 'value' => 0, 'perso' => 0, 'pro' => 0,) ?>
   <?php $overlined = true ?>
   <?php if ( !isset($spectators) ) $spectators = $form->spectators ?>
   <?php foreach ( $spectators as $transac ): ?>
@@ -10,6 +10,7 @@
     $contact = array('value' => array(), 'prices' => array(), 'ticket-ids' => array());
     $contact['transaction'] = $transac;
     $contact['pro'] = $transac->Professional;
+    $count = false;
     if ( !isset($transac->asked) )
     {
       foreach ( $transac->Tickets as $t )
@@ -41,6 +42,8 @@
         $total['qty'][$t->gauge_id]++;
         $workspaces[$t->gauge_id] = $t->Gauge->Workspace->name;
         $total['value'] += $t->value;
+        
+        $count = true;
       }
     }
     elseif ( $transac->asked > 0 )
@@ -51,6 +54,15 @@
       $contact['value'] = $transac->asked_value;
       $total['qty'] += $transac->asked;
       $total['value'] += $transac->asked_value;
+      $count = $transac->printed > 0;
+    }
+    
+    if ( $count )
+    {
+      if ( $transac->contact_id )
+        $total['perso']++;
+      if ( $transac->professional_id )
+        $total['pro']++;
     }
   ?>
   <?php if ( $contact['ticket-ids'] ): ?>

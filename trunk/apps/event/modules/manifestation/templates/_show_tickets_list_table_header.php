@@ -5,5 +5,6 @@
     <td class="qty"><?php echo __('Value') ?></td>
     <td class="transaction"><?php echo __('Transactions') ?></td>
     <td class="contact"><?php echo __('Spectators') ?></td>
+    <td class="nb_contacts"></td>
   </tr>
 </thead>
