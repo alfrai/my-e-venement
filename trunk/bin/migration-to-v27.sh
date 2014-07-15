@@ -120,7 +120,7 @@ INSERT INTO sf_guard_permission(name, description, created_at, updated_at) VALUE
 INSERT INTO sf_guard_group_permission(permission_id, group_id, created_at, updated_at) (SELECT id, (SELECT id FROM sf_guard_group WHERE name = 'tck-seated'), NOW(), NOW() FROM sf_guard_permission WHERE name IN ('tck-seat-allocation','event-seated-allocation'));
 EOF
 
-echo "Updating data for geo-stats, credentials, and french departments
+echo "Updating data for geo-stats, credentials, and french departments"
 psql $db <<EOF
 -- geographical stats access
 INSERT INTO sf_guard_group(name, description, created_at, updated_at) VALUES ('stats-geo', 'Permission to access the geographical statistics', now(), now());
@@ -136,8 +136,8 @@ INSERT INTO geo_fr_department(geo_fr_region_id, num, name, strict_name, slug) (S
 EOF
 
 echo ''
-read -p "Do you want to refresh your Searchable data for Contacts & Organisms (recommanded, but it can take a while) ? [y/N] " reset
-if [ "$reset" = 'y' ]; then
+read -p "Do you want to refresh your Searchable data for Contacts & Organisms (recommanded, but it can take a while) ? [y/N] " refresh
+if [ "$refresh" = 'y' ]; then
   psql $db <<EOF
 DELETE FROM contact_index;
 DELETE FROM organism_index;
