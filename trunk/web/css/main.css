@@ -148,3 +148,5 @@ html button.fg-button-icon-left .ui-icon { left: 0.4em; }
 
 .app-default.mod-default .sf_admin_flashes { margin-left: 310px; }
 .app-default.mod-default .sf_admin_flashes > div { margin-bottom: 20px; }
+
+.sf_admin_filter .sf_admin_date input[type="text"] { margin-right: 0; }

@@ -8,3 +8,5 @@
   text-align: right;
 }
 .sf_admin_list_td_debt { white-space: nowrap; }
+
+.sf_admin_filter_field_date span { display: block; }

@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>From %from_date%</source>
+        <target>Entre le %from_date%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>to %to_date%</source>
+        <target>et le %to_date%</target>
+      </trans-unit>
+      <trans-unit>
         <source>The ticket #%%id%% has been already control on this checkpoint before (%%datetime%% by %%user%%)</source>
         <target>Le billet #%%id%% a déjà été contrôlé sur ce point de contrôle (%%datetime%% par %%user%%)</target>
       </trans-unit> 
