@@ -54,19 +54,10 @@ select[disabled] {
 #sf_fieldset_spectators table tfoot td.qty, #sf_fieldset_tickets table tfoot td.qty,
 #sf_fieldset_spectators table tbody td.qty, #sf_fieldset_tickets table tbody td.qty { text-align: right; }
 
-#sf_fieldset_spectators table .overlined td, #sf_fieldset_tickets table .overlined td {
-  background-color: #ddd;
-}
-#sf_fieldset_spectators table tfoot tr:hover td, #sf_fieldset_tickets table tfoot tr:hover td,
-#sf_fieldset_spectators table tbody tr:hover td, #sf_fieldset_tickets table tbody tr:hover td {
-  background-color: #fff0d0;
-}
-#sf_fieldset_spectators table tfoot tr.overlined:hover td, #sf_fieldset_tickets table tfoot tr.overlined:hover td,
-#sf_fieldset_spectators table tbody tr.overlined:hover td, #sf_fieldset_tickets table tbody tr.overlined:hover td {
-  background-color: #e4d4b1;
-}
-#sf_fieldset_spectators table tbody .ticket-nums,
-#sf_fieldset_spectators table tbody .ticket-ids { font-size: 80%; }
+#sf_fieldset_spectators table .overlined td, #sf_fieldset_tickets table .overlined td { background-color: #ddd; }
+#sf_fieldset_spectators table tfoot tr:hover td, #sf_fieldset_tickets table tfoot tr:hover td, #sf_fieldset_spectators table tbody tr:hover td, #sf_fieldset_tickets table tbody tr:hover td { background-color: #fff0d0; }
+#sf_fieldset_spectators table tfoot tr.overlined:hover td, #sf_fieldset_tickets table tfoot tr.overlined:hover td, #sf_fieldset_spectators table tbody tr.overlined:hover td, #sf_fieldset_tickets table tbody tr.overlined:hover td { background-color: #e4d4b1; }
+#sf_fieldset_spectators table tbody .ticket-nums, #sf_fieldset_spectators table tbody .ticket-ids { font-size: 80%; }
 
 #sf_fieldset_tickets .contact {
   white-space: nowrap;
@@ -82,15 +73,11 @@ select[disabled] {
   border-top: 1px solid black;
   padding: 3px 10px 3px 0;
 }
-#sf_fieldset_tickets .workspace:first-child td, #sf_fieldset_spectators .workspace:first-child td {
-  border: 0;
-}
-#sf_fieldset_tickets td .workspace, #sf_fieldset_spectators td .workspace {
-  display: none;
-}
-#sf_fieldset_tickets td .tickets, #sf_fieldset_spectators td .tickets {
-  display: block;
-}
+#sf_fieldset_tickets .workspace:first-child td, #sf_fieldset_spectators .workspace:first-child td { border: 0; }
+#sf_fieldset_tickets td .workspace, #sf_fieldset_spectators td .workspace { display: none; }
+#sf_fieldset_tickets td .tickets, #sf_fieldset_spectators td .tickets { display: block; }
+#sf_fieldset_tickets td.nb_contacts { text-align: right; }
+#sf_fieldset_tickets td.nb_contacts span { width: 2em; display: inline-block; padding-right: 2px; }
 
 #sf_fieldset_unbalanced table,
 #sf_fieldset_unbalanced h2 { margin-bottom: 15px; }
