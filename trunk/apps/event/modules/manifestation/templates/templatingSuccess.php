@@ -2,7 +2,7 @@
 
 <div class="ui-widget-content ui-corner-all sf_admin_templating" id="sf_admin_container">
   <div class="fg-toolbar ui-widget-header ui-corner-all action">
-    <h1><?php echo __('Templating prices') ?></h1>
+    <h1><?php echo __('Templating') ?></h1>
   </div>
   
   <?php include_partial('manifestation/flashes') ?>

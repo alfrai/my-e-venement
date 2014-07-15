@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Apply to</source>
+        <target>Appliquer à</target>
+      </trans-unit>
+      <trans-unit>
         <source>If only one workspace's order is less than 0 (be careful, try to have only one workspace like this), then this workspace's gauges will be displaid alone in the mini-gauges, replacing the merging gauge.</source>
         <target>Si la priorité d'un seul espace de travail est inférieure à 0 (attention à essayer de n'en avoir qu'un), alors les jauges de cet espace de travail seront afficher seules en priorité dans les mini-jauges, remplaçant celle représentant la fusion de l'ensemble des jauges disponibles.</target>
       </trans-unit>
@@ -921,8 +925,8 @@
         <target>Modèle de manifestation</target>
       </trans-unit>
       <trans-unit>
-        <source>Templating prices</source>
-        <target>Gabarit pour les prix</target>
+        <source>Templating</source>
+        <target>Gabarit</target>
       </trans-unit>
       <trans-unit>
         <source>Deleting this object has been canceled because of remaining links to externals (like tickets).</source>
@@ -1099,6 +1103,10 @@
       <trans-unit>
         <source>Gauge</source>
         <target>Jauge</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Gauges</source>
+        <target>Jauges</target>
       </trans-unit>
       <trans-unit>
         <source>Gauge min</source>
