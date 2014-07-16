@@ -36,6 +36,33 @@ require_once dirname(__FILE__).'/../lib/eventGeneratorHelper.class.php';
  */
 class eventActions extends autoEventActions
 {
+  public function executeFromDateToDate(sfWebRequest $request)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+    
+    $this->form = new sfForm;
+    $ws = $this->form->getWidgetSchema();
+    $vs = $this->form->getValidatorSchema();
+    $ws->setNameFormat('extract[%s]');
+    $ws['dates'] = new sfWidgetFormDateRange(array(
+      'from_date' => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+      'to_date'   => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+      'template'  => '<span class="from">'.__('From %from_date%').'</span> <span class="to">'.__('to %to_date%').'</span>',
+    ));
+    $vs['dates'] = new sfValidatorDateRange(array(
+      'from_date'     => new sfValidatorDate(array('date_output' => 'Y-m-d','with_time' => false,)),
+      'to_date'       => new sfValidatorDate(array('date_output' => 'Y-m-d', 'with_time'   => false,)),
+    ));
+    
+    if ( !$request->hasParameter('extract') )
+      return 'Success';
+    $this->form->bind($request->getParameter('extract'));
+    if ( !$this->form->isValid() )
+      return 'Success';
+    
+    $request->setParameter('dates', $this->form->getValue('dates'));
+    $this->forward('event', 'accepted');
+  }
   public function executeExport(sfWebRequest $request)
   {
     require(dirname(__FILE__).'/export.php');

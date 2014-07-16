@@ -23,7 +23,6 @@
 ?>
 <?php
   $this->getContext()->getConfiguration()->loadHelpers('Date');
-  $event = $this->getRoute()->getObject();
   
   $q = Doctrine::getTable('EntryTickets')->createQuery('et')
     ->leftJoin('et.EntryElement ee')
@@ -44,10 +43,15 @@
     ->leftJoin('me.Manifestation m')
     ->leftJoin('m.Event e')
     ->leftJoin('et.Price pr')
-    ->andWhere('m.event_id = ?',$event->id)
-    ->orderBy('o.name, c.name, pr.name');
+    ->orderBy('m.happens_at, e.name, o.name, c.name, pr.name');
   if ( ($meid = intval($request->getParameter('manifestation_id'))) > 0 )
     $q->andWhere('me.id = ?',$meid);
+  if ( $dates = $request->getParameter('dates',false) )
+    $q->andWhere('m.happens_at > ?', $dates['from'])
+      ->andWhere('m.happens_at < ?', $dates['to']);
+  else
+    $q->andWhere('m.event_id = ?', $this->getRoute()->getObject()->id);
+  
   switch ( $request->getParameter('type') ) {
   case 'refused':
     $q->andWhere('ee.accepted = false');
@@ -67,7 +71,7 @@
   foreach ( $tickets as $ticket )
   if ( !isset($this->prices['price_'.$ticket->Price->id]) )
   {
-    $this->total ['price_'.$ticket->Price->id] =
+    $total['prices'][$ticket->Price->id] =
     $this->prices['price_'.$ticket->Price->id] = $ticket->Price->name;
   }
   
@@ -90,8 +94,8 @@
     
     $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$ticket->Price->id]
       += $ticket->quantity;
-    $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['total'] += $ticket->quantity;
-    $total['price_'.$ticket->Price->id] += $ticket->quantity;
+    $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['total'] += $ticket->quantity;
+    $total['prices'][$ticket->price_id] += $ticket->quantity;
     $total['total'] += $ticket->quantity;
     
     // if tickets has been cancelled
@@ -106,10 +110,10 @@
       {
         if ( !isset($contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id]) )
           $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id] = 0;
-        $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id]
-          -= 1;
-        $total['price_'.$tck->price_id] -= 1;
-        $total['total'] -= 1;
+        $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id]--;
+        $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['total']--;
+        $total['prices'][$tck->price_id]--;
+        $total['total']--;
       }
     }
   }
@@ -134,7 +138,7 @@
       $opn[] = (string)$pn;
     
     // real data
-    $this->lines[] = array(
+    $line = array(
       'event'         => (string) $contact['manifestation']->Event,
       'date'          => (string) format_datetime($contact['manifestation']->happens_at),
       'organism'      => (string) $contact['professional']->Organism,
@@ -154,9 +158,10 @@
       'postalcode'    => $contact['professional']->Organism->postalcode,
       'city'          => $contact['professional']->Organism->city,
       'country'       => $contact['professional']->Organism->country,
+      'total'         => $contact['total'],
     );
     
-    $this->lines[count($this->lines)-1] = array_merge($this->lines[count($this->lines)-1],$contact['tickets']);
+    $this->lines[] = array_merge($line,$contact['tickets']);
   }
   
   // total of totals

@@ -22,7 +22,7 @@ generator:
         list_organism_administrative_number: { label: Admin.ID }
         organism_city: { label: City }
       list:
-        display: [Organism, organism_city, Contact, name, _groups_picto, contact_email, _list_organism_administrative_number, nb_events, nb_manifestations, _nb_tickets]
+        display: [Organism, organism_city, Contact, name, _groups_picto, contact_email, _list_organism_administrative_number, _list_events, nb_events, nb_manifestations, _nb_tickets]
         batch_actions: {}
         actions:
           _extract: { action: extract }

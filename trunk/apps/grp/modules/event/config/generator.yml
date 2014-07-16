@@ -24,6 +24,10 @@ generator:
         batch_actions: {}
         title: By event
         table_method: getOnlyGroupEvents
+        actions:
+          _new: ~
+          _from_date_to_date:
+            action: fromDateToDate
       filter:
         display: [meta_event_id,name]
       form: ~

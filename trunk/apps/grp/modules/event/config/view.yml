@@ -1,3 +1,5 @@
+fromDateToDateSuccess:
+  stylesheets: [grp-event-list]
 indexSuccess:
   stylesheets: [grp-event-list]
   javascripts: [lists]
