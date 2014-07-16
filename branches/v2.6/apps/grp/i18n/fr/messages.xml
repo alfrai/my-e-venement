@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>From %from_date%</source>
+        <target>Entre le %from_date%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>to %to_date%</source>
+        <target>et le %to_date%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>From date to date</source>
+        <target>De date à date</target>
+      </trans-unit>
+      <trans-unit>
         <source>Tick.Avg.</source>
         <target>Moy.bill.</target>
       </trans-unit>

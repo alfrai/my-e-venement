@@ -10,3 +10,13 @@
 
 #sf_admin_container td { min-width: 0px; width: auto; }
 .sf_admin_list tbody .sf_admin_row .sf_admin_numeric { text-align: right; padding-right: 10px; }
+
+.sf_admin_list table a:hover { text-decoration: underline; }
+
+.from-date-to-date { padding: 5px; }
+.from-date-to-date form { text-align: right; max-width: 250px; }
+.from-date-to-date label { display: none; }
+.from-date-to-date span { display: block; }
+.from-date-to-date .ui-button { margin-top: 5px; }
+.from-date-to-date input[type=text]:not(.sfWFDTyear) { width: 2em; }
+.from-date-to-date input[type=text].sfWFDTyear { width: 4em; }
