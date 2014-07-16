@@ -52,6 +52,9 @@
             <?php endforeach ?>
           <?php if ( $ce->transaction_id ): ?>
             <a class="transpose" title="<?php echo __('Transpose to ticketting') ?>" href="<?php echo cross_app_url_for('tck','ticket/sell?id='.$ce->transaction_id) ?>">&gt;&gt;</a>
+            <?php foreach ( $ce->Transaction->Translinked as $tr ): ?>
+              <a class="cancelling" href="<?php echo cross_app_url_for('tck','ticket/pay?id='.$tr->id) ?>">#<?php echo $tr->id ?></a>
+            <?php endforeach ?>
           <?php elseif ( $entry->accepted ): ?>
             <a class="transpose" title="<?php echo __('Transpose to ticketting') ?>" href="<?php echo url_for('contact_entry/transpose?id='.$ce->id) ?>">&gt;&gt;</a>
           <?php endif ?>
