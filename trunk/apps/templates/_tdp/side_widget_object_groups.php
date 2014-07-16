@@ -45,16 +45,27 @@
               select.prepend(object.find('.tdp-groups_list select').eq(1).find('option').clone(true))
                 .prepend('<option value=""></option>')
                 .find('option:first-child').prop('selected',true);
+              select.prop('multiple', true);
               
               // adding a new group
               select.change(function(){
-                object = <?php echo $cpt == 1 ? "$('.tdp-object')" : "$('#tdp-content [name=\"professional[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
-                object.find('.tdp-groups_list select').eq(1).find('option[value='+$(this).val()+']').prop('selected',true);
-                object.find('.tdp-groups_list a:first-child').click();
-                $('<li class="tmp" title="<?php echo __('Not yet recorded') ?>"><a onclick="javascript: contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?>(this);" href="#" class="remove">x</a><input type="hidden" value="'+$(this).val()+'" name="group_id" /> '+$(this).find('option:selected').html()+'</li>').hide().insertBefore($(this).closest('li').closest('ul').find('.new')).fadeIn('slow');
-                $(this).closest('ul').find('.empty').hide();
-                $(this).find('option:selected').remove();
-                $(this).val('');
+                var val = $(this).val();
+                var select = this;
+                if ( typeof val != 'object' )
+                  val = [val];
+                
+                $.each(val, function(id, value) {
+                  if ( value == '' )
+                    return;
+                  object = <?php echo $cpt == 1 ? "$('.tdp-object')" : "$('#tdp-content [name=\"professional[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
+                  object.find('.tdp-groups_list select').eq(1).find('option[value='+value+']').prop('selected',true);
+                  object.find('.tdp-groups_list a:first-child').click();
+                  $('<li class="tmp" title="<?php echo __('Not yet recorded') ?>"><a onclick="javascript: contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?>(this);" href="#" class="remove">x</a><input type="hidden" value="'+value+'" name="group_id" /> '+$(select).find('option[value='+value+']').html()+'</li>')
+                    .hide().insertBefore($(select).closest('li').closest('ul').find('.new')).fadeIn('slow');
+                  $(select).closest('ul').find('.empty').hide();
+                  $(select).find('option[value='+value+']').remove();
+                  $(select).val('');
+                });
               });
               
             });
