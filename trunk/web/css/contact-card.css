@@ -75,7 +75,7 @@ html body p { margin: 0; padding: 0 }
 
 #card .librinfo {
   font-size: 8px;
-  -moz-transform: rotate(90deg);
+  transform: rotate(90deg);
   position: absolute;
   margin-top: 26mm;
   margin-left: 72mm;
