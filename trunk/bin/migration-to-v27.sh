@@ -149,12 +149,13 @@ fi
 # final informations
 echo ""
 echo ""
-echo "Don't forget to configure those extra features :"
+echo "Don't forget to configure those extra features:"
 echo "- Seated plans for your locations"
 echo "- Change the apps/rp/config/factories.yml to replace sfMailer with liMailer"
 echo "- Configure the "geo" module for stats (users credentials & apps/stats/config/app.yml)"
 echo "- Activate the touchscreen GUI for selling ticket, through the apps/tck/config/app.yml option: design: tdp"
-echo "- e-venement Messaging Network : rm -rf web/liJappixPlugin; svn update; then run http[s]://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin"
+echo "- e-venement Messaging Network: rm -rf web/liJappixPlugin; svn update; then run http[s]://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin"
+echo '- be careful of some configuration specificities in the RP app: force_fields, force_one_phonenumber, social_informations (compare with the config.yml.template)'
 
 echo ""
 echo "Don't forget to inform your users about those evolutions"
