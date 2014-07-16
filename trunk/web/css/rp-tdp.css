@@ -23,6 +23,7 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .tdp-widget-header h1 a { text-decoration: none; }
 #tdp-content #sf_admin_content .tdp-widget-header h1 a:hover { text-decoration: underline; }
 #tdp-content #sf_admin_content .tdp-widget-header h1 .tdp-dates { font-size: 33%; font-weight: normal; display: inline-block; padding-left: 10px; cursor: default; }
+#tdp-content #sf_admin_content .tdp-widget-header h1 select { margin: 0; background-color: transparent; color: white; }
 #tdp-content #sf_admin_content .tdp-line.complements label { width: 120px; display: inline-block; }
 #tdp-content #sf_admin_content .tdp-line.city { margin-top: 5px; }
 #tdp-content #sf_admin_content .tdp-line.city span,

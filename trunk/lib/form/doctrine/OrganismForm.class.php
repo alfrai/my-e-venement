@@ -45,7 +45,7 @@ class OrganismForm extends BaseOrganismForm
       ->setOption('expanded', true);
     
     // adding artificial mandatory fields
-    if ( is_array($force = sfConfig::get('app_options_force_fields', array())) )
+    if ( is_array($force = sfConfig::get('app_organism_force_fields', array())) )
     foreach ( $force as $field )
     {
       if ( isset($this->validatorSchema[$field]) )
@@ -53,6 +53,23 @@ class OrganismForm extends BaseOrganismForm
     }
 
     parent::configure();
+  }
+  
+  public function doSave($con = NULL)
+  {
+    // force uppercase
+    if ( is_array($upper = sfConfig::get('app_organism_force_uppercase', array())) )
+    foreach ( $upper as $field )
+    if ( isset($this->values[$field]) )
+      $this->values[$field] = strtoupper($this->values[$field]);
+    
+    // force uppercase first letter
+    if ( is_array($upper = sfConfig::get('app_organism_force_ucfirst', array())) )
+    foreach ( $upper as $field )
+    if ( isset($this->values[$field]) )
+      $this->values[$field] = ucfirst($this->values[$field]);
+    
+    return parent::doSave($con);
   }
   
   public function saveGroupsList($con = null)

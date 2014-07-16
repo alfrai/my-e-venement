@@ -31,6 +31,12 @@ class ContactForm extends BaseContactForm
       $arr[$key]->setOption('required', false);
     unset($this->widgetSchema['relations_list']);
     
+    if ( sfConfig::get('app_contact_force_title', false) )
+    $this->widgetSchema   ['title']     = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'TitleType',
+      'add_empty' => true,
+    ));
+    else
     $this->widgetSchema   ['title']     = new liWidgetFormDoctrineJQueryAutocompleterGuide(array(
       'model' => 'TitleType',
       'url'   => url_for('title_type/ajax'),
@@ -72,7 +78,7 @@ class ContactForm extends BaseContactForm
     $this->widgetSchema['organism_category_id']->setOption('order_by',array('name',''));
     
     // adding artificial mandatory fields
-    if ( is_array($force = sfConfig::get('app_options_force_fields', array())) )
+    if ( is_array($force = sfConfig::get('app_contact_force_fields', array())) )
     foreach ( $force as $field )
     {
       if ( isset($this->validatorSchema[$field]) )
@@ -87,7 +93,7 @@ class ContactForm extends BaseContactForm
     $v = parent::isValid();
     $su = !sfContext::hasInstance()
        || sfContext::hasInstance() && sfContext::getInstance()->getUser()->hasCredential('pr-admin');
-    if ( !sfConfig::get('app_options_contact_force_one_phonenumber',false) || $su )
+    if ( !sfConfig::get('app_contact_force_one_phonenumber',false) || $su )
       return $v;
     
     if ( !(isset($this->values['phone_number']) && $this->values['phone_number']) && $this->object->Phonenumbers->count() == 0 )
@@ -129,6 +135,18 @@ class ContactForm extends BaseContactForm
         $this->values['YOBs'][$key]
       );
     }
+    
+    // force uppercase
+    if ( is_array($upper = sfConfig::get('app_contact_force_uppercase', array())) )
+    foreach ( $upper as $field )
+    if ( isset($this->values[$field]) )
+      $this->values[$field] = strtoupper($this->values[$field]);
+    
+    // force uppercase first letter
+    if ( is_array($upper = sfConfig::get('app_contact_force_ucfirst', array())) )
+    foreach ( $upper as $field )
+    if ( isset($this->values[$field]) )
+      $this->values[$field] = ucfirst($this->values[$field]);
     
     return parent::doSave($con);
   }

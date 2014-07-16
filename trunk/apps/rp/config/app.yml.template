@@ -11,11 +11,19 @@ all:
   options:
     #remove_ticketting: true
     design: tdp
-    #social_informations: true
     #no_event_archives: false
-    #force_fields: [firstname, postalcode, city]
-    #contact_force_one_phonenumber: true
     #labels_offset: 500
+  contact:
+    force_title: true
+    force_uppercase: [name, city]
+    force_ucfirst: [firstname]
+    #force_fields: [firstname, postalcode, city]
+    #force_one_phonenumber: true
+    #social_informations: true
+  organism:
+    force_uppercase: [city]
+    force_ucfirst: [name]
+    #force_fields: [postalcode, city]
   #controls:
   #  enable: true
   cards:
