@@ -13,6 +13,7 @@ class ContactFormFilter extends BaseContactFormFilter
   protected $noTimestampableUnset = true;
   protected $showProfessionalData = true;
   protected $tickets_having_query = NULL; // Doctrine_Query
+  protected $grpintersection = false;
 
   /**
    * @see AddressableFormFilter
@@ -25,6 +26,12 @@ class ContactFormFilter extends BaseContactFormFilter
       ->groupBy('hqc.id')
       ->select('hqc.id');
     
+    $this->widgetSchema   ['groups_intersection'] = new sfWidgetFormInputCheckbox(array(
+      'value_attribute_value' => 1,
+    ));
+    $this->validatorSchema['groups_intersection'] = new sfValidatorBoolean(array(
+      'true_values' => array('1'),
+    ));
     $this->widgetSchema['groups_list']->setOption(
       'order_by',
       array('u.id IS NULL DESC, u.username, name','')
@@ -593,16 +600,28 @@ class ContactFormFilter extends BaseContactFormFilter
     
     if ( is_array($value) && count($value) )
     {
-      if ( !$q->contains("LEFT JOIN $a.Groups gc") )
-        $q->leftJoin("$a.Groups gc");
-      
-      if ( !$q->contains("LEFT JOIN p.Groups gp") )
-        $q->leftJoin("p.Groups gp");
-      
-      $q->andWhere('(TRUE')
-        ->andWhereIn("gc.id",$value)
-        ->orWhereIn("gp.id",$value)
-        ->andWhere('TRUE)');
+      if ( !$this->values['groups_intersection'] )
+      {
+        if ( !$q->contains("LEFT JOIN $a.Groups gc") )
+          $q->leftJoin("$a.Groups gc");
+        
+        if ( !$q->contains("LEFT JOIN p.Groups gp") )
+          $q->leftJoin("p.Groups gp");
+        
+        $q->andWhere('(TRUE')
+          ->andWhereIn("gc.id",$value)
+          ->orWhereIn("gp.id",$value)
+          ->andWhere('TRUE)');
+      }
+      else
+      // if we are looking for the intersection, not the union
+      foreach ( $value as $gid )
+      {
+        $q->andWhere('(TRUE')
+          ->andWhere('c.id IN (SELECT s'.$gid.'gc.id FROM Group s'.$gid.'gtc LEFT JOIN s'.$gid.'gtc.Contacts s'.$gid.'gc WHERE s'.$gid.'gtc.id = ?)',$gid)
+          ->orWhere('p.id IN (SELECT s'.$gid.'gp.id FROM Group s'.$gid.'gtp LEFT JOIN s'.$gid.'gtp.Professionals s'.$gid.'gp WHERE s'.$gid.'gtp.id = ?)',$gid)
+          ->andWhere('TRUE)');
+      }
     }
     
     return $q;
@@ -903,6 +922,7 @@ class ContactFormFilter extends BaseContactFormFilter
   }
   public function buildQuery(array $values)
   {
+    $this->values = $values;
     $this->setProfessionalData(false);
     
     // to limit execution time

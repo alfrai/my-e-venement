@@ -76,20 +76,13 @@ generator:
           <?php endif; echo PHP_EOL; ?>
           _edit: ~
           _delete: ~
-      show: 
-        display:
-          NONE: [_show_who, address, postalcode, city, country, _show_region, _show_email, _show_phonenumbers_list, _show_member_cards_list, _show_groups_list]
-          Precisions: [_show_family_contact, npai, description, _YOBs]
-          Technic: [created_at,updated_at,slug,longitude,latitude]
-          Ticketting: [_show_events_list]
-          Social: [_familial_situation_id, _type_of_resources_id, _familial_quotient_id, _show_relationships_list, _show_foreign_relationships_list]
       filter:
         display:
           Personal: [title, name, firstname, postalcode, city, region_id, country, email]
           <?php if ( sfConfig::get('app_contact_social_informations', false) ): echo PHP_EOL; ?>
           Social informations: [familial_quotient_id, familial_situation_id, type_of_resources_id]
           <?php endif ?><?php echo PHP_EOL ?>
-          Relations: [groups_list, not_groups_list, organism_id, organism_category_id, professional_type_id, has_professional_type_id, organism_professional_id]
+          Relations: [groups_intersection, groups_list, not_groups_list, organism_id, organism_category_id, professional_type_id, has_professional_type_id, organism_professional_id]
           <?php if ( sfConfig::get('app_cards_enable',false) ): ?><?php echo PHP_EOL ?>
           Member cards: [member_cards, member_cards_valid_at, member_cards_not_valid_at]
           <?php endif ?><?php echo PHP_EOL ?>
@@ -114,3 +107,10 @@ generator:
           Phonenumber: [phone_type, phone_number]
           Precisions: [family_contact, npai, description, YOBs, password]
           Social: [familial_situation_id, type_of_resources_id, familial_quotient_id, Relationships]
+      show: 
+        display:
+          NONE: [_show_who, address, postalcode, city, country, _show_region, _show_email, _show_phonenumbers_list, _show_member_cards_list, _show_groups_list]
+          Precisions: [_show_family_contact, npai, description, _YOBs]
+          Technic: [created_at,updated_at,slug,longitude,latitude]
+          Ticketting: [_show_events_list]
+          Social: [_familial_situation_id, _type_of_resources_id, _familial_quotient_id, _show_relationships_list, _show_foreign_relationships_list]
