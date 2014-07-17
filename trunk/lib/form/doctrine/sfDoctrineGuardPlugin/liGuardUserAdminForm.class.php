@@ -43,6 +43,10 @@ class liGuardUserAdminForm extends sfGuardUserAdminForm
     $this->widgetSchema   ['auth_for_groups_list']->setOption('query',$q)
                                                   ->setOption('order_by',array('name',''))
                                                   ->setOption('expanded', true);
+    $this->validatorSchema['auto_groups_list']->setOption('query',$q = Doctrine::getTable('Group')->createQuery('g')->andWhere('g.sf_guard_user_id IS NULL OR g.sf_guard_user_id = ?', $this->getObject()->getId()));
+    $this->widgetSchema   ['auto_groups_list']->setOption('query',$q)
+                                              ->setOption('order_by',array('sf_guard_user_id IS NOT NULL, g.name',''))
+                                              ->setOption('expanded', true);
   }
   
   public function doSave($con = NULL)

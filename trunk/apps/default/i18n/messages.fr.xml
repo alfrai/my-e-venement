@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Auto groups</source>
+        <target>Groupes auto</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List of groups to join automatically on a contact/organism creation (careful: to be active, the user needs the permission to access this group on top of here)</source>
+        <target>Liste des groupes à ajouter automatiquement lors de la création d'un contact ou d'un organisme (attention: pour être actif, l'utilisateur doit avoir la permission d'accéder à ce groupe dans la partie ci-dessus)</target>
+      </trans-unit>
+      <trans-unit>
         <source>Filters list</source>
         <target>Liste des filtres</target>
       </trans-unit>

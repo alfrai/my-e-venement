@@ -23,6 +23,7 @@ generator:
         email_address:  { label: Email address }
         list_contact:   { label: Linked contact }
         auth_for_groups_list: { label: List of authorized groups }
+        auto_groups_list: { label: Auto groups, help: "List of groups to join automatically on a contact/organism creation (careful: to be active, the user needs the permission to access this group on top of here)" }
       
       filter:
         display: [username, is_active, is_super_admin, last_name, first_name, email_address, meta_events_list, workspaces_list, prices_list]
@@ -36,7 +37,7 @@ generator:
         display:
           "User":                   [username, password, password_again, first_name, last_name, email_address]
           "Permissions and groups": [is_active, is_super_admin, groups_list]
-          "Public relations":       [auth_for_groups_list]
+          "Public relations":       [auth_for_groups_list, auto_groups_list]
           "Ticketting items":       [meta_events_list, workspaces_list, prices_list]
           "Misc":                   [contact_id, <?php echo sfConfig::get('project_messaging_enable',false) ? '_show_jabber, ' : '' ?>member_cards_list]
         class: liGuardUserAdminForm

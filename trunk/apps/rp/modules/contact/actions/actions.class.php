@@ -217,7 +217,7 @@ class contactActions extends autoContactActions
   {
     // hack for the title to be recorded properly
     $params = $request->getParameter('contact');
-    if ( !$params['title'] && $autocomplete = $request->getParameter('autocomplete_contact') )
+    if ( !isset($params['title']) && $autocomplete = $request->getParameter('autocomplete_contact') )
       $params['title'] = $autocomplete['title'];
     $request->setParameter('contact',$params);
     

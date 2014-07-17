@@ -72,6 +72,10 @@ Group:
       class: sfGuardUser
       refClass: GroupUser
       foreignAlias: AuthForGroups
+    AutoUsers:
+      class: sfGuardUser
+      refClass: GroupAutoUser
+      foreignAlias: AutoGroups
     Picture:
       foreignAlias: Groups
       onDelete: SET NULL
@@ -166,6 +170,27 @@ GroupUser:
       class: sfGuardUser
     Group:
       foreignAlias: GroupUsers
+      onDelete: CASCADE
+      onUpdate: CASCADE
+GroupAutoUser:
+  package: group
+  inheritance:
+    extends: GroupDetail
+    type: concrete
+  columns:
+    sf_guard_user_id:
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    User:
+      foreignAlias: UserAutoGroups
+      onDelete: CASCADE
+      onUpdate: CASCADE
+      local: sf_guard_user_id
+      class: sfGuardUser
+    Group:
+      foreignAlias: GroupAutoUsers
       onDelete: CASCADE
       onUpdate: CASCADE
 GroupDeleted:

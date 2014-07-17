@@ -41,6 +41,18 @@ abstract class PluginContact extends BaseContact
     if ( !$rel['to_contact_id'] )
       unset($this->Relationships[$key]);
     
+    // auto-adding user's auto-groups
+    if ( sfContext::hasInstance() )
+    foreach ( sfContext::getInstance()->getUser()->getGuardUser()->AutoGroups as $group )
+    {
+      $users = array();
+      foreach ( $group->Users as $user )
+        $users[] = $user->id;
+      
+      if ( in_array(sfContext::getInstance()->getUser()->getId(), $users) )
+        $this->Groups[] = $group;
+    }
+    
     return parent::preSave($event);
   }
   
