@@ -27,7 +27,9 @@ class socialActions extends sfActions
     $this->form = new StatsCriteriasForm();
     $this->form
       ->addGroupsCriteria()
-      ->removeDatesCriteria();
+      ->removeDatesCriteria()
+      ->addStrictContactsCriteria()
+    ;
     if ( is_array($this->getCriterias()) )
       $this->form->bind($this->getCriterias());
   }
@@ -125,13 +127,18 @@ class socialActions extends sfActions
       ->select('t.id, t.name')
       ->leftJoin('t.Contacts c')
       ->leftJoin('c.Groups g')
-      ->addSelect('count(t.id) as nb')
       ->groupBy('t.id, t.name')
       ->orderBy('t.name');
     
     $criterias = $this->getCriterias();
     if ( isset($criterias['groups_list']) && $criterias['groups_list'] )
       $q->andWhereIn('g.id',$criterias['groups_list']);
+    
+    if ( isset($criterias['strict_contacts']) && $criterias['strict_contacts'] )
+      $q->addSelect('count(DISTINCT (c.id)) AS nb');
+    else
+      $q->leftJoin('c.YOBs y')
+        ->addSelect('count(DISTINCT (c.id, y.id)) AS nb');
     
     return $q->execute();
   }

@@ -175,6 +175,19 @@ class StatsCriteriasForm extends BaseForm
     ));
     return $this;
   }
+  public function addStrictContactsCriteria()
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    $this->widgetSchema   ['strict_contacts'] = new sfWidgetFormChoice(array(
+      'choices' => array('0' => __('no',null,'sf_admin'), '1' => __('yes',null,'sf_admin')),
+      'label' => 'Counting only contacts (not family members)',
+    ));
+    $this->validatorSchema['strict_contacts'] = new sfValidatorBoolean(array(
+      'required' => false,
+      'true_values' => array('1'),
+    ));
+    return $this;
+  }
   
   public function removeDatesCriteria()
   {

@@ -53,6 +53,12 @@
       <span><?php echo $form['with_contact'] ?></span>
     </li>
     <?php endif ?>
+    <?php if ( isset($form['strict_contacts']) ): ?>
+    <li class="strict_contacts">
+      <?php echo $form['strict_contacts']->renderLabel() ?>
+      <span><?php echo $form['strict_contacts'] ?></span>
+    </li>
+    <?php endif ?>
     <?php if ( isset($form['users']) ): ?>
     <li class="users">
       <?php echo $form['users']->renderLabel() ?>

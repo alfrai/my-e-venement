@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Counting only contacts (not family members)</source>
+        <target>Compter les contacts seuls (pas les membres de la famille)</target>
+      </trans-unit>
+      <trans-unit>
         <source>Printed with a payment</source>
         <target>Imprimés + paiement</target>
       </trans-unit>
