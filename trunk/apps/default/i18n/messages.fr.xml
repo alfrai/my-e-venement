@@ -5,6 +5,54 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Mandatory fields for public relations</source>
+        <target>Champs obligatoires pour les relations aux publics</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Postalcode</source>
+        <target>Code postal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>City</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Country</source>
+        <target>Pays</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Title</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Family contact</source>
+        <target>Contact de famille</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism category</source>
+        <target>Catégorie d'organisme</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Familial quotient</source>
+        <target>Quotient familial</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Type of resources</source>
+        <target>Type de ressources</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Familial situation</source>
+        <target>Situation familiale</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit>
         <source>Auto groups</source>
         <target>Groupes auto</target>
       </trans-unit>

@@ -301,6 +301,17 @@ OptionLabels:
     type: column_aggregation
     keyField: type
     keyValue: 'labels'
+OptionMandatoryField:
+  package: rp
+  inheritance:
+    extends: Option
+    type: column_aggregation
+    keyField: type
+    keyValue: 'rp_mandatory_field'
+  relations:
+    sfGuardUser:
+      foreignAlias: RpMandatoryFields
+      onDelete: CASCADE
 
 GeoFrDepartment:
   package: rp

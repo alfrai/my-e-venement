@@ -16,5 +16,12 @@ class AddressableForm extends BaseAddressableForm
     
     if ( is_null($this->object->vcard_uid) )
       unset($this->widgetSchema['vcard_uid']);
+    
+    if ( sfContext::hasInstance() && sfContext::getInstance()->getConfiguration()->getApplication() === 'rp' )
+    foreach ( sfContext::getInstance()->getUser()->getGuardUser()->RpMandatoryFields as $option )
+    {
+      if ( isset($this->widgetSchema[$option->value]) )
+        $this->validatorSchema[$option->value]->setOption('required', true);
+    }
   }
 }
