@@ -89,6 +89,9 @@ class Manifestation extends PluginManifestation
     **/
   public function hasAnyConflict()
   {
+    if ( !$this->blocking )
+      return false;
+    
     $rids = array();
     foreach ( $this->Booking as $r )
       $rids[] = $r->id;
