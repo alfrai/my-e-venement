@@ -97,7 +97,7 @@
       ));
       if ( $manif->color_id )
         $manifs[count($manifs)-1]['backgroundColor'] = $manif->Color->color;
-      unset($manifs[count($manifs)-1]['hackurl']);
+      //unset($manifs[count($manifs)-1]['hackurl']);
     }
     
     // finition things
@@ -116,7 +116,7 @@
       ));
       if ( $manif->color_id )
         $manifs[count($manifs)-1]['backgroundColor'] = $manif->Color->color;
-      unset($manifs[count($manifs)-1]['hackurl']);
+      //unset($manifs[count($manifs)-1]['hackurl']);
     }
   }
 ?>
