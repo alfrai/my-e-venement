@@ -54,10 +54,32 @@
     
     if ( $this->card->isValid() )
     {
+      $this->transaction = null;
       if ( !$request->hasParameter('duplicate') )
       {
         $this->card->save();
         $this->card = $this->card->getObject();
+        
+        if ( $this->card->MemberCardType->value > 0 )
+        {
+          $payment = new Payment;
+          if ( intval($pmid = $request->getParameter('payment_method_id')) > 0 )
+            $payment->payment_method_id = $pmid;
+          else
+          {
+            $pm = Doctrine::getTable('PaymentMethod')->createQuery('pm')
+              ->andWhere('pm.member_card_linked = true')
+              ->fetchOne();
+            $payment->payment_method_id = $pm->id;
+          }
+          $payment->MemberCard = $this->card;
+          $payment->value = -$this->card->MemberCardType->value;
+          
+          $this->transaction = new Transaction;
+          $this->transaction->Contact = $this->card->Contact;
+          $this->transaction->Payments[] = $payment;
+          $this->transaction->save();
+        }
       }
       else
       {
@@ -80,30 +102,6 @@
       }
       
       $this->setLayout('nude');
-      $this->transaction = null;
-      
-      // payments in ticketting
-      if ( $this->card->MemberCardType->value > 0 )
-      {
-        $payment = new Payment;
-        if ( intval($pmid = $request->getParameter('payment_method_id')) > 0 )
-          $payment->payment_method_id = $pmid;
-        else
-        {
-          $pm = Doctrine::getTable('PaymentMethod')->createQuery('pm')
-            ->andWhere('pm.member_card_linked = true')
-            ->fetchOne();
-          $payment->payment_method_id = $pm->id;
-        }
-        $payment->MemberCard = $this->card;
-        $payment->value = -$this->card->MemberCardType->value;
-        
-        $this->transaction = new Transaction;
-        $this->transaction->Contact = $this->card->Contact;
-        $this->transaction->Payments[] = $payment;
-        $this->transaction->save();
-      }
-
       return 'Success';
     }
     else
