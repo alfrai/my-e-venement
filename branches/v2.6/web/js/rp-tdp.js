@@ -242,6 +242,17 @@ $(document).ready(function(){
     return false;
   });
   
+  // emails
+  $('#tdp-side-bar #tdp-side-emails .emails-object, #tdp-side-bar #tdp-side-emails .emails-subobject').each(function(){
+    if ( $(this).find('.archive').length > 0 )
+      $(this).find('.archive:last').after('<li class="more"><a href="#">...</a></li>');
+  });
+  $('#tdp-side-bar #tdp-side-emails .more a').click(function(){
+    $(this).closest('.emails-object, .emails-subobject').find('.archive').fadeIn();
+    $(this).remove();
+    return false;
+  });
+  
   // TOPBAR
   $('#tdp-top-bar .tdp-top-widget > a.group').mouseenter(function(){
     $(this).parent().find('.tdp-submenu').fadeIn('medium')
