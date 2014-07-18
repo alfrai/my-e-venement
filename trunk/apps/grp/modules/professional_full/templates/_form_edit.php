@@ -43,8 +43,7 @@
       <?php $i = 1 ?>
       <?php $ces = array(); foreach ( $professional->ContactEntries as $ce ) $ces[(string)$ce->Entry->Event.$ce->id] = $ce; ksort($ces); ?>
       <?php foreach ( $ces as $ce ): ?>
-      <?php $entry = $ce->Entry ?>
-      <?php $mes = array(); foreach ( $entry->ManifestationEntries as $me ) $mes[$me->Manifestation->happens_at.$me->id] = $me; ksort($mes); ?>
+      <?php $mes = array(); foreach ( $ce->Entry->ManifestationEntries as $me ) $mes[$me->Manifestation->happens_at.$me->id] = $me; ksort($mes); ?>
       <?php foreach ( $mes as $me ): ?>
       <tr class="manifestation-<?php echo $me->id ?> <?php echo ++$i%2 == 0 ? 'pair' : 'impair' ?> <?php if ( !is_null($ce->transaction_id) ) echo 'transposed' ?> <?php if ( $ce->confirmed ) echo 'confirmed' ?>">
         <?php $j = 0 ?>
@@ -116,7 +115,14 @@
         <?php foreach ( $ces as $ce ): ?>
         <td class="contact <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>">
           <a href="<?php echo cross_app_url_for('event','event/show?id='.$ce->Entry->event_id) ?>"><?php echo $ce->Entry->Event ?></a>
-          <a style="float: right" class="fg-button-mini fg-button ui-state-default fg-button-icon-left" href="<?php echo url_for('event/edit?id='.$ce->Entry->event_id) ?>"><span class="ui-icon ui-icon-document"></span><?php echo __('Show','','sf_admin') ?></a>
+          <a style="float: right" class="fg-button-mini fg-button ui-state-default fg-button-icon-left"
+             href="<?php echo url_for('contact_entry/del?id='.$ce->id) ?>"
+             onclick="javascript: $.get($(this).prop('href'), function(){ location.reload(); }); return false;">
+            <span class="ui-icon ui-icon-trash"></span><?php echo __('Show','','sf_admin') ?>
+          </a>
+          <a style="float: right" class="fg-button-mini fg-button ui-state-default fg-button-icon-left" href="<?php echo url_for('event/edit?id='.$ce->Entry->event_id) ?>">
+            <span class="ui-icon ui-icon-document"></span><?php echo __('Show','','sf_admin') ?>
+          </a>
         </td>
         <?php endforeach ?>
       </tr>

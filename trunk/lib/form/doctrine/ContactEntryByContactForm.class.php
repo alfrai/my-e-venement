@@ -19,7 +19,9 @@ class ContactEntryByContactForm extends BaseContactEntryForm
     
     $this->widgetSchema   ['event_id'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'Event',
-      'query' => $q = Doctrine::getTable('Event')->retrieveList()->select('e.*'),
+      'query' => $q = Doctrine::getTable('Event')->retrieveList()
+        ->select('e.*')
+        ->andWhere('g.workspace_id IN (SELECT gw.workspace_id FROM GroupWorkspace gw)'),
       'order_by' => array('name', ''),
     ));
     $this->validatorSchema['event_id'] = new sfValidatorDoctrineChoice(array(
@@ -75,18 +77,42 @@ class ContactEntryByContactForm extends BaseContactEntryForm
   
   public function doSave($con = null)
   {
-    $entry = Doctrine::getTable('Entry')->createQuery('e')
+    $q = Doctrine::getTable('Entry')->createQuery('e')
       ->leftJoin('e.Event ev')
+      ->leftJoin('ev.Manifestations m')
+      ->leftJoin('m.Gauges g')
+      ->leftJoin('e.ManifestationEntries me')
       ->andWhere('ev.id = ?',$this->values['event_id'])
-      ->fetchOne();
+      ->andWhere('g.workspace_id IN (SELECT gw.workspace_id FROM GroupWorkspace gw)');
+    if ( sfContext::hasInstance() )
+    {
+      $sf_user = sfContext::getInstance()->getUser();
+      $q->andWhereIn('g.workspace_id', array_keys($sf_user->getWorkspacesCredentials()))
+        ->andWhereIn('ev.meta_event_id', array_keys($sf_user->getWorkspacesCredentials()))
+      ;
+    }
+    $entry = $q->fetchOne();
     if ( !$entry )
     {
       $entry = new Entry;
       $entry->event_id = $this->values['event_id'];
-      $entry->save();
+      $event = Doctrine::getTable('Event')->retrieveList()
+        ->andWhere('g.workspace_id IN (SELECT gw.workspace_id FROM GroupWorkspace gw)')
+        ->andWhere('e.id = ?', $entry->event_id)
+        ->fetchOne();
+    }
+    else
+      $event = $entry->Event;
+    
+    if ( $entry->ManifestationEntries->count() == 0 && $entry->Event->Manifestations->count() > 0 )
+    foreach ( $entry->Event->Manifestations as $manif )
+    {
+      $me = new ManifestationEntry;
+      $me->Manifestation = $manif;
+      $entry->ManifestationEntries[] = $me;
     }
     
-    $this->object->entry_id = $entry->id;
+    $this->object->Entry = $entry;
     $this->object->confirmed = false;
     parent::doSave($con);
   }
