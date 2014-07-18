@@ -35,6 +35,7 @@ class ContactForm extends BaseContactForm
     $this->widgetSchema   ['title']     = new sfWidgetFormDoctrineChoice(array(
       'model' => 'TitleType',
       'add_empty' => true,
+      'key_method' => '__toString',
     ));
     else
     $this->widgetSchema   ['title']     = new liWidgetFormDoctrineJQueryAutocompleterGuide(array(
