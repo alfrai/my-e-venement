@@ -18,7 +18,9 @@ class ManifestationForm extends BaseManifestationForm
       'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
     $this->widgetSchema['workspaces_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
-    $this->widgetSchema['event_id']->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery()));
+    $this->widgetSchema['event_id']
+      ->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery()))
+      ->setOption('order_by', array('name', ''));
     $this->widgetSchema['color_id']
       ->setOption('order_by',array('name',''))
       ->setOption('method', 'getName');
