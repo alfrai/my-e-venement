@@ -88,6 +88,25 @@ class EventFormFilter extends BaseEventFormFilter
       'null_value'  => '-1',
       'required'    => false,
     ));
+    $this->widgetSchema   ['dates_range'] = new sfWidgetFormFilterDate(array(
+      'from_date' => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+      'to_date'   => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
+      'template'  => '<span class="from">'.__('From %from_date%').'</span> <span class="to">'.__('to %to_date%').'</span>',
+      'with_empty'=> false,
+    ));
+    $this->validatorSchema['dates_range'] = new sfValidatorDateRange(array(
+      'from_date'     => new sfValidatorDate(array(
+        'required'    => false,
+        'date_output' => 'Y-m-d',
+        'with_time'   => false,
+      )),
+      'to_date'       => new sfValidatorDate(array(
+        'required'    => false,
+        'date_output' => 'Y-m-d',
+        'with_time'   => false,
+      )),
+      'required' => false,
+    ));
   }
   public function buildQuery(array $values)
   {
@@ -102,6 +121,7 @@ class EventFormFilter extends BaseEventFormFilter
       'workspaces_list' => 'WorkspacesList',
       'location_id'     => 'LocationId',
       'colors_list'     => 'ColorsList',
+      'dates_range'     => 'DatesRange',
     ));
   }
   protected function getTranslatedFields($fieldName = NULL)
@@ -126,6 +146,24 @@ class EventFormFilter extends BaseEventFormFilter
       ->andWhere('TRUE)');
   }
   
+  public function addDatesRangeColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    if (!( $values && is_array($values) && ($values['from'] || $values['to']) ))
+      return $q;
+    
+    $a = $q->getRootAlias();
+    if ( !$q->contains("LEFT JOIN $a.Manifestations m") )
+      $q->leftJoin("$a.Manifestations m");
+    
+    if ( $values['from'] )
+      $q->andWhere('m.reservation_begins_at >= ? OR m.happens_at >= ?', array($values['from'], $values['from']));
+    if ( $values['to'] )
+      $q->andWhere("m.reservation_ends_at < ?", array($values['to']));
+    
+    return $q;
+  }
   public function addColorsListColumnQuery(Doctrine_Query $q, $field, $values)
   {
     if ( !$values )

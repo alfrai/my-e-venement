@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Dates range</source>
+        <target>Intervalle de dates</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Today</source>
+        <target>Aujourd'hui</target>
+      </trans-unit>
+      <trans-unit>
+        <source>This week</source>
+        <target>Cette semaine</target>
+      </trans-unit>
+      <trans-unit>
+        <source>This month</source>
+        <target>Ce mois</target>
+      </trans-unit>
+      <trans-unit>
         <source>No color</source>
         <target>Sans couleur</target>
       </trans-unit>

@@ -39,6 +39,7 @@ generator:
         manif_optional : { label: Optional manifestations }
         list_manifestations_extra_informations: { label: "" }
         colors_list: { label: Color }
+        dates_range: { type: date }
       list:
         title: Event List
         display: [MetaEvent, name, EventCategory, duration_h_r, age_min_h_r, _list_manifestations, _list_manifestations_gauges, _list_manifestations_places, _list_manifestations_extra_informations]
@@ -54,7 +55,8 @@ generator:
             label: Add a manifestation
       filter:
         display:
-          Event:              [meta_event_id, event_category_id, name, duration, workspaces_list, location_id, colors_list]
+          Event:              [name, meta_event_id, event_category_id]
+          Manifestations:     [dates_range, location_id, workspaces_list, duration, colors_list]
           Bookings:           [contact_id, manif_confirmed, manif_blocking, manif_conflict, manif_optional]
           Extra informations: [staging, writer, age_min, age_max, companies_list, display_by_default]
       form: ~
