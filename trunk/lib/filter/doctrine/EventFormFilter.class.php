@@ -41,12 +41,13 @@ class EventFormFilter extends BaseEventFormFilter
     
     $this->widgetSchema['event_category_id']->setOption('order_by',array('name',''));
     
-    $this->widgetSchema   ['resource_id'] = new sfWidgetFormDoctrineChoice(array(
+    $this->widgetSchema   ['location_id'] = new sfWidgetFormDoctrineChoice(array(
       'add_empty' => true,
       'model'     => 'Location',
       'order_by'  => array('place DESC, name',''),
+      'method'    => '__toStringWithPrefix',
     ));
-    $this->validatorSchema['resource_id'] = new sfValidatorDoctrineChoice(array(
+    $this->validatorSchema['location_id'] = new sfValidatorDoctrineChoice(array(
       'required'  => false,
       'model'     => 'Location',
     ));
@@ -86,6 +87,7 @@ class EventFormFilter extends BaseEventFormFilter
   {
     return array_merge(parent::getFields(),array(
       'workspaces_list' => 'WorkspacesList',
+      'location_id'     => 'LocationId',
     ));
   }
   protected function getTranslatedFields($fieldName = NULL)
@@ -110,7 +112,7 @@ class EventFormFilter extends BaseEventFormFilter
       ->andWhere('TRUE)');
   }
   
-  public function addResourceIdColumnQuery(Doctrine_Query $q, $field, $value)
+  public function addLocationIdColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $a = $q->getRootAlias();
     if ( !$q->contains("LEFT JOIN $a.Manifestations m") )

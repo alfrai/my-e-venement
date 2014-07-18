@@ -53,8 +53,8 @@ generator:
             label: Add a manifestation
       filter:
         display:
-          Event:              [meta_event_id, event_category_id, name, duration, workspaces_list]
-          Bookings:           [resource_id, contact_id, manif_confirmed, manif_blocking, manif_conflict, manif_optional]
+          Event:              [meta_event_id, event_category_id, name, duration, workspaces_list, location_id]
+          Bookings:           [contact_id, manif_confirmed, manif_blocking, manif_conflict, manif_optional]
           Extra informations: [staging, writer, age_min, age_max, companies_list, display_by_default]
       form: ~
       edit:

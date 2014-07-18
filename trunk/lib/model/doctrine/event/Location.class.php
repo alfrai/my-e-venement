@@ -39,4 +39,9 @@ class Location extends PluginLocation
     
     return false;
   }
+  
+  public function __toStringWithPrefix()
+  {
+    return (!$this->place ? 'R: ' : '').$this;
+  }
 }
