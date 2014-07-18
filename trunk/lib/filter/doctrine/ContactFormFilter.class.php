@@ -224,17 +224,23 @@ class ContactFormFilter extends BaseContactFormFilter
       'multiple' => true,
       'model' => 'MemberCardType',
     ));
-    $this->widgetSchema   ['member_cards_valid_at'] = new liWidgetFormDateText(array(
+    $this->widgetSchema   ['member_cards_valid_at'] = new liWidgetFormJQueryDateText(array(
       'culture' => sfContext::getInstance()->getUser()->getCulture(),
     ));
     $this->validatorSchema['member_cards_valid_at'] = new sfValidatorDate(array(
       'required' => false,
     ));
-    $this->widgetSchema   ['member_cards_not_valid_at'] = new liWidgetFormDateText(array(
+    $this->widgetSchema   ['member_cards_not_valid_at'] = new liWidgetFormJQueryDateText(array(
       'culture' => sfContext::getInstance()->getUser()->getCulture(),
     ));
     $this->validatorSchema['member_cards_not_valid_at'] = new sfValidatorDate(array(
       'required' => false,
+    ));
+    $this->widgetSchema   ['member_cards_only_last'] = new sfWidgetFormChoice(array(
+      'choices' => array('0' => 'no', '1' => 'yes'),
+    ));
+    $this->validatorSchema['member_cards_only_last'] = new sfValidatorBoolean(array(
+      'true_values' => array('1'),
     ));
     
     // flow control
@@ -299,9 +305,9 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['not_professionals_list'] = 'NotProfessionalsList';
     $fields['organism_id']          = 'OrganismId';
     $fields['organism_category_id'] = 'OrganismCategoryId';
-    $fields['organism_professional_id'] = 'OrganismProfessionalId';
-    $fields['professional_type_id'] = 'ProfessionalTypeId';
-    $fields['has_professional_type_id'] = 'HasProfessionalTypeId';
+    $fields['organism_professional_id']   = 'OrganismProfessionalId';
+    $fields['professional_type_id']       = 'ProfessionalTypeId';
+    $fields['has_professional_type_id']   = 'HasProfessionalTypeId';
     $fields['has_email']            = 'HasEmail';
     $fields['email_newsletter']     = 'EmailNewsletter';
     $fields['has_address']          = 'HasAddress';
@@ -316,12 +322,13 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['event_archives']       = 'EventArchives';
     $fields['prices_list']          = 'PricesList';
     $fields['member_cards']         = 'MemberCards';
-    $fields['member_cards_valid_at'] = 'MemberCardsValidAt';
-    $fields['member_cards_not_valid_at'] = 'MemberCardsNotValidAt';
-    $fields['control_manifestation_id'] = 'ControlManifestationId';
-    $fields['control_checkpoint_id'] = 'ControlCheckpointId';
+    $fields['member_cards_valid_at']      = 'MemberCardsValidAt';
+    $fields['member_cards_not_valid_at']  = 'MemberCardsNotValidAt';
+    $fields['member_cards_only_last']     = 'MemberCardsOnlyLast';
+    $fields['control_manifestation_id']   = 'ControlManifestationId';
+    $fields['control_checkpoint_id']      = 'ControlCheckpointId';
     $fields['control_created_at']   = 'ControlCreatedAt';
-    $fields['region']   = 'RegionId';
+    $fields['region']               = 'RegionId';
     
     // must be the last ones, because of a having() part which needs to be added lately
     $fields['tickets_amount_min']   = 'TicketsAmountMin';
@@ -824,6 +831,19 @@ class ContactFormFilter extends BaseContactFormFilter
       if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
         $q->leftJoin("$c.MemberCards mc");
       $q->andWhere("mc.expire_at <= ?",date('Y-m-d',strtotime($value)))
+        ->andWhere('mc.active = ?',true);
+    }
+    
+    return $q;
+  }
+  public function addMemberCardsOnlyLastColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $c = $q->getRootAlias();
+    if ( $value )
+    {
+      if ( !$q->contains("LEFT JOIN $c.MemberCards mc") )
+        $q->leftJoin("$c.MemberCards mc");
+      $q->andWhere("mc.id = (SELECT max(mc2.id) FROM MemberCard mc2 WHERE mc2.contact_id = $c.id AND mc2.active = TRUE)")
         ->andWhere('mc.active = ?',true);
     }
     
