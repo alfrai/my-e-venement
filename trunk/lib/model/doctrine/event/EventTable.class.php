@@ -43,6 +43,7 @@ class EventTable extends PluginEventTable
   {
     $cid = 0;
     $admin = false;
+    $sf_user = false;
     try {
     if ( sfContext::hasInstance() && method_exists(sfContext::getInstance()->getUser(), 'getContactId') )
     {
@@ -53,7 +54,7 @@ class EventTable extends PluginEventTable
     catch ( liOnlineSaleException $e )
     { }
     
-    return $this->createQuery('e')
+    $q = $this->createQuery('e')
       ->select('e.*, ec.*, me.*, m.*, l.*, c.*, g.*')
       ->addSelect('(SELECT max(mm2.happens_at) AS max FROM Manifestation mm2 WHERE mm2.event_id = e.id) AS max_date')
       ->addSelect('(SELECT min(mm3.happens_at) AS min FROM Manifestation mm3 WHERE mm3.event_id = e.id) AS min_date')
@@ -62,7 +63,15 @@ class EventTable extends PluginEventTable
       .')')
       ->leftJoin('m.Color c')
       ->leftJoin('m.Gauges g')
-      ->leftJoin('m.Location l');
+      ->leftJoin('m.Location l')
+    ;
+    
+    if ( $sf_user )
+    $q->andWhereIn('g.workspace_id', array_keys($sf_user->getWorkspacesCredentials()))
+      ->andWhereIn('e.meta_event_id', array_keys($sf_user->getMetaEventsCredentials()))
+    ;
+    
+    return $q;
   }
   public function retrievePublicList()
   {
