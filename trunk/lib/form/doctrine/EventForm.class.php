@@ -36,6 +36,7 @@ class EventForm extends BaseEventForm
     $this->widgetSchema['name'] = new sfWidgetFormTextarea(array(), array('rows' => '1', 'cols' => 58));
     
     $this->widgetSchema['meta_event_id']
+      ->setOption('add_empty', true)
       ->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('MetaEvent')->createQuery('me')))
       ->setOption('order_by', array('me.name',''));
     $this->widgetSchema['event_category_id']->setOption('order_by', array('name',''));
