@@ -283,6 +283,10 @@ body #content { width: auto; }
 #tdp-side-bar #tdp-side-duplicates .ui-widget-header { padding: 3px 2px; font-size: 0.9em; margin: 2px 0; }
 #tdp-side-bar #tdp-side-duplicates .ui-widget-header h2 { padding: 0; margin: 0; }
 
+#tdp-side-bar #tdp-side-emails .archive { display: none; }
+#tdp-side-bar #tdp-side-emails .more { text-align: center; }
+#tdp-side-bar #tdp-side-emails .more a { text-decoration: none; }
+
 /* TOP */
 #tdp-top-bar { padding: 5px 5px 3px 5px; margin: -5px 0 3px -5px; }
 #tdp-top-bar .tdp-top-widget {

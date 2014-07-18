@@ -1,5 +1,5 @@
     <?php
-      $groups = $sort = array();
+      $sort = array();
       $total = array('nb' => 0, 'value' => 0);
       
       $objects = array($object);
@@ -14,11 +14,17 @@
       <?php $cpt++ ?>
       <?php $total['nb'] += $obj->Emails->count() ?>
       <?php if ( $obj->Emails->count() > 0 ): ?>
-      <li class="emails-<?php echo $cpt == 1 ? 'object' : 'subobject-'.$obj->id ?>">
+      <li class="emails-<?php echo $cpt == 1 ? 'object' : 'subobject emails-subobject-'.$obj->id ?>">
         <h3><?php if ( count($objects) > 1 ) echo $obj ?></h3>
         <ul>
           <?php foreach ( $obj->Emails as $email ): ?>
-          <li><?php echo link_to($email,'email/show?id='.$email->id) ?></li>
+          <?php if ( $email->sent ): ?>
+            <?php $sort[$email->updated_at.'#'.$email->id] = $email ?>
+          <?php endif ?>
+          <?php endforeach ?>
+          <?php ksort($sort); $cpt = 0; foreach ( array_reverse($sort) as $email ): ?>
+            <?php $cpt++ ?>
+            <li <?php echo $cpt > 10 ? 'class="archive"' : '' ?>><?php echo link_to($email,'email/show?id='.$email->id) ?></li>
           <?php endforeach ?>
         </ul>
       </li>
