@@ -25,6 +25,9 @@
       <?php if ( isset($criterias['meta_events_list']) && count($criterias['meta_events_list']) > 0 ): ?>
       <li class="workspaces"><?php echo __('%%nb%% meta-event(s)',array( '%%nb%%' => count($criterias['meta_events_list']) )) ?></li>
       <?php endif ?>
+      <?php if ( isset($criterias['events_list']) && count($criterias['events_list']) > 0 ): ?>
+      <li class="events"><?php echo __('%%nb%% event(s)',array( '%%nb%%' => count($criterias['events_list']) )) ?></li>
+      <?php endif ?>
       <?php if ( isset($criterias['manifestations_list']) && count($criterias['manifestations_list']) > 0 ): ?>
       <li class="manifestations"><?php echo __('%%nb%% manifestation(s)',array( '%%nb%%' => count($criterias['manifestations_list']) )) ?></li>
       <?php endif ?>

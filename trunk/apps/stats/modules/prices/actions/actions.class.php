@@ -137,8 +137,14 @@ class pricesActions extends sfActions
     
     if ( isset($criterias['manifestations_list']) && count($criterias['manifestations_list']) > 0 )
       $q->andWhereIn('t.manifestation_id',$criterias['manifestations_list']);
+    if ( isset($criterias['events_list']) && count($criterias['events_list']) > 0 )
+      $q->andWhereIn('m.event_id',$criterias['events_list']);
     if ( isset($criterias['users']) && count($criterias['users']) > 0 )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
+    if ( isset($criterias['workspaces_list']) && count($criterias['workspaces_list']) > 0 )
+      $q->andWhereIn('g.workspace_id',$criterias['workspaces_list']);
+    if ( isset($criterias['meta_events_list']) && count($criterias['meta_events_list']) > 0 )
+      $q->andWhereIn('e.meta_event_id',$criterias['meta_events_list']);
 
     if ( !$all )
     {
