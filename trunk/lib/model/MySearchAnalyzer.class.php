@@ -26,6 +26,7 @@
 class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
 {
   protected static $_stopwords = array(
+  /*
     'l',
     'le',
     'la',
@@ -40,12 +41,13 @@ class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
     'tes',
     'ton',
     'ta',
+  */
   );
   
     public function analyze($text, $encoding = null)
     {
       $charset = sfConfig::get('software_internals_charset');
-      $text = strtolower(iconv($charset['db'],$charset['ascii'],$text));
+      $text = mb_strtolower(iconv($charset['db'],$charset['ascii'],$text));
       
       // directly copied from lib/vendor/symfony/lib/plugins/sfDoctrinePlugin/lib/vendor/doctrine/Doctrine/Search/Analyzer/Utf8.php
         if (is_null($encoding)) {
@@ -57,7 +59,7 @@ class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
             $text = iconv($encoding, 'UTF-8', $text);
         }
 
-        $text = str_replace("'", ' ', $text);
+        $text = mb_ereg_replace("'", ' ', $text);
         $text = preg_replace('/[^\p{L}\p{N}]+/u', ' ', $text);
         $text = preg_replace('/\s\s+/', ' ', $text);
 

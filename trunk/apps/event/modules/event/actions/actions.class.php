@@ -40,7 +40,6 @@ class eventActions extends autoEventActions
     $table = Doctrine::getTable('Event');
     
     $search = $this->sanitizeSearch($request->getParameter('s'));
-    $transliterate = sfConfig::get('software_internals_transliterate',array());
     
     $this->pager->setQuery($table->search($search.'*',$this->pager->getQuery()));
     $this->pager->setPage($request->getParameter('page') ? $request->getParameter('page') : 1);
@@ -165,8 +164,13 @@ class eventActions extends autoEventActions
 
   public static function sanitizeSearch($search)
   {
-    $nb = strlen($search);
+    $nb = mb_strlen($search);
     $charset = sfConfig::get('software_internals_charset');
-    return str_replace(array('-','+',','),' ',strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search)));
+    $transliterate = sfConfig::get('software_internals_transliterate',array());
+    
+    $search = str_replace(array('-','+',',',"'"),' ',strtolower(iconv($charset['db'],$charset['ascii'],mb_substr($search,$nb-1,$nb) == '*' ? mb_substr($search,0,$nb-1) : $search)));
+    $search = str_replace(array_keys($transliterate), array_values($transliterate), $search);
+    
+    return $search;
   }
 }
