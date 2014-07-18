@@ -72,7 +72,7 @@
     if ( in_array('__Professionals__Groups__name', $params['field']) )
       $q->leftJoin('p.Groups ggp')
         ->addSelect('ggp.id, ggp.name');
-    if ( in_array('__YOBs', $params['field']) )
+    if ( in_array('__YOBs__year', $params['field']) )
       $q->leftJoin("$a.YOBs yobs")
         ->addSelect('yobs.id, yobs.name, yobs.year, yobs.month, yobs.day');
     
@@ -114,7 +114,7 @@
       }
       
       // removing professionals objects to get a flat array
-      unset($this->lines[$key]['Groups'], $this->lines[$key]['Professionals'], $this->lines[$key]['ContactGroups']);
+      unset($this->lines[$key]['YOBs'], $this->lines[$key]['Groups'], $this->lines[$key]['Professionals'], $this->lines[$key]['ContactGroups']);
       
       // empty-ing links to professionals and organisms if not needed
       if ( !$this->filters->showProfessionalData() && !$group_pro )
