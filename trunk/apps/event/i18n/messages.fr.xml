@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>No color</source>
+        <target>Sans couleur</target>
+      </trans-unit>
+      <trans-unit>
         <source>Apply to</source>
         <target>Appliquer à</target>
       </trans-unit>

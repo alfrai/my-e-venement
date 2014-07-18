@@ -75,6 +75,19 @@ class EventFormFilter extends BaseEventFormFilter
       'choices' => array_keys($choices),
       'required' => false,
     ));
+    
+    $this->widgetSchema   ['colors_list'] = new liWidgetFormDoctrineChoice(array(
+      'model'       => 'Color',
+      'add_empty'   => array('-1', 'No color'),
+      'method'      => 'getName',
+      'multiple'    => true,
+    ));
+    $this->validatorSchema['colors_list'] = new liValidatorDoctrineChoice(array(
+      'model'       => 'Color',
+      'multiple'    => true,
+      'null_value'  => '-1',
+      'required'    => false,
+    ));
   }
   public function buildQuery(array $values)
   {
@@ -88,6 +101,7 @@ class EventFormFilter extends BaseEventFormFilter
     return array_merge(parent::getFields(),array(
       'workspaces_list' => 'WorkspacesList',
       'location_id'     => 'LocationId',
+      'colors_list'     => 'ColorsList',
     ));
   }
   protected function getTranslatedFields($fieldName = NULL)
@@ -110,6 +124,35 @@ class EventFormFilter extends BaseEventFormFilter
       ->andWhere("$me.id IS NULL")
       ->orWhereIn("$me.id",array_keys(sfContext::getInstance()->getUser()->getMetaEventsCredentials()))
       ->andWhere('TRUE)');
+  }
+  
+  public function addColorsListColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    
+    $a = $q->getRootAlias();
+    if ( !$q->contains("LEFT JOIN $a.Manifestations m") )
+      $q->leftJoin("$a.Manifestations m");
+    
+    if ( ($i = array_search($this->validatorSchema['colors_list']->getOption('null_value'), $values)) !== false )
+    {
+      if ( count($values) > 1 )
+      {
+        $q->andWhere('(TRUE');
+        unset($values[$i]);
+      }
+      $q->andWhere('m.color_id IS NULL');
+      if ( count($values) > 1 )
+      {
+        $q->orWhereIn('m.color_id', $values)
+          ->andWhere('TRUE)');
+      }
+    }
+    else
+      $q->andWhereIn('m.color_id', $values);
+    
+    return $q;
   }
   
   public function addLocationIdColumnQuery(Doctrine_Query $q, $field, $value)
