@@ -39,7 +39,8 @@ class ManifestationForm extends BaseManifestationForm
     $this->validatorSchema['ends_at'] = new sfValidatorDateTime(array('required' => false));
     $this->validatorSchema['duration'] = new sfValidatorString(array('required' => false));
     
-    $this->widgetSchema['vat_id']->setOption('add_empty',true);
+    $this->widgetSchema['vat_id']
+      ->setOption('order_by', array('value, name', ''));
     $this->widgetSchema['depends_on'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Manifestation',
       'url'   => url_for('manifestation/ajax?except='.$this->object->id),

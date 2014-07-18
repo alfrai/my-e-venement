@@ -15,3 +15,8 @@
 
 .sf_admin_list .sf_admin_action_add_manif a { background-position: -16px -128px; background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png') }
 .sf_admin_list .sf_admin_action_add_manif a.ui-state-active { background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_f9bd01_256x240.png') }
+
+#sf_admin_filter .sf_admin_date span { display: block; }
+#sf_admin_filter .sf_admin_date td + td { text-align: right; padding-right: 80px; }
+
+#li-direct-access { position: absolute; right: 200px; margin-top: 54px; border: 0; background: none; }
