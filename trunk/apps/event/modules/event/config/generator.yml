@@ -53,6 +53,9 @@ generator:
             action: addManifestation
             credentials: [event-manif-new]
             label: Add a manifestation
+        batch_actions:
+          _delete: ~
+          _merge: ~
       filter:
         display:
           Event:              [name, meta_event_id, event_category_id]

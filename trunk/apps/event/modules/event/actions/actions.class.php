@@ -130,6 +130,47 @@ class eventActions extends autoEventActions
 
     $this->redirect('@event');
   }
+  public function executeBatchMerge(sfWebRequest $request)
+  {
+    $ids = $request->getParameter('ids');
+
+    $events = Doctrine::getTable('Event')->retrieveList()->orderBy('e.updated_at DESC')
+      ->andWhereIn('e.id', $ids)
+      ->execute();
+    if ( $events->count() == 0 )
+      $this->redirect('@event');
+    
+    $count = 0;
+    $orig = $events[0];
+    foreach ( $events as $event )
+    {
+      if ( $count == 0 )
+      {
+        $count++;
+        continue;
+      }
+      echo $events;
+      
+      foreach ( array('Manifestations', 'Companies', 'Checkpoints', 'Entries', 'MemberCardPrices', 'MemberCardPriceModels') as $relation )
+      foreach ( $event->$relation as $relobj )
+        $orig->{$relation}[] = $relobj;
+      
+      $orig->save();
+      $event->delete();
+      $count++;
+    }
+    
+    if ($count >= count($ids))
+    {
+      $this->getUser()->setFlash('notice', 'The selected items have been deleted successfully.');
+    }
+    else
+    {
+      $this->getUser()->setFlash('error', 'A problem occurs when merging some of the selected items.');
+    }
+
+    $this->redirect('@event');
+  }
   
   public function executeAjax(sfWebRequest $request)
   {

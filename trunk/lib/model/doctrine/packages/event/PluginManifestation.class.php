@@ -40,6 +40,7 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
   
   public function preSave($event)
   {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
     parent::preSave($event);
     
     // converting duration from "1:00" to 3600 (seconds)
@@ -111,8 +112,6 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
       // manifestation confirmed
       if ( $this->reservation_confirmed )
       {
-        sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
-        
         // no credential to tolerate conflicts
         if ( sfContext::hasInstance()
           && !sfContext::getInstance()->getUser()->hasCredential(self::$credentials['authorize_conflicts']) )
