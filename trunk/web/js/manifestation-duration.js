@@ -1,35 +1,62 @@
+// the global var that can be used everywhere as a "root"
+if ( LI == undefined )
+  var LI = {};
+  
 $(document).ready(function(){
   // transforming seconds into HH:ii
-  li_manifestation_duration();
+  LI.manifestation_duration();
 
   // if duration or happens_at change, updating the ends_at date (for coherence only)
   $('.sf_admin_form_field_duration input[type=text]').change(function(){
     arr = /(\d+):(\d{1,2})/.exec($(this).val());
-    if ( arr && li_manifestation_datetime('happens_at')+'' !== 'Invalid Date' )
-      li_manifestation_datetime('ends_at', new Date(
-        Date.parse(li_manifestation_datetime('happens_at')) +
+    if ( arr && LI.manifestation_datetime('happens_at')+'' !== 'Invalid Date' )
+    {
+      var before = LI.manifestation_datetime('ends_at');
+      LI.manifestation_datetime('ends_at', new Date(
+        Date.parse(LI.manifestation_datetime('happens_at')) +
         (parseInt(arr[1],10)*3600 + parseInt(arr[2],10)*60)*1000
       ));
-    li_manifestation_coherence();
+      
+      // follow the changes for the reservation
+      var diff = LI.manifestation_datetime('reservation_ends_at')+(LI.manifestation_datetime('ends_at')-before);
+      LI.manifestation_datetime('reservation_ends_at', new Date( Date.parse(LI.manifestation_datetime('reservation_ends_at')) + diff ));
+    }
+    LI.manifestation_coherence();
   }).change();
-  $('.sf_admin_form_field_happens_at input[type=text]').change(function(){
+  
+  $('.sf_admin_form_field_happens_at input[type=text]').change(function(e){
+    if ( LI.manifestation_datetime('happens_at')+'' === 'Invalid Date' )
+      return;
+    
+    // follow the changes for the reservation
+    var arr = /(\d+):(\d{1,2})/.exec($('.sf_admin_form_field_duration input[type=text]').val());
+    var diff = (parseInt(arr[1],10)*3600 + parseInt(arr[2],10)*60)*1000-(LI.manifestation_datetime('ends_at')-LI.manifestation_datetime('happens_at'));
+    LI.manifestation_datetime('reservation_begins_at', new Date( Date.parse(LI.manifestation_datetime('reservation_begins_at')) + diff ));
+    
     $('.sf_admin_form_field_duration input[type=text]').change();
   });
   
   // if ends_at changes, updating the duration
   $('.sf_admin_form_field_ends_at input[type=text]').change(function(){
-    field = $(this).closest('.sf_admin_form_row');
-    if ( li_manifestation_datetime('ends_at')+'' !== 'Invalid Date' && li_manifestation_datetime('happens_at')+'' !== 'Invalid Date' )
-      li_manifestation_duration( (Date.parse(li_manifestation_datetime('ends_at')) - Date.parse(li_manifestation_datetime('happens_at'))) / 1000);      
-    li_manifestation_coherence();
+    if ( LI.manifestation_datetime('ends_at')+'' === 'Invalid Date' || LI.manifestation_datetime('happens_at')+'' === 'Invalid Date' )
+      return;
+    
+    // follow the changes for the reservation
+    var arr = /(\d+):(\d{1,2})/.exec($('.sf_admin_form_field_duration input[type=text]').val());
+    var diff = (parseInt(arr[1],10)*3600 + parseInt(arr[2],10)*60)*1000-(LI.manifestation_datetime('ends_at')-LI.manifestation_datetime('happens_at'));
+    LI.manifestation_datetime('reservation_ends_at', new Date( Date.parse(LI.manifestation_datetime('reservation_ends_at')) - diff ));
+    
+    LI.manifestation_duration( (Date.parse(LI.manifestation_datetime('ends_at')) - Date.parse(LI.manifestation_datetime('happens_at'))) / 1000);
+    
+    LI.manifestation_coherence();
   });
   
   // anticipating the model's logical constrainsts (here for reservations)
   $('.sf_admin_form_field_reservation_begins_at input[type=text], .sf_admin_form_field_reservation_ends_at input[type=text]')
-    .change(li_manifestation_coherence);
+    .change(LI.manifestation_coherence);
 });
 
-function li_manifestation_duration(duration = null)
+LI.manifestation_duration = function(duration = null)
 {
   // setting the new duration if given
   if ( !isNaN(parseInt(duration,10)) )
@@ -45,42 +72,42 @@ function li_manifestation_duration(duration = null)
 }
 
 // errors/coherence anticipation ...
-function li_manifestation_coherence()
+LI.manifestation_coherence = function()
 {
-  if ( li_manifestation_datetime('reservation_begins_at')+'' === 'Invalid Date'
-    && li_manifestation_datetime('happens_at')           +'' !== 'Invalid Date' )
-    li_manifestation_datetime('reservation_begins_at', li_manifestation_datetime('happens_at'));
-  if ( li_manifestation_datetime('reservation_ends_at')  +'' === 'Invalid Date'
-    && li_manifestation_datetime('ends_at')              +'' !== 'Invalid Date' )
-    li_manifestation_datetime('reservation_ends_at', li_manifestation_datetime('ends_at'));
+  if ( LI.manifestation_datetime('reservation_begins_at')+'' === 'Invalid Date'
+    && LI.manifestation_datetime('happens_at')           +'' !== 'Invalid Date' )
+    LI.manifestation_datetime('reservation_begins_at', LI.manifestation_datetime('happens_at'));
+  if ( LI.manifestation_datetime('reservation_ends_at')  +'' === 'Invalid Date'
+    && LI.manifestation_datetime('ends_at')              +'' !== 'Invalid Date' )
+    LI.manifestation_datetime('reservation_ends_at', LI.manifestation_datetime('ends_at'));
   
-  _li_manifestation_coherence('reservation_begins_at',  '<=', 'happens_at');
-  _li_manifestation_coherence('reservation_ends_at',    '>=', 'ends_at');
-  _li_manifestation_coherence('ends_at',                '>=', 'happens_at', 'duration');
+  LI._manifestation_coherence('reservation_begins_at',  '<=', 'happens_at');
+  LI._manifestation_coherence('reservation_ends_at',    '>=', 'ends_at');
+  LI._manifestation_coherence('ends_at',                '>=', 'happens_at', 'duration');
 }
 
-function _li_manifestation_coherence(field1, operand, field2, extrafield = null)
+LI._manifestation_coherence = function(field1, operand, field2, extrafield = null)
 {
-  if ( li_manifestation_datetime(field1)+'' === 'Invalid Date'
-    || li_manifestation_datetime(field2)+'' === 'Invalid Date' )
+  if ( LI.manifestation_datetime(field1)+'' === 'Invalid Date'
+    || LI.manifestation_datetime(field2)+'' === 'Invalid Date' )
     return false;
   
   var bool;
   switch ( operand ) {
   case '>':
-    bool = li_manifestation_datetime(field1) >  li_manifestation_datetime(field2);
+    bool = LI.manifestation_datetime(field1) >  LI.manifestation_datetime(field2);
     break;
   case '<':
-    bool = li_manifestation_datetime(field1) <  li_manifestation_datetime(field2);
+    bool = LI.manifestation_datetime(field1) <  LI.manifestation_datetime(field2);
     break;
   case '>=':
-    bool = li_manifestation_datetime(field1) >= li_manifestation_datetime(field2);
+    bool = LI.manifestation_datetime(field1) >= LI.manifestation_datetime(field2);
     break;
   case '<=':
-    bool = li_manifestation_datetime(field1) <= li_manifestation_datetime(field2);
+    bool = LI.manifestation_datetime(field1) <= LI.manifestation_datetime(field2);
     break;
   default:
-    bool = li_manifestation_datetime(field1) == li_manifestation_datetime(field2);
+    bool = LI.manifestation_datetime(field1) == LI.manifestation_datetime(field2);
   }
   
   if ( bool )
@@ -97,7 +124,7 @@ function _li_manifestation_coherence(field1, operand, field2, extrafield = null)
   }
 }
 
-function li_manifestation_datetime(name = 'happens_at', value = null)
+LI.manifestation_datetime = function(name = 'happens_at', value = null)
 {
   if ( value )
   {
@@ -115,4 +142,57 @@ function li_manifestation_datetime(name = 'happens_at', value = null)
     parseInt($('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][hour]"]').val(),10),
     parseInt($('.sf_admin_form_field_'+name+' input[name="manifestation['+name+'][minute]"]').val(),10)
   );
+}
+
+LI.manifestation_check_resource = function(elt = NULL)
+{
+  // not a blocking booking
+  if ( $('input[name="manifestation[blocking]"]:checked').length == 0 )
+  {
+    $('.sf_admin_form_field_booking_list li.ui-state-error')
+      .removeClass('ui-state-error')
+      .find('.error.conflict').remove();
+    $('.sf_admin_form_field_location_id').each(function(){
+      if ( $(this).find('input[value=""]').length > 0 )
+        return;
+      $(this).removeClass('ui-state-error')
+        .find('.error.conflict').remove();
+    });
+    return;
+  }
+  
+  var start = LI.manifestation_datetime('reservation_begins_at').getTime()/1000;
+  var stop  = LI.manifestation_datetime('reservation_ends_at').getTime()/1000;
+  var location_id = $(elt).val();
+  if ( !start || !stop || !location_id )
+    return;
+  
+  $.get(LI.data.url, {
+    start: start,
+    end: stop,
+    conflicts: true,
+    location_id: location_id,
+    no_ids: LI.no_ids,
+    only_blocking: true,
+  }, function(data)
+  {
+    if ( data.length > 0 )
+    {
+      $(elt).parent().find('.error.conflict').remove();
+      for ( i = 0 ; i < data.length ; i++ )
+      if ( parseInt(data[i].id)+'' === ''+data[i].id )
+      {
+        $(elt).parent().append($('<div class="error conflict"><a></a></div>')).find('.error.conflict a')
+          .html(data[i].title)
+          .prop('href', data[i].hackurl)
+          ;
+      }
+      $(elt).parent().addClass('ui-state-error').addClass('ui-corner-all');
+    }
+    else
+    {
+      $(elt).parent().removeClass('ui-state-error')
+        .find('.error.conflict').remove();
+    }
+  }, 'json');
 }
