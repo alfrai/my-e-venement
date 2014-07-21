@@ -69,7 +69,7 @@
           'font-style'    => $manif->blocking ? 'normal' : 'italic',
         ), array(
           'opacity'       => !$manif->reservation_optional || $manif->reservation_confirmed  ? '1' : '0.7',
-        ),
+        )
       ),
     );
     
