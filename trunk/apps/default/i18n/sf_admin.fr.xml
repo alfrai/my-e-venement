@@ -57,6 +57,10 @@
         <target>Fusionner</target>
       </trans-unit>
       <trans-unit>
+        <source>Duplicate</source>
+        <target>Dupliquer</target>
+      </trans-unit>
+      <trans-unit>
         <source>Back</source>
         <target>Retour</target>
       </trans-unit>

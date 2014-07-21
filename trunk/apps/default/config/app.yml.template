@@ -8,3 +8,6 @@ all:
   feed:
     url: http://www.e-venement.org/feed/
     name: e-venement.org
+#  display:
+#    last_hours: 24 # default: 1 month
+#    max: 5         # default 5
