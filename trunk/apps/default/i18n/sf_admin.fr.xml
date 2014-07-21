@@ -258,8 +258,24 @@
         <target>Les objets sélectionnés ont été supprimés avec succès.</target>
       </trans-unit>
       <trans-unit>
+        <source>The selected items have been merged successfully.</source>
+        <target>Les objets sélectionnés ont été fusionnés avec succès.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been duplicated successfully.</source>
+        <target>Les objets sélectionnés ont été dupliqués avec succès.</target>
+      </trans-unit>
+      <trans-unit>
         <source>A problem occurs when deleting the selected items.</source>
         <target>Un problème est survenu lors de la suppression des objets sélectionnés.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when merging the selected items.</source>
+        <target>Un problème est survenu lors de la fusion des objets sélectionnés.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when duplicating the selected items.</source>
+        <target>Un problème est survenu lors de la duplication des objets sélectionnés.</target>
       </trans-unit>
       <trans-unit>
         <source>is empty</source>

@@ -152,7 +152,6 @@ class eventActions extends autoEventActions
         $count++;
         continue;
       }
-      echo $events;
       
       foreach ( array('Manifestations', 'Companies', 'Checkpoints', 'Entries', 'MemberCardPrices', 'MemberCardPriceModels') as $relation )
       foreach ( $event->$relation as $relobj )
@@ -165,7 +164,48 @@ class eventActions extends autoEventActions
     
     if ($count >= count($ids))
     {
-      $this->getUser()->setFlash('notice', 'The selected items have been deleted successfully.');
+      $this->getUser()->setFlash('notice', 'The selected items have been merged successfully.');
+    }
+    else
+    {
+      $this->getUser()->setFlash('error', 'A problem occurs when merging some of the selected items.');
+    }
+
+    $this->redirect('@event');
+  }
+  public function executeBatchDuplicate(sfWebRequest $request)
+  {
+    $ids = $request->getParameter('ids');
+
+    $events = Doctrine::getTable('Event')->retrieveList()->orderBy('e.updated_at DESC')
+      ->andWhereIn('e.id', $ids)
+      ->execute();
+    if ( $events->count() == 0 )
+    {
+      $this->getUser()->setFlash('error', 'You must at least select one item.');
+      $this->redirect('@event');
+    }
+    
+    $count = 0;
+    foreach ( $events as $event )
+    {
+      $new = $event->copy();
+      
+      foreach ( array('Companies', 'Checkpoints', 'MemberCardPrices', 'MemberCardPriceModels') as $relation )
+      foreach ( $event->$relation as $relobj )
+        $new->{$relation}[] = $relobj;
+      foreach ( array('MetaEvent', 'EventCategory') as $relation )
+        $new->$relation = $event->$relation;
+      foreach ( array('slug') as $prop )
+        $new->$prop = NULL;
+      
+      $new->save();
+      $count++;
+    }
+    
+    if ($count >= count($ids))
+    {
+      $this->getUser()->setFlash('notice', 'The selected items have been duplicated successfully.');
     }
     else
     {
