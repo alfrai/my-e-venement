@@ -137,8 +137,11 @@ class eventActions extends autoEventActions
     $events = Doctrine::getTable('Event')->retrieveList()->orderBy('e.updated_at DESC')
       ->andWhereIn('e.id', $ids)
       ->execute();
-    if ( $events->count() == 0 )
+    if ( $events->count() <= 1 )
+    {
+      $this->getUser()->setFlash('error', 'You must at least select two items.');
       $this->redirect('@event');
+    }
     
     $count = 0;
     $orig = $events[0];
