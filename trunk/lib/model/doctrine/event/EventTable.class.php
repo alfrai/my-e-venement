@@ -67,7 +67,7 @@ class EventTable extends PluginEventTable
     ;
     
     if ( $sf_user )
-    $q->andWhereIn('g.workspace_id', array_keys($sf_user->getWorkspacesCredentials()))
+    $q->andWhereIn('g.workspace_id IS NULL OR g.workspace_id', array_keys($sf_user->getWorkspacesCredentials()))
       ->andWhereIn('e.meta_event_id', array_keys($sf_user->getMetaEventsCredentials()))
     ;
     
