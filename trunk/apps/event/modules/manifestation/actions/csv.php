@@ -37,6 +37,10 @@
       foreach ( $manif->Booking as $location )
         $booking[] = (string)$location;
       
+      $extra = array();
+      foreach ( $manif->ExtraInformations as $info )
+        $extra[] = $info->name.($info->value ? ' -> '.$info->value : '').' ['.($info->checked ? 'x' : '').']';
+      
       $this->lines[] = array(
         'manifid'          => $manif->id,
         'meta_event'  => (string)$manif->Event->MetaEvent,
@@ -55,7 +59,7 @@
         'booking'     => implode(' + ', $booking),
         'confirmed'   => $manif->reservation_confirmed ? __('yes', null, 'sf_admin') : __('no', null, 'sf_admin'),
         'description' => $manif->description,
-        'extra_informations' => $manif->ExtraInformations->count() > 0 ? '/!\\' : '',
+        'extra_informations' => implode("\n", $extra),
       );
     }
     

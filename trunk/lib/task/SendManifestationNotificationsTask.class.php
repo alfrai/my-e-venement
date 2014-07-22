@@ -111,6 +111,7 @@ EOF;
         $state = array();
         foreach ( array(
           '!reservation_confirmed' => __('To be confirmed'),
+          'reservation_confirmed' => __('Confirmed'),
           '!blocking'              => __('Not blocking'),
         ) as $prop => $msg )
         {
