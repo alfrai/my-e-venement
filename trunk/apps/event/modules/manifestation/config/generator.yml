@@ -60,7 +60,7 @@ generator:
         table_method: retrieveList
         title: Manifestations
         actions:
-          _new: ~
+          #_new: ~
           csv:
             label: Extract
             action: csv
