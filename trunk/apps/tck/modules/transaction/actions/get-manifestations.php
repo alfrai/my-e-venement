@@ -182,6 +182,8 @@
             'id' => $gauge->id,
             'name' => (string)$gauge->Workspace,
             'url' => cross_app_url_for('event','gauge/state?id='.$gauge->id.'&json=true',true),
+            'available_prices' => array(),
+            'prices' => array(),
           );
           
           if ( $seated_plan = $manifestation->Location->getWorkspaceSeatedPlan($gauge->workspace_id) )
@@ -202,7 +204,6 @@
           }
         
           // available prices
-          $this->json[$manifestation->id]['gauges'][$gauge->id]['available_prices'] = array();
           foreach ( $manifestation->PriceManifestations as $pm )
           {
             // this price is correctly associated to this gauge
