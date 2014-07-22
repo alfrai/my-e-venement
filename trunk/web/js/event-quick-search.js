@@ -19,7 +19,7 @@
       $('#sf_admin_filter [name="manifestation_filters[happens_at][to][day]"],     #sf_admin_filter [name="event_filters[dates_range][to][day]"]').val(stop.getDate());
       $('#sf_admin_filter [name="manifestation_filters[happens_at][to][month]"],   #sf_admin_filter [name="event_filters[dates_range][to][month]"]').val(stop.getMonth()+1);
       $('#sf_admin_filter [name="manifestation_filters[happens_at][to][year]"],    #sf_admin_filter [name="event_filters[dates_range][to][year]"]').val(stop.getFullYear());
-      //$('#sf_admin_filter form').submit();
+      $('#sf_admin_filter form').submit();
       return false;
     });
   });
