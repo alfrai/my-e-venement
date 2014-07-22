@@ -40,23 +40,6 @@
       </div>
       <h3><?php echo __('Last actions') ?></h3>
       <ul>
-        <?php if ( $sf_user->hasCredential('pr-emailing') ): ?>
-        <li><?php echo __('Emails') ?>
-          <ul>
-            <?php foreach ($emails as $obj ): ?>
-            <li>
-              <?php echo format_date($obj->updated_at) ?>
-              -
-              <a href="<?php echo cross_app_url_for('rp','email/show?id='.$obj->id) ?>">
-                <?php echo $obj->field_subject ?>
-              </a>
-              -
-              <?php echo $obj->field_from ?>
-            </li>
-            <?php endforeach ?>
-          </ul>
-        </li>
-        <?php endif ?>
         <?php if ( $sf_user->hasCredential('event-event') ): ?>
         <li><?php echo __('Manifestations') ?>
           <ul>
@@ -99,6 +82,23 @@
               <a href="<?php echo cross_app_url_for('rp','organism/show?id='.$obj->id) ?>">
                 <?php echo $obj ?>
               </a>
+            </li>
+            <?php endforeach ?>
+          </ul>
+        </li>
+        <?php endif ?>
+        <?php if ( $sf_user->hasCredential('pr-emailing') ): ?>
+        <li><?php echo __('Emails') ?>
+          <ul>
+            <?php foreach ($emails as $obj ): ?>
+            <li>
+              <?php echo format_date($obj->updated_at) ?>
+              -
+              <a href="<?php echo cross_app_url_for('rp','email/show?id='.$obj->id) ?>">
+                <?php echo $obj->field_subject ?>
+              </a>
+              -
+              <?php echo $obj->field_from ?>
             </li>
             <?php endforeach ?>
           </ul>
