@@ -202,7 +202,7 @@ class OptionCsvForm extends BaseOptionCsvForm
       return $contact;
   }
   
-  static function getImplodedData($data, $fields, $separator = ' + ')
+  static function getImplodedData($data, $fields, $separator = "\n")
   {
     if ( !isset($fields[0]) )
       return false;
