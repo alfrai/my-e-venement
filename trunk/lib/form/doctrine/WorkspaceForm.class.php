@@ -25,7 +25,7 @@ class WorkspaceForm extends BaseWorkspaceForm
     $this->widgetSchema['prices_list']->setOption('expanded',true)
       ->setOption('order_by', array('p.name', ''));
     
-    if ( !sfContext::getInstance()->getUser()->hasCredential('event-seated') )
+    if ( !sfContext::getInstance()->getUser()->hasCredential('event-seated-plan') )
       $this->widgetSchema['seated'] = new sfWidgetFormInputHidden;
   }
 }
