@@ -16,7 +16,7 @@
 #li_transaction_field_contact_id .data a { font-size: 0; }
 #li_transaction_field_professional_id select { max-width: 230px; }
 
-#li_transaction_field_description textarea { height: 3.3em; width: 19.5em; }
+#li_transaction_field_description textarea { height: 3.3em; width: 18.5em; }
 #li_transaction_field_professional_id label, #li_transaction_field_description label { display: none; }
 #li_transaction_field_new_transaction { width: 8.65em; text-align: center; }
 #li_transaction_field_new_transaction a { display: block; width: 1.5em; height: 3em; margin-bottom: -0.7em; }
