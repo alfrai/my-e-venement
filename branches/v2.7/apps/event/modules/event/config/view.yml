@@ -1,0 +1,31 @@
+all:
+  javascripts: [/liTinymcePlugin/tinymce.min.js, /liTinymcePlugin/jquery.tinymce.min.js, manifestation-duration]
+  stylesheets: [manifestation]
+
+indexSuccess:
+  stylesheets: [event-list, print-list: {media: print}<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, event-gauge-small<?php endif ?>]
+  javascripts: [list-scroll<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, event-gauge-small<?php endif ?>]
+newSuccess:
+  stylesheets: [view,event,/private/event.css]
+  javascripts: [event]
+createSuccess:
+  stylesheets: [view,event,/private/event.css]
+  javascripts: [event]
+updateSuccess:
+  stylesheets: [view, event, checkpoint, /private/event.css<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, event-gauge-small<?php endif ?>]
+  javascripts: [event, checkpoint<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, event-gauge-small<?php endif ?>]
+editSuccess:
+  stylesheets: [view, event, checkpoint, /private/event.css<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, event-gauge-small<?php endif ?>]
+  javascripts: [event, checkpoint<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, event-gauge-small<?php endif ?>]
+showSuccess:
+  stylesheets: [view, event, /private/event.css<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, event-gauge-small<?php endif ?>]
+  javascripts: [event<?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>, event-gauge-small<?php endif ?>]
+
+calendarSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/ical
+    content-disposition: attachment; filename=calendar.ics
+
+onlyFiltersSuccess:
+  layout: nude

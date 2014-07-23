@@ -1,0 +1,17 @@
+all:
+  credentials: [[tck-accounting-order, tck-reports]]
+cancel:
+  credentials: [tck-transaction]
+
+create:
+  credentials: tck-accounting-order
+new:
+  credentials: tck-accounting-order 
+update:
+  credentials: tck-accounting-order
+edit:
+  credentials: tck-accounting-order 
+delete:
+  credentials: tck-accounting-order 
+batchDelete:
+  credentials: tck-accounting-order 

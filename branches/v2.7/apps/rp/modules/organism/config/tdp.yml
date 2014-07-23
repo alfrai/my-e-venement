@@ -1,0 +1,156 @@
+all:
+  active: true
+  config:
+    list:
+      actions:
+        new:
+          credential: pr-organism-new
+        batchDelete:
+          credential: pr-organism-del
+          attributes:
+            onclick: "javascript: form = $('#tdp-content').clone(true); form.find('[name=batch_action]').remove(); $(this).attr('href',$(this).attr('href')+'&'+form.serialize());"
+        actions:
+          label: Actions
+          attributes:
+            onclick: "javascript: return false;"
+            target: _blank
+        csv:
+          credential: pr-contact-csv
+          label: Extract
+        labels:
+          credential: pr-contact-labels
+          label: Labels
+          attributes:
+            target: _blank
+        batchMerge:
+          credential: pr-contact-edit
+          label: Merge
+          attributes:
+            onclick: "javascript: form = $('#tdp-content').clone(true); form.find('[name=batch_action]').remove(); $(this).attr('href',$(this).attr('href')+'&'+form.serialize());"
+        #map:
+        #  label: Geolocalize
+    edit:
+      object:
+        title: [name, _show_dates]
+        new_title: [name]
+        lines:
+          Complements:
+            show_labels: true
+            fields: [organism_category_id, email, email_no_newsletter, url]
+          Address:
+            fields: [address]
+          City:
+            extra_class: vertical
+            fields: [postalcode, _cities, city, country, _show_region]
+          Direct_Contact:
+            fields: [_form_phonenumbers_list]
+          More:
+            show_labels: true
+            extra_class: tdp-vertical
+            fields: [administrative_number, npai, professional_id]
+          Correspondence:
+            show_title: true
+            fields: [description]
+          Groups:
+            credential: pr-group
+            fields: [groups_list]
+        actions:
+          new:
+            credential: pr-organism-new
+          delete:
+            credential: pr-organism-del
+            attributes:
+              onclick: "javascript: $('.tdp-object .sf_admin_action_delete a').click(); return false;"
+            with_id: true
+          update:
+            credential: pr-organism-edit
+            attributes:
+              onclick: "javascript: $('.tdp-object #sf_admin_content > form').submit(); return false;"
+            with_id: true
+      subobjects:
+        Professionals:
+          class: Professional
+          parentAlias: Organism
+          title: [Contact]
+          new_title: [contact_id, _new_contact]
+          credentials: pr-contact
+          lines:
+            line1:
+              fields: [professional_type_id, name, department, _groups_picto]
+            Phonenumbers:
+              show_labels: true
+              fields: [contact_number, _contact_phones_list]
+            Internet:
+              show_labels: true
+              fields: [contact_email, contact_email_no_newsletter, _contact_email]
+            Correspondence:
+              show_messages: false
+              show_title: true
+              fields: [description]
+            Groups:
+              fields: [groups_list]
+            contact:
+              fields: [_contact_category]
+          extra_hidden_fields: [contact_id, organism_id]
+      side_properties:
+        Ticketting:
+          credentials: tck-overview
+          partial: global/tdp/side_widget_object_events
+        Groups:
+          credentials: pr-group
+          partial: global/tdp/side_widget_object_groups
+        Emails:
+          credentials: pr-emailing
+          partial: global/tdp/side_widget_object_emails
+
+    new:
+      object:
+        lines:
+          Direct_Contact:
+            show_labels: true
+            extra_class: tdp-vertical
+            fields: [phone_type, phone_number]
+    
+    fields:
+      contact_id: { label: Contact }
+      organism_id: { label: Organism }
+      professional_type_id: { label: Professional type }
+      description: { label: Keywords }
+      YOBs_list:  { label: "Years of Birth (x[, x [,..]])" }
+      YOB:      { label: Year of Birth }
+      not_groups_list: { label: Not member of groups }
+      email_list: { label: Email }
+      organisms_email_list: { label: Organism's email }
+      family_contact: { label: Family contact }
+      phone_type: { label: Type }
+      phone_number: { label: Phonenumber }
+      list_phones: { label: Phonenumbers }
+      member_cards_expire_at: { label: Valid on }
+      control_created_at: { label: Passed in between }
+      control_manifestation_id: { label: Passed on manifestations }
+      control_checkpoint_id: { label: Controlled on checkpoints }
+      tickets_amount_min: { label: Minimum tickets amount }
+      tickets_amount_max: { label: Maximum tickets amount }
+      list_emails: { label: Emails }
+      list_see_orgs: { label: '' }
+      organisms_list: { label: Organisms }
+      list_organism: { label: Organism }
+      list_professional: { label: Professional }
+      list_organism_phones_list: { label: Phonenumbers }
+      list_professional_emails: { label: Emails }
+      list_more: { label: More }
+      list_contact: { label: Contact }
+      list_organism_city: { label: City }
+      list_organism_postalcode: { label: Postalcode }
+      list_professional_description: { label: Description }
+      list_professional_id: { label: '' }
+      contact_email: { label: Direct email address }
+      contact_number: { label: Direct phonenumber }
+      show_region: { label: Region }
+      organism_category_id: { label: Category }
+      email_no_newsletter: { label: No newsletter }
+      contact_email_no_newsletter: { label: No newsletter }
+      administrative_number: { label: Admin. ID }
+
+dev:
+  active: true
