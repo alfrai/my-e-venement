@@ -16,7 +16,7 @@ digraph G {
 		label="{<table>contact|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\lfirstname (string)\ltitle (string)\ldescription (string)\lpassword (string)\lfamily_contact (boolean)\lorganism_category_id (integer)\lconfirmed (boolean)\lfamilial_quotient_id (integer)\ltype_of_resources_id (integer)\lfamilial_situation_id (integer)\lsf_guard_user_id (integer)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\lversion (integer)\l}",
 		shape=record ];
 	nodeorganism [
-		label="{<table>organism|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\lurl (string)\ldescription (string)\lorganism_category_id (integer)\ladministrative_number (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\lversion (integer)\l}",
+		label="{<table>organism|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\lurl (string)\ldescription (string)\lorganism_category_id (integer)\ladministrative_number (string)\lprofessional_id (integer)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\lversion (integer)\l}",
 		shape=record ];
 	nodefamilial_situation [
 		label="{<table>familial_situation|<cols>id (integer) [PK]\lname (string)\l}",
@@ -27,11 +27,14 @@ digraph G {
 	nodegeo_fr_region [
 		label="{<table>geo_fr_region|<cols>id (integer) [PK]\lname (string)\lstrict_name (string)\lslug (string)\l}",
 		shape=record ];
-	nodey_o_b [
-		label="{<table>y_o_b|<cols>id (integer) [PK]\lyear (integer)\lmonth (integer)\lday (integer)\lname (string)\lcontact_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+	nodeoption_table [
+		label="{<table>option_table|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
 		shape=record ];
 	nodeoption_table [
 		label="{<table>option_table|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
+		shape=record ];
+	nodey_o_b [
+		label="{<table>y_o_b|<cols>id (integer) [PK]\lyear (integer)\lmonth (integer)\lday (integer)\lname (string)\lcontact_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
 	nodeoption_table [
 		label="{<table>option_table|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
@@ -59,6 +62,9 @@ digraph G {
 		shape=record ];
 	nodeoption_table [
 		label="{<table>option_table|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
+		shape=record ];
+	nodecontact_archive [
+		label="{<table>contact_archive|<cols>id (integer) [PK]\lcontact_id (integer)\lold_id (integer)\l}",
 		shape=record ];
 	nodecontact_phonenumber [
 		label="{<table>contact_phonenumber|<cols>id (integer) [PK]\lname (string)\lnumber (string)\lcontact_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
@@ -90,17 +96,20 @@ digraph G {
 	nodegroup_workspace [
 		label="{<table>group_workspace|<cols>id (integer) [PK]\lworkspace_id (integer)\l}",
 		shape=record ];
-	nodegroup_detail [
-		label="{<table>group_detail|<cols>group_id (integer) [PK]\linformation (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
-		shape=record ];
 	nodegroup_deleted [
-		label="{<table>group_deleted|<cols>group_id (integer) [PK]\linformation (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		label="{<table>group_deleted|<cols>id (integer) [PK]\lgroup_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
 	nodegroup_table [
 		label="{<table>group_table|<cols>id (integer) [PK]\lname (string)\lsf_guard_user_id (integer)\ldescription (string)\lslug (string)\lpicture_id (integer)\ldisplay_everywhere (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
+	nodegroup_detail [
+		label="{<table>group_detail|<cols>group_id (integer) [PK]\linformation (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
 	nodegroup_contact [
 		label="{<table>group_contact|<cols>group_id (integer) [PK]\linformation (string)\lcontact_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodegroup_auto_user [
+		label="{<table>group_auto_user|<cols>group_id (integer) [PK]\linformation (string)\lsf_guard_user_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
 	nodegroup_organism [
 		label="{<table>group_organism|<cols>group_id (integer) [PK]\linformation (string)\lorganism_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
@@ -145,7 +154,7 @@ digraph G {
 		label="{<table>payment_method|<cols>id (integer) [PK]\lname (string)\laccount (string)\ldisplay (boolean)\lmember_card_linked (boolean)\l}",
 		shape=record ];
 	nodetransaction [
-		label="{<table>transaction|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lcontact_id (integer)\lprofessional_id (integer)\ltransaction_id (integer)\ltype (enum)\lclosed (boolean)\lworkspace_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
+		label="{<table>transaction|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lcontact_id (integer)\lprofessional_id (integer)\ltransaction_id (integer)\ltype (enum)\lclosed (boolean)\ldescription (text)\lsend_an_email (boolean)\ldeposit (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodeorder_table [
 		label="{<table>order_table|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
@@ -201,6 +210,9 @@ digraph G {
 	nodepostalcode [
 		label="{<table>postalcode|<cols>id (integer) [PK]\lpostalcode (string)\lcity (string)\l}",
 		shape=record ];
+	nodefilter [
+		label="{<table>filter|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltype (string)\lname (string)\lfilter (text)\l}",
+		shape=record ];
 	nodejabber [
 		label="{<table>jabber|<cols>id (integer) [PK]\ljabber_id (string)\lpassword (string)\lsf_guard_user_id (integer)\l}",
 		shape=record ];
@@ -255,11 +267,17 @@ digraph G {
 	nodemeta_event_user [
 		label="{<table>meta_event_user|<cols>sf_guard_user_id (integer) [PK]\lmeta_event_id (integer) [PK]\l}",
 		shape=record ];
+	nodeseat [
+		label="{<table>seat|<cols>id (integer) [PK]\lseated_plan_id (integer)\lname (string)\lx (integer)\ly (integer)\ldiameter (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
 	nodeevent_company [
 		label="{<table>event_company|<cols>organism_id (integer) [PK]\levent_id (integer) [PK]\l}",
 		shape=record ];
 	nodemanifestation_organizer [
 		label="{<table>manifestation_organizer|<cols>organism_id (integer) [PK]\lmanifestation_id (integer) [PK]\l}",
+		shape=record ];
+	nodeseated_plan_workspace [
+		label="{<table>seated_plan_workspace|<cols>id (integer) [PK]\lseated_plan_id (integer)\lworkspace_id (integer)\l}",
 		shape=record ];
 	nodemanifestation_extra_information [
 		label="{<table>manifestation_extra_information|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lchecked (boolean)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
@@ -268,7 +286,7 @@ digraph G {
 		label="{<table>workspace|<cols>id (integer) [PK]\lname (string)\lon_ticket (string)\lseated (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
 	nodelocation [
-		label="{<table>location|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\ldescription (string)\lcontact_id (integer)\lorganism_id (integer)\lgauge_max (integer)\lgauge_min (integer)\lreservation_price (decimal)\lplace (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		label="{<table>location|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\lrank (integer)\ldescription (string)\lcontact_id (integer)\lorganism_id (integer)\lgauge_max (integer)\lgauge_min (integer)\lreservation_price (decimal)\lplace (boolean)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
 		shape=record ];
 	nodemeta_event [
 		label="{<table>meta_event|<cols>id (integer) [PK]\lname (string)\lhide_in_month_calendars (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
@@ -276,11 +294,11 @@ digraph G {
 	nodeevent [
 		label="{<table>event|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lname (string)\lshort_name (string)\lmeta_event_id (integer)\levent_category_id (integer)\levent_category_description (string)\lstaging (string)\lstaging_label (string)\lwriter (string)\lwriter_label (string)\lduration (integer)\lage_min (decimal)\lage_max (decimal)\ldescription (string)\lextradesc (string)\lextraspec (string)\lweb_price (decimal)\lweb_price_group (decimal)\limage_url (string)\ldisplay_by_default (boolean)\laccounting_account (string)\lslug (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
-	nodeseating_plan [
-		label="{<table>seating_plan|<cols>id (integer) [PK]\limage_url (string)\llocation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
-		shape=record ];
 	nodecolor [
 		label="{<table>color|<cols>id (integer) [PK]\lname (string)\lcolor (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeseated_plan [
+		label="{<table>seated_plan|<cols>id (integer) [PK]\lseat_diameter (integer)\ldescription (string)\lpicture_id (integer)\lonline_picture_id (integer)\llocation_id (integer)\lbackground (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodegauge [
 		label="{<table>gauge|<cols>id (integer) [PK]\lworkspace_id (integer)\lmanifestation_id (integer)\lvalue (integer)\lonline (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
@@ -289,7 +307,7 @@ digraph G {
 		label="{<table>event_category|<cols>id (integer) [PK]\lname (string)\lvat_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
 	nodemanifestation [
-		label="{<table>manifestation|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\levent_id (integer)\llocation_id (integer)\lcolor_id (integer)\lhappens_at (timestamp)\lduration (integer)\ldescription (string)\lvat_id (integer)\lonline_limit (integer)\lno_print (boolean)\ldepends_on (integer)\lcontact_id (integer)\lblocking (boolean)\lreservation_begins_at (timestamp)\lreservation_ends_at (timestamp)\lreservation_description (string)\lreservation_optional (boolean)\lreservation_confirmed (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
+		label="{<table>manifestation|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\levent_id (integer)\llocation_id (integer)\lcolor_id (integer)\lhappens_at (timestamp)\lduration (integer)\ldescription (string)\lvat_id (integer)\lonline_limit (integer)\lonline_limit_per_transaction (integer)\lno_print (boolean)\ldepends_on (integer)\lcontact_id (integer)\lblocking (boolean)\lreservation_begins_at (timestamp)\lreservation_ends_at (timestamp)\lreservation_description (string)\lreservation_optional (boolean)\lreservation_confirmed (boolean)\lexpected_income (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodeworkspace_user [
 		label="{<table>workspace_user|<cols>sf_guard_user_id (integer) [PK]\lworkspace_id (integer) [PK]\l}",
@@ -310,7 +328,7 @@ digraph G {
 		label="{<table>organism_index|<cols>keyword (string) [PK]\lfield (string) [PK]\lposition (integer) [PK]\lid (integer) [PK]\l}",
 		shape=record ];
 	nodeorganism_version [
-		label="{<table>organism_version|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\lurl (string)\ldescription (string)\lorganism_category_id (integer)\ladministrative_number (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\lversion (integer) [PK]\l}",
+		label="{<table>organism_version|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lnpai (boolean)\lvcard_uid (string)\lurl (string)\ldescription (string)\lorganism_category_id (integer)\ladministrative_number (string)\lprofessional_id (integer)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\lversion (integer) [PK]\l}",
 		shape=record ];
 	nodetraceable_version [
 		label="{<table>traceable_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
@@ -337,7 +355,7 @@ digraph G {
 		label="{<table>invoice_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
 		shape=record ];
 	nodetransaction_version [
-		label="{<table>transaction_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lcontact_id (integer)\lprofessional_id (integer)\ltransaction_id (integer)\ltype (enum)\lclosed (boolean)\lworkspace_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
+		label="{<table>transaction_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lcontact_id (integer)\lprofessional_id (integer)\ltransaction_id (integer)\ltype (enum)\lclosed (boolean)\ldescription (text)\lsend_an_email (boolean)\ldeposit (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
 		shape=record ];
 	nodeorder_version [
 		label="{<table>order_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltransaction_id (integer)\ltype (string)\lmanifestation_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
@@ -372,8 +390,11 @@ digraph G {
 	nodeevent_index [
 		label="{<table>event_index|<cols>keyword (string) [PK]\lfield (string) [PK]\lposition (integer) [PK]\lid (integer) [PK]\l}",
 		shape=record ];
+	nodeseated_plan_version [
+		label="{<table>seated_plan_version|<cols>id (integer) [PK]\lseat_diameter (integer)\ldescription (string)\lpicture_id (integer)\lonline_picture_id (integer)\llocation_id (integer)\lbackground (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
+		shape=record ];
 	nodemanifestation_version [
-		label="{<table>manifestation_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\levent_id (integer)\llocation_id (integer)\lcolor_id (integer)\lhappens_at (timestamp)\lduration (integer)\ldescription (string)\lvat_id (integer)\lonline_limit (integer)\lno_print (boolean)\ldepends_on (integer)\lcontact_id (integer)\lblocking (boolean)\lreservation_begins_at (timestamp)\lreservation_ends_at (timestamp)\lreservation_description (string)\lreservation_optional (boolean)\lreservation_confirmed (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
+		label="{<table>manifestation_version|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\levent_id (integer)\llocation_id (integer)\lcolor_id (integer)\lhappens_at (timestamp)\lduration (integer)\ldescription (string)\lvat_id (integer)\lonline_limit (integer)\lonline_limit_per_transaction (integer)\lno_print (boolean)\ldepends_on (integer)\lcontact_id (integer)\lblocking (boolean)\lreservation_begins_at (timestamp)\lreservation_ends_at (timestamp)\lreservation_description (string)\lreservation_optional (boolean)\lreservation_confirmed (boolean)\lexpected_income (decimal)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
 		shape=record ];
 	nodevat_version [
 		label="{<table>vat_version|<cols>id (integer) [PK]\lname (string)\lvalue (decimal)\laccounting_account (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer) [PK]\l}",
@@ -397,12 +418,16 @@ digraph G {
 		label="sf_guard_user_id=id"];
 	nodeorganism:cols -> nodeorganism_category:table [
 		label="organism_category_id=id"];
-	nodey_o_b:cols -> nodecontact:table [
-		label="contact_id=id"];
+	nodeorganism:cols -> nodeprofessional:table [
+		label="professional_id=id"];
 	nodeoption_table:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
+	nodey_o_b:cols -> nodecontact:table [
+		label="contact_id=id"];
 	nodeorganism_phonenumber:cols -> nodeorganism:table [
 		label="organism_id=id"];
+	nodecontact_archive:cols -> nodecontact:table [
+		label="contact_id=id"];
 	nodecontact_phonenumber:cols -> nodecontact:table [
 		label="contact_id=id"];
 	nodeprofessional:cols -> nodeprofessional_type:table [
@@ -437,6 +462,8 @@ digraph G {
 		label="entry_id=id"];
 	nodegroup_workspace:cols -> nodeworkspace:table [
 		label="workspace_id=id"];
+	nodegroup_deleted:cols -> nodegroup_table:table [
+		label="group_id=id"];
 	nodegroup_table:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
 	nodegroup_table:cols -> nodepicture:table [
@@ -444,6 +471,10 @@ digraph G {
 	nodegroup_contact:cols -> nodecontact:table [
 		label="contact_id=id"];
 	nodegroup_contact:cols -> nodegroup_table:table [
+		label="group_id=id"];
+	nodegroup_auto_user:cols -> nodesf_guard_user:table [
+		label="sf_guard_user_id=id"];
+	nodegroup_auto_user:cols -> nodegroup_table:table [
 		label="group_id=id"];
 	nodegroup_organism:cols -> nodeorganism:table [
 		label="organism_id=id"];
@@ -517,8 +548,6 @@ digraph G {
 		label="professional_id=id"];
 	nodetransaction:cols -> nodetransaction:table [
 		label="transaction_id=id"];
-	nodetransaction:cols -> nodeworkspace:table [
-		label="workspace_id=id"];
 	nodeorder_table:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
 	nodeorder_table:cols -> nodetransaction:table [
@@ -577,6 +606,8 @@ digraph G {
 		label="member_card_type_id=id"];
 	nodeauthentication:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
+	nodefilter:cols -> nodesf_guard_user:table [
+		label="sf_guard_user_id=id"];
 	nodejabber:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
 	nodesf_guard_user_permission:cols -> nodesf_guard_user:table [
@@ -623,6 +654,8 @@ digraph G {
 		label="sf_guard_user_id=id"];
 	nodemeta_event_user:cols -> nodemeta_event:table [
 		label="meta_event_id=id"];
+	nodeseat:cols -> nodeseated_plan:table [
+		label="seated_plan_id=id"];
 	nodeevent_company:cols -> nodeorganism:table [
 		label="organism_id=id"];
 	nodeevent_company:cols -> nodeevent:table [
@@ -631,6 +664,10 @@ digraph G {
 		label="organism_id=id"];
 	nodemanifestation_organizer:cols -> nodemanifestation:table [
 		label="manifestation_id=id"];
+	nodeseated_plan_workspace:cols -> nodeseated_plan:table [
+		label="seated_plan_id=id"];
+	nodeseated_plan_workspace:cols -> nodeworkspace:table [
+		label="workspace_id=id"];
 	nodemanifestation_extra_information:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
 	nodemanifestation_extra_information:cols -> nodemanifestation:table [
@@ -645,7 +682,11 @@ digraph G {
 		label="event_category_id=id"];
 	nodeevent:cols -> nodemeta_event:table [
 		label="meta_event_id=id"];
-	nodeseating_plan:cols -> nodelocation:table [
+	nodeseated_plan:cols -> nodepicture:table [
+		label="online_picture_id=id"];
+	nodeseated_plan:cols -> nodepicture:table [
+		label="picture_id=id"];
+	nodeseated_plan:cols -> nodelocation:table [
 		label="location_id=id"];
 	nodegauge:cols -> nodemanifestation:table [
 		label="manifestation_id=id"];
@@ -720,6 +761,8 @@ digraph G {
 	nodeevent_version:cols -> nodeevent:table [
 		label="id=id"];
 	nodeevent_index:cols -> nodeevent:table [
+		label="id=id"];
+	nodeseated_plan_version:cols -> nodeseated_plan:table [
 		label="id=id"];
 	nodemanifestation_version:cols -> nodemanifestation:table [
 		label="id=id"];
