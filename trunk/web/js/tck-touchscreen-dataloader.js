@@ -1,3 +1,4 @@
+LI.completeContentTriggers = [];
 LI.completeContent = function(data, type, replaceAll = true)
 {
   if ( typeof data != 'object' )
@@ -161,7 +162,8 @@ LI.completeContent = function(data, type, replaceAll = true)
         if ( !mod || price.state )
         {
           wprice.addClass('active').addClass(price.state ? price.state : 'readonly');
-          wprice.find('.qty input').prop('readonly', true);
+          if ( price.state === 'printed' )
+            wprice.find('.qty input').prop('readonly', true);
         }
         wprice.find('.qty input').val(price.qty).select();
         wprice.find('.price_name').html(price.name).prop('title', price.description);
@@ -184,6 +186,13 @@ LI.completeContent = function(data, type, replaceAll = true)
   }); // each manifestation
   
   $('#li_transaction_'+type+' .item .total').select();
+  
+  if ( typeof LI.completeContentTriggers == 'object' )
+  {
+    $.each(LI.completeContentTriggers, function(id, fct){
+      fct(type, data);
+    });
+  }
 }
 
 LI.sumPayments = function()
