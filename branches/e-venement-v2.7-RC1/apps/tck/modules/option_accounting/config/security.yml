@@ -1,2 +1,0 @@
-all:
-  credentials: [tck-ledger-sales, tck-ledger-cash]
