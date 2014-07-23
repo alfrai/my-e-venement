@@ -1,0 +1,32 @@
+index:
+  credentials: pr-group
+filter:
+  credentials: pr-group
+searchIndexing:
+  credentials: pr-group
+search:
+  credentials: pr-group
+ajax:
+  credentials: pr-group
+show:
+  credentials: pr-group
+
+new:
+  credentials: [[pr-group-perso, pr-group-common]]
+create:
+  credentials: [[pr-group-perso, pr-group-common]]
+
+edit:
+  credentials: pr-group
+update:
+  credentials: [[pr-group-perso, pr-group-common]]
+
+delete:
+  credentials: [[pr-group-perso, pr-group-common]]
+batchDelete:
+  credentials: [[pr-group-perso, pr-group-common]]
+
+labels:
+  credentials: pr-group-labels
+csv:
+  credentials: pr-contact

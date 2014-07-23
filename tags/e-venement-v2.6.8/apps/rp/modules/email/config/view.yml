@@ -1,0 +1,13 @@
+all:
+  javascripts: [/liTinymcePlugin/tinymce.min.js, /liTinymcePlugin/jquery.tinymce.min.js, email]
+  stylesheets: [email]
+
+contentSuccess:
+  has_layout: false
+
+indexSuccess:
+  javascripts: [list-scroll]
+  stylesheets: [list-print: {media: print}]
+
+uploadSuccess:
+  javascripts: [-/liTinymcePlugin/tinymce.min.js, -/liTinymcePlugin/jquery.tinymce.min.js]

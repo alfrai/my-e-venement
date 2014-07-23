@@ -1,0 +1,40 @@
+.gauge {
+  position: absolute;
+  right: 30px;
+  width: 250px;
+  height: 232px;
+  padding: 5px;
+  /*overflow: hidden;*/
+}
+.sf_admin_field_workspaces_list .gauge {
+  position: static;
+  right: 0;
+  margin-bottom: 10px;
+}
+#prices .gauge { height: 30px; }
+.gauge > div {
+  height: 100%;
+}
+
+.gauge > div { text-align: center; }
+.gauge .seat {
+  -border: 1px solid black;
+  display: inline-block;
+  padding: 1px;
+}
+.gauge .seat.free   { background-color: green; }
+.gauge .seat.orders { background-color: orange; }
+.gauge .seat.sells  { background-color: red; }
+.gauge .seat.demands{ border: 1px dotted blue; padding: 0; }
+.gauge .overquota   { border: 1px dotted white; padding: 0; }
+.gauge .overquota.demands { background-color: white; }
+
+.gauge .text {
+  text-align: center;
+  opacity: 0.5;
+  background-color: white;
+  padding: 3px;
+  position: absolute;
+  width: 244px;
+}
+
