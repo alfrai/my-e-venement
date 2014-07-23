@@ -1,3 +1,0 @@
-all:
-  stylesheets: [event-calendar]
-  javascripts: [event-calendar]
