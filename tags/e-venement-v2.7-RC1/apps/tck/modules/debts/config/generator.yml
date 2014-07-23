@@ -1,0 +1,32 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Transaction
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          transaction_debts
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        all: { label: "Even closed transactions ?", help: "Needs a while for calculation..." }
+        date: { type: date }
+      list:
+        display: [_id, _invoice_id, Contact, Professional, _debt, closed, updated_at]
+        object_actions:
+          _show: ~
+        batch_actions: []
+        table_method: retrieveDebtsList
+        sort: [updated_at, desc]
+        max_per_page: 500
+      filter:
+        display: [date, all, name, city, contact_id, organism_id]
+        class: DebtsFormFilter
+      form:    ~
+      edit:    ~
+      new:     ~

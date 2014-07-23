@@ -1,0 +1,13 @@
+#manifestations,
+#prices .gauge,
+.tickets_form .title,
+#print,
+#payment form,
+#validation,
+.prices_list { font-size: 0; display: none; height: 0; margin: 0; padding: 0; border: 0; overflow: hidden; }
+
+html #transaction-id { margin-top: -23px; font-size: 12px; text-align: right; }
+html #transaction-id span { display: block; }
+.open { display: none; }
+
+html #payment .sf_admin_list { margin-left: 10px; }
