@@ -1,0 +1,11 @@
+<?php
+$modules = array(
+
+// add here your extra modules
+// 'liZohoCreatorSyncPlugin',
+'liZohoCreatorSyncPlugin',
+
+
+
+
+);

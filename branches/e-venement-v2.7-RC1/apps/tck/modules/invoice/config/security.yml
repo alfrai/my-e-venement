@@ -1,0 +1,14 @@
+all:
+  credentials: [[tck-accounting-invoice, tck-reports]]
+create:
+  credentials: tck-accounting-invoice 
+new:
+  credentials: tck-accounting-invoice 
+update:
+  credentials: tck-accounting-invoice
+edit:
+  credentials: tck-accounting-invoice 
+delete:
+  credentials: tck-accounting-invoice 
+batchDelete:
+  credentials: tck-accounting-invoice 

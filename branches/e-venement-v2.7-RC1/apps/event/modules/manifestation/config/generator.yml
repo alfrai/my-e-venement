@@ -1,0 +1,103 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Manifestation
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          manifestation
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        list_event: { label: Event }
+        list_location: { label: Location }
+        list_description: { label: Memo }
+        list_dates: { label: Date }
+        happens_at: { label: Date }
+        ends_at: { type: Date }
+        id: { label: ID Manif }
+        online_limit: { label: Online limit }
+        description: { label: Memo }
+        no_print: { label: Preprinted ticketting }
+        reservation_optional: { label: This is an option, type: Boolean }
+        blocking: { label: Blocking, type: Boolean }
+        reservation_ends_at: { label: Ends at, type: Date }
+        reservation_begins_at: { label: Begins at, type: Date }
+        reservation_confirmed: { label: Confirmed, credentials: event-reservation-confirm }
+        reservation_description: { label: Comment }
+        contact_id: { label: Applicant, credentials: event-reservation-change-contact }
+        list_contact: { label: Applicant }
+        booking_list: { label: Extra locations }
+        list_booking_list: { label: Extra locations }
+        list_extra_informations_list: { label: Extra informations }
+        ExtraInformations: { label: Extra informations }
+        list_gauge: { label: Gauge }
+        has_description: { label: Has a memo }
+        has_extra_infos: { label: Has extra informations }
+        list_age_min: { label: Age min }
+        duration_h_r: { label: Duration }
+        expected_income: { label: Expected income }
+      list:
+        display: [_list_dates, _list_event, _list_contact, _list_location <?php $reservation = sfConfig::get('app_manifestation_reservations',array()); if ( isset($reservation['enable']) && $reservation['enable'] ): ?>, _list_booking_list, reservation_description<?php endif ?>, duration_h_r, _list_age_min, _list_gauge, _list_description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, _list_extra_informations_list<?php endif ?>]
+        object_actions:
+          _edit:
+            credentials: event-manif-edit
+          _periodicity:
+            action: periodicity
+            credentials: event-manif-edit
+          _sell:
+            action: sell
+            credentials: tck-transaction
+            label: Sell
+          _delete:
+            credentials: event-manif-del
+        sort: [happens_at, asc]
+        table_method: retrieveList
+        title: Manifestations
+        actions:
+          #_new: ~
+          csv:
+            label: Extract
+            action: csv
+      filter:
+        display: [happens_at, event_id, contact_id, location_id, booking_list, color_id, has_description, has_extra_infos, description, reservation_confirmed]
+      form: ~
+      edit:
+        title: %%name%% @ %%Location%%
+        display:
+          General:      [happens_at, ends_at, _id, event_id, location_id, _show_gauge_txt, expected_income, color_id, _form_prices]
+          Ticketting:   [duration, vat_id, online_limit, online_limit_per_transaction, depends_on, _show_is_necessary_to, organizers_list, no_print]
+          Workspaces:   [_form_workspaces] #, _show_workspaces_list]
+          <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($config['enable']) && $config['enable'] ): echo PHP_EOL; ?>
+          Resources:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, reservation_confirmed, reservation_optional, reservation_description]
+          <?php endif; echo PHP_EOL; ?>
+          Extra informations:  [description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, ExtraInformations<?php endif ?>]
+          #Tickets:      [_show_tickets_list]
+          #Spectators:   [_show_spectators_list]
+          #Unbalanced:   [_show_unbalanced_list]
+      new:
+        display:
+          General: [happens_at, ends_at, event_id, location_id, expected_income, color_id]
+          Ticketting: [duration, vat_id, online_limit, depends_on, organizers_list, no_print]
+          <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($config['enable']) && $config['enable'] ): echo PHP_EOL; ?>
+          Resources:  [booking_list, _form_applicant_id, contact_id, reservation_begins_at, reservation_ends_at, blocking, reservation_confirmed, reservation_optional, reservation_description]
+          <?php endif; echo PHP_EOL; ?>
+          Extra informations:  [description]
+        actions: { _save: ~, _list: ~ }
+      show:
+        display:
+          General:    [_show_event, id, _show_happens_at, _show_ends_at, _show_location, _show_gauge_txt, expected_income, _show_color, _show_prices_list]
+          Ticketting: [_show_duration, _show_vat, _show_online_limit, _show_online_limit_per_transaction, _show_depends_on, _show_is_necessary_to, _show_organizers_list, _show_no_print]
+          Workspaces: [_show_workspaces_list]
+          <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($config['enable']) && $config['enable'] ): echo PHP_EOL; ?>
+          Resources:  [_show_booking_list, _show_applicant_id, _show_reservation_begins_at, _show_reservation_ends_at, _show_blocking, _show_confirmed, _show_optional, _show_reservation_description]
+          <?php endif; echo PHP_EOL; ?>
+          Tickets:    [_show_tickets_list_empty]
+          Spectators: [_show_spectators_list_empty]
+          Unbalanced: [_show_unbalanced_list]
+          Extra informations:  [_show_description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, _show_extra_informations<?php endif ?>]

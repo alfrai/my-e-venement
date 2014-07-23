@@ -1,0 +1,15 @@
+.tdp-subtitle {
+  font-weight: normal;
+  font-size: 80%;
+  opacity: 0.5;
+  z-index: -1;
+  cursor: text;
+  position: absolute;
+  overflow: hidden;
+  padding-left: 5px;
+  padding-top: 5px;
+  margin-top: 7px;
+}
+table .tdp-subtitle, .tdp-line.vertical .tdp-subtitle,
+.tdp-line.vertical .tdp-subtitle { margin-top: 2px; }
+h1 .tdp-subtitle { margin-top: 0; }

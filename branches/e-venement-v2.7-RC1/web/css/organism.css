@@ -1,0 +1,20 @@
+.members .sf_admin_action_delete a {
+  float: none;
+  margin-left: 10px;
+  padding: 0 1em;
+}
+
+.sf_admin_list td { white-space: nowrap; overflow: hidden; }
+
+.sf_admin_list .sf_admin_list_td_contacts_list { max-width: 100px; }
+.sf_admin_list .sf_admin_list_td_category { max-width: 70px; }
+.sf_admin_list .sf_admin_list_td_city { max-width: 50px; }
+.sf_admin_list .sf_admin_list_td_list_email { max-width: 80px; }
+.sf_admin_list .sf_admin_list_td_name { max-width: 230px; }
+
+.sf_admin_list .sf_admin_list_td_contacts_list,
+.sf_admin_list .sf_admin_list_td_city,
+.sf_admin_list .sf_admin_list_td_list_email,
+.sf_admin_list .sf_admin_list_td_Category { font-size: 80%; }
+
+.sf_admin_list_td_contacts_list .important { font-weight: bold; }
