@@ -123,6 +123,19 @@ abstract class PluginContact extends BaseContact
     
     return $this;
   }
+  
+  public function copy($deep = false)
+  {
+    $copy = parent::copy($deep);
+    if ( $deep )
+      return $copy;
+    
+    foreach ( array('YOBs', 'Phonenumbers', 'Relationships') as $field )
+    foreach ( $this->$field as $obj )
+      $copy->{$field}[] = $obj->copy();
+    
+    return $copy;
+  }
 
   /**
    * function getVcard()

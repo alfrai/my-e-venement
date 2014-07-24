@@ -263,7 +263,7 @@ class contactActions extends autoContactActions
       ->orderBy('lower(c.name), lower(c.firstname), c.id')
       ->addComponent('c','Contact')
       ->addComponent('c2','Contact');
-      $this->pager->setQuery($q);
+    $this->pager->setQuery($q);
     
     $this->pager->init();
   }
