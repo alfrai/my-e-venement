@@ -36,8 +36,8 @@ class SeatedPlanFormFilter extends BaseSeatedPlanFormFilter
   public function configure()
   {
     $this->widgetSchema['location_id']
-      ->setOption('query', Doctrine::getTable('Location')->createQuery())
-      ->setOption('order_by', array('name',''));
+      ->setOption('query', Doctrine::getTable('Location')->createQuery()->andWhere('place = ?',true)
+      ->setOption('order_by', array('rank, name',''));
     /*
     $this->widgetSchema['workspace_id']
       ->setOption('query', Doctrine::getTable('Workspace')->createQuery('ws')->andWhere('ws.seated = ?',true));

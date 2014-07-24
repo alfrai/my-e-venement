@@ -44,7 +44,7 @@ class EventFormFilter extends BaseEventFormFilter
     $this->widgetSchema   ['location_id'] = new sfWidgetFormDoctrineChoice(array(
       'add_empty' => true,
       'model'     => 'Location',
-      'order_by'  => array('place DESC, name',''),
+      'order_by'  => array('place DESC, rank, name',''),
       'method'    => '__toStringWithPrefix',
     ));
     $this->validatorSchema['location_id'] = new sfValidatorDoctrineChoice(array(
