@@ -237,6 +237,8 @@ Jabber:
     User:
       class: sfGuardUser
       foreignAlias: Jabber
+      onDelete: CASCADE
+      onUpdate: CASCADE
 
 Filter:
   package: generic
