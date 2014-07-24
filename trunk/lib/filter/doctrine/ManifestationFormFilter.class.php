@@ -24,7 +24,7 @@ class ManifestationFormFilter extends BaseManifestationFormFilter
     
     $this->widgetSchema['happens_at']->setOption('template', '<span class="from">'.__('From %from_date%').'</span> <span class="to">'.__('to %to_date%').'</span>');
     
-    $this->widgetSchema['location_id']->setOption('order_by', array('l.place DESC, l.name',''))
+    $this->widgetSchema['location_id']->setOption('order_by', array('l.place DESC, l.rank, l.name',''))
       ->setOption('query', Doctrine::getTable('Location')->retrievePlaces());
     $this->widgetSchema['booking_list']->setOption('order_by', array('place ASC, name',''));
     

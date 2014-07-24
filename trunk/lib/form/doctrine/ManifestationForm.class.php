@@ -27,7 +27,7 @@ class ManifestationForm extends BaseManifestationForm
     
     $this->widgetSchema['location_id']
       ->setOption('add_empty',true)
-      ->setOption('order_by',array('name',''))
+      ->setOption('order_by',array('rank, name',''))
       ->setOption('query', $q = Doctrine::getTable('Location')->retrievePlaces());
     $this->validatorSchema['location_id']->setOption('query', $q);
     
