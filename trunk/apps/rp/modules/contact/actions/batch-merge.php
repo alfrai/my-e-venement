@@ -27,7 +27,7 @@
   $this->getContext()->getConfiguration()->loadHelpers('I18N');
   
   $ids = $request->getParameter('ids');
-  $q = Doctrine::getTable('Contact')->createQuery()
+  $q = Doctrine::getTable('Contact')->createQuery('c')
     ->whereIn('id',$ids)
     ->orderBy('id');
   $contacts = $q->execute();
@@ -169,7 +169,11 @@
         
         // YOB
         foreach ( $contact->YOBs as $YOB )
+        {
+          $YOB->contact_id = $base_contact->id;
           $base_contact->YOBs[] = $YOB;
+          $YOB->save(); // special feature for a special behaviour (else didn't save)
+        }
         
         // Relationships
         foreach ( $contact->Relationships as $relationship )
@@ -197,6 +201,7 @@
       $base_contact->save();
     
     $this->getUser()->setFlash('notice',__('%%nb%% contacts properly merged into one',array('%%nb%%' => $cpt)));
+    $this->redirect('contact/edit?id='.$base_contact->id);
   }
   else
     $this->getUser()->setFlash('notice',__('You have to select more than one contact to be able to merge something'));
