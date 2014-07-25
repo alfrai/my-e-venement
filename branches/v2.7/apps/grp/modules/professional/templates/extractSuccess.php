@@ -46,6 +46,7 @@
     'nb_events'     => __('Events'),
     'nb_manifestations' => __('Manifs'),
     'nb_tickets'    => __('Tick.Avg.'),
+    'nb_tickets_notfree' => __('NotFree Avg.'),
   );
   
   include_partial('global/csv',$vars);

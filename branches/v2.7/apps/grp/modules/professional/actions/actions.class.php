@@ -75,6 +75,8 @@ class professionalActions extends autoProfessionalActions
   
   public function executeExtract(sfWebRequest $request)
   {
+    $this->getContext()->getConfiguration()->loadHelpers('Number');
+    
     $pager = $this->getPager();
     $q = $pager->getQuery()
       ->removeDqlQueryPart('offset')
@@ -94,25 +96,34 @@ class professionalActions extends autoProfessionalActions
       {
         $q = Doctrine_Query::create()->from('EntryTickets et')
           ->select('et.*, ee.id, me.id')
+          ->leftJoin('et.Price p')
           ->leftJoin('et.EntryElement ee')
           ->leftJoin('ee.ContactEntry ce')
           ->leftJoin('ee.ManifestationEntry me')
           ->leftJoin('me.Manifestation m')
+          ->leftJoin('p.PriceManifestations pm ON p.id = pm.price_id AND m.id = pm.manifestation_id')
           ->leftJoin('m.Event e')
           ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
           ->andWhere('ce.professional_id = ?',$this->lines[$i]['professional_id'])
-          ->andWhere('ee.accepted = ?',true) 
+          ->andWhere('ee.accepted = ?',true)
         ;
         
-        $nb = 0;
+        $nb = array('all' => 0, 'pay' => 0);
         $mids = array();
         foreach ( $q->execute() as $tickets )
         {
           $mids[$tickets->EntryElement->ManifestationEntry->id] = 1;
-          $nb += $tickets->quantity;
+          $nb['all'] += $tickets->quantity;
+          
+          // for non-free tickets
+          foreach ( $tickets->Price->PriceManifestations as $pm )
+          if ( $pm->manifestation_id == $tickets->EntryElement->ManifestationEntry->manifestation_id
+            && $pm->value > 0 )
+            $nb['pay'] += $tickets->quantity;
         }
       
-        $this->lines[$i]['nb_tickets'] = round($nb/array_sum($mids));
+        $this->lines[$i]['nb_tickets'] = format_number(round($nb['all']/count($mids),1));
+        $this->lines[$i]['nb_tickets_notfree'] = format_number(round($nb['pay']/count($mids),1));
       }
     }
     
@@ -131,6 +142,7 @@ class professionalActions extends autoProfessionalActions
         'nb_events',
         'nb_manifestations',
         'nb_tickets',
+        'nb_tickets_notfree',
       ),
     );
     
