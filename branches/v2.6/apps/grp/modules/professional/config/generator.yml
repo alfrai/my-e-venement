@@ -19,11 +19,12 @@ generator:
         nb_manifestations: { label: Manifs, type: numeric }
         nb_events: { label: Events, type: numeric }
         nb_tickets: { label: Tick.Avg., type: numeric }
+        nb_tickets_notfree: { label: NotFree Avg., type: numeric }
         list_organism_administrative_number: { label: Admin.ID }
         organism_city: { label: City }
         list_events: { label: Events }
       list:
-        display: [Organism, organism_city, Contact, name, _groups_picto, contact_email, _list_organism_administrative_number, _list_events, nb_events, nb_manifestations, _nb_tickets]
+        display: [Organism, organism_city, Contact, name, _groups_picto, contact_email, _list_organism_administrative_number, _list_events, nb_events, nb_manifestations, _nb_tickets, _nb_tickets_notfree]
         batch_actions: {}
         actions:
           _extract: { action: extract }

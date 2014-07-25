@@ -35,7 +35,11 @@ class ProfessionalTable extends PluginProfessionalTable
     
     // limitating to user's MetaEvents
     if ( sfContext::hasInstance() )
-    $q->leftJoin('gce.Entry ge')
+    $q
+      ->leftJoin('gce.Transaction gt')
+      ->leftJoin('gt.Translinked gtt')
+      ->andWhere('gtt.id IS NULL')
+      ->leftJoin('gce.Entry ge')
       ->leftJoin('ge.ManifestationEntries gme')
       ->leftJoin('gme.Manifestation m')
       ->leftJoin('m.Event e')
@@ -51,7 +55,7 @@ class ProfessionalTable extends PluginProfessionalTable
       ->addSelect('count(DISTINCT eem.event_id) as nb_events, count(DISTINCT eem.id) as nb_manifestations')
       ->groupBy("$a.id, c.id, c.name, c.firstname, o.id, o.name, t.name, g.id, g.name, u.id, pic.id, pic.name, pic.content, g.display_everywhere, g.sf_guard_user_id")
       */
-      ;
+    ;
     
     return $q;
   }
