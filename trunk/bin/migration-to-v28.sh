@@ -71,6 +71,8 @@ psql <<EOF
   ALTER TABLE event DROP COLUMN description;
   ALTER TABLE event DROP COLUMN extradesc;
   ALTER TABLE event DROP COLUMN extraspec;
+  
+  ALTER TABLE event_version ADD COLUMN lang character(2) NOT NULL DEFAULT 'fr';
 EOF
 
 echo "DUMPING DB..."
@@ -100,12 +102,11 @@ echo ""
 [ ! -f apps/default/config/app.yml ] && cp apps/default/config/app.yml.template apps/default/config/app.yml
 
 echo ""
-echo "Be careful with DB errors. A table with an error is an empty table !... If necessary take back the DB backup and correct things by hand before to retry this migration script."
+echo "Be careful with DB errors. A table with an error is an empty table !... If necessary take back the DB backup and correct things by hand before retrying this migration script."
 echo ""
 
 # final data modifications
 echo ""
-echo "Creating permissions for seated plans features"
 psql $db <<EOF
 EOF
 
