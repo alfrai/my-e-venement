@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Groups intersection</source>
+        <target>Intersection des groupes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Any function?</source>
         <target>Une fonction ?</target>
       </trans-unit>
