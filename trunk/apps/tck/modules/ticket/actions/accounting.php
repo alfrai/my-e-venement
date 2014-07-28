@@ -32,10 +32,11 @@
     $q->from('Ticket t')
       ->leftJoin('t.Manifestation m')
       ->leftJoin('m.Event e')
+      ->leftJoin("e.Translation et WITH lang = '".$this->getUser()->getCulture()."'")
       ->leftJoin('t.Price p')
       ->andWhere('t.transaction_id = ?',$this->transaction->id)
       ->andWhere('t.duplicating IS NULL')
-      ->orderBy('m.happens_at, e.name, p.description, t.value');
+      ->orderBy('m.happens_at, et.name, p.description, t.value');
     if ( $printed )
       $q->andWhere('t.printed_at IS NOT NULL OR t.integrated_at IS NOT NULL OR t.cancelling IS NOT NULL');
     if ( intval($manifestation_id) > 0 )

@@ -40,7 +40,7 @@
     ->andWhere('t.id = ?',$this->transaction_id)
     ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
     ->andWhere('tck.cancelling IS NULL')
-    ->orderBy('m.happens_at, e.name, tck.price_name, tck.id');
+    ->orderBy('m.happens_at, et.name, tck.price_name, tck.id');
 
   if ( $manifestations )
     $q->andWhereIn('m.id',$manifestations);

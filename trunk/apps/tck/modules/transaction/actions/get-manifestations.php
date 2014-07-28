@@ -154,7 +154,7 @@
           ->leftJoin('m.Gauges g')
           ->leftJoin('g.Workspace w')
           ->leftJoin('w.Order wuo ON wuo.workspace_id = w.id AND wuo.sf_guard_user_id = ?',$this->getUser()->getId())
-          ->orderBy('e.name, me.name, m.happens_at, m.duration, wuo.rank, w.name, p.name')
+          ->orderBy('et.name, me.name, m.happens_at, m.duration, wuo.rank, w.name, p.name')
           ->leftJoin('p.WorkspacePrices pwp ON pwp.price_id = p.id AND pwp.workspace_id = w.id')
           ->leftJoin('p.UserPrices      pup ON pup.price_id = p.id AND pup.sf_guard_user_id = ?',$this->getUser()->getId())
           //->leftJoin('w.WorkspaceUsers wsu ON wsu.workspace_id = w.id AND wsu.sf_guard_user_id = ?',$this->getUser()->getId())
