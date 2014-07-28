@@ -55,21 +55,23 @@ echo "DUMPING DB..."
 pg_dump -Fc > data/sql/$name-`date +%Y%m%d`.before.pgdump && echo "DB pre dumped"
 
 ## preliminary modifications & backup
-#psql <<EOF
-#  DROP TABLE seating_plan;
-#  ALTER TABLE transaction DROP COLUMN workspace_id;
-#  ALTER TABLE transaction_version DROP COLUMN workspace_id;
-#  UPDATE ticket SET numerotation = NULL WHERE trim(numerotation) = '';
-#  ALTER TABLE group_deleted DROP COLUMN information;
-#  
-#  -- issue of duplicated unique index due to bad definition in the past
-#  UPDATE entry_tickets et
-#     SET quantity = (SELECT sum(quantity) FROM entry_tickets sub WHERE (et.entry_element_id, et.price_id, et.gauge_id) = (sub.entry_element_id, sub.price_id, sub.gauge_id) GROUP BY entry_element_id, price_id, gauge_id HAVING count(*) > 1)
-#   WHERE (entry_element_id, price_id, gauge_id) IN (SELECT entry_element_id, price_id, gauge_id FROM entry_tickets GROUP BY entry_element_id, price_id, gauge_id HAVING count(*) > 1);
-#  DELETE FROM entry_tickets
-#   WHERE id IN (SELECT id FROM entry_tickets WHERE (entry_element_id, price_id, gauge_id) IN (SELECT entry_element_id, price_id, gauge_id FROM entry_tickets GROUP BY entry_element_id, price_id, gauge_id HAVING count(*) > 1))
-#     AND id NOT IN (SELECT min(id) FROM entry_tickets WHERE (entry_element_id, price_id, gauge_id) IN (SELECT entry_element_id, price_id, gauge_id FROM entry_tickets GROUP BY entry_element_id, price_id, gauge_id HAVING count(*) > 1) GROUP BY entry_element_id, price_id, gauge_id, quantity);
-#EOF
+psql <<EOF
+  CREATE TABLE event_translation (
+    id bigint NOT NULL,
+    name character varying(255) NOT NULL,
+    short_name character varying(127),
+    description text,
+    extradesc text,
+    extraspec text,
+    lang character(2) NOT NULL
+  );
+  INSERT INTO event_translation (SELECT id, name, short_name, description, extradesc, extraspec, 'fr' FROM event);
+  ALTER TABLE event DROP COLUMN name;
+  ALTER TABLE event DROP COLUMN short_name;
+  ALTER TABLE event DROP COLUMN description;
+  ALTER TABLE event DROP COLUMN extradesc;
+  ALTER TABLE event DROP COLUMN extraspec;
+EOF
 
 echo "DUMPING DB..."
 pg_dump -Fc > data/sql/$name-`date +%Y%m%d`.pgdump && echo "DB dumped"
