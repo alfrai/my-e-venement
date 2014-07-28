@@ -104,3 +104,92 @@ BankPayment:
     payment_date: string(255)
     response_code: string(255)
     raw: string
+
+Survey:
+  package: ws
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    name:
+      type: string(255)
+      notblank: true
+      notnull: true
+SurveyQuery:
+  package: ws
+  actAs:
+    I18N:
+      fields: [name]
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    name:
+      type: string
+      notblank: true
+      notnull: true
+    survey_id:
+      type: integer
+      notnull: true
+    type:
+      type: string(255)
+      notnull: true
+      notblank: true
+    multiple:
+      type: boolean
+      default: false
+      notnull: true
+    weight:
+      type: integer
+      notnull: true
+      default: 1
+  Relations:
+    Survey:
+      foreignAlias: Queries
+      onDelete: CASCADE
+      onUpdate: CASCADE
+SurveyAnswer:
+  package: ws
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    survey_query_id:
+      type: integer
+      notnull: true
+    lang:
+      type: string(255)
+      notnull: true
+      notblank: true
+    value:
+      type: string
+      notnull: true
+  Relations:
+    Query:
+      class: SurveyQuery
+      foreignAlias: Answers
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+SurveyApplyTo:
+  package: ws
+  columns:
+    survey_id:
+      type: integer
+      notnull: true
+    date_from: datetime
+    date_to: datetime
+    manifestation_id: integer
+    everywhere:
+      type: boolean
+      default: false
+      notnull: true
+  Relations:
+    Query:
+      class: SurveyQuery
+      foreignAlias: Answers
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Manifestation:
+      foreignAlias: Surveys
+      onDelete: SETNULL
+      onUpdate: CASCADE
