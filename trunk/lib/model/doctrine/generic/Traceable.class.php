@@ -28,6 +28,21 @@ class Traceable extends PluginTraceable
         $this->updated_at = date('Y-m-d H:i:s');
     }
     parent::preSave($event);
+    
+    /*
+    // TODO: i18n + versionable
+    $cultures = sfConfig::get('project_internals_cultures', array('fr' => 'Français'));
+    foreach ( $cultures as $culture => $lang )
+    {
+      $this->version = $this->version + 1;
+      $version = $this->Version[$this->Version->count()];
+      $version->version = $this->version;
+      
+      foreach ( array_keys(Doctrine::getTable($this->getTable()->getTableName().'Translation')->getColumns()) as $column )
+      if ( !in_array($column, array('id', 'slug', 'lang')) )
+        $version->$column = $this->Translation->$column;
+    }
+    */
   }
   
   public function preInsert($event)

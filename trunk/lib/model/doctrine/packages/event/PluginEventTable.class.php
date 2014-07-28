@@ -25,8 +25,19 @@ class PluginEventTable extends Doctrine_Table
     
     public function createQuery($alias = 'e')
     {
-      $culture = sfContext::hasInstance() ? sfContext::getInstance()->getUser()->getCulture() : 'fr';
-      return parent::createQuery($alias)
-        ->leftJoin("$alias.Translation translation WITH translation.lang = '$culture'");
+      $q = parent::createQuery($alias);
+      
+      if (!( sfContext::hasInstance()
+        && sfContext::getInstance()->getActionName()
+        && in_array(sfContext::getInstance()->getActionName(), array('edit', 'update'))
+      ))
+      {
+        $culture = sfContext::hasInstance() ? sfContext::getInstance()->getUser()->getCulture() : 'fr';
+        $q->leftJoin("$alias.Translation translation WITH translation.lang = '$culture'");
+      }
+      else
+        $q->leftJoin("$alias.Translation translation");
+      
+      return $q;
     }
 }

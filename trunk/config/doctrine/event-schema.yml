@@ -164,7 +164,7 @@ Event:
     name:
       type:         string(255)
       notblank:     true
-      notnull:     true
+      notnull:      true
     short_name:     string(127)
     meta_event_id:
       type: integer
