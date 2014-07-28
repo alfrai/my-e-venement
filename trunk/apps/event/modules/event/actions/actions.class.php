@@ -222,7 +222,7 @@ class eventActions extends autoEventActions
     
     $q = Doctrine::getTable('Event')
       ->createQuery('e')
-      ->orderBy('name')
+      ->orderBy('translation.name')
       ->limit($request->getParameter('limit'))
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()));
     $q = Doctrine_Core::getTable('Event')

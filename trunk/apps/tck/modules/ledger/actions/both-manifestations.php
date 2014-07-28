@@ -33,8 +33,9 @@
       $q = Doctrine::getTable('Gauge')->createQuery('g')
         ->leftJoin('g.Manifestation m')
         ->leftJoin('m.Event e')
+        ->leftJoin("e.Translation et WITH lang = '".$this->getUser()->getCulture()."'")
         ->addSelect('(SELECT count(g2.id) FROM Manifestation m2 LEFT JOIN m2.Gauges g2 WHERE m2.id = g.manifestation_id AND g2.id IS NOT NULL) AS nb_ws')
         ->andWhereIn('g.manifestation_id',$criterias['manifestations'])
-        ->orderBy('e.name, m.happens_at, ws.name');
+        ->orderBy('et.name, m.happens_at, ws.name');
       $this->gauges = $q->execute();
     }

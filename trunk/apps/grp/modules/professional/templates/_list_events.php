@@ -7,8 +7,8 @@
     ->andWhere('ce.professional_id = ?', $professional->id)
     ->andWhere('meee.accepted = ?', true)
     ->andWhereIn('e.meta_event_id', array_keys($sf_data->getRaw('sf_user')->getMetaEventsCredentials()))
-    ->select('e.*')
-    ->orderBy('e.name');
+    ->select('e.*, translation.*')
+    ->orderBy('translation.name');
   $events = $q->execute();
 ?>
 <ul>

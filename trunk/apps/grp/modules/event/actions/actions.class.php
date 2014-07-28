@@ -95,7 +95,7 @@ class eventActions extends autoEventActions
       $q = $this->pager->getQuery();
       $a = $q->getRootAlias();
       $q->andWhereIn("$a.meta_event_id",array_keys($this->getUser()->getMetaEventsCredentials()))
-        ->orderby('name');
+        ->orderby('translation.name');
     }
   }
   

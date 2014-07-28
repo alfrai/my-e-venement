@@ -22,7 +22,7 @@ class ContactEntryByContactForm extends BaseContactEntryForm
       'query' => $q = Doctrine::getTable('Event')->retrieveList()
         ->select('e.*')
         ->andWhere('g.workspace_id IN (SELECT gw.workspace_id FROM GroupWorkspace gw)'),
-      'order_by' => array('name', ''),
+      'order_by' => array('translation.name', ''),
     ));
     $this->validatorSchema['event_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Event',
