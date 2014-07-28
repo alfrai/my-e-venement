@@ -10,10 +10,29 @@
  */
 abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
 {
+  protected $i18n_fields = array();
+  
   public function setup()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url','CrossAppLink'));
-
+    
+    // I18N
+    try
+    {
+      $i18n = Doctrine::getTable($this->getTable()->getTableName().'Translation')
+        ->getColumns();
+      unset($i18n['id'], $i18n['lang']);
+      $this->i18n_fields = array_keys($i18n);
+    }
+    catch ( Doctrine_Exception $e ) {}
+    
+    foreach ( $this->i18n_fields as $field )
+    {
+      $this->widgetSchema   [$field] = new sfWidgetFormFilterInput(array('with_empty' => false));
+      $this->validatorSchema[$field] = new sfValidatorPass(array('required' => false));
+    }
+    
+    // HUGE FK
     if ( isset($this->widgetSchema['contact_id']) )
     $this->widgetSchema['contact_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Contact',
@@ -24,6 +43,8 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
       'model' => 'Organism',
       'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
+    
+    // TIMESTAMPABLE
     $this->resetDates();
   }
   
@@ -64,13 +85,35 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
     }
   }
   
-  public function addTextQuery(Doctrine_Query $query, $field, $values)
+  public function getFields()
+  {
+    $i18n = array();
+    foreach ( $this->i18n_fields as $field )
+      $i18n[$field] = 'I18nText';
+    
+    return parent::getFields() + $i18n;
+  }
+  
+  /**
+    * I18N Query Part
+    * Do not forget to add a function like this one for each I18N fields in your DoctrineFormFilters:
+    *
+    * function addNameColumnQuery(Doctrine_Query $query, $field, $values)
+    * { addI18nTextQuery($q, $field, $values); }
+    *
+    **/
+  public function addI18nTextQuery(Doctrine_Query $query, $field, $values)
+  {
+    return $this->addTextQuery($query, $field, $values, $query->getRootAlias().'Translation');
+  }
+  
+  public function addTextQuery(Doctrine_Query $query, $field, $values, $table = NULL)
   {
     $fieldName = $this->getFieldName($field);
 
     if (is_array($values) && isset($values['is_empty']) && $values['is_empty'])
     {
-      $query->addWhere(sprintf('(%s.%s IS NULL OR %1$s.%2$s = ?)', $query->getRootAlias(), $fieldName), array(''));
+      $query->addWhere(sprintf('(%s.%s IS NULL OR %1$s.%2$s = ?)', $table ? $table : $query->getRootAlias(), $fieldName), array(''));
     }
     else if (is_array($values) && isset($values['text']) && '' != $values['text'])
     {
@@ -80,7 +123,7 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
         sprintf("LOWER(translate(%s.%s,
           '%s',
           '%s')
-        ) LIKE LOWER(?)", $query->getRootAlias(), $fieldName, $transliterate['from'], $transliterate['to']),
+        ) LIKE LOWER(?)", $table ? $table : $query->getRootAlias(), $fieldName, $transliterate['from'], $transliterate['to']),
         ''.iconv($charset['db'], $charset['ascii'], '%'.$values['text']).'%'
       );
     }

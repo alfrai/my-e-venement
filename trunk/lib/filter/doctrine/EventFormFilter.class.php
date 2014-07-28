@@ -146,6 +146,18 @@ class EventFormFilter extends BaseEventFormFilter
       ->andWhere('TRUE)');
   }
   
+  // I18N
+  public function addNameColumnQuery(Doctrine_Query $q, $field, $values)
+  { return $this->addI18nTextQuery($q, $field, $values); }
+  public function addShortNameColumnQuery(Doctrine_Query $q, $field, $values)
+  { return $this->addI18nTextQuery($q, $field, $values); }
+  public function addDescriptionColumnQuery(Doctrine_Query $q, $field, $values)
+  { return $this->addI18nTextQuery($q, $field, $values); }
+  public function addExtradescColumnQuery(Doctrine_Query $q, $field, $values)
+  { return $this->addI18nTextQuery($q, $field, $values); }
+  public function addExtraspecColumnQuery(Doctrine_Query $q, $field, $values)
+  { return $this->addI18nTextQuery($q, $field, $values); }
+  
   public function addDatesRangeColumnQuery(Doctrine_Query $q, $field, $values)
   {
     if ( !$values )

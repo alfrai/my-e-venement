@@ -30,10 +30,14 @@ class EventForm extends BaseEventForm
         'forced_root_block' => '',
       ),
     );
-    $this->widgetSchema['description'] = new liWidgetFormTextareaTinyMCE($tinymce);
-    $this->widgetSchema['extradesc'] = new liWidgetFormTextareaTinyMCE($tinymce);
-    $this->widgetSchema['extraspec'] = new liWidgetFormTextareaTinyMCE($tinymce);
-    $this->widgetSchema['name'] = new sfWidgetFormTextarea(array(), array('rows' => '1', 'cols' => 58));
+    
+    foreach ( $cultures as $culture => $lang )
+    {
+      $this->widgetSchema[$culture]['description'] = new liWidgetFormTextareaTinyMCE($tinymce);
+      $this->widgetSchema[$culture]['extradesc'] = new liWidgetFormTextareaTinyMCE($tinymce);
+      $this->widgetSchema[$culture]['extraspec'] = new liWidgetFormTextareaTinyMCE($tinymce);
+      $this->widgetSchema[$culture]['name'] = new sfWidgetFormTextarea(array(), array('rows' => '1', 'cols' => 58));
+    }
     
     $this->widgetSchema['meta_event_id']
       ->setOption('add_empty', true)

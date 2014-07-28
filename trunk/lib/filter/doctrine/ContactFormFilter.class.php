@@ -132,7 +132,7 @@ class ContactFormFilter extends BaseContactFormFilter
     // events
     $this->widgetSchema   ['events_list'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'Event',
-      'order_by' => array('name','asc'),
+      'order_by' => array('translation.name','asc'),
       'multiple' => true,
     ));
     $this->validatorSchema['events_list'] = new sfValidatorDoctrineChoice(array(

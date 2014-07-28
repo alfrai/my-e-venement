@@ -47,3 +47,10 @@ all:
   #messaging:
   #  enable: true
   #  chatrooms: [e-venement-public@conference.jabber.libre-informatique.fr]
+
+  internals:
+    cultures:
+      fr: Français
+      en: English
+      bzh: Breizhoneg
+

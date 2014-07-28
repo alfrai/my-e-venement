@@ -146,15 +146,20 @@ EventCategory:
 Event:
   package: event
   actAs:
-    Sluggable: ~
+    I18n:
+      fields: [name, short_name, description, extradesc, extraspec]
+      actAs:
+        Sluggable:
+          fields: [name]
+          uniqueBy: [lang, name]
     Searchable:
-      fields: [name,writer,staging,short_name]
+      fields: [name, writer, staging, short_name]
   inheritance:
     extends: Traceable
     type: concrete
-  indexes:
-    event_name_idx:
-      fields: [name]
+#  indexes:
+#    event_name_idx:
+#      fields: [name]
   columns:
     name:
       type:         string(255)

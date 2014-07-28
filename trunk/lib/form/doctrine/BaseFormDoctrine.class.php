@@ -14,6 +14,14 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink','Url'));
     
+    if ( $this->isI18n() )
+    {
+      $cultures = sfConfig::get('project_internals_cultures',array('fr' => 'Français'));
+      $this->embedI18n(array_keys($cultures));
+      foreach ( $cultures as $culture => $name )
+        $this->widgetSchema->setLabel($culture, $name);
+    }
+    
     if ( isset($this->widgetSchema['contact_id']) )
     $this->widgetSchema['contact_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Contact',

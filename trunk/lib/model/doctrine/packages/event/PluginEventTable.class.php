@@ -22,4 +22,11 @@ class PluginEventTable extends Doctrine_Table
       $this->getTemplate('Doctrine_Template_Searchable')->getPlugin()
         ->setOption('analyzer', new MySearchAnalyzer());
     }
+    
+    public function createQuery($alias = 'e')
+    {
+      $culture = sfContext::hasInstance() ? sfContext::getInstance()->getUser()->getCulture() : 'fr';
+      return parent::createQuery($alias)
+        ->leftJoin("$alias.Translation translation WITH translation.lang = '$culture'");
+    }
 }
