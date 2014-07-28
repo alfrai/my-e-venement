@@ -37,6 +37,9 @@ RemoteAuthentication:
   package: ws
   actAs:
     Timestampable: ~
+  indexes:
+    remote_authentication_updated_at_idx:
+      fields: [updated_at]
   columns:
     sf_guard_user_id:
       type: integer
@@ -68,6 +71,9 @@ BankPayment:
   package: ws
   actAs:
     Timestampable: ~
+  indexes:
+    bank_payment_updated_at_idx:
+      fields: [updated_at]
   columns:
     payment_id: integer
     serialized: string
@@ -110,6 +116,9 @@ Survey:
   inheritance:
     extends: Traceable
     type: concrete
+  actAs:
+    Searchable:
+      fields: [name]
   columns:
     name:
       type: string(255)
@@ -119,6 +128,12 @@ SurveyQuery:
   package: ws
   actAs:
     I18N:
+      fields: [name]
+      actAs:
+        Sluggable:
+          fields: [name]
+          uniqueBy: [lang, name]
+    Searchable:
       fields: [name]
   inheritance:
     extends: Traceable
@@ -143,7 +158,7 @@ SurveyQuery:
       type: integer
       notnull: true
       default: 1
-  Relations:
+  relations:
     Survey:
       foreignAlias: Queries
       onDelete: CASCADE
@@ -153,6 +168,9 @@ SurveyAnswer:
   inheritance:
     extends: Traceable
     type: concrete
+  actAs:
+    Searchable:
+      fields: [value]
   columns:
     survey_query_id:
       type: integer
@@ -164,7 +182,7 @@ SurveyAnswer:
     value:
       type: string
       notnull: true
-  Relations:
+  relations:
     Query:
       class: SurveyQuery
       foreignAlias: Answers
@@ -172,24 +190,32 @@ SurveyAnswer:
       onUpdate: CASCADE
 SurveyApplyTo:
   package: ws
+  inheritance:
+    extends: Traceable
+    type: concrete
+  indexes:
+    survey_apply_to_updated_at_idx:
+      fields: [updated_at]
+    survey_apply_to_created_at_idx:
+      fields: [created_at]
   columns:
-    survey_id:
+    survey_query_id:
       type: integer
       notnull: true
-    date_from: datetime
-    date_to: datetime
+    date_from: timestamp
+    date_to: timestamp
     manifestation_id: integer
     everywhere:
       type: boolean
       default: false
       notnull: true
-  Relations:
+  relations:
     Query:
       class: SurveyQuery
-      foreignAlias: Answers
+      foreignAlias: ApplyTo
       onDelete: RESTRICT
       onUpdate: CASCADE
     Manifestation:
-      foreignAlias: Surveys
-      onDelete: SETNULL
+      foreignAlias: AppliedSurveys
+      onDelete: SET NULL
       onUpdate: CASCADE
