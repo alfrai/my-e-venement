@@ -12,4 +12,21 @@
  */
 class SurveyQuery extends PluginSurveyQuery
 {
+  public function render($value = null, $attributes = array(), $errors = array())
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Slug'));
+    
+    $widget = new $this->type;
+    $widget->setLabel($this->name);
+    $slug = slugify($this->name);
+    
+    return $widget->render($slug, $value, $attributes, $errors);
+  }
+  public function renderLabel()
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Slug'));
+    $slug = slugify($this->name);
+    
+    return '<label for='.$slug.'>'.$this->name.'</label>';
+  }
 }

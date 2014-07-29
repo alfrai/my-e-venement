@@ -1,0 +1,36 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Survey
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          survey
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+        display: [name, _list_nb_queries]
+        object_actions:
+          _edit: ~
+          _add_query:
+            action: addQuery
+          _delete: ~
+      filter:  ~
+      form:
+        display:
+          Général: [name, _show_queries]
+          Used by: [name]
+        actions:
+          _list: ~
+          _delete: ~
+          _add_query:
+            action: addQuery
+          _save: ~
+      edit:    ~
+      new:     ~

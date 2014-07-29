@@ -37,7 +37,7 @@ class Doctrine_AuditLog_Listener_I18n extends Doctrine_AuditLog_Listener
       $v = $this->_getNextVersion($record) - 1;
 
       // I18N
-      try
+      if ( $record->getTable()->hasTemplate('I18n') )
       {
         $i18n = $record->Translation->getTable()->getColumns();
         unset($i18n['id']);
@@ -55,10 +55,10 @@ class Doctrine_AuditLog_Listener_I18n extends Doctrine_AuditLog_Listener
           $version->save();
         }
       }
+      
       // CLASSIC
-      catch ( sfException $e )
+      else
       {
-        throw new Doctrine_Exception($e);
         $record->set($name, $v+1);
         
         $version = new $class();

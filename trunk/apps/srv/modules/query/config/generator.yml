@@ -1,0 +1,36 @@
+<?php sfApplicationConfiguration::getActive()->loadHelpers(array('I18N')) ?>
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           SurveyQuery
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          survey_query
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        Options: { help: Only used with appropriate fields }
+        weight: { help: %age }
+      list:    ~
+      filter:  ~
+      form:
+        display:
+          General: [_show_survey, name, Options]
+          Details: [type, can_be_empty, rank, weight]
+        actions:
+          _back:
+            action: backToSurvey
+            label: <?php echo __('List', null, 'sf_admin').PHP_EOL ?>
+            ui-icon: arrowreturnthick-1-w
+          _delete:  ~
+          _show:    ~
+          _save:    ~
+      edit:    ~
+      new:     ~
+      show:    ~

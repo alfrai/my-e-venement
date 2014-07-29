@@ -16,4 +16,18 @@ abstract class PluginSurveyQuery extends BaseSurveyQuery
   {
     return strtolower(get_class($this));
   }
+  public function actAs($tpl, array $options = array())
+  {
+    $options['table'] = $this->getTable();
+    return parent::actAs($tpl, $options);
+  }
+  public function setUp()
+  {
+    parent::setUp();
+    
+    // versions
+    // adding a "lang" column to EventVersion to be able to record the changes in the i18n data
+    $this->getTable()->getTemplate('Versionable')->getAuditLog()
+      ->hasColumn('lang', 'string', 2, array('fixed' => true, 'primary' => true));
+  }
 }

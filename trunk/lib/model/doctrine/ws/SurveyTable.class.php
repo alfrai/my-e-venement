@@ -16,4 +16,12 @@ class SurveyTable extends PluginSurveyTable
     {
         return Doctrine_Core::getTable('Survey');
     }
+    
+    public function createQuery($alias = 's')
+    {
+      return parent::createQuery($alias)
+        ->leftJoin("$alias.Queries q")
+        ->leftJoin("q.Translation qt")
+        ->orderBy("$alias.name, q.rank, qt.name");
+    }
 }

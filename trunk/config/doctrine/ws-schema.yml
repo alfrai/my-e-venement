@@ -124,15 +124,17 @@ Survey:
       type: string(255)
       notblank: true
       notnull: true
+    weight:
+      type: integer
+      notnull: true
+      default: 100
 SurveyQuery:
   package: ws
   actAs:
     I18n:
       fields: [name]
-      actAs:
-        Sluggable:
-          fields: [name]
-          uniqueBy: [lang, name]
+    Sluggable:
+      fields: [name]
     Searchable:
       fields: [name]
   inheritance:
@@ -150,17 +152,43 @@ SurveyQuery:
       type: string(255)
       notnull: true
       notblank: true
-    multiple:
+    can_be_empty:
       type: boolean
-      default: false
       notnull: true
+      default: true
     weight:
       type: integer
       notnull: true
-      default: 1
+      default: 100
+    rank:
+      type: integer
+      notnull: true
+      default: 0
   relations:
     Survey:
       foreignAlias: Queries
+      onDelete: CASCADE
+      onUpdate: CASCADE
+SurveyQueryOption:
+  package: ws
+  actAs:
+    I18n:
+      fields: [name]
+  columns:
+    survey_query_id:
+      type: integer
+      notnull: true
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    value:
+      type: string
+      notnull: true
+  relations:
+    Query:
+      class: SurveyQuery
+      foreignAlias: Options
       onDelete: CASCADE
       onUpdate: CASCADE
 SurveyAnswer:
