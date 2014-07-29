@@ -82,23 +82,6 @@ all:
       <a href="mailto:contact@cdnlefracas.com">contact@cdnlefracas.com</a>
       <a href="http://www.cdnlefracas.com">http://www.cdnlefracas.com</a>
 
-  payment:
-    autosubmit: true
-    #id: "1"
-    #rank: "32"
-    #site: "1999888"
-    #key: "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF"
-    currency: 978
-    url:
-      payment: [https://tpeweb.paybox.com/, https://tpeweb1.paybox.com/]
-      uri: cgi/MYchoix_pagepaiement.cgi
-      normal: cart/done
-      cancel: cart/cancel
-      automatic: cart/response
-    pem:
-      remote: http://www1.paybox.com/telechargements/pubkey.pem
-      local: paybox.pem
-
 dev:
   payment:
     autosubmit: false
