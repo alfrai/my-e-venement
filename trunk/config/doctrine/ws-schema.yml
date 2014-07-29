@@ -183,7 +183,7 @@ SurveyQueryOption:
       notnull: true
       notblank: true
     value:
-      type: string
+      type: string(255)
       notnull: true
   relations:
     Query:

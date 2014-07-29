@@ -20,6 +20,7 @@ generator:
           _edit: ~
           _add_query:
             action: addQuery
+            ui-icon: plus
           _delete: ~
       filter:  ~
       form:
@@ -31,6 +32,7 @@ generator:
           _delete: ~
           _add_query:
             action: addQuery
+            ui-icon: plus
           _save: ~
       edit:    ~
       new:     ~

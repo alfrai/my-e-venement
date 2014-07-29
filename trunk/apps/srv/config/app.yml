@@ -8,9 +8,9 @@ all:
       sfWidgetFormTextarea: Text
       liWidgetFormTextareaTinyMCE: Text (rich)
       sfWidgetFormInputText: Line
-      sfWidgetFormInputCheckbox: Checkbox
-      sfWidgetFormChoice: Select one in a list
-      liWidgetFormChoiceRadio: Select one or many in a list
+      liWidgetFormInputCheckbox: Checkbox
+      liWidgetFormChoiceMultiple: Select one or many in a list
+      liWidgetFormChoiceExpanded: Select one in a list
       liWidgetFormDateText: Date
       liWidgetFormDateTime: Date+Time
       liWidgetFormJQueryDateText: Date with helper

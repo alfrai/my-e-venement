@@ -12,21 +12,57 @@
  */
 class SurveyQuery extends PluginSurveyQuery
 {
-  public function render($value = null, $attributes = array(), $errors = array())
+  protected $_widgets_with_options = array(
+    'sfWidgetFormChoice',
+  );
+  
+  public function getWidget()
   {
-    sfApplicationConfiguration::getActive()->loadHelpers(array('Slug'));
-    
-    $widget = new $this->type;
+    $class = $this->type;
+    if ( is_array($choices = $this->getChoices()) )
+    {
+      $widget = new $class(array( 'choices' => $choices, ));
+    }
+    else
+    {
+      $widget = new $class;
+    }
     $widget->setLabel($this->name);
-    $slug = slugify($this->name);
     
-    return $widget->render($slug, $value, $attributes, $errors);
+    if ( is_array($choices = $this->getChoices()) )
+      $widget->setOption('choices', $choices);
+    
+    return $widget;
   }
-  public function renderLabel()
+  
+  /**
+    * function getChoices()
+    * @return FALSE if no choice exists for this widget
+    * @return array containing the choices as returned for instance by sfWidgetFormChoice::getOption('choices')
+    **/
+  protected function getChoices()
   {
-    sfApplicationConfiguration::getActive()->loadHelpers(array('Slug'));
-    $slug = slugify($this->name);
+    //$widget = new $this->type;
     
-    return '<label for='.$slug.'>'.$this->name.'</label>';
+    // check if options are expected
+    $with_options = false;
+    foreach ( $this->_widgets_with_options as $class )
+    if ( is_a($this->type, $class, true) )
+    {
+      $with_options = true;
+      break;
+    }
+    
+    // no option expected
+    if ( !$with_options )
+      return false;
+    
+    // build up the choices array
+    $choices = array();
+    foreach ( $this->Options as $option )
+    if ( !$option->isNew() )
+      $choices[$option->value] = $option->name;
+    
+    return $choices;
   }
 }

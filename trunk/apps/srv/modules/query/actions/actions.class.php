@@ -22,7 +22,12 @@ class queryActions extends autoQueryActions
   
   public function executeBackToSurvey(sfWebRequest $request)
   {
-    $query = Doctrine::getTable('SurveyQuery')->findOneById($request->getParameter('id'));
-    $this->redirect('survey/edit?id='.$query->survey_id);
+    if ( $request->hasParameter('id') )
+    {
+      $query = Doctrine::getTable('SurveyQuery')->findOneById($request->getParameter('id'));
+      $this->redirect('survey/edit?id='.$query->survey_id);
+    }
+    else
+      $this->redirect('@survey');
   }
 }

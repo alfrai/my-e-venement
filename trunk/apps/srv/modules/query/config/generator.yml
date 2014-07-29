@@ -16,7 +16,6 @@ generator:
       actions: ~
       fields:
         Options: { help: Only used with appropriate fields }
-        weight: { help: %age }
       list:    ~
       filter:  ~
       form:

@@ -21,11 +21,11 @@
 *
 ***********************************************************************************/
 
-class liWidgetFormChoiceRadio extends sfWidgetFormChoice
+class liWidgetFormChoiceMultiple extends liWidgetFormChoiceExpanded
 {
   public function configure($options = array(), $attributes = array())
   {
     parent::configure($options, $attributes);
-    $this->setOption('expanded', true);
+    $this->setOption('multiple', true);
   }
 }
