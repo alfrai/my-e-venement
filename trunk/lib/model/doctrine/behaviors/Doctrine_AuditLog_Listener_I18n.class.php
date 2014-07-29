@@ -45,7 +45,7 @@ class Doctrine_AuditLog_Listener_I18n extends Doctrine_AuditLog_Listener
         foreach ( $record->Translation as $key => $translation )
         if ( $translation->isModified() )
         {
-          $record->set($name, ++$v);
+          $v++; $record->$name = $v; // careful, cannot do a "= ++$v", it bugs
           $translation->save();
           
           $version = new $class();
@@ -70,7 +70,6 @@ class Doctrine_AuditLog_Listener_I18n extends Doctrine_AuditLog_Listener
 
   public function postInsert(Doctrine_Event $event) 
   {
-    die('auditlog preinsert');
     if ($this->_auditLog->getOption('auditLog'))
     {
       $this->preUpdate($event);
