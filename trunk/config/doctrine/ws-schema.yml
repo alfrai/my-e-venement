@@ -127,7 +127,7 @@ Survey:
 SurveyQuery:
   package: ws
   actAs:
-    I18N:
+    I18n:
       fields: [name]
       actAs:
         Sluggable:
