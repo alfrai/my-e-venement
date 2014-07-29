@@ -1,6 +1,11 @@
 .sf_admin_actions_form .sf_admin_action_back { position: absolute; left: 0.4em; }  
-#sf_admin_container .sf_admin_form_field_show_queries { margin-left: 20px; }
+#sf_admin_container .sf_admin_form_field_show_queries { margin-left: 10px; padding-left: 20px; }
 .srv-present-widget { margin: 20px 150px; text-align: center; }
-.query-rank { font-size: 80%; }
-.query-rank:before { content: '('; }
-.query-rank:after { content: ')'; }
+.srv-present-widget .has-choices { text-align: left; }
+.sf_admin_form_field_rank .widget input, .sf_admin_form_field_weight .widget input { text-align: right; width: 4em; }
+.sf_admin_form_field_weight .widget:after { content: '%'; }
+
+.query-weight       , .query-rank         { font-size: 80%; }
+.query-weight:before, .query-rank:before  { content: '('; }
+.query-rank:after   { content: ')'; }
+.query-weight:after { content: '%)'; }

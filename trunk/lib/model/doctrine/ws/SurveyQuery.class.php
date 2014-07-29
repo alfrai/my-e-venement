@@ -1,4 +1,27 @@
 <?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
+<?php
 
 /**
  * SurveyQuery
@@ -12,27 +35,67 @@
  */
 class SurveyQuery extends PluginSurveyQuery
 {
-  protected $_widgets_with_options = array(
+  protected $_widgets_with_choices = array(
     'sfWidgetFormChoice',
   );
+  protected $_validator_matches = array();
   
+  /**
+    * function getWidget
+    * @return sfWidgetForm representing a form widget as it is defined in the DB for this record
+    *
+    **/
   public function getWidget()
   {
     $class = $this->type;
+    
+    $options = array();
     if ( is_array($choices = $this->getChoices()) )
-    {
-      $widget = new $class(array( 'choices' => $choices, ));
-    }
-    else
-    {
-      $widget = new $class;
-    }
+      $options['choices'] = $choices;
+    
+    $widget = new $class($options);
     $widget->setLabel($this->name);
     
-    if ( is_array($choices = $this->getChoices()) )
-      $widget->setOption('choices', $choices);
-    
     return $widget;
+  }
+  
+  /**
+    * function getWidget
+    * @return sfValidator permitting the validation of the data regarding the original widget defined by this record
+    *
+    * @throws liSurveyException if no association is found between the widgetClass and a validatorClass
+    *
+    **/
+  public function getValidator()
+  {
+    // get back the validator's class name and properties
+    $ok = false;;
+    foreach ( $this->_validator_matches as $wClassName => $vProps )
+    if ( is_a($this->type, $wClassName, true) )
+    {
+      $ok = true;
+      break;
+    }
+    if ( !$ok )
+      throw new liSurveyException('Unknown validator for this SurveyQuery...'); // validator exists or not
+    
+    $class = $vProps['class'];
+    $options = isset($vProps['options']) ? $vProps['options'] : array();
+    
+    // required or not
+    $options['required'] = !$this->can_be_empty;
+    
+    // retrieve the choices
+    if ( isset($options['choices']) && is_callable($options['choices']) )
+      $options['choices'] = call_user_func($options['choices']);
+    
+    return new $class($options);
+  }
+  
+  // special for sfValidator's expected choices
+  public function getRawChoices()
+  {
+    return array_keys($this->getChoices());
   }
   
   /**
@@ -42,19 +105,17 @@ class SurveyQuery extends PluginSurveyQuery
     **/
   protected function getChoices()
   {
-    //$widget = new $this->type;
-    
     // check if options are expected
-    $with_options = false;
-    foreach ( $this->_widgets_with_options as $class )
+    $with_choices = false;
+    foreach ( $this->_widgets_with_choices as $class )
     if ( is_a($this->type, $class, true) )
     {
-      $with_options = true;
+      $with_choices = true;
       break;
     }
     
     // no option expected
-    if ( !$with_options )
+    if ( !$with_choices )
       return false;
     
     // build up the choices array
@@ -64,5 +125,60 @@ class SurveyQuery extends PluginSurveyQuery
       $choices[$option->value] = $option->name;
     
     return $choices;
+  }
+  
+  public function setWidgetsWithChoices(array $widgetNames)
+  {
+    $this->_widgets_with_choices = $widgetNames;
+    return $this;
+  }
+  
+  /**
+    * function setValidatorMatches
+    * @param array $matches an associative array that matches sfWidgetForms with sfValidators
+    *        ex: array('sfWidgetFormChoiceMultiple' => array('class' => CLASSNAME, 'options' => array('multiple' => true, 'choices' => CALLABLE)))
+    * @return SurveyQuery $this
+    *
+    **/
+  public function setValidatorMatches(array $matches)
+  {
+    $this->_validator_matches = $matches;
+  }
+  
+  /**
+    * constructor
+    * @see Doctrine_Record
+    *
+    **/
+  public function __construct($table = null, $isNewEntry = false)
+  {
+    $this->setValidatorMatches(array(
+      'liWidgetFormChoiceMultiple' => array(
+        'class' => 'sfValidatorChoice',
+        'options' => array(
+          'multiple' => true,
+          'choices'  => array($this, 'getRawChoices'),
+        )
+      ),
+      'liWidgetFormChoiceExpanded' => array(
+        'class' => 'sfValidatorChoice',
+        'options' => array(
+          'multiple' => false,
+          'choices'  => array($this, 'getRawChoices'),
+        )
+      ),
+      'liWidgetFormInputCheckbox' => array(
+        'class' => 'sfValidatorBoolean',
+        'options' => array(
+          'true_values' => array('t'),
+        )
+      ),
+      'sfWidgetFormInputText' => array('class' => 'sfValidatorPass',),
+      'sfWidgetFormTextarea' => array('class' => 'sfValidatorPass',),
+      'sfWidgetFormDate'  => array('class' => 'sfValidatorDate',),
+      'liWidgetFormInputRange' => array('class' => 'sfValidatorInteger',),
+    ));
+    
+    parent::__construct($table, $isNewEntry);
   }
 }

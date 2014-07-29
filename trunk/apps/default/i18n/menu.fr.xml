@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Change language</source>
+        <target>Changer de langue</target>
+      </trans-unit>
+      <trans-unit>
         <source>Geographical approach</source>
         <target>Approche géographique</target>
       </trans-unit>
@@ -281,8 +285,8 @@
         <target>Archivage</target>
       </trans-unit>
       <trans-unit id="29">
-        <source>System Logs</source>
-        <target>Journaux</target>
+        <source>System authentication logs</source>
+        <target>Journaux de connexion</target>
       </trans-unit>
       <trans-unit id="30">
         <source>P.R.</source>

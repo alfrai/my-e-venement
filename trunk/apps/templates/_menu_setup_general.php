@@ -23,15 +23,16 @@
 ?>
           <li class="menu-setup-general"><a><?php echo __('General',array(),'menu') ?></a>
             <ul class="third">
+              <li><?php echo cross_app_link_to(__('Change language', null, 'menu'), 'default', 'culture/index') ?></li>
               <?php if ( $sf_user->hasCredential('admin-users') ): ?>
-              <li><a href="<?php echo cross_app_url_for('default','sfGuardUser') ?>"><?php echo __('Users',array(),'menu') ?></a></li>
+              <li class="spaced"><a href="<?php echo cross_app_url_for('default','sfGuardUser') ?>"><?php echo __('Users',array(),'menu') ?></a></li>
               <?php endif ?>
               <?php if ( $sf_user->hasCredential('admin-power') ): ?>
               <li><a href="<?php echo cross_app_url_for('default','sfGuardGroup') ?>"><?php echo __('Groups',array(),'menu') ?></a></li>
               <li><a href="<?php echo cross_app_url_for('default','sfGuardPermission') ?>"><?php echo __('Permissions',array(),'menu') ?></a></li>
               <li class="spaced"><a href=""><?php echo __('Maintenance',array(),'menu') ?></a></li>
               <li><a href=""><?php echo __('Archiving',array(),'menu') ?></a></li>
-              <li class="spaced"><a href="<?php echo cross_app_url_for('default','authentication') ?>"><?php echo __('System Logs',array(),'menu') ?></a></li>
+              <li class="spaced"><a href="<?php echo cross_app_url_for('default','authentication') ?>"><?php echo __('System authentication logs',array(),'menu') ?></a></li>
               <?php endif ?>
               <?php if ( sfConfig::get('project_messaging_enable',false) && $sf_user->hasCredential('admin-power') ): ?>
               <li class="spaced"><a href="<?php echo cross_app_url_for('default','jabber') ?>"><?php echo __('Messaging','','menu') ?></a></li>

@@ -18,18 +18,17 @@ generator:
         display: [name, _list_nb_queries]
         object_actions:
           _edit: ~
-          _add_query:
-            action: addQuery
-            ui-icon: plus
           _delete: ~
       filter:  ~
       form:
         display:
-          Général: [name, _show_queries]
+          Général: [name, description, _show_queries]
+          Answers: [_show_answers]
           Used by: [name]
         actions:
           _list: ~
           _delete: ~
+          _show: ~
           _add_query:
             action: addQuery
             ui-icon: plus

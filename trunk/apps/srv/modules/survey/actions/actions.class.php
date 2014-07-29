@@ -17,4 +17,34 @@ class surveyActions extends autoSurveyActions
   {
     $this->redirect('query/new?survey-id='.$request->getParameter('id'));
   }
+  
+  public function executeShow(sfWebRequest $request)
+  {
+    parent::executeShow($request);
+    $this->form = new SurveyPublicForm($this->survey);
+  }
+  
+  public function executeCommit(sfWebRequest $request)
+  {
+    $params = $request->getParameter('survey');
+    $request->setParameter('id', $params['id']);
+    parent::executeShow($request);
+    
+    // add the lang param, adjusted to the user's culture
+    foreach ( $params as $id => $param )
+    if ( is_array($param) && !(isset($params['lang']) && $params['lang']) )
+      $params[$id]['lang'] = $this->getUser()->getCulture();
+    
+    $this->form = new SurveyPublicForm($this->survey);
+    $this->form->bind($params);
+    if ( $this->form->isValid() )
+    {
+      $this->getContext()->getConfiguration()->loadHelpers('I18N');
+      $object = $this->form->save();
+      $this->getUser()->setFlash('success', __('Submission recorded.'));
+      $this->redirect('survey/show?id='.$this->survey->id);
+    }
+    
+    $this->setTemplate('show');
+  }
 }

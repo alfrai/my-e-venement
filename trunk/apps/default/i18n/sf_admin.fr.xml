@@ -5,6 +5,14 @@
     <header />
     <body>
       <trans-unit>
+        <source>Your language as been successfully updated.</source>
+        <target>Votre langue a été mise à jour avec succès.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Please, try again...</source>
+        <target>Essayez à nouveau SVP...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Filter's name</source>
         <target>Nom du filtre</target>
       </trans-unit>
