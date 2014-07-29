@@ -255,7 +255,7 @@ abstract class sfWidgetForm extends sfWidget
 
     // remove illegal characters
     $name = preg_replace(
-      array('/^[^A-Za-z]+/', '/[^a-zA-Z -]/', '/[ -]+/', '/^-|-$/'),
+      array('/^[^A-Za-z]+/', '/[^a-zA-Z -_]/', '/[ -]+/', '/^-|-$/'),
       array('', '', '_', ''),
       $name
     );
