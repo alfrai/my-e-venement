@@ -22,8 +22,8 @@ abstract class PluginTraceable extends BaseTraceable
   public function actAs($tpl, array $options = array())
   {
     // hack to avoid inheritance from BaseTraceable and allow the special versionable behavior defined in self::setUp()
-    if ( $tpl instanceof Doctrine_Template_Versionable && $tpl->getOption('listener') !== 'Doctrine_AuditLog_Listener_I18N'
-      || in_array($tpl, array('Doctrine_Template_Versionable', 'Versionable')) && $options['listener'] !== 'Doctrine_AuditLog_Listener_I18N' )
+    if ( $tpl instanceof Doctrine_Template_Versionable && $tpl->getOption('listener') !== 'Doctrine_AuditLog_Listener_I18n'
+      || in_array($tpl, array('Doctrine_Template_Versionable', 'Versionable')) && $options['listener'] !== 'Doctrine_AuditLog_Listener_I18n' )
       return $this;
     
     return parent::actAs($tpl, $options);
@@ -37,8 +37,7 @@ abstract class PluginTraceable extends BaseTraceable
       'versionColumn' => 'version',
       'className' => '%CLASS%Version',
       'auditLog' => true,
-      'listener' => 'Doctrine_AuditLog_Listener_I18N',
+      'listener' => 'Doctrine_AuditLog_Listener_I18n',
     ));
-
   }
 }

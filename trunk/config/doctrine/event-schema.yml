@@ -148,10 +148,8 @@ Event:
   actAs:
     I18n:
       fields: [name, short_name, description, extradesc, extraspec]
-      actAs:
-        Sluggable:
-          fields: [name]
-          uniqueBy: [lang, name]
+    Sluggable:
+      fields: [name]
     Searchable:
       fields: [name, writer, staging, short_name]
   inheritance:

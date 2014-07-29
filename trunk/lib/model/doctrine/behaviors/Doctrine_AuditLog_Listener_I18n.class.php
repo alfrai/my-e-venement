@@ -1,5 +1,28 @@
 <?php
-class Doctrine_AuditLog_Listener_I18N extends Doctrine_AuditLog_Listener
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
+<?php
+class Doctrine_AuditLog_Listener_I18n extends Doctrine_AuditLog_Listener
 {
   public function preUpdate(Doctrine_Event $event)
   {
@@ -47,6 +70,7 @@ class Doctrine_AuditLog_Listener_I18N extends Doctrine_AuditLog_Listener
 
   public function postInsert(Doctrine_Event $event) 
   {
+    die('auditlog preinsert');
     if ($this->_auditLog->getOption('auditLog'))
     {
       $this->preUpdate($event);
