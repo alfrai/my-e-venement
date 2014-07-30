@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-class Doctrine_Search_Listener_I18n extends Doctrine_Search_Listener
+class Doctrine_Search_Listener_I18n extends Doctrine_Search_Listener implements CompositeSearchableTable
 {
   public function postInsert(Doctrine_Event $event)
   {
@@ -46,5 +46,24 @@ class Doctrine_Search_Listener_I18n extends Doctrine_Search_Listener
   public function postUpdate(Doctrine_Event $event)
   {
     $this->postInsert($event);
+  }
+  
+  public function batchUpdateIndex($limit = null, $offset = null, $encoding = null)
+  {
+    $table = $this->_search->getOption('table');
+    $ids = $table->getIdentifierColumnNames();
+    
+    if ( !$record->getTable()->hasTemplate('I18n') )
+      return $this->_search->batchUpdateIndex($limit, $offset, $encoding);
+    
+    $data = $this->_search->readTableData($limit, $offset);
+    foreach ( $data as $key => $row )
+    {
+      $arr = array();
+      foreach ( $ids as $id )
+        $arr[$id] = $row[$id];
+      $record = $table->find($arr);
+      $this->postUpdate(new Doctrine_Event($record, 0));
+    }
   }
 }
