@@ -15,6 +15,21 @@ class SurveyAnswerFormFilter extends BaseSurveyAnswerFormFilter
    */
   public function configure()
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink', 'Url'));
     parent::configure();
+    
+    $this->widgetSchema   ['survey_id'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Survey',
+      'order_by' => array('s.name, st.description', ''),
+      'add_empty' => true,
+    ));
+    $this->widgetSchema   ['contact_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Contact',
+      'url'   => cross_app_url_for('rp','contact/ajax'),
+    ));
+    $this->widgetSchema   ['survey_query_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'SurveyQuery',
+      'url'   => url_for('query/ajax'),
+    ));
   }
 }

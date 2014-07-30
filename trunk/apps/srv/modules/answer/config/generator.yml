@@ -2,7 +2,7 @@ generator:
   class: sfDoctrineGenerator
   param:
     model_class:           SurveyAnswer
-    theme:                 admin
+    theme:                 jroller
     non_verbose_templates: true
     with_show:             false
     singular:              ~
@@ -14,8 +14,13 @@ generator:
     config:
       actions: ~
       fields:  ~
-      list:    ~
-      filter:  ~
+      list:
+        display: [_list_survey, _list_contact, Query, lang, value, updated_at]
+        actions:        []
+        object_actions: []
+        batch_actions:  []
+      filter:
+        display: [survey_id, contact_id, survey_query_id, lang, value, updated_at]
       form:    ~
       edit:    ~
       new:     ~

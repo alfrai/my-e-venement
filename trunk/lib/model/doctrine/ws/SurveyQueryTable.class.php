@@ -17,7 +17,7 @@ class SurveyQueryTable extends PluginSurveyQueryTable
     if ( sfContext::hasInstance() )
       $q->leftJoin("$a.Translation qt WITH qt.lang = '".sfContext::getInstance()->getUser()->getCulture()."'");
     else
-      $q->leftJoin("$a.Translation qt WITH ");
+      $q->leftJoin("$a.Translation qt");
     
     return $q;
   }

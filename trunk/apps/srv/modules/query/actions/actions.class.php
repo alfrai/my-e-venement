@@ -45,4 +45,25 @@ class queryActions extends autoQueryActions
     else
       $this->redirect('@survey');
   }
+  
+  public function executeAjax(sfWebRequest $request)
+  {
+    $charset = sfConfig::get('software_internals_charset');
+    $this->filters = true; // hack Beaulieu du 30/09/2013 à valider avant commit
+    $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
+    
+    $q = Doctrine::getTable('SurveyQuery')
+      ->createQuery('q')
+      ->orderBy('qt.name')
+      ->limit($request->getParameter('limit'));
+    $q = Doctrine_Core::getTable('SurveyQuery')
+      ->search($search.'*',$q);
+    $request = $q->execute()->getData();
+
+    $queries = array();
+    foreach ( $request as $query )
+      $queries[$query->id] = (string) $query;
+    
+    return $this->renderText(json_encode($queries));
+  }
 }

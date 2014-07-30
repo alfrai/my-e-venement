@@ -20,6 +20,7 @@ class SurveyTable extends PluginSurveyTable
     public function createQuery($alias = 's')
     {
       return parent::createQuery($alias)
+        ->leftJoin("$alias.Translation st")
         ->leftJoin("$alias.Queries q")
         ->leftJoin("q.Translation qt")
         ->orderBy("$alias.name, q.rank, qt.name");
