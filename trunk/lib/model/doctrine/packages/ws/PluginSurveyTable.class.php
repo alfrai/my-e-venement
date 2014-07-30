@@ -12,7 +12,7 @@ class PluginSurveyTable extends Doctrine_Table implements CompositeSearchableTab
     if ( !$this->hasTemplate('Searchable') )
       return false;
     
-    return $this->getTemplate('Searchable')->getListener()->get('Searchable')->batchUpdateIndex($limit, $offs$
+    return $this->getTemplate('Searchable')->getListener()->get('Searchable')->batchUpdateIndex($limit, $offset, $encoding);
   }
   
     /**
