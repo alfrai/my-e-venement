@@ -25,7 +25,7 @@ generator:
         display:
           Général: [name, description, _show_queries]
           Answers: [_show_answers]
-          Used by: [name]
+          Used by: [ApplyTo]
         actions:
           _list: ~
           _delete: ~

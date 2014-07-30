@@ -16,5 +16,17 @@ class SurveyForm extends BaseSurveyForm
   public function configure()
   {
     parent::configure();
+    
+    $subform = new sfForm;
+    $at = false;
+    foreach ( $this->object->ApplyTo as $at )
+      $subform->embedForm('at-'.$at->id, new SurveyApplyToForm($at));
+    if (!( $at && $at->isNew() ))
+    {
+      $at = new SurveyApplyTo;
+      $at->Survey = $this->object;
+      $subform->embedForm('at-new', new SurveyApplyToForm($at));
+    }
+    $this->embedForm('ApplyTo', $subform);
   }
 }

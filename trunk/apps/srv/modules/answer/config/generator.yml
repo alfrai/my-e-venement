@@ -13,12 +13,14 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        value: { type: mixed }
       list:
-        display: [_list_survey, _list_contact, Query, lang, value, updated_at]
+        display: [=survey_name, _list_contact, Query, lang, value, updated_at]
         actions:        []
         object_actions: []
         batch_actions:  []
+        sort: ['survey_name, query_rank, query_name', '']
       filter:
         display: [survey_id, contact_id, survey_query_id, lang, value, updated_at]
       form:    ~

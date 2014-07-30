@@ -19,6 +19,10 @@ class SurveyAnswerTable extends PluginSurveyAnswerTable
       ->leftJoin('g.Professional p')
       ->leftJoin('p.Organism po')
       ->leftJoin('p.Contact pc')
+      
+      ->select("$a.*, q.*, qt.*, s.*, g.*")
+      ->addSelect('c.*, p.*, po.*, pc.*')
+      ->addSelect('s.name survey_name, q.rank query_rank, qt.name query_name');
     ;
   }
     /**

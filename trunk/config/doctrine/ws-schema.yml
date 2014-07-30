@@ -262,6 +262,7 @@ SurveyApplyTo:
     date_from: timestamp
     date_to: timestamp
     manifestation_id: integer
+    group_id: integer
     contact_id: integer
     professional_id: integer
     organism_id: integer
@@ -275,6 +276,10 @@ SurveyApplyTo:
       onDelete: CASCADE
       onUpdate: CASCADE
     Manifestation:
+      foreignAlias: SurveyToApply
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Group:
       foreignAlias: SurveyToApply
       onDelete: SET NULL
       onUpdate: CASCADE

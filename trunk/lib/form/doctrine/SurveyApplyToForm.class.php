@@ -12,5 +12,25 @@ class SurveyApplyToForm extends BaseSurveyApplyToForm
 {
   public function configure()
   {
+    $this->widgetSchema   ['survey_id'] = new sfWidgetFormInputHidden;
+    $this->widgetSchema   ['manifestation_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Manifestation',
+      'url' => cross_app_url_for('event', 'manifestation/ajax'),
+    ));
+    $this->widgetSchema   ['professional_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Professional',
+      'url' => cross_app_url_for('event', 'professional/ajax'),
+    ));
+    
+    $this->useFields(array(
+      'everywhere',
+      'manifestation_id',
+      'contact_id',
+      //'professional_id', // not yet available
+      //'organism_id',     // not yet available
+      'group_id',
+      'date_from',
+      'date_to',
+    ));
   }
 }

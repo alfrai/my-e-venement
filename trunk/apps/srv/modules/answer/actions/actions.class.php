@@ -13,4 +13,9 @@ require_once dirname(__FILE__).'/../lib/answerGeneratorHelper.class.php';
  */
 class answerActions extends autoAnswerActions
 {
+  public function executeEdit(sfWebRequest $request)
+  {
+    parent::executeEdit($request);
+    $this->redirect('survey/edit?id='.$this->survey_answer->Query->survey_id);
+  }
 }
