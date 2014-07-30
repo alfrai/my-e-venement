@@ -29,5 +29,9 @@ abstract class PluginSurveyQuery extends BaseSurveyQuery
     // adding a "lang" column to EventVersion to be able to record the changes in the i18n data
     $this->getTable()->getTemplate('Versionable')->getAuditLog()
       ->hasColumn('lang', 'string', 2, array('fixed' => true, 'primary' => true));
+    
+    // searchable
+    $tpl = $this->getTable()->getTemplate('Searchable');
+    $tpl->getListener()->set('Searchable', new Doctrine_Search_Listener_I18n($tpl->getPlugin()));
   }
 }
