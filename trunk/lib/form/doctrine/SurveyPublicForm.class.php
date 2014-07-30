@@ -14,17 +14,9 @@ class SurveyPublicForm extends SurveyForm
   {
     parent::configure();
     
-    $useFields = array();
-    foreach ( $this->object->Queries as $query )
-    {
-      $answer = new SurveyAnswer;
-      $answer->survey_query_id = $query->id;
-      
-      $form = new SurveyAnswerForm($answer);
-      $this->embedForm($query->id, $form->forge($query));
-      $useFields[] = $query->id;
-    }
-    
-    $this->useFields($useFields);
+    $group = new SurveyAnswersGroup;
+    $this->object->AnswersGroups[] = $group;
+    $this->embedForm('answers', new SurveyAnswersGroupForm($group));
+    $this->useFields(array('answers'));
   }
 }

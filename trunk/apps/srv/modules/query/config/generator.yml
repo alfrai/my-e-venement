@@ -16,8 +16,13 @@ generator:
       actions: ~
       fields:
         Options: { help: Only used with appropriate fields }
-      list:    ~
-      filter:  ~
+      list:
+        display: [Survey, =name, can_be_empty, weight, rank]
+        sort: ['survey_name, rank', '']
+        actions:        []
+        object_actions: []
+        batch_actions:  []
+      filter:           []
       form:
         display:
           General: [_show_survey, name, Options]

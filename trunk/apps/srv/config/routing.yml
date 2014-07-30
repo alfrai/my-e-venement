@@ -1,3 +1,12 @@
+survey_answer:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                SurveyAnswer
+    module:               answer
+    prefix_path:          /answer
+    column:               id
+    with_wildcard_routes: true
+
 survey_query:
   class: sfDoctrineRouteCollection
   options:

@@ -20,6 +20,21 @@ class queryActions extends autoQueryActions
       $this->form->setDefault('survey_id', $sid);
   }
   
+  public function executeDelete(sfWebRequest $request)
+  {
+    $request->checkCSRFProtection();
+
+    $this->dispatcher->notify(new sfEvent($this, 'admin.delete_object', array('object' => $this->getRoute()->getObject())));
+    
+    $query = $this->getRoute()->getObject();
+    $survey_id = $query->survey_id;
+    $query->delete();
+
+    $this->getUser()->setFlash('notice', 'The item was deleted successfully.');
+
+    $this->redirect('survey/edit?id='.$survey_id);
+  }
+  
   public function executeBackToSurvey(sfWebRequest $request)
   {
     if ( $request->hasParameter('id') )

@@ -31,17 +31,22 @@ class surveyActions extends autoSurveyActions
     parent::executeShow($request);
     
     // add the lang param, adjusted to the user's culture
-    foreach ( $params as $id => $param )
-    if ( is_array($param) && !(isset($params['lang']) && $params['lang']) )
-      $params[$id]['lang'] = $this->getUser()->getCulture();
+    foreach ( $params['answers'] as $id => $param )
+    if ( is_array($param) && !(isset($params['answers'][$id]['lang']) && $params['answers'][$id]['lang']) )
+      $params['answers'][$id]['lang'] = $this->getUser()->getCulture();
+    
+    // add the link to the user's contact
+    if ( $this->getUser()->getContact() )
+      $params['answers']['contact_id'] = $this->getUser()->getContact()->id;
     
     $this->form = new SurveyPublicForm($this->survey);
     $this->form->bind($params);
     if ( $this->form->isValid() )
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
-      $object = $this->form->save();
       $this->getUser()->setFlash('success', __('Submission recorded.'));
+      
+      $object = $this->form->save();
       $this->redirect('survey/show?id='.$this->survey->id);
     }
     

@@ -17,6 +17,7 @@ generator:
       list:
         display: [name, _list_nb_queries]
         object_actions:
+          _show: ~
           _edit: ~
           _delete: ~
       filter:  ~

@@ -7,6 +7,20 @@
  */
 class SurveyQueryTable extends PluginSurveyQueryTable
 {
+  public function createQuery($a = 'q')
+  {
+    $q = parent::createQuery($a)
+      ->leftJoin("$a.Survey s")
+      ->addSelect('*, s.name survey_name')
+    ;
+    
+    if ( sfContext::hasInstance() )
+      $q->leftJoin("$a.Translation qt WITH qt.lang = '".sfContext::getInstance()->getUser()->getCulture()."'");
+    else
+      $q->leftJoin("$a.Translation qt WITH ");
+    
+    return $q;
+  }
     /**
      * Returns an instance of this class.
      *
