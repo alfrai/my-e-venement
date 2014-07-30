@@ -7,6 +7,20 @@
  */
 class SurveyAnswerTable extends PluginSurveyAnswerTable
 {
+  public function createQuery($a = 'a')
+  {
+    return parent::createQuery($a)
+      ->leftJoin("$a.Query q")
+      ->leftJoin("q.Translation qt")
+      ->leftJoin('q.Survey s')
+      ->leftJoin("$a.Group g")
+      
+      ->leftJoin('g.Contact c')
+      ->leftJoin('g.Professional p')
+      ->leftJoin('p.Organism po')
+      ->leftJoin('p.Contact pc')
+    ;
+  }
     /**
      * Returns an instance of this class.
      *
