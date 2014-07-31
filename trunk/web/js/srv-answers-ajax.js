@@ -3,7 +3,7 @@ if ( LI == undefined )
 
 LI.srv_survey_answers_pagination = function(url){
   $.get(url, function(data){
-    $('#sf_admin_content .sf_admin_list').remove();
+    $('#srv-answers .sf_admin_list').remove();
     
     data = $.parseHTML(data);
     var list = $(data).find('#sf_admin_content .sf_admin_list');
