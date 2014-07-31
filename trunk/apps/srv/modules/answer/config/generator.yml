@@ -16,11 +16,12 @@ generator:
       fields:
         value: { type: mixed }
       list:
-        display: [=survey_name, _list_contact, Query, lang, value, updated_at]
+        display: [_list_survey, _list_contact, Query, lang, value, updated_at]
         actions:        []
         object_actions: []
         batch_actions:  []
-        sort: ['survey_name, query_rank, query_name', '']
+        sort: ['s.name, q.rank, updated_at', '']
+        max_per_page: 10
       filter:
         display: [survey_id, contact_id, survey_query_id, lang, value, updated_at]
       form:    ~

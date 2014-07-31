@@ -17,16 +17,39 @@ class SurveyForm extends BaseSurveyForm
   {
     parent::configure();
     
-    $subform = new sfForm;
-    $at = false;
-    foreach ( $this->object->ApplyTo as $at )
-      $subform->embedForm('at-'.$at->id, new SurveyApplyToForm($at));
-    if (!( $at && $at->isNew() ))
+    if ( !$this->object->isNew() )
+      $this->object->ApplyTo[] = new SurveyApplyTo;
+    $this->embedRelation('ApplyTo');
+  }
+  
+  public function doBind(array $values)
+  {
+    parent::doBind($values);
+    
+    $cols = array(
+      'everywhere', 'date_from', 'date_to',
+      'manifestation_id', 'group_id',
+      'contact_id', 'organism_id', 'professional_id',
+    );
+    
+    // if an ApplyTo sub-record has no relevant information inside, delete it
+    foreach ( $this->values['ApplyTo'] as $key => $at )
     {
-      $at = new SurveyApplyTo;
-      $at->Survey = $this->object;
-      $subform->embedForm('at-new', new SurveyApplyToForm($at));
+      $delete = true;
+      foreach ( $cols as $col )
+      if ( isset($at[$col]) && $at[$col] )
+      {
+        $delete = false;
+        break;
+      }
+      
+      if ( $delete )
+      {
+        unset($this->values['ApplyTo'][$key]);
+        unset($this->embeddedForms['ApplyTo'][$key]);
+        unset($this->object->ApplyTo[$key]);
+        unset($this->validatorSchema['ApplyTo'][$key]);
+      }
     }
-    $this->embedForm('ApplyTo', $subform);
   }
 }

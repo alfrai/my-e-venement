@@ -22,6 +22,15 @@ class SurveyApplyToForm extends BaseSurveyApplyToForm
       'url' => cross_app_url_for('event', 'professional/ajax'),
     ));
     
+    /*
+    $this->validatorSchema['date_from'] = new sfValidatorDate(array(
+      'required' => false,
+    ));
+    $this->validatorSchema['date_to'] = new sfValidatorDate(array(
+      'required' => false,
+    ));
+    */
+    
     $this->useFields(array(
       'everywhere',
       'manifestation_id',
