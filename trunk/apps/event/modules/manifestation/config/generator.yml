@@ -101,3 +101,4 @@ generator:
           Spectators: [_show_spectators_list_empty]
           Unbalanced: [_show_unbalanced_list]
           Extra informations:  [_show_description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, _show_extra_informations<?php endif ?>]
+          Surveys:    [_show_surveys]

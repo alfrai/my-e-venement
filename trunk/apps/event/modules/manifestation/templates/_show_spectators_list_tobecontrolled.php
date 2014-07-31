@@ -27,6 +27,10 @@
         if ( !isset($contact['ticket-ids'][$t->Gauge->workspace_id]) )
           $contact['ticket-ids'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
         $contact['ticket-ids'][$t->Gauge->workspace_id][$t->id] = $t->id;
+        if ( !isset($contact['ticket-nums'][$t->Gauge->workspace_id]) )
+          $contact['ticket-nums'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
+        if ( $t->numerotation )
+          $contact['ticket-nums'][$t->Gauge->workspace_id][$t->id] = $t->numerotation;
         
         if ( !isset($contact['prices'][$t->Gauge->workspace_id]) )
           $contact['prices'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
