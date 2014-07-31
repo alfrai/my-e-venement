@@ -102,7 +102,9 @@ all:
         Emails:
           credentials: pr-emailing
           partial: global/tdp/side_widget_object_emails
-
+        Surveys to apply:
+          credentials: TODO
+          partial: global/tdp/side_widget_object_surveys_to_apply
     new:
       object:
         lines:

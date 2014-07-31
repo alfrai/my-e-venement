@@ -1,1 +1,7 @@
-.mod-survey .sf_admin_list .sf_admin_list_th_list_survey, .mod-survey .sf_admin_list .sf_admin_list_td_list_survey { display: none; }
+.app-srv.mod-survey .sf_admin_list .sf_admin_list_th_list_survey, .app-srv.mod-survey .sf_admin_list .sf_admin_list_td_list_survey { display: none; }
+.app-rp.mod-group .sf_admin_list .sf_admin_list_th_lang, .app-rp.mod-group .sf_admin_list .sf_admin_list_td_lang,
+.app-rp.mod-group .sf_admin_list .sf_admin_list_th_list_updated_at, .app-rp.mod-group .sf_admin_list .sf_admin_list_td_list_updated_at
+{ display: none; }
+.app-rp.mod-group #srv-answers { margin-top: 100px; margin-left: -125px; }
+
+#content .sf_admin_pagination input[type=text] { width: 2em; }

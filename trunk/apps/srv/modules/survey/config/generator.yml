@@ -15,12 +15,13 @@ generator:
       actions: ~
       fields:  ~
       list:
-        display: [name, _list_nb_queries]
+        display: [name, _list_nb_queries, _list_nb_answers_group]
         object_actions:
           _show: ~
           _edit: ~
           _delete: ~
-      filter:  ~
+      filter:
+        display: [name, weight, description]
       form:
         display:
           Général: [name, description, _show_queries]
@@ -34,5 +35,6 @@ generator:
             action: addQuery
             ui-icon: plus
           _save: ~
-      edit:    ~
+      edit:
+        title: Edit Survey %%name%%
       new:     ~

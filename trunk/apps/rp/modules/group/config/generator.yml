@@ -27,10 +27,16 @@ generator:
       show:
         display:
           NONE:           [name, User, _display_everywhere, _show_picture]
+          Surveys:        [_show_surveys]
           Detail:         [created_at, updated_at, slug]
       form:
       edit:
         title: Group %%name%%
+        actions:
+          _list: ~
+          _delete: ~
+          _show: ~
+          _save: ~
         display:
           NONE:           [name, sf_guard_user_id, display_everywhere, Picture, _show_picture, _form_picture_del]
           Individuals:    [_form_contacts_add, _form_contacts_remove, _form_contacts_refresh]

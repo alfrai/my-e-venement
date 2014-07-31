@@ -237,4 +237,11 @@ class ManifestationTable extends PluginManifestationTable
     return $this->createQuery('m')
       ->andWhere('g.online = TRUE');
   }
+  
+  public function slightlyFindOneById($value)
+  {
+    return $this->createQuery('m', true)
+      ->andWhere('m.id = ?', $value)
+      ->fetchOne();
+  }
 }

@@ -49,6 +49,7 @@
     $q = new Doctrine_Query();
     $q->from('Manifestation m')
       ->leftJoin('m.Event e')
+      ->leftJoin("e.Translation et WITH et.lang = '".$this->getUser()->getCulture()."'")
       ->leftJoin('e.MetaEvent me')
       ->addSelect('m.id')
       ->addSelect('sum(t.printed_at IS NOT NULL OR t.integrated_at IS NOT NULL) AS sells')
@@ -58,7 +59,7 @@
       //->andWhere('t.duplicating IS NULL')
       //->andWhere('t.cancelling IS NULL')
       //->andWhere('t.id NOT IN (SELECT ttt.cancelling FROM ticket ttt WHERE ttt.cancelling IS NOT NULL)')
-      ->groupBy('m.id, e.name, me.name, m.happens_at, m.duration');
+      ->groupBy('m.id, et.name, me.name, m.happens_at, m.duration');
     
     // only tickets from asked gauge
     if ( intval($request->getParameter('wsid'),0) > 0 )

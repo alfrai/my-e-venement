@@ -13,6 +13,7 @@ class SurveyAnswerTable extends PluginSurveyAnswerTable
       ->leftJoin("$a.Query q")
       ->leftJoin("q.Translation qt")
       ->leftJoin('q.Survey s')
+      ->leftJoin('s.ApplyTo at')
       ->leftJoin("$a.Group g")
       
       ->leftJoin('g.Contact c')

@@ -43,6 +43,14 @@ class SurveyAnswerFormFilter extends BaseSurveyAnswerFormFilter
       'model' => 'SurveyQuery',
       'required' => false,
     ));
+    $this->widgetSchema   ['apply_to_manifestation_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Manifestation',
+      'url'   => cross_app_url_for('event', 'manifestation/ajax'),
+    ));
+    $this->validatorSchema['apply_to_manifestation_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Manifestation',
+      'required' => false,
+    ));
   }
   
   public function getFields()
@@ -50,6 +58,7 @@ class SurveyAnswerFormFilter extends BaseSurveyAnswerFormFilter
     return parent::getFields() + array(
       'survey_id' => 'SurveyId',
       'contact_id' => 'ContactId',
+      'apply_to_manifestation_id' => 'ApplyToManifestationId',
     );
   }
   
@@ -63,6 +72,12 @@ class SurveyAnswerFormFilter extends BaseSurveyAnswerFormFilter
   {
     if ( $value )
       $q->andWhere('g.contact_id = ?', $value);
+    return $q;
+  }
+  public function addApplyToManifestationIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( $value )
+      $q->andWhere('at.manifestation_id = ?', $value);
     return $q;
   }
 }

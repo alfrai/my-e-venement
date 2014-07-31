@@ -114,6 +114,12 @@ all:
         Emails:
           credentials: pr-emailing
           partial: global/tdp/side_widget_object_emails
+        Answered surveys:
+          credentials: TODO
+          partial: global/tdp/side_widget_object_surveys_answered
+        Surveys to apply:
+          credentials: TODO
+          partial: global/tdp/side_widget_object_surveys_to_apply
         <?php if ( !sfConfig::get('app_options_no_event_archives',true) ): echo PHP_EOL; ?>
         Archives:
           credentials: tck-reports

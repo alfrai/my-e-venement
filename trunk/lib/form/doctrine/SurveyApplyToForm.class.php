@@ -16,20 +16,12 @@ class SurveyApplyToForm extends BaseSurveyApplyToForm
     $this->widgetSchema   ['manifestation_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Manifestation',
       'url' => cross_app_url_for('event', 'manifestation/ajax'),
+      'method_for_query' => 'slightlyFindOneById',
     ));
     $this->widgetSchema   ['professional_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Professional',
       'url' => cross_app_url_for('event', 'professional/ajax'),
     ));
-    
-    /*
-    $this->validatorSchema['date_from'] = new sfValidatorDate(array(
-      'required' => false,
-    ));
-    $this->validatorSchema['date_to'] = new sfValidatorDate(array(
-      'required' => false,
-    ));
-    */
     
     $this->useFields(array(
       'everywhere',
