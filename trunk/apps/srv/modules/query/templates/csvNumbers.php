@@ -16,20 +16,19 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
 <?php
-  $outstream = fopen($outstream, 'w');
-  
   $vars = array(
     'options',
     'delimiter',
     'enclosure',
     'outstream',
     'charset',
+    'lines',
   );
   foreach ( $vars as $key => $value )
   {
@@ -37,15 +36,10 @@
     unset($vars[$key]);
   }
   
-  // header
-  include_partial('global/csv_headers',$vars);
+  $vars['options']['header'] = array(
+    'name'    => __('Answer'),
+    'nb'      => __('Quantity'),
+    'percent' => __('Proportion'),
+  );
   
-  // content
-  foreach ( $lines as $line )
-  {
-    if ( isset($line['id']) )
-      unset($line['id']);
-    include_partial('global/csv_line',array_merge(array('line' => $line),$vars));
-  }
-  
-  fclose($outstream);
+  include_partial('global/csv',$vars);

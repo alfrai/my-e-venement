@@ -1,2 +1,4 @@
 indexSuccess:
   javascripts: [list-scroll]
+editSuccess:
+  stylesheets: [stats]

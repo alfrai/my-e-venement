@@ -59,7 +59,7 @@ class ContactFormFilter extends BaseContactFormFilter
     $this->validatorSchema['email_newsletter'] = $this->validatorSchema['npai'];
     
     // organism
-    $this->widgetSchema   ['organism_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+    $this->widgetSchema   ['organism_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Organism',
       'url'   => url_for('organism/ajax'),
     ));
@@ -292,6 +292,16 @@ class ContactFormFilter extends BaseContactFormFilter
       'model' => 'GeoFrRegion',
       'required' => false,
     ));
+    
+    $this->widgetSchema   ['survey_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Survey',
+      'url'   => cross_app_url_for('srv', 'survey/ajax'),
+    ));
+    $this->widgetSchema   ['survey_query_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'SurveyQuery',
+      'url'   => cross_app_url_for('srv', 'query/ajax'),
+    ));
+    $this->widgetSchema   ['survey_answer']   = new sfWidgetFormInput(array());
     
     parent::configure();
   }

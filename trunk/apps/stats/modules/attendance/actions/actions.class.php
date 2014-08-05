@@ -161,7 +161,7 @@ class attendanceActions extends sfActions
       : '';
 
     $q = Doctrine::getTable('Manifestation')->createQuery('m')
-      ->select('m.id, m.happens_at, e.name AS event_name, l.name AS location_name, l.city AS location_city')
+      ->select('m.id, m.happens_at, e.id, et.id, et.name AS event_name, l.name AS location_name, l.city AS location_city')
       //->select('m.*')
       ->addSelect('(SELECT sum(gg.value) FROM gauge gg WHERE m.id = gg.manifestation_id '.$criteria_gg.' AND gg.workspace_id IN (\''.implode("','",array_keys($this->getUser()->getWorkspacesCredentials())).'\')) AS gauge')
       ->addSelect('(SELECT sum((tt.printed_at IS NOT NULL OR tt.integrated_at IS NOT NULL) AND duplicating IS NULL AND cancelling IS NULL) FROM ticket tt LEFT JOIN tt.Transaction ttr WHERE m.id = tt.manifestation_id AND tt.id NOT IN (SELECT ttt.cancelling FROM ticket ttt WHERE ttt.cancelling IS NOT NULL AND ttt.manifestation_id = m.id) '.str_replace('%%d%%','',$criteria_tt_gauge).' '.str_replace('%%d%%','',$criteria_tt_contact).') AS printed')
@@ -171,8 +171,8 @@ class attendanceActions extends sfActions
       ->andWhere('m.happens_at <= ?',date('Y-m-d H:i:s',$dates['to']))
       ->andWhere('m.happens_at > ?',date('Y-m-d H:i:s',$dates['from']))
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
-      ->orderBy('m.happens_at, e.name')
-      ->groupBy('m.id, m.happens_at, e.id, e.name, l.id, l.name, l.city');
+      ->orderBy('m.happens_at, et.name')
+      ->groupBy('m.id, m.happens_at, e.id, et.lang, et.id, et.name, l.id, l.name, l.city');
     
     if ( true || $extra_data )
     $q->addSelect('(SELECT sum((tt5.printed_at IS NOT NULL OR tt5.integrated_at IS NOT NULL) AND tt5.duplicating IS NULL AND tt5.cancelling IS NULL) FROM ticket tt5 LEFT JOIN tt5.Transaction ttr5 WHERE m.id = tt5.manifestation_id AND tt5.id NOT IN (SELECT ttt5.cancelling FROM ticket ttt5 WHERE ttt5.cancelling IS NOT NULL AND ttt5.manifestation_id = m.id) '.str_replace('%%d%%','5',$criteria_tt_gauge).' '.str_replace('%%d%%','5',$criteria_tt_contact).' AND (SELECT count(ttp5.id) FROM Payment ttp5 WHERE ttp5.transaction_id = ttr5.id) > 0) AS printed_with_payment')

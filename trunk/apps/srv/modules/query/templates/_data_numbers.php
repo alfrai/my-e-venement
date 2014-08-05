@@ -16,36 +16,29 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
 <?php
-  $outstream = fopen($outstream, 'w');
-  
-  $vars = array(
-    'options',
-    'delimiter',
-    'enclosure',
-    'outstream',
-    'charset',
-  );
-  foreach ( $vars as $key => $value )
-  {
-    $vars[$value] = $$value;
-    unset($vars[$key]);
-  }
-  
-  // header
-  include_partial('global/csv_headers',$vars);
-  
-  // content
-  foreach ( $lines as $line )
-  {
-    if ( isset($line['id']) )
-      unset($line['id']);
-    include_partial('global/csv_line',array_merge(array('line' => $line),$vars));
-  }
-  
-  fclose($outstream);
+    $g = new liGraph;
+    $data = $sf_data->getRaw('data');
+    
+    // some colours
+    $colours = array('#4ECDC4', '#ACC476', '#FF6B6B', '#C44D58', '#556270');
+    $col_i = 0;
+    
+    // the content
+    $bar = new liBarFilled($colours[$col_i]);
+    $bar->set_values($data);
+    $g->add_element($bar);
+    $col_i++;
+    
+    // the y scale
+    $y = new liYAxis;
+    $top = ceil(max($data)+max($data)/10);
+    $y->set_range(0, $top > 10 ? $top : 10, 1);
+    $g->set_y_axis($y);
+    
+    echo $g;

@@ -8,6 +8,7 @@
     </label>
     <span class="query-rank"><?php echo __('Rank') ?>: <?php echo $query->rank ?></span>
     <span class="query-weight"><?php echo __('Weight') ?>: <?php echo $query->weight ?></span>
+    <span class="query-stats"><?php echo __('Stats') ?>: <?php echo __($query->stats) ?></span>
     <div class="widget">
       <?php echo $query->getWidget()->render(slugify($widget->getLabel())); ?>
     </div>

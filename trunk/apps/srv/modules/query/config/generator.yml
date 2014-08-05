@@ -17,7 +17,7 @@ generator:
       fields:
         Options: { help: Only used with appropriate fields }
       list:
-        display: [Survey, =name, can_be_empty, weight, rank]
+        display: [Survey, =name, can_be_empty, stats, weight, rank]
         sort: ['survey_name, rank', '']
         actions:        []
         object_actions: []
@@ -26,7 +26,7 @@ generator:
       form:
         display:
           General: [_show_survey, name, Options]
-          Details: [type, can_be_empty, rank, weight]
+          Details: [type, can_be_empty, stats, rank, weight]
         actions:
           _back:
             action: backToSurvey

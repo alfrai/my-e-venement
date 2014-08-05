@@ -49,6 +49,7 @@ class liWidgetFormDoctrineJQueryAutocompleter extends sfWidgetFormDoctrineJQuery
   {
     return parent::render($name, $value, $attributes, $errors).
            sprintf(<<<EOF
+<a href="%s" style="display: none;" id="%s"></a>
 <script type="text/javascript"><!--
   jQuery(document).ready(function() {
     jQuery('#%s').change(function(){
@@ -61,6 +62,8 @@ class liWidgetFormDoctrineJQueryAutocompleter extends sfWidgetFormDoctrineJQuery
 --></script>
 EOF
       ,
+      $this->getOption('url'),
+      $this->generateId('url_'.$name),
       $this->generateId('autocomplete_'.$name),
       $this->generateId($name)
     );

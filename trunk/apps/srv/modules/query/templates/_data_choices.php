@@ -16,36 +16,27 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
 <?php
-  $outstream = fopen($outstream, 'w');
-  
-  $vars = array(
-    'options',
-    'delimiter',
-    'enclosure',
-    'outstream',
-    'charset',
-  );
-  foreach ( $vars as $key => $value )
-  {
-    $vars[$value] = $$value;
-    unset($vars[$key]);
-  }
-  
-  // header
-  include_partial('global/csv_headers',$vars);
-  
-  // content
-  foreach ( $lines as $line )
-  {
-    if ( isset($line['id']) )
-      unset($line['id']);
-    include_partial('global/csv_line',array_merge(array('line' => $line),$vars));
-  }
-  
-  fclose($outstream);
+    $g = new liGraph;
+    
+    $pie = new liPie;
+    //$pie->set_style('{font-size: 12px; color: #78B9EC;');
+    
+    $names = $values = array();
+    foreach ( $data as $elt )
+    {
+      $values[] = new liPieValue($elt->nb, $elt->nb.' '.$elt->name);
+    }
+    $pie->set_values($values);
+    
+    //To display value as tool tip
+    $pie->set_tooltip( __("#label#: #percent#\nTotal: #total#") );
+    $pie->radius(100);
+    $g->add_element($pie);
+    
+    echo $g;

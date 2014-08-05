@@ -5,7 +5,7 @@
 .sf_admin_form_field_rank .widget input, .sf_admin_form_field_weight .widget input { text-align: right; width: 4em; }
 .sf_admin_form_field_weight .widget:after { content: '%'; }
 
-.query-weight       , .query-rank         { font-size: 80%; }
-.query-weight:before, .query-rank:before  { content: '('; }
-.query-rank:after   { content: ')'; }
+.query-weight       , .query-rank,        .query-stats { font-size: 80%; }
+.query-weight:before, .query-rank:before, .query-stats:before  { content: '('; }
+.query-rank:after, .query-stats:after   { content: ')'; }
 .query-weight:after { content: '%)'; }

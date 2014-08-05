@@ -166,6 +166,11 @@ SurveyQuery:
       type: integer
       notnull: true
       default: 0
+    stats:
+      type: enum
+      values: [numbers, choices, free]
+      default: free
+      notnull: true
   relations:
     Survey:
       foreignAlias: Queries
