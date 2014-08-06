@@ -19,7 +19,7 @@ generator:
         object_actions: []
         actions: []
         batch_actions: []
-        sort: ['happens_at, rank', '']
+        sort: ['happens_at, wuo.rank', '']
         display: [=happens_at, Event, Location, _MetaEvent]
         title: Dates list
         table_method: retrievePublicList

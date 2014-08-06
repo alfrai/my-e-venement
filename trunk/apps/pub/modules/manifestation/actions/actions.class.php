@@ -37,7 +37,7 @@ class manifestationActions extends autoManifestationActions
   }
   public function executeShow(sfWebRequest $request)
   {
-    $this->gauges = Doctrine::getTable('Gauge')->createQuery('g')
+    $q = Doctrine::getTable('Gauge')->createQuery('g')
       ->addSelect('m.*, pm.*, p.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.Location l')
@@ -53,12 +53,13 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('pw.id = ws.id')
       ->andWhere('pw.id = g.workspace_id')
       ->andWhere('m.id = ?',$request->getParameter('id'))
-      ->andWhere('m.happens_at > NOW() OR ?',sfContext::getInstance()->getConfiguration()->getEnvironment() == 'dev')
+      ->andWhere('(m.happens_at > NOW() OR ?)',sfContext::getInstance()->getConfiguration()->getEnvironment() == 'dev')
       ->andWhere('g.online = ?', true)
       ->andWhere('p.online = ?', true)
       ->andWhere('m.reservation_confirmed = ?',true)
       ->orderBy('ws.name, p.name')
-      ->execute();
+    ;
+    $this->gauges = $q->execute();
     
     if ( !$this->gauges || $this->gauges && $this->gauges->count() <= 0 )
     {
