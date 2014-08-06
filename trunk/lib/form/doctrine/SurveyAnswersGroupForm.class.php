@@ -19,7 +19,11 @@ class SurveyAnswersGroupForm extends BaseSurveyAnswersGroupForm
     $this->widgetSchema['contact_id'] = new sfWidgetFormInputHidden;
     
     $useFields = array('contact_id');
+    $queries = array();
     foreach ( $this->object->Survey->Queries as $query )
+      $queries[$query->rank.'-'.$query->id] = $query;
+    ksort($queries);
+    foreach ( $queries as $query )
     {
       $answer = new SurveyAnswer;
       $answer->Query = $query;
