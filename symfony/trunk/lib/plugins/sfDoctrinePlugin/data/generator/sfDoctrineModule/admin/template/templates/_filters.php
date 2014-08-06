@@ -19,7 +19,7 @@
       </tfoot>
       <tbody>
         [?php foreach ($configuration->getFormFilterFields($form) as $name => $field): ?]
-        [?php if ( is_object($sf_data->getRaw('field')) ): ?]
+        [?php if ( is_object($field->getRawValue()) ): ?]
         [?php if ((isset($form[$name]) && $form[$name]->isHidden()) || (!isset($form[$name]) && $field->isReal())) continue ?]
           [?php include_partial('<?php echo $this->getModuleName() ?>/filters_field', array(
             'name'       => $name,
@@ -30,7 +30,7 @@
             'field'      => $field,
             'class'      => 'sf_admin_form_row sf_admin_'.strtolower($field->getType()).' sf_admin_filter_field_'.$name,
           )) ?]
-        [?php elseif ( $sf_data->getRaw('field') !== NULL ): ?]
+        [?php elseif ( $field->getRawValue() !== NULL ): ?]
         [?php include_partial('<?php echo $this->getModuleName() ?>/filters_fieldset', array(
           'name'       => $name,
           'form'       => $form,
