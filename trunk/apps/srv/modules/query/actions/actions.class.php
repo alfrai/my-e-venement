@@ -94,12 +94,24 @@ class queryActions extends autoQueryActions
       $stmt = $pdo->prepare($q);
       $stmt->execute(array(':id' => $this->survey_query->id));
       
+      // raw data
       $data = array();
       foreach ( $stmt->fetchAll() as $elt )
         $data[$elt['value']] = $elt['nb'];
       for ( $i = 0 ; $i < max(array_keys($data)) ; $i++ )
       if ( !isset($data[$i]) )
         $data[$i] = 0;
+      
+      // stats
+      $arr = array();
+      foreach ( $data as $res => $nb )
+      for ( $i = 0 ; $i < $nb ; $i++ )
+        $arr[] = $res;
+      $data['average'] = array_sum($arr)/count($arr);
+      if ( function_exists('stats_standard_deviation') )
+        $data['deviation'] = stats_standard_deviation($arr);
+      
+      // sorting
       ksort($data);
     break;
     

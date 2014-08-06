@@ -22,18 +22,38 @@
 ***********************************************************************************/
 ?>
 <?php
+    use_helper('Number');
     $g = new liGraph;
     $data = $sf_data->getRaw('data');
     
     // some colours
-    $colours = array('#4ECDC4', '#ACC476', '#FF6B6B', '#C44D58', '#556270');
+    $colours = array(
+      '#FF6B6B',
+      '#4ECDC4',
+      '#ACC476',
+      '#556270',
+      '#C44D58',
+    );
     $col_i = 0;
     
+    // lines for average & standard deviation
+    $dot = new liDotSolid;
+    $dot->size(3)->halo_size(1);
+    foreach ( $arr = array('average', 'deviation') as $name )
+    if ( isset($data[$name]) )
+    {
+      $area = new liArea();
+      $area->set_colour($colours[$col_i++]);
+      $area->set_key(__(ucfirst($name).': '.format_number(round($data[$name],2))), 12);
+      $g->add_element($area);
+      
+      unset($data[$name]);
+    }
+    
     // the content
-    $bar = new liBarFilled($colours[$col_i]);
+    $bar = new liBarFilled($colours[$col_i++]);
     $bar->set_values($data);
     $g->add_element($bar);
-    $col_i++;
     
     // the y scale
     $y = new liYAxis;
