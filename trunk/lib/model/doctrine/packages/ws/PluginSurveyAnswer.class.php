@@ -12,6 +12,16 @@
  */
 abstract class PluginSurveyAnswer extends BaseSurveyAnswer
 {
+  public function save(Doctrine_Connection $conn = null)
+  {
+    // to avoid saving empty answers
+    if ( !trim($this->value) )
+    {
+      $this->delete();
+      return;
+    }
+    parent::save($conn);
+  }
   public function getIndexesPrefix()
   {
     return strtolower(get_class($this));

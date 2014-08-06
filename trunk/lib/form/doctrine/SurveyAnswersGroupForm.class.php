@@ -17,8 +17,10 @@ class SurveyAnswersGroupForm extends BaseSurveyAnswersGroupForm
   {
     parent::configure();
     $this->widgetSchema['contact_id'] = new sfWidgetFormInputHidden;
+    $this->widgetSchema['transaction_id'] = new sfWidgetFormInputHidden;
     
-    $useFields = array('contact_id');
+    $useFields = array('contact_id', 'transaction_id');
+    
     $queries = array();
     foreach ( $this->object->Survey->Queries as $query )
       $queries[$query->rank.'-'.$query->id] = $query;
@@ -33,6 +35,7 @@ class SurveyAnswersGroupForm extends BaseSurveyAnswersGroupForm
       $this->embedForm($query->id, $form->forge($query));
       $useFields[] = $query->id;
     }
+    
     $this->useFields($useFields);
   }
 }

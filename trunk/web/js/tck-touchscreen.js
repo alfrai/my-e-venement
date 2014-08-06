@@ -162,7 +162,7 @@ $(document).ready(function(){
         $(this).val($(this).closest('#li_transaction_field_board').hasClass('num') ? $(this).find('.num').html() : $(this).find('.alpha').html());
     });
     
-    if ( !$(this).is('#li_transaction_field_professional_id, #li_transaction_field_contact_id, #li_transaction_field_deposit') )
+    if ( !$(this).is('#li_transaction_field_professional_id, #li_transaction_field_contact_id, #li_transaction_field_more') )
       $('#li_transaction_field_informations .vcard').slideUp();
     
     return false; // to avoid the event to go up in the JS tree
@@ -192,8 +192,8 @@ $(document).ready(function(){
   });
   
   // vCard & co
-  $('#li_transaction_field_professional_id, #li_transaction_field_contact_id, #li_transaction_field_deposit').click(function(){
-    $('#li_transaction_field_professional_id, #li_transaction_field_contact_id, #li_transaction_field_deposit').addClass('ui-state-highlight');
+  $('#li_transaction_field_professional_id, #li_transaction_field_contact_id, #li_transaction_field_more').click(function(){
+    $('#li_transaction_field_professional_id, #li_transaction_field_contact_id, #li_transaction_field_more').addClass('ui-state-highlight');
     if ( $('#li_transaction_field_contact_id .data a').length > 0
       && $('#li_transaction_field_informations .vcard').length == 0 )
     {
@@ -328,22 +328,6 @@ LI.checkGauges = function(form){
   });
   
   return false;
-}
-
-// display a flash for a limited time
-LI.alert = function(msg, type = 'notice', time = 4000)
-{
-  var icons = {
-    success: 'ui-icon-circle-check',
-    notice:  'ui-icon-info',
-    error:   'ui-icon-alert',
-  }
-  var flash = '<div class="%%type%% ui-state-highlight ui-corner-all"><span class="ui-icon %%icon%% floatleft"></span>&nbsp;%%msg%%</div>';
-  
-  $('.sf_admin_flashes').append($(flash.replace('%%msg%%',msg).replace('%%type%%',type).replace('%%icon%%', icons[type])).hide().fadeIn('slow'));
-  setTimeout(function(){
-    $('.sf_admin_flashes > *').fadeOut(function(){ $(this).remove(); })
-  },time);
 }
 
 LI.renderGauge = function(item, only_inline_gauge)

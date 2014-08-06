@@ -1,5 +1,5 @@
 all:
-  javascripts: [tck-touchscreen, tck-touchscreen-forms, tck-touchscreen-board, vcard, event-seated-plan, /private/tck-touchscreen]
+  javascripts: [helper, tck-touchscreen, tck-touchscreen-forms, tck-touchscreen-board, vcard, event-seated-plan, /private/tck-touchscreen]
   stylesheets: [tck-touchscreen, event-seated-plan]
 respawnSuccess:
   stylesheets: [-tck-touchscreen]

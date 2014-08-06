@@ -33,6 +33,7 @@ class SurveyForm extends BaseSurveyForm
     );
     
     // if an ApplyTo sub-record has no relevant information inside, delete it
+    if ( isset($this->values['ApplyTo']) && is_array($this->values['ApplyTo']) )
     foreach ( $this->values['ApplyTo'] as $key => $at )
     {
       $delete = true;

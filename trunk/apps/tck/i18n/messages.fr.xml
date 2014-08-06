@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>[1]1 answer to a survey|(1,+Inf]%%nb%% answers to surveys</source>
+        <target>[1]1 réponse à un questionnaire|(1,+Inf]%%nb%% réponses aux questionnaires</target>
+      </trans-unit>
+      <trans-unit>
         <source>From %from_date%</source>
         <target>Entre le %from_date%</target>
       </trans-unit>

@@ -13,7 +13,7 @@
 <div class="event-fields">
 <?php $evt = array_pop($ev) ?>
 <?php foreach ( array('description', 'extradesc', 'extraspec') as $field ): ?>
-  <div class="<?php echo $field ?>"><?php echo $evt->$field ?></div>
+<div class="<?php echo $field ?>"><?php echo $evt->$field ?></div>
 <?php endforeach ?>
 </div>
 <?php endif ?>

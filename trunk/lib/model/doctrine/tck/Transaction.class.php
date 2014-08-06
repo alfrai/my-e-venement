@@ -12,6 +12,64 @@
  */
 class Transaction extends PluginTransaction
 {
+  /**
+    * Retrieve the applyable surveys
+    *
+    * @return Doctrine_Collection
+    *
+    **/
+  public function getSurveys()
+  {
+    $surveys = array();
+    
+    // surveys linked to any transaction's related component
+    foreach ( $this->Tickets as $ticket )
+    foreach ( $ticket->Manifestation->SurveysToApply as $sat )
+    if ( ($sat->date_from ? $sat->date_from <= date('Y-m-d H:i:s') : true) && ($sat->date_to ? $sat->date_to > date('Y-m-d H:i:s') : true) )
+      $surveys[$sat->Survey->id] = $sat->Survey;
+    foreach ( $this->Contact->SurveysToApply as $sat )
+    if ( ($sat->date_from ? $sat->date_from <= date('Y-m-d H:i:s') : true) && ($sat->date_to ? $sat->date_to > date('Y-m-d H:i:s') : true) )
+      $surveys[$sat->Survey->id] = $sat->Survey;
+    foreach ( $this->Contact->Groups as $group )
+    foreach ( $group->SurveysToApply as $sat )
+    if ( ($sat->date_from ? $sat->date_from <= date('Y-m-d H:i:s') : true) && ($sat->date_to ? $sat->date_to > date('Y-m-d H:i:s') : true) )
+      $surveys[$sat->Survey->id] = $sat->Survey;
+    
+    // surveys applyable everywhere
+    foreach ( Doctrine::getTable('Survey')->createQuery('s')
+      ->leftJoin('s.ApplyTo sat')
+      ->andWhere('sat.everywhere = ?', true)
+      ->andWhere('sat.date_from <= NOW() OR sat.date_from IS NULL')
+      ->andWhere('sat.date_to > NOW() OR sat.date_to IS NULL')
+      ->execute()
+      as $survey )
+      $surveys[$survey->id] = $survey;
+    
+    ksort($surveys);
+    $collection = Doctrine_Collection::create('Survey');
+    $collection->setData($surveys);
+    return $collection;
+  }
+  
+  /**
+    * Retrieve the applyable surveys that need to be answered
+    *
+    * @return Doctrine_Collection
+    *
+    **/
+  public function getSurveysToFillIn()
+  {
+    $surveys = $this->getSurveys();
+    
+    foreach ( $surveys as $key => $survey )
+    foreach ( $survey->AnswersGroups as $group )
+    if ( $group->transaction_id == $this->id )
+    if ( in_array($key, $surveys->getKeys()) )
+      $surveys->remove($key);
+    
+    return $surveys;
+  }
+  
   public function getNotPrinted()
   {
     $toprint = 0;

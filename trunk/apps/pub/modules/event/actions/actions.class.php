@@ -13,6 +13,17 @@ require_once dirname(__FILE__).'/../lib/eventGeneratorHelper.class.php';
  */
 class eventActions extends autoEventActions
 {
+  public function executeIndex(sfWebRequest $request)
+  {
+    error_log(print_r($request->getLanguages(),true));
+    /*
+    $this->getUser()->setCulture(
+        array_keys(sfConfig::get('project_internals_cultures'))
+      )
+    );
+    */
+    parent::executeIndex($request);
+  }
   public function executeEdit(sfWebRequest $request)
   {
     $this->event = $this->getRoute()->getObject();

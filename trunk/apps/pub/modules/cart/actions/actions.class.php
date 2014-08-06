@@ -12,6 +12,33 @@ class cartActions extends sfActions
 {
   protected $transaction = NULL;
   
+  public function executeCommitSurvey(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    $params = $request->getParameter('survey', array());
+    
+    $s = new Survey;
+    foreach ( $surveys = $this->getUser()->getTransaction()->getSurveysToFillIn() as $survey )
+    if ( $survey->id == $params['id'] )
+    {
+      $s = $survey;
+      break;
+    }
+    $this->form = new SurveyPublicForm($s);
+    
+    $this->form->bind($params);
+    if ( !$this->form->isValid() )
+      return 'Error';
+    
+    $this->form->save();
+  }
+  public function executeSurveys(sfWebRequest $request)
+  {
+    $this->forms = array();
+    foreach ( $surveys = $this->getUser()->getTransaction()->getSurveysToFillIn() as $survey )
+      $this->forms[] = new SurveyPublicForm($survey);
+  }
   public function executeWidget(sfWebRequest $request)
   {
     try { $this->transac = $this->getUser()->getTransaction(); }

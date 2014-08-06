@@ -16,7 +16,7 @@ generator:
       fields:
         value: { type: mixed }
       list:
-        display: [_list_survey, _list_contact, Query, lang, value, updated_at]
+        display: [_list_survey, _list_contact, lang, Query, value, updated_at]
         actions:        []
         object_actions: []
         batch_actions:  []

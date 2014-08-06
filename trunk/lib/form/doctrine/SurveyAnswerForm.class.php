@@ -33,4 +33,11 @@ class SurveyAnswerForm extends BaseSurveyAnswerForm
     
     return $this;
   }
+  
+  public function doSave($con = null)
+  {
+    if ( !trim($this->object->value) )
+      return;
+    parent::doSave($con);
+  }
 }

@@ -242,6 +242,7 @@ SurveyAnswersGroup:
       notnull: true
     contact_id: integer
     professional_id: integer
+    transaction_id: integer
   relations:
     Survey:
       foreignAlias: AnswersGroups
@@ -252,6 +253,10 @@ SurveyAnswersGroup:
       onDelete: SET NULL
       onUpdate: CASCADE
     Professional:
+      foreignAlias: SurveyAnswersGroups
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Transaction:
       foreignAlias: SurveyAnswersGroups
       onDelete: SET NULL
       onUpdate: CASCADE
@@ -281,22 +286,22 @@ SurveyApplyTo:
       onDelete: CASCADE
       onUpdate: CASCADE
     Manifestation:
-      foreignAlias: SurveyToApply
+      foreignAlias: SurveysToApply
       onDelete: SET NULL
       onUpdate: CASCADE
     Group:
-      foreignAlias: SurveyToApply
+      foreignAlias: SurveysToApply
       onDelete: SET NULL
       onUpdate: CASCADE
     Contact:
-      foreignAlias: SurveyToApply
+      foreignAlias: SurveysToApply
       onDelete: SET NULL
       onUpdate: CASCADE
     Professional:
-      foreignAlias: SurveyToApply
+      foreignAlias: SurveysToApply
       onDelete: SET NULL
       onUpdate: CASCADE
     Organism:
-      foreignAlias: SurveyToApply
+      foreignAlias: SurveysToApply
       onDelete: SET NULL
       onUpdate: CASCADE

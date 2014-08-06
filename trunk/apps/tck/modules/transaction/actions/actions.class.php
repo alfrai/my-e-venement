@@ -61,11 +61,11 @@ class transactionActions extends autoTransactionActions
       'required' => false,
     ));
     
-    // Deposit
-    $this->form['deposit'] = new sfForm;
-    $this->form['deposit']->setDefault('deposit', $this->transaction->deposit);
-    $ws = $this->form['deposit']->getWidgetSchema()->setNameFormat('transaction[%s]');
-    $vs = $this->form['deposit']->getValidatorSchema();
+    // Deposit (calling the "more" template)
+    $this->form['more'] = new sfForm;
+    $this->form['more']->setDefault('deposit', $this->transaction->deposit);
+    $ws = $this->form['more']->getWidgetSchema()->setNameFormat('transaction[%s]');
+    $vs = $this->form['more']->getValidatorSchema();
     $ws['deposit'] = new sfWidgetFormInputCheckbox(array(
     ));
     $vs['deposit'] = new sfValidatorBoolean(array(

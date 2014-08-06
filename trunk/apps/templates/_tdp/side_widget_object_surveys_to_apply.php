@@ -13,11 +13,11 @@
       ?>
       <?php foreach ( $objects as $obj ): ?>
       <?php $cpt++ ?>
-      <?php if ( $obj->SurveyToApply->count() > 0 ): ?>
+      <?php if ( $obj->SurveysToApply->count() > 0 ): ?>
       <li class="surveys-to-apply-<?php echo $cpt == 1 ? 'object' : 'subobject surveys-to-apply-subobject-'.$obj->id ?>">
         <h3><?php if ( count($objects) > 1 ) echo $obj ?></h3>
         <ul>
-          <?php foreach ( $obj->SurveyToApply as $sta ): ?>
+          <?php foreach ( $obj->SurveysToApply as $sta ): ?>
           <?php if ( $sta->Survey->Queries->count() > 0 ): ?>
             <?php if ( !in_array($sta->survey_id, $added_surveys) ): ?>
               <?php $added_surveys[] = $sta->survey_id ?>
