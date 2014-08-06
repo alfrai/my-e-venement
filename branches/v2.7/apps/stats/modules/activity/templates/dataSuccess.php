@@ -49,7 +49,7 @@
       $bars->append_stack(array(
         $date['printed'],
         $date['ordered'],
-        sfConfig::get('project_tickets_cound_demands',false) ? $date['asked'] : 0,
+        sfConfig::get('project_tickets_count_demands',false) ? $date['asked'] : 0,
       ));
     }
     
