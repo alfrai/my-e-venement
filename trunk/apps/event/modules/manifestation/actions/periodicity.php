@@ -141,9 +141,10 @@
             $manif->$field = date('Y-m-d H:i:s',strtotime($manif->$field) + $local_interval);
           }
           
+          $next_manif = $manif->duplicate(false);
           $manif->save();
+          $manif = $next_manif;
           $cpt++;
-          $manif = $manif->duplicate(false);
         }
         
         // redirect
