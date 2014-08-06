@@ -257,6 +257,7 @@ a.actions a:hover {
 
 #ariane .i18n { text-align: right; }
 #ariane .i18n a { font-size: 0; display: inline-block; width: 16px; height: 11px; background: white url('../images/flags.png') no-repeat scroll 1px 1px; padding: 1px; border: 1px solid silver; }
+#ariane .i18n .current { border: 1px solid gray; }
 #ariane .i18n .culture-fr { background-position: -227px -172px; }
 #ariane .i18n .culture-en { background-position: -283px -172px; }
 #ariane .i18n .culture-br { background-image: url('../images/breizhoneg.png'); }

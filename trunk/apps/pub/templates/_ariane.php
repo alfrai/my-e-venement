@@ -51,7 +51,11 @@
     <?php if ( count($cultures = sfConfig::get('project_internals_cultures',array('fr' => 'Français'))) > 1 ): ?>
     <p class="i18n">
       <?php foreach ( $cultures as $culture => $lang ): ?>
-        <a href="<?php echo url_for('event/index?culture='.$culture) ?>" class="culture-<?php echo $culture ?>" title="<?php echo $lang ?>"><?php echo $lang ?></a>
+        <a href="<?php echo url_for('event/index?culture='.$culture) ?>"
+           class="culture-<?php echo $culture ?> <?php echo $culture === $sf_user->getCulture() ? 'current' : '' ?>"
+           title="<?php echo $lang ?>">
+          <?php echo $lang ?>
+        </a>
       <?php endforeach ?>
     </p>
     <?php endif ?>
