@@ -246,6 +246,7 @@ a.actions a:hover {
 
 .access:last-child { background-image: none; padding-right: 5px; }
 
+#ariane form, #ariane p { margin: 0; padding: 0; display: table-row; }
 #ariane a {	text-decoration: none; }
 #ariane a:hover { text-decoration: underline; }
 .access a { display: table-row; }
@@ -253,6 +254,12 @@ a.actions a:hover {
 .past a, #sf_admin_container .past a, #ariane .past  {	color: #888; }
 .future a, #sf_admin_container .future a, #ariane .future { color: #000; } 
 .errors { color: red; }
+
+#ariane .i18n { text-align: right; }
+#ariane .i18n a { font-size: 0; display: inline-block; width: 16px; height: 11px; background: white url('../images/flags.png') no-repeat scroll 1px 1px; padding: 1px; border: 1px solid silver; }
+#ariane .i18n .culture-fr { background-position: -227px -172px; }
+#ariane .i18n .culture-en { background-position: -283px -172px; }
+#ariane .i18n .culture-br { background-image: url('../images/breizhoneg.png'); }
 
 .prices_list tfoot { display: none; }
 
@@ -287,3 +294,6 @@ tbody .total { text-align: right; }
 #login .submit input { margin-left: 5px; }
 
 .event-fields { display: none; }
+
+/* the jroller elements to remove */
+.sf_admin_actions_block, #sf_admin_filters_buttons { display: none; }

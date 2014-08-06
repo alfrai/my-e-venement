@@ -15,13 +15,35 @@ class eventActions extends autoEventActions
 {
   public function executeIndex(sfWebRequest $request)
   {
-    error_log(print_r($request->getLanguages(),true));
-    /*
-    $this->getUser()->setCulture(
-        array_keys(sfConfig::get('project_internals_cultures'))
-      )
-    );
-    */
+    $cultures = array_keys(sfConfig::get('project_internals_cultures', array('fr' => 'Français')));
+    
+    // culture defined explicitly
+    if ( $request->hasParameter('culture') && in_array($request->getParameter('culture'), $cultures) )
+      $this->getUser()->setCulture($request->getParameter('culture'));
+    else
+    {
+      // all the browser's languages
+      $user_langs = array();
+      foreach ( $request->getLanguages() as $lang )
+      if ( !isset($user_lang[substr($lang, 0, 2)]) )
+        $user_langs[substr($lang, 0, 2)] = $lang;
+      
+      // comparing to the supported languages
+      $done = false;
+      foreach ( $user_langs as $culture => $lang )
+      if ( in_array($culture, $cultures) )
+      {
+        $done = $culture;
+        $this->getUser()->setCulture($culture);
+        break;
+      }
+      
+      // culture by default
+      if ( !$done )
+        $this->getUser()->setCulture($cultures[0]);
+    }
+    
+    // continue normal operations
     parent::executeIndex($request);
   }
   public function executeEdit(sfWebRequest $request)
