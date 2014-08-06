@@ -19,8 +19,12 @@ class eventActions extends autoEventActions
     
     // culture defined explicitly
     if ( $request->hasParameter('culture') && in_array($request->getParameter('culture'), $cultures) )
+    {
       $this->getUser()->setCulture($request->getParameter('culture'));
-    else
+      $this->getUser()->setAttribute('global_culture_forced', true);
+    }
+    
+    if ( !$this->getUser()->getAttribute('global_culture_forced', false) )
     {
       // all the browser's languages
       $user_langs = array();
@@ -41,6 +45,13 @@ class eventActions extends autoEventActions
       // culture by default
       if ( !$done )
         $this->getUser()->setCulture($cultures[0]);
+    }
+    
+    if ( $request->hasParameter('culture') )
+    {
+      $this->getContext()->getConfiguration()->loadHelpers('I18N');
+      $this->getUser()->setFlash('success', __('Now you are making the experience of e-venement in your favorite language.'));
+      $this->redirect('event/index');
     }
     
     // continue normal operations

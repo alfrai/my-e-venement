@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Now you are making the experience of e-venement in your favorite language.</source>
+        <target>Vous faîtes maintenant l'expérience d'e-venement dans votre langue favorite.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Your command has been booked, you will have to pay for it directly with us.</source>
         <target>Votre commande a été enregistrée, vous devrez vous en acquiter directement avec nous.</target>
       </trans-unit>
