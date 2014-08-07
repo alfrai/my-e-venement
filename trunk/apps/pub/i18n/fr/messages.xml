@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>A contact with the same informations already exists, try to authenticate or maybe you misspelled your email address...</source>
+        <target>Un contact avec les mêmes informations existe déjà, essayez de vous authentifier, à moins que vous n'ayez mal orthographié votre email...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Now you are making the experience of e-venement in your favorite language.</source>
         <target>Vous faîtes maintenant l'expérience d'e-venement dans votre langue favorite.</target>
       </trans-unit>
@@ -179,10 +183,6 @@
       <trans-unit>
         <source>Contact updated</source>
         <target>Contact mis à jour</target>
-      </trans-unit>
-      <trans-unit>
-        <source>A contact with the same informations already exists, try to authenticate or maybe you misspelled your email...</source>
-        <target>Un contact avec les mêmes informations existe déjà, essayez de vous authentifier, à moins que vous n'ayez mal orthographié votre email...</target>
       </trans-unit>
       <trans-unit>
         <source>You have just abandonned your payment, you can still empty / correct / validate your cart...</source>

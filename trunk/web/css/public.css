@@ -255,6 +255,10 @@ a.actions a:hover {
 .future a, #sf_admin_container .future a, #ariane .future { color: #000; } 
 .errors { color: red; }
 
+#sf_admin_container .error { display: none; }
+#sf_admin_container .error { display: none; }
+#sf_admin_container .sf_admin_flashes .error { display: block; }
+
 #ariane .i18n { text-align: right; }
 #ariane .i18n a { font-size: 0; display: inline-block; width: 16px; height: 11px; background: white url('../images/flags.png') no-repeat scroll 1px 1px; padding: 1px; border: 1px solid silver; }
 #ariane .i18n .current { border: 1px solid gray; }
@@ -270,31 +274,26 @@ a.actions a:hover {
 
 #oplog {
 	position: absolute;
-	top: 70px;
+	top: 64px;
 	right: 20px;
 	width: 185px;
-	padding: 20px 10px 20px 10px;
+	height: 54px;
+	padding: 0px 10px;
 	background: whitesmoke;
 	border: 1px solid gray;
 	border-radius: 5px;
 	text-align: center;
 }
-#oplog a { text-decoration: none; color: red; font-weight: bold; display: block; padding-bottom: 10px; }
+#oplog a { text-decoration: none; color: red; font-weight: bold; display: block; padding-bottom: 4px; }
 
 tfoot, thead { font-weight: bold; }
 tbody .total { text-align: right; }
-
 #location, #manifestation { display: inline-block; }
-
 #location { font-weight: bold; }
-
 #manifestation { padding: 0px 5px 15px 25px; }
-
 #login label { min-width: 125px; display: inline-block; }
 #login .submit { margin-left: 0; }
 #login .submit input { margin-left: 5px; }
-
 .event-fields { display: none; }
-
 /* the jroller elements to remove */
 .sf_admin_actions_block, #sf_admin_filters_buttons { display: none; }
