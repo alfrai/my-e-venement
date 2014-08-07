@@ -1,7 +1,15 @@
 <?php include_partial('global/ariane',array('active' => 0)) ?>
 <?php include_partial('edit_header') ?>
 <?php if ( $form->getErrorSchema()->count() > 0 ): ?>
-<div class="errors"><?php echo $form->getErrorSchema() ?></div>
+<ul class="errors">
+  <?php foreach ( $form->getErrorSchema()->getErrors() as $name => $error ): ?>
+  <?php if ( !isset($form[$name]) ): ?>
+    <li class="error error-<?php echo $error->getCode() ?>">
+      <?php echo __($error) ?>
+    </li>
+  <?php endif ?>
+  <?php endforeach ?>
+</ul>
 <?php endif; $errors = $form->getErrorSchema()->getErrors() ?>
 <?php echo $form->renderFormTag(url_for('contact/update'), array('id' => 'contact-form', 'autocomplete' => 'on')) ?>
   <?php echo $form->renderHiddenFields() ?>
