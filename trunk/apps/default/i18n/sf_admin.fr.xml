@@ -5,10 +5,6 @@
     <header />
     <body>
       <trans-unit>
-        <source>A contact with the same informations already exists, try to authenticate or maybe you misspelled your email address...</source>
-        <target>Un contact avec les mêmes informations existe déjà, essayez de vous authentifier, à moins que vous n'ayez mal orthographié votre email...</target>
-      </trans-unit>
-      <trans-unit>
         <source>Your language as been successfully updated.</source>
         <target>Votre langue a été mise à jour avec succès.</target>
       </trans-unit>
