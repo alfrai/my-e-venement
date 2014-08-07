@@ -478,7 +478,7 @@ sfGuardPermission:
     name: stats-geo
     description: 'Permission to access the geographical statistics'
     created_at: '2014-05-28 09:20:41'
-    updated_at: '2014-05-58 09:20:41'
+    updated_at: '2014-05-28 09:20:41'
 sfGuardGroupPermission:
   sfGuardGroupPermission_1_7:
     Group: sfGuardGroup_1
@@ -1435,4 +1435,5 @@ sfGuardGroup:
     name: stats-geo
     description: 'Permission to access the geographical statistics'
     created_at: '2014-05-28 09:20:41'
-    updated_at: '2014-05-58 09:20:41'
+    updated_at: '2014-05-28 09:20:41'
+
