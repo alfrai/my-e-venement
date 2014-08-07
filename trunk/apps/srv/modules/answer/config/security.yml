@@ -1,0 +1,19 @@
+edit:
+  credentials: [srv-answer-edit]
+update:
+  credentials: [srv-answer-edit]
+
+new:
+  credentials: [srv-answer-new]
+create:
+  credentials: [srv-answer-new]
+
+delete:
+  credentials: [srv-answer-del]
+batchDelete:
+  credentials: [srv-answer-del]
+
+index:
+  credentials: [srv-answer]
+show:
+  credentials: [srv-answer]

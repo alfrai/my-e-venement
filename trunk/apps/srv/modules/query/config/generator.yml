@@ -32,9 +32,11 @@ generator:
             action: backToSurvey
             label: <?php echo __('List', null, 'sf_admin').PHP_EOL ?>
             ui-icon: arrowreturnthick-1-w
-          _delete:  ~
+          _delete:
+            credentials: [srv-query-del]
           _show:    ~
-          _save:    ~
+          _save:
+            credentials: [srv-query-edit]
       edit:    ~
       new:     ~
       show:    ~

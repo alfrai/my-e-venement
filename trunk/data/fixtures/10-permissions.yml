@@ -1,4 +1,44 @@
 sfGuardPermission:
+  sfGuardPermission_101:
+    name: srv-access
+    description: 'Permission to have a basic access to the surveys'
+    created_at: '2014-08-07 19:36:26.864353'
+    updated_at: '2014-08-07 19:36:26.864353'
+  sfGuardPermission_102:
+    name: srv-query-edit
+    description: 'Permission to edit queries'
+    created_at: '2014-08-07 19:36:26.883332'
+    updated_at: '2014-08-07 19:36:26.883332'
+  sfGuardPermission_103:
+    name: srv-query-new
+    description: 'Permission to create new queries'
+    created_at: '2014-08-07 19:36:26.899966'
+    updated_at: '2014-08-07 19:36:26.899966'
+  sfGuardPermission_104:
+    name: srv-query-del
+    description: 'Permission to delete queries'
+    created_at: '2014-08-07 19:36:26.916635'
+    updated_at: '2014-08-07 19:36:26.916635'
+  sfGuardPermission_105:
+    name: srv-survey-edit
+    description: 'Permission to edit surveys'
+    created_at: '2014-08-07 19:36:26.93334'
+    updated_at: '2014-08-07 19:36:26.93334'
+  sfGuardPermission_106:
+    name: srv-survey-new
+    description: 'Permission to create new surveys'
+    created_at: '2014-08-07 19:36:26.950004'
+    updated_at: '2014-08-07 19:36:26.950004'
+  sfGuardPermission_107:
+    name: srv-survey-del
+    description: 'Permission to delete surveys'
+    created_at: '2014-08-07 19:36:26.966685'
+    updated_at: '2014-08-07 19:36:26.966685'
+  sfGuardPermission_108:
+    name: srv-answer
+    description: 'Permission to read the answers of a survey'
+    created_at: '2014-08-07 19:36:26.983349'
+    updated_at: '2014-08-07 19:36:26.983349'
   sfGuardPermission_1:
     name: admin-titles
     description: ''
@@ -478,8 +518,53 @@ sfGuardPermission:
     name: stats-geo
     description: 'Permission to access the geographical statistics'
     created_at: '2014-05-28 09:20:41'
-    updated_at: '2014-05-58 09:20:41'
+    updated_at: '2014-05-28 09:20:41'
 sfGuardGroupPermission:
+  sfGuardGroupPermission_41_101:
+    Group: sfGuardGroup_41
+    Permission: sfGuardPermission_101
+    created_at: '2014-08-07 19:36:27.033345'
+    updated_at: '2014-08-07 19:36:27.033345'
+  sfGuardGroupPermission_41_108:
+    Group: sfGuardGroup_41
+    Permission: sfGuardPermission_108
+    created_at: '2014-08-07 19:36:27.050022'
+    updated_at: '2014-08-07 19:36:27.050022'
+  sfGuardGroupPermission_42_101:
+    Group: sfGuardGroup_42
+    Permission: sfGuardPermission_101
+    created_at: '2014-08-07 19:36:27.066692'
+    updated_at: '2014-08-07 19:36:27.066692'
+  sfGuardGroupPermission_42_102:
+    Group: sfGuardGroup_42
+    Permission: sfGuardPermission_102
+    created_at: '2014-08-07 19:36:27.083364'
+    updated_at: '2014-08-07 19:36:27.083364'
+  sfGuardGroupPermission_42_104:
+    Group: sfGuardGroup_42
+    Permission: sfGuardPermission_104
+    created_at: '2014-08-07 19:36:27.170695'
+    updated_at: '2014-08-07 19:36:27.170695'
+  sfGuardGroupPermission_42_103:
+    Group: sfGuardGroup_42
+    Permission: sfGuardPermission_103
+    created_at: '2014-08-07 19:36:27.191678'
+    updated_at: '2014-08-07 19:36:27.191678'
+  sfGuardGroupPermission_42_105:
+    Group: sfGuardGroup_42
+    Permission: sfGuardPermission_105
+    created_at: '2014-08-07 19:36:27.208347'
+    updated_at: '2014-08-07 19:36:27.208347'
+  sfGuardGroupPermission_42_107:
+    Group: sfGuardGroup_42
+    Permission: sfGuardPermission_107
+    created_at: '2014-08-07 19:36:27.225008'
+    updated_at: '2014-08-07 19:36:27.225008'
+  sfGuardGroupPermission_42_106:
+    Group: sfGuardGroup_42
+    Permission: sfGuardPermission_106
+    created_at: '2014-08-07 19:36:27.241665'
+    updated_at: '2014-08-07 19:36:27.241665'
   sfGuardGroupPermission_1_7:
     Group: sfGuardGroup_1
     Permission: sfGuardPermission_7
@@ -1256,6 +1341,16 @@ sfGuardGroupPermission:
     created_at: '2014-05-28 09:20:00'
     updated_at: '2014-05-28 09:20:00'
 sfGuardGroup:
+  sfGuardGroup_41:
+    name: srv-overview
+    description: 'Ability to see the surveys, their content and their answers'
+    created_at: '2014-08-07 19:36:27.000023'
+    updated_at: '2014-08-07 19:36:27.000023'
+  sfGuardGroup_42:
+    name: srv-mod
+    description: 'Ability to edit the surveys and their content'
+    created_at: '2014-08-07 19:36:27.016682'
+    updated_at: '2014-08-07 19:36:27.016682'
   sfGuardGroup_1:
     name: pr-view
     description: "The right to view contacts, organisms, groups But only this"
@@ -1435,4 +1530,4 @@ sfGuardGroup:
     name: stats-geo
     description: 'Permission to access the geographical statistics'
     created_at: '2014-05-28 09:20:41'
-    updated_at: '2014-05-58 09:20:41'
+    updated_at: '2014-05-28 09:20:41'

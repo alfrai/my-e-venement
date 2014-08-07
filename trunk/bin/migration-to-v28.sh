@@ -107,6 +107,8 @@ echo ""
 
 # final data modifications
 echo ""
+echo "Permissions & groups for surveys"
+./symfony doctrine:data-load --append data/fixtures/11-permissions-v28.yml
 psql $db <<EOF
 EOF
 

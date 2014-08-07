@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ability to edit the surveys and their content</source>
+        <target>Capacité de modifier les questionnaires et leur contenu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ability to see the surveys, their content and their answers</source>
+        <target>Capacité à voir les questionnaires, leur contenu et leurs réponses</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ability to export/extract data... It inclues CSV extraction, labels creation, group export...</source>
         <target>Capacité à extraire et exporter des données... Ce qui inclut les extractions CSV, la création d'étiquettes, l'export de groupes</target>
       </trans-unit>

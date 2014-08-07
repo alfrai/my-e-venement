@@ -1,4 +1,4 @@
-<?php if ( $sf_user->hasCredential('TODO') ): ?>
+<?php if ( $sf_user->hasCredential('srv-answer') ): ?>
 
 <?php use_javascript('srv-answers-ajax') ?>
 <?php use_stylesheet('srv-answers-ajax') ?>

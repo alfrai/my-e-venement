@@ -1,0 +1,11 @@
+ContactRelationshipType:
+  friend:
+    name: Ami(e)
+  family:
+    name: Famille hors foyer
+  child:
+    name: Enfant
+  partner:
+    name: Conjoint(e)
+  known_person:
+    name: Connaissance

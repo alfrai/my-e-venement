@@ -4,7 +4,7 @@
   <li>
     <?php $widget = $query->getWidget() ?>
     <label for="<?php slugify($widget->getLabel()) ?>">
-      <?php echo link_to($query, 'query/edit?id='.$query->id) ?>
+      <?php echo $sf_user->hasCredential('srv-query-new') ? link_to($query, 'query/edit?id='.$query->id) : $query ?>
     </label>
     <span class="query-rank"><?php echo __('Rank') ?>: <?php echo $query->rank ?></span>
     <span class="query-weight"><?php echo __('Weight') ?>: <?php echo $query->weight ?></span>

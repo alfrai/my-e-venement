@@ -1,0 +1,14 @@
+edit:
+  credentials: [srv-query-edit]
+update:
+  credentials: [srv-query-edit]
+
+new:
+  credentials: [srv-query-new]
+create:
+  credentials: [srv-query-new]
+
+delete:
+  credentials: [srv-query-del]
+batchDelete:
+  credentials: [srv-query-del]

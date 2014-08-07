@@ -13,13 +13,21 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        list_nb_answers_group: { credentials: [srv-answer] }
       list:
         display: [name, _list_nb_queries, _list_nb_answers_group]
         object_actions:
           _show: ~
           _edit: ~
-          _delete: ~
+          _delete:
+            credentials: [srv-survey-del]
+        actions:
+          _new:
+            credentials: [srv-survey-new]
+        batch_actions:
+          _delete:
+            credentials: [srv-survey-del]
       filter:
         display: [name, weight, description]
       form:
@@ -30,12 +38,19 @@ generator:
           Statistics: [_show_stats]
         actions:
           _list: ~
-          _delete: ~
+          _delete:
+            credentials: [srv-survey-del]
           _show: ~
           _add_query:
+            credentials: [srv-query-new]
             action: addQuery
             ui-icon: plus
-          _save: ~
+          _save:
+            credentials: [srv-survey-edit]
       edit:
         title: Edit Survey %%name%%
       new:     ~
+      show:
+        display:
+          Public form: [_show_form]
+          Answers:     [_show_answers]
