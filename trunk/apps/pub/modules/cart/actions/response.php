@@ -26,17 +26,8 @@
   
   switch ( sfConfig::get('app_payment_type','paybox') ) {
   case 'tipi':
-    $bank->code = $request->getParameter('resultrans');
-    $bank->payment_certificate = $request->getRemoteAddress();
-    $bank->authorization_id = $request->getParameter('numauto');
-    $bank->merchant_id = $request->getParameter('numcli');
-    $bank->customer_ip_address = $request->getParameter('mel');
-    $bank->capture_mode = 'tipi';
-    $bank->transaction_id = $request->getParameter('transaction_id');
-    $bank->amount = $request->getParameter('montant');
-    $bank->raw = http_build_query($_POST);
-    
     try {
+      TipiPayment::completeBankRecord($bank, $request);
       TipiPayment::response(array(
         'result'          => $request->getParameter('resultrans',false),
         'token'           => TipiPayment::getToken($bank->transaction_id, $bank->amount/100),
@@ -53,18 +44,24 @@
     }
     
     break;
-  case 'paybox':
-    $bank->code = $request->getParameter('error');
-    $bank->payment_certificate = $request->getParameter('signature');
-    $bank->authorization_id = $request->getParameter('authorization');
-    $bank->merchant_id = $request->getParameter('paybox_id');
-    $bank->customer_ip_address = $request->getParameter('ip_country');
-    $bank->capture_mode = $request->getParameter('card_type');
-    $bank->transaction_id = $request->getParameter('transaction_id');
-    $bank->amount = $request->getParameter('amount');
-    $bank->raw = $_SERVER['QUERY_STRING'];
-    
+  case 'payplug':
     try {
+      PayplugPayment::completeBankRecord($bank, $request);
+      $r = PayplugPayment::response();
+      if ( !$r['success'] )
+        throw new liOnlineSaleException('An error occurred during the bank verifications');
+    }
+    catch ( sfException $e )
+    {
+      $bank->error = $bank->code;
+      $bank->save();
+      throw $e;
+    }
+    
+    break;
+  case 'paybox':
+    try {
+      PayboxPayment::completeBankRecord($bank, $request);
       $r = PayboxPayment::response($_GET);
       if ( !$r['success'] )
         throw new liOnlineSaleException('An error occurred during the bank verifications');

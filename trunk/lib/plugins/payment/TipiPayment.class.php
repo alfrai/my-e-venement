@@ -24,7 +24,7 @@
   
   class TipiPayment extends OnlinePayment
   {
-    protected $name = 'tipi';
+    const name = 'tipi';
     protected $url = array();
     protected $site, $rang, $id, $hash;
     
@@ -147,5 +147,22 @@
     {
       $urls = sfConfig::get('app_payment_url');
       return $urls['payment'][0].$urls['uri'];
+    }
+    
+    public static function completeBankRecord(BankPayment $bank, $request)
+    {
+      if (! $request instanceof sfWebRequest )
+        throw new liOnlineSaleException('We cannot save the raw data from the bank.');
+      
+      $bank->code = $request->getParameter('resultrans');
+      $bank->payment_certificate = $request->getRemoteAddress();
+      $bank->authorization_id = $request->getParameter('numauto');
+      $bank->merchant_id = $request->getParameter('numcli');
+      $bank->customer_ip_address = $request->getParameter('mel');
+      $bank->capture_mode = 'tipi';
+      $bank->transaction_id = $request->getParameter('transaction_id');
+      $bank->amount = $request->getParameter('montant');
+      $bank->raw = http_build_query($_POST);
+      return $bank;
     }
   }

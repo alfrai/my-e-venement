@@ -2,7 +2,7 @@
 <?php include_partial('global/oplog') ?>
 <script type="text/javascript"><!--
   $(document).ready(function(){
-    $('form.autosubmit').hide().submit();
+    $('form.autosubmit').submit();
   });
 --></script>
 <h1><?php echo __('Payment of your order') ?></h1>

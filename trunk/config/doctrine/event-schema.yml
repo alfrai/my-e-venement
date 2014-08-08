@@ -570,6 +570,10 @@ Seat:
       type: string(255)
       notnull: true
       notblank: true
+    rank:
+      type: integer
+      notnull: true
+      default: 1000
     x:
       type: integer
       notnull: true

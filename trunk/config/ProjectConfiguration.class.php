@@ -42,20 +42,22 @@ class ProjectConfiguration extends sfProjectConfiguration
     for ( $i = 0 ; $i < 80 ; $i++ )
       $this->yob[date('Y')-$i] = date('Y') - $i;
     
-    $this->enablePlugins('sfDoctrinePlugin');
-    $this->enablePlugins('sfFormExtraPlugin');
-    $this->enablePlugins('sfDoctrineGraphvizPlugin');
-    $this->enablePlugins('sfDoctrineGuardPlugin');
-    $this->enablePlugins('sfAdminThemejRollerPlugin');
-    $this->enablePlugins('cxFormExtraPlugin');
-    //$this->enablePlugins('sfEasyGMapPlugin');
-    $this->enablePlugins('sfiCalCreatorPlugin');
-    $this->enablePlugins('liBarcodePlugin');
-    $this->enablePlugins('liOfcPlugin');
-    $this->enablePlugins('sfDomPDFPlugin');
-    $this->enablePlugins('sfWebBrowserPlugin');
-    $this->enablePlugins('sfFeed2Plugin');
-    $this->enablePlugins('liCardDavPlugin');
+    $this->enablePlugins(array(
+      'sfDoctrinePlugin',
+      'sfFormExtraPlugin',
+      'sfDoctrineGraphvizPlugin',
+      'sfDoctrineGuardPlugin',
+      'sfAdminThemejRollerPlugin',
+      'cxFormExtraPlugin',
+      'sfEasyGMapPlugin',
+      'sfiCalCreatorPlugin',
+      'liBarcodePlugin',
+      'liOfcPlugin',
+      'sfDomPDFPlugin',
+      'sfWebBrowserPlugin',
+      'sfFeed2Plugin',
+      'liCardDavPlugin',
+    ));
     
     $modules = array();
     @include(dirname(__FILE__).'/extra-modules.php');

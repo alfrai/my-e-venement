@@ -134,6 +134,9 @@
     if ( ($topay = $this->getUser()->getTransaction()->getPrice(true,true)) > 0 && sfConfig::get('app_payment_type','paybox') != 'onthespot' )
     {
       switch ( sfConfig::get('app_payment_type','paybox') ) {
+      case 'payplug':
+        $class = 'PayplugPayment';
+        break;
       case 'tipi':
         $class = 'TipiPayment';
         break;
