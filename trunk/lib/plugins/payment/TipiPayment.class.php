@@ -33,8 +33,23 @@
       return new self($transaction);
     }
     
-    public static function response($all)
+    public static function getTransactionIdByResponse(sfWebRequest $parameters)
     {
+      return $request->getParameter('transaction_id');
+    }
+    public function response(sfWebRequest $request)
+    {
+      $bank = $this->createBankPayment($request);
+      $bank->save();
+      
+      $all = array(
+        'result'          => $request->getParameter('resultrans',false),
+        'token'           => TipiPayment::getToken($bank->transaction_id, $bank->amount/100),
+        'given_token'     => $request->getParameter('token'),
+        'ip_address'      => $request->getRemoteAddress(),
+        'transaction_id'  => $bank->transaction_id,
+      );
+      
       // origin of the request
       $url = sfConfig::get('app_payment_url',array());
       $buf = preg_replace(
@@ -60,7 +75,7 @@
         ->count() > 0 )
         throw new liOnlineSaleException('TIPI ERROR: The payment has already been recorded (common TIPI mistake based on a strange TIPI behaviour)');
       
-      return true;
+      return array('success' => true, 'amount' => $bank->amount/100);
     }
     
     public static function getToken($id = '', $amount = 0)
@@ -149,8 +164,10 @@
       return $urls['payment'][0].$urls['uri'];
     }
     
-    public static function completeBankRecord(BankPayment $bank, $request)
+    public static function createBankPayment($request)
     {
+      $bank = new BankPayment;
+      
       if (! $request instanceof sfWebRequest )
         throw new liOnlineSaleException('We cannot save the raw data from the bank.');
       
@@ -163,6 +180,7 @@
       $bank->transaction_id = $request->getParameter('transaction_id');
       $bank->amount = $request->getParameter('montant');
       $bank->raw = http_build_query($_POST);
+      
       return $bank;
     }
   }

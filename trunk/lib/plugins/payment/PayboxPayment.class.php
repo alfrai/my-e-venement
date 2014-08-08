@@ -33,8 +33,14 @@
       return new self($transaction);
     }
     
-    public static function response(array $get)
+    public static function getTransactionIdByResponse(sfWebRequest $parameters)
     {
+      return $request->getParameter('transaction_id', false);
+    }
+    public function response(sfWebRequest $request)
+    {
+      $this->createBankPayment(new BankPayment, $request)->save();
+      
       // renewing the paybox's key cache
       $pem = sfConfig::get('app_payment_pem',array());
       if ( !isset($pem['local'] ) ) $pem['local']  = 'paybox.pem';
@@ -51,7 +57,8 @@
       $cert = file_get_contents($path.$pem['local']);
       $pubkeyid = openssl_get_publickey($cert);
       
-      $signature = base64_decode($get['signature']);
+      $signature = base64_decode($request->getParameter('signature'));
+      $get = $request->getGetParameters();
       unset($get['signature']);
       $str = array();
       foreach ( $get as $key => $val )
@@ -67,7 +74,7 @@
         throw new liOnlineSaleException(sprintf('Impossible to parse this signature : %s',$signature));
       }
       
-      return array('success' => $get['error'] === '00000', 'amount' => $get['amount']);
+      return array('success' => $get['error'] === '00000', 'amount' => $get['amount']/100);
     }
     
     protected function __construct(Transaction $transaction)
@@ -193,8 +200,10 @@
       return $r;
     }
     
-    public static function completeBankRecord(BankPayment $bank, $request)
+    public function createBankPayment($request)
     {
+      $bank = new BankPayment;
+      
       if (! $request instanceof sfWebRequest )
         throw new liOnlineSaleException('We cannot save the raw data from the bank.');
       
@@ -207,6 +216,7 @@
       $bank->transaction_id = $request->getParameter('transaction_id');
       $bank->amount = $request->getParameter('amount');
       $bank->raw = $_SERVER['QUERY_STRING'];
+      
       return $bank;
     }
   }

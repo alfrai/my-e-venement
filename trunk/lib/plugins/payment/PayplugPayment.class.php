@@ -45,17 +45,23 @@ class PayplugPayment extends OnlinePayment
     return '';
   }
   
-  public static function response(array $params = NULL)
+  public static function getTransactionIdByResponse(sfWebRequest $parameters)
   {
     self::config();
     $ipn = new IPN();
-    return array('success' => true, 'amount' => $ipn->amount);
+    return $ipn->order;
+  }
+  public function response(sfWebRequest $request)
+  {
+    $bank = $this->createBankPayment($request);
+    $bank->save();
+    return array('success' => true, 'amount' => $bank->amount/100);
   }
   
-  public static function completeBankRecord(BankPayment $bank, $ipn = NULL, $currency = 'EUR')
+  public function createBankPayment(sfWebRequest $request)
   {
-    if (! $ipn instanceof IPN )
-      $ipn = new IPN();
+    $bank = new BankPayment;
+    $ipn = new IPN();
     
     // record the comparison between customData received and probably sent
     $t = new Transaction;
@@ -65,7 +71,7 @@ class PayplugPayment extends OnlinePayment
     $t->Contact->name       = $ipn->lastName;
     $t->Contact->email      = $ipn->email;
     $proof = array(
-      'recieved'  => self::getMd5FromRequest(self::getRequestOptions($t, $ipn->amount, $currency)),
+      'recieved'  => $this->getMd5FromRequest($this->getRequestOptions($t, $ipn->amount)),
       'sent'      => $ipn->customData,
     );
     foreach ( $proof as $key => $value )
@@ -87,20 +93,27 @@ class PayplugPayment extends OnlinePayment
   
   protected function getUrl()
   {
-    $options = $this->getRequestOptions($this->transaction, $this->value, $this->currency);
+    $options = $this->getRequestOptions();
     $options['customData'] = $this->getMd5FromRequest($options);
     return PaymentUrl::generateUrl($options);
   }
   
-  protected static function getRequestOptions(Transaction $transaction, $amount, $currency = 'EUR')
+  public function getRequestOptions(Transaction $transaction = NULL, $amount = NULL)
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
+    
+    if ( is_null($transaction) )
+      $transaction = $this->transaction;
+    if ( is_null($amount) )
+      $amount = $this->value*100;
+    
     $config_urls = sfConfig::get('app_payment_url', array());
     foreach ( $config_urls as $key => $url )
       $config_urls[$key] = url_for($url, true);
     
     $options = array(
       'amount'    => $amount,
-      'currency'  => $currency,
+      'currency'  => $this->currency,
       'order'     => $transaction->id,
       'origin'    => 'e-voucher '.sfConfig::get('software_about_version','v2'),
       'ipnUrl'    => $config_urls['automatic'],
@@ -122,28 +135,30 @@ class PayplugPayment extends OnlinePayment
   
   public static function config()
   {
+    echo self::getConfigFilePath();
     // create the specific payplug config file
-    if ( !file_exists(sfConfig::get('sf_module_cache_dir').self::config_file) )
+    if ( !file_exists(self::getConfigFilePath()) )
     {
       $parameters = Payplug::loadParameters(sfConfig::get('app_payment_id', 'test@test.tld'), sfConfig::get('app_payment_password', 'pass'));
-      $parameters->saveInFile(sfConfig::get('sf_module_cache_dir').self::config_file);
+      $parameters->saveInFile(self::getConfigFilePath());
     }
     
     // load the config file
-    Payplug::setConfigFromFile(sfConfig::get('sf_module_cache_dir').self::config_file);
+    Payplug::setConfigFromFile(self::getConfigFilePath());
+  }
+  
+  private static function getConfigFilePath()
+  {
+    return sfConfig::get('sf_module_cache_dir').'/'.self::config_file;
   }
   
   public function __toString()
   {
     return '
-      <form action="'.$this->getUrl().'" method="get" class="autosubmit">
-        <p><input
-          type="image"
-          src="https://www.payplug.fr/static/merchant/images/logo-large.png" alt="PayPlug"
-          name="image"
-          value=""
-        /></p>
-      </form>';
+      <a href="'.$this->getUrl().'" class="autofollow">
+        <img src="https://www.payplug.fr/static/merchant/images/logo-large.png" alt="PayPlug" />
+      </a>
+    ';
   }
   
   protected static function getMd5FromRequest(array $options)

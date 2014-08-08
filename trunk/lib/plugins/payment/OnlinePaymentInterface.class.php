@@ -26,8 +26,9 @@
 interface OnlinePaymentInterface
 {
   public static function create(Transaction $transaction);
-  public static function response(array $parameters);
+  public static function getTransactionIdByResponse(sfWebRequest $parameters);
+  public function response(sfWebRequest $parameters);
   public function render(array $attributes = array());
-  public static function completeBankRecord(BankPayment $bank, $data);
+  public function createBankPayment(sfWebRequest $request);
   public function __toString();
 }

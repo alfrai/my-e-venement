@@ -41,8 +41,8 @@ all:
     ## or if you don't have git and don't want to use it :
     ## cd sf_plugins_dir/ && wget https://bitbucket.org/payplug/payplug_php/get/master.tar.gz &&$
     #type: payplug
-    #id: bs-public@e-glop.net
-    #password: dimmuglop
+    #id: macompagnie@theatreuniversel.com
+    #password: superpassword
     #salt: sqbu194ATIQvb89uiat48
     #url:
     #  normal: cart/done
