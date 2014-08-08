@@ -71,10 +71,10 @@ class ContactPublicForm extends ContactForm
         'query' => $q,
         'required' => true,
       ));
+      $q = $this->validatorSchema['duplicate']->getOption('query');
+      foreach ( array('name', 'firstname', 'email') as $field )
+        $q->andWhere("c.$field ILIKE ?",$this->getValue($field));
     }
-    $q = $this->validatorSchema['duplicate']->getOption('query');
-    foreach ( array('name', 'firstname', 'email') as $field )
-      $q->andWhere("c.$field ILIKE ?",$this->getValue($field));
     
     if ( $this->getValue('password') !== $this->getValue('password_again') )
       $this->errorSchema->addError(new sfValidatorError($this->validatorSchema['password_again'],'Passwords do not match.'));
