@@ -107,7 +107,7 @@ echo ""
 
 # final data modifications
 echo ""
-echo "Permissions & groups for surveys"
+echo "Permissions & groups for surveys (if they are already in the DB, you'll get a red error, it's normal)"
 ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28.yml
 psql $db <<EOF
 EOF
