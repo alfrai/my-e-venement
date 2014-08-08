@@ -22,74 +22,22 @@
 ***********************************************************************************/
 ?>
 <?php
-  $bank = new BankPayment;
+  if ( !class_exists($class = ucfirst($plugin = sfConfig::get('app_payment_type','paybox')).'Payment') )
+    throw new liOnlineSaleException('You asked for a payment plugin ('.$plugin.') that does not exist.');
   
-  switch ( sfConfig::get('app_payment_type','paybox') ) {
-  case 'tipi':
-    $bank->code = $request->getParameter('resultrans');
-    $bank->payment_certificate = $request->getRemoteAddress();
-    $bank->authorization_id = $request->getParameter('numauto');
-    $bank->merchant_id = $request->getParameter('numcli');
-    $bank->customer_ip_address = $request->getParameter('mel');
-    $bank->capture_mode = 'tipi';
-    $bank->transaction_id = $request->getParameter('transaction_id');
-    $bank->amount = $request->getParameter('montant');
-    $bank->raw = http_build_query($_POST);
-    
-    try {
-      TipiPayment::response(array(
-        'result'          => $request->getParameter('resultrans',false),
-        'token'           => TipiPayment::getToken($bank->transaction_id, $bank->amount/100),
-        'given_token'     => $request->getParameter('token'),
-        'ip_address'      => $request->getRemoteAddress(),
-        'transaction_id'  => $bank->transaction_id,
-      ));
-    }
-    catch ( sfException $e )
-    {
-      $bank->error = $bank->code;
-      $bank->save();
-      throw $e;
-    }
-    
-    break;
-  case 'paybox':
-    $bank->code = $request->getParameter('error');
-    $bank->payment_certificate = $request->getParameter('signature');
-    $bank->authorization_id = $request->getParameter('authorization');
-    $bank->merchant_id = $request->getParameter('paybox_id');
-    $bank->customer_ip_address = $request->getParameter('ip_country');
-    $bank->capture_mode = $request->getParameter('card_type');
-    $bank->transaction_id = $request->getParameter('transaction_id');
-    $bank->amount = $request->getParameter('amount');
-    $bank->raw = $_SERVER['QUERY_STRING'];
-    
-    try {
-      $r = PayboxPayment::response($_GET);
-      if ( !$r['success'] )
-        throw new liOnlineSaleException('An error occurred during the bank verifications');
-    }
-    catch ( sfException $e )
-    {
-      $bank->error = $bank->code;
-      $bank->save();
-      throw $e;
-    }
-    
-    break;
-  }
+  $transaction = Doctrine::getTable('Transaction')->findOneById($class::getTransactionIdByResponse($request));
+  $this->online_payment = $class::create($transaction);
   
-  $bank->save();
+  // records a BankPayment Record and valid (or not)
+  $r = $this->online_payment->response($request);
+  if ( !$r['success'] )
+    throw new liOnlineSaleException('An error occurred during the bank verifications');
   
   // direct payment
   $payment = new Payment;
   $payment->sf_guard_user_id = $this->getUser()->getId();
   $payment->payment_method_id = sfConfig::get('app_tickets_payment_method_id');
-  $payment->value = $bank->amount/100;
-  
-  // confirm already recorded data
-  $this->getUser()->setAttribute('transaction_id',$bank->transaction_id);
-  $transaction = $this->getUser()->getTransaction();
+  $payment->value = $r['amount'];
   
   if ( $mc_pm = $this->getMemberCardPaymentMethod() )
   {
@@ -113,6 +61,7 @@
   $transaction->Contact->confirmed = true;
   $transaction->Payments[] = $payment;
   $transaction->Order[] = new Order;
+  error_log(print_r($transaction->toArray(), true));
   $transaction->save();
   
   // sending emails to contact and organizators

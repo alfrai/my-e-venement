@@ -16,25 +16,19 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2012 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
 <?php
-  
-  abstract class OnlinePayment implements OnlinePaymentInterface
-  {
-    protected $name = 'generic-payment';
-    protected $url = array();
-    protected $currency = 'EUR';
-    protected $value = 0;
-    protected $return, $transaction;
-    
-    protected function __construct(Transaction $transaction)
-    {
-      $this->transaction = $transaction;
-      $this->value = $this->transaction->getPrice(true)
-        + $this->transaction->getMemberCardPrice(true)
-        - $this->transaction->getTicketsLinkedToMemberCardPrice(true);
-    }
-  }
+
+interface OnlinePaymentInterface
+{
+  public static function create(Transaction $transaction);
+  public static function getTransactionIdByResponse(sfWebRequest $parameters);
+  public function response(sfWebRequest $parameters);
+  public function render(array $attributes = array());
+  public function createBankPayment(sfWebRequest $request);
+  public function __toString();
+}

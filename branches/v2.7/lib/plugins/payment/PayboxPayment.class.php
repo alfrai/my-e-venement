@@ -24,7 +24,7 @@
   
   class PayboxPayment extends OnlinePayment
   {
-    protected $name = 'paybox';
+    const name = 'paybox';
     protected $url = array();
     protected $site, $rang, $id, $hash;
     
@@ -33,8 +33,14 @@
       return new self($transaction);
     }
     
-    public static function response($get)
+    public static function getTransactionIdByResponse(sfWebRequest $parameters)
     {
+      return $request->getParameter('transaction_id', false);
+    }
+    public function response(sfWebRequest $request)
+    {
+      $this->createBankPayment(new BankPayment, $request)->save();
+      
       // renewing the paybox's key cache
       $pem = sfConfig::get('app_payment_pem',array());
       if ( !isset($pem['local'] ) ) $pem['local']  = 'paybox.pem';
@@ -51,7 +57,8 @@
       $cert = file_get_contents($path.$pem['local']);
       $pubkeyid = openssl_get_publickey($cert);
       
-      $signature = base64_decode($get['signature']);
+      $signature = base64_decode($request->getParameter('signature'));
+      $get = $request->getGetParameters();
       unset($get['signature']);
       $str = array();
       foreach ( $get as $key => $val )
@@ -67,7 +74,7 @@
         throw new liOnlineSaleException(sprintf('Impossible to parse this signature : %s',$signature));
       }
       
-      return array('success' => $get['error'] === '00000', 'amount' => $get['amount']);
+      return array('success' => $get['error'] === '00000', 'amount' => $get['amount']/100);
     }
     
     protected function __construct(Transaction $transaction)
@@ -85,13 +92,10 @@
       $this->datetime = date('c');
       
       // the transaction and the amount
-      $this->transaction = $transaction;
-      $this->value = $this->transaction->getPrice(true)
-        + $this->transaction->getMemberCardPrice(true)
-        - $this->transaction->getTicketsLinkedToMemberCardPrice(true);
+      parent::__construct($transaction);
     }
     
-    public function render($attributes)
+    public function render(array $attributes = array())
     {
       $url = $this->getTPEWebURL();
       if ( !$url )
@@ -170,6 +174,9 @@
     {
       $r = false;
       
+      if ( !isset($this->url['payment']) )
+        throw new liOnlineSaleException('The Paybox module is not configured properly, there is no payment url.');
+      
       foreach ( $this->url['payment'] as $url )
       {
         if ( count($this->url['payment']) == 1 )
@@ -191,5 +198,25 @@
       }
       
       return $r;
+    }
+    
+    public function createBankPayment($request)
+    {
+      $bank = new BankPayment;
+      
+      if (! $request instanceof sfWebRequest )
+        throw new liOnlineSaleException('We cannot save the raw data from the bank.');
+      
+      $bank->code = $request->getParameter('error');
+      $bank->payment_certificate = $request->getParameter('signature');
+      $bank->authorization_id = $request->getParameter('authorization');
+      $bank->merchant_id = $request->getParameter('paybox_id');
+      $bank->customer_ip_address = $request->getParameter('ip_country');
+      $bank->capture_mode = $request->getParameter('card_type');
+      $bank->transaction_id = $request->getParameter('transaction_id');
+      $bank->amount = $request->getParameter('amount');
+      $bank->raw = $_SERVER['QUERY_STRING'];
+      
+      return $bank;
     }
   }

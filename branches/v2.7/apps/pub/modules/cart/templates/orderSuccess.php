@@ -2,7 +2,10 @@
 <?php include_partial('global/oplog') ?>
 <script type="text/javascript"><!--
   $(document).ready(function(){
-    $('form.autosubmit').hide().submit();
+    if ( $('a.autofollow').length > 0 )
+      window.location = $('a.autofollow').prop('href');
+    else
+      $('form.autosubmit').submit();
   });
 --></script>
 <h1><?php echo __('Payment of your order') ?></h1>
