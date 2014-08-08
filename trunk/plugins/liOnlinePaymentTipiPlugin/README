@@ -1,0 +1,18 @@
+INSTALLATION:
+
+activate the module adding it in the list of extra plugins to use :
+0. the plugin is already present in your [sf_plugins_dir]
+1. edit config/extra-modules.php
+2. add 'liOnlinePaymentTipiPlugin' in the list as your file will be like :
+
+  <?php
+  $modules = array(
+    // add here your extra modules
+    // 'liZohoCreatorSyncPlugin',
+    'liOnlinePaymentTipiPlugin',
+  );
+
+3. configure your e-voucher v2 application "pub" in [sf_app_dir]/pub/config.php,
+   you'll find further information in the sample file [sf_app_dir]/pub/config.php.template
+4. test it
+5. done

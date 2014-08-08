@@ -18,6 +18,9 @@ all:
   contact:
     capitalize: [name, firstname, city, country, address]
   payment:
+    ## to be able to use properly a payment method,                    
+    ## install (if it is not included) the plugin in the sf_plugin_dir
+    ## then read the README file
     ################################
     type: paybox
     autosubmit: false
@@ -36,10 +39,6 @@ all:
       remote: http://www1.paybox.com/wp-content/uploads/2014/03/pubkey.pem
       local: paybox.pem
     ################################
-    ## to be able to use properly this payment method, you'll need to do :
-    ## cd sf_plugins_dir/ && git clone https://bitbucket.org/payplug/payplug_php payPlugPlugin
-    ## or if you don't have git and don't want to use it :
-    ## cd sf_plugins_dir/ && wget https://bitbucket.org/payplug/payplug_php/get/master.tar.gz &&$
     #type: payplug
     #id: macompagnie@theatreuniversel.com
     #password: superpassword
