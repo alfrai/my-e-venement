@@ -51,7 +51,7 @@ all:
     #type: tipi
     #id: 194
     #refdet: 999900000000999999
-    #mode: T #X for prod purposes
+    #mode: T # T for tests, X for producion purposes
     #salt: xxxx
     #url:
     #  payment: [https://www.jepaiemesserviceslocaux.dgfip.finances.gouv.fr/]

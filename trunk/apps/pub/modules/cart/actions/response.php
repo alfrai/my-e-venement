@@ -22,7 +22,10 @@
 ***********************************************************************************/
 ?>
 <?php
-  if ( !class_exists($class = ucfirst($plugin = sfConfig::get('app_payment_type','paybox')).'Payment') )
+  if (!(
+     class_exists($class = ucfirst($plugin = sfConfig::get('app_payment_type','paybox')).'Payment')
+  && is_a($class, 'OnlinePaymentInterface', true)
+  ))
     throw new liOnlineSaleException('You asked for a payment plugin ('.$plugin.') that does not exist.');
   
   $transaction = Doctrine::getTable('Transaction')->findOneById($class::getTransactionIdByResponse($request));
