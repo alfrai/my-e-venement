@@ -121,8 +121,11 @@
     // setting up the vars to commit to the bank
     if ( ($topay = $this->getUser()->getTransaction()->getPrice(true,true)) > 0 && sfConfig::get('app_payment_type','paybox') != 'onthespot' )
     {
-      if ( !class_exists($class = ucfirst($plugin = sfConfig::get('app_payment_type','paybox')).'Payment') )
-      throw new liOnlineSaleException('You asked for a payment plugin ('.$plugin.') that does not exist.');
+      if (!(
+         class_exists($class = ucfirst($plugin = sfConfig::get('app_payment_type','paybox')).'Payment')
+      && is_a($class, 'OnlinePaymentInterface', true)
+      ))
+        throw new liOnlineSaleException('You asked for a payment plugin ('.$plugin.') that does not exist or is not compatible.');
       $this->online_payment = $class::create($this->getUser()->getTransaction());
     }
     else // no payment to be done
