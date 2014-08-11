@@ -55,7 +55,7 @@ class PayplugPayment extends OnlinePayment
   {
     $bank = $this->createBankPayment($request);
     $bank->save();
-    return array('success' => true, 'amount' => $bank->amount/100);
+    return array('success' => true, 'amount' => $bank->amount);
   }
   
   public function createBankPayment(sfWebRequest $request)
@@ -83,9 +83,9 @@ class PayplugPayment extends OnlinePayment
     $bank->payment_certificate  = $proof;
     $bank->authorization_id     = $ipn->idTransaction;
     $bank->merchant_id          = sfConfig::get('app_payment_id', 'test@test.tld');
-    $bank->capture_mode         = 'payplug';
+    $bank->capture_mode         = self::name;
     $bank->transaction_id       = $ipn->order;
-    $bank->amount               = $ipn->amount;
+    $bank->amount               = $ipn->amount/100;
     $bank->raw                  = file_get_contents("php://input");
     
     return $bank;
@@ -113,7 +113,7 @@ class PayplugPayment extends OnlinePayment
     
     $options = array(
       'amount'    => $amount,
-      'currency'  => $this->currency,
+      'currency'  => sfConfig::get('app_payment_currency', $this->currency),
       'order'     => $transaction->id,
       'origin'    => 'e-voucher '.sfConfig::get('software_about_version','v2'),
       'ipnUrl'    => $config_urls['automatic'],

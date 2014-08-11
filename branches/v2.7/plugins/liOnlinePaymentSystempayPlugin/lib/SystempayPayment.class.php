@@ -27,141 +27,171 @@ class SystempayPayment extends OnlinePayment
 {
   const name = 'systempay';
   protected $value = 0;
+  protected $params = array();
   
   public static function create(Transaction $transaction)
   {
-    self::config();
-    return new self($transaction);
+    $p = new self($transaction);
+    $p->configure();
+    return $p;
+  }
+  
+  protected function configure()
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
+    
+    // mandatory
+    $this->params = array(
+      'vads_site_id'          => sfConfig::get('app_payment_id'),
+      'vads_trans_id'         => str_pad(Doctrine::getTable('Transaction')->createQuery('t')->andWhere('t.created_at >= ?', date('Y-m-d'))->count()+1, 6, '0', STR_PAD_LEFT),
+      'vads_currency'         => sfConfig::get('app_payment_currency', 978),
+      'vads_ctx_mode'         => strtoupper(sfConfig::get('app_payment_mode', 'production')),
+      'vads_amount'           => $this->value*100,
+      'vads_trans_date'       => gmdate('YmdHis'),
+      'vads_version'          => 'V2',
+      'vads_payment_config'   => 'SINGLE',
+      'vads_page_action'      => 'PAYMENT',
+      'vads_action_mode'      => 'INTERACTIVE',
+    );
+    
+    // optionals
+    $validation = array('auto' => 0, 'manual' => 1);
+    $urls = sfConfig::get('app_payment_url', array());
+    $this->params = $this->params + array(
+      'vads_order_id'         => $this->transaction->id,
+      'vads_cust_email'       => $this->transaction->Contact->email,
+      'vads_cust_id'          => $this->transaction->contact_id,
+      'vads_contrib'          => sfConfig::get('software_about_name').' '.sfConfig::get('software_about_version'),
+      'vads_validation_mode'  => $validation[sfConfig::get('app_payment_validation', 'auto')],
+      'vads_success_timeout'  => 0,
+      'vads_url_error'        => url_for($urls['cancel'],true),
+      'vads_url_referral'     => url_for($urls['cancel'],true),
+      'vads_url_return'       => url_for($urls['cancel'],true),
+      'vads_url_refused'      => url_for($urls['cancel'],true),
+      'vads_url_cancel'       => url_for($urls['cancel'],true),
+      'vads_url_success'      => url_for($urls['normal'],true),
+      'vads_shop_url'         => url_for('/',true),
+      'vads_return_mode'      => 'GET',
+      'vads_language'         => in_array(sfContext::getInstance()->getUser()->getCulture(), array('fr','de','en','zh','es','it','ja','pt','nl','sv')) ? sfContext::getInstance()->getUser()->getCulture() : sfConfig::get('app_payment_default_language','fr'),
+      'vads_available_languages' => implode(',', array_keys(sfConfig::get('project_internals_cultures', array('fr' => 'Français')))),
+    );
+    
+    // more than optional
+    if ( sfConfig::get('app_payment_delay', false) )
+      $this->params['vads_capture_delay'] = sfConfig::get('app_payment_delay');
+    
+    $this->sign();
+  }
+  
+  protected function sign($params = array())
+  {
+    $use_this = false;
+    if ( count($params) == 0 )
+    {
+      $params = $this->params;
+      $use_this = true;
+    }
+    
+    unset($params['signature']);
+    
+    $arr = array();
+    foreach ( $params as $key => $value )
+    if ( substr($key, 0, 5) == 'vads_' )
+      $arr[$key] = $value;
+    ksort($arr);
+    $arr[] = sfConfig::get('app_payment_certificate');
+    $base = implode('+',$arr);
+    
+    $params['signature'] = sha1($base);
+    
+    if ( $use_this )
+      $this->params = $params;
+    return $params;
+  }
+  
+  public function verifySignature(array $params)
+  {
+    $new = $this->sign($params);
+    if ( $new['signature'] === $params['signature'] )
+      return true;
+  }
+  
+  public function __toString()
+  {
+    try {
+     return $this->render();
+    }
+    catch ( liOnlineSaleException $e )
+    {
+      return $e->getMessage();
+    }
   }
   
   // generates the request
   public function render(array $attributes = array())
   {
-    if ( !sfContext::hasInstance() )
-      return (string)$this;
+    $urls = sfConfig::get('app_payment_url', array());
+    if (!( isset($urls['bank']) && $urls['bank'] ))
+      throw new liOnlineSaleException('No URL found for the Systempay payment.');
     
-    sfContext::getInstance()->getActionStack()->getFirstEntry()->getActionInstance()->redirect($this->getUrl());
-    return '';
+    if ( sfConfig::get('app_payment_auto_follow', true) )
+    {
+      if ( !isset($attributes['class']) )
+        $attributes['class'] = '';
+      $attributes['class'] .= ' autosubmit';
+    }
+    
+    $r = '';
+    $r .= '<form action="'.$urls['bank'].'" method="post" ';
+    foreach ( $attributes as $key => $value )
+      $r .= $key.'="'.$value.'" ';
+    $r .= '>';
+    
+    foreach ( $this->params as $name => $value )
+      $r .= "\n".'<input type="hidden" name="'.$name.'" value="'.$value.'" />';
+    
+    $r .= '<input type="submit" value="systempay" />';
+    $r .= '</form>';
+    
+    return $r;
   }
   
-  public static function getTransactionIdByResponse(sfWebRequest $parameters)
+  public static function getTransactionIdByResponse(sfWebRequest $request)
   {
-    self::config();
-    $ipn = new IPN();
-    return $ipn->order;
+    if (!( $request->hasParameter('vads_order_id') && intval($request->getParameter('vads_order_id')).'' === ''.$request->getParameter('vads_order_id') ))
+      throw new liOnlineSaleException('No transaction id returned... Impossible to make the link with the original transaction. Validation abandonned.');
+    return intval($request->getParameter('vads_order_id'));
   }
   public function response(sfWebRequest $request)
   {
     $bank = $this->createBankPayment($request);
     $bank->save();
-    return array('success' => true, 'amount' => $bank->amount/100);
+    
+    $params = $request->getPostParameters();
+    if ( !$this->verifySignature($params) )
+      throw new liOnlineSaleException('The given signature is wrong ! Check out transaction #'.$transaction->id.'.');
+    
+    if ( $bank->code === '00' )
+      return array('success' => true, 'amount' => $bank->amount);
+    else
+      return array('success' => false);
   }
   
   public function createBankPayment(sfWebRequest $request)
   {
     $bank = new BankPayment;
-    $ipn = new IPN();
-    
-    // record the comparison between customData received and probably sent
-    $t = new Transaction;
-    $t->id                  = $ipn->order;
-    $t->contact_id          = $ipn->customer;
-    $t->Contact->firstname  = $ipn->firstName;
-    $t->Contact->name       = $ipn->lastName;
-    $t->Contact->email      = $ipn->email;
-    $proof = array(
-      'recieved'  => $this->getMd5FromRequest($this->getRequestOptions($t, $ipn->amount)),
-      'sent'      => $ipn->customData,
-    );
-    foreach ( $proof as $key => $value )
-      $proof[$key] = "$key: $value";
-    $proof = implode(' - ',$proof);
     
     // the BankPayment Record
-    $bank->code                 = $ipn->state;
-    $bank->payment_certificate  = $proof;
-    $bank->authorization_id     = $ipn->idTransaction;
-    $bank->merchant_id          = sfConfig::get('app_payment_id', 'test@test.tld');
-    $bank->capture_mode         = 'payplug';
-    $bank->transaction_id       = $ipn->order;
-    $bank->amount               = $ipn->amount;
-    $bank->raw                  = file_get_contents("php://input");
+    $bank->code = $request->getParameter('vads_auth_result','');
+    $bank->payment_certificate = $request->getParameter('signature').' '.($this->verifySignature($request->getPostParameters()) ? 'signature passed' : 'signature failed');
+    $bank->authorization_id = $request->getParameter('vads_trans_id').' / '.$request->getParameter('vads_auth_number','');
+    $bank->transaction_id = $request->getParameter('vads_order_id');
+    $bank->merchant_id = sfConfig::get('app_payment_id', '111222333444');
+    $bank->capture_mode = self::name;
+    $bank->amount = $request->getParameter('vads_effective_amount')/100;
+    $bank->raw = json_encode($request->getPostParameters());
     
     return $bank;
   }
   
-  protected function getUrl()
-  {
-    $options = $this->getRequestOptions();
-    $options['customData'] = $this->getMd5FromRequest($options);
-    return PaymentUrl::generateUrl($options);
-  }
-  
-  public function getRequestOptions(Transaction $transaction = NULL, $amount = NULL)
-  {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
-    
-    if ( is_null($transaction) )
-      $transaction = $this->transaction;
-    if ( is_null($amount) )
-      $amount = $this->value*100;
-    
-    $config_urls = sfConfig::get('app_payment_url', array());
-    foreach ( $config_urls as $key => $url )
-      $config_urls[$key] = url_for($url, true);
-    
-    $options = array(
-      'amount'    => $amount,
-      'currency'  => $this->currency,
-      'order'     => $transaction->id,
-      'origin'    => 'e-voucher '.sfConfig::get('software_about_version','v2'),
-      'ipnUrl'    => $config_urls['automatic'],
-      'cancelUrl' => $config_urls['cancel'],
-      'returnUrl' => $config_urls['normal'],
-    );
-    
-    if ( $transaction->contact_id )
-    {
-      $options['customer'] = $transaction->contact_id;
-      $options['firstName'] = $transaction->Contact->firstname;
-      $options['lastName'] = $transaction->Contact->name;
-      if ( $transaction->Contact->email )
-        $options['email'] = $transaction->Contact->email;
-    }
-    
-    return $options;
-  }
-  
-  public static function config()
-  {
-    echo self::getConfigFilePath();
-    // create the specific payplug config file
-    if ( !file_exists(self::getConfigFilePath()) )
-    {
-      $parameters = Payplug::loadParameters(sfConfig::get('app_payment_id', 'test@test.tld'), sfConfig::get('app_payment_password', 'pass'));
-      $parameters->saveInFile(self::getConfigFilePath());
-    }
-    
-    // load the config file
-    Payplug::setConfigFromFile(self::getConfigFilePath());
-  }
-  
-  private static function getConfigFilePath()
-  {
-    return sfConfig::get('sf_module_cache_dir').'/'.self::config_file;
-  }
-  
-  public function __toString()
-  {
-    return '
-      <a href="'.$this->getUrl().'" class="autofollow">
-        <img src="https://www.payplug.fr/static/merchant/images/logo-large.png" alt="PayPlug" />
-      </a>
-    ';
-  }
-  
-  protected static function getMd5FromRequest(array $options)
-  {
-    return md5(json_encode($options).sfConfig::get('app_payment_salt'));
-  }
 }

@@ -8,6 +8,7 @@ all:
     id: macompagnie@theatreuniversel.com
     password: superpassword
     salt: sqbu194ATIQvb89uiat48
+    #currency: EUR
     url:
       normal: cart/done
       cancel: cart/cancel
