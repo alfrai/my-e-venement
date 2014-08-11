@@ -12,7 +12,8 @@ activate the module adding it in the list of extra plugins to use :
     'liOnlinePaymentPayboxPlugin',
   );
 
-3. configure your e-voucher v2 application "pub" in [sf_app_dir]/pub/config.php, 
-   you'll find further information in the sample file [sf_app_dir]/pub/config.php.template
+3. configure your e-voucher v2 application "pub" in [sf_app_dir]/pub/config/app.yml, 
+   you'll find further information in the sample file
+   [sf_plugins_dir]/liOnlinePaymentPayboxPlugin/config/pub-app.yml.template
 4. test it
 5. done
