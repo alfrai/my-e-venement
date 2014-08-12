@@ -56,7 +56,16 @@ class manifestationActions extends autoManifestationActions
       ->execute();
     $this->manifestations = array();
     foreach ( $manifs as $manif )
-      $this->manifestations[($manif->getBestFreeSeat() ? $manif->getBestFreeSeat()->rank : 'ZZZ').'-'.$manif->id] = $manif;
+    {
+      $seats = $manif->getBestFreeSeat(3);
+      
+      $best = NULL;
+      foreach ( $seats as $seat )
+      if (!( !is_null($best) && $best <= $seat->rank ))
+        $best = $seat->rank;
+      
+      $this->manifestations[($best ? $best : 'ZZZ').'-'.$manif->id] = $manif;
+    }
     ksort($this->manifestations);
   }
   public function executeBatchBestFreeSeat(sfWebRequest $request)
