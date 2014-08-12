@@ -6,10 +6,10 @@ createSuccess:
   javascripts: [event-seated-plan]
 updateSuccess:
   stylesheets: [picture, event-seated-plan]
-  javascripts: [event-seated-plan]
+  javascripts: [event-seated-plan, event-seated-plan-ranks]
 editSuccess:
   stylesheets: [picture, event-seated-plan]
-  javascripts: [event-seated-plan]
+  javascripts: [event-seated-plan, event-seated-plan-ranks]
 showSuccess:
   stylesheets: [picture, event-seated-plan]
   javascripts: [event-seated-plan]

@@ -29,6 +29,9 @@
 #sf_fieldset_plan .sf_admin_form_field_show_picture .tools a { text-decoration: none; border: 1px solid gray; background-color: silver; padding: 2px 7px; border-radius: 2px; }
 #sf_fieldset_plan .sf_admin_form_field_Picture table label, #sf_fieldset_online_sales .sf_admin_form_field_OnlinePicture table label { display: none; }
 .js_seated_plan_useful { display: none; }
+#sf_fieldset_ranks label { min-width: 15em; display: inline-block; }
+#sf_fieldset_ranks input[type=text]:not(.align-left) { text-align: right; }
+#sf_fieldset_ranks input[type=text][size=2] { margin-left: 1em; }
 
 /* MANIFESTATIONS */
 #sf_fieldset_workspaces .picture.seated-plan { transform: scale(0.5); margin: -25% 0 -15% -25%; }

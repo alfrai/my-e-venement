@@ -1,6 +1,6 @@
-// the global var that can be used everywhere as a "root"
-if ( LI == undefined )
-  var LI = {};
+  // the global var that can be used everywhere as a "root"
+  if ( LI == undefined )
+    var LI = {};
 
 
   // transforms a simple HTML call into a seated plan widget (seated-plan.css is also needed)
@@ -59,7 +59,9 @@ if ( LI == undefined )
     
     var position = data.position;
     var ref = $(data.object);
+    var id = data.id;
     var name = data.name;
+    var rank = data.rank
     var diameter = data.diameter == undefined ? $(ref).closest('form').find('[name="seated_plan[seat_diameter]"]').val() : data.diameter;
     var occupied = data.occupied == undefined ? false : data.occupied;
     
@@ -70,8 +72,8 @@ if ( LI == undefined )
         && $('.sf_admin_form_field_show_picture .seat:first').length > 0 )
       {
         name =
-          $('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(/\d+/,'')+
-          (parseInt($('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(new RegExp($('.sf_admin_form_field_show_picture .regexp').val()),''))+parseInt($('.sf_admin_form_field_show_picture .hop').val()));
+          $('.sf_admin_form_field_show_picture .seat:first').attr('data-num').replace(/\d+/,'')+
+          (parseInt($('.sf_admin_form_field_show_picture .seat:first').attr('data-num').replace(new RegExp($('.sf_admin_form_field_show_picture input.regexp').val()),''))+parseInt($('.sf_admin_form_field_show_picture .hop').val()));
       }
       else
       {
@@ -79,8 +81,8 @@ if ( LI == undefined )
           $('.js_seated_plan_useful .prompt_seat_name').html(),
           $('.sf_admin_form_field_show_picture .seat:first').length == 0
           ? ''
-          : $('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(/\d+/,'')+
-            (parseInt($('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(new RegExp($('.sf_admin_form_field_show_picture .regexp').val()),''))+parseInt($('.sf_admin_form_field_show_picture .hop').val()))
+          : $('.sf_admin_form_field_show_picture .seat:first').attr('data-num').replace(/\d+/,'')+
+            (parseInt($('.sf_admin_form_field_show_picture .seat:first').attr('data-num').replace(new RegExp($('.sf_admin_form_field_show_picture input.regexp').val()),''))+parseInt($('.sf_admin_form_field_show_picture .hop').val()))
         );
       }
     }
@@ -88,7 +90,6 @@ if ( LI == undefined )
     // avoid white space ending or beginning
     if ( name != undefined )
       $.trim(name);
-    
     // need a non empty string
     if ( !name )
       return false;
@@ -102,9 +103,10 @@ if ( LI == undefined )
     }
     
     // adding the seat / plot
-    $('<div class="seat"><input class="txt" type="hidden" value="'+name+'" /></div>')
-      .attr('title', occupied && occupied['transaction_id'] ? name+' ('+occupied.transaction_id+(occupied.spectator ? ', '+occupied.spectator : '')+')' : name)
-      .addClass('seat-'+$('.picture.seated-plan .seat').length).addClass(occupied ? occupied.type : '')
+    $('<div class="seat"><input class="txt" type="hidden" value="'+name+'" /><input class="id" type="hidden" value="'+id+'" /></div>')
+      .attr('title', name+' ('+($('.tools .rank label').length > 0 ? $('.tools .rank label').text() : 'rank')+': '+rank+')' + (occupied && occupied['transaction_id'] ? ' ('+occupied.transaction_id+(occupied.spectator ? ', '+occupied.spectator : '')+')' : ''))
+      .attr('data-num', name).attr('data-rank', rank)
+      .addClass('seat-'+id).addClass(occupied ? occupied.type : '')
       .width(diameter).height(diameter)
       .each(function(){
         // width/2 to find the center
@@ -140,7 +142,33 @@ if ( LI == undefined )
             }
           });
         });
-      });
+      })
+      
+      // the right click to set the seat's rank
+      .contextmenu(function(e){
+        var seat = this;
+        var rank;
+        if ( rank = prompt(($('.tools .rank label').length > 0 ? $('.tools .rank label').text() : '')+' - '+$(seat).attr('title'), $(seat).attr('data-rank')) )
+        $.ajax({
+          url: $('.tools .rank a.ajax').prop('href'),
+          data: {
+            'seat[id]': $(seat).find('input.id').val(),
+            'seat[rank]': rank,
+          },
+          method: 'get',
+          success: function(data){
+            $(seat).attr('title',
+              $(seat).attr('title').replace(
+                /\((\w+: )\d+\)/g
+                ,
+                '($1'+rank+')'
+              )
+            ).attr('data-rank', rank);
+          }
+        });
+        return false;
+      })
+    ;
     
     // DB seat recording
     if ( data.record && $('.sf_admin_form_field_show_picture').length > 0 )

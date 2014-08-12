@@ -9,6 +9,8 @@
       ),
       'diameter'  => $seat->diameter,
       'name'      => $seat->name,
+      'id'        => $seat->id,
+      'rank'      => $seat->rank,
       'occupied'  => $sf_user->hasCredential('event-seats-allocation')
         ? (isset($occupied) && isset($occupied[$seat->name]) ? $occupied[$seat->name] : false)
         : array('type' => 'not-allowed'),

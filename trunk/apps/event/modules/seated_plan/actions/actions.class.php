@@ -77,12 +77,36 @@ class seated_planActions extends autoSeated_planActions
     }
   }
   
+  public function executeBatchSeatSetRank(sfWebRequest $request)
+  {
+    return require(dirname(__FILE__).'/batch-seat-set-rank.php');
+  }
+  
+  public function executeSeatSetRank(sfWebRequest $request)
+  {
+    if (!( $data = $request->getParameter('seat',array()) ))
+      throw new liSeatedException('Given data do not permit the seat recording (no data).');
+    if ( !(isset($data['rank']) && intval($data['rank']) > 0) || intval($request->getParameter('id',0)) <= 0 || intval($data['id']) <= 0 )
+      throw new liSeatedException('Given data do not permit the seat recording (bad data).');
+    
+    $seat = Doctrine::getTable('Seat')->findOneById($data['id']);
+    if ( !$seat )
+      throw new liSeatedException('Given data do not permit the seat recording (bad seat id).');
+    
+    $seat->rank = $data['rank'];
+    $seat->save();
+    
+    return sfView::NONE;
+  }
+  
   public function executeSeatAdd(sfWebRequest $request)
   {
     if (!( $data = $request->getParameter('seat',array()) ))
-      throw new liSeatingException('Given data do not permit the seat recording (no data).');
-    if ( !isset($data['x']) || !isset($data['y']) || !isset($data['diameter']) || !isset($data['name']) || !intval($request->getParameter('id',0)) > 0 )
-      throw new liSeatingException('Given data do not permit the seat recording (bad data).');
+      throw new liSeatedException('Given data do not permit the seat recording (no data).');
+    if ( !$request->hasParameter('id') )
+      throw new liSeatedException('Given data do not permit the seat recording (no data).');
+    if ( !isset($data['x']) || !isset($data['y']) || !isset($data['diameter']) || !isset($data['name']) || intval($request->getParameter('id',0)) <= 0 )
+      throw new liSeatedException('Given data do not permit the seat recording (bad data).');
     
     $seat = new Seat;
     $seat->seated_plan_id = $request->getParameter('id');
@@ -96,9 +120,9 @@ class seated_planActions extends autoSeated_planActions
   public function executeSeatDel(sfWebRequest $request)
   {
     if (!( $data = $request->getParameter('seat',array()) ))
-      throw new liSeatingException('Given data do not permit the seat deletion (no data).');
+      throw new liSeatedException('Given data do not permit the seat deletion (no data).');
     if ( !isset($data['name']) || !intval($request->getParameter('id',0)) > 0 )
-      throw new liSeatingException('Given data do not permit the seat deletion (bad data).');
+      throw new liSeatedException('Given data do not permit the seat deletion (bad data).');
     
     $q = Doctrine::getTable('Seat')->createQuery('s')
       ->andWhere('s.seated_plan_id = ?', $request->getParameter('id'))

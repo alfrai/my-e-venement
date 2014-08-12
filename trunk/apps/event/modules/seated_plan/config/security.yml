@@ -17,3 +17,15 @@ show:
   credentials: [[event-seated-plan, tck-seat-allocation]]
 getSeats:
   credentials: [tck-seat-allocation]
+
+batchSeatSetRank:
+  credentials: [event-seated-plan-edit]
+seatSetRank:
+  credentials: [event-seated-plan-edit]
+seatAdd:
+  credentials: [event-seated-plan-edit]
+seatDel:
+  credentials: [event-seated-plan-edit]
+delPicture:
+  credentials: [event-seated-plan-edit]
+

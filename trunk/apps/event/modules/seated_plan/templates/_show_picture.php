@@ -26,10 +26,16 @@
 <div class="sf_admin_form_row <?php if ( !isset($seated_plan) ): ?>sf_admin_boolean sf_admin_form_field_show_picture<?php endif ?>">
   <?php if ( isset($form) ): ?>
   <div class="tools ui-corner-all">
-    <div><label><?php echo __('Regexp') ?></label><input type="text" name="yummy" class="regexp" value="^[A-Za-z\-\.\/']*" /></div>
-    <div><label><?php echo __('Hop') ?></label><input type="text" name="yummy" class="hop" value="1" /></div>
-    <div><label><?php echo __('Do not ask') ?></label><input type="checkbox" name="yummy" class="donotask" value="1" /></div>
-    <div>
+    <div class="regexp"><label><?php echo __('Regexp') ?></label><input type="text" name="yummy" class="regexp" value="^[A-Za-z\-\.\/']*" /></div>
+    <div class="name-hop"><label><?php echo __('Hop for seats') ?></label><input type="text" name="yummy" class="hop" value="1" size="2" /></div>
+    <div class="auto"><label><?php echo __('Do not ask') ?></label><input type="checkbox" name="yummy" class="donotask" value="1" /></div>
+    <div class="rank">
+      <label><?php echo __('Rank') ?></label>
+      <input type="text" name="yummy" class="rank" value="1000" size="4" />
+      <a href="<?php echo url_for('seated_plan/seatSetRank?id='.$form->getObject()->id) ?>" class="ajax" style="display: none"></a>
+    </div>
+    <div class="rank-hop"><label><?php echo __('Hop for seats') ?></label><input type="text" name="yummy" class="rank-hop" value="1" size="2" /></div>
+    <div class="magnify">
       <label><?php echo __('Magnify') ?></label>
       <a href="#" class="magnify-in">+</a>
       /

@@ -255,8 +255,7 @@ a.actions a:hover {
 .future a, #sf_admin_container .future a, #ariane .future { color: #000; } 
 .errors { color: red; }
 
-#sf_admin_container .error { display: none; }
-#sf_admin_container .error { display: none; }
+#sf_admin_container .notice, #sf_admin_container .success, #sf_admin_container .error { display: none; }
 #sf_admin_container .sf_admin_flashes .error { display: block; }
 
 #ariane .i18n { text-align: right; }
@@ -295,5 +294,6 @@ tbody .total { text-align: right; }
 #login .submit { margin-left: 0; }
 #login .submit input { margin-left: 5px; }
 .event-fields { display: none; }
+
 /* the jroller elements to remove */
 .sf_admin_actions_block, #sf_admin_filters_buttons { display: none; }
