@@ -61,7 +61,7 @@ class manifestationActions extends autoManifestationActions
     $this->manifestations = array();
     foreach ( $manifs as $manif )
     {
-      $seats = $manif->getBestFreeSeat(3);
+      $seats = $manif->getBestFreeSeat(5);
       
       $best = NULL;
       foreach ( $seats as $seat )
