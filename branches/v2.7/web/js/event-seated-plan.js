@@ -71,7 +71,7 @@ if ( LI == undefined )
       {
         name =
           $('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(/\d+/,'')+
-          (parseInt($('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(new RegExp($('.sf_admin_form_field_show_picture .regexp').val()),''))+parseInt($('.sf_admin_form_field_show_picture .hop').val()));
+          (parseInt($('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(new RegExp($('.sf_admin_form_field_show_picture input.regexp').val()),''))+parseInt($('.sf_admin_form_field_show_picture .hop').val()));
       }
       else
       {
@@ -80,7 +80,7 @@ if ( LI == undefined )
           $('.sf_admin_form_field_show_picture .seat:first').length == 0
           ? ''
           : $('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(/\d+/,'')+
-            (parseInt($('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(new RegExp($('.sf_admin_form_field_show_picture .regexp').val()),''))+parseInt($('.sf_admin_form_field_show_picture .hop').val()))
+            (parseInt($('.sf_admin_form_field_show_picture .seat:first').attr('title').replace(new RegExp($('.sf_admin_form_field_show_picture input.regexp').val()),''))+parseInt($('.sf_admin_form_field_show_picture .hop').val()))
         );
       }
     }
