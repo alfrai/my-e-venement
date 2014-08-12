@@ -57,6 +57,8 @@ generator:
           _delete: ~
           _merge: ~
           _duplicate: ~
+          _bestFreeSeat:
+            label: Best free seat
       filter:
         display:
           Event:              [name, meta_event_id, event_category_id]

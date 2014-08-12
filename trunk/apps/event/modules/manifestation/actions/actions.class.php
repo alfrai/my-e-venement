@@ -48,6 +48,20 @@ class manifestationActions extends autoManifestationActions
     return sfView::NONE;
   }
   
+  // needs previously cleaned $request->getParameter('ids'), usually it's used from executeBatchBestFreeSeat()
+  public function executeBestFreeSeat(sfWebRequest $request)
+  {
+    $manifs = Doctrine::getTable('Manifestation')->createQuery('m')
+      ->andWhereIn('e.id', $request->getParameter('ids'))
+      ->execute();
+    $this->manifestations = array();
+    foreach ( $manifs as $manif )
+      $this->manifestations[($manif->getBestFreeSeat() ? $manif->getBestFreeSeat()->rank : 'ZZZ').'-'.$manif->id] = $manif;
+    ksort($this->manifestations);
+  }
+  public function executeBatchBestFreeSeat(sfWebRequest $request)
+  { $this->forward('manifestation', 'bestFreeSeat'); }
+  
   public function executeSell(sfWebRequest $request)
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers('CrossAppLink');

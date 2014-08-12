@@ -80,17 +80,57 @@ class Manifestation extends PluginManifestation
   }
   
   /**
-    * method hasAnyConflict()
-    * returns if the object is or would be in conflict with an other one
-    * concerning the resources management
+    * method getBestFreeSeat()
+    * concerning the seated sales
+    * find out what is the best seat still free
     *
+    * @param  integer       $limit the number of seats to return
+    * @return Doctrine_Collection|Seat|false    the best seat(s) still free of any booking, or false if no seat is available
+    *
+    **/
+  public function getBestFreeSeat($limit = 1)
+  {
+    try {
+      if ( $this->getFromCache('best-free-seat-limit') !== $limit )
+        $this->clearCache();
+      return $this->getFromCache('best-free-seat');
+    }
+    catch ( liEvenementException $e )
+    {
+      $this->setInCache('best-free-seat-limit', $limit);
+      
+      $q = Doctrine::getTable('Seat')->createQuery('s')
+        ->leftJoin('s.SeatedPlan sp')
+        ->leftJoin('sp.Workspaces ws')
+        ->leftJoin('ws.Gauges g')
+        ->leftJoin('g.Manifestation m')
+        ->andWhere('m.location_id = sp.location_id')
+        ->andWhere('m.id = ?', $this->id)
+        ->andWhere('s.name NOT IN (SELECT tck.numerotation FROM ticket tck WHERE tck.manifestation_id = m.id AND tck.numerotation IS NOT NULL)')
+        ->orderBy('s.rank, s.name')
+        ->limit($limit)
+      ;
+      $this->setInCache('best-free-seat', $limit > 1 ? $q->execute() : $q->fetchOne());
+      return $this->getBestFreeSeat($limit);
+    }
+  }
+  
+  /**
+    * method hasAnyConflict()
+    * concerning the resources management
     * Precondition: the values that are used are those which are recorded in DB
+    *
+    * @return if the object is or would be in conflict with an other one
     *
     **/
   public function hasAnyConflict()
   {
     if ( !$this->blocking )
       return false;
+    
+    try { $this->getFromCache('has-any-conflict'); }
+    catch ( liEvenementException $e )
+    {
     
     $rids = array();
     foreach ( $this->Booking as $r )
@@ -115,15 +155,28 @@ class Manifestation extends PluginManifestation
     if ( !$this->isNew() )
       $q->andWhere('m.id != ?', $this->id);
     
-    return $q->count() > 0;
+    $this->setInCache('has-any-conflict', $q->count() > 0);
+    return $this->hasAnyConflict();
+    
+    }
   }
   
   /**
     * Get all needed informations about the manifestation's gauges usage
-    * $options: modeled on sales ledger's criterias
+    * @param array    $options: modeled on sales ledger's criterias
+    * @return array   representing the informations for this manifestation
     *
     **/
   public function getInfosTickets($options = array())
+  {
+    try { $this->getFromCache('get-infos-tickets'); }
+    catch ( liEvenementException $e )
+    {
+      $this->setInCache($this->_getInfosTickets($options));
+      return $this->getInfosTickets($options);
+    }
+  }
+  private function _getInfosTickets($options = array())
   {
     if ( (isset($options['dates'][0]) || isset($options['dates'][1])) && (!isset($options['dates'][0]) || !isset($options['dates'][1])) )
       unset($options['dates']);

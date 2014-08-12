@@ -34,6 +34,9 @@ class eventActions extends autoEventActions
     $this->pager->getQuery()->select("$a.id");
   }
   
+  public function executeBatchBestFreeSeat(sfWebRequest $request)
+  { $this->forward('manifestation', 'bestFreeSeat'); }
+  
   public function executeSearch(sfWebRequest $request)
   {
     self::executeIndex($request);
