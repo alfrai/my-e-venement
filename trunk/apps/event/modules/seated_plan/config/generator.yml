@@ -49,7 +49,7 @@ generator:
         display:
           General: [location_id, workspaces_list, description, _show_nb_seats]
           Plan:    [seat_diameter, background, Picture, _show_picture, _form_picture_del]
-          Ranks:   [_form_ranks_explanation, _form_ranks_top, _form_ranks_num_mini, _form_ranks_num_maxi, _form_ranks_row_min, _form_ranks_row_max, _form_ranks_num_hop, _form_ranks_row_hop, _form_ranks_format, _form_ranks_submit]
+          Ranks:   [_form_ranks_top, _form_ranks_num_mini, _form_ranks_num_maxi, _form_ranks_row_min, _form_ranks_row_max, _form_ranks_num_hop, _form_ranks_row_hop, _form_ranks_format, _form_ranks_submit, _form_ranks_explanation]
           Online Sales: [OnlinePicture, _show_online_picture, _form_online_picture_del]
       new:
         display:
