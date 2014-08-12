@@ -18,7 +18,7 @@
     <?php include_stylesheets() ?>
     <?php include_javascripts() ?>
   </head>
-  <body class="<?php echo 'app-'.$sf_context->getConfiguration()->getApplication().' mod-'.$module_name ?>">
+  <body class="<?php echo 'app-'.$sf_context->getConfiguration()->getApplication().' mod-'.$module_name ?> culture-<?php echo $sf_user->getCulture() ?>">
     <div id="content">
       <?php echo $sf_content ?>
     </div>
