@@ -35,6 +35,8 @@
  */
 abstract class PluginContact extends BaseContact
 {
+  protected $cache = array();
+  
   public function preSave($event)
   {
     foreach ( $this->Relationships as $key => $rel )
@@ -231,5 +233,37 @@ abstract class PluginContact extends BaseContact
     
     // END
     return $vCard;
+  }
+  
+  public function clearCache()
+  {
+    $this->cache = array();
+    return $this;
+  }
+  /**
+    * Get data from the cache
+    * @param  string    $name the name of the cached object
+    * @return mixed     cached value
+    *
+    **/
+  protected function getFromCache($name)
+  {
+    if ( !isset($this->cache[$name]) )
+      throw new liEvenementException('Nothing is cached with the name: '.$name.'.');
+    
+    return $this->cache[$name];
+  }
+  /**
+    * Set data in the cache
+    * @param  string    $name  the name of the cached object
+    * @param  mixed     $value the content to be cached
+    * @return Manifestation $this
+    *
+    **/
+  protected function setInCache($name, $value)
+  {
+    $this->cache[$name] = $value;
+    
+    return $this;
   }
 }

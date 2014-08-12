@@ -5,6 +5,30 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Less or equal</source>
+        <target>Inférieur ou égal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Equal</source>
+        <target>Égal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Equal or more</source>
+        <target>Supérieur ou égal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Qty: %%qty%%</source>
+        <target>Qté: %%qty%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Avg: %%avg%%</source>
+        <target>Moy.: %%avg%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Std deviation: %%sd%%</source>
+        <target>Écart-type: %%sd%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>Groups intersection</source>
         <target>Intersection des groupes</target>
       </trans-unit>

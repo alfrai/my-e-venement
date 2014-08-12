@@ -213,6 +213,27 @@ class ContactFormFilter extends BaseContactFormFilter
       'required' => false,
     ));
     
+    // seats rank
+    $this->widgetSchema   ['tickets_best_rank'] = new sfWidgetFormInput;
+    $this->validatorSchema['tickets_best_rank'] = new sfValidatorInteger(array(
+      'required' => false,
+    ));
+    $this->widgetSchema   ['tickets_rank_operand'] = new sfWidgetFormChoice(array(
+      'choices' => $arr = array(
+        '<=' => 'Less or equal',
+        '=' => 'Equal',
+        '>=' => 'Equal or more',
+      ),
+    ));
+    $this->validatorSchema['tickets_rank_operand'] = new sfValidatorChoice(array(
+      'choices' => array_keys($arr),
+      'required' => false,
+    ));
+    $this->widgetSchema   ['tickets_avg_rank'] = new sfWidgetFormInput;
+    $this->validatorSchema['tickets_avg_rank'] = new sfValidatorInteger(array(
+      'required' => false,
+    ));
+    
     //cards
     $this->widgetSchema   ['member_cards'] = new sfWidgetFormDoctrineChoice(array(
       'model' => 'MemberCardType',
@@ -340,6 +361,8 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['workspaces_list']      = 'WorkspacesList';
     $fields['event_archives']       = 'EventArchives';
     $fields['prices_list']          = 'PricesList';
+    $fields['tickets_best_rank']    = 'TicketsBestRank';
+    $fields['tickets_avg_rank']     = 'TicketsAvgRank';
     $fields['member_cards']         = 'MemberCards';
     $fields['member_cards_valid_at']      = 'MemberCardsValidAt';
     $fields['member_cards_not_valid_at']  = 'MemberCardsNotValidAt';
@@ -520,6 +543,41 @@ class ContactFormFilter extends BaseContactFormFilter
       $query->leftJoin('tck.Price price');
       
       $query->andWhereIn('price.id',$value);
+    }
+    
+    return $q;
+  }
+  
+  public function addTicketsAvgRankColumnQuery(Doctrine_Query $q, $field, $value)
+  { return $this->addTicketsCommonRankColumnQuery($q, 'AVG', $value, 'tar'); }
+  public function addTicketsBestRankColumnQuery(Doctrine_Query $q, $field, $value)
+  { return $this->addTicketsCommonRankColumnQuery($q, 'MIN', $value, 'tbr'); }
+  protected function addTicketsCommonRankColumnQuery(Doctrine_Query $q, $sql_fct, $value, $tbl_prefix)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( $value )
+    {
+      $operand = $this->values['tickets_rank_operand'];
+      $operand = in_array($operand, array('<=', '=', '>=')) ? $operand : '<=';
+      
+      $query = Doctrine::getTable('Ticket')->createQuery($tbl_prefix.'_tck')
+        ->andWhere($tbl_prefix.'_tck.printed_at IS NOT NULL OR '.$tbl_prefix.'_tck.integrated_at IS NOT NULL')
+        ->andWhere($tbl_prefix."_tck.numerotation IS NOT NULL AND ".$tbl_prefix."_tck.numerotation != ''")
+
+        ->leftJoin($tbl_prefix.'_tck.Transaction '.$tbl_prefix.'_t')
+        ->leftJoin($tbl_prefix.'_tck.Gauge '.$tbl_prefix.'_g')
+        ->leftJoin($tbl_prefix.'_g.Manifestation '.$tbl_prefix.'_m')
+        ->leftJoin($tbl_prefix.'_g.Workspace '.$tbl_prefix.'_w')
+        ->leftJoin($tbl_prefix.'_w.SeatedPlans '.$tbl_prefix.'_sp WITH '.$tbl_prefix.'_sp.location_id = '.$tbl_prefix.'_m.location_id')
+        ->leftJoin($tbl_prefix.'_sp.Seats '.$tbl_prefix.'_s WITH '.$tbl_prefix.'_s.name = '.$tbl_prefix.'_tck.numerotation')
+        ->andWhere($tbl_prefix.'_s.id IS NOT NULL')
+
+        ->having("{$sql_fct}({$tbl_prefix}_s.rank) $operand $value")
+        ->select($tbl_prefix.'_t.contact_id')
+        ->groupBy($tbl_prefix.'_t.contact_id')
+      ;
+      $q->andWhere("$a.id IN ($query)");
     }
     
     return $q;

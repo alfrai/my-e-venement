@@ -79,6 +79,7 @@ generator:
           <?php endif; echo PHP_EOL; ?>
           _edit: ~
           _delete: ~
+        sort: ['c.name, c.firstname', '']
       filter:
         display:
           Personal: [title, name, firstname, postalcode, city, region_id, country, email]
@@ -89,7 +90,7 @@ generator:
           <?php if ( sfConfig::get('app_cards_enable',false) ): ?><?php echo PHP_EOL ?>
           Member cards: [member_cards, member_cards_valid_at, member_cards_not_valid_at, member_cards_only_last]
           <?php endif ?><?php echo PHP_EOL ?>
-          Events: [event_categories_list, meta_events_list, events_list, workspaces_list, prices_list, <?php if ( sfConfig::get('app_no_event_archives',true) ): ?>event_archives,<?php endif ?> tickets_amount_min, tickets_amount_max]
+          Events: [event_categories_list, meta_events_list, events_list, workspaces_list, prices_list, <?php if ( sfConfig::get('app_no_event_archives',true) ): ?>event_archives,<?php endif ?> tickets_amount_min, tickets_amount_max, tickets_best_rank, tickets_avg_rank, tickets_rank_operand]
           <?php if ( sfConfig::get('app_controls_enabled',false) ): ?><?php echo PHP_EOL ?>
           Flow management: [control_created_at, control_manifestation_id, control_checkpoint_id]
           <?php endif ?><?php echo PHP_EOL ?>
