@@ -64,7 +64,6 @@
   $transaction->Contact->confirmed = true;
   $transaction->Payments[] = $payment;
   $transaction->Order[] = new Order;
-  error_log(print_r($transaction->toArray(), true));
   $transaction->save();
   
   // sending emails to contact and organizators
