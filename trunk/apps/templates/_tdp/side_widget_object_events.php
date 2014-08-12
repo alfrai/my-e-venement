@@ -59,7 +59,7 @@
         <li class="metaevent <?php echo in_array($id, array_keys($sf_user->getMetaEventsCredentials()->getRawValue())) ? 'hidden' : '' ?>">
         <?php foreach ( $meta_event as $id => $event ): ?>
         <?php if ( $id == 'name' ): ?>
-          <?php if ( method_exists($object, 'getStatsSeatRank') ): ?>
+          <?php if ( method_exists($object->getRawValue(), 'getStatsSeatRank') ): ?>
             <?php $stats = $object->getStatsSeatRank($id); ?>
             <span class="seat-rank">
               <span class="qty"><?php echo __('Qty: %%qty%%', array('%%qty%%' => $stats['qty'])) ?></span>

@@ -22,4 +22,24 @@ class TicketTable extends PluginTicketTable
     return parent::createQuery($alias)
       ->leftJoin("$alias.Duplicatas duplicatas");
   }
+  
+  public function createQueryPreparedForRanks($alias = 'tck')
+  {
+    return parent::createQuery($alias)
+      ->andWhere("$alias.printed_at IS NOT NULL OR $alias.integrated_at IS NOT NULL")
+      ->andWhere("$alias.numerotation IS NOT NULL AND $alias.numerotation != ''")
+      
+      ->leftJoin("$alias.Transaction {$alias}_t")
+      ->leftJoin("$alias.Gauge {$alias}_g")
+      ->leftJoin("{$alias}_g.Manifestation {$alias}_m")
+      ->leftJoin("{$alias}_g.Workspace {$alias}_w")
+      ->leftJoin("{$alias}_w.SeatedPlans {$alias}_sp WITH {$alias}_sp.location_id = {$alias}_m.location_id")
+      ->leftJoin("{$alias}_sp.Seats {$alias}_s WITH {$alias}_s.name = {$alias}.numerotation")
+      
+      ->andWhere("{$alias}_s.id IS NOT NULL")
+      
+      //->having("{$sql_fct}({$alias}_s.rank) $operand $value")
+      //->groupBy("{$alias}_t.contact_id')
+    ;
+  }
 }
