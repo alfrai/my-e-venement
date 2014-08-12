@@ -276,7 +276,10 @@ body #content { width: auto; }
 #tdp-side-bar #tdp-side-ticketting .nb { cursor: pointer; }
 #tdp-side-bar #tdp-side-ticketting .transactions { display: none; position: absolute; padding: 2px 3px; }
 #tdp-side-bar #tdp-side-ticketting .transactions .not-printed { font-style: italic; }
-#tdp-side-bar #tdp-side-ticketting .metaevent .name { display: block; font-size: 8px; cursor: pointer; }
+#tdp-side-bar #tdp-side-ticketting .metaevent .name { display: inline-block; font-size: 8px; cursor: pointer; }
+#tdp-side-bar #tdp-side-ticketting .metaevent .seat-rank { position: absolute; font-size: 8px; text-align: right; margin-left: 105px; cursor: default; }
+#tdp-side-bar #tdp-side-ticketting .metaevent .seat-rank .std-dev { display: block; }
+#tdp-side-bar #tdp-side-ticketting .metaevent .events { display: block; }
 #tdp-side-bar #tdp-side-ticketting .metaevent.hidden > ul { display: none; }
 
 #tdp-side-bar #tdp-side-duplicates .ui-widget { border: 0; }

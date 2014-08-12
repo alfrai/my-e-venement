@@ -21,7 +21,8 @@ $(document).ready(function(){
   },200); });
   
   // METAEVENTS
-  $('#tdp-side-ticketting .metaevent .name').click(function(){ $(this).closest('.metaevent').find('.events').slideToggle(); });
+  $('#tdp-side-ticketting .metaevent .name').click(function(){ $(this).closest('.metaevent').find('.events, .seat-rank').slideToggle(); });
+  $('#tdp-side-ticketting .metaevent .seat-rank').click(function(){ $(this).fadeOut(); });
   
   // LINK TO RELATIONSHIPS
   $('.sf_admin_form_field_Relationships table table').each(function(){
