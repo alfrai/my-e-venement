@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Best seat rank</source>
+        <target>Meilleur rang de place</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Average seat rank</source>
+        <target>Rang de place moyen</target>
+      </trans-unit>
+      <trans-unit>
+        <source>What kind of operand will we apply on seat ranks?</source>
+        <target>Quel type d'opérateur allons nous utiliser sur les rangs de place ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Less or equal</source>
         <target>Inférieur ou égal</target>
       </trans-unit>
