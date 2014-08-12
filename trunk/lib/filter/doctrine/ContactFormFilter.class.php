@@ -297,11 +297,20 @@ class ContactFormFilter extends BaseContactFormFilter
       'model' => 'Survey',
       'url'   => cross_app_url_for('srv', 'survey/ajax'),
     ));
+    $this->validatorSchema['survey_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Survey',
+      'required' => false,
+    ));
     $this->widgetSchema   ['survey_query_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'SurveyQuery',
       'url'   => cross_app_url_for('srv', 'query/ajax'),
     ));
-    $this->widgetSchema   ['survey_answer']   = new sfWidgetFormInput(array());
+    $this->validatorSchema['survey_query_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'SurveyQuery',
+      'required' => false,
+    ));
+    $this->widgetSchema   ['survey_answer']   = new sfWidgetFormInput;
+    $this->validatorSchema['survey_answer'] = new sfValidatorPass(array('required' => false,));
     
     parent::configure();
   }
@@ -339,6 +348,9 @@ class ContactFormFilter extends BaseContactFormFilter
     $fields['control_checkpoint_id']      = 'ControlCheckpointId';
     $fields['control_created_at']   = 'ControlCreatedAt';
     $fields['region']               = 'RegionId';
+    $fields['survey_id']            = 'SurveyId';
+    $fields['survey_query_id']      = 'SurveyQueryId';
+    $fields['survey_answer']        = 'SurveyAnswer';
     
     // must be the last ones, because of a having() part which needs to be added lately
     $fields['tickets_amount_min']   = 'TicketsAmountMin';
@@ -939,6 +951,35 @@ class ContactFormFilter extends BaseContactFormFilter
       }
     }
 
+    return $q;
+  }
+  
+  // Surveys
+  public function addSurveyIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( $value )
+      $q->andWhere("$a.id IN (SELECT s_sag.contact_id FROM SurveyAnswersGroup s_sag WHERE s_sag.survey_id = ? AND s_sag.contact_id IS NOT NULL) OR p.id IN (SELECT s_sag2.professional_id FROM SurveyAnswersGroup s_sag2 WHERE s_sag2.survey_id = ? AND s_sag2.professional_id IS NOT NULL)", array($value, $value));
+    
+    return $q;
+  }
+  public function addSurveyQueryIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( $value )
+      $q->andWhere("$a.id IN (SELECT sq_sag.contact_id FROM SurveyAnswersGroup sq_sag LEFT JOIN sq_sag.Answers sq_a WHERE sq_a.survey_query_id = ? AND s_sag.contact_id IS NOT NULL) OR p.id IN (SELECT sq_sag2.professional_id FROM SurveyAnswersGroup sq_sag2 LEFT JOIN sq_sag2.Answers sq_a2 WHERE sq_a2.survey_query_id = ? AND s_sag2.professional_id IS NOT NULL)", array($value, $value));
+    
+    return $q;
+  }
+  public function addSurveyAnswerColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if ( $value )
+      $q->andWhere("$a.id IN (SELECT sa_sag.contact_id FROM SurveyAnswersGroup sa_sag LEFT JOIN sa_sag.Answers sa_a WHERE sa_a.value ILIKE ? AND s_sag.contact_id IS NOT NULL) OR p.id IN (SELECT sa_sag2.professional_id FROM SurveyAnswersGroup sa_sag2 LEFT JOIN sa_sag2.Answers sa_a2 WHERE sa_a2.value ILIKE ? AND s_sag2.professional_id IS NOT NULL)", array("%$value%", "%$value%"));
+    
     return $q;
   }
 
