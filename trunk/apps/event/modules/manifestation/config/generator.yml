@@ -42,8 +42,9 @@ generator:
         list_age_min: { label: Age min }
         duration_h_r: { label: Duration }
         expected_income: { label: Expected income }
+        list_best_free_seat: { label: Best free seat }
       list:
-        display: [_list_dates, _list_event, _list_contact, _list_location <?php $reservation = sfConfig::get('app_manifestation_reservations',array()); if ( isset($reservation['enable']) && $reservation['enable'] ): ?>, _list_booking_list, reservation_description<?php endif ?>, duration_h_r, _list_age_min, _list_gauge, _list_description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, _list_extra_informations_list<?php endif ?>]
+        display: [_list_dates, _list_event, _list_contact, _list_location <?php $reservation = sfConfig::get('app_manifestation_reservations',array()); if ( isset($reservation['enable']) && $reservation['enable'] ): ?>, _list_booking_list, reservation_description<?php endif ?>, duration_h_r, _list_age_min, _list_gauge, _list_description<?php if ( sfConfig::get('app_manifestation_extra_informations_enable',true) ): ?>, _list_extra_informations_list<?php endif ?>, _list_best_free_seat]
         object_actions:
           _edit:
             credentials: event-manif-edit
@@ -95,7 +96,7 @@ generator:
         actions: { _save: ~, _list: ~ }
       show:
         display:
-          General:    [_show_event, id, _show_happens_at, _show_ends_at, _show_location, _show_gauge_txt, expected_income, _show_best_rank, _show_color, _show_prices_list]
+          General:    [_show_event, id, _show_happens_at, _show_ends_at, _show_location, _show_gauge_txt, expected_income, _show_best_free_seat, _show_color, _show_prices_list]
           Ticketting: [_show_duration, _show_vat, _show_online_limit, _show_online_limit_per_transaction, _show_depends_on, _show_is_necessary_to, _show_organizers_list, _show_no_print]
           Workspaces: [_show_workspaces_list]
           <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($config['enable']) && $config['enable'] ): echo PHP_EOL; ?>

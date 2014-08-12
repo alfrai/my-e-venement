@@ -48,12 +48,16 @@ class manifestationActions extends autoManifestationActions
     return sfView::NONE;
   }
   
-  // needs previously cleaned $request->getParameter('ids'), usually it's used from executeBatchBestFreeSeat()
+  // needs previously cleaned $request->getParameter('ids'), usually it's used from executeBatchBestFreeSeat(), or nothing
   public function executeBestFreeSeat(sfWebRequest $request)
   {
-    $manifs = Doctrine::getTable('Manifestation')->createQuery('m')
-      ->andWhereIn('e.id', $request->getParameter('ids'))
-      ->execute();
+    $q = Doctrine::getTable('Manifestation')->createQuery('m');
+    if ( $request->getParameter('ids') )
+      $q->andWhereIn('e.id', $request->getParameter('ids'));
+    else
+      $q->andWhere('m.happens_at > NOW()')
+        ->limit(20);
+    $manifs = $q->execute();
     $this->manifestations = array();
     foreach ( $manifs as $manif )
     {

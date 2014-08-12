@@ -106,8 +106,10 @@ class Manifestation extends PluginManifestation
         ->leftJoin('g.Manifestation m')
         ->andWhere('m.location_id = sp.location_id')
         ->andWhere('m.id = ?', $this->id)
-        ->andWhere('s.name NOT IN (SELECT tck.numerotation FROM ticket tck WHERE tck.manifestation_id = m.id AND tck.numerotation IS NOT NULL)')
+        ->leftJoin('g.Tickets tck WITH tck.numerotation = s.name')
+        ->andWhere('tck.id IS NULL')
         ->orderBy('s.rank, s.name')
+        ->select('s.*')
         ->limit($limit)
       ;
       $this->setInCache('best-free-seat', $limit > 1 ? $q->execute() : $q->fetchOne());
