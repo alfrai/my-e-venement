@@ -11,3 +11,6 @@ all:
 #  display:
 #    last_hours: 24 # default: 1 month
 #    max: 5         # default 5
+  backups:
+    directory: /data/backup
+    files_search: pgsql.dev.dump.*.gz

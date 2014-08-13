@@ -7,7 +7,7 @@
     <div class="backups ui-grid-table ui-widget ui-corner-all ui-helper-reset ui-helper-clearfix">
       <div class="ui-widget-content ui-corner-all">
         <div class="ui-widget-header ui-corner-all fg-toolbar">
-          <h2>Backups</h2>
+          <h2><?php echo __('Archiving', null, 'menu') ?></h2>
         </div>
         <ol>
           <?php foreach ( $directory->ls('*', 'desc') as $filename ): ?>

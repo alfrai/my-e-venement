@@ -57,9 +57,9 @@ class dataActions extends sfActions
   
   protected function buildDirectory()
   {
-    $this->directory = new liDirectory(sfConfig::get('app_backup_directory', '/data/backup'));
-    if ( sfConfig::has('app_backup_files_search') )
-      $this->directory->restrictListedFiles(sfConfig::get('app_backup_files_search'));
+    $this->directory = new liDirectory(sfConfig::get('app_backups_directory', '/data/backup'));
+    if ( sfConfig::has('app_backups_files_search') )
+      $this->directory->restrictListedFiles(sfConfig::get('app_backups_files_search'));
     return $this->directory;
   }
 }
