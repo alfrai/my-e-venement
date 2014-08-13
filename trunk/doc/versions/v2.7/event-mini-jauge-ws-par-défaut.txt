@@ -1,0 +1,23 @@
+== objectif ==
+
+pouvoir définir un espace de travail à cibler dans les mini-jauges des manifestations (liste des événements, fiches manifs...)
+
+
+== réalisation ==
+
+Par défaut c'est la "fusion" des jauges qui est affichée
+
+
+=== Option 1 ===
+
+Pour spécialiser un espace de travail sur lequel se concentrer, il faut :
+- aller dans Paramétrage > Billetterie > Ordonnancer ses espaces de travail
+- mettre son espace de travail favori à une valeur < 0
+
+
+=== Option 2 ===
+
+Pour préferer une jauge économique, il faut :
+- aller dans Paramétrage > Billetterie > Ordonnancer ses espaces de travail
+- avoir tous ses espaces de travail avec une priorité > 999
+

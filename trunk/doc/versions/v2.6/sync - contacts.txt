@@ -1,0 +1,66 @@
+== Présentation ==
+
+== vCard ==
+
+=== Contacts ===
+
+pertes de données :
+- export
+- import
+
+usage :
+- export: $contact->vcard
+- import: $contact->vcard = file_get_contents('/some/path/contact.vcf');
+
+
+=== Organismes ===
+
+pertes de données :
+- export
+- import
+
+usage :
+- export: $contact->vcard
+- import: $contact->vcard = file_get_contents('/some/path/organism.vcf');
+
+
+== Synchronisation ==
+
+=== Paramétrage du serveur CardDAV distant sur e-venement ===
+
+=== Synchronisation e-venement -> CardDAV en "temps réel" ===
+
+=== Synchronisation CardDAV -> e-venement en différé ===
+
+
+== un exemple de synchronisation en passant par les tâches ==
+
+Centre de Beaulieu -> Zimbreizh
+
+>> e2dav     1245 contact(s) added into the DAV repository
+>> e2dav     0 contact(s) that have been updated in the DAV repository
+>> e2dav     8 contact(s) that did not need any synchronization
+>> e2dav     0 contact(s) have been deleted from the DAV repository
+>> last-update 2013-09-27T18:37:58+02:00
+
+2169 contacts dans e-venement
+1253 contacts individuels synchronisés dans un premier temps
+
+>> e2dav     905 contact(s) added into the DAV repository
+>> e2dav     0 contact(s) that have been updated in the DAV repository
+>> e2dav     1264 contact(s) that did not need any synchronization
+>> e2dav     0 contact(s) have been deleted from the DAV repository
+>> last-update 2013-09-27T19:12:13+02:00
+
+real	18m51.523s
+user	1m3.392s
+sys	0m3.132s
+
+2169 contacts dans e-venement
+905 contacts professionels (avec organisme) synchronisés dans un second temps
+
+100% des contacts synchronisés
+
+7% des 8 CPU logiques du serveur utilisé (+ apache)
+0.5% des 32Go de mémoire soit 1,6Go de RAM
+durée de la synchronisation 20 minutes environ + 19 minutes = 40 minutes

@@ -1,0 +1,23 @@
+== de la v2.5 à la v2.6 ==
+
+1. préparer un email de compte rendu en récupérant les emails de ces utilisateurs
+2. svn switch svn+ssh://svn.gna.org/svn/e-venement/branches/v2.7   (supprimer les fichiers locaux sources de conflits et reprendre l'update)
+4. bin/migration-to-v27.sh [DB] [USER]
+5. vérifiez le fichier apps/pub/config/app.yml et ajoutez "type: paybox" dans la partie "payment:"
+6. ajouter l'option options: design: tdp dans apps/tck/config/app.yml
+7. envoyer le courriel de compte-rendu
+
+
+== ANNEXES ==
+
+=== apps/pub/config/app.yml ===
+
+all:
+  payment:
+    type: paybox
+
+=== apps/tck/config/app.yml ===
+
+all:
+  options:
+    design: tdp

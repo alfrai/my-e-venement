@@ -1,0 +1,97 @@
+== La configuration d'e-venement ==
+
+Ajouter les paramètres nécessaires dans config/project.yml :
+
+ app:
+   messaging:
+     enable: true
+     chatrooms: [mystructure@conference.jabber.mydomain.tld, e-venement-public@conference.jabber.libre-informatique.fr]
+
+L'option "enable: true" est nécessaire pour que la fonctionnalité soit activée dans e-venement.
+L'option "chatrooms" est une suite de salles de conférences sur lesquelles vos utilisateurs seront automatiquement connectés afin de pouvoir échanger sur des espaces communs.
+
+
+== La configuration de Jappix ==
+
+Dirigez votre navigateur sur l'adresse
+
+https://e-venement.mydomain.tld/liJappixPlugin/
+
+De là, suivez les instructions... jusqu'à réussir à vous connecter avec succès. Dans un cas simple, vous devriez utiliser le même service (ex: jabber.org ou jabber.libre-informatique.fr) pour votre connexion que celui sur lequel vos comptes Jabber sont enregistrés (ex: jeanne.martin@jabber.org ou jeanne.martin@jabber.libre-informatique.fr).
+
+		CONFIGURATION
+
+SERVICE
+
+Nom du service		e-venement IM
+Description du service	The free ticketting network
+Nom du propriétaire	Libre Informatique
+Site du propriétaire	http://www.libre-informatique.fr/
+Conditions d'utilisation
+
+CONNEXION
+
+Ressource		e-venement
+Verouiller l'hôte	X
+Mode anonyme		X
+Inscription autorisée	X
+Authentification http
+
+AUTRES
+
+Lien gestionnaire	X
+Salons à rejoindre	
+Suggestion de salons	X
+
+AVANCÉ
+
+Chiffrement		X
+Stockage en HTTPS	X
+Forcer le HTTPS		X
+Compression
+Statistiques		X
+Relever mes visites
+Activer les pubs
+
+
+		HÔTES
+
+GÉNÉRAL
+
+Hôte principal		jabber.libre-informatique.fr
+Hôte de salons 		conference.jabber.libre-informatique.fr
+Hôte Pubsub		pubsub.jabber.libre-informatique.fr
+
+AVANCÉ
+
+Hôte anonyme		anonymous.jabber.libre-informatique.fr
+Hôte d'annuaire		vjud.jabber.libre-informatique.fr
+STUN host		stun.[STRUCTURE].libre-informatique.fr
+Hôte BOSH		http://jabber.libre-informatique.fr:5280/http-bind
+Proxy BOSH intégré	X
+
+
+== La configuration des utilisateurs ==
+
+Dans le menu Paramétrage > Général > Messagerie.
+Vous aurez alors tout loisir d'associer vos comptes utilisateurs e-venement à vos comptes Jabber, en précisant un à un le compte Jabber, le mot de passe et l'utilisateur e-venement à associer.
+
+Bien entendu, il est possible de demander de profiter des services de messagerie instantannée proposés par Libre Informatique, mais il est également possible d'utiliser ses propres comptes Jabber externes (ex: gTalk ou jabber.com) ou ses comptes d'entreprise (ex: @jabber.theatre-du-soleil.fr).
+
+Si vous utilisez vos comptes e-venement Instant Messaging en dehors d'e-venement, alors vous retrouverez vos contacts dans e-venement et vice et versa.
+
+
+== L'usage de l'e-venement Instant Messaging ==
+
+Au préalable 3 espaces distincts ont été imaginés (ce choix peut être étendu ou réduit à volonté) :
+- autant d'espaces privés où chacun peut rentrer en contact direct avec ses collègues, prestataires, clients, contacts, "un à un"
+- un espace "de structure" regroupant par défaut tous les collègues dans un même "salon de conférence", à utiliser pour des échanges internes, un principe de "post-it", de l'entre-aide...
+- un espace "commun" pour échanger entre structures, entre utilisateurs, avec les techniciens de la solution... afin que l'expérience des uns servent aux autres, et pour que l'idée de "faire du commun" dépasse les limites du logiciel libre dans son approche technique.
+
+Pour résumer, si vous avez :
+- un souci technique, parlez-en soit en direct soit via un salon à votre prestataire (il est préférable d'utiliser le salon commun pour cela, sauf s'il s'agit d'informations sensibles).
+- un souci d'usage ou de métier, profitez du salon commun, c'est justement l'espace que nous avons voulu le mieux adapter pour cela...
+- une question d'organisation, préférez le salon de votre structure, éventuellement les discussions en direct
+- un rappel à formuler à vos collègues, utilisez la discussion en direct ou le salon de votre structure selon le besoin
+
+

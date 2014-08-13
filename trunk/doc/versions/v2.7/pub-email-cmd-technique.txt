@@ -1,0 +1,37 @@
+== enjeux ==
+
+1. envoyer les billets dématérialisés (avec code barre) par email
+2. envoyer le placement numéroté des billets une fois que les opérateurs l'ont défini
+3. pouvoir tenir au courant des spectateurs de l'édition de duplicatas, car en billetterie dématérialisée, seul le dernier duplicata de la liste fonctionne
+
+
+== 1. envoyer les billets dématérialisés (avec code barre) par email ==
+
+1. modification de php-barcode pour un rendu HTML plus simple (sans image) et imprimable
+2. ajout de méthodes "render" dans les classes Transaction et Ticket pour pouvoir les appeler depuis n'importe quelle application symfony, avec des "page breaks" pour imprimer 1 billet par page
+3. ajout de ces appels dans l'email envoyé par la vente en ligne
+
+
+== 2. envoyer le placement numéroté des billets une fois que les opérateurs l'ont défini ==
+
+1. préalable
+  1. ajout d'un champ "send_an_email" (par défaut à false) dans le modèle Transaction pour pouvoir savoir sur quelles opérations un email doit être envoyé
+  2. ajout de "hooks" lors de la création d'une opération en vente en ligne (pub) pour pouvoir fixer plus facilement différentes propriétés par la suite, aujourd'hui c'est là que send_an_email est passé à true.
+2. dans le processus de billetterie (tck)
+  1. ajout d'un hook avant d'envoyer l'impression des billets
+  2. ce hook est attrappé par une fonction qui résiste aux exceptions, et qui envoie un email en utilisant les fonctions de rendering des classes Transaction et Ticket
+  3. cette fonction n'envoie d'email que si :
+    1. l'opération a sa propriété send_an_email à "true"
+    2. au moins un des billets a sa manifestation dans l'avenir
+
+
+== 3. pouvoir tenir au courant des spectateurs de l'édition de duplicatas ==
+
+grâce au système décrit ci-avant, les billets dupliqués dont
+1. la date de manifestation n'est pas passée
+2. la propriété "send_an_email" sur la Transaction est à "true"
+sont envoyés par email à nouveau
+ainsi ils ont leurs billets à la dernière version (numéro) et avec leur dernière place affectée.
+
+
+

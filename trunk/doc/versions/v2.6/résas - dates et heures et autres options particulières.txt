@@ -1,0 +1,79 @@
+== Définitions ==
+
+=== Réservation ===
+
+Les réservations ne sont rien d'autre que des manifestations ayant des "extras" autour de leur période d'accueil du public et le lieu où elles doivent se produire. Une réservation est donc une manifestation avec:
+- en amont, un temps de préparation
+- en aval, un temps de rangement / fermeture / finalisation
+- se tenant sur un lieu (lié aux informations "manifestation")
+- mobilisant un certain nombre de ressources (dont différents lieux)
+
+=== Ressource ===
+
+Une ressource est l'extension du concept de salle ou de lieu utilisé exclusivement jusqu'à présent. Cela regroupe donc des salles mais également toutes les ressources à votre disposition, non partageables et indivisibles dans le principe, telles que par exemple :
+- des véhicules
+- des expositions
+- des salles ou des lieux (studio d'enregistrement, salle de spectacle, place publique, ...)
+- des compétences (des intervenants, des animateurs, des médiateurs)
+- du matériel (régie son, régie lumière, scène, parasols chauffants, etc.)
+- ...
+
+
+== Date et heure de manifestation vs Date et heure de réservation ==
+
+=== Définition similaire entre la réservation et la manifestation (par défaut) ===
+
+Lorsque les dates et heures de réservation et se confondent avec celles de la manifestation, alors le comportement d'e-venement est inchangé de la v2.5 et précédentes ou de son fonctionnement lorsque les fonctionnalités de réservation sont désactivées. La réservation et la manifestation se confondent...
+
+=== Mauvaise définition des date et heure de réservation ===
+
+Les dates et heures de réservation sont positionnées sur les dates et heures de manifestation dès que les champs liés aux dates et heures de réservation sont vides ou incohérents (ex: le début de la manifestation se situe après le début de la réservation ; les champs sont mal saisis ou vides).
+
+Noter que c'est ce qui se passe à chaque enregistrement du moment que les fonctionnalités de réservation sont désactivées dans la configuration (apps/event/config/app.yml).
+
+=== Définition d'une période de réservation plus grande que la période de la manifestation ===
+
+Alors la ou les ressources (salles et ressources) mobilisées le sont du début à la fin de la réservation, et non de la manifestation. Cela a pour conséquence de bloquer leur usage par d'autres manifestations sur la totalité de la période réservée.
+
+Dans les calendriers, des périodes en pointillés (petits traits) apparaîssent alors avant et/ou après la manifestation.
+
+=== Gestion des conflits constatés ===
+
+Si parmis vos utilisateurs certains sont super-utilisateurs (ce que nous déconseillons) ou qu'ils font partie du groupe "event-reservation-super-admin", alors il est possible (car ils disposent alors des permissions nécessaires) qu'ils aient enregistré des manifestations dont les ressources soient déjà utilisées. Il y a alors "conflit d'usage".
+
+Pour les repérer et les traiter, vous pouvez accéder à la liste des conflits d'usage via le menu Événement > Conflits d'usage.
+
+=== Gestion des conflits éventuels ===
+
+Dans le cas d'une réservation de ressource(s) non disponible(s) par des utilisateurs (n'ayant pas les permissions indiquées plus haut), ils se verront refuser toute confirmation de réservation tant que les conflits ne seront pas résolus.
+
+Pour ce faire ils disposent, au moment de la saisie de leur réservation, d'indicateurs (sur le lieu et sur les ressources) de conflits. De plus, la liste (que l'on trouve via le menu Événements > Confirmations en attente) récapitulant les manifestations en attente de confirmation reprend les conflits potentiels liés à chaque réservation.
+
+
+== Options liées aux réservations et effets variés ==
+
+=== Bloquante ===
+
+Une réservation bloquante est une manifestation au sens classique du terme. Par exemple un spectacle va avoir lieu à une date donnée dans un lieu particulier, alors elle est bloquante. Rien d'autre ne peut se produire sur le même créneau horaire au même endroit.
+
+Une réservation non bloquante est l'usage de ressources de manière non exclusives. Par exemple l'usage d'une salle pour afficher une exposition n'empêchera pas que se tienne dans cette salle une réunion ou une répétition de musique (qui elles seront alors bloquantes)...
+
+Ainsi deux réservations, l'une bloquante et l'autre non, peuvent cohabiter au même endroit au même moment à condition que l'une des deux (au moins) soit non-bloquante. Ceci se vérifie avec un nombre plus grand de réservations (2 réservations non bloquantes pour 1 bloquante par exemple).
+
+Une manifestation non-bloquante apparaîtra en italique dans les calendriers.
+
+=== Confirmée ===
+
+Une manifestation est confirmée par défaut dans le cadre d'un usage d'e-venement sans réservation.
+Une manifestation est non-confirmée par défaut dans le cadre d'un usage d'e-venement avec réservation.
+
+Tant qu'une manifestation est non-confirmée, l'usage qu'elle demande des ressources est "à validé", donc non effectif, donc "non bloquant". Cette manifestation ne peut être utilisée en billetterie. Elle ne sera visible que pour l'utilisateur qui l'a demandé et pour les utilisateurs gérant les réservations.
+
+Une opération non confirmée apparaîtra en transparence dans les calendriers
+
+=== "Ceci est une option" ===
+
+Voici la propriété la plus souple des réservations. Il est possible de l'utiliser comme bon vous semble. Elle a été pensée pour faire une réservation "formelle" et permettre d'y ajouter des réservations optionnelles (donc juste "informatives") dans le cas où il faudrait chercher des alternatives à une situation "conflictuelle".
+
+Les réservations optionnelles se matérialisent par des dates entourrées de petits points dans les calendriers.
+

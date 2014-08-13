@@ -1,0 +1,75 @@
+Il y a, en gros, 4 lots de permissions :
+1. event-access-restricted
+2. event-mod
+3. event-reservation-admin
+4. event-reservation-super-admin
+
+
+== 1. Accès restreint ==
+
+S'utilise sans aucun autre groupe.
+Permet de
+- créer des manifestations sur des événements n'ayant que des 
+manifestations à son nom
+- modifier SES manifestations
+- vérifier l'état de confirmation / attente de ses manifestations
+- confirmer/infirmer ses réservations si la ressource est disponible
+
+nom: event-access-restricted
+usage: seul
+
+
+== 2. accès gestionnaire ==
+
+Permet de
+- créer des manifestations
+- modifier toutes les manifestations tant qu'elles ne sont pas confirmées, 
+et les siennes dans tous les cas
+- changer les contacts de référence pour les réservations
+- confirmer/infirmer toutes les réservations
+
+nom: event-mod
+usage: seul ou en combinaison avec event-view, event-calendar-gui, etc.
+
+
+== 3. accès administrateur ==
+
+Permet la même chose que le gestionnaire avec en plus :
+- la possibilité de modifier toutes les manifestations, confirmées ou non
+
+nom: event-reservation-admin
+usage: en combinaison au moins avec event-mod
+
+
+== 4. accès super-administrateur ==
+
+Permet la même chose que l'administrateur avec en plus :
+- la possibilité d'enregistrer des manifestations en conflit évident
+
+nom: event-reservation-super-admin
+usage: en combinaison au moins avec event-mod
+
+
+== et pour la migration de l'existant ? ==
+
+Parmis les utilisateurs déjà présents, la migration vers la 2.6 ajoute 
+les utilisateurs qui étaient dans le groupe "event-admin" dans le groupe 
+"event-reservation-admin", ce qui permet un passage de version souple. 
+d'un point de vue purement "utilisateurs historiques", ça laisse la 
+situation inchangée : les administrateurs des événements ont accès à 
+tout de manière transparente.
+
+
+== conseil ==
+
+utiliser les groupes de manière incrémentale du moins accrédité au 
+super-admin, de manière cumulative :
+ex:
+- restreint
+- restreint + gestionnaire
+- restreint + gestionnaire + admin
+- restreint + gestionnaire + admin + super admin
+
+
+
+

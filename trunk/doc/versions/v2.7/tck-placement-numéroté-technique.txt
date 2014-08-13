@@ -1,0 +1,117 @@
+== composition du framework ==
+
+=== une image du plan ===
+
+cette image doit être composée de places (à numéroter) transparentes, permettant la sous-impression d'une couleur permettant de les définir et de leur donner un état. Une image en PNG transparent est l'idéal.
+
+
+=== une action Symfony/e-venement pour récupérer les places numérotées ===
+
+Dans l'application "event", le module "seated_plan" offre une action pour permettre de positionner les places sur un plan numéroté : "getSeats". Cette action est liée (naturellement) à la méthode "executeGetSeats()" et au template "getSeatsSuccess". Dans le fichier apps/event/modules/seated_plan/config/view.yml nous pouvons constater que les entêtes HTTP renvoyées précisent le type de contenu: application/json.
+
+Cette appel HTTP accepte les options suivantes :
+- id: obligatoire, l'identifiant du plan recherché
+- gauge_id: optionnel, permet (si l'utilisateur y est autorisé) l'affichage de l'occupation des places dans le cadre de la jauge fournie
+- transaction_id: optionnel, permet de préciser, si gauge_id est précisé, les places correspondant à l'opération fournie
+
+La réponse est ensuite un tableau JSON du type :
+{
+  position: { x: coordonnées X, y: coordonnées Y },
+  diameter: diamètre du point sous et autour du siège,
+  name: nom de la place
+  occupied: [ false | {
+    type: [ printed | ordered | asked ] (in-progress) },
+    transaction_id: id de l'opération du billet occupant la place,
+    spectator: des informations sur le spectateur concerné, le cas échéant
+  ],
+}
+
+
+=== un bout de code HTML et du CSS ===
+
+CSS: tout se trouve dans le fichier web/css/seated-plan.css
+HTML: il suffit du fichier Javascript que nous verrons plus loin, ainsi que le code qui suit pour afficher un plan dynamique :
+<a class="picture seated-plan" href="/event.php/seated_plan/8/getSeats" style="background-color: white;">
+  <img title="plan-small.png" src="/default.php/picture/22/display" alt="plan-small.png" />
+</a>
+
+Ce code est nécessaire et suffisant pour que le script Javascript le transforme en un plan dynamique.
+
+Variables:
+a[class]: attention les classes picture et seated-plan sont nécessaires et arbitraires pour identifier l'élément
+a[href] : préciser l'URL à appeler pour accéder à la définition des places (vu précédemment)
+a[style]: préciser la couleur de fond (background-color) soit de manière arbitraire soit par la propriété de l'objet SeatedPlan dont vous souhaitez faire le rendu
+img[src]: URL de l'image issue de l'objet Picture souhaité comme "fond de plan"
+
+
+=== un fichier Javascript et ses fonctions ===
+
+Le fichier Javascript web/js/seated-plan.js est nécessaire et embarque toute l'intelligence du plan, sauf l'allocation de place numérotée (pour des raisons de sécurité relative), qui se trouve dans directement au seul endroit qui l'utilise: apps/tck/modules/ticket/templates/seatsAllocationSuccess.php
+
+Nous remarquerons 3 grands éléments dans ce fichier...
+
+function seated_plan_mouseup():
+- définition (graphique et dans le logiciel) des sièges, que ce soit via un tableau JSON ou un click de souris
+- définition, dans le cadre de l'administration des plans numérotés, de la suppression d'un siège par double-click
+
+function seated_plan_init():
+- Génération graphique du plan dynamique, la prise en charge des exceptions de GUI.
+- l'appel à l'ensemble des fonctions à déclencher après le chargement d'un plan, définissables en ajoutant des fonctions au tableau document.seated_plan_functions[]
+
+$(document).ready():
+- appel à seated_plan_init()
+- appel à seated_plan_mousedown() le cas échéant dans la partie administration des plans numérotés
+- La fonction $('.sf_admin_form_field_show_picture .picture').mousedown() qui permet de préparer la définition des sièges sur un plan, essentiellement utilisée par le module seated_plan de l'application event.
+- $('.sf_admin_form_field_show_picture .picture .anti-handling').mouseup() qui permet de définir des sièges sur un plan, essentiellement utilisée par le module seated_plan de l'application event.
+- les fonctions $(document).keypress() qui simule un double-click sur une place, permettant leur suppression (cf. seated_plan_mouseup())
+- les effets "loupe" sous l'impulsion des touches +/-/0 ou des boutons prévus à cet effet
+
+
+== exemple d'utilisation ==
+
+Nous voulons afficher un plan numéroté arbitraire mettant en avant les places attribuées à une opération passée en paramètre... ici l'exemple est pris sur le partial seated_plan/show_raw_picture de l'application event :
+
+- $seated_plan est le plan à afficher
+- $form->transaction_id: optionnel, le numéro d'opération en cours
+
+  <a href="<?php echo url_for('seated_plan/getSeats?id='.$seated_plan->id.(isset($form->gauge_id) ? '&gauge_id='.$form->gauge_id : '').(isset($form->transaction_id) ? '&transaction_id='.$form->transaction_id : '')) ?>"
+     class="picture seated-plan"
+     style="background-color: <?php echo $seated_plan->background ?>;">
+    <?php echo $seated_plan->getRaw('Picture')->getHtmlTag(array('title' => $seated_plan->Picture)) ?>
+  </a>
+
+
+== Méthode de construction du plan et de ses places ==
+
+Une fois le code HTML, le fichier Javascript et l'image chargés, le script Javascript fait la chose suivante :
+1. positionnement du widget contenant l'image en relatif, permettant de faire des positionnements absolus à l'intérieur de ce dernier, sans être influencés par le document lui-même.
+2. positionnement de l'image en absolu, et chargement de cette dernière
+3. récupération des dimensions de l'image pour forcer les dimensions du widget la contenant (l'image étant positionnée en absolu, son contenant prend alors la taille de qui lui reste dans son flux de données, c'est à dire normalement 0) et permettant un affichage cohérent du reste de la page
+4. affichage d'un calque "anti-handling" par dessus l'image, permettant de contourner la fonctionnalité de Firefox qui consiste à pouvoir faire du drag&drop sur une image, ici plus que gênant relativement aux fonctionnalités que nous avons vues plus haut
+5. recherche du tableau JSON définissant le contenu du plan (les places) via une requête HTTP
+6. positionnement absolu d'éléments HTML de diamètres définis individuellement par le fichier JSON, pour chaque place récupérée :
+  - d'un élément représentant une place, en définissant une couleur de fond sous l'image du plan (z-index < à celui de l'image)
+  - d'un élément représentant une place, définissant un cercle noir ou de couleur autour de chaque coordonnées (z-index > image && z-index > anti-handling), permettant d'avoir une réaction au survol de la souris. C'est cet élément dont le "title" permettra l'affichage d'informations au survol de la souris. C'est également sur cet élément que seront définis tous les triggers permettant de supprimer des places, d'y affecter/désaffecter un billet...
+
+
+== des cas particuliers / gênants + méthode de contournement ==
+
+=== onglets / image non affichée directement au chargement de l'écran ===
+
+Un problème s'est présenté à partir du moment où les images n'étaient pas affichées directement lors du chargement d'un écran (ex: présence d'onglet dont celui par défaut n'est pas celui des plans numérotés). En effet, la définition des dimensions du conteneur de l'image n'était pas possible, puisque l'image n'avait pas encore de dimensions elle-même, étant encore cachée. Dans ce cas de figure et selon les solutions choisies (dans l'ordre), soit l'affichage restait buggué et insoluble, soit le navigateur et l'ordinateur de l'utilisateur risquait la surchauffe pour cause de fonctions récurrentes.
+
+La solution a alors consisté à :
+1. détecter ce cas de figure
+2. insérer subrepticement, dès le fichier de l'image chargé, un clone de l'image dans le #footer (toujours visible) d'e-venement, en récupérer les dimensions, et les réutiliser pour définir celles du conteneur de l'image
+
+
+=== lenteurs de chargement des images ===
+
+Lors de la présence d'images "lourdes" illustrant des salles numérotés, il est nécessaire de faire appel au cache du navigateur. Pour ce faire, nous avons corrigé les entêtes HTTP envoyées par le module générique (application "default") picture afin d'y ajouter du cache (10 jours par défaut).
+
+Ainsi, jusqu'à un CTRL+R volontaire, l'image reste en cache interne du navigateur et permet un affichage complet de l'écran plus rapide.
+
+De plus, le contournement précédent a évité les risques de scripts tournant en boucle...
+
+Il serait encore possible d'accélérer le chargement si nous définissions une seule et même image pour l'ensemble des plans... mais pour le moment il nous a semblé intéressant de laisser les choses avancer afin de se rendre compte des pratiques réelles des utilisateurs, et d'éviter les développements inutiles.
+

@@ -1,0 +1,45 @@
+== objectif ==
+
+pouvoir définir des plans de salle pour préparer les ventes en placement numéroté
+
+
+== réalisation ==
+
+=== prérequis ===
+
+- config: faire partie du groupe event-seated-plan
+- espace de travail: avoir au moins un espace de travail dont l'option "placé" est cochée
+
+
+=== définition d'un plan ===
+
+1. aller dans le menu événementiel > plan numéroté
+2. créer un nouveau plan
+3. lui associer une jauge et une salle (nous définissons bien un plan par zone, même si le fichier image sera potentiellement le même)
+4. sauvegarder le plan
+5. lui ajouter une image, qui devra être à un format supportant la transparence, le plus léger possible
+6. définir les sièges comme des points apparaîssant sous les sièges qui seront transparents sur l'image importée
+7. c'est fait
+
+
+=== comment retrouver ce plan dans les manifestations ===
+
+une fois un plan défini, et associé à un espace de travail et une salle, toute manifestation se déroulant dans cette salle et ayant une jauge associée à cet espace de travail verra un plan de salle aparaître dans ses jauges, sans pour autant perdre la jauge habituelle (en effet, si le plan est défini après le début des ventes, certains billets ne seront pas placés).
+
+
+=== comment lire les jauges maintenant que nous avons une double lecture ? ===
+
+ainsi une double lecture de la jauge est possible :
+1. reste-t-il des places, en général, incluant également les billets vendus préalablement au placement numéroté ? regarder la jauge classique
+2. quelles places reste-t-il d'attribuables ? regarder le plan numéroté
+
+
+== astuces ==
+
+=== lorsque l'on définit les sièges d'un plan numéroté ===
+
+les touches "+", "-" et "CTRL+0" permettent d'accéder directement au zoom de l'image pour plus d'aisance.
+la combinaison "CTRL+Z" supprime le dernier siège ajouté.
+le double-click sur un siège, supprime son entrée en base.
+cocher la case "directement" permet d'éviter l'affichage de la popup permettant de définir le nom du siège.
+

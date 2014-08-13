@@ -1,0 +1,88 @@
+== Général ==
+
+9h / 2 jours
+début: 25/07/2014
+fin:   30/07/2014
+
+=== i18n ===
+
+description:
+intégration dans e-venement de contenus i18n, s'intégrant parfaitement dans l'ensemble des fonctionnalités déjà existantes (dont le versionning, la traçabilité, etc...).
+c'est en particulier intéressant pour les événements dont les nom, description, etc. doivent être traduisibles.
+on paramètre les langues disponibles dans config/project.yml, et ça se retrouve via la constante (array) sfConfig::get('project_internals_cultures')
+
+temps passé:
+9h
+2 jours
+
+=== backups ===
+
+certains clients veulent avoir la possibilité d'accéder à leurs propres sauvegardes par eux-même quand il le souhaitent
+
+temps passé:
+2h
+1 jour
+
+
+== Questionnaires ==
+
+36h / 7 jours
+début: 30/07/2014
+fin:   07/08/2014
+
+=== questionnaires, backend pur ===
+
+description:
+la création de questionnaires, l'ergonomie de la partie "gestion"
+
+temps passé:
+20h
+5 jours
+
+
+=== questionnaires, intégration dans les objets liés + stats ===
+
+description:
+affichage des questionnaires partout où cela est nécessaire + création d'un "fieldset" de stats dans le backend
+
+temps passé:
+10h
+2 jours
+
+
+=== questionnaires, intégration à la vente en ligne ===
+
+description:
+intégration des questionnaires à e-voucher v2
+
+temps passé:
+6h
+1 jour
+
+
+
+== Vente en Ligne ==
+
+4h / 1 jour
+début: 06/07/2014
+fin:   11/08/2014
+
+
+=== vente en ligne, i18n + debug divers ===
+
+temps passé:
+4h (2+2)
+1 jour
+
+
+=== Nouveaux systèmes de paiement ===
+
+temps passé:
+13h
+2 jours
+
+dans le détail, c'est :
+6h pour améliorer le fonctionnement général du module e-voucher concernant les paiements en ligne
+3h pour payplug (espace600)
+4h pour systempay (sallanches)
+

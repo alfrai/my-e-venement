@@ -1,0 +1,30 @@
+== DESCRIPTION ==
+
+Originellement, il faut d'abord choisir les tarifs de ses billets avant de les placer. Cela n'allait pas toujours dans le sens naturel des spectateurs qui sont plus attentifs aux sièges qu'ils pourront avoir qu'à leurs tarifs qui s'adapteront de toute manière à leurs réalités.
+
+Cette fonctionnalité permet donc de commencer à placer ses billets avant de leur donner l'ensemble de leurs propriétés, dont le tarif. C'est une préfiguration de ce qui devra se passer en vente en ligne pour une expérience d'achat optimale.
+
+
+== UTILISATEURS ==
+
+0. Sélectionner une jauge "placée". L'ensemble des tarifs disponibles s'affiche avec (en plus maintenant) une option (alignée à droite) "Placer en 1er".
+
+1. Cette fonctionnalité renvoie sur un plan où il est possible de sélectionner autant de place que désiré, qui s'ajouteront sans tarif au nom de "WIP" (ou configurable). Le retour à l'opération s'effectue à la demande de l'opérateur qui clique sur "suivant".
+
+2. De retour dans l'opération, rien (pas de bon de commande, de facture, d'impression, d'intégration) ne sera possible tant que ces tarifs "WIP" seront présents... Donc en sélectionnant la même jauge, il est alors possible de préciser les tarifs visés. Si trop de "WIP" ont été fixés, il faut rappeler le plan et double-cliquer sur les places à retirer.
+
+3. Une fois que tous les WIP ont été affectés, il est de nouveau possible d'imprimer, intégrer, réserver, etc.
+
+
+== TECHNIQUE ==
+
+L'interface tactile a été améliorée dans ce sens, en de nombreux points.
+L'interface "classique" ne peut fonctionner que de manière dégradée avec les WIP existant et ne peut en créer.
+
+Un "garbage collector" est mis en place sous la forme d'une tâche Symfony, supprimant toutes les heures (selon configuration du cron) les WIP non affectés depuis plus d'une heure.
+
+Le modèle a été changé pour permettre d'avoir des billets sans price_id pointant vers un objet Price (NULL)
+Il est impossible, que ce soit par l'interface ou par une URL directe, de créer un bon de commande ou une facture sur une opération ayant encore des "WIP". Si un bon de commande existe, il est impossible de rajouter un WIP.
+L'interface interdit l'impression de billets si certains sont encore en "WIP". Les actions elles-même traitent tous les billets sauf les "WIP".
+
+Au final les "WIP" ne peuvent que rester qu'à l'état de "demandes" et n'ont donc d'impact nulle part (sauf éventuellement chez les clients qui utilisent encore les demandent, ce qui est presque égal à 0) ailleurs dans le logiciel.

@@ -1,0 +1,39 @@
+5 nouvelles permissions débarquent :
+- event-reservation-change-contact
+- event-reservation-confirm
+- event-manif-edit-confirmed
+- event-access-all
+- event-reservation-conflicts
+
+== event-reservation-conflicts ==
+
+il n'est pas possible de créer des conflits d'usage sauf si notre utilisateur dispose de cette permission.
+
+
+== event-access-all ==
+
+cette permission permet d'accéder à l'ensemble des manifestations et des événements en modification.
+
+liée à la permission event-manif-edit (idem pour -del), elle donne accès en écriture à toutes les manifestations y compris celles qui sont affectées à d'autres contacts que celui lié à son user, y compris les manifestations confirmées. sans elle mais avec event-manif-edit, seules les manifestations non confirmées et affectées au contact lié à son user sont accessibles en modification.
+
+liée à la permission event-event-edit (idem pour -del), elle donne accès en écriture à tous les événements y compris ceux ayant des manifestations qui sont affectées à d'autres contacts que celui lié à son user. sans elle mais avec event-event-edit, seuls les événements ne disposant que de manifestations affectées au contact lié à son user sont accessibles en modification.
+
+
+== event-manif-edit-confirmed ==
+
+Permet de modifier une manifestation déjà confirmée.
+Sans cette permission, toute manifestation confirmée devient inaccessible en édition.
+
+
+== event-reservation-change-contact ==
+
+cette permission permet l'accès en modification du demandeur d'une réservation.
+sans cette permission, une réservation créée ou modifiée l'est automatiquement au nom du contact lié à l'utilisateur.
+
+
+== event-reservation-confirm ==
+
+cette permission permet d'accéder au paramètre "confirmé" d'une réservation qui n'est pas particulièrement affectée à son contact.
+N'a pas d'effet pour les manifestations demandées par le contact de l'utilisateur en cours, qui de toutes manières à le droit d'accéder à ce paramètre.
+
+
