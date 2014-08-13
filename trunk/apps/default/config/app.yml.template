@@ -14,3 +14,4 @@ all:
   backups:
     directory: /data/backup
     files_search: pgsql.dev.dump.*.gz
+    #ls_limit: -1 # < 0 means no limit, > 0 gives the maximum number of files to show

@@ -48,7 +48,12 @@ class liDirectory
     $r = array();
     foreach ( scandir($this->path, isset($arr[$sort]) ? $arr[$sort] : SCANDIR_SORT_ASCENDING) as $filename )
     if ( preg_match($search, $filename) === 1 && is_readable($this->getFilePath($filename)) )
+    {
+      if ( sfConfig::get('app_backups_ls_limit', 100) >= 0
+        && count($r) >= sfConfig::get('app_backups_ls_limit', 100) )
+        break;
       $r[$this->getFilePath($filename)] = $filename;
+    }
     
     return $r;
   }
