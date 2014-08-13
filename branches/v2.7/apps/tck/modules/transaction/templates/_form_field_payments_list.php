@@ -67,7 +67,7 @@ LI.urls['payments'] = '<?php echo url_for($options->getRaw('data_url').'?id='.$t
 
 <div class="footer">
 <?php if ( $sf_user->hasCredential('tck-accounting-order') ): ?>
-<form action="<?php echo url_for('ticket/order?id='.$transaction->id) ?>" method="get" target="_blank" class="accounting order noajax" onsubmit="javascript: return LI.printingTickets(this);">
+<form action="<?php echo url_for('ticket/order?id='.$transaction->id) ?>" method="get" target="_blank" class="accounting order noajax" onsubmit="javascript: return LI.printTickets(this);">
   <p>
     <input type="submit" name="order" value="<?php echo __('Order') ?>" class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button" />
     <input type="checkbox" name="nocancel" value="nocancel" title="<?php echo __("Excludes cancelled tickets from order.") ?>" />
