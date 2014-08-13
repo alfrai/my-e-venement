@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ability to access backups</source>
+        <target>Possibilité d'accéder aux sauvegardes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ability to edit the surveys and their content</source>
         <target>Capacité de modifier les questionnaires et leur contenu</target>
       </trans-unit>

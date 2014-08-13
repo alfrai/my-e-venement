@@ -107,8 +107,11 @@ echo ""
 
 # final data modifications
 echo ""
-echo "Permissions & groups for surveys (if they are already in the DB, you'll get a red error, it's normal)"
-./symfony doctrine:data-load --append data/fixtures/11-permissions-v28.yml
+echo "If you will get Symfony errors in the next few actions, it's normal, it is trying to add permissions that already exist in the DB"
+echo "Permissions & groups for surveys..."
+./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-srv.yml
+echo "Permissions & groups for accessing backups..."
+./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-backups.yml
 psql $db <<EOF
 EOF
 
