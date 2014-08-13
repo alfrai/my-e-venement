@@ -5,8 +5,16 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Seats first</source>
+        <target>Placer en 1er</target>
+      </trans-unit>
+      <trans-unit>
         <source>[1]1 answer to a survey|(1,+Inf]%%nb%% answers to surveys</source>
         <target>[1]1 réponse à un questionnaire|(1,+Inf]%%nb%% réponses aux questionnaires</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You always need to give a price to every seated-only tickets before printing or booking.</source>
+        <target>Avant toute impression ou réservation, vous devez toujours fixer un tarif aux billets n'ayant été que placés.</target>
       </trans-unit>
       <trans-unit>
         <source>From %from_date%</source>

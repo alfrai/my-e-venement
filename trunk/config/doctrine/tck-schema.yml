@@ -96,9 +96,7 @@ Ticket:
     gauge_id:
       type: integer
       notnull: true
-    price_id:
-      type: integer
-      notnull: true
+    price_id: integer
     price_name:
       type: string(63)
       notnull: true

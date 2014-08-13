@@ -36,7 +36,9 @@
       ->leftJoin('e.Companies c')
       ->orderBy('m.happens_at, tck.price_name, tck.id')
       ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
-      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL');
+      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
+      ->andWhere('tck.price_id IS NOT NULL')
+    ;
     if ( $request->hasParameter('toprint') )
     {
       $tids = $request->getParameter('toprint');

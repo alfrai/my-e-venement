@@ -25,6 +25,7 @@
     $this->executeAccounting($request,false);
     $this->order = $this->transaction->Order[0];
     
+    
     if ( $request->hasParameter('cancel-order') )
     {
       $this->order->delete();
@@ -32,10 +33,11 @@
       // numerotation matters
       // updating tickets in bulk
       $q = Doctrine_Query::create()->from('Ticket tck')
-        ->select('tck.id')
+        ->select('tck.id, tck.price_id')
         ->andWhere('tck.transaction_id = ?',$this->transaction->id)
         ->andWhere('tck.numerotation IS NOT NULL OR tck.numerotation != ?', '')
-        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL');
+        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
+      ;
       $tickets = array();
       foreach ( $q->fetchArray() as $t )
         $tickets[] = $t['id'];

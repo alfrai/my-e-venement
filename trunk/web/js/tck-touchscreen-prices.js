@@ -1,5 +1,5 @@
   $(document).ready(function(){
-    var form = $('#li_transaction_field_price_new form');
+    var form = $('#li_transaction_field_price_new form.prices');
     $('#li_transaction_field_price_new').click(function(){
       $(this).find('input[type=text]').focus();
     });
@@ -9,7 +9,7 @@
       var url = $(this).prop('href');
       $(this).prop('href', form.prop('action'));
       form.prop('action', url);
-      $('#li_transaction_field_price_new').toggleClass('cancelling').find('form').toggleClass('noajax');
+      $('#li_transaction_field_price_new').toggleClass('cancelling').find('form.prices').toggleClass('noajax');
       $('#li_transaction_field_price_new').find('a, input, button').unbind('focusout').focusout(function(){ return false; });
       $('#li_transaction_field_price_new [name="transaction[price_new][qty]"]').focus();
       return false;
@@ -18,6 +18,9 @@
       if ( $('#li_transaction_field_price_new').hasClass('cancelling') )
         $('#li_transaction_field_price_new .cancel').click();
     });
+    
+    // dealing w/ the "seats-first" feature
+    $('#li_transaction_field_price_new .seats-first').unbind();
     
     $('#li_transaction_field_content .highlight:not(.new-family)').focusin(function(){
       form.find('button').remove();
@@ -38,6 +41,13 @@
           })
         ;
       });
+      
+      // direct seating
+      if ( $(this).find('.data .gauge.seated').length > 0 )
+        $('#li_transaction_field_price_new .seats-first').addClass('usefull');
+      else
+        $('#li_transaction_field_price_new .seats-first').removeClass('usefull');
+      $('#li_transaction_field_price_new .seats-first [name=gauge_id]').val($(this).attr('data-gauge-id'));
       
       $('#li_transaction_field_price_new').fadeIn();
     }).focusout(function(){

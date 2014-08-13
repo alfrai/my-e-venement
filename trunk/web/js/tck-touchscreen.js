@@ -49,7 +49,7 @@ $(document).ready(function(){
     if ( $(this).prop('defaultValue') !== $(this).val() )
     {
       var diff = $(this).val() - $(this).prop('defaultValue');
-      var form = $('#li_transaction_field_price_new form');
+      var form = $('#li_transaction_field_price_new form.prices');
       var orig = form.find('[name="transaction[price_new][qty]"]').val();
       
       // if the tickets to treat are integrated

@@ -161,8 +161,10 @@ LI.completeContent = function(data, type, replaceAll = true)
         });
         if ( !mod || price.state )
         {
-          wprice.addClass('active').addClass(price.state ? price.state : 'readonly');
-          if ( price.state === 'printed' )
+          if ( parseInt(price.id)+'' === ''+price.id ) // everything but a Work In Progress price
+            wprice.addClass('active');
+          wprice.addClass(price.state ? price.state : 'readonly');
+          if ( price.state === 'printed' || parseInt(price.id)+'' !== ''+price.id ) // every printed or Work In progress price
             wprice.find('.qty input').prop('readonly', true);
         }
         wprice.find('.qty input').val(price.qty).select();

@@ -81,6 +81,7 @@
    *               tickets' numerotation
    **/
 
+    $this->getContext()->getConfiguration()->loadHelpers('Slug');
     if ( $request->getParameter('id',false) )
     {
       $q = Doctrine::getTable('Transaction')->createQuery('t')
@@ -93,7 +94,7 @@
       
       // retrictive parameters
       if ( $pid = $request->getParameter('price_id', false) )
-        $q->andWhere('tck.price_id = ?',$pid);
+        $q->andWhere('tck.price_id = ? OR tck.price_id IS NULL',$pid);
       if ( $request->hasParameter('state') )
       {
         switch ( $request->getParameter('state') ){
@@ -262,9 +263,9 @@
           'pit' => 0,
           'vat' => 0,
           'tep' => 0,
-          'name' => $ticket->Price->name,
-          'description' => $ticket->Price->description,
-          'id' => $ticket->price_id,
+          'name' => !$ticket->price_id ? $ticket->price_name : $ticket->Price->name,
+          'description' => !$ticket->price_id ? '' : $ticket->Price->description,
+          'id' => $ticket->price_id ? $ticket->price_id : slugify($ticket->price_name),
           'ids' => array(),
           'numerotation' => array()
         );
@@ -288,9 +289,9 @@
             'pit' => 0,
             'vat' => 0,
             'tep' => 0,
-            'name' => $ticket->Price->name,
-            'description' => $ticket->Price->description,
-            'id' => $ticket->price_id,
+            'name' => !$ticket->price_id ? $ticket->price_name : $ticket->Price->name,
+            'description' => !$ticket->price_id ? '' : $ticket->Price->description,
+            'id' => $ticket->price_id ? $ticket->price_id : slugify($ticket->price_name),
             'ids' => array(),
             'numerotation' => array()
           );

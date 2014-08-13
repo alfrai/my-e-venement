@@ -67,7 +67,7 @@ LI.urls['payments'] = '<?php echo url_for($options->getRaw('data_url').'?id='.$t
 
 <div class="footer">
 <?php if ( $sf_user->hasCredential('tck-accounting-order') ): ?>
-<form action="<?php echo url_for('ticket/order?id='.$transaction->id) ?>" method="get" target="_blank" class="accounting order noajax" onsubmit="javascript: return LI.printingTickets(this);">
+<form action="<?php echo url_for('ticket/order?id='.$transaction->id) ?>" method="get" target="_blank" class="accounting order noajax">
   <p>
     <input type="submit" name="order" value="<?php echo __('Order') ?>" class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button" />
     <input type="checkbox" name="nocancel" value="nocancel" title="<?php echo __("Excludes cancelled tickets from order.") ?>" />
@@ -96,18 +96,25 @@ LI.urls['payments'] = '<?php echo url_for($options->getRaw('data_url').'?id='.$t
     <?php if ( $transaction->Order->count() == 0 ): ?>
       $('#li_transaction_field_payments_list .accounting.order [name=cancel-order]')
         .css('visibility','hidden');
+    <?php else: ?>
+      $('#li_transaction_field_price_new .seats-first').fadeOut();
     <?php endif ?>
     $('#li_transaction_field_payments_list .accounting.order').submit(function(){
+      if ( !LI.printTickets(this) )
+        return false;
       $('#li_transaction_field_payments_list .accounting.order [name=cancel-order]')
         .css('visibility', 'visible');
+      $('#li_transaction_field_price_new .seats-first').fadeOut();
     });
     $('#li_transaction_field_payments_list .accounting.order [name=cancel-order]').click(function(){
       $.ajax({
         url:  $(this).closest('form').prop('action')+'?cancel-order',
         method: 'get',
-        complete: function(){
+        complete: function()
+        {
           $('#li_transaction_field_payments_list .accounting.order [name=cancel-order]')
             .css('visibility', 'hidden');
+          $('#li_transaction_field_price_new .seats-first').fadeIn();
         }
       });
       return false;

@@ -91,7 +91,7 @@
         ->andWhereNotIn('m.id',$mids)
         ->andWhere('m.reservation_confirmed = TRUE')
         ->andWhere('e.display_by_default = TRUE')
-        ->orderBy('m.happens_at, e.name')
+        ->orderBy('m.happens_at, et.name')
         ->limit(intval($request->getParameter('limit')) > 0 ? intval($request->getParameter('limit')) : (isset($config['max_display']) ? $config['max_display'] : 10));
 
       $this->page = intval($request->getParameter('page',0));

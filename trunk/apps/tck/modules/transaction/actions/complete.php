@@ -180,13 +180,31 @@
         
         $manifs = array();
         if ( $params[$field]['qty'] > 0 ) // add
-        for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )
         {
-          $ticket = new Ticket;
-          $ticket->gauge_id = $params[$field]['gauge_id'];
-          $ticket->price_id = $params[$field]['price_id'];
-          $ticket->transaction_id = $request->getParameter('id');
-          $ticket->save();
+          // tickets to transform
+          $q = Doctrine_Query::create()->from('Ticket tck')
+            ->andWhere('tck.gauge_id = ?',$params[$field]['gauge_id'])
+            ->andWhere('tck.price_id IS NULL')
+            ->andWhere('tck.transaction_id = ?',$request->getParameter('id'))
+            ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND cancelling IS NULL')
+            ->orderBy('tck.numerotation IS NULL DESC, id DESC');
+          $tickets = $q->execute();
+          
+          for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )
+          {
+            $ticket = $tickets[$i];
+            if ( !$ticket->isNew() )
+            {
+              $ticket->price_name = NULL;
+              $ticket->value      = NULL;
+              $ticket->vat        = NULL;
+            }
+            
+            $ticket->gauge_id = $params[$field]['gauge_id'];
+            $ticket->price_id = $params[$field]['price_id'];
+            $ticket->transaction_id = $request->getParameter('id');
+            $ticket->save();
+          }
         }
         else // delete
         {

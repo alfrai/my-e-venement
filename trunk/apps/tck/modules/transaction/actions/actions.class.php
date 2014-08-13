@@ -253,14 +253,22 @@ class transactionActions extends autoTransactionActions
   public function executeUpdate(sfWebRequest $request)
   { $this->forward404('You are not supposed to be here...'); }
   
+  public function executeSeatsFirst(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers(array('Url'));
+    $this->getUser()->setFlash('referer', url_for('transaction/closeWindow'));
+    $this->redirect('ticket/seatsAllocation?id='.$request->getParameter('id').'&gauge_id='.$request->getParameter('gauge_id').'&add_tickets=true');
+  }
+  public function executeCloseWindow(sfWebRequest $request)
+  { }
+  
   protected function dealWithDebugMode(sfWebRequest $request)
   {
     $this->setTemplate('json');
     
-    if ( $request->hasParameter('debug') && $this->getContext()->getConfiguration()->getEnvironment() == 'dev' )
+    if ( $request->hasParameter('debug') && sfConfig::get('sf_web_debug', false) )
     {
       $this->getResponse()->setContentType('text/html');
-      sfConfig::set('sf_debug',true);
       $this->setLayout('layout');
     }
     else

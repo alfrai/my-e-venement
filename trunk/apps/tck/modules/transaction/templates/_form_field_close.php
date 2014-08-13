@@ -13,6 +13,7 @@
 <ul class="print">
   <li class="pay-before"><?php echo __('You must record the payment(s) before printing the ticket(s)') ?></li>
   <li class="partial-print-error"><?php echo __('You must have at least one manifestation selected.') ?></li>
+  <li class="give-price-to-wip"><?php echo __('You always need to give a price to every seated-only tickets before printing or booking.') ?></li>
 </ul>
 <ul class="payments">
   <li class="translinked"><?php echo __('This payment is linked to the cancelling transaction #%%id%%') ?></li>

@@ -36,10 +36,11 @@
   </a>
 </p>
 <p id="context">
-  <span class="manifestation"><?php echo $transaction->Tickets[0]->Manifestation->getNameWithFullDate() ?></span>
-  <span class="gauge"><?php echo $transaction->Tickets[0]->Gauge->Workspace ?></span>
+  <span class="manifestation"><?php echo $manifestation->getNameWithFullDate() ?></span>
+  <span class="gauge"><?php echo $gauge->Workspace ?></span>
 </p>
 
+<?php if ( $transaction->Tickets->count() > 0 ): ?>
 <form action="<?php echo url_for('ticket/resetASeat?id='.$transaction->id) ?>" method="get" id="todo" class="reset-a-seat">
   <?php foreach ( $transaction->Tickets as $ticket ): ?>
   <span class="ticket" title="#<?php echo $ticket->id ?>">
@@ -66,6 +67,7 @@
   </form>
   <span class="total">0</span>
 </div>
+<?php endif ?>
 
 <p id="plan"><a class="picture seated-plan" href="<?php echo cross_app_url_for('event', 'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id.'&transaction_id='.$transaction->id) ?>" style="background-color: <?php echo $seated_plan->background ?>;">
   <?php echo $seated_plan->getRaw('Picture')->getHtmlTag(array('title' => $seated_plan->Picture)) ?>

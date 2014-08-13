@@ -32,6 +32,7 @@
       ->createQuery('t')
       ->andWhere('t.id = ?',$request->getParameter('id'))
       ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
+      ->andWhere('tck.price_id IS NOT NULL')
       ->leftJoin('m.Location l')
       ->leftJoin('m.Organizers o')
       ->leftJoin('m.Event e')

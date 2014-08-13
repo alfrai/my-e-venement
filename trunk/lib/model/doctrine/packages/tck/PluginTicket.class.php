@@ -55,19 +55,19 @@ abstract class PluginTicket extends BaseTicket
         $q->andWhere('p.name = ?',$this->price_name);
       
       $pm = $q->fetchOne();
-      if ( !$pm )
-        throw new liEvenementException('Associated price not found.');
-      
-      if ( is_null($this->manifestation_id) )
-        $this->manifestation_id = $pm->manifestation_id;
-      if ( is_null($this->vat) )
-        $this->vat = $pm->Manifestation->Vat->value;
-      if ( is_null($this->price_name) )
-        $this->price_name = $pm->Price->name;
-      if ( is_null($this->price_id) )
-        $this->price_id = $pm->price_id;
-      if ( is_null($this->value) )
-        $this->value    = $pm->value;
+      if ( $pm )
+      {
+        if ( is_null($this->manifestation_id) )
+          $this->manifestation_id = $pm->manifestation_id;
+        if ( is_null($this->vat) )
+          $this->vat = $pm->Manifestation->Vat->value;
+        if ( is_null($this->price_name) )
+          $this->price_name = $pm->Price->name;
+        if ( is_null($this->price_id) )
+          $this->price_id = $pm->price_id;
+        if ( is_null($this->value) )
+          $this->value    = $pm->value;
+      }
     }
     
     // the transaction's last update
