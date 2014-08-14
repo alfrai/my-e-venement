@@ -45,7 +45,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     
     if(!class_exists('Manifestation'))
-      throw new sfCommandException(sprintf('Model "%s" doesn\'t exist.', $arguments['model']));
+      throw new sfCommandException(sprintf('Model "%s" doesn\'t exist.', 'Manifestation'));
     
     $this->configuration->loadHelpers(array('CrossAppLink', 'Url', 'I18N', 'Date', 'Tag'));
     

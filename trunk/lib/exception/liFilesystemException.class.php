@@ -22,15 +22,6 @@
 ***********************************************************************************/
 ?>
 <?php
-
-class liApplicationConfiguration extends sfApplicationConfiguration
+class liFilesystemException extends liEvenementException
 {
-  public function configure()
-  {
-    if ( !sfContext::hasInstance() )
-      sfContext::createInstance($this,'dev');
-    
-    require_once sfContext::getInstance()->getConfigCache()->checkConfig('config/project.yml');
-  }
 }
-

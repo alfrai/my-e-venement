@@ -65,7 +65,7 @@ EOF;
           }
           catch ( sfException $e )
           {
-            $this->logSection('geo', sprintf('ERROR on %s %s', $arguments['model'],$price->name));
+            $this->logSection('geo', sprintf('ERROR on %s %s', $options['model'],$price->name));
           }
         }
       }

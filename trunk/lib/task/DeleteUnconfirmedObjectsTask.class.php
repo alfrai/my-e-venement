@@ -46,7 +46,7 @@ EOF;
 
   protected function  execute($arguments = array(), $options = array()) {
     $databaseManager = new sfDatabaseManager($this->configuration);
-    $modelTableClass = sfInflector::classify($arguments['model'].'_table');
+    $modelTableClass = sfInflector::classify($options['model'].'_table');
 
     if(!class_exists($modelTableClass)){
       throw new sfCommandException(sprintf('Model "%s" doesn\'t exist.', $arguments['model']));

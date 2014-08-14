@@ -2,8 +2,11 @@
 
 require_once dirname(__FILE__).'../../../../config/autoload.inc.php';
 
-class tckConfiguration extends sfApplicationConfiguration
+class tckConfiguration extends sfApplicationConfiguration implements liGarbageCollectorInterface
 {
+  protected $collectors = array();
+  protected $task;
+  
   public function configure()
   {
     parent::configure();
@@ -97,5 +100,104 @@ EOF
     $auth->success          = $params['authenticated'];
     
     $auth->save();
+  }
+  
+  protected function stdout($section, $message, $style = 'INFO')
+  {
+    if ( !$this->task )
+      echo "$section: $message";
+    else
+      $this->task->logSection(str_pad($section,20), $message, null, $style);
+  }
+  public function initGarbageCollectors(sfCommandApplicationTask $task = NULL)
+  {
+    $this->task = $task;
+    
+    // WIP tickets collector
+    $this->addGarbageCollector('wip', function(){
+      $section = 'WIP tickets';
+      $this->stdout($section, 'Deleting tickets...', 'COMMAND');
+      $nb = Doctrine_Query::create()->from('Ticket tck')
+        ->andWhere('tck.price_id IS NULL')
+        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL')
+        ->andWhere('tck.updated_at < ?', date('Y-m-d H:i:s', strtotime(sfConfig::get('app_tickets_wip_timeout', '2 hours').' ago')))
+        ->delete()
+        ->execute()
+      ;
+      $this->stdout($section, "[OK] $nb tickets deleted", 'INFO');
+    });
+    
+    // Asked tickets collector
+    $this->addGarbageCollector('asked', function(){
+      $section = 'Asked tickets';
+      $this->stdout($section, 'Deleting too old tickets...', 'COMMAND');
+      $nb = Doctrine_Query::create()->from('Ticket tck')
+        ->andWhere('tck.price_id IS NOT NULL')
+        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL')
+        ->andWhere('tck.updated_at < ?', date('Y-m-d H:i:s', strtotime(sfConfig::get('app_tickets_asked_timeout','1 hour').' ago')))
+        ->delete()
+        ->execute()
+      ;
+      $this->stdout($section, "[OK] $nb tickets deleted", 'INFO');
+    });
+    
+    // Close useless transactions
+    $this->addGarbageCollector('close', function(){
+      $section = 'Opened transactions';
+      $this->stdout($section, 'Closing too old transactions...', 'COMMAND');
+      
+      $q = Doctrine::getTable('Transaction')->createQuery('t')
+        ->select('t.id, t.closed')
+        ->leftJoin('t.Payments p')
+        ->andWhere('t.updated_at < ?', date('Y-m-d H:i:s', strtotime('1 day ago')))
+        ->andWhere('t.closed = ?', false)
+        ->groupBy('t.id, t.closed')
+        ->having('count(tck.id) = 0 AND count(p.id) = 0')
+      ;
+      $transactions = $q->execute();
+      foreach ( $transactions as $transaction )
+      {
+        $transaction->closed = true;
+        $transaction->save();
+      }
+      
+      $this->stdout($section, '[OK] '.$transactions->count().' transactions closed', 'INFO');
+    });
+    
+    return $this;
+  }
+  public function executeGarbageCollectors($names = NULL)
+  {
+    if ( is_null($names) )
+      $names = array_keys($this->collectors);
+    
+    if ( !is_array($names) )
+      $names = array($names);
+    
+    foreach ( $names as $name )
+    {
+      $fct = $this->getGarbageCollector($name);
+      if ( $fct instanceof Closure )
+        $fct();
+    }
+    
+    return $this;
+  }
+  public function getGarbageCollector($name)
+  {
+    if ( !isset($this->collectors[$name]) )
+      return FALSE;
+    return $this->collectors[$name];
+  }
+  public function addGarbageCollector($name, Closure $function)
+  {
+    if ( isset($this->collectors[$name]) )
+      throw new liEvenementException('A collector with the name "'.$name.'" already exists. Maybe you wanted to replace it ?');
+    return $this->addOrReplaceGarbageCollector($name, $function);
+  }
+  public function addOrReplaceGarbageCollector($name, Closure $function)
+  {
+    $this->collectors[$name] = $function;
+    return $this;
   }
 }

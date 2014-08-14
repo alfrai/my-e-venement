@@ -50,7 +50,7 @@ EOF;
     
     // preconditions
     $checkpoint = Doctrine::getTable('Checkpoint')->createQuery('c')
-      ->andWhere('c.id = ?',$arguments['checkpoint_id'])
+      ->andWhere('c.id = ?',$options['checkpoint_id'])
       ->fetchOne();
     if ( !$checkpoint )
       throw new sfException('Checkpoint does not exist');
