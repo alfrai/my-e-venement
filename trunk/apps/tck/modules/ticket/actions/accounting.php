@@ -27,13 +27,6 @@
     
     $this->totals = array('pet' => 0, 'tip' => 0, 'vat' => array('total' => 0));
     
-    // verifying if every ticket has a price_id
-    $q = Doctrine::getTable('Ticket')->createQuery('tck')
-      ->andWhere('tck.transaction_id = ?', $this->transaction->id)
-      ->andWhere('tck.price_id IS NULL');
-    if ( $q->count() > 0 )
-      throw new liBookingException("No accounting document can be created if some tickets are still running without price_id for its transaction (here: #".$this->transaction->id.")");
-
     // retrieve tickets
     $q = new Doctrine_Query();
     $q->from('Ticket t')

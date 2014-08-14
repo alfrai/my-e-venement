@@ -40,11 +40,11 @@
       ->leftJoin('s.SeatedPlan sp')
       ->leftJoin('sp.Workspaces ws')
       ->leftJoin('ws.Gauges g')
+      ->andWhere('g.id = ?',$ticket['gauge_id'])
       ->leftJoin('g.Tickets tck')
+      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
       ->leftJoin('tck.Transaction t')
       ->andWhere('t.closed = ?',false)
-      ->andWhere('tck.gauge_id = ?',$ticket['gauge_id'])
-      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL'),
   ));
   
   $form->bind($ticket);

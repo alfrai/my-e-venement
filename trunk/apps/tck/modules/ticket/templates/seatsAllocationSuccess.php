@@ -29,6 +29,15 @@
   </div>
   <div class="ui-corner-all ui-widget-content ui-widget">
 
+<p class="first next">
+  <?php $opt = sfConfig::get('app_transaction_seated_plan', array()) ?>
+  <?php if ( !isset($opt['auto_next']) ) $opt['auto_next'] = true; ?>
+  <a href="<?php echo $url_next ?>" onclick="javascript: window.opener.LI.initContent();"
+     class="fg-button ui-state-default fg-button-icon-right <?php echo $opt['auto_next'] ? 'auto-click' : '' ?>">
+    <?php echo __('Next') ?>
+  </a>
+</p>
+
 <p id="reload">
   <a href="javascript: location.reload();"
      class="fg-button ui-state-default fg-button-icon-right">
@@ -40,15 +49,18 @@
   <span class="gauge"><?php echo $gauge->Workspace ?></span>
 </p>
 
-<?php if ( $transaction->Tickets->count() > 0 ): ?>
 <form action="<?php echo url_for('ticket/resetASeat?id='.$transaction->id) ?>" method="get" id="todo" class="reset-a-seat">
+  <?php $nb = 0 ?>
   <?php foreach ( $transaction->Tickets as $ticket ): ?>
+  <?php if ( !$ticket->numerotation ): $nb++; ?>
   <span class="ticket" title="#<?php echo $ticket->id ?>">
     <?php echo $ticket->price_name ?>
     <input type="hidden" name="ticket_id" value="<?php echo $ticket->id ?>" />
+    <input type="hidden" name="ticket_numerotation" value="" />
   </span>
+  <?php endif ?>
   <?php endforeach ?>
-  <span class="total"><?php echo $transaction->Tickets->count() ?></span>
+  <span class="total"><?php echo $nb ?></span>
   <span style="display: none;">
     <input type="hidden" name="ticket[_csrf_token]" value="<?php $f = new sfForm; echo $f->getCSRFToken() ?>" />
     <input type="hidden" name="ticket[numerotation]" value="" />
@@ -62,21 +74,31 @@
       <input type="hidden" name="ticket[_csrf_token]" value="<?php $f = new sfForm; echo $f->getCSRFToken() ?>" />
       <input type="hidden" name="ticket[id]" value="" />
       <input type="hidden" name="ticket[numerotation]" value="" />
+      <input type="hidden" name="ticket[gauge_id]" value="<?php echo $gauge->id ?>" />
       <span class="error_msg"><?php echo __('An error occurred during the seat allocation. Please try again.') ?></span>
     </p>
   </form>
-  <span class="total">0</span>
+  <?php $nb = 0 ?>
+  <?php foreach ( $transaction->Tickets as $ticket ): ?>
+  <?php if ( $ticket->numerotation ): $nb++; ?>
+  <span class="ticket" title="#<?php echo $ticket->id ?>">
+    <?php echo $ticket->price_name ?>
+    <input type="hidden" name="ticket_id" value="<?php echo $ticket->id ?>" />
+    <input type="hidden" name="ticket_numerotation" value="<?php echo $ticket->numerotation ?>" />
+  </span>
+  <?php endif ?>
+  <?php endforeach ?>
+  <span class="total"><?php echo $nb ?></span>
 </div>
-<?php endif ?>
 
 <p id="plan"><a class="picture seated-plan" href="<?php echo cross_app_url_for('event', 'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id.'&transaction_id='.$transaction->id) ?>" style="background-color: <?php echo $seated_plan->background ?>;">
   <?php echo $seated_plan->getRaw('Picture')->getHtmlTag(array('title' => $seated_plan->Picture)) ?>
 </a></p>
 
-<p id="next">
+<p class="last next">
   <?php $opt = sfConfig::get('app_transaction_seated_plan', array()) ?>
   <?php if ( !isset($opt['auto_next']) ) $opt['auto_next'] = true; ?>
-  <a href="<?php echo $url_next ?>"
+  <a href="<?php echo $url_next ?>" onclick="javascript: window.opener.LI.initContent();"
      class="fg-button ui-state-default fg-button-icon-right <?php echo $opt['auto_next'] ? 'auto-click' : '' ?>">
     <?php echo __('Next') ?>
   </a>

@@ -44,16 +44,19 @@
     ->andWhere('tck.id NOT IN (SELECT tt.duplicating FROM ticket tt  WHERE tt.duplicating IS NOT NULL AND tt.transaction_id = t.id)')
     ->andWhere('tck.id NOT IN (SELECT ttt.cancelling FROM ticket ttt LEFT JOIN ttt.Transaction tttr WHERE ttt.cancelling IS NOT NULL AND tttr.transaction_id = t.id)')
     ->andWhere('tck.gauge_id = ?',$request->getParameter('gauge_id',0))
-    ->andWhere('tck.numerotation IS NULL OR tck.numerotation = ?', '')
+    ->andWhere('tck.numerotation IS NULL OR tck.numerotation = ? OR tck.price_id IS NULL', '')
     ->orderBy('tck.price_name');
   if ( $request->getParameter('toprint',false) && is_array($request->getParameter('toprint')) )
     $q->andwhereIn('tck.id', $request->getParameter('toprint'));
   $this->transaction = $q->fetchOne();
   
-  if ( !$this->transaction && $request->hasParameter('add_tickets') )
+  if ( !$this->transaction )
   {
     $this->transaction = $backup->fetchOne();
-    unset($this->transaction->Tickets);
+    if ( !$this->transaction )
+      throw new liSeatedPlanException('No transaction can be found to seat tickets with this id: '.$request->getParameter('id',0));
+    
+    // get the gauge w/o ticket
     $this->gauge = Doctrine::getTable('Gauge')->createQuery('g', false)
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.Event e')
@@ -62,6 +65,7 @@
       ->andWhere('g.id = ?', $request->getParameter('gauge_id',0))
       ->fetchOne()
     ;
+    
     $this->manifestation = $this->gauge->Manifestation;
     $this->seated_plan = $this->manifestation->Location
       ->getWorkspaceSeatedPlan($this->gauge->workspace_id);
@@ -73,6 +77,22 @@
     $this->seated_plan = $sample_ticket->Manifestation->Location->getWorkspaceSeatedPlan($this->transaction->Tickets[0]->Gauge->workspace_id);
     $this->gauge = $sample_ticket->Gauge;
     $this->manifestation = $sample_ticket->Manifestation;
+  }
+  
+  if ( $request->hasParameter('add_tickets') )
+  {
+    // artificially remove price'd tickets (WARNING: DO NOT SAVE THE TRANSACTION IN THIS ACTION !!)
+    foreach ( $this->transaction->Tickets as $key => $ticket )
+    if ( $ticket->price_id )
+      unset($this->transaction->Tickets[$key]);
+    
+    // add "fake" tickets to seat them before giving them a price
+    for ( $i = 0 ; $i < 10 ; $i++ )
+    {
+      $ticket = $this->transaction->Tickets[$i+$this->transaction->Tickets->count()];
+      $ticket->price_name = sfConfig::get('app_tickets_wip_price', 'WIP');
+      $ticket->Gauge = $this->gauge;
+    }
   }
   
   // error

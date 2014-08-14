@@ -144,6 +144,20 @@
     elseif ( $q->count() == 0 )
       return;
     
+    // model for ticket's data
+    $tickets_model = array(
+      'state' => '',
+      'qty' => 0,
+      'pit' => 0,
+      'vat' => 0,
+      'tep' => 0,
+      'name' => '',
+      'description' => '',
+      'id' => '',
+      'ids' => array(),
+      'numerotation' => array(),
+    );
+    
     foreach ( $this->transaction ? $this->transaction->Tickets : $mid as $ticket ) // loophole
     {
       // by manifestation
@@ -184,7 +198,7 @@
             'name' => (string)$gauge->Workspace,
             'url' => cross_app_url_for('event','gauge/state?id='.$gauge->id.'&json=true',true),
             'available_prices' => array(),
-            'prices' => array(),
+            'prices' => array('-' => $tickets_model),
           );
           
           if ( $seated_plan = $manifestation->Location->getWorkspaceSeatedPlan($gauge->workspace_id) )
@@ -252,23 +266,14 @@
       elseif ( $ticket->integrated_at )
         $state = 'integrated';
       
-      if ( !isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices']) )
-        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'] = array();
-        
       $pname = $ticket->price_id.'-'.$state;
-      if ( !isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]) )
+      if (!( isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]) && count($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['ids']) > 0 ))
         $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname] = array(
           'state' => $state,
-          'qty' => 0,
-          'pit' => 0,
-          'vat' => 0,
-          'tep' => 0,
           'name' => !$ticket->price_id ? $ticket->price_name : $ticket->Price->name,
           'description' => !$ticket->price_id ? '' : $ticket->Price->description,
           'id' => $ticket->price_id ? $ticket->price_id : slugify($ticket->price_name),
-          'ids' => array(),
-          'numerotation' => array()
-        );
+        ) + $tickets_model;
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['ids'][] = $ticket->id;
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['numerotation'][] = $ticket->numerotation;
       
@@ -282,19 +287,14 @@
       if ( $cancelling = $ticket->hasBeenCancelled() )
       {
         $pname = $ticket->price_id.'-cancelling';
-        if ( !isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]) )
+        if (!( isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]) && count($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['ids']) == 0 ))
+          $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname] = 
           $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname] = array(
-            'state' => 'cancelling',
-            'qty' => 0,
-            'pit' => 0,
-            'vat' => 0,
-            'tep' => 0,
+            'state' => $state,
             'name' => !$ticket->price_id ? $ticket->price_name : $ticket->Price->name,
             'description' => !$ticket->price_id ? '' : $ticket->Price->description,
             'id' => $ticket->price_id ? $ticket->price_id : slugify($ticket->price_name),
-            'ids' => array(),
-            'numerotation' => array()
-          );
+          ) + $tickets_model;
         $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['ids'][] = $cancelling[0]->id;
         $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['numerotation'][] = $cancelling[0]->numerotation;
         

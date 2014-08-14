@@ -98,7 +98,7 @@
     if ( data.record && $('.sf_admin_form_field_show_picture').length > 0 )
     if ( $('.sf_admin_form_field_show_picture .seat .txt[value="'+name+'"]').length > 0 )
     {
-      alert($('.js_seated_plan_useful .alert_seat_duplicate').html());
+      LI.alert($('.js_seated_plan_useful .alert_seat_duplicate').html());
       return false;
     }
     
@@ -181,7 +181,7 @@
         url: $(this).prop('action'),
         data: $(this).serialize(),
         error: function(){
-          alert($('.js_seated_plan_useful .save_error').html());
+          LI.alert($('.js_seated_plan_useful .save_error').html());
           $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
         }
       });
@@ -194,13 +194,18 @@
       return false;
     
     $('form.reset-a-seat:first [name="ticket[numerotation]"]').val($(seat).find('input').val());
-    var id = $(seat).clone(true).removeClass('seat').removeClass('txt').removeClass('ordered').removeClass('in-progress').attr('class');
+    var id = $(seat).clone(true).removeClass('seat').removeClass('txt').removeClass('ordered').removeClass('asked').removeClass('in-progress').attr('class');
     $('form.reset-a-seat:first').unbind().submit(function(){
       $.ajax({
         url: $('form.reset-a-seat:first').prop('action'),
         data: $('form.reset-a-seat:first').serialize(),
         success: function(){
-          $('.seated-plan .'+id).removeClass('ordered').removeClass('in-progress');
+          seat = $('.seated-plan .'+id);
+          seat.removeClass('ordered').removeClass('asked').removeClass('in-progress');
+          $('#done [name=ticket_numerotation][value="'+seat.find('input').val()+'"]').val('')
+            .closest('.ticket').prependTo('#todo');
+          $('#done .total').text(parseInt($('#done .total').text())-1);
+          $('#todo .total').text(parseInt($('#todo .total').text())+1);
         },
       });
       return false;

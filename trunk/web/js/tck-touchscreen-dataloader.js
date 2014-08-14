@@ -144,6 +144,8 @@ LI.completeContent = function(data, type, replaceAll = true)
       // in progress: prices
       if ( gauge['prices'] != undefined )
       $.each(gauge['prices'], function(index, price){
+        if ( price.qty == 0 )
+          return;
         var wprice = $('#li_transaction_'+type+' .families.sample .declination').clone(true);
         var add = true;
         if ( (tmp = wgauge.find(str = '[data-price-id='+price.id+'].declination'+(price.state ? '.active.'+price.state : ':not(.active)'))).length > 0 )

@@ -43,16 +43,16 @@ abstract class PluginTicket extends BaseTicket
     {
       $q = Doctrine::getTable('PriceManifestation')->createQuery('pm')
         ->leftJoin('pm.Manifestation m')
-        ->leftJoin('pm.Price p')
         ->leftJoin('m.Gauges g')
         ->leftJoin('m.Vat v')
         ->andWhere('g.id = ?',$this->gauge_id)
         ->orderBy('pm.updated_at DESC');
       
-      if ( !is_null($this->price_id) )
-        $q->andWhere('p.id = ?',$this->price_id);
+      if ( is_null($this->price_id) )
+        $q->leftJoin('pm.Price p WITH p.name = ?',$this->price_name);
       else
-        $q->andWhere('p.name = ?',$this->price_name);
+        $q->leftJoin('pm.Price p WITH p.id = ?',$this->price_id)
+          ->andWhere('p.id IS NOT NULL');
       
       $pm = $q->fetchOne();
       if ( $pm )

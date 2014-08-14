@@ -40,10 +40,12 @@
 /* TRANSACTIONS */
 .seats-allocation .ui-widget-content { margin: 5px; padding: 5px; }
 .seats-allocation .seated-plan { margin-bottom: 15px; }
-.seats-allocation #next { margin: 10px; text-align: right; height: 20px; }
 .seats-allocation #reload { float: right; }
 .seats-allocation #reload { display: none; }
-.seats-allocation #next a { float: right; text-decoration: none; padding: 3px 15px; }
+.seats-allocation .next { margin: 10px; text-align: right; height: 20px; }
+.seats-allocation .next.first { position: absolute; right: 35px; }
+.seats-allocation .next a { float: right; text-decoration: none; padding: 3px 15px; }
+.seats-allocation .next.first a { float: none; }
 .seats-allocation .ticket { padding: 2px 7px; cursor: default; border: 1px dashed gray; border-radius: 3px; margin-right: 5px; display: inline-block; white-space: nowrap; }
 .seats-allocation .gauge { display: block; }
 .seats-allocation .manifestation { font-weight: bold; }

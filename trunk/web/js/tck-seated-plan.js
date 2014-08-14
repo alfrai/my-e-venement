@@ -3,7 +3,7 @@ $(document).ready(function(){
   {
     var click;
     $('.seated-plan .seat.txt').click(click = function(){
-      if ( $('#todo .ticket').length == 0 || $(this).is('.printed') || $(this).is('.ordered') )
+      if ( $('#todo .ticket').length == 0 || $(this).is('.printed') || $(this).is('.asked') || $(this).is('.ordered') )
         return false;
       
       var seat = this;
@@ -13,11 +13,12 @@ $(document).ready(function(){
         url: $('#done form').prop('action'),
         data: $('#done form').serialize(),
         success: function(){
-          $('#done form input[name="ticket[numerotation]"], #done form input[name="ticket[id]"]').val('');
-          var id = $(seat).clone(true).removeClass('seat').removeClass('txt').attr('class');
+          $('#todo .ticket:first').find('[name=ticket_numerotation]').val($('#done form [name="ticket[numerotation]"]').val());
           $('#todo .ticket:first').prependTo('#done');
-          $('#todo .total').html(parseInt($('#todo .total').html())-1);
-          $('#done .total').html(parseInt($('#todo .total').html())+1);
+          $('#done form [name="ticket[numerotation]"], #done form [name="ticket[id]"]').val('');
+          var id = $(seat).clone(true).removeClass('seat').removeClass('txt').attr('class');
+          $('#todo .total').text(parseInt($('#todo .total').text())-1);
+          $('#done .total').text(parseInt($('#done .total').text())+1);
           $('.seated-plan .'+id).addClass('ordered');
           $(seat).addClass('in-progress').dblclick(LI.seatedPlanUnallocatedSeat);
           
