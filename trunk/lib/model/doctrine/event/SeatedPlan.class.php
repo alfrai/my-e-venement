@@ -12,4 +12,32 @@
  */
 class SeatedPlan extends PluginSeatedPlan
 {
+  public function clearLinks()
+  {
+    $q = Doctrine::getTable('SeatLink')->createQuery('sl')
+      ->where('sl.seat1 IN (SELECT s1.id FROM Seat as s1 WHERE s1.seated_plan_id = ?)', $this->id)
+      ->orWhere('sl.seat2 IN (SELECT s2.id FROM Seat as s2 WHERE s2.seated_plan_id = ?)', $this->id)
+      ->delete();
+    $q->execute();
+    return $this;
+  }
+  
+  public function getLinks()
+  {
+    $links = array();
+    
+    foreach ( Doctrine::getTable('Seat')->createQuery('s')
+      ->leftJoin('s.Neighbors n')
+      ->andWhere('s.seated_plan_id = ?',$this->id)
+      ->orderBy('s.name')
+      ->execute() as $seat )
+    foreach ( $seat->Neighbors as $neighbor )
+    if ( !isset($links[$seat->id.'++'.$neighbor->id]) && !isset($links[$neighbor->id.'++'.$seat->id]) )
+      $links[$seat->id.'++'.$neighbor->id] = array(
+        $seat,
+        $neighbor,
+      );
+    
+    return $links;
+  }
 }

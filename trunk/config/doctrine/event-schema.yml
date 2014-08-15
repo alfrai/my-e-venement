@@ -589,3 +589,18 @@ Seat:
       foreignAlias: Seats
       onDelete: CASCADE
       onUpdate: CASCADE
+    Neighbors:
+      class: Seat
+      refClass: SeatLink
+      local: seat1
+      foreign: seat2
+      equal: true
+SeatLink:
+  package: event
+  columns:
+    seat1:
+      type: integer
+      notnull: true
+    seat2:
+      type: integer
+      notnull: true

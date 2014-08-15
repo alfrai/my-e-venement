@@ -104,10 +104,11 @@ EOF
   
   protected function stdout($section, $message, $style = 'INFO')
   {
+    $section = str_pad($section,20);
     if ( !$this->task )
-      echo "$section: $message";
+      echo "$section $message";
     else
-      $this->task->logSection(str_pad($section,20), $message, null, $style);
+      $this->task->logSection($section, $message, null, $style);
   }
   public function initGarbageCollectors(sfCommandApplicationTask $task = NULL)
   {

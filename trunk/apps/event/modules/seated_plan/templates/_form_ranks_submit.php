@@ -7,7 +7,6 @@
     'button'=> true,
     'value' => 'submit',
     'size'  => false,
-    'class' => array('fg-button', 'ui-state-default', 'fg-button-icon-left'),
   )
 ) ?>
 

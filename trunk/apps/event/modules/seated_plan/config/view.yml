@@ -6,10 +6,10 @@ createSuccess:
   javascripts: [event-seated-plan]
 updateSuccess:
   stylesheets: [picture, event-seated-plan]
-  javascripts: [event-seated-plan, event-seated-plan-ranks]
+  javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-links]
 editSuccess:
   stylesheets: [picture, event-seated-plan]
-  javascripts: [event-seated-plan, event-seated-plan-ranks]
+  javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-links]
 showSuccess:
   stylesheets: [picture, event-seated-plan]
   javascripts: [event-seated-plan]
@@ -18,6 +18,15 @@ indexSuccess:
   stylesheets: [event-seated-plan]
 
 getSeatsSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+
+linksBuildSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+getLinksSuccess:
   has_layout: false
   http_metas:
     content-type: application/json

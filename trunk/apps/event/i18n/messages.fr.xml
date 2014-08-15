@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Link(s) removed</source>
+        <target>Lien(s) supprimé(s)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Link(s) created</source>
+        <target>Lien(s) créé(s)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Show links</source>
+        <target>Montrer les liens</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Links between seats have been cleared</source>
+        <target>Les liens entre les sièges ont été remis à zéro</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Links between seats have been created</source>
+        <target>Les liens entre les sièges ont été créés</target>
+      </trans-unit>
+      <trans-unit>
         <source>This form will allow you to define the rank of seats in bulk on your map. Using it will save you a lot of time, because you will only have to set the rank of particular seats. The venues are usually symetrical, you will probably make at least to passes. Take the left side, then the right side of instance.
 Careful: this tool has its limits. It works good only with batches of seats named for instance from A-1 to H-74. Test it carefully before to conclude on its utility level.</source>
         <target>Ce formulaire va vous permettre de définir en lot des notes à des places numérotées sur votre plan. Grâce à cela vous gagnerez énormément de temps, car vous n'aurez plus qu'à préciser les notes des places particulières. Souvent les salles sont symétriques, vous aurez ainsi sans doute au moins deux passages à faire. Prenez la moitié gauche, puis la moitié droite.

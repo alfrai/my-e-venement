@@ -14,12 +14,12 @@
 <?php
   foreach ( $params as $param => $dummy )
   {
-    if ( !isset($$param) )
-      unset($params[$param]);
-    else
+    if ( isset(${$param}) )
       $params[$param] = $$param;
+    else
+      unset($params[$param]);
   }
   
-  $params['batch'] = 'ranks';
+  $params['batch'] = 'links';
   include_partial('form_batch_field', $params);
 ?>

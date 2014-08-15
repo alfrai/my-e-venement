@@ -26,17 +26,7 @@
 <div class="sf_admin_form_row <?php if ( !isset($seated_plan) ): ?>sf_admin_boolean sf_admin_form_field_show_picture<?php endif ?>">
   <?php if ( isset($form) ): ?>
   <div class="tools ui-corner-all">
-    <div class="regexp"><label><?php echo __('Regexp') ?></label><input type="text" name="yummy" class="regexp" value="^[A-Za-z\-\.\/']*" /></div>
-    <div class="name-hop"><label><?php echo __('Hop') ?></label><input type="text" name="yummy" class="hop" value="1" size="2" /></div>
-    <div class="auto"><label><?php echo __('Do not ask') ?></label><input type="checkbox" name="yummy" class="donotask" value="1" /></div>
-    <div class="magnify">
-      <label><?php echo __('Magnify') ?></label>
-      <a href="#" class="magnify-in">+</a>
-      /
-      <a href="#" class="magnify-zero">0</a>
-      /
-      <a href="#" class="magnify-out">-</a>
-    </div>
+    <?php include_partial('show_picture_tools', array('seated_plan' => $form->getObject())) ?>
   </div>
   <?php endif ?>
   <div class="label ui-helper-clearfix"><label for="group_show_picture"><?php echo __('Picture').':' ?></label></div>
