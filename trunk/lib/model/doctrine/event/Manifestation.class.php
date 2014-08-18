@@ -106,7 +106,7 @@ class Manifestation extends PluginManifestation
         ->leftJoin('g.Manifestation m')
         ->andWhere('m.location_id = sp.location_id')
         ->andWhere('m.id = ?', $this->id)
-        ->leftJoin('g.Tickets tck WITH tck.numerotation = s.name')
+        ->leftJoin('s.Tickets tck')
         ->andWhere('tck.id IS NULL')
         ->orderBy('s.rank, s.name')
         ->select('s.*')

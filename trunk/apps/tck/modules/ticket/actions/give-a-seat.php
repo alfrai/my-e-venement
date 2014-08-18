@@ -49,9 +49,10 @@
       ->leftJoin('s.SeatedPlan sp')
       ->leftJoin('sp.Workspaces ws')
       ->leftJoin('ws.Gauges g')
-      ->leftJoin('g.Tickets tck')
-      ->leftJoin('tck.Transaction t')
-      ->andWhere('(tck.id IS NULL OR tck.id = ? OR tck.numerotation IS NOT NULL AND tck.numerotation = ? AND tck.numerotation != ?)',array($ticket['id'] ? $ticket['id'] : 0, '', $ticket['numerotation']))
+      ->andWhere('g.id = ?', $ticket['gauge_id'])
+      ->leftJoin('g.Manifestation m')
+      ->leftJoin('m.Tickets tck WITH tck.seat_id = s.id')
+      ->andWhere('(tck.id IS NULL OR tck.id = ?)',array($ticket['id']))
   ));
   
   $form->bind($ticket);

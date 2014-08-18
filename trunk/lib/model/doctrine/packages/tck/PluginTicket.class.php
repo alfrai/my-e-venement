@@ -79,10 +79,6 @@ abstract class PluginTicket extends BaseTicket
         ->findOneById($this->Manifestation->id)
         ->Vat->value;
     
-    // force numerotation to null if needed
-    if ( !$this->numerotation )
-      $this->numerotation = NULL;
-    
     parent::preSave($event);
   }
 
@@ -115,10 +111,10 @@ abstract class PluginTicket extends BaseTicket
     }
     
     // cancelling a seated ticket
-    if ( !is_null($this->cancelling) && !is_null($this->numerotation) && $this->numerotation )
+    if ( !is_null($this->cancelling) && $this->seat_id )
     {
-      $this->numerotation = NULL;
-      $this->Cancelled->numerotation = NULL;
+      $this->seat_id = NULL;
+      $this->Cancelled->seat_id = NULL;
       $this->Cancelled->save();
     }
     
@@ -185,6 +181,35 @@ abstract class PluginTicket extends BaseTicket
     }
     
     parent::preUpdate($event);
+  }
+  
+  public function getNumerotation()
+  {
+    return $this->Seat->name;
+  }
+
+  public function setNumerotation($str = NULL)
+  {
+    error_log($str);
+    if ( is_null($str) )
+    {
+      $this->seat_id = NULL;
+      return $this;
+    }
+    
+    $q = Doctrine::getTable('Seat')->createQuery('s')
+      ->leftJoin('s.SeatedPlan sp')
+      ->leftJoin('sp.Location l')
+      ->leftJoin('l.Manifestations m')
+      ->leftJoin('sp.Workspaces spw')
+      ->leftJoin('spw.Gauges g')
+      ->andWhere('g.id = ?', $this->gauge_id)
+      ->andWhere('g.manifestation_id = m.id')
+      ->andWhere('s.name = ?', $str)
+    ;
+    $this->Seat = $q->fetchOne();
+    
+    return $this;
   }
 
   public function getIndexesPrefix()

@@ -53,9 +53,9 @@
   
   $this->ticket = Doctrine_Query::create()->from('Ticket tck')
     ->andWhere('tck.gauge_id = ?',$ticket['gauge_id'])
-    ->andWhere('tck.numerotation = ?',$ticket['numerotation'])
+    ->andWhere('seat.name = ?',$ticket['numerotation'])
     ->fetchOne();
-  $this->ticket->numerotation = NULL;
+  $this->ticket->seat_id = NULL;
   $this->ticket->save();
   
   return sfView::NONE;

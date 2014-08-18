@@ -155,7 +155,7 @@
           ->andWhere('tck.price_id = ?',$params[$field]['price_id'])
           ->andWhere('tck.transaction_id = ?',$request->getParameter('id'))
           ->andWhere('tck.printed_at IS NULL')
-          ->orderBy('tck.integrated_at IS NULL DESC, tck.integrated_at, tck.numerotation IS NULL DESC, id DESC');
+          ->orderBy('tck.integrated_at IS NULL DESC, tck.integrated_at, tck.seat_id IS NULL DESC, id DESC');
         
         $state = 'false';
         if ( isset($params[$field]['state']) && $params[$field]['state'] == 'integrated' )
@@ -187,7 +187,7 @@
             ->andWhere('tck.price_id IS NULL')
             ->andWhere('tck.transaction_id = ?',$request->getParameter('id'))
             ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND cancelling IS NULL')
-            ->orderBy('tck.numerotation IS NULL DESC, id DESC');
+            ->orderBy('tck.seat_id IS NULL DESC, id DESC');
           $tickets = $q->execute();
           
           for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )

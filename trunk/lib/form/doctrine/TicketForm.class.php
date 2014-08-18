@@ -32,11 +32,7 @@ class TicketForm extends BaseTicketForm
       'query' => Doctrine::getTable('Gauge')->createQuery('g')->andWhereIn('g.workspace_id',array_keys(sfContext::getInstance()->getUser()->getWorkspacesCredentials())),
     ));
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInputHidden();
-    $this->widgetSchema['numerotation'] = new sfWidgetFormInputHidden();
-    $this->validatorSchema['numerotation'] = new sfValidatorString(array(
-      'min_length' => 1,
-      'required' => false,
-    ));
+    $this->widgetSchema['seat_id'] = new sfWidgetFormInputHidden();
   }
   
   public function save($con = NULL)

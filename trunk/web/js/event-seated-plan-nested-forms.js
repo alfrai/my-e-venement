@@ -16,7 +16,8 @@ LI.seatedPlanRanksInBulk = function(){
 }
 
 LI.seatedPlanLinksInBulk = function(elt){
-  $('#transition').show();
+  if ( $(elt).attr('data-no-msg') !== 'no-msg' )
+    $('#transition').show();
   
   // the ajax request
   var data = {};
@@ -63,8 +64,10 @@ LI.seatedPlanLinksInBulk = function(elt){
   $.get(url, data, function(data){
     if ( typeof(data) == 'object' && data.qty != undefined )
       text = text.replace('%%qty%%', data.qty)
-    LI.alert(text, 'success');
+    if ( $(elt).attr('data-no-msg') !== 'no-msg' )
+      LI.alert(text, 'success');
     $('#transition .close').click();
+    $(elt).removeAttr('data-no-msg');
   });
 }
 

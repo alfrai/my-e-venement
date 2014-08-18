@@ -48,28 +48,26 @@ class seated_planActions extends autoSeated_planActions
     {
       $q = Doctrine::getTable('Ticket')->createQuery('tck')
         ->select('tck.*, t.*, c.*, pro.*, org.*, o.*, pc.*')
+        ->leftJoin('tck.Seat s')
         ->leftJoin('tck.Transaction t')
         ->leftJoin('t.Contact c')
         ->leftJoin('t.Professional pro')
         ->leftJoin('pro.Organism org')
         ->leftJoin('pro.Contact pc')
         ->leftJoin('t.Order o')
-        ->leftJoin('tck.Gauge g')
-        ->leftJoin('g.Workspace ws')
-        ->leftJoin('ws.SeatedPlans sp')
-        ->leftJoin('sp.Workspaces spws')
-        ->leftJoin('spws.Gauges spwsg')
-        ->leftJoin('g.Manifestation m')
+        ->leftJoin('s.SeatedPlan sp')
         ->leftJoin('tck.Cancelling cancel')
         ->andWhere('tck.cancelling IS NULL')
         ->andWhere('duplicatas.id IS NULL AND cancel.id IS NULL')
-        ->andWhere('tck.numerotation IS NOT NULL AND tck.numerotation != ?','')
-        ->andWhere('spwsg.id = ? AND spwsg.manifestation_id = g.manifestation_id', $request->getParameter('gauge_id')) // a trick to get all tickets from all related gauge
+        ->andWhere('tck.seat_id IS NOT NULL')
         ->andWhere('sp.id = ?', $request->getParameter('id'))
-        ->andWhere('m.location_id = ?', $this->seated_plan->location_id);
+        ->leftJoin('tck.Manifestation m')
+        ->leftJoin('m.Gauge g')
+        ->andWhere('g.id = ?', $request->getParameter('gauge_id'))
+      ;
       
-     foreach ( $q->execute() as $ticket )
-        $this->occupied[$ticket->numerotation] = array(
+      foreach ( $q->execute() as $ticket )
+        $this->occupied[$ticket->Seat->name] = array(
           'type' => ($ticket->printed_at || $ticket->integrated_at ? 'printed' : ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked')).($ticket->transaction_id === $this->transaction_id ? ' in-progress' : ''),
           'transaction_id' => '#'.$ticket->transaction_id,
           'spectator'      => $ticket->Transaction->professional_id ? $ticket->Transaction->Professional->Contact.' '.$ticket->Transaction->Professional : (string)$ticket->Transaction->Contact,

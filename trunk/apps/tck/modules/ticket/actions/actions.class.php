@@ -162,7 +162,7 @@ class ticketActions extends sfActions
   {
     // checks if any ticket needs a seat
     foreach ( $this->transaction->Tickets as $ticket )
-    if ( !$ticket->numerotation
+    if ( !$ticket->seat_id
       && $ticket->Cancelling->count() == 0
       && $ticket->Gauge->Workspace->seated
       && $seated_plan = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)

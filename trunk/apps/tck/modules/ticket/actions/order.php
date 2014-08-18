@@ -35,7 +35,7 @@
       $q = Doctrine_Query::create()->from('Ticket tck')
         ->select('tck.id, tck.price_id')
         ->andWhere('tck.transaction_id = ?',$this->transaction->id)
-        ->andWhere('tck.numerotation IS NOT NULL OR tck.numerotation != ?', '')
+        ->andWhere('tck.seat_id IS NOT NULL')
         ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
       ;
       $tickets = array();
@@ -43,7 +43,7 @@
         $tickets[] = $t['id'];
       
       $q->update()
-        ->set('numerotation','NULL')
+        ->set('seat_id','NULL')
         ->set('updated_at', 'NOW()')
         ->set('version', 'version + 1')
         ->set('sf_guard_user_id',$this->getUser()->getId())

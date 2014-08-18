@@ -73,6 +73,36 @@ psql <<EOF
   ALTER TABLE event DROP COLUMN extraspec;
   
   ALTER TABLE event_version ADD COLUMN lang character(2) NOT NULL DEFAULT 'fr';
+
+  ALTER TABLE ticket ADD COLUMN seat_id integer;
+  UPDATE ticket tck
+  SET seat_id = s.id
+  FROM gauge g
+  LEFT JOIN manifestation m ON m.id = g.manifestation_id
+  LEFT JOIN location l ON l.id = m.location_id
+  LEFT JOIN seated_plan sp ON sp.location_id = l.id
+  LEFT JOIN seated_plan_workspace spw ON spw.workspace_id = g.workspace_id AND spw.seated_plan_id = sp.id
+  LEFT JOIN seat s ON s.seated_plan_id = sp.id
+  WHERE g.id = tck.gauge_id
+    AND s.name = tck.numerotation
+    AND tck.numerotation IS NOT NULL
+    AND spw.workspace_id IS NOT NULL;
+  ALTER TABLE ticket DROP COLUMN numerotation;
+
+  ALTER TABLE ticket_version ADD COLUMN seat_id integer;
+  UPDATE ticket_version tck
+  SET seat_id = s.id
+  FROM gauge g
+  LEFT JOIN manifestation m ON m.id = g.manifestation_id
+  LEFT JOIN location l ON l.id = m.location_id
+  LEFT JOIN seated_plan sp ON sp.location_id = l.id
+  LEFT JOIN seated_plan_workspace spw ON spw.workspace_id = g.workspace_id AND spw.seated_plan_id = sp.id
+  LEFT JOIN seat s ON s.seated_plan_id = sp.id
+  WHERE g.id = tck.gauge_id
+    AND s.name = tck.numerotation
+    AND tck.numerotation IS NOT NULL
+    AND spw.workspace_id IS NOT NULL;
+  ALTER TABLE ticket_version DROP COLUMN numerotation;
 EOF
 
 echo "DUMPING DB..."

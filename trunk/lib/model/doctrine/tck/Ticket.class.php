@@ -115,7 +115,7 @@ EOF
       , __('Price', null, 'li_tickets_email')
       , $this->price_name
       , format_currency($this->value,'€')
-      , $this->numerotation ? __('Seat #%%num%%', array('%%num%%' => $this->numerotation), 'li_tickets_email') : ($this->Manifestation->Location->getWorkspaceSeatedPlan($this->Gauge->workspace_id) ? __('Not yet allocated', null, 'li_tickets_email') : __('Seat #%%num%%', array('%%num%%' => ' N/A'), 'li_tickets_email'))
+      , $this->seat_id ? __('Seat #%%num%%', array('%%num%%' => $this->Seat->name), 'li_tickets_email') : ($this->Manifestation->Location->getWorkspaceSeatedPlan($this->Gauge->workspace_id) ? __('Not yet allocated', null, 'li_tickets_email') : __('Seat #%%num%%', array('%%num%%' => ' N/A'), 'li_tickets_email'))
       , $this->transaction_id
       , $this->id
       , $this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : (string)$this->Transaction->Contact

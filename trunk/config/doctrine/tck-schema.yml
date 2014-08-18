@@ -71,8 +71,8 @@ Ticket:
   indexes:
     ticket_updated_at_idx:
       fields: [updated_at]
-    ticket_gauge_id_numerotation_id_idx:
-      fields: [numerotation, gauge_id]
+    ticket_seat_id_manifestation_id_idx:
+      fields: [seat_id, manifestation_id]
       type: unique
     ticket_barcode_idx:
       fields: [barcode]
@@ -84,8 +84,6 @@ Ticket:
       fields: [printed_at]
     ticket_integrated_at_idx:
       fields: [integrated_at]
-    ticket_numerotation_idx:
-      fields: [numerotation]
   columns:
     transaction_id:
       type: integer
@@ -105,7 +103,8 @@ Ticket:
       type: decimal(8)
       scale: 3
       notnull: true
-    numerotation: string(255)
+    #numerotation: string(255)
+    seat_id: integer
     duplicating: integer
     grouping_fingerprint: string(255)
     cancelling:
@@ -154,6 +153,10 @@ Ticket:
       onDelete: RESTRICT
       onUpdate: CASCADE
     MemberCard:
+      foreignAlias: Tickets
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Seat:
       foreignAlias: Tickets
       onDelete: RESTRICT
       onUpdate: CASCADE

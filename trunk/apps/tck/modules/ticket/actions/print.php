@@ -95,7 +95,7 @@
             {
               $cpt++;
               $newticket = $ticket->copy();
-              $ticket->numerotation = NULL;
+              $ticket->seat_id = NULL;
               $newticket->sf_guard_user_id = NULL;
               $newticket->created_at = NULL;
               $newticket->updated_at = NULL;
@@ -103,7 +103,7 @@
               $newticket->grouping_fingerprint = $fingerprint;
               $newticket->Duplicated = $ticket;
               $newticket->save();
-              if ( $newticket->numerotation )
+              if ( $newticket->seat_id )
                 $ticket->save();
               
               if ( isset($this->tickets[$id = $ticket->gauge_id.'-'.$ticket->price_id.'-'.$ticket->transaction_id]) )
@@ -171,14 +171,14 @@
             {
               $cpt++;
               $newticket = $ticket->copy();
-              $ticket->numerotation = NULL;
+              $ticket->seat_id = NULL;
               $newticket->sf_guard_user_id = NULL;
               $newticket->created_at = NULL;
               $newticket->updated_at = NULL;
               $newticket->printed_at = date('Y-m-d H:i:s');
               $newticket->Duplicated = $ticket;
               $newticket->save();
-              if ( $newticket->numerotation )
+              if ( $newticket->seat_id )
                 $ticket->save();
               
               $this->tickets[] = $newticket;

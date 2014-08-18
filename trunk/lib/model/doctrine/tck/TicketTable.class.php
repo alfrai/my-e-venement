@@ -26,8 +26,10 @@ class TicketTable extends PluginTicketTable
   public function createQueryPreparedForRanks($alias = 'tck')
   {
     return parent::createQuery($alias)
+      ->leftJoin("$alias.Seat seat")
+      ->select('*, seat.name AS numerotation')
       ->andWhere("$alias.printed_at IS NOT NULL OR $alias.integrated_at IS NOT NULL")
-      ->andWhere("$alias.numerotation IS NOT NULL AND $alias.numerotation != ''")
+      ->andWhere("$alias.seat_id IS NOT NULL")
       
       ->leftJoin("$alias.Transaction {$alias}_t")
       ->leftJoin("$alias.Gauge {$alias}_g")

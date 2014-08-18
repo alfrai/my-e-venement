@@ -29,7 +29,12 @@ LI.seatedPlanLinksInitialization = function(url, show = true, root)
         .css('transform', 'rotate('+link.angle+'deg)')
         .dblclick(function(){
           // DELETE A LINK USING THE GUI/WYSIWYG
-          $('#sf_fieldset_seat_links [name="auto_links[exceptions_to_remove]"]').val('eve-ids-'+$(this).attr('data-link-a')+'--'+$(this).attr('data-link-b'));
+          $('#sf_fieldset_seat_links [name="auto_links[exceptions_to_remove]"]').val(
+            'eve-ids-'+$(this).attr('data-link-a')+
+            '--'+
+            $(this).attr('data-link-b')
+          );
+          $('#sf_fieldset_seat_links [name="auto_links[exceptions_to_remove_submit]"]').attr('data-no-msg', 'no-msg');
           $('#sf_fieldset_seat_links [name="auto_links[exceptions_to_remove_submit]"]').click();
           $(this).remove();
           $('#sf_fieldset_seat_links [name="auto_links[exceptions_to_remove]"]').val('');
