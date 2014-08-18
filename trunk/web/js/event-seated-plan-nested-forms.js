@@ -10,6 +10,8 @@ LI.seatedPlanRanksInBulk = function(){
   $('#sf_fieldset_ranks input[name^=auto_ranks]').each(function(){
     data[$(this).prop('name')] = $(this).val();
   });
+  if ( !$('#sf_fieldset_ranks [name="auto_ranks[contiguous]"]').prop('checked') )
+    delete data['auto_ranks[contiguous]'];
   $.post($('#sf_fieldset_ranks .ranks_explanation a').prop('href'), data, function(data){
     $('#transition .close').click();
   });

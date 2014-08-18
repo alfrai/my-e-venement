@@ -45,29 +45,36 @@
     'rows'  => range($data['row_min'], $data['row_max']),
     'seats' => range($data['num_mini'], $data['num_maxi']),
   );
+  error_log(print_r($data,true));
   foreach ( $ranges['rows']  as $row )
   {
-    $counter['seats'] = 0;
-    foreach ( $ranges['seats'] as $seat )
+    for ( $i = 0 ; $i < (isset($data['contiguous']) ? 1 : 2) ; $i++ )
     {
-      $num = str_replace('%num%', $seat, $data['format']);
-      $num = str_replace('%row%', $row,  $num);
-      
-      $seat = Doctrine::getTable('seat')->createQuery('s')
-        ->andWhere('s.name = ?', $num)
-        ->andWhere('s.seated_plan_id = ?', $data['id'])
-        ->fetchOne();
-      if ( !$seat )
-        continue;
-      
-      $rank = $data['top'] + $counter['seats']*$data['num_hop'] + $counter['rows']*$data['row_hop'];
-      $seat->rank = $rank;
-      $saved = $seat->trySave();
-      if ( sfConfig::get('sf_debug',false) )
-        error_log("$num set with rank $rank, ".($saved ? '' : 'not ').'saved');
-      
-      $counter['seats']++;
-    }
+      $counter['seats'] = 0;
+      foreach ( $ranges['seats'] as $seat )
+      if (!( !isset($data['contiguous']) && $seat % 2 == $i ))
+      {
+        $num = str_replace('%num%', $seat, $data['format']);
+        $num = str_replace('%row%', $row,  $num);
+        
+        $q = Doctrine::getTable('Seat')->createQuery('s')
+          ->andWhere('s.name = ?', $num)
+          ->andWhere('s.seated_plan_id = ?', $data['id'])
+        ;
+        $seat = $q->fetchOne();
+        if ( !$seat )
+          continue;
+        
+        $rank = $data['top'] + $counter['seats']*$data['num_hop'] + $counter['rows']*$data['row_hop'];
+        $seat->rank = $rank;
+        $saved = $seat->trySave();
+        if ( sfConfig::get('sf_debug',false) )
+          error_log("$num set with rank $rank, ".($saved ? '' : 'not ').'saved');
+        
+        $counter['seats']++;
+      } // endforeach
+    } // endfor
+    
     $counter['rows']++;
   }
   

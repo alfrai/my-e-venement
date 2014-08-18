@@ -1,5 +1,5 @@
 <?php include_partial(
-  'form_links_field',
+  'form_ranks_field',
   array(
     'name'  => 'contiguous',
     'label' => __('Contiguous?'),
