@@ -161,8 +161,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 .gauge .picture a:after  { content: ' ↓'; }
 .gauge .picture a.opened:before { content: '↑ '; }
 .gauge .picture a.opened:after  { content: ' ↑'; }
-.gauge.full-seating .picture.seated-plan { margin-left: 350px; }
-.gauge.full-seating .prices { float: left; }
+.gauge.full-seating .prices { float: right; }
 
 .submit { margin: 20px 0px 0px 400px; }
 
