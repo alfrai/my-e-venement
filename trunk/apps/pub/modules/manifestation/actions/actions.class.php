@@ -48,6 +48,8 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('m.reservation_confirmed = ?',true)
       
       ->leftJoin('m.Location l')
+      ->leftJoin('l.SeatedPlans sp')
+      ->leftJoin('sp.Workspaces spws')
       ->leftJoin('ws.Users wu')
       ->leftJoin('m.Event e')
       ->leftJoin('e.MetaEvent me')
