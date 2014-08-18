@@ -25,6 +25,9 @@ generator:
         seat_diameter:
           label: Plot diameter behind a seat
           help: px
+        ideal_width:
+          help: px
+          type: number
         background:
           label: Background color
           help: HTML colors
@@ -53,7 +56,7 @@ generator:
       edit:
         display:
           General: [location_id, workspaces_list, description, _show_nb_seats]
-          Plan:    [seat_diameter, background, Picture, _show_picture, _form_picture_del]
+          Plan:    [ideal_width, seat_diameter, background, Picture, _show_picture, _form_picture_del]
           Ranks:   [_form_ranks_top, _form_ranks_num_mini, _form_ranks_num_maxi, _form_ranks_row_min, _form_ranks_row_max, _form_ranks_num_hop, _form_ranks_row_hop, _form_ranks_format, _form_ranks_submit, _form_ranks_explanation]
           Seat links: [_form_links_exceptions_to_remove, _form_links_exceptions_to_add, _form_links_build, _form_links_clear, _form_links_links]
           Online Sales: [OnlinePicture, _show_online_picture, _form_online_picture_del]

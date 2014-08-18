@@ -4,7 +4,7 @@
 
 
   // transforms a simple HTML call into a seated plan widget (seated-plan.css is also needed)
-  // you can use something as simple as <a href="<?php url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id') ?>" class="picture seated-plan"><?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture)) ?></a>
+  // you can use something as simple as <a href="<?php url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id') ?>" class="picture seated-plan"><?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture, 'width' => $seated_plan->ideal_width ? $seated_plan->ideal_width : '')) ?></a>
   LI.seatedPlanInitialization = function(root)
   {
     if ( root == undefined )
@@ -13,9 +13,20 @@
     $(root).find('a.picture.seated-plan img').each(function(){
       var widget = $(this).parent();
       var url = widget.prop('href');
-      var elt = $('<span></span>').prop('class',widget.prop('class')).attr('style',widget.attr('style'))
+      var elt = $('<span></span>').prop('class',widget.prop('class'))
+        .attr('style',widget.attr('style'))
         .append($('<div></div>').addClass('anti-handling'))
         .prepend($(this));
+      if ( $(this).attr('width') )
+      {
+        var width = $(this).width();
+        $(this).removeAttr('width');
+        setTimeout(function(){
+          var scale = width/$(this).width();
+          elt.css('transform', 'scale('+(scale)+')')
+            .css('margin-bottom', (-scale*100)+'%');
+        }, 2000);
+      }
       widget.replaceWith(elt);
       
       // loads the content/data
