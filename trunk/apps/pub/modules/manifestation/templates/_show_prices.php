@@ -3,6 +3,7 @@
 <?php if ( $gauge->Manifestation->PriceManifestations->count() > 0 ): ?>
 <tbody>
 <?php foreach ( $gauge->Manifestation->PriceManifestations as $pm ): ?>
+<?php if ( in_array($gauge->workspace_id, $pm->getRawValue()->Price->Workspaces->getPrimaryKeys()) ): ?>
   <?php
     // calculating the quantity of tickets already in the cart
     $qty = 0;
@@ -52,6 +53,7 @@
     <td class="quantity"><?php echo $form['quantity'] ?></td>
     <td class="total"><?php echo format_currency(0,'€') ?></td>
   </tr>
+<?php endif ?>
 <?php endforeach ?>
 <tbody>
 <?php endif ?>

@@ -39,24 +39,33 @@ class manifestationActions extends autoManifestationActions
   {
     $q = Doctrine::getTable('Gauge')->createQuery('g')
       ->addSelect('m.*, pm.*, p.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
+      ->andWhere('g.online = ?', true)
+      ->andWhere('p.online = ?', true)
+      
       ->leftJoin('g.Manifestation m')
+      ->andWhere('(m.happens_at > NOW() OR ?)',sfContext::getInstance()->getConfiguration()->getEnvironment() == 'dev')
+      ->andWhere('m.id = ?',$request->getParameter('id'))
+      ->andWhere('m.reservation_confirmed = ?',true)
+      
       ->leftJoin('m.Location l')
       ->leftJoin('ws.Users wu')
       ->leftJoin('m.Event e')
+      ->leftJoin('e.MetaEvent me')
       ->leftJoin('m.PriceManifestations pm')
       ->leftJoin('pm.Price p')
+      ->leftJoin('p.Tickets tck WITH tck.gauge_id = g.id AND tck.transaction_id = ?',$this->getUser()->getTransaction()->id)
+      
       ->leftJoin('p.Users pu')
       ->leftJoin('p.Workspaces pw')
-      ->leftJoin('p.Tickets tck ON tck.gauge_id = g.id AND tck.price_id = p.id AND tck.transaction_id = ?',$this->getUser()->getTransaction()->id)
+      
       ->andWhere('pu.id = ?',$this->getUser()->getId())
       ->andWhere('wu.id = pu.id')
       ->andWhere('pw.id = ws.id')
       ->andWhere('pw.id = g.workspace_id')
-      ->andWhere('m.id = ?',$request->getParameter('id'))
-      ->andWhere('(m.happens_at > NOW() OR ?)',sfContext::getInstance()->getConfiguration()->getEnvironment() == 'dev')
-      ->andWhere('g.online = ?', true)
-      ->andWhere('p.online = ?', true)
-      ->andWhere('m.reservation_confirmed = ?',true)
+      
+      ->andWhereIn('ws.id',array_keys($this->getUser()->getWorkspacesCredentials()))
+      ->andWhereIn('me.id',array_keys($this->getUser()->getMetaEventsCredentials()))
+
       ->orderBy('ws.name, p.name')
     ;
     $this->gauges = $q->execute();
