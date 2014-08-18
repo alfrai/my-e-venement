@@ -45,7 +45,6 @@
     'rows'  => range($data['row_min'], $data['row_max']),
     'seats' => range($data['num_mini'], $data['num_maxi']),
   );
-  error_log(print_r($data,true));
   foreach ( $ranges['rows']  as $row )
   {
     for ( $i = 0 ; $i < (isset($data['contiguous']) ? 1 : 2) ; $i++ )

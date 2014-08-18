@@ -27,7 +27,7 @@ class GarbageCollectorTask extends sfBaseTask{
   protected function configure() {
     $this->addArguments(array(
       new sfCommandArgument('application', sfCommandArgument::REQUIRED, 'The application'),
-      new sfCommandArgument('subtask', sfCommandArgument::OPTIONAL, 'The email to take as a template'),
+      new sfCommandArgument('subtask', sfCommandArgument::OPTIONAL, 'The subtask to collect'),
     ));
     $this->addOptions(array(
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environement', 'prod'),
@@ -43,7 +43,7 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    sfContext::createInstance($this->configuration, $arguments['env']);
+    sfContext::createInstance($this->configuration, $options['env']);
     $databaseManager = new sfDatabaseManager($this->configuration);
     
     if (! $this->configuration instanceof liGarbageCollectorInterface )
