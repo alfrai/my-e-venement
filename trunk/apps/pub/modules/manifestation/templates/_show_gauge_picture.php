@@ -3,12 +3,23 @@
     <?php if ( isset($conf['full_seating_by_customer']) && $conf['full_seating_by_customer'] ): ?>
     <?php use_stylesheet('event-seated-plan') ?>
     <?php use_javascript('event-seated-plan') ?>
-    <a href="<?php echo url_for('seats/index?id='.$sp->id.(isset($gauge->id) ? '&gauge_id='.$gauge->id : '')) ?>"
-       class="picture seated-plan"
+    <a href="<?php echo url_for('seats/index?id='.$sp->id.($gauge->id ? '&gauge_id='.$gauge->id : '')) ?>"
+       class="picture seated-plan on-demand" <?php if ( $gauge->id ): ?>id="seated-plan-gauge-<?php echo $gauge->id ?>"<?php endif ?>
        style="background-color: <?php echo $sp->background ?>;"
     >
-      <?php echo $sp->getRaw('Picture')->getHtmlTag(array('title' => $sp->Picture, 'width' => $sp->ideal_width)) ?>
+      <?php echo $sp->getRaw('Picture')->getHtmlTag(array(
+        'title' => $sp->Picture,
+        'width' => $sp->ideal_width,
+        'app'   => 'pub',
+      )) ?>
     </a>
+    <button
+      name="load-data"
+      class="load-data"
+      onclick="javascript: LI.seatedPlanLoadData($(this).parent().find('.seated-plan').attr('data-href'), '#'+$(this).parent().find('.seated-plan').prop('id')); $(this).fadeOut(); return false;"
+    >
+      <?php echo __('Display free seats') ?>
+    </button>
     <?php else: ?>
     <div class="picture">
       <p><a href="#" onclick="javascript: $(this).closest('.picture').find('.seated-plan').slideToggle('medium'); $(this).toggleClass('opened'); return false;"><?php echo __('Display venue') ?></a></p>

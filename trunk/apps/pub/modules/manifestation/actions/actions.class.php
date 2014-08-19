@@ -38,15 +38,17 @@ class manifestationActions extends autoManifestationActions
   public function executeShow(sfWebRequest $request)
   {
     $q = Doctrine::getTable('Gauge')->createQuery('g')
-      ->addSelect('m.*, pm.*, p.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
+      ->addSelect('gtck.*, m.*, pm.*, p.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
       ->andWhere('g.online = ?', true)
       ->andWhere('p.online = ?', true)
       
+      ->leftJoin('g.Tickets gtck WITH gtck.price_id IS NULL AND gtck.seat_id IS NOT NULL AND gtck.transaction_id = ?', $this->getUser()->getTransaction()->id)
       ->leftJoin('g.Manifestation m')
       ->andWhere('(m.happens_at > NOW() OR ?)',sfContext::getInstance()->getConfiguration()->getEnvironment() == 'dev')
       ->andWhere('m.id = ?',$request->getParameter('id'))
       ->andWhere('m.reservation_confirmed = ?',true)
       
+//      ->leftJoin('g.Workspace ws')
       ->leftJoin('m.Location l')
       ->leftJoin('l.SeatedPlans sp')
       ->leftJoin('sp.Workspaces spws')
@@ -55,7 +57,7 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('e.MetaEvent me')
       ->leftJoin('m.PriceManifestations pm')
       ->leftJoin('pm.Price p')
-      ->leftJoin('p.Tickets tck WITH tck.gauge_id = g.id AND tck.transaction_id = ?',$this->getUser()->getTransaction()->id)
+      ->leftJoin('p.Tickets tck WITH tck.gauge_id = g.id AND tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
       
       ->leftJoin('p.Users pu')
       ->leftJoin('p.Workspaces pw')

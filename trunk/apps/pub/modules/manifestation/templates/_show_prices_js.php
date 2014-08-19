@@ -27,7 +27,10 @@
       val = 0;
       totals = $(this).closest('tbody').find('.total');
       for ( i = 0 ; i < totals.length ; i++ )
+      {
+        if ( !isNaN(parseFloat($(totals[i]).html().replace(',','.'))) )
         val += parseFloat($(totals[i]).html().replace(',','.'));
+      }
       $(this).closest('.prices').find('tfoot .total').html(val.toFixed(2) + currency)
     }).change();
   });

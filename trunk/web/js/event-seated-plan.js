@@ -11,15 +11,20 @@
       root = $('body');
     
     $(root).find('a.picture.seated-plan img').each(function(){
-      var widget = $(this).parent();
+      var widget = $(this).closest('.seated-plan');
       var url = widget.prop('href');
-      var elt = $('<span></span>').prop('class',widget.prop('class'))
+      var id = widget.prop('id');
+      var elt = $('<span></span>')
+        .prop('class',widget.prop('class'))
+        .prop('id', id)
         .attr('style',widget.attr('style'))
         .append($('<div></div>').addClass('anti-handling'))
-        .prepend($(this));
+        .prepend($(this))
+        .attr('data-href', widget.prop('href'))
+      ;
       if ( $(this).attr('width') )
       {
-        var width = $(this).width();
+        var width = $(this).attr('width'); // .width() should have been possible, but for browser compatibility, this is safer
         $(this).removeAttr('width');
         setTimeout(function(){
           var scale = width/$(this).width();
@@ -30,21 +35,11 @@
       widget.replaceWith(elt);
       
       // loads the content/data
-      $.get(url,function(json){
-        for ( i = 0 ; i < json.length ; i++ )
-        {
-          data = json[i];
-          data.object = elt;
-          LI.seatedPlanMouseup(data);
-        }
-        
-        // triggers
-        while ( fct = LI.seatedPlanInitializationFunctions.shift() )
-          fct();
-      });
+      if ( !$(this).closest('.seated-plan').is('.on-demand') )
+        LI.seatedPlanLoadData(url, '#'+id);
       
+      // to avoid graphical bugs, relaunch the box resizing
       $(this).unbind('load').load(function(){
-        // to avoid graphical bugs, relaunch the box resizing
         if ( $(this).height() == 0 )
         {
           // display and remove a clone of the current image simply to get its sizes
@@ -59,6 +54,27 @@
           .width($(this).width())
           .height($(this).height());
       });
+    });
+  }
+  
+  LI.seatedPlanLoadData = function(url, extra_selector = NULL)
+  {
+    var selector = '.picture.seated-plan';
+    if ( extra_selector )
+      selector = extra_selector+selector;
+    
+    $.get(url,function(json){
+      $(selector).find('.seat').remove();
+      for ( i = 0 ; i < json.length ; i++ )
+      {
+        var data = json[i];
+        data.object = $(selector);
+        LI.seatedPlanMouseup(data);
+      }
+      
+      // triggers
+      while ( fct = LI.seatedPlanInitializationFunctions.shift() )
+        fct();
     });
   }
 

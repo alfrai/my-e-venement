@@ -36,22 +36,84 @@ class PricesPublicForm extends BaseFormDoctrine
   public function save($con = NULL)
   {
     $values = $this->getValues();
+    $vel = sfConfig::get('app_tickets_vel', array());
+    if ( !isset($vel['full_seating_by_customer']) ) $vel['full_seating_by_customer'] = false;
+    if ( isset($vel['full_seating_by_customer']) )
+      $seater = new Seater($values['gauge_id']);
     
     // cleaning out tickets
     $ids = array();
     foreach ( $this->object->Tickets as $key => $ticket )
     if ( $ticket->gauge_id == $values['gauge_id'] && $ticket->price_id == $values['price_id'] )
+    {
+      if ( isset($vel['full_seating_by_customer']) )
+        $seater->addSeat($ticket->Seat);
       unset($this->object->Tickets[$key]);
+    }
     
+    // preparing the eventuality of a need to auto-seat some tickets
+    $to_seat = array();
+    if ( !is_array($values['seat_id']) )
+      $values['seat_id'] = $values['seat_id'] ? array($values['seat_id']) : array(0);
+    $given_seats = $seater->organizeList(
+      Doctrine::getTable('Seat')->createQuery('s')
+        ->andWhereIn('s.id', $values['seat_id'])
+        ->leftJoin('s.Neighbors n')
+        ->execute()
+    );
+    $seats_keys = $given_seats->getPrimaryKeys();
+    
+    // setting up the tickets
     for ( $i = 0 ; $i < $values['quantity'] ; $i++ )
     {
       $ticket = new Ticket;
-      $ticket->price_id = $values['price_id'];
-      $ticket->gauge_id = $values['gauge_id'];
+      $ticket->price_id   = $values['price_id'];
+      $ticket->gauge_id   = $values['gauge_id'];
+      if ( $vel['full_seating_by_customer'] )
+      {
+        if ( isset($seats_keys[$i]) && isset($given_seats[$seats_keys[$i]]) )
+          $ticket->seat_id  = $given_seats[$seats_keys[$i]]->id;
+        else
+          $to_seat[] = $ticket;
+      }
       $this->object->Tickets[] = $ticket;
     }
     
-    return $this->object->save();
+    if ( $vel['full_seating_by_customer'] )
+    {
+      $tickets = array();
+      foreach ( $this->object->Tickets as $ticket )
+      if ( $ticket->isModified() && $ticket->seat_id )
+        $tickets[$ticket->seat_id] = $ticket;
+      
+      // check for orphans
+      foreach ( $orphans = $seater->findOrphansWith($given_seats) as $orphan )
+      {
+        $to_seat[] = $tickets[$orphan->id];
+        $tickets[$orphan->id]->seat_id = NULL;
+        unset($given_seats[$orphan->id]);
+      }
+      
+      // tickets to seat
+      if ( count($to_seat) > 0 )
+      {
+        $seats = $seater->findSeatsExcludingOrphans(count($to_seat), $given_seats);
+        if ( $seats === false )
+          throw new liSeatedException('No available seat can be found.');
+        foreach ( $seats as $seat )
+        {
+          $ticket = array_pop($to_seat);
+          $ticket->Seat = $seat;
+        }
+      }
+    }
+    
+    if ( sfConfig::get('sf_web_debug', false) )
+    foreach ( $this->object->Tickets as $ticket )
+    if ( $ticket->isModified() )
+      error_log('In transaction #'.$this->object->id.', Seat '.$ticket->Seat.' for gauge '.$ticket->gauge_id.' and price '.$ticket->price_id);
+    
+    return $this->object->save($con);
   }
   
   public function getModelName()
@@ -77,9 +139,25 @@ class PricesPublicForm extends BaseFormDoctrine
     $this->validatorSchema['price_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Price',
     ));
+    
+    $this->validatorSchema['seat_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Seat',
+      'multiple' => true,
+      'query' => Doctrine::getTable('Seat')->createQuery('s')
+        ->leftJoin('s.SeatedPlan sp')
+        
+        ->leftJoin('sp.Workspaces ws')
+        ->leftJoin('ws.Gauges g')
+        
+        ->leftJoin('sp.Location l')
+        ->leftJoin('l.Manifestations m')
+        ->leftJoin('m.Gauges mg')
+      ,
+      'required' => false,
+    ));
 
     $q = Doctrine_Query::create()->from('Transaction t')
-      ->andWhere('t.closed = FALSE')
+      ->andWhere('t.closed = ?', false)
       ->andWhere('t.sf_guard_user_id = ?',sfContext::getInstance()->getUser()->getId());
     $this->widgetSchema   ['transaction_id'] = new sfWidgetFormInputHidden();
     $this->validatorSchema['transaction_id'] = new sfValidatorDoctrineChoice(array(
@@ -130,6 +208,12 @@ class PricesPublicForm extends BaseFormDoctrine
     
     $this->setDefault('gauge_id',$id);
     $this->reviewNameFormat();
+    
+    $this->validatorSchema['seat_id']->getOption('query')
+      ->andWhere('g.id = ?', $id)
+      ->andWhere('mg.id = ?', $id)
+    ;
+    
     return $this;
   }
   

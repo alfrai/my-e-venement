@@ -23,44 +23,13 @@
 ?>
 <?php
 
-/**
- * seats actions.
- *
- * @package    e-venement
- * @subpackage seats
- * @author     Baptiste SIMON <baptiste.simon AT e-glop.net>
- * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
- */
-class seatsActions extends sfActions
-{
- /**
-  * Executes index action
-  *
-  * @param sfRequest $request A request object
-  */
-  public function executeIndex(sfWebRequest $request)
-  {
-    $this->forward404Unless($request->getParameter('gauge_id'));
-
-    // basic data
-    $q = Doctrine::getTable('SeatedPlan')->createQuery('sp')
-      ->leftJoin('sp.Seats s')
-      ->orderBy('s.name')
-      ->leftJoin('sp.Workspaces ws')
-      ->leftJoin('ws.Gauges g')
-      ->leftJoin('g.Manifestation m')
-      ->andWhere('sp.location_id = m.location_id')
-      ->andWhere('g.id = ?', $request->getParameter('gauge_id',0))
-    ;
-    $this->seated_plan = $q->fetchOne();
-    $this->forward404Unless($this->seated_plan);
-    
-    // specific data
+    $this->executeEdit($request);
     $this->occupied = array();
-    $this->transaction = $this->getUser()->getTransaction();
+    $this->transaction_id = intval($request->getParameter('transaction_id', 0));
     sfConfig::set('sf_escaping_strategy', false);
     
-    if ( intval($request->getParameter('gauge_id', 0)) > 0 )
+    if ( $this->getUser()->hasCredential('tck-seat-allocation')
+      && intval($request->getParameter('gauge_id', 0)) > 0 )
     {
       $q = Doctrine::getTable('Ticket')->createQuery('tck')
         ->select('tck.*, t.*, c.*, pro.*, org.*, o.*, pc.*')
@@ -72,6 +41,9 @@ class seatsActions extends sfActions
         ->leftJoin('pro.Contact pc')
         ->leftJoin('t.Order o')
         ->leftJoin('s.SeatedPlan sp')
+        ->leftJoin('tck.Cancelling cancel')
+        ->andWhere('tck.cancelling IS NULL')
+        ->andWhere('duplicatas.id IS NULL AND cancel.id IS NULL')
         ->andWhere('tck.seat_id IS NOT NULL')
         ->andWhere('sp.id = ?', $request->getParameter('id'))
         ->leftJoin('tck.Manifestation m')
@@ -80,11 +52,9 @@ class seatsActions extends sfActions
       ;
       
       foreach ( $q->execute() as $ticket )
-        $this->occupied[$ticket->seat_id] = array(
-          'type' => 'printed'.($ticket->transaction_id === $this->transaction->id ? ' in-progress' : ''),
-          'transaction_id' => $ticket->transaction_id === $this->transaction->id ? '#'.$this->transaction->id : false,
-          //'spectator'      => $ticket->Transaction->professional_id ? $ticket->Transaction->Professional->Contact.' '.$ticket->Transaction->Professional : (string)$ticket->Transaction->Contact,
+        $this->occupied[$ticket->Seat->name] = array(
+          'type' => ($ticket->printed_at || $ticket->integrated_at ? 'printed' : ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked')).($ticket->transaction_id === $this->transaction_id ? ' in-progress' : ''),
+          'transaction_id' => '#'.$ticket->transaction_id,
+          'spectator'      => $ticket->Transaction->professional_id ? $ticket->Transaction->Professional->Contact.' '.$ticket->Transaction->Professional : (string)$ticket->Transaction->Contact,
         );
     }
-  }
-}

@@ -1,4 +1,4 @@
-// the global var that can be used everywhere as a "root"
+  // the global var that can be used everywhere as a "root"
 if ( LI == undefined )
   var LI = {};
 
@@ -12,7 +12,7 @@ LI.alert = function(msg, type = 'notice', time = 4000)
   }
   var flash = '<div class="%%type%% ui-state-highlight ui-corner-all"><span class="ui-icon %%icon%% floatleft"></span>&nbsp;%%msg%%</div>';
   
-  $('.sf_admin_flashes').append($(flash.replace('%%msg%%',msg).replace('%%type%%',type).replace('%%icon%%', icons[type])).hide().fadeIn('slow'));
+  $('.sf_admin_flashes').append($(flash.replace('%%msg%%',msg).replace('%%type%%',type).replace('%%icon%%', icons[type])).hide().css('position', 'absolute').fadeIn('slow'));
   setTimeout(function(){
     $('.sf_admin_flashes > *').fadeOut(function(){ $(this).remove(); })
   },time);

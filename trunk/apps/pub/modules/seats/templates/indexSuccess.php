@@ -2,7 +2,7 @@
   $seats = array();
   
   foreach ( $seated_plan->Seats as $seat )
-  if (!( isset($occupied) && isset($occupied[$seat->id]) ))
+  if (!( isset($occupied) && isset($occupied[$seat->id]) && $occupied[$seat->id]['transaction_id'] === false ))
     $seats[] = array(
       'position' => array(
         'x'         => $seat->x,
@@ -12,6 +12,7 @@
       'name'      => $seat->name,
       'id'        => $seat->id,
       'rank'      => $seat->rank,
+      'occupied'  => isset($occupied) && isset($occupied[$seat->id]) ? $occupied[$seat->id] : false,
     );
   
   echo json_encode($seats);

@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>No available batch of seats can be found.</source>
+        <target>Aucun lot de places n'a pu être trouvé.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>We are sorry, you will have to choose your seats by yourself.</source>
+        <target>Nous sommes désolés, vous allez devoir choisir vos places par vous-même.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Congratulations, your tickets are now seated.</source>
+        <target>Félicitations, vos billets sont maintenant placés.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Seats</source>
+        <target>Places</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Display free seats</source>
+        <target>Afficher les places libres</target>
+      </trans-unit>
+      <trans-unit>
         <source>A contact with the same informations already exists, try to authenticate or maybe you misspelled your email address...</source>
         <target>Un contact avec les mêmes informations existe déjà, essayez de vous authentifier, à moins que vous n'ayez mal orthographié votre email...</target>
       </trans-unit>

@@ -2,7 +2,7 @@
 
 <?php echo $form->renderFormTag(url_for('ticket/commit')) ?>
 <?php foreach ( $gauges as $gauge ): ?>
-<div class="gauge <?php if ( isset($conf['full_seating_by_customer']) && $conf['full_seating_by_customer'] ): ?>full-seating<?php endif ?>" id="gauge-<?php echo $gauge->id ?>">
+<div class="gauge <?php if ( isset($conf['full_seating_by_customer']) && $conf['full_seating_by_customer'] ): ?>full-seating<?php endif ?>" id="gauge-<?php echo $gauge->id ?>" data-gauge-id="<?php echo $gauge->id ?>">
   <?php $form->setGaugeId($gauge->id) ?>
   <?php if ( $gauges->count() > 1 ): ?>
     <h3><?php echo $gauge ?></h3>
@@ -16,5 +16,4 @@
 </div>
 <?php endforeach ?>
 <?php include_partial('show_prices_js') ?>
-<p class="submit"><input type="submit" name="submit" value="<?php echo __('Confirm') ?>" /></p>
 </form>
