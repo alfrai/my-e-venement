@@ -190,7 +190,6 @@ abstract class PluginTicket extends BaseTicket
 
   public function setNumerotation($str = NULL)
   {
-    error_log($str);
     if ( is_null($str) )
     {
       $this->seat_id = NULL;
