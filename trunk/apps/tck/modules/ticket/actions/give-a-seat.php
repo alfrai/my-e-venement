@@ -51,8 +51,8 @@
       ->leftJoin('ws.Gauges g')
       ->andWhere('g.id = ?', $ticket['gauge_id'])
       ->leftJoin('g.Manifestation m')
-      ->leftJoin('m.Tickets tck WITH tck.seat_id = s.id')
-      ->andWhere('(tck.id IS NULL OR tck.id = ?)',array($ticket['id']))
+      ->leftJoin('s.Tickets tck WITH tck.manifestation_id = m.id')
+      ->andWhere('(tck.id IS NULL OR tck.id = ?)', $ticket['id'] ? $ticket['id'] : 0)
   ));
   
   $form->bind($ticket);

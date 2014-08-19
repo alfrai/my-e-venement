@@ -32,19 +32,21 @@
       ->leftJoin('g.Tickets tck')
       ->andWhere('tck.transaction_id = ?', $request->getParameter('id')),
   ));
+  $validators['transaction_id'] = new sfValidatorDoctrineChoice(array(
+    'model' => 'Transaction',
+  ));
   $validators['numerotation'] = new sfValidatorDoctrineChoice(array(
     'model' => 'Seat',
     'column' => 'name',
     'query' => Doctrine::getTable('Seat')->createQuery('s')
       ->select('s.*')
-      ->leftJoin('s.SeatedPlan sp')
-      ->leftJoin('sp.Workspaces ws')
-      ->leftJoin('ws.Gauges g')
-      ->andWhere('g.id = ?',$ticket['gauge_id'])
-      ->leftJoin('g.Tickets tck')
+      ->leftJoin('s.Tickets tck')
+      ->andWhere('tck.gauge_id = ?', $ticket['gauge_id'])
+      ->andWhere('tck.transaction_id = ?', $ticket['transaction_id'])
       ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
       ->leftJoin('tck.Transaction t')
       ->andWhere('t.closed = ?',false)
+    ,
   ));
   
   $form->bind($ticket);
@@ -53,7 +55,9 @@
   
   $this->ticket = Doctrine_Query::create()->from('Ticket tck')
     ->andWhere('tck.gauge_id = ?',$ticket['gauge_id'])
-    ->andWhere('seat.name = ?',$ticket['numerotation'])
+    ->andWhere('tck.transaction_id = ?', $ticket['transaction_id'])
+    ->leftJoin('tck.Seat s')
+    ->andWhere('s.name = ?',$ticket['numerotation'])
     ->fetchOne();
   $this->ticket->seat_id = NULL;
   $this->ticket->save();

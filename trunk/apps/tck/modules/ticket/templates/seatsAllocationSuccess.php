@@ -49,7 +49,7 @@
   <span class="gauge"><?php echo $gauge->Workspace ?></span>
 </p>
 
-<form action="<?php echo url_for('ticket/resetASeat?id='.$transaction->id) ?>" method="get" id="todo" class="reset-a-seat">
+<div id="todo">
   <?php $nb = 0 ?>
   <?php foreach ( $transaction->Tickets as $ticket ): ?>
   <?php if ( !$ticket->numerotation ): $nb++; ?>
@@ -61,12 +61,15 @@
   <?php endif ?>
   <?php endforeach ?>
   <span class="total"><?php echo $nb ?></span>
-  <span style="display: none;">
-    <input type="hidden" name="ticket[_csrf_token]" value="<?php $f = new sfForm; echo $f->getCSRFToken() ?>" />
-    <input type="hidden" name="ticket[numerotation]" value="" />
-    <input type="hidden" name="ticket[gauge_id]" value="<?php echo $transaction->Tickets[0]->gauge_id ?>" />
-  </span>
-</form>
+  <form action="<?php echo url_for('ticket/resetASeat?id='.$transaction->id) ?>" method="get" class="reset-a-seat">
+    <span style="display: none;">
+      <input type="hidden" name="ticket[_csrf_token]" value="<?php $f = new sfForm; echo $f->getCSRFToken() ?>" />
+      <input type="hidden" name="ticket[numerotation]" value="" />
+      <input type="hidden" name="ticket[gauge_id]" value="<?php echo $gauge->id ?>" />
+      <input type="hidden" name="ticket[transaction_id]" value="<?php echo $transaction->id ?>" />
+    </span>
+  </form>
+</div>
 <p id="arrow">&nbsp;↓</p>
 <div id="done">
   <form action="<?php echo url_for('ticket/giveASeat?id='.$transaction->id) ?>" method="get">
