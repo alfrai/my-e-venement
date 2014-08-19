@@ -3,8 +3,13 @@ if ( LI == undefined )
   var LI = {};
 
 // display a flash for a limited time
-LI.alert = function(msg, type = 'notice', time = 4000)
+LI.alert = function(msg, type, time)
 {
+  if ( time == undefined )
+    time = 4000;
+  if ( type == undefined )
+    type = 'notice';
+  
   var icons = {
     success: 'ui-icon-circle-check',
     notice:  'ui-icon-info',
