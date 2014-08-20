@@ -41,8 +41,9 @@ all:
       event_shortname: 40
       #event_name_right: 20
     wip_price: WIP
-    wip_timeout: 2 hours # for the garbage collector to remove useless WIPs
-    asked_timeout: 40 minutes # for the garbage collector to remove elder asked tickets
+    timeout:
+      wip: 2 hours # for the garbage collector to remove useless WIPs
+      asked: 40 minutes # for the garbage collector to remove elder asked tickets
     #logo: /private/logo-xxx.png
     authorize_grouped_tickets: false
     spectator_display_all: false

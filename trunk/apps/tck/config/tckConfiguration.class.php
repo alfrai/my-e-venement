@@ -113,6 +113,7 @@ EOF
   public function initGarbageCollectors(sfCommandApplicationTask $task = NULL)
   {
     $this->task = $task;
+    $timeout = sfConfig::get('app_tickets_timeout', array());
     
     // WIP tickets collector
     $this->addGarbageCollector('wip', function(){
@@ -121,7 +122,7 @@ EOF
       $nb = Doctrine_Query::create()->from('Ticket tck')
         ->andWhere('tck.price_id IS NULL')
         ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL')
-        ->andWhere('tck.updated_at < ?', date('Y-m-d H:i:s', strtotime(sfConfig::get('app_tickets_wip_timeout', '2 hours').' ago')))
+        ->andWhere('tck.updated_at < ?', date('Y-m-d H:i:s', strtotime(($timeout['wip'] ? $timeout['wip'] : '2 hours').' ago')))
         ->delete()
         ->execute()
       ;
@@ -135,7 +136,7 @@ EOF
       $q = Doctrine_Query::create()->from('Ticket tck')
         ->andWhere('tck.price_id IS NOT NULL')
         ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL')
-        ->andWhere('tck.updated_at < ?', $date = date('Y-m-d H:i:s', strtotime(sfConfig::get('app_tickets_asked_timeout','1 hour').' ago')))
+        ->andWhere('tck.updated_at < ?', $date = date('Y-m-d H:i:s', strtotime(($timeout['wip'] ? $timeout['wip'] : '1 hour').' ago')))
         ->leftJoin('tck.Transaction t')
         ->leftJoin('t.Order o')
         ->select('tck.id')->groupBy('tck.id')
