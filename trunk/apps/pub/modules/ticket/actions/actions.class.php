@@ -10,6 +10,10 @@
  */
 class ticketActions extends sfActions
 {
+  public function executeGetOrphans(sfWebRequest $request)
+  {
+    return require(dirname(__FILE__).'/get-orphans.php');
+  }
   public function executeRemoveTicket(sfWebRequest $request)
   {
     return require(dirname(__FILE__).'/remove-ticket.php');
@@ -37,14 +41,17 @@ class ticketActions extends sfActions
     $this->debug($request);
     return 'Error';
   }
-  protected function debug(sfWebRequest $request)
+  protected function debug(sfWebRequest $request, $no_get_param = false)
   {
-    if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
+    if ( sfConfig::get('sf_web_debug', false) && ($no_get_param || $request->hasParameter('debug')) )
     {
+      $this->debug = true;
       $this->getResponse()->setContentType('text/html');
       $this->getResponse()->sendHttpHeaders();
       $this->setLayout('public');
     }
+    else
+      sfConfig::set('sf_web_debug', false);
   }
   
   protected function recordTransaction(sfWebRequest $request)
@@ -93,7 +100,7 @@ class ticketActions extends sfActions
   public function executeCommit(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
-    $cpt = $this->recordTransaction($request);
+    $cpt = $this->recordTransaction($request, true);
     
     $this->getUser()->setFlash('notice',__('%%nb%% ticket(s) have been added to your cart',array('%%nb%%' => $cpt)));
     $this->redirect('cart/show');

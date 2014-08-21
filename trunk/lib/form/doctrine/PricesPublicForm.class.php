@@ -165,7 +165,7 @@ class PricesPublicForm extends BaseFormDoctrine
     $given_seats = $seater->organizeList(
       Doctrine::getTable('Seat')->createQuery('s')
         ->andWhereIn('s.id', $values['seat_id'])
-        ->leftJoin('s.Neighbors n')
+        ->leftJoin('n.Tickets ntck ON ntck.manifestation_id = tck.manifestation_id')
         ->execute()
     );
     $seats_keys = $given_seats->getPrimaryKeys();

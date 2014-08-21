@@ -62,7 +62,7 @@ $(document).ready(function(){
           
           // in the DB
           if ( seats.length > 0 )
-          $.get($('#mod-seated-tickets').prop('href'), { seats: seats }, function(json){
+          $.post($('#mod-seated-tickets').prop('href'), { seats: seats }, function(json){
             LI.alert(json.error ? json.error.message : json.success.message, json.error ? 'error' : 'success');
           });
         }

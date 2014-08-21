@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You need to do something to avoid those orphans (%%orphans%%)...</source>
+        <target>Vous devez faire quelque chose pour éviter ces orphelins (%%orphans%%)...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Perfect, no orphans found!</source>
+        <target>Parfait, pas d'orphelin trouvé !</target>
+      </trans-unit>
+      <trans-unit>
         <source>Order expiration</source>
         <target>Expiration de la commande</target>
       </trans-unit>
