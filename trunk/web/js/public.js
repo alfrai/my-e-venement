@@ -1,6 +1,14 @@
+// the global var that can be used everywhere as a "root"
+if ( LI == undefined )
+  var LI = {};
+LI.pubCartReady = [];
+
 $(document).ready(function(){
   $.get($('#cart-widget-url').prop('href'),function(data){
     $('body').prepend($($.parseHTML(data)).find('#cart-widget'));
+    
+    for ( i = 0 ; LI.pubCartReady[i] != undefined ; i++ )
+      LI.pubCartReady[i]();
   });
   
   // if treating month as a structural data

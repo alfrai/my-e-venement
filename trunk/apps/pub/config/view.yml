@@ -14,7 +14,7 @@ default:
 
   stylesheets:    [/sfAdminThemejRollerPlugin/css/jroller.css, /sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css, main.css,public,/private/public.css]
 #  stylesheets:    [main.css,public,/private/public.css]
-  javascripts:    [jquery]
+  javascripts:    [jquery, public, pub-timer, helper]
 
   has_layout:     true
   layout:         public

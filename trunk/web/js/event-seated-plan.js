@@ -42,6 +42,7 @@
         .append($('<div></div>').addClass('anti-handling'))
         .prepend($(this))
         .attr('data-href', widget.prop('href'))
+        .addClass('done')
       ;
       if ( $(this).attr('width') )
       {
@@ -57,7 +58,7 @@
       
       // loads the content/data
       if ( !$(this).closest('.seated-plan').is('.on-demand') )
-        LI.seatedPlanLoadData(url, '#'+id);
+        LI.seatedPlanLoadData(url, id ? '#'+id : '');
       
       // to avoid graphical bugs, relaunch the box resizing
       $(this).unbind('load').load(function(){
@@ -94,7 +95,7 @@
       }
       
       // triggers
-      while ( fct = LI.seatedPlanInitializationFunctions.shift() )
+      for ( $i = 0 ; fct = LI.seatedPlanInitializationFunctions[$i] ; $i++ )
         fct();
     });
   }
@@ -108,6 +109,8 @@
     var position = data.position;
     var ref = $(data.object);
     var id = data.id;
+    var seated_plan_id = data.seated_plan_id;
+    var gauge_id = data.gauge_id;
     var name = data.name;
     var rank = data.rank
     var diameter = data.diameter == undefined ? $(ref).closest('form').find('[name="seated_plan[seat_diameter]"]').val() : data.diameter;
@@ -154,13 +157,26 @@
     $('<div class="seat"><input class="txt" type="hidden" value="'+name+'" /><input class="id" type="hidden" value="'+id+'" /></div>')
       .attr('title', name+' ('+($('.tools .rank label').length > 0 ? $('.tools .rank label').text() : 'rank')+': '+rank+')' + (occupied && occupied['transaction_id'] ? ' ('+occupied.transaction_id+(occupied.spectator ? ', '+occupied.spectator : '')+')' : ''))
       .attr('data-num', name).attr('data-rank', rank)
-      .addClass('seat-'+id).addClass(occupied ? occupied.type : '')
+      .attr('data-id', id)
+      .addClass('seat-'+id)
+      .attr('data-seated-plan-id', seated_plan_id)
+      .addClass('seated-plan-'+seated_plan_id)
       .width(diameter).height(diameter)
       .each(function(){
         // width/2 to find the center
         $(this)
           .css('left', (x = Math.round(position['x']-($(this).width())/2))+'px')
-          .css('top',  (y = Math.round(position['y']-($(this).width())/2))+'px');
+          .css('top',  (y = Math.round(position['y']-($(this).width())/2))+'px')
+        ;
+        if ( occupied )
+        {
+          $(this)
+            .addClass(occupied.type)
+            .attr('data-ticket-id', occupied['ticket_id'])
+            .attr('data-price-id', occupied['price_id'])
+            .attr('data-gauge-id', occupied['gauge_id'])
+          ;
+        }
       }).prependTo(ref)
       .clone(true).addClass('txt').prependTo(ref)
       

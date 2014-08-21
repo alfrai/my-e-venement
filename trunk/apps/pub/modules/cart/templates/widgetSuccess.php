@@ -26,6 +26,13 @@
       'price' => $transac->getMemberCardPrice(true) + $transac->getPrice(true) - $transac->getTicketsLinkedToMemberCardPrice(true),
     )) ?>
   </tr>
+  <tr class="timer">
+    <?php use_helper('Date') ?>
+    <td colspan="5">
+      <span class="global"><?php echo __('Order expiration') ?>: <span class="time"><?php echo $global_timeout ?></span></span>
+      <span class="older-item"><?php echo __('Older item expiration') ?>: <span class="time"><?php echo $older_item_timeout ?></span></span>
+    </td>
+  </tr>
   </tfoot>
 </table>
 </div>

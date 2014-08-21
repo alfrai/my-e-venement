@@ -10,45 +10,35 @@
  */
 class ticketActions extends sfActions
 {
+  public function executeRemoveTicket(sfWebRequest $request)
+  {
+    return require(dirname(__FILE__).'/remove-ticket.php');
+  }
+  public function executeAddSeat(sfWebRequest $request)
+  {
+    return require(dirname(__FILE__).'/add-seat.php');
+  }
   public function executeAutoSeating(sfWebRequest $request)
   {
-    $vel = sfConfig::get('app_tickets_vel');
-    if ( !isset($vel['full_seating_by_customer']) ) $vel['full_seating_by_customer'] = false;
+    return require(dirname(__FILE__).'/auto-seating.php');
+  }
+  public function executeModSeatedTickets(sfWebRequest $request)
+  {
+    return require(dirname(__FILE__).'/mod-seated-tickets.php');
+  }
+  
+  protected function jsonError($messages = array(), sfWebRequest $request)
+  {
+    if ( !is_array($messages) )
+      $messages = array($messages);
+    $this->json['error']['message'] = $messages;
     
-    $this->getContext()->getConfiguration()->loadHelpers('I18N');
-    $this->json = array(
-      'error' => false,
-      'success' => false,
-    );
-    
-    if ( !$vel['full_seating_by_customer'] )
-    {
-      $this->json['error'] = array('message' => __('This plateform does not allow this action'));
-      return 'Success';
-    }
-    
-    $this->transaction = $this->getUser()->getTransaction();
-    try {
-      $this->recordTransaction($request);
-    }
-    catch ( liSeatedException $e )
-    {
-      $this->json['error'] = array('message' =>
-        __($e->getMessage()).' '.
-        __('We are sorry, you will have to choose your seats by yourself.')
-      );
-      return 'Success';
-    }
-    
-    $seats = array();
-    foreach ( $this->transaction->Tickets as $ticket )
-      $seats[$ticket->gauge_id][$ticket->price_id][$ticket->seat_id] = (string)$ticket->Seat;
-    
-    $this->json['success'] = array(
-      'message' => __('Congratulations, your tickets are now seated.'),
-      'seats'   => $seats,
-    );
-    
+    error_log('app: pub, module: ticket --> '.implode(' | ', $messages));
+    $this->debug($request);
+    return 'Error';
+  }
+  protected function debug(sfWebRequest $request)
+  {
     if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
     {
       $this->getResponse()->setContentType('text/html');
@@ -59,37 +49,41 @@ class ticketActions extends sfActions
   
   protected function recordTransaction(sfWebRequest $request)
   {
-    $prices = $request->getParameter('price');
+    $prices = $request->getParameter('price', array());
+    if ( !is_array($prices) )
+      $prices = array();
     $cpt = 0;
     
     if (!( is_array($prices) && count($prices) != count($prices, COUNT_RECURSIVE) ))
       throw new liOnlineSaleException('The given data is incompatible with adding tickets into the cart.');
     
-    // removing tickets-to-seat from the transaction before saving those that are seated correctly
-    foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
-    if ( $ticket->price_name && !$ticket->price_id )
-      $ticket->delete();
-    
     // adding prices in the Transaction
     foreach ( $prices as $gid => $gauge )
     foreach ( $gauge as $pid => $price )
+    if ( $pid )
     {
-      $form = new PricesPublicForm($this->getUser()->getTransaction());
-      $form->setPriceId($pid)->setGaugeId($gid);
+      if (!( isset($price['seat_id']) && $price['seat_id'] && is_array($price['seat_id']) ))
+        $price['seat_id'] = array();
+      
+      $this->form = new PricesPublicForm($this->getUser()->getTransaction());
+      $this->form->setPriceId($pid)->setGaugeId($gid);
       $price['transaction_id'] = $this->getUser()->getTransaction()->id;
       
-      $form->bind($price);
-      if ( $form->isValid() )
+      // remember the seat_id of tickets that are being removed before adding new ones matching the form
+      foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
+      if ( $ticket->gauge_id == $gid && ($ticket->price_id == $pid || $ticket->price_name && !$ticket->price_id) && !in_array($ticket->seat_id, $price['seat_id']) )
+        $price['seat_id'][] = $ticket->seat_id;
+      
+      $this->form->bind($price);
+      if ( $this->form->isValid() )
       {
-        $time = microtime(true);
-        $form->save();
-        error_log('after form save '.(microtime(true)-$time));
+        $this->form->save();
         $cpt += $price['quantity'];
       }
       else
       {
-        error_log('Adding prices in online sales: error for '.$form->getErrorSchema());
-        throw new sfException($form->getErrorSchema());
+        error_log('Adding prices in online sales: error for '.$this->form->getErrorSchema().' with '.print_r($price,true));
+        throw new sfException($this->form->getErrorSchema());
       }
     }
     

@@ -2,7 +2,7 @@ $(document).ready(function(){
   LI.seatedPlanInitializationFunctions.push(function()
   {
     var click;
-    $('.seated-plan .seat.txt').click(click = function(){
+    $('.seated-plan .seat.txt').unbind('contextmenu').click(click = function(){
       if ( $('#todo .ticket').length == 0 || $(this).is('.printed') || $(this).is('.asked') || $(this).is('.ordered') )
         return false;
       

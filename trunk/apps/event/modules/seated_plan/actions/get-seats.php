@@ -29,7 +29,7 @@
     sfConfig::set('sf_escaping_strategy', false);
     
     if ( $this->getUser()->hasCredential('tck-seat-allocation')
-      && intval($request->getParameter('gauge_id', 0)) > 0 )
+      && ($gid = intval($request->getParameter('gauge_id', 0))) > 0 )
     {
       $q = Doctrine::getTable('Ticket')->createQuery('tck')
         ->select('tck.*, t.*, c.*, pro.*, org.*, o.*, pc.*')
@@ -53,8 +53,11 @@
       
       foreach ( $q->execute() as $ticket )
         $this->occupied[$ticket->Seat->name] = array(
-          'type' => ($ticket->printed_at || $ticket->integrated_at ? 'printed' : ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked')).($ticket->transaction_id === $this->transaction_id ? ' in-progress' : ''),
-          'transaction_id' => '#'.$ticket->transaction_id,
-          'spectator'      => $ticket->Transaction->professional_id ? $ticket->Transaction->Professional->Contact.' '.$ticket->Transaction->Professional : (string)$ticket->Transaction->Contact,
+          'type'            => ($ticket->printed_at || $ticket->integrated_at ? 'printed' : ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked')).($ticket->transaction_id === $this->transaction_id && $ticket->gauge_id == $gid ? ' in-progress' : ''),
+          'transaction_id'  => '#'.$ticket->transaction_id,
+          'ticket_id'       => $ticket->id,
+          'price_id'        => $ticket->price_id,
+          'gauge_id'        => $ticket->gauge_id,
+          'spectator'       => $ticket->Transaction->professional_id ? $ticket->Transaction->Professional->Contact.' '.$ticket->Transaction->Professional : (string)$ticket->Transaction->Contact,
         );
     }

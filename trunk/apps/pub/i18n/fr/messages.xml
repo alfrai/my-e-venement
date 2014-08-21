@@ -5,6 +5,30 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Order expiration</source>
+        <target>Expiration de la commande</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Older item expiration</source>
+        <target>Expiration du plus ancien élément</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Action successful</source>
+        <target>Action réussie</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Maybe this seat is no longer available, check again.</source>
+        <target>Peut-être que cette place n'est plus disponible, vérifiez à nouveau.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ticket pre-seated with success</source>
+        <target>Billet pré-placé avec succès</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The seat has been freed with success</source>
+        <target>La place a été libérée avec succès</target>
+      </trans-unit>
+      <trans-unit>
         <source>No available batch of seats can be found.</source>
         <target>Aucun lot de places n'a pu être trouvé.</target>
       </trans-unit>

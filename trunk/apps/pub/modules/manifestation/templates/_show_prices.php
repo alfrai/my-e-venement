@@ -6,15 +6,28 @@
 <?php if ( $gauge->Manifestation->PriceManifestations->count() > 0 ): ?>
 <tbody>
 <?php if ( $gauge->Tickets->count() > 0 ): ?>
+<?php
+  // WIP tickets
+  $tickets = array();
+  foreach ( $gauge->Tickets as $ticket )
+  if ( !$ticket->price_id && $ticket->price_name )
+    $tickets[] = $ticket;
+?>
+  <?php if ( count($tickets) > 0 ): ?>
   <tr class="seating in-progress">
+    <?php if ( $vel['full_seating_by_customer'] ): ?>
+      <td class="seats">
+        <?php include_partial('show_prices_seats', array('form' => $form, 'tickets' => $tickets)) ?>
+      </td>
+    <?php endif ?>
     <td class="price">
-      <?php echo $gauge->Tickets[0]->price_name ?>
+      <?php echo $tickets[0]->price_name ?>
     </td>
     <td class="value">-</td>
-    <td class="quantity"><?php echo $gauge->Tickets->count() ?></td>
-    <?php if ( $vel['full_seating_by_customer'] ): ?><td class="seats">-</td><?php endif ?>
+    <td class="quantity"><?php echo count($tickets) ?></td>
     <td class="total">-</td>
   </tr>
+  <?php endif ?>
 <?php endif ?>
 
 <?php foreach ( $gauge->Manifestation->PriceManifestations as $pm ): ?>
@@ -59,26 +72,17 @@
     $form->setMaxQuantity($max);
   ?>
   <tr data-price-id="<?php echo $pm->price_id ?>">
+    <?php if ( $vel['full_seating_by_customer'] ): ?>
+      <td class="seats">
+        <?php include_partial('show_prices_seats', array('form' => $form, 'tickets' => $pm->Price->Tickets)) ?>
+      </td>
+    <?php endif ?>
     <td class="price">
       <?php echo $pm->Price->description ? $pm->Price->description : $pm->Price ?>
       <?php echo $form->renderHiddenFields() ?>
     </td>
     <td class="value"><?php echo format_currency($pm->value,'€') ?></td>
     <td class="quantity"><?php echo $form['quantity'] ?></td>
-    <?php if ( $vel['full_seating_by_customer'] ): ?>
-    <td class="seats">
-      <?php $cpt = 0; foreach ( $pm->Price->Tickets as $ticket ) if ( $ticket->seat_id ): $cpt++ ?>
-        <span class="seat seat-<?php echo slugify($ticket->Seat) ?>" data-seat-id="<?php echo $ticket->seat_id ?>">
-          <?php echo $ticket->Seat ?>
-          <input type="hidden" name="<?php echo sprintf($form->getWidgetSchema()->getNameFormat(), 'seat_id') ?>[]" value="<?php echo $ticket->seat_id ?>" />
-        </span>
-      <?php else: ?>
-        <span class="seat seat-todo">
-          <?php echo $ticket ?>
-        </span>
-      <?php endif ?>
-    </td>
-    <?php endif ?>
     <td class="total"><?php echo format_currency(0,'€') ?></td>
   </tr>
 <?php endif ?>
@@ -87,17 +91,16 @@
 <?php endif ?>
 <tfoot>
   <tr>
+    <?php if ( $vel['full_seating_by_customer'] ): ?><td class="seats"></td><?php endif ?>
     <td class="price"></td>
     <td class="value"></td>
     <td class="quantity"></td>
-    <?php if ( $vel['full_seating_by_customer'] ): ?><td class="seats"></td><?php endif ?>
     <td class="total"><?php echo format_currency(0,'€') ?></td>
   </tr>
   <tr>
     <?php if ( $vel['full_seating_by_customer'] ): ?>
-    <?php use_javascript('pub-seated-plan') ?>
-    <?php use_javascript('helper') ?>
-    <td colspan="3"></td>
+    <?php use_javascript('pub-seated-plan?'.date('Ymd'),'last') ?>
+    <?php use_javascript('helper?'.date('Ymd')) ?>
     <td class="seats">
       <button
         name="auto"
@@ -107,6 +110,7 @@
         <?php echo __('Auto') ?>
       </button>
     </td>
+    <td colspan="3"></td>
     <td class="submit">
       <input type="submit" name="submit" value="<?php echo __('Confirm') ?>" />
     </td>
@@ -119,10 +123,10 @@
 </tfoot>
 <thead>
   <tr>
+    <?php if ( $vel['full_seating_by_customer'] ): ?><td class="seats"><?php echo __('Seats') ?></td><?php endif ?>
     <td class="price"><?php echo __('Price') ?></td>
     <td class="value"><?php echo __('Value') ?></td>
     <td class="quantity"><?php echo __('Quantity') ?></td>
-    <?php if ( $vel['full_seating_by_customer'] ): ?><td class="seats"><?php echo __('Seats') ?></td><?php endif ?>
     <td class="total"><?php echo __('Total') ?></td>
   </tr>
 </thead>

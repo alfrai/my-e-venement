@@ -46,6 +46,7 @@ class seatsActions extends sfActions
     $q = Doctrine::getTable('SeatedPlan')->createQuery('sp')
       ->leftJoin('sp.Seats s')
       ->orderBy('s.name')
+      ->andWhere('sp.id = ?', $request->getParameter('id'))
       ->leftJoin('sp.Workspaces ws')
       ->leftJoin('ws.Gauges g')
       ->leftJoin('g.Manifestation m')
@@ -60,7 +61,7 @@ class seatsActions extends sfActions
     $this->transaction = $this->getUser()->getTransaction();
     sfConfig::set('sf_escaping_strategy', false);
     
-    if ( intval($request->getParameter('gauge_id', 0)) > 0 )
+    if ( ($gid = intval($request->getParameter('gauge_id', 0))) > 0 )
     {
       $q = Doctrine::getTable('Ticket')->createQuery('tck')
         ->select('tck.*, t.*, c.*, pro.*, org.*, o.*, pc.*')
@@ -81,8 +82,11 @@ class seatsActions extends sfActions
       
       foreach ( $q->execute() as $ticket )
         $this->occupied[$ticket->seat_id] = array(
-          'type' => 'printed'.($ticket->transaction_id === $this->transaction->id ? ' in-progress' : ''),
-          'transaction_id' => $ticket->transaction_id === $this->transaction->id ? '#'.$this->transaction->id : false,
+          'type'            => 'ordered'.($ticket->transaction_id === $this->transaction->id ? ' in-progress' : ''),
+          'transaction_id'  => $ticket->gauge_id == $gid && $ticket->transaction_id === $this->transaction->id ? '#'.$this->transaction->id : false,
+          'ticket_id'       => $ticket->id,
+          'price_id'        => $ticket->price_id,
+          'gauge_id'        => $ticket->gauge_id,
           //'spectator'      => $ticket->Transaction->professional_id ? $ticket->Transaction->Professional->Contact.' '.$ticket->Transaction->Professional : (string)$ticket->Transaction->Contact,
         );
     }

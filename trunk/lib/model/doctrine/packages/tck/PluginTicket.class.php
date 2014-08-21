@@ -70,6 +70,9 @@ abstract class PluginTicket extends BaseTicket
       }
     }
     
+    if ( !$this->price_name )
+      $this->price_name = $this->Price->name;
+    
     // the transaction's last update
     $this->Transaction->updated_at = NULL;
     

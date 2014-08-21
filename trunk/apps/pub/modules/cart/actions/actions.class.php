@@ -47,6 +47,33 @@ class cartActions extends sfActions
     
     if ( $this->transac === false )
       $this->transac = new Transaction;
+    
+    // global timeout
+    $time = strtotime(
+      '+'.sfConfig::get('app_timeout_global', '1 hour'),
+      strtotime($this->transac->created_at)
+    ) - time();
+    $this->global_timeout = $time <= 0 ? 'expired!' :
+      floor($time/3600).':'.
+      str_pad(floor($time%3600/60), 2, '0', STR_PAD_LEFT).':'.
+      str_pad(floor($time%3600%60), 2, '0', STR_PAD_LEFT)
+    ;
+    
+    // older item timeout
+    $ticket = Doctrine::getTable('Ticket')->createQuery('tck')
+      ->andWhere('tck.transaction_id = ?', $this->transac->id)
+      ->orderBy('tck.updated_at')
+      ->fetchOne();
+    $time = strtotime(
+      '+'.sfConfig::get('app_timeout_item', '40 minutes'),
+      strtotime($ticket->updated_at)
+    ) - time();
+    $this->older_item_timeout = $time <= 0 ? 'expired!' :
+      floor($time/3600).':'.
+      str_pad(floor($time%3600/60), 2, '0', STR_PAD_LEFT).':'.
+      str_pad(floor($time%3600%60), 2, '0', STR_PAD_LEFT)
+    ;
+    error_log($this->older_item_timeout.' - '.$this->global_timeout);
   }
   public function executeEmpty(sfWebRequest $request)
   {

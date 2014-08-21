@@ -65,11 +65,11 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #cart-widget {
   position: absolute;
   right: 20px;
-	margin-top: -50px;
+	top: 2px;
   background-color: whitesmoke;
   border: 1px solid black;
   padding: 3px 0px 3px 0px;
-  height: 37px;
+  height: 45px;
   overflow: hidden;
 	border-radius: 5px;
 }
@@ -100,6 +100,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #cart-widget td.operand { text-align: center; }
 #cart-widget tfoot tr { font-weight: bold; }
 #cart-widget .value, #cart-widget .qty { text-align: right; }
+#cart-widget tfoot .timer { font-weight: normal; font-size: 50%; }
 
 #command {
 	border: 1px solid black;
@@ -289,7 +290,8 @@ a.actions a:hover {
 
 tfoot, thead { font-weight: bold; }
 .prices .value, .prices .total { text-align: right; }
-.prices .seats { max-width: 150px; }
+.prices .seats { text-align: right; max-width: 150px; }
+.prices .seats .seat { padding-right: 5px; }
 .prices .quantity { text-align: center; }
 #location, #manifestation { display: inline-block; }
 #location { font-weight: bold; }

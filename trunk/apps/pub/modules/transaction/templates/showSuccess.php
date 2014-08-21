@@ -27,8 +27,11 @@
     <?php $nb_ws++ ?>
   <?php endif ?></td>
   <?php
-    $total[$ticket->Price->member_card_linked ? 'mc_qty' : 'qty']++;
-    $total[$ticket->Price->member_card_linked ? 'mc_value' : 'value'] += $ticket->value;
+    if ( $ticket->price_id )
+    {
+      $total[$ticket->Price->member_card_linked ? 'mc_qty' : 'qty']++;
+      $total[$ticket->Price->member_card_linked ? 'mc_value' : 'value'] += $ticket->value;
+    }
   ?>
   <?php include_partial('show_ticket',array('ticket' => $ticket)) ?>
   <td class="mod"><?php if ( $current_transaction ) echo link_to(__('modify'),'manifestation/show?id='.$manif->id) ?></td>
