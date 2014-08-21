@@ -23,3 +23,4 @@ LI.alert = function(msg, type, time)
   },time);
 }
 
+LI.pad_num = function (num, digits){return(1e15+num+"").slice(-digits)}
