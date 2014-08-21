@@ -103,7 +103,7 @@ class myUser extends liGuardSecurityUser
     return $this;
   }
   
-  public function getTransaction()
+  public function getTransactionId()
   {
     if ( !$this->hasAttribute('transaction_id') )
     {
@@ -122,6 +122,11 @@ class myUser extends liGuardSecurityUser
       )));
     }
     
+    return $this->getAttribute('transaction_id');
+  }
+  public function getTransaction()
+  {
+    $tid = $this->getTransactionId();
     if ( $this->transaction instanceof Transaction )
       return $this->transaction;
       
@@ -133,7 +138,7 @@ class myUser extends liGuardSecurityUser
       ->leftJoin('c.Transactions tr')
       ->leftJoin('c.MemberCards cmc ON c.id = cmc.contact_id AND (cmc.active = TRUE OR cmc.transaction_id = t.id)')
       ->leftJoin('cmc.MemberCardPrices cmcp')
-      ->andWhere('t.id = ?',$this->getAttribute('transaction_id'));
+      ->andWhere('t.id = ?',$tid);
     
     return $this->transaction = $q->fetchOne();
   }

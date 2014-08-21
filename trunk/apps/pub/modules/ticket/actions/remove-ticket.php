@@ -39,11 +39,13 @@
       ->andWhere('tck.seat_id = ?', $request->getParameter('seat_id'))
       ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
       ->fetchOne();
-    $success = array(
-      'ticket-id' => $ticket->id,
-      'price-id'  => $ticket->price_id,
-      'gauge-id'  => $ticket->gauge_id,
-    );
+    $success = array('deleted' => array(array(
+      'ticket_id' => $ticket->id,
+      'price_id'  => $ticket->price_id,
+      'gauge_id'  => $ticket->gauge_id,
+      'price_name'=> $ticket->price_name,
+      'seat_id'   => $ticket->seat_id,
+    )));
     if ( !$ticket->delete() )
       return $this->jsonError('The given seat cannot be removed, try again', $request);
     

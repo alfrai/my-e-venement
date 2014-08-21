@@ -12,7 +12,12 @@ class ticketActions extends sfActions
 {
   public function executeGetOrphans(sfWebRequest $request)
   {
-    return require(dirname(__FILE__).'/get-orphans.php');
+    $options = array();
+    foreach ( array('gauge_id', 'manifestation_id', 'seat_id') as $field )
+      $options['$field'] = $request->getParameter($field, 'false');
+    
+    $this->debug($request);
+    return $this->checkForOrphansInJson($options) ? 'Success' : 'Error';
   }
   public function executeRemoveTicket(sfWebRequest $request)
   {
@@ -31,6 +36,30 @@ class ticketActions extends sfActions
     return require(dirname(__FILE__).'/mod-seated-tickets.php');
   }
   
+  
+  protected function checkForOrphansInJson(array $options)
+  {
+    $this->json = array('error' => false, 'success' => false);
+    $manif_details = true;
+    
+    try { $this->json['success']['orphans'] = $this->getContext()->getConfiguration()->getOrphans($this->getUser()->getTransaction(), $options); }
+    catch ( liOnlineSaleException $e )
+    { return $this->jsonError($e->getMessage(), $request); }
+    
+    $flat = array();
+    foreach ( $this->json['success']['orphans'] as $gid => $data )
+    foreach ( $data as $orphan )
+      $flat[] = $orphan['seat_name'];
+    
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $this->json['success']['message'] = count($flat) == 0
+      ? __('Perfect, no orphans found!')
+      : __('You need to do something to avoid those orphans (%%orphans%%)...', array('%%orphans%%' => implode(', ', $flat)))
+    ;
+    
+    return 'Success';
+  }
+  
   protected function jsonError($messages = array(), sfWebRequest $request)
   {
     if ( !is_array($messages) )
@@ -43,7 +72,11 @@ class ticketActions extends sfActions
   }
   protected function debug(sfWebRequest $request, $no_get_param = false)
   {
-    if ( sfConfig::get('sf_web_debug', false) && ($no_get_param || $request->hasParameter('debug')) )
+    $this->raw_debug(sfConfig::get('sf_web_debug', false) && ($no_get_param || $request->hasParameter('debug')));
+  }
+  protected function raw_debug($bool)
+  {
+    if ( $bool )
     {
       $this->debug = true;
       $this->getResponse()->setContentType('text/html');
@@ -52,57 +85,5 @@ class ticketActions extends sfActions
     }
     else
       sfConfig::set('sf_web_debug', false);
-  }
-  
-  protected function recordTransaction(sfWebRequest $request)
-  {
-    $prices = $request->getParameter('price', array());
-    if ( !is_array($prices) )
-      $prices = array();
-    $cpt = 0;
-    
-    if (!( is_array($prices) && count($prices) != count($prices, COUNT_RECURSIVE) ))
-      throw new liOnlineSaleException('The given data is incompatible with adding tickets into the cart.');
-    
-    // adding prices in the Transaction
-    foreach ( $prices as $gid => $gauge )
-    foreach ( $gauge as $pid => $price )
-    if ( $pid )
-    {
-      if (!( isset($price['seat_id']) && $price['seat_id'] && is_array($price['seat_id']) ))
-        $price['seat_id'] = array();
-      
-      $this->form = new PricesPublicForm($this->getUser()->getTransaction());
-      $this->form->setPriceId($pid)->setGaugeId($gid);
-      $price['transaction_id'] = $this->getUser()->getTransaction()->id;
-      
-      // remember the seat_id of tickets that are being removed before adding new ones matching the form
-      foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
-      if ( $ticket->gauge_id == $gid && ($ticket->price_id == $pid || $ticket->price_name && !$ticket->price_id) && !in_array($ticket->seat_id, $price['seat_id']) )
-        $price['seat_id'][] = $ticket->seat_id;
-      
-      $this->form->bind($price);
-      if ( $this->form->isValid() )
-      {
-        $this->form->save();
-        $cpt += $price['quantity'];
-      }
-      else
-      {
-        error_log('Adding prices in online sales: error for '.$this->form->getErrorSchema().' with '.print_r($price,true));
-        throw new sfException($this->form->getErrorSchema());
-      }
-    }
-    
-    return $cpt;
-  }
-  
-  public function executeCommit(sfWebRequest $request)
-  {
-    $this->getContext()->getConfiguration()->loadHelpers('I18N');
-    $cpt = $this->recordTransaction($request, true);
-    
-    $this->getUser()->setFlash('notice',__('%%nb%% ticket(s) have been added to your cart',array('%%nb%%' => $cpt)));
-    $this->redirect('cart/show');
   }
 }

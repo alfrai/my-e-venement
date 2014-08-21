@@ -140,81 +140,69 @@ class PricesPublicForm extends BaseFormDoctrine
     return $this;
   }
   
+  /** PREREQUSITE: no orphans (optional) **/
   public function save($con = NULL)
   {
     $values = $this->getValues();
     $vel = sfConfig::get('app_tickets_vel', array());
     if ( !isset($vel['full_seating_by_customer']) ) $vel['full_seating_by_customer'] = false;
-    if ( $vel['full_seating_by_customer'] )
-      $seater = new Seater($values['gauge_id']);
     
-    // cleaning out tickets
-    $cpt = array('before' => 0, 'seated' => 0);
+    // dispatching seats from wips to real tickets
+    $tickets = array();
+    $wips = array();
     foreach ( $this->object->Tickets as $key => $ticket )
-    if ( $ticket->gauge_id == $values['gauge_id'] && $ticket->price_id == $values['price_id'] )
+    if ( $ticket->gauge_id == $values['gauge_id'] )
     {
-      if ( $vel['full_seating_by_customer'] ) // normal tickets
-        $seater->addSeat($ticket->Seat);
-      unset($this->object->Tickets[$key]);
+      if ( $ticket->price_id == $values['price_id'] )
+        $tickets[($ticket->seat_id ? $ticket->Seat->rank : 'zzz').' - '.$ticket->id] = $ticket;
+      if ( $ticket->price_name && !$ticket->price_id )
+        $wips[($ticket->seat_id ? $ticket->Seat->rank : 'zzz').' - '.$ticket->id] = $ticket;
     }
+    ksort($tickets);
+    krsort($wips);
     
-    // preparing the eventuality of a need to auto-seat some tickets
-    $to_seat = array();
-    if ( !is_array($values['seat_id']) )
-      $values['seat_id'] = $values['seat_id'] ? array($values['seat_id']) : array(0);
-    $given_seats = $seater->organizeList(
-      Doctrine::getTable('Seat')->createQuery('s')
-        ->andWhereIn('s.id', $values['seat_id'])
-        ->leftJoin('n.Tickets ntck ON ntck.manifestation_id = tck.manifestation_id')
-        ->execute()
-    );
-    $seats_keys = $given_seats->getPrimaryKeys();
-    
-    // setting up the tickets
-    for ( $i = 0 ; $i < $values['quantity'] ; $i++ )
-    {
-      $ticket = new Ticket;
-      $ticket->price_id   = $values['price_id'];
-      $ticket->gauge_id   = $values['gauge_id'];
-      if ( $vel['full_seating_by_customer'] )
-      {
-        if ( isset($seats_keys[$i]) && isset($given_seats[$seats_keys[$i]]) )
-          $ticket->seat_id  = $given_seats[$seats_keys[$i]]->id;
-        else
-          $to_seat[] = $ticket;
-      }
-      $this->object->Tickets[] = $ticket;
-    }
+    $count = count($tickets);
+    for ( $i = 0 ; $i < $count - $values['quantity'] ; $i++ )
+      array_pop($tickets)->delete();
     
     if ( $vel['full_seating_by_customer'] )
     {
-      $tickets = array();
-      foreach ( $this->object->Tickets as $ticket )
-      if ( $ticket->isModified() && $ticket->seat_id )
-        $tickets[$ticket->seat_id] = $ticket;
-      
-      // check for orphans
-      foreach ( $orphans = $seater->findOrphansWith($given_seats) as $orphan )
-      if ( isset($tickets[$orphan->id]) )
+      // seating tickets using WIPs
+      $count = count($tickets);
+      for ( $i = 0 ; $i < $values['quantity'] - $count ; $i++ )
       {
-        $to_seat[] = $tickets[$orphan->id];
-        $tickets[$orphan->id]->seat_id = NULL;
-        unset($given_seats[$orphan->id]);
-      }
-      
-      // tickets to seat
-      if ( count($to_seat) > 0 )
-      {
-        $seats = $seater->findSeatsExcludingOrphans(count($to_seat), $given_seats);
-        if ( $seats === false )
-          throw new liSeatedException('No available seat can be found.');
-        foreach ( $seats as $seat )
+        foreach ( $tickets as $ticket )
+        if ( !$ticket->seat_id )
         {
-          $ticket = array_pop($to_seat);
-          if ( $ticket instanceof Ticket )
-            $ticket->seat_id = $seat->id;
+          if (!( $wip = array_pop($wips) ))
+            break 2;
+          $ticket->seat_id = $wip->seat_id;
+          $wip->delete();
+          $ticket->save();
         }
       }
+    }
+    
+    // AT THIS POINT:
+    // - ALL THE EXTRA TICKETS HAVE BEEN DELETED
+    // - ALL THE POSSIBLE SELECTED SEATS HAVE BEEN AFFECTED TO REAL TICKETS
+    
+    if ( $vel['full_seating_by_customer'] )
+    {
+      // what to seat
+      $to_seat = array();
+      foreach ( $this->object->Tickets as $ticket )
+      if ( !$ticket->seat_id )
+        $to_seat[] = $ticket;
+      
+      $seater = new Seater($values['gauge_id']);
+      $seats = $seater->findSeats(count($to_seat));
+      $keys = $seats->getKeys();
+      foreach ( $tickets as $key => $ticket )
+      if ( isset($seats[$keys[$key]]) )
+        $ticket->Seat = $seats[$keys[$key]];
+      
+      // NOW ALL THE TICKETS ARE SEATED WHEN IT WAS POSSIBLE (excepted if we ran out of seat)
     }
     
     if ( sfConfig::get('sf_web_debug', false) )

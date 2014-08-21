@@ -102,21 +102,26 @@
     <?php use_javascript('pub-seated-plan?'.date('Ymd'),'last') ?>
     <?php use_javascript('helper?'.date('Ymd')) ?>
     <td class="seats">
+      <!--
       <button
         name="auto"
-        value="<?php echo url_for('ticket/autoSeating') ?>"
+        value=""
         class="auto"
-        onclick="javascript: LI.pubAutoSeating(this); return false;">
         <?php echo __('Auto') ?>
       </button>
+      -->
     </td>
     <td colspan="3"></td>
     <td class="submit">
-      <input type="submit" name="submit" value="<?php echo __('Confirm') ?>" />
+      <input
+        type="submit"
+        name="submit"
+        value="<?php echo __('Cart') ?>"
+     />
     </td>
     <?php else: ?>
     <td colspan="4" class="submit">
-      <input type="submit" name="submit" value="<?php echo __('Confirm') ?>" />
+      <input type="submit" name="submit" value="<?php echo __('Cart') ?>" />
     </td>
     <?php endif ?>
   </td>

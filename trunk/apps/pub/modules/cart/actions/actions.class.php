@@ -127,9 +127,10 @@ class cartActions extends sfActions
   
   public function executeShow(sfWebRequest $request)
   {
-    $this->getUser()->setFlash('notice',$this->getUser()->getFlash('notice'));
-    $this->getUser()->setFlash('error',$this->getUser()->getFlash('error'));
+    // harden data
+    $this->getContext()->getConfiguration()->hardenIntegrity();
     
+    // normal behavior
     $this->transaction_id = $this->getUser()->getTransaction()->id;
     
     $q = Doctrine_Query::create()->from('Event e')
