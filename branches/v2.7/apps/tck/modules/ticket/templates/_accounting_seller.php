@@ -1,6 +1,12 @@
 <div id="seller">
   <?php if ( sfConfig::has('app_seller_logo') ): ?>
-  <p class="logo"><?php echo image_tag('/private/'.sfConfig::get('app_seller_logo'),'logo') ?></p>
+  <p class="logo">
+    <?php
+      $uri = sfConfig::get('sf_web_dir').'/private/'.sfConfig::get('app_seller_logo');
+      $b64 = base64_encode(file_get_contents($uri));
+    ?>
+    <img src="data:image/jpeg;base64,<?php echo $b64 ?>" alt="logo" />
+  </p>
   <?php endif ?>
   <p class="name"><?php echo sfConfig::get('app_seller_name') ?></p>
   <p class="address"><?php echo nl2br(sfConfig::get('app_seller_address')) ?></p>

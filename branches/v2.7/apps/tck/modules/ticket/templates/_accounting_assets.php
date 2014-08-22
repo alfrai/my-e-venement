@@ -3,6 +3,7 @@
   //print();
   //close();
 </script>
+<form class="get-a-pdf" action="" method="get"><input type="submit" name="pdf" value="<?php echo __('Get a PDF') ?>" /></form>
 <?php if ( isset($modifiable) && $modifiable ): ?>
 <script type="text/javascript">
 $(document).ready(function(){
