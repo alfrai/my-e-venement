@@ -153,8 +153,8 @@
         <target>Suite</target>
       </trans-unit> 
       <trans-unit>
-        <source>Can't cancel a ticket #%%i%% because its transaction #%%t%% is already closed.</source>
-        <target>Impossible d'annuler le billet #%%i%% car son opération est clôturée</target>
+        <source>Can not cancel a ticket #%%i%% because its transaction #%%t%% is already closed. Trick: open its transaction in an other tab when you try to cancel it.</source>
+        <target>Impossible d'annuler le billet #%%i%% car son opération #%%t%% est clôturée. Astuce: ouvrez son opération dans un autre onglet quand vous essayez de l'annuler.</target>
       </trans-unit> 
       <trans-unit>
         <source>Summary</source>
@@ -285,8 +285,8 @@
         <target>Extraire (%%format%%)</target>
       </trans-unit> 
       <trans-unit>
-        <source>Can't duplicate the ticket #%%i%% because its transaction has been closed already.</source>
-        <target>Impossible de dupliquer le billet #%%i%% car son opération est verrouillée.</target>
+        <source>Cannot duplicate the ticket #%%i%% because its transaction has been closed already. Trick: open its transaction in an other tab when you try to duplicate it.</source>
+        <target>Impossible de dupliquer le billet #%%i%% car son opération est verrouillée. Astuce: ouvez son opération dans un autre onglet quand vous cherchez à le dupliquer.</target>
       </trans-unit> 
       <trans-unit>
         <source>You can not cancel any closed transaction (like the #%%t%%).</source>
@@ -825,7 +825,7 @@
         <target>Impossible de supprimer le billet #%%i%% parce qu'il n'a pas encore été imprimé... Essayez simplement de le supprimer</target>
       </trans-unit>
       <trans-unit>
-        <source>Can't find the ticket #%%i%% in database... Perhaps the related transaction is closed already.</source>
+        <source>Cannot find the ticket #%%i%% in database... Perhaps the related transaction is closed already.</source>
         <target>Impossible de retrouver le billet #%%i%% pour l'annuler... Peut-être que l'opération est déjà clôturée.</target>
       </trans-unit>
       <trans-unit>
