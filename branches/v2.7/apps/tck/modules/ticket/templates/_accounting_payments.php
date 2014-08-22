@@ -23,7 +23,7 @@
 ?>
 <?php if ( $transaction->Payments->count() > 0 ): ?>
 <div id="payments" class="<?php echo isset($nocancel) && $nocancel ? 'nocancel' : '' ?>">
-  <h2><?php echo __('Paid with') ?></h2>
+  <h2><?php echo __('Paid with', null, 'li_accounting') ?></h2>
   <div>
     <?php $value = 0 ?>
     <?php foreach ( $transaction->Payments as $payment ): ?>
@@ -45,11 +45,11 @@
     <?php endforeach ?>
     <?php endif ?>
     <p class="total">
-      <span class="method"><?php echo __('Total') ?></span>
+      <span class="method"><?php echo __('Total', null, 'li_accounting') ?></span>
       <span class="value"><?php echo format_currency($value,'€') ?></span>
     </p>
     <p class="topay">
-      <span class="method"><?php echo __('Still missing') ?></span>
+      <span class="method"><?php echo __('Still missing', null, 'li_accounting') ?></span>
       <span class="value"><?php echo format_currency($totals['tip'] <= $value ? 0 : $totals['tip'] - $value, '€') ?></span>
     </p>
   </div>

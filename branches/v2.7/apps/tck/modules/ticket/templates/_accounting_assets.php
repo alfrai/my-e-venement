@@ -3,7 +3,7 @@
   //print();
   //close();
 </script>
-<form class="get-a-pdf" action="" method="get"><input type="submit" name="pdf" value="<?php echo __('Get a PDF') ?>" /></form>
+<form class="get-a-pdf" action="" method="get"><input type="submit" name="pdf" value="<?php echo __('Get a PDF',null,'li_accounting') ?>" /></form>
 <?php if ( isset($modifiable) && $modifiable ): ?>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -70,5 +70,5 @@ $(document).ready(function(){
 });
 </script>
 
-<form class="inline-modifications" method="post" action="<?php echo url_for('ticket/recordAccounting') ?>"><p><button name="inline-modification"><?php echo __('Modify on-the-fly') ?></button></p></form>
+<form class="inline-modifications" method="post" action="<?php echo url_for('ticket/recordAccounting') ?>"><p><button name="inline-modification"><?php echo __('Modify on-the-fly', null, 'li_accounting') ?></button></p></form>
 <?php endif ?>

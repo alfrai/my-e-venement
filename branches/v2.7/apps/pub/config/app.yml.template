@@ -59,6 +59,15 @@ all:
     #  uri: tpa/paiement.web
     #  response: cart/response
     ################################
+  seller:
+    logo: logo-200.jpg
+    name: Ligue des Pyrénées
+    address: 2 rue des Régaires
+    postalcode: 31000
+    city: TOULOUSE
+    country: France
+    other:
+    invoice_prefix: FB
   texts:
     cart_bottom: <p style="text-align: center; margin-top: 10px;"><a href="http://www.facebook.com/pages/Le-Fracas-CDN-de-Montlu%C3%A7onAuvergne/240968945966456" target="_blank">Rejoignez-nous sur Facebook</a></p>
     when_closed: La vente en ligne est actuelle fermée... Veuillez réessayer ultérieurement.
