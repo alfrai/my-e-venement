@@ -136,7 +136,7 @@ EOF
       $q = Doctrine_Query::create()->from('Ticket tck')
         ->andWhere('tck.price_id IS NOT NULL')
         ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL')
-        ->andWhere('tck.updated_at < ?', $date = date('Y-m-d H:i:s', strtotime(($timeout['wip'] ? $timeout['wip'] : '1 hour').' ago')))
+        ->andWhere('tck.updated_at < ?', $date = date('Y-m-d H:i:s', strtotime(($timeout['asked'] ? $timeout['asked'] : '1 hour').' ago')))
         ->leftJoin('tck.Transaction t')
         ->leftJoin('t.Order o')
         ->select('tck.id')->groupBy('tck.id')
