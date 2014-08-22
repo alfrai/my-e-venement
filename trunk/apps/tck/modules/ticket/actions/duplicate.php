@@ -52,7 +52,7 @@
       }
       if ( $ticket->Transaction->closed )
       {
-        $this->getUser()->setFlash('error',__("Can't duplicate the ticket #%%i%% because its transaction has been closed already.",array('%%i%%' => $ticket->id)));
+        $this->getUser()->setFlash('error',__("Cannot duplicate the ticket #%%i%% because its transaction has been closed already. Trick: open its transaction in an other tab when you try to cancel it.",array('%%i%%' => $ticket->id)));
         $this->redirect('ticket/sell?id='.$ticket->transaction_id);
       }
       if ( !$ticket->printed_at )
