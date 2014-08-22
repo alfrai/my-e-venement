@@ -238,7 +238,7 @@
       </trans-unit>
       <trans-unit>
         <source>Buy member cards</source>
-        <target>Je m'abonne</target>
+        <target>S'abonner</target>
       </trans-unit>
       <trans-unit>
         <source>You have been logged out.</source>
@@ -466,7 +466,7 @@
 			</trans-unit>
 			<trans-unit>
 				<source>Create an account</source>
-				<target>Je crée un compte</target>
+				<target>Créer un compte</target>
 			</trans-unit>
 			<trans-unit>
 				<source>I authenticate myself</source>
