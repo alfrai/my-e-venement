@@ -113,10 +113,10 @@ EOF
   public function initGarbageCollectors(sfCommandApplicationTask $task = NULL)
   {
     $this->task = $task;
-    $timeout = sfConfig::get('app_tickets_timeout', array());
     
     // WIP tickets collector
     $this->addGarbageCollector('wip', function(){
+      $timeout = sfConfig::get('app_tickets_timeout', array());
       $section = 'WIP tickets';
       $this->stdout($section, 'Deleting tickets...', 'COMMAND');
       $nb = Doctrine_Query::create()->from('Ticket tck')
@@ -131,6 +131,7 @@ EOF
     
     // Asked tickets collector
     $this->addGarbageCollector('asked', function(){
+      $timeout = sfConfig::get('app_tickets_timeout', array());
       $section = 'Asked tickets';
       $this->stdout($section, 'Deleting too old tickets...', 'COMMAND');
       $q = Doctrine_Query::create()->from('Ticket tck')
@@ -146,10 +147,13 @@ EOF
       $nb = $tickets->count();
       $tickets->delete();
       $this->stdout($section, "[OK] $nb tickets deleted", 'INFO');
+      echo $date."\n";
+      echo $timeout['asked'];
     });
     
     // Close useless transactions
     $this->addGarbageCollector('close', function(){
+      $timeout = sfConfig::get('app_tickets_timeout', array());
       $section = 'Opened transactions';
       $this->stdout($section, 'Closing too old transactions...', 'COMMAND');
       
