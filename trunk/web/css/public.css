@@ -219,7 +219,7 @@ a.actions a:hover {
 	border: 1px solid silver;
   border-radius: 5px;
   text-decoration: none;
-  padding: 0px;
+  padding: 0 0 0 5px;
   color: #313739;
   background: #F4F4F4; /* Old browsers */
   background: -moz-linear-gradient(top, #F4F4F4 0%, #E7E7E7 37%, #DBDBDB 100%); /* FF3.6+ */
