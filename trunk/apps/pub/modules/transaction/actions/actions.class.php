@@ -113,7 +113,7 @@ class transactionActions extends sfActions
     $no_actions = true;
     
     // forging the request
-    //$request->setParameter('pdf', 'pdf');
+    $request->setParameter('pdf', 'pdf');
     $request->setParameter('nocancel', 'true');
     
     // ugly hack... but working and easy
