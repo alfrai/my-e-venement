@@ -95,9 +95,11 @@
         LI.seatedPlanMouseup(data);
       }
       
-      // triggers
-      for ( $i = 0 ; fct = LI.seatedPlanInitializationFunctions[$i] ; $i++ )
-        fct();
+      // triggers, wait few miliseconds to let the browser display the complexe data...
+      setTimeout(function(){
+        for ( $i = 0 ; fct = LI.seatedPlanInitializationFunctions[$i] ; $i++ )
+          fct();
+      },200);
     });
   }
 
