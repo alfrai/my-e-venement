@@ -11,3 +11,6 @@
     />
   </span>
 <?php endforeach ?>
+<?php if ( $cpt > 0 ): ?>
+<?php error_log($cpt.' tickets from price '.$ticket->price_name.' for gauge '.$ticket->gauge_id) ?>
+<?php endif ?>

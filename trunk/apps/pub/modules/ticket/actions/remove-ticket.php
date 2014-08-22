@@ -51,4 +51,10 @@
     
     $this->json['success'] = $success;
     $this->debug($request);
+    
+    $this->json['success']['orphans'] =
+      $this->getContext()->getConfiguration()->getOrphans($this->getUser()->getTransaction(),
+        array('gauge_id' => $ticket->gauge_id)
+      );
+    
     return 'Success';

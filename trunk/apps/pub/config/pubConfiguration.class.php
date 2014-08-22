@@ -50,12 +50,28 @@ class pubConfiguration extends sfApplicationConfiguration
     $sf_action = sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance();
     $sf_action->getContext()->getConfiguration()->loadHelpers('I18N');
     
+    // the global timeout (item timeout is done by the garbage collector)
+    $timeout = sfConfig::get('app_timeout_global', '30 minutes');
+    $end = strtotime('+'.$timeout, strtotime($sf_action->getUser()->getTransaction()->created_at));
+    if ( time() > $end )
+    {
+      $sf_action->getUser()->resetTransaction();
+      $sf_action->getUser()->setFlash('notice', __('Your order has been closed because you reached the maximum time of execution. We are really sorry, this is a needed "anti-squatters" measure.'));
+      $sf_action->redirect('event/index');
+    }
+    
+    $tickets = Doctrine_Query::create()->from('Ticket tck')
+      ->andWhere('tck.price_id IS NULL')
+      ->andWhere('tck.transaction_id = ?', $sf_action->getUser()->getTransactionId())
+      ->delete()
+      ->execute();
+    
     $gauges = Doctrine_Query::create()->from('Gauge g')
       ->select('g.*')
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.Event e')
       
-      ->leftJoin('g.Tickets tck WITH printed_at IS NULL AND integrated_at IS NULL AND duplicating IS NULL AND cancelling IS NULL')
+      ->leftJoin('g.Tickets tck WITH tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.duplicating IS NULL AND tck.cancelling IS NULL')
       ->andWhere('tck.transaction_id = ?', $sf_action->getUser()->getTransactionId())
       
       ->leftJoin('tck.Price p')
@@ -70,29 +86,30 @@ class pubConfiguration extends sfApplicationConfiguration
     {
       // SECURITY: not to sell forbidden products
       // the workspace + meta_event
-      if ( !in_array($gauge->id, array_keys($sf_action->getUser()->getWorkspacesCredentials()))
-        || !in_array($gauge->Manifestation->Event->meta_event_id, array_keys($sf_action->getUser()->getMetaEventsCredentials()))
-      )
-      foreach ( $gauge->Tickets as $tickets )
-      if ( !$ticket->printed_at && !$ticket->integrated_at && !$ticket->duplicating && !$ticket->cancelling
-        && $ticket->transaction_id == $sf_action->getUser()->getTransactionId() )
-      {
-        $ticket->delete();
-        continue;
-      }
-      // the price
-      foreach ( $gauge->Tickets as $ticket )
-      if ( $ticket->price_id
-        && !in_array($sf_action->getUser()->getId(), $ticket->Price->Users->getPrimaryKeys())
-        && !$ticket->printed_at && !$ticket->integrated_at && !$ticket->duplicating && !$ticket->cancelling
-        && $ticket->transaction_id == $sf_action->getUser()->getTransactionId() )
-      )
-        $ticket->delete();
+      $q = Doctrine::getTable('Ticket')->createQuery('tck')
+        ->select('tck.id')
+        
+        ->leftJoin('tck.Manifestation m')
+        ->leftJoin('m.Event e')
+        ->leftJoin('tck.Gauge g')
+        ->andWhereNotIn('e.meta_event_id', array_keys($sf_action->getUser()->getMetaEventsCredentials()))
+        ->andWhereNotIn('g.workspace_id', array_keys($sf_action->getUser()->getMetaEventsCredentials()))
+        
+        ->leftJoin('tck.Transaction t')
+        ->leftJoin('t.Order o')
+        ->andWhere('tck.transaction_id = ?', $sf_action->getUser()->getTransactionId())
+        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.duplicating IS NULL AND tck.cancelling IS NULL')
+        ->andWhere('o.id IS NULL')
+        
+        ->andWhere('tck.price_id NOT IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?)', $sf_action->getUser()->getId())
+      ;
+      if ( $q->count() > 0 )
+        $q->execute()->delete();
       
       // what ticket needs to be seated
       $to_seat = array();
       foreach ( $gauge->Tickets as $ticket )
-      if ( $ticket->seat_id )
+      if ( !$ticket->seat_id )
         $to_seat[] = $ticket;
       
       // what can be done for that ?
@@ -100,7 +117,7 @@ class pubConfiguration extends sfApplicationConfiguration
       $seats = $seater->findSeats(count($to_seat));
       foreach ( $seats as $seat )
       {
-        $ticket = array_pop($tickets);
+        $ticket = array_pop($to_seat);
         $ticket->Seat = $seat;
         $ticket->save(); // do it
       }
@@ -114,11 +131,12 @@ class pubConfiguration extends sfApplicationConfiguration
         if ( !$redirect )
           return false;
         
-        $data = array_pop($orphans); // arbitrary choice, the last gauge, to start from somewhere solving the results
-        $this->getContext()->getConfiguration()->loadHelpers('I18N');
+        $gauge = array_pop($orphans);
+        $orphan = array_pop($gauge); // arbitrary choice, the last gauge, to start from somewhere solving the results
+        $sf_action->getContext()->getConfiguration()->loadHelpers('I18N');
          
         $sf_action->getUser()->setFlash('error', __('There are still some orphan seats generated by your selection, please choose other seats and follow eventual warnings on the plan after confirmation.'));
-        $sf_action->redirect('manifestation/show?id='.$data['gauge']->manifestation_id);
+        $sf_action->redirect('manifestation/show?id='.$orphan['manifestation_id'].'#'.$orphan['gauge_id'].'#orphans');
       }
       
       return true;
@@ -180,12 +198,12 @@ class pubConfiguration extends sfApplicationConfiguration
     if ( !$options )
       $q->andWhere('tck.transaction_id = ?', $transaction->id);
     
+    $orphans = array();
+    
     //throw new sfException('glop');
     // no gauge ?!
     if ( $gauges->count() == 0 )
-      throw new liOnlineSaleException('Sorry, finding back orphans with the given parameters is impossible...');
-    
-    $orphans = array();
+      return $orphans;
     
     // gauges, one by one
     foreach ( $gauges as $gauge )

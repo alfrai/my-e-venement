@@ -25,6 +25,9 @@
     if ( !($this->getUser()->getTransaction() instanceof Transaction) )
       return $this->redirect('event/index');
     
+    // harden data
+    $this->getContext()->getConfiguration()->hardenIntegrity();
+    
     try { $this->form = new ContactPublicForm($this->getUser()->getContact()); }
     catch ( liEvenementException $e )
     { $this->form = new ContactPublicForm; }

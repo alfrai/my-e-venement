@@ -30,7 +30,9 @@
     <?php use_helper('Date') ?>
     <td colspan="5">
       <span class="global"><?php echo __('Order expiration') ?>: <span class="time"><?php echo $global_timeout ?></span></span>
+      <?php if ( $older_item_timeout ): ?>
       <span class="older-item"><?php echo __('Older item expiration') ?>: <span class="time"><?php echo $older_item_timeout ?></span></span>
+      <?php endif ?>
     </td>
   </tr>
   </tfoot>

@@ -14,15 +14,9 @@
         'app'   => 'pub',
       )) ?>
     </a>
-    <button
-      name="load-data"
-      class="load-data"
-      onclick="javascript: LI.seatedPlanLoadData($(this).parent().find('.seated-plan').attr('data-href'), '#'+$(this).parent().find('.seated-plan').prop('id')); $(this).fadeOut(); return false;"
-    >
-      <?php echo __('Display free seats') ?>
-    </button>
     <a href="<?php echo url_for('ticket/addSeat?id='.$gauge->id) ?>" class="add-seat"></a>
     <a href="<?php echo url_for('ticket/removeTicket?id='.$gauge->id) ?>" class="remove-ticket"></a>
+    <a href="<?php echo url_for('seats/index?id='.$sp->id.($gauge->id ? '&gauge_id='.$gauge->id : '')) ?>" class="load-data"></a>
   </div>
   <?php else: ?>
   <div class="picture">

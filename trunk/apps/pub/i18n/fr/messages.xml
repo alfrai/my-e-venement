@@ -5,7 +5,15 @@
     <header/>
     <body>
       <trans-unit>
-        <source>You have already reach the tickets limit for this manifestation, contact us.</source>
+        <source>Your order has been closed because you reached the maximum time of execution. We are really sorry, this is a needed "anti-squatters" measure.</source>
+        <target>Votre commande a été clôturée car vous avez atteint le temps d'exécution maximum. Nous sommes vraiment désolés, c'est une mesure "anti-squatters" nécessaire.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>To remove a booked seat, click it on the plan</source>
+        <target>Pour retirer une place, cliquez-la sur le plan</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You have already reached the tickets limit for this manifestation, contact us.</source>
         <target>Vous avez déjà atteint la limite de quantité de billets pour cette manifestation, contactez-nous.</target>
       </trans-unit>
       <trans-unit>
@@ -461,8 +469,12 @@
 				<target>Je crée un compte</target>
 			</trans-unit>
 			<trans-unit>
-				<source>Login</source>
+				<source>I authenticate myself</source>
 				<target>Je me connecte</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Login</source>
+				<target>Connexion</target>
 			</trans-unit>
 			<trans-unit>
         <source>Logout</source>

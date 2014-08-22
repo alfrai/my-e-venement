@@ -64,16 +64,20 @@ class cartActions extends sfActions
       ->andWhere('tck.transaction_id = ?', $this->transac->id)
       ->orderBy('tck.updated_at')
       ->fetchOne();
-    $time = strtotime(
-      '+'.sfConfig::get('app_timeout_item', '40 minutes'),
-      strtotime($ticket->updated_at)
-    ) - time();
-    $this->older_item_timeout = $time <= 0 ? 'expired!' :
-      floor($time/3600).':'.
-      str_pad(floor($time%3600/60), 2, '0', STR_PAD_LEFT).':'.
-      str_pad(floor($time%3600%60), 2, '0', STR_PAD_LEFT)
-    ;
-    error_log($this->older_item_timeout.' - '.$this->global_timeout);
+    $this->older_item_timeout = false;
+    if ( $ticket )
+    {
+      $time = strtotime(
+        '+'.sfConfig::get('app_timeout_item', '40 minutes'),
+        strtotime($ticket->updated_at)
+      ) - time();
+      $this->older_item_timeout = $time <= 0 ? 'expired!' :
+        floor($time/3600).':'.
+        str_pad(floor($time%3600/60), 2, '0', STR_PAD_LEFT).':'.
+        str_pad(floor($time%3600%60), 2, '0', STR_PAD_LEFT)
+      ;
+      error_log($this->older_item_timeout.' - '.$this->global_timeout);
+    }
   }
   public function executeEmpty(sfWebRequest $request)
   {
@@ -102,6 +106,9 @@ class cartActions extends sfActions
   }
   public function executeRegister(sfWebRequest $request)
   {
+    // harden data
+    $this->getContext()->getConfiguration()->hardenIntegrity();
+    
     $form_values = $this->getUser()->getAttribute('contact_form_values',array());
     unset($form_values['_csrf_token']);
     unset($form_values['id']);

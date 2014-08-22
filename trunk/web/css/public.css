@@ -161,9 +161,19 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 .gauge .picture a:after  { content: ' ↓'; }
 .gauge .picture a.opened:before { content: '↑ '; }
 .gauge .picture a.opened:after  { content: ' ↑'; }
-.gauge.full-seating .prices { float: right; }
+.gauge.full-seating { padding-left: 580px; margin-bottom: 20px; border: 2px solid white; }
+.gauge.full-seating .seated-plan.picture * { cursor: auto; }
+.gauge.full-seating .seated-plan.picture .seat { cursor: crosshair; }
 .gauge.full-seating .seats .auto { font-size: 10px; padding: 0px; }
 .gauge.full-seating .load-data { position: relative; z-index: 1; top: -300px; left: 150px; transform: scale(1.5); margin-bottom: -150px; }
+.gauge.full-seating .full-seating { position: absolute; top: 198px; left: 25px; width: 575px; border: 2px solid silver; background-color: white; overflow: hidden; }
+.gauge.full-seating, .gauge.full-seating .full-seating { border-radius: 5px; }
+.gauge.full-seating.active, .gauge.full-seating.active > *, .gauge.full-seating:hover, .gauge.full-seating:hover > * { z-index: 2; border-color: silver; }
+.gauge.full-seating:hover, .gauge.full-seating:hover > * { z-index: 4; border-color: gray; }
+.gauge.full-seating .blank { background-color: white; width: 4px; height: 100px; position: absolute; margin-left: -28px; z-index: 3; display: none; }
+.gauge.full-seating:hover .blank { z-index: 5; }
+.gauge.full-seating.active .blank, .gauge.full-seating:hover .blank { display: block; }
+
 
 .submit { margin: 20px 0px 0px 400px; }
 
@@ -289,10 +299,14 @@ a.actions a:hover {
 #oplog a { text-decoration: none; color: red; font-weight: bold; display: block; padding-bottom: 4px; }
 
 tfoot, thead { font-weight: bold; }
-.prices .value, .prices .total { text-align: right; }
+.gauge .prices { min-width: 380px; }
+.prices .value, .prices .total { text-align: right; max-width: 100px; }
+.prices .submit { text-align: right; }
 .prices .seats { text-align: right; max-width: 150px; }
 .prices .seats .seat { padding-right: 5px; }
 .prices .quantity { text-align: center; }
+.prices .explanation { text-align: center; }
+.prices .explanation span { font-size: 80%; color: silver; display: inline-block; width: 125px; }
 #location, #manifestation { display: inline-block; }
 #location { font-weight: bold; }
 #manifestation { padding: 0px 5px 15px 25px; }

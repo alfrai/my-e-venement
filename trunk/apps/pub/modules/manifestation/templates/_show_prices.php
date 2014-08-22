@@ -5,7 +5,6 @@
 <table class="prices">
 <?php if ( $gauge->Manifestation->PriceManifestations->count() > 0 ): ?>
 <tbody>
-<?php if ( $gauge->Tickets->count() > 0 ): ?>
 <?php
   // WIP tickets
   $tickets = array();
@@ -13,36 +12,30 @@
   if ( !$ticket->price_id && $ticket->price_name )
     $tickets[] = $ticket;
 ?>
-  <?php if ( count($tickets) > 0 ): ?>
   <tr class="seating in-progress">
     <?php if ( $vel['full_seating_by_customer'] ): ?>
-      <td class="seats">
+      <td class="seats" title="<?php echo $str = __('To remove a booked seat, click it on the plan') ?>">
         <?php include_partial('show_prices_seats', array('form' => $form, 'tickets' => $tickets)) ?>
       </td>
     <?php endif ?>
-    <td class="price">
-      <?php echo $tickets[0]->price_name ?>
-    </td>
-    <td class="value">-</td>
-    <td class="quantity"><?php echo count($tickets) ?></td>
+    <td class="price value explanation" colspan="2"><span><?php echo $str ?></span></td>
+    <td class="quantity" title="<?php echo $str ?>"><?php echo count($tickets) ?></td>
     <td class="total">-</td>
   </tr>
-  <?php endif ?>
-<?php endif ?>
 
 <?php foreach ( $gauge->Manifestation->PriceManifestations as $pm ): ?>
 <?php if ( in_array($gauge->workspace_id, $pm->getRawValue()->Price->Workspaces->getPrimaryKeys()) ): ?>
   <?php
     // calculating the quantity of tickets already in the cart
-    $qty = 0;
-    foreach ( $pm->Price->Tickets as $ticket)
+    $tickets = array();
+    foreach ( $pm->Price->Tickets as $ticket )
     if ( $ticket->gauge_id == $gauge->id )
-      $qty++;
+      $tickets[] = $ticket;
     
     // price_id & default quantity
     $form
       ->setPriceId($pm->price_id)
-      ->setQuantity($qty);
+      ->setQuantity(count($tickets));
     
     // limitting the max quantity, especially for prices linked to member cards
     $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
@@ -74,7 +67,7 @@
   <tr data-price-id="<?php echo $pm->price_id ?>">
     <?php if ( $vel['full_seating_by_customer'] ): ?>
       <td class="seats">
-        <?php include_partial('show_prices_seats', array('form' => $form, 'tickets' => $pm->Price->Tickets)) ?>
+        <?php include_partial('show_prices_seats', array('form' => $form, 'tickets' => $tickets)) ?>
       </td>
     <?php endif ?>
     <td class="price">
@@ -101,29 +94,11 @@
     <?php if ( $vel['full_seating_by_customer'] ): ?>
     <?php use_javascript('pub-seated-plan?'.date('Ymd'),'last') ?>
     <?php use_javascript('helper?'.date('Ymd')) ?>
-    <td class="seats">
-      <!--
-      <button
-        name="auto"
-        value=""
-        class="auto"
-        <?php echo __('Auto') ?>
-      </button>
-      -->
-    </td>
-    <td colspan="3"></td>
-    <td class="submit">
-      <input
-        type="submit"
-        name="submit"
-        value="<?php echo __('Cart') ?>"
-     />
-    </td>
-    <?php else: ?>
+    <td class="seats"></td>
+    <?php endif ?>
     <td colspan="4" class="submit">
       <input type="submit" name="submit" value="<?php echo __('Cart') ?>" />
     </td>
-    <?php endif ?>
   </td>
 </tfoot>
 <thead>

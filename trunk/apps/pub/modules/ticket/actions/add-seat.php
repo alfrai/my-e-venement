@@ -24,6 +24,8 @@
 <?php
     $vel = sfConfig::get('app_tickets_vel');
     if ( !isset($vel['full_seating_by_customer']) ) $vel['full_seating_by_customer'] = false;
+    $vel = sfConfig::get('app_tickets_vel', array());
+    $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
      
     $this->json = array(
       'error' => false,
@@ -41,9 +43,11 @@
       ->andWhere('g.id = ?', $request->getParameter('id'))
       ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL AND tck.duplicating IS NULL')
     ;
-    $vel = sfConfig::get('app_tickets_vel', array());
-    if ( $q->count() > (isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9) )
-      return $this->jsonError('You have already reach the tickets limit for this manifestation, contact us.', $request);
+    $tickets = $q->execute();
+    if ( $tickets->count() > 0 && $tickets[0]->Manifestation->online_limit_per_transaction && $tickets[0]->Manifestation->online_limit_per_transaction < $vel['max_per_manifestation'] )
+       $vel['max_per_manifestation'] = $tickets[0]->Manifestation->online_limit_per_transaction;
+    if ( $tickets->count() > $vel['max_per_manifestation'] )
+      return $this->jsonError('You have already reached the tickets limit for this manifestation, contact us.', $request);
     
     // update or create the ticket
     $q = Doctrine::getTable('Ticket')->createQuery('tck')
@@ -78,7 +82,10 @@
       'seat_name' => (string)$ticket->Seat,
     )));
     
-    $this->json['success']['orphans'] = $this->getContext()->getConfiguration()->getOrphans($this->getUser()->getTransaction(), array('gauge_id' => $ticket->gauge_id));
+    $this->json['success']['orphans'] =
+      $this->getContext()->getConfiguration()->getOrphans($this->getUser()->getTransaction(),
+        array('gauge_id' => $ticket->gauge_id)
+      );
     
     $this->debug($request);
     return 'Success';

@@ -13,11 +13,29 @@ class ticketActions extends sfActions
   public function executeGetOrphans(sfWebRequest $request)
   {
     $options = array();
-    foreach ( array('gauge_id', 'manifestation_id', 'seat_id') as $field )
+    foreach ( array('gauge_id', 'manifestation_id', 'seat_id', 'ticket_id') as $field )
       $options['$field'] = $request->getParameter($field, 'false');
     
     $this->debug($request);
-    return $this->checkForOrphansInJson($options) ? 'Success' : 'Error';
+    $this->json = array('error' => false, 'success' => false);
+    $manif_details = true;
+    
+    try { $this->json['success']['orphans'] = $this->getContext()->getConfiguration()->getOrphans($this->getUser()->getTransaction(), $options); }
+    catch ( liOnlineSaleException $e )
+    { return $this->jsonError($e->getMessage(), $request); }
+    
+    $flat = array();
+    foreach ( $this->json['success']['orphans'] as $gid => $data )
+    foreach ( $data as $orphan )
+      $flat[] = $orphan['seat_name'];
+    
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $this->json['success']['message'] = count($flat) == 0
+      ? __('Perfect, no orphans found!')
+      : __('You need to do something to avoid those orphans (%%orphans%%)...', array('%%orphans%%' => implode(', ', $flat)))
+    ;
+    
+    return 'Success';
   }
   public function executeRemoveTicket(sfWebRequest $request)
   {
@@ -39,25 +57,6 @@ class ticketActions extends sfActions
   
   protected function checkForOrphansInJson(array $options)
   {
-    $this->json = array('error' => false, 'success' => false);
-    $manif_details = true;
-    
-    try { $this->json['success']['orphans'] = $this->getContext()->getConfiguration()->getOrphans($this->getUser()->getTransaction(), $options); }
-    catch ( liOnlineSaleException $e )
-    { return $this->jsonError($e->getMessage(), $request); }
-    
-    $flat = array();
-    foreach ( $this->json['success']['orphans'] as $gid => $data )
-    foreach ( $data as $orphan )
-      $flat[] = $orphan['seat_name'];
-    
-    $this->getContext()->getConfiguration()->loadHelpers('I18N');
-    $this->json['success']['message'] = count($flat) == 0
-      ? __('Perfect, no orphans found!')
-      : __('You need to do something to avoid those orphans (%%orphans%%)...', array('%%orphans%%' => implode(', ', $flat)))
-    ;
-    
-    return 'Success';
   }
   
   protected function jsonError($messages = array(), sfWebRequest $request)

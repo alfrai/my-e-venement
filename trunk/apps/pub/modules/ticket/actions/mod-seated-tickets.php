@@ -136,6 +136,8 @@
         $ticket->price_name = sfConfig::get('app_tickets_wip_price', 'WIP');
         $ticket->price_id = NULL;
       }
+      $ticket->vat = NULL;
+      $ticket->value = NULL;
       
       $this->json['success']['moved'][] = array(
         'ticket_id' => $ticket->id,

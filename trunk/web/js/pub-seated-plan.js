@@ -2,27 +2,7 @@
 if ( LI == undefined )
   var LI = {};
 
-LI.pubAfterRenderingSeats = {};
-// a trick specific to "pub" to execute a function only once after rendering the seated plan
-LI.seatedPlanInitializationFunctions.push(function(){
-  $.each(LI.pubAfterRenderingSeats, function(key, infos){
-    if ( typeof(infos.exec) != 'function' )
-    {
-      if ( typeof(infos) == 'function' )
-        infos();
-      return;
-    }
-    
-    infos.exec(infos.options);
-    if ( infos.one_shot == true )
-      delete LI.pubAfterRenderingSeats[key];
-    console.log('After rendering the seats, function '+key+' has been executed');
-  });
-});
-  
-        
 $(document).ready(function(){
-  
   // checking for orphans before submitting data
   $('form.adding-tickets').submit(function(){
     LI.pubCheckOrphansVisually($('#ajax-pre-submit').prop('href'), undefined, function(){
@@ -32,6 +12,13 @@ $(document).ready(function(){
     });
     return false;
   });
+  
+  // checking orphans if asked in the URL at when loading
+  var hash = window.location.hash.split('#');
+  if ( hash[1] && $.inArray('orphans', hash) != -1 )
+  LI.pubAfterRenderingSeats['pubReadyOrphans'] = { one_shot: true, options: { gauge_id: hash[1] }, exec: function(){
+    LI.pubCheckOrphansVisually($('#ajax-pre-submit').prop('href'), options.gauge_id);
+  }}
   
   // on changing quantities
   $('.prices .seats .seat[data-seat-id=""], .prices .seats .seat:not([data-seat-id]').each(function(){
@@ -63,7 +50,7 @@ $(document).ready(function(){
           {
             // preparing the DB
             seats.push({
-              seat_id: seat_id,
+              seat_id: $(this).closest('[data-price-id]').find('.seat').eq(i).attr('data-seat-id'),
               ticket_id: $(this).closest('[data-price-id]').find('.seat').eq(i).attr('data-ticket-id'),
               gauge_id: $(this).closest('[data-gauge-id]').attr('data-gauge-id'),
             });
@@ -85,6 +72,24 @@ $(document).ready(function(){
   });
 });
 
+LI.pubAfterRenderingSeats = {};
+// a trick specific to "pub" to execute a function only once after rendering the seated plan
+LI.seatedPlanInitializationFunctions.push(function(){
+  $.each(LI.pubAfterRenderingSeats, function(key, infos){
+    if ( typeof(infos.exec) != 'function' )
+    {
+      if ( typeof(infos) == 'function' )
+        infos();
+      return;
+    }
+    
+    console.log('After rendering the seats, function '+key+' is being executed.');
+    infos.exec(infos.options);
+    if ( infos.one_shot == true )
+      delete LI.pubAfterRenderingSeats[key];
+  });
+});
+  
 LI.pubCompleteSeatsList = function(data)
 {
   if ( !data )
@@ -92,7 +97,6 @@ LI.pubCompleteSeatsList = function(data)
     console.log('Bad data given in LI.pubCompleteSeatsList()');
     return false;
   }
-  console.log(data);
   
   // old
   if ( data.deleted )
@@ -150,10 +154,8 @@ LI.pubCompleteSeatsList = function(data)
     var nb = $(this).closest('tr').find('.seat').length;
     if ( $(this).closest('tr').is('[data-price-id]') )
       $(this).find('select').val(nb);
-    else if ( nb > 0 )
-      $(this).text(nb);
     else
-      $(this).remove();
+      $(this).text(nb);
   });
   
   // orphans
@@ -194,6 +196,7 @@ LI.pubAfterRenderingSeats['pubSeatedPlanInitMain'] = function(){
       $.get($(seat).closest('.full-seating').find('.add-seat').prop('href'), {
         seat_id: $(seat).attr('data-id')
       }, function(json){
+        console.log('after ajax adding');
         if ( json.error && json.error.message )
           LI.alert(json.error.message, 'error');
         
@@ -233,33 +236,19 @@ LI.pubAddWIPLineIfNecessary = function(elt){
   });
 }
 
-LI.pubCheckOrphansVisually = function(url, elt, fct)
+LI.pubCheckOrphansVisually = function(url, gauge_id, fct)
 {
-  if ( orphans == undefined )
-    var orphans = 0;
-  if ( elt == undefined )
-    var elt = $('.gauge[data-gauge-id]');
-  else
-    var elt = $(elt).closest('[data-gauge-id]');
-  
-  // if there is more than one parent element, loop over them
-  if ( $(elt).length > 1 )
-  {
-    for ( i = 0 ; i < $(elt).length ; i++ )
-      LI.pubCheckOrphansVisually(url, $(elt).eq(i), i+1 == $(elt).length ? fct : undefined);
-    return;
-  }
-  
-  var gauge_id = $(elt).attr('data-gauge-id');
+  var data = {};
+  if ( gauge_id )
+    data.gauge_id = gauge_id;
   
   // get data
-  $.get(url, { gauge_id: gauge_id }, function(json){
-    console.log(json.toSource());
+  $.get(url, data, function(json){
     if ( json.success && json.success.orphans && json.success.orphans.length == 0 )
     {
       // no orphan, gooooo
       if ( typeof(fct) == 'function' )
-        fct();
+         fct();
     }
     else
     {
@@ -267,6 +256,7 @@ LI.pubCheckOrphansVisually = function(url, elt, fct)
       LI.pubAfterRenderingSeats['LI.pubCheckOrphansVisually'] = { one_shot: true, options: { fct: fct, json: json }, exec: function(options)
       {
         var json = options.json;
+        var orphans = 0;
         
         // display textual informations
         LI.alert(json.error ? json.error.message : json.success.message, json.error ? 'error' : 'success');
@@ -290,7 +280,13 @@ LI.pubCheckOrphansVisually = function(url, elt, fct)
       }}
       
       // reload the plan if some orphans are detected
-      $(elt).find('.load-data').click();
+      $.each(json.success.orphans, function(gid, gauge){
+        LI.seatedPlanLoadData(
+          $('.gauge[data-gauge-id='+gid+'] .full-seating .load-data').prop('href'),
+          '#'+$('.gauge[data-gauge-id='+gid+'] .seated-plan').prop('id')
+        );
+        $('.gauge[data-gauge-id='+gid+']').click();
+      });
     }
   });
 }
@@ -298,6 +294,7 @@ LI.pubCheckOrphansVisually = function(url, elt, fct)
 LI.pubShowOrphansOnPlan = function(orphan)
 {
   // visual
+  $('.gauge[data-gauge-id='+orphan.gauge_id+']').click();
   var oelt =
   $('.gauge[data-gauge-id='+orphan.gauge_id+'] .seated-plan.picture .seat[data-id='+orphan.seat_id+']')
     .addClass('printed').addClass('blink');
@@ -322,32 +319,3 @@ LI.pubShowOrphansOnPlan = function(orphan)
   }, delay*20);
 }
 
-LI.pubAutoSeating = function(elt){
-  $.post($(elt).val(), $(elt).closest('form').serialize(), function(json){
-    if ( json.success )
-    {
-      LI.alert(json.success.message, 'success');
-      $('.gauge .prices tbody .seating.in-progress').remove();
-      $('.gauge .prices tbody .seats > *').remove();
-      
-      $.each(json.success.seats, function(gid, prices){
-        $.each(prices, function(pid, seats){
-          var td = $('.gauge[data-gauge-id='+gid+'] .prices [data-price-id='+pid+'] .seats');
-          $.each(seats, function(sid, seat){
-            var span  = $('<span></span>').attr('data-seat-id', sid).addClass('seat').text(seat);
-            var input = $('<input type="hidden" />')
-              .prop('name', 'price['+$(elt).closest('.gauge').attr('data-gauge-id')+']['+pid+'][seat_id][]')
-              .val(sid);
-            span.append(input).appendTo(td);
-          });
-        });
-      });
-    }
-    
-    if ( json.error )
-      LI.alert(json.error.message, 'error');
-    
-    // refresh the seated plan
-    $(elt).closest('.gauge').find('.load-data').click();
-  });
-}
