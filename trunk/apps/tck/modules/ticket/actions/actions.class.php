@@ -234,52 +234,7 @@ class ticketActions extends sfActions
   // invoice
   public function executeInvoice(sfWebRequest $request)
   {
-    $this->executeAccounting($request,true,$request->hasParameter('partial') ? (intval($request->getParameter('partial')).'' === $request->getParameter('partial') ? intval($request->getParameter('partial')) : $request->getParameter('manifestation_id')) : false);
-    
-    $this->partial = false;
-    $this->invoice = false;
-    if ( $request->hasParameter('partial') && intval($request->getParameter('manifestation_id')) > 0 )
-    {
-      $this->partial = true;
-      foreach ( $this->transaction->Invoice as $key => $invoice )
-      if ( $invoice->manifestation_id == intval($request->getParameter('manifestation_id')) )
-        $this->invoice = $invoice;
-      
-      if ( !$this->invoice )
-      {
-        $this->invoice = new Invoice();
-        $this->transaction->Invoice[] = $this->invoice;
-      }
-      $this->invoice->manifestation_id = intval($request->getParameter('manifestation_id'));
-    }
-    else
-    {
-      foreach ( $this->transaction->Invoice as $invoice )
-      if ( is_null($invoice->manifestation_id) )
-        $this->invoice = $invoice;
-      
-      if ( !$this->invoice )
-        $this->invoice = new Invoice();
-      $this->transaction->Invoice[] = $this->invoice;
-    }
-    
-    $this->invoice->updated_at = date('Y-m-d H:i:s');
-    $this->invoice->save();
-    
-    // preparing things for both PDF & HTML
-    $this->data = array();
-    foreach ( array('transaction', 'nocancel', 'tickets', 'invoice', 'totals', 'partial') as $var )
-    if ( isset($this->$var) )
-      $this->data[$var] = $this->$var;
-    
-    if ( $request->hasParameter('pdf') )
-    {
-      $pdf = new sfDomPDFPlugin();
-      $pdf->setInput($content = $this->getPartial('invoice_pdf', $this->data));
-      $this->getResponse()->setContentType('application/pdf');
-      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="invoice.pdf"');
-      return $this->renderText($pdf->execute());
-    }
+    return require(dirname(__FILE__).'/invoice.php');
   }
   
   public function executeRespawn(sfWebRequest $request)

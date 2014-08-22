@@ -99,4 +99,25 @@ class transactionActions extends sfActions
     
     return sfView::NONE;
   }
+  
+  public function executeInvoice(sfWebRequest $request)
+  {
+    // faking the sfRouteObject
+    $this->transaction = Doctrine::getTable('Transaction')->find($request->getParameter('id', 0));
+    if ( $this->transaction->contact_id != $this->getUser()->getContact()->id )
+      $this->forward404('No public transaction found for #'.$request->getParameter('id', 0));
+    
+    // forging some needed vars
+    $printed = true;
+    $manifestation_id = 0;
+    $no_actions = true;
+    
+    // forging the request
+    //$request->setParameter('pdf', 'pdf');
+    $request->setParameter('nocancel', 'true');
+    
+    // ugly hack... but working and easy
+    require(dirname(__FILE__).'/accounting.php');
+    return require(dirname(__FILE__).'/invoice.php');
+  }
 }

@@ -22,6 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
+    if ( !isset($this->transaction) )
     $this->transaction = $this->getRoute()->getObject();
     $this->nocancel = $request->hasParameter('nocancel');
     
