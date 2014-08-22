@@ -265,6 +265,21 @@ class ticketActions extends sfActions
     
     $this->invoice->updated_at = date('Y-m-d H:i:s');
     $this->invoice->save();
+    
+    // preparing things for both PDF & HTML
+    $this->data = array();
+    foreach ( array('transaction', 'nocancel', 'tickets', 'invoice', 'totals', 'partial') as $var )
+    if ( isset($this->$var) )
+      $this->data[$var] = $this->$var;
+    
+    if ( $request->hasParameter('pdf') )
+    {
+      $pdf = new sfDomPDFPlugin();
+      $pdf->setInput($content = $this->getPartial('invoice_pdf', $this->data));
+      $this->getResponse()->setContentType('application/pdf');
+      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="invoice.pdf"');
+      return $this->renderText($pdf->execute());
+    }
   }
   
   public function executeRespawn(sfWebRequest $request)

@@ -48,16 +48,13 @@ body {
 #lines .tip, #lines .pet, #lines .up, #lines .vat { text-align: right; }
 
 #totals {
-  display: table;
   margin-left: 450px;
   width: 200px;
-  margin-top: 20px;
   padding: 5px 10px;
   border: 1px solid silver;
 }
-#totals p { margin: 0; display: table-row; }
-#totals p span { display: table-cell; text-align: left; }
-#totals p span.float { text-align: right; }
+#totals td { text-align: left; font-size: 13px; }
+#totals td.float { text-align: right; }
 
 .timer-sql, .credits { display: none; }
 
@@ -79,26 +76,15 @@ body.bdc #echeance { display: none; }
 
 #lines .name { max-width: 180px; }
 #lines .event { max-width: 220px; }
-
-.inline-modifications {
-  position: absolute;
-  right: 20px;
-  margin-top: 30px;
-}
-.inline-modifiable input { width: 100px; }
-#lines .inline-modifiable.qty input { width: 4em; }
+#lines { margin-bottom: 20px; }
 
 #min-height { height: 250mm; float: left; }
 .footer {
   clear: both;
-  /*
-  position: absolute;
-  top: 260mm;
-  width: 100%;
-  */
   text-align: center;
 }
 #payments { border: 1px solid silver; margin-left: 4px; padding: 5px 10px; width: 280px; position: relative; bottom: 30px; }
+.pdf #payments { width: 180px; }
 #payments h2 { font-size: 13px; margin: 0 10px 0 0; float: left; }
 #payments div { display: table; }
 #payments div p { display: table-row; }
@@ -111,9 +97,15 @@ body.bdc #echeance { display: none; }
 tbody { font-size: 80%; }
 
 @media print {
-
-.inline-modifications {
-  display: none;
+.get-a-pdf, .inline-modifications { display: none; }
 }
-
+.pdf .get-a-pdf, .pdf .inline-modifications { display: none; }
+.get-a-pdf, .inline-modifications {
+  position: absolute;
+  right: 20px;
+  top: 30px;
 }
+.inline-modifiable input { width: 100px; }
+#lines .inline-modifiable.qty input { width: 4em; }
+.get-a-pdf { margin-top: 45px; }
+

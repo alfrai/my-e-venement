@@ -1496,6 +1496,10 @@
         <source>Modify on-the-fly</source>
         <target>Modifier le document</target>
       </trans-unit>
+      <trans-unit>
+        <source>Get a PDF</source>
+        <target>Format PDF</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

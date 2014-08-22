@@ -1,5 +1,20 @@
 <?php $totals = array('tip' => 0, 'vat' => array(), 'pet' => 0) ?>
 <table id="lines">
+<thead><tr>
+  <th class="event"><span><?php echo __('Event') ?></span></th>
+  <th class="date"><span><?php echo __('Date') ?></span></th>
+  <th class="time"><span><?php echo __('Time') ?></span></th>
+  <th class="location"><span><?php echo __('Location') ?></span></th>
+  <th class="postalcode"><span><?php echo __('Postal code') ?></span></th>
+  <th class="city"><span><?php echo __('City') ?></span></th>
+  <th class="price"><span><?php echo __('Price') ?></span></th>
+  <th class="up"><span><?php echo __('Unit TIP') ?></span></th>
+  <th class="qty"><span><?php echo __('Qty') ?></span></th>
+  <th class="seats"><span><?php echo __('seat') ?></span></th>
+  <th class="pit"><span><?php echo __('TIP') ?></span></th>
+  <th class="vat"><span><?php echo __('VAT') ?></span></th>
+  <th class="tep"><span><?php echo __('PET') ?></span></th>
+</tr></thead>
 <tbody>
 <?php for ( $i = 0 ; $i < $tickets->count() ; $i++ ): ?>
 <?php $ticket = $tickets[$i] ?>
@@ -42,19 +57,4 @@
 <?php endif ?>
 <?php endfor ?>
 </tbody>
-<thead><tr>
-  <th class="event"><span><?php echo __('Event') ?></span></th>
-  <th class="date"><span><?php echo __('Date') ?></span></th>
-  <th class="time"><span><?php echo __('Time') ?></span></th>
-  <th class="location"><span><?php echo __('Location') ?></span></th>
-  <th class="postalcode"><span><?php echo __('Postal code') ?></span></th>
-  <th class="city"><span><?php echo __('City') ?></span></th>
-  <th class="price"><span><?php echo __('Price') ?></span></th>
-  <th class="up"><span><?php echo __('Unit TIP') ?></span></th>
-  <th class="qty"><span><?php echo __('Qty') ?></span></th>
-  <th class="seats"><span><?php echo __('seat') ?></span></th>
-  <th class="pit"><span><?php echo __('TIP') ?></span></th>
-  <th class="vat"><span><?php echo __('VAT') ?></span></th>
-  <th class="tep"><span><?php echo __('PET') ?></span></th>
-</tr></thead>
 </table>
