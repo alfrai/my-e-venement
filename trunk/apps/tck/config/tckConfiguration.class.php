@@ -147,8 +147,6 @@ EOF
       $nb = $tickets->count();
       $tickets->delete();
       $this->stdout($section, "[OK] $nb tickets deleted", 'INFO');
-      echo $date."\n";
-      echo $timeout['asked'];
     });
     
     // Close useless transactions
