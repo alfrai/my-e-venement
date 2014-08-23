@@ -1,3 +1,4 @@
+<?php use_stylesheet('pub-magnify') ?>
 <div class="magnify">
   <button name="magnify-in" class="magnify-in" value="+">
     <div class="zoom-icon" jstcache="0"></div>
