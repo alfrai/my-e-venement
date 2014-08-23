@@ -52,7 +52,8 @@
         setTimeout(function(){
           var scale = width/$(this).width();
           elt.css('transform', 'scale('+(scale)+')')
-            .css('margin-bottom', (-scale*100)+'%');
+            .css('margin-bottom', (-scale*100)+'%')
+            .attr('data-scale', scale);
         }, 2000);
       }
       widget.replaceWith(elt);
