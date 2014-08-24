@@ -162,7 +162,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 .gauge .picture a.opened:before { content: '↑ '; }
 .gauge .picture a.opened:after  { content: ' ↑'; }
 .gauge.full-seating { padding-left: 580px; margin-bottom: 20px; border: 2px solid white; }
-.gauge.full-seating .seated-plan.picture { transition: transform 1sec ease 0s; }
+.gauge.full-seating .seated-plan.picture { transition-property: transform; transition-duration: 1s; }
 .gauge.full-seating .seated-plan.picture * { cursor: auto; }
 .gauge.full-seating .seated-plan.picture .seat { cursor: crosshair; }
 .gauge.full-seating .seats .auto { font-size: 10px; padding: 0px; }
