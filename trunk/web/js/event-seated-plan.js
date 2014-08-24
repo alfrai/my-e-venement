@@ -45,17 +45,7 @@
         .attr('data-href', widget.prop('href'))
         .addClass('done')
       ;
-      if ( $(this).attr('width') )
-      {
-        var width = $(this).attr('width'); // .width() should have been possible, but for browser compatibility, this is safer
-        $(this).removeAttr('width');
-        setTimeout(function(){
-          var scale = width/$(this).width();
-          elt.css('transform', 'scale('+(scale)+')')
-            .css('margin-bottom', (-scale*100)+'%')
-            .attr('data-scale', scale);
-        }, 2000);
-      }
+      
       widget.replaceWith(elt);
       
       // loads the content/data
@@ -72,11 +62,28 @@
           clone.remove();
         }
         
+        // the seated-plan scale
+        var width = -1;
+        if ( $(this).attr('width') )
+        {
+          width = $(this).attr('width'); // .width() should have been possible, but for browser compatibility, this is safer
+          $(this).removeAttr('width');
+        }
+        if ( width < 0 )
+          width = $(elt).closest('.full-seating').width()-50; // -50 is to keep a padding on the right
+        var alternate = ($(window).height()-$(this).position().top-15)/$(this).height();
+        var scale = width/$(this).width();
+        if ( scale > alternate ) scale = alternate; // security for graphical bugs
+        elt.css('transform', 'scale('+(scale)+')')
+           .css('margin-bottom', (-scale*100)+'%')
+           .attr('data-scale', scale);
+        
         // box resizing
         $(this).parent()
           .css('display', 'block')
           .width($(this).width())
-          .height($(this).height());
+          .height($(this).height())
+        ;
       });
     });
   }

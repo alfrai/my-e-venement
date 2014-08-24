@@ -7,3 +7,19 @@
 .gauge.full-seating .magnify .magnify-in { top: 0px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; }
 .gauge.full-seating .magnify .magnify-out { bottom: 0px; border-top-left-radius: 0px; border-top-right-radius: 0px; }
 .gauge.full-seating .magnify .magnify-line { background-color: #E6E6E6; height: 1px; left: 5px; position: absolute; top: 28px; width: 19px; z-index: 3; transition-duration: 0.16s; transition-property: background-color; transition-timing-function: ease-out; }
+
+@media screen and (min-width: 1200px){
+.gauge.full-seating .magnify { left: 685px; }
+}
+@media screen and (min-width: 1400px){
+.gauge.full-seating .magnify { left: 835px; }
+}
+@media screen and (max-width: 1000px){
+.gauge.full-seating .magnify { left: 435px; }
+}
+@media screen and (max-width: 830px){
+.gauge.full-seating .magnify { left: 335px; }
+}
+@media screen and (max-width: 700px){
+.gauge.full-seating.active .magnify, .gauge.full-seating:hover .magnify, .gauge.full-seating .magnify { display: none; }
+}
