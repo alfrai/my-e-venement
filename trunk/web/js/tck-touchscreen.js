@@ -217,7 +217,8 @@ $(document).ready(function(){
     // show the contact's file if the screen width is wide enough
     if ( $('#sf_admin_container').width() > 1400 && $('#li_transaction_field_contact_id .data a').length > 0 )
     {
-      $('#sf_admin_container').width($('#sf_admin_container').width()-600);
+      $('#sf_admin_container').width($('#sf_admin_container').width()-800);
+      console.log($('#sf_admin_container').width());
       setTimeout(function(){ $(window).resize(); }, 1500); // because of the transition-duration
       
       var iframe = $('<iframe></iframe>')
