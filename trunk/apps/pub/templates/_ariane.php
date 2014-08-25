@@ -43,10 +43,10 @@
   <div class="id <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
     <p class="coordinates">
   	<?php if ( $sf_user->hasContact() ): ?>
-      <?php echo link_to(__('Coordinates'), 'contact/index') ?>
+      <?php echo link_to(__('My account'), 'contact/index') ?>
     	<?php echo link_to(__('Logout'),'login/out') ?>
     <?php else: ?>
-      <?php echo __('Coordinates') ?>
+      <?php echo __('My account') ?>
     <?php endif ?>
     </p>
       <?php if ( count($cultures = sfConfig::get('project_internals_cultures',array('fr' => 'Français'))) > 1 ): ?>

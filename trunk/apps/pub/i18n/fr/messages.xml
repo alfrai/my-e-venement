@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Generate an invoice</source>
+        <target>Générer une facture</target>
+      </trans-unit>
+      <trans-unit>
         <source>Your order has been closed because you reached the maximum time of execution. We are really sorry, this is a needed "anti-squatters" measure.</source>
         <target>Votre commande a été clôturée car vous avez atteint le temps d'exécution maximum. Nous sommes vraiment désolés, c'est une mesure "anti-squatters" nécessaire.</target>
       </trans-unit>
@@ -105,8 +109,8 @@
         <target>Pas encore numéroté</target>
       </trans-unit>
       <trans-unit>
-        <source>All lines marked with an wildcard concern a seated venue. You will receive a new email as soon as we allocate seats for your tickets.</source>
-        <target>Toutes les lignes marquées avec d'un astérisque concernent une manifestation en placement numéroté. Vous recevrez un nouvel email dès que des places seront affectées à vos billets ?</target>
+        <source>All lines marked with an wildcard concern a seated venue. You will receive a new email as soon as a change is done in the seat allocation for your tickets.</source>
+        <target>Toutes les lignes marquées avec d'un astérisque concernent une manifestation en placement numéroté. Vous recevrez un nouvel email si jamais un changement dans l'affectation de vos places est réalisé.</target>
       </trans-unit>
       <trans-unit>
         <source>Credit card</source>

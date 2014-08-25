@@ -105,7 +105,7 @@
     $email->field_from = sfConfig::get('app_informations_email','contact@libre-informatique.fr');
     $email->content = nl2br(str_replace(array_keys($replace),$replace,sfConfig::get('app_texts_email_confirmation')));
     $email->content .= nl2br("\n\n  * ".sfConfig::get('app_text_email_seated_tickets',
-      __('All lines marked with an wildcard concern a seated venue. You will receive a new email as soon as we allocate seats for your tickets.')
+      __('All lines marked with an wildcard concern a seated venue. You will receive a new email as soon as a change is done in the seat allocation for your tickets.')
     ));
     $email->content .= nl2br("\n\n".sfConfig::get('app_text_email_footer',<<<EOF
 --
@@ -115,8 +115,31 @@ Ces logiciels sont distribués sous <a href="http://fr.wikipedia.org/wiki/Licenc
 Libre Informatique
 <a href="mailto:contact@libre-informatique.fr">contact@libre-informatique.fr</a>
 <a href="http://www.libre-informatique.fr">http://www.libre-informatique.fr</a>
+<style type="text/css" media="all">
+  .cmd-ticket { page-break-before: always; }
+</style>
 EOF
     ));
+    
+    // attachments, tickets in PDF
+    $pdf = new sfDomPDFPlugin();
+    $pdf->setInput($transaction->renderSimplifiedTickets(array('barcode' => 'png')));
+    $pdf = $pdf->render();
+    file_put_contents(sfConfig::get('sf_upload_dir').'/'.($filename = 'tickets-'.$transaction->id.'-'.date('YmdHis').'.pdf'), $pdf);
+    $attachment = new Attachment;
+    $attachment->filename = $filename;
+    $attachment->original_name = $filename;
+    $email->Attachments[] = $attachment;
+    $attachment->save();
+    
+    /*
+    // attachments, tickets in Passbook
+    $attachment = new Attachment;
+    $attachment->filename = $filename;
+    $attachment->original_name = $filename;
+    $email->Attachments[] = $attachment;
+    $attachment->save();
+    */
     
     $email->not_a_test = true;
     $email->setNoSpool();

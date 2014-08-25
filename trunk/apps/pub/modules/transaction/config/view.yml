@@ -1,0 +1,7 @@
+invoiceSuccess:
+  javascripts: [-*]
+  stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css: {media: all}]
+getTicketsSuccess:
+  layout: nude
+  javascripts: [-*]
+  stylesheets: [-*]

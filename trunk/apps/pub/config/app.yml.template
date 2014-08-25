@@ -7,8 +7,8 @@ all:
   user:
     templating: vel
   informations:
-    title: CDN Le Fracas
-    email: contact@cdn-lefracas.com
+    title: Libre Informatique
+    email: contact@to-be-changed.tld
   timeout:
     item: 40 minutes # WARNING: it's directly related to the configuration of apps/tck/config/app.yml for the tck garbage collector
     global: 1 hour

@@ -12,4 +12,16 @@
  */
 abstract class PluginAttachment extends BaseAttachment
 {
+  public function preSave($event)
+  {
+    $real_filename = sfConfig::get('sf_upload_dir').'/'.$this->filename;
+    if ( !$this->size )
+      $this->size = filesize($real_filename);
+    if ( !$this->mime_type )
+    {
+      $finfo = finfo_open(FILEINFO_MIME);
+      $this->mime_type = finfo_file($finfo, $real_filename);
+      finfo_close($finfo);
+    }
+  }
 }

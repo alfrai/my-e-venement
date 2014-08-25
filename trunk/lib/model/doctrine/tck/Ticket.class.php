@@ -75,14 +75,14 @@ class Ticket extends PluginTicket
     return $c;
   }
   
-  public function renderSimplified()
+  public function renderSimplified($type = 'html')
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('Url', 'Number'));
     
     // the barcode
     $c = curl_init();
     curl_setopt_array($c, array(
-      CURLOPT_URL => $url = public_path('/liBarcodePlugin/php-barcode/barcode.php?mode=html&scale=3&code='.$this->getIdBarcoded(),true),
+      CURLOPT_URL => $url = public_path('/liBarcodePlugin/php-barcode/barcode.php?scale=3'.($type == 'html' ? '&mode=html' : '').'&code='.$this->getIdBarcoded(),true),
       CURLOPT_SSL_VERIFYPEER => false,
       CURLOPT_SSL_VERIFYHOST => false,
       CURLOPT_RETURNTRANSFER => true,
@@ -90,21 +90,27 @@ class Ticket extends PluginTicket
     if (!( $barcode = curl_exec($c) ))
       error_log('Error loading the barcode: '.curl_error($c));
     curl_close($c);
+    if ( $type != 'html' )
+    {
+      $url = public_path('/liBarcodePlugin/php-barcode/barcode.php?scale=3&code='.$this->getIdBarcoded(),true);
+      $barcode = '<span><img src="data:image/png;base64,'.base64_encode($barcode).'" alt="#'.$this->id.'" /></span>';
+    }
     
     // the HTML code
     return sprintf(<<<EOF
-  <div class="cmd-ticket">
-    <div class="bc">%s</div>
-    <div class="desc"><p>%s: %s</p>
+  <table class="cmd-ticket"><tr>
+    <td class="desc"><p>%s: %s</p>
       <p>%s: %s, %s</p>
       <p>%s: %s</p>
       <p>%s: %s %s</p>
       <p>%s</p>
       <p>#%s-%s<!-- transaction_id --></p>
       <p>%s</p>
-      <p class="duplicate">%s</p></div><div class="clear"></div></div>
+      <p class="duplicate">%s</p>
+    </td>
+    <td class="bc">%s</td>
+  <tr></table>
 EOF
-      , $barcode
       , __('Event', null, 'li_tickets_email')
       , (string)$this->Manifestation->Event
       , __('Venue', null, 'li_tickets_email')
@@ -120,6 +126,7 @@ EOF
       , $this->id
       , $this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : (string)$this->Transaction->Contact
       , !$this->duplicating ? '' : __('This ticket is a duplicate of #%%tid%%, it replaces and cancels any previous version of this ticket you might have recieved', array('%%tid%%' => $this->transaction_id.'-'.$this->duplicating), 'li_tickets_email')
+      , $barcode
     );
   }
   

@@ -5,20 +5,10 @@
     <meta name="title" content="e-venement, Billet" />
     <title>e-venement, Billet</title>
     <link rel="shortcut icon" href="/images/logo-evenement.png" />
-    <style><?php require(sfConfig::get('sf_web_dir').'/css/print-accounting.css') ?></style>
-    <style><?php require(sfConfig::get('sf_web_dir').'/private/print-accounting.css') ?></style>
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/print-tickets.js"></script>
   </head>
   <body class="pdf">
     <div id="content">
-      <?php
-        $data = array();
-        foreach ( array('transaction', 'nocancel', 'tickets', 'invoice', 'totals', 'partial') as $var )
-        if ( isset($$var) )
-          $data[$var] = $$var;
-      ?>
-      <?php include_partial('invoice',$data) ?>
+      <?php include_partial('get_tickets',array('tickets_html' => $tickets_html)) ?>
     </div>
   </body>
 </html>

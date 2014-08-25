@@ -10,13 +10,53 @@
  */
 class transactionActions extends sfActions
 {
+  public function executeGetPassbook(sfWebRequest $request)
+  {
+    if ( !sfConfig::get('sf_web_debug', false) )
+      return sfView::NONE;
+    
+    if ( !$request->hasParameter('debug') )
+      sfConfig::set('sf_web_debug', false);
+    
+    $transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
+    
+    $pass = EventTicket('111111', 'TEST TEST');
+    $factory = new PassFactory('PASS-TYPE-IDENTIFIER', 'TEAM-IDENTIFIER', 'ORGANIZATION-NAME', '/path/to/p12/certificate', 'P12-PASSWORD', '/path/to/wwdr/certificate');
+    $factory->setOutputPath(sfConfig::get('sf_upload_dir').'/passbook-'.date('YmdHis').'-'.$transaction->id);
+    $factory->package($pass);
+  }
+  
+  public function executeGetTickets(sfWebRequest $request)
+  {
+    if ( !sfConfig::get('sf_web_debug', false) )
+      return sfView::NONE;
+    
+    if ( !$request->hasParameter('debug') )
+      sfConfig::set('sf_web_debug', false);
+    
+    $transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
+    $this->tickets_html = $transaction->renderSimplifiedTickets();
+    
+    if ( !$request->hasParameter('pdf') )
+      return 'Success';
+    
+    $pdf = new sfDomPDFPlugin();
+    $pdf->setInput($content = $this->getPartial('get_tickets_pdf', $this->ticket_html));
+    $this->getResponse()->setContentType('application/pdf');
+    $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="tickets.pdf"');
+    return $this->renderText($pdf->execute());
+  }
+  
   public function executeTestSendEmail(sfWebRequest $request)
   {
+    if ( !sfConfig::get('sf_web_debug', false) )
+      return sfView::NONE;
+    
     require_once(dirname(__FILE__).'/../../cart/actions/actions.class.php');
     if ( intval($request->getParameter('id')).'' !== $request->getParameter('id').'' )
       throw new liOnlineSaleException('Trying to access something without prerequisites.');
     
-    $this->transaction = Doctrine::getTable('Transaction')->fetchOneById(intval($request->getParameter('id')));
+    $this->transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
     cartActions::sendConfirmationEmails($this->transaction);
     return sfView::NONE;
   }
