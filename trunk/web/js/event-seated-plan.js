@@ -70,7 +70,7 @@
           $(this).removeAttr('width');
         }
         if ( width < 0 )
-          width = $(elt).closest('.full-seating').width()-50; // -50 is to keep a padding on the right
+          width = $(elt).closest('.full-seating, #plan').width()-50; // -50 is to keep a padding on the right
         var alternate = ($(window).height()-$(this).position().top-15)/$(this).height();
         var scale = width/$(this).width();
         if ( scale > alternate ) scale = alternate; // security for graphical bugs
