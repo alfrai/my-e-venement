@@ -145,7 +145,11 @@ LI.completeContent = function(data, type, replaceAll = true)
       if ( gauge['prices'] != undefined )
       $.each(gauge['prices'], function(index, price){
         if ( price.qty == 0 )
+        {
+          if ( !price.id )
+            $('#li_transaction_'+type+' [data-gauge-id='+gauge.id+'] .declination.wip').remove();
           return;
+        }
         var wprice = $('#li_transaction_'+type+' .families.sample .declination').clone(true);
         var add = true;
         if ( (tmp = wgauge.find(str = '[data-price-id='+price.id+'].declination'+(price.state ? '.active.'+price.state : ':not(.active)'))).length > 0 )
@@ -175,6 +179,8 @@ LI.completeContent = function(data, type, replaceAll = true)
         wprice.find('.vat').html(LI.format_currency(price.vat));
         wprice.find('.tep').html(LI.format_currency(price.tep));
         wprice.attr('data-price-id', price.id);
+        if ( parseInt(price.id,10)+'' !== ''+price.id )
+          wprice.addClass('wip');
         
         // ids & numerotation
         var ids = [];
