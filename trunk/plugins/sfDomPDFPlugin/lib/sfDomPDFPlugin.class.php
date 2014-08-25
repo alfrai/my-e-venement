@@ -157,7 +157,8 @@ class sfDomPDFPlugin
    */
   public function render()
   {
-    return $this->getPDF()->render();
+    $this->getPDF()->render();
+    return $this->getPDF()->output();
   }
   
   /**
