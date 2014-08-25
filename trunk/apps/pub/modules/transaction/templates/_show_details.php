@@ -11,7 +11,7 @@
   <?php $invoice = false ?>
   <li><?php echo __('In progress...') ?></li>
   <?php endif ?>
-  <?php if ( $invoice ): ?>
+  <?php if ( $printed ): ?>
   <li>
   <?php if ( $transaction->Invoice->count() > 0 ): ?>
     <?php echo __('Invoice', null, 'li_accounting') ?> #<?php echo link_to(

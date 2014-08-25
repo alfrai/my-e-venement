@@ -71,6 +71,13 @@ class transactionActions extends sfActions
       throw new liOnlineSaleException('Trying to access something without prerequisites.');
     
     $this->transaction = Doctrine::getTable('Transaction')->fetchOneById(intval($request->getParameter('id')));
+    if ( $this->transaction->contact_id !== $this->getUser()->getContact()->id )
+    {
+      $this->getContext()->getConfiguration()->loadHelpers('I18N');
+      $this->getUser()->setFlash('error', __('You cannot access an order which belongs to someone else'));
+      $this->redirect('event/index');
+    }
+    
     $this->current_transaction = $this->transaction->id === $this->getUser()->getTransaction()->id;
     
     $q = Doctrine_Query::create()->from('Event e')
