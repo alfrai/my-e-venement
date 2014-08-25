@@ -163,7 +163,12 @@ $(document).ready(function(){
     });
     
     if ( !$(this).is('#li_transaction_field_professional_id, #li_transaction_field_contact_id, #li_transaction_field_more') )
+    {
       $('#li_transaction_field_informations .vcard').slideUp();
+      $('#content .inner-edition').remove();
+      $('#sf_admin_container').css('width','100%');
+      setTimeout(function(){ $(window).resize(); }, 1500); // because of the transition-duration
+    }
     
     return false; // to avoid the event to go up in the JS tree
   }).click(function(){
@@ -208,6 +213,32 @@ $(document).ready(function(){
     }
     else
       $('#li_transaction_field_informations .vcard').slideDown('slow');
+    
+    // show the contact's file if the screen width is wide enough
+    if ( $('#sf_admin_container').width() > 1400 && $('#li_transaction_field_contact_id .data a').length > 0 )
+    {
+      $('#sf_admin_container').width($('#sf_admin_container').width()-600);
+      setTimeout(function(){ $(window).resize(); }, 1500); // because of the transition-duration
+      
+      var iframe = $('<iframe></iframe>')
+        .attr('src',$('#li_transaction_field_contact_id .data a').prop('href'))
+        .hide()
+        .load(function(){
+          $('#transition .close').click();
+          $(this).contents().find('html').addClass('tdp-iframe');
+          $(this).contents().find('a[href]').prop('target', '_parent');
+          $(this).parent().slideDown('slow', function(){ $('#tdp-content .inner-actions').fadeIn(); });
+          $(this).contents().find('#tdp-side-bar').hide();
+          $(this).contents().find('#tdp-content').css('margin-left', 0);
+          $(this).fadeIn();
+        })
+      ;
+      $('<div></div>')
+        .addClass('inner-edition').addClass('ui-widget').addClass('ui-corner-all')
+        .append(iframe)
+        .appendTo($('#content'))
+      ;
+    }
   });
   
   // THE BOARD
