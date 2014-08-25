@@ -54,6 +54,8 @@
 #li_transaction_field_content .new-family select option { font-size: 1.3em; }
 #li_transaction_field_content .new-family input[type=submit] { float: right; width: auto; }
 
+#li_transaction_manifestations .footer .price { width: 45px; }
+
 #sf_admin_content #li_transaction_field_content > div { display: block; }
 #li_transaction_field_content .family h3 { padding: 3px 5px;margin: 5px 0 2px 0; }
 #li_transaction_field_content .family h3 .fg-button { float: right; width: 16px; height: 16px; margin-top: -3px; font-size: 0; }
