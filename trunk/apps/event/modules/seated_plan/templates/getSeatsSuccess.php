@@ -3,6 +3,7 @@
   
   foreach ( $seated_plan->Seats as $seat )
     $seats[] = array(
+      'type'      => 'seat',
       'position' => array(
         'x'         => $seat->x,
         'y'         => $seat->y,

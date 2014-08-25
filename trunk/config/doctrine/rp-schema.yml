@@ -38,6 +38,7 @@ Contact:
       fields: [firstname]
   columns:
     firstname: string(255)
+    shortname: string(255)
     title: string(255)
     description: string
     password: string(255)

@@ -85,7 +85,7 @@ generator:
         sort: ['c.name, c.firstname', '']
       filter:
         display:
-          Personal: [title, name, firstname, postalcode, city, region_id, country, email]
+          Personal: [title, name, firstname, shortname, postalcode, city, region_id, country, email]
           <?php if ( sfConfig::get('app_contact_social_informations', false) ): echo PHP_EOL; ?>
           Social informations: [familial_quotient_id, familial_situation_id, type_of_resources_id]
           <?php endif ?><?php echo PHP_EOL ?>
@@ -103,7 +103,7 @@ generator:
       edit:
         title: Contact %%name%% %%firstname%%
         display:
-          NONE:  [title, name, firstname, address, postalcode, _cities, city, country, email, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>email_no_newsletter,<?php endif ?> _show_member_cards_list, groups_list]
+          NONE:  [title, name, firstname, shortname, address, postalcode, _cities, city, country, email, <?php if ( sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') ): ?>email_no_newsletter,<?php endif ?> _show_member_cards_list, groups_list]
           Phonenumbers: [_form_phonenumbers_list]
           Precisions: [family_contact, npai, description, YOBs, password]
           Ticketting: [_show_events_list]

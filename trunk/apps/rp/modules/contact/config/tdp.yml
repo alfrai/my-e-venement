@@ -48,7 +48,7 @@ all:
             fields: [address]
           City:
             extra_class: vertical
-            fields: [postalcode, _cities, city, country, _show_region]
+            fields: [postalcode, _cities, city, country, _show_region, shortname]
           Direct_Contact:
             fields: [_form_phonenumbers_list, _show_member_cards_list]
           More:

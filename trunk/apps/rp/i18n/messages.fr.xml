@@ -1036,6 +1036,10 @@
         <source>Firstname</source>
         <target>Prénom</target>
       </trans-unit>
+      <trans-unit>
+        <source>Shortname</source>
+        <target>Nom court</target>
+      </trans-unit>
       <trans-unit id="80">
         <source>Technic</source>
         <target>Technique</target>

@@ -12,10 +12,15 @@
 .picture.seated-plan .pre-seat, .picture.seated-plan .seat.txt:hover { border: 2px solid black; }
 .picture.seated-plan .anti-handling { width: 100%; height: 100%; background-color: transparent; position: absolute; z-index: 2; }
 .picture.seated-plan * { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-.picture.seated-plan.done * { cursor: crosshair; }
-.picture.seated-plan .links .link { position: absolute; border: 1px solid red; border-width: 2px 0; transform-origin: top left; z-index: 3; }
-.picture.seated-plan .links .link:hover { border-width: 3px 0; border-color: blue; }
+.picture.seated-plan.done .seat { cursor: crosshair; }
+.picture.seated-plan .more-data > * { position: absolute; z-index: 4; text-align: center; font-size: 55%; }
+.picture.seated-plan .more-data .link { position: absolute; border: 1px solid red; border-width: 2px 0; transform-origin: top left; z-index: 3; }
+.picture.seated-plan .more-data .link:hover { border-width: 3px 0; border-color: blue; }
 .picture.seated-plan { transform-origin: top left; }
+
+/* PARENT */
+.seated-plan-parent .seated-plan-actions { position: absolute; z-index: 6; margin-top: -100px; }
+.seated-plan-parent .seated-plan-actions > * { border: 1px solid gray; background-color: rgba(0,0,0,0.2); padding: 2px 5px; border-radius: 2px; display: block; margin-bottom: 2px; text-decoration: none; }
 
 /* LIST */
 .sf_admin_list table tbody .sf_admin_row .sf_admin_number { text-align: right; }
@@ -27,7 +32,7 @@
 #sf_fieldset_plan .sf_admin_form_field_show_picture .picture { margin: 0 auto; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture *:not(input) { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture .label { margin-left: 24.5em; }
-#sf_fieldset_plan .sf_admin_form_field_show_picture .tools { position: absolute; right: 4em; margin-top: 2em; z-index: 2; background-color: rgba(255,255,255,0.6); padding: 0 0.3em; text-align: left; z-index: 3; }
+#sf_fieldset_plan .sf_admin_form_field_show_picture .tools { position: absolute; right: 4em; margin-top: -7em; z-index: 2; background-color: rgba(255,255,255,0.6); padding: 0 0.3em; text-align: left; z-index: 3; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture .tools label { display: inline-block; width: 6em; margin-right: 1em; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture .tools input { width: 8em; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture .tools a { text-decoration: none; border: 1px solid gray; background-color: silver; padding: 2px 7px; border-radius: 2px; }

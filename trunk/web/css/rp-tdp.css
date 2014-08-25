@@ -73,7 +73,8 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .tdp-vertical label { display: block; }
 #tdp-content #sf_admin_content .tdp-line { padding-top: 5px; }
 #tdp-content #sf_admin_content .tdp-line.city { padding-top: 0; }
-#tdp-content #sf_admin_content .tdp-line.city .show_region { padding: 0 4px; }
+#tdp-content #sf_admin_content .tdp-line.city .show_region { padding: 3px 4px; }
+#tdp-content #sf_admin_content .tdp-line.city .tdp-shortname { border-left: 1px solid silver; }
 #tdp-content #sf_admin_content .sf_admin_form_field_cities { position: absolute; border: 0; margin-top: -1px; padding: 0; display: none; }
 #tdp-content #sf_admin_content :hover > .sf_admin_form_field_cities { display: block; }
 #tdp-content #sf_admin_content .sf_admin_form_field_cities select { margin: 0; min-width: 5em; }

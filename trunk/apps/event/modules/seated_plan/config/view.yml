@@ -6,21 +6,16 @@ createSuccess:
   javascripts: [event-seated-plan]
 updateSuccess:
   stylesheets: [picture, event-seated-plan]
-  javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-links]
+  javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-more-data]
 editSuccess:
   stylesheets: [picture, event-seated-plan]
-  javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-links]
+  javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-more-data]
 showSuccess:
   stylesheets: [picture, event-seated-plan]
   javascripts: [event-seated-plan]
   layout: nude
 indexSuccess:
   stylesheets: [event-seated-plan]
-
-getSeatsSuccess:
-  has_layout: false
-  http_metas:
-    content-type: application/json
 
 linksBuildSuccess:
   has_layout: false
@@ -30,3 +25,16 @@ getLinksSuccess:
   has_layout: false
   http_metas:
     content-type: application/json
+getSeatsSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+getShortnamesSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+getRanksSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+

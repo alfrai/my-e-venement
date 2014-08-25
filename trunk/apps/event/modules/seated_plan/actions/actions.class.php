@@ -36,6 +36,14 @@ require_once dirname(__FILE__).'/../lib/seated_planGeneratorHelper.class.php';
  */
 class seated_planActions extends autoSeated_planActions
 {
+  public function executeGetRanks(sfWebRequest $request)
+  {
+    require(dirname(__FILE__).'/get-ranks.php');
+  }
+  public function executeGetShortnames(sfWebRequest $request)
+  {
+    require(dirname(__FILE__).'/get-shortnames.php');
+  }
   public function executeGetSeats(sfWebRequest $request)
   {
     require(dirname(__FILE__).'/get-seats.php');
@@ -115,58 +123,7 @@ class seated_planActions extends autoSeated_planActions
   }
   public function executeGetLinks(sfWebRequest $request)
   {
-    $this->preLinks($request);
-    
-    $this->data = array();
-    foreach ( $this->getRoute()->getObject()->getLinks() as $link )
-    {
-      $a = $link[0];
-      $b = $link[1];
-      
-      $ab = sqrt(pow($a->x-$b->x,2) + pow($a->y-$b->y,2));
-      $ac = $a->x-$b->x;
-      $bc = $a->y-$b->y;
-      
-      if ( $ac == 0 )
-        $angle = $a->y < $b->y ? 90 : -90;
-      else
-      {
-        $preangle = rad2deg(atan($bc/$ac));
-        if ( $preangle < 0 )
-          $angle = $preangle;
-        elseif ( $a->x <= $b->x && $a->y <= $b->y )
-          $angle =   0 + $preangle;
-        elseif ( $a->x >  $b->x && $a->y < $b->y )
-          $angle =  90 + $preangle;
-        elseif ( $a->x >  $b->x && $a->y >=  $b->y )
-          $angle = 180 + $preangle;
-        elseif ( $a->x <= $b->x && $a->y >  $b->y )
-          $angle = 270 + $preangle;
-      }
-      
-      if ( false )
-      if ( $a->name = 'Q8' && $b->name == 'S15' )
-      {
-        echo $a->x.' <= '.$b->x.' && '.$a->y.' >  '.$b->y;
-        echo "\n";
-        echo round($preangle).' deg';
-        die();
-      }
-      
-      $this->data[] = array(
-        'names' => array($a->name, $b->name),
-        'ids'   => array($a->id, $b->id),
-        'coordinates' => array(
-          array($a->x, $a->y),
-          array($b->x, $b->y),
-        ),
-        'angle' => $angle, // in degrees
-        'length' => $ab,
-      );
-    }
-    
-    if ( sfConfig::get('sf_web_debug', false) && $request->getParameter('debug') )
-      return $this->renderText(print_r($this->data));
+    return require(dirname(__FILE__).'/get-links.php');
   }
   public function executeLinksRemove(sfWebRequest $request)
   {

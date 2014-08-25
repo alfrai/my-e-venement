@@ -5,6 +5,34 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Show occupation</source>
+        <target>Voir l'occupation</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Show short names</source>
+        <target>Voir les noms courts</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Show ranks</source>
+        <target>Voir les rangs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>rank</source>
+        <target>rang</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Show Links</source>
+        <target>Voir les liens</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Best seats</source>
+        <target>Meilleures places</target>
+      </trans-unit>
+      <trans-unit>
+        <source>If a seated plan exists, it will show up if you click on the gauge</source>
+        <target>Si un plan numéroté existe, il s'affichera si vous cliquez sur la jauge</target>
+      </trans-unit>
+      <trans-unit>
         <source>Link(s) removed</source>
         <target>Lien(s) supprimé(s)</target>
       </trans-unit>

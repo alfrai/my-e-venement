@@ -9,11 +9,16 @@
   </button>
   <script type="text/javascript">
     $(document).ready(function(){
+      $('.gauge .seated-plan.picture')
+        .css('transition-property', 'transform')
+        .css('transition-duration', '1s')
+      ;
       $('.magnify button').click(function(){
-        var factor = $(this).val() == '+' ? 1.2 : 0.8;
+        var operand = $(this).val() == '+' ? '*' : '/';
         $('.gauge .seated-plan.picture')
           .each(function(){
-            var new_scale = parseFloat($(this).attr('data-scale'))*factor;
+            var factor = 1.2;
+            var new_scale = operand == '*' ? parseFloat($(this).attr('data-scale'))*factor : parseFloat($(this).attr('data-scale'))/factor;
             $(this).css('transform', 'scale('+new_scale+')')
               .attr('data-scale', new_scale);
           });

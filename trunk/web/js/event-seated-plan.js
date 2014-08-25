@@ -51,6 +51,8 @@
       // loads the content/data
       if ( !$(this).closest('.seated-plan').is('.on-demand') )
         LI.seatedPlanLoadData(url, id ? '#'+id : '');
+      else
+        $(this).closest('.seated-plan').removeClass('on-demand');
       
       // to avoid graphical bugs, relaunch the box resizing
       $(this).unbind('load').load(function(){
@@ -70,15 +72,15 @@
           $(this).removeAttr('width');
         }
         if ( width < 0 )
-          width = $(elt).closest('.full-seating, #plan').width()-50; // -50 is to keep a padding on the right
+          width = ($(elt).parent().width() > 50 ? $(elt).parent().width() : $(window).width()) -50; // -50 is to keep a padding on the right
         var scale = width/$(this).width();
         if ( $(elt).closest('.full-seating').length > 0 ) // only for online stuff
         {
-          var alternate = ($(window).height()-$(this).position().top-15)/$(this).height();
+          var alternate = (+$(window).height()-$(this).position().top-15)/$(this).height();
           if ( scale > alternate ) scale = alternate; // security for graphical bugs
         }
         elt.css('transform', 'scale('+(scale)+')')
-           .css('margin-bottom', (-scale*100)+'%')
+           .css('margin-bottom', (-100+scale*100)+'%')
            .attr('data-scale', scale);
         
         // box resizing
@@ -95,8 +97,15 @@
   {
     var selector = '.picture.seated-plan';
     if ( extra_selector )
-      selector = extra_selector+selector;
+    {
+      if ( typeof(extra_selector) == 'string' )
+        selector = extra_selector+selector;
+      else if ( typeof(extra_selector) == 'object' )
+        selector = extra_selector;
+    }
     
+    $('#transition').show();
+    $('.picture.seated-plan .seat').remove();
     $.get(url,function(json){
       $(selector).find('.seat').remove();
       for ( i = 0 ; i < json.length ; i++ )
@@ -111,6 +120,8 @@
         for ( $i = 0 ; fct = LI.seatedPlanInitializationFunctions[$i] ; $i++ )
           fct();
       },200);
+      
+      $('#transition .close').click();
     });
   }
 
@@ -126,7 +137,7 @@
     var seated_plan_id = data.seated_plan_id;
     var gauge_id = data.gauge_id;
     var name = data.name;
-    var rank = data.rank
+    var rank = data.rank;
     var diameter = data.diameter == undefined ? $(ref).closest('form').find('[name="seated_plan[seat_diameter]"]').val() : data.diameter;
     var occupied = data.occupied == undefined ? false : data.occupied;
     
