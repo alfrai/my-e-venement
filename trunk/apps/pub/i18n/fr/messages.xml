@@ -9,8 +9,12 @@
         <target>Vous ne pouvez accéder à une commande qui appartient à quelqu'un d'autre</target>
       </trans-unit>
       <trans-unit>
-        <source>Download your tickets</source>
-        <target>Téléchargez vos billets</target>
+        <source>Especially for mobile devices</source>
+        <target>Spécialement pour les terminaux mobiles</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Your tickets</source>
+        <target>Vos billets</target>
       </trans-unit>
       <trans-unit>
         <source>Generate an invoice</source>

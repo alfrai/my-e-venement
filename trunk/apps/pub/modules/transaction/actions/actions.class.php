@@ -26,18 +26,18 @@ class transactionActions extends sfActions
     $factory->package($pass);
   }
   
-  public function executeGetTickets(sfWebRequest $request)
+  public function executeTickets(sfWebRequest $request)
   {
-    if ( !sfConfig::get('sf_web_debug', false) )
-      return sfView::NONE;
-    
-    if ( !$request->hasParameter('debug') )
+    if ( !$request->hasParameter('debug') && !$request->hasParameter('debug') )
       sfConfig::set('sf_web_debug', false);
     
     $transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
-    $this->tickets_html = $transaction->renderSimplifiedTickets();
+    if ( $transaction->contact_id !== $this->getUser()->getContact()->id )
+      throw new liOnlineSaleException('The delivery of tickets which belongs to someone else is not allowed');
     
-    if ( !$request->hasParameter('pdf') )
+    $this->tickets_html = $transaction->renderSimplifiedTickets(array('barcode' => $request->getParameter('format') === 'html' ? 'html' : 'png'));
+    
+    if ( !$request->getParameter('format') === 'html' )
       return 'Success';
     
     $pdf = new sfDomPDFPlugin();

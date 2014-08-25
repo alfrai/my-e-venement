@@ -6,9 +6,9 @@
   <?php if ( $transaction->Order->count() > 0 ): ?>
   <li><?php echo __('Booked') ?></li>
   <?php endif ?>
-  <?php $invoice = true ?>
+  <?php $get_tickets = true ?>
   <?php if ( $transaction->Order->count() == 0 && !$printed ): ?>
-  <?php $invoice = false ?>
+  <?php $get_tickets = false ?>
   <li><?php echo __('In progress...') ?></li>
   <?php endif ?>
   <?php if ( $printed ): ?>
@@ -21,6 +21,13 @@
   <?php else: ?>
     <?php echo link_to(__('Generate an invoice'), 'transaction/invoice?id='.$transaction->id, array('onclick' => 'javascript: setTimeout(function(){ window.location.reload(); },3000)', 'target' => '_blank')) ?>
   <?php endif ?>
+  </li>
+  <?php endif ?>
+  <?php if ( $get_tickets ): ?>
+  <li>
+    <?php echo __('Your tickets') ?>
+    <?php echo link_to('PDF', 'transaction/tickets?id='.$transaction->id.'&format=pdf', array('class' => 'pdf')) ?>
+    <?php echo link_to('Passbook', 'transaction/tickets?id='.$transaction->id.'&format=passbook', array('class' => 'passbook', 'title' => __('Especially for mobile devices'))) ?>
   </li>
   <?php endif ?>
 </ul>
