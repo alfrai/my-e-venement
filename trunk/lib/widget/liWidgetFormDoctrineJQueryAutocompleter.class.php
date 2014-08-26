@@ -85,9 +85,10 @@ EOF
   {
     return parent::getStylesheets() + array(
       '/sfFormExtraPlugin/css/jquery.autocompleter.css' => 'all',
+      '/sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css' => 'all',
       '/sfAdminThemejRollerPlugin/css/jroller.css'      => 'all',
       '/sfAdminThemejRollerPlugin/css/fg.buttons.css'   => 'all',
-      '/sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css' => 'all',
     );
+    // CAREFUL: the order is important sometimes
   }
 }
