@@ -43,7 +43,7 @@ $(document).ready(function(){
             seats.push({
               action: 'del',
               ticket_id: $(this).closest('[data-price-id], .seating.in-progress').find('.seat:first').attr('data-ticket-id'),
-              gauge_id: $(this).closest('[data-gauge-id]').attr('data-gauge-id')
+              gauge_id: $(this).closest('[data-gauge-id]').attr('data-gauge-id'),
             });
             ticket_id: $(this).closest('[data-price-id], .seating.in-progress').find('.seat:first').remove();
           }

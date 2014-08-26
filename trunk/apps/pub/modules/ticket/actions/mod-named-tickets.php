@@ -78,7 +78,13 @@
           
           foreach ( array('name', 'firstname', 'email') as $field )
             $ticket->DirectContact->$field = $data[$ticket->id]['contact'][$field];
-          $ticket->save();
+          
+          $validator = new sfValidatorEmail;
+          try {
+            $ticket->DirectContact->email = $validator->clean($ticket->DirectContact->email);
+            $ticket->save();
+          }
+          catch ( sfValidatorError $e ) { }
         }
         else
         {
