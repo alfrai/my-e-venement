@@ -21,10 +21,7 @@ LI.pubTimer = function(elt, day, delay)
   
   var time = $(elt).text().split(':');
   if ( time.length != 3 )
-  {
-    window.location = $('#ariane .cart a').prop('href');
     return;
-  }
   
   d.setHours(parseInt(time[0],10));
   d.setMinutes(parseInt(time[1],10));
@@ -38,7 +35,4 @@ LI.pubTimer = function(elt, day, delay)
     }, delay);
     return;
   }
-  
-  // if expired
-  window.location = $('#ariane .cart a').prop('href');
 }
