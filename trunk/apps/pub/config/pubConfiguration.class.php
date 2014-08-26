@@ -23,7 +23,7 @@
 ?>
 <?php
 
-class pubConfiguration extends sfApplicationConfiguration
+class pubConfiguration extends sfApplicationConfiguration implements liGarbageCollectorInterface
 {
   public function configure()
   {
@@ -236,5 +236,88 @@ class pubConfiguration extends sfApplicationConfiguration
       unset($orphans[$gid]);
     
     return $orphans;
+  }
+
+  public function initGarbageCollectors(sfCommandApplicationTask $task = NULL)
+  {
+    $this->task = $task;
+    
+    // too-old online transactions collector
+    $this->addGarbageCollector('squatters', function(){
+      $cart_timeout = sfConfig::get('app_timeout_general', '1 hour');
+      $section = 'Anti-squatters';
+      $this->stdout($section, 'Closing transactions...', 'COMMAND');
+      $q = Doctrine_Query::create()->from('Transaction t')
+        ->andWhere('t.closed = ?', false)
+        ->leftJoin('t.Order o')
+        ->andWhere('o.id IS NULL')
+        ->leftJoin('t.Payments p')
+        ->andWhere('p.id IS NULL')
+        ->leftJoin('t.Tickets tck WITH tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.duplicating IS NOT NULL OR tck.cancelling IS NOT NULL')
+        ->andWhere('tck.id IS NULL')
+        ->leftJoin('t.User u')
+        ->andWhere('u.username = ?', sfConfig::get('app_user_templating'))
+        ->andWhere('t.created_at < ?', $date = date('Y-m-d H:i:s', strtotime($cart_timeout.' ago')))
+      ;
+      $transactions = $q->execute();
+      $nb = $transactions->count();
+      foreach ( $transactions as $t )
+      {
+        $t->closed = true;
+        $t->save();
+      }
+      $this->stdout($section, "[OK] $nb transactions closed", 'INFO');
+      
+      $nb = Doctrine_Query::create()->from('Ticket')
+        ->andWhere('id IN ('.$q->select('tck.id').')', array(false, sfConfig::get('app_user_templating'), $date))
+        ->delete()
+        ->execute()
+      ;
+      $this->stdout($section, "[OK] $nb tickets deleted", 'INFO');
+    });
+    
+    return $this;
+  }
+  public function executeGarbageCollectors($names = NULL)
+  {
+    if ( is_null($names) )
+      $names = array_keys($this->collectors);
+    
+    if ( !is_array($names) )
+      $names = array($names);
+    
+    foreach ( $names as $name )
+    {
+      $fct = $this->getGarbageCollector($name);
+      if ( $fct instanceof Closure )
+        $fct();
+    }
+    
+    return $this;
+  }
+  public function getGarbageCollector($name)
+  {
+    if ( !isset($this->collectors[$name]) )
+      return FALSE;
+    return $this->collectors[$name];
+  }
+  public function addGarbageCollector($name, Closure $function)
+  {
+    if ( isset($this->collectors[$name]) )
+      throw new liEvenementException('A collector with the name "'.$name.'" already exists. Maybe you wanted to replace it ?');
+    return $this->addOrReplaceGarbageCollector($name, $function);
+  }
+  public function addOrReplaceGarbageCollector($name, Closure $function)
+  {
+    $this->collectors[$name] = $function;
+    return $this;
+  }
+  protected function stdout($section, $message, $style = 'INFO')
+  {
+    $section = str_pad($section,20);
+    if ( !$this->task )
+      echo "$section $message";
+    else
+      $this->task->logSection($section, $message, null, $style);
   }
 }

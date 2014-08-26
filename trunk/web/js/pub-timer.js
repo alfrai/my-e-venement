@@ -7,7 +7,6 @@ if ( LI.pubCartReady == undefined )
 
 LI.pubCartReady.push(function(){
   $('#cart-widget .timer .time').each(function(){
-    var d = new Date;
     LI.pubTimer(this);
   });
 });
@@ -22,7 +21,10 @@ LI.pubTimer = function(elt, day, delay)
   
   var time = $(elt).text().split(':');
   if ( time.length != 3 )
+  {
+    window.location = $('#ariane .cart a').prop('href');
     return;
+  }
   
   d.setHours(parseInt(time[0],10));
   d.setMinutes(parseInt(time[1],10));
@@ -34,6 +36,9 @@ LI.pubTimer = function(elt, day, delay)
     setTimeout(function(){
       LI.pubTimer(elt, day, delay);
     }, delay);
+    return;
   }
-  return;
+  
+  // if expired
+  window.location = $('#ariane .cart a').prop('href');
 }
