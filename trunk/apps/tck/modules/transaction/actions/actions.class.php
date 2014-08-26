@@ -13,6 +13,39 @@ require_once dirname(__FILE__).'/../lib/transactionGeneratorHelper.class.php';
  */
 class transactionActions extends autoTransactionActions
 {
+  public function executeRegistered(sfWebRequest $request)
+  {
+    $this->transaction = $this->getRoute()->getObject();
+    $this->forms = array();
+    
+    foreach ( $this->transaction->Tickets as $ticket )
+    if ( $ticket->gauge_id == $request->getParameter('gauge_id', 0)
+      && $ticket->price_id == $request->getParameter('price_id', 0) )
+    {
+      $form = new TicketRegisteredForm($ticket);
+      $this->forms[] = $form;
+    }
+  }
+  public function executeRegister(sfWebRequest $request)
+  {
+    $data = $request->getParameter('ticket');
+    $form = new TicketRegisteredForm;
+    $form->bind($data);
+    if ( !$form->isValid() )
+      return 'Error';
+    
+    $this->getContext()->getConfiguration()->loadHelpers(array('Url', 'I18N'));
+    
+    $ticket = $form->save();
+    $this->json = array('success' => array(
+      'message'   => __('Ticket #%%id%% registered', array('%%id%%' => $ticket->id)),
+      'url_back' => url_for('transaction/registered'
+        .'?id='.$ticket->transaction_id
+        .'&price_id='.$ticket->price_id
+        .'&gauge_id='.$ticket->gauge_id
+      ),
+    ));
+  }
   public function executeEdit(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));

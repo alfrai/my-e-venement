@@ -14,7 +14,7 @@
       </h3>
       <div class="items">
         <div class="item ui-corner-all highlight" id="li_transaction_item_">
-          <?php include_partial('form_field_content_item_sample') ?>
+          <?php include_partial('form_field_content_item_sample', array('transaction' => $transaction)) ?>
         </div>
         <div class="item total">
           <?php include_partial('form_field_content_item_total') ?>

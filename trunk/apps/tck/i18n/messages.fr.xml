@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Offered by</source>
+        <target>Offert par</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Please fill in the form correctly before you submit it</source>
+        <target>Remplir correctement le formulaire avant de le valider SVP</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ticket #%%id%% registered</source>
+        <target>Billets #%%id%% associé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Registered tickets</source>
+        <target>Billets nominatifs</target>
+      </trans-unit>
+      <trans-unit>
         <source>Seats first</source>
         <target>Placer en 1er</target>
       </trans-unit>

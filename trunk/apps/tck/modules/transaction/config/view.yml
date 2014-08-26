@@ -3,6 +3,8 @@ all:
   stylesheets: [tck-touchscreen, event-seated-plan]
 respawnSuccess:
   stylesheets: [-tck-touchscreen]
+registeredSuccess:
+  javascripts: [-*]
 
 json:
   has_layout: false
@@ -11,3 +13,12 @@ json:
 
 closeWindowSuccess:
   layout: nude
+
+registerSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+registerError:
+  has_layout: false
+  http_metas:
+    content-type: application/json

@@ -8,6 +8,7 @@
                 <td class="tep nb money" title="<?php echo __('PET') ?>"><?php echo format_currency(19, '€') ?></td>
                 <td class="vat nb money" title="<?php echo __('VAT') ?>"><?php echo format_currency(1, '€') ?></td>
                 <td class="pit nb money" title="<?php echo __('Total') ?>"><?php echo format_currency(20, '€') ?></td>
+                <td class="item-details"></td>
               </tr>
               <tr class="declination">
                 <td class="qty nb">1</td>
@@ -15,6 +16,7 @@
                 <td class="tep nb money" title="<?php echo __('PET') ?>"><?php echo format_currency(9.5, '€') ?></td>
                 <td class="vat nb money" title="<?php echo __('VAT') ?>"><?php echo format_currency(0.5, '€') ?></td>
                 <td class="pit nb money" title="<?php echo __('Total') ?>"><?php echo format_currency(10, '€') ?></td>
+                <td class="item-details"></td>
               </tr>
             </tbody>
             <tfoot>
@@ -24,6 +26,7 @@
                 <td class="tep nb money" title="<?php echo __('PET') ?>"></td>
                 <td class="vat nb money" title="<?php echo __('VAT') ?>"></td>
                 <td class="pit nb money" title="<?php echo __('Total') ?>"></td>
+                <td class="item-details"></td>
               </tr>
             </tfoot>
           </table>

@@ -70,7 +70,7 @@
 #li_transaction_field_content .highlight:not(.new-family) { border: 1px solid transparent; }
 #li_transaction_field_content .ui-widget-header { padding: 3px 5px; }
 #li_transaction_field_content .items { cursor: default; }
-#li_transaction_field_content .item { padding: 0 15px; user-select: none; -moz-user-select: none; }
+#li_transaction_field_content .item { padding: 0 0 0 15px; user-select: none; -moz-user-select: none; }
 #li_transaction_field_content .item tr > * { vertical-align: top; }
 #li_transaction_field_content .item .nb { text-align: right; }
 #li_transaction_field_content .declinations { display: inline-table; width: 65% }
@@ -94,8 +94,8 @@
 #li_transaction_field_content .item .qty .qty { width: 2em; display: inline-block; text-align: right; border: 1px solid silver; border-top: 0; padding: 0 5px; background-color: white; }
 #li_transaction_field_content .item .qty a { float: none; padding: 0; cursor: default; display: inline-block; margin: 0; position: static; }
 #li_transaction_field_content .item .qty a .ui-icon { margin: -2px 0 0 0; position: static; }
-#li_transaction_field_content .item .total .qty a,
-#li_transaction_field_content .item .printed .qty a { visibility: hidden; }
+#li_transaction_field_content .item .total .qty a, #li_transaction_field_content .item .printed .qty a { visibility: hidden; }
+#li_transaction_field_content .item .item-details { width: 15px; overflow: hidden; text-align: right; }
 #li_transaction_field_content .family.total .item { padding-top: 15px; font-style: normal; }
 #li_transaction_field_content .family.total .item h4,
 #li_transaction_field_content .family.total .item .total { font-style: normal; text-decoration: underline; }

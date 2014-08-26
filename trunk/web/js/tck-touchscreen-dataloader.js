@@ -178,6 +178,7 @@ LI.completeContent = function(data, type, replaceAll = true)
         wprice.find('.pit').html(LI.format_currency(price.pit));
         wprice.find('.vat').html(LI.format_currency(price.vat));
         wprice.find('.tep').html(LI.format_currency(price.tep));
+        wprice.find('.item-details a').prop('href', wprice.find('.item-details a').prop('href')+'?price_id='+price.id+'&gauge_id='+gauge.id);
         wprice.attr('data-price-id', price.id);
         if ( parseInt(price.id,10)+'' !== ''+price.id )
           wprice.addClass('wip');

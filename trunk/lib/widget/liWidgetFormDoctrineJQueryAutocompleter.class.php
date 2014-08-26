@@ -73,4 +73,21 @@ EOF
   {
     return $this->toString($value);
   }
+  
+  public function getJavaScripts()
+  {
+    return parent::getJavaScripts() + array(
+      '/sfAdminThemejRollerPlugin/js/jquery.min.js',
+      '/sfFormExtraPlugin/js/jquery.autocompleter.js',
+    );
+  }
+  public function getStylesheets()
+  {
+    return parent::getStylesheets() + array(
+      '/sfFormExtraPlugin/css/jquery.autocompleter.css' => 'all',
+      '/sfAdminThemejRollerPlugin/css/jroller.css'      => 'all',
+      '/sfAdminThemejRollerPlugin/css/fg.buttons.css'   => 'all',
+      '/sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css' => 'all',
+    );
+  }
 }
