@@ -27,5 +27,6 @@ PATH=
 
 cd $PATH
 ./symfony e-venement:garbage-collector tck
+./symfony e-venement:garbage-collector pub
 # ./symfony e-venement:garbage-collector {app}
 # ...
