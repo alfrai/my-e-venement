@@ -1,7 +1,9 @@
 // the global var that can be used everywhere as a "root"
 if ( LI == undefined )
   var LI = {};
-LI.pubCartReady = [];
+
+if ( LI.pubCartReady == undefined )
+  LI.pubCartReady = [];
 
 $(document).ready(function(){
   $.get($('#cart-widget-url').prop('href'),function(data){

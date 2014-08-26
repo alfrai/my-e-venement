@@ -41,7 +41,7 @@
 .js_seated_plan_useful { display: none; }
 #sf_fieldset_ranks label { min-width: 15em; display: inline-block; }
 #sf_fieldset_ranks input[type=text]:not(.align-left) { text-align: right; }
-#sf_fieldset_ranks input[type=text][size=2] { margin-left: 1em; }
+#sf_fieldset_ranks input[type=text][size="2"] { margin-left: 1em; }
 #sf_fieldset_ranks .ranks_explanation { margin-top: 10px; }
 #sf_fieldset_seat_links .links_links { display: none; }
 #sf_fieldset_seat_links .seated_plan_batch_field label { display: inline-block; min-width: 11em; }

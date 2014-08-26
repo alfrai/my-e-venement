@@ -15,9 +15,13 @@ LI.alert = function(msg, type, time)
     notice:  'ui-icon-info',
     error:   'ui-icon-alert',
   }
-  var flash = '<div class="%%type%% ui-state-highlight ui-corner-all"><span class="ui-icon %%icon%% floatleft"></span>&nbsp;%%msg%%</div>';
+  var flash = '<div class="%%type%% ui-state-%%type%% ui-corner-all"><span class="ui-icon %%icon%% floatleft"></span>&nbsp;%%msg%%</div>';
   
-  $('.sf_admin_flashes').append($(flash.replace('%%msg%%',msg).replace('%%type%%',type).replace('%%icon%%', icons[type])).hide().css('position', 'absolute').fadeIn('slow'));
+  $('.sf_admin_flashes').append($(flash
+    .replace('%%msg%%',msg)
+    .replace('%%type%%',type).replace('%%type%%',type)
+    .replace('%%icon%%',icons[type])
+  ).hide().css('position', 'absolute').fadeIn('slow'));
   setTimeout(function(){
     $('.sf_admin_flashes > *').fadeOut(function(){ $(this).remove(); })
   },time);

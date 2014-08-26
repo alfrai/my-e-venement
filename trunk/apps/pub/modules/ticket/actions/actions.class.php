@@ -37,23 +37,19 @@ class ticketActions extends sfActions
     
     return 'Success';
   }
-  public function executeRemoveTicket(sfWebRequest $request)
-  {
-    return require(dirname(__FILE__).'/remove-ticket.php');
-  }
-  public function executeAddSeat(sfWebRequest $request)
-  {
-    return require(dirname(__FILE__).'/add-seat.php');
-  }
   public function executeAutoSeating(sfWebRequest $request)
   {
     return require(dirname(__FILE__).'/auto-seating.php');
   }
-  public function executeModSeatedTickets(sfWebRequest $request)
-  {
-    return require(dirname(__FILE__).'/mod-seated-tickets.php');
-  }
   
+  public function executeModTickets(sfWebRequest $request)
+  {
+    return require(dirname(__FILE__).'/mod-tickets.php');
+  }
+  public function executeModNamedTickets(sfWebRequest $request)
+  {
+    return require(dirname(__FILE__).'/mod-named-tickets.php');
+  }
   
   protected function checkForOrphansInJson(array $options)
   {

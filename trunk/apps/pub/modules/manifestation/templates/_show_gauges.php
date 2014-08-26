@@ -2,6 +2,7 @@
 
 <?php echo $form->renderFormTag(url_for('cart/show'), array('class' => 'adding-tickets')) ?>
 <a href="<?php echo url_for('ticket/getOrphans') ?>" id="ajax-pre-submit"></a>
+<a href="<?php echo url_for('ticket/modTickets?manifestation_id='.$manifestation->id) ?>" id="ajax-init-data"></a>
 <?php foreach ( $gauges as $gauge ): ?>
 <div class="gauge <?php if ( isset($conf['full_seating_by_customer']) && $conf['full_seating_by_customer'] ): ?>full-seating<?php endif ?>" id="gauge-<?php echo $gauge->id ?>" data-gauge-id="<?php echo $gauge->id ?>">
   <div class="blank"></div>

@@ -80,7 +80,7 @@
           if ( scale > alternate ) scale = alternate; // security for graphical bugs
         }
         elt.css('transform', 'scale('+(scale)+')')
-           .css('margin-bottom', (-100+scale*100)+'%')
+           .css('margin-bottom', (-scale*2*100-3)+'%')
            .attr('data-scale', scale);
         
         // box resizing

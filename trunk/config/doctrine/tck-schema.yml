@@ -118,6 +118,7 @@ Ticket:
     vat:
       type: decimal(5)
       scale: 4
+    contact_id: integer
   relations:
     Manifestation:
       foreignAlias: Tickets
@@ -159,6 +160,11 @@ Ticket:
     Seat:
       foreignAlias: Tickets
       onDelete: RESTRICT
+      onUpdate: CASCADE
+    DirectContact:
+      class: Contact
+      foreignAlias: DirectTickets
+      onDelete: SET NULL
       onUpdate: CASCADE
 Cancellation:
   package: tck

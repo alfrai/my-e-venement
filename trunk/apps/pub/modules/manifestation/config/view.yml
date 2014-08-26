@@ -1,0 +1,3 @@
+default:
+  javascripts: [jquery, event-seated-plan]
+  stylesheets: [event-seated-plan]

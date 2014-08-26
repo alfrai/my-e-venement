@@ -60,8 +60,10 @@
     $this->createPaymentsDoneByMemberCards($mc_pm);
   }
   
-  // contact
-  $transaction->Contact->confirmed = true;
+  $transaction->Contact->confirmed = true;        // transaction's contact
+  foreach ( $transaction->Tickets as $ticket )    // for "named" tickets
+  if ( $ticket->contact_id )
+    $ticket->Contact->confirmed = true;
   $transaction->Payments[] = $payment;
   $transaction->Order[] = new Order;
   $transaction->save();

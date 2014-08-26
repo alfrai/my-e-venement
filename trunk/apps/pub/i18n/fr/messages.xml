@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Assign a contact to your tickets</source>
+        <target>Affecter un contact à vos billets</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Email address</source>
+        <target>Courriel</target>
+      </trans-unit>
+      <trans-unit>
         <source>You cannot access an order which belongs to someone else</source>
         <target>Vous ne pouvez accéder à une commande qui appartient à quelqu'un d'autre</target>
       </trans-unit>

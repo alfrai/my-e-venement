@@ -1,0 +1,10 @@
+.named-tickets { display: none; }
+.named-tickets .sample { display: none; }
+.named-tickets h4 { margin-bottom: 0; }
+.named-tickets .gauge_name { display: block; }
+.named-tickets .contact_email { display: block; }
+.named-tickets input[type=text] { width: 10em; }
+.named-tickets .contact_email label, .named-tickets .contact_name label { display: inline-block; width: 7em; }
+.named-tickets .contact_email input[type=text] { width: 15em; }
+.named-tickets .contact_firstname label { display: none; }
+

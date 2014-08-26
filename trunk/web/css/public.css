@@ -166,7 +166,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 .gauge.full-seating .seated-plan.picture .seat { cursor: crosshair; }
 .gauge.full-seating .seats .auto { font-size: 10px; padding: 0px; }
 .gauge.full-seating .load-data { position: relative; z-index: 1; top: -300px; left: 150px; transform: scale(1.5); margin-bottom: -150px; }
-.gauge.full-seating .full-seating { position: absolute; top: 198px; left: 25px; width: 575px; border: 2px solid silver; background-color: white; overflow: auto; }
+.gauge.full-seating .full-seating { position: absolute; top: 188px; left: 25px; width: 575px; border: 2px solid silver; background-color: white; overflow: auto; }
 .gauge.full-seating, .gauge.full-seating .full-seating { border-radius: 5px; }
 .gauge.full-seating.active, .gauge.full-seating.active > *, .gauge.full-seating:hover, .gauge.full-seating:hover > * { z-index: 2; border-color: silver; }
 .gauge.full-seating:hover, .gauge.full-seating:hover > * { z-index: 4; border-color: gray; }
@@ -301,6 +301,8 @@ a.actions a:hover {
 
 #sf_admin_container .notice, #sf_admin_container .success, #sf_admin_container .error { display: none; }
 #sf_admin_container .sf_admin_flashes .notice, #sf_admin_container .sf_admin_flashes .success, #sf_admin_container .sf_admin_flashes .error { display: block; }
+.sf_admin_flashes .ui-icon { float: left; }
+.sf_admin_flashes div { padding: 5px 10px; position: absolute; min-width: 700px; }
 
 #ariane .i18n { text-align: right; }
 #ariane .i18n a { font-size: 0; display: inline-block; width: 16px; height: 11px; background: white url('../images/flags.png') no-repeat scroll 1px 1px; padding: 1px; border: 1px solid silver; }
@@ -332,7 +334,7 @@ a.actions a:hover {
 tfoot, thead { font-weight: bold; }
 .prices .value, .prices .total { text-align: right; max-width: 100px; }
 .prices .submit { text-align: right; }
-.prices .seats { text-align: right; max-width: 150px; }
+.prices .seats { text-align: right; width: 150px; }
 .prices .seats .seat { padding-right: 5px; }
 .prices .quantity { text-align: center; }
 .prices .explanation { text-align: center; }

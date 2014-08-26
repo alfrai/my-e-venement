@@ -163,6 +163,7 @@ class Seater
       throw new liSeatedException('If you want to look for orphans, you have to tell correctly the Seater what to look for.');
     
     foreach ( $this->kept as $seat )
+    if ( $seat )
       $orphans->merge($this->_findOrphansWithWalk($seat));
     
     return $orphans;

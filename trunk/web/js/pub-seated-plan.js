@@ -3,6 +3,9 @@ if ( LI == undefined )
   var LI = {};
 
 $(document).ready(function(){
+  // init data
+  LI.pubInitTicketsRequest();
+  
   // checking for orphans before submitting data
   $('form.adding-tickets').submit(function(){
     LI.pubCheckOrphansVisually($('#ajax-pre-submit').prop('href'), undefined, function(){
@@ -33,44 +36,109 @@ $(document).ready(function(){
         {
           var seats = [];
           
-          // sliding down WIP seats or creating new tickets
+          // less tickets
+          for ( i = 0 ; i < val - $(this).val() ; i++ )
+          {
+            // preparing the DB
+            seats.push({
+              action: 'del',
+              ticket_id: $(this).closest('[data-price-id], .seating.in-progress').find('.seat:first').attr('data-ticket-id'),
+              gauge_id: $(this).closest('[data-gauge-id]').attr('data-gauge-id')
+            });
+            ticket_id: $(this).closest('[data-price-id], .seating.in-progress').find('.seat:first').remove();
+          }
+          
+          // more tickets
           for ( i = 0 ; i < $(this).val() - val ; i++ )
           {
             // preparing the DB
             seats.push({
-              seat_id: $(this).closest('.gauge').find('.prices .seating.in-progress .seat input').eq(i).val(),
-              gauge_id: $(this).closest('[data-gauge-id]').attr('data-gauge-id'),
-              price_id: $(this).closest('[data-price-id]').attr('data-price-id')
-            });
-          }
-          
-          // sliding up normal tickets into WIPs, or removing them if they do not have Seat
-          for ( i = 0 ; i < $(this).closest('[data-price-id]').find('.seat').length - $(this).val() ; i++ )
-          if ( $(this).closest('[data-price-id]').find('.seat').eq(i).length > 0 )
-          {
-            // preparing the DB
-            seats.push({
-              seat_id: $(this).closest('[data-price-id]').find('.seat').eq(i).attr('data-seat-id'),
-              ticket_id: $(this).closest('[data-price-id]').find('.seat').eq(i).attr('data-ticket-id'),
-              gauge_id: $(this).closest('[data-gauge-id]').attr('data-gauge-id'),
+              action: 'add',
+              price_id: $(this).closest('[data-price-id]').attr('data-price-id'),
+              gauge_id: $(this).closest('[data-gauge-id]').attr('data-gauge-id')
             });
           }
           
           // in the DB
           if ( seats.length > 0 )
-          $.get($('#mod-seated-tickets').prop('href'), { seats: seats }, function(json){
-            // in the list
-            LI.alert(json.error ? json.error.message : json.success.message, json.error ? 'error' : 'success');
-            
-            if ( !json.success )
-              return;
-            LI.pubCompleteSeatsList(json.success);
-          });
+          LI.pubInitTicketsRequest({ tickets: seats });
         }
       })
     ;
   });
 });
+
+LI.pubInitTicketsData = function(json){
+  $('.prices .quantity select').val(0).change();
+  $('.prices .seating.in-progress .quantity').text('-');
+  $('.prices .seats *').remove();
+  $('.seated-plan.picture .seat.ordered.in-progress')
+    .removeClass('ordered').removeClass('in-progress')
+    .removeAttr('data-ticket-id').removeAttr('data-price-id').removeAttr('data-gauge-id');
+  
+  $.each(json.tickets, function(key, ticket){
+    var line = ticket.price_id
+      ? $('#gauge-'+ticket.gauge_id+' .prices [data-price-id='+ticket.price_id+']')
+      : $('#gauge-'+ticket.gauge_id+' .prices .seating.in-progress')
+    ;
+    
+    // seats / tickets
+    $('<span></span>')
+      .addClass('seat').addClass('seat-'+ticket.seat_name)
+      .attr('data-ticket-id', ticket.ticket_id)
+      .attr('data-seat-id', ticket.seat_id)
+      .text(ticket.seat_name)
+      .appendTo(line.find('.seats').append(' '))
+    ;
+  
+    // on the seated plan
+    $('#gauge-'+ticket.gauge_id+' .seated-plan.picture .seat[data-id='+ticket.seat_id+']')
+      .addClass('ordered').addClass('in-progress')
+      .attr('data-ticket-id', ticket.ticket_id)
+      .attr('data-price-id', ticket.price_id)
+      .attr('data-gauge-id', ticket.gauge_id)
+    ;
+  });
+  
+  // quantities
+  $('.prices [data-price-id], .prices .seating.in-progress').each(function(){
+    // quantity
+    if ( $(this).find('.quantity select').length > 0 )
+      $(this).find('.quantity select')
+        .val($(this).find('.seats .seat').length)
+        .change()
+      ;
+    else // WIPs
+      $(this).find('.quantity')
+        .text($(this).find('.seats .seat').length)
+      ;
+  });
+  
+  // orphans
+  if ( json.orphans )
+  $.each(json.orphans, function(gid, gauge){
+  $.each(gauge, function(key, orphan){
+    LI.pubShowOrphansOnPlan(orphan);
+  }); });
+
+  LI.pubNamedTicketsInitialization();
+}
+
+LI.pubInitTicketsRequest = function(seats){
+  if ( typeof(seats) != 'object' )
+    seats = {};
+  
+  $.get($('#ajax-init-data').prop('href'), seats, function(json){
+    if (!( json.success && json.success.data && json.success.data.tickets ))
+    {
+      LI.alert('An error occurred', 'error');
+      return;
+    }
+    LI.alert(json.success.message, 'success');
+    LI.pubInitTicketsData(json.success.data);
+  });
+  
+}
 
 LI.pubAfterRenderingSeats = {};
 // a trick specific to "pub" to execute a function only once after rendering the seated plan
@@ -83,95 +151,21 @@ LI.seatedPlanInitializationFunctions.push(function(){
       return;
     }
     
-    console.log('After rendering the seats, function '+key+' is being executed.');
     infos.exec(infos.options);
     if ( infos.one_shot == true )
       delete LI.pubAfterRenderingSeats[key];
   });
 });
   
-LI.pubCompleteSeatsList = function(data)
-{
-  if ( !data )
-  {
-    console.log('Bad data given in LI.pubCompleteSeatsList()');
-    return false;
-  }
-  
-  // old
-  if ( data.deleted )
-  $.each(data.deleted, function(key, ticket){
-    console.log('old #'+ticket.ticket_id);
-    var tr = $('.gauge[data-gauge-id='+ticket.gauge_id+'] .prices '+(ticket.price_id ? '[data-price-id='+ticket.price_id+']' : '.seating.in-progress'));
-    
-    // seat names
-    tr.find('.seats .seat[data-ticket-id='+ticket.ticket_id+']').remove();
-  });
-  
-  // new
-  if ( data.new )
-  $.each(data.new, function(key, ticket){
-    console.log('new #'+ticket.ticket_id);
-    LI.pubAddWIPLineIfNecessary($('.gauge[data-gauge-id='+ticket.gauge_id+'] .prices'));
-    
-    $('<span></span>').addClass('seat')
-      .attr('data-ticket-id', ticket.ticket_id)
-      .attr('data-seat-id', ticket.seat_id)
-      .text(ticket.seat_name ? ticket.seat_name : '')
-      .append($('<input type="hidden" />').prop('name', 'price['+ticket.gauge_id+']['+ticket.price_id+'][seat_id][]').val(ticket.seat_id))
-      .prependTo($('.gauge[data-gauge-id='+ticket.gauge_id+'] .prices '+(ticket.price_id ? '[data-price-id='+ticket.price_id+']' : '.seating.in-progress')+' .seats'))
-    ;
-  });
-  
-  // changed
-  if ( data.moved )
-  $.each(data.moved, function(key, ticket){
-    console.log('changed #'+ticket.ticket_id);
-    var elt = $('.gauge[data-gauge-id='+ticket.gauge_id+'] .prices .seats .seat[data-ticket-id='+ticket.ticket_id+']')
-    if ( ticket.price_id )
-    {
-      var hidden = $('<input type="hidden" />').prop('name',
-        'price'+
-        '['+ticket.gauge_id+']'+
-        '['+ticket.price_id+']'+
-        '[seat_id][]'
-      ).val(ticket.seat_id);
-      elt.append(hidden)
-        .prependTo($('.gauge[data-gauge-id='+ticket.gauge_id+'] .prices [data-price-id='+ticket.price_id+'] .seats'))
-      ;
-    }
-    else
-    {
-      LI.pubAddWIPLineIfNecessary();
-      elt.prependTo($(elt).closest('.gauge').find('.prices .seating.in-progress .seats'))
-        .find('input').remove();
-    }
-  });
-  
-  // the quantities
-  $('.gauge .prices tbody .quantity').each(function(){
-    var tr = $(this).closest('tr');
-    var nb = $(this).closest('tr').find('.seat').length;
-    if ( $(this).closest('tr').is('[data-price-id]') )
-      $(this).find('select').val(nb);
-    else
-      $(this).text(nb);
-  });
-  
-  // orphans
-  if ( data.orphans )
-  $.each(data.orphans, function(gid, gauge){
-  $.each(gauge, function(key, orphan){
-    LI.pubShowOrphansOnPlan(orphan);
-  }); });
-}
-  
 LI.pubAfterRenderingSeats['pubSeatedPlanInitMain'] = function(){
   $('.seated-plan .seat.txt').unbind('contextmenu').click(function(){
     var seat = this;
     if ( $(seat).is('.ordered.in-progress') )   // removing a seat
     {
-      $.get($(seat).closest('.full-seating').find('.remove-ticket').prop('href'), { seat_id: $(seat).attr('data-id') }, function(json){
+      $.get($('#ajax-init-data').prop('href'), { tickets: [{
+        ticket_id: $(seat).attr('data-ticket-id'),
+        action: 'del'
+      }]}, function(json){
         if ( json.error && json.error.message )
           LI.alert(json.error.message, 'error');
         
@@ -188,15 +182,16 @@ LI.pubAfterRenderingSeats['pubSeatedPlanInitMain'] = function(){
           LI.alert(json.success.message, 'success');
         
         // in the list
-        LI.pubCompleteSeatsList(json.success);
+        LI.pubInitTicketsData(json.success.data);
       });
     }
     else  // adding a seat
     {
-      $.get($(seat).closest('.full-seating').find('.add-seat').prop('href'), {
-        seat_id: $(seat).attr('data-id')
-      }, function(json){
-        console.log('after ajax adding');
+      $.get($('#ajax-init-data').prop('href'), { tickets: [{
+        seat_id: $(seat).attr('data-id'),
+        gauge_id: $(seat).closest('[data-gauge-id]').attr('data-gauge-id'),
+        action: 'add'
+      }]}, function(json){
         if ( json.error && json.error.message )
           LI.alert(json.error.message, 'error');
         
@@ -213,26 +208,9 @@ LI.pubAfterRenderingSeats['pubSeatedPlanInitMain'] = function(){
           LI.alert(json.success.message, 'success');
         
         // in the list
-        LI.pubCompleteSeatsList(json.success);
+        LI.pubInitTicketsData(json.success.data);
       });
     }
-  });
-}
-
-LI.pubAddWIPLineIfNecessary = function(elt){
-  if ( elt == undefined )
-    elt = $('.seated-plan.picture');
-  
-  $(elt).each(function(){
-    if ( $(this).closest('.gauge').find('.prices tbody .seating.in-progress').length > 0 )
-      return;
-    
-    var tr = $(this).closest('.gauge').find('.prices tbody tr[data-price-id]:first').clone(true);
-    tr.removeAttr('data-price-id')
-      .addClass('seating').addClass('in-progress')
-      .prependTo($(this).closest('.gauge').find('.prices tbody'));
-    tr.find('.seats').text('');
-    tr.find('.price, .value, .quantity, .total').text('-');
   });
 }
 

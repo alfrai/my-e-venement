@@ -2,6 +2,8 @@
 if ( LI == undefined )
   var LI = {};
 
+if ( LI.pubCartReady == undefined )
+  LI.pubCartReady = [];
 
 LI.pubCartReady.push(function(){
   $('#cart-widget .timer .time').each(function(){

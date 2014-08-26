@@ -26,6 +26,5 @@
       <?php include_partial('global/date') ?>
       <?php include_partial('global/cart_widget') ?>
     </div>
-    <div id="transition"><span class="close"></span></div>
   </body>
 </html>
