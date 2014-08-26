@@ -130,7 +130,7 @@ class Contact extends PluginContact
     catch ( liEvenementException $e )
     {
       $data = Doctrine::getTable('Ticket')->createQueryPreparedForRanks('tck')
-        ->andWhere('tck_t.contact_id = ?', $this->id)
+        ->andWhere('tck_t.contact_id = ? OR tck.contact_id = ?', array($this->id, $this->id))
         ->select('AVG(tck_s.rank) AS avg')
         ->addSelect('stddev_pop(tck_s.rank) AS std_dev')
         ->addSelect('count(tck.id) AS qty')
