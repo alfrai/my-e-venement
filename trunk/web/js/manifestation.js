@@ -71,3 +71,8 @@ $(document).ready(function(){
       .prepend('<span class="ui-icon ui-icon-alert floatright"></span>');
   }
 });
+
+if ( LI != undefined && LI.seatedPlanInitializationFunctions != undefined )
+LI.seatedPlanInitializationFunctions.push(function(){
+  $('.seated-plan .seat.txt').unbind('contextmenu');
+});
