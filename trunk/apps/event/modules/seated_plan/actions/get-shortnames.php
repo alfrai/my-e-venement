@@ -30,8 +30,10 @@
       ->andWhere('s.seated_plan_id = ?', $request->getParameter('id'))
       ->leftJoin('s.Tickets tck')
       ->andWhere('tck.gauge_id = ?', $request->getParameter('gauge_id'))
+      ->leftJoin('tck.DirectContact tc WITH c.confirmed = ?', true)
+      
       ->leftJoin('tck.Transaction t')
-      ->leftJoin('t.Contact c')
+      ->leftJoin('t.Contact c WITH c.confirmed = ?', true)
       ->leftJoin('c.Professionals p WITH p.id = t.professional_id')
       ->leftJoin('p.Organism o')
     ;
@@ -39,9 +41,11 @@
     $this->data = array();
     foreach ( $q->execute() as $seat )
     {
-      if ( !$seat->Tickets[0]->Transaction->contact_id )
+      if ( !$seat->Tickets[0]->contact_id && !$seat->Tickets[0]->Transaction->contact_id )
         continue;
-      $contact = $seat->Tickets[0]->Transaction->Contact; // TO BE CHANGED, with named tickets
+      $contact = $seat->Tickets[0]->contact_id
+        ? $seat->Tickets[0]->DirectContact
+        : $seat->Tickets[0]->Transaction->Contact; // TO BE CHANGED, with named tickets
       
       $this->data[] = array(
         'type'      => 'shortname',
