@@ -372,6 +372,20 @@ Manifestation:
       class: Location
       refClass: LocationBooking
       foreignAlias: BookedBy
+    Participants:
+      class: Contact
+      refClass: ManifestationContact
+      foreignAlias: InvolvedIn
+ManifestationContact:
+  package: event
+  columns:
+    contact_id:
+      type: integer
+      notnull: true
+    manifestation_id:
+      type: integer
+      notnull: true
+
 LocationBooking:
   package: event
   columns:

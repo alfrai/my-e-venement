@@ -17,6 +17,23 @@ class ManifestationForm extends BaseManifestationForm
       'model' => 'Organism',
       'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
+    if ( $this->object->isNew() )
+      $this->widgetSchema['participants_list'] = new sfWidgetFormInputHidden;
+    else
+    {
+      $this->widgetSchema['participants_list']->setOption('query', Doctrine::getTable('Contact')->createQuery('c')
+        ->leftJoin('o.Manifestations m')
+        ->leftJoin('c.InvolvedIn ii')
+        ->andWhere('(TRUE')
+        ->andWhere('m.id = ?', $this->object->id)
+        ->orWhere('ii.id = ?', $this->object->id)
+        ->andWhere('TRUE)')
+      )
+      ->setOption('order_by', array('c.name, c.firstname'))
+      ->setOption('expanded', true);
+    }
+    $this->validatorSchema['participants_list']->setOption('query', $this->widgetSchema['participants_list']->getOption('query'));
+    
     $this->widgetSchema['workspaces_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     $this->widgetSchema['event_id']
       ->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery()))
@@ -127,6 +144,8 @@ class ManifestationForm extends BaseManifestationForm
     $this->saveBookingList($con);
     if ( $this->isNew() )
       $this->saveWorkspacesList($con);
+    else
+      $this->saveParticipantsList($con);
     
     foreach ( $this->values['ExtraInformations'] as $key => $ei )
     if ( !(isset($ei['name']) && $ei['name']) )

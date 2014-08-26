@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Participants list</source>
+        <target>Liste des participants</target>
+      </trans-unit>
+      <trans-unit>
+        <source>No registered participant</source>
+        <target>Pas de participant enregistré</target>
+      </trans-unit>
+      <trans-unit>
         <source>Show occupation</source>
         <target>Voir l'occupation</target>
       </trans-unit>

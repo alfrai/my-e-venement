@@ -8,13 +8,15 @@
 
 select[disabled] { color: #444; }
 
-#content .sf_admin_field_organizers_list ul,
-#content .sf_admin_field_workspaces_list ul,
+#content .sf_admin_form_field_participants_list ul,
+#content .sf_admin_form_field_organizers_list ul,
+#content .sf_admin_form_field_workspaces_list ul,
 #content .sf_admin_form_field_prices_list table td { padding: 0 5px; }
-#content .sf_admin_field_prices_list ul { padding: 5px 10px; margin-bottom: 10px; }
-#content .sf_admin_field_organizers_list ul li,
-#content .sf_admin_field_workspaces_list ul li,
-#content .sf_admin_field_prices_list ul li { margin-left: 10px; }
+#content .sf_admin_form_field_prices_list ul { padding: 5px 10px; margin-bottom: 10px; }
+#content .sf_admin_form_field_participants_list ul li,
+#content .sf_admin_form_field_organizers_list ul li,
+#content .sf_admin_form_field_workspaces_list ul li,
+#content .sf_admin_form_field_prices_list ul li { margin-left: 10px; }
 
 #content .sf_admin_list_td_Price select[name="price_manifestation[price_id]"] { width: 100px; }
 #content .sf_admin_list_td_value input[type=text] { width: 100px; margin-left: 50px; }
