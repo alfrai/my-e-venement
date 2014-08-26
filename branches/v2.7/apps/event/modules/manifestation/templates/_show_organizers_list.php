@@ -5,7 +5,7 @@
       <li><?php echo __('No registered organizer') ?></li>
     <?php else: ?>
     <?php foreach ( $manifestation->Organizers as $organizer ): ?>
-    <li><a href="<?php echo url_for('organism/show?id='.$organizer->id) ?>"><?php echo $organizer ?></a></li>
+    <li><a href="<?php echo cross_app_url_for('organism/show?id='.$organizer->id) ?>"><?php echo $organizer ?></a></li>
     <?php endforeach ?>
     <?php endif ?>
   </ul>
