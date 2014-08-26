@@ -1,4 +1,3 @@
-$(document).ready(function(){
   LI.seatedPlanInitializationFunctions.push(function()
   {
     var click;
@@ -36,4 +35,3 @@ $(document).ready(function(){
     $('#menu li').unbind().addClass('disabled');
     $('#banner a, #footer a').prop('href','#').unbind().click(function(){ return false; });
   });
-});
