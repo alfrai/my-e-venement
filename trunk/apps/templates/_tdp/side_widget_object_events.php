@@ -29,7 +29,10 @@
           if ( $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 )
           {
             if ( !isset($events[$ticket->Manifestation->Event->meta_event_id]) )
+            {
               $events[$ticket->Manifestation->Event->meta_event_id] = array('name' => (string)$ticket->Manifestation->Event->MetaEvent);
+              $sort[$ticket->Manifestation->Event->meta_event_id] = array('name' => 0);
+            }
             if ( !isset($events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]) )
               $events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id] = array(
                 'happens_at' => 0,
@@ -40,8 +43,7 @@
                 'transaction_ids' => array()
               );
             if ( $events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]['happens_at'] < $ticket->Manifestation->happens_at )
-              $sort[$ticket->Manifestation->Event->id] = $ticket->Manifestation->Event->MetaEvent->name.
-                ($events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]['happens_at'] = $ticket->Manifestation->happens_at);
+              $sort[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id] = $events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]['happens_at'] = $ticket->Manifestation->happens_at;
             $events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]['nb']++;
             $events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]['value'] += $ticket->value;
             $events[$ticket->Manifestation->Event->meta_event_id][$ticket->Manifestation->Event->id]['transaction_links'][(($p = $ticket->printed_at || $ticket->integrated_at || $ticket->cancelling) ? 'p' : 'r').$ticket->transaction_id]
@@ -51,14 +53,15 @@
           }
           
           // sorting by manifestation's date
-          array_multisort($sort,$events);
+          foreach ( $events as $key => $metaevt )
+            array_multisort($sort[$key],$events[$key]);
           $events = array_reverse($events);
         ?>
         <?php foreach ( $events as $id => $meta_event ): ?>
         <!-- METAEVT -->
         <li class="metaevent <?php echo in_array($id, array_keys($sf_user->getMetaEventsCredentials()->getRawValue())) ? 'hidden' : '' ?>">
         <?php foreach ( $meta_event as $id => $event ): ?>
-        <?php if ( $id == 'name' ): ?>
+        <?php if ( $id === 'name' ): ?>
           <?php if ( method_exists($object->getRawValue(), 'getStatsSeatRank') ): ?>
             <?php $stats = $object->getStatsSeatRank($id); ?>
             <span class="seat-rank">
