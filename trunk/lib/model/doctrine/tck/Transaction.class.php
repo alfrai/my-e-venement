@@ -92,7 +92,7 @@ class Transaction extends PluginTransaction
     {
     if ( $all && $ticket->Duplicatas->count() == 0
       || $ticket->Duplicatas->count() == 0 && ($ticket->printed_at || $ticket->integrated_at || !is_null($ticket->cancelling)) )
-      $price += $ticket->value;
+      $price += $ticket->value + $ticket->taxes;
     }
     return $price;
   }

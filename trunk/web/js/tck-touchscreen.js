@@ -218,7 +218,6 @@ $(document).ready(function(){
     if ( $('#sf_admin_container').width() > 1400 && $('#li_transaction_field_contact_id .data a').length > 0 )
     {
       $('#sf_admin_container').width($('#sf_admin_container').width()-800);
-      console.log($('#sf_admin_container').width());
       setTimeout(function(){ $(window).resize(); }, 1500); // because of the transition-duration
       
       var iframe = $('<iframe></iframe>')
@@ -561,7 +560,7 @@ LI.calculateTotals = function()
   $.each(totals, function(index, value){
     var total = $(elt).find('.'+index.replace(/\s+/g,'.'));
     if ( $(total).hasClass('money') )
-      value = LI.format_currency(value);
+      value = value ? LI.format_currency(value) : '-';
     if ( total.is('.qty') )
       total.find('.qty').html(value);
     else
@@ -582,7 +581,7 @@ LI.calculateTotals = function()
   $.each(totals, function(index, value){
     var total = $(megaelt).find('.'+index.replace(/\s+/g,'.'));
     if ( $(total).hasClass('money') )
-      value = LI.format_currency(value);
+      value = value ? LI.format_currency(value) : '';
     if ( total.is('.qty') )
       total.find('.qty').html(value);
     else
@@ -594,9 +593,16 @@ LI.calculateTotals = function()
   $('.family.total .item.total tr.total').each(function(){
     var family = this;
     $.each(total, function(index, value){
-      var tmp = LI.parseFloat($(family).find('.'+index).html());
-      if ( !isNaN(tmp) )
-        total[index] += tmp;
+      switch ( index ){
+      case 'pit':
+        var tmp = LI.parseFloat($(family).find('.extra-taxes').html());
+        if ( !isNaN(tmp) )
+          total[index] += tmp;
+      default:
+        var tmp = LI.parseFloat($(family).find('.'+index).html());
+        if ( !isNaN(tmp) )
+          total[index] += tmp;
+      }
     });
   });
   

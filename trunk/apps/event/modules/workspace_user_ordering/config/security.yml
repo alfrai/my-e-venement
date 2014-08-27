@@ -1,2 +1,2 @@
 all:
-  credentials: [tck-transaction]
+  credentials: [[event-event, event-admin, event-manif]]

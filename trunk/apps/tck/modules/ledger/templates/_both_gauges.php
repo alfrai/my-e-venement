@@ -5,7 +5,7 @@
 
 <table>
 <tbody>
-<?php $total = array('value' => 0, 'printed' => 0, 'ordered' => 0, 'asked' => 0); $display_ws = false; ?>
+<?php $total = array('value' => 0, 'printed' => 0, 'ordered' => 0, 'asked' => 0); $class = $display_ws = false; ?>
 <?php foreach ( $gauges as $gauge ): ?>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="manifestation"><?php echo cross_app_link_to($gauge->Manifestation,'event','manifestation/show?id='.$gauge->Manifestation->id) ?></td>

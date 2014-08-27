@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Extra taxes</source>
+        <target>Taxes additionnelles</target>
+      </trans-unit>
+      <trans-unit>
         <source>Change language</source>
         <target>Changer de langue</target>
       </trans-unit>

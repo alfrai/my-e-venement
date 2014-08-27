@@ -20,16 +20,12 @@
 
 <?php include_partial('criterias',array('form' => $form, 'ledger' => 'both')) ?>
 
-<?php if ( $manifestations ): ?>
-<div class="ui-widget-content ui-corner-all" id="manifestations">
-  <div class="fg-toolbar ui-widget-header ui-corner-all">
-    <h2><?php echo __("Concerned manifestations") ?></h2>
-  </div>
-  <ul><?php foreach ( $manifestations as $manif ): ?>
-    <li><?php echo cross_app_link_to($manif,'event','manifestation/show?id='.$manif->id) ?></li>
-  <?php endforeach ?></ul>
-</div>
-<?php endif ?>
+<?php
+  $arr = array();
+  foreach ( array('manifestations', 'users', 'workspaces', 'dates') as $var )
+    $arr[$var] = isset($$var) ? $$var : false;
+?>
+<?php include_partial('show_criterias',$arr) ?>
 
 <?php if ( $users ): ?>
 <?php include_partial('users',array('users' => $users)) ?>
@@ -44,6 +40,8 @@
 <?php include_partial('both_price',array('byPrice' => $byPrice)) ?>
 <div class="clear"></div>
 <?php include_partial('both_value',array('byValue' => $byValue)) ?>
+<div class="clear"></div>
+<?php include_partial('both_taxes',array('taxes' => $taxes)) ?>
 <div class="clear"></div>
 <?php include_partial('both_user',array('byUser' => $byUser)) ?>
 <?php if ( $manifestations ): ?>

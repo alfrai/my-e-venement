@@ -176,8 +176,9 @@ LI.completeContent = function(data, type, replaceAll = true)
         wprice.find('.qty input').val(price.qty).select();
         wprice.find('.price_name').html(price.name).prop('title', price.description);
         wprice.find('.pit').html(LI.format_currency(price.pit));
-        wprice.find('.vat').html(LI.format_currency(price.vat));
+        wprice.find('.vat').html(price.vat ? LI.format_currency(price.vat) : '-');
         wprice.find('.tep').html(LI.format_currency(price.tep));
+        wprice.find('.extra-taxes').html(price['extra-taxes'] ? LI.format_currency(price['extra-taxes']) : '-');
         wprice.find('.item-details a').prop('href', wprice.find('.item-details a').prop('href')+'?price_id='+price.id+'&gauge_id='+gauge.id);
         wprice.attr('data-price-id', price.id);
         if ( parseInt(price.id,10)+'' !== ''+price.id )

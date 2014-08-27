@@ -95,8 +95,8 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <target>Si la priorité d'un seul espace de travail est inférieure à 0 (attention à essayer de n'en avoir qu'un), alors les jauges de cet espace de travail seront afficher seules en priorité dans les mini-jauges, remplaçant celle représentant la fusion de l'ensemble des jauges disponibles.</target>
       </trans-unit>
       <trans-unit>
-        <source>If only one workspace's order is more than 999, then the displaid mini-gauges will be based on profitability, in relation with the expected income and what is really being realized on every manifestation (only in the case where the expected income is given).</source>
-        <target>Si la priorité d'un seul des espaces de travail est supérieure à 999, alors les mini-jauges affichées seront économiques, en rapport avec le chiffre d'affaire visé et réalisé sur chaque manifestation (à condition qu'il soit défini).</target>
+        <source>If only one workspace's order is more than 999, then the displaid mini-gauges will be based on profitability, in relation with the expected income and what is really being realized on every manifestation (only in the case where the expected income is given). About this point, the extra taxes are not included in the income calculation.</source>
+        <target>Si la priorité d'un seul des espaces de travail est supérieure à 999, alors les mini-jauges affichées seront économiques, en rapport avec le chiffre d'affaire visé et réalisé sur chaque manifestation (à condition qu'il soit défini). À ce propos, les taxes additionnelles ne sont pas prises en compte dans le chiffre d'affaire.</target>
       </trans-unit>
       <trans-unit>
         <source>Expected income</source>

@@ -239,10 +239,11 @@ class Manifestation extends PluginManifestation
 
     $tickets = $q->fetchArray();
     
-    $r = array('value' => 0, 'qty' => 0, 'vat' => array());
+    $r = array('taxes' => 0, 'value' => 0, 'qty' => 0, 'vat' => array());
     foreach ( $tickets as $ticket )
     {
       $r['value'] += $ticket['value'];
+      $r['taxes'] += $ticket['taxes'];
       $r['qty']   += is_null($ticket['cancelling']) ? 1 : -1;
       
       if ( !isset($r['vat'][$ticket['vat']]) )
@@ -250,8 +251,8 @@ class Manifestation extends PluginManifestation
       
       // extremely weird behaviour, only for specific cases... it's about an early error in the VAT calculation in e-venement
       $r['vat'][$ticket['vat']] += sfConfig::get('app_ledger_sum_rounding_before',false) && strtotime($ticket['printed_at']) < sfConfig::get('app_ledger_sum_rounding_before')
-        ? $ticket['value'] - $ticket['value'] / (1+$ticket['vat'])
-        : round($ticket['value'] - $ticket['value'] / (1+$ticket['vat']),2);
+        ? $ticket['value']+$ticket['taxes'] - ($ticket['value']+$ticket['taxes']) / (1+$ticket['vat'])
+        : round($ticket['value'] + $ticket['taxes'] - ($ticket['value']+$ticket['taxes']) / (1+$ticket['vat']),2);
     }
     
     // rounding VAT

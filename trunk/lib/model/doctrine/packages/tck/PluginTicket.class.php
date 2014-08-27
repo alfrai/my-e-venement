@@ -103,10 +103,14 @@ abstract class PluginTicket extends BaseTicket
     // taxes calculation (always after VAT calculation)
     foreach ( $taxes as $tax )
     {
-      if ( $tax->type == 'value' )
+      switch ( $tax->type ){
+      case 'value':
         $this->taxes += $tax->value;
-      else
-        $this->taxes += round((round($this->value/(1+$this->vat),2) * $tax->value/100),2); // calculating percentages on the TEP (w/o VAT)
+        break;
+      case 'percentage':
+        $this->taxes += round($this->value * $tax->value/100,2);
+        break;
+      }
     }
     return $this;
   }

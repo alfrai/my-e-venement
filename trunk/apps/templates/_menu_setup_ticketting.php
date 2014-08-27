@@ -29,8 +29,8 @@
               <?php if ( $sf_user->hasCredential('event-admin-price') ): ?>
               <li><a href="<?php echo cross_app_url_for('event','@price') ?>"><?php echo __('Prices',array(),'menu') ?></a></li>
               <?php endif ?>
-              <?php if ( $sf_user->hasCredential('tck-transaction') ): ?>
-              <li class="spaced"><a href="<?php echo cross_app_url_for('event','@workspace_user_ordering') ?>"><?php echo __('Ordering your workspaces',array(),'menu') ?></a></li>
+              <?php if ( $sf_user->hasCredential('tck-taxes') ): ?>
+              <li><a href="<?php echo cross_app_url_for('tck','@tax') ?>"><?php echo __('Extra taxes',array(),'menu') ?></a></li>
               <?php endif ?>
               <?php if ( $sf_user->hasCredential('tck-ledger-sales') && $sf_user->hasCredential('tck-ledger-cash') ): ?>
               <li class="spaced"><a href="<?php echo cross_app_url_for('tck','@option_accounting') ?>"><?php echo __('Accounting informations',array(),'menu') ?></a></li>

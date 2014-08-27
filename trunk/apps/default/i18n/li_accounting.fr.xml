@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Seats</source>
+        <target>Places</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Taxes</source>
+        <target>Taxes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Get a PDF</source>
         <target>Format PDF</target>
       </trans-unit>
@@ -37,8 +45,8 @@
         <target>Heure</target>
       </trans-unit>
       <trans-unit id="165">
-        <source>Unit TIP</source>
-        <target>PU TTC</target>
+        <source>UP Net</source>
+        <target>PU Net</target>
       </trans-unit>
       <trans-unit id="166">
         <source>TIP</source>

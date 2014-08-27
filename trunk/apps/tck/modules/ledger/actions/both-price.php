@@ -30,7 +30,7 @@
       ->andWhere('t.printed_at IS NOT NULL OR t.cancelling IS NOT NULL OR t.integrated_at IS NOT NULL')
       ->andWhere('t.duplicating IS NULL') // get only originals
       ->orderBy('p.name');
-    if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
+    if ( isset($criterias['users']) && is_array($criterias['users']) && isset($criterias['users'][0]) && $criterias['users'][0] )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
     if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
       $q->andWhereIn('g.workspace_id',$criterias['workspaces']);

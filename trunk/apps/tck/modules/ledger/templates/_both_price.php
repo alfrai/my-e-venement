@@ -5,7 +5,7 @@
 
 <table>
 <tbody>
-<?php $total = array('nb+' => 0, 'nb-' => 0, 'value+' => 0, 'value-' => 0) ?>
+<?php $total = array('nb+' => 0, 'nb-' => 0, 'value+' => 0, 'value-' => 0); $class = false; ?>
 <?php foreach ( $byPrice as $price ): ?>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo $price->description ?></td>

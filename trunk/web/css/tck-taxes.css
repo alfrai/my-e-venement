@@ -1,1 +1,5 @@
 #sf_admin_header .taxes-explanation { padding: 10px; font-size: 110%; }
+.sf_admin_list table tbody tr.sf_admin_row .sf_admin_number { text-align: right; padding-right: 10px; }
+select[multiple] { min-width: 500px; height: 300px; }
+#sf_admin_filter select[multiple] { min-width: 350px; }
+#sf_admin_filter .sf_admin_filter_field_value .help { display: none; }

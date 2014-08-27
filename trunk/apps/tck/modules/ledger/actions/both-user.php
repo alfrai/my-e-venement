@@ -40,11 +40,11 @@
       ->andWhere('t.printed_at IS NOT NULL OR t.integrated_at IS NOT NULL OR t.cancelling IS NOT NULL')
       ->orderBy('u.last_name, u.first_name, u.username')
       ->groupBy('u.id, u.last_name, u.first_name, u.username');
-    if ( is_array($criterias['users']) && count($criterias['users']) > 0 )
+    if ( isset($criterias['users']) && is_array($criterias['users']) && count($criterias['users']) > 0 )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
-    if ( is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
+    if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
       $q->andWhereIn('g.workspace_id',$criterias['workspaces']);
-    if ( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
+    if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
       $q->andWhereIn('t.manifestation_id',$criterias['manifestations']);
     else
       $q->andWhere('t.cancelling IS NULL AND (t.printed_at IS NOT NULL AND t.printed_at >= ? AND t.printed_at < ? OR t.integrated_at IS NOT NULL AND t.integrated_at >= ? AND t.integrated_at < ?) OR t.cancelling IS NOT NULL AND t.created_at >= ? AND t.created_at < ?',array(

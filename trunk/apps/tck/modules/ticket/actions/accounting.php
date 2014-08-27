@@ -26,7 +26,7 @@
     $this->transaction = $this->getRoute()->getObject();
     $this->nocancel = $request->hasParameter('nocancel');
     
-    $this->totals = array('pet' => 0, 'tip' => 0, 'vat' => array('total' => 0));
+    $this->totals = array('pet' => 0, 'tip' => 0, 'extra-taxes' => 0, 'vat' => array('total' => 0));
     
     // retrieve tickets
     $q = new Doctrine_Query();
@@ -48,14 +48,13 @@
     foreach ( $this->tickets as $ticket )
     if ( !$this->nocancel || $ticket->Cancelling->count() == 0 )
     {
-      $this->totals['tip'] += $ticket->value;
+      $this->totals['tip'] += $tmp = $ticket->value + $ticket->taxes;
       
       if ( !isset($this->totals['vat'][$ticket->vat]) )
         $this->totals['vat'][$ticket->vat] = array($ticket->manifestation_id => 0);
       if ( !isset($this->totals['vat'][$ticket->vat][$ticket->manifestation_id]) )
         $this->totals['vat'][$ticket->vat][$ticket->manifestation_id] = 0;
-      $tmp = $ticket->value - $ticket->value / (1+$ticket->vat);
-      $this->totals['vat'][$ticket->vat][$ticket->manifestation_id] += $tmp;
+      $this->totals['vat'][$ticket->vat][$ticket->manifestation_id] += $tmp = round($tmp - $tmp/(1+$ticket->vat), 2);
       $this->totals['vat']['total'] += $tmp;
     }
     

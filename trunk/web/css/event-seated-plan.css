@@ -51,7 +51,7 @@
 #sf_fieldset_workspaces .picture.seated-plan { transform: scale(0.5); margin-bottom: -50%; }
 
 /* TRANSACTIONS */
-.seats-allocation .ui-widget-content { margin: 5px; padding: 5px; }
+.seats-allocation .ui-widget-content { margin: 5px; padding: 5px; min-height: 800px; }
 .seats-allocation .seated-plan { margin-bottom: 15px; }
 .seats-allocation #reload { float: right; }
 .seats-allocation #reload { display: none; }

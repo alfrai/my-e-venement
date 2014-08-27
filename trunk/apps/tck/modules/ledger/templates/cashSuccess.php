@@ -17,9 +17,12 @@
 
 <?php echo include_partial('criterias',array('form' => $form, 'ledger' => 'cash')) ?>
 
-<?php if ( $users ): ?>
-<?php include_partial('users',array('users' => $users)) ?>
-<?php endif ?>
+<?php
+  $arr = array();
+  foreach ( array('manifestations', 'users', 'workspaces', 'dates') as $var )
+    $arr[$var] = isset($$var) ? $$var : false;
+?>
+<?php include_partial('show_criterias',$arr) ?>
 
 <table class="ui-widget-content ui-corner-all" id="ledger">
   <?php $total = array('qty' => 0, 'value' => 0) ?>

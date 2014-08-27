@@ -11,9 +11,12 @@
 
 <?php echo include_partial('criterias',array('form' => $form, 'ledger' => 'sales')) ?>
 
-<?php if ( $users ): ?>
-<?php include_partial('users',array('users' => $users)) ?>
-<?php endif ?>
+<?php
+  $arr = array();
+  foreach ( array('manifestations', 'users', 'workspaces', 'dates') as $var )
+    $arr[$var] = isset($$var) ? $$var : false;
+?>
+<?php include_partial('show_criterias',$arr) ?>
 
 <?php $criterias = $form->getValues() ?>
 <?php if ( $criterias['not-yet-printed'] || $criterias['tck_value_date_payment'] ): ?>
@@ -62,7 +65,7 @@
   <tbody><?php foreach ( $events as $event ): ?>
     <tr class="event">
       <?php
-        $local_vat = $qty = $value = 0;
+        $local_vat = $qty = $value = $taxes = 0;
         $infos = array();
         
         foreach ( $event->Manifestations as $manif )
@@ -78,8 +81,8 @@
             // extremely weird behaviour, only for specific cases... it's about an early error in the VAT calculation in e-venement
             $time = strtotime($ticket->cancelling ? $ticket->created_at : ($ticket->printed_at ? $ticket->printed_at : $ticket->integrated_at));
             $tmp = sfConfig::get('app_ledger_sum_rounding_before',false) && $time < strtotime(sfConfig::get('app_ledger_sum_rounding_before'))
-              ? $ticket->value - $ticket->value / (1+$ticket->vat) // exception
-              : round($ticket->value - $ticket->value / (1+$ticket->vat),2); // regular
+              ? $ticket->value + $ticket->taxes - ($ticket->value+$ticket->taxes) / (1+$ticket->vat) // exception
+              : round($ticket->value + $ticket->taxes - ($ticket->value+$ticket->taxes) / (1+$ticket->vat),2); // regular
             
             // taxes feeding
             $vat[$ticket->vat][$event->id][$manif->id]
@@ -89,6 +92,8 @@
             $total['vat'][$ticket->vat] += $tmp;
             $total['value'] += $ticket->value;
             $value += $ticket->value;
+            $total['taxes'] += $ticket->taxes;
+            $taxes += $ticket->taxes;
           }
         }
         else // more tickets than the limit
@@ -97,6 +102,7 @@
           
           $total['value'] += $infos[$manif->id]['value'];
           $value += $infos[$manif->id]['value'];
+          $taxes += $infos[$manif->id]['taxes'];
           $qty += $infos[$manif->id]['qty'];
           
           foreach ( $infos[$manif->id]['vat'] as $rate => $amount )
@@ -128,6 +134,7 @@
       <td class="see-more"><a href="#event-<?php echo $event->id ?>">-</a></td>
       <td class="id-qty"><?php echo $qty ?></td>
       <td class="value"><?php echo format_currency($value,'€') ?></td>
+      <td class="extra-taxes"><?php echo format_currency($taxes,'€') ?></td>
       <?php foreach ( $vat as $name => $v ): ?>
       <td class="vat">
         <?php
@@ -141,7 +148,7 @@
       </td>
       <?php endforeach ?>
       <td class="vat total"><?php echo format_currency($local_vat,'€'); ?></td>
-      <td class="tep"><?php echo format_currency($value - round($local_vat,2),'€') ?></td>
+      <td class="tep"><?php echo format_currency($value + $taxes - round($local_vat,2),'€') ?></td>
     </tr>
     <?php foreach ( $event->Manifestations as $manif ): $local_vat = 0; ?>
     <tr class="manif event-<?php echo $event->id ?>">
@@ -161,6 +168,13 @@
         <?php echo format_currency($value = $infos[$manif->id]['value'],'€'); ?>
         <?php endif ?>
       </td>
+      <td class="extra-taxes">
+        <?php if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) ): ?>
+        <?php $taxes = 0; foreach ( $manif->Tickets as $ticket ) $taxes += $ticket->taxes; echo format_currency($taxes,'€'); ?>
+        <?php else: ?>
+        <?php echo format_currency($taxes = $infos[$manif->id]['taxes'],'€'); ?>
+        <?php endif ?>
+      </td>
       <?php foreach ( $vat as $t ): if ( isset($t[$event->id][$manif->id]) ): ?>
       <td class="vat"><?php $local_vat += round($t[$event->id][$manif->id],2); echo format_currency(round($t[$event->id][$manif->id],2),'€') ?></td>
       <?php else: ?>
@@ -175,22 +189,24 @@
       <td class="event price"><?php echo __('%%price%% (by %%user%%)',array('%%price%%' => $ticket->price_name, '%%annul%%' => is_null($ticket->cancelling) ? __('cancel') : '', '%%user%%' => $ticket->User->name)) ?></td>
       <td class="see-more"></td>
       <td class="id-qty"><?php
-        $qty = $k = $value = 0;
+        $qty = $k = $value = $taxes = 0;
         for ( $j = $i ; $j < $manif->Tickets->count() ; $j++ )
-        if ( $manif->Tickets->get($i)->price_name == $manif->Tickets->get($j)->price_name
-          && $manif->Tickets->get($i)->sf_guard_user_id == $manif->Tickets->get($j)->sf_guard_user_id
-          && is_null($manif->Tickets->get($i)->cancelling) == is_null($manif->Tickets->get($j)->cancelling) )
+        if ( $manif->Tickets[$i]->price_name == $manif->Tickets[$j]->price_name
+          && $manif->Tickets[$i]->sf_guard_user_id == $manif->Tickets[$j]->sf_guard_user_id
+          && is_null($manif->Tickets[$i]->cancelling) == is_null($manif->Tickets[$j]->cancelling) )
         {
-          $qty = is_null($manif->Tickets->get($j)->cancelling)
+          $qty = is_null($manif->Tickets[$j]->cancelling)
             ? $qty + 1
             : $qty - 1;
           $k++;
-          $value += $manif->Tickets->get($j)->value;
+          $value += $manif->Tickets[$j]->value;
+          $taxes += $manif->Tickets[$j]->taxes;
         }
         $i += $k-1;
         echo $qty;
       ?></td>
       <td class="value"><?php echo format_currency($value,'€') ?></td>
+      <td class="extra-taxes"><?php echo format_currency($taxes,'€') ?></td>
       <?php foreach ( $total['vat'] as $t => $v ): ?>
       <td class="vat"><?php
         if ( !sfConfig::get('app_ledger_sum_rounding_before',false)
@@ -201,7 +217,7 @@
           foreach ( $manif->Tickets as $ticket )
           if ( $ticket->vat == $t )
             $x += round($ticket->value - $ticket->value/(1+$ticket->vat),2);
-          echo format_currency($x,'€');
+          echo $x ? format_currency($x,'€') : '';
         }
       ?></td>
       <?php endforeach ?>
@@ -215,6 +231,7 @@
     <td class="see-more"></td>
     <td class="id-qty"><?php echo $total['qty'] ?></td>
     <td class="value"><?php echo format_currency($total['value'],'€'); ?></td>
+    <td class="extra-taxes"><?php echo format_currency($total['taxes'],'€'); ?></td>
     <?php foreach ( $total['vat'] as $v ): ?>
     <td class="vat"><?php echo format_currency(round($v,2),'€'); $local_vat += round($v,2); ?></td>
     <?php endforeach ?>
@@ -226,6 +243,7 @@
     <td class="see-more"></td>
     <td class="id-qty"><?php echo __('Qty') ?></td>
     <td class="value"><?php echo __('PIT') ?></td>
+    <td class="value"><?php echo __('Taxes', null, 'li_accounting') ?></td>
     <?php foreach ( $vat as $name => $arr ): ?>
     <td class="vat"><?php echo format_number(round($name*100,2)).'%'; ?></td>
     <?php endforeach ?>

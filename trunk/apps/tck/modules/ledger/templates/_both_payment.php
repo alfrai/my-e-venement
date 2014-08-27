@@ -8,7 +8,7 @@
   <?php endif ?>
 <table>
 <tbody>
-<?php $total = array('nb' => 0, 'value+' => 0, 'value-' => 0) ?>
+<?php $total = array('nb' => 0, 'value+' => 0, 'value-' => 0); $class = false; ?>
 <?php foreach ( $byPaymentMethod as $pm ): ?>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name"><?php echo $pm['name'] ?></td>

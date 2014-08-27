@@ -18,9 +18,11 @@ generator:
         manifestations_list: { label: Manifestations }
         prices_list: { label: Prices }
         value: { help: "for percentages 7 means 7%, for fixed value VAT is included and depends on each manifestation" }
+        list_value: { label: Value, type: number }
       list:
-        display: [name, type, value]
+        display: [name, _list_value]
         title: Taxes list
+        sort: ['type, name', '']
       filter:
         display:
           Base: [name, type, value]

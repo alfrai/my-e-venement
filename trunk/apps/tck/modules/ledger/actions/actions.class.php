@@ -91,10 +91,9 @@ class ledgerActions extends sfActions
     }
     
     if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && $criterias['workspaces'][0] )
-    {
       $q->andWhereIn('g.workspace_id',$criterias['workspaces']);
-      $this->workspaces = $criterias['workspaces'];
-    }
+    if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && $criterias['manifestations'][0] )
+      $q->andWhereIn('g.manifestation_id',$criterias['manifestations']);
 
     // check if there are too many tickets to display them correctly
     $test = $q->copy();
@@ -114,7 +113,7 @@ class ledgerActions extends sfActions
     $this->dates = $dates;
     
     // total initialization / including taxes
-    $this->total = array('qty' => 0, 'vat' => array(), 'value' => 0);
+    $this->total = array('qty' => 0, 'vat' => array(), 'value' => 0, 'taxes' => 0);
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $q = 'SELECT DISTINCT vat FROM ticket';
     $stmt = $pdo->prepare($q);
@@ -213,13 +212,18 @@ class ledgerActions extends sfActions
       $dates[$key] = date('Y-m-d',$value);
     $criterias['dates'] = $dates;
     
-    // get all selected users
-    $this->users = false;
-    if ( isset($criterias['users']) && is_array($criterias['users']) && $criterias['users'][0] )
+    // get all selected criterias
+    foreach ( array(
+      'manifestations' => 'Manifestation',
+      'workspaces' => 'Workspace',
+      'users' => 'User',
+    ) as $criteria => $table )
     {
-      $q = Doctrine::getTable('sfGuardUser')->createQuery('u')
-        ->andWhereIn('u.id',$criterias['users']);
-      $this->users = $q->execute();
+      $this->$criteria = false;
+      if ( isset($criterias[$criteria]) && is_array($criterias[$criteria]) && $criterias[$criteria][0] )
+        $this->$criteria = Doctrine::getTable($table)->createQuery('t')
+          ->andWhereIn('t.id',$criterias[$criteria])
+          ->execute();
     }
     
     return $criterias;
@@ -268,10 +272,10 @@ class ledgerActions extends sfActions
   }
   
   // restrict access to our own user
-  protected static function restrictQueryToCurrentUser($q)
+  protected static function restrictQueryToCurrentUser($q, $alias = 'u')
   {
     if ( !sfContext::getInstance()->getUser()->hasCredential('tck-ledger-all-users') )
-    $q->andWhere('u.id = ?',sfContext::getInstance()->getUser()->getId());
+    $q->andWhere($alias.'.id = ?',sfContext::getInstance()->getUser()->getId());
     
     return $q;
   }

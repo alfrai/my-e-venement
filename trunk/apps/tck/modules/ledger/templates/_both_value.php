@@ -5,7 +5,7 @@
 
 <table id="byValue">
 <tbody>
-<?php $total = array('nb' => 0, 'value' => 0, 'exo' => 0) ?>
+<?php $total = array('nb' => 0, 'value' => 0, 'exo' => 0); $class = false; ?>
 <?php foreach ( $byValue as $value ): ?>
   <tr class="<?php echo ($class = !$class) ? 'overlined' : '' ?>">
     <td class="name nb"><?php echo format_currency($value['value'],'€') ?></td>

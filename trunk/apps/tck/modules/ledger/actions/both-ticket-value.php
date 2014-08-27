@@ -29,12 +29,12 @@
       $users[] = intval($user_id);
     $q = "SELECT value, count(id) AS nb, sum(value) AS total
           FROM ticket
-          WHERE ".( is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 ? 'manifestation_id IN ('.implode(',',$criterias['manifestations']).')' : '(printed_at IS NOT NULL AND printed_at >= :date0 AND printed_at < :date1 OR integrated_at IS NOT NULL AND integrated_at >= :date0 AND integrated_at < :date1)' )."
+          WHERE ".( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 ? 'manifestation_id IN ('.implode(',',$criterias['manifestations']).')' : '(printed_at IS NOT NULL AND printed_at >= :date0 AND printed_at < :date1 OR integrated_at IS NOT NULL AND integrated_at >= :date0 AND integrated_at < :date1)' )."
             AND id NOT IN (SELECT cancelling FROM ticket WHERE ".(!is_array($criterias['manifestations']) || count($criterias['manifestations']) == 0 ? 'created_at >= :date0 AND created_at < :date1 AND ' : '')." cancelling IS NOT NULL AND duplicating IS NULL)
             AND cancelling IS NULL
             AND duplicating IS NULL
-            ".( is_array($criterias['users']) && count($criterias['users']) > 0 ? 'AND sf_guard_user_id IN ('.implode(',',$users).')' : '')."
-            ".( is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 ? 'AND gauge_id IN (SELECT id FROM gauge g WHERE g.workspace_id IN ('.implode(',',$criterias['workspaces']).'))' : '')."
+            ".( isset($criterias['users']) && is_array($criterias['users']) && count($criterias['users']) > 0 ? 'AND sf_guard_user_id IN ('.implode(',',$users).')' : '')."
+            ".( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 ? 'AND gauge_id IN (SELECT id FROM gauge g WHERE g.workspace_id IN ('.implode(',',$criterias['workspaces']).'))' : '')."
             ".( !$this->getUser()->hasCredential('tck-ledger-all-users') ? 'AND sf_guard_user_id = '.sfContext::getInstance()->getUser()->getId() : '' )."
             AND (printed_at IS NOT NULL OR integrated_at IS NOT NULL OR cancelling IS NOT NULL)
           GROUP BY value

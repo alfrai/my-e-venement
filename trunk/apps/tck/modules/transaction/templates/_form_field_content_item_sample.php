@@ -16,6 +16,7 @@
                 <td class="tep nb money" title="<?php echo __('PET') ?>"></td>
                 <td class="vat nb money" title="<?php echo __('VAT') ?>"></td>
                 <td class="pit nb money" title="<?php echo __('Total') ?>"></td>
+                <td class="extra-taxes nb money" title="<?php echo __('Extra taxes') ?>"></td>
                 <td class="item-details" title="<?php echo __('Registered tickets') ?>">
                   <a href="<?php echo url_for('transaction/registered?id='.$transaction->id) ?>" target="_blank"><span class="ui-icon ui-icon-person"></span></a>
                 </td>
@@ -33,6 +34,7 @@
                 <td class="tep nb money" title="<?php echo __('PET') ?>"></td>
                 <td class="vat nb money" title="<?php echo __('VAT') ?>"></td>
                 <td class="pit nb money" title="<?php echo __('Total') ?>"></td>
+                <td class="extra-taxes nb money" title="<?php echo __('Extra taxes') ?>"></td>
                 <td class="item-details"></td>
               </tr>
             </tfoot>
