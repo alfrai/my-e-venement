@@ -87,12 +87,11 @@ abstract class PluginTicket extends BaseTicket
     if ( !$this->printed_at || isset($mods['printed_at']) ) // if the ticket is being printed or is not printed
     {
       $this->taxes = 0;
-      if ( sfContext::hasInstance() )
-        $this->addTaxes(sfContext::getInstance()->getUser()->getGuardUser()->Taxes);
-      $this
-        ->addTaxes($this->Manifestation->Taxes)
-        ->addTaxes($this->Price->Taxes)
-      ;
+      $taxes = new Doctrine_Collection('Tax');
+      $taxes->merge(sfContext::getInstance()->getUser()->getGuardUser()->Taxes);
+      $taxes->merge($this->Manifestation->Taxes);
+      $taxes->merge($this->Price->Taxes);
+      $this->addTaxes($taxes);
     }
     
     parent::preSave($event);
@@ -103,12 +102,13 @@ abstract class PluginTicket extends BaseTicket
     // taxes calculation (always after VAT calculation)
     foreach ( $taxes as $tax )
     {
+      $val = 0;
       switch ( $tax->type ){
       case 'value':
-        $this->taxes += $tax->value;
+        $this->taxes += $val = $tax->value;
         break;
       case 'percentage':
-        $this->taxes += round($this->value * $tax->value/100,2);
+        $this->taxes += $val = round($this->value * $tax->value/100,2);
         break;
       }
     }
