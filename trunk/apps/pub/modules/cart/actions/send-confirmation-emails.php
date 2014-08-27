@@ -50,9 +50,11 @@
             'qty' => 0,
             'price' => $ticket->Price,
             'value' => 0,
+            'taxes' => 0,
           );
         $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['qty']++;
         $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['value'] += $ticket->value;
+        $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['taxes'] += $ticket->taxes;
       }
       foreach ( $events as $event )
       {
@@ -63,7 +65,7 @@
           $command .= "  Le ".format_datetime($manif['manif']->happens_at)." à ".$manif['manif']->Location.(($sp = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)) ? '*' : '')."\n";
           unset($manif['manif']);
           foreach ( $manif as $tickets )
-            $command .= "    ".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€')."\n";
+            $command .= "    ".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€').'    + '.format_currency($tickets['taxes'],'€').' ('.__('Taxes').")\n";
         }
       }
     }

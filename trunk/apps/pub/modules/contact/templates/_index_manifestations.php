@@ -27,7 +27,7 @@
 <?php foreach ( $manifestations  as $manif ): ?>
   <li>
     <span class="manif"><?php echo $manif ?></span>
-    <span class="transaction_id"><?php $arr = array(); foreach ( $manif->Tickets AS $tck ) $arr[$tck->transaction_id] = $tck->transaction_id; echo '#'.implode(', #',$arr); ?></span>
+    <span class="transaction_id"><?php $arr = array(); foreach ( $manif->Tickets AS $tck ) $arr[$tck->transaction_id] = link_to($tck->transaction_id, 'transaction/show?id='.$tck->transaction_id); echo '#'.implode(', #',$arr); ?></span>
   </li>
 <?php endforeach ?>
 </ul>

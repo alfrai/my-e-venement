@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Taxes</source>
+        <target>Taxes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Assign a contact to your tickets</source>
         <target>Affecter un contact à vos billets</target>
       </trans-unit>
