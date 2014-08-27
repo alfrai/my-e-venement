@@ -22,9 +22,11 @@
 ***********************************************************************************/
 ?>
 <?php
+  $value = method_exists($object, 'getTotal') ? $object->total : $object->value;
+  
   include_partial('global/formats_field',array(
     'name'              => $name,
-    'value'             => $object->value - $object->value/(1+$object->vat),
+    'value'             => $value - $value/(1+$object->vat),
     'field_description' => $field_description,
     'meta_format'       => $meta_format,
   ));

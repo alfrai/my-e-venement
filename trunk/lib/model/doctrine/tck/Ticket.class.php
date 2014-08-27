@@ -75,6 +75,11 @@ class Ticket extends PluginTicket
     return $c;
   }
   
+  public function getTotal()
+  {
+    return $this->value + $this->taxes;
+  }
+  
   public function renderSimplified($type = 'html')
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('Url', 'Number'));

@@ -112,7 +112,7 @@ all:
           acc_account:      ~incomes_acc_generic
           acc_counterpart:  ~null
           direction:        ~code_debit
-          value:            value
+          value:            total
           tax_value:        _lineal_tax_value
           tax_code:         ~null
           letter_code:      ~null
@@ -139,7 +139,7 @@ all:
           acc_account:      ~incomes_acc_generic
           acc_counterpart:  ~null
           direction:        ~code_debit
-          value:            value
+          value:            total
           tax_value:        _lineal_tax_value
           tax_code:         .Manifestation.Vat.accounting_account
           letter_code:      ~null
@@ -166,7 +166,7 @@ all:
           acc_account:      .Manifestation.Event.accounting_account
           acc_counterpart:  ~null
           direction:        ~code_credit
-          value:            value
+          value:            total
           tax_value:        ~null
           tax_code:         .Manifestation.Vat.accounting_account
           letter_code:      ~null
