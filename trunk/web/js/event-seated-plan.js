@@ -95,7 +95,6 @@
   
   LI.seatedPlanLoadData = function(url, extra_selector)
   {
-    console.log('load data');
     var selector = '.picture.seated-plan';
     if ( extra_selector )
     {
