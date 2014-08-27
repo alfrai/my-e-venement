@@ -179,6 +179,10 @@
         foreach ( $contact->Relationships as $relationship )
           $base_contact->Relationships[] = $relationship;
           
+        // DirectTickets
+        foreach ( $contact->DirectTickets as $ticket )
+          $base_contact->DirectTickets[] = $ticket;
+          
         // Archives
         foreach ( $contact->Archives as $old_archive )
         {
