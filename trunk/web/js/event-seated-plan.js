@@ -32,9 +32,9 @@
     if ( root == undefined )
       root = $('body');
     
-    $(root).find('a.picture.seated-plan img').each(function(){
+    $(root).find('.picture.seated-plan img').each(function(){
       var widget = $(this).closest('.seated-plan');
-      var url = widget.prop('href');
+      var url = widget.prop('href') ? widget.prop('href') : widget.attr('data-href');
       var id = widget.prop('id');
       var elt = $('<span></span>')
         .prop('class',widget.prop('class'))
@@ -95,6 +95,7 @@
   
   LI.seatedPlanLoadData = function(url, extra_selector)
   {
+    console.log('load data');
     var selector = '.picture.seated-plan';
     if ( extra_selector )
     {
