@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2014-08-26" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit>
+        <source>Survey List</source>
+        <target>Liste des questionnnaires</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Search</source>
+        <target>Recherche</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Add query</source>
+        <target>Ajouter une question</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Answers</source>
+        <target>Réponses</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Used by</source>
+        <target>Utiliser par</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Statistics</source>
+        <target>Statistiques</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Survey</source>
+        <target>Questionnaire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Only used with appropriate field</source>
+        <target>À ustiliser uniquement avec les champs appropriés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Can be empty</source>
+        <target>Peut être vide</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Checkbox</source>
+        <target>Case à cocher</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Date with helper</source>
+        <target>Date avec agenda</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Date+Time</source>
+        <target>Date et Heure</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Text</source>
+        <target>Texte</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Text(rich)</source>
+        <target>Texte(Enrichi)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Select one in a list</source>
+        <target>Choisir un élement de la liste</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Select one or many in a list</source>
+        <target>Choisir un ou plusieurs éléments de la liste</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Range</source>
+        <target>Intervalle</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Line</source>
+        <target>Ligne</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Stats</source>
+        <target>Statistiques</target>
+      </trans-unit>
+      <trans-unit>
+        <source>free</source>
+        <target>libre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>choices</source>
+        <target>choix</target>
+      </trans-unit>
+      <trans-unit>
+        <source>numbers</source>
+        <target>nombres</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Rank</source>
+        <target>Rang</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Weight</source>
+        <target>Poids</target>
+      </trans-unit>
+      <trans-unit>
+        <source>General</source>
+        <target>Général</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Details</source>
+        <target>Détails</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Query</source>
+        <target>Visualiser la question</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List nb queries</source>
+        <target>Nombre de questions</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List nb answers group</source>
+        <target>Nombre de réponse au questionnaire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Public form</source>
+        <target>Formulaire publique</target>
+      </trans-unit>
+      <trans-unit>
+        <source>AnswersGroups</source>
+        <target>Groupes de réponses</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit Survey</source>
+        <target>Modifier le questionnaire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Survey</source>
+        <target>Visualiser le questionnaire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Query</source>
+        <target>Nouvelle question</target>
+      </trans-unit>
+      <trans-unit>
+        <source>ApplyTo</source>
+        <target>Appliquer à</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Everywhere</source>
+        <target>Partout</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Group</source>
+        <target>Groupe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Date from</source>
+        <target>Du</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Date to</source>
+        <target>Au</target>
+      </trans-unit>
+      <trans-unit>
+        <source>&lt; class="ui-icon ui-icon-plus" title="Add query"&gt;%%b%%&lt;</source>
+        <target>&lt; class="ui-icon ui-icon-plus" title="Ajouter une question"&gt;%%b%%&lt;</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
+
