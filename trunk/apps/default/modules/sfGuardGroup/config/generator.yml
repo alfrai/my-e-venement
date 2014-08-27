@@ -16,7 +16,7 @@ generator:
         updated_at: { label: Updated at }
       list:
         title: Group list
-        display: [name, description]
+        display: [name, _list_description]
         sort: [name, asc]
         object_actions:
           _edit: ~

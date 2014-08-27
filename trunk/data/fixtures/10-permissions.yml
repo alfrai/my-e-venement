@@ -1,4 +1,29 @@
 sfGuardPermission:
+  sfGuardPermission_110:
+    name: backups
+    description: 'Permission to have access the backup downloading tool'
+    created_at: '2014-08-13 19:36:26.864353'
+    updated_at: '2014-08-13 19:36:26.864353'
+  sfGuardPermission_115:
+    name: tck-tax
+    description: 'Permission to a basic access to taxes'
+    created_at: '2014-08-27 09:36:26.864353'
+    updated_at: '2014-08-27 09:36:26.864353'
+  sfGuardPermission_116:
+    name: tck-tax-edit
+    description: 'Permission to edit taxes'
+    created_at: '2014-08-27 09:36:26.864353'
+    updated_at: '2014-08-27 09:36:26.864353'
+  sfGuardPermission_117:
+    name: tck-tax-new
+    description: 'Permission to add taxes'
+    created_at: '2014-08-27 09:36:26.864353'
+    updated_at: '2014-08-27 09:36:26.864353'
+  sfGuardPermission_118:
+    name: tck-tax-del
+    description: 'Permission to delete taxes'
+    created_at: '2014-08-27 09:36:26.864353'
+    updated_at: '2014-08-27 09:36:26.864353'
   sfGuardPermission_101:
     name: srv-access
     description: 'Permission to have a basic access to the surveys'
@@ -520,6 +545,36 @@ sfGuardPermission:
     created_at: '2014-05-28 09:20:41'
     updated_at: '2014-05-28 09:20:41'
 sfGuardGroupPermission:
+  sfGuardGroupPermission_43_110:
+    Group: sfGuardGroup_43
+    Permission: sfGuardPermission_110
+    created_at: '2014-08-13 19:36:27.033345'
+    updated_at: '2014-08-13 19:36:27.033345'
+  sfGuardGroupPermission_44_115:
+    Group: sfGuardGroup_44
+    Permission: sfGuardPermission_115
+    created_at: '2014-08-27 09:36:26.864353'
+    updated_at: '2014-08-27 09:36:26.864353'
+  sfGuardGroupPermission_45_115:
+    Group: sfGuardGroup_45
+    Permission: sfGuardPermission_115
+    created_at: '2014-08-27 09:36:26.864353'
+    updated_at: '2014-08-27 09:36:26.864353'
+  sfGuardGroupPermission_45_116:
+    Group: sfGuardGroup_45
+    Permission: sfGuardPermission_116
+    created_at: '2014-08-27 09:36:26.864353'
+    updated_at: '2014-08-27 09:36:26.864353'
+  sfGuardGroupPermission_45_117:
+    Group: sfGuardGroup_45
+    Permission: sfGuardPermission_117
+    created_at: '2014-08-27 09:36:26.864353'
+    updated_at: '2014-08-27 09:36:26.864353'
+  sfGuardGroupPermission_45_118:
+    Group: sfGuardGroup_45
+    Permission: sfGuardPermission_118
+    created_at: '2014-08-27 09:36:26.864353'
+    updated_at: '2014-08-27 09:36:26.864353'
   sfGuardGroupPermission_41_101:
     Group: sfGuardGroup_41
     Permission: sfGuardPermission_101
@@ -1341,6 +1396,21 @@ sfGuardGroupPermission:
     created_at: '2014-05-28 09:20:00'
     updated_at: '2014-05-28 09:20:00'
 sfGuardGroup:
+  sfGuardGroup_43:
+    name: admin-backups
+    description: 'Ability to access backups'
+    created_at: '2014-08-13 19:36:27.000023'
+    updated_at: '2014-08-13 19:36:27.000023'
+  sfGuardGroup_44:
+    name: taxes-overview
+    description: 'Ability to see the surveys, their content and their answers'
+    created_at: '2014-08-07 19:36:27.000023'
+    updated_at: '2014-08-07 19:36:27.000023'
+  sfGuardGroup_45:
+    name: taxes-mod
+    description: 'Ability to edit the surveys and their content'
+    created_at: '2014-08-07 19:36:27.016682'
+    updated_at: '2014-08-07 19:36:27.016682'
   sfGuardGroup_41:
     name: srv-overview
     description: 'Ability to see the surveys, their content and their answers'

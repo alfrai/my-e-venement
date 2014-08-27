@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ability to look at the taxes</source>
+        <target>Possibilité de voir les taxes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ability to create, modify and delete the taxes</source>
+        <target>Possibilité de créer, modifier et supprimer les taxes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ability to access backups</source>
         <target>Possibilité d'accéder aux sauvegardes</target>
       </trans-unit>

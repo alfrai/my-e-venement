@@ -1,0 +1,16 @@
+all:
+  credentials: [tck-taxes]
+
+edit:
+  credentials: [tck-taxes-edit]
+update:
+  credentials: [tck-taxes-edit]
+new:
+  credentials: [tck-taxes-new]
+create:
+  credentials: [tck-taxes-new]
+delete:
+  credentials: [tck-taxes-del]
+batchDelete:
+  credentials: [tck-taxes-del]
+

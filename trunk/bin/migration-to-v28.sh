@@ -142,6 +142,8 @@ echo "Permissions & groups for surveys..."
 ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-srv.yml
 echo "Permissions & groups for accessing backups..."
 ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-backups.yml
+echo "Permissions & groups for accessing taxes..."
+./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-taxes.yml
 psql $db <<EOF
 EOF
 
