@@ -16,7 +16,8 @@ class sfGuardUserTable extends PluginsfGuardUserTable
     
     return parent::createQuery($alias)
       ->leftJoin("$alias.MetaEvents $me")
-      ->leftJoin("$alias.Workspaces $ws");
+      ->leftJoin("$alias.Workspaces $ws")
+    ;
   }
     /**
      * Returns an instance of this class.

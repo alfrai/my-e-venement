@@ -115,6 +115,9 @@ Ticket:
     barcode: string(255)
     othercode: string(255)
     member_card_id: integer
+    taxes:
+      type: decimal(6)
+      scale: 3
     vat:
       type: decimal(5)
       scale: 4
@@ -373,3 +376,39 @@ OptionAccounting:
     type: column_aggregation
     keyField: type
     keyValue: 'accounting'
+
+Tax:
+  package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    name:
+      type: string
+      notnull: true
+    type:
+      type: enum
+      values: [percentage, value]
+      default: value
+      notnull: true
+    value:
+      type: float
+      notnull: true
+    sf_guard_user_id: integer
+    manifestation_id: integer
+    price_id: integer
+  relations:
+    User:
+      class: sfGuardUser
+      foreignAlias: Taxes
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Manifestation:
+      foreignAlias: Taxes
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Price:
+      foreignAlias: Taxes
+      onDelete: SET NULL
+      onUpdate: CASCADE
+
