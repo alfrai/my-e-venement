@@ -1,0 +1,3 @@
+.sf_admin_list .sf_admin_list_th_ipaddress, .sf_admin_list .sf_admin_list_td_ipaddress { max-width: 100px; }
+@media screen and (min-width: 1400px){ .sf_admin_list .sf_admin_list_th_ipaddress, .sf_admin_list .sf_admin_list_td_ipaddress { max-width: 250px; } }
+.sf_admin_list table tbody tr.sf_admin_row .sf_admin_date, .sf_admin_list table tbody tr.sf_admin_row .sf_admin_number { text-align: right; }

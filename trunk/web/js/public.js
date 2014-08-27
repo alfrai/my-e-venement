@@ -13,25 +13,6 @@ $(document).ready(function(){
       LI.pubCartReady[i]();
   });
   
-  // the visual super-position
-  $('.gauge.full-seating').click(function(){
-    // load data if necessary
-    if ( $(this).find('.seated-plan .seat').length == 0 )
-      LI.seatedPlanLoadData(
-        $(this).find('.full-seating .load-data').prop('href'),
-        '#'+$(this).find('.seated-plan').prop('id')
-      );
-    
-    // display things
-    $('.gauge.full-seating').removeClass('active');
-    $(this).addClass('active');
-  });
-  var hash = window.location.hash.split('#');
-  $('.gauge.full-seating'+(hash[1] ? '[data-gauge-id='+hash[1]+']' : ':first')).click();
-  $('.gauge.full-seating .blank').each(function(){
-    $(this).height($(this).closest('.gauge.full-seating').height());
-  });
-  
   // if treating month as a structural data
   if ( $('.sf_admin_list .sf_admin_list_th_month').css('display') != 'none' )
   {

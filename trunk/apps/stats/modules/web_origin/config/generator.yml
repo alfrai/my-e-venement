@@ -1,0 +1,28 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           WebOrigin
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          web_origin
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        com: { label: Campaign }
+        created_at: { label: Date }
+        list_transaction: { label: Transaction, type: number }
+      list:
+        display: [first_page, referer, campaign, _list_transaction, ipaddress, created_at, User]
+      filter:
+        display:
+          Externals: [referer, campaign, ipaddress]
+          Internals: [first_page, created_at, sf_guard_user_id]
+      form:    ~
+      edit:    ~
+      new:     ~

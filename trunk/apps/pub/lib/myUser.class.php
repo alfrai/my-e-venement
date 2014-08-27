@@ -140,7 +140,11 @@ class myUser extends liGuardSecurityUser
       ->leftJoin('cmc.MemberCardPrices cmcp')
       ->andWhere('t.id = ?',$tid);
     
-    return $this->transaction = $q->fetchOne();
+    if ( $this->transaction = $q->fetchOne() )
+      return $this->transaction;
+    
+    $this->logout();
+    return $this->getTransaction();
   }
   
   public function resetTransaction()

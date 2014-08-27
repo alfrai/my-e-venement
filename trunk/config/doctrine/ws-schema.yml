@@ -305,3 +305,33 @@ SurveyApplyTo:
       foreignAlias: SurveysToApply
       onDelete: SET NULL
       onUpdate: CASCADE
+
+WebOrigin:
+  package: ws
+  inheritance:
+    extends: Traceable
+    type: concrete
+  indexes:
+    web_origin_com_idx:
+      fields: [campaign]
+    web_origin_referer_idx:
+      fields: [referer]
+    web_origin_first_page_idx:
+      fields: [first_page]
+  columns:
+    first_page:
+      type: string
+      notnull: true
+    ipaddress:
+      type: string(40)
+      notnull: true
+    referer: string
+    campaign: string
+    transaction_id:
+      type: integer
+      notnull: true
+  relations:
+    Transaction:
+      foreignType: one
+      onDelete: CASCADE
+      onUpdate: CASCADE

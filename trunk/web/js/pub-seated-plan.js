@@ -6,6 +6,21 @@ $(document).ready(function(){
   // init data
   LI.pubInitTicketsRequest();
   
+  // activate a gauge
+  $('.gauge.full-seating').click(function(){
+    if ( $(this).is('.active') )
+      return;
+    
+    $('.gauge.full-seating').removeClass('active');
+    $(this).addClass('active');
+    LI.seatedPlanInitialization($(this));
+  });
+  var hash = window.location.hash.split('#');
+  $('.gauge.full-seating'+(hash[1] ? '[data-gauge-id='+hash[1]+']' : ':first')).click();
+  $('.gauge.full-seating .blank').each(function(){
+    $(this).height($(this).closest('.gauge.full-seating').height());
+  });
+  
   // checking for orphans before submitting data
   $('form.adding-tickets').submit(function(){
     LI.pubCheckOrphansVisually($('#ajax-pre-submit').prop('href'), undefined, function(){

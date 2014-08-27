@@ -28,12 +28,32 @@ class pubConfiguration extends sfApplicationConfiguration implements liGarbageCo
   public function configure()
   {
     $this->dispatcher->connect('pub.transaction_before_creation', array($this, 'triggerTransactionBeforeCreation'));
+    $this->dispatcher->connect('pub.transaction_before_creation', array($this, 'recordWebOrigin'));
   }
   
   public function shut()
   {
     if ( !sfConfig::get('app_open',false) )
       die($this->getEnvironment() == 'dev' ? 'This application is not opened' : sfConfig::get('app_texts_when_closed',''));
+  }
+  
+  public function recordWebOrigin(sfEvent $event)
+  {
+    if ( !sfContext::hasInstance() )
+      return;
+    $context = sfContext::getInstance();
+    $request = $context->getRequest();
+    $params = $event->getParameters();
+    $transaction = $params['transaction'];
+    
+    $origin = new WebOrigin;
+    $origin->Transaction  = $transaction;
+    $origin->first_page   = $request->getUri();
+    $origin->campaign     = $request->getParameter('com');
+    $origin->referer      = $request->getReferer();
+    $origin->ipaddress    = $request->getRemoteAddress();
+    
+    $origin->save();
   }
   
   public function triggerTransactionBeforeCreation(sfEvent $event)
