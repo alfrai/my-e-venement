@@ -33,10 +33,11 @@
     {
       $q = Doctrine::getTable('Ticket')->createQuery('tck')
         ->select('tck.*, t.*, c.*, pro.*, org.*, o.*, pc.*')
+        ->leftJoin('tck.DirectContact dc')
         ->leftJoin('tck.Seat s')
         ->leftJoin('tck.Transaction t')
-        ->leftJoin('t.Contact c')
-        ->leftJoin('t.Professional pro')
+        ->leftJoin('t.Contact c WITH dc.id IS NULL')
+        ->leftJoin('t.Professional pro WITH dc.id IS NULL')
         ->leftJoin('pro.Organism org')
         ->leftJoin('pro.Contact pc')
         ->leftJoin('t.Order o')
@@ -52,12 +53,21 @@
       ;
       
       foreach ( $q->execute() as $ticket )
+      {
+        if ( $ticket->contact_id )
+          $contact = (string)$ticket->DirectContact;
+        else
+          $contact = is_object($ticket->Transaction->Professional) && $ticket->Transaction->professional_id
+            ? $ticket->Transaction->Contact.' '.$ticket->Transaction->Professional
+            : (string)$ticket->Transaction->Contact
+          ;
         $this->occupied[$ticket->Seat->name] = array(
           'type'            => ($ticket->printed_at || $ticket->integrated_at ? 'printed' : ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked')).($ticket->transaction_id === $this->transaction_id && $ticket->gauge_id == $gid ? ' in-progress' : ''),
           'transaction_id'  => '#'.$ticket->transaction_id,
           'ticket_id'       => $ticket->id,
           'price_id'        => $ticket->price_id,
           'gauge_id'        => $ticket->gauge_id,
-          'spectator'       => $ticket->Transaction->professional_id ? $ticket->Transaction->Professional->Contact.' '.$ticket->Transaction->Professional : (string)$ticket->Transaction->Contact,
+          'spectator'       => $contact,
         );
+      }
     }
