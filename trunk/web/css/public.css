@@ -113,7 +113,8 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #command thead { background-color: whitesmoke; font-weight: bold; }
 #command tbody tr:nth-child(odd) { background-color: white; }
 #command tbody tr:nth-child(even) { background-color: #DCDCDC; }
-#command tfoot .total { background-color: whitesmoke; }
+#command tfoot .extra-taxes, #command tfoot .total-total, #command tfoot .total { background-color: whitesmoke; }
+#command tfoot .total-total { border-bottom-right-radius: 4px; }
 #command tfoot { font-weight: bold; }
 
 #payments table {
@@ -192,21 +193,18 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 .gauge.full-seating .prices { max-width: 500px; font-size: 85%; }
 .manifestation_bottom { margin-left: 500px; }
 }
-@media screen and (max-width: 830px){
+@media screen and (max-width: 870px){
 .gauge.full-seating .full-seating { width: 375px; }
 .gauge.full-seating { padding-left: 380px; }
 .gauge.full-seating .prices { max-width: 500px; font-size: 75%; }
 .manifestation_bottom { margin-left: 400px; }
 }
-@media screen and (max-width: 700px){
+@media screen and (max-width: 750px){
 .gauge.full-seating .full-seating { display: none; }
 .gauge.full-seating { padding-left: 10px; }
 .gauge.full-seating .prices { font-size: 100%; }
 .manifestation_bottom { margin-left: 0; }
 }
-
-
-.submit { margin: 20px 0px 0px 400px; }
 
 #event {
 	font-weight: bold;
@@ -346,6 +344,7 @@ tfoot, thead { font-weight: bold; }
 #login .submit { margin-left: 0; }
 #login .submit input { margin-left: 5px; }
 .event-fields { display: none; }
+.prices tfoot .extra-taxes, .prices tfoot .total { border-top: 1px solid black; }
 
 /* the jroller elements to remove */
 .sf_admin_actions_block, #sf_admin_filters_buttons { display: none; }

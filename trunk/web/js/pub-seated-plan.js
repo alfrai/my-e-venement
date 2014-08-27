@@ -45,7 +45,7 @@ $(document).ready(function(){
               ticket_id: $(this).closest('[data-price-id], .seating.in-progress').find('.seat:first').attr('data-ticket-id'),
               gauge_id: $(this).closest('[data-gauge-id]').attr('data-gauge-id'),
             });
-            ticket_id: $(this).closest('[data-price-id], .seating.in-progress').find('.seat:first').remove();
+            $(this).closest('[data-price-id], .seating.in-progress').find('.seat:first').remove();
           }
           
           // more tickets
@@ -76,6 +76,7 @@ LI.pubInitTicketsData = function(json){
     .removeClass('ordered').removeClass('in-progress')
     .removeAttr('data-ticket-id').removeAttr('data-price-id').removeAttr('data-gauge-id');
   
+  $('.prices tbody .extra-taxes').text('').attr('data-value', 0);
   $.each(json.tickets, function(key, ticket){
     var line = ticket.price_id
       ? $('#gauge-'+ticket.gauge_id+' .prices [data-price-id='+ticket.price_id+']')
@@ -90,7 +91,14 @@ LI.pubInitTicketsData = function(json){
       .text(ticket.seat_name)
       .appendTo(line.find('.seats').append(' '))
     ;
-  
+    
+    // extra taxes
+    line.find('.extra-taxes').each(function(){
+      var val;
+      $(this).html(LI.format_currency(val = parseFloat($(this).attr('data-value'))+ticket['extra-taxes']));
+      $(this).attr('data-value', val);
+    });
+    
     // on the seated plan
     $('#gauge-'+ticket.gauge_id+' .seated-plan.picture .seat[data-id='+ticket.seat_id+']')
       .addClass('ordered').addClass('in-progress')

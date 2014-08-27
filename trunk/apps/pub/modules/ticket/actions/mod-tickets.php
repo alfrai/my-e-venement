@@ -173,6 +173,8 @@
       'price_id'          => $ticket->price_id,
       'gauge_name'        => (string)$ticket->Gauge,
       'gauge_id'          => $ticket->gauge_id,
+      'extra-taxes'       => (float)$ticket->taxes,
+      'value'             => (float)$ticket->value,
     );
   }
   

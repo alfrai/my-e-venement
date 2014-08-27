@@ -77,6 +77,7 @@
     <td class="value"><?php echo format_currency($pm->value,'€') ?></td>
     <td class="quantity"><?php echo $form['quantity'] ?></td>
     <td class="total"><?php echo format_currency(0,'€') ?></td>
+    <td class="extra-taxes"></td>
   </tr>
 <?php endif ?>
 <?php endforeach ?>
@@ -89,6 +90,7 @@
     <td class="value"></td>
     <td class="quantity"></td>
     <td class="total"><?php echo format_currency(0,'€') ?></td>
+    <td class="extra-taxes"></td>
   </tr>
   <tr>
     <?php if ( $vel['full_seating_by_customer'] ): ?>
@@ -96,7 +98,7 @@
     <?php use_javascript('helper?'.date('Ymd')) ?>
     <td class="seats"></td>
     <?php endif ?>
-    <td colspan="4" class="submit">
+    <td colspan="5" class="submit">
       <input type="submit" name="submit" value="<?php echo __('Cart') ?>" />
     </td>
   </td>
@@ -108,6 +110,7 @@
     <td class="value"><?php echo __('Value') ?></td>
     <td class="quantity"><?php echo __('Quantity') ?></td>
     <td class="total"><?php echo __('Total') ?></td>
+    <td class="extra-taxes"><?php echo __('Taxes') ?></td>
   </tr>
 </thead>
 </table>

@@ -18,5 +18,5 @@
   <?php endif ?>
 </div>
 <?php endforeach ?>
-<?php include_partial('show_prices_js') ?>
+<?php use_javascript('pub-totals?'.date('Ymd')) ?>
 </form>

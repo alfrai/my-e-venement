@@ -11,7 +11,7 @@
 
 <?php $last = array('event_id' => 0, 'manifestation_id' => 0, 'gauge_id' => 0) ?>
 <?php $nb_ws = 0 ?>
-<?php $total = array('qty' => 0, 'value' => 0, 'mc_qty' => 0, 'mc_value' => 0) ?>
+<?php $total = array('qty' => 0, 'value' => 0, 'taxes' => 0, 'mc_qty' => 0, 'mc_value' => 0) ?>
 
 <table id="command">
 <tbody>
@@ -31,6 +31,7 @@
     {
       $total[$ticket->Price->member_card_linked ? 'mc_qty' : 'qty']++;
       $total[$ticket->Price->member_card_linked ? 'mc_value' : 'value'] += $ticket->value;
+      $total['taxes'] += $ticket->taxes;
     }
   ?>
   <?php include_partial('show_ticket',array('ticket' => $ticket)) ?>
@@ -51,6 +52,7 @@
   <td class="qty">1</td>
   <td class="value"><?php use_helper('Number'); echo format_currency($mc->MemberCardType->value,'€') ?></td>
   <td class="total"><?php echo format_currency($mc->MemberCardType->value,'€') ?></td>
+  <td class="extra-taxes"></td>
   <td class="mod"><?php if ( $current_transaction ) echo link_to(__('modify'),'card/index') ?></td>
 </tr>
 <?php endforeach ?>
@@ -66,6 +68,7 @@
     <td></td>
     <td class="total"><?php use_helper('Number'); echo format_currency($total['value']+$total['mc_value'],'€'); ?></td>
     <td></td>
+    <td></td>
   </tr>
   <tr class="mc">
     <td class="type"><?php echo __("Passed on member card") ?></td>
@@ -75,6 +78,7 @@
     <td class="qty">(<?php echo $total['mc_qty'] ?>)</td>
     <td></td>
     <td class="total"><?php use_helper('Number'); echo format_currency(-$total['mc_value'],'€'); ?></td>
+    <td></td>
     <td></td>
   </tr>
   <?php endif ?>
@@ -86,7 +90,8 @@
     <td class="qty"><?php echo $total['qty'] ?></td>
     <td></td>
     <td class="total"><?php use_helper('Number'); echo format_currency($total['value'],'€'); ?></td>
-    <td></td>
+    <td class="extra-taxes"><?php use_helper('Number'); echo format_currency($total['taxes'],'€'); ?></td>
+    <td class="total-total"><?php use_helper('Number'); echo format_currency($total['value']+$total['taxes'],'€'); ?></td>
   </tr>
 </tfoot>
 <thead>
@@ -98,12 +103,13 @@
     <td><?php echo __('Qty') ?></td>
     <td><?php echo __('Unit price') ?></td>
     <td><?php echo __('Total') ?></td>
+    <td><?php echo __('Taxes') ?></td>
     <td></td>
   </tr>
 </thead>
 </table>
 
-<?php include_partial('show_js') ?>
+<?php use_javascript('pub-cart?'.date('Ymd')) ?>
 
 <div id="details">
 <h3><?php echo __('Command status') ?> :</h3>

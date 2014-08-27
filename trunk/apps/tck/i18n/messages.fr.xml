@@ -17,6 +17,10 @@
         <target>Taxes add.</target>
       </trans-unit>
       <trans-unit>
+        <source>Even if something has more than one link that lead to this tax, it will only count once.</source>
+        <target>Même si quelque chose a plusieurs liens menant à cette taxe, elle ne sera comptée qu'une seule fois.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Taxes by value are expressed with VAT. The Duty Free amount of tickets includes the Duty Free amount of taxes.</source>
         <target>Les taxes par valeur sont exprimées en TTC. Le montant HT des billets inclut le montant HT des taxes.</target>
       </trans-unit>

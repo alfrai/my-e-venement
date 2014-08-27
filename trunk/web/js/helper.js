@@ -28,3 +28,22 @@ LI.alert = function(msg, type, time)
 }
 
 LI.pad_num = function (num, digits){return(1e15+num+"").slice(-digits)}
+
+// THE CURRENCY
+LI.format_currency = function(value, nbsp, nodot)
+{
+  if ( nbsp  == undefined ) nbsp  = true;
+  if ( nodot == undefined ) nodot = true;
+  if ( !value ) value = 0;
+
+  var r = $('.currency:first').length > 0
+    ? $('.currency:first').html()
+    : '%d €';
+  value = r.replace('%d',value.toFixed(2));
+
+  if ( nbsp  ) value = value.replace(' ','&nbsp;');
+  if ( nodot ) value = value.replace('.',',');
+
+  return value;
+}
+

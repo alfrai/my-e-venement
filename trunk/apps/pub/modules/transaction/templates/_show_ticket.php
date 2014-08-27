@@ -1,5 +1,5 @@
   <td class="tickets">
-    <span class="price-<?php echo $ticket->price_id ?>">
+    <span class="price-<?php echo $ticket->price_id ?>" data-price-id="<?php echo $ticket->price_id ?>">
       <?php if ( $sf_data->getRaw('ticket')->price_id ): ?>
         <?php echo $ticket->Price->description ? $ticket->Price->description : $ticket->Price ?>
       <?php else: ?>
@@ -15,4 +15,8 @@
   <td class="total">
     <?php use_helper('Number') ?>
     <?php echo format_currency($ticket->value,'€') ?>
+  </td>
+  <td class="extra-taxes">
+    <?php use_helper('Number') ?>
+    <?php echo format_currency($ticket->taxes,'€') ?>
   </td>
