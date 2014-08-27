@@ -151,6 +151,7 @@
       'pit' => 0,
       'vat' => 0,
       'tep' => 0,
+      'extra-taxes' => 0,
       'name' => '',
       'description' => '',
       'id' => '',
@@ -279,9 +280,10 @@
       
       // by group of tickets
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['qty']++;
+      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['extra-taxes'] += $ticket->taxes;
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['pit'] += $ticket->value;
-      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['tep'] += $tep = round($ticket->value/(1+$ticket->vat),2);
-      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['vat'] += $ticket->value - $tep;
+      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['tep'] += $tep = round(($ticket->value+$ticket->taxes)/(1+$ticket->vat),2);
+      $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['vat'] += $ticket->value + $ticket->taxes - $tep;
       
       // cancelling tickets
       if ( $cancelling = $ticket->hasBeenCancelled() )
@@ -300,9 +302,10 @@
         
         // by group of tickets
         $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['qty']--;
+        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['extra-taxes'] += $cancelling[0]->taxes;
         $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['pit'] += $cancelling[0]->value;
-        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['tep'] += $tep = round($cancelling[0]->value/(1+$cancelling[0]->vat),2);
-        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['vat'] += $cancelling[0]->value - $tep;
+        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['tep'] += $tep = round(($cancelling[0]->value+$cancelling[0]->taxes)/(1+$cancelling[0]->vat),2);
+        $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['vat'] += $cancelling[0]->value + $cancelling[0]->taxes - $tep;
       }
     }
     

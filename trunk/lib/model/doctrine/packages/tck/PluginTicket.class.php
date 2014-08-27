@@ -82,7 +82,33 @@ abstract class PluginTicket extends BaseTicket
         ->findOneById($this->Manifestation->id)
         ->Vat->value;
     
+    // last chance to set taxes
+    $mods = $this->getModified();
+    if ( !$this->printed_at || isset($mods['printed_at']) ) // if the ticket is being printed or is not printed
+    {
+      $this->taxes = 0;
+      if ( sfContext::hasInstance() )
+        $this->addTaxes(sfContext::getInstance()->getUser()->getGuardUser()->Taxes);
+      $this
+        ->addTaxes($this->Manifestation->Taxes)
+        ->addTaxes($this->Price->Taxes)
+      ;
+    }
+    
     parent::preSave($event);
+  }
+  
+  protected function addTaxes(Doctrine_Collection $taxes)
+  {
+    // taxes calculation (always after VAT calculation)
+    foreach ( $taxes as $tax )
+    {
+      if ( $tax->type == 'value' )
+        $this->taxes += $tax->value;
+      else
+        $this->taxes += round((round($this->value/(1+$this->vat),2) * $tax->value/100),2); // calculating percentages on the TEP (w/o VAT)
+    }
+    return $this;
   }
 
   public function preInsert($event)

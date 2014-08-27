@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Taxes are applied to the net amount of the relevant tickets. In the shown prices, the amount of VAT is calculated on the net amount of the ticket plus all additional taxes, so the net amount shown also includes them.</source>
+        <target>Les taxes sont appliquées sur le montant hors-taxes des billets concernés. Dans les affichages des prix, le montant de la TVA est calculé sur le montant HT du billet plus les taxes supplémentaires, donc le prix hors-taxes affiché inclut aussi ces dernières.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>for percentages 7 means 7%, for fixed value VAT is included and depends on each manifestation</source>
+        <target>pour les pourcentages 7 signifie 7%, pour les valeurs fixes la TVA est incluse et dépend de chaque manifestation</target>
+      </trans-unit>
+      <trans-unit>
         <source>Offered by</source>
         <target>Offert par</target>
       </trans-unit>

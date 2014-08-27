@@ -384,7 +384,7 @@ Tax:
     type: concrete
   columns:
     name:
-      type: string
+      type: string(255)
       notnull: true
     type:
       type: enum
@@ -394,21 +394,44 @@ Tax:
     value:
       type: float
       notnull: true
-    sf_guard_user_id: integer
-    manifestation_id: integer
-    price_id: integer
   relations:
-    User:
+    Users:
       class: sfGuardUser
+      refClass: TaxUser
       foreignAlias: Taxes
-      onDelete: SET NULL
-      onUpdate: CASCADE
-    Manifestation:
+    Manifestations:
+      class: Manifestation
+      refClass: TaxManifestation
       foreignAlias: Taxes
-      onDelete: SET NULL
-      onUpdate: CASCADE
-    Price:
+    Prices:
+      class: Price
+      refClass: TaxPrice
       foreignAlias: Taxes
-      onDelete: SET NULL
-      onUpdate: CASCADE
+TaxUser:
+  package: tck
+  columns:
+    tax_id:
+      type: integer
+      notnull: true
+    sf_guard_user_id:
+      type: integer
+      notnull: true
+TaxManifestation:
+  package: tck
+  columns:
+    tax_id:
+      type: integer
+      notnull: true
+    manifestation_id:
+      type: integer
+      notnull: true
+TaxPrice:
+  package: tck
+  columns:
+    tax_id:
+      type: integer
+      notnull: true
+    price_id:
+      type: integer
+      notnull: true
 

@@ -13,9 +13,23 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
-      list:    ~
-      filter:  ~
-      form:    ~
-      edit:    ~
-      new:     ~
+      fields:
+        users_list: { label: Users }
+        manifestations_list: { label: Manifestations }
+        prices_list: { label: Prices }
+        value: { help: "for percentages 7 means 7%, for fixed value VAT is included and depends on each manifestation" }
+      list:
+        display: [name, type, value]
+        title: Taxes list
+      filter:
+        display:
+          Base: [name, type, value]
+          Relations: [users_list, manifestations_list, prices_list]
+      form:
+        display:
+          Base: [name, type, value]
+          Relations: [users_list, manifestations_list, prices_list]
+      edit:
+        title: Tax %%name%%
+      new:
+        title: New tax
