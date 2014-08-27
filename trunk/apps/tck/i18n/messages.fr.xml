@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Tax %%name%%</source>
+        <target>Taxe %%name%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>Tax</source>
         <target>Taxe</target>
       </trans-unit>
