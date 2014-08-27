@@ -90,7 +90,8 @@ abstract class PluginTicket extends BaseTicket
       $taxes = new Doctrine_Collection('Tax');
       $taxes->merge(sfContext::getInstance()->getUser()->getGuardUser()->Taxes);
       $taxes->merge($this->Manifestation->Taxes);
-      $taxes->merge($this->Price->Taxes);
+      if ( $this->price_id )
+        $taxes->merge(is_object($this->Price) ? $this->Price->Taxes : Doctrine::getTable('Price')->find($this->price_id)->Taxes);
       $this->addTaxes($taxes);
     }
     
