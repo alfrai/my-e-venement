@@ -28,6 +28,6 @@ delPicture:
   credentials: [event-seated-plan-edit]
 
 getSeats:
-  credentials: [tck-seat-allocation]
+  credentials: [event-seats-allocation]
 getShortnames:
-  credentials: [tck-seat-allocation]
+  credentials: [event-seats-allocation]

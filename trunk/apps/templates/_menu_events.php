@@ -23,6 +23,7 @@
 ?>
     <?php
       if ( $sf_user->hasCredential('event-event')
+        || $sf_user->hasCredential('event-seated-plan')
         || $sf_user->hasCredential('event-calendar-gui')
         || $sf_user->hasCredential('event-location') ): ?>
       <li class="menu-event">

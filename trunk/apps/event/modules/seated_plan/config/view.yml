@@ -37,4 +37,8 @@ getRanksSuccess:
   has_layout: false
   http_metas:
     content-type: application/json
+seatAddSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
 

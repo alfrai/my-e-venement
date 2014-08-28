@@ -25,12 +25,20 @@
         <target>Voir les rangs</target>
       </trans-unit>
       <trans-unit>
+        <source>Ranks</source>
+        <target>Rangs</target>
+      </trans-unit>
+      <trans-unit>
         <source>rank</source>
         <target>rang</target>
       </trans-unit>
       <trans-unit>
-        <source>Show Links</source>
-        <target>Voir les liens</target>
+        <source>Show neighborhood</source>
+        <target>Voir le voisinage</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Neighbors</source>
+        <target>Voisins</target>
       </trans-unit>
       <trans-unit>
         <source>Best seats</source>
@@ -47,10 +55,6 @@
       <trans-unit>
         <source>Link(s) created</source>
         <target>Lien(s) créé(s)</target>
-      </trans-unit>
-      <trans-unit>
-        <source>Show links</source>
-        <target>Montrer les liens</target>
       </trans-unit>
       <trans-unit>
         <source>Links between seats have been cleared</source>

@@ -245,19 +245,23 @@ class seated_planActions extends autoSeated_planActions
       $seat->$fieldName = $data[$fieldName];
     $seat->save();
     
-    return sfView::NONE;
+    $this->json = array();
+    if ( $seat->id )
+      $this->json['success'] = array('id' => $seat->id);
+    else
+      $this->json['error'] = true;
   }
   
   public function executeSeatDel(sfWebRequest $request)
   {
     if (!( $data = $request->getParameter('seat',array()) ))
       throw new liSeatedException('Given data do not permit the seat deletion (no data).');
-    if ( !isset($data['name']) || !intval($request->getParameter('id',0)) > 0 )
+    if ( !isset($data['id']) || !intval($request->getParameter('id',0)) > 0 )
       throw new liSeatedException('Given data do not permit the seat deletion (bad data).');
     
     $q = Doctrine::getTable('Seat')->createQuery('s')
       ->andWhere('s.seated_plan_id = ?', $request->getParameter('id'))
-      ->andWhere('s.name = ?', $data['name']);
+      ->andWhere('s.id = ?', $data['id']);
     $q->delete()->execute();
     
     return sfView::NONE;

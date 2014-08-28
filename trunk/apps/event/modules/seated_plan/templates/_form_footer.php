@@ -9,6 +9,6 @@
     <input type="text" name="seat[diameter]" value="" />
   </p></form>
   <form class="seat_del" action="<?php echo url_for('seated_plan/seatDel?id='.$form->getObject()->id) ?>" method="get"><p>
-    <input type="text" name="seat[name]" value="" />
+    <input type="text" name="seat[id]" value="" />
   </p></form>
 </div>

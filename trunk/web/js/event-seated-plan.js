@@ -124,6 +124,8 @@
       
       $('#transition .close').click();
     });
+    
+    setTimeout(function(){ $('#transition .close').click(); }, 1500);
   }
 
   // the function that add a seat on every click (mouseup) or on data loading
@@ -180,7 +182,7 @@
     }
     
     // adding the seat / plot
-    $('<div class="seat"><input class="txt" type="hidden" value="'+name+'" /><input class="id" type="hidden" value="'+id+'" /></div>')
+    var seat = $('<div class="seat"><input class="txt" type="hidden" value="'+name+'" /><input class="id" type="hidden" value="'+id+'" /></div>')
       .attr('title', name+' ('+($('.tools .rank label').length > 0 ? $('.tools .rank label').text() : 'rank')+': '+rank+')' + (occupied && occupied['transaction_id'] ? ' ('+occupied.transaction_id+(occupied.spectator ? ', '+occupied.spectator : '')+')' : ''))
       .attr('data-num', name).attr('data-rank', rank)
       .attr('data-id', id)
@@ -221,14 +223,15 @@
         // DB removal
         var seat = this;
         $('.js_seated_plan_useful .seat_del').each(function(){
-          $(this).find('[name="seat[name]"]').val(name);
+          $(this).find('[name="seat[id]"]').val($(seat).attr('data-id'));
           $.ajax({
             url: $(this).prop('action'),
             data: $(this).serialize(),
             complete: function(){
+              console.log('deleted');
               // graphical removal
-              $(seat).parent().find('.seat.'+$(seat).clone(true).removeClass('seat').removeClass('txt').attr('class')).remove();
-              $('.sf_admin_form_field_show_picture .pre-seat').remove();
+              $(seat).parent().find('.seat[data-id='+$(seat).attr('data-id')+']').remove();
+              $('.sf_admin_form_field_show_picture .pre-seat').remove();  // cleaning current stuff
             }
           });
         });
@@ -270,9 +273,18 @@
       $.ajax({
         url: $(this).prop('action'),
         data: $(this).serialize(),
-        error: function(){
+        error: function(json){
           LI.alert($('.js_seated_plan_useful .save_error').html());
           $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
+        },
+        success: function(json){
+          if (!( json.success && json.success.id ))
+          {
+            LI.alert($('.js_seated_plan_useful .save_error').html());
+            $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
+            return;
+          }
+          seat.parent().find('[data-num='+seat.attr('data-num')+']').attr('data-id', json.success.id);
         }
       });
     });
@@ -284,14 +296,12 @@
       return false;
     
     $('form.reset-a-seat:first [name="ticket[numerotation]"]').val($(seat).find('input').val());
-    var id = $(seat).clone(true).removeClass('seat').removeClass('txt').removeClass('ordered').removeClass('asked').removeClass('in-progress').attr('class');
     $('form.reset-a-seat:first').unbind().submit(function(){
       $.ajax({
         url: $('form.reset-a-seat:first').prop('action'),
         data: $('form.reset-a-seat:first').serialize(),
         success: function(){
-          seat = $('.seated-plan .'+id);
-          seat.removeClass('ordered').removeClass('asked').removeClass('in-progress');
+          var seat = $('.seated-plan [data-id='+seat.attr('data-id')+']');
           $('#done [name=ticket_numerotation][value="'+seat.find('input').val()+'"]').val('')
             .closest('.ticket').prependTo('#todo');
           $('#done .total').text(parseInt($('#done .total').text())-1);
@@ -318,11 +328,11 @@
       if ( event.which != 1 )
         return;
       
-      ref = $(this);
+      var ref = $(this);
       
       if ( scale == undefined )
-        var scale = $(this).attr('data-scale');
-      position = {
+        var scale = $(this).attr('data-scale') ? $(this).attr('data-scale') : 1;
+      var position = {
         x: Math.round((event.pageX-ref.position().left)/scale),
         y: Math.round((event.pageY-ref.position().top) /scale)
       };
@@ -340,10 +350,10 @@
       
       // adding a behaviour to pre-seat
       $('.sf_admin_form_field_show_picture .picture .anti-handling').mousemove(function(event){
-        ref = $(this).parent();
+        var ref = $(this).closest('.picture');
         
         if ( scale == undefined )
-          scale = 1;
+          var scale = ref.attr('data-scale') ? ref.attr('data-scale') : 1;
         position = {
           x: Math.round((event.pageX-ref.position().left)/scale),
           y: Math.round((event.pageY-ref.position().top) /scale)
@@ -360,17 +370,20 @@
     
     // seat plots
     $('.sf_admin_form_field_show_picture .picture .anti-handling').mouseup(function(event){
+      var ref = $(this).closest('.picture');
+      
       // left click
       if ( event.which != 1 )
         return;
       
       if ( scale == undefined )
-        scale = 1;
+        var scale = ref.attr('data-scale') ? ref.attr('data-scale') : 1;
       
       return LI.seatedPlanMouseup({
         position: {
           x: Math.round((event.pageX-ref.position().left)/scale),
-          y: Math.round((event.pageY-ref.position().top) /scale)
+          y: Math.round((event.pageY-ref.position().top) /scale),
+          diameter: $('#seated_plan_seat_diameter').val()
         },
         object: $(this).parent(),
         record: true,
@@ -382,30 +395,4 @@
       if ( event.which == 122 && event.ctrlKey )
         $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
     });
-    
-    // magnifying
-    var scale = 1;
-    $('.sf_admin_form_field_show_picture .tools .magnify-in').click(function(){
-      $('.sf_admin_form_field_show_picture .picture').css('transform','scale('+(scale = scale*1.1)+')');
-      return false;
-    });
-    $('.sf_admin_form_field_show_picture .tools .magnify-out').click(function(){
-      $('.sf_admin_form_field_show_picture .picture').css('transform','scale('+(scale = scale/1.1)+')');
-      return false;
-    });
-    $('.sf_admin_form_field_show_picture .tools .magnify-zero').click(function(){
-      $('.sf_admin_form_field_show_picture .picture').css('transform','scale('+(scale = 1)+')');
-      return false;
-    });
-    if ( $('.sf_admin_form_field_show_picture .tools .magnify-in').length > 0 )
-    {
-      $(document).keyup(function(event){
-        if ( event.key == 'Subtract' || event.which == 54 )
-          $('.sf_admin_form_field_show_picture .tools .magnify-out').click();
-        if ( event.key == 'Add' || event.which == 61 )
-          $('.sf_admin_form_field_show_picture .tools .magnify-in').click();
-        if ( (event.which == 96 || event.which == 48 && event.shiftKey) && event.ctrlKey )
-          $('.sf_admin_form_field_show_picture .tools .magnify-zero').click();
-      });
-    }
   });
