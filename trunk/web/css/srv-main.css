@@ -9,3 +9,15 @@
 .query-weight:before, .query-rank:before, .query-stats:before  { content: '('; }
 .query-rank:after, .query-stats:after   { content: ')'; }
 .query-weight:after { content: '%)'; }
+
+#content .sf_admin_action_back { margin-left: 42px; }
+
+#sf_admin_form_tab_menu table th { display: none; }
+
+#sf_admin_form_tab_menu table table th { display: inline; }
+
+#sf_admin_form_tab_menu table th { padding-right: 6px; }
+
+#sf_admin_form h2 { padding-bottom: 5px; }
+
+.widget { margin-top: 5px; }

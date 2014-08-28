@@ -456,6 +456,10 @@
         <source>Detailed Ledger</source>
         <target>Journal détaillé</target>
       </trans-unit>
+      <trans-unit>
+        <source>Surveys</source>
+        <target>Questionnaires</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

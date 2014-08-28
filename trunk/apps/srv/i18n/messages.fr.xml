@@ -41,8 +41,8 @@
         <target>Questionnaire</target>
       </trans-unit>
       <trans-unit>
-        <source>Only used with appropriate field</source>
-        <target>À ustiliser uniquement avec les champs appropriés</target>
+        <source>Only used with appropriate fields</source>
+        <target>À utiliser uniquement avec les champs appropriés</target>
       </trans-unit>
       <trans-unit>
         <source>Can be empty</source>
@@ -169,8 +169,16 @@
         <target>Au</target>
       </trans-unit>
       <trans-unit>
-        <source>&lt; class="ui-icon ui-icon-plus" title="Add query"&gt;%%b%%&lt;</source>
-        <target>&lt; class="ui-icon ui-icon-plus" title="Ajouter une question"&gt;%%b%%&lt;</target>
+        <source>Edit Survey %%name%%</source>
+        <target>Editer le questionnaire %%name%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Date to</source>
+        <target>Au</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Add query&lt;span class="ui-icon ui-icon-plus"&gt;&lt;/span&gt;</source>
+        <target>Ajout d'une question&lt;span class="ui-icon ui-icon-plus"&gt;&lt;/span&gt;</target>
       </trans-unit>
     </body>
   </file>
