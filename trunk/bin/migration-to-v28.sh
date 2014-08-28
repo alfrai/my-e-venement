@@ -163,6 +163,7 @@ echo ""
 echo ""
 echo "Don't forget to configure those extra features:"
 echo "- e-venement Messaging Network: rm -rf web/liJappixPlugin; svn update; then run http[s]://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin"
+echo "- Checkout config/autoload.inc.php.template and complete your config/autoload.inc.php in that way..."
 
 echo ""
 echo "Don't forget to inform your users about those evolutions"
