@@ -1540,6 +1540,38 @@
         <source>Get a PDF</source>
         <target>Format PDF</target>
       </trans-unit>
+      <trans-unit>
+        <source>Users</source>
+        <target>Utilisateurs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Taxes list</source>
+        <target>Liste des taxes additionnelles</target>
+      </trans-unit>
+      <trans-unit>
+        <source>value</source>
+        <target>valeur en euros</target>
+      </trans-unit>
+      <trans-unit>
+        <source>percentage</source>
+        <target>pourcentage</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New tax</source>
+        <target>Nouvelle taxe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>View Tax</source>
+        <target>Voir la taxe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Created_at</source>
+        <target>Crée le</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Updated_at</source>
+        <target>Mise à jour le</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

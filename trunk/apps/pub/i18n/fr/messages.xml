@@ -404,7 +404,7 @@
         <source>Unit price</source>
         <target>Prix unitaire</target>
       </trans-unit>
-			<trans-unit id="11">
+      <trans-unit id="11">
         <source>Order</source>
         <target>Commander</target>
       </trans-unit>
@@ -412,11 +412,11 @@
         <source>Checkout</source>
         <target>Je passe commande</target>
       </trans-unit>
-			<trans-unit>
+      <trans-unit>
         <source>Empty your basket</source>
         <target>Vider mon panier</target>
       </trans-unit>
-			<trans-unit>
+      <trans-unit>
         <source>Continue shopping</source>
         <target>Poursuivre mes achats</target>
       </trans-unit>
@@ -452,122 +452,126 @@
         <source>Payment status</source>
         <target>État du réglement</target>
       </trans-unit>
-			<trans-unit>
+      <trans-unit>
         <source>Payment of your order</source>
         <target>Réglement de votre commande</target>
       </trans-unit>
-			<trans-unit>
-				<source>Choose your payment method</source>
-				<target>Choisir mon moyen de paiement</target>
-			</trans-unit>
-			<trans-unit>
-				<source>Your contact</source>
-				<target>Mes coordonnées</target>
-			</trans-unit>
-			<trans-unit>
+      <trans-unit>
+	<source>Choose your payment method</source>
+	<target>Choisir mon moyen de paiement</target>
+      </trans-unit>
+      <trans-unit>
+	<source>Your contact</source>
+	<target>Mes coordonnées</target>
+      </trans-unit>
+      <trans-unit>
         <source>Confirm</source>
         <target>Valider</target>
       </trans-unit>
-			<trans-unit>
+      <trans-unit>
         <source>Choose tickets</source>
         <target>Choisir mes billets</target>
       </trans-unit>
-			<trans-unit>
+      <trans-unit>
         <source>You can review your previous orders by clicking on its number</source>
         <target>Vous pouvez revoir les anciennes commandes en cliquant sur leur numéro</target>
       </trans-unit>
-			<trans-unit>
-				<source>Your commands</source>
-				<target>Mes commandes</target>
-			</trans-unit>
-			<trans-unit>
+      <trans-unit>
+	<source>Your commands</source>
+	<target>Mes commandes</target>
+      </trans-unit>
+      <trans-unit>
         <source>List events on which you make command</source>
         <target>Liste des manifestations sur lesquelles vous avez passé commande</target>
       </trans-unit>
-			<trans-unit>
-				<source>Update your contact information</source>
-				<target>Modifier mes coordonnées</target>
-			</trans-unit>
-			<trans-unit>
-				<source>My account</source>
-				<target>Mon compte</target>
-			</trans-unit>
-			<trans-unit>
-				<source>Create an account</source>
-				<target>Créer un compte</target>
-			</trans-unit>
-			<trans-unit>
-				<source>I authenticate myself</source>
-				<target>Je me connecte</target>
-			</trans-unit>
-			<trans-unit>
-				<source>Login</source>
-				<target>Connexion</target>
-			</trans-unit>
-			<trans-unit>
+      <trans-unit>
+	<source>Update your contact information</source>
+	<target>Modifier mes coordonnées</target>
+      </trans-unit>
+      <trans-unit>
+	<source>My account</source>
+	<target>Mon compte</target>
+      </trans-unit>
+      <trans-unit>
+	<source>Create an account</source>
+	<target>Créer un compte</target>
+      </trans-unit>
+      <trans-unit>
+        <source>I authenticate myself</source>
+       <target>Je me connecte</target>
+      </trans-unit>
+      <trans-unit>
+       <source>Login</source>
+       <target>Connexion</target>
+      </trans-unit>
+      <trans-unit>
         <source>Logout</source>
         <target>Déconnexion</target>
       </trans-unit>
-			<trans-unit>
+      <trans-unit>
         <source>Dates</source>
         <target>Dates</target>
       </trans-unit>
-			<trans-unit>
+      <trans-unit>
         <source>Cart</source>
         <target>Mon panier</target>
       </trans-unit>
-			<trans-unit>
+      <trans-unit>
         <source>Coordinates</source>
         <target>Mes Coordonnées</target>
       </trans-unit>
-			<trans-unit>
+      <trans-unit>
         <source>Command</source>
         <target>Je valide mon panier</target>
       </trans-unit>
-			<trans-unit>
-				<source>password</source>
-				<target>Mot de passe</target>
-			</trans-unit>
-			<trans-unit>
-				<source>Associated prices still available</source>
-				<target>Places asssociées encore disponibles</target>
-			</trans-unit>
-			<trans-unit>
-				<source>Created_at</source>
-				<target>Date de création </target>
-			</trans-unit>
-			<trans-unit>
-				<source>Expire at</source>
-				<target>Date d'expiration </target>
-			</trans-unit>
-	    </body>
-			<trans-unit>
-				<source>Choose your membership card</source>
-				<target>Choisir ma carte d'abonnement</target>
-			</trans-unit>
-			<trans-unit>
-				<source>You already have an account ? Login first...</source>
-				<target>Vous avez déjà un compte ? Connectez vous...</target>
-			</trans-unit>
-			<trans-unit>
+      <trans-unit>
+	<source>password</source>
+	<target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Associated prices still available</source>
+	<target>Places asssociées encore disponibles</target>
+      </trans-unit>
+      <trans-unit>
+	<source>Created_at</source>
+	<target>Date de création </target>
+      </trans-unit>
+      <trans-unit>
+	<source>Expire at</source>
+	<target>Date d'expiration </target>
+      </trans-unit>
+      <trans-unit>
+	<source>Choose your membership card</source>
+	<target>Choisir ma carte d'abonnement</target>
+      </trans-unit>
+      <trans-unit>
+	<source>You already have an account ? Login first...</source>
+	<target>Vous avez déjà un compte ? Connectez vous...</target>
+      </trans-unit>
+      <trans-unit>
         <source>No account yet? Create your own...</source>
         <target>Pas encore de compte ? Je crée le mien...</target>
       </trans-unit>
-			<trans-unit>
+      <trans-unit>
         <source>New account</source>
         <target>Nouveau compte</target>
       </trans-unit>
-			<trans-unit>
-				<source>at </source>
-				<target>le </target>
-			</trans-unit>
-			<trans-unit>
-				<source>location</source>
-				<target>lieu</target>
-			</trans-unit>
-			<trans-unit>
-				<source>Location</source>
-				<target>Lieu</target>
-			</trans-unit>
+      <trans-unit>
+        <source>at </source>
+	<target>le </target>
+      </trans-unit>
+      <trans-unit>
+	<source>location</source>
+	<target>lieu</target>
+      </trans-unit>
+      <trans-unit>
+	<source>Location</source>
+	<target>Lieu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>AnswersGroups</source>
+        <target>Groupes de réponses</target>
+      </trans-unit>
+    </body>
   </file>
 </xliff>

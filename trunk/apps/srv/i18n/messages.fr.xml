@@ -14,7 +14,7 @@
       </trans-unit>
       <trans-unit>
         <source>Name</source>
-        <target>Nom</target>
+        <target>Question</target>
       </trans-unit>
       <trans-unit>
         <source>Description</source>
@@ -30,7 +30,7 @@
       </trans-unit>
       <trans-unit>
         <source>Used by</source>
-        <target>Utiliser par</target>
+        <target>Appliquer à</target>
       </trans-unit>
       <trans-unit>
         <source>Statistics</source>
@@ -65,8 +65,8 @@
         <target>Texte</target>
       </trans-unit>
       <trans-unit>
-        <source>Text(rich)</source>
-        <target>Texte(Enrichi)</target>
+        <source>Text (rich)</source>
+        <target>Texte (Enrichi)</target>
       </trans-unit>
       <trans-unit>
         <source>Select one in a list</source>
@@ -179,6 +179,14 @@
       <trans-unit>
         <source>Add query&lt;span class="ui-icon ui-icon-plus"&gt;&lt;/span&gt;</source>
         <target>Ajout d'une question&lt;span class="ui-icon ui-icon-plus"&gt;&lt;/span&gt;</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit Query</source>
+        <target>Modifier la question</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Value</source>
+        <target>Valeur</target>
       </trans-unit>
     </body>
   </file>
