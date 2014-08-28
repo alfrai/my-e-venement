@@ -106,7 +106,7 @@ abstract class PluginTicket extends BaseTicket
       $val = 0;
       switch ( $tax->type ){
       case 'value':
-        $this->taxes += $val = $tax->value;
+        $this->taxes += $val = $this->value > 0 ? $tax->value : -$tax->value; // for cancelling tickets
         break;
       case 'percentage':
         $this->taxes += $val = round($this->value * $tax->value/100,2);
