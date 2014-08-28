@@ -80,8 +80,9 @@
           if ( scale > alternate ) scale = alternate; // security for graphical bugs
         }
         elt.css('transform', 'scale('+(scale)+')')
-           .css('margin-bottom', (-scale*2*100-3)+'%')
-           .attr('data-scale', scale);
+           .attr('data-scale', scale)
+        if ( scale < 1 )
+           elt.css('margin-bottom', ((100*scale-100)*scale)+'%')
         
         // box resizing
         $(this).parent()
@@ -320,7 +321,7 @@
       ref = $(this);
       
       if ( scale == undefined )
-        scale = 1;
+        var scale = $(this).attr('data-scale');
       position = {
         x: Math.round((event.pageX-ref.position().left)/scale),
         y: Math.round((event.pageY-ref.position().top) /scale)

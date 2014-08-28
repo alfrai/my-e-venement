@@ -9,6 +9,7 @@
   </button>
   <script type="text/javascript">
     $(document).ready(function(){
+      $('html').css('cssText', 'overflow-x: auto !important'); // to be able to side-scroll
       $('.gauge .seated-plan.picture')
         .css('transition-property', 'transform')
         .css('transition-duration', '1s')

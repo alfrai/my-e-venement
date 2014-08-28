@@ -23,13 +23,14 @@
 ?>
 <?php if ( isset($form) && !$form->getObject()->Picture->isNew()
         || isset($seated_plan) && is_object($sf_data->getRaw('seated_plan')->Picture) && !$seated_plan->Picture->isNew() ): ?>
-<div class="sf_admin_form_row <?php if ( !isset($seated_plan) ): ?>sf_admin_boolean sf_admin_form_field_show_picture<?php endif ?>">
+<div class="sf_admin_form_row <?php if ( !isset($seated_plan) ): ?>sf_admin_boolean sf_admin_form_field_show_picture<?php endif ?> gauge">
   <?php if ( isset($form) ): ?>
   <div class="tools ui-corner-all">
     <?php include_partial('show_picture_tools', array('seated_plan' => $form->getObject())) ?>
   </div>
   <?php endif ?>
   <div class="label ui-helper-clearfix"><label for="group_show_picture"><?php echo __('Picture').':' ?></label></div>
+  <?php include_partial('global/magnify') ?>
   <?php include_partial('show_raw_picture',array('seated_plan' => $form->getObject())) ?>
 </div>
 <?php endif ?>

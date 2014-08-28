@@ -6,12 +6,3 @@
       <input type="checkbox" name="yummy" class="show_links" value="1" onclick="javascript: LI.seatedPlanMoreDataInitialization($(this).parent().find('a').prop('href'), $(this).prop('checked'));" />
       <a href="<?php echo url_for('seated_plan/getLinks?id='.$seated_plan->id) ?>"></a>
     </div>
-    <div class="magnify">
-      <label><?php echo __('Magnify') ?></label>
-      <a href="#" class="magnify-in">+</a>
-      /
-      <a href="#" class="magnify-zero">0</a>
-      /
-      <a href="#" class="magnify-out">-</a>
-    </div>
-
