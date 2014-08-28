@@ -21,7 +21,7 @@ class transactionActions extends autoTransactionActions
     foreach ( $this->transaction->Tickets as $ticket )
     if ( $ticket->gauge_id == $request->getParameter('gauge_id', 0)
       && $ticket->price_id == $request->getParameter('price_id', 0)
-      && !$ticket->duplicating && !ticket->cancelling )
+      && !$ticket->duplicating && !$ticket->cancelling )
     {
       $form = new TicketRegisteredForm($ticket);
       $this->forms[] = $form;
