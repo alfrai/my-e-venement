@@ -44,6 +44,13 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
       'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
     
+    // Enabling excluding ids in every filter form
+    $this->validatorSchema['excluded_ids'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'WebOrigin',
+      'multiple' => 'true',
+      'required' => false,
+    ));
+    
     // TIMESTAMPABLE
     $this->resetDates();
   }
@@ -91,7 +98,9 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
     foreach ( $this->i18n_fields as $field )
       $i18n[$field] = 'I18nText';
     
-    return parent::getFields() + $i18n;
+    return parent::getFields() + $i18n + array(
+      'excluded_ids' => 'ExcludedIds',
+    );
   }
   
   /**
@@ -127,5 +136,18 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
         ''.iconv($charset['db'], $charset['ascii'], '%'.$values['text']).'%'
       );
     }
+  }
+  
+  public function addExcludedIdsColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    if ( !is_array($values) )
+      $values = array($values);
+    
+    $a = $q->getRootAlias();
+    $q->andWhereNotIn("$a.id", $values);
+    
+    return $q;
   }
 }

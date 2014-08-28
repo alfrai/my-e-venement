@@ -7,13 +7,18 @@
  */
 class WebOriginTable extends PluginWebOriginTable
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object WebOriginTable
-     */
-    public static function getInstance()
-    {
-        return Doctrine_Core::getTable('WebOrigin');
-    }
+  public function retrieveList()
+  {
+    return $this->createQuery('wo')
+      ->leftJoin('wo.User')
+      ->leftJoin('wo.Transaction t')
+      ->leftJoin('t.Order o')
+      ->leftJoin('t.Payments p')
+    ;
+  }
+  
+  public static function getInstance()
+  {
+    return Doctrine_Core::getTable('WebOrigin');
+  }
 }

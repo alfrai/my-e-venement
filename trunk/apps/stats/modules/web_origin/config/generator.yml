@@ -16,13 +16,22 @@ generator:
       fields:
         com: { label: Campaign }
         created_at: { label: Date }
-        list_transaction: { label: Transaction, type: number }
+        list_transaction: { label: Transaction }
+        ipaddress: { label: IP address }
       list:
         display: [first_page, referer, campaign, _list_transaction, ipaddress, created_at, User]
+        actions: []
+        batch_actions:
+          _exceptions:
+            label: Create exceptions
+        object_actions: []
+        sort: [created_at, desc]
+        max_per_page: 100
+        table_method: retrieveList
       filter:
         display:
-          Externals: [referer, campaign, ipaddress]
-          Internals: [first_page, created_at, sf_guard_user_id]
+          Externals: [referer_domain, referer, campaign, ipaddress]
+          Internals: [done_deal, first_page, created_at, sf_guard_user_id]
       form:    ~
       edit:    ~
       new:     ~
