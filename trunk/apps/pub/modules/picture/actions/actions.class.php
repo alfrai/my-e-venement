@@ -21,6 +21,9 @@ class pictureActions extends autoPictureActions
     $this->getResponse()->addHttpMeta('Cache-Control',$cache = 'max-age='.(60*60*48)); // caching data for 48h
     $this->getResponse()->addHttpMeta('Pragma',$cache);
     $this->getResponse()->addHttpMeta('Expires',date(DATE_W3C,time()+$cache)); // caching data for 48h
+    
+    if ( $this->picture->content_encoding )
+      $this->getResponse()->addHttpMeta('Content-Encoding', $this->picture->content_encoding);
   }
   
   public function executeEdit(sfWebRequest $request)
