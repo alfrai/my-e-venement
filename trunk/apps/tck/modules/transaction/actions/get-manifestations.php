@@ -268,7 +268,9 @@
         $state = 'integrated';
       
       $pname = $ticket->price_id.'-'.$state;
-      if (!( isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]) && count($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['ids']) > 0 ))
+      if (!( isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname])
+          && count($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['ids']) > 0
+      ))
         $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname] = array(
           'state' => $state,
           'name' => !$ticket->price_id ? $ticket->price_name : $ticket->Price->name,
@@ -288,7 +290,8 @@
       // cancelling tickets
       if ( $cancelling = $ticket->hasBeenCancelled() )
       {
-        $pname = $ticket->price_id.'-cancelling';
+        $state = 'cancelling';
+        $pname = $ticket->price_id.'-'.$state;
         if (!( isset($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]) && count($this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['ids']) == 0 ))
           $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname] = 
           $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname] = array(
