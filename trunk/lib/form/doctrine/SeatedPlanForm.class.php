@@ -47,9 +47,13 @@ class SeatedPlanForm extends BaseSeatedPlanForm
         // data translation
         $this->values[$picform_name]['content']  = base64_encode(file_get_contents($file->getTempName()));
         $this->values[$picform_name]['name']     = $file->getOriginalName();
-        $this->values[$picform_name]['type']     = $file->getType();
         $this->values[$picform_name]['width']    = $dimensions['width'];
         $this->values[$picform_name]['height']   = $dimensions['height'];
+        
+        $type = PictureForm::getRealType($file);
+        $this->values[$picform_name]['type']     = $type['mime'];
+        if ( isset($type['content-encoding']) )
+          $this->values[$picform_name]['content_encoding'] = $type['content-encoding'];
         
         $this->values['updated_at'] = date('Y-m-d H:i:s'); // this is a hack to force root object update
       }
@@ -64,7 +68,7 @@ class SeatedPlanForm extends BaseSeatedPlanForm
     foreach ( array('picture_id' => 'Picture', 'online_picture_id' => 'OnlinePicture') as $field => $rel )
     {
       $this->embedRelation($rel);
-      foreach ( array('name', 'type', 'version', 'height', 'width',) as $fieldName )
+      foreach ( array('name', 'type', 'version', 'height', 'width', 'content_encoding') as $fieldName )
         unset($this->widgetSchema[$rel][$fieldName], $this->validatorSchema[$rel][$fieldName]);
       $this->validatorSchema[$rel]['content_file']->setOption('required',false);
       unset($this->widgetSchema[$field], $this->validatorSchema[$field]);

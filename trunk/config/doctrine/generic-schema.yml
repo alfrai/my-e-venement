@@ -214,6 +214,7 @@ Picture:
       notnull: true
     width: integer
     height: integer
+    content_encoding: string(255)
 
 Jabber:
   package: generic
