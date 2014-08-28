@@ -30,6 +30,6 @@ class liDoctrineQuery extends Doctrine_Query
     foreach ($this->getFlattenedParams() as $param) {
       $query = join(var_export(is_scalar($param) ? $param : (string) $param, true), explode('?', $query, 2));
     }
-    return $query;
+    return str_replace('\\\\', '\\', $query);
   }
 }
