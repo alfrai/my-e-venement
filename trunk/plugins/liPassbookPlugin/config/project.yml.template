@@ -11,5 +11,5 @@ all:
       design:
         background_color: rgb(60, 65, 76)
         logo_text: e-venement, the best ticketting system ever
-        icon: <?php echo sfConfig::get('sf_web_dir') ?>/images/logo-evenement.png
+        icon: <?php echo sfConfig::get('sf_web_dir') ?>/images/logo-evenement-big.png
 

@@ -54,7 +54,7 @@ class liPassbook
     if ( !isset($this->configuration['design']) )
       $this->configuration['design'] = array();
     if ( !isset($this->configuration['design']['icon']) )
-      $this->configuration['design']['icon'] = sfConfig::get('sf_web_dir').'/images/logo-evenement.png';
+      $this->configuration['design']['icon'] = sfConfig::get('sf_web_dir').'/images/logo-evenement-big.png';
     
     return $this;
   }
@@ -116,18 +116,29 @@ class liPassbook
     
     // Add primary field
     $primary = new Field('event', (string)$this->ticket->Manifestation->Event);
-    $primary->setLabel('Event');
+    $primary->setLabel($this->__('Event'));
     $structure->addPrimaryField($primary);
     
     // Add secondary field
     $secondary = new Field('location', (string)$this->ticket->Manifestation->Location);
-    $secondary->setLabel('Location');
+    $secondary->setLabel($this->__('Location'));
+    $structure->addSecondaryField($secondary);
+    if ( $this->ticket->Manifestation->Location->city || $this->ticket->Manifestation->Location->address )
+    {
+      $secondary = new Field('address', $this->ticket->Manifestation->Location->address."\n".$this->ticket->Manifestation->Location->postalcode.' '.$this->ticket->Manifestation->Location->city);
+      $secondary->setLabel($this->__('Address'));
+      $structure->addSecondaryField($secondary);
+    }
+    
+    // Add secondary field
+    $secondary = new Field('ticket', $this->ticket.($this->ticket->seat_id ? $this->__('Seat').': '.$this->ticket->Seat : ''));
+    $secondary->setLabel($this->__('Ticket'));
     $structure->addSecondaryField($secondary);
     
     // Add auxiliary field
     $this->context->getConfiguration()->loadHelpers(array('Date'));
     $auxiliary = new Field('datetime', format_datetime($this->ticket->Manifestation->happens_at));
-    $auxiliary->setLabel('Date & Time');
+    $auxiliary->setLabel($this->__('Date & Time'));
     $structure->addAuxiliaryField($auxiliary);
     
     // Set pass structure
