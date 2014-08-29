@@ -36,6 +36,19 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
     
     $this->widgetSchema   ['sf_guard_user_id']->setOption('multiple', true)->setOption('order_by', array('username',''))->setOption('add_empty', false);
     $this->validatorSchema['sf_guard_user_id']->setOption('multiple', true);
+    
+    $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    $q = 'SELECT DISTINCT campaign, campaign IS NULL FROM web_origin ORDER BY campaign IS NULL DESC, campaign';
+    $stmt = $pdo->prepare($q);
+    $stmt->execute();
+    $campaigns = $stmt->fetchAll();
+    $choices = array();
+    foreach ( $campaigns as $c )
+      $choices[$c['campaign'] ? $c['campaign'] : -1] = $c['campaign'];
+    $this->widgetSchema   ['campaign'] = new sfWidgetFormChoice(array(
+      'choices' => $choices,
+      'multiple' => true,
+    ));
   }
   
   public function getFields()
@@ -77,6 +90,34 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
       return $q;
     
     $q->andWhere('wo.ipaddress ILIKE ?', $value['text'].'%');
+    return $q;
+  }
+  public function addCampaignColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    
+    $noc = false;
+    foreach ( $values as $i => $value )
+    if ( $value == '-1' )
+    {
+      $noc = true;
+      unset($values[$i]);
+    }
+    
+    $q->andWhere('(TRUE');
+    if ( $noc )
+      $q->andWhere('wo.campaign IS NULL OR wo.campaign = ?', '');
+    
+    
+    if ( $values )
+    {
+      if ( $noc ) $q->orWhere('TRUE');
+      $q->andWhereIn('wo.campaign', $values);
+    }
+    $q->andWhere('TRUE)');
+    
+    // pfiiiou
     return $q;
   }
 }

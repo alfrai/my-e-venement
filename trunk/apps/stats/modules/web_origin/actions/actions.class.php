@@ -21,11 +21,71 @@ class web_originActions extends autoWeb_originActions
   }
   public function executeData(sfWebRequest $request)
   {
+    $this->debug($request);
+    $this->data = $this->getData($request->getParameter('which', 'referers'));
+  }
+  public function executeCsv(sfWebRequest $request)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N','Date','CrossAppLink','Number'));
+    
+    $debug = $this->debug($request);
+    $this->data = $this->getData($request->getParameter('which', 'referers'));
+    
+    $this->lines = array();
+    $total = array_sum($this->data);
+    $names = array('referers' => __('Referers'), 'campaigns' => __('Campaigns'), 'deal_done' => __('Done deals'), 'evolution' => __('Activity'));
+    foreach ( $this->data as $key => $value )
+      $this->lines[] = array(
+        'name' => $key,
+        'nb'   => $value,
+        'percent'   => format_number(round($value*100/$total,2)),
+      );
+    $this->name = isset($names[$request->getParameter('which', 'referers')])
+      ? $names[$request->getParameter('which', 'referers')]
+      : $request->getParameter('which', 'referers');
+    
+    $params = OptionCsvForm::getDBOptions();
+    $this->options = array(
+      'ms' => in_array('microsoft',$params['option']),
+      'fields' => array('name','nb','percent'),
+      'tunnel' => false,
+      'noheader' => false,
+    );
+    
+    $this->outstream = 'php://output';
+    $this->delimiter = $this->options['ms'] ? ';' : ',';
+    $this->enclosure = '"';
+    $this->charset   = sfConfig::get('software_internals_charset');
+    
+    sfConfig::set('sf_escaping_strategy', false);
+    $confcsv = sfConfig::get('software_internals_csv');
+    if ( isset($confcsv['set_charset']) && $confcsv['set_charset'] )
+      sfConfig::set('sf_charset', $this->options['ms'] ? $this->charset['ms'] : $this->charset['db']);
+  }
+  
+  protected function debug(sfWebRequest $request)
+  {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date', 'I18N'));
+    if ( sfConfig::get('sf_web_debug', true) && $request->hasParameter('debug') )
+    {
+      $this->setLayout('layout');
+      $this->getResponse()->setContentType('text/html');
+      $this->getResponse()->setHttpHeader('Content-Disposition', NULL);
+      $this->getResponse()->sendHttpHeaders();
+    }
+    else
+      sfConfig::set('sf_web_debug', false);
+    
+    return sfConfig::get('sf_web_debug', false);
+  }
+  protected function getData($which = 'referers')
+  {
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $limit = 10;
-    $sql = preg_replace('/^SELECT .* FROM/', '', $this->buildQuery()->removeDqlQueryPart('orderby')->getRawSql());
+    $dql = $this->buildQuery()->removeDqlQueryPart('orderby');
+    $sql = preg_replace('/^SELECT .* FROM/', '', $dql->getRawSql());
     
-    switch ( $request->getParameter('which', 'referers') ) {
+    switch ( $which ) {
     case 'referers':
       $domain = "regexp_replace(w.referer, '".WebOriginFormFilter::SQL_REGEX_URL_FORMAT."', '\\2', 'ix')";
       $q = "SELECT $domain AS criteria, count(w.id) AS nb FROM $sql GROUP BY $domain";
@@ -47,28 +107,47 @@ class web_originActions extends autoWeb_originActions
     $q .= " ORDER BY count(w.id) DESC LIMIT $limit";
     $stmt = $pdo->prepare($q);
     $stmt->execute();
-    $this->data = $stmt->fetchAll();
+    $data = $stmt->fetchAll();
+    $this->type = 'pie';
     
     // post production
-    foreach ( $this->data as $key => $values )
+    foreach ( $data as $key => $values )
     {
-      unset($this->data[$key]);
-      $this->data[$values['criteria']] = $values['nb'];
+      unset($data[$key]);
+      $data[$values['criteria']] = $values['nb'];
     }
-    switch ( $request->getParameter('which', 'referers') ) {
+    switch ( $which ) {
     case 'campaigns':
-      foreach ( $this->data as $criteria => $value )
+      foreach ( $data as $criteria => $value )
       if ( !$criteria )
-        unset($this->data[$criteria]);
+        unset($data[$criteria]);
+    case 'referers':
+      if ( ($value = $dql->count() - array_sum($data)) > 0 )
+        $data[__('empty information')] = $dql->count() - array_sum($data); // the rest
       break;
     case 'evolution':
+      $this->type = 'line';
       $start = strtotime(date('Y-m-d'));
-      foreach ( $this->data as $criteria => $value )
+      foreach ( $data as $criteria => $value )
       {
         if ( strtotime($values['criteria']) < strtotime('-1 month', $start) )
-          unset($this->data[$criteria]);
+          unset($data[$criteria]);
       }
+      
+      // completing empty days
+      for ( $i = 0 ; $i < 31 ; $i++ )
+      {
+        $key = date('Y-m-d 00:00:00', strtotime("-$i day"));
+        $data[$key] = isset($data[$key]) ? $data[$key] : 0;
+      }
+      ksort($data);
+      $tmp = array();
+      foreach ( $data as $key => $value )
+        $tmp[format_date($key)] = $value; // to have human readable dates
+      $data = $tmp;
       break;
     }
+    
+    return $data;
   }
 }
