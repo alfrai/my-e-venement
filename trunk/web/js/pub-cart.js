@@ -10,7 +10,9 @@
       var taxes = 0;
       $('#command tbody #'+gauge_id+' .tickets > [data-price-id='+price_id+']').each(function(){
         value += parseFloat($(this).closest('tr').find('.value').html().replace(',','.'));
-        taxes += parseFloat($(this).closest('tr').find('.extra-taxes').html().replace(',','.'));
+        var tmp = parseFloat($(this).closest('tr').find('.extra-taxes').html().replace(',','.'));
+        if ( !isNaN(tmp) )
+          taxes += tmp;
       });
       var currency = $.trim(ticket.closest('tr').find('.value').html()).replace(',','.').replace(/^\d+\.{0,1}\d*&nbsp;(.*)$/,'$1');
       
