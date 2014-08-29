@@ -37,12 +37,15 @@ class transactionActions extends sfActions
       return $this->renderText($pdf->execute());
     case 'passbook':
       $this->getContext()->getConfiguration()->loadHelpers(array('I18N', 'Date'));
-      $config = sfConfig::get('app_tickets_passbook', array());
+      $this->getResponse()->setContentType(liPassbook::MIME_TYPE);
+      
       $passbooks = array();
       foreach ( $transaction->Tickets as $ticket )
-        $passbooks[] = new liPassbook($ticket, $config);
+        $passbooks[] = new liPassbook($ticket);
       
-      return $this->renderText($passbooks[0]);
+      $passbook = $passbooks[0];
+      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="ticket-'.$passbook->getTicket()->id.'.pkpass"');
+      return $this->renderText((string)$passbook);
     }
   }
   

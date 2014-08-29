@@ -1,5 +1,5 @@
 <?php
-require_once ('qrcode/qrlib.php');
+require_once (__DIR__.'/qrcode/qrlib.php');
 
 class liBarcode
 {
@@ -9,7 +9,7 @@ class liBarcode
   public function __construct($text)
   {
     $this->setText($text);
-    $this->type = sfConfig::get('app_tickets_barcode') != 'qrcode' ? 'barcode' : 'qrcode';
+    $this->type = sfConfig::get('app_tickets_barcode', 'qrcode') != 'qrcode' ? 'barcode' : 'qrcode';
   }
   public function setText($text)
   {

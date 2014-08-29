@@ -31,12 +31,16 @@ use Passbook\Type\EventTicket;
 
 class liPassbook
 {
-  protected $ticket, $configuration, $factory, $appleDer, $pkpass;
+  protected $ticket, $configuration, $factory, $appleDer, $pkpass, $context = NULL;
+  const MIME_TYPE = 'application/vnd.apple.pkpass';
   
-  public function __construct(Ticket $ticket, array $configuration)
+  public function __construct(Ticket $ticket, array $configuration = NULL)
   {
+    if ( class_exists('sfContext') && sfContext::hasInstance() )
+      $this->context = sfContext::getInstance();
+    
     $this->ticket = $ticket;
-    $this->setConfiguration($configuration);
+    $this->setConfiguration($configuration ? $configuration : sfConfig::get('project_eticketting_passbook', array()));
     $this->createFactory();
   }
   public function setConfiguration(array $configuration)
@@ -55,35 +59,48 @@ class liPassbook
     return $this;
   }
   
+  public function getTicket()
+  {
+    return $this->ticket;
+  }
   public function __toString()
   {
-    return (string)$this->pkpass;
+    return file_get_contents($this->pkpass->getPathname());
+  }
+  public function getRealFilePath()
+  {
+    return $this->pkpass->getPathname();
   }
   public function getPkpassPath()
   {
-    return sfConfig::get('sf_module_cache_dir').'/passbook-'.$this->transaction->id.'.pkpass';
+    return sfConfig::get('sf_app_cache_dir').'/passbook-'.$this->ticket->Manifestation->Event->slug.'-'.$this->ticket->id.'.pkpass';
+  }
+  public function getMimeType()
+  {
+    return self::MIME_TYPE;
   }
   
   public function createFactory()
   {
     $this->factory = new PassFactory(
-      $passbook['certification']['identifier'],
-      $passbook['certification']['team_id'],
-      $passbook['certification']['organization'],
-      $passbook['certification']['p12_cert_file'],
-      trim(file_get_contents($passbook['certification']['p12_passwd_file'])),
-      $this->getApplePem()
+      $this->configuration['certification']['identifier'],
+      $this->configuration['certification']['team_id'],
+      $this->configuration['certification']['organization'],
+      $this->configuration['certification']['p12_cert_file'],
+      trim(file_get_contents($this->configuration['certification']['p12_passwd_file'])),
+      $this->getApplePemFilePath()
     );
     $this->factory->setOutputPath($this->getPkpassPath());
     $pass = $this->createEventTicket($this->ticket);
     
-    $this->pkpass = $this->factory->package($passes);
+    $this->pkpass = $this->factory->package($pass);
+    $this->writeFile($this->getPkpassPath());
     
     return $this;
   }
   protected function createEventTicket()
   {
-    $pass = EventTicket($this->ticket->id, $this->ticket->Manifestation);
+    $pass = new EventTicket($this->ticket->id, (string)$this->ticket->Manifestation);
     
     // cosmetics
     foreach ( array(
@@ -98,37 +115,62 @@ class liPassbook
     $structure = new Structure();
     
     // Add primary field
-    $primary = new Field('event', $this->ticket->Manifestation->Event);
+    $primary = new Field('event', (string)$this->ticket->Manifestation->Event);
     $primary->setLabel('Event');
     $structure->addPrimaryField($primary);
     
     // Add secondary field
-    $secondary = new Field('location', $this->ticket->Manifestation->Location);
+    $secondary = new Field('location', (string)$this->ticket->Manifestation->Location);
     $secondary->setLabel('Location');
     $structure->addSecondaryField($secondary);
     
     // Add auxiliary field
+    $this->context->getConfiguration()->loadHelpers(array('Date'));
     $auxiliary = new Field('datetime', format_datetime($this->ticket->Manifestation->happens_at));
     $auxiliary->setLabel('Date & Time');
     $structure->addAuxiliaryField($auxiliary);
     
+    // Set pass structure
     $pass->setStructure($structure);
+    
+    // Add barcode
+    $barcode = new Barcode(Barcode::TYPE_QR, $this->ticket->getBarcode());
+    $pass->setBarcode($barcode);
     
     return $pass;
   }
-  protected function getApplePem()
+  protected function getApplePemFilePath()
   {
-    if ( !$this->appleDer )
-      $this->appleDer = file_get_contents($passbook['certification']['apple_wwdr_cer_url']);
-    return $this->convertDerToPem($this->appleDer);
+    $path = sfConfig::get('sf_app_cache_dir').'/passbook-apple-wwdr.pem';
+    
+    // if a new file is needed
+    if (!( file_exists($path) && filemtime($path) > strtotime('1 week ago') ))
+    {
+      $this->writeFile(
+        $path,
+        $this->convertDerToPem(file_get_contents($this->configuration['certification']['apple_wwdr_cer_url']))
+      );
+    }
+    return $path;
   }
   
   protected function __($string)
   {
-    if ( !sfContext::hasInstance() )
+    if ( !$this->context )
       return $string;
-    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+    $this->context->getConfiguration()->loadHelpers(array('I18N'));
     return __($string);
+  }
+  protected function writeFile($path, $content = NULL)
+  {
+    if ( $content !== NULL )
+      file_put_contents($path, $content);
+    chmod($path, 0777);
+    return $this;
+  }
+  protected function getContext()
+  {
+    return $this->context ? $this->context : false;
   }
   protected static function convertDerToPem($der)
   {

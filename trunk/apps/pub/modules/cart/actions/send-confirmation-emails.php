@@ -134,14 +134,20 @@ EOF
     $email->Attachments[] = $attachment;
     $attachment->save();
     
-    /*
     // attachments, tickets in Passbook
-    $attachment = new Attachment;
-    $attachment->filename = $filename;
-    $attachment->original_name = $filename;
-    $email->Attachments[] = $attachment;
-    $attachment->save();
-    */
+    foreach ( $transaction->Tickets as $ticket )
+    {
+      $pass = new liPassbook($ticket);
+      
+      $attachment = new Attachment;
+      $attachment->filename = $pass->getRealFilePath();
+      $attachment->original_name = basename($pass->getPkpassPath());
+      $attachment->mime_type = $pass->getMimeType();
+      
+      $email->Attachments[] = $attachment;
+      $attachment->email_id = $email->id;
+      $attachment->save();
+    }
     
     $email->not_a_test = true;
     $email->setNoSpool();

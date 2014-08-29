@@ -1,4 +1,3 @@
 <?php
-  $bc = new liBarcode($code);
-  $bc->render();
+  $ticket->renderBarcode();
 ?>

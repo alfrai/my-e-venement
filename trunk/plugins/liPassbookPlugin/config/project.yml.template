@@ -1,0 +1,15 @@
+all:
+  eticketting:
+    passbook:
+      certification:
+        identifier: pass.net.e-venement.mycompany
+        team_id: XXXXXXXX
+        organization: My Company
+        p12_cert_file: <?php echo sfConfig::get('sf_config_dir') ?>/config/passbook.p12
+        p12_passwd_file: <?php echo sfConfig::get('sf_config_dir') ?>/config/passbook.passwd
+        apple_wwdr_cer_url: http://developer.apple.com/certificationauthority/AppleWWDRCA.cer
+      design:
+        background_color: rgb(60, 65, 76)
+        logo_text: e-venement, the best ticketting system ever
+        icon: <?php echo sfConfig::get('sf_web_dir') ?>/images/logo-evenement.png
+

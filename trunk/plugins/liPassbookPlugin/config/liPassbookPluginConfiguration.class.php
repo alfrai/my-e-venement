@@ -16,14 +16,18 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
 <?php
-    sfConfig::set('sf_web_debug', false);
-    $this->getResponse()->setContentType('image/png');
-    $this->setLayout('no');
-    
-    $this->ticket = Doctrine::getTable('Ticket')->findOneById($request->getParameter('id'));
+
+class liPassbookPluginConfiguration extends sfPluginConfiguration
+{
+  public function initialize()
+  {
+    liClassLoader::create()->register('Passbook', __DIR__ . '/../lib/vendor/');
+  }
+}
+

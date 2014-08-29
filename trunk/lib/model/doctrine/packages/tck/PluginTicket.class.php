@@ -95,6 +95,9 @@ abstract class PluginTicket extends BaseTicket
       $this->addTaxes($taxes);
     }
     
+    // the generates a barcode (if necessary) to record in DB
+    $this->getBarcode();
+    
     parent::preSave($event);
   }
   

@@ -68,9 +68,14 @@ abstract class PluginEmail extends BaseEmail
     $message = $this->compose(Swift_Message::newInstance()->setTo($to));
     
     foreach ( $this->Attachments as $attachment )
-      $message->attach(Swift_Attachment::fromPath(sfConfig::get('sf_upload_dir').DIRECTORY_SEPARATOR.$attachment->filename)
+    {
+      $att = Swift_Attachment::fromPath($path = substr($attachment->filename, 0, 1) == '/'
+          ? $attachment->filename
+          : sfConfig::get('sf_upload_dir').DIRECTORY_SEPARATOR.$attachment->filename, $attachment->mime_type)
         ->setFilename($attachment->original_name)
-        ->setId('part.'.$attachment->id.'@e-venement'));
+        ->setId('part.'.$attachment->id.'@e-venement');
+      $message->attach($att);
+    }
     
     $this->setMailer();
     return $immediatly === true
