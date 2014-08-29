@@ -1,4 +1,10 @@
 <?php
+use Passbook\Pass\Field;
+use Passbook\Pass\Image;
+use Passbook\PassFactory;
+use Passbook\Pass\Barcode;
+use Passbook\Pass\Structure;
+use Passbook\Type\EventTicket;
 
 /**
  * transaction actions.
@@ -10,22 +16,6 @@
  */
 class transactionActions extends sfActions
 {
-  public function executeGetPassbook(sfWebRequest $request)
-  {
-    if ( !sfConfig::get('sf_web_debug', false) )
-      return sfView::NONE;
-    
-    if ( !$request->hasParameter('debug') )
-      sfConfig::set('sf_web_debug', false);
-    
-    $transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
-    
-    $pass = EventTicket('111111', 'TEST TEST');
-    $factory = new PassFactory('PASS-TYPE-IDENTIFIER', 'TEAM-IDENTIFIER', 'ORGANIZATION-NAME', '/path/to/p12/certificate', 'P12-PASSWORD', '/path/to/wwdr/certificate');
-    $factory->setOutputPath(sfConfig::get('sf_upload_dir').'/passbook-'.date('YmdHis').'-'.$transaction->id);
-    $factory->package($pass);
-  }
-  
   public function executeTickets(sfWebRequest $request)
   {
     if ( !$request->hasParameter('debug') && !$request->hasParameter('debug') )
@@ -36,15 +26,24 @@ class transactionActions extends sfActions
       throw new liOnlineSaleException('The delivery of tickets which belongs to someone else is not allowed');
     
     $this->tickets_html = $transaction->renderSimplifiedTickets(array('barcode' => $request->getParameter('format') === 'html' ? 'html' : 'png'));
-    
-    if ( !$request->getParameter('format') === 'html' )
+    switch ( $request->getParameter('format', 'pdf') ) {
+    case 'html':
       return 'Success';
-    
-    $pdf = new sfDomPDFPlugin();
-    $pdf->setInput($content = $this->getPartial('get_tickets_pdf', $this->ticket_html));
-    $this->getResponse()->setContentType('application/pdf');
-    $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="tickets.pdf"');
-    return $this->renderText($pdf->execute());
+    case 'pdf':
+      $pdf = new sfDomPDFPlugin();
+      $pdf->setInput($content = $this->getPartial('get_tickets_pdf', $this->ticket_html));
+      $this->getResponse()->setContentType('application/pdf');
+      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="tickets.pdf"');
+      return $this->renderText($pdf->execute());
+    case 'passbook':
+      $this->getContext()->getConfiguration()->loadHelpers(array('I18N', 'Date'));
+      $config = sfConfig::get('app_tickets_passbook', array());
+      $passbooks = array();
+      foreach ( $transaction->Tickets as $ticket )
+        $passbooks[] = new liPassbook($ticket, $config);
+      
+      return $this->renderText($passbooks[0]);
+    }
   }
   
   public function executeTestSendEmail(sfWebRequest $request)

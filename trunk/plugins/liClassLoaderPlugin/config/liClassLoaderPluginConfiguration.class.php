@@ -26,7 +26,7 @@
 require_once __DIR__.'/../lib/vendor/UniversalClassLoader.php';
 require_once __DIR__.'/../lib/vendor/ApcUniversalClassLoader.php';
 
-class liPassbookPluginConfiguration extends sfPluginConfiguration
+class liClassLoaderPluginConfiguration extends sfPluginConfiguration
 {
 }
 
