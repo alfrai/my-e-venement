@@ -57,7 +57,7 @@ class ProjectConfiguration extends sfProjectConfiguration
       'sfWebBrowserPlugin',
       'sfFeed2Plugin',
       'liCardDavPlugin',
-      'liPassbookPlugin',
+      'liClassLoaderPlugin',
     ));
     
     $modules = array();
