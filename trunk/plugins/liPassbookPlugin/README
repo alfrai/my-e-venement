@@ -7,3 +7,4 @@ you need to fetch php-passbook library and put the src/Passbook directory in lib
 
 then just setup your config/project.yml following the template in liPassbookPlugin/config/project.yml.template
 for further informations, read php-passbook.README.md or the official documentation of Passbook from Apple(tm)
+do not forget to add liClassLoaderPlugin in the active plugins list of your e-venement instance (it should have been done automatically since v2.8)
