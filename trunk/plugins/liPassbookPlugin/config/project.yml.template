@@ -5,8 +5,8 @@ all:
         identifier: pass.net.e-venement.mycompany
         team_id: XXXXXXXX
         organization: My Company
-        p12_cert_file: <?php echo sfConfig::get('sf_config_dir') ?>/config/passbook.p12
-        p12_passwd_file: <?php echo sfConfig::get('sf_config_dir') ?>/config/passbook.passwd
+        p12_cert_file: <?php echo sfConfig::get('sf_config_dir') ?>/config/private/passbook.p12
+        p12_passwd_file: <?php echo sfConfig::get('sf_config_dir') ?>/config/private/passbook.passwd
         apple_wwdr_cer_url: http://developer.apple.com/certificationauthority/AppleWWDRCA.cer
       design:
         background_color: rgb(60, 65, 76)

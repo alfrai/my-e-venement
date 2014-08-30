@@ -1,0 +1,9 @@
+== INSTALL ==
+
+you need to fetch php-passbook library and put the src/Passbook directory in lib/vendor/Passbook/ as it can be done with SVN :
+
+  svn propedit svn:externals liPassbookPlugin/lib/
+  vendor/Passbook https://github.com/eymengunay/php-passbook/tags/v1.1.1/src/Passbook
+
+then just setup your config/project.yml following the template in liPassbookPlugin/config/project.yml.template
+for further informations, read php-passbook.README.md or the official documentation of Passbook from Apple(tm)
