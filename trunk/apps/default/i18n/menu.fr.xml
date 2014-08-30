@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Online sales</source>
+        <target>Ventes en ligne</target>
+      </trans-unit>
+      <trans-unit>
         <source>Extra taxes</source>
         <target>Taxes additionnelles</target>
       </trans-unit>

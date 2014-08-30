@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ability to look at the online sales statistics</source>
+        <target>Possibilité de voir les statistiques de vente en ligne</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ability to look at the taxes</source>
         <target>Possibilité de voir les taxes</target>
       </trans-unit>

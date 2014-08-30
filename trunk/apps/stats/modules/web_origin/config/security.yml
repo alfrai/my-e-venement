@@ -1,0 +1,8 @@
+all:
+  credentials: [admin-power]
+index:
+  credentials: [stats-pub]
+data:
+  credentials: [stats-pub]
+csv:
+  credentials: [stats-pub, stats-csv]

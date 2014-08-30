@@ -1,4 +1,9 @@
 sfGuardPermission:
+  sfGuardPermission_120:
+    name: stats-pub
+    description: 'Permission to access the online sales stats'
+    created_at: '2014-08-29 19:36:26.864353'
+    updated_at: '2014-08-29 19:36:26.864353'
   sfGuardPermission_110:
     name: backups
     description: 'Permission to have access the backup downloading tool'
@@ -545,6 +550,11 @@ sfGuardPermission:
     created_at: '2014-05-28 09:20:41'
     updated_at: '2014-05-28 09:20:41'
 sfGuardGroupPermission:
+  sfGuardGroupPermission_46_120:
+    Group: sfGuardGroup_46
+    Permission: sfGuardPermission_120
+    created_at: '2014-08-29 19:36:26.864353'
+    updated_at: '2014-08-29 19:36:26.864353'
   sfGuardGroupPermission_43_110:
     Group: sfGuardGroup_43
     Permission: sfGuardPermission_110
@@ -1396,6 +1406,11 @@ sfGuardGroupPermission:
     created_at: '2014-05-28 09:20:00'
     updated_at: '2014-05-28 09:20:00'
 sfGuardGroup:
+  sfGuardGroup_46:
+    name: stats-pub
+    description: 'Ability to look at the online sales statistics'
+    created_at: '2014-08-29 19:36:27.000023'
+    updated_at: '2014-08-29 19:36:27.000023'
   sfGuardGroup_43:
     name: admin-backups
     description: 'Ability to access backups'

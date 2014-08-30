@@ -36,6 +36,9 @@
           <li><a href="<?php echo cross_app_url_for('stats','prices/index') ?>"><?php echo __('Tickets by price',array(),'menu') ?></a></li>
           <li><a href="<?php echo cross_app_url_for('stats','transactions/index') ?>"><?php echo __('Transactions by price',array(),'menu') ?></a></li>
           <?php endif ?>
+          <?php if ( $sf_user->hasCredential('stats-geo') ): ?>
+          <li><a href="<?php echo cross_app_url_for('stats', 'geo/index') ?>"><?php echo __('Geographical approach', null, 'menu') ?></a></li>
+          <?php endif ?>
           <li class="spaced"></li>
           <?php if ( $sf_user->hasCredential('stats-activity') ): ?>
           <li><a href="<?php echo cross_app_url_for('stats','activity/index') ?>"><?php echo __('Ticketting activity',array(),'menu') ?></a></li>
@@ -44,8 +47,8 @@
           <?php if ( $sf_user->hasCredential('tck-reports') ): ?>
           <li><a href="<?php echo cross_app_url_for('stats','tickets/index') ?>"><?php echo __('Ticketting',array(),'menu') ?></a></li>
           <?php endif ?>
-          <?php if ( $sf_user->hasCredential('stats-geo') ): ?>
-          <li><a href="<?php echo cross_app_url_for('stats', 'geo/index') ?>"><?php echo __('Geographical approach', null, 'menu') ?> (beta)</a></li>
+          <?php if ( $sf_user->hasCredential('stats-pub') ): ?>
+          <li><a href="<?php echo cross_app_url_for('stats','web_origin/index') ?>"><?php echo __('Online sales',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('stats-pr-cards') || $sf_user->hasCredential('stats-pr-social') || $sf_user->hasCredential('stats-pr-social') ): ?>
           <li class="spaced"></li>
