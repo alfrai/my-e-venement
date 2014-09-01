@@ -160,14 +160,9 @@ class Transaction extends PluginTransaction
     if ( !isset($with['css']) || isset($with['css']) && $with['css'] )
     {
       $tickets_html .= '<div style="clear: both"></div>';
-      $tickets_html .= '<style type="text/css" media="all">
-        .cmd-ticket { padding: 5px; border: 1px solid silver; margin: 2em 0; page-break-after: always; background-color: whitesmoke }
-        .cmd-ticket br { display: none; }
-        .cmd-ticket .bc { border: 1px solid silver; padding: 10px; }
-        .cmd-ticket .desc { width: 350px; }
-        .cmd-ticket .clear { clear: both; }
-        .cmd-ticket .bc span { height: 140px; display: block; overflow: hidden; border-bottom: 5px solid white; }
-      </style>';
+      $tickets_html .= '<style type="text/css" media="all">'.file_get_contents(sfConfig::get('sf_web_dir').'/css/print-simplified-tickets.css').'</style>';
+      if ( file_exists(sfConfig::get('sf_web_dir').'/private/print-simplified-tickets.css') )
+        $tickets_html .= '<style type="text/css" media="all">'.file_get_contents(sfConfig::get('sf_web_dir').'/private/print-simplified-tickets.css').'</style>';
     }
     
     if ( !isset($with['tickets']) || isset($with['tickets']) && $with['tickets'] )
