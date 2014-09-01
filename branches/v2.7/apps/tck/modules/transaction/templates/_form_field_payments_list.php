@@ -98,7 +98,7 @@ LI.urls['payments'] = '<?php echo url_for($options->getRaw('data_url').'?id='.$t
         .css('visibility','hidden');
     <?php endif ?>
     $('#li_transaction_field_payments_list .accounting.order').submit(function(){
-      if ( !LI.printTickets(this); )
+      if ( !LI.printTickets(this) )
         return false;
       $('#li_transaction_field_payments_list .accounting.order [name=cancel-order]')
         .css('visibility', 'visible');
