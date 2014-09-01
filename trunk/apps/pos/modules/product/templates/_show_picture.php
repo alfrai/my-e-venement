@@ -16,21 +16,17 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
-<?php use_helper('CrossAppLink') ?>
-<?php include_partial('global/menu_file') ?>
-<?php if ( $sf_user->isAuthenticated() ): ?>
-<?php include_partial('global/menu_pr') ?>
-<?php include_partial('global/menu_events') ?>
-<?php include_partial('global/menu_pos') ?>
-<?php include_partial('global/menu_ticketting') ?>
-<?php include_partial('global/menu_accounting') ?>
-<?php include_partial('global/menu_groups') ?>
-<?php include_partial('global/menu_stats') ?>
-<?php include_partial('global/menu_setup') ?>
+<?php if ( isset($form) && !$form->getObject()->Picture->isNew()
+        || isset($product) && is_object($sf_data->getRaw('seated_plan')->Picture) && !$product->Picture->isNew() ): ?>
+<div class="sf_admin_form_row <?php if ( !isset($product) ): ?>sf_admin_boolean sf_admin_form_field_show_picture<?php endif ?> gauge">
+  <?php if ( isset($form) ): ?>
+  <?php endif ?>
+  <div class="label ui-helper-clearfix"><label for="group_show_picture"><?php echo __('Picture').':' ?></label></div>
+  <div class="img"><img src="<?php echo cross_app_url_for('default', 'picture/display?id='.$form->getObject()->picture_id) ?>" alt="" /></div>
+</div>
 <?php endif ?>
-<?php include_partial('global/menu_help') ?>

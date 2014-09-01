@@ -12,4 +12,10 @@
  */
 class Vat extends PluginVat
 {
+  public function getValue()
+  {
+    if ( $this->rawGet('value') )
+      return $this->rawGet('value');
+    return 0;
+  }
 }

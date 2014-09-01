@@ -7,6 +7,7 @@
  * 
  * @property string $name
  * @property integer $vat_id
+ * @property Vat $Vat
  * @property Doctrine_Collection $Products
  * 
  * @package    e-venement
@@ -34,6 +35,12 @@ abstract class BaseProductCategory extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
+        $this->hasOne('Vat', array(
+             'local' => 'vat_id',
+             'foreign' => 'id',
+             'onDelete' => 'SET NULL',
+             'onUpdate' => 'CASCADE'));
+
         $this->hasMany('Product as Products', array(
              'local' => 'id',
              'foreign' => 'product_category_id'));

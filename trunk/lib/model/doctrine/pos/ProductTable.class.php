@@ -7,13 +7,14 @@
  */
 class ProductTable extends PluginProductTable
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object ProductTable
-     */
-    public static function getInstance()
-    {
-        return Doctrine_Core::getTable('Product');
-    }
+  public function createQuery($alias = 'p')
+  {
+    return parent::createQuery($alias)
+      ->leftJoin("$alias.Translation pt");
+  }
+  
+  public static function getInstance()
+  {
+    return Doctrine_Core::getTable('Product');
+  }
 }

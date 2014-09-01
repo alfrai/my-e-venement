@@ -1,0 +1,19 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/13-View
+
+default:
+  http_metas:
+    content-type: text/html
+
+  metas:
+    #title:        symfony project
+    #description:  symfony project
+    #keywords:     symfony, project
+    #language:     en
+    #robots:       index, follow
+
+  stylesheets:    [/sfAdminThemejRollerPlugin/css/reset.css, main: {media: all}, menu, content: { media: all }, /sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css, /sfAdminThemejRollerPlugin/css/jroller.css, /sfAdminThemejRollerPlugin/css/fg.buttons.css, pos]
+  javascripts:    [menu,/sfAdminThemejRollerPlugin/js/jquery-ui.custom.min.js,/sfAdminThemejRollerPlugin/js/jroller.js]
+
+  has_layout:     true
+  layout:         layout

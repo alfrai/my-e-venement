@@ -1,0 +1,32 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Product
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          product
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        product_category_id: { label: Category }
+        prices_list: { help: Choose what price will be displaid }
+        prices: { help: then set up their values }
+        accounting_account: { label: Account, help: A facilitator for accounting }
+        meta_event_id: { help: "Associating a product to a meta-event insures that it will not be sold again after this meta-event or if your users do not have access to this meta-event." }
+        vat_id: { help: "If it remains unset, it means 0%." }
+        description: { help: "Especially useful for online sales." }
+      list:    ~
+      filter:
+        display: [meta_event_id, product_category_id, name, prices_list]
+      form:
+        display:
+          General: [name, product_category_id, prices_list, prices, vat_id]
+          Details: [meta_event_id, description, picture, _show_picture, _form_picture_del, accounting_account]
+      edit:    ~
+      new:     ~

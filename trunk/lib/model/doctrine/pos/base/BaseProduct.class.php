@@ -11,9 +11,13 @@
  * @property string $description
  * @property integer $picture_id
  * @property string $accounting_account
+ * @property integer $vat_id
  * @property ProductCategory $Category
  * @property MetaEvent $MetaEvent
  * @property Picture $Picture
+ * @property Doctrine_Collection $Prices
+ * @property Vat $Vat
+ * @property Doctrine_Collection $PriceProducts
  * 
  * @package    e-venement
  * @subpackage model
@@ -49,6 +53,9 @@ abstract class BaseProduct extends Traceable
              'type' => 'string',
              'length' => 50,
              ));
+        $this->hasColumn('vat_id', 'integer', null, array(
+             'type' => 'integer',
+             ));
     }
 
     public function setUp()
@@ -71,6 +78,21 @@ abstract class BaseProduct extends Traceable
              'foreign' => 'id',
              'onDelete' => 'SET NULL',
              'onUpdate' => 'CASCADE'));
+
+        $this->hasMany('Price as Prices', array(
+             'refClass' => 'PriceProduct',
+             'local' => 'product_id',
+             'foreign' => 'price_id'));
+
+        $this->hasOne('Vat', array(
+             'local' => 'vat_id',
+             'foreign' => 'id',
+             'onDelete' => 'SET NULL',
+             'onUpdate' => 'CASCADE'));
+
+        $this->hasMany('PriceProduct as PriceProducts', array(
+             'local' => 'id',
+             'foreign' => 'product_id'));
 
         $i18n0 = new Doctrine_Template_I18n(array(
              'fields' => 
