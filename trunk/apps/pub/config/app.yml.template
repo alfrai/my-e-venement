@@ -22,6 +22,8 @@ all:
     wip_price: WIP
   contact:
     capitalize: [name, firstname, city, country, address]
+  #show:
+  #  company_id: 5 # do not set something if you do not care
   payment:
     ## to be able to use properly a payment method,                    
     ## install (if it is not included) the plugin in the sf_plugin_dir

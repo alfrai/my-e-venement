@@ -134,7 +134,7 @@ class SystempayPayment extends OnlinePayment
     if (!( isset($urls['bank']) && $urls['bank'] ))
       throw new liOnlineSaleException('No URL found for the Systempay payment.');
     
-    if ( sfConfig::get('app_payment_auto_follow', true) )
+    if ( sfConfig::get('app_payment_autosubmit', true) )
     {
       if ( !isset($attributes['class']) )
         $attributes['class'] = '';

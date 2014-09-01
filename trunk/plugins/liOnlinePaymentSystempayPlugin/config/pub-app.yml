@@ -16,5 +16,5 @@ all:
       normal: cart/done
       cancel: cart/cancel
       automatic: cart/response
-    auto_follow: true
+    autosubmit: true
 

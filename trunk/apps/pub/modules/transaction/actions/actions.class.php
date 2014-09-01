@@ -27,8 +27,6 @@ class transactionActions extends sfActions
     
     $this->tickets_html = $transaction->renderSimplifiedTickets(array('barcode' => $request->getParameter('format') === 'html' ? 'html' : 'png'));
     switch ( $request->getParameter('format', 'pdf') ) {
-    case 'html':
-      return 'Success';
     case 'pdf':
       $pdf = new sfDomPDFPlugin();
       $pdf->setInput($content = $this->getPartial('get_tickets_pdf', $this->ticket_html));
@@ -40,6 +38,9 @@ class transactionActions extends sfActions
       $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="'.$wallet->getFilename().'"');
       $this->getResponse()->setContentType(liPassbookWallet::MIME_TYPE);
       return $this->renderText($wallet);
+    case 'html':
+    default:
+      return 'Success';
     }
   }
   
