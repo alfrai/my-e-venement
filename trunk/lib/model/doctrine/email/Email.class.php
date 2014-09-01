@@ -14,6 +14,8 @@ class Email extends PluginEmail
 {
   protected $nospool = false;
   protected $read_receipt = false;
+  protected $type         = 'Email';
+  protected $dispatcher_params = array();
   
   public function setUp()
   {
@@ -55,5 +57,23 @@ class Email extends PluginEmail
       $this->sf_guard_user_id = sfContext::getInstance()->getUser()->getId();
     
     return parent::save($conn);
+  }
+  public function getType()
+  {
+    return $this->type;
+  }
+  public function setType($type)
+  {
+    $this->type = $type;
+    return $this;
+  }
+  public function addDispatcherParameter($name, $value)
+  {
+    $this->dispatcher_params[$name] = $value;
+    return $this;
+  }
+  public function getDispatcherParameters()
+  {
+    return $this->dispatcher_params;
   }
 }

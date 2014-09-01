@@ -28,6 +28,77 @@ class liPassbookPluginConfiguration extends sfPluginConfiguration
   public function initialize()
   {
     liClassLoader::create()->register('Passbook', __DIR__ . '/../lib/vendor/');
+    $this->dispatcher->connect('email.before_attach', array($this, 'listenToEmailedOrders'));
+    $this->dispatcher->connect('pub.tickets_list_formats', array($this, 'listenToTicketsListFormats'));
+  }
+  
+  public function listenToTicketsListFormats(sfEvent $event)
+  { try {
+    // the link helper
+    if ( !sfContext::hasInstance() )
+      throw new sfException('Cannot generate the Passbook link (no Context defined)');
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
+    
+    // the transaction
+    $params = $event->getParameters();
+    $transaction = $params['transaction'];
+    
+    // print the link
+    echo link_to(
+      'Passbook',
+      'transaction/tickets?id='.$transaction->id.'&format=passbook',
+      array(
+        'class' => 'passbook',
+        'title' => __('Especially for mobile devices')
+      )
+    ).' ';
+  } catch ( Exception $e ) { $this->log($e); } }
+  
+  public function listenToEmailedOrders(sfEvent $event)
+  { try {
+    $email = $event->getSubject();
+    $params = $event->getParameters();
+    if ( $email->getType() !== 'Order' || !$params['transaction'] instanceof Transaction )
+      return;
+    
+    foreach ( $params['transaction']->Tickets as $ticket )
+    {
+      $pass = new liPassbook($ticket);
+       
+      $attachment = new Attachment;
+      $attachment->filename = $pass->getRealFilePath();
+      $attachment->original_name = basename($pass->getPkpassPath());
+      $attachment->mime_type = $pass->getMimeType();
+
+      $attachment->email_id = $email->id;
+      $attachment->save();
+      
+      // and then, to be sure that the attachments collection is up2date
+      $email->Attachments[] = $attachment;
+    }
+  } catch ( Exception $e ) { $this->log($e); } }
+  
+  /**
+   * Function that helps making dispatcher calls fail-proof
+   * @param $e Exception
+   * @return void
+   **/
+  public function log(Exception $e)
+  {
+    throw $e;
+    if ( sfContext::hasInstance() && sfConfig::get('sf_debug') )
+      error_log($e);
+    else
+      error_log($e->getMessage());
+  }
+  
+  /**
+   * returns the dispatcher
+   * @return sfEventDispatcher
+   **/
+  public function getDispatcher()
+  {
+    return $this->dispatcher;
   }
 }
 

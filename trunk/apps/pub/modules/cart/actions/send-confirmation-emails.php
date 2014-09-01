@@ -101,6 +101,7 @@
     );
     
     $email = new Email;
+    $email->setType('Order')->addDispatcherParameter('transaction', $transaction);
     $email->Contacts[] = $transaction->Contact;
     $email->field_bcc = sfConfig::get('app_informations_email','webdev@libre-informatique.fr');
     $email->field_subject = sfConfig::get('app_informations_title').': '.__('your order #').$transaction->id;
@@ -133,21 +134,6 @@ EOF
     $attachment->original_name = $filename;
     $email->Attachments[] = $attachment;
     $attachment->save();
-    
-    // attachments, tickets in Passbook
-    foreach ( $transaction->Tickets as $ticket )
-    {
-      $pass = new liPassbook($ticket);
-      
-      $attachment = new Attachment;
-      $attachment->filename = $pass->getRealFilePath();
-      $attachment->original_name = basename($pass->getPkpassPath());
-      $attachment->mime_type = $pass->getMimeType();
-      
-      $email->Attachments[] = $attachment;
-      $attachment->email_id = $email->id;
-      $attachment->save();
-    }
     
     $email->not_a_test = true;
     $email->setNoSpool();

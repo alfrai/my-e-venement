@@ -41,6 +41,7 @@ class tckConfiguration extends sfApplicationConfiguration implements liGarbageCo
     $software = sfConfig::get('project_about_software', array('name' => 'e-venement', 'url' => 'http://www.e-venement.net/',));
     
     $email = new Email;
+    $email->setType('Order')->addDispatcherParameter('transaction', $transaction);
     
     if ( $transaction->professional_id )
       $email->Professionals[] = $transaction->Professional;

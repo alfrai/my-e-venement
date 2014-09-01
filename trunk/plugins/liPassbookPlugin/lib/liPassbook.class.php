@@ -93,6 +93,7 @@ class liPassbook
     $this->factory->setOutputPath($this->getPkpassPath());
     $pass = $this->createEventTicket($this->ticket);
     
+    $this->rmPkpass();
     $this->pkpass = $this->factory->package($pass);
     $this->writeFile($this->getPkpassPath());
     
@@ -114,32 +115,108 @@ class liPassbook
     
     $structure = new Structure();
     
-    // Add primary field
-    $primary = new Field('event', (string)$this->ticket->Manifestation->Event);
-    $primary->setLabel($this->__('Event'));
-    $structure->addPrimaryField($primary);
+    // Organizers
+    $client = sfConfig::get('project_about_client', array());
+    $organizers = array();
+    if ( isset($client['name']) && $client['name'] )
+      $organizers[] = $client['name'];
+    foreach ( $this->ticket->Manifestation->Organizers as $orga )
+    if ( !in_array($orga->name, $organizers) )
+      $organizers[] = $orga->name;
     
-    // Add secondary field
-    $secondary = new Field('location', (string)$this->ticket->Manifestation->Location);
-    $secondary->setLabel($this->__('Location'));
-    $structure->addSecondaryField($secondary);
+    // Participantss
+    $participants = array();
+    foreach ( $this->ticket->Manifestation->Participants as $part )
+    if ( !in_array((string)$part, $participants) )
+      $participants[] = (string)$part;
+    
+    // Editor
+    $editor = sfConfig::get('project_about_firm', array());
+    foreach ( array('name' => 'No editor', 'url' => 'http://www.e-venement.org/') as $field => $default )
+    if (!( isset($editor[$field]) && $editor[$field] ))
+      $editor[$field] = $default;
+    
+    // Legal notices
+    $notices = sfConfig::get('app_tickets_mentions', array());
+    
+    $this->context->getConfiguration()->loadHelpers(array('Date'));
+    $data = array(
+      'event'     => array(
+        'type'      => 'primary',
+        'label'     => $this->__('Event'),
+        'string'    => (string)$this->ticket->Manifestation->Event
+      ),
+      'location'  => array(
+        'type'      => 'secondary',
+        'label'     => $this->__('Location'),
+        'string'    => (string)$this->ticket->Manifestation->Location
+      ),
+      'date'      => array(
+        'type'      => 'secondary',
+        'label'     => $this->__('Date & Time'),
+        'string'    => format_datetime($this->ticket->Manifestation->happens_at)
+      ),
+      'ticket'    => array(
+        'type'      => 'auxiliary',
+        'label'     => $this->__('Ticket'),
+        'string'    => $this->ticket.($this->ticket->seat_id ? $this->__('Seat').': '.$this->ticket->Seat : '')
+      ),
+      'organizers'=> array(
+        'type'      => 'auxiliary',
+        'label'     => $this->__('Organizers'),
+        'string'    => implode(', ', $organizers)
+      ),
+      'participants'=> array(
+        'type'      => 'auxiliary',
+        'label'     => $this->__('Participants'),
+        'string'    => implode(', ', $participants)
+      ),
+      'legal_notices' => array(
+        'type'      => 'back',
+        'string'    => "\n".implode("\n", $notices)
+      ),
+      'software'  => array(
+        'type'      => 'back',
+        'label'     => $this->__('Software', NULL, 'about'),
+        'string'    => sfConfig::get('software_about_name')
+      ),
+      'editor'    => array(
+        'type'      => 'back',
+        'label'     => $this->__('Editor', NULL, 'about'),
+        'string'    => $editor['name'].' '.$editor['url']
+      ),
+    );
+    
+    // Add conditional fields
     if ( $this->ticket->Manifestation->Location->city || $this->ticket->Manifestation->Location->address )
     {
-      $secondary = new Field('address', $this->ticket->Manifestation->Location->address."\n".$this->ticket->Manifestation->Location->postalcode.' '.$this->ticket->Manifestation->Location->city);
-      $secondary->setLabel($this->__('Address'));
-      $structure->addSecondaryField($secondary);
+      $data['address'] = array(
+        'type'      => 'auxiliary',
+        'label'     => $this->__('Address'),
+        'string'    => $this->ticket->Manifestation->Location->address."\n".$this->ticket->Manifestation->Location->postalcode.' '.$this->ticket->Manifestation->Location->city."\n".$this->ticket->Manifestation->Location->country
+      );
     }
     
-    // Add secondary field
-    $secondary = new Field('ticket', $this->ticket.($this->ticket->seat_id ? $this->__('Seat').': '.$this->ticket->Seat : ''));
-    $secondary->setLabel($this->__('Ticket'));
-    $structure->addSecondaryField($secondary);
-    
-    // Add auxiliary field
-    $this->context->getConfiguration()->loadHelpers(array('Date'));
-    $auxiliary = new Field('datetime', format_datetime($this->ticket->Manifestation->happens_at));
-    $auxiliary->setLabel($this->__('Date & Time'));
-    $structure->addAuxiliaryField($auxiliary);
+    foreach ( $data as $name => $content )
+    {
+      $field = new Field($name, $content['string']);
+      if ( isset($content['label']) )
+        $field->setLabel($content['label']);
+      switch ( $content['type'] ) {
+      case 'primary':
+        $structure->addPrimaryField($field);
+        break;
+      case 'secondary':
+        $structure->addSecondaryField($field);
+        break;
+      case 'auxiliary':
+        $structure->addAuxiliaryField($field);
+        break;
+      case 'back':
+        $structure->addBackField($field);
+        break;
+      }
+    }
     
     // Set pass structure
     $pass->setStructure($structure);
@@ -165,18 +242,34 @@ class liPassbook
     return $path;
   }
   
-  protected function __($string)
+  protected function __($string, $params = array(), $catalog = 'messages')
   {
+    if ( !is_array($params) )
+      $params = array();
     if ( !$this->context )
-      return $string;
+      return str_replace(array_keys($params), array_values($params), $string);
     $this->context->getConfiguration()->loadHelpers(array('I18N'));
-    return __($string);
+    return __($string, $params, $catalog);
   }
-  protected function writeFile($path, $content = NULL)
+  public static function writeFile($path, $content = NULL)
   {
     if ( $content !== NULL )
       file_put_contents($path, $content);
     chmod($path, 0777);
+  }
+  protected function rmPkpass($path = NULL)
+  {
+    $path = $path ? $path : $this->getPkpassPath();
+    if ( !is_dir($path) )
+    {
+      unlink($path);
+      return $this;
+    }
+    
+    $files = array_diff(scandir($path), array('.','..'));
+    foreach ( $files as $file )
+      $this->rmPkpass("$path/$file");
+    rmdir($path);
     return $this;
   }
   protected function getContext()

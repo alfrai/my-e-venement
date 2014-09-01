@@ -67,6 +67,13 @@ abstract class PluginEmail extends BaseEmail
     
     $message = $this->compose(Swift_Message::newInstance()->setTo($to));
     
+    // sfEventDispatcher
+    if ( sfContext::hasInstance() )
+    {
+      sfContext::getInstance()->getEventDispatcher()
+        ->notify(new sfEvent($this, 'email.before_attach', $this->getDispatcherParameters()));
+    }
+    
     foreach ( $this->Attachments as $attachment )
     {
       $att = Swift_Attachment::fromPath($path = substr($attachment->filename, 0, 1) == '/'

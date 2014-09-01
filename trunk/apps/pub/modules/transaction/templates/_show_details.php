@@ -27,7 +27,7 @@
   <li>
     <?php echo __('Your tickets') ?>
     <?php echo link_to('PDF', 'transaction/tickets?id='.$transaction->id.'&format=pdf', array('class' => 'pdf')) ?>
-    <?php echo link_to('Passbook', 'transaction/tickets?id='.$transaction->id.'&format=passbook', array('class' => 'passbook', 'title' => __('Especially for mobile devices'))) ?>
+    <?php $sf_context->getEventDispatcher()->notify(new sfEvent($this, 'pub.tickets_list_formats', array('transaction' => $transaction))) ?>
   </li>
   <?php endif ?>
 </ul>

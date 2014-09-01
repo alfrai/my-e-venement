@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Legal notices</source>
+        <target>Mentions légales</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Editor</source>
+        <target>Éditeur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Software</source>
+        <target>Logiciel</target>
+      </trans-unit>
+      <trans-unit>
         <source>About</source>
         <target>À propos</target>
       </trans-unit>

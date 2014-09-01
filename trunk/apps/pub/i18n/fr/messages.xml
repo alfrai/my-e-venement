@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Organizers</source>
+        <target>Organisateurs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Participants</source>
+        <target>Participants</target>
+      </trans-unit>
+      <trans-unit>
         <source>Taxes</source>
         <target>Taxes</target>
       </trans-unit>

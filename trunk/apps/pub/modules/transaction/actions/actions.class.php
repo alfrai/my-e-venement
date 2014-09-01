@@ -33,19 +33,13 @@ class transactionActions extends sfActions
       $pdf = new sfDomPDFPlugin();
       $pdf->setInput($content = $this->getPartial('get_tickets_pdf', $this->ticket_html));
       $this->getResponse()->setContentType('application/pdf');
-      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="tickets.pdf"');
+      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="transaction-'.$transaction->id.'-tickets.pdf"');
       return $this->renderText($pdf->execute());
     case 'passbook':
-      $this->getContext()->getConfiguration()->loadHelpers(array('I18N', 'Date'));
-      $this->getResponse()->setContentType(liPassbook::MIME_TYPE);
-      
-      $passbooks = array();
-      foreach ( $transaction->Tickets as $ticket )
-        $passbooks[] = new liPassbook($ticket);
-      
-      $passbook = $passbooks[0];
-      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="ticket-'.$passbook->getTicket()->id.'.pkpass"');
-      return $this->renderText((string)$passbook);
+      $wallet = liPassbookWallet::create($transaction)->buildArchive();
+      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="'.$wallet->getFilename().'"');
+      $this->getResponse()->setContentType(liPassbookWallet::MIME_TYPE);
+      return $this->renderText($wallet);
     }
   }
   
