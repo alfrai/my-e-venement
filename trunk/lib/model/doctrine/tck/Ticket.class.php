@@ -79,6 +79,16 @@ class Ticket extends PluginTicket
     return $this;
   }
   
+  public function getBarcodePng() // PNG output directly to stdout
+  {
+    $file = sfConfig::get('sf_app_cache_dir').'/ticket-'.$this->id.'.png';
+    $bc = new liBarcode($this->barcode);
+    $bc->render($file);
+    $r = file_get_contents($file);
+    unlink($file);
+    return $r;
+  }
+  
   public function getIdBarcoded()
   {
     $c = ''.$this->id;
@@ -98,21 +108,24 @@ class Ticket extends PluginTicket
     sfApplicationConfiguration::getActive()->loadHelpers(array('Url', 'Number'));
     
     // the barcode
-    $c = curl_init();
-    curl_setopt_array($c, array(
-      CURLOPT_URL => $url = public_path('/liBarcodePlugin/php-barcode/barcode.php?scale=3'.($type == 'html' ? '&mode=html' : '').'&code='.$this->getIdBarcoded(),true),
-      CURLOPT_SSL_VERIFYPEER => false,
-      CURLOPT_SSL_VERIFYHOST => false,
-      CURLOPT_RETURNTRANSFER => true,
-    ));
-    if (!( $barcode = curl_exec($c) ))
-      error_log('Error loading the barcode: '.curl_error($c));
-    curl_close($c);
-    if ( $type != 'html' )
+    if ( sfConfig::get('app_tickets_id', 'id') == 'id' )
     {
-      $url = public_path('/liBarcodePlugin/php-barcode/barcode.php?scale=3&code='.$this->getIdBarcoded(),true);
-      $barcode = '<span><img src="data:image/png;base64,'.base64_encode($barcode).'" alt="#'.$this->id.'" /></span>';
+      $c = curl_init();
+      curl_setopt_array($c, array(
+        CURLOPT_URL => $url = public_path('/liBarcodePlugin/php-barcode/barcode.php?scale=3'.($type == 'html' ? '&mode=html' : '').'&code='.$this->getIdBarcoded(),true),
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_RETURNTRANSFER => true,
+      ));
+      if (!( $barcode = curl_exec($c) ))
+        error_log('Error loading the barcode: '.curl_error($c));
+      curl_close($c);
     }
+    else
+      $barcode = $this->getBarcodePng();
+    
+    if ( $type != 'html' || sfConfig::get('app_tickets_id', 'id') != 'id' )
+      $barcode = '<span><img src="data:image/png;base64,'.base64_encode($barcode).'" alt="#'.$this->id.'" /></span>';
     
     // the HTML code
     return sprintf(<<<EOF

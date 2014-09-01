@@ -20,6 +20,7 @@ all:
     payment_method_id: 1
     close_before: 24 hours
     wip_price: WIP
+    #id: qrcode # can be id (default), qrcode, othercode
   contact:
     capitalize: [name, firstname, city, country, address]
   #show:
