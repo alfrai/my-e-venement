@@ -150,7 +150,7 @@ fi
 echo ""
 echo ""
 echo "Don't forget to configure those extra features:"
-echo "- Check the apps/pub/config.yml file to know which plugin to enable in config/extra-modules.php, if you are using e-voucher v2"
+echo "- Check the apps/pub/config/app.yml file to know which plugin to enable in config/extra-modules.php, if you are using e-voucher v2"
 echo "- Seated plans for your locations"
 echo "- Change the apps/rp/config/factories.yml to replace sfMailer with liMailer"
 echo "- Configure the "geo" module for stats (users credentials & apps/stats/config/app.yml)"
