@@ -5,7 +5,7 @@
       <li><?php echo __('No registered company') ?></li>
     <?php else: ?>
     <?php foreach ( $event->Companies as $company ): ?>
-    <li><a href="<?php echo url_for('organism/show?id='.$company->id) ?>"><?php echo $company ?></a></li>
+    <li><a href="<?php echo cross_app_url_for('rp', 'organism/show?id='.$company->id) ?>"><?php echo $company ?></a></li>
     <?php endforeach ?>
     <?php endif ?>
   </ul>

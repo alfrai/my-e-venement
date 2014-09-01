@@ -17,6 +17,8 @@ all:
     close_before: 24 hours
   contact:
     capitalize: [name, firstname, city, country, address]
+  #show:
+  #  company_id: 5 # do not set something if you do not care
   payment:
     ################################
     type: paybox
