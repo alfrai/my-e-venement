@@ -13,6 +13,14 @@ require_once dirname(__FILE__).'/../lib/manifestationGeneratorHelper.class.php';
  */
 class manifestationActions extends autoManifestationActions
 {
+  public function executeIndex(sfWebRequest $request)
+  {
+    if ( $this->getPager()->getQuery()->count() == 1 )
+    {
+      $manifestation = $this->getPager()->getQuery()->select('m.id')->fetchOne();
+      $this->redirect('manifestation/edit?id='.$manifestation->id);
+    }
+  }
   public function executeBatchDelete(sfWebRequest $request)
   {
     $this->redirect('manifestation/index');
