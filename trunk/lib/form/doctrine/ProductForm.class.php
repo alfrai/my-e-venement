@@ -14,14 +14,15 @@ class ProductForm extends BaseProductForm
   public function configure()
   {
     parent::configure();
-    if ( !$this->object->isNew() )
-    {
-      $this->embedRelation('PriceProducts AS prices');
-      $this->embedRelation('Picture AS picture');
-      foreach ( array('name', 'type', 'version', 'height', 'width', 'content_encoding') as $fieldName )
-        unset($this->widgetSchema['picture'][$fieldName], $this->validatorSchema['picture'][$fieldName]);
-      $this->validatorSchema['picture']['content_file']->setOption('required',false);
-    }
+    
+    $this->object->Declinations[] = new ProductDeclination;
+    $this->embedRelation('Declinations AS declinations');
+    
+    $this->embedRelation('PriceProducts AS prices');
+    $this->embedRelation('Picture AS picture');
+    foreach ( array('name', 'type', 'version', 'height', 'width', 'content_encoding') as $fieldName )
+      unset($this->widgetSchema['picture'][$fieldName], $this->validatorSchema['picture'][$fieldName]);
+    $this->validatorSchema['picture']['content_file']->setOption('required',false);
     unset($this->widgetSchema['picture_id'], $this->validatorSchema['picture_id']);
     
     $this->widgetSchema   ['prices_list']
@@ -41,11 +42,47 @@ class ProductForm extends BaseProductForm
       ->setOption('multiple', true)
     ;
     
+    $this->widgetSchema['vat_id']->setOption('order_by', array('value', ''));
+    
+    // LINKS
+    $this->widgetSchema   ['linked_manifestations_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'model' => 'Manifestation',
+      'url' => cross_app_url_for('event', 'manifestation/ajax'),
+      'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',20).' }',
+    ));
+    
+    $this->widgetSchema   ['linked_prices_list']
+      ->setOption('renderer_class','liWidgetFormSelectDoubleListJQuery')
+      ->setOption('query', Doctrine::getTable('Price')->createQuery('p')
+        ->leftJoin('p.Users u')
+        ->leftJoin('p.Products pdt WITH pdt.id = ?', $this->object->id ? $this->object->id : 0)
+        ->where('p.id IS NOT NULL')
+      )
+    ;
+    $this->validatorSchema['linked_prices_list']
+      ->setOption('query', $this->widgetSchema['linked_prices_list']->getOption('query'));
+    
+    foreach ( array('meta_event_id', 'linked_prices_list', 'linked_workspaces_list', 'linked_meta_events_list') as $field )
+      $this->widgetSchema[$field]->setOption('order_by', array('name',''));
+    
+    // USER RELATED CONSTRAINTS
     if ( !sfContext::hasInstance() )
       return;
     $this->user = sfContext::getInstance()->getUser();
     
     $this->widgetSchema['prices_list']->getOption('query')->leftJoin('p.Users pu')->andWhere('pu.id = ?', $this->user->getId());
+    
+    $this->widgetSchema['linked_prices_list']->getOption('query')->leftJoin('p.Users pu')->orWhere('pu.id = ?', $this->user->getId());
+    foreach ( array(
+      'meta_event_id' => 'getMetaEventsCredentials',
+      'linked_workspaces_list' => 'getWorkspacesCredentials',
+      'linked_meta_events_list' => 'getMetaEventsCredentials',
+    ) as $field => $fct )
+    if ( method_exists($this->user, $fct) )
+      $this->widgetSchema[$field]->setOption('query', Doctrine::getTable($this->widgetSchema[$field]->getOption('model'))
+        ->createQuery('a')
+        ->orWhereIn('a.id', array_keys($this->user->$fct()))
+      );
   }
   
   public function doSave($con = NULL)

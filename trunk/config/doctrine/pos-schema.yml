@@ -36,6 +36,12 @@ ProductCategory:
       notnull:  true
       unique:   true
     vat_id: integer
+  relations:
+    Vat:
+      foreignAlias: ProductCategories
+      onDelete: SET NULL
+      onUpdate: CASCADE
+
 Product:
   package: pos
   actAs:
@@ -60,6 +66,7 @@ Product:
       type: integer
       unique: true
     accounting_account: string(50)
+    vat_id: integer
   relations:
     Category:
       class: ProductCategory
@@ -74,3 +81,87 @@ Product:
       foreignType: one
       onDelete: SET NULL
       onUpdate: CASCADE
+    Prices:
+      class: Price
+      refClass: PriceProduct
+      foreignAlias: Products
+    Vat:
+      foreignAlias: Products
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    LinkedManifestations:
+      class: Manifestation
+      refClass: ProductManifestationLink
+      foreignAlias: LinkedProducts
+      foreign: fk_id
+    LinkedPrices:
+      class: Price
+      refClass: ProductPriceLink
+      foreignAlias: LinkedProducts
+      foreign: fk_id
+    LinkedWorkspaces:
+      class: Workspace
+      refClass: ProductWorkspaceLink
+      foreignAlias: LinkedProducts
+      foreign: fk_id
+    LinkedMetaEvents:
+      class: MetaEvent
+      refClass: ProductMetaEventLink
+      foreignAlias: LinkedProducts
+      foreign: fk_id
+ProductDeclination:
+  package: pos
+  actAs:
+    I18n:
+      fields: [name, description]
+    Searchable:
+      fields: [name]
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    description: string
+    product_id:
+      type: integer
+      notnull: true
+  relations:
+    Product:
+      foreignAlias: Declinations
+      onDelete: CASCADE
+      onUpdate: CASCADE
+
+ProductLink:
+  package: pos
+  actAs:
+    Timestampable: ~
+  columns:
+    product_id:
+      type: integer
+      notnull: true
+    fk_id:
+      type: integer
+      notnull: true
+ProductManifestationLink:
+  package: pos
+  inheritance:
+    extends: ProductLink
+    type: concrete
+ProductPriceLink:
+  package: pos
+  inheritance:
+    extends: ProductLink
+    type: concrete
+ProductMetaEventLink:
+  package: pos
+  inheritance:
+    extends: ProductLink
+    type: concrete
+ProductWorkspaceLink:
+  package: pos
+  inheritance:
+    extends: ProductLink
+    type: concrete

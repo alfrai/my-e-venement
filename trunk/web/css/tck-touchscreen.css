@@ -64,6 +64,8 @@
 #li_transaction_field_content .family h3 .fg-button { float: right; width: 16px; height: 16px; margin-top: -3px; font-size: 0; }
 #li_transaction_field_content .family h3 .fg-button .ui-icon { margin: -9px 0 0 -1px; }
 #li_transaction_field_content .sample { display: none; }
+#li_transaction_field_content .bunch { transition-property: height; transition-duration: 1s; overflow: hidden; }
+#li_transaction_field_content .bunch.small { height: 30px; }
 #li_transaction_field_content h2 { margin: 5px 0; }
 #li_transaction_field_content h2, #li_transaction_field_content h3 { cursor: pointer; }
 #li_transaction_field_content h4 { display: inline-block; white-space: nowrap; font-weight: normal; vertical-align: top; width: 30%; }

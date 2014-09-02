@@ -7,6 +7,11 @@ class tckConfiguration extends sfApplicationConfiguration implements liGarbageCo
   protected $collectors = array();
   protected $task;
   
+  public function setup()
+  {
+    parent::setup();
+    $this->enablePlugins(array('sfDomPDFPlugin'));
+  }
   public function configure()
   {
     parent::configure();

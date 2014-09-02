@@ -159,3 +159,44 @@ PriceManifestation:
       foreignAlias: PriceManifestations
       onDelete: CASCADE
       onUpdate: CASCADE
+PriceProduct:
+  package: price
+  actAs: [Timestampable]
+  indexes:
+    price_product_price_idx:
+      fields: [product_id, price_id]
+      type: unique
+    price_product_value_idx:
+      fields: [value]
+  columns:
+    product_id:
+      type: integer
+      notnull: true
+    price_id:
+      type: integer
+      notnull: true
+    value:
+      type:  decimal(8)
+      scale: 3
+  relations:
+    Product:
+      foreignAlias: PriceProducts
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Price:
+      foreignAlias: PriceProducts
+      onDelete: CASCADE
+      onUpdate: CASCADE
+PricePOS:
+  package: price
+  actAs: [Timestampable]
+  columns:
+    price_id:
+      type: integer
+      notnull: true
+      unique: true
+  relations:
+    Price:
+      foreignType: one
+      onDelete: CASCADE
+      onUpdate: CASCADE

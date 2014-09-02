@@ -16,11 +16,15 @@ $(document).ready(function(){
   // PLAYING W/ CART'S CONTENT
   // sliding content
   $('#li_transaction_field_content h2').click(function(){
-    $(this).closest('.bunch').find('.families').slideToggle(function(){
-      if ( !$(this).is(':hidden') )
-        return;
-      $(this).find('.ui-state-highlight').focusout();
-    });
+    var bunch = $(this).closest('.bunch');
+    
+    // it's a bit tricky to allow the CSS transition
+    if ( !bunch.hasClass('small') )
+      bunch.css('height', bunch.height()+'px');
+    bunch.toggleClass('small');
+    setTimeout(function(){ bunch.css('height', ''); }, 200);
+    
+    $(this).find('.ui-state-highlight').focusout();
   });
   $('#li_transaction_field_content h3').click(function(){
     $(this).closest('.family').find('.items').each(function(){

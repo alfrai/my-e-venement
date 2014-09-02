@@ -12,6 +12,11 @@
  */
 abstract class PluginProduct extends BaseProduct
 {
+  public function preSave($event)
+  {
+    $this->vat_id = $this->vat_id ? $this->vat_id : $this->Category->vat_id;
+    parent::preSave($event);
+  }
   public function getIndexesPrefix()
   {
     return strtolower(get_class($this));
@@ -29,5 +34,9 @@ abstract class PluginProduct extends BaseProduct
     // adding a "lang" column to EventVersion to be able to record the changes in the i18n data
     $this->getTable()->getTemplate('Versionable')->getAuditLog()
       ->hasColumn('lang', 'string', 2, array('fixed' => true, 'primary' => true));
+    
+    // searchable
+    $tpl = $this->getTable()->getTemplate('Searchable');
+    $tpl->getListener()->set('Searchable', new Doctrine_Search_Listener_I18n($tpl->getPlugin()));
   }
 }

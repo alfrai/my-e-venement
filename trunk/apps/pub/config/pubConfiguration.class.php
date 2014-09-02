@@ -25,6 +25,14 @@
 
 class pubConfiguration extends sfApplicationConfiguration implements liGarbageCollectorInterface
 {
+  public function setup()
+  {
+    parent::setup();
+    $this->enablePlugins(array(
+      'sfDomPDFPlugin',
+      'liCardDavPlugin',
+    ));
+  }
   public function configure()
   {
     $this->dispatcher->connect('pub.transaction_before_creation', array($this, 'triggerTransactionBeforeCreation'));

@@ -161,6 +161,17 @@ class transactionActions extends autoTransactionActions
         ->andWhere('m.reservation_confirmed = ? AND m.blocking = ?',array(true,true))
         ->andWhere('pu.sf_guard_user_id = ?', $this->getUser()->getId()),
     ));
+    $this->form['content']['store'] = new sfForm;
+    $ws = $this->form['content']['store']->getWidgetSchema();
+    $vs = $this->form['content']['store']->getValidatorSchema();
+    $vs['product_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Manifestation',
+      'query' => Doctrine::getTable('Product')->createQuery('pdt')->select('pdt.id')
+        ->andWhereIn('pdt.meta_event_id IS NULL OR pdt.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()))
+        ->leftJoin('pdt.Prices p')
+        ->leftJoin('p.Users pu')
+        ->andWhere('pu.sf_guard_user_id = ?', $this->getUser()->getId()),
+    ));
 
     // NEW PAYMENT
     $this->form['payment_new'] = new sfForm;
@@ -253,6 +264,16 @@ class transactionActions extends autoTransactionActions
     $this->dealWithDebugMode($request);
     
     require(dirname(__FILE__).'/get-manifestations.php');
+    return '';
+  }
+  
+  public function executeGetProducts(sfWebRequest $request)
+  {
+    // initialization
+    $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'Number'));
+    $this->dealWithDebugMode($request);
+    
+    require(dirname(__FILE__).'/get-products.php');
     return '';
   }
   

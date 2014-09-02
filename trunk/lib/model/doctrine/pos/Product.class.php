@@ -12,4 +12,11 @@
  */
 class Product extends PluginProduct
 {
+  public function setUp()
+  {
+    parent::setUp();
+    $this->_table->getTemplate('Doctrine_Template_Searchable')
+      ->getPlugin()
+      ->setOption('analyzer',new MySearchAnalyzer());
+  }
 }

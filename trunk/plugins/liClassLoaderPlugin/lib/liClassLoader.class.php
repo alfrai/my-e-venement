@@ -22,6 +22,9 @@
 ***********************************************************************************/
 ?>
 <?php
+// adding this to be sure... because it is also included in the config/liClassLoaderPluginConfiguration.class.php file
+require_once __DIR__.'/../lib/vendor/UniversalClassLoader.php';
+require_once __DIR__.'/../lib/vendor/ApcUniversalClassLoader.php';
 
 class liClassLoader
 {

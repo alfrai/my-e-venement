@@ -10,7 +10,11 @@ class ProductTable extends PluginProductTable
   public function createQuery($alias = 'p')
   {
     return parent::createQuery($alias)
-      ->leftJoin("$alias.Translation pt");
+      ->leftJoin("$alias.Translation pt")
+      ->leftJoin("$alias.Declinations d")
+      ->leftJoin('d.Translation dt')
+      ->orderBy('pt.name, dt.name')
+    ;
   }
   
   public static function getInstance()

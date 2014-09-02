@@ -123,7 +123,13 @@ db="$PGDATABASE"
 # recreation and data backup
 dropdb $db && createdb $db && \
 echo "GRANT ALL ON DATABASE $db TO $SFUSER" | psql && \
-./symfony doctrine:build  --all --no-confirmation && \
+   ./symfony doctrine:drop-db --no-confirmation && \
+   ./symfony doctrine:build-db && \
+   ./symfony doctrine:build-model && \
+   ./symfony doctrine:build-forms && \
+   ./symfony doctrine:build-filters && \
+   ./symfony doctrine:build-sql && \
+   ./symfony doctrine:insert-sql && \
 cat data/sql/$db-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $db
 cat config/doctrine/functions-pgsql.sql | psql && \
 ./symfony cc &> /dev/null

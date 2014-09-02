@@ -14,6 +14,14 @@ $(document).ready(function(){
     ;
   });
   
+  $('.sf_admin_form_field_declinations table + input[type=hidden]').each(function(){
+    if ( isNaN(parseInt($(this).val(),10)) || parseInt($(this).val(),10) <= 0 )
+      return;
+    var label = $(this).closest('table').closest('tr').find('> th');
+    var span = $('<span></span>').text('pouet');
+    label.text(label.text()+' ').append(span);
+  });
+  
   // resolving a graphical conflict
   setTimeout(function(){
     $('.sf_admin_form_field_prices_list ul').removeAttr('class').removeAttr('role').addClass('checklist');

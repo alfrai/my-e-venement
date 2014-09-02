@@ -21,12 +21,15 @@ generator:
         meta_event_id: { help: "Associating a product to a meta-event insures that it will not be sold again after this meta-event or if your users do not have access to this meta-event." }
         vat_id: { help: "If it remains unset, it means 0%." }
         description: { help: "Especially useful for online sales." }
-      list:    ~
+      list:
+        display: [Category, name, MetaEvent, Vat]
       filter:
         display: [meta_event_id, product_category_id, name, prices_list]
       form:
         display:
           General: [name, product_category_id, prices_list, prices, vat_id]
+          Declinations: [declinations]
           Details: [meta_event_id, description, picture, _show_picture, _form_picture_del, accounting_account]
+          Links:   [linked_meta_events_list, linked_workspaces_list, linked_manifestations_list, linked_prices_list]
       edit:    ~
       new:     ~

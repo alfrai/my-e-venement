@@ -1,6 +1,4 @@
   $(document).ready(function(){
-    var families = $('#li_transaction_field_content .new-family select');
-    
     $('#li_transaction_field_content .new-family select').focusout(function(){
       if ( $(this).val() )
       {
@@ -18,8 +16,10 @@
       setTimeout(function(){
         if ( val == $(elt).val() ) // then launch the request
         {
+          var select = $(elt).closest('.new-family').find('select');
+          
           // emptying the previous select's content
-          families.html('');
+          select.html('');
           
           // disabling the selection of any manif that is already selected (including those w/o any ticket yet) 
           var except = [];
@@ -27,17 +27,18 @@
             if ( $(this).attr('data-family-id') )
               except.push($(this).attr('data-family-id'));
           });
-        
+          
           $.ajax({
-            url: families.attr('data-content-url'),
-            data: { with_colors: true, q: $(elt).val(), except: except, max: families.attr('data-content-qty'), 'keep-order': true },
+            url: select.attr('data-content-url'),
+            data: { with_colors: true, q: $(elt).val(), except: except, max: select.attr('data-content-qty'), 'keep-order': true },
             method: 'get',
             success: function(data){
-              families.html('');
+              select.html('');
               $.each(data, function(id, manif){
-                $('<option></option>').css('background-color', manif.color).val(manif.id)
-                  .html(manif.name).prop('title', manif.name)
-                  .appendTo(families);
+                $('<option></option>').val(manif.id)
+                  .css('background-color', manif.color)
+                  .text(manif.name).prop('title', manif.name)
+                  .appendTo(select);
               });
             }
           });

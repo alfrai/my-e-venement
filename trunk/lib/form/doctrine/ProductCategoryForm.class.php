@@ -12,5 +12,6 @@ class ProductCategoryForm extends BaseProductCategoryForm
 {
   public function configure()
   {
+    $this->widgetSchema['vat_id']->setOption('order_by', array('value',''));
   }
 }

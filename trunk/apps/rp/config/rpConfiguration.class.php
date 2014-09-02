@@ -4,6 +4,11 @@ require_once dirname(__FILE__).'../../../../config/autoload.inc.php';
 
 class rpConfiguration extends sfApplicationConfiguration
 {
+  public function setup()
+  {
+    parent::setup();
+    $this->enablePlugins(array('liCardDavPlugin'));
+  }
   public function configure()
   {
     parent::configure();

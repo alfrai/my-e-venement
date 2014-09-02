@@ -43,6 +43,7 @@ class ProjectConfiguration extends sfProjectConfiguration
       $this->yob[date('Y')-$i] = date('Y') - $i;
     
     $this->enablePlugins(array(
+      'liClassLoaderPlugin',
       'sfDoctrinePlugin',
       'sfFormExtraPlugin',
       'sfDoctrineGraphvizPlugin',
@@ -53,11 +54,9 @@ class ProjectConfiguration extends sfProjectConfiguration
       'sfiCalCreatorPlugin',
       'liBarcodePlugin',
       'liOfcPlugin',
-      'sfDomPDFPlugin',
       'sfWebBrowserPlugin',
       'sfFeed2Plugin',
       'liCardDavPlugin',
-      'liClassLoaderPlugin',
     ));
     
     $modules = array();

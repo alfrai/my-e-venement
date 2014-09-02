@@ -1,2 +1,7 @@
 all:
   javascripts: [pos]
+ajaxSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+          
