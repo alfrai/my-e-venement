@@ -18,6 +18,11 @@ class productActions extends autoProductActions
     Doctrine::getTable('Product')->find($request->getParameter('id', 0))->Picture->delete();
     return sfView::NONE;
   }
+  public function executeDelDeclination(sfWebRequest $request)
+  {
+    Doctrine::getTable('ProductDeclination')->find($request->getParameter('declination_id', 0))->delete();
+    return sfView::NONE;
+  }
   
   public function executeAjax(sfWebRequest $request)
   {

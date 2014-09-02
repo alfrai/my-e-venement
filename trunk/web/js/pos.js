@@ -18,8 +18,26 @@ $(document).ready(function(){
     if ( isNaN(parseInt($(this).val(),10)) || parseInt($(this).val(),10) <= 0 )
       return;
     var label = $(this).closest('table').closest('tr').find('> th');
-    var span = $('<span></span>').text('pouet');
-    label.text(label.text()+' ').append(span);
+    var del = $('<a></a>')
+      .prop('href', $(this).closest('form').find('.sf_admin_form_field_declination_del').prop('href'))
+      .attr('data-id', $(this).val())
+      .prop('title', $.trim($(this).closest('form').find('.sf_admin_form_field_declination_del').text()))
+      .text($(this).closest('form').find('.sf_admin_form_field_declination_del').text())
+      .addClass('fg-button').addClass('ui-state-default').addClass('fg-button-icon-left').addClass('ui-priority-secondary')
+      .prepend($('<span></span>').addClass('ui-icon').addClass('ui-icon-trash'))
+      .mouseenter(function(){ $(this).addClass('ui-state-hover') })
+      .mouseleave(function(){ $(this).removeClass('ui-state-hover') })
+      .click(function(){
+        var elt = this;
+        $('#transition').show();
+        $.get($(this).prop('href'), { declination_id: $(this).attr('data-id') }, function(){
+          $('#transition .close').click();
+          $(elt).closest('tr').fadeOut(function(){ $(this).remove(); });
+        });
+        return false;
+      })
+    ;
+    label.text(label.text()+' ').append(del);
   });
   
   // resolving a graphical conflict
