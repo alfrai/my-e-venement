@@ -165,3 +165,56 @@ ProductWorkspaceLink:
   inheritance:
     extends: ProductLink
     type: concrete
+
+BoughtProduct:
+  package: pos
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    transaction_id:
+      type: integer
+      notnull: true
+    product_declination_id: integer
+    price_id: integer
+    vat_id: integer
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    declination:
+      type: string(255)
+      notnull: true
+      notblank: true
+    price_name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    value:
+      type:  decimal(8)
+      scale: 3
+      notnull: true
+    vat:
+      type:  decimal(5)
+      scale: 4
+      notnull: true
+    integrated_at: timestamp
+  relations:
+    Transaction:
+      foreignAlias: BoughtProducts
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Price:
+      foreignAlias: BoughtProducts
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Declination:
+      local: product_declination_id
+      class: ProductDeclination
+      foreignAlias: BoughtProducts
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    Vat:
+      foreignAlias: BoughtProducts
+      onDelete: SET NULL
+      onUpdate: CASCADE

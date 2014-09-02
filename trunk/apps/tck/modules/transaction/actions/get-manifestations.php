@@ -171,8 +171,8 @@
           ->leftJoin('g.Workspace w')
           ->leftJoin('w.Order wuo ON wuo.workspace_id = w.id AND wuo.sf_guard_user_id = ?',$this->getUser()->getId())
           ->orderBy('et.name, me.name, m.happens_at, m.duration, wuo.rank, w.name, p.name')
-          ->leftJoin('p.WorkspacePrices pwp ON pwp.price_id = p.id AND pwp.workspace_id = w.id')
-          ->leftJoin('p.UserPrices      pup ON pup.price_id = p.id AND pup.sf_guard_user_id = ?',$this->getUser()->getId())
+          ->leftJoin('p.WorkspacePrices pwp WITH pwp.workspace_id = w.id')
+          ->leftJoin('p.UserPrices      pup WITH pup.sf_guard_user_id = ?',$this->getUser()->getId())
           //->leftJoin('w.WorkspaceUsers wsu ON wsu.workspace_id = w.id AND wsu.sf_guard_user_id = ?',$this->getUser()->getId())
           ->andWhere('m.id = ?',$mid)
           ->fetchOne();
@@ -247,7 +247,7 @@
             // then add the price...
             $this->json[$manifestation->id]['gauges'][$gauge->id]['available_prices'][] = array(
               'id'  => $pm->price_id,
-              'name'  => $pm->Price->name,
+              'name'  => (string)$pm->Price,
               'description'  => $pm->Price->description,
               'value' => format_currency($pm->value,'€'),
             );

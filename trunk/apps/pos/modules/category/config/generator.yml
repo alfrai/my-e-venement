@@ -14,7 +14,12 @@ generator:
     config:
       actions: ~
       fields:  ~
-      list:    ~
+      list:
+        display: [name, Vat, updated_at]
+        sort: [name, '']
+        object_actions:
+          _edit: ~
+          _delete: ~
       filter:
         display: [name, vat_id]
       form:

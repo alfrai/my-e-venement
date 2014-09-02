@@ -31,6 +31,22 @@ class TransactionTable extends PluginTransactionTable
     return $q;
   }
   
+  public function createQueryForPos($alias = 't', $culture = NULL)
+  {
+    $q = Doctrine_Query::create()->from('Transaction '.$alias)
+      ->leftJoin('t.BoughtProducts bp')
+      ->leftJoin('bp.Declination d')
+      ->leftJoin('d.Translation dt WITH dt.lang '.($culture ? '=' : '!=').' ?', $culture)
+      ->leftJoin('d.Product pdt')
+      ->leftJoin('pdt.Translation pdtt WITH pdtt.lang '.($culture ? '=' : '!=').' ?', $culture)
+      ->leftJoin('pdt.Category c')
+      ->leftJoin('c.Translation ct WITH ct.lang '.($culture ? '=' : '!=').' ?', $culture)
+      ->leftJoin('bp.Price price')
+      ->leftJoin('pdt.Prices pdtp WITH pdtp.id = price.id')
+    ;
+    return $q;
+  }
+  
   public function createQueryForLineal($a = 't')
   {
     $q = parent::createQuery($a);

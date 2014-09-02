@@ -44,6 +44,8 @@ class productActions extends autoProductActions
     
     $q = Doctrine::getTable('Product')
       ->createQuery('pdt')
+      ->leftJoin('pdt.MetaEvent me')
+      ->andWhereIn('me.id IS NULL OR me.id', array_keys($this->getUser()->getMetaEventsCredentials()))
       ->orderBy('pt.name')
       ->limit($request->getParameter('limit', $request->getParameter('max', 10)));
     $q = Doctrine_Core::getTable('Product')
