@@ -497,6 +497,10 @@
         <target>Carte d'abonnement</target>
       </trans-unit>
       <trans-unit>
+        <source>You might have tried to create a price association that was already existing. Please check the list, try some filters...</source>
+        <target>Vous avez dû essayer de créer une association de prix qui existait déjà. Essayez, SVP, de vérifiez la liste en utilisant des filtres pour la retrouver.</target>
+      </trans-unit>
+      <trans-unit>
         <source>New Member card price model</source>
         <target>Nouveau model de carte d'abonnement</target>
       </trans-unit>
