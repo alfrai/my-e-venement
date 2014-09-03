@@ -155,7 +155,7 @@ class PayplugPayment extends OnlinePayment
   public function __toString()
   {
     return '
-      <a href="'.$this->getUrl().'" class="autofollow">
+      <a href="'.$this->getUrl().'" class="autofollow" target="_top">
         <img src="https://www.payplug.fr/static/merchant/images/logo-large.png" alt="PayPlug" />
       </a>
     ';
