@@ -30,7 +30,8 @@ MemberCardType:
       notblank: true
     description: string(255)
     value:
-      type: integer
+      type: decimal(8)
+      scale: 3
       notnull: true
   relations:
     Users:
