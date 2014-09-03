@@ -40,5 +40,5 @@ all:
       store:
         model: Product
         title: <?php echo __('Store', null, 'menu').PHP_EOL ?>
-        data_url: transaction/getProducts
+        data_url: transaction/getStore
         choices_url: [pos, product/ajax]

@@ -66,6 +66,8 @@
    *             name: string, short name
    *             description: string, description
    *             value: string, contextualized price w/ currency (for the current manifestation)
+   *             raw_value: float, contextualized price w/o currency
+   *             currency: string, currency
    *         prices:
    *           [price_id]:
    *             id: integer
@@ -250,6 +252,8 @@
               'name'  => (string)$pm->Price,
               'description'  => $pm->Price->description,
               'value' => format_currency($pm->value,'€'),
+              'raw_value' => floatval($pm->value),
+              'currency' => '€',
             );
           }
         }

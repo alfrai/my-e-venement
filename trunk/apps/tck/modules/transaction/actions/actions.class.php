@@ -267,13 +267,13 @@ class transactionActions extends autoTransactionActions
     return '';
   }
   
-  public function executeGetProducts(sfWebRequest $request)
+  public function executeGetStore(sfWebRequest $request)
   {
     // initialization
     $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'Number'));
     $this->dealWithDebugMode($request);
     
-    require(dirname(__FILE__).'/get-products.php');
+    require(dirname(__FILE__).'/get-store.php');
     return '';
   }
   

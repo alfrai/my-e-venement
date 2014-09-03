@@ -23,7 +23,7 @@
 ?>
 <?php
   /**
-   * function executeGetProducts
+   * function executeGetStore
    * @param sfWebRequest $request, given by the framework (required: id, optional: Array|int product_id || (price_id, gauge_id, printed))
    * @return ''
    * @display a json array containing :
@@ -33,7 +33,7 @@
    *   1: string explanation
    * success:
    *   success_fields:
-   *     products:
+   *     store:
    *       data:
    *         type: products
    *         reset: boolean
@@ -60,7 +60,9 @@
    *             id: integer
    *             name: string, short name
    *             description: string, description
-   *             value: string, contextualized price w/ currency (for the current manifestation)
+   *             value: string, contextualized price w/ currency (for the current product)
+   *             raw_value: float, contextualized price w/o currency
+   *             currency: string, currency
    *         prices:
    *           [price_id]:
    *             id: integer
@@ -139,18 +141,14 @@
       // by manifestation
       if ( !isset($this->json[$pid = $item instanceof BoughtProduct ? $item->product_id : $item]) )
       {
-        $product = Doctrine::getTable('ProductDeclination')->createQuery('pd')
-          ->leftJoin('pd.Translation pdt WITH lang = ?', $this->getUser()->getCulture())
-          ->leftJoin('pd.Product p')
-          ->leftJoin('p.Translation pt WITH lang = ?', $this->getUser()->getCulture())
+        $product = Doctrine::getTable('Product')->createQuery('p')
           ->leftJoin('p.Category c')
-          ->leftJoin('c.Translation ct WITH lang = ?', $this->getUser()->getCulture())
+          ->leftJoin('c.Translation ct WITH ct.lang = ?', $this->getUser()->getCulture())
           ->leftJoin('p.PriceProducts pp')
-          ->leftJoin('pp.Price price')
+          ->leftJoin('pp.Price price WITH price.id IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?)', $this->getUser()->getId())
           ->orderBy('pt.name, dt.name, price.name')
-          ->leftJoin('p.WorkspacePrices pwp WITH pwp.workspace_id = w.id')
-          ->leftJoin('p.UserPrices      pup WITH pup.sf_guard_user_id = ?',$this->getUser()->getId())
-          ->leftJoin('p.MetaEvents      pme')
+          ->leftJoin('price.UserPrices pup WITH pup.sf_guard_user_id = ?',$this->getUser()->getId())
+          ->leftJoin('p.MetaEvent pme')
           ->andWhereIn('pme.id IS NULL OR pme.id', array_keys($this->getUser()->getMetaEventsCredentials()))
           ->andWhere('p.id = ?',$pid)
           ->fetchOne();
@@ -160,7 +158,7 @@
           'name'          => (string)$product,
           'category'      => (string)$product->Category,
           'description'   => $product->description,
-          'category_url'  => cross_app_url_for('pos', 'category/show?id='.$product->category_id,true),
+          'category_url'  => cross_app_url_for('pos', 'category/show?id='.$product->product_category_id,true),
           'product_url'   => cross_app_url_for('pos', 'product/show?id='.$product->id, true),
           'color'         => NULL,
         );
@@ -181,19 +179,17 @@
           foreach ( $product->PriceProducts as $pp )
           {
             // access to this meta event
-            if ( !in_array($product->Event->meta_event_id, array_keys($this->getUser()->getMetaEventsCredentials())) )
-              continue;
-            
-            // access to this price
-            if ( $pm->Price->UserPrices->count() == 0 )
+            if ( !in_array($product->meta_event_id, array_keys($this->getUser()->getMetaEventsCredentials())) )
               continue;
             
             // then add the price...
             $this->json[$product->id]['declinations'][$declination->id]['available_prices'][] = array(
-              'id'  => $pm->price_id,
-              'name'  => (string)$pm->Price,
-              'description'  => $pm->Price->description,
-              'value' => format_currency($pm->value,'€'),
+              'id'  => $pp->price_id,
+              'name'  => (string)$pp->Price,
+              'description'  => $pp->Price->description,
+              'value' => format_currency($pp->value,'€'),
+              'raw_value' => floatval($pp->value),
+              'currency'  => '€',
             );
           }
         }
@@ -235,7 +231,7 @@
       'error' => array(false, ''),
       'success' => array(
         'success_fields' => array(
-          'products' => array(
+          'store' => array(
             'data' => array(
               'type' => 'products',
               'reset' => $this->transaction ? true : false,
