@@ -16,5 +16,14 @@ class MemberCardPriceModelFormFilter extends BaseMemberCardPriceModelFormFilter
   public function configure()
   {
     parent::configure();
+    
+    if ( !sfContext::hasInstance() )
+      return;
+    $this->user = sfContext::getInstance()->getUser();
+    
+    $this->widgetSchema   ['event_id']->setOption('query', Doctrine::getTable('Event')->createQuery('e')
+      ->andWhereIn('e.meta_event_id', array_keys($this->user->getMetaEventsCredentials()))
+    );
+    $this->validatorSchema['event_id']->setOption('query', $this->widgetSchema['event_id']->getOption('query'));
   }
 }
