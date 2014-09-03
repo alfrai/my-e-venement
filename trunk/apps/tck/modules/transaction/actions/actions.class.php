@@ -128,13 +128,10 @@ class transactionActions extends autoTransactionActions
       'model' => 'Price',
       // already includes in PriceTable the control of user's credentials
     ));
-    $ws['gauge_id'] = new sfWidgetFormInputHidden;
-    $vs['gauge_id'] = new sfValidatorDoctrineChoice(array(
-      'model' => 'Gauge',
-      'query' => Doctrine_Query::create()->from('Gauge g')
-        ->leftJoin('g.Workspace w')
-        ->leftJoin('w.Users wu')
-        ->andWhere('wu.id = ?', $this->getUser()->getId()),
+    $ws['declination_id'] = new sfWidgetFormInputHidden;
+    $ws['type'] = new sfWidgetFormInputHidden;
+    $vs['type'] = new sfValidatorChoice(array(
+      'choices' => array('declination', 'gauge'),
     ));
     $ws['id'] = new sfWidgetFormInputHidden;
     $vs['id'] = new sfValidatorDoctrineChoice(array(
@@ -252,6 +249,13 @@ class transactionActions extends autoTransactionActions
     // initialization
     $this->executeEdit($request);
     $this->dealWithDebugMode($request);
+    $vs['declination_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Gauge',
+      'query' => Doctrine_Query::create()->from('Gauge g')
+        ->leftJoin('g.Workspace w')
+        ->leftJoin('w.Users wu')
+        ->andWhere('wu.id = ?', $this->getUser()->getId()),
+    ));
     
     require(dirname(__FILE__).'/complete.php');
     return '';

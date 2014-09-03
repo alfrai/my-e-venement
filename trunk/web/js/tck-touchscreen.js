@@ -71,7 +71,7 @@ $(document).ready(function(){
       
       $(this).select();
       
-      // set values & subit
+      // set values & submit
       form.find('[name="transaction[price_new][qty]"]').val(diff);
       form.find('[name="transaction[price_new][price_id]"]').val($(this).closest('.declination').attr('data-price-id'));
       form.find('[name="transaction[price_new][gauge_id]"]').val($(this).closest('.item').attr('data-gauge-id'));

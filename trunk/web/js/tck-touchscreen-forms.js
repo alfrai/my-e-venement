@@ -53,7 +53,7 @@ LI.formSubmit = function(){
           if ( !value.data.reset )
             return;
           
-          var elt = $(str = '#li_transaction_item_'+value.data.content.gauge_id+' .declination'+(value.data.content.state ? '.active.'+value.data.content.state : ':not(.active)')+'[data-price-id='+value.data.content.price_id+']');
+          var elt = $(str = '#li_transaction_item_'+value.data.content.declination_id+' .declination'+(value.data.content.state ? '.active.'+value.data.content.state : ':not(.active)')+'[data-price-id='+value.data.content.price_id+']');
           if ( value.data.content.qty > 0 )
           {
             elt.find('.qty input').val(value.data.content.qty).select();
@@ -67,8 +67,9 @@ LI.formSubmit = function(){
           }
           
           break;
+        case 'store':
         case 'manifestations':
-          LI.completeContent(value.data.content, 'manifestations', false);
+          LI.completeContent(value.data.content, value.data.type, false);
           break;
         
         case 'choose_mc':

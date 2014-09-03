@@ -142,82 +142,60 @@
     {
       $this->json['success']['success_fields'][$field] = $success;
       
+      // pre-processing
+      switch ( $field ) {
+      case 'price_new':
+        foreach ( array('pdt-declination' => 'declination') as $orig => $real )
+        if ( $params[$field]['type'] == $orig )
+          $params[$field]['type'] = $real;
+        
+        $q = Doctrine_Query::create();
+        $model = NULL;
+        switch ( $params[$field]['type'] ) {
+        case 'gauge':
+          $model = 'Gauge';
+          $q->from($model.' g')
+            ->leftJoin('g.Manifestation m')
+            ->leftJoin('m.Event e')
+            ->andWhereIn('e.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()))
+            ->andWhereIn('g.workspace_id', array_keys($this->getUser()->getWorkspacesCredentials()))
+          ;
+          break;
+        case 'declination':
+          $model = 'ProductDeclination';
+          $q->from($model.' d')
+            ->leftJoin('d.Product p')
+            ->andWhereIn('p.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()))
+          ;
+          break;
+        }
+        
+        $vs = $this->form[$field]->getValidatorSchema();
+        $vs['declination_id'] = new sfValidatorDoctrineChoice(array(
+          'model' => $model,
+          'query' => $q,
+        ));
+        break;
+      }
+      
+      // processing
       $this->form[$field]->bind($params[$field]);
+      
+      // post-processing
       if ( $this->form[$field]->isValid() )
       switch ( $field ) {
       case 'price_new':
         if ( !$params[$field]['qty'] )
           $params[$field]['qty'] = 1;
         
-        // preparing the DELETE and COUNT queries
-        $q = Doctrine_Query::create()->from('Ticket tck')
-          ->andWhere('tck.gauge_id = ?',$params[$field]['gauge_id'])
-          ->andWhere('tck.price_id = ?',$params[$field]['price_id'])
-          ->andWhere('tck.transaction_id = ?',$request->getParameter('id'))
-          ->andWhere('tck.printed_at IS NULL')
-          ->orderBy('tck.integrated_at IS NULL DESC, tck.integrated_at, tck.seat_id IS NULL DESC, id DESC');
-        
-        $state = 'false';
-        if ( isset($params[$field]['state']) && $params[$field]['state'] == 'integrated' )
-        {
-          $state = 'integrated';
-          $q->andWhere('tck.integrated_at IS NOT NULL');
+        switch ( $params[$field]['type'] ) {
+        case 'gauge':
+          require(__DIR__.'/complete-price-new-gauge.php');
+          break;
+        case 'declination':
+          require(__DIR__.'/complete-price-new-declination.php');
+          break;
         }
-        else
-          $q->andWhere('tck.integrated_at IS NULL');
-        
-        $this->json['success']['success_fields'][$field]['data'] = array(
-          'type'  => 'gauge_price',
-          'reset' => true,
-          'content' => array(
-            'qty'   => $q->count() + $params[$field]['qty'],
-            'price_id'  => $params[$field]['price_id'],
-            'gauge_id'  => $params[$field]['gauge_id'],
-            'state'   => isset($params[$field]['state']) && $params[$field]['state'] ? $params[$field]['state'] : NULL,
-            'transaction_id' => $request->getParameter('id'),
-          ),
-        );
-        
-        $manifs = array();
-        if ( $params[$field]['qty'] > 0 ) // add
-        {
-          // tickets to transform
-          $q = Doctrine_Query::create()->from('Ticket tck')
-            ->andWhere('tck.gauge_id = ?',$params[$field]['gauge_id'])
-            ->andWhere('tck.price_id IS NULL')
-            ->andWhere('tck.transaction_id = ?',$request->getParameter('id'))
-            ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND cancelling IS NULL')
-            ->orderBy('tck.seat_id IS NULL DESC, id DESC');
-          $tickets = $q->execute();
-          
-          for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )
-          {
-            $ticket = $tickets[$i];
-            if ( !$ticket->isNew() )
-            {
-              $ticket->price_name = NULL;
-              $ticket->value      = NULL;
-              $ticket->vat        = NULL;
-            }
-            
-            $ticket->gauge_id = $params[$field]['gauge_id'];
-            $ticket->price_id = $params[$field]['price_id'];
-            $ticket->transaction_id = $request->getParameter('id');
-            $ticket->save();
-          }
-        }
-        else // delete
-        {
-          $q->limit(abs($params[$field]['qty']))
-            ->execute()
-            ->delete();
-        }
-        
-        $this->json['success']['success_fields'][$field]['remote_content']['load']['type']
-          = 'gauge_price';
-        $this->json['success']['success_fields'][$field]['remote_content']['load']['url']
-          = url_for('transaction/getManifestations?id='.$request->getParameter('id').'&state='.$state.'&gauge_id='.$params[$field]['gauge_id'].'&price_id='.$params[$field]['price_id'], true);
-        
         break;
       case 'payment_new':
         try {

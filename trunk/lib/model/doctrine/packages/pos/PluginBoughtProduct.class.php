@@ -15,7 +15,7 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
   public function preSave($event)
   {
     // if the item is not being bought or is bought already, modifications are not allowed
-    if ( $this->integrated_at || !isset($mods['integrated_at']) )
+    if ( $this->integrated_at && !isset($mods['integrated_at']) )
       throw new liEvenementException('Trying to modify the #'.$this->id.' item which has been bought already.');
     
     parent::preSave($event);
@@ -23,7 +23,7 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
     if ( !$this->vat_id )
       $this->Vat = $this->Declination->Product->Vat;
     if ( !$this->vat )
-      $this->Vat->value;
+      $this->vat = $this->Vat->value ? $this->Vat->value : 0;
     if ( !$this->price_name )
       $this->price_name = (string)$this->Price;
     
@@ -32,6 +32,8 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
     if ( $this->price_id == $p->price_id )
       $this->value = $p->value;
     
+    if ( !$this->name )
+      $this->name = (string)$this->Declination->Product;
     if ( !$this->declination )
       $this->declination = (string)$this->Declination;
   }

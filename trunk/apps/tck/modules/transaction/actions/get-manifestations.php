@@ -47,19 +47,23 @@
    *     name: string
    *     happens_at: string (PGSQL format)
    *     ends_at: string
-   *     event_url:  xxx (absolute) link
-   *     manifestation_url:  xxx (absolute) link
+   *     category_url:  xxx (absolute) link
+   *     product_url:  xxx (absolute) link
    *     location: string
    *     location_url: xxx (absolute) link
+   *     description: string, description
    *     color: string CSS color of the manifestation
-   *     gauge_url: xxx (absolute) data to display the global gauge
+   *     declination_url: xxx (absolute) data to display the global gauge
+   *     declinations_name: string, "gauges"
    *     gauges:
    *       [gauge_id]:
    *         name: xxx
    *         id: integer
+   *         type: string, 'gauge'
    *         url: xxx (absolute) data to calculate / display the gauge
    *         seated_plan_url: xxx (optional) the absolute path to the plan's picture
    *         seated_plan_seats_url: xxx (optional) the absolute path to the seats definition and allocation
+   *         description: string, description
    *         available_prices:
    *           []:
    *             id: integer
@@ -77,6 +81,7 @@
    *             vat: float, the current VAT value
    *             tep: float, the price excluding taxes
    *             name: string, the price's name
+   *             description: string, the price's description
    *             [ids]:
    *               tickets' id
    *             [numerotation]:
@@ -182,14 +187,15 @@
         $this->json[$manifestation->id] = array(
           'id'            => $manifestation->id,
           'name'          => (string)$manifestation->Event,
-          'event_url'     => cross_app_url_for('event', 'event/show?id='.$manifestation->event_id, true),
           'happens_at'    => (string)$manifestation->happens_at,
           'ends_at'       => (string)$manifestation->ends_at,
-          'manifestation_url' => cross_app_url_for('event', 'manifestation/show?id='.$manifestation->id,true),
+          'category_url'  => cross_app_url_for('event', 'event/show?id='.$manifestation->event_id, true),
+          'product_url'   => cross_app_url_for('event', 'manifestation/show?id='.$manifestation->id,true),
           'location'      => (string)$manifestation->Location,
           'location_url'  => cross_app_url_for('event', 'location/show?id='.$manifestation->location_id,true),
           'color'         => (string)$manifestation->Color,
-          'gauge_url'     => cross_app_url_for('event','',true),
+          'declination_url'   => cross_app_url_for('event','',true),
+          'declinations_name' => 'gauges',
         );
         
         // gauges
@@ -200,6 +206,8 @@
             'id' => $gauge->id,
             'name' => (string)$gauge->Workspace,
             'url' => cross_app_url_for('event','gauge/state?id='.$gauge->id.'&json=true',true),
+            'type' => 'gauge',
+            'description' => NULL,
             'available_prices' => array(),
             'prices' => array('-' => $tickets_model),
           );

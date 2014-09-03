@@ -31,13 +31,16 @@
           .val(price.id)
           .html(price.name)
           .prop('title', price.value+' - '+price.description)
-          .attr('data-gauge-id', $(item).attr('data-gauge-id'))
+          .attr('data-'+$(item).attr('data-type')+'-id', $(item).attr('data-'+$(item).attr('data-type')+'-id'))
+          .attr('data-type', $(item).attr('data-type'))
           .appendTo(form.find('p'))
           .click(function(){
             $(this).closest('form').find('[name="transaction[price_new][price_id]"]')
               .val($(this).val());
-            $(this).closest('form').find('[name="transaction[price_new][gauge_id]"]')
-              .val($(this).attr('data-gauge-id'));
+            $(this).closest('form').find('[name="transaction[price_new][declination_id]"]')
+              .val($(this).attr('data-'+$(this).attr('data-type')+'-id'));
+            $(this).closest('form').find('[name="transaction[price_new][type]"]')
+              .val($(this).attr('data-type'));
           })
         ;
       });
