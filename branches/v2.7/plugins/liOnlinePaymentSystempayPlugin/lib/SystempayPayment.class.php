@@ -143,6 +143,7 @@ class SystempayPayment extends OnlinePayment
     
     $r = '';
     $r .= '<form action="'.$urls['bank'].'" method="post" ';
+    $attributes = $attributes + array('target' => '_top');
     foreach ( $attributes as $key => $value )
       $r .= $key.'="'.$value.'" ';
     $r .= '>';

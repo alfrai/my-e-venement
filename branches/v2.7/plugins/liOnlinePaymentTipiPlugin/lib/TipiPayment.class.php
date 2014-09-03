@@ -114,6 +114,7 @@
       
       $r = '';
       $r .= '<form action="'.$url.'" method="get" ';
+      $attributes = $attributes + array('target' => '_top');
       foreach ( $attributes as $key => $value )
         $r .= $key.'="'.$value.'" ';
       $r .= '>';
