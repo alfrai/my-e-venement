@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Store</source>
+        <target>Boutique</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Products</source>
+        <target>Produits</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Categories</source>
+        <target>Catégories</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Available prices</source>
+        <target>Prix disponibles</target>
+      </trans-unit>
+      <trans-unit>
         <source>Online sales</source>
         <target>Ventes en ligne</target>
       </trans-unit>

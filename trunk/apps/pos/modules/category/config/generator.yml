@@ -15,14 +15,14 @@ generator:
       actions: ~
       fields:  ~
       list:
-        display: [name, Vat, updated_at]
-        sort: [name, '']
+        display: [name, Vat, online, updated_at]
+        sort: ['pct.name', '']
         object_actions:
           _edit: ~
           _delete: ~
       filter:
-        display: [name, vat_id]
+        display: [name, vat_id, online]
       form:
-        display: [name, vat_id]
+        display: [name, vat_id, online]
       edit:    ~
       new:     ~

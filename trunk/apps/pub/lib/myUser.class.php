@@ -36,6 +36,16 @@ class myUser extends liGuardSecurityUser
   {
     parent::initialize($dispatcher, $storage, $options);
     $dispatcher->connect('pub.pre_execute', array($this, 'mustAuthenticate'));
+    
+    $this->setAttribute('online_store', NULL);
+    if ( $this->getAttribute('online_store', NULL) !== NULL )
+    {
+      $online_store = Doctrine::getTable('ProductCategory')->createQuery('pc')
+        ->andWhere('pc.online = ?', true)
+        ->count() > 0;
+      if ( $online_store )
+        $this->setAttribute('online_store', $online_store);
+    }
   }
   
   public function mustAuthenticate(sfEvent $event)

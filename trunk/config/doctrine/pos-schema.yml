@@ -36,6 +36,10 @@ ProductCategory:
       notnull:  true
       unique:   true
     vat_id: integer
+    online:
+      type: boolean
+      default: false
+      notnull: true
   relations:
     Vat:
       foreignAlias: ProductCategories
