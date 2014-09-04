@@ -262,22 +262,17 @@ class transactionActions extends autoTransactionActions
   }
   
   public function executeGetManifestations(sfWebRequest $request)
-  {
-    // initialization
-    $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'Number'));
-    $this->dealWithDebugMode($request);
-    
-    require(dirname(__FILE__).'/get-manifestations.php');
-    return '';
-  }
+  { return $this->getAbstract($request, 'manifestations'); }
   
   public function executeGetStore(sfWebRequest $request)
+  { return $this->getAbstract($request, 'store'); }
+  protected function getAbstract(sfWebRequest $request, $type)
   {
     // initialization
     $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'Number'));
     $this->dealWithDebugMode($request);
     
-    require(dirname(__FILE__).'/get-store.php');
+    require(dirname(__FILE__).'/get-abstract.php');
     return '';
   }
   
