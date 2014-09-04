@@ -66,7 +66,7 @@ Transaction:
 Ticket:
   package: tck
   inheritance:
-    extends: Traceable
+    extends: Itemable
     type: concrete
   indexes:
     ticket_updated_at_idx:
@@ -85,9 +85,6 @@ Ticket:
     ticket_integrated_at_idx:
       fields: [integrated_at]
   columns:
-    transaction_id:
-      type: integer
-      notnull: true
     manifestation_id:
       type: integer
       notnull: true
@@ -99,10 +96,6 @@ Ticket:
       type: string(63)
       notnull: true
       notblank: true
-    value:
-      type: decimal(8)
-      scale: 3
-      notnull: true
     #numerotation: string(255)
     seat_id: integer
     duplicating: integer
@@ -118,16 +111,18 @@ Ticket:
     taxes:
       type: decimal(6)
       scale: 3
-    vat:
-      type: decimal(5)
-      scale: 4
     contact_id: integer
   relations:
-    Manifestation:
+    Transaction:
       foreignAlias: Tickets
       onDelete: RESTRICT
       onUpdate: CASCADE
-    Transaction:
+    User:
+      class: sfGuardUser
+      foreignAlias: Tickets
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Manifestation:
       foreignAlias: Tickets
       onDelete: RESTRICT
       onUpdate: CASCADE
@@ -146,11 +141,6 @@ Ticket:
       foreignAlias: Cancelling
       class: Ticket
       onDelete: SET NULL
-      onUpdate: CASCADE
-    User:
-      class: sfGuardUser
-      foreignAlias: Tickets
-      onDelete: RESTRICT
       onUpdate: CASCADE
     Gauge:
       foreignAlias: Tickets

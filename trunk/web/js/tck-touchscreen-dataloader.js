@@ -199,7 +199,10 @@ LI.completeContent = function(data, type, replaceAll = true)
           wprice.find('.vat').html(price.vat ? LI.format_currency(price.vat) : '-');
           wprice.find('.tep').html(LI.format_currency(price.tep));
           wprice.find('.extra-taxes').html(price['extra-taxes'] ? LI.format_currency(price['extra-taxes']) : '-');
-          wprice.find('.item-details a').prop('href', wprice.find('.item-details a').prop('href')+'?price_id='+price.id+'&'+declination.type+'_id='+declination.id);
+          if ( price['item-details'] )
+            wprice.find('.item-details a').prop('href', wprice.find('.item-details a').prop('href')+'?price_id='+price.id+'&'+declination.type+'_id='+declination.id);
+          else
+            wprice.find('.item-details a').remove();
           wprice.attr('data-price-id', price.id);
           if ( parseInt(price.id,10)+'' !== ''+price.id )
             wprice.addClass('wip');

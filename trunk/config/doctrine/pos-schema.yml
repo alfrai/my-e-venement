@@ -169,12 +169,9 @@ ProductWorkspaceLink:
 BoughtProduct:
   package: pos
   inheritance:
-    extends: Traceable
+    extends: Itemable
     type: concrete
   columns:
-    transaction_id:
-      type: integer
-      notnull: true
     product_declination_id: integer
     price_id: integer
     vat_id: integer
@@ -190,17 +187,14 @@ BoughtProduct:
       type: string(255)
       notnull: true
       notblank: true
-    value:
-      type:  decimal(8)
-      scale: 3
-      notnull: true
-    vat:
-      type:  decimal(5)
-      scale: 4
-      notnull: true
     integrated_at: timestamp
   relations:
     Transaction:
+      foreignAlias: BoughtProducts
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    User:
+      class: sfGuardUser
       foreignAlias: BoughtProducts
       onDelete: RESTRICT
       onUpdate: CASCADE

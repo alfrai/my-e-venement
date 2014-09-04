@@ -247,6 +247,15 @@ abstract class PluginTicket extends BaseTicket
     
     return $this;
   }
+  
+  public function isSold()
+  {
+    return !( $this->printed_at || $this->cancelling || $this->integrated_at );
+  }
+  public function isDuplicata()
+  {
+    return !is_null($this->duplicating);
+  }
 
   public function getIndexesPrefix()
   {

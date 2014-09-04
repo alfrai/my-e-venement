@@ -112,6 +112,32 @@ Traceable:
       onDelete: RESTRICT
       onUpdate: CASCADE
 
+Itemable: # items that can be sold
+  package: generic
+  inheritance:
+    extends: Traceable
+    type: concrete
+  indexes:
+    %CLASS%_transaction_id_idx:
+      fields: [transaction_id]
+  columns:
+    transaction_id:
+      type: integer
+      notnull: true
+    vat:
+      type: decimal(5)
+      scale: 4
+      notnull: true
+      default: 0
+    value:
+      type: decimal(8)
+      scale: 3
+      notnull: true
+  relations:
+    Transaction:
+      foreignAlias: %CLASS%s
+      onDelete: RESTRICT
+      onUpdate: CASCADE
 
 Phonenumber:
   package: generic

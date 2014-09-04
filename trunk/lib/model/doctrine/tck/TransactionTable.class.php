@@ -31,10 +31,10 @@ class TransactionTable extends PluginTransactionTable
     return $q;
   }
   
-  public function createQueryForPos($alias = 't', $culture = NULL)
+  public function createQueryForStore($alias = 't', $culture = NULL)
   {
     $q = Doctrine_Query::create()->from('Transaction '.$alias)
-      ->leftJoin('t.BoughtProducts bp')
+      ->leftJoin("$alias.BoughtProducts bp")
       ->leftJoin('bp.Declination d')
       ->leftJoin('d.Translation dt WITH dt.lang '.($culture ? '=' : '!=').' ?', $culture)
       ->leftJoin('d.Product pdt')

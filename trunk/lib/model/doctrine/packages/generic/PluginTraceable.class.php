@@ -40,4 +40,9 @@ abstract class PluginTraceable extends BaseTraceable
       'listener' => 'Doctrine_AuditLog_Listener_I18n',
     ));
   }
+  
+  public function getIndexesPrefix()
+  {
+    return strtolower(get_class($this));
+  }
 }

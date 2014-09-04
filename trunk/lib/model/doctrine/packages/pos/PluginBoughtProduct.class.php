@@ -37,13 +37,14 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
     if ( !$this->declination )
       $this->declination = (string)$this->Declination;
   }
+  
+  public function isSold()
+  {
+    return !$this->integrated_at;
+  }
+  
   public function getIndexesPrefix()
   {
     return strtolower(get_class($this));
-  }
-  public function actAs($tpl, array $options = array())
-  {
-    $options['table'] = $this->getTable();
-    return parent::actAs($tpl, $options);
   }
 }
