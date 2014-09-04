@@ -91,19 +91,19 @@ LI.completeContent = function(data, type, replaceAll = true)
       }
       
       // in progress: pdt
-      wpdt.find('h3 .event').text(pdt.name).prop('href',pdt.category_url);
+      wpdt.find('h3 .event').text(pdt.category).prop('href',pdt.category_url);
       wpdt.find('h3').css('background-color', pdt.color);
       // TODO (or not): declination_url
       
       // dates
-      if ( pdt.happens_at && pdt.ends_at )
+      if ( pdt.happens_at )
       {
         var happens_at = new Date(pdt.happens_at.replace(' ','T'));
-        var ends_at = new Date(pdt.ends_at.replace(' ','T'));
-        wpdt.find('h3 .happens_at').text(happens_at.toLocaleString().replace(/:\d\d \w+$/,'')).prop('href',pdt.product_url).prop('title', ends_at.toLocaleString().replace(/:\d\d \w+$/,''));
+        var ends_at = pdt.ends_at ? new Date(pdt.ends_at.replace(' ','T')) : undefined;
+        wpdt.find('h3 .happens_at').text(happens_at.toLocaleString().replace(/:\d\d \w+$/,'')).prop('href',pdt.product_url).prop('title', ends_at ? ends_at.toLocaleString().replace(/:\d\d \w+$/,'') : '');
       }
       else
-        wpdt.find('h3 .happens_at').remove();
+        wpdt.find('h3 .happens_at').text(pdt.name).prop('href',pdt.product_url);
       
       // location
       if ( pdt.location )
@@ -189,6 +189,7 @@ LI.completeContent = function(data, type, replaceAll = true)
           {
             if ( parseInt(price.id)+'' === ''+price.id ) // everything but a Work In Progress price
               wprice.addClass('active');
+            console.log(price.state);
             wprice.addClass(price.state ? price.state : 'readonly');
             if ( price.state === 'printed' || parseInt(price.id)+'' !== ''+price.id ) // every printed or Work In progress price
               wprice.find('.qty input').prop('readonly', true);

@@ -877,7 +877,7 @@
         <target>Impossible de supprimer le billet #%%i%% parce qu'il s'agit d'un billet dupliqué... Essayez simplement d'annuler le dernier duplicata de la série</target>
       </trans-unit>
       <trans-unit>
-        <source>Can't cancel the ticket #%%i%% because it has not yet been printed... Just try to supress it</source>
+        <source>Cannot cancel the ticket #%%i%% because it has not yet been printed... Just try to suppress it</source>
         <target>Impossible de supprimer le billet #%%i%% parce qu'il n'a pas encore été imprimé... Essayez simplement de le supprimer</target>
       </trans-unit>
       <trans-unit>
