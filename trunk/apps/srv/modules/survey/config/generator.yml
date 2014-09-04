@@ -36,6 +36,8 @@ generator:
           Answers: [_show_answers]
           Used by: [ApplyTo]
           Statistics: [_show_stats]
+      edit:
+        title: Edit Survey %%name%%
         actions:
           _list: ~
           _delete:
@@ -47,8 +49,6 @@ generator:
             ui-icon: plus
           _save:
             credentials: [srv-survey-edit]
-      edit:
-        title: Edit Survey %%name%%
       new:     ~
       show:
         display:

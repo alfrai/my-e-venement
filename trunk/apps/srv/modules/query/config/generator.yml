@@ -27,7 +27,10 @@ generator:
         display:
           General: [_show_survey, name, Options]
           Details: [type, can_be_empty, stats, rank, weight]
+      edit:
         actions:
+          _save:
+            credentials: [srv-query-edit]
           _back:
             action: backToSurvey
             label: <?php echo __('List', null, 'sf_admin').PHP_EOL ?>
@@ -35,8 +38,8 @@ generator:
           _delete:
             credentials: [srv-query-del]
           _show:    ~
+      new:
+        actions:
           _save:
-            credentials: [srv-query-edit]
-      edit:    ~
-      new:     ~
+            credentials: [srv-query-new]
       show:    ~
