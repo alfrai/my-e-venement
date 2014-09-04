@@ -189,7 +189,6 @@ LI.completeContent = function(data, type, replaceAll = true)
           {
             if ( parseInt(price.id)+'' === ''+price.id ) // everything but a Work In Progress price
               wprice.addClass('active');
-            console.log(price.state);
             wprice.addClass(price.state ? price.state : 'readonly');
             if ( price.state === 'printed' || parseInt(price.id)+'' !== ''+price.id ) // every printed or Work In progress price
               wprice.find('.qty input').prop('readonly', true);
