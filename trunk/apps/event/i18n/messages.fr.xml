@@ -1514,6 +1514,10 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <source>Remember</source>
         <target>Rester connecté(e)</target>
       </trans-unit>
+      <trans-unit>
+        <source>New Price</source>
+        <target>Nouveau tarif</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
