@@ -15,7 +15,7 @@ generator:
     config:
       actions: ~
       fields:
-        Options: { help: Only used with appropriate fields }
+        Options: { label: Typical answers, help: Only used with appropriate fields }
       list:
         display: [Survey, =name, can_be_empty, stats, weight, rank]
         sort: ['survey_name, rank', '']

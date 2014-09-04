@@ -8,7 +8,7 @@ all:
       sfWidgetFormTextarea: Text
       liWidgetFormTextareaTinyMCE: Text (rich)
       sfWidgetFormInputText: Line
-      liWidgetFormInputCheckbox: Checkbox
+      #liWidgetFormInputCheckbox: Checkbox
       liWidgetFormChoiceMultiple: Select one or many in a list
       liWidgetFormChoiceExpanded: Select one in a list
       liWidgetFormDateText: Date

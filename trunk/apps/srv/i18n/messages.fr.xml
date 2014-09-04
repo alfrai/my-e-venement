@@ -14,7 +14,7 @@
       </trans-unit>
       <trans-unit>
         <source>Name</source>
-        <target>Question</target>
+        <target>Nom</target>
       </trans-unit>
       <trans-unit>
         <source>Description</source>
@@ -101,8 +101,8 @@
         <target>nombres</target>
       </trans-unit>
       <trans-unit>
-        <source>Rank</source>
-        <target>Rang</target>
+        <source>Order</source>
+        <target>Ordre</target>
       </trans-unit>
       <trans-unit>
         <source>Weight</source>
@@ -187,6 +187,10 @@
       <trans-unit>
         <source>Value</source>
         <target>Valeur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Typical answers</source>
+        <target>Réponses types</target>
       </trans-unit>
     </body>
   </file>
