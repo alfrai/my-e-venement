@@ -1,4 +1,22 @@
 <?php foreach ( sfConfig::get('tdp_transaction_selling',array()) as $id => $detail ): ?>
+<?php
+  // SECURITY
+  $go = false;
+  if ( $detail['credentials'] )
+  foreach ( is_array($detail['credentials']) ? $detail['credentials'] : array($detail['credentials']) as $creds )
+  {
+    if ( is_array($creds) )
+    {
+      $go = false;
+      foreach ( $creds as $cred )
+        $go = $go || $sf_user->hasCredential($cred);
+    }
+    else
+      $go = $sf_user->hasCredential($creds);
+    
+    if ( !$go ) return;
+  }
+?>
 <div id="li_transaction_<?php echo $id ?>" class="bunch" data-bunch-id="<?php echo $id ?>">
   <h2 class="ui-widget-header ui-corner-all"><?php echo $detail['title'] ?></h2>
   <?php if ( isset($form[$id]) && $form->getRaw($id) instanceof sfForm ): ?>

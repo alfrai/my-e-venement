@@ -149,6 +149,11 @@
         if ( $params[$field]['type'] == $orig )
           $params[$field]['type'] = $real;
         
+        // security
+        $security = array('declination' => 'tck-pos');
+        if ( !$this->getUser()->hasCredential($security[$params[$field]['type']]) )
+          break;
+        
         $q = Doctrine_Query::create();
         $model = NULL;
         switch ( $params[$field]['type'] ) {
