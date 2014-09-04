@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Store</source>
+        <target>Boutique</target>
+      </trans-unit>
+      <trans-unit>
         <source>Organizers</source>
         <target>Organisateurs</target>
       </trans-unit>
@@ -534,7 +538,7 @@
       </trans-unit>
       <trans-unit>
         <source>Command</source>
-        <target>Je valide mon panier</target>
+        <target>Commander</target>
       </trans-unit>
       <trans-unit>
 	<source>password</source>

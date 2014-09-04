@@ -1,7 +1,7 @@
 html { background-color: white; }
 body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 
-#content { background-color: #FFF; }
+#content { background-color: #FFF; margin-top: 70px; }
 #menu { display: none; }
 #sf_admin_bar { display: none; }
 #sf_admin_container { position: static; }
@@ -243,7 +243,7 @@ a.actions a:hover {
 
 #ariane {
 	position: absolute;
-	height: 43px;
+	height: 49px;
 	top: 0px;
 	margin: 8px 0px 0px -10px;
 	border: 1px solid silver;
@@ -261,11 +261,10 @@ a.actions a:hover {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F4F4F4', endColorstr='#DBDBDB',GradientType=0 ); /* IE6-9 */
 }
 #ariane .command { display: none; }
-
-.access {
+#ariane .access {
 	display: inline-table;
-	height: 43px;
-	padding: 0px 18px 0px 1px;
+	height: 49px;
+	padding: 0px 25px 0px 2px;
 	font-weight: bold;
 	margin-left: 0px;
 	background-attachment: scroll;
@@ -286,14 +285,12 @@ a.actions a:hover {
   background-repeat: no-repeat;
   background-size: auto auto;
 }
-
-.access:last-child { background-image: none; padding-right: 5px; }
-
+#ariane .access:last-child { background-image: none; padding-right: 5px; }
 #ariane form, #ariane p { margin: 0; padding: 0; display: table-row; }
 #ariane a {	text-decoration: none; }
 #ariane a:hover { text-decoration: underline; }
-.access a { display: table-row; }
-.active a, #sf_admin_container .active a, #ariane .active {	color: #AD0000; }
+#ariane .access a { display: table-row; }
+#ariane .active a, #sf_admin_container .active a, #ariane .active {	color: #AD0000; }
 .past a, #sf_admin_container .past a, #ariane .past  {	color: #888; }
 .future a, #sf_admin_container .future a, #ariane .future { color: #000; } 
 .errors { color: red; }

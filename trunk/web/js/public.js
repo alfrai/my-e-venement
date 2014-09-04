@@ -77,5 +77,10 @@ $(document).ready(function(){
       $(this).html('');
     });
   }
+  
+  // flashes
+  setTimeout(function(){
+    $('.sf_admin_flashes > *').fadeOut(function(){ $(this).remove(); });
+  },4000);
 });
         

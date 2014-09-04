@@ -31,8 +31,11 @@
     <?php echo $sf_user->hasContact() ? link_to(__('My account'),'contact/index').' '.link_to(__('Logout'),'login/out') : link_to(__('Login'),'login/index').' '.link_to(__('Create an account'),'contact/new') ?>
   </div>
   <?php $nb++ ?>
-  <div class="event choices <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
+  <div class="event choices <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access <?php echo $sf_user->isStoreActive() ? 'with-store' : '' ?>">
     <?php echo link_to(sfConfig::get('app_informations_index',__('Dates')),'event/index') ?>
+    <?php if ( $sf_user->isStoreActive() ): ?>
+    <?php echo link_to(sfConfig::get('app_informations_store',__('Store')),'store/index') ?>
+    <?php endif ?>
     <?php echo link_to(__('Buy member cards'),'card/index') ?>
   </div>
   <?php $nb++ ?>
@@ -63,7 +66,6 @@
   </div>
   <?php $nb++ ?>
   <div class="command <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
-    glop
     <?php echo __('Command') ?>
   </div>
 </div>

@@ -38,14 +38,21 @@ class myUser extends liGuardSecurityUser
     $dispatcher->connect('pub.pre_execute', array($this, 'mustAuthenticate'));
     
     $this->setAttribute('online_store', NULL);
-    if ( $this->getAttribute('online_store', NULL) !== NULL )
+    if ( $this->getAttribute('online_store', NULL) === NULL )
     {
-      $online_store = Doctrine::getTable('ProductCategory')->createQuery('pc')
+      $q = Doctrine::getTable('ProductCategory')->createQuery('pc')
         ->andWhere('pc.online = ?', true)
-        ->count() > 0;
-      if ( $online_store )
-        $this->setAttribute('online_store', $online_store);
+        ->leftJoin('pc.Products p')
+        ->andWhereIn('p.meta_event_id IS NULL OR p.meta_event_id', array_keys($this->getMetaEventsCredentials()))
+        ->andWhere('p.id IS NOT NULL')
+      ;
+      $online_store = $q->count() > 0;
+      $this->setAttribute('online_store', $online_store);
     }
+  }
+  public function isStoreActive()
+  {
+    return $this->getAttribute('online_store', false);
   }
   
   public function mustAuthenticate(sfEvent $event)
