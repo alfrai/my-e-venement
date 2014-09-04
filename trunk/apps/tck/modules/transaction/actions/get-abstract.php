@@ -385,7 +385,7 @@
         continue;
       
       // by price
-      $state = $product_id = $declination = NULL;
+      $state = $declination = NULL;
       switch ( $this->json[$product->id]['declinations_name'] ) {
       case 'gauges':
         $declination = $item->Gauge;
@@ -440,7 +440,7 @@
           $state = 'cancelling';
           $pname = $item->price_id.'-'.$state;
           if (!( isset($this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]) && count($this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['ids']) == 0 ))
-            $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname] = 
+            $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname] =
             $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname] = array(
               'state' => $state,
               'name' => !$item->price_id ? $item->price_name : $item->Price->name,

@@ -188,14 +188,7 @@
         if ( !$params[$field]['qty'] )
           $params[$field]['qty'] = 1;
         
-        switch ( $params[$field]['type'] ) {
-        case 'gauge':
-          require(__DIR__.'/complete-price-new-gauge.php');
-          break;
-        case 'declination':
-          require(__DIR__.'/complete-price-new-declination.php');
-          break;
-        }
+        require(__DIR__.'/complete-price-new.php');
         break;
       case 'payment_new':
         try {

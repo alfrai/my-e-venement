@@ -48,12 +48,13 @@ LI.formSubmit = function(){
         // any data to play with
         if ( value.data && value.data.type )
         switch ( value.data.type ) {
-        case 'gauge_price':
+        case 'manifestations_price':
+        case 'store_price':
           $('#li_transaction_field_price_new [name="transaction[price_new][qty]"]').val('');
           if ( !value.data.reset )
             return;
           
-          var elt = $(str = '#li_transaction_item_'+value.data.content.declination_id+' .declination'+(value.data.content.state ? '.active.'+value.data.content.state : ':not(.active)')+'[data-price-id='+value.data.content.price_id+']');
+          var elt = $(str = '[data-'+value.data.content['data-attr']+'='+value.data.content.declination_id+'] .declination'+(value.data.content.state ? '.active.'+value.data.content.state : ':not(.active)')+'[data-price-id='+value.data.content.price_id+']');
           if ( value.data.content.qty > 0 )
           {
             elt.find('.qty input').val(value.data.content.qty).select();
@@ -97,7 +98,8 @@ LI.formSubmit = function(){
         // any select's options to add
         if ( value.remote_content && value.remote_content.load )
         switch ( value.remote_content.load.type ) {
-        case 'gauge_price':
+        case 'manifestations_price':
+        case 'store_price':
           $.ajax({
             url: value.remote_content.load.url,
             complete: function(data){
@@ -107,8 +109,10 @@ LI.formSubmit = function(){
             success: function(data){
               if ( data.error[0] ) { LI.alert(data.error[1],'error'); return; }
               if (!( data.success.error_fields !== undefined && data.success.error_fields.manifestations === undefined )) { LI.alert(data.success.error_fields.manifestations,'error'); return; }
-              if ( data.success.success_fields.manifestations !== undefined && data.success.success_fields.manifestations.data !== undefined )
-                LI.completeContent(data.success.success_fields.manifestations.data.content, 'manifestations', false);
+              
+              var type = value.remote_content.load.type.replace(/_price$/, '');
+              if ( data.success.success_fields[type] !== undefined && data.success.success_fields[type].data !== undefined )
+                LI.completeContent(data.success.success_fields[type].data.content, type, false);
             }
           });
           break;

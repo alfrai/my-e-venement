@@ -46,11 +46,14 @@
       });
       
       // direct seating
-      if ( $(this).find('.data .gauge.seated').length > 0 )
-        $('#li_transaction_field_price_new .seats-first').addClass('usefull');
-      else
-        $('#li_transaction_field_price_new .seats-first').removeClass('usefull');
-      $('#li_transaction_field_price_new .seats-first [name=gauge_id]').val($(this).attr('data-gauge-id'));
+      if ( $(this).is('[data-gauge-id]') )
+      {
+        if ( $(this).find('.data .gauge.seated').length > 0 )
+          $('#li_transaction_field_price_new .seats-first').addClass('usefull');
+        else
+          $('#li_transaction_field_price_new .seats-first').removeClass('usefull');
+        $('#li_transaction_field_price_new .seats-first [name=gauge_id]').val($(this).attr('data-gauge-id'));
+      }
       
       $('#li_transaction_field_price_new').fadeIn();
     }).focusout(function(){

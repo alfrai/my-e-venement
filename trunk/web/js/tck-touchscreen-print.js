@@ -60,16 +60,18 @@
            return false;
         }
         
-        $(this).find('[name=gauge_id]').val($('#li_transaction_field_content .ui-state-highlight').attr('data-gauge-id'));
-        if ( LI.checkGauges(this) )
+        if ( $('#li_transaction_field_content .ui-state-highlight[data-gauge-id]').length > 0 )
         {
+          $(this).find('[name=gauge_id]').val($('#li_transaction_field_content .ui-state-highlight').attr('data-gauge-id'));
+          if ( !LI.checkGauges(this) )
+            return false;
+          
           // refresh the gauge, as soon as the focus is back on the transaction
           $(window).focus(function(){
             LI.initContent();
             $(this).unbind('focus');
           });
         }
-        else return false;
         return true;
       });
     });

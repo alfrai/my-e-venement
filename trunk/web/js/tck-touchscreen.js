@@ -41,7 +41,10 @@ $(document).ready(function(){
     .focusin (function(){ $(this).closest('.highlight').focusin(); return false; });
   
   // changing quantities
-  $('#li_transaction_field_content .qty a').click(function(){ var input = $(this).closest('.qty').find('input'); input.val(parseInt(input.val(),10)+($(this).is(':first-child') ? -1 : 1)).change(); });
+  $('#li_transaction_field_content .qty a').click(function(){
+    var input = $(this).closest('.qty').find('input');
+    input.val(parseInt(input.val(),10)+($(this).is(':first-child') ? -1 : 1)).change();
+  });
   $('#li_transaction_field_content .qty input').focusout(function(){ return false; }).select(function(){
     $(this).prop('defaultValue',$(this).val());
   }).change(function(){
@@ -74,7 +77,10 @@ $(document).ready(function(){
       // set values & submit
       form.find('[name="transaction[price_new][qty]"]').val(diff);
       form.find('[name="transaction[price_new][price_id]"]').val($(this).closest('.declination').attr('data-price-id'));
-      form.find('[name="transaction[price_new][gauge_id]"]').val($(this).closest('.item').attr('data-gauge-id'));
+      form.find('[name="transaction[price_new][declination_id]"]').val(
+        $(this).closest('.item').attr('data-'+$(this).closest('.item').attr('data-type')+'-id')
+      );
+      form.find('[name="transaction[price_new][type]"]').val($(this).closest('.item').attr('data-type'));
       form.submit();
       
       // reinit
