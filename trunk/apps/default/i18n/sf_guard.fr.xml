@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ability to access the products of the store</source>
+        <target>Possibilité d'accéder aux produits du magazin</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ability to look at the online sales statistics</source>
         <target>Possibilité de voir les statistiques de vente en ligne</target>
       </trans-unit>

@@ -109,6 +109,11 @@ Product:
       refClass: ProductMetaEventLink
       foreignAlias: LinkedProducts
       foreign: fk_id
+    LinkedProducts:
+      class: Product
+      refClass: ProductProductLink
+      foreignAlias: LinkedProducts
+      foreign: fk_id
 ProductDeclination:
   package: pos
   actAs:
@@ -161,6 +166,11 @@ ProductMetaEventLink:
     extends: ProductLink
     type: concrete
 ProductWorkspaceLink:
+  package: pos
+  inheritance:
+    extends: ProductLink
+    type: concrete
+ProductProductLink:
   package: pos
   inheritance:
     extends: ProductLink

@@ -30,6 +30,6 @@ generator:
           General: [name, product_category_id, prices_list, prices, vat_id]
           Declinations: [declinations, _form_declination_del]
           Details: [meta_event_id, description, picture, _show_picture, _form_picture_del, accounting_account]
-          Links:   [linked_meta_events_list, linked_workspaces_list, linked_manifestations_list, linked_prices_list]
+          Links:   [linked_meta_events_list, linked_workspaces_list, linked_manifestations_list, linked_prices_list, linked_products_list]
       edit:    ~
       new:     ~

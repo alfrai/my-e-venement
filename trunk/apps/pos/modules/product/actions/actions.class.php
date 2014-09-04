@@ -44,24 +44,19 @@ class productActions extends autoProductActions
     
     $q = Doctrine::getTable('Product')
       ->createQuery('pdt')
+      ->limit($request->getParameter('limit', $request->getParameter('max', 10)))
       ->leftJoin('pdt.MetaEvent me')
       ->andWhereIn('me.id IS NULL OR me.id', array_keys($this->getUser()->getMetaEventsCredentials()))
       ->orderBy('pt.name')
-      ->limit($request->getParameter('limit', $request->getParameter('max', 10)));
-    
-    if ( $tid = $request->getParameter('except_transaction', false) )
-    {
-      $q->leftJoin('d.BoughtProducts bp WITH bp.transaction_id = ?', $tid)
-        ->andWhere('bp.id IS NULL')
-      ;
-    }
+    ;
+    if ( ($tid = intval($request->getParameter('except_transaction', false))).'' === ''.$request->getParameter('except_transaction', false) )
+      $q->andWhere('pdt.id NOT IN (SELECT bpd.product_id FROM BoughtProduct bp LEFT JOIN bp.Declination bpd WHERE bp.transaction_id = ?)',$tid);
     
     $q = Doctrine_Core::getTable('Product')
       ->search($search.'*',$q);
-    $data = $q->execute()->getData();
     
     $this->products = array();
-    foreach ( $data as $product )
+    foreach ( $q->execute() as $product )
     if ( $request->hasParameter('keep-order') )
     {
       $this->products[] = array(

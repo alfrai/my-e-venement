@@ -59,11 +59,30 @@ class ProductForm extends BaseProductForm
         ->where('p.id IS NOT NULL')
       )
     ;
-    $this->validatorSchema['linked_prices_list']
-      ->setOption('query', $this->widgetSchema['linked_prices_list']->getOption('query'));
+    $this->widgetSchema   ['linked_products_list']
+      ->setOption('renderer_class','liWidgetFormSelectDoubleListJQuery')
+      ->setOption('query', Doctrine::getTable('Product')->createQuery('p')
+        ->andWhere('p.id != ?', $this->object->id ? $this->object->id : 0)
+      )
+    ;
     
-    foreach ( array('meta_event_id', 'linked_prices_list', 'linked_workspaces_list', 'linked_meta_events_list') as $field )
-      $this->widgetSchema[$field]->setOption('order_by', array('name',''));
+    // applying the widget's query to its validator
+    foreach ( array('linked_prices_list', 'linked_products_list') as $field )
+      $this->validatorSchema[$field]
+        ->setOption('query', $this->widgetSchema[$field]->getOption('query'));
+    
+    // ordering
+    foreach ( array('meta_event_id', 'linked_prices_list', 'linked_workspaces_list', 'linked_meta_events_list', 'linked_products_list' => 'pt') as $field => $root )
+    {
+      if ( is_int($field) )
+      {
+        $field = $root;
+        $root = NULL;
+      }
+      if ( $root )
+        $root .= '.';
+      $this->widgetSchema[$field]->setOption('order_by', array($root.'name',''));
+    }
     
     // USER RELATED CONSTRAINTS
     if ( !sfContext::hasInstance() )
