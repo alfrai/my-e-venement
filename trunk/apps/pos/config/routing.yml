@@ -1,3 +1,12 @@
+product_declination:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                ProductDeclination
+    module:               declination
+    prefix_path:          /declination
+    column:               id
+    with_wildcard_routes: true
+
 price_pos:
   class: sfDoctrineRouteCollection
   options:

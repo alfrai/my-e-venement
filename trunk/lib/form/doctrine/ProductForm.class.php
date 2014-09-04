@@ -15,7 +15,7 @@ class ProductForm extends BaseProductForm
   {
     parent::configure();
     
-    $this->object->Declinations[] = new ProductDeclination;
+    //$this->object->Declinations[] = new ProductDeclination;
     $this->embedRelation('Declinations AS declinations');
     
     $this->embedRelation('PriceProducts AS prices');

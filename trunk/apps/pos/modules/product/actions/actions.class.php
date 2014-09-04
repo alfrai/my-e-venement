@@ -13,6 +13,10 @@ require_once dirname(__FILE__).'/../lib/productGeneratorHelper.class.php';
  */
 class productActions extends autoProductActions
 {
+  public function executeAddDeclination(sfWebRequest $request)
+  {
+    $this->redirect('declination/new?product-id='.$request->getParameter('id'));
+  }
   public function executeDelPicture(sfWebRequest $request)
   {
     Doctrine::getTable('Product')->find($request->getParameter('id', 0))->Picture->delete();
@@ -69,5 +73,18 @@ class productActions extends autoProductActions
       $this->products[$product->id] = $request->hasParameter('with_colors')
         ? array('name' => (string)$product, 'color' => NULL)
         : (string) $product;
+  }
+  
+  public function executeShow(sfWebRequest $request)
+  {
+    $this->getResponse()->addJavascript('pos-ro');
+    $this->forward('product', 'edit');
+  }
+  public function executeEdit(sfWebRequest $request)
+  {
+    parent::executeEdit($request);
+    
+    if ( !$this->getUser()->hasCredential('pos-product-edit') )
+      $this->getResponse()->addJavascript('pos-ro');
   }
 }
