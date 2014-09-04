@@ -82,11 +82,16 @@
    *             tep: float, the price excluding taxes
    *             name: string, the price's name
    *             description: string, the price's description
+   *             item-details: boolean
    *             [ids]:
    *               tickets' id
    *             [numerotation]:
    *               tickets' numerotation
    **/
+    
+    $type = 'manifestations';
+    require(__DIR__.'/get-abstract.php');
+    return;
 
     $this->getContext()->getConfiguration()->loadHelpers('Slug');
     if ( $request->getParameter('id',false) )
@@ -212,14 +217,6 @@
             'prices' => array('-' => $tickets_model),
           );
           
-          if ( $seated_plan = $manifestation->Location->getWorkspaceSeatedPlan($gauge->workspace_id) )
-          {
-            $this->json[$manifestation->id]['gauges'][$gauge->id]['seated_plan_url'] =
-              cross_app_url_for('default', 'picture/display?id='.$seated_plan->picture_id);
-            $this->json[$manifestation->id]['gauges'][$gauge->id]['seated_plan_seats_url'] =
-              cross_app_url_for('event', 'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id.'&transaction_id='.$this->transaction->id);
-          }
-          
           // seated plans
           if ( $seated_plan = $manifestation->Location->getWorkspaceSeatedPlan($gauge->workspace_id) )
           {
@@ -287,6 +284,7 @@
           'state' => $state,
           'name' => !$ticket->price_id ? $ticket->price_name : $ticket->Price->name,
           'description' => !$ticket->price_id ? '' : $ticket->Price->description,
+          'item-details' => true,
           'id' => $ticket->price_id ? $ticket->price_id : slugify($ticket->price_name),
         ) + $tickets_model;
       $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['ids'][] = $ticket->id;
@@ -310,6 +308,7 @@
             'state' => $state,
             'name' => !$ticket->price_id ? $ticket->price_name : $ticket->Price->name,
             'description' => !$ticket->price_id ? '' : $ticket->Price->description,
+            'item-details' => false,
             'id' => $ticket->price_id ? $ticket->price_id : slugify($ticket->price_name),
           ) + $tickets_model;
         $this->json[$ticket->Gauge->manifestation_id]['gauges'][$ticket->gauge_id]['prices'][$pname]['ids'][] = $cancelling[0]->id;

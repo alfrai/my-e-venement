@@ -234,12 +234,12 @@
         break;
       case 'close':
         $semaphore = array('products' => true, 'amount' => 0);
-        foreach ( $this->transaction->Tickets as $ticket )
+        foreach ( $this->transaction->getItemables() as $pdt )
         {
-          if ( !$ticket->printed_at && !$ticket->cancelling && !$ticket->integrated_at )
+          if ( $pdt->isSold() )
             $semaphore['products'] = false;
-          elseif ( !$ticket->duplicating )
-            $semaphore['amount'] += $ticket->value;
+          elseif ( !$pdt->isDuplicata() )
+            $semaphore['amount'] += $pdt->value;
         }
         foreach ( $this->transaction->Payments as $payment )
         {
@@ -253,7 +253,7 @@
           
           $this->json['success']['error_fields']['close']['data']['generic'] = __('This transaction cannot be closed properly:');
           if ( !$semaphore['products'] )
-            $this->json['success']['error_fields']['close']['data']['tck'] = __('Some tickets are not printed yet');
+            $this->json['success']['error_fields']['close']['data']['pdt'] = __('Some products are not sold (printed?) yet');
           if ( $semaphore['amount'] > 0 )
             $this->json['success']['error_fields']['close']['data']['pay'] = __('This transaction is not yet totally paid');
           if ( $semaphore['amount'] < 0 )

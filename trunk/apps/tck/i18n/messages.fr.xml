@@ -121,8 +121,8 @@
         <target>Cette opération n'a pas été totalement payée</target>
       </trans-unit> 
       <trans-unit>
-        <source>Some tickets are not printed yet</source>
-        <target>Plusieurs billets n'ont pas été encore imprimés</target>
+        <source>Some products are not sold (printed?) yet</source>
+        <target>Plusieurs produits n'ont pas encore été vendus</target>
       </trans-unit> 
       <trans-unit>
         <source>This transaction has more money than needed</source>
