@@ -3,3 +3,21 @@
 
 default:
   is_secure: true
+  credentials: [pos-product]
+show:
+  credentials: [pos-product]
+
+edit:
+  credentials: [pos-product-edit]
+update:
+  credentials: [pos-product-edit]
+
+new:
+  credentials: [pos-product-new]
+create:
+  credentials: [pos-product-new]
+
+delete:
+  credentials: [pos-product-del]
+batchDelete:
+  credentials: [pos-product-del]

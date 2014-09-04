@@ -5,8 +5,20 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Ability to access the products of the store</source>
-        <target>Possibilité d'accéder aux produits du magazin</target>
+        <source>Ability to have an overview of the store</source>
+        <target>Possibilité de superviser le magazin</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ability to create/edit/delete products of the store</source>
+        <target>Possibilité de créer/modifier/supprimer des produits du magazin</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ability to administrate the data of the store</source>
+        <target>Possibilité d'administrer les données du magazin</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ability to access the products of the store in the sales</source>
+        <target>Possibilité d'accéder aux produits du magazin dans les ventes</target>
       </trans-unit>
       <trans-unit>
         <source>Ability to look at the online sales statistics</source>

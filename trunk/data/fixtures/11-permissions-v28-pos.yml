@@ -1,0 +1,103 @@
+sfGuardGroup:
+  sfGuardGroup_47:
+    name: tck-pos
+    description: 'Ability to access the products of the store in the sales'
+    created_at: '2014-09-04 16:36:27.000023'
+    updated_at: '2014-09-04 16:36:27.000023'
+  sfGuardGroup_48:
+    name: pos-view
+    description: 'Ability to have an overview of the store'
+    created_at: '2014-09-04 16:36:27.000023'
+    updated_at: '2014-09-04 16:36:27.000023'
+  sfGuardGroup_49:
+    name: pos-product-mod
+    description: 'Ability to create/edit/delete products of the store'
+    created_at: '2014-09-04 16:36:27.000023'
+    updated_at: '2014-09-04 16:36:27.000023'
+  sfGuardGroup_50:
+    name: pos-admin
+    description: 'Ability to administrate the data of the store'
+    created_at: '2014-09-04 16:36:27.000023'
+    updated_at: '2014-09-04 16:36:27.000023'
+sfGuardGroupPermission:
+  sfGuardGroupPermission_47_121:
+    Group: sfGuardGroup_47
+    Permission: sfGuardPermission_121
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardGroupPermission_48_122:
+    Group: sfGuardGroup_48
+    Permission: sfGuardPermission_122
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardGroupPermission_49_122:
+    Group: sfGuardGroup_49
+    Permission: sfGuardPermission_122
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardGroupPermission_49_123:
+    Group: sfGuardGroup_49
+    Permission: sfGuardPermission_123
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardGroupPermission_49_124:
+    Group: sfGuardGroup_49
+    Permission: sfGuardPermission_124
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardGroupPermission_49_125:
+    Group: sfGuardGroup_49
+    Permission: sfGuardPermission_125
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardGroupPermission_50_126:
+    Group: sfGuardGroup_50
+    Permission: sfGuardPermission_126
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardGroupPermission_50_127:
+    Group: sfGuardGroup_50
+    Permission: sfGuardPermission_127
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardGroupPermission_50_122:
+    Group: sfGuardGroup_50
+    Permission: sfGuardPermission_122
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+sfGuardPermission:
+  sfGuardPermission_121:
+    name: tck-pos
+    description: 'Permission to access every features from the store, depending on what credentials are defined elsewhere in tck-*'
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardPermission_122:
+    name: pos-product
+    description: 'Permission to view the data from the store'
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardPermission_123:
+    name: pos-product-edit
+    description: 'Permission to modify a product'
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardPermission_124:
+    name: pos-product-new
+    description: 'Permission to create products'
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardPermission_125:
+    name: pos-product-del
+    description: 'Permission to delete products'
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardPermission_126:
+    name: pos-product-category
+    description: 'Permission to have a full access to product categories'
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'
+  sfGuardPermission_127:
+    name: pos-product-price
+    description: 'Permission to have a full access to product prices'
+    created_at: '2014-09-04 16:36:26.864353'
+    updated_at: '2014-09-04 16:36:26.864353'

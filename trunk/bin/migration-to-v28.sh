@@ -153,6 +153,9 @@ echo "Permissions & groups for accessing taxes..."
 echo "Permissions & groups for accessing online sales stats..."
 ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-stats.yml
 psql $db <<EOF
+echo "Permissions & groups for accessing the store..."
+./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-pos.yml
+psql $db <<EOF
 EOF
 
 echo ''
