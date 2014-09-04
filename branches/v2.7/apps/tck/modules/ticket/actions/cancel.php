@@ -57,12 +57,12 @@
       if ( !$ticket->printed_at )
       {
         $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it has not yet been printed... Just try to suppress it",array('%%i%%' => $ticket->id)));
-        $this->redirect('ticket/sell?id='.$ticket->transaction_id);
+        $this->redirect('transaction/edit?id='.$ticket->transaction_id);
       }
       if ( $ticket->Duplicatas->count() != 0 )
       {
         $this->getUser()->setFlash('error',__("Can't cancel the ticket #%%i%% because it is a duplicated ticket... Simply try to cancel the last duplicate of the series",array('%%i%%' => $ticket->id)));
-        $this->redirect('ticket/sell?id='.$ticket->transaction_id);
+        $this->redirect('transaction/edit?id='.$ticket->transaction_id);
       }
       if ( !is_null($ticket->cancelling) )
       {
