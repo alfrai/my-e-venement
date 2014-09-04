@@ -48,6 +48,14 @@ class productActions extends autoProductActions
       ->andWhereIn('me.id IS NULL OR me.id', array_keys($this->getUser()->getMetaEventsCredentials()))
       ->orderBy('pt.name')
       ->limit($request->getParameter('limit', $request->getParameter('max', 10)));
+    
+    if ( $tid = $request->getParameter('except_transaction', false) )
+    {
+      $q->leftJoin('d.BoughtProducts bp WITH bp.transaction_id = ?', $tid)
+        ->andWhere('bp.id IS NULL')
+      ;
+    }
+    
     $q = Doctrine_Core::getTable('Product')
       ->search($search.'*',$q);
     $data = $q->execute()->getData();
@@ -63,6 +71,8 @@ class productActions extends autoProductActions
       );
     }
     else
-      $this->products[$product->id] = (string) $product;
+      $this->products[$product->id] = $request->hasParameter('with_colors')
+        ? array('name' => (string)$product, 'color' => NULL)
+        : (string) $product;
   }
 }
