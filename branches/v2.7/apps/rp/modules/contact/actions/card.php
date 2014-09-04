@@ -61,6 +61,7 @@
         $this->card = $this->card->getObject();
         
         if ( $this->card->MemberCardType->value > 0 )
+        try
         {
           $payment = new Payment;
           if ( intval($pmid = $request->getParameter('payment_method_id')) > 0 )
@@ -70,6 +71,8 @@
             $pm = Doctrine::getTable('PaymentMethod')->createQuery('pm')
               ->andWhere('pm.member_card_linked = true')
               ->fetchOne();
+            if ( !$pm )
+              throw new liMemberCardPaymentException('You need to define a payment method for member cards.');
             $payment->payment_method_id = $pm->id;
           }
           $payment->MemberCard = $this->card;
@@ -79,6 +82,12 @@
           $this->transaction->Contact = $this->card->Contact;
           $this->transaction->Payments[] = $payment;
           $this->transaction->save();
+        }
+      	catch ( liMemberCardPaymentException $e )
+      	{
+          $this->getContext()->getConfiguration()->loadHelpers('I18N');
+          $this->getUser()->setFlash('error', __($e->getMessage()));
+          $this->redirect('contact/card?id='.$this->card->contact_id);
         }
       }
       else

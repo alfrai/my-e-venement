@@ -41,6 +41,10 @@
         <target>Obligatoire.</target>
       </trans-unit>
       <trans-unit>
+        <source>You need to define a payment method for member cards.</source>
+        <target>Vous devez définir une méthode de paiement pour les cartes d'abonnement.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Read receipt</source>
         <target>Accusé de réception</target>
       </trans-unit>
