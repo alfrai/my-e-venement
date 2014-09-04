@@ -122,11 +122,13 @@ class Transaction extends PluginTransaction
     
     $price = 0;
     foreach ( $this->Tickets as $ticket )
-    {
     if ( $all && $ticket->Duplicatas->count() == 0
       || $ticket->Duplicatas->count() == 0 && ($ticket->printed_at || $ticket->integrated_at || !is_null($ticket->cancelling)) )
       $price += $ticket->value + $ticket->taxes;
-    }
+    foreach ( $this->BoughtProducts as $product )
+    if ( $bp->integrated_at )
+      $price += $bp->value;
+    
     return $price;
   }
   public function getMemberCardPrice($all = false)

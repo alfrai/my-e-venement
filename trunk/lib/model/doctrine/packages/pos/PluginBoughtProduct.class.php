@@ -15,6 +15,7 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
   public function preSave($event)
   {
     // if the item is not being bought or is bought already, modifications are not allowed
+    $mods = $this->getModified();
     if ( $this->integrated_at && !isset($mods['integrated_at']) )
       throw new liEvenementException('Trying to modify the #'.$this->id.' item which has been bought already.');
     

@@ -169,6 +169,17 @@ class transactionActions extends autoTransactionActions
         ->leftJoin('p.Users pu')
         ->andWhere('pu.sf_guard_user_id = ?', $this->getUser()->getId()),
     ));
+    $this->form['content']['store']->integrate = new sfForm;
+    $ws = $this->form['content']['store']->integrate->getWidgetSchema()->setNameFormat('transaction[store_integrate][%s]');
+    $vs = $this->form['content']['store']->integrate->getValidatorSchema();
+    $ws['id'] = new sfWidgetFormInputHidden;
+    $vs['id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Transaction',
+      'query' => Doctrine::getTable('Transaction')->createQuery('t')
+        ->andWhere('t.closed = ?', false)
+        ->andWhere('t.id = ?', $this->transaction->id),
+    ));
+    $this->form['content']['store']->integrate->setDefault('id', $this->transaction->id);
 
     // NEW PAYMENT
     $this->form['payment_new'] = new sfForm;

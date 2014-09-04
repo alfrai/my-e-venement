@@ -184,7 +184,7 @@
         }
       }
       else
-        $q = Doctrine::getTable('Product')->createQuery('p');
+        $q = Doctrine::getTable('Product')->createQuery('pdt');
       
       // retrictive parameters
       $pid = array();

@@ -83,6 +83,9 @@
       return;
     }
     
+    // weird cases pre-processing
+    $this->form['store_integrate'] = $this->form['content']['store']->integrate;
+    
     $success = array(
       'data' => array(),
       'remote_content' => array(
@@ -137,7 +140,7 @@
     }
     
     // more complex data
-    foreach ( array('price_new', 'payment_new', 'payments_list', 'close') as $field )
+    foreach ( array('price_new', 'payment_new', 'payments_list', 'store_integrate', 'close') as $field )
     if ( isset($params[$field]) && is_array($params[$field]) && isset($this->form[$field]) )
     {
       $this->json['success']['success_fields'][$field] = $success;
@@ -229,6 +232,21 @@
         $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'payments';
         $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getPayments?id='.$request->getParameter('id'), true);
         
+        break;
+      case 'store_integrate':
+        foreach ( Doctrine::getTable('BoughtProduct')->createQuery('bp')
+          ->andWhere('bp.transaction_id = ?', $this->form[$field]->getValue('id'))
+          ->execute() as $bp )
+        {
+          $bp->integrated_at = date('Y-m-d H:i:s');
+          $bp->save();
+        }
+        $this->json['success']['success_fields'][$field]['remote_content'] = array(
+          'load' => array(
+            'type' => 'store_price',
+            'url'  => url_for('transaction/getStore?id='.$request->getParameter('id'), true)
+          )
+        );
         break;
       case 'close':
         $semaphore = array('products' => true, 'amount' => 0);
