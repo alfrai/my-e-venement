@@ -43,6 +43,9 @@ class myUser extends liGuardSecurityUser
     if ( !sfConfig::get('app_user_must_authenticate', false) )
       return;
     
+    if ( $this->getTransaction()->contact_id )
+      return;
+    
     // for plateforms that require authenticated visitors
     $sf_action = $event->getSubject();
     if (!( method_exists($sf_action, 'isAuthenticatingModule') && $sf_action->isAuthenticatingModule() ))
