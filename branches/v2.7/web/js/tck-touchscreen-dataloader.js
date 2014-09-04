@@ -162,7 +162,7 @@ LI.completeContent = function(data, type, replaceAll = true)
         if ( !mod || price.state )
         {
           wprice.addClass('active').addClass(price.state ? price.state : 'readonly');
-          if ( $.inArray(price.state, ['printed', 'cancelling']) )
+          if ( $.inArray(price.state, ['printed', 'cancelling']) > -1 )
             wprice.find('.qty input').prop('readonly', true);
         }
         wprice.find('.qty input').val(price.qty).select();
