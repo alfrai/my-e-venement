@@ -12,6 +12,11 @@ class cartActions extends sfActions
 {
   protected $transaction = NULL;
   
+  public function preExecute()
+  {
+    $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
+    parent::preExecute();
+  }
   public function executeWidget(sfWebRequest $request)
   {
     try { $this->transac = $this->getUser()->getTransaction(); }

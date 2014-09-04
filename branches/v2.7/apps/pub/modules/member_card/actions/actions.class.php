@@ -13,4 +13,9 @@ require_once dirname(__FILE__).'/../lib/member_cardGeneratorHelper.class.php';
  */
 class member_cardActions extends autoMember_cardActions
 {
+  public function preExecute()
+  {
+    $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
+    parent::preExecute();
+  }
 }

@@ -13,6 +13,11 @@ require_once dirname(__FILE__).'/../lib/pictureGeneratorHelper.class.php';
  */
 class pictureActions extends autoPictureActions
 {
+  public function preExecute()
+  {
+    $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
+    parent::preExecute();
+  }
   public function executeDisplay(sfWebRequest $request)
   {
     $this->executeShow($request);

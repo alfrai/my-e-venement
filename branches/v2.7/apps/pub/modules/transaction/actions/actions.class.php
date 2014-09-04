@@ -10,6 +10,11 @@
  */
 class transactionActions extends sfActions
 {
+  public function preExecute()
+  {
+    $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
+    parent::preExecute();
+  }
   public function executeTestSendEmail(sfWebRequest $request)
   {
     require_once(dirname(__FILE__).'/../../cart/actions/actions.class.php');

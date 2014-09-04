@@ -1,3 +1,4 @@
+link ../../templates/_flashes.php
 <div class="sf_admin_flashes ui-widget">
 
 <?php if ($sf_user->hasFlash('error')): ?>

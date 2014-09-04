@@ -32,6 +32,23 @@ class myUser extends liGuardSecurityUser
   protected $workspaces = array();
   protected $transaction = NULL;
   
+  public function initialize(sfEventDispatcher $dispatcher, sfStorage $storage, $options = array())
+  {
+    parent::initialize($dispatcher, $storage, $options);
+    $dispatcher->connect('pub.pre_execute', array($this, 'mustAuthenticate'));
+  }
+  
+  public function mustAuthenticate(sfEvent $event)
+  {
+    if ( !sfConfig::get('app_user_must_authenticate', false) )
+      return;
+    
+    // for plateforms that require authenticated visitors
+    $sf_action = $event->getSubject();
+    if (!( method_exists($sf_action, 'isAuthenticatingModule') && $sf_action->isAuthenticatingModule() ))
+      $sf_action->redirect('login/index');
+  }
+  
   public function getGuardUser()
   {
     if (!$this->user )

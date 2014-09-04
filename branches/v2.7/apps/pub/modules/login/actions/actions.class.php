@@ -10,6 +10,19 @@
  */
 class loginActions extends sfActions
 {
+  protected $is_auth_action = true;
+  
+  public function preExecute()
+  {
+    $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
+    parent::preExecute();
+  }
+  
+  public function isAuthenticatingModule()
+  {
+    return $this->is_auth_action;
+  }
+  
   public function executeIndex(sfWebRequest $request)
   {
     $this->register = $request->hasParameter('register');

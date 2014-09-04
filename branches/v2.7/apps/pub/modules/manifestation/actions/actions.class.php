@@ -13,6 +13,11 @@ require_once dirname(__FILE__).'/../lib/manifestationGeneratorHelper.class.php';
  */
 class manifestationActions extends autoManifestationActions
 {
+  public function preExecute()
+  {
+    $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
+    parent::preExecute();
+  }
   public function executeBatchDelete(sfWebRequest $request)
   {
     $this->redirect('manifestation/index');
