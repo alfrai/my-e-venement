@@ -202,7 +202,9 @@
         try {
           $p = new Payment;
           $p->transaction_id = $this->transaction->id;
-          $p->value = $this->form[$field]->getValue('value') ? $this->form[$field]->getValue('value') : $this->transaction->price - $this->transaction->paid;
+          $p->value = $this->form[$field]->getValue('value')
+            ? $this->form[$field]->getValue('value')
+            : $this->transaction->price - $this->transaction->paid;
           $p->payment_method_id = $this->form[$field]->getValue('payment_method_id');
           $p->created_at = $this->form[$field]->getValue('created_at');
           if ( $this->form[$field]->getValue('member_card_id') )
