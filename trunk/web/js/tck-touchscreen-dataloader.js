@@ -190,7 +190,7 @@ LI.completeContent = function(data, type, replaceAll = true)
             if ( parseInt(price.id)+'' === ''+price.id ) // everything but a Work In Progress price
               wprice.addClass('active');
             wprice.addClass(price.state ? price.state : 'readonly');
-            if ( price.state === 'printed' || parseInt(price.id)+'' !== ''+price.id ) // every printed or Work In progress price
+            if ( $.inArray(price.state, ['printed', 'cancelling']) > -1 || parseInt(price.id)+'' !== ''+price.id ) // every cancelling, printed or Work In progress price
               wprice.find('.qty input').prop('readonly', true);
           }
           wprice.find('.qty input').val(price.qty).select();
