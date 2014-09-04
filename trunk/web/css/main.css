@@ -153,3 +153,6 @@ html button.fg-button-icon-left .ui-icon { left: 0.4em; }
 
 .sf_admin_form .sf_admin_form_row .lang { display: none; }
 .sf_admin_form .sf_admin_text textarea, .sf_admin_form .sf_admin_text input { margin: 0.1em; }
+
+/* double-lists */
+.double_list > div { float: none !important; }
