@@ -16,6 +16,12 @@ use Passbook\Type\EventTicket;
  */
 class transactionActions extends sfActions
 {
+  public function preExecute()
+  {
+    $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
+    parent::preExecute();
+  }
+
   public function executeTickets(sfWebRequest $request)
   {
     if ( !$request->hasParameter('debug') && !$request->hasParameter('debug') )

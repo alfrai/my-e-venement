@@ -12,6 +12,11 @@ class cartActions extends sfActions
 {
   protected $transaction = NULL;
   
+  public function preExecute()
+  {
+    $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
+    parent::preExecute();
+  }
   public function executeCommitSurvey(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');

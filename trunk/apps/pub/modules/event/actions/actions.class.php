@@ -13,6 +13,12 @@ require_once dirname(__FILE__).'/../lib/eventGeneratorHelper.class.php';
  */
 class eventActions extends autoEventActions
 {
+  public function preExecute()
+  {
+    $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
+    parent::preExecute();
+  }
+  
   public function executeIndex(sfWebRequest $request)
   {
     $cultures = array_keys(sfConfig::get('project_internals_cultures', array('fr' => 'Français')));

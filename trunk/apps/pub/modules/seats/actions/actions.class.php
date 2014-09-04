@@ -33,6 +33,12 @@
  */
 class seatsActions extends sfActions
 {
+  public function preExecute()
+  {
+    $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
+    parent::preExecute();
+  }
+
  /**
   * Executes index action
   *
