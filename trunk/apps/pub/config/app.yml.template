@@ -6,6 +6,7 @@ all:
   open: true
   user:
     templating: vel
+    must_authenticate: false
   informations:
     title: Libre Informatique
     email: contact@to-be-changed.tld
