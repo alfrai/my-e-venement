@@ -25,6 +25,8 @@ all:
     close_before: 24 hours
     wip_price: WIP
     #id: qrcode # can be id (default), qrcode, othercode
+  store:
+    max_per_product: 9
   contact:
     capitalize: [name, firstname, city, country, address]
   #show:

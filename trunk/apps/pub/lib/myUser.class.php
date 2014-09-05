@@ -37,8 +37,8 @@ class myUser extends liGuardSecurityUser
     parent::initialize($dispatcher, $storage, $options);
     $dispatcher->connect('pub.pre_execute', array($this, 'mustAuthenticate'));
     
-    $this->setAttribute('online_store', NULL);
-    if ( $this->getAttribute('online_store', NULL) === NULL )
+    if ( $this->getAttribute('online_store', NULL) === NULL
+      || time() > strtotime($this->getAttribute('online_store_timeout', NULL)) )
     {
       $q = Doctrine::getTable('ProductCategory')->createQuery('pc')
         ->andWhere('pc.online = ?', true)
@@ -48,8 +48,10 @@ class myUser extends liGuardSecurityUser
       ;
       $online_store = $q->count() > 0;
       $this->setAttribute('online_store', $online_store);
+      $this->setAttribute('online_store_timeout', date('Y-m-d H:i:s', strtotime('+10 minutes')));
     }
   }
+  
   public function isStoreActive()
   {
     return $this->getAttribute('online_store', false);
@@ -198,5 +200,35 @@ class myUser extends liGuardSecurityUser
     $this->getAttributeHolder()->remove('transaction_id');
     $this->transaction = NULL;
     $this->getTransaction();
+  }
+  
+  public function setDefaultCulture(array $languages)
+  {
+    $cultures = array_keys(sfConfig::get('project_internals_cultures', array('fr' => 'Français')));
+    
+    if ( !$this->getAttribute('global_culture_forced', false) )
+    {
+      // all the browser's languages
+      $user_langs = array();
+      foreach ( $languages as $lang )
+      if ( !isset($user_lang[substr($lang, 0, 2)]) )
+        $user_langs[substr($lang, 0, 2)] = $lang;
+      
+      // comparing to the supported languages
+      $done = false;
+      foreach ( $user_langs as $culture => $lang )
+      if ( in_array($culture, $cultures) )
+      {
+        $done = $culture;
+        $this->setCulture($culture);
+        break;
+      }
+      
+      // culture by default
+      if ( !$done )
+        $this->setCulture($cultures[0]);
+    }
+    
+    return $this;
   }
 }

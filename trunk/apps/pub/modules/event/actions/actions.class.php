@@ -21,45 +21,7 @@ class eventActions extends autoEventActions
   
   public function executeIndex(sfWebRequest $request)
   {
-    $cultures = array_keys(sfConfig::get('project_internals_cultures', array('fr' => 'Français')));
-    
-    // culture defined explicitly
-    if ( $request->hasParameter('culture') && in_array($request->getParameter('culture'), $cultures) )
-    {
-      $this->getUser()->setCulture($request->getParameter('culture'));
-      $this->getUser()->setAttribute('global_culture_forced', true);
-    }
-    
-    if ( !$this->getUser()->getAttribute('global_culture_forced', false) )
-    {
-      // all the browser's languages
-      $user_langs = array();
-      foreach ( $request->getLanguages() as $lang )
-      if ( !isset($user_lang[substr($lang, 0, 2)]) )
-        $user_langs[substr($lang, 0, 2)] = $lang;
-      
-      // comparing to the supported languages
-      $done = false;
-      foreach ( $user_langs as $culture => $lang )
-      if ( in_array($culture, $cultures) )
-      {
-        $done = $culture;
-        $this->getUser()->setCulture($culture);
-        break;
-      }
-      
-      // culture by default
-      if ( !$done )
-        $this->getUser()->setCulture($cultures[0]);
-    }
-    
-    if ( $request->hasParameter('culture') )
-    {
-      $this->getContext()->getConfiguration()->loadHelpers('I18N');
-      $this->getUser()->setFlash('success', __('Now you are making the experience of e-venement in your favorite language.'));
-      $this->redirect('event/index');
-    }
-    
+    $this->getUser()->setDefaultCulture($request->getLanguages());
     // continue normal operations
     parent::executeIndex($request);
   }
