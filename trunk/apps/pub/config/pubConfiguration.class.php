@@ -283,6 +283,8 @@ class pubConfiguration extends sfApplicationConfiguration implements liGarbageCo
         ->andWhere('p.id IS NULL')
         ->leftJoin('t.Tickets tck WITH tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.duplicating IS NOT NULL OR tck.cancelling IS NOT NULL')
         ->andWhere('tck.id IS NULL')
+        ->leftJoin('t.BoughtProduct bp WITH bp.integrated_at IS NOT NULL')
+        ->andWhere('bp.id IS NULL')
         ->leftJoin('t.User u')
         ->andWhere('u.username = ?', sfConfig::get('app_user_templating'))
         ->andWhere('t.created_at < ?', $date = date('Y-m-d H:i:s', strtotime($cart_timeout.' ago')))
