@@ -21,4 +21,19 @@ class ProductTable extends PluginProductTable
   {
     return Doctrine_Core::getTable('Product');
   }
+  
+  public function retrievePublicList()
+  {
+    $q = $this->createQuery('p')
+      ->leftJoin('p.Category c')
+      ->leftJoin('c.Translation ct')
+      ->andWhere('c.online = ?', true)
+      ->leftJoin('p.Prices price')
+      ->andWhere('price.online = ?', true)
+      ->leftJoin('price.Users u')
+    ;
+    if ( sfContext::hasInstance() )
+      $q->andWhere('u.id = ?', sfContext::getInstance()->getUser()->getId());
+    return $q;
+  }
 }

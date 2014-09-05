@@ -36,6 +36,7 @@ generator:
           Details: [meta_event_id, description, picture, _show_picture, _form_picture_del, accounting_account]
           Links:   [linked_meta_events_list, linked_workspaces_list, linked_manifestations_list, linked_prices_list, linked_products_list]
       edit:
+        title: Edit product %%name%%
         actions:
           _delete: ~
           _add_declination:

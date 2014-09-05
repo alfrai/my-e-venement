@@ -1,0 +1,30 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Product
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          product
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+        display: [Category, =name]
+        batch_actions: []
+        object_actions: []
+        actions: []
+        sort: [ct.name, pt.name]
+        table_method: retrievePublicList
+        max_per_page: 100
+        title: <?php echo sfConfig::get('app_informations_store','Store list').PHP_EOL ?>
+      filter:
+        display: [name, product_category_id]
+      form:    ~
+      edit:    ~
+      new:     ~
