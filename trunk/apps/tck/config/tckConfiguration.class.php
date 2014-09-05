@@ -142,7 +142,7 @@ EOF
       $this->stdout($section, 'Deleting too old tickets...', 'COMMAND');
       $q = Doctrine_Query::create()->from('Ticket tck')
         ->andWhere('tck.price_id IS NOT NULL')
-        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL')
+        ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL AND tck.duplicating IS NULL')
         ->andWhere('tck.updated_at < ?', $date = date('Y-m-d H:i:s', strtotime(($timeout['asked'] ? $timeout['asked'] : '1 hour').' ago')))
         ->leftJoin('tck.Transaction t')
         ->leftJoin('t.Order o')
@@ -153,6 +153,25 @@ EOF
       $nb = $tickets->count();
       $tickets->delete();
       $this->stdout($section, "[OK] $nb tickets deleted", 'INFO');
+    });
+    
+    // Asked products collector
+    $this->addGarbageCollector('products', function(){
+      $timeout = sfConfig::get('app_tickets_timeout', array());
+      $section = 'Asked products';
+      $this->stdout($section, 'Deleting too old products...', 'COMMAND');
+      $q = Doctrine_Query::create()->from('BoughtProduct bp')
+        ->andWhere('bp.integrated_at IS NULL')
+        ->andWhere('bp.updated_at < ?', $date = date('Y-m-d H:i:s', strtotime(($timeout['asked'] ? $timeout['asked'] : '1 hour').' ago')))
+        ->leftJoin('bp.Transaction t')
+        ->leftJoin('t.Order o')
+        ->select('tck.id')->groupBy('tck.id')
+        ->having('count(o.id) = 0')
+      ;
+      $tickets = $q->execute();
+      $nb = $tickets->count();
+      $tickets->delete();
+      $this->stdout($section, "[OK] $nb products deleted", 'INFO');
     });
     
     // Close useless transactions
