@@ -8,6 +8,16 @@ class srvConfiguration extends sfApplicationConfiguration
     sfConfig::set('sf_app_template_dir', sfConfig::get('sf_apps_dir') . '/templates');
     
     $this->dispatcher->connect('user.change_authentication', array($this, 'logAuthentication'));
+    $this->dispatcher->connect('admin.save_object', array($this, 'triggerQuerySave'));
+  }
+  
+  public function triggerQuerySave(sfEvent $event)
+  {
+    $params = $event->getParameters();
+    if (! $params['object'] instanceof SurveyQuery )
+      return;
+    
+    $event->getSubject()->redirect('survey/edit?id='.$params['object']->survey_id);
   }
   
   public static function changeTemplatesDir(sfAction $action)
