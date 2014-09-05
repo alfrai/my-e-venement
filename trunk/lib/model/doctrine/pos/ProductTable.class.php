@@ -13,7 +13,6 @@ class ProductTable extends PluginProductTable
       ->leftJoin("$alias.Translation pt")
       ->leftJoin("$alias.Declinations d")
       ->leftJoin('d.Translation dt')
-      ->orderBy('pt.name, dt.name')
     ;
   }
   

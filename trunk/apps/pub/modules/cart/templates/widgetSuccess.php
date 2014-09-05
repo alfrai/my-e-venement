@@ -1,5 +1,5 @@
 <div>
-<div id="cart-widget">
+<div id="cart-widget" class="<?php echo $sf_user->isStoreActive() ? 'with-store' : '' ?>">
 <a class="show" href="<?php echo url_for('cart/show') ?>">Mon panier</a>
 <table>
   <tbody>
@@ -7,9 +7,18 @@
     <?php include_partial('widget_item',array(
       'objects' => $transac->Tickets,
       'label' => __('Tickets'),
-      'price' => $transac->getPrice(true),
+      'price' => $transac->getTicketsPrice(true),
     )) ?>
   </tr>
+  <?php if ( $sf_user->isStoreActive() ): ?>
+  <tr class="products">
+    <?php include_partial('widget_item',array(
+      'objects' => $transac->BoughtProducts,
+      'label' => __('Store'),
+      'price' => $transac->getProductsPrice(true),
+    )) ?>
+  </tr>
+  <?php endif ?>
   <tr class="member_cards">
     <?php include_partial('widget_item',array(
       'objects' => $transac->MemberCards,

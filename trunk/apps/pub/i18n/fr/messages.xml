@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>We also recommend...</source>
+        <target>Recommandations :</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Read more...</source>
+        <target>En savoir plus...</target>
+      </trans-unit>
+      <trans-unit>
         <source>An error occurred when updating your cart, try again please.</source>
         <target>Une erreur est survenue lors de la mise à jour de votre panier, essayez à nouveau svp.</target>
       </trans-unit>
@@ -15,6 +23,18 @@
       <trans-unit>
         <source>Choose what you really want</source>
         <target>Choisissez ce que vous voulez vraiment</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Products</source>
+        <target>Produits</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Product</source>
+        <target>Produit</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Declination</source>
+        <target>Déclinaison</target>
       </trans-unit>
       <trans-unit>
         <source>Store</source>

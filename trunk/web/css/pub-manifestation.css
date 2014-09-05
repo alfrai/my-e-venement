@@ -1,0 +1,3 @@
+#content .links { position: absolute; top: 72px; left: 400px; z-index: 0; right: 20px; background-color: white; overflow-y: hidden; overflow-x: auto; height: 8.5em; white-space: nowrap; }
+#content .links .link { height: 8em; display: inline-block; float: none; }
+.links .intro { position: absolute; transform-origin: left top 0px; transform: rotate(270deg); width: 110px; margin-top: 110px; margin-left: -12px; font-size: 0.8em; font-weight: normal; overflow: hidden; }

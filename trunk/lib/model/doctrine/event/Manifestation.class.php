@@ -10,7 +10,7 @@
  * @author     Baptiste SIMON <baptiste.simon AT e-glop.net>
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
-class Manifestation extends PluginManifestation
+class Manifestation extends PluginManifestation implements liUserAccessInterface
 {
   public $current_version = NULL;
   
@@ -261,4 +261,33 @@ class Manifestation extends PluginManifestation
     
     return $r;
   }
+  
+  public function isAccessibleBy(sfSecurityUser $user, $confirm_needed = true)
+  {
+    // confirmation
+    if (!( $confirm_needed && $this->reservation_confirmed ))
+      return false;
+    
+    // meta event
+    if ( !in_array($this->Event->meta_event_id, array_keys($user->getMetaEventsCredentials())) )
+      return false;
+    
+    // workspaces
+    $cpt = 0;
+    foreach ( $this->Gauges as $gauge )
+    if ( !in_array($gauge->workspace_id, array_keys($user->getWorkspacesCredentials())) )
+      $cpt++;
+    if ( $cpt == 0 )
+      return false;
+    
+    // prices
+    if ( $this->Prices->count() == 0 )
+      return false;
+    foreach ( $this->Prices as $price )
+    if ( !in_array($user->getId(), $price->Users->getPrimaryKeys()) )
+      return false;
+    
+    return true;
+  }
 }
+

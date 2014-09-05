@@ -1,5 +1,6 @@
 html { background-color: white; }
 body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
+.clear { clear: both; }
 
 #content { background-color: #FFF; margin-top: 70px; }
 #menu { display: none; }
@@ -74,6 +75,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
   overflow: hidden;
 	border-radius: 5px;
 }
+#cart-widget.with-store { height: 55px; }
 #cart-widget .show {
   float: left;
   font-size: 0;
@@ -110,7 +112,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 	margin-left: 25px;
 }
 #command td { padding: 2px 6px 2px 6px; border-spacing: inherit; }
-#command td:last-child { padding: 2px 0px 2px 6px; }
+#command td:last-child { padding: 2px 4px 2px 6px; }
 #command thead { background-color: whitesmoke; font-weight: bold; }
 #command tbody tr:nth-child(odd) { background-color: white; }
 #command tbody tr:nth-child(even) { background-color: #DCDCDC; }
@@ -129,6 +131,10 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
   border-spacing: inherit;
 }
 #payments thead { background-color: whitesmoke; font-weight: bold; }
+#payments { float: left; margin-right: 50px; }
+
+#cmd-links .links { padding-left: 0; }
+#cmd-links .links h3 { font-size: 1.17em; font-weight: inherit; }
 
 #comment .textarea, #comment textarea { width: 350px; height: 3em; font-size: 10px; }
 #comment .textarea { border: 2px solid silver; overflow: auto; padding: 3px 8px; }
@@ -168,14 +174,13 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 .gauge.full-seating .seated-plan.picture .seat { cursor: crosshair; }
 .gauge.full-seating .seats .auto { font-size: 10px; padding: 0px; }
 .gauge.full-seating .load-data { position: relative; z-index: 1; top: -300px; left: 150px; transform: scale(1.5); margin-bottom: -150px; }
-.gauge.full-seating .full-seating { position: absolute; top: 188px; left: 25px; width: 575px; border: 2px solid silver; background-color: white; overflow: auto; }
+.gauge.full-seating .full-seating { position: absolute; top: 184px; left: 25px; width: 575px; border: 2px solid silver; background-color: white; overflow: auto; }
 .gauge.full-seating, .gauge.full-seating .full-seating { border-radius: 5px; }
 .gauge.full-seating.active, .gauge.full-seating.active > *, .gauge.full-seating:hover, .gauge.full-seating:hover > * { z-index: 2; border-color: silver; }
 .gauge.full-seating:hover, .gauge.full-seating:hover > * { z-index: 4; border-color: gray; }
 .gauge.full-seating .blank { background-color: white; width: 4px; height: 100px; position: absolute; margin-left: -28px; z-index: 3; display: none; }
 .gauge.full-seating:hover .blank { z-index: 5; }
 .gauge.full-seating.active .blank, .gauge.full-seating:hover .blank { display: block; }
-.gauge.full-seating .full-seating { height: 100%; }
 .manifestation_bottom { margin-left: 600px; }
 
 @media screen and (min-width: 1200px){
@@ -298,7 +303,7 @@ a.actions a:hover {
 #sf_admin_container .notice, #sf_admin_container .success, #sf_admin_container .error { display: none; }
 #sf_admin_container .sf_admin_flashes .notice, #sf_admin_container .sf_admin_flashes .success, #sf_admin_container .sf_admin_flashes .error { display: block; }
 .sf_admin_flashes .ui-icon { float: left; }
-.sf_admin_flashes div { padding: 5px 10px; position: absolute; min-width: 700px; }
+.sf_admin_flashes div { padding: 5px 10px; position: absolute; min-width: 700px; z-index: 1; }
 
 #ariane .i18n { text-align: right; }
 #ariane .i18n a { font-size: 0; display: inline-block; width: 16px; height: 11px; background: white url('../images/flags.png') no-repeat scroll 1px 1px; padding: 1px; border: 1px solid silver; }
@@ -315,7 +320,7 @@ a.actions a:hover {
 
 #oplog {
 	position: absolute;
-	top: 64px;
+	top: 74px;
 	right: 20px;
 	width: 185px;
 	height: 54px;

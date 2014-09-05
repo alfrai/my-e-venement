@@ -111,6 +111,23 @@ class Transaction extends PluginTransaction
       $toprint++;
     return $toprint;
   }
+  public function getTicketsPrice($all = false)
+  {
+    $price = 0;
+    foreach ( $this->Tickets as $ticket )
+    if ( $all && $ticket->Duplicatas->count() == 0
+      || $ticket->Duplicatas->count() == 0 && ($ticket->printed_at || $ticket->integrated_at || !is_null($ticket->cancelling)) )
+      $price += $ticket->value + $ticket->taxes;
+    return $price;
+  }
+  public function getProductsPrice($all = false)
+  {
+    $price = 0;
+    foreach ( $this->BoughtProducts as $product )
+    if ( $all || $product->integrated_at )
+      $price += $product->value;
+    return $price;
+  }
   public function getPrice($all = false, $all_inclusive = false)
   {
     if ( $all_inclusive )
@@ -120,14 +137,7 @@ class Transaction extends PluginTransaction
         - $this->getTicketsLinkedToMemberCardPrice($all);
     }
     
-    $price = 0;
-    foreach ( $this->Tickets as $ticket )
-    if ( $all && $ticket->Duplicatas->count() == 0
-      || $ticket->Duplicatas->count() == 0 && ($ticket->printed_at || $ticket->integrated_at || !is_null($ticket->cancelling)) )
-      $price += $ticket->value + $ticket->taxes;
-    foreach ( $this->BoughtProducts as $product )
-    if ( $product->integrated_at )
-      $price += $product->value;
+    $price = $this->getTicketsPrice($all) + $this->getProductsPrice($all);
     return $price;
   }
   public function getMemberCardPrice($all = false)

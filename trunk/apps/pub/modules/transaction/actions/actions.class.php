@@ -83,8 +83,9 @@ class transactionActions extends sfActions
     
     $this->current_transaction = $this->transaction->id === $this->getUser()->getTransaction()->id;
     
+    // Tickets
     $q = Doctrine_Query::create()->from('Event e')
-      ->leftJoin("e.Translation et WITH et.lang = '".$this->getUser()->getCulture()."'")
+      ->leftJoin('e.Translation et WITH et.lang = ?',$this->getUser()->getCulture())
       ->leftJoin('e.Manifestations m')
       ->leftJoin('m.Gauges g')
       ->leftJoin('g.Workspace w')
@@ -99,22 +100,41 @@ class transactionActions extends sfActions
       ->andWhere('tck.id NOT IN (SELECT tck3.duplicating FROM Ticket tck3 WHERE tck3.duplicating IS NOT NULL)')
       ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
       ->andWhere('tck.id IS NOT NULL')
-      ->orderBy('et.name, m.happens_at, w.name, g.id, p.id, tck.id');
+      ->orderBy('et.name, m.happens_at, w.name, g.id, p.id, tck.id')
+    ;
     if ( $this->getUser()->hasContact() )
       $q->andWhere('t.contact_id = ?',$this->getUser()->getContact()->id);
     else
       $q->andWhere('t.id = ?',$this->getUser()->getTransaction()->id);
     $this->events = $q->execute();
-
+    
+    // MemberCards
     $q = Doctrine::getTable('MemberCard')->createQuery('mc')
       ->leftJoin('mc.MemberCardType mct')
       ->andWhere('mc.transaction_id = ?', $this->transaction->id)
-      ->orderBy('mc.expire_at, mct.name');
+      ->orderBy('mc.expire_at, mct.name')
+    ;
     if ( $this->getUser()->hasContact() )
       $q->andWhere('mc.contact_id = ?',$this->getUser()->getContact()->id);
     else
       $q->andWhere('mc.transaction_id = ?',$this->getUser()->getTransaction()->id);
     $this->member_cards = $q->execute();
+    
+    // Products
+    $q = Doctrine::getTable('BoughtProduct')->createQuery('bp')
+      ->leftJoin('bp.Transaction t')
+      ->andWhere('t.id = ?', $this->transaction->id)
+      ->leftJoin('bp.Declination d')
+      ->leftJoin('d.Product p')
+      ->leftJoin('p.Category c')
+      ->leftJoin('c.Translation ct WITH ct.lang = ?', $this->getUser()->getCulture())
+      ->orderBy('ct.name, bp.name, bp.declination, bp.value, bp.id')
+    ;
+    if ( $this->getUser()->hasContact() )
+      $q->andWhere('t.contact_id = ?',$this->getUser()->getContact()->id);
+    else
+      $q->andWhere('t.id = ?',$this->getUser()->getTransaction()->id);
+    $this->products = $q->execute();
     
     $this->end = $request->hasParameter('end');
     

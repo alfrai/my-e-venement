@@ -1,6 +1,6 @@
 all:
-  javascripts: [pub-pos]
-  stylesheets: [pub-pos]
+  javascripts: [pub-pos?<?php echo date('Ymd') ?>]
+  stylesheets: [pub-pos?<?php echo date('Ymd') ?>]
 
 modSuccess:
   has_layout: false

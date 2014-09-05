@@ -36,6 +36,25 @@ class storeActions extends autoStoreActions
     // continue normal operations
     parent::executeIndex($request);
   }
+  public function executeEdit(sfWebRequest $request)
+  {
+    $condition = array();
+    foreach ( $conditions = array_keys($this->getUser()->getMetaEventsCredentials()) as $null )
+      $condition[] = '?';
+    $condition = implode(',', $condition);
+    
+    $conditions[] = $this->getUser()->getId();
+    $q = Doctrine::getTable('Product')->createQuery('p')
+      ->andWhere('p.id = ?', $request->getParameter('id'))
+      ->leftJoin("p.LinkedProducts lp WITH lp.meta_event_id IN ($condition) AND (SELECT count(lpp.id) FROM Price lpp LEFT JOIN lpp.Users lppu WHERE lpp.id IN (SELECT lppp.price_id FROM PriceProduct lppp WHERE lppp.product_id = lp.id) AND lppu.id = ?) > 0", $conditions)
+      ->leftJoin("p.LinkedManifestations lm WITH lm.id IN (SELECT lmm.id FROM Manifestation lmm LEFT JOIN lmm.Event lme WHERE lme.meta_event_id IN ($condition)) AND (SELECT count(lmp.id) FROM Price lmp LEFT JOIN lmp.Users lmpu WHERE lmp.id IN (SELECT lmpm.price_id FROM PriceManifestation lmpm WHERE lmpm.manifestation_id = lm.id) AND lmpu.id = ?) > 0", $conditions)
+      ->leftJoin('p.PriceProducts pp')
+      ->leftJoin('pp.Price price')
+      ->orderBy('pp.value DESC')
+    ;
+    
+    $this->product = $q->fetchOne();
+  }
   public function executeShow(sfWebRequest $request)
   {
     $this->forward('store', 'edit');

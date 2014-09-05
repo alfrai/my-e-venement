@@ -14,7 +14,14 @@ abstract class PluginProduct extends BaseProduct
 {
   public function preSave($event)
   {
-    $this->vat_id = $this->vat_id ? $this->vat_id : $this->Category->vat_id;
+    if ( !$this->vat_id )
+    {
+      if ( $this->product_category_id )
+        $this->vat_id = $this->Category->vat_id;
+      else
+        $this->Vat = Doctrine::getTable('Vat')->createQuery('v')->orderBy('v.value DESC')->fetchOne();
+    }
+    
     parent::preSave($event);
   }
   public function getIndexesPrefix()

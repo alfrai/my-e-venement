@@ -10,7 +10,7 @@
  * @author     Baptiste SIMON <baptiste.simon AT e-glop.net>
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
-class Product extends PluginProduct
+class Product extends PluginProduct implements liUserAccessInterface
 {
   public function setUp()
   {
@@ -18,5 +18,21 @@ class Product extends PluginProduct
     $this->_table->getTemplate('Doctrine_Template_Searchable')
       ->getPlugin()
       ->setOption('analyzer',new MySearchAnalyzer());
+  }
+  
+  public function isAccessibleBy(sfSecurityUser $user, $option = NULL)
+  {
+    // meta event
+    if ( $this->meta_event_id && !in_array($this->meta_event_id, array_keys($user->getMetaEventsCredentials())) )
+      return false;
+    
+    // prices
+    if ( $this->Prices->count() == 0 )
+      return false;
+    foreach ( $this->Prices as $price )
+    if ( !in_array($user->getId(), $price->Users->getPrimaryKeys()) )
+      return false;
+    
+    return true;
   }
 }

@@ -26,7 +26,7 @@
     </td>
     <td class="value"><?php echo format_currency($pp->value,'€') ?></td>
     <td class="quantity">
-      <form method="post" action="<?php echo url_for('store/mod') ?>" target="_blank">
+      <form method="post" action="<?php echo url_for('store/mod') ?>" target="_blank" class="price_qty">
         <input type="hidden" name="store[declination_id]" value="<?php echo $declination->id ?>" />
         <input type="hidden" name="store[price_id]" value="<?php echo $pp->Price->id ?>" />
         <select name="store[qty]">
@@ -53,7 +53,9 @@
   </tr>
   <tr>
     <td colspan="4" class="submit">
-      <input type="submit" name="submit" value="<?php echo __('Cart') ?>" />
+      <form method="get" action="<?php echo url_for('cart/show') ?>" class="cart">
+        <input type="submit" name="submit" value="<?php echo __('Cart') ?>" />
+      </form>
     </td>
   </td>
 </tfoot>

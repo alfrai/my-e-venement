@@ -28,7 +28,11 @@
 ?>
 <div id="ariane">
   <div class="login choices <?php if ( $active == $nb ) echo 'active'; else echo 'past' ?> access">
-    <?php echo $sf_user->hasContact() ? link_to(__('My account'),'contact/index').' '.link_to(__('Logout'),'login/out') : link_to(__('Login'),'login/index').' '.link_to(__('Create an account'),'contact/new') ?>
+    <?php
+      echo $sf_user->hasContact()
+        ? link_to(__('My account'),'contact/index').' '.link_to(__('Logout'),'login/out')
+        : link_to(__('Login'),'login/index').' '.link_to(__('Create an account'),'contact/new')
+    ?>
   </div>
   <?php $nb++ ?>
   <div class="event choices <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access <?php echo $sf_user->isStoreActive() ? 'with-store' : '' ?>">
@@ -52,17 +56,6 @@
     <?php endforeach ?>
     </p>
     <?php endif ?>
-  </div>
-  <?php $nb++ ?>
-  <div class="id <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
-    <p class="coordinates">
-  	<?php if ( $sf_user->hasContact() ): ?>
-      <?php echo link_to(__('My account'), 'contact/index') ?>
-    	<?php echo link_to(__('Logout'),'login/out') ?>
-    <?php else: ?>
-      <?php echo __('My account') ?>
-    <?php endif ?>
-    </p>
   </div>
   <?php $nb++ ?>
   <div class="command <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">

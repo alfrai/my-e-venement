@@ -144,27 +144,11 @@ class cartActions extends sfActions
     // normal behavior
     $this->transaction_id = $this->getUser()->getTransaction()->id;
     
-    $q = Doctrine_Query::create()->from('Event e')
-      ->select('e.id')
-      ->leftJoin('e.Manifestations m')
-      ->leftJoin('m.Gauges g')
-      ->leftJoin('g.Workspace w')
-      ->leftJoin('g.Tickets tck')
-      ->leftJoin('tck.Price p')
-      ->leftJoin('tck.Transaction t')
-      ->andWhere('t.id = ?',$this->transaction_id)
-      ->andWhere('tck.id IS NOT NULL')
-      ->andWhere('tck.sf_guard_user_id = ?',$this->getUser()->getId())
-      ->andWhere('t.sf_guard_user_id = ?',$this->getUser()->getId());
-    $this->events = $q->execute();
+    $this->transaction = $this->getUser()->getTransaction();
     
-    $this->member_cards = Doctrine::getTable('MemberCard')->createQuery('mc')
-      ->select('mc.id')
-      ->leftJoin('mc.MemberCardType mct')
-      ->andWhere('mc.transaction_id = ?', $this->transaction_id)
-      ->execute();
-    
-    if ( $this->events->count() == 0 && $this->member_cards->count() == 0 )
+    if ( $this->transaction->Tickets->count() == 0
+      && $this->transaction->MemberCards->count() == 0
+      && $this->transaction->BoughtProducts->count() == 0 )
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
       $this->getUser()->setFlash('notice',__('Your cart is still empty, select tickets first...'));

@@ -1,12 +1,15 @@
 $(document).ready(function(){
   // the product's image size
   $('img.pub-product').load(function(){
-    if ( $(this).width() > $('img.pub-product').closest('table').width()/3 )
-      $(this).width($(window).width()/3);
+    var width = 0;
+    if ( $(this).width() > (width = $(this).closest('table').width()/($(window).width() > 1400 ? 3 : 2)) )
+      $(this).width(width);
   }).load();
   
+  $('.product .declination .text').niceScroll();
+  
   // the form submission for adding products to the cart
-  $('.product .declination .prices form').each(function(){
+  $('.product .declination .prices form.price_qty').each(function(){
     var orig = $(this).find('select').val();
     $(this).find('select').change(function(){
       if ( orig == $(this).val() )
