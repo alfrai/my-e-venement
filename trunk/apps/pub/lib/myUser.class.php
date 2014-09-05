@@ -68,7 +68,7 @@ class myUser extends liGuardSecurityUser
     // for plateforms that require authenticated visitors
     $sf_action = $event->getSubject();
     if (!( method_exists($sf_action, 'isAuthenticatingModule') && $sf_action->isAuthenticatingModule() ))
-      $sf_action->redirect('login/index');
+      $sf_action->forward('login','index');
   }
   
   public function getGuardUser()

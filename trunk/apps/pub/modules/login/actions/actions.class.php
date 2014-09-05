@@ -26,7 +26,11 @@ class loginActions extends sfActions
   public function executeIndex(sfWebRequest $request)
   {
     $this->register = $request->hasParameter('register');
-    $this->form = new LoginForm();
+    $this->form = new LoginForm;
+    
+    $this->getContext()->getConfiguration()->loadHelpers(array('Url'));
+    if ( url_for('login/index') != $request->getPathInfoPrefix().$request->getPathInfo() )
+      $this->form->setDefault('url_back', $request->getPathInfoPrefix().$request->getPathInfo());
   }
   
   public function executeForgot(sfWebRequest $request)
@@ -145,7 +149,9 @@ class loginActions extends sfActions
     if ( $this->form->isValid() )
     {
       $this->getUser()->setFlash('notice',__('You are authenticated.'));
-      return $this->redirect($request->hasParameter('register') ? 'cart/register' : 'contact/index');
+      return $this->redirect($request->hasParameter('register')
+        ? 'cart/register'
+        : $this->form->getValue('url_back') ? $this->form->getValue('url_back') : 'homepage');
     }
     
     $this->errors = $this->form->getErrorSchema()->getErrors();
