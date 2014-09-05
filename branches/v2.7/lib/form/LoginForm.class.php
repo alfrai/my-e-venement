@@ -15,11 +15,14 @@ class LoginForm extends BaseForm
     $this->widgetSchema->setNameFormat('login[%s]');
     $this->disableCSRFProtection();
     
-    $this->widgetSchema   ['email'] = new sfWidgetFormInputText();
-    $this->validatorSchema['email'] = new sfValidatorEmail();
+    $this->widgetSchema   ['email'] = new sfWidgetFormInputText;
+    $this->validatorSchema['email'] = new sfValidatorEmail;
     
-    $this->widgetSchema   ['password'] = new sfWidgetFormInputPassword();
-    $this->validatorSchema['password'] = new sfValidatorString();
+    $this->widgetSchema   ['password'] = new sfWidgetFormInputPassword;
+    $this->validatorSchema['password'] = new sfValidatorString;
+    
+    $this->widgetSchema   ['url_back'] = new sfWidgetFormInputHidden;
+    $this->validatorSchema['url_back'] = new sfValidatorString(array('required' => false));
     
     parent::configure();
   }
