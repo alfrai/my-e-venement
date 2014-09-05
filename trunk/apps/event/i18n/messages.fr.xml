@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Deprecated</source>
+        <target>Obsolète</target>
+      </trans-unit>
+      <trans-unit>
         <source>Participants list</source>
         <target>Liste des participants</target>
       </trans-unit>
