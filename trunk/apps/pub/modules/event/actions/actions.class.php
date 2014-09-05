@@ -86,4 +86,13 @@ class eventActions extends autoEventActions
   {
     $this->executeEdit($request);
   }
+  protected function getFilters()
+  {
+    return $this->getUser()->getAttribute('event.filters', $this->configuration->getFilterDefaults(), 'pub_module');
+  }
+
+  protected function setFilters(array $filters)
+  {
+    return $this->getUser()->setAttribute('event.filters', $filters, 'pub_module');
+  }
 }
