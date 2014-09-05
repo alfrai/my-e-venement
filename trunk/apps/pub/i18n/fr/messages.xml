@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>An error occurred when updating your cart, try again please.</source>
+        <target>Une erreur est survenue lors de la mise à jour de votre panier, essayez à nouveau svp.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Your cart has been updated.</source>
+        <target>Votre panier a été mis à jour.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Choose what you really want</source>
         <target>Choisissez ce que vous voulez vraiment</target>
       </trans-unit>

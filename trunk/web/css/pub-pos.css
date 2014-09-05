@@ -6,5 +6,6 @@
 .product .declination .text { max-height: 5em; overflow: hidden; overflow-y: auto; width: 390px; padding-right: 10px; text-align: justify; }
 .product .declination p { margin: 0; padding: 0; padding-bottom: 10px; }
 .product .declination .prices { width: 400px; margin-top: 5px; }
+.product .declination .prices select { margin: 0; }
 
 .clear { clear: both; }

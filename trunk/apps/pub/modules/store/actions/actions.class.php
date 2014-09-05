@@ -24,6 +24,11 @@ class storeActions extends autoStoreActions
     parent::preExecute();
   }
   
+  public function executeMod(sfWebRequest $request)
+  {
+    return require(__DIR__.'/mod.php');
+  }
+  
   public function executeIndex(sfWebRequest $request)
   {
     $this->setFilters(array());
