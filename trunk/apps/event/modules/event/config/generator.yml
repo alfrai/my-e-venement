@@ -31,6 +31,10 @@ generator:
         writer_label: { label: Writer label, help: Deprecated }
         staging: { help: Deprecated }
         writer: { help: Deprecated }
+        web_price: { help: Deprecated }
+        web_price_group: { help: Deprecated }
+        image_url: { help: Deprecated }
+        show_image_url: { help: Deprecated }
         list_manifestations: { label: Manifestations }
         list_manifestations_gauges: { label: <span title="booked/total (sold-booked-demanded)">Gauges</span> }
         list_manifestations_places: { label: Locations }
