@@ -1,2 +1,5 @@
 .tck-registered { padding: 5px; }
-label { min-width: 150px; display: inline-block; }
+label { min-width: 100px; display: inline-block; }
+textarea { width: 20em; height: 25px; margin: 0; padding: 0; margin-bottom: -6px; padding: 0 3px; }
+.reduc input { width: 4em; }
+.reduc:after { content: ' /'; }

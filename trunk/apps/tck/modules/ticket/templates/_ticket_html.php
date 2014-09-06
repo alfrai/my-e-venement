@@ -62,6 +62,7 @@
     <?php if ( $nb > 1 ): ?>
     <p class="nb"><?php echo __('%%nb%% places',array('%%nb%%' => $nb)) ?></p>
     <?php endif ?>
+    <p class="comment"><?php echo $ticket->comment ?></p>
   </div>
   <div class="right">
     <p class="manifid">

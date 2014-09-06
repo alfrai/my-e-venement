@@ -30,14 +30,23 @@ class transactionActions extends autoTransactionActions
   public function executeRegister(sfWebRequest $request)
   {
     $data = $request->getParameter('ticket');
-    $form = new TicketRegisteredForm;
-    $form->bind($data);
-    if ( !$form->isValid() )
+    $this->form = new TicketRegisteredForm;
+    $this->form->bind($data);
+    
+    if ( $request->hasParameter('debug') && sfConfig::get('sf_web_debug') )
+    {
+      $this->debug = true;
+      $this->getResponse()->setContentType('text/html');
+      $this->getResponse()->sendHttpHeaders();
+      $this->setLayout('layout');
+    }
+    
+    if ( !$this->form->isValid() )
       return 'Error';
     
     $this->getContext()->getConfiguration()->loadHelpers(array('Url', 'I18N'));
     
-    $ticket = $form->save();
+    $ticket = $this->form->save();
     $this->json = array('success' => array(
       'message'   => __('Ticket #%%id%% registered', array('%%id%%' => $ticket->id)),
       'url_back' => url_for('transaction/registered'

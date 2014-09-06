@@ -112,6 +112,7 @@ Ticket:
       type: decimal(6)
       scale: 3
     contact_id: integer
+    comment: string
   relations:
     Transaction:
       foreignAlias: Tickets
