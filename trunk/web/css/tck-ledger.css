@@ -30,14 +30,14 @@ table td.date { width: 80px; }
 table td.ref { max-width: 200px; }
 table td.see-more { width: 5px; padding-left: 0; }
 table td.see-more a { padding: 0 3px; }
-table td.vat, table td.id-qty, table td.value { text-align: right; }
+table td.tep, table td.extra-taxes, table td.vat, table td.id-qty, table td.value { text-align: right; }
 table .prices { font-size: 75%; }
-table .prices td.price { padding-left: 25px; }
+table .prices td.price { padding-left: 25px; width: 275px; }
 
 thead td, tfoot td { font-weight: bold; text-decoration: underline; }
-tbody .method td, tbody .event td { font-weight: bold; }
-thead td, tr.method td, tr.event td { padding-bottom: 5px; }
-tr.method td, tr.event td { padding-top: 5px; }
+tbody .product td, tbody .method td, tbody .event td { font-weight: bold; }
+tr.product td, thead td, tr.method td, tr.event td { padding-bottom: 5px; }
+tr.product td, tr.method td, tr.event td { padding-top: 5px; }
 
 table tbody a { text-decoration: none; }
 table tbody a:hover { text-decoration: underline; }

@@ -797,8 +797,8 @@
         <target>Compte</target>
       </trans-unit>
       <trans-unit>
-        <source>Detailed Ledger</source>
-        <target>Journal détaillé</target>
+        <source>Ticketting Detailed Ledger</source>
+        <target>Journal de billetterie détaillé</target>
       </trans-unit>
       <trans-unit>
         <source>from %%from%% to %%to%%</source>

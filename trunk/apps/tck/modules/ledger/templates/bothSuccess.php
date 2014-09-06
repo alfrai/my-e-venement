@@ -8,7 +8,7 @@
       <?php if ( $manifestations || $workspaces ): ?>
       <?php echo format_number_choice('[1]Manifestation ledger|(1,+Inf]Manifestations ledger',null,$workspaces ? 2 : $manifestations->count()) ?>
       <?php else: ?>
-      <?php echo __('Detailed Ledger') ?>
+      <?php echo __('Ticketting Detailed Ledger') ?>
       (<?php echo __('from %%from%% to %%to%%',array(
         '%%from%%' => format_date(strtotime($options['dates'][0])),
         '%%to%%' => format_date(strtotime($options['dates'][1])),
