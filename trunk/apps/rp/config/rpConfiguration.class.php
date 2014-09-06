@@ -6,8 +6,8 @@ class rpConfiguration extends sfApplicationConfiguration
 {
   public function setup()
   {
+    $this->enablePlugins(array('liClassLoaderPlugin', 'sfDomPDFPlugin'));
     parent::setup();
-    $this->enablePlugins(array('liCardDavPlugin'));
   }
   public function configure()
   {
@@ -17,6 +17,11 @@ class rpConfiguration extends sfApplicationConfiguration
     $this->dispatcher->connect('admin.save_object', array($this, 'setSpecialFlash'));
     $this->dispatcher->connect('admin.save_object', array($this, 'addPhoneNumber'));
     $this->dispatcher->connect('user.change_authentication', array($this, 'logAuthentication'));
+  }
+  public function initialize()
+  {
+    $this->enableSecondWavePlugins(sfConfig::get('app_options_plugins', array()));
+    ProjectConfiguration::initialize();
   }
   
   public static function changeTemplatesDir(sfAction $action)

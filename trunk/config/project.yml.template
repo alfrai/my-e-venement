@@ -53,4 +53,4 @@ all:
       fr: Français
       en: English
       bzh: Breizhoneg
-
+    plugins: []

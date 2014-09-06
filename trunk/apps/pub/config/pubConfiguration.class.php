@@ -23,20 +23,24 @@
 ?>
 <?php
 
-class pubConfiguration extends sfApplicationConfiguration implements liGarbageCollectorInterface
+require_once dirname(__FILE__).'../../../../config/autoload.inc.php';
+
+class pubConfiguration extends sfApplicationConfiguration
 {
   public function setup()
   {
+    $this->enablePlugins(array('liClassLoaderPlugin', 'sfDomPDFPlugin'));
     parent::setup();
-    $this->enablePlugins(array(
-      'sfDomPDFPlugin',
-      'liCardDavPlugin',
-    ));
   }
   public function configure()
   {
     $this->dispatcher->connect('pub.transaction_before_creation', array($this, 'triggerTransactionBeforeCreation'));
     $this->dispatcher->connect('pub.transaction_before_creation', array($this, 'recordWebOrigin'));
+  }
+  public function initialize()
+  {
+    $this->enableSecondWavePlugins(sfConfig::get('app_options_plugins', array()));
+    ProjectConfiguration::initialize();
   }
   
   public function shut()
@@ -307,47 +311,5 @@ class pubConfiguration extends sfApplicationConfiguration implements liGarbageCo
     });
     
     return $this;
-  }
-  public function executeGarbageCollectors($names = NULL)
-  {
-    if ( is_null($names) )
-      $names = array_keys($this->collectors);
-    
-    if ( !is_array($names) )
-      $names = array($names);
-    
-    foreach ( $names as $name )
-    {
-      $fct = $this->getGarbageCollector($name);
-      if ( $fct instanceof Closure )
-        $fct();
-    }
-    
-    return $this;
-  }
-  public function getGarbageCollector($name)
-  {
-    if ( !isset($this->collectors[$name]) )
-      return FALSE;
-    return $this->collectors[$name];
-  }
-  public function addGarbageCollector($name, Closure $function)
-  {
-    if ( isset($this->collectors[$name]) )
-      throw new liEvenementException('A collector with the name "'.$name.'" already exists. Maybe you wanted to replace it ?');
-    return $this->addOrReplaceGarbageCollector($name, $function);
-  }
-  public function addOrReplaceGarbageCollector($name, Closure $function)
-  {
-    $this->collectors[$name] = $function;
-    return $this;
-  }
-  protected function stdout($section, $message, $style = 'INFO')
-  {
-    $section = str_pad($section,20);
-    if ( !$this->task )
-      echo "$section $message";
-    else
-      $this->task->logSection($section, $message, null, $style);
   }
 }

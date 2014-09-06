@@ -16,7 +16,7 @@ class liCardDavPluginConfiguration extends sfPluginConfiguration
   /**
    * @see sfPluginConfiguration
    */
-  public function initialize()
+  public function setup()
   {
     require_once __DIR__.'/../lib/vendor/SabreDAV/lib/Sabre/autoload.php';
     

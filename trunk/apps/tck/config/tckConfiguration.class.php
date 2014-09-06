@@ -1,16 +1,40 @@
 <?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
+<?php
 
 require_once dirname(__FILE__).'../../../../config/autoload.inc.php';
 
-class tckConfiguration extends sfApplicationConfiguration implements liGarbageCollectorInterface
+class tckConfiguration extends sfApplicationConfiguration
 {
   protected $collectors = array();
   protected $task;
+  protected $init_configuration = false;
   
   public function setup()
   {
+    $this->enablePlugins(array('liClassLoaderPlugin', 'sfDomPDFPlugin'));
     parent::setup();
-    $this->enablePlugins(array('sfDomPDFPlugin'));
   }
   public function configure()
   {
@@ -19,7 +43,13 @@ class tckConfiguration extends sfApplicationConfiguration implements liGarbageCo
     
     $this->dispatcher->connect('user.change_authentication', array($this, 'logAuthentication'));
     $this->dispatcher->connect('tck.tickets_print', array($this, 'sendEmailOnPrintingTickets'));
+    $this->dispatcher->connect('tck.products_integrate', array($this, 'sendEmailOnIntegratingProducts'));
     $this->dispatcher->connect('tck.before_transaction_creation', array($this, 'activateConfirmationEmails'));
+  }
+  public function initialize()
+  {
+    $this->enableSecondWavePlugins($arr = sfConfig::get('app_options_plugins', array()));
+    ProjectConfiguration::initialize();
   }
   
   // force sending emails on every transactions, depends on app.yml parameters
@@ -61,7 +91,7 @@ class tckConfiguration extends sfApplicationConfiguration implements liGarbageCo
     else
       $email->Contacts[] = $transaction->Contact;
     
-    $email->field_subject = $client['name'].': '.__('seat allocations for your order #%%transaction_id%%',array('%%transaction_id%%' => $transaction->id));
+    $email->field_subject = $client['name'].': '.__('your order #%%transaction_id%% has been updated',array('%%transaction_id%%' => $transaction->id));
     $email->content = nl2br($content);
     $email->content .= nl2br(sprintf(<<<EOF
 -- 
@@ -83,6 +113,17 @@ EOF
     $email->not_a_test = true;
     $email->setNoSpool();
     
+    // attachments, tickets in PDF
+    $pdf = new sfDomPDFPlugin();
+    $pdf->setInput($transaction->renderSimplifiedTickets(array('barcode' => 'png')));
+    $pdf = $pdf->render();
+    file_put_contents(sfConfig::get('sf_upload_dir').'/'.($filename = 'tickets-'.$transaction->id.'-'.date('YmdHis').'.pdf'), $pdf);
+    $attachment = new Attachment;
+    $attachment->filename = $filename;
+    $attachment->original_name = $filename;
+    $email->Attachments[] = $attachment;
+    $attachment->save();
+
     return $email->save();
     
   } catch ( Exception $e ) { return $this->catchError($e); } }

@@ -5,6 +5,7 @@
 all:
   options:
     design: tdp
+    #plugins: [liPassbookPlugin]
   manifestations:
     show_location: false
   ledger:

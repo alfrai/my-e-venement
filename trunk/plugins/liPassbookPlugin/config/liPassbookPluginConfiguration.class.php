@@ -25,7 +25,7 @@
 
 class liPassbookPluginConfiguration extends sfPluginConfiguration
 {
-  public function initialize()
+  public function setup()
   {
     liClassLoader::create()->register('Passbook', __DIR__ . '/../lib/vendor/');
     $this->dispatcher->connect('email.before_attach', array($this, 'listenToEmailedOrders'));

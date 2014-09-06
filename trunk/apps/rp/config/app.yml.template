@@ -13,6 +13,7 @@ all:
     design: tdp
     #no_event_archives: false
     #labels_offset: 500
+    plugins: []
   contact:
     force_title: true
     force_uppercase: [name, city]

@@ -26,7 +26,7 @@
 
 require_once dirname(__FILE__).'/autoload.inc.php';
 
-class ProjectConfiguration extends sfProjectConfiguration
+class ProjectConfiguration extends sfProjectConfiguration implements liGarbageCollectorInterface
 {
   public $yob;
   public $charset       = array();
@@ -43,26 +43,18 @@ class ProjectConfiguration extends sfProjectConfiguration
       $this->yob[date('Y')-$i] = date('Y') - $i;
     
     $this->enablePlugins(array(
-      'liClassLoaderPlugin',
       'sfDoctrinePlugin',
       'sfFormExtraPlugin',
       'sfDoctrineGraphvizPlugin',
       'sfDoctrineGuardPlugin',
       'sfAdminThemejRollerPlugin',
       'cxFormExtraPlugin',
-      'sfEasyGMapPlugin',
       'sfiCalCreatorPlugin',
       'liBarcodePlugin',
       'liOfcPlugin',
       'sfWebBrowserPlugin',
       'sfFeed2Plugin',
-      'liCardDavPlugin',
     ));
-    
-    $modules = array();
-    @include(dirname(__FILE__).'/extra-modules.php');
-    foreach ( $modules as $module )
-      $this->enablePlugins($module);
     
     $this->loadProjectConfiguration();
     
@@ -71,7 +63,7 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->transliterate = sfConfig::get('software_internals_transliterate',array('from' => '', 'to' => ''));
     setlocale(LC_ALL,sfConfig::get('project_locale',sfConfig::get('software_internals_locale'))); // w/o it, sometimes transliteration fails
   }
-
+  
   protected function loadProjectConfiguration()
   {
     if ($this instanceof sfApplicationConfiguration)
@@ -84,5 +76,95 @@ class ProjectConfiguration extends sfProjectConfiguration
   public function configureDoctrine(Doctrine_Manager $manager)
   {
     $manager->setAttribute(Doctrine_Core::ATTR_QUERY_CLASS, 'liDoctrineQuery');
+  }
+  
+  public function initialize()
+  {
+    $this->enableSecondWavePlugins(sfConfig::get('project_internals_plugins', array()));
+    $this->loadSecondWavePlugins();
+  }
+  
+  // pass-by the native symfony restriction, if and only if the plugin developper knows what's going on
+  public function enableSecondWavePlugins($plugins)
+  {
+    if (!is_array($plugins))
+    {
+      if (func_num_args() > 1)
+        $plugins = func_get_args();
+      else
+        $plugins = array($plugins);
+    }
+    
+    foreach ( is_array($plugins) ? $plugins : (func_num_args() > 1 ? func_get_args() : array($plugins)) as $plugin )
+      $this->plugins[] = $plugin;
+  }
+  
+  public function loadSecondWavePlugins()
+  {
+    $this->pluginPaths = array();
+    foreach ( $paths = parent::getPluginPaths() as $path ) // so weird why $this->getPluginPaths() can be called only once whereas parent::getPluginPaths() is ok
+    {
+      if ( $plugin = array_search($path, $this->overriddenPluginPaths) === false )
+        $plugin = basename($path);
+      
+      if ( isset($this->pluginConfigurations[$plugin]) )
+        continue;
+      
+      $class = $plugin.'Configuration';
+      if ( is_readable($file = sprintf('%s/config/%s.class.php', $path, $class)) )
+      {
+        require_once $file;
+        $configuration = new $class($this, $path, $plugin);
+      }
+      else
+        $configuration = new sfPluginConfigurationGeneric($this, $path, $plugin);
+
+      $this->pluginConfigurations[$plugin] = $configuration;
+    }
+  }
+  
+  // @see liGarbageCollectorInterface
+  public function executeGarbageCollectors($names = NULL)
+  {
+    if ( is_null($names) )
+      $names = array_keys($this->collectors);
+    
+    if ( !is_array($names) )
+      $names = array($names);
+    
+    foreach ( $names as $name )
+    {
+      $fct = $this->getGarbageCollector($name);
+      if ( $fct instanceof Closure )
+        $fct();
+    }
+    
+    return $this;
+  }
+  public function getGarbageCollector($name)
+  {
+    if ( !isset($this->collectors[$name]) )
+      return FALSE;
+    return $this->collectors[$name];
+  }
+  public function addGarbageCollector($name, Closure $function)
+  {
+    if ( isset($this->collectors[$name]) )
+      throw new liEvenementException('A collector with the name "'.$name.'" already exists. Maybe you wanted to replace it ?');
+    return $this->addOrReplaceGarbageCollector($name, $function);
+  }
+  public function addOrReplaceGarbageCollector($name, Closure $function)
+  {
+    $this->collectors[$name] = $function;
+    return $this;
+  }
+  public function initGarbageCollectors(sfCommandApplicationTask $task = NULL)
+  { }
+  
+  protected function catchError(Exception $e)
+  {
+    // avoid any mistake
+    error_log($e->getMessage());
+    return;
   }
 }
