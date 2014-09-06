@@ -1,4 +1,9 @@
 sfGuardPermission:
+  sfGuardPermission_128:
+    name: tck-transaction-reduc
+    description: 'Permission to change arbitrarily the price of tickets, one by one'
+    created_at: '2014-09-06 19:00:27.000023'
+    updated_at: '2014-09-06 19:00:27.000023'
   sfGuardPermission_121:
     name: tck-pos
     description: 'Permission to access every features from the store, depending on what credentials are defined elsewhere in tck-*'
@@ -585,6 +590,11 @@ sfGuardPermission:
     created_at: '2014-05-28 09:20:41'
     updated_at: '2014-05-28 09:20:41'
 sfGuardGroupPermission:
+  sfGuardGroupPermission_51_128:
+    Group: sfGuardGroup_51
+    Permission: sfGuardPermission_128
+    created_at: '2014-09-06 19:00:27.000023'
+    updated_at: '2014-09-06 19:00:27.000023'
   sfGuardGroupPermission_50_122:
     Group: sfGuardGroup_50
     Permission: sfGuardPermission_122
@@ -1716,3 +1726,8 @@ sfGuardGroup:
     description: 'Permission to access the geographical statistics'
     created_at: '2014-05-28 09:20:41'
     updated_at: '2014-05-28 09:20:41'
+  sfGuardGroup_51:
+    name: tck-transaction-reduc
+    description: 'Ability to change arbitrarily the price of tickets, one by one'
+    created_at: '2014-09-06 19:00:27.000023'
+    updated_at: '2014-09-06 19:00:27.000023'

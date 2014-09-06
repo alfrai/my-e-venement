@@ -5,8 +5,12 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ability to change arbitrarily the price of tickets, one by one</source>
+        <target>Possibilité de changer arbitrairement le prix des billets, un par un</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ability to have an overview of the store</source>
-        <target>Possibilité de superviser le magazin</target>
+        <target>Possibilité de superviser le magasin</target>
       </trans-unit>
       <trans-unit>
         <source>Ability to create/edit/delete products of the store</source>

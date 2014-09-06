@@ -31,6 +31,8 @@ class transactionActions extends autoTransactionActions
   {
     $data = $request->getParameter('ticket');
     $this->form = new TicketRegisteredForm;
+    if ( !$this->getUser()->hasCredential('tck-transaction-reduc') && isset($data['reduc']) )
+      unset($data['reduc']);
     $this->form->bind($data);
     
     if ( $request->hasParameter('debug') && sfConfig::get('sf_web_debug') )

@@ -1,0 +1,18 @@
+sfGuardGroup:
+  sfGuardGroup_51:
+    name: tck-transaction-reduc
+    description: 'Ability to change arbitrarily the price of tickets, one by one'
+    created_at: '2014-09-06 19:00:27.000023'
+    updated_at: '2014-09-06 19:00:27.000023'
+sfGuardGroupPermission:
+  sfGuardGroupPermission_51_128:
+    Group: sfGuardGroup_51
+    Permission: sfGuardPermission_128
+    created_at: '2014-09-06 19:00:27.000023'
+    updated_at: '2014-09-06 19:00:27.000023' 
+sfGuardPermission:
+  sfGuardPermission_128:
+    name: tck-transaction-reduc
+    description: 'Permission to change arbitrarily the price of tickets, one by one'
+    created_at: '2014-09-06 19:00:27.000023'
+    updated_at: '2014-09-06 19:00:27.000023' 
