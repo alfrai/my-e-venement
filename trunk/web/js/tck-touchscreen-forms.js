@@ -112,7 +112,7 @@ LI.formSubmit = function(){
               
               var type = value.remote_content.load.type.replace(/_price$/, '');
               if ( data.success.success_fields[type] !== undefined && data.success.success_fields[type].data !== undefined )
-                LI.completeContent(data.success.success_fields[type].data.content, type, false);
+                LI.completeContent(data.success.success_fields[type].data.content, type, true);
             }
           });
           break;
