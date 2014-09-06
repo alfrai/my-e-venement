@@ -122,7 +122,7 @@ ProductDeclination:
   package: pos
   actAs:
     I18n:
-      fields: [name, description]
+      fields: [name, description, description_for_buyers]
     Searchable:
       fields: [name]
   inheritance:
@@ -137,6 +137,7 @@ ProductDeclination:
       type: string(50)
       unique: true
     description: string
+    description_for_buyers: string
     product_id:
       type: integer
       notnull: true

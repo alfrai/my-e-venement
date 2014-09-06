@@ -46,24 +46,42 @@ $(document).ready(function(){
       })
     ;
     label.text(label.text()+' ').append(del);
-  
-    // new declination
-    if ( isNaN(parseInt($(this).val(),10)) || parseInt($(this).val(),10) <= 0 )
-    {
-      // init
-      var elt = $(this).closest('table');
-      var parent = $(elt).parent();
-      $(elt).closest('tr').addClass('li-new-declination');
-      elt.find('table tr + tr td > input[hidden]').appendTo(elt.find('tr:first-child td'));
-      elt.find('table tr + tr').remove();
-      
-      // the "hide" button
-      parent.closest('.li-new-declination').find('th .li-delete').unbind('click').click(function(){
-        LI.posToggleNewDeclination(elt, parent, false);
-        return false;
-      }).click();
-    }
   });
+  
+  // rotating labels
+  $('#sf_fieldset_declinations textarea, #sf_fieldset_declinations table table, #sf_fieldset_declinations .widget > table > tbody > tr > th')
+    .closest('tr').find('> th').each(function(){
+      $('<div></div>').addClass('rotated')
+        .html($(this).html())
+        .appendTo($(this).html(''))
+      ;
+    });
+  $('#sf_fieldset_declinations textarea').closest('table').find('input')
+    .click(function(){
+      if ( !$(this).closest('.sf_admin_form_row').find('> label a').hasClass('see-all') )
+      {
+        var elt = this;
+        $('#sf_fieldset_declinations textarea').closest('tr').each(function(){
+          if ( !$(this).closest('table').is($(elt).closest('table')) ) $(this).fadeOut();
+        });
+      }
+      $(this).closest('table').find('textarea').closest('tr').fadeIn();
+    })
+    .closest('.sf_admin_form_row').find('> label').append(
+      $('<a></a>').prop('href', '#').text($('#display-declination-msg .on').text()).css('float', 'right').click(function(){
+        if ( $(this).hasClass('see-all') )
+        {
+          $(this).removeClass('see-all').text($('#display-declination-msg .on').text());
+          $('#sf_fieldset_declinations textarea').closest('tr').fadeOut();
+        }
+        else
+        {
+          $(this).addClass('see-all').text($('#display-declination-msg .off').text());
+          $('#sf_fieldset_declinations textarea').closest('tr').fadeIn();
+        }
+        return false;
+      })
+    );
   
   // resolving a graphical conflict
   setTimeout(function(){

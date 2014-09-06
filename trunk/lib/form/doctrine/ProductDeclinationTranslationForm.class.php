@@ -12,6 +12,22 @@ class ProductDeclinationTranslationForm extends BaseProductDeclinationTranslatio
 {
   public function configure()
   {
-    $this->widgetSchema['description'] = new liWidgetFormTextareaTinyMCE;
+    $tinymce = array(
+      'config'  => array(
+        'extended_valid_elements' => 'html,head,body,hr[class|width|size|noshade],iframe[src|width|height|name|align],style',
+        'convert_urls' => false,
+        'urlconvertor_callback' => 'email_urlconvertor',
+        'paste_as_text' => false,
+        'plugins' => 'textcolor link image',
+        'toolbar1' => 'formatselect fontselect fontsizeselect | link image | forecolor backcolor | undo redo',
+        'toolbar2' => 'bold underline italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent blockquote',
+        'force_br_newlines' => false,
+        'force_p_newlines'  => false,
+        'forced_root_block' => '',
+      ),
+    );
+    
+    $this->widgetSchema['description'] = new liWidgetFormTextareaTinyMCE($tinymce);
+    $this->widgetSchema['description_for_buyers'] = new liWidgetFormTextareaTinyMCE($tinymce);
   }
 }
