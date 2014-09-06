@@ -236,13 +236,24 @@
         
         break;
       case 'store_integrate':
-        foreach ( Doctrine::getTable('BoughtProduct')->createQuery('bp')
+        foreach ( $products = Doctrine::getTable('BoughtProduct')->createQuery('bp')
           ->andWhere('bp.transaction_id = ?', $this->form[$field]->getValue('id'))
+          ->andWhere('bp.integrated_at IS NULL')
+          ->leftJoin('bp.Transaction t')
           ->execute() as $bp )
         {
           $bp->integrated_at = date('Y-m-d H:i:s');
           $bp->save();
         }
+        
+        if ( $products->count() > 0 )
+          $this->dispatcher->notify(new sfEvent($this, 'tck.products_integrate', array(
+            'transaction' => $products[0]->transaction,
+            'products'    => $products,
+            'duplicate'   => false,
+            'user'        => $this->getUser(),
+          )));
+        
         $this->json['success']['success_fields'][$field]['remote_content'] = array(
           'load' => array(
             'type' => 'store_price',
