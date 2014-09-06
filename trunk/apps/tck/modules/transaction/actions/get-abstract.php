@@ -353,7 +353,7 @@
             foreach ( $product->PriceProducts as $pp )
             {
               // access to this meta event
-              if ( !in_array($product->meta_event_id, array_keys($this->getUser()->getMetaEventsCredentials())) )
+              if ( !is_null($product->meta_event_id) && !in_array($product->meta_event_id, array_keys($this->getUser()->getMetaEventsCredentials())) )
                 continue;
               
               $prices[] = $pp;
