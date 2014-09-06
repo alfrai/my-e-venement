@@ -27,6 +27,7 @@ all:
     #seated_plan:
     #  auto_next: false
     #gui: touchy # force the GUI to the touchy one only
+    always_send_confirmation_email: false
   tickets:
     mentions:
       optional: licences: 350970 / 350971 / 350972

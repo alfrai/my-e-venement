@@ -19,7 +19,15 @@ class tckConfiguration extends sfApplicationConfiguration implements liGarbageCo
     
     $this->dispatcher->connect('user.change_authentication', array($this, 'logAuthentication'));
     $this->dispatcher->connect('tck.tickets_print', array($this, 'sendEmailOnPrintingTickets'));
+    $this->dispatcher->connect('tck.before_transaction_creation', array($this, 'activateConfirmationEmails'));
   }
+  
+  // force sending emails on every transactions, depends on app.yml parameters
+  public function activateConfirmationEmails(sfEvent $event)
+  { try {
+    if ( sfConfig::get('app_transaction_always_send_confirmation_email', false) )
+      $event['transaction']->send_an_email = true;
+  } catch ( Exception $e ) { return $this->catchError($e); } }
   
   public function sendEmailOnPrintingTickets(sfEvent $event)
   { try {
@@ -77,11 +85,7 @@ EOF
     
     return $email->save();
     
-  } catch ( Exception $e ) {
-    // avoid any mistake
-    error_log($e->getMessage());
-    return;
-  } }
+  } catch ( Exception $e ) { return $this->catchError($e); } }
 
   public function logAuthentication(sfEvent $event)
   {
@@ -234,5 +238,11 @@ EOF
   {
     $this->collectors[$name] = $function;
     return $this;
+  }
+  protected function catchError(Exception $e)
+  {
+    // avoid any mistake
+    error_log($e->getMessage());
+    return;
   }
 }

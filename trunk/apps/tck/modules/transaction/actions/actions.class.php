@@ -313,7 +313,9 @@ class transactionActions extends autoTransactionActions
     $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
     parent::executeNew($request);
     
+    $this->dispatcher->notify(new sfEvent($this, 'tck.before_transaction_creation', array('transaction' => $this->transaction)));
     $this->transaction->save();
+    $this->dispatcher->notify(new sfEvent($this, 'tck.after_transaction_creation', array('transaction' => $this->transaction)));
     
     $this->getUser()->setFlash('success', __('Transaction created'));
     $this->redirect('transaction/edit?id='.$this->transaction->id);

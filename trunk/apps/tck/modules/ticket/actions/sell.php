@@ -43,7 +43,9 @@
           $this->getUser()->setFlash('notice',$this->getUser()->getFlash('error'));
         
         $this->transaction = new Transaction();
+        $this->dispatcher->notify(new sfEvent($this, 'tck.before_transaction_creation', array('transaction' => $this->transaction)));
         $this->transaction->save();
+        $this->dispatcher->notify(new sfEvent($this, 'tck.after_transaction_creation', array('transaction' => $this->transaction)));
         $this->redirect('ticket/sell?id='.$this->transaction->id.($request->hasParameter('hash') ? '#manifestations-'.$request->getParameter('hash') : ''));
       }
     }
