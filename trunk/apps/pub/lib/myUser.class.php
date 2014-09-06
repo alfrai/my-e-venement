@@ -45,6 +45,8 @@ class myUser extends liGuardSecurityUser
         ->leftJoin('pc.Products p')
         ->andWhereIn('p.meta_event_id IS NULL OR p.meta_event_id', array_keys($this->getMetaEventsCredentials()))
         ->andWhere('p.id IS NOT NULL')
+        ->leftJoin('p.Declinations d')
+        ->andWhere('d.id IS NOT NULL')
       ;
       $online_store = $q->count() > 0;
       $this->setAttribute('online_store', $online_store);
