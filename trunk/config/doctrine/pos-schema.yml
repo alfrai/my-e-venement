@@ -63,6 +63,7 @@ Product:
       type:     string(255)
       notblank: true
       notnull:  true
+    code: string(50)
     meta_event_id: integer
     product_category_id: integer
     description: string
