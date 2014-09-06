@@ -22,6 +22,10 @@
       <label><?php echo __('Email address') ?>:</label>
       <input type="email" value="" name="ticket[%%ticket_id%%][contact][email]" title="<?php echo __('Email address') ?>" />
     </span>
+    <span class="comment">
+      <label><?php echo __('Comment') ?>:</label>
+      <input type="text" value="" name="ticket[%%ticket_id%%][comment]" title="<?php echo __('Comment') ?>" maxlength="255" />
+    </span>
   </div>
   <p class="submit"><input type="submit" name="submit" value="<?php echo __('Validate',null,'sf_admin') ?>" /></p>
 </form>

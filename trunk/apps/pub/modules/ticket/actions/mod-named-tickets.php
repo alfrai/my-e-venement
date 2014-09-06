@@ -60,12 +60,24 @@
     // the DB data
     if ( isset($data[$ticket->id]) )
     {
-      if ( !$ticket->contact_id )
-        $ticket->DirectContact = new Contact;
+      error_log($data[$ticket->id]['comment']);
+      if ( isset($data[$ticket->id]['comment']) && $ticket->comment != $data[$ticket->id]['comment'] )
+      {
+        $ticket->comment = $data[$ticket->id]['comment'];
+        $ticket->save();
+      }
       
       foreach ( array('name', 'firstname', 'email') as $field )
-      if ( $ticket->DirectContact->$field != $data[$ticket->id]['contact'][$field] )
+      if (!( isset($data[$ticket->id]['contact'][$field]) && $data[$ticket->id]['contact'][$field] ))
       {
+        unset($ticket->DirectContact);
+        $ticket->save();
+      }
+      elseif ( $ticket->DirectContact->$field != $data[$ticket->id]['contact'][$field] )
+      {
+        if ( !$ticket->contact_id )
+          $ticket->DirectContact = new Contact;
+        
         // the contact has at least a name
         if ( $data[$ticket->id]['contact']['name'] )
         {
@@ -111,6 +123,7 @@
       'contact_name'      => $ticket->contact_id ? $ticket->DirectContact->name : NULL,
       'contact_firstname' => $ticket->contact_id ? $ticket->DirectContact->firstname : NULL,
       'contact_email'     => $ticket->contact_id ? $ticket->DirectContact->email : NULL,
+      'comment'           => $ticket->comment,
     );
   }
   
