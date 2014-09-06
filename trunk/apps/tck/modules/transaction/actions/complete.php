@@ -173,7 +173,7 @@
           $model = 'ProductDeclination';
           $q->from($model.' d')
             ->leftJoin('d.Product p')
-            ->andWhereIn('p.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()))
+            ->andWhereIn('p.meta_event_id IS NULL OR p.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()))
           ;
           break;
         }
