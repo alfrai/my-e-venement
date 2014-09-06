@@ -63,7 +63,6 @@ Product:
       type:     string(255)
       notblank: true
       notnull:  true
-    code: string(50)
     meta_event_id: integer
     product_category_id: integer
     description: string
@@ -134,6 +133,9 @@ ProductDeclination:
       type: string(255)
       notnull: true
       notblank: true
+    code:
+      type: string(50)
+      unique: true
     description: string
     product_id:
       type: integer
@@ -198,6 +200,7 @@ BoughtProduct:
       type: string(255)
       notnull: true
       notblank: true
+    code: string(50)
     price_name:
       type: string(255)
       notnull: true

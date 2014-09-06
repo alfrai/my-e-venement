@@ -18,7 +18,7 @@ class ProductDeclinationForm extends BaseProductDeclinationForm
     parent::configure();
     $this->widgetSchema['product_id'] = new sfWidgetFormInputHidden;
     $this->useFields(array_merge(array(
-      'id', 'product_id',
+      'id', 'product_id', 'code',
     ),array_keys($this->embeddedForms)));
   }
 }

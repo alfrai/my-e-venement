@@ -46,8 +46,7 @@ class productActions extends autoProductActions
     $charset = sfConfig::get('software_internals_charset');
     $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
     
-    $q = Doctrine::getTable('Product')
-      ->createQuery('pdt')
+    $q = Doctrine::getTable('Product')->createQuery('pdt')
       ->limit($request->getParameter('limit', $request->getParameter('max', 10)))
       ->leftJoin('pdt.MetaEvent me')
       ->andWhereIn('me.id IS NULL OR me.id', array_keys($this->getUser()->getMetaEventsCredentials()))
@@ -56,11 +55,17 @@ class productActions extends autoProductActions
     if ( ($tid = intval($request->getParameter('except_transaction', false))).'' === ''.$request->getParameter('except_transaction', false) )
       $q->andWhere('pdt.id NOT IN (SELECT bpd.product_id FROM BoughtProduct bp LEFT JOIN bp.Declination bpd WHERE bp.transaction_id = ?)',$tid);
     
+    // huge hack to look for declinations' codes AND product_index
+    $q->andWhere('(TRUE')
+      ->andWhere('d.code ILIKE ?', $request->getParameter('q').'%')
+      ->orWhere('TRUE');
     $q = Doctrine_Core::getTable('Product')
       ->search($search.'*',$q);
+    $q->andWhere('TRUE)');
     
     $this->products = array();
     foreach ( $q->execute() as $product )
+    if ( $product->isAccessibleBy($this->getUser()) )
     if ( $request->hasParameter('keep-order') )
     {
       $this->products[] = array(

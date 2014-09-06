@@ -7,13 +7,23 @@
  */
 class ProductTable extends PluginProductTable
 {
+  protected $user = NULL;
+  
   public function createQuery($alias = 'p')
   {
-    return parent::createQuery($alias)
+    $q = parent::createQuery($alias)
       ->leftJoin("$alias.Translation pt")
       ->leftJoin("$alias.Declinations d")
       ->leftJoin('d.Translation dt')
     ;
+    
+    if ( !sfContext::hasInstance() )
+      return $q;
+    $this->user = sfContext::getInstance()->getUser();
+    
+    $q->andWhereIn("$alias.meta_event_id IS NULL OR $alias.meta_event_id", array_keys($this->user->getMetaEventsCredentials()));
+    
+    return $q;
   }
   
   public static function getInstance()

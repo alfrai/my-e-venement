@@ -31,12 +31,15 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
     if ( !$this->value )
     foreach ( $this->Declination->Product->PriceProducts as $p )
     if ( $this->price_id == $p->price_id )
-      $this->value = $p->value;
+      $this->value = $p->value ? $p->value : 0; // free price here
     
     if ( !$this->name )
       $this->name = (string)$this->Declination->Product;
     if ( !$this->declination )
       $this->declination = (string)$this->Declination;
+    
+    if ( !$this->code )
+      $this->code = $this->Declination->code;
   }
   
   public function isSold()

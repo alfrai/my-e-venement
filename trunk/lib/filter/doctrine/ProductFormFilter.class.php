@@ -40,12 +40,18 @@ class ProductFormFilter extends BaseProductFormFilter
     
     $this->widgetSchema   ['meta_event_id']->setOption('query', $q = Doctrine::getTable('MetaEvent')->createQuery('me')->andWhereIn('me.id', array_keys($this->user->getMetaEventsCredentials())));
     $this->validatorSchema['meta_event_id']->setOption('query', $q);
+    
+    $this->widgetSchema   ['code'] = new sfWidgetFormInput;
+    $this->validatorSchema['code'] = new sfValidatorString(array(
+      'required' => false,
+    ));
   }
   
   public function getFields()
   {
     return parent::getFields() + array(
       'name' => 'Name',
+      'code' => 'Code',
     );
   }
   
@@ -57,6 +63,16 @@ class ProductFormFilter extends BaseProductFormFilter
     $q->andWhere('pt.name ILIKE ?', $value['text'].'%');
     if ( $this->user )
       $q->andWhere('pt.lang = ?', $this->user->getCulture());
+    
+    return $q;
+  }
+  
+  public function addCodeColumnQuery($q, $field, $value)
+  {
+    if ( !$value )
+      return $q;
+    
+    $q->andWhere('d.code ILIKE ?', $value.'%');
     
     return $q;
   }
