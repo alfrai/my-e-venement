@@ -16,6 +16,7 @@ $(document).ready(function(){
     LI.seatedPlanInitialization($(this));
   });
   var hash = window.location.hash.split('#');
+  
   $('.gauge.full-seating'+(hash[1] ? '[data-gauge-id='+hash[1]+']' : ':first')).click();
   $('.gauge.full-seating .blank').each(function(){
     $(this).height($(this).closest('.gauge.full-seating').height());
