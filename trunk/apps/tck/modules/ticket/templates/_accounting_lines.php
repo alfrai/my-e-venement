@@ -1,7 +1,7 @@
 <?php $totals = array('tip' => 0, 'vat' => array(), 'pet' => 0, 'taxes' => 0) ?>
 <table id="lines">
 <thead><tr>
-  <th class="event"><span><?php echo __('Event', null, 'li_accounting') ?></span></th>
+  <th class="event"><span><?php echo __('Product', null, 'li_accounting') ?></span></th>
   <th class="date"><span><?php echo __('Date', null, 'li_accounting') ?></span></th>
   <th class="time"><span><?php echo __('Time', null, 'li_accounting') ?></span></th>
   <th class="location"><span><?php echo __('Location', null, 'li_accounting') ?></span></th>
@@ -56,12 +56,52 @@
       $i--; // rollback to process the last ticket that has been ignored
     ?>
     <td class="qty inline-modifiable"><?php echo $qty; ?></td>
-    <td class="seats"><?php echo count($nums) > 20 ? '' : implode(', ', $nums) ?></span></td>
+    <td class="seats"><?php echo count($nums) > 20 ? '' : implode(', ', $nums) ?></td>
     <td class="extra-taxes"><?php echo $total['taxes'] ? format_currency($total['taxes'],'€') : '-'; $totals['taxes'] += $total['taxes']; ?></td>
     <td class="pit"><?php echo format_currency($total['tip'],'€'); $totals['tip'] += $total['tip']; ?></td>
     <td class="vat">
       <span class="value"><?php echo format_currency($total['vat'],'€') ?></span>
       <span class="percent"><?php echo $ticket->vat * 100 ?></span>
+    </td>
+    <td class="tep"><?php echo format_currency($total['pet'],'€'); $totals['pet'] += $total['pet'] ?></td>
+  </tr>
+<?php endif ?>
+<?php endfor ?>
+<?php for ( $i = 0 ; $i < $products->count() ; $i++ ): ?>
+<?php $product = $products[$i] ?>
+<?php if ( $product->id > 0 ): ?>
+  <tr>
+    <td class="event inline-modifiable"><?php echo (string)$product ?></td>
+    <td class="time inline-modifiable" colspan="2"><?php echo $product->code ?></td>
+    <td class="location inline-modifiable" colspan="3"><?php echo $product->declination ?></td>
+    <td class="price"><?php echo $product->price_id ? $product->Price->description : $product->price_name ?></td>
+    <td class="up"><?php echo format_currency($product->value,'€') ?></td>
+    <?php
+      $qty = 0;
+      $total = array('tip' => 0, 'taxes' => 0, 'vat' => 0, 'pet' => 0,);
+      while ( $i < $products->count()
+           && $products[$i]->code == $product->code
+           && $products[$i]->price_id         == $product->price_id
+           && $products[$i]->value            == $product->value )
+      {
+        $qty++;
+        $total['tip']   += $val = $products[$i]->value;
+        $total['pet']   += $pet = round($val/(1+$products[$i]->vat), 2);
+        $total['vat']   += $vat = $val - $pet;
+        if ( !isset($totals['vat'][$products[$i]->vat]) )
+          $totals['vat'][$products[$i]->vat] = 0;
+        $totals['vat'][$products[$i]->vat] += $vat;
+        $i++;
+      }
+      $i--; // rollback to process the last ticket that has been ignored
+    ?>
+    <td class="qty inline-modifiable"><?php echo $qty; ?></td>
+    <td class="seats"></td>
+    <td class="extra-taxes"></td>
+    <td class="pit"><?php echo format_currency($total['tip'],'€'); $totals['tip'] += $total['tip']; ?></td>
+    <td class="vat">
+      <span class="value"><?php echo format_currency($total['vat'],'€') ?></span>
+      <span class="percent"><?php echo $product->vat * 100 ?></span>
     </td>
     <td class="tep"><?php echo format_currency($total['pet'],'€'); $totals['pet'] += $total['pet'] ?></td>
   </tr>

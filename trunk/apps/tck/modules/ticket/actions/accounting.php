@@ -29,8 +29,7 @@
     $this->totals = array('pet' => 0, 'tip' => 0, 'extra-taxes' => 0, 'vat' => array('total' => 0));
     
     // retrieve tickets
-    $q = new Doctrine_Query();
-    $q->from('Ticket t')
+    $q = Doctrine_Query::create()->from('Ticket t')
       ->leftJoin('t.Manifestation m')
       ->leftJoin('m.Event e')
       ->leftJoin("e.Translation et WITH lang = '".$this->getUser()->getCulture()."'")
@@ -66,5 +65,14 @@
         $this->totals['vat'][$vat] = 0;
       $this->totals['vat'][$vat] += round($manif,2);
     }
+    
+    // retrieve products
+    $q = Doctrine_Query::create()->from('BoughtProduct bp')
+      ->leftJoin('bp.Price p')
+      ->andWhere('bp.transaction_id = ?',$this->transaction->id)
+      ->orderBy('bp.name, bp.code, bp.declination, bp.price_name, bp.value');
+    if ( $printed )
+      $q->andWhere('bp.integrated_at IS NOT NULL');
+    $this->products = $q->execute();
     
     $this->setLayout('empty');

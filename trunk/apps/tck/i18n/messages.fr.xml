@@ -9,6 +9,10 @@
         <target>Produits donnés</target>
       </trans-unit>
       <trans-unit>
+        <source>Product</source>
+        <target>Produit</target>
+      </trans-unit>
+      <trans-unit>
         <source>Tax %%name%%</source>
         <target>Taxe %%name%%</target>
       </trans-unit>
