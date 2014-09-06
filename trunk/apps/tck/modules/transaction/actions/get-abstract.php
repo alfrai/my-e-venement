@@ -166,7 +166,7 @@
       
       if ( $request->getParameter('id',false) )
       {
-        $q->andWhereIn('pdt.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()));
+        $q->andWhereIn('pdt.meta_event_id IS NULL OR pdt.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()));
         
         // retrictive parameters
         if ( $price_id = $request->getParameter('price_id', false) )
