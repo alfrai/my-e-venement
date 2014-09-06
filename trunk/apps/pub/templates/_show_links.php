@@ -13,17 +13,21 @@
   <?php foreach ( $objects as $object ): ?>
   <?php if ( $object->getTable()->hasRelation('LinkedProducts') ): ?>
   <div class="products">
-    <?php foreach ( $object->LinkedProducts as $link ): ?>
+    <?php
+      $links = $object->LinkedProducts->getData()->getRawValue();
+      shuffle($links);
+    ?>
+    <?php foreach ( $links as $link ): ?>
     <?php if ( in_array($link->id, $collection['LinkedProducts']) ) continue ?>
     <?php $collection['LinkedProducts'][] = $link->id ?>
-    <?php if (!( $link->getRawValue() instanceof liUserAccessInterface && !$link->isAccessibleBy($sf_user->getRawValue()) )): ?>
+    <?php if (!( $link instanceof liUserAccessInterface && !$link->isAccessibleBy($sf_user->getRawValue()) )): ?>
     <div class="link">
       <h4><a href="<?php echo url_for('store/edit?id='.$link->id) ?>"><?php echo $link ?></a></h4>
       <div>
         <?php if ( $link->picture_id ): ?>
           <img src="<?php echo url_for('picture/display?id='.$link->picture_id) ?>" alt="<?php echo $link ?>" title="<?php echo $link ?>" />
         <?php endif ?>
-        <div title="<?php echo __('Read more...') ?>"><?php echo $link->getRawValue()->description ?></div>
+        <div title="<?php echo __('Read more...') ?>"><?php echo $link->description ?></div>
       </div>
     </div>
     <?php endif ?>
@@ -35,17 +39,21 @@
   <?php foreach ( $objects as $object ): ?>
   <?php if ( $object->getTable()->hasRelation('LinkedManifestations') ): ?>
   <div class="manifestations">
-    <?php foreach ( $object->LinkedManifestations as $link ): ?>
+    <?php
+      $links = $object->LinkedProducts->getData()->getRawValue();
+      shuffle($links);
+    ?>
+    <?php foreach ( $links as $link ): ?>
     <?php if ( in_array($link->id, $collection['LinkedManifestations']) ) continue ?>
     <?php $collection['LinkedManifestations'][] = $link->id ?>
-    <?php if (!( $link->getRawValue() instanceof liUserAccessInterface && !$link->isAccessibleBy($sf_user->getRawValue()) )): ?>
+    <?php if (!( $link instanceof liUserAccessInterface && !$link->isAccessibleBy($sf_user->getRawValue()) )): ?>
     <div class="link">
       <h4><a href="<?php echo url_for('manifestation/edit?id='.$link->id) ?>">
         <?php echo $link->Event ?>
         <br/>
         <?php echo $link->getShortenedDate() ?>
       </a></h4>
-      <div title="<?php echo __('Read more...') ?>"><?php echo $link->Event->getRawValue()->description ?></div>
+      <div title="<?php echo __('Read more...') ?>"><?php echo $link->Event->description ?></div>
     </div>
     <?php endif ?>
     <?php endforeach ?>
