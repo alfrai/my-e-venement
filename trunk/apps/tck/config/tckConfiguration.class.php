@@ -55,7 +55,8 @@ class tckConfiguration extends sfApplicationConfiguration
     if ( isset($conf['always_send_confirmation']) && $conf['always_send_confirmation'] )
       $this->dispatcher->connect('tck.before_transaction_creation', array($this, 'activateConfirmationEmails'));
     
-    $this->enableSecondWavePlugins($arr = sfConfig::get('app_options_plugins', array()));
+    if ( get_class(sfContext::hasInstance() && sfContext::getInstance()->getConfiguration()) == get_class($this) )
+      $this->enableSecondWavePlugins($arr = sfConfig::get('app_options_plugins', array()));
     ProjectConfiguration::initialize();
   }
   

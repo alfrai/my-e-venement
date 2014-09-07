@@ -40,7 +40,8 @@ class pubConfiguration extends sfApplicationConfiguration
   }
   public function initialize()
   {
-    $this->enableSecondWavePlugins(sfConfig::get('app_options_plugins', array()));
+    if ( get_class(sfContext::hasInstance() && sfContext::getInstance()->getConfiguration()) == get_class($this) )
+      $this->enableSecondWavePlugins(sfConfig::get('app_options_plugins', array()));
     ProjectConfiguration::initialize();
   }
   
