@@ -129,31 +129,43 @@ class Ticket extends PluginTicket
     
     // the HTML code
     return sprintf(<<<EOF
-  <table class="cmd-ticket"><tr>
+  <div class="cmd-ticket">
+  <table><tr>
     <td class="desc">
-      <p class="event">%s: %s</p>
-      <p class="location">%s: %s, %s</p>
-      <p class="date">%s: %s</p>
-      <p class="price">%s: %s %s</p>
-      <p class="seat">%s</p>
-      <p class="comment">%s</p>
-      <p class="ids">#%s-%s<!-- transaction_id --></p>
+      <p class="event"><span>%s:</span> <span>%s</span></p>
+      <p class="event-2nd"><span>%s:</span> <span>%s</span></p>
+      <p class="description"><span>%s:</span> <span>%s</span></p>
+      <p class="location"><span>%s:</span> <span>%s</span></p>
+      <p class="address"><span>%s:</span> <span>%s</span></p>
+      <p class="gauge"><span>%s:</span> <span>%s</span></p>
+      <p class="date"><span>%s:</span> <span>%s</span></p>
+      <p class="price"><span>%s:</span> <span>%s</span> <span>%s</span></p>
+      <p class="seat"><span>%s</span><span>%s</span></p>
+      <p class="comment"><span></span><span>%s</span><span></span></p>
+      <p class="ids"><span>#%s</span>-<span>%s</span></p>
       <p class="contact">%s</p>
       <p class="duplicate">%s</p>
     </td>
     <td class="bc">%s</td>
   <tr></table>
+  <img class="background" src="data:image/png;base64,%s" alt="" />
+  </div>
 EOF
-      , __('Event', null, 'li_tickets_email'), (string)$this->Manifestation->Event
-      , __('Venue', null, 'li_tickets_email'), (string)$this->Manifestation->Location, (string)$this->Gauge
-      , __('Date', null, 'li_tickets_email'), $this->Manifestation->getShortenedDate()
+      , __('Event', null, 'li_tickets_email'), nl2br($this->Manifestation->Event)
+      , '', $this->Manifestation->Event->short_name
+      , '', $this->Manifestation->Event->description
+      , __('Venue', null, 'li_tickets_email'), (string)$this->Manifestation->Location
+      , __('Address', null, 'li_tickets_email'), (string)$this->Manifestation->Location->full_address
+      , __('Category', null, 'li_tickets_email'), (string)$this->Gauge
+      , __('Date', null, 'li_tickets_email'), $this->Manifestation->getFormattedDate()
       , __('Price', null, 'li_tickets_email'), $this->price_name, format_currency($this->value,'€')
-      , $this->seat_id ? __('Seat #%%num%%', array('%%num%%' => $this->Seat->name), 'li_tickets_email') : ($this->Manifestation->Location->getWorkspaceSeatedPlan($this->Gauge->workspace_id) ? __('Not yet allocated', null, 'li_tickets_email') : __('Seat #%%num%%', array('%%num%%' => ' N/A'), 'li_tickets_email'))
+      , $this->seat_id ? __('Seat #', null, 'li_tickets_email') : '', $this->seat_id ? $this->Seat : ($this->Manifestation->Location->getWorkspaceSeatedPlan($this->Gauge->workspace_id) ? __('Not yet allocated', null, 'li_tickets_email') : '')
       , $this->comment
       , $this->transaction_id, $this->id
-      , $this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : (string)$this->Transaction->Contact
+      , $this->contact_id ? $this->Contact->name_with_title : ($this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : $this->Transaction->Contact->name_with_title)
       , !$this->duplicating ? '' : __('This ticket is a duplicate of #%%tid%%, it replaces and cancels any previous version of this ticket you might have recieved', array('%%tid%%' => $this->transaction_id.'-'.$this->duplicating), 'li_tickets_email')
       , $barcode
+      , base64_encode(file_get_contents(sfConfig::get('sf_web_dir').'/images/ticket-simplified-layout-100dpi.png'))
     );
   }
   

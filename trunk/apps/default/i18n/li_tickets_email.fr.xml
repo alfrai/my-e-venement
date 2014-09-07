@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Category</source>
+        <target>Catégorie</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit>
         <source>Product</source>
         <target>Produit</target>
       </trans-unit>
@@ -33,8 +41,8 @@
         <target>votre commande #</target>
       </trans-unit>
       <trans-unit>
-        <source>Seat #%%num%%</source>
-        <target>Place n°%%num%%</target>
+        <source>Seat #</source>
+        <target>Place n°</target>
       </trans-unit>
       <trans-unit>
         <source>Venue</source>

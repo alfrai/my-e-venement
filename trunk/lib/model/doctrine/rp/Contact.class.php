@@ -27,6 +27,10 @@ class Contact extends PluginContact
   {
     return ucfirst($this->firstname).' '.strtoupper($this->name);
   }
+  public function getNameWithTitle()
+  {
+    return $this->title.' '.$this->formatted_name;
+  }
   
   public function getDepartment()
   {
