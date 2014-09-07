@@ -33,51 +33,117 @@ class tckConfiguration extends sfApplicationConfiguration
   
   public function setup()
   {
-    $this->enablePlugins(array('liClassLoaderPlugin', 'sfDomPDFPlugin'));
+    if ( get_class(sfContext::hasInstance() && sfContext::getInstance()->getConfiguration()) == get_class($this) )
+      $this->enablePlugins(array('liClassLoaderPlugin', 'sfDomPDFPlugin', 'liBarcodePlugin'));
     parent::setup();
   }
   public function configure()
   {
     parent::configure();
     sfConfig::set('sf_app_template_dir', sfConfig::get('sf_apps_dir') . '/templates');
-    
-    $this->dispatcher->connect('user.change_authentication', array($this, 'logAuthentication'));
-    $this->dispatcher->connect('tck.tickets_print', array($this, 'sendEmailOnPrintingTickets'));
-    $this->dispatcher->connect('tck.products_integrate', array($this, 'sendEmailOnIntegratingProducts'));
-    $this->dispatcher->connect('tck.before_transaction_creation', array($this, 'activateConfirmationEmails'));
   }
   public function initialize()
   {
+    $conf = sfConfig::get('app_transaction_email', array());
+    
+    $this->dispatcher->connect('user.change_authentication', array($this, 'logAuthentication'));
+    $this->dispatcher->connect('tck.tickets_print', array($this, 'sendEmailOnPrintingTickets'));
+    
+    if ( isset($conf['products']) && !in_array($conf['products'], array('never', false)) )
+      $this->dispatcher->connect('tck.products_integrate', array($this, 'sendEmailOnIntegratingProducts'));
+    
+    if ( isset($conf['always_send_confirmation']) && $conf['always_send_confirmation'] )
+      $this->dispatcher->connect('tck.before_transaction_creation', array($this, 'activateConfirmationEmails'));
+    
     $this->enableSecondWavePlugins($arr = sfConfig::get('app_options_plugins', array()));
     ProjectConfiguration::initialize();
   }
   
   // force sending emails on every transactions, depends on app.yml parameters
-  public function activateConfirmationEmails(sfEvent $event)
+  public function activateConfirmationEmails($event)
   { try {
-    if ( sfConfig::get('app_transaction_always_send_confirmation_email', false) )
-      $event['transaction']->send_an_email = true;
+    $event['transaction']->send_an_email = true;
   } catch ( Exception $e ) { return $this->catchError($e); } }
   
   public function sendEmailOnPrintingTickets(sfEvent $event)
   { try {
-    $params = $event->getParameters();
-    $transaction = $params['transaction'];
-    
-    if ( !$transaction->send_an_email )
-      return false;
-    
-    $content = $transaction->renderSimplifiedTickets(array('css' => true, 'tickets' => false));
     $cpt = 0;
-    foreach ( $params['tickets'] as $ticket )
+    foreach ( $event['tickets'] as $ticket )
     if ( strtotime($ticket->Manifestation->happens_at) > time() )
-    {
       $cpt++;
-      $content .= $ticket->renderSimplified();
-    }
-    
     if ( $cpt == 0 )
       return false;
+    
+    $email = $this->genericSendEmailOn(
+      $event,
+      $transaction->renderSimplifiedTickets(array('barcode' => 'png')),
+      'tickets'
+    );
+    $this->dispatcher->notify(new sfEvent($this, 'email.before_sending_transaction_part', $email->getDispatcherParameters() + array('email' => $email)));
+    $this->dispatcher->notify(new sfEvent($this, 'email.before_sending_tickets', $email->getDispatcherParameters() + array('email' => $email)));
+    $email->save();
+  } catch ( Exception $e ) { return $this->catchError($e); } }
+
+  public function sendEmailOnIntegratingProducts(sfEvent $event)
+  { try {
+    $go = true;
+    $conf = sfConfig::get('app_transaction_email', array());
+    if ( isset($conf['products']) && $conf['products'] === 'e-product' )
+    {
+      $go = false;
+      foreach ( $event['products'] as $prod )
+      if ( $prod->description_for_buyers )
+      {
+        $go = true;
+        break;
+      }
+    }
+    if ( !$go )
+      return;
+    
+    $email = $this->genericSendEmailOn(
+      $event,
+      $event['transaction']->renderSimplifiedProducts(),
+      'tickets'
+    );
+    $this->dispatcher->notify(new sfEvent($this, 'email.before_sending_transaction_part', $email->getDispatcherParameters() + array('email' => $email)));
+    $this->dispatcher->notify(new sfEvent($this, 'email.before_sending_products', $email->getDispatcherParameters() + array('email' => $email)));
+    $email->save();
+  } catch ( Exception $e ) { return $this->catchError($e); } }
+
+  public function logAuthentication(sfEvent $event)
+  {
+    $params   = $event->getParameters();
+    $user     = sfContext::getInstance()->getUser();
+    $request  = sfContext::getInstance()->getRequest();
+    
+    if ( !is_object($user) )
+      return false;
+    
+    if (( sfConfig::get('project_login_alert_beginning_at', false) && sfConfig::get('project_login_alert_beginning_at') < time() || !sfConfig::get('project_login_alert_beginning_at', false) )
+      &&( sfConfig::get('project_login_alert_ending_at', false) && sfConfig::get('project_login_alert_ending_at') > time() || !sfConfig::get('project_login_alert_ending_at', false) )
+      && sfConfig::get('project_login_alert_message', false) )
+      $user->setFlash('error', sfConfig::get('project_login_alert_message'));
+
+    $auth = new Authentication();
+    $auth->sf_guard_user_id = $user->getId();
+    $auth->description      = $user;
+    $auth->ip_address       = $request->getHttpHeader('addr','remote');
+    $auth->user_agent       = $request->getHttpHeader('User-Agent');
+    $auth->referer          = $request->getReferer();
+    $auth->success          = $params['authenticated'];
+    
+    $auth->save();
+  }
+  
+  protected function genericSendEmailOn(sfEvent $event, $content, $type = 'content')
+  {
+    $transaction = $event['transaction'];
+    
+    if ( !$transaction->send_an_email
+      || !($transaction->professional_id && $transaction->Professional->contact_email) && !($transaction->contact_id && $transaction->Contact->email)
+    )
+      throw new liEvenementException('You have tried to send an email without the ability for...');
     
     $client   = sfConfig::get('project_about_client');
     $firm     = sfConfig::get('project_about_firm');
@@ -108,59 +174,41 @@ EOF
     ));
     
     $sr = array('http://' => '', 'www.' => '',);
-    $email->field_from = $params['user']->getGuardUser()->email_address ? $params['user']->getGuardUser()->email_address : 'noreply@'.str_replace(array_keys($sr), array_values($sr), $client['url']);
+    $email->field_from = $event['user']->getGuardUser()->email_address ? $event['user']->getGuardUser()->email_address : 'noreply@'.str_replace(array_keys($sr), array_values($sr), $client['url']);
+    
+    // Bcc:
+    try
+    {
+      $conf = sfConfig::get('app_transaction_email', array());
+      $valid = new liValidatorEmail;
+      if ( isset($conf['send_bcc_to']) && $valid->doClean($conf['send_bcc_to']) )
+        $email->field_bcc = $conf['send_bcc_to'];
+      else
+        $email->field_bcc = $email->field_from;
+    }
+    catch ( sfValidatorError $e )
+    {
+      error_log('Cannot send a Bcc: of this transaction, bad configuration parameter: '.$conf['send_bcc_to']);
+      $email->field_bcc = $email->field_from;
+    }
     
     $email->not_a_test = true;
     $email->setNoSpool();
     
     // attachments, tickets in PDF
     $pdf = new sfDomPDFPlugin();
-    $pdf->setInput($transaction->renderSimplifiedTickets(array('barcode' => 'png')));
+    $pdf->setInput($content);
     $pdf = $pdf->render();
-    file_put_contents(sfConfig::get('sf_upload_dir').'/'.($filename = 'tickets-'.$transaction->id.'-'.date('YmdHis').'.pdf'), $pdf);
+    file_put_contents(sfConfig::get('sf_upload_dir').'/'.($filename = $type.'-'.$transaction->id.'-'.date('YmdHis').'.pdf'), $pdf);
     $attachment = new Attachment;
     $attachment->filename = $filename;
     $attachment->original_name = $filename;
     $email->Attachments[] = $attachment;
     $attachment->save();
-
-    return $email->save();
     
-  } catch ( Exception $e ) { return $this->catchError($e); } }
-
-  public function logAuthentication(sfEvent $event)
-  {
-    $params   = $event->getParameters();
-    $user     = sfContext::getInstance()->getUser();
-    $request  = sfContext::getInstance()->getRequest();
-    
-    if ( !is_object($user) )
-      return false;
-    
-    if (( sfConfig::get('project_login_alert_beginning_at', false) && sfConfig::get('project_login_alert_beginning_at') < time() || !sfConfig::get('project_login_alert_beginning_at', false) )
-      &&( sfConfig::get('project_login_alert_ending_at', false) && sfConfig::get('project_login_alert_ending_at') > time() || !sfConfig::get('project_login_alert_ending_at', false) )
-      && sfConfig::get('project_login_alert_message', false) )
-      $user->setFlash('error', sfConfig::get('project_login_alert_message'));
-
-    $auth = new Authentication();
-    $auth->sf_guard_user_id = $user->getId();
-    $auth->description      = $user;
-    $auth->ip_address       = $request->getHttpHeader('addr','remote');
-    $auth->user_agent       = $request->getHttpHeader('User-Agent');
-    $auth->referer          = $request->getReferer();
-    $auth->success          = $params['authenticated'];
-    
-    $auth->save();
+    return $email;
   }
   
-  protected function stdout($section, $message, $style = 'INFO')
-  {
-    $section = str_pad($section,20);
-    if ( !$this->task )
-      echo "$section $message";
-    else
-      $this->task->logSection($section, $message, null, $style);
-  }
   public function initGarbageCollectors(sfCommandApplicationTask $task = NULL)
   {
     $this->task = $task;
@@ -245,45 +293,5 @@ EOF
     });
     
     return $this;
-  }
-  public function executeGarbageCollectors($names = NULL)
-  {
-    if ( is_null($names) )
-      $names = array_keys($this->collectors);
-    
-    if ( !is_array($names) )
-      $names = array($names);
-    
-    foreach ( $names as $name )
-    {
-      $fct = $this->getGarbageCollector($name);
-      if ( $fct instanceof Closure )
-        $fct();
-    }
-    
-    return $this;
-  }
-  public function getGarbageCollector($name)
-  {
-    if ( !isset($this->collectors[$name]) )
-      return FALSE;
-    return $this->collectors[$name];
-  }
-  public function addGarbageCollector($name, Closure $function)
-  {
-    if ( isset($this->collectors[$name]) )
-      throw new liEvenementException('A collector with the name "'.$name.'" already exists. Maybe you wanted to replace it ?');
-    return $this->addOrReplaceGarbageCollector($name, $function);
-  }
-  public function addOrReplaceGarbageCollector($name, Closure $function)
-  {
-    $this->collectors[$name] = $function;
-    return $this;
-  }
-  protected function catchError(Exception $e)
-  {
-    // avoid any mistake
-    error_log($e->getMessage());
-    return;
   }
 }
