@@ -60,7 +60,6 @@
     // the DB data
     if ( isset($data[$ticket->id]) )
     {
-      error_log($data[$ticket->id]['comment']);
       if ( isset($data[$ticket->id]['comment']) && $ticket->comment != $data[$ticket->id]['comment'] )
       {
         $ticket->comment = $data[$ticket->id]['comment'];

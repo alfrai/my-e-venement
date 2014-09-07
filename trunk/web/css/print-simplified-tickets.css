@@ -1,4 +1,5 @@
 .cmd-ticket { padding: 5px; border: 1px solid silver; margin: 2em 0; page-break-after: always; background-color: whitesmoke }
+.cmd-ticket:last-child { page-break-after: auto; }
 .cmd-ticket br { display: none; }
 .cmd-ticket .bc { border: 1px solid silver; padding: 10px; }
 .cmd-ticket .desc { width: 350px; }

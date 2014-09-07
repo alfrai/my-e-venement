@@ -39,6 +39,12 @@ class Email extends PluginEmail
     sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
     return format_date($this->updated_at).' '.substr($this->field_subject,0,20).'...';
   }
+  public function isATest($bool)
+  {
+    if ( $bool === $this->not_a_test )
+      $this->not_a_test = !$bool;
+    return $this->not_a_test;
+  }
   public function save(Doctrine_Connection $conn = null)
   {
     if ( $this->sent )

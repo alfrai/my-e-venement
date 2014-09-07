@@ -77,7 +77,7 @@ class tckConfiguration extends sfApplicationConfiguration
     
     $email = $this->genericSendEmailOn(
       $event,
-      $transaction->renderSimplifiedTickets(array('barcode' => 'png')),
+      $event['transaction']->renderSimplifiedTickets(array('barcode' => 'png')),
       'tickets'
     );
     $this->dispatcher->notify(new sfEvent($this, 'email.before_sending_transaction_part', $email->getDispatcherParameters() + array('email' => $email)));
@@ -111,31 +111,6 @@ class tckConfiguration extends sfApplicationConfiguration
     $this->dispatcher->notify(new sfEvent($this, 'email.before_sending_products', $email->getDispatcherParameters() + array('email' => $email)));
     $email->save();
   } catch ( Exception $e ) { return $this->catchError($e); } }
-
-  public function logAuthentication(sfEvent $event)
-  {
-    $params   = $event->getParameters();
-    $user     = sfContext::getInstance()->getUser();
-    $request  = sfContext::getInstance()->getRequest();
-    
-    if ( !is_object($user) )
-      return false;
-    
-    if (( sfConfig::get('project_login_alert_beginning_at', false) && sfConfig::get('project_login_alert_beginning_at') < time() || !sfConfig::get('project_login_alert_beginning_at', false) )
-      &&( sfConfig::get('project_login_alert_ending_at', false) && sfConfig::get('project_login_alert_ending_at') > time() || !sfConfig::get('project_login_alert_ending_at', false) )
-      && sfConfig::get('project_login_alert_message', false) )
-      $user->setFlash('error', sfConfig::get('project_login_alert_message'));
-
-    $auth = new Authentication();
-    $auth->sf_guard_user_id = $user->getId();
-    $auth->description      = $user;
-    $auth->ip_address       = $request->getHttpHeader('addr','remote');
-    $auth->user_agent       = $request->getHttpHeader('User-Agent');
-    $auth->referer          = $request->getReferer();
-    $auth->success          = $params['authenticated'];
-    
-    $auth->save();
-  }
   
   protected function genericSendEmailOn(sfEvent $event, $content, $type = 'content')
   {
@@ -193,9 +168,6 @@ EOF
       $email->field_bcc = $email->field_from;
     }
     
-    $email->not_a_test = true;
-    $email->setNoSpool();
-    
     // attachments, tickets in PDF
     $pdf = new sfDomPDFPlugin();
     $pdf->setInput($content);
@@ -207,7 +179,35 @@ EOF
     $email->Attachments[] = $attachment;
     $attachment->save();
     
+    $email->isATest(false);
+    $email->setNoSpool();
+    
     return $email;
+  }
+  
+  public function logAuthentication(sfEvent $event)
+  {
+    $params   = $event->getParameters();
+    $user     = sfContext::getInstance()->getUser();
+    $request  = sfContext::getInstance()->getRequest();
+    
+    if ( !is_object($user) )
+      return false;
+    
+    if (( sfConfig::get('project_login_alert_beginning_at', false) && sfConfig::get('project_login_alert_beginning_at') < time() || !sfConfig::get('project_login_alert_beginning_at', false) )
+      &&( sfConfig::get('project_login_alert_ending_at', false) && sfConfig::get('project_login_alert_ending_at') > time() || !sfConfig::get('project_login_alert_ending_at', false) )
+      && sfConfig::get('project_login_alert_message', false) )
+      $user->setFlash('error', sfConfig::get('project_login_alert_message'));
+
+    $auth = new Authentication();
+    $auth->sf_guard_user_id = $user->getId();
+    $auth->description      = $user;
+    $auth->ip_address       = $request->getHttpHeader('addr','remote');
+    $auth->user_agent       = $request->getHttpHeader('User-Agent');
+    $auth->referer          = $request->getReferer();
+    $auth->success          = $params['authenticated'];
+    
+    $auth->save();
   }
   
   public function initGarbageCollectors(sfCommandApplicationTask $task = NULL)

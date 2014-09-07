@@ -29,6 +29,7 @@ all:
     #id: qrcode # can be id (default), qrcode, othercode
   store:
     max_per_product: 9
+    email_products: always    # never | e-products | always (recommanded)  
   contact:
     capitalize: [name, firstname, city, country, address]
   #show:
@@ -121,6 +122,9 @@ all:
       
       <a href="mailto:contact@cdnlefracas.com">contact@cdnlefracas.com</a>
       <a href="http://www.cdnlefracas.com">http://www.cdnlefracas.com</a>
+      
+      %%TICKETS%%
+      %%PRODUCTS%%
 
 #dev:
 #  payment:

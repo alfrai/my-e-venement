@@ -40,6 +40,8 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
     
     if ( !$this->code )
       $this->code = $this->Declination->code;
+    if ( !$this->description_for_buyers && $this->Declination->description_for_buyers )
+      $this->description_for_buyers = $this->Declination->description_for_buyers;
   }
   
   public function isSold()

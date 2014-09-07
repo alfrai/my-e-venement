@@ -1,4 +1,27 @@
 <?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
+<?php
 
 /**
  * BoughtProduct
@@ -12,4 +35,101 @@
  */
 class BoughtProduct extends PluginBoughtProduct
 {
+  public function getBarcode($type = 'normal')
+  {
+    if ( $this->rawGet('barcode') )
+      return $this->rawGet('barcode');
+    
+    if ( !$this->description_for_buyers )
+    {
+      $this->barcode = $type != 'id' ? $this->code.'||'.$this->id : $this->getIdBarcoded();
+      return $this->rawGet('barcode');
+    }
+    
+    $matches = array();
+    preg_match('!<a\s+[^>]*href\s*=\s*"([^\"]*)"[^>]*>.*</a>!iUs', $this->description_for_buyers, $matches);
+    if ( count($matches) == 0 )
+      return $this->rawGet('barcode');
+    $this->barcode = $matches[1];
+    
+    return $this->rawGet('barcode');
+  }
+  
+  public function renderBarcode($file = NULL) // PNG output directly to stdout
+  {
+    $bc = new liBarcode($this->barcode);
+    $bc->render($file);
+    return $this;
+  }
+  
+  public function getBarcodePng($id = false)
+  {
+    $file = sfConfig::get('sf_app_cache_dir').'/ticket-'.$this->id.'.png';
+    $bc = new liBarcode($this->getBarcode($id));
+    $bc->render($file);
+    $r = file_get_contents($file);
+    unlink($file);
+    return $r;
+  }
+  
+  public function getIdBarcoded()
+  {
+    $c = ''.$this->id;
+    $n = strlen($c);
+    for ( $i = 12-$n ; $i > 0 ; $i-- )
+      $c = '0'.$c;
+    return $c;
+  }
+  
+  public function renderSimplified($type = 'png', $qrcode_only_id = false)
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Url', 'Number'));
+    
+    // the barcode
+    if ( in_array($type, array('1d', 'html')) )
+    {
+      $c = curl_init();
+      curl_setopt_array($c, array(
+        CURLOPT_URL => $url = public_path('/liBarcodePlugin/php-barcode/barcode.php'.
+          '?scale=3'.
+          ($type == 'html' ? '&mode=html' : '').
+          '&code='.$this->getBarcode('id')
+        ,true),
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_RETURNTRANSFER => true,
+      ));
+      if (!( $barcode = curl_exec($c) ))
+        error_log('Error loading the barcode: '.curl_error($c));
+      curl_close($c);
+    }
+    else
+      $barcode = $this->getBarcodePng($qrcode_only_id);
+    
+    if ( $type != 'html' || sfConfig::get('app_tickets_id', 'id') != 'id' )
+      $barcode = '<span><img src="data:image/png;base64,'.base64_encode($barcode).'" alt="#'.$this->id.'" /></span>';
+    
+    // the HTML code
+    return sprintf(<<<EOF
+  <table class="cmd-ticket"><tr>
+    <td class="desc">
+      <p class="event">%s: %s</p>
+      <p class="location">%s: %s</p>
+      <p class="price">%s: %s %s</p>
+      <p class="description_for_buyers">%s</p>
+      <p class="ids">#%s-%s</p>
+      <p class="contact">%s</p>
+    </td>
+    <td class="bc">%s</td>
+  <tr></table>
+EOF
+      , __('Product', null, 'li_tickets_email'), (string)$this
+      , __('Precision', null, 'li_tickets_email'), (string)$this->declination
+      , __('Price', null, 'li_tickets_email'), $this->price_name, format_currency($this->value,'€')
+      , $this->description_for_buyers
+      , $this->transaction_id, $this->id
+      , $this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : (string)$this->Transaction->Contact
+      , $barcode
+    );
+  }
 }

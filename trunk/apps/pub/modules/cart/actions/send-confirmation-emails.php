@@ -35,38 +35,67 @@
     $command .= "\n";
     
     // tickets
-    if ( $transaction->Tickets->count() > 0 )
+    $tickets = array();
+    foreach ( $transaction->Tickets as $ticket )
     {
-      $events = array();
-      foreach ( $transaction->Tickets as $ticket )
+      if ( !isset($tickets[$ticket->Manifestation->event_id]) ) $tickets[$ticket->Manifestation->event_id] = array();
+      if ( !isset($tickets[$ticket->Manifestation->event_id][$ticket->Manifestation->id]) ) $tickets[$ticket->Manifestation->event_id][$ticket->Manifestation->id] = array();
+      
+      $tickets[$ticket->Manifestation->event_id]['event'] = $ticket->Manifestation->Event;
+      $tickets[$ticket->Manifestation->event_id][$ticket->Manifestation->id]['manif'] = $ticket->Manifestation;
+      if ( !isset($tickets[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]) )
+        $tickets[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id] = array(
+          'qty' => 0,
+          'price' => $ticket->Price,
+          'value' => 0,
+          'taxes' => 0,
+        );
+      $tickets[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['qty']++;
+      $tickets[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['value'] += $ticket->value;
+      $tickets[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['taxes'] += $ticket->taxes;
+    }
+    foreach ( $tickets as $event )
+    {
+      $command .= "\n".$event['event'].": \n";
+      unset($event['event']);
+      foreach ( $event as $manif )
       {
-        if ( !isset($events[$ticket->Manifestation->event_id]) ) $events[$ticket->Manifestation->event_id] = array();
-        if ( !isset($events[$ticket->Manifestation->event_id][$ticket->Manifestation->id]) ) $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id] = array();
-        
-        $events[$ticket->Manifestation->event_id]['event'] = $ticket->Manifestation->Event;
-        $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id]['manif'] = $ticket->Manifestation;
-        if ( !isset($events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]) )
-          $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id] = array(
-            'qty' => 0,
-            'price' => $ticket->Price,
-            'value' => 0,
-            'taxes' => 0,
-          );
-        $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['qty']++;
-        $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['value'] += $ticket->value;
-        $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['taxes'] += $ticket->taxes;
+        $command .= "  ".__('at')." ".format_datetime($manif['manif']->happens_at).", ".$manif['manif']->Location.(($sp = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)) ? '*' : '')."\n";
+        unset($manif['manif']);
+        foreach ( $manif as $tickets )
+          $command .= "    ".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€').'    + '.format_currency($tickets['taxes'],'€').' ('.__('Taxes').")\n";
       }
-      foreach ( $events as $event )
+    }
+    
+    // products
+    $products = array();
+    foreach ( $transaction->BoughtProducts as $bp )
+    {
+      if ( !isset($products[$bp->name]) ) $products[$bp->name] = array();
+      if ( !isset($products[$bp->name][$bp->code.'-||-'.$bp->declination]) ) $products[$bp->name][$bp->code.'-||-'.$bp->declination] = array();
+      
+      $products[$bp->name]['product'] = $bp->name;
+      $products[$bp->name][$bp->code.'-||-'.$bp->declination]['declination'] = $bp->declination;
+      if ( !isset($products[$bp->name][$bp->code.'-||-'.$bp->declination][$bp->price_name]) )
+        $products[$bp->name][$bp->code.'-||-'.$bp->declination][$bp->price_name] = array(
+          'qty' => 0,
+          'price' => $bp->price_name,
+          'value' => 0,
+          'taxes' => 0,
+        );
+      $products[$bp->name][$bp->code.'-||-'.$bp->declination][$bp->price_name]['qty']++;
+      $products[$bp->name][$bp->code.'-||-'.$bp->declination][$bp->price_name]['value'] += $bp->value;
+    }
+    foreach ( $products as $product )
+    {
+      $command .= "\n".$product['product'].": \n";
+      unset($product['product']);
+      foreach ( $product as $declination )
       {
-        $command .= "\n".$event['event'].": \n";
-        unset($event['event']);
-        foreach ( $event as $manif )
-        {
-          $command .= "  Le ".format_datetime($manif['manif']->happens_at)." à ".$manif['manif']->Location.(($sp = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)) ? '*' : '')."\n";
-          unset($manif['manif']);
-          foreach ( $manif as $tickets )
-            $command .= "    ".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€').'    + '.format_currency($tickets['taxes'],'€').' ('.__('Taxes').")\n";
-        }
+        $command .= "    ".$declination['declination']."\n";
+        unset($declination['declination']);
+        foreach ( $declination as $bps )
+          $command .= "    ".($bps['price'] ? $bps['price'] : $bps['price'])." x ".$bps['qty']." = ".format_currency($bps['value'],'€')."\n";
       }
     }
     
@@ -83,8 +112,9 @@
     $command .= "\n";
     $command .= __('Total')."\n";
     if ( $amount = $transaction->getMemberCardPrice(true) )
+    $command .= '  '.__('Tickets').": ".format_currency($transaction->getTicketsPrice(true),'€')."\n";
+    $command .= '  '.__('Store').": ".format_currency($transaction->getTicketsPrice(true),'€')."\n";
     $command .= '  '.__('Member cards').": ".format_currency($amount,'€')."\n";
-    $command .= '  '.__('Tickets').": ".format_currency($transaction->getPrice(true),'€')."\n";
     $command .= "\n";
     $command .= "Paiements\n";
     if ( $amount = $transaction->getTicketsLinkedToMemberCardPrice(true) )
@@ -98,6 +128,7 @@
       '%%SELLER%%' => sfConfig::get('app_informations_title'),
       '%%COMMAND%%' => '<pre>'.$command.'</pre>',
       '%%TICKETS%%' => $transaction->renderSimplifiedTickets(), // HTML tickets w/ barcode
+      '%%PRODUCTS%%' => $transaction->renderSimplifiedProducts(), // HTML products w/ barcode
     );
     
     $email = new Email;
@@ -124,17 +155,24 @@ Libre Informatique
 EOF
     ));
     
-    // attachments, tickets in PDF
-    $pdf = new sfDomPDFPlugin();
-    $pdf->setInput($transaction->renderSimplifiedTickets(array('barcode' => 'png')));
-    $pdf = $pdf->render();
-    file_put_contents(sfConfig::get('sf_upload_dir').'/'.($filename = 'tickets-'.$transaction->id.'-'.date('YmdHis').'.pdf'), $pdf);
-    $attachment = new Attachment;
-    $attachment->filename = $filename;
-    $attachment->original_name = $filename;
-    $email->Attachments[] = $attachment;
-    $attachment->save();
+    foreach ( array('tickets' => 'renderSimplifiedTickets', 'products' => 'renderSimplifiedProducts') as $var => $fct )
+    if ( is_array($$var) && count($$var) > 0 )
+    {
+      if (!( $content = $transaction->$fct(array('barcode' => 'png')) ))
+        continue;
+      
+      // attachments, tickets/products in PDF
+      $pdf = new sfDomPDFPlugin();
+      $pdf->setInput($content);
+      $pdf = $pdf->render();
+      file_put_contents(sfConfig::get('sf_upload_dir').'/'.($filename = $var.'-'.$transaction->id.'-'.date('YmdHis').'.pdf'), $pdf);
+      $attachment = new Attachment;
+      $attachment->filename = $filename;
+      $attachment->original_name = $filename;
+      $email->Attachments[] = $attachment;
+      $attachment->save();
+    }
     
-    $email->not_a_test = true;
+    $email->isATest(false);
     $email->setNoSpool();
     return $email->save();

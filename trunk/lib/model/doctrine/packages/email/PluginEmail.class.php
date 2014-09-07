@@ -76,15 +76,17 @@ abstract class PluginEmail extends BaseEmail
     
     foreach ( $this->Attachments as $attachment )
     {
+      $id = $attachment->getId() ? $attachment->getId() : date('YmdHis').rand(10000,99999);
       $att = Swift_Attachment::fromPath($path = substr($attachment->filename, 0, 1) == '/'
           ? $attachment->filename
           : sfConfig::get('sf_upload_dir').DIRECTORY_SEPARATOR.$attachment->filename, $attachment->mime_type)
         ->setFilename($attachment->original_name)
-        ->setId('part.'.$attachment->id.'@e-venement');
+        ->setId('part.'.$id.'@e-venement');
       $message->attach($att);
     }
     
     $this->setMailer();
+    
     return $immediatly === true
       ? $this->mailer->sendNextImmediately()->send($message)
       : $this->mailer->batchSend($message);

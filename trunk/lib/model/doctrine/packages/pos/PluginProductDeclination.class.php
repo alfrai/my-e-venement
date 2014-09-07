@@ -12,6 +12,13 @@
  */
 abstract class PluginProductDeclination extends BaseProductDeclination
 {
+  public function preSave($event)
+  {
+    parent::preSave($event);
+    
+    if ( !$this->code )
+      $this->code = NULL;
+  }
   public function getIndexesPrefix()
   {
     return strtolower(get_class($this));

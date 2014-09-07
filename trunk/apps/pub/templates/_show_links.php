@@ -11,15 +11,15 @@
 <div class="links">
   <h3 class="intro"><?php echo __('We also recommend...') ?></h3>
   <?php foreach ( $objects as $object ): ?>
-  <?php if ( $object->getTable()->hasRelation('LinkedProducts') ): ?>
+  <?php if ( $object->getTable()->hasRelation($rel = 'LinkedProducts') ): ?>
   <div class="products">
     <?php
-      $links = $object->LinkedProducts->getData()->getRawValue();
+      $links = $object->$rel->getData()->getRawValue();
       shuffle($links);
     ?>
     <?php foreach ( $links as $link ): ?>
-    <?php if ( in_array($link->id, $collection['LinkedProducts']) ) continue ?>
-    <?php $collection['LinkedProducts'][] = $link->id ?>
+    <?php if ( in_array($link->id, $collection[$rel]) ) continue ?>
+    <?php $collection[$rel][] = $link->id ?>
     <?php if (!( $link instanceof liUserAccessInterface && !$link->isAccessibleBy($sf_user->getRawValue()) )): ?>
     <div class="link">
       <h4><a href="<?php echo url_for('store/edit?id='.$link->id) ?>"><?php echo $link ?></a></h4>
@@ -37,15 +37,15 @@
   <?php endforeach ?>
   
   <?php foreach ( $objects as $object ): ?>
-  <?php if ( $object->getTable()->hasRelation('LinkedManifestations') ): ?>
+  <?php if ( $object->getTable()->hasRelation($rel = 'LinkedManifestations') ): ?>
   <div class="manifestations">
     <?php
-      $links = $object->LinkedProducts->getData()->getRawValue();
+      $links = $object->$rel->getData()->getRawValue();
       shuffle($links);
     ?>
     <?php foreach ( $links as $link ): ?>
-    <?php if ( in_array($link->id, $collection['LinkedManifestations']) ) continue ?>
-    <?php $collection['LinkedManifestations'][] = $link->id ?>
+    <?php if ( in_array($link->id, $collection[$rel]) ) continue ?>
+    <?php $collection[$rel][] = $link->id ?>
     <?php if (!( $link instanceof liUserAccessInterface && !$link->isAccessibleBy($sf_user->getRawValue()) )): ?>
     <div class="link">
       <h4><a href="<?php echo url_for('manifestation/edit?id='.$link->id) ?>">

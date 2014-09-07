@@ -31,6 +31,7 @@ class myUser extends liGuardSecurityUser
   protected $metaevents = array();
   protected $workspaces = array();
   protected $transaction = NULL;
+  protected $auth_exceptions = array();
   
   public function initialize(sfEventDispatcher $dispatcher, sfStorage $storage, $options = array())
   {
@@ -61,16 +62,29 @@ class myUser extends liGuardSecurityUser
   
   public function mustAuthenticate(sfEvent $event)
   {
-    if ( !sfConfig::get('app_user_must_authenticate', false) )
-      return;
-    
-    if ( $this->getTransaction()->contact_id )
-      return;
-    
-    // for plateforms that require authenticated visitors
     $sf_action = $event->getSubject();
+    
+    // the action it self
+    if ( in_array(array($sf_action->getModuleName(), $sf_action->getActionName()), $this->auth_exceptions) )
+      return;
+    
+    // the user...
     if (!( method_exists($sf_action, 'isAuthenticatingModule') && $sf_action->isAuthenticatingModule() ))
+    {
+      if ( !sfConfig::get('app_user_must_authenticate', false) )
+        return;
+      
+      if ( $this->getTransaction()->contact_id )
+        return;
+    
+      // for plateforms that require authenticated visitors
       $sf_action->forward('login','index');
+    }
+  }
+  public function addAuthException($module, $action)
+  {
+    $this->auth_exceptions[] = array($module, $action);
+    return $this;
   }
   
   public function getGuardUser()

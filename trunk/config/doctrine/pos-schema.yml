@@ -207,6 +207,8 @@ BoughtProduct:
       notnull: true
       notblank: true
     integrated_at: timestamp
+    description_for_buyers: string
+    barcode: string
   relations:
     Transaction:
       foreignAlias: BoughtProducts

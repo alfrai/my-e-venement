@@ -79,7 +79,7 @@ class Ticket extends PluginTicket
     return $this;
   }
   
-  public function getBarcodePng() // PNG output directly to stdout
+  public function getBarcodePng()
   {
     $file = sfConfig::get('sf_app_cache_dir').'/ticket-'.$this->id.'.png';
     $bc = new liBarcode($this->barcode);

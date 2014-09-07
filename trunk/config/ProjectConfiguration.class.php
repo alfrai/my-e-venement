@@ -50,7 +50,6 @@ class ProjectConfiguration extends sfProjectConfiguration implements liGarbageCo
       'sfAdminThemejRollerPlugin',
       'cxFormExtraPlugin',
       'sfiCalCreatorPlugin',
-      'liBarcodePlugin',
       'liOfcPlugin',
       'sfWebBrowserPlugin',
       'sfFeed2Plugin',

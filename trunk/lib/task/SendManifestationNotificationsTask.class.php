@@ -94,7 +94,7 @@ EOF;
       {
         $email = new Email;
         $email->setMailer($this->getMailer());
-        $email->not_a_test = true;
+        $email->isATest(false);
         $email->setNoSpool(true);
         
         $email->field_from = $from;

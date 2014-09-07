@@ -201,7 +201,7 @@ class Transaction extends PluginTransaction
     $tickets_html = '';
     
     // tickets w/ barcode
-    if ( !isset($with['css']) || isset($with['css']) && $with['css'] )
+    if (!( isset($with['css']) && !$with['css'] ))
     {
       $tickets_html .= '<div style="clear: both"></div>';
       $tickets_html .= '<style type="text/css" media="all">'.file_get_contents(sfConfig::get('sf_web_dir').'/css/print-simplified-tickets.css').'</style>';
@@ -209,10 +209,45 @@ class Transaction extends PluginTransaction
         $tickets_html .= '<style type="text/css" media="all">'.file_get_contents(sfConfig::get('sf_web_dir').'/private/print-simplified-tickets.css').'</style>';
     }
     
-    if ( !isset($with['tickets']) || isset($with['tickets']) && $with['tickets'] )
+    $content = array();
+    if (!( isset($with['tickets']) && !$with['tickets'] ))
     foreach ( $this->Tickets as $ticket )
-      $tickets_html .= $ticket->renderSimplified($with['barcode']);
+      $content[] = $ticket->renderSimplified($with['barcode']);
     
-    return $tickets_html;
+    return $tickets_html."\n".implode("\n", $content);
+  }
+  public function renderSimplifiedProducts(array $with = array())
+  {
+    $conf = sfConfig::get('app_transaction_email', array());
+    $conf = isset($conf['products']) ? $conf['products'] : sfConfig::get('app_store_email_products', 'never');
+    if ( in_array($conf, array('never', false)) )
+      return false;
+    
+    foreach ( array('css' => true, 'products' => true, 'barcode' => 'png', 'qrcode_only_id' => false) as $field => $value )
+    if ( !isset($with[$field]) )
+      $with[$field] = $value;
+    
+    sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
+    $products_html = '';
+    
+    // tickets w/ barcode
+    if (!( isset($with['css']) && !$with['css'] ))
+    {
+      $products_html .= '<div style="clear: both"></div>';
+      $products_html .= '<style type="text/css" media="all">'.file_get_contents(sfConfig::get('sf_web_dir').'/css/print-simplified-tickets.css').'</style>';
+      if ( file_exists(sfConfig::get('sf_web_dir').'/private/print-simplified-tickets.css') )
+        $products_html .= '<style type="text/css" media="all">'.file_get_contents(sfConfig::get('sf_web_dir').'/private/print-simplified-tickets.css').'</style>';
+    }
+    
+    $content = array();
+    if (!( isset($with['products']) && !$with['products'] ))
+    foreach ( $this->BoughtProducts as $product )
+    {
+      if ( $conf === 'e-product' && !$product->description_for_buyers )
+        continue;
+      $content[] = $product->renderSimplified($with['barcode'], $with['qrcode_only_id']);
+    }
+    
+    return $products_html."\n".implode("\n", $content);
   }
 }

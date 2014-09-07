@@ -28,8 +28,8 @@ class liPassbookPluginConfiguration extends sfPluginConfiguration
   public function setup()
   {
     liClassLoader::create()->register('Passbook', __DIR__ . '/../lib/vendor/');
-    $this->dispatcher->connect('email.before_attach', array($this, 'listenToEmailedOrders'));
     $this->dispatcher->connect('pub.tickets_list_formats', array($this, 'listenToTicketsListFormats'));
+    $this->dispatcher->connect('email.before_sending_tickets', array($this, 'listenToEmailedOrders'));
   }
   
   public function listenToTicketsListFormats(sfEvent $event)
@@ -56,7 +56,7 @@ class liPassbookPluginConfiguration extends sfPluginConfiguration
   
   public function listenToEmailedOrders(sfEvent $event)
   { try {
-    $email = $event->getSubject();
+    $email = $event['email'];
     $params = $event->getParameters();
     if ( $email->getType() !== 'Order' || !$params['transaction'] instanceof Transaction )
       return;

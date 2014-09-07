@@ -83,7 +83,7 @@ EOF;
       $email->field_from = $config['from'];
       $email->field_subject = str_replace(array('%%from%%','%%to%%'),array($period['from'],$period['to']),$config['subject']);
       $email->content = $this->formatContent($manifestations);
-      $email->not_a_test = true;
+      $email->isATest(false);
       $email->deleted_at = date('Y-m-d H:i:s');
       $email->save();
       $this->logSection('Synchronization', 'done');

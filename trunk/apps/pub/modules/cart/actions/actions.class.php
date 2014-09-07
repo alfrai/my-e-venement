@@ -14,6 +14,7 @@ class cartActions extends sfActions
   
   public function preExecute()
   {
+    $this->getUser()->addAuthException($this->getModuleName(), 'response');
     $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
     parent::preExecute();
   }

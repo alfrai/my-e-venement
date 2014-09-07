@@ -6,7 +6,7 @@
 
   <div id="sf_admin_content">
     <form action="<?php echo url_for('contact_collection', array('action' => 'batch')) ?>" method="post" id="sf_admin_content_form">
-      <?php include_partial('contact/email_list', array('pager' => $pager, 'helper' => $helper, 'email_id' => $email_id)) ?>
+      <?php include_partial('contact/list', array('pager' => $pager, 'helper' => $helper, 'email_id' => $email_id)) ?>
     </form>
   </div>
 

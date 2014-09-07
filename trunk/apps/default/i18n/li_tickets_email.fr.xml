@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Product</source>
+        <target>Produit</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Precision</source>
+        <target>Précision</target>
+      </trans-unit>
+      <trans-unit>
         <source>This ticket is a duplicate of #%%tid%%, it replaces and cancels any previous version of this ticket you might have recieved</source>
         <target>Ce billet est un duplicata du #%%tid%%, il remplace et annule toute version précédente de ce billet que vous auriez pu recevoir</target>
       </trans-unit>

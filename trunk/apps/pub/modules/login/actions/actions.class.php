@@ -52,7 +52,7 @@ class loginActions extends sfActions
       
       // sending the email
       $this->email = new Email;
-      $this->email->not_a_test = true;
+      $this->email->isATest(false);
       $this->email->field_from = sfConfig::get('app_informations_email','web@libre-informatique.fr');
       $this->email->to = $this->getRecoveryEmail();
       $this->email->field_subject = __('Reset your password for %%name%%', array('%%name%%' => sfConfig::get('app_informations_title','')));
