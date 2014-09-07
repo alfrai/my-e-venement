@@ -31,7 +31,7 @@ all:
     email:
       always_send_confirmation: false
       send_bcc_to: email@domain.tld
-      products: e-product     # always | e-products | never
+      products: e-product     # always | e-products (recommanded) | never
   tickets:
     mentions:
       optional: licences: 350970 / 350971 / 350972

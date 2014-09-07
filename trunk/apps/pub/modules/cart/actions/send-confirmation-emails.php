@@ -111,14 +111,14 @@
     // footer
     $command .= "\n";
     $command .= __('Total')."\n";
-    if ( $amount = $transaction->getMemberCardPrice(true) )
     $command .= '  '.__('Tickets').": ".format_currency($transaction->getTicketsPrice(true),'€')."\n";
-    $command .= '  '.__('Store').": ".format_currency($transaction->getTicketsPrice(true),'€')."\n";
+    $command .= '  '.__('Store').": ".format_currency($transaction->getProductsPrice(true),'€')."\n";
+    if ( $amount = $transaction->getMemberCardPrice(true) )
     $command .= '  '.__('Member cards').": ".format_currency($amount,'€')."\n";
     $command .= "\n";
     $command .= "Paiements\n";
-    if ( $amount = $transaction->getTicketsLinkedToMemberCardPrice(true) )
-    $command .= "  ".__('Member cards').": ".format_currency($amount,'€')."\n";
+    if ( $mc_amount = $transaction->getTicketsLinkedToMemberCardPrice(true) )
+    $command .= "  ".__('Member cards').": ".format_currency($mc_amount,'€')."\n";
     $command .= "  ".__('Credit card').": ".format_currency($transaction->getPrice(true,true),'€')."\n";
     
     $replace = array(
