@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Your products</source>
+        <target>Vos produits</target>
+      </trans-unit>
+      <trans-unit>
         <source>We also recommend...</source>
         <target>Recommandations :</target>
       </trans-unit>

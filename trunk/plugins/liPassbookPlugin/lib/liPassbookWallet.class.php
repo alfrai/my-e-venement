@@ -49,7 +49,7 @@ class liPassbookWallet extends ZipArchive
     foreach ( $this->passes as $pass )
     {
       $this->addFile($pass->getRealFilePath(), $local = basename($pass->getPkpassPath()));
-      $this->setCommentName($local = 'Ticket #'.$pass->getTicket()->id.' for transaction #'.$this->transaction->id);
+      $this->setCommentName($pass->getRealFilePath(), $local = 'Ticket #'.$pass->getTicket()->id.' for transaction #'.$this->transaction->id);
     }
     
     $this->close();

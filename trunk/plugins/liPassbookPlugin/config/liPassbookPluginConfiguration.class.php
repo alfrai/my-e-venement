@@ -28,10 +28,25 @@ class liPassbookPluginConfiguration extends sfPluginConfiguration
   public function setup()
   {
     liClassLoader::create()->register('Passbook', __DIR__ . '/../lib/vendor/');
-    $this->dispatcher->connect('pub.tickets_list_formats', array($this, 'listenToTicketsListFormats'));
     $this->dispatcher->connect('email.before_sending_tickets', array($this, 'listenToEmailedOrders'));
+    $this->dispatcher->connect('pub.tickets_list_formats', array($this, 'listenToTicketsListFormats'));
+    $this->dispatcher->connect('pub.transaction_generate_other_format', array($this, 'listenToTransactionGenerateOtherFormat'));
   }
   
+  public function listenToTransactionGenerateOtherFormat(sfEvent $event)
+  {
+    if ( $event['format'] != 'passbook' )
+      return;
+    if ( $event['target'] != 'tickets' )
+      return;
+    
+    $wallet = liPassbookWallet::create($event['transaction'])->buildArchive();
+    $event['content'] = (string)$wallet;
+    $event['headers'] = array(
+      'Content-Disposition' => 'attachment; filename="'.$wallet->getFilename().'"',
+      'Content-Type'        => liPassbookWallet::MIME_TYPE,
+    );
+  }
   public function listenToTicketsListFormats(sfEvent $event)
   { try {
     // the link helper

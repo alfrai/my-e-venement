@@ -22,31 +22,56 @@ class transactionActions extends sfActions
     parent::preExecute();
   }
 
+  public function executeProducts(sfWebRequest $request)
+  {
+    $request->setParameter('target', 'products');
+    $this->executeTickets($request);
+    $this->setTemplate('tickets');
+  }
   public function executeTickets(sfWebRequest $request)
   {
+    $transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
+    
+    // targets
+    $targets = array(
+      'tickets' => 'renderSimplifiedTickets',
+      'products' => 'renderSimplifiedProducts',
+    );
+    if ( !isset($targets[$request->getParameter('type', 'tickets')]) )
+      throw new liOnlineSaleException('Unknown target "'.$request->getParameter('type', 'tickets').'", please choose one: '.implode(', ', array_keys($targets)));
+    $fct = $targets[$target = $request->getParameter('target', 'tickets')];
+    if ( !method_exists($transaction, $fct) )
+      throw new liOnlineSaleException('Bad configuration: '.get_class($transaction).' does not have any '.$fct.' method.');
+    
     if ( !$request->hasParameter('debug') && !$request->hasParameter('debug') )
       sfConfig::set('sf_web_debug', false);
     
-    $transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
     if ( $transaction->contact_id !== $this->getUser()->getContact()->id )
       throw new liOnlineSaleException('The delivery of tickets which belongs to someone else is not allowed');
     
-    $this->tickets_html = $transaction->renderSimplifiedTickets(array('barcode' => $request->getParameter('format') === 'html' ? 'html' : 'png'));
-    switch ( $request->getParameter('format', 'pdf') ) {
+    $this->tickets_html = $transaction->$fct(
+      array('barcode' => $request->getParameter('format') === 'html' ? 'html' : 'png')
+    );
+    switch ( $format = $request->getParameter('format', 'pdf') ) {
     case 'pdf':
       $pdf = new sfDomPDFPlugin();
       $pdf->setInput($content = $this->getPartial('get_tickets_pdf', $this->ticket_html));
       $this->getResponse()->setContentType('application/pdf');
-      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="transaction-'.$transaction->id.'-tickets.pdf"');
+      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="transaction-'.$transaction->id.'-'.$target.'.pdf"');
       return $this->renderText($pdf->execute());
-    case 'passbook':
-      $wallet = liPassbookWallet::create($transaction)->buildArchive();
-      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="'.$wallet->getFilename().'"');
-      $this->getResponse()->setContentType(liPassbookWallet::MIME_TYPE);
-      return $this->renderText($wallet);
     case 'html':
-    default:
       return 'Success';
+    default:
+      $this->dispatcher->notify($event = new sfEvent($this, 'pub.transaction_generate_other_format', array(
+        'transaction' => $transaction,
+        'target'      => $target,
+        'format'      => $format,
+        'headers'     => NULL,
+        'content'     => NULL,
+      )));
+      foreach ( $event['headers'] as $key => $value )
+        $this->getResponse()->setHttpHeader($key, $value);
+      return $this->renderText($event['content']);
     }
   }
   
