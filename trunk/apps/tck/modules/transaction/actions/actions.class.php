@@ -140,6 +140,7 @@ class transactionActions extends autoTransactionActions
       // already includes in PriceTable the control of user's credentials
     ));
     $ws['declination_id'] = new sfWidgetFormInputHidden;
+    //$vs['declination_id'] <-- this is done depending on the submitted type, in the "complete" action
     $ws['type'] = new sfWidgetFormInputHidden;
     $vs['type'] = new sfValidatorChoice(array(
       'choices' => array('declination', 'gauge'),

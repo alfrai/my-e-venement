@@ -154,7 +154,7 @@
         
         // security
         $security = array('declination' => 'tck-pos');
-        if (!( isset($security[$params[$field]['type']]) && $this->getUser()->hasCredential($security[$params[$field]['type']]) ))
+        if ( isset($security[$params[$field]['type']]) && !$this->getUser()->hasCredential($security[$params[$field]['type']]) )
           break;
         
         $q = Doctrine_Query::create();
