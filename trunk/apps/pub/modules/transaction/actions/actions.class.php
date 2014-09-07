@@ -60,6 +60,7 @@ class transactionActions extends sfActions
       $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="transaction-'.$transaction->id.'-'.$target.'.pdf"');
       return $this->renderText($pdf->execute());
     case 'html':
+      $this->setLayout('nude');
       return 'Success';
     default:
       $this->dispatcher->notify($event = new sfEvent($this, 'pub.transaction_generate_other_format', array(

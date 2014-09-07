@@ -107,7 +107,7 @@ class BoughtProduct extends PluginBoughtProduct
       $barcode = $this->getBarcodePng($qrcode_only_id);
     
     if ( $type != 'html' || sfConfig::get('app_tickets_id', 'id') != 'id' )
-      $barcode = '<span><img src="data:image/png;base64,'.base64_encode($barcode).'" alt="#'.$this->id.'" /></span>';
+      $barcode = '<span><img src="data:image/png;base64,'.base64_encode($barcode).'" title="'.$this->barcode.'" alt="'.$this->barcode.'" /></span>';
     
     // the HTML code
     return sprintf(<<<EOF
