@@ -2,7 +2,7 @@
 <?php
   // SECURITY
   $go = false;
-  if ( $detail['credentials'] )
+  if ( isset($detail['credentials']) && $detail['credentials'] )
   foreach ( is_array($detail['credentials']) ? $detail['credentials'] : array($detail['credentials']) as $creds )
   {
     if ( is_array($creds) )

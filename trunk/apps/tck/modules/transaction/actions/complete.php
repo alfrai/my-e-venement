@@ -154,7 +154,7 @@
         
         // security
         $security = array('declination' => 'tck-pos');
-        if ( !$this->getUser()->hasCredential($security[$params[$field]['type']]) )
+        if (!( isset($security[$params[$field]['type']]) && $this->getUser()->hasCredential($security[$params[$field]['type']]) ))
           break;
         
         $q = Doctrine_Query::create();
@@ -248,7 +248,7 @@
         
         if ( $products->count() > 0 )
           $this->dispatcher->notify(new sfEvent($this, 'tck.products_integrate', array(
-            'transaction' => $products[0]->transaction,
+            'transaction' => $products[0]->Transaction,
             'products'    => $products,
             'duplicate'   => false,
             'user'        => $this->getUser(),
