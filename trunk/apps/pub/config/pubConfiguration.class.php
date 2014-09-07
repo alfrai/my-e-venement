@@ -29,7 +29,7 @@ class pubConfiguration extends sfApplicationConfiguration
 {
   public function setup()
   {
-    if ( get_class(sfContext::hasInstance() && sfContext::getInstance()->getConfiguration()) == get_class($this) )
+    if (!( sfContext::hasInstance() && get_class(sfContext::getInstance()->getConfiguration()) != get_class($this) ))
       $this->enablePlugins(array('liClassLoaderPlugin', 'sfDomPDFPlugin', 'liBarcodePlugin'));
     parent::setup();
   }
@@ -40,7 +40,7 @@ class pubConfiguration extends sfApplicationConfiguration
   }
   public function initialize()
   {
-    if ( get_class(sfContext::hasInstance() && sfContext::getInstance()->getConfiguration()) == get_class($this) )
+    if (!( sfContext::hasInstance() && get_class(sfContext::getInstance()->getConfiguration()) != get_class($this) ))
       $this->enableSecondWavePlugins(sfConfig::get('app_options_plugins', array()));
     ProjectConfiguration::initialize();
   }
