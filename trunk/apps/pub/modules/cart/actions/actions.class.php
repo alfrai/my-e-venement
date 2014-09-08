@@ -179,7 +179,7 @@ class cartActions extends sfActions
       ->fetchOne();
   }
   
-  public static function sendConfirmationEmails(Transaction $transaction)
+  public static function sendConfirmationEmails(Transaction $transaction, sfAction $action)
   {
     return require(dirname(__FILE__).'/send-confirmation-emails.php');
   }

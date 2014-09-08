@@ -260,6 +260,8 @@ class liPassbook
   protected function rmPkpass($path = NULL)
   {
     $path = $path ? $path : $this->getPkpassPath();
+    if ( !file_exists($path) )
+      return $this;
     if ( !is_dir($path) )
     {
       unlink($path);

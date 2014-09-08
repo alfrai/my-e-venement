@@ -170,7 +170,7 @@ EOF
     
     // attachments, tickets in PDF
     $pdf = new sfDomPDFPlugin();
-    $pdf->setInput($content);
+    $pdf->setInput($event->getSubject()->getPartial('global/get_tickets_pdf', array('tickets_html' => $content)));
     $pdf = $pdf->render();
     file_put_contents(sfConfig::get('sf_upload_dir').'/'.($filename = $type.'-'.$transaction->id.'-'.date('YmdHis').'.pdf'), $pdf);
     $attachment = new Attachment;

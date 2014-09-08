@@ -69,6 +69,6 @@
   $transaction->save();
   
   // sending emails to contact and organizators
-  $this->sendConfirmationEmails($transaction);
+  $this->sendConfirmationEmails($transaction, $this);
   
   return sfView::NONE;
