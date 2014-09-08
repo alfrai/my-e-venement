@@ -193,7 +193,7 @@ class Transaction extends PluginTransaction
   
   public function renderSimplifiedTickets(array $with = array())
   {
-    foreach ( array('css' => true, 'tickets' => true, 'barcode' => 'html') as $field => $value )
+    foreach ( array('only' => array(), 'css' => true, 'tickets' => true, 'barcode' => 'html') as $field => $value )
     if ( !isset($with[$field]) )
       $with[$field] = $value;
     
@@ -212,7 +212,18 @@ class Transaction extends PluginTransaction
     $content = array();
     if (!( isset($with['tickets']) && !$with['tickets'] ))
     foreach ( $this->Tickets as $ticket )
+    {
+      if ( $with['only'] )
+      {
+        foreach ( $with['only'] as $key => $pdt )
+        if ( $pdt instanceof Doctrine_Record )
+          $with['only'][$key] = $pdt->id;
+        
+        if ( !in_array($ticket->id, $with['only']) )
+          continue;
+      }
       $content[] = $ticket->renderSimplified($with['barcode']);
+    }
     
     return $tickets_html."\n".implode("\n", $content);
   }
@@ -223,7 +234,7 @@ class Transaction extends PluginTransaction
     if ( in_array($conf, array('never', false)) )
       return false;
     
-    foreach ( array('css' => true, 'products' => true, 'barcode' => 'png', 'qrcode_only_id' => false, 'debug' => false) as $field => $value )
+    foreach ( array('only' => array(), 'css' => true, 'products' => true, 'barcode' => 'png', 'qrcode_only_id' => false, 'debug' => false) as $field => $value )
     if ( !isset($with[$field]) )
       $with[$field] = $value;
     
@@ -243,6 +254,15 @@ class Transaction extends PluginTransaction
     if (!( isset($with['products']) && !$with['products'] ))
     foreach ( $this->BoughtProducts as $product )
     {
+      if ( $with['only'] )
+      {
+        foreach ( $with['only'] as $key => $pdt )
+        if ( $pdt instanceof Doctrine_Record )
+          $with['only'][$key] = $pdt->id;
+        
+        if ( !in_array($product->id, $with['only']) )
+          continue;
+      }
       if ( $conf === 'e-product' && !$product->description_for_buyers )
         continue;
       $content[] = $c = $product->renderSimplified($with['barcode'], $with['qrcode_only_id'], $with['debug'])."\n";
