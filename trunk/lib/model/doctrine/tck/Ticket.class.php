@@ -125,7 +125,7 @@ class Ticket extends PluginTicket
       $barcode = $this->getBarcodePng();
     
     if ( $type != 'html' || sfConfig::get('app_tickets_id', 'id') != 'id' )
-      $barcode = '<span><img src="data:image/png;base64,'.base64_encode($barcode).'" alt="#'.$this->id.'" /></span>';
+      $barcode = '<span><img src="data:image/jpg;base64,'.base64_encode($barcode).'" alt="#'.$this->id.'" /></span>';
     
     // the HTML code
     return sprintf(<<<EOF
@@ -141,7 +141,7 @@ class Ticket extends PluginTicket
       <p class="date"><span>%s:</span> <span>%s</span></p>
       <p class="price"><span>%s:</span> <span>%s</span> <span>%s</span></p>
       <p class="seat"><span>%s</span><span>%s</span></p>
-      <p class="comment"><span></span><span>%s</span><span></span></p>
+      <div class="comment"><table><tbody><tr><td><div>%s</div></td></tr></tbody></table></div>
       <p class="ids"><span>#%s</span>-<span>%s</span></p>
       <p class="contact">%s</p>
       <p class="duplicate">%s</p>

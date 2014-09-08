@@ -4,48 +4,64 @@
 .cmd-ticket .bc { border: 1px solid silver; padding: 10px; }
 .cmd-ticket .desc { width: 350px; }
 .cmd-ticket .clear { clear: both; }
-.cmd-ticket .bc span { height: 140px; display: block; overflow: hidden; border-bottom: 5px solid white; }
+.cmd-ticket .bc span { height: 140px; display: block; overflow: hidden; }
 .cmd-ticket .address, .cmd-ticket .gauge { display: none; }
+.cmd-ticket p { margin: 3.5mm 0 0 0; padding: 0; }
 
 
 /** A4 formatting with background layout **/
-.cmd-ticket { font-family: DejaVuSans; font-weight: bold; font-size: 15pt; }
+.cmd-ticket { font-family: DejaVuSans; font-weight: bold; font-size: 15pt; border: 0; }
 .cmd-ticket .desc, .cmd-ticket .bc { border: 0; width: 0; height: 0; }
 .cmd-ticket { position: relative; background-color: white; }
-.cmd-ticket { width: 210mm; height: 290mm; padding: 0; margin: 0; }
-.cmd-ticket .background, .cmd-ticket table { z-index: 1; position: absolute; top: 0; left: 0; width: 100%; }
-.cmd-ticket .background { z-index: 0; }
+.cmd-ticket { width: 190mm; height: 252mm; top: 5mm; padding: 0; margin: 0; } /* 210x297mm but including default print margins */
+.cmd-ticket table { z-index: 1; position: absolute; top: -21.5mm; left: 23mm; width: 141mm; }
+.cmd-ticket .background { z-index: 0; position: absolute; top: 0mm; left: 21mm; }
+.cmd-ticket .background img { width: 190mm; }
 .cmd-ticket .bc span { position: absolute; transform-origin: center; transform: rotate(45deg); border: 0; }
-.cmd-ticket .bc span img { width: 24mm; }
-.cmd-ticket .desc > * { position: absolute; text-align: center; left: 38mm; right: 38mm; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.cmd-ticket .desc > * > :first-child { display: none; }
+.cmd-ticket .bc span { top: 27.8mm; left: 54mm; }
+.cmd-ticket .bc span img { width: 22mm; }
+.cmd-ticket .desc div, .cmd-ticket .desc p { position: absolute; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 139mm; }
+.cmd-ticket .desc p span:first-child { display: none; }
 
-.cmd-ticket .event { top: 64mm; font-size: 19pt; }
-.cmd-ticket .event-2nd { top: 88.5mm; }
-.cmd-ticket .description { top: 102mm; }
-.cmd-ticket .date { top: 136mm; font-size: 16pt; }
-.cmd-ticket .location { top: 147.5mm; font-size: 16pt; }
-.cmd-ticket .address { top: 163mm; display: block; font-size: 9pt; }
-.cmd-ticket .contact { top: 190mm; }
-.cmd-ticket .gauge { top: 208mm; display: block; font-size: 11pt; margin: 0; }
-.cmd-ticket .seat { top: 211.5mm; font-size: 19pt; }
-.cmd-ticket .comment { top: 250mm; display: block; font-size: 10pt; width: 59mm; margin: 0px auto; white-space: normal; height: 3.5em; }
-.cmd-ticket .comment span { display: inline-block; vertical-align: middle; }
-.cmd-ticket .comment span:last-child { height: 100%; }
-.cmd-ticket .ids { overflow: visible; font-size: 0; visibility: hidden; top: 251mm; }
-.cmd-ticket .ids span { font-size: 5pt; position: absolute; visibility: visible; }
-.cmd-ticket .ids span:first-child { display: inline; left: 2mm; }
+.cmd-ticket .event { top: 69mm; font-size: 19pt; }
+.cmd-ticket .event-2nd { top: 92.5mm; }
+.cmd-ticket .description { top: 107mm; }
+.cmd-ticket .date { top: 140mm; font-size: 16pt; }
+.cmd-ticket .location { top: 154.5mm; font-size: 16pt; }
+.cmd-ticket .address { top: 166.5mm; display: block; font-size: 9pt; }
+.cmd-ticket .contact { top: 198mm; }
+.cmd-ticket .gauge { top: 215.5mm; display: block; font-size: 11pt; margin: 0; }
+.cmd-ticket .seat { top: 220.5mm; font-size: 19pt; }
+.cmd-ticket .desc .comment { top: 257.5mm; font-size: 10pt; white-space: normal; padding-left: 38mm; }
+.cmd-ticket .comment table { position: static; width: 63mm; } /* padding the parent works with dompdf, not margin the child */
+.cmd-ticket .comment td { vertical-align: middle; height: 13.5mm; width: 63mm; }
+.cmd-ticket .comment div { position: static; max-height: 13.5mm; overflow: hidden; width: 100%; white-space: normal; }
+.cmd-ticket .desc .ids { overflow: visible; font-size: 0; top: 254mm; }
+.cmd-ticket .ids span { font-size: 5pt; position: absolute; }
+.cmd-ticket .desc .ids span:first-child { display: inline; left: 2mm; }
 .cmd-ticket .ids span + span { right: 2mm; }
 .cmd-ticket .ids span + span:before { content: '#'; }
-.cmd-ticket .price { top: 247mm; font-size: 5pt; right: 2mm; overflow: visible; }
+.cmd-ticket .desc .price { top: 251.5mm; font-size: 5pt; overflow: visible; }
 .cmd-ticket .price span { display: none; }
-.cmd-ticket .price span:last-child { display: block; position: absolute; right: 38mm; }
-
-/* for screen rendering */
-.cmd-ticket .bc span { top: 26.7mm; left: 88mm; }
+.cmd-ticket .price span:last-child { display: block; position: absolute; right: 2mm; }
 
 
 /* for pdf rendering */
+.pdf .cmd-ticket .bc span { margin-top: 2.5mm; margin-left: -16.2mm; }
+.pdf .cmd-ticket .gauge { margin-top: -1mm; }
+.pdf .cmd-ticket .seat { padding-top: 1mm; }
+.pdf .cmd-ticket .location { margin-top: 2.5mm; }
+.pdf .cmd-ticket .address  { margin-top: 2.5mm; }
+.pdf .cmd-ticket .comment { margin-left: -1mm; }
 
+
+/* for debug purposes, remove "debug" */
+debug.cmd-ticket { border: 1px solid purple; }
+debug.cmd-ticket .bc span { border: 1px solid green; }
+debug.cmd-ticket .desc p { border: 1px solid red; }
+debug.cmd-ticket .ids span { border: 1px solid magenta; }
+debug.cmd-ticket .price span { border: 1px solid orange; }
+debug.cmd-ticket .comment td { border: 1px solid blue; }
+debug.cmd-ticket .comment td div { border: 1px solid lightblue; }
 
 /** fonts **/

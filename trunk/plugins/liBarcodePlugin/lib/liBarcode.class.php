@@ -18,7 +18,7 @@ class liBarcode
   
   public function render($file = NULL)
   {
-    return QRcode::png($this->text,$file);
+    return QRcode::png($this->text,$file, QR_ECLEVEL_M, 96, 0);
   }
   
   public static function decode_ean($ean)
