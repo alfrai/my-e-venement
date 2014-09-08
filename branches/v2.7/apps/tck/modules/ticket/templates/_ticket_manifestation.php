@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php use_helper('Date','Number') ?>
-<span class="manif" style="background-color: #<?php echo $manif->Color ? $manif->Color->color : '' ?>;">
+<span class="manif" style="background-color: <?php echo $manif->Color ? $manif->Color : '' ?>;">
   <input type="radio" name="ticket[manifestation_id]" value="<?php echo $manif->id ?>" <?php if ( isset($first) && $first ) echo 'checked="checked"' ?>  />
   <a class="name" title="<?php echo $manif->Event ?>" href="<?php echo cross_app_url_for('event','event/show?id='.$manif->event_id) ?>">
     <?php echo $manif->Event ?>
