@@ -67,14 +67,36 @@ elseif ( $qty < 0 )
   $this->json['success']['qty'] = $q->count();
 }
 elseif ( $qty > 0 )
-for ( $i = 0 ; $i < $qty ; $i++ )
 {
-  $bp = new BoughtProduct;
-  $bp->product_declination_id = $store['declination_id'];
-  $bp->price_id = $store['price_id'];
-  $bp->transaction_id = $this->getUser()->getTransactionId();
-  $bp->save();
-  $this->json['success']['qty'] = $q->count();
+  // "pay what you want" feature
+  $pp = Doctrine::getTable('PriceProduct')->createQuery('pp')
+    ->leftJoin('pp.Product p')
+    ->leftJoin('p.Declinations d')
+    ->andWhere('pp.price_id = ?', $store['price_id'])
+    ->andWhere('d.id = ?',$store['declination_id'])
+    ->select('pp.id, pp.value')
+  ;
+  $free_price = $pp->fetchOne()->value === NULL ? intval(intval($store['free-price']) < 0 ? sfConfig::get('project_tickets_free_price_default', 1) : $store['free-price']) : NULL;
+  // updating all products
+  if ( $free_price )
+  foreach ( $q->execute() as $product )
+  {
+    $product->value = $store['free-price'];
+    $product->save();
+  }
+  
+  // adding ...
+  for ( $i = 0 ; $i < $qty ; $i++ )
+  {
+    $bp = new BoughtProduct;
+    $bp->product_declination_id = $store['declination_id'];
+    $bp->price_id = $store['price_id'];
+    $bp->transaction_id = $this->getUser()->getTransactionId();
+    if ( $free_price !== NULL )
+      $bp->value = $free_price;
+    $bp->save();
+    $this->json['success']['qty'] = $q->count();
+  }
 }
 
 if (!( $request->hasParameter('debug') && sfConfig::get('sf_web_debug', false) ))

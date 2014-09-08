@@ -24,11 +24,18 @@
     <td class="price">
       <?php echo $pp->Price->description ? $pp->Price->description : $pp->Price ?>
     </td>
-    <td class="value"><?php echo format_currency($pp->value,'€') ?></td>
+    <td class="value">
+      <?php if ( $pp->value ): ?>
+        <?php echo format_currency($pp->value,'€') ?>
+      <?php else: ?>
+        <input type="text" pattern="\d+" size="2" name="store[free-price]" value="<?php echo sfConfig::get('project_tickets_free_price_default',1) ?>" />&nbsp;€
+      <?php endif ?>
+    </td>
     <td class="quantity">
       <form method="post" action="<?php echo url_for('store/mod') ?>" target="_blank" class="price_qty">
         <input type="hidden" name="store[declination_id]" value="<?php echo $declination->id ?>" />
         <input type="hidden" name="store[price_id]" value="<?php echo $pp->Price->id ?>" />
+        <input type="hidden" name="store[free-price]" value="<?php echo sfConfig::get('project_tickets_free_price_default',1) ?>" />
         <select name="store[qty]">
           <?php foreach ( range(0, sfConfig::get('app_store_max_per_product', 9) - count($products)) as $val ): ?>
             <option <?php echo isset($prices[$pp->price_id]) && $prices[$pp->price_id] == $val ? 'selected="selected"' : '' ?>>

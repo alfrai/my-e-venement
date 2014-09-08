@@ -19,7 +19,10 @@
         $(options[i]).hide();
       
       // calculating totals by line
-      var val = parseFloat($(this).closest('tr').find('.value').text().replace(',','.')) * parseInt($(this).val(),10);
+      var tmp = $(this).closest('tr').find('.value input').length > 0
+        ? $(this).closest('tr').find('.value input').val()
+        : $(this).closest('tr').find('.value').text().replace(',','.');
+      var val = parseFloat(tmp) * parseInt($(this).val(),10);
       $(this).closest('tr').find('.total').html(LI.format_currency(val, currency));
       
       // calculating the global total

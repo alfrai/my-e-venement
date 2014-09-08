@@ -14,6 +14,14 @@ $(document).ready(function(){
     $(this).find('select').change(function(){
       if ( orig == $(this).val() )
         return;
+      
+      // for free prices
+      var free_price_selector = '[name="store[free-price]"]';
+      $(this).closest('form').find(free_price_selector).val(
+        $(this).closest('[data-price-id]')
+          .find('.value '+free_price_selector).val()
+      );
+      
       $(this).closest('form').submit();
     });
     $(this).submit(function(){
