@@ -123,8 +123,8 @@ all:
       <a href="mailto:contact@cdnlefracas.com">contact@cdnlefracas.com</a>
       <a href="http://www.cdnlefracas.com">http://www.cdnlefracas.com</a>
       
-      %%TICKETS%%
-      %%PRODUCTS%%
+#      %%TICKETS%%
+#      %%PRODUCTS%%
 
 #dev:
 #  payment:

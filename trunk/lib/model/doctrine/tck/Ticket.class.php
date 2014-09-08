@@ -81,12 +81,8 @@ class Ticket extends PluginTicket
   
   public function getBarcodePng()
   {
-    $file = sfConfig::get('sf_app_cache_dir').'/ticket-'.$this->id.'.png';
     $bc = new liBarcode($this->barcode);
-    $bc->render($file);
-    $r = file_get_contents($file);
-    unlink($file);
-    return $r;
+    return (string)$bc;
   }
   
   public function getIdBarcoded()
@@ -129,10 +125,10 @@ class Ticket extends PluginTicket
     
     // the HTML code
     return sprintf(<<<EOF
-  <div class="cmd-ticket">
+  <div class="cmd-element ticket">
   <table><tr>
     <td class="desc">
-      <p class="event"><span>%s:</span> <span>%s</span></p>
+      <div class="event"><table><tbody><tr><td><span>%s:</span> <span>%s</span></td></tr></tbody></table></div>
       <p class="event-2nd"><span>%s:</span> <span>%s</span></p>
       <p class="description"><span>%s:</span> <span>%s</span></p>
       <p class="location"><span>%s:</span> <span>%s</span></p>
@@ -142,7 +138,7 @@ class Ticket extends PluginTicket
       <p class="price"><span>%s:</span> <span>%s</span> <span>%s</span></p>
       <p class="seat"><span>%s</span><span>%s</span></p>
       <div class="comment"><table><tbody><tr><td><div>%s</div></td></tr></tbody></table></div>
-      <p class="ids"><span>#%s</span>-<span>%s</span></p>
+      <p class="ids"><span class="transaction">#%s</span> <span class="id">#%s</span></p>
       <p class="contact">%s</p>
       <p class="duplicate">%s</p>
     </td>

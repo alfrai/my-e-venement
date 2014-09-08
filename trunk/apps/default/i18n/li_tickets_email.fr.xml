@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Image</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit>
         <source>Category</source>
         <target>Catégorie</target>
       </trans-unit>

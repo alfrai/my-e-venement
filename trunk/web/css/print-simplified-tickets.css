@@ -1,71 +1,88 @@
-html { font-family: sans-serif; }
 html { font-family: 'dejavu sans', Gotham, DejaVuSans, sans-serif; }
 
 /** basics **/
-.cmd-ticket { padding: 5px; border: 1px solid silver; margin: 2em 0; page-break-after: always; background-color: whitesmoke; }
-.cmd-ticket:last-child { page-break-after: auto; }
-.cmd-ticket .bc { border: 1px solid silver; padding: 10px; }
-.cmd-ticket .desc { width: 350px; }
-.cmd-ticket .clear { clear: both; }
-.cmd-ticket .bc span { height: 140px; display: block; overflow: hidden; }
-.cmd-ticket .address, .cmd-ticket .gauge { display: none; }
-.cmd-ticket p { margin: 3.5mm 0 0 0; padding: 0; }
+.cmd-element { padding: 5px; border: 1px solid silver; margin: 2em 0; page-break-after: always; background-color: whitesmoke; }
+.cmd-element:last-child { page-break-after: auto; }
+.cmd-element .bc { border: 1px solid silver; padding: 10px; }
+.cmd-element .desc { width: 350px; }
+.cmd-element .clear { clear: both; }
+.cmd-element .bc span, .cmd-element .bc a { height: 140px; display: block; overflow: hidden; }
+.cmd-element p { margin: 3.5mm 0 0 0; padding: 0; }
 
 
 /** A4 formatting with background layout **/
-.cmd-ticket { font-weight: bold; font-size: 15pt; border: 0; }
-.cmd-ticket .desc, .cmd-ticket .bc { border: 0; width: 0; height: 0; }
-.cmd-ticket { position: relative; background-color: white; }
-.cmd-ticket { width: 190mm; height: 252mm; top: 5mm; padding: 0; margin: 0; } /* 210x297mm but including default print margins */
-.cmd-ticket table { z-index: 1; position: absolute; top: -21.5mm; left: 23mm; width: 141mm; }
-.cmd-ticket .background { z-index: 0; position: absolute; top: 0mm; left: 21mm; }
-.cmd-ticket .background img { width: 190mm; }
-.cmd-ticket .bc span { position: absolute; transform-origin: center; transform: rotate(45deg); border: 0; }
-.cmd-ticket .bc span { top: 27.8mm; left: 54mm; }
-.cmd-ticket .bc span img { width: 22mm; }
-.cmd-ticket .desc div, .cmd-ticket .desc p { position: absolute; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 139mm; }
-.cmd-ticket .desc p span:first-child { display: none; }
+.cmd-element { font-weight: bold; font-size: 15pt; border: 0; }
+.cmd-element .desc, .cmd-element .bc { border: 0; width: 0; height: 0; }
+.cmd-element { position: relative; background-color: white; }
+.cmd-element { width: 190mm; height: 252mm; top: 5mm; padding: 0; margin: 0; } /* 210x297mm but including default print margins */
+.cmd-element table { z-index: 1; position: absolute; top: -21.5mm; left: 23mm; width: 141mm; }
+.cmd-element .background { z-index: 0; position: absolute; top: 0mm; left: 21mm; }
+.cmd-element .background img { width: 190mm; }
+.cmd-element .bc span, .cmd-element .bc a { position: absolute; transform-origin: center; transform: rotate(45deg); border: 0; }
+.cmd-element .bc span, .cmd-element .bc a { top: 27.8mm; left: 54mm; }
+.cmd-element .bc img { width: 22mm; }
+.cmd-element .desc div, .cmd-element .desc p { position: absolute; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 139mm; }
+.cmd-element .desc p span:first-child, .cmd-element .desc div span:first-child { display: none; }
+.cmd-element table table { top: auto; left: auto; position: static; }
 
-.cmd-ticket .event { top: 69mm; font-size: 19pt; }
-.cmd-ticket .event-2nd { top: 92.5mm; }
-.cmd-ticket .description { top: 107mm; }
-.cmd-ticket .date { top: 140mm; font-size: 16pt; }
-.cmd-ticket .location { top: 154.5mm; font-size: 16pt; }
-.cmd-ticket .address { top: 166.5mm; display: block; font-size: 9pt; }
-.cmd-ticket .contact { top: 198mm; }
-.cmd-ticket .gauge { top: 215.5mm; display: block; font-size: 11pt; margin: 0; }
-.cmd-ticket .seat { top: 220.5mm; font-size: 19pt; }
-.cmd-ticket .desc .comment { top: 257.5mm; font-size: 10pt; white-space: normal; padding-left: 38mm; }
-.cmd-ticket .comment table { position: static; width: 63mm; } /* padding the parent works with dompdf, not margin the child */
-.cmd-ticket .comment td { vertical-align: middle; height: 13.5mm; width: 63mm; }
-.cmd-ticket .comment div { position: static; max-height: 13.5mm; overflow: hidden; width: 100%; white-space: normal; }
-.cmd-ticket .desc .ids { overflow: visible; color: white; top: 254mm; }
-.cmd-ticket .ids span { font-size: 5pt; position: absolute; color: black; }
-.cmd-ticket .desc .ids span:first-child { display: inline; left: 2mm; }
-.cmd-ticket .ids span + span { right: 2mm; }
-.cmd-ticket .ids span + span:before { content: '#'; }
-.cmd-ticket .desc .price { top: 251.5mm; font-size: 5pt; overflow: visible; }
-.cmd-ticket .price span { display: none; }
-.cmd-ticket .price span:last-child { display: block; position: absolute; right: 2mm; }
+.cmd-element .desc .event { white-space: normal; top: 66mm; height: 26mm; font-size: 19pt; }
+.cmd-element .event table { margin-top: -2mm; }
+.cmd-element .event td { vertical-align: bottom; height: 26mm; padding: 0 3mm; text-align: center; }
+.cmd-element .event-2nd { top: 92.5mm; }
+.cmd-element .description { top: 107mm; }
+.cmd-element .date { top: 140mm; font-size: 16pt; }
+.cmd-element .location { top: 154.5mm; font-size: 16pt; }
+.cmd-element .address { top: 166.5mm; font-size: 9pt; }
+.cmd-element .contact { top: 198mm; }
+.cmd-element .gauge { top: 215.5mm; font-size: 11pt; margin: 0; }
+.cmd-element .seat { top: 220.5mm; font-size: 19pt; }
+.cmd-element .desc .comment, .cmd-element.product .contact { top: 257.5mm; white-space: normal; padding-left: 38mm; }
+.cmd-element .desc .comment { font-size: 10pt; }
+.cmd-element .comment table, .cmd-element.product .contact table { width: 63mm; }
+.cmd-element .comment td, .cmd-element.product .contact td { vertical-align: middle; height: 13.5mm; width: 63mm; }
+.cmd-element .comment div, .cmd-element.product .contact div { position: static; max-height: 13.5mm; overflow: hidden; width: 100%; white-space: normal; }
+.cmd-element .desc .price { top: 251.5mm; font-size: 5pt; overflow: visible; }
+.cmd-element .desc .price { display: none; }
+.cmd-element .price span { display: none; }
+.cmd-element .price span:last-child { display: block; position: absolute; right: 2mm; }
+
+.cmd-element .desc .ids { overflow: visible; color: white; top: 254mm; }
+.cmd-element .ids span { font-size: 5pt; position: absolute; color: black; }
+.cmd-element .desc .ids span:first-child { display: inline; left: 2mm; }
+.cmd-element .ids span + span { right: 2mm; }
+
+
+/* products */
+.cmd-element.product .image { top: 105mm; font-size: 8pt; }
+.cmd-element.product .image, .cmd-element.product .image img { height: 44mm; }
+.cmd-element.product .ids span:last-child, .cmd-element.product .ids span:first-child { margin-top: 2mm; }
+
+.cmd-element.product .description { top: 160mm; height: 80mm; font-size: 10pt; margin-left: 5mm; width: 128mm; font-weight: normal; }
+.cmd-element.product .description, .cmd-element.product .description * { white-space: normal; }
+.cmd-element.product .description * { position: static; overflow: visible; text-align: justify; width: auto; }
+.cmd-element.product .description a { color: black; text-decoration: none; }
 
 
 /* for pdf rendering */
-.pdf .cmd-ticket * { line-height: 0.9; }
-.pdf .cmd-ticket .bc span { margin-top: 2.5mm; margin-left: -16.2mm; }
-.pdf .cmd-ticket .gauge { margin-top: -1mm; }
-.pdf .cmd-ticket .seat { padding-top: 1mm; }
-.pdf .cmd-ticket .location { margin-top: 2.5mm; }
-.pdf .cmd-ticket .address  { margin-top: 2.5mm; }
-.pdf .cmd-ticket .comment { margin-left: -1mm; margin-top: -1mm; }
+.pdf .cmd-element * { line-height: 0.9; }
+.pdf .cmd-element .event table { margin-top: -3mm; }
+.pdf .cmd-element .bc span, .pdf .cmd-element .bc a { margin-top: 2.5mm; margin-left: -16.2mm; }
+.pdf .cmd-element .gauge { margin-top: -1mm; }
+.pdf .cmd-element .seat { padding-top: 1mm; }
+.pdf .cmd-element .location { margin-top: 2.5mm; }
+.pdf .cmd-element .address  { margin-top: 2.5mm; }
+.pdf .cmd-element .comment { margin-left: -1mm; margin-top: -1mm; }
 
 
 /* for debug purposes, remove "debug" */
-debug.cmd-ticket { border: 1px solid purple; }
-debug.cmd-ticket .bc span { border: 1px solid green; }
-debug.cmd-ticket .desc p { border: 1px solid red; }
-debug.cmd-ticket .ids span { border: 1px solid magenta; }
-debug.cmd-ticket .price span { border: 1px solid orange; }
-debug.cmd-ticket .comment td { border: 1px solid blue; }
-debug.cmd-ticket .comment td div { border: 1px solid lightblue; }
+dgb.cmd-element { border: 1px solid purple; }
+dgb.cmd-element .bc span { border: 1px solid green; }
+dbg.cmd-element .desc p,
+dbg.cmd-element .desc div { border: 1px solid red; }
+dbg.cmd-element .event { border: 1px solid green; }
+dgb.cmd-element .ids span { border: 1px solid magenta; }
+dgb.cmd-element .price span { border: 1px solid orange; }
+dbg.cmd-element .comment td { border: 1px solid blue; }
+dgb.cmd-element .comment td div { border: 1px solid lightblue; }
 
 /** fonts **/

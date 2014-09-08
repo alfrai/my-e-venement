@@ -1,10 +1,4 @@
 <?php
-use Passbook\Pass\Field;
-use Passbook\Pass\Image;
-use Passbook\PassFactory;
-use Passbook\Pass\Barcode;
-use Passbook\Pass\Structure;
-use Passbook\Type\EventTicket;
 
 /**
  * transaction actions.
@@ -26,11 +20,11 @@ class transactionActions extends sfActions
   {
     $request->setParameter('target', 'products');
     $this->executeTickets($request);
-    $this->setTemplate('tickets');
   }
   public function executeTickets(sfWebRequest $request)
   {
     $transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
+    $this->setTemplate('tickets');
     
     // targets
     $targets = array(
@@ -54,11 +48,16 @@ class transactionActions extends sfActions
     );
     switch ( $format = $request->getParameter('format', 'pdf') ) {
     case 'pdf':
-      $pdf = new sfDomPDFPlugin();
-      $pdf->setInput($content = $this->getPartial('get_tickets_pdf', array('tickets_html', $this->tickets_html)));
+      $this->pdf = new sfDomPDFPlugin();
+      $this->pdf->setInput($content = $this->getPartial('get_tickets_pdf', array('tickets_html' => $this->tickets_html)));
+      
       $this->getResponse()->setContentType('application/pdf');
       $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="transaction-'.$transaction->id.'-'.$target.'.pdf"');
-      return $this->renderText($pdf->render());
+      
+      $this->setLayout(false);
+      echo $this->pdf->render();
+      return sfView::NONE;
+      //return $this->renderText($this->pdf->render()); // cannot do that for some particular cases that I do not understand... anyway...
     case 'html':
       $this->setLayout('nude');
       return 'Success';

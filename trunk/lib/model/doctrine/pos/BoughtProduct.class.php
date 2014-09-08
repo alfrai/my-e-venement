@@ -40,9 +40,9 @@ class BoughtProduct extends PluginBoughtProduct
     if ( $this->rawGet('barcode') )
       return $this->rawGet('barcode');
     
-    if ( !$this->description_for_buyers )
+    if ( !$this->description_for_buyers || $type == 'normal' )
     {
-      $this->barcode = $type != 'id' ? $this->code.'||'.$this->id : $this->getIdBarcoded();
+      $this->barcode = $type != 'id' ? json_encode(array('code' => $this->code, 'id' => $this->id)) : $this->getIdBarcoded();
       return $this->rawGet('barcode');
     }
     
@@ -64,12 +64,8 @@ class BoughtProduct extends PluginBoughtProduct
   
   public function getBarcodePng($id = false)
   {
-    $file = sfConfig::get('sf_app_cache_dir').'/ticket-'.$this->id.'.png';
-    $bc = new liBarcode($this->getBarcode($id));
-    $bc->render($file);
-    $r = file_get_contents($file);
-    unlink($file);
-    return $r;
+    $bc = new liBarcode($this->getBarcode($id ? 'id' : NULL));
+    return (string)$bc;
   }
   
   public function getIdBarcoded()
@@ -85,51 +81,48 @@ class BoughtProduct extends PluginBoughtProduct
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('Url', 'Number'));
     
-    // the barcode
-    if ( in_array($type, array('1d', 'html')) )
-    {
-      $c = curl_init();
-      curl_setopt_array($c, array(
-        CURLOPT_URL => $url = public_path('/liBarcodePlugin/php-barcode/barcode.php'.
-          '?scale=3'.
-          ($type == 'html' ? '&mode=html' : '').
-          '&code='.$this->getBarcode('id')
-        ,true),
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_SSL_VERIFYHOST => false,
-        CURLOPT_RETURNTRANSFER => true,
-      ));
-      if (!( $barcode = curl_exec($c) ))
-        error_log('Error loading the barcode: '.curl_error($c));
-      curl_close($c);
-    }
-    else
-      $barcode = $this->getBarcodePng($qrcode_only_id);
+    $img = '<img
+      src="data:image/png;base64,'.base64_encode($this->getBarcodePng($qrcode_only_id)).'"
+      title="'.$this->barcode.'"
+      alt=""
+    />';
     
-    if ( $type != 'html' || sfConfig::get('app_tickets_id', 'id') != 'id' )
-      $barcode = '<span><img src="data:image/png;base64,'.base64_encode($barcode).'" title="'.$this->barcode.'" alt="'.$this->barcode.'" /></span>';
+    // a link around the qrcode ?
+    try {
+      $isUrl = new sfValidatorUrl;
+      $url = $isUrl->clean($this->barcode);
+      $barcode = '<a href="'.$url.'">'.$img.'</a>';
+    } catch ( sfValidatorError $e ) {
+      $barcode = '<span>'.$img.'</span>';
+    }
     
     // the HTML code
     return sprintf(<<<EOF
-  <table class="cmd-ticket"><tr>
+  <div class="cmd-element product">
+  <table><tr>
     <td class="desc">
-      <p class="event">%s: %s</p>
-      <p class="location">%s: %s</p>
-      <p class="price">%s: %s %s</p>
-      <p class="description_for_buyers">%s</p>
-      <p class="ids">#%s-%s</p>
-      <p class="contact">%s</p>
+      <div class="event"><table><tbody><tr><td><span>%s:</span> <span>%s</span></td></tr></tbody></table></div>
+      <p class="event-2nd"><span>%s:</span> <span>%s</span></p>
+      <p class="image"><span>%s:</span> <span>%s</span></p>
+      <div class="description">%s</div>
+      <p class="price"><span>%s:</span> <span>%s</span> <span>%s</span></p>
+      <p class="ids"><span class="transaction">#%s</span> <span class="id">#%s</span> <span class="code">%s</span></p>
+      <div class="contact"><table><tbody><tr><td><div>%s</div></td></tr></tbody></table></div>
     </td>
     <td class="bc">%s</td>
   <tr></table>
+  <img class="background" src="data:image/png;base64,%s" alt="" />
+  </div>
 EOF
       , __('Product', null, 'li_tickets_email'), (string)$this
       , __('Precision', null, 'li_tickets_email'), (string)$this->declination
+      , __('Image', null, 'li_tickets_email'), $this->Declination->Product->picture_id ? '<img src="data:'.$this->Declination->Product->Picture->type.';base64,'.$this->Declination->Product->Picture->content.'" alt="'.$this.'" />' : ''
+      , $this->description_for_buyers ? $this->description_for_buyers : ''
       , __('Price', null, 'li_tickets_email'), $this->price_name, format_currency($this->value,'€')
-      , $this->description_for_buyers
-      , $this->transaction_id, $this->id
+      , $this->transaction_id, $this->id, $this->code
       , $this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : (string)$this->Transaction->Contact
       , $barcode
+      , base64_encode(file_get_contents(sfConfig::get('sf_web_dir').'/images/product-simplified-layout-100dpi.png'))
     );
   }
 }

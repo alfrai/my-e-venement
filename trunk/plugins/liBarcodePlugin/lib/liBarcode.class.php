@@ -21,6 +21,15 @@ class liBarcode
     return QRcode::png($this->text,$file, QR_ECLEVEL_M, 96, 0);
   }
   
+  public function __toString()
+  {
+    $file = sfConfig::get('sf_app_cache_dir').'/ticket-'.rand(100000,999999).'.png';
+    $this->render($file);
+    $r = file_get_contents($file);
+    unlink($file);
+    return $r;
+  }
+  
   public static function decode_ean($ean)
   {
     if ( strlen($ean) == 12 ) $ean = '0'.$ean;
