@@ -77,7 +77,7 @@ class BoughtProduct extends PluginBoughtProduct
     return $c;
   }
   
-  public function renderSimplified($type = 'png', $qrcode_only_id = false)
+  public function renderSimplified($type = 'png', $qrcode_only_id = false, $debug = false)
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('Url', 'Number'));
     
@@ -94,6 +94,15 @@ class BoughtProduct extends PluginBoughtProduct
       $barcode = '<a href="'.$url.'">'.$img.'</a>';
     } catch ( sfValidatorError $e ) {
       $barcode = '<span>'.$img.'</span>';
+    }
+    
+    $picture = '';
+    if ( $this->product_declination_id
+      && $this->Declination->product_id
+      && $this->Declination->Product->picture_id
+    )
+    {
+      $picture = $this->Declination->Product->Picture->getHtmlTagInline(array('alt' => ''));
     }
     
     // the HTML code
@@ -116,7 +125,7 @@ class BoughtProduct extends PluginBoughtProduct
 EOF
       , __('Product', null, 'li_tickets_email'), (string)$this
       , __('Precision', null, 'li_tickets_email'), (string)$this->declination
-      , __('Image', null, 'li_tickets_email'), $this->Declination->Product->picture_id ? '<img src="data:'.$this->Declination->Product->Picture->type.';base64,'.$this->Declination->Product->Picture->content.'" alt="'.$this.'" />' : ''
+      , __('Image', null, 'li_tickets_email'), $picture
       , $this->description_for_buyers ? $this->description_for_buyers : ''
       , __('Price', null, 'li_tickets_email'), $this->price_name, format_currency($this->value,'€')
       , $this->transaction_id, $this->id, $this->code
