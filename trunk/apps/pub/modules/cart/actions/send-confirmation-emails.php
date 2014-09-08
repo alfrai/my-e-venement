@@ -128,7 +128,7 @@
       '%%SELLER%%' => sfConfig::get('app_informations_title'),
       '%%COMMAND%%' => '<pre>'.$command.'</pre>',
       '%%TICKETS%%' => $transaction->renderSimplifiedTickets(), // HTML tickets w/ barcode
-      '%%PRODUCTS%%' => $transaction->renderSimplifiedProducts(), // HTML products w/ barcode
+      '%%PRODUCTS%%' => $transaction->renderSimplifiedProducts(array('barcode' => 'png',)), // HTML products w/ barcode
     );
     
     $email = new Email;
@@ -165,7 +165,7 @@ EOF
       $pdf = new sfDomPDFPlugin();
       $pdf->setInput($action->getPartial('transaction/get_tickets_pdf', array('tickets_html' => $content)));
       $pdf = $pdf->render();
-      file_put_contents(sfConfig::get('sf_upload_dir').'/'.($filename = $var.'-'.$transaction->id.'-'.date('YmdHis').'.pdf'), $pdf);
+      file_put_contents(sfConfig::get('sf_upload_dir').'/'.($filename = $var.'-'.$transaction->id.'-'.date('YmdHis').'-'.rand(1000000000,9999999999).'.pdf'), $pdf);
       $attachment = new Attachment;
       $attachment->filename = $filename;
       $attachment->original_name = $filename;
