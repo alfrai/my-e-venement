@@ -52,6 +52,8 @@ class Picture extends PluginPicture
     if ( !is_resource($this->rawGet('content')) )
       return $this->rawGet('content');
     
-    return stream_get_contents($this->rawGet('content'));
+    $data = stream_get_contents($this->rawGet('content'));
+    rewind($this->rawGet('content'));
+    return $data;
   }
 }
