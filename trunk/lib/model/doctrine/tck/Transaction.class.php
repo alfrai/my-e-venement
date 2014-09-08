@@ -223,7 +223,7 @@ class Transaction extends PluginTransaction
     if ( in_array($conf, array('never', false)) )
       return false;
     
-    foreach ( array('css' => true, 'products' => true, 'barcode' => 'png', 'qrcode_only_id' => false) as $field => $value )
+    foreach ( array('css' => true, 'products' => true, 'barcode' => 'png', 'qrcode_only_id' => false, 'raw' => false) as $field => $value )
     if ( !isset($with[$field]) )
       $with[$field] = $value;
     
@@ -248,6 +248,8 @@ class Transaction extends PluginTransaction
       $content[] = $product->renderSimplified($with['barcode'], $with['qrcode_only_id']);
     }
     
-    return $products_html."\n".implode("\n", $content);
+    $final = $products_html."\n".implode("\n", $content);
+    return mb_convert_encoding($final, 'HTML-ENTITIES', 'UTF-8');
+    return $final;
   }
 }

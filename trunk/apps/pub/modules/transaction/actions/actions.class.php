@@ -58,7 +58,7 @@ class transactionActions extends sfActions
       $pdf->setInput($content = $this->getPartial('get_tickets_pdf', $this->ticket_html));
       $this->getResponse()->setContentType('application/pdf');
       $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="transaction-'.$transaction->id.'-'.$target.'.pdf"');
-      return $this->renderText($pdf->execute());
+      return $this->renderText($pdf->render());
     case 'html':
       $this->setLayout('nude');
       return 'Success';

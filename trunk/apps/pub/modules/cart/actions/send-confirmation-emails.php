@@ -133,7 +133,6 @@
     
     $email = new Email;
     $email->setType('Order')->addDispatcherParameter('transaction', $transaction);
-    $email->Contacts[] = $transaction->Contact;
     $email->field_bcc = sfConfig::get('app_informations_email','webdev@libre-informatique.fr');
     $email->field_subject = sfConfig::get('app_informations_title').': '.__('your order #').$transaction->id;
     $email->field_from = sfConfig::get('app_informations_email','contact@libre-informatique.fr');
@@ -173,6 +172,7 @@ EOF
       $attachment->save();
     }
     
+    $email->Contacts[] = $transaction->Contact;
     $email->isATest(false);
     $email->setNoSpool();
     return $email->save();

@@ -1,3 +1,6 @@
+html { font-family: sans-serif; }
+html { font-family: 'dejavu sans', Gotham, DejaVuSans, sans-serif; }
+
 /** basics **/
 .cmd-ticket { padding: 5px; border: 1px solid silver; margin: 2em 0; page-break-after: always; background-color: whitesmoke; }
 .cmd-ticket:last-child { page-break-after: auto; }
@@ -10,7 +13,7 @@
 
 
 /** A4 formatting with background layout **/
-.cmd-ticket { font-family: DejaVuSans; font-weight: bold; font-size: 15pt; border: 0; }
+.cmd-ticket { font-weight: bold; font-size: 15pt; border: 0; }
 .cmd-ticket .desc, .cmd-ticket .bc { border: 0; width: 0; height: 0; }
 .cmd-ticket { position: relative; background-color: white; }
 .cmd-ticket { width: 190mm; height: 252mm; top: 5mm; padding: 0; margin: 0; } /* 210x297mm but including default print margins */
@@ -36,8 +39,8 @@
 .cmd-ticket .comment table { position: static; width: 63mm; } /* padding the parent works with dompdf, not margin the child */
 .cmd-ticket .comment td { vertical-align: middle; height: 13.5mm; width: 63mm; }
 .cmd-ticket .comment div { position: static; max-height: 13.5mm; overflow: hidden; width: 100%; white-space: normal; }
-.cmd-ticket .desc .ids { overflow: visible; font-size: 0; top: 254mm; }
-.cmd-ticket .ids span { font-size: 5pt; position: absolute; }
+.cmd-ticket .desc .ids { overflow: visible; color: white; top: 254mm; }
+.cmd-ticket .ids span { font-size: 5pt; position: absolute; color: black; }
 .cmd-ticket .desc .ids span:first-child { display: inline; left: 2mm; }
 .cmd-ticket .ids span + span { right: 2mm; }
 .cmd-ticket .ids span + span:before { content: '#'; }
@@ -47,12 +50,13 @@
 
 
 /* for pdf rendering */
+.pdf .cmd-ticket * { line-height: 0.9; }
 .pdf .cmd-ticket .bc span { margin-top: 2.5mm; margin-left: -16.2mm; }
 .pdf .cmd-ticket .gauge { margin-top: -1mm; }
 .pdf .cmd-ticket .seat { padding-top: 1mm; }
 .pdf .cmd-ticket .location { margin-top: 2.5mm; }
 .pdf .cmd-ticket .address  { margin-top: 2.5mm; }
-.pdf .cmd-ticket .comment { margin-left: -1mm; }
+.pdf .cmd-ticket .comment { margin-left: -1mm; margin-top: -1mm; }
 
 
 /* for debug purposes, remove "debug" */
