@@ -37,24 +37,27 @@ class transactionActions extends sfActions
     if ( !method_exists($transaction, $fct) )
       throw new liOnlineSaleException('Bad configuration: '.get_class($transaction).' does not have any '.$fct.' method.');
     
-    if ( !$request->hasParameter('debug') && !$request->hasParameter('debug') )
+    // debugging ?
+    if ( sfConfig::get('sf_web_debug', false) && !$request->hasParameter('debug') )
       sfConfig::set('sf_web_debug', false);
     
+    // ownership
     if ( $transaction->contact_id !== $this->getUser()->getContact()->id )
       throw new liOnlineSaleException('The delivery of tickets which belongs to someone else is not allowed');
     
+    // content, and treatment
     $this->tickets_html = $transaction->$fct(
       array('barcode' => $request->getParameter('format') === 'html' ? 'html' : 'png')
     );
     switch ( $format = $request->getParameter('format', 'pdf') ) {
     case 'pdf':
+      // content type
+      $this->getResponse()->setContentType('application/pdf');
+      if ( !sfConfig::get('sf_web_debug', false) )
+      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="transaction-'.$transaction->id.'-'.$target.'.pdf"');
+
       $this->pdf = new sfDomPDFPlugin();
       $this->pdf->setInput($content = $this->getPartial('get_tickets_pdf', array('tickets_html' => $this->tickets_html)));
-      
-      $this->getResponse()->setContentType('application/pdf');
-      $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="transaction-'.$transaction->id.'-'.$target.'.pdf"');
-      
-      $this->setLayout(false);
       echo $this->pdf->render();
       return sfView::NONE;
       //return $this->renderText($this->pdf->render()); // cannot do that for some particular cases that I do not understand... anyway...
