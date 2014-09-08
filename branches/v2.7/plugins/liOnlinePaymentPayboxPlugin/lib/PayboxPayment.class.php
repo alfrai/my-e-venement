@@ -39,7 +39,7 @@
     }
     public function response(sfWebRequest $request)
     {
-      $this->createBankPayment(new BankPayment, $request)->save();
+      $this->createBankPayment($request)->save();
       
       // renewing the paybox's key cache
       $pem = sfConfig::get('app_payment_pem',array());
@@ -201,7 +201,7 @@
       return $r;
     }
     
-    public function createBankPayment($request)
+    public function createBankPayment(sfWebRequest $request)
     {
       $bank = new BankPayment;
       
