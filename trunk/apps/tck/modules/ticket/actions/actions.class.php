@@ -138,7 +138,7 @@ class ticketActions extends sfActions
   
   public function executePrint(sfWebRequest $request)
   {
-    require('print.php');
+    return require('print.php');
   }
   public function executeIntegrate(sfWebRequest $request)
   {

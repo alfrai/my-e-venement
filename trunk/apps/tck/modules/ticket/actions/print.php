@@ -293,3 +293,11 @@
       'duplicate'   => $this->duplicate,
       'user'        => $this->getUser(),
     )));
+    
+    if ( sfConfig::get('app_tickets_simplified_printing', false) )
+    {
+      $this->content = $this->transaction->renderSimplifiedTickets(array('only' => $this->tickets));
+      $this->getResponse()->setContentType('application/pdf');
+      return 'Simplified';
+    }
+    return 'Success';

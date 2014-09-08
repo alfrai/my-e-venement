@@ -52,6 +52,7 @@ all:
     #logo: /private/logo-xxx.png
     authorize_grouped_tickets: false
     spectator_display_all: false
+    simplified_printing: false     # for dematerialized ticketting only, cf. web/css/print-simplified-tickets.css & web/private/print-simplified-tickets.css
   control:
     future: 6 hours
     past:   1 day
