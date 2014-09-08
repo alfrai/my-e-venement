@@ -1,6 +1,6 @@
 <?php use_helper('Number') ?>
 <?php if (! (isset($detail['fake']) && $detail['fake']) ): ?>
-  <?php use_javascript('tck-touchscreen-dataloader') ?>
+  <?php use_javascript('tck-touchscreen-dataloader?'.date('Ymd')) ?>
   <div class="families sample">
     <div class="family" id="li_transaction_<?php echo strtolower($detail['model']) ?>_" data-family-id="">
       <h3 class="ui-corner-all">

@@ -46,14 +46,16 @@ case 'gauge':
     ->andWhere('a.gauge_id = ?',$params[$field]['declination_id'])
     ->andWhere('a.price_id = ?',$params[$field]['price_id'])
     ->andWhere('a.printed_at IS NULL AND a.cancelling IS NULL AND a.duplicating IS NULL')
-    ->orderBy('a.integrated_at IS NULL DESC, a.integrated_at, a.seat_id IS NULL DESC, a.id DESC');
+    ->orderBy('a.integrated_at IS NULL DESC, a.integrated_at, a.seat_id IS NULL DESC, a.value ASC, a.id DESC')
+  ;
   break;
 case 'declination':
   $q = Doctrine_Query::create()->from('BoughtProduct a')
     ->andWhere('a.product_declination_id = ?',$params[$field]['declination_id'])
     ->andWhere('a.price_id = ?',$params[$field]['price_id'])
     ->andWhere('a.transaction_id = ?',$request->getParameter('id'))
-    ->orderBy('a.integrated_at IS NULL DESC, a.integrated_at, a.id DESC');
+    ->orderBy('a.integrated_at IS NULL DESC, a.integrated_at, a.value ASC, a.id DESC')
+  ;
   break;
 }
 
@@ -79,6 +81,17 @@ $this->json['success']['success_fields'][$field]['data'] = array(
     'data-attr'        => $matches[$params[$field]['type']]['data-attr'],
   ),
 );
+
+// Pay what you want feature
+$pp = Doctrine::getTable('PriceProduct')->createQuery('pp')
+  ->leftJoin('pp.Product p')
+  ->leftJoin('p.Declinations d')
+  ->andWhere('pp.price_id = ?', $params[$field]['price_id'])
+  ->andWhere('d.id = ?',$params[$field]['declination_id'])
+  ->select('pp.id, pp.value')
+;
+$free_price = $pp->fetchOne()->value === NULL ? $params[$field]['free-price'] : NULL;
+
 
 $products = NULL;
 $manifs = array();
@@ -113,6 +126,8 @@ for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )
     $product->$matches[$params[$field]['type']]['field'] = $params[$field]['declination_id'];
     $product->price_id = $params[$field]['price_id'];
     $product->transaction_id = $request->getParameter('id');
+    if ( $free_price )
+      $product->value = $free_price;
     $product->save();
   }
 }

@@ -50,6 +50,7 @@ class productActions extends autoProductActions
       ->limit($request->getParameter('limit', $request->getParameter('max', 10)))
       ->leftJoin('pdt.MetaEvent me')
       ->andWhereIn('me.id IS NULL OR me.id', array_keys($this->getUser()->getMetaEventsCredentials()))
+      ->andWhere('pt.lang = ?', $this->getUser()->getCulture())
       ->orderBy('pt.name')
     ;
     if ( ($tid = intval($request->getParameter('except_transaction', false))).'' === ''.$request->getParameter('except_transaction', false) )

@@ -18,6 +18,10 @@
 <ul class="payments">
   <li class="translinked"><?php echo __('This payment is linked to the cancelling transaction #%%id%%') ?></li>
 </ul>
+<ul class="prices">
+  <li class="free-price"><?php echo __('Pay what you want') ?></li>
+  <li class="free-price-default"><?php echo sfConfig::get('project_tickets_free_price_default', 1) ?></li>
+</ul>
 <ul class="messages">
   <li class="ok"><?php echo __('yes',null,'sf_admin') ?></li>
   <li class="cancel"><?php echo __('no',null,'sf_admin') ?></li>

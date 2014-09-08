@@ -49,4 +49,4 @@
   </div>
 </div>
 <?php endforeach ?>
-<?php use_javascript('tck-touchscreen-new-family') ?>
+<?php use_javascript('tck-touchscreen-new-family?'.date('Ymd')) ?>

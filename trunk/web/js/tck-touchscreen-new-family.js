@@ -5,6 +5,11 @@
         $(this).closest('form').submit();
         $('#li_transaction_field_new_transaction a.persistant').prop('href', $('#li_transaction_field_new_transaction a.persistant').prop('href')+'#'+$(this).closest('.bunch').prop('id').replace('li_transaction_','')+'-'+$(this).val()); // keep the same manifestations for the next transaction
         $(this).find('option:selected').remove();
+        
+        var bunch = $(this).closest('.bunch');
+        setTimeout(function(){
+          bunch.find('.families:not(.sample) .family:not(.total):last .item:first').click();
+        }, 2000);
       }
     });
     LI.autoAddFamilies();

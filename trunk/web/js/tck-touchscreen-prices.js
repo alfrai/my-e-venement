@@ -27,14 +27,23 @@
       var item = this;
       var available_prices = JSON.parse($.trim($(this).find('.data .available_prices').text()));
       $.each(available_prices, function(i, price){
+        var price = price;
         $('<button name="price_new[id]"></button>')
           .val(price.id)
           .html(price.name)
-          .prop('title', price.value+' - '+price.description)
+          .prop('title', (price.value !== null ? price.value : $('#li_transaction_field_close .prices .free-price').text())+' - '+price.description)
           .attr('data-'+$(item).attr('data-type')+'-id', $(item).attr('data-'+$(item).attr('data-type')+'-id'))
           .attr('data-type', $(item).attr('data-type'))
           .appendTo(form.find('p'))
           .click(function(){
+            var qty = $(this).closest('form').find('[name="transaction[price_new][qty]"]').val();
+            if ( price.value === null && (parseInt(qty,10) > 0 || qty === '') )
+            {
+              var amount = prompt($('#li_transaction_field_close .prices .free-price').text(), parseFloat($('#li_transaction_field_close .prices .free-price-default').text()))
+              if ( isNaN(parseFloat(amount)) )
+                return false;
+              $(this).closest('form').find('[name="transaction[price_new][free-price]"]').val(parseFloat(amount));
+            }
             $(this).closest('form').find('[name="transaction[price_new][price_id]"]')
               .val($(this).val());
             $(this).closest('form').find('[name="transaction[price_new][declination_id]"]')

@@ -158,6 +158,12 @@ class transactionActions extends autoTransactionActions
       'choices' => array('', 'integrated'),
       'required' => false,
     ));
+    $ws['free-price'] = new sfWidgetFormInputHidden;
+    $ws['free-price']->setDefault((float)sfConfig::get('project_tickets_free_price_default', 1));
+    $vs['free-price'] = new sfValidatorNumber(array(
+      'min' => 0,
+      'required' => false,
+    ));
     
     // NEW "PRODUCTS"
     $this->form['content'] = array();
