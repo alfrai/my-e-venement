@@ -57,7 +57,10 @@ class dataActions extends sfActions
   
   protected function buildDirectory()
   {
-    $this->directory = new liDirectory(sfConfig::get('app_backups_directory', '/data/backup'));
+    if (!( sfConfig::get('app_backups_directory', false) && sfConfig::get('app_backups_files_search', false) ))
+      throw new liEvenementException('You must configure your backups properties in apps/default/config/app.yml first');
+    
+    $this->directory = new liDirectory(sfConfig::get('app_backups_directory'));
     if ( sfConfig::has('app_backups_files_search') )
       $this->directory->restrictListedFiles(sfConfig::get('app_backups_files_search'));
     return $this->directory;
