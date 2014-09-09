@@ -20,12 +20,11 @@ all:
     global: 1 hour
   tickets:
     vel:
-      cart_timeout: 50
       max_per_manifestation: 9
       full_seating_by_customer: true
     payment_method_id: 1
     close_before: 24 hours
-    wip_price: WIP
+    wip_price: ...
     #id: qrcode # can be id (default), qrcode, othercode
   store:
     max_per_product: 9
@@ -34,6 +33,15 @@ all:
     capitalize: [name, firstname, city, country, address]
   #show:
   #  company_id: 5 # do not set something if you do not care
+  seller:
+    logo: logo.jpg
+    name: XXXX
+    address: 27 rue des Faucheroux
+    postalcode: 69000
+    city: Lyon
+    country: France
+    other:
+    invoice_prefix: FB
   payment:
     ## to be able to use properly a payment method,                    
     ## install (if it is not included) the plugin in the sf_plugin_dir

@@ -51,25 +51,17 @@ all:
       asked: 40 minutes # for the garbage collector to remove elder asked tickets
     #logo: /private/logo-xxx.png
     authorize_grouped_tickets: false
-    spectator_display_all: false
-    simplified_printing: false     # for dematerialized ticketting only, cf. web/css/print-simplified-tickets.css & web/private/print-simplified-tickets.css
+    simplified_printing: true     # for dematerialized ticketting only, cf. web/css/print-simplified-tickets.css & web/private/print-simplified-tickets.css
   control:
     future: 6 hours
     past:   1 day
-  gauge:
-    hide_graphical_display_until: 10000
   seller:
-    logo: logo-200.jpg
-    name: Ligue des Pyrénées
-    address: 2 rue des Régaires
-    postalcode: 31000
-    city: TOULOUSE
+    logo: logo.svg
+    name: 3è étage / 3rd floor
+    address: 12 rue du 4 septembre
+    postalcode: 75002
+    city: PARIS
     country: France
     other: 
     invoice_prefix: FB
-    salt: xxxx
-    #case_normalise: true
-
-dev:
-  tickets:
-    specimen: true
+    salt: sqnao@é 98Fdnquèç&

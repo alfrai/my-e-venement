@@ -49,7 +49,7 @@
     if ( $this->importform->isValid() )
     {
       $price_default_id = Doctrine::getTable('Price')->createQuery('p')
-        ->andWhere('p.name = ?',sfConfig::get('app_tickets_foreign_price'))
+        ->andWhere('p.name = ?',sfConfig::get('app_tickets_foreign_price', 'PART'))
         ->fetchOne()->id;
       
       $this->translation = array('prices','workspaces');
