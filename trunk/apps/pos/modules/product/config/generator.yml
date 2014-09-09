@@ -22,6 +22,11 @@ generator:
         vat_id: { help: "If it remains unset, it means 0%." }
         description: { help: "Especially useful for online sales." }
         list_codes: { label: Codes }
+        linked_meta_events_list: { label: Meta events }
+        linked_workspaces_list: { label: Workspaces }
+        linked_manifestations_list: { label: Manifestations }
+        linked_prices_list: { label: Prices }
+        linked_products_list: { label: Products }
       list:
         display: [Category, name, MetaEvent, Vat, _list_codes]
         sort: [pt.name, '']

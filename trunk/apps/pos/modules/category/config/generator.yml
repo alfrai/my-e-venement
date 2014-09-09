@@ -20,9 +20,11 @@ generator:
         object_actions:
           _edit: ~
           _delete: ~
+        title: List of products' categories
       filter:
         display: [name, vat_id, online]
       form:
         display: [name, vat_id, online]
-      edit:    ~
+      edit:
+        title: Edit category %%name%%
       new:     ~

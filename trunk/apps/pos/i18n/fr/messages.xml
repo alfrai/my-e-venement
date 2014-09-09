@@ -1,9 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2014-09-01T19:08:02Z" product-name="messages">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2014-09-09T17:16:42Z" product-name="messages">
     <header/>
     <body>
+      <trans-unit id="148">
+        <source>New Product</source>
+        <target>Nouveau produit</target>
+      </trans-unit>
+      <trans-unit id="149">
+        <source>Product List</source>
+        <target>Liste des produits</target>
+      </trans-unit>
+      <trans-unit id="150">
+        <source>New Category</source>
+        <target>Nouvelle catégorie</target>
+      </trans-unit>
+      <trans-unit id="151">
+        <source>List of products' categories</source>
+        <target>Liste des catégories de produits</target>
+      </trans-unit>
+      <trans-unit id="152">
+        <source>Edit category %%name%%</source>
+        <target>Modification de la catégorie %%name%%</target>
+      </trans-unit>
+      <trans-unit id="153">
+        <source>New Price</source>
+        <target>Nouveau tarif</target>
+      </trans-unit>
+      <trans-unit id="154">
+        <source>List of associated prices</source>
+        <target>Liste des tarifs associés</target>
+      </trans-unit>
+      <trans-unit id="155">
+        <source>Edit price %%name%%</source>
+        <target>Modification du tarif %%name%%</target>
+      </trans-unit>
+      <trans-unit id="156">
+        <source>Filters</source>
+        <target>Filtres</target>
+      </trans-unit>
+      <trans-unit id="157">
+        <source>Actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="158">
+        <source>Updated at</source>
+        <target>Mise à jour le</target>
+      </trans-unit>
+      <trans-unit id="159">
+        <source>Price</source>
+        <target>Tarif</target>
+      </trans-unit>
+      <trans-unit id="160">
+        <source>Workspaces</source>
+        <target>Espaces de travail</target>
+      </trans-unit>
+      <trans-unit id="161">
+        <source>Meta events</source>
+        <target>Meta événements</target>
+      </trans-unit>
+      <trans-unit id="162">
+        <source>Products</source>
+        <target>Produits</target>
+      </trans-unit>
+      <trans-unit id="163">
+        <source>Prices</source>
+        <target>Tarifs</target>
+      </trans-unit>
+      <trans-unit id="164">
+        <source>Manifestations</source>
+        <target>Manifestations</target>
+      </trans-unit>
+      <trans-unit id="165">
+        <source>Meta event</source>
+        <target>Méta événement</target>
+      </trans-unit>
+      <trans-unit id="166">
+        <source>Links</source>
+        <target>Liens</target>
+      </trans-unit>
+      <trans-unit id="167">
+        <source>Add declination&lt;span class="ui-icon ui-icon-circle-plus"&gt;&lt;/span&gt;</source>
+        <target>Ajouter une déclinaison&lt;span class="ui-icon ui-icon-circle-plus"&gt;&lt;/span&gt;</target>
+      </trans-unit>
+      <trans-unit id="168">
+        <source>Declinations</source>
+        <target>Déclinaisons</target>
+      </trans-unit>
+      <trans-unit id="169">
+        <source>Prices list</source>
+        <target>Liste des prix</target>
+      </trans-unit>
+      <trans-unit id="170">
+        <source>Vat</source>
+        <target>TVA</target>
+      </trans-unit>
+      <trans-unit id="171">
+        <source>Online</source>
+        <target>En ligne</target>
+      </trans-unit>
+      <trans-unit id="172">
+        <source>Code</source>
+        <target>Code</target>
+      </trans-unit>
+      <trans-unit id="173">
+        <source>Description for buyers</source>
+        <target>Description pour les acheteurs</target>
+      </trans-unit>
+      <trans-unit id="174">
+        <source>Description</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="175">
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="176">
+        <source>Picture</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit id="177">
+        <source>Edit product %%name%%</source>
+        <target>Modification du produit %%name%%</target>
+      </trans-unit>
+      <trans-unit id="178">
+        <source>Category</source>
+        <target>Catégorie</target>
+      </trans-unit>
+      <trans-unit id="179">
+        <source>Choose what price will be displaid</source>
+        <target>Choisissez quels tarifs rendre disponible</target>
+      </trans-unit>
+      <trans-unit id="180">
+        <source>then set up their values</source>
+        <target>puis donnez leur valeur</target>
+      </trans-unit>
+      <trans-unit id="181">
+        <source>Account</source>
+        <target>Compte</target>
+      </trans-unit>
+      <trans-unit id="182">
+        <source>A facilitator for accounting</source>
+        <target>Une assistance pour la comptabilité</target>
+      </trans-unit>
+      <trans-unit id="183">
+        <source>Associating a product to a meta-event insures that it will not be sold again after this meta-event or if your users do not have access to this meta-event.</source>
+        <target>Associer un produit à un méta-événement assure qu'il ne sera pas vendu après celui-ci ou si vos utilisateurs n'y ont pas accès</target>
+      </trans-unit>
+      <trans-unit id="184">
+        <source>If it remains unset, it means 0%.</source>
+        <target>Si c'est non précisé, cela signifie 0%.</target>
+      </trans-unit>
+      <trans-unit id="185">
+        <source>Especially useful for online sales.</source>
+        <target>Particulièrement utile pour les ventes en ligne.</target>
+      </trans-unit>
+      <trans-unit id="186">
+        <source>Codes</source>
+        <target>Codes</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

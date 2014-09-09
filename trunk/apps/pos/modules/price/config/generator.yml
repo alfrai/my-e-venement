@@ -15,11 +15,12 @@ generator:
       actions: ~
       fields:  ~
       list:
+        title: List of associated prices
         display: [Price, updated_at]
         object_actions:
-          _edit: ~
           _delete: ~
       filter:  ~
       form:    ~
-      edit:    ~
+      edit:
+        title: Edit price %%name%%
       new:     ~
