@@ -205,6 +205,11 @@ EOF
   ./symfony e-venement:search-index Organism
 fi
 
+echo ''
+echo "Changing (or not) file permissions for the e-venement Messaging Network ..."
+chmod -R 777 web/liJappixPlugin/store web/liJappixPlugin/tmp web/liJappixPlugin/log
+echo "... done."
+
 # final informations
 echo ""
 echo ""
