@@ -12,4 +12,8 @@
  */
 class PricePOS extends PluginPricePOS
 {
+  public function getName()
+  {
+    return (string)$this->Price;
+  }
 }

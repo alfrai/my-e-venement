@@ -34,7 +34,6 @@ ProductCategory:
       type:     string(255)
       notblank: true
       notnull:  true
-      unique:   true
     vat_id: integer
     online:
       type: boolean

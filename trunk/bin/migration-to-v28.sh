@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 #**********************************************************************************
 #
@@ -158,9 +158,11 @@ else
   echo "... failed."
 fi
 
+echo ""
+echo "Creating SQL needed functions ..."
 cat config/doctrine/functions-pgsql.sql | psql && \
 ./symfony cc &> /dev/null
-echo ""
+echo "... done."
 
 [ ! -f apps/default/config/app.yml ] && cp apps/default/config/app.yml.template apps/default/config/app.yml
 
@@ -207,7 +209,7 @@ fi
 
 echo ''
 echo "Changing (or not) file permissions for the e-venement Messaging Network ..."
-chmod -R 777 web/liJappixPlugin/store web/liJappixPlugin/tmp web/liJappixPlugin/log
+chmod -R 777 web/liJappixPlugin/store web/liJappixPlugin/tmp web/liJappixPlugin/log &> /dev/null
 echo "... done."
 
 # final informations

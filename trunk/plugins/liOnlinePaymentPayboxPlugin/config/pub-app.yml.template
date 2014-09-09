@@ -3,6 +3,8 @@
 
 all:
   # ...
+  options:
+    plugins: [liOnlinePaymentPayboxPlugin]
   payment:
     type: paybox
     autosubmit: false
