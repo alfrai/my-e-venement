@@ -45,7 +45,7 @@ interface OnlinePaymentInterface
     * Deal with the bank response, records a BankPayment, and returns if the payment is validated or not
     *
     * @param sfWebRequest $parameters     the request object made out of the bank response
-    * @return array                       array('success' => false, 'amount' => $bank->amount/100) at least
+    * @return array                       usually and at least: array('success' => false, 'amount' => $bank->amount/100) (/100 because it's how banks use to do)
     **/
   public function response(sfWebRequest $parameters);
   

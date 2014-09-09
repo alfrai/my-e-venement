@@ -1,5 +1,5 @@
 <?php
-class liOnlinePayplugPayboxPluginConfiguration extends sfPluginConfiguration
+class liOnlinePaymentPayplugPluginConfiguration extends sfPluginConfiguration
 {
   public function setup()
   {

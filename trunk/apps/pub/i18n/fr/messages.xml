@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Order #%%tid%%</source>
+        <target>Commande #%%tid%%</source>
+      </trans-unit>
+      <trans-unit>
         <source>This website requires your authentication</source>
         <target>Ce site Internet requiert votre authentification</target>
       </trans-unit>
