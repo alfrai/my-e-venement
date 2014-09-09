@@ -1,4 +1,19 @@
 sfGuardPermission:
+  sfGuardPermission_129:
+    name: grp-admin
+    description: 'Permission to administrate the "group" app'
+    created_at: '2014-09-08 19:00:27.000023'
+    updated_at: '2014-09-08 19:00:27.000023' 
+  sfGuardPermission_130:
+    name: grp-events
+    description: "Access to the event part of the group app'"
+    created_at: '2014-09-08 19:00:27.000023'
+    updated_at: '2014-09-08 19:00:27.000023' 
+  sfGuardPermission_131:
+    name: grp-professionals
+    description: "Access to the professional part of the group app'"
+    created_at: '2014-09-08 19:00:27.000023'
+    updated_at: '2014-09-08 19:00:27.000023' 
   sfGuardPermission_1:
     name: admin-titles
     description: ''
@@ -480,6 +495,21 @@ sfGuardPermission:
     created_at: '2014-05-28 09:20:41'
     updated_at: '2014-05-28 09:20:41'
 sfGuardGroupPermission:
+  sfGuardGroupPermission_52_129:
+    Group: sfGuardGroup_52
+    Permission: sfGuardPermission_129
+    created_at: '2014-09-08 19:00:27.000023'
+    updated_at: '2014-09-08 19:00:27.000023' 
+  sfGuardGroupPermission_52_130:
+    Group: sfGuardGroup_52
+    Permission: sfGuardPermission_130
+    created_at: '2014-09-08 19:00:27.000023'
+    updated_at: '2014-09-08 19:00:27.000023' 
+  sfGuardGroupPermission_52_131:
+    Group: sfGuardGroup_52
+    Permission: sfGuardPermission_131
+    created_at: '2014-09-08 19:00:27.000023'
+    updated_at: '2014-09-08 19:00:27.000023' 
   sfGuardGroupPermission_1_7:
     Group: sfGuardGroup_1
     Permission: sfGuardPermission_7
@@ -1436,4 +1466,8 @@ sfGuardGroup:
     description: 'Permission to access the geographical statistics'
     created_at: '2014-05-28 09:20:41'
     updated_at: '2014-05-28 09:20:41'
-
+  sfGuardGroup_52:
+    name: grp-access
+    description: "Complete access to the group app'"
+    created_at: '2014-09-08 19:00:27.000023'
+    updated_at: '2014-09-08 19:00:27.000023'
