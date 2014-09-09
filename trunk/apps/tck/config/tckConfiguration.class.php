@@ -259,7 +259,7 @@ EOF
         ->andWhere('bp.updated_at < ?', $date = date('Y-m-d H:i:s', strtotime(($timeout['asked'] ? $timeout['asked'] : '1 hour').' ago')))
         ->leftJoin('bp.Transaction t')
         ->leftJoin('t.Order o')
-        ->select('tck.id')->groupBy('tck.id')
+        ->select('bp.id')->groupBy('bp.id')
         ->having('count(o.id) = 0')
       ;
       $tickets = $q->execute();
