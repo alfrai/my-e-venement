@@ -1,0 +1,32 @@
+<?php sfApplicationConfiguration::getActive()->loadHelpers(array('I18N')) ?>
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           ProductDeclination
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          product_declination
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+        display: []
+      filter:
+        display: []
+      form:    ~
+      edit:
+        actions:
+          _save: ~
+          _back:
+            label: <?php echo __('List', null, 'sf_admin').PHP_EOL ?>
+            action: backToProduct
+            ui-icon: arrowreturnthick-1-w
+      new:
+        actions:
+          _save: ~

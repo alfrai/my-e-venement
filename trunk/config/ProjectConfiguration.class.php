@@ -164,6 +164,14 @@ class ProjectConfiguration extends sfProjectConfiguration implements liGarbageCo
   {
     // avoid any mistake
     error_log($e->getMessage());
+  }
+  protected function stdout($section, $message, $style = 'INFO')
+  {
+    $section = str_pad($section,20);
+    if ( !$this->task )
+      echo "$section $message";
+    else
+      $this->task->logSection($section, $message, null, $style);
     return;
   }
 }
