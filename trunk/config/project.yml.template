@@ -55,3 +55,18 @@ all:
       en: English
       bzh: Breizhoneg
     plugins: []
+
+  eticketting:
+    salt: ARANDOMSALTHERE
+    passbook:
+      certification:
+        identifier: pass.e-venement.myorganization
+        team_id: TEAM_ID
+        organization: myorganization
+        p12_cert_file: <?php echo sfConfig::get('sf_config_dir') ?>/private/passbook.p12
+        p12_passwd_file: <?php echo sfConfig::get('sf_config_dir') ?>/private/passbook.passwd
+        apple_wwdr_cer_url: http://developer.apple.com/certificationauthority/AppleWWDRCA.cer
+      design:
+        background_color: rgb(60, 65, 76)
+        logo_text: e-venement, the best ticketting system ever
+
