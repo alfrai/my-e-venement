@@ -122,13 +122,98 @@ echo ""
 db="$PGDATABASE"
 [ -z "$db" ] && db=$USER
 
+echo "Resetting the DB"
+echo ""
 # recreation and data backup
-if dropdb $db && createdb $db
+# those rm -rf cache/* are hacks to avoid cache related segfaults...
+dropdb $db; createdb $db && \
+rm -rf cache/* && \
+./symfony doctrine:drop-db --no-confirmation && \
+./symfony doctrine:build-db && \
+rm -rf cache/* && \
+./symfony doctrine:build-model && \
+rm -rf cache/* && \
+./symfony doctrine:build-forms && \
+rm -rf cache/* && \
+./symfony doctrine:build-filters && \
+rm -rf cache/* && \
+./symfony doctrine:build-sql && \
+rm -rf cache/* && \
+./symfony doctrine:insert-sql
+if [ ! $? -eq 0 ]
 then
-  echo "You can now continue throught the migration executing:"
-  echo ""
-  echo "1. ./symfony doctrine:drop-db --no-confirmation && ./symfony doctrine:build-db && ./symfony doctrine:build-model && ./symfony doctrine:build-forms && ./symfony doctrine:build-filters && ./symfony doctrine:build-sql && ./symfony doctrine:insert-sql && echo 'Now you can execute:' && echo '  bin/migrate-to-v28.sh $1 $2 $3 $4 $5'"
-  echo "2. bin/migrate-to-v28.sh"
-else
-  echo "An error occurred, check it out"
+  echo "";
+  echo "  ... failed."
+  exit 255
 fi
+
+echo "";
+echo "  ... done."
+echo "Re-injecting your data..."
+cat data/sql/$db-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $db
+if [ $? -eq 0 ]
+then
+  echo "... done."
+else
+  echo "... failed."
+fi
+
+cat config/doctrine/functions-pgsql.sql | psql && \
+./symfony cc &> /dev/null
+echo ""
+
+[ ! -f apps/default/config/app.yml ] && cp apps/default/config/app.yml.template apps/default/config/app.yml
+
+echo ""
+echo "Be careful with DB errors. A table with an error is an empty table !... If necessary take back the DB backup and correct things by hand before retrying this migration script."
+echo ""
+
+# final data modifications
+echo ""
+read -p "Do you want to add the new permissions ? [Y/n] " reset
+if [ "$reset" != 'n' ]
+then
+  echo "If you will get Symfony errors in the next few actions, it is not a problem, the permissions just already exist in the DB"
+  echo ""
+  echo "Permissions & groups for the grp module, if they are not yet present (an error here is a good thing...)"
+  ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-grp.yml
+  echo "Permissions & groups for surveys..."
+  ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-srv.yml
+  echo "Permissions & groups for accessing backups..."
+  ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-backups.yml
+  echo "Permissions & groups for accessing taxes..."
+  ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-taxes.yml
+  echo "Permissions & groups for accessing online sales stats..."
+  ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-stats.yml
+  echo "Permissions & groups for accessing the store..."
+  ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-pos.yml
+  echo "Permissions & groups for reducing the value of tickets, one by one..."
+  ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-tck.yml
+fi
+
+psql $db <<EOF
+EOF
+
+echo ''
+read -p "Do you want to refresh your Searchable data for Contacts & Organisms (recommanded, but it can take a while) ? [y/N] " refresh
+if [ "$refresh" = 'y' ]; then
+  psql $db <<EOF
+DELETE FROM contact_index;
+DELETE FROM organism_index;
+EOF
+  ./symfony e-venement:search-index Contact
+  ./symfony e-venement:search-index Organism
+fi
+
+# final informations
+echo ""
+echo ""
+echo "Don't forget to configure those extra features:"
+echo "- e-venement Messaging Network: rm -rf web/liJappixPlugin; svn update; then run http[s]://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin"
+echo "- If this plateform needs Passbooks, do not forget to set them up in the apps pub & tck"
+echo "- If this plateform is using QRCodes, think to move the app_seller_salt from apps/tck/config/app.yml to project_eticketting_salt in config/project.yml"
+echo "- Checkout config/autoload.inc.php.template and complete your config/autoload.inc.php in that way..."
+echo "- IMPORTANT: the management of extra modules has evoluated, it has moved from config/extra-modules.php to config/project.yml, DO NOT FORGET IT!"
+
+echo ""
+echo "Don't forget to inform your users about those evolutions"

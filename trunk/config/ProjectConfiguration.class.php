@@ -49,10 +49,10 @@ class ProjectConfiguration extends sfProjectConfiguration implements liGarbageCo
       'sfDoctrineGuardPlugin',
       'sfAdminThemejRollerPlugin',
       'cxFormExtraPlugin',
-      'sfiCalCreatorPlugin',
-      'liOfcPlugin',
       'sfWebBrowserPlugin',
       'sfFeed2Plugin',
+      'sfiCalCreatorPlugin',
+      'liOfcPlugin',
     ));
     
     $this->loadProjectConfiguration();
