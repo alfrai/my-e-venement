@@ -57,6 +57,14 @@
         <target>Permission d'administrer les réservations, d'éditer les manifestations confirmées</target>
       </trans-unit>
       <trans-unit>
+        <source>Permission to manage reservations that are in conflict with others !</source>
+        <target>Permission de gérer les réservations en conflit avec d'autres !</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ability to manage manifestations, including manifestations that don't belong to you</source>
+        <target>Permission de gérer les manifestations, dont celles qui ne vous appartiennent pas</target>
+      </trans-unit>
+      <trans-unit>
         <source>Permission to access the geographical statistics</source>
         <target>Permission d'accéder aux statistiques géographiques</target>
       </trans-unit>
