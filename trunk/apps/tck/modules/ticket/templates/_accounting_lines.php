@@ -67,7 +67,7 @@
   </tr>
 <?php endif ?>
 <?php endfor ?>
-<?php for ( $i = 0 ; $i < $products->count() ; $i++ ): ?>
+<?php for ( $i = 0 ; $i < count($products) ; $i++ ): ?>
 <?php $product = $products[$i] ?>
 <?php if ( $product->id > 0 ): ?>
   <tr>
