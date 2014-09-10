@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 #**********************************************************************************
 #
@@ -126,20 +126,26 @@ echo "Resetting the DB"
 echo ""
 # recreation and data backup
 # those rm -rf cache/* are hacks to avoid cache related segfaults...
-dropdb $db; createdb $db && \
-rm -rf cache/* && \
-./symfony doctrine:drop-db --no-confirmation && \
-./symfony doctrine:build-db && \
-rm -rf cache/* && \
-./symfony doctrine:build-model && \
-rm -rf cache/* && \
-./symfony doctrine:build-forms && \
-rm -rf cache/* && \
-./symfony doctrine:build-filters && \
-rm -rf cache/* && \
-./symfony doctrine:build-sql && \
-rm -rf cache/* && \
-./symfony doctrine:insert-sql
+dropdb $db;
+createdb $db
+last=$?
+rm -rf cache/*
+[ $last -eq 0 ] && ./symfony doctrine:drop-db --no-confirmation && ./symfony doctrine:build-db
+last=$?
+rm -rf cache/*
+[ $last -eq 0 ] && ./symfony doctrine:build-model
+last=$?
+rm -rf cache/*
+[ $last -eq 0 ] && ./symfony doctrine:build-forms
+last=$?
+rm -rf cache/*
+[ $last -eq 0 ] && ./symfony doctrine:build-filters
+last=$?
+rm -rf cache/*
+[ $last -eq 0 ] && ./symfony doctrine:build-sql
+last=$?
+rm -rf cache/*
+[ $last -eq 0 ] && ./symfony doctrine:insert-sql
 if [ ! $? -eq 0 ]
 then
   echo "";
@@ -160,8 +166,7 @@ fi
 
 echo ""
 echo "Creating SQL needed functions ..."
-cat config/doctrine/functions-pgsql.sql | psql && \
-./symfony cc &> /dev/null
+cat config/doctrine/functions-pgsql.sql | psql
 echo "... done."
 
 [ ! -f apps/default/config/app.yml ] && cp apps/default/config/app.yml.template apps/default/config/app.yml
