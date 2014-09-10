@@ -5,7 +5,7 @@
       <li><?php echo __('No extra location booked') ?></li>
     <?php else: ?>
     <?php foreach ( $manifestation->Booking as $location ): ?>
-    <li><a href="<?php echo url_for('location/show?id='.$location->id) ?>"><?php echo $location ?></a></li>
+    <li><a href="<?php echo url_for(($location->place?'location':'resource').'/show?id='.$location->id) ?>"><?php echo $location ?></a></li>
     <?php endforeach ?>
     <?php endif ?>
   </ul>

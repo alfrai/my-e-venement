@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>HTML colors</source>
+        <target>Couleurs HTML</target>
+      </trans-unit>
+      <trans-unit>
         <source>Shape</source>
         <target>Forme</target>
       </trans-unit>
