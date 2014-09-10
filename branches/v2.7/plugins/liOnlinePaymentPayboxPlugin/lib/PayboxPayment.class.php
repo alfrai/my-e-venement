@@ -33,7 +33,7 @@
       return new self($transaction);
     }
     
-    public static function getTransactionIdByResponse(sfWebRequest $parameters)
+    public static function getTransactionIdByResponse(sfWebRequest $request)
     {
       return $request->getParameter('transaction_id', false);
     }
