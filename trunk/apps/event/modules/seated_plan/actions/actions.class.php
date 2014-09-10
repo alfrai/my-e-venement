@@ -241,7 +241,7 @@ class seated_planActions extends autoSeated_planActions
     
     $seat = new Seat;
     $seat->seated_plan_id = $request->getParameter('id');
-    foreach ( array('name', 'x', 'y', 'diameter') as $fieldName )
+    foreach ( array('name', 'x', 'y', 'diameter', 'class',) as $fieldName )
       $seat->$fieldName = $data[$fieldName];
     $seat->save();
     

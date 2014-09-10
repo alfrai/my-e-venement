@@ -141,6 +141,7 @@
     var gauge_id = data.gauge_id;
     var name = data.name;
     var rank = data.rank;
+    var extra_class = data.class;
     var diameter = data.diameter == undefined ? $(ref).closest('form').find('[name="seated_plan[seat_diameter]"]').val() : data.diameter;
     var occupied = data.occupied == undefined ? false : data.occupied;
     
@@ -191,6 +192,8 @@
       .addClass('seated-plan-'+seated_plan_id)
       .width(diameter).height(diameter)
       .each(function(){
+        if ( extra_class )
+          $(this).addClass('seat-extra-'+extra_class)
         // width/2 to find the center
         $(this)
           .css('left', (x = Math.round(position['x']-($(this).width())/2))+'px')
@@ -270,6 +273,7 @@
       $(this).find('[name="seat[x]"]').val(position['x']);
       $(this).find('[name="seat[y]"]').val(position['y']);
       $(this).find('[name="seat[diameter]"]').val($('#seated_plan_seat_diameter').val());
+      $(this).find('[name="seat[class]"]').val($('.sf_admin_form_field_show_picture .class input').val());
       $.ajax({
         url: $(this).prop('action'),
         data: $(this).serialize(),
@@ -343,6 +347,9 @@
         .css('width', $('#seated_plan_seat_diameter').val()+'px')
         .css('height', $('#seated_plan_seat_diameter').val()+'px')
         .each(function(){
+          // the extra class defined in web/css/event-seated-plan.css
+          if ( $('.sf_admin_form_field_show_picture .class input').val() )
+            $(this).addClass('seat-extra-'+$('.sf_admin_form_field_show_picture .class input').val());
           $(this)
             .css('left', (x = Math.round(position['x']-$(this).width()/2))+'px')
             .css('top',  (y = Math.round(position['y']-$(this).width()/2))+'px');
@@ -386,6 +393,7 @@
           diameter: $('#seated_plan_seat_diameter').val()
         },
         object: $(this).parent(),
+        class: $('.sf_admin_form_field_show_picture .class input').val() ? $('.sf_admin_form_field_show_picture .class input').val() : '',
         record: true,
       });
     });

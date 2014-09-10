@@ -11,6 +11,7 @@
       'diameter'  => $seat->diameter,
       'name'      => $seat->name,
       'id'        => $seat->id,
+      'class'     => $seat->class,
       'rank'      => $seat->rank,
       'seated-plan-id' => $seated_plan->id,
       'occupied'  => $sf_user->hasCredential('event-seats-allocation')

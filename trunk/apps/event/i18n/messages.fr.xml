@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>3 letters minimum</source>
+        <target>3 lettres minimum</target>
+      </trans-unit>
+      <trans-unit>
         <source>Deprecated</source>
         <target>Obsolète</target>
       </trans-unit>

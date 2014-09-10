@@ -7,6 +7,7 @@
     <input type="text" name="seat[x]" value="" />
     <input type="text" name="seat[y]" value="" />
     <input type="text" name="seat[diameter]" value="" />
+    <input type="text" name="seat[class]" value="" />
   </p></form>
   <form class="seat_del" action="<?php echo url_for('seated_plan/seatDel?id='.$form->getObject()->id) ?>" method="get"><p>
     <input type="text" name="seat[id]" value="" />

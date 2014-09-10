@@ -599,6 +599,7 @@ Seat:
       type: integer
       notnull: true
       default: 10 #px
+    class: string(255)
   relations:
     SeatedPlan:
       foreignAlias: Seats

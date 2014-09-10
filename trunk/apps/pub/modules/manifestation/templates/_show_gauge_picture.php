@@ -3,6 +3,7 @@
   <?php if ( isset($conf['full_seating_by_customer']) && $conf['full_seating_by_customer'] ): ?>
   <?php use_stylesheet('event-seated-plan?'.date('Ymd')) ?>
   <?php use_javascript('event-seated-plan?'.date('Ymd')) ?>
+  <?php use_stylesheet('/private/event-seated-plan?'.date('Ymd')) ?>
   <?php include_partial('global/magnify') ?>
   <div class="full-seating">
     <a href="<?php echo url_for('seats/index?id='.$sp->id.($gauge->id ? '&gauge_id='.$gauge->id : '')) ?>"
