@@ -501,7 +501,7 @@ class contactActions extends autoContactActions
     $charset = sfConfig::get('software_internals_charset');
     $transliterate = sfConfig::get('software_internals_transliterate',array());
     
-    $search = str_replace(array('-','+',',',"'"),' ',strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search)));
+    $search = str_replace(array('@','.','-','+',',',"'"),' ',strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search)));
     $search = str_replace(array_keys($transliterate), array_values($transliterate), $search);
     
     return $search;
