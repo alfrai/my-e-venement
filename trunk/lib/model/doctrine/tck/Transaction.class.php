@@ -161,7 +161,7 @@ class Transaction extends PluginTransaction
         if ( !isset($r[$t]) )
           $r[$t] = 0;
         $r[$t] += round($obj->$t - $obj->$t/(1+$obj->vat),2); }
-      } catch ( Doctrine_Exception $e ) {}
+       catch ( Doctrine_Exception $e ) {}
       
       // VAT
       $r['vat'] += round($obj->value - $obj->value/(1+$obj->vat),2);
