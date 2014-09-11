@@ -79,7 +79,9 @@ class SeatedPlanForm extends BaseSeatedPlanForm
       ->setOption('order_by', array('rank, name',''));
     
     $this->widgetSchema   ['workspaces_list']
-      ->setOption('query', $q = Doctrine::getTable('Workspace')->createQuery('ws')->andWhere('ws.seated = ?',true)->orderBy('ws.name'));
+      ->setOption('query', $q = Doctrine::getTable('Workspace')->createQuery('ws')->andWhere('ws.seated = ?',true)->orderBy('ws.name'))
+      ->setOption('expanded', true)
+    ;
     if ( $this->object->id && $this->object->location_id ) // VERRRRY IMPORTANT TO AVOID MIS-ROUTING GAUGES IN TICKETTING
       $q->andWhere('ws.id NOT IN (SELECT spws.workspace_id FROM SeatedPlanWorkspace spws LEFT JOIN spws.SeatedPlan spwssp WHERE spwssp.location_id = ? AND spws.seated_plan_id != ?)', array($this->object->location_id, $this->object->id));
     $this->validatorSchema['workspaces_list']->setOption('query', $q);

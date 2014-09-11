@@ -19,6 +19,7 @@ generator:
         _show_seated: { credentials: [event-seated-plan] }
       list:
         display: [name, on_ticket, seated]
+        sort: [name, '']
       filter:  ~
       show:
         display:
