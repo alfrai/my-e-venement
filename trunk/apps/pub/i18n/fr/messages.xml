@@ -6,7 +6,7 @@
     <body>
       <trans-unit>
         <source>Order #%%tid%%</source>
-        <target>Commande #%%tid%%</source>
+        <target>Commande #%%tid%%</target>
       </trans-unit>
       <trans-unit>
         <source>This website requires your authentication</source>
