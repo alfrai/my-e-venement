@@ -68,10 +68,10 @@
         var width = -1;
         if ( $(this).attr('width') )
         {
-          width = $(this).attr('width'); // .width() should have been possible, but for browser compatibility, this is safer
+          width = parseInt($(this).attr('width'),10); // .width() should have been possible, but for browser compatibility, this is safer
           $(this).removeAttr('width');
         }
-        if ( width < 0 )
+        if ( width < 0 || width == $(this).width() )
           width = ($(elt).parent().width() > 50 ? $(elt).parent().width() : $(window).width()) -50; // -50 is to keep a padding on the right
         var scale = width/$(this).width();
         if ( $(elt).closest('.full-seating').length > 0 ) // only for online stuff

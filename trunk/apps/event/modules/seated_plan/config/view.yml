@@ -9,7 +9,7 @@ updateSuccess:
   javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-more-data]
 editSuccess:
   stylesheets: [picture, event-seated-plan]
-  javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-more-data]
+  javascripts: [event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-more-data, event-seated-plan-shortcuts]
 showSuccess:
   stylesheets: [picture, event-seated-plan]
   javascripts: [event-seated-plan]

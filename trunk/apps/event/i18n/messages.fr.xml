@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Explicit display</source>
+        <target>Affichage explicite</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ideal width</source>
         <target>Largeur idéale</target>
       </trans-unit>

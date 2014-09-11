@@ -9,6 +9,7 @@
 .picture.seated-plan .pre-seat, .picture.seated-plan .seat.txt { background-color: transparent; z-index: 3; margin: -2px 0 0 -2px; }
 .picture.seated-plan .pre-seat { z-index: 2; }
 .picture.seated-plan .seat.txt.in-progress { border: 2px solid red; }
+.show-all .picture.seated-plan .seat.txt { background-color: #413839; border: 2px solid black; }
 .picture.seated-plan .pre-seat, .picture.seated-plan .seat.txt:hover { border: 2px solid black; }
 .picture.seated-plan .anti-handling { width: 100%; height: 100%; background-color: transparent; position: absolute; z-index: 2; }
 .picture.seated-plan * { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
@@ -32,7 +33,7 @@
 #sf_fieldset_plan .sf_admin_form_field_show_picture .picture { margin: 0 auto; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture *:not(input) { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture .label { margin-left: 24.5em; }
-#sf_fieldset_plan .sf_admin_form_field_show_picture .tools { position: absolute; right: 4em; margin-top: -7em; z-index: 2; background-color: rgba(255,255,255,0.6); padding: 0 0.3em; text-align: left; z-index: 3; }
+#sf_fieldset_plan .sf_admin_form_field_show_picture .tools { position: absolute; right: 4em; margin-top: -11em; z-index: 2; background-color: rgba(255,255,255,0.6); padding: 0 0.3em; text-align: left; z-index: 3; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture .tools label { display: inline-block; width: 8em; margin-right: 1em; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture .tools input { width: 8em; }
 #sf_fieldset_plan .sf_admin_form_field_show_picture .tools a { text-decoration: none; border: 1px solid gray; background-color: silver; padding: 2px 7px; border-radius: 2px; }
