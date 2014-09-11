@@ -65,6 +65,7 @@
         }
         
         // the seated-plan scale
+        /*
         var width = -1;
         if ( $(this).attr('width') )
         {
@@ -79,6 +80,8 @@
           var alternate = (+$(window).height()-$(this).position().top-15)/$(this).height();
           if ( scale > alternate ) scale = alternate; // security for graphical bugs
         }
+        */
+        var scale = 1;
         elt.css('transform', 'scale('+(scale)+')')
            .attr('data-scale', scale)
         if ( scale < 1 )

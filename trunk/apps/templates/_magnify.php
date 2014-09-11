@@ -10,13 +10,11 @@
   <script type="text/javascript">
     $(document).ready(function(){
       $('html').css('cssText', 'overflow-x: auto !important'); // to be able to side-scroll
-      $('.gauge .seated-plan.picture')
-        .css('transition-property', 'transform')
-        .css('transition-duration', '1s')
-      ;
       $('.magnify button').click(function(){
         var operand = $(this).val() == '+' ? '*' : '/';
         $('.gauge .seated-plan.picture')
+          .css('transition-property', 'transform')
+          .css('transition-duration', '1s')
           .each(function(){
             var factor = 1.3;
             var new_scale = operand == '*' ? parseFloat($(this).attr('data-scale'))*factor : parseFloat($(this).attr('data-scale'))/factor;
