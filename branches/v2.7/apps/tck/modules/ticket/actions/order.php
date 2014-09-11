@@ -67,4 +67,11 @@
     $this->redirectToSeatsAllocationIfNeeded('order');
     
     // if everything's ok, prints out the order
-    return 'Success';
+    if ( !$request->hasParameter('pdf') )
+      return 'Success';
+    
+    $pdf = new sfDomPDFPlugin();
+    $pdf->setInput($content = $this->getPartial('order_pdf', $this->data));
+    $this->getResponse()->setContentType('application/pdf');
+    $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="order.pdf"');
+    return $this->renderText($pdf->execute());
