@@ -50,7 +50,7 @@
       
       // loads the content/data
       if ( !$(this).closest('.seated-plan').is('.on-demand') )
-        LI.seatedPlanLoadData(url, id ? '#'+id : '');
+        $(this).ready(function(){ LI.seatedPlanLoadData(url, id ? '#'+id : ''); });
       else
         $(this).closest('.seated-plan').removeClass('on-demand');
       
@@ -65,7 +65,6 @@
         }
         
         // the seated-plan scale
-        /*
         var width = -1;
         if ( $(this).attr('width') )
         {
@@ -80,8 +79,6 @@
           var alternate = (+$(window).height()-$(this).position().top-15)/$(this).height();
           if ( scale > alternate ) scale = alternate; // security for graphical bugs
         }
-        */
-        var scale = 1;
         elt.css('transform', 'scale('+(scale)+')')
            .attr('data-scale', scale)
         if ( scale < 1 )
