@@ -9,6 +9,10 @@
         <target>Total: </target>
       </trans-unit>
       <trans-unit>
+        <source>Seats: </source>
+        <target>Placées: </target>
+      </trans-unit>
+      <trans-unit>
         <source>Free: </source>
         <target>Libres: </target>
       </trans-unit>

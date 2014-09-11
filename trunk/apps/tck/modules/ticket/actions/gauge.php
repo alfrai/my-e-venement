@@ -27,6 +27,7 @@
     else
       $mid = 0;
     
+    $this->seats = NULL;
     $q = Doctrine::getTable('Gauge')->createQuery('g')
       ->andWhere('g.manifestation_id = ?', $mid);
     if ( intval($request->getParameter('wsid'),0) > 0 )
@@ -36,6 +37,11 @@
         : $this->getUser()->getGuardUser()->Workspaces[0];
       $q->andWhere('g.workspace_id = ?', $workspace->id); // to be performed
       $this->gauge = $q->fetchOne();
+      
+      // if this gauge is seated
+      if ( $this->gauge->Workspace->seated && $seated_plan = $this->gauge->Manifestation->Location->getWorkspaceSeatedPlan($this->gauge->workspace_id) )
+        $this->seats = $seated_plan->Seats->count();
+    
     }
     else
     {
@@ -76,7 +82,7 @@
       'sells'   => ($count ? $this->manifestation->sells : 0) / $gauge * 100,
       'orders'  => ($count ? $this->manifestation->orders : 0) / $gauge * 100,
       'demands' => ($count ? $this->manifestation->demands : 0) / $gauge * 100,
-      'free'    => 100 - (($count ? $this->manifestation->sells : 0)+($count ? $this->manifestation->orders : 0)) / $gauge * 100
+      'free'    => 100 - (($count ? $this->manifestation->sells : 0)+($count ? $this->manifestation->orders : 0)) / $gauge * 100,
     );
     
     $this->setLayout('empty');
