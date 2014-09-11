@@ -46,4 +46,63 @@ class declinationActions extends autoDeclinationActions
     else
       $this->redirect('@product');
   }
+  
+  public function executeAjax(sfWebRequest $request)
+  {
+    //$this->getResponse()->setContentType('application/json');
+    if ( $request->hasParameter('debug') && $this->getContext()->getConfiguration()->getEnvironment() == 'dev' )
+    {
+      $this->getResponse()->setContentType('text/html');
+      sfConfig::set('sf_debug',true);
+      $this->setLayout('layout');
+    }
+    else
+    {
+      sfConfig::set('sf_debug',false);
+      sfConfig::set('sf_escaping_strategy', false);
+    }
+    
+    $charset = sfConfig::get('software_internals_charset');
+    $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
+    
+    $q = Doctrine::getTable('ProductDeclination')->createQuery('d')
+      ->leftJoin('d.Product pdt')
+      ->leftJoin('pdt.MetaEvent me')
+      ->andWhereIn('me.id IS NULL OR me.id', array_keys($this->getUser()->getMetaEventsCredentials()))
+      ->limit($request->getParameter('limit', $request->getParameter('max', 10)))
+      //->orderBy('pt.name')
+    ;
+    if ( ($tid = intval($request->getParameter('except_transaction', false))).'' === ''.$request->getParameter('except_transaction', false) )
+      $q->andWhere('pdt.id NOT IN (SELECT bpd.product_id FROM BoughtProduct bp LEFT JOIN bp.Declination bpd WHERE bp.transaction_id = ?)',$tid);
+    
+    // huge hack to look for declinations' codes AND product_index
+    $pdtq = Doctrine::getTable('Product')->search($search.'*', Doctrine_Query::create()->from('Product'))->select('id');
+    $q->andWhere('(TRUE')
+      ->andWhere('d.code ILIKE ?', $request->getParameter('q').'%')
+      ->orWhere('TRUE');
+    $q = Doctrine_Core::getTable('ProductDeclination')
+      ->search($search.'*',$q)
+      ->orWhere("pdt.id IN ($pdtq)", $pdtq->getFlattenedParams());
+    $q->andWhere('TRUE)')
+      ->leftJoin('d.Translation dt')
+      ->leftJoin('pdt.Translation pt')
+      ->andWhere('pt.lang = dt.lang AND dt.lang = ?', $this->getUser()->getCulture())
+    ;
+    
+    $this->declinations = array();
+    foreach ( $q->execute() as $declination )
+    if ( $declination->Product->isAccessibleBy($this->getUser()) )
+    if ( $request->hasParameter('keep-order') )
+    {
+      $this->declinations[] = array(
+        'id'    => $declination->id,
+        'color' => NULL,
+        'name'  => (string)$declination,
+      );
+    }
+    else
+      $this->declinations[$declination->id] = $request->hasParameter('with_colors')
+        ? array('name' => (string)$declination, 'color' => NULL)
+        : (string) $declination;
+  }
 }

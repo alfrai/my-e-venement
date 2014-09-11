@@ -208,6 +208,7 @@ BoughtProduct:
     integrated_at: timestamp
     description_for_buyers: string
     barcode: string
+    member_card_id: integer
   relations:
     Transaction:
       foreignAlias: BoughtProducts
@@ -231,4 +232,8 @@ BoughtProduct:
     Vat:
       foreignAlias: BoughtProducts
       onDelete: SET NULL
+      onUpdate: CASCADE
+    MemberCard:
+      foreignAlias: BoughtProducts
+      onDelete: CASCADE
       onUpdate: CASCADE

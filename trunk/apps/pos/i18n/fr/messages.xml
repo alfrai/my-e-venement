@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit id="148">
+        <source>Synthetic view</source>
+        <target>Vue synthétique</target>
+      </trans-unit>
+      <trans-unit id="147">
+        <source>See everything</source>
+        <target>Tout voir</target>
+      </trans-unit>
+      <trans-unit id="148">
         <source>New Product</source>
         <target>Nouveau produit</target>
       </trans-unit>

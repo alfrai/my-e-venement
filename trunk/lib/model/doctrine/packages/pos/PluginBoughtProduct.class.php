@@ -12,6 +12,11 @@
  */
 abstract class PluginBoughtProduct extends BaseBoughtProduct
 {
+  public function preDelete($event)
+  {
+    if ( $this->member_card_id )
+      throw new liEvenementException('You cannot remove a product linked with a member card, you should better try to remove the member card...');
+  }
   public function preSave($event)
   {
     if ( !$this->isModified() )
@@ -32,9 +37,7 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
       $this->price_name = (string)$this->Price;
     
     if ( !$this->value )
-    foreach ( $this->Declination->Product->PriceProducts as $p )
-    if ( $this->price_id == $p->price_id )
-      $this->value = $p->value ? $p->value : 0; // free price here
+      $this->value = $this->getValueFromSchema();
     
     if ( !$this->name )
       $this->name = (string)$this->Declination->Product;
@@ -47,6 +50,15 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
       $this->description_for_buyers = $this->Declination->description_for_buyers;
   }
   
+  public function getValueFromSchema()
+  {
+    $value = NULL;
+    foreach ( $this->Declination->Product->PriceProducts as $p )
+    if ( $this->price_id == $p->price_id )
+      $value = $p->value ? $p->value : 0; // free price here
+    
+    return $value;
+  }
   public function isSold()
   {
     return !$this->integrated_at;

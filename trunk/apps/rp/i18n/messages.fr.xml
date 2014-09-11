@@ -5,6 +5,30 @@
     <header/>
     <body>
       <trans-unit>
+        <source>This price will be applied, as it is defined inside the product...</source>
+        <target>Ce tarif sera appliqué, tel que défini au sein du produit...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>This product will become the inner price of those member cards</source>
+        <target>Ce produit deviendra le prix intrinsèque de ces cartes d'abo</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Global price</source>
+        <target>Prix global</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Product</source>
+        <target>Produit</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Money</source>
+        <target>Argent</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Price</source>
+        <target>Prix</target>
+      </trans-unit>
+      <trans-unit>
         <source>Best seat rank</source>
         <target>Meilleur rang de place</target>
       </trans-unit>

@@ -180,7 +180,7 @@ class transactionActions extends autoTransactionActions
     $ws = $this->form['content']['store']->getWidgetSchema();
     $vs = $this->form['content']['store']->getValidatorSchema();
     $vs['product_id'] = new sfValidatorDoctrineChoice(array(
-      'model' => 'Manifestation',
+      'model' => 'Product',
       'query' => Doctrine::getTable('Product')->createQuery('pdt')->select('pdt.id')
         ->andWhereIn('pdt.meta_event_id IS NULL OR pdt.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()))
         ->leftJoin('pdt.Prices p')

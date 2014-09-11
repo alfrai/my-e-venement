@@ -115,8 +115,8 @@ class Transaction extends PluginTransaction
   {
     $price = 0;
     foreach ( $this->Tickets as $ticket )
-    if ( $all && $ticket->Duplicatas->count() == 0
-      || $ticket->Duplicatas->count() == 0 && ($ticket->printed_at || $ticket->integrated_at || !is_null($ticket->cancelling)) )
+    if ( $ticket->Duplicatas->count() == 0
+      && ($all === true || $ticket->printed_at || $ticket->integrated_at || !is_null($ticket->cancelling)) )
       $price += $ticket->value + $ticket->taxes;
     return $price;
   }
@@ -124,27 +124,27 @@ class Transaction extends PluginTransaction
   {
     $price = 0;
     foreach ( $this->BoughtProducts as $product )
-    if ( $all || $product->integrated_at )
+    if ( $all === true || $product->integrated_at )
       $price += $product->value;
     return $price;
   }
   public function getPrice($all = false, $all_inclusive = false)
   {
-    if ( $all_inclusive )
+    if ( $all_inclusive === true )
     {
       return $this->getPrice($all)
         + $this->getMemberCardPrice($all)
+        + $this->getProductsPrice($all)
         - $this->getTicketsLinkedToMemberCardPrice($all);
     }
     
-    $price = $this->getTicketsPrice($all) + $this->getProductsPrice($all);
-    return $price;
+    return $this->getTicketsPrice($all) + $this->getProductsPrice($all);
   }
   public function getMemberCardPrice($all = false)
   {
     $price = 0;
     foreach ( $this->MemberCards as $mc )
-    if ( $all || $mc->activated )
+    if ( $all === true || $mc->activated )
       $price += $mc->MemberCardType->value;
     return $price;
   }
@@ -179,7 +179,7 @@ class Transaction extends PluginTransaction
     
     // linked directly to this transaction
     foreach ( $this->MemberCards as $mc )
-    if ( $all || $mc->activated )
+    if ( $all === true || $mc->activated )
     foreach ( $mc->MemberCardPrices as $mcp )
       if ( isset($prices[$mcp->price_id]) )
         $prices[$mcp->price_id]++;
@@ -200,7 +200,7 @@ class Transaction extends PluginTransaction
     foreach ( $this->Tickets as $ticket )
     if ( $ticket->printed_at && $ticket->member_card_id )
       $price += $ticket->value;
-    elseif ( $all && $ticket->Price->member_card_linked && !$ticket->printed_at
+    elseif ( $all === true && $ticket->Price->member_card_linked && !$ticket->printed_at
           && isset($prices[$ticket->price_id]) && $prices[$ticket->price_id] > 0 )
     {
       $prices[$ticket->price_id]--;
