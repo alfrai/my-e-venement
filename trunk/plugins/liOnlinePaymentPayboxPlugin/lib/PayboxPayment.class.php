@@ -47,11 +47,13 @@
       if ( !isset($pem['remote']) ) $pem['remote'] = 'http://www1.paybox.com/telechargements/pubkey.pem';
       if ( !file_exists($path = sfConfig::get('sf_module_cache_dir').'/paybox/') )
         mkdir($path);
+      chmod($path, 0777);
       $fp = fopen($path.$pem['local'],'a+');
       $stat = fstat($fp);
       if ( $stat['size'] == 0 || $stat['mtime'] < strtotime('yesterday') )
         fwrite($fp, file_get_contents($pem['remote']));
       fclose($fp);
+      chmod($path.$pem['local'], 0777);
       
       // getting the paybox's public key
       $cert = file_get_contents($path.$pem['local']);

@@ -18,7 +18,7 @@
         var operand = $(this).val() == '+' ? '*' : '/';
         $('.gauge .seated-plan.picture')
           .each(function(){
-            var factor = 1.2;
+            var factor = 1.3;
             var new_scale = operand == '*' ? parseFloat($(this).attr('data-scale'))*factor : parseFloat($(this).attr('data-scale'))/factor;
             $(this).css('transform', 'scale('+new_scale+')')
               .attr('data-scale', new_scale);

@@ -231,7 +231,6 @@
             url: $(this).prop('action'),
             data: $(this).serialize(),
             complete: function(){
-              console.log('deleted');
               // graphical removal
               $(seat).parent().find('.seat[data-id='+$(seat).attr('data-id')+']').remove();
               $('.sf_admin_form_field_show_picture .pre-seat').remove();  // cleaning current stuff
@@ -386,6 +385,7 @@
       if ( scale == undefined )
         var scale = ref.attr('data-scale') ? ref.attr('data-scale') : 1;
       
+      //console.log('scale: '+scale+', x: '+(event.pageX-ref.position().left)/scale+', y: '+(event.pageY-ref.position().top) /scale);
       return LI.seatedPlanMouseup({
         position: {
           x: Math.round((event.pageX-ref.position().left)/scale),
