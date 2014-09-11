@@ -18,7 +18,7 @@ generator:
         product_declination_id: { label: Product, help: This product will become the inner price of those member cards }
         price_id: { help: 'This price will be applied, as it is defined inside the product...' }
       list:
-        display: [name,description, _value, _intern_value]
+        display: [name,description, _value, _real_value]
         sort: [name, asc]
         object_actions:
           _edit: ~
