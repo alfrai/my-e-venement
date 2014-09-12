@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Products list</source>
+        <target>Liste des produits</target>
+      </trans-unit>
+      <trans-unit>
         <source>Nothing to declare...</source>
         <target>Rien à déclarer...</target>
       </trans-unit>

@@ -22,7 +22,7 @@ generator:
         sort: [ct.name, pt.name]
         table_method: retrievePublicList
         max_per_page: 100
-        title: <?php echo sfConfig::get('app_informations_store','Store list').PHP_EOL ?>
+        title: <?php echo sfConfig::get('app_informations_store','Products list').PHP_EOL ?>
       filter:
         display: [name, product_category_id]
       form:    ~
