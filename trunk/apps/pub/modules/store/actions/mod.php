@@ -35,12 +35,11 @@ $this->json = array(
 
 $q = Doctrine::getTable('BoughtProduct')->createQuery('bp')
   ->andWhere('bp.transaction_id = ?', $this->getUser()->getTransactionId())
-  ->andWhere('bp.integrated_at IS NULL')
   ->andWhere('bp.product_declination_id = ?', $store['declination_id'])
   ->andWhere('bp.price_id = ?', $store['price_id'])
   ->orderBy('bp.value, bp.id DESC')
 ;
-$count = $q->count();
+$count = $q->copy()->andWhere('bp.integrated_at IS NULL')->count();
 if ( $count == 0 )
 {
   // security checks
@@ -58,7 +57,10 @@ if ( $count == 0 )
 
 $qty = $store['qty'] - $count;
 if ( $qty == 0 )
-  $this->json['success']['qty'] = $q->count();
+{
+  $this->json['success']['qty'] = $q->andWhere('bp.integrated_at IS NULL OR bp.member_card_id IS NOT NULL')->count();
+  $this->json['success']['message'] = 'Nothing to declare...';
+}
 elseif ( $qty < 0 )
 {
   $bps = $q->limit(abs($qty))

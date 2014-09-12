@@ -267,7 +267,7 @@
         {
           if ( $pdt->isSold() )
             $semaphore['products'] = false;
-          elseif ( !$pdt->isDuplicata() )
+          elseif (!( method_exists($pdt, 'isDuplicata') && $pdt->isDuplicata() ))
             $semaphore['amount'] += $pdt->value;
         }
         foreach ( $this->transaction->Payments as $payment )

@@ -68,6 +68,7 @@ class cardActions extends sfActions
       if ( !$mcf->isValid() )
         throw new liEvenementException('Error when adding member cards.');
       
+      $this->getUser()->getTransaction()->MemberCards[] = $mcf->getObject();
       $mcf->save();
     }
     

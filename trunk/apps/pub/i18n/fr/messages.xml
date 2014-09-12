@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Nothing to declare...</source>
+        <target>Rien à déclarer...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Order #%%tid%%</source>
         <target>Commande #%%tid%%</target>
       </trans-unit>

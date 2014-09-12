@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You cannot remove a product linked with a member card, you should better try to remove the member card...</source>
+        <target>Vous ne pouvez pas retirer un produit lié à une carte d'abo, vous feriez mieux d'essayer de supprimer la carte d'abo...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Pay what you want</source>
         <target>Prix libre</target>
       </trans-unit>

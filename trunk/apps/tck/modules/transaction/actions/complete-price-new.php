@@ -133,10 +133,15 @@ for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )
 }
 else // delete
 {
-  $q->andWhere('a.price_id = ?',$params[$field]['price_id'])
-    ->limit(abs($params[$field]['qty']))
-    ->execute()
-    ->delete();
+  try {
+    $q->andWhere('a.price_id = ?',$params[$field]['price_id'])
+      ->limit(abs($params[$field]['qty']))
+      ->execute()
+      ->delete();
+  } catch ( liEvenementException $e )
+  {
+    $this->json['success']['error_fields'][] = __($e->getMessage());
+  }
 }
 
 $this->json['success']['success_fields'][$field]['remote_content']['load']['type']

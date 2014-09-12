@@ -39,7 +39,10 @@ $(document).ready(function(){
         },
         success: function(json){
           orig = $(form).find('select').val();
-          LI.alert(json.success.message, 'success');
+          if ( json.success.message )
+            LI.alert(json.success.message, 'success');
+          if ( json.error.message )
+          LI.alert(json.error.message, 'error');
         }
       });
       return false; // submit only w/ ajax

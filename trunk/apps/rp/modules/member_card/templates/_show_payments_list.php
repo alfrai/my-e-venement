@@ -7,7 +7,7 @@
   <tbody>
   <?php foreach ( $member_card->Payments as $payment ): ?>
     <tr>
-      <td><?php echo cross_app_link_to('#'.$payment->transaction_id,'tck','ticket/pay?id='.$payment->transaction_id) ?></td>
+      <td><?php echo cross_app_link_to('#'.$payment->transaction_id,'tck',($member_card->transaction_id && $member_card->Transaction->BoughtProducts->count() > 0 ? 'transaction/edit' : 'ticket/pay').'?id='.$payment->transaction_id) ?></td>
       <td><?php echo $payment->Method ?></td>
       <td class="payment_value"><?php echo format_currency($payment->value,'€'); $value += $payment->value ?></td>
     </tr>

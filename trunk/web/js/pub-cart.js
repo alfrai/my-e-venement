@@ -3,12 +3,13 @@
     while ( $('#command tbody > :not(.products) .tickets > :not(.done)').length > 0 )
     {
       ticket = $('#command tbody .tickets > :not(.done):first');
-      price_id = ticket.attr('data-price-id');
+      var data_id;
+      price_id = ticket.attr('data-price-id') ? ticket.attr(data_id = 'data-price-id') : ticket.attr(data_id = 'data-mct-id');
       gauge_id = ticket.closest('tr').attr('id');
-      ticket.closest('tr').find('.qty').html($('#command tbody #'+gauge_id+' .tickets > [data-price-id='+price_id+']').length);
+      ticket.closest('tr').find('.qty').html($('#command tbody #'+gauge_id+' .tickets > ['+data_id+'='+price_id+']').length);
       var value = 0;
       var taxes = 0;
-      $('#command tbody #'+gauge_id+' .tickets > [data-price-id='+price_id+']').each(function(){
+      $('#command tbody #'+gauge_id+' .tickets > ['+data_id+'='+price_id+']').each(function(){
         value += parseFloat($(this).closest('tr').find('.value').html().replace(',','.'));
         var tmp = parseFloat($(this).closest('tr').find('.extra-taxes').html().replace(',','.'));
         if ( !isNaN(tmp) )
@@ -19,7 +20,7 @@
       ticket.closest('tr').find('.total').html(LI.format_currency(value, currency));
       ticket.closest('tr').find('.extra-taxes').html(LI.format_currency(taxes, currency));
       ticket.addClass('done');
-      $('#command tbody #'+gauge_id+' .tickets > [data-price-id='+price_id+']:not(.done)').remove();
+      $('#command tbody #'+gauge_id+' .tickets > ['+data_id+'='+price_id+']:not(.done)').remove();
     }
     
     // products

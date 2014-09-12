@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Real value</source>
+        <target>Valeur réelle</target>
+      </trans-unit>
+      <trans-unit>
         <source>This price will be applied, as it is defined inside the product...</source>
         <target>Ce tarif sera appliqué, tel que défini au sein du produit...</target>
       </trans-unit>
