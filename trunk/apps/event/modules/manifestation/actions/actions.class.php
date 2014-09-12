@@ -38,6 +38,8 @@ class manifestationActions extends autoManifestationActions
 {
   public function executeAddGaugePrice(sfWebRequest $request)
   {
+    $this->json = array('success' => array(), 'error' => array());
+    
     if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
     {
       $this->getResponse()->setContentType('text/html');
@@ -50,21 +52,22 @@ class manifestationActions extends autoManifestationActions
     
     if (!( $pg = $request->getParameter('price_gauge') ))
     {
-      $this->json['error'] = $error;
+      $this->json['error']['message'] = $error;
       return 'Success';
     }
     
-    $form = new PriceGaugeForm;
+    $form = new PriceGaugeForm(intval($pg['id']) > 0 ? Doctrine::getTable('PriceGauge')->find($pg['id']) : NULL);
     $form->bind($pg);
     if ( !$form->isValid() )
     {
       error_log($form->getErrorSchema());
-      $this->json['error'] = $error;
+      $this->json['error']['message'] = $error;
       return 'Success';
     }
     
     $form->save();
-    $this->json['success'] = 'Price created or updated for this gauge';
+    $this->json['success']['id'] = $form->getObject()->id;
+    $this->json['success']['message'] = 'Price created or updated for this gauge';
   }
   public function executeSlideHappensAt(sfWebRequest $request)
   {

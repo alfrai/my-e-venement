@@ -10,10 +10,14 @@ $(document).ready(function(){
       data[$(this).prop('name')] = $(this).val(); 
     });
     
+    var input = this;
     $.get($(this).closest('[data-submit-url]').attr('data-submit-url'), data, function(json){
       $.each(json,function(type, msg){
-        LI.alert(msg, type);
+        if ( msg.message )
+          LI.alert(msg.message, type);
       });
+      if ( json.success.id )
+        $(input).parent().find('[name="price_gauge[id]"]').val(json.success.id);
     });
     
     return false;

@@ -12,8 +12,18 @@ class PriceGaugeForm extends BasePriceGaugeForm
 {
   public function configure()
   {
-    $this->widgetSchema['gauge_id'] = new sfWidgetFormInputHidden;
-    $this->widgetSchema['price_id'] = new sfWidgetFormInputHidden;
-    $this->widgetSchema['value']->setAttribute('pattern', '\d+(\.\d+){0,1}');
+    $this->widgetSchema   ['gauge_id'] = new sfWidgetFormInputHidden;
+    $this->widgetSchema   ['price_id'] = new sfWidgetFormInputHidden;
+    $this->widgetSchema   ['value']->setAttribute('pattern', '\d+(\.\d+){0,1}');
+    $this->validatorSchema['value']->setOption('required', false);
+  }
+  
+  public function save($con = null)
+  {
+    if ( $this->values['value'] || $this->values['value'] === 0 )
+      return parent::save($con);
+      
+    $this->object->delete();
+    return $this->object;
   }
 }

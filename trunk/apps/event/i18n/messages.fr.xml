@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>WARNING: those prices will be updated/deleted only if you press the &lt;enter&gt; key on each modification</source>
+        <target>ATTENTION: ces tarifs ne seront mis à jour / supprimés qu'une fois que vous aurez pressé la touche &lt;entrée&gt; sur chaque modification</target>
+      </trans-unit>
+      <trans-unit>
         <source>Price created or updated for this gauge</source>
         <target>Tarif créé ou mis à jour pour cette jauge</target>
       </trans-unit>

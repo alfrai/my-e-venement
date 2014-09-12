@@ -2,10 +2,15 @@
 <?php use_javascript('manifestation-price-gauges') ?>
 <?php use_javascript('jquery.nicescroll.min.js') ?>
 <?php $manifestation = $form->getObject(); ?>
-<div class="sf_admin_form_row sf_admin_table sf_admin_form_field_gauges_prices ui-widget-content ui-corner-all">
+<div class="sf_admin_form_row sf_admin_table sf_admin_form_field_gauges_prices">
 <div class="label ui-helper-clearfix">
   <label for="gauge_prices"><?php echo __('Prices list') ?></label>
 </div>
+<div class="help">
+  <span class="ui-icon ui-icon-help floatleft"></span>
+  <?php echo __('WARNING: those prices will be updated/deleted only if you press the <enter> key on each modification') ?>
+</div>
+<div class="ui-widget-content ui-corner-all">
 <table>
   <body>
     <?php foreach ( $manifestation->Gauges as $gauge ): ?>
@@ -42,4 +47,5 @@
     </tr>
   </thead>
 </table>
+</div>
 </div>
