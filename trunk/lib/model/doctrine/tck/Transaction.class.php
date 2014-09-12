@@ -132,7 +132,7 @@ class Transaction extends PluginTransaction
   {
     if ( $all_inclusive === true )
     {
-      return $this->getPrice($all)
+      return $this->getTicketsPrice($all)
         + $this->getMemberCardPrice($all)
         + $this->getProductsPrice($all)
         - $this->getTicketsLinkedToMemberCardPrice($all);
