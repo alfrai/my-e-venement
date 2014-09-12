@@ -100,6 +100,7 @@ LI.formSubmit = function(){
         switch ( value.remote_content.load.type ) {
         case 'manifestations_price':
         case 'store_price':
+          var reset = value.remote_content.load.reset;
           $.ajax({
             url: value.remote_content.load.url,
             complete: function(data){
@@ -112,7 +113,7 @@ LI.formSubmit = function(){
               
               var type = value.remote_content.load.type.replace(/_price$/, '');
               if ( data.success.success_fields[type] !== undefined && data.success.success_fields[type].data !== undefined )
-                LI.completeContent(data.success.success_fields[type].data.content, type, true);
+                LI.completeContent(data.success.success_fields[type].data.content, type, reset);
             }
           });
           break;

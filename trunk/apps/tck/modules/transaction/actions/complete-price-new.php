@@ -89,9 +89,9 @@ $pp = Doctrine::getTable('PriceProduct')->createQuery('pp')
   ->andWhere('pp.price_id = ?', $params[$field]['price_id'])
   ->andWhere('d.id = ?',$params[$field]['declination_id'])
   ->select('pp.id, pp.value')
+  ->fetchOne()
 ;
-$free_price = $pp->fetchOne()->value === NULL ? $params[$field]['free-price'] : NULL;
-
+$free_price = $pp && $pp->value === NULL ? $params[$field]['free-price'] : NULL;
 
 $products = NULL;
 $manifs = array();
@@ -148,3 +148,4 @@ $this->json['success']['success_fields'][$field]['remote_content']['load']['type
   = $this->json['success']['success_fields'][$field]['data']['type'];
 $this->json['success']['success_fields'][$field]['remote_content']['load']['url']
   = url_for(sprintf($matches[$params[$field]['type']]['url'], $state), true);
+$this->json['success']['success_fields'][$field]['remote_content']['load']['reset'] = false;

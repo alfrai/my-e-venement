@@ -236,6 +236,7 @@
         
         break;
       case 'store_integrate':
+        $this->json['success']['success_fields'][$field] = $success;
         foreach ( $products = Doctrine::getTable('BoughtProduct')->createQuery('bp')
           ->andWhere('bp.transaction_id = ?', $this->form[$field]->getValue('id'))
           ->andWhere('bp.integrated_at IS NULL')
@@ -254,12 +255,8 @@
             'user'        => $this->getUser(),
           )));
         
-        $this->json['success']['success_fields'][$field]['remote_content'] = array(
-          'load' => array(
-            'type' => 'store_price',
-            'url'  => url_for('transaction/getStore?id='.$request->getParameter('id'), true)
-          )
-        );
+        $this->json['success']['success_fields'][$field]['remote_content']['load']['type']  = 'store_price';
+        $this->json['success']['success_fields'][$field]['remote_content']['load']['url']   = url_for('transaction/getStore?id='.$request->getParameter('id'), true);
         break;
       case 'close':
         $semaphore = array('products' => true, 'amount' => 0);

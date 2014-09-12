@@ -46,6 +46,7 @@ abstract class PluginTicket extends BaseTicket
         ->leftJoin('m.Gauges g')
         ->leftJoin('m.Vat v')
         ->andWhere('g.id = ?',$this->gauge_id)
+        ->leftJoin('g.PriceGauges pg WITH pg.price_id = pm.price_id')
         ->orderBy('pm.updated_at DESC');
       
       if ( is_null($this->price_id) )
@@ -65,13 +66,18 @@ abstract class PluginTicket extends BaseTicket
           $this->price_name = $pm->Price->name;
         if ( is_null($this->price_id) )
           $this->price_id = $pm->price_id;
-        if ( is_null($this->value) )
-          $this->value    = $pm->value;
+        if ( is_null($this->value) ) // priority to PriceGauge, then PriceManifestation
+          $this->value    = $pm->Manifestation->Gauges[0]->PriceGauges->count() > 0
+            ? $pm->Manifestation->Gauges[0]->PriceGauges[0]->value
+            : $pm->value;
       }
     }
     
     if ( !$this->price_name )
       $this->price_name = $this->Price->name;
+    
+    if (!( sfContext::hasInstance() && $this->Price->isAccessibleBy(sfContext::getInstance()->getUser()) ))
+      throw new liEvenementException('You tried to save a ticket with a price that you cannot access (user: #'.sfContext::getInstance()->getUser()->getId().', price: #'.$this->price_id.')');
     
     // the transaction's last update
     $this->Transaction->updated_at = NULL;
