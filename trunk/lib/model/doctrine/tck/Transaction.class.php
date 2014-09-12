@@ -148,30 +148,6 @@ class Transaction extends PluginTransaction
       $price += $mc->MemberCardType->value;
     return $price;
   }
-  // returns an array componed by the vat value, and the value & taxes without legal taxes
-  public function getDifferentiatedAmounts()
-  {
-    $r = array('vat' => 0);
-    foreach ( array('Tickets', 'BoughtProducts') as $rel )
-    foreach ( $this->$rel as $obj )
-    {
-      // all taxed content
-      foreach ( array('taxes', 'value') as $t )
-      try {
-        if ( !isset($r[$t]) )
-          $r[$t] = 0;
-        $r[$t] += round($obj->$t - $obj->$t/(1+$obj->vat),2);
-      } catch ( Doctrine_Exception $e ) {}
-      
-      // VAT
-      $r['vat'] += round($obj->value - $obj->value/(1+$obj->vat),2);
-    }
-    
-    // MemberCards
-    $r['value'] += $this->getMemberCardPrice();
-    
-    return $r;
-  }
   
   public function getTicketsLinkedToMemberCardPrice($all = false)
   {
