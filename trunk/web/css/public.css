@@ -114,7 +114,6 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #command tfoot .extra-taxes, #command tfoot .total-total, #command tfoot .total { background-color: whitesmoke; }
 #command tfoot .total-total { border-bottom-right-radius: 4px; }
 #command tfoot { font-weight: bold; }
-#details .transaction-content .products .html { display: none; } /* this is not yet working properly */
 #details a, #details label { display: inline-block; }
 #details label { min-width: 80px; }
 #details a { min-width: 35px; text-decoration: none; }
