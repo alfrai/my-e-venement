@@ -32,7 +32,7 @@ class HiPayPayment extends OnlinePayment
   
   public static function create(Transaction $transaction)
   {
-    $hipay new self($transaction);
+    $hipay = new self($transaction);
     $hipay
       ->config()
       ->init()
@@ -44,12 +44,15 @@ class HiPayPayment extends OnlinePayment
   public function render(array $attributes = array())
   {
     $this->prepare();
+    foreach ( array('class' => '', 'id' => '') as $attr => $val )
+    if ( !isset($attributes[$attr]) )
+      $attributes[$attr] = $val;
     
     if ( !$this->url )
       return '<div class="'.$attributes['class'].'" id="'.$attributes['id'].'">Pas de serveur HiPay disponible...</div>';
     
-    $attributes['method'] = 'post';
-    $attributes['url'] = $this->url;
+    $attributes['method'] = 'get';
+    $attributes['action'] = $this->url;
     
     $r = '';
     $r .= '<form ';
@@ -60,19 +63,26 @@ class HiPayPayment extends OnlinePayment
     
     $r .= '<input type="submit" value="HiPay" />';
     $r .= '</form>';
+    return $r;
   }
   
-  public static function getTransactionIdByResponse(sfWebRequest $parameters)
+  public static function getTransactionIdByResponse(sfWebRequest $request)
   {
-    self::config();
-    $ipn = new IPN();
-    return $ipn->order;
+    $data = self::process($request->getParameter('xml'));
+    return $data['xml']['transaction_id'];
   }
   
   public function response(sfWebRequest $request)
   {
-    $bank = $this->createBankPayment($request);
-    $bank->save();
+    try
+    {
+      $bank = $this->createBankPayment($request);
+      $bank->save();
+    }
+    catch ( Exception $e )
+    {
+      error_log($e);
+    }
     return array('success' => $bank->error != 'yes', 'amount' => $bank->amount);
   }
   
@@ -96,27 +106,27 @@ class HiPayPayment extends OnlinePayment
   
   /** specific methods **/
   
-  protected function process($xml)
+  protected static function process($xml)
   {
-    $result = HIPAY_MAPI_COMM_XML::analyzeNotificationXML($request->getParameter('xml'), &$mode, &$code, &$date, &$time, &$transid, &$amount, &$currency, &$merchantid, &$merchantdatas, &$customeremail, &$subscriptionid, &$refproducts);
+    $result = HIPAY_MAPI_COMM_XML::analyzeNotificationXML($xml, $mode, $code, $date, $time, $transid, $amount, $currency, $merchantid, $merchantdatas, $customeremail, $subscriptionid, $refproducts);
     
     $r = array(
       'result' => $result,
       'xml' => array(
-        'capture_mode'         = $mode;
-        'code'                 = $code;
-        'payment_date'         = $date;
-        'payment_$time'        = $time;
-        'authorization_id'     = $transid;
-        'amount'               = $amount;
-        'currency'             = $currency;
-        'merchant_id'          = $merchantid;
-        'caddie'               = json_encode($merchantdatas);
-        'customer_email'       = $customeremail;
-        'complementary_code'   = $subscriptionid;
-        'transaction_id'       = $refproducts[0];
-        'receipt_complement'   = json_encode($refproducts);
-        'raw'                  = $request->getParameter('xml');
+        'capture_mode'         => $mode,
+        'code'                 => $code,
+        'payment_date'         => $date,
+        'payment_time'         => $time,
+        'authorization_id'     => $transid,
+        'amount'               => $amount,
+        'currency_code'        => $currency,
+        'merchant_id'          => $merchantid,
+        'caddie'               => json_encode($merchantdatas),
+        'customer_email'       => $customeremail,
+        'complementary_code'   => $subscriptionid,
+        'transaction_id'       => $refproducts[0],
+        'receipt_complement'   => json_encode($refproducts),
+        'raw'                  => $xml,
       ),
     );
     
@@ -139,11 +149,14 @@ class HiPayPayment extends OnlinePayment
       $this->config();
     if ( !$this->order || !$this->item || !$this->config )
       throw new liEvenementException('HiPay preconditions failure');
+    $url = sfConfig::get('app_payment_url', array());
     
-    $orderSimple = new HIPAY_MAPI_SimplePayment($payParams, $orderParams, $itemParams);
-    $this->output = HIPAY_MAPI_SEND_XML::sendXML($xml = $orderSimple->getXML());
-    if ( !HIPAY_MAPI_COMM_XML::analyzeResponseXML($output, &$url, &$err_msg) )
+    $orderSimple = new HIPAY_MAPI_SimplePayment($this->config, $this->order, array($this->item));
+    $output = HIPAY_MAPI_SEND_XML::sendXML($xml = $orderSimple->getXML(), isset($url['hipay_order']) ? $url['hipay_order'] : NULL);
+    if ( !HIPAY_MAPI_COMM_XML::analyzeResponseXML($output, $url, $err_msg) )
+    {
       throw new liOnlineSaleException('An error occurred during HiPay URL generation, with error message: '.$err_msg);
+    }
     
     $this->url = $url;
     return $this;
@@ -153,9 +166,9 @@ class HiPayPayment extends OnlinePayment
   {
     $order = sfConfig::get('app_payment_order',array());
     $this->order = new HIPAY_MAPI_Order();
-    $this->order->setOrderTitle($order['title'] ? $order['title'] : $this->__('Order #%%tid%%')))
-    $this->order->setOrderInfo($this->__('Order #%%tid%%'));
-    $this->order->setOrderCategory(isset($order['category_id'] ? $order['category_id'] : 200);
+    $this->order->setOrderInfo($order['title'] ? $order['title'] : $this->__('Order #%%tid%%'));
+    $this->order->setOrderTitle($this->__('Order #%%tid%%'));
+    $this->order->setOrderCategory(isset($order['category_id']) ? $order['category_id'] : 618);
     
     if(!$this->order->check())
       throw new Exception("Error when creating HiPay Order object");
@@ -168,19 +181,8 @@ class HiPayPayment extends OnlinePayment
     $this->item->setName($this->__('Transaction'));
     $this->item->setquantity(1);
     $this->item->setRef($this->transaction->id);
-    
-    $price = $this->transaction->getDifferentiatedAmounts();
-    $this->item->setPrice($price['value']);
-    unset($price['value']);
-    $taxes = array();
-    foreach ( $price as $t => $val )
-    {
-      $taxParam = new HIPAY_MAPI_Tax();
-      $taxParam->setTaxName($t);
-      $taxParam->setTaxVal($val,false);
-      $taxes[] = $taxParam;
-    }
-    $this->item->setTax(array($taxParam));
+    $this->item->setCategory(sfConfig::get('app_payment_category',200));
+    $this->item->setPrice($this->transaction->getPrice(true, true));
     
     if ( !$this->item->check() )
       throw new liOnlineSaleException("Error when creating the HiPay Item object");
@@ -190,6 +192,7 @@ class HiPayPayment extends OnlinePayment
   
   public function config()
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url'));
     if ( sfConfig::get('app_payment_type','') !== 'hipay' )
       throw new liOnlineSaleException('The configured payment plugin is not set to HiPay, but you are using HiPay...');
     
@@ -200,11 +203,11 @@ class HiPayPayment extends OnlinePayment
     require_once(__DIR__.'/vendor/hipay/mapi_package.php');
     
     // first, we define payement params 
-    $this->config = new liHiPayPaymentParams();
-    $this->config->setLogin(sfConfig::get('app_payment_id'),sfConfig::get('app_payment_password'));
+    $this->config = new HiPayPaymentParams();
+    $this->config->setLogin(sfConfig::get('app_payment_id'), sfConfig::get('app_payment_password'));
     // set accounts for order and tax amount
     // you can determine 5 differents accounts; the third concerns insurance, the fourth fixed costs and the last shipping
-    $this->config->setAccounts(sfConfig::get('app_payment_account', array()));
+    $this->config->setAccountsBulk(sfConfig::get('app_payment_account', array()));
     
     $this->config->setLocale($this->user ? $this->user->getCulture() : 'fr_FR');
     $this->config->setMedia(sfConfig::get('app_payment_media', 'WEB'));
@@ -222,14 +225,14 @@ class HiPayPayment extends OnlinePayment
     
     // set return URLs 
     $urls = sfConfig::get('app_payment_url', array('normal' => '', 'cancel' => '', 'automatic' => ''));
-    $this->config->setUrlOk($urls['done']);
-    $this->config->setUrlNok($urls['cancel']);
-    $this->config->setUrlCancel($urls['cancel']);
+    $this->config->setUrlOk(url_for($urls['normal'],true));
+    $this->config->setUrlNok(url_for($urls['cancel'],true));
+    $this->config->setUrlCancel(url_for($urls['cancel'],true));
     
     // set notyfication informations
     if ( sfConfig::get('app_informations_email', false) )
     $this->config->setEmailAck(sfConfig::get('app_informations_email'));
-    $this->config->setUrlAck($urls['automatic']);
+    $this->config->setUrlAck(url_for($urls['automatic'],true));
     
     if( !$this->config->check() )
       throw new liOnlineSaleException("Error when creating HiPay Payment Params object");
@@ -242,7 +245,7 @@ class HiPayPayment extends OnlinePayment
     if ( !sfContext::hasInstance() )
       return $string;
     
-    $sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
     return __($string);
   }
 }

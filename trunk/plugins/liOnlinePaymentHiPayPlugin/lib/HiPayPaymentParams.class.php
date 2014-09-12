@@ -23,14 +23,21 @@
 ?>
 <?php
 
-class liHiPayPaymentParams extends HIPAY_MAPI_PaymentParams
+class HiPayPaymentParams extends HIPAY_MAPI_PaymentParams
 {
-  public function setAccounts($accounts)
+  public function getXmlElement()
+  {
+    return get_parent_class($this);
+  }
+  public function setAccountsBulk($accounts)
   {
     if ( !is_array($accounts) )
       $accounts = array('item' => $accounts);
+    foreach ( array('tax', 'insurance', 'fixed', 'shipping') as $key )
+    if ( !isset($accounts[$key]) )
+      $accounts[$key] = 0;
     
-    return parent::setAccounts(
+    return $this->setAccounts(
       $accounts['item'],
       $accounts['tax'],
       $accounts['insurance'],

@@ -3,19 +3,20 @@ all:
     type: hipay
     order:
       title: 'Your order to our site'
-      #category_id: 200
-    id: xxxxx
-    password: xxxx
-    site_id: xxx
-    account: 000001 # <- use this way to set only one account
-      #item:         00000
-      #tax:          00000
-      #insurance:    00000
-      #fixed_costs:  00000
-      #shipping:     00000
+      #category_id: 200  # look here to know what kind of categories are configured: https://test-payment.hipay.com/order/list-categories/id/[web_site_id]
+    id: xxxxxx        # your first (or secondary) account id, in the accounts synthesis
+    password: xxxxxx  # your "merchant password", not your main password
+    site_id: xxxx     # foundable in the backend, in the list of registered websites
+    account: 000001 # <- this can be the same as your main "id" parameter
+      #item:         00000 # not supported yet
+      #tax:          00000 # not supported yet
+      #insurance:    00000 # not supported yet
+      #fixed_costs:  00000 # not supported yet
+      #shipping:     00000 # not supported yet
     media: WEB
     currency: EUR
     url:
       normal: cart/done
       cancel: cart/cancel
       automatic: cart/response
+      hipay_order: https://test-payment.hipay.com/order/
