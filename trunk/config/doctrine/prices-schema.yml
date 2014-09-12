@@ -159,6 +159,35 @@ PriceManifestation:
       foreignAlias: PriceManifestations
       onDelete: CASCADE
       onUpdate: CASCADE
+PriceGauge:
+  package: price
+  actAs: [Timestampable]
+  indexes:
+    price_gauge_price_idx:
+      fields: [gauge_id, price_id]
+      type: unique
+    price_gauge_value_idx:
+      fields: [value]
+  columns:
+    gauge_id:
+      type: integer
+      notnull: true
+    price_id:
+      type: integer
+      notnull: true
+    value:
+      type:  decimal(8)
+      scale: 3
+      notnull: true
+  relations:
+    Gauge:
+      foreignAlias: PriceGauges
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Price:
+      foreignAlias: PriceManifestations
+      onDelete: CASCADE
+      onUpdate: CASCADE
 PriceProduct:
   package: price
   actAs: [Timestampable]

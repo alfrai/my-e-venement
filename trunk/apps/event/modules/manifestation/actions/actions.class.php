@@ -36,6 +36,36 @@ require_once dirname(__FILE__).'/../lib/manifestationGeneratorHelper.class.php';
  */
 class manifestationActions extends autoManifestationActions
 {
+  public function executeAddGaugePrice(sfWebRequest $request)
+  {
+    if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
+    {
+      $this->getResponse()->setContentType('text/html');
+      $this->setLayout('layout');
+    }
+    else
+      sfConfig::set('sf_web_debug', false);
+    $this->json = array();
+    $error = 'A problem occurred during the price creation / update (you should better reload your screen)';
+    
+    if (!( $pg = $request->getParameter('price_gauge') ))
+    {
+      $this->json['error'] = $error;
+      return 'Success';
+    }
+    
+    $form = new PriceGaugeForm;
+    $form->bind($pg);
+    if ( !$form->isValid() )
+    {
+      error_log($form->getErrorSchema());
+      $this->json['error'] = $error;
+      return 'Success';
+    }
+    
+    $form->save();
+    $this->json['success'] = 'Price created or updated for this gauge';
+  }
   public function executeSlideHappensAt(sfWebRequest $request)
   {
     require(dirname(__FILE__).'/slide-happens-at.php');

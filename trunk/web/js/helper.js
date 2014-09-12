@@ -1,4 +1,4 @@
-  // the global var that can be used everywhere as a "root"
+// the global var that can be used everywhere as a "root"
 if ( LI == undefined )
   var LI = {};
 

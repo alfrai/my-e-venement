@@ -75,7 +75,7 @@ generator:
       edit:
         title: %%name%% @ %%Location%%
         display:
-          General:      [happens_at, ends_at, _id, event_id, location_id, _show_gauge_txt, expected_income, color_id, _form_prices]
+          General:      [happens_at, ends_at, _id, event_id, location_id, _show_gauge_txt, expected_income, color_id, _form_prices, _form_gauges_prices]
           Ticketting:   [duration, vat_id, online_limit, online_limit_per_transaction, depends_on, _show_is_necessary_to, organizers_list, participants_list, no_print]
           Workspaces:   [_form_workspaces] #, _show_workspaces_list]
           <?php $config = sfConfig::get('app_manifestation_reservations',array('enable' => false)); if ( isset($config['enable']) && $config['enable'] ): echo PHP_EOL; ?>

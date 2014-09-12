@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Price created or updated for this gauge</source>
+        <target>Tarif créé ou mis à jour pour cette jauge</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurred during the price creation / update (you should better reload your screen)</source>
+        <target>Un problème est survenu lors de la création / mise à jour du tarif (vous feriez bien de recharger votre écran)</target>
+      </trans-unit>
+      <trans-unit>
         <source>Explicit display</source>
         <target>Affichage explicite</target>
       </trans-unit>

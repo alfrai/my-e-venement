@@ -72,7 +72,10 @@ $(document).ready(function(){
   }
 });
 
-if ( LI != undefined && LI.seatedPlanInitializationFunctions != undefined )
+if ( LI == undefined )
+  var LI = {};
+if ( LI.seatedPlanInitializationFunctions == undefined )
+  LI.seatedPlanInitializationFunctions = [];  
 LI.seatedPlanInitializationFunctions.push(function(){
   $('.seated-plan .seat.txt').unbind('contextmenu');
 });
