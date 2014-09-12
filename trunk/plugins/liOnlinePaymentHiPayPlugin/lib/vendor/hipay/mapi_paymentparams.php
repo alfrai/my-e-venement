@@ -242,16 +242,6 @@ class HIPAY_MAPI_PaymentParams extends HIPAY_MAPI_lockable {
 		if ($this->_locked)
 			return false;
     
-    // LI addon
-    if ( is_array($itemAccount) )
-    {
-      $taxAccount           = $itemAccount['tax'];
-      $shippingCostAccount  = $itemAccount['shipping'];
-      $fixedCostAccount     = $itemAccount['fixed'];
-      $insuranceAccount     = $itemAccount['insurance'];
-      $itemAccount          = $itemAccount['item'];
-    }
-    
 		$itemAccount = (int)$itemAccount;
 		$taxAccount = (int)$taxAccount;
 		$insuranceAccount = (int)$insuranceAccount;

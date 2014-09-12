@@ -1,0 +1,21 @@
+all:
+  payment:
+    type: hipay
+    order:
+      title: 'Your order to our site'
+      #category_id: 200
+    id: xxxxx
+    password: xxxx
+    site_id: xxx
+    account: 000001 # <- use this way to set only one account
+      #item:         00000
+      #tax:          00000
+      #insurance:    00000
+      #fixed_costs:  00000
+      #shipping:     00000
+    media: WEB
+    currency: EUR
+    url:
+      normal: cart/done
+      cancel: cart/cancel
+      automatic: cart/response

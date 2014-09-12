@@ -153,7 +153,7 @@ class HiPayPayment extends OnlinePayment
   {
     $order = sfConfig::get('app_payment_order',array());
     $this->order = new HIPAY_MAPI_Order();
-    $this->order->setOrderTitle($order['title'])
+    $this->order->setOrderTitle($order['title'] ? $order['title'] : $this->__('Order #%%tid%%')))
     $this->order->setOrderInfo($this->__('Order #%%tid%%'));
     $this->order->setOrderCategory(isset($order['category_id'] ? $order['category_id'] : 200);
     
@@ -200,17 +200,15 @@ class HiPayPayment extends OnlinePayment
     require_once(__DIR__.'/vendor/hipay/mapi_package.php');
     
     // first, we define payement params 
-    $this->config = new HIPAY_MAPI_PaymentParams();
+    $this->config = new liHiPayPaymentParams();
     $this->config->setLogin(sfConfig::get('app_payment_id'),sfConfig::get('app_payment_password'));
     // set accounts for order and tax amount
     // you can determine 5 differents accounts; the third concerns insurance, the fourth fixed costs and the last shipping
     $this->config->setAccounts(sfConfig::get('app_payment_account', array()));
     
     $this->config->setLocale($this->user ? $this->user->getCulture() : 'fr_FR');
-    $this->config->setMedia('WEB');
-    $this->config->setCurrency(sfConfig::get('app_payment_currency'));
-    // precise store's order id 
-    $this->config->setIdForMerchant(sfConfig::get('app_payment_merchant_id'));
+    $this->config->setMedia(sfConfig::get('app_payment_media', 'WEB'));
+    $this->config->setCurrency(sfConfig::get('app_payment_currency', 'EUR'));
     // payment method : simple or regular
     $this->config->setPaymentMethod(HIPAY_MAPI_METHOD_SIMPLE);
     // when paiement will be really executed (immediately or for some time)
@@ -219,6 +217,9 @@ class HiPayPayment extends OnlinePayment
     // minimum age of buyer (ALL - everybody is accepted)
     $this->config->setRating('ALL');
     
+    // precise store's order id 
+    $this->config->setIdForMerchant($this->transaction->id);
+    
     // set return URLs 
     $urls = sfConfig::get('app_payment_url', array('normal' => '', 'cancel' => '', 'automatic' => ''));
     $this->config->setUrlOk($urls['done']);
@@ -226,6 +227,7 @@ class HiPayPayment extends OnlinePayment
     $this->config->setUrlCancel($urls['cancel']);
     
     // set notyfication informations
+    if ( sfConfig::get('app_informations_email', false) )
     $this->config->setEmailAck(sfConfig::get('app_informations_email'));
     $this->config->setUrlAck($urls['automatic']);
     
