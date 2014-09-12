@@ -1,7 +1,7 @@
 body {
   width: 100%;
   min-height: 277mm;
-  font-family: arial, sans;
+  font-family: arial, sans-serif;
   font-size: 13px;
 }
 
@@ -49,7 +49,7 @@ body {
 
 #totals {
   margin-left: 450px;
-  width: 200px;
+  width: 140px;
   padding: 5px 10px;
   border: 1px solid silver;
 }
@@ -87,8 +87,13 @@ body.bdc #echeance { display: none; }
 .pdf #payments { width: 180px; }
 #payments h2 { font-size: 13px; margin: 0 10px 0 0; float: left; }
 #payments div { display: table; }
+.pdf #payments div { display: block; }
 #payments div p { display: table-row; }
+.pdf #payments div p { display: block; margin: 0; padding: 0; }
 #payments div p span { display: table-cell; padding-right: 1em; }
+.pdf #payments div p span { display: inline-block; }
+.pdf #payments div p span:first-child { width: 24mm; }
+.pdf #payments div p span + span { width: 18mm; }
 #payments div p span + span { text-align: right; padding-right: 0; }
 #payments div p span:last-child { padding-right: 0; }
 #payments div p.total span { text-decoration: underline; }
