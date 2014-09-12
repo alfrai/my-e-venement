@@ -20,7 +20,8 @@ class PriceManifestationForm extends BasePriceManifestationForm
       'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',10).' }',
     ));
     $this->widgetSchema['price_id']->setOption('add_empty',true);
-    $this->validatorSchema['value']->setOption('required',false);
+    $this->validatorSchema['value']->setOption('required',false)
+      ->setOption('min' => 0);
   }
   public function setHidden($hides = array('manifestation_id','price_id'))
   {
