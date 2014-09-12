@@ -29,7 +29,7 @@ class ManifestationForm extends BaseManifestationForm
         ->orWhere('ii.id = ?', $this->object->id)
         ->andWhere('TRUE)')
       )
-      ->setOption('order_by', array('c.name, c.firstname'))
+      ->setOption('order_by', array('c.name, c.firstname',''))
       ->setOption('expanded', true);
     }
     $this->validatorSchema['participants_list']->setOption('query', $this->widgetSchema['participants_list']->getOption('query'));

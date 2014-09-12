@@ -21,7 +21,7 @@ class PriceManifestationForm extends BasePriceManifestationForm
     ));
     $this->widgetSchema['price_id']->setOption('add_empty',true);
     $this->validatorSchema['value']->setOption('required',false)
-      ->setOption('min' => 0);
+      ->setOption('min', 0);
   }
   public function setHidden($hides = array('manifestation_id','price_id'))
   {
