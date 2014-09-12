@@ -45,7 +45,7 @@ echo "To continue press ENTER"
 echo "To cancel press CTRL+C NOW !!"
 read
 
-read -p "Do you want to reset your dump & patch your database for e-venement v2.7 ? [Y/n] " dump
+read -p "Do you want to reset your dump & patch your database for e-venement v2.8 ? [Y/n] " dump
 if [ "$dump" != "n" ]; then
 
 name="$PGDATABASE"
