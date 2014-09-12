@@ -8,7 +8,7 @@
   </head>
   <body class="pdf">
     <div id="content">
-      <?php include_partial('get_tickets',array('tickets_html' => $tickets_html)) ?>
+      <?php include_partial('transaction/get_tickets',array('tickets_html' => $tickets_html)) ?>
     </div>
   </body>
 </html>

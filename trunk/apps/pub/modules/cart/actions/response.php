@@ -36,6 +36,9 @@
   if ( !$r['success'] )
     throw new liOnlineSaleException('An error occurred during the bank verifications');
   
+  if ( $transaction->Order->count() > 0 )
+    return sfView::NONE;
+  
   // direct payment
   $payment = new Payment;
   $payment->sf_guard_user_id = $this->getUser()->getId();
