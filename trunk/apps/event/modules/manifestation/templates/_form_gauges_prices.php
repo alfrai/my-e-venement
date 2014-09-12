@@ -2,7 +2,10 @@
 <?php use_javascript('manifestation-price-gauges') ?>
 <?php use_javascript('jquery.nicescroll.min.js') ?>
 <?php $manifestation = $form->getObject(); ?>
-<div class="sf_admin_form_row sf_admin_table sf_admin_form_field_gauges_prices">
+<div class="sf_admin_form_row sf_admin_table sf_admin_form_field_gauges_prices ui-widget-content ui-corner-all">
+<div class="label ui-helper-clearfix">
+  <label for="gauge_prices"><?php echo __('Prices list') ?></label>
+</div>
 <table>
   <body>
     <?php foreach ( $manifestation->Gauges as $gauge ): ?>

@@ -136,6 +136,6 @@ select[disabled] { color: #444; }
 
 
 .sf_admin_form .sf_admin_form_field_gauges_prices { margin-left: -150px; width: calc(100% + 130px); overflow: auto; background-color: white; }
-.sf_admin_form .sf_admin_form_field_gauges_prices label { display: none; }
+.sf_admin_form .sf_admin_form_field_gauges_prices table label { display: none; }
 .sf_admin_form .sf_admin_form_field_gauges_prices td { padding: 1px 3px; text-align: center; }
 #content .sf_admin_form .sf_admin_form_field_gauges_prices input { width: 4em !important; border: 0; background-color: rgba(255,255,255,0.5); text-align: right; }
