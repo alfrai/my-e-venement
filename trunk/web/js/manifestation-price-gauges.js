@@ -1,6 +1,14 @@
 $(document).ready(function(){
   // the price_gauges submission
   $('.sf_admin_form .sf_admin_form_field_gauges_prices').niceScroll();
+  if ( $('.sf_admin_form .sf_admin_form_field_gauges_prices .read-only').length > 0)
+  {
+    // the show action
+    $('.sf_admin_form .sf_admin_form_field_gauges_prices input')
+      .prop('readonly', true);
+    $('.sf_admin_form .sf_admin_form_field_gauges_prices *').unbind();
+  }
+  
   $('.sf_admin_form .sf_admin_form_field_gauges_prices [data-submit-url] input[type=text]').keydown(function(e){
     if ( e.which == 13 )
     {
@@ -9,6 +17,9 @@ $(document).ready(function(){
     }
   })
   .change(function(e){
+    if ( $(this).prop('readonly') )
+      return;
+    
     var data = {};
     $(this).parent().find('input').each(function(){
       data[$(this).prop('name')] = $(this).val(); 
