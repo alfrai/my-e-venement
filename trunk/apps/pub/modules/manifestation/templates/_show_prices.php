@@ -3,7 +3,7 @@
 <?php use_helper('Number') ?>
 <?php use_helper('Slug') ?>
 <table class="prices">
-<?php if ( $gauge->Manifestation->PriceManifestations->count() > 0 ): ?>
+<?php if ( $gauge->Manifestation->PriceManifestations->count() > 0 || $gauge->PriceGauges->count() > 0 ): ?>
 <tbody>
 <?php
   // WIP tickets
@@ -23,7 +23,21 @@
     <td class="total">-</td>
   </tr>
 
-<?php foreach ( $gauge->Manifestation->PriceManifestations as $pm ): ?>
+<?php
+  $pms = array();
+  // priority to PriceGauge as it is in the model + ordering
+  foreach ( array($gauge->PriceGauges, $gauge->Manifestation->PriceManifestations) as $data )
+  foreach ( $data as $pm )
+  if ( !isset($pms[$pm->price_id]) )
+    $pms[$pm->price_id] = $pm;
+  foreach ( $pms as $i => $pm )
+  {
+    unset($pms[$i]);
+    $pms[str_pad($pm->value,10,'0',STR_PAD_LEFT).'|'.$pm->Price->name.'|'.$i] = $pm;
+  }
+  krsort($pms);
+?>
+<?php foreach ( $pms as $pm ): ?>
 <?php if ( in_array($gauge->workspace_id, $pm->getRawValue()->Price->Workspaces->getPrimaryKeys()) ): ?>
   <?php
     // calculating the quantity of tickets already in the cart

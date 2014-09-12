@@ -46,14 +46,20 @@ abstract class PluginTicket extends BaseTicket
         ->leftJoin('m.Gauges g')
         ->leftJoin('m.Vat v')
         ->andWhere('g.id = ?',$this->gauge_id)
-        ->leftJoin('g.PriceGauges pg WITH pg.price_id = pm.price_id')
+        ->leftJoin('g.PriceGauges pg')
         ->orderBy('pm.updated_at DESC');
       
       if ( is_null($this->price_id) )
-        $q->leftJoin('pm.Price p WITH p.name = ?',$this->price_name);
+        $q
+          ->leftJoin('pm.Price pmp WITH pmp.name = ?',$this->price_name)
+          ->leftJoin('pg.Price pgp WITH pgp.name = ?',$this->price_name)
+        ;
       else
-        $q->leftJoin('pm.Price p WITH p.id = ?',$this->price_id)
-          ->andWhere('p.id IS NOT NULL');
+        $q
+          ->leftJoin('pm.Price pmp WITH pmp.id = ?',$this->price_id)
+          ->leftJoin('pg.Price pgp WITH pgp.id = ?',$this->price_id)
+          ->andWhere('pmp.id IS NOT NULL OR pgp.id IS NOT NULL')
+        ;
       
       $pm = $q->fetchOne();
       if ( $pm )
@@ -63,9 +69,11 @@ abstract class PluginTicket extends BaseTicket
         if ( is_null($this->vat) )
           $this->vat = $pm->Manifestation->Vat->value;
         if ( is_null($this->price_name) )
-          $this->price_name = $pm->Price->name;
+          $this->price_name = $pm->Price->name
+            ? $pm->Price->name
+            : $pm->Manifestation->Gauges[0]->PriceGauges[0]->Price->name;
         if ( is_null($this->price_id) )
-          $this->price_id = $pm->price_id;
+          $this->price_id = $pm->price_id ? $pm->Price->id : $pm->Manifestation->Gauges[0]->PriceGauges->Price->id;
         if ( is_null($this->value) ) // priority to PriceGauge, then PriceManifestation
           $this->value    = $pm->Manifestation->Gauges[0]->PriceGauges->count() > 0
             ? $pm->Manifestation->Gauges[0]->PriceGauges[0]->value

@@ -239,13 +239,17 @@
           $subobj = 'Gauge';
           $product = Doctrine::getTable('Manifestation')->createQuery('m',true)
             ->leftJoin('m.PriceManifestations pm')
-            ->leftJoin('pm.Price p')
+            ->leftJoin('pm.Price pmp')
             ->leftJoin('m.Gauges g')
+            ->leftJoin('g.PriceGauges pg')
+            ->leftJoin('pg.Price pgp')
             ->leftJoin('g.Workspace w')
             ->leftJoin('w.Order wuo ON wuo.workspace_id = w.id AND wuo.sf_guard_user_id = ?',$this->getUser()->getId())
-            ->orderBy('et.name, me.name, m.happens_at, m.duration, wuo.rank, w.name, p.name')
-            ->leftJoin('p.WorkspacePrices pwp WITH pwp.workspace_id = w.id')
-            ->leftJoin('p.UserPrices      pup WITH pup.sf_guard_user_id = ?',$this->getUser()->getId())
+            ->orderBy('et.name, me.name, m.happens_at, m.duration, wuo.rank, w.name, pmp.name, pgp.name')
+            ->leftJoin('pmp.WorkspacePrices pmpwp WITH pmpwp.workspace_id = w.id')
+            ->leftJoin('pmp.UserPrices      pmpup WITH pmpup.sf_guard_user_id = ?',$this->getUser()->getId())
+            ->leftJoin('pgp.WorkspacePrices pgpwp WITH pgpwp.workspace_id = w.id')
+            ->leftJoin('pgp.UserPrices      pgpup WITH pgpup.sf_guard_user_id = ?',$this->getUser()->getId())
             //->leftJoin('w.WorkspaceUsers wsu ON wsu.workspace_id = w.id AND wsu.sf_guard_user_id = ?',$this->getUser()->getId())
             ->andWhere('m.id = ?',$id)
             ->fetchOne();
@@ -327,21 +331,27 @@
           switch ( $type ) {
           case 'manifestations':
             $pw = false;
-            foreach ( $product->PriceManifestations as $pp )
+            $pps = array();
+            // priority to PriceGauge as it is in the model + ordering
+            foreach ( array($declination->PriceGauges, $product->PriceManifestations) as $data )
+            foreach ( $data as $pp )
+            if ( !isset($pps[$pp->price_id]) )
+              $pps[$pp->price_id] = $pp;
+            foreach ( $pps as $i => $pp )
+            {
+              unset($pps[$i]);
+              $pps[str_pad($pp->value,10,'0',STR_PAD_LEFT).'|'.$pp->Price->name.'|'.$i] = $pp;
+            }
+            krsort($pps);
+            
+            foreach ( $pps as $pp )
             {
               // this price is correctly associated to this gauge
-              foreach ( $pp->Price->WorkspacePrices as $pwp )
-              if ( $pwp->workspace_id === $declination->workspace_id ) // $declination is a Gauge
-              {
-                $pw = true;
-                break;
-              }
-              if ( !$pw ) continue;
-              
+              if ( !in_array($declination->workspace_id, $pp->Price->Workspaces->getPrimaryKeys()) )
+                continue;
               // access to this workspace
               if ( !in_array($declination->workspace_id, array_keys($this->getUser()->getWorkspacesCredentials())) )
                 continue;
-              
               // access to this meta event
               if ( !in_array($product->Event->meta_event_id, array_keys($this->getUser()->getMetaEventsCredentials())) )
                 continue;

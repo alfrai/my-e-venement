@@ -32,7 +32,11 @@
       <?php foreach ( $prices as $price ): ?>
       <?php $form = new PriceGaugeForm($price); ?>
         <td data-submit-url="<?php echo url_for('manifestation/addGaugePrice') ?>" title="<?php echo $gauge ?>">
+          <?php if ( in_array($gauge->workspace_id, $price->Price->Workspaces->getPrimaryKeys()) ): ?>
           <table><?php echo $form ?></table>
+          <?php else: ?>
+          -
+          <?php endif ?>
         </td>
       <?php endforeach ?>
     </tr>
