@@ -25,6 +25,8 @@ all:
       #let_restricted_users_confirm: true
     #extra_informations_enable: false
     #editable_in_calendar: false
+    price_manifestations: true
+    price_gauges: true
   synchronization:
     #period:
     #  from: now
