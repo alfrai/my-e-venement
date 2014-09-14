@@ -19,6 +19,7 @@ generator:
         display: [Price, updated_at]
         object_actions:
           _delete: ~
+        sort: [name, '']
       filter:  ~
       form:    ~
       edit:
