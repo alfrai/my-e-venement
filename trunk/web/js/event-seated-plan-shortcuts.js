@@ -1,7 +1,7 @@
 /** all the keyboard shortcuts **/
 $(document).ready(function(){
   $(document).keypress(function(e){
-    if ( $(':focus').length != 0 )
+    if ( $(':not(.ui-tabs-anchor):focus').length != 0 )
       return;
     if ( $('#sf_fieldset_plan').css('display') == 'none' )
       return;
