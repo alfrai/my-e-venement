@@ -20,19 +20,19 @@ class locationActions extends autoLocationActions
   public function executeEdit(sfWebRequest $request)
   {
     if ( !$this->getRoute()->getObject()->place )
-      throw new sfError404Exception(sprintf('Unable to find the %s object.', $this->options['model']));
+      throw new sfError404Exception(sprintf('Unable to find the %s object, it is not a location.', $this->options['model']));
     parent::executeEdit($request);
   }
   public function executeUpdate(sfWebRequest $request)
   {
     if ( !$this->getRoute()->getObject()->place )
-      throw new sfError404Exception(sprintf('Unable to find the %s object.', $this->options['model']));
+      throw new sfError404Exception(sprintf('Unable to find the %s object, it is not a location.', $this->options['model']));
     parent::executeUpdate($request);
   }
   public function executeDelete(sfWebRequest $request)
   {
     if ( !$this->getRoute()->getObject()->place )
-      throw new sfError404Exception(sprintf('Unable to find the %s object.', $this->options['model']));
+      throw new sfError404Exception(sprintf('Unable to find the %s object, it is not a location.', $this->options['model']));
     parent::executeDelete($request);
   }
   
