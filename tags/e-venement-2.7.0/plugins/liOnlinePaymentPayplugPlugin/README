@@ -1,0 +1,34 @@
+To be able to use correctly this plugin, you have to get back the PayPlug PHP library.
+It's not licensed in anyway, so we cannot include it directly in this plugin.
+Sorry for the inconvenience.
+
+INSTALLATION:
+
+activate the module adding it in the list of extra plugins to use :
+0. the plugin is already present in your [sf_plugins_dir]
+1. edit config/extra-modules.php
+2. add 'liOnlinePaymentPayplugPlugin' in the list as your file will be like :
+
+  <?php
+  $modules = array(
+    // add here your extra modules
+    // 'liZohoCreatorSyncPlugin',
+    'liOnlinePaymentPayplugPlugin',
+  );
+
+3. then, you have to fetch the payplug_php libraries:
+
+using git:
+ $ cd [sf_plugins_dir]/liOnlinePaymentPayplugPlugin/lib
+ $ git clone https://bitbucket.org/payplug/payplug_php payplug_php
+
+without git:
+ $ cd [sf_plugins_dir]/liOnlinePaymentPayplugPlugin/lib
+ $ wget https://bitbucket.org/payplug/payplug_php/get/master.tar.gz
+ $ tar -xzf https://bitbucket.org/payplug/payplug_php/get/master.tar.gz
+
+4. configure your e-voucher v2 application "pub" in [sf_app_dir]/pub/config/app.yml, 
+   you'll find further information in the sample file
+   [sf_plugins_dir]/liOnlinePaymentPayplugPlugin/config/pub-app.yml.template
+5. test it
+6. done

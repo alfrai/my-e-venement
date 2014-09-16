@@ -1,0 +1,12 @@
+.sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_debt { text-align: right; }
+.sf_admin_list_td_debt .debt {
+  font-weight: bold;
+}
+.sf_admin_list_td_debt span {
+  display: inline-block;
+  width: 5em;
+  text-align: right;
+}
+.sf_admin_list_td_debt { white-space: nowrap; }
+
+.sf_admin_filter_field_date span { display: block; }
