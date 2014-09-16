@@ -1,3 +1,0 @@
-all:
-  stylesheets: [/js/farbtastic/farbtastic]
-  javascripts: [farbtastic/farbtastic]

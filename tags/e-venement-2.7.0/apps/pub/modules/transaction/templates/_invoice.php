@@ -1,1 +1,0 @@
-../../../../tck/modules/ticket/templates/_invoice.php
