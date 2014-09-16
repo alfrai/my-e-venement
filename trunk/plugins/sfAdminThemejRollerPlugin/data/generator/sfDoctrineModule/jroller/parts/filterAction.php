@@ -1,6 +1,6 @@
   public function executeFilter(sfWebRequest $request)
   {
-    $this->hasFilters = $this->getUser()->getAttribute('contact.filters', $this->configuration->getFilterDefaults(), 'admin_module');
+    $this->hasFilters = $this->getUser()->getAttribute('<?php echo $this->getModuleName() ?>.filters', $this->configuration->getFilterDefaults(), 'admin_module');
     $this->setPage(1);
 
     if ($request->hasParameter('_reset'))
