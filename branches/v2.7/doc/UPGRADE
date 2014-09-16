@@ -12,7 +12,7 @@ ex: from 2.5.2 to 2.5.3
 
 == Medium ==
 
-=== from v2.5.x to v2.6.x ===
+=== from v2.6.x to v2.7.x ===
 
 The most common procedure :
 
@@ -21,9 +21,9 @@ The most common procedure :
 3. backup your software
 4. cd into your root directory
 5. upgrade your subversion repository
-  - if necessary : svn switch svn+ssh://svn.gna.org/svn/e-venement/branches/v2.6 .
+  - if necessary : svn switch svn+ssh://svn.gna.org/svn/e-venement/branches/v2.7 .
   - then : svn update
-6. bin/migration-to-v26.sh [DB] [USER]
+6. bin/migration-to-v27.sh [DB] [USER]
 7. follow the instructions
 8. verify the event-reservations-admin's users
 9. check globally the configuration
