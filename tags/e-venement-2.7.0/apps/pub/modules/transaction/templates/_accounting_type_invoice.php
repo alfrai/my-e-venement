@@ -1,0 +1,1 @@
+../../../../tck/modules/ticket/templates/_accounting_type_invoice.php

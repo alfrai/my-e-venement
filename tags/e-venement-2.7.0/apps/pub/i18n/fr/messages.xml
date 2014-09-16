@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2012-11-26T17:06:45Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit>
+        <source>Companies</source>
+        <target>Compagnies</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A contact with the same informations already exists, try to authenticate or maybe you misspelled your email address...</source>
+        <target>Un contact avec les mêmes informations existe déjà, essayez de vous authentifier, à moins que vous n'ayez mal orthographié votre email...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Your command has been booked, you will have to pay for it directly with us.</source>
+        <target>Votre commande a été enregistrée, vous devrez vous en acquiter directement avec nous.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Generate an invoice</source>
+        <target>Générer une facture</target>
+      </trans-unit>
+      <trans-unit>
+        <source>your order #</source>
+        <target>votre commande #</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Seat #</source>
+        <target>Place n°</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Venue</source>
+        <target>Lieu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Month</source>
+        <target>Mois</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Not yet allocated</source>
+        <target>Pas encore numéroté</target>
+      </trans-unit>
+      <trans-unit>
+        <source>All lines marked with an wildcard concern a seated venue. You will receive a new email as soon as we allocate seats for your tickets.</source>
+        <target>Toutes les lignes marquées avec d'un astérisque concernent une manifestation en placement numéroté. Vous recevrez un nouvel email dès que des places seront affectées à vos billets ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Credit card</source>
+        <target>Carte bancaire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Any comment?</source>
+        <target>Un commentaire ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Display venue</source>
+        <target>Afficher le plan</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Be sure to keep this window opened, otherwise you will have to restart the entire processus of password recovery.</source>
+        <target>Assurez-vous de laisser cette fenêtre ouverte, sinon vous devrez recommencer le processus de récupération de mot de passe au début.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Recovery code</source>
+        <target>Code de récupération</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List of tickets</source>
+        <target>Liste des billets</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The recovery code to reset your password is %%code%%. Copy it into the password recovery form where you just have been redirected or follow this link:</source>
+        <target>Le code de récupération pour définir un nouveau mot de passe est %%code%%. Copiez le dans le formulaire de récupération de mot de passe où vous venez d'être redirigé ou bien suivez ce lien :</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Now, fill your new password twice.</source>
+        <target>Maintenant, saisissez deux fois votre nouveau mot de passe.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Reset your password for %%name%%</source>
+        <target>Nouveau votre mot de passe pour %%name%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>An email has been sent to your address (%%addr%%). Check it and copy the given code below.</source>
+        <target>Un email a été envoyé à votre adresse (%%addr%%). Ouvrez-le et copiez le code indiqué ci-dessous.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Passwords do not match. Please try again.</source>
+        <target>Vos mots de passe ne concordent pas. Essayez à nouveau...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Your password has been changed. Please login now.</source>
+        <target>Votre mot de passe a été changé. Vous pouvez maintenant vous connecter.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You forgot your password?</source>
+        <target>Mot de passe oublié ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Invalid email address, please try again.</source>
+        <target>Adresse email invalide, essayez à nouveau SVP.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Please try again.</source>
+        <target>Essayez à nouveau SVP.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Are you sure?</source>
+        <target>Êtes-vous sûr(e) ?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>at</source>
+        <target>le</target>
+      </trans-unit>
+      <trans-unit>
+        <source>To pay</source>
+        <target>À payer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Your command has been passed on your member cards, you don't have to pay anything.</source>
+        <target>Ma commande a été prise en compte sur mes cartes d'abonnement, je n'ai rien à payer.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Passed on member card</source>
+        <target>Passé sur carte d'abo.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>In progress...</source>
+        <target>En cours...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Payment method</source>
+        <target>Moyen de paiement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Amount</source>
+        <target>Montant</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Date</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Printed (event partially)</source>
+        <target>Imprimé (même partiellement)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Booked</source>
+        <target>Réservé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edition date</source>
+        <target>Date d'édition</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Command summary</source>
+        <target>Résumé de la commande</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Transaction number</source>
+        <target>N° d'opération</target>
+      </trans-unit>
+      <trans-unit>
+        <source>To order member cards, you need to be authenticated</source>
+        <target>Pour commander des cartes de membre, vous devez être identifié</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Tickets</source>
+        <target>Billets</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Member cards</source>
+        <target>Cartes Abonné</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Buy member cards</source>
+        <target>Je m'abonne</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You have been logged out.</source>
+        <target>Vous avez été déconnecté</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Update</source>
+        <target>Mettre à jour</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Contact updated</source>
+        <target>Contact mis à jour</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You have just abandonned your payment, you can still empty / correct / validate your cart...</source>
+        <target>Vous venez d'abandonner votre paiement, vous pouvez toujours vider / corriger / valider votre panier...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You are authenticated.</source>
+        <target>Je suis authentifié.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Authentication failure.</source>
+        <target>Échec d'authentification.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>No cart to display</source>
+        <target>Pas de panier à afficher</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Meta event</source>
+        <target>Méta-événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Events list</source>
+        <target>Liste des événements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Dates list</source>
+        <target>Liste des dates</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Date unavailable, try an other one.</source>
+        <target>Date indisponible, essayez une autre.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Phone type</source>
+        <target>Type de téléphone</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Phone number</source>
+        <target>N° de téléphone</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Password</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Password again</source>
+        <target>Retaper le mot de passe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Send</source>
+        <target>Envoyer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Event category</source>
+        <target>Genre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Postalcode</source>
+        <target>Code postal</target>
+      </trans-unit>
+      <trans-unit>
+        <source>City</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Country</source>
+        <target>Pays</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Email</source>
+        <target>Courriel</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Title</source>
+        <target>Titre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Firstname</source>
+        <target>Prénom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Name</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Required.</source>
+        <target>Obligatoire.</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>Your cart is still empty, select tickets first...</source>
+        <target>Votre panier est toujours vide, sélectionnez d'abord des billets...</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>[1]There is one overloaded gauge, please review your command.|(1,+Inf]There are %%nb%% overloaded gauges, please review your command.</source>
+        <target>[1]Il y a une une jauge dépassée, revoyez votre commande SVP.|(1,+Inf]Il y a %%nb%% jauges dépassées, revoyez votre commande SVP.</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>modify</source>
+        <target>modifier</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Event</source>
+        <target>Événement</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Space</source>
+        <target>Espace</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Price</source>
+        <target>Prix</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Qty</source>
+        <target>Qté</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Unit price</source>
+        <target>Prix unitaire</target>
+      </trans-unit>
+			<trans-unit id="11">
+        <source>Order</source>
+        <target>Commander</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Checkout</source>
+        <target>Je passe commande</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Empty your basket</source>
+        <target>Vider mon panier</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Continue shopping</source>
+        <target>Poursuivre mes achats</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Send</source>
+        <target>Envoyer</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Value</source>
+        <target>Valeur</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Quantity</source>
+        <target>Quantité</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>%%nb%% ticket(s) have been added to your cart</source>
+        <target>%%nb%% billets ont été ajoutés à mon panier</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>%%i%% years old</source>
+        <target>%%i%% ans</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>%%i%% month old</source>
+        <target>%%i%% mois</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Command status</source>
+        <target>Statut de la commande</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Payment status</source>
+        <target>État du réglement</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Payment of your order</source>
+        <target>Réglement de votre commande</target>
+      </trans-unit>
+			<trans-unit>
+				<source>Choose your payment method</source>
+				<target>Choisir mon moyen de paiement</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Your contact</source>
+				<target>Mes coordonnées</target>
+			</trans-unit>
+			<trans-unit>
+        <source>Confirm</source>
+        <target>Valider</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Choose tickets</source>
+        <target>Choisir mes billets</target>
+      </trans-unit>
+			<trans-unit>
+        <source>You can review your previous orders by clicking on its number</source>
+        <target>Vous pouvez revoir les anciennes commandes en cliquant sur leur numéro</target>
+      </trans-unit>
+			<trans-unit>
+				<source>Your commands</source>
+				<target>Mes commandes</target>
+			</trans-unit>
+			<trans-unit>
+        <source>List events on which you make command</source>
+        <target>Liste des manifestations sur lesquelles vous avez passé commande</target>
+      </trans-unit>
+			<trans-unit>
+				<source>Update your contact information</source>
+				<target>Modifier mes coordonnées</target>
+			</trans-unit>
+			<trans-unit>
+				<source>My account</source>
+				<target>Mon compte</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Create an account</source>
+				<target>Je crée un compte</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Login</source>
+				<target>Je me connecte</target>
+			</trans-unit>
+			<trans-unit>
+        <source>Logout</source>
+        <target>Déconnexion</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Dates</source>
+        <target>Dates</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Cart</source>
+        <target>Mon panier</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Coordinates</source>
+        <target>Mes Coordonnées</target>
+      </trans-unit>
+			<trans-unit>
+        <source>Command</source>
+        <target>Je valide mon panier</target>
+      </trans-unit>
+			<trans-unit>
+				<source>password</source>
+				<target>Mot de passe</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Associated prices still available</source>
+				<target>Places asssociées encore disponibles</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Created_at</source>
+				<target>Date de création </target>
+			</trans-unit>
+			<trans-unit>
+				<source>Expire at</source>
+				<target>Date d'expiration </target>
+			</trans-unit>
+	    </body>
+			<trans-unit>
+				<source>Choose your membership card</source>
+				<target>Choisir ma carte d'abonnement</target>
+			</trans-unit>
+			<trans-unit>
+				<source>You already have an account ? Login first...</source>
+				<target>Vous avez déjà un compte ? Connectez vous...</target>
+			</trans-unit>
+			<trans-unit>
+        <source>No account yet? Create your own...</source>
+        <target>Pas encore de compte ? Je crée le mien...</target>
+      </trans-unit>
+			<trans-unit>
+				<source>at </source>
+				<target>le </target>
+			</trans-unit>
+			<trans-unit>
+				<source>location</source>
+				<target>lieu</target>
+			</trans-unit>
+			<trans-unit>
+				<source>Location</source>
+				<target>Lieu</target>
+			</trans-unit>
+  </file>
+</xliff>

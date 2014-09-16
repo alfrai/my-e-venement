@@ -1,0 +1,49 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Manifestation
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          manifestation_pending
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        list_date         : { label: Happens at, type: date }
+        list_meta_event   : { label: Meta event }
+        list_booked_from_until: { label: Booked dates, type: date }
+        list_location     : { label: Location }
+        list_event        : { label: Event }
+        list_resources    : { label: Be careful on }
+        location_id       : { label: Place/Resource }
+        list_booked_by    : { label: Booked by }
+        list_workspaces   : { label: Workspaces }
+        list_optional     : { label: Optional, type: boolean }
+        reservation_optional: { label: Optional, type: boolean }
+        list_blocking     : { label: Blocking, type: boolean }
+        list_conflict     : { label: Conflicts, type: boolean }
+      list:
+        title: List of pending bookings
+        display: [_list_date, _list_booked_by, _list_booked_from_until, _list_event, _list_location, _list_meta_event, _list_workspaces, _list_resources, _list_conflict, _list_blocking, _list_optional]
+        table_method: retrievePending
+        sort: [happens_at, '']
+        actions:
+          _calendar:
+            action: calendar
+        batch_actions:
+          _confirm: ~
+        object_actions:
+          _show: ~
+          _edit: ~
+          #_confirm:
+          #  action: confirm
+      filter:
+        display: [location_id, contact_id, happens_at, blocking, reservation_optional, event_id, meta_event_id, workspace_id]
+      form:    ~
+      edit:    ~
+      new:     ~
