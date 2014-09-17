@@ -9,7 +9,6 @@ class ProfessionalTable extends PluginProfessionalTable
 {
   public function createQuery($alias = 'p')
   {
-    error_log('createQuery');
     $o = $alias != 'o' ? 'o' : 'o1';
     $c = $alias != 'c' ? 'c' : 'c1';
     $t = $alias != 't' ? 't' : 't1';
