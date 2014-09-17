@@ -152,7 +152,7 @@ EOF
       , '', $this->Manifestation->Event->description
       , __('Venue', null, 'li_tickets_email'), (string)$this->Manifestation->Location
       , __('Address', null, 'li_tickets_email'), (string)$this->Manifestation->Location->full_address
-      , __('Category', null, 'li_tickets_email'), (string)$this->Gauge
+      , __('Category', null, 'li_tickets_email'), $this->Gauge->Workspace->on_ticket ? $this->Gauge->Workspace->on_ticket : (string)$this->Gauge
       , __('Date', null, 'li_tickets_email'), $this->Manifestation->getFormattedDate()
       , __('Price', null, 'li_tickets_email'), $this->price_name, format_currency($this->value,'€')
       , $this->seat_id ? __('Seat #', null, 'li_tickets_email') : '', $this->seat_id ? $this->Seat : ($this->Manifestation->Location->getWorkspaceSeatedPlan($this->Gauge->workspace_id) ? __('Not yet allocated', null, 'li_tickets_email') : '')
