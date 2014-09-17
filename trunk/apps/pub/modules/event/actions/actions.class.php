@@ -24,6 +24,8 @@ class eventActions extends autoEventActions
     $this->getUser()->setDefaultCulture($request->getLanguages());
     // continue normal operations
     parent::executeIndex($request);
+    if ( $this->pager->getNbResults() == 1 )
+      $this->redirect('event/edit?id='.$this->pager->getCurrent()->id);
   }
   public function executeEdit(sfWebRequest $request)
   {

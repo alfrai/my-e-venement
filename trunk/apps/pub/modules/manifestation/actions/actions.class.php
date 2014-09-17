@@ -52,7 +52,7 @@ class manifestationActions extends autoManifestationActions
   public function executeShow(sfWebRequest $request)
   {
     $q = Doctrine::getTable('Gauge')->createQuery('g')
-      ->addSelect('gtck.*, m.*, pm.*, p.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
+      ->addSelect('gtck.*, m.*, mpm.*, mp.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
       ->andWhere('g.online = ?', true)
       
       ->leftJoin('g.Tickets gtck WITH gtck.price_id IS NULL AND gtck.seat_id IS NOT NULL AND gtck.transaction_id = ?', $this->getUser()->getTransaction()->id)
@@ -68,22 +68,26 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('ws.Users wu')
       ->leftJoin('m.Event e')
       ->leftJoin('e.MetaEvent me')
-      ->leftJoin('m.PriceManifestations pm')
-      ->leftJoin('pm.Price p')
-      ->leftJoin('p.Tickets tck WITH tck.gauge_id = g.id AND tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
+      ->leftJoin('g.PriceGauges gpg')
+      ->leftJoin('gpg.Price gp')
+      ->leftJoin('m.PriceManifestations mpm')
+      ->leftJoin('mpm.Price mp')
+      ->leftJoin('mp.Tickets tck WITH tck.gauge_id = g.id AND tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
       
-      ->leftJoin('p.Users pu')
-      ->leftJoin('p.Workspaces pw')
+      ->leftJoin('gp.Users gpu')
+      ->leftJoin('gp.Workspaces gpw')
+      ->leftJoin('mp.Users mpu')
+      ->leftJoin('mp.Workspaces mpw')
       
-      ->andWhere('pu.id = ?',$this->getUser()->getId())
-      ->andWhere('wu.id = pu.id')
-      ->andWhere('pw.id = ws.id')
-      ->andWhere('pw.id = g.workspace_id')
+      ->andWhere('gpu.id = ? OR mpu.id = ?', array($this->getUser()->getId(), $this->getUser()->getId()))
+      ->andWhere('wu.id = mpu.id OR wu.id = gpu.id')
+      ->andWhere('mpw.id = ws.id OR gpw.id = ws.id')
+      ->andWhere('gpw.id = g.workspace_id')
       
       ->andWhereIn('ws.id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhereIn('me.id',array_keys($this->getUser()->getMetaEventsCredentials()))
-
-      ->orderBy('ws.name, p.name')
+      
+      ->orderBy('ws.name, mp.name, gp.name')
     ;
     $this->gauges = $q->execute();
     
