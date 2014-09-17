@@ -438,6 +438,7 @@ Gauge:
       type: boolean
       default: false
       notnull: true
+    group_name: string(255)
   relations:
     Manifestation:
       foreignAlias: Gauges

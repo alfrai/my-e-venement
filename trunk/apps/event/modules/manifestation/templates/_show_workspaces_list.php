@@ -41,7 +41,10 @@
     <?php endif ?>
   </ul>
   <script type="text/javascript">
-    function manifestation_gauge_gfx()
+    if ( LI == undefined )
+      LI = {};
+    
+    LI.manifestation_gauge_gfx = function()
     {
       if( $('a.gauge-gfx').length > 0 )
       {
@@ -58,12 +61,12 @@
           });
           
           // next
-          manifestation_gauge_gfx();
+          LI.manifestation_gauge_gfx();
         });
       }
     }
     $(document).ready(function(){
-      manifestation_gauge_gfx();
+      LI.manifestation_gauge_gfx();
     });
   </script>
 </div>

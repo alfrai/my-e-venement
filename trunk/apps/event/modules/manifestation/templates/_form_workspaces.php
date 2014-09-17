@@ -1,4 +1,5 @@
 <?php use_javascript('form-list') ?>
+<?php use_javascript('manifestation-gauge-grouping') ?>
 <?php use_stylesheet('form-list') ?>
 <div class="sf_admin_form_row sf_admin_text sf_admin_form_field_workspaces_list">
   <div class="label ui-helper-clearfix">
@@ -9,8 +10,9 @@
       document.getElementById('form_workspaces').url   = '<?php echo url_for('gauge/batchEdit?id='.$form->getObject()->id) ?>';
       document.getElementById('form_workspaces').field = '.sf_admin_form_field_value';
       
-      document.getElementById('form_workspaces').functions = [];
-      document.getElementById('form_workspaces').functions.push(function(){
+      if ( LI.manifestationFormWorkspaces == undefined )
+        LI.manifestationFormWorkspaces = [];
+      LI.manifestationFormWorkspaces.push(function(){
         $('#form_workspaces .gauge-transferts .ui-icon').unbind().click(function(){
           if ( $('#form_workspaces .gauge-transferts.active').length > 1 )
             $('#form_workspaces .gauge-transferts.active').toggleClass('active');
@@ -37,6 +39,12 @@
             // cf. web/js/form-list.js for the rest
           }
         });
+      });
+      
+      if ( document.getElementById('form_workspaces').functions == undefined )
+        document.getElementById('form_workspaces').functions = [];
+      $.each(LI.manifestationFormWorkspaces, function(id, fct){
+        document.getElementById('form_workspaces').functions.push(fct);
       });
     </script>
   </div>

@@ -1,3 +1,9 @@
+<td class="sf_admin_text sf_admin_list_td_join">
+  <input type="checkbox" name="joining" value="y" />
+</td>
+<td class="sf_admin_text sf_admin_list_td_join_name">
+  <input type="text" name="join_name" value="" />
+</td>
 <td class="sf_admin_text sf_admin_list_td_Workspace">
   <?php echo $gauge->Workspace ?>
 </td>
