@@ -18,6 +18,15 @@ class professional_fullActions extends autoProfessional_fullActions
     $this->redirect('professional/index');
   }
   
+  public function executeEdit(sfWebRequest $request)
+  {
+    parent::executeEdit($request);
+    
+    $q = Doctrine::getTable('Professional')->createQuery('p')
+      ->andWhere('p.id = ?',$request->getParameter('id'));
+    Doctrine::getTable('Professional')->doSelectOnlyGrp($q);
+    $this->professional = $q->fetchOne();
+  }
   public function executeNew(sfWebRequest $request)
   {
     $this->form = new ContactEntryByContactForm;
