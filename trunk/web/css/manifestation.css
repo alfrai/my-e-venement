@@ -141,3 +141,4 @@ select[disabled] { color: #444; }
 #content #form_workspaces .sf_admin_list_th_online, #form_workspaces .sf_admin_list_td_online { width: 75px; }
 #content #form_workspaces .sf_admin_list_td_join_name select { width: 100%; }
 #form_workspaces .sf_admin_list_td_online, #form_workspaces .sf_admin_list_td_unjoin { text-align: center; }
+#form_workspaces .sf_admin_list_td_online, #form_workspaces .sf_admin_list_td_unjoin button { padding: 10px; }

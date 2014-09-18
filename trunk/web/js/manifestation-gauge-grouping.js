@@ -25,7 +25,6 @@ LI.manifestationGroupGauges = function(){
   $('#sf_fieldset_workspaces .sf_admin_list_td_unjoin button').unbind('click').click(function(){
     $(this).closest('tr').find('.sf_admin_list_td_join_name select, .sf_admin_list_td_join_name input[type=text]').val('');
     $(this).closest('tr').find('.sf_admin_list_td_join_name input[type=text]').change();
-    alert($(this).closest('tr').find('.sf_admin_list_td_join_name select, .sf_admin_list_td_join_name input[type=text]').length);
     LI.manifestationGroupGauges();
     return false;
   });

@@ -424,6 +424,8 @@ Gauge:
   indexes:
     gauge_online:
       fields: [online]
+    gauge_group_name_idx:
+      fields: [group_name]
   columns:
     workspace_id:
       type: integer

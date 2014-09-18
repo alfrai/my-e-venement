@@ -19,7 +19,9 @@
   </form>
 </td>
 <td class="sf_admin_text sf_admin_list_td_unjoin">
-  <button name="unjoin" value="">x</button>
+  <button class="fg-button-mini fg-button ui-state-default fg-button-icon-left" name="unjoin" value="">
+    <span class="ui-icon ui-icon-circle-close"></span>
+  </button>
 </td>
 <td class="sf_admin_text sf_admin_list_td_Workspace">
   <?php echo $gauge->Workspace ?>
