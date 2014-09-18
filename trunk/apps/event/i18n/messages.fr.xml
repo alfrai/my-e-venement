@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Categories are usefull to group gauges for online sales. Use only if needed.</source>
+        <target>Les catégories sont utiles pour grouper les jauges dans la vente en ligne. À n'utiliser que si nécessaire.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Unjoin?</source>
+        <target>Dissocier ?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Price created or updated for this gauge</source>
         <target>Tarif créé ou mis à jour pour cette jauge</target>
       </trans-unit>

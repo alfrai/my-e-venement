@@ -1,10 +1,5 @@
 #content .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_description { padding: 0; }
-#content .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_description div {
-  height: 100%;
-  margin: 0;
-  padding: 0px 4px;
-  text-align: center;
-}
+#content .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_description div { height: 100%; margin: 0; padding: 0px 4px; text-align: center; }
 
 select[disabled] { color: #444; }
 
@@ -139,3 +134,10 @@ select[disabled] { color: #444; }
 .sf_admin_form .sf_admin_form_field_gauges_prices table label { display: none; }
 .sf_admin_form .sf_admin_form_field_gauges_prices td { padding: 1px 3px; text-align: center; }
 #content .sf_admin_form .sf_admin_form_field_gauges_prices input { width: 4em !important; border: 0; background-color: rgba(255,255,255,0.5); text-align: right; }
+
+#content #form_workspaces input[type=text] { margin-left: 0; }
+#content #form_workspaces .sf_admin_list_th_Workspace, #form_workspaces .sf_admin_list_td_Workspace { min-width: 200px; }
+#content #form_workspaces .sf_admin_list_th_value, #form_workspaces .sf_admin_list_td_Gauge { width: 120px; }
+#content #form_workspaces .sf_admin_list_th_online, #form_workspaces .sf_admin_list_td_online { width: 75px; }
+#content #form_workspaces .sf_admin_list_td_join_name select { width: 100%; }
+#form_workspaces .sf_admin_list_td_online, #form_workspaces .sf_admin_list_td_unjoin { text-align: center; }

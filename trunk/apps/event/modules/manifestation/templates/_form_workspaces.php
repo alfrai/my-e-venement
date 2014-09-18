@@ -5,6 +5,10 @@
   <div class="label ui-helper-clearfix">
     <label for="manifestation_workspaces"><?php echo __('Workspaces list') ?></label>
   </div>
+  <div class="help">
+    <span class="ui-icon ui-icon-help floatleft"></span>
+    <?php echo __('Categories are usefull to group gauges for online sales. Use only if needed.') ?>
+  </div>
   <div id="form_workspaces" class="sf_admin_form_list ajax">
     <script type="text/javascript">
       document.getElementById('form_workspaces').url   = '<?php echo url_for('gauge/batchEdit?id='.$form->getObject()->id) ?>';
