@@ -13,6 +13,8 @@ $(document).ready(function(){
     
     $('.gauge.full-seating').removeClass('active');
     $(this).addClass('active');
+    if ( $(this).find('.picture.seated-plan').is('.done') )
+      return;
     LI.seatedPlanInitialization($(this));
   });
   var hash = window.location.hash.split('#');

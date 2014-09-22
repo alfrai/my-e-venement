@@ -173,7 +173,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 .gauge.full-seating .seated-plan.picture .seat { cursor: crosshair; }
 .gauge.full-seating .seats .auto { font-size: 10px; padding: 0px; }
 .gauge.full-seating .load-data { position: relative; z-index: 1; top: -300px; left: 150px; transform: scale(1.5); margin-bottom: -150px; }
-.gauge.full-seating .full-seating { position: absolute; top: 184px; left: 25px; width: 575px; border: 2px solid silver; background-color: white; overflow: auto; }
+.gauge.full-seating .full-seating { position: absolute; top: 184px; left: 25px; width: 575px; border: 2px solid silver; overflow: auto; }
 .gauge.full-seating, .gauge.full-seating .full-seating { border-radius: 5px; }
 .gauge.full-seating.active, .gauge.full-seating.active > *, .gauge.full-seating:hover, .gauge.full-seating:hover > * { z-index: 2; border-color: silver; }
 .gauge.full-seating:hover, .gauge.full-seating:hover > * { z-index: 4; border-color: gray; }

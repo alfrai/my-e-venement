@@ -27,6 +27,9 @@
   // transforms a simple HTML call into a seated plan widget (seated-plan.css is also needed)
   // you can use something as simple as <a href="<?php url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id') ?>" class="picture seated-plan"><?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture, 'width' => $seated_plan->ideal_width ? $seated_plan->ideal_width : '')) ?></a>
   LI.seatedPlanInitializationFunctions = [];
+  LI.seatedPlanInitializationFunctions.push(function(selector){
+    $(selector).addClass('done');
+  });
   LI.seatedPlanInitialization = function(root)
   {
     if ( root == undefined )
@@ -43,7 +46,6 @@
         .append($('<div></div>').addClass('anti-handling'))
         .prepend($(this))
         .attr('data-href', widget.prop('href'))
-        .addClass('done')
       ;
       
       widget.replaceWith(elt);
@@ -65,14 +67,12 @@
         }
         
         // the seated-plan scale
-        var width = -1;
         if ( $(this).attr('width') )
         {
-          width = parseInt($(this).attr('width'),10); // .width() should have been possible, but for browser compatibility, this is safer
+          $(this).width(parseInt($(this).attr('width'),10)); // for browser compatibility, this is safer
           $(this).removeAttr('width');
         }
-        if ( width < 0 || width == $(this).width() )
-          width = ($(elt).parent().width() > 50 ? $(elt).parent().width() : $(window).width()) -50; // -50 is to keep a padding on the right
+        width = ($(elt).parent().width() > 50 ? $(elt).parent().width() : $(window).width()) -50; // -50 is to keep a padding on the right
         var scale = width/$(this).width();
         if ( $(elt).closest('.full-seating').length > 0 ) // only for online stuff
         {
@@ -106,7 +106,7 @@
     }
     
     $('#transition').show();
-    $('.picture.seated-plan .seat').remove();
+    $(selector+' .seat').remove();
     $.get(url,function(json){
       $(selector).find('.seat').remove();
       for ( i = 0 ; i < json.length ; i++ )
@@ -119,7 +119,7 @@
       // triggers, wait few miliseconds to let the browser display the complexe data...
       setTimeout(function(){
         for ( $i = 0 ; fct = LI.seatedPlanInitializationFunctions[$i] ; $i++ )
-          fct();
+          fct(selector);
       },200);
       
       $('#transition .close').click();
@@ -334,7 +334,7 @@
       var ref = $(this);
       
       if ( scale == undefined )
-        var scale = $(this).attr('data-scale') ? $(this).attr('data-scale') : 1;
+        var scale = $(this).attr('data-scale') ? parseFloat($(this).attr('data-scale')) : 1;
       var position = {
         x: Math.round((event.pageX-ref.position().left)/scale),
         y: Math.round((event.pageY-ref.position().top) /scale)
@@ -359,7 +359,7 @@
         var ref = $(this).closest('.picture');
         
         if ( scale == undefined )
-          var scale = ref.attr('data-scale') ? ref.attr('data-scale') : 1;
+          var scale = ref.attr('data-scale') ? parseFloat(ref.attr('data-scale')) : 1;
         position = {
           x: Math.round((event.pageX-ref.position().left)/scale),
           y: Math.round((event.pageY-ref.position().top) /scale)
@@ -383,7 +383,7 @@
         return;
       
       if ( scale == undefined )
-        var scale = ref.attr('data-scale') ? ref.attr('data-scale') : 1;
+        var scale = ref.attr('data-scale') ? parseFloat(ref.attr('data-scale')) : 1;
       
       //console.log('scale: '+scale+', x: '+(event.pageX-ref.position().left)/scale+', y: '+(event.pageY-ref.position().top) /scale);
       return LI.seatedPlanMouseup({
