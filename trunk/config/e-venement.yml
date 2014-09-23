@@ -22,7 +22,7 @@
 all:
   about:
     name: e-venement
-    contributors: [Baptiste SIMON, Bevlhay FERRAND, Ludovic SOULIÉ, Ayoub HIDRI, Mick LOEFFEL, Très Tôt Théâtre, Libre Informatique, Symfony Team, #symfony-fr]
+    contributors: [Baptiste SIMON, Bevlhay FERRAND, Ludovic SOULIÉ, Ayoub HIDRI, Mick LOEFFEL, Très Tôt Théâtre, Le 3ème étage de l'Opéra de Paris, Libre Informatique, Symfony Team, #symfony-fr]
     version: 2.8-dev0
   internals:
     charset:
