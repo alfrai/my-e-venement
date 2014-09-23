@@ -30,6 +30,16 @@
   foreach ( $tmp as $tck )
     $data[isset($tck['ticket_id']) ? $tck['ticket_id'] : 'new-'.count($data)] = $tck;
   
+  $manifestation = Doctrine::getTable('Manifestation')->createQuery('m', true)->leftJoin('m.Gauges g')
+    ->andWhere('g.id = ?', $request->getParameter('gauge_id'))
+    ->fetchOne();
+  $this->dispatcher->notify($event = new sfEvent($this, 'pub.before_adding_tickets', array('manifestation' => $manifestation)));
+  if ( !$event->getReturnValue() )
+  {
+    $this->json['error']['message'] = $event['message'];
+    return 'Success';
+  }
+  
   // the existing tickets
   $q = Doctrine::getTable('Ticket')->createQuery('tck')
     ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransactionId())

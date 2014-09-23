@@ -82,7 +82,7 @@ class myUser extends liGuardSecurityUser
           || strtotime($manifestation->ends_at)    >= $start && strtotime($manifestation->ends_at)    < $stop )
         {
           sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
-          echo __('You cannot book a ticket on this date because you already have a ticket booked for %%manif%% on transaction #%%transaction%%', array(
+          $event['message'] = __('You cannot book a ticket on this date because you already have a ticket booked for %%manif%% on transaction #%%transaction%%', array(
             '%%manif%%' => $ticket->Manifestation,
             '%%transaction%%' => $ticket->transaction_id
           ));

@@ -6,7 +6,10 @@
 <?php
   $sf_context->getEventDispatcher()->notify($event = new sfEvent($this, 'pub.before_showing_prices', array('manifestation' => $gauge->Manifestation)));
   if ( !$event->getReturnValue() )
+  {
+    echo $event['message'];
     return;
+  }
 ?>
 
 <table class="prices">
