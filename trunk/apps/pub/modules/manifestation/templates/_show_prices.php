@@ -2,6 +2,13 @@
 <?php if ( !isset($vel['full_seating_by_customer']) ) $vel['full_seating_by_customer'] = false; ?>
 <?php use_helper('Number') ?>
 <?php use_helper('Slug') ?>
+
+<?php
+  $sf_context->getEventDispatcher()->notify($event = new sfEvent($this, 'pub.before_showing_prices', array('manifestation' => $gauge->Manifestation)));
+  if ( !$event->getReturnValue() )
+    return;
+?>
+
 <table class="prices">
 <?php if ( $gauge->Manifestation->PriceManifestations->count() > 0 || $gauge->PriceGauges->count() > 0 ): ?>
 <tbody>

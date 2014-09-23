@@ -26,6 +26,7 @@ all:
     close_before: 24 hours
     wip_price: ...
     #id: qrcode # can be id (default), qrcode, othercode
+    #no_conflict: 30 minutes # the needed minimum delay to go from one location to another
   store:
     max_per_product: 9
     email_products: always    # never | e-products | always (recommanded)  

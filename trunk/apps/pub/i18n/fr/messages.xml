@@ -525,12 +525,12 @@
         <target>Réglement de votre commande</target>
       </trans-unit>
       <trans-unit>
-	<source>Choose your payment method</source>
-	<target>Choisir mon moyen de paiement</target>
+        <source>Choose your payment method</source>
+        <target>Choisir mon moyen de paiement</target>
       </trans-unit>
       <trans-unit>
-	<source>Your contact</source>
-	<target>Mes coordonnées</target>
+        <source>Your contact</source>
+        <target>Mes coordonnées</target>
       </trans-unit>
       <trans-unit>
         <source>Confirm</source>
@@ -545,24 +545,24 @@
         <target>Vous pouvez revoir les anciennes commandes en cliquant sur leur numéro</target>
       </trans-unit>
       <trans-unit>
-	<source>Your commands</source>
-	<target>Mes commandes</target>
+        <source>Your commands</source>
+        <target>Mes commandes</target>
       </trans-unit>
       <trans-unit>
         <source>List events on which you make command</source>
         <target>Liste des manifestations sur lesquelles vous avez passé commande</target>
       </trans-unit>
       <trans-unit>
-	<source>Update your contact information</source>
-	<target>Modifier mes coordonnées</target>
+        <source>Update your contact information</source>
+        <target>Modifier mes coordonnées</target>
       </trans-unit>
       <trans-unit>
-	<source>My account</source>
-	<target>Mon compte</target>
+        <source>My account</source>
+        <target>Mon compte</target>
       </trans-unit>
       <trans-unit>
-	<source>Create an account</source>
-	<target>Créer un compte</target>
+        <source>Create an account</source>
+      	<target>Créer un compte</target>
       </trans-unit>
       <trans-unit>
         <source>I authenticate myself</source>
@@ -626,19 +626,23 @@
       </trans-unit>
       <trans-unit>
         <source>at </source>
-	<target>le </target>
+      	<target>le </target>
       </trans-unit>
       <trans-unit>
-	<source>location</source>
-	<target>lieu</target>
+      	<source>location</source>
+      	<target>lieu</target>
       </trans-unit>
       <trans-unit>
-	<source>Location</source>
-	<target>Lieu</target>
+      	<source>Location</source>
+      	<target>Lieu</target>
       </trans-unit>
       <trans-unit>
         <source>AnswersGroups</source>
         <target>Groupes de réponses</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You cannot book a ticket on this date because you already have a ticket booked for %%manif%% on transaction #%%transaction%%</source>
+        <target>Vous ne pouvez pas réserver de billet pour cette date car vous avez déjà un billet de réservé pour %%manif%% sur l'opération #%%transaction%%</target>
       </trans-unit>
     </body>
   </file>
