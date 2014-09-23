@@ -59,7 +59,7 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('pw.id = g.workspace_id')
       ->andWhere('m.id = ?',$request->getParameter('id'))
       ->andWhere('(m.happens_at > NOW() OR ?)',sfContext::getInstance()->getConfiguration()->getEnvironment() == 'dev')
-      ->andWhere('p.online = ?', true)
+      //->andWhere('p.online = ?', true) // now the only user's credentials are important
       ->andWhere('m.reservation_confirmed = ?',true)
       ->orderBy('ws.name, p.name')
       ->execute();
