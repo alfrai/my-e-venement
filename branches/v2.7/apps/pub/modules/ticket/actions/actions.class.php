@@ -21,18 +21,29 @@ class ticketActions extends sfActions
     $prices = $request->getParameter('price');
     $cpt = 0;
     
-    foreach ( $prices as $gauge )
-    foreach ( $gauge as $price )
+    foreach ( $prices as $gid => $gauge )
     {
-      $form = new PricesPublicForm($this->getUser()->getTransaction());
-      $price['transaction_id'] = $this->getUser()->getTransaction()->id;
+      $manifestation = Doctrine::getTable('Manifestation')->createQuery('m', true)->leftJoin('m.Gauges g')->andWhere('g.id = ?', $gid)->fetchOne();
+      $this->dispatcher->notify($event = new sfEvent($this, 'pub.before_adding_tickets', array('manifestation' => $manifestation)));
       
-      $form->bind($price);
-      if ( $form->isValid() )
+      if ( $event->getReturnValue() )
+      foreach ( $gauge as $price )
       {
-        $form->save();
-        $cpt += $price['quantity'];
+        $form = new PricesPublicForm($this->getUser()->getTransaction());
+        $price['transaction_id'] = $this->getUser()->getTransaction()->id;
+        
+        $form->bind($price);
+        if ( $form->isValid() )
+        {
+          error_log('valid');
+          $form->save();
+          $cpt += $price['quantity'];
+        }
+        else
+          error_log($form->getErrorSchema());
       }
+      else
+        $this->getUser()->setFlash('error', $event['message']);
     }
     
     $this->getUser()->setFlash('notice',__('%%nb%% ticket(s) have been added to your cart',array('%%nb%%' => $cpt)));
