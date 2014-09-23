@@ -14,6 +14,7 @@ all:
     vel:
       cart_timeout: 50
       max_per_manifestation: 9
+      #max_per_manifestation_per_contact: 1
     payment_method_id: 1
     close_before: 24 hours
     #no_conflict: 30 minutes # the needed minimum delay to go from one location to another
