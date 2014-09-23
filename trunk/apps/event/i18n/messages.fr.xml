@@ -780,7 +780,7 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
       </trans-unit>
       <trans-unit>
         <source>Price manifestation List</source>
-        <target>Liste des prix associés</target>
+        <target>Liste des tarifs associés</target>
       </trans-unit>
       <trans-unit>
         <source>Apply</source>
