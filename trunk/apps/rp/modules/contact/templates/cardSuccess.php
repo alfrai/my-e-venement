@@ -16,14 +16,14 @@ $(document).ready(function(){
 });
 </script>
 <div id="card">
-  <div class="content">
+  <div class="content card">
     <p class="picture"></p>
     <p class="name"><span class="title"><?php echo __('Name') ?></span> <?php echo $contact->name ?></p>
     <p class="firstname"><span class="title"><?php echo __('Firstname') ?></span> <?php echo $contact->firstname ?></p>
     <p class="barcode"><?php echo image_tag('/liBarcodePlugin/php-barcode/barcode.php?scale=1&code='.$contact->getIdBarcoded()); ?></p>
     <p class="extra-card"><?php echo nl2br(sfConfig::get('app_cards_extra')) ?></p>
   </div>
-  <div class="content">
+  <div class="content archive">
     <p class="name"><span class="title"><?php echo __('Name') ?></span><br/><?php echo $contact->name ?></p>
     <p class="firstname"><span class="title"><?php echo __('Firstname') ?></span><br/><?php echo $contact->firstname ?></p>
     <p class="address"><span class="title"><?php echo __('Address') ?></span><br/><?php echo nl2br(trim($contact->address)) ?></p>
@@ -33,7 +33,7 @@ $(document).ready(function(){
     <p class="date"><span class="title"><?php echo __('Expiration') ?></span> <?php echo format_date($card->expire_at) ?></p>
     <p class="barcode"><?php echo image_tag('/liBarcodePlugin/php-barcode/barcode.php?scale=1&code='.$contact->getIdBarcoded()); ?></p>
   </div>
-  <div class="content">
+  <div class="content receipt">
     <p class="librinfo">Imprimé et géré par e-venement www.libre-informatique.fr</p>
     <h2><?php echo __('Card receipt') ?></h2>
     <p class="name"><span class="title"><?php echo __('Name') ?></span><br/><?php echo $contact->name ?></p>
