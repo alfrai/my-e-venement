@@ -16,6 +16,7 @@ all:
       max_per_manifestation: 9
     payment_method_id: 1
     close_before: 24 hours
+    #no_conflict: 30 minutes # the needed minimum delay to go from one location to another
   contact:
     capitalize: [name, firstname, city, country, address]
   #show:

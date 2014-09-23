@@ -36,6 +36,44 @@ class myUser extends liGuardSecurityUser
   {
     parent::initialize($dispatcher, $storage, $options);
     $dispatcher->connect('pub.pre_execute', array($this, 'mustAuthenticate'));
+    $dispatcher->connect('pub.before_showing_prices', array($this, 'checkAvailability'));
+  }
+  
+  public function checkAvailability(sfEvent $event)
+  {
+    // controlling if there is any conflict
+    if ( $delay = sfConfig::get('app_tickets_no_conflict', false) )
+    {
+      $manifestation = $event['manifestation'];
+      $event->setReturnValue(true);
+      
+      $manifs = array();
+      foreach ( $this->getContact()->Transactions as $transaction )
+      foreach ( $transaction->Tickets as $ticket )
+      if (( $ticket->transaction_id == $this->getTransaction()->id || $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 )
+        && !$ticket->hasBeenCancelled()
+        && $manifestation->id != $ticket->manifestation_id
+        && !isset($manifs[$ticket->manifestation_id])
+      )
+        $manifs[$ticket->manifestation_id] = $ticket;
+      
+      foreach ( $manifs as $ticket )
+      {
+        $start = strtotime('- '.$delay, strtotime($ticket->Manifestation->happens_at));
+        $stop  = strtotime('+ '.$delay, strtotime($ticket->Manifestation->ends_at));
+        if ( strtotime($manifestation->happens_at) >= $start && strtotime($manifestation->happens_at) < $stop
+          || strtotime($manifestation->ends_at)    >= $start && strtotime($manifestation->ends_at)    < $stop )
+        {
+          sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+          echo __('You cannot book a ticket on this date because you already have a ticket booked for %%manif%% on transaction #%%transaction%%', array(
+            '%%manif%%' => $ticket->Manifestation,
+            '%%transaction%%' => $ticket->transaction_id
+          ));
+          $event->setReturnValue(false);
+          return;
+        }
+      }
+    }
   }
   
   public function mustAuthenticate(sfEvent $event)
