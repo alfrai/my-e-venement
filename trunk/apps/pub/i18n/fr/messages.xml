@@ -644,6 +644,10 @@
         <source>You cannot book a ticket on this date because you already have a ticket booked for %%manif%% on transaction #%%transaction%%</source>
         <target>Vous ne pouvez pas réserver de billet pour cette date car vous avez déjà un billet de réservé pour %%manif%% sur l'opération #%%transaction%%</target>
       </trans-unit>
+      <trans-unit>
+        <source>Price %%price%% not available</source>
+        <target>Le tarif %%price%% n'est pas disponible</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

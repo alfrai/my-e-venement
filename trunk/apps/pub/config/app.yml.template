@@ -21,6 +21,7 @@ all:
   tickets:
     vel:
       max_per_manifestation: 9
+      #max_per_manifestation_per_contact: 1
       full_seating_by_customer: true
     payment_method_id: 1
     close_before: 24 hours
