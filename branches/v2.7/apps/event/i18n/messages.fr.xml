@@ -670,7 +670,7 @@
       </trans-unit>
       <trans-unit>
         <source>Price manifestation List</source>
-        <target>Liste des prix associés</target>
+        <target>Liste des tarifs associés</target>
       </trans-unit>
       <trans-unit>
         <source>Apply</source>
@@ -686,7 +686,7 @@
       </trans-unit>
       <trans-unit>
         <source>Price List</source>
-        <target>Liste des prix</target>
+        <target>Liste des tarifs</target>
       </trans-unit>
       <trans-unit>
         <source>%%Name%%</source>
