@@ -24,12 +24,6 @@
 <?php
   $this->getContext()->getConfiguration()->loadHelpers(array('I18N','Url'));
   
-  if (!( $this->url_next = $this->getUser()->getFlash('referer') ))
-  {
-    $this->getUser()->setFlash('error', __('You need to come from somewhere mate...'));
-    $this->redirect('ticket/sell?id='.$request->getParameter('id'));
-  }
-
   $q = Doctrine::getTable('Transaction')->createQuery('t')
     ->leftJoin('m.Location l')
     ->leftJoin('l.SeatedPlans sp')
