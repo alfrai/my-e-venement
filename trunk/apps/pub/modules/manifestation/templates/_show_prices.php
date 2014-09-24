@@ -1,3 +1,26 @@
+<?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
 <?php $vel = sfConfig::get('app_tickets_vel') ?>
 <?php if ( !isset($vel['full_seating_by_customer']) ) $vel['full_seating_by_customer'] = false; ?>
 <?php use_helper('Number') ?>
@@ -111,7 +134,7 @@
     
     if ( $max <= 0 )
     {
-      echo '<tr><td class="price" colspan="<?php echo $vel['full_seating_by_customer'] ? 6 : 5 ?>">'.__('Price %%price%% not available', array('%%price%%' => $pm->Price)).'</td></tr>';
+      echo '<tr><td class="price" colspan="'.($vel['full_seating_by_customer'] ? 6 : 5).'">'.__('Price %%price%% not available', array('%%price%%' => $pm->Price)).'</td></tr>';
       continue;
     }
     
