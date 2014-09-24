@@ -42,12 +42,12 @@ class myUser extends liGuardSecurityUser
   
   public function checkAvailability(sfEvent $event)
   {
+    $event->setReturnValue(true);
+    
     // controlling if there is any conflict
     if ( $delay = sfConfig::get('app_tickets_no_conflict', false) )
     {
       $manifestation = $event['manifestation'];
-      $event->setReturnValue(true);
-      
       $manifs = array();
       foreach ( $this->getContact()->Transactions as $transaction )
       foreach ( $transaction->Tickets as $ticket )
