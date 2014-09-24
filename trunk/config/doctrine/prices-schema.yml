@@ -185,7 +185,7 @@ PriceGauge:
       onDelete: CASCADE
       onUpdate: CASCADE
     Price:
-      foreignAlias: PriceManifestations
+      foreignAlias: PriceGauges
       onDelete: CASCADE
       onUpdate: CASCADE
 PriceProduct:

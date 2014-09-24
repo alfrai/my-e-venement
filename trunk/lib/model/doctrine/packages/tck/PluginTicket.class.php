@@ -37,17 +37,21 @@ abstract class PluginTicket extends BaseTicket
 {
   public function preSave($event)
   {
-    if ( (is_null($this->vat) || is_null($this->manifestation_id) || is_null($this->value) || is_null($this->price_id))
+    // the prices
+    if ( (is_null($this->value) || is_null($this->price_id))
       && (!is_null($this->price_name) || !is_null($this->price_id))
       && !is_null($this->gauge_id) )
     {
-      $q = Doctrine::getTable('PriceManifestation')->createQuery('pm')
-        ->leftJoin('pm.Manifestation m')
-        ->leftJoin('m.Gauges g')
-        ->leftJoin('m.Vat v')
-        ->andWhere('g.id = ?',$this->gauge_id)
-        ->leftJoin('g.PriceGauges pg')
-        ->orderBy('pm.updated_at DESC');
+      $q = Doctrine::getTable('Price')->createQuery('p')
+        ->leftJoin('p.PriceManifestations pm')
+        ->leftJoin('pm.Manifestation mpm')
+        ->leftJoin('mpm.Gauges gpm')
+        ->leftJoin('p.PriceGauges pg')
+        ->leftJoin('pg.Gauge gpg')
+        ->leftJoin('gpg.Manifestation m')
+        ->andWhere('(gpm.id = ? OR gpg.id = ?)', array($this->gauge_id, $this->gauge_id))
+        ->orderBy('pm.value DESC, pg.value DESC, p.name')
+      ;
       
       if ( is_null($this->price_id) )
         $q
@@ -58,26 +62,22 @@ abstract class PluginTicket extends BaseTicket
         $q
           ->leftJoin('pm.Price pmp WITH pmp.id = ?',$this->price_id)
           ->leftJoin('pg.Price pgp WITH pgp.id = ?',$this->price_id)
-          ->andWhere('pmp.id IS NOT NULL OR pgp.id IS NOT NULL')
+          ->andWhere('(pmp.id IS NOT NULL OR pgp.id IS NOT NULL)')
         ;
       
-      $pm = $q->fetchOne();
-      if ( $pm )
+      $price = $q->fetchOne();
+      if ( $price )
       {
-        if ( is_null($this->manifestation_id) )
-          $this->manifestation_id = $pm->manifestation_id;
-        if ( is_null($this->vat) )
-          $this->vat = $pm->Manifestation->Vat->value;
         if ( is_null($this->price_name) )
-          $this->price_name = $pm->Price->name
-            ? $pm->Price->name
-            : $pm->Manifestation->Gauges[0]->PriceGauges[0]->Price->name;
+          $this->price_name = $price->name;
         if ( is_null($this->price_id) )
-          $this->price_id = $pm->price_id ? $pm->Price->id : $pm->Manifestation->Gauges[0]->PriceGauges->Price->id;
-        if ( is_null($this->value) ) // priority to PriceGauge, then PriceManifestation
-          $this->value    = $pm->Manifestation->Gauges[0]->PriceGauges->count() > 0
-            ? $pm->Manifestation->Gauges[0]->PriceGauges[0]->value
-            : $pm->value;
+          $this->price_id = $price->id;
+        
+        // always gives priority to PriceGauge, then PriceManifestation
+        if ( is_null($this->value) )
+          $this->value    = $price->PriceGauges->count() > 0
+            ? $price->PriceGauges[0]->value
+            : $price->PriceManifestations[0]->value;
       }
     }
     
@@ -108,6 +108,17 @@ abstract class PluginTicket extends BaseTicket
         $taxes->merge(is_object($this->Price) ? $this->Price->Taxes : Doctrine::getTable('Price')->find($this->price_id)->Taxes);
       $this->addTaxes($taxes);
     }
+    
+    // get back the manifestation_id if not already set
+    if ( !$this->manifestation_id && $this->gauge_id )
+    {
+      $this->Manifestation = Doctrine::getTable('Manifestation')->createQuery('m',true)
+        ->leftJoin('m.Gauges g')
+        ->andWhere('g.id = ?',$this->gauge_id)
+        ->fetchOne();
+    }
+    if ( is_null($this->vat) )
+      $this->vat = $pm->Manifestation->Vat->value;
     
     // the generates a barcode (if necessary) to record in DB
     $this->getBarcode();
