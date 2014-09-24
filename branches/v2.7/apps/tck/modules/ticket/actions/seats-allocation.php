@@ -23,6 +23,8 @@
 ?>
 <?php
   $this->getContext()->getConfiguration()->loadHelpers(array('I18N','Url'));
+  $this->url_next = $this->getUser()->getFlash('referer', url_for('ticket/print?id='.$request->getParameter('id')));
+  $this->getUser()->setFlash('referer',$this->url_next);
   
   $q = Doctrine::getTable('Transaction')->createQuery('t')
     ->leftJoin('m.Location l')
