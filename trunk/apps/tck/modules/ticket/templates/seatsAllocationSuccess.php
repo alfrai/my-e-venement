@@ -96,7 +96,10 @@
 
 <p id="plan"><a class="picture seated-plan" href="<?php echo cross_app_url_for('event', 'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id.'&transaction_id='.$transaction->id) ?>" style="background-color: <?php echo $seated_plan->background ?>;">
   <?php use_stylesheet('/private/event-seated-plan?'.date('Ymd')) ?>
-  <?php echo $seated_plan->getRaw('Picture')->getHtmlTag(array('title' => $seated_plan->Picture)) ?>
+  <?php echo $seated_plan->getRaw('Picture')->getHtmlTag(array(
+    'title' => $seated_plan->Picture,
+    'width' => $seated_plan->ideal_width,
+  )) ?>
 </a></p>
 
 <p class="last next">

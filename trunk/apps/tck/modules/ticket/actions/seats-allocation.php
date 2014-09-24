@@ -23,6 +23,8 @@
 ?>
 <?php
   $this->getContext()->getConfiguration()->loadHelpers(array('I18N','Url'));
+  $this->url_next = $this->getUser()->getFlash('referer', url_for('ticket/print?id='.$request->getParameter('id')));
+  $this->getUser()->setFlash($this->url_next);
   
   $q = Doctrine::getTable('Transaction')->createQuery('t')
     ->leftJoin('m.Location l')
@@ -42,7 +44,7 @@
     ->orderBy('tck.price_name');
   if ( $request->getParameter('toprint',false) && is_array($request->getParameter('toprint')) )
     $q->andwhereIn('tck.id', $request->getParameter('toprint'));
-  $this->transaction = $q->fetchOne();
+  $this->transaction = $q->select('t.*, tck.*, m.*, l.*, sp.*')->fetchOne();
   
   if ( !$this->transaction )
   {

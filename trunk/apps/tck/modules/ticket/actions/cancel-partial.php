@@ -33,7 +33,7 @@
     $price_id = $params['price_new']['price_id'];
     $qty = $params['price_new']['qty'];
     $qty = intval($qty) > 0 ? $qty : 1;
-    $gauge_id = $params['price_new']['gauge_id'];
+    $gauge_id = $params['price_new']['declination_id'];
   }
   else
   {
@@ -45,8 +45,10 @@
   
   if ( intval($tid).'' !== ''.$tid || intval($qty).'' !== ''.$qty
     || intval($manifestation_id).'' !== ''.$manifestation_id && intval($gauge_id).'' !== ''.$gauge_id
-    || !$price_name && !$price_id )
+    || !$price_name && !$price_id
+    || $params['price_new']['type'] != 'gauge' )
   {
+    die();
     $this->getUser()->setFlash('error',__('Error reading the given values'));
     $this->redirect('ticket/cancel');
   }

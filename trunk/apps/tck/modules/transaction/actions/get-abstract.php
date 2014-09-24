@@ -449,8 +449,10 @@
         {
           $state = 'cancelling';
           $pname = $item->price_id.'-'.$state;
-          if (!( isset($this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]) && count($this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['ids']) == 0 ))
-            $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname] =
+          if (!( isset($this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname])
+            && count($this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['ids']) > 0
+          ))
+          {
             $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname] = array(
               'state' => $state,
               'name' => !$item->price_id ? $item->price_name : $item->Price->name,
@@ -458,6 +460,7 @@
               'item-details' => false,
               'id' => $item->price_id ? $item->price_id : slugify($item->price_name),
             ) + $items_model;
+          }
           $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['ids'][] = $cancelling[0]->id;
           $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['numerotation'][] = $cancelling[0]->numerotation;
           
