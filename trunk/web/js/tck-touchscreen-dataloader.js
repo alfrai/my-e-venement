@@ -133,7 +133,7 @@ LI.completeContent = function(data, type, replaceAll = true)
           ;
         }
         
-        wdeclination.find('h4').text(declination.name);
+        wdeclination.find('h4').text(declination.name).prop('title', declination.name);
         
         // prices
         wdeclination.find('.data .available_prices').remove();

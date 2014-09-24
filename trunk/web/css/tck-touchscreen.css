@@ -68,7 +68,7 @@
 #li_transaction_field_content .bunch.small { height: 30px; }
 #li_transaction_field_content h2 { margin: 5px 0; }
 #li_transaction_field_content h2, #li_transaction_field_content h3 { cursor: pointer; }
-#li_transaction_field_content h4 { display: inline-block; white-space: nowrap; font-weight: normal; vertical-align: top; width: 30%; }
+#li_transaction_field_content h4 { display: inline-block; white-space: nowrap; font-weight: normal; vertical-align: top; width: 30%; overflow: hidden; }
 #li_transaction_field_content .highlight:not(.new-family) { border: 1px solid transparent; }
 #li_transaction_field_content .ui-widget-header { padding: 3px 5px; }
 #li_transaction_field_content .items { cursor: default; }
@@ -92,8 +92,8 @@
 #li_transaction_field_content .total { font-style: italic; }
 #li_transaction_field_content .currency { display: none; }
 #li_transaction_field_content .item .tep, #li_transaction_field_content .item .vat { font-size: 75%; width: 15%; }
-#li_transaction_field_content .item .qty { width: 85px; }
-#li_transaction_field_content .item .qty .qty { width: 2em; display: inline-block; text-align: right; border: 1px solid silver; border-top: 0; padding: 0 5px; background-color: white; }
+#li_transaction_field_content .item .qty { width: 100px; white-space: nowrap; }
+#li_transaction_field_content .item .qty .qty { width: 1.55em; display: inline-block; text-align: right; border: 1px solid silver; border-top: 0; padding: 0 5px; background-color: white; }
 #li_transaction_field_content .item .qty a { float: none; padding: 0; cursor: default; display: inline-block; margin: 0; position: static; }
 #li_transaction_field_content .item .qty a .ui-icon { margin: -2px 0 0 0; position: static; }
 #li_transaction_field_content .item .total .qty a, #li_transaction_field_content .item .printed .qty a { visibility: hidden; }
