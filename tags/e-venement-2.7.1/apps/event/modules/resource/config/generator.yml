@@ -1,0 +1,56 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Location
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          resource
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions:
+        _delete:
+          credentials: [event-location-del]
+        _new:
+          credentials: [event-location-new]
+        _edit:
+          credentials: [event-location-edit]
+        _manif_new:
+          credentials: [event-manif-new]
+      fields:
+        Contact:      { label: Stage manager }
+        contact_id:   { label: Stage manager }
+        Organism:     { label: Organism }
+        organism_id:  { label: Organism }
+        gauge_max:    { label: Gauge max }
+        gauge_min:    { label: Gauge min }
+        reservation_price: { label: Costs, help: Reservation costs }
+        rank:         { helper: Number }
+      list:
+        display: [rank, name, email, Contact, Organism, reservation_price]
+        table_method: retrieveResources
+        title: List of resources
+        object_actions:
+          _show: ~
+          _edit: ~
+          _delete: ~
+        batch_actions:
+          _delete: ~
+        sort: ['rank IS NULL, rank, name', '']
+      filter:
+        display: [name, email, contact_id, organism_id, npai]
+      form:
+      edit:
+        title: Editting resource %%name%%
+        display:
+          General: [name, rank, email, contact_id, organism_id, reservation_price, description]
+      new:
+        display:
+          General: [name, rank, email, contact_id, organism_id, reservation_price, description]
+      show:
+        display:
+          General: [name, _show_email, _show_contact, _show_organism, _show_reservation_price, _show_description]

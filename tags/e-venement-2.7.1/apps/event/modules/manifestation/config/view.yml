@@ -1,0 +1,53 @@
+all:
+  stylesheets: [manifestation, manifestation-print: { media: all }]
+  javascripts: [manifestation, manifestation-duration]
+
+indexSuccess:
+  javascripts: [list-scroll, <?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>event-gauge-small<?php endif ?>]
+  stylesheets: [print-list: {media: print}, <?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>event-gauge-small<?php endif ?>]
+
+showSuccess:
+  stylesheets: [manifestation-view, view, event-seated-plan]
+  javascripts: [event-seated-plan]
+editSuccess:
+  stylesheets: [manifestation-view,view, event-seated-plan]
+  javascripts: [event-seated-plan]
+newSuccess:
+  stylesheets: [manifestation-view,view]
+  javascripts: [event-seated-plan]
+periodicitySuccess:
+  stylesheets: [manifestation-view,view]
+updateSuccess:
+  stylesheets: [manifestation-view,view, event-seated-plan]
+  javascripts: [event-seated-plan]
+createSuccess:
+  stylesheets: [manifestation-view,view, event-seated-plan]
+  javascripts: [event-seated-plan]
+versionsSuccess:
+  javascripts: [manifestation-versionning]
+
+periodicitySuccess:
+  javascripts: [manifestation-periodicity]
+templatingSuccess:
+  stylesheets: [manifestation-templating.css,/sfFormExtraPlugin/css/jquery.autocompleter.css]
+  javascripts: [/sfFormExtraPlugin/js/jquery.autocompleter.js, /cxFormExtraPlugin/js/cx_open_list.js]
+
+listSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+listFbLocationSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+csvSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/comma-separated-values
+    content-disposition: attachment; filename=spectators.csv
+
+ajaxSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+        
