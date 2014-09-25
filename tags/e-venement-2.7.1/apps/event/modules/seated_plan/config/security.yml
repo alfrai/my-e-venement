@@ -1,0 +1,19 @@
+all:
+  credentials: [event-seated-plan]
+  
+edit:
+  credentials: [event-seated-plan-edit]
+update:
+  credentials: [event-seated-plan-edit]
+new:
+  credentials: [event-seated-plan-new]
+create:
+  credentials: [event-seated-plan-new]
+delete:
+  credentials: [event-seated-plan-del]
+batchDelete:
+  credentials: [event-seated-plan-del]
+show:
+  credentials: [[event-seated-plan, tck-seat-allocation]]
+getSeats:
+  credentials: [tck-seat-allocation]

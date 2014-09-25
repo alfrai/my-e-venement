@@ -1,0 +1,19 @@
+#default: 
+#  javascripts: [menu,/sfFormExtraPlugin/js/jquery.autocompleter.js,/cxFormExtraPlugin/js/cx_open_list.js]
+#  stylesheets: [/sfFormExtraPlugin/css/jquery.autocompleter.css]
+
+extractCash:
+  has_layout: false
+  http_metas:
+    content-type: text/comma-separated-values
+    content-disposition: attachment; filename=cash.csv
+extractSales:
+  has_layout: false
+  http_metas:
+    content-type: text/comma-separated-values
+    content-disposition: attachment; filename=sales.csv
+extractLineal:
+  has_layout: false
+  http_metas:            
+    content-type: text/plain
+    content-disposition: attachment; filename=lineal.txt

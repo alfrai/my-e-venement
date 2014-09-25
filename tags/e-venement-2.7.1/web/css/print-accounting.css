@@ -1,0 +1,116 @@
+body {
+  width: 100%;
+  min-height: 277mm;
+  font-family: arial, sans-serif;
+  font-size: 13px;
+}
+
+#customer .transaction,
+#customer .bdcid { display: none; }
+
+#customer {
+  position: absolute;
+  right: 20px;
+  border: 1px solid gray;
+  padding: 5px 10px;
+  width: 250px;
+  top: 50mm;
+}
+#customer p { margin: 0; }
+#customer .name, #customer .prenom { display: inline; padding-right: 0.5em; font-weight: bold; }
+#customer .orgname { font-weight: bold; }
+#customer .postalcode, #customer .city { display: inline; padding-right: 0.5em; }
+#customer .id { display: none; }
+#customer .email { text-decoration: underline; font-size: 80%; }
+#customer, #type { margin-right: 25mm; }
+#customer .phonenumber { display: none; }
+
+#date { position: absolute; right: 30px; }
+#place { position: absolute; right: 60px; }
+
+#seller p { margin: 0; }
+#seller .name { font-weight: bold; }
+#seller .country,
+#seller .refs,
+#seller .other { font-size: 80%; }
+#seller .postalcode, #seller .city { display: inline; }
+#seller .other { margin-top: 7px; }
+
+#lines td, #lines th { border-bottom: 1px solid silver; border-left: 1px solid silver; padding: 0 5px; text-align: center; }
+#lines th:after { content: ''; }
+#lines .pet { border-right: 1px solid silver; }
+#lines .tip, #lines .pet { font-weight: bold; }
+#lines .postalcode { display: none; }
+#lines .vat .percent { display: none; }
+#lines .seats { display: none; }
+
+.tip:after, .pet:after, .up:after { content: ''; padding-left: 2px; }
+#lines .tip, #lines .pet, #lines .up, #lines .vat { text-align: right; }
+
+#totals {
+  margin-left: 450px;
+  width: 140px;
+  padding: 5px 10px;
+  border: 1px solid silver;
+}
+#totals td { text-align: left; font-size: 13px; }
+#totals td.float { text-align: right; }
+
+.timer-sql, .credits { display: none; }
+
+#ids { margin-top: 150px; }
+#ids .order_id { font-weight: bold }
+#correction { position: absolute; margin-top: 130px; }
+
+#type {
+  position: absolute;
+  font-weight: bold;
+  font-size: 170%;
+  right: 20px;
+  top: 100px;
+  width: 270px;
+}
+
+body.bdc .prefix { display: none; }
+body.bdc #echeance { display: none; }
+
+#lines .name { max-width: 180px; }
+#lines .event { max-width: 220px; }
+#lines { margin-bottom: 20px; }
+
+#min-height { height: 250mm; float: left; }
+.footer {
+  clear: both;
+  text-align: center;
+}
+#payments { border: 1px solid silver; margin-left: 4px; padding: 5px 10px; width: 280px; position: relative; bottom: 30px; }
+.pdf #payments { width: 180px; }
+#payments h2 { font-size: 13px; margin: 0 10px 0 0; float: left; }
+#payments div { display: table; }
+.pdf #payments div { display: block; }
+#payments div p { display: table-row; }
+.pdf #payments div p { display: block; margin: 0; padding: 0; }
+#payments div p span { display: table-cell; padding-right: 1em; }
+.pdf #payments div p span { display: inline-block; }
+.pdf #payments div p span:first-child { width: 24mm; }
+.pdf #payments div p span + span { width: 18mm; }
+#payments div p span + span { text-align: right; padding-right: 0; }
+#payments div p span:last-child { padding-right: 0; }
+#payments div p.total span { text-decoration: underline; }
+#payments div p.topay { text-decoration: underline; font-weight: bold; }
+
+tbody { font-size: 80%; }
+
+@media print {
+.get-a-pdf, .inline-modifications { display: none; }
+}
+.pdf .get-a-pdf, .pdf .inline-modifications { display: none; }
+.get-a-pdf, .inline-modifications {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+}
+.inline-modifiable input { width: 100px; }
+#lines .inline-modifiable.qty input { width: 4em; }
+.get-a-pdf { margin-top: 45px; }
+
