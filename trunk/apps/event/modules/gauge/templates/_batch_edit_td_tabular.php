@@ -19,7 +19,7 @@
   </form>
 </td>
 <td class="sf_admin_text sf_admin_list_td_unjoin">
-  <button class="fg-button-mini fg-button ui-state-default fg-button-icon-left" name="unjoin" value="">
+  <button class="fg-button-mini fg-button ui-state-default fg-button-icon-left" name="unjoin" value="" title="<?php echo __('Unjoin?') ?>">
     <span class="ui-icon ui-icon-circle-close"></span>
   </button>
 </td>
