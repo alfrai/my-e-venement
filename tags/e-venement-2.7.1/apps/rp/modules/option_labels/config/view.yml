@@ -1,8 +1,0 @@
-default:
-  stylesheets: [/sfAdminThemejRollerPlugin/css/reset.css,main,menu,content,view,options,/sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css,/sfAdminThemejRollerPlugin/css/jroller.css,/sfAdminThemejRollerPlugin/css/fg.buttons.css]
-  javascripts: [jquery,menu,options,/sfAdminThemejRollerPlugin/js/jquery-ui.custom.min.js,/sfAdminThemejRollerPlugin/js/fg.menu.js,/sfAdminThemejRollerPlugin/js/jroller.js]
-
-cssSuccess:
-  has_layout: off
-  http_metas:
-    content-type: text/css

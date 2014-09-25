@@ -1,1 +1,0 @@
-../../../../tck/modules/ticket/templates/_accounting_payments.php
