@@ -88,7 +88,7 @@ class ContactEntryByContactForm extends BaseContactEntryForm
     {
       $sf_user = sfContext::getInstance()->getUser();
       $q->andWhereIn('g.workspace_id', array_keys($sf_user->getWorkspacesCredentials()))
-        ->andWhereIn('ev.meta_event_id', array_keys($sf_user->getWorkspacesCredentials()))
+        ->andWhereIn('ev.meta_event_id', array_keys($sf_user->getMetaEventsCredentials()))
       ;
     }
     $entry = $q->fetchOne();
