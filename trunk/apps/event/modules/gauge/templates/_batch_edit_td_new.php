@@ -13,12 +13,10 @@
     ->orderBy('w.name')
   );
 ?>
-<td class="sf_admin_text sf_admin_list_td_Price">
+<td></td>
+<td></td>
+<td class="sf_admin_text sf_admin_list_td_Price" colspan="3">
   <form action="<?php echo url_for('gauge/create') ?>" method="post" class="sf_admin_new">
     <?php foreach ( $form as $field ) echo $field; ?>
   </form>
-</td>
-<td class="sf_admin_text sf_admin_list_td_value">
-</td>
-<td class="sf_admin_text sf_admin_list_td_online">
 </td>
