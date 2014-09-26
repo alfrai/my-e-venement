@@ -72,7 +72,7 @@ class gaugeActions extends autoGaugeActions
       ->leftJoin('g.Workspace w')
       ->leftJoin('w.Order o ON o.workspace_id = w.id AND o.sf_guard_user_id = '.intval($this->getUser()->getId()))
       ->andWhere('g.manifestation_id = ?',$mid)
-      ->orderBy('o.rank, w.name');
+      ->orderBy('g.group_name, o.rank, w.name');
     $this->sort = array('Workspace','');
     
     $this->pager = $this->configuration->getPager('Gauge');
