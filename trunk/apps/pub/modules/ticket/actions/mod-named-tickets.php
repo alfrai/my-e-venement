@@ -26,6 +26,8 @@
   if ( !$request->getParameter('manifestation_id', false) )
     throw new liOnlineSaleException('To access named tickets, you need a manifestation_id parameter. None given');
   
+  $this->getContext()->getConfiguration()->loadHelpers('Number');
+  
   $q = Doctrine::getTable('Ticket')->createQuery('tck')
     ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
     ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransactionId())
@@ -109,14 +111,37 @@
       }
     }
     
+    // available prices
+    $order = $prices = $tmp = array();
+    if ( sfConfig::get('app_options_synthetic_plans', false) )
+    {
+      foreach ( $ticket->Manifestation->PriceManifestations as $pm )
+      if ( $pm->Price->isAccessibleBy($this->getUser()) )
+      {
+        $order[$pm->price_id] = $pm->value;
+        $tmp[$pm->price_id] = ($pm->Price->description ? $pm->Price->description : (string)$pm->Price).' ('.format_currency($pm->value,'€').')';
+      }
+      foreach ( $ticket->Gauge->PriceGauges as $pg )
+      if ( $pg->Price->isAccessibleBy($this->getUser()) )
+      {
+        $order[$pg->price_id] = $pg->value;
+        $tmp[$pg->price_id] = ($pg->Price->description ? $pg->Price->description : (string)$pg->Price).' ('.format_currency($pg->value,'€').')';
+      }
+      arsort($order);
+      foreach ( $order as $pid => $value )
+        $prices[''.$pid] = $tmp[$pid];
+    }
+    
     // the json data
     $this->data[] = array(
       'id' => $ticket->id,
       'seat_name'         => (string)$ticket->Seat,
       'seat_id'           => $ticket->seat_id,
-      'price_name'        => (string)$ticket->Price,
+      'price_name'        => $ticket->Price->description ? $ticket->Price->description : (string)$ticket->Price,
       'price_id'          => $ticket->price_id,
-      'gauge_name'        => (string)$ticket->Gauge,
+      'prices_list'       => $prices,
+      'value'             => format_currency($ticket->value, '€'),
+      'gauge_name'        => $ticket->Gauge->group_name ? $ticket->Gauge->group_name : (string)$ticket->Gauge,
       'gauge_id'          => $ticket->gauge_id,
       'contact_id'        => $ticket->contact_id,
       'contact_name'      => $ticket->contact_id ? $ticket->DirectContact->name : NULL,

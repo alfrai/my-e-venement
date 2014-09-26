@@ -7,5 +7,8 @@ if ( is_array($json['error']['message']) )
   $json['error']['message'] = implode(' ', $json['error']['message']);
 }
 ?>
+<?php if ( sfConfig::get('sf_web_debug', false) ): ?>
+<pre><?php print_r($json) ?></pre>
+<?php else: ?>
 <?php echo json_encode($json) ?>
-
+<?php endif ?>

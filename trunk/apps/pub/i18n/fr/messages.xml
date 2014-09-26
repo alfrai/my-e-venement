@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Add</source>
+        <target>Ajouter</target>
+      </trans-unit>
+      <trans-unit>
         <source>Products list</source>
         <target>Liste des produits</target>
       </trans-unit>

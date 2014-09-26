@@ -52,13 +52,16 @@ class seatsActions extends sfActions
     $q = Doctrine::getTable('SeatedPlan')->createQuery('sp')
       ->leftJoin('sp.Seats s')
       ->orderBy('s.name')
-      ->andWhere('sp.id = ?', $request->getParameter('id'))
+      
       ->leftJoin('sp.Workspaces ws')
       ->leftJoin('ws.Gauges g')
       ->leftJoin('g.Manifestation m')
+      
       ->andWhere('sp.location_id = m.location_id')
       ->andWhere('g.id = ?', $request->getParameter('gauge_id',0))
     ;
+    if ( $request->getParameter('id') )
+      $q->andWhere('sp.id = ?', $request->getParameter('id'));
     $this->seated_plan = $q->fetchOne();
     $this->forward404Unless($this->seated_plan);
     

@@ -25,7 +25,7 @@
 
 
   // transforms a simple HTML call into a seated plan widget (seated-plan.css is also needed)
-  // you can use something as simple as <a href="<?php url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id') ?>" class="picture seated-plan"><?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture, 'width' => $seated_plan->ideal_width ? $seated_plan->ideal_width : '')) ?></a>
+  // you can use something as simple as <a href="<?php echo url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id') ?>" class="picture seated-plan"><?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture, 'width' => $seated_plan->ideal_width ? $seated_plan->ideal_width : '')) ?></a>
   LI.seatedPlanInitializationFunctions = [];
   LI.seatedPlanInitializationFunctions.push(function(selector){
     $(selector).addClass('done');
@@ -37,7 +37,7 @@
     
     $(root).find('.picture.seated-plan img').each(function(){
       var widget = $(this).closest('.seated-plan');
-      var url = widget.prop('href') ? widget.prop('href') : widget.attr('data-href');
+      
       var id = widget.prop('id');
       var elt = $('<span></span>')
         .prop('class',widget.prop('class'))
@@ -45,14 +45,34 @@
         .attr('style',widget.attr('style'))
         .append($('<div></div>').addClass('anti-handling'))
         .prepend($(this))
-        .attr('data-href', widget.prop('href'))
       ;
+      
+      // URLs
+      var urls = [];
+      if ( widget.prop('href') || widget.attr('data-href') )
+      {
+        urls.push(widget.prop('href') ? widget.prop('href') : widget.attr('data-href'));
+      }
+      else
+      {
+        widget.find('.seats-url').each(function(){
+          urls.push($(this).prop('href'));
+        });
+      }
+      $.each(urls, function(i, url){
+        $('<a></a>').addClass('seats-url').prop('href', url)
+          .appendTo(elt);
+      });
       
       widget.replaceWith(elt);
       
       // loads the content/data
       if ( !$(this).closest('.seated-plan').is('.on-demand') )
-        $(this).ready(function(){ LI.seatedPlanLoadData(url, id ? '#'+id : ''); });
+        $(this).ready(function(){
+          elt.find('.seats-url').each(function(){
+            LI.seatedPlanLoadData($(this).prop('href'), id ? '#'+id : '', true);
+          });
+        });
       else
         $(this).closest('.seated-plan').removeClass('on-demand');
       
@@ -80,9 +100,9 @@
           if ( scale > alternate ) scale = alternate; // security for graphical bugs
         }
         elt.css('transform', 'scale('+(scale)+')')
-           .attr('data-scale', scale)
+           .attr('data-scale', scale);
         if ( scale < 1 )
-           elt.css('margin-bottom', ((100*scale-100)*scale)+'%')
+          elt.css('margin-bottom', $(this).height()*(scale-1) + 50);
         
         // box resizing
         $(this).parent()
@@ -94,7 +114,7 @@
     });
   }
   
-  LI.seatedPlanLoadData = function(url, extra_selector)
+  LI.seatedPlanLoadData = function(url, extra_selector, no_reset)
   {
     var selector = '.picture.seated-plan';
     if ( extra_selector )
@@ -108,7 +128,8 @@
     $('#transition').show();
     $(selector+' .seat').remove();
     $.get(url,function(json){
-      $(selector).find('.seat').remove();
+      if ( !no_reset )
+        $(selector).find('.seat').remove();
       for ( i = 0 ; i < json.length ; i++ )
       {
         var data = json[i];

@@ -18,8 +18,6 @@
           .each(function(){
             var factor = 1.3;
             var new_scale = operand == '*' ? parseFloat($(this).attr('data-scale'))*factor : parseFloat($(this).attr('data-scale'))/factor;
-            console.error(parseFloat($(this).attr('data-scale'))+'*'+factor);
-            console.error(new_scale+' '+$(this).prop('id'));
             $(this).css('transform', 'scale('+new_scale+')')
               .attr('data-scale', new_scale);
           });

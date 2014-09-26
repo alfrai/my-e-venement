@@ -37,7 +37,7 @@ LI.pubNamedTicketsData = function(json)
     $.each(['gauge_id', 'seat_id', 'price_id', 'contact_id'], function(key, field){
       elt.attr('data-'+field.replace('_','-'), ticket[field]);
     });
-    $.each(['id', 'gauge_name', 'seat_name', 'price_name', 'contact_id', 'contact_name', 'contact_firstname', 'contact_email', 'comment'], function(key, field){
+    $.each(['id', 'gauge_name', 'seat_name', 'value', 'contact_id', 'contact_name', 'contact_firstname', 'contact_email', 'comment'], function(key, field){
       if ( elt.find('.'+field+' input').length > 0 )
         elt.find('.'+field+' input').val(ticket[field]);
       else
@@ -46,5 +46,17 @@ LI.pubNamedTicketsData = function(json)
     elt.find('input').each(function(){
       $(this).attr('name', $(this).attr('name').replace('%%ticket_id%%', ticket.id));
     });
+    
+    // synthetic view or not
+    if ( ticket.prices_list.length == 0 )
+      elt.find('.price_name').text(ticket.price_name);
+    else
+    {
+      elt.find('.price_name').remove('> *').prepend($('<select></select>').prop('name', 'price_id'));
+      $.each(ticket.prices_list, function(id, name){
+        $('<option></option>').val(id).text(name).appendTo(elt.find('.price_name select'));
+      });
+      elt.find('.price_name select').val(ticket.price_id);
+    }
   });
 }

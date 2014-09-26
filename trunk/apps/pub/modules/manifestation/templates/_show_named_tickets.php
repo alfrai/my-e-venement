@@ -8,6 +8,7 @@
       <span class="gauge_name"></span>
       <span class="seat_name"></span>
       <span class="price_name"></span>
+      <span class="value"></span>
     </h4>
     <span class="contact_id"><input type="hidden" value="" name="ticket[%%ticket_id%%][contact][id]" /></span>
     <span class="contact_name">
@@ -23,7 +24,7 @@
       <input type="email" value="" name="ticket[%%ticket_id%%][contact][email]" title="<?php echo __('Email address') ?>" />
     </span>
     <span class="comment">
-      <label><?php echo __('Comment') ?>:</label>
+      <label><?php echo __('Any comment?') ?></label>
       <input type="text" value="" name="ticket[%%ticket_id%%][comment]" title="<?php echo __('Comment') ?>" maxlength="255" />
     </span>
   </div>

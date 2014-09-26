@@ -87,7 +87,7 @@ class manifestationActions extends autoManifestationActions
       ->andWhereIn('ws.id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhereIn('me.id',array_keys($this->getUser()->getMetaEventsCredentials()))
       
-      ->orderBy('ws.name, mp.name, gp.name')
+      ->orderBy('g.group_name, ws.name, mp.name, gp.name')
     ;
     $this->gauges = $q->execute();
     

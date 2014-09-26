@@ -1,0 +1,6 @@
+#categories { position: absolute; top: 180px; z-index: 2; border-color: gray; }
+#categories { padding: 5px; list-style-type: none; }
+#categories .category { max-width: 150px; text-overflow: ellipsis; overflow: hidden; display: inline-block; white-space: nowrap; }
+#categories .prices { width: 225px; font-size: 100%; }
+
+#plans .gauge .magnify { display: block; right: 30px; }

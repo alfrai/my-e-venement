@@ -12,6 +12,36 @@
  */
 class SeatedPlan extends PluginSeatedPlan
 {
+  public function render(array $gauges, array $attributes = array())
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('CrossAppLink'));
+    
+    // default values
+    foreach ( array(
+      'app' => 'event',
+      'get-seats' => 'seated_plan/getSeats',
+      'on-demand' => false,
+      'match-seated-plan' => true,
+    ) as $key => $value )
+    if ( !isset($attributes[$key]) )
+      $attributes[$key] = $value;
+    
+    $img = $this->Picture->render(array(
+      'title' => $this->Picture,
+      'width' => $this->ideal_width ? $this->ideal_width : '',
+      'app'   => 'pub',
+    ));
+    
+    $data = '';
+    foreach ( $gauges as $gauge )
+      $data .= '<a href="'.cross_app_url_for($attributes['app'], $attributes['get-seats'].'?gauge_id='.$gauge->id.($attributes['match-seated-plan'] ? '&id='.$this->id : '')).'" class="seats-url"></a>';
+    
+    return '<span
+      id="plan-'.$this->id.(count($gauges) > 0 ? '-manif-'.$gauges[0]->Manifestation->id : '').'"
+      class="seated-plan picture '.($attributes['on-demand'] ? 'on-demand' : '').'"
+    >'.$img.$data.'</span>';
+  }
+  
   public function clearLinks()
   {
     $q = Doctrine::getTable('SeatLink')->createQuery('sl')

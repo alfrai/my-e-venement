@@ -12,6 +12,10 @@
  */
 class Picture extends PluginPicture
 {
+  public function render(array $attributes = array())
+  {
+    return $this->getHtmlTag($attributes);
+  }
   public function getHtmlTag(array $attributes = array())
   {
     if ( !$this->id )

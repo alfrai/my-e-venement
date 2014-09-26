@@ -48,6 +48,10 @@ class ticketActions extends sfActions
     return require(dirname(__FILE__).'/auto-seating.php');
   }
   
+  public function executeAddCategorizedTicket(sfWebRequest $request)
+  {
+    return require(dirname(__FILE__).'/add-categorized-ticket.php');
+  }
   public function executeModTickets(sfWebRequest $request)
   {
     return require(dirname(__FILE__).'/mod-tickets.php');
