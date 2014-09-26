@@ -94,7 +94,7 @@ class ManifestationTable extends PluginManifestationTable
         ->orderBy("$et.name, $me.name, $alias.happens_at, $alias.duration, $w.name");
       if ( sfContext::hasInstance() )
       $q->leftJoin("$w.Order $wuo ON $wuo.workspace_id = $w.id AND $wuo.sf_guard_user_id = ".($uid = sfContext::getInstance()->getUser()->getId() ))
-        ->orderBy("$et.name, $me.name, $alias.happens_at, $alias.duration, $wuo.rank")
+        ->orderBy("$et.name, $me.name, $alias.happens_at, $alias.duration, $wuo.rank, $w.name")
         ->leftJoin("$w.Users $wu")
         ->leftJoin("$me.Users $meu")
         ->andWhere("$meu.id = ?",$uid)
