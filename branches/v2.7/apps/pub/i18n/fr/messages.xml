@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>This website requires your authentication</source>
+        <target>Ce site Internet requiert votre identification</target>
+      </trans-unit>
+      <trans-unit>
         <source>Companies</source>
         <target>Compagnies</target>
       </trans-unit>

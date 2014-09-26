@@ -59,7 +59,7 @@ class attendanceActions extends sfActions
       // datetime
       $this->lines[$key]['dotw'] = format_datetime($this->lines[$key]['happens_at'],'EEEE');
       $this->lines[$key]['date'] = format_date($this->lines[$key]['happens_at'],'d');
-      $this->lines[$key]['time'] = format_date($this->lines[$key]['happens_at'],'hh:mm');
+      $this->lines[$key]['time'] = format_date($this->lines[$key]['happens_at'],'HH:mm');
       unset($this->lines[$key]['happens_at']);
     }
     
