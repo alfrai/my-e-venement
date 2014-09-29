@@ -44,7 +44,12 @@
   foreach ( $csv as $entry ) { try
   {
     foreach ( $matches as $i => $field )
+    {
+      if ( count($entry) < count($matches) )
+        array_shift($matches['id']);
       $entry[$field] = isset($entry[$i]) ? $entry[$i] : '';
+    }
+    
     $cpt++;
     
     // organism
