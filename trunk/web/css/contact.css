@@ -70,3 +70,8 @@
 #tdp-content .sf_admin_form_field_Relationships input[type=text],
 #content .sf_admin_form .sf_admin_form_field_Relationships select,
 #content .sf_admin_form .sf_admin_form_field_Relationships input[type=text] { width: 130px; }
+
+.tdp-import { padding: 5px; }
+.tdp-import h1 { font-size: 22px; margin: 3px 5px; }
+.tdp-import .ui-widget-content { padding: 5px; margin: 5px 0; }
+.tdp-import pre { margin: 15px 0 15px 10px; padding: 0; max-width: 100%; overflow-x: auto; overflow-y: hidden; }

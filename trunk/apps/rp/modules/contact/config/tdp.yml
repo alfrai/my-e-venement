@@ -34,6 +34,9 @@ all:
           label: Merge
           attributes:
             onclick: "javascript: form = $('#tdp-content').clone(true); form.find('[name=batch_action]').remove(); var sep=$(this).attr('href').indexOf('?')>-1?'&':'?'; $(this).attr('href',$(this).attr('href')+sep+form.serialize());"
+        prepareImport:
+          label: Import
+          credential: [pr-contact-new, pr-organism-new]
         #map:
         #  label: Geolocalize
     edit:

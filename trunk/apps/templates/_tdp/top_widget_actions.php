@@ -43,7 +43,19 @@
     foreach ( $last['action']['attributes'] as $attr => $value )
       $attributes .= ' '.$attr.'="'.$value.'"';
     
-    echo !(isset($last['action']['credential']) && !$sf_user->hasCredential($last['action']['credential']))
+    $hasCredential = false;
+    if ( !isset($last['action']['credential']) )
+      $hasCredential = true;
+    elseif ( !is_array($last['action']['credential']) )
+      $hasCredential = $sf_user->hasCredential($last['action']['credential']);
+    else
+    {
+      $hasCredential = true;
+      foreach ( $last['action']['credential'] as $credential )
+        $hasCredential = $hasCredential && $sf_user->hasCredential($credential);
+    }
+    
+    echo $hasCredential
       ? link_to(isset($last['action']['label']) ? __($last['action']['label']) : __(ucfirst(strpos($last['name'],'batch') === 0 ? substr($last['name'],5) : $last['name']),null,'sf_admin'),$sf_context->getModuleName().'/'.(strpos($last['name'],'batch') === 0 ? 'batch?batch_action='.$last['name'] : $last['name'].(isset($object) && isset($action['with_id'])? '?id='.$object->id : '')),$last['action']['attributes'])
       : '<a href="#"'.$attributes.'>'.(isset($last['action']['label']) ? __($last['action']['label']) : __(ucfirst(strpos($last['name'],'batch') === 0 ? substr($last['name'],5) : $last['name']),null,'sf_admin')).'</a>';
   }

@@ -39,6 +39,15 @@ class contactActions extends autoContactActions
 {
   private $force_classic_template_dir = false;
   
+  public function executePrepareImport(sfWebRequest $request)
+  {
+    $this->useClassicTemplateDir(true);
+  }
+  public function executeImport(sfWebRequest $request)
+  {
+    return require(__DIR__.'/import.php');
+  }
+  
   public function executeError404(sfWebRequest $request)
   {
     $this->useClassicTemplateDir(true);

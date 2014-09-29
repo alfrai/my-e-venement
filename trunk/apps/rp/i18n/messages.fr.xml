@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You are about to import a bulk of contacts. Be careful to respect this type of file:</source>
+        <target>Vous êtes sur le point d'importer un lot de contacts. Attention à respecter ce type de fichier :</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Do not forget that this file must be UTF-8 encoded, its fields must be separated by a comma, and the first line dedicated to field titles... Actually a standard CSV format.</source>
+        <target>Ne pas oublier que ce fichier doit être encodé en UTF-8, que ses champs doivent être séparés par une virgule, que la première ligne est dédiée aux titres des champs... Ce qui en fait un format CSV standard.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Try to import a maximum of %%nb%% lines at once. Then repeat the import the number of times needed.</source>
+        <target>Essayer d'importer un maximum de %%nb%% lignes à chaque fois. Ensuite, répéter l'import autant que nécessaire.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Import</source>
+        <target>Importer</target>
+      </trans-unit>
+      <trans-unit>
         <source>Real value</source>
         <target>Valeur réelle</target>
       </trans-unit>
@@ -1683,6 +1699,10 @@
       <trans-unit id="27">
         <source>4. Send (test first!)</source>
         <target>4. Envoyer (tester d'abord!)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Send</source>
+        <target>Envoyer</target>
       </trans-unit>
       <trans-unit>
         <source>Test email address:</source>
