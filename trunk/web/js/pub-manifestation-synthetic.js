@@ -11,6 +11,7 @@ $(document).ready(function(){
           LI.alert(json.error.message, 'error');
         if ( json.success && json.success.message )
           LI.alert(json.success.message, 'success');
+        LI.pubNamedTicketsInitialization();
       }
     });
     return false;

@@ -4,3 +4,9 @@
 #categories .prices { width: 225px; font-size: 100%; }
 
 #plans .gauge .magnify { display: block; right: 30px; }
+#plans .gauge .data { display: none; }
+
+.named-tickets h4 > * { display: inline-block; }
+.named-tickets .gauge_name { min-width: 6.5em; }
+.named-tickets .seat_name { min-width: 3em; }
+.named-tickets .value { min-width: 7.5em; }

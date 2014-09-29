@@ -30,9 +30,14 @@
   foreach ( $tmp as $tck )
     $data[isset($tck['ticket_id']) ? $tck['ticket_id'] : 'new-'.count($data)] = $tck;
   
-  $manifestation = Doctrine::getTable('Manifestation')->createQuery('m', true)->leftJoin('m.Gauges g')
-    ->andWhere('g.id = ?', $request->getParameter('gauge_id'))
-    ->fetchOne();
+  
+  $q = Doctrine::getTable('Manifestation')->createQuery('m', true)->leftJoin('m.Gauges g');
+  if ( $request->getParameter('gauge_id') )
+    $q->andWhere('g.id = ?', $request->getParameter('gauge_id'));
+  elseif ( $request->getParameter('manifestation_id') )
+    $q->andWhere('m.id = ?', $request->getParameter('manifestation_id'));
+  
+  $manifestation = $q->fetchOne();
   $this->dispatcher->notify($event = new sfEvent($this, 'pub.before_adding_tickets', array('manifestation' => $manifestation)));
   if ( !$event->getReturnValue() )
   {
@@ -131,6 +136,20 @@
   foreach ( $data as $tck )
   if ( $tck['action'] == 'add' && $tickets->count() + 1 <= $max )
   {
+    if (!( isset($tck['gauge_id']) && $tck['gauge_id'] ))
+    {
+      $q = Doctrine::getTable('Gauge')->createQuery('g', false)
+        ->select('g.id')
+        ->andWhere('g.manifestation_id = ?', $request->getParameter('manifestation_id'))
+        ->leftJoin('g.Manifestation m')
+        ->leftJoin('g.Workspace ws')
+        ->leftJoin('ws.SeatedPlans sp WITH sp.location_id = m.location_id')
+        ->leftJoin('sp.Seats s')
+        ->andWhere('s.id = ?', $tck['seat_id'])
+      ;
+      $tck['gauge_id'] = $q->fetchOne()->id;
+    }
+    
     if ( !isset($wips[$tck['gauge_id']]) )
       $wips[$tck['gauge_id']] = array();
     if ( !isset($to_seat[$tck['gauge_id']]) )

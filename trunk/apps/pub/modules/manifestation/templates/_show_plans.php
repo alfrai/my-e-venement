@@ -14,7 +14,7 @@
 ?>
 
 <?php use_stylesheet('/private/event-seated-plan') ?>
-<div id="plans">
+<div id="plans" data-manifestation-id="<?php echo $manifestation->id ?>">
 <?php foreach ( $plans as $plan ): ?>
 <?php if ( isset($plan['seated_plan']) && $plan['seated_plan'] instanceof SeatedPlan ): ?>
   <div class="plan-<?php echo $plan['seated_plan']->id ?> gauge">
@@ -27,4 +27,8 @@
   </div>
 <?php endif ?>
 <?php endforeach ?>
+  <div class="data">
+    <a href="<?php echo url_for('ticket/modTickets?manifestation_id='.$manifestation->id) ?>" id="ajax-init-data"></a>
+    <span class="no-price"><?php echo __('Ticket to remove or price to set') ?></span>
+  </div>
 </div>

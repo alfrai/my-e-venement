@@ -38,6 +38,7 @@ class myUser extends liGuardSecurityUser
     parent::initialize($dispatcher, $storage, $options);
     $dispatcher->connect('pub.pre_execute', array($this, 'mustAuthenticate'));
     $dispatcher->connect('pub.before_showing_prices', array($this, 'checkAvailability'));
+    $dispatcher->connect('pub.before_adding_tickets', array($this, 'checkAvailability'));
     
     if ( $this->getAttribute('online_store', NULL) === NULL
       || time() > strtotime($this->getAttribute('online_store_timeout', NULL)) )

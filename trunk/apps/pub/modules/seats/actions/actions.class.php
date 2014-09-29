@@ -83,13 +83,13 @@ class seatsActions extends sfActions
         ->leftJoin('t.Order o')
         ->leftJoin('s.SeatedPlan sp')
         ->andWhere('tck.seat_id IS NOT NULL')
-        ->andWhere('sp.id = ?', $request->getParameter('id'))
+        ->andWhere('sp.id = ?', $this->seated_plan->id)
         ->leftJoin('tck.Manifestation m')
         ->leftJoin('m.Gauge g')
         ->andWhere('g.id = ?', $request->getParameter('gauge_id'))
       ;
       
-      foreach ( $q->execute() as $ticket )
+      foreach ( $tickets = $q->execute() as $ticket )
         $this->occupied[$ticket->seat_id] = array(
           'type'            => 'ordered'.($ticket->transaction_id === $this->transaction->id ? ' in-progress' : ''),
           'transaction_id'  => $ticket->gauge_id == $gid && $ticket->transaction_id === $this->transaction->id ? '#'.$this->transaction->id : false,

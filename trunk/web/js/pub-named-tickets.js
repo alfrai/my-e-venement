@@ -52,11 +52,18 @@ LI.pubNamedTicketsData = function(json)
       elt.find('.price_name').text(ticket.price_name);
     else
     {
-      elt.find('.price_name').remove('> *').prepend($('<select></select>').prop('name', 'price_id'));
+      $('<option value=""></option>').text('--'+$('#plans .data .no-price').text()+'--').appendTo(elt.find('.price_name select'));
       $.each(ticket.prices_list, function(id, name){
-        $('<option></option>').val(id).text(name).appendTo(elt.find('.price_name select'));
+        $('<option></option>').val(id).text(name)
+          .appendTo(elt.find('.price_name select'));
       });
       elt.find('.price_name select').val(ticket.price_id);
+      elt.find('.price_name select, .delete').each(function(){
+        $(this).attr('name', $(this).attr('name').replace('%%ticket_id%%', ticket.id));
+      });
+      elt.find('.delete').click(function(){
+        $('.price_name select').val('');
+      });
     }
   });
 }

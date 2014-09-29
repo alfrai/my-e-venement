@@ -64,6 +64,7 @@ abstract class PluginTicket extends BaseTicket
           ->leftJoin('pg.Price pgp WITH pgp.id = ?',$this->price_id)
           ->andWhere('(pmp.id IS NOT NULL OR pgp.id IS NOT NULL)')
         ;
+      $q->andWhere('(pmp.id IS NOT NULL OR pgp.id IS NOT NULL)');
       
       $price = $q->fetchOne();
       if ( $price )
@@ -84,17 +85,23 @@ abstract class PluginTicket extends BaseTicket
     if ( !$this->price_name )
       $this->price_name = $this->Price->name;
     
+    if ( $this->price_id )
     if (!( sfContext::hasInstance() && $this->Price->isAccessibleBy(sfContext::getInstance()->getUser()) ))
       throw new liEvenementException('You tried to save a ticket with a price that you cannot access (user: #'.sfContext::getInstance()->getUser()->getId().', price: #'.$this->price_id.')');
     
     // the transaction's last update
     $this->Transaction->updated_at = NULL;
     
-    // last chance to set a VAT taxe rate, related to current manifestation's rate
-    if ( is_null($this->vat) && !is_null($this->manifestation_id) )
-      $this->vat = Doctrine::getTable('Manifestation')
-        ->findOneById($this->Manifestation->id)
-        ->Vat->value;
+    // get back the manifestation_id if not already set
+    if ( !$this->manifestation_id && $this->gauge_id )
+    {
+      $this->Manifestation = Doctrine::getTable('Manifestation')->createQuery('m',true)
+        ->leftJoin('m.Gauges g')
+        ->andWhere('g.id = ?',$this->gauge_id)
+        ->fetchOne();
+    }
+    if ( is_null($this->vat) )
+      $this->vat = $pm->Manifestation->Vat->value;
     
     // last chance to set taxes
     $mods = $this->getModified();
@@ -108,17 +115,6 @@ abstract class PluginTicket extends BaseTicket
         $taxes->merge(is_object($this->Price) ? $this->Price->Taxes : Doctrine::getTable('Price')->find($this->price_id)->Taxes);
       $this->addTaxes($taxes);
     }
-    
-    // get back the manifestation_id if not already set
-    if ( !$this->manifestation_id && $this->gauge_id )
-    {
-      $this->Manifestation = Doctrine::getTable('Manifestation')->createQuery('m',true)
-        ->leftJoin('m.Gauges g')
-        ->andWhere('g.id = ?',$this->gauge_id)
-        ->fetchOne();
-    }
-    if ( is_null($this->vat) )
-      $this->vat = $pm->Manifestation->Vat->value;
     
     // the generates a barcode (if necessary) to record in DB
     $this->getBarcode();

@@ -35,7 +35,7 @@
     ->andWhere('tck.integrated_at IS NULL')
     ->andWhere('tck.cancelling IS NULL')
     ->andWhere('tck.duplicating IS NULL')
-    ->andWhere('tck.price_id IS NOT NULL')
+    //->andWhere('tck.price_id IS NOT NULL')
     
     ->leftJoin('tck.Seat s')
     ->leftJoin('tck.DirectContact c')
@@ -109,6 +109,12 @@
         
         break;
       }
+      
+      // set another price_id or delete the ticket
+      if (!( isset($data[$ticket->id]['price_id']) && $data[$ticket->id]['price_id'] ))
+        $ticket->delete();
+      if ( $data[$ticket->id]['price_id'] !== $ticket->price_id )
+        $ticket->price_id = $data[$ticket->id]['price_id'];
     }
     
     // available prices
@@ -137,10 +143,10 @@
       'id' => $ticket->id,
       'seat_name'         => (string)$ticket->Seat,
       'seat_id'           => $ticket->seat_id,
-      'price_name'        => $ticket->Price->description ? $ticket->Price->description : (string)$ticket->Price,
+      'price_name'        => !$ticket->price_id ? '' : ($ticket->Price->description ? $ticket->Price->description : (string)$ticket->Price),
       'price_id'          => $ticket->price_id,
       'prices_list'       => $prices,
-      'value'             => format_currency($ticket->value, '€'),
+      'value'             => $ticket->price_id ? format_currency($ticket->value, '€') : '',
       'gauge_name'        => $ticket->Gauge->group_name ? $ticket->Gauge->group_name : (string)$ticket->Gauge,
       'gauge_id'          => $ticket->gauge_id,
       'contact_id'        => $ticket->contact_id,
