@@ -47,7 +47,7 @@ table tbody a:hover { text-decoration: underline; }
 .criterias.hide { display: none; }
 .criterias .dates, .criterias ul { margin: 10px 30px; }
 
-#criterias { width: 230px; position: absolute; right: 25px; height: 600px; margin-top: 5px; overflow-y: auto; overflow-x: hidden; }
+#criterias { width: 230px; position: absolute; right: 25px; bottom: 40px; margin-top: 5px; overflow-y: auto; overflow-x: hidden; }
 #criterias ul { margin: 5px; }
 #criterias li { list-style-type: none; }
 #criterias label { display: block; }
