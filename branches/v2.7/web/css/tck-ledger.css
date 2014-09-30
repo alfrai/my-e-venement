@@ -51,7 +51,7 @@ table tbody a:hover { text-decoration: underline; }
   width: 230px;
   position: absolute;
   right: 25px;
-  height: 540px;
+  bottom: 40px;
   margin-top: 5px;
   overflow-y: auto;
   overflow-x: hidden;
