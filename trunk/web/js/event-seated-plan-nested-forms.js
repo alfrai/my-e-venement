@@ -31,19 +31,19 @@ LI.seatedPlanLinksInBulk = function(elt){
   // CLEAR
   case 'auto_links[clear]':
     data[$(elt).prop('name')] = $(elt).val();
-    url = $('#sf_fieldset_seat_links .links_links .links_clear').prop('href');
-    text = $('#sf_fieldset_seat_links .links_links .links_clear').text();
+    url = $('#sf_fieldset_neighbors .links_links .links_clear').prop('href');
+    text = $('#sf_fieldset_neighbors .links_links .links_clear').text();
     break;
-  
+    
   // BUILD
   case 'auto_links[contiguous]':
   case 'auto_links[format]':
   case 'auto_links[format_submit]':
-    if ( $('#sf_fieldset_seat_links [name="auto_links[contiguous]"]').prop('checked') )
-      data['auto_links[contiguous]'] = $('#sf_fieldset_seat_links [name="auto_links[contiguous]"]').val();
-    data['auto_links[format]'] = $('#sf_fieldset_seat_links [name="auto_links[format]"]').val();
-    url = $('#sf_fieldset_seat_links .links_links .links_build').prop('href');
-    text = $('#sf_fieldset_seat_links .links_links .links_build').text();
+    if ( $('#sf_fieldset_neighbors [name="auto_links[contiguous]"]').prop('checked') )
+      data['auto_links[contiguous]'] = $('#sf_fieldset_neighbors [name="auto_links[contiguous]"]').val();
+    data['auto_links[format]'] = $('#sf_fieldset_neighbors [name="auto_links[format]"]').val();
+    url = $('#sf_fieldset_neighbors .links_links .links_build').prop('href');
+    text = $('#sf_fieldset_neighbors .links_links .links_build').text();
     break;
   
   // ADD
@@ -55,9 +55,9 @@ LI.seatedPlanLinksInBulk = function(elt){
   case 'auto_links[exceptions_to_remove_submit]':
     if ( !tmp )
       tmp = 'to_remove';
-    data['auto_links[exceptions_'+tmp+']'] = $('#sf_fieldset_seat_links [name="auto_links[exceptions_'+tmp+']"]').val();
-    url = $('#sf_fieldset_seat_links .links_links .links_exceptions_'+tmp+'').prop('href');
-    text = $('#sf_fieldset_seat_links .links_links .links_exceptions_'+tmp+'').text();
+    data['auto_links[exceptions_'+tmp+']'] = $('#sf_fieldset_neighbors [name="auto_links[exceptions_'+tmp+']"]').val();
+    url = $('#sf_fieldset_neighbors .links_links .links_exceptions_'+tmp+'').prop('href');
+    text = $('#sf_fieldset_neighbors .links_links .links_exceptions_'+tmp+'').text();
   break;
   
   }
@@ -88,14 +88,14 @@ $(document).ready(function(){
   });
   
   // catch every form validation to avoid global validation, links
-  $('#sf_fieldset_seat_links input[name^=auto_links]').keydown(function(e){
+  $('#sf_fieldset_neighbors  input[name^=auto_links]').keydown(function(e){
     if ( e.which == 13 )
     {
       LI.seatedPlanLinksInBulk(this);
       return false;
     }
   });
-  $('#sf_fieldset_seat_links button, #sf_fieldset_seat_links input[type=submit]').click(function(){
+  $('#sf_fieldset_neighbors button, #sf_fieldset_neighbors input[type=submit]').click(function(){
     LI.seatedPlanLinksInBulk(this);
     return false;
   });

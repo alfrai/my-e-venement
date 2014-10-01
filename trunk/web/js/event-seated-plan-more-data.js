@@ -50,7 +50,6 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
       break;
       
       case 'link':
-        console.log('link');
         $('<div></div>')
           .addClass('link')
           .prop('title', obj.names[0]+' - '+obj.names[1])

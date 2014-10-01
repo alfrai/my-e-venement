@@ -35,21 +35,22 @@
       $ac = $a->x-$b->x;
       $bc = $a->y-$b->y;
       
-      if ( $ac == 0 )
-        $angle = $a->y < $b->y ? 90 : -90;
+      if ( $ac == 0 && $bc != 0 )
+        $angle = $a->y < $b->y ? 90 : 270;
       else
       {
         $preangle = rad2deg(atan($bc/$ac));
-        if ( $preangle < 0 )
-          $angle = $preangle;
-        elseif ( $a->x <= $b->x && $a->y <= $b->y )
+        if ( $a->x <= $b->x && $a->y <= $b->y )
           $angle =   0 + $preangle;
-        elseif ( $a->x >  $b->x && $a->y < $b->y )
-          $angle =  90 + $preangle;
-        elseif ( $a->x >  $b->x && $a->y >=  $b->y )
+        else
+        if ( $a->x >  $b->x && $a->y <= $b->y )
           $angle = 180 + $preangle;
-        elseif ( $a->x <= $b->x && $a->y >  $b->y )
-          $angle = 270 + $preangle;
+        else
+        if ( $a->x >  $b->x && $a->y >  $b->y )
+          $angle = 180 + $preangle;
+        else
+        if ( $a->x <= $b->x && $a->y >  $b->y )
+          $angle = 360 + $preangle;
       }
       
       $this->data[] = array(
