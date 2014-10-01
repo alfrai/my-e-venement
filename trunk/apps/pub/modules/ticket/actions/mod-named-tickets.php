@@ -112,7 +112,10 @@
       
       // set another price_id or delete the ticket
       if (!( isset($data[$ticket->id]['price_id']) && $data[$ticket->id]['price_id'] ))
+      {
         $ticket->delete();
+        continue;
+      }
       if ( $data[$ticket->id]['price_id'] !== $ticket->price_id )
         $ticket->price_id = $data[$ticket->id]['price_id'];
     }
@@ -140,13 +143,14 @@
     
     // the json data
     $this->data[] = array(
-      'id' => $ticket->id,
+      'id'                => $ticket->id,
       'seat_name'         => (string)$ticket->Seat,
       'seat_id'           => $ticket->seat_id,
       'price_name'        => !$ticket->price_id ? '' : ($ticket->Price->description ? $ticket->Price->description : (string)$ticket->Price),
       'price_id'          => $ticket->price_id,
       'prices_list'       => $prices,
       'value'             => $ticket->price_id ? format_currency($ticket->value, '€') : '',
+      'taxes'             => $ticket->taxes ? format_currency($ticket->taxes, '€') : '',
       'gauge_name'        => $ticket->Gauge->group_name ? $ticket->Gauge->group_name : (string)$ticket->Gauge,
       'gauge_id'          => $ticket->gauge_id,
       'contact_id'        => $ticket->contact_id,

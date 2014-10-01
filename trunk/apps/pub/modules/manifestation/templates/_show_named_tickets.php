@@ -1,4 +1,4 @@
-<form action="<?php echo url_for('ticket/modNamedTickets?manifestation_id='.$manifestation->id) ?>" method="post" class="named-tickets">
+<form action="<?php echo url_for('ticket/modNamedTickets?manifestation_id='.$manifestation->id) ?>" method="<?php echo sfConfig::get('sf_web_debug', false) ? 'get' : 'post' ?>" class="named-tickets">
   <?php use_javascript('pub-named-tickets?'.date('Ymd')) ?>
   <?php use_stylesheet('pub-named-tickets?'.date('Ymd')) ?>
   <h3><?php echo __('Assign a contact to your tickets') ?></h3>
@@ -7,6 +7,7 @@
       <span class="id"><input type="hidden" name="ticket[%%ticket_id%%][id]" value="" /></span>
       <span class="gauge_name"></span>
       <span class="value"></span>
+      <span class="taxes"></span>
       <span class="seat_name"></span>
       <span class="price_name"><select name="ticket[%%ticket_id%%][price_id]"></select></span>
       <span class="price_name"></span>

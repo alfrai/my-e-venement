@@ -30,7 +30,6 @@
   foreach ( $tmp as $tck )
     $data[isset($tck['ticket_id']) ? $tck['ticket_id'] : 'new-'.count($data)] = $tck;
   
-  
   $q = Doctrine::getTable('Manifestation')->createQuery('m', true)->leftJoin('m.Gauges g');
   if ( $request->getParameter('gauge_id') )
     $q->andWhere('g.id = ?', $request->getParameter('gauge_id'));
@@ -68,17 +67,15 @@
     $q->andWhere('tck.gauge_id = ?', $gauge_id);
   $tickets = $q->execute();
   
+  $default_prices = array();
   foreach ( $tickets as $key => $ticket )
   if ( isset($data[$ticket->id]) && isset($data[$ticket->id]['action']) )
   {
     switch ( $data[$ticket->id]['action'] ) {
     case 'del':
-      if ( !$ticket->seat_id || !$ticket->price_id )
-      {
-        $ticket->delete();
-        unset($tickets[$key]);
-        break;
-      }
+      $ticket->delete();
+      unset($tickets[$key]);
+      break;
     case 'mod':
       if ( isset($data[$ticket->id]['price_id']) && $data[$ticket->id]['price_id'] )
       {
@@ -123,9 +120,10 @@
   }
   elseif ( !$ticket->seat_id )
   {
-    if ( !isset($to_seat[$ticket->gauge_id]) )
-      $to_seat[$ticket->gauge_id] = array();
-    $to_seat[$ticket->gauge_id][] = $ticket;
+    $id = $ticket->Gauge->group_name ? 'cat-'.$ticket->Gauge->group_name : 'gid-'.$ticket->gauge_id;
+    if ( !isset($to_seat[$id]) )
+      $to_seat[$id] = array();
+    $to_seat[$id][] = $ticket;
   }
   
   $vel = sfConfig::get('app_tickets_vel', array());
@@ -136,6 +134,8 @@
   foreach ( $data as $tck )
   if ( $tck['action'] == 'add' && $tickets->count() + 1 <= $max )
   {
+    $gauge = NULL;
+    // finding back the gauge_id using manifestation_id + seat_id
     if (!( isset($tck['gauge_id']) && $tck['gauge_id'] ))
     {
       $q = Doctrine::getTable('Gauge')->createQuery('g', false)
@@ -147,17 +147,21 @@
         ->leftJoin('sp.Seats s')
         ->andWhere('s.id = ?', $tck['seat_id'])
       ;
-      $tck['gauge_id'] = $q->fetchOne()->id;
+      $gauge = $q->fetchOne();
+      $tck['gauge_id'] = $gauge->id;
     }
+    if ( !$gauge )
+      $gauge = Doctrine::getTable('Gauge')->find($tck['gauge_id']);
+    $gid = $gauge->group_name ? 'cat-'.$gauge->group_name : 'gid-'.$gauge->id;
     
     if ( !isset($wips[$tck['gauge_id']]) )
       $wips[$tck['gauge_id']] = array();
-    if ( !isset($to_seat[$tck['gauge_id']]) )
-      $to_seat[$tck['gauge_id']] = array();
+    if ( !isset($to_seat[$gid]) )
+      $to_seat[$gid] = array();
     
     $ticket = isset($tck['price_id']) && $tck['price_id']
       ? array_shift($wips[$tck['gauge_id']])      // get WIPs for normal tickets
-      : array_shift($to_seat[$tck['gauge_id']])   // get "waiting" tickets, to seat
+      : array_shift($to_seat[$gid])               // get "waiting" tickets, to seat
     ;
     if ( $ticket === NULL )
     {
@@ -171,19 +175,12 @@
     if ( isset($tck[$field]) && $tck[$field] )
       $ticket->$field = $tck[$field];
     
-    if ( $ticket->price_id )
-    {
-      $ticket->price_name = NULL;
-      $ticket->value      = NULL;
-      $ticket->vat        = NULL;
-    }
-    else
-    {
-      $ticket->price_id   = NULL;
-      $ticket->price_name = sfConfig::get('app_tickets_wip_price', 'WIP');
-      $ticket->value      = 0;
-      $ticket->vat        = 0;
-    }
+    // setting the most expansive price by default, if none given
+    if ( !$ticket->price_id )
+      $ticket->Price = Doctrine::getTable('price')->fetchTheMostExpansiveForGauge($tck['gauge_id']);
+    $ticket->price_name = NULL;
+    $ticket->value      = NULL;
+    $ticket->vat        = NULL;
     
     if ( !$ticket->trySave() )
       $this->json['error']['message'] = 'An error occurred when saving a ticket';

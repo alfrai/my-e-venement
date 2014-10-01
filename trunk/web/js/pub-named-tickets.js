@@ -5,7 +5,12 @@ if ( LI == undefined )
 $(document).ready(function(){
   // LI.pubNamedTicketsInitialization(); <-- launched by pub-seated-plan.js
   $('form.named-tickets').submit(function(){
-    $.get($(this).prop('action'), $(this).serialize(), LI.pubNamedTicketsData);
+    $.ajax({
+      url: $(this).prop('action'),
+      type: $(this).prop('method'),
+      data: $(this).serialize(),
+      complete: LI.pubNamedTicketsData,
+    });
     return false;
   });
 });
@@ -29,6 +34,10 @@ LI.pubNamedTicketsData = function(json)
   else
     $('form.named-tickets').fadeIn();
   
+  // reinit the previously selected seats
+  $('.picture.seated-plan .seat.ordered.in-progress').removeClass('ordered').removeClass('in-progress');
+  $('.picture.seated-plan .seat[data-ticket-id]').removeAttr('data-ticket-id');
+      
   $.each(json.success.tickets, function(id, ticket){
     var elt = $('form.named-tickets .ticket.sample').clone(true)
       .removeClass('sample')
@@ -37,7 +46,7 @@ LI.pubNamedTicketsData = function(json)
     $.each(['gauge_id', 'seat_id', 'price_id', 'contact_id'], function(key, field){
       elt.attr('data-'+field.replace('_','-'), ticket[field]);
     });
-    $.each(['id', 'gauge_name', 'seat_name', 'value', 'contact_id', 'contact_name', 'contact_firstname', 'contact_email', 'comment'], function(key, field){
+    $.each(['id', 'gauge_name', 'seat_name', 'value', 'taxes', 'contact_id', 'contact_name', 'contact_firstname', 'contact_email', 'comment'], function(key, field){
       if ( elt.find('.'+field+' input').length > 0 )
         elt.find('.'+field+' input').val(ticket[field]);
       else
@@ -52,7 +61,11 @@ LI.pubNamedTicketsData = function(json)
       elt.find('.price_name').text(ticket.price_name);
     else
     {
-      $('<option value=""></option>').text('--'+$('#plans .data .no-price').text()+'--').appendTo(elt.find('.price_name select'));
+      // display the currently selected seat
+      $('.picture.seated-plan .seat[data-id='+ticket.seat_id+']')
+        .attr('data-ticket-id', ticket.id)
+        .addClass('ordered').addClass('in-progress');
+      $('<option value=""></option>').text('--'+$('#plans .infos .no-price').text()+'--').appendTo(elt.find('.price_name select'));
       $.each(ticket.prices_list, function(id, name){
         $('<option></option>').val(id).text(name)
           .appendTo(elt.find('.price_name select'));
@@ -62,7 +75,7 @@ LI.pubNamedTicketsData = function(json)
         $(this).attr('name', $(this).attr('name').replace('%%ticket_id%%', ticket.id));
       });
       elt.find('.delete').click(function(){
-        $('.price_name select').val('');
+        $(this).closest('.ticket').find('.price_name select').val('');
       });
     }
   });

@@ -27,7 +27,7 @@
   </div>
 <?php endif ?>
 <?php endforeach ?>
-  <div class="data">
+  <div class="infos">
     <a href="<?php echo url_for('ticket/modTickets?manifestation_id='.$manifestation->id) ?>" id="ajax-init-data"></a>
     <span class="no-price"><?php echo __('Ticket to remove or price to set') ?></span>
   </div>

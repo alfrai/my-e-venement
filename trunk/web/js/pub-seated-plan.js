@@ -184,7 +184,7 @@ LI.seatedPlanInitializationFunctions.push(function(){
 });
   
 LI.pubAfterRenderingSeats['pubSeatedPlanInitMain'] = function(){
-  $('.seated-plan .seat.txt').unbind('contextmenu').click(function(){
+  $('.seated-plan .seat.txt').unbind('contextmenu').unbind('click').click(function(){
     var seat = this;
     if ( $(seat).is('.ordered.in-progress') )   // removing a seat
     {
@@ -319,7 +319,7 @@ LI.pubShowOrphansOnPlan = function(orphan)
       .removeClass('printed')
       .removeClass('blink');
     if ( !oelt.hasClass('ordered') ) // keep the "in-progress" if the seat has been booked in the timelap
-    oelt.removeClass('in-progress');
+      oelt.removeClass('in-progress');
   }, delay*20);
 }
 
