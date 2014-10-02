@@ -30,13 +30,15 @@ $(document).ready(function(){
       .prop('href', $(this).closest('form').find('.sf_admin_form_field_declination_del').prop('href'))
       .attr('data-id', $(this).val())
       .prop('title', $.trim($(this).closest('form').find('.sf_admin_form_field_declination_del').text()))
+      .prop('target', '_blank')
       .text($(this).closest('form').find('.sf_admin_form_field_declination_del').text())
       .addClass('fg-button').addClass('ui-state-default').addClass('fg-button-icon-left').addClass('ui-priority-secondary').addClass('li-delete')
       .prepend($('<span></span>').addClass('ui-icon').addClass('ui-icon-trash'))
-      .mouseenter(function(){ $(this).addClass('ui-state-hover') })
-      .mouseleave(function(){ $(this).removeClass('ui-state-hover') })
+      .mouseenter(function(){ $(this).addClass('ui-state-hover'); })
+      .mouseleave(function(){ $(this).removeClass('ui-state-hover'); })
       .click(function(){
         var elt = this;
+        console.error('click');
         $('#transition').show();
         $.get($(this).prop('href'), { declination_id: $(this).attr('data-id') }, function(){
           $('#transition .close').click();
@@ -51,9 +53,11 @@ $(document).ready(function(){
   // rotating labels
   $('#sf_fieldset_declinations textarea, #sf_fieldset_declinations table table, #sf_fieldset_declinations .widget > table > tbody > tr > th')
     .closest('tr').find('> th').each(function(){
+      var txt = $(this).clone().children().remove().end().text();
       $('<div></div>').addClass('rotated')
-        .html($(this).html())
-        .appendTo($(this).html(''))
+        .text(txt)
+        .append($(this).find('> *'))
+        .appendTo($(this).remove('> *'))
       ;
     });
   $('#sf_fieldset_declinations textarea').closest('table').find('input')
