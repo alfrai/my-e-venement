@@ -7,13 +7,19 @@
  */
 class PricePOSTable extends PluginPricePOSTable
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object PricePOSTable
-     */
-    public static function getInstance()
-    {
-        return Doctrine_Core::getTable('PricePOS');
-    }
+  public function retrieveList()
+  {
+    return $this->createQuery('pos')
+      ->leftJoin('pos.Price p');
+  }
+  
+  /**
+   * Returns an instance of this class.
+   *
+   * @return object PricePOSTable
+   */
+  public static function getInstance()
+  {
+    return Doctrine_Core::getTable('PricePOS');
+  }
 }

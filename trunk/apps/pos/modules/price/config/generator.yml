@@ -19,7 +19,8 @@ generator:
         display: [Price, updated_at]
         object_actions:
           _delete: ~
-        sort: [name, '']
+        table_method: retrieveList
+        sort: [p.name, '']
       filter:  ~
       form:    ~
       edit:
