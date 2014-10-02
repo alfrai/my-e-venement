@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Your linked product has been added to your cart.</source>
+        <target>Votre produit lié a été ajouté à votre panier.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ticket to remove or price to set</source>
         <target>Billet à retirer ou prix à paramétrer</target>
       </trans-unit>

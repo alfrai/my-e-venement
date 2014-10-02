@@ -33,6 +33,26 @@ class Product extends PluginProduct implements liUserAccessInterface
     if ( !in_array($user->getId(), $price->Users->getPrimaryKeys()) )
       return false;
     
+    // declinations
+    if ( $this->Declinations->count() == 0 )
+      return false;
+    
     return true;
+  }
+  
+  /**
+   * @param user  sfSecurityUser  the current user if a credentials check is expected
+   * @return FALSE|array  array('value' => integer, 'price' => PriceProduct)
+   **/
+  public function getMostExpansivePrice(sfSecurityUser $user = NULL)
+  {
+    $max = array('value' => -1, 'price' => NULL);
+    if ( $this->Prices->count() == 0 )
+      return false;
+    foreach ( $this->PriceProducts as $pp )
+    if (!( $user && !$pp->Price->isAccessibleBy($user) ))
+    if ( !is_null($pp->value) && $pp->value > $max['value'] )
+      $max = array('value' => $pp->value, 'price' => $pp);
+    return $max;
   }
 }

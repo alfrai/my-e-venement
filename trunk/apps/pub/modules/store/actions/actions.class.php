@@ -28,6 +28,10 @@ class storeActions extends autoStoreActions
   {
     return require(__DIR__.'/mod.php');
   }
+  public function executeModForTicket(sfWebRequest $request)
+  {
+    return require(__DIR__.'/mod-for-ticket.php');
+  }
   
   public function executeIndex(sfWebRequest $request)
   {

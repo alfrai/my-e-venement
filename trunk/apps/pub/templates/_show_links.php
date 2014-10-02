@@ -1,5 +1,5 @@
-<?php use_stylesheet('pub-links') ?>
-<?php use_javascript('pub-links') ?>
+<?php use_stylesheet('pub-links?'.date('Ymd')) ?>
+<?php use_javascript('pub-links?'.date('Ymd')) ?>
 <?php
   $collection = array('LinkedProducts' => array(), 'LinkedManifestations' => array());
   foreach ( $sf_user->getTransaction()->BoughtProducts as $bp )

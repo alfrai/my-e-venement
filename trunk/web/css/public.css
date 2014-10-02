@@ -111,9 +111,15 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #command thead { background-color: whitesmoke; font-weight: bold; }
 #command tbody tr:nth-child(odd) { background-color: white; }
 #command tbody tr:nth-child(even) { background-color: #DCDCDC; }
-#command tfoot .extra-taxes, #command tfoot .total-total, #command tfoot .total { background-color: whitesmoke; }
+#command tfoot .linked-stuff, #command tfoot .qty, #command tfoot .extra-taxes, #command tfoot .total-total, #command tfoot .total { background-color: whitesmoke; }
+#command tfoot .qty { text-align: center; }
 #command tfoot .total-total { border-bottom-right-radius: 4px; }
 #command tfoot { font-weight: bold; }
+#command .linked-stuff ul { list-style-type: none; margin: 0; padding: 0; }
+#command .linked-stuff .price:before { content: '('; }
+#command .linked-stuff .price:after { content: ')'; }
+#command .linked-stuff .declination_id { display: block; }
+
 #details a, #details label { display: inline-block; }
 #details label { min-width: 80px; }
 #details a { min-width: 35px; text-decoration: none; }

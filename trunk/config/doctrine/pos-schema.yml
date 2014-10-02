@@ -209,6 +209,7 @@ BoughtProduct:
     description_for_buyers: string
     barcode: string
     member_card_id: integer
+    ticket_id: integer
   relations:
     Transaction:
       foreignAlias: BoughtProducts
@@ -234,6 +235,10 @@ BoughtProduct:
       onDelete: SET NULL
       onUpdate: CASCADE
     MemberCard:
+      foreignAlias: BoughtProducts
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Ticket:
       foreignAlias: BoughtProducts
       onDelete: CASCADE
       onUpdate: CASCADE
