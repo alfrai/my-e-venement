@@ -65,6 +65,38 @@ class ticketActions extends sfActions
   {
   }
   
+  protected function getMaxPerManifestation(Manifestation $manifestation)
+  {
+    $sf_user = $this->getUser();
+    
+    // limitting the max quantity, especially for prices linked to member cards
+    $vel = sfConfig::get('app_tickets_vel');
+    $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
+    if ( $manifestation->online_limit_per_transaction && $manifestation->online_limit_per_transaction < $vel['max_per_manifestation'] )
+      $vel['max_per_manifestation'] = $manifestation->online_limit_per_transaction;
+    
+    // max per manifestation per contact ...
+    $vel['max_per_manifestation_per_contact'] = isset($vel['max_per_manifestation_per_contact']) ? $vel['max_per_manifestation_per_contact'] : false;
+    if ( $vel['max_per_manifestation_per_contact'] > 0 )
+    {
+      $max = $vel['max_per_manifestation_per_contact'];
+      foreach ( $sf_user->getContact()->Transactions as $transaction )
+      if ( $transaction->id != $sf_user->getTransaction()->id )
+      foreach ( $transaction->Tickets as $ticket )
+      if (( $ticket->transaction_id == $sf_user->getTransaction()->id || $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 )
+        && !$ticket->hasBeenCancelled()
+        && $manifestation->id == $ticket->manifestation_id
+      )
+      {
+        $vel['max_per_manifestation_per_contact']--;
+      }
+      $vel['max_per_manifestation'] = $vel['max_per_manifestation'] > $vel['max_per_manifestation_per_contact']
+        ? $vel['max_per_manifestation_per_contact']
+        : $vel['max_per_manifestation'];
+    }
+    
+    return $vel['max_per_manifestation'];
+  }
   protected function jsonError($messages = array(), sfWebRequest $request)
   {
     if ( !is_array($messages) )

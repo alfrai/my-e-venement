@@ -1,1 +1,6 @@
-<?php include_partial('success', array('json' => array('success' => array('data' => $data)))) ?>
+<?php
+  $json = array('success' => array('data' => $data));
+  if ( isset($message) )
+    $json['success']['message'] = $message;
+  include_partial('success', array('json' => $json));
+?>

@@ -126,14 +126,24 @@
     $to_seat[$id][] = $ticket;
   }
   
-  $vel = sfConfig::get('app_tickets_vel', array());
-  $max = isset($vel['max_per_manifestation']) && $vel['max_per_manifestation']
-    ? $vel['max_per_manifestation']
-    : 9;
+  // get back the $max value
+  $vel = sfConfig::get('app_tickets_vel');
+  if ( $tickets->count() > 0 )
+    $max = $this->getMaxPerManifestation($tickets[0]->Gauge->Manifestation);
+  else
+    $max = $vel['max_per_manifestation'] ? $vel['max_per_manifestation'] : 9;
+  $overbooking = 0;
+
   // adding tickets
   foreach ( $data as $tck )
-  if ( $tck['action'] == 'add' && $tickets->count() + 1 <= $max )
+  if ( $tck['action'] == 'add' )
   {
+    if ( $tickets->count() >= $max )
+    {
+      $overbooking++;
+      continue;
+    }
+    
     $gauge = NULL;
     // finding back the gauge_id using manifestation_id + seat_id
     if (!( isset($tck['gauge_id']) && $tck['gauge_id'] ))
@@ -206,5 +216,8 @@
   
   if ( $tickets->count() > 0 )
     $this->data['orphans'] = $this->getContext()->getConfiguration()->getOrphans($this->getUser()->getTransaction(), array('manifestation_id' => $request->getParameter('manifestation_id')));
+  
+  if ( $overbooking > 0 )
+    $this->message = "Some tickets have not been added because you reached the limit of tickets for this manifestation.";
   
   return 'Success';

@@ -9,10 +9,7 @@ $(document).ready(function(){
       url: $(this).prop('action'),
       type: $(this).prop('method'),
       data: $(this).serialize(),
-      complete: function(json){
-        LI.pubNamedTicketsData(json);
-        window.location = $('#go-to-cart').prop('href');
-      },
+      success: LI.pubNamedTicketsData,
     });
     return false;
   });

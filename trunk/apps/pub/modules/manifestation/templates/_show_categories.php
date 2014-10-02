@@ -27,6 +27,19 @@
     }
   }
   
+  // forcing the price order
+  foreach ( $groups as $name => $group )
+  {
+    $arr = array();
+    foreach ( $group as $id => $price )
+      $arr[$id] = max($price['values']);
+    arsort($arr);
+    $new = array();
+    foreach ( $arr as $id => $value )
+      $new[$id] = $group[$id];
+    $groups[$name] = $new;
+  }
+  
   // to be sure...
   ksort($groups);
 ?>

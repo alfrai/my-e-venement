@@ -1,4 +1,27 @@
 <?php
+/**********************************************************************************
+*
+*	    This file is part of e-venement.
+*
+*    e-venement is free software; you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation; either version 2 of the License.
+*
+*    e-venement is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with e-venement; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*
+***********************************************************************************/
+?>
+<?php
   $this->debug($request);
   $this->data = array();
   $params = $request->getParameter('price_new');
@@ -43,29 +66,7 @@
   {
     // limitting the max quantity, especially for prices linked to member cards
     $vel = sfConfig::get('app_tickets_vel');
-    $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
-    if ( $gauge->Manifestation->online_limit_per_transaction && $gauge->Manifestation->online_limit_per_transaction < $vel['max_per_manifestation'] )
-      $vel['max_per_manifestation'] = $gauge->Manifestation->online_limit_per_transaction;
-    
-    // max per manifestation per contact ...
-    $vel['max_per_manifestation_per_contact'] = isset($vel['max_per_manifestation_per_contact']) ? $vel['max_per_manifestation_per_contact'] : false;
-    if ( $vel['max_per_manifestation_per_contact'] > 0 )
-    {
-      $max = $vel['max_per_manifestation_per_contact'];
-      foreach ( $sf_user->getContact()->Transactions as $transaction )
-      if ( $transaction->id != $sf_user->getTransaction()->id )
-      foreach ( $transaction->Tickets as $ticket )
-      if (( $ticket->transaction_id == $sf_user->getTransaction()->id || $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 )
-        && !$ticket->hasBeenCancelled()
-        && $gauge->Manifestation->id == $ticket->manifestation_id
-      )
-      {
-        $vel['max_per_manifestation_per_contact']--;
-      }
-      $vel['max_per_manifestation'] = $vel['max_per_manifestation'] > $vel['max_per_manifestation_per_contact']
-        ? $vel['max_per_manifestation_per_contact']
-        : $vel['max_per_manifestation'];
-    }
+    $vel['max_per_manifestation'] = $this->getMaxPerManifestation($gauge->Manifestation);
     
     // gauge limits
     $tmp = Doctrine::getTable('Gauge')->createQuery('g')->andWhere('g.id = ?', $gauge->id)->fetchOne();
@@ -83,6 +84,15 @@
     error_log('The maximum number of tickets is reached for online sales on manifestation #'.$gauge->manifestation_id.' and gauges '.$params['group_name']);
     return 'Error';
   }
+
+  if ( Doctrine::getTable('Ticket')->createQuery('tck')
+    ->andWhere('tck.manifestation_id = ?', $gauge->manifestation_id)
+    ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransactionId())
+    ->count() >= $vel['max_per_manifestation'] )
+  {
+    $this->message = 'Some tickets have not been added because you reached the limit of tickets for this manifestation.';
+    return 'Success';
+  }
   
   $ticket = new Ticket;
   $ticket->transaction_id = $this->getUser()->getTransactionId();
@@ -91,5 +101,3 @@
   $ticket->save();
   
   return 'Success';
-?>
-
