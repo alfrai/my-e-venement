@@ -61,15 +61,15 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
           .css('transform', 'rotate('+obj.angle+'deg)')
           .dblclick(function(){
             // DELETE A LINK USING THE GUI/WYSIWYG
-            $('#sf_fieldset_seat_links [name="auto_links[exceptions_to_remove]"]').val(
+            $('#sf_fieldset_neighbors [name="auto_links[exceptions_to_remove]"]').val(
               'eve-ids-'+$(this).attr('data-link-a')+
               '--'+
               $(this).attr('data-link-b')
             );
-            $('#sf_fieldset_seat_links [name="auto_links[exceptions_to_remove_submit]"]').attr('data-no-msg', 'no-msg');
-            $('#sf_fieldset_seat_links [name="auto_links[exceptions_to_remove_submit]"]').click();
+            $('#sf_fieldset_neighbors [name="auto_links[exceptions_to_remove_submit]"]').attr('data-no-msg', 'no-msg');
+            $('#sf_fieldset_neighbors [name="auto_links[exceptions_to_remove_submit]"]').click();
             $(this).remove();
-            $('#sf_fieldset_seat_links [name="auto_links[exceptions_to_remove]"]').val('');
+            $('#sf_fieldset_neighbors [name="auto_links[exceptions_to_remove]"]').val('');
           })
           .appendTo($('.picture.seated-plan .more-data'))
         ;
