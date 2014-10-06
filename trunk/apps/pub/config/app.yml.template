@@ -51,7 +51,7 @@ all:
     ## then read the README file
     ################################
     type: paybox
-    autosubmit: false
+    autosubmit: true
     id: "1"
     rank: "32"
     site: "1999888"

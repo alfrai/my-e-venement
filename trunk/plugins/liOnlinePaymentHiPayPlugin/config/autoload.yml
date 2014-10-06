@@ -1,6 +1,6 @@
 autoload:
   liOnlinePaymentHiPayPlugin_lib:
     name: liOnlinePaymentHiPayPlugin_lib lib
-    path: %SF_PLUGINS_DIR%/liOnlinePaymentHiPayPlugin/lib/
+    path: %SF_PLUGINS_DIR%/liOnlinePaymentHiPayPlugin/lib/vendor/
     recursive: true
     exclude: [hipay]

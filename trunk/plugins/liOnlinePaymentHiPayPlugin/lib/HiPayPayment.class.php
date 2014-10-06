@@ -48,6 +48,9 @@ class HiPayPayment extends OnlinePayment
     if ( !isset($attributes[$attr]) )
       $attributes[$attr] = $val;
     
+    if ( sfConfig::get('app_payment_autosubmit',true) )
+      $attributes['class'] .= ' autosubmit';
+    
     if ( !$this->url )
       return '<div class="'.$attributes['class'].'" id="'.$attributes['id'].'">Pas de serveur HiPay disponible...</div>';
     
@@ -101,7 +104,8 @@ class HiPayPayment extends OnlinePayment
   
   public function __toString()
   {
-    return $this->render();
+    try { return $this->render(); }
+    catch ( Exception $e ) { error_log($e->getMessage()); return ''; }
   }
   
   /** specific methods **/
@@ -166,8 +170,8 @@ class HiPayPayment extends OnlinePayment
   {
     $order = sfConfig::get('app_payment_order',array());
     $this->order = new HIPAY_MAPI_Order();
-    $this->order->setOrderInfo($order['title'] ? $order['title'] : $this->__('Order #%%tid%%'));
-    $this->order->setOrderTitle($this->__('Order #%%tid%%'));
+    $this->order->setOrderInfo($order['title'] ? $order['title'] : $this->__('Order #%%tid%%', array('%%tid%%' => $this->transaction->id)));
+    $this->order->setOrderTitle($this->__('Order #%%tid%%', array('%%tid%%' => $this->transaction->id)));
     $this->order->setOrderCategory(isset($order['category_id']) ? $order['category_id'] : 618);
     
     if(!$this->order->check())
@@ -234,18 +238,18 @@ class HiPayPayment extends OnlinePayment
     $this->config->setEmailAck(sfConfig::get('app_informations_email'));
     $this->config->setUrlAck(url_for($urls['automatic'],true));
     
-    if( !$this->config->check() )
+    if ( !$this->config->check() )
       throw new liOnlineSaleException("Error when creating HiPay Payment Params object");
     
     return $this;
   }
   
-  protected function __($string)
+  protected function __($string, $params = array())
   {
     if ( !sfContext::hasInstance() )
       return $string;
     
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
-    return __($string);
+    return __($string, $params);
   }
 }

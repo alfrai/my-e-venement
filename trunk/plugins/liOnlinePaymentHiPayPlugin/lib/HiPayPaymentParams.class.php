@@ -22,6 +22,8 @@
 ***********************************************************************************/
 ?>
 <?php
+// we include HiPAY API's package 
+require_once(__DIR__.'/vendor/hipay/mapi_package.php');
 
 class HiPayPaymentParams extends HIPAY_MAPI_PaymentParams
 {
