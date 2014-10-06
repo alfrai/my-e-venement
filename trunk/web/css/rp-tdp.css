@@ -127,7 +127,7 @@ body #content { width: auto; }
 #tdp-content .tdp-subobject .tdp-actions, #tdp-content .tdp-subobject .tdp-actions a { float: right; padding-top: 0; color: black; font-weight: normal; margin-top: 8px; }
 #tdp-content .tdp-subobject h1 { font-size: 170%; }
 #tdp-content .tdp-subobject .tdp-line.phonenumbers,
-#tdp-content .tdp-subobject .tdp-line.internet { display: inline-block; height: 2.5em; width: 380px; overflow: auto; }
+#tdp-content .tdp-subobject .tdp-line.internet { display: inline-block; height: 3em; width: 380px; overflow: auto; }
 #tdp-content .tdp-subobject .tdp-line.internet .tdp-organism_url, #tdp-content .tdp-subobject .tdp-line.internet .tdp-organism_email { display: block; line-height: 1.2em; }
 #tdp-content .tdp-subobject .tdp-line.internet .tdp-organism_url a, #tdp-content .tdp-subobject .tdp-line.internet .tdp-organism_email a { padding-left: 3px; }
 #tdp-content .tdp-subobject .tdp-line.phonenumbers ul { list-style-type: none; }
