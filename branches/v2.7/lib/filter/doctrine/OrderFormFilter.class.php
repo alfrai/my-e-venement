@@ -40,6 +40,31 @@ class OrderFormFilter extends BaseOrderFormFilter
     $this->widgetSchema   ['event_name'] = new sfWidgetFormInput;
     $this->validatorSchema['event_name'] = new sfValidatorString(array('required' => false));
     
+    $this->widgetSchema   ['workspaces_list'] = new sfWidgetFormDoctrineChoice($arr = array(
+      'model'     => 'Workspace',
+      'query'     => Doctrine::getTable('Workspace')->createQuery('ws')->select('ws.*')->leftJoin('ws.Users u'),
+      'order_by'  => array('name', ''),
+      'multiple'  => true,
+    ));
+    unset($arr['order_by']);
+    $this->validatorSchema['workspaces_list'] = new sfValidatorDoctrineChoice($arr + array('required' => false));
+    $this->widgetSchema   ['meta_events_list'] = new sfWidgetFormDoctrineChoice($arr = array(
+      'model'     => 'MetaEvent',
+      'query'     => Doctrine::getTable('MetaEvent')->createQuery('me')->select('me.*')->leftJoin('me.Users u'),
+      'order_by'  => array('name', ''),
+      'multiple'  => true,
+    ));
+    unset($arr['order_by']);
+    $this->validatorSchema['meta_events_list'] = new sfValidatorDoctrineChoice($arr + array('required' => false));
+    if ( sfContext::hasInstance() )
+    {
+      $sf_user = sfContext::getInstance()->getUser();
+      $this->widgetSchema   ['workspaces_list']->getOption('query')
+        ->andWhere('u.id = ?', $sf_user->getId());
+      $this->widgetSchema   ['meta_events_list']->getOption('query')
+        ->andWhere('u.id = ?', $sf_user->getId());
+    }
+    
     $this->widgetSchema['contact_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Contact',
       'url'   => cross_app_url_for('rp','contact/ajax'),
@@ -69,9 +94,31 @@ class OrderFormFilter extends BaseOrderFormFilter
     $fields['contact_id']               = 'ContactId';
     $fields['organism_id']              = 'OrganismId';
     $fields['manifestation_happens_at'] = 'ManifestationHappensAt';
+    $fields['meta_events_list']         = 'MetaEventsList';
+    $fields['workspaces_list']          = 'WorkspacesList';
     return $fields;
   }
   
+  public function addWorkspacesListColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    if ( !is_array($values) )
+      $value = array($values);
+    
+    $q->andWhereIn('w.id', $values);
+    return $q;
+  }
+  public function addMetaEventsListColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    if ( !is_array($values) )
+      $value = array($values);
+    
+    $q->andWhereIn('me.id', $values);
+    return $q;
+  }
   public function addContactIdColumnQuery(Doctrine_Query $q, $field, $value)
   {
     if ( !trim($value) )
@@ -85,9 +132,9 @@ class OrderFormFilter extends BaseOrderFormFilter
   {
     if ( !trim($value) )
       return $q;
-    
-    $q->leftJoin('p.Organism o')
-      ->andWhere('o.id = ?', $value);
+    if ( !$q->contains('LEFT JOIN p.Organism o') )
+      $q->leftJoin('p.Organism o');
+    $q->andWhere('o.id = ?', $value);
     
     return $q;
   }
