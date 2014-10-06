@@ -12,4 +12,9 @@
  */
 abstract class PluginSeat extends BaseSeat
 {
+  public function preSave($event)
+  {
+    parent::preSave($event);
+    $this->name = strtoupper($this->name);
+  }
 }
