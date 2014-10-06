@@ -168,7 +168,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 .gauge tfoot { font-weight: bold; }
 .gauge td { padding: 2px 6px 2px 6px; }
 
-.gauge .picture .seated-plan { display: none; }
+.gauge .seated-plan .seats-url, .gauge .picture .seated-plan { display: none; }
 .gauge .picture a { text-decoration: none; padding: 3px 5px; background-color: whitesmoke; border: 1px solid silver; cursor: default; border-radius: 2px; }
 .gauge .picture a:before { content: '↓ '; }
 .gauge .picture a:after  { content: ' ↓'; }
