@@ -6,6 +6,7 @@
 .named-tickets input[maxlength=255] { width: 15.5em; }
 .named-tickets .contact_email input[type=text] { width: 15em; }
 .named-tickets .contact_firstname label { display: none; }
+.named-tickets .price_name option[value=""] { display: none; }
 
 .submit { margin: 20px 0px 0px 270px; }
 

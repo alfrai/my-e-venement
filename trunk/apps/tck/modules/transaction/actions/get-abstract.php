@@ -62,6 +62,7 @@
    *         type: string, 'gauge'|'pdt-declination'
    *         url: NULL|string, xxx (absolute) data to calculate / display the gauge
    *         (seated_plan_url: string, xxx (optional) the absolute path to the plan's picture
+   *         (seated_plan_width: integer, (optional) the ideal width of the plan's picture, if one is set
    *         (seated_plan_seats_url: string, xxx (optional) the absolute path to the seats definition and allocation)
    *         description: string, description
    *         available_prices:
@@ -322,6 +323,9 @@
                 = cross_app_url_for('default', 'picture/display?id='.$seated_plan->picture_id,true);
               $this->json[$product->id][$this->json[$product->id]['declinations_name']][$declination->id]['seated_plan_seats_url']
                 = cross_app_url_for('event',   'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$declination->id.($this->transaction ? '&transaction_id='.$this->transaction->id : ''),true);
+              if ( $seated_plan->ideal_width )
+              $this->json[$product->id][$this->json[$product->id]['declinations_name']][$declination->id]['seated_plan_width']
+                = $seated_plan->ideal_width;
             }
             break;
           }

@@ -150,10 +150,11 @@ LI.completeContent = function(data, type, replaceAll = true)
             .appendTo(wdeclination.find('.data'));
           if ( declination.seated_plan_url && declination.seated_plan_seats_url )
           {
+            var width = declination.seated_plan_width ? declination.seated_plan_width : '';
             wdeclination.find('.data .gauge.seated:not(.picture)').remove();
             $('<a></a>').addClass('gauge').addClass('seated')
               .prop('href', declination.seated_plan_seats_url)
-              .append($('<img/>').prop('src', declination.seated_plan_url).prop('alt', 'seated-plan'))
+              .append($('<img/>').prop('src', declination.seated_plan_url).prop('alt', 'seated-plan').attr('width', width))
               .appendTo(wdeclination.find('.data'));
           }
         }

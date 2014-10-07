@@ -48,6 +48,7 @@
   
   if ( !$this->transaction )
   {
+    // WIPS
     $this->transaction = $backup->fetchOne();
     if ( !$this->transaction )
       throw new liSeatedPlanException('No transaction can be found to seat tickets with this id: '.$request->getParameter('id',0));

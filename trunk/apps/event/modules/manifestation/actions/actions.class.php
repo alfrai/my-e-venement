@@ -244,10 +244,11 @@ class manifestationActions extends autoManifestationActions
       
       if ( $go )
       {
+        $short = sfConfig::get('app_manifestation_prefer_short_name', true);
         if ( $request->hasParameter('keep-order') )
         {
           $manifs[] = array(
-            'name'  => (string)$manif,
+            'name'  => $manif->getName($short),
             'color' => (string)$manif->Color,
             'id'    => $manif->id,
           );
@@ -255,8 +256,11 @@ class manifestationActions extends autoManifestationActions
         else
         {
           $manifs[$manif->id] = $request->hasParameter('with_colors')
-            ? array('name' => (string)$manif, 'color' => (string)$manif->Color)
-            : (string)$manif;
+            ? array(
+              'name' => $manif->getName($short),
+              'color' => (string)$manif->Color
+            )
+            : $manif->getName($short);
         }
       }
     }

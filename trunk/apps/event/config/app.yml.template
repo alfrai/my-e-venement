@@ -27,6 +27,7 @@ all:
     #editable_in_calendar: false
     price_manifestations: true  # true by default
     price_gauges: true          # false by default
+    #prefer_short_name: false
   synchronization:
     #period:
     #  from: now

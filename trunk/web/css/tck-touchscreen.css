@@ -75,7 +75,7 @@
 #li_transaction_field_content .item { padding: 0 0 0 15px; user-select: none; -moz-user-select: none; }
 #li_transaction_field_content .item tr > * { vertical-align: top; }
 #li_transaction_field_content .item .nb { text-align: right; width: 38px; }
-#li_transaction_field_content .declinations { display: inline-table; width: 68% }
+#li_transaction_field_content .declinations { display: inline-table; width: 395px; }
 #li_transaction_field_content .declinations td { vertical-align: bottom; }
 #li_transaction_field_content .declinations tr:hover td { font-weight: bold; }
 #li_transaction_field_content .declinations .total > *, #li_transaction_field_content .declination > * { padding-right: 10px; }
@@ -91,7 +91,7 @@
 #li_transaction_field_content .item.total * { font-weight: bold; }
 #li_transaction_field_content .total { font-style: italic; }
 #li_transaction_field_content .currency { display: none; }
-#li_transaction_field_content .item .tep, #li_transaction_field_content .item .vat { font-size: 75%; width: 15%; }
+#li_transaction_field_content .item .tep, #li_transaction_field_content .item .vat { font-size: 75%; width: 45px; }
 #li_transaction_field_content .item .qty { width: 100px; white-space: nowrap; }
 #li_transaction_field_content .item .qty .qty { width: 1.55em; display: inline-block; text-align: right; border: 1px solid silver; border-top: 0; padding: 0 5px; background-color: white; }
 #li_transaction_field_content .item .qty a { float: none; padding: 0; cursor: default; display: inline-block; margin: 0; position: static; }
@@ -108,7 +108,7 @@
 #li_transaction_field_content .item .ids { display: none; position: absolute; margin-top: -1.3em; max-width: 100px; border: 1px solid silver; padding: 1px 4px; background-color: whitesmoke; font-weight: normal; z-index: 1; }
 #li_transaction_field_content .item .ids.show { display: block; }
 #li_transaction_field_content .item .data { display: none; }
-#li_transaction_field_content .item .price_name { width: 20px; white-space: nowrap; }
+#li_transaction_field_content .item .price_name { width: 50px; white-space: nowrap; }
 
 /* payments & prices */
 #li_fieldset_payments { clear: both; }
@@ -119,8 +119,8 @@
 #li_transaction_field_price_new .ui-icon-left { font-size: 0; }
 #sf_admin_content #li_transaction_field_price_new.cancelling { border: 3px solid orange; margin: 8px 5px 10px 3px; }
 #li_transaction_field_price_new input[type=text] { width: 2em; text-align: right; }
-#li_transaction_field_price_new .seats-first { float: right; margin-left: 1em; display: none; }
-#li_transaction_field_price_new .seats-first.usefull { float: right; margin-left: 1em; display: block; }
+#li_fieldset_payments #li_transaction_field_price_new > .seats-first { float: right; margin-left: 1em; display: none; }
+#li_fieldset_payments #li_transaction_field_price_new > .seats-first.usefull { display: block; }
 #li_transaction_field_payments_list { font-size: 0; min-height: 210px; }
 #li_transaction_field_payments_list .sf_admin_list_td_list_created_at { text-align: center; }
 #li_transaction_field_payments_list table { background-color: white; }

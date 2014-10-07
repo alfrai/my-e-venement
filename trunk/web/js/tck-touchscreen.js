@@ -410,10 +410,10 @@ LI.renderGauge = function(item, only_inline_gauge)
       // remote loading
       var plan = $(item).find('.data .gauge.seated').clone(true).hide();
       plan.appendTo('#footer');
-      var scale = ($('#li_transaction_field_product_infos').width()-15)/plan.width();
+      //var scale = ($('#li_transaction_field_product_infos').width()-15)/plan.width();
       $(plan).addClass('picture').addClass('seated-plan')
         .appendTo($('#li_transaction_field_product_infos'))
-        .css('transform', 'scale('+scale+')') // the scale
+        //.css('transform', 'scale('+scale+')') // the scale
       ;
       button = $('<button />')
         .html($('#li_transaction_field_close .show-seated-plan').text())
@@ -430,6 +430,7 @@ LI.renderGauge = function(item, only_inline_gauge)
         $(item).find('.data .gauge.seated.picture').remove(); // to ensure that we've got only one plan cached
         $('#li_transaction_field_product_infos .gauge.seated.picture')
           .show()
+          .css('margin-bottom', 0)
           .clone(true).appendTo($(item).find('.data'));
       });
     }
