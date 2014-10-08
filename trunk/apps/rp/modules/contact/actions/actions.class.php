@@ -82,6 +82,80 @@ class contactActions extends autoContactActions
     }
   }
   
+  public function executeSendPasswords(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    $limit = 250;
+    $q = $this->buildQuery()
+      ->limit($limit)
+      ->offset($offset = $request->getParameter('offset',0));
+    
+    $a = $q->getRootAlias();
+    foreach ( $q->execute() as $contact )
+    {
+      // new password
+      $letters = 'abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+      if ( !trim($contact->password) )
+      {
+        $contact->password = substr(str_shuffle($letters), 0, sfConfig::get('app_contact_auto_password_size', 6));
+        $contact->save();
+      }
+      
+      $params = OptionCsvForm::getDBOptions();
+      if ( in_array('tunnel',$params['option']) ) // prefer professionals
+      foreach ( $contact->Professionals as $pro )
+        $this->sendPassword($pro);
+      else
+        $this->sendPassword($contact);
+    }
+    
+    if ( $this->buildQuery()->count() > $limit )
+      $this->redirect('contact/sendPasswords?offset='.($offset+$limit));
+    else
+    {
+      $this->getUser()->setFlash('success', 'Ok');
+      $this->redirect('email/index');
+    }
+  }
+  protected function sendPassword($obj)
+  {
+    if (!( $obj instanceof Contact ? $contact->email : $obj->contact_email ))
+      return false;
+    
+    // format content
+    $url = str_replace('https', 'http', public_path('/pub.php',true));
+    $content  = '';
+    $content .= __('To login to your private space, go to %%url%%', array('%%url%%' => '<a href="'.$url.'">'.$url.'</a>'));
+    $content .= "<br/>";
+    $content .= "<br/>";
+    $content .= __('Login: %%login%%', array('%%login%%' => $obj instanceof Contact ? $obj->email : $obj->contact_email));
+    $content .= "<br/>";
+    $content .= __('Password: %%password%%', array('%%password%%' => $obj instanceof Contact ? $obj->password : $obj->Contact->password));
+    $content .= "<br/>";
+    $content .= "<br/>";
+    $content .= __('Thanks for your attention');
+    $content .= "<br/>";
+    $content .= "<br/>";
+    $content .= '-- ';
+    $content .= "<br/>";
+    $about = sfConfig::get('project_about_client');
+    $content .= $about['name'];
+    
+    // send password
+    $email = new Email;
+    $email->not_a_test = true;
+    $email->content = $content;
+    $email->field_from = $this->getUser()->getGuardUser()->email_address;
+    $email->field_subject = __('Password reminder for your private space at %%name%%', array('%%name%%' => $about['name']));
+    
+    if ( $obj instanceof Contact)
+      $email->Contacts[] = $obj;
+    else
+      $email->Professionals[] = $obj;
+    return $email->save();
+  }
+  
   public function executeBatch(sfWebRequest $request)
   {
     $request->checkCSRFProtection();
