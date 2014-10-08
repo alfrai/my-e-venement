@@ -30,7 +30,7 @@
       </trans-unit>
       <trans-unit>
         <source>&lt;span class="name inline-modifiable"&gt;Invoice&lt;/span&gt; #%%prefix%%&lt;span class="invoice_id"&gt;%%iid%%-%%version%%&lt;/span&gt;&lt;span class="transaction"&gt;, for transaction #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt; from the &lt;span class="date inline-modifiable"&gt;%%d%%&lt;/span&gt;&lt;/span&gt;</source>
-        <target>&lt;span class="name inline-modifiable"&gt;Facture&lt;/span&gt; #%%prefix%%&lt;span class="invoice_id"&gt;%%iid%%-%%version%%&lt;/span&gt;&lt;span class="transaction"&gt;, pour l'opération #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt; du &lt;span class="date inline-modifiable"&gt;%%d%%&lt;/pan&gt;&lt;/span&gt;</target>
+        <target>&lt;span class="name inline-modifiable"&gt;Facture&lt;/span&gt; #%%prefix%%&lt;span class="invoice_id"&gt;%%iid%%-%%version%%&lt;/span&gt;&lt;span class="transaction"&gt;, pour l'opération #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt; du &lt;span class="date inline-modifiable"&gt;%%d%%&lt;/span&gt;&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
         <source>&lt;span class="name inline-modifiable"&gt;Order&lt;/span&gt; #&lt;span class="order_id inline-modifiable"&gt;%%oid%%&lt;/span&gt;, for transaction #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt;</source>
@@ -78,7 +78,15 @@
       </trans-unit>
       <trans-unit>
         <source>Price</source>
-        <target>Prix</target>
+        <target>Tarif</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Unit TIP</source>
+        <target>P.U.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Qty</source>
+        <target>Qté</target>
       </trans-unit>
       <trans-unit>
         <source>Paid with</source>

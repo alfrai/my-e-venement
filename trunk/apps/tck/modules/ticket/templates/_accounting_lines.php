@@ -56,7 +56,7 @@
       $i--; // rollback to process the last ticket that has been ignored
     ?>
     <td class="qty inline-modifiable"><?php echo $qty; ?></td>
-    <td class="seats"><?php echo count($nums) > 20 ? '' : implode(', ', $nums) ?></td>
+    <td class="seats"><span><?php echo count($nums) > 20 ? '' : implode('<span>, </span>', $nums) ?></span></td>
     <td class="extra-taxes"><?php echo $total['taxes'] ? format_currency($total['taxes'],'€') : '-'; $totals['taxes'] += $total['taxes']; ?></td>
     <td class="pit"><?php echo format_currency($total['tip'],'€'); $totals['tip'] += $total['tip']; ?></td>
     <td class="vat">
