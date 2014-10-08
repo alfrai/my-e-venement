@@ -12,13 +12,11 @@ class WorkspaceForm extends BaseWorkspaceForm
 {
   public function configure()
   {
-    /*
-    $this->widgetSchema['manifestations_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
-      'model' => 'Manifestation',
-      'url'   => 'manifestation/ajax',
-    ));
-    */
-    unset($this->widgetSchema['manifestations_list']); //->setOption('renderer_class','sfWidgetFormSelectDoubleList');
+    unset(
+      $this->widgetSchema['manifestations_list'],
+      $this->widgetSchema['seated_plans_list'],
+    );
+    
     $this->widgetSchema['users_list']->setOption('expanded', 'true')
       ->setOption('order_by', array('u.username', ''));
     
