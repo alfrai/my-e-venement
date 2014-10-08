@@ -20,6 +20,7 @@ all:
     #force_fields: [firstname, postalcode, city]
     #force_one_phonenumber: true
     #social_informations: true
+    #auto_password_size: 6
   organism:
     force_uppercase: [city]
     force_ucfirst: [name]

@@ -121,6 +121,30 @@
         <target>Jour</target>
       </trans-unit>
       <trans-unit>
+        <source>To login to your private space, go to %%url%%</source>
+        <target>Pour vous connecter à votre espace privatif, allez sur %%url%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Login: %%login%%</source>
+        <target>Identifiant: %%login%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Password: %%password%%</source>
+        <target>Mot de passe: %%password%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Thanks for your attention</source>
+        <target>Merci de votre attention</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Send passwords</source>
+        <target>Envoyer les identifiants</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Password reminder for your private space at %%name%%</source>
+        <target>Rappel des identifiants pour votre espace privatif à %%name%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>Invalid or impossible to remove from this groupe because not a part of.</source>
         <target>Non valide ou impossible à retirer car non membre de ce groupe.</target>
       </trans-unit>
