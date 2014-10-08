@@ -234,7 +234,7 @@ class ManifestationTable extends PluginManifestationTable
   
   public function retrievePublicList()
   {
-    return $this->createQuery('m')
+    return $this->retrieveList()
       ->andWhere('g.online = TRUE');
   }
   

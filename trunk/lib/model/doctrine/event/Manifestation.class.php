@@ -20,6 +20,11 @@ class Manifestation extends PluginManifestation implements liUserAccessInterface
     $name = $short && $this->Event->short_name ? $this->Event->short_name : $this->Event;
     return $name.' '.__('at').' '.$this->getShortenedDate();
   }
+  public function getHappensAtTimeHR()
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
+    return format_datetime($this->happens_at, 'HH:mm');
+  }
   public function getNameWithFullDate()
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
