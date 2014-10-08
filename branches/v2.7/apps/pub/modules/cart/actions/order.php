@@ -58,7 +58,7 @@
     {
       if ( !$this->form->isValid() )
       {
-        throw new sfException($this->form->getErrorSchema());
+        error_log('An error occurred registering a contact ('.$this->form->getErrorSchema().')');
         $this->forward('cart', 'register');
       }
     }

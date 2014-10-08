@@ -22,7 +22,11 @@ class eventActions extends autoEventActions
   {
     $vel = sfConfig::get('app_tickets_vel', array());
     if ( isset($vel['display_tickets_in_manifestations_list']) && $vel['display_tickets_in_manifestations_list'] )
+    {
+      $this->getUser()->getAttributeHolder()->remove('manifestation.filters');
       $this->redirect('manifestation/index');
+    }
+    
     parent::executeIndex($request);
   }
   public function executeEdit(sfWebRequest $request)
