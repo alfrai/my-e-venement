@@ -21,10 +21,11 @@ class PriceGaugeForm extends BasePriceGaugeForm
   
   public function save($con = null)
   {
-    if ( $this->values['value'] || $this->values['value'] === 0 )
+    if ( !is_null($this->values['value']) )
       return parent::save($con);
-      
+    
     $this->object->delete();
+    $this->object->id = NULL;
     return $this->object;
   }
 }

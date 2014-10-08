@@ -31,8 +31,12 @@ $(document).ready(function(){
         if ( msg.message )
           LI.alert(msg.message, type);
       });
-      if ( json.success.id )
+      
+      console.error(json.toSource());
+      if ( json.success && json.success.id )
         $(input).parent().find('[name="price_gauge[id]"]').val(json.success.id);
+      else
+        $(input).parent().find('[name="price_gauge[id]"]').val('');
     });
     
     return false;
