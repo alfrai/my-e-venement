@@ -1,8 +1,8 @@
-indexSuccess:
-  javascripts: [helper]
 default:
   javascripts: [jquery, event-seated-plan?<?php echo date('Ymd') ?>]
   stylesheets: [event-seated-plan?<?php echo date('Ymd') ?>]
+indexSuccess:
+  javascripts: [public?<?php echo date('Ymd') ?>, helper]
 showSuccess:
   stylesheets: [pub-manifestation?<?php echo date('Ymd') ?>]
   javascripts: [public?<?php echo date('Ymd') ?>]

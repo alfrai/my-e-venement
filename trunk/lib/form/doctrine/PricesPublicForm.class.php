@@ -179,8 +179,19 @@ class PricesPublicForm extends BaseFormDoctrine
           $ticket->seat_id = $wip->seat_id;
           $wip->delete();
           $ticket->save();
+          $count--;
         }
       }
+    }
+    
+    // adding tickets
+    for ( $i = 0 ; $i < $values['quantity'] - $count ; $i++ )
+    {
+      $ticket = new Ticket;
+      $ticket->price_id = $values['price_id'];
+      $ticket->gauge_id = $values['gauge_id'];
+      $ticket->Transaction = $this->object;
+      $ticket->save();
     }
     
     // AT THIS POINT:

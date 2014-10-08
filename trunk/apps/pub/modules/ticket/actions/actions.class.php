@@ -61,6 +61,47 @@ class ticketActions extends sfActions
     return require(dirname(__FILE__).'/mod-named-tickets.php');
   }
   
+  // used only for manifestations list's inline-ticketting
+  public function executeCommit(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $prices = $request->getParameter('price');
+    $cpt = 0;
+    
+    foreach ( $prices as $gid => $gauge )
+    {
+      $manifestation = Doctrine::getTable('Manifestation')->createQuery('m', true)->leftJoin('m.Gauges g')->andWhere('g.id = ?', $gid)->fetchOne();
+      $this->dispatcher->notify($event = new sfEvent($this, 'pub.before_adding_tickets', array('manifestation' => $manifestation)));
+      
+      if ( $event->getReturnValue() )
+      foreach ( $gauge as $price )
+      {
+        $form = new PricesPublicForm($this->getUser()->getTransaction());
+        $price['transaction_id'] = $this->getUser()->getTransaction()->id;
+        
+        $form->bind($price);
+        if ( $form->isValid() )
+        {
+          $form->save();
+          $cpt += $price['quantity'];
+        }
+        else
+          error_log($form->getErrorSchema());
+      }
+      else
+        $this->getUser()->setFlash('error', $event['message']);
+    }
+    
+    $this->getUser()->setFlash('notice',__('%%nb%% ticket(s) have been added to your cart',array('%%nb%%' => $cpt)));
+    if ( $request->getParameter('no_redirect') )
+    {
+      if ( sfConfig::get('sf_web_debug', false) && !$request->hasParameter('debug') )
+        sfConfig::set('sf_web_debug', false);
+      return 'Json';
+    }
+    $this->redirect('cart/show');
+  }
+  
   protected function checkForOrphansInJson(array $options)
   {
   }
