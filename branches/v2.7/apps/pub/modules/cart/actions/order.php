@@ -32,14 +32,34 @@
     // add the contact to the DB
     if ( !$this->form->getObject()->isNew() )
       $this->form->removePassword();
-    $this->form->bind($request->getParameter('contact'));
+    
+    if (!( $request->getParameter('contact', false) && $this->getUser()->getContact()->id ))
+    {
+      // it's a hack to avoid infinite loops with the option "app_contact_modify_coordinates_first"
+      $data = array();
+      foreach ( $this->form->getValidatorSchema()->getFields() as $fieldname => $validator )
+      if ( $this->getUser()->getContact()->getTable()->hasColumn($fieldname) )
+        $data[$fieldname] = $this->getUser()->getContact()->$fieldname;
+      
+      $ws = $this->form->getWidgetSchema();
+      $vs = $this->form->getValidatorSchema();
+      unset($ws['special_groups_list'], $vs['special_groups_list']);
+      
+      if ( sfConfig::get('app_contact_professional', false) )
+      foreach ( array('pro_email' => 'contact_email', 'pro_phone_number' => 'contact_number') as $vname => $field )
+        $data[$vname] = $this->form->getObject()->Professionals[0]->$field;
+      
+      $this->form->bind($data);
+    }
+    else
+      $this->form->bind($request->getParameter('contact'));
+    
     try
     {
       if ( !$this->form->isValid() )
       {
-        $this->executeRegister($request);
-        $this->setTemplate('register');
-        return;
+        throw new sfException($this->form->getErrorSchema());
+        $this->forward('cart', 'register');
       }
     }
     catch ( liOnlineSaleException $e )

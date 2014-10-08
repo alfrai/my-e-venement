@@ -46,13 +46,9 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 	border-radius: 3px;
 	background-color: whitesmoke;
 }
-#contact-form .field label {
-  width: 140px;
-  display: block;
-  float: left;
-  margin-top: 3px;
-	font-weight: bold;
-}
+#contact-form .field label { width: 140px; display: block; float: left; margin-top: 3px; font-weight: bold; }
+#contact-form .special_groups_list { padding-top: 5px; }
+#contact-form .special_groups_list label { float: none; display: inline; }
 #contact-form .field.error { border: 1px solid red; }
 #contact-form .submit { margin-left: 142px; }
 
@@ -179,8 +175,22 @@ p.help { margin-top: -20px; }
 #transactions a { text-decoration: none; }
 #transactions li { margin-top: 2px; }
 
-#manifestations li { margin-top: 2px; }
+.sf_admin_list_td_list_tickets ul { padding: 0; margin: 0; list-style-type: none; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] span { display: inline-block; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .name { width: 10em; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .value { width: 4em; text-align: right; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .value:after { content: ' x '; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .total:not(.n-a):before { content: ' = '; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .total { width: 5em; text-align: right; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .qty { text-align: center; width: 3em; }
+#sf_admin_container .sf_admin_list_td_list_tickets input[type=number] { width: 3em; text-align: center; }
+.go-to-cart { text-align: center; margin: 10px 0; }
+.sf_admin_list_th_list_day_name, .sf_admin_list_td_list_day_name,
+.sf_admin_list_th_list_happens_at, .sf_admin_list_td_list_happens_at,
+.sf_admin_list_th_happens_at_time_h_r, .sf_admin_list_td_happens_at_time_h_r { display: none; }
 
+#manifestations li {
+  margin-top: 2px;
   border-radius: 5px;
 	text-decoration: none;
 	padding: 5px;

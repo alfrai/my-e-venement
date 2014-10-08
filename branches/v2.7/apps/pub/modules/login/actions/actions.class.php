@@ -151,7 +151,8 @@ class loginActions extends sfActions
       $this->getUser()->setFlash('notice',__('You are authenticated.'));
       return $this->redirect($request->hasParameter('register')
         ? 'cart/register'
-        : $this->form->getValue('url_back') ? $this->form->getValue('url_back') : 'homepage');
+        : sfConfig::get('app_contact_modify_coordinates_first', false) ? 'contact/edit' : ($this->form->getValue('url_back') ? $this->form->getValue('url_back') : 'homepage')
+      );
     }
     
     $this->errors = $this->form->getErrorSchema()->getErrors();

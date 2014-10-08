@@ -5,8 +5,20 @@
     <header/>
     <body>
       <trans-unit>
+        <source>I changed my structure, my new information</source>
+        <target>J'ai changé de structure, mes nouvelles coordonnées</target>
+      </trans-unit>
+      <trans-unit>
         <source>This website requires your authentication</source>
         <target>Ce site Internet requiert votre identification</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Time</source>
+        <target>Heure</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism</source>
+        <target>Organisme</target>
       </trans-unit>
       <trans-unit>
         <source>Companies</source>
@@ -235,6 +247,10 @@
       <trans-unit>
         <source>Password</source>
         <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New password</source>
+        <target>Nouveau mot de passe</target>
       </trans-unit>
       <trans-unit>
         <source>Password again</source>

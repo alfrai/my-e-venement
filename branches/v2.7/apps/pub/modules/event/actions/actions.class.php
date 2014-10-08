@@ -18,6 +18,13 @@ class eventActions extends autoEventActions
     $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
     parent::preExecute();
   }
+  public function executeIndex(sfWebRequest $request)
+  {
+    $vel = sfConfig::get('app_tickets_vel', array());
+    if ( isset($vel['display_tickets_in_manifestations_list']) && $vel['display_tickets_in_manifestations_list'] )
+      $this->redirect('manifestation/index');
+    parent::executeIndex($request);
+  }
   public function executeEdit(sfWebRequest $request)
   {
     $this->event = $this->getRoute()->getObject();

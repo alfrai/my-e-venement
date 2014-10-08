@@ -15,6 +15,7 @@ class ticketActions extends sfActions
     $this->dispatcher->notify(new sfEvent($this, 'pub.pre_execute', array('configuration' => $this->configuration)));
     parent::preExecute();
   }
+  
   public function executeCommit(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
@@ -35,7 +36,6 @@ class ticketActions extends sfActions
         $form->bind($price);
         if ( $form->isValid() )
         {
-          error_log('valid');
           $form->save();
           $cpt += $price['quantity'];
         }
@@ -47,6 +47,12 @@ class ticketActions extends sfActions
     }
     
     $this->getUser()->setFlash('notice',__('%%nb%% ticket(s) have been added to your cart',array('%%nb%%' => $cpt)));
+    if ( $request->getParameter('no_redirect') )
+    {
+      if ( sfConfig::get('sf_web_debug', false) && !$request->hasParameter('debug') )
+        sfConfig::set('sf_web_debug', false);
+      return 'Json';
+    }
     $this->redirect('cart/show');
   }
 }

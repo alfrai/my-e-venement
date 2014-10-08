@@ -25,7 +25,12 @@ class contactActions extends sfActions
   public function executeUpdate(sfWebRequest $request)
   {
     // creating form
-    try { $this->form = new ContactPublicForm($this->getUser()->getContact()); }
+    try {
+      $this->form = new ContactPublicForm($this->getUser()->getContact());
+      $vs = $this->form->getValidatorSchema();
+      $vs['password']->setOption('required', false);
+      $vs['password_again']->setOption('required', false);
+    }
     catch ( liEvenementException $e )
     { $this->form = new ContactPublicForm; }
     

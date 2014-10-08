@@ -33,7 +33,9 @@
   <?php $nb++ ?>
   <div class="event choices <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
     <?php echo link_to(sfConfig::get('app_informations_index',__('Dates')),'event/index') ?>
+    <?php if ( $sf_user->getGuardUser()->MemberCards->count() > 0 ): ?>
     <?php echo link_to(__('Buy member cards'),'card/index') ?>
+    <?php endif ?>
   </div>
   <?php $nb++ ?>
   <div class="cart <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">

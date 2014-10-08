@@ -42,6 +42,10 @@ class manifestationActions extends autoManifestationActions
   }
   public function executeShow(sfWebRequest $request)
   {
+    $vel = sfConfig::get('app_tickets_vel', array());
+    if ( isset($vel['display_tickets_in_manifestations_list']) && $vel['display_tickets_in_manifestations_list'] )
+      $this->redirect('manifestation/index');
+    
     $this->gauges = Doctrine::getTable('Gauge')->createQuery('g')
       ->addSelect('m.*, pm.*, p.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
       ->leftJoin('g.Manifestation m')

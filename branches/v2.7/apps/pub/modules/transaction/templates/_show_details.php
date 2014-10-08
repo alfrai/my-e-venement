@@ -12,6 +12,8 @@
   <li><?php echo __('In progress...') ?></li>
   <?php endif ?>
   <?php if ( $invoice ): ?>
+  <?php $invoice = false; foreach ( $transaction->Tickets as $ticket ) if ( $ticket->printed_at || $ticket->integrated_at ) { $invoice = true; break; } ?>
+  <?php if (!( $transaction->Invoice->count() == 0 && !$invoice )): ?>
   <li>
   <?php if ( $transaction->Invoice->count() > 0 ): ?>
     <?php echo __('Invoice', null, 'li_accounting') ?> #<?php echo link_to(
@@ -22,5 +24,6 @@
     <?php echo link_to(__('Generate an invoice'), 'transaction/invoice?id='.$transaction->id, array('onclick' => 'javascript: setTimeout(function(){ window.location.reload(); },3000)', 'target' => '_blank')) ?>
   <?php endif ?>
   </li>
+  <?php endif ?>
   <?php endif ?>
 </ul>
