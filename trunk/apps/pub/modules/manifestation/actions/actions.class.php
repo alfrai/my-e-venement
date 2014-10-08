@@ -21,7 +21,7 @@ class manifestationActions extends autoManifestationActions
   
   public function executeIndex(sfWebRequest $request)
   {
-    if ( false && $this->getPager()->getQuery()->count() == 1 )
+    if ( $this->getPager()->getQuery()->count() == 1 )
     {
       $manifestation = $this->getPager()->getQuery()->select('m.id')->fetchOne();
       $this->redirect('manifestation/edit?id='.$manifestation->id);

@@ -31,12 +31,11 @@ class eventActions extends autoEventActions
       $this->redirect('manifestation/index');
     }
     
+    parent::executeIndex($request);
+    
     // only one event...
     if ( $this->pager->getNbResults() == 1 )
       $this->redirect('event/edit?id='.$this->pager->getCurrent()->id);
-    
-    // continue normal operations
-    parent::executeIndex($request);
   }
   public function executeEdit(sfWebRequest $request)
   {
