@@ -46,7 +46,7 @@
       }
       echo $qty;
     ?></td>
-    <td class="seats"><?php echo count($nums) > 20 ? '' : implode(', ', $nums) ?></span></td>
+    <td class="seats"><span><?php echo count($nums) > 20 ? '' : implode('<span>, </span>', $nums) ?></span></td>
     <td class="pit"><?php echo format_currency($tip = $ticket->value * $qty,'€'); $totals['tip'] += $tip ?></td>
     <td class="vat">
       <span class="value"><?php echo format_currency(round($vat = $tip - $tip/(1+$ticket->vat),2),'€'); if ( !isset($totals['vat'][$ticket->vat]) ) $totals['vat'][$ticket->vat] = 0; $totals['vat'][$ticket->vat] += $vat ?></span>

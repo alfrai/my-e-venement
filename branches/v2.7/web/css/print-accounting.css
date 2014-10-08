@@ -58,7 +58,7 @@ body {
 
 .timer-sql, .credits { display: none; }
 
-#ids { margin-top: 150px; }
+#ids { padding-top: 150px; }
 #ids .order_id { font-weight: bold }
 #correction { position: absolute; margin-top: 130px; }
 

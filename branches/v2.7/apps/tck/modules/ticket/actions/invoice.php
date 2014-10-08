@@ -66,6 +66,8 @@
     
     $pdf = new sfDomPDFPlugin();
     $pdf->setInput($content = $this->getPartial('invoice_pdf', $this->data));
+    if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
+      return $this->renderText($content);
     $this->getResponse()->setContentType('application/pdf');
-    $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="invoice.pdf"');
+    $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="invoice-'.$this->invoice->id.'.pdf"');
     return $this->renderText($pdf->execute());
