@@ -25,4 +25,9 @@ class Price extends PluginPrice
       $arr[] = $ws->id;
     return $arr;
   }
+  
+  public function isAccessibleBy(sfSecurityUser $user, $option = NULL)
+  {
+    return in_array($user->getId(), $this->Users->getPrimaryKeys());
+  }
 }
