@@ -20,11 +20,15 @@
   </tr>
   <?php endif ?>
   <tr class="member_cards">
+    <?php if ( $sf_user->getGuardUser()->MemberCards->count() > 0 ): ?>
     <?php include_partial('widget_item',array(
       'objects' => $transac->MemberCards,
       'label' => __('Member cards'),
       'price' => $transac->getMemberCardPrice(true),
     )) ?>
+    <?php else: ?>
+    <td></td>
+    <?php endif ?>
   </tr>
   </tbody>
   <tfoot>

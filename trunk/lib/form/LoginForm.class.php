@@ -55,7 +55,8 @@ class LoginForm extends BaseForm
       return true;
     
     $contact = Doctrine_Query::create()->from('Contact c')
-      ->where('c.email = ?',$this->getValue('email'))
+      ->leftJoin('c.Professionals p')
+      ->where((sfConfig::get('app_contact_professional', false) ? 'p.contact_email' : 'c.email').' = ?',$this->getValue('email'))
       ->andWhere('c.password = ? AND c.password != ?',array($this->getValue('password'),''))
       ->orderBy('c.id')
       ->fetchOne();

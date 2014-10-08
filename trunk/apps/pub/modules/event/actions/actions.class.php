@@ -22,10 +22,21 @@ class eventActions extends autoEventActions
   public function executeIndex(sfWebRequest $request)
   {
     $this->getUser()->setDefaultCulture($request->getLanguages());
-    // continue normal operations
-    parent::executeIndex($request);
+    
+    // inline tickets in manifestation
+    $vel = sfConfig::get('app_tickets_vel', array());
+    if ( isset($vel['display_tickets_in_manifestations_list']) && $vel['display_tickets_in_manifestations_list'] )
+    {
+      $this->getUser()->getAttributeHolder()->remove('manifestation.filters');
+      $this->redirect('manifestation/index');
+    }
+    
+    // only one event...
     if ( $this->pager->getNbResults() == 1 )
       $this->redirect('event/edit?id='.$this->pager->getCurrent()->id);
+    
+    // continue normal operations
+    parent::executeIndex($request);
   }
   public function executeEdit(sfWebRequest $request)
   {

@@ -1,3 +1,5 @@
+indexSuccess:
+  javascripts: [helper]
 default:
   javascripts: [jquery, event-seated-plan?<?php echo date('Ymd') ?>]
   stylesheets: [event-seated-plan?<?php echo date('Ymd') ?>]

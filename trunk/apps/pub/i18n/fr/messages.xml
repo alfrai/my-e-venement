@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>I changed my structure, my new information</source>
+        <target>J'ai changé de structure, mes nouvelles coordonnées</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Time</source>
+        <target>Heure</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism</source>
+        <target>Organisme</target>
+      </trans-unit>
+      <trans-unit>
         <source>Some tickets have not been added because you reached the limit of tickets for this manifestation.</source>
         <target>Des billets n'ont pas été ajoutés car vous avez atteint la limite de billets pour cette manifestation.</target>
       </trans-unit>
@@ -407,6 +419,10 @@
       <trans-unit>
         <source>Password</source>
         <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New password</source>
+        <target>Nouveau mot de passe</target>
       </trans-unit>
       <trans-unit>
         <source>Password again</source>

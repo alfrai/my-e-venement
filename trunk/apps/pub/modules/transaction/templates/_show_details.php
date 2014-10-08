@@ -12,6 +12,8 @@
   <li><?php echo __('In progress...') ?></li>
   <?php endif ?>
   <?php if ( $printed ): ?>
+  <?php $invoice = false; foreach ( $transaction->Tickets as $ticket ) if ( $ticket->printed_at || $ticket->integrated_at ) { $invoice = true; break; } ?>
+  <?php if (!( $transaction->Invoice->count() == 0 && !$invoice )): ?>
   <li>
   <?php if ( $transaction->Invoice->count() > 0 ): ?>
     <?php echo __('Invoice', null, 'li_accounting') ?> #<?php echo link_to(
@@ -40,6 +42,7 @@
     <?php echo link_to('PDF', 'transaction/products?id='.$transaction->id.'&format=pdf', array('class' => 'pdf')) ?>
     <?php $sf_context->getEventDispatcher()->notify(new sfEvent($this, 'pub.products_list_formats', array('transaction' => $transaction))) ?>
   </li>
+  <?php endif ?>
   <?php endif ?>
   <?php endif ?>
 </ul>

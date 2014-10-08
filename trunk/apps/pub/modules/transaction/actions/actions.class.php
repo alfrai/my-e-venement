@@ -170,6 +170,7 @@ class transactionActions extends sfActions
     $widgets = $this->form->getWidgetSchema();
     $widgets->setNameFormat('transaction[%s]');
     $widgets['description'] = new sfWidgetFormTextArea;
+    $widgets['description']->setDefault($this->getUser()->getTransaction()->description);
     
     }
     catch ( liOnlineSaleException $e )
@@ -205,13 +206,14 @@ class transactionActions extends sfActions
     if ( $this->transaction->contact_id != $this->getUser()->getContact()->id )
       $this->forward404('No public transaction found for #'.$request->getParameter('id', 0));
     
-    // forging some needed vars
+    // forcing some needed vars
     $printed = true;
     $manifestation_id = 0;
     $no_actions = true;
     
     // forging the request
-    $request->setParameter('pdf', 'pdf');
+    if ( !$request->hasParameter('html') )
+      $request->setParameter('pdf', 'pdf');
     $request->setParameter('nocancel', 'true');
     
     // ugly hack... but working and easy

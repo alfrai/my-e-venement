@@ -21,11 +21,13 @@ class manifestationActions extends autoManifestationActions
   
   public function executeIndex(sfWebRequest $request)
   {
-    if ( $this->getPager()->getQuery()->count() == 1 )
+    if ( false && $this->getPager()->getQuery()->count() == 1 )
     {
       $manifestation = $this->getPager()->getQuery()->select('m.id')->fetchOne();
       $this->redirect('manifestation/edit?id='.$manifestation->id);
     }
+    
+    parent::executeIndex($request);
   }
   public function executeBatchDelete(sfWebRequest $request)
   {
@@ -51,6 +53,11 @@ class manifestationActions extends autoManifestationActions
   }
   public function executeShow(sfWebRequest $request)
   {
+    $vel = sfConfig::get('app_tickets_vel', array());
+    if ( $this->getPager()->getQuery()->count() != 1
+      && isset($vel['display_tickets_in_manifestations_list']) && $vel['display_tickets_in_manifestations_list'] )
+      $this->redirect('manifestation/index');
+    
     $q = Doctrine::getTable('Gauge')->createQuery('g')
       ->addSelect('gtck.*, m.*, mpm.*, mp.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
       ->andWhere('g.online = ?', true)

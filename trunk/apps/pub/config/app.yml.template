@@ -24,6 +24,7 @@ all:
       max_per_manifestation: 9
       #max_per_manifestation_per_contact: 1
       full_seating_by_customer: true
+      #display_tickets_in_manifestations_list: true
     payment_method_id: 1
     close_before: 24 hours
     wip_price: ...
@@ -34,6 +35,8 @@ all:
     email_products: always    # never | e-products | always (recommanded)  
   contact:
     capitalize: [name, firstname, city, country, address]
+    #professional: true
+    #modify_coordinates_first: true
   #show:
   #  company_id: 5 # do not set something if you do not care
   seller:

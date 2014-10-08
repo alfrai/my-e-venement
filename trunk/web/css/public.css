@@ -5,7 +5,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #content { background-color: #FFF; margin-top: 70px; }
 #menu { display: none; }
 #sf_admin_bar { display: none; }
-#sf_admin_container { position: static; }
+#content #sf_admin_container { position: static; }
 
 #sf_admin_list.table { margin-top: 220px; }
 .sf_admin_list_td_dates ul { margin: 0; white-space: nowrap; }
@@ -47,13 +47,9 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 	border-radius: 3px;
 	background-color: whitesmoke;
 }
-#contact-form .field label {
-  width: 140px;
-  display: block;
-  float: left;
-  margin-top: 3px;
-	font-weight: bold;
-}
+#contact-form .field label { width: 140px; display: block; float: left; margin-top: 3px; font-weight: bold; }
+#contact-form .special_groups_list { padding-top: 5px; }
+#contact-form .special_groups_list label { float: none; display: inline; }
 #contact-form .field.error { border: 1px solid red; }
 #contact-form .submit { margin-left: 142px; }
 
@@ -232,24 +228,28 @@ p.help { margin-top: -20px; }
 #transactions li { margin-top: 2px; }
 
 #manifestations li {
-  margin-top: 2px;
+  margin-top: 2px; 
   border-radius: 5px;
 	text-decoration: none;
 	padding: 5px;
 	color: #313739;
-	background: #F4F4F4; /* Old browsers */
-	background: -moz-linear-gradient(top, #F4F4F4 0%, #E7E7E7 37%, #DBDBDB 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#F4F4F4), color-stop(37%,#E7E7E7), color-stop(100%,#DBDBDB)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #F4F4F4 0%,#E7E7E7 37%,#DBDBDB 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #F4F4F4 0%,#E7E7E7 37%,#DBDBDB 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #F4F4F4 0%,#E7E7E7 37%,#DBDBDB 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #F4F4F4 0%,#E7E7E7 37%,#DBDBDB 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F4F4F4', endColorstr='#DBDBDB',GradientType=0 ); /* IE6-9 */
 }
-a.actions a:hover {
-  color: #000;
-  background: #F4F4F4; 
-}
+.sf_admin_list_td_list_tickets ul { padding: 0; margin: 0; list-style-type: none; }
+.sf_admin_list_td_list_tickets .gauge-name { font-weight: bold; margin-top: 10px; display: inline-block; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] span { display: inline-block; white-space: nowrap; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .name { width: 10em; overflow: hidden; text-overflow: ellipsis; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .value { width: 4em; text-align: right; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .value:after { content: ' x '; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .total:not(.n-a):before { content: ' = '; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .total { width: 5em; text-align: right; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .qty { text-align: center; width: 3em; }
+#sf_admin_container .sf_admin_list_td_list_tickets input[type=number] { width: 3em; text-align: center; }
+.go-to-cart { text-align: center; margin: 10px 0; }
+.sf_admin_list_th_list_day_name, .sf_admin_list_td_list_day_name,
+.sf_admin_list_th_list_happens_at, .sf_admin_list_td_list_happens_at,
+.sf_admin_list_th_happens_at_time_h_r, .sf_admin_list_td_happens_at_time_h_r { display: none; }
+
+a.actions a:hover { color: #000; background: #F4F4F4; }
 
 #ariane {
 	position: absolute;

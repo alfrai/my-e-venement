@@ -48,7 +48,10 @@ class pubConfiguration extends sfApplicationConfiguration
   public function shut()
   {
     if ( !sfConfig::get('app_open',false) )
+    {
+      header('Content-Type: text/html; charset=utf-8');
       throw new liOnlineSaleException(sfConfig::get('app_texts_when_closed','This application is not opened'));
+    }
   }
   
   public function recordWebOrigin(sfEvent $event)

@@ -18,7 +18,7 @@ class ContactPublicForm extends ContactForm
     
     foreach ( array(
         'sf_guard_user_id', 'back_relations_list', 'Relationships', 'YOBs',
-        'YOBs_list', 'groups_list', 'emails_list', 'family_contact',
+        'YOBs_list', 'groups_list', 'emails_list', 'family_contact', 'relations_list',
         'organism_category_id', 'description', 'password', 'email_no_newsletter', 'npai',
         'latitude', 'longitude', 'slug', 'confirmed', 'version',
         'shortname', 'involved_in_list',
@@ -40,6 +40,7 @@ class ContactPublicForm extends ContactForm
     $this->widgetSchema   ['password_again']  = new sfWidgetFormInputPassword();
     $this->validatorSchema['password']        = new sfValidatorString(array('required' => true, 'min_length' => 4));
     $this->validatorSchema['password_again']  = new sfValidatorString(array('required' => false));
+    $this->widgetSchema   ['password']->setLabel('New password');
     
     foreach ( array('firstname','address','postalcode','city','email') as $field )
       $this->validatorSchema[$field]->setOption('required', true);
@@ -57,6 +58,67 @@ class ContactPublicForm extends ContactForm
       'query' => Doctrine_Query::create()->from('Contact c'),
       'required' => false,
     ));
+    
+    // if the contact is a professional
+    if ( sfConfig::get('app_contact_professional', false) )
+    {
+      unset($this->widgetSchema['phone_type'], $this->validatorSchema['phone_type']);
+      
+      unset($this->widgetSchema['phone_number'], $this->validatorSchema['phone_number']);
+      $this->widgetSchema   ['pro_phone_number'] = new sfWidgetFormInput;
+      $this->validatorSchema['pro_phone_number'] = new sfValidatorString(array('required' => false));
+      $this->widgetSchema   ['pro_phone_number']->setLabel('Phone number')->setDefault($this->object->Professionals[0]->contact_number);
+      
+      unset($this->widgetSchema['email'], $this->validatorSchema['email']);
+      $this->widgetSchema   ['pro_email'] = new sfWidgetFormInput;
+      $this->validatorSchema['pro_email'] = new sfValidatorEmail;
+      $this->widgetSchema   ['pro_email']->setLabel('Email')->setDefault($this->object->Professionals[0]->contact_email);
+      
+      $this->widgetSchema['pro_organism'] = new sfWidgetFormInput(array(), array('disabled' => 'disabled'));
+      $this->widgetSchema['pro_organism']->setDefault($this->object->Professionals[0]->Organism)->setLabel('Organism');
+      
+      foreach ( array('address', 'postalcode', 'city', 'country') as $field )
+        unset($this->widgetSchema[$field], $this->validatorSchema[$field]);
+      
+      $this->widgetSchema->setPositions($arr = array(
+        'id',
+        'title','name','firstname',
+        'pro_organism',
+        'pro_email','pro_phone_number',
+        'password','password_again',
+      ));
+    }
+    
+    if ( sfContext::hasInstance() )
+      sfContext::getInstance()->getUser()->addCredential('pr-group-common');
+    $q = Doctrine::getTable('Group')->createQuery('g')->andWhere('g.sf_guard_user_id IS NULL');
+    if ( $q->count() > 0 )
+    {
+      $this->validatorSchema['special_groups_list'] = new sfValidatorDoctrineChoice(($arr = array(
+        'model' => 'Group',
+        'query' => $q,
+        'multiple' => true,
+      )) + array('required' => false));
+      $this->widgetSchema   ['special_groups_list'] = new sfWidgetFormDoctrineChoice($arr + array(
+        'expanded' => true,
+        'order_by' => array('g.name', ''),
+      ));
+      $this->widgetSchema   ['special_groups_list']->setLabel('Options');
+      $this->setDefault('special_groups_list', sfConfig::get('app_contact_professional', false)
+        ? $this->object->Professionals[0]->Groups->getPrimaryKeys()
+        : $this->object->Groups->getPrimaryKeys()
+      );
+    }
+    
+    if ( sfConfig::get('app_contact_modify_coordinates_first', false) )
+    {
+      $this->widgetSchema   ['comment'] = new sfWidgetFormTextarea;
+      $this->widgetSchema   ['comment']->setLabel('I changed my structure, my new information');
+      if ( sfContext::hasInstance() )
+        $this->widgetSchema   ['comment']->setDefault(sfContext::getInstance()->getUser()->getTransaction()->description);
+      $this->validatorSchema['comment'] = new sfValidatorString;
+      $this->validatorSchema['comment']->setOption('required', false);
+    }
   }
   
   public function bind(array $taintedValues = NULL, array $taintedFiles = NULL)
@@ -114,7 +176,60 @@ class ContactPublicForm extends ContactForm
       }
     }
     
+    // if no password set
+    if ( !$this->object->isNew() && !trim($this->getValue('password')) )
+      $this->values['password'] = $this->object->password;
+    
+    // if the contact is a professional
+    if ( sfConfig::get('app_contact_professional', false) )
+    {
+      foreach ( array('pro_email' => 'contact_email', 'pro_phone_number' => 'contact_number') as $vname => $field )
+        $this->object->Professionals[0]->$field = $this->values[$vname];
+    }
+    
+    // the comment on the transaction
+    if ( trim($this->getValue('comment')) && sfContext::hasInstance() )
+    {
+      $transaction = sfContext::getInstance()->getUser()->getTransaction();
+      $transaction->description = $this->getValue('comment');
+      $transaction->save();
+    }
+    
     return parent::save($con);
+  }
+  
+  protected function doSave($con = null)
+  {
+    // add to a group
+    $this->saveGroupsList($con);
+    parent::doSave($con);
+  }
+  public function saveGroupsList($con = NULL)
+  {
+    if (!$this->isValid())
+      throw $this->getErrorSchema();
+    
+    // somebody has unset this widget
+    if (!isset($this->widgetSchema['special_groups_list']))
+      return;
+    
+    if (null === $con)
+      $con = $this->getConnection();
+    
+    $object = sfConfig::get('app_contact_professional', false) ? $this->object->Professionals[0] : $this->object;
+    
+    $existing = $object->Groups->getPrimaryKeys();
+    $values = $this->getValue('special_groups_list');
+    if (!is_array($values))
+      $values = array();
+    
+    $unlink = array_diff($existing, $values);
+    if (count($unlink))
+      $object->unlink('Groups', array_values($unlink));
+    
+    $link = array_diff($values, $existing);
+    if (count($link))
+      $object->link('Groups', array_values($link));
   }
   
   public function removePassword()

@@ -114,6 +114,10 @@ class cartActions extends sfActions
     // harden data
     $this->getContext()->getConfiguration()->hardenIntegrity();
     
+    // already done first
+    if ( sfConfig::get('app_contact_modify_coordinates_first', false) && $this->getUser()->getContact() )
+      $this->redirect('cart/order');
+    
     $form_values = $this->getUser()->getAttribute('contact_form_values',array());
     unset($form_values['_csrf_token']);
     unset($form_values['id']);
