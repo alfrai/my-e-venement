@@ -188,6 +188,7 @@ p.help { margin-top: -20px; }
 .sf_admin_list_th_list_day_name, .sf_admin_list_td_list_day_name,
 .sf_admin_list_th_list_happens_at, .sf_admin_list_td_list_happens_at,
 .sf_admin_list_th_happens_at_time_h_r, .sf_admin_list_td_happens_at_time_h_r { display: none; }
+.sf_admin_list_th_Event, .sf_admin_list_td_Event { max-width: 15em; }
 
 #manifestations li {
   margin-top: 2px;
