@@ -96,7 +96,6 @@ Ticket:
       type: string(63)
       notnull: true
       notblank: true
-    #numerotation: string(255)
     seat_id: integer
     duplicating: integer
     grouping_fingerprint: string(255)

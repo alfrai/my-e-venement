@@ -99,5 +99,6 @@
   $ticket->price_id = $params['price_id'];
   $ticket->gauge_id = $gauge->id;
   $ticket->save();
+  $ticket->addLinkedProducts()->save(); // linked products
   
   return 'Success';

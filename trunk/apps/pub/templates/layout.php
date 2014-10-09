@@ -8,7 +8,7 @@
     <?php include_stylesheets() ?>
     <?php include_javascripts() ?>
   </head>
-  <body>
+  <body class="<?php echo 'app-'.$sf_context->getConfiguration()->getApplication().' mod-'.$sf_context->getModuleName() ?> culture-<?php echo $sf_user->getCulture() ?>">
     <?php echo $sf_content ?>
     <?php include_partial('menu') ?>
   </body>

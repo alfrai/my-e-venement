@@ -193,7 +193,13 @@
     $ticket->vat        = NULL;
     
     if ( !$ticket->trySave() )
+    {
       $this->json['error']['message'] = 'An error occurred when saving a ticket';
+      continue;
+    }
+    
+    // linked products
+    $ticket->addLinkedProducts()->save();
   }
   
   // return back the list of real tickets

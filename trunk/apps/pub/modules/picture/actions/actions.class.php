@@ -31,6 +31,13 @@ class pictureActions extends autoPictureActions
       $this->getResponse()->addHttpMeta('Content-Encoding', $this->picture->content_encoding);
   }
   
+  public function executeRaw(sfWebRequest $request)
+  {
+    $this->executeShow($request);
+    $this->getResponse()->addHttpMeta('Content-Type',$this->picture->type);
+    $this->getResponse()->addHttpMeta('Content-Disposition', 'attachment; filename='.$this->picture->name);
+  }
+  
   public function executeEdit(sfWebRequest $request)
   { throw new liOnlineSaleException('Access denied detected on '.$this->getActionName()); }
   public function executeUpdate(sfWebRequest $request)

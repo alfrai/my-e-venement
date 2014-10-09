@@ -18,7 +18,7 @@
     <?php use_helper('Number') ?>
     <?php echo format_currency($ticket->value,'€') ?>
   </td>
-  <td class="extra-taxes">
+  <td class="extra-taxes" title="<?php echo __('Booking fees') ?>">
     <?php use_helper('Number') ?>
     <?php echo format_currency($ticket->taxes,'€') ?>
   </td>

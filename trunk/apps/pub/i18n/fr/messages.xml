@@ -13,6 +13,10 @@
         <target>Heure</target>
       </trans-unit>
       <trans-unit>
+        <source>Booking fees</source>
+        <target>Frais de location et de réservation</target>
+      </trans-unit>
+      <trans-unit>
         <source>Organism</source>
         <target>Organisme</target>
       </trans-unit>
@@ -21,8 +25,8 @@
         <target>Des billets n'ont pas été ajoutés car vous avez atteint la limite de billets pour cette manifestation.</target>
       </trans-unit>
       <trans-unit>
-        <source>Your linked product has been added to your cart.</source>
-        <target>Votre produit lié a été ajouté à votre panier.</target>
+        <source>Your option has been modified in your cart.</source>
+        <target>Votre option a été modifiée dans votre panier.</target>
       </trans-unit>
       <trans-unit>
         <source>Ticket to remove or price to set</source>
@@ -97,8 +101,8 @@
         <target>Participants</target>
       </trans-unit>
       <trans-unit>
-        <source>Taxes</source>
-        <target>Taxes</target>
+        <source>Fees</source>
+        <target>Frais</target>
       </trans-unit>
       <trans-unit>
         <source>Assign a contact to your tickets</source>

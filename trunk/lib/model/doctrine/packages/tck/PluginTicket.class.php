@@ -269,6 +269,48 @@ abstract class PluginTicket extends BaseTicket
     return $this;
   }
   
+  public function addLinkedProducts()
+  {
+    if ( !sfContext::hasInstance() )
+      return;
+    $sf_user = sfContext::getInstance()->getUser();
+    
+    // already bought products
+    $pdts = array();
+    foreach ( $this->BoughtProducts as $bp )
+      $pdts[] = $bp->Declination->product_id;
+    
+    $collection = array('LinkedProducts' => array());
+    foreach ( array($this->Manifestation, $this->Price, $this->Gauge->Workspace, $this->Manifestation->Event->MetaEvent) as $object )
+    {
+      if ( $object->getTable()->hasRelation($rel = 'LinkedProducts') )
+      {
+        $links = $object->$rel->getData();
+        foreach ( $links as $link )
+        if ( !in_array($link->id, $pdts) ) // no duplication
+        {
+          if ( in_array($link->id, $collection[$rel]) )
+            continue;
+          $collection[$rel][] = $link->id;
+          if (!( $link instanceof liUserAccessInterface && !$link->isAccessibleBy($sf_user) ))
+          {
+            $max_price = $link->getMostExpansivePrice($sf_user);
+            if ( $max_price['price'] )
+            {
+              $bp = new BoughtProduct;
+              $bp->Price = $max_price['price']->Price;
+              $bp->Declination = $link->Declinations[0];
+              $bp->Transaction = $this->Transaction;
+              $this->BoughtProducts[] = $bp;
+            }
+          }
+        }
+      }
+    }
+    
+    return $this;
+  }
+  
   public function isSold()
   {
     return !( $this->printed_at || $this->cancelling || $this->integrated_at );

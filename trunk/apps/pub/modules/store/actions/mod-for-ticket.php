@@ -47,10 +47,10 @@
     $max = $product->getMostExpansivePrice($this->getUser());
     $bp->Price = $max['price']->Price;
     $bp->ticket_id = $data['ticket_id'];
-    $bp->transaction_id = $this->getUser()->getTransaction();
+    $bp->Transaction = $this->getUser()->getTransaction();
     $declination->BoughtProducts[] = $bp;
   }
   $product->save();
   
-  $this->getUser()->setFlash('success', __('Your linked product has been added to your cart.'));
+  $this->getUser()->setFlash('success', __('Your option has been modified in your cart.'));
   $this->redirect('transaction/show?id='.$this->getUser()->getTransactionId());

@@ -1,8 +1,8 @@
 <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ) use_javascript('pub-cart?'.date('Ymd')) ?>
 <?php include_partial('global/flashes') ?>
 <?php use_helper('Number'); ?>
-
 <?php use_helper('Date') ?>
+
 <div id="title">
   <h1><?php echo __('Command summary') ?></h1>
   <p><b><?php echo __('Transaction number') ?>:</b> #<?php echo $transaction->id ?> <b><?php echo __('Edition date') ?>:</b> <?php echo format_datetime(date('Y-m-d H:i:s'),'f') ?></p>
@@ -67,7 +67,7 @@
   <?php endif ?>
   <td class="value"><?php echo format_currency($mc->MemberCardType->value,'€') ?></td>
   <td class="total"><?php echo format_currency($mc->MemberCardType->value,'€') ?></td>
-  <td class="extra-taxes"></td>
+  <td class="extra-taxes" title="<?php echo __('Booking fees') ?>"></td>
   <?php if ( sfConfig::get('app_options_synthetic_plans', false) && $current_transaction ): ?>
   <td class="linked-stuff"></td>
   <?php endif ?>
@@ -87,7 +87,7 @@
   <?php endif ?>
   <td class="value"><?php echo format_currency($product->value,'€') ?></td>
   <td class="total"><?php echo format_currency($product->value,'€') ?></td>
-  <td class="extra-taxes"></td>
+  <td class="extra-taxes" title="<?php echo __('Booking fees') ?>"></td>
   <?php if ( sfConfig::get('app_options_synthetic_plans', false) && $current_transaction ): ?>
   <td class="linked-stuff"></td>
   <?php endif ?>
@@ -159,7 +159,7 @@
     <?php endif ?>
     <td><?php echo __('Unit price') ?></td>
     <td><?php echo __('Total') ?></td>
-    <td><?php echo __('Taxes') ?></td>
+    <td title="<?php echo __('Booking fees') ?>"><?php echo __('Fees') ?></td>
     <?php if ( sfConfig::get('app_options_synthetic_plans', false) && $current_transaction ): ?>
     <td class="linked-stuff"><?php echo __('We also recommend...') ?></td>
     <?php endif ?>
