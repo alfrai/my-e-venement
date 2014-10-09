@@ -26,9 +26,11 @@
 <?php $for_links[] = $ticket->Manifestation ?>
 <tr id="gauge-<?php echo $gauge->id ?>" class="tickets <?php if ( in_array($gauge->id,$sf_data->getRaw('errors')) ) echo 'overbooked' ?>">
   <?php if ( sfConfig::get('app_options_synthetic_plans', false) ): ?>
+  <td class="picture"><?php echo $event->Picture->getRawValue()->render() ?></td>
   <td class="event"><?php echo $event ?></td>
   <td class="manifestation"><?php echo $manif->getFormattedDate() ?></td>
   <?php else: ?>
+  <td class="picture"><?php echo $event->Picture->getRawValue()->render() ?></td>
   <td class="event"><?php if ( $last['event_id'] != $event->id ) { $last['event_id'] = $event->id; echo $event; } ?></td>
   <td class="manifestation"><?php if ( $last['manifestation_id'] != $manif->id ) { $last['manifestation_id'] = $manif->id; echo $manif->getFormattedDate(); } ?></td>
   <?php endif ?>
@@ -57,6 +59,7 @@
 <?php endforeach ?>
 <?php foreach ( $member_cards as $mc ): ?>
 <tr id="mct-<?php echo $mc->member_card_type_id ?>" class="member_cards" data-mct-id="<?php echo $mc->member_card_type_id ?>">
+  <td class="picture"></td>
   <td class="event"><?php echo $mc->MemberCardType->description ? $mc->MemberCardType->description : $mc->MemberCardType ?></td>
   <td class="manifestation"><span class="mct-<?php echo $mc->member_card_type_id ?>"><?php echo format_date($mc->expire_at,'P') ?></span></td>
   <td class="workspace"></td>
@@ -77,6 +80,7 @@
 <?php foreach ( $products as $product ): ?>
 <?php $for_links[] = $product->Declination->Product ?>
 <tr class="products">
+  <td class="picture"></td>
   <td class="event"><?php echo $product->Declination->Product->Category ?></td>
   <td class="manifestation"><?php echo $product ?></td>
   <td class="workspace"><?php echo $product->declination ?></td>
@@ -102,6 +106,7 @@
 <tfoot>
   <?php if ( $total['mc_qty'] ): ?>
   <tr class="total">
+    <td class="picture"></td>
     <td class="type"><?php echo __('Total') ?></td>
     <td></td>
     <td></td>
@@ -118,6 +123,7 @@
     <td></td>
   </tr>
   <tr class="mc">
+    <td class="picture"></td>
     <td class="type"><?php echo __("Passed on member card") ?></td>
     <td></td>
     <td></td>
@@ -135,6 +141,7 @@
   </tr>
   <?php endif ?>
   <tr class="topay">
+    <td class="picture"></td>
     <td class="type"><?php echo $total['mc_qty'] ? __('To pay') : __('Total') ?></td>
     <td></td>
     <td></td>
@@ -150,6 +157,7 @@
 </tfoot>
 <thead>
   <tr>
+    <td class="picture"></td>
     <td><?php echo __('Product') ?></td>
     <td><?php echo __('Declination') ?></td>
     <td><?php if ( $nb_ws > 0 ) echo __('Space') ?></td>
