@@ -159,7 +159,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 }
 #actions a:hover { color: #000; background: #F4F4F4; }
 
-.gauge { margin-left: 25px; }
+.gauge { margin-left: 25px; text-align: center; }
 .gauge thead { font-weight: bold; }
 .gauge tfoot { font-weight: bold; }
 .gauge td { padding: 2px 6px 2px 6px; }
@@ -220,6 +220,7 @@ p.help { margin-top: -20px; }
 .sf_admin_list_th_list_day_name, .sf_admin_list_td_list_day_name,
 .sf_admin_list_th_list_happens_at, .sf_admin_list_td_list_happens_at,
 .sf_admin_list_th_happens_at_time_h_r, .sf_admin_list_td_happens_at_time_h_r { display: none; }
+.sf_admin_list_th_Event, .sf_admin_list_td_Event { max-width: 15em; }
 
 a.actions a:hover { color: #000; background: #F4F4F4; }
 
