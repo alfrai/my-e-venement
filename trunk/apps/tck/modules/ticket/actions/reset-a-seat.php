@@ -22,6 +22,9 @@
 ***********************************************************************************/
 ?>
 <?php
+  if ( sfConfig::get('sf_web_debug', false) && !$request->hasParameter('debug') )
+    sfConfig::set('sf_web_debug', false);
+  
   $ticket = $request->getParameter('ticket');
   $form = new sfForm;
   $validators = $form->getValidatorSchema();
@@ -49,9 +52,17 @@
     ,
   ));
   
-  $form->bind($ticket);
-  if ( !$form->isValid() ) // security checks
-    throw new liSeatedException("The submitted data are not correct to reset the ticket's seat. ".$form->getErrorSchema());
+  try {
+    $form->bind($ticket);
+    if ( !$form->isValid() ) // security checks
+      throw new liSeatedException("The submitted data are not correct to reset the ticket's seat. ".$form->getErrorSchema());
+  }
+  catch ( liSeatedException $e )
+  {
+    error_log($e->getMessage());
+    $this->json = array('reset-seat-id' => NULL);
+    return 'Success';
+  }
   
   $this->ticket = Doctrine_Query::create()->from('Ticket tck')
     ->andWhere('tck.gauge_id = ?',$ticket['gauge_id'])
@@ -59,7 +70,13 @@
     ->leftJoin('tck.Seat s')
     ->andWhere('s.name = ?',$ticket['numerotation'])
     ->fetchOne();
-  $this->ticket->seat_id = NULL;
-  $this->ticket->save();
+  $this->json = array('reset-seat-id' => $this->ticket->seat_id);
   
-  return sfView::NONE;
+  // WIPs ?
+  $this->ticket->seat_id = NULL;
+  if ( $this->ticket->price_id )
+    $this->ticket->save();
+  else
+    $this->ticket->delete();
+  
+  return 'Success';

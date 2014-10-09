@@ -324,9 +324,12 @@
       $.ajax({
         url: $('form.reset-a-seat:first').prop('action'),
         data: $('form.reset-a-seat:first').serialize(),
-        success: function(){
-          var seat = $('.seated-plan [data-id='+seat.attr('data-id')+']');
-          $('#done [name=ticket_numerotation][value="'+seat.find('input').val()+'"]').val('')
+        success: function(json){
+          if ( !json['reset-seat-id'] )
+            return;
+          var seat = $('.seated-plan [data-id='+json['reset-seat-id']+']');
+          seat.removeClass('in-progress').removeClass('asked');
+          $('#done [name=ticket_numerotation][value="'+seat.attr('data-num')+'"]').val('')
             .closest('.ticket').prependTo('#todo');
           $('#done .total').text(parseInt($('#done .total').text())-1);
           $('#todo .total').text(parseInt($('#todo .total').text())+1);
