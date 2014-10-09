@@ -110,7 +110,7 @@
       </trans-unit>
       <trans-unit>
         <source>Email address</source>
-        <target>Courriel</target>
+        <target>Mail</target>
       </trans-unit>
       <trans-unit>
         <source>You cannot access an order which belongs to someone else</source>
