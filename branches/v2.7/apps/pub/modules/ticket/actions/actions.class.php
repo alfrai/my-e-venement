@@ -21,6 +21,7 @@ class ticketActions extends sfActions
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     $prices = $request->getParameter('price');
     $cpt = 0;
+    $this->json = array();
     
     foreach ( $prices as $gid => $gauge )
     {
@@ -43,7 +44,12 @@ class ticketActions extends sfActions
           error_log($form->getErrorSchema());
       }
       else
-        $this->getUser()->setFlash('error', $event['message']);
+      {
+        if ( $request->getParameter('no_redirect') )
+          $this->json['message'] = $event['message'];
+        else
+          $this->getUser()->setFlash('error', $event['message']);
+      }
     }
     
     $this->getUser()->setFlash('notice',__('%%nb%% ticket(s) have been added to your cart',array('%%nb%%' => $cpt)));

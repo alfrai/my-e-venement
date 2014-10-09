@@ -4,7 +4,7 @@
 <div id="sf_admin_container">
   <h1><?php echo __('Dates list', array(), 'messages') ?></h1>
 
-  <?php include_partial('manifestation/flashes') ?>
+  <?php include_partial('global/flashes') ?>
 
   <div id="sf_admin_header">
     <?php include_partial('manifestation/list_header', array('filters' => $filters, 'pager' => $pager)) ?>

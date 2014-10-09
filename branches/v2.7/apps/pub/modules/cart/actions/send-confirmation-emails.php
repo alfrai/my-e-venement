@@ -40,20 +40,22 @@
       $events = array();
       foreach ( $transaction->Tickets as $ticket )
       {
-        if ( !isset($events[$ticket->Manifestation->event_id]) ) $events[$ticket->Manifestation->event_id] = array();
-        if ( !isset($events[$ticket->Manifestation->event_id][$ticket->Manifestation->id]) ) $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id] = array();
+        if ( !isset($events[$ticket->Manifestation->happens_at.' -- '.$ticket->Manifestation->event_id]) ) $events[$ticket->Manifestation->happens_at.' -- '.$ticket->Manifestation->event_id] = array();
+        if ( !isset($events[$ticket->Manifestation->happens_at.' -- '.$ticket->Manifestation->event_id][$ticket->Manifestation->id]) ) $events[$ticket->Manifestation->happens_at.' -- '.$ticket->Manifestation->event_id][$ticket->Manifestation->id] = array();
         
-        $events[$ticket->Manifestation->event_id]['event'] = $ticket->Manifestation->Event;
-        $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id]['manif'] = $ticket->Manifestation;
-        if ( !isset($events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]) )
-          $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id] = array(
+        $events[$ticket->Manifestation->happens_at.' -- '.$ticket->Manifestation->event_id]['event'] = $ticket->Manifestation->Event;
+        $events[$ticket->Manifestation->happens_at.' -- '.$ticket->Manifestation->event_id][$ticket->Manifestation->id]['manif'] = $ticket->Manifestation;
+        if ( !isset($events[$ticket->Manifestation->happens_at.' -- '.$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]) )
+          $events[$ticket->Manifestation->happens_at.' -- '.$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id] = array(
             'qty' => 0,
             'price' => $ticket->Price,
             'value' => 0,
           );
-        $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['qty']++;
-        $events[$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['value'] += $ticket->value;
+        $events[$ticket->Manifestation->happens_at.' -- '.$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['qty']++;
+        $events[$ticket->Manifestation->happens_at.' -- '.$ticket->Manifestation->event_id][$ticket->Manifestation->id][$ticket->price_id]['value'] += $ticket->value;
       }
+      ksort($events);
+      
       foreach ( $events as $event )
       {
         $command .= "\n".$event['event'].": \n";
