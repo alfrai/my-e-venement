@@ -28,6 +28,7 @@ generator:
         display: [_list_happens_at, _list_day_name, =formatted_date, happens_at_time_h_r, Event, Location, _MetaEvent<?php if ( isset($vel['display_tickets_in_manifestations_list']) && $vel['display_tickets_in_manifestations_list'] ): ?>, _list_tickets<?php endif ?>]
         title: Dates list
         table_method: retrievePublicList
+        max_per_page: 100
       filter:
         display: [event_id, happens_at]
       form:    ~

@@ -53,7 +53,7 @@ class transactionActions extends sfActions
       ->andWhere('tck.id NOT IN (SELECT tck3.duplicating FROM Ticket tck3 WHERE tck3.duplicating IS NOT NULL)')
       ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE tck2.cancelling IS NOT NULL)')
       ->andWhere('tck.id IS NOT NULL')
-      ->orderBy('e.name, m.happens_at, w.name, g.id, p.id, tck.id');
+      ->orderBy('m.happens_at, e.name, w.name, g.id, p.id, tck.id');
     if ( $this->getUser()->hasContact() )
       $q->andWhere('t.contact_id = ?',$this->getUser()->getContact()->id);
     else
