@@ -44,10 +44,11 @@ switch ( $params[$field]['type'] ) {
 case 'gauge':
   $q = Doctrine_Query::create()->from('Ticket a')
     ->andWhere('a.gauge_id = ?',$params[$field]['declination_id'])
-    ->andWhere('a.price_id = ?',$params[$field]['price_id'])
     ->andWhere('a.printed_at IS NULL AND a.cancelling IS NULL AND a.duplicating IS NULL')
     ->orderBy('a.integrated_at IS NULL DESC, a.integrated_at, a.seat_id IS NULL DESC, a.value ASC, a.id DESC')
   ;
+  $wips = $q->copy();
+  $q->andWhere('a.price_id = ?',$params[$field]['price_id']);
   break;
 case 'declination':
   $q = Doctrine_Query::create()->from('BoughtProduct a')
@@ -103,10 +104,10 @@ for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )
     if ( !$products )
     {
       // tickets to transform
-      $q
+      $wips
         ->andWhere('a.price_id IS NULL')
         ->orderBy('a.seat_id IS NULL DESC, id DESC');
-      $products = $q->execute();
+      $products = $wips->execute();
     }
     
     // the current product to create/modify
