@@ -106,7 +106,7 @@
       ,true);
     }
     
-    public function render($attributes)
+    public function render(array $attributes = array())
     {
       $url = $this->getTPEWebURL();
       if ( !$url )
@@ -165,7 +165,7 @@
       return $urls['payment'][0].$urls['uri'];
     }
     
-    public static function createBankPayment($request)
+    public function createBankPayment(sfWebRequest $request)
     {
       $bank = new BankPayment;
       
