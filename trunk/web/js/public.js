@@ -129,8 +129,18 @@ $(document).ready(function(){
       type: $(this).prop('method'),
       url: $(this).prop('action'),
       data: $(this).serialize(),
-      success: function(gauges){
-        $.each(gauges, function(gauge_id, price){
+      success: function(json){
+        console.error(json.toSource());
+        if ( json.message )
+          LI.alert(json.message, 'error');
+        
+        if ( !json.tickets || json.tickets.length == 0 )
+        {
+          $('.sf_admin_list_td_list_tickets form .qty input').val(0);
+          return;
+        }
+        
+        $.each(json.tickets, function(gauge_id, price){
           $.each(price, function(price_id, qty){
             console.error(gauge_id+' '+price_id+' '+qty);
             $(str = '.sf_admin_list_td_list_tickets [data-gauge-id='+gauge_id+'] [data-price-id='+price_id+'] .qty input').val(qty);
@@ -152,23 +162,3 @@ LI.manifCalculateTotal = function(elt){
     );
   });
 }
-
-// THE CURRENCY
-if ( LI.format_currency == undefined )
-LI.format_currency = function(value, nbsp, nodot)
-{
-  if ( nbsp  == undefined ) nbsp  = true;
-  if ( nodot == undefined ) nodot = true;
-  if ( !value ) value = 0;
-
-  var r = $('.currency:first').length > 0
-    ? $('.currency:first').html()
-    : '%d €';
-  value = r.replace('%d',value.toFixed(2));
-
-  if ( nbsp  ) value = value.replace(' ','&nbsp;');
-  if ( nodot ) value = value.replace('.',',');
-
-  return value;
-}
-
