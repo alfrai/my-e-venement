@@ -90,9 +90,11 @@ LI.pubInitTicketsData = function(json){
   $('.prices .quantity select').val(0).change();
   $('.prices .seating.in-progress .quantity').text('-');
   $('.prices .seats *').remove();
-  $('.seated-plan.picture .seat.ordered.in-progress')
-    .removeClass('ordered').removeClass('in-progress')
-    .removeAttr('data-ticket-id').removeAttr('data-price-id').removeAttr('data-gauge-id');
+  
+  // commenting out to avoid "blinking" seats
+  //$('.seated-plan.picture .seat.ordered.in-progress')
+  //  .removeClass('ordered').removeClass('in-progress')
+  //  .removeAttr('data-ticket-id').removeAttr('data-price-id').removeAttr('data-gauge-id');
   
   $('.prices tbody .extra-taxes').text('').attr('data-value', 0);
   $.each(json.tickets, function(key, ticket){

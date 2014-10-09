@@ -190,6 +190,9 @@ Event:
       type:         decimal(8)
       scale:        2
     image_url:      string(255)
+    picture_id:
+      type: integer
+      unique: true 
     display_by_default:
       type: boolean
       default: true
@@ -209,6 +212,10 @@ Event:
       class: Organism
       refClass: EventCompany
       foreignAlias: Events
+    Picture:
+      foreignType: one
+      onDelete: SET NULL
+      onUpdate: CASCADE
 EventCompany:
   package: event
   columns:

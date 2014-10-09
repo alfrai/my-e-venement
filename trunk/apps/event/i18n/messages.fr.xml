@@ -295,6 +295,10 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <target>Saut</target>
       </trans-unit>
       <trans-unit>
+        <source>Poster</source>
+        <target>Affiche</target>
+      </trans-unit>
+      <trans-unit>
         <source>Picture</source>
         <target>Plan</target>
       </trans-unit>

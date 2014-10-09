@@ -36,3 +36,8 @@
 @media screen and (min-width: 1400px) {
   #more .sf_admin_list_td_list_extra_informations_list, #more .sf_admin_list_th_list_extra_informations_list { display: table-cell; }
 }
+
+/* picture */
+#sf_admin_container .sf_admin_form_field_picture_del { margin-top: 0; }
+#sf_admin_container .sf_admin_form_field_show_picture { text-align: left; }
+#sf_admin_container .sf_admin_form_field_show_picture .widget { text-align: center; }

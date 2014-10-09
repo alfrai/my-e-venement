@@ -27,6 +27,15 @@ class eventActions extends autoEventActions
     }
   }
   
+  public function executeDelPicture(sfWebRequest $request)
+  {
+    $q = Doctrine_Query::create()->from('Picture p')
+      ->where('p.id IN (SELECT e.picture_id FROM Event e WHERE e.id = ?)',$request->getParameter('id'))
+      ->delete()
+      ->execute();
+    return sfView::NONE;
+  }
+  
   public function executeOnlyFilters(sfWebRequest $request)
   {
     parent::executeIndex($request);
