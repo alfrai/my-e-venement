@@ -29,6 +29,7 @@ class OrderTable extends PluginOrderTable
         ->leftJoin('tck.Manifestation m')
         ->leftJoin('m.Location l')
         ->leftJoin('m.Event e')
+        ->leftJoin('m.Gauges g')
         ->leftJoin('m.Workspaces w')
         ->leftJoin('e.MetaEvent me')
         ->leftJoin('e.EventCategory ec')

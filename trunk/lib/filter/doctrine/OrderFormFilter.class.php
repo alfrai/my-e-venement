@@ -106,7 +106,7 @@ class OrderFormFilter extends BaseOrderFormFilter
     if ( !is_array($values) )
       $value = array($values);
     
-    $q->andWhereIn('w.id', $values);
+    $q->andWhereIn('g.workspace_id', $values);
     return $q;
   }
   public function addMetaEventsListColumnQuery(Doctrine_Query $q, $field, $values)
