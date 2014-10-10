@@ -72,11 +72,24 @@ class ticketActions extends sfActions
     foreach ( $prices as $gid => $gauge )
     {
       $manifestation = Doctrine::getTable('Manifestation')->createQuery('m', true)->leftJoin('m.Gauges g')->andWhere('g.id = ?', $gid)->fetchOne();
-      $this->dispatcher->notify($event = new sfEvent($this, 'pub.before_adding_tickets', array('manifestation' => $manifestation)));
+      $event = new sfEvent($this, 'pub.before_adding_tickets', array('manifestation' => $manifestation));
       
-      if ( $event->getReturnValue() )
       foreach ( $gauge as $price )
       {
+        if ( intval($price['quantity']) > 0 )
+        {
+          $this->dispatcher->notify($event);
+          if ( !$event->getReturnValue() )
+          {
+            if ( $request->getParameter('no_redirect') )
+              $this->json['message'] = $event['message'];
+            else
+              $this->getUser()->setFlash('error', $event['message']);
+            
+            continue;
+          }
+        }
+        
         $form = new PricesPublicForm($this->getUser()->getTransaction());
         $price['transaction_id'] = $this->getUser()->getTransaction()->id;
         
@@ -89,16 +102,9 @@ class ticketActions extends sfActions
         else
           error_log($form->getErrorSchema());
       }
-      else
-      {
-        if ( $request->getParameter('no_redirect') )
-          $this->json['message'] = $event['message'];
-        else
-          $this->getUser()->setFlash('error', $event['message']);
-      }
     }
     
-    $this->getUser()->setFlash('notice',__('%%nb%% ticket(s) have been added to your cart',array('%%nb%%' => $cpt)));
+    $this->getUser()->setFlash('notice',__('%%nb%% ticket(s) added to your cart',array('%%nb%%' => $cpt)));
     if ( $request->getParameter('no_redirect') )
     {
       if ( sfConfig::get('sf_web_debug', false) && !$request->hasParameter('debug') )

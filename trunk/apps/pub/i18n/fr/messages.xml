@@ -6,7 +6,7 @@
     <body>
       <trans-unit>
         <source>I changed my structure, my new information</source>
-        <target>J'ai changé de structure, mes nouvelles coordonnées</target>
+        <target>J'ai changé de poste et/ou de structure (adresse, tel, mail)</target>
       </trans-unit>
       <trans-unit>
         <source>Time</source>
@@ -537,8 +537,8 @@
         <target>Quantité</target>
       </trans-unit>
       <trans-unit id="16">
-        <source>%%nb%% ticket(s) have been added to your cart</source>
-        <target>%%nb%% billets ont été ajoutés à mon panier</target>
+        <source>%%nb%% ticket(s) added to your cart</source>
+        <target>%%nb%% billet(s) ajouté(s) à mon panier</target>
       </trans-unit>
       <trans-unit id="17">
         <source>%%i%% years old</source>

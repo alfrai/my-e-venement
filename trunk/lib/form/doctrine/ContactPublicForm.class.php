@@ -76,6 +76,16 @@ class ContactPublicForm extends ContactForm
       
       $this->widgetSchema['pro_organism'] = new sfWidgetFormInput(array(), array('disabled' => 'disabled'));
       $this->widgetSchema['pro_organism']->setDefault($this->object->Professionals[0]->Organism)->setLabel('Organism');
+      $this->widgetSchema['pro_address'] = new sfWidgetFormTextarea(array(), array('disabled' => 'disabled'));
+      $this->widgetSchema['pro_address']->setDefault(
+        trim($this->object->Professionals[0]->Organism->address)
+        ."\n".
+        $this->object->Professionals[0]->Organism->postalcode
+        ." ".
+        $this->object->Professionals[0]->Organism->city
+        ."\n".
+        $this->object->Professionals[0]->Organism->country
+      )->setLabel('Address');
       
       foreach ( array('address', 'postalcode', 'city', 'country') as $field )
         unset($this->widgetSchema[$field], $this->validatorSchema[$field]);
@@ -83,7 +93,7 @@ class ContactPublicForm extends ContactForm
       $this->widgetSchema->setPositions($arr = array(
         'id',
         'title','name','firstname',
-        'pro_organism',
+        'pro_organism', 'pro_address',
         'pro_email','pro_phone_number',
         'password','password_again',
       ));
