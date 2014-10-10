@@ -53,10 +53,12 @@
       <input type="hidden" name="price_new[manifestation_id]" value="<?php echo $manifestation->id ?>" />
     </span>
     <select class="prices" name="price_new[price_id]"><?php foreach ( $prices as $id => $price ): ?>
+      <?php if ( $price['price']->isAccessibleBy($sf_user->getRawValue()) ): ?>
       <option value="<?php echo $id ?>">
         <?php echo $price['price']->description ? $price['price']->description : $price['price'] ?>
         <span>(<?php echo implode(', ', array_unique($price['values'])) ?>)</span>
       </option>
+      <?php endif ?>
     <?php endforeach ?></select>
     <button><?php echo __('Add') ?></button>
     </form>
