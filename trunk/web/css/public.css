@@ -184,6 +184,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 .gauge.full-seating:hover, .gauge.full-seating:hover > * { z-index: 4; border-color: gray; }
 .gauge.full-seating .blank { background-color: white; width: 4px; height: 100px; position: absolute; margin-left: -28px; z-index: 3; display: none; }
 .gauge.full-seating:hover .blank { z-index: 5; }
+.picture.seated-plan.done .seat { cursor: default; }
 .gauge.full-seating.active .blank, .gauge.full-seating:hover .blank { display: block; }
 .manifestation_bottom { margin-left: 600px; }
 body.mod-manifestation #cart-widget { display: none; }
