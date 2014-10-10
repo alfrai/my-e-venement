@@ -210,16 +210,17 @@ class Transaction extends PluginTransaction
         $tickets_html .= '<style type="text/css" media="all">'.file_get_contents(sfConfig::get('sf_web_dir').'/private/print-simplified-tickets.css').'</style>';
     }
     
+    if ( $with['only'] )
+    foreach ( $with['only'] as $key => $pdt )
+    if ( $pdt instanceof Doctrine_Record )
+      $with['only'][$key] = $pdt->id;
+    
     $content = array();
     if (!( isset($with['tickets']) && !$with['tickets'] ))
     foreach ( $this->Tickets as $ticket )
     {
       if ( $with['only'] )
       {
-        foreach ( $with['only'] as $key => $pdt )
-        if ( $pdt instanceof Doctrine_Record )
-          $with['only'][$key] = $pdt->id;
-        
         if ( !in_array($ticket->id, $with['only']) )
           continue;
       }

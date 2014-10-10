@@ -129,8 +129,8 @@ class Ticket extends PluginTicket
   <table><tr>
     <td class="desc">
       <div class="event"><table><tbody><tr><td><span>%s:</span> <span>%s</span></td></tr></tbody></table></div>
-      <p class="event-2nd"><span>%s:</span> <span>%s</span></p>
-      <p class="description"><span>%s:</span> <span>%s</span></p>
+      <p class="event-2nd"><span>%s</span> <span>%s</span></p>
+      <p class="description"><span>%s</span> <span>%s</span></p>
       <p class="location"><span>%s:</span> <span>%s</span></p>
       <p class="address"><span>%s:</span> <span>%s</span></p>
       <p class="gauge"><span>%s:</span> <span>%s</span></p>
@@ -148,7 +148,7 @@ class Ticket extends PluginTicket
   </div>
 EOF
       , __('Event', null, 'li_tickets_email'), nl2br($this->Manifestation->Event)
-      , '', $this->Manifestation->Event->short_name
+      , '', $this->Manifestation->Event->subtitle
       , '', $this->Manifestation->Event->description
       , __('Venue', null, 'li_tickets_email'), (string)$this->Manifestation->Location
       , __('Address', null, 'li_tickets_email'), (string)$this->Manifestation->Location->full_address

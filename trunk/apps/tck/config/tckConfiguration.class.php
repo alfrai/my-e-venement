@@ -75,9 +75,13 @@ class tckConfiguration extends sfApplicationConfiguration
     if ( $cpt == 0 )
       return false;
     
+    $with = array('barcode' => 'png');
+    if ( $event['tickets'] )
+      $with['only'] = $event['tickets'];
+    
     $email = $this->genericSendEmailOn(
       $event,
-      $event['transaction']->renderSimplifiedTickets(array('barcode' => 'png')),
+      $event['transaction']->renderSimplifiedTickets($with),
       'tickets'
     );
     $this->dispatcher->notify(new sfEvent($this, 'email.before_sending_transaction_part', $email->getDispatcherParameters() + array('email' => $email)));

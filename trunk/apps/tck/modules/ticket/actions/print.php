@@ -171,6 +171,7 @@
             {
               $cpt++;
               $newticket = $ticket->copy();
+              $ticket->Transaction->Tickets[] = $newticket;
               $ticket->seat_id = NULL;
               $newticket->sf_guard_user_id = NULL;
               $newticket->created_at = NULL;
@@ -297,6 +298,13 @@
     if ( sfConfig::get('app_tickets_simplified_printing', false) && count($this->tickets) > 0 )
     {
       $this->content = $this->transaction->renderSimplifiedTickets(array('only' => $this->tickets));
+      if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
+      {
+        $this->setLayout(false);
+        return 'Simplified';
+      }
+      else
+        sfConfig::set('sf_web_debug', false);
       $this->getResponse()->setContentType('application/pdf');
       return 'Simplified';
     }
