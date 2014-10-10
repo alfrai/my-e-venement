@@ -41,8 +41,8 @@ class LoginForm extends BaseForm
   {
     unset($this->widgetSchema['password'], $this->validatorSchema['password']);
     $this->validatorSchema['email'] = new sfValidatorDoctrineChoice(array(
-      'model'   => 'Contact',
-      'column'  => 'email',
+      'model'   => sfConfig::get('app_contact_professional', false) ? 'Professional' : 'Contact',
+      'column'  => sfConfig::get('app_contact_professional', false) ? 'contact_email' : 'email',
     ));
   }
   
@@ -58,15 +58,15 @@ class LoginForm extends BaseForm
       ->leftJoin('c.Professionals p')
       ->where((sfConfig::get('app_contact_professional', false) ? 'p.contact_email' : 'c.email').' = ?',$this->getValue('email'))
       ->andWhere('c.password = ? AND c.password != ?',array($this->getValue('password'),''))
-      ->orderBy('c.id')
+      ->orderBy('c.updated_at DESC, p.updated_at DESC')
       ->fetchOne();
     
     if ( $contact )
     {
       $sf_user = sfContext::getInstance()->getUser();
-      $sf_user->setContact($contact);
       if ( sfConfig::get('app_contact_professional', false) )
         $sf_user->getTransaction()->Professional = $contact->Professionals[0];
+      $sf_user->setContact($contact);
     }
     
     return $contact ? true : false;
