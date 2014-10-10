@@ -681,6 +681,10 @@
         <target>Vous ne pouvez pas réserver de billet pour cette date car vous avez déjà un billet de réservé pour %%manif%% sur l'opération #%%transaction%%</target>
       </trans-unit>
       <trans-unit>
+        <source>You cannot book a ticket on this date because you have already reached the limit of tickets for %%manif%%</source>
+        <target>Vous ne pouvez pas réserver de billet pour cette date car vous avez déjà atteint la limite de billets pour %%manif%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>Price %%price%% not available</source>
         <target>Le tarif %%price%% n'est pas disponible</target>
       </trans-unit>
