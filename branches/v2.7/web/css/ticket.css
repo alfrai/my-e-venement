@@ -125,7 +125,7 @@
 }
 
 #description { width: 350px; padding: 2px 5px; float: right; margin-top: 5px; }
-#description textarea { width: 335px; height: 3em; font-size: 80%; }
+#description textarea { width: 335px; height: 2em; font-size: 100%; }
 
 #contact { display: inline-block; min-height: 38px; }
 #contact .title { display: inline-block; margin-top: 15px; }
