@@ -21,8 +21,9 @@
 *
 ***********************************************************************************/
 ?>
+<?php $vel = sfConfig::get('app_tickets_vel', array()); ?>
 <div id="contact">
   <h2><?php echo $contact ?></h2>
-	<p><strong><?php echo __('Email') ?></strong>: <?php echo $contact->email ?></p>
+	<p><strong><?php echo __('Email') ?></strong>: <?php echo sfConfig::get('app_contact_professional', false) ? $sf_user->getTransaction()->Professional->contact_email : $contact->email ?></p>
   <p><a class="actions" href="<?php echo url_for('contact/edit') ?>"><?php echo __('Update your contact information') ?></a></p>
 </div>

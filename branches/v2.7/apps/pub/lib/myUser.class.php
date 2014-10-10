@@ -43,11 +43,39 @@ class myUser extends liGuardSecurityUser
   public function checkAvailability(sfEvent $event)
   {
     $event->setReturnValue(true);
+    $manifestation = $event['manifestation'];
     
-    // controlling if there is any conflict
-    if ( $delay = sfConfig::get('app_tickets_no_conflict', false) )
+    // controlling if there is any max_per_event_per_contact conflict
+    $vel = sfConfig::get('app_tickets_vel', array());
+    $vel['max_per_event_per_contact'] = isset($vel['max_per_event_per_contact']) ? $vel['max_per_event_per_contact'] : false;
+    if ( $vel['max_per_event_per_contact'] > 0 && $event->getReturnValue() )
     {
-      $manifestation = $event['manifestation'];
+      foreach ( $this->getContact()->Transactions as $transaction )
+      foreach ( $transaction->Tickets as $ticket )
+      if (( $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 || $ticket->transaction_id == $this->getTransaction()->id )
+        && !$ticket->hasBeenCancelled()
+        && $manifestation->id != $ticket->manifestation_id
+        && $manifestation->event_id == $ticket->Manifestation->event_id
+      )
+      {
+        $vel['max_per_event_per_contact']--;
+      }
+      
+      if ( $vel['max_per_event_per_contact'] <= 0 )
+      {
+        $event->setReturnValue(false);
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+        $event['message'] = __('You cannot book a ticket on this date because you already have a ticket booked for %%manif%% on transaction #%%transaction%%', array(
+          '%%manif%%' => $ticket->Manifestation,
+          '%%transaction%%' => $ticket->transaction_id
+        ));
+        $event->setReturnValue(false);
+      }
+    }
+    
+    // controlling if there is any time conflict
+    if ( $delay = sfConfig::get('app_tickets_no_conflict', false) && $event->getReturnValue() )
+    {
       $manifs = array();
       foreach ( $this->getContact()->Transactions as $transaction )
       foreach ( $transaction->Tickets as $ticket )
@@ -62,8 +90,9 @@ class myUser extends liGuardSecurityUser
       {
         $start = strtotime('- '.$delay, strtotime($ticket->Manifestation->happens_at));
         $stop  = strtotime('+ '.$delay, strtotime($ticket->Manifestation->ends_at));
-        if ( strtotime($manifestation->happens_at) >= $start && strtotime($manifestation->happens_at) < $stop
-          || strtotime($manifestation->ends_at)    >= $start && strtotime($manifestation->ends_at)    < $stop )
+        if ( strtotime($manifestation->happens_at) >= $start && strtotime($manifestation->happens_at) <= $stop
+          || strtotime($manifestation->ends_at)    >= $start && strtotime($manifestation->ends_at)    <= $stop
+          || strtotime($manifestation->happens_at) <= $start && strtotime($manifestation->ends_at)    >= $stop )
         {
           sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
           $event['message'] = __('You cannot book a ticket on this date because you already have a ticket booked for %%manif%% on transaction #%%transaction%%', array(
@@ -71,7 +100,6 @@ class myUser extends liGuardSecurityUser
             '%%transaction%%' => $ticket->transaction_id
           ));
           $event->setReturnValue(false);
-          return;
         }
       }
     }

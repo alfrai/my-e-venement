@@ -7,6 +7,11 @@ $(document).ready(function(){
     $('body').prepend($($.parseHTML(data)).find('#cart-widget'));
   });
   
+  // temporary flashes
+  setTimeout(function(){
+    $('.sf_admin_flashes > *').fadeOut(function(){ $(this).remove(); });
+  }, 3500);
+  
   // if treating month as a structural data
   if ( $('.sf_admin_list .sf_admin_list_th_month').length > 0
     && $('.sf_admin_list .sf_admin_list_th_month').css('display') != 'none' )
@@ -119,21 +124,16 @@ $(document).ready(function(){
       url: $(this).prop('action'),
       data: $(this).serialize(),
       success: function(json){
-        console.error(json.toSource());
+        $('.sf_admin_list_td_list_tickets form .qty input').val(0);
         if ( json.message )
           LI.alert(json.message, 'error');
         
         if ( !json.tickets || json.tickets.length == 0 )
-        {
-          $('.sf_admin_list_td_list_tickets form .qty input').val(0);
           return;
-        }
         
         $.each(json.tickets, function(gauge_id, price){
           $.each(price, function(price_id, qty){
-            console.error(gauge_id+' '+price_id+' '+qty);
             $(str = '.sf_admin_list_td_list_tickets [data-gauge-id='+gauge_id+'] [data-price-id='+price_id+'] .qty input').val(qty);
-            console.error(str);
           });
         });
       }

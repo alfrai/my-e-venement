@@ -45,6 +45,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 	border: 1px solid black;
 	border-radius: 3px;
 	background-color: whitesmoke;
+	width: 30em;
 }
 #contact-form .field label { width: 140px; display: block; float: left; margin-top: 3px; font-weight: bold; }
 #contact-form .special_groups_list { padding-top: 5px; }
@@ -178,7 +179,7 @@ p.help { margin-top: -20px; }
 .sf_admin_list_td_list_tickets ul { padding: 0; margin: 0; list-style-type: none; }
 .sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] span { display: inline-block; }
 .sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .name { width: 10em; }
-.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .value { width: 4em; text-align: right; }
+.sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .value { width: 5em; text-align: right; }
 .sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .value:after { content: ' x '; }
 .sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .total:not(.n-a):before { content: ' = '; }
 .sf_admin_list_td_list_tickets [data-gauge-id] [data-price-id] .total { width: 5em; text-align: right; }

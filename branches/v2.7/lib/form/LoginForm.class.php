@@ -62,7 +62,12 @@ class LoginForm extends BaseForm
       ->fetchOne();
     
     if ( $contact )
-      sfContext::getInstance()->getUser()->setContact($contact);
+    {
+      $sf_user = sfContext::getInstance()->getUser();
+      $sf_user->setContact($contact);
+      if ( sfConfig::get('app_contact_professional', false) )
+        $sf_user->getTransaction()->Professional = $contact->Professionals[0];
+    }
     
     return $contact ? true : false;
   }

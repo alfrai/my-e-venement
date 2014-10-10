@@ -4,25 +4,6 @@
   $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
   if ( $manifestation->online_limit_per_transaction && $manifestation->online_limit_per_transaction < $vel['max_per_manifestation'] )
     $vel['max_per_manifestation'] = $manifestation->online_limit_per_transaction;
-  
-  // max per manifestation per contact ...
-  $vel['max_per_manifestation_per_contact'] = isset($vel['max_per_manifestation_per_contact']) ? $vel['max_per_manifestation_per_contact'] : false;
-  if ( $vel['max_per_manifestation_per_contact'] > 0 )
-  {
-    foreach ( $sf_user->getContact()->Transactions as $transaction )
-    if ( $transaction->id != $sf_user->getTransaction()->id )
-    foreach ( $transaction->Tickets as $ticket )
-    if (( $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 )
-      && !$ticket->hasBeenCancelled()
-      && $manifestation->id == $ticket->manifestation_id
-    )
-    {
-      $vel['max_per_manifestation_per_contact']--;
-    }
-    $vel['max_per_manifestation'] = $vel['max_per_manifestation'] > $vel['max_per_manifestation_per_contact']
-      ? $vel['max_per_manifestation_per_contact']
-      : $vel['max_per_manifestation'];
-  }
 ?>
 
 <?php if ( strtotime('now + '.sfConfig::get('app_tickets_close_before','36 hours')) > strtotime($manifestation->happens_at) ): ?>
