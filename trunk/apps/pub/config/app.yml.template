@@ -25,7 +25,6 @@ all:
       #max_per_manifestation_per_contact: 1
       full_seating_by_customer: true
       #display_tickets_in_manifestations_list: true
-      #display_event_picture: true
     payment_method_id: 1
     close_before: 24 hours
     wip_price: ...
