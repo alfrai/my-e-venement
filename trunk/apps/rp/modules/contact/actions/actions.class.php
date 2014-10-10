@@ -104,9 +104,12 @@ class contactActions extends autoContactActions
       
       $params = OptionCsvForm::getDBOptions();
       if ( in_array('tunnel',$params['option']) ) // prefer professionals
-      foreach ( $contact->Professionals as $pro )
-        $this->sendPassword($pro);
-      else
+      {
+        foreach ( $contact->Professionals as $pro )
+        if ( $pro->contact_email )
+          $this->sendPassword($pro);
+      }
+      elseif ( $contact->email )
         $this->sendPassword($contact);
     }
     
