@@ -13,7 +13,7 @@
 <ul><?php foreach ( $manifestation->Gauges as $gauge ): ?>
   <?php
     $gauge = Doctrine::getTable('Gauge')->find($gauge->id);
-    $max = $gauge->value - $gauge->printed - $gauge->ordered - $manifestation->online_limit - (sfConfig::get('project_tickets_count_demands',false) ? $gauge->asked : 0);
+    $max = $gauge->value - $gauge->printed - $gauge->ordered - (!(isset($vel['no_online_limit_from_manifestations']) && $vel['no_online_limit_from_manifestations']) ? $manifestation->online_limit : 0) - (sfConfig::get('project_tickets_count_demands',false) ? $gauge->asked : 0);
     $max = $max > $vel['max_per_manifestation'] ? $vel['max_per_manifestation'] : $max;
   ?>
   <li data-gauge-id="<?php echo $gauge->id ?>"><?php echo $manifestation->Gauges->count() > 1 ? $gauge : '' ?>

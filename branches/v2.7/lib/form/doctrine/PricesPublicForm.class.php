@@ -88,15 +88,10 @@ class PricesPublicForm extends BaseFormDoctrine
       'query' => $q,
     ));
     
-    $choices = array();
-    for ( $i = 0 ; $i <= sfConfig::get('app_tickets_max_per_manifestation',9) ; $i++ )
-      $choices[] = $i;
-    $this->widgetSchema   ['quantity'] = new sfWidgetFormChoice(array(
-      'choices' => $choices,
-    ));
-    $this->validatorSchema['quantity'] = new sfValidatorChoice(array(
-      'choices' => $choices,
-    ));
+    // limitting the max quantity, especially for prices linked to member cards
+    $this->widgetSchema   ['quantity'] = new sfWidgetFormChoice(array('choices' => array(),));
+    $this->validatorSchema['quantity'] = new sfValidatorChoice(array('choices' => array(),));
+    $this->setMaxQuantity($vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9);
     
     $this->reviewNameFormat();
   }
@@ -125,8 +120,18 @@ class PricesPublicForm extends BaseFormDoctrine
   
   public function setGaugeId($id)
   {
-    if ( $id < 1 )
+    $gauge = Doctrine::getTable('Gauge')->createQuery('g', false)
+      ->andWhere('g.id = ?', $id);
+    
+    if ( !$gauge )
       throw new liEvenementException("Invalid gauge's id");
+    
+    $vel = sfConfig::get('app_tickets_vel');
+    $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
+    if ( !(isset($vel['no_online_limit_from_manifestations']) && $vel['no_online_limit_from_manifestations'])
+      && $gauge->Manifestation->online_limit_per_transaction && $gauge->Manifestation->online_limit_per_transaction < $vel['max_per_manifestation'] )
+      $vel['max_per_manifestation'] = $gauge->Manifestation->online_limit_per_transaction;
+    $this->setMaxQuantity($vel['max_per_manifestation']);
     
     $this->setDefault('gauge_id',$id);
     $this->reviewNameFormat();

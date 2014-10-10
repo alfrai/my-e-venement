@@ -44,9 +44,34 @@ class myUser extends liGuardSecurityUser
   {
     $event->setReturnValue(true);
     $manifestation = $event['manifestation'];
+    $vel = sfConfig::get('app_tickets_vel', array());
+    
+    // controlling the global max_per_manifestation parameter
+    $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
+    if ( !(isset($vel['no_online_limit_from_manifestations']) && $vel['no_online_limit_from_manifestations'])
+      && $gauge->Manifestation->online_limit && $gauge->Manifestation->online_limit < $vel['max_per_manifestation'] )
+      $vel['max_per_manifestation'] = $gauge->Manifestation->online_limit;
+    foreach ( $this->getContact()->Transactions as $transaction )
+    foreach ( $transaction->Tickets as $ticket )
+    if (( $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 || $ticket->transaction_id == $this->getTransaction()->id )
+      && !$ticket->hasBeenCancelled()
+      && $manifestation->id == $ticket->manifestation_id
+    )
+    {
+      $vel['max_per_manifestation']--;
+    }
+    if ( $vel['max_per_manifestation'] < 0 )
+    {
+      $event->setReturnValue(false);
+      sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
+      $event['message'] = __('You cannot book a ticket on this date because you have already reached the limit of tickets for %%manif%%', array(
+        '%%manif%%' => $ticket->Manifestation,
+        '%%transaction%%' => $ticket->transaction_id
+      ));
+      $event->setReturnValue(false);
+    }
     
     // controlling if there is any max_per_event_per_contact conflict
-    $vel = sfConfig::get('app_tickets_vel', array());
     $vel['max_per_event_per_contact'] = isset($vel['max_per_event_per_contact']) ? $vel['max_per_event_per_contact'] : false;
     if ( $vel['max_per_event_per_contact'] > 0 && $event->getReturnValue() )
     {
