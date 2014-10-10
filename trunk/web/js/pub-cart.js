@@ -1,4 +1,18 @@
   $(document).ready(function(){
+    // event's picture
+    $('#command tbody tr').addClass('picture-to-merge');
+    var trs;
+    while ( (trs = $('#command tbody tr.picture-to-merge')).length > 0 )
+    {
+      var tr = trs.first();
+      tr.find('td.picture').prop('rowspan', trs.parent().find('[data-event-id='+tr.attr('data-event-id')+']').length);
+      trs.parent().find('[data-event-id='+tr.attr('data-event-id')+']').removeClass('picture-to-merge').not(':first').find('td:first').remove();
+    }
+    
+    // stop here if needed
+    if ( $('#command thead .qty').length == 0 )
+      return;
+    
     // concatenation of tickets which has the same price
     while ( $('#command tbody > :not(.products) .tickets > :not(.done)').length > 0 )
     {

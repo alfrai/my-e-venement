@@ -498,7 +498,7 @@
       </trans-unit>
       <trans-unit id="7">
         <source>Price</source>
-        <target>Prix</target>
+        <target>Tarif</target>
       </trans-unit>
       <trans-unit id="8">
         <source>Qty</source>
