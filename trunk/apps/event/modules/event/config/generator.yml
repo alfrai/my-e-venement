@@ -77,19 +77,19 @@ generator:
       edit:
         title: Edit Event %%name%%
         display:
-          General:   [name, short_name, meta_event_id, event_category_id, event_category_description, companies_list]
+          General:   [name, short_name, subtitle, meta_event_id, event_category_id, event_category_description, companies_list]
           Details:   [duration, display_by_default, accounting_account, age_min, age_max, description, staging_label, staging, writer_label, writer]
           Web Content: [Picture, _show_picture, _form_picture_del, web_price, web_price_group, extradesc, extraspec]
           <?php if ( sfConfig::get('app_ticketting_dematerialized',false) ): ?>Checkpoints: [_form_checkpoints]<?php endif; echo PHP_EOL; ?>
       new:
         display:
-          General:   [name, short_name, meta_event_id, event_category_id, event_category_description, companies_list]
+          General:   [name, short_name, subtitle, meta_event_id, event_category_id, event_category_description, companies_list]
           Details:   [duration, display_by_default, accounting_account, age_min, age_max, description, staging_label, staging, writer_label, writer]
           Manifestations: [Manifestations]
           Web Content: [web_price, web_price_group, extradesc, extraspec]
       show:
         display:
-          General:   [name, short_name, _show_meta_event, _show_event_category, event_category_description, _show_companies_list]
+          General:   [name, short_name, subtitle, _show_meta_event, _show_event_category, event_category_description, _show_companies_list]
           Details:   [_show_duration, _show_display_by_default, age_min_h_r, age_max_h_r, _show_description, staging_label, staging, writer_label, writer]
           Web Content: [_show_picture, _show_extradesc, _show_extraspec, web_price, web_price_group]
           Checkpoints: [_show_checkpoints]

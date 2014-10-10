@@ -147,7 +147,7 @@ Event:
   package: event
   actAs:
     I18n:
-      fields: [name, short_name, description, extradesc, extraspec]
+      fields: [name, short_name, subtitle, description, extradesc, extraspec]
     Sluggable:
       fields: [name]
     Searchable:
@@ -163,6 +163,7 @@ Event:
       type:         string(255)
       notblank:     true
       notnull:      true
+    subtitle:       string(255)
     short_name:     string(127)
     meta_event_id:
       type: integer

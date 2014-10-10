@@ -1159,6 +1159,10 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <target>Petit nom</target>
       </trans-unit>
       <trans-unit>
+        <source>Subtitle</source>
+        <target>Sous-titre</target>
+      </trans-unit>
+      <trans-unit>
         <source>Staging label</source>
         <target>Étiquette "mise en scène"</target>
       </trans-unit>

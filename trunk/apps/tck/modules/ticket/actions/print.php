@@ -294,7 +294,7 @@
       'user'        => $this->getUser(),
     )));
     
-    if ( sfConfig::get('app_tickets_simplified_printing', false) )
+    if ( sfConfig::get('app_tickets_simplified_printing', false) && count($this->tickets) > 0 )
     {
       $this->content = $this->transaction->renderSimplifiedTickets(array('only' => $this->tickets));
       $this->getResponse()->setContentType('application/pdf');
