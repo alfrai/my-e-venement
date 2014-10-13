@@ -162,7 +162,7 @@
     var gauge_id = data.gauge_id;
     var name = data.name;
     var rank = data.rank;
-    var extra_class = data.class;
+    var extra_class = data['class'];
     var diameter = data.diameter == undefined ? $(ref).closest('form').find('[name="seated_plan[seat_diameter]"]').val() : data.diameter;
     var occupied = data.occupied == undefined ? false : data.occupied;
     
@@ -417,7 +417,7 @@
           diameter: $('#seated_plan_seat_diameter').val()
         },
         object: $(this).parent(),
-        class: $('.sf_admin_form_field_show_picture .class input').val() ? $('.sf_admin_form_field_show_picture .class input').val() : '',
+        'class': $('.sf_admin_form_field_show_picture .class input').val() ? $('.sf_admin_form_field_show_picture .class input').val() : '',
         record: true,
       });
     });

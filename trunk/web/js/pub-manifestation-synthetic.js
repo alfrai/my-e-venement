@@ -16,4 +16,10 @@ $(document).ready(function(){
     });
     return false;
   });
+  
+  // remove empty selects
+  $('#categories select').each(function(){
+    if ( $(this).find('option').length == 0 )
+      $(this).closest('li').remove();
+  });
 });

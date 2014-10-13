@@ -42,7 +42,7 @@ $(document).ready(function(){
   }}
   
   // on changing quantities
-  $('.prices .seats .seat[data-seat-id=""], .prices .seats .seat:not([data-seat-id]').each(function(){
+  $('.prices .seats .seat[data-seat-id=""], .prices .seats .seat:not([data-seat-id])').each(function(){
     $(this).prependTo($(this).closest('.seats')); // ordering the priorities between tickets
   });
   $('.prices [data-price-id] .quantity select').each(function(){
@@ -169,7 +169,10 @@ LI.pubInitTicketsRequest = function(seats){
 }
 
 LI.pubAfterRenderingSeats = {};
+
 // a trick specific to "pub" to execute a function only once after rendering the seated plan
+if ( LI.seatedPlanInitializationFunctions == undefined )
+  LI.seatedPlanInitializationFunctions = [];
 LI.seatedPlanInitializationFunctions.push(function(){
   $.each(LI.pubAfterRenderingSeats, function(key, infos){
     if ( typeof(infos.exec) != 'function' )

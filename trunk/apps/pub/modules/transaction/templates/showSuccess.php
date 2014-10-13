@@ -26,7 +26,7 @@
 <?php $for_links[] = $ticket->Manifestation ?>
 <tr data-event-id="<?php echo $event->id ?>" id="gauge-<?php echo $gauge->id ?>" class="tickets <?php if ( in_array($gauge->id,$sf_data->getRaw('errors')) ) echo 'overbooked' ?>">
   <?php if ( sfConfig::get('app_options_synthetic_plans', false) ): ?>
-  <td class="picture"><?php echo $event->Picture->getRawValue()->render() ?></td>
+  <td class="picture"><?php echo $event->Picture->getRawValue()->render(array('app' => 'pub')) ?></td>
   <td class="event"><?php echo $event ?></td>
   <td class="manifestation"><?php echo $manif->getFormattedDate() ?></td>
   <?php else: ?>
@@ -169,7 +169,7 @@
     <td class="qty"><?php echo __('Qty') ?></td>
     <td><?php echo __('Unit price') ?></td>
     <?php endif ?>
-    <td><?php echo __('Total') ?></td>
+    <td><?php echo sfConfig::get('app_options_synthetic_plans', false) ? '' : __('Total') ?></td>
     <td title="<?php echo __('Booking fees') ?>"><?php echo __('Fees') ?></td>
     <?php if ( sfConfig::get('app_options_synthetic_plans', false) && $current_transaction ): ?>
     <td class="linked-stuff"><?php echo __('We also recommend...') ?></td>

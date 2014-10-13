@@ -210,6 +210,6 @@ class loginActions extends sfActions
     
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     $this->getUser()->setFlash('success', __('Now you are making the experience of e-venement in your favorite language.'));
-    $this->redirect('event/index');
+    $this->redirect($request->getReferer() ? $request->getReferer() : 'event/index');
   }
 }

@@ -47,7 +47,7 @@
   <?php if ( count($prices) > 0 ): ?>
   <li>
     <form action="<?php echo url_for('ticket/addCategorizedTicket') ?>" method="get">
-    <span class="category">
+    <span class="category" title="<?php echo $name ?>">
       <?php echo $name ?>
       <input type="hidden" name="price_new[group_name]" value="<?php echo $name ?>" />
       <input type="hidden" name="price_new[manifestation_id]" value="<?php echo $manifestation->id ?>" />
