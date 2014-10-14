@@ -61,18 +61,12 @@
     return 'Error';
   }
   
+  $vel = sfConfig::get('app_tickets_vel');
   $success = false;
   foreach ( $gauges as $gauge )
   {
-    // limitting the max quantity, especially for prices linked to member cards
-    $vel = sfConfig::get('app_tickets_vel');
-    $vel['max_per_manifestation'] = $this->getMaxPerManifestation($gauge->Manifestation);
-    
-    // gauge limits
-    $tmp = Doctrine::getTable('Gauge')->createQuery('g')->andWhere('g.id = ?', $gauge->id)->fetchOne();
-    $free = $tmp->value - $tmp->printed - $tmp->ordered - (sfConfig::get('project_tickets_count_demands', false) ? $tmp->asked : 0);
-    $max = $vel['max_per_manifestation'] < $free ? $vel['max_per_manifestation'] : $free;
-    if ( $gauge->nb_seats > $max )
+    $this->dispatcher->notify($event = new sfEvent($this, 'pub.before_adding_tickets', array('manifestation' => $gauge->Manifestation)));
+    if ( $event->getReturnValue() )
     {
       $success = true;
       break;
@@ -88,7 +82,7 @@
   if ( Doctrine::getTable('Ticket')->createQuery('tck')
     ->andWhere('tck.manifestation_id = ?', $gauge->manifestation_id)
     ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransactionId())
-    ->count() >= $vel['max_per_manifestation'] )
+    ->count() >= $event['max'] )
   {
     $this->message = 'Some tickets have not been added because you reached the limit of tickets for this manifestation.';
     return 'Success';
@@ -100,5 +94,25 @@
   $ticket->gauge_id = $gauge->id;
   $ticket->save();
   $ticket->addLinkedProducts()->save(); // linked products
+  
+  $this->dispatcher->notify($event = new sfEvent($this, 'pub.after_adding_tickets', array()));
+  
+  // return back the list of real tickets
+  $this->data = array('tickets' => array());
+  foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
+  {
+    // the json data
+    $this->data['tickets'][] = array(
+      'ticket_id'         => $ticket->id,
+      'seat_name'         => is_object($ticket->Seat) ? (string)$ticket->Seat : (string)Doctrine::getTable('Seat')->find($ticket->seat_id),
+      'seat_id'           => $ticket->seat_id,
+      'price_name'        => $ticket->price_id ? (string)$ticket->Price : $ticket->price_name,
+      'price_id'          => $ticket->price_id,
+      'gauge_name'        => (string)$ticket->Gauge,
+      'gauge_id'          => $ticket->gauge_id,
+      'extra-taxes'       => (float)$ticket->taxes,
+      'value'             => (float)$ticket->value,
+    );
+  }
   
   return 'Success';

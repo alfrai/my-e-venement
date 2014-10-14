@@ -17,7 +17,7 @@
       'name'      => $seat->name,
       'id'        => $seat->id,
       'class'     => $seat->class,
-      'rank'      => $seat->rank,
+      'rank'      => '',
       'seated_plan_id' => $seated_plan->id,
       'occupied'  => isset($occupied) && isset($occupied[$seat->id]) ? $occupied[$seat->id] : false,
     );

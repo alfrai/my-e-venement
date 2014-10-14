@@ -226,4 +226,5 @@
   if ( $overbooking > 0 )
     $this->message = "Some tickets have not been added because you reached the limit of tickets for this manifestation.";
   
+  $this->dispatcher->notify($event = new sfEvent($this, 'pub.after_adding_tickets', array()));
   return 'Success';

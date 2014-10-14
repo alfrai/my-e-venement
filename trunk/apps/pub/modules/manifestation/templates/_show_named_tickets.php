@@ -11,7 +11,7 @@
       <span class="seat_name"></span>
       <span class="price_name"><select name="ticket[%%ticket_id%%][price_id]"></select></span>
       <span class="price_name"></span>
-      <button class="delete" name="ticket[%%ticket_id%%][delete]" value="true"><?php echo __('Delete', null, 'sf_admin') ?></button>
+      <button class="delete" name="ticket[%%ticket_id%%][delete]" value="true" title="<?php echo __('Delete', null, 'sf_admin') ?>">X</button>
     </h4>
     <span class="contact_id"><input type="hidden" value="" name="ticket[%%ticket_id%%][contact][id]" /></span>
     <span class="contact_name">

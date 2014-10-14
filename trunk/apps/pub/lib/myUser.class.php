@@ -39,6 +39,7 @@ class myUser extends liGuardSecurityUser
     $dispatcher->connect('pub.pre_execute', array($this, 'mustAuthenticate'));
     $dispatcher->connect('pub.before_showing_prices', array($this, 'checkAvailability'));
     $dispatcher->connect('pub.before_adding_tickets', array($this, 'checkAvailability'));
+    $dispatcher->connect('pub.after_adding_tickets', array($this, 'addDefaultDirectContact'));
     
     if ( $this->getAttribute('online_store', NULL) === NULL
       || time() > strtotime($this->getAttribute('online_store_timeout', NULL)) )
@@ -57,11 +58,35 @@ class myUser extends liGuardSecurityUser
     }
   }
   
+  public function addDefaultDirectContact(sfEvent $event)
+  {
+    // detecting if a ticket has to be affected to the current contact
+    $ticket = NULL;
+    foreach ( $this->getTransaction()->Tickets as $tck )
+    {
+      if ( $tck->contact_id == $this->getContact()->id )
+      {
+        $ticket = NULL;
+        break;
+      }
+      if ( is_null($tck->contact_id) )
+        $ticket = $tck;
+    }
+    
+    // adding the transaction's contact on the first coming ticket if needed
+    if ( $ticket instanceof Ticket )
+    {
+      $ticket->DirectContact = $this->getContact();
+      $ticket->save();
+    }
+  }
+  
   public function checkAvailability(sfEvent $event)
   {
     $event->setReturnValue(true);
     $manifestation = $event['manifestation'];
     $vel = sfConfig::get('app_tickets_vel', array());
+    $max = array();
     
     // controlling the global max_per_manifestation parameter
     $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
@@ -77,6 +102,7 @@ class myUser extends liGuardSecurityUser
     {
       $vel['max_per_manifestation']--;
     }
+    $max[] = $vel['max_per_manifestation'];
     if ( $vel['max_per_manifestation'] < 0 )
     {
       $event->setReturnValue(false);
@@ -102,6 +128,7 @@ class myUser extends liGuardSecurityUser
       {
         $vel['max_per_event_per_contact']--;
       }
+      $max[] = $vel['max_per_event_per_contact'];
       
       if ( $vel['max_per_event_per_contact'] <= 0 )
       {
@@ -114,6 +141,8 @@ class myUser extends liGuardSecurityUser
         $event->setReturnValue(false);
       }
     }
+    
+    $event['max'] = min($max);
     
     // controlling if there is any time conflict
     if ( ($delay = sfConfig::get('app_tickets_no_conflict', false)) && $event->getReturnValue() )

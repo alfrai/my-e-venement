@@ -141,6 +141,7 @@
         $prices[''.$pid] = $tmp[$pid];
     }
     
+    $this->dispatcher->notify($event = new sfEvent($this, 'pub.after_adding_tickets', array()));
     // the json data
     $this->data[] = array(
       'id'                => $ticket->id,
