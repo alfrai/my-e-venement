@@ -66,8 +66,8 @@ class myUser extends liGuardSecurityUser
     // controlling the global max_per_manifestation parameter
     $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
     if ( !(isset($vel['no_online_limit_from_manifestations']) && $vel['no_online_limit_from_manifestations'])
-      && $gauge->Manifestation->online_limit && $gauge->Manifestation->online_limit < $vel['max_per_manifestation'] )
-      $vel['max_per_manifestation'] = $gauge->Manifestation->online_limit;
+      && $manifestation->online_limit && $manifestation->online_limit < $vel['max_per_manifestation'] )
+      $vel['max_per_manifestation'] = $manifestation->online_limit;
     foreach ( $this->getContact()->Transactions as $transaction )
     foreach ( $transaction->Tickets as $ticket )
     if (( $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 || $ticket->transaction_id == $this->getTransaction()->id )
