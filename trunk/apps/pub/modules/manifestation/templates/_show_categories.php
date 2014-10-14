@@ -56,7 +56,7 @@
       <?php if ( $price['price']->isAccessibleBy($sf_user->getRawValue()) ): ?>
       <option value="<?php echo $id ?>">
         <?php echo $price['price']->description ? $price['price']->description : $price['price'] ?>
-        <span>(<?php echo implode(', ', array_unique($price['values'])) ?>)</span>
+        (<?php echo implode(', ', array_unique($price['values'])) ?>)
       </option>
       <?php endif ?>
     <?php endforeach ?></select>
