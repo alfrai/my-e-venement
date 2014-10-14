@@ -21,12 +21,12 @@ test:
 
   mailer:
     param:
-      delivery_strategy: none
+      delivery_strategy: single_address
 
 dev:
   mailer:
     param:
-      delivery_strategy: none
+      delivery_strategy: single_address
 
 all:
   user: 
