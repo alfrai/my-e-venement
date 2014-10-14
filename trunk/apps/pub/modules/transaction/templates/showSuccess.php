@@ -34,7 +34,7 @@
   <td class="event"><?php if ( $last['event_id'] != $event->id ) { $last['event_id'] = $event->id; echo $event; } ?></td>
   <td class="manifestation"><?php if ( $last['manifestation_id'] != $manif->id ) { $last['manifestation_id'] = $manif->id; echo $manif->getFormattedDate(); } ?></td>
   <?php endif ?>
-  <td class="workspace"><?php if ( $manif->Gauges->count() > 1 && $last['gauge_id'] != $gauge->id ): ?>
+  <td class="workspace"><?php if ( $manif->Gauges->count() > 1 && $last['gauge_id'] != $gauge->id || sfConfig::get('app_options_synthetic_plans', false) ): ?>
     <?php echo $gauge->Workspace ?>
     <?php $nb_ws++ ?>
   <?php endif ?></td>

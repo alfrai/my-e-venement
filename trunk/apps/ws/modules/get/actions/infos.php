@@ -38,10 +38,14 @@
     // by event
     $q = Doctrine::getTable('Gauge')->createQuery('g')
       ->select('m.*, e.*, g.*, p.*, pm.*, l.*, d.*, dg.*')
+      ->leftJoin('ws.Users wsu WITH wsu.id = ?', $this->getUser()->getAttribute('ws_id'))
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.Event e')
+      ->leftJoin('e.MetaEvent me')
+      ->leftJoin('me.Users meu WITH meu.id = ?', $this->getUser()->getAttribute('ws_id'))
       ->leftJoin('m.PriceManifestations pm')
       ->leftJoin('pm.Price p')
+      ->leftJoin('p.Users pu WITH pu.id = ?', $this->getUser()->getAttribute('ws_id'))
       ->leftJoin('m.Location l')
       ->leftJoin('p.Workspaces pw')
       ->leftJoin('m.DependsOn d')
@@ -53,6 +57,7 @@
       ->andWhere('p2.online')
       ->andWhere('g.workspace_id = pw.id')
       ->andWhere('e.display_by_default = TRUE')
+      ->andWhere('meu.id IS NOT NULL AND wsu.id IS NOT NULL AND pu.id IS NOT NULL')
       ->orderBy('e.name, m.happens_at, l.name, pm.value DESC');
     if ( sfConfig::has('app_count_demands') && sfConfig::get('app_count_demands') )
       $q->addSelect('(SELECT count(t.id) FROM Ticket t WHERE t.gauge_id = g.id AND t.duplicating IS NULL AND t.cancelling IS NULL AND t.id NOT IN (SELECT t2.cancelling FROM ticket t2 WHERE t2.cancelling IS NOT NULL)) AS nb_tickets');

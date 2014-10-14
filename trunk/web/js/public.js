@@ -107,7 +107,7 @@ $(document).ready(function(){
     
     var colspan = $('.sf_admin_list tbody tr:first td').length;
     var dates = Object.keys(arr);
-    dates.sort(function(a,b){return b-a;});
+    dates.sort().reverse();
     $.each(dates, function(i, key){
       date = new Date(key);
       var td = $('<td colspan="'+colspan+'"></td>').text(

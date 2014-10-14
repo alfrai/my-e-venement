@@ -70,7 +70,10 @@ generator:
           _bestFreeSeat:
             label: Best free seat
       filter:
-        display: [happens_at, event_id, contact_id, location_id, booking_list, participants_list, color_id, has_description, has_extra_infos, description, reservation_confirmed]
+        display:
+          Manifestation: [happens_at, participants_list, event_id, location_id, workspace_id, meta_event_id]
+          Reservation: [contact_id, location_id, booking_list, reservation_confirmed]
+          Extra: [color_id, has_description, has_extra_infos, description]
       form: ~
       edit:
         title: %%name%% @ %%Location%%
