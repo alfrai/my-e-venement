@@ -45,6 +45,7 @@ class myUser extends liGuardSecurityUser
     $event->setReturnValue(true);
     $manifestation = $event['manifestation'];
     $vel = sfConfig::get('app_tickets_vel', array());
+    $max = array();
     
     // controlling the global max_per_manifestation parameter
     $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
@@ -60,6 +61,7 @@ class myUser extends liGuardSecurityUser
     {
       $vel['max_per_manifestation']--;
     }
+    $max[] = $vel['max_per_manifestation'];
     if ( $vel['max_per_manifestation'] < 0 )
     {
       $event->setReturnValue(false);
@@ -85,6 +87,7 @@ class myUser extends liGuardSecurityUser
       {
         $vel['max_per_event_per_contact']--;
       }
+      $max[] = $vel['max_per_event_per_contact'];
       
       if ( $vel['max_per_event_per_contact'] <= 0 )
       {
@@ -98,18 +101,24 @@ class myUser extends liGuardSecurityUser
       }
     }
     
+    $event['max'] = min($max);
+    
     // controlling if there is any time conflict
     if ( ($delay = sfConfig::get('app_tickets_no_conflict', false)) && $event->getReturnValue() )
     {
       $manifs = array();
       foreach ( $this->getContact()->Transactions as $transaction )
-      foreach ( $transaction->Tickets as $ticket )
-      if (( $ticket->transaction_id == $this->getTransaction()->id || $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 )
-        && !$ticket->hasBeenCancelled()
-        && $manifestation->id != $ticket->manifestation_id
-        && !isset($manifs[$ticket->manifestation_id])
-      )
-        $manifs[$ticket->manifestation_id] = $ticket;
+      {
+        if ( $transaction->id == $this->getTransaction()->id )
+          $transaction = $this->getTransaction(); // to take account of current modifications
+        foreach ( $transaction->Tickets as $ticket )
+        if (( $ticket->transaction_id == $this->getTransaction()->id || $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 )
+          && !$ticket->hasBeenCancelled()
+          && $manifestation->id != $ticket->manifestation_id
+          && !isset($manifs[$ticket->manifestation_id])
+        )
+          $manifs[$ticket->manifestation_id] = $ticket;
+      }
       
       foreach ( $manifs as $ticket )
       {

@@ -25,6 +25,10 @@
         <target>Compagnies</target>
       </trans-unit>
       <trans-unit>
+        <source>We have limitated the quantity of tickets to %%max%% for %%manif%%.</source>
+        <target>Nous avons limité la quantité de billets à %%max%% pour %%manif%%.</target>
+      </trans-unit>
+      <trans-unit>
         <source>A contact with the same informations already exists, try to authenticate or maybe you misspelled your email address...</source>
         <target>Un contact avec les mêmes informations existe déjà, essayez de vous authentifier, à moins que vous n'ayez mal orthographié votre email...</target>
       </trans-unit>

@@ -28,11 +28,29 @@ class ticketActions extends sfActions
       $manifestation = Doctrine::getTable('Manifestation')->createQuery('m', true)->leftJoin('m.Gauges g')->andWhere('g.id = ?', $gid)->fetchOne();
       $event = new sfEvent($this, 'pub.before_adding_tickets', array('manifestation' => $manifestation));
       
-      foreach ( $gauge as $price )
+      foreach ( $gauge as $pid => $price )
       {
         if ( intval($price['quantity']) > 0 )
         {
+          // cleaning up the transaction before testing if we can add the tickets
+          foreach ( $this->getUser()->getTransaction()->Tickets as $key => $ticket )
+          if ( $ticket->gauge_id == $gid && $ticket->price_id == $pid )
+            unset($this->getUser()->getTransaction()->Tickets[$key]);
+          
           $this->dispatcher->notify($event);
+          
+          // limitating the max tickets qty
+          if ( $price['quantity'] > $event['max'] )
+          {
+            $price['quantity'] = $event['max'];
+            $msg = __('We have limitated the quantity of tickets to %%max%% for %%manif%%.', array('%%max%%' => $event['max'], '%%manif%%' => $manifestation));
+            if ( $request->getParameter('no_redirect') )
+              $this->json['message'] = $msg;
+            else
+              $this->getUser()->setFlash('error', $msg);
+          }
+          
+          // if it is impossible to add tickets
           if ( !$event->getReturnValue() )
           {
             if ( $request->getParameter('no_redirect') )
