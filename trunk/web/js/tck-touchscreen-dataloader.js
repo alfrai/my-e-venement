@@ -118,7 +118,8 @@ LI.completeContent = function(data, type, replaceAll = true)
       $.each(pdt[pdt.declinations_name], function(index, declination){
         var wdeclination = $('#li_transaction_'+type+' .families.sample .item:not(.total)').clone(true);
         var add = true;
-        if ( $('#'+wdeclination.prop('id')+declination.id).length > 0 )
+        console.error(type);
+        if ( $('#li_transaction_'+type+' [data-'+declination.type+'-id='+declination.id+']').length > 0 )
         {
           wdeclination = $('#'+wdeclination.prop('id')+declination.id);
           add = false;

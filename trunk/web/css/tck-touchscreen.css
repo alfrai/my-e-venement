@@ -60,7 +60,9 @@
 #li_transaction_manifestations .footer .price { width: 45px; }
 
 #sf_admin_content #li_transaction_field_content > div { display: block; }
-#li_transaction_field_content .family h3 { padding: 3px 5px;margin: 5px 0 2px 0; }
+#li_transaction_field_content .family h3 { padding: 3px 5px; margin: 5px 0 2px 0; height: 14px; }
+#li_transaction_field_content .family h3 .happens_at { max-width: 32em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align: bottom; }
+#li_transaction_field_content .family h3 > * { height: 14px; display: inline-block; }
 #li_transaction_field_content .family h3 .fg-button { float: right; width: 16px; height: 16px; margin-top: -3px; font-size: 0; }
 #li_transaction_field_content .family h3 .fg-button .ui-icon { margin: -9px 0 0 -1px; }
 #li_transaction_field_content .sample { display: none; }
