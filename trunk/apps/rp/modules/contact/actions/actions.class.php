@@ -102,16 +102,26 @@ class contactActions extends autoContactActions
         $contact->save();
       }
       
+      $errors = array();
       $params = OptionCsvForm::getDBOptions();
       if ( in_array('tunnel',$params['option']) ) // prefer professionals
       {
         foreach ( $contact->Professionals as $pro )
-        if ( $pro->contact_email )
+        if ( $pro->contact_email ) try
+        {
           $this->sendPassword($pro);
+        }
+        catch ( Swift_RfcComplianceException $e )
+        { $errors[] = $pro->contact_email; }
       }
       elseif ( $contact->email )
         $this->sendPassword($contact);
     }
+    
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $this->getUser()->setFlash('notice', __('Your email have been sent correctly.'));
+    if ( count($errors) > 0 )
+      $this->getUser()->setFlash('error', implode(', ', $errors));
     
     if ( $this->buildQuery()->count() > $limit )
       $this->redirect('contact/sendPasswords?offset='.($offset+$limit));
