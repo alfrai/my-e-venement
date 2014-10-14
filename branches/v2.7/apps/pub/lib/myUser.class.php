@@ -99,7 +99,7 @@ class myUser extends liGuardSecurityUser
     }
     
     // controlling if there is any time conflict
-    if ( $delay = sfConfig::get('app_tickets_no_conflict', false) && $event->getReturnValue() )
+    if ( ($delay = sfConfig::get('app_tickets_no_conflict', false)) && $event->getReturnValue() )
     {
       $manifs = array();
       foreach ( $this->getContact()->Transactions as $transaction )

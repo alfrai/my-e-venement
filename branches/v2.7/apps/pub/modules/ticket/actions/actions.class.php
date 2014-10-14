@@ -39,7 +39,6 @@ class ticketActions extends sfActions
               $this->json['message'] = $event['message'];
             else
               $this->getUser()->setFlash('error', $event['message']);
-            
             continue;
           }
         }
