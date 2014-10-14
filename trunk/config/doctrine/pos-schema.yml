@@ -140,6 +140,9 @@ ProductDeclination:
     product_id:
       type: integer
       notnull: true
+    prioritary:
+      type: boolean
+      default: false
   relations:
     Product:
       foreignAlias: Declinations

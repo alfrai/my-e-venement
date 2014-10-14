@@ -4,6 +4,10 @@
   <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2014-09-09T17:16:42Z" product-name="messages">
     <header/>
     <body>
+      <trans-unit id="149">
+        <source>Prioritary</source>
+        <target>Prioritaire</target>
+      </trans-unit>
       <trans-unit id="148">
         <source>Synthetic view</source>
         <target>Vue synthétique</target>
