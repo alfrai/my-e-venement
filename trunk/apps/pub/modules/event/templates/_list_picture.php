@@ -1,1 +1,1 @@
-<?php echo $event->getRawValue()->Picture->render() ?>
+<?php echo $event->getRawValue()->Picture->render(array('app' => 'pub')) ?>
