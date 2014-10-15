@@ -114,7 +114,7 @@
         <?php $manifs = array() ?>
         <?php foreach ( $entry->ManifestationEntries as $me ): ?>
         <?php $manifs[] = $me->Manifestation->id ?>
-        <td class="manifestation manifestation-<?php echo $me->id ?> <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>">
+        <td class="manifestation manifestation-<?php echo $me->id ?> <?php echo ++$j%2 == 0 ? 'pair' : 'impair' ?>" title="<?php echo $me->Manifestation->Location ?>">
           <?php include_partial('form_manifestation',array('me' => $me, )) ?>
         </td>
         <?php endforeach ?>
