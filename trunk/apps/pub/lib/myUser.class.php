@@ -134,9 +134,8 @@ class myUser extends liGuardSecurityUser
       {
         $event->setReturnValue(false);
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
-        $event['message'] = __('You cannot book a ticket on this date because you already have a ticket booked for %%manif%% on transaction #%%transaction%%', array(
-          '%%manif%%' => $ticket->Manifestation,
-          '%%transaction%%' => $ticket->transaction_id
+        $event['message'] = __('You cannot book a ticket on this date because you already have a ticket booked for %%manif%%', array(
+          '%%manif%%' => $manifestation,
         ));
         $event->setReturnValue(false);
       }
@@ -166,10 +165,16 @@ class myUser extends liGuardSecurityUser
           || strtotime($manifestation->happens_at) <= $start && strtotime($manifestation->ends_at)    >= $stop )
         {
           sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
-          $event['message'] = __('You cannot book a ticket on this date because you already have a ticket booked for %%manif%% on transaction #%%transaction%%', array(
-            '%%manif%%' => $ticket->Manifestation,
-            '%%transaction%%' => $ticket->transaction_id
-          ));
+          if ( $ticket->transaction_id == $this->getTransaction()->id )
+            $event['message'] = __('You cannot book a ticket on this date because you already have a ticket booked for %%manif%%', array(
+              '%%manif%%' => $ticket->Manifestation,
+              '%%transaction%%' => $ticket->transaction_id
+            ));
+          else
+            $event['message'] = __('You cannot book a ticket on this date because you already have a ticket booked for %%manif%% (in an other transaction #%%transaction%%)', array(
+              '%%manif%%' => $ticket->Manifestation,
+              '%%transaction%%' => $ticket->transaction_id
+            ));
           $event->setReturnValue(false);
         }
       }
