@@ -33,22 +33,18 @@
     'adresse2',
     'cp',
     'ville',
-    'code',
+    'groupe',
     'telephone',
     'mail',
   );
   $this->logs = array('Organism' => array(), 'Contact' => array(), 'Professional' => array());
   
-  $errors = $cats = $orgs = array();
+  $errors = $cats = $grps = $orgs = array();
   $cpt = 0;
   foreach ( $csv as $entry ) { try
   {
     foreach ( $matches as $i => $field )
-    {
-      if ( count($entry) < count($matches) )
-        array_shift($matches['id']);
       $entry[$field] = isset($entry[$i]) ? $entry[$i] : '';
-    }
     
     $cpt++;
     
@@ -66,16 +62,16 @@
       $org->city = $entry['ville'];
       
       // organism_category
-      if ( $entry['code'] )
+      if ( $entry['groupe'] )
       {
-        if ( !isset($cats[$entry['code']]) )
+        if ( !isset($cats[$entry['groupe']]) )
         {
           $cat = new OrganismCategory;
-          $cat->name = $entry['code'];
+          $cat->name = $entry['groupe'];
           $cat->save();
           $cats[$cat->name] = $cat;
         }
-        $org->Category = $cats[$entry['code']];
+        $org->Category = $cats[$entry['groupe']];
       }
       
       $org->description = $entry['id'];
@@ -111,6 +107,28 @@
           $tel->number = $entry['telephone'];
           $contact->Phonenumbers[] = $tel;
         }
+        
+        // personal address
+        $contact->address = $entry['addresse1'];
+        if ( $entry['addresse2'] )
+          $contact->address = $entry['addresse1']."\n".$entry['address2'];
+        $contact->postalcode = $entry['cp'];
+        $contact->city = $entry['ville'];
+        $contact->email = $entry['mail'];
+        
+        // personal group
+        if ( $entry['groupe'] )
+        {
+          if ( !isset($grps[$entry['groupe']]) )
+          {
+            $grp = new Group;
+            $grp->name = $entry['groupe'];
+            $grp->save();
+            $grps[$grp->name] = $grp;
+          }
+          $contact->Groups[] = $grps[$entry['groupe']];
+        }
+      
         $contact->save();
         $this->logs['Contact'][] = str_pad($entry['id'], 4, '0', STR_PAD_LEFT)." $contact";
       }
