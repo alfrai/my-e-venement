@@ -15,7 +15,7 @@ class paymentActions extends autoPaymentActions
 {
   public function executeQuickDelete(sfWebRequest $request)
   {
-    $payment = Doctrine::getTable('Payment')->findOneById($request->getParameter('id'));
+    $payment = Doctrine::getTable('Payment')->find($request->getParameter('id'));
     if ( $payment->transaction_id == $request->getParameter('transaction_id') )
       $payment->delete();
     $this->redirect('payment/index?transaction_id='.$request->getParameter('transaction_id'));

@@ -117,7 +117,7 @@
       $(this).removeAttr('onclick');
       $(this).click(function(){
         if ( confirm('<?php echo __('Are you sure?',null,'sf_admin') ?>') )
-        $.get('<?php echo url_for('payment/quickDelete?transaction_id='.$transaction->id) ?>&id='+$(this).parent().parent().parent().parent().find('input[name="ids[]"]').val(),function(data){
+        $.get('<?php echo url_for('payment/quickDelete?transaction_id='.$transaction->id) ?>?id='+$(this).parent().parent().parent().parent().find('input[name="ids[]"]').val(),function(data){
           ticket_payment_refresh(data,add);
         });
         return false;
