@@ -115,7 +115,8 @@ class PricesPublicForm extends BaseFormDoctrine
   public function setGaugeId($id)
   {
     $gauge = Doctrine::getTable('Gauge')->createQuery('g', false)
-      ->andWhere('g.id = ?', $id);
+      ->andWhere('g.id = ?', $id)
+      ->fetchOne();
     
     if ( !$gauge )
       throw new liEvenementException("Invalid gauge's id");
