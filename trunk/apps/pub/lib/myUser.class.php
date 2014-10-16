@@ -146,7 +146,7 @@ class myUser extends liGuardSecurityUser
       foreach ( $transaction->Tickets as $ticket )
       if (( $ticket->transaction_id == $this->getTransaction()->id || $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 )
         && !$ticket->hasBeenCancelled()
-        && $manifestation->id != $ticket->manifestation_id
+        && ($manifestation->id != $ticket->manifestation_id || $ticket->transaction_id != $this->getTransaction()->id)
         && !isset($manifs[$ticket->manifestation_id])
       )
         $manifs[$ticket->manifestation_id] = $ticket;
@@ -325,11 +325,12 @@ class myUser extends liGuardSecurityUser
   
   public function resetTransaction()
   {
+    $contact = false;
     try { $contact = $this->getContact(); }
     catch ( liOnlineSaleException $e ) { error_log($e->getMessage()); }
     
     $this->logout();
-    if ( isset($contact) )
+    if ( $contact )
       $this->setContact($contact);
   }
   public function logout()
