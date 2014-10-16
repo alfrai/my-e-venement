@@ -77,6 +77,7 @@ class myUser extends liGuardSecurityUser
     $vel['max_per_event_per_contact'] = isset($vel['max_per_event_per_contact']) ? $vel['max_per_event_per_contact'] : false;
     if ( $vel['max_per_event_per_contact'] > 0 && $event->getReturnValue() )
     {
+      $last_conflict = NULL;
       foreach ( $this->getContact()->Transactions as $transaction )
       foreach ( $transaction->Tickets as $ticket )
       if (( $ticket->printed_at || $ticket->integrated_at || $transaction->Order->count() > 0 || $ticket->transaction_id == $this->getTransaction()->id )
@@ -86,15 +87,15 @@ class myUser extends liGuardSecurityUser
       )
       {
         $vel['max_per_event_per_contact']--;
+        $last_conflict = $ticket;
       }
       $max[] = $vel['max_per_event_per_contact'];
-      
       if ( $vel['max_per_event_per_contact'] <= 0 )
       {
         $event->setReturnValue(false);
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
         $event['message'] = __('You cannot book a ticket on this date because you already have a ticket booked for %%manif%%', array(
-          '%%manif%%' => $manifestation,
+          '%%manif%%' => $last_conflict->Manifestation,
         ));
         $event->setReturnValue(false);
       }
