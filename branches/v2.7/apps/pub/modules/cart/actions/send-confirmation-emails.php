@@ -62,10 +62,10 @@
         unset($event['event']);
         foreach ( $event as $manif )
         {
-          $command .= "  Le ".format_datetime($manif['manif']->happens_at)." à ".$manif['manif']->Location.(($sp = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)) ? '*' : '')."\n";
+          $command .= "&nbsp;&nbsp;Le ".format_datetime($manif['manif']->happens_at)." à ".$manif['manif']->Location.(($sp = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)) ? '*' : '')."\n";
           unset($manif['manif']);
           foreach ( $manif as $tickets )
-            $command .= "    ".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€')."\n";
+            $command .= "&nbsp;&nbsp;&nbsp;&nbsp;".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€')."\n";
         }
       }
     }
@@ -89,6 +89,7 @@
     $command .= "Paiements\n";
     if ( $amount = $transaction->getTicketsLinkedToMemberCardPrice(true) )
     $command .= "  ".__('Member cards').": ".format_currency($amount,'€')."\n";
+    if ( sfConfig::get('app_payment_type', 'paybox') != 'onthespot' )
     $command .= "  ".__('Credit card').": ".format_currency($transaction->getPrice(true,true),'€')."\n";
     
     $replace = array(
@@ -96,7 +97,8 @@
       '%%CONTACT%%' => (string)$transaction->Contact,
       '%%TRANSACTION_ID%%' => $transaction->id,
       '%%SELLER%%' => sfConfig::get('app_informations_title'),
-      '%%COMMAND%%' => '<pre>'.$command.'</pre>',
+      '%%COMMAND%%' => $command,
+      //'%%COMMAND%%' => '<pre>'.$command.'</pre>',
       '%%TICKETS%%' => $transaction->renderSimplifiedTickets(), // HTML tickets w/ barcode
     );
     
