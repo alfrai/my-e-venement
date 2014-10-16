@@ -62,10 +62,10 @@
       unset($event['event']);
       foreach ( $event as $manif )
       {
-        $command .= "  ".__('at')." ".format_datetime($manif['manif']->happens_at).", ".$manif['manif']->Location.(($sp = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)) ? '*' : '')."\n";
+        $command .= "&nbsp;&nbsp;".__('at')." ".format_datetime($manif['manif']->happens_at).", ".$manif['manif']->Location.(($sp = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)) ? '*' : '')."\n";
         unset($manif['manif']);
         foreach ( $manif as $tickets )
-          $command .= "    ".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€').'    + '.format_currency($tickets['taxes'],'€').' ('.__('Taxes').")\n";
+          $command .= "&nbsp;&nbsp;&nbsp;&nbsp;".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€').'    + '.format_currency($tickets['taxes'],'€').' ('.__('Taxes').")\n";
       }
     }
     
@@ -94,10 +94,10 @@
       unset($product['product']);
       foreach ( $product as $declination )
       {
-        $command .= "    ".$declination['declination']."\n";
+        $command .= "&nbsp;&nbsp;".$declination['declination']."\n";
         unset($declination['declination']);
         foreach ( $declination as $bps )
-          $command .= "    ".($bps['price'] ? $bps['price'] : $bps['price'])." x ".$bps['qty']." = ".format_currency($bps['value'],'€')."\n";
+          $command .= "&nbsp;&nbsp;&nbsp;&nbsp;".($bps['price'] ? $bps['price'] : $bps['price'])." x ".$bps['qty']." = ".format_currency($bps['value'],'€')."\n";
       }
     }
     
@@ -113,22 +113,26 @@
     // footer
     $command .= "\n";
     $command .= __('Total')."\n";
-    $command .= '  '.__('Tickets').": ".format_currency($transaction->getTicketsPrice(true),'€')."\n";
-    $command .= '  '.__('Store').": ".format_currency($transaction->getProductsPrice(true),'€')."\n";
+    $command .= "&nbsp;&nbsp;".__('Tickets').": ".format_currency($transaction->getTicketsPrice(true),'€')."\n";
+    $command .= "&nbsp;&nbsp;".__('Store').": ".format_currency($transaction->getProductsPrice(true),'€')."\n";
     if ( $amount = $transaction->getMemberCardPrice(true) )
-    $command .= '  '.__('Member cards').": ".format_currency($amount,'€')."\n";
-    $command .= "\n";
-    $command .= "Paiements\n";
-    if ( $mc_amount = $transaction->getTicketsLinkedToMemberCardPrice(true) )
-    $command .= "  ".__('Member cards').": ".format_currency($mc_amount,'€')."\n";
-    $command .= "  ".__('Credit card').": ".format_currency($transaction->getPrice(true,true),'€')."\n";
+    $command .= "&nbsp;&nbsp;".__('Member cards').": ".format_currency($amount,'€')."\n";
+    if ( sfConfig::get('app_payment_type', 'paybox') != 'onthespot' )
+    {
+      $command .= "\n";
+      $command .= "Paiements\n";
+      if ( $mc_amount = $transaction->getTicketsLinkedToMemberCardPrice(true) )
+      $command .= "&nbsp;&nbsp;".__('Member cards').": ".format_currency($mc_amount,'€')."\n";
+      $command .= "&nbsp;&nbsp;".__('Credit card').": ".format_currency($transaction->getPrice(true,true),'€')."\n";
+    }
     
     $replace = array(
       '%%DATE%%' => format_date(date('Y-m-d')),
       '%%CONTACT%%' => (string)$transaction->Contact,
       '%%TRANSACTION_ID%%' => $transaction->id,
       '%%SELLER%%' => sfConfig::get('app_informations_title'),
-      '%%COMMAND%%' => '<pre>'.$command.'</pre>',
+      '%%COMMAND%%' => $command,
+      //'%%COMMAND%%' => '<pre>'.$command.'</pre>',
       '%%TICKETS%%' => $transaction->renderSimplifiedTickets(), // HTML tickets w/ barcode
       '%%PRODUCTS%%' => $transaction->renderSimplifiedProducts(array('barcode' => 'png',)), // HTML products w/ barcode
     );
