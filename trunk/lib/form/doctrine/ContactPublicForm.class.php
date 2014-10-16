@@ -99,6 +99,10 @@ class ContactPublicForm extends ContactForm
       ));
     }
     
+    $vel = sfConfig::get('app_tickets_vel',array());
+    if ( isset($vel) && $vel['one_shot'] )
+      unset($this->widgetSchema['password'], $this->widgetSchema['password_again']);
+    
     if ( sfContext::hasInstance() )
       sfContext::getInstance()->getUser()->addCredential('pr-group-common');
     $q = Doctrine::getTable('Group')->createQuery('g')->andWhere('g.sf_guard_user_id IS NULL');
