@@ -139,6 +139,7 @@
     $this->contact = $this->form->save();
     
     // setting up the vars to commit to the bank
+    $redirect = false;
     if ( ($topay = $this->getUser()->getTransaction()->getPrice(true,true)) > 0 && sfConfig::get('app_payment_type','paybox') != 'onthespot' )
     {
       if (!(
@@ -164,5 +165,18 @@
       elseif ( sfConfig::get('app_payment_type', 'paybox') == 'onthespot' )
         $this->getUser()->setFlash('notice',__("Your command has been booked, you will have to pay for it directly with us."));
       
-      $this->redirect('transaction/show?id='.$transaction->id);
+      $redirect = 'transaction/show?id='.$transaction->id;
     }
+    
+    // empty'ing the password if asked for
+    $vel = sfConfig::get('app_tickets_vel', array());
+    if ( isset($vel['one_shot']) && $vel['one_shot'] )
+    {
+      $this->getUser()->getContact()->password = NULL;
+      $this->getUser()->getContact()->save();
+      error_log('Logout forced following the "one_shot" option.');
+      $this->getUser()->logout();
+    }
+    
+    if ( $redirect )
+      $this->redirect($redirect);

@@ -101,7 +101,10 @@
     );
     
     $email = new Email;
-    $email->Contacts[] = $transaction->Contact;
+    if ( sfConfig::get('app_contact_professional', false) )
+      $email->Professionals[] = $transaction->Contact->Professionals[0];
+    else
+      $email->Contacts[] = $transaction->Contact;
     $email->field_bcc = sfConfig::get('app_informations_email','webdev@libre-informatique.fr');
     $email->field_subject = sfConfig::get('app_informations_title').': '.__('your order #').$transaction->id;
     $email->field_from = sfConfig::get('app_informations_email','contact@libre-informatique.fr');

@@ -17,6 +17,7 @@ all:
       #max_per_event_per_contact: 1
       #display_tickets_in_manifestations_list: true
       #no_online_limit_from_manifestations: true
+      #one_shot: true # the password is empty'ed after the first order
     payment_method_id: 1
     close_before: 24 hours
     #no_conflict: 30 minutes # the needed minimum delay to go from one location to another
