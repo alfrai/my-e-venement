@@ -109,9 +109,9 @@
         }
         
         // personal address
-        $contact->address = $entry['addresse1'];
-        if ( $entry['addresse2'] )
-          $contact->address = $entry['addresse1']."\n".$entry['address2'];
+        $contact->address = $entry['adresse1'];
+        if ( $entry['adresse2'] )
+          $contact->address = $entry['adresse1']."\n".$entry['adresse2'];
         $contact->postalcode = $entry['cp'];
         $contact->city = $entry['ville'];
         $contact->email = $entry['mail'];
