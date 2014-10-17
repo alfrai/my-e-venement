@@ -254,7 +254,7 @@
       </trans-unit>
       <trans-unit>
         <source>All lines marked with an wildcard concern a seated venue. You will receive a new email as soon as a change is done in the seat allocation for your tickets.</source>
-        <target>Toutes les lignes marquées avec d'un astérisque concernent une manifestation en placement numéroté. Vous recevrez un nouvel email si jamais un changement dans l'affectation de vos places est réalisé.</target>
+        <target>Toutes les lignes marquées d'un astérisque concernent une manifestation en placement numéroté. Vous recevrez un nouvel email si jamais un changement dans l'affectation de vos places est réalisé.</target>
       </trans-unit>
       <trans-unit>
         <source>Credit card</source>
