@@ -118,7 +118,7 @@
     ));
     $email->content .= nl2br("\n\n".sfConfig::get('app_text_email_footer',<<<EOF
 --
-<a href="http://www.e-venement.net/">e-venement</a> est le système de billetterie informatisée développé par développé par <a href="http://www.libre-informatique.fr/">Libre Informatique</a>. 
+<a href="http://www.e-venement.net/">e-venement</a> est le système de billetterie informatisée développé par <a href="http://www.libre-informatique.fr/">Libre Informatique</a>. 
 Ces logiciels sont distribués sous <a href="http://fr.wikipedia.org/wiki/Licences_libres">licences libres</a>
 
 Libre Informatique
