@@ -14,6 +14,9 @@
 ?>
 
 <?php use_stylesheet('/private/event-seated-plan') ?>
+<div id="plans-loading">
+  <?php echo sfConfig::get('app_texts_seated_plan_loading', __('Seated plan loading, thanks for your patience...')); ?>
+</div>
 <div id="plans" data-manifestation-id="<?php echo $manifestation->id ?>">
 <?php foreach ( $plans as $plan ): ?>
 <?php if ( isset($plan['seated_plan']) && $plan['seated_plan'] instanceof SeatedPlan ): ?>
