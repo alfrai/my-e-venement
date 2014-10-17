@@ -5,7 +5,8 @@
 
 #plans .gauge .magnify { display: block; right: 30px; }
 #plans .infos { display: none; }
-#plans-loading { font-weight: bold; text-align: center; position: absolute; }
+#plans .gauge { overflow: auto; background-color: white; width: 90%; }
+#plans-loading { font-weight: bold; text-align: center; position: absolute; top: 40%; width: 100%; }
 
 .named-tickets h4 > * { display: inline-block; }
 .named-tickets .gauge_name { min-width: 6.5em; }
