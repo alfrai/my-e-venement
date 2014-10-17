@@ -36,16 +36,19 @@
         <input type="hidden" name="link[ticket_id]" value="<?php echo $ticket->id ?>" />
         <input type="hidden" name="link[product_id]" value="<?php echo $link->id ?>" />
         <?php $did = array(); foreach ( $ticket->BoughtProducts as $bp ) $did[] = $bp->product_declination_id; ?>
-        <span class="product"><?php echo $link ?></span>
-        <span class="price"><?php echo format_currency($max_price['value'],'€') ?></span>
-        <br/>
-        <select class="declination" name="link[declination_id]" onchange="javascript: $(this).closest('form').submit();">
+        <select
+          class="declination"
+          name="link[declination_id]"
+          onchange="javascript: $(this).closest('form').submit();"
+          title="<?php echo format_currency($max_price['value'],'€') ?>"
+        >
           <option></option>
           <?php foreach ( $link->Declinations as $declination ): ?>
           <option
             <?php if ( in_array($declination->id, $did) ): ?>selected="selected"<?php endif ?>
             value="<?php echo $declination->id ?>"
           >
+            <?php echo $link->short_name ? $link->short_name : mb_substr($link,0,50).'...' ?>
             <?php echo $declination ?>
           </option>
           <?php endforeach ?>

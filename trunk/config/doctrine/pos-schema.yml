@@ -49,11 +49,11 @@ Product:
   package: pos
   actAs:
     I18n:
-      fields: [name, description]
+      fields: [name, short_name, description]
     Sluggable:
       fields: [name]
     Searchable:
-      fields: [name]
+      fields: [name, short_name]
   inheritance:
     extends: Traceable
     type: concrete
@@ -62,6 +62,7 @@ Product:
       type:     string(255)
       notblank: true
       notnull:  true
+    short_name: string(127)
     meta_event_id: integer
     product_category_id: integer
     description: string

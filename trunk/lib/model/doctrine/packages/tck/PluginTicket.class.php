@@ -295,13 +295,20 @@ abstract class PluginTicket extends BaseTicket
           if (!( $link instanceof liUserAccessInterface && !$link->isAccessibleBy($sf_user) ))
           {
             $max_price = $link->getMostExpansivePrice($sf_user);
-            if ( $max_price['price'] )
+            if ( $max_price['price'] && $link->Declinations->count() > 0 )
             {
               $bp = new BoughtProduct;
-              $bp->Price = $max_price['price']->Price;
-              $bp->Declination = $link->Declinations[0];
-              $bp->Transaction = $this->Transaction;
-              $this->BoughtProducts[] = $bp;
+              $declination = false;
+              foreach ( $link->Declinations as $declination )
+              if ( $declination->prioritary )
+                break;
+              if ( $declination instanceof Doctrine_Record )
+              {
+                $bp->Declination = $declination;
+                $bp->Price = $max_price['price']->Price;
+                $bp->Transaction = $this->Transaction;
+                $this->BoughtProducts[] = $bp;
+              }
             }
           }
         }
