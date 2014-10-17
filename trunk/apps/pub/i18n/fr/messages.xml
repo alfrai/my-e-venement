@@ -9,6 +9,10 @@
         <target>Chargement du plan numéroté, merci de patienter quelques instants...</target>
       </trans-unit>
       <trans-unit>
+        <source>Choose your tickets on the best seats</source>
+        <target>Choisissez vos billets sur les meilleures places</target>
+      </trans-unit>
+      <trans-unit>
         <source>Me</source>
         <target>Moi</target>
       </trans-unit>

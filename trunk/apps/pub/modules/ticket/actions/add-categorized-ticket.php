@@ -92,6 +92,11 @@
   $ticket->transaction_id = $this->getUser()->getTransactionId();
   $ticket->price_id = $params['price_id'];
   $ticket->gauge_id = $gauge->id;
+
+  // to give seats to tickets that need it
+  $seater = new Seater($gauge->id);
+  $seats = $seater->findSeats(1);
+  $ticket->Seat = $seats->getFirst();
   $ticket->save();
   $ticket->addLinkedProducts()->save(); // linked products
   

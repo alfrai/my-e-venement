@@ -7,4 +7,4 @@
 .named-tickets .contact_email input[type=text] { width: 15em; }
 .named-tickets .price_name option[value=""] { display: none; }
 
-.submit { margin: 20px 0px 0px 270px; }
+.submit { text-align: center; }

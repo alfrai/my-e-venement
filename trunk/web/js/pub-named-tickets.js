@@ -3,6 +3,7 @@ if ( LI == undefined )
   var LI = {};
 
 $(document).ready(function(){
+  $('form.named-tickets input, form.named-tickets select').change(function(){ $(this).closest('form').submit(); });
   $('form.named-tickets').submit(function(){
     $.ajax({
       url: $(this).prop('action'),

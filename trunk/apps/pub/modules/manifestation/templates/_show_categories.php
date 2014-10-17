@@ -10,7 +10,7 @@
     {
       $groups[$gauge->group_name][$pm->price_id] = array(
         'price'   => $pm->Price,
-        'values'  => array('manif' => $pm->value),
+        'values'  => array('manif' => format_currency($pm->value,'€')),
       );
     }
     
@@ -43,7 +43,8 @@
   // to be sure...
   ksort($groups);
 ?>
-<ul id="categories" class="ui-widget-content ui-corner-all"><?php foreach ( $groups as $name => $prices ): ?>
+<h3><?php echo __('Choose your tickets on the best seats') ?></h3>
+<ul><?php foreach ( $groups as $name => $prices ): ?>
   <?php if ( count($prices) > 0 ): ?>
   <li>
     <form action="<?php echo url_for('ticket/addCategorizedTicket') ?>" method="get">
@@ -60,7 +61,7 @@
       </option>
       <?php endif ?>
     <?php endforeach ?></select>
-    <button><?php echo __('Add') ?></button>
+    <button name="add" value=""><?php echo __('Add') ?></button>
     </form>
   </li>
   <?php endif ?>
