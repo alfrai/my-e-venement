@@ -44,7 +44,15 @@
         {
           var hscroll = ($(widget).width() *new_scale - $(widget).width() *old_scale )/2; // scroll horizontally to the middle of the venue
           var vscroll = ($(widget).height()*new_scale - $(widget).height()*old_scale )/2; // scroll vertically to the middle of the venue
-          $(elt).animate({ scrollLeft: $(elt).scrollLeft() + hscroll, scrollTop: $(elt).scrollTop() + vscroll }, 1000);
+          var opt = { scrollLeft: $(elt).scrollLeft() + hscroll, scrollTop: $(elt).scrollTop() + vscroll }
+          
+          $(widget).unbind('transitionend webkitTransitionEnd').on('transitionend webkitTransitionEnd', function(){
+            if ( $(elt).overscroll != undefined )
+              $(elt).removeOverscroll();
+            $(elt).animate(opt, 1000);
+            if ( $(elt).overscroll != undefined )
+              $(elt).overscroll(opt);
+          });
           
           break;
         }

@@ -22,4 +22,7 @@ $(document).ready(function(){
     if ( $(this).find('option').length == 0 )
       $(this).closest('li').remove();
   });
+  
+  // drag-scroll from any device for seated-plans
+  $('#plans .gauge').overscroll();
 });
