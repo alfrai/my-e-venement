@@ -33,6 +33,9 @@
         <target>Des billets n'ont pas été ajoutés car vous avez atteint la limite de billets pour cette manifestation.</target>
       </trans-unit>
       <trans-unit>
+        <source>Option</source>
+        <target>Option</target>
+      <trans-unit>
         <source>Your option has been modified in your cart.</source>
         <target>Votre option a été modifiée dans votre panier.</target>
       </trans-unit>

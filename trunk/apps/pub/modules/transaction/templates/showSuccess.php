@@ -178,7 +178,7 @@
     <td><?php echo sfConfig::get('app_options_synthetic_plans', false) ? '' : __('Total') ?></td>
     <td title="<?php echo __('Booking fees') ?>"><?php echo __('Fees') ?></td>
     <?php if ( sfConfig::get('app_options_synthetic_plans', false) && $current_transaction ): ?>
-    <td class="linked-stuff"><?php echo __('We also recommend...') ?></td>
+    <td class="linked-stuff"><?php echo __('Options') ?></td>
     <?php endif ?>
     <td></td>
   </tr>
