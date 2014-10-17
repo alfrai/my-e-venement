@@ -22,6 +22,7 @@ all:
     #force_one_phonenumber: true
     #social_informations: true
     #auto_password_size: 6
+    #password_reminder_url: http://www.xxx.tld/
   organism:
     force_uppercase: [city]
     force_ucfirst: [name]

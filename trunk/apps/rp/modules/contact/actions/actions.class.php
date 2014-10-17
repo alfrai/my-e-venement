@@ -137,7 +137,7 @@ class contactActions extends autoContactActions
       return false;
     
     // format content
-    $url = str_replace('https', 'http', public_path('/pub.php',true));
+    $url = sfConfig::get('app_contact_password_reminder_url', str_replace('https', 'http', public_path('/pub.php',true));
     $content  = '';
     $content .= __('To login to your private space, go to %%url%%', array('%%url%%' => '<a href="'.$url.'">'.$url.'</a>'));
     $content .= "<br/>";
