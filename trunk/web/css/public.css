@@ -161,6 +161,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F4F4F4', endColorstr='#DBDBDB',GradientType=0 ); /* IE6-9 */
 }
 #actions a:hover { color: #000; background: #F4F4F4; }
+#actions .actions { display: inline-block; }
 
 .gauge { margin-left: 25px; text-align: center; }
 .gauge thead { font-weight: bold; }

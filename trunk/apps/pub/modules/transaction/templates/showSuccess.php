@@ -24,7 +24,13 @@
 <?php foreach ( $manif->Gauges as $gauge ): ?>
 <?php foreach ( $gauge->Tickets as $ticket ): ?>
 <?php $for_links[] = $ticket->Manifestation ?>
-<tr data-event-id="<?php echo $event->id ?>" id="gauge-<?php echo $gauge->id ?>" class="tickets <?php if ( in_array($gauge->id,$sf_data->getRaw('errors')) ) echo 'overbooked' ?>">
+<tr
+  data-manifestation-id="<?php echo $manif->id ?>"
+  data-gauge-id="<?php echo $gauge->id ?>"
+  data-event-id="<?php echo $event->id ?>"
+  id="ticket-<?php echo $ticket->id ?>"
+  class="tickets <?php if ( in_array($gauge->id,$sf_data->getRaw('errors')) ) echo 'overbooked' ?>"
+>
   <?php if ( sfConfig::get('app_options_synthetic_plans', false) ): ?>
   <td class="picture"><?php echo $event->Picture->getRawValue()->render(array('app' => 'pub')) ?></td>
   <td class="event"><?php echo $event ?></td>

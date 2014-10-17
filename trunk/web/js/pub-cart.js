@@ -5,8 +5,8 @@
     for ( i = 0 ; (trs = $('#command tbody tr.picture-to-merge')).length > 0 && i < 200 ; i++ ) // var i is a protection
     {
       var tr = trs.first();
-      tr.find('td.picture').prop('rowspan', trs.parent().find('[data-event-id='+tr.attr('data-event-id')+']').length);
-      tr.parent().find('[data-event-id='+tr.attr('data-event-id')+']').removeClass('picture-to-merge').not(tr).find('td:first').remove();
+      tr.find('td.picture').prop('rowspan', trs.parent().find('[data-manifestation-id='+tr.attr('data-manifestation-id')+']').length);
+      tr.parent().find('[data-manifestation-id='+tr.attr('data-manifestation-id')+']').removeClass('picture-to-merge').not(tr).find('td:first').remove();
     }
       
     // stop here if needed
