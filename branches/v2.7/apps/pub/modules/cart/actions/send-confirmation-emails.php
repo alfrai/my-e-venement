@@ -85,12 +85,14 @@
     if ( $amount = $transaction->getMemberCardPrice(true) )
     $command .= '  '.__('Member cards').": ".format_currency($amount,'€')."\n";
     $command .= '  '.__('Tickets').": ".format_currency($transaction->getPrice(true),'€')."\n";
-    $command .= "\n";
-    $command .= "Paiements\n";
-    if ( $amount = $transaction->getTicketsLinkedToMemberCardPrice(true) )
-    $command .= "  ".__('Member cards').": ".format_currency($amount,'€')."\n";
     if ( sfConfig::get('app_payment_type', 'paybox') != 'onthespot' )
-    $command .= "  ".__('Credit card').": ".format_currency($transaction->getPrice(true,true),'€')."\n";
+    {
+      $command .= "\n";
+      $command .= "Paiements\n";
+      if ( $amount = $transaction->getTicketsLinkedToMemberCardPrice(true) )
+      $command .= "  ".__('Member cards').": ".format_currency($amount,'€')."\n";
+      $command .= "  ".__('Credit card').": ".format_currency($transaction->getPrice(true,true),'€')."\n";
+    }
     
     $replace = array(
       '%%DATE%%' => format_date(date('Y-m-d')),
