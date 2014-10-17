@@ -251,6 +251,7 @@ class myUser extends liGuardSecurityUser
       ->leftJoin('t.Order o')
       ->leftJoin('tmc.MemberCardPrices tmcp')
       ->leftJoin('t.Contact c')
+      ->leftJoin('c.Professionals p WITH p.id = t.professional_id')
       ->leftJoin('c.Transactions tr')
       ->leftJoin('c.MemberCards cmc ON c.id = cmc.contact_id AND (cmc.active = TRUE OR cmc.transaction_id = t.id)')
       ->leftJoin('cmc.MemberCardPrices cmcp')
