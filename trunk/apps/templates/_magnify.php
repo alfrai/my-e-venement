@@ -23,43 +23,23 @@
               .attr('data-scale', new_scale);
             
             // the scroll
-            /*
             var elt = $(this);
             for ( i = 0 ; i < 3 ; i++ )
             {
               elt = $(elt).parent();
               if ( $(elt).css('overflow-x') === 'auto' )
               {
-                // scroll horizontally to the middle of the venue
-                var hscroll = ($(elt).find('.seated-plan.picture').width()*new_scale - $(elt).find('.seated-plan.picture').width()*old_scale )/2;
-                $(elt).animate({ scrollLeft: $(elt).scrollLeft() + hscroll }, 1000);
+                var hscroll = ($(elt).find('.seated-plan.picture').width()*new_scale - $(elt).find('.seated-plan.picture').width()*old_scale )/2; // scroll horizontally to the middle of the venue
+                var vscroll = ($(elt).find('.seated-plan.picture').height()*new_scale - $(elt).find('.seated-plan.picture').height()*old_scale )/2; // scroll vertically to the middle of the venue
+                $(elt).animate({ scrollLeft: $(elt).scrollLeft() + hscroll, scrollTop: $(elt).scrollTop() + vscroll }, 1000);
+                
                 break;
               }
             }
-            */
           })
         ;
         return false;
       });
-      
-      /*
-      $(document).scroll(function(event){
-        if ( event.ctrlKey == true )
-        {
-          console.error(event.pageX+' '+event.pageY);
-          if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0)
-          {
-            // scroll up
-            console.error('scroll up');
-          }
-          else {
-            // scroll down
-            console.error('scroll down');
-          }
-          return false;
-        }
-      });
-      */
     });
   </script>
 </div>
