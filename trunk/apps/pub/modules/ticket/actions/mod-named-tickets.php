@@ -59,29 +59,46 @@
   $this->data = array();
   foreach ( $tickets as $ticket )
   {
+    $no_direct_contact = false; // true if it is a deletion of the current contact
+    
     // the DB data
     if ( isset($data[$ticket->id]) )
     {
       if ( isset($data[$ticket->id]['comment']) && $ticket->comment != $data[$ticket->id]['comment'] )
-      {
         $ticket->comment = $data[$ticket->id]['comment'];
-        $ticket->save();
-      }
       
-      foreach ( array('name', 'firstname', 'email') as $field )
-      if (!( isset($data[$ticket->id]['contact'][$field]) && $data[$ticket->id]['contact'][$field] ))
+      if ( isset($data[$ticket->id]['contact']['id']) && $data[$ticket->id]['contact']['id']
+        && isset($data[$ticket->id]['contact']['force']) && $data[$ticket->id]['contact']['force'] )
       {
-        unset($ticket->DirectContact);
-        $ticket->save();
+        // force contact to "me" / current contact_id, w/o updating contact's information
+        $ticket->contact_id = $data[$ticket->id]['contact']['id'];
       }
-      elseif ( $ticket->DirectContact->$field != $data[$ticket->id]['contact'][$field] )
+      else
       {
-        if ( !$ticket->contact_id )
-          $ticket->DirectContact = new Contact;
-        
-        // the contact has at least a name
-        if ( $data[$ticket->id]['contact']['name'] )
+        // if one field is not set
+        foreach ( array('name', 'firstname', 'email') as $field )
+        if (!( isset($data[$ticket->id]['contact'][$field]) && $data[$ticket->id]['contact'][$field] ))
         {
+          if ( $ticket->DirectContact instanceof Contact && $ticket->DirectContact->confirmed )
+          {
+            $ticket->DirectContact = NULL;
+            $ticket->contact_id = NULL;
+          }
+          else
+            unset($ticket->DirectContact);
+          
+          $no_direct_contact = true;
+          break;
+        }
+        
+        // if one field is different from its predecessor
+        if ( !$no_direct_contact )
+        foreach ( array('name', 'firstname', 'email') as $field )
+        if ( $ticket->DirectContact->$field != $data[$ticket->id]['contact'][$field] )
+        {
+          if ( !$ticket->contact_id )
+            $ticket->DirectContact = new Contact;
+          
           // if the last contact was already confirmed, cannot modify such a contact
           if ( $ticket->DirectContact->confirmed )
           {
@@ -95,19 +112,17 @@
           $validator = new sfValidatorEmail;
           try {
             $ticket->DirectContact->email = $validator->clean($ticket->DirectContact->email);
-            $ticket->save();
           }
-          catch ( sfValidatorError $e ) { }
+          catch ( sfValidatorError $e )
+          {
+            if ( $ticket->DirectContact->confirmed )
+              $ticket->contact_id = NULL;
+            else
+              unset($ticket->DirectContact);
+          }
+          
+          break;
         }
-        else
-        {
-          if ( $ticket->DirectContact->confirmed )
-            $ticket->contact_id = NULL;
-          else
-            $ticket->DirectContact->delete();
-        }
-        
-        break;
       }
       
       // set another price_id or delete the ticket
@@ -118,6 +133,8 @@
       }
       if ( $data[$ticket->id]['price_id'] !== $ticket->price_id )
         $ticket->price_id = $data[$ticket->id]['price_id'];
+      
+      $ticket->save();
     }
     
     // available prices
@@ -141,7 +158,11 @@
         $prices[''.$pid] = $tmp[$pid];
     }
     
-    $this->dispatcher->notify($event = new sfEvent($this, 'pub.after_adding_tickets', array()));
+    
+    $event = new sfEvent($this, 'pub.after_adding_tickets', array());
+    if ( $no_direct_contact )
+      $event['direct_contact'] = false;
+    $this->dispatcher->notify($event);
     // the json data
     $this->data[] = array(
       'id'                => $ticket->id,

@@ -50,6 +50,7 @@ html body #content { margin-right: 0; }
 .error.conflict a { text-decoration: none; font-size: 80%; }
 .error.conflict a:hover { text-decoration: underline; }
 
-.sf_admin_field_workspaces_list .seated-plan-parent { position: absolute; left: 35px; border: 1px solid silver; border-radius: 5px; display: none; margin-top: -240px; cursor: default; }
+.sf_admin_field_workspaces_list .seated-plan-parent { position: absolute; left: 35px; border: 1px solid silver; border-radius: 5px; display: none; margin: -250px 0 0 5px; cursor: default; background-color: white; z-index: 1; overflow-x: auto; width: 95%; height: auto; }
 .sf_admin_field_workspaces_list .gauge .gauge { cursor: pointer; }
 .sf_admin_field_workspaces_list .active .seated-plan-parent { display: block; }
+.sf_admin_field_workspaces_list .magnify { top: 500px; right: 20px; }

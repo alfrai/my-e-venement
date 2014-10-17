@@ -13,23 +13,33 @@
       <span class="price_name"></span>
       <button class="delete" name="ticket[%%ticket_id%%][delete]" value="true" title="<?php echo __('Delete', null, 'sf_admin') ?>">X</button>
     </h4>
-    <span class="contact_id"><input type="hidden" value="" name="ticket[%%ticket_id%%][contact][id]" /></span>
-    <span class="contact_name">
-      <label><?php echo __('Name') ?><span class="extra"> / <?php echo __('Firstname') ?></span>:</label>
-      <input type="text" value="" name="ticket[%%ticket_id%%][contact][name]" title="<?php echo __('Name') ?>" />
-    </span>
-    <span class="contact_firstname">
-      <label><?php echo __('Firstname') ?>:</label>
-      <input type="text" value="" name="ticket[%%ticket_id%%][contact][firstname]" title="<?php echo __('Firstname') ?>" />
-    </span>
-    <span class="contact_email">
-      <label><?php echo __('Email address') ?>:</label>
-      <input type="email" value="" name="ticket[%%ticket_id%%][contact][email]" title="<?php echo __('Email address') ?>" />
-    </span>
-    <span class="comment">
-      <label><?php echo __('Any comment?') ?></label>
-      <input type="text" value="" name="ticket[%%ticket_id%%][comment]" title="<?php echo __('Comment') ?>" maxlength="255" />
-    </span>
+    <div class="contact">
+      <span class="contact_id">
+        <input class="id" type="hidden" value="" name="ticket[%%ticket_id%%][contact][id]" />
+        <input class="force" type="hidden" value="" name="ticket[%%ticket_id%%][contact][force]" />
+      </span>
+      <span class="contact_name">
+        <label><?php echo __('Name') ?>:</label>
+        <input type="text" value="" name="ticket[%%ticket_id%%][contact][name]" title="<?php echo __('Name') ?>" />
+      </span>
+      <span class="contact_firstname">
+        <label><?php echo __('Firstname') ?>:</label>
+        <input type="text" value="" name="ticket[%%ticket_id%%][contact][firstname]" title="<?php echo __('Firstname') ?>" />
+      </span>
+      <span class="contact_email">
+        <label><?php echo __('Email address') ?>:</label>
+        <input type="email" value="" name="ticket[%%ticket_id%%][contact][email]" title="<?php echo __('Email address') ?>" />
+      </span>
+      <span class="comment">
+        <label><?php echo __('Any comment?') ?></label>
+        <input type="text" value="" name="ticket[%%ticket_id%%][comment]" title="<?php echo __('Comment') ?>" maxlength="255" />
+      </span>
+      <button class="me" name="ticket[%%ticket_id%%][me]" value="<?php echo $sf_user->getContact()->id ?>" title="<?php echo __('Give me this ticket') ?>"><?php echo __('Me') ?></button>
+    </div>
   </div>
-  <p class="submit"><input type="submit" name="submit" value="<?php echo __('Validate',null,'sf_admin') ?>" /></p>
 </form>
+<p class="submit">
+  <a href="<?php echo url_for('transaction/show?id='.$sf_user->getTransactionId()) ?>">
+    <button name="submit" value=""><?php echo __('Validate',null,'sf_admin') ?></button>
+  </a>
+</p>

@@ -32,7 +32,7 @@
         </div>
         <a class="picture seated-plan on-demand" href="<?php echo url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id) ?>" style="background-color: <?php echo $seated_plan->background ?>;">
           <?php use_stylesheet('/private/event-seated-plan?'.date('Ymd')) ?>
-          <?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture)) ?>
+          <?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture, 'width' => $seated_plan->ideal_width)) ?>
         </a>
       </div>
       <?php endif ?>

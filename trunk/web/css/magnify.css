@@ -10,7 +10,6 @@
 
 
 /* SPECIFICS */
-.sf_admin_field_workspaces_list .gauge .magnify { top: 20px; right: 0; }
 .gauge.full-seating .magnify { left: 535px; top: 230px; }
 @media screen and (min-width: 1200px){
 .gauge.full-seating .magnify { left: 685px; }

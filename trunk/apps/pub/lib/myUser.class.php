@@ -60,6 +60,9 @@ class myUser extends liGuardSecurityUser
   
   public function addDefaultDirectContact(sfEvent $event)
   {
+    if ( isset($event['direct_contact']) && $event['direct_contact'] === false )
+      return;
+    
     // detecting if a ticket has to be affected to the current contact
     $ticket = NULL;
     foreach ( $this->getTransaction()->Tickets as $tck )

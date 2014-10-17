@@ -120,13 +120,13 @@
     if ( extra_selector )
     {
       if ( typeof(extra_selector) == 'string' )
-        selector = extra_selector+selector;
+        selector = $(extra_selector+selector);
       else if ( typeof(extra_selector) == 'object' )
-        selector = extra_selector;
+        selector = $(extra_selector);
     }
     
     $('#transition').show();
-    $(selector+' .seat').remove();
+    $(selector).find('.seat').remove();
     $.get(url,function(json){
       if ( !no_reset )
         $(selector).find('.seat').remove();

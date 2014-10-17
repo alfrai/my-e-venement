@@ -12,7 +12,7 @@ default:
     #language:     en
     #robots:       index, follow
 
-  stylesheets:    [/sfAdminThemejRollerPlugin/css/jroller.css, /sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css, main.css,public,/private/public.css]
+  stylesheets:    [/sfAdminThemejRollerPlugin/css/jroller.css, /sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css, main.css, public, /private/public.css?<?php date('Ymd') ?>]
   javascripts:    [jquery?<?php date('Ymd') ?>,<?php // hack?? ?> public?<?php echo date('Ymd') ?>, pub-timer?<?php echo date('Ymd') ?>, helper?<?php echo date('Ymd') ?>, /private/public?<?php echo date('Ymd') ?>, jquery.nicescroll.min.js?<?php echo date('Ymd') ?>]
 
   has_layout:     true

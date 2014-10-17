@@ -30,7 +30,7 @@
       ->andWhere('s.seated_plan_id = ?', $request->getParameter('id'))
       ->leftJoin('s.Tickets tck')
       ->andWhere('tck.gauge_id = ?', $request->getParameter('gauge_id'))
-      ->leftJoin('tck.DirectContact tc WITH c.confirmed = ?', true)
+      ->leftJoin('tck.DirectContact tc WITH tc.confirmed = ?', true)
       
       ->leftJoin('tck.Transaction t')
       ->leftJoin('t.Contact c WITH c.confirmed = ?', true)

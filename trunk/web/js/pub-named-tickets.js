@@ -3,7 +3,6 @@ if ( LI == undefined )
   var LI = {};
 
 $(document).ready(function(){
-  // LI.pubNamedTicketsInitialization(); <-- launched by pub-seated-plan.js
   $('form.named-tickets').submit(function(){
     $.ajax({
       url: $(this).prop('action'),
@@ -41,7 +40,7 @@ LI.pubNamedTicketsData = function(json)
   $.each(json.success.tickets, function(id, ticket){
     var elt = $('form.named-tickets .ticket.sample').clone(true)
       .removeClass('sample')
-      .insertBefore($('form.named-tickets .submit'))
+      .appendTo($('form.named-tickets'))
     ;
     $.each(['gauge_id', 'seat_id', 'price_id', 'contact_id'], function(key, field){
       elt.attr('data-'+field.replace('_','-'), ticket[field]);
@@ -71,11 +70,31 @@ LI.pubNamedTicketsData = function(json)
           .appendTo(elt.find('.price_name select'));
       });
       elt.find('.price_name select').val(ticket.price_id);
-      elt.find('.price_name select, .delete').each(function(){
+      elt.find('.price_name select, .delete, .me').each(function(){
         $(this).attr('name', $(this).attr('name').replace('%%ticket_id%%', ticket.id));
       });
+      
+      // delete a ticket
       elt.find('.delete').click(function(){
         $(this).closest('.ticket').find('.price_name select').val('');
+      });
+      
+      // put %%ME%% on a ticket
+      elt.find('.me').click(function(){
+        var simple_unset = false;
+        if ( $(this).val() == $(this).closest('.contact').find('.contact_id input.id').val() )
+          simple_unset = true;
+        
+        // reset previous named ticket to "me"
+        $(this).closest('form.named-tickets').find('.contact_id input.id[value="'+$(this).val()+'"]')
+          .closest('.contact').find('input').val('').prop('disabled', false);
+        
+        if ( simple_unset )
+          return true;
+        
+        // reset the current ticket & give it to "me"
+        $(this).closest('.contact').find('input:not(.force)').val($(this).prop('title')).prop('disabled',true);
+        $(this).closest('.contact').find('.contact_id input.force').val('true');
       });
     }
   });

@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Me</source>
+        <target>Moi</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Give me this ticket</source>
+        <target>Donnez-moi ce billet</target>
+      </trans-unit>
+      <trans-unit>
         <source>I changed my structure, my new information</source>
         <target>J'ai changé de poste et/ou de structure (adresse, tel, mail)</target>
       </trans-unit>
