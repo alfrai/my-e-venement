@@ -41,8 +41,8 @@ class LoginForm extends BaseForm
   {
     unset($this->widgetSchema['password'], $this->validatorSchema['password']);
     $this->validatorSchema['email'] = new sfValidatorDoctrineChoice(array(
-      'model'   => 'Contact',
-      'column'  => 'email',
+      'model'   => sfConfig::get('app_contact_professional', false) ? 'Professional' : 'Contact',
+      'column'  => sfConfig::get('app_contact_professional', false) ? 'contact_email' : 'email',
     ));
   }
   

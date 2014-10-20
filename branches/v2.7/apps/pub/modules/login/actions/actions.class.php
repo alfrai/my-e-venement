@@ -76,17 +76,17 @@ class loginActions extends sfActions
   }
   public function executeRecover(sfWebRequest $request)
   {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
     $this->form = new LoginForm();
     if ( !($code  = $this->getRecoveryCode())
       || !($email = $this->getRecoveryEmail())
     )
     {
-      $this->getContext()->getConfiguration()->loadHelpers('I18N');
       $this->getUser()->setFlash('error', __('Please try again.'));
       $this->redirect('login/forgot');
     }
     
-    $this->getUser()->setFlash('success', 'Now, fill your new password twice.');
+    $this->getUser()->setFlash('success', __('Now, fill your new password twice.'));
     if ( $request->hasParameter('code') )
       $this->form->setDefault('recovery_code', $request->getParameter('code', ''));
     $this->form->isRecovering($email, $code);
