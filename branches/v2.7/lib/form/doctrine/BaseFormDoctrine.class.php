@@ -75,17 +75,19 @@ abstract class BaseFormDoctrine extends sfFormDoctrine
     }
   }
 
-  public function correctGroupsListWithCredentials()
+  public function correctGroupsListWithCredentials($field = 'groups_list', $object = null)
   {
     if ( !sfContext::hasInstance() || !$this->object->hasRelation('Groups') )
       return $this;
     $user = sfContext::getInstance()->getUser();
+    if (! $object instanceof Doctrine_Record )
+      $object = $this->object;
     
-    foreach ( $this->object->Groups as $group )
+    foreach ( $object->Groups as $group )
     if ( !$user->hasCredential('pr-group-common') && is_null($group->sf_guard_user_id)
       || $group->sf_guard_user_id !== $user->getId() && !is_null($group->sf_guard_user_id) )
     {
-      $this->values['groups_list'][] = $group->id;
+      $this->values[$field][] = $group->id;
     }
     
     return $this;
