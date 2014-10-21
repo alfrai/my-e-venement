@@ -106,6 +106,8 @@ class ContactPublicForm extends ContactForm
     if ( sfContext::hasInstance() )
       sfContext::getInstance()->getUser()->addCredential('pr-group-common');
     $q = Doctrine::getTable('Group')->createQuery('g')->andWhere('g.sf_guard_user_id IS NULL');
+    if ( sfContext::hasInstance() )
+      sfContext::getInstance()->getUser()->removeCredential('pr-group-common');
     if ( $q->count() > 0 )
     {
       $this->validatorSchema['special_groups_list'] = new sfValidatorDoctrineChoice(($arr = array(
@@ -214,8 +216,6 @@ class ContactPublicForm extends ContactForm
   
   protected function doSave($con = null)
   {
-    // add to a group
-    $this->saveGroupsList($con);
     parent::doSave($con);
   }
   public function saveGroupsList($con = NULL)
@@ -233,7 +233,10 @@ class ContactPublicForm extends ContactForm
     $object = sfConfig::get('app_contact_professional', false) ? $this->object->Professionals[0] : $this->object;
     
     $existing = $object->Groups->getPrimaryKeys();
-    $values = $this->getValue('special_groups_list');
+    $values = $this
+      ->correctGroupsListWithCredentials('special_groups_list', $object)
+      ->getValue('special_groups_list')
+    ;
     if (!is_array($values))
       $values = array();
     
