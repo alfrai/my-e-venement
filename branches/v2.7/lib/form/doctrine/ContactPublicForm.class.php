@@ -213,10 +213,6 @@ class ContactPublicForm extends ContactForm
     return parent::save($con);
   }
   
-  protected function doSave($con = null)
-  {
-    parent::doSave($con);
-  }
   public function saveGroupsList($con = NULL)
   {
     if (!$this->isValid())
@@ -231,21 +227,31 @@ class ContactPublicForm extends ContactForm
     
     $object = sfConfig::get('app_contact_professional', false) ? $this->object->Professionals[0] : $this->object;
     
-    $existing = $object->Groups->getPrimaryKeys();
-    $values = $this
-      ->correctGroupsListWithCredentials('special_groups_list', $object)
-      ->getValue('special_groups_list')
-    ;
+    $q = Doctrine_Query::create()->from('Group g')
+      ->andWhere('g.sf_guard_user_id IS NULL')
+      ->leftJoin('g.Users u')
+      ->andWhere('u.id = ?', sfContext::getInstance()->getUser()->getId());
+    $groups = $q->execute();
+    
+    $possible = $groups->getPrimaryKeys();
+    $values = $this->getValue('special_groups_list');
+    
     if (!is_array($values))
       $values = array();
     
-    $unlink = array_diff($existing, $values);
+    $unlink = array_diff($possible, $values);
     if (count($unlink))
       $object->unlink('Groups', array_values($unlink));
     
-    $link = array_diff($values, $existing);
-    if (count($link))
-      $object->link('Groups', array_values($link));
+    foreach ( $values as $gid )
+    if ( in_array($gid, $possible) )
+    {
+      foreach ( $groups as $group )
+      if ( $group->id == $gid )
+      {
+        $object->Groups[] = $group;
+      }
+    }
   }
   
   public function removePassword()
