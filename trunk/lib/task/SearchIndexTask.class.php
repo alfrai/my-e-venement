@@ -47,7 +47,7 @@ EOF;
   {
     $databaseManager = new sfDatabaseManager($this->configuration);
     
-    if(!class_exists($argument['model']))
+    if(!class_exists($arguments['model']))
       throw new sfCommandException(sprintf('Model "%s" doesn\'t exist.', $arguments['model']));
     
     $modelTable = Doctrine_Core::getTable($arguments['model']);
