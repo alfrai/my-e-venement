@@ -44,12 +44,16 @@ class HiPayPayment extends OnlinePayment
   public function render(array $attributes = array())
   {
     $this->prepare();
+    
+    if ( sfConfig::get('app_payment_autosubmit',true) && $this->url )
+    {
+      header('Location: '.$this->url);
+      exit;
+    }
+    
     foreach ( array('class' => '', 'id' => '') as $attr => $val )
     if ( !isset($attributes[$attr]) )
       $attributes[$attr] = $val;
-    
-    if ( sfConfig::get('app_payment_autosubmit',true) )
-      $attributes['class'] .= ' autosubmit';
     
     if ( !$this->url )
       return '<div class="'.$attributes['class'].'" id="'.$attributes['id'].'">Pas de serveur HiPay disponible...</div>';
@@ -209,6 +213,7 @@ class HiPayPayment extends OnlinePayment
     // first, we define payement params 
     $this->config = new HiPayPaymentParams();
     $this->config->setLogin(sfConfig::get('app_payment_id'), sfConfig::get('app_payment_password'));
+    $this->config->setIssuerAccountLogin($this->transaction->Contact->email);
     // set accounts for order and tax amount
     // you can determine 5 differents accounts; the third concerns insurance, the fourth fixed costs and the last shipping
     $this->config->setAccountsBulk(sfConfig::get('app_payment_account', array()));
