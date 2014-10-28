@@ -66,7 +66,7 @@
   $transaction->Contact->confirmed = true;        // transaction's contact
   foreach ( $transaction->Tickets as $ticket )    // for "named" tickets
   if ( $ticket->contact_id )
-    $ticket->Contact->confirmed = true;
+    $ticket->DirectContact->confirmed = true;
   $transaction->Payments[] = $payment;
   $transaction->Order[] = new Order;
   $transaction->save();
@@ -75,3 +75,4 @@
   $this->sendConfirmationEmails($transaction, $this);
   
   return sfView::NONE;
+

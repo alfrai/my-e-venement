@@ -174,7 +174,7 @@
       $this->createPaymentsDoneByMemberCards();
       $transaction->save();
       
-      $this->sendConfirmationEmails($transaction);
+      $this->sendConfirmationEmails($transaction, $this);
       $this->getUser()->resetTransaction();
       if ( $transaction->Payments->count() > 0 )
         $this->getUser()->setFlash('notice',__("Your command has been passed on your member cards, you don't have to pay anything."));
