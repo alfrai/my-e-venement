@@ -34,7 +34,7 @@
   <tfoot>
   <tr>
     <?php include_partial('widget_item',array(
-      'nb' => $transac->MemberCards->count() + $transac->Tickets->count(),
+      'nb' => $transac->MemberCards->count() + $transac->Tickets->count() + $transac->BoughtProducts->count(),
       'label' => __('Total'),
       'price' => $transac->getMemberCardPrice(true) + $transac->getPrice(true) - $transac->getTicketsLinkedToMemberCardPrice(true),
     )) ?>
