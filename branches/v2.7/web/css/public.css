@@ -50,6 +50,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #contact-form .field label { width: 140px; display: block; float: left; margin-top: 3px; font-weight: bold; }
 #contact-form .special_groups_list { padding-top: 5px; }
 #contact-form .special_groups_list label { float: none; display: inline; }
+#contact-form .special_groups_list input { width: auto; }
 #contact-form .field.error { border: 1px solid red; }
 #contact-form .submit { margin-left: 142px; }
 

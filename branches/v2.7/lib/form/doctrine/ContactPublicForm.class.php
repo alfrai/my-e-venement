@@ -96,6 +96,15 @@ class ContactPublicForm extends ContactForm
         'pro_email','pro_phone_number',
         'password','password_again',
       ));
+    
+      if ( sfConfig::get('app_contact_modify_coordinates_first', false) )
+      {
+        $this->widgetSchema   ['comment'] = new sfWidgetFormTextarea;
+        $this->widgetSchema   ['comment']->setLabel('Some changes to submit?');
+        $this->widgetSchema   ['comment']->setDefault(sfContext::getInstance()->getUser()->getTransaction()->Professional->description);
+        $this->validatorSchema['comment'] = new sfValidatorString;
+        $this->validatorSchema['comment']->setOption('required', false);
+      }
     }
     
     $vel = sfConfig::get('app_tickets_vel',array());
@@ -123,16 +132,6 @@ class ContactPublicForm extends ContactForm
         ? $this->object->Professionals[0]->Groups->getPrimaryKeys()
         : $this->object->Groups->getPrimaryKeys()
       );
-    }
-    
-    if ( sfConfig::get('app_contact_modify_coordinates_first', false) )
-    {
-      $this->widgetSchema   ['comment'] = new sfWidgetFormTextarea;
-      $this->widgetSchema   ['comment']->setLabel('I changed my structure, my new information');
-      if ( sfContext::hasInstance() )
-        $this->widgetSchema   ['comment']->setDefault(sfContext::getInstance()->getUser()->getTransaction()->description);
-      $this->validatorSchema['comment'] = new sfValidatorString;
-      $this->validatorSchema['comment']->setOption('required', false);
     }
   }
   
@@ -200,14 +199,14 @@ class ContactPublicForm extends ContactForm
     {
       foreach ( array('pro_email' => 'contact_email', 'pro_phone_number' => 'contact_number') as $vname => $field )
         $this->object->Professionals[0]->$field = $this->values[$vname];
-    }
-    
-    // the comment on the transaction
-    if ( trim($this->getValue('comment')) && sfContext::hasInstance() )
-    {
-      $transaction = sfContext::getInstance()->getUser()->getTransaction();
-      $transaction->description = $this->getValue('comment');
-      $transaction->save();
+      
+      // the comment on coordinates
+      if ( trim($this->getValue('comment')) && sfContext::hasInstance() )
+      {
+        $transaction = sfContext::getInstance()->getUser()->getTransaction();
+        $transaction->Professional->description = $this->getValue('comment');
+        $transaction->save();
+      }
     }
     
     return parent::save($con);

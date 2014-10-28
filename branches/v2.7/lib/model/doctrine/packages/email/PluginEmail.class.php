@@ -67,6 +67,12 @@ abstract class PluginEmail extends BaseEmail
     
     $message = $this->compose(Swift_Message::newInstance()->setTo($to));
     
+    if ( $this->field_bcc )
+      $message->setBcc($this->field_bcc);
+    
+    if ( $this->field_cc )
+      $message->setCc($this->field_cc);
+    
     foreach ( $this->Attachments as $attachment )
       $message->attach(Swift_Attachment::fromPath(sfConfig::get('sf_upload_dir').DIRECTORY_SEPARATOR.$attachment->filename)
         ->setFilename($attachment->original_name)

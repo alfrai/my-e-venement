@@ -86,7 +86,8 @@ $(document).ready(function(){
     var arr = {};
     $('.sf_admin_list tbody .sf_admin_list_td_list_happens_at').each(function(){
       var evt = $(this).closest('.sf_admin_row');
-      var date = new Date($.trim($(this).text()).replace(' ', 'T'));
+      var d = /^(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)$/.exec($.trim($(this).text()));
+      var date = new Date(d[1], parseInt(d[2],10)-1, d[3], d[4], d[5], d[6]);
       var tmp = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
       
       if ( arr[tmp] == undefined )
@@ -95,14 +96,15 @@ $(document).ready(function(){
     });
     
     var colspan = $('.sf_admin_list tbody tr:first td').length;
-    var dates = Object.keys(arr);
-    dates.sort().reverse();
-    $.each(dates, function(i, key){
-      date = new Date(key);
+    var mydates = Object.keys(arr);
+    mydates.sort().reverse();
+    $.each(mydates, function(i, key){
+      var d = /^(\d\d\d\d)-(\d\d)-(\d\d)$/.exec(key);
+      mydate = new Date(d[1], parseInt(d[2],10)-1, d[3]);
       var td = $('<td colspan="'+colspan+'"></td>').text(
         $.trim(arr[key][0].find('.sf_admin_list_td_list_day_name').text())
         +' '+
-        date.getDate()+'/'+(date.getMonth()+1)
+        mydate.getDate()+'/'+(mydate.getMonth()+1)
       );
       var tr = $('<tr></tr>')
         .addClass('sort-by-day')

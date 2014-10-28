@@ -5,8 +5,8 @@
     <header/>
     <body>
       <trans-unit>
-        <source>I changed my structure, my new information</source>
-        <target>J'ai changé de poste et/ou de structure (adresse, tel, mail)</target>
+        <source>Some changes to submit?</source>
+        <target>Des changements à apporter ?</target>
       </trans-unit>
       <trans-unit>
         <source>This website requires your authentication</source>
