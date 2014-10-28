@@ -88,9 +88,17 @@
 <tr class="products">
   <td class="picture"></td>
   <td class="event"><?php echo $product->Declination->Product->Category ?></td>
-  <td class="manifestation"><?php echo $product ?></td>
+  <td class="manifestation"><?php echo $product->Declination->Product->short_name ? $product->Declination->Product->short_name : $product ?></td>
   <td class="workspace"><?php echo $product->declination ?></td>
-  <td class="tickets"><?php echo $product->price_name ?></td>
+  <td class="tickets">
+    <span class="price-<?php echo $product->price_id ?>" data-price-id="<?php echo $product->price_id ?>">
+      <?php if ( $product->price_id ): ?>
+        <?php echo $product->Price->description ? $product->Price->description : $product->Price ?>
+      <?php else: ?>
+        <?php echo $product->price_name ?>
+      <?php endif ?>
+    </span>
+  </td>
   <?php $total['qty']++; $total['value'] += $product->value ?>
   <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?>
   <td class="qty">1</td>
