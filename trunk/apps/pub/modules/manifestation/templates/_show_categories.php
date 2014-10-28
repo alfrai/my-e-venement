@@ -23,7 +23,7 @@
         );
       if ( isset($groups[$gauge->group_name][$pg->price_id]['values']['manif']) )
         unset($groups[$gauge->group_name][$pg->price_id]['values']['manif']);
-      $groups[$gauge->group_name][$pg->price_id]['values'][$pg->id] = format_currency($pg->value, '€');
+      $groups[$gauge->group_name][$pg->price_id]['values'][$pg->id] = floatval($pg->value);
     }
   }
   
@@ -57,10 +57,14 @@
       <?php if ( $price['price']->isAccessibleBy($sf_user->getRawValue()) ): ?>
       <option value="<?php echo $id ?>">
         <?php echo $price['price']->description ? $price['price']->description : $price['price'] ?>
+        <?php foreach ( $price['values'] as $key => $value ) $price['values'][$key] = format_currency($value,'€'); ?>
         (<?php echo implode(', ', array_unique($price['values'])) ?>)
       </option>
       <?php endif ?>
     <?php endforeach ?></select>
+    <span class="qty">
+      <a href="#" data-val="-1" class="minus">-</a><input type="text" pattern="\d+" name="price_new[qty]" value="1" /><a href="#" class="plus" data-val="1">+</a>
+    </span>
     <button name="add" value=""><?php echo __('Add') ?></button>
     </form>
   </li>

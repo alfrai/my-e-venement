@@ -31,6 +31,8 @@
     return 'Error';
   if (!( isset($params['price_id']) && intval($params['price_id']).'' === ''.$params['price_id'] && intval($params['price_id']) > 0 ))
     return 'Error';
+  if (!( isset($params['qty']) && intval($params['qty']) > 0 ))
+    $params['qty'] = 1;
   
   // retrieve the gauge where can be applyied the future ticket
   $q = Doctrine::getTable('Gauge')->createQuery('g', false)
@@ -61,7 +63,6 @@
     return 'Error';
   }
   
-  $vel = sfConfig::get('app_tickets_vel');
   $success = false;
   foreach ( $gauges as $gauge )
   {
@@ -78,27 +79,39 @@
     error_log('The maximum number of tickets is reached for online sales on manifestation #'.$gauge->manifestation_id.' and gauges '.$params['group_name']);
     return 'Error';
   }
-
-  if ( Doctrine::getTable('Ticket')->createQuery('tck')
+  
+  // global limitation
+  if ( ($nb = Doctrine::getTable('Ticket')->createQuery('tck')
     ->andWhere('tck.manifestation_id = ?', $gauge->manifestation_id)
     ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransactionId())
-    ->count() >= $event['max'] )
+    ->count()) + $params['qty'] > $event['max'] )
   {
+    $params['qty'] = $event['max'] - $nb;
     $this->message = 'Some tickets have not been added because you reached the limit of tickets for this manifestation.';
-    return 'Success';
   }
   
-  $ticket = new Ticket;
-  $ticket->transaction_id = $this->getUser()->getTransactionId();
-  $ticket->price_id = $params['price_id'];
-  $ticket->gauge_id = $gauge->id;
+  // tickets creation
+  $tickets = new Doctrine_Collection('Ticket');
+  for ( $i = 0 ; $i < $params['qty'] ; $i++ )
+  {
+    $ticket = new Ticket;
+    $ticket->transaction_id = $this->getUser()->getTransactionId();
+    $ticket->price_id = $params['price_id'];
+    $ticket->gauge_id = $gauge->id;
+    $tickets[] = $ticket;
+  }
 
   // to give seats to tickets that need it
   $seater = new Seater($gauge->id);
-  $seats = $seater->findSeats(1);
-  $ticket->Seat = $seats->getFirst();
-  $ticket->save();
-  $ticket->addLinkedProducts()->save(); // linked products
+  $i = 0;
+  foreach ( $seater->findSeats($params['qty']) as $seat )
+    $tickets[$i]->Seat = $seat;
+  $tickets->save();
+  
+  // linked products
+  foreach ( $tickets as $ticket )
+    $ticket->addLinkedProducts();
+  $tickets->save();
   
   $this->dispatcher->notify($event = new sfEvent($this, 'pub.after_adding_tickets', array()));
   

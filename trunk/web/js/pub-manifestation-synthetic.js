@@ -25,4 +25,11 @@ $(document).ready(function(){
   
   // drag-scroll from any device for seated-plans
   $('#plans .gauge').overscroll();
+  
+  // modifying quantities in categories
+  $('#categories .qty a').click(function(){
+    var newval = parseInt($(this).parent().find('input').val(),10) + parseInt($(this).attr('data-val'),10);
+    $(this).parent().find('input').val(newval > 0 ? newval : 1);
+    return false;
+  });
 });
