@@ -74,6 +74,12 @@ abstract class PluginEmail extends BaseEmail
         ->notify(new sfEvent($this, 'email.before_attach', $this->getDispatcherParameters()));
     }
     
+    if ( $this->field_bcc )
+      $message->setBcc($this->field_bcc);
+    
+    if ( $this->field_cc )
+      $message->setCc($this->field_cc);
+    
     foreach ( $this->Attachments as $attachment )
     {
       $id = $attachment->getId() ? $attachment->getId() : date('YmdHis').rand(10000,99999);
