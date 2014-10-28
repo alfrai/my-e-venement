@@ -108,7 +108,7 @@ class ContactPublicForm extends ContactForm
     }
     
     $vel = sfConfig::get('app_tickets_vel',array());
-    if ( isset($vel) && $vel['one_shot'] )
+    if ( isset($vel['one_shot']) && $vel['one_shot'] )
       unset($this->widgetSchema['password'], $this->widgetSchema['password_again']);
     
     if ( sfContext::hasInstance() )
