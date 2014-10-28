@@ -68,7 +68,8 @@
         $ticket->comment = $data[$ticket->id]['comment'];
       
       if ( isset($data[$ticket->id]['contact']['id']) && $data[$ticket->id]['contact']['id']
-        && isset($data[$ticket->id]['contact']['force']) && $data[$ticket->id]['contact']['force'] )
+        && isset($data[$ticket->id]['contact']['force']) && $data[$ticket->id]['contact']['force']
+        && $data[$ticket->id]['contact']['force'] != $data[$ticket->id]['contact']['id'] )
       {
         // force contact to "me" / current contact_id, w/o updating contact's information
         $ticket->contact_id = $data[$ticket->id]['contact']['id'];
@@ -80,12 +81,10 @@
         if (!( isset($data[$ticket->id]['contact'][$field]) && $data[$ticket->id]['contact'][$field] ))
         {
           if ( $ticket->DirectContact instanceof Contact && $ticket->DirectContact->confirmed )
-          {
             $ticket->DirectContact = NULL;
-            $ticket->contact_id = NULL;
-          }
           else
             unset($ticket->DirectContact);
+          $ticket->contact_id = NULL;
           
           $no_direct_contact = true;
           break;
@@ -115,6 +114,7 @@
           }
           catch ( sfValidatorError $e )
           {
+            error_log('bad contact informations');
             if ( $ticket->DirectContact->confirmed )
               $ticket->contact_id = NULL;
             else
@@ -172,7 +172,7 @@
       'price_id'          => $ticket->price_id,
       'prices_list'       => $prices,
       'value'             => $ticket->price_id ? format_currency($ticket->value, '€') : '',
-      'taxes'             => $ticket->taxes ? format_currency($ticket->taxes, '€') : '',
+      'taxes'             => floatval($ticket->taxes) ? format_currency($ticket->taxes, '€') : '',
       'gauge_name'        => $ticket->Gauge->group_name ? $ticket->Gauge->group_name : (string)$ticket->Gauge,
       'gauge_id'          => $ticket->gauge_id,
       'contact_id'        => $ticket->contact_id,

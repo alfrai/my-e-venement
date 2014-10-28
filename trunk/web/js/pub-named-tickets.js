@@ -3,7 +3,25 @@ if ( LI == undefined )
   var LI = {};
 
 $(document).ready(function(){
-  $('form.named-tickets input, form.named-tickets select').change(function(){ $(this).closest('form').submit(); });
+  $('form.named-tickets input, form.named-tickets select').change(function(){
+    // do not submit the form if a complete contact is not given for $(this)
+    if ( $(this).closest('.contact_name, .contact_firstname, .contact_email').length > 0 )
+    {
+      var go = true;
+      $(this).closest('.contact').find('.contact_name input, .contact_firstname input, .contact_email input').each(function(){
+        if ( !$.trim($(this).val()) )
+          go = false;
+      });
+      if ( !go )
+      {
+        $(this).closest('.contact').find('.contact_name label, .contact_firstname label, .contact_email label')
+          .css('color', 'red');
+        return;
+      }
+    }
+    
+    $(this).closest('form').submit();
+  });
   $('form.named-tickets').submit(function(){
     $.ajax({
       url: $(this).prop('action'),
@@ -11,6 +29,8 @@ $(document).ready(function(){
       data: $(this).serialize(),
       success: LI.pubNamedTicketsData,
     });
+    $(this).find('.contact').find('.contact_name label, .contact_firstname label, .contact_email label')
+      .css('color', null);
     return false;
   });
 });
