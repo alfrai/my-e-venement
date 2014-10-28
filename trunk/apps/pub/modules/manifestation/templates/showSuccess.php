@@ -19,6 +19,7 @@
       <?php include_partial('show_plans', array('manifestation' => $manifestation)) ?>
     </div>
   </div>
+  <div class="clear"></div>
   
 <?php else: ?>
   

@@ -105,7 +105,7 @@
   $seater = new Seater($gauge->id);
   $i = 0;
   foreach ( $seater->findSeats($params['qty']) as $seat )
-    $tickets[$i]->Seat = $seat;
+    $tickets[$i++]->Seat = $seat;
   $tickets->save();
   
   // linked products
