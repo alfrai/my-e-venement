@@ -113,7 +113,7 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
     **/
   public function addI18nTextQuery(Doctrine_Query $query, $field, $values)
   {
-    return $this->addTextQuery($query, $field, $values, $query->getRootAlias().'Translation');
+    return $this->addTextQuery($query, $field, $values, $query->getRootAlias().'.Translation');
   }
   
   public function addTextQuery(Doctrine_Query $query, $field, $values, $table = NULL)
