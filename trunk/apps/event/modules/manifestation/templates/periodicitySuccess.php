@@ -12,7 +12,7 @@
       array('class' => 'fg-button-mini fg-button ui-state-default fg-button-icon-left')
   ) ?></p>
   <?php echo $form->renderFormTag(url_for('manifestation/periodicity')) ?>
-    <?php include_partial('periodicity_behaviour') ?>
+    <?php include_partial('periodicity_behavior') ?>
     <?php include_partial('periodicity_repeat') ?>
     <?php $config = sfConfig::get('app_manifestation_reservations', array('enable' => false)); if ( isset($config['enable']) && $config['enable'] ): ?>
       <?php include_partial('periodicity_reservation_mods', array('manifestation' => $manifestation,)) ?>

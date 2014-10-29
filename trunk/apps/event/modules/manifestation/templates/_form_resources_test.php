@@ -16,10 +16,12 @@
     $('.sf_admin_form_field_happens_at, .sf_admin_form_field_ends_at, .sf_admin_form_field_reservation_begins_at, .sf_admin_form_field_reservation_ends_at, .sf_admin_form input[name="manifestation[blocking]"]').change(function(){
       $('.sf_admin_form input[name="manifestation[booking_list][]"], .sf_admin_form select[name="manifestation[location_id]"]').change();
     });
-    
-    LI.data = {
-      url: '<?php echo url_for('manifestation/list') ?>',
-      no_ids: ['<?php echo $manifestation->id ?>'],
-    };
   });
+  
+  if ( LI == undefined )
+    var LI = {};
+  LI.data = {
+    url: '<?php echo url_for('manifestation/list') ?>',
+    no_ids: ['<?php echo $manifestation->id ?>'],
+  };
 --></script>

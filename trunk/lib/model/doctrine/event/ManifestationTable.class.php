@@ -141,10 +141,15 @@ class ManifestationTable extends PluginManifestationTable
   
   public function retrieveConflicts()
   {
-    $conflicts = $this->getConflicts();
+    // display potentialities or real conflicts, depending on the configuration
+    $options = sfConfig::get('app_manifestation_reservations', array());
+    $filters = array();
+    if (!( isset($options['focus_on_potentialities']) && !$options['focus_on_potentialities'] ))
+      $filters['potentially'] = true;
+    
+    $conflicts = $this->getConflicts($filters);
     $conflicts[-1] = 0;
     $q = $this->createQuery('m')
-      ->andWhere('m.reservation_confirmed = TRUE')
       ->andWhere('m.blocking = TRUE')
       ->andWhereIn('m.id',array_keys($conflicts))
       ->andWhere('m.reservation_ends_at > now()')
@@ -200,9 +205,9 @@ class ManifestationTable extends PluginManifestationTable
                  NULL END END END END AS resource_id
           FROM manifestation m1
           LEFT JOIN manifestation m2
-            ON ( $m2_start >= $m_start AND $m2_start < $m_stop
-              OR $m2_stop  >= $m_start AND $m2_stop  < $m_stop
-              OR $m2_start <= $m_start AND $m2_stop >= $m_stop )
+            ON ( $m2_start > $m_start AND $m2_start < $m_stop
+              OR $m2_stop  > $m_start AND $m2_stop  < $m_stop
+              OR $m2_start < $m_start AND $m2_stop  > $m_stop )
             AND m2.id != m1.id
           LEFT JOIN location l1 ON l1.id = m1.location_id
           LEFT JOIN location l2 ON l2.id = m2.location_id

@@ -26,6 +26,7 @@ generator:
         list_optional     : { label: Optional, type: boolean }
         list_mod_datetime : { label: Last mod., type: date }
         reservation_optional: { label: Optional, type: boolean }
+        reservation_confirmed: { label: Confirmed, type: boolean }
       list:
         title: Use conflicts
         display: [_list_resources, _list_mod_datetime, _list_date, _list_booked_by, _list_booked_from_until, _list_event, _list_location, _list_meta_event, _list_workspaces, _list_optional]
@@ -39,7 +40,7 @@ generator:
           _edit:
             credentials: event-manif-edit
       filter:
-        display: [location_id, happens_at, reservation_optional, event_id, meta_event_id, workspace_id]
+        display: [location_id, happens_at, reservation_optional, reservation_confirmed, event_id, meta_event_id, workspace_id]
       form:    ~
       edit:    ~
       new:     ~
