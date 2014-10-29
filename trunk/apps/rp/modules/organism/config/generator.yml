@@ -34,7 +34,7 @@ generator:
         email_newsletter: { label: Newsletter ? }
         groups_picto: { credentials: [pr-group], label: Remarkable }
         administrative_number: { label: Admin. ID }
-        professional_meta_event_id: { label: Meta events }
+        professional_meta_event_id: { label: Meta events list }
       list:
         title: Organisms list
         display: [Category, name, postalcode, city, _list_email, administrative_number, _groups_picto, _contacts_list]
