@@ -689,6 +689,10 @@
         <target>Liste des meta-événements</target>
       </trans-unit>
       <trans-unit>
+        <source>Others</source>
+        <target>Autres</target>
+      </trans-unit>
+      <trans-unit>
         <source>Event categories list</source>
         <target>Liste des catégories d'événements</target>
       </trans-unit>
