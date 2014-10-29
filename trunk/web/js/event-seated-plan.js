@@ -161,7 +161,6 @@
     var seated_plan_id = data.seated_plan_id;
     var gauge_id = data.gauge_id;
     var name = data.name;
-    var rank = data.rank;
     var extra_class = data['class'];
     var diameter = data.diameter == undefined ? $(ref).closest('form').find('[name="seated_plan[seat_diameter]"]').val() : data.diameter;
     var occupied = data.occupied == undefined ? false : data.occupied;
@@ -205,8 +204,12 @@
     
     // adding the seat / plot
     var seat = $('<div class="seat"><input class="txt" type="hidden" value="'+name+'" /><input class="id" type="hidden" value="'+id+'" /></div>')
-      .attr('title', name+(data.rank ? ' ('+($('.tools .rank label').length > 0 ? $('.tools .rank label').text() : 'rank')+': '+rank+')' : '') + (occupied && occupied['transaction_id'] ? ' ('+occupied.transaction_id+(occupied.spectator ? ', '+occupied.spectator : '')+')' : ''))
-      .attr('data-num', name).attr('data-rank', rank)
+      .attr('title', name
+        + (data.info ? ' ('+data.info+')' : '')
+        + (data.rank ? ' ('+($('.tools .rank label').length > 0 ? $('.tools .rank label').text() : 'rank')+': '+data.rank+')' : '')
+        + (occupied && occupied['transaction_id'] ? ' ('+occupied.transaction_id+(occupied.spectator ? ', '+occupied.spectator : '')+')' : '')
+      )
+      .attr('data-num', name).attr('data-rank', data.rank)
       .attr('data-id', id)
       .addClass('seat-'+id)
       .attr('data-seated-plan-id', seated_plan_id)

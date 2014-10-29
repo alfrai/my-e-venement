@@ -68,6 +68,16 @@ class seatsActions extends sfActions
     // specific data
     $this->occupied = array();
     $this->transaction = $this->getUser()->getTransaction();
+    
+    if ( $request->hasParameter('debug') && sfConfig::get('sf_web_debug', false) )
+    {
+      $this->debug = true;
+      $this->getResponse()->setContentType('text/html');
+      $this->getResponse()->sendHttpHeaders();
+      $this->setLayout('public');
+    }
+    else
+      sfConfig::set('sf_web_debug', false);
     sfConfig::set('sf_escaping_strategy', false);
     
     if ( ($gid = intval($request->getParameter('gauge_id', 0))) > 0 )
