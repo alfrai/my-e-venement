@@ -37,7 +37,8 @@
       if ( $this->getUser()->hasCredential('event-reservation-confirm') )
         $details['blocking'] = NULL;
       
-      $this->manifestation = Doctrine::getTable('Manifestation')->findOneById($periodicity['manifestation_id']);
+      $q = Doctrine::getTable('Manifestation')->createQuery('m')->andWhere('m.id = ?',$periodicity['manifestation_id']);
+      $this->manifestation = $q->fetchOne();
       switch ( $periodicity['behaviour'] ) {
       case 'one_occurrence':
         // preconditions
@@ -49,7 +50,12 @@
         }
         
         // happens_at and reservation fields updating
-        $time = strtotime($periodicity['one_occurrence']['year'].'-'.$periodicity['one_occurrence']['month'].'-'.$periodicity['one_occurrence']['day'].' '.date('H:i',strtotime($this->manifestation->happens_at)));
+        $time = strtotime($periodicity['one_occurrence']['year'].'-'.$periodicity['one_occurrence']['month'].'-'.$periodicity['one_occurrence']['day'].' '
+          .($periodicity['one_occurrence']['hour'] && $periodicity['one_occurrence']['minute']
+            ? $periodicity['one_occurrence']['hour'].':'.$periodicity['one_occurrence']['minute']
+            : date('H:i',strtotime($this->manifestation->happens_at))
+           )
+        );
         $diff = $time - strtotime($this->manifestation->happens_at);
         
         // periodicity stuff

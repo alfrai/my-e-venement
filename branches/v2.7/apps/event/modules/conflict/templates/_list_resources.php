@@ -2,7 +2,9 @@
 
 <?php
   $options = array('id' => $manifestation->id);
-  if ( isset($potentially) && $potentially )
+  $config = sfConfig::get('app_manifestation_reservations', array());
+  if ( isset($potentially) && $potentially
+    || !( isset($config['focus_on_potentialities']) && !$config['focus_on_potentialities'] ) )
     $options['potentially'] = $manifestation->id;
   $conflicts = Doctrine::getTable('Manifestation')->getConflicts($options)
 ?>

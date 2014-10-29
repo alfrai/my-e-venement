@@ -21,6 +21,8 @@
         <?php
           $widget = new liWidgetFormJQueryDateText(array('culture' => 'fr'));
           echo $widget->render('periodicity[one_occurrence]', null, array('id' => 'periodicity_one_occurrence'));
+          $widget = new liWidgetFormTimeText;
+          echo $widget->render('periodicity[one_occurrence]', null, array('id' => 'periodicity_one_occurrence'));
         ?>
       </p>
     </div>

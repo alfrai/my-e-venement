@@ -18,8 +18,11 @@ $(document).ready(function(){
       ));
       
       // follow the changes for the reservation
-      var diff = LI.manifestation_datetime('reservation_ends_at')+(LI.manifestation_datetime('ends_at')-before);
-      LI.manifestation_datetime('reservation_ends_at', new Date( Date.parse(LI.manifestation_datetime('reservation_ends_at')) + diff ));
+      if ( before.getTime() === before.getTime() ) // if date is valid
+      {
+        var diff = LI.manifestation_datetime('reservation_ends_at')+(LI.manifestation_datetime('ends_at')-before);
+        LI.manifestation_datetime('reservation_ends_at', new Date( Date.parse(LI.manifestation_datetime('reservation_ends_at')) + diff ));
+      }
     }
     LI.manifestation_coherence();
   }).change();
@@ -172,7 +175,7 @@ LI.manifestation_check_resource = function(elt = NULL)
     end: stop,
     conflicts: true,
     location_id: location_id,
-    no_ids: LI.no_ids,
+    no_ids: LI.data.no_ids,
     only_blocking: true,
   }, function(data)
   {
