@@ -232,7 +232,8 @@ LI.pubAfterRenderingSeats['pubSeatedPlanInitMain'] = function(){
         // on the plan
         $(seat).parent().find('.seat-'+$(seat).attr('data-id'))
           .addClass('in-progress')
-          .addClass('ordered');
+          .addClass('ordered')
+        ;
         
         // message
         if ( json.success.message )

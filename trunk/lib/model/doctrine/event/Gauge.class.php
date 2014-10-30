@@ -14,7 +14,7 @@ class Gauge extends PluginGauge
 {
   public function __toString()
   {
-    return $this->Workspace->name;
+    return (string)$this->Workspace->name;
   }
   
   public function getFree($count_demands = false)

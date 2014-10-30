@@ -27,7 +27,7 @@
   foreach ( array('product_id', 'ticket_id') as $field )
   if (!( isset($data[$field]) && intval($data[$field]).'' == ''.$data[$field] ))
   {
-    $this->getUser()->setFlash('error', __('An error occurred when updating your cart, try again please.'));
+    $this->getUser()->setFlash('error', __('An error occurred updating your cart, try again please.'));
     $this->redirect('transaction/show?id='.$this->getUser()->getTransactionId());
   }
   

@@ -190,7 +190,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 .picture.seated-plan.done .seat { cursor: default; }
 .gauge.full-seating.active .blank, .gauge.full-seating:hover .blank { display: block; }
 .manifestation_bottom { margin-left: 600px; }
-body.mod-manifestation #cart-widget { display: none; }
+body.mod-manifestation #cart-widget, body.mod-transaction.action-show #cart-widget { display: none; }
 
 #event {
 	font-weight: bold;

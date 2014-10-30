@@ -136,7 +136,10 @@
       }
       // set another price_id
       if ( $data[$ticket->id]['price_id'] !== $ticket->price_id )
+      {
+        $ticket->value    = NULL;
         $ticket->price_id = $data[$ticket->id]['price_id'];
+      }
       
       $ticket->save();
     }
@@ -161,7 +164,6 @@
       foreach ( $order as $pid => $value )
         $prices[''.$pid] = $tmp[$pid];
     }
-    
     
     $event = new sfEvent($this, 'pub.after_adding_tickets', array());
     if ( $no_direct_contact )

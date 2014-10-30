@@ -85,8 +85,12 @@
         <target>En savoir plus...</target>
       </trans-unit>
       <trans-unit>
-        <source>An error occurred when updating your cart, try again please.</source>
+        <source>An error occurred updating your cart, try again please.</source>
         <target>Une erreur est survenue lors de la mise à jour de votre panier, essayez à nouveau svp.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>An error occurred saving a ticket.</source>
+        <target>Une erreur est survenue lors la mise à jour de votre panier, essayez à nouveau svp.</target>
       </trans-unit>
       <trans-unit>
         <source>Your cart has been updated.</source>

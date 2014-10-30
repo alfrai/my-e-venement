@@ -23,6 +23,8 @@
 ?>
 <?php
   $this->debug($request);
+  $this->json = array('success' => array(), 'error' => array());
+  
   // given tickets data
   $tmp = $request->getParameter('tickets', array());
   $data = array();
@@ -97,7 +99,7 @@
         : $ticket->seat_id;
       
       if ( !$ticket->trySave() )
-        $this->json['error']['message'] = 'An error occurred when saving a ticket';
+        $this->json['error']['message'] = 'An error occurred updating your cart, try again please..';
       break;
     }
   }
@@ -192,9 +194,10 @@
     $ticket->value      = NULL;
     $ticket->vat        = NULL;
     
-    if ( !$ticket->trySave() )
+    try { $ticket->save(); }
+    catch ( Doctrine_Connection_Exception $e )
     {
-      $this->json['error']['message'] = 'An error occurred when saving a ticket';
+      $this->json['error']['message'] = 'An error occurred updating your cart, try again please.';
       continue;
     }
     
@@ -205,6 +208,7 @@
   // return back the list of real tickets
   $this->data = array('tickets' => array());
   foreach ( $tickets as $ticket )
+  if ( $ticket->id )
   {
     // the json data
     $this->data['tickets'][] = array(
