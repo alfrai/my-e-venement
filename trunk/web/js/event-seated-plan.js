@@ -100,7 +100,8 @@
           if ( scale > alternate ) scale = alternate; // security for graphical bugs
         }
         elt.css('transform', 'scale('+(scale)+')')
-           .attr('data-scale', scale);
+           .attr('data-scale', scale)
+           .attr('data-scale-init', scale);
         if ( scale < 1 )
           elt.css('margin-bottom', $(this).height()*(scale-1) + 50);
         

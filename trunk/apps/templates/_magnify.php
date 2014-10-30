@@ -21,6 +21,8 @@
             var factor = 1.3;
             var old_scale = parseFloat($(this).attr('data-scale'));
             var new_scale = operand == '*' ? old_scale*factor : old_scale/factor;
+            if ( operand != '*' && new_scale < parseFloat($(this).attr('data-scale-init')) )
+              new_scale = parseFloat($(this).attr('data-scale'));
             
             $(this).css('transform', 'scale('+new_scale+')')
               .attr('data-scale', new_scale);
