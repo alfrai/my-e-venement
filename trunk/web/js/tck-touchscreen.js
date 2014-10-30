@@ -11,6 +11,10 @@ $(document).ready(function(){
     .change(function(){ $(this).closest('form').submit(); });
   
   LI.initContent();
+  $('#li_transaction_field_content h2 a').click(function(){
+    LI.initContent();
+    return false;
+  });
   $('#sf_admin_content form:not(.noajax)').submit(LI.formSubmit);
   
   // PLAYING W/ CART'S CONTENT

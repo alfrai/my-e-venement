@@ -69,6 +69,7 @@
 #li_transaction_field_content .bunch { transition-property: height; transition-duration: 1s; overflow: hidden; }
 #li_transaction_field_content .bunch.small { height: 30px; }
 #li_transaction_field_content h2 { margin: 5px 0; }
+#li_transaction_field_content h2 a { float: right; text-decoration: none; }
 #li_transaction_field_content h2, #li_transaction_field_content h3 { cursor: pointer; }
 #li_transaction_field_content h4 { display: inline-block; white-space: nowrap; font-weight: normal; vertical-align: top; width: 30%; overflow: hidden; }
 #li_transaction_field_content .highlight:not(.new-family) { border: 1px solid transparent; }

@@ -18,7 +18,7 @@
   }
 ?>
 <div id="li_transaction_<?php echo $id ?>" class="bunch" data-bunch-id="<?php echo $id ?>">
-  <h2 class="ui-widget-header ui-corner-all"><?php echo $detail['title'] ?></h2>
+  <h2 class="ui-widget-header ui-corner-all"><?php echo $detail['title'] ?><a href="#" class="reload">&#x21bb;</a></h2>
   <?php if ( isset($form[$id]) && $form->getRaw($id) instanceof sfForm ): ?>
   <?php echo $form[$id]->renderFormTag(url_for($detail['data_url']), array(
     'autocomplete' => 'off',
