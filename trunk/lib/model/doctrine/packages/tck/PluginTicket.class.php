@@ -90,7 +90,8 @@ abstract class PluginTicket extends BaseTicket
       throw new liEvenementException('You tried to save a ticket with a price that you cannot access (user: #'.sfContext::getInstance()->getUser()->getId().', price: #'.$this->price_id.')');
     
     // the transaction's last update
-    $this->Transaction->updated_at = NULL;
+    if ( $this->isModified() )
+      $this->Transaction->updated_at = NULL;
     
     // get back the manifestation_id if not already set
     if ( !$this->manifestation_id && $this->gauge_id )

@@ -23,6 +23,13 @@ $(document).ready(function(){
     $(this).closest('form').submit();
   });
   $('form.named-tickets').submit(function(){
+    if ( location.hash == '#debug' )
+    {
+      $(this).prop('target', '_blank');
+      setTimeout(function(){ $(this).prop('target', null); }, 1000);
+      return true;
+    }
+    
     $.ajax({
       url: $(this).prop('action'),
       type: $(this).prop('method'),
@@ -96,12 +103,12 @@ LI.pubNamedTicketsData = function(json)
       });
       
       // delete a ticket
-      elt.find('.delete').click(function(){
+      elt.find('.delete').unbind('click').click(function(){
         $(this).closest('.ticket').find('.price_name select').val('');
       });
       
       // put %%ME%% on a ticket
-      elt.find('.me').click(function(){
+      elt.find('.me').unbind('click').click(function(){
         var simple_unset = false;
         if ( $(this).val() == $(this).closest('.contact').find('.contact_id input.id').val() )
           simple_unset = true;

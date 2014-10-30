@@ -46,7 +46,10 @@
     ->leftJoin('tck.Transaction t')
     ->leftJoin('t.Order o')
     ->andWhere('o.id IS NULL')
+    ->andWhere('t.closed = ?', false)
     
+    ->leftJoin('tck.DirectContact dc')
+    ->select('tck.*, dc.*')
     ->orderBy('ws.name, p.name, tck.value')
   ;
   $tickets = $q->execute();
@@ -57,7 +60,7 @@
     unset($data['%%ticket_id%%']);
   
   $this->data = array();
-  foreach ( $tickets as $ticket )
+  foreach ( $tickets as $key => $ticket )
   {
     $no_direct_contact = false; // true if it is a deletion of the current contact
     
@@ -125,12 +128,13 @@
         }
       }
       
-      // set another price_id or delete the ticket
+      // delete the ticket
       if (!( isset($data[$ticket->id]['price_id']) && $data[$ticket->id]['price_id'] ))
       {
         $ticket->delete();
         continue;
       }
+      // set another price_id
       if ( $data[$ticket->id]['price_id'] !== $ticket->price_id )
         $ticket->price_id = $data[$ticket->id]['price_id'];
       
