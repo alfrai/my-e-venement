@@ -48,3 +48,6 @@
     $q->andWhereIn('tck.gauge_id',$gauges);
   
   $this->manifestations = $q->execute();
+  
+  if ( $this->manifestations->count() == 1 && $this->manifestations[0]->Tickets->count() == 1 )
+    $this->redirect('ticket/print?id='.$this->transaction_id.'&manifestation_id='.$this->manifestations[0]->id);

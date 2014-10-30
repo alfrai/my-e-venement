@@ -11,12 +11,16 @@ $(document).ready(function(){
     .change(function(){ $(this).closest('form').submit(); });
   
   LI.initContent();
+  $('#li_transaction_field_content h2 a').click(function(){
+    LI.initContent();
+    return false;
+  });
   $('#sf_admin_content form:not(.noajax)').submit(LI.formSubmit);
   
   // PLAYING W/ CART'S CONTENT
   // sliding content
   $('#li_transaction_field_content h2').click(function(){
-    $(this).closest('.bunch').find('.families').slideToggle(function(){
+    $(this).closest('.bunch').find('.families:not(.sample)').slideToggle(function(){
       if ( !$(this).is(':hidden') )
         return;
       $(this).find('.ui-state-highlight').focusout();

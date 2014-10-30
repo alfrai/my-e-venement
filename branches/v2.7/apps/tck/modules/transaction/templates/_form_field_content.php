@@ -1,6 +1,6 @@
 <?php foreach ( sfConfig::get('tdp_transaction_selling',array()) as $id => $detail ): ?>
 <div id="li_transaction_<?php echo $id ?>" class="bunch" data-bunch-id="<?php echo $id ?>">
-  <h2 class="ui-widget-header ui-corner-all"><?php echo $detail['title'] ?></h2>
+  <h2 class="ui-widget-header ui-corner-all"><?php echo $detail['title'] ?><a href="#" class="reload">&#x21bb;</a></h2>
   <?php if ( isset($form[$id]) && $form->getRaw($id) instanceof sfForm ): ?>
   <?php echo $form[$id]->renderFormTag(url_for('transaction/getManifestations'), array(
     'autocomplete' => 'off',
