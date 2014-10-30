@@ -1,7 +1,8 @@
 $(document).ready(function(){
   // when clicking on a text field, the related radio button is selected automatically
   $('#periodicity_behaviour input[type=text], #periodicity_behaviour input.ui-datepicker-trigger').click(function(){
-    $(this).parent().find('input[type=radio]').prop('checked',true).change();
+    if ( !$(this).parent().find('input[type=radio]').prop('checked') )
+      $(this).parent().find('input[type=radio]').prop('checked',true).change();
   });
   
   // when selecting a radio button, cursor goes directly to the next text field
