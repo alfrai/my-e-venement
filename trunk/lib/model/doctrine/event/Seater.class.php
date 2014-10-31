@@ -196,7 +196,7 @@ class Seater
     if ( $seats->count() < $qty && $i == 0 ) // no solution is correct
       return false;
     if ( $seats->count() < $qty && $i > 0 )  // it means that we've found some combinations, but always generating orphans or not big enough for the entire group, so we surrender
-      return $seats->merge($this->findSeatsExcludingOrphans($qty - $seats->count());
+      return $seats->merge($this->findSeatsExcludingOrphans($qty - $seats->count()));
     return $seats;
   }
   
