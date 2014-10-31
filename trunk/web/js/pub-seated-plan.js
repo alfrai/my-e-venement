@@ -37,7 +37,7 @@ $(document).ready(function(){
   // checking orphans if asked in the URL at when loading
   var hash = window.location.hash.split('#');
   if ( hash[1] && $.inArray('orphans', hash) != -1 )
-  LI.pubAfterRenderingSeats['pubReadyOrphans'] = { one_shot: true, options: { gauge_id: hash[1] }, exec: function(){
+  LI.pubAfterRenderingSeats['pubReadyOrphans'] = { one_shot: true, options: { gauge_id: hash[1] }, exec: function(options){
     LI.pubCheckOrphansVisually($('#ajax-pre-submit').prop('href'), options.gauge_id);
   }}
   
@@ -292,8 +292,8 @@ LI.pubCheckOrphansVisually = function(url, gauge_id, fct)
       // reload the plan if some orphans are detected
       $.each(json.success.orphans, function(gid, gauge){
         LI.seatedPlanLoadData(
-          $('.gauge[data-gauge-id='+gid+'] .full-seating .load-data').prop('href'),
-          '#'+$('.gauge[data-gauge-id='+gid+'] .seated-plan').prop('id')
+          $('#plans .seats-url[data-gauge-id='+gid+'], .gauge[data-gauge-id='+gid+'] .full-seating .load-data').prop('href'),
+          '#'+$('#plans .seats-url[data-gauge-id='+gid+']').length > 0 ? $('#plans .seats-url[data-gauge-id='+gid+']').closest('.seated-plan').prop('id') : $('.gauge[data-gauge-id='+gid+'] .seated-plan').prop('id')
         );
         $('.gauge[data-gauge-id='+gid+']').click();
       });
@@ -306,9 +306,11 @@ LI.pubShowOrphansOnPlan = function(orphan)
   // visual
   $('.gauge[data-gauge-id='+orphan.gauge_id+']').click();
   var oelt =
-  $('.gauge[data-gauge-id='+orphan.gauge_id+'] .seated-plan.picture .seat[data-id='+orphan.seat_id+']')
+  ($('#plans .seats-url[data-gauge-id='+orphan.gauge_id+']').length > 0 ? $('#plans .seats-url[data-gauge-id='+orphan.gauge_id+']').closest('.seated-plan') : $('.gauge[data-gauge-id='+orphan.gauge_id+'] .seated-plan.picture'))
+    .find('.seat[data-id='+orphan.seat_id+']')
     .addClass('printed').addClass('blink');
-  $('.gauge[data-gauge-id='+orphan.gauge_id+'] .seated-plan.picture .seat[data-id='+orphan.seat_id+'].txt')
+  ($('#plans .seats-url[data-gauge-id='+orphan.gauge_id+']').length > 0 ? $('#plans .seats-url[data-gauge-id='+orphan.gauge_id+']').closest('.seated-plan') : $('.gauge[data-gauge-id='+orphan.gauge_id+'] .seated-plan.picture'))
+    .find('.seat[data-id='+orphan.seat_id+'].txt')
     .addClass('in-progress');
   
   // blinking

@@ -34,7 +34,11 @@ class SeatedPlan extends PluginSeatedPlan
     
     $data = '';
     foreach ( $gauges as $gauge )
-      $data .= '<a href="'.cross_app_url_for($attributes['app'], $attributes['get-seats'].'?gauge_id='.$gauge->id.($attributes['match-seated-plan'] ? '&id='.$this->id : '')).'" class="seats-url"></a>';
+      $data .= '<a
+        href="'.cross_app_url_for($attributes['app'], $attributes['get-seats'].'?gauge_id='.$gauge->id.($attributes['match-seated-plan'] ? '&id='.$this->id : '')).'"
+        class="seats-url"
+        data-gauge-id="'.$gauge->id.'"
+      ></a>';
     
     return '<span
       id="plan-'.$this->id.(count($gauges) > 0 ? '-manif-'.$gauges[0]->Manifestation->id : '').'"

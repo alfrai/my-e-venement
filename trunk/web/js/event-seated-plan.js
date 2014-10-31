@@ -56,12 +56,11 @@
       else
       {
         widget.find('.seats-url').each(function(){
-          urls.push($(this).prop('href'));
+          urls.push($(this).clone());
         });
       }
       $.each(urls, function(i, url){
-        $('<a></a>').addClass('seats-url').prop('href', url)
-          .appendTo(elt);
+        url.appendTo(elt);
       });
       
       widget.replaceWith(elt);

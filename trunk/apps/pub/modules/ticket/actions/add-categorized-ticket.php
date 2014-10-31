@@ -104,7 +104,7 @@
   // to give seats to tickets that need it
   $seater = new Seater($gauge->id);
   $i = 0;
-  foreach ( $seater->findSeats($params['qty']) as $seat )
+  foreach ( ($seats = $seater->findSeatsExcludingOrphans($params['qty'])) as $seat )
     $tickets[$i++]->Seat = $seat;
   $tickets->save();
   

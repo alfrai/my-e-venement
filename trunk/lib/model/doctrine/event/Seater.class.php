@@ -171,20 +171,23 @@ class Seater
   
   /**
     * Find seats for $qty tickets being sure it does not generate any orphans, or it generates orphans because there are no better solution
-    * @param $qty     integer                     how many seats do you need
-    * @param $exclude Doctrine_Collection         if you want to avoid looking for seats in that direction... Doctrine_Collection with the association Seat->id => Seat
-    * @return         Doctrine_Collection|FALSE   the Seats we have found OR FALSE if it failed to find seats w/o any orphan
+    * @param $qty       integer                     how many seats do you need
+    * @param $excluded  Doctrine_Collection         if you want to avoid looking for seats in that direction... Doctrine_Collection with the association Seat->id => Seat
+    * @return           Doctrine_Collection|FALSE   the Seats we have found OR FALSE if it failed to find seats w/o any orphan
     *
     **/
   public function findSeatsExcludingOrphans($qty, Doctrine_Collection $excluded = NULL)
   {
-    $seats = $excludes = new Doctrine_Collection('Seat');
+    $seats = new Doctrine_Collection('Seat');
+    if (! $excluded instanceof Doctrine_Collection )
+      $excluded = new Doctrine_Collection('Seat');
+    
     for ( $i = 0 ; $seats->count() == 0 || $this->findOrphansWith($seats)->count() > 0 ; $i++ )
     {
       $seats = $this->findSeats($qty, $excluded); // find seats, w/o including the past tries
       
       // we must have at least the number of seats asked in the batch, or it is a failure
-      if (!( $seats !== false && $seats->count() < $qty ))
+      if (!( $seats !== false && $seats->count() >= $qty ))
         break;
       
       $excluded->merge($seats); // add this batch of seats to excluded seats
@@ -192,8 +195,8 @@ class Seater
     
     if ( $seats->count() < $qty && $i == 0 ) // no solution is correct
       return false;
-    if ( $seats->count() < $qty && $i > 0 )  // it means that we've found some combinations, but always generating orphans
-      return $this->findSeats($qty);
+    if ( $seats->count() < $qty && $i > 0 )  // it means that we've found some combinations, but always generating orphans or not big enough for the entire group, so we surrender
+      return $seats->merge($this->findSeatsExcludingOrphans($qty - $seats->count());
     return $seats;
   }
   
