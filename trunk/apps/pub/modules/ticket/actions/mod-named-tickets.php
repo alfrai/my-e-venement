@@ -71,12 +71,10 @@
       if ( isset($data[$ticket->id]['comment']) && $ticket->comment != $data[$ticket->id]['comment'] )
         $ticket->comment = $data[$ticket->id]['comment'];
       
-      if ( isset($data[$ticket->id]['contact']['id']) && $data[$ticket->id]['contact']['id']
-        && isset($data[$ticket->id]['contact']['force']) && $data[$ticket->id]['contact']['force']
-        && $data[$ticket->id]['contact']['force'] != $data[$ticket->id]['contact']['id'] )
+      if ( isset($data[$ticket->id]['contact']['force']) && $data[$ticket->id]['contact']['force'] )
       {
         // force contact to "me" / current contact_id, w/o updating contact's information
-        $ticket->contact_id = $data[$ticket->id]['contact']['id'];
+        $ticket->DirectContact = $this->getUser()->getContact();
       }
       else
       {
@@ -171,7 +169,7 @@
       $event['direct_contact'] = false;
     $this->dispatcher->notify($event);
     // the json data
-    $this->data[] = array(
+    $this->data[$ticket->manifestation_id.' '.$ticket->Seat] = array(
       'id'                => $ticket->id,
       'seat_name'         => (string)$ticket->Seat,
       'seat_id'           => $ticket->seat_id,
@@ -190,5 +188,6 @@
     );
   }
   
+  ksort($this->data);
   $to_delete->delete();
   return 'Success';
