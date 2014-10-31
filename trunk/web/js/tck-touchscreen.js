@@ -216,7 +216,7 @@ $(document).ready(function(){
     if ( $('#li_transaction_field_contact_id .data a').length > 0
       && $('#li_transaction_field_informations .vcard').length == 0 )
     {
-      $.get($('#li_transaction_field_contact_id .data a').prop('href')+'/vcf', function(data){
+      $.get($('#li_transaction_field_contact_id .data a').prop('href').replace('.html','')+'/vcf', function(data){
         vcard = vCard.initialize(data);
         data = $.parseHTML(vcard.to_html());
         
