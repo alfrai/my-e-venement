@@ -59,6 +59,7 @@
   if ( isset($data['%%ticket_id%%']) )
     unset($data['%%ticket_id%%']);
   
+  $to_delete = new Doctrine_Collection('Ticket');
   $this->data = array();
   foreach ( $tickets as $key => $ticket )
   {
@@ -131,7 +132,7 @@
       // delete the ticket
       if (!( isset($data[$ticket->id]['price_id']) && $data[$ticket->id]['price_id'] ))
       {
-        $ticket->delete();
+        $to_delete[] = $ticket;
         continue;
       }
       // set another price_id
@@ -189,4 +190,5 @@
     );
   }
   
+  $to_delete->delete();
   return 'Success';
