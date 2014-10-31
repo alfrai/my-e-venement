@@ -13,7 +13,7 @@
   </div>
   <div id="container">
     <div class="tab" id="plans">
-      <h4><?php echo __('By seat') ?></h4>
+      <h4><?php echo __('In the venue') ?></h4>
       <div class="li-content">
         <?php include_partial('show_plans', array('manifestation' => $manifestation)) ?>
       </div>

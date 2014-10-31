@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>In the venue</source>
+        <target>Dans la salle</target>
+      </trans-unit>
+      <trans-unit>
+        <source>By category</source>
+        <target>Par catégorie</target>
+      </trans-unit>
+      <trans-unit>
         <source>Seated plan loading, thanks for your patience...</source>
         <target>Chargement du plan numéroté, merci de patienter quelques instants...</target>
       </trans-unit>
