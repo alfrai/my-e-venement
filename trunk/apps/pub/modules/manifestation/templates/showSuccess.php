@@ -9,14 +9,20 @@
   <?php use_javascript('pub-seated-plan?'.date('Ymd')) ?>
   
   <div id="tickets">
-    <div class="tab" id="categories">
-      <?php include_partial('show_categories', array('manifestation' => $manifestation)) ?>
-    </div>
     <?php include_partial('show_named_tickets', array('manifestation' => $manifestation)) ?>
   </div>
   <div id="container">
     <div class="tab" id="plans">
-      <?php include_partial('show_plans', array('manifestation' => $manifestation)) ?>
+      <h4><?php echo __('By seat') ?></h4>
+      <div class="li-content">
+        <?php include_partial('show_plans', array('manifestation' => $manifestation)) ?>
+      </div>
+    </div>
+    <div class="tab hidden" id="categories">
+      <h4><?php echo __('By category') ?></h4>
+      <div class="li-content">
+        <?php include_partial('show_categories', array('manifestation' => $manifestation)) ?>
+      </div>
     </div>
   </div>
   <div class="clear"></div>

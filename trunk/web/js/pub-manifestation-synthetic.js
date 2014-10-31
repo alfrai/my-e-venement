@@ -32,4 +32,10 @@ $(document).ready(function(){
     $(this).parent().find('input').val(newval > 0 ? newval : 1);
     return false;
   });
+  
+  // the tabs...
+  $('#container .tab h4').click(function(){
+    $('#container .tab:not(.hidden)').addClass('hidden');
+    $(this).closest('.tab').removeClass('hidden');
+  });
 });
