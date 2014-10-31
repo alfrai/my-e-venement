@@ -38,7 +38,7 @@ all:
     default_culture:        fr       # Default user culture
 
     standard_helpers: [I18N,Partial,Cache]
-    enabled_modules:  [sfGuardAuth]
+    enabled_modules:  [sfGuardAuth, liBarcode]
     
     login_module:           sfGuardAuth
     login_action:           signin
