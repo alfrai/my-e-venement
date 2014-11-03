@@ -8,7 +8,7 @@
 #plans .gauge .magnify { display: block; right: 35px; }
 #plans .infos { display: none; }
 #plans .gauge { overflow: auto; background-color: white; }
-#plans-loading { font-weight: bold; text-align: center; position: absolute; margin-top: 200px; width: 100%; }
+#plans-loading { font-weight: bold; text-align: center; position: absolute; margin-top: 240px; width: 100%; }
 
 #tickets { float: left; width: 300px; min-height: 500px; }
 #tickets, #tickets button, .named-tickets select, .named-tickets input, .named-tickets button { font-size: 85%; }
@@ -31,3 +31,4 @@
 #container #plans .gauge { margin-left: 0; }
 #container #plans .gauge .magnify { margin-top: 5px; }
 #container #categories .li-content { padding: 10px; }
+#container .li-content .txt { padding: 5px; text-align: center; }

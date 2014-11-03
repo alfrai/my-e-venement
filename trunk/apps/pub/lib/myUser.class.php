@@ -339,6 +339,7 @@ class myUser extends liGuardSecurityUser
   }
   public function logout()
   {
+    $this->transaction->Tickets->delete();
     $this->getAttributeHolder()->remove('transaction_id');
     $this->transaction = NULL;
     $this->getTransaction();

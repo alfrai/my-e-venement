@@ -12,16 +12,24 @@
     <?php include_partial('show_named_tickets', array('manifestation' => $manifestation)) ?>
   </div>
   <div id="container">
+    <?php
+      $texts = sfConfig::get('app_texts_synthetic', array());
+      foreach ( array('plans', 'categories') as $field )
+      if ( !isset($texts[$field]) )
+        $texts[$field] = '';
+    ?>
     <div class="tab" id="plans">
       <h4><?php echo __('In the venue') ?></h4>
       <div class="li-content">
         <?php include_partial('show_plans', array('manifestation' => $manifestation)) ?>
+        <div class="txt"><?php echo $texts['plans'] ?></div>
       </div>
     </div>
     <div class="tab hidden" id="categories">
       <h4><?php echo __('By category') ?></h4>
       <div class="li-content">
         <?php include_partial('show_categories', array('manifestation' => $manifestation)) ?>
+        <div class="txt"><?php echo $texts['categories'] ?></div>
       </div>
     </div>
   </div>
