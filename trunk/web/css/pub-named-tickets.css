@@ -1,5 +1,6 @@
 .named-tickets { display: none; }
 .named-tickets .ticket { white-space: nowrap; }
+.named-tickets .ticket .seat_name { font-weight: bold; font-size: 110%; }
 .named-tickets .sample { display: none; }
 .named-tickets h4 { margin-bottom: 0; }
 .named-tickets input[type=text] { width: 7.8em; }
