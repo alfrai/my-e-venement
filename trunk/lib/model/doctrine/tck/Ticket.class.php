@@ -156,7 +156,7 @@ EOF
       , __('Date', null, 'li_tickets_email'), $this->Manifestation->getFormattedDate()
       , __('Price', null, 'li_tickets_email'), $this->price_name, format_currency($this->value,'€')
       , $this->seat_id ? __('Seat #', null, 'li_tickets_email') : '', $this->seat_id ? $this->Seat : ($this->Manifestation->Location->getWorkspaceSeatedPlan($this->Gauge->workspace_id) ? __('Not yet allocated', null, 'li_tickets_email') : '')
-      , $this->comment
+      , $this->comment ? $this->comment : sfConfig::get('project_eticketting_default_comment', __('This is your ticket', null, 'li_tickets_email'))
       , $this->transaction_id, $this->id
       , $this->contact_id ? $this->DirectContact->name_with_title : ($this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : $this->Transaction->Contact->name_with_title)
       , !$this->duplicating ? '' : __('This ticket is a duplicate of #%%tid%%, it replaces and cancels any previous version of this ticket you might have recieved', array('%%tid%%' => $this->transaction_id.'-'.$this->duplicating), 'li_tickets_email')

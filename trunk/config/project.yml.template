@@ -58,6 +58,7 @@ all:
 
   eticketting:
     salt: ARANDOMSALTHERE
+    #default_comment: This is your ticket
     passbook:
       certification:
         identifier: pass.e-venement.myorganization

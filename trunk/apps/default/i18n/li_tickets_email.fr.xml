@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>This is your ticket</source>
+        <target>Ceci est votre billet</target>
+      </trans-unit>
+      <trans-unit>
         <source>Image</source>
         <target>Image</target>
       </trans-unit>

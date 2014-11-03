@@ -135,7 +135,8 @@
       //'%%COMMAND%%' => '<pre>'.$command.'</pre>',
       '%%TICKETS%%' => $transaction->renderSimplifiedTickets(), // HTML tickets w/ barcode
       '%%PRODUCTS%%' => $transaction->renderSimplifiedProducts(array('barcode' => 'png',)), // HTML products w/ barcode
-    );
+      '%%NOTICES%%' => '* '.sfConfig::get('app_text_email_seated_tickets', __('All lines marked with an wildcard concern a seated venue. You will receive a new email as soon as a change is done in the seat allocation for your tickets.'),
+    ));
     
     $email = new Email;
     if ( sfConfig::get('app_contact_professional', false) )
@@ -147,10 +148,7 @@
     $email->field_subject = sfConfig::get('app_informations_title').': '.__('your order #').$transaction->id;
     $email->field_from = sfConfig::get('app_informations_email','contact@libre-informatique.fr');
     $email->content = nl2br(str_replace(array_keys($replace),$replace,sfConfig::get('app_texts_email_confirmation')));
-    $email->content .= nl2br("\n\n  * ".sfConfig::get('app_text_email_seated_tickets',
-      __('All lines marked with an wildcard concern a seated venue. You will receive a new email as soon as a change is done in the seat allocation for your tickets.')
-    ));
-    $email->content .= nl2br("\n\n".sfConfig::get('app_text_email_footer',<<<EOF
+    $email->content .= nl2br("\n\n".sfConfig::get('app_texts_email_footer',<<<EOF
 --
 <a href="http://www.e-venement.net/">e-venement</a> est le système de billetterie informatisée développé par <a href="http://www.libre-informatique.fr/">Libre Informatique</a>. 
 Ces logiciels sont distribués sous <a href="http://fr.wikipedia.org/wiki/Licences_libres">licences libres</a>
