@@ -113,7 +113,7 @@ LI.isMobile = {
     return navigator.userAgent.match(/IEMobile/i);
   },
   any: function() {
-    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    return (LI.isMobile.Android() || LI.isMobile.BlackBerry() || LI.isMobile.iOS() || LI.isMobile.Opera() || LI.isMobile.Windows());
   },
   test: function() {
     return true;
