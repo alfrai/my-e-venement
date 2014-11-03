@@ -64,7 +64,12 @@ LI.pubNamedTicketsData = function(json)
   // reinit the previously selected seats
   $('.picture.seated-plan .seat.ordered.in-progress').removeClass('ordered').removeClass('in-progress');
   $('.picture.seated-plan .seat[data-ticket-id]').removeAttr('data-ticket-id');
-      
+  
+  if ( json.success.tickets.length == 0 )
+    $('#tickets .submit').hide();
+  else
+    $('#tickets .submit').show();
+  
   $.each(json.success.tickets, function(id, ticket){
     var elt = $('form.named-tickets .ticket.sample').clone(true)
       .removeClass('sample')
