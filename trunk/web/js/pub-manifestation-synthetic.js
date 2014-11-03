@@ -38,6 +38,6 @@ $(document).ready(function(){
     $('#container .tab:not(.hidden)').addClass('hidden');
     $(this).closest('.tab').removeClass('hidden');
   });
-  if ( LI.isMobile.test() )
+  if ( LI.isMobile.any() )
     $('#container .tab + .tab h4').click();
 });
