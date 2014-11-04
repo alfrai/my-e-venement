@@ -50,7 +50,7 @@
       </trans-unit> 
       <trans-unit>
         <source>The blinking quantities mean that those gauges are or will be full.</source>
-        <target>Les quantités qui clignotent signifient que ces jauges sont ou vont être pleines.</target>
+        <target>Les quantités qui clignotent signifie que ces jauges sont ou vont être pleines.</target>
       </trans-unit> 
       <trans-unit>
         <source>Please confirm that you allow this overbooking.</source>
