@@ -9,12 +9,12 @@
         <target>Continuer</target>
       </trans-unit>
       <trans-unit>
-        <source>In the venue</source>
-        <target>Dans la salle</target>
+        <source>Choice by the seating</source>
+        <target>Choix sur plan de salle</target>
       </trans-unit>
       <trans-unit>
-        <source>By category</source>
-        <target>Par catégorie</target>
+        <source>Automatic choice by category</source>
+        <target>Choix automatique par catégorie</target>
       </trans-unit>
       <trans-unit>
         <source>Seated plan loading, thanks for your patience...</source>

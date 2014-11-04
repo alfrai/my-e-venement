@@ -19,14 +19,14 @@
         $texts[$field] = '';
     ?>
     <div class="tab" id="plans">
-      <h4><?php echo __('In the venue') ?></h4>
+      <h4><?php echo __('Choice by the seating') ?></h4>
       <div class="li-content">
         <?php include_partial('show_plans', array('manifestation' => $manifestation)) ?>
         <div class="txt"><?php echo $texts['plans'] ?></div>
       </div>
     </div>
     <div class="tab hidden" id="categories">
-      <h4><?php echo __('By category') ?></h4>
+      <h4><?php echo __('Automatic choice by category') ?></h4>
       <div class="li-content">
         <?php include_partial('show_categories', array('manifestation' => $manifestation)) ?>
         <div class="txt"><?php echo $texts['categories'] ?></div>
