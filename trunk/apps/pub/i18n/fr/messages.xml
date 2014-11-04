@@ -145,8 +145,8 @@
         <target>Frais</target>
       </trans-unit>
       <trans-unit>
-        <source>Assign a contact to your tickets</source>
-        <target>Affecter un contact à vos billets</target>
+        <source>Customize your seats</source>
+        <target>Personnaliser vos places</target>
       </trans-unit>
       <trans-unit>
         <source>Email address</source>
