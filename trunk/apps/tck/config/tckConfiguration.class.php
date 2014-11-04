@@ -155,6 +155,7 @@ EOF
     
     $sr = array('http://' => '', 'www.' => '',);
     $email->field_from = $event['user']->getGuardUser()->email_address ? $event['user']->getGuardUser()->email_address : 'noreply@'.str_replace(array_keys($sr), array_values($sr), $client['url']);
+    $email->field_bcc = $email->field_from;
     
     // Bcc:
     try
