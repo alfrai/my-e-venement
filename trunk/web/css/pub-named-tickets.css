@@ -9,3 +9,4 @@
 .named-tickets .price_name option[value=""] { display: none; }
 
 .submit { text-align: center; }
+#tickets .submit button { font-size: 120%; }

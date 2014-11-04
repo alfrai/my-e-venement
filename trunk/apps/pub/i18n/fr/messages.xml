@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Continue</source>
+        <target>Continuer</target>
+      </trans-unit>
+      <trans-unit>
         <source>In the venue</source>
         <target>Dans la salle</target>
       </trans-unit>

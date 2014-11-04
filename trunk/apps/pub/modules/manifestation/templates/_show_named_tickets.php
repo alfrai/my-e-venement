@@ -44,6 +44,6 @@
 </form>
 <p class="submit">
   <a href="<?php echo url_for('transaction/show?id='.$sf_user->getTransactionId()) ?>">
-    <button name="submit" value=""><?php echo __('Cart') ?></button>
+    <button name="submit" value=""><?php echo __('Continue') ?></button>
   </a>
 </p>
