@@ -113,8 +113,8 @@
         <target>Opération créée</target>
       </trans-unit> 
       <trans-unit>
-        <source>summary of your order #%%transaction_id%%</source>
-        <target>résumé de votre commande #%%transaction_id%%</target>
+        <source>your order #%%transaction_id%% has been updated</source>
+        <target>votre commande #%%transaction_id%% a été mise à jour</target>
       </trans-unit> 
       <trans-unit>
         <source>seat</source>

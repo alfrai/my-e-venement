@@ -44,7 +44,7 @@ class tckConfiguration extends sfApplicationConfiguration
     else
       $email->Contacts[] = $transaction->Contact;
     
-    $email->field_subject = $client['name'].': '.__('summary of your order #%%transaction_id%%',array('%%transaction_id%%' => $transaction->id));
+    $email->field_subject = $client['name'].': '.__('your order #%%transaction_id%% has been updated',array('%%transaction_id%%' => $transaction->id));
     $email->content = nl2br($content);
     $email->content .= nl2br(sprintf(<<<EOF
 -- 
