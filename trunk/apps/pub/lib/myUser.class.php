@@ -23,7 +23,7 @@
 ?>
 <?php
 
-class myUser extends liGuardSecurityUser
+class myUser extends pubUser
 {
   const CREDENTIAL_METAEVENT_PREFIX = 'event-metaevent-';
   const CREDENTIAL_WORKSPACE_PREFIX = 'event-workspace-';

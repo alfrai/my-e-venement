@@ -22,6 +22,10 @@ class Product extends PluginProduct implements liUserAccessInterface
   
   public function isAccessibleBy(sfSecurityUser $user, $option = NULL)
   {
+    // "online" or not
+    if ( $user instanceof pubUser && !$this->Category->online )
+      return false;
+    
     // meta event
     if ( $this->meta_event_id && !in_array($this->meta_event_id, array_keys($user->getMetaEventsCredentials())) )
       return false;
