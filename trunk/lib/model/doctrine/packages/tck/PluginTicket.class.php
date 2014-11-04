@@ -302,13 +302,12 @@ abstract class PluginTicket extends BaseTicket
               $declination = false;
               foreach ( $link->Declinations as $declination )
               if ( $declination->prioritary )
-                break;
-              if ( $declination instanceof Doctrine_Record )
               {
                 $bp->Declination = $declination;
                 $bp->Price = $max_price['price']->Price;
                 $bp->Transaction = $this->Transaction;
                 $this->BoughtProducts[] = $bp;
+                break;
               }
             }
           }
