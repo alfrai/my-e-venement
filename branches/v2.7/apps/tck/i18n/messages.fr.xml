@@ -113,8 +113,8 @@
         <target>Opération créée</target>
       </trans-unit> 
       <trans-unit>
-        <source>seat allocations for your order #%%transaction_id%%</source>
-        <target>affectation des places numérotées pour votre commande #%%transaction_id%%</target>
+        <source>summary of your order #%%transaction_id%%</source>
+        <target>résumé de votre commande #%%transaction_id%%</target>
       </trans-unit> 
       <trans-unit>
         <source>seat</source>

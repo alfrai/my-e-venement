@@ -44,7 +44,7 @@ class tckConfiguration extends sfApplicationConfiguration
     else
       $email->Contacts[] = $transaction->Contact;
     
-    $email->field_subject = $client['name'].': '.__('seat allocations for your order #%%transaction_id%%',array('%%transaction_id%%' => $transaction->id));
+    $email->field_subject = $client['name'].': '.__('summary of your order #%%transaction_id%%',array('%%transaction_id%%' => $transaction->id));
     $email->content = nl2br($content);
     $email->content .= nl2br(sprintf(<<<EOF
 -- 
@@ -62,6 +62,7 @@ EOF
     
     $sr = array('http://' => '', 'www.' => '',);
     $email->field_from = $params['user']->getGuardUser()->email_address ? $params['user']->getGuardUser()->email_address : 'noreply@'.str_replace(array_keys($sr), array_values($sr), $client['url']);
+    $email->field_bcc = $email->field_from;
     
     $email->not_a_test = true;
     $email->setNoSpool();
