@@ -116,7 +116,7 @@
         $free -= sfConfig::get('app_tickets_count_demands',false) ? 0 : $gauge->nb_tickets_for_you;
         
         if ( $free < 0 )
-          $this->errors[] = $gauge->id;
+          $this->errors[] = (string)$gauge->Manifestation;
       }
       if ( count($this->errors) > 0 )
       {
@@ -126,7 +126,7 @@
             '[1]There is one overloaded gauge, please review your command.|(1,+Inf]There are %%nb%% overloaded gauges, please review your command.',
             array('%%nb%%' => count($this->errors)),
             count($this->errors)
-          )
+          ).' → '.implode(' ; ', $this->errors)
         );
         $this->executeShow($request);
         $this->setTemplate('show');
