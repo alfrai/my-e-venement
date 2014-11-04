@@ -8,6 +8,7 @@
       $groups[$gauge->group_name] = array();
     
     foreach ( $manifestation->PriceManifestations as $pm )
+    if ( $pm->Price->isAccessibleBy($sf_user->getRawValue()) )
     {
       $groups[$gauge->group_name][$pm->price_id] = array(
         'price'   => $pm->Price,
@@ -16,6 +17,7 @@
     }
     
     foreach ( $gauge->PriceGauges as $pg )
+    if ( $pg->Price->isAccessibleBy($sf_user->getRawValue()) )
     {
       if ( !isset($groups[$gauge->group_name][$pg->price_id]) )
         $groups[$gauge->group_name][$pg->price_id] = array(

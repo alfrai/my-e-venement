@@ -129,7 +129,7 @@ select[disabled] { color: #444; }
 
 #li-direct-access { position: absolute; right: 200px; margin-top: 54px; border: 0; background: none; }
 
-.sf_admin_form_field_gauges_prices { margin-left: -150px; width: calc(100% + 130px); overflow: auto; background-color: white; }
+.sf_admin_form_field_gauges_prices { margin-left: -150px; width: calc(100% + 130px); overflow: auto; background-color: white; font-size: 90%; }
 .sf_admin_form .sf_admin_form_field_gauges_prices .ui-widget-content { padding: 5px; background: transparent; }
 .sf_admin_form .sf_admin_form_field_gauges_prices table label { display: none; }
 .sf_admin_form .sf_admin_form_field_gauges_prices td { padding: 1px 3px; text-align: center; }

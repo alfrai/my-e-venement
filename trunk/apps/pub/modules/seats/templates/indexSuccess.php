@@ -12,7 +12,11 @@
     if ( !isset($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]) )
     {
       $prices[$seated_plan->Workspaces[0]->Gauges[0]->id] = array();
+      foreach ( $seated_plan->Workspaces[0]->Gauges[0]->Manifestation->PriceManifestations as $pm )
+      if ( $pm->Price->isAccessibleBy($sf_user) )
+        $prices[$seated_plan->Workspaces[0]->Gauges[0]->id][$pm->price_id] = $pm->value;
       foreach ( $seated_plan->Workspaces[0]->Gauges[0]->PriceGauges as $pg )
+      if ( $pg->Price->isAccessibleBy($sf_user) )
         $prices[$seated_plan->Workspaces[0]->Gauges[0]->id][$pg->price_id] = $pg->value;
     }
     
