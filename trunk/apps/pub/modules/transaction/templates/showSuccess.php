@@ -205,14 +205,14 @@
 
 <div class="clear"></div>
 
+<?php if ( $current_transaction ): ?>
+<?php include_partial('show_order') ?>
+<?php endif ?>
+
 <div id="cmd-links">
 <?php include_partial('global/show_links', array('objects' => $for_links)); ?>
 </div>
 
 <?php include_partial('show_comment',array('transaction' => $transaction, 'form' => $form)) ?>
-
-<?php if ( $current_transaction ): ?>
-<?php include_partial('show_order') ?>
-<?php endif ?>
 
 <?php include_partial('show_bottom',array('end' => $end)) ?>
