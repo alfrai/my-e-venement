@@ -14,7 +14,7 @@ default:
 
   stylesheets:    [/sfAdminThemejRollerPlugin/css/jroller.css, /sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css, main.css, public?<?php echo date('Ymd') ?>, /private/public.css?<?php echo date('Ymd') ?>]
 #  stylesheets:    [main.css,public,/private/public.css]
-  javascripts:    [jquery]
+  javascripts:    [jquery?<?php echo date('Ymd') ?>]
 
   has_layout:     true
   layout:         public
