@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>from %%from%% to %%to%%</source>
+        <target>de %%from%% à %%to%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>Continue</source>
         <target>Continuer</target>
       </trans-unit>

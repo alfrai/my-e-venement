@@ -23,9 +23,10 @@
     $infos = array();
     $infos[] = $seated_plan->Workspaces[0]->Gauges[0]->group_name ? $seated_plan->Workspaces[0]->Gauges[0]->group_name : $seated_plan->Workspaces[0];
     $infos[] = min($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]) != max($prices[$seated_plan->Workspaces[0]->Gauges[0]->id])
-      ? format_currency(min($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]), '€').
-        ' → '.
-        format_currency(max($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]), '€')
+      ? __('from %%from%% to %%to%%', array(
+        '%%from%%' => format_currency(min($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]), '€'),
+        '%%to%%'   => format_currency(max($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]), '€'),
+      ))
       : $prices[$seated_plan->Workspaces[0]->Gauges[0]->id][0]
     ;
     
