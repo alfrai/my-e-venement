@@ -385,6 +385,10 @@
         <target>Réservé</target>
       </trans-unit>
       <trans-unit>
+        <source>Paid</source>
+        <target>Payé</target>
+      </trans-unit>
+      <trans-unit>
         <source>Edition date</source>
         <target>Date d'édition</target>
       </trans-unit>

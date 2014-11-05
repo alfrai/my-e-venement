@@ -4,7 +4,7 @@
 	<li><?php echo __('Printed (event partially)') ?></li>
   <?php endif ?>
   <?php if ( $transaction->Order->count() > 0 ): ?>
-  <li><?php echo __('Booked') ?></li>
+  <li><?php echo __('Paid') ?></li>
   <?php endif ?>
   <?php $get_tickets = true ?>
   <?php if ( $transaction->Order->count() == 0 && !$printed ): ?>
