@@ -66,6 +66,12 @@
     // if any ticket needs a seat, do what's needed
     $this->redirectToSeatsAllocationIfNeeded('order');
     
+    // preparing things for both PDF & HTML
+    $this->data = array();
+    foreach ( array('transaction', 'nocancel', 'tickets', 'invoice', 'totals', 'partial') as $var )
+    if ( isset($this->$var) )
+      $this->data[$var] = $this->$var;
+    
     // if everything's ok, prints out the order
     if ( !$request->hasParameter('pdf') )
       return 'Success';
