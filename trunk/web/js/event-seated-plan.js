@@ -51,7 +51,10 @@
       var urls = [];
       if ( widget.prop('href') || widget.attr('data-href') )
       {
-        urls.push(widget.prop('href') ? widget.prop('href') : widget.attr('data-href'));
+        urls.push($('<a></a>')
+          .addClass('seats-url')
+          .prop('href', widget.prop('href') ? widget.prop('href') : widget.attr('data-href'))
+        );
       }
       else
       {
