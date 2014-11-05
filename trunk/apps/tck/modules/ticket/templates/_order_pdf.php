@@ -18,7 +18,7 @@
         if ( isset($$var) )
           $data[$var] = $$var;
       ?>
-      <?php include_partial('invoice',$data) ?>
+      <?php include_partial('order',$data) ?>
     </div>
   </body>
 </html>

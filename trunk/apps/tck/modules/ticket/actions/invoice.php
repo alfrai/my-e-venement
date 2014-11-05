@@ -70,4 +70,5 @@
       return $this->renderText($content);
     $this->getResponse()->setContentType('application/pdf');
     $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="invoice-'.$this->invoice->id.'.pdf"');
+    $this->getResponse()->sendHttpHeaders();
     return $this->renderText($pdf->execute());
