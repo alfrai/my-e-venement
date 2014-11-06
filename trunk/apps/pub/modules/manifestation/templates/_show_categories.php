@@ -66,7 +66,12 @@
       <?php endif ?>
     <?php endforeach ?></select>
     <span class="qty">
-      <a href="#" data-val="-1" class="minus">-</a><input type="text" pattern="\d+" name="price_new[qty]" value="1" /><a href="#" class="plus" data-val="1">+</a>
+      <?php
+        $vel = sfConfig::get('app_tickets_vel',array());
+        $max = isset($vel['max_per_manifestation']) && $vel['max_per_manifestation']
+          ? $vel['max_per_manifestation'] : 9;
+      ?>
+      <a href="#" data-val="-1" class="minus">-</a><input type="text" pattern="\d+" name="price_new[qty]" value="1" data-max-value="<?php echo $max ?>" /><a href="#" class="plus" data-val="1">+</a>
     </span>
     <button name="add" value=""><?php echo __('Add') ?></button>
     </form>

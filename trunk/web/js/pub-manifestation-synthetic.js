@@ -34,8 +34,16 @@ $(document).ready(function(){
   // modifying quantities in categories
   $('#categories .qty a').click(function(){
     var newval = parseInt($(this).parent().find('input').val(),10) + parseInt($(this).attr('data-val'),10);
+    if ( newval > parseInt($(this).parent().find('input').attr('data-max-value'),10) )
+      newval = parseInt($(this).parent().find('input').attr('data-max-value'),10);
     $(this).parent().find('input').val(newval > 0 ? newval : 1);
     return false;
+  });
+  $('#categories .qty input').change(function(){
+    if ( !$(this).val() )
+      $(this).val(1);
+    if ( parseInt($(this).val(),10) > parseInt($(this).parent().find('input').attr('data-max-value'),10) )
+      $(this).val(parseInt($(this).parent().find('input').attr('data-max-value'),10));
   });
   
   // the tabs...
