@@ -11,6 +11,11 @@ LI.pubCartReady.push(function(){
   });
 });
 
+LI.pubTimeout = function()
+{
+  window.location = $('#ariane .cart a:first').prop('href');
+}
+
 LI.pubTimer = function(elt, day, delay)
 {
   var d = new Date;
@@ -21,7 +26,10 @@ LI.pubTimer = function(elt, day, delay)
   
   var time = $(elt).text().split(':');
   if ( time.length != 3 )
+  {
+    LI.pubTimeout();
     return;
+  }
   
   d.setHours(parseInt(time[0],10));
   d.setMinutes(parseInt(time[1],10));
@@ -29,6 +37,12 @@ LI.pubTimer = function(elt, day, delay)
   
   if ( d.getDate() == day )
   {
+    // timeout
+    if ( d.getHours() == 0 && d.getMinutes() == 0 && d.getSeconds() == 0 )
+    {
+      LI.pubTimeout();
+    }
+    
     $(elt).text(LI.pad_num(d.getHours(),2)+':'+LI.pad_num(d.getMinutes(),2)+':'+LI.pad_num(d.getSeconds(),2));
     setTimeout(function(){
       LI.pubTimer(elt, day, delay);

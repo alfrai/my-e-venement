@@ -15,7 +15,7 @@ h1, h2, h3, h4, h5, h6, strong {
 }
 a, a:active, a:visited { color: #000; }
 .ui-state-success {
-  background: url('images/ui-bg_flat_55_fbec88_40x100.png') repeat-x scroll 50% 50% #ecfeed;
+  background: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-bg_flat_55_fbec88_40x100.png') repeat-x scroll 50% 50% #ecfeed;
   border: 1px solid #0acd12;
 }
 

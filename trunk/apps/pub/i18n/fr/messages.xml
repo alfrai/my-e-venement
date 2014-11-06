@@ -29,8 +29,8 @@
         <target>Choisissez vos billets sur les meilleures places</target>
       </trans-unit>
       <trans-unit>
-        <source>Me</source>
-        <target>Moi</target>
+        <source>My seat</source>
+        <target>Ma place</target>
       </trans-unit>
       <trans-unit>
         <source>Give me this ticket</source>

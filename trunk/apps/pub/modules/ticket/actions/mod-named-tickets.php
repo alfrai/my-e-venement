@@ -71,7 +71,7 @@
       if ( isset($data[$ticket->id]['comment']) && $ticket->comment != $data[$ticket->id]['comment'] )
         $ticket->comment = $data[$ticket->id]['comment'];
       
-      if ( isset($data[$ticket->id]['contact']['force']) && $data[$ticket->id]['contact']['force'] )
+      if ( isset($data[$ticket->id]['contact']['force']) && $data[$ticket->id]['contact']['force'] == 'true' )
       {
         // force contact to "me" / current contact_id, w/o updating contact's information
         $ticket->DirectContact = $this->getUser()->getContact();
@@ -80,7 +80,8 @@
       {
         // if one field is not set
         foreach ( array('name', 'firstname', 'email') as $field )
-        if (!( isset($data[$ticket->id]['contact'][$field]) && $data[$ticket->id]['contact'][$field] ))
+        if (!( isset($data[$ticket->id]['contact']) && isset($data[$ticket->id]['contact'][$field]) && $data[$ticket->id]['contact'][$field] )
+         && !( $ticket->contact_id && $data[$ticket->id]['contact'][$field] == $ticket->DirectContact->$field ))
         {
           if ( $ticket->DirectContact instanceof Contact && $ticket->DirectContact->confirmed )
             $ticket->DirectContact = NULL;
@@ -94,8 +95,9 @@
         
         // if one field is different from its predecessor
         if ( !$no_direct_contact )
-        foreach ( array('name', 'firstname', 'email') as $field )
-        if ( $ticket->DirectContact->$field != $data[$ticket->id]['contact'][$field] )
+        foreach ( array('title', 'name', 'firstname', 'email') as $field )
+        if (!( isset($data[$ticket->id]['contact'][$field]) && $ticket->contact_id
+            && $ticket->DirectContact->$field == $data[$ticket->id]['contact'][$field] ))
         {
           if ( !$ticket->contact_id )
             $ticket->DirectContact = new Contact;
@@ -107,7 +109,7 @@
             $ticket->DirectContact->confirmed = false;
           }
           
-          foreach ( array('name', 'firstname', 'email') as $field )
+          foreach ( array('title', 'name', 'firstname', 'email') as $field )
             $ticket->DirectContact->$field = $data[$ticket->id]['contact'][$field];
           
           $validator = new sfValidatorEmail;
@@ -181,9 +183,11 @@
       'gauge_name'        => $ticket->Gauge->group_name ? $ticket->Gauge->group_name : (string)$ticket->Gauge,
       'gauge_id'          => $ticket->gauge_id,
       'contact_id'        => $ticket->contact_id,
-      'contact_name'      => $ticket->contact_id ? $ticket->DirectContact->name : NULL,
+      'contact_title'     => $ticket->contact_id ? $ticket->DirectContact->title     : NULL,
+      'contact_name'      => $ticket->contact_id ? $ticket->DirectContact->name      : NULL,
       'contact_firstname' => $ticket->contact_id ? $ticket->DirectContact->firstname : NULL,
-      'contact_email'     => $ticket->contact_id ? $ticket->DirectContact->email : NULL,
+      'contact_email'     => $ticket->contact_id ? $ticket->DirectContact->email     : NULL,
+      'force'             => '',
       'comment'           => $ticket->comment,
     );
   }

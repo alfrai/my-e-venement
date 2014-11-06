@@ -3,25 +3,36 @@ if ( LI == undefined )
   var LI = {};
 
 $(document).ready(function(){
-  $('form.named-tickets input, form.named-tickets select').change(function(){
-    // do not submit the form if a complete contact is not given for $(this)
-    if ( $(this).closest('.contact_name, .contact_firstname, .contact_email').length > 0 )
-    {
-      var go = true;
-      $(this).closest('.contact').find('.contact_name input, .contact_firstname input, .contact_email input').each(function(){
-        if ( !$.trim($(this).val()) )
-          go = false;
-      });
-      if ( !go )
-      {
-        $(this).closest('.contact').find('.contact_name label, .contact_firstname label, .contact_email label')
-          .css('color', 'red');
-        return;
-      }
-    }
-    
-    $(this).closest('form').submit();
+  // click on the labels
+  $('form.named-tickets label').click(function(){
+    $(this).closest('span').find('select, input').first().focus();
   });
+  $('form.named-tickets input, form.named-tickets select')
+    .change(function(){
+      // do not submit the form if a complete contact is not given for $(this)
+      if ( $(this).closest('.contact_title, .contact_name, .contact_firstname, .contact_email').length > 0 )
+      {
+        var go = true;
+        var del = $(this).closest('.contact').find('.contact_title select, .contact_name input, .contact_firstname input, .contact_email input').length;
+        $(this).closest('.contact').find('.contact_title select, .contact_name input, .contact_firstname input, .contact_email input').each(function(){
+          if ( !$.trim($(this).val()) )
+          {
+            del--;
+            go = false;
+          }
+        });
+        if ( !go && del > 0 ) // everything is not filled && everything is not empty
+        {
+          $(this).closest('.contact').find('.contact_title label, .contact_name label, .contact_firstname label, .contact_email label')
+           .css('color', 'red');
+          return;
+        }
+      }
+      
+      $(this).closest('form').submit();
+    })
+  ;
+  
   $('form.named-tickets').submit(function(){
     if ( location.hash == '#debug' )
     {
@@ -36,7 +47,7 @@ $(document).ready(function(){
       data: $(this).serialize(),
       success: LI.pubNamedTicketsData,
     });
-    $(this).find('.contact').find('.contact_name label, .contact_firstname label, .contact_email label')
+    $(this).find('.contact').find('.contact_title label, .contact_name label, .contact_firstname label, .contact_email label')
       .css('color', null);
     return false;
   });
@@ -78,15 +89,16 @@ LI.pubNamedTicketsData = function(json)
     $.each(['gauge_id', 'seat_id', 'price_id', 'contact_id'], function(key, field){
       elt.attr('data-'+field.replace('_','-'), ticket[field]);
     });
-    $.each(['id', 'gauge_name', 'seat_name', 'value', 'taxes', 'contact_id', 'contact_name', 'contact_firstname', 'contact_email', 'comment'], function(key, field){
-      if ( elt.find('.'+field+' input').length > 0 )
-        elt.find('.'+field+' input').val(ticket[field]);
+    $.each(['id', 'gauge_name', 'seat_name', 'value', 'taxes', 'contact_id', 'contact_title', 'contact_name', 'contact_firstname', 'contact_email', 'comment'], function(key, field){
+      if ( elt.find('.'+field+' input, .'+field+' select').length > 0 )
+        elt.find('.'+field+' input, .'+field+' select').val(ticket[field]);
       else
         elt.find('.'+field).text(ticket[field]);
     });
-    elt.find('input').each(function(){
+    elt.find('input, select').each(function(){
       $(this).attr('name', $(this).attr('name').replace('%%ticket_id%%', ticket.id));
     });
+    elt.find('.force').val(ticket['force']);
     
     // synthetic view or not
     if ( ticket.prices_list.length == 0 )
@@ -114,21 +126,26 @@ LI.pubNamedTicketsData = function(json)
       
       // put %%ME%% on a ticket
       elt.find('.me').unbind('click').click(function(){
-        var simple_unset = false;
-        if ( $(this).val() == $(this).closest('.contact').find('.contact_id input.id').val() )
-          simple_unset = true;
-        
-        // reset previous named ticket to "me"
-        $(this).closest('form.named-tickets').find('.contact_id input.id[value="'+$(this).val()+'"]')
-          .closest('.contact').find('input').val('').prop('disabled', false);
-        
-        if ( simple_unset )
-          return true;
-        
         // reset the current ticket & give it to "me"
         $(this).closest('.contact').find('input:not(.force)').val($(this).prop('title')).prop('disabled',true);
         $(this).closest('.contact').find('.contact_id input.force').val('true');
       });
     }
   });
+  
+  // playing w/ labels printed over inputs/selects
+  $('form.named-tickets input, form.named-tickets select')
+    .unbind('focusout').unbind('focus')
+    .focusout(function(){
+      if ( $.trim($(this).val()) == '' )
+      {
+        $(this).val('');
+        $(this).closest('span').find('label').css('display', '');
+      }
+    })
+    .focus(function(){
+      $(this).closest('span').find('label').hide();
+    }).focus().delay(1500).focusout() // the delay is needed to let the asynchronous bind finish
+  ;
+  $('#tickets .submit button').focus();
 }

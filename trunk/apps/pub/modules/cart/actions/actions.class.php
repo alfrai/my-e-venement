@@ -54,6 +54,8 @@ class cartActions extends sfActions
     if ( $this->transac === false )
       $this->transac = new Transaction;
     
+    $this->timeout = false;
+    
     // global timeout
     $time = strtotime(
       '+'.sfConfig::get('app_timeout_global', '1 hour'),
@@ -64,6 +66,8 @@ class cartActions extends sfActions
       str_pad(floor($time%3600/60), 2, '0', STR_PAD_LEFT).':'.
       str_pad(floor($time%3600%60), 2, '0', STR_PAD_LEFT)
     ;
+    if ( $time <= 0 )
+      $this->timeout = true;
     
     // older item timeout
     $ticket = Doctrine::getTable('Ticket')->createQuery('tck')
@@ -82,6 +86,8 @@ class cartActions extends sfActions
         str_pad(floor($time%3600/60), 2, '0', STR_PAD_LEFT).':'.
         str_pad(floor($time%3600%60), 2, '0', STR_PAD_LEFT)
       ;
+      if ( $time <= 0 )
+        $this->timeout = true;
     }
   }
   public function executeEmpty(sfWebRequest $request)

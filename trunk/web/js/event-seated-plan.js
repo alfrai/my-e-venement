@@ -113,6 +113,16 @@
           .width($(this).width())
           .height($(this).height())
         ;
+        
+        // other functions
+        if ( LI.seatedPlanImageLoaded != undefined && LI.seatedPlanImageLoaded.length > 0 )
+        $.each(LI.seatedPlanImageLoaded, function(id, fct){
+          fct();
+        });
+      }).each(function(){
+        // a hack to call "load()" even on cached images
+        if ( this.complete )
+          $(this).load();
       });
     });
   }

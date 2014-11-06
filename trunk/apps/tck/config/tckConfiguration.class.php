@@ -162,7 +162,7 @@ EOF
     {
       $conf = sfConfig::get('app_transaction_email', array());
       $valid = new liValidatorEmail;
-      if ( isset($conf['send_bcc_to']) && $valid->doClean($conf['send_bcc_to']) )
+      if ( isset($conf['send_bcc_to']) && $valid->clean($conf['send_bcc_to']) )
         $email->field_bcc = $conf['send_bcc_to'];
       else
         $email->field_bcc = $email->field_from;

@@ -17,6 +17,11 @@ $(document).ready(function(){
     return false;
   });
   
+  // remove the "loading..." message after a while
+  setTimeout(function(){
+    $('#plans-loading').remove();
+  },10000);
+  
   // remove empty selects
   $('#categories select').each(function(){
     if ( $(this).find('option').length == 0 )
@@ -41,3 +46,11 @@ $(document).ready(function(){
   if ( LI.isMobile.any() )
     $('#container .tab + .tab h4').click();
 });
+
+// the height of the #container
+if ( LI.seatedPlanImageLoaded == undefined )
+  LI.seatedPlanImageLoaded = [];
+LI.seatedPlanImageLoaded.push(function(){
+  $('#container').height($('#plans').height()+15);
+});
+  

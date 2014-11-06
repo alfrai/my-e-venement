@@ -9,7 +9,7 @@
       <span class="value"></span>
       <span class="taxes"></span>
     </h4>
-    <div cass="ticket">
+    <div class="price">
       <span class="seat_name"></span>
       <span class="price_name"><select name="ticket[%%ticket_id%%][price_id]"></select></span>
       <span class="price_name"></span>
@@ -20,6 +20,15 @@
         <input class="id" type="hidden" value="" name="ticket[%%ticket_id%%][contact][id]" />
         <input class="force" type="hidden" value="" name="ticket[%%ticket_id%%][contact][force]" />
       </span>
+      <span class="contact_title">
+        <label><?php echo __('Title') ?>:</label>
+        <select type="text" value="" name="ticket[%%ticket_id%%][contact][title]" title="<?php echo __('Title') ?>">
+          <option value=""><?php echo __('Title') ?></option>
+          <?php foreach ( Doctrine::getTable('TitleType')->createQuery('t')->execute() as $title ): ?>
+          <option value="<?php echo $title ?>"><?php echo $title ?></option>
+          <?php endforeach ?>
+        </select>
+      </span>
       <span class="contact_name">
         <label><?php echo __('Name') ?>:</label>
         <input type="text" value="" name="ticket[%%ticket_id%%][contact][name]" title="<?php echo __('Name') ?>" />
@@ -28,7 +37,7 @@
         <label><?php echo __('Firstname') ?>:</label>
         <input type="text" value="" name="ticket[%%ticket_id%%][contact][firstname]" title="<?php echo __('Firstname') ?>" />
       </span>
-      <button class="me" name="ticket[%%ticket_id%%][me]" value="<?php echo $sf_user->getContact()->id ?>" title="<?php echo __('Give me this ticket') ?>"><?php echo __('Me') ?></button>
+      <button class="me" name="ticket[%%ticket_id%%][me]" value="<?php echo $sf_user->getContact()->id ?>" title="<?php echo __('Give me this ticket') ?>"><?php echo __('My seat') ?></button>
       <br/>
       <span class="contact_email">
         <label><?php echo __('Email address') ?>:</label>
