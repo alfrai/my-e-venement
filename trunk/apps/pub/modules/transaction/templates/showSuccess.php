@@ -33,8 +33,17 @@
 >
   <?php if ( sfConfig::get('app_options_synthetic_plans', false) ): ?>
   <td class="picture"><?php echo $event->Picture->getRawValue()->render(array('app' => 'pub')) ?></td>
-  <td class="event"><?php echo $event ?></td>
-  <td class="manifestation"><?php echo $manif->getFormattedDate() ?></td>
+  <td class="event">
+    <p><?php echo $event ?></p>
+    <p><?php echo $manif->getFormattedDate() ?></p>
+  </td>
+  <td class="manifestation">
+    <p class="seat"><?php echo __('Seat #').$ticket->Seat ?></p>
+    <?php if ( $ticket->contact_id ): ?>
+    <p class="contact"><?php echo $ticket->DirectContact->coolname ?></p>
+    <p class="email"><a href="mailto:<?php echo $ticket->DirectContact->email ?>"><?php echo $ticket->DirectContact->email ?></a></p>
+    <?php endif ?>
+  </td>
   <?php else: ?>
   <td class="picture"><?php echo $event->Picture->getRawValue()->render() ?></td>
   <td class="event"><?php if ( $last['event_id'] != $event->id ) { $last['event_id'] = $event->id; echo $event; } ?></td>
