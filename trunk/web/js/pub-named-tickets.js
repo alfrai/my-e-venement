@@ -130,22 +130,22 @@ LI.pubNamedTicketsData = function(json)
         $(this).closest('.contact').find('input:not(.force)').val($(this).prop('title')).prop('disabled',true);
         $(this).closest('.contact').find('.contact_id input.force').val('true');
       });
+    
+      // playing w/ labels printed over inputs/selects
+      elt.find('input, select')
+        .unbind('focusout').unbind('focus')
+        .focusout(function(){
+          if ( $.trim($(this).val()) == '' )
+          {
+            $(this).val('');
+            $(this).closest('span').find('label').css('display', '');
+          }
+        })
+        .focus(function(){
+          $(this).closest('span').find('label').hide();
+        }).focus().focusout() // the delay is needed to let the asynchronous bind finish
+      ;
+      $('#tickets .submit button').focus();
     }
   });
-  
-  // playing w/ labels printed over inputs/selects
-  $('form.named-tickets input, form.named-tickets select')
-    .unbind('focusout').unbind('focus')
-    .focusout(function(){
-      if ( $.trim($(this).val()) == '' )
-      {
-        $(this).val('');
-        $(this).closest('span').find('label').css('display', '');
-      }
-    })
-    .focus(function(){
-      $(this).closest('span').find('label').hide();
-    }).focus().delay(1500).focusout() // the delay is needed to let the asynchronous bind finish
-  ;
-  $('#tickets .submit button').focus();
 }
