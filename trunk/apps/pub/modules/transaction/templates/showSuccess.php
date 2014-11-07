@@ -43,14 +43,7 @@ $(document).ready(function(){
     <p><?php echo $manif->getFormattedDate() ?></p>
   </td>
   <td class="manifestation">
-    <?php include_partial('manifestation/show_named_tickets', array('manifestation' => $manif, 'ticket' => $ticket, 'display_continue' => false, 'display_mods' => false)) ?>
-  <!--<form class="named-tickets" method="<?php echo sfConfig::get('sf_web_debug', false) ? 'get' : 'post' ?>" action="<?php echo url_for('ticket/modNamedTickets?manifestation_id='.$manifestation->id) ?>" target="_blank">
-    <p class="seat"><?php echo __('Seat #').$ticket->Seat ?></p>
-    <?php if ( $ticket->contact_id ): ?>
-    <p class="contact"><?php echo $ticket->DirectContact->coolname ?></p>
-    <p class="email"><a href="mailto:<?php echo $ticket->DirectContact->email ?>"><?php echo $ticket->DirectContact->email ?></a></p>
-    <?php endif ?>
-  </form>-->
+    <?php include_partial('manifestation/show_named_tickets', array('manifestation' => $manif, 'ticket' => $ticket, 'transaction' => $transaction, 'display_continue' => false, 'display_mods' => false)) ?>
   </td>
   <?php else: ?>
   <td class="picture"><?php echo $event->Picture->getRawValue()->render() ?></td>

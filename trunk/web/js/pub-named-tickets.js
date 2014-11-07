@@ -138,6 +138,11 @@ LI.pubNamedTicketsData = function(json)
       
       // put %%ME%% on a ticket
       elt.find('.me').unbind('click').click(function(){
+        // reset the other tickets set to %%ME%%
+        $('form.named-tickets .contact .id[value='+$(this).closest('.contact').find('.me').val()+']').each(function(){
+          $(this).closest('.contact').find('.contact_title select, .contact_name input, .contact_firstname input, .contact_email input').val('');
+        });
+        
         // reset the current ticket & give it to "me"
         $(this).closest('.contact').find('input:not(.force)').val($(this).prop('title')).prop('disabled',true);
         $(this).closest('.contact').find('.contact_id input.force').val('true');

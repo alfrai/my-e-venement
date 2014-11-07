@@ -29,8 +29,9 @@
   $this->getContext()->getConfiguration()->loadHelpers('Number');
   
   $q = Doctrine::getTable('Ticket')->createQuery('tck')
+    ->andWhere('t.contact_id = ?', $this->getUser()->getTransaction()->contact_id)
     ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
-    ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransactionId())
+    ->andWhere('tck.transaction_id = ?', $request->getParameter('transaction_id', $this->getUser()->getTransactionId()))
     ->andWhere('tck.printed_at IS NULL')
     ->andWhere('tck.integrated_at IS NULL')
     ->andWhere('tck.cancelling IS NULL')
@@ -44,14 +45,15 @@
     ->leftJoin('tck.Price p')
     
     ->leftJoin('tck.Transaction t')
-    ->leftJoin('t.Order o')
-    ->andWhere('o.id IS NULL')
     ->andWhere('t.closed = ?', false)
     
     ->leftJoin('tck.DirectContact dc')
     ->select('tck.*, dc.*')
     ->orderBy('ws.name, p.name, tck.value')
   ;
+  if ( !$request->getParameter('transaction_id') )
+    $q->leftJoin('t.Order o')
+      ->andWhere('o.id IS NULL');
   if ( $request->getParameter('ticket_id', false) && intval($request->getParameter('ticket_id')).'' == ''.$request->getParameter('ticket_id') )
     $q->andWhere('tck.id = ?', $request->getParameter('ticket_id'));
   $tickets = $q->execute();
@@ -60,6 +62,20 @@
   $data = $request->getParameter('ticket');
   if ( isset($data['%%ticket_id%%']) )
     unset($data['%%ticket_id%%']);
+  
+  /* we deal with this in JS...
+  // reset every other ticket that has %%ME%% as a contact
+  $force = false;
+  foreach ( $data as $id => $ticket )
+  if ( isset($ticket['contact']['force']) && $data[$ticket->id]['contact']['force'] == 'true' )
+    $force = true;
+  if ( $force )
+  foreach ( $data as $id => $ticket )
+  if (!( isset($ticket['contact']['force']) && $data[$ticket->id]['contact']['force'] == 'true' )
+    && $ticket['contact']['id'] == $this->getUser()->getContact()->id )
+  foreach ( $ticket['contact'] as $name => $value )
+    $data[$id][$name] = '';
+  */
   
   $to_delete = new Doctrine_Collection('Ticket');
   $this->data = array();
@@ -108,7 +124,8 @@
           if ( $ticket->DirectContact->confirmed )
           {
             $ticket->DirectContact = new Contact;
-            $ticket->DirectContact->confirmed = false;
+            if ( $ticket->Transaction->Order->count() == 0 )
+              $ticket->DirectContact->confirmed = false;
           }
           
           foreach ( array('title', 'name', 'firstname', 'email') as $field )
@@ -131,14 +148,16 @@
         }
       }
       
-      // delete the ticket
-      if (!( isset($data[$ticket->id]['price_id']) && $data[$ticket->id]['price_id'] ))
+      // delete the ticket (if not getting back a transaction already paid)
+      if ( !$request->getParameter('transaction_id')
+        && !( isset($data[$ticket->id]['price_id']) && $data[$ticket->id]['price_id'] ))
       {
         $to_delete[] = $ticket;
         continue;
       }
-      // set another price_id
-      if ( $data[$ticket->id]['price_id'] !== $ticket->price_id )
+      // set another price_id (if not getting back a transaction already paid)
+      if ( !$request->getParameter('transaction_id')
+        && $data[$ticket->id]['price_id'] !== $ticket->price_id )
       {
         $ticket->value    = NULL;
         $ticket->price_id = $data[$ticket->id]['price_id'];
@@ -195,5 +214,7 @@
   }
   
   ksort($this->data);
-  $to_delete->delete();
+  // delete stored-for-deletion tickets (if not getting back a transaction already paid)
+  if ( !$request->getParameter('transaction_id') )
+    $to_delete->delete();
   return 'Success';

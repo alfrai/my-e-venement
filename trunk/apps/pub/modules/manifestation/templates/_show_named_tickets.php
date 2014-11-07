@@ -1,5 +1,8 @@
 <form
-  action="<?php echo url_for('ticket/modNamedTickets?manifestation_id='.$manifestation->id.(isset($ticket) && $ticket->getRawValue() instanceof Ticket ? '&ticket_id='.$ticket->id : '')) ?>"
+  action="<?php echo url_for('ticket/modNamedTickets?manifestation_id='.$manifestation->id
+    .(isset($ticket) && $ticket->getRawValue() instanceof Ticket ? '&ticket_id='.$ticket->id : '')
+    .(isset($transaction) && $transaction->getRawValue() instanceof Transaction ? '&transaction_id='.$transaction->id : '')
+  ) ?>"
   method="<?php echo sfConfig::get('sf_web_debug', false) ? 'get' : 'post' ?>"
   class="named-tickets"
   <?php echo isset($ticket) && $ticket->getRawValue() instanceof Ticket ? 'id="ticket-'.$ticket->id.'"' : '' ?>
