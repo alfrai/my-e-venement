@@ -339,7 +339,7 @@ class myUser extends pubUser
   }
   public function logout()
   {
-    if ( $this->transaction->Order->count() == 0 )
+    if ( $this->getTransaction()->Order->count() == 0 )
       $this->transaction->Tickets->delete();
     $this->getAttributeHolder()->remove('transaction_id');
     $this->transaction = NULL;
