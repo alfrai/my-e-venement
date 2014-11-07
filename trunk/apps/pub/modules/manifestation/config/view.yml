@@ -5,4 +5,4 @@ indexSuccess:
   javascripts: [public?<?php echo date('Ymd') ?>, helper]
 showSuccess:
   stylesheets: [pub-manifestation?<?php echo date('Ymd') ?>]
-  javascripts: [public?<?php echo date('Ymd') ?>]
+  javascripts: [public?<?php echo date('Ymd') ?>, helper-cookies]

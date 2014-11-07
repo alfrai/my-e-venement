@@ -50,9 +50,16 @@ $(document).ready(function(){
   $('#container .tab h4').click(function(){
     $('#container .tab:not(.hidden)').addClass('hidden');
     $(this).closest('.tab').removeClass('hidden');
+    
+    // remember my choice
+    Cookie.set('pub_seated_plan_tab_id', $(this).closest('.tab').prop('id'), { maxAge: 30*24*60*60 }); // 30 days
   });
-  if ( LI.isMobile.any() )
-    $('#container .tab + .tab h4').click();
+  // click on last choice
+  if ( Cookie.get('pub_seated_plan_tab_id') )
+    $('#container .tab#'+Cookie.get('pub_seated_plan_tab_id')+' h4').click();
+  // click on categories for mobile devices (by default)
+  else if ( LI.isMobile.any() )
+    $('#container .tab#categories h4').click();
 });
 
 // the height of the #container

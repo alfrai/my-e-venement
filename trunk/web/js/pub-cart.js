@@ -1,4 +1,8 @@
   $(document).ready(function(){
+    // removing the recommandations if none
+    if ( $('#cmd-links .products .link, #cmd-links .manifestations .link').length == 0 )
+      $('#cmd-links').hide();
+    
     // event's picture
     $('#command tbody tr.tickets').addClass('picture-to-merge');
     var trs;
