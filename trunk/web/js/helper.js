@@ -22,10 +22,6 @@ LI.format_currency = function(value, nbsp, nodot)
   return value;
 }
 
-// the global var that can be used everywhere as a "root"
-if ( LI == undefined )
-  var LI = {};
-
 // display a flash for a limited time
 LI.alert = function(msg, type, time)
 {
@@ -49,26 +45,6 @@ LI.alert = function(msg, type, time)
   setTimeout(function(){
     $('.sf_admin_flashes > *').fadeOut(function(){ $(this).remove(); })
   },time);
-}
-
-LI.pad_num = function (num, digits){return(1e15+num+"").slice(-digits)}
-
-// THE CURRENCY
-LI.format_currency = function(value, nbsp, nodot)
-{
-  if ( nbsp  == undefined ) nbsp  = true;
-  if ( nodot == undefined ) nodot = true;
-  if ( !value ) value = 0;
-
-  var r = $('.currency:first').length > 0
-    ? $('.currency:first').html()
-    : '%d €';
-  value = r.replace('%d',value.toFixed(2));
-
-  if ( nbsp  ) value = value.replace(' ','&nbsp;');
-  if ( nodot ) value = value.replace('.',',');
-
-  return value;
 }
 
 LI.isMobile = {
