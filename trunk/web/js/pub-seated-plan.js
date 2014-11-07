@@ -162,7 +162,8 @@ LI.pubInitTicketsRequest = function(seats){
       LI.alert('An error occurred', 'error');
       return;
     }
-    LI.alert(json.success.message, 'success');
+    if ( json.success.message )
+      LI.alert(json.success.message, 'success');
     LI.pubInitTicketsData(json.success.data);
   });
   

@@ -62,7 +62,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #member_card_types tfoot .qty { padding-right: 5px; }
 #member_card_types tfoot { font-weight: bold; }
 
-#command .value, #command .qty, #command .total { text-align: right; }
+#command .extra-taxes, #command .value, #command .qty, #command .total { text-align: right; }
 #command thead .product, #command thead .declination, #command thead .space { font-size: 0; }
 
 #cart-widget {
@@ -109,7 +109,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #command { border: 1px solid black; border-radius: 5px; border-spacing: inherit; margin-left: 25px; width: calc(100% - 25px); }
 #command td { padding: 2px 6px 2px 6px; border-spacing: inherit; }
 #command td:last-child { padding: 2px 4px 2px 6px; }
-#command thead { background-color: whitesmoke; font-weight: bold; }
+#command thead { background-color: whitesmoke; font-weight: bold; text-align: center; }
 #command tbody tr:nth-child(odd) { background-color: white; }
 #command tbody tr:nth-child(even) { background-color: #DCDCDC; }
 #command tfoot .linked-stuff, #command tfoot .qty, #command tfoot .extra-taxes, #command tfoot .total-total, #command tfoot .total { background-color: whitesmoke; }

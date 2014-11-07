@@ -63,7 +63,7 @@ all:
           More:
             show_labels: true
             extra_class: tdp-vertical
-            fields: [family_contact, npai, password]
+            fields: [family_contact, npai, password, culture]
           Relations:
             fields: [YOBs, Relationships]
           Social:

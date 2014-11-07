@@ -149,6 +149,8 @@ class loginActions extends sfActions
     if ( $this->form->isValid() )
     {
       $this->getUser()->setFlash('notice',__('You are authenticated.'));
+      $this->getUser()->getContact()->culture = $this->getUser()->getCulture();
+      $this->getUser()->getContact()->save();
       return $this->redirect($request->hasParameter('register')
         ? 'cart/register'
         : sfConfig::get('app_contact_modify_coordinates_first', false) ? 'contact/edit' : ($this->form->getValue('url_back') ? $this->form->getValue('url_back') : 'homepage')
@@ -183,6 +185,12 @@ class loginActions extends sfActions
     {
       $this->getUser()->setCulture($request->getParameter('lang'));
       $this->getUser()->setAttribute('global_culture_forced', true);
+      
+      if ( $this->getUser()->hasContact() )
+      {
+        $this->getUser()->getContact()->culture = $request->getParameter('lang');
+        $this->getUser()->getContact()->save();
+      }
     }
     
     if ( !$this->getUser()->getAttribute('global_culture_forced', false) )
@@ -210,6 +218,9 @@ class loginActions extends sfActions
     
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     $this->getUser()->setFlash('success', __('Now you are making the experience of e-venement in your favorite language.'));
-    $this->redirect($request->getReferer() ? $request->getReferer() : 'event/index');
+    if ( strpos($request->getReferer(), 'cart/order') !== false )
+      $this->redirect('cart/register');
+    else
+      $this->redirect($request->getReferer() ? $request->getReferer() : 'event/index');
   }
 }

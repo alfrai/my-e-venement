@@ -57,6 +57,7 @@ Contact:
     sf_guard_user_id:
       type: integer
       unique: true
+    culture: string(32)
   relations:
     Category:
       class: OrganismCategory

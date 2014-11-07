@@ -1,6 +1,6 @@
 0. activate your liPassbookPlugin
 1. put your password in the file configured in your app.yml (default: apps/pub/config/private/passbook.passwd)
-2. for security issues : sudo chgrp www-data apps/pub/config/passbook.passwd && chmod 640 apps/pub/config/private/passbook.passwd
-3. put your p12 certificate in the file configured in your app.yml (default: apps/pub/config/private/passbook.p12
+2. for security issues : sudo chgrp www-data config/private/passbook.passwd && chmod 640 config/private/passbook.passwd
+3. put your p12 certificate in the file configured in your app.yml (default: /config/private/passbook.p12)
 4. configure correctly your app.yml with your passbook id & team & organisation informations
 5. done

@@ -65,6 +65,10 @@ class ContactFormFilter extends BaseContactFormFilter
       ->andWhere('sent')
     );
     
+    $this->widgetSchema['culture'] = new sfWidgetFormChoice(array(
+      'choices' => array('' => '') + sfConfig::get('project_internals_cultures', array()),
+    ));
+    
     // has postal address ?
     $this->widgetSchema   ['has_address'] = $this->widgetSchema   ['npai'];
     $this->validatorSchema['has_address'] = $this->validatorSchema['npai'];

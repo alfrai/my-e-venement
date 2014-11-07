@@ -137,8 +137,8 @@
         <target>Participants</target>
       </trans-unit>
       <trans-unit>
-        <source>Fees</source>
-        <target>Frais</target>
+        <source>Ticketting fees</source>
+        <target>Frais de billetterie</target>
       </trans-unit>
       <trans-unit>
         <source>Customize your seats</source>

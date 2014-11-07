@@ -69,6 +69,14 @@ class ContactForm extends BaseContactForm
       'required' => false,
     ));
     
+    $this->widgetSchema['culture'] = new sfWidgetFormChoice(array(
+      'choices' => sfConfig::get('project_internals_cultures', array('fr' => 'Français')),
+    ));
+    $this->validatorSchema['culture'] = new sfValidatorChoice(array(
+      'choices' => array_keys(sfConfig::get('project_internals_cultures', array('fr' => 'Français'))),
+      'required' => false,
+    ));
+    
     $this->widgetSchema   ['sf_guard_user_id'] =
     $this->widgetSchema   ['confirmed'] = new sfWidgetFormInputHidden;
     
