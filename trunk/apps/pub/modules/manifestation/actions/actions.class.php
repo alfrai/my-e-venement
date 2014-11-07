@@ -24,6 +24,11 @@ class manifestationActions extends autoManifestationActions
     if ( $this->getPager()->getQuery()->count() == 1 )
     {
       $manifestation = $this->getPager()->getQuery()->select('m.id')->fetchOne();
+      
+      foreach ( array('success', 'notice', 'error') as $type )
+      if ( $this->getUser()->getFlash($type) )
+        $this->getUser()->setFlash($type, $this->getUser()->getFlash($type));
+      
       $this->redirect('manifestation/edit?id='.$manifestation->id);
     }
     

@@ -35,13 +35,22 @@ class eventActions extends autoEventActions
     
     // only one event...
     if ( $this->pager->getNbResults() == 1 )
+    {
+      foreach ( array('success', 'notice', 'error') as $type )
+      if ( $this->getUser()->getFlash($type) )
+        $this->getUser()->setFlash($type, $this->getUser()->getFlash($type));
       $this->redirect('event/edit?id='.$this->pager->getCurrent()->id);
+    }
   }
   public function executeEdit(sfWebRequest $request)
   {
     $this->event = $this->getRoute()->getObject();
     $this->getUser()->getAttributeHolder()->remove('manifestation.filters');
     $this->getUser()->setAttribute('manifestation.filters', array('event_id' => $this->event->id), 'admin_module');
+    
+    foreach ( array('success', 'notice', 'error') as $type )
+    if ( $this->getUser()->getFlash($type) )
+      $this->getUser()->setFlash($type, $this->getUser()->getFlash($type));
     $this->redirect('manifestation/index');
   }
   public function executeBatchDelete(sfWebRequest $request)

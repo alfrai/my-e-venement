@@ -10,5 +10,6 @@
 
 .submit { text-align: center; }
 #tickets .submit button { font-size: 120%; }
-#tickets label { position: absolute; margin: 2px 0 0 5px; cursor: text; }
+#tickets label { position: absolute; margin: 2px 0 0 5px; cursor: text; font-style: italic; color: gray; }
 #tickets .contact_title label { display: none; }
+#tickets .contact_title option[value=""] { color: gray; font-style: italic; }
