@@ -65,10 +65,6 @@
         <target>Votre option a été modifiée dans votre panier.</target>
       </trans-unit>
       <trans-unit>
-        <source>Ticket to remove or price to set</source>
-        <target>Billet à retirer ou prix à paramétrer</target>
-      </trans-unit>
-      <trans-unit>
         <source>Add</source>
         <target>Ajouter</target>
       </trans-unit>

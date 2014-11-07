@@ -56,7 +56,9 @@ $(document).ready(function(){
 
 LI.pubNamedTicketsInitialization = function()
 {
-  $.get($('form.named-tickets').prop('action'), LI.pubNamedTicketsData);
+  $('form.named-tickets').each(function(){
+    $.get($(this).prop('action'), LI.pubNamedTicketsData);
+  });
 }
 LI.pubNamedTicketsData = function(json)
 {
@@ -66,11 +68,18 @@ LI.pubNamedTicketsData = function(json)
     return;
   }
   
-  $('form.named-tickets .ticket:not(.sample)').remove();
+  var form = $('form.named-tickets');
+  if ( Object.keys(json.success.tickets).length == 1 )
+  $.each(json.success.tickets, function(id, ticket){
+    if ( $('form.named-tickets#ticket-'+ticket.id).length > 0 )
+      form = $('form.named-tickets#ticket-'+ticket.id);
+  });
+  
+  form.find('.ticket:not(.sample)').remove();
   if ( json.success.tickets.length == 0 )
-    $('form.named-tickets').fadeOut();
+    form.fadeOut();
   else
-    $('form.named-tickets').fadeIn();
+    form.fadeIn();
   
   // reinit the previously selected seats
   $('.picture.seated-plan .seat.ordered.in-progress').removeClass('ordered').removeClass('in-progress');
@@ -82,16 +91,19 @@ LI.pubNamedTicketsData = function(json)
     $('#tickets .submit').show();
   
   $.each(json.success.tickets, function(id, ticket){
-    var elt = $('form.named-tickets .ticket.sample').clone(true)
+    var elt = form.find('.ticket.sample').clone(true)
       .removeClass('sample')
-      .appendTo($('form.named-tickets'))
+      .appendTo(form)
     ;
     $.each(['gauge_id', 'seat_id', 'price_id', 'contact_id'], function(key, field){
       elt.attr('data-'+field.replace('_','-'), ticket[field]);
     });
     $.each(['id', 'gauge_name', 'seat_name', 'value', 'taxes', 'contact_id', 'contact_title', 'contact_name', 'contact_firstname', 'contact_email', 'comment'], function(key, field){
       if ( elt.find('.'+field+' input, .'+field+' select').length > 0 )
+      {
         elt.find('.'+field+' input, .'+field+' select').val(ticket[field]);
+        elt.find('.'+field+' label').hide();
+      }
       else
         elt.find('.'+field).text(ticket[field]);
     });
@@ -145,7 +157,7 @@ LI.pubNamedTicketsData = function(json)
           $(this).closest('span').find('label').hide();
         }).focus().focusout() // the delay is needed to let the asynchronous bind finish
       ;
-      $('#tickets .submit button').focus();
+      $('#actions .register a, #tickets .submit button').focus();
     }
   });
 }

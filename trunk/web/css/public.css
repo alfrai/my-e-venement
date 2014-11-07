@@ -127,6 +127,9 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #command .seat { font-weight: bold; }
 #command .contact { margin: 0; }
 #command .email { margin-top: 0; font-size: 75%; }
+#command .manifestation .price_name, #command .manifestation h3, #command .manifestation h4 { display: none; }
+#command .manifestation select, #command .manifestation button, #command .manifestation input { font-size: 75%; }
+#command .manifestation .contact_firstname label, #command .manifestation .contact_name label { padding-top: 2px; }
 
 #details a, #details label { display: inline-block; }
 #details label { min-width: 80px; }

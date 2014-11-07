@@ -64,7 +64,7 @@
         if ( !$this->form->isValid() )
         {
           error_log('An error occurred registering a contact ('.$this->form->getErrorSchema().')');
-          $this->forward('cart', 'register');
+          $this->setTemplate('register');
           return;
         }
       }

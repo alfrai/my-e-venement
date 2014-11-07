@@ -52,6 +52,8 @@
     ->select('tck.*, dc.*')
     ->orderBy('ws.name, p.name, tck.value')
   ;
+  if ( $request->getParameter('ticket_id', false) && intval($request->getParameter('ticket_id')).'' == ''.$request->getParameter('ticket_id') )
+    $q->andWhere('tck.id = ?', $request->getParameter('ticket_id'));
   $tickets = $q->execute();
   
   // POST data
