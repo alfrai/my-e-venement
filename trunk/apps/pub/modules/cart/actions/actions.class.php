@@ -189,6 +189,13 @@ class cartActions extends sfActions
       ->fetchOne();
   }
   
+  public function executeSendConfirmationEmails(sfWebRequest $request)
+  {
+    if ( !sfConfig::get('sf_web_debug', false) )
+      die();
+    $this->sendConfirmationEmails($this->getUser()->getTransaction(), $this);
+    return sfView::NONE;
+  }
   public static function sendConfirmationEmails(Transaction $transaction, sfAction $action)
   {
     return require(dirname(__FILE__).'/send-confirmation-emails.php');

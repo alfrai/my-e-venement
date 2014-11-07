@@ -179,6 +179,8 @@ EOF
       $attachment->save();
     }
     
+    $action->dispatcher->notify(new sfEvent($action, 'email.before_sending_tickets', $email->getDispatcherParameters() + array('email' => $email)));
+    $action->dispatcher->notify(new sfEvent($action, 'email.before_sending_products', $email->getDispatcherParameters() + array('email' => $email)));
     $email->isATest(false);
     $email->setNoSpool();
     return $email->save();
