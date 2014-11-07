@@ -27,7 +27,7 @@
         '%%from%%' => format_currency(min($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]), '€'),
         '%%to%%'   => format_currency(max($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]), '€'),
       ))
-      : min($prices[$seated_plan->Workspaces[0]->Gauges[0]->id])
+      : format_currency(min($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]), '€')
     ;
     
     $seats[] = array(
