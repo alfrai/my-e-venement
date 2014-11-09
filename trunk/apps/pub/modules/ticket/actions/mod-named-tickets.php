@@ -51,9 +51,16 @@
     ->select('tck.*, dc.*')
     ->orderBy('ws.name, p.name, tck.value')
   ;
+  
+  // current transaction
   if ( !$request->getParameter('transaction_id') )
     $q->leftJoin('t.Order o')
       ->andWhere('o.id IS NULL');
+  else // a transaction already booked
+    $q->leftJoin('tck.manifestation m')
+      ->andWhere('m.happens_at < now()');
+  
+  // for a specific ticket
   if ( $request->getParameter('ticket_id', false) && intval($request->getParameter('ticket_id')).'' == ''.$request->getParameter('ticket_id') )
     $q->andWhere('tck.id = ?', $request->getParameter('ticket_id'));
   $tickets = $q->execute();
