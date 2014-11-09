@@ -27,6 +27,7 @@
       'app' => 'pub',
       'get-seats' => 'seats/index',
       'match-seated-plan' => false,
+      'add-data-src' => true,
     )) ?>
   </div>
 <?php endif ?>

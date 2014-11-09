@@ -35,6 +35,9 @@
     if ( root == undefined )
       root = $('body');
     
+    // kicking 3G proxies and bad ISPs
+    if ( $(root).find('.picture.seated-plan img').attr('data-src') != $(root).find('.picture.seated-plan img').attr('src') )
+      $(root).find('.picture.seated-plan img').attr('src', $(root).find('.picture.seated-plan img').attr('data-src'));
     $(root).find('.picture.seated-plan img').each(function(){
       var widget = $(this).closest('.seated-plan');
       
@@ -164,6 +167,7 @@
 
   // the function that add a seat on every click (mouseup) or on data loading
   LI.seatedPlanMouseup = function(data)
+  { setTimeout(function() // optimization !?
   {
     // removing pre-seat and pre-seat behaviour
     $('.picture.seated-plan .pre-seat').remove();
@@ -328,6 +332,7 @@
         }
       });
     });
+  }, 1); // end of setTimeout (optimization)
   }
 
   LI.seatedPlanUnallocatedSeat = function(seat)

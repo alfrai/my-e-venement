@@ -22,6 +22,7 @@ class SeatedPlan extends PluginSeatedPlan
       'get-seats' => 'seated_plan/getSeats',
       'on-demand' => false,
       'match-seated-plan' => true,
+      'add-data-src' => false,
     ) as $key => $value )
     if ( !isset($attributes[$key]) )
       $attributes[$key] = $value;
@@ -29,7 +30,8 @@ class SeatedPlan extends PluginSeatedPlan
     $img = $this->Picture->render(array(
       'title' => $this->Picture,
       'width' => $this->ideal_width ? $this->ideal_width : '',
-      'app'   => 'pub',
+      'app'   => $attributes['app'],
+      'add-data-src' => $attributes['add-data-src'],
     ));
     
     $data = '';

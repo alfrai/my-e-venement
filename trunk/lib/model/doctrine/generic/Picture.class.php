@@ -23,7 +23,14 @@ class Picture extends PluginPicture
     
     sfApplicationConfiguration::getActive()->loadHelpers(array('CrossAppLink'));
     $attributes['src'] = cross_app_url_for(isset($attributes['app']) ? $attributes['app'] : 'default', 'picture/display?id='.$this->id);
-    unset($attributes['app']);
+    
+    if ( isset($attributes['add-data-src']) && $attributes['add-data-src'] )
+      $attributes['data-src'] = $attributes['src'];
+    
+    foreach ( array('app', 'add-data-src') as $attr )
+    if ( isset($attributes[$attr]) )
+      unset($attributes[$attr]);
+    
     return $this->_getImageTag($attributes);
   }
   public function getHtmlTagInline(array $attributes = array())
