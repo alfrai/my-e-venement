@@ -25,6 +25,8 @@ class loginActions extends sfActions
   
   public function executeIndex(sfWebRequest $request)
   {
+    $this->getUser()->setDefaultCulture($request->getLanguages());
+    
     $this->register = $request->hasParameter('register');
     $this->form = new LoginForm;
     
