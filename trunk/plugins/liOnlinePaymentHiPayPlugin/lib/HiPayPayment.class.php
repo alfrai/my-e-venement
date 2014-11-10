@@ -99,9 +99,10 @@ class HiPayPayment extends OnlinePayment
     $data = $this->process($request->getParameter('xml'));
     
     // the BankPayment Record
-    $bank->error = $data['result'] && $data['code'] === 'ok' ? 'no' : 'yes';
+    $bank->error = $data['result'] ? 'no' : 'yes';
     foreach ( $data['xml'] as $key => $value )
       $bank->$key = $value;
+    $bank->error = $bank->code === 'ok' ? 'yes' : 'no';
     
     return $bank;
   }

@@ -65,7 +65,7 @@
         $command .= "&nbsp;&nbsp;".__('at')." ".$manif['manif']->getShortenedDate().", ".$manif['manif']->Location.(($sp = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)) ? '*' : '')."\n";
         unset($manif['manif']);
         foreach ( $manif as $tickets )
-          $command .= "&nbsp;&nbsp;&nbsp;&nbsp;".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€').'    + '.format_currency($tickets['taxes'],'€').' ('.__('Taxes').")\n";
+          $command .= "&nbsp;&nbsp;&nbsp;&nbsp;".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€').'    + '.format_currency($tickets['taxes'],'€').' ('.__('Ticketting fees').")\n";
       }
     }
     
