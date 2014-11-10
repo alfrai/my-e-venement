@@ -94,12 +94,27 @@
         $ticket->vat        = 0;
       }
       
-      $ticket->seat_id = isset($data[$ticket->id]['seat_id']) && $data[$ticket->id]['seat_id']
-        ? $data[$ticket->id]['seat_id']
-        : $ticket->seat_id;
+      if ( isset($data[$ticket->id]['seat_id']) && $data[$ticket->id]['seat_id'] )
+      {
+        // checking if the seat is already booked
+        $q = Doctrine::getTable('Ticket')->createQuery('tck')
+          ->andWhere('tck.seat_id = ?', $data[$ticket->id]['seat_id'])
+          ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
+        ;
+          error_log($q->getRawSql());
+        if ( $q->count() > 0 )
+        {
+          $this->json['error']['message'] = 'We are sorry, this seat has being booked in the meantime.';
+          if ( !isset($this->json['error']['seats_to_remove']) )
+            $this->json['error']['seats_to_remove'] = array();
+          $this->json['error']['seats_to_remove'][] = $data[$ticket->id]['seat_id'];
+          break;
+        }
+        $ticket->seat_id = $data[$ticket->id]['seat_id'];
+      }
       
       if ( !$ticket->trySave() )
-        $this->json['error']['message'] = 'An error occurred updating your cart, try again please..';
+        $this->json['error']['message'] = 'An error occurred updating your cart, try again please...';
       break;
     }
   }
@@ -183,9 +198,29 @@
       $ticket->gauge_id = $tck['gauge_id'];
     }
     
-    foreach ( array('seat_id', 'price_id') as $field )
-    if ( isset($tck[$field]) && $tck[$field] )
-      $ticket->$field = $tck[$field];
+    // the price
+    if ( isset($tck['price_id']) && $tck['price_id'] )
+      $ticket->price_id = $tck['price_id'];
+    
+    // the seat
+    if ( isset($tck['seat_id']) && $tck['seat_id'] )
+    {
+      // checking if the seat is already booked
+      $q = Doctrine::getTable('Ticket')->createQuery('tck')
+        ->andWhere('tck.seat_id = ?', $tck['seat_id'])
+        ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
+      ;
+      error_log($q->getRawSql());
+      if ( $q->count() > 0 )
+      {
+        $this->json['error']['message'] = 'We are sorry, this seat has being booked in the meantime.';
+        if ( !isset($this->json['error']['seats_to_remove']) )
+          $this->json['error']['seats_to_remove'] = array();
+        $this->json['error']['seats_to_remove'][] = $tck['seat_id'];
+        break;
+      }
+      $ticket->seat_id = $tck['seat_id'];
+    }
     
     // setting the most expansive price by default, if none given
     if ( !$ticket->price_id )
@@ -197,7 +232,7 @@
     try { $ticket->save(); }
     catch ( Doctrine_Connection_Exception $e )
     {
-      $this->json['error']['message'] = 'An error occurred updating your cart, try again please.';
+      $this->json['error']['message'] = 'An error occurred updating your cart, try again please...';
       continue;
     }
     

@@ -227,6 +227,12 @@ LI.pubAfterRenderingSeats['pubSeatedPlanInitMain'] = function(){
         if ( json.error && json.error.message )
           LI.alert(json.error.message, 'error');
         
+        // removing seats already booked in the meantime
+        if ( json.error.seats_to_remove != undefined )
+        $.each(json.error.seats_to_remove, function(i, seat_id){
+          $(seat).parent().find('.seat-'+seat_id).remove();
+        });
+        
         if ( !json.success )
           return;
         

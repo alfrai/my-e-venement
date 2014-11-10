@@ -141,7 +141,6 @@
           .width($(this).width())
           .height($(this).height())
         ;
-        console.error($(this).width()+' '+$(this).height()+' '+elt.css('transform'));
         
         // other functions
         if ( LI.seatedPlanImageLoaded != undefined && LI.seatedPlanImageLoaded.length > 0 )

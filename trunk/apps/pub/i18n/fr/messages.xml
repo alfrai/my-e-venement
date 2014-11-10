@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>We are sorry, this seat has being booked in the meantime.</source>
+        <target>Nous sommes désolés, cette place a été réservée entre-temps.</target>
+      </trans-unit>
+        <trans-unit>
         <source>from %%from%% to %%to%%</source>
         <target>de %%from%% à %%to%%</target>
       </trans-unit>
@@ -97,8 +101,8 @@
         <target>En savoir plus...</target>
       </trans-unit>
       <trans-unit>
-        <source>An error occurred updating your cart, try again please.</source>
-        <target>Une erreur est survenue lors de la mise à jour de votre panier, essayez à nouveau svp.</target>
+        <source>An error occurred updating your cart, try again please...</source>
+        <target>Une erreur est survenue lors de la mise à jour de votre panier, essayez à nouveau svp...</target>
       </trans-unit>
       <trans-unit>
         <source>An error occurred saving a ticket.</source>
