@@ -139,8 +139,15 @@ class cartActions extends sfActions
       $this->form->setDefaults($form_values);
     else
     {
-      $this->form->setDefault('phone_number', $contact->Phonenumbers[0]->number);
-      $this->form->setDefault('phone_type',   $contact->Phonenumbers[0]->name);
+      $pns = array();
+      foreach ( $this->getUser()->getContact()->Phonenumbers as $pn )
+        $pns[$pn->updated_at.' '.$pn->id] = $pn;
+      ksort($pns);
+      
+      $pn = array_pop($pns);
+      $this->form->setDefault('phone_type',$pn->name);
+      $this->form->setDefault('phone_number',$pn->number);
+      
       $this->form->removePassword();
     }
     

@@ -83,11 +83,36 @@
       
       // to avoid graphical bugs, relaunch the box resizing
       $(this).unbind('load').load(function(){
+        // hacking some browsers that have poor rendering engines (especially for SVGs)
         if ( $(this).height() == 0 )
         {
+          // TODO
+          $(this).width(7584).height(2934); // TEMP !! DEV
+          
           // display and remove a clone of the current image simply to get its sizes
-          clone = $(this).clone().appendTo('#footer');
+          var clone = $(this).clone()
+            //.css('position', 'absolute')
+            .width('100%')
+            .appendTo('body');
+          
+          var proportions = [];
+          for ( i = 0 ; i < 2 ; i++ )
+          {
+            proportions[i] = {
+              width: clone.width(),
+              height: clone.height()
+            };
+            clone.css('width', 'auto');
+          }
+          
+          if ( proportions[0].height == proportions[1].height )
+          {
+            clone.height(proportions[1].height*proportions[0].width/proportions[1].width);
+            clone.width(proportions[0].width);
+          }
+          
           $(this).height(clone.height()).width(clone.width());
+          
           clone.remove();
         }
         
@@ -116,6 +141,7 @@
           .width($(this).width())
           .height($(this).height())
         ;
+        console.error($(this).width()+' '+$(this).height()+' '+elt.css('transform'));
         
         // other functions
         if ( LI.seatedPlanImageLoaded != undefined && LI.seatedPlanImageLoaded.length > 0 )

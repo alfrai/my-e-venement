@@ -57,8 +57,8 @@
     $q->leftJoin('t.Order o')
       ->andWhere('o.id IS NULL');
   else // a transaction already booked
-    $q->leftJoin('tck.manifestation m')
-      ->andWhere('m.happens_at < now()');
+    $q->leftJoin('tck.Manifestation m')
+      ->andWhere('m.happens_at > now()');
   
   // for a specific ticket
   if ( $request->getParameter('ticket_id', false) && intval($request->getParameter('ticket_id')).'' == ''.$request->getParameter('ticket_id') )
