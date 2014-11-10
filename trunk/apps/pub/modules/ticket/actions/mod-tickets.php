@@ -101,7 +101,6 @@
           ->andWhere('tck.seat_id = ?', $data[$ticket->id]['seat_id'])
           ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
         ;
-          error_log($q->getRawSql());
         if ( $q->count() > 0 )
         {
           $this->json['error']['message'] = 'We are sorry, this seat has being booked in the meantime.';
@@ -210,7 +209,6 @@
         ->andWhere('tck.seat_id = ?', $tck['seat_id'])
         ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
       ;
-      error_log($q->getRawSql());
       if ( $q->count() > 0 )
       {
         $this->json['error']['message'] = 'We are sorry, this seat has being booked in the meantime.';
