@@ -67,7 +67,7 @@ $(document).ready(function(){
   <td class="linked-stuff"><?php include_partial('show_linked_stuff', array('ticket' => $ticket))  ?></td>
   <?php endif ?>
   <?php $last['gauge_id'] = $gauge->id; ?>
-  <td class="mod"><?php echo link_to(__('modify'),'manifestation/show?id='.$manif->id) ?></td>
+  <td class="mod"><?php echo $current_transaction ? link_to(__('modify'),'manifestation/show?id='.$manif->id) : '' ?></td>
 </tr>
 <?php endforeach ?>
 <?php endforeach ?>
@@ -120,7 +120,7 @@ $(document).ready(function(){
   <td class="linked-stuff"></td>
   <?php endif ?>
   <td class="mod">
-    <?php if ( $product->product_declination_id && $product->Declination->Product->Category->online && $current_transaction && !$product->ticket_id ): ?>
+    <?php if ( $current_transaction && $product->product_declination_id && $product->Declination->Product->Category->online && $current_transaction && !$product->ticket_id ): ?>
       <?php echo link_to(__('modify'),'store/edit?id='.$product->Declination->Product->id) ?>
     <?php endif ?>
   </td>

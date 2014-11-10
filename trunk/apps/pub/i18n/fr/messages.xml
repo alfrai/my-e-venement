@@ -5,10 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Remove this ticket</source>
+        <target>Retirer ce billet</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ticket</source>
+        <target>Billet</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Date &amp; Time</source>
+        <target>Date et heure</target>
+      </trans-unit>
+      <trans-unit>
         <source>We are sorry, this seat has being booked in the meantime.</source>
         <target>Nous sommes désolés, cette place a été réservée entre-temps.</target>
       </trans-unit>
-        <trans-unit>
+      <trans-unit>
         <source>from %%from%% to %%to%%</source>
         <target>de %%from%% à %%to%%</target>
       </trans-unit>

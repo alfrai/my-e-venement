@@ -16,6 +16,7 @@ abstract class PluginEmail extends BaseEmail
   public $test_address    = NULL;
   public $to              = array();
   public $mailer          = NULL;
+  public $from_txt        = NULL;
   
   protected function send()
   {
@@ -127,7 +128,7 @@ abstract class PluginEmail extends BaseEmail
     
     $h2t = new HtmlToText($content);
     $message
-      ->setFrom($this->field_from)
+      ->setFrom(array($this->field_from => $this->from_txt ? $this->from_txt : $this->field_from))
       ->setSubject($this->field_subject)
       ->setBody($h2t->get_html(),'text/html')
       ->addPart($h2t->get_text(),'text/plain');

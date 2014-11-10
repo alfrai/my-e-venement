@@ -53,8 +53,23 @@ class liPassbook
       $this->configuration['certification']['apple_wwdr_cer_url'] = 'http://developer.apple.com/certificationauthority/AppleWWDRCA.cer';
     if ( !isset($this->configuration['design']) )
       $this->configuration['design'] = array();
+    if ( !isset($this->configuration['design']['logo']) )
+    {
+      if ( $this->ticket->Manifestation->Event->picture_id )
+        file_put_contents($path = sfConfig::get('sf_app_cache_dir').'/passbook-icon.'.$this->ticket->Manifestation->Event->Picture->name, $this->ticket->Manifestation->Event->Picture->getDecodedContent());
+      else
+        $path = sfConfig::get('sf_web_dir').'/images/logo-evenement-big.png';
+      $this->configuration['design']['logo'] = $path;
+    }
+    if ( !isset($this->configuration['design']['footer']) )
+      $this->configuration['design']['footer'] = sfConfig::get('sf_web_dir').'/images/logo-evenement-big.png';
     if ( !isset($this->configuration['design']['icon']) )
-      $this->configuration['design']['icon'] = sfConfig::get('sf_web_dir').'/images/logo-evenement-big.png';
+    {
+      $this->configuration['design']['icon'] = $this->ticket->Manifestation->Event->picture_id
+        ? $this->configuration['design']['logo']
+        : $this->configuration['design']['footer']
+      ;
+    }
     
     return $this;
   }
@@ -110,8 +125,14 @@ class liPassbook
     ) as $fct => $var )
     if ( isset($this->configuration['design'][$var]) )
       $pass->$fct($this->configuration['design'][$var]);
+    
+    // the images
     $icon = new Image($this->configuration['design']['icon'], 'icon');
+    $logo = new Image($this->configuration['design']['logo'], 'logo');
+    $footer = new Image($this->configuration['design']['icon'], 'footer');
     $pass->addImage($icon);
+    $pass->addImage($logo);
+    $pass->addImage($footer);
     
     $structure = new Structure();
     
@@ -159,7 +180,7 @@ class liPassbook
       'ticket'    => array(
         'type'      => 'auxiliary',
         'label'     => $this->__('Ticket'),
-        'string'    => $this->ticket.($this->ticket->seat_id ? $this->__('Seat').': '.$this->ticket->Seat : '')
+        'string'    => $this->ticket."\n".($this->ticket->seat_id ? $this->__('Seat #').$this->ticket->Seat : '')
       ),
       'organizers'=> array(
         'type'      => 'auxiliary',
@@ -178,12 +199,12 @@ class liPassbook
       'software'  => array(
         'type'      => 'back',
         'label'     => $this->__('Software', NULL, 'about'),
-        'string'    => sfConfig::get('software_about_name')
+        'string'    => sfConfig::get('software_about_name')."\n".sfConfig::get('app_seller_software_url', ''),
       ),
       'editor'    => array(
         'type'      => 'back',
         'label'     => $this->__('Editor', NULL, 'about'),
-        'string'    => $editor['name'].' '.$editor['url']
+        'string'    => $editor['name']."\n".$editor['url'],
       ),
     );
     
@@ -193,7 +214,7 @@ class liPassbook
       $data['address'] = array(
         'type'      => 'auxiliary',
         'label'     => $this->__('Address'),
-        'string'    => $this->ticket->Manifestation->Location->address."\n".$this->ticket->Manifestation->Location->postalcode.' '.$this->ticket->Manifestation->Location->city."\n".$this->ticket->Manifestation->Location->country
+        'string'    => $this->ticket->Manifestation->Location->full_address,
       );
     }
     

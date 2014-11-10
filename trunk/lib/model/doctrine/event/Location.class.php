@@ -25,10 +25,11 @@ class Location extends PluginLocation
   public function getFullAddress()
   {
     $arr = array();
-    if ( $this->address )
+    if ( trim($this->address) )
       $arr[] = $this->address;
     $arr[] = $this->postalcode.' '.$this->city;
-    return implode(', ',$arr);
+    $arr[] = $this->country;
+    return implode("\n",$arr);
   }
   
   /**

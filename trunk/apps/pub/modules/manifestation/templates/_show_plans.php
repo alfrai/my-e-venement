@@ -35,7 +35,7 @@
   <div class="infos">
     <a href="<?php echo url_for('ticket/modTickets?manifestation_id='.$manifestation->id) ?>" id="ajax-init-data"></a>
     <a href="<?php echo url_for('cart/show') ?>" id="go-to-cart"></a>
-    <span class="no-price"></span>
+    <span class="no-price"><?php echo __('Remove this ticket') ?></span>
     <a href="<?php echo url_for('ticket/getOrphans') ?>" id="ajax-pre-submit"></a>
   </div>
 </div>

@@ -16,13 +16,20 @@ class Picture extends PluginPicture
   {
     return $this->getHtmlTag($attributes);
   }
+  public function getUrl(array $attributes = array())
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('CrossAppLink'));
+    return cross_app_url_for(
+      isset($attributes['app']) ? $attributes['app'] : 'default',
+      'picture/display?id='.$this->id,
+      isset($attributes['absolute']) && $attributes['absolute'] ? true : false);
+  }
   public function getHtmlTag(array $attributes = array())
   {
     if ( !$this->id )
       return '';
     
-    sfApplicationConfiguration::getActive()->loadHelpers(array('CrossAppLink'));
-    $attributes['src'] = cross_app_url_for(isset($attributes['app']) ? $attributes['app'] : 'default', 'picture/display?id='.$this->id);
+    $attributes['src'] = $this->getUrl($attributes);
     
     if ( isset($attributes['add-data-src']) && $attributes['add-data-src'] )
       $attributes['data-src'] = $attributes['src'];

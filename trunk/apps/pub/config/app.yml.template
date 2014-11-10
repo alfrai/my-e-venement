@@ -49,6 +49,7 @@ all:
     country: France
     other:
     invoice_prefix: FB
+    software_url: http://www.e-venement.org/
   payment:
     ## to be able to use properly a payment method,                    
     ## install (if it is not included) the plugin in the sf_plugin_dir

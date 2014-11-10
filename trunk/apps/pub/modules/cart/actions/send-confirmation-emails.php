@@ -145,6 +145,7 @@
     $email->setType('Order')->addDispatcherParameter('transaction', $transaction);
     $email->field_bcc = sfConfig::get('app_informations_email','admin@libre-informatique.fr');
     $email->field_subject = sfConfig::get('app_informations_title').': '.__('your order #').$transaction->id;
+    $email->from_txt = sfConfig::get('app_informations_title','');
     $email->field_from = sfConfig::get('app_informations_email','contact@libre-informatique.fr');
     $email->content = nl2br(str_replace(array_keys($replace),$replace,sfConfig::get('app_texts_email_confirmation')));
     $email->content .= nl2br("\n\n".sfConfig::get('app_texts_email_footer',<<<EOF
