@@ -396,6 +396,10 @@ LI.renderGauge = function(item, only_inline_gauge)
       .append($('<span></span>').addClass('free')   .css('width', ((data.free < 0 ? 0 : data.free)/total*100)+'%').html(data.free).prop('title',data.free))
       .prepend($('<span></span>').addClass('text').html('<span class="total">'+data.txt+'</span> <span class="details">'+data.booked_txt+'</span>'));
     ;
+    $('#li_transaction_field_product_infos .gauge.raw > *').each(function(){
+      if ( $(this).width() == 0 )
+        $(this).hide();
+    });
   }
   
   // gauge for seated plan
