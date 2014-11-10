@@ -14,7 +14,7 @@ class WorkspaceForm extends BaseWorkspaceForm
   {
     unset(
       $this->widgetSchema['manifestations_list'],
-      $this->widgetSchema['seated_plans_list'],
+      $this->widgetSchema['seated_plans_list']
     );
     
     $this->widgetSchema['users_list']->setOption('expanded', 'true')
