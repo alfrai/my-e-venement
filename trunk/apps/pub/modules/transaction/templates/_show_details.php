@@ -4,7 +4,7 @@
 	<li><?php echo __('Purchase confirmed') ?></li>
   <?php endif ?>
   <?php if ( $transaction->Order->count() > 0 ): ?>
-  <li><?php echo $transaction->getPrice(true, true) == $transaction->getPaid() ? __('Paid') : __('Payment in progress') ?></li>
+  <li><?php echo $transaction->getPrice(true, true).'' <= ''.$transaction->getPaid() ? __('Paid') : __('Payment in progress') ?></li>
   <?php endif ?>
   <?php $get_tickets = true ?>
   <?php if ( $transaction->Order->count() == 0 && !$printed ): ?>
