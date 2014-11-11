@@ -104,7 +104,7 @@ class pubConfiguration extends sfApplicationConfiguration
       ->execute();
     
     $gauges = Doctrine_Query::create()->from('Gauge g')
-      ->select('g.*')
+      ->select('g.*, tck.*')
       ->leftJoin('g.Manifestation m')
       ->leftJoin('m.Event e')
       
