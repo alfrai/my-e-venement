@@ -203,6 +203,12 @@ $(document).ready(function(){
 </thead>
 </table>
 
+<?php if ( !$current_transaction && $transaction->getPaid().'' < ''.$transaction->getPrice(true, true) || $current_transaction ): // the .'' is a hack for float values ?>
+<?php include_partial('show_order', array('transaction' => $transaction)) ?>
+<?php else: ?>
+<?php include_partial('show_resend_email', array('transaction' => $transaction)) ?>
+<?php endif ?>
+
 <?php if ( $transaction->Order->count() > 0 || $transaction->Payments->count() > 0 ): ?>
 
 <div id="payments">
@@ -218,10 +224,6 @@ $(document).ready(function(){
 <?php endif ?>
 
 <div class="clear"></div>
-
-<?php if ( !$current_transaction && $transaction->getPaid() < $transaction->getPrice(true, true) || $current_transaction ): ?>
-<?php include_partial('show_order', array('transaction' => $transaction)) ?>
-<?php endif ?>
 
 <div id="cmd-links">
 <?php include_partial('global/show_links', array('objects' => $for_links)); ?>

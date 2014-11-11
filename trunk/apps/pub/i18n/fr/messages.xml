@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Payment</source>
+        <target>Paiement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Resend the tickets as they were modified</source>
+        <target>Renvoyer les billets avec leurs modifications</target>
+      </trans-unit>
+      <trans-unit>
         <source>Remove this ticket</source>
         <target>Retirer ce billet</target>
       </trans-unit>

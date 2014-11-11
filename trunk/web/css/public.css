@@ -174,7 +174,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 }
 #actions a:hover { color: #000; background: #F4F4F4; }
 #actions .actions { display: inline-block; }
-#actions .register { font-weight: bold; }
+#actions .resend, #actions .register { font-weight: bold; }
 
 .gauge { margin-left: 25px; text-align: center; }
 .gauge thead { font-weight: bold; }

@@ -78,18 +78,20 @@ class transactionActions extends sfActions
     }
   }
   
-  public function executeTestSendEmail(sfWebRequest $request)
+  public function executeSendEmail(sfWebRequest $request)
   {
-    if ( !sfConfig::get('sf_web_debug', false) )
-      return sfView::NONE;
-    
     require_once(dirname(__FILE__).'/../../cart/actions/actions.class.php');
     if ( intval($request->getParameter('id')).'' !== $request->getParameter('id').'' )
       throw new liOnlineSaleException('Trying to access something without prerequisites.');
     
     $this->transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
+    if ( !sfConfig::get('sf_web_debug', false) || $this->transaction->Order->count() == 0 )
+      return sfView::NONE;
+    
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
     cartActions::sendConfirmationEmails($this->transaction, $this);
-    return sfView::NONE;
+    $this->getUser()->setFlash('success', __('Action successful'));
+    $this->redirect('transaction/show?id='.$this->transaction->id);
   }
   
   public function executeShow(sfWebRequest $request)
