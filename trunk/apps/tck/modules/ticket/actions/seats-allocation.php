@@ -28,7 +28,6 @@
     'print'   => url_for('ticket/print?id='.$request->getParameter('id')),
   );
   $this->url_next = $urls[$request->getParameter('type', 'print')];
-  error_log($this->url_next);
   
   $q = Doctrine::getTable('Transaction')->createQuery('t')
     ->leftJoin('m.Location l')
