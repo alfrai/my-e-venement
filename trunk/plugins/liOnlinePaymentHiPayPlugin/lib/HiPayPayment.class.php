@@ -90,7 +90,7 @@ class HiPayPayment extends OnlinePayment
     {
       error_log($e);
     }
-    return array('success' => $bank->error != 'yes', 'amount' => $bank->amount);
+    return array('success' => $bank->error === 'no', 'amount' => $bank->amount);
   }
   
   public function createBankPayment(sfWebRequest $request)
@@ -99,10 +99,11 @@ class HiPayPayment extends OnlinePayment
     $data = $this->process($request->getParameter('xml'));
     
     // the BankPayment Record
-    $bank->error = $data['result'] ? 'no' : 'yes';
+    if ( !$data['result'] )
+      $bank->error = 'yes';
     foreach ( $data['xml'] as $key => $value )
       $bank->$key = $value;
-    $bank->error = $bank->code === 'ok' ? 'yes' : 'no';
+    $bank->error = $bank->code == 'ok' ? 'no' : 'yes';
     
     return $bank;
   }
