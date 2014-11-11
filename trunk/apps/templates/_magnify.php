@@ -1,6 +1,6 @@
 <?php use_stylesheet('magnify') ?>
 <?php use_javascript('jquery.nicescroll.min.js') ?>
-<div class="magnify">
+<div class="magnify" title="<?php echo __('Zoom') ?>">
   <button name="magnify-in" class="magnify-in" value="+">
     <div class="zoom-icon" jstcache="0"></div>
   </button>

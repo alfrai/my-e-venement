@@ -25,7 +25,16 @@
     if ( !($this->getUser()->getTransaction() instanceof Transaction) )
       return $this->redirect('event/index');
     
+    // if it is a pay-only process
+    $tid = intval($request->getParameter('transaction_id')).'' === ''.$request->getParameter('transaction_id','')
+      ? $request->getParameter('transaction_id')
+      : false;
+    $this->transaction = $tid ? Doctrine::getTable('Transaction')->find($tid) : $this->getUser()->getTransaction();
+    if ( $this->transaction->contact_id != $this->getUser()->getContact()->id )
+      $this->transaction = $this->getUser()->getTransaction();
+    
     // harden data
+    if ( $this->transaction->id == $this->getUser()->getTransactionId() )
     $this->getContext()->getConfiguration()->hardenIntegrity();
     
     try { $this->form = new ContactPublicForm($this->getUser()->getContact()); }
@@ -85,7 +94,7 @@
     $this->getUser()->setAttribute('contact_form_values', $this->form->getValues());
     
     // checks if there is no out-of-gauge
-    if ( $this->getUser()->getTransaction()->Tickets->count() > 0 )
+    if ( $this->transaction->id == $this->getUser()->getTransactionId() && $this->getUser()->getTransaction()->Tickets->count() > 0 )
     {
       $ids = array();
       foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
@@ -156,20 +165,20 @@
     
     // setting up the vars to commit to the bank
     $redirect = false;
-    if ( ($topay = $this->getUser()->getTransaction()->getPrice(true,true)) > 0 && sfConfig::get('app_payment_type','paybox') != 'onthespot' )
+    if ( ($topay = $this->transaction->getPrice(true,true)) > 0 && sfConfig::get('app_payment_type','paybox') != 'onthespot' )
     {
       if (!(
          class_exists($class = ucfirst($plugin = sfConfig::get('app_payment_type','paybox')).'Payment')
       && is_a($class, 'OnlinePaymentInterface', true)
       ))
         throw new liOnlineSaleException('You asked for a payment plugin ('.$plugin.') that does not exist or is not compatible.');
-      $this->online_payment = $class::create($this->getUser()->getTransaction());
+      $this->online_payment = $class::create($this->transaction);
     }
     else // no payment to be done
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
       
-      $transaction = $this->getUser()->getTransaction();
+      $transaction = $this->transaction;
       $transaction->Order[] = new Order;
       $this->createPaymentsDoneByMemberCards();
       $transaction->save();
@@ -193,6 +202,9 @@
       error_log('Logout forced following the "one_shot" option.');
       $this->getUser()->logout();
     }
+    
+    if ( $this->transaction->id != $this->getUser()->getTransactionId() )
+      $this->getUser()->setTransaction($this->transaction);
     
     if ( $redirect )
       $this->redirect($redirect);

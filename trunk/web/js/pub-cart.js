@@ -3,6 +3,15 @@
     if ( $('#cmd-links .products .link, #cmd-links .manifestations .link').length == 0 )
       $('#cmd-links').hide();
     
+    // removing options if none
+    if ( $('#command tbody .linked-stuff li').length == 0 )
+      $('#command thead .linked-stuff').css('font-size', 0);
+    
+    // adding a button on named tickets
+    setTimeout(function(){
+      $('<button>ok</button>').insertAfter($('#command .named-tickets .contact .contact_firstname')).click(function(){ return false });
+    },2500);
+    
     // event's picture
     $('#command tbody tr.tickets').addClass('picture-to-merge');
     var trs;

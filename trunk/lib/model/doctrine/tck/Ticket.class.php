@@ -158,7 +158,7 @@ EOF
       , $this->seat_id ? __('Seat #', null, 'li_tickets_email') : '', $this->seat_id ? $this->Seat : ($this->Manifestation->Location->getWorkspaceSeatedPlan($this->Gauge->workspace_id) ? __('Not yet allocated', null, 'li_tickets_email') : '')
       , $this->comment ? $this->comment : sfConfig::get('project_eticketting_default_comment', __('This is your ticket', null, 'li_tickets_email'))
       , $this->transaction_id, $this->id
-      , $this->contact_id ? $this->DirectContact->name_with_title : ($this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : $this->Transaction->Contact->name_with_title)
+      , $this->contact_id ? $this->DirectContact->name_with_title : __('Guest of %%contact%%', array('%%contact%%' => $this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : $this->Transaction->Contact->name_with_title), 'li_tickets_email')
       , !$this->duplicating ? '' : __('This ticket is a duplicate of #%%tid%%, it replaces and cancels any previous version of this ticket you might have recieved', array('%%tid%%' => $this->transaction_id.'-'.$this->duplicating), 'li_tickets_email')
       , $barcode
       , base64_encode(file_get_contents(sfConfig::get('sf_web_dir').'/images/ticket-simplified-layout-100dpi.png'))

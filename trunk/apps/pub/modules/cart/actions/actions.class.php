@@ -120,6 +120,14 @@ class cartActions extends sfActions
     // harden data
     $this->getContext()->getConfiguration()->hardenIntegrity();
     
+    // pay a specific transaction
+    $this->specific_transaction = intval($request->getParameter('transaction_id')).'' === ''.$request->getParameter('transaction_id','')
+      ? $request->getParameter('transaction_id')
+      : false;
+    if ( $this->specific_transaction
+      && Doctrine::getTable('Transaction')->find($this->specific_transaction)->contact_id != $this->getUser()->getContact()->id )
+      $this->specific_transaction = false;
+    
     // already done first
     if ( sfConfig::get('app_contact_modify_coordinates_first', false) && $this->getUser()->getContact() )
       $this->redirect('cart/order');

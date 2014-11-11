@@ -389,12 +389,16 @@
         <target>Date</target>
       </trans-unit>
       <trans-unit>
-        <source>Printed (event partially)</source>
-        <target>Imprimé (même partiellement)</target>
+        <source>Purchase confirmed</source>
+        <target>Achat confirmé</target>
       </trans-unit>
       <trans-unit>
         <source>Booked</source>
         <target>Réservé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Payment in progress</source>
+        <target>Paiement en cours</target>
       </trans-unit>
       <trans-unit>
         <source>Paid</source>

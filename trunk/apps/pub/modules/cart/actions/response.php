@@ -36,7 +36,7 @@
   if ( !$r['success'] )
     throw new liOnlineSaleException('An error occurred during the bank verifications');
   
-  if ( $transaction->Order->count() > 0 )
+  if ( $transaction->getPaid() == $transaction->getPrice(true, true) )
     return sfView::NONE;
   
   // direct payment

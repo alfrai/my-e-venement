@@ -293,7 +293,7 @@ class myUser extends pubUser
       )));
       
       $this->transaction->save();
-      $this->setAttribute('transaction_id',$this->transaction->id);
+      $this->setTransaction($this->transaction);
       
       $this->dispatcher->notify(new sfEvent($this, 'pub.transaction_after_creation', array(
         'transaction' => $this->transaction,
@@ -325,6 +325,11 @@ class myUser extends pubUser
     
     $this->logout();
     return $this->getTransaction();
+  }
+  public function setTransaction(Transaction $transaction)
+  {
+    $this->transaction = $transaction;
+    $this->setAttribute('transaction_id',$this->transaction->id);
   }
   
   public function resetTransaction()

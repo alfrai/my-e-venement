@@ -94,6 +94,8 @@ class transactionActions extends sfActions
   
   public function executeShow(sfWebRequest $request)
   {
+    $this->getContext()->getConfiguration()->hardenIntegrity();
+    
     try {
     
     $this->errors = array();

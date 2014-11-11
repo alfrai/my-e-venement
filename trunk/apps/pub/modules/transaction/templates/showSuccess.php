@@ -219,8 +219,8 @@ $(document).ready(function(){
 
 <div class="clear"></div>
 
-<?php if ( $current_transaction ): ?>
-<?php include_partial('show_order') ?>
+<?php if ( !$current_transaction && $transaction->getPaid() < $transaction->getPrice(true, true) || $current_transaction ): ?>
+<?php include_partial('show_order', array('transaction' => $transaction)) ?>
 <?php endif ?>
 
 <div id="cmd-links">

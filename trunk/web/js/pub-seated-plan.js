@@ -284,6 +284,7 @@ LI.pubCheckOrphansVisually = function(url, gauge_id, fct)
           $.each(json.success.orphans, function(key, gauge){
           $.each(gauge, function(key, orphan){
             orphans++;
+            console.log('Orphan detected on seat '+orphan.seat_name);
             LI.pubShowOrphansOnPlan(orphan)
           }); });
         }
@@ -295,15 +296,6 @@ LI.pubCheckOrphansVisually = function(url, gauge_id, fct)
           options.fct();
         }
       }}
-      
-      // reload the plan if some orphans are detected
-      $.each(json.success.orphans, function(gid, gauge){
-        LI.seatedPlanLoadData(
-          $('#plans .seats-url[data-gauge-id='+gid+'], .gauge[data-gauge-id='+gid+'] .full-seating .load-data').prop('href'),
-          '#'+$('#plans .seats-url[data-gauge-id='+gid+']').length > 0 ? $('#plans .seats-url[data-gauge-id='+gid+']').closest('.seated-plan').prop('id') : $('.gauge[data-gauge-id='+gid+'] .seated-plan').prop('id')
-        );
-        $('.gauge[data-gauge-id='+gid+']').click();
-      });
     }
   });
 }
@@ -311,30 +303,34 @@ LI.pubCheckOrphansVisually = function(url, gauge_id, fct)
 LI.pubShowOrphansOnPlan = function(orphan)
 {
   // visual
-  $('.gauge[data-gauge-id='+orphan.gauge_id+']').click();
-  var oelt =
-  ($('#plans .seats-url[data-gauge-id='+orphan.gauge_id+']').length > 0 ? $('#plans .seats-url[data-gauge-id='+orphan.gauge_id+']').closest('.seated-plan') : $('.gauge[data-gauge-id='+orphan.gauge_id+'] .seated-plan.picture'))
-    .find('.seat[data-id='+orphan.seat_id+']')
-    .addClass('printed').addClass('blink');
-  ($('#plans .seats-url[data-gauge-id='+orphan.gauge_id+']').length > 0 ? $('#plans .seats-url[data-gauge-id='+orphan.gauge_id+']').closest('.seated-plan') : $('.gauge[data-gauge-id='+orphan.gauge_id+'] .seated-plan.picture'))
-    .find('.seat[data-id='+orphan.seat_id+'].txt')
-    .addClass('in-progress');
-  
-  // blinking
-  var delay = 500;
-  var blink = function(){
-    if ( !oelt.hasClass('blink') )
+  var interval = setInterval(function(){
+    var oelt = $('#plans .seats-url[data-gauge-id='+orphan.gauge_id+']').closest('.seated-plan')
+      .find('.seat[data-id='+orphan.seat_id+']');
+    if ( oelt.length == 0 )
       return;
-    oelt.toggleClass('printed');
-    setTimeout(blink, delay);
-  }
-  setTimeout(blink,delay);
-  setTimeout(function(){
-    oelt
-      .removeClass('printed')
-      .removeClass('blink');
-    if ( !oelt.hasClass('ordered') ) // keep the "in-progress" if the seat has been booked in the timelap
-      oelt.removeClass('in-progress');
-  }, delay*20);
+    oelt.addClass('printed').addClass('blink');
+    ($('#plans .seats-url[data-gauge-id='+orphan.gauge_id+']').length > 0 ? $('#plans .seats-url[data-gauge-id='+orphan.gauge_id+']').closest('.seated-plan') : $('.gauge[data-gauge-id='+orphan.gauge_id+'] .seated-plan.picture'))
+      .find('.seat[data-id='+orphan.seat_id+'].txt')
+      .addClass('in-progress');
+    
+    // blinking
+    var delay = 500;
+    var blink = function(){
+      if ( !oelt.hasClass('blink') )
+        return;
+      oelt.toggleClass('printed');
+      setTimeout(blink, delay);
+    }
+    setTimeout(blink,delay);
+    setTimeout(function(){
+      oelt
+        .removeClass('printed')
+        .removeClass('blink');
+      if ( !oelt.hasClass('ordered') ) // keep the "in-progress" if the seat has been booked in the timelap
+        oelt.removeClass('in-progress');
+    }, delay*20);
+    
+    clearInterval(interval);
+  },500);
 }
 

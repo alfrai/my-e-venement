@@ -39,16 +39,16 @@
         </select>
       </span>
       <span class="contact_name">
-        <label><?php echo __('Name') ?>:</label>
+        <label><?php echo __('Name') ?></label>
         <input type="text" value="" name="ticket[%%ticket_id%%][contact][name]" title="<?php echo __('Name') ?>" />
       </span>
       <span class="contact_firstname">
-        <label><?php echo __('Firstname') ?>:</label>
+        <label><?php echo __('Firstname') ?></label>
         <input type="text" value="" name="ticket[%%ticket_id%%][contact][firstname]" title="<?php echo __('Firstname') ?>" />
       </span>
       <br/>
       <span class="contact_email">
-        <label><?php echo __('Email address') ?>:</label>
+        <label><?php echo __('Email address') ?></label>
         <input type="email" value="" name="ticket[%%ticket_id%%][contact][email]" title="<?php echo __('Email address') ?>" />
       </span>
       <button class="me" name="ticket[%%ticket_id%%][me]" value="<?php echo $sf_user->getContact()->id ?>" title="<?php echo __('Give me this ticket') ?>"><?php echo __('My seat') ?></button>

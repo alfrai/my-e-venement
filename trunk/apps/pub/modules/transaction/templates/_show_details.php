@@ -1,10 +1,10 @@
 <ul class="transaction-content">
   <?php $printed = false; foreach ( $transaction->Tickets as $ticket ) if ( !is_null($ticket->printed_at) || !is_null($ticket->integrated_at) ) { $printed = true; break; } ?>
   <?php if ( $printed ): ?>
-	<li><?php echo __('Printed (event partially)') ?></li>
+	<li><?php echo __('Purchase confirmed') ?></li>
   <?php endif ?>
   <?php if ( $transaction->Order->count() > 0 ): ?>
-  <li><?php echo __('Paid') ?></li>
+  <li><?php echo $transaction->getPrice(true, true) == $transaction->getPaid() ? __('Paid') : __('Payment in progress') ?></li>
   <?php endif ?>
   <?php $get_tickets = true ?>
   <?php if ( $transaction->Order->count() == 0 && !$printed ): ?>
