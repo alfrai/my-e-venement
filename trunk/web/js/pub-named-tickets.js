@@ -13,15 +13,15 @@ $(document).ready(function(){
       if ( $(this).closest('.contact_title, .contact_name, .contact_firstname, .contact_email').length > 0 )
       {
         var go = true;
-        var del = $(this).closest('.contact').find('.contact_title select, .contact_name input, .contact_firstname input, .contact_email input').length;
-        $(this).closest('.contact').find('.contact_title select, .contact_name input, .contact_firstname input, .contact_email input').each(function(){
+        var del = $(this).closest('.contact').find('.contact_name input, .contact_firstname input, .contact_email input').length;
+        $(this).closest('.contact').find('.contact_name input, .contact_firstname input, .contact_email input').each(function(){
           if ( !$.trim($(this).val()) )
           {
             del--;
             go = false;
           }
         });
-        if ( !go && del > 0 ) // everything is not filled && everything is not empty
+        if ( !go && (del > 0 || $(this).closest('.contact').find('.contact_title select').val()) ) // everything is not filled && everything is not empty
         {
           $(this).closest('.contact').find('.contact_title label, .contact_name label, .contact_firstname label, .contact_email label')
            .css('color', 'red');
