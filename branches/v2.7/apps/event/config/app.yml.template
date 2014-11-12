@@ -26,6 +26,7 @@ all:
       #focus_on_potentialities: false
     #extra_informations_enable: false
     #editable_in_calendar: false
+    #max_ajax: 20
   synchronization:
     #period:
     #  from: now
