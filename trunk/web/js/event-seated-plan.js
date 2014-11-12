@@ -92,7 +92,7 @@
           // display and remove a clone of the current image simply to get its sizes
           var clone = $(this).clone()
             //.css('position', 'absolute')
-            .width('100%')
+            //.width('100%')
             .appendTo('body');
           
           var proportions = [];
@@ -104,15 +104,16 @@
             };
             clone.css('width', 'auto');
           }
+          clone.css('width', '');
           
           if ( proportions[0].height == proportions[1].height )
           {
-            clone.height(proportions[1].height*proportions[0].width/proportions[1].width);
+            console.error('safari');
+            clone.height(proportions[1].height * proportions[0].width/proportions[1].width);
             clone.width(proportions[0].width);
           }
           
           $(this).height(clone.height()).width(clone.width());
-          
           clone.remove();
         }
         
