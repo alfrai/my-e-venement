@@ -30,7 +30,7 @@
       ? $request->getParameter('transaction_id')
       : false;
     $this->transaction = $tid ? Doctrine::getTable('Transaction')->find($tid) : $this->getUser()->getTransaction();
-    if ( $this->transaction->contact_id != $this->getUser()->getContact()->id )
+    if ( $this->transaction->contact_id != $this->getUser()->getTransaction()->contact_id )
       $this->transaction = $this->getUser()->getTransaction();
     
     // harden data
@@ -41,18 +41,18 @@
     catch ( liEvenementException $e )
     { $this->form = new ContactPublicForm; }
     
-    if (!( $this->getUser()->getContact()->id && !$request->hasParameter('contact') ))
+    if (!( $this->getUser()->getTransaction()->contact_id && !$request->hasParameter('contact') ))
     {
       // add the contact to the DB
       if ( !$this->form->getObject()->isNew() )
         $this->form->removePassword();
       
-      if (!( $request->getParameter('contact', false) && $this->getUser()->getContact()->id ))
+      if (!( $request->getParameter('contact', false) && $this->getUser()->getTransaction()->contact_id ))
       {
         // it's a hack to avoid infinite loops with the option "app_contact_modify_coordinates_first"
         $data = array();
         foreach ( $this->form->getValidatorSchema()->getFields() as $fieldname => $validator )
-        if ( $this->getUser()->getContact()->getTable()->hasColumn($fieldname) )
+        if ( Doctrine::getTable('Contact')->hasColumn($fieldname) )
           $data[$fieldname] = $this->getUser()->getContact()->$fieldname;
       
         $ws = $this->form->getWidgetSchema();
