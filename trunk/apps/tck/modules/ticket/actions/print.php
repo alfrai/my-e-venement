@@ -117,7 +117,8 @@
           }
           
           else // not duplicates
-          if ( !$ticket->printed_at && !$ticket->integrated_at )
+          if ( !$ticket->printed_at && !$ticket->integrated_at
+            && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
           {
             if ( $cpt >= $max['print'] )
             {
@@ -194,7 +195,8 @@
               break;
             }
             
-            if ( !$ticket->printed_at && !$ticket->integrated_at )
+            if ( !$ticket->printed_at && !$ticket->integrated_at
+              && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
             {
               $cpt++;
               if ( $ticket->Manifestation->no_print )
