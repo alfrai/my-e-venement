@@ -48,5 +48,4 @@
 @media screen and (max-width: 480px) {
 #container h4, #container #plans { display: none; }
 #container #categories.hidden .li-content { visibility: visible; height: auto; margin-top: 17px; }
-#container h4[data-tab=#categories].hidden { background-color: white; color: black; }
 }
