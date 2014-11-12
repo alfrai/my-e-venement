@@ -59,7 +59,7 @@ $(document).ready(function(){
   
   // the tabs...
   $('#container h4').click(function(){
-    $('#container .tab:not(.hidden), #container .h4:not(.hidden)').addClass('hidden');
+    $('#container .tab:not(.hidden), #container h4:not(.hidden)').addClass('hidden');
     $('#container '+$(this).attr('data-tab')).removeClass('hidden');
     $(this).removeClass('hidden');
     

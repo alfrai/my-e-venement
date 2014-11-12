@@ -18,8 +18,8 @@
       if ( !isset($texts[$field]) )
         $texts[$field] = '';
     ?>
-    <h4 data-tab="#categories"><?php echo __('Automatic choice by category') ?></h4>
     <h4 data-tab="#plans"><?php echo __('Choice by the seating') ?></h4>
+    <h4 class="hidden" data-tab="#categories"><?php echo __('Automatic choice by category') ?></h4>
     <div class="tab" id="plans">
       <div class="li-content">
         <?php include_partial('show_plans', array('manifestation' => $manifestation)) ?>
