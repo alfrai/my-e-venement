@@ -53,16 +53,16 @@
   <?php $nb++ ?>
   <div class="command <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
     <?php echo __('Command') ?>
-  </div>
-  <div id="translation">
-    <?php foreach ( $cultures as $culture => $lang ): ?>
-    <p class="i18n">
-      <a href="<?php echo url_for('login/culture?lang='.$culture) ?>"
-         class="culture-<?php echo $culture ?> <?php echo $culture === $sf_user->getCulture() ? 'current' : '' ?>"
-         title="<?php echo $lang ?>">
-        <?php echo $lang ?>
-      </a>
-    </p>
-    <?php endforeach ?>
+    <div id="translation">
+      <?php foreach ( $cultures as $culture => $lang ): ?>
+      <p class="i18n">
+        <a href="<?php echo url_for('login/culture?lang='.$culture) ?>"
+           class="culture-<?php echo $culture ?> <?php echo $culture === $sf_user->getCulture() ? 'current' : '' ?>"
+           title="<?php echo $lang ?>">
+          <?php echo $lang ?>
+        </a>
+      </p>
+      <?php endforeach ?>
+    </div>
   </div>
 </div>

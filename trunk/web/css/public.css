@@ -302,8 +302,8 @@ a.actions a:hover { color: #000; background: #F4F4F4; }
 .sf_admin_flashes .ui-icon { float: left; }
 .sf_admin_flashes div { padding: 5px 10px; min-width: 700px; }
 
-#translation  { position: absolute; display: inline-block; left: 410px; top: 0; height: 45px; overflow: hidden; }
-#translation p { display: block; }
+#translation  { display: block; height: 45px; overflow: hidden; text-align: right; }
+#translation p { display: inline-block; }
 #translation .i18n a { font-size: 0; display: inline-block; width: 16px; height: 11px; background: white url('../images/flags.png') no-repeat scroll 1px 1px; padding: 1px; border: 1px solid silver; }
 #translation .i18n .current { border: 1px solid gray; }
 #translation .i18n .culture-fr { background-position: -227px -172px; }
