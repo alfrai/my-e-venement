@@ -14,7 +14,7 @@
       $('.magnify button')
         .unbind('click').click(function(){
         var operand = $(this).val() == '+' ? '*' : '/';
-        $('.gauge .seated-plan.picture')
+        $('.seated-plan.picture')
           .css('transition-property', 'transform')
           .css('transition-duration', '1s')
           .each(function(){
