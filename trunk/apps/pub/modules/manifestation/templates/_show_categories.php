@@ -46,7 +46,6 @@
   // to be sure...
   ksort($groups);
 ?>
-<h3><?php echo __('Choose your tickets on the best seats') ?></h3>
 <ul><?php foreach ( $groups as $name => $prices ): ?>
   <?php if ( count($prices) > 0 ): ?>
   <li>

@@ -13,6 +13,13 @@ $(document).ready(function(){
   LI.pubNamedTicketsInitialization();
   
   $('#categories form').submit(function(){
+    if ( location.hash == '#debug' )
+    {
+      $(this).prop('action', $(this).prop('action'));
+      $(this).prop('target', '_blank');
+      return true;
+    }
+    
     $.ajax({
       type: $(this).prop('method'),
       url:  $(this).prop('action'),
@@ -64,11 +71,11 @@ $(document).ready(function(){
     $(this).removeClass('hidden');
     
     // remember my choice
-    Cookie.set('pub_seated_plan_tab_id', $('#container '+$(this).attr('data-tab')).prop('id'), { maxAge: 30*24*60*60 }); // 30 days
+    Cookie.set('pub_seated_plan_tab_selector', $(this).attr('data-tab'), { maxAge: 30*24*60*60 }); // 30 days
   });
   // click on last choice
-  if ( Cookie.get('pub_seated_plan_tab_id') )
-    $('#container h4[data-tab='+Cookie.get('pub_seated_plan_tab_id')+']').click();
+  if ( Cookie.get('pub_seated_plan_tab_selector') )
+    $('#container h4[data-tab='+Cookie.get('pub_seated_plan_tab_selector')+']').click();
   // click on categories for mobile devices (by default)
   else if ( LI.isMobile.any() )
     $('#container h4[data-tab=#categories]').click();

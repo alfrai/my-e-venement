@@ -80,33 +80,33 @@
     return 'Error';
   }
   
-  // global limitation
-  if ( ($nb = Doctrine::getTable('Ticket')->createQuery('tck')
-    ->andWhere('tck.manifestation_id = ?', $gauge->manifestation_id)
-    ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransactionId())
-    ->count()) + $params['qty'] > $event['max'] )
-  {
-    $params['qty'] = $event['max'] - $nb;
-    $this->message = 'Some tickets have not been added because you reached the limit of tickets for this manifestation.';
-  }
-  
   // tickets creation
   $tickets = new Doctrine_Collection('Ticket');
   for ( $i = 0 ; $i < $params['qty'] ; $i++ )
   {
     $ticket = new Ticket;
-    $ticket->transaction_id = $this->getUser()->getTransactionId();
+    $ticket->Transaction = $this->getUser()->getTransaction();
     $ticket->price_id = $params['price_id'];
-    $ticket->gauge_id = $gauge->id;
+    $ticket->Gauge = $gauge;
     $tickets[] = $ticket;
   }
 
   // to give seats to tickets that need it
   $seater = new Seater($gauge->id);
   $i = 0;
-  foreach ( ($seats = $seater->findSeatsExcludingOrphans($params['qty'])) as $seat )
-    $tickets[$i++]->Seat = $seat;
-  $tickets->save();
+  
+  $seats = $seater->findSeatsExcludingOrphans($params['qty']);
+  if ( !$seats )
+    $tickets = new Doctrine_Collection('Tickets');
+  else
+  {
+    if ( $tickets->count() > $seats->count() )
+    for ( $i = 0 ; $i < $tickets->count() - $seats->count() ; $i++ )
+      unset($tickets[$i]);
+    foreach ( $seats as $seat )
+      $tickets[$i++]->Seat = $seat;
+    $tickets->save();
+  }
   
   // linked products
   foreach ( $tickets as $ticket )

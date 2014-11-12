@@ -182,21 +182,15 @@ class Seater
     if (! $excluded instanceof Doctrine_Collection )
       $excluded = new Doctrine_Collection('Seat');
     
-    for ( $i = 0 ; $seats->count() == 0 || $this->findOrphansWith($seats)->count() > 0 ; $i++ )
+    for ( $i = 0 ; $this->findOrphansWith($seats)->count() > 0 || $seats->count() < $qty ; $i++ )
     {
-      $seats = $this->findSeats($qty, $excluded); // find seats, w/o including the past tries
+      $seats = $this->findSeats($qty, $excluded); // find seats, excluding the past tries
+      $excluded->merge($seats); // add this batch of seats to exclude seats
       
-      // we must have at least the number of seats asked in the batch, or it is a failure
-      if (!( $seats !== false && $seats->count() >= $qty ))
-        break;
-      
-      $excluded->merge($seats); // add this batch of seats to excluded seats
+      if ( $seats === false || $i > 500 ) // 500 is a protection against infinite loops
+        return false;
     }
     
-    if ( $seats->count() < $qty && $i == 0 ) // no solution is correct
-      return false;
-    if ( $seats->count() < $qty && $i > 0 )  // it means that we've found some combinations, but always generating orphans or not big enough for the entire group, so we surrender
-      return $seats->merge($this->findSeatsExcludingOrphans($qty - $seats->count()));
     return $seats;
   }
   
