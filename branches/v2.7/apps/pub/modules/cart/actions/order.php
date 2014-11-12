@@ -33,7 +33,7 @@
     if ( !$this->form->getObject()->isNew() )
       $this->form->removePassword();
     
-    if (!( $request->getParameter('contact', false) && $this->getUser()->getContact()->id ))
+    try { if (!( $request->getParameter('contact', false) && $this->getUser()->getContact()->id ))
     {
       // it's a hack to avoid infinite loops with the option "app_contact_modify_coordinates_first"
       $data = array();
@@ -53,6 +53,8 @@
     }
     else
       $this->form->bind($request->getParameter('contact'));
+    } catch ( liEvenementException $e )
+    { $this->form->bind($request->getParameter('contact')); }
     
     try
     {
