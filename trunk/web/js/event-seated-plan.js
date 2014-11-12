@@ -87,7 +87,7 @@
         if ( $(this).height() == 0 )
         {
           // TODO
-          $(this).width(7584).height(2934); // TEMP !! DEV
+          //$(this).width(7584).height(2934); // TEMP !! DEV
           
           // display and remove a clone of the current image simply to get its sizes
           var clone = $(this).clone()
@@ -106,9 +106,10 @@
           }
           clone.css('width', '');
           
+          // specific Safari...
           if ( proportions[0].height == proportions[1].height )
           {
-            console.error('safari');
+            console.log('Seated Plans: Safari resizing...');
             clone.height(proportions[1].height * proportions[0].width/proportions[1].width);
             clone.width(proportions[0].width);
           }
@@ -123,7 +124,7 @@
           $(this).width(parseInt($(this).attr('width'),10)); // for browser compatibility, this is safer
           $(this).removeAttr('width');
         }
-        width = ($(elt).parent().width() > 50 ? $(elt).parent().width() : $(window).width()) -50; // -50 is to keep a padding on the right
+        width = ($(elt).parent().width() > 100 ? $(elt).parent().width() : $(window).width()) -50; // -50 is to keep a padding on the right
         var scale = width/$(this).width();
         if ( $(elt).closest('.full-seating').length > 0 ) // only for online stuff
         {
