@@ -1,4 +1,15 @@
 $(document).ready(function(){
+  $(window).resize(function(){
+    if ( $(window).width() > 800 )
+    {
+      $('#tickets').insertBefore($('#container'));
+    }
+    else
+    {
+      $('#tickets').insertAfter($('#container + .clear'));
+    }
+  }).resize();
+  
   LI.pubNamedTicketsInitialization();
   
   $('#categories form').submit(function(){
@@ -47,19 +58,20 @@ $(document).ready(function(){
   });
   
   // the tabs...
-  $('#container .tab h4').click(function(){
-    $('#container .tab:not(.hidden)').addClass('hidden');
-    $(this).closest('.tab').removeClass('hidden');
+  $('#container h4').click(function(){
+    $('#container .tab:not(.hidden), #container .h4:not(.hidden)').addClass('hidden');
+    $('#container '+$(this).attr('data-tab')).removeClass('hidden');
+    $(this).removeClass('hidden');
     
     // remember my choice
-    Cookie.set('pub_seated_plan_tab_id', $(this).closest('.tab').prop('id'), { maxAge: 30*24*60*60 }); // 30 days
+    Cookie.set('pub_seated_plan_tab_id', $('#container '+$(this).attr('data-tab')).prop('id'), { maxAge: 30*24*60*60 }); // 30 days
   });
   // click on last choice
   if ( Cookie.get('pub_seated_plan_tab_id') )
-    $('#container .tab#'+Cookie.get('pub_seated_plan_tab_id')+' h4').click();
+    $('#container h4[data-tab='+Cookie.get('pub_seated_plan_tab_id')+']').click();
   // click on categories for mobile devices (by default)
   else if ( LI.isMobile.any() )
-    $('#container .tab#categories h4').click();
+    $('#container h4[data-tab=#categories]').click();
 });
 
 // the height of the #container

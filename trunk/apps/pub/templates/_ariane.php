@@ -48,19 +48,21 @@
   <div class="cart <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
     <p class="cart"><?php echo link_to(__('Cart'),'cart/show') ?></p>
     <?php if ( count($cultures = sfConfig::get('project_internals_cultures',array('fr' => 'Français'))) > 1 ): ?>
-    <p class="i18n">
-    <?php foreach ( $cultures as $culture => $lang ): ?>
-      <a href="<?php echo url_for('login/culture?lang='.$culture) ?>"
-         class="culture-<?php echo $culture ?> <?php echo $culture === $sf_user->getCulture() ? 'current' : '' ?>"
-         title="<?php echo $lang ?>">
-        <?php echo $lang ?>
-      </a>
-    <?php endforeach ?>
-    </p>
     <?php endif ?>
   </div>
   <?php $nb++ ?>
   <div class="command <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
     <?php echo __('Command') ?>
   </div>
+</div>
+<div id='translation'>
+  <p class="i18n">
+  <?php foreach ( $cultures as $culture => $lang ): ?>
+    <a href="<?php echo url_for('login/culture?lang='.$culture) ?>"
+       class="culture-<?php echo $culture ?> <?php echo $culture === $sf_user->getCulture() ? 'current' : '' ?>"
+       title="<?php echo $lang ?>">
+      <?php echo $lang ?>
+    </a>
+  <?php endforeach ?>
+  </p>
 </div>
