@@ -29,7 +29,6 @@
   $this->getContext()->getConfiguration()->loadHelpers('Number');
   
   $q = Doctrine::getTable('Ticket')->createQuery('tck')
-    ->andWhere('t.contact_id = ?', $this->getUser()->getTransaction()->contact_id)
     ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
     ->andWhere('tck.transaction_id = ?', $request->getParameter('transaction_id', $this->getUser()->getTransactionId()))
     ->andWhere('tck.printed_at IS NULL')
@@ -51,6 +50,8 @@
     ->select('tck.*, dc.*')
     ->orderBy('ws.name, p.name, tck.value')
   ;
+  if ( $this->getUser()->getTransaction()->contact_id )
+    $q->andWhere('t.contact_id = ?', $this->getUser()->getTransaction()->contact_id);
   
   // current transaction
   if ( !$request->getParameter('transaction_id') )
@@ -99,7 +100,8 @@
       if ( isset($data[$ticket->id]['contact']['force']) && $data[$ticket->id]['contact']['force'] == 'true' )
       {
         // force contact to "me" / current contact_id, w/o updating contact's information
-        $ticket->DirectContact = $this->getUser()->getContact();
+        try { $ticket->DirectContact = $this->getUser()->getContact(); }
+        catch ( liOnlineSaleException $e ) {}
       }
       else
       {

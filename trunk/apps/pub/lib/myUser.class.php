@@ -67,7 +67,7 @@ class myUser extends pubUser
     $ticket = NULL;
     foreach ( $this->getTransaction()->Tickets as $tck )
     {
-      if ( $tck->contact_id == $this->getContact()->id )
+      if ( $tck->contact_id == $this->getTransaction()->contact_id )
       {
         $ticket = NULL;
         break;
@@ -79,7 +79,8 @@ class myUser extends pubUser
     // adding the transaction's contact on the first coming ticket if needed
     if ( $ticket instanceof Ticket )
     {
-      $ticket->DirectContact = $this->getContact();
+      try { $ticket->DirectContact = $this->getContact(); }
+      catch ( liOnlineSaleException $e ) {}
       $ticket->save();
     }
   }

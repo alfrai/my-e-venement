@@ -51,7 +51,7 @@
         <label><?php echo __('Email address') ?></label>
         <input type="email" value="" name="ticket[%%ticket_id%%][contact][email]" title="<?php echo __('Email address') ?>" />
       </span>
-      <button class="me" name="ticket[%%ticket_id%%][me]" value="<?php echo $sf_user->getContact()->id ?>" title="<?php echo __('Give me this ticket') ?>"><?php echo __('My seat') ?></button>
+      <button class="me" name="ticket[%%ticket_id%%][me]" value="<?php echo $sf_user->getTransaction()->contact_id ?>" title="<?php echo __('Give me this ticket') ?>"><?php echo __('My seat') ?></button>
       <br/>
       <span class="comment">
         <label><?php echo __('Any comment?') ?></label>

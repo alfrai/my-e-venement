@@ -47,13 +47,13 @@
       if ( !$this->form->getObject()->isNew() )
         $this->form->removePassword();
       
-      if (!( $request->getParameter('contact', false) && $this->getUser()->getTransaction()->contact_id ))
+      if ( !$request->getParameter('contact', false) && $this->getUser()->getTransaction()->contact_id )
       {
         // it's a hack to avoid infinite loops with the option "app_contact_modify_coordinates_first"
         $data = array();
         foreach ( $this->form->getValidatorSchema()->getFields() as $fieldname => $validator )
         if ( Doctrine::getTable('Contact')->hasColumn($fieldname) )
-          $data[$fieldname] = $this->getUser()->getContact()->$fieldname;
+          $data[$fieldname] = $this->getUser()->getTransaction()->Contact->$fieldname;
       
         $ws = $this->form->getWidgetSchema();
         $vs = $this->form->getValidatorSchema();
@@ -63,6 +63,8 @@
         foreach ( array('pro_email' => 'contact_email', 'pro_phone_number' => 'contact_number') as $vname => $field )
           $data[$vname] = $this->form->getObject()->Professionals[0]->$field;
         
+        print_r($data);
+        die();
         $this->form->bind($data);
       }
       else
@@ -197,8 +199,8 @@
     $vel = sfConfig::get('app_tickets_vel', array());
     if ( isset($vel['one_shot']) && $vel['one_shot'] )
     {
-      $this->getUser()->getContact()->password = NULL;
-      $this->getUser()->getContact()->save();
+      $this->getUser()->getTransaction()->Contact->password = NULL;
+      $this->getUser()->getTransaction()->Contact->save();
       error_log('Logout forced following the "one_shot" option.');
       $this->getUser()->logout();
     }

@@ -100,6 +100,7 @@
         $q = Doctrine::getTable('Ticket')->createQuery('tck')
           ->andWhere('tck.seat_id = ?', $data[$ticket->id]['seat_id'])
           ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
+          ->andWhere('tck.transaction_id != ?', $this->getUser()->getTransactionId())
         ;
         if ( $q->count() > 0 )
         {
@@ -208,6 +209,7 @@
       $q = Doctrine::getTable('Ticket')->createQuery('tck')
         ->andWhere('tck.seat_id = ?', $tck['seat_id'])
         ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
+        ->andWhere('tck.transaction_id != ?', $this->getUser()->getTransactionId())
       ;
       if ( $q->count() > 0 )
       {
