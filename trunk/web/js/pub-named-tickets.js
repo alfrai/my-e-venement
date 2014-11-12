@@ -152,7 +152,6 @@ LI.pubNamedTicketsData = function(json)
       elt.find('input, select')
         .unbind('focusout').unbind('focus')
         .focusout(function(){
-          console.error('focusout');
           if ( $.trim($(this).val()) == '' )
           {
             $(this).val('');
