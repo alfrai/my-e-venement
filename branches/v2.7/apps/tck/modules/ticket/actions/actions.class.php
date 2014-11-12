@@ -227,8 +227,6 @@ class ticketActions extends sfActions
     $accounting->content = $request->getParameter('content');
     
     $accounting->save();
-    error_log(print_r($accounting->toArray(),true));
-    throw new sfException('here');
     return sfView::NONE;
   }
   // invoice
