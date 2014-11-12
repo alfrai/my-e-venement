@@ -59,4 +59,4 @@
     <?php endforeach ?>
   <?php endif ?>
   <?php endforeach ?>
-</li>
+</ul>

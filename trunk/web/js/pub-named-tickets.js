@@ -152,6 +152,7 @@ LI.pubNamedTicketsData = function(json)
       elt.find('input, select')
         .unbind('focusout').unbind('focus')
         .focusout(function(){
+          console.error('focusout');
           if ( $.trim($(this).val()) == '' )
           {
             $(this).val('');
@@ -162,6 +163,9 @@ LI.pubNamedTicketsData = function(json)
           $(this).closest('span').find('label').hide();
         }).focus().focusout() // the delay is needed to let the asynchronous bind finish
       ;
+      setTimeout(function(){
+        elt.find('input, select').focusout();
+      },500);
       $('#actions .register a, #tickets .submit button').focus();
     }
   });
