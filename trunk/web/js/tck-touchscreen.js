@@ -47,7 +47,9 @@ $(document).ready(function(){
   // changing quantities
   $('#li_transaction_field_content .qty a').click(function(){
     var input = $(this).closest('.qty').find('input');
-    input.val(parseInt(input.val(),10)+($(this).is(':first-child') ? -1 : 1)).change();
+    var newval = parseInt(input.val(),10)+($(this).is(':first-child') ? -1 : 1)
+    console.error(newval < 0 ? 0 : newval);
+    input.val(newval < 0 ? 0 : newval).change();
   });
   $('#li_transaction_field_content .qty input').focusout(function(){ return false; }).select(function(){
     $(this).prop('defaultValue',$(this).val());
