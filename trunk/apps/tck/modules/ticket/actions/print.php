@@ -91,7 +91,7 @@
             }
             elseif ( strcasecmp($ticket->price_name,trim($request->getParameter('price_name'))) == 0
               && $ticket->printed_at
-              && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
+              && !($request->getParameter('manifestation_id') && $ticket->manifestation_id != $request->getParameter('manifestation_id')) )
             {
               $cpt++;
               $newticket = $ticket->copy();
@@ -118,7 +118,7 @@
           
           else // not duplicates
           if ( !$ticket->printed_at && !$ticket->integrated_at
-            && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
+            && !($request->getParameter('manifestation_id') && $ticket->manifestation_id != $request->getParameter('manifestation_id')) )
           {
             if ( $cpt >= $max['print'] )
             {
@@ -168,7 +168,7 @@
             }
             elseif ( strcasecmp($ticket->price_name,trim($request->getParameter('price_name'))) == 0
               && $ticket->printed_at
-              && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
+              && !($request->getParameter('manifestation_id') && $ticket->manifestation_id != $request->getParameter('manifestation_id')) )
             {
               $cpt++;
               $newticket = $ticket->copy();
@@ -196,7 +196,7 @@
             }
             
             if ( !$ticket->printed_at && !$ticket->integrated_at
-              && $ticket->manifestation_id == $request->getParameter('manifestation_id') )
+              && !($request->getParameter('manifestation_id') && $ticket->manifestation_id != $request->getParameter('manifestation_id')) )
             {
               $cpt++;
               if ( $ticket->Manifestation->no_print )
