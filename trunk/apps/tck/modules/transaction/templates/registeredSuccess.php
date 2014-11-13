@@ -22,10 +22,10 @@
           / <?php echo $ticket->Seat ?>
           <?php endif ?>
         </label>
-        <span class="contact_id"><?php echo $form['contact_id'] ?></span>
-        <span class="comment"><?php echo $form['comment'] ?></span>
+        <span class="contact_id" title="<?php echo __('Contact') ?>"><?php echo $form['contact_id'] ?></span>
+        <span class="comment" title="<?php echo __('Comment') ?>"><?php echo $form['comment'] ?></span>
         <?php if ( $sf_user->hasCredential('tck-transaction-reduc') ): ?>
-        <span class="reduc"><?php echo $form['reduc'] ?> (€|%)</span>
+        <span class="reduc" title="<?php echo __('Reduction') ?>"><?php echo $form['reduc'] ?> (€|%)</span>
         <span class="value"><?php echo format_currency($ticket->value, '€') ?></span>
         <?php endif ?>
         <span><input type="submit" value="<?php echo __('Validate', null, 'sf_admin') ?>" name="submit" /></span>

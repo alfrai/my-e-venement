@@ -14,6 +14,7 @@ $(document).ready(function(){
         if ( json[value] )
           LI.alert(json[value].message, value);
       });
+      location.reload();
     });
     return false;
   });

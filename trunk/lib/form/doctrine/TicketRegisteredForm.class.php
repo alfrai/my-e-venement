@@ -54,6 +54,8 @@ class TicketRegisteredForm extends TicketForm
         $this->object->value = round($this->object->value*(1-substr($reduc, 0, strlen($reduc)-1)/100),2);
       else
         $this->object->value = $this->object->value - round(floatval(str_replace(',', '.', $reduc)),2);
+      if ( $this->object->value < 0 )
+        $this->object->value = 0;
     }
     
     $this->object->contact_id = $this->values['contact_id'];
