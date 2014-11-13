@@ -1,4 +1,9 @@
 <?php $errors = $form->getErrorSchema()->getErrors() ?>
+<ul class="errors">
+<?php foreach ( $errors as $key => $error ) if ( !in_array($key, $form->getWidgetSchema()->getPositions()) ): ?>
+  <li><?php echo __($error) ?></li>
+<?php endif ?>
+</ul>
   <?php echo $form->renderHiddenFields() ?>
   <?php foreach ( $form->getWidgetSchema()->getPositions() as $name ): ?>
   <?php if ( !($form[$name]->getWidget() instanceof sfWidgetFormInputHidden) ): ?>
