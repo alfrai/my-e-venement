@@ -37,6 +37,7 @@
 
 /* < 800px */
 @media screen and (max-width: 800px) {
+#container #plans .legend { display: none; }
 #tickets { float: none; }
 #container { height: auto !important; }
 #container h4 { margin-left: 5px; margin-top: -17px; }

@@ -24,12 +24,14 @@
       <div class="li-content">
         <?php include_partial('show_plans', array('manifestation' => $manifestation)) ?>
         <div class="description"><?php echo $texts['plans'] ?></div>
+        <div class="clear"></div>
       </div>
     </div>
     <div class="tab hidden" id="categories">
       <div class="li-content">
         <?php include_partial('show_categories', array('manifestation' => $manifestation)) ?>
         <div class="description"><?php echo $texts['categories'] ?></div>
+        <div class="clear"></div>
       </div>
     </div>
   </div>

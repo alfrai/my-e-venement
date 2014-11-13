@@ -39,3 +39,4 @@
     <a href="<?php echo url_for('ticket/getOrphans') ?>" id="ajax-pre-submit"></a>
   </div>
 </div>
+<div class="legend"><?php include_partial('show_plans_legend') ?></div>

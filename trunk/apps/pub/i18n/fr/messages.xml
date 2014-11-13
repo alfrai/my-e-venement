@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Available seat</source>
+        <target>Place disponible</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Unavailable seat</source>
+        <target>Place indisponible</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Selected seat</source>
+        <target>Place sélectionnée</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Seat under your cursor</source>
+        <target>Place sous votre curseur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Orphan seat</source>
+        <target>Place orpheline</target>
+      </trans-unit>
+      <trans-unit>
         <source>Payment</source>
         <target>Paiement</target>
       </trans-unit>

@@ -1,0 +1,8 @@
+#plans .legend { width: 200px; float: left; margin: 0 10px 10px 0; }
+#plans .legend ul { list-style-type: none; padding-left: 20px; }
+#plans .legend .seat { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 10px; }
+#plans .legend .seat.free { background-color: green; }
+#plans .legend .seat.occupied { background-color: white; }
+#plans .legend .seat.ordered { background-color: orange; }
+#plans .legend .seat.orphan { background-color: red; }
+#plans .legend .seat.hover { border: 2px solid black; height: 6px; width: 6px; }
