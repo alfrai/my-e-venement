@@ -1,8 +1,19 @@
 all:
-  credentials: [admin-power]
+  credentials: [stats-pub]
 index:
   credentials: [stats-pub]
 data:
   credentials: [stats-pub]
 csv:
   credentials: [stats-pub, stats-csv]
+
+create:
+  credentials: [admin-power]
+update:
+  credentials: [admin-power]
+edit:
+  credentials: [admin-power]
+delete:
+  credentials: [admin-power]
+batchDelete:
+  credentials: [admin-power]
