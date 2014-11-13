@@ -3,7 +3,7 @@ $(document).ready(function(){
   $('#ledger .method .see-more a').unbind().click(function(){
     $('#ledger .payment.method-'+parseInt(/#(\d+)$/.exec($(this).prop('href'))[1],10)).fadeToggle();
     $(this).html($(this).html() == '-' ? '+' : '-');
-  }).click().html('-');
+  }).click().html('+');
   
   // sales ledger / manifs
   $('#ledger-products .declination .see-more a, #ledger-events .manif .see-more a').unbind().click(function(){

@@ -85,7 +85,7 @@ class transactionActions extends sfActions
       throw new liOnlineSaleException('Trying to access something without prerequisites.');
     
     $this->transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
-    if ( !sfConfig::get('sf_web_debug', false) || $this->transaction->Order->count() == 0 )
+    if ( !sfConfig::get('sf_web_debug', false) && $this->transaction->Order->count() == 0 )
       return sfView::NONE;
     
     $this->getContext()->getConfiguration()->loadHelpers('I18N');

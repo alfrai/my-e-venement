@@ -40,12 +40,15 @@ class liPassbookPluginConfiguration extends sfPluginConfiguration
     if ( $event['target'] != 'tickets' )
       return;
     
-    $wallet = liPassbookWallet::create($event['transaction'])->buildArchive();
-    $event['content'] = (string)$wallet;
-    $event['headers'] = array(
-      'Content-Disposition' => 'attachment; filename="'.$wallet->getFilename().'"',
-      'Content-Type'        => liPassbookWallet::MIME_TYPE,
-    );
+    try {
+      $wallet = liPassbookWallet::create($event['transaction'])->buildArchive();
+      $event['content'] = (string)$wallet;
+      $event['headers'] = array(
+        'Content-Disposition' => 'attachment; filename="'.$wallet->getFilename().'"',
+        'Content-Type'        => liPassbookWallet::MIME_TYPE,
+      );
+    }
+    catch ( Exception $e ) { $this->log('An error occurred generating a Passbook, skipping this step... Error: function listenToTransactionGenerateOtherFormat()', $e); }
   }
   public function listenToTicketsListFormats(sfEvent $event)
   { try {
@@ -67,7 +70,8 @@ class liPassbookPluginConfiguration extends sfPluginConfiguration
         'title' => __('Especially for mobile devices')
       )
     ).' ';
-  } catch ( Exception $e ) { $this->log($e); } }
+  }
+  catch ( Exception $e ) { $this->log('An error occurred generating a Passbook, skipping this step... Error: function listenToTicketsListFormats()', $e); } }
   
   public function listenToEmailedOrders(sfEvent $event)
   { try {
@@ -79,7 +83,7 @@ class liPassbookPluginConfiguration extends sfPluginConfiguration
     foreach ( $params['transaction']->Tickets as $ticket )
     {
       $pass = new liPassbook($ticket);
-       
+      
       $attachment = new Attachment;
       $attachment->filename = $pass->getRealFilePath();
       $attachment->original_name = basename($pass->getPkpassPath());
@@ -91,20 +95,19 @@ class liPassbookPluginConfiguration extends sfPluginConfiguration
       // and then, to be sure that the attachments collection is up2date
       $email->Attachments[] = $attachment;
     }
-  } catch ( Exception $e ) { $this->log($e); } }
+  }
+  catch ( Exception $e ) { $this->log('An error occurred generating a Passbook, skipping this step... Error: function listenToEmailedOrders()', $e); } }
   
   /**
    * Function that helps making dispatcher calls fail-proof
    * @param $e Exception
    * @return void
    **/
-  public function log(Exception $e)
+  public function log($msg = '', Exception $e)
   {
-    throw $e;
-    if ( sfContext::hasInstance() && sfConfig::get('sf_debug') )
-      error_log($e);
-    else
-      error_log($e->getMessage());
+    error_log($msg.' / '.$e->getMessage());
+    if ( sfContext::hasInstance() && sfConfig::get('sf_web_debug', false) )
+      throw $e;
   }
   
   /**
