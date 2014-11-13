@@ -1,4 +1,4 @@
-<a href="http://www.e-venement.org/">e-venement</a>
+<a href="<?php echo sfConfig::get('app_seller_software_url', 'http://www.e-venement.org/') ?>">e-venement</a>
 <?php echo __("the free and open source ticketing software",array(),'footer') ?> 
 -
 &copy; 2006-<?php echo date('Y') ?> 
