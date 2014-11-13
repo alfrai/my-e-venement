@@ -63,8 +63,6 @@
         foreach ( array('pro_email' => 'contact_email', 'pro_phone_number' => 'contact_number') as $vname => $field )
           $data[$vname] = $this->form->getObject()->Professionals[0]->$field;
         
-        print_r($data);
-        die();
         $this->form->bind($data);
       }
       else

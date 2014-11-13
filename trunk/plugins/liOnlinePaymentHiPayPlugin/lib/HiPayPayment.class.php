@@ -83,7 +83,9 @@ class HiPayPayment extends OnlinePayment
   {
     try
     {
+      error_log('HiPay pre-response: '.$request->getParameter('xml'));
       $bank = $this->createBankPayment($request);
+      error_log('HiPay post-response: '.($bank->error == 'yes' ? 'global failure' : 'global success for #'.$bank->transaction_id));
       $bank->save();
     }
     catch ( Exception $e )

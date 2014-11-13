@@ -337,7 +337,7 @@ class myUser extends pubUser
   {
     $contact = false;
     try { $contact = $this->getContact(); }
-    catch ( liOnlineSaleException $e ) { error_log($e->getMessage()); }
+    catch ( liOnlineSaleException $e ) { error_log('Trying to logout, but: '.$e->getMessage()); }
     
     $this->logout();
     if ( $contact )

@@ -206,8 +206,6 @@ class cartActions extends sfActions
   
   public function executeSendConfirmationEmails(sfWebRequest $request)
   {
-    if ( !sfConfig::get('sf_web_debug', false) )
-      die();
     $this->sendConfirmationEmails($this->getUser()->getTransaction(), $this);
     return sfView::NONE;
   }
