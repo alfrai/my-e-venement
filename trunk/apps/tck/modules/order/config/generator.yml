@@ -21,10 +21,10 @@ generator:
       list:
         display: [_id,_transaction_id,_cancel,_contact,_manifestations,created_at,User]
         table_method: doSelectIndex
-        sort: [id, '']
+        sort: [id, DESC]
       filter:
         display:
-          Transaction: [transaction_id, created_at, contact_id, organism_id, sf_guard_user_id]
+          Transaction: [transaction_id, created_at, has_confirmed_ticket, contact_id, organism_id, sf_guard_user_id]
           Manifestation: [event_name, manifestation_happens_at, workspaces_list, meta_events_list]
       form:    ~
       edit:    ~
