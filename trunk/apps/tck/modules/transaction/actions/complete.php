@@ -272,11 +272,6 @@
           $semaphore['amount'] -= $payment->value;
         }
         
-        error_log(
-          ($semaphore['products'] ? 'pdts' : '').' '.
-          (sfConfig::get('app_tickets_alert_on_notprinted', true) ? 'alert' : '').' '.
-          ($this->transaction->Order->count() > 0 ? 'order' : '')
-        );
         if ( !( ($semaphore['products'] || !sfConfig::get('app_tickets_alert_on_notprinted', true)) && $this->transaction->Order->count() > 0 )
           || $semaphore['amount'] != 0 )
         {
