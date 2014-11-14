@@ -226,14 +226,17 @@ EOF
       $timeout = sfConfig::get('app_tickets_timeout', array());
       $section = 'WIP tickets';
       $this->stdout($section, 'Deleting tickets...', 'COMMAND');
-      $nb = Doctrine_Query::create()->from('Ticket tck')
+      $tickets = Doctrine_Query::create()->from('Ticket tck')
         ->andWhere('tck.price_id IS NULL')
         ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL')
         ->andWhere('tck.updated_at < ?', date('Y-m-d H:i:s', strtotime(($timeout['wip'] ? $timeout['wip'] : '2 hours').' ago')))
-        ->delete()
         ->execute()
       ;
-      $this->stdout($section, "[OK] $nb tickets deleted", 'INFO');
+      $nb = $tickets->count();
+      foreach ( $tickets as $ticket )
+        $ticket->seat_id = NULL;
+      $tickets->save();
+      $this->stdout($section, "[OK] $nb tickets resetted", 'INFO');
     });
     
     // Asked tickets collector
@@ -252,8 +255,10 @@ EOF
       ;
       $tickets = $q->execute();
       $nb = $tickets->count();
-      $tickets->delete();
-      $this->stdout($section, "[OK] $nb tickets deleted", 'INFO');
+      foreach ( $tickets as $ticket )
+        $ticket->seat_id = NULL;
+      $tickets->save();
+      $this->stdout($section, "[OK] $nb tickets resetted", 'INFO');
     });
     
     // Asked products collector

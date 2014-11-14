@@ -337,11 +337,15 @@ class myUser extends pubUser
   {
     $contact = false;
     try { $contact = $this->getContact(); }
-    catch ( liOnlineSaleException $e ) { error_log('Trying to logout, but: '.$e->getMessage()); }
+    catch ( liOnlineSaleException $e ) { error_log('Trying to reset the transaction #'.$this->transaction->id.', but: '.$e->getMessage()); }
     
-    $this->logout();
+    $this->getAttributeHolder()->remove('transaction_id');
+    $this->transaction = NULL;
+    $this->getTransaction();
     if ( $contact )
       $this->setContact($contact);
+    
+    return $this;
   }
   public function logout()
   {
@@ -350,6 +354,8 @@ class myUser extends pubUser
     $this->getAttributeHolder()->remove('transaction_id');
     $this->transaction = NULL;
     $this->getTransaction();
+    
+    return $this;
   }
   
   public function setDefaultCulture(array $languages)
