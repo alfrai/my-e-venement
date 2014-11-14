@@ -1128,7 +1128,7 @@ class ContactFormFilter extends BaseContactFormFilter
   public function buildQuery(array $values)
   {
     $this->values = $values;
-    $this->setProfessionalData(false);
+    //$this->setProfessionalData(false);
     
     // to limit execution time
     $q = parent::buildQuery($values);
