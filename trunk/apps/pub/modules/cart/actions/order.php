@@ -35,7 +35,7 @@
     
     // harden data
     if ( $this->transaction->id == $this->getUser()->getTransactionId() )
-    $this->getContext()->getConfiguration()->hardenIntegrity();
+      $this->getContext()->getConfiguration()->hardenIntegrity();
     
     try { $this->form = new ContactPublicForm($this->getUser()->getContact()); }
     catch ( liEvenementException $e )
@@ -202,9 +202,6 @@
       error_log('Logout forced following the "one_shot" option.');
       $this->getUser()->logout();
     }
-    
-    if ( $this->transaction->id != $this->getUser()->getTransactionId() )
-      $this->getUser()->setTransaction($this->transaction);
     
     if ( $redirect )
       $this->redirect($redirect);

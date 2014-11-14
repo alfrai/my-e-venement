@@ -106,8 +106,19 @@ class cartActions extends sfActions
       $this->redirect('cart/show');
     }
     
-    $this->getUser()->resetTransaction();
-    $this->redirect('transaction/show?end=1&id='.$this->transaction->id);
+    // go back to the just-paid transaction, what ever it is
+    $transaction = Doctrine::getTable('Transaction')->createQuery('t')
+      ->select('t.*')
+      ->andWhere('t.contact_id = ?', $this->transaction->contact_id)
+      ->leftJoin('t.Payments p')
+      ->andWhere('p.id IS NOT NULL')
+      ->orderBy('p.created_at DESC')
+      ->fetchOne();
+    if (! $transaction instanceof Transaction )
+      $transaction = $this->getUser()->getTransactionId();
+    if ( $transaction->id == $this->getUser()->getTransactionId() )
+      $this->getUser()->resetTransaction();
+    $this->redirect('transaction/show?end=1&id='.$transaction->id);
   }
   public function executeCancel(sfWebRequest $request)
   {

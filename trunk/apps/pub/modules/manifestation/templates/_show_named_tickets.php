@@ -18,7 +18,7 @@
       <span class="taxes"></span>
     </h4>
     <div class="price">
-      <?php if ( isset($display_mods) && !$display_mods ) echo __('Seat #') ?><span class="seat_name"></span>
+      <span class="seat_label"><?php if ( isset($display_mods) && !$display_mods ) echo __('Seat #') ?></span><span class="seat_name"></span>
       <span class="price_name"><select name="ticket[%%ticket_id%%][price_id]"></select></span>
       <?php if (!( isset($display_mods) && !$display_mods )): ?>
       <button value="true" class="delete" name="ticket[%%ticket_id%%][delete]" title="<?php echo __('Delete', null, 'sf_admin') ?>">X</button>

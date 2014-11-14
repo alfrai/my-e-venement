@@ -4,6 +4,9 @@
   if ( $gauge->online )
   {
     $sp = $gauge->seated_plan;
+    if (! $sp instanceof SeatedPlan )
+      continue;
+    
     if ( !isset($plans[$sp->picture_id]) )
       $plans[$sp->picture_id] = array(
         'seated_plan' => $sp,

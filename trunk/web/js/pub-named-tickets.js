@@ -107,6 +107,8 @@ LI.pubNamedTicketsData = function(json)
       else
         elt.find('.'+field).text(ticket[field]);
     });
+    if ( !ticket.seat_name )
+      elt.find('.seat_label').hide();
     elt.find('input, select').each(function(){
       $(this).attr('name', $(this).attr('name').replace('%%ticket_id%%', ticket.id));
     });

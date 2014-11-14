@@ -1,5 +1,4 @@
 <?php use_stylesheet('pub-seated-plan-legend?'.date('Ymd')) ?>
-<?php use_stylesheet('/private/pub-seated-plan-legend?'.date('Ymd')) ?>
 <ul>
   <li>
     <span class="seat free"></span>
