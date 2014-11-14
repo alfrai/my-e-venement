@@ -83,12 +83,16 @@ class transactionActions extends sfActions
     require_once(dirname(__FILE__).'/../../cart/actions/actions.class.php');
     if ( intval($request->getParameter('id')).'' !== $request->getParameter('id').'' )
       throw new liOnlineSaleException('Trying to access something without prerequisites.');
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
     
     $this->transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
-    if ( !sfConfig::get('sf_web_debug', false) && $this->transaction->Order->count() == 0 )
-      return sfView::NONE;
+    if ( !sfConfig::get('sf_web_debug', false)
+      && $this->transaction->Order->count() == 0 || $this->transaction->contact_id != $this->getUser()->getTransaction()->id )
+    {
+      $this->getUser()->setFlash('error', __('The state of your order does not allow this action. Please contact us if necessary.'));
+      $this->redirect('transaction/show?id='.$this->transaction->id);
+    }
     
-    $this->getContext()->getConfiguration()->loadHelpers('I18N');
     cartActions::sendConfirmationEmails($this->transaction, $this);
     $this->getUser()->setFlash('success', __('Action successful'));
     $this->redirect('transaction/show?id='.$this->transaction->id);

@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The state of your order does not allow this action. Please contact us if necessary.</source>
+        <target>L'état de votre commande ne permet pas d'effecter cette action. Contactez-nous si nécessaire.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Available seat</source>
         <target>Place disponible</target>
       </trans-unit>
