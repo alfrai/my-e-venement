@@ -37,6 +37,14 @@ class liGuardSecurityUser extends sfGuardSecurityUser
     }
     
     parent::__construct($dispatcher, $storage, $options);
+    
+    // lang
+    if ( isset($_COOKIE['lang']) )
+    {
+      $cultures = sfConfig::get('project_internals_cultures', array('fr' => 'Français'));
+      if ( isset($cultures[$_COOKIE['lang']]) )
+        $this->setCulture($_COOKIE['lang']);
+    }
   }
   public function __toString()
   {

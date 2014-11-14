@@ -30,6 +30,7 @@ class cultureActions extends sfActions
     {
       $this->getUser()->setCulture($params['culture']);
       $this->getUser()->setFlash('success', 'Your language as been successfully updated.');
+      $this->getResponse()->setCookie('lang', $this->getUser()->getCulture(), '3 month');
     }
     else
       $this->getUser()->setFlash('error', 'Please, try again...');
