@@ -272,7 +272,13 @@
           $semaphore['amount'] -= $payment->value;
         }
         
-        if ( !$semaphore['products'] || $semaphore['amount'] != 0 )
+        error_log(
+          ($semaphore['products'] ? 'pdts' : '').' '.
+          (sfConfig::get('app_tickets_alert_on_notprinted', true) ? 'alert' : '').' '.
+          ($this->transaction->Order->count() > 0 ? 'order' : '')
+        );
+        if ( !( ($semaphore['products'] || !sfConfig::get('app_tickets_alert_on_notprinted', true)) && $this->transaction->Order->count() > 0 )
+          || $semaphore['amount'] != 0 )
         {
           $this->json['success']['error_fields']['close'] = $this->json['success']['success_fields']['close'];
           unset($this->json['success']['success_fields']['close']);
@@ -285,7 +291,7 @@
           if ( $semaphore['amount'] < 0 )
             $this->json['success']['error_fields']['close']['data']['pay'] = __('This transaction has more money than needed');
         }
-        else
+        elseif ( $semaphore['products'] )
         {
           $this->transaction->closed = true;
           $this->transaction->save();

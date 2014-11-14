@@ -52,6 +52,7 @@ all:
     #logo: /private/logo-xxx.png
     authorize_grouped_tickets: false
     simplified_printing: true     # for dematerialized ticketting only, cf. web/css/print-simplified-tickets.css & web/private/print-simplified-tickets.css
+    #alert_on_notprinted: true
   control:
     future: 6 hours
     past:   1 day
