@@ -187,6 +187,14 @@ LI.seatedPlanInitializationFunctions.push(function(){
     if ( infos.one_shot == true )
       delete LI.pubAfterRenderingSeats[key];
   });
+  
+  // debugging lazy/stupid IE calculation on SVG's height
+  setTimeout(function(){
+    $('.seated-plan img').each(function(){
+      $(this).height($(this).clone().addClass('hack-to-delete').appendTo('#footer').height());
+    });
+    $('#footer img.hack-to-delete').remove();
+  },3000);
 });
   
 LI.pubAfterRenderingSeats['pubSeatedPlanInitMain'] = function(){
