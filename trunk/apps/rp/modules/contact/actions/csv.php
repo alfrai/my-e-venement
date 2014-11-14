@@ -85,6 +85,8 @@
       ;
     
     $this->lines = $q->fetchArray();
+    if ( in_array('always_pro', $params['option']) )
+      $this->filters->setProfessionalData(true);
     
     foreach ( $this->lines as $key => $line )
     {

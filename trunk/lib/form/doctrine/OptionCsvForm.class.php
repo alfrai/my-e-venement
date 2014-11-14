@@ -71,6 +71,7 @@ class OptionCsvForm extends BaseOptionCsvForm
         'information' => 'More informations',
         'microsoft'   => 'Microsoft-Compatible',
         'noheader'    => 'No header',
+        'always_pro'  => 'Professional data: always',
         'tunnel'      => 'Prefer professional informations',
       ),
       'out' => array(
