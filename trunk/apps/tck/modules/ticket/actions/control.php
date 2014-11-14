@@ -37,18 +37,10 @@
       ->andWhere('m.happens_at >= ?',date('Y-m-d H:i',strtotime('now - '.$past)));
     $this->form->getWidget('checkpoint_id')->setOption('query',$q);
     
-    // retrieving the configurate field
-    switch ( sfConfig::get('app_tickets_id') ) {
-    case 'qrcode':
-      $field = 'barcode';
-      break;
-    case 'othercode':
-      $field = 'othercode';
-      break;
-    default:
-      $field = 'id';
-      break;
-    }
+    // retrieving the configurate field <- need some improvement for a composite nature : qrcode / id if failing (for instance)
+    $field = sfConfig::get('app_tickets_id','id');
+    //if ( !is_array($field) )
+    //  $field = array($field);
     
     if ( count($request->getParameter($this->form->getName())) > 0 )
     {
