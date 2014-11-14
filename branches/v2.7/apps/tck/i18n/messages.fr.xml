@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Has confirmed ticket</source>
+        <target>A des billets confirmés</target>
+      </trans-unit>
+      <trans-unit>
         <source>From %from_date%</source>
         <target>Entre le %from_date%</target>
       </trans-unit>
