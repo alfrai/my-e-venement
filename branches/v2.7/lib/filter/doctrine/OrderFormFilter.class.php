@@ -37,6 +37,15 @@ class OrderFormFilter extends BaseOrderFormFilter
       'required'  => false,
     ));
     
+    
+    $this->widgetSchema   ['has_confirmed_ticket'] = new sfWidgetFormChoice(array(
+      'choices' => $choices = array('' => __('yes or no',null,'sf_admin'), 'yes' => __('yes',null,'sf_admin'), 'no' => __('no',null,'sf_admin')),
+    ));
+    $this->validatorSchema['has_confirmed_ticket'] = new sfValidatorChoice(array(
+      'choices' => array_keys($choices),
+      'required' => false,
+    ));
+    
     $this->widgetSchema   ['event_name'] = new sfWidgetFormInput;
     $this->validatorSchema['event_name'] = new sfValidatorString(array('required' => false));
     
@@ -90,6 +99,7 @@ class OrderFormFilter extends BaseOrderFormFilter
   public function getFields()
   {
     $fields = parent::getFields();
+    $fields['has_confirmed_ticket']     = 'HasConfirmedTicket';
     $fields['event_name']               = 'EventName';
     $fields['contact_id']               = 'ContactId';
     $fields['organism_id']              = 'OrganismId';
@@ -99,6 +109,29 @@ class OrderFormFilter extends BaseOrderFormFilter
     return $fields;
   }
   
+  public function addHasConfirmedTicketColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    
+    $o = $q->getRootAlias();
+    $ids = array(0);
+    foreach ( $tmp = $q->copy()->select("$o.id, $o.transaction_id")->fetchArray() as $order )
+      $ids[] = $order['transaction_id'];
+    
+    $tids = array(0);
+    foreach ( $tmp = Doctrine_Query::create()->from('Transaction t')
+      ->andWhereIn('t.id', $ids)
+      ->leftJoin('t.Tickets tck')
+      ->andWhere('(tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL)')
+      ->select('t.id AS id')
+      ->groupBy('t.id')
+      ->having('count(tck.id) '.($values == 'yes' ? '> 0' : '= 0'))
+      ->fetchArray() as $transaction )
+      $tids[] = $transaction['id'];
+    $q->andWhereIn("$o.transaction_id", $tids);
+    return $q;
+  }
   public function addWorkspacesListColumnQuery(Doctrine_Query $q, $field, $values)
   {
     if ( !$values )

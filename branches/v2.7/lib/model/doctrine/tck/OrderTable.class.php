@@ -24,7 +24,10 @@ class OrderTable extends PluginOrderTable
     public function doSelectIndex(Doctrine_Query $q)
     {
       $o = $q->getRootAlias();
-      $q->leftJoin("$o.Transaction t")
+      $q->leftJoin("$o.User u")
+        ->leftJoin("$o.Transaction t")
+        ->andWhere('NOT t.closed')
+        
         ->leftJoin('t.Tickets tck')
         ->leftJoin('tck.Manifestation m')
         ->leftJoin('m.Location l')
@@ -36,7 +39,7 @@ class OrderTable extends PluginOrderTable
         ->leftJoin('t.Contact c')
         ->leftJoin('t.Professional p')
         ->leftJoin('p.Organism org')
-        ->andWhere('NOT t.closed');
+      ;
       return $q;
     }
 }
