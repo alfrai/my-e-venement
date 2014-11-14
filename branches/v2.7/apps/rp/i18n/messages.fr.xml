@@ -1473,6 +1473,10 @@
         <target>Compatible Microsoft</target>
       </trans-unit>
       <trans-unit>
+        <source>Professional data: always</source>
+        <target>Données pro: toujours</target>
+      </trans-unit>
+      <trans-unit>
         <source>Prefer professional informations</source>
         <target>Préférer les informations pro.</target>
       </trans-unit>
