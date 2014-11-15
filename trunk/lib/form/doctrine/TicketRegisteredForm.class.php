@@ -27,6 +27,9 @@ class TicketRegisteredForm extends TicketForm
       Doctrine::getTable('Transaction')->createQuery('t')
         ->andWhere('t.closed = ?', false)
     );
+    
+    if ( !$this->object->isNew() )
+      $this->widgetSchema->setNameFormat('ticket['.$this->object->id.'][%s]');
   }
   
   protected function doBind(array $values)

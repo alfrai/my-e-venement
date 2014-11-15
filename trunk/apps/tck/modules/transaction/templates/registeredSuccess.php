@@ -28,7 +28,7 @@
         <span class="reduc" title="<?php echo __('Reduction') ?>"><?php echo $form['reduc'] ?> (€|%)</span>
         <span class="value"><?php echo format_currency($ticket->value, '€') ?></span>
         <?php endif ?>
-        <span><input type="submit" value="<?php echo __('Validate', null, 'sf_admin') ?>" name="submit" /></span>
+        <span><input type="submit" value="<?php echo __('Validate', null, 'sf_admin') ?>" name="submit" /><input type="hidden" name="id" value="<?php echo $ticket->id ?>" /></span>
       </form>
       <?php endforeach ?>
     </div>

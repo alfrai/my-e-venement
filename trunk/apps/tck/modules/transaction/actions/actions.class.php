@@ -29,11 +29,15 @@ class transactionActions extends autoTransactionActions
   }
   public function executeRegister(sfWebRequest $request)
   {
+    $id = $request->getParameter('id');
     $data = $request->getParameter('ticket');
+    if ( !isset($data[$id]) )
+      return 'Error';
+    
     $this->form = new TicketRegisteredForm;
-    if ( !$this->getUser()->hasCredential('tck-transaction-reduc') && isset($data['reduc']) )
-      unset($data['reduc']);
-    $this->form->bind($data);
+    if ( !$this->getUser()->hasCredential('tck-transaction-reduc') && isset($data[$id]['reduc']) )
+      unset($data[$id]['reduc']);
+    $this->form->bind($data[$id]);
     
     if ( $request->hasParameter('debug') && sfConfig::get('sf_web_debug') )
     {
