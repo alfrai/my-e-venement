@@ -84,7 +84,7 @@ body.bdc #echeance { display: none; }
   text-align: center;
 }
 #payments { border: 1px solid silver; margin-left: 4px; padding: 5px 10px; width: 280px; position: relative; bottom: 30px; }
-.pdf #payments { width: 180px; }
+.pdf #payments { width: 220px; }
 #payments h2 { font-size: 13px; margin: 0 10px 0 0; float: left; }
 #payments div { display: table; }
 .pdf #payments div { display: block; }
