@@ -37,6 +37,8 @@ abstract class PluginTicket extends BaseTicket
 {
   public function preSave($event)
   {
+    $is_auth = sfContext::hasInstance() && sfContext::getInstance()->getUser()->getGuardUser();
+    
     // the prices
     if ( (is_null($this->value) || is_null($this->price_id))
       && (!is_null($this->price_name) || !is_null($this->price_id))
@@ -85,7 +87,7 @@ abstract class PluginTicket extends BaseTicket
     if ( !$this->price_name )
       $this->price_name = $this->Price->name;
     
-    if ( $this->price_id && sfContext::hasInstance() )
+    if ( $this->price_id && $is_auth )
     if ( !$this->Price->isAccessibleBy(sfContext::getInstance()->getUser()) )
       throw new liEvenementException('You tried to save a ticket with a price that you cannot access (user: #'.sfContext::getInstance()->getUser()->getId().', price: #'.$this->price_id.')');
     
@@ -110,7 +112,8 @@ abstract class PluginTicket extends BaseTicket
     {
       $this->taxes = 0;
       $taxes = new Doctrine_Collection('Tax');
-      $taxes->merge(sfContext::getInstance()->getUser()->getGuardUser()->Taxes);
+      if ( $is_auth )
+        $taxes->merge(sfContext::getInstance()->getUser()->getGuardUser()->Taxes);
       $taxes->merge($this->Manifestation->Taxes);
       if ( $this->price_id )
         $taxes->merge(is_object($this->Price) ? $this->Price->Taxes : Doctrine::getTable('Price')->find($this->price_id)->Taxes);
