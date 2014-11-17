@@ -1,0 +1,25 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           WebOriginIp
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          web_origin_ip
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        ipaddress: { label: IP address }
+        name: { label: Alias }
+      list:
+        title: IP addresses matching
+        display: [ipaddress, name]
+      filter:  ~
+      form:    ~
+      edit:    ~
+      new:     ~
