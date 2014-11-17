@@ -19,7 +19,8 @@ generator:
       list:
         title: IP addresses matching
         display: [ipaddress, name]
-      filter:  ~
+      filter:
+        display: []
       form:    ~
       edit:    ~
       new:     ~

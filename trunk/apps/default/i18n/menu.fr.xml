@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>IP addresses matching</source>
+        <target>Aliases d'adresses IP</target>
+      </trans-unit>
+      <trans-unit>
         <source>Store</source>
         <target>Boutique</target>
       </trans-unit>
