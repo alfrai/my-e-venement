@@ -29,7 +29,9 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .tdp-line.city span,
 #tdp-content #sf_admin_content .tdp-widget-header span { border-color: silver; }
 #tdp-content #sf_admin_content .tdp-line.city input { width: 8em; padding: 0 3px; border: 0; border-radius: 4px; }
-#tdp-content #sf_admin_content .tdp-widget-header input { width: 8em; padding: 0 3px; border: 0; background-color: transparent; color: white; font-size: 22px; font-family: Lucida Grande,Lucida Sans,Arial,sans-serif; }
+#tdp-content #sf_admin_content .tdp-widget-header input { width: 12em; padding: 0 3px; border: 0; background-color: transparent; color: white; font-size: 22px; font-family: Lucida Grande,Lucida Sans,Arial,sans-serif; }
+#tdp-content #sf_admin_content .tdp-widget-header [name="autocomplete_contact[title]"] { width: 4em; }
+#tdp-content #sf_admin_content .tdp-widget-header [name="contact[name]"] { width: 16em; }
 #tdp-content #sf_admin_content .tdp-line.city span,
 #tdp-content #sf_admin_content .tdp-line.city input { padding-top: 3px; padding-bottom: 3px; }
 #tdp-content .tdp-organism #sf_admin_content .tdp-widget-header input { width: 75%; }
