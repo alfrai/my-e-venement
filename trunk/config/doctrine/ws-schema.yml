@@ -339,3 +339,17 @@ WebOrigin:
       foreignType: one
       onDelete: CASCADE
       onUpdate: CASCADE
+WebOriginIp:
+  package: ws
+  indexes:
+    ipaddress_idx:
+      fields: [ipaddress]
+  columns:
+    ipaddress:
+      type: string(40)
+      notnull: true
+      notblank: true
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true

@@ -24,7 +24,7 @@ generator:
         list_transaction_amount: { label: Amount, type: number }
       list:
         title: Statistics from online sales
-        display: [first_page, referer, campaign, _list_transaction, transaction_id, _list_contact, _list_transaction_amount, _list_deal_done, ipaddress, user_agent, created_at, User]
+        display: [first_page, referer, campaign, _list_transaction, transaction_id, _list_contact, _list_transaction_amount, _list_deal_done, _list_ipaddress, ipaddress, user_agent, created_at, User]
         actions: []
         batch_actions:
           _exceptions:

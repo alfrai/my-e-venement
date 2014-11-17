@@ -65,12 +65,12 @@
         <target>Créer des exceptions</target>
       </trans-unit>
       <trans-unit>
-        <source></source>
-        <target></target>
+        <source>IP address matching</source>
+        <target>Nommage des adresses IP</target>
       </trans-unit>
       <trans-unit>
-        <source></source>
-        <target></target>
+        <source>Alias</source>
+        <target>Alias</target>
       </trans-unit>
       <trans-unit>
         <source></source>

@@ -6,3 +6,4 @@
 #sf_admin_content { clear: both; }
 
 .sf_admin_list_th_list_transaction, .sf_admin_list_td_transaction_id { display: none; }
+.sf_admin_list_th_list_ipaddress, .sf_admin_list_td_ipaddress { display: none; }
