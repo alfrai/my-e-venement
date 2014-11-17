@@ -95,7 +95,8 @@ class TransactionTable extends PluginTransactionTable
   }
   protected static function getDebtsListProductsCondition($table = 'pdt', $date = NULL, $from = NULL)
   {
-    $r = $table.'.transaction_id = t.id AND '.$table.'.integrated_at IS NOT NULL';
+    $r  = '';
+    $r .= $table.'.transaction_id = t.id AND '.$table.'.integrated_at IS NOT NULL';
     if ( !is_null($date) )
       $r .= " AND $table.integrated_at < '$date'";
     if ( !is_null($from) )
