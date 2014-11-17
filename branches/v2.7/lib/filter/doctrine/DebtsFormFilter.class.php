@@ -48,6 +48,8 @@ class DebtsFormFilter extends TransactionFormFilter
       'required' => false,
     ));
     
+    $this->values['date'] = '';
+    
     parent::configure();
   }
   
@@ -55,13 +57,15 @@ class DebtsFormFilter extends TransactionFormFilter
   {
     $a = $q->getRootAlias();
     
-    if ( is_array($values) && $values )
-    {
-      TransactionTable::addDebtsListBaseSelect($q);
-      $q->addSelect('(SELECT SUM(tck.value)  FROM Ticket tck  WHERE '.TransactionTable::getDebtsListTicketsCondition('tck', $values['to'], $values['from']).') AS outcomes')
-        ->addSelect("(SELECT SUM(pp.value)   FROM Payment pp  WHERE pp.transaction_id = t.id AND pp.created_at < '".$values['to']."' AND pp.created_at > '".$values['from']."') AS incomes")
-        ->andWhere('((SELECT (CASE WHEN COUNT(tck3.id) = 0 THEN 0 ELSE SUM(tck3.value) END) FROM Ticket tck3 WHERE '.TransactionTable::getDebtsListTicketsCondition('tck3', $values['to'], $values['from']).') - (SELECT (CASE WHEN COUNT(p3.id) = 0 THEN 0 ELSE SUM(p3.value) END) FROM Payment p3 WHERE p3.transaction_id = t.id AND p3.created_at < ? AND p3.created_at > ?)) != 0', array($values['to'], $values['from'])); // not using andWhere is important to remove the "normal" condition before adding this one
-    }
+    if (!( is_array($values) && $values && $values['from'] && $values['to'] ))
+      return $q;
+    
+    TransactionTable::addDebtsListBaseSelect($q);
+    $q
+      ->addSelect('(SELECT SUM(tck.value)  FROM Ticket tck  WHERE '.TransactionTable::getDebtsListTicketsCondition('tck', $values['to'], $values['from']).') AS outcomes')
+      ->addSelect("(SELECT SUM(pp.value)   FROM Payment pp  WHERE pp.transaction_id = t.id AND pp.created_at < '".$values['to']."' AND pp.created_at >= '".$values['from']."') AS incomes")
+      ->where('((SELECT (CASE WHEN COUNT(tck3.id) = 0 THEN 0 ELSE SUM(tck3.value) END) FROM Ticket tck3 WHERE '.TransactionTable::getDebtsListTicketsCondition('tck3', $values['to'], $values['from']).') - (SELECT (CASE WHEN COUNT(p3.id) = 0 THEN 0 ELSE SUM(p3.value) END) FROM Payment p3 WHERE p3.transaction_id = t.id AND p3.created_at < ? AND p3.created_at >= ?)) != 0', array($values['to'], $values['from'])) // not using andWhere is important to remove the "normal" condition before adding this one
+    ;
     
     return $q;
   }
@@ -79,9 +83,9 @@ class DebtsFormFilter extends TransactionFormFilter
    public function getFields()
    {
      // the position of the "date" record in the array is very important because of this filter special behaviour
-     return array_merge(array(
+     return parent::getFields() + array(
        'date'  => 'Date',
        'all'   => 'All',
-     ),parent::getFields());
+     );
    }
 }
