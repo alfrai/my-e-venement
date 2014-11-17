@@ -1,13 +1,52 @@
+<?php use_javascript('jquery.overscroll.min.js') ?>
 <?php use_stylesheet('gauge') ?>
+<?php
+  $plans = array();
+  foreach ( $manifestation->getRawValue()->Gauges as $gauge )
+  {
+    $sp = $gauge->seated_plan;
+    if (! $sp instanceof SeatedPlan )
+      continue;
+    
+    if ( !isset($plans[$sp->picture_id]) )
+      $plans[$sp->picture_id] = array(
+        'seated_plan' => $sp,
+        'gauges' => array(),
+      );
+    $plans[$sp->picture_id]['gauges'][] = $gauge;
+  }
+?>
+
 <div class="sf_admin_form_row sf_admin_field_workspaces_list">
   <label><?php echo __('Workspaces list') ?>:</label>
   <ul class="ui-corner-all ui-widget-content">
+    
+    <!-- all gauges merged -->
     <?php if ( $form->getObject()->Gauges->count() == 0 ): ?>
       <li><?php echo __('No registered workspace') ?></li>
     <?php else: if ( $form->getObject()->Gauges->count() > 1 ): ?>
-    <li class="ui-corner-all">
+    <li class="ui-corner-all gauge gauges-all"
+        title="<?php echo __('If a seated plan exists, it will show up if you click on the gauge') ?>"
+    >
       <span><?php echo __('Merging workspaces') ?></span>
       <a class="gauge-gfx" href="<?php echo cross_app_url_for('tck','ticket/gauge?id='.$form->getObject()->id.'&wsid=all') ?>">gauge</a>
+      <div class="seated-plan-parent" id="plans" data-manifestation-id="<?php echo $manifestation->id ?>">
+      <?php foreach ( $plans as $plan ): ?>
+      <?php if ( isset($plan['seated_plan']) && $plan['seated_plan'] instanceof SeatedPlan ): ?>
+        <?php include_partial('global/magnify') ?>
+        <div class="seated-plan-actions">
+          <?php include_partial('global/seated_plan_actions', array('gauge' => $gauge, 'seated_plan' => $seated_plan)) ?>
+        </div>
+        <div class="plan-<?php echo $plan['seated_plan']->id ?> gauge">
+          <?php echo $plan['seated_plan']->render($plan['gauges'], array(
+            'match-seated-plan' => false,
+            'add-data-src' => true,
+            'on-demand' => true,
+          )) ?>
+        </div>
+      <?php endif ?>
+      <?php endforeach ?>
+      </div>
     </li>
     <?php endif; ?>
     <?php
@@ -16,6 +55,8 @@
         $gauges[$gauge->Workspace->name.'-'.$gauge->id] = $gauge;
       ksort($gauges);
     ?>
+    
+    <!-- gauges one by one -->
     <?php foreach ( $gauges as $gauge ): ?>
     <li class="ui-corner-all gauge"
         data-gauge-id="<?php echo $gauge->id ?>"

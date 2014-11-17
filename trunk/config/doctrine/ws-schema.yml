@@ -330,6 +330,10 @@ WebOrigin:
     transaction_id:
       type: integer
       notnull: true
+    user_agent:
+      type: string
+      notnull: true
+      notblank: true
   relations:
     Transaction:
       foreignType: one

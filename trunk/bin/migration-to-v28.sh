@@ -103,6 +103,8 @@ psql <<EOF
     AND tck.numerotation IS NOT NULL
     AND spw.workspace_id IS NOT NULL;
   ALTER TABLE ticket_version DROP COLUMN numerotation;
+  
+  ALTER TABLE web_origin ADD COLUMN user_agent TEXT DEFAULT 'Unknown';
 EOF
 
 echo "DUMPING DB..."

@@ -1,5 +1,5 @@
 all:
-  javascripts: [-jquery, -stats]
+  javascripts: [-jquery, -stats, list-scroll]
   stylesheets: [stats-web-origin]
 
 dataSuccess:

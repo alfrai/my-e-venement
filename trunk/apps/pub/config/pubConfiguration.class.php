@@ -69,6 +69,7 @@ class pubConfiguration extends sfApplicationConfiguration
     $origin->campaign     = $request->getParameter('com');
     $origin->referer      = $request->getReferer();
     $origin->ipaddress    = $request->getRemoteAddress();
+    $origin->user_agent   = $_SERVER['HTTP_USER_AGENT'];
     
     $origin->save();
   }

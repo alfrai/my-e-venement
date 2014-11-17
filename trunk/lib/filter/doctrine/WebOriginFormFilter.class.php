@@ -37,6 +37,8 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
     $this->widgetSchema   ['sf_guard_user_id']->setOption('multiple', true)->setOption('order_by', array('username',''))->setOption('add_empty', false);
     $this->validatorSchema['sf_guard_user_id']->setOption('multiple', true);
     
+    $this->widgetSchema['transaction_id'] = new sfWidgetFormInput;
+    
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $q = 'SELECT DISTINCT campaign, campaign IS NULL FROM web_origin ORDER BY campaign IS NULL DESC, campaign';
     $stmt = $pdo->prepare($q);

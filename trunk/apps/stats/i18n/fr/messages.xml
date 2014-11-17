@@ -5,6 +5,94 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Statistics from online sales</source>
+        <target>Statistiques en provenance des ventes en ligne</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Referers</source>
+        <target>Provenances</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Referer</source>
+        <target>Provenance</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Referer domain</source>
+        <target>Domaine de provenance</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Campaigns</source>
+        <target>Campagnes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Campaign</source>
+        <target>Campagne</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Done deals</source>
+        <target>Transactions abouties</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Done deal</source>
+        <target>Transaction aboutie</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Activity</source>
+        <target>Activité</target>
+      </trans-unit>
+      <trans-unit>
+        <source>First page</source>
+        <target>Page d'arrivée</target>
+      </trans-unit>
+      <trans-unit>
+        <source>IP address</source>
+        <target>Adresse IP</target>
+      </trans-unit>
+      <trans-unit>
+        <source>User</source>
+        <target>Utilisateur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Transaction</source>
+        <target>Opération</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Amount</source>
+        <target>Montant</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Create exceptions</source>
+        <target>Créer des exceptions</target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source></source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
         <source>empty information</source>
         <target>information vide</target>
       </trans-unit>
