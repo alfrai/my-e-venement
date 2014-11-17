@@ -13,6 +13,10 @@
         <target>Place disponible</target>
       </trans-unit>
       <trans-unit>
+        <source>Please control your order...</source>
+        <target>Vérifiez votre commande s'il vous plaît...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Unavailable seat</source>
         <target>Place indisponible</target>
       </trans-unit>

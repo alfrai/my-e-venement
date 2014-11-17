@@ -179,6 +179,12 @@
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
       
       $transaction = $this->transaction;
+      if ( $transaction->Products->count() == 0 && $transaction->Tickets->count() == 0 && $this->MemberCards->count() == 0 )
+      {
+        $this->getUser()->setFlash('notice', __('Please control your order...'));
+        $this->redirect('@homepage');
+      }
+      
       $transaction->Order[] = new Order;
       $this->createPaymentsDoneByMemberCards();
       $transaction->save();
