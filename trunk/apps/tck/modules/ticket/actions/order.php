@@ -70,7 +70,7 @@
     
     // preparing things for both PDF & HTML
     $this->data = array();
-    foreach ( array('transaction', 'nocancel', 'tickets', 'invoice', 'totals', 'partial') as $var )
+    foreach ( array('transaction', 'nocancel', 'tickets', 'products', 'invoice', 'totals', 'partial') as $var )
     if ( isset($this->$var) )
       $this->data[$var] = $this->$var;
     
