@@ -225,9 +225,10 @@ EOF
     $this->addGarbageCollector('wip', function(){
       $timeout = sfConfig::get('app_tickets_timeout', array());
       $section = 'WIP tickets';
-      $this->stdout($section, 'Deleting tickets...', 'COMMAND');
+      $this->stdout($section, 'Resetting seats...', 'COMMAND');
       $tickets = Doctrine_Query::create()->from('Ticket tck')
         ->andWhere('tck.price_id IS NULL')
+        ->andWhere('tck.seat_id IS NOT NULL')
         ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL')
         ->andWhere('tck.updated_at < ?', date('Y-m-d H:i:s', strtotime(($timeout['wip'] ? $timeout['wip'] : '2 hours').' ago')))
         ->execute()
@@ -243,11 +244,12 @@ EOF
     $this->addGarbageCollector('asked', function(){
       $timeout = sfConfig::get('app_tickets_timeout', array());
       $section = 'Asked tickets';
-      $this->stdout($section, 'Deleting too old tickets...', 'COMMAND');
+      $this->stdout($section, 'Resetting seats on squatters...', 'COMMAND');
       $q = Doctrine_Query::create()->from('Ticket tck')
         ->andWhere('tck.price_id IS NOT NULL')
         ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL AND tck.duplicating IS NULL')
         ->andWhere('tck.updated_at < ?', $date = date('Y-m-d H:i:s', strtotime(($timeout['asked'] ? $timeout['asked'] : '1 hour').' ago')))
+        ->andWhere('tck.seat_id IS NOT NULL')
         ->leftJoin('tck.Transaction t')
         ->leftJoin('t.Order o')
         ->select('tck.id')->groupBy('tck.id')
@@ -286,7 +288,7 @@ EOF
       $section = 'Opened transactions';
       $this->stdout($section, 'Closing too old transactions...', 'COMMAND');
       
-      $q = Doctrine::getTable('Transaction')->createQuery('t')
+      $q = Doctrine::getTable('Transaction')->createQuery('t', 'printed')
         ->select('t.id, t.closed')
         ->leftJoin('t.Payments p')
         ->andWhere('t.updated_at < ?', date('Y-m-d H:i:s', strtotime('1 day ago')))

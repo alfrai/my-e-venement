@@ -17,14 +17,17 @@ class TransactionTable extends PluginTransactionTable
         return Doctrine_Core::getTable('Transaction');
     }
   
-  public function createQuery($alias = 't')
+  // $tickets can be NULL (all), 'asked' for asked tickets or an other not-empty-string for printed/integrated/cancelling tickets
+  public function createQuery($alias = 't', $tickets = NULL)
   {
     $tck = 'tck' != $alias ? 'tck' : 'tck2';
     $m   = 'm'   != $alias ? 'm'   : 'm2';
     
+    $str = "$tck.printed_at IS NULL AND $tck.integrated_at IS NULL AND $tck.cancelling IS NULL";
+    
     $q = parent::createQuery($alias);
     $a = $q->getRootAlias();
-    $q->leftJoin("$a.Tickets $tck")
+    $q->leftJoin("$a.Tickets $tck".(is_null($tickets) ? '' : ' WITH '.($tickets == 'asked' ? $str : "NOT ($str)")))
       ->leftJoin("$tck.Duplicatas duplicatas")
       ->leftJoin("$tck.Cancelled cancelled")
       ->leftJoin("$tck.Manifestation $m");
