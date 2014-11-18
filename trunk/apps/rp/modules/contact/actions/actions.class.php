@@ -48,6 +48,25 @@ class contactActions extends autoContactActions
     return require(__DIR__.'/import.php');
   }
   
+  public function executeNewPicture(sfWebRequest $request)
+  {
+    $this->executeShow($request);
+    if ( $request->getParameter('image', false) )
+    {
+      if ( !$this->contact->Picture->isNew() )
+      {
+        $this->contact->Picture->delete();
+        $this->contact->Picture = new Picture;
+      }
+      
+      $this->contact->Picture->content = $request->getParameter('image');
+      $this->contact->Picture->name = 'contact-'.$this->contact->id.'.img';
+      $this->contact->Picture->type = $request->getParameter('type');
+      $this->contact->save();
+    }
+    return sfView::NONE;
+  }
+  
   public function executeError404(sfWebRequest $request)
   {
     $this->useClassicTemplateDir(true);
