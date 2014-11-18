@@ -297,6 +297,15 @@ body #content { width: auto; }
 #tdp-side-bar #tdp-side-emails .more { text-align: center; }
 #tdp-side-bar #tdp-side-emails .more a { text-decoration: none; }
 
+#tdp-side-bar #tdp-side-picture .tdp-picture { text-align: center; overflow: hidden; }
+#tdp-side-bar #tdp-side-picture .current { margin-bottom: 10px; padding-top: 5px; }
+#tdp-side-bar #tdp-side-picture .current a { position: absolute; color: #FFF; padding: 0 2px 1px 2px; border: 1px solid #FFF; font-size: 70%; border-radius: 1px; }
+#tdp-side-bar #tdp-side-picture .current a:hover { text-decoration: none; }
+#tdp-side-bar #tdp-side-picture .current img { max-width: 178px; }
+#tdp-side-bar #tdp-side-picture .webcam { width: 300px; height: 200px; text-align: center; transform: scale(0.6); transform-origin: top left; margin-bottom: -75px; }
+#tdp-side-bar #tdp-side-picture .tdp-picture input[type=file] { font-size: 66%; }
+
+
 /* TOP */
 #tdp-top-bar { padding: 5px 5px 3px 5px; margin: -5px 0 3px -5px; }
 #tdp-top-bar .tdp-top-widget {

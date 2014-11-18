@@ -54,7 +54,7 @@ all:
             show_labels: true
             fields: [organism_category_id, email, email_no_newsletter, _groups_picto]
           Address:
-            fields: [address, _show_picture]
+            fields: [address]
           City:
             extra_class: vertical
             fields: [postalcode, _cities, city, country, _show_region, shortname]
@@ -114,6 +114,8 @@ all:
               fields: [groups_list]
           extra_hidden_fields: [contact_id, organism_id]
       side_properties:
+        Picture:
+          partial: global/tdp/side_widget_object_picture
         Ticketting:
           credentials: tck-reports
           partial: global/tdp/side_widget_object_events

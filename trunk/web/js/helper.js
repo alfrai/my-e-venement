@@ -71,3 +71,17 @@ LI.isMobile = {
     return true;
   }
 };
+
+LI.ifMediaCaptureSupported = function(go, nogo)
+{
+  var fGetUserMedia =
+  (
+    navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.oGetUserMedia ||
+    navigator.msieGetUserMedia ||
+    false
+  );
+  fGetUserMedia.call( navigator, { video: true }, function(){ go() }, function(){ if ( nogo != undefined ) nogo(); } );
+}
