@@ -1,4 +1,4 @@
-<?php if ( !$object->getTable()->hasRelation('Picture') ) return; ?>
+<?php if ( !$object->getTable()->hasRelation('Picture') || $object->isNew() ) return; ?>
 <div class="tdp-picture">
   <?php use_javascript('helper') ?>
   <?php use_javascript('photobooth') ?>
