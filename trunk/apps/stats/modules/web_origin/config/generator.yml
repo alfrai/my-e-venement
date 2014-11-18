@@ -22,13 +22,20 @@ generator:
         list_deal_done: { label: Done deal, type: boolean }
         list_contact: { label: Contact }
         list_transaction_amount: { label: Amount, type: number }
+        recorded_filters: { help: 'Warning: embedded filters are not supported' }
       list:
         title: Statistics from online sales
         display: [first_page, referer, campaign, _list_transaction, transaction_id, _list_contact, _list_transaction_amount, _list_deal_done, _list_ipaddress, ipaddress, user_agent, created_at, User]
-        actions: []
+        actions:
+          _results:
+            action: results
+          _remember_all_the_records:
+            action: rememberAll
         batch_actions:
           _exceptions:
             label: Create exceptions
+          _remember:
+            label: Remember the selected records
         object_actions: []
         sort: [created_at, desc]
         max_per_page: 100
@@ -37,6 +44,7 @@ generator:
         display:
           Externals: [referer_domain, referer, campaign, ipaddress, user_agent]
           Internals: [transaction_id, done_deal, first_page, created_at, sf_guard_user_id]
+          Combinated: [recorded_filters]
       form:    ~
       edit:    ~
       new:     ~

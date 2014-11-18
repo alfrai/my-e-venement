@@ -11,6 +11,7 @@
 class WebOriginFormFilter extends BaseWebOriginFormFilter
 {
   protected $noTimestampableUnset = true;
+  protected $embedded = false;
   const SQL_REGEX_URL_FORMAT = '^([a-zA-Z]+)://(([a-z0-9-]+\.)+[a-z]{2,6}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:[0-9]+){0,1}(/{0,1}|/.*)$';
   const SQL_REGEX_DOMAIN_FORMAT = '~^(.{0,1}([a-z0-9-]+\.)+[a-z]{2,6}|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:[0-9]+)?~ix';
   
@@ -20,6 +21,21 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
   public function configure()
   {
     parent::configure();
+    
+    $this->widgetSchema   ['recorded_filters'] = new sfWidgetFormDoctrineChoice(array(
+      'model'     => 'Filter',
+      'order_by'  => array('name',''),
+      'query'     => $q = Doctrine::getTable('Filter')->createQuery('f')->andWhere('type = ?', 'web_origin'),
+      'multiple'  => true,
+    ));
+    $this->validatorSchema['recorded_filters'] = new sfValidatorDoctrineChoice(array(
+      'model'     => 'Filter',
+      'query'     => $q,
+      'multiple'  => true,
+      'required'  => false,
+    ));
+    if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() )
+      $q->andWhere('f.sf_guard_user_id = ?', sfContext::getInstance()->getUser()->getId());
     
     $this->widgetSchema   ['referer_domain'] = new sfWidgetFormInputText;
     $this->validatorSchema['referer_domain'] = new sfValidatorRegex(array(
@@ -56,9 +72,45 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
   public function getFields()
   {
     return parent::getFields() + array(
-      'referer_domain'  => 'RefererDomain',
-      'done_deal'       => 'DoneDeal',
+      'referer_domain'    => 'RefererDomain',
+      'done_deal'         => 'DoneDeal',
+      'recorded_filters'  => 'RecordedFilters',
     );
+  }
+  
+  public function isEmbedded($bool = NULL)
+  {
+    if ( !is_null($bool) )
+      $this->embedded = $bool;
+    return $this->embedded;
+  }
+  public function addRecordedFiltersColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( $this->isEmbedded() || !$values )
+      return $q;
+    
+    $q2 = Doctrine::getTable('Filter')->createQuery('f')
+      ->andWhere('f.type = ?', 'web_origin')
+      ->andWhereIn('f.id', $values);
+    if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() )
+      $q2->andWhere('f.sf_guard_user_id = ?', sfContext::getInstance()->getUser()->getId());
+    
+    $ids = array();
+    foreach ( $q2->execute() as $filter )
+    {
+      $form = new WebOriginFormFilter;
+      $form->isEmbedded(true);
+      
+      $query = $form->buildQuery(unserialize($filter->filter));
+      $a = $query->getRootAlias();
+      $query->select("$a.id");
+      
+      foreach ( $query->fetchArray() as $rec )
+        $ids[] = $rec['id'];
+    }
+    
+    $a = $q->getRootAlias();
+    $q->andWhereIn("$a.id", $ids);
   }
   
   public function addUserAgentColumnQuery(Doctrine_Query $q, $field, $value)

@@ -58,6 +58,7 @@ Contact:
       type: integer
       unique: true
     culture: string(32)
+    picture_id: integer
   relations:
     Category:
       class: OrganismCategory
@@ -85,6 +86,10 @@ Contact:
       foreignAlias: BackRelations
       local: from_contact_id
       foreign: to_contact_id
+    Picture:
+      foreignAlias: Contacts
+      onDelete: SET NULL
+      onUpdate: CASCADE
 ContactArchive:
   package: rp
   indexes:

@@ -54,7 +54,7 @@ all:
             show_labels: true
             fields: [organism_category_id, email, email_no_newsletter, _groups_picto]
           Address:
-            fields: [address]
+            fields: [address, _show_picture]
           City:
             extra_class: vertical
             fields: [postalcode, _cities, city, country, _show_region, shortname]

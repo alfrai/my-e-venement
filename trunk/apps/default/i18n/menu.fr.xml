@@ -5,8 +5,12 @@
     <header/>
     <body>
       <trans-unit>
-        <source>IP addresses matching</source>
-        <target>Aliases d'adresses IP</target>
+        <source>Stats: IP addresses matching</source>
+        <target>Stats: Aliases d'adresses IP</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Stats: Filtered results</source>
+        <target>Stats: Résultats des filtres</target>
       </trans-unit>
       <trans-unit>
         <source>Store</source>

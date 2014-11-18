@@ -1,3 +1,12 @@
+web_origin_filter_result:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                WebOriginFilterResult
+    module:               web_origin_filter_result
+    prefix_path:          /web_origin_filter_result
+    column:               id
+    with_wildcard_routes: true
+
 web_origin_ip:
   class: sfDoctrineRouteCollection
   options:

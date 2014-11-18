@@ -5,8 +5,40 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Recorded filters</source>
+        <target>Filtres enregistrés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Externals</source>
+        <target>Externes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Internals</source>
+        <target>Internes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Combinated</source>
+        <target>Combinés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Warning: embedded filters are not supported</source>
+        <target>Attention: les filtres emboîtés ne sont pas supportés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Remember all the records</source>
+        <target>Se souvenir de tous les enregistrements</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Remember the selected records</source>
+        <target>Se souvenir des enregistrements sélectionnés</target>
+      </trans-unit>
+      <trans-unit>
         <source>IP addresses matching</source>
         <target>Aliases d'adresses IP</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filtered results</source>
+        <target>Résultats des filtres</target>
       </trans-unit>
       <trans-unit>
         <source>Statistics from online sales</source>
@@ -75,26 +107,6 @@
       <trans-unit>
         <source>Alias</source>
         <target>Alias</target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
-      </trans-unit>
-      <trans-unit>
-        <source></source>
-        <target></target>
       </trans-unit>
       <trans-unit>
         <source>empty information</source>
