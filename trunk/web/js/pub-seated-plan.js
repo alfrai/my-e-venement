@@ -194,7 +194,7 @@ LI.seatedPlanInitializationFunctions.push(function(){
       $(this).height($(this).clone().addClass('hack-to-delete').appendTo('#footer').height());
     });
     $('#footer img.hack-to-delete').remove();
-  },3000);
+  },5000);
 });
   
 LI.pubAfterRenderingSeats['pubSeatedPlanInitMain'] = function(){
