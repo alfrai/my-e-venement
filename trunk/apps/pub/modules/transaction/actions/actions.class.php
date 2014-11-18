@@ -87,7 +87,7 @@ class transactionActions extends sfActions
     
     $this->transaction = Doctrine::getTable('Transaction')->find(intval($request->getParameter('id')));
     if ( !sfConfig::get('sf_web_debug', false)
-      && $this->transaction->Order->count() == 0 || $this->transaction->contact_id != $this->getUser()->getTransaction()->id )
+      && $this->transaction->Order->count() == 0 || $this->transaction->contact_id != $this->getUser()->getTransaction()->contact_id )
     {
       $this->getUser()->setFlash('error', __('The state of your order does not allow this action. Please contact us if necessary.'));
       $this->redirect('transaction/show?id='.$this->transaction->id);
