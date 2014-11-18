@@ -32,7 +32,6 @@
       <?php endif ?>
       <?php if ( $sf_user->hasCredential('stats-pub') ): ?>
         <li class="spaced"><a href="<?php echo cross_app_url_for('stats','web_origin_ip') ?>"><?php echo __('Stats: IP addresses matching',array(),'menu') ?></a></li>
-        <li><a href="<?php echo cross_app_url_for('stats','web_origin_filter_result') ?>"><?php echo __('Stats: Filtered results',array(),'menu') ?></a></li>
       <?php endif ?>
       <?php if ( $sf_user->hasCredential('srv-access') ): ?>
         <li class="spaced"><?php echo cross_app_link_to(__('Surveys', null, 'menu'), 'srv', 'survey/index') ?></li>
