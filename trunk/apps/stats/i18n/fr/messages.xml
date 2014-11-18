@@ -9,6 +9,10 @@
         <target>Filtres enregistrés</target>
       </trans-unit>
       <trans-unit>
+        <source>Not in those filters</source>
+        <target>Pas dans ces filtres</target>
+      </trans-unit>
+      <trans-unit>
         <source>Externals</source>
         <target>Externes</target>
       </trans-unit>

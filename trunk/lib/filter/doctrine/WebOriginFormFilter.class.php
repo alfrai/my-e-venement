@@ -22,6 +22,7 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
   {
     parent::configure();
     
+    // recorded filters
     $this->widgetSchema   ['recorded_filters'] = new sfWidgetFormDoctrineChoice(array(
       'model'     => 'Filter',
       'order_by'  => array('name',''),
@@ -36,6 +37,18 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
     ));
     if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() )
       $q->andWhere('f.sf_guard_user_id = ?', sfContext::getInstance()->getUser()->getId());
+    $this->widgetSchema   ['not_recorded_filters'] = new sfWidgetFormDoctrineChoice(array(
+      'model'     => 'Filter',
+      'order_by'  => array('name',''),
+      'query'     => $q,
+      'multiple'  => true,
+    ));
+    $this->validatorSchema['not_recorded_filters'] = new sfValidatorDoctrineChoice(array(
+      'model'     => 'Filter',
+      'query'     => $q,
+      'multiple'  => true,
+      'required'  => false,
+    ));
     
     $this->widgetSchema   ['referer_domain'] = new sfWidgetFormInputText;
     $this->validatorSchema['referer_domain'] = new sfValidatorRegex(array(
@@ -75,6 +88,7 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
       'referer_domain'    => 'RefererDomain',
       'done_deal'         => 'DoneDeal',
       'recorded_filters'  => 'RecordedFilters',
+      'not_recorded_filters'  => 'NotRecordedFilters',
     );
   }
   
@@ -84,7 +98,10 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
       $this->embedded = $bool;
     return $this->embedded;
   }
-  public function addRecordedFiltersColumnQuery(Doctrine_Query $q, $field, $values)
+  
+  public function addNotRecordedFiltersColumnQuery(Doctrine_Query $q, $field, $values)
+  { return $this->addRecordedFiltersColumnQuery($q, $field, $values, true); }
+  public function addRecordedFiltersColumnQuery(Doctrine_Query $q, $field, $values, $not = false)
   {
     if ( $this->isEmbedded() || !$values )
       return $q;
@@ -110,7 +127,12 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
     }
     
     $a = $q->getRootAlias();
-    $q->andWhereIn("$a.id", $ids);
+    if ( $not )
+      $q->andWhereNotIn("$a.id", $ids);
+    else
+      $q->andWhereIn("$a.id", $ids);
+    
+    return $q;
   }
   
   public function addUserAgentColumnQuery(Doctrine_Query $q, $field, $value)
