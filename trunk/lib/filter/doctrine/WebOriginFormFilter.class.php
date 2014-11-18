@@ -61,6 +61,17 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
     );
   }
   
+  public function addUserAgentColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( !$value )
+      return $q;
+    
+    $a = $q->getRootAlias();
+    $q->andWhere("$a.$field ILIKE ?", '%'.$value['text'].'%');
+    
+    return $q;
+  }
+  
   public function addRefererDomainColumnQuery(Doctrine_Query $q, $field, $value)
   {
     if ( !$value )
