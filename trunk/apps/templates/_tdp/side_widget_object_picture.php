@@ -10,7 +10,7 @@
       <img />
     <?php endif ?>
   </div>
-  <div class="webcam"><button class="start"><?php echo image_tag('camera.png') ?></button></div>
+  <div class="webcam small"><button class="start"><?php echo image_tag('camera.png') ?></button></div>
   <input type="file" name="file" />
   
   <script type="text/javascript"><!--
@@ -55,7 +55,7 @@
       
       LI.ifMediaCaptureSupported(function(){
         $('.tdp-picture .webcam .start').click(function(){
-          $(this).closest('.webcam').photobooth().on('image', function(event, data){
+          $(this).closest('.webcam').removeClass('small').photobooth().on('image', function(event, data){
             LI.rpFileUpload(data);
           });
           $(this).remove();
