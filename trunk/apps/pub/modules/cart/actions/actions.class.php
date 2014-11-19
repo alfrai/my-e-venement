@@ -135,14 +135,16 @@ class cartActions extends sfActions
     $this->specific_transaction = intval($request->getParameter('transaction_id')).'' === ''.$request->getParameter('transaction_id','')
       ? Doctrine::getTable('Transaction')->find($request->getParameter('transaction_id'))
       : false;
-    if ( $this->specific_transaction
-      && $this->specific_transaction->contact_id != $this->getUser()->getTransaction()->contact_id )
-      $this->specific_transaction = false;
-    else
+    if ( $this->specific_transaction )
     {
-      $event = new sfEvent($this, 'pub.transaction_respawning', array('configuration' => $this->configuration));
-      $event['transaction'] = $this->specific_transaction;
-      $this->dispatcher->notify($event);
+      if ( $this->specific_transaction->contact_id != $this->getUser()->getTransaction()->contact_id )
+        $this->specific_transaction = false;
+      elseif ( $this->specific_transaction->id != $this->getUser()->getTransaction()->id )
+      {
+        $event = new sfEvent($this, 'pub.transaction_respawning', array('configuration' => $this->configuration));
+        $event['transaction'] = $this->specific_transaction;
+        $this->dispatcher->notify($event);
+      }
     }
     
     // already done first
