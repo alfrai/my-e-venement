@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>No ticket found with the given parameters</source>
+        <target>Aucun billet ne correspond aux paramètres fournis</target>
+      </trans-unit>
+      <trans-unit>
         <source>Reduction</source>
         <target>Réduction</target>
       </trans-unit>
@@ -199,6 +203,10 @@
       <trans-unit>
         <source>seat</source>
         <target>pl.</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Seat</source>
+        <target>Place</target>
       </trans-unit> 
       <trans-unit>
         <source>Empowered by %%software%%</source>

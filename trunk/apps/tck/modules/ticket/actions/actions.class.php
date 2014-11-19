@@ -22,10 +22,34 @@ class ticketActions extends sfActions
   
   public function executeShow(sfWebRequest $request)
   {
-    if ( !$request->hasParameter('id') )
+    if ( !$request->hasParameter('id') && !($request->hasParameter('seat_name') && $request->hasParameter('manifestation_id')) )
+    {
+      $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink'));
+      $this->manifestation = new liWidgetFormDoctrineJQueryAutocompleter(array(
+        'model'   => 'Manifestation',
+        'url'     => cross_app_url_for('event','manifestation/ajax'),
+        'config'  => '{ max: 50 }',
+      ));
       return 'Select';
-
-    $id = $request->getParameter('id');
+    }
+    
+    if ( !$request->getParameter('id', false) )
+    {
+      $ticket = Doctrine::getTable('Ticket')->createQuery('tck')
+        ->leftJoin('tck.Seat s')
+        ->andWhere('s.name ILIKE ?', $request->getParameter('seat_name'))
+        ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
+        ->fetchOne();
+      if ( !$ticket )
+      {
+        $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
+        $this->getUser()->setFlash('error', __('No ticket found with the given parameters'));
+        $this->redirect('ticket/show');
+      }
+      $id = $ticket->id;
+    }
+    else
+      $id = $request->getParameter('id');
     
     $this->ticket = Doctrine::getTable('Ticket')->createQuery('tck')
       ->leftJoin('tck.Transaction t')
