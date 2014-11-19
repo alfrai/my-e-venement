@@ -133,11 +133,17 @@ class cartActions extends sfActions
     
     // pay a specific transaction
     $this->specific_transaction = intval($request->getParameter('transaction_id')).'' === ''.$request->getParameter('transaction_id','')
-      ? $request->getParameter('transaction_id')
+      ? Doctrine::getTable('Transaction')->find($request->getParameter('transaction_id'))
       : false;
     if ( $this->specific_transaction
-      && Doctrine::getTable('Transaction')->find($this->specific_transaction)->contact_id != $this->getUser()->getContact()->id )
+      && $this->specific_transaction->contact_id != $this->getUser()->getTransaction()->contact_id )
       $this->specific_transaction = false;
+    else
+    {
+      $event = new sfEvent($this, 'pub.transaction_respawning', array('configuration' => $this->configuration));
+      $event['transaction'] = $this->specific_transaction;
+      $this->dispatcher->notify($event);
+    }
     
     // already done first
     if ( sfConfig::get('app_contact_modify_coordinates_first', false) && $this->getUser()->getContact() )
