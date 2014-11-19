@@ -37,6 +37,7 @@ class pubConfiguration extends sfApplicationConfiguration
   {
     $this->dispatcher->connect('pub.transaction_before_creation', array($this, 'triggerTransactionBeforeCreation'));
     $this->dispatcher->connect('pub.transaction_before_creation', array($this, 'recordWebOrigin'));
+    $this->dispatcher->connect('pub.transaction_respawning', array($this, 'recordWebOrigin'));
   }
   public function initialize()
   {
