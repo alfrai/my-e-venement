@@ -29,7 +29,7 @@
         },
         success: function(){
           console.log('Picture changed');
-          $('.tdp-picture img').prop('src', img);
+          $('.tdp-picture .current img').prop('src', img);
         }
       });
     }
