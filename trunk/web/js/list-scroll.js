@@ -7,7 +7,7 @@ $(document).ready(function(){
   LI.list_scroll();
   LI.list_edit();
   $(window).scroll(function(event){
-    if ( event.view.scrollY > event.view.scrollMaxY - 200 )
+    if ( event.view.scrollY >= event.view.scrollMaxY )
       $('.sf_admin_pagination .ui-icon-seek-next').parent().click();
   });
 });
