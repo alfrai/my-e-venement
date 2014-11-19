@@ -294,8 +294,9 @@ EOF
         ->andWhere('t.updated_at < ?', date('Y-m-d H:i:s', strtotime('1 day ago')))
         ->andWhere('t.closed = ?', false)
         ->leftJoin('t.BoughtProducts bp WITH bp.integrated_at IS NOT NULL')
+        ->leftJoin('t.Order o')
         ->groupBy('t.id, t.closed')
-        ->having('count(tck.id) = 0 AND count(p.id) = 0 AND count(bp.id) = 0')
+        ->having('count(tck.id) = 0 AND count(p.id) = 0 AND count(bp.id) = 0 AND count(o.id) = 0')
       ;
       $transactions = $q->execute();
       foreach ( $transactions as $transaction )
