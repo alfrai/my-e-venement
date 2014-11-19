@@ -6,10 +6,16 @@ $(document).ready(function(){
   LI.list_add_actions_titles();
   LI.list_scroll();
   LI.list_edit();
+  $(window).scroll(function(event){
+    if ( event.view.scrollY > event.view.scrollMaxY - 200 )
+      $('.sf_admin_pagination .ui-icon-seek-next').parent().click();
+  });
 });
 LI.list_scroll = function()
 {
   $('.sf_admin_pagination .ui-icon-seek-next').parent().unbind().click(function(){
+    if ( $(this).hasClass('ui-state-disabled') )
+      return false;
     $('.sf_admin_pagination .ui-icon-seek-next').parent().unbind().click(function(){return false;});
     
     if ( window.list_scroll_beginning != undefined )
@@ -17,6 +23,7 @@ LI.list_scroll = function()
       window.list_scroll_beginning[i]();
     
     $.get($(this).prop('href'),function(data){
+      stopscroll = false;
       $('#transition .close').click();
       $('.sf_admin_list > table > tbody').append($($.parseHTML(data)).find('.sf_admin_list > table > tbody tr.sf_admin_row')
         .mouseenter(function(){
