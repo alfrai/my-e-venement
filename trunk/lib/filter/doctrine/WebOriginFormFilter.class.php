@@ -85,9 +85,9 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
   public function getFields()
   {
     return parent::getFields() + array(
-      'referer_domain'    => 'RefererDomain',
-      'done_deal'         => 'DoneDeal',
-      'recorded_filters'  => 'RecordedFilters',
+      'referer_domain'        => 'RefererDomain',
+      'done_deal'             => 'DoneDeal',
+      'recorded_filters'      => 'RecordedFilters',
       'not_recorded_filters'  => 'NotRecordedFilters',
     );
   }
@@ -97,6 +97,16 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
     if ( !is_null($bool) )
       $this->embedded = $bool;
     return $this->embedded;
+  }
+  
+  public function addSfGuardUserIdColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    
+    $q->leftJoin('t.Version tv')
+      ->andWhereIn('tv.sf_guard_user_id', $values);
+    return $q;
   }
   
   public function addNotRecordedFiltersColumnQuery(Doctrine_Query $q, $field, $values)

@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Platform</source>
+        <target>Plateforme</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Browser</source>
+        <target>Navigateur</target>
+      </trans-unit>
+      <trans-unit>
         <source>Recorded filters</source>
         <target>Filtres enregistrés</target>
       </trans-unit>

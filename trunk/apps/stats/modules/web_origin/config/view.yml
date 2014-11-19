@@ -13,3 +13,5 @@ csvSuccess:
     content-type: text/comma-separated-values
     content-disposition: attachment; filename="stats-web-origins.csv"
 
+indexSuccess:
+  javascripts: [ua-parser/index]

@@ -7,3 +7,10 @@
 
 .sf_admin_list_th_list_transaction, .sf_admin_list_td_transaction_id { display: none; }
 .sf_admin_list_th_list_ipaddress, .sf_admin_list_td_ipaddress { display: none; }
+.sf_admin_list_th_list_referer, .sf_admin_list_td_referer { display: none; }
+.sf_admin_list_th_list_first_page, .sf_admin_list_td_first_page { display: none; }
+
+@media screen and (max-width: 1500px) {
+  .sf_admin_list_th_list_platform, .sf_admin_list_td_list_platform,
+  .sf_admin_list_th_list_browser, .sf_admin_list_td_list_browser { display: none; }
+}
