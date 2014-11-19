@@ -25,7 +25,7 @@
     $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
     
     if ( !$request->hasParameter('ticket_id') )
-      return sfView::NONE;
+      return 'Success';
     
     $tmp = explode(',',$request->getParameter('ticket_id'));
     $ticket_ids = array();
@@ -94,6 +94,28 @@
       $this->tickets[] = $this->ticket;
     }
     
+    $this->transaction = $this->ticket->Transaction;
     $this->duplicate = true;
-    $this->setLayout('nude');
+    $this->setLayout('empty');
     $this->setTemplate('print');
+
+    $this->dispatcher->notify(new sfEvent($this, 'tck.tickets_print', array(
+      'transaction' => $this->transaction,
+      'tickets'     => $this->tickets,
+      'duplicate'   => $this->duplicate,
+      'user'        => $this->getUser(),
+    )));
+    
+    if (!( sfConfig::get('app_tickets_simplified_printing', false) && count($this->tickets) > 0 ))
+      return 'Success';
+    
+    $this->content = $this->transaction->renderSimplifiedTickets(array('only' => $this->tickets));
+    if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
+      $this->setLayout(false);
+    else
+    {
+      sfConfig::set('sf_web_debug', false);
+      $this->getResponse()->setContentType('application/pdf');
+    }
+    return 'Simplified';
+

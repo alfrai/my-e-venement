@@ -297,17 +297,17 @@
       'user'        => $this->getUser(),
     )));
     
-    if ( sfConfig::get('app_tickets_simplified_printing', false) && count($this->tickets) > 0 )
+    if (!( sfConfig::get('app_tickets_simplified_printing', false) && count($this->tickets) > 0 ))
+      return 'Success';
+    
+    $this->content = $this->transaction->renderSimplifiedTickets(array('only' => $this->tickets));
+    if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
     {
-      $this->content = $this->transaction->renderSimplifiedTickets(array('only' => $this->tickets));
-      if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
-      {
-        $this->setLayout(false);
-        return 'Simplified';
-      }
-      else
-        sfConfig::set('sf_web_debug', false);
-      $this->getResponse()->setContentType('application/pdf');
-      return 'Simplified';
+      $this->setLayout(false);
     }
-    return 'Success';
+    else
+    {
+      sfConfig::set('sf_web_debug', false);
+      $this->getResponse()->setContentType('application/pdf');
+    }
+    return 'Simplified';

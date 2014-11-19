@@ -97,7 +97,7 @@ class ticketActions extends sfActions
   }
   public function executeDuplicate(sfWebRequest $request)
   {
-    require('duplicate.php');
+    return require('duplicate.php');
   }
   public function executeContact(sfWebRequest $request)
   {
