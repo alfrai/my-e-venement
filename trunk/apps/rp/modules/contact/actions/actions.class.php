@@ -54,6 +54,17 @@ class contactActions extends autoContactActions
     $this->contact->Picture->delete();
     return sfView::NONE;
   }
+  public function executeNewPictureDistant(sfWebRequest $request)
+  {
+    if (!( $request->getParameter('id').'' === ''.intval($request->getParameter('id')) && $url = $request->getParameter('url') ))
+      throw new liEvenementException('Needs more informations to retrieve the expected data');
+    if ( !$this->contact = Doctrine::getTable('Contact')->find($request->getParameter('id')) )
+      throw new liEvenementException('No contact found for picture update with the id '.$request->getParameter('id'));
+    
+    file_put_contents(sfConfig::get('sf_app_cache_dir').'/fb-test.html', file_get_contents($url));
+    
+    return sfView::NONE;
+  }
   public function executeNewPicture(sfWebRequest $request)
   {
     $this->executeShow($request);

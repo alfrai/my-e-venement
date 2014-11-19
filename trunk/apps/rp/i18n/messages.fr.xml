@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Facebook ID</source>
+        <target>Identifiant Facebook</target>
+      </trans-unit>
+      <trans-unit>
         <source>You are about to import a bulk of contacts. Be careful to respect this type of file:</source>
         <target>Vous êtes sur le point d'importer un lot de contacts. Attention à respecter ce type de fichier :</target>
       </trans-unit>

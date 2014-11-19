@@ -305,7 +305,7 @@ body #content { width: auto; }
 #tdp-side-bar #tdp-side-picture .webcam { width: 300px; height: 200px; text-align: center; transform: scale(0.6); transform-origin: top left; margin-bottom: -75px; }
 #tdp-side-bar #tdp-side-picture .webcam.small { transform: scale(0.2); margin-bottom: -160px; float: left; margin-right: -240px; }
 #tdp-side-bar #tdp-side-picture .tdp-picture input[type=file] { font-size: 66%; }
-
+#tdp-side-bar #tdp-side-picture .facebook img { max-width: 15px; position: relative; top: 5px; }
 
 /* TOP */
 #tdp-top-bar { padding: 5px 5px 3px 5px; margin: -5px 0 3px -5px; }
