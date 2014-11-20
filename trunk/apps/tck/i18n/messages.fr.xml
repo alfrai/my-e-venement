@@ -97,6 +97,10 @@
         <target>et le %to_date%</target>
       </trans-unit>
       <trans-unit>
+        <source>You must seat all your tickets before print them, even partially</source>
+        <target>Vous devez placer tous vos billets avant de les imprimer, même partiellement</target>
+      </trans-unit>
+      <trans-unit>
         <source>The ticket #%%id%% has been already control on this checkpoint before (%%datetime%% by %%user%%)</source>
         <target>Le billet #%%id%% a déjà été contrôlé sur ce point de contrôle (%%datetime%% par %%user%%)</target>
       </trans-unit> 

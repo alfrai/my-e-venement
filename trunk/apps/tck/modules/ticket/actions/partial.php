@@ -52,3 +52,15 @@
   
   if ( $this->manifestations->count() == 1 && $this->manifestations[0]->Tickets->count() == 1 )
     $this->redirect('ticket/print?id='.$this->transaction_id.'&manifestation_id='.$this->manifestations[0]->id);
+  
+  $gauges = array();
+  foreach ( $this->manifestations as $manif )
+  foreach ( $manif->Tickets as $ticket )
+  if ( !$ticket->seat_id )
+    $gauges[$ticket->gauge_id] = $ticket->gauge_id;
+  if ( count($gauges) > 0 )
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $this->getUser()->setFlash('notice', __('You must seat all your tickets before print them, even partially'));
+    $this->redirect('ticket/seatsAllocation?id='.$this->transaction_id.'&type=partial&gauge_id='.array_pop($gauges));
+  }
