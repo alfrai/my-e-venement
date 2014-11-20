@@ -171,7 +171,7 @@ class HiPayPayment extends OnlinePayment
     }
     
     $this->url = $url;
-    error_log('HiPay prepare: #'.$this->transaction.' / '.$this->url);
+    error_log('HiPay prepare: #'.$this->transaction->id.' / '.$this->url);
     return $this;
   }
   
