@@ -3,7 +3,7 @@
 <h1><?php echo __('Your contact') ?> :</h1>
 <?php include_partial('contact/edit_header') ?>
 <?php //include_partial('global/form_errors',array('form' => $form)) ?>
-<?php echo $form->renderFormTag(url_for('cart/order'.($specific_transaction ? '?transaction_id='.$specific_transaction : '')), array('id' => 'contact-form', 'autocomplete' => 'on')) ?>
+<?php echo $form->renderFormTag(url_for('cart/order'.($specific_transaction ? '?transaction_id='.$specific_transaction->id : '')), array('id' => 'contact-form', 'autocomplete' => 'on')) ?>
   <?php include_partial('global/register',array('form' => $form)) ?>
   <p class="submit"><input type="submit" name="submit" value="<?php echo __('Order') ?>" /></p>
 </form>
