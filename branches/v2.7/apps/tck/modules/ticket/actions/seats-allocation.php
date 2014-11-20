@@ -26,9 +26,9 @@
   $urls = array(
     'order'   => url_for('ticket/order?id='.$request->getParameter('id')),
     'print'   => url_for('ticket/print?id='.$request->getParameter('id')),
+    'partial' => url_for('ticket/partial?id='.$request->getParameter('id').'&gauge_id='.$request->getParameter('gauge_id')),
   );
   $this->url_next = $urls[$request->getParameter('type', 'print')];
-  error_log($this->url_next);
   
   $q = Doctrine::getTable('Transaction')->createQuery('t')
     ->leftJoin('m.Location l')
