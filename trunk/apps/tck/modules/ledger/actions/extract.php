@@ -34,6 +34,8 @@
       'noheader' => false,
     );
     
+    $numberFormat = new sfNumberFormat($this->getUser()->getCulture());
+    
     $this->outstream = 'php://output';
     $this->delimiter = $this->options['ms'] ? ';' : ',';
     $this->enclosure = '"';
@@ -108,7 +110,8 @@
       $this->getContext()->getConfiguration()->loadHelpers('Number');
       foreach ( $this->lines as $key => $line )
       foreach ( array('pit', 'vat', 'extra-taxes', 'tep') as $field )
-        $this->lines[$key][$field] = format_number($line[$field]);
+        //$this->lines[$key][$field] = number_format(floatval($line[$field]),2,$decimal);
+        $this->lines[$key][$field] = $numberFormat->format($line[$field], '#.00');
       return 'Sales';
       break;
     case 'lineal':
