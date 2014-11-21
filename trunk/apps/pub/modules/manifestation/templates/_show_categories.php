@@ -2,7 +2,7 @@
 <?php
   $groups = array();
   foreach ( $manifestation->Gauges as $gauge )
-  if ( $gauge->online )
+  if ( $gauge->online && $gauge->getFree() > 0 )
   {
     if ( !isset($groups[$gauge->group_name]) )
       $groups[$gauge->group_name] = array();
