@@ -9,7 +9,7 @@
     <p style="display: none;" id="global_transaction_id" class="translinked" title="#<?php $transaction->transaction_id ?>"><?php echo $transaction->id ?></p>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="topay">
-    <?php $ticks = array(); foreach ( $transaction->Tickets as $ticket ) if ( is_null($ticket->duplicating) ) $ticks[$transaction->type == 'cancelling' ? $ticket->cancelling : $ticket->id] = $ticket->value; ?>
+    <?php $ticks = array(); foreach ( $transaction->Tickets as $ticket ) if ( is_null($ticket->duplicating) ) $ticks[$transaction->type == 'cancelling' ? $ticket->cancelling : $ticket->id] = $ticket->value + $ticket->taxes; ?>
     <strong class="translinked"  title="#<?php echo $transaction->transaction_id ?>"><?php echo __('Transaction #%%id%%:',array('%%id%%' => $transaction->id)) ?></strong>
     <span id="to_pay"><?php echo format_currency(array_sum($ticks),'€') ?></span>
   </div>

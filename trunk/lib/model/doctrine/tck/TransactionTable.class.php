@@ -76,8 +76,8 @@ class TransactionTable extends PluginTransactionTable
   {
     $q = Doctrine_Query::create()->from('Transaction t');
     $this->addDebtsListBaseSelect($q)
-      ->addSelect(str_replace(array('%%tck%%', '%%pdt%%'), array('tck', 'pdt'), $outcomes = '((SELECT (CASE WHEN COUNT(%%tck%%.id) = 0 THEN 0 ELSE SUM(%%tck%%.value) END) FROM Ticket %%tck%% WHERE '.$this->getDebtsListTicketsCondition('%%tck%%', NULL, NULL).') + (SELECT (CASE WHEN COUNT(%%pdt%%.id) = 0 THEN 0 ELSE SUM(%%pdt%%.value) END) FROM BoughtProduct %%pdt%% WHERE '.$this->getDebtsListProductsCondition('%%pdt%%', NULL, NULL).'))').' AS outcomes')
-      ->addSelect(str_replace('%%pp%%' , 'pp' , $incomes  = '(SELECT (CASE WHEN COUNT(%%pp%%.id)  = 0 THEN 0 ELSE SUM(%%pp%%.value ) END) FROM Payment %%pp%% WHERE %%pp%%.transaction_id = t.id)').' AS incomes') // AND pp.created_at < '2014-01-01' AND pp.created_at >= '2013-09-01') AS incomes")
+      ->addSelect(str_replace(array('%%tck%%', '%%pdt%%'), array('tck', 'pdt'), $outcomes = '((SELECT (CASE WHEN COUNT(%%tck%%.id) = 0 THEN 0 ELSE SUM(%%tck%%.value + %%tck%%.taxes) END) FROM Ticket %%tck%% WHERE '.$this->getDebtsListTicketsCondition('%%tck%%', NULL, NULL).') + (SELECT (CASE WHEN COUNT(%%pdt%%.id) = 0 THEN 0 ELSE SUM(%%pdt%%.value) END) FROM BoughtProduct %%pdt%% WHERE '.$this->getDebtsListProductsCondition('%%pdt%%', NULL, NULL).'))').' AS outcomes')
+      ->addSelect(str_replace('%%pp%%' , 'pp' , $incomes  = '(SELECT (CASE WHEN COUNT(%%pp%%.id)  = 0 THEN 0 ELSE SUM(%%pp%%.value) END) FROM Payment %%pp%% WHERE %%pp%%.transaction_id = t.id)').' AS incomes') // AND pp.created_at < '2014-01-01' AND pp.created_at >= '2013-09-01') AS incomes")
       ->leftJoin('t.Contact c')
       ->leftJoin('t.Professional p')
       ->leftJoin('p.ProfessionalType pt')
