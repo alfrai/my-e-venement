@@ -588,7 +588,7 @@ class manifestationActions extends autoManifestationActions
     $st = $con->execute(
       //"SELECT DISTINCT t.*, tl.id AS translinked,
       "SELECT DISTINCT t.*,
-              (SELECT CASE WHEN sum(ttt.value) IS NULL THEN 0 ELSE sum(ttt.value) END
+              (SELECT CASE WHEN sum(ttt.value + ttt.taxes) IS NULL THEN 0 ELSE sum(ttt.value + ttt.taxes) END
                FROM Ticket ttt
                WHERE ttt.transaction_id = t.id
                  AND (ttt.printed_at IS NOT NULL OR ttt.integrated_at IS NOT NULL OR cancelling IS NOT NULL)
@@ -602,7 +602,7 @@ class manifestationActions extends autoManifestationActions
        LEFT JOIN organism o ON p.organism_id = o.id
        LEFT JOIN transaction tl ON tl.transaction_id = t.id
        WHERE t.id IN (SELECT DISTINCT tt.transaction_id FROM Ticket tt WHERE tt.manifestation_id = ".intval($this->manifestation->id).")
-         AND (SELECT CASE WHEN sum(tt.value) IS NULL THEN 0 ELSE sum(tt.value) END FROM Ticket tt WHERE tt.transaction_id = t.id AND (tt.printed_at IS NOT NULL OR tt.integrated_at IS NOT NULL OR tt.cancelling IS NOT NULL) AND tt.duplicating IS NULL)
+         AND (SELECT CASE WHEN sum(tt.value + tt.taxes) IS NULL THEN 0 ELSE sum(tt.value + tt.taxes) END FROM Ticket tt WHERE tt.transaction_id = t.id AND (tt.printed_at IS NOT NULL OR tt.integrated_at IS NOT NULL OR tt.cancelling IS NOT NULL) AND tt.duplicating IS NULL)
           != (SELECT CASE WHEN sum(pp.value) IS NULL THEN 0 ELSE sum(pp.value) END FROM Payment pp WHERE pp.transaction_id = t.id)
        ORDER BY t.id ASC");
     $transactions = $st->fetchAll();
