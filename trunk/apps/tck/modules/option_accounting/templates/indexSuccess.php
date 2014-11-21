@@ -3,6 +3,7 @@
     <h1><?php echo __('Accounting informations',NULL,'menu') ?></h1>
   </div>
   <?php include_partial('global/flashes') ?>
+  <?php include_partial('form_header') ?>
   <?php include_partial('global/option_form',array('form' => $form,)); ?>
   <?php include_partial('form_save',array('form' => $form,)); ?>
 </form>

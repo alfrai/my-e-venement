@@ -84,8 +84,7 @@
         $this->lines[$key]['tep'] += $tmp = round(($ticket->value+$ticket->taxes) / (1+$ticket->vat),2);
         $this->lines[$key]['vat'] += $ticket->value + $ticket->taxes - $tmp;
       }
-      else
-      {
+      else {
         $infos = $manif->getInfosTickets($sf_data->getRaw('options'));
         if ( !isset($this->lines[$key = 'e'.$event->id.'m'.$manif->id]) )
           $this->lines[$key] = array(

@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Those informations are used in specific ledger extractions only</source>
+        <target>Ces informations sont utilisées dans les extractions spécifiques de journaux seulement</target>
+      </trans-unit>
+      <trans-unit>
         <source>No ticket found with the given parameters</source>
         <target>Aucun billet ne correspond aux paramètres fournis</target>
       </trans-unit>

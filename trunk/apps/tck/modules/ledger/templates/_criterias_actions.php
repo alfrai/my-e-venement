@@ -36,24 +36,28 @@
       <select name="move" id="ledger_move">
         <option value=""><?php echo __('Actions') ?></option>
       <?php if ( $sf_user->hasCredential('tck-ledger-'.($ledger == 'cash' ? 'sales' : 'cash')) ): ?>
-        <?php if ( $ledger == 'cash' ): ?>
+        <?php if ( in_array($ledger, array('cash', 'both')) ): ?>
         <option value="<?php echo url_for('ledger/sales') ?>">
           <?php echo __('Sales Ledger',NULL,'menu') ?>
         </option>
         <?php endif ?>
-        <?php if ( $ledger == 'sales' ): ?>
+        <?php if ( in_array($ledger, array('sales', 'both')) ): ?>
         <option value="<?php echo url_for('ledger/cash') ?>">
           <?php echo __('Cash Ledger',NULL,'menu') ?>
         </option>
         <?php endif ?>
+        <?php if ( in_array($ledger, array('sales', 'cash')) ): ?>
         <option value="<?php echo url_for('ledger/both') ?>">
           <?php echo __('Detailed Ledger',array(),'menu') ?>
         </option>
         <option value="<?php echo url_for('ledger/extract') ?>?type=<?php echo $ledger ?>">
           <?php echo __('Extract (%%format%%)',array('%%format%%' => 'standard, csv')) ?>
         </option>
+        <?php endif ?>
+        <?php if ( $ledger == 'cash' ): ?>
         <option value="<?php echo url_for('ledger/extract') ?>?type=lineal">
           <?php echo __('Extract (%%format%%)',array('%%format%%' => 'Lineal, Sigma')) ?>
         </option>
+        <?php endif ?>
       <?php endif ?>
       </select>
