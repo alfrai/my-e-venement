@@ -176,6 +176,7 @@
       <td class="see-more"></td>
       <td class="id-qty"><?php
         $qty = $k = $value = 0;
+        $x = array();
         for ( $j = $i ; $j < $manif->Tickets->count() ; $j++ )
         if ( $manif->Tickets->get($i)->price_name == $manif->Tickets->get($j)->price_name
           && $manif->Tickets->get($i)->sf_guard_user_id == $manif->Tickets->get($j)->sf_guard_user_id
@@ -186,6 +187,9 @@
             : $qty - 1;
           $k++;
           $value += $manif->Tickets->get($j)->value;
+          if ( !isset($x[$manif->Tickets->get($j)->vat]) )
+            $x[$manif->Tickets->get($j)->vat] = 0;
+          $x[$manif->Tickets->get($j)->vat] += round($manif->Tickets->get($j)->value - $manif->Tickets->get($j)->value/(1+$manif->Tickets->get($j)->vat),2);
         }
         $i += $k-1;
         echo $qty;
@@ -193,8 +197,10 @@
       <td class="value"><?php echo format_currency($value,'€') ?></td>
       <?php foreach ( $total['vat'] as $t => $v ): ?>
       <td class="vat"><?php
-        if ( !sfConfig::get('app_ledger_sum_rounding_before',false)
-          && strtotime($ticket->cancelling ? $ticket->created_at : ($ticket->printed_at ? $ticket->printed_at : $ticket->integrated_at)) >= strtotime(sfConfig::get('app_ledger_sum_rounding_before')) )
+        if ( !sfConfig::get('app_ledger_sum_rounding_before',false) )
+        if ( isset($x[$t]) )
+          echo format_currency($x[$t],'€');
+        /*
         if ( $manif->Tickets->count() < 25 )
         {
           $x = 0;
@@ -203,6 +209,7 @@
             $x += round($ticket->value - $ticket->value/(1+$ticket->vat),2);
           echo format_currency($x,'€');
         }
+        */
       ?></td>
       <?php endforeach ?>
       <td class="vat total"></td>
