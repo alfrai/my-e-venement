@@ -57,11 +57,14 @@ class pubConfiguration extends sfApplicationConfiguration
   
   public function recordWebOrigin(sfEvent $event)
   {
-    if ( !sfContext::hasInstance() || !( isset($params['transaction']) && $params['transaction'] instanceof Transaction ))
-      return;
     $context = sfContext::getInstance();
     $request = $context->getRequest();
     $params = $event->getParameters();
+    if ( !sfContext::hasInstance() || !( isset($params['transaction']) && $params['transaction'] instanceof Transaction ))
+    {
+      error_log('Impossible to record de Web Origin: no transaction given, or similar...');
+      return;
+    }
     $transaction = $params['transaction'];
     
     $origin = new WebOrigin;
