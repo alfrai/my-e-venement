@@ -27,6 +27,7 @@
     'order'   => url_for('ticket/order?id='.$request->getParameter('id')),
     'print'   => url_for('ticket/print?id='.$request->getParameter('id')),
     'partial' => url_for('ticket/partial?id='.$request->getParameter('id').'&gauge_id='.$request->getParameter('gauge_id')),
+    'integrate' => url_for('ticket/integrate?id='.$request->getParameter('id')),
   );
   $this->url_next = $urls[$request->getParameter('type', 'print')];
   

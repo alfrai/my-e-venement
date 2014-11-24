@@ -61,7 +61,7 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
   }
   public function isSold()
   {
-    return !$this->integrated_at;
+    return !is_null($this->integrated_at);
   }
   
   public function getIndexesPrefix()

@@ -259,24 +259,25 @@
         $this->json['success']['success_fields'][$field]['remote_content']['load']['url']   = url_for('transaction/getStore?id='.$request->getParameter('id'), true);
         break;
       case 'close':
+        $items = $this->transaction->getItemables():
         $semaphore = array('products' => true, 'amount' => 0);
-        foreach ( $this->transaction->getItemables() as $pdt )
+        foreach ( $items as $pdt )
         {
-          if ( $pdt->isSold() )
+          if ( !$pdt->isSold() )
             $semaphore['products'] = false;
           elseif (!( method_exists($pdt, 'isDuplicata') && $pdt->isDuplicata() ))
             $semaphore['amount'] += $pdt->value;
+          if ( $pdt->getTable()->hasColumn('taxes') )
+            $semaphore['amount'] += $pdt->taxes;
         }
         foreach ( $this->transaction->Payments as $payment )
-        {
           $semaphore['amount'] -= $payment->value;
-        }
         
-        if ( !( ($semaphore['products'] || !sfConfig::get('app_tickets_alert_on_notprinted', true)) && $this->transaction->Order->count() > 0 )
+        if ( !( $semaphore['products'] || !sfConfig::get('app_tickets_alert_on_notprinted', true) && $this->transaction->Order->count() > 0 )
           || $semaphore['amount'] != 0 )
         {
           $this->json['success']['error_fields']['close'] = $this->json['success']['success_fields']['close'];
-          unset($this->json['success']['success_fields']['close']);
+            unset($this->json['success']['success_fields']['close']);
           
           $this->json['success']['error_fields']['close']['data']['generic'] = __('This transaction cannot be closed properly:');
           if ( !$semaphore['products'] )
