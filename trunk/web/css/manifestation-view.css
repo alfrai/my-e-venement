@@ -33,3 +33,11 @@ html body #content { margin-right: 0; }
 .sf_admin_field_workspaces_list .gauge .gauge { cursor: pointer; }
 .sf_admin_field_workspaces_list .active .seated-plan-parent { display: block; }
 .sf_admin_field_workspaces_list .magnify { top: 500px; right: 50px; }
+
+#sf_fieldset_statistics label { font-weight: normal; }
+#sf_fieldset_statistics table { margin-left: 20px; width: 98%; table-layout: fixed; }
+#sf_fieldset_statistics .gauges table { width: 30em; }
+#sf_fieldset_statistics th { text-align: right; width: 22em; padding-right: 1em; }
+#sf_fieldset_statistics td { margin-left: 1em; width: auto; }
+#sf_fieldset_statistics tbody td { text-align: right; }
+#sf_fieldset_statistics thead td { text-align: center; padding: 0 5px; }

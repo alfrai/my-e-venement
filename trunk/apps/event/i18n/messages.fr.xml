@@ -5,6 +5,58 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Tickets prepared &amp; paid by the same user</source>
+        <target>Billets préparés &amp; payés par le même utilisateur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Tickets paid by this user but prepared by another</source>
+        <target>Billets payés par cet utilisateur mais préparés par un autre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Tickets prepared by this user, and still unpaid</source>
+        <target>Billets préparés par cet utilisateur, et sans règlement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Available for online sales</source>
+        <target>Disponibles pour la vente en ligne</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Free but not available for online sales</source>
+        <target>Libres mais non disponibles à la vente en ligne</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Total</source>
+        <target>Total</target>
+      </trans-unit>
+      <trans-unit>
+        <source>None</source>
+        <target>Aucun</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Seats</source>
+        <target>Places</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Users used by online sales</source>
+        <target>Utilisateurs concernés par la vente en ligne</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Statistics</source>
+        <target>Statistiques</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Sales</source>
+        <target>Ventes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Min.</source>
+        <target>Min.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Max.</source>
+        <target>Max.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Categories are usefull to group gauges for online sales. Use only if needed.</source>
         <target>Les catégories sont utiles pour grouper les jauges dans la vente en ligne. À n'utiliser que si nécessaire.</target>
       </trans-unit>

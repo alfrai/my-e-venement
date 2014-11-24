@@ -61,6 +61,10 @@ Price:
       class: Manifestation
       refClass: PriceManifestation
       foreignAlias: Prices
+    Gauges:
+      class: Gauge
+      refClass: PriceGauge
+      foreignAlias: Prices
     Workspaces:
       class: Workspace
       refClass: WorkspacePrice
@@ -188,6 +192,7 @@ PriceGauge:
       foreignAlias: PriceGauges
       onDelete: CASCADE
       onUpdate: CASCADE
+
 PriceProduct:
   package: price
   actAs: [Timestampable]

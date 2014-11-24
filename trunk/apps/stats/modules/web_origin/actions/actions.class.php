@@ -13,12 +13,6 @@ require_once dirname(__FILE__).'/../lib/web_originGeneratorHelper.class.php';
  */
 class web_originActions extends autoWeb_originActions
 {
-  public function executeRememberAll(sfWebRequest $request)
-  {
-    $q = $this->buildQuery();
-    echo $q;
-    die();
-  }
   public function executeBatchExceptions(sfWebRequest $request)
   {
     $this->filters = $this->getUser()->getAttribute($this->getModuleName().'.filters', $this->configuration->getFilterDefaults(), 'admin_module');

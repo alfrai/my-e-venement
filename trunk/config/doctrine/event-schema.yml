@@ -336,7 +336,7 @@ Manifestation:
       notnull: true
       default: true
     expected_income:
-      type: decimal(8)
+      type: decimal(15)
       scale: 3
   relations:
     Event:

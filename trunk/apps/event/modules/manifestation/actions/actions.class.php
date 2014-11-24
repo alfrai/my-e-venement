@@ -36,6 +36,45 @@ require_once dirname(__FILE__).'/../lib/manifestationGeneratorHelper.class.php';
  */
 class manifestationActions extends autoManifestationActions
 {
+  public function executePossibleIncomes(sfWebRequest $request)
+  {
+    $this->json = array('min' => array('value' => 0, 'currency' => NULL), 'max' => array('value' => 0, 'currency' => NULL),);
+    
+    $q = Doctrine::getTable('Gauge')->createQuery('g',true,true)
+      ->andWhere('g.manifestation_id = ?', $request->getParameter('id'))
+      
+      ->leftJoin('g.PriceGauges pg')
+      ->leftJoin('pg.Price pgp')
+      ->leftJoin('pgp.Users pgpu WITH pgpu.id = ?', $this->getUser()->getId())
+      
+      ->leftJoin('g.Manifestation m')
+      ->leftJoin('m.PriceManifestations pm WITH pm.price_id != pg.price_id')
+      ->leftJoin('pm.Price pmp')
+      ->leftJoin('pmp.Users pmpu WITH pmpu.id = ?', $this->getUser()->getId())
+      
+      ->addSelect('(CASE WHEN COUNT(pm.id) = 0 OR MAX(pg.value) > MAX(pm.value) THEN MAX(pg.value) ELSE MAX(pm.value) END) AS max')
+      ->addSelect('(CASE WHEN COUNT(pm.id) = 0 OR MIN(pg.value) > MIN(pm.value) THEN MIN(pg.value) ELSE MIN(pm.value) END) AS min')
+      //->addSelect('(CASE WHEN COUNT(pm.id)+COUNT(pg.id) > 0 THEN ((SUM(pm.value)+SUM(pg.value))/(COUNT(pm.id)+COUNT(pg.id)) ELSE 0 END) AS avg')
+      ->addSelect('g.value')
+      ->groupBy('g.id, g.value')
+    ;
+    
+    foreach ( $q->fetchArray() as $gauge )
+    foreach ( array('max', 'min') as $field )
+      $this->json[$field]['value'] += $gauge[$field]*$gauge['value'];
+    sfContext::getInstance()->getConfiguration()->loadHelpers('Number');
+    foreach ( array('max', 'min') as $field )
+      $this->json[$field]['currency'] = format_currency($this->json[$field]['value'], '€');
+    
+    if (!( sfConfig::get('sf_web_debug', true) && $request->hasParameter('debug') ))
+      return 'Json';
+  }
+  public function executeStatsRawData(sfWebRequest $request)
+  {
+    require __DIR__.'/stats-raw-data.php';
+    if (!( sfConfig::get('sf_web_debug', true) && $request->hasParameter('debug') ))
+      return 'Json';
+  }
   public function executeAddGaugePrice(sfWebRequest $request)
   {
     $this->json = array('success' => array(), 'error' => array());

@@ -17,7 +17,7 @@ class GaugeTable extends PluginGaugeTable
         return Doctrine_Core::getTable('Gauge');
     }
   
-  public function createQuery($alias = 'g',$full = true)
+  public function createQuery($alias = 'g', $full = true, $mini_select = false)
   {
     $ws = $alias != 'ws' ? 'ws' : 'ws1';
     
@@ -27,7 +27,7 @@ class GaugeTable extends PluginGaugeTable
                AND gauge_id = $alias.id";
     
     if ( $full )
-    $q->select("$alias.*")
+    $q->select("$alias.".($mini_select ? 'id' : '*'))
       ->leftJoin("$alias.Workspace ws")
       ->addSelect("(SELECT ".($full === 'with_value' ? 'sum(value)' : 'count(*)')." AS nb
                     FROM Ticket tck1

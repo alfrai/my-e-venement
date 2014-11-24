@@ -55,3 +55,11 @@ addGaugePriceSuccess:
   http_metas:
     content-type: application/json
         
+possibleIncomesJson:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+statsRawDataJson:
+  has_layout: false
+  http_metas:
+    content-type: application/json

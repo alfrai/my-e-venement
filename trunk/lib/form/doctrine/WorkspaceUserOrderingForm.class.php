@@ -19,7 +19,7 @@ class WorkspaceUserOrderingForm extends BaseWorkspaceUserOrderingForm
     $q = Doctrine::getTable('Workspace')->createQuery('w');
     if ( sfContext::hasInstance() )
       $q->andWhere('w.id NOT IN (SELECT wuo.workspace_id FROM WorkspaceUserOrdering wuo WHERE wuo.sf_guard_user_id = ?)',sfContext::getInstance()->getUser()->getId());
-    $this->widgetSchema   ['workspace_id']->setOption('query',$q);
+    $this->widgetSchema   ['workspace_id']->setOption('query',$q)->setOption('order_by', array('w.name',''));
     $this->validatorSchema['workspace_id']->setOption('query',$q);
   }
 }

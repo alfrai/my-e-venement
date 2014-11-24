@@ -32,4 +32,9 @@ class liDoctrineQuery extends Doctrine_Query
     }
     return str_replace('\\\\', '\\', $query);
   }
+  public function addParams($part, array $params)
+  {
+    $this->_params = array_merge($this->_params, array($part => $params));
+    return $this;
+  }
 }

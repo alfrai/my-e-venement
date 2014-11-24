@@ -142,3 +142,7 @@ select[disabled] { color: #444; }
 #content #form_workspaces .sf_admin_list_td_join_name select { width: 115px; }
 #form_workspaces .sf_admin_list_td_online, #form_workspaces .sf_admin_list_td_unjoin { text-align: center; }
 #form_workspaces .sf_admin_list_td_online, #form_workspaces .sf_admin_list_td_unjoin button { padding: 10px; }
+
+.sf_admin_form_field_show_possible_incomes { position: absolute; margin-top: -3.7em; margin-left: 24em; display: block; }
+.sf_admin_show .sf_admin_form_field_show_possible_incomes { display: block; }
+.sf_admin_show .sf_admin_form_field_show_possible_incomes label, .sf_admin_form_field_show_possible_incomes label { min-width: 3em; display: inline-block; }

@@ -29,6 +29,7 @@ all:
     price_manifestations: true  # true by default
     price_gauges: true          # false by default
     #prefer_short_name: false
+    online_users: [vel] # for stats
   synchronization:
     #period:
     #  from: now

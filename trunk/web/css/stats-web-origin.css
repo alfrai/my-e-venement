@@ -2,7 +2,7 @@
 @media screen and (min-width: 1400px){ .sf_admin_list .sf_admin_list_th_ipaddress, .sf_admin_list .sf_admin_list_td_ipaddress { max-width: 250px; } }
 .sf_admin_list table tbody tr.sf_admin_row .sf_admin_date, .sf_admin_list table tbody tr.sf_admin_row .sf_admin_number { text-align: right; }
 .sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_transaction { text-align: center; }
-.charts-4 { width: 570px; }
+.data-widget, .charts-4 { width: 570px; }
 #sf_admin_content { clear: both; }
 
 .sf_admin_list_th_list_transaction, .sf_admin_list_td_transaction_id { display: none; }
@@ -14,3 +14,6 @@
   .sf_admin_list_th_list_platform, .sf_admin_list_td_list_platform,
   .sf_admin_list_th_list_browser, .sf_admin_list_td_list_browser { display: none; }
 }
+
+.data-widget { float: left; margin: 5px; }
+#sf_admin_container .data-widget ul { margin-left: 20px; }
