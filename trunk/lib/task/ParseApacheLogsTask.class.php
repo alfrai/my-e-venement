@@ -27,6 +27,7 @@ class AutoSeatingTestTask extends sfBaseTask{
   protected function configure() {
     $this->addArguments(array(
       new sfCommandArgument('input', sfCommandArgument::REQUIRED, 'The file to parse'),
+      new sfCommandArgument('domain', sfCommandArgument::REQUIRED, 'Your domain name'),
     ));
     $this->addOptions(array(
       new sfCommandOption('output', null, sfCommandOption::PARAMETER_OPTIONAL, 'The file to write the CSV result'),
@@ -56,15 +57,53 @@ class AutoSeatingTestTask extends sfBaseTask{
       return;
     }
     
+    $this->logSection('Domain', $arguments['domain']);
     $this->logSection('File', 'Success');
+    $last = array();
     while ( $line = $parser->get_line() )
     {
       $log = $parser->format_line($line);
+      if ( strpos($log['referer'], $arguments['domain']) !== false )
+        continue;
       $this->logSection('Line', $log['date'].' '.$log['time'].' - '.$log['ip'].' '.$log['referer']);
+      
+      $date = DateTime::createFromFormat('d/M/Y H:i:s', $log['date'].' '.$log['time']);
+      $q = Doctrine::getTable('Transaction')->createQuery('t')
+        ->andWhere("t.created_at + '2 seconds'::interval > ? AND t.created_at - '2 seconds'::interval < ?", array($date->format('Y-m-d H:i:s'), $date->format('Y-m-d H:i:s')))
+      ;
+      $transaction = $q->fetchOne();
+      if ( !$transaction )
+      {
+        $this->logSection('WebOrigin', 'No transaction found for this visit', 'ERROR');
+        continue;
+      }
+      
+      $wo = new WebOrigin;
+      $wo->Transaction = $transaction;
+      $wo->ipaddress = $log['ip'];
+      $wo->referer = $log['referer'];
+      $wo->first_page = $log['path'];
+      $wo->user_agent = $log['agent'];
+      $wo->save();
+      $wo->created_at = $date->format('Y-m-d H:i:s');
+      $wo->save();
+      $this->logSection('WebOrigin', 'Created for transaction #'.$transaction->id);
     }
-    var_dump($line);
     
     $parser->close_log_file();
     $this->logSection('File', 'Closed');
+    
+    $q = Doctrine_Query::create()->from('Transaction t')
+      ->andWhere('(SELECT count(wo.id) > 1 FROM web_origin wo WHERE wo.transaction_id = t.id)')
+    ;
+    foreach ( $q->execute() as $transaction )
+    {
+      Doctrine_Query::create()->from('WebOrigin wo')
+        ->andWhere('wo.transaction_id = ?', $transaction->id)
+        ->andWhere('wo.id != (SELECT MIN(woo.id) FROM WebOrigin woo WHERE woo.transaction_id = ?)', $transaction->id)
+        ->delete()
+        ->execute();
+    }
+    $this->logSection('Clean', 'Useless WebOrigins ... done');
   }
 }

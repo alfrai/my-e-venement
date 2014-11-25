@@ -61,7 +61,7 @@ class ApacheLogParser
       $formated_log['protocol'] = $logs[9];
       $formated_log['status'] = $logs[10];
       $formated_log['bytes'] = $logs[11];
-      $formated_log['referer'] = $logs[12];
+      $formated_log['referer'] = $logs[12] == '-' ? NULL : $logs[12];
       $formated_log['agent'] = $logs[13];
       return $formated_log; // return the array of info
     }
