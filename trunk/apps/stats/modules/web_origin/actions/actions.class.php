@@ -95,8 +95,8 @@ class web_originActions extends autoWeb_originActions
       $limit++; // to remove the empty campaign in the post production
       break;
     case 'deal_done':
-      $criteria = '(SELECT ppp.id IS NOT NULL OR ooo.id IS NOT NULL FROM transaction ttt LEFT JOIN payment ppp ON ppp.transaction_id = ttt.id LEFT JOIN order_table ooo ON ooo.transaction_id = ttt.id WHERE ttt.id = w.transaction_id)';
-      $q = "SELECT $criteria AS criteria, count(w.id) AS nb FROM $sql GROUP BY $criteria";
+      $criteria = '(SELECT DISTINCT ppp.id IS NOT NULL OR ooo.id IS NOT NULL FROM transaction ttt LEFT JOIN payment ppp ON ppp.transaction_id = ttt.id LEFT JOIN order_table ooo ON ooo.transaction_id = ttt.id WHERE ttt.id = w.transaction_id)';
+      $q = "SELECT CASE WHEN $criteria THEN 'ok' ELSE 'x' END AS criteria, count(w.id) AS nb FROM $sql GROUP BY $criteria";
       break;
     case 'evolution':
       $criteria = "date_trunc('day', w.created_at)";
