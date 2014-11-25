@@ -18,11 +18,12 @@ class TransactionTable extends PluginTransactionTable
     }
   
   // $tickets can be NULL (all), 'asked' for asked tickets or an other not-empty-string for printed/integrated/cancelling tickets
-  public function createQuery($alias = 't', $tickets = NULL)
+  public function createQuery($alias = 't', $tickets = NULL, $with_products = false)
   {
     $tck = 'tck' != $alias ? 'tck' : 'tck2';
     $m   = 'm'   != $alias ? 'm'   : 'm2';
     
+    // this is for $tickets == 'asked', for $tickets == something_else it becomes "NOT ($str)"
     $str = "$tck.printed_at IS NULL AND $tck.integrated_at IS NULL AND $tck.cancelling IS NULL";
     
     $q = parent::createQuery($alias);
@@ -31,6 +32,8 @@ class TransactionTable extends PluginTransactionTable
       ->leftJoin("$tck.Duplicatas duplicatas")
       ->leftJoin("$tck.Cancelled cancelled")
       ->leftJoin("$tck.Manifestation $m");
+    if ( $with_products )
+      $q->leftJoin("$a.BoughtProducts bp".(is_null($tickets) ? '' : ' WITH '.($tickets == 'asked' ? 'bp.integrated_at IS NULL' : "NOT ($str)")));
     return $q;
   }
   

@@ -269,7 +269,10 @@
         
         foreach ( $items as $pdt )
         if ( !$pdt->isSold() )
+        {
           $semaphore['products'] = false;
+          break;
+        }
         
         if ( !( $semaphore['products'] || !sfConfig::get('app_tickets_alert_on_notprinted', true) && $this->transaction->Order->count() > 0 )
           || ($semaphore['amount'] = $this->transaction->getPaid() - $this->transaction->getPrice(true,true)) != 0 )

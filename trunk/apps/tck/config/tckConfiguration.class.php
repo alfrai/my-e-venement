@@ -68,14 +68,20 @@ class tckConfiguration extends sfApplicationConfiguration
     if (!( isset($event['transaction']) && $event['transaction'] instanceof Transaction ))
       return;
     
+    $cpt = 0;
     $paid = $event['transaction']->getPaid();
     foreach ( $event['transaction']->getItemables() as $pdt )
+    if ( !$pdt->integrated_at )
     {
       $pdt->integrated_at = date('Y-m-d H:i:s');
       if ( $event['transaction']->getPrice(false, true) > $paid
         || $pdt instanceof Ticket && $pdt->needsSeating() )
         $pdt->integrated_at = NULL;
+      else
+        $cpt++;
     }
+    
+    $event->setReturnValue($cpt);
   }
   
   // force sending emails on every transactions, depends on app.yml parameters
@@ -258,6 +264,39 @@ EOF
       $this->stdout($section, "[OK] $nb tickets resetted", 'INFO');
     });
     
+    
+    // try to auto-integrate tickets if setted up
+    if ( sfConfig::get('app_tickets_auto_integrate', false) )
+    $this->addGarbageCollector('auto-integrate', function(){
+      $section = 'Asked itemables';
+      $this->stdout($section, 'Integrating what we can...', 'COMMAND');
+      $timeout = sfConfig::get('app_tickets_timeout', array());
+      
+      $q = Doctrine::getTable('Transaction')->createQuery('t', NULL, true)
+        ->select('t.id, t.closed')
+        ->leftJoin('t.Payments p')
+        ->andWhere('t.updated_at < ?', $date = date('Y-m-d H:i:s', strtotime(($timeout['asked'] ? $timeout['asked'] : '1 hour').' - 1 minutes ago')))
+        ->andWhere('t.closed = ?', false)
+        ->orderBy('t.id')
+      ;
+      $transactions = $q->execute();
+      $cpt = 0;
+      foreach ( $transactions as $transaction )
+      {
+        $this->dispatcher->notify($event = new sfEvent($this, 'tck.before_trying_to_close_transaction', array(
+          'transaction' => $transaction,
+          'user'        => NULL,
+        )));
+        $transaction->save();
+        if ( $event->getReturnValue() > 0 )
+        {
+          $cpt += $event->getReturnValue();
+          $this->stdout($section, $event->getReturnValue().' itemables integrated for transaction #'.$transaction->id, 'DEBUG');
+        }
+      }
+      $this->stdout($section, "[OK] globally, $cpt itemables were integrated", 'INFO');
+    });
+    
     // Asked tickets collector
     $this->addGarbageCollector('asked', function(){
       $timeout = sfConfig::get('app_tickets_timeout', array());
@@ -306,12 +345,11 @@ EOF
       $section = 'Opened transactions';
       $this->stdout($section, 'Closing too old transactions...', 'COMMAND');
       
-      $q = Doctrine::getTable('Transaction')->createQuery('t', 'printed')
+      $q = Doctrine::getTable('Transaction')->createQuery('t', 'printed', true)
         ->select('t.id, t.closed')
         ->leftJoin('t.Payments p')
         ->andWhere('t.updated_at < ?', date('Y-m-d H:i:s', strtotime('1 day ago')))
         ->andWhere('t.closed = ?', false)
-        ->leftJoin('t.BoughtProducts bp WITH bp.integrated_at IS NOT NULL')
         ->leftJoin('t.Order o')
         ->groupBy('t.id, t.closed')
         ->having('count(tck.id) = 0 AND count(p.id) = 0 AND count(bp.id) = 0 AND count(o.id) = 0')
@@ -319,6 +357,11 @@ EOF
       $transactions = $q->execute();
       foreach ( $transactions as $transaction )
       {
+        $this->dispatcher->notify($event = new sfEvent($this, 'tck.before_trying_to_close_transaction', array(
+          'transaction' => $transaction,
+          'user'        => NULL,
+        )));
+        
         $transaction->closed = true;
         $transaction->save();
       }
