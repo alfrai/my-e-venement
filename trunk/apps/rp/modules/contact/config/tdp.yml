@@ -47,7 +47,7 @@ all:
         #  label: Geolocalize
     edit:
       object:
-        title: [title, name, firstname, _show_dates, _duplicate]
+        title: [title, name, firstname, _show_dates, _sell, _duplicate]
         new_title: [title, name, firstname]
         lines:
           Complements:
@@ -94,7 +94,7 @@ all:
           class: Professional
           parentAlias: Contact
           credentials: pr-organism
-          title: [Organism, _organism_close_contact, _organism_category]
+          title: [Organism, _organism_close_contact, _sell, _organism_category]
           new_title: [organism_id, _new_organism]
           lines:
             line1:

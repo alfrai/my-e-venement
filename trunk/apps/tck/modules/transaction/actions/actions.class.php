@@ -327,6 +327,18 @@ class transactionActions extends autoTransactionActions
     $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
     parent::executeNew($request);
     
+    if ( $request->getParameter('professional_id').'' === ''.intval($request->getParameter('professional_id')) )
+    {
+      $pro = Doctrine::getTable('Professional')->find(intval($request->getParameter('professional_id')));
+      if ( $pro )
+      {
+        $this->transaction->professional_id = $pro->id;
+        $request->setParameter('contact_id', $pro->contact_id);
+      }
+    }
+    if ( $request->getParameter('contact_id').'' === ''.intval($request->getParameter('contact_id')) )
+      $this->transaction->contact_id = intval($request->getParameter('contact_id'));
+    
     $this->dispatcher->notify(new sfEvent($this, 'tck.before_transaction_creation', array('transaction' => $this->transaction)));
     $this->transaction->save();
     $this->dispatcher->notify(new sfEvent($this, 'tck.after_transaction_creation', array('transaction' => $this->transaction)));
