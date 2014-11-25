@@ -115,7 +115,14 @@ LI.completeContent = function(data, type, replaceAll = true)
         wpdt.insertBefore(wglobal.find('.family.total'));
       
       // gauges / declinations
+      // sorting...
+      var sort = {};
       $.each(pdt[pdt.declinations_name], function(index, declination){
+        sort[declination.sort] = index;
+      });
+      // filling
+      $.each(sort, function(sort, index){
+        var declination = pdt[pdt.declinations_name][index];
         var wdeclination = $('#li_transaction_'+type+' .families.sample .item:not(.total)').clone(true);
         var add = true;
         if ( $('#li_transaction_'+type+' [data-'+declination.type+'-id='+declination.id+']').length > 0 )

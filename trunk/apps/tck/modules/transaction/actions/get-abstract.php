@@ -302,10 +302,12 @@
         
         // gauges
         $this->json[$product->id][$this->json[$product->id]['declinations_name']] = array();
+        $cpt = 0;
         foreach ( $product[$subobj.'s'] as $declination )
         {
           $this->json[$product->id][$this->json[$product->id]['declinations_name']][$declination->id] = array(
             'id' => $declination->id,
+            'sort' => $cpt,
             'name' => (string)$declination,
             'url' => cross_app_url_for('event','gauge/state?id='.$declination->id.'&json=true',true),
             'type' => strtolower($subobj),
@@ -313,6 +315,7 @@
             'available_prices' => array(),
             'prices' => array('-' => $items_model),
           );
+          $cpt++;
           
           switch ( $subobj ) {
           case 'Gauge':
