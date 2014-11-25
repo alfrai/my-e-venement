@@ -88,7 +88,12 @@ class liPassbook
   }
   public function getPkpassPath()
   {
-    return sfConfig::get('sf_app_cache_dir').'/passbook-'.$this->ticket->Manifestation->Event->slug.'-'.$this->ticket->id.'.pkpass';
+    $this->context->getConfiguration()->loadHelpers(array('Slug'));
+    $client = sfConfig::get('project_about_client', array());
+    return sfConfig::get('sf_app_cache_dir').'/passbook-'
+      .(mb_strlen($this->ticket->Manifestation->Event->slug) > 20 && isset($client['name']) ? slugify($client['name']) : $this->ticket->Manifestation->Event->slug)
+      .'-'.$this->ticket->id
+      .'.pkpass';
   }
   public function getMimeType()
   {
