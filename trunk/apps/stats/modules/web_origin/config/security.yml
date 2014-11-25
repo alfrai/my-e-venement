@@ -11,6 +11,8 @@ create:
   credentials: [admin-power]
 update:
   credentials: [admin-power]
+new:
+  credentials: [admin-power]
 edit:
   credentials: [admin-power]
 delete:
