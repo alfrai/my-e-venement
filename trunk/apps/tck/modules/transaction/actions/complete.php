@@ -259,7 +259,7 @@
         $this->json['success']['success_fields'][$field]['remote_content']['load']['url']   = url_for('transaction/getStore?id='.$request->getParameter('id'), true);
         break;
       case 'close':
-        $items = $this->transaction->getItemables():
+        $items = $this->transaction->getItemables();
         $semaphore = array('products' => true, 'amount' => 0);
         foreach ( $items as $pdt )
         {
