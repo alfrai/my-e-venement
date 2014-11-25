@@ -63,13 +63,15 @@ class AutoSeatingTestTask extends sfBaseTask{
     while ( $line = $parser->get_line() )
     {
       $log = $parser->format_line($line);
-      if ( strpos($log['referer'], $arguments['domain']) !== false )
+      if ( $log === false || strpos($log['referer'], $arguments['domain']) !== false )
         continue;
       $this->logSection('Line', $log['date'].' '.$log['time'].' - '.$log['ip'].' '.$log['referer']);
       
       $date = DateTime::createFromFormat('d/M/Y H:i:s', $log['date'].' '.$log['time']);
       $q = Doctrine::getTable('Transaction')->createQuery('t')
-        ->andWhere("t.created_at + '2 seconds'::interval > ? AND t.created_at - '2 seconds'::interval < ?", array($date->format('Y-m-d H:i:s'), $date->format('Y-m-d H:i:s')))
+        ->leftJoin('t.Payments p')
+        ->where("t.created_at + '2 seconds'::interval > ? AND t.created_at - '2 seconds'::interval < ?", array($date->format('Y-m-d H:i:s'), $date->format('Y-m-d H:i:s')))
+        ->orWhere("p.created_at + '3 seconds'::interval > ? AND p.created_at - '3 seconds'::interval < ?", array($date->format('Y-m-d H:i:s'), $date->format('Y-m-d H:i:s')))
       ;
       $transaction = $q->fetchOne();
       if ( !$transaction )
@@ -96,14 +98,15 @@ class AutoSeatingTestTask extends sfBaseTask{
     $q = Doctrine_Query::create()->from('Transaction t')
       ->andWhere('(SELECT count(wo.id) > 1 FROM web_origin wo WHERE wo.transaction_id = t.id)')
     ;
+    $cpt = 0;
     foreach ( $q->execute() as $transaction )
     {
-      Doctrine_Query::create()->from('WebOrigin wo')
+      $cpt += Doctrine_Query::create()->from('WebOrigin wo')
         ->andWhere('wo.transaction_id = ?', $transaction->id)
         ->andWhere('wo.id != (SELECT MIN(woo.id) FROM WebOrigin woo WHERE woo.transaction_id = ?)', $transaction->id)
         ->delete()
         ->execute();
     }
-    $this->logSection('Clean', 'Useless WebOrigins ... done');
+    $this->logSection('Clean', 'Useless WebOrigins ... '.$cpt.' ... done');
   }
 }

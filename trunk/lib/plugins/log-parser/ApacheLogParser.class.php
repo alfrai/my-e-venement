@@ -38,7 +38,6 @@ class ApacheLogParser
 
   function format_log_line($line)
   {
-    //preg_match("/^(\S+) (\S+) (\S+) \[([^:]+):(\d+:\d+:\d+) ([^\]]+)\] \"(\S+) (.*?) (\S+)\" (\S+) (\S+)/", $line, $matches); // pattern to format the line
     preg_match("/^(\S+) (\S+) (\S+) \[([^:]+):(\d+:\d+:\d+) ([^\]]+)\] \"(\S+) (.*?) (\S+)\" (\S+) (\S+) \"(.*)\" \"(.*)\"/", $line, $matches); // pattern to format the line
     return $matches;
   }
