@@ -10,11 +10,14 @@
  */
 class WebOriginForm extends BaseWebOriginForm
 {
+  protected $noTimestampableUnset = true;
+  
   /**
    * @see TraceableForm
    */
   public function configure()
   {
     parent::configure();
+    $this->widgetSchema['transaction_id'] = new sfWidgetFormInputText;
   }
 }

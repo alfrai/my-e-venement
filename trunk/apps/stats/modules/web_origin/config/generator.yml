@@ -28,7 +28,7 @@ generator:
         list_browser: { label: Browser }
         list_first_user: { label: User }
       list: 
-        actions: []
+        #actions: []
         title: Statistics from online sales
         display: [first_page, _list_first_page, referer, _list_referer, campaign, _list_transaction, transaction_id, _list_contact, _list_transaction_amount, _list_deal_done, _list_ipaddress, ipaddress, _list_platform, _list_browser, user_agent, created_at, _list_first_user]
         batch_actions:
