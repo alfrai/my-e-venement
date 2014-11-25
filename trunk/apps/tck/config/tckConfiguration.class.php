@@ -55,9 +55,27 @@ class tckConfiguration extends sfApplicationConfiguration
     if ( isset($conf['always_send_confirmation']) && $conf['always_send_confirmation'] )
       $this->dispatcher->connect('tck.before_transaction_creation', array($this, 'activateConfirmationEmails'));
     
+    if ( sfConfig::get('app_tickets_auto_integrate', false) )
+      $this->dispatcher->connect('tck.before_trying_to_close_transaction', array($this, 'productsIntegration'));
+    
     if (!( sfContext::hasInstance() && get_class(sfContext::getInstance()->getConfiguration()) != get_class($this) ))
       $this->enableSecondWavePlugins($arr = sfConfig::get('app_options_plugins', array()));
     ProjectConfiguration::initialize();
+  }
+  
+  public function productsIntegration($event)
+  {
+    if (!( isset($event['transaction']) && $event['transaction'] instanceof Transaction ))
+      return;
+    
+    $paid = $event['transaction']->getPaid();
+    foreach ( $event['transaction']->getItemables() as $pdt )
+    {
+      $pdt->integrated_at = date('Y-m-d H:i:s');
+      if ( $event['transaction']->getPrice(false, true) > $paid
+        || $pdt instanceof Ticket && $pdt->needsSeating() )
+        $pdt->integrated_at = NULL;
+    }
   }
   
   // force sending emails on every transactions, depends on app.yml parameters

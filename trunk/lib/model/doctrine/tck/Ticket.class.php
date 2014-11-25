@@ -85,6 +85,26 @@ class Ticket extends PluginTicket
     return (string)$bc;
   }
   
+  public function needsSeating()
+  {
+    // if already seated
+    if ( $this->seat_id )
+      return false;
+    
+    // if not seated, does it need seating ?
+    $q = Doctrine::getTable('Location')->createQuery('l')
+      ->leftJoin('l.Manifestations m')
+      ->andWhere('m.id = ?', $this->manifestation_id)
+      
+      ->leftJoin('l.SeatedPlans sp')
+      ->leftJoin('sp.Workspaces ws')
+      ->leftJoin('ws.Gauges g')
+      ->andWhere('g.id = ?', $this->gauge_id)
+      
+      ->select('l.id')
+    ;
+    return $q->count() > 0;
+  }
   public function getIdBarcoded()
   {
     $c = ''.$this->id;

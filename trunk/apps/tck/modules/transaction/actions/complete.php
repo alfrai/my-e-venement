@@ -261,38 +261,37 @@
       case 'close':
         $items = $this->transaction->getItemables();
         $semaphore = array('products' => true, 'amount' => 0);
+        
+        $this->dispatcher->notify(new sfEvent($this, 'tck.before_trying_to_close_transaction', array(
+          'transaction' => $this->transaction,
+          'user'        => $this->getUser(),
+        )));
+        
         foreach ( $items as $pdt )
-        {
-          if ( !$pdt->isSold() )
-            $semaphore['products'] = false;
-          elseif (!( method_exists($pdt, 'isDuplicata') && $pdt->isDuplicata() ))
-            $semaphore['amount'] += $pdt->value;
-          if ( $pdt->getTable()->hasColumn('taxes') )
-            $semaphore['amount'] += $pdt->taxes;
-        }
-        foreach ( $this->transaction->Payments as $payment )
-          $semaphore['amount'] -= $payment->value;
+        if ( !$pdt->isSold() )
+          $semaphore['products'] = false;
         
         if ( !( $semaphore['products'] || !sfConfig::get('app_tickets_alert_on_notprinted', true) && $this->transaction->Order->count() > 0 )
-          || $semaphore['amount'] != 0 )
+          || ($semaphore['amount'] = $this->transaction->getPaid() - $this->transaction->getPrice(true,true)) != 0 )
         {
           $this->json['success']['error_fields']['close'] = $this->json['success']['success_fields']['close'];
-            unset($this->json['success']['success_fields']['close']);
+          unset($this->json['success']['success_fields']['close']);
           
           $this->json['success']['error_fields']['close']['data']['generic'] = __('This transaction cannot be closed properly:');
           if ( !$semaphore['products'] )
             $this->json['success']['error_fields']['close']['data']['pdt'] = __('Some products are not sold (printed?) yet');
-          if ( $semaphore['amount'] > 0 )
-            $this->json['success']['error_fields']['close']['data']['pay'] = __('This transaction is not yet totally paid');
           if ( $semaphore['amount'] < 0 )
+            $this->json['success']['error_fields']['close']['data']['pay'] = __('This transaction is not yet totally paid');
+          if ( $semaphore['amount'] > 0 )
             $this->json['success']['error_fields']['close']['data']['pay'] = __('This transaction has more money than needed');
         }
-        elseif ( $semaphore['products'] )
+        elseif ( $semaphore['products'] ) // closing transaction
         {
           $this->transaction->closed = true;
-          $this->transaction->save();
           error_log('Transaction #'.$this->transaction->id.' closed by user.');
         }
+        
+        $this->transaction->save(); // saving the transaction even if nothing has changed, because of the dispatcher's actions
         break;
       }
       else
