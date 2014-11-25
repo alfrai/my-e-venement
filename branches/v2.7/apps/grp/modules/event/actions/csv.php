@@ -106,7 +106,7 @@
     {
       $translinked[] = $tr->id;
       foreach ( $tr->Tickets as $tck )
-      if ( $tck->cancelling )
+      if ( $tck->cancelling == $ticket->id )
       {
         if ( !isset($contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id]) )
           $contacts[$ticket->EntryElement->ContactEntry->Professional->id]['tickets']['price_'.$tck->price_id] = 0;
