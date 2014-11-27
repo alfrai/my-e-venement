@@ -95,4 +95,9 @@ $(document).ready(function(){
         $('#cash-ledger tbody').append(values[id][i]);
     });
   });
+  
+  setTimeout(function(){
+    if ( Cookie.get('tck_ledger_cash_order_column') )
+      $('#cash-ledger thead .'+Cookie.get('tck_ledger_cash_order_column')).click();
+  },2000);
 });
