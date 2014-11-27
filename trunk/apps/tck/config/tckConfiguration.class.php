@@ -315,8 +315,10 @@ EOF
       $tickets = $q->execute();
       $nb = $tickets->count();
       foreach ( $tickets as $ticket )
+      {
         $ticket->seat_id = NULL;
-      $tickets->save();
+        $ticket->save();
+      }
       $this->stdout($section, "[OK] $nb tickets resetted", 'INFO');
     });
     

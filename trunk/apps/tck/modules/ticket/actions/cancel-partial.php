@@ -110,8 +110,9 @@
     $cancel->value = -$cancel->value;
     $cancel->cancelling = $ticket->id;
     $cancel->id = $cancel->duplicating = $cancel->transaction_id = $cancel->sf_guard_user_id = NULL;
-    $cancel->created_at = $cancel->updated_at = NULL;
-    $cancel->printed_at = $cancel->integrated_at = NULL;
+    $cancel->seat_id =
+    $cancel->printed_at =
+    $cancel->integrated_at = NULL;
     $cancel->transaction_id = $transaction->Translinked[0]->id;
     $cancel->save();
   }

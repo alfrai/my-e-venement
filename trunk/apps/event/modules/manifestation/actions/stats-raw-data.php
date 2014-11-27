@@ -46,8 +46,13 @@
       ->select("u.*, ($q2) AS nb")
       ->addParams('where', $q2->getFlattenedParams())
       ->orderBy('u.username');
+    $total = 0;
     foreach ( $q->execute() as $user )
+    {
+      $total += $user->nb;
       $this->json['sales']['booked-by-one'][] = array('user' => (string)$user, 'nb' => $user->nb);
+    }
+    $this->json['sales']['booked-by-one'][] = array('user' => 'Total', 'nb' => $total);
     
     // tickets booked offline & paid online
     $q2 = Doctrine::getTable('Transaction')->createQuery('t')
@@ -64,8 +69,13 @@
       ->select("u.*, ($q2) AS nb")
       ->addParams('where', $q2->getFlattenedParams())
       ->orderBy('u.username');
+    $total = 0;
     foreach ( $q->execute() as $user )
+    {
+      $total += $user->nb;
       $this->json['sales']['paid-by-one-prepared-by-another'][] = array('user' => (string)$user, 'nb' => $user->nb);
+    }
+    $this->json['sales']['paid-by-one-prepared-by-another'][] = array('user' => 'Total', 'nb' => $total);
     
     // tickets prepared but still unpaid
     $q2 = Doctrine::getTable('Transaction')->createQuery('t')
@@ -77,78 +87,74 @@
       ->andWhere('tck.manifestation_id = ?', $request->getParameter('id', 0))
       ->select('count(tck.id) AS nb')
       ->andWhere('o.sf_guard_user_id = u.id')
+      ->groupBy('o.sf_guard_user_id')
+      ->having('sum(tck.value) > 0')
     ;
     $q = Doctrine_Query::create()->from('sfGuardUser u')
       ->select("u.*, ($q2) AS nb")
       ->addParams('where', $q2->getFlattenedParams())
       ->orderBy('u.username');
+    $total = 0;
     foreach ( $q->execute() as $user )
-      $this->json['sales']['to-be-paid'][] = array('user' => (string)$user, 'nb' => $user->nb);
+    {
+      $total += $user->nb;
+      $this->json['sales']['to-be-paid'][] = array('user' => (string)$user, 'nb' => is_null($user->nb) ? 0 : $user->nb);
+    }
+    $this->json['sales']['to-be-paid'][] = array('user' => 'Total', 'nb' => $total);
     
-    // seats available of online sales
+    // seats available and unavailable for online sales
     $prepare = array();
     foreach ( sfConfig::get('app_manifestation_online_users', array()) as $u )
       $prepare[] = '?';
     $prepare = '('.implode(',', $prepare).')';
-    $q = Doctrine::getTable('Manifestation')->createQuery('m', true)
+    $o = Doctrine_Query::create()->from('Order oo')
+      ->select('count(oo.id)')
+      ->andWhere('oo.transaction_id = tck.transaction_id')
+    ;
+    $q = Doctrine::getTable('Gauge')->createQuery('g',false)
+      ->leftJoin('g.Workspace ws')
+      ->leftJoin('ws.Users wsu')
+      
+      ->leftJoin('g.Manifestation m')
       ->andWhere('m.id = ?', $request->getParameter('id', 0))
       
+      ->leftJoin('m.Event e')
+      ->leftJoin('e.MetaEvent me')
       ->leftJoin('me.Users meu')
-      ->andWhereIn('meu.username', sfConfig::get('app_manifestation_online_users', array()))
       
-      ->leftJoin('m.Gauges g')
-      ->andWhere('g.online = ?', true)
-      
+      ->leftJoin('m.Location l')
       ->leftJoin('l.SeatedPlans sp')
-      ->leftJoin('sp.Seats s')
-      ->leftJoin('s.Tickets tck WITH tck.manifestation_id = m.id')
+      ->leftJoin('sp.Workspaces spw WITH spw.id = ws.id')
+      ->leftJoin('sp.Seats s WITH spw.id IS NOT NULL')
+      ->leftJoin('s.Tickets tck WITH tck.manifestation_id = m.id AND (tck.integrated_at IS NOT NULL OR tck.printed_at IS NOT NULL OR ('.$o.') > 0)')
       ->andWhere('tck.id IS NULL')
-      
-      ->leftJoin('sp.Workspaces ws')
-      ->leftJoin('ws.Users wsu')
-      ->andWhere('g.workspace_id = ws.id')
-      ->andWhereIn('wsu.username', sfConfig::get('app_manifestation_online_users', array()))
       
       ->leftJoin('m.Prices mp')
       ->leftJoin('mp.Users mpu WITH mpu.username IN '.$prepare, sfConfig::get('app_manifestation_online_users', array()))
       ->leftJoin('g.Prices gp')
       ->leftJoin('gp.Users gpu WITH gpu.username IN '.$prepare, sfConfig::get('app_manifestation_online_users', array()))
-      ->andWhere('gpu.id IS NOT NULL OR mpu.id IS NOT NULL')
       
-      ->select('count(DISTINCT s.id) AS nb')
+      ->groupBy('g.id, g.online, g.value, g.workspace_id')
+      ->select('g.id, g.online, g.workspace_id, count(DISTINCT s.id) AS nb')
     ;
-    $data = $q->fetchArray();
-    $this->json['gauges']['online'] = $data[0]['nb'];
     
-    // seats not available online for many reasons
-    $q = Doctrine::getTable('Manifestation')->createQuery('m', true)
-      ->andWhere('m.id = ?', $request->getParameter('id', 0))
-      ->leftJoin('me.Users meu')
-      ->andWhereIn('meu.username', sfConfig::get('app_manifestation_online_users', array()))
-      
-      ->leftJoin('m.Gauges g')
-      
-      ->leftJoin('l.SeatedPlans sp')
-      ->leftJoin('sp.Seats s')
-      ->leftJoin('s.Tickets tck WITH tck.manifestation_id = m.id')
-      ->andWhere('tck.id IS NULL')
-      
-      ->leftJoin('sp.Workspaces ws')
-      ->leftJoin('ws.Users wsu')
-      ->andWhere('g.workspace_id = ws.id')
+    $q1 = $q->copy()
       ->andWhereIn('wsu.username', sfConfig::get('app_manifestation_online_users', array()))
-      
-      ->leftJoin('m.Prices mp')
-      ->leftJoin('mp.Users mpu WITH mpu.username IN '.$prepare, sfConfig::get('app_manifestation_online_users', array()))
-      ->leftJoin('g.Prices gp')
-      ->leftJoin('gp.Users gpu WITH gpu.username IN '.$prepare, sfConfig::get('app_manifestation_online_users', array()))
-      
-      ->andWhere('g.online = ? OR gpu.id IS NULL AND mpu.id IS NULL', false)
-      
-      ->select('count(DISTINCT s.id) AS nb')
+      ->andWhereIn('meu.username', sfConfig::get('app_manifestation_online_users', array()))
+      ->having('g.online = ? AND COUNT(gpu.id) > 0 OR COUNT(mpu.id) > 0', true)
     ;
-    $data = $q->fetchArray();
-    $this->json['gauges']['offline'] = $data[0]['nb'];
+    $this->json['gauges']['online'] = 0;
+    foreach ( $q1->fetchArray() as $gauge )
+      $this->json['gauges']['online'] += $gauge['nb'];
+    
+    $q2 = $q->copy()
+      ->andWhereNotIn('wsu.username', sfConfig::get('app_manifestation_online_users', array()))
+      ->andWhereNotIn('meu.username', sfConfig::get('app_manifestation_online_users', array()))
+      ->having('g.online = ? OR COUNT(gpu.id) = 0 AND COUNT(mpu.id) = 0', false)
+    ;
+    $this->json['gauges']['offline'] = 0;
+    foreach ( $q2->fetchArray() as $gauge )
+      $this->json['gauges']['offline'] += $gauge['nb'];
     
     // total of free seats, in open AND in closed situations
     $this->json['gauges']['total'] = $this->json['gauges']['online'] + $this->json['gauges']['offline'];

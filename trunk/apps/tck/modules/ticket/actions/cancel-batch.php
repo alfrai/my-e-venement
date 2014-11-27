@@ -93,6 +93,7 @@
         $cancel->id =
         $cancel->duplicating =
         $cancel->transaction_id =
+        $cancel->seat_id =
         $cancel->sf_guard_user_id =
         $cancel->created_at = $cancel->updated_at =
         $cancel->printed_at = $cancel->integrated_at = NULL;
