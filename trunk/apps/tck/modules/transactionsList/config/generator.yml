@@ -26,6 +26,7 @@ generator:
         title: Transactions
         display: [id, _list_id, closed, _list_contact, _list_professional, transaction_id, _list_transaction_id, created_at, _list_first_user, updated_at, User]
         sort: [id, desc]
+        max_per_page: 50
       filter:
         display:
           Internals:
