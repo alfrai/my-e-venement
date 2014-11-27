@@ -14,6 +14,8 @@ class Professional extends PluginProfessional
 {
   public function __toString()
   {
+    if ( $this->isNew() )
+      return '';
     sfApplicationConfiguration::getActive()->loadHelpers(array('I18N'));
     return sprintf('%s %s %s',
       $this->Contact,
