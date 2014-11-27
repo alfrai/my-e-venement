@@ -35,6 +35,17 @@ class TransactionFormFilter extends BaseTransactionFormFilter
       'required' => false,
     ));
     
+    $this->widgetSchema['transaction_id'] = new sfWidgetFormInputText();
+    
+    $this->widgetSchema   ['created_by'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'sfGuardUser',
+      'add_empty' => true,
+    ));
+    $this->validatorSchema['created_by'] = new sfValidatorDoctrineChoice(array(
+      'model'    => 'sfGuardUser',
+      'required' => false,
+    ));
+    
     parent::configure();
   }
   public function setup()
@@ -43,6 +54,19 @@ class TransactionFormFilter extends BaseTransactionFormFilter
     parent::setup();
   }
   
+  public function addCreatedByColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    if ( !is_array($values) )
+      $values = array($values);
+    
+    $a = $q->getRootAlias();
+    $q->leftJoin("$a.Version v WITH version = 1")
+      ->andWhereIn('v.sf_guard_user_id', $values);
+    
+    return $q;
+  }
   public function addOrganismIdColumnQuery(Doctrine_Query $query, $field, $values)
   {
     $a = $query->getRootAlias();

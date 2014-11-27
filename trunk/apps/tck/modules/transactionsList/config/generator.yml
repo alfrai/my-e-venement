@@ -1,0 +1,37 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Transaction
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          transaction_transactionsList
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        list_first_user: { label: Created by }
+        list_professional: { label: Organism }
+        transaction_id: { label: Linked transactions }
+        list_contact: { label: Contact }
+        sf_guard_user_id: { label: User }
+      list:
+        actions: []
+        batch_actions: []
+        object_actions: []
+        title: Transactions
+        display: [id, _list_id, closed, _list_contact, _list_professional, transaction_id, _list_transaction_id, created_at, _list_first_user, updated_at, User]
+        sort: [id, desc]
+      filter:
+        display:
+          Internals:
+            [closed, created_at, created_by, updated_at, sf_guard_user_id, transaction_id]
+          Externals:
+            [contact_id, organism_id]
+      form:    ~
+      edit:    ~
+      new:     ~

@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Created by</source>
+        <target>Créé par</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Transactions</source>
+        <target>Opérations</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Linked transactions</source>
+        <target>Opérations liées</target>
+      </trans-unit>
+      <trans-unit>
         <source>Those informations are used in specific ledger extractions only</source>
         <target>Ces informations sont utilisées dans les extractions spécifiques de journaux seulement</target>
       </trans-unit>
