@@ -61,3 +61,5 @@ table tbody a:hover { text-decoration: underline; }
 
 .ui-widget-header a { float: right; margin-top: -2em; }
 .ui-datepicker a { float: none; margin-top: 0; }
+
+#cash-ledger thead td { cursor: pointer; }

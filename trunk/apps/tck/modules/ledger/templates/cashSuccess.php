@@ -1,5 +1,6 @@
 <?php include_partial('assets') ?>
 <?php include_partial('global/flashes') ?>
+<?php use_javascript('helper-cookies') ?>
 
 <div class="ui-widget-content ui-corner-all" id="cash-ledger">
   <div class="fg-toolbar ui-widget-header ui-corner-all">
@@ -27,7 +28,7 @@
 <table class="ui-widget-content ui-corner-all" id="ledger">
   <?php $total = array('qty' => 0, 'value' => 0) ?>
   <tbody><?php foreach ( $methods as $method ): ?><?php if ( $method->Payments->count() > 0 ): ?>
-    <tr class="method">
+    <tr class="method" data-id="<?php echo $method->id ?>">
       <?php
         $value = 0;
         foreach ( $method->Payments as $payment )
@@ -44,7 +45,7 @@
       <td class="user"></td>
     </tr>
     <?php foreach ( $method->Payments as $payment ): ?>
-    <tr class="payment method-<?php echo $method->id ?>">
+    <tr class="payment method-<?php echo $method->id ?>" data-method-id="<?php echo $method->id ?>" data-id="<?php echo $payment->id ?>">
       <td class="method"></td>
       <td class="see-more"></td>
       <td class="id-qty">#<?php echo link_to($payment->Transaction->id,'ticket/sell?id='.$payment->Transaction->id) ?></td>
