@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Transactions list</source>
+        <target>Liste des opérations</target>
+      </trans-unit>
+      <trans-unit>
         <source>Stats: IP addresses matching</source>
         <target>Stats: Aliases d'adresses IP</target>
       </trans-unit>

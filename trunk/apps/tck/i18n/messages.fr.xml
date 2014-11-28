@@ -989,6 +989,10 @@
         <target>Annulations</target>
       </trans-unit>
       <trans-unit>
+        <source>Payments</source>
+        <target>Paiements</target>
+      </trans-unit>
+      <trans-unit>
         <source>Payment method</source>
         <target>Méthode de paiement</target>
       </trans-unit>

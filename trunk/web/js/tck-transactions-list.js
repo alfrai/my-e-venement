@@ -12,6 +12,7 @@ $(document).ready(function(){
     {
       $(this).closest('tr').find('.sf_admin_list_td_list_details').hide().find('tbody > :not(.template)').remove();
       elts.show();
+      $('#transition .close').click();
     }
     else
     {
@@ -22,6 +23,7 @@ $(document).ready(function(){
         url: $(this).prop('href'),
         type: 'GET',
         success: function(json){
+          $('#transition .close').click();
           $.each(json, function(type, content){
             $.each(content, function(id, pdt){
               var telt = $(elt).closest('tr').find('.sf_admin_list_td_list_details .'+type+' tbody .template').clone().removeClass('template');
@@ -29,8 +31,10 @@ $(document).ready(function(){
               telt.find('> *:not(.special)').each(function(){
                 $(this).text(pdt[$(this).attr('class')]);
               });
-              telt.find('.contact.special a').prop('href', pdt.contact_url).text(pdt.contact);
-              telt.find('.id.special a').prop('href', pdt.id_url).text(pdt.id);
+              telt.find('> .special').each(function(){
+                var attr = $(this).attr('class').replace(' special', '');
+                telt.find('.'+attr+'.special a').prop('href', pdt[attr+'_url']).text(pdt[attr]);
+              });
               if ( !pdt.sold )
                 telt.addClass('not-sold');
               if ( pdt.cancelled )
@@ -41,7 +45,6 @@ $(document).ready(function(){
       });
     }
     
-    $('#transition .close').click();
     return false;
   });
 });

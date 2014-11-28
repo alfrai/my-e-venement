@@ -24,9 +24,11 @@ class transactionsListActions extends autoTransactionsListActions
     if ( $ticket->Duplicatas->count() == 0 )
       $this->json['tickets'][] = array(
         'id'          => $ticket->id,
-        'id_url'      => url_for('ticket/show?id='.$ticket->id),
+        'id_url'      => url_for('ticket/show?id='.$ticket->id, true),
         'family'      => $ticket->Manifestation->Event->short_name ? $ticket->Manifestation->Event->short_name : (string)$ticket->Manifestation->Event,
+        'family_url'  => cross_app_url_for('event', 'event/show?id='.$ticket->Manifestation->event_id, true),
         'product'     => $ticket->Manifestation->mini_date,
+        'product_url' => cross_app_url_for('event', 'manifestation/show?id='.$ticket->manifestation_id, true),
         'declination' => (string)$ticket->Gauge,
         'transaction_id' => $ticket->transaction_id,
         'cancelled'   => $ticket->hasBeenCancelled(),
@@ -52,7 +54,9 @@ class transactionsListActions extends autoTransactionsListActions
       if ( !isset($this->json['products'][$id = $pdt->price_id.' '.($pdt->isSold() ? 'sold' : '')]) )
         $this->json['products'][$id] = array(
           'family'      => (string)$pdt->Declination->Product->Category,
+          'family_url'  => cross_app_url_for('pos', 'category/edit?id='.$pdt->Declination->Product->product_category_id, true),
           'product'     => $pdt->Declination->Product->short_name ? $pdt->Declination->Product->short_name : (string)$pdt->Declination->Product,
+          'product_url' => cross_app_url_for('pos', 'product/edit?id='.$pdt->Declination->product_id, true),
           'declination' => (string)$pdt->Declination,
           'transaction_id' => $pdt->transaction_id,
           'price_name'  => (string)$pdt->Price,

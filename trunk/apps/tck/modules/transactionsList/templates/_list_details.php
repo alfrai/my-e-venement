@@ -2,8 +2,8 @@
   <tbody>
     <tr class="ticket template">
       <td class="id special"><a href="#"></a></td>
-      <td class="family"><a href="#"></a></td>
-      <td class="product"><a href="#"></a></td>
+      <td class="family special"><a href="#"></a></td>
+      <td class="product special"><a href="#"></a></td>
       <td class="declination"></td>
       <td class="price_name"></td>
       <td class="value_txt"></td>
@@ -32,8 +32,8 @@
   <tbody>
     <tr class="product template">
       <td class="id"></td>
-      <td class="family"><a href="#"></a></td>
-      <td class="product"><a href="#"></a></td>
+      <td class="family special"><a href="#"></a></td>
+      <td class="product special"><a href="#"></a></td>
       <td class="declination"></td>
       <td class="price_name"></td>
       <td class="value_txt"></td>

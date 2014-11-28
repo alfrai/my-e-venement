@@ -36,7 +36,8 @@
           <li><a href="<?php echo cross_app_url_for('tck','summary/duplicatas') ?>"><?php echo __('Duplicatas',array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('tck-reports') ): ?>
-          <li class="spaced show-ticket"><a href="<?php echo cross_app_url_for('tck','ticket/show') ?>"><?php echo __("Ticket's log",array(),'menu') ?></a></li>
+          <li class="spaced transactions-list"><a href="<?php echo cross_app_url_for('tck','transactionsList/index') ?>"><?php echo __("Transactions list",array(),'menu') ?></a></li>
+          <li class="show-ticket"><a href="<?php echo cross_app_url_for('tck','ticket/show') ?>"><?php echo __("Ticket's log",array(),'menu') ?></a></li>
           <li class="debts-report"><a href="<?php echo cross_app_url_for('tck','debts/index') ?>"><?php echo __("Debts report",array(),'menu') ?></a></li>
           <?php endif ?>
           <?php if ( $sf_user->hasCredential('tck-ledger-sales') ): ?>
