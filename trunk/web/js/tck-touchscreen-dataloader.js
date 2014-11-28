@@ -78,9 +78,9 @@ LI.completeContent = function(data, type, replaceAll = true)
       
       var wpdt = $('#li_transaction_'+type+' .families.sample .family:not(.total)').clone(true);
       var add = true;
-      if ( $('#'+wpdt.prop('id')+pdt.id).length > 0 )
+      if ( $('#li_transaction_'+type+' #'+wpdt.prop('id')+pdt.id).length > 0 )
       {
-        wpdt = $('#'+wpdt.prop('id')+pdt.id);
+        wpdt = $('#li_transaction_'+type+' #'+wpdt.prop('id')+pdt.id);
         add = false;
       }
       else
@@ -127,7 +127,7 @@ LI.completeContent = function(data, type, replaceAll = true)
         var add = true;
         if ( $('#li_transaction_'+type+' [data-'+declination.type+'-id='+declination.id+']').length > 0 )
         {
-          wdeclination = $('#'+wdeclination.prop('id')+declination.id);
+          wdeclination = $('#li_transaction_'+type+' [data-'+declination.type+'-id='+declination.id+']');
           add = false;
         }
         else

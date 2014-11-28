@@ -48,7 +48,6 @@ $(document).ready(function(){
   $('#li_transaction_field_content .qty a').click(function(){
     var input = $(this).closest('.qty').find('input');
     var newval = parseInt(input.val(),10)+($(this).is(':first-child') ? -1 : 1)
-    console.error(newval < 0 ? 0 : newval);
     input.val(newval < 0 ? 0 : newval).change();
   });
   $('#li_transaction_field_content .qty input').focusout(function(){ return false; }).select(function(){
