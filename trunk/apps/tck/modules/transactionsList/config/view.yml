@@ -1,2 +1,8 @@
 all:
-  stylesheets: [tck-transactions-list, list-scroll]
+  stylesheets: [tck-transactions-list]
+  javascripts: [tck-transactions-list, list-scroll, helper]
+showJson:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+        

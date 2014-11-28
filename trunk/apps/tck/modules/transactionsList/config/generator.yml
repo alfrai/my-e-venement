@@ -19,12 +19,20 @@ generator:
         transaction_id: { label: Linked transactions }
         list_contact: { label: Contact }
         sf_guard_user_id: { label: User }
+        list_details: { label: Details }
+        list_payments_list: { label: Payments }
+        list_order: { label: Order }
+        list_invoice: { label: Invoice }
+        list_price: { label: Total }
       list:
         actions: []
         batch_actions: []
-        object_actions: []
+        object_actions:
+          _showUp:
+            action: show
+            label: Show up
         title: Transactions
-        display: [id, _list_id, closed, _list_contact, _list_professional, transaction_id, _list_transaction_id, created_at, _list_first_user, updated_at, User]
+        display: [id, _list_id, closed, _list_payments_list, _list_price, _list_contact, _list_professional, transaction_id, _list_transaction_id, _list_order, _list_invoice, created_at, _list_first_user, updated_at, User, _list_details]
         sort: [id, desc]
         max_per_page: 50
       filter:

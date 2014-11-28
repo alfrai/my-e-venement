@@ -90,4 +90,20 @@ class MemberCard extends PluginMemberCard
     
     throw new liEvenementException('The member card cannot be deleted neither deactivated.');
   }
+  public function getFormattedDate()
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
+    return format_datetime($this->expire_at,'EEEE d MMMM yyyy HH:mm');
+  }
+  public function getShortenedDate()
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
+    return format_datetime($this->expire_at,'EEE d MMM yyyy HH:mm');
+  }
+  public function getMiniDate()
+  {
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
+    return format_datetime($this->expire_at,'dd/MM/yyyy HH:mm');
+  }
 }
+

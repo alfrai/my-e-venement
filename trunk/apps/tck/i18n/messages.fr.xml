@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Expire at</source>
+        <target>Date d'échéance</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Category</source>
+        <target>Catégorie</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Declination</source>
+        <target>Déclinaison</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Show up</source>
+        <target>Afficher</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Details</source>
+        <target>Détails</target>
+      </trans-unit>
+      <trans-unit>
         <source>Created by</source>
         <target>Créé par</target>
       </trans-unit>

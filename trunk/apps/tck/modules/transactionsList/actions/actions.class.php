@@ -13,4 +13,85 @@ require_once dirname(__FILE__).'/../lib/transactionsListGeneratorHelper.class.ph
  */
 class transactionsListActions extends autoTransactionsListActions
 {
+  public function executeShow(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'Number'));
+    parent::executeShow($request);
+    $this->json = array('tickets' => array(), 'products' => array(), 'member_cards' => array());
+    
+    // tickets
+    foreach ( $this->transaction->Tickets as $ticket )
+    if ( $ticket->Duplicatas->count() == 0 )
+      $this->json['tickets'][] = array(
+        'id'          => $ticket->id,
+        'id_url'      => url_for('ticket/show?id='.$ticket->id),
+        'family'      => $ticket->Manifestation->Event->short_name ? $ticket->Manifestation->Event->short_name : (string)$ticket->Manifestation->Event,
+        'product'     => $ticket->Manifestation->mini_date,
+        'declination' => (string)$ticket->Gauge,
+        'transaction_id' => $ticket->transaction_id,
+        'cancelled'   => $ticket->hasBeenCancelled(),
+        'price_name'  => (string)$ticket->Price,
+        'price_id'    => $ticket->price_id,
+        'value'       => $ticket->value,
+        'value_txt'   => format_currency($ticket->value,'€'),
+        'taxes'       => $ticket->taxes,
+        'taxes_txt'   => format_currency($ticket->taxes,'€'),
+        'vat'         => $ticket->vat,
+        'vat_txt'     => format_currency($ticket->vat*100, '%'),
+        'seat_id'     => $ticket->seat_id,
+        'seat_name'   => (string)$ticket->Seat,
+        'contact_id'  => $ticket->contact_id,
+        'contact'     => (string)$ticket->DirectContact,
+        'contact_url' => cross_app_url_for('rp', 'contact/edit?id='.$ticket->contact_id, true),
+        'sold'        => $ticket->isSold(),
+      );
+    
+    // products
+    foreach ( $this->transaction->BoughtProducts as $pdt )
+    {
+      if ( !isset($this->json['products'][$id = $pdt->price_id.' '.($pdt->isSold() ? 'sold' : '')]) )
+        $this->json['products'][$id] = array(
+          'family'      => (string)$pdt->Declination->Product->Category,
+          'product'     => $pdt->Declination->Product->short_name ? $pdt->Declination->Product->short_name : (string)$pdt->Declination->Product,
+          'declination' => (string)$pdt->Declination,
+          'transaction_id' => $pdt->transaction_id,
+          'price_name'  => (string)$pdt->Price,
+          'price_id'    => $pdt->price_id,
+          'value'       => $pdt->value,
+          'value_txt'   => format_currency($pdt->value,'€'),
+          'vat'         => $pdt->vat,
+          'vat_txt'     => format_currency($pdt->vat*100, '%'),
+          'sold'        => $pdt->isSold(),
+          'qty'         => 1,
+          'total'       => $pdt->value,
+          'total_txt'   => format_currency($pdt->value, '€'),
+        );
+      else
+      {
+        $this->json['products'][$id]['qty']++;
+        $this->json['products'][$id]['total'] += $pdt->value;
+        $this->json['products'][$id]['total_txt'] = format_currency($this->json['products'][$id]['total'], '€');
+      }
+    }
+    
+    // member_cards
+    foreach ( $this->transaction->MemberCards as $mc )
+    if ( $mc->active )
+    {
+      $this->json['member_cards'][] = array(
+        'id'          => $mc->id,
+        'product'     => (string)$mc->MemberCardType,
+        'declination' => $mc->mini_date,
+        'transaction_id' => $mc->transaction_id,
+        'value'       => $pdt->value,
+        'value_txt'   => format_currency($pdt->value,'€'),
+        'contact_id'  => $mc->contact_id,
+        'contact'     => (string)$mc->Contact,
+        'contact_url' => cross_app_url_for('rp', 'contact/edit?id='.$mc->contact_id, true),
+      );
+    }
+    
+    if (!( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') ))
+      return 'Json';
+  }
 }

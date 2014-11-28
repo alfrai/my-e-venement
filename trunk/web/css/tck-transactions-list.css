@@ -1,0 +1,22 @@
+#sf_admin_container .sf_admin_list_td_list_payments_list ul { list-style-type: none; }
+.sf_admin_list_td_list_payments_list .total { border-top: 1px solid gray; margin-top: 3px; padding-top: 3px; }
+.sf_admin_list_td_list_payments_list .value { display: inline-block; text-align: right; width: 6em; }
+#sf_admin_container .sf_admin_list_td_list_payments_list ul ul { list-style-type: disc; margin-left: 15px; display: none; }
+.sf_admin_list_th_list_transaction_id, .sf_admin_list_td_transaction_id, .sf_admin_list_th_list_id, .sf_admin_list_td_id { display: none; }
+.sf_admin_action_showup .fg-button { background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png'); background-position: -224px -48px; }
+.sf_admin_action_showup .fg-button.tdp-opened { background-position: -192px -48px; }
+.sf_admin_list_th_list_invoice, .sf_admin_list_th_list_order { max-width: 6em; overflow: hidden; }
+.sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_id, .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_invoice, .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_order { text-align: right; }
+
+.sf_admin_list_th_list_details, .sf_admin_list_td_list_details { display: none; }
+.sf_admin_list_td_list_details table { width: auto; }
+.sf_admin_list_td_list_details thead td { font-weight: bold; }
+.sf_admin_list_td_list_details .template { display: none; }
+.sf_admin_list_td_list_details .not-sold { font-style: italic; }
+.sf_admin_list_td_list_details .cancelled { text-decoration: line-through; }
+.sf_admin_list_td_list_details table tbody tr.sf_admin_row td.value_txt, .sf_admin_list_td_list_details table tbody tr.sf_admin_row td.taxes_txt, .sf_admin_list_td_list_details table tbody tr.sf_admin_row td.vat_txt, .sf_admin_list_td_list_details table tbody tr.sf_admin_row td.qty, .sf_admin_list_td_list_details table tbody tr.sf_admin_row td.total { text-align: right; width: 6em; }
+.sf_admin_list_td_list_details .price_name { width: 6em; overflow: hidden; }
+.sf_admin_list_td_list_details .family, .sf_admin_list_td_list_details .product, .sf_admin_list_td_list_details .declination { width: 9em; overflow: hidden; }
+.sf_admin_list_td_list_details .id { font-size: 60%; width: 6em; }
+.sf_admin_list_td_list_details .tickets tbody .id:before, .sf_admin_list_td_list_details .member_cards tbody .id:before { content: '#'; }
+.sf_admin_list_td_list_details .products tbody .value_txt, .sf_admin_list_td_list_details .products tbody .taxes_txt, .sf_admin_list_td_list_details .products tbody .vat_txt { color: silver; }
