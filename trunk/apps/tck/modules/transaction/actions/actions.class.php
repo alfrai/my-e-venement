@@ -361,7 +361,7 @@ class transactionActions extends autoTransactionActions
   {
     $this->getContext()->getConfiguration()->loadHelpers(array('Url'));
     $this->getUser()->setFlash('referer', url_for('transaction/closeWindow'));
-    $this->redirect('ticket/seatsAllocation?id='.$request->getParameter('id').'&gauge_id='.$request->getParameter('gauge_id').'&add_tickets=true');
+    $this->redirect('ticket/seatsAllocation?type=close&id='.$request->getParameter('id').'&gauge_id='.$request->getParameter('gauge_id').'&add_tickets=true');
   }
   public function executeCloseWindow(sfWebRequest $request)
   { }

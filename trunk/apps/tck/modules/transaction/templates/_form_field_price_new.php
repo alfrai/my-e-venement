@@ -19,6 +19,6 @@
 <span class="count-demands"></span>
 <?php endif ?>
 </form>
-<form action="<?php echo url_for('transaction/seatsFirst?id='.$transaction->id) ?>" target="_blank" class="seats-first">
+<form action="<?php echo url_for('transaction/seatsFirst?id='.$transaction->id) ?>" target="_blank" class="seats-first" method="get">
   <button type="submit" name="gauge_id" value=""><?php echo __('Seats first') ?></button>
 </form>
