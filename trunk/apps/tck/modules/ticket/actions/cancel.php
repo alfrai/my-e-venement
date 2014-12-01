@@ -93,6 +93,8 @@
       $orig = $q->fetchOne();
       
       // linking a new cancel ticket to this transaction
+      $ticket->seat_id = NULL;
+      $ticket->save();
       $this->ticket = $ticket->copy();
       $this->ticket->cancelling = $ticket->getOriginal()->id;
       $this->ticket->duplicating =

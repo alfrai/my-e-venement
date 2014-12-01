@@ -106,9 +106,11 @@
   foreach ( $tickets as $ticket )
   if ( !$ticket->hasBeenCancelled() )
   {
+    $ticket->seat_id = NULL;
+    $ticket->save();
     $cancel = $ticket->copy();
     $cancel->value = -$cancel->value;
-    $cancel->cancelling = $ticket->id;
+    $cancel->cancelling = $ticket->getOriginal()->id;
     $cancel->id = $cancel->duplicating = $cancel->transaction_id = $cancel->sf_guard_user_id = NULL;
     $cancel->seat_id =
     $cancel->printed_at =

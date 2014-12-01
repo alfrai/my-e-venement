@@ -89,6 +89,8 @@
     {
       if ( !$ticket->hasBeenCancelled() )
       {
+        $ticket->seat_id = NULL;
+        $ticket->save();
         $cancel = $ticket->copy();
         $cancel->id =
         $cancel->duplicating =
@@ -98,7 +100,7 @@
         $cancel->created_at = $cancel->updated_at =
         $cancel->printed_at = $cancel->integrated_at = NULL;
         $cancel->value = -$cancel->value;
-        $cancel->cancelling = $ticket->id;
+        $cancel->cancelling = $ticket->getOriginal()->id;
         $translinked->Tickets[] = $cancel;
       }
       $value += $ticket->value;
