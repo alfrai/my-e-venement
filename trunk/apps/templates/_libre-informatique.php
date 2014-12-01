@@ -1,6 +1,6 @@
 <p style="margin: 0 10px 20px 0; float: left;"><?php echo image_tag('logo-librinfo.png','alt=Libre Informatique') ?></p>
 <p style="margin-bottom: 10px;">
-  Depuis 7 ans, <a href="http://www.libre-informatique.fr" target="_blank">Libre Informatique</a>
+  Depuis 8 ans, <a href="http://www.libre-informatique.fr" target="_blank">Libre Informatique</a>
   est   une   coopération
   d'informaticiens qui s'attache  à ce que l'informatique soit avant
   tout un outil efficient qui se façonne à vos usages, à vos ouvrages,
