@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
 <?php
-class AutoSeatingTestTask extends sfBaseTask{
+class ParseApacheLogsTask extends sfBaseTask{
 
   protected function configure() {
     $this->addArguments(array(
