@@ -24,6 +24,9 @@
         </label>
         <span class="contact_id" title="<?php echo __('Contact') ?>"><?php echo $form['contact_id'] ?></span>
         <span class="comment" title="<?php echo __('Comment') ?>"><?php echo $form['comment'] ?></span>
+        <?php try { ?>
+        <span class="price_id"><?php echo $form['price_id'] ?></span>
+        <?php  } catch ( InvalidArgumentException $e ) { } ?>
         <?php if ( $sf_user->hasCredential('tck-transaction-reduc') ): ?>
         <span class="reduc" title="<?php echo __('Reduction') ?>"><?php echo $form['reduc'] ?> (€|%)</span>
         <span class="value"><?php echo format_currency($ticket->value, '€') ?></span>
