@@ -36,6 +36,7 @@
   
   $q = Doctrine::getTable('Manifestation')->createQuery('m')
     ->leftJoin('m.Tickets tck')
+    ->leftJoin('tck.Gauge tckg')
     ->leftJoin('tck.Transaction t')
     ->andWhere('t.id = ?',$this->transaction_id)
     ->andWhere('tck.id NOT IN (SELECT tck2.duplicating FROM Ticket tck2 WHERE tck2.duplicating IS NOT NULL)')
@@ -54,13 +55,21 @@
     $this->redirect('ticket/print?id='.$this->transaction_id.'&manifestation_id='.$this->manifestations[0]->id);
   
   $gauges = array();
+  $to_be_seated = array();
   foreach ( $this->manifestations as $manif )
   foreach ( $manif->Tickets as $ticket )
   if ( !$ticket->seat_id )
     $gauges[$ticket->gauge_id] = $ticket->gauge_id;
   if ( count($gauges) > 0 )
   {
+    if ( !isset($gauges[$ticket->gauge_id]) )
+      $gauges[$ticket->gauge_id] = $ticket->Gauge;
+    if ( $gauges[$ticket->gauge_id]->getSeatedPlan() )
+      $to_be_seated[] = $ticket->gauge_id;
+  }
+  if ( count($to_be_seated) > 0 )
+  {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     $this->getUser()->setFlash('notice', __('You must seat all your tickets before print them, even partially'));
-    $this->redirect('ticket/seatsAllocation?id='.$this->transaction_id.'&type=partial&gauge_id='.array_pop($gauges));
+    $this->redirect('ticket/seatsAllocation?id='.$this->transaction_id.'&type=partial&gauge_id='.array_pop($to_be_seated));
   }
