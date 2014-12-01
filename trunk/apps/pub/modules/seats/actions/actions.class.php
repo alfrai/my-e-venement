@@ -74,7 +74,7 @@ class seatsActions extends sfActions
       $this->debug = true;
       $this->getResponse()->setContentType('text/html');
       $this->getResponse()->sendHttpHeaders();
-      $this->setLayout('public');
+      $this->setLayout(sfConfig::get('app_options_template', 'public'));
     }
     else
       sfConfig::set('sf_web_debug', false);

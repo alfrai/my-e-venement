@@ -16,17 +16,24 @@ $(document).ready(function(){
         return;
       
       // for free prices
-      var free_price_selector = '[name="store[free-price]"]';
-      $(this).closest('form').find(free_price_selector).val(
-        $(this).closest('[data-price-id]')
-          .find('.value '+free_price_selector).val()
-      );
+      if ( $(this).closest('.free-price').length == 0 )
+      {
+        var free_price_selector = '[name="store[free-price]"]';
+        $(this).closest('form').find(free_price_selector).val(
+          $(this).closest('[data-price-id]')
+            .find('.value '+free_price_selector).val()
+        );
+      }
       
       $(this).closest('form').submit();
     });
     $(this).submit(function(){
       if ( window.location.hash == '#debug' )
+      {
+        $(this).prop('method', 'get');
         return true;
+      }
+      $(this).prop('method', 'post');
       
       var form = this;
       $.ajax({
@@ -38,7 +45,11 @@ $(document).ready(function(){
           console.log('fail: '+orig);
         },
         success: function(json){
-          orig = $(form).find('select').val();
+          if ( $(form).closest('.free-price').length > 0 )
+            $(form).closest('.free-price').remove();
+          else
+            orig = $(form).find('select').val();
+          $(form).closest('[data-price-id]').find('.value [name="store[free-price]"]').prop('readonly', orig > 0);
           if ( json.success.message )
             LI.alert(json.success.message, 'success');
           if ( json.error.message )

@@ -55,7 +55,23 @@ if ( $count == 0 )
     return 'Error';
 }
 
-$qty = $store['qty'] - $count;
+// "pay what you want" feature
+$pp = Doctrine::getTable('PriceProduct')->createQuery('pp')
+  ->leftJoin('pp.Product p')
+  ->leftJoin('p.Declinations d')
+  ->andWhere('pp.price_id = ?', $store['price_id'])
+  ->andWhere('d.id = ?',$store['declination_id'])
+  ->select('pp.id, pp.value')
+;
+$free_price = is_null($pp->fetchOne()->value)
+  ? floatval(
+    floatval($store['free-price']) <= 0
+    ? sfConfig::get('project_tickets_free_price_default', 1)
+    : $store['free-price']
+  )
+  : NULL;
+$qty = !is_null($free_price) ? $store['qty'] * 2 - 1 : $store['qty'] - $count;
+
 if ( $qty == 0 )
 {
   $this->json['success']['qty'] = $q->andWhere('bp.integrated_at IS NULL OR bp.member_card_id IS NOT NULL')->count();
@@ -63,38 +79,24 @@ if ( $qty == 0 )
 }
 elseif ( $qty < 0 )
 {
-  $bps = $q->limit(abs($qty))
-    ->execute();
+  $q->limit(abs($qty));
+  if ( !is_null($free_price) )
+    $q->andWhere('bp.value = ?', $free_price);
+  $bps = $q->execute();
+  $nb = $bps->count();
   $bps->delete();
-  $this->json['success']['qty'] = $q->count();
+  $this->json['success']['qty'] = $nb;
 }
 elseif ( $qty > 0 )
 {
-  // "pay what you want" feature
-  $pp = Doctrine::getTable('PriceProduct')->createQuery('pp')
-    ->leftJoin('pp.Product p')
-    ->leftJoin('p.Declinations d')
-    ->andWhere('pp.price_id = ?', $store['price_id'])
-    ->andWhere('d.id = ?',$store['declination_id'])
-    ->select('pp.id, pp.value')
-  ;
-  $free_price = $pp->fetchOne()->value === NULL ? intval(intval($store['free-price']) < 0 ? sfConfig::get('project_tickets_free_price_default', 1) : $store['free-price']) : NULL;
-  // updating all products
-  if ( $free_price )
-  foreach ( $q->execute() as $product )
-  {
-    $product->value = $store['free-price'];
-    $product->save();
-  }
-  
   // adding ...
-  for ( $i = 0 ; $i < $qty ; $i++ )
+  for ( $i = 0 ; $i < ($free_price ? 1 : $qty) ; $i++ )
   {
     $bp = new BoughtProduct;
     $bp->product_declination_id = $store['declination_id'];
     $bp->price_id = $store['price_id'];
     $bp->transaction_id = $this->getUser()->getTransactionId();
-    if ( $free_price !== NULL )
+    if ( !is_null($free_price) )
       $bp->value = $free_price;
     $bp->save();
     $this->json['success']['qty'] = $q->count();
@@ -105,7 +107,7 @@ if (!( $request->hasParameter('debug') && sfConfig::get('sf_web_debug', false) )
   sfConfig::set('sf_web_debug', false);
 else
 {
-  $this->setLayout('public');
+  $this->setLayout(sfConfig::get('app_options_template', 'public'));
   $this->getResponse()->setContentType('text/html');
 }
 return 'Success';

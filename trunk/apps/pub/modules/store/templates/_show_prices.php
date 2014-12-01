@@ -18,6 +18,38 @@
 <table class="prices">
 <?php if ( $declination->Product->PriceProducts->count() > 0 ): ?>
 <tbody>
+<?php foreach ( $sf_user->getTransaction()->BoughtProducts as $bp ): ?>
+<?php if ( $bp->product_declination_id == $declination->id ): ?>
+<?php
+  $continue = false;
+  foreach ( $declination->Product->PriceProducts as $pp )
+  if ( $pp->price_id == $bp->price_id && !is_null($pp->value) )
+    $continue = true;
+  if ( $continue )
+    continue;
+?>
+  <tr data-price-id="<?php echo $bp->price_id ?>" class="free-price">
+    <td class="price">
+      <?php echo $bp->Price->description ? $bp->Price->description : $bp->Price ?>
+    </td>
+    <td class="value">
+      <?php echo format_currency($bp->value,'€') ?>
+    </td>
+    <td class="quantity">
+      <form method="post" action="<?php echo url_for('store/mod') ?>" target="_blank" class="price_qty">
+        <input type="hidden" name="store[declination_id]" value="<?php echo $bp->product_declination_id ?>" />
+        <input type="hidden" name="store[price_id]" value="<?php echo $bp->price_id ?>" />
+        <input type="hidden" name="store[free-price]" value="<?php echo $bp->value ?>" />
+        <select name="store[qty]">
+          <option>0</option>
+          <option selected="selected">1</option>
+        </select>
+      </form>
+    </td>
+    <td class="total"><?php echo format_currency(0,'€') ?></td>
+  </tr>
+<?php endif ?>
+<?php endforeach ?>
 <?php foreach ( $declination->Product->PriceProducts as $pp ): ?>
 <?php if ( $pp->Price->PricePOS->count() > 0 ): ?>
   <tr data-price-id="<?php echo $pp->price_id ?>">
