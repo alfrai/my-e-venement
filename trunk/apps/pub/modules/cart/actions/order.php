@@ -70,7 +70,7 @@
       
       try
       {
-        if ( !$this->form->isValid() )
+        if ( !$this->form->isValid() || sfConfig::get('app_texts_terms_conditions') && !$request->hasParameter('terms_conditions') )
         {
           error_log('An error occurred registering a contact ('.$this->form->getErrorSchema().')');
           $this->setTemplate('register');

@@ -153,6 +153,14 @@ $(document).ready(function(){
     });
     return false;
   });
+  
+  // terms & conditions
+  $('#contact-form .terms_conditions input').change(function(){
+    if ( $(this).is(':checked') )
+      $(this).closest('p').removeClass('error');
+    else
+      $(this).closest('p').addClass('error');
+  });
 });
 
 LI.manifCalculateTotal = function(elt){

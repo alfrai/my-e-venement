@@ -56,6 +56,8 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #contact-form .special_groups_list input { width: auto; }
 #contact-form .field.error { border: 1px solid red; }
 #contact-form .submit { margin-left: 142px; }
+#contact-form .field.terms_conditions label { display: inline; font-weight: normal; float: none; }
+#contact-form .field.terms_conditions input { width: auto; }
 
 #member_card_types .qty input, #member_card_types .qty, #member_card_types .total, #member_card_types .value { text-align: right; }
 #member_card_types .qty input { width: 2em; }
