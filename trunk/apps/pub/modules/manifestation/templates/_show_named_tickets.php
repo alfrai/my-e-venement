@@ -1,3 +1,5 @@
+<?php use_javascript('pub-named-tickets?'.date('Ymd')) ?>
+<?php use_stylesheet('pub-named-tickets?'.date('Ymd')) ?>
 <form
   action="<?php echo url_for('ticket/modNamedTickets?manifestation_id='.$manifestation->id
     .(isset($ticket) && $ticket->getRawValue() instanceof Ticket ? '&ticket_id='.$ticket->id : '')
@@ -7,8 +9,6 @@
   class="named-tickets"
   <?php echo isset($ticket) && $ticket->getRawValue() instanceof Ticket ? 'id="ticket-'.$ticket->id.'"' : '' ?>
 >
-  <?php use_javascript('pub-named-tickets?'.date('Ymd')) ?>
-  <?php use_stylesheet('pub-named-tickets?'.date('Ymd')) ?>
   <h3><?php echo __('Customize your seats') ?></h3>
   <div class="ticket sample">
     <h4>

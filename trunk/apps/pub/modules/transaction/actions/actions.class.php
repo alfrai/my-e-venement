@@ -118,6 +118,11 @@ class transactionActions extends sfActions
     }
     
     $this->current_transaction = $this->transaction->id === $this->getUser()->getTransaction()->id;
+    if ( !$this->current_transaction && $this->transaction->closed )
+    {
+      $this->transaction->closed = false;
+      $this->transaction->save();
+    }
     
     // Tickets
     $q = Doctrine_Query::create()->from('Event e')

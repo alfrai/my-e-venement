@@ -31,10 +31,10 @@
   $q = Doctrine::getTable('Ticket')->createQuery('tck')
     ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
     ->andWhere('tck.transaction_id = ?', $request->getParameter('transaction_id', $this->getUser()->getTransactionId()))
-    ->andWhere('tck.printed_at IS NULL')
-    ->andWhere('tck.integrated_at IS NULL')
+    //->andWhere('tck.printed_at IS NULL')
+    //->andWhere('tck.integrated_at IS NULL')
     ->andWhere('tck.cancelling IS NULL')
-    ->andWhere('tck.duplicating IS NULL')
+    //->andWhere('tck.duplicating IS NULL')
     //->andWhere('tck.price_id IS NOT NULL')
     
     ->leftJoin('tck.Seat s')
