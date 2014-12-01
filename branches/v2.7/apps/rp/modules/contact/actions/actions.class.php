@@ -584,13 +584,13 @@ class contactActions extends autoContactActions
   }
   public static function sanitizeSearch($search)
   {
-    $nb = strlen($search);
+    $nb = mb_strlen($search);
     $charset = sfConfig::get('software_internals_charset');
     $transliterate = sfConfig::get('software_internals_transliterate',array());
     
-    $search = str_replace(array('@','.','-','+',',',"'"),' ',strtolower(iconv($charset['db'],$charset['ascii'],substr($search,$nb-1,$nb) == '*' ? substr($search,0,$nb-1) : $search)));
-    $search = str_replace(array_keys($transliterate), array_values($transliterate), $search);
-    
+    $search = str_replace(preg_split('//u', $transliterate['from'], -1), preg_split('//u', $transliterate['to'], -1), $search);
+    $search = str_replace(array('@','.','-','+',',',"'"),' ',$search);
+    $search = mb_strtolower(iconv($charset['db'],$charset['ascii'], mb_substr($search,$nb-1,$nb) == '*' ? mb_substr($search,0,$nb-1) : $s$
     return $search;
   }
 }
