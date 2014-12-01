@@ -31,4 +31,9 @@ class Gauge extends PluginGauge
       $this->value = 0;
     parent::preSave($event);
   }
+  
+  public function getSeatedPlan()
+  {
+    return $this->Manifestation->Location->getWorkspaceSeatedPlan($this->workspace_id);
+  }
 }

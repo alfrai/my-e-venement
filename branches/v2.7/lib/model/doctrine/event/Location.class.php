@@ -30,7 +30,7 @@ class Location extends PluginLocation
   public function getWorkspaceSeatedPlan($workspace_id)
   {
     if ( intval($workspace_id) == 0 )
-      throw new liSeatedException('Bad workspace_id given.');
+      throw new liSeatedException('Bad workspace_id given: '.$workspace_id);
     
     foreach ( $this->SeatedPlans as $seated_plan )
     foreach ( $seated_plan->Workspaces as $ws )
