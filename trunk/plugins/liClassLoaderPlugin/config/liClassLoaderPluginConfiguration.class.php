@@ -23,8 +23,8 @@
 ?>
 <?php
 
-require_once __DIR__.'/../lib/vendor/UniversalClassLoader.php';
-require_once __DIR__.'/../lib/vendor/ApcUniversalClassLoader.php';
+require_once __DIR__.'/../lib/vendor/ClassLoader.php';
+require_once __DIR__.'/../lib/vendor/ApcClassLoader.php';
 
 class liClassLoaderPluginConfiguration extends sfPluginConfiguration
 {

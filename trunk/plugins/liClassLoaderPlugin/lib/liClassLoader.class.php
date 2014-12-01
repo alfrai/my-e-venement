@@ -23,8 +23,8 @@
 ?>
 <?php
 // adding this to be sure... because it is also included in the config/liClassLoaderPluginConfiguration.class.php file
-require_once __DIR__.'/../lib/vendor/UniversalClassLoader.php';
-require_once __DIR__.'/../lib/vendor/ApcUniversalClassLoader.php';
+require_once __DIR__.'/../lib/vendor/ClassLoader.php';
+require_once __DIR__.'/../lib/vendor/ApcClassLoader.php';
 
 class liClassLoader
 {
@@ -33,8 +33,8 @@ class liClassLoader
   public function __construct()
   {
     $this->loader = extension_loaded('apc')
-      ? new Symfony\Component\ClassLoader\ApcUniversalClassLoader('S2A')
-      : new Symfony\Component\ClassLoader\UniversalClassLoader()
+      ? new Symfony\Component\ClassLoader\ApcClassLoader('S2A')
+      : new Symfony\Component\ClassLoader\ClassLoader()
     ;
   }
   public static function create()
@@ -52,9 +52,7 @@ class liClassLoader
     **/
   public function register($namespace, $path)
   {
-    $this->loader->registerNamespaces(array(
-      $namespace => $path,
-    ));
+    $this->loader->addPrefix($namespace, $path);
     $this->loader->register();
     return $this;
   }
