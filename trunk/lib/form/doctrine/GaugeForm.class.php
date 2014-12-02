@@ -12,6 +12,8 @@ class GaugeForm extends BaseGaugeForm
 {
   public function configure()
   {
+    unset($this->widgetSchema['prices_list']);
+    
     $this->widgetSchema['manifestation_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Manifestation',
       'url' => url_for('manifestation/ajax'),
