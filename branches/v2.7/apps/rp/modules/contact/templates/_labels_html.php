@@ -31,7 +31,7 @@
     <?php include_title() ?>
     <style type="text/css"><?php include_partial('contact/labels_css',array('params' => $params)) ?></style>
   </head>
-  <body class="labels">
+  <body class="labels pdf">
     <?php include_partial('labels',array('labels' => $labels, 'params' => $params, 'fields' => $fields, )) ?>
   </body>
 </html>

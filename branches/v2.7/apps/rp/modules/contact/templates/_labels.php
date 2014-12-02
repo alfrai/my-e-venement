@@ -41,5 +41,5 @@
     <p class="pays"><?php echo $cell['country'] ?></p>
     <p class="email"><?php echo $cell['email'] ?></p>
     <p class="tel"><?php echo $cell['phonenumber'] ?></p>
-</div></div><?php if ( isset($line[$key+1]) ): ?><div class="margin cell"></div><?php endif ?>
+</div></div><?php if ( isset($line[$key+1]) ): ?><div class="margin cell"> </div><?php endif ?>
 <?php endforeach; ?></div><?php endforeach; ?></div></div><?php endforeach; ?>

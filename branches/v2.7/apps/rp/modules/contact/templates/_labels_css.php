@@ -90,11 +90,12 @@ body.labels .labels > div > div:last-child div.content {
 
 /* text style */
 body.labels { font-size: 12px; }
-body.labels .labels > div .content p { text-align: center; }
+body.labels .labels > div .content p { text-align: center; padding: 0 <?php echo $params['padding-x'] ? $params['padding-x'] : 0 ?>mm; }
 body.labels .labels > div .content .org { font-weight: bold; }
 body.labels .labels > div .content .org { text-transform: uppercase; }
 body.labels .labels > div .content .tels,
 body.labels .labels > div .content .email,
 body.labels .labels > div .content .pro { font-size: 9px; }
 
+<?php $params = $params->getRawValue() ?>
 <?php echo $params['free-css'] ?>
