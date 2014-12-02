@@ -1,13 +1,13 @@
 #sf_admin_filter {
   background-color: white;
   position: absolute;
-  margin: 70px 0 0 -200px;
+  margin: 70px 0 0 -250px;
   left: 50%;
   width: 400px;
   display: none;
 }
 #sf_admin_filter > div {
-  width: 392px;
+  width: 500px;
 }
 #criterias {
   margin-top: 5px;
