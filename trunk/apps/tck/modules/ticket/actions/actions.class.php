@@ -351,6 +351,7 @@ class ticketActions extends sfActions
     
     // WARNIIIING CAUTION
     $ticket->printed_at = NULL;
+    $ticket->integrated_at = NULL;
     $ticket->save();
     
     $this->redirect('ticket/show?id='.$ticket->id);

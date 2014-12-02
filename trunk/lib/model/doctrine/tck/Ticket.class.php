@@ -88,7 +88,7 @@ class Ticket extends PluginTicket
   public function needsSeating()
   {
     // if already seated
-    if ( $this->seat_id )
+    if ( !is_null($this->seat_id) )
       return false;
     
     // if not seated, does it need seating ?

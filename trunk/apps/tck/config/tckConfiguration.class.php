@@ -71,12 +71,12 @@ class tckConfiguration extends sfApplicationConfiguration
     $cpt = 0;
     $paid = $event['transaction']->getPaid();
     foreach ( $event['transaction']->getItemables() as $pdt )
-    if ( !$pdt->isSold() )
+    if ( !$pdt->isSold() ) // if something has to be done
     {
-      $pdt->integrated_at = date('Y-m-d H:i:s');
+      $pdt->integrated_at = date('Y-m-d H:i:s'); // integrate
       if ( $event['transaction']->getPrice(false, true) > $paid
         || $pdt instanceof Ticket && $pdt->needsSeating() )
-        $pdt->integrated_at = NULL;
+        $pdt->integrated_at = NULL; // rollback if necessary
       else
         $cpt++;
     }
@@ -279,9 +279,8 @@ EOF
         ->andWhere('t.closed = ?', false)
         ->orderBy('t.id')
       ;
-      $transactions = $q->execute();
       $cpt = 0;
-      foreach ( $transactions as $transaction )
+      foreach ( $q->execute() as $transaction )
       {
         $this->dispatcher->notify($event = new sfEvent($this, 'tck.before_trying_to_close_transaction', array(
           'transaction' => $transaction,
