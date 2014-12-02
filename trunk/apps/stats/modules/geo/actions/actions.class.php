@@ -132,8 +132,16 @@ class geoActions extends sfActions
     $criterias = $this->getCriterias();
     
     if ( isset($criterias['groups_list']) && is_array($criterias['groups_list']) )
+    {
       $q->leftJoin('c.Groups gc')
-        ->andWhereIn('gc.id',$criterias['groups_list']);
+        ->leftJoin('c.Professionals pro')
+        ->leftJoin('pro.Groups gp')
+        ->andWhere('(TRUE')
+        ->andWhereIn('gc.id', $criterias['groups_list'])
+        ->orWhereIn('gp.id', $criterias['groups_list'])
+        ->andWhere('TRUE)')
+      ;
+    }
     
     if ( isset($criterias['meta_events_list']) && is_array($criterias['meta_events_list']) )
       $q->andWhereIn('e.meta_event_id', $criterias['meta_events_list']);
