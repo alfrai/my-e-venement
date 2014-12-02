@@ -115,7 +115,7 @@ class geoActions extends sfActions
       ->leftJoin('c.Transactions t')
       ->leftJoin('t.Tickets tck')
       ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL')
-      ->andWhere('tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE cancelling IS NOT NULL)')
+      ->andWhere('tck.cancelling IS NULL AND tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE cancelling IS NOT NULL)')
       ->andWhere('tck.duplicating IS NULL')
       ->leftJoin('tck.Gauge g')
       ->andWhereIn('g.workspace_id', array_keys($this->getUser()->getWorkspacesCredentials()))
