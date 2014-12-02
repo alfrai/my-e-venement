@@ -1,4 +1,15 @@
 <?php $formats = array(
+      'L7160' => array(
+        'page-format'   => 'a4',
+        'nb-x'          => 3,
+        'nb-y'          => 7,
+        'left-right'    => 7,
+        'top-bottom'    => 15,
+        'margin-x'      => 2.5,
+        'margin-y'      => 0,
+        'padding-x'     => 2.5,
+        'padding-y'     => 5,
+      ),
       'L7163' => array(
         'page-format'   => 'a4',
         'nb-x'          => 2,

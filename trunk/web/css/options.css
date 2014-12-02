@@ -25,6 +25,7 @@ body #content { width: 600px; }
 #content .sf_admin_form fieldset input[type=text] + label:after { content: ':'; }
 #content .sf_admin_form fieldset .helper { float: right; width: 80px; }
 #content .sf_admin_form fieldset input[type=text],
+#content .sf_admin_form fieldset input[type=text]:not([size]),
 #content .sf_admin_form fieldset textarea {
   float: right;
   width: 100px;
