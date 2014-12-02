@@ -31,7 +31,7 @@
     $total = array_sum($sf_data->getRaw('geo'));
     $names = $data = array();
     foreach ( $geo as $name => $value )
-      $data[] = new liPieValue($value, $type != 'postalcodes' ? __($name).' '.format_number(round(($value*100/$total),2)).'%' : __($name));
+      $data[] = new liPieValue($value, $type != 'postalcodes' ? __($name).' '.format_number($total != 0 ? round(($value*100/$total),2) : 0).'%' : __($name));
     $pie->set_values($data);
     
     //To display value as tool tip
