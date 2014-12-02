@@ -71,7 +71,7 @@ class tckConfiguration extends sfApplicationConfiguration
     $cpt = 0;
     $paid = $event['transaction']->getPaid();
     foreach ( $event['transaction']->getItemables() as $pdt )
-    if ( !$pdt->integrated_at )
+    if ( !$pdt->isSold() )
     {
       $pdt->integrated_at = date('Y-m-d H:i:s');
       if ( $event['transaction']->getPrice(false, true) > $paid

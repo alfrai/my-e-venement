@@ -179,7 +179,7 @@
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
       
       $transaction = $this->transaction;
-      if ( $transaction->BoughtProducts->count() == 0 && $transaction->Tickets->count() == 0 && $this->MemberCards->count() == 0 )
+      if ( $transaction->BoughtProducts->count() == 0 && $transaction->Tickets->count() == 0 && $transaction->MemberCards->count() == 0 )
       {
         $this->getUser()->setFlash('notice', __('Please control your order...'));
         $this->redirect('@homepage');
