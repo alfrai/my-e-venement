@@ -1,0 +1,48 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/11-App
+
+# default values
+#all:
+
+all:
+  ticketting:
+    dematerialized: true
+    #gauge_small: false
+  listing:
+    manif_date: DESC
+    #min_time: '10:00'
+    #max_time: '22:00'
+    #first_hour: 15
+    #max_per_page: 15
+    #default_view: resourceDay
+  manifestation:
+    depends_on_limit: 10
+    #defaults:
+    #  reservation_confirmed: false
+    reservations:
+      enable: false
+      #shown_in_calendar: false
+      #let_restricted_users_confirm: true
+      #focus_on_potentialities: false
+    #extra_informations_enable: false
+    #editable_in_calendar: false
+    #max_ajax: 20
+  synchronization:
+    #period:
+    #  from: now
+    #  to: +1 week
+    #config:
+    #  format: email
+    #  to: [my-email@mydomain.tld, his-email@mydomain.tld]
+    #  from: e-venement@mydomain.tld
+    #  subject: Manifestations report for <?php $client = sfConfig::get('project_about_client'); echo $client['name'] ?> from %%from%% to %%to%%
+    #security_token:
+    #  xxxxxxxmytokenxxxxxxx: my_username
+    cron_period: 1 hour
+    email_from: no-reply@domain.tld
+    alarms:
+      when: [-4 hours, -1 hour]
+      what: [display, email]
+    pending_alarms:
+      when: [-1 week, -2 days]
+      what: [display, email]

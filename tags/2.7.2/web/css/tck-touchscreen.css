@@ -1,0 +1,166 @@
+/* generic */
+#sf_admin_content { font-size: 13px; width: 1000px; transform-origin: top left; }
+#sf_admin_content .li_fieldset > div { display: inline-block; padding: 5px; margin: 10px 5px; overflow: hidden; }
+#sf_admin_content .li_fieldset > div > * { display: inline-block; }
+
+#sf_admin_content .li_fieldset .li_table > * { display: table; }
+#sf_admin_content .li_table > * > * { display: table-row; }
+#sf_admin_content .li_table > * > * > * { display: table-cell; }
+#sf_admin_content .li_table > * > * > *:not(:last-child) { padding-right: 10px; }
+
+/* specific */
+#li_transaction_field_deposit, #li_transaction_field_contact_id, #li_transaction_field_professional_id { width: 20.5em; white-space: nowrap; position: relative; }
+#sf_admin_content .li_fieldset #li_transaction_field_professional_id { top: -1em; margin-left: calc(-21.5em - 8px); border-top: 0; border-bottom: 0; border-top-right-radius: 0; border-top-left-radius: 0; height: 2.5em; text-align: center; padding-top: 0; }
+#sf_admin_content .li_fieldset #li_transaction_field_contact_id { top: -3.8em; border-bottom: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0; padding-bottom: 0; }
+#sf_admin_content .li_fieldset #li_transaction_field_deposit { top: 0.4em; margin-left: calc(-21.5em - 7px); border-top: 0; border-top-left-radius: 0; border-top-right-radius: 0; }
+#li_transaction_field_contact_id .data a { font-size: 0; }
+#li_transaction_field_professional_id select { max-width: 230px; }
+
+#li_transaction_field_description textarea { height: 3.3em; width: 18.5em; }
+#li_transaction_field_professional_id label, #li_transaction_field_description label { display: none; }
+#li_transaction_field_new_transaction { width: 8.65em; text-align: center; }
+#li_transaction_field_new_transaction a { display: block; width: 1.5em; height: 3em; margin-bottom: -0.7em; }
+
+#sf_admin_content #li_transaction_field_informations { max-width: 19em; height: 5em; overflow-y: auto; white-space: nowrap; }
+#sf_admin_content #li_transaction_field_informations .form_field_id { font-weight: bold; }
+#sf_admin_content #li_transaction_field_informations .form_field_id .cancellation { font-weight: normal; margin-left: 20px; }
+#sf_admin_content #li_transaction_field_informations .vcard { display: block; margin-bottom: 20px; }
+#li_transaction_field_informations .vcard > * { display: block; }
+#li_transaction_field_informations .vcard > * > * { display: inline; }
+#li_transaction_field_informations .vcard > * > * > * { display: block; }
+#li_transaction_field_informations .vcard .region { display: none; }
+#li_transaction_field_informations .vcard .postal-code { float: left; margin-right: 1em; }
+#li_transaction_field_informations .vcard .locality { clear: right; }
+#li_transaction_field_informations .vcard address { border-bottom: 1px solid rgb(166, 201, 226); margin-bottom: 2px; padding-bottom: 2px; }
+#li_transaction_field_informations .vcard hr { border: 0; border-bottom: 1px solid rgb(166, 201, 226); margin: 2px 0; }
+
+/* content */
+#sf_admin_content #li_fieldset_content > div { display: block; overflow-y: scroll; }
+#li_transaction_field_board, #li_transaction_field_product_infos { width: 35%; }
+#li_transaction_field_product_infos { height: 208px; margin-top: 0 !important; }
+#li_transaction_field_board { height: 170px; }
+#li_transaction_field_content { height: 400px; width: 60%; float: left; margin-top: 0 !important; }
+#li_transaction_field_content .footer > .ui-widget-content { padding: 3px; margin-top: 10px; } 
+#li_transaction_field_content .footer > .ui-widget-content > form { display: inline-block; width: 38%; }
+#li_transaction_field_content .footer > .ui-widget-content > form.integrate { width: 20%; }
+#li_transaction_field_content .footer > .ui-widget-content > form:first-child + form { text-align: center; }
+#li_transaction_field_content .footer > .ui-widget-content > form:last-child { text-align: right; }
+#li_transaction_field_content .new-family { margin-bottom: 5px; height: 1.8em; padding: 3px; transition-duration: 1s; overflow: hidden; }
+#li_transaction_field_content .new-family.ui-state-highlight { height: 10em; transition-duration: 1s; }
+#li_transaction_field_content .new-family input, #li_transaction_field_content .new-family select { vertical-align: top; }
+#li_transaction_field_content .new-family input { width: 15%; }
+#li_transaction_field_content .new-family select { height: 10em; margin-top: 0; width: 75%; max-width: 500px;}
+#li_transaction_field_content .new-family select option { font-size: 1.3em; }
+#li_transaction_field_content .new-family input[type=submit] { float: right; width: auto; }
+
+#sf_admin_content #li_transaction_field_content > div { display: block; }
+#li_transaction_field_content .family h3 { padding: 3px 5px;margin: 5px 0 2px 0; }
+#li_transaction_field_content .family h3 .fg-button { float: right; width: 16px; height: 16px; margin-top: -3px; font-size: 0; }
+#li_transaction_field_content .family h3 .fg-button .ui-icon { margin: -9px 0 0 -1px; }
+#li_transaction_field_content .sample { display: none; }
+#li_transaction_field_content h2 { margin: 5px 0; }
+#li_transaction_field_content h2 a { float: right; text-decoration: none; }
+#li_transaction_field_content h2, #li_transaction_field_content h3 { cursor: pointer; }
+#li_transaction_field_content h4 { display: inline-block; white-space: nowrap; font-weight: normal; vertical-align: top; width: 33%; }
+#li_transaction_field_content .highlight:not(.new-family) { border: 1px solid transparent; }
+#li_transaction_field_content .ui-widget-header { padding: 3px 5px; }
+#li_transaction_field_content .items { cursor: default; }
+#li_transaction_field_content .item { padding: 0 15px; user-select: none; -moz-user-select: none; }
+#li_transaction_field_content .item tr > * { vertical-align: top; }
+#li_transaction_field_content .item .nb { text-align: right; }
+#li_transaction_field_content .declinations { display: inline-table; width: 65% }
+#li_transaction_field_content .declinations td { vertical-align: bottom; }
+#li_transaction_field_content .declinations tr:hover td { font-weight: bold; }
+#li_transaction_field_content .declinations .total > *, #li_transaction_field_content .declination > * { padding-right: 10px; }
+#li_transaction_field_content .declination.active td { background-color: #f4e4cd; }
+#li_transaction_field_content .declination.active.readonly td { background-color: transparent; }
+#li_transaction_field_content .declination.active.integrated td { background-color: #eee; }
+#li_transaction_field_content .declination.active td:first-child { border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+#li_transaction_field_content .declination.active td:last-child { border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+#li_transaction_field_content .declination.integrated .qty.nb a:last-child,
+#li_transaction_field_content .declination.readonly .qty.nb a,
+#li_transaction_field_content .declination.cancelling .qty.nb a { visibility: hidden; }
+#li_transaction_field_content .declination.cancelling td { background-color: #f7d9c5; }
+#li_transaction_field_content .item.total * { font-weight: bold; }
+#li_transaction_field_content .total { font-style: italic; }
+#li_transaction_field_content .currency { display: none; }
+#li_transaction_field_content .item .tep, #li_transaction_field_content .item .vat { font-size: 75%; width: 15%; }
+#li_transaction_field_content .item .qty { width: 8em; }
+#li_transaction_field_content .item .qty .qty { width: 2em; display: inline-block; text-align: right; border: 1px solid silver; border-top: 0; padding: 0 5px; background-color: white; }
+#li_transaction_field_content .item .qty a { float: none; padding: 0; cursor: default; display: inline-block; margin: 0; position: static; }
+#li_transaction_field_content .item .qty a .ui-icon { margin: -2px 0 0 0; position: static; }
+#li_transaction_field_content .item .total .qty a,
+#li_transaction_field_content .item .printed .qty a { visibility: hidden; }
+#li_transaction_field_content .family.total .item { padding-top: 15px; font-style: normal; }
+#li_transaction_field_content .family.total .item h4,
+#li_transaction_field_content .family.total .item .total { font-style: normal; text-decoration: underline; }
+#li_transaction_field_content .family.total .item .total .qty { text-decoration: none; }
+#li_transaction_field_content .family.total .item h4 { margin-left: -15px; margin-right: 15px; }
+
+#li_transaction_field_content .item .ids { display: none; position: absolute; margin-left: 10px; margin-top: -1.3em; max-width: 100px; border: 1px solid silver; padding: 1px 4px; background-color: whitesmoke; font-weight: normal; z-index: 1; }
+#li_transaction_field_content .item .ids.show { display: block; }
+#li_transaction_field_content .item .data { display: none; }
+#li_transaction_field_content .item .price_name { width: 20px; }
+
+/* payments & prices */
+#li_fieldset_payments { clear: both; }
+#li_fieldset_payments #li_transaction_field_payment_new { width: 44%; }
+#li_fieldset_payments #li_transaction_field_payments_list { width: 50%; }
+#sf_admin_content #li_transaction_field_price_new { position: absolute; display: none; z-index: 1; overflow-y: auto; }
+#li_transaction_field_price_new, #li_transaction_field_payment_new { width: 440px; }
+#li_transaction_field_price_new .ui-icon-left { font-size: 0; }
+#sf_admin_content #li_transaction_field_price_new.cancelling { border: 3px solid orange; margin: 8px 5px 10px 3px; }
+#li_transaction_field_price_new input[type=text] { width: 2em; text-align: right; }
+#li_transaction_field_payments_list { font-size: 0; min-height: 210px; }
+#li_transaction_field_payments_list .sf_admin_list_td_list_created_at { text-align: center; }
+#li_transaction_field_payments_list table { background-color: white; }
+#li_transaction_field_payments_list .template { display: none; }
+#li_transaction_field_payments_list tfoot { font-size: 75%; }
+#li_transaction_field_payments_list tfoot td:first-child, #li_transaction_field_payments_list tfoot .pit { font-weight: bold; font-size: 13px; }
+#li_transaction_field_payments_list tfoot td { padding: 4px; margin: 0px; text-align: left; overflow: hidden; border-bottom: 1px solid rgb(166, 201, 226); border-right: 1px solid rgb(166, 201, 226); }
+#li_transaction_field_payments_list tfoot td, #li_transaction_field_payments_list .sf_admin_list_td_list_value { text-align: right; }
+#li_transaction_field_payments_list tfoot td:first-child { text-align: left; }
+#li_transaction_field_payments_list .change * { text-decoration: underline; }
+#li_transaction_field_payments_list .cancellation { font-style: italic; }
+#sf_admin_content #li_transaction_field_payments_list > * { font-size: 13px; display: block; }
+#li_transaction_field_payments_list .accounting.order { float: left; }
+#li_transaction_field_payments_list .accounting.invoice { display: block; text-align: right; }
+#sf_admin_content #li_transaction_field_payments_list > *,
+#sf_admin_content #li_transaction_field_payment_new > * { display: block; }
+#sf_admin_content #li_transaction_field_payment_new .field_payment_method_id button { width: 200px; }
+#li_transaction_field_payment_new .field_created_at, #li_transaction_field_payment_new .field_value { width: 50%; float: right; margin-left: 1em; }
+#li_transaction_field_payment_new label { width: 60px; display: inline-block; }
+#li_transaction_field_payment_new ul label { width: auto; }
+#li_transaction_field_payment_new .field_value, #li_transaction_field_payment_new .field_created_at { margin-bottom: 0.5em; }
+#li_transaction_field_payment_new .field_value input { width: 60px; }
+#li_transaction_field_payment_new .field input[type=text] { text-align: center; }
+#li_transaction_field_payment_new .submit { float: right; margin-top: -8px }
+#li_transaction_field_payment_new .field_payment_method_id li { display: inline; }
+
+/* board */
+#sf_admin_content #li_fieldset_content #li_transaction_field_board { overflow-y: hidden; }
+#sf_admin_content #li_transaction_field_board table { height: 100%; width: 100%; }
+#sf_admin_content #li_transaction_field_board tbody { height: 170px; }
+#li_transaction_field_board td { width: 85px; }
+#li_transaction_field_board button { width: 100%; height: 100%; }
+#li_transaction_field_board button, #li_transaction_field_board tr { height: 42px; }
+#li_transaction_field_board td[rowspan] button { height: 84px; }
+#li_transaction_field_board.alpha button .num, #li_transaction_field_board button .alpha { display: none; }
+#li_transaction_field_board.alpha button .alpha { display: inline; }
+#li_transaction_field_board.alpha button[value=" "] .alpha:after { content: '_'; }
+
+/* PRODUCT INFOS */
+#li_transaction_field_product_infos .gauge.raw { display: block; height: 5em; background-color: green; border-radius: 7px; overflow: hidden; }
+#li_transaction_field_product_infos .gauge.raw > * { display: inline-block; height: 100%; font-size: 0; }
+#li_transaction_field_product_infos .gauge.raw > .text { font-size: 1em; height: 2.25em; background-color: rgba(255,255,255,0.5); position: relative; width: 100%; margin-bottom: -2.5em; text-align: center; padding-top: 0.25em; overflow: hidden; }
+#li_transaction_field_product_infos .gauge.raw > .text .total { font-weight: bold; }
+#li_transaction_field_product_infos .gauge.raw > .text .details { display: block; }
+#li_transaction_field_product_infos .gauge.raw .printed { background-color: red; }
+#li_transaction_field_product_infos .gauge.raw .ordered { background-color: orange; }
+#li_transaction_field_product_infos .gauge.raw .asked   { background-color: blue; }
+#li_transaction_field_product_infos .gauge.seated { transform: scale(0.4); transform-origin: top left; margin-top: 5px; margin-bottom: 10px; background-color: white; }
+#sf_admin_content #li_transaction_field_product_infos .show-seated-plan { text-align: center; display: block; margin-top: 30px; }
+
+/* OTHERS */
+.sf_admin_flashes { position: absolute; width: 94%; z-index: 2; margin-left: 5px; }
+#li_fieldset_hidden { display: none; }

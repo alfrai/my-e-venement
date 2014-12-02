@@ -1,0 +1,15 @@
+# sample
+# this content has to be added into your apps/pub/config/app.yml or equivalent
+
+all:
+  # ...
+  payment:
+    type: payplug
+    id: macompagnie@theatreuniversel.com
+    password: superpassword
+    salt: sqbu194ATIQvb89uiat48
+    #currency: EUR
+    url:
+      normal: cart/done
+      cancel: cart/cancel
+      automatic: cart/response

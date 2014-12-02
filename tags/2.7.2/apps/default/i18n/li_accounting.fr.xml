@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2012-11-26T17:06:45Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit>
+        <source>Product</source>
+        <target>Produit</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Seats</source>
+        <target>Places</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Taxes</source>
+        <target>Taxes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Get a PDF</source>
+        <target>Format PDF</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Modify on-the-fly</source>
+        <target>Modifier le document</target>
+      </trans-unit>
+      <trans-unit>
+        <source>On %%d%%</source>
+        <target>Le %%d%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>&lt;span class="name inline-modifiable"&gt;Invoice&lt;/span&gt; #%%prefix%%&lt;span class="invoice_id"&gt;%%iid%%-%%version%%&lt;/span&gt;&lt;span class="transaction"&gt;, for transaction #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt; from the &lt;span class="date inline-modifiable"&gt;%%d%%&lt;/span&gt;&lt;/span&gt;</source>
+        <target>&lt;span class="name inline-modifiable"&gt;Facture&lt;/span&gt; #%%prefix%%&lt;span class="invoice_id"&gt;%%iid%%-%%version%%&lt;/span&gt;&lt;span class="transaction"&gt;, pour l'opération #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt; du &lt;span class="date inline-modifiable"&gt;%%d%%&lt;/span&gt;&lt;/span&gt;</target>
+      </trans-unit>
+      <trans-unit>
+        <source>&lt;span class="name inline-modifiable"&gt;Order&lt;/span&gt; #&lt;span class="order_id inline-modifiable"&gt;%%oid%%&lt;/span&gt;, for transaction #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt;</source>
+        <target>&lt;span class="name inline-modifiable"&gt;Bon de commande&lt;/span&gt; #&lt;span class="order_id inline-modifiable"&gt;%%oid%%&lt;/span&gt;, pour l'operation #&lt;span class="transaction_id inline-modifiable"&gt;%%tid%%&lt;/span&gt;</target>
+      </trans-unit>
+      <trans-unit>
+        <source>TEP</source>
+        <target>HT</target>
+      </trans-unit>
+      <trans-unit>
+        <source>PIT</source>
+        <target>TTC</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Time</source>
+        <target>Heure</target>
+      </trans-unit>
+      <trans-unit id="165">
+        <source>UP Net</source>
+        <target>PU Net</target>
+      </trans-unit>
+      <trans-unit id="166">
+        <source>TIP</source>
+        <target>TTC</target>
+      </trans-unit>
+      <trans-unit id="167">
+        <source>VAT</source>
+        <target>TVA</target>
+      </trans-unit>
+      <trans-unit id="168">
+        <source>PET</source>
+        <target>HT</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Event</source>
+        <target>Événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Location</source>
+        <target>Lieu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>City</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Price</source>
+        <target>Tarif</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Unit TIP</source>
+        <target>P.U.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Qty</source>
+        <target>Qté</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Paid with</source>
+        <target>Payé en</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Total</source>
+        <target></target>
+      </trans-unit>
+      <trans-unit>
+        <source>Still missing</source>
+        <target>Reste à payer</target>
+      </trans-unit>
+      <trans-unit id="176">
+        <source>Total excl. tax:</source>
+        <target>Total HT:</target>
+      </trans-unit>
+      <trans-unit id="177">
+        <source>VAT %%p%%:</source>
+        <target>TVA %%p%%:</target>
+      </trans-unit>
+      <trans-unit id="178">
+        <source>Total incl. taxes:</source>
+        <target>Total TTC:</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Invoice</source>
+        <target>Facture</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Order</source>
+        <target>Résa./Bon de comm.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
