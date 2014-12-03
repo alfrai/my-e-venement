@@ -62,7 +62,7 @@ body.labels .table .row       { display: table-row; }
 body.labels .table .row .cell { display: table-cell; vertical-align: middle; }
 
 body.labels .labels > div > div {
-  width:  <?php echo ( floatval($width)-$pleft*2-floatval($params['margin-x'])*(intval($params['nb-x'])-1) )/intval($params['nb-x']) ?>mm;
+  width:  <?php echo $cellwidth  = ( floatval($width)-$pleft*2-floatval($params['margin-x'])*(intval($params['nb-x'])-1) )/intval($params['nb-x']) ?>mm;
   height: <?php echo $cellheight = ( floatval($height)-$ptop*2-(floatval($params['margin-y'])+$error['y'])*(intval($params['nb-y'])-1) )/intval($params['nb-y']) - 0.01 ?>mm; /* the - 1mm is a hack for a small difference between HTML and PDF rendering */
   overflow: hidden;
 }
@@ -91,7 +91,7 @@ body.labels .labels > div > div:last-child div.content {
 
 /* text style */
 body.labels { font-size: 12px; }
-body.labels .labels > div .content p { text-align: center; }
+body.labels .labels > div .content p { text-align: center; width: <?php echo $cellwidth - $params['padding-x']*2 ?>mm; position: relative; left: <?php echo $params['padding-x'] ? $params['padding-x'] : 0 ?>mm; }
 body.labels .labels > div .content .org { font-weight: bold; }
 body.labels .labels > div .content .org { text-transform: uppercase; }
 body.labels .labels > div .content .tels,
