@@ -69,7 +69,7 @@ class manifestationActions extends autoManifestationActions
       
       ->leftJoin('g.Tickets gtck WITH gtck.price_id IS NULL AND gtck.seat_id IS NOT NULL AND gtck.transaction_id = ?', $this->getUser()->getTransaction()->id)
       ->leftJoin('g.Manifestation m')
-      ->andWhere('(m.happens_at > NOW() OR ?)',sfContext::getInstance()->getConfiguration()->getEnvironment() == 'dev')
+      ->andWhere('(m.happens_at > NOW() OR ?)', sfConfig::get('sf_web_debug', false))
       ->andWhere('m.id = ?',$request->getParameter('id'))
       ->andWhere('m.reservation_confirmed = ?',true)
       
@@ -86,15 +86,14 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('mpm.Price mp')
       ->leftJoin('mp.Tickets tck WITH tck.gauge_id = g.id AND tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
       
-      ->leftJoin('gp.Users gpu')
-      ->leftJoin('gp.Workspaces gpw')
-      ->leftJoin('mp.Users mpu')
-      ->leftJoin('mp.Workspaces mpw')
+      ->leftJoin('gp.Users gpu WITH gpu.id = wu.id')
+      ->leftJoin('gp.Workspaces gpw WITH gpw.id = g.workspace_id')
+      ->leftJoin('mp.Users mpu WITH mpu.id = wu.id')
+      ->leftJoin('mp.Workspaces mpw WITH mpw.id = g.workspace_id')
       
-      ->andWhere('gpu.id = ? OR mpu.id = ?', array($this->getUser()->getId(), $this->getUser()->getId()))
-      ->andWhere('wu.id = mpu.id OR wu.id = gpu.id')
-      ->andWhere('mpw.id = ws.id OR gpw.id = ws.id')
-      ->andWhere('gpw.id = g.workspace_id')
+      ->andWhere('mpu.id IS NOT NULL OR gpu.id IS NOT NULL')
+      ->andWhere('gpw.id IS NOT NULL OR mpw.id IS NOT NULL')
+      ->andWhere('wu.id = ?', $this->getUser()->getId())
       
       ->andWhereIn('ws.id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhereIn('me.id',array_keys($this->getUser()->getMetaEventsCredentials()))
