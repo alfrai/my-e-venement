@@ -35,9 +35,9 @@
       <?php if ( isset($plan['seated_plan']) && $plan['seated_plan'] instanceof SeatedPlan ): ?>
         <?php include_partial('global/magnify') ?>
         <div class="seated-plan-actions">
-          <?php include_partial('global/seated_plan_actions', array('gauge' => $gauge, 'seated_plan' => $seated_plan)) ?>
+          <?php include_partial('global/seated_plan_actions', array('gauges' => $plan['gauges'], 'seated_plan' => $plan['seated_plan'])) ?>
         </div>
-        <div class="plan-<?php echo $plan['seated_plan']->id ?> gauge">
+        <div class="plan-<?php echo $plan['seated_plan']->id ?> plan">
           <?php echo $plan['seated_plan']->render($plan['gauges'], array(
             'match-seated-plan' => false,
             'add-data-src' => true,

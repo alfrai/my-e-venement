@@ -25,7 +25,7 @@ getLinksSuccess:
   has_layout: false
   http_metas:
     content-type: application/json
-getSeatsSuccess:
+getSeatsJson:
   has_layout: false
   http_metas:
     content-type: application/json

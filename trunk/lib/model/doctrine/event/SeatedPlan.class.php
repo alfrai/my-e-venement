@@ -30,17 +30,17 @@ class SeatedPlan extends PluginSeatedPlan
     $img = $this->Picture->render(array(
       'title' => $this->Picture,
       'width' => $this->ideal_width ? $this->ideal_width : '',
-      'app'   => $attributes['app'],
       'add-data-src' => $attributes['add-data-src'],
     ));
     
-    $data = '';
+    
+    $ids = array();
     foreach ( $gauges as $gauge )
-      $data .= '<a
-        href="'.cross_app_url_for($attributes['app'], $attributes['get-seats'].'?gauge_id='.$gauge->id.($attributes['match-seated-plan'] ? '&id='.$this->id : '')).'"
-        class="seats-url"
-        data-gauge-id="'.$gauge->id.'"
-      ></a>';
+      $ids[] = $gauge->id;
+    $data = '<a
+      href="'.cross_app_url_for($attributes['app'], $attributes['get-seats'].($attributes['match-seated-plan'] ? '?id='.$this->id : '')).($attributes['match-seated-plan']?'&amp;':'?').'gauges_list[]='.implode('&amp;gauges_list[]=', $ids).'"
+      class="seats-url"
+    ></a>';
     
     return '<span
       id="plan-'.$this->id.(count($gauges) > 0 ? '-manif-'.$gauges[0]->Manifestation->id : '').'"

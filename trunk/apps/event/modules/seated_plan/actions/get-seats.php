@@ -22,14 +22,34 @@
 ***********************************************************************************/
 ?>
 <?php
-
-    $this->executeEdit($request);
+    $ids = $request->getParameter('gauges_list', false);
+    
+    if ( $request->getParameter('gauge_id') )
+    {
+      $this->executeEdit($request);
+      $this->seated_plans = new Doctrine_Collection('SeatedPlan');
+      $this->seated_plans[] = $this->seated_plan;
+    }
+    elseif ( is_array($ids) )
+    {
+      $q = Doctrine::getTable('SeatedPlan')->createQuery('sp')
+        ->leftJoin('sp.Workspaces ws')
+        ->leftJoin('ws.Gauges g')
+        ->andWhereIn('g.id', $ids)
+        ->leftJoin('g.Manifestation m')
+        ->leftJoin('m.Location l')
+        ->andWhere('l.id = sp.location_id')
+      ;
+      $this->seated_plans = $q->execute();
+      $this->forward404Unless($this->seated_plans->count() > 0);
+    }
+    
     $this->occupied = array();
     $this->transaction_id = intval($request->getParameter('transaction_id', 0));
     sfConfig::set('sf_escaping_strategy', false);
     
     if ( $this->getUser()->hasCredential('tck-seat-allocation')
-      && ($gid = intval($request->getParameter('gauge_id', 0))) > 0 )
+      && (($gid = intval($request->getParameter('gauge_id', 0))) > 0 || is_array($ids)) )
     {
       $q = Doctrine::getTable('Ticket')->createQuery('tck')
         ->select('tck.*, t.*, c.*, pro.*, org.*, o.*, pc.*')
@@ -46,11 +66,14 @@
         ->andWhere('tck.cancelling IS NULL')
         ->andWhere('duplicatas.id IS NULL AND cancel.id IS NULL')
         ->andWhere('tck.seat_id IS NOT NULL')
-        ->andWhere('sp.id = ?', $request->getParameter('id'))
         ->leftJoin('tck.Manifestation m')
         ->leftJoin('m.Gauge g')
-        ->andWhere('g.id = ?', $request->getParameter('gauge_id'))
       ;
+      if ( $request->getParameter('gauge_id') && $request->getParameter('id') )
+        $q->andWhere('g.id = ?', $request->getParameter('gauge_id'))
+          ->andWhere('sp.id = ?', $request->getParameter('id'));
+      if ( is_array($ids) )
+        $q->andWhereIn('g.id', $ids);
       
       foreach ( $q->execute() as $ticket )
       {
@@ -71,3 +94,10 @@
         );
       }
     }
+    
+    if (!( $request->hasParameter('debug') && sfConfig::get('sf_web_debug', false) ))
+    {
+      sfConfig::set('sf_web_debug', false);
+      return 'Json';
+    }
+    return 'Success';

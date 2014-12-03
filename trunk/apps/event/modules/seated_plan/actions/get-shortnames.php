@@ -51,7 +51,7 @@
         'type'      => 'shortname',
         'id'        => $contact->id,
         'fullname'  => (string)$contact,
-        'shortname' => $contact->shortname ? $contact->shortname : strtoupper(substr($contact->name,0,1).'.'.substr($contact->firstname,0,1).'.'),
+        'shortname' => $contact->shortname ? $contact->shortname : (string)$contact,
         'slug'      => $contact->slug,
         'seat_id'   => $seat->id,
         'seat_name' => $seat->name,

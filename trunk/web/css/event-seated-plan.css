@@ -1,5 +1,6 @@
 /* GENERIC */
 .picture.seated-plan { position: relative; z-index: 1; }
+.picture.seated-plan { transform-origin: top left; -webkit-transform-origin: top left; }
 .picture.seated-plan img { left: 0; position: absolute; }
 .picture.seated-plan .pre-seat, .picture.seated-plan .seat { position: absolute; background-color: green; border-radius: 40%; }
 .picture.seated-plan .seat.not-allowed { background-color: #9a9ac9; }
@@ -17,7 +18,7 @@
 .picture.seated-plan .more-data > * { position: absolute; z-index: 4; text-align: center; font-size: 55%; overflow: hidden; word-wrap: break-word; }
 .picture.seated-plan .more-data .link { position: absolute; border: 1px solid red; border-width: 2px 0; transform-origin: top left; z-index: 3; }
 .picture.seated-plan .more-data .link:hover { border-width: 3px 0; border-color: blue; }
-.picture.seated-plan { transform-origin: top left; -webkit-transform-origin: top left; }
+.picture.seated-plan .more-data .shortname { z-index: 2; overflow: hidden; }
 
 /* PARENT */
 .seated-plan-parent .seated-plan-actions { position: absolute; z-index: 6; margin: 5px 0 0 5px; }

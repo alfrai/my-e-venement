@@ -26,7 +26,8 @@
             
             $(this).css('transform', 'scale('+new_scale+')')
               .attr('data-scale', new_scale);
-            LI.seatedPlanScroll($(this), old_scale, new_scale);
+            if ( LI.seatedPlanScroll != undefined )
+              LI.seatedPlanScroll($(this), old_scale, new_scale);
           })
         ;
         return false;

@@ -46,7 +46,7 @@ class seated_planActions extends autoSeated_planActions
   }
   public function executeGetSeats(sfWebRequest $request)
   {
-    require(dirname(__FILE__).'/get-seats.php');
+    return require(dirname(__FILE__).'/get-seats.php');
   }
   
   // Seat links definition
