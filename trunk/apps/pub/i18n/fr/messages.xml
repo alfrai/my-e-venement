@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit>
         <source>Category</source>
         <target>Catégorie</target>
       </trans-unit>
@@ -437,8 +441,8 @@
         <target>Paiement en cours</target>
       </trans-unit>
       <trans-unit>
-        <source>Paid</source>
-        <target>Payé</target>
+        <source>Order paid</source>
+        <target>Commande payée</target>
       </trans-unit>
       <trans-unit>
         <source>Edition date</source>

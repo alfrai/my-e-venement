@@ -221,6 +221,11 @@ $(document).ready(function(){
 <?php include_partial('show_details',array('transaction' => $transaction)) ?>
 </div>
 
+<div id="transaction-content">
+<h3><?php echo __('Content') ?> :</h3>
+<?php include_partial('show_content',array('transaction' => $transaction)) ?>
+</div>
+
 <?php endif ?>
 
 <div class="clear"></div>
