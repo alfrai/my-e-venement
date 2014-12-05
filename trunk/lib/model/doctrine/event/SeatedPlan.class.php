@@ -28,6 +28,7 @@ class SeatedPlan extends PluginSeatedPlan
       $attributes[$key] = $value;
     
     $img = $this->Picture->render(array(
+      'app'   => $attributes['app'],
       'title' => $this->Picture,
       'width' => $this->ideal_width ? $this->ideal_width : '',
       'add-data-src' => $attributes['add-data-src'],

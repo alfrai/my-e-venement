@@ -295,5 +295,155 @@ class Manifestation extends PluginManifestation implements liUserAccessInterface
     
     return true;
   }
+  
+  public function getIcalPartial(vevent $e, $full = true, $only_pending = false)
+  {
+    // settings
+    $alarms = sfConfig::get('app_synchronization'.($only_pending ? 'pending_alarms' : 'alarms'), array('when' => array('-1 hour'), 'what' => array('display')));
+    if ( !isset($alarms['when']) )
+      $alarms['when'] = array('-1 hour');
+    if ( !is_array($alarms['when']) )
+      $alarms['when'] = array($alarms['when']);
+    if ( !isset($alarms['what']) )
+      $alarms['what'] = array();
+    if ( !is_array($alarms['what']) )
+      $alarms['what'] = array($alarms['what']);
+    foreach ( $alarms['what'] as $key => $type )
+    {
+      switch ( $type ) {
+        case 'display':
+          $alarms['what'][$key] = 'DISPLAY';
+          break;
+        case 'email':
+          $alarms['what'][$key] = 'EMAIL';
+          break;
+        case 'audio':
+          $alarms['what'][$key] = 'AUDIO';
+          break;
+      }
+    }
+    
+    $e->setProperty('categories', $this->Event->EventCategory );
+    $e->setProperty('last-modified', date('YmdTHis',strtotime($this->updated_at)) );
+    
+    $time = strtotime($this->happens_at);
+    $start = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time),'tz'=>date('T'));
+    $e->setProperty('dtstart', $start);
+    
+    $time = strtotime($this->ends_at);
+    $stop = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time),'tz'=>date('T'));
+    $e->setProperty('dtend', $stop );
+    
+    $e->setProperty('summary', $this->Event);
+    if ( $full )
+      $e->setProperty('url', url_for('manifestation/show?id='.$this->id,true));
+    
+    $location = array((string)$this->Location);
+    if ( $this->Location->city )
+    foreach ( array('address', 'postalcode', 'city', 'country') as $prop )
+      $location[] = $this->Location->$prop;
+    $e->setProperty('location', implode(', ', $location));
+    
+    // extra properties
+    $e->setProperty('status', 'CONFIRMED');
+    if ( $full )
+    {
+      $client = sfConfig::get('project_about_client',array());
+      $e->setProperty('description', $client['name'].(!$nourl ? "\nURL: ".url_for('manifestation/show?id='.$this->id, true) : ''));
+      $e->setProperty('transp', $request->hasParameter('transp') ? 'TRANSPARENT' : 'OPAQUE');
+      
+      $orgs = array();
+      if ( $this->Organizers->count() > 0 )
+      {
+        $email = '';
+        foreach ( $this->Organizers as $org )
+        {
+          $orgs[] = (string)$org;
+          if ( $org->email )
+            $email = $org->email;
+          elseif ( !$email )
+            $email = $org->url;
+        }
+        $e->setProperty('organizer', $email, array('CN' => implode(', ', $orgs)));
+      }
+      
+      // preparing email alerts
+      $to = array();
+      if ( in_array('EMAIL', $alarms['what']) )
+      {
+        foreach ( $this->Organizers as $org )
+        if ( $org->email )
+          $to[] = $org->email;
+        if ( $this->contact_id && ($this->Applicant->sf_guard_user_id || $this->Applicant->email) )
+          $to[] = $this->Applicant->sf_guard_user_id ? $this->Applicant->User->email_address : $this->Applicant->email;
+      }
+      
+      // alarms
+      foreach ( $alarms['when'] as $when )
+      foreach ( $alarms['what'] as $what )
+      {
+        if ( $what == 'EMAIL' && count($to) == 0 )
+          continue;
+        
+        $a = &$e->newComponent( 'valarm' );
+        
+        if ( $what == 'EMAIL' )
+        foreach ( $to as $email )
+          $a->setProperty('attendee', $email);
+        
+        $a->setProperty('action', $what);
+        
+        $time = strtotime($when, strtotime($this->happens_at)) - date('Z');
+        $datetime = array('year'=>date('Y',$time),'month'=>date('m',$time),'day'=>date('d',$time),'hour'=>date('H',$time),'min'=>date('i',$time),'sec'=>date('s',$time));
+        $a->setProperty('trigger', $datetime);
+      }
+    }
+    
+    return $e;
+  }
+  public function getIcal($full = true, $use_cache = true)
+  {
+    // filename
+    $caldir   = sfConfig::get('sf_module_cache_dir').'/calendars/';
+    $calfile = $this->event_id;
+    $calfile .= '-';
+    if ( sfContext::hasInstance() )
+      $calfile .= sfContext::getInstance()->getUser()->isAuthenticated() ? sfContext::getInstance()->getUser()->getGuardUSer()->username : 'none';
+    $calfile .= '.ics';
+    
+    $v = new vcalendar;
+    $v->setConfig(array(
+      'directory' => $caldir,
+      'filename'  => $calfile,
+    ));
+    
+    if ( file_exists($caldir.$calfile)
+      && strtotime($this->happens_at) <= filemtime($caldir.$calfile)
+      && $use_cache
+    )
+      $v->parse();
+    else
+    {
+      $v->addComponent($this->getIcalPartial($v->newComponent( 'vevent' ), $full));
+      
+      if ( ! file_exists(dirname($caldir)) )
+      {
+        mkdir(dirname($caldir));
+        chmod(dirname($caldir),0777);
+      }
+      if ( ! file_exists($caldir) )
+      {
+        mkdir($caldir);
+        chmod($caldir,0777);
+      }
+      if ( file_exists($caldir.'/'.$calfile) )
+        unlink($caldir.'/'.$calfile);
+      
+      $v->saveCalendar();
+      chmod($caldir.'/'.$calfile,0777);
+    }
+
+    return $v->createCalendar();
+  }
 }
 

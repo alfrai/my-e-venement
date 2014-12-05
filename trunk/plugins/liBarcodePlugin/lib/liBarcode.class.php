@@ -16,18 +16,18 @@ class liBarcode
     $this->text = $text;
   }
   
-  public function render($file = NULL)
+  public function render($file = NULL, $size = 96, $level = QR_ECLEVEL_M)
   {
-    return QRcode::png($this->text,$file, QR_ECLEVEL_M, 96, 0);
+    $file = sfConfig::get('sf_app_cache_dir').'/ticket-'.rand(100000,999999).'.png';
+    QRcode::png($this->text, $file, $level, $size, 0);
+    $r = file_get_contents($file);
+    unlink($file);
+    return $r;
   }
   
   public function __toString()
   {
-    $file = sfConfig::get('sf_app_cache_dir').'/ticket-'.rand(100000,999999).'.png';
-    $this->render($file);
-    $r = file_get_contents($file);
-    unlink($file);
-    return $r;
+    return $this->render($file);
   }
   
   public static function decode_ean($ean)

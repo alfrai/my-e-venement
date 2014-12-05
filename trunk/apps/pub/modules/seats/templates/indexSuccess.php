@@ -2,6 +2,7 @@
   use_helper('Number');
   $prices = $seats = array();
   
+  foreach ( $seated_plans as $seated_plan )
   foreach ( $seated_plan->Seats as $seat )
   if (!(
        isset($occupied)
