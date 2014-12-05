@@ -23,13 +23,19 @@
 ?>
 <?php
     $this->preLinks($request);
-    if ( !$request->getParameter('gauge_id', false) )
-      throw new liSeatedException('The action "get-shortnames" needs a gauge_id parameter');
+    if ( !$request->getParameter('gauge_id', false) && !$request->getParameter('gauges_list',false) )
+      throw new liSeatedException('The action "get-shortnames" needs a gauge_id or 1+ gauges_list[] parameter');
+    
+    $ids = array();
+    if ( is_array($request->getParameter('gauges_list',false)) )
+    foreach ( $request->getParameter('gauges_list') as $id )
+      $ids[] = $id;
+    if ( $request->getParameter('gauge_id', false) )
+      $ids[] = $request->getParameter('gauge_id', false);
     
     $q = Doctrine::getTable('Seat')->createQuery('s')
-      ->andWhere('s.seated_plan_id = ?', $request->getParameter('id'))
       ->leftJoin('s.Tickets tck')
-      ->andWhere('tck.gauge_id = ?', $request->getParameter('gauge_id'))
+      ->andWhereIn('tck.gauge_id', $ids)
       ->leftJoin('tck.DirectContact tc WITH tc.confirmed = ?', true)
       
       ->leftJoin('tck.Transaction t')
@@ -37,6 +43,8 @@
       ->leftJoin('c.Professionals p WITH p.id = t.professional_id')
       ->leftJoin('p.Organism o')
     ;
+    if ( count($ids) == 1 )
+      $q->andWhere('s.seated_plan_id = ?', $request->getParameter('id'));
     
     $this->data = array();
     foreach ( $q->execute() as $seat )

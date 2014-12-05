@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -36,6 +36,10 @@ require_once dirname(__FILE__).'/../lib/seated_planGeneratorHelper.class.php';
  */
 class seated_planActions extends autoSeated_planActions
 {
+  public function executeGetDebts(sfWebRequest $request)
+  {
+    require(dirname(__FILE__).'/get-debts.php');
+  }
   public function executeGetRanks(sfWebRequest $request)
   {
     require(dirname(__FILE__).'/get-ranks.php');

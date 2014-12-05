@@ -113,20 +113,16 @@
         <target>Pas de participant enregistré</target>
       </trans-unit>
       <trans-unit>
-        <source>Show occupation</source>
-        <target>Voir l'occupation</target>
-      </trans-unit>
-      <trans-unit>
-        <source>Show short names</source>
-        <target>Voir les noms courts</target>
-      </trans-unit>
-      <trans-unit>
-        <source>Show ranks</source>
-        <target>Voir les rangs</target>
+        <source>Reload</source>
+        <target>Recharger</target>
       </trans-unit>
       <trans-unit>
         <source>Ranks</source>
         <target>Rangs</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Debts</source>
+        <target>Dettes</target>
       </trans-unit>
       <trans-unit>
         <source>rank</source>

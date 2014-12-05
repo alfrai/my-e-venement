@@ -56,8 +56,7 @@ class ContactFormFilter extends BaseContactFormFilter
       'true_values' => array('1'),
     ));
     $this->widgetSchema['groups_list']->setOption(
-      'order_by',
-      array('u.id IS NULL DESC, u.username, name','')
+      'order_by', array('u.id IS NULL DESC, u.username, name','')
     );
     
     $this->widgetSchema['emails_list']->setOption('query',Doctrine::getTable('Email')
