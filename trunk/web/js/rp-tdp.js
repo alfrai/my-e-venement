@@ -427,7 +427,7 @@ LI.tdp_submit_forms = function(i = 0)
       data = $.parseHTML(data);
       
       // retrieving corresponding subobject
-      subobject = $('[name="professional[id]"][value='+$(data).find('[name="professional[id]"]').val()+']')
+      subobject = $('[name="professional[id]"][value="'+$(data).find('[name="professional[id]"]').val()+'"]')
         .closest('.sf_admin_edit');
       if ( subobject.length == 0 )
         subobject = $('.sf_admin_edit.tdp-object-new');
@@ -436,7 +436,7 @@ LI.tdp_submit_forms = function(i = 0)
       subobject.find('.sf_admin_flashes')
         .replaceWith($(data).find('.sf_admin_flashes'));
       setTimeout(function(){
-        $('[name="professional[id]"][value='+$(data).find('[name="professional[id]"]').val()+']')
+        $('[name="professional[id]"][value="'+$(data).find('[name="professional[id]"]').val()+'"]')
           .closest('.sf_admin_edit')
           .find('.sf_admin_flashes > *').fadeOut('medium',function(){ $(this).remove(); });
       },6000);

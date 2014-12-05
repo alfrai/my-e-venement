@@ -27,7 +27,9 @@ class sfDomPDFPluginConfiguration extends sfPluginConfiguration
 {
   public function initialize()
   {
-    liClassLoader::create()->register('FontLib', __DIR__ . '/../lib/dompdf/lib/php-font-lib/src/');
+    if ( class_exists('liClassLoader') )
+      liClassLoader::create()->register('FontLib', __DIR__ . '/../lib/dompdf/lib/php-font-lib/src/');
+    require_once(__DIR__.'/../lib/sfDomPDFPlugin.class.php');
   }
 }
 
