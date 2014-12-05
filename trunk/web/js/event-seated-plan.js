@@ -32,8 +32,8 @@
   });
   LI.seatedPlanInitialization = function(root)
   {
-    if ( root == undefined )
-      root = $('body');
+    if ( root == undefined || root == null )
+      var root = $('body');
     
     // kicking 3G proxies and bad ISPs
     if ( $(root).find('.picture.seated-plan img').attr('data-src') != $(root).find('.picture.seated-plan img').attr('src') )

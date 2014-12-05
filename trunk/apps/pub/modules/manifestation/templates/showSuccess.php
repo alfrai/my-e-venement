@@ -1,6 +1,7 @@
 <?php include_partial('global/ariane', array('active' => 1)) ?>
 <?php include_partial('global/flashes') ?>
 <?php include_partial('show_title', array('manifestation' => $manifestation)) ?>
+<?php include_partial('event/show_image', array('event' => $manifestation->Event)) ?>
 
 <?php if ( sfConfig::get('app_options_synthetic_plans', false) ): ?>
   
