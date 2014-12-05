@@ -46,7 +46,7 @@ class seatsActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    $this->forward404Unless($request->getParameter('gauge_id'));
+    $this->forward404Unless($request->getParameter('gauge_id') || is_array($request->getParameter('gauges_list')));
 
     // basic data
     $q = Doctrine::getTable('SeatedPlan')->createQuery('sp')
@@ -58,8 +58,11 @@ class seatsActions extends sfActions
       ->leftJoin('g.Manifestation m')
       
       ->andWhere('sp.location_id = m.location_id')
-      ->andWhere('g.id = ?', $request->getParameter('gauge_id',0))
     ;
+    if ( $request->getParameter('gauge_id') )
+      $q->andWhere('g.id = ?', $request->getParameter('gauge_id',0));
+    if ( $request->getParameter('gauges_list') )
+      $q->andWhereIn('g.id', $request->getParameter('gauges_list'));
     if ( $request->getParameter('id') )
       $q->andWhere('sp.id = ?', $request->getParameter('id'));
     $this->seated_plan = $q->fetchOne();
