@@ -63,7 +63,7 @@
       <label><?php echo $form->renderHiddenFields() ?></label>
       <span class="fg-button ui-state-default fg-button-icon-left">
         <span class="ui-icon ui-icon-arrowthickstop-1-s"></span>
-        <input type="submit" value="<?php echo __('Send') ?>" name="" class="ui-widget-content ui-corner-all ui-widget batch" />
+        <input type="submit" value="<?php echo __('Send') ?>" name="" class="batch" />
       </span>
     </div>
   </div>
