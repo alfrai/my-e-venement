@@ -115,7 +115,7 @@ class cartActions extends sfActions
       ->orderBy('p.created_at DESC')
       ->fetchOne();
     if (! $transaction instanceof Transaction )
-      $transaction = $this->getUser()->getTransactionId();
+      $transaction = $this->getUser()->getTransaction();
     if ( $transaction->id == $this->getUser()->getTransactionId() )
       $this->getUser()->resetTransaction();
     $this->redirect('transaction/show?end=1&id='.$transaction->id);
