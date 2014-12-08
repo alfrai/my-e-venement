@@ -6,3 +6,8 @@ indexSuccess:
 showSuccess:
   stylesheets: [pub-manifestation?<?php echo date('Ymd') ?>]
   javascripts: [public?<?php echo date('Ymd') ?>, helper-cookies]
+icalSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/calendar
+        

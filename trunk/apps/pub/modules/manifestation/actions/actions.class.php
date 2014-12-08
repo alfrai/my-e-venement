@@ -19,6 +19,11 @@ class manifestationActions extends autoManifestationActions
     parent::preExecute();
   }
   
+  public function executeIcal(sfWebRequest $request)
+  {
+    $this->executeShow($request);
+  }
+  
   public function executeIndex(sfWebRequest $request)
   {
     if ( $this->getPager()->getQuery()->count() == 1 )
