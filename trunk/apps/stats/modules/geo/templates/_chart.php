@@ -5,6 +5,6 @@
       <h2><?php echo $title ?></h2>
     </div>
     <?php echo liWidgetOfc::createChart(400, 250, $sf_context->getModuleName().'/data?type='.$type,true); ?>
-    <div class="actions"><?php include_partial('global/chart_actions',array('anchor' => 'chart-printed')) ?></div>
+    <div class="actions"><?php include_partial('global/chart_actions',array('anchor' => 'chart-printed', 'get_param' => 'type', 'id' => $type)) ?></div>
   </div>
 </div>
