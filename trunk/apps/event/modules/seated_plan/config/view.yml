@@ -33,6 +33,14 @@ getShortnamesSuccess:
   has_layout: false
   http_metas:
     content-type: application/json
+getDebtsSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+getGroupJson:
+  has_layout: false
+  http_metas:
+    content-type: application/json
 getRanksSuccess:
   has_layout: false
   http_metas:

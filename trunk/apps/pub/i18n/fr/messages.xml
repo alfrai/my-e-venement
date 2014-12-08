@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Content</source>
+        <target>Contenu</target>
+      </trans-unit>
+      <trans-unit>
         <source>Flash me to complete your calendar...</source>
         <target>Flashez moi pour compléter votre agenda...</target>
       </trans-unit>
