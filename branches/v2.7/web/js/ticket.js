@@ -683,7 +683,7 @@ function ticket_enable_payment()
 
 function ticket_print()
 {
-  $('#print form').unbind().submit(function(){
+  $('#print form.accounting, #print form.partial').unbind().submit(function(){
     $(this).append('<input type="hidden" name="manifestation_id" value="'+$('.manifestations_list input[type=radio]:checked').val()+'" id="manifestation_id" />');
     $(document).focus(function(){
       $(this).unbind();
