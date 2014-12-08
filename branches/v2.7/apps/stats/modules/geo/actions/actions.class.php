@@ -114,6 +114,8 @@ class geoActions extends sfActions
   {
     return  $this->addFiltersToQuery(Doctrine_Query::create()->from('Contact c'))
       ->leftJoin('c.Transactions t')
+      ->leftJoin('t.Professional pp')
+      ->leftJoin('pp.Organism po')
       ->leftJoin('t.Tickets tck')
       ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL')
       ->andWhere('tck.cancelling IS NULL AND tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE cancelling IS NOT NULL)')
@@ -186,8 +188,8 @@ class geoActions extends sfActions
     
     case 'postalcodes':
       foreach ( $this->buildQuery()
-        ->select('c.id, c.postalcode, count(DISTINCT tck.id) AS qty')
-        ->groupBy('c.id, c.postalcode')
+        ->select('c.id, (CASE WHEN pp.id IS NOT NULL THEN po.postalcode ELSE c.postalcode END) AS postalcode, count(DISTINCT tck.id) AS qty')
+        ->groupBy('c.id, c.postalcode, pp.id, po.postalcode')
         ->fetchArray() as $pc )
       {
         if ( !isset($res[$pc['postalcode']]) )
@@ -219,8 +221,8 @@ class geoActions extends sfActions
     
     case 'departments':
       foreach ( $this->buildQuery()
-        ->select('c.id, substr(c.postalcode,1,2) AS dpt, count(DISTINCT tck.id) AS qty')
-        ->groupBy('c.id, c.postalcode')
+        ->select('c.id, substr(CASE WHEN pp.id IS NOT NULL THEN po.postalcode ELSE c.postalcode END,1,2) AS dpt, count(DISTINCT tck.id) AS qty')
+        ->groupBy('c.id, c.postalcode, pp.id, po.postalcode')
         ->fetchArray() as $pc )
       {
         if ( !isset($res[$pc['dpt']]) )
@@ -269,8 +271,8 @@ class geoActions extends sfActions
       $dpts[''] = '';
       
       foreach ( $this->buildQuery()
-        ->select('c.id, substr(c.postalcode,1,2) AS dpt, count(DISTINCT tck.id) AS qty')
-        ->groupBy('c.id, c.postalcode')
+        ->select('c.id, substr(CASE WHEN pp.id IS NOT NULL THEN po.postalcode ELSE c.postalcode END,1,2) AS dpt, count(DISTINCT tck.id) AS qty')
+        ->groupBy('c.id, c.postalcode, pp.id, po.postalcode')
         ->fetchArray() as $pc )
       {
         if ( !isset($dpts[trim($pc['dpt'])]) )
@@ -351,7 +353,7 @@ class geoActions extends sfActions
       $q = $this->buildQuery()
         ->select('c.id, count(DISTINCT tck.id) AS qty')
         ->groupBy('c.id')
-        ->andWhere('c.postalcode = ?', $client['postalcode'])
+        ->andWhere('(pp.id IS NULL AND c.postalcode = ? OR pp.id IS NOT NULL AND po.postalcode = ?)', array($client['postalcode'], $client['postalcode']))
         ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
       $res['exact'] = 0;
       if ( $count_tickets )
@@ -369,7 +371,7 @@ class geoActions extends sfActions
       $q = $this->buildQuery()
         ->select('c.id, count(DISTINCT tck.id) AS qty')
         ->groupBy('c.id')
-        ->andWhere('substring(c.postalcode, 1, 2) = substring(?, 1, 2)', $client['postalcode'])
+        ->andWhere('substring(CASE WHEN pp.id IS NULL THEN c.postalcode ELSE po.postalcode END, 1, 2) = substring(?, 1, 2)', $client['postalcode'])
         ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
       $res['department'] = -$res['exact'];
       if ( $count_tickets )
@@ -387,7 +389,7 @@ class geoActions extends sfActions
       $q = $this->buildQuery()
         ->select('c.id, count(DISTINCT tck.id) AS qty')
         ->groupBy('c.id')
-        ->andWhere('substring(c.postalcode, 1, 2) IN (SELECT gd.num FROM GeoFrRegion gr LEFT JOIN gr.Departments gd LEFT JOIN gr.Departments gdc WHERE gdc.num = substring(?, 1, 2))', $client['postalcode'])
+        ->andWhere('substring(CASE WHEN pp.id IS NULL THEN c.postalcode ELSE po.postalcode END, 1, 2) IN (SELECT gd.num FROM GeoFrRegion gr LEFT JOIN gr.Departments gd LEFT JOIN gr.Departments gdc WHERE gdc.num = substring(?, 1, 2))', $client['postalcode'])
         ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
       $res['region'] = -$res['department'] -$res['exact'];
       if ( $count_tickets )
