@@ -632,6 +632,10 @@
         <source>Continue shopping</source>
         <target>Poursuivre mes achats</target>
       </trans-unit>
+      <trans-unit>
+        <source>My orders</source>
+        <target>Mes commandes</target>
+      </trans-unit>
       <trans-unit id="13">
         <source>Send</source>
         <target>Envoyer</target>

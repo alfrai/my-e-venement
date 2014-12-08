@@ -1,13 +1,19 @@
 <?php echo $form->renderHiddenFields() ?>
-<?php foreach ( array('email','password') as $fieldname ): ?>
-  <p class="<?php echo $fieldname ?>">
+  <p class="<?php echo $fieldname = 'email' ?>">
     <?php echo $form[$fieldname]->renderLabel() ?>
     <?php echo $form[$fieldname] ?>
     <span class="error"><?php if ( isset($errors[$fieldname]) ) echo __($errors[$fieldname]) ?></span>
   </p>
-<?php endforeach ?>
+  <p class="<?php echo $fieldname = 'password' ?>">
+    <?php echo $form[$fieldname]->renderLabel() ?>
+    <?php echo $form[$fieldname] ?>
+    <span class="error"><?php if ( isset($errors[$fieldname]) ) echo __($errors[$fieldname]) ?></span>
+    <a href="<?php echo url_for('login/forgot') ?>" class="forgot"><?php echo __('You forgot your password?') ?></a>
+  </p>
   <p class="submit">
     <label></label>
-    <input type="submit" value="Ok" name="submit" />
-    <a href="<?php echo url_for('login/forgot') ?>" class="forgot"><?php echo __('You forgot your password?') ?></a>
+    <input type="submit" value="<?php echo __('Continue shopping') ?>" name="continue" />
+    <button name="<?php echo sprintf($form->getWidgetSchema()->getNameFormat(), 'url_back') ?>" value="<?php echo url_for('contact/index') ?>">
+      <?php echo __('My orders') ?>
+    </button>
   </p>
