@@ -212,17 +212,17 @@ $(document).ready(function(){
 <?php if ( $transaction->Order->count() > 0 || $transaction->Payments->count() > 0 ): ?>
 
 <div id="payments">
-<h3><?php echo __('Payment status') ?> :</h3>
+<h3><?php echo __('Payment status') ?>:</h3>
 <?php include_partial('show_payments',array('transaction' => $transaction)) ?>
 </div>
 
 <div id="details">
-<h3><?php echo __('Command status') ?> :</h3>
+<h3><?php echo __('Command status') ?>:</h3>
 <?php include_partial('show_details',array('transaction' => $transaction)) ?>
 </div>
 
 <div id="transaction-content">
-<h3><?php echo __('Content') ?> :</h3>
+<h3><?php echo __('Content') ?>:</h3>
 <?php include_partial('show_content',array('transaction' => $transaction)) ?>
 </div>
 
