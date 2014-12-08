@@ -42,6 +42,8 @@ class StatsCriteriasForm extends BaseForm
       'required' => false,
       'multiple' => true,
     ));
+    
+    return $this;
   }
   public function addEventCriterias()
   {
