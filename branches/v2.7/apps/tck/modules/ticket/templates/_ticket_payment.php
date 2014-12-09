@@ -66,7 +66,7 @@
       foreach ( $transaction->Translinked as $t )
         $ids[] = $t->id;
       
-      echo url_for('payment/index?transaction_id[]='.implode('&transaction_id[]=',$ids));
+      echo url_for('payment/index').'?transaction_id[]='.implode('&transaction_id[]=',$ids);
     ?>',function(data){
       data = $.parseHTML(data);
       var currency = '&nbsp;€'; //$('#prices .total .total').html().replace("\n",'').replace(/^\s*\d+[,\.]\d+/g,'');
