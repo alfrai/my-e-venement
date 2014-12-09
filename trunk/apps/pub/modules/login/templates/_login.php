@@ -12,8 +12,8 @@
   </p>
   <p class="submit">
     <label></label>
-    <input type="submit" value="<?php echo __('Continue shopping') ?>" name="continue" />
     <button name="<?php echo sprintf($form->getWidgetSchema()->getNameFormat(), 'url_back') ?>" value="<?php echo url_for('contact/index') ?>">
       <?php echo __('My orders') ?>
     </button>
+    <input type="submit" value="<?php echo __('Continue shopping') ?>" name="continue" />
   </p>
