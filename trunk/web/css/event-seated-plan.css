@@ -21,12 +21,12 @@
 .picture.seated-plan .more-data .shortname { z-index: 2; overflow: hidden; }
 .picture.seated-plan .more-data .debt { border: 2px solid red; border-radius: 40%; margin: -2px 0 0 -2px; }
 .picture.seated-plan .more-data .debt.debt-too-much { border-color: green; }
-.picture.seated-plan .more-data .group { background-color: rgba(120,120,120,0.6); padding: 4px; margin: -6px 0 0 -4px; }
+.picture.seated-plan .more-data .group { padding: 4px; margin: -6px 0 0 -4px; }
 
 /* PARENT */
 .seated-plan-parent .seated-plan-actions { position: absolute; z-index: 6; margin: 5px 0 0 5px; }
 .seated-plan-parent .seated-plan-actions > * { border: 1px solid gray; background-color: rgba(0,0,0,0.2); padding: 2px 5px; border-radius: 2px; display: block; margin-bottom: 2px; text-decoration: none; }
-#content .seated-plan-parent .seated-plan-actions select { width: 120px; }
+#content .seated-plan-parent .seated-plan-actions select { width: 140px; }
 
 /* LIST */
 .sf_admin_list table tbody .sf_admin_row .sf_admin_number { text-align: right; }

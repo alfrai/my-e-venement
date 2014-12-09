@@ -10,13 +10,14 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
   if ( root == undefined )
     root = $('body');
   
-  $('.picture.seated-plan .more-data').remove();
+  $('.picture.seated-plan .more-data:not(.group)').remove();
   if ( !show )
     return;
   
   $(root).find('.picture.seated-plan').append($('<div></div>').addClass('more-data'));
   $('#transition').show();
   $.get(url, function(data){
+    var color = Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255);
     $.each(data, function(key, obj){
       var elt = $('<div></div>')
         .text(obj.shortname)
@@ -88,10 +89,15 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
       break;
       
       case 'group':
+        elt.closest('.more-data').addClass('group');
         elt
           .addClass('group')
           .height(elt.width())
+          .prop('title', obj.group_name)
+          .css('background-color', 'rgb('+color+',0.5)')
         ;
+        elt.closest('.seated-plan-parent').find('.seated-plan-actions .groups [name=group_id] [value='+obj.group_id+']')
+          .css('background-color', 'rgba('+color+',0.5)');
       break;
       }
     });

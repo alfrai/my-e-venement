@@ -18,7 +18,7 @@ class SeatedPlan extends PluginSeatedPlan
     
     // default values
     foreach ( array(
-      'app' => 'event',
+      'app' => array('seats' => 'event', 'picture' => 'default'), // if defined as a string, the same app will be used to retrieve picture & seats
       'get-seats' => 'seated_plan/getSeats',
       'on-demand' => false,
       'match-seated-plan' => true,
@@ -28,7 +28,7 @@ class SeatedPlan extends PluginSeatedPlan
       $attributes[$key] = $value;
     
     $img = $this->Picture->render(array(
-      'app'   => $attributes['app'],
+      'app'   => is_array($attributes['app']) ? $attributes['app']['picture'] : $attributes['app'],
       'title' => $this->Picture,
       'width' => $this->ideal_width ? $this->ideal_width : '',
       'add-data-src' => $attributes['add-data-src'],
@@ -39,7 +39,7 @@ class SeatedPlan extends PluginSeatedPlan
     foreach ( $gauges as $gauge )
       $ids[] = $gauge->id;
     $data = '<a
-      href="'.cross_app_url_for($attributes['app'], $attributes['get-seats'].($attributes['match-seated-plan'] ? '?id='.$this->id : '')).($attributes['match-seated-plan']?'&amp;':'?').'gauges_list[]='.implode('&amp;gauges_list[]=', $ids).'"
+      href="'.cross_app_url_for(is_array($attributes['app']) ? $attributes['app']['seats'] : $attributes['app'], $attributes['get-seats'].($attributes['match-seated-plan'] ? '?id='.$this->id : '')).($attributes['match-seated-plan']?'&amp;':'?').'gauges_list[]='.implode('&amp;gauges_list[]=', $ids).'"
       class="seats-url"
     ></a>';
     

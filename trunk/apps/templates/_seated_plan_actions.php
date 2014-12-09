@@ -38,14 +38,14 @@
              method="get"
              action="<?php echo url_for('seated_plan/getGroup') ?>"
              target="_blank"
-             onsubmit="javascript: if ( $(this).find('[name=transaction_group]').val() == 'cxsdf') return false; var plan = $(this).closest('.seated-plan-parent'); LI.seatedPlanMoreDataInitialization($(this).prop('action')+'?'+$(this).serialize(), plan); return false;"
+             onsubmit="javascript: if ( $(this).find('[name=group_id]').val() == '0' ) { $(this).closest('.seated-plan-parent').find('.more-data.group').remove(); return false; } var plan = $(this).closest('.seated-plan-parent'); LI.seatedPlanMoreDataInitialization($(this).prop('action')+'?'+$(this).serialize(), plan); return false;"
           >
             <input type="hidden" name="id" value="<?php echo $seated_plan->id ?>" />
             <?php foreach ( $ids as $id ): ?>
             <input type="hidden" name="gauges_list[]" value="<?php echo $id ?>" />
             <?php endforeach ?>
             <select name="group_id" onchange="javascript: $(this).closest('form').submit();">
-              <option>--<?php echo __('Groups') ?>--</option>
+              <option value="0">--<?php echo __('Clear groups') ?>--</option>
               <?php foreach ( Doctrine::getTable('Group')->createQuery('g')->orderBy('u.id IS NULL DESC, u.username, name')->execute() as $group ): ?>
                 <option value="<?php echo $group->id ?>"><?php echo $group ?></option>
               <?php endforeach ?>

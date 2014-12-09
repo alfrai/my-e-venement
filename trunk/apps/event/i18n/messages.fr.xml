@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Clear groups</source>
+        <target>Vider les groupes</target>
+      </trans-unit>
+      <trans-unit>
         <source>This only concerns seated gauges and seats. It is not about global free tickets.</source>
         <target>Cela concerne seulement les jauges placées et leurs places. Il ne s'agit donc pas de billets disponibles hors placement.</target>
       </trans-unit>

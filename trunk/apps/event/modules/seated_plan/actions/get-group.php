@@ -53,7 +53,7 @@
     $this->data = array();
     foreach ( $q->execute() as $seat )
     {
-      $group = $seat->Tickets[0]->DirectContact->Groups->count() > 0
+      $group = $seat->Tickets[0]->contact_id && $seat->Tickets[0]->DirectContact->Groups->count() > 0
         ? $seat->Tickets[0]->DirectContact->Groups[0]
         : ($seat->Tickets[0]->Transaction->Contact->Groups->count() > 0
         ? $seat->Tickets[0]->Transaction->Contact->Groups[0]
@@ -65,6 +65,7 @@
         'seat_id'   => $seat->id,
         'seat_name' => $seat->name,
         'seat_class'=> $seat->class,
+        'group_id'  => $group->id,
         'group_name'=> (string)$group,
         'gauge_id'  => $seat->Tickets[0]->Gauge->id,
         'transaction_id' => $seat->Tickets[0]->transaction_id,
