@@ -28,6 +28,7 @@ class geoActions extends sfActions
     $this->form
       ->addByTicketsCriteria()
       ->addEventCriterias()
+      ->addManifestationCriteria()
       ->addGroupsCriteria();
     if ( is_array($this->getCriterias()) )
       $this->form->bind($this->getCriterias());
@@ -113,6 +114,8 @@ class geoActions extends sfActions
   {
     return  $this->addFiltersToQuery(Doctrine_Query::create()->from('Contact c'))
       ->leftJoin('c.Transactions t')
+      ->leftJoin('t.Professional pro')
+      ->leftJoin('pro.Organism o')
       ->leftJoin('t.Tickets tck')
       ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL')
       ->andWhere('tck.cancelling IS NULL AND tck.id NOT IN (SELECT tck2.cancelling FROM Ticket tck2 WHERE cancelling IS NOT NULL)')
@@ -134,7 +137,6 @@ class geoActions extends sfActions
     if ( isset($criterias['groups_list']) && is_array($criterias['groups_list']) )
     {
       $q->leftJoin('c.Groups gc')
-        ->leftJoin('c.Professionals pro')
         ->leftJoin('pro.Groups gp')
         ->andWhere('(TRUE')
         ->andWhereIn('gc.id', $criterias['groups_list'])
@@ -153,6 +155,8 @@ class geoActions extends sfActions
       $q->andWhereIn('tck.sf_guard_user_id', $criterias['sf_guard_users_list']);
     if ( isset($criterias['events_list']) && is_array($criterias['events_list']) )
       $q->andWhereIn('m.event_id', $criterias['events_list']);
+    if ( isset($criterias['manifestations_list']) && is_array($criterias['manifestations_list']) )
+      $q->andWhereIn('m.id', $criterias['manifestations_list']);
     
     if ( isset($criterias['dates']) && is_array($criterias['dates']) )
     {
@@ -183,8 +187,8 @@ class geoActions extends sfActions
     
     case 'postalcodes':
       foreach ( $this->buildQuery()
-        ->select('c.id, c.postalcode, count(DISTINCT tck.id) AS qty')
-        ->groupBy('c.id, c.postalcode')
+        ->select('c.id, (CASE WHEN pro.id IS NOT NULL THEN o.postalcode ELSE c.postalcode END) AS postalcode, count(DISTINCT tck.id) AS qty')
+        ->groupBy('c.id, c.postalcode, pro.id, o.postalcode')
         ->fetchArray() as $pc )
       {
         if ( !isset($res[$pc['postalcode']]) )
@@ -216,8 +220,8 @@ class geoActions extends sfActions
     
     case 'departments':
       foreach ( $this->buildQuery()
-        ->select('c.id, substr(c.postalcode,1,2) AS dpt, count(DISTINCT tck.id) AS qty')
-        ->groupBy('c.id, c.postalcode')
+        ->select('c.id, substr(CASE WHEN pro.id IS NOT NULL THEN o.postalcode ELSE c.postalcode END,1,2) AS dpt, count(DISTINCT tck.id) AS qty')
+        ->groupBy('c.id, c.postalcode, pro.id, o.postalcode')
         ->fetchArray() as $pc )
       {
         if ( !isset($res[$pc['dpt']]) )
@@ -266,8 +270,8 @@ class geoActions extends sfActions
       $dpts[''] = '';
       
       foreach ( $this->buildQuery()
-        ->select('c.id, substr(c.postalcode,1,2) AS dpt, count(DISTINCT tck.id) AS qty')
-        ->groupBy('c.id, c.postalcode')
+        ->select('c.id, substr(CASE WHEN pro.id IS NOT NULL THEN o.postalcode ELSE c.postalcode END,1,2) AS dpt, count(DISTINCT tck.id) AS qty')
+        ->groupBy('c.id, c.postalcode, pro.id, o.postalcode')
         ->fetchArray() as $pc )
       {
         if ( !isset($dpts[trim($pc['dpt'])]) )
@@ -348,7 +352,7 @@ class geoActions extends sfActions
       $q = $this->buildQuery()
         ->select('c.id, count(DISTINCT tck.id) AS qty')
         ->groupBy('c.id')
-        ->andWhere('c.postalcode = ?', $client['postalcode'])
+        ->andWhere('(pro.id IS NULL AND c.postalcode = ? OR pro.id IS NOT NULL AND o.postalcode = ?)', array($client['postalcode'], $client['postalcode']))
         ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
       $res['exact'] = 0;
       if ( $count_tickets )
@@ -366,7 +370,7 @@ class geoActions extends sfActions
       $q = $this->buildQuery()
         ->select('c.id, count(DISTINCT tck.id) AS qty')
         ->groupBy('c.id')
-        ->andWhere('substring(c.postalcode, 1, 2) = substring(?, 1, 2)', $client['postalcode'])
+        ->andWhere('substring(CASE WHEN pro.id IS NULL THEN c.postalcode ELSE o.postalcode END, 1, 2) = substring(?, 1, 2)', $client['postalcode'])
         ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
       $res['department'] = -$res['exact'];
       if ( $count_tickets )
@@ -384,7 +388,7 @@ class geoActions extends sfActions
       $q = $this->buildQuery()
         ->select('c.id, count(DISTINCT tck.id) AS qty')
         ->groupBy('c.id')
-        ->andWhere('substring(c.postalcode, 1, 2) IN (SELECT gd.num FROM GeoFrRegion gr LEFT JOIN gr.Departments gd LEFT JOIN gr.Departments gdc WHERE gdc.num = substring(?, 1, 2))', $client['postalcode'])
+        ->andWhere('substring(CASE WHEN pro.id IS NULL THEN c.postalcode ELSE o.postalcode END, 1, 2) IN (SELECT gd.num FROM GeoFrRegion gr LEFT JOIN gr.Departments gd LEFT JOIN gr.Departments gdc WHERE gdc.num = substring(?, 1, 2))', $client['postalcode'])
         ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
       $res['region'] = -$res['department'] -$res['exact'];
       if ( $count_tickets )
