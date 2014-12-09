@@ -308,8 +308,8 @@ class geoActions extends sfActions
       $default_country = isset($tmp['country']) ? $tmp['country'] : '';
       
       foreach ( $this->buildQuery()
-        ->select('c.id, c.country, count(DISTINCT tck.id) AS qty')
-        ->groupBy('c.id, c.country')
+        ->select('c.id, (CASE WHEN pro.id IS NOT NULL THEN o.country ELSE c.country END) AS country, count(DISTINCT tck.id) AS qty')
+        ->groupBy('c.id, c.country, pro.id, o.country')
         ->fetchArray() as $pc )
       {
         if ( !trim($pc['country']) )
@@ -353,7 +353,7 @@ class geoActions extends sfActions
         ->select('c.id, count(DISTINCT tck.id) AS qty')
         ->groupBy('c.id')
         ->andWhere('(pro.id IS NULL AND c.postalcode = ? OR pro.id IS NOT NULL AND o.postalcode = ?)', array($client['postalcode'], $client['postalcode']))
-        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
+        ->andWhere('(pro.id IS NULL AND (c.country ILIKE ? OR c.country IS NULL OR c.country = ?) OR pro.id IS NOT NULL AND (o.country ILIKE ? OR o.country IS NULL OR o.country = ?))', array(isset($client['country']) ? $client['country'] : 'France', '', isset($client['country']) ? $client['country'] : 'France', '',));
       $res['exact'] = 0;
       if ( $count_tickets )
       foreach ( $q->fetchArray() as $c )
@@ -371,7 +371,7 @@ class geoActions extends sfActions
         ->select('c.id, count(DISTINCT tck.id) AS qty')
         ->groupBy('c.id')
         ->andWhere('substring(CASE WHEN pro.id IS NULL THEN c.postalcode ELSE o.postalcode END, 1, 2) = substring(?, 1, 2)', $client['postalcode'])
-        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
+        ->andWhere('(pro.id IS NULL AND (c.country ILIKE ? OR c.country IS NULL OR c.country = ?) OR pro.id IS NOT NULL AND (o.country ILIKE ? OR o.country IS NULL OR o.country = ?))', array(isset($client['country']) ? $client['country'] : 'France', '', isset($client['country']) ? $client['country'] : 'France', '',));
       $res['department'] = -$res['exact'];
       if ( $count_tickets )
       foreach ( $q->fetchArray() as $c )
@@ -389,7 +389,7 @@ class geoActions extends sfActions
         ->select('c.id, count(DISTINCT tck.id) AS qty')
         ->groupBy('c.id')
         ->andWhere('substring(CASE WHEN pro.id IS NULL THEN c.postalcode ELSE o.postalcode END, 1, 2) IN (SELECT gd.num FROM GeoFrRegion gr LEFT JOIN gr.Departments gd LEFT JOIN gr.Departments gdc WHERE gdc.num = substring(?, 1, 2))', $client['postalcode'])
-        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
+        ->andWhere('(pro.id IS NULL AND (c.country ILIKE ? OR c.country IS NULL OR c.country = ?) OR pro.id IS NOT NULL AND (o.country ILIKE ? OR o.country IS NULL OR o.country = ?))', array(isset($client['country']) ? $client['country'] : 'France', '', isset($client['country']) ? $client['country'] : 'France', '',));
       $res['region'] = -$res['department'] -$res['exact'];
       if ( $count_tickets )
       foreach ( $q->fetchArray() as $c )
@@ -406,7 +406,7 @@ class geoActions extends sfActions
       $q = $this->buildQuery()
         ->select('c.id, count(DISTINCT tck.id) AS qty')
         ->groupBy('c.id')
-        ->andWhere('c.country ILIKE ? OR c.country IS NULL OR c.country = ?', array(isset($client['country']) ? $client['country'] : 'France', ''));
+        ->andWhere('(pro.id IS NULL AND (c.country ILIKE ? OR c.country IS NULL OR c.country = ?) OR pro.id IS NOT NULL AND (o.country ILIKE ? OR o.country IS NULL OR o.country = ?))', array(isset($client['country']) ? $client['country'] : 'France', '', isset($client['country']) ? $client['country'] : 'France', '',));
       $res['country'] = -$res['region'] -$res['department'] -$res['exact'];
       if ( $count_tickets )
       foreach ( $q->fetchArray() as $c )
