@@ -26,7 +26,8 @@
 
   // transforms a simple HTML call into a seated plan widget (seated-plan.css is also needed)
   // you can use something as simple as <a href="<?php echo url_for('seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$gauge->id') ?>" class="picture seated-plan"><?php echo $seated_plan->Picture->getHtmlTag(array('title' => $seated_plan->Picture, 'width' => $seated_plan->ideal_width ? $seated_plan->ideal_width : '')) ?></a>
-  LI.seatedPlanInitializationFunctions = [];
+  if ( LI.seatedPlanInitializationFunctions == undefined )
+    LI.seatedPlanInitializationFunctions = [];
   LI.seatedPlanInitializationFunctions.push(function(selector){
     $(selector).addClass('done');
   });

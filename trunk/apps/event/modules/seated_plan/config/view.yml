@@ -33,7 +33,7 @@ getShortnamesSuccess:
   has_layout: false
   http_metas:
     content-type: application/json
-getDebtsSuccess:
+getDebtsJson:
   has_layout: false
   http_metas:
     content-type: application/json

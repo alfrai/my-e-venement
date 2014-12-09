@@ -105,3 +105,21 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
     $('#transition .close').click();
   });
 }
+
+LI.seatedPlanInitializationFunctions.push(function(root){
+  $(root).find('.seat.txt').click(function(e){
+    var url = $(this).closest('.seated-plan-parent').find('.seated-plan-actions .transaction').prop('href');
+    if ( $(this).attr('data-ticket-id') )
+      url += '?ticket_id='+$(this).attr('data-ticket-id');
+    else
+      url += '?seat_id='+$(this).attr('data-id')+'&gauge_id='+$(this).closest('[data-gauge-id]').attr('data-gauge-id');
+    
+    if ( e.which == 2 || e.ctrlKey )
+      window.open(url);
+    else
+      window.location = url;
+  }).mousedown(function(e){
+    if ( e.which == 2 )
+      $(this).click(e);
+  });
+});

@@ -70,5 +70,5 @@
     }
     
     if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
-      return $this->renderText(print_r($this->data));
-    return 'Success';
+      return 'Success';
+    return 'Json';

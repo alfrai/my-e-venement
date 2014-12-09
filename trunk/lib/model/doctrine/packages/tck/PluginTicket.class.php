@@ -68,8 +68,7 @@ abstract class PluginTicket extends BaseTicket
         ;
       $q->andWhere('(pmp.id IS NOT NULL OR pgp.id IS NOT NULL)');
       
-      $price = $q->fetchOne();
-      if ( $price )
+      if ( $price = $q->fetchOne() )
       {
         if ( is_null($this->price_name) )
           $this->price_name = $price->name;

@@ -38,7 +38,7 @@ class seated_planActions extends autoSeated_planActions
 {
   public function executeGetDebts(sfWebRequest $request)
   {
-    require(dirname(__FILE__).'/get-debts.php');
+    return require(dirname(__FILE__).'/get-debts.php');
   }
   public function executeGetRanks(sfWebRequest $request)
   {

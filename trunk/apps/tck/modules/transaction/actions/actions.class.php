@@ -13,6 +13,53 @@ require_once dirname(__FILE__).'/../lib/transactionGeneratorHelper.class.php';
  */
 class transactionActions extends autoTransactionActions
 {
+  public function executeFind(sfWebRequest $request)
+  {
+    // find by ticket_id
+    if ( $request->hasParameter('ticket_id') )
+    {
+      $q = Doctrine::getTable('Ticket')->createQuery('tck')
+        ->andWhere('tck.id = ?', $request->getParameter('ticket_id'));
+      $this->forward404Unless($ticket = $q->fetchOne());
+      if ( $ticket->cancelling )
+        $this->redirect('ticket/pay?id='.$ticket->transaction_id);
+      else
+        $this->redirect('transaction/edit?id='.$ticket->transaction_id);
+    }
+    
+    // find by seat_id + gauge_id
+    if ( $request->hasParameter('seat_id') && $request->hasParameter('gauge_id') )
+    {
+      $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
+      
+      $q = Doctrine::getTable('Seat')->createQuery('s')
+        ->andWhere('s.id = ?', $request->getParameter('seat_id'))
+        ->leftJoin('s.Tickets tck WITH tck.gauge_id = ?', $request->getParameter('gauge_id'));
+      $this->forward404Unless($seat = $q->fetchOne());
+      if ( $seat->Tickets->count() > 0 )
+        $this->redirect('transaction/edit?id='.$seat->Tickets[0]->transaction_id);
+      
+      $q = Doctrine::getTable('Gauge')->createQuery('g',false)
+        ->andWhere('g.id = ?', $request->getParameter('gauge_id'));
+      $this->forward404Unless($gauge = $q->fetchOne());
+      
+      $this->forward404Unless($gauge->seated_plan->id == $seat->seated_plan_id);
+      
+      $this->transaction = new Transaction;
+      $ticket = new Ticket;
+      $ticket->Seat = $seat;
+      $ticket->Gauge = $gauge;
+      $ticket->price_name = sfConfig::get('app_tickets_wip_price', 'WIP');
+      $ticket->value = 0;
+      $this->transaction->Tickets[] = $ticket;
+      $this->transaction->save();
+      
+      $this->getUser()->setFlash('success', __('Transaction created'));
+      $this->redirect('transaction/edit?id='.$this->transaction->id);
+    }
+    
+    $this->forward404();
+  }
   public function executeRegistered(sfWebRequest $request)
   {
     $this->transaction = $this->getRoute()->getObject();

@@ -38,12 +38,16 @@
              method="get"
              action="<?php echo url_for('seated_plan/getGroup') ?>"
              target="_blank"
-             onsubmit="javascript: if ( $(this).find('[name=group_id]').val() == '0' ) { $(this).closest('.seated-plan-parent').find('.more-data.group').remove(); return false; } var plan = $(this).closest('.seated-plan-parent'); LI.seatedPlanMoreDataInitialization($(this).prop('action')+'?'+$(this).serialize(), plan); return false;"
+             onsubmit="javascript: if ( $(this).find('[name=group_id]').val() == '0' ) { $(this).find('option').css('background-color', 'transparent'); $(this).closest('.seated-plan-parent').find('.more-data.group').remove(); return false; } var plan = $(this).closest('.seated-plan-parent'); LI.seatedPlanMoreDataInitialization($(this).prop('action')+'?'+$(this).serialize(), plan); return false;"
           >
             <input type="hidden" name="id" value="<?php echo $seated_plan->id ?>" />
+            <?php if ( isset($ids) ): ?>
             <?php foreach ( $ids as $id ): ?>
             <input type="hidden" name="gauges_list[]" value="<?php echo $id ?>" />
             <?php endforeach ?>
+            <?php else: ?>
+            <input type="hidden" name="gauges_list[]" value="<?php echo $gauge->id ?>" />
+            <?php endif ?>
             <select name="group_id" onchange="javascript: $(this).closest('form').submit();">
               <option value="0">--<?php echo __('Clear groups') ?>--</option>
               <?php foreach ( Doctrine::getTable('Group')->createQuery('g')->orderBy('u.id IS NULL DESC, u.username, name')->execute() as $group ): ?>
@@ -51,3 +55,6 @@
               <?php endforeach ?>
             </select>
           </form>
+          
+          <?php use_helper('CrossAppLink') ?>
+          <a href="<?php echo cross_app_url_for('tck', 'transaction/find') ?>" class="transaction" style="display: none"></a>
