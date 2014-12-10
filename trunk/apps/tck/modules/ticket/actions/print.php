@@ -89,7 +89,7 @@
               $this->toprint[] = $ticket->id;
               $this->print_again = true;
             }
-            elseif ( strcasecmp($ticket->price_name,trim($request->getParameter('price_name'))) == 0
+            elseif ( strcasecmp(trim($ticket->price_name),trim($request->getParameter('price_name'))) == 0
               && $ticket->printed_at
               && !($request->getParameter('manifestation_id') && $ticket->manifestation_id != $request->getParameter('manifestation_id')) )
             {
@@ -166,7 +166,7 @@
               $this->toprint[] = $ticket->id;
               $this->print_again = true;
             }
-            elseif ( strcasecmp($ticket->price_name,trim($request->getParameter('price_name'))) == 0
+            elseif ( strcasecmp(trim($ticket->price_name),trim($request->getParameter('price_name'))) == 0
               && $ticket->printed_at
               && !($request->getParameter('manifestation_id') && $ticket->manifestation_id != $request->getParameter('manifestation_id')) )
             {
