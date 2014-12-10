@@ -153,14 +153,23 @@ body #content { width: auto; }
 #tdp-content .sf_admin_list_th_list_professional_description, #tdp-content .sf_admin_list_td_list_professional_description
 { max-width: 80px; overflow: hidden; word-wrap: break-word; }
 
+#tdp-content .sf_admin_list_th_description, #tdp-content .sf_admin_list_td_description { max-width: 100px; }
+#tdp-content .sf_admin_list_th_list_transactions, #tdp-content .sf_admin_list_td_list_transactions { max-width: 70px; }
+#tdp-content .sf_admin_list_td_list_transactions ul { list-style-type: none; }
+#tdp-content .sf_admin_list_td_list_transactions li { display: inline; }
+#tdp-content .sf_admin_list_td_list_transactions li:not(:last-child):after { content: ','; }
+#tdp-content .sf_admin_list_td_list_transactions .not-printed { font-style: italic; }
+#tdp-content .sf_admin_list_td_list_transactions .ordered a { text-decoration: underline; }
+#tdp-content .sf_admin_list_td_list_transactions .not-printed:not(.ordered), #tdp-content .sf_admin_list_td_list_transactions .not-printed:not(.ordered) a { color: silver; }
 @media screen and (min-width: 1820px) {
 #tdp-content .sf_admin_list_td_list_contact, #tdp-content .sf_admin_list_th_list_contact,
 #tdp-content .sf_admin_list_td_list_professional_id, #tdp-content .sf_admin_list_th_list_professional_id,
 #tdp-content .sf_admin_list_td_list_see_orgs, #tdp-content .sf_admin_list_th_list_see_orgs { display: none; }
 }
-#tdp-content .sf_admin_list_th_description, #tdp-content .sf_admin_list_td_description { max-width: 100px; }
 @media screen and (max-width: 1500px) {
+/* hide extra data on small screens */
 #tdp-content .sf_admin_list_th_description, #tdp-content .sf_admin_list_td_description { display: none; }
+#tdp-content .sf_admin_list_th_list_transactions, #tdp-content .sf_admin_list_td_list_transactions { display: none; }
 }
 @media screen and (max-width: 1820px) {
 /* hide professional data */
@@ -193,6 +202,8 @@ body #content { width: auto; }
 /* hide personal data */
 #tdp-content .see-orgs #sf_admin_list_th_actions { font-size: 0; }
 #tdp-content .see-orgs .sf_admin_td_actions,
+#tdp-content .see-orgs .sf_admin_list_th_description, #tdp-content .see-orgs .sf_admin_list_td_description,
+#tdp-content .see-orgs .sf_admin_list_th_list_transactions, #tdp-content .see-orgs .sf_admin_list_td_list_transactions,
 #tdp-content .see-orgs .sf_admin_list_td_list_nb, #tdp-content .see-orgs .sf_admin_list_th_list_nb,
 #tdp-content .see-orgs .sf_admin_list_th_firstname, #tdp-content .see-orgs .sf_admin_list_td_firstname,
 #tdp-content .see-orgs .sf_admin_list_th_name, #tdp-content .see-orgs .sf_admin_list_td_name,

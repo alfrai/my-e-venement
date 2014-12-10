@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Transactions</source>
+        <target>Opérations</target>
+      </trans-unit>
+      <trans-unit>
         <source>Facebook ID</source>
         <target>Identifiant Facebook</target>
       </trans-unit>
@@ -887,6 +891,10 @@
       <trans-unit id="16">
         <source>Orders</source>
         <target>Bons de commande</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Order</source>
+        <target>Bon de commande</target>
       </trans-unit>
       <trans-unit id="17">
         <source>Invoices</source>

@@ -68,8 +68,9 @@ generator:
         tickets_best_rank: { label: Best seat rank }
         tickets_avg_rank: { label: Average seat rank }
         tickets_rank_operand: { label: What kind of operand will we apply on seat ranks? }
+        list_transactions: { label: Transactions }
       list:
-        display: [name, firstname, postalcode, city, _groups_picto, _list_emails, _list_phones, <?php if ( sfConfig::get('app_options_design',false) ): ?>_list_nb, <?php endif ?>_organisms_list <?php if ( sfConfig::get('app_options_design',false) ): ?>, description, _list_see_orgs, _list_contact, _list_professional_id, _list_organism, _list_professional, _list_organism_postalcode, _list_organism_city, _list_professional_emails, _list_organism_phones_list, _list_professional_groups_picto, _list_professional_description<?php endif ?>]
+        display: [name, firstname, postalcode, city, _groups_picto, _list_emails, _list_phones, <?php if ( sfConfig::get('app_options_design',false) ): ?>_list_nb, _list_transactions, <?php endif ?>_organisms_list <?php if ( sfConfig::get('app_options_design',false) ): ?>, description, _list_see_orgs, _list_contact, _list_professional_id, _list_organism, _list_professional, _list_organism_postalcode, _list_organism_city, _list_professional_emails, _list_organism_phones_list, _list_professional_groups_picto, _list_professional_description<?php endif ?>]
         max_per_page: <?php if ( sfConfig::get('app_options_design',false) ): ?>50<?php else: ?>20<?php endif; echo PHP_EOL; ?>
         table_method: retreiveList
         object_actions:
