@@ -60,9 +60,10 @@ LI.list_edit = function()
   $('.sf_admin_row .sf_admin_text').unbind().dblclick(function(){
 
     fieldname = $(this).prop('class').replace(/sf_admin_list_td_(\w+)/g,"$1").replace(/sf_admin_text/g,'').trim();
-    id = $(this).closest('.sf_admin_row').find('[name="ids[]"]').val();
+    var id = $(this).closest('.sf_admin_row').find('[name="ids[]"]').val();
     
-    $(this).load(window.location+'/'+id+'/getSpecializedForm?field='+fieldname+' #nothing',function(data){
+    var url = window.location.protocol+'//'+window.location.host+window.location.pathname;
+    $(this).load(url+'/'+id+'/getSpecializedForm?field='+fieldname+' #nothing',function(data){
       if ( $($.parseHTML(data)).find('.specialized-form input[type=text]').length > 0 )
       {
         width = $(this).innerWidth()-13+'px';
