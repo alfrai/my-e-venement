@@ -23,4 +23,29 @@
 ?>
 <?php
 abstract class pubUser extends liGuardSecurityUser
-{ }
+{
+  /* those modifications are here to allow multiple online sales entry points */
+  public function setAttribute($name, $value, $ns = null)
+  {
+    return parent::setAttribute($this->getAttributeModifiedName($name), $value, $ns);
+  }
+  public function hasAttribute($name, $ns = null)
+  {
+    return parent::hasAttribute($this->getAttributeModifiedName($name), $ns);
+  }
+  public function getAttribute($name, $default = null, $ns = null)
+  {
+    return parent::getAttribute($this->getAttributeModifiedName($name), $default, $ns);
+  }
+  protected function getAttributeModifiedName($name)
+  {
+    return $name;
+    if ( $prefix = sfConfig::get('app_user_session_ns', false) )
+    {
+      if ( is_null($name) )
+        $name = '';
+      $name = $prefix.'_'.$name;
+    }
+    return 'pub_'.$name;
+  }
+}

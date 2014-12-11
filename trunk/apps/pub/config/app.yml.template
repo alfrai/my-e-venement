@@ -12,6 +12,7 @@ all:
   user:
     templating: vel
     must_authenticate: false
+    #session_ns: ''
   informations:
     title: Libre Informatique
     email: contact@to-be-changed.tld
