@@ -8,11 +8,11 @@
     </span>
   </td>
   <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?>
-  <td class="qty"></td>
   <td class="value">
     <?php use_helper('Number') ?>
     <?php echo format_currency($ticket->value,'€') ?>
   </td>
+  <td class="qty"></td>
   <?php endif ?>
   <td class="total">
     <?php use_helper('Number') ?>

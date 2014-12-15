@@ -19,11 +19,12 @@ generator:
         name: { label: "<?php echo sfConfig::get('app_informations_events_title','') ?>" }
         list_companies: { label: Companies }
         list_picture: { label: '' }
+        list_locations: { label: Location }
       list:
         batch_actions: []
         object_actions: []
         actions: []
-        display: [_list_picture, _month, =name, MetaEvent, EventCategory, _dates, _age_min, _list_companies]
+        display: [_list_picture, _month, =name, MetaEvent, EventCategory, _dates, _list_locations, _age_min, _list_companies]
         table_method: retrievePublicList
         sort: ['min_date, m.happens_at', '']
         title: <?php echo sfConfig::get('app_informations_index','Events list').PHP_EOL ?>

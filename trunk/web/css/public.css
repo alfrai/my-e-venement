@@ -8,8 +8,9 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #content #sf_admin_container { position: static; }
 
 #sf_admin_list.table { margin-top: 220px; }
-.sf_admin_list_td_dates ul { margin: 0; white-space: nowrap; }
-.sf_admin_list_td_dates li { list-style-type: none; }
+.sf_admin_list_td_list_locations, .sf_admin_list_th_list_locations { display: none; }
+.sf_admin_list_td_list_locations ul, .sf_admin_list_td_dates ul { margin: 0; white-space: nowrap; }
+.sf_admin_list_td_list_locations li, .sf_admin_list_td_dates li { list-style-type: none; }
 .sf_admin_list .sf_admin_list_th_month, .sf_admin_list .sf_admin_list_td_month { display: none; }
 .sf_admin_list_td_list_companies ul { margin: 0; padding: 0; }
 #sf_admin_container .sf_admin_list tbody td { vertical-align: middle; }
@@ -109,7 +110,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #cart-widget tfoot .timer { font-weight: normal; font-size: 50%; }
 
 #command { border: 1px solid black; border-radius: 5px; border-spacing: inherit; margin-left: 25px; width: calc(100% - 25px); }
-#command td { padding: 2px 6px 2px 6px; border-spacing: inherit; }
+#command td { padding: 2px 6px 2px 6px; border-spacing: inherit; vertical-align: middle; }
 #command td:last-child { padding: 2px 4px 2px 6px; }
 #command thead { background-color: whitesmoke; font-weight: bold; text-align: center; }
 #command tbody tr:nth-child(odd) { background-color: white; }

@@ -114,7 +114,7 @@
     
     if ( $max <= 0 )
     {
-      echo '<tr><td class="price" colspan="'.($vel['full_seating_by_customer'] ? 6 : 5).'">'.__('Price %%price%% not available', array('%%price%%' => $pm->Price)).'</td></tr>';
+      echo '<tr><td class="price not-available" colspan="'.($vel['full_seating_by_customer'] ? 6 : 5).'">'.__('Price %%price%% not available', array('%%price%%' => $pm->Price)).'</td></tr>';
       continue;
     }
     

@@ -13,42 +13,42 @@
     },2500);
     
     // event's picture
-    $('#command tbody tr.tickets').addClass('picture-to-merge');
-    var trs;
-    for ( i = 0 ; (trs = $('#command tbody tr.picture-to-merge')).length > 0 && i < 200 ; i++ ) // var i is a protection
-    {
-      var tr = trs.first();
-      tr.find('td.picture').prop('rowspan', trs.parent().find('[data-manifestation-id='+tr.attr('data-manifestation-id')+']').length);
-      tr.parent().find('[data-manifestation-id='+tr.attr('data-manifestation-id')+']').removeClass('picture-to-merge').not(tr).find('td:first').remove();
-    }
+    LI.pubCartPictureRowspan();
       
     // stop here if needed
     if ( $('#command thead .qty').length == 0 )
       return;
     
-    // concatenation of tickets which has the same price
-    while ( $('#command tbody > :not(.products) .tickets > :not(.done)').length > 0 )
+    // if continuing, removing the rowspan on pictures
+    $('#command td.picture').prop('rowspan', null);
+    
+    // concatenation of tickets that have the same price
+    while ( $('#command tbody > :not(.products):not(.done)').length > 0 )
     {
-      ticket = $('#command tbody .tickets > :not(.done):first');
       var data_id;
-      price_id = ticket.attr('data-price-id') ? ticket.attr(data_id = 'data-price-id') : ticket.attr(data_id = 'data-mct-id');
-      gauge_id = ticket.closest('tr').attr('id');
-      ticket.closest('tr').find('.qty').html($('#command tbody #'+gauge_id+' .tickets > ['+data_id+'='+price_id+']').length);
+      var ticket = $('#command tbody > :not(.products):not(.done):first');
+      
+      price_id = ticket.find('.tickets > [data-price-id]').length > 0 ? ticket.find('.tickets > [data-price-id]').attr(data_id = 'data-price-id') : ticket.find('.tickets > [data-mct-id]').attr(data_id = 'data-mct-id');
+      gauge_id = ticket.attr('data-gauge-id');
+      ticket.find('.qty').text($('#command tbody [data-gauge-id='+gauge_id+'] .tickets > ['+data_id+'='+price_id+']').length);
       var value = 0;
       var taxes = 0;
-      $('#command tbody #'+gauge_id+' .tickets > ['+data_id+'='+price_id+']').each(function(){
+      $('#command tbody [data-gauge-id='+gauge_id+'] .tickets > ['+data_id+'='+price_id+']').each(function(){
         value += parseFloat($(this).closest('tr').find('.value').html().replace(',','.'));
         var tmp = parseFloat($(this).closest('tr').find('.extra-taxes').html().replace(',','.'));
         if ( !isNaN(tmp) )
           taxes += tmp;
       });
-      var currency = $.trim(ticket.closest('tr').find('.value').html()).replace(',','.').replace(/^\d+\.{0,1}\d*&nbsp;(.*)$/,'$1');
+      var currency = $.trim(ticket.find('.value').text()).replace(',','.').replace(/^\d+\.{0,1}\d*&nbsp;(.*)$/,'$1');
       
-      ticket.closest('tr').find('.total').html(LI.format_currency(value, currency));
-      ticket.closest('tr').find('.extra-taxes').html(LI.format_currency(taxes, currency));
+      ticket.find('.total').html(LI.format_currency(value, currency));
+      ticket.find('.extra-taxes').html(LI.format_currency(taxes, currency));
       ticket.addClass('done');
-      $('#command tbody #'+gauge_id+' .tickets > ['+data_id+'='+price_id+']:not(.done)').remove();
+      $('#command tbody > [data-gauge-id='+gauge_id+']:not(.done) .tickets > ['+data_id+'='+price_id+']').closest('[data-gauge-id]').remove();
     }
+    
+    // event's picture
+    LI.pubCartPictureRowspan();
     
     // products
     $('#command tbody > .products').addClass('todo');
@@ -78,10 +78,18 @@
       
       $(pdt).removeClass('todo');
     }
-    
-    // removing empty lines
-    $('#command tbody > :not(.products)').each(function(){
-      if ( $(this).find('.tickets .done').length == 0 )
-        $(this).remove();
-    });
   });
+
+if ( LI == undefined )
+  var LI = {};
+LI.pubCartPictureRowspan = function()
+{
+  $('#command tbody tr.tickets').addClass('picture-to-merge');
+  var trs;
+  for ( i = 0 ; (trs = $('#command tbody tr.picture-to-merge')).length > 0 && i < 200 ; i++ ) // var i is a protection
+  {
+    var tr = trs.first();
+    tr.find('td.picture').prop('rowspan', trs.parent().find('[data-manifestation-id='+tr.attr('data-manifestation-id')+']').length);
+    tr.parent().find('[data-manifestation-id='+tr.attr('data-manifestation-id')+']').removeClass('picture-to-merge').not(tr).find('td:first').hide();
+  }
+}
