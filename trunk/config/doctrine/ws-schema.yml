@@ -121,7 +121,7 @@ Survey:
     I18n:
       fields: [description]
       generateFiles: true
-      generatePath: <?php echo sfConfig::get('sf_lib_dir'); ?>/model/doctrine/i18n
+      generatePath: ../<?php echo str_replace(sfConfig::get('sf_root_dir').'/', '', sfConfig::get('sf_lib_dir')) ?>/model/doctrine/i18n
   columns:
     name:
       type: string(255)
@@ -138,7 +138,7 @@ SurveyQuery:
     I18n:
       fields: [name]
       generateFiles: true
-      generatePath: <?php echo sfConfig::get('sf_lib_dir'); ?>/model/doctrine/i18n
+      generatePath: ../<?php echo str_replace(sfConfig::get('sf_root_dir').'/', '', sfConfig::get('sf_lib_dir')) ?>/model/doctrine/i18n
     Sluggable:
       fields: [name]
     Searchable:
@@ -186,7 +186,7 @@ SurveyQueryOption:
     I18n:
       fields: [name]
       generateFiles: true
-      generatePath: <?php echo sfConfig::get('sf_lib_dir'); ?>/model/doctrine/i18n
+      generatePath: ../<?php echo str_replace(sfConfig::get('sf_root_dir').'/', '', sfConfig::get('sf_lib_dir')) ?>/model/doctrine/i18n
   columns:
     survey_query_id:
       type: integer

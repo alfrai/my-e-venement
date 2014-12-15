@@ -149,7 +149,7 @@ Event:
     I18n:
       fields: [name, short_name, subtitle, description, extradesc, extraspec]
       generateFiles: true
-      generatePath: <?php echo sfConfig::get('sf_lib_dir'); ?>/model/doctrine/i18n
+      generatePath: ../<?php echo str_replace(sfConfig::get('sf_root_dir').'/', '', sfConfig::get('sf_lib_dir')) ?>/model/doctrine/i18n
     Sluggable:
       fields: [name]
     Searchable:
