@@ -120,6 +120,8 @@ Survey:
       fields: [name, description]
     I18n:
       fields: [description]
+      generateFiles: true
+      generatePath: <?php echo sfConfig::get('sf_lib_dir'); ?>/model/doctrine/i18n
   columns:
     name:
       type: string(255)
@@ -135,6 +137,8 @@ SurveyQuery:
   actAs:
     I18n:
       fields: [name]
+      generateFiles: true
+      generatePath: <?php echo sfConfig::get('sf_lib_dir'); ?>/model/doctrine/i18n
     Sluggable:
       fields: [name]
     Searchable:
@@ -181,6 +185,8 @@ SurveyQueryOption:
   actAs:
     I18n:
       fields: [name]
+      generateFiles: true
+      generatePath: <?php echo sfConfig::get('sf_lib_dir'); ?>/model/doctrine/i18n
   columns:
     survey_query_id:
       type: integer

@@ -37,4 +37,29 @@ class liDoctrineQuery extends Doctrine_Query
     $this->_params = array_merge($this->_params, array($part => $params));
     return $this;
   }
+
+  /**
+    * This aims to enable the use of a DB server specialized in reading, and the main one more specialized in writting
+    * cf. http://snippets.symfony-project.org/snippet/373
+    */
+  public function preQuery()
+  {
+    // If this is a select query then set connection to the slave
+    try {
+      switch ( $this->getType() ) {
+      case Doctrine_Query::SELECT:
+        $this->_conn = Doctrine_Manager::getInstance()->getConnection('read');
+        break;
+      default:
+        $this->_conn = Doctrine_Manager::getInstance()->getConnection('write');
+        break;
+      }
+    } catch ( Doctrine_Manager_Exception $e ) {
+      if ( sfConfig::get('sf_debug', false) )
+        error_log($e->getMessage().'. Check your config/database.yml.');
+      $this->_conn = Doctrine_Manager::getInstance()->getConnection();
+    }
+    
+    return parent::preQuery();
+  }
 }
