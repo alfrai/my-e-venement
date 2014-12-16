@@ -23,7 +23,8 @@ all:
     firm:
       url: http://www.my-web-site.tld/
       name: My Company
-  #museum: true
+    failover:
+      url: http://www.e-venement.org/
   demo: false
   network:
     ipv6_ready: false

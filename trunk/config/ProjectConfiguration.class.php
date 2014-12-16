@@ -81,6 +81,7 @@ class ProjectConfiguration extends sfProjectConfiguration implements liGarbageCo
   {
     $this->enableSecondWavePlugins(sfConfig::get('project_internals_plugins', array()));
     $this->loadSecondWavePlugins();
+    $this->failover();
   }
   
   // pass-by the native symfony restriction, if and only if the plugin developper knows what's going on
@@ -118,8 +119,19 @@ class ProjectConfiguration extends sfProjectConfiguration implements liGarbageCo
       else
         $configuration = new sfPluginConfigurationGeneric($this, $path, $plugin);
 
-      $this->pluginConfigurations[$plugin] = $configuration;
+       $this->pluginConfigurations[$plugin] = $configuration;
     }
+  }
+  
+  public function failover()
+  {
+    if ( file_exists($file = sfConfig::get('sf_cache_dir').'/e-venement.failover.trigger') )
+    {
+      $failover = sfConfig::get('project_about_failover', array());
+      header('Location: '.$failover['url']);
+      die('failover: this platform is temporarily down.');
+    }
+    return $this;
   }
   
   // @see liGarbageCollectorInterface
