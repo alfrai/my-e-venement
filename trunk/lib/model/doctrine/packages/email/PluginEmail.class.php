@@ -106,7 +106,7 @@ abstract class PluginEmail extends BaseEmail
     
     if ( $mailer instanceof sfMailer )
       $this->mailer = $mailer;
-    else if ( sfContext::hasInstance() )
+    elseif ( sfContext::hasInstance() )
       $this->mailer = sfContext::getInstance()->getMailer();
     
     return $this;

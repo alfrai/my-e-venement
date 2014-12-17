@@ -39,11 +39,11 @@ class Email extends PluginEmail
     sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
     return format_date($this->updated_at).' '.substr($this->field_subject,0,20).'...';
   }
-  public function isATest($bool)
+  public function isATest($bool = NULL)
   {
-    if ( $bool === $this->not_a_test )
+    if ( !is_null($bool) )
       $this->not_a_test = !$bool;
-    return $this->not_a_test;
+    return !$this->not_a_test;
   }
   public function save(Doctrine_Connection $conn = null)
   {
@@ -51,7 +51,7 @@ class Email extends PluginEmail
       return $this;
     
     // send email
-    if ( $this->not_a_test )
+    if ( !$this->isATest() )
       $this->sent = $this->send();
     else
       $this->sendTest();
