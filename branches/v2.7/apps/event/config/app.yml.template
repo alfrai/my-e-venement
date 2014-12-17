@@ -27,6 +27,7 @@ all:
     #extra_informations_enable: false
     #editable_in_calendar: false
     #max_ajax: 20
+    #show_location_ajax: false
   synchronization:
     #period:
     #  from: now
