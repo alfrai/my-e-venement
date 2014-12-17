@@ -72,13 +72,11 @@ class tckConfiguration extends sfApplicationConfiguration
     $paid = $event['transaction']->getPaid();
     foreach ( $event['transaction']->getItemables() as $pdt )
     if ( !$pdt->isSold() ) // if something has to be done
+    if (!( $event['transaction']->getPrice(false, true) > $paid
+      || $pdt instanceof Ticket && $pdt->needsSeating() ))
     {
       $pdt->integrated_at = date('Y-m-d H:i:s'); // integrate
-      if ( $event['transaction']->getPrice(false, true) > $paid
-        || $pdt instanceof Ticket && $pdt->needsSeating() )
-        $pdt->integrated_at = NULL; // rollback if necessary
-      else
-        $cpt++;
+      $cpt++;
     }
     
     $event->setReturnValue($cpt);
@@ -259,8 +257,10 @@ EOF
       ;
       $nb = $tickets->count();
       foreach ( $tickets as $ticket )
+      {
         $ticket->seat_id = NULL;
-      $tickets->save();
+        $ticket->save();
+      }
       $this->stdout($section, "[OK] $nb tickets resetted", 'INFO');
     });
     
@@ -286,7 +286,8 @@ EOF
           'transaction' => $transaction,
           'user'        => NULL,
         )));
-        $transaction->save();
+        if ( $transaction->isModified() )
+          $transaction->save();
         if ( $event->getReturnValue() > 0 )
         {
           $cpt += $event->getReturnValue();
@@ -308,8 +309,8 @@ EOF
         ->andWhere('tck.seat_id IS NOT NULL')
         ->leftJoin('tck.Transaction t')
         ->leftJoin('t.Order o')
-        ->select('tck.id')->groupBy('tck.id')
-        ->having('count(o.id) = 0')
+        ->andWhere('o.id IS NULL')
+        ->select('tck.*')
       ;
       $tickets = $q->execute();
       $nb = $tickets->count();
@@ -334,9 +335,9 @@ EOF
         ->select('bp.id')->groupBy('bp.id')
         ->having('count(o.id) = 0')
       ;
-      $tickets = $q->execute();
-      $nb = $tickets->count();
-      $tickets->delete();
+      $pdts = $q->execute();
+      $nb = $pdts->count();
+      $pdts->delete();
       $this->stdout($section, "[OK] $nb products deleted", 'INFO');
     });
     
