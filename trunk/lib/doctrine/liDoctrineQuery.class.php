@@ -57,7 +57,7 @@ class liDoctrineQuery extends Doctrine_Query
     } catch ( Doctrine_Manager_Exception $e ) {
       if ( sfConfig::get('sf_debug', false) )
         error_log($e->getMessage().'. Check your config/database.yml.');
-      $this->_conn = Doctrine_Manager::getInstance()->getConnection();
+      $this->_conn = Doctrine_Manager::getInstance()->getCurrentConnection();
     }
     
     return parent::preQuery();
