@@ -287,7 +287,7 @@ class manifestationActions extends autoManifestationActions
         if ( $request->hasParameter('keep-order') )
         {
           $manifs[] = array(
-            'name'  => $manif->getName($short),
+            'name'  => $manif->getName($short).(sfConfig::get('app_manifestation_show_location_ajax', false) ? ' '.$manif->Location : ''),
             'color' => (string)$manif->Color,
             'id'    => $manif->id,
           );
@@ -296,7 +296,7 @@ class manifestationActions extends autoManifestationActions
         {
           $manifs[$manif->id] = $request->hasParameter('with_colors')
             ? array(
-              'name' => $manif->getName($short),
+              'name' => $manif->getName($short).(sfConfig::get('app_manifestation_show_location_ajax', false) ? ' '.$manif->Location : ''),
               'color' => (string)$manif->Color
             )
             : $manif->getName($short);

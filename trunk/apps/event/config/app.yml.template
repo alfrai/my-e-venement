@@ -30,6 +30,7 @@ all:
     price_gauges: true          # false by default
     #prefer_short_name: false
     online_users: [vel] # for stats
+    #show_location_ajax: false
   synchronization:
     #period:
     #  from: now
