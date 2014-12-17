@@ -16,9 +16,9 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
 *    Copyright (c) 2011 Ayoub HIDRI <ayoub.hidri AT gmail.com>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -31,6 +31,7 @@ class ProjectConfiguration extends sfProjectConfiguration implements liGarbageCo
   public $yob;
   public $charset       = array();
   public $transliterate = array('from' => '', 'to' => '');
+  public $overload_config_file;
 
   protected $routings = array();
  
