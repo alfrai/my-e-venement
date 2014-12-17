@@ -86,6 +86,8 @@
    *             item-details: boolean
    *             [ids]:
    *               tickets' or products' ids
+   *             ([ids_url]:)
+   *               details of tickets url
    *             ([numerotation]:)
    *               tickets' numerotation
    **/
@@ -435,7 +437,10 @@
         ) + $items_model;
       $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['ids'][] = $item->id;
       if ( in_array($this->json[$product->id]['declinations_name'], array('gauges')) )
+      {
+        $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['ids_url'][] = cross_app_url_for('tck', 'ticket/show?id='.$item->id, true);
         $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['numerotation'][] = $item->numerotation;
+      }
       
       // by group of tickets
       $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['qty']++;
