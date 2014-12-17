@@ -55,8 +55,9 @@ class liDoctrineQuery extends Doctrine_Query
         break;
       }
     } catch ( Doctrine_Manager_Exception $e ) {
-      if ( sfConfig::get('sf_debug', false) )
-        error_log($e->getMessage().'. Check your config/database.yml.');
+      if ( Doctrine_Manager::getInstance()->count() > 1
+        && sfConfig::get('sf_debug', false) )
+        error_log('You seem to have multiple connections, but: '.$e->getMessage().'. Check your config/database.yml.');
       $this->_conn = Doctrine_Manager::getInstance()->getCurrentConnection();
     }
     
