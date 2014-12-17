@@ -286,7 +286,7 @@ class pubConfiguration extends sfApplicationConfiguration
     
     // too-old online transactions collector
     $this->addGarbageCollector('squatters', function(){
-      $cart_timeout = sfConfig::get('app_timeout_general', '1 hour');
+      $cart_timeout = sfConfig::get('app_timeout_global', '1 hour');
       $section = 'Anti-squatters';
       $this->stdout($section, 'Closing transactions...', 'COMMAND');
       $q = Doctrine_Query::create()->from('Transaction t')
