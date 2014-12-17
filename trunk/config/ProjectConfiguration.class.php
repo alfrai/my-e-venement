@@ -44,6 +44,7 @@ class ProjectConfiguration extends sfProjectConfiguration implements liGarbageCo
       $this->yob[date('Y')-$i] = date('Y') - $i;
     
     $this->enablePlugins(array(
+      'sfDoctrineMasterSlavePlugin',
       'sfDoctrinePlugin',
       'sfFormExtraPlugin',
       'sfDoctrineGraphvizPlugin',

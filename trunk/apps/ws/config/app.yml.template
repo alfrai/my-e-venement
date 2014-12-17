@@ -3,9 +3,11 @@
 
 # default values
 all:
-  payment_method: 13
-  max_tickets: 10
-  noid: true
-  count_demands: false
-  #infos:
-  #  capitalize: [name, firstname, city, country, address]
+  failover:
+    #enable: false
+    emails: [admin@libre-informatique.fr]
+    #warning: 1 minutes 20 seconds
+    #timeout: 2 minutes 30 seconds
+    triggers:
+      slave: /tmp/e-venement.trigger.5432 # must match the PostgreSQL SLAVE recovery configuration
+      master: <?php echo sfConfig::get('sf_cache_dir') ?>/e-venement.failover.trigger
