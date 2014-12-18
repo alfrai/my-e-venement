@@ -26,11 +26,20 @@ abstract class PluginManifestation extends BaseManifestation implements liMetaEv
     
     foreach ( array('id', 'updated_at', 'created_at', 'sf_guard_user_id') as $property )
       $manif->$property = NULL;
-    foreach ( array('Gauges', 'PriceManifestations', 'PriceGauges', 'ManifestationOrganizer', 'LocationBookings', 'ExtraInformations',) as $subobjects )
+    foreach ( array('Gauges', 'PriceManifestations', 'ManifestationOrganizer', 'LocationBookings', 'ExtraInformations',) as $subobjects )
     {
       $collection = $manif->$subobjects;
       foreach ( $this->$subobjects as $subobject )
-        $collection[] = $subobject->copy();
+      {
+        $copy = $subobject->copy();
+        
+        // specific case of PriceGauges on Gauges...
+        if ( $subobject instanceof Gauge )
+        foreach ( $subobject->PriceGauges as $pg )
+          $copy->PriceGauges[] = $pg->copy();
+        
+        $collection[] = $copy;
+      }
     }
     
     if ( $save )
