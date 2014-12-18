@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Pings from an EveBox&amp;trade;</source>
+        <target>Pings de EveBox&amp;trade;</target>
+      </trans-unit>
+      <trans-unit>
         <source>Transactions list</source>
         <target>Liste des opérations</target>
       </trans-unit>

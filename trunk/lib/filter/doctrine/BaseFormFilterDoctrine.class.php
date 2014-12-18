@@ -57,7 +57,7 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
   
   protected function resetDates()
   {
-    if ( !isset($this->noTimestampableUnset) || !$this->noTimestampableUnset )
+    if (!( isset($this->noTimestampableUnset) && $this->noTimestampableUnset ))
     {
       unset($this->widgetSchema['created_at']);
       unset($this->widgetSchema['updated_at']);
