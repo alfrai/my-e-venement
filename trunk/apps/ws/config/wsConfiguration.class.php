@@ -125,9 +125,11 @@ heard from. Please check VERY quickly every connection
 mechanism will not be triggerred for any obvious reason.
 <br/><br/>The trigger will be pulled after %s of deafness,
 so the countdown is already started...
+<br/><br/><br/><br/>%s - %s
 EOF
         , sfConfig::get('app_failover_warning', '1 minute 20 seconds')
-        , sfConfig::get('app_failover_error', '2 minutes 30 seconds'));
+        , sfConfig::get('app_failover_error', '2 minutes 30 seconds')
+        , gethostname(), basename(getcwd()));
       else
         $email->content = sprintf(<<<EOF
 It has been at least %s that your e-venement SLAVE host
@@ -139,9 +141,9 @@ your online systems are strictly unavailable.
 <br/><br/>Thanks for your understanding.
 <br/><br/><br/><br/>%s - %s
 EOF
-      , sfConfig::get('app_failover_error', '2 minutes 30 seconds')
-      , $firm['name']
-      , gethostname(), basename(getcwd()));
+        , sfConfig::get('app_failover_error', '2 minutes 30 seconds')
+        , $firm['name']
+        , gethostname(), basename(getcwd()));
       
       $email->isATest(false);
       $email->setNoSpool();
