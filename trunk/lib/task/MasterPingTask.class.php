@@ -80,6 +80,7 @@ EOF;
   
   protected function failover()
   {
+    $this->log('ping', 'Last ping was more than '.sfConfig::get('app_failover_timeout', '2 minutes 30 seconds').' ago... Triggerring the failover mecanism for SLAVE systems.');
     $triggers = sfConfig::get('app_failover_triggers', array());
     if ( !isset($triggers['slave']) )
       return $this;
@@ -100,7 +101,7 @@ EOF;
     touch(sfConfig::get('sf_cache_dir').'/e-venement.norsync.trigger');
     
     // print out that is happened
-    $this->logSection('failover', 'The triggers of the failover mechanism have been pulled!!!');
+    $this->logSection('failover', 'The triggers of the failover mechanism have been pulled!!! (including the removal of MASTER DB connection)');
     
     return $this;
   }
