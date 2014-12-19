@@ -1,5 +1,8 @@
 .tck-registered { padding: 5px; }
-label { min-width: 100px; display: inline-block; }
 textarea { width: 20em; height: 25px; margin: 0; padding: 0; margin-bottom: -6px; padding: 0 3px; }
 .reduc input { width: 4em; }
 .reduc:after { content: ' /'; }
+
+form label { min-width: 100px; display: inline-block; }
+form span label { min-width: auto; color: silver; position: absolute; margin: 10px 0 0 6px; cursor: text; overflow: hidden; font-weight: normal; }
+form span.nolabel label { display: none; }
