@@ -5,4 +5,5 @@ $(document).ready(function(){
     '</span><span>'+
       $('.sf_admin_action_versions a').html()+
     '</span></div>');
+  $('#sf_fieldset_statistics > *, #sf_fieldset_surveys > *').remove();
 });
