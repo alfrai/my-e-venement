@@ -218,7 +218,7 @@ LI.completeContent = function(data, type, replaceAll = true)
           // ids & numerotation
           var ids = [];
           $.each(price.ids, function(index, value){
-            var elt = price.ids_url[index]
+            var elt = price.ids_url && price.ids_url[index]
               ? $('<div></div>').text(type == 'manifestations' && price.numerotation[index] ? ' '+price.numerotation[index] : '')
                 .prepend($('<a></a>').prop('href', price.ids_url[index]).prop('target', '_blank').text(value))
               : $('<span></span>').text(value+( type == 'manifestations' && price.numerotation[index] ? ' '+price.numerotation[index] : '' ));

@@ -15,26 +15,48 @@ class gaugeActions extends autoGaugeActions
 {
   public function executeState(sfWebRequest $request)
   {
-    parent::executeShow($request);
+    if ( $id = $request->getParameter('id',false) )
+    {
+      $gauges = new Doctrine_Collection('Gauge');
+      if ( $gauge = Doctrine::getTable('Gauge')->find($id) )
+        $gauges[] = $gauge;
+    }
+    if ( $mid = $request->getParameter('manifestation_id',false) )
+      $gauges = Doctrine::getTable('Gauge')->createQuery('g')
+        ->andWhere('g.manifestation_id = ?', $mid)
+        ->execute();
+    
+    $this->forward404Unless($gauges->count() > 0);
     $this->setLayout('nude');
     
     if ( $request->hasParameter('debug') )
       sfConfig::set('sf_web_debug', true);
     
-    if ( $request->hasParameter('json') )
+    if ( !$request->hasParameter('json') )
+    {
+      $this->gauge = $gauges[0];
+      return 'Success';
+    }
+    
+    foreach ( $gauges as $gauge )
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
-      $arr = array(
-        'id' => $this->gauge->id,
-        'workspace' => (string)$this->gauge->Workspace,
-        'total' => $this->gauge->value,
-        'free' => $this->gauge->value - ($this->gauge->printed + $this->gauge->ordered + (sfConfig::get('project_tickets_count_demands',false) ? $this->gauge->asked : 0)),
-        'booked' => array(
-          'printed' => $this->gauge->printed,
-          'ordered' => $this->gauge->ordered,
-          'asked' => sfConfig::get('project_tickets_count_demands',false) ? $this->gauge->asked : 0,
-        ),
-      );
+      if ( !isset($arr) )
+        $arr = array(
+          'id' => $gauge->id,
+          'total' => 0,
+          'free' => 0,
+          'booked' => array('printed' => 0, 'ordered' => 0, 'asked' => 0),
+        );
+      else
+        unset($arr['id']);
+      
+      $arr['workspace'] = (string)$gauge->Workspace;
+      $arr['total'] += $gauge->value;
+      $arr['free'] += $gauge->value - ($gauge->printed + $gauge->ordered + (sfConfig::get('project_tickets_count_demands',false) ? $gauge->asked : 0));
+      $arr['booked']['printed'] += $gauge->printed;
+      $arr['booked']['ordered'] += $gauge->ordered;
+      $arr['booked']['asked']   += sfConfig::get('project_tickets_count_demands',false) ? $gauge->asked : 0;
       
       $arr['txt'] = __('Total: %%total%% Free: %%free%%', array(
         '%%total%%' => $arr['total'],
@@ -58,9 +80,8 @@ class gaugeActions extends autoGaugeActions
         sfConfig::set('sf_debug',false);
         sfConfig::set('sf_escaping_strategy', false);
       }
-      
-      return $this->renderText(json_encode($arr));
     }
+    return $this->renderText(json_encode($arr));
   }
   
   public function executeBatchEdit(sfWebRequest $request)

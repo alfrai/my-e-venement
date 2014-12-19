@@ -283,22 +283,20 @@ class manifestationActions extends autoManifestationActions
       
       if ( $go )
       {
+        sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
         $short = sfConfig::get('app_manifestation_prefer_short_name', true);
+        $arr = array(
+          'name'  => $manif->getName($short).(sfConfig::get('app_manifestation_show_location_ajax', false) ? ' '.$manif->Location : ''),
+          'color' => (string)$manif->Color,
+          'gauge_url' => url_for('gauge/state?json=true&manifestation_id='.$manif->id, true),
+        );
+        
         if ( $request->hasParameter('keep-order') )
-        {
-          $manifs[] = array(
-            'name'  => $manif->getName($short).(sfConfig::get('app_manifestation_show_location_ajax', false) ? ' '.$manif->Location : ''),
-            'color' => (string)$manif->Color,
-            'id'    => $manif->id,
-          );
-        }
+          $manifs[] = $arr + array('id'    => $manif->id);
         else
         {
           $manifs[$manif->id] = $request->hasParameter('with_colors')
-            ? array(
-              'name' => $manif->getName($short).(sfConfig::get('app_manifestation_show_location_ajax', false) ? ' '.$manif->Location : ''),
-              'color' => (string)$manif->Color
-            )
+            ? $arr
             : $manif->getName($short);
         }
       }

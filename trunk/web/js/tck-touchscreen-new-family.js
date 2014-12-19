@@ -43,7 +43,15 @@
                 $('<option></option>').val(manif.id)
                   .css('background-color', manif.color)
                   .text(manif.name).prop('title', manif.name)
+                  .attr('data-gauge-url', manif.gauge_url)
                   .appendTo(select);
+              });
+              $('#li_transaction_manifestations .new-family select option').unbind('click').click(function(){
+                if ( !$(this).attr('data-gauge-url') )
+                  return;
+                $.get($(this).attr('data-gauge-url'), function(data){
+                  LI.renderGauge(JSON.stringify(data), true);
+                });
               });
             }
           });
