@@ -25,8 +25,6 @@ ProductCategory:
     Timestampable: ~
     I18n:
       fields: [name]
-      generateFiles: true
-      generatePath: <?php echo sfConfig::get('sf_lib_dir') ?>/model/doctrine/i18n
     Sluggable:
       fields: [name]
     Searchable:
@@ -52,8 +50,6 @@ Product:
   actAs:
     I18n:
       fields: [name, short_name, description]
-      generateFiles: true
-      generatePath: <?php echo sfConfig::get('sf_lib_dir') ?>/model/doctrine/i18n
     Sluggable:
       fields: [name]
     Searchable:
@@ -127,8 +123,6 @@ ProductDeclination:
   actAs:
     I18n:
       fields: [name, description, description_for_buyers]
-      generateFiles: true
-      generatePath: <?php echo sfConfig::get('sf_lib_dir') ?>/model/doctrine/i18n
     Searchable:
       fields: [name]
   inheritance:

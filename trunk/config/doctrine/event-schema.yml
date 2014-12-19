@@ -148,8 +148,6 @@ Event:
   actAs:
     I18n:
       fields: [name, short_name, subtitle, description, extradesc, extraspec]
-      generateFiles: true
-      generatePath: <?php echo sfConfig::get('sf_lib_dir') ?>/model/doctrine/i18n
     Sluggable:
       fields: [name]
     Searchable:
@@ -416,7 +414,9 @@ LocationBooking:
       onUpdate: CASCADE
 Vat:
   package: event
-  actAs: [Timestampable, Versionable]
+  actAs:
+    Timestampable: ~
+    Versionable: ~
   columns:
     name:
       type: string(64)
