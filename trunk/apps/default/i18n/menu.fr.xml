@@ -5,8 +5,8 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Pings from an EveBox&amp;trade;</source>
-        <target>Pings de EveBox&amp;trade;</target>
+        <source>EveBox&amp;trade; pings</source>
+        <target>Pings EveBox&amp;trade;</target>
       </trans-unit>
       <trans-unit>
         <source>Transactions list</source>

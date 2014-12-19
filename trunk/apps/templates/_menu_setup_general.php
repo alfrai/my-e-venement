@@ -31,7 +31,7 @@
               <li><a href="<?php echo cross_app_url_for('default','sfGuardGroup') ?>"><?php echo __('Groups',array(),'menu') ?></a></li>
               <li><a href="<?php echo cross_app_url_for('default','sfGuardPermission') ?>"><?php echo __('Permissions',array(),'menu') ?></a></li>
               <li class="spaced"><a href="<?php echo cross_app_url_for('default','authentication') ?>"><?php echo __('System authentication logs',array(),'menu') ?></a></li>
-              <li><a href="<?php echo cross_app_url_for('default','slave_ping') ?>"><?php echo __('Pings from an EveBox&trade;',array(),'menu') ?></a></li>
+              <li><a href="<?php echo cross_app_url_for('default','slave_ping') ?>"><?php echo __('EveBox&trade; pings',array(),'menu') ?></a></li>
               <?php endif ?>
               <?php if ( $sf_user->hasCredential('admin-backups') ): ?>
               <li><a href="<?php echo url_for('data/index') ?>"><?php echo __('Archiving',array(),'menu') ?></a></li>
