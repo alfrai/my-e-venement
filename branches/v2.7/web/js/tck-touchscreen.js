@@ -356,9 +356,9 @@ LI.renderGauge = function(item, only_inline_gauge)
     only_inline_gauge = false;
   
   // the small gauge
-  if ( $(item).find('.data .gauge.raw').length > 0 )
+  if (!( typeof item != 'string' && $(item).find('.data .gauge.raw').length == 0 ))
   {
-    data = JSON.parse($(item).find('.data .gauge.raw').html());
+    data = JSON.parse(typeof item == 'string' ? item : $(item).find('.data .gauge.raw').text());
     var total = data.total > data.booked.printed + data.booked.ordered + data.booked.asked
       ? data.total
       : data.booked.printed + data.booked.ordered + data.booked.asked;
@@ -378,7 +378,7 @@ LI.renderGauge = function(item, only_inline_gauge)
   }
   
   // gauge for seated plan
-  if ( !only_inline_gauge && $(item).find('.data .gauge.seated').length > 0 )
+  if ( !only_inline_gauge && typeof item != 'string' && $(item).find('.data .gauge.seated').length > 0 )
   {
     if ( $(item).find('.data .gauge.seated.picture').length > 0 )
     {

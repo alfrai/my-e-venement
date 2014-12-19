@@ -35,9 +35,19 @@
             success: function(data){
               families.html('');
               $.each(data, function(id, manif){
-                $('<option></option>').css('background-color', manif.color).val(manif.id)
+                $('<option></option>')
+                  .val(manif.id)
+                  .css('background-color', manif.color)
                   .html(manif.name).prop('title', manif.name)
+                  .attr('data-gauge-url', manif.gauge_url)
                   .appendTo(families);
+              });
+              $('#li_transaction_manifestations .new-family select option').unbind('click').click(function(){
+                if ( !$(this).attr('data-gauge-url') )
+                  return;
+                $.get($(this).attr('data-gauge-url'), function(data){
+                  LI.renderGauge(JSON.stringify(data), true);
+                });
               });
             }
           });
