@@ -68,6 +68,15 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
     
     $this->widgetSchema['transaction_id'] = new sfWidgetFormInput;
     
+    $this->widgetSchema['contact_id']    = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Contact',
+      'url' => cross_app_url_for('rp','contact/ajax'),
+    ));
+    $this->validatorSchema['contact_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Contact',
+      'required' => false,
+    ));
+    
     $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $q = 'SELECT DISTINCT campaign, campaign IS NULL FROM web_origin ORDER BY campaign IS NULL DESC, campaign';
     $stmt = $pdo->prepare($q);
@@ -170,6 +179,14 @@ class WebOriginFormFilter extends BaseWebOriginFormFilter
       return $q;
     
     $q->andWhere('o.id IS NOT NULL OR p.id IS NOT NULL');
+    return $q;
+  }
+  public function addContactIdColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( !$value )
+      return $q;
+    
+    $q->andWhere('t.contact_id = ?', $value);
     return $q;
   }
   

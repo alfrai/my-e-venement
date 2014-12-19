@@ -41,7 +41,7 @@ generator:
       filter:
         display:
           Externals: [referer_domain, referer, campaign, ipaddress, user_agent]
-          Internals: [transaction_id, done_deal, first_page, created_at, sf_guard_user_id]
+          Internals: [transaction_id, done_deal, contact_id, first_page, created_at, sf_guard_user_id]
           Combinated: [recorded_filters, not_recorded_filters]
       form:    ~
       edit:    ~
