@@ -157,7 +157,8 @@
         $q->andWhere('(TRUE')
           ->andWhereIn('n.id',$pid)
           ->orWhereIn('m.id',$pid)
-          ->andWhere('TRUE)');
+          ->andWhere('TRUE)')
+        ;
       }
       if ( $gid = $request->getParameter('gauge_id', false) )
         $q->andWhere('(g.id = ? OR ng.id = ? AND g.workspace_id = ng.workspace_id)',array($gid, $gid));
@@ -233,7 +234,7 @@
       foreach ( explode('->', $product_id) as $field )
       if ( is_object($obj) )
         $obj = $obj->$field;
-      $id = $obj;
+      $id = intval($obj);
       
       if ( !isset($this->json[$id]) )
       {
