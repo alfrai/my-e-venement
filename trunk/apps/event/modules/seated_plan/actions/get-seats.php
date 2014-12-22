@@ -43,6 +43,15 @@
       $this->seated_plans = $q->execute();
       $this->forward404Unless($this->seated_plans->count() > 0);
     }
+    elseif ( $id = $request->getParameter('id') )
+    {
+      $q = Doctrine::getTable('SeatedPlan')->createQuery('sp')
+        ->andWhere('sp.id = ?', $id)
+        ->leftJoin('sp.Seats s')
+      ;
+      $this->seated_plans = $q->execute();
+      $this->forward404Unless($this->seated_plans->count() > 0);
+    }
     
     $this->occupied = array();
     $this->transaction_id = intval($request->getParameter('transaction_id', 0));
