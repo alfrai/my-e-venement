@@ -294,7 +294,8 @@
           error_log('Transaction #'.$this->transaction->id.' closed by user.');
         }
         
-        $this->transaction->save(); // saving the transaction even if nothing has changed, because of the dispatcher's actions
+        if ( $this->transaction->isModified() )
+          $this->transaction->save(); // saving the transaction even if nothing has changed, because of the dispatcher's actions
         break;
       }
       else

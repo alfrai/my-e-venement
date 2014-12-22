@@ -322,7 +322,7 @@ abstract class PluginTicket extends BaseTicket
   
   public function isSold()
   {
-    return !is_null($this->printed_at) || !is_null($this->cancelling) || !is_null($this->integrated_at);
+    return !(is_null($this->printed_at) && is_null($this->cancelling) && is_null($this->integrated_at));
   }
   public function isDuplicata()
   {
