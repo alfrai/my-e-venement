@@ -186,8 +186,8 @@ $(document).ready(function(){
     <td><?php echo __('Price') ?></td>
     <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?>
     <td><?php echo __('Unit price') ?></td>
-    <?php endif ?>
     <td class="qty"><?php echo __('Qty') ?></td>
+    <?php endif ?>
     <td><?php echo sfConfig::get('app_options_synthetic_plans', false) ? '' : __('Total') ?></td>
     <td class="extra-taxes" title="<?php echo __('Booking fees') ?>"><?php echo __('Ticketting fees') ?></td>
     <?php if ( sfConfig::get('app_options_synthetic_plans', false) && $current_transaction ): ?>
