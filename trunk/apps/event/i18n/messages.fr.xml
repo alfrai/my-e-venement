@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Display directly the first gauge with its plan if it has one</source>
+        <target>Affiche directement la première jauge avec son plan le cas échéant</target>
+      </trans-unit>
+      <trans-unit>
         <source>Clear groups</source>
         <target>Vider les groupes</target>
       </trans-unit>

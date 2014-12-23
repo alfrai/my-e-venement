@@ -75,6 +75,21 @@ $(document).ready(function(){
   $('.sf_admin_form .sf_admin_form_field_gauges_prices').click(function(){
     $(this).addClass('ui-state-highlight');
   });
+  
+  // click on the first gauge on loading
+  if ( location.hash == '#sf_fieldset_workspaces' )
+  {
+    var click_gauge = function(){
+      setTimeout(function(){
+        console.error('timeout');
+        if ( $('#sf_fieldset_workspaces .gauges-all .gauge').length == 0 )
+          click_gauge();
+        else
+          $('#sf_fieldset_workspaces .gauges-all .gauge').click();
+      },500);
+    }
+    click_gauge();
+  }
 });
 
 if ( LI == undefined )

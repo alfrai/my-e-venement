@@ -120,6 +120,7 @@ select[disabled] { color: #444; }
 .sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_location { text-align: center; }
 .sf_admin_list .sf_admin_list_td_list_booking_list .with-comment { font-style: italic; }
 .sf_admin_list .sf_admin_action_sell a { background: rgb(223, 239, 252) url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat -48px -112px; }
+.sf_admin_list .sf_admin_action_gauges_all a { background: rgb(223, 239, 252) url("../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png") no-repeat -176px -128px; }
 .sf_admin_list .sf_admin_list_td_duration_h_r { white-space: nowrap; }
 @media screen and (max-width: 1500px) {
 .sf_admin_list .sf_admin_list_th_reservation_description, .sf_admin_list .sf_admin_list_th_list_extra_informations_list, .sf_admin_list .sf_admin_list_th_list_description, .sf_admin_list .sf_admin_list_td_reservation_description, .sf_admin_list .sf_admin_list_td_list_extra_informations_list, .sf_admin_list .sf_admin_list_td_list_description { display: none; }

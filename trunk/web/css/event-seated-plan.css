@@ -18,7 +18,7 @@
 .picture.seated-plan .more-data > * { position: absolute; z-index: 4; text-align: center; font-size: 55%; overflow: hidden; word-wrap: break-word; }
 .picture.seated-plan .more-data .link { position: absolute; border: 1px solid red; border-width: 2px 0; transform-origin: top left; z-index: 3; }
 .picture.seated-plan .more-data .link:hover { border-width: 3px 0; border-color: blue; }
-.picture.seated-plan .more-data .shortname { z-index: 2; overflow: hidden; }
+.picture.seated-plan .more-data .shortname { z-index: 2; overflow: hidden; font-family: 'Gotham Condensed','Arial Narrow',Grande,Lucida Sans,Arial,sans-serif; }
 .picture.seated-plan .more-data .debt { border: 2px solid red; border-radius: 40%; margin: -2px 0 0 -2px; }
 .picture.seated-plan .more-data .debt.debt-too-much { border-color: green; }
 .picture.seated-plan .more-data .group { padding: 4px; margin: -6px 0 0 -4px; }

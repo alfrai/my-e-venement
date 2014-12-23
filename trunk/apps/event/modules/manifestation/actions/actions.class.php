@@ -36,6 +36,10 @@ require_once dirname(__FILE__).'/../lib/manifestationGeneratorHelper.class.php';
  */
 class manifestationActions extends autoManifestationActions
 {
+  public function executeGaugesAll(sfWebRequest $request)
+  {
+    $this->redirect('manifestation/show?id='.$request->getParameter('id').'#sf_fieldset_workspaces');
+  }
   public function executePossibleIncomes(sfWebRequest $request)
   {
     $this->json = array('min' => array('value' => 0, 'currency' => NULL), 'max' => array('value' => 0, 'currency' => NULL),);
