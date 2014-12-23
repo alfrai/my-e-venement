@@ -30,7 +30,6 @@ class productActions extends autoProductActions
   
   public function executeAjax(sfWebRequest $request)
   {
-    //$this->getResponse()->setContentType('application/json');
     if ( $request->hasParameter('debug') && $this->getContext()->getConfiguration()->getEnvironment() == 'dev' )
     {
       $this->getResponse()->setContentType('text/html');
@@ -54,7 +53,7 @@ class productActions extends autoProductActions
       ->orderBy('pt.name')
     ;
     if ( ($tid = intval($request->getParameter('except_transaction', false))).'' === ''.$request->getParameter('except_transaction', false) )
-      $q->andWhere('pdt.id NOT IN (SELECT bpd.product_id FROM BoughtProduct bp LEFT JOIN bp.Declination bpd WHERE bp.transaction_id = ?)',$tid);
+      $q->andWhere('pdt.id NOT IN (SELECT bpd.product_id FROM BoughtProduct bp LEFT JOIN bp.Declination bpd WHERE bp.transaction_id = ? AND bp.product_declination_id IS NOT NULL)',$tid);
     
     // huge hack to look for declinations' codes AND product_index
     $q->andWhere('(TRUE')

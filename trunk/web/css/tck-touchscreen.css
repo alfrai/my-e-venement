@@ -84,9 +84,9 @@
 #li_transaction_field_content .declinations .total > *, #li_transaction_field_content .declination > * { padding-right: 10px; }
 #li_transaction_field_content .declination.active td { background-color: #f4e4cd; }
 #li_transaction_field_content .declination.active.readonly td { background-color: transparent; }
-#li_transaction_field_content .declination.active.integrated td { background-color: #ddd; }
-#li_transaction_field_content .declination.active td:first-child { border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
-#li_transaction_field_content .declination.active td:last-child { border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+#li_transaction_field_content .declination.integrated td { background-color: #e8e8e8; }
+#li_transaction_field_content .declination td:first-child { border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+#li_transaction_field_content .declination td:last-child { border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
 #li_transaction_field_content .declination.integrated .qty.nb a:last-child,
 #li_transaction_field_content .declination.readonly .qty.nb a,
 #li_transaction_field_content .declination.cancelling .qty.nb a { visibility: hidden; }
@@ -126,6 +126,7 @@
 #li_transaction_field_price_new input[type=text] { width: 2em; text-align: right; }
 #li_fieldset_payments #li_transaction_field_price_new > .seats-first { float: right; margin-left: 1em; display: none; }
 #li_fieldset_payments #li_transaction_field_price_new > .seats-first.usefull { display: block; }
+#li_fieldset_payments #li_transaction_field_price_new .dispatch { display: block; }
 #li_fieldset_payments #li_transaction_field_price_new .dispatch [name=dispatch] { display: none; }
 #li_transaction_field_payments_list { font-size: 0; min-height: 210px; }
 #li_transaction_field_payments_list .sf_admin_list_td_list_created_at { text-align: center; }

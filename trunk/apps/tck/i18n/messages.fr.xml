@@ -18,7 +18,7 @@
       </trans-unit>
       <trans-unit>
         <source>Check ticket's ids shown below any price</source>
-        <target>Sélectionner des IDs de billets</target>
+        <target>Sélectionner des IDs de billets à envoyer dans une nouvelle opération</target>
       </trans-unit>
       <trans-unit>
         <source>Dispatch</source>

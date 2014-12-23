@@ -125,9 +125,9 @@ LI.completeContent = function(data, type, replaceAll = true)
         var declination = pdt[pdt.declinations_name][index];
         var wdeclination = $('#li_transaction_'+type+' .families.sample .item:not(.total)').clone(true);
         var add = true;
-        if ( $('#li_transaction_'+type+' [data-'+declination.type+'-id='+declination.id+']').length > 0 )
+        if ( $('#li_transaction_'+type+' [data-'+declination.type+'-id="'+declination.id+'"]').length > 0 )
         {
-          wdeclination = $('#li_transaction_'+type+' [data-'+declination.type+'-id='+declination.id+']');
+          wdeclination = $('#li_transaction_'+type+' [data-'+declination.type+'-id="'+declination.id+'"]');
           add = false;
         }
         else
@@ -175,12 +175,12 @@ LI.completeContent = function(data, type, replaceAll = true)
           if ( price.qty == 0 )
           {
             if ( !price.id )
-              $('#li_transaction_'+type+' [data-'+declination.type+'-id='+declination.id+'] .declination.wip').remove();
+              $('#li_transaction_'+type+' [data-'+declination.type+'-id="'+declination.id+'"] .declination.wip').remove();
             return;
           }
           var wprice = $('#li_transaction_'+type+' .families.sample .declination').clone(true);
           var add = true;
-          if ( (tmp = wdeclination.find(str = '[data-price-id='+price.id+'].declination'+(price.state ? '.active.'+price.state : ':not(.active)'))).length > 0 )
+          if ( (tmp = wdeclination.find(str = '[data-price-id="'+price.id+'"].declination'+(price.state ? '.active.'+price.state : ':not(.active)'))).length > 0 )
           {
             wprice = tmp;
             add = false;

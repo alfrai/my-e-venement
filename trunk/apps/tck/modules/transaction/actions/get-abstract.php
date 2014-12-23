@@ -287,7 +287,17 @@
             ->andWhereIn('pme.id IS NULL OR pme.id', array_keys($this->getUser()->getMetaEventsCredentials()))
             ->andWhere('p.id = ?',$id)
           ;
-          $product = $q->fetchOne();
+          if (!( $product = $q->fetchOne() ) && $id == 0 )
+          {
+            $product = new Product;
+            $product->name = $item->name;
+            $product->id = slugify($item->name);
+            
+            $declination = new ProductDeclination;
+            $declination->name = $item->declination;
+            $declination->id = slugify($item->declination);
+            $product->Declinations[] = $declination;
+          }
           
           $this->json[$product->id] = array(
             'id'            => $product->id,
@@ -418,14 +428,25 @@
           $state = 'integrated';
         break;
       case 'declinations':
-        $declination = $item->Declination;
-        $pid = $item->Declination->product_id;
+        if ( $item->product_declination_id )
+        {
+          $declination = $item->Declination;
+          $pid = $item->Declination->product_id;
+        }
+        else
+        {
+          // this is to print out BoughtProducts that has no link to a real product
+          $pid = slugify($item->name);
+          $declination = new ProductDeclination;
+          $declination->id = slugify($item->declination);
+          $declination->name = $item->declination;
+        }
         if ( !$state && $item->integrated_at )
           $state = 'integrated';
         break;
       }
       
-      $pname = $item->price_id.'-'.$state;
+      $pname = ($item->price_id ? $item->price_id : slugify($item->price_name)).'-'.$state;
       if (!( isset($this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname])
           && count($this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['ids']) > 0
       ))
