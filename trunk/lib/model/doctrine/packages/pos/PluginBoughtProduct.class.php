@@ -29,9 +29,11 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
     
     parent::preSave($event);
     
-    if ( !$this->vat_id )
+    if ( !$this->vat_id && $this->product_declination_id )
       $this->Vat = $this->Declination->Product->Vat;
-    if ( !$this->vat )
+    if ( is_null($this->vat) && !$this->vat_id )
+      throw new liEvenementException('Trying to set VAT on a BoughtProduct w/o prerequisites...');
+    if ( is_null($this->vat) )
       $this->vat = $this->Vat->value ? $this->Vat->value : 0;
     if ( !$this->price_name )
       $this->price_name = (string)$this->Price;
@@ -44,9 +46,10 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
     if ( !$this->declination )
       $this->declination = (string)$this->Declination;
     
-    if ( !$this->code )
+    if ( !$this->code && $this->product_declination_id )
       $this->code = $this->Declination->code;
-    if ( !$this->description_for_buyers && $this->Declination->description_for_buyers )
+    if ( !$this->description_for_buyers
+      && $this->product_declination_id && $this->Declination->description_for_buyers )
       $this->description_for_buyers = $this->Declination->description_for_buyers;
   }
   

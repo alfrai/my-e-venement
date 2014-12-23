@@ -14,6 +14,7 @@ all:
       #fixed_costs:  00000 # not supported yet
       #shipping:     00000 # not supported yet
     media: WEB
+    error_fees: 0.25
     currency: EUR
     url:
       normal: cart/done

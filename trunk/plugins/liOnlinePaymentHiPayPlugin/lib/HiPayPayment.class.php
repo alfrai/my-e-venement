@@ -87,11 +87,37 @@ class HiPayPayment extends OnlinePayment
       $bank = $this->createBankPayment($request);
       error_log('HiPay post-response: '.($bank->error == 'yes' ? 'global failure' : 'global success for #'.$bank->transaction_id));
       $bank->save();
+    
+      // special for HiPay fees on errors
+      if ( $bank->error == 'yes' && floatval(sfConfig::get('app_payment_error_fees', 0)) != 0 )
+      {
+        $payment = new Payment;
+        $payment->payment_method_id = sfConfig::get('app_tickets_payment_method_id');
+        $payment->value = -floatval(sfConfig::get('app_payment_error_fees'));
+        
+        $payment->Transaction = new Transaction;
+        $payment->Transaction->contact_id = $this->transaction->contact_id;
+        $payment->Transaction->professional_id = $this->transaction->professional_id;
+        $payment->Transaction->transaction_id = $this->transaction->id;
+        
+        $bp = new BoughtProduct;
+        $bp->price_name = 'Fees';
+        $bp->name = 'HiPay';
+        $bp->vat = 0;
+        $bp->value = $payment->value;
+        $bp->declination = 'Transaction error';
+        $bp->integrated_at = date('Y-m-d H:i:s');
+        $payment->Transaction->BoughtProducts[] = $bp;
+        
+        $payment->save();
+        error_log('HiPay fees: Payment error ('.sfConfig::get('app_payment_error_fees').'), added to transaction #'.$payment->transaction_id);
+      }
     }
     catch ( Exception $e )
     {
       error_log($e);
     }
+    
     return array('success' => $bank->error === 'no', 'amount' => $bank->amount);
   }
   
