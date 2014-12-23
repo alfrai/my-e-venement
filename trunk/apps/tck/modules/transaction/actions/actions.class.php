@@ -13,6 +13,40 @@ require_once dirname(__FILE__).'/../lib/transactionGeneratorHelper.class.php';
  */
 class transactionActions extends autoTransactionActions
 {
+  public function executeDispatch(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
+    
+    $dispatch = $request->getParameter('dispatch');
+    $q = Doctrine::getTable('Ticket')->createQuery('tck')
+      ->andWhereIn('tck.id', $dispatch)
+      ->leftJoin('tck.Transaction t')
+      ->leftJoin('tck.Duplicatas dup')
+      ->leftJoin('tck.Cancelling c')
+      ->andWhere('tck.cancelling IS NULL AND c.id IS NULL')
+      ->andWhere('tck.duplicating IS NULL AND dup.id IS NULL')
+    ;
+    $this->transaction = new Transaction;
+    $tickets = $q->execute();
+    
+    if ( $tickets->count() == 0 )
+    {
+      $this->getUser()->setFlash('error', __('No ticket to be dispatched...'));
+      $this->redirect($request->getReferer());
+    }
+    
+    foreach ( $tickets as $ticket )
+    {
+      $ticket->Transaction->closed = false;
+      if ( $ticket->Transaction->isModified() )
+        $ticket->Transaction->save();
+      $this->transaction->Tickets[] = $ticket;
+    }
+    $this->transaction->save();
+    
+    $this->getUser()->setFlash('notice', __('%%nb%% ticket(s) have been dispatched into this new transaction.', array('%%nb%%' => $tickets->count())));
+    $this->redirect('transaction/edit?id='.$this->transaction->id);
+  }
   public function executeFind(sfWebRequest $request)
   {
     // find by ticket_id

@@ -219,12 +219,12 @@ LI.completeContent = function(data, type, replaceAll = true)
           var ids = [];
           $.each(price.ids, function(index, value){
             var elt = price.ids_url && price.ids_url[index]
-              ? $('<div></div>').text(type == 'manifestations' && price.numerotation[index] ? ' '+price.numerotation[index] : '')
+              ? $('<span></span>').text(type == 'manifestations' && price.numerotation[index] ? ' '+price.numerotation[index] : '')
                 .prepend($('<a></a>').prop('href', price.ids_url[index]).prop('target', '_blank').text(value))
               : $('<span></span>').text(value+( type == 'manifestations' && price.numerotation[index] ? ' '+price.numerotation[index] : '' ));
-            ids.push(elt.html());
+            ids.push($('<div></div>').append(elt.prepend('#').attr('data-id', value)).html());
           });
-          wprice.find('.ids').html('#'+ids.join(', #'));
+          wprice.find('.ids').html(ids.join(', '));
           
           if ( add )
             wprice.appendTo(wdeclination.find('.declinations tbody'));

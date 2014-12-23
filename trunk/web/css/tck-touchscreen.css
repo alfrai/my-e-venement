@@ -109,7 +109,9 @@
 
 #li_transaction_field_content .item .ticket-data { padding: 0; width: 0; }
 #li_transaction_field_content .item .ids { display: none; position: absolute; margin-top: -1.3em; max-width: 100px; border: 1px solid silver; padding: 1px 4px; background-color: whitesmoke; font-weight: normal; z-index: 1; }
-#li_transaction_field_content .item .ids.show { display: block; }
+#li_transaction_field_content .item .ids.show { display: block; z-index: 2; }
+#li_transaction_field_content .item .ids span { white-space: nowrap; }
+#li_transaction_field_content .item .ids input { padding: 0; margin: 0 5px 0 0; }
 #li_transaction_field_content .item .data { display: none; }
 #li_transaction_field_content .item .price_name { width: 50px; white-space: nowrap; }
 
@@ -124,6 +126,7 @@
 #li_transaction_field_price_new input[type=text] { width: 2em; text-align: right; }
 #li_fieldset_payments #li_transaction_field_price_new > .seats-first { float: right; margin-left: 1em; display: none; }
 #li_fieldset_payments #li_transaction_field_price_new > .seats-first.usefull { display: block; }
+#li_fieldset_payments #li_transaction_field_price_new .dispatch [name=dispatch] { display: none; }
 #li_transaction_field_payments_list { font-size: 0; min-height: 210px; }
 #li_transaction_field_payments_list .sf_admin_list_td_list_created_at { text-align: center; }
 #li_transaction_field_payments_list table { background-color: white; }

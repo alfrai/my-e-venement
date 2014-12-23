@@ -4,6 +4,12 @@
       $(this).find('input[type=text]').focus();
     });
     
+    // tickets with an "origin"
+    $('#li_transaction_field_more .origin input').change(function(){
+      if ( parseInt($(this).val(),10)+'' === $(this).val() )
+        $('#li_transaction_field_price_new input[name="transaction[price_new][origin]"]').val($(this).val());
+    });
+    
     // dealing w/ the GUI for cancellations
     $('#li_transaction_field_price_new .cancel').click(function(){
       var url = $(this).prop('href');
@@ -21,6 +27,26 @@
     
     // dealing w/ the "seats-first" feature
     $('#li_transaction_field_price_new .seats-first').unbind();
+    
+    // dealing w/ the "dispatching" feature
+    $('#li_transaction_field_price_new .dispatch').unbind();
+    $('#li_transaction_field_price_new .dispatch [name=prepare]').click(function(){
+      $(this).closest('form').find('input').toggle();
+      $('#li_transaction_field_content .item.highlight .ids span').each(function(){
+        $('<input type="checkbox" />').prop('name','dispatch[]').val($(this).attr('data-id'))
+          .click(function(event){ event.stopImmediatePropagation(); })
+          .prependTo($(this));
+      });
+      return false;
+    });
+    $('#li_transaction_field_price_new .dispatch [name=dispatch]').click(function(){
+      var form = $(this).closest('form');
+      if ( $('#li_transaction_field_content .item .ids input:checked').length == 0 )
+        return false;
+      $('#li_transaction_field_content .item .ids input:checked').each(function(){
+        form.append($(this).clone());
+      });
+    });
     
     $('#li_transaction_field_content .highlight:not(.new-family)').focusin(function(){
       form.find('button').remove();
@@ -66,9 +92,16 @@
       
       $('#li_transaction_field_price_new').fadeIn();
     }).focusout(function(){
+      var elt = this;
       setTimeout(function(){
         if ( $('#li_transaction_field_content .ui-state-highlight').length == 0 )
+        {
           $('#li_transaction_field_price_new').fadeOut();
+          $('#li_transaction_field_price_new .dispatch input').toggle();
+          $('#li_transaction_field_content .item.highlight .ids input').remove();
+        }
+        if ( !$('#li_transaction_field_content .ui-state-highlight').is(elt) )
+          $('#li_transaction_field_content .item.highlight .ids').removeClass('show');
       },100);
     });
   });

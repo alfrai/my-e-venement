@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>%%nb%% ticket(s) have been dispatched into this new transaction.</source>
+        <target>%%nb%% billet(s) ont été envoyé(s) dans une nouvelle opération.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>No ticket to be dispatched...</source>
+        <target>Pas de billet à traiter...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Prepare dispatching</source>
+        <target>Extraire des billets</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Check ticket's ids shown below any price</source>
+        <target>Sélectionner des IDs de billets</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Dispatch</source>
+        <target>Envoyer</target>
+      </trans-unit>
+      <trans-unit>
         <source>Expire at</source>
         <target>Date d'échéance</target>
       </trans-unit>

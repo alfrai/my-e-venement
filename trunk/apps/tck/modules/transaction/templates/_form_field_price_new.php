@@ -22,3 +22,7 @@
 <form action="<?php echo url_for('transaction/seatsFirst?id='.$transaction->id) ?>" target="_blank" class="seats-first" method="get">
   <button type="submit" name="gauge_id" value=""><?php echo __('Seats first') ?></button>
 </form>
+<form action="<?php echo url_for('transaction/dispatch') ?>" class="dispatch" method="get" title="<?php echo __("Check ticket's ids shown below any price") ?>">
+  <input type="submit" name="prepare" value="<?php echo __('Prepare dispatching') ?>" />
+  <input type="submit" name="dispatch" value="<?php echo __('Dispatch') ?>" />
+</form>
