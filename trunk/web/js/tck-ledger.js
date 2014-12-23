@@ -17,7 +17,7 @@ $(document).ready(function(){
   
   // sales ledger / events
   var links = $('#ledger-products .product .see-more a, #ledger-events .event .see-more a').unbind().click(function(){
-    var line = /#(\w+-\d+)$/.exec($(this).prop('href'))[1];
+    var line = /#(\w+-\w+)$/.exec($(this).prop('href'))[1];
     if ( $(this).html() == '+' )
     {
       $(this).closest('table').find('.'+line).each(function(){

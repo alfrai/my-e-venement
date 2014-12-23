@@ -2,7 +2,7 @@
   ? cross_app_link_to($pdtname, 'pos', 'product/show?id='.$pdt['id'])
   : $pdtname
 ?></td>
-<td class="see-more"><a href="#product-<?php echo $pdt['id'] ?>">-</a></td>
+<td class="see-more"><a href="#product-<?php echo slugify($pdtname) ?>">-</a></td>
 <td class="id-qty"><?php echo $pdt['qty'] ?></td>
 <td class="value"><?php echo format_currency($pdt['value'],'€') ?></td>
 <td class="extra-taxes"></td>

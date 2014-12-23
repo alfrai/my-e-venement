@@ -59,7 +59,7 @@
       <?php require(__DIR__.'/_sales_product.php') ?>
     </tr>
     <?php foreach ( $pdt['declinations'] as $dname => $declination ): ?>
-    <tr class="declination product-<?php echo $pdt['id'] ?>">
+    <tr class="declination product-<?php echo slugify($pdtname) ?>">
       <?php require(__DIR__.'/_sales_declination.php') ?>
     </tr>
     <?php if ( $nb_products <= sfConfig::get('app_ledger_max_tickets',5000) ): ?>
