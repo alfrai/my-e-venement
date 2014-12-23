@@ -27,6 +27,7 @@
     <?php else: if ( $form->getObject()->Gauges->count() > 1 ): ?>
     <li class="ui-corner-all gauge gauges-all"
         title="<?php echo __('If a seated plan exists, it will show up if you click on the gauge') ?>"
+        data-manifestation-id="<?php echo $form->getObject()->id ?>"
     >
       <span><?php echo __('Merging workspaces') ?></span>
       <a class="gauge-gfx" href="<?php echo cross_app_url_for('tck','ticket/gauge?id='.$form->getObject()->id.'&wsid=all') ?>">gauge</a>

@@ -62,22 +62,35 @@ class transactionActions extends autoTransactionActions
     }
     
     // find by seat_id + gauge_id
-    if ( $request->hasParameter('seat_id') && $request->hasParameter('gauge_id') )
+    if ( $request->hasParameter('seat_id') && ($request->hasParameter('gauge_id')||$request->hasParameter('manifestation_id')) )
     {
       $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
       
       $q = Doctrine::getTable('Seat')->createQuery('s')
-        ->andWhere('s.id = ?', $request->getParameter('seat_id'))
-        ->leftJoin('s.Tickets tck WITH tck.gauge_id = ?', $request->getParameter('gauge_id'));
+        ->andWhere('s.id = ?', $request->getParameter('seat_id'));
+      if ( $request->hasParameter('gauge_id') )
+        $q->leftJoin('s.Tickets tck WITH tck.gauge_id = ?', $request->getParameter('gauge_id'));
+      if ( $request->hasParameter('manifestation_id') )
+        $q->leftJoin('s.Tickets tck WITH tck.manifestation_id = ?', $request->getParameter('manifestation_id'));
+      
       $this->forward404Unless($seat = $q->fetchOne());
       if ( $seat->Tickets->count() > 0 )
         $this->redirect('transaction/edit?id='.$seat->Tickets[0]->transaction_id);
       
-      $q = Doctrine::getTable('Gauge')->createQuery('g',false)
-        ->andWhere('g.id = ?', $request->getParameter('gauge_id'));
+      $q = Doctrine::getTable('Gauge')->createQuery('g',false);
+      if ( $request->hasParameter('gauge_id') )
+        $q->andWhere('g.id = ?', $request->getParameter('gauge_id'));
+      if ( $request->hasParameter('manifestation_id') )
+        $q->andWhere('g.manifestation_id = ?', $request->getParameter('manifestation_id'));
+      $q->leftJoin('g.Manifestation m')
+        ->leftJoin('m.Location l')
+        ->leftJoin('l.SeatedPlans sp')
+        ->leftJoin('sp.Workspaces spw')
+        ->andWhere('g.workspace_id = spw.id')
+        ->leftJoin('sp.Seats sps')
+        ->andWhere('sps.id = ?',$request->getParameter('seat_id'))
+      ;
       $this->forward404Unless($gauge = $q->fetchOne());
-      
-      $this->forward404Unless($gauge->seated_plan->id == $seat->seated_plan_id);
       
       $this->transaction = new Transaction;
       $ticket = new Ticket;

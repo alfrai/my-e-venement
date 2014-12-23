@@ -111,8 +111,10 @@ LI.seatedPlanInitializationFunctions.push(function(root){
     var url = $(this).closest('.seated-plan-parent').find('.seated-plan-actions .transaction').prop('href');
     if ( $(this).attr('data-ticket-id') )
       url += '?ticket_id='+$(this).attr('data-ticket-id');
-    else
+    else if ( $(this).closest('[data-gauge-id]').attr('data-gauge-id') )
       url += '?seat_id='+$(this).attr('data-id')+'&gauge_id='+$(this).closest('[data-gauge-id]').attr('data-gauge-id');
+    else
+      url += '?seat_id='+$(this).attr('data-id')+'&manifestation_id='+$(this).closest('[data-manifestation-id]').attr('data-manifestation-id');
     
     if ( e.which == 2 || e.ctrlKey )
       window.open(url);
