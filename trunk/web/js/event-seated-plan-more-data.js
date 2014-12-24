@@ -8,28 +8,34 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
     return false;
   
   if ( root == undefined )
+  {
+    console.error('define root as $("body")');
     root = $('body');
+  }
   
-  $('.picture.seated-plan .more-data:not(.group)').remove();
+  $('.picture.seated-plan .more-data:not(.group, .transaction)').remove();
   if ( !show )
     return;
   
-  $(root).find('.picture.seated-plan').append($('<div></div>').addClass('more-data'));
+  var container = $('<div></div>').addClass('more-data').appendTo($(root).find('.picture.seated-plan'));
   $('#transition').show();
   $.get(url, function(data){
     var color = Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255)+','+Math.floor(Math.random()*255);
     $.each(data, function(key, obj){
       var elt = $('<div></div>')
-        .text(obj.shortname)
         .attr('data-seat-id', obj.seat_id)
+        .click(function(event){
+          console.error($(this).closest('.seated-plan.picture').find('.seat-'+$(this).attr('data-seat-id')+'.txt').length);
+          $(this).closest('.seated-plan.picture').find('.seat-'+$(this).attr('data-seat-id')+'.txt').trigger(event);
+        })
         .css('left', obj.coordinates[0])
         .css('top',  obj.coordinates[1])
         .width(obj.width)
-        .appendTo($('.picture.seated-plan .more-data'))
+        .appendTo(container);
       ;
       if ( obj.seat_class )
         elt.addClass('seat-extra-'+obj.seat_class)
-
+      
       switch(obj.type) {
       case 'shortname':
         elt
@@ -86,12 +92,12 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
           .height(elt.width())
           .addClass('debt-'+(obj.debt == 0 ? 'ok' : (obj.debt > 0 ? 'too-much' : 'debt')))
         ;
-        if ( obj.class )
-          elt.addClass('seat-extra-'+obj.class);
+        if ( obj.seat_class )
+          elt.addClass('seat-extra-'+obj.seat_class);
       break;
       
       case 'group':
-        elt.closest('.more-data').addClass('group');
+        elt.closest('.more-data').addClass(obj.type);
         elt
           .addClass('group')
           .height(elt.width())
@@ -100,8 +106,22 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
         ;
         elt.closest('.seated-plan-parent').find('.seated-plan-actions .groups [name=group_id] [value='+obj.group_id+']')
           .css('background-color', 'rgba('+color+',0.5)');
-        if ( obj.class )
-          elt.addClass('seat-extra-'+obj.class);
+        if ( obj.seat_class )
+          elt.addClass('seat-extra-'+obj.seat_class);
+      break;
+      
+      case 'transaction':
+        elt.closest('.more-data').addClass(obj.type);
+        elt
+          .addClass('transaction')
+          .height(elt.width())
+          .prop('title', obj['transaction-txt'])
+          .css('background-color', 'rgb('+color+',0.5)')
+        ;
+        elt.closest('.seated-plan-parent').find('.seated-plan-actions .transactions [name=transaction_id] [value='+obj.transaction_id+']')
+          .css('background-color', 'rgba('+color+',0.5)');
+        if ( obj.seat_class )
+          elt.addClass('seat-extra-'+obj.seat_class);
       break;
       }
     });

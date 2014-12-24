@@ -81,7 +81,6 @@ $(document).ready(function(){
   {
     var click_gauge = function(){
       setTimeout(function(){
-        console.error('timeout');
         if ( $('#sf_fieldset_workspaces .gauges-all .gauge').length == 0 )
           click_gauge();
         else

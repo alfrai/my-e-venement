@@ -21,7 +21,7 @@
 .picture.seated-plan .more-data .shortname { z-index: 2; overflow: hidden; font-family: 'Gotham Condensed','Arial Narrow',Grande,Lucida Sans,Arial,sans-serif; }
 .picture.seated-plan .more-data .debt { border: 2px solid red; border-radius: 40%; margin: -2px 0 0 -2px; }
 .picture.seated-plan .more-data .debt.debt-too-much { border-color: green; }
-.picture.seated-plan .more-data .group { padding: 4px; margin: -6px 0 0 -4px; }
+.picture.seated-plan .more-data .transaction, .picture.seated-plan .more-data .group { padding: 4px; margin: -6px 0 0 -4px; }
 
 /* PARENT */
 .seated-plan-parent .seated-plan-actions { position: absolute; z-index: 6; margin: 5px 0 0 5px; }

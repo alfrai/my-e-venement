@@ -24,9 +24,9 @@
 <?php
     $this->preLinks($request);
     if ( !$request->getParameter('gauge_id', false) && !$request->getParameter('gauges_list',false) )
-      throw new liSeatedException('The action "get-groups" needs a gauge_id or 1+ gauges_list[] parameter');
+      throw new liSeatedException('The action "get-group" needs a gauge_id or 1+ gauges_list[] parameter');
     if ( !$request->getParameter('group_id', false) )
-      throw new liSeatedException('The action "get-groups" needs a group_id parameter');
+      throw new liSeatedException('The action "get-group" needs a group_id parameter');
     
     $ids = array();
     if ( is_array($request->getParameter('gauges_list',false)) )
@@ -71,7 +71,6 @@
         'transaction_id' => $seat->Tickets[0]->transaction_id,
         'coordinates' => array($seat->x-$seat->diameter/2, $seat->y-$seat->diameter/2+4), // +2 is for half of the font height
         'width'     => $seat->diameter,
-        'class'     => $seat->class,
       );
     }
     

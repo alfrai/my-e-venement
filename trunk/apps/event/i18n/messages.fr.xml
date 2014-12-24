@@ -9,6 +9,10 @@
         <target>Affiche directement la première jauge avec son plan le cas échéant</target>
       </trans-unit>
       <trans-unit>
+        <source>Clear transactions</source>
+        <target>Vider les opérations</target>
+      </trans-unit>
+      <trans-unit>
         <source>Clear groups</source>
         <target>Vider les groupes</target>
       </trans-unit>
