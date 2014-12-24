@@ -86,6 +86,8 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
           .height(elt.width())
           .addClass('debt-'+(obj.debt == 0 ? 'ok' : (obj.debt > 0 ? 'too-much' : 'debt')))
         ;
+        if ( obj.class )
+          elt.addClass('seat-extra-'+obj.class);
       break;
       
       case 'group':
@@ -98,6 +100,8 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
         ;
         elt.closest('.seated-plan-parent').find('.seated-plan-actions .groups [name=group_id] [value='+obj.group_id+']')
           .css('background-color', 'rgba('+color+',0.5)');
+        if ( obj.class )
+          elt.addClass('seat-extra-'+obj.class);
       break;
       }
     });

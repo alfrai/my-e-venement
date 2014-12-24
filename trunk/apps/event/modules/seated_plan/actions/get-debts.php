@@ -66,6 +66,7 @@
         'transaction_id' => $seat->Tickets[0]->transaction_id,
         'coordinates' => array($seat->x-$seat->diameter/2, $seat->y-$seat->diameter/2+4), // +2 is for half of the font height
         'width'     => $seat->diameter,
+        'class'     => $seat->class,
       );
     }
     
