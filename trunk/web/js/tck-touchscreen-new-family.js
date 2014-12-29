@@ -46,6 +46,15 @@
                   .attr('data-gauge-url', manif.gauge_url)
                   .appendTo(select);
               });
+              
+              // if only one option is available w/o looking for something special, select this only option
+              if ( $(elt).val() == '' && select.find('option').length == 1 )
+              {
+                select.find('option').prop('selected', true);
+                select.focusout();
+              }
+              
+              // show mini-gauge w/o selecting a new family
               $('#li_transaction_manifestations .new-family select option').unbind('click').click(function(){
                 if ( !$(this).attr('data-gauge-url') )
                   return;
