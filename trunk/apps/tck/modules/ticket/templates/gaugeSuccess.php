@@ -23,6 +23,7 @@
   <span class="asks"><?php echo __('Demands: ',null,'gauge')?><span class="nb"><?php echo intval($manifestation->demands) ?></span></span>
   <?php endif ?>
 </p>
+<?php /*
 <div>
 <input type="hidden" name="gauge-id" value="<?php echo $manifestation->id ?>" />
 <?php
@@ -41,27 +42,28 @@
 ?>
 <?php  for ( $i = 0 ; $i < $free ; $i++ ): $occ++; ?><div
   class="seat free"
-  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;" <?php /* echo $seat ?>%; height: <?php echo $seat ?>%;" */ ?>
+  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;"
   ></div
 ><?php endfor ?>
 <?php  if ( sfConfig::get('project_transaction_count_demands',false) ): ?>
 <?php  for ( $i = 0 ; $i < $manifestation->demands ; $i++ ): $occ++; ?><div
   class="seat demands <?php echo $occ <= $gauge->value ? 'free' : 'overquota' ?>"
-  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;" <?php /* echo $seat ?>%; height: <?php echo $seat ?>%;" */ ?>
+  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;"
   ></div
 ><?php endfor ?>
 <?php  endif ?>
 <?php  for ( $i = 0 ; $i < $manifestation->orders ; $i++ ): $occ++; ?><div
   class="seat orders <?php echo $occ <= $gauge->value ? '' : 'overquota' ?>"
-  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;" <?php /* echo $seat ?>%; height: <?php echo $seat ?>%;" */ ?>
+  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;"
   ></div
 ><?php endfor ?>
 <?php  for ( $i = 0 ; $i < $manifestation->sells; $i++ ): $occ++; ?><div
   class="seat sells <?php echo $occ <= $gauge->value ? '' : 'overquota' ?>"
-  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;" <?php /* echo $seat ?>%; height: <?php echo $seat ?>%;" */ ?>
+  style="width: <?php echo $px ?>px; height: <?php echo $px ?>px;"
   ></div
 ><?php endfor ?>
 <?php endif ?>
 </div>
+*/ ?>
 </div>
 </div>

@@ -102,6 +102,20 @@
     }
     $this->json['sales']['to-be-paid'][] = array('user' => 'Total', 'nb' => $total);
     
+    // tickets prepared, seated, but still unpaid
+    $q2->andWhere('tck.seat_id IS NOT NULL');
+    $q = Doctrine_Query::create()->from('sfGuardUser u')
+      ->select("u.*, ($q2) AS nb")
+      ->addParams('where', $q2->getFlattenedParams())
+      ->orderBy('u.username');
+    $total = 0;
+    foreach ( $q->execute() as $user )
+    {
+      $total += $user->nb;
+      $this->json['sales']['seated-to-be-paid'][] = array('user' => (string)$user, 'nb' => is_null($user->nb) ? 0 : $user->nb);
+    }
+    $this->json['sales']['seated-to-be-paid'][] = array('user' => 'Total', 'nb' => $total);
+    
     // seats available and unavailable for online sales
     $prepare = array();
     foreach ( sfConfig::get('app_manifestation_online_users', array()) as $u )

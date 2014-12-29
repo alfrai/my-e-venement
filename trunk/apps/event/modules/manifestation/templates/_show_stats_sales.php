@@ -10,7 +10,9 @@
           </tr>
           <tr class="sf_admin_row ui-widget-content odd to-be-paid">
             <th class="ui-state-default ui-th-column"><?php echo __('Tickets prepared by this user, and still unpaid') ?></th>
-            <!--<span class="with-seat"></span> <span class="without-seat"></span>-->
+          </tr>
+          <tr class="sf_admin_row ui-widget-content odd seated-to-be-paid">
+            <th class="ui-state-default ui-th-column"><?php echo __('Tickets prepared by this user, seated, and still unpaid') ?></th>
           </tr>
         </tbody>
         <thead class="ui-widget-header">

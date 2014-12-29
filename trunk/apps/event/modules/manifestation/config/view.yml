@@ -8,7 +8,7 @@ indexSuccess:
 
 showSuccess:
   stylesheets: [manifestation-view, view, event-seated-plan]
-  javascripts: [event-seated-plan]
+  javascripts: [event-seated-plan, event-gauge?<?php echo date('Ymd') ?>]
 editSuccess:
   stylesheets: [manifestation-view,view, event-seated-plan]
   javascripts: [event-seated-plan]

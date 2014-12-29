@@ -41,15 +41,21 @@
       // if this gauge is seated
       if ( $this->gauge->Workspace->seated && $seated_plan = $this->gauge->Manifestation->Location->getWorkspaceSeatedPlan($this->gauge->workspace_id) )
         $this->seats = $seated_plan->Seats->count();
-    
     }
     else
     {
       $gauges = $q->execute();
       $this->gauge = $gauges[0]->copy();
       $this->gauge->value = 0;
+      $this->seats = 0;
       foreach ( $gauges as $gauge )
+      {
         $this->gauge->value += $gauge->value;
+        
+        // if this gauge is seated
+        if ( $gauge->Workspace->seated && $seated_plan = $gauge->Manifestation->Location->getWorkspaceSeatedPlan($gauge->workspace_id) )
+          $this->seats += $seated_plan->Seats->count();
+      }
     }
     
     $q = new Doctrine_Query();

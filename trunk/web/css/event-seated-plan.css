@@ -26,7 +26,7 @@
 /* PARENT */
 .seated-plan-parent .seated-plan-actions { position: absolute; z-index: 6; margin: 5px 0 0 5px; }
 .seated-plan-parent .seated-plan-actions > * { border: 1px solid gray; background-color: rgba(0,0,0,0.2); padding: 2px 5px; border-radius: 2px; display: block; margin-bottom: 2px; text-decoration: none; }
-#content .seated-plan-parent .seated-plan-actions select { width: 140px; }
+#content .seated-plan-parent .seated-plan-actions select { width: 140px; margin: 0; }
 
 /* LIST */
 .sf_admin_list table tbody .sf_admin_row .sf_admin_number { text-align: right; }

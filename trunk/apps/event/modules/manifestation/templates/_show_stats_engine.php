@@ -26,8 +26,30 @@
             if ( parseInt($(this).text(),10) )
               $('#sf_fieldset_statistics .gauges').show();
           });
+          $('#sf_fieldset_statistics .filling .free .seated').text($('#sf_fieldset_statistics .gauges .total td').text());
+        },500);
+      });
+      
+      $.get($('.sf_admin_field_workspaces_list .gauge-gfx:first').prop('href'), function(json){
+        $('#sf_fieldset_statistics .filling .total .total').text(json.total);
+        $('#sf_fieldset_statistics .filling .total .seated').text(json.seats);
+        $('#sf_fieldset_statistics .filling .total .not-seated').text(json.total-json.seats);
+        $('#sf_fieldset_statistics .filling .not-free .total').text(json.total-json.free);
+        $('#sf_fieldset_statistics .filling .printed .total').text(json.booked.printed);
+        $('#sf_fieldset_statistics .filling .ordered .total').text(json.booked.ordered);
+        $('#sf_fieldset_statistics .filling .free .total').text(json.free);
+        
+        // needs upstream data...
+        var inter = setInterval(function(){
+          console.error('interval');
+          if ( $('#sf_fieldset_statistics .filling .free .seated').text() == '-' )
+            return;
+          var freeseats = parseInt($('#sf_fieldset_statistics .filling .free .seated').text(),10);
+          $('#sf_fieldset_statistics .filling .not-free .seated').text(json.seats - freeseats);
+          $('#sf_fieldset_statistics .filling .not-free .not-seated').text(json.total - json.free - json.seats + freeseats);
+          $('#sf_fieldset_statistics .filling .free .not-seated').text(json.free-freeseats);
+          clearInterval(inter);
         },500);
       });
     });
   --></script>
-

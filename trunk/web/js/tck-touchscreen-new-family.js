@@ -48,7 +48,7 @@
               });
               
               // if only one option is available w/o looking for something special, select this only option
-              if ( $(elt).val() == '' && select.find('option').length == 1 )
+              if ( $(elt).val() == '' && select.find('option').length == 1 && location.hash != '#debug' )
               {
                 select.find('option').prop('selected', true);
                 select.focusout();

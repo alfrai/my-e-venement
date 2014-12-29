@@ -45,23 +45,35 @@ class gaugeActions extends autoGaugeActions
         $arr = array(
           'id' => $gauge->id,
           'total' => 0,
+          'seats' => 0,
           'free' => 0,
           'booked' => array('printed' => 0, 'ordered' => 0, 'asked' => 0),
         );
       else
         unset($arr['id']);
       
-      $arr['workspace'] = (string)$gauge->Workspace;
+      // if this gauge is seated
+      if ( $gauge->Workspace->seated && $seated_plan = $gauge->Manifestation->Location->getWorkspaceSeatedPlan($gauge->workspace_id) )
+        $arr['seats'] += $seated_plan->Seats->count();
+      
+      $arr['workspace'] = isset($arr['workspace']) ? '' : (string)$gauge->Workspace;
       $arr['total'] += $gauge->value;
       $arr['free'] += $gauge->value - ($gauge->printed + $gauge->ordered + (sfConfig::get('project_tickets_count_demands',false) ? $gauge->asked : 0));
       $arr['booked']['printed'] += $gauge->printed;
       $arr['booked']['ordered'] += $gauge->ordered;
       $arr['booked']['asked']   += sfConfig::get('project_tickets_count_demands',false) ? $gauge->asked : 0;
       
-      $arr['txt'] = __('Total: %%total%% Free: %%free%%', array(
-        '%%total%%' => $arr['total'],
-        '%%free%%'  => $arr['free'],
-      ));
+      $arr['txt'] = $arr['seats'] > 0
+        ? __('Total: %%total%% Seats: %%seats%% Free: %%free%%', array(
+          '%%total%%' => $arr['total'],
+          '%%seats%%' => $arr['seats'],
+          '%%free%%'  => $arr['free'],
+        ))
+        : __('Total: %%total%% Free: %%free%%', array(
+          '%%total%%' => $arr['total'],
+          '%%free%%'  => $arr['free'],
+        ))
+      ;
       if ( !sfConfig::get('project_tickets_count_demands',false) )
         $arr['booked_txt'] = __('Sells: %%printed%% Orders: %%ordered%%', array(
           '%%printed%%' => $arr['booked']['printed'],

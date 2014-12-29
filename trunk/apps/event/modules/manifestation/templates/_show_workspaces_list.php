@@ -1,5 +1,6 @@
 <?php use_javascript('jquery.overscroll.min.js') ?>
 <?php use_stylesheet('gauge') ?>
+<?php use_stylesheet('event-gauge') ?>
 <?php
   $plans = array();
   foreach ( $manifestation->getRawValue()->Gauges as $gauge )
@@ -29,8 +30,8 @@
         title="<?php echo __('If a seated plan exists, it will show up if you click on the gauge') ?>"
         data-manifestation-id="<?php echo $form->getObject()->id ?>"
     >
-      <span><?php echo __('Merging workspaces') ?></span>
-      <a class="gauge-gfx" href="<?php echo cross_app_url_for('tck','ticket/gauge?id='.$form->getObject()->id.'&wsid=all') ?>">gauge</a>
+      <span><?php echo __('Global gauge') ?></span>
+      <a class="gauge-gfx" href="<?php echo url_for('gauge/state?manifestation_id='.$form->getObject()->id.'&json=true') ?>">gauge</a>
       <div class="seated-plan-parent" id="plans" data-manifestation-id="<?php echo $manifestation->id ?>">
       <?php foreach ( $plans as $plan ): ?>
       <?php if ( isset($plan['seated_plan']) && $plan['seated_plan'] instanceof SeatedPlan ): ?>
@@ -65,7 +66,7 @@
     >
       <a href="<?php echo url_for('workspace/show?id='.$gauge->Workspace->id) ?>"><?php echo $gauge->Workspace ?></a>
       (<?php echo $gauge->online ? __('Online') : '' ?>)
-      <a class="gauge-gfx" href="<?php echo cross_app_url_for('tck','ticket/gauge?id='.$form->getObject()->id.'&wsid='.$gauge->Workspace->id) ?>">gauge</a>
+      <a class="gauge-gfx" href="<?php echo url_for('gauge/state?id='.$gauge->id.'&json=true') ?>">gauge</a>
       <?php if ( $gauge->Workspace->seated && $seated_plan = $form->getObject()->Location->getWorkspaceSeatedPlan($gauge->workspace_id) ): ?>
       <div class="seated-plan-parent" title="">
         <?php include_partial('global/magnify') ?>
@@ -88,24 +89,24 @@
     
     LI.manifestation_gauge_gfx = function()
     {
-      if( $('a.gauge-gfx').length > 0 )
-      {
-        var gauge = $('a.gauge-gfx:first');
-        $.get(gauge.prop('href'),function(data){
-          var new_gauge = $($.parseHTML(data)).find('.gauge');
-          gauge.replaceWith(new_gauge);
-          
-          // seated plans
-          new_gauge.click(function(){
-            $('.sf_admin_field_workspaces_list .gauge').removeClass('active');
-            $(this).parent().closest('.gauge').addClass('active');
-            $(this).parent().closest('.gauge').find('.seated-plan-actions a:first').click();
-          });
-          
-          // next
-          LI.manifestation_gauge_gfx();
+      if ( $('a.gauge-gfx:not(.done)').length == 0 )
+        return;
+      
+      var gauge = $('a.gauge-gfx:not(.done):first');
+      $.get(gauge.prop('href'),function(data){
+        LI.renderGauge(JSON.stringify(data), false, gauge.parent());
+        gauge.addClass('done');
+        
+        // seated plans
+        gauge.parent().find('.gauge.raw').click(function(){
+          $('.sf_admin_field_workspaces_list .gauge').removeClass('active');
+          $(this).parent().closest('.gauge').addClass('active');
+          $(this).parent().closest('.gauge').find('.seated-plan-actions a:first').click();
         });
-      }
+        
+        // next
+        LI.manifestation_gauge_gfx();
+      });
     }
     $(document).ready(function(){
       LI.manifestation_gauge_gfx();

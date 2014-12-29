@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Not seated</source>
+        <target>Non placé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Not free</source>
+        <target>Non libre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Sold</source>
+        <target>Vendu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ordered</source>
+        <target>Réservé</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Free</source>
+        <target>Libre</target>
+      </trans-unit>
+      <trans-unit>
         <source>Display directly the first gauge with its plan if it has one</source>
         <target>Affiche directement la première jauge avec son plan le cas échéant</target>
       </trans-unit>
@@ -31,6 +51,10 @@
       <trans-unit>
         <source>Tickets prepared by this user, and still unpaid</source>
         <target>Billets préparés par cet utilisateur, et sans règlement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Tickets prepared by this user, seated, and still unpaid</source>
+        <target>Billets préparés par cet utilisateur, placés, et sans règlement</target>
       </trans-unit>
       <trans-unit>
         <source>Available for online sales</source>
@@ -265,6 +289,10 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
       <trans-unit>
         <source>Total: %%total%% Free: %%free%%</source>
         <target>Total: %%total%% Libres: %%free%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Total: %%total%% Seats: %%seats%% Free: %%free%%</source>
+        <target>Total: %%total%% Places: %%seats%% Libres: %%free%%</target>
       </trans-unit>
       <trans-unit>
         <source>Sells: %%printed%% Orders: %%ordered%% Demands: %%asked%%</source>
@@ -975,8 +1003,8 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <target>%m% mois</target>
       </trans-unit>
       <trans-unit>
-        <source>Merging workspaces</source>
-        <target>Fusion des espaces de travail</target>
+        <source>Global gauge</source>
+        <target>Jauge globale</target>
       </trans-unit>
       <trans-unit>
         <source>New Location</source>
