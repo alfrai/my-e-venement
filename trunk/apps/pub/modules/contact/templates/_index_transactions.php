@@ -27,7 +27,7 @@
 <p class="help">(<?php echo __('You can review your previous orders by clicking on its number') ?>)</p>
 <ul>
 <?php foreach ( $contact->Transactions as $t ): ?>
-<?php if ( $t->Order->count() > 0 || $t->getPrice() > 0 ): ?>
+<?php if ( $t->Order->count() > 0 && $t->Tickets->count() > 0 || $t->getPrice() > 0 ): ?>
   <li class="transaction-<?php echo $t->id ?>">
     #<a href="<?php echo url_for('transaction/show?id='.$t->id) ?>" class="transaction"><?php echo $t->id ?></a>
     <span class="date"><?php echo format_date($t->created_at) ?></span>
