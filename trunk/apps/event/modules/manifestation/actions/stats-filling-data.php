@@ -87,6 +87,14 @@
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m',true)
       ->leftJoin('m.Gauges g')
+/*
+    $q = Doctrine::getTable('Gauge')->createQuery('g', false)
+      ->andWhere('g.manifestation_id = ?', $request->getParameter('id', 0))
+      ->leftJoin('g.Workspace ws')
+      ->leftJoin('g.Manifestation m')
+      ->leftJoin('m.Event e')
+      ->leftJoin('e.MetaEvent me')
+*/
       
       ->leftJoin('g.Tickets tck')
       ->leftJoin('tck.Seat s')
@@ -114,6 +122,7 @@
     foreach ( array('online', 'all') as $type )
     foreach ( $$type->execute() as $manif )
     foreach ( $manif->Gauges as $gauge )
+//    foreach ( $$type->execute() as $gauge )
     foreach ( $gauge->Tickets as $ticket )
     {
       // cancelled
@@ -202,24 +211,24 @@
     
     // free gauges
     $q = Doctrine::getTable('Gauge')->createQuery('g')
-      ->leftJoin('ws.Users wsu')
-      
+      ->andWhere('g.manifestation_id = ?', $request->getParameter('id', 0))
+    ;
+    // online
+    foreach ( $gauges = $q->copy()
       ->leftJoin('g.Manifestation m')
-      ->andWhere('m.id = ?', $request->getParameter('id', 0))
-      
       ->leftJoin('m.Event e')
       ->leftJoin('e.MetaEvent me')
+      
+      ->leftJoin('ws.Users wsu')
+      ->andWhereIn('wsu.id', $users)
       ->leftJoin('me.Users meu')
+      ->andWhereIn('meu.id', $users)
       
       ->leftJoin('g.Prices gp')
       ->leftJoin('gp.Users gpu WITH gpu.id IN '.$prepare, $users)
       ->leftJoin('m.Prices mp')
       ->leftJoin('mp.Users mpu WITH mpu.id IN '.$prepare, $users)
-    ;
-    // online
-    foreach ( $gauges = $q->copy()
-      ->andWhereIn('wsu.id', $users)
-      ->andWhereIn('meu.id', $users)
+      
       ->andWhere('gpu.id IS NOT NULL OR mpu.id IS NOT NULL')
       ->andWhere('g.online = ?', true)
       ->execute() as $gauge )
