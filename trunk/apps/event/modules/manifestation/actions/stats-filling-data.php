@@ -203,8 +203,8 @@
     foreach ( $q->execute() as $gauge )
     {
       $this->json['seats']['free']['all']['nb'] += $gauge->nb;
-      $this->json['seats']['free']['all']['min']['money'] += $gauge->nb * $gauge->getPriceMin();
-      $this->json['seats']['free']['all']['max']['money'] += $gauge->nb * $gauge->getPriceMax();
+      $this->json['seats']['free']['all']['min']['money'] += $gauge->nb * $gauge->getPriceMin($users);
+      $this->json['seats']['free']['all']['max']['money'] += $gauge->nb * $gauge->getPriceMax($users);
     }
     $this->json['seats']['free']['all']['min']['money_txt'] = format_currency($this->json['seats']['free']['all']['min']['money'], '€');
     $this->json['seats']['free']['all']['max']['money_txt'] = format_currency($this->json['seats']['free']['all']['max']['money'], '€');

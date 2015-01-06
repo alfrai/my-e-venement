@@ -54,6 +54,9 @@ class Gauge extends PluginGauge
   }
   public function getAllPriceValues($users = NULL)
   {
+    if ( !$users )
+      $users = NULL;
+    
     $prices = array();
     foreach ( $this->PriceGauges as $pg )
     {
@@ -87,6 +90,9 @@ class Gauge extends PluginGauge
       if ( $go )
         $prices[$pm->price_id] = $pm->value;
     }
+    
+    if ( $users && count($prices) == 0 )
+      $prices = $this->getAllPriceValues();
     return $prices;
   }
 }
