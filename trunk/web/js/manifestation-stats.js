@@ -1,4 +1,5 @@
     $(document).ready(function(){
+      // first table
       $.get($('#sf_fieldset_statistics .meta-data-url').prop('href'), function(json){
         $.each(json, function(bunch, data){
           $.each(data, function(id, value) {
@@ -18,6 +19,40 @@
         });
       });
       
+      // second table make'up
+      $('#sf_fieldset_statistics .filling-complete .min, #sf_fieldset_statistics .filling-complete .max')
+        .mouseenter(function(){
+          if ( $(this).hasClass('max') )
+            $(this).prev().addClass('ui-state-hover');
+          if ( $(this).hasClass('min') )
+            $(this).next().addClass('ui-state-hover');
+        })
+        .mouseleave(function(){
+          if ( $(this).hasClass('max') )
+            $(this).prev().removeClass('ui-state-hover');
+          if ( $(this).hasClass('min') )
+            $(this).next().removeClass('ui-state-hover');
+        })
+        .click(function(){
+          var elt = this;
+          setTimeout(function(){
+            var sibling;
+            if ( $(elt).hasClass('max') )
+              sibling = $(elt).prev();
+            if ( $(elt).hasClass('min') )
+              sibling = $(elt).next();
+            if ( sibling == undefined )
+              return;
+            
+            if ( $(elt).hasClass('ui-state-highlight') )
+              sibling.addClass('ui-state-highlight');
+            else
+              sibling.removeClass('ui-state-highlight');
+          },100);
+        })
+      ;
+      
+      // second table engine
       $('#sf_fieldset_statistics .filling-complete .min + .max .nb').closest('td').hide();
       $('#sf_fieldset_statistics .filling-complete .min + .max .th').hide();
       $('#sf_fieldset_statistics .filling-complete .min .nb').closest('td').prop('rowspan', 2);
