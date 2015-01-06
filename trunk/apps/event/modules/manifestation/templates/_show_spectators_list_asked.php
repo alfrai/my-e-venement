@@ -16,19 +16,12 @@
       foreach ( $transac->Tickets as $t )
       if ( !$t->printed_at && !$t->integrated_at && $t->Transaction->Order->count() == 0 )
       {
-        if ( $sf_user->hasCredential('seats-allocation') && $t->numerotation )
-        {
-          if ( !isset($contact['ticket-nums'][$t->Gauge->workspace_id]) )
-            $contact['ticket-nums'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
-          $contact['ticket-nums'][$t->Gauge->workspace_id][] = $t->numerotation;
-        }
-        
         if ( !isset($contact['ticket-ids'][$t->Gauge->workspace_id]) )
           $contact['ticket-ids'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
         $contact['ticket-ids'][$t->Gauge->workspace_id][] = $t->id;
         if ( !isset($contact['ticket-nums'][$t->Gauge->workspace_id]) )
           $contact['ticket-nums'][$t->Gauge->workspace_id] = array('name' => $t->Gauge->Workspace->name);
-        if ( $t->numerotation )
+        if ( $t->numerotation && $sf_user->hasCredential('seats-allocation') )
           $contact['ticket-nums'][$t->Gauge->workspace_id][$t->id] = $t->numerotation;
         
         if ( !isset($contact['prices'][$t->Gauge->workspace_id]) )
