@@ -19,9 +19,9 @@ sellSuccess:
 touchscreenSuccess:
   stylesheets: [ticket-touchscreen]
 
-failedSuccess:
+controlFailed:
   stylesheets: [ticket]
-passedSuccess:
+controlPassed:
   stylesheets: [ticket]
 controlSuccess:
   stylesheets: [ticket]

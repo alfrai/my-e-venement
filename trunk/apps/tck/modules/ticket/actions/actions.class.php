@@ -267,7 +267,7 @@ class ticketActions extends sfActions
   }
   public function executeControl(sfWebRequest $request)
   {
-    require('control.php');
+    return require('control.php');
   }
   public function executeBatchControl(sfWebRequest $request)
   {

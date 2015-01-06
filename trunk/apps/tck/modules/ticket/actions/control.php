@@ -99,7 +99,7 @@
         
         $cancontrol = $checkpoint instanceof Checkpoint;
         if ( !$cancontrol )
-          $this->errors[] = __('The ticket #%%id%% is unfoundable in the list of available tickets', array('%%id%%', $params['ticket_id']));
+          $this->errors[] = __('The ticket #%%id%% is unfoundable in the list of available tickets', array('%%id%%' => implode(', #', $params['ticket_id'])));
         if ( $cancontrol && $checkpoint->legal )
         {
           $q = Doctrine::getTable('Control')->createQuery('c')
@@ -138,7 +138,7 @@
               if ( $this->form->isValid() )
               {
                 $this->form->save();
-                $this->setTemplate('passed');
+                return 'Passed';
               }
               else
               {
@@ -162,7 +162,7 @@
               }
               foreach ( $err as $e )
                 $this->errors[] = __('It has been impossible to save the control of ticket #%%id%%', array('%%id%%' => $e));
-              $this->setTemplate('passed');
+              return 'Passed';
             }
           }
           else
@@ -175,16 +175,16 @@
               $this->form->bind($params);
             }
             else
-              $this->setTemplate('failed');
+              return 'Failed';
           }
         }
         else
-        {
-          $this->setTemplate('failed');
-        }
+          return 'Failed';
       }
       else
       {
         $this->getUser()->setFlash('error',__("Don't forget to specify a checkpoint and a ticket id"));
       }
     }
+    
+    return 'Success';

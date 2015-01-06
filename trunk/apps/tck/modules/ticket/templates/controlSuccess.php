@@ -9,7 +9,9 @@
     <li class="ticket_id ui-corner-all sf_admin_form_row sf_admin_text <?php echo $form['ticket_id']->hasError() ? 'ui-state-error' : '' ?>">
       <label for="ticket_id"><?php echo __('Ticket') ?></label>
       <?php echo $form['ticket_id'] ?>
+      <?php if ( sfConfig::get('app_tickets_id') == 'id' ): ?>
       <?php include_partial('global/capslock') ?>
+      <?php endif ?>
     </li>
     <li class="checkpoint_id ui-corner-all sf_admin_form_row sf_admin_text <?php echo $form['checkpoint_id']->hasError() ? 'ui-state-error' : '' ?>">
       <label for="checkpoint_id"><?php echo __('Checkpoint') ?></label>
