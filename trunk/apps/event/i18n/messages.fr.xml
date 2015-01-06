@@ -9,6 +9,10 @@
         <target>Fermer</target>
       </trans-unit>
       <trans-unit>
+        <source>If you find two numbers in a cell, consider the upper number as the pessimistic estimation and the lower number as the optimistic one.</source>
+        <target>Si vous trouvez deux nombres dans une cellule, considérez le nombre du haut comme l'estimation la plus pessimiste et le nombre du bas comme l'estimation la plus optimiste.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Filling</source>
         <target>Remplissage</target>
       </trans-unit>

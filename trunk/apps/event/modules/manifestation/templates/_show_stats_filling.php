@@ -75,4 +75,5 @@
         </thead>
       </table>
       <p class="comment">(<?php echo __('Users used by online sales') ?>: <?php echo ($users = sfConfig::get('app_manifestation_online_users', array())) ? implode(', ', $users) : __('None') ?>)</p>
+      <p class="comment">(<?php echo __('If you find two numbers in a cell, consider the upper number as the pessimistic estimation and the lower number as the optimistic one.') ?>)</p>
     </div>
