@@ -244,8 +244,8 @@
       ->execute() as $gauge )
     {
       $this->json['gauges']['free']['all']['nb'] += $gauge->value - $gauge->printed - $gauge->ordered;
-      $this->json['gauges']['free']['all']['min']['money'] += ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMin();
-      $this->json['gauges']['free']['all']['max']['money'] += ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMax();
+      $this->json['gauges']['free']['all']['min']['money'] += ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMin($users);
+      $this->json['gauges']['free']['all']['max']['money'] += ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMax($users);
     }
     $this->json['gauges']['free']['all']['min']['money_txt'] = format_currency($this->json['gauges']['free']['all']['min']['money'], '€');
     $this->json['gauges']['free']['all']['max']['money_txt'] = format_currency($this->json['gauges']['free']['all']['max']['money'], '€');
