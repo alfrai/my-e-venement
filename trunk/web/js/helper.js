@@ -5,15 +5,16 @@ if ( LI == undefined )
 LI.pad_num = function (num, digits){return(1e15+num+"").slice(-digits)}
 
 // THE CURRENCY
-LI.format_currency = function(value, nbsp, nodot)
+LI.format_currency = function(value, nbsp, nodot, currency)
 {
   if ( nbsp  == undefined ) nbsp  = true;
   if ( nodot == undefined ) nodot = true;
+  if ( currency == undefined ) currency = '€';
   if ( !value ) value = 0;
 
   var r = $('.currency:first').length > 0
     ? $('.currency:first').html()
-    : '%d €';
+    : '%d '+currency;
   value = r.replace('%d',value.toFixed(2));
 
   if ( nbsp  ) value = value.replace(' ','&nbsp;');
