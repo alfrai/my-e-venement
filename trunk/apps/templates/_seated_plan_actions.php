@@ -9,6 +9,11 @@
     $param = 'gauges_list[]='.implode('&amp;gauges_list[]=', $ids);
   }
 ?>
+          <a class="close"
+             href="#"
+             onclick="javascript: $(this).closest('.seated-plan-parent').closest('.gauge').removeClass('active'); console.error('close'); return false;"
+             title="<?php echo __('Close') ?>"
+          ></a>
           <a class="occupation"
              href="<?php echo url_for('seated_plan/getSeats?id='.$seated_plan->id) ?>?<?php echo $param ?>"
              onclick="javascript: var plan = $(this).closest('.seated-plan-parent').find('.seated-plan'); LI.seatedPlanLoadData($(this).prop('href'), plan); return false;"
