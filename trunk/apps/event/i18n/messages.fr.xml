@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Close</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit>
         <source>Filling</source>
         <target>Remplissage</target>
       </trans-unit>

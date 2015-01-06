@@ -34,14 +34,21 @@ html body #content { margin-right: 0; }
 .sf_admin_field_workspaces_list .gauge .gauge { cursor: pointer; }
 .sf_admin_field_workspaces_list .active .seated-plan-parent { display: block; }
 .sf_admin_field_workspaces_list .magnify { top: 500px; right: 50px; }
+.sf_admin_field_workspaces_list .seated-plan-actions .close { position: absolute; margin-left: calc(100% + 5px); font-weight: bold; color: white; }
+.sf_admin_field_workspaces_list .seated-plan-actions .close:before { content: 'x'; }
 
 #sf_fieldset_statistics label { font-weight: normal; }
 #sf_fieldset_statistics table { margin-left: 20px; width: 98%; table-layout: fixed; }
-qsd#sf_fieldset_statistics .filling table,
-#sf_fieldset_statistics .gauges table { width: 30em; }
-#sf_fieldset_statistics th { text-align: right; width: 22em; padding-right: 1em; }
+#sf_fieldset_statistics .seats table { width: 30em; }
+#sf_fieldset_statistics th { text-align: right; width: 11em; padding: 0 1em 0 0.5em; }
 #sf_fieldset_statistics td { margin-left: 1em; width: auto; }
 #sf_fieldset_statistics tbody td { text-align: right; }
 #sf_fieldset_statistics thead td { text-align: center; padding: 0 5px; }
 #sf_fieldset_statistics .subline td, #sf_fieldset_statistics .subline th { font-weight: normal; }
 #sf_fieldset_statistics .subline td { color: gray; }
+#sf_fieldset_statistics .percent:after { content: '%)'; }
+#sf_fieldset_statistics .percent:before { content: '('; }
+#sf_fieldset_statistics .percent, #sf_fieldset_statistics .money, #sf_fieldset_statistics .nb { padding-right: 0.5em; white-space: nowrap; }
+#sf_fieldset_statistics .min { border-bottom: 0; }
+#sf_fieldset_statistics .max { border-top: 0; }
+#sf_fieldset_statistics .filling-complete tbody td { font-size: 80%; }

@@ -101,7 +101,7 @@
         gauge.parent().find('.gauge.raw').click(function(){
           $('.sf_admin_field_workspaces_list .gauge').removeClass('active');
           $(this).parent().closest('.gauge').addClass('active');
-          $(this).parent().closest('.gauge').find('.seated-plan-actions a:first').click();
+          $(this).parent().closest('.gauge').find('.seated-plan-actions .occupation').click();
         });
         
         // next

@@ -22,13 +22,14 @@
 ***********************************************************************************/
 ?>
 <?php
+    $this->getContext()->getConfiguration()->loadHelpers('Number');
+    
     $this->json = array(
       'sales'  => array(
         'booked-by-one' => array(),
         'booked-by-one-prepared-by-another' => array(),
         'to-be-paid' => array(),
       ),
-      'gauges' => array(),
     );
     
     // tickets booked & paid by the same person
@@ -115,60 +116,3 @@
       $this->json['sales']['seated-to-be-paid'][] = array('user' => (string)$user, 'nb' => is_null($user->nb) ? 0 : $user->nb);
     }
     $this->json['sales']['seated-to-be-paid'][] = array('user' => 'Total', 'nb' => $total);
-    
-    // seats available and unavailable for online sales
-    $prepare = array();
-    foreach ( sfConfig::get('app_manifestation_online_users', array()) as $u )
-      $prepare[] = '?';
-    $prepare = '('.implode(',', $prepare).')';
-    $o = Doctrine_Query::create()->from('Order oo')
-      ->select('count(oo.id)')
-      ->andWhere('oo.transaction_id = tck.transaction_id')
-    ;
-    $q = Doctrine::getTable('Gauge')->createQuery('g',false)
-      ->leftJoin('g.Workspace ws')
-      ->leftJoin('ws.Users wsu')
-      
-      ->leftJoin('g.Manifestation m')
-      ->andWhere('m.id = ?', $request->getParameter('id', 0))
-      
-      ->leftJoin('m.Event e')
-      ->leftJoin('e.MetaEvent me')
-      ->leftJoin('me.Users meu')
-      
-      ->leftJoin('m.Location l')
-      ->leftJoin('l.SeatedPlans sp')
-      ->leftJoin('sp.Workspaces spw WITH spw.id = ws.id')
-      ->leftJoin('sp.Seats s WITH spw.id IS NOT NULL')
-      ->leftJoin('s.Tickets tck WITH tck.manifestation_id = m.id AND (tck.integrated_at IS NOT NULL OR tck.printed_at IS NOT NULL OR ('.$o.') > 0)')
-      ->andWhere('tck.id IS NULL')
-      
-      ->leftJoin('m.Prices mp')
-      ->leftJoin('mp.Users mpu WITH mpu.username IN '.$prepare, sfConfig::get('app_manifestation_online_users', array()))
-      ->leftJoin('g.Prices gp')
-      ->leftJoin('gp.Users gpu WITH gpu.username IN '.$prepare, sfConfig::get('app_manifestation_online_users', array()))
-      
-      ->groupBy('g.id, g.online, g.value, g.workspace_id')
-      ->select('g.id, g.online, g.workspace_id, count(DISTINCT s.id) AS nb')
-    ;
-    
-    $q1 = $q->copy()
-      ->andWhereIn('wsu.username', sfConfig::get('app_manifestation_online_users', array()))
-      ->andWhereIn('meu.username', sfConfig::get('app_manifestation_online_users', array()))
-      ->having('g.online = ? AND COUNT(gpu.id) > 0 OR COUNT(mpu.id) > 0', true)
-    ;
-    $this->json['gauges']['online'] = 0;
-    foreach ( $q1->fetchArray() as $gauge )
-      $this->json['gauges']['online'] += $gauge['nb'];
-    
-    $q2 = $q->copy()
-      ->andWhereNotIn('wsu.username', sfConfig::get('app_manifestation_online_users', array()))
-      ->andWhereNotIn('meu.username', sfConfig::get('app_manifestation_online_users', array()))
-      ->having('g.online = ? OR COUNT(gpu.id) = 0 AND COUNT(mpu.id) = 0', false)
-    ;
-    $this->json['gauges']['offline'] = 0;
-    foreach ( $q2->fetchArray() as $gauge )
-      $this->json['gauges']['offline'] += $gauge['nb'];
-    
-    // total of free seats, in open AND in closed situations
-    $this->json['gauges']['total'] = $this->json['gauges']['online'] + $this->json['gauges']['offline'];

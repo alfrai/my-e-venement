@@ -1,4 +1,4 @@
-    <div class="gauges sf_admin_list">
+    <div class="seats sf_admin_list">
       <h4><?php echo __('Seats') ?></h4>
       <div class="help">
         <span class="ui-icon ui-icon-help floatleft"></span>

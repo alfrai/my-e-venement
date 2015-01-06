@@ -36,4 +36,57 @@ class Gauge extends PluginGauge
   {
     return $this->Manifestation->Location->getWorkspaceSeatedPlan($this->workspace_id);
   }
+  
+  public function getPriceMax($users = NULL)
+  {
+    $values = $this->getAllPriceValues($users);
+    if ( count($values) == 0 )
+      return 0;
+    return max($values);
+  }
+  public function getPriceMin($users = NULL)
+  {
+    $values = $this->getAllPriceValues($users);
+    if ( count($values) == 0 )
+      return 0;
+    
+    return min($values);
+  }
+  public function getAllPriceValues($users = NULL)
+  {
+    $prices = array();
+    foreach ( $this->PriceGauges as $pg )
+    {
+      $go = !(is_array($users) && count($users) > 0);
+      if ( !$go )
+      foreach ( $users as $user )
+      if ( $user instanceof liGuardSecurityUser && $pg->Price->isAccessibleBy($user)
+        || is_integer($user) && in_array($user, $pg->Price->Users->getPrimaryKeys()) )
+      {
+        $go = true;
+        break;
+      }
+      
+      if ( $go )
+        $prices[$pg->price_id] = $pg->value;
+    }
+    
+    foreach ( $this->Manifestation->PriceManifestations as $pm )
+    if ( !isset($prices[$pm->price_id]) )
+    {
+      $go = !(is_array($users) && count($users) > 0);
+      if ( !$go )
+      foreach ( $users as $user )
+      if ( $user instanceof liGuardSecurityUser && $pg->Price->isAccessibleBy($user)
+        || is_integer($user) && in_array($user, $pg->Price->Users->getPrimaryKeys()) )
+      {
+        $go = true;
+        break;
+      }
+      
+      if ( $go )
+        $prices[$pm->price_id] = $pm->value;
+    }
+    return $prices;
+  }
 }

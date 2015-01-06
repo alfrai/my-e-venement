@@ -66,16 +66,22 @@ class manifestationActions extends autoManifestationActions
     foreach ( $q->fetchArray() as $gauge )
     foreach ( array('max', 'min') as $field )
       $this->json[$field]['value'] += $gauge[$field]*$gauge['value'];
-    sfContext::getInstance()->getConfiguration()->loadHelpers('Number');
+    $this->getContext()->getConfiguration()->loadHelpers('Number');
     foreach ( array('max', 'min') as $field )
       $this->json[$field]['currency'] = format_currency($this->json[$field]['value'], '€');
     
     if (!( sfConfig::get('sf_web_debug', true) && $request->hasParameter('debug') ))
       return 'Json';
   }
-  public function executeStatsRawData(sfWebRequest $request)
+  public function executeStatsMetaData(sfWebRequest $request)
   {
-    require __DIR__.'/stats-raw-data.php';
+    require __DIR__.'/stats-meta-data.php';
+    if (!( sfConfig::get('sf_web_debug', true) && $request->hasParameter('debug') ))
+      return 'Json';
+  }
+  public function executeStatsFillingData(sfWebRequest $request)
+  {
+    require __DIR__.'/stats-filling-data.php';
     if (!( sfConfig::get('sf_web_debug', true) && $request->hasParameter('debug') ))
       return 'Json';
   }
@@ -153,7 +159,7 @@ class manifestationActions extends autoManifestationActions
   
   public function executeSell(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('CrossAppLink');
+    $this->getContext()->getConfiguration()->loadHelpers('CrossAppLink');
     
     $this->forward404Unless($request->hasParameter('id'));
     $this->redirect(cross_app_url_for('tck', 'transaction/new#manifestations-'.$request->getParameter('id')));
@@ -170,7 +176,7 @@ class manifestationActions extends autoManifestationActions
   }
   public function executeDuplicate(sfWebRequest $request)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
     
     $manif = Doctrine_Query::create()->from('Manifestation m')
       ->leftJoin('m.PriceManifestations p')
@@ -287,7 +293,7 @@ class manifestationActions extends autoManifestationActions
       
       if ( $go )
       {
-        sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
+        $this->getContext()->getConfiguration()->loadHelpers('Url');
         $short = sfConfig::get('app_manifestation_prefer_short_name', true);
         $arr = array(
           'name'  => $manif->getName($short).(sfConfig::get('app_manifestation_show_location_ajax', false) ? ' '.$manif->Location : ''),
@@ -421,7 +427,7 @@ class manifestationActions extends autoManifestationActions
     }
     catch ( Doctrine_Connection_Exception $e )
     {
-      sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+      $this->getContext()->getConfiguration()->loadHelpers('I18N');
       $this->getUser()->setFlash('error',__("Deleting this object has been canceled because of remaining links to externals (like tickets)."));
       $this->redirect('manifestation/show?id='.$this->getRoute()->getObject()->id);
     }
@@ -470,7 +476,7 @@ class manifestationActions extends autoManifestationActions
     
     if ( !$this->manifestation->current_version )
     {
-      sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+      $this->getContext()->getConfiguration()->loadHelpers('I18N');
       $this->getUser()->setFlash('error', __('You have requested the version %%v%% that does not exist', array('%%v%%' => $v)));
       $this->redirect('manifestation/show?id='.$this->manifestation->id);
     }
@@ -657,7 +663,7 @@ class manifestationActions extends autoManifestationActions
    */
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
-    sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
     
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
