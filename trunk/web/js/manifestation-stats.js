@@ -22,8 +22,6 @@
       $('#sf_fieldset_statistics .filling-complete .min + .max .th').hide();
       $('#sf_fieldset_statistics .filling-complete .min .nb').closest('td').prop('rowspan', 2);
       $.get($('#sf_fieldset_statistics .filling-data-url').prop('href'), function(json){
-        $('#sf_fieldset_statistics .filling .free .seated').text(json.seats.free.all.nb);
-        
         // this is a super-powerful compression of the "data dispatcher", to avoid hidden bugs as much as we can
         $.each({ seats: 'st', gauges: 'at' }, function(type, tckprefix){
         $.each(['free', 'ordered', 'printed', 'total', 'not-free'], function(i, data){
@@ -87,35 +85,5 @@
         }); // type
         }); // data
         }); // state
-        
-        // hide the data related to seated ticketting if nothing is interesting
-        setTimeout(function(){
-          $('#sf_fieldset_statistics .seats').hide();
-          $('#sf_fieldset_statistics .seats tbody td').each(function(){
-            if ( parseInt($(this).text(),10) )
-              $('#sf_fieldset_statistics .seats').show();
-          });
-        },500);
-      });
-      
-      $.get($('.sf_admin_field_workspaces_list .gauge-gfx:first').prop('href'), function(json){
-        $('#sf_fieldset_statistics .filling .total .total').text(json.total);
-        $('#sf_fieldset_statistics .filling .total .seated').text(json.seats);
-        $('#sf_fieldset_statistics .filling .total .not-seated').text(json.total-json.seats);
-        $('#sf_fieldset_statistics .filling .not-free .total').text(json.total-json.free);
-        $('#sf_fieldset_statistics .filling .printed .total').text(json.booked.printed);
-        $('#sf_fieldset_statistics .filling .ordered .total').text(json.booked.ordered);
-        $('#sf_fieldset_statistics .filling .free .total').text(json.free);
-        
-        // needs upstream data...
-        var inter = setInterval(function(){
-          if ( $('#sf_fieldset_statistics .filling .free .seated').text() == '-' )
-            return;
-          var freeseats = parseInt($('#sf_fieldset_statistics .filling .free .seated').text(),10);
-          $('#sf_fieldset_statistics .filling .not-free .seated').text(json.seats - freeseats);
-          $('#sf_fieldset_statistics .filling .not-free .not-seated').text(json.total - json.free - json.seats + freeseats);
-          $('#sf_fieldset_statistics .filling .free .not-seated').text(json.free-freeseats);
-          clearInterval(inter);
-        },500);
       });
     });

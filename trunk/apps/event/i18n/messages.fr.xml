@@ -13,6 +13,26 @@
         <target>Remplissage</target>
       </trans-unit>
       <trans-unit>
+        <source>State of sales</source>
+        <target>État des ventes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>seats</source>
+        <target>places</target>
+      </trans-unit>
+      <trans-unit>
+        <source>open gauges for online sales</source>
+        <target>jauges ouvertes pour la vente en ligne</target>
+      </trans-unit>
+      <trans-unit>
+        <source>all gauges</source>
+        <target>toutes les jauges</target>
+      </trans-unit>
+      <trans-unit>
+        <source>everything</source>
+        <target>tout billet</target>
+      </trans-unit>
+      <trans-unit>
         <source>Not seated</source>
         <target>Non placé</target>
       </trans-unit>
