@@ -77,8 +77,8 @@ class Gauge extends PluginGauge
       $go = !(is_array($users) && count($users) > 0);
       if ( !$go )
       foreach ( $users as $user )
-      if ( $user instanceof liGuardSecurityUser && $pg->Price->isAccessibleBy($user)
-        || is_integer($user) && in_array($user, $pg->Price->Users->getPrimaryKeys()) )
+      if ( $user instanceof liGuardSecurityUser && $pm->Price->isAccessibleBy($user)
+        || is_integer($user) && in_array($user, $pm->Price->Users->getPrimaryKeys()) )
       {
         $go = true;
         break;
