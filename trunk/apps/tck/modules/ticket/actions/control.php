@@ -109,9 +109,9 @@
             ->leftJoin('m.Tickets t')
             ->leftJoin('c.Ticket tc')
             ->leftJoin('c.User u')
-            ->andWhereIn('tc.'.$field,$params['ticket_id'])
+            ->andWhereIn('tc.'.$field, $params['ticket_id'])
             ->andWhere("tc.$field = t.$field")
-            ->andWhere('c.checkpoint_id = ?',$params['checkpoint_id'])
+            ->andWhere('c.checkpoint_id = ?', $params['checkpoint_id'])
             ->orderBy('c.id DESC');
           $controls = $q->execute();
           $cancontrol = $controls->count() == 0;
@@ -134,7 +134,7 @@
             if ( sfConfig::get('app_tickets_id') != 'id' )
             {
               $params['ticket_id'] = $params['ticket_id'][0];
-              $this->form->bind($params);
+              $this->form->bind($params, $request->getFiles($this->form->getName()));
               if ( $this->form->isValid() )
               {
                 $this->form->save();
@@ -154,7 +154,7 @@
               {
                 $params['ticket_id'] = $id;
                 $this->form = new ControlForm;
-                $this->form->bind($params,$request->getFiles($this->form->getName()));
+                $this->form->bind($params, $request->getFiles($this->form->getName()));
                 if ( $this->form->isValid() )
                   $this->form->save();
                 else
