@@ -57,6 +57,12 @@
       $('#sf_fieldset_statistics .filling-complete .min + .max .th').hide();
       $('#sf_fieldset_statistics .filling-complete .min .nb').closest('td').prop('rowspan', 2);
       $.get($('#sf_fieldset_statistics .filling-data-url').prop('href'), function(json){
+        // hidding cols if useless
+        if ( json.seats.free.all.nb + json.seats.ordered.all.nb + json.seats.printed.all.nb == 0 )
+          $('#sf_fieldset_statistics .filling-complete').find('.f-st-ag, .sos-st-ag, .f-st-og, .sos-st-og').hide();
+        if ( json.seats.free.all.nb + json.seats.ordered.all.nb + json.seats.printed.all.nb == json.gauges.free.all.nb + json.gauges.ordered.all.nb + json.gauges.printed.all.nb )
+          $('#sf_fieldset_statistics .filling-complete').find('.f-at-ag, .sos-at-ag, .f-at-og, .sos-at-og').hide();
+        
         // this is a super-powerful compression of the "data dispatcher", to avoid hidden bugs as much as we can
         $.each({ seats: 'st', gauges: 'at' }, function(type, tckprefix){
         $.each(['free', 'ordered', 'printed', 'total', 'not-free'], function(i, data){
