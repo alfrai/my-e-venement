@@ -136,6 +136,8 @@ abstract class BaseFormFilterDoctrine extends sfFormFilterDoctrine
         ''.iconv($charset['db'], $charset['ascii'], '%'.$values['text']).'%'
       );
     }
+    
+    return $query;
   }
   
   public function addExcludedIdsColumnQuery(Doctrine_Query $q, $field, $values)

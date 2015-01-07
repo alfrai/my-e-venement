@@ -201,4 +201,26 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     
     return $q;
   }
+  
+  public function addDescriptionColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    $a = $q->getRootAlias();
+    
+    if (!( $value && is_array($value)
+      && (trim($value['text']) || isset($value['is_empty']) && $value['is_empty']) ))
+      return $q;
+    
+    if ( isset($value['is_empty']) && $value['is_empty'] )
+      return $q->andWhere("$a.description = ?", '');
+    
+    // includes a batch of OR clauses inside a AND context
+    $q->andWhere('(FALSE');
+    foreach ( explode(' ', str_replace('  ', ' ', trim($value['text']))) as $str )
+    if ( $str )
+      // transforms a AND WHERE provided by self::addTextQuery() in a OR WHERE clause...
+      $this->addTextQuery($q->orWhere('(TRUE'), $field, array('text' => $str))->andWhere('TRUE)');
+    $q->andWhere('TRUE)');
+    
+    return $q;
+  }
 }

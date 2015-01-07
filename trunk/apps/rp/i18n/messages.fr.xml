@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Survey</source>
+        <target>Questionnaire</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Answer</source>
+        <target>Question</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Answer</source>
+        <target>Réponse</target>
+      </trans-unit>
+      <trans-unit>
         <source>Transactions</source>
         <target>Opérations</target>
       </trans-unit>
@@ -773,8 +785,8 @@
         <target>Doublons</target>
       </trans-unit>
       <trans-unit>
-        <source>Meta events list</source>
-        <target>Liste des meta-événements</target>
+        <source>Meta events</source>
+        <target>Meta-événements</target>
       </trans-unit>
       <trans-unit>
         <source>Others</source>
