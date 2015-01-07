@@ -214,12 +214,9 @@ class OrganismFormFilter extends BaseOrganismFormFilter
       return $q->andWhere("$a.description = ?", '');
     
     // includes a batch of OR clauses inside a AND context
-    $q->andWhere('(FALSE');
     foreach ( explode(' ', str_replace('  ', ' ', trim($value['text']))) as $str )
     if ( $str )
-      // transforms a AND WHERE provided by self::addTextQuery() in a OR WHERE clause...
-      $this->addTextQuery($q->orWhere('(TRUE'), $field, array('text' => $str))->andWhere('TRUE)');
-    $q->andWhere('TRUE)');
+      $this->addTextQuery($q, $field, array('text' => $str));
     
     return $q;
   }

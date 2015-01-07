@@ -1099,16 +1099,15 @@ class ContactFormFilter extends BaseContactFormFilter
     if ( isset($value['is_empty']) && $value['is_empty'] )
       return $q->andWhere("$a.description = ?", '');
     
-    // includes a batch of OR clauses inside a AND context
-    $q->andWhere('(FALSE');
     foreach ( explode(' ', str_replace('  ', ' ', trim($value['text']))) as $str )
     if ( $str )
     {
       // transforms a AND WHERE provided by self::addTextQuery() in a OR WHERE clause...
+      $q->andWhere('(FALSE');
       $this->addTextQuery($q->orWhere('(TRUE'), $field, array('text' => $str))->andWhere('TRUE)');
       $this->addTextQuery($q->orWhere('(TRUE'), $field, array('text' => $str), 'p')->andWhere('TRUE)');
+      $q->andWhere('TRUE)');
     }
-    $q->andWhere('TRUE)');
     
     return $q;
   }
