@@ -100,9 +100,11 @@
       $table = Doctrine::getTable('Transaction');
       if ( !method_exists($table, $fct) )
         $fct = 'createQuery';
-      $q = Doctrine::getTable('Transaction')->$fct('t')
-        ->andWhere('t.id = ?', $request->getParameter('id'))
-      ;
+      $q = Doctrine::getTable('Transaction')->$fct('t');
+      if ( $type == 'store' )
+        $q->andWhere('t.id = ? OR t.transaction_id = ? AND bp.integrated_at IS NOT NULL', array($request->getParameter('id'), $request->getParameter('id')));
+      else
+        $q->andWhere('t.id = ?', $request->getParameter('id'));
     }
     
     switch ( $type ){
@@ -178,6 +180,7 @@
         if ( $request->hasParameter('state') )
         {
           switch ( $request->getParameter('state') ){
+          case 'related':
           case 'integrated':
             $q->andWhere('bp.integrated_at IS NOT NULL');
             break;
@@ -441,7 +444,9 @@
           $declination->id = slugify($item->declination);
           $declination->name = $item->declination;
         }
-        if ( !$state && $item->integrated_at )
+        if ( $item->transaction_id != $request->getParameter('id') )
+          $state = 'cancelling';
+        elseif ( !$state && $item->integrated_at )
           $state = 'integrated';
         break;
       }

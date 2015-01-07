@@ -393,7 +393,6 @@ class transactionActions extends autoTransactionActions
   
   public function executeGetManifestations(sfWebRequest $request)
   { return $this->getAbstract($request, 'manifestations'); }
-  
   public function executeGetStore(sfWebRequest $request)
   { return $this->getAbstract($request, 'store'); }
   protected function getAbstract(sfWebRequest $request, $type)
