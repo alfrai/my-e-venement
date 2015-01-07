@@ -342,13 +342,14 @@
   border-radius: 3px 3px 3px 3px;
   white-space: nowrap;
 }
-#tickets .total { float: right; font-weight: bold; padding-top: 3px; }
-#tickets .total:before { content: '= '; }
+#store .total, #tickets .total { float: right; font-weight: bold; padding-top: 3px; text-align: right; }
+#store .total:before, #tickets .total:before { content: '= '; }
+#store .label { font-weight: bold; }
 
 #prices .prices_list .cancel {
   font-size: 0;
-   background-position: -32px -80px;
-   display: inline-block;
+  background-position: -32px -80px;
+  display: inline-block;
 }
 #prices .prices_list.cancel {
   background-color: orange;

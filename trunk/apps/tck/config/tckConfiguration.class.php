@@ -286,12 +286,14 @@ EOF
           'transaction' => $transaction,
           'user'        => NULL,
         )));
-        if ( $transaction->isModified() )
-          $transaction->save();
-        if ( $event->getReturnValue() > 0 )
+        if ( $transaction->isModified(true) )
         {
-          $cpt += $event->getReturnValue();
-          $this->stdout($section, $event->getReturnValue().' itemables integrated for transaction #'.$transaction->id, 'DEBUG');
+          $transaction->save();
+          if ( $event->getReturnValue() > 0 )
+          {
+            $cpt += $event->getReturnValue();
+            $this->stdout($section, $event->getReturnValue().' itemables integrated for transaction #'.$transaction->id, 'DEBUG');
+          }
         }
       }
       $this->stdout($section, "[OK] globally, $cpt itemables were integrated", 'INFO');

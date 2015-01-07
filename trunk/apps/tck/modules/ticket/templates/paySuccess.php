@@ -10,11 +10,15 @@
   </div>
   <div class="ui-corner-all ui-widget-content action" id="topay">
     <?php $ticks = array(); foreach ( $transaction->Tickets as $ticket ) if ( is_null($ticket->duplicating) ) $ticks[$transaction->type == 'cancelling' ? $ticket->cancelling : $ticket->id] = $ticket->value + $ticket->taxes; ?>
+    <?php foreach ( $transaction->BoughtProducts as $bp ) $ticks['bp-'.$bp->id] = $bp->value ?>
     <strong class="translinked"  title="#<?php echo $transaction->transaction_id ?>"><?php echo __('Transaction #%%id%%:',array('%%id%%' => $transaction->id)) ?></strong>
     <span id="to_pay"><?php echo format_currency(array_sum($ticks),'€') ?></span>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="tickets">
     <?php include_partial('ticket_show',array('transaction' => $transaction,)) ?>
+  </div>
+  <div class="ui-corner-all ui-widget-content action" id="store">
+    <?php include_partial('ticket_store',array('transaction' => $transaction,)) ?>
   </div>
   <div class="ui-corner-all ui-widget-content action" id="print">
     <?php include_partial('ticket_print',array('transaction' => $transaction, 'accounting' => true, 'display_simple' => true,)) ?>
