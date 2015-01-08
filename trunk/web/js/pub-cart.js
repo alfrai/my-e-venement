@@ -34,7 +34,7 @@
       var value = 0;
       var taxes = 0;
       $('#command tbody [data-gauge-id='+gauge_id+'] .tickets > ['+data_id+'='+price_id+']').each(function(){
-        value += parseFloat($(this).closest('tr').find('.value').html().replace(',','.'));
+        value += parseFloat($(this).closest('tr').find('.value').html().replace(',','.').replace(/[^0-9^.]/g, ''));
         var tmp = parseFloat($(this).closest('tr').find('.extra-taxes').html().replace(',','.'));
         if ( !isNaN(tmp) )
           taxes += tmp;
