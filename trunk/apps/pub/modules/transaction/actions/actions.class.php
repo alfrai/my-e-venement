@@ -156,9 +156,9 @@ class transactionActions extends sfActions
       ->orderBy('mc.expire_at, mct.name')
     ;
     if ( $this->getUser()->hasContact() )
-      $q->andWhere('mc.contact_id = ?',$this->getUser()->getContact()->id);
+      $q->andWhere('mc.contact_id = ? OR mc.transaction_id = ?', array($this->getUser()->getContact()->id, $this->getUser()->getTransaction()->id));
     else
-      $q->andWhere('mc.transaction_id = ?',$this->getUser()->getTransaction()->id);
+      $q->andWhere('mc.transaction_id = ?', $this->getUser()->getTransaction()->id);
     $this->member_cards = $q->execute();
     
     // Products

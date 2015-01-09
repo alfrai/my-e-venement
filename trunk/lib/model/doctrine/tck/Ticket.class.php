@@ -63,6 +63,9 @@ class Ticket extends PluginTicket
   
   public function getBarcode($salt = NULL)
   {
+    if ( !$this->id )
+      return false;
+    
     $salt = $salt
       ? $salt
       : sfConfig::get('project_eticketting_salt', '');
@@ -140,6 +143,9 @@ class Ticket extends PluginTicket
     else
       $barcode = $this->getBarcodePng();
     
+    if ( $this->isModified() )
+      $this->save();
+    
     if ( $type != 'html' || sfConfig::get('app_tickets_id', 'id') != 'id' )
       $barcode = '<span><img src="data:image/jpg;base64,'.base64_encode($barcode).'" alt="#'.$this->id.'" /></span>';
     
@@ -183,7 +189,11 @@ EOF
         : ($this->Transaction->contact_id ? __('Guest of %%contact%%', array('%%contact%%' => $this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : $this->Transaction->Contact->name_with_title), 'li_tickets_email') : '')
       , !$this->duplicating ? '' : __('This ticket is a duplicate of #%%tid%%, it replaces and cancels any previous version of this ticket you might have recieved', array('%%tid%%' => $this->transaction_id.'-'.$this->duplicating), 'li_tickets_email')
       , $barcode
-      , base64_encode(file_get_contents(sfConfig::get('sf_web_dir').'/images/ticket-simplified-layout-100dpi.png'))
+      , base64_encode(file_get_contents(
+        file_exists($file = sfConfig::get('sf_web_dir').'/private/ticket-simplified-layout.png')
+          ? $file
+          : sfConfig::get('sf_web_dir').'/images/ticket-simplified-layout-100dpi.png'
+      ))
     );
   }
   

@@ -126,11 +126,9 @@
         if (!( isset($data[$ticket->id]['contact'][$field]) && $ticket->contact_id
             && $ticket->DirectContact->$field == $data[$ticket->id]['contact'][$field] ))
         {
-          if ( !$ticket->contact_id )
-            $ticket->DirectContact = new Contact;
-          
+          // if no direct contact is defined yet
           // if the last contact was already confirmed, cannot modify such a contact
-          if ( $ticket->DirectContact->confirmed )
+          if ( !$ticket->contact_id || $ticket->DirectContact->confirmed )
           {
             $ticket->DirectContact = new Contact;
             if ( $ticket->Transaction->Order->count() == 0 )

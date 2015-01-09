@@ -112,8 +112,8 @@ $(document).ready(function(){
   </td>
   <?php $total['qty']++; $total['value'] += $product->value ?>
   <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?>
-  <td class="value"><?php echo format_currency($product->value,'€') ?></td>
-  <td class="qty">1</td>
+    <td class="value"><?php echo format_currency($product->value,'€') ?></td>
+    <td class="qty">1</td>
   <?php endif ?>
   <td class="total"><?php echo format_currency($product->value,'€') ?></td>
   <td class="extra-taxes" title="<?php echo __('Booking fees') ?>"></td>
@@ -129,17 +129,18 @@ $(document).ready(function(){
 <?php endforeach ?>
 </tbody>
 <tfoot>
-  <?php if ( $total['mc_qty'] ): ?>
+  <?php if ( $total['mc_qty'] && ($total['mc_value'] < 0 || count($member_cards) == 0) ): ?>
   <tr class="total">
     <td class="picture"></td>
     <td class="type"><?php echo __('Total') ?></td>
     <td></td>
     <td></td>
-    <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?><td></td><?php endif ?>
-    <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?><td></td><?php endif ?>
+    <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?>
+      <td></td>
+      <td></td>
+    <?php endif ?>
     <td class="qty"><?php echo $total['mc_qty'] + $total['qty'] ?></td>
     <td class="total"><?php echo format_currency($total['value']+$total['mc_value'],'€'); ?></td>
-    <td></td>
     <?php if ( sfConfig::get('app_options_synthetic_plans', false) && $current_transaction ): ?>
     <td class="linked-stuff"></td>
     <?php endif ?>
@@ -150,24 +151,30 @@ $(document).ready(function(){
     <td class="type"><?php echo __("Passed on member card") ?></td>
     <td></td>
     <td></td>
-    <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?><td></td><?php endif ?>
-    <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?><td></td><?php endif ?>
+    <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?>
+      <td></td>
+      <td></td>
+    <?php endif ?>
     <td class="qty"><?php echo $total['mc_qty'] ?></td>
     <td class="total"><?php echo format_currency(-$total['mc_value'],'€'); ?></td>
-    <td></td>
     <?php if ( sfConfig::get('app_options_synthetic_plans', false) && $current_transaction ): ?>
     <td class="linked-stuff"></td>
     <?php endif ?>
     <td></td>
   </tr>
+  <?php else: ?>
+    <?php $total['value'] += $total['mc_value'] ?>
+    <?php $total['qty']   += $total['mc_qty'] ?>
   <?php endif ?>
   <tr class="topay">
     <td class="picture"></td>
     <td class="type"><?php echo $total['mc_qty'] ? __('To pay') : __('Total') ?></td>
     <td></td>
     <td></td>
-    <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?><td></td><?php endif ?>
-    <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?><td></td><?php endif ?>
+    <?php if ( !sfConfig::get('app_options_synthetic_plans', false) ): ?>
+      <td></td>
+      <td></td>
+    <?php endif ?>
     <td class="qty"><?php echo $total['qty'] ?></td>
     <td class="total"><?php echo format_currency($total['value'],'€'); ?></td>
     <td class="extra-taxes"><?php echo format_currency($total['taxes'],'€'); ?></td>

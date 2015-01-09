@@ -33,8 +33,6 @@
     protected function __construct(Transaction $transaction)
     {
       $this->transaction = $transaction;
-      $this->value = $this->transaction->getPrice(true)
-        + $this->transaction->getMemberCardPrice(true)
-        - $this->transaction->getTicketsLinkedToMemberCardPrice(true);
+      $this->value = $this->transaction->getPrice(true, true);
     }
   }

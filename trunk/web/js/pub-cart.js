@@ -23,7 +23,7 @@
     $('#command td.picture').prop('rowspan', null);
     
     // concatenation of tickets that have the same price
-    while ( $('#command tbody > :not(.products):not(.done)').length > 0 )
+    while ( $('#command tbody > :not(.products):not(.member_cards):not(.done)').length > 0 )
     {
       var data_id;
       var ticket = $('#command tbody > :not(.products):not(.done):first');

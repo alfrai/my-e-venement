@@ -312,13 +312,13 @@ class myUser extends pubUser
       
     $q = Doctrine::getTable('Transaction')->createQuery('t')
       ->leftJoin('t.MemberCards tmc')
-      ->leftJoin('t.Order o')
       ->leftJoin('tmc.MemberCardPrices tmcp')
+      ->leftJoin('t.Order o')
       ->leftJoin('t.Contact c')
       ->leftJoin('c.Professionals p WITH p.id = t.professional_id')
       ->leftJoin('c.Transactions tr')
-      ->leftJoin('c.MemberCards cmc ON c.id = cmc.contact_id AND (cmc.active = TRUE OR cmc.transaction_id = t.id)')
-      ->leftJoin('cmc.MemberCardPrices cmcp')
+      ->leftJoin('c.MemberCards cmc WITH (cmc.active = ? AND cmc.expire_at > NOW() OR cmc.transaction_id = t.id)', true)
+      //->leftJoin('cmc.MemberCardPrices cmcp') // <- can be very very long if member cards are componed by a lot of prices, and this can be found back automatically w/ doctrine w/o any side-effect
       ->andWhere('t.id = ?',$tid);
     
     if ( $this->transaction = $q->fetchOne() )

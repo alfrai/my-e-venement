@@ -133,6 +133,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #command .manifestation .price_name, #command .manifestation h3, #command .manifestation h4 { display: none; }
 #command .manifestation select, #command .manifestation button, #command .manifestation input { font-size: 75%; }
 #command .manifestation .contact_firstname label, #command .manifestation .contact_name label { padding-top: 2px; }
+#command .member_cards .mod a { display: none; }
 
 #details { padding-top: 1px; float: left; margin: 0 50px; }
 #details a, #details label { display: inline-block; }
@@ -381,4 +382,8 @@ tfoot, thead { font-weight: bold; }
   #container .tab { position: absolute; width: 93%; margin-top: 1.5em; margin-left: 0px; }
   #cart-widget { display: none; }
 }
+
+/* Surveys */
+.pub-survey { color: transparent; }
+.pub-survey > * { color: initial; }
 

@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You cannot get more than one active member card at the same time. Your order has been cleaned out, please check it again before anything else.</source>
+        <target>Vous ne pouvez pas avoir plus d'une carte d'abo active à la fois. Vous commande a été modifiée, merci d'en reprendre le contenu avant tout chose.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You are about to complete your order, please fill in those surveys before...</source>
+        <target>Vous êtes sur le point de compléter votre commande. Merci de répondre à ces quelques questions</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The survey</source>
+        <target>Répondre au questionnaire</target>
+      </trans-unit>
+      <trans-unit>
         <source>Content</source>
         <target>Contenu</target>
       </trans-unit>
@@ -790,7 +802,7 @@
       </trans-unit>
       <trans-unit>
         <source>AnswersGroups</source>
-        <target>Groupes de réponses</target>
+        <target>Questions</target>
       </trans-unit>
       <trans-unit>
 	<source>You cannot book a ticket on this date because you already have a ticket booked for %%manif%%</source>

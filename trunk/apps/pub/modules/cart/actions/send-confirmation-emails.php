@@ -170,6 +170,7 @@ Libre Informatique
 EOF
     ));
     
+    if ( sfConfig::get('app_tickets_pdf_attachments', true) )
     foreach ( array('tickets' => 'renderSimplifiedTickets', 'products' => 'renderSimplifiedProducts') as $var => $fct )
     if ( is_array($$var) && count($$var) > 0 )
     {

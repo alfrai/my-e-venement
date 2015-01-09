@@ -163,14 +163,20 @@ class Transaction extends PluginTransaction
         $prices[$mcp->price_id] = 1;
     
     // linked to the transaction's contact
+    $mc_value = 0;
     if ( !is_null($this->contact_id) )
     foreach ( $this->Contact->MemberCards as $mc )
-    if ( $mc->active && $mc->transaction_id != $this->id )
-    foreach ( $mc->MemberCardPrices as $mcp )
+    {
+      if ( $mc->active && $mc->transaction_id != $this->id )
+      foreach ( $mc->MemberCardPrices as $mcp )
       if ( isset($prices[$mcp->price_id]) )
         $prices[$mcp->price_id]++;
       else
         $prices[$mcp->price_id] = 1;
+      
+      if ( $mc->active || $mc->transaction_id == $this->id )
+        $mc_value += $mc->value;
+    }
     
     $price = 0;
     foreach ( $this->Tickets as $ticket )
@@ -180,7 +186,11 @@ class Transaction extends PluginTransaction
           && isset($prices[$ticket->price_id]) && $prices[$ticket->price_id] > 0 )
     {
       $prices[$ticket->price_id]--;
-      $price += $ticket->value;
+      if ( $mc_value >= $ticket->value )
+      {
+        $mc_value -= $ticket->value;
+        $price += $ticket->value;
+      }
     }
     return $price;
   }

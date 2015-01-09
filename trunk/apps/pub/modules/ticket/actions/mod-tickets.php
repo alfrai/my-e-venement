@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -238,6 +238,27 @@
     
     // linked products
     $ticket->addLinkedProducts()->save();
+    
+    // auto_passes
+    if ( ($nb = sfConfig::get('app_auto_pass_trigger_after_manifestations', false))
+      && ($mcid = sfConfig::get('app_auto_pass_member_card_type_id', false)) )
+    {
+      if ( sfConfig::get('sf_web_debug') )
+        error_log('[auto_pass] trying to add a member card');
+      if ( Doctrine::getTable('Manifestation')->createQuery('m')
+        ->leftJoin('m.Tickets tck')
+        ->leftJoin('tck.Price price')
+        ->andWhere('price.member_card_linked = ?', false)
+        ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransactionId())
+        ->count() >= $nb
+      && !($this->getUser()->getTransaction()->contact_id && $this->getUser()->getTransaction()->getContact()->MemberCards->count() > 0)
+      && $this->getUser()->getTransaction()->MemberCards->count() == 0 )
+      {
+        if ( sfConfig::get('sf_web_debug') )
+          error_log('[auto_pass] adding a member card');
+        $this->getContext()->getConfiguration()->addMemberCard($this->getUser()->getTransaction(), $mcid);
+      }
+    }
   }
   
   // return back the list of real tickets

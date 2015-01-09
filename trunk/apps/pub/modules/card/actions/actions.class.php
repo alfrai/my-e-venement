@@ -46,31 +46,7 @@ class cardActions extends sfActions
     foreach ( $order as $id => $qty )
     if ( intval($qty) > 0 )
     for ( $i = 0 ; $i < intval($qty) ; $i++ )
-    {
-      $mcf = new MemberCardForm;
-      $arr = array();
-      
-      $arr['member_card_type_id'] = $id;
-      $arr['created_at'] = date('Y-m-d');
-      $arr['transaction_id'] = $this->getUser()->getTransaction()->id;
-      $arr['contact_id'] = $this->getUser()->getTransaction()->contact_id;
-      $arr['active'] = false;
-      $arr[$mcf->getCSRFFieldName()] = $mcf->getCSRFToken();
-      
-      $arr['expire_at'] = sfConfig::has('project_cards_expiration_delay')
-        ? date('Y-m-d H:i:s',strtotime(sfConfig::get('project_cards_expiration_delay')))
-        : (strtotime(date('Y').'-'.sfConfig::get('project_cards_expiration_date')) > strtotime('now')
-          ? date('Y').'-'.sfConfig::get('project_cards_expiration_date')
-          : (date('Y')+1).'-'.sfConfig::get('project_cards_expiration_date'));
-      
-      $mcf->bind($arr);
-      
-      if ( !$mcf->isValid() )
-        throw new liEvenementException('Error when adding member cards.');
-      
-      $this->getUser()->getTransaction()->MemberCards[] = $mcf->getObject();
-      $mcf->save();
-    }
+      $this->getContext()->getConfiguration()->addMemberCard($this->getUser()->getTransaction(), $id);
     
     $this->redirect('cart/show');
   }

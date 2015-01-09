@@ -55,6 +55,33 @@ class pubConfiguration extends sfApplicationConfiguration
     }
   }
   
+  public static function addMemberCard(Transaction $transaction, $member_card_type_id)
+  {
+    $mcf = new MemberCardForm;
+    $arr = array();
+    
+    $arr['member_card_type_id'] = $member_card_type_id;
+    $arr['created_at'] = date('Y-m-d');
+    $arr['transaction_id'] = $transaction->id;
+    $arr['contact_id'] = $transaction->contact_id;
+    $arr['active'] = false;
+    $arr[$mcf->getCSRFFieldName()] = $mcf->getCSRFToken();
+    
+    $arr['expire_at'] = sfConfig::has('project_cards_expiration_delay')
+      ? date('Y-m-d H:i:s',strtotime(sfConfig::get('project_cards_expiration_delay')))
+      : (strtotime(date('Y').'-'.sfConfig::get('project_cards_expiration_date')) > strtotime('now')
+        ? date('Y').'-'.sfConfig::get('project_cards_expiration_date')
+        : (date('Y')+1).'-'.sfConfig::get('project_cards_expiration_date'));
+    
+    $mcf->bind($arr);
+    
+    if ( !$mcf->isValid() )
+      throw new liEvenementException('Error when adding member cards.');
+    
+    $transaction->MemberCards[] = $mcf->getObject();
+    return $mcf->save();
+  }
+  
   public function recordWebOrigin(sfEvent $event)
   {
     $context = sfContext::getInstance();
@@ -73,7 +100,7 @@ class pubConfiguration extends sfApplicationConfiguration
     $origin->campaign     = $request->getParameter('com');
     $origin->referer      = $request->getReferer();
     $origin->ipaddress    = $request->getRemoteAddress();
-    $origin->user_agent   = $_SERVER['HTTP_USER_AGENT'];
+    $origin->user_agent   = $_SERVER['HTTP_USER_AGENT'].'';
     
     $origin->save();
   }

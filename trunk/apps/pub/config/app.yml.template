@@ -33,6 +33,7 @@ all:
     wip_price: ...
     #id: qrcode # can be id (default), qrcode, othercode
     #no_conflict: 30 minutes # the needed minimum delay to go from one location to another
+    #pdf_attachment: true
   store:
     max_per_product: 9
     email_products: always    # never | e-products | always (recommanded)  
@@ -40,6 +41,9 @@ all:
     capitalize: [name, firstname, city, country, address]
     #professional: true
     #modify_coordinates_first: true
+  #auto_pass: # this feature allows auto-creation of passes if some prerequisites match
+  #  trigger_after_manifestations: 3 # does not count tickets whose price are linked to member cards
+  #  member_card_type_id: 1
   #show:
   #  company_id: 5 # do not set something if you do not care
   seller:

@@ -39,19 +39,19 @@
         <thead>
           <tr class="sf_admin_row ui-widget-content">
             <th></th>
-            <td class="ui-state-default ui-th-column sos-s-og">
+            <td class="ui-state-default ui-th-column sos-st-og">
               <?php echo __('State of sales') ?>:
               <span><?php echo __('seats') ?>, <?php echo __('open gauges for online sales') ?></span>
             </td>
-            <td class="ui-state-default ui-th-column f-s-og">
+            <td class="ui-state-default ui-th-column f-st-og">
               <?php echo __('Filling') ?>:
               <span><?php echo __('seats') ?>, <?php echo __('open gauges for online sales') ?></span>
             </td>
-            <td class="ui-state-default ui-th-column sos-s-ag">
+            <td class="ui-state-default ui-th-column sos-st-ag">
               <?php echo __('State of sales') ?>:
               <span><?php echo __('seats') ?>, <?php echo __('all gauges') ?></span>
             </td>
-            <td class="ui-state-default ui-th-column f-s-ag">
+            <td class="ui-state-default ui-th-column f-st-ag">
               <?php echo __('Filling') ?>:
               <span><?php echo __('seats') ?>, <?php echo __('all gauges') ?></span>
             </td>

@@ -93,6 +93,45 @@
     // remember the contact's informations
     $this->getUser()->setAttribute('contact_form_values', $this->form->getValues());
     
+    // auto_passes, check for any bizaroid situation
+    if ( ($nb   = sfConfig::get('app_auto_pass_trigger_after_manifestations', false))
+      && ($mcid = sfConfig::get('app_auto_pass_member_card_type_id', false)) )
+    {
+      if ( Doctrine::getTable('MemberCard')->createQuery('mc')
+        ->andWhere('mc.contact_id = ?', $this->getUser()->getTransactionId())
+        ->andWhere('mc.member_card_type_id = ?', $mcid)
+        ->andWhere('mc.transaction_id != ?', $this->getUser()->getTransactionId())
+        ->andWhere('mc.active = ? OR mc.expire_at > NOW()')
+        ->count() > 0
+      || Doctrine::getTable('Manifestation')->createQuery('m')
+        ->leftJoin('m.Tickets tck')
+        ->leftJoin('tck.Price price')
+        ->andWhere('price.member_card_linked = ?', false)
+        ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
+        ->count() < $nb
+      )
+      {
+        $this->getUser()->getFlash('You cannot get more than one active member card at the same time. Your order has been cleaned out, please check it again before anything else.');
+        foreach ( $this->getUser()->getTransaction()->MemberCards as $id => $mc )
+        if ( $mc->member_card_type_id == $mcid )
+        {
+          $mc->delete();
+          unset($this->getUser()->getTransaction()->MemberCards[$id]);
+          if ( sfConfig::get('sf_web_debug') )
+            error_log('Deleting the current member card, because the conditions are not sufficient anymore');
+        }
+        foreach ( $this->getUser()->getTransaction()->Tickets as $id => $ticket )
+        if ( $ticket->Price->member_card_linked )
+        {
+          $ticket->delete();
+          unset($this->getUser()->getTransaction()->Tickets[$id]);
+          if ( sfConfig::get('sf_web_debug') )
+            error_log('Deleting a ticket (#'.$ticket->id.', '.$ticket->price_name.'), because the conditions are not sufficient anymore');
+        }
+        $this->redirect('cart/show');
+      }
+    }
+    
     // checks if there is no out-of-gauge
     if ( $this->transaction->id == $this->getUser()->getTransactionId() && $this->getUser()->getTransaction()->Tickets->count() > 0 )
     {
