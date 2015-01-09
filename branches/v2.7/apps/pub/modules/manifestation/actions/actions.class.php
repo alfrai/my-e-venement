@@ -89,12 +89,14 @@ class manifestationActions extends autoManifestationActions
     $mcp = array();
     try {
 
-    $contact = $this->getUser()->getContact();
-    if ( $contact->MemberCards->count() == 0 )
+    $mcs = $this->getUser()->getTransaction()->contact_id 
+      ? $this->getUser()->getContact()->MemberCards 
+      : $this->getUser()->getTransaction()->MemberCards;
+    if ( $mcs->count() == 0 )
       return $mcp;
     
     // get back available prices
-    foreach ( $contact->MemberCards as $mc )
+    foreach ( $mcs as $mc )
     foreach ( $mc->MemberCardPrices as $price )
     {
       if ( !isset($mcp[$price->price_id]['']) )
