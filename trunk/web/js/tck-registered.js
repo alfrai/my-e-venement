@@ -1,10 +1,10 @@
 $(document).ready(function(){
-  $('form input, form textarea').focusin(function(){
+  $('form input[type=text], form textarea').focusin(function(){
     $(this).parent().addClass('nolabel');
   }).focusout(function(){
     if ( !$(this).val() )
       $(this).parent().removeClass('nolabel');
-  }).each(function(){
+  }).focusin().focusout().each(function(){
     $(this).parent().find('label').css('max-width', $(this).width()+'px');
   });
   $('form span label').click(function(){
