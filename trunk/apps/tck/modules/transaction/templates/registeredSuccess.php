@@ -30,9 +30,9 @@
           <label><?php echo __('Comment') ?></label>
           <?php echo $form['comment'] ?>
         </span>
-        <?php try { ?>
-        <span class="price_id"><?php echo $form['price_id'] ?></span>
-        <?php  } catch ( InvalidArgumentException $e ) { } ?>
+        <span class="price_id">
+          <?php try { echo $form['price_id']; } catch ( InvalidArgumentException $e ) { } ?>
+        </span>
         <?php if ( $sf_user->hasCredential('tck-transaction-reduc') ): ?>
         <span class="reduc" title="<?php echo __('Reduction') ?>">
           <label><?php echo __('Reduction') ?></label>
