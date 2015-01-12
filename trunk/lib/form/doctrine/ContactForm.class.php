@@ -120,6 +120,7 @@ class ContactForm extends BaseContactForm
   
   protected function doSave($con = NULL)
   {
+    // Relationships
     if ( isset($this->widgetSchema['Relationships']) )
     foreach ( $this->values['Relationships'] as $key => $values )
     if (!( isset($values['to_contact_id']) && $values['to_contact_id'] )
@@ -134,6 +135,7 @@ class ContactForm extends BaseContactForm
     else
       $this->object->Relationships[$key]->Contact = NULL; // hack ... to avoid an Exception based on a not-correct ->Contact
     
+    // YOBs
     if ( isset($this->widgetSchema['YOBs']) )
     foreach ( $this->values['YOBs'] as $key => $values )
     if (!( isset($values['year']) && trim($values['year']) ) && !( isset($values['name']) && trim($values['name']) ))
@@ -156,6 +158,11 @@ class ContactForm extends BaseContactForm
     foreach ( $upper as $field )
     if ( isset($this->values[$field]) )
       $this->values[$field] = ucfirst($this->values[$field]);
+    
+    // do not delete the Picture link
+    if ( $this->object->picture_id && !$this->values['picture_id'] )
+      $this->values['picture_id'] = $this->object->picture_id;
+    
     
     return parent::doSave($con);
   }
