@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Direct access</source>
+        <target>Accès direct</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ticket control</source>
+        <target>Contrôle de billets</target>
+      </trans-unit>
+      <trans-unit>
         <source>Mandatory fields for public relations</source>
         <target>Champs obligatoires pour les relations aux publics</target>
       </trans-unit>

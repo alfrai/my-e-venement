@@ -21,7 +21,7 @@
 *
 ***********************************************************************************/
 ?>
-<div class="ui-widget ui-corner-all ui-widget-customer ui-widget-content">
+<div class="ui-widget ui-corner-all ui-widget-search ui-widget-content">
   <div class="ui-widget-header ui-corner-all fg-toolbar">
     <h2><?php echo __('Global Search') ?></h2>
   </div>

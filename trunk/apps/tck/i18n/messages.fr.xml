@@ -161,7 +161,7 @@
         <target>Vous devez placer tous vos billets avant de les imprimer, même partiellement</target>
       </trans-unit>
       <trans-unit>
-        <source>The ticket #%%id%% has been already control on this checkpoint before (%%datetime%% by %%user%%)</source>
+        <source>The ticket #%%id%% has been already controlled on this checkpoint before (%%datetime%% by %%user%%)</source>
         <target>Le billet #%%id%% a déjà été contrôlé sur ce point de contrôle (%%datetime%% par %%user%%)</target>
       </trans-unit> 
       <trans-unit>
@@ -1381,8 +1381,12 @@
         <target>Débloquer cette opération (utilisateurs autorisés seulement)</target>
       </trans-unit>
       <trans-unit id="141">
-        <source>Checkpoint passed.</source>
-        <target>Point de contrôle passé.</target>
+        <source>Checkpoint: success.</source>
+        <target>Contrôle: ok.</target>
+      </trans-unit>
+      <trans-unit id="141">
+        <source>Checkpoint: failure!</source>
+        <target>Contrôle: échec !</target>
       </trans-unit>
       <trans-unit id="142">
         <source>Get back for a new ticket...</source>

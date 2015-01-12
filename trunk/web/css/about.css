@@ -101,3 +101,24 @@ iframe#about {
 .ui-widget-customer .address { line-height: 1.2em; }
 .ui-widget-last-version .content { max-height: 350px; overflow: auto; margin-right: -10px; padding-right: 5px; }
 .ui-widget-last-version ul { margin-left: 20px; }
+
+.li-direct-access { display: none; }
+@media screen and (max-width: 1000px) {
+  .mod-sfGuardAuth  #company, .about-home .ui-widget-about { display: none; }
+  .mod-sfGuardAuth #sf_admin_content { margin-left: 0; width: auto; }
+  .login #ipv6 { margin-left: auto; right: 30px; }
+  .login { font-size: 200%; }
+  .mod-sfGuardAuth .login input { font-size: 170%; margin-left: 5px; }
+  .mod-sfGuardAuth .login input[type=submit] { position: static; margin-top: 5px; font-size: 100%; }
+  
+  .about-home { position: static; }
+  .ui-widget-last-version, .welcome { display: none; }
+  .li-direct-access { display: block; }
+  .ui-widget-customer { float: left; }
+  .ui-widget-search, .li-direct-access { width: calc(100% - 260px - 50px); margin-left: 290px; }
+  .ui-widget-search input, .li-direct-access input { font-size: 250%; }
+  .ui-widget-customer { position: absolute; }
+}
+@media screen and (max-width: 800px) {
+  .mod-sfGuardAuth .login input { font-size: 120%; }
+}

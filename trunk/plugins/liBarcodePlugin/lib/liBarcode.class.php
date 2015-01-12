@@ -27,7 +27,7 @@ class liBarcode
   
   public function __toString()
   {
-    return $this->render($file);
+    return $this->render();
   }
   
   public static function decode_ean($ean)

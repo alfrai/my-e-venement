@@ -54,3 +54,13 @@ Checkpoint:
       foreignAlias: Checkpoints
       onDelete: SET NULL
       onUpdate: CASCADE
+FailedControl:
+  package: flow
+  inheritance:
+    extends: Traceable
+    type: concrete
+  columns:
+    ticket_id: string(255)
+    checkpoint_id: integer
+    comment: text
+

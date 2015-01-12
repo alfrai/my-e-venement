@@ -33,6 +33,7 @@ class ControlForm extends BaseControlForm
       $this->validatorSchema['ticket_id'] = new sfValidatorDoctrineChoice(array(
         'model' => 'Ticket',
         'column' => sfConfig::get('app_tickets_id'),
+        'query' => Doctrine::getTable('Ticket')->createQuery('t')->select('t.*'),
       ));
     }
   }

@@ -1,0 +1,22 @@
+#checkpoint ul { list-style-type: none; margin: 5px 10px; padding: 5px; }
+#checkpoint ul li { padding: 0 5px; margin: 0; }
+#checkpoint label { width: 100px; display: inline-block; }
+#checkpoint .control-comment { display: none; }
+#checkpoint .control-comment textarea { height: 40px; }
+#checkpoint select { max-width: calc(100% - 120px); }
+
+.control { margin: 10px; padding: 5px; position: relative; overflow: hidden; transition: height 0.5s; }
+.control.ui-state-success { background-color: #ecfeed; }
+.control .contacts { margin-top: 10px; }
+.control .contacts hr:first-child { border: 0; margin: 0; }
+.control .contacts .contact { clear: both; }
+.control .contacts .professional { margin-top: 5px; }
+.control .contacts .image { float: left; margin-right: 10px; width: 150px; }
+.control .contacts .image img { max-width: 150px; }
+
+@media screen and (min-width: 1000px) {
+  .control .contacts { position: absolute; margin-top: 0; top: 5px; right: 5px; width: 300px; }
+}
+@media screen and (max-width: 1000px) {
+  #checkpoint select, #checkpoint input { font-size: 250%; }
+}

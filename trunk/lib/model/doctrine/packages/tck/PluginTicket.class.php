@@ -142,7 +142,7 @@ abstract class PluginTicket extends BaseTicket
     }
     return $this;
   }
-
+  
   public function preInsert($event)
   {
     // cancellation ticket with member cards

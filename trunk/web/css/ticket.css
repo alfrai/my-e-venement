@@ -214,26 +214,6 @@
 #checkpoint.passed .link {
   background-color: LightGreen;
 }
-#checkpoint ul {
-  list-style-type: none;
-  margin: 5px 10px;
-  padding: 5px;
-}
-#checkpoint label {
-  width: 100px;
-  display: inline-block;
-}
-#checkpoint .comment textarea { height: 40px; }
-#checkpoint .comment {
-}
-#checkpoint .checkpoint_id {
-  position: absolute;
-  margin-left: 280px;
-  margin-top: -1em;
-}
-#checkpoint .comment label, #checkpoint .checkpoint_id label {
-  display: block;
-}
 
 #prices .tickets_id {
   display: none;

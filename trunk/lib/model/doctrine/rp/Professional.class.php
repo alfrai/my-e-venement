@@ -30,7 +30,7 @@ class Professional extends PluginProfessional
   }
   public function getNameType()
   {
-    return $this->name ? $this->name.($this->ProfessionalType ? ' ('.$this->ProfessionalType.')' : '') : $this->ProfessionalType;
+    return $this->name ? $this->name.($this->ProfessionalType ? ' ('.$this->ProfessionalType.')' : '') : (string)$this->ProfessionalType;
   }
   public function getFullDesc()
   {

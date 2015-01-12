@@ -19,14 +19,14 @@ sellSuccess:
 touchscreenSuccess:
   stylesheets: [ticket-touchscreen]
 
-controlFailed:
-  stylesheets: [ticket]
-controlPassed:
-  stylesheets: [ticket]
+controlResult:
+  has_layout: false
+  http_metas:
+    content-type: application/json
 controlSuccess:
-  stylesheets: [ticket]
-  javascripts: [ticket-control]
-
+  stylesheets: [ticket, tck-control]
+  javascripts: [tck-control, helper?<?php echo date('Ymd') ?>]
+  
 duplicateSuccess:
   stylesheets: [ticket-cancel]
 cancelSuccess:

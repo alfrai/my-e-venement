@@ -16,17 +16,26 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
 <?php
+    // debug
+    if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
+    {
+      $this->getResponse()->setContentType('text/html');
+      $this->setLayout('nude');
+    }
+    else
+      sfConfig::set('sf_web_debug', false);
+    
     $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
     $this->form = new ControlForm();
     $this->form->getWidget('checkpoint_id')->setOption('default', $this->getUser()->getAttribute('control.checkpoint_id'));
-    $q = Doctrine::getTable('Checkpoint')->createQuery('c');
-    $this->errors = array();
+    $q = Doctrine::getTable('Checkpoint')->createQuery('c')->select('c.*');
+    $this->errors = $this->tickets = array();
     
     $past = sfConfig::get('app_control_past') ? sfConfig::get('app_control_past') : '6 hours';
     $future = sfConfig::get('app_control_future') ? sfConfig::get('app_control_future') : '1 day';
@@ -87,22 +96,28 @@
           ->whereIn('t.'.$field,$params['ticket_id']);
       }
       
-      if ( intval($params['checkpoint_id'])."" == $params['checkpoint_id'] && count($params['ticket_id']) > 0 )
+      if ( intval($params['checkpoint_id']).'' == ''.$params['checkpoint_id'] && count($params['ticket_id']) > 0 )
       {
         $q = Doctrine::getTable('Checkpoint')->createQuery('c')
+          ->select('c.*')
           ->leftJoin('c.Event e')
           ->leftJoin('e.Manifestations m')
           ->leftJoin('m.Tickets t')
-          ->andWhereIn('t.'.$field,$params['ticket_id'])
-          ->andWhere('c.id = ?',$params['checkpoint_id']);
+          ->andWhereIn('t.'.$field, $params['ticket_id'])
+          ->andWhere('c.id = ?', $params['checkpoint_id']);
         $checkpoint = $q->fetchOne();
         
         $cancontrol = $checkpoint instanceof Checkpoint;
         if ( !$cancontrol )
+        {
           $this->errors[] = __('The ticket #%%id%% is unfoundable in the list of available tickets', array('%%id%%' => implode(', #', $params['ticket_id'])));
-        if ( $cancontrol && $checkpoint->legal )
+          foreach ( $params['ticket_id'] as $tid )
+            $this->tickets[] = $tid;
+        }
+        elseif ( $checkpoint->legal )
         {
           $q = Doctrine::getTable('Control')->createQuery('c')
+            ->select('c.*')
             ->leftJoin('c.Checkpoint c2')
             ->leftJoin('c2.Event e')
             ->leftJoin('e.Manifestations m')
@@ -113,14 +128,20 @@
             ->andWhere("tc.$field = t.$field")
             ->andWhere('c.checkpoint_id = ?', $params['checkpoint_id'])
             ->orderBy('c.id DESC');
-          $controls = $q->execute();
-          $cancontrol = $controls->count() == 0;
+          $this->controls = $q->execute();
+          $cancontrol = $this->controls->count() == 0;
           if ( !$cancontrol )
-            $this->errors[] = __('The ticket #%%id%% has been already control on this checkpoint before (%%datetime%% by %%user%%)', array(
-              '%%id%%' => $controls[0]->Ticket->id,
-              '%%datetime%%' => $controls[0]->created_at,
-              '%%user%%' => (string)$controls[0]->User,
+          {
+            $this->errors[] = __('The ticket #%%id%% has been already controlled on this checkpoint before (%%datetime%% by %%user%%)', array(
+              '%%id%%' => $this->controls[0]->Ticket->id,
+              '%%datetime%%' => $this->controls[0]->created_at,
+              '%%user%%' => (string)$this->controls[0]->User,
             ));
+            $this->tickets[] = Doctrine::getTable('Ticket')->createQuery('tck')
+              ->select('tck.*')
+              ->andWhereIn("tck.$field", $params['ticket_id'])
+              ->fetchOne();
+          }
         }
         
         $this->getUser()->setAttribute('control.checkpoint_id',$params['checkpoint_id']);
@@ -137,8 +158,12 @@
               $this->form->bind($params, $request->getFiles($this->form->getName()));
               if ( $this->form->isValid() )
               {
+                $this->tickets[] = Doctrine::getTable('Ticket')->createQuery('tck')
+                  ->andWhere("tck.$field = ?", $params['ticket_id'])
+                  ->fetchOne();
                 $this->form->save();
-                return 'Passed';
+                $this->success = true;
+                return 'Result';
               }
               else
               {
@@ -152,6 +177,7 @@
               $ids = $params['ticket_id'];
               foreach ( $ids as $id )
               {
+                $this->tickets[] = $control->Ticket;
                 $params['ticket_id'] = $id;
                 $this->form = new ControlForm;
                 $this->form->bind($params, $request->getFiles($this->form->getName()));
@@ -162,7 +188,8 @@
               }
               foreach ( $err as $e )
                 $this->errors[] = __('It has been impossible to save the control of ticket #%%id%%', array('%%id%%' => $e));
-              return 'Passed';
+              $this->success = true;
+              return 'Result';
             }
           }
           else
@@ -175,11 +202,21 @@
               $this->form->bind($params);
             }
             else
-              return 'Failed';
+            {
+              $this->success = false;
+              $failure = new FailedControl;
+              $failure->complete($params);
+              return 'Result';
+            }
           }
         }
         else
-          return 'Failed';
+        {
+          $this->success = false;
+          $failure = new FailedControl;
+          $failure->complete($params);
+          return 'Result';
+        }
       }
       else
       {
