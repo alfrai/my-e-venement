@@ -6,6 +6,12 @@
 #checkpoint select { max-width: calc(100% - 120px); }
 
 .control { margin: 10px; padding: 5px; position: relative; overflow: hidden; transition: height 0.5s; }
+.control .message { font-weight: bold; display: inline-block; }
+.control h2 { display: inline-block; margin-right: 10px; }
+.control .tickets > * > * { display: block; margin-top: 10px; }
+.control .tickets .ticket .value, .control .tickets .seat .num { font-size: 120%; font-weight: bold; }
+.control .tickets .ticket .users:before { content: '('; }
+.control .tickets .ticket .users:after { content: ')'; }
 .control.ui-state-success { background-color: #ecfeed; }
 .control .contacts { margin-top: 10px; }
 .control .contacts hr:first-child { border: 0; margin: 0; }

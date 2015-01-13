@@ -84,12 +84,36 @@
   // errors
   foreach ( $errors as $e )
     $json['details']['control']['errors'][] = $e;
+  
+  // tickets
+  use_helper('Number');
   foreach ( $tickets->getRawValue() as $ticket )
   if ( $ticket instanceof Ticket )
+  {
+    // Users
+    $users = array();
+    foreach ( $res = Doctrine_Query::create()->from('TicketVersion tv')
+      ->andWhere('tv.id = ?', $ticket->id)
+      ->orderBy('tv.version')
+      ->select('(SELECT u.username FROM sfGuardUser u WHERE u.id = tv.sf_guard_user_id) AS username')
+      ->fetchArray() as $t )
+    if ( !in_array($t['username'], $users) )
+      $users[] = $t['username'];
+    
+    // Direct data
     $json['tickets'][] = array(
       'id' => $ticket->id,
+      'gauge' => (string)$ticket->Gauge->Workspace,
+      'manifestation' => (string)$ticket->Manifestation,
+      'manifestation_url' => cross_app_url_for('event', 'manifestation/show?id='.$ticket->manifestation_id, true),
+      'seat' => $ticket->numerotation,
+      'price' => $ticket->price_id ? (string)$ticket->Price : $ticket->price_name,
+      'value' => $ticket->value,
+      'value_txt' => format_currency($ticket->value, '€'),
       'url' => url_for('ticket/show?id='.$ticket->id, true),
+      'users' => $users,
     );
+  }
   elseif ( $ticket )
     $json['tickets'][] = array('id' => $ticket);
 ?>

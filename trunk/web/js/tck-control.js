@@ -79,13 +79,31 @@ $(document).ready(function(){
           var tickets = $('<ul class="tickets"></ul>').insertAfter(control.find('.errors'));
           $.each(json.tickets, function(id, ticket){
             // the ticket itself
-            var elt = $('<li></li>').text($('#checkpoint .settings').attr('data-ticket-label')+': #')
+            var elt = $('<li></li>')
               .appendTo(tickets);
-            $('<a></a>').text(ticket.id)
-              .prop('href', ticket.url)
-              .prop('target', '_blank')
-              .addClass('ticket')
+            
+            $('<div></div>').addClass('ticket')
+              .append($('<span></span>').addClass('value').attr('data-value', ticket.value).text(ticket.value_txt))
+              .append(' ')
+              .append($('#checkpoint .settings').attr('data-ticket-label')+': #')
+              .append($('<a></a>').text(ticket.id).prop('href', ticket.url).prop('target', '_blank').addClass('id'))
+              .append(' ')
+              .append($('<span></span>').text(ticket.users.join(', ')).addClass('users'))
               .appendTo(elt);
+            
+            $('<div></div>').addClass('seat')
+              .append($('<span></span>').addClass('num').text(ticket.seat))
+              .append(' ')
+              .append($('<span></span>').addClass('gauge').text(ticket.gauge))
+              .appendTo(elt);
+            
+            $('<a></a>').text(ticket.manifestation)
+              .prop('href', ticket.manifestation_url)
+              .prop('target', '_blank')
+              .addClass('manifestation')
+              .appendTo(elt);
+            
+            // its details
             if ( json.details.contacts[ticket.id] != undefined )
             {
               var contacts = $('<div></div>').addClass('contacts')
@@ -110,7 +128,6 @@ $(document).ready(function(){
                 else
                   image.html('&nbsp;');
                 
-                console.error(json.details.contacts[ticket.id][type].flash);
                 if ( json.details.contacts[ticket.id][type].flash )
                   $('<div></div>').addClass('flash')
                     .text(json.details.contacts[ticket.id][type].flash)
