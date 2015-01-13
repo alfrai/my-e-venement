@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Flash on control</source>
+        <target>S'affiche au contrôle</target>
+      </trans-unit>
+      <trans-unit>
         <source>Survey</source>
         <target>Questionnaire</target>
       </trans-unit>

@@ -9,14 +9,15 @@
 .control.ui-state-success { background-color: #ecfeed; }
 .control .contacts { margin-top: 10px; }
 .control .contacts hr:first-child { border: 0; margin: 0; }
-.control .contacts .contact { clear: both; }
+.control .contacts hr { clear: both; }
+.control .contacts .flash { font-weight: bold; margin: 5px 0; border: 1px dotted; }
 .control .contacts .comment { font-style: italic; }
 .control .contacts .professional { margin-top: 5px; }
 .control .contacts .image { float: left; margin-right: 10px; width: 150px; }
 .control .contacts .image img { max-width: 150px; }
 
 @media screen and (min-width: 1000px) {
-  .control .contacts { position: absolute; margin-top: 0; top: 5px; right: 5px; width: 300px; }
+  .control .contacts { position: absolute; margin-top: 0; top: 5px; right: 5px; width: calc(100% - 700px); }
 }
 @media screen and (max-width: 1000px) {
   #checkpoint select, #checkpoint input { font-size: 250%; }

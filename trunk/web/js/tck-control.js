@@ -44,7 +44,7 @@ $(document).ready(function(){
     else
     {
       $.get($(this).prop('action'), data, function(json){
-        if ( window.location.hash != '#debug' )
+        if ( window.location.hash == '#debug' )
           console.error(json);
         
         // the content of the control
@@ -109,12 +109,12 @@ $(document).ready(function(){
                     .prependTo(image);
                 else
                   image.html('&nbsp;');
-                /*
-                else
-                  $('<span></span>').addClass('image')
-                    .prependTo(contacts.find('.'+type));
-                */
                 
+                console.error(json.details.contacts[ticket.id][type].flash);
+                if ( json.details.contacts[ticket.id][type].flash )
+                  $('<div></div>').addClass('flash')
+                    .text(json.details.contacts[ticket.id][type].flash)
+                    .appendTo(contacts);
                 if ( json.details.contacts[ticket.id][type].comment )
                   $('<div></div>')
                     .text(json.details.contacts[ticket.id][type].comment)

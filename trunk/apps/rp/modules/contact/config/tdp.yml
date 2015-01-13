@@ -72,7 +72,7 @@ all:
             fields: [_familial_situation_id, _type_of_resources_id, _familial_quotient_id]
           Personal description:
             show_title: true
-            fields: [description]
+            fields: [description, flash_on_control]
           Groups:
             credential: pr-group
             fields: [groups_list]

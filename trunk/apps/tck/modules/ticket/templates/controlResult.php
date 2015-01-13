@@ -28,7 +28,16 @@
       'name'    => (string)$ticket->Transaction->Contact,
       'comment' => $ticket->Transaction->Contact->description,
       'url'     => cross_app_url_for('rp', 'contact/edit?id='.$ticket->Transaction->Contact->id, true),
+      'flash'   => $ticket->Transaction->Contact->flash_on_control,
     );
+    
+    // reset flash
+    if ( $ticket->Transaction->Contact->getRawValue()->flash_on_control )
+    {
+      $ticket->Transaction->Contact->getRawValue()->flash_on_control = NULL;
+      $ticket->Transaction->Contact->getRawValue()->save();
+    }
+    
     if ( $ticket->Transaction->Contact->picture_id )
       $contact['contact']['picture_url'] = cross_app_url_for('default', 'picture/display?id='.$ticket->Transaction->Contact->picture_id, true);
     
@@ -41,7 +50,17 @@
         'name'    => (string)$ticket->DirectContact,
         'comment' => $ticket->DirectContact->description,
         'url'     => cross_app_url_for('rp', 'contact/edit?id='.$ticket->DirectContact->id, true),
+        'flash'   => $ticket->DirectContact->flash_on_control,
       );
+      
+      // reset flash
+      if ( $ticket->DirectContact->getRawValue()->flash_on_control )
+      {
+        $ticket->DirectContact->getRawValue()->flash_on_control = NULL;
+        $ticket->DirectContact->getRawValue()->save();
+      }
+      echo $ticket->DirectContact->flash_on_control;
+      
       if ( $ticket->DirectContact->picture_id )
         $contact['direct_contact']['picture_url'] = cross_app_url_for('default', 'picture/display?id='.$ticket->DirectContact->picture_id, true);
     }

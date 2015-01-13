@@ -87,6 +87,7 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .sf_admin_form_field_professional_type_id select { max-width: 200px; }
 #tdp-content #sf_admin_content .sf_admin_form_field_department input[type=text] { width: 8em; }
 #tdp-content #sf_admin_content .tdp-line.personal_description .tdp-description { width: 100%; display: inline-block; }
+#tdp-content #sf_admin_content .tdp-line.personal_description .tdp-flash_on_control { width: calc(30% - 10px); display: none; }
 #tdp-content #sf_admin_content .tdp-line.personal_description textarea { width: 96%; }
 #tdp-content #sf_admin_content .tdp-line.more .tdp-password { display: none; }
 #tdp-content .tdp-subobject h1 .tdp-organism_professional_id, #tdp-content .tdp-subobject h1 .tdp-organism_category { float: right; display: inline-block; max-width: 300px; overflow: hidden; margin-left: 5px; }

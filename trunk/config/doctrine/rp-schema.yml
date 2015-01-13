@@ -41,6 +41,7 @@ Contact:
     shortname: string(255)
     title: string(255)
     description: string
+    flash_on_control: string
     password: string(255)
     family_contact:
       type: boolean
