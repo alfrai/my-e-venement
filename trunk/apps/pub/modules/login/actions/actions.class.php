@@ -155,7 +155,7 @@ class loginActions extends sfActions
       $this->getUser()->getContact()->save();
       return $this->redirect($request->hasParameter('register')
         ? 'cart/register'
-        : sfConfig::get('app_contact_modify_coordinates_first', false) ? 'contact/edit' : ($this->form->getValue('url_back') ? $this->form->getValue('url_back') : 'homepage')
+        : (sfConfig::get('app_contact_modify_coordinates_first', false) ? 'contact/edit' : ($this->form->getValue('url_back') ? $this->form->getValue('url_back') : 'homepage'))
       );
     }
     

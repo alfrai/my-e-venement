@@ -12,7 +12,13 @@
 </form>
 <?php endif ?>
 <?php echo $form->renderFormTag(url_for('cart/order'.($specific_transaction ? '?transaction_id='.$specific_transaction->id : '')), array('id' => 'contact-form', 'autocomplete' => 'on')) ?>
-  <h2><?php echo __('I am new in this store') ?></h2>
+  <h2>
+    <?php if ( !$sf_user->getTransaction()->contact_id ): ?>
+      <?php echo __('I am new in this store') ?>
+    <?php else: ?>
+      <?php echo __('I check my details') ?>
+    <?php endif ?>
+  </h2>
   <?php include_partial('global/register',array('form' => $form)) ?>
   <?php if ( sfConfig::get('app_texts_terms_conditions') ): ?>
   <p class="terms_conditions field error">
