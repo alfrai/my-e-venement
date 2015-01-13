@@ -10,6 +10,7 @@
 .control .contacts { margin-top: 10px; }
 .control .contacts hr:first-child { border: 0; margin: 0; }
 .control .contacts .contact { clear: both; }
+.control .contacts .comment { font-style: italic; }
 .control .contacts .professional { margin-top: 5px; }
 .control .contacts .image { float: left; margin-right: 10px; width: 150px; }
 .control .contacts .image img { max-width: 150px; }
