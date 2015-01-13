@@ -118,7 +118,7 @@ class Transaction extends PluginTransaction
     if ( $ticket->Duplicatas->count() == 0
       && ($including_not_printed === true || $ticket->printed_at || $ticket->integrated_at || !is_null($ticket->cancelling)) )
       $price += $ticket->value + $ticket->taxes;
-    return $price;
+    return round($price,2);
   }
   public function getProductsPrice($including_not_integrated = false)
   {
@@ -126,7 +126,7 @@ class Transaction extends PluginTransaction
     foreach ( $this->BoughtProducts as $product )
     if ( $including_not_integrated === true || $product->integrated_at )
       $price += $product->value;
-    return $price;
+    return round($price,2);
   }
   public function getPrice($including_not_printed = false, $all_inclusive = false)
   {
@@ -146,7 +146,7 @@ class Transaction extends PluginTransaction
     foreach ( $this->MemberCards as $mc )
     if ( $including_not_activated === true || $mc->activated )
       $price += $mc->MemberCardType->value;
-    return $price;
+    return round($price,2);
   }
   
   public function getTicketsLinkedToMemberCardPrice($including_not_activated = false)

@@ -53,16 +53,24 @@
     {
       if ( !isset($transactions[$seat->Tickets[0]->transaction_id]) )
         $transactions[$seat->Tickets[0]->transaction_id] = $seat->Tickets[0]->Transaction;
-      if ( $transactions[$seat->Tickets[0]->transaction_id]->getPaid() - $transactions[$seat->Tickets[0]->transaction_id]->getPrice(false, true) == 0 )
+      if ( ($debt = $transactions[$seat->Tickets[0]->transaction_id]->getPaid() - $transactions[$seat->Tickets[0]->transaction_id]->getPrice(false, true)) == 0)
         continue;
+      
+      if ( $seat->name == 'H137' && false )
+      {
+        echo $transactions[$seat->Tickets[0]->transaction_id]->getPrice(false, true);
+        echo "\n";
+        echo $transactions[$seat->Tickets[0]->transaction_id]->getPaid();
+        die();
+      }
       
       $this->data[] = array(
         'type'      => 'debt',
         'seat_id'   => $seat->id,
         'seat_name' => $seat->name,
-        'seat_class'     => $seat->class,
-        'debt'      => $transactions[$seat->Tickets[0]->transaction_id]->getPaid() - $transactions[$seat->Tickets[0]->transaction_id]->getPrice(false, true),
-        'debt-txt'  => format_currency($transactions[$seat->Tickets[0]->transaction_id]->getPaid() - $transactions[$seat->Tickets[0]->transaction_id]->getPrice(false, true), '€'),
+        'seat_class'=> $seat->class,
+        'debt'      => $debt,
+        'debt-txt'  => format_currency($debt, '€'),
         'gauge_id'  => $seat->Tickets[0]->Gauge->id,
         'transaction_id' => $seat->Tickets[0]->transaction_id,
         'coordinates' => array($seat->x-$seat->diameter/2, $seat->y-$seat->diameter/2+4), // +2 is for half of the font height
