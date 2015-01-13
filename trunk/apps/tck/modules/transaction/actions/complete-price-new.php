@@ -49,7 +49,6 @@ case 'gauge':
     ->orderBy('a.integrated_at IS NULL DESC, a.integrated_at, a.seat_id IS NULL DESC, a.value ASC, a.id DESC')
   ;
   $wips = $q->copy();
-  $q->andWhere('a.price_id = ?',$params[$field]['price_id']);
   break;
 case 'declination':
   $q = Doctrine_Query::create()->from('BoughtProduct a')
@@ -60,6 +59,11 @@ case 'declination':
   ;
   break;
 }
+
+if ( $params[$field]['price_id'] )
+  $q->andWhere('a.price_id = ?',$params[$field]['price_id']);
+else
+  $q->andWhere('a.price_id IS NULL');
 
 $state = 'false';
 if ( isset($params[$field]['state']) && $params[$field]['state'] == 'integrated' )
@@ -74,7 +78,7 @@ $this->json['success']['success_fields'][$field]['data'] = array(
   'type'    => $matches[$params[$field]['type']]['type'].'_price',
   'reset'   => true,
   'content' => array(
-    'qty'             => $q->copy()->andWhere('a.price_id = ?',$params[$field]['price_id'])->count()
+    'qty'             => $q->count()
                           + $params[$field]['qty'],
     'price_id'        => $params[$field]['price_id'],
     'declination_id'  => $params[$field]['declination_id'],
@@ -136,8 +140,7 @@ for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )
 else // delete
 {
   try {
-    $q->andWhere('a.price_id = ?',$params[$field]['price_id'])
-      ->limit(abs($params[$field]['qty']))
+    $q->limit(abs($params[$field]['qty']))
       ->execute()
       ->delete();
   } catch ( liEvenementException $e )

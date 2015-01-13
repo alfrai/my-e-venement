@@ -174,9 +174,12 @@ LI.completeContent = function(data, type, replaceAll = true)
         $.each(declination['prices'], function(index, price){
           if ( price.qty == 0 )
           {
+            return;
+            /** BETA: the current transaction's WIPs were removed on any other gauge modification...
             if ( !price.id )
               $('#li_transaction_'+type+' [data-'+declination.type+'-id="'+declination.id+'"] .declination.wip').remove();
             return;
+            */
           }
           var wprice = $('#li_transaction_'+type+' .families.sample .declination').clone(true);
           var add = true;
@@ -198,7 +201,7 @@ LI.completeContent = function(data, type, replaceAll = true)
             if ( parseInt(price.id)+'' === ''+price.id ) // everything but a Work In Progress price
               wprice.addClass('active');
             wprice.addClass(price.state ? price.state : 'readonly');
-            if ( $.inArray(price.state, ['printed', 'cancelling']) > -1 || parseInt(price.id)+'' !== ''+price.id ) // every cancelling, printed or Work In progress price
+            if ( $.inArray(price.state, ['printed', 'cancelling']) > -1 || parseInt(price.id,10)+'' !== ''+price.id ) // every cancelling, printed or Work In progress price
               wprice.find('.qty input').prop('readonly', true);
           }
           wprice.find('.qty input').val(price.qty).select();

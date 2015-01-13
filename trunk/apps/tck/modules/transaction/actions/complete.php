@@ -183,6 +183,10 @@
           'model' => $model,
           'query' => $q,
         ));
+        
+        // for WIPs
+        if ( intval($params[$field]['price_id']).'' !== ''.$params[$field]['price_id'] )
+          $params[$field]['price_id'] = NULL;
         break;
       }
       

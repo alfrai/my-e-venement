@@ -64,7 +64,7 @@ $(document).ready(function(){
       var form = $('#li_transaction_field_price_new form.prices');
       var orig = form.find('[name="transaction[price_new][qty]"]').val();
       
-      // if the tickets to treat are integrated
+      // if the tickets to process are integrated
       if ( $(this).closest('.declination').is('.active.integrated') )
       {
         // and the qty is increasing

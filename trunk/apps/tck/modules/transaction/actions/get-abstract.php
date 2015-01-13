@@ -123,7 +123,7 @@
         ;
         // retrictive parameters
         if ( $price_id = $request->getParameter('price_id', false) )
-          $q->andWhere('tck.price_id = ? OR tck.price_id IS NULL',$price_id);
+          $q->andWhere('tck.price_id = ? OR tck.price_id IS NULL', $price_id);
         if ( $request->hasParameter('state') )
         {
           switch ( $request->getParameter('state') ){

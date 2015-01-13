@@ -235,6 +235,7 @@ class transactionActions extends autoTransactionActions
     $ws['price_id'] = new sfWidgetFormInputHidden;
     $vs['price_id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Price',
+      'required' => false,
       // already includes in PriceTable the control of user's credentials
     ));
     $ws['declination_id'] = new sfWidgetFormInputHidden;
