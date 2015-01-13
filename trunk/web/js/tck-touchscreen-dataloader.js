@@ -172,14 +172,15 @@ LI.completeContent = function(data, type, replaceAll = true)
         // in progress: prices
         if ( declination['prices'] != undefined )
         $.each(declination['prices'], function(index, price){
+          // refresh related wips
           if ( price.qty == 0 )
           {
-            return;
-            /** BETA: the current transaction's WIPs were removed on any other gauge modification...
             if ( !price.id )
-              $('#li_transaction_'+type+' [data-'+declination.type+'-id="'+declination.id+'"] .declination.wip').remove();
+            {
+              $('#li_transaction_'+type+' [data-'+declination.type+'-id="'+declination.id+'"] .declination.wip')
+                .remove();
+            }
             return;
-            */
           }
           var wprice = $('#li_transaction_'+type+' .families.sample .declination').clone(true);
           var add = true;

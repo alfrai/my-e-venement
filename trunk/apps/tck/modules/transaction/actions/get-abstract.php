@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -244,7 +244,7 @@
         switch ( $type ) {
         case 'manifestations':
           $subobj = 'Gauge';
-          $product = Doctrine::getTable('Manifestation')->createQuery('m',true)
+          $q = Doctrine::getTable('Manifestation')->createQuery('m',true)
             ->leftJoin('m.PriceManifestations pm')
             ->leftJoin('pm.Price pmp')
             ->leftJoin('m.Gauges g')
@@ -259,7 +259,10 @@
             ->leftJoin('pgp.UserPrices      pgpup WITH pgpup.sf_guard_user_id = ?',$this->getUser()->getId())
             //->leftJoin('w.WorkspaceUsers wsu ON wsu.workspace_id = w.id AND wsu.sf_guard_user_id = ?',$this->getUser()->getId())
             ->andWhere('m.id = ?',$id)
-            ->fetchOne();
+          ;
+          if ( $gid = $request->getParameter('gauge_id', false) )
+            $q->andWhere('g.id = ?', $gid);
+          $product = $q->fetchOne();
           
           $this->json[$product->id] = array(
             'id'            => $product->id,
@@ -290,6 +293,16 @@
             ->andWhereIn('pme.id IS NULL OR pme.id', array_keys($this->getUser()->getMetaEventsCredentials()))
             ->andWhere('p.id = ?',$id)
           ;
+          if ( $request->getParameter('product_id',false) )
+          {
+            $pid = is_array($request->getParameter('product_id'))
+              ? $request->getParameter('product_id')
+              : array($request->getParameter('product_id'));
+            $q->andWhereIn('p.id',$pid);
+          }
+          if ( $did = $request->getParameter('declination_id', false) )
+            $q->andWhere('d.id = ?', $did);
+          
           if (!( $product = $q->fetchOne() ) && $id == 0 )
           {
             $product = new Product;
