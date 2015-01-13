@@ -102,7 +102,7 @@
         ->andWhere('mc.member_card_type_id = ?', $mcid)
         ->andWhere('mc.transaction_id = ? OR mc.active = ? AND mc.expire_at > NOW()', array($this->getUser()->getTransactionId(), true))
         ->count() == 0
-      && Doctrine::getTable('Manifestation')->createQuery('m')
+      || Doctrine::getTable('Manifestation')->createQuery('m')
         ->leftJoin('m.Tickets tck')
         ->leftJoin('tck.Price price')
         ->andWhere('price.member_card_linked = ?', true)
@@ -110,7 +110,7 @@
         ->count() > 0
       )
       {
-        error_log('MemberCards: Bizarroid situation with auto_pass features, validating the cart...');
+        error_log('MemberCards: Bizarroid situation with auto_pass features, during the cart validation...');
         $this->getUser()->getFlash('You cannot get more than one active member card at the same time. Your order has been cleaned out, please check it again before anything else.');
         
         foreach ( $this->getUser()->getTransaction()->MemberCards as $id => $mc )
