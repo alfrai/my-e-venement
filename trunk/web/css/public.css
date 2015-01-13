@@ -38,25 +38,18 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
   border-top-right-radius: 3px;
 }
 
-#contact-form { margin-left: 45px; }
-#contact-form .field {
-  background-color: white;
-  padding: 1px 3px;
-  border-radius: 3px;
-}
-#contact-form .field input,
-#contact-form .field textarea {
-  border: 1px solid black;
-  border-radius: 3px;
-  background-color: whitesmoke;
-  width: 30em;
-}
-#contact-form .field label { width: 140px; display: block; float: left; margin-top: 3px; font-weight: bold; }
+.mod-cart.action-register #login, #contact-form { border-radius: 4px; border: 1px dashed silver; margin: 10px 0 10px 45px; padding: 5px; }
+.mod-cart.action-register #login.active, #contact-form.active { border-style: solid; }
+.mod-cart.action-register #login h2, #contact-form h2 { margin: 0; }
+.mod-cart.action-register #login p, #contact-form .field { background-color: white; padding: 1px 3px; border-radius: 3px; }
+.mod-cart.action-register #login p input, #contact-form .field input,
+.mod-cart.action-register #login p textarea, #contact-form .field textarea { border: 1px solid black; border-radius: 3px; background-color: whitesmoke; width: 30em; }
+.mod-cart.action-register #login label, #contact-form .field label { width: 140px; display: block; float: left; margin-top: 3px; font-weight: bold; }
 #contact-form .special_groups_list { padding-top: 5px; }
 #contact-form .special_groups_list label { float: none; display: inline; }
 #contact-form .special_groups_list input { width: auto; }
 #contact-form .field.error { border: 1px solid red; }
-#contact-form .submit { margin-left: 142px; }
+.mod-cart.action-register #login .submit, #contact-form .submit { margin-left: 142px; }
 #contact-form .field.terms_conditions label { display: inline; font-weight: normal; float: none; }
 #contact-form .field.terms_conditions input { width: auto; }
 

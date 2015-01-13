@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>I already have an account</source>
+        <target>J'ai déjà un compte</target>
+      </trans-unit>
+      <trans-unit>
+        <source>I am new in this store</source>
+        <target>Je suis nouveau sur cette plateforme</target>
+      </trans-unit>
+      <trans-unit>
         <source>You cannot get more than one active member card at the same time. Your order has been cleaned out, please check it again before anything else.</source>
         <target>Vous ne pouvez pas avoir plus d'une carte d'abo active à la fois. Vous commande a été modifiée, merci d'en reprendre le contenu avant tout chose.</target>
       </trans-unit>

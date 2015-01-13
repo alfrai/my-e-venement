@@ -18,6 +18,13 @@ $(document).ready(function(){
     $('.sf_admin_flashes > *').fadeOut(function(){ $(this).remove(); });
   }, 3500);
   
+  // focus on registering forms
+  $('.mod-cart.action-register #login, #contact-form').focusin(function(){
+    $('.mod-cart.action-register #login, #contact-form').removeClass('active');
+    $(this).addClass('active');
+  });
+  $('#contact-form input[type=text]:first').focus();
+  
   // if treating month as a structural data
   if ( $('.sf_admin_list .sf_admin_list_th_month').length > 0
     && $('.sf_admin_list .sf_admin_list_th_month').css('display') != 'none' )

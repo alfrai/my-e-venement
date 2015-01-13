@@ -3,7 +3,16 @@
 <h1><?php echo __('Your contact') ?> :</h1>
 <?php include_partial('contact/edit_header') ?>
 <?php //include_partial('global/form_errors',array('form' => $form)) ?>
+<?php if ( !$sf_user->getTransaction()->contact_id ): ?>
+<?php echo $form->renderFormTag(url_for('login/validate'), array('autocomplete' => 'on', 'id' => 'login', )) ?>
+  <h2><?php echo __('I already have an account') ?></h2>
+  <?php include_partial('login/login', array('form' => $login, 'buttons' => false,)) ?>
+  <input type="submit" value="<?php echo __('Login') ?>" name="submit" class="submit" />
+  <input type="hidden" name="register" value="true" />
+</form>
+<?php endif ?>
 <?php echo $form->renderFormTag(url_for('cart/order'.($specific_transaction ? '?transaction_id='.$specific_transaction->id : '')), array('id' => 'contact-form', 'autocomplete' => 'on')) ?>
+  <h2><?php echo __('I am new in this store') ?></h2>
   <?php include_partial('global/register',array('form' => $form)) ?>
   <?php if ( sfConfig::get('app_texts_terms_conditions') ): ?>
   <p class="terms_conditions field error">
