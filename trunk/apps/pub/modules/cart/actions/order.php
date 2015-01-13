@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2012 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2012 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -98,20 +98,21 @@
       && ($mcid = sfConfig::get('app_auto_pass_member_card_type_id', false)) )
     {
       if ( Doctrine::getTable('MemberCard')->createQuery('mc')
-        ->andWhere('mc.contact_id = ?', $this->getUser()->getTransactionId())
+        ->andWhere('mc.contact_id = ?', $this->getUser()->getTransaction()->contact_id)
         ->andWhere('mc.member_card_type_id = ?', $mcid)
-        ->andWhere('mc.transaction_id != ?', $this->getUser()->getTransactionId())
-        ->andWhere('mc.active = ? OR mc.expire_at > NOW()')
-        ->count() > 0
-      || Doctrine::getTable('Manifestation')->createQuery('m')
+        ->andWhere('mc.transaction_id = ? OR mc.active = ? AND mc.expire_at > NOW()', array($this->getUser()->getTransactionId(), true))
+        ->count() == 0
+      && Doctrine::getTable('Manifestation')->createQuery('m')
         ->leftJoin('m.Tickets tck')
         ->leftJoin('tck.Price price')
-        ->andWhere('price.member_card_linked = ?', false)
+        ->andWhere('price.member_card_linked = ?', true)
         ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
-        ->count() < $nb
+        ->count() > 0
       )
       {
+        error_log('MemberCards: Bizarroid situation with auto_pass features, validating the cart...');
         $this->getUser()->getFlash('You cannot get more than one active member card at the same time. Your order has been cleaned out, please check it again before anything else.');
+        
         foreach ( $this->getUser()->getTransaction()->MemberCards as $id => $mc )
         if ( $mc->member_card_type_id == $mcid )
         {
@@ -120,6 +121,7 @@
           if ( sfConfig::get('sf_web_debug') )
             error_log('Deleting the current member card, because the conditions are not sufficient anymore');
         }
+        
         foreach ( $this->getUser()->getTransaction()->Tickets as $id => $ticket )
         if ( $ticket->Price->member_card_linked )
         {
@@ -128,7 +130,8 @@
           if ( sfConfig::get('sf_web_debug') )
             error_log('Deleting a ticket (#'.$ticket->id.', '.$ticket->price_name.'), because the conditions are not sufficient anymore');
         }
-        $this->redirect('cart/show');
+        
+        $this->redirect('transaction/show?id='.$this->getUser()->getTransaction()->id);
       }
     }
     
