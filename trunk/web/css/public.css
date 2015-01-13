@@ -208,6 +208,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 .picture.seated-plan.done .seat { cursor: default; }
 .gauge.full-seating.active .blank, .gauge.full-seating:hover .blank { display: block; }
 .manifestation_bottom { margin-left: 600px; }
+.manifestation_bottom.synthetic_plans { margin-left: 0; }
 .manifestation-ical { position: absolute; top: 10px; right: 10px; background-color: white; padding: 3px; border: 1px solid black; }
 .manifestation-ical img { max-width: 180px; }
 body.mod-contact.action-edit #cart-widget, body.mod-manifestation #cart-widget, body.mod-transaction.action-show #cart-widget { display: none; }
