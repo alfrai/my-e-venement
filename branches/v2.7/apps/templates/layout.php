@@ -3,6 +3,7 @@
   <head>
     <?php use_javascript('menu') ?>
     <?php use_stylesheet('menu') ?>
+    <?php use_stylesheet('print','last',array('media' => 'print')) ?>
     <?php use_stylesheet('/private/main.css') ?>
     <?php use_stylesheet('about') ?>
     <?php if ( sfConfig::get('project_messaging_enable',false) ) use_stylesheet('jappix') ?>

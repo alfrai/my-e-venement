@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Do not forget to print in landscape, which is the only acceptable print format.</source>
+        <target>Ne pas oublier d'imprimer en paysage, qui est le seul format d'impression acceptable.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Dates range</source>
         <target>Intervalle de dates</target>
       </trans-unit>

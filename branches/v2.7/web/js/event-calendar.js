@@ -1,6 +1,39 @@
 $(document).ready(function(){
   $('#calendar').unbind().load(load_calendar);
   
+  // fullcalendar printing workarounds
+  $('head link[media=screen]').prop('media', 'all');
+  $('.sf_admin_action_print').click(function(){
+    //if ( !confirm($(this).find('a').attr('data-confirm')) )
+    //  return false;
+    
+    $('body').css('width', '26.2cm');
+    $('#fullcalendar .fc-resourceName').each(function(){
+      $(this).width($(this).width());
+    });
+    $(window).resize(); // force the calculation of the new width by fullcalendar
+    
+    // let fullcalendar the time to recalculate the display
+    setTimeout(function(){
+      window.print();
+    },1000);
+    
+    return false;
+  });
+  window.onafterprint = function(){
+    // let fullcalendar the time to recalculate the display  
+    setTimeout(function(){
+      if ( window.location.hash == '#debug' )
+      {
+        $('head link').prop('media', 'all');
+        return;
+      }
+      
+      $('body').css('width', '');
+      $(window).resize(); // force the calculation of the new width by fullcalendar
+    },1000);
+  };
+  
   // the event filters
   $.get($('.sf_admin_actions_form .event_filters a').prop('href'), function(data){
     // the buttons

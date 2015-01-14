@@ -1,4 +1,4 @@
-<div class="ui-helper-clearfix">
+<div class="ui-helper-clearfix li-calendar-actions">
 <ul class="sf_admin_actions_form" style="font-size: 13px;">
   <li class="sf_admin_action_list">
     <a class="fg-button ui-state-default fg-button-icon-left" href="<?php echo url_for($sf_request->getParameter('id') ? 'event/show?id='.$sf_request->getParameter('id') : '@event') ?>">
@@ -35,6 +35,13 @@
     <a class="fg-button ui-state-default fg-button-icon-left" href="<?php echo $export_url ?>" target="_blank">
       <span class="ui-icon ui-icon-circle-plus"></span>
       <?php echo __('Export') ?>
+    </a>
+  </li>
+  <li class="sf_admin_action_print fg-button-mini fg-button ui-state-default fg-button-icon-left">
+    <a href="#print"
+      title="<?php echo __('Do not forget to print in landscape, which is the only acceptable print format.') ?>">
+      <span class="ui-icon ui-icon-print"></span>
+      <?php echo __('Print', null, 'menu') ?>
     </a>
   </li>
   <li class="event_filters">
