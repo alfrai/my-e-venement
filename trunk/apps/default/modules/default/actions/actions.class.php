@@ -40,8 +40,7 @@ class defaultActions extends sfActions
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m');
     $q->orderBy("m.happens_at")
-      ->andWhere("m.updated_at > NOW() - '$interval hours'::interval")
-      ->andWhere("m.happens_at > now()")
+      ->andWhere('m.updated_at > NOW() - ?::interval OR m.happens_at > NOW()', $interval.' hours')
       ->limit($max);
     $this->manifestations = $q->execute();
   }
