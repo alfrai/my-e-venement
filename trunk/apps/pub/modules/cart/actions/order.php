@@ -95,19 +95,24 @@
     
     // auto_passes, check for any bizaroid situation
     if ( ($nb   = sfConfig::get('app_auto_pass_trigger_after_manifestations', false))
-      && ($mcid = sfConfig::get('app_auto_pass_member_card_type_id', false)) )
+      && ($mcid = sfConfig::get('app_auto_pass_member_card_type_id', false))
+      && Doctrine::getTable('Ticket')->createQuery('tck')
+         ->leftJoin('tck.Price price')
+         ->andWhere('price.member_card_linked = ?', true)
+         ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
+         ->count() > 0 )
     {
       if ( Doctrine::getTable('MemberCard')->createQuery('mc')
         ->andWhere('mc.contact_id = ?', $this->getUser()->getTransaction()->contact_id)
         ->andWhere('mc.member_card_type_id = ?', $mcid)
-        ->andWhere('mc.transaction_id = ? OR mc.active = ? AND mc.expire_at > NOW()', array($this->getUser()->getTransactionId(), true))
+        ->andWhere('mc.transaction_id != ? OR mc.active = ? AND mc.expire_at > NOW()', array($this->getUser()->getTransactionId(), true))
         ->count() == 0
       || Doctrine::getTable('Manifestation')->createQuery('m')
         ->leftJoin('m.Tickets tck')
         ->leftJoin('tck.Price price')
-        ->andWhere('price.member_card_linked = ?', true)
+        ->andWhere('price.member_card_linked = ?', false)
         ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
-        ->count() > 0
+        ->count() < $nb
       )
       {
         error_log('MemberCards: Bizarroid situation with auto_pass features, during the cart validation...');
