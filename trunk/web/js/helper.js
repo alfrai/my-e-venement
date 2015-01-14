@@ -86,3 +86,14 @@ LI.ifMediaCaptureSupported = function(go, nogo)
   );
   fGetUserMedia.call( navigator, { video: true }, function(){ go() }, function(){ if ( nogo != undefined ) nogo(); } );
 }
+
+LI.OFC = {
+  init: function(obj) { this.OFC = $(obj); return this; },
+  OFC: null,
+  name: "Open Flash Charts 2",
+  version: function() { return this.OFC[0].get_version(); },
+  rasterize: function (dst) { $(dst).replaceWith(this.image()); return this; },
+  image: function() { return "<img src='data:image/png;base64," + this.binary() + "' />"; },
+  binary: function() { return this.OFC[0].get_img_binary(); },
+  popup: function() { window.open('data:image/png;base64,'+this.binary()); return this; }
+}
