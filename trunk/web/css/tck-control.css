@@ -1,3 +1,19 @@
+/* control module */
+.sf_admin_actions, .sf_admin_actions_block,
+.sf_admin_list .sf_admin_list_th_list_created_at, .sf_admin_list .sf_admin_list_td_created_at,
+.sf_admin_list .sf_admin_list_th_Checkpoint, .sf_admin_list .sf_admin_list_td_checkpoint_id,
+.sf_admin_list .sf_admin_list_th_id, .sf_admin_list .sf_admin_list_td_id,
+.sf_admin_list .sf_admin_list_th_list_type, .sf_admin_list .sf_admin_list_td_list_type,
+.sf_admin_list .sf_admin_list_td_ticket_id, .sf_admin_list .sf_admin_list_th_list_ticket_id { display: none; }
+.sf_admin_list .sf_admin_list_td_comment { font-size: 75%; }
+.sf_admin_list table tbody tr.sf_admin_row .sf_admin_date, .sf_admin_list table tbody tr.sf_admin_row .sf_admin_number { text-align: right; }
+.sf_admin_list tbody .sf_admin_row a:hover { text-decoration: underline; }
+@media screen and (max-width: 1500px) {
+  .sf_admin_list .sf_admin_list_th_list_manifestation, .sf_admin_list .sf_admin_list_td_list_manifestation { display: none; }
+}
+
+
+/* tickets control */
 #checkpoint ul { list-style-type: none; margin: 5px 10px; padding: 5px; }
 #checkpoint ul li { padding: 0 5px; margin: 0; }
 #checkpoint label { width: 100px; display: inline-block; }

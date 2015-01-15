@@ -146,10 +146,16 @@
         
         $this->getUser()->setAttribute('control.checkpoint_id',$params['checkpoint_id']);
         
+        $comments = array();
+        foreach ( $this->tickets as $ticket )
+        if ( $ticket instanceof Ticket )
+        foreach ( array($ticket->DirectContact, $ticket->Transaction->Contact) as $contact )
+        if ( trim($contact->flash_on_control) )
+          $comments[] = trim($contact->flash_on_control);
+        $params['comment'] = $comments ? implode("\n", $comments) : NULL;
+        
         if ( $cancontrol )
         {
-          $this->comment = $params['comment'];
-          
           if ( $checkpoint->id )
           {
             if ( sfConfig::get('app_tickets_id') != 'id' )
@@ -213,8 +219,12 @@
         else
         {
           $this->success = false;
-          $failure = new FailedControl;
-          $failure->complete($params);
+          foreach ( $this->tickets as $ticket )
+          {
+            $failure = new FailedControl;
+            $params['ticket_id'] = $ticket->id;
+            $failure->complete($params);
+          }
           return 'Result';
         }
       }

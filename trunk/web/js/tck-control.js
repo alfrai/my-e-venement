@@ -85,6 +85,8 @@ $(document).ready(function(){
             $('<div></div>').addClass('ticket')
               .append($('<span></span>').addClass('value').attr('data-value', ticket.value).text(ticket.value_txt))
               .append(' ')
+              .append($('<span></span>').addClass('price').text(ticket.price))
+              .append(' ')
               .append($('#checkpoint .settings').attr('data-ticket-label')+': #')
               .append($('<a></a>').text(ticket.id).prop('href', ticket.url).prop('target', '_blank').addClass('id'))
               .append(' ')

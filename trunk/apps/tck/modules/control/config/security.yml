@@ -1,15 +1,7 @@
 all:
-  credentials: [tck-control-overview]
+  credentials: [tck-control-admin]
 
-edit:
-  credentials: [tck-control-admin]
-update:
-  credentials: [tck-control-admin]
-new:
-  credentials: [tck-control-admin]
-create:
-  credentials: [tck-control-admin]
-delete:
-  credentials: [tck-control-admin]
-batchDelete:
-  credentials: [tck-control-admin]
+show:
+  credentials: [tck-control-overview]
+index:
+  credentials: [tck-control-overview]

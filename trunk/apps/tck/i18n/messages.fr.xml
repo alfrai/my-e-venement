@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ok</source>
+        <target>Ok</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Error</source>
+        <target>Erreur</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Controls overview</source>
+        <target>Supervision des contrôles</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Groups</source>
+        <target>Groupes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>State</source>
+        <target>État</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%nb%% ticket(s) have been dispatched into this new transaction.</source>
         <target>%%nb%% billet(s) ont été envoyé(s) dans une nouvelle opération.</target>
       </trans-unit>
@@ -1031,6 +1051,10 @@
       <trans-unit>
         <source>City</source>
         <target>Ville</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Professional</source>
+        <target>Professionnel</target>
       </trans-unit>
       <trans-unit>
         <source>This price doesn't exist for this manifestation !</source>
