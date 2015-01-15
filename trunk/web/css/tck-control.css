@@ -11,7 +11,9 @@
 @media screen and (max-width: 1500px) {
   .sf_admin_list .sf_admin_list_th_list_manifestation, .sf_admin_list .sf_admin_list_td_list_manifestation { display: none; }
 }
-
+@media screen and (max-width: 1900px) {
+  .sf_admin_list .sf_admin_list_td_list_ticket_id .error { display: inline-block; max-width: 6em; overflow: hidden; text-overflow: ellipsis; }
+}
 
 /* tickets control */
 #checkpoint ul { list-style-type: none; margin: 5px 10px; padding: 5px; }
