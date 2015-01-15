@@ -731,8 +731,8 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <target>Informations suppl.</target>
       </trans-unit>
       <trans-unit>
-        <source>Periodicity for %%manifestation%%</source>
-        <target>Périodicité pour %%manifestation%%</target>
+        <source>Periodicity for %%manifestations%%</source>
+        <target>Périodicité pour %%manifestations%%</target>
       </trans-unit>
       <trans-unit>
         <source>The manifestation has been duplicated successfully.</source>

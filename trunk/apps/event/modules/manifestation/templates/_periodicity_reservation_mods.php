@@ -16,7 +16,7 @@
                name="periodicity[options][<?php echo $field ?>]"
                value="true"
                id="periodicity_options_<?php echo $field ?>"
-               <?php echo $manifestation->$field ? 'checked="checked"' : '' ?>
+               <?php echo $manifestations->count() == 1 && $manifestations[0]->$field ? 'checked="checked"' : '' ?>
         />
         <label for="periodicity_options_<?php echo $field ?>"><?php echo $label ?></label>
       </p>

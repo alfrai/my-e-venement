@@ -386,6 +386,15 @@ class manifestationActions extends autoManifestationActions
     require(dirname(__FILE__).'/templating.php');
   }
   
+  public function executeBatchPeriodicity(sfWebRequest $request)
+  {
+    $arg = 'periodicity[manifestation_id][%%i%%]=';
+    $args = array();
+    foreach ( $request->getParameter('ids') as $i => $id )
+      $args[] = str_replace('%%i%%', $i, $arg).$id;
+    $this->redirect('manifestation/periodicity?'.implode('&', $args));
+  }
+  
   protected function securityAccessFiltering(sfWebRequest $request, $deep = true)
   {
     if ( intval($request->getParameter('id')).'' !== ''.$request->getParameter('id') )
