@@ -33,7 +33,7 @@ generator:
         object_actions: []
         batch_actions: []
         actions: []
-        max_per_page: 100
+        max_per_page: 50
       filter:
         display: [manifestation_id, checkpoint_id, sf_guard_user_id, created_at]
       form:    ~

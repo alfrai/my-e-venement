@@ -39,7 +39,7 @@
         'rank'      => $seat->rank,
         'seat_id'   => $seat->id,
         'seat_name' => $seat->name,
-        'coordinates' => array($seat->x-$seat->diameter/2, $seat->y-$seat->diameter/2+4), // +2 is for half of the font height
+        'position' => array($seat->x-$seat->diameter/2, $seat->y-$seat->diameter/2+4), // +2 is for half of the font height
         'width'     => $seat->diameter,
       );
     }

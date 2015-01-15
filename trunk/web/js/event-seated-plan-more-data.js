@@ -9,7 +9,7 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
   
   if ( root == undefined )
   {
-    console.error('define root as $("body")');
+    console.error('define $("body") as root');
     root = $('body');
   }
   
@@ -28,15 +28,20 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
           console.error($(this).closest('.seated-plan.picture').find('.seat-'+$(this).attr('data-seat-id')+'.txt').length);
           $(this).closest('.seated-plan.picture').find('.seat-'+$(this).attr('data-seat-id')+'.txt').trigger(event);
         })
-        .css('left', obj.coordinates[0])
-        .css('top',  obj.coordinates[1])
+        .css('left', obj.position[0])
+        .css('top',  obj.position[1])
         .width(obj.width)
         .appendTo(container);
       ;
       if ( obj.seat_class )
-        elt.addClass('seat-extra-'+obj.seat_class)
+        elt.addClass('seat-extra-'+obj.seat_class);
       
       switch(obj.type) {
+      case 'controls':
+        $(root).find('.picture.seated-plan > .seat').remove();
+        console.error(obj.occupied);
+      break;
+        
       case 'shortname':
         elt
           .addClass('shortname')

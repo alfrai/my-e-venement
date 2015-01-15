@@ -57,7 +57,7 @@
         'type'  => 'link',
         'names' => array($a->name, $b->name),
         'ids'   => array($a->id, $b->id),
-        'coordinates' => array(
+        'position' => array(
           array($a->x, $a->y),
           array($b->x, $b->y),
         ),

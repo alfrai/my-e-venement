@@ -11,7 +11,7 @@
 ?>
           <a class="close"
              href="#"
-             onclick="javascript: $(this).closest('.seated-plan-parent').closest('.gauge').removeClass('active'); console.error('close'); return false;"
+             onclick="javascript: $(this).closest('.seated-plan-parent').closest('.gauge').removeClass('active'); LI.controls_repeat($(this).closest('.seated-plan-parent').find('.controls-loop').prop('checked', false)); console.log('Seated plan closed'); return false;"
              title="<?php echo __('Close') ?>"
           ></a>
           <a class="occupation"
@@ -19,6 +19,26 @@
              onclick="javascript: var plan = $(this).closest('.seated-plan-parent').find('.seated-plan'); LI.seatedPlanLoadData($(this).prop('href'), plan); return false;"
           >
             <?php echo __('Reload') ?>
+          </a>
+          <input class="controls-loop" type="checkbox" name="live-controls" value="yes" title="<?php echo __('Auto') ?>" onchange="javascript: return LI.controls_repeat(this);" />
+          <a class="controls"
+             href="<?php echo url_for('seated_plan/getControls?id='.$seated_plan->id) ?>?<?php echo $param ?>"
+             onclick="javascript: var plan = $(this).closest('.seated-plan-parent').find('.seated-plan'); LI.seatedPlanLoadData($(this).prop('href'), plan); return false;"
+          >
+            <?php echo __('Ticket control',null,'menu') ?>
+            <script type="text/javascript"><!--
+              LI.controls_repeat = function(elt){
+                console.error('touching the controls rotation feature');
+                if ( LI.controls_interval )
+                  clearInterval(LI.controls_interval);
+                
+                if ( $(elt).is(':checked') && $(elt).closest('.seated-plan-parent').closest('.gauge').hasClass('active') )
+                {
+                  console.error('activating the controls rotation feature');
+                  LI.controls_interval = setInterval(function(){ $(elt).siblings('a.controls').click(); },10000);
+                }
+              }
+            --></script>
           </a>
           <?php use_javascript('event-seated-plan-more-data') ?>
           <a class="shortnames"
