@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 5'.$rank.' Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -27,39 +27,44 @@
     $this->form = new BaseForm;
     $periodicity = $request->getParameter('periodicity');
     $this->form->bind(array(
-      $this->form->getCSRFFieldName() => $periodicity[$this->form->getCSRFFieldName()]
+      $this->form->getCSRFFieldName() => isset($periodicity[$this->form->getCSRFFieldName()]) ? $periodicity[$this->form->getCSRFFieldName()] : ''
     ));
     $errmsg = __('Try again with valid informations.');
     
     if ( $this->form->isValid() && $request->getParameter('periodicity',array()) )
     {
+      $errors = 0;
+      $cpt = 0;
+      
       $details = array('blocking' => false, 'reservation_optional' => NULL, 'reservation_confirmed' => NULL);
       if ( $this->getUser()->hasCredential('event-reservation-confirm') )
         $details['blocking'] = NULL;
       
-      $q = Doctrine::getTable('Manifestation')->createQuery('m')->andWhere('m.id = ?',$periodicity['manifestation_id']);
-      $this->manifestation = $q->fetchOne();
+      if (!( isset($periodicity['manifestation_id']) && is_array($periodicity['manifestation_id']) ))
+        $periodicity['manifestation_id'] = array();
+      $q = Doctrine::getTable('Manifestation')->createQuery('m')->andWhereIn('m.id',$periodicity['manifestation_id']);
+      foreach ( $q->execute() as $manifestation )
       switch ( $periodicity['behaviour'] ) {
       case 'one_occurrence':
         // preconditions
         foreach ( array('day', 'month', 'year') as $period )
         if (!( isset($periodicity['one_occurrence'][$period]) && $periodicity['one_occurrence'][$period] ))
         {
-          $this->getUser()->setFlash('error', $errmsg);
-          $this->redirect('manifestation/periodicity?id='.$this->manifestation->id);
+          $errors++;
+          break;
         }
         
         // happens_at and reservation fields updating
         $time = strtotime($periodicity['one_occurrence']['year'].'-'.$periodicity['one_occurrence']['month'].'-'.$periodicity['one_occurrence']['day'].' '
           .($periodicity['one_occurrence']['hour'] && $periodicity['one_occurrence']['minute']
             ? $periodicity['one_occurrence']['hour'].':'.$periodicity['one_occurrence']['minute']
-            : date('H:i',strtotime($this->manifestation->happens_at))
+            : date('H:i',strtotime($manifestation->happens_at))
            )
         );
-        $diff = $time - strtotime($this->manifestation->happens_at);
+        $diff = $time - strtotime($manifestation->happens_at);
         
         // periodicity stuff
-        $manif = $this->manifestation->duplicate(false); // duplicating w/o saving (for the moment)
+        $manif = $manifestation->duplicate(false); // duplicating w/o saving (for the moment)
         $manif->happens_at            = date('Y-m-d H:i',$time);
         $manif->reservation_ends_at   = date('Y-m-d H:i',strtotime($manif->reservation_ends_at)+$diff);
         $manif->reservation_begins_at = date('Y-m-d H:i',strtotime($manif->reservation_begins_at)+$diff);
@@ -68,11 +73,10 @@
         foreach ( $details as $field => $value )
           $manif->$field = is_null($value) ? isset($periodicity['options'][$field]) : $value;
         
+        $cpt++;
         $manif->save();
         
         // redirect
-        $this->getUser()->setFlash('success',__('Manifestation duplicated successfully.'));
-        $this->redirect('manifestation/edit?id='.$manif->id);
         break;
       
       case 'until':
@@ -81,8 +85,8 @@
         foreach ( $fields = array('day', 'month', 'year') as $fieldname )
         if ( !(isset($periodicity['until'][$fieldname]) && intval($periodicity['until'][$fieldname])) > 0 )
         {
-          $this->getUser()->setFlash('error',$errmsg);
-          $this->redirect('manifestation/periodicity?id='.$this->manifestation->id);
+          $errors++;
+          break;
         }
         
         // removing extra-fields
@@ -99,7 +103,7 @@
         && !(isset($periodicity['nb']) && intval($periodicity['nb']) > 0) )
         {
           $this->getUser()->setFlash('error',$errmsg);
-          $this->redirect('manifestation/periodicity?id='.$this->manifestation->id);
+          $this->redirect('manifestation/periodicity?id='.$manifestation->id);
         }
         
         // general preconditions
@@ -110,8 +114,8 @@
           && !(isset($periodicity['repeat']['years']) && intval($periodicity['repeat']['years']) > 0)
         )
         {
-          $this->getUser()->setFlash('error',$errmsg);
-          $this->redirect('manifestation/periodicity?id='.$this->manifestation->id);
+          $error++;
+          break;
         }
         
         // interval calculation
@@ -121,8 +125,7 @@
           $interval = strtotime('+'.intval($periodicity['repeat'][$fieldname]).' '.$fieldname,$interval);
         
         // duplication
-        $cpt = 0;
-        $manif = $this->manifestation->duplicate(false);
+        $manif = $manifestation->duplicate(false);
         
         // booking details
         foreach ( $details as $field => $value )
@@ -153,24 +156,51 @@
           $cpt++;
         }
         
-        // redirect
-        $this->getUser()->setFlash('success',__('%%nb%% manifestation(s) have been created during the duplication process.',array('%%nb%%',$cpt)));
-        $this->redirect('event/edit?id='.$this->manifestation->event_id);
         break;
       }
       
-      $this->getUser()->setFlash('error',$errmsg);
-      $this->redirect('manifestation/periodicity?id='.$this->manifestation->id);
+      if ( $errors > 0 || $cpt == 0 )
+      {
+        $this->getUser()->setFlash('error',$errmsg);
+        if ( sfConfig::get('sf_web_debug',false) )
+          return 'Success';
+        
+        if ( $periodicity['manifestation_id'] > 1 )
+          $this->redirect('manifestation/index');
+        else
+          $this->redirect('event/edit?id[]='.$periodicity['manifestation_id'][0]);
+      }
+      
+      // redirect
+      $this->getUser()->setFlash('success',__('%%nb%% manifestation(s) have been created during the duplication process.',array('%%nb%%' => $cpt)));
+      if ( $periodicity['manifestation_id'] > 1 )
+        $this->redirect('manifestation/index');
+      else
+        $this->redirect('event/edit?id[]='.$periodicity['manifestation_id'][0]);
     }
     else
     {
       try {
-        $this->manifestation = $this->getRoute() instanceof sfObjectRoute
-          ? $this->getRoute()->getObject()
-          : Doctrine::getTable('Manifestation')->findOneById($request->getParameter('id'));
+        $periodicity = $request->getParameter('periodicity', array());
+        if (!( isset($periodicity['manifestation_id']) && is_array($periodicity['manifestation_id']) ))
+          $periodicity['manifestation_id'] = array();
+        
+        if ( !$periodicity['manifestation_id'] )
+        {
+          $this->manifestations = new Doctrine_Collection('Manifestation');
+          $this->manifestations[] = $this->getRoute() instanceof sfObjectRoute
+            ? $this->getRoute()->getObject()
+            : Doctrine::getTable('Manifestation')->findOneById($request->getParameter('id'));
+        }
+        else
+          $this->manifestations = Doctrine::getTable('Manifestation')->createQuery('m')->andWhereIn('m.id', $periodicity['manifestation_id'])->execute();
       }
       catch ( Doctrine_Table_Exception $e )
       {
+        if ( sfConfig::get('sf_web_debug', false) )
+          throw $e;
+        
+        error_log($e);
         $this->getUser()->setFlash('error',__('Unknown manifestation.'));
         $this->redirect('@event');
       }
