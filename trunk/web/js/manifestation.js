@@ -10,15 +10,26 @@ $(document).ready(function(){
     var url = $('#url_manifestation_filters_event_id').prop('href');
     $.ajax({
       url: url,
-      data: { limit: 250 },
+      data: { limit: 500 },
       success: function(data){
+        // nothing to populate
         if ( data.length == 0 )
           return;
+        
+        // the select DOM object
         var select = $('<select><option></option></select>')
           .prop('name', 'batch_event_id')
           .insertBefore($('.sf_admin_batch_actions_choice input[type=submit]'));
+        
+        // ordering the data alphabetically then populate it into the previous <select>
+        var arr = [];
         $.each(data, function(id, name){
-          $('<option></option>').val(id).text(name)
+          arr.push({id: id, name: name});
+        });
+        $.each(arr.sort(function(a,b){
+          return $.trim(a.name.toLowerCase()) > $.trim(b.name.toLowerCase()) ? 1 : -1;
+        }), function(i, event){
+          $('<option></option>').val(event.id).text(event.name)
             .appendTo(select);
         });
       }
