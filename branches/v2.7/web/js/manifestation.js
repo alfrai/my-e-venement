@@ -1,12 +1,15 @@
 $(document).ready(function(){
   // fix the event_id, a manifestation cannot change the event it belongs to
   $('select[name="manifestation[event_id]"]').each(function(){
-    if ( $(this).find('option[selected=selected]').length > 0 )
+    if ( $(this).find('option[selected=selected]').length > 1 )
     if ( $(this).val() != '' )
     {
       $(this).prop('disabled','disabled');
-      elt = $('<input type="hidden" name="'+$(this).prop('name')+'" value="'+$(this).find('option:selected').prop('value')+'" />');
-      elt.insertAfter($(this));
+      $('<input type="hidden" />')
+        .prop('name', $(this).prop('name'))
+        .prop('value', $(this).find('option:selected').prop('value'))
+        .insertAfter($(this))
+      ;
       
       if ( $(this).val() )
       {

@@ -18,12 +18,11 @@ class ManifestationForm extends BaseManifestationForm
       'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
     $this->widgetSchema['workspaces_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
-    $this->widgetSchema['event_id']
-      ->setOption('query',EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery()))
-      ->setOption('order_by', array('name', ''));
     $this->widgetSchema['color_id']
       ->setOption('order_by',array('name',''))
       ->setOption('method', 'getName');
+    
+    $this->configureEvent($this->object->Event);
     
     $this->widgetSchema['location_id']
       ->setOption('add_empty',true)
@@ -101,6 +100,36 @@ class ManifestationForm extends BaseManifestationForm
     parent::configure();
   }
   
+  public function configureEvent(Event $event)
+  {
+    $q = EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery('e'));
+    $this->widgetSchema   ['event_id']
+      ->setOption('query', $q)
+      ->setOption('order_by', array('translation.name', ''));
+    $this->validatorSchema['event_id']
+      ->setOption('query', $q);
+    
+    if (!( $event instanceof Event && !$event->isNew() ))
+      return $this;
+    
+    if (!( sfContext::hasInstance() && !sfContext::getInstance()->getUser()->hasCredential('event-admin')
+      || $this->object->isNew() ))
+      return $this;
+    
+    $q =
+    $this->widgetSchema   ['event_id']->getOption('query')
+      ->andWhere('e.id = ?', $event->id);
+    $this->validatorSchema['event_id']->setOption('query', $q);
+    
+    $this->object->Event = $event;
+    $this->setDefault('event_id', $event->id);
+    
+    $this->setDefault('duration', $event->duration);
+    $this->setDefault('vat_id', $event->EventCategory->vat_id);
+    
+    return $this;
+  }
+  
   public function save($con = NULL)
   {
     $event = NULL;
@@ -112,9 +141,8 @@ class ManifestationForm extends BaseManifestationForm
     }
     if ( $this->values['duration'] === '' || is_null($this->values['duration']) )
     {
-      $event = $event instanceof Event
-        ? $event
-        : Doctrine::getTable('Event')->findOneById($this->values['event_id']);
+      if ( ! $event instanceof Event ) // previously defined ?
+        $event = Doctrine::getTable('Event')->findOneById($this->values['event_id']);
       $this->values['duration'] = $event->duration;
     }
     
