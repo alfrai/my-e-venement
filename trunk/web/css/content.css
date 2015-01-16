@@ -80,6 +80,7 @@ body .ui-widget-header { margin: 2px 2px auto 2px; }
 
 .ui-state-success, .ui-widget-content .ui-state-success {
   background-color: #ecfeed;
+  background-image: none;
   border: 1px solid #0acd12;
 }
 
