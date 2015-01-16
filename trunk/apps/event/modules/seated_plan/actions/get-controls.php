@@ -89,7 +89,6 @@
         $q->andWhereIn('g.id', $ids);
       
       foreach ( $q->execute() as $ticket )
-      if ( $ticket->Controls->count() > 0 )
       {
         if ( $ticket->contact_id )
           $contact = (string)$ticket->DirectContact;
@@ -99,7 +98,7 @@
             : (string)$ticket->Transaction->Contact
           ;
         $this->occupied[$ticket->Seat->name] = array(
-          'type'            => 'printed',
+          'type'            => $ticket->Controls->count() > 0 ? 'printed' : 'free',
           'transaction_id'  => '#'.$ticket->transaction_id,
           'controlled_at'   => $ticket->Controls[0]->created_at,
           'ticket_id'       => $ticket->id,
