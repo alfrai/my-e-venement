@@ -38,23 +38,25 @@ $(document).ready(function(){
   });
   
   // two fields for applicant : minimize that !
-  if ( $('#sf_fieldset_resources .sf_admin_form_field_contact_id').length > 0
-    && $('#sf_fieldset_resources .sf_admin_form_field_applicant a').length > 0 )
+  $.each({ contact_id: 'applicant', organism_id: 'applicant_organism' }, function(id, field){
+  if ( $('#sf_fieldset_resources .sf_admin_form_field_'+id).length > 0
+    && $('#sf_fieldset_resources .sf_admin_form_field_'+field+' a').length > 0 )
   {
-    $('#sf_fieldset_resources .sf_admin_form_field_contact_id.sf_admin_foreignkey input[type=text]')
-      .after($('#sf_fieldset_resources .sf_admin_form_field_applicant a')
+    $('#sf_fieldset_resources .sf_admin_form_field_'+id+'.sf_admin_foreignkey input[type=text]')
+      .after($('#sf_fieldset_resources .sf_admin_form_field_'+field+' a')
         .each(function(){ $(this).prop('title',$(this).html()); })
         .prepend('<span class="ui-icon ui-icon-person"></span>')
       );
-    $('#sf_fieldset_resources .sf_admin_form_field_applicant').hide();
+    $('#sf_fieldset_resources .sf_admin_form_field_'+field).hide();
   }
   else
-  if ( $('#sf_fieldset_resources .sf_admin_form_field_contact_id').length == 0
-    && $('#sf_fieldset_resources .sf_admin_form_field_applicant a').length == 0 )
+  if ( $('#sf_fieldset_resources .sf_admin_form_field_'+id).length == 0
+    && $('#sf_fieldset_resources .sf_admin_form_field_'+field+' a').length == 0 )
   {
     // if no applicant, then remove the field from the form
-    $('#sf_fieldset_resources .sf_admin_form_field_applicant').hide();
+    $('#sf_fieldset_resources .sf_admin_form_field_'+field).hide();
   }
+  });
   
   // add titles on extra-informations fields
   $('#sf_fieldset_extra_informations table table tr').each(function(){

@@ -68,8 +68,8 @@ select[disabled] { color: #444; }
 #sf_fieldset_resources .sf_admin_form_field_booking_list label { width: 180px; }
 #sf_fieldset_resources .sf_admin_form_field_booking_list label, #sf_fieldset_resources .sf_admin_form_field_booking_list li { padding-left: 5px; }
 #sf_fieldset_resources .sf_admin_form_field_booking_list.show ul { padding: 5px 5px 5px 25px; line-height: 1.5em; }
-#sf_fieldset_resources .sf_admin_form_field_contact_id.sf_admin_foreignkey a { padding-left: 5px; font-size: 0; }
-#sf_fieldset_resources .sf_admin_form_field_contact_id.sf_admin_foreignkey a .ui-icon { position: absolute; margin-top: 2px; display: inline-block; }
+#sf_fieldset_resources .sf_admin_form_field_organism_id.sf_admin_foreignkey a, #sf_fieldset_resources .sf_admin_form_field_contact_id.sf_admin_foreignkey a { padding-left: 5px; font-size: 0; }
+#sf_fieldset_resources .sf_admin_form_field_organism_id.sf_admin_foreignkey a .ui-icon, #sf_fieldset_resources .sf_admin_form_field_contact_id.sf_admin_foreignkey a .ui-icon { position: absolute; margin-top: 2px; display: inline-block; }
 
 #sf_fieldset_technical_informations table table tbody,
 #sf_fieldset_technical_informations table table td,

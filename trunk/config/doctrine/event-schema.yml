@@ -316,6 +316,7 @@ Manifestation:
       notnull: true
     depends_on: integer
     contact_id: integer
+    organism_id: integer
     blocking:
       type: boolean
       notnull: true
@@ -359,6 +360,12 @@ Manifestation:
       local: contact_id
       class: Contact
       foreignAlias: Manifestations
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    ApplicantOrganism:
+      local: organism_id
+      class: Organism
+      foreignAlias: AppliedManifestations
       onDelete: SET NULL
       onUpdate: CASCADE
     Workspaces:

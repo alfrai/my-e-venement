@@ -85,10 +85,22 @@ EOF;
     else foreach ( $manifs as $manif )
     {
       $emails = array();
+      // related to the manifestation itself
       foreach ( $manif->Organizers as $org )
-        $emails[] = $org->email;
+      if ( $org->email )
+        $emails[$org->email] = $org->email;
+      // related to the applicants
       if ( $manif->contact_id && ($manif->Applicant->sf_guard_user_id || $manif->Applicant->email) )
-        $emails[] = $manif->Applicant->sf_guard_user_id ? $manif->Applicant->User->email_address : $manif->Applicant->email;
+      {
+        $email = $manif->Applicant->sf_guard_user_id ? $manif->Applicant->User->email_address : $manif->Applicant->email;
+        $emails[$email] = $email;
+      }
+      if ( $manif->organism_id && ($manif->ApplicantOrganism->email) )
+        $emails[$manif->ApplicantOrganism->email] = $manif->ApplicantOrganism->email;
+      // related to the Location
+      foreach ( array('contact', 'organism') as $entity )
+      if ( $manif->Location->{$entity.'_id'} && $manif->Location->${ucfirst($entity)}->email )
+        $emails[$manif->Location->${ucfirst($entity)}->email] = $manif->Location->${ucfirst($entity)}->email;
       
       foreach ( $emails as $emailaddr )
       {

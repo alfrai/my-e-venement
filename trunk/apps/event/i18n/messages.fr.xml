@@ -771,6 +771,10 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <target>Demandeur</target>
       </trans-unit>
       <trans-unit>
+        <source>Applied by organism</source>
+        <target>Organisme demandeur</target>
+      </trans-unit>
+      <trans-unit>
         <source>Begins at</source>
         <target>Commence le</target>
       </trans-unit>
