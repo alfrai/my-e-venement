@@ -23,7 +23,6 @@
 ?>
 <?php
   $csv = array_map('str_getcsv', file($_FILES['rp-import']['tmp_name']));
-  unset($csv[0]);
   $matches = array(
     'id',
     'etablissement1',
@@ -149,7 +148,7 @@
     $this->getUser()->setFlash('error', count($errors).' errors.');
   $notices = array();
   foreach ( $this->logs as $part => $msgs )
-    $notices[] = $part.': '.count($msgs);
+    $notices[] = __($part).': '.count($msgs);
   $this->getUser()->setFlash('notice', implode(' ; ', $notices));
   $this->redirect('contact/prepareImport');
 ?>
