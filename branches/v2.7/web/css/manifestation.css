@@ -1,10 +1,6 @@
 #content .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_description { padding: 0; }
-#content .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_description div {
-  height: 100%;
-  margin: 0;
-  padding: 0px 4px;
-  text-align: center;
-}
+#content .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_description div { height: 100%; margin: 0; padding: 0px 4px; text-align: center; }
+.sf_admin_batch_actions_choice [name=batch_event_id] { margin: 0 5px 0 0; }
 
 select[disabled] { color: #444; }
 

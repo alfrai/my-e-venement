@@ -85,6 +85,14 @@
         <target>Pas d'information suppl.</target>
       </trans-unit>
       <trans-unit>
+        <source>You must provide a valid event in order to apply the selected manifestations to.</source>
+        <target>Vous devez préciser un événement valide afin de pouvoir y affecter les manifestations sélectionnées.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The provided manifestations have been applied to "%%event%%".</source>
+        <target>Les manifestations selectionnées ont bien été affectées à l'événement "%%event%%".</target>
+      </trans-unit>
+      <trans-unit>
         <source>Search</source>
         <target>Recherche</target>
       </trans-unit>

@@ -269,6 +269,26 @@ class manifestationActions extends autoManifestationActions
     require(dirname(__FILE__).'/templating.php');
   }
   
+  public function executeBatchChangeEvent(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    if (!( intval($request->getParameter('batch_event_id')).'' === ''.$request->getParameter('batch_event_id')
+      && $event = Doctrine::getTable('Event')->find($request->getParameter('batch_event_id')) ))
+    {
+      $this->getUser()->setFlash('error', __('You must provide a valid event in order to apply the selected manifestations to.'));
+      $this->redirect('manifestation/index');
+    }
+    
+    foreach ( $manifs = Doctrine::getTable('Manifestation')->createQuery('m', true)
+      ->andWhereIn('m.id', $request->getParameter('ids'))
+      ->execute() as $manif )
+      $manif->Event = $event;
+    $manifs->save();
+    
+    $this->getUser()->setFlash('success', __('The provided manifestations have been applied to "%%event%%".', array('%%event%%' => $event)));
+    $this->redirect('manifestation/index');
+  }
   public function executeBatchPeriodicity(sfWebRequest $request)
   {
     $arg = 'periodicity[manifestation_id][%%i%%]=';

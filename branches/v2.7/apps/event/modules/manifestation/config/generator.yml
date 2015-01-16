@@ -67,6 +67,8 @@ generator:
         batch_actions:
           _delete: ~
           _periodicity: ~
+          _changeEvent:
+            label: Change event
       filter:
         display:
           Manifestation: [happens_at, event_id, location_id, workspace_id, meta_event_id]
