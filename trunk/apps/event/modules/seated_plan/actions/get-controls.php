@@ -98,7 +98,7 @@
             : (string)$ticket->Transaction->Contact
           ;
         $this->occupied[$ticket->Seat->name] = array(
-          'type'            => $ticket->Controls->count() > 0 ? 'printed' : 'free',
+          'type'            => $ticket->Controls->count() > 0 ? 'free' : 'printed',
           'transaction_id'  => '#'.$ticket->transaction_id,
           'controlled_at'   => $ticket->Controls[0]->created_at,
           'ticket_id'       => $ticket->id,
