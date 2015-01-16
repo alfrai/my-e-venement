@@ -10,9 +10,8 @@ $(document).ready(function(){
     var url = $('#url_manifestation_filters_event_id').prop('href');
     $.ajax({
       url: url,
-      data: { limit: 100 },
+      data: { limit: 250 },
       success: function(data){
-        console.error(data);
         if ( data.length == 0 )
           return;
         var select = $('<select><option></option></select>')
