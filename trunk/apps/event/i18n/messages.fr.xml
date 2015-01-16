@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Best free seat</source>
+        <target>Meilleur place libre</target>
+      </trans-unit>
+      <trans-unit>
         <source>Close</source>
         <target>Fermer</target>
       </trans-unit>
