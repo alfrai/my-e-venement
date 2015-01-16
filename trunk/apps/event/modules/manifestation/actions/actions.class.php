@@ -211,15 +211,8 @@ class manifestationActions extends autoManifestationActions
     if ( $request->getParameter('event') )
     {
       $event = Doctrine::getTable('Event')->findOneBySlug($request->getParameter('event'));
-      if ( $event->id )
-      {
-        $this->form->setDefault('event_id', $event->id);
-        $this->form->getObject()->event_id = $event->id;
-        
-        $ws = $this->form->getWidgetSchema();
-        $ws['duration']->setOption('default',$event->duration);
-        $ws['vat_id']->setOption('default',$event->EventCategory->vat_id);
-      }
+      if ( $event )
+        $this->form->configureEvent($event);
     }
     if ( $request->getParameter('location') )
     {
@@ -679,7 +672,12 @@ class manifestationActions extends autoManifestationActions
     {
       // "credentials"
       $form->updateObject($request->getParameter($form->getName()), $request->getFiles($form->getName()));
-      if ( !in_array($form->getObject()->Event->meta_event_id,array_keys($this->getUser()->getMetaEventsCredentials())) )
+      
+      // a workaround to avoid Manifestation::event_id set and a Manifesation::Event still unset, for credential checks
+      if ( $form->getObject()->event_id && $form->getObject()->Event->isNew() )
+        $form->getObject()->Event = Doctrine::getTable('Event')->find($form->getObject()->event_id);
+      
+      if ( !in_array($form->getObject()->Event->meta_event_id, array_keys($this->getUser()->getMetaEventsCredentials())) )
       {
         $this->getUser()->setFlash('error', "You don't have permissions to modify this event.");
         $this->redirect('@manifestation_new');
