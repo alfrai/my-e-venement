@@ -100,7 +100,10 @@ EOF;
       // related to the Location
       foreach ( array('contact', 'organism') as $entity )
       if ( $manif->Location->{$entity.'_id'} && $manif->Location->${ucfirst($entity)}->email )
-        $emails[$manif->Location->${ucfirst($entity)}->email] = $manif->Location->${ucfirst($entity)}->email;
+      {
+        $email = $manif->Location->${ucfirst($entity)}->email;
+        $emails[$email] = $email;
+      }
       
       foreach ( $emails as $emailaddr )
       {
@@ -148,12 +151,14 @@ EOF;
           %s: %s<br/><br/>
           %s: %s<br/><br/>
           %s: %s<br/><br/>
+          %s: %s<br/><br/>
 EOF
           , (string)$manif
           , __('State'), implode(', ',$state)
           , __('When'), $manif->mini_date, $manif->mini_end_date
           , __('Where'), (string)$manif->Location
           , __('Applicant'), (string)$manif->Applicant
+          , __('Applied by organism'), (string)$manif->ApplicantOrganism
           , __('Organizers'), implode(', ',$orgs)
           , __('Memo'), $manif->description
         );
