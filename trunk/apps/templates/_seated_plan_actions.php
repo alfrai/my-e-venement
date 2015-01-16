@@ -28,15 +28,11 @@
             <?php echo __('Ticket control',null,'menu') ?>
             <script type="text/javascript"><!--
               LI.controls_repeat = function(elt){
-                console.error('touching the controls rotation feature');
                 if ( LI.controls_interval )
                   clearInterval(LI.controls_interval);
                 
                 if ( $(elt).is(':checked') && $(elt).closest('.seated-plan-parent').closest('.gauge').hasClass('active') )
-                {
-                  console.error('activating the controls rotation feature');
-                  LI.controls_interval = setInterval(function(){ $(elt).siblings('a.controls').click(); },10000);
-                }
+                  LI.controls_interval = setInterval(function(){ $(elt).siblings('a.controls').click(); },30000);
               }
             --></script>
           </a>
