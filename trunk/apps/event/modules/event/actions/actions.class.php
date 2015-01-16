@@ -241,11 +241,9 @@ class eventActions extends autoEventActions
       ->search($search.'*',$q);
     $request = $q->execute()->getData();
 
-    $events = array();
+    $this->events = array();
     foreach ( $request as $event )
-      $events[$event->id] = (string) $event;
-    
-    return $this->renderText(json_encode($events));
+      $this->events[$event->id] = (string) $event;
   }
   
   public function executeError404(sfWebRequest $request)

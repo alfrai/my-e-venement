@@ -75,6 +75,8 @@ generator:
           _bestFreeSeat:
             label: Best free seat
           _periodicity: ~
+          _changeEvent:
+            label: Change event
       filter:
         display:
           Manifestation: [happens_at, participants_list, event_id, location_id, workspace_id, meta_event_id]

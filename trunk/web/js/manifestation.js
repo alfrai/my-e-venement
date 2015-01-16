@@ -1,4 +1,31 @@
 $(document).ready(function(){
+  // change the event of manifesations in batch
+  $('.sf_admin_actions select').change(function(){
+    if ( $(this).val() != 'batchChangeEvent' )
+    {
+      $('.sf_admin_batch_actions_choice [name=batch_event_id]').remove();
+      return;
+    }
+    
+    var url = $('#url_manifestation_filters_event_id').prop('href');
+    $.ajax({
+      url: url,
+      data: { limit: 100 },
+      success: function(data){
+        console.error(data);
+        if ( data.length == 0 )
+          return;
+        var select = $('<select><option></option></select>')
+          .prop('name', 'batch_event_id')
+          .insertBefore($('.sf_admin_batch_actions_choice input[type=submit]'));
+        $.each(data, function(id, name){
+          $('<option></option>').val(id).text(name)
+            .appendTo(select);
+        });
+      }
+    });
+  });
+  
   // fix the event_id, a manifestation cannot change the event it belongs to
   $('select[name="manifestation[event_id]"]').each(function(){
     if ( $(this).find('option[selected=selected]').length > 1 )
