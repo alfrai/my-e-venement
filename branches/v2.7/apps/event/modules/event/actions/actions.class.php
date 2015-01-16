@@ -227,11 +227,10 @@ class eventActions extends autoEventActions
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()));
     $q = Doctrine_Core::getTable('Event')
       ->search($search.'*',$q);
-    $request = $q->execute()->getData();
 
     $this->events = array();
-    foreach ( $request as $event )
-      $this->events[$event->id] = (string) $event;
+    foreach ( $q->execute() as $event )
+      $this->events[$event->id] = $request->hasParameter('with_meta_event') ? $event.' ('.$event->MetaEvent.')' : (string)$event;
   }
   
   public function executeError404(sfWebRequest $request)

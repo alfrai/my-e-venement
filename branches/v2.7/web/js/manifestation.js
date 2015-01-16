@@ -10,7 +10,7 @@ $(document).ready(function(){
     var url = $('#url_manifestation_filters_event_id').prop('href');
     $.ajax({
       url: url,
-      data: { limit: 500 },
+      data: { limit: 500, with_meta_event: true },
       success: function(data){
         // nothing to populate
         if ( data.length == 0 )
