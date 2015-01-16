@@ -13,7 +13,7 @@ ID,ETABLISSEMENT,PRENOM,NOM,ADRESSE1,ADRESSE2,CP,VILLE,GROUPE,TELEPHONE,EMAIL
 3,"",Christian,MAJEUR,9 ALLEE DES LAURIERS,,69300,CALUIRE,AUTEUR,,,,,,
     </pre>
     <p><?php echo __('Do not forget that this file must be UTF-8 encoded, its fields must be separated by a comma, and the first line dedicated to field titles... Actually a standard CSV format.'); ?></p>
-    <p><?php echo __('Try to import a maximum of %%nb%% lines at once. Then repeat the import the number of times needed.') ?></p>
+    <p><?php echo __('Try to import a maximum of %%nb%% lines at once. Then repeat the import the number of times needed.',array('%%nb%%' => 250)) ?></p>
   </div>
   <form class="tdp-import" method="post" enctype="multipart/form-data" action="<?php echo url_for('contact/import') ?>">
     <p>
