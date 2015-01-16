@@ -105,7 +105,7 @@ class ManifestationForm extends BaseManifestationForm
     $q = EventFormFilter::addCredentialsQueryPart(Doctrine::getTable('Event')->createQuery('e'));
     $this->widgetSchema   ['event_id']
       ->setOption('query', $q)
-      ->setOption('order_by', array('translation.name', ''));
+      ->setOption('order_by', array('e.name', ''));
     $this->validatorSchema['event_id']
       ->setOption('query', $q);
     
