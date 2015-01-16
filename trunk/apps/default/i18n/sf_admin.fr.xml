@@ -73,6 +73,10 @@
         <target>Périodicité</target>
       </trans-unit>
       <trans-unit>
+        <source>Change event</source>
+        <target>Changer d'événement</target>
+      </trans-unit>
+      <trans-unit>
         <source>Duplicate</source>
         <target>Dupliquer</target>
       </trans-unit>
