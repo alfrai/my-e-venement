@@ -130,9 +130,11 @@ class manifestationActions extends autoManifestationActions
     return sfView::NONE;
   }
   
-  // needs previously cleaned $request->getParameter('ids'), usually it's used from executeBatchBestFreeSeat(), or nothing
+  // needs previously cleaned $request->getParameter('ids'), usually it's done by executeBatch()
   public function executeBestFreeSeat(sfWebRequest $request)
   {
+    $this->getContext()->getConfiguration()->loadHelpers('Url');
+    
     $q = Doctrine::getTable('Manifestation')->createQuery('m');
     if ( $request->getParameter('ids') )
       $q->andWhereIn('e.id', $request->getParameter('ids'));
@@ -140,19 +142,19 @@ class manifestationActions extends autoManifestationActions
       $q->andWhere('m.happens_at > NOW()')
         ->limit(20);
     $manifs = $q->execute();
-    $this->manifestations = array();
+    
+    $this->seats = array();
     foreach ( $manifs as $manif )
-    {
-      $seats = $manif->getBestFreeSeat(5);
-      
-      $best = NULL;
-      foreach ( $seats as $seat )
-      if (!( !is_null($best) && $best <= $seat->rank ))
-        $best = $seat->rank;
-      
-      $this->manifestations[($best ? $best : 'ZZZ').'-'.$manif->id] = $manif;
-    }
-    ksort($this->manifestations);
+    foreach ( $manif->getBestFreeSeat(5) as $seat )
+      $this->seats[$seat->rank.'--'.$manif->id.'-'.$seat->id] = array(
+        'rank' => $seat->rank,
+        'name' => (string)$seat,
+        'id'   => $seat->id,
+        'manifestation'     => (string)$manif,
+        'manifestation_url' => url_for('manifestation/show?id='.$manif->id, true),
+        'happens_at' => $manif->happens_at,
+        'event'      => (string)$manif->Event,
+      );
   }
   public function executeBatchBestFreeSeat(sfWebRequest $request)
   { $this->forward('manifestation', 'bestFreeSeat'); }
