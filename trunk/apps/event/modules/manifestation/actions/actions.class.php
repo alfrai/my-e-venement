@@ -144,17 +144,30 @@ class manifestationActions extends autoManifestationActions
     $manifs = $q->execute();
     
     $this->seats = array();
+    $seated_plans = array();
     foreach ( $manifs as $manif )
     foreach ( $manif->getBestFreeSeat(5) as $seat )
+    {
+      if ( !isset($seated_plans[$seat->seated_plan_id]) )
+        $seated_plans[$seat->seated_plan_id] = $seat->SeatedPlan;
+      $workspaces = array();
+      foreach ( $seated_plans[$seat->seated_plan_id]->Workspaces as $ws )
+        $workspaces[] = (string)$ws;
+      
+      
       $this->seats[$seat->rank.'--'.$manif->id.'-'.$seat->id] = array(
-        'rank' => $seat->rank,
-        'name' => (string)$seat,
-        'id'   => $seat->id,
+        'rank'              => $seat->rank,
+        'name'              => (string)$seat,
+        'id'                => $seat->id,
+        'event'             => (string)$manif->Event,
         'manifestation'     => (string)$manif,
+        'workspaces'        => implode("\n", $workspaces),
         'manifestation_url' => url_for('manifestation/show?id='.$manif->id, true),
-        'happens_at' => $manif->happens_at,
-        'event'      => (string)$manif->Event,
+        'sell_url'          => url_for('manifestation/sell?id='.$manif->id, true),
+        'happens_at'        => $manif->happens_at,
+        'happens_at_txt'    => $manif->mini_date,
       );
+    }
   }
   public function executeBatchBestFreeSeat(sfWebRequest $request)
   { $this->forward('manifestation', 'bestFreeSeat'); }

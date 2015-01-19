@@ -152,3 +152,10 @@ select[disabled] { color: #444; }
 .sf_admin_form_field_show_possible_incomes { position: absolute; margin-top: -3.7em; margin-left: 24em; display: block; }
 .sf_admin_show .sf_admin_form_field_show_possible_incomes { display: block; }
 .sf_admin_show .sf_admin_form_field_show_possible_incomes label, .sf_admin_form_field_show_possible_incomes label { min-width: 3em; display: inline-block; }
+
+/* seats widget, overflow on manifestations list */
+#seats { position: absolute; padding: 5px; z-index: 701; left: calc(50% - 800px / 2); top: 100px; width: 800px; max-height: calc(100% - 200px); overflow: auto; }
+#seats table { width: calc(100% - 4px); margin: 0 auto; }
+#seats td { padding: 2px 5px; }
+#seats .name, #seats .rank { font-weight: bold; text-align: right; }
+#seats h2 .close { float: right; text-decoration: none; border: 1px solid white; border-radius: 2px; padding: 2px 5px; margin-top: -3px; }
