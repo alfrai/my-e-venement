@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -58,6 +58,7 @@
         'event', 'manifestation', 'location',
         'price', 'user', 'qty',
         'pit', 'vat', 'tep',
+        'account',
       );
       
       foreach ( $this->events as $event )
@@ -76,6 +77,7 @@
             'pit'           => 0,
             'vat'           => 0,
             'tep'           => 0,
+            'account'       => $event->accounting_account,
           );
         $this->lines[$key]['qty'] += $ticket->cancelling ? -1 : 1;
         $this->lines[$key]['pit'] += $ticket->value;
@@ -96,6 +98,7 @@
             'pit'           => $infos[$manif->id]['value'],
             'vat'           => 0,
             'tep'           => $infos[$manif->id]['value'],
+            'account'       => $event->accounting_account,
           );
         foreach ( $infos[$manif->id]['vat'] as $rate => $amount )
         {

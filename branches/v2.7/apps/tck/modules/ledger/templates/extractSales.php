@@ -40,6 +40,13 @@
     'event'           => __('Event'),
     'manifestation'   => __('Manifestation'),
     'location'        => __('Location'),
+    'price'           => __('Price'),
+    'user'            => __('User'),
+    'qty'             => __('Quantity'),
+    'pit'             => __('PIT'),
+    'vat'             => __('VAT'),
+    'tep'             => __('TEP'),
+    'account'         => __('Account'),
   );
   
   include_partial('global/csv',$vars);
