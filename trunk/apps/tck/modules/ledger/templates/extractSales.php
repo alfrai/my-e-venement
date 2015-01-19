@@ -47,6 +47,7 @@
     'extra-taxes'     => __('Extra taxes'),
     'tep'             => __('TEP'),
     'vat'             => __('VAT'),
+    'account'         => __('Account'),
   );
   
   include_partial('global/csv',$vars);
