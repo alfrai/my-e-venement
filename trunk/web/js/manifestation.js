@@ -17,17 +17,6 @@ $(document).ready(function(){
           .append(container = $('<table></table>').addClass('ui-widget-content'))
           .appendTo('body')
         ;
-        
-        $.each(data, function(id, seat){
-          $('<tr></tr>').attr('data-id', seat.id).appendTo(container).addClass('sf_admin_row').addClass('ui-widget-content')
-            .append($('<td></td>').addClass('rank').text(seat.rank))
-            .append($('<td></td>').addClass('event').text(seat.event))
-            .append($('<td></td>').append($('<a></a>').prop('href', seat.manifestation_url).text(seat.happens_at_txt)))
-            .append($('<td></td>').addClass('gauge').html(seat.workspaces.replace("\n",'<br/>')))
-            .append($('<td></td>').append($('<a></a>').addClass('name').prop('href', seat.sell_url).text(seat.name)))
-          ;
-        });
-        
         $('<a></a>').addClass('close')
           .prop('href', '#close')
           .text('x')
@@ -38,6 +27,16 @@ $(document).ready(function(){
           })
           .appendTo($('#seats h2'))
         ;
+        
+        $.each(data, function(id, seat){
+          $('<tr></tr>').attr('data-id', seat.id).appendTo(container).addClass('sf_admin_row').addClass('ui-widget-content')
+            .append($('<td></td>').addClass('rank').text(seat.rank))
+            .append($('<td></td>').addClass('event').text(seat.event))
+            .append($('<td></td>').append($('<a></a>').prop('href', seat.manifestation_url).text(seat.happens_at_txt)))
+            .append($('<td></td>').addClass('gauge').html(seat.workspaces.replace("\n",'<br/>')))
+            .append($('<td></td>').append($('<a></a>').addClass('name').prop('href', seat.sell_url).text(seat.name)))
+          ;
+        });
       }
     });
     return false;
