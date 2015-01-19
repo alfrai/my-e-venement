@@ -89,6 +89,9 @@
       else
         $params['ticket_id'] = array($params['ticket_id']);
       
+      if ( $field != 'id' && intval($params['ticket_id'][0]).'' === ''.$params['ticket_id'][0] )
+        $field = 'id';
+      
       // filtering the checkpoints
       if ( isset($params['ticket_id'][0]) && $params['ticket_id'][0] )
       {
@@ -96,7 +99,8 @@
           ->whereIn('t.'.$field,$params['ticket_id']);
       }
       
-      if ( intval($params['checkpoint_id']).'' == ''.$params['checkpoint_id'] && count($params['ticket_id']) > 0 )
+      if ( intval($params['checkpoint_id']).'' == ''.$params['checkpoint_id']
+        && count($params['ticket_id']) > 0 )
       {
         $q = Doctrine::getTable('Checkpoint')->createQuery('c')
           ->select('c.*')
@@ -158,7 +162,7 @@
         {
           if ( $checkpoint->id )
           {
-            if ( sfConfig::get('app_tickets_id') != 'id' )
+            if ( $field != 'id' )
             {
               $params['ticket_id'] = $params['ticket_id'][0];
               $this->form->bind($params, $request->getFiles($this->form->getName()));
@@ -183,12 +187,14 @@
               $ids = $params['ticket_id'];
               foreach ( $ids as $id )
               {
-                $this->tickets[] = $control->Ticket;
                 $params['ticket_id'] = $id;
                 $this->form = new ControlForm;
                 $this->form->bind($params, $request->getFiles($this->form->getName()));
                 if ( $this->form->isValid() )
+                {
                   $this->form->save();
+                  $this->tickets[] = $this->form->getObject()->Ticket;
+                }
                 else
                   $err[] = $id;
               }

@@ -37,4 +37,13 @@ class ControlForm extends BaseControlForm
       ));
     }
   }
+  
+  public function doBind(array $values)
+  {
+    if ( sfConfig::get('app_tickets_id', 'id') != 'id'
+      && intval($values['ticket_id']).'' === ''.$values['ticket_id'] )
+      $this->validatorSchema['ticket_id']->setOption('column', 'id');
+    
+    return parent::doBind($values);
+  }
 }

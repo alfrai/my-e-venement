@@ -14,12 +14,14 @@ class Control extends PluginControl
 {
   public function preSave($event)
   {
-    if ( sfConfig::has('app_tickets_id') && sfConfig::get('app_tickets_id') != 'id' )
+    if ( ($field = sfConfig::get('app_tickets_id', 'id')) != 'id' )
     {
+      if ( intval($this->ticket_id).'' === ''.$this->ticket_id )
+        $field = 'id';
+      
       $past = sfConfig::get('app_control_past') ? sfConfig::get('app_control_past') : '6 hours';
       $future = sfConfig::get('app_control_future') ? sfConfig::get('app_control_future') : '1 day';
 
-      $field = sfConfig::get('app_tickets_id') == 'barcode' ? 'barcode' : 'othercode';
       $q = Doctrine::getTable('Ticket')->createQuery('t')
         ->leftJoin('t.Manifestation m')
         ->andWhere($field.' = ?',$this->ticket_id)
@@ -28,9 +30,9 @@ class Control extends PluginControl
         ->andWhere('m.happens_at >= ?',date('Y-m-d H:i',strtotime('now - '.$past)))
         ->andWhere('t.printed_at IS NOT NULL')
         ->orderBy('m.happens_at');
-      $tickets = $q->execute();
+      $ticket = $q->fetchOne();
 
-      $this->ticket_id = $tickets[0]['id'];
+      $this->ticket_id = $ticket->id;
     }
     
     return parent::preSave($event);
