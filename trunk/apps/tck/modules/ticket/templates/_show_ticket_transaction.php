@@ -27,8 +27,8 @@
       <td><?php echo __('Integrated') ?></td>
     </tr></thead>
   </table>
-  <?php if ( sfConfig::get('app_tickets_id', 'id') == 'barcode' ): ?>
-  <img class="qrcode" src="data:image/jpg;base64,<?php echo base64_encode($ticket->getRawValue()->getBarcodePng()) ?>" alt="#<?php echo $ticket->id ?>" />
+  <?php if ( sfConfig::get('app_tickets_id', 'id') == 'barcode' && ($ticket->printed_at || $ticket->integrated_at) ): ?>
+    <img class="qrcode" src="data:image/jpg;base64,<?php echo base64_encode($ticket->getRawValue()->getBarcodePng()) ?>" alt="#<?php echo $ticket->id ?>" />
   <?php endif ?>
   </td>
 <td></td>
