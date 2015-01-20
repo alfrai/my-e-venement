@@ -132,6 +132,7 @@ all:
       Merci de saisir et vérifier vos coordonnées.
       Vos billets réglés en ligne sont à retirer au Fracas les jours d'ouverture de la billetterie ou le soir de la représentation (au plus tard 15 minutes avant le début du spectacle).
     #seated_plan_loading:
+    #terms_conditions: CGV
     #email_footer: ""
     email_confirmation: |
       
