@@ -15,10 +15,23 @@ generator:
       actions: ~
       fields:
         member_card_linked: { label: "Linked w/ MC", credentials: [tck-admin-member-cards] }
+        manifestations_list: { label: Manifestations }
+        gauges_list: { label: Gauges }
+        member_cards_list: { label: Member cards }
+        products_list: { label: Products }
+        linked_products_list: { label: Linked products }
+        taxes_list: { label: Taxes }
       list:
         display: [name, description, value, online, hide, member_card_linked]
-        sort: ['hide, name', '']
-      filter:  ~
+        sort: ['hide, pt.name', '']
+        object_actions:
+          _edit: ~
+          _delete: ~
+      filter:
+        display:
+          Price: [name, description, value, online, hide, member_card_linked]
+          Links: [manifestations_list, gauges_list, member_cards_list, products_list, linked_products_list, taxes_list]
+          Permissions: [users_list, workspaces_list]
       form:
         display:
           General: [name, description, value]
@@ -26,3 +39,8 @@ generator:
           Permissions: [workspaces_list, users_list]
       edit:    ~
       new:     ~
+      show:
+        display:
+          General: [name, description, value]
+          Options: [online, hide, member_card_linked]
+          #Permissions: [workspaces_list, users_list]

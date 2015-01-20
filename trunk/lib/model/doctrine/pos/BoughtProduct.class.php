@@ -35,36 +35,36 @@
  */
 class BoughtProduct extends PluginBoughtProduct
 {
-  public function getBarcode($type = 'normal')
+  public function getQrcode($type = 'normal')
   {
-    if ( $this->rawGet('barcode') )
-      return $this->rawGet('barcode');
+    if ( $this->barcode )
+      return $this->barcode;
     
     if ( !$this->description_for_buyers || $type == 'normal' )
     {
       $this->barcode = $type != 'id' ? json_encode(array('code' => $this->code, 'id' => $this->id)) : $this->getIdBarcoded();
-      return $this->rawGet('barcode');
+      return $this->barcode;
     }
     
     $matches = array();
     preg_match('!<a\s+[^>]*href\s*=\s*"([^\"]*)"[^>]*>.*</a>!iUs', $this->description_for_buyers, $matches);
     if ( count($matches) == 0 )
-      return $this->rawGet('barcode');
+      return $this->barcode;
     $this->barcode = $matches[1];
     
-    return $this->rawGet('barcode');
+    return $thisbarcode;
   }
   
   public function renderBarcode($file = NULL) // PNG output directly to stdout
   {
-    $bc = new liBarcode($this->barcode);
+    $bc = new liBarcode($this->qrcode);
     $bc->render($file);
     return $this;
   }
   
   public function getBarcodePng($id = false)
   {
-    $bc = new liBarcode($this->getBarcode($id ? 'id' : NULL));
+    $bc = new liBarcode($this->getQrcode($id ? 'id' : NULL));
     return (string)$bc;
   }
   
@@ -83,14 +83,14 @@ class BoughtProduct extends PluginBoughtProduct
     
     $img = '<img
       src="data:image/png;base64,'.base64_encode($this->getBarcodePng($qrcode_only_id)).'"
-      title="'.$this->barcode.'"
+      title="'.$this->qrcode.'"
       alt=""
     />';
     
     // a link around the qrcode ?
     try {
       $isUrl = new sfValidatorUrl;
-      $url = $isUrl->clean($this->barcode);
+      $url = $isUrl->clean($this->qrcode);
       $barcode = '<a href="'.$url.'">'.$img.'</a>';
     } catch ( sfValidatorError $e ) {
       $barcode = '<span>'.$img.'</span>';

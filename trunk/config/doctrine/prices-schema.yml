@@ -22,10 +22,11 @@
 
 Price:
   package: price
-  actAs: [Timestampable]
+  actAs:
+    Timestampable: ~
+    I18n:
+      fields: [name, description]
   indexes:
-    price_name_idx:
-      fields: [name]
     price_online_idx:
       fields: [online]
     price_hide_idx:
@@ -37,7 +38,6 @@ Price:
       type: string(63)
       notnull: true
       notblank: true
-      unique: true
     description: string(255)
     value:
       type: decimal(8)

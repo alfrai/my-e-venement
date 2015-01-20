@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Products</source>
+        <target>Produits</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Linked products</source>
+        <target>Produits liés</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Member cards</source>
+        <target>Cartes d'abo</target>
+      </trans-unit>
+      <trans-unit>
         <source>Best free seat</source>
         <target>Meilleure place libre</target>
       </trans-unit>
@@ -857,6 +869,10 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
       <trans-unit>
         <source>Taxes list</source>
         <target>Liste des taxes</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Taxes</source>
+        <target>Taxes</target>
       </trans-unit>
       <trans-unit>
         <source>This field is updated automagically</source>

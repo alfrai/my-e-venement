@@ -120,7 +120,7 @@ abstract class PluginTicket extends BaseTicket
     }
     
     // the generates a barcode (if necessary) to record in DB
-    $this->getBarcode();
+    $this->qrcode;
     
     parent::preSave($event);
   }

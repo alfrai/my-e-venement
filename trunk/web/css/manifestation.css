@@ -46,7 +46,7 @@ select[disabled] { color: #444; }
 #sf_fieldset_tickets .workspace td, #sf_fieldset_spectators .workspace td { border-top: 1px solid black; padding: 3px 10px 3px 0; }
 #sf_fieldset_tickets .workspace:first-child td, #sf_fieldset_spectators .workspace:first-child td { border: 0; }
 #sf_fieldset_tickets td .workspace, #sf_fieldset_spectators td .workspace { display: none; }
-#sf_fieldset_tickets td .tickets, #sf_fieldset_spectators td .tickets { display: block; white-space: nowrap; }
+dsf#sf_fieldset_tickets td .tickets, sdf#sf_fieldset_spectators td .tickets { display: block; white-space: nowrap; }
 #sf_fieldset_tickets td.nb_contacts { text-align: right; }
 #sf_fieldset_tickets td.nb_contacts span { width: 2em; display: inline-block; padding-right: 2px; }
 

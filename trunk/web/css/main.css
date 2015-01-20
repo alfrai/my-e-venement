@@ -155,3 +155,6 @@ html button.fg-button-icon-left .ui-icon { left: 0.4em; }
 
 /* double-lists */
 .double_list > div { float: none !important; }
+
+/* fieldsets overflow */
+.ui-tabs-panel { overflow: auto; }

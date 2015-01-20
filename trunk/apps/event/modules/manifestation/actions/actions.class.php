@@ -582,7 +582,7 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('t.manifestation_id = ?',$mid)
       ->andWhere('cp.legal IS NULL OR cp.legal = true')
       ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
-      ->orderBy('g.workspace_id, w.name, p.name, tr.id, o.name, c.name, c.firstname');
+      ->orderBy('g.workspace_id, w.name, pt.name, tr.id, o.name, c.name, c.firstname');
     else
     {
       $params = array();
@@ -590,7 +590,7 @@ class manifestationActions extends autoManifestationActions
         $params[] = $mid;
       $q->select('p.*')
         ->andWhere('p.id IN (SELECT DISTINCT t0.price_id FROM Ticket t0 WHERE t0.manifestation_id = ?)', $params) // the X $mid is a hack for doctrine
-        ->orderBy('p.name');
+        ->orderBy('pt.name');
       $rank = 0;
       foreach ( array(
         'printed' => '(t%%i%%.printed_at IS NOT NULL OR t%%i%%.integrated_at IS NOT NULL)',
@@ -633,6 +633,7 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('tck.Manifestation m')
       ->leftJoin('tck.Controls ctrl')
       ->leftJoin('tck.Price p')
+      ->leftJoin('p.Translation pt WITH pt.lang = ?', $this->getUser()->getCulture())
       ->leftJoin('ctrl.Checkpoint cp')
       ->leftJoin('tck.Gauge g')
       ->leftJoin('g.Workspace w')
@@ -642,7 +643,7 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('tck.manifestation_id = ?',$manifestation_id ? $manifestation_id : $this->manifestation->id)
       ->andWhere('(cp.legal IS NULL OR cp.legal = true)')
       ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
-      ->orderBy('c.name, c.firstname, o.name, p.name, g.workspace_id, w.name, tr.id');
+      ->orderBy('c.name, c.firstname, o.name, pt.name, g.workspace_id, w.name, tr.id');
     else
     {
       $q->select('tr.*, c.*, pro.*, o.*, order.*, u.*')

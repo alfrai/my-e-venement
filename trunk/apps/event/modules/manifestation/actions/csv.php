@@ -154,10 +154,10 @@
         'organism',
         'contact',
         'department',
+        'transaction',
       ),array_keys($this->prices),array(
         'total_qty',
         'total_value',
-        'transaction',
         'accounting',
       )),
     );

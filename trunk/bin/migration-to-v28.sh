@@ -105,6 +105,16 @@ psql <<EOF
   ALTER TABLE ticket_version DROP COLUMN numerotation;
   
   ALTER TABLE web_origin ADD COLUMN user_agent TEXT DEFAULT 'Unknown';
+  
+  CREATE TABLE price_translation (
+    id bigint NOT NULL,
+    name character varying(63) NOT NULL,
+    description character varying(255),
+    lang character(2) NOT NULL
+  );
+  INSERT INTO price_translation (SELECT id, name, description, 'en' AS lang FROM price WHERE (id,'en') NOT IN (SELECT id,lang FROM price_translation));
+  ALTER TABLE price DROP COLUMN name;
+  ALTER TABLE price DROP COLUMN description;
 EOF
 
 echo "DUMPING DB..."
@@ -178,6 +188,13 @@ echo "Be careful with DB errors. A table with an error is an empty table !... If
 echo ""
 
 # final data modifications
+echo ""
+read -p "Do you want to copy Price's english translations (default i18n after a migration from v2.7) into french ? [Y/n] " reset
+if [ "$reset" != 'n' ]
+then
+  ./symfony e-venement:copy-i18n Price en fr
+fi
+
 echo ""
 read -p "Do you want to add the new permissions ? [Y/n] " reset
 if [ "$reset" != 'n' ]

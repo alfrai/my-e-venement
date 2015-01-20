@@ -61,7 +61,7 @@ class Ticket extends PluginTicket
     return $this->Duplicated->getOriginal();
   }
   
-  public function getBarcode($salt = NULL)
+  public function getQrcode($salt = NULL)
   {
     if ( !$this->id )
       return false;
@@ -70,21 +70,22 @@ class Ticket extends PluginTicket
       ? $salt
       : sfConfig::get('project_eticketting_salt', '');
     
-    if ( !$this->rawGet('barcode') )
+    if ( !$this->barcode )
       $this->barcode = md5('#'.$this->id.'-'.$salt);
-    return $this->rawGet('barcode');
+    
+    return $this->barcode;
   }
   
   public function renderBarcode($file = NULL) // PNG output directly to stdout
   {
-    $bc = new liBarcode($this->barcode);
+    $bc = new liBarcode($this->qrcode);
     $bc->render($file);
     return $this;
   }
   
   public function getBarcodePng()
   {
-    $bc = new liBarcode($this->barcode);
+    $bc = new liBarcode($this->qrcode);
     return (string)$bc;
   }
   
