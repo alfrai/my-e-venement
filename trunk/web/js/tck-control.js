@@ -12,6 +12,9 @@ $(document).ready(function(){
       $('#checkpoint input[name="control[ticket_id]"]').focus();
   });
   
+  // to force the display of a numeric keyboard on smartphones
+  $('#control_ticket_id').prop('type', 'number');
+  
   // selecting by default the last checkpoint selected
   if ( !$('#checkpoint #control_ticket_id').val() )
   {
