@@ -16,7 +16,8 @@ $(document).ready(function(){
     }
     else
     {
-      $(this).closest('tr').find('.sf_admin_list_td_list_details').prop('colspan',7).show();
+      $(this).closest('tr').find('.sf_admin_list_td_list_details').prop('colspan',7).show()
+        .find('> *').hide();
       elts.hide();
       var elt = this;
       $.ajax({
@@ -25,6 +26,8 @@ $(document).ready(function(){
         success: function(json){
           $('#transition .close').click();
           $.each(json, function(type, content){
+            if ( content.length > 0 )
+              $(elt).closest('tr').find('.sf_admin_list_td_list_details .'+type).fadeIn();
             $.each(content, function(id, pdt){
               var telt = $(elt).closest('tr').find('.sf_admin_list_td_list_details .'+type+' tbody .template').clone().removeClass('template');
               telt.appendTo($(elt).closest('tr').find('.sf_admin_list_td_list_details .'+type+' tbody'));
