@@ -52,13 +52,16 @@ abstract class PluginTicket extends BaseTicket
         ->leftJoin('pg.Gauge gpg')
         ->leftJoin('gpg.Manifestation m')
         ->andWhere('(gpm.id = ? OR gpg.id = ?)', array($this->gauge_id, $this->gauge_id))
-        ->orderBy('pm.value DESC, pg.value DESC, p.name')
+        ->orderBy('pm.value DESC, pg.value DESC, pt.name')
       ;
       
       if ( is_null($this->price_id) )
         $q
-          ->leftJoin('pm.Price pmp WITH pmp.name = ?',$this->price_name)
-          ->leftJoin('pg.Price pgp WITH pgp.name = ?',$this->price_name)
+          ->leftJoin('pm.Price pmp')
+          ->letJoin('pmp.Translation pmpt WITH pmpt.name = ?',$this->price_name)
+          ->leftJoin('pg.Price pgp')
+          ->letJoin('pgp.Translation pgpt WITH pgpt.name = ?',$this->price_name)
+          ->andWhere('(pmpt.id IS NOT NULL OR pgpt.id IS NOT NULL)')
         ;
       else
         $q
@@ -66,7 +69,6 @@ abstract class PluginTicket extends BaseTicket
           ->leftJoin('pg.Price pgp WITH pgp.id = ?',$this->price_id)
           ->andWhere('(pmp.id IS NOT NULL OR pgp.id IS NOT NULL)')
         ;
-      $q->andWhere('(pmp.id IS NOT NULL OR pgp.id IS NOT NULL)');
       
       if ( $price = $q->fetchOne() )
       {

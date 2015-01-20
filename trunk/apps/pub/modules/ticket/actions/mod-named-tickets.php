@@ -42,13 +42,14 @@
     ->leftJoin('tck.Gauge g')
     ->leftJoin('g.Workspace ws')
     ->leftJoin('tck.Price p')
+    ->leftJoin('p.Translation pt WITH pt.lang = ?', $this->getUser()->getCulture())
     
     ->leftJoin('tck.Transaction t')
     ->andWhere('t.closed = ?', false)
     
     ->leftJoin('tck.DirectContact dc')
     ->select('tck.*, dc.*')
-    ->orderBy('ws.name, p.name, tck.value')
+    ->orderBy('ws.name, pt.name, tck.value')
   ;
   if ( $this->getUser()->getTransaction()->contact_id )
     $q->andWhere('t.contact_id = ?', $this->getUser()->getTransaction()->contact_id);

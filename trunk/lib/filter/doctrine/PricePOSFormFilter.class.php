@@ -14,8 +14,12 @@ class PricePOSFormFilter extends BasePricePOSFormFilter
   public function configure()
   {
     $this->widgetSchema   ['price_id']
-      ->setOption('query', $q = Doctrine::getTable('Price')->createQuery('p')->leftJoin('p.PricePOS pos')->leftJoin('p.Products pdt')->andWhere('pos.id IS NOT NULL OR pdt.id IS NOT NULL'))
-      ->setOption('order_by', array('pdt.id IS NOT NULL, p.name', ''))
+      ->setOption('query', $q = Doctrine::getTable('Price')->createQuery('p')
+        ->leftJoin('p.PricePOS pos')
+        ->leftJoin('p.Products pdt')
+        ->andWhere('pos.id IS NOT NULL OR pdt.id IS NOT NULL')
+      )
+      ->setOption('order_by', array('pdt.id IS NOT NULL, pt.name', ''))
       ->setOption('multiple', true)
       ->setOption('add_empty', false)
     ;

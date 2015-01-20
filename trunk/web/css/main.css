@@ -158,3 +158,4 @@ html button.fg-button-icon-left .ui-icon { left: 0.4em; }
 
 /* fieldsets overflow */
 .ui-tabs-panel { overflow: auto; }
+#sf_fieldset_general.ui-tabs-panel { overflow: visible; }

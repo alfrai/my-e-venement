@@ -58,12 +58,13 @@
     ->leftJoin('tck.Gauge g')
     ->leftJoin('g.Workspace ws')
     ->leftJoin('tck.Price p')
+    ->leftJoin('p.Translation pt WITH pt.lang = ?', $this->getUser()->getCulture())
     
     ->leftJoin('tck.Transaction t')
     ->leftJoin('t.Order o')
     ->andWhere('o.id IS NULL')
     
-    ->orderBy('ws.name, p.name, s.rank DESC, tck.value, tck.id')
+    ->orderBy('ws.name, pt.name, s.rank DESC, tck.value, tck.id')
   ;
   if ( intval($gauge_id = $request->getParameter('gauge_id')).'' === ''.$gauge_id )
     $q->andWhere('tck.gauge_id = ?', $gauge_id);

@@ -20,10 +20,11 @@ class workspaceActions extends autoWorkspaceActions
       ->leftJoin('w.Manifestations m')
       ->leftJoin('m.Event e')
       ->leftJoin('w.Prices p')
+      ->leftJoin('p.Translation pt WITH pt.lang = ?', $this->getUser()->getCulture())
       ->andWhereIn('w.id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhereIn('e.meta_event_id IS NULL OR e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()))
       ->andWhere('w.id = ?',$request->getParameter('id'))
-      ->orderBy('w.name, u.username, m.happens_at, p.name')
+      ->orderBy('w.name, u.username, m.happens_at, pt.name')
       ->fetchOne();
     $this->forward404Unless($this->workspace);
     $this->form = $this->configuration->getForm($this->workspace);

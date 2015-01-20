@@ -19,7 +19,9 @@ class PriceManifestationForm extends BasePriceManifestationForm
       'url' => url_for('manifestation/ajax'),
       'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',10).' }',
     ));
-    $this->widgetSchema['price_id']->setOption('add_empty',true);
+    $this->widgetSchema['price_id']
+      ->setOption('add_empty',true)
+    ;
     $this->validatorSchema['value']->setOption('required',false)
       ->setOption('min', 0);
   }

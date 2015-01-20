@@ -124,8 +124,7 @@ class EntryTicketsForm extends BaseEntryTicketsForm
       ->leftJoin('p.Manifestations m')
       ->andWhere('m.id = ?', $manifid)
       ->andWhere('p.hide = FALSE')
-      ->orderBy('p.name')
-    )->setOption('order_by', array('p.name',''));
+    )->setOption('order_by', array('pt.name',''));
     $this->validatorSchema['price_id']->setOption('query',$q);
     
     // backup prices for current manifestation

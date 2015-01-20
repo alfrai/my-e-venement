@@ -32,7 +32,7 @@ class ProductForm extends BaseProductForm
         ->leftJoin('p.Products pdt WITH pdt.id = ?', $this->object->id)
         ->leftJoin('p.PriceProducts ppdt WITH ppdt.product_id = ?', $this->object->id)
       )
-      ->setOption('order_by', array('pdt.id IS NULL, ppdt.value DESC, p.name', ''))
+      ->setOption('order_by', array('pdt.id IS NULL, ppdt.value DESC, pt.name', ''))
       ->setOption('multiple', true)
       ->setOption('add_empty', false)
       ->setOption('expanded', true)

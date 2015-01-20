@@ -87,8 +87,10 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('e.MetaEvent me')
       ->leftJoin('g.PriceGauges gpg')
       ->leftJoin('gpg.Price gp')
+      ->leftJoin('gp.Translation gpt WITH gpt.lang = ?', $this->getUser()->getCulture())
       ->leftJoin('m.PriceManifestations mpm')
       ->leftJoin('mpm.Price mp')
+      ->leftJoin('mp.Translation mpt WITH mpt.lang = ?', $this->getUser()->getCulture())
       ->leftJoin('mp.Tickets tck WITH tck.gauge_id = g.id AND tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
       
       ->leftJoin('gp.Users gpu WITH gpu.id = wu.id')
@@ -103,7 +105,7 @@ class manifestationActions extends autoManifestationActions
       ->andWhereIn('ws.id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhereIn('me.id',array_keys($this->getUser()->getMetaEventsCredentials()))
       
-      ->orderBy('g.group_name, ws.name, gpg.value DESC, mpm.value DESC, gp.name, mp.name')
+      ->orderBy('g.group_name, ws.name, gpg.value DESC, mpm.value DESC, gpt.name, mpt.name')
     ;
     $this->gauges = $q->execute();
     

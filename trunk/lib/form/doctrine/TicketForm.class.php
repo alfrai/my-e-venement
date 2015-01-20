@@ -53,9 +53,10 @@ class TicketForm extends BaseTicketForm
       $this->object->manifestation_id = $params['manifestation_id'][0];
       $q = Doctrine::getTable('Ticket')->createQuery('t')
         ->leftJoin('t.Price p')
+        ->leftJoin('p.Translation pt')
         ->andWhere('t.manifestation_id = ?', $this->object->manifestation_id)
         ->andWhere('t.transaction_id = ?', $this->object->transaction_id)
-        ->andWhere('p.name = ?', $this->object->price_name)
+        ->andWhere('pt.name = ?', $this->object->price_name)
         ->andWhere('t.printed_at IS NULL')
         ->andWhere('t.gauge_id = ?',$this->object->gauge_id)
         ->orderBy('t.integrated_at DESC, t.numerotation DESC, t.id DESC')

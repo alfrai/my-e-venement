@@ -69,8 +69,8 @@
       ->addSelect('(count(tck.id) / 100) AS nb_tck')
       ->leftJoin('p.Tickets tck ON p.id = tck.price_id AND tck.sf_guard_user_id = ?',$this->getUser()->getId())
       ->andWhere('NOT p.member_card_linked OR ?',$this->getUser()->hasCredential('tck-member-cards'))
-      ->orderBy('nb_tck DESC, p.name')
-      ->groupBy('p.id, p.name, p.description, p.value, p.online, p.hide, p.member_card_linked, p.created_at, p.updated_at');
+      ->orderBy('nb_tck DESC, pt.name')
+      ->groupBy('p.id, pt.id, pt.lang, pt.name, p.description, p.value, p.online, p.hide, p.member_card_linked, p.created_at, p.updated_at');
     $this->prices = $q->execute();
     
     $payment = new Payment();

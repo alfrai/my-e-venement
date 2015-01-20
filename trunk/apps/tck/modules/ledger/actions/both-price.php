@@ -29,7 +29,7 @@
       ->leftJoin('t.User u')
       ->andWhere('t.printed_at IS NOT NULL OR t.cancelling IS NOT NULL OR t.integrated_at IS NOT NULL')
       ->andWhere('t.duplicating IS NULL') // get only originals
-      ->orderBy('p.name');
+      ->orderBy('pt.name');
     if ( isset($criterias['users']) && is_array($criterias['users']) && isset($criterias['users'][0]) && $criterias['users'][0] )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);
     if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
@@ -47,11 +47,11 @@
     $q = $this->restrictQueryToCurrentUser($q);
     
     // optimizing stuff
-    $q->select('p.id, p.name, p.description')
+    $q->select('p.id, pt.id, pt.lang, pt.name, pt.description')
       ->addSelect('sum(t.value * CASE WHEN t.cancelling IS NOT NULL THEN 1 ELSE 0 END) AS tickets_cancelling_value')
       ->addSelect('sum(t.value * CASE WHEN t.cancelling IS     NULL THEN 1 ELSE 0 END) AS tickets_normal_value')
       ->addSelect('sum(t.cancelling IS NOT NULL) AS nb_cancelling')
       ->addSelect('count(t.id) AS nb_tickets')
-      ->groupBy('p.id, p.name, p.description')
-      ->orderBy('p.name');
+      ->groupBy('p.id, pt.id, pt.lang, pt.name, pt.description')
+      ->orderBy('pt.name');
     $this->byPrice = $q->execute();

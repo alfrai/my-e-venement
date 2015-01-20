@@ -117,7 +117,7 @@ class transactionsActions extends sfActions
     }
     
     $q = Doctrine::getTable('Price')->createQuery('p')
-      ->select('p.id, p.name, p.value, count(DISTINCT tr.id) AS nb')
+      ->select('p.id, pt.name, p.value, count(DISTINCT tr.id) AS nb')
       ->leftJoin('p.Tickets t')
       ->leftJoin('t.Manifestation m')
       ->leftJoin('m.Gauges g')
@@ -133,7 +133,7 @@ class transactionsActions extends sfActions
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->andWhere('m.happens_at > ?',date('Y-m-d H:i:s',$dates['from']))
       ->andWhere('m.happens_at <= ?',date('Y-m-d H:i:s',$dates['to']))
-      ->groupBy('p.id, p.name, p.value');
+      ->groupBy('p.id, pt.name, p.value');
     
     if ( isset($criterias['users']) && count($criterias['users']) > 0 )
       $q->andWhereIn('t.sf_guard_user_id',$criterias['users']);

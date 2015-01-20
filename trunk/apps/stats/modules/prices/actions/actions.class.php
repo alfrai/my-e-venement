@@ -121,7 +121,7 @@ class pricesActions extends sfActions
     }
     
     $q = Doctrine::getTable('Price')->createQuery('p')
-      ->select('p.id, p.name, p.value, count(t.id) AS nb')
+      ->select('p.id, pt.id, pt.lang, pt.name, p.value, count(t.id) AS nb')
       ->leftJoin('p.Tickets t')
       ->leftJoin('t.Manifestation m')
       ->leftJoin('m.Event e')
@@ -134,8 +134,8 @@ class pricesActions extends sfActions
       ->andWhere('t.id NOT IN (SELECT tt.cancelling FROM ticket tt WHERE tt.cancelling IS NOT NULL)')
       ->andWhere('m.happens_at > ?',date('Y-m-d H:i:s',$dates['from']))
       ->andWhere('m.happens_at <= ?',date('Y-m-d H:i:s',$dates['to']))
-      ->groupBy('p.id, p.name, p.value')
-      ->orderBy('p.name, p.value');
+      ->groupBy('p.id, pt.id, pt.lang, pt.name, p.value')
+      ->orderBy('pt.name, p.value');
     
     if ( isset($criterias['manifestations_list']) && count($criterias['manifestations_list']) > 0 )
       $q->andWhereIn('t.manifestation_id',$criterias['manifestations_list']);

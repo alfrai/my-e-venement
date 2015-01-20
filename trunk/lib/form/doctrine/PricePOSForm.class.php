@@ -16,7 +16,7 @@ class PricePOSForm extends BasePricePOSForm
   {
     $this->widgetSchema   ['price_id']
       ->setOption('query', $q = Doctrine::getTable('Price')->createQuery('p')->leftJoin('p.PricePOS pos')->andWhere('pos.id IS NULL'))
-      ->setOption('order_by', array('p.name', ''))
+      ->setOption('order_by', array('pt.name', ''))
     ;
     $this->validatorSchema['price_id']->setOption('query', $q);
     
