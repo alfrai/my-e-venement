@@ -97,7 +97,7 @@ $(document).ready(function(){
               .appendTo(elt);
             
             $('<div></div>').addClass('seat')
-              .append($('<span></span>').addClass('num').text(ticket.seat))
+              .append($('<span></span>').addClass('num').text(ticket.seat ? ticket.seat : ''))
               .append(' ')
               .append($('<span></span>').addClass('gauge').text(ticket.gauge))
               .appendTo(elt);

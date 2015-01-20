@@ -141,10 +141,10 @@
               '%%datetime%%' => $this->controls[0]->created_at,
               '%%user%%' => (string)$this->controls[0]->User,
             ));
-            $this->tickets[] = Doctrine::getTable('Ticket')->createQuery('tck')
+            $this->tickets = Doctrine::getTable('Ticket')->createQuery('tck')
               ->select('tck.*')
               ->andWhereIn("tck.$field", $params['ticket_id'])
-              ->fetchOne();
+              ->execute();
           }
         }
         
@@ -169,7 +169,8 @@
               if ( $this->form->isValid() )
               {
                 $this->tickets[] = Doctrine::getTable('Ticket')->createQuery('tck')
-                  ->andWhere("tck.$field = ?", $params['ticket_id'])
+                  ->andWhereIn("tck.$field", $params['ticket_id'])
+                  ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL')
                   ->fetchOne();
                 $this->form->save();
                 $this->success = true;
@@ -183,7 +184,7 @@
             }
             else
             {
-              $err = array();
+              $err = $tck = array();
               $ids = $params['ticket_id'];
               foreach ( $ids as $id )
               {
@@ -196,11 +197,15 @@
                   $this->tickets[] = $this->form->getObject()->Ticket;
                 }
                 else
+                {
                   $err[] = $id;
+                  $this->tickets[] = $tck[$id] = Doctrine::getTable('Ticket')->find($id);
+                }
               }
               foreach ( $err as $e )
-                $this->errors[] = __('It has been impossible to save the control of ticket #%%id%%', array('%%id%%' => $e));
-              $this->success = true;
+                $this->errors[] = __('An error occurred controlling your ticket #%%id%%.', array('%%id%%' => $e))
+                  .($tck[$e] instanceof Ticket && !$tck[$e]->printed_at && !$tck[$e]->integrated_at ? ' '.__('This ticket is not sold yet.') : '');
+              $this->success = count($err) < count($ids);
               return 'Result';
             }
           }

@@ -189,8 +189,12 @@
         <target>Le billet #%%id%% est introuvable dans la liste des billets disponibles</target>
       </trans-unit> 
       <trans-unit>
-        <source>It has been impossible to save the control of ticket #%%id%%</source>
-        <target>Il a été impossible d'enregistrer le contrôle du billet #%%id%%</target>
+        <source>An error occurred controlling your ticket #%%id%%.</source>
+        <target>Une erreur est survenue lors du contrôle de votre billet #%%id%%.</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>This ticket is not sold yet.</source>
+        <target>Ce billet est encore invendu.</target>
       </trans-unit> 
       <trans-unit>
         <source>Please use this new GUI</source>

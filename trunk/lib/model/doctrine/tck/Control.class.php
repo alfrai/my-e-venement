@@ -22,15 +22,18 @@ class Control extends PluginControl
       $past = sfConfig::get('app_control_past') ? sfConfig::get('app_control_past') : '6 hours';
       $future = sfConfig::get('app_control_future') ? sfConfig::get('app_control_future') : '1 day';
 
+      error_log($this->ticket_id);
       $q = Doctrine::getTable('Ticket')->createQuery('t')
         ->leftJoin('t.Manifestation m')
-        ->andWhere($field.' = ?',$this->ticket_id)
+        ->andWhere('t.'.$field.' = ?',$this->ticket_id)
         ->andWhere('t.manifestation_id IN (SELECT mm.id FROM checkpoint c LEFT JOIN c.Event e LEFT JOIN e.Manifestations mm WHERE c.id = ?)',$this->checkpoint_id)
         ->andWhere('m.happens_at < ?',date('Y-m-d H:i',strtotime('now + '.$future)))
         ->andWhere('m.happens_at >= ?',date('Y-m-d H:i',strtotime('now - '.$past)))
-        ->andWhere('t.printed_at IS NOT NULL')
+        ->andWhere('t.integrated_at IS NOT NULL OR t.printed_at IS NOT NULL')
         ->orderBy('m.happens_at');
-      $ticket = $q->fetchOne();
+      
+      if (!( $ticket = $q->fetchOne() ))
+        throw new liEvenementException('No ticket found for this Control...');
 
       $this->ticket_id = $ticket->id;
     }

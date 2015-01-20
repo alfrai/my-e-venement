@@ -33,7 +33,8 @@ class ControlForm extends BaseControlForm
       $this->validatorSchema['ticket_id'] = new sfValidatorDoctrineChoice(array(
         'model' => 'Ticket',
         'column' => sfConfig::get('app_tickets_id'),
-        'query' => Doctrine::getTable('Ticket')->createQuery('t')->select('t.*'),
+        'query' => Doctrine::getTable('Ticket')->createQuery('t')->select('t.*')
+          ->andWhere('t.printed_at IS NOT NULL OR t.integrated_at IS NOT NULL'),
       ));
     }
   }
