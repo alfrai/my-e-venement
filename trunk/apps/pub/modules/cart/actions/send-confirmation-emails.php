@@ -137,6 +137,9 @@
     $replace = array(
       '%%DATE%%' => format_date(date('Y-m-d')),
       '%%CONTACT%%' => (string)$transaction->Contact,
+      '%%EMAIL%%'   => $transaction->Contact->email,
+      '%%PRICE%%'   => format_currency($transaction->getPrice(true,true),'€'),
+      '%%ADDRESS%%' => $transaction->Contact->address."\n".$transaction->Contact->postalcode.' '.$transaction->Contact->city."\n".$transaction->Contact->country,
       '%%TRANSACTION_ID%%' => $transaction->id,
       '%%SELLER%%' => sfConfig::get('app_informations_title'),
       '%%COMMAND%%' => $command,
