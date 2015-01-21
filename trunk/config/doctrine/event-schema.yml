@@ -339,6 +339,10 @@ Manifestation:
     expected_income:
       type: decimal(15)
       scale: 3
+    voucherized:
+      type: boolean
+      notnull: true
+      default: false
   relations:
     Event:
       foreignAlias: Manifestations

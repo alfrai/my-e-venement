@@ -88,6 +88,13 @@ class EventFormFilter extends BaseEventFormFilter
       'null_value'  => '-1',
       'required'    => false,
     ));
+    $this->widgetSchema   ['voucherized'] = new sfWidgetFormChoice(array(
+      'choices' => $arr = array('0' => 'yes or no', 1 => 'yes', -1 => no),
+    ));
+    $this->validatorSchema['voucherized'] = new sfValidatorChoice(array(
+      'choices'       => array_keys($arr),
+      'required'      => false,
+    ));
     $this->widgetSchema   ['dates_range'] = new sfWidgetFormFilterDate(array(
       'from_date' => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
       'to_date'   => new liWidgetFormJQueryDateText(array('culture' => sfContext::getInstance()->getUser()->getCulture())),
@@ -137,6 +144,7 @@ class EventFormFilter extends BaseEventFormFilter
       'colors_list'       => 'ColorsList',
       'dates_range'       => 'DatesRange',
       'participants_list' => 'ParticipantsList',
+      'voucherized'       => 'Voucherized',
     ));
   }
   protected function getTranslatedFields($fieldName = NULL)
@@ -188,6 +196,20 @@ class EventFormFilter extends BaseEventFormFilter
       $q->andWhere('m.reservation_begins_at >= ? OR m.happens_at >= ?', array($values['from'], $values['from']));
     if ( $values['to'] )
       $q->andWhere("m.reservation_ends_at < ?", array($values['to']));
+    
+    return $q;
+  }
+  public function addVoucherizedColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( is_null($values) || $values == '0' )
+      return $q;
+    
+    $a = $q->getRootAlias();
+    if ( !$q->contains("LEFT JOIN $a.Manifestations m") )
+      $q->leftJoin("$a.Manifestations m");
+    
+    if ( $values['from'] )
+      $q->andWhere('m.voucherized = ?', $values == '1');
     
     return $q;
   }

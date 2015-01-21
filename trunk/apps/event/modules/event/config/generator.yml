@@ -48,6 +48,7 @@ generator:
         colors_list: { label: Color }
         dates_range: { type: date }
         Picture: { label: Poster }
+        voucherized: { label: Using vouchers }
       list:
         title: Event List
         display: [MetaEvent, name, EventCategory, duration_h_r, age_min_h_r, _list_manifestations, _list_manifestations_gauges, _list_manifestations_places, _list_best_seats, _list_manifestations_extra_informations]
@@ -70,7 +71,7 @@ generator:
       filter:
         display:
           Event:              [name, meta_event_id, event_category_id]
-          Manifestations:     [dates_range, location_id, workspaces_list, participants_list, duration, colors_list]
+          Manifestations:     [dates_range, location_id, workspaces_list, participants_list, duration, colors_list, voucherized]
           Bookings:           [contact_id, manif_confirmed, manif_blocking, manif_conflict, manif_optional]
           Extra informations: [staging, writer, age_min, age_max, companies_list, display_by_default]
       form: ~

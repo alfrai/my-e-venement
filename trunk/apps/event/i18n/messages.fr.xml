@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Using vouchers</source>
+        <target>Utilisation de contremarques</target>
+      </trans-unit>
+      <trans-unit>
         <source>Products</source>
         <target>Produits</target>
       </trans-unit>
