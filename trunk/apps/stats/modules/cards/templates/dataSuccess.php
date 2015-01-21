@@ -3,6 +3,7 @@
     // the graph
     $g = new liGraph;
     $pie = new liPie;
+    $byvalue = false;
     
     $data = array();
     foreach ( $mc as $value )
