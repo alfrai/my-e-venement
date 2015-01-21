@@ -33,7 +33,7 @@ class RebuildTicketsQrcodeTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('force', null, sfCommandOption::PARAMETER_REQUIRED, 'Force the tickets\'s QRCode rebuilding (y/N)', 'n'),
       new sfCommandOption('send-email', null, sfCommandOption::PARAMETER_REQUIRED, 'Send an email to concerned people (y/N).', 'n'),
-      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environement', 'dev'),
+      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environement', 'prod'),
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application', 'tck'),
     ));
     $this->namespace = 'e-venement';
@@ -49,8 +49,8 @@ class RebuildTicketsQrcodeTask extends sfBaseTask
     
     $q = Doctrine_Query::create()->from('Ticket tck')
       ->orderBy('tck.id');
-    if ( $options['force'] == 'y' )
-      $q->andWhere('tck.barcode IS NULL OR tck.barcode = ?', '')
+    if ( $options['force'] != 'y' )
+      $q->andWhere('tck.barcode IS NULL OR tck.barcode = ?', '');
     
     $res = array('success' => 0, 'error' => 0);
     foreach ( $q->execute() as $ticket )
