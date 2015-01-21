@@ -109,6 +109,8 @@ abstract class PluginTicket extends BaseTicket
     
     // last chance to set taxes
     $mods = $this->getModified();
+    if ( isset($mods['printed_at']) || isset($mods['integrated_at']) )
+      $this->vat = $this->Manifestation->Vat->value;
     if ( !$this->printed_at || isset($mods['printed_at']) || isset($mods['integrated_at']) ) // if the ticket is being printed or is not printed
     {
       $this->taxes = 0;
