@@ -326,6 +326,7 @@ Payment:
       scale: 3
       notnull: true
     member_card_id: integer
+    detail: string(255)
   relations:
     Transaction:
       foreignAlias: Payments

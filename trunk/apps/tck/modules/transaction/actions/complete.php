@@ -211,6 +211,7 @@
             : $this->transaction->price - $this->transaction->paid;
           $p->payment_method_id = $this->form[$field]->getValue('payment_method_id');
           $p->created_at = $this->form[$field]->getValue('created_at');
+          $p->detail = trim($this->form[$field]->getValue('detail')) ? trim($this->form[$field]->getValue('detail')) : NULL;
           if ( $this->form[$field]->getValue('member_card_id') )
             $p->member_card_id = $this->form[$field]->getValue('member_card_id');
           $p->save();

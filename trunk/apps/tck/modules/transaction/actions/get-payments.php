@@ -48,6 +48,7 @@
    *     method: string
    *     payment_method_id: integer
    *     date: string (PGSQL format)
+   *     detail: string
    *     delete_url: string URL
    *     translinked: id of the original transaction, NULL if the payment is linked to the current transaction
    **/
@@ -73,6 +74,7 @@
       'method'        => (string)$payment->Method,
       'payment_method_id' => $payment->Method->id,
       'date'          => $payment->created_at,
+      'detail'        => $payment->detail,
       'delete_url'    => cross_app_url_for('tck','transaction/complete?id='.$this->transaction->id, true),
       'translinked'   => NULL,
     );
@@ -88,6 +90,7 @@
       'method'        => (string)$payment->Method,
       'payment_method_id' => $payment->Method->id,
       'date'          => $payment->created_at,
+      'detail'        => $payment->detail,
       'delete_url'    => NULL,
       'translinked'   => $translinked->id,
     );

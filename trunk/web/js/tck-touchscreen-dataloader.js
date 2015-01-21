@@ -26,9 +26,12 @@ LI.completeContent = function(data, type, replaceAll = true)
     content.find('tr:not([data-payment-id])').hide();
     var total = 0;
 
+    console.error(data);
     $.each(data, function(index, value){
-      var tr = template.clone(true).removeClass('template');
-      
+      var tr = template.clone(true)
+        .removeClass('template')
+        .prop('title', value.detail);
+
       tr.find('[name="ids[]"]').val(value.id);
       tr.attr('data-payment-id', value.id);
       tr.find('.sf_admin_list_td_Method').html(value.method);

@@ -120,6 +120,7 @@ LI.formSubmit = function(){
         case 'payments':
           $('#li_transaction_field_payment_new [name="transaction[payment_new][member_card_id]"]').remove();
           $('#li_transaction_field_payment_new [name="transaction[payment_new][value]"]').val('').focus();
+          $('#li_transaction_field_payment_new [name="transaction[payment_new][detail]"]').val('');
           $.ajax({
             url: value.remote_content.load.url,
             success: function(data){
