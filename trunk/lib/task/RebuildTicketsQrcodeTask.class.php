@@ -47,10 +47,10 @@ class RebuildTicketsQrcodeTask extends sfBaseTask
     sfContext::createInstance($this->configuration, $options['env']);
     $databaseManager = new sfDatabaseManager($this->configuration);
     
-    $q = Doctrine_Query::create()->from('Ticket tck');
-    if ( $options['force'] != 'n' )
+    $q = Doctrine_Query::create()->from('Ticket tck')
+      ->orderBy('tck.id');
+    if ( $options['force'] == 'y' )
       $q->andWhere('tck.barcode IS NULL OR tck.barcode = ?', '')
-        ->orderBy('tck.id');
     
     $res = array('success' => 0, 'error' => 0);
     foreach ( $q->execute() as $ticket )
