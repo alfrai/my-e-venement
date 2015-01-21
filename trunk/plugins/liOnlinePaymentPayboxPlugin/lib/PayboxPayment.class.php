@@ -212,7 +212,7 @@
       
       $bank->code = $request->getParameter('error');
       $bank->payment_certificate = $request->getParameter('signature');
-      $bank->authorization_id = $request->getParameter('authorization');
+      $bank->authorization_id = $request->getParameter('paybox_id');
       $bank->merchant_id = $request->getParameter('paybox_id');
       $bank->customer_ip_address = $request->getParameter('ip_country');
       $bank->capture_mode = $request->getParameter('card_type');
@@ -220,6 +220,6 @@
       $bank->amount = $request->getParameter('amount');
       $bank->raw = $_SERVER['QUERY_STRING'];
       
-      return $bank;
+      return $this->BankPayment = $bank;
     }
   }

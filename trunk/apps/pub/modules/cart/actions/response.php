@@ -71,6 +71,12 @@
   if ( $transaction->Order->count() == 0 )
     $transaction->Order[] = new Order;
   $transaction->save();
+
+  if ( $this->online_payment->BankPayment instanceof BankPayment )
+  {
+    $this->online_payment->BankPayment->payment_id = $payment;
+    $this->online_payment->BankPayment->save();
+  }
   
   // sending emails to contact and organizators
   $this->sendConfirmationEmails($transaction, $this);

@@ -29,6 +29,7 @@
     protected $currency = 'EUR';
     protected $value = 0;
     protected $return, $transaction;
+    public $BankPayment = NULL;
     
     protected function __construct(Transaction $transaction)
     {
