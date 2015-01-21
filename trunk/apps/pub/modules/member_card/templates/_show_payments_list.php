@@ -1,7 +1,7 @@
 <?php use_helper('Number') ?>
 <?php if ( $member_card->Payments->count() > 0 ): ?>
 <?php $value = 0 ?>
-<div class="sf_admin_form_row">
+<div class="sf_admin_form_row li-payments-list">
   <label><?php echo __('List of payments') ?>:</label>
   <table class="payments_list ui-widget ui-corner-all ui-widget-content">
   <tbody>
