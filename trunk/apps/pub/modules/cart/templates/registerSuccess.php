@@ -1,6 +1,6 @@
 <?php include_partial('global/ariane',array('active' => 3)) ?>
 <?php include_partial('global/oplog') ?>
-<h1><?php echo __('Your contact') ?> :</h1>
+<h1><?php echo __('Your contact') ?></h1>
 <?php include_partial('contact/edit_header') ?>
 <?php //include_partial('global/form_errors',array('form' => $form)) ?>
 <?php if ( !$sf_user->getTransaction()->contact_id ): ?>
