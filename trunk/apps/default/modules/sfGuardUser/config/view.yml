@@ -1,2 +1,3 @@
 editSuccess:
   javascripts: [autocomplete-setnull, default-check-all]
+  stylesheets: [default-check-all]
