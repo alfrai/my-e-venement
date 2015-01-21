@@ -63,3 +63,8 @@ table tbody a:hover { text-decoration: underline; }
 .ui-datepicker a { float: none; margin-top: 0; }
 
 #cash-ledger thead td { cursor: pointer; }
+
+#sales-ledger .ui-widget-header button { float: right; }
+#sales-ledger .event.price .without-user { display: none; }
+#sales-ledger.less-details .event.price .without-user { display: inline; }
+#sales-ledger.less-details .event.price .with-user { display: none; }

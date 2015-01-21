@@ -7,14 +7,14 @@
   <?php echo $infos[$manif->id]['qty']; $total['qty'] += $infos[$manif->id]['qty']; ?>
   <?php endif ?>
 </td>
-<td class="value">
+<td class="value" title="<?php echo __('PIT').' = '.__('TEP').' + '.__('Tot.VAT') ?>">
   <?php if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) ): ?>
   <?php $value = 0; foreach ( $manif->Tickets as $ticket ) $value += $ticket->value; echo format_currency($value,'€'); ?>
   <?php else: ?>
   <?php echo format_currency($value = $infos[$manif->id]['value'],'€'); ?>
   <?php endif ?>
 </td>
-<td class="extra-taxes">
+<td class="extra-taxes" title="<?php echo __('Incl. VAT') ?>">
   <?php if ( $nb_tickets <= sfConfig::get('app_ledger_max_tickets',5000) ): ?>
   <?php $taxes = 0; foreach ( $manif->Tickets as $ticket ) $taxes += $ticket->taxes; echo format_currency($taxes,'€'); ?>
   <?php else: ?>

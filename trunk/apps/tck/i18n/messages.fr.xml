@@ -5,8 +5,12 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Ok</source>
-        <target>Ok</target>
+        <source>Incl. VAT</source>
+        <target>TVA incluse</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Less details</source>
+        <target>Moins de détails</target>
       </trans-unit>
       <trans-unit>
         <source>Error</source>

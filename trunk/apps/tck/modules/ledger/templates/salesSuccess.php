@@ -1,5 +1,7 @@
 <?php include_partial('global/flashes') ?>
 <?php include_partial('assets') ?>
+<?php use_javascript('helper') ?>
+<?php use_javascript('helper-cookies') ?>
 
 <div class="ui-widget-content ui-corner-all" id="sales-ledger">
 <?php include_partial('sales_title', array('dates' => $dates)) ?>

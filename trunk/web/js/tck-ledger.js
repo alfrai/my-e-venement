@@ -1,4 +1,43 @@
 $(document).ready(function(){
+  // sales ledger "less details" display (merge the lines for identical prices)
+  $('#sales-ledger .ui-widget-header button').click(function(){
+    $(this).fadeOut();
+    $('#sales-ledger .see-more a').click();
+    $('#sales-ledger').addClass('less-details');
+    
+    // build a data-layer that can be processed
+    var arr = {}
+    $('#sales-ledger .prices').each(function(){
+      if ( arr[$(this).find('[data-price-id]').attr('data-price-id')] == undefined )
+        arr[$(this).find('[data-price-id]').attr('data-price-id')] = [];
+      arr[$(this).find('[data-price-id]').attr('data-price-id')].push($(this));
+    });
+    
+    // graphical process
+    $.each(arr, function(price_id, elts){
+      var currency = elts[0].find('.value').text().replace(/[\d,\.\s]/g, '').replace('&nbsp;', '');
+      for ( var i = 1 ; i < elts.length ; i++ )
+      {
+        $.each(['.id-qty', '.value', '.extra-taxes'], function(j, selector){
+          elts[0].find(selector).text(
+            parseFloat(elts[0].find(selector).text()
+              .replace(',','.').replace(' ','').replace(/[^\d^\.]/g,'')
+            ) +
+            parseFloat(elts[i].find(selector).text()
+              .replace(',','.').replace(' ','').replace(/[^\d^\.]/g,'')
+            )
+          );
+          if ( selector != '.id-qty' )
+            elts[0].find(selector).html(LI.format_currency(parseFloat(elts[0].find(selector).text())));
+        });
+        elts[i].remove();
+      }
+      elts[0].find('.vat').text('');
+    });
+    
+    return false;
+  });
+  
   // cash ledger / method
   $('#ledger .method .see-more a').unbind().click(function(){
     $('#ledger .payment.method-'+parseInt(/#(\d+)$/.exec($(this).prop('href'))[1],10)).fadeToggle();
