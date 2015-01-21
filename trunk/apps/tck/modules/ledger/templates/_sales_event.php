@@ -16,4 +16,4 @@
 </td>
 <?php endforeach ?>
 <td class="vat total"><?php echo format_currency($local_vat,'€'); ?></td>
-<td class="tep"><?php echo format_currency($value + $taxes - round($local_vat,2),'€') ?></td>
+<td class="tep"><?php echo format_currency($value - round($local_vat,2),'€') ?></td>
