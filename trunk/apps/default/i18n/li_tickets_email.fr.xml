@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Voucher</source>
+        <target>Contremarque</target>
+      </trans-unit>
+      <trans-unit>
         <source>Guest of %%contact%%</source>
         <target>Invité de %%contact%%</target>
       </trans-unit>
