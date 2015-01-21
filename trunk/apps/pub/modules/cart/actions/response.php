@@ -44,6 +44,9 @@
   $payment->sf_guard_user_id = $this->getUser()->getId();
   $payment->payment_method_id = sfConfig::get('app_tickets_payment_method_id');
   $payment->value = $r['amount'];
+  if ( method_exists($this->online_payment, 'getProviderTransactionId')
+    && $this->online_payment->getProviderTransactionId() )
+    $payment->detail = $this->online_payment->getProviderTransactionId();
   
   if ( $mc_pm = $this->getMemberCardPaymentMethod() )
   {
