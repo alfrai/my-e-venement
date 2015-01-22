@@ -53,10 +53,9 @@
     // payments linked to member cards' credit
     foreach ( $transaction->MemberCards as $mc )
     {
-      $mc->active = true;
       $mc->contact_id = $transaction->contact_id;
       $p = new Payment;
-      $p->transaction_id = $transaction->id;
+      $p->Transaction = $transaction;
       $p->value = -$mc->MemberCardType->value;
       $p->Method = $mc_pm;
       $mc->Payments[] = $p;
@@ -65,6 +64,10 @@
     // payments done by member card
     $this->createPaymentsDoneByMemberCards($mc_pm);
   }
+  
+  // activate member cards linked to this transaction
+  foreach ( $transaction->MemberCards as $mc )
+    $mc->active = true;
   
   $transaction->Contact->confirmed = true;        // transaction's contact
   foreach ( $transaction->Tickets as $ticket )    // for "named" tickets
