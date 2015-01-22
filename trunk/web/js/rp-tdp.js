@@ -108,7 +108,7 @@ $(document).ready(function(){
         $(this).prop('checked', orig.prop('checked'));
       })
       .appendTo(
-        $('#tdp-content .tdp-subobject [name="professional[id]"][value='+$(this).val()+']')
+        $('#tdp-content .tdp-subobject [name="professional[id]"][value="'+$(this).val()+'"]')
           .closest('.tdp-subobject').find('h1')
       );
   });
@@ -236,9 +236,9 @@ $(document).ready(function(){
   $('#tdp-side-bar input[type=checkbox]').click(function(){
     $('#tdp-update-filters').get(0).blink();
     if ( $(this).closest('.tdp-side-widget').is('#tdp-side-categories') )
-      $('#sf_admin_filter .sf_admin_filter_field_organism_category_id select option[value='+$(this).val()+']').prop('selected',$(this).prop('checked'));
+      $('#sf_admin_filter .sf_admin_filter_field_organism_category_id select option[value="'+$(this).val()+'"]').prop('selected',$(this).prop('checked'));
     if ( $(this).closest('.tdp-side-widget').is('#tdp-side-groups') )
-      $('#sf_admin_filter .sf_admin_filter_field_groups_list          select option[value='+$(this).val()+']').prop('selected',$(this).prop('checked'));
+      $('#sf_admin_filter .sf_admin_filter_field_groups_list          select option[value="'+$(this).val()+'"]').prop('selected',$(this).prop('checked'));
   });
   
   // integrated search
