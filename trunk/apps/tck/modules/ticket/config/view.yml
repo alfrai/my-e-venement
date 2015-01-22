@@ -25,7 +25,7 @@ controlResult:
     content-type: application/json
 controlSuccess:
   stylesheets: [ticket, tck-control]
-  javascripts: [tck-control, helper?<?php echo date('Ymd') ?>]
+  javascripts: [tck-control?<?php echo date('Ymd') ?>, /private/tck-control?<?php echo date('Ymd') ?>, helper?<?php echo date('Ymd') ?>]
   
 duplicateSuccess:
   stylesheets: [ticket-cancel]

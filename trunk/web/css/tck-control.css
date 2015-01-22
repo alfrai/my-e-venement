@@ -26,8 +26,10 @@
 .control { margin: 10px; padding: 5px; position: relative; overflow: hidden; transition: height 0.5s; }
 .control .message { font-weight: bold; display: inline-block; }
 .control h2 { display: inline-block; margin-right: 10px; }
+#checkpoint .control .tickets { padding-top: 0; margin-top: 0; }
 .control .tickets > * > * { display: block; margin-top: 10px; }
 .control .tickets .ticket .value, .control .tickets .seat .num { font-size: 120%; font-weight: bold; }
+.control .tickets .seat .num { font-size: 250%; float: left; margin-top: -5px; margin-right: 10px; font-size: 350%; }
 .control .tickets .ticket .users:before { content: '('; }
 .control .tickets .ticket .users:after { content: ')'; }
 .control.ui-state-success { background-color: #ecfeed; }
@@ -39,10 +41,16 @@
 .control .contacts .professional { margin-top: 5px; }
 .control .contacts .image { float: left; margin-right: 10px; width: 150px; }
 .control .contacts .image img { max-width: 150px; }
+#checkpoint .control .errors { margin: 10px 0 0 0; padding: 0; }
 
 @media screen and (min-width: 1000px) {
   .control .contacts { position: absolute; margin-top: 0; top: 5px; right: 5px; width: calc(100% - 700px); }
 }
 @media screen and (max-width: 1000px) {
   #checkpoint select, #checkpoint input { font-size: 250%; }
+  #checkpoint .ticket_id { float: left; max-width: 25%; }
+  #checkpoint label { display: none; }
+  #checkpoint .checkpoint_id select { width: 66%; margin-left: 2%; }
+  #checkpoint input[type=submit] { position: absolute; top: 70px; left: 300px; }
+  #checkpoint .ticket_id input { max-width: 100%; }
 }
