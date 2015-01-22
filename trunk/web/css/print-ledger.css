@@ -4,6 +4,5 @@ html #logo { display: none; }
 html body { font-size: 10px; }
 html #jappix_mini { display: none !important; }
 
-.ledger-both > .ui-widget-content {
-  float: none;
-}
+.ledger-both > .ui-widget-content { float: none; }
+#sales-ledger .event.price .with-user  { display: none; }
