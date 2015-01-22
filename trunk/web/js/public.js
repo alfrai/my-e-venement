@@ -13,6 +13,13 @@ $(document).ready(function(){
       LI.pubCartReady[i]();
   });
   
+  // if no event is available but the store is present, go to the store
+  if ( $('.app-pub.mod-event.action-index .sf_admin_list table').length == 0
+    && $('.app-pub.mod-event.action-index #ariane .event.with-store').length > 0 )
+  {
+    window.location = $('.app-pub.mod-event.action-index #ariane .event.with-store a + a').prop('href');
+  }
+  
   // temporary flashes
   setTimeout(function(){
     $('.sf_admin_flashes > *').fadeOut(function(){ $(this).remove(); });

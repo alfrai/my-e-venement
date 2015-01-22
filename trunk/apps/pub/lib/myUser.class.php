@@ -41,19 +41,25 @@ class myUser extends pubUser
     $dispatcher->connect('pub.before_adding_tickets', array($this, 'checkAvailability'));
     $dispatcher->connect('pub.after_adding_tickets', array($this, 'addDefaultDirectContact'));
     
-    if ( $this->getAttribute('online_store', NULL) === NULL
+    if ( $this->getAttribute(sfConfig::get('app_user_session_ns').'_online_store', NULL) === NULL
       || time() > strtotime($this->getAttribute('online_store_timeout', NULL)) )
     {
-      $q = Doctrine::getTable('ProductCategory')->createQuery('pc')
-        ->andWhere('pc.online = ?', true)
-        ->leftJoin('pc.Products p')
-        ->andWhereIn('p.meta_event_id IS NULL OR p.meta_event_id', array_keys($this->getMetaEventsCredentials()))
-        ->andWhere('p.id IS NOT NULL')
-        ->leftJoin('p.Declinations d')
-        ->andWhere('d.id IS NOT NULL')
-      ;
-      $online_store = $q->count() > 0;
-      $this->setAttribute('online_store', $online_store);
+      if ( !sfConfig::get('app_store_disabled', false) )
+      {
+        $q = Doctrine::getTable('ProductCategory')->createQuery('pc')
+          ->andWhere('pc.online = ?', true)
+          ->leftJoin('pc.Products p')
+          ->andWhereIn('p.meta_event_id IS NULL OR p.meta_event_id', array_keys($this->getMetaEventsCredentials()))
+          ->andWhere('p.id IS NOT NULL')
+          ->leftJoin('p.Declinations d')
+          ->andWhere('d.id IS NOT NULL')
+        ;
+        $online_store = $q->count() > 0;
+      }
+      else
+        $online_store = false;
+      
+      $this->setAttribute(sfConfig::get('app_user_session_ns').'_online_store', $online_store);
       $this->setAttribute('online_store_timeout', date('Y-m-d H:i:s', strtotime('+10 minutes')));
     }
   }
@@ -182,7 +188,7 @@ class myUser extends pubUser
   
   public function isStoreActive()
   {
-    return $this->getAttribute('online_store', false);
+    return $this->getAttribute(sfConfig::get('app_user_session_ns').'_online_store', false);
   }
   
   public function mustAuthenticate(sfEvent $event)

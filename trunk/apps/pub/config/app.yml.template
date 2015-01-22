@@ -35,6 +35,7 @@ all:
     #no_conflict: 30 minutes # the needed minimum delay to go from one location to another
     #pdf_attachment: true
   store:
+    #disabled: false
     max_per_product: 9
     email_products: always    # never | e-products | always (recommanded)  
   contact:
