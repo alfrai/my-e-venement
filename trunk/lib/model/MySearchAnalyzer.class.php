@@ -44,22 +44,29 @@ class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
   */
   );
   
-    public function analyze($text, $encoding = null)
-    {
-      $charset = sfConfig::get('software_internals_charset');
-      $text = mb_strtolower(iconv($charset['db'],$charset['ascii'],$text));
-      
-      // directly copied from lib/vendor/symfony/lib/plugins/sfDoctrinePlugin/lib/vendor/doctrine/Doctrine/Search/Analyzer/Utf8.php
-        if (is_null($encoding)) {
+      public function analyze($text, $encoding = null)
+      {
+        // translatable special chars
+        $transliterate = sfConfig::get('software_internals_transliterate',array());
+        $text = str_replace(preg_split('//u', $transliterate['from'], -1), preg_split('//u', $transliterate['to'], -1), $text);
+        
+        // considering very special chars as spaces
+        $text = str_replace(array('@','.','-','+',',',"'",'°'),' ',$text);
+        
+        $charset = sfConfig::get('software_internals_charset');
+        $text = mb_strtolower(iconv($charset['db'],$charset['ascii'],$text));
+        
+        // directly copied from lib/vendor/symfony/lib/plugins/sfDoctrinePlugin/lib/vendor/doctrine/Doctrine/Search/Analyzer/Utf8.php
+        if (is_null($encoding))
           $encoding = isset($this->_options['encoding']) ? $this->_options['encoding']:'utf-8';
-        }
 
         // check that $text encoding is utf-8, if not convert it
-        if (strcasecmp($encoding, 'utf-8') != 0 && strcasecmp($encoding, 'utf8') != 0) {
+        if (strcasecmp($encoding, 'utf-8') != 0 && strcasecmp($encoding, 'utf8') != 0)
             $text = iconv($encoding, 'UTF-8', $text);
-        }
-
-        $text = mb_ereg_replace("'", ' ', $text);
+        
+        
+        $text = preg_replace('/\s[0-9]+\s/', ' ', $text);
+        $text = preg_replace('/\s[^\s]\s/', ' ', $text);
         $text = preg_replace('/[^\p{L}\p{N}]+/u', ' ', $text);
         $text = preg_replace('/\s\s+/', ' ', $text);
 
@@ -81,5 +88,5 @@ class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
             }
         }
         return $ret;
-    }
+      }
 }
