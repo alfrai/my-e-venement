@@ -89,7 +89,7 @@ class EventFormFilter extends BaseEventFormFilter
       'required'    => false,
     ));
     $this->widgetSchema   ['voucherized'] = new sfWidgetFormChoice(array(
-      'choices' => $arr = array('0' => 'yes or no', 1 => 'yes', -1 => no),
+      'choices' => $arr = array('0' => 'yes or no', 1 => 'yes', -1 => 'no'),
     ));
     $this->validatorSchema['voucherized'] = new sfValidatorChoice(array(
       'choices'       => array_keys($arr),

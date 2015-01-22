@@ -225,6 +225,6 @@
     
     public function getProviderTransactionId()
     {
-      return $this->bank_payment instanceof BankPayment ? $this->bank_payment->authorization_id : false;
+      return $this->BankPayment instanceof BankPayment ? $this->BankPayment->authorization_id : false;
     }
   }
