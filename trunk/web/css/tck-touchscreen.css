@@ -102,7 +102,7 @@
 #li_transaction_field_content .item .qty a .ui-icon { margin: -2px 0 0 0; position: static; }
 #li_transaction_field_content .item .total .qty a, #li_transaction_field_content .item .printed .qty a { visibility: hidden; }
 #li_transaction_field_content .item .item-details { width: 15px; overflow: hidden; text-align: right; }
-#li_transaction_field_content .family.total .item { padding-top: 15px; font-style: normal; }
+#li_transaction_field_content .family.total .item { font-style: normal; margin-top: 10px; padding-top: 5px; border-top: 1px solid #A6C9E2; }
 #li_transaction_field_content .family.total .item h4,
 #li_transaction_field_content .family.total .item .total { font-style: normal; text-decoration: underline; }
 #li_transaction_field_content .family.total .item .total .qty { text-decoration: none; }
