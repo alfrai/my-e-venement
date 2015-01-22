@@ -93,6 +93,38 @@
     // remember the contact's informations
     $this->getUser()->setAttribute('contact_form_values', $this->form->getValues());
     
+    // auto_passes, having at least 3 events linked to the current member card
+    $mcs = array();
+    foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
+      $mcs[] = $mc->id;
+    if ( $nb = sfConfig::get('app_auto_pass_min_passes', 0) )
+    if ( $this->getUser()->getTransaction()->MemberCards->count() > 0
+      && Doctrine::getTable('Manifestation')->createQuery('m')
+          ->leftJoin('m.Tickets tck')
+          ->andWhereIn('tck.member_card_id', $mcs)
+          ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
+          ->count() < $nb
+    )
+    {
+      error_log('MemberCards: Unsufficient number of manifestations for auto_pass features, during the cart validation...');
+      foreach ( $this->getUser()->getTransaction()->MemberCards as $id => $mc )
+      {
+        $mc->delete();
+        unset($this->getUser()->getTransaction()->MemberCards[$id]);
+        if ( sfConfig::get('sf_web_debug') )
+          error_log('Deleting the current member card, because the conditions are not sufficient anymore');
+      }
+      
+      foreach ( $this->getUser()->getTransaction()->Tickets as $id => $ticket )
+      if ( $ticket->Price->member_card_linked )
+      {
+        $ticket->delete();
+        unset($this->getUser()->getTransaction()->Tickets[$id]);
+        if ( sfConfig::get('sf_web_debug') )
+          error_log('Deleting a ticket (#'.$ticket->id.', '.$ticket->price_name.'), because the conditions are not sufficient anymore');
+      }
+    }
+    
     // auto_passes, check for any bizaroid situation
     if ( ($nb   = sfConfig::get('app_auto_pass_trigger_after_manifestations', false))
       && ($mcid = sfConfig::get('app_auto_pass_member_card_type_id', false))

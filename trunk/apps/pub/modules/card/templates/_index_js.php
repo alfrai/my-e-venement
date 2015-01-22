@@ -1,24 +1,30 @@
 <script type="text/javascript"><!--
   $(document).ready(function(){
     $('#member_card_types tbody tr').change(function(){
-      currency = $(this).find('.value').html().replace(/^.*(&nbsp;.*)/,'$1');
-      $(this).find('.total').html((
-        $(this).find('.qty input').val()
+      var fr_style = LI.currency_style($(this).find('.value').text()) == 'fr';
+      var currency = LI.get_currency($(this).find('.value').text());
+      $(this).find('.total').html(LI.format_currency(
+        parseInt($(this).find('.qty input').val())
         *
-        parseInt($(this).find('.value').html().replace(',','.'),10)
-      ).toFixed(2) + currency);
+        LI.clear_currency($(this).find('.value').text())
+      , true, fr_style, currency));
       
       // totals
+      $('#member_card_types tfoot .total').text(0);
       $('#member_card_types tbody tr .total').each(function(){
-        $('#member_card_types tfoot .total').html((
-          parseInt($('#member_card_types tfoot .total').html().replace(',','.'),10)
-          +
-          parseInt($(this).html().replace(',','.'),10)
-        ).toFixed(2) + currency);
+        $('#member_card_types tfoot .total').html(
+          LI.format_currency((
+            LI.clear_currency($('#member_card_types tfoot .total').text())
+            +
+            LI.clear_currency($(this).text())
+          ).toFixed(2), true, fr_style, currency)
+        );
       });
+      $('#member_card_types tfoot .qty').text(0);
       $('#member_card_types tbody tr .qty input').each(function(){
-        $('#member_card_types tfoot .qty').html(parseInt($('#member_card_types tfoot .qty').html(),10) + parseInt($(this).val(),10));
+        $('#member_card_types tfoot .qty').text(
+          parseInt($('#member_card_types tfoot .qty').text(),10) + parseInt($(this).val(),10));
       });
-    });
+    }).change();
   });
 --></script>

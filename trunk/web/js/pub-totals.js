@@ -1,8 +1,9 @@
   $(document).ready(function(){
+    var currency = LI.get_currency($('.prices [data-price-id] .total:first').text());
+    var fr_style = LI.currency_style($('.prices .total:first').text()) == 'fr';
+    console.error(currency);
+  
     $('.prices .quantity select').change(function(){
-      // the currency
-      currency = $(this).closest('tr').find('.value').text().replace(/^.*&nbsp;(.*)$/,'$1');
-      
       // hiding options to limit the global qty to the max value
       selects = $(this).closest('.gauge').find('.quantity select');
       var max_qty = 0;
@@ -20,21 +21,21 @@
       
       // calculating totals by line
       var tmp = $(this).closest('tr').find('.value input').length > 0
-        ? $(this).closest('tr').find('.value input').val()
-        : $(this).closest('tr').find('.value').text().replace(',','.');
-      var val = parseFloat(tmp) * parseInt($(this).val(),10);
-      $(this).closest('tr').find('.total').html(LI.format_currency(val, currency));
+        ? $(this).closest('tr').find('.value input').val()+''
+        : $(this).closest('tr').find('.value').text();
+      var val = LI.clear_currency(tmp) * parseInt($(this).val(),10);
+      $(this).closest('tr').find('.total').html(LI.format_currency(val, true, fr_style, currency));
       
       // calculating the global total
       var value = 0;
       var taxes = 0;
       $(this).closest('tbody').find('[data-price-id]').each(function(){
-        if ( !isNaN(parseFloat($(this).find('.total').text().replace(',','.'))) )
-          value += parseFloat($(this).find('.total').text().replace(',','.'));
-        if ( !isNaN(parseFloat($(this).find('.extra-taxes').text().replace(',','.'))) )
-          taxes += parseFloat($(this).find('.extra-taxes').text().replace(',','.'));
+        if ( !isNaN(LI.clear_currency($(this).find('.total').text())) )
+          value += LI.clear_currency($(this).find('.total').text());
+        if ( !isNaN(LI.clear_currency($(this).find('.extra-taxes').text())) )
+          taxes += LI.clear_currency($(this).find('.extra-taxes').text());
       });
-      $(this).closest('.prices').find('tfoot .total').html(LI.format_currency(value,currency))
-      $(this).closest('.prices').find('tfoot .extra-taxes').html(taxes > 0 ? LI.format_currency(taxes,currency) : '')
+      $(this).closest('.prices').find('tfoot .total').html(LI.format_currency(value, true, fr_style, currency))
+      $(this).closest('.prices').find('tfoot .extra-taxes').html(taxes > 0 ? LI.format_currency(taxes, true, fr_style, currency) : '')
     }).change();
   });

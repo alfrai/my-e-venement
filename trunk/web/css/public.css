@@ -55,8 +55,12 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 
 #member_card_types .qty input, #member_card_types .qty, #member_card_types .total, #member_card_types .value { text-align: right; }
 #member_card_types .qty input { width: 2em; }
-#member_card_types tfoot .qty { padding-right: 5px; }
-#member_card_types tfoot { font-weight: bold; }
+#member_card_types tbody tr:last-child td { padding-bottom: 5px; }
+#member_card_types tfoot tr .value, #member_card_types tfoot .qty, #member_card_types tfoot .operand, #member_card_types tfoot .total { font-weight: bold; padding-top: 5px; border-top: 1px solid black; }
+#member_card_types td { padding-right: 5px; }
+#member_card_types tfoot .qty { text-align: center; }
+#member_card_types .name { padding-right: 15px; }
+.member_card_types .submit { text-align: center; margin: 20px 0; }
 
 #command .extra-taxes, #command .value, #command .qty, #command .total { text-align: right; }
 #command thead .product, #command thead .declination, #command thead .space { font-size: 0; }

@@ -505,10 +505,6 @@
         <target>Cartes Abonné</target>
       </trans-unit>
       <trans-unit>
-        <source>Buy member cards</source>
-        <target>S'abonner</target>
-      </trans-unit>
-      <trans-unit>
         <source>You have been logged out.</source>
         <target>Vous avez été déconnecté</target>
       </trans-unit>

@@ -31,18 +31,21 @@
       price_id = ticket.find('.tickets > [data-price-id]').length > 0 ? ticket.find('.tickets > [data-price-id]').attr(data_id = 'data-price-id') : ticket.find('.tickets > [data-mct-id]').attr(data_id = 'data-mct-id');
       gauge_id = ticket.attr('data-gauge-id');
       ticket.find('.qty').text($('#command tbody [data-gauge-id='+gauge_id+'] .tickets > ['+data_id+'='+price_id+']').length);
+      
+      var currency = LI.get_currency($('#command tbody [data-gauge-id='+gauge_id+'] .tickets > ['+data_id+'='+price_id+']:first').closest('tr').find('.value').text());
+      var fr_style = LI.currency_style($('#command tbody [data-gauge-id='+gauge_id+'] .tickets > ['+data_id+'='+price_id+']:first').closest('tr').find('.value').text()) == 'fr';
+      
       var value = 0;
       var taxes = 0;
       $('#command tbody [data-gauge-id='+gauge_id+'] .tickets > ['+data_id+'='+price_id+']').each(function(){
-        value += parseFloat($(this).closest('tr').find('.value').html().replace(',','.').replace(/[^0-9^.]/g, ''));
-        var tmp = parseFloat($(this).closest('tr').find('.extra-taxes').html().replace(',','.'));
+        value += LI.clear_currency($(this).closest('tr').find('.value').text());
+        var tmp = LI.clear_currency($(this).closest('tr').find('.extra-taxes').text());
         if ( !isNaN(tmp) )
           taxes += tmp;
       });
-      var currency = $.trim(ticket.find('.value').text()).replace(',','.').replace(/^\d+\.{0,1}\d*&nbsp;(.*)$/,'$1');
       
-      ticket.find('.total').html(LI.format_currency(value, currency));
-      ticket.find('.extra-taxes').html(LI.format_currency(taxes, currency));
+      ticket.find('.total').html(LI.format_currency(value, true, fr_style, currency));
+      ticket.find('.extra-taxes').html(LI.format_currency(taxes, true, fr_style, currency));
       ticket.addClass('done');
       $('#command tbody > [data-gauge-id='+gauge_id+']:not(.done) .tickets > ['+data_id+'='+price_id+']').closest('[data-gauge-id]').remove();
     }
@@ -55,7 +58,8 @@
     while ( $('#command tbody > .products.todo').length > 0 )
     {
       var pdt = $('#command tbody > .products.todo:first');
-      var currency = $.trim($(pdt).find('.value').text()).replace(',','.').replace(/^\d+\.{0,1}\d*&nbsp;(.*)$/,'$1');
+      var currency = LI.get_currency($(pdt).find('.value').text());
+      var fr_style = LI.currency_style($(pdt).find('.value').text()) == 'fr';
       
       // compare to other lines "todo"
       $('#command tbody > .products.todo:not(:first)').each(function(){
@@ -70,7 +74,7 @@
           if ( $(pdt).find('.value').text() != $(this).find('.value').text() )
             $(pdt).find('.value').text('-');
           
-          $(pdt).find('.total').html(LI.format_currency(parseFloat($(pdt).find('.total').text()) + parseFloat($(this).find('.value').text()), currency));
+          $(pdt).find('.total').html(LI.format_currency(LI.clear_currency($(pdt).find('.total').text()) + LI.clear_currency($(this).find('.value').text()), true, fr_style, currency));
           $(pdt).find('.qty').text(parseInt($(pdt).find('.qty').text(),10) + parseInt($(this).find('.qty').text(),10));
           $(this).remove();
         }
