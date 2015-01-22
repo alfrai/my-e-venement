@@ -241,8 +241,8 @@
     $ticket->addLinkedProducts()->save();
     
     // auto_passes
-    if ( ($nb = sfConfig::get('app_auto_pass_trigger_after_manifestations', false))
-      && ($mcid = sfConfig::get('app_auto_pass_member_card_type_id', false)) )
+    if ( ($nb = sfConfig::get('app_member_cards_trigger_after_manifestations', false))
+      && ($mcid = sfConfig::get('app_member_cards_member_card_type_id', false)) )
     {
       if ( sfConfig::get('sf_web_debug') )
         error_log('[auto_pass] trying to add a member card');

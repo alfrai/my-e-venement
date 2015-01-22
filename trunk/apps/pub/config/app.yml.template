@@ -41,9 +41,11 @@ all:
     capitalize: [name, firstname, city, country, address]
     #professional: true
     #modify_coordinates_first: true
-  #auto_pass: # this feature allows auto-creation of passes if some prerequisites match
+  #auto_pass: # this feature allows auto-creation of passes if some prerequisites match or deletion of passes if conditions are not matched
   #  trigger_after_manifestations: 3 # does not count tickets whose price are linked to member cards
   #  member_card_type_id: 1
+  #  min_passes: 3
+  #max_per_transaction: 3 # 3 by default
   #show:
   #  company_id: 5 # do not set something if you do not care
   seller:
