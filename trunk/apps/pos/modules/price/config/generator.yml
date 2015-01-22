@@ -20,7 +20,7 @@ generator:
         object_actions:
           _delete: ~
         table_method: retrieveList
-        sort: [p.name, '']
+        sort: [pt.name, '']
       filter:  ~
       form:    ~
       edit:
