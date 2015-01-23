@@ -33,7 +33,7 @@ all:
     wip_price: ...
     #id: qrcode # can be id (default), qrcode, othercode
     #no_conflict: 30 minutes # the needed minimum delay to go from one location to another
-    #pdf_attachment: true
+    #pdf_attachments: true
   store:
     #disabled: false
     max_per_product: 9
