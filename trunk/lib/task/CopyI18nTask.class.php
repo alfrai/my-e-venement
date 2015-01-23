@@ -55,12 +55,16 @@ class CopyI18nTask extends sfBaseTask
     {
       $table = $model->Translation[$arguments['from']]->getTable();
       
+      $fields = array();
       foreach ( $table->getFieldNames() as $fieldname )
       if ( !$table->isIdentifier($fieldname) )
+      {
+        $fields[] = $fieldname;
         $model->Translation[$arguments['to']]->$fieldname = $model->Translation[$arguments['from']]->$fieldname;
+      }
       
       if ( $model->trySave() )
-        $this->logSection('Translation', '"'.$arguments['to'].'" translation created for price "'.$model.'".');
+        $this->logSection('Translation', '"'.$arguments['to'].'" translation created for price "'.$model.'" (fields: '.implode(', ', $fields).').');
       else
         $this->logSection('Translation', '"'.$arguments['to'].'" translation failed for price "'.$model.'"', null, 'ERROR');
     }
