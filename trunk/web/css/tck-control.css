@@ -33,7 +33,7 @@
 .control .tickets .ticket .users:before { content: '('; }
 .control .tickets .ticket .users:after { content: ')'; }
 .control.ui-state-success { background-color: #ecfeed; }
-.control .contacts { margin-top: 10px; }
+.control .contacts { margin-top: 10px; font-weight: bold; font-size: 150%; }
 .control .contacts hr:first-child { border: 0; margin: 0; }
 .control .contacts hr { clear: both; }
 .control .contacts .flash { font-weight: bold; margin: 5px 0; border: 1px dotted; }

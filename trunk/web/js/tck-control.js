@@ -20,7 +20,7 @@ $(document).ready(function(){
   {
     $('#checkpoint input[name="control[ticket_id]"]').focus();
     if ( $('#checkpoint #control_checkpoint_id option').length == 2 )
-      $('#checkpoint #control_checkpoint_id option:last-child').attr('selected','selected');
+      $('#checkpoint #control_checkpoint_id option:last').prop('selected', true);
     else if ( $('#checkpoint .settings').attr('data-checkpoint-id') != '' )
       $('#checkpoint #control_checkpoint_id option[value='+$('#checkpoint .settings').attr('data-checkpoint-id')+']')
         .attr('selected','selected');
@@ -28,7 +28,7 @@ $(document).ready(function(){
   else
   {
     if ( $('#checkpoint #control_checkpoint_id option').length == 2 )
-      $('#checkpoint #control_checkpoint_id option:last-child').attr('selected','selected');
+      $('#checkpoint #control_checkpoint_id option:last-child').prop('selected', true);
     else
       $('#checkpoint #control_checkpoint_id').focus();
   }
