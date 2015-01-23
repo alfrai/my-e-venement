@@ -16,8 +16,8 @@ $(document).ready(function(){
     $.getScript(src.replace('js/menu.js','')+'private/menu.js');
   
   // doing a short effect on page unload
-  $('a[href]:not([href^="#"]):not([target="_blank"]):not([href^="mailto:"]').click(window_transition);
-  $('form:not([target=_blank]').submit(window_transition);
+  $('a[href]:not([href^="#"]):not([target="_blank"]):not([href^="mailto:"])').click(window_transition);
+  $('form:not([target=_blank])').submit(window_transition);
   $('#transition .close').click(function(){ $('#transition, #about').fadeOut('medium'); $('#menu li').removeClass('show'); });
   
   // changing menu
