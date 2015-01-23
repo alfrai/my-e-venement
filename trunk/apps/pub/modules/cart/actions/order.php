@@ -98,20 +98,36 @@
     if ( $nb = sfConfig::get('app_member_cards_min_passes', 0) )
     {
       $tmp = array('manifs' => 0, 'mc' => 0);
+      
+      $tmp['manifs'] = Doctrine::getTable('Manifestation')->createQuery('m', true)
+        ->leftJoin('m.Tickets tck')
+        ->leftJoin('tck.Price p')
+        ->andWhere('p.member_card_linked = ?', true)
+        ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
+        ->count();
+      $tmp['mc'] = $this->getUser()->getTransaction()->MemberCards->count();
+      
+      $error = false;
       foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
-        $mcs[] = $mc->id;
-      if ( ($tmp['mc'] = $this->getUser()->getTransaction()->MemberCards->count()) > 0
-        && ($tmp['manifs'] = Doctrine::getTable('Manifestation')->createQuery('m', true)
-            ->leftJoin('m.Tickets tck')
-            ->leftJoin('tck.Price p')
-            ->andWhere('p.member_card_linked = ?', true)
-            ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
-            ->count()) < $nb
-      )
       {
-        error_log('MemberCards: Unsufficient number of manifestations for auto_pass features, during the cart validation...');
-        if ( sfConfig::get('sf_web_debug') )
-          error_log('    -> MemberCards: '.$tmp['mc'].', Manifestations: '.$tmp['manifs']);
+        if ( !is_array($nb) )
+          $buf = $nb;
+        else
+          $buf = isset($nb[$mc->MemberCardType->name]) ? $nb[$mc->MemberCardType->name] : array_shift(sfConfig::get('app_member_cards_min_passes', 0));
+        
+        if ( $tmp['manifs'] < $buf )
+        {
+          error_log('MemberCards: Unsufficient number of manifestations for auto_pass features, during the cart validation...');
+          if ( sfConfig::get('sf_web_debug') )
+            error_log('    -> MemberCards: '.$tmp['mc'].', Manifestations: '.$tmp['manifs'].' / '.$buf.' different manifestations required.');
+          
+          $tmp['manifs'] -= $buf;
+          $error = true;
+        }
+      }
+      
+      if ( $error )
+      {
         foreach ( $this->getUser()->getTransaction()->MemberCards as $id => $mc )
         {
           $mc->delete();

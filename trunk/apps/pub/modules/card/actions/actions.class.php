@@ -43,10 +43,15 @@ class cardActions extends sfActions
     $this->getUser()->getTransaction()->MemberCards->delete();
     
     $order = $request->getParameter('member_card_type');
+    $cpt = 0;
     foreach ( $order as $id => $qty )
-    if ( intval($qty) > 0 && intval($qty) <= sfConfig::get('app_member_cards_max_per_transaction', 3) )
-    for ( $i = 0 ; $i < intval($qty) ; $i++ )
-      $this->getContext()->getConfiguration()->addMemberCard($this->getUser()->getTransaction(), $id);
+    if ( intval($qty) > 0 )
+    {
+      $cpt += intval($qty);
+      if ( $cpt <= sfConfig::get('app_member_cards_max_per_transaction', 3) )
+      for ( $i = 0 ; $i < intval($qty) ; $i++ )
+        $this->getContext()->getConfiguration()->addMemberCard($this->getUser()->getTransaction(), $id);
+    }
     
     $this->redirect('cart/show');
   }
