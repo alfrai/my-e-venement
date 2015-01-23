@@ -60,6 +60,7 @@ body { line-height: 1; font: 13px/1.231 arial,helvetica,clean,sans-serif; }
 #member_card_types td { padding-right: 5px; }
 #member_card_types tfoot .qty { text-align: center; }
 #member_card_types .name { padding-right: 15px; }
+#member_card_types .raw_name { display: none; }
 .member_card_types .submit { text-align: center; margin: 20px 0; }
 
 #command .extra-taxes, #command .value, #command .qty, #command .total { text-align: right; }

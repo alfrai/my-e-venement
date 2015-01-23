@@ -8,7 +8,8 @@
     <?php echo $form[$fieldname]->renderLabel() ?>
     <?php echo $form[$fieldname] ?>
     <span class="error"><?php if ( isset($errors[$fieldname]) ) echo __($errors[$fieldname]) ?></span>
-    <a href="<?php echo url_for('login/forgot') ?>" class="forgot"><?php echo __('You forgot your password?') ?></a>
+    <a href="<?php echo url_for('login/forgot') ?>" class="forgot"><?php echo __('You forgot your password?') ?></a></br>
+    <a href="<?php echo url_for('contact/new') ?>" class="forgot"><?php echo __('Create an account') ?></a>
   </p>
   <?php if (!( isset($buttons) && !$buttons )): ?>
   <p class="submit">

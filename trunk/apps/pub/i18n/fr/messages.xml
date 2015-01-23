@@ -5,10 +5,6 @@
     <header/>
     <body>
       <trans-unit>
-        <source>My account</source>
-        <target>Mon compte</target>
-      </trans-unit>
-      <trans-unit>
         <source>I check my details</source>
         <target>Je vérifie mes coordonnées</target>
       </trans-unit>
