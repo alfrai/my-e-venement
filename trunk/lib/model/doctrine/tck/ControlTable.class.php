@@ -11,7 +11,7 @@ class ControlTable extends PluginControlTable
   {
     $raw = new Doctrine_RawSql;
     $raw->select('{r.res}, {r.*}')
-      ->from("((SELECT 'failed' as res, 'failed-'||id AS id, fc.sf_guard_user_id, fc.ticket_id, fc.checkpoint_id, fc.comment, fc.created_at, fc.updated_at, fc.version FROM failed_control fc) UNION (select 'success' as res, 'success-'||id AS id, c.sf_guard_user_id, c.ticket_id::varchar, c.checkpoint_id, c.comment, c.created_at, c.updated_at, c.version from control c)) AS r")
+      ->from("((SELECT 'failed' as res, 'failed-'||id AS id, fc.sf_guard_user_id, fc.ticket_id, fc.checkpoint_id, fc.comment, fc.created_at, fc.updated_at, fc.version FROM failed_control fc) UNION (select 'success' as res, id::varchar, c.sf_guard_user_id, c.ticket_id::varchar, c.checkpoint_id, c.comment, c.created_at, c.updated_at, c.version from control c)) AS r")
       ->addComponent('r', 'Control');
     
     return $raw;

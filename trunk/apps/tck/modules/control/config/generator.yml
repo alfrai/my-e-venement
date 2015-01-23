@@ -30,7 +30,9 @@ generator:
         title: Controls overview
         display: [checkpoint_id, Checkpoint, _list_manifestation, id, _list_type, _list_seat, _list_price, _list_value, _list_state, created_at, _list_created_at, _list_contacts, _list_professional, _list_groups, comment, _list_transaction_id, ticket_id, _list_ticket_id, User]
         sort: [created_at, desc]
-        object_actions: []
+        object_actions:
+          _delete:
+            credentials: [tck-control-admin]
         batch_actions: []
         actions: []
         max_per_page: 50
