@@ -44,7 +44,7 @@ class cardActions extends sfActions
     
     $order = $request->getParameter('member_card_type');
     foreach ( $order as $id => $qty )
-    if ( intval($qty) > 0 && intval($qty) < sfConfig::get('app_member_cards_max_per_transaction', 3) )
+    if ( intval($qty) > 0 && intval($qty) <= sfConfig::get('app_member_cards_max_per_transaction', 3) )
     for ( $i = 0 ; $i < intval($qty) ; $i++ )
       $this->getContext()->getConfiguration()->addMemberCard($this->getUser()->getTransaction(), $id);
     
@@ -64,7 +64,7 @@ class cardActions extends sfActions
 
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     $this->getUser()->setFlash('error',__('To order member cards, you need to be authenticated'));
-    $this->redirect('login/index');
+    $this->forward('login','index');
     return false;
   }
 }
