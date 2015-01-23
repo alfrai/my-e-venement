@@ -46,9 +46,9 @@ class CopyI18nTask extends sfBaseTask
     sfContext::createInstance($this->configuration, $options['env']);
     $databaseManager = new sfDatabaseManager($this->configuration);
     
-    $q = Doctrine::getTable($arguments['model'])->createQuery('m');
-    foreach ( $q->execute() as $model )
-    if ( isset($model->Translation)
+    $model = Doctrine::getTable($arguments['model']);
+    foreach ( $model->createQuery('m')->execute() as $model )
+    if ( $model->hasRelation('Translation')
       && isset($model->Translation[$arguments['from']])
       && !isset($model->Translation[$arguments['to']])
     )

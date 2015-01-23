@@ -66,8 +66,6 @@ then
     [ $i -eq 3 ] && NBP=$elt
   done
 fi
-echo $NBT
-echo $NBP
 
 read -p "Do you want to reset your dump & patch your database for e-venement v2.8 ? [Y/n] " dump
 if [ "$dump" != "n" ]; then
@@ -139,6 +137,14 @@ psql <<EOF
   INSERT INTO price_translation (SELECT id, name, description, 'en' AS lang FROM price WHERE (id,'en') NOT IN (SELECT id,lang FROM price_translation));
   ALTER TABLE price DROP COLUMN name;
   ALTER TABLE price DROP COLUMN description;
+  
+  CREATE TABLE member_card_type_translation (
+    id bigint NOT NULL,
+    description character varying(255),
+    lang character(2) NOT NULL
+  );
+  INSERT INTO member_card_type_translation (SELECT id, description, 'en' AS lang FROM member_card_type WHERE (id,'en') NOT IN (SELECT id,lang FROM member_card_type_translation));
+  ALTER TABLE member_card_type DROP COLUMN description;
 EOF
 
 echo "DUMPING DB..."
@@ -214,10 +220,9 @@ echo ""
 # final data modifications
 echo ""
 read -p "Do you want to copy Price's english translations (default i18n after a migration from v2.7) into french ? [Y/n] " reset
-if [ "$reset" != 'n' ]
-then
-  ./symfony e-venement:copy-i18n Price en fr
-fi
+[ "$reset" != 'n' ] && ./symfony e-venement:copy-i18n Price en fr
+read -p "Do you want to copy MemberCardType's english translations (default i18n after a migration from v2.7) into french ? [Y/n] " reset
+[ "$reset" != 'n' ] && ./symfony e-venement:copy-i18n MemberCardType en fr
 
 echo ""
 read -p "Do you want to add the new permissions ? [Y/n] " reset

@@ -22,6 +22,9 @@
 
 MemberCardType:
   package: mc
+  actAs:
+    I18n:
+      fields: [description]
   columns:
     name:
       type: string(255)
