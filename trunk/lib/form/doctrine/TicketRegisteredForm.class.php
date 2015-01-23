@@ -37,7 +37,7 @@ class TicketRegisteredForm extends TicketForm
         $q->leftJoin('p.Users u')->andWhere('u.id = ?', sfContext::getInstance()->getUser()->getId());
       $this->widgetSchema['price_id']
         ->setOption('query', $q)
-        ->setOption('order_by', array('pt.name',''))
+        ->setOption('order_by', array('p.name',''))
       ;
       $this->validatorSchema['price_id']->setOption('query', $q);
     }
