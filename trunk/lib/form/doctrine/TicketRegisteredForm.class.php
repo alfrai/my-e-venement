@@ -42,7 +42,7 @@ class TicketRegisteredForm extends TicketForm
       $this->validatorSchema['price_id']->setOption('query', $q);
     }
     
-    $this->widgetSchema   ['reduc'] = new sfWidgetFormInput(array(), array('pattern' => $pattern = '\d+([\.,]\d{0,2}){0,1}%{0,1}'));
+    $this->widgetSchema   ['reduc'] = new sfWidgetFormInput(array(), array('pattern' => $pattern = '^-{0,1}\d+([\.,]\d{0,2}){0,1}%{0,1}'));
     $this->validatorSchema['reduc'] = new sfValidatorRegex(array('pattern' => '/'.$pattern.'/', 'required' => false));
     
     $this->validatorSchema['transaction_id']->setOption('query',
