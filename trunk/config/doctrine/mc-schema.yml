@@ -61,6 +61,15 @@ MemberCardTypeUser:
       type: integer
       notnull: true
       primary: true
+  relations:
+    MemberCardType:
+      foreignAlias: MemberCardTypeUsers
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    sfGuardUser:
+      foreignAlias: MemberCardTypeUsers
+      onDelete: CASCADE
+      onUpdate: CASCADE
 MemberCard:
   package: mc
   inheritance:
