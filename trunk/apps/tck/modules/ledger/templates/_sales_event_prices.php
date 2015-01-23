@@ -1,6 +1,10 @@
       <?php use_helper('Slug') ?>
       <?php $ticket = $manif->Tickets[$i]; ?>
-      <td class="event price" data-price-id="<?php echo $ticket->price_id ? $ticket->price_id : slugify($ticket->price_name)?>" data-user-id="<?php echo $ticket->sf_guard_user_id ?>">
+      <td class="event price"
+        data-manifestation-id="<?php echo $ticket->manifestation_id ?>"
+        data-price-id="<?php echo $ticket->price_id ? $ticket->price_id : slugify($ticket->price_name)?>"
+        data-user-id="<?php echo $ticket->sf_guard_user_id ?>"
+      >
         <span class="with-user"><?php echo __('%%price%% (by %%user%%)',array('%%price%%' => $ticket->price_name, '%%annul%%' => is_null($ticket->cancelling) ? __('cancel') : '', '%%user%%' => $ticket->User)) ?></span>
         <span class="without-user"><?php echo $ticket->price_name ?></span>
       </td>

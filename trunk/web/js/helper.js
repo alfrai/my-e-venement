@@ -27,7 +27,7 @@ LI.clear_currency = function(value)
 {
   if ( typeof(value) != 'string' )
     return value;
-  return parseFloat(value.replace(',','.').replace(/[^\d^\.^\s]+/g, ''));
+  return parseFloat(value.replace(',','.').replace(/[^-^\d^\.^\s]+/g, ''));
 }
 
 // THE CURRENCY
