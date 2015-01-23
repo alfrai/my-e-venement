@@ -46,6 +46,7 @@ LI.form_list_actions = function(widget)
   
   // update
   $('.sf_admin_form .sf_admin_form_list.ajax form:not(.sf_admin_new)').unbind().submit(function(){
+    var form = $(this);
     // apply changes on similar fields forms
     $(this).find('input:not([type=hidden])').each(function(){
       $('form[action="'+form.prop('action')+'"] [name="'+$(this).prop('name')+'"][type=hidden]')
@@ -65,7 +66,7 @@ LI.form_list_actions = function(widget)
       var form = input.closest('form');
       var widget = form.closest('.ajax').get(0);
       
-      input.replaceWith($(data).find(widget.field));
+      replaceWith($(data).find(widget.field));
       form.find('.label, .sf_admin_flashes').remove();
       if ( form.find('.sf_admin_form_field_value > *').length <= 1 )
       {
