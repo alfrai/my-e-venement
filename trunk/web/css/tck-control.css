@@ -8,6 +8,7 @@
 .sf_admin_list .sf_admin_list_td_comment { font-size: 75%; }
 .sf_admin_list table tbody tr.sf_admin_row .sf_admin_date, .sf_admin_list table tbody tr.sf_admin_row .sf_admin_number { text-align: right; }
 .sf_admin_list tbody .sf_admin_row a:hover { text-decoration: underline; }
+.sf_admin_list tr.failure .sf_admin_td_actions { display: none; }
 @media screen and (max-width: 1500px) {
   .sf_admin_list .sf_admin_list_th_list_manifestation, .sf_admin_list .sf_admin_list_td_list_manifestation { display: none; }
 }

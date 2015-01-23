@@ -1,6 +1,7 @@
 $(document).ready(function(){
   // if the first page is displaid, then reload data every 3 seconds
   if ( $('.sf_admin_list .sf_admin_pagination tbody input[type=text]').val() == 1 )
+  {
     setInterval(function(){
       $.ajax({
         type: 'get',
@@ -18,4 +19,8 @@ $(document).ready(function(){
         }
       });
     },5000);
+  }
+  
+  // hiding the "delete" button on non-regular ids
+  $('#sf_admin_content .sf_admin_list .sf_admin_list_td_list_state img.failure').closest('tr').addClass('failure');
 });
