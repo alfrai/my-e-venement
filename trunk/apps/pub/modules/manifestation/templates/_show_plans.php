@@ -19,7 +19,7 @@
 <?php use_stylesheet('/private/event-seated-plan') ?>
 <?php use_javascript('jquery.overscroll.min.js') ?>
 <div id="plans-loading">
-  <?php echo sfConfig::get('app_texts_seated_plan_loading', __('Seated plan loading, thanks for your patience...')); ?>
+  <?php echo pubConfiguration::getText('app_texts_seated_plan_loading', __('Seated plan loading, thanks for your patience...')); ?>
 </div>
 <div id="plans" data-manifestation-id="<?php echo $manifestation->id ?>" class="gauge">
 <?php foreach ( $plans as $plan ): ?>

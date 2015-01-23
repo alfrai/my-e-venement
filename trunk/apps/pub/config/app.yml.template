@@ -114,7 +114,9 @@ all:
       plans: Cliquez sur le plan pour sélectionner vos places
       categories: En choisissant votre catégorie et un nombre de billets à ajouter, vous obtiendrez les meilleures places côte-à-côte
     cart_bottom: <p style="text-align: center; margin-top: 10px;"><a href="http://www.facebook.com/pages/Le-Fracas-CDN-de-Montlu%C3%A7onAuvergne/240968945966456" target="_blank">Rejoignez-nous sur Facebook</a></p>
-    when_closed: La vente en ligne est actuelle fermée... Veuillez réessayer ultérieurement.
+    when_closed:
+      fr: La vente en ligne est actuelle fermée... Veuillez réessayer ultérieurement.
+      en: The store is closed for the moment... Please try again later. # useless, because the "shutdown" feature is triggered before giving a culture to the sfUser
     event_bottom: |
       Pour les tarifs donnant droit à des réductions, des justificatifs vous seront demandés lors du retrait de vos billets.
       Si vous disposez d'une ou plusieurs cartes d'abonnement vous ouvrant droit à des tarifs abonnés, veillez à vous identifier au préalable pour vous permettre de réserver ces tarifs spécifiques.

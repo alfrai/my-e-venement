@@ -7,7 +7,7 @@
 ?>
 
 <?php if ( strtotime('now + '.sfConfig::get('app_tickets_close_before','36 hours')) > strtotime($manifestation->happens_at) ): ?>
-  <?php echo nl2br(sfConfig::get('app_texts_manifestation_closed')) ?>
+  <?php echo nl2br(pubConfiguration::getText('app_texts_manifestation_closed')) ?>
 <?php else: ?>
 <?php use_helper('Number') ?>
 <ul><?php foreach ( $manifestation->Gauges as $gauge ): ?>

@@ -20,10 +20,10 @@
     <?php endif ?>
   </h2>
   <?php include_partial('global/register',array('form' => $form)) ?>
-  <?php if ( sfConfig::get('app_texts_terms_conditions') ): ?>
+  <?php if ( pubConfiguration::getText('app_texts_terms_conditions') ): ?>
   <p class="terms_conditions field error">
     <input id="terms_conditions" type="checkbox" name="terms_conditions" value="accepted" />
-    <label for="terms_conditions"><?php echo sfConfig::get('app_texts_terms_conditions') ?></label>
+    <label for="terms_conditions"><?php echo pubConfiguration::getText('app_texts_terms_conditions') ?></label>
   </p>
   <?php endif ?>
   <p class="submit"><input type="submit" name="submit" value="<?php echo __('Order') ?>" /></p>

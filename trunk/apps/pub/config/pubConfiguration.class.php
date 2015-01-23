@@ -51,8 +51,32 @@ class pubConfiguration extends sfApplicationConfiguration
     if ( !sfConfig::get('app_open',false) )
     {
       header('Content-Type: text/html; charset=utf-8');
-      throw new liOnlineSaleException(sfConfig::get('app_texts_when_closed','This application is not opened'));
+      echo pubConfiguration::getText('app_texts_when_closed','This application is not opened');
+      throw new liOnlineSaleException(pubConfiguration::getText('app_texts_when_closed','This application is not opened'));
     }
+  }
+  
+  public static function getText($var, $default = '')
+  {
+    $txt = sfConfig::get($var, $default);
+    $culture = sfContext::hasInstance() && sfContext::getInstance()->getUser() instanceof sfUser
+      ? sfContext::getInstance()->getUser()->getCulture()
+      : false;
+    
+    // no translation
+    if ( !is_array($txt) )
+      return $txt;
+    
+    // no translation available, keep the first term coming
+    if ( !$culture )
+      return array_shift($txt);
+    
+    // the current translation
+    if ( isset($txt[$culture]) )
+      return $txt[$culture];
+    
+    // the first translation
+    return array_shift($txt);
   }
   
   public static function addMemberCard(Transaction $transaction, $member_card_type_id)

@@ -15,7 +15,7 @@
   </div>
   <div id="container">
     <?php
-      $texts = sfConfig::get('app_texts_synthetic', array());
+      $texts = pubConfiguration::getText('app_texts_synthetic', array());
       foreach ( array('plans', 'categories') as $field )
       if ( !isset($texts[$field]) )
         $texts[$field] = '';
@@ -39,7 +39,7 @@
   </div>
   <div class="clear"></div>
   <div class="text_config manifestation_bottom synthetic_plans">
-    <?php echo nl2br(sfConfig::get('app_texts_manifestation_bottom')) ?>
+    <?php echo nl2br(pubConfiguration::getText('app_texts_manifestation_bottom')) ?>
   </div>
   
 <?php else: ?>
