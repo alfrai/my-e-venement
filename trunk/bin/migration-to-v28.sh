@@ -45,6 +45,30 @@ echo "To continue press ENTER"
 echo "To cancel press CTRL+C NOW !!"
 read
 
+# Checking data
+i=0
+for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL);' | psql`
+do
+  let "i++"
+  [ $i -eq 3 ] && NBT=$elt
+done
+i=0
+for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL) AND seat_id IS NOT NULL;' | psql 2> /dev/null`
+do
+  let "i++"
+  [ $i -eq 3 ] && NBP=$elt
+done
+if [ $i -eq 0 ]
+then
+  for elt in `echo "SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL) AND numerotation IS NOT NULL AND numerotation != '';" | psql`
+  do
+    let "i++"
+    [ $i -eq 3 ] && NBP=$elt
+  done
+fi
+echo $NBT
+echo $NBP
+
 read -p "Do you want to reset your dump & patch your database for e-venement v2.8 ? [Y/n] " dump
 if [ "$dump" != "n" ]; then
 
@@ -236,7 +260,30 @@ echo "Changing (or not) file permissions for the e-venement Messaging Network ..
 chmod -R 777 web/liJappixPlugin/store web/liJappixPlugin/tmp web/liJappixPlugin/log &> /dev/null
 echo "... done."
 
+# Checking data...
+i=0
+for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL);' | psql`
+do
+  let "i++"
+  [ $i -eq 3 ] && NBTA=$elt
+done
+i=0
+for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL) AND seat_id IS NOT NULL;' | psql`
+do
+  let "i++"
+  [ $i -eq 3 ] && NBPA=$elt
+done
+
 # final informations
+echo ''
+echo ''
+if [ $NBPA -eq $NBP ] && [ $NBT -eq $NBTA ]
+then
+  echo "Your migration went good. Your number of tickets and seated tickets is the same"
+else
+  echo "!! ERROR !! You had ${NBT} tickets for ${NBP} seated tickets, you now have ${NBTA} tickets and ${NBPA} seated tickets!!!"
+  echo "Do something..."
+fi
 echo ""
 echo ""
 echo "Don't forget to configure those extra features:"
