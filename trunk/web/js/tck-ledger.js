@@ -8,31 +8,35 @@ $(document).ready(function(){
     // build a data-layer that can be processed
     var arr = {}
     $('#sales-ledger .prices').each(function(){
-      if ( arr[$(this).find('[data-price-id]').attr('data-price-id')] == undefined )
-        arr[$(this).find('[data-price-id]').attr('data-price-id')] = [];
-      arr[$(this).find('[data-price-id]').attr('data-price-id')].push($(this));
+      if ( arr[$(this).find('[data-manifestation-id]').attr('data-manifestation-id')] == undefined )
+        arr[$(this).find('[data-manifestation-id]').attr('data-manifestation-id')] = [];
+      if ( arr[$(this).find('[data-manifestation-id]').attr('data-manifestation-id')][$(this).find('[data-price-id]').attr('data-price-id')] == undefined )
+        arr[$(this).find('[data-manifestation-id]').attr('data-manifestation-id')][$(this).find('[data-price-id]').attr('data-price-id')] = [];
+      arr[$(this).find('[data-manifestation-id]').attr('data-manifestation-id')][$(this).find('[data-price-id]').attr('data-price-id')].push($(this));
     });
     
+    console.error(arr);
     // graphical process
-    $.each(arr, function(price_id, elts){
-      var currency = elts[0].find('.value').text().replace(/[\d,\.\s]/g, '').replace('&nbsp;', '');
+    $.each(arr, function(manif_id, manif){
+    $.each(manif, function(price_id, elts){
+      var currency = LI.get_currency(elts[0].find('.value').text());
+      var fr_style = LI.currency_style(elts[0].find('.value').text());
       for ( var i = 1 ; i < elts.length ; i++ )
       {
         $.each(['.id-qty', '.value', '.extra-taxes'], function(j, selector){
+          console.error(LI.clear_currency(elts[i].find(selector).text()));
           elts[0].find(selector).text(
-            parseFloat(elts[0].find(selector).text()
-              .replace(',','.').replace(' ','').replace(/[^\d^\.]/g,'')
-            ) +
-            parseFloat(elts[i].find(selector).text()
-              .replace(',','.').replace(' ','').replace(/[^\d^\.]/g,'')
-            )
+            LI.clear_currency(elts[0].find(selector).text())
+            +
+            LI.clear_currency(elts[i].find(selector).text())
           );
           if ( selector != '.id-qty' )
-            elts[0].find(selector).html(LI.format_currency(parseFloat(elts[0].find(selector).text())));
+            elts[0].find(selector).html(LI.format_currency(LI.clear_currency(elts[0].find(selector).text()), true, fr_style, currency));
         });
         elts[i].remove();
       }
       elts[0].find('.vat').text('');
+    });
     });
     
     return false;
