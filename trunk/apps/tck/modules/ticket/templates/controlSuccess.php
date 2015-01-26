@@ -31,5 +31,9 @@
     data-checkpoint-id="<?php echo $sf_user->getAttribute('control.checkpoint_id') ?>"
     data-transaction-label="<?php echo __('Transaction') ?>"
     data-ticket-label="<?php echo __('Ticket') ?>"
+    data-cancel-label="<?php echo __('Cancellation') ?>"
+    data-cancel-confirmation="<?php echo __('Are you sure?', null, 'sf_admin') ?>"
+    data-cancel-success="<?php echo __('Control deleted.') ?>"
+    data-cancel-error="<?php echo __('You cannot remove this control, sorry.') ?>"
   ></div>
 </form>

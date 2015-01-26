@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Control deleted.</source>
+        <target>Contrôle supprimé.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You cannot remove this control, sorry.</source>
+        <target>Vous ne pouvez supprimer ce contrôle, désolé.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Incl. VAT</source>
         <target>TVA incluse</target>
       </trans-unit>

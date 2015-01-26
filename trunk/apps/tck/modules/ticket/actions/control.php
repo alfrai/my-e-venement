@@ -233,7 +233,8 @@
           foreach ( $this->tickets as $ticket )
           {
             $failure = new FailedControl;
-            $params['ticket_id'] = $ticket->id;
+            if ( $ticket instanceof Ticket )
+              $params['ticket_id'] = $ticket->id;
             $failure->complete($params);
           }
           return 'Result';

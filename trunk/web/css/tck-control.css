@@ -25,6 +25,7 @@
 #checkpoint select { max-width: calc(100% - 120px); }
 
 .control { margin: 10px; padding: 5px; position: relative; overflow: hidden; transition: height 0.5s; }
+.control .deleted, .control .deleted * { color: silver; }
 .control .message { font-weight: bold; display: inline-block; }
 .control h2 { display: inline-block; margin-right: 10px; }
 #checkpoint .control .tickets { padding-top: 0; margin-top: 0; }

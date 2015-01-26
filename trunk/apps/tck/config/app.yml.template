@@ -57,6 +57,7 @@ all:
   control:
     future: 6 hours
     past:   1 day
+    #permissive: false
   seller:
     logo: logo.svg
     name: 3è étage / 3rd floor

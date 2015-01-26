@@ -269,6 +269,10 @@ class ticketActions extends sfActions
   {
     return require('control.php');
   }
+  public function executeControlCancel(sfWebRequest $request)
+  {
+    return require('control-cancel.php');
+  }
   public function executeBatchControl(sfWebRequest $request)
   {
     require('batch-control.php');

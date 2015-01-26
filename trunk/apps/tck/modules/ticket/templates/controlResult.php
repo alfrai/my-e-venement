@@ -112,6 +112,9 @@
       'value_txt' => format_currency($ticket->value, '€'),
       'url' => url_for('ticket/show?id='.$ticket->id, true),
       'users' => $users,
+      'cancel'  => $success && (sfConfig::get('app_control_permissive', false) || $this->getUser()->hasCredential('tck-control-admin'))
+        ? url_for('ticket/controlCancel?id='.$ticket->id, true)
+        : NULL,
     );
   }
   elseif ( $ticket )

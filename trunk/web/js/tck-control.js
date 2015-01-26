@@ -108,6 +108,28 @@ $(document).ready(function(){
               .addClass('manifestation')
               .appendTo(elt);
             
+            if ( ticket.cancel )
+            $('<button />').addClass('cancel')
+              .text($('.settings[data-cancel-label]').attr('data-cancel-label'))
+              .click(function(){
+                if ( confirm($('.settings[data-cancel-confirmation]').attr('data-cancel-confirmation')) )
+                $.ajax({
+                  method: 'get',
+                  url: ticket.cancel,
+                  success: function(data){
+                    elt.addClass('deleted').find('.cancel').remove();
+                    LI.alert($('.settings[data-cancel-success]').attr('data-cancel-success'));
+                  },
+                  error: function(){
+                    LI.alert($('.settings[data-cancel-error]').attr('data-cancel-error'));
+                    elt.find('.cancel').remove();
+                  }
+                });
+                
+                return false;
+              })
+              .appendTo(elt);
+            
             // its details
             if ( json.details.contacts[ticket.id] != undefined )
             {
