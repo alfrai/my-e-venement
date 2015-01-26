@@ -8,6 +8,7 @@ all:
     id: macompagnie@theatreuniversel.com
     password: superpassword
     salt: sqbu194ATIQvb89uiat48
+    mode: 'prod' # 'test' can be used for the TEST mode cf. http://support.payplug.fr/customer/portal/articles/1701646-comment-configurer-mon-site-en-mode-live-
     #currency: EUR
     url:
       normal: cart/done

@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -135,11 +135,14 @@ class PayplugPayment extends OnlinePayment
   
   public static function config()
   {
-    echo self::getConfigFilePath();
     // create the specific payplug config file
     if ( !file_exists(self::getConfigFilePath()) )
     {
-      $parameters = Payplug::loadParameters(sfConfig::get('app_payment_id', 'test@test.tld'), sfConfig::get('app_payment_password', 'pass'));
+      $parameters = Payplug::loadParameters(
+        sfConfig::get('app_payment_id', 'test@test.tld'),
+        sfConfig::get('app_payment_password', 'pass'),
+        sfConfig::get('app_payement_mode', 'prod') === 'test'
+      );
       $parameters->saveInFile(self::getConfigFilePath());
     }
     
