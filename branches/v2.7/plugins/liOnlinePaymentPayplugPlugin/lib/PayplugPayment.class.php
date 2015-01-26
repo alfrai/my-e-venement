@@ -141,7 +141,7 @@ class PayplugPayment extends OnlinePayment
       $parameters = Payplug::loadParameters(
         sfConfig::get('app_payment_id', 'test@test.tld'),
         sfConfig::get('app_payment_password', 'pass'),
-        sfConfig::get('app_payement_mode', 'prod') === 'test'
+        sfConfig::get('app_payment_mode', 'prod') === 'test'
       );
       $parameters->saveInFile(self::getConfigFilePath());
     }
@@ -158,7 +158,7 @@ class PayplugPayment extends OnlinePayment
   public function __toString()
   {
     return '
-      <a href="'.$this->getUrl().'" class="autofollow" target="_top">
+      <a href="'.$this->getUrl().'" class="'.(sfConfig::get('app_payment_autofollow', true) ? 'autofollow' : '').'" target="_top">
         <img src="https://www.payplug.fr/static/merchant/images/logo-large.png" alt="PayPlug" />
       </a>
     ';

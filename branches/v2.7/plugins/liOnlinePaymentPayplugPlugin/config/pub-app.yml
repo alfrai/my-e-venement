@@ -5,6 +5,7 @@ all:
   # ...
   payment:
     type: payplug
+    autofollow: true
     id: macompagnie@theatreuniversel.com
     password: superpassword
     salt: sqbu194ATIQvb89uiat48
