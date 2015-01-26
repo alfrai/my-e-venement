@@ -135,7 +135,6 @@ class PayplugPayment extends OnlinePayment
   
   public static function config()
   {
-    echo self::getConfigFilePath();
     // create the specific payplug config file
     if ( !file_exists(self::getConfigFilePath()) )
     {
