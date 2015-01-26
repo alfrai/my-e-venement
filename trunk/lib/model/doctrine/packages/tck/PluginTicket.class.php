@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -104,13 +104,20 @@ abstract class PluginTicket extends BaseTicket
         ->andWhere('g.id = ?',$this->gauge_id)
         ->fetchOne();
     }
+    
+    // VAT resetting if the ticket is updated for a printing or an integration
+    $mods = $this->getModified();
+    if ( ( isset($mods['printed_at']) || isset($mods['integrated_at']) )
+      && ( $this->printed_at || $this->integrated_at )
+      && is_null($this->cancelling) && is_null($this->duplicating) && $this->Duplicatas->count() == 0
+    )
+      $this->vat = NULL;
+    
+    // Setting the VAT to the ticket's Manifestation if not set
     if ( is_null($this->vat) )
       $this->vat = $pm->Manifestation->Vat->value;
     
     // last chance to set taxes
-    $mods = $this->getModified();
-    if ( isset($mods['printed_at']) || isset($mods['integrated_at']) )
-      $this->vat = $this->Manifestation->Vat->value;
     if ( !$this->printed_at || isset($mods['printed_at']) || isset($mods['integrated_at']) ) // if the ticket is being printed or is not printed
     {
       $this->taxes = 0;
