@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -72,6 +72,14 @@ abstract class PluginTicket extends BaseTicket
     
     // the transaction's last update
     $this->Transaction->updated_at = NULL;
+    
+    // VAT resetting if the ticket is updated for a printing or an integration
+    $mods = $this->getModified();
+    if ( ( isset($mods['printed_at']) || isset($mods['integrated_at']) )
+      && ( $this->printed_at || $this->integrated_at )
+      && is_null($this->cancelling) && is_null($this->duplicating) && $this->Duplicatas->count() == 0
+    )
+      $this->vat = NULL;
     
     // last chance to set a VAT taxe rate, related to current manifestation's rate
     if ( is_null($this->vat) && !is_null($this->manifestation_id) )
