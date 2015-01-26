@@ -22,7 +22,6 @@ class Control extends PluginControl
       $past = sfConfig::get('app_control_past') ? sfConfig::get('app_control_past') : '6 hours';
       $future = sfConfig::get('app_control_future') ? sfConfig::get('app_control_future') : '1 day';
 
-      error_log($this->ticket_id);
       $q = Doctrine::getTable('Ticket')->createQuery('t')
         ->leftJoin('t.Manifestation m')
         ->andWhere('t.'.$field.' = ?',$this->ticket_id)

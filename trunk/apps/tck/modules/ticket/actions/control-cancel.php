@@ -31,4 +31,4 @@
   error_log('Removing a control for ticket '.intval($request->getParameter('id')));
   $q->delete()->execute();
   
-  return sfView::renderText('');
+  return $this->renderText('');
