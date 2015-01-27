@@ -325,7 +325,8 @@ class ticketActions extends sfActions
         ->leftJoin('tck.Cancelled cancelled')
         ->leftJoin('tck.Manifestation m')
         ->leftJoin('tck.Price p')
-        ->orderBy('p.name, tck.price_id, tck.id')
+        ->leftJoin('p.Translation pt WITH pt.name = ?', $this->getUser()->getCulture())
+        ->orderBy('pt.name, tck.price_id, tck.id')
         ->andWhere('t.id = ?',$request->getParameter('id'));
       
       $this->transaction = $q->fetchOne();
