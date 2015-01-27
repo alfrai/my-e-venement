@@ -438,7 +438,7 @@ LI.tdp_submit_forms = function(i = 0)
       setTimeout(function(){
         $('[name="professional[id]"][value="'+$(data).find('[name="professional[id]"]').val()+'"]')
           .closest('.sf_admin_edit')
-          .find('.sf_admin_flashes > *').fadeOut('medium',function(){ $(this).remove(); });
+          .find('.sf_admin_flashes > .notice').fadeOut('medium',function(){ $(this).remove(); });
       },6000);
       
       // errornous fields
