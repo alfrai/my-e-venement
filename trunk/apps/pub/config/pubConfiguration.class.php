@@ -75,6 +75,11 @@ class pubConfiguration extends sfApplicationConfiguration
     if ( isset($txt[$culture]) )
       return $txt[$culture];
     
+    // no translation available
+    foreach ( $txt as $culture => $value )
+    if ( strlen($culture) > 2 )
+      return $txt;
+    
     // the first translation
     return array_shift($txt);
   }
