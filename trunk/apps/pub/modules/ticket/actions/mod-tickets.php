@@ -114,7 +114,8 @@
         $ticket->seat_id = $data[$ticket->id]['seat_id'];
       }
       
-      if ( !$ticket->trySave() )
+      if ( !$ticket->trySave()
+        || !(isset($data[$ticket->id]['seat_id']) && $data[$ticket->id]['seat_id'] && $ticket->seat_id != $data[$ticket->id]['seat_id']) )
         $this->json['error']['message'] = 'An error occurred updating your cart, try again please...';
       break;
     }
@@ -230,9 +231,20 @@
     $ticket->value      = NULL;
     $ticket->vat        = NULL;
     
-    try { $ticket->save(); }
+    try {
+      $ticket->save();
+      if ( isset($tck['seat_id']) && $tck['seat_id'] && $ticket->seat_id != $tck['seat_id'] )
+      {
+        $ticket->delete();
+        unset($tickets[$tickets->key()]);
+        $this->json['error']['message'] = 'An error occurred updating your cart, try again please...';
+        continue;
+      }
+    }
     catch ( Doctrine_Connection_Exception $e )
     {
+      if ( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') )
+        throw $e;
       $this->json['error']['message'] = 'An error occurred updating your cart, try again please...';
       continue;
     }

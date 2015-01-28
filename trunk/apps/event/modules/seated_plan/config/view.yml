@@ -29,6 +29,10 @@ getSeatsJson:
   has_layout: false
   http_metas:
     content-type: application/json
+getHoldSeatsJson:
+  has_layout: false
+  http_metas:
+    content-type: application/json
 getControlsJson:
   has_layout: false
   http_metas:

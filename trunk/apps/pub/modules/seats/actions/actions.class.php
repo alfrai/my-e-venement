@@ -117,5 +117,22 @@ class seatsActions extends sfActions
         'gauge_id'        => $ticket->gauge_id,
         //'spectator'      => $ticket->Transaction->professional_id ? $ticket->Transaction->Professional->Contact.' '.$ticket->Transaction->Professional : (string)$ticket->Transaction->Contact,
       );
+    
+    // Holds...
+    $q = Doctrine::getTable('HoldContent')->createQuery('hc')
+      ->select('hc.*')
+      ->leftJoin('hc.Hold h')
+      ->leftJoin('h.Manifestation m')
+      ->leftJoin('m.Gauges g')
+      ->andWhereIn('g.id', $ids)
+    ;
+    $arr = array();
+    foreach ( $q->execute() as $hc )
+    if ( !isset($this->occupied[$hc->seat_id]) )
+      $this->occupied[$hc->seat_id] = array(
+        'type'            => 'hold',
+        'transaction_id'  => false,
+        'hold_id'         => $hc->hold_id,
+      );
   }
 }

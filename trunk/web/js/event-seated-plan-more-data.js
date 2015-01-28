@@ -25,7 +25,6 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
       var elt = $('<div></div>')
         .attr('data-seat-id', obj.seat_id)
         .click(function(event){
-          console.error($(this).closest('.seated-plan.picture').find('.seat-'+$(this).attr('data-seat-id')+'.txt').length);
           $(this).closest('.seated-plan.picture').find('.seat-'+$(this).attr('data-seat-id')+'.txt').trigger(event);
         })
         .css('left', obj.position[0])
@@ -138,6 +137,9 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
 LI.seatedPlanInitializationFunctions.push(function(root){
   $(root).find('.seat.txt').click(function(e){
     var url = $(this).closest('.seated-plan-parent').find('.seated-plan-actions .transaction').prop('href');
+    if ( !url )
+      return;
+    
     if ( $(this).attr('data-ticket-id') )
       url += '?ticket_id='+$(this).attr('data-ticket-id');
     else if ( $(this).closest('[data-gauge-id]').attr('data-gauge-id') )

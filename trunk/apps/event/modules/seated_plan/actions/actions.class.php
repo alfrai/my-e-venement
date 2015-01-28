@@ -36,6 +36,10 @@ require_once dirname(__FILE__).'/../lib/seated_planGeneratorHelper.class.php';
  */
 class seated_planActions extends autoSeated_planActions
 {
+  public function executeGetHoldSeats(sfWebRequest $request)
+  {
+    return require(dirname(__FILE__).'/get-hold-seats.php');
+  }
   public function executeGetControls(sfWebRequest $request)
   {
     return require(dirname(__FILE__).'/get-controls.php');

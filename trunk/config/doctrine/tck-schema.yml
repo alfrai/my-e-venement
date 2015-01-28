@@ -426,3 +426,24 @@ TaxPrice:
       type: integer
       notnull: true
 
+HoldTransaction:
+  package: tck
+  columns:
+    transaction_id:
+      type: integer
+      unique: true
+      notnull: true
+    hold_id:
+      type: integer
+      notnull: true
+  relations:
+    Transaction:
+      foreignAlias: HoldTransaction
+      foreignType: one
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Hold:
+      foreignAlias: HoldTransactions
+      onDelete: CASCADE
+      onUpdate: CASCADE
+      

@@ -7,7 +7,7 @@ indexSuccess:
   stylesheets: [print-list: {media: print}, <?php if ( sfConfig::get('app_ticketting_gauge_small',true) ): ?>event-gauge-small<?php endif ?>]
 
 showSuccess:
-  stylesheets: [manifestation-view: { media: all }, view, event-seated-plan]
+  stylesheets: [manifestation-view: { media: all }, view, event-seated-plan, event-hold?<?php echo date('Ymd') ?>]
   javascripts: [event-seated-plan, event-gauge?<?php echo date('Ymd') ?>, helper?<?php echo date('Ymd') ?>]
 editSuccess:
   stylesheets: [manifestation-view,view, event-seated-plan]

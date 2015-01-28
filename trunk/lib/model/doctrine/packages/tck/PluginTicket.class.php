@@ -105,6 +105,13 @@ abstract class PluginTicket extends BaseTicket
         ->fetchOne();
     }
     
+    // the holds: we can book a seated ticket within a hold only if its transaction is a HoldTransaction
+    if ( $this->seat_id && $this->Seat instanceof Seat
+      && $this->Seat->isHeldFor($this->Manifestation)
+      && !$this->Transaction->isSpecialHold()
+    )
+      $this->seat_id = NULL;
+    
     // VAT resetting if the ticket is updated for a printing or an integration
     $mods = $this->getModified();
     if ( ( isset($mods['printed_at']) || isset($mods['integrated_at']) )

@@ -53,6 +53,11 @@
       ->leftJoin('g.Manifestation m')
       ->leftJoin('s.Tickets tck WITH tck.manifestation_id = m.id')
       ->andWhere('(tck.id IS NULL OR tck.id = ?)', $ticket['id'] ? $ticket['id'] : 0)
+      
+      // Holds
+      ->leftJoin('s.HoldContents hc')
+      ->leftJoin('hc.Hold h WITH h.manifestation_id = m.id')
+      ->andWhere('h.id IS NULL')
   ));
   
   $form->bind($ticket);

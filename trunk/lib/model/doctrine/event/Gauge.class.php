@@ -19,6 +19,13 @@ class Gauge extends PluginGauge
   
   public function getFree($count_demands = false)
   {
+    if ( !isset($this->printed) || !isset($this->ordered) || !isset($this->asked) )
+    {
+      $gauge = $this->getTable()->find($this->id);
+      foreach ( array('printed', 'ordered', 'asked') as $field )
+        $this->$field = $gauge->$field;
+    }
+    
     return $this->value
       - $this->printed
       - $this->ordered

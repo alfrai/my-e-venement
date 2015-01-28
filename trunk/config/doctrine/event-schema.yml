@@ -447,6 +447,9 @@ Gauge:
       fields: [online]
     gauge_group_name_idx:
       fields: [group_name]
+    manifestation_workspace:
+      fields: [manifestation_id, workspace_id]
+      type: unique
   columns:
     workspace_id:
       type: integer
@@ -471,10 +474,57 @@ Gauge:
       foreignAlias: Gauges
       onDelete: CASCADE
       onUpdate: CASCADE
-  indexes:
-    manifestation_workspace:
-      fields: [manifestation_id, workspace_id]
-      type: unique
+
+Hold:
+  package: event
+  inheritance:
+    extends: Traceable
+    type: concrete
+  actAs:
+    I18n:
+      fields: [name]
+  columns:
+    name:
+      type: string(255)
+      notnull: true
+      notblank: true
+    public_name: string(255)
+    manifestation_id:
+      type: integer
+      notnull: true
+    next: integer
+  relations:
+    Hold:
+      local: next
+      foreignAlias: Feeders
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Manifestation:
+      foreignAlias: Holds
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Seats:
+      class: Seat
+      refClass: HoldContent
+      foreignAlias: Holds
+HoldContent:
+  package: event
+  columns:
+    seat_id:
+      type: integer
+      primary: true
+    hold_id:
+      type: integer
+      primary: true
+  relations:
+    Seat:
+      foreignAlias: HoldContents
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Hold:
+      foreignAlias: HoldContents
+      onDelete: CASCADE
+      onUpdate: CASCADE
 
 ManifestationExtraInformation:
   package: event

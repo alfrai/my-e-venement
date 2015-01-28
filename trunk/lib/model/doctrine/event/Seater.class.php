@@ -25,19 +25,20 @@
 
 class Seater
 {
-  protected $seats, $query, $kept, $done, $gauge_id = 0;
+  protected $seats, $query, $kept, $done, $within_holds, $gauge_id = 0;
   
-  public function __construct($gauge_id)
+  public function __construct($gauge_id, $within_holds = false)
   {
     $this->kept = new Doctrine_Collection('Seat');
     $this->done = new Doctrine_Collection('Seat');
     $this->gauge_id = $gauge_id;
+    $this->within_holds = $within_holds;
     $this->seats = $this->createQuery()->execute();
   }
   
   public function createQuery($alias = 's')
   {
-    return Doctrine::getTable('Seat')->createQuery($alias)
+    $q = Doctrine::getTable('Seat')->createQuery($alias)
       ->select("$alias.*, n.*")
       ->leftJoin("$alias.SeatedPlan sp")
       ->leftJoin('sp.Workspaces spw')
@@ -52,6 +53,14 @@ class Seater
       
       ->orderBy("$alias.rank, $alias.name")
     ;
+    
+    // Holds
+    if ( !is_null($this->within_holds) )
+      $q->leftJoin("$alias.Holds h WITH h.manifestation_id = g.manifestation_id")
+        ->andWhere('h.id '.($this->within_holds ? 'IS NOT NULL' : 'IS NULL'))
+      ;
+    
+    return $q;
   }
   
   /**
