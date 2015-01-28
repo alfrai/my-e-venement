@@ -25,6 +25,7 @@
   <?php endif ?>
   <?php endforeach ?>
   <p class="submit"><input type="submit" name="submit" value="<?php echo __('Validate', null, 'sf_admin') ?>" /></p>
+  <div class="text"><?php echo pubConfiguration::getText('app_texts_contact_bottom','') ?></div>
 </form>
 <script type="text/javascript"><!--
   $(document).ready(function(){
