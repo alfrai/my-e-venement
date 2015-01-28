@@ -24,7 +24,7 @@
     <?php elseif ( $name == 'special_groups_list' ): ?>
   <?php endif ?>
   <?php endforeach ?>
-  <p class="submit"><input type="submit" name="submit" value="<?php echo __('Update') ?>" /></p>
+  <p class="submit"><input type="submit" name="submit" value="<?php echo __('Validate', null, 'sf_admin') ?>" /></p>
 </form>
 <script type="text/javascript"><!--
   $(document).ready(function(){
