@@ -134,6 +134,12 @@ class ContactPublicForm extends ContactForm
         : $this->object->Groups->getPrimaryKeys()
       );
     }
+    
+    // feature that allows adding fields as required or not through the app.yml
+    if ( ($force = sfConfig::get('app_contact_force_fields', array())) && is_array($force) )
+    foreach ( $force as $field => $required )
+    if ( isset($this->validatorSchema[$field]) && !in_array($field, array('name', 'email')) )
+      $this->validatorSchema[$field]->setOption('required', $required === true);
   }
   
   public function bind(array $taintedValues = NULL, array $taintedFiles = NULL)

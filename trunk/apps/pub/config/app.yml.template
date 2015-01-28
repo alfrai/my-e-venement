@@ -42,6 +42,8 @@ all:
     capitalize: [name, firstname, city, country, address]
     #professional: true
     #modify_coordinates_first: true
+    force_fields:
+      phone_number: true
   #auto_pass: # this feature allows auto-creation of passes if some prerequisites match or deletion of passes if conditions are not matched
   #  trigger_after_manifestations: 3 # does not count tickets whose price are linked to member cards
   #  member_card_type_id: 1
