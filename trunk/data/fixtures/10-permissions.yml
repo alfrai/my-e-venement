@@ -1,4 +1,54 @@
 sfGuardPermission:
+  sfGuardPermission_132:
+    name: event-hold
+    description: 'Permission to access holds'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardPermission_133:
+    name: event-hold-mod
+    description: 'Permission to modify holds'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardPermission_134:
+    name: event-hold-new
+    description: 'Permission to create a hold'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardPermission_135:
+    name: event-hold-del
+    description: 'Permission to delete holds'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardPermission_136:
+    name: event-hold-thief
+    description: 'Permission to steal seats from transaction for the benefit of a hold'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardPermission_137:
+    name: event-hold-seat
+    description: 'Permission to add seats on holds'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardPermission_138:
+    name: event-hold-transaction-new
+    description: 'Permission to create a transaction in the waiting list'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardPermission_139:
+    name: event-hold-transaction-delete
+    description: 'Permission to delete a transaction in the waiting list'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardPermission_140:
+    name: event-hold-transaction-order
+    description: 'Permission to order the waiting list'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardPermission_141:
+    name: event-hold-transaction-convert
+    description: 'Permission to convert a HoldTransaction into a classical Transaction'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
   sfGuardPermission_129:
     name: grp-admin
     description: 'Permission to administrate the "group" app'
@@ -604,7 +654,108 @@ sfGuardPermission:
     description: 'Permission to access the geographical statistics'
     created_at: '2014-05-28 09:20:41'
     updated_at: '2014-05-28 09:20:41'
+
 sfGuardGroupPermission:
+  sfGuardGroupPermission_53_132:
+    Group: sfGuardGroup_53
+    Permission: sfGuardPermission_132
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_54_132:
+    Group: sfGuardGroup_54
+    Permission: sfGuardPermission_132
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_54_136:
+    Group: sfGuardGroup_54
+    Permission: sfGuardPermission_136
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_54_137:
+    Group: sfGuardGroup_54
+    Permission: sfGuardPermission_137
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_56_132:
+    Group: sfGuardGroup_56
+    Permission: sfGuardPermission_132
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_56_138:
+    Group: sfGuardGroup_56
+    Permission: sfGuardPermission_138
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_56_139:
+    Group: sfGuardGroup_56
+    Permission: sfGuardPermission_139
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_56_140:
+    Group: sfGuardGroup_56
+    Permission: sfGuardPermission_140
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_56_141:
+    Group: sfGuardGroup_56
+    Permission: sfGuardPermission_141
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_132:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_132
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_136:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_136
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_137:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_137
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_132:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_132
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_138:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_138
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_139:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_139
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_140:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_140
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_141:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_141
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_133:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_133
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_134:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_134
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_135:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_135
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
   sfGuardGroupPermission_52_129:
     Group: sfGuardGroup_52
     Permission: sfGuardPermission_129
@@ -1525,7 +1676,28 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_97
     created_at: '2014-05-28 09:20:00'
     updated_at: '2014-05-28 09:20:00'
+
 sfGuardGroup:
+  sfGuardGroup_53:
+    name: event-hold
+    description: 'Ability to access holds'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroup_54:
+    name: event-hold-seater
+    description: 'Ability to modify the content (seats) of holds'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroup_55:
+    name: event-hold-admin
+    description: 'Ability to administrate holds (create, modify & delete)'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroup_56:
+    name: event-hold-waiting-list
+    description: 'Ability to administrate holds (create, modify & delete)'
+    created_at: '2015-01-29 19:00:27'
+    updated_at: '2015-01-29 16:00:27'
   sfGuardGroup_47:
     name: tck-pos
     description: 'Ability to access the products of the store in the sales'

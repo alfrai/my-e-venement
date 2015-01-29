@@ -244,6 +244,8 @@ then
   ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-pos.yml
   echo "Permissions & groups for reducing the value of tickets, one by one..."
   ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-tck.yml
+  echo "Permissions & groups for holds..."
+  ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-hold.yml
 fi
 
 psql $db <<EOF
