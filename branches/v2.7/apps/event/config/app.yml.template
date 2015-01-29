@@ -28,6 +28,7 @@ all:
     #editable_in_calendar: false
     #max_ajax: 20
     #show_location_ajax: false
+    #stop_listing_after: 30 minutes
   synchronization:
     #period:
     #  from: now
