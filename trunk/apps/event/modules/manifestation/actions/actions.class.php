@@ -282,7 +282,7 @@ class manifestationActions extends autoManifestationActions
     if ( !$search
       || $request->hasParameter('later')
       || $request->getParameter('except_transaction',false) && !$this->getUser()->hasCredential('tck-unblock') )
-      $q->andWhere('m.happens_at > ?', date('Y-m-d H:i:s', strtotime(sfConfig::get('app_manifestation_stop_listing_after', '30 minutes').' ago'));
+      $q->andWhere('m.happens_at > ?', date('Y-m-d H:i:s', strtotime(sfConfig::get('app_manifestation_stop_listing_after', '30 minutes').' ago')));
     
     $manifestations = $q->select('m.*, e.*, c.*')->execute();
     
