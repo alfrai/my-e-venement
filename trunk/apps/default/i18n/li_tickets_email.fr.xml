@@ -5,8 +5,8 @@
     <header/>
     <body>
       <trans-unit>
-        <source>Voucher</source>
-        <target>Contremarque</target>
+        <source>Voucher exchange</source>
+        <target>Contremarque à échanger</target>
       </trans-unit>
       <trans-unit>
         <source>Guest of %%contact%%</source>
