@@ -5,6 +5,38 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Some errors occurred but some seats have been transferred correctly from transaction #%%tid%%.</source>
+        <target>Avec quelques erreurs, des places ont été correctement transférées de l'opération #%%tid%%.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A global error occurred transferring the seats from transaction #%%tid%%.</source>
+        <target>Une erreur globale est survenue en transférant les places de l'opération #%%tid%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>No seat can be transferred from the transaction #%%tid%%.</source>
+        <target>Aucune place n'a pu être transférée de l'opération #%%tid%%.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Transfert successful from transaction #%%tid%% to this hold.</source>
+        <target>Transfert opéré avec succès depuis l'opération #%%tid%% vers cette retenue.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The given transaction needs to be opened, the only concerned tickets are the unsold tickets related to this hold's manifestation.</source>
+        <target>L'opération spécifiée doit être ouverte, les seuls billets concernés sont ceux qui ne sont pas vendus en relation avec la manifestation de la présente retenue.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New transaction</source>
+        <target>Nouvelle opération</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Get back seats from this transaction</source>
+        <target>Reprendre les places depuis cette opération</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Book released seats immediatly</source>
+        <target>Réserver immédiatement les places relâchées</target>
+      </trans-unit>
+      <trans-unit>
         <source>Hold "%%name%%"</source>
         <target>Retenue "%%name%%"</target>
       </trans-unit>

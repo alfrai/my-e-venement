@@ -14,3 +14,7 @@ getTransactionIdSuccess:
   has_layout: false
   http_metas:
     content-type: application/json
+getBackSeatsFromTransactionIdSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json

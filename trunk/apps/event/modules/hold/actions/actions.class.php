@@ -13,6 +13,37 @@ require_once dirname(__FILE__).'/../lib/holdGeneratorHelper.class.php';
  */
 class holdActions extends autoHoldActions
 {
+  public function executeGetBackSeatsFromTransactionId(sfWebRequest $request)
+  {
+    $this->cpt = array('expected' => 0, 'realized' => 0);
+    $template = 'Success';
+    
+    $q = Doctrine::getTable('Transaction')->createQuery('t')
+      ->leftJoin('m.Holds h')
+      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
+      ->andWhere('tck.seat_id IS NOT NULL')
+      ->andWhere('h.id = ?', $request->getParameter('id'))
+      ->andWhere('t.id = ?', $this->transaction_id = $request->getParameter('source'))
+      ->andWhere('t.closed = ?', false)
+    ;
+    if (!( $this->transaction = $q->fetchOne() ))
+      return $template;
+    
+    $this->cpt['expected'] = $this->transaction->Tickets->count();
+    foreach ( $this->transaction->Tickets as $ticket )
+    try
+    {
+      $hc = new HoldContent;
+      $hc->seat_id = $ticket->seat_id;
+      $hc->hold_id = $request->getParameter('id');
+      $hc->save();
+      
+      $ticket->save();
+      $this->cpt['realized']++;
+    } catch ( Exception $e ) {
+      error_log($e);
+    }
+  }
   public function executeGetTransactionId(sfWebRequest $request)
   {
     $this->transaction = new Transaction;

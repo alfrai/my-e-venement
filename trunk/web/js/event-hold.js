@@ -25,15 +25,29 @@ if ( LI == undefined )
 
 // the booking transaction
 $(document).ready(function(){
-  $('.sf_admin_form [name="transfert_to_transaction"]').click(function(){
+  $('.sf_admin_form button.ajax').click(function(){
+    var button = this;
     $.ajax({
       type: 'get',
       url: $(this).attr('data-url'),
-      success: function(data){
-        if ( !data.transaction_id )
-          LI.alert('An error occurred', 'error');
-        else
-          $('.sf_admin_form [name="transaction_id"]').val(data.transaction_id).change();
+      data: {
+        source: $(this).closest('.sf_admin_form_row').find('.source').val(),
+      },
+      success: function(json){
+        switch ( $(button).prop('name') ) {
+        
+        case 'transfert_to_transaction':
+          if ( !json.transaction_id )
+            LI.alert('An error occurred', 'error');
+          else
+            $('.sf_admin_form [name="transaction_id"]').val(data.transaction_id).change();
+          break;
+        
+        case 'get_back_seats':
+          LI.alert(json.message, json.type);
+          LI.seatedPlanLoadData($('.sf_admin_form .seated-plan.picture .seats-url').prop('href'), $('.sf_admin_form .seated-plan.picture'));
+          break;
+        }
       },
       error: function(){
         LI.alert('An error occurred', 'error');

@@ -34,7 +34,7 @@ generator:
         title: Hold "%%name%%"
         display:
           General: [name, manifestation_id, next, _show_feeders]
-          Plan: [_form_transaction_id, _show_seated_plan]
+          Plan: [_form_get_seats_from_transaction, _form_transaction_id, _show_seated_plan]
       new:
         display:
           General: [name, manifestation_id, next]
