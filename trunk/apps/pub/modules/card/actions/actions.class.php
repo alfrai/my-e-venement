@@ -68,7 +68,7 @@ class cardActions extends sfActions
       return true;
 
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
-    $this->getUser()->setFlash('error',__('To order member cards, you need to be authenticated'));
+    $this->getUser()->setFlash('error',__('To order a pass, you need to be authenticated or Create an account'));
     $this->forward('login','index');
     return false;
   }

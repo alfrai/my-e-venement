@@ -489,8 +489,8 @@
         <target>N° d'opération</target>
       </trans-unit>
       <trans-unit>
-        <source>To order member cards, you need to be authenticated</source>
-        <target>Pour commander des cartes de membre, vous devez être identifié</target>
+        <source>To order a pass, you need to be authenticated or Create an account</source>
+        <target>Pour commander un abonnement, vous devez vous authentifier ou créer un compte</target>
       </trans-unit>
       <trans-unit>
         <source>Tickets</source>
