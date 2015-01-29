@@ -1,0 +1,16 @@
+all:
+  stylesheets: [event-hold, picture, event-seated-plan, /private/event-seated-plan?<?php echo date('Ymd') ?>]
+  javascripts: [event-hold, event-seated-plan, event-seated-plan-nested-forms, helper, event-seated-plan-more-data, event-seated-plan-shortcuts]
+    
+indexSuccess:
+  stylesheets: [event-hold]
+  javascripts: [event-hold]
+
+linkSeatJson:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+getTransactionIdSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json

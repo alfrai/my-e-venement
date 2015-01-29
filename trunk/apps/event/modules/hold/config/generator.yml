@@ -1,0 +1,40 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Hold
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          hold
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        next: { label: Discharge }
+        Next: { label: Discharge }
+        list_next: { label: Discharge }
+        list_feeders: { label: Feeders }
+        list_manifestation: { label: Manifestation }
+        list_capacity: { label: Capacity }
+      list:
+        display: [_list_manifestation, _list_capacity, _list_next, _list_feeders, updated_at]
+        object_actions:
+          _edit:    ~
+          _delete:  ~
+        sort: ['after, m.happens_at', '']
+      filter:
+        display: [name, manifestation_id, next, feeder_id]
+      form:   ~
+      edit:
+        display:
+          General: [name, manifestation_id, next]
+          Plan: [_form_transaction_id, _show_seated_plan]
+      new:
+        display:
+          General: [name, manifestation_id, next]
+          Plan: [_show_dummy]
+          

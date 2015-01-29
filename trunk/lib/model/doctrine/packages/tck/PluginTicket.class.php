@@ -39,6 +39,22 @@ abstract class PluginTicket extends BaseTicket
   {
     $is_auth = sfContext::hasInstance() && sfContext::getInstance()->getUser()->getGuardUser();
     
+    // the gauge, through the manifestation + the seat
+    if ( !$this->gauge_id && $this->manifestation_id && $this->seat_id )
+    {
+      $q = Doctrine::getTable('Gauge')->createQuery('g', false)
+        ->andWhereIn('g.workspace_id', $this->Seat->SeatedPlan->Workspaces->getPrimaryKeys())
+        ->andWhere('g.manifestation_id = ?', $this->manifestation_id)
+        ->leftJoin('g.Workspace ws');
+      if ( sfContext::hasInstance() && method_exists(sfContext::getInstance()->getUser(), 'getId') )
+        $q->leftJoin('ws.Order wso WITH wso.sf_guard_user_id = ?', sfContext::getInstance()->getUser()->getId())
+          ->orderBy('wso.rank, g.id');
+      else
+        $q->orderBy('g.id');
+      
+      $this->Gauge = $q->fetchOne();
+    }
+    
     // the prices
     if ( (is_null($this->value) || is_null($this->price_id))
       && (!is_null($this->price_name) || !is_null($this->price_id))
@@ -58,9 +74,9 @@ abstract class PluginTicket extends BaseTicket
       if ( is_null($this->price_id) )
         $q
           ->leftJoin('pm.Price pmp')
-          ->letJoin('pmp.Translation pmpt WITH pmpt.name = ?',$this->price_name)
+          ->leftJoin('pmp.Translation pmpt WITH pmpt.name = ?',$this->price_name)
           ->leftJoin('pg.Price pgp')
-          ->letJoin('pgp.Translation pgpt WITH pgpt.name = ?',$this->price_name)
+          ->leftJoin('pgp.Translation pgpt WITH pgpt.name = ?',$this->price_name)
           ->andWhere('(pmpt.id IS NOT NULL OR pgpt.id IS NOT NULL)')
         ;
       else
