@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Empty?</source>
+        <target>Vide?</target>
+      </trans-unit>
+      <trans-unit>
         <source>Control deleted.</source>
         <target>Contrôle supprimé.</target>
       </trans-unit>

@@ -24,6 +24,7 @@ generator:
         list_order: { label: Order }
         list_invoice: { label: Invoice }
         list_price: { label: Total }
+        empty: { label: Empty? }
       list:
         actions: []
         batch_actions: []

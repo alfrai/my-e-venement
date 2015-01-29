@@ -3,8 +3,8 @@
 .sf_admin_list_td_list_payments_list .value { display: inline-block; text-align: right; width: 6em; }
 #sf_admin_container .sf_admin_list_td_list_payments_list ul ul { list-style-type: disc; margin-left: 15px; display: none; }
 .sf_admin_list_th_list_transaction_id, .sf_admin_list_td_transaction_id, .sf_admin_list_th_list_id, .sf_admin_list_td_id { display: none; }
-.sf_admin_action_showup .fg-button { background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png'); background-position: -224px -48px; }
-.sf_admin_action_showup .fg-button.tdp-opened { background-position: -192px -48px; }
+#sf_admin_container .sf_admin_action_showup .fg-button { background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png'); background-position: -224px -48px; }
+#sf_admin_container .sf_admin_action_showup .fg-button.tdp-opened { background-position: -192px -48px; }
 .sf_admin_list_th_list_invoice, .sf_admin_list_th_list_order { max-width: 6em; overflow: hidden; }
 .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_id, .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_invoice, .sf_admin_list table tbody tr.sf_admin_row td.sf_admin_list_td_list_order { text-align: right; }
 
