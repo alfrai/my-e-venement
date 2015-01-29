@@ -46,6 +46,14 @@ class TransactionFormFilter extends BaseTransactionFormFilter
       'required' => false,
     ));
     
+    $this->widgetSchema   ['empty'] = new sfWidgetFormChoice(array(
+      'choices' => $arr = array(0 => 'yes or no', 1 => 'yes', -1 => 'no'),
+    ));
+    $this->validatorSchema['empty'] = new sfValidatorChoice(array(
+      'choices' => array_keys($arr),
+      'required' => false,
+    ));
+    
     parent::configure();
   }
   public function setup()
@@ -54,6 +62,35 @@ class TransactionFormFilter extends BaseTransactionFormFilter
     parent::setup();
   }
   
+  public function addEmptyColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    
+    $t = $q->getRootAlias();
+    $q->leftJoin("$t.Order order")
+      ->leftJoin("$t.Invoice i")
+      ->leftJoin("$t.Payments pay")
+    ;
+    
+    if ( $values == -1 ) // no
+      $q->andWhere('(TRUE')
+        ->andWhere('tck.id IS NOT NULL')
+        ->orWhere('order.id IS NOT NULL')
+        ->orWhere('i.id IS NOT NULL')
+        ->orWhere('pay.id IS NOT NULL')
+        ->andWhere('TRUE)')
+      ;
+    elseif ( $values == 1 )
+      $q->andWhere('tck.id IS NULL')
+        ->andWhere('order.id IS NULL')
+        ->andWhere('i.id IS NULL')
+        ->andWhere('pay.id IS NULL')
+      ;
+
+    
+    return $q;
+  }
   public function addCreatedByColumnQuery(Doctrine_Query $q, $field, $values)
   {
     if ( !$values )

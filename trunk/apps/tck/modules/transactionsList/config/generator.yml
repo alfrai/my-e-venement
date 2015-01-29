@@ -38,7 +38,7 @@ generator:
       filter:
         display:
           Internals:
-            [closed, created_at, created_by, updated_at, sf_guard_user_id, transaction_id]
+            [closed, empty, created_at, created_by, updated_at, sf_guard_user_id, transaction_id]
           Externals:
             [contact_id, organism_id]
       form:    ~
