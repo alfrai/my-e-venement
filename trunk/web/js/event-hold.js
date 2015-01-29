@@ -25,6 +25,7 @@ if ( LI == undefined )
 
 // the booking transaction
 $(document).ready(function(){
+  // the actions from buttons
   $('.sf_admin_form button.ajax').click(function(){
     var button = this;
     $.ajax({
@@ -36,6 +37,7 @@ $(document).ready(function(){
       success: function(json){
         switch ( $(button).prop('name') ) {
         
+        // create a transaction where we can drop deselected seats when it occurs
         case 'transfert_to_transaction':
           if ( !json.transaction_id )
             LI.alert('An error occurred', 'error');
@@ -43,6 +45,7 @@ $(document).ready(function(){
             $('.sf_admin_form [name="transaction_id"]').val(data.transaction_id).change();
           break;
         
+        // steal seats from a transaction for this hold, when it is possible
         case 'get_back_seats':
           LI.alert(json.message, json.type);
           LI.seatedPlanLoadData($('.sf_admin_form .seated-plan.picture .seats-url').prop('href'), $('.sf_admin_form .seated-plan.picture'));
@@ -56,17 +59,23 @@ $(document).ready(function(){
     return false;
   });
   
+  // the button that removes the transaction_id
   $('.sf_admin_form [name="transaction_id"]').change(function(){
     if ( $(this).val() )
       $(this).closest('.sf_admin_form_row').addClass('with-transaction-id');
     else
       $(this).closest('.sf_admin_form_row').removeClass('with-transaction-id');
   });
-  
   $('.sf_admin_form .remove_transaction_id').click(function(){
     $(this).closest('.sf_admin_form_row').find('.transaction_id input').val('').change();
     return false;
   });
+  
+  // removing useless features from the classic seated plan
+  setTimeout(function(){
+    $('.sf_admin_form_field_show_picture .picture').unbind('mousedown');
+    $('.sf_admin_form_field_show_picture .picture .anti-handling').unbind('mouseup').unbind('mousemove');
+  }, 1000);
 });
 
 // seated plan
