@@ -49,13 +49,16 @@ class holdActions extends autoHoldActions
         // switch to a booked seat (w/ a ticket)
         try {
           $tid = trim($request->getParameter('transaction_id'));
-          if ( intval($tid).'' === ''.$tid )
+          if ( ($transaction = Doctrine::getTable('Transaction')->find($tid)) instanceof Transaction
+            && !$transaction->closed
+            && $transaction->sf_guard_user_id == $this->getUser()->getId()
+          )
           {
             $ticket = new Ticket;
             $ticket->price_name = 'WIP';
             $ticket->seat_id = $arr['seat_id'];
             $ticket->value = 0;
-            $ticket->transaction_id = $tid;
+            $ticket->Transaction = $transaction;
             $ticket->Manifestation = Doctrine::getTable('Hold')->find($arr['hold_id'])->Manifestation;
             $ticket->save();
           }

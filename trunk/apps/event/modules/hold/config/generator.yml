@@ -21,6 +21,7 @@ generator:
         list_manifestation: { label: Manifestation }
         list_capacity: { label: Capacity }
       list:
+        title: Holds list
         display: [_list_manifestation, _list_capacity, _list_next, _list_feeders, updated_at]
         object_actions:
           _edit:    ~
@@ -30,8 +31,9 @@ generator:
         display: [name, manifestation_id, next, feeder_id]
       form:   ~
       edit:
+        title: Hold "%%name%%"
         display:
-          General: [name, manifestation_id, next]
+          General: [name, manifestation_id, next, _show_feeders]
           Plan: [_form_transaction_id, _show_seated_plan]
       new:
         display:

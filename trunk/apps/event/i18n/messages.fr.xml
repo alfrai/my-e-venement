@@ -5,6 +5,26 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Hold "%%name%%"</source>
+        <target>Retenue "%%name%%"</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Holds list</source>
+        <target>Liste des retenues</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Hold</source>
+        <target>Nouvelle retenue</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Discharge</source>
+        <target>En amont de</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Feeder</source>
+        <target>En aval de</target>
+      </trans-unit>
+      <trans-unit>
         <source>Using vouchers</source>
         <target>Utilisation de contremarques</target>
       </trans-unit>
