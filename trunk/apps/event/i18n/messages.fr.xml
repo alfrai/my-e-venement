@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Clicking a on a free seat adds it into this hold. Clicking on a held seat removes it from this hold. CTRL+Click+Drag allows to select/deselect multiple seats in batch.</source>
+        <target>Cliquer sur une place libre l'ajoute à la retenue. Cliquer sur une place déjà retenue la libère. CTRL+Clic+Glissé permet de sélectionner/désélectionner plusieurs places d'un coup.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Some errors occurred but some seats have been transferred correctly from transaction #%%tid%%.</source>
         <target>Avec quelques erreurs, des places ont été correctement transférées de l'opération #%%tid%%.</target>
       </trans-unit>

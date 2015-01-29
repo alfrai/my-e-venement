@@ -5,3 +5,4 @@
 .sf_admin_form .sf_admin_form_field_transaction_id .remove_transaction_id { display: none; position: absolute; background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_6da8d5_256x240.png'); width: 16px; height: 16px; background-position: -32px 48px; margin-left: -22px; margin-top: 4px; }
 .sf_admin_form .sf_admin_form_field_transaction_id .remove_transaction_id:hover { background-image: url('../sfAdminThemejRollerPlugin/css/jquery/redmond/images/ui-icons_217bc0_256x240.png'); }
 .sf_admin_form .sf_admin_form_field_transaction_id.with-transaction-id .remove_transaction_id { display: inline-block; }
+.sf_admin_form_field_show_picture .help { text-align: left; }
