@@ -20,11 +20,22 @@
     $w = new liWidgetFormJQueryDateText(array('culture' => $sf_user->getCulture()));
     echo $w->render('jumpToDate');
   ?><script type="text/javascript">$(document).ready(function(){
-    $('.sf_admin_action_jump_to_date').submit(function(){
+    $('.sf_admin_action_jump_to_date form').submit(function(){
+      if ( $(this).find('[name="jumpToDate[month]"]').val().length == 1 )
+        $(this).find('[name="jumpToDate[month]"]').val('0'+$(this).find('[name="jumpToDate[month]"]').val());
+      
       var count = 0;
-      $(this).find('input[type=text]').each(function(){ if ( $(this).val() ) count++; });
+      $(this).find('input[type=text]').each(function(){
+        if ( $(this).val() ) count++;
+      });
       if ( count == 3 )
-        $('#fullcalendar .calendar').fullCalendar('gotoDate', $(this).find('[name="jumpToDate[year]"]').val(), parseInt($(this).find('[name="jumpToDate[month]"]').val())-1, $(this).find('[name="jumpToDate[day]"]').val());
+      {
+        $('#fullcalendar .calendar').fullCalendar('gotoDate', tmp =
+          $(this).find('[name="jumpToDate[year]"]').val()+'-'+
+          $(this).find('[name="jumpToDate[month]"]').val()+'-'+
+          $(this).find('[name="jumpToDate[day]"]').val()
+        );
+      }
       $('#transition .close').click();
       return false;
     });

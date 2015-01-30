@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Day/Location</source>
+        <target>Jour/Lieu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Function</source>
+        <target>Fonction</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Waiting list</source>
+        <target>Liste d'attente</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Waiting list for hold:</source>
+        <target>Liste d'attente pour la retenue :</target>
+      </trans-unit>
+      <trans-unit>
         <source>Clicking a on a free seat adds it into this hold. Clicking on a held seat removes it from this hold. CTRL+Click+Drag allows to select/deselect multiple seats in batch.</source>
         <target>Cliquer sur une place libre l'ajoute à la retenue. Cliquer sur une place déjà retenue la libère. CTRL+Clic+Glissé permet de sélectionner/désélectionner plusieurs places d'un coup.</target>
       </trans-unit>

@@ -28,8 +28,10 @@
     $this->only_pending   = $request->hasParameter('only_pending');
     $this->display_by_default = $request->hasParameter('display_by_default');
     
-    $this->from = date('Y-m-d H:i:00', $request->getParameter('start',$time = time()));
-    $this->to = date('Y-m-d H:i:00', $request->getParameter('end',strtotime('+ 1 month', $time)));
+    //$this->from = date('Y-m-d H:i:00', $request->getParameter('start',$time = time()));
+    //$this->to = date('Y-m-d H:i:00', $request->getParameter('end',strtotime('+ 1 month', $time)));
+    $this->from = $request->getParameter('start',$date = date('Y-m-d'));
+    $this->to = $request->getParameter('end',date('Y-m-d', strtotime('+ 1 month', $time = strtotime($date))));
     $this->month_view = strtotime($this->to) - strtotime($this->from) >= strtotime('+ 1 month',$time) - $time;
     
     $no_ids = $request->getParameter('no_ids',array());

@@ -1,3 +1,3 @@
 all:
-  stylesheets: [event-calendar]
+  stylesheets: [event-calendar, event-calendar-print: { media: print }, /private/event?<?php echo date('Ymd') ?>]
   javascripts: [event-calendar]

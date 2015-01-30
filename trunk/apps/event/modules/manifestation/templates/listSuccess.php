@@ -57,9 +57,9 @@
     $manifs[] = array(
       'id' => $manif->id,
       'title' => !isset($event_id) ? (string)$manif->Event : (string)$manif->Location,
-      'start' => $manif->happens_at,
-      'end' => $manif->ends_at,
-      'resource' => $resources,
+      'start' => str_replace(' ', 'T', $manif->happens_at),
+      'end' => str_replace(' ', 'T', $manif->ends_at),
+      'resources' => $resources,
       'allDay' => false,
       'hackurl' => url_for('manifestation/show?id='.$manif->id),
       'hacktitle' => (string)$manif->Location,
@@ -123,5 +123,5 @@
 <?php if ( $debug ): ?>
 <pre><?php print_r($manifs) ?></pre>
 <?php else: ?>
-<?php echo json_encode($manifs) ?>
+<?php echo json_encode($manifs, sfConfig::get('sf_web_debug', false) ? JSON_PRETTY_PRINT : 0) ?>
 <?php endif ?>
