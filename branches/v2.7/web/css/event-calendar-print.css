@@ -1,0 +1,7 @@
+#content > .ui-widget > .ui-widget-header,
+.calendar .fc-header-left, .calendar .fc-header-right,
+#sfWebDebug, .li-calendar-actions { display: none !important; }
+
+#content > .ui-widget > .ui-widget-content, #content, #fullcalendar .sf_admin_edit { border: 0; }
+#fullcalendar .sf_admin_edit, #content > .ui-widget > .ui-widget-content, #content { margin-top: 0; padding-top: 0; }
+#fullcalendar .fc-view-resourceWeek .fc-event { margin-top: 7px; }

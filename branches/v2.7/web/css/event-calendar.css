@@ -15,3 +15,7 @@ h1 { font-size: 22px; }
 #sf_admin_filter tfoot { position: absolute; display: block; bottom: 10px; right: 10px; }
 
 .li-calendar-actions .sf_admin_action_print { margin-left: 5px; line-height: 1.2em; }
+
+/* workarounds */
+#fullcalendar .fc-view-resourceDay .fc-agenda-days tbody { height: 133em; }
+#fullcalendar .fc-view-resourceDay > div > div, #fullcalendar .fc-view-resourceDay > div > div > div { overflow: visible !important; }

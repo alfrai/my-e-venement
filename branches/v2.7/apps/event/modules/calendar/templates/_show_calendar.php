@@ -16,12 +16,14 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
+<?php use_javascript('/liFullcalendarPlugin/momentjs/moment.min.js') ?>
 <?php use_javascript('/liFullcalendarPlugin/fullcalendar/fullcalendar.min.js') ?>
+<?php use_javascript('/liFullcalendarPlugin/fullcalendar/lang-all.js') ?>
 <?php use_stylesheet('/liFullcalendarPlugin/fullcalendar/fullcalendar.css','',array('media' => 'all')) ?>
 <?php use_stylesheet('/liFullcalendarPlugin/fullcalendar/fullcalendar.print.css','',array('media' => 'print')) ?>
 <div class="sf_admin_edit ui-widget ui-widget-content ui-corner-all">
@@ -33,35 +35,25 @@ if ( li == undefined )
 
 $(document).ready(function(){
   $('#fullcalendar .calendar, #more .calendar').fullCalendar({
+    lang: '<?php echo $sf_user->getCulture() ?>',
     <?php if ( isset($start_date) && $start_date && strtotime($start_date) > 0 ): ?>
-    day: <?php echo date('d', strtotime($start_date)) ?>,
-    month: <?php echo date('m', strtotime($start_date))-1 ?>,
-    year: <?php echo date('Y', strtotime($start_date)) ?>,
+    defaultDate: '<?php echo $start_date ?>',
+    //day: <?php echo date('d', strtotime($start_date)) ?>,
+    //month: <?php echo date('m', strtotime($start_date))-1 ?>,
+    //year: <?php echo date('Y', strtotime($start_date)) ?>,
     <?php endif ?>
     <?php if ( isset($defaultView) ): ?>
     defaultView: '<?php echo $defaultView ?>',
     <?php endif ?>
-    firstDay: 1,
-    minTime: '<?php echo sfConfig::get('app_listing_min_time','8') ?>',
-    maxTime: '<?php echo sfConfig::get('app_listing_max_time','24') ?>',
-    firstHour: '<?php echo sfConfig::get('app_listing_first_hour','15') ?>',
+    minTime: '<?php echo sfConfig::get('app_listing_min_time','8') ?>:00:00',
+    maxTime: '<?php echo sfConfig::get('app_listing_max_time','24') ?>:00:00',
+    firstHour: '<?php echo sfConfig::get('app_listing_first_hour','15') ?>:00:00',
     theme: true,
-    monthNames: [ 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
-    monthNamesShort: [ 'Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc' ],
-    dayNames: [ 'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi' ],
-    dayNamesShort: [ 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam' ],
     buttonText: {
-      today:    "aujourd'hui",
-      month:    'mois',
-      week:     'semaine',
-      day:      'jour',
-      resourceWeek: 'sem./lieu',
-      resourceDay:  'jour/lieu',
+      resourceDay:  '<?php echo __('Day/Location') ?>',
     },
-    titleFormat: { month: 'MMMM yyyy', week: "d[ MMM][ yyyy]{ - d MMM yyyy}", day: 'dddd d MMM yyyy', resourceDay: 'dddd d MMM yyyy', resourceWeek: "d[ MMM][ yyyy]{ - d MMM yyyy}" },
-    columnFormat: { week: 'ddd d/M', day: 'dddd d/M', resourceWeek: 'ddd d/M' },
-    timeFormat: {'': 'H:mm', agenda: 'H:mm' },
-    axisFormat: {'': 'H:mm'},
+    timeFormat: 'H:mm',
+    axisFormat: 'H:mm',
     allDayText: "<?php echo __('All day long') ?>",
     allDayDefault: false,
     allDaySlot: false,
@@ -138,23 +130,13 @@ $(document).ready(function(){
   if ( typeof LI === "undefined" )
     LI = {};
   
-  LI.addCalendarBars = function()
-  {
-    $('#fullcalendar .fc-view').animate({scrollLeft: 0}, 150);
-    
-    if ( $('.fc-view.fc-view-resourceDay').length > 0 && $('.fc-view.fc-view-resourceDay tfoot').length == 0 )
-    {
-      $('.fc-view.fc-view-resourceDay table').append('<tfoot></tfoot>');
-      $('.fc-view.fc-view-resourceDay tfoot').html(
-        $('.fc-view.fc-view-resourceDay thead').html()
-      );
-      $('.fc-view.fc-view-resourceDay tbody tr').each(function(){
-        $(this).append($(this).find('td.fc-resourceName').clone());
-      });
-    }
-  }
-  $('#fullcalendar .fc-header .fc-button').click(LI.addCalendarBars);
-  LI.addCalendarBars();
+  // HACKS
+  $('#fullcalendar .fc-header .fc-button').click(function(){
+    $('.fc-agenda-days thead .fc-agenda-axis').remove('> *');
+    $('<div></div>')
+      .css('width', '50px') // arbitrary, no better way found
+      .appendTo($('.fc-agenda-days thead .fc-agenda-axis'));
+  }).click();
 });
 --></script>
 </div>

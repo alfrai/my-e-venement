@@ -1,4 +1,4 @@
-<div class="ui-helper-clearfix li-calendar-actions">
+<div class="ui-helper-clearfix">
 <ul class="sf_admin_actions_form" style="font-size: 13px;">
   <li class="sf_admin_action_list">
     <a class="fg-button ui-state-default fg-button-icon-left" href="<?php echo url_for($sf_request->getParameter('id') ? 'event/show?id='.$sf_request->getParameter('id') : '@event') ?>">
@@ -20,11 +20,22 @@
     $w = new liWidgetFormJQueryDateText(array('culture' => $sf_user->getCulture()));
     echo $w->render('jumpToDate');
   ?><script type="text/javascript">$(document).ready(function(){
-    $('.sf_admin_action_jump_to_date').submit(function(){
+    $('.sf_admin_action_jump_to_date form').submit(function(){
+      if ( $(this).find('[name="jumpToDate[month]"]').val().length == 1 )
+        $(this).find('[name="jumpToDate[month]"]').val('0'+$(this).find('[name="jumpToDate[month]"]').val());
+      
       var count = 0;
-      $(this).find('input[type=text]').each(function(){ if ( $(this).val() ) count++; });
+      $(this).find('input[type=text]').each(function(){
+        if ( $(this).val() ) count++;
+      });
       if ( count == 3 )
-        $('#fullcalendar .calendar').fullCalendar('gotoDate', $(this).find('[name="jumpToDate[year]"]').val(), parseInt($(this).find('[name="jumpToDate[month]"]').val())-1, $(this).find('[name="jumpToDate[day]"]').val());
+      {
+        $('#fullcalendar .calendar').fullCalendar('gotoDate', tmp =
+          $(this).find('[name="jumpToDate[year]"]').val()+'-'+
+          $(this).find('[name="jumpToDate[month]"]').val()+'-'+
+          $(this).find('[name="jumpToDate[day]"]').val()
+        );
+      }
       $('#transition .close').click();
       return false;
     });
@@ -35,13 +46,6 @@
     <a class="fg-button ui-state-default fg-button-icon-left" href="<?php echo $export_url ?>" target="_blank">
       <span class="ui-icon ui-icon-circle-plus"></span>
       <?php echo __('Export') ?>
-    </a>
-  </li>
-  <li class="sf_admin_action_print fg-button-mini fg-button ui-state-default fg-button-icon-left">
-    <a href="#print"
-      title="<?php echo __('Do not forget to print in landscape, which is the only acceptable print format.') ?>">
-      <span class="ui-icon ui-icon-print"></span>
-      <?php echo __('Print', null, 'menu') ?>
     </a>
   </li>
   <li class="event_filters">
