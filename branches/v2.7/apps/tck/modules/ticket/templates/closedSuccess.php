@@ -9,7 +9,7 @@
   <div class="ui-corner-all ui-widget-content action closed">
     <p class="transaction_id"><?php echo __('Transaction #<a href="%%url%%">%%tid%%</a>',array(
       '%%tid%%' => $transaction->id,
-      '%%url%%' => url_for('ticket/sell?id='.$transaction),
+      '%%url%%' => url_for('transaction/edit?id='.$transaction->id),
     )) ?></p>
     <p class="thanks">
       <?php echo __('Thanks <a href="%%url%%">%%t%% %%f%% %%n%%</a>',array(
