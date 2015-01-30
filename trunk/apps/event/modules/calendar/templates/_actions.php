@@ -21,8 +21,10 @@
     echo $w->render('jumpToDate');
   ?><script type="text/javascript">$(document).ready(function(){
     $('.sf_admin_action_jump_to_date form').submit(function(){
-      if ( $(this).find('[name="jumpToDate[month]"]').val().length == 1 )
-        $(this).find('[name="jumpToDate[month]"]').val('0'+$(this).find('[name="jumpToDate[month]"]').val());
+      $.each(['month', 'day'], function(i, id){
+        if ( $(this).find('[name="jumpToDate['+id+']"]').val().length == 1 )
+          $(this).find('[name="jumpToDate['+id+']"]').val('0'+$(this).find('[name="jumpToDate['+id+']"]').val());
+      });
       
       var count = 0;
       $(this).find('input[type=text]').each(function(){
