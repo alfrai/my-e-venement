@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Capacity</source>
+        <target>Capacité</target>
+      </trans-unit>
+      <trans-unit>
         <source>Day/Location</source>
         <target>Jour/Lieu</target>
       </trans-unit>
@@ -21,8 +25,8 @@
         <target>Liste d'attente pour la retenue :</target>
       </trans-unit>
       <trans-unit>
-        <source>Clicking a on a free seat adds it into this hold. Clicking on a held seat removes it from this hold. CTRL+Click+Drag allows to select/deselect multiple seats in batch.</source>
-        <target>Cliquer sur une place libre l'ajoute à la retenue. Cliquer sur une place déjà retenue la libère. CTRL+Clic+Glissé permet de sélectionner/désélectionner plusieurs places d'un coup.</target>
+        <source>Clicking a on a free seat adds it into this hold. Clicking on a held seat removes it from this hold. Click+CTRL+Drag allows to select/deselect multiple seats in batch.</source>
+        <target>Cliquer sur une place libre l'ajoute à la retenue. Cliquer sur une place déjà retenue la libère. Clic+CTRL+Glissé permet de sélectionner/désélectionner plusieurs places d'un coup.</target>
       </trans-unit>
       <trans-unit>
         <source>Some errors occurred but some seats have been transferred correctly from transaction #%%tid%%.</source>
@@ -75,6 +79,14 @@
       <trans-unit>
         <source>Feeder</source>
         <target>En aval de</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Feeders</source>
+        <target>En aval de</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Updated at</source>
+        <target>Mis à jour le</target>
       </trans-unit>
       <trans-unit>
         <source>Using vouchers</source>

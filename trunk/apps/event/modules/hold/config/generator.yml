@@ -22,7 +22,7 @@ generator:
         list_capacity: { label: Capacity }
       list:
         title: Holds list
-        display: [_list_manifestation, _list_capacity, _list_next, _list_feeders, updated_at]
+        display: [=name, _list_manifestation, _list_capacity, _list_next, _list_feeders, updated_at]
         actions:
           _new:
             credentials: [event-hold-new]
@@ -34,7 +34,7 @@ generator:
         batch_actions:
           _delete:
             credentials: [event-hold-del]
-        sort: ['after, m.happens_at', '']
+        sort: ['after, m.happens_at, ht.name', '']
       filter:
         display: [name, manifestation_id, next, feeder_id]
       form: ~

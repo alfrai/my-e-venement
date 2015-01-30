@@ -26,7 +26,9 @@ generator:
         list_price: { label: Total }
         empty: { label: Empty? }
       list:
-        actions: []
+        actions:
+          _new:
+            credentials: [tck-transaction]
         batch_actions:
           _printTickets:
             label: Print tickets

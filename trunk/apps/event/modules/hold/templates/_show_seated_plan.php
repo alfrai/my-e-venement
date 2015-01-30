@@ -40,7 +40,7 @@
 <div class="label ui-helper-clearfix">
   <div class="help">
     <span class="ui-icon ui-icon-help floatleft"></span>
-    <?php echo __('Clicking a on a free seat adds it into this hold. Clicking on a held seat removes it from this hold. CTRL+Click+Drag allows to select/deselect multiple seats in batch.') ?>
+    <?php echo __('Clicking a on a free seat adds it into this hold. Clicking on a held seat removes it from this hold. Click+CTRL+Drag allows to select/deselect multiple seats in batch.') ?>
   </div>
 </div>
 

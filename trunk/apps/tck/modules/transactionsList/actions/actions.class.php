@@ -13,6 +13,10 @@ require_once dirname(__FILE__).'/../lib/transactionsListGeneratorHelper.class.ph
  */
 class transactionsListActions extends autoTransactionsListActions
 {
+  public function executeNew(sfWebRequest $request)
+  {
+    $this->redirect('transaction/new');
+  }
   public function executeBatchPrintTickets(sfWebRequest $request)
   {
     $this->error = $this->success = array();

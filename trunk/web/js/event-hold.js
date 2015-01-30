@@ -106,7 +106,10 @@ LI.seatedPlanInitializationFunctions.push(function(selector){
       data: { transaction_id: $('.sf_admin_form [name="transaction_id"]').val() },
       success: function(data){
         if ( !data.success )
+        {
+          LI.alert('An error occurred', 'error');
           return;
+        }
         
         if ( data.type == 'add' )
           $(seat).addClass('held');

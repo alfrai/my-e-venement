@@ -4,7 +4,7 @@
 <?php endforeach ?>
 
 <?php if ( count($arr) > 0 ): ?>
-<?php implode(', ', $arr) ?>
+<?php echo implode(', ', $arr) ?>
 <?php else: ?>
 -
 <?php endif ?>

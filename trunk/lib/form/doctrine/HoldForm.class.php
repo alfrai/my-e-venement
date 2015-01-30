@@ -16,5 +16,10 @@ class HoldForm extends BaseHoldForm
   public function configure()
   {
     parent::configure();
+    
+    if ( !$this->object->isNew() )
+    $this->widgetSchema['next']->setOption('query', Doctrine::getTable('Hold')->createQuery('h')
+      ->andWhere('h.id != ?', $this->object->id)
+    );
   }
 }

@@ -494,8 +494,9 @@ Hold:
       notnull: true
     next: integer
   relations:
-    Hold:
+    Next:
       local: next
+      class: Hold
       foreignAlias: Feeders
       onDelete: CASCADE
       onUpdate: CASCADE

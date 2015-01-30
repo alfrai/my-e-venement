@@ -14,6 +14,6 @@ class Seat extends PluginSeat
 {
   public function isHeldFor(Manifestation $manifestation)
   {
-    return in_array($manifestation->id, $this->Holds->toKeyValueArray('id', 'manifestation_id'));
+    return array_search($manifestation->id, $this->Holds->toKeyValueArray('id', 'manifestation_id'));
   }
 }

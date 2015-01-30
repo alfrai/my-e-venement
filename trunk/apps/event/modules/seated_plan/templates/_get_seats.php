@@ -41,12 +41,13 @@
       if ( isset($occupied[$seat->name]) && $occupied[$seat->name]['type'] == 'out' )
         continue(2);
       if ( ($sf_request->hasParameter('gauges_list') || $sf_request->hasParameter('gauge_id'))
-        && $seat->isHeldFor($seated_plan->Workspaces[0]->Gauges[0]->Manifestation) )
+        && ($hold_id = $seat->isHeldFor($seated_plan->Workspaces[0]->Gauges[0]->Manifestation)) )
       {
         if ( $sf_request->hasParameter('ticketting') )
           continue(2);
-        else
-          $held = true;
+        elseif ( $hold_id != $sf_request->getParameter('hold_id', NULL) )
+          continue(2);
+        $held = true;
       }
       break;
     }

@@ -1,0 +1,4 @@
+#sf_admin_footer #hold_name { display: none; }
+.sf_admin_list_td_transaction_id, .sf_admin_list_th_list_transaction_id { display: none; }
+.sf_admin_list_th_transaction_id, .sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_transaction_id { width: 8em; }
+.sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_transaction_id { text-align: right; }
