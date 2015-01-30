@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Holds</source>
+        <target>Retenues</target>
+      </trans-unit>
+      <trans-unit>
         <source>EveBox&amp;trade; pings</source>
         <target>Pings EveBox&amp;trade;</target>
       </trans-unit>
