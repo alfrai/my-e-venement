@@ -436,6 +436,10 @@ HoldTransaction:
     hold_id:
       type: integer
       notnull: true
+    rank:
+      type: integer
+      notnull: true
+      default: 1000
   relations:
     Transaction:
       foreignAlias: HoldTransaction
