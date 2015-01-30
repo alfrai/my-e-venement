@@ -68,7 +68,7 @@
     
     $q = Doctrine::getTable('Price')->createQuery('p')
       ->andWhere('NOT p.member_card_linked OR ?',$this->getUser()->hasCredential('tck-member-cards'))
-      ->orderBy('pt.name');
+      ->orderBy('p.name');
     $this->prices = $q->execute();
     
     $payment = new Payment();
