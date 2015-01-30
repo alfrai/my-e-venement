@@ -5,6 +5,10 @@
     <header />
     <body>
       <trans-unit>
+        <source>Print tickets</source>
+        <target>Imprimer les billets</target>
+      </trans-unit>
+      <trans-unit>
         <source>Best free seat</source>
         <target>Meilleure place libre</target>
       </trans-unit>

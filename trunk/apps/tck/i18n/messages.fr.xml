@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>No given transaction has any printable ticket.</source>
+        <target>Aucune opération fournie n'a de billet susceptible d'être imprimé.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Empty?</source>
         <target>Vide?</target>
       </trans-unit>

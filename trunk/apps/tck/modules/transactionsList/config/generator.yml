@@ -27,7 +27,9 @@ generator:
         empty: { label: Empty? }
       list:
         actions: []
-        batch_actions: []
+        batch_actions:
+          _printTickets:
+            label: Print tickets
         object_actions:
           _showUp:
             action: show

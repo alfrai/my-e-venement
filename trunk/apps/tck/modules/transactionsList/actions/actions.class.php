@@ -13,6 +13,36 @@ require_once dirname(__FILE__).'/../lib/transactionsListGeneratorHelper.class.ph
  */
 class transactionsListActions extends autoTransactionsListActions
 {
+  public function executeBatchPrintTickets(sfWebRequest $request)
+  {
+    $this->error = $this->success = array();
+    $q = Doctrine::getTable('Transaction')->createQuery('t', 'asked')
+      ->andWhereIn('t.id', $request->getParameter('ids'))
+    ;
+    foreach ( $q->execute() as $transaction )
+    {
+      $this->error[$transaction->id] = $transaction;
+      
+      // no ticket
+      if ( $transaction->Tickets->count() == 0 )
+        continue;
+      
+      // needs to be fully paid before any printing
+      if ( sfConfig::get('app_transaction_force_payment_before_printing', false)
+        && $transaction->getPaid() < $transaction->getPrice(true, true) )
+        continue;
+      
+      // success
+      $this->success[] = $transaction->id;
+      unset($this->error[$transaction->id]);
+    }
+    
+    if ( count($this->success) > 0 )
+      $this->redirect('transaction/batchPrint?ids='.implode('-', $this->success));
+    
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $this->getUser()->setFlash('error', __('No given transaction has any printable ticket.'));
+  }
   public function executeShow(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'Number'));

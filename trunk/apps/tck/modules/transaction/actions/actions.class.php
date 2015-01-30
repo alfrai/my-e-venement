@@ -13,6 +13,10 @@ require_once dirname(__FILE__).'/../lib/transactionGeneratorHelper.class.php';
  */
 class transactionActions extends autoTransactionActions
 {
+  public function executeBatchPrint(sfWebRequest $request)
+  {
+    $this->ids = explode('-',$request->getParameter('ids'));
+  }
   public function executeDispatch(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));

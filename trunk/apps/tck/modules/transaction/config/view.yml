@@ -5,6 +5,8 @@ respawnSuccess:
   stylesheets: [-tck-touchscreen]
 registeredSuccess:
   javascripts: [-*]
+batchPrintSuccess:
+  javascripts: [-*]
 
 json:
   has_layout: false
