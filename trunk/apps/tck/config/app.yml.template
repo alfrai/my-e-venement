@@ -39,6 +39,7 @@ all:
     auto_print: false # be careful, this works only if firefox is set to accept popup to be automatically opened by this e-venement instance
     auto_close: true
     control_left: false
+    #type: boca  # can be boca, tsp700
     foreign_price: PART
     foreign_max_items: 4
     max_size:
@@ -54,6 +55,7 @@ all:
     simplified_printing: true     # for dematerialized ticketting only, cf. web/css/print-simplified-tickets.css & web/private/print-simplified-tickets.css
     #alert_on_notprinted: true
     #auto_integrate: true
+    #specimen: false
   control:
     future: 6 hours
     past:   1 day
@@ -68,3 +70,8 @@ all:
     other: 
     invoice_prefix: FB
     salt: sqnao@é 98Fdnquèç&
+
+dev:
+  tickets:
+    auto_close: false
+    specimen: true

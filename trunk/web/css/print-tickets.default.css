@@ -165,3 +165,5 @@ span.eur { font-weight: normal; }
   font-weight: normal;
   font-size: 75%;
 }
+
+@media print { #sfWebDebug { display: none; } }

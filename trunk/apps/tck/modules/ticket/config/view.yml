@@ -3,7 +3,7 @@ default:
 
 printSuccess:
   javascripts: [-*, jquery, print-tickets, /private/print-tickets.js]
-  stylesheets: [-*, print-tickets.default.css: {media: all}, /private/print-tickets.css: {media: all}<?php echo sfConfig::get('app_tickets_specimen',false) ? ', print-tickets-specimen: {media: all}' : '' ?>]
+  stylesheets: [-*, print-tickets.default.css: {media: all}, print-tickets.<?php echo sfConfig::get('app_tickets_type', 'boca') ?>.css: { media: all }, /private/print-tickets.css: {media: all}]
 orderSuccess:
   javascripts: [-*, jquery, print-tickets]
   stylesheets: [-*, print-accounting: {media: all}, /private/print-accounting.css: {media: all}]

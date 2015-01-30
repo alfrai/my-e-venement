@@ -185,7 +185,7 @@ class ticketActions extends sfActions
   protected function redirectToSeatsAllocationIfNeeded($type)
   {
     // checks if any ticket needs a seat
-    foreach ( $transaction->Tickets as $ticket )
+    foreach ( $this->transaction->Tickets as $ticket )
     if ( !$ticket->seat_id
       && $ticket->Cancelling->count() == 0
       && $ticket->Gauge->Workspace->seated
@@ -197,7 +197,7 @@ class ticketActions extends sfActions
       $this->getUser()->setFlash('notice', __('You still have to give some tickets a seat...'));
       $this->getUser()->setFlash('referer', $_SERVER['REQUEST_URI'].(!$_SERVER['QUERY_STRING'] ? '?'.file_get_contents("php://input") : ''));
       
-      $url = url_for('ticket/seatsAllocation?type='.$type.'&id='.$transaction->id.'&gauge_id='.$ticket->gauge_id);
+      $url = url_for('ticket/seatsAllocation?type='.$type.'&id='.$this->transaction->id.'&gauge_id='.$ticket->gauge_id);
       if ( isset($this->toprint) && $this->toprint )
         $url .= '&toprint[]='.implode('&toprint[]=',$this->toprint);
       $this->redirect($url);
