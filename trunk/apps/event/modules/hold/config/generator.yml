@@ -23,18 +23,35 @@ generator:
       list:
         title: Holds list
         display: [_list_manifestation, _list_capacity, _list_next, _list_feeders, updated_at]
+        actions:
+          _new:
+            credentials: [event-hold-new]
         object_actions:
-          _edit:    ~
-          _delete:  ~
+          _edit:
+            credentials: [event-hold-mod]
+          _delete:
+            credentials: [event-hold-del]
+        batch_actions:
+          _delete:
+            credentials: [event-hold-del]
         sort: ['after, m.happens_at', '']
       filter:
         display: [name, manifestation_id, next, feeder_id]
-      form:   ~
+      form: ~
       edit:
         title: Hold "%%name%%"
         display:
           General: [name, manifestation_id, next, _show_feeders]
           Plan: [_form_get_seats_from_transaction, _form_transaction_id, _show_seated_plan]
+        actions:
+          _list: ~
+          _delete:
+            credentials: [event-hold-del]
+          _waiting_list:
+            action: WaitingList
+            credentials: [event-hold-waiting-list]
+          _save:
+            credentials: [event-hold-mod]
       new:
         display:
           General: [name, manifestation_id, next]

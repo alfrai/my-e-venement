@@ -13,6 +13,10 @@ require_once dirname(__FILE__).'/../lib/holdGeneratorHelper.class.php';
  */
 class holdActions extends autoHoldActions
 {
+  public function executeWaitingList(sfWebRequest $request)
+  {
+    $this->forward('hold_transaction', 'index');
+  }
   public function executeGetBackSeatsFromTransactionId(sfWebRequest $request)
   {
     $this->cpt = array('expected' => 0, 'realized' => 0);

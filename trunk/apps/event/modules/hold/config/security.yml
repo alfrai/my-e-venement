@@ -1,0 +1,35 @@
+all:
+  credentials: [admin-power]
+
+index:
+  credentials: [event-hold] #132
+edit:
+  credentials: [event-hold]
+update:
+  credentials: [event-hold-mod] #133
+new:
+  credentials: [event-hold-new] #134
+create:
+  credentials: [event-hold-new]
+delete:
+  credentials: [event-hold-del] #135
+batchDelete:
+  credentials: [event-hold-del]
+
+getBackSeatsFromTransactionId:
+  credentials: [event-hold-thief] #136
+getTransactionId:
+  credentials: [tck-transaction]
+linkSeat:
+  credentials: [event-hold-seat] #137
+
+waitingList:
+  credentials: [event-hold-transaction] #142
+createTransaction:
+  credentials: [event-hold-transaction-new] #138
+deleteTransaction:
+  credentials: [event-hold-transaction-del] #139
+orderTransaction:
+  credentials: [event-hold-transaction-order] #140
+convertTransaction:
+  credentials: [event-hold-transaction-convert] #141
