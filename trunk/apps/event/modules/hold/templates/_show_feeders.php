@@ -7,7 +7,7 @@
   <label for="feeders"><?php echo __('Feeders') ?></label>
   <div class="label ui-helper-clearfix"></div>
   <ul class="widget">
-    <li><?php implode('</li><li>', $arr) ?></li>
+    <li><?php echo implode('</li><li>', $arr) ?></li>
   </ul>
 </div>
 <?php endif ?>

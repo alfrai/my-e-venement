@@ -20,6 +20,7 @@ class HoldForm extends BaseHoldForm
     if ( !$this->object->isNew() )
     $this->widgetSchema['next']->setOption('query', Doctrine::getTable('Hold')->createQuery('h')
       ->andWhere('h.id != ?', $this->object->id)
+      ->andWhereNotIn('h.id', $this->object->Feeders->getPrimaryKeys())
     );
   }
 }

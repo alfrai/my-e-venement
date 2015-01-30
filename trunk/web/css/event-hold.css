@@ -7,3 +7,4 @@
 .sf_admin_form .sf_admin_form_field_transaction_id.with-transaction-id .remove_transaction_id { display: inline-block; }
 .sf_admin_form_field_show_picture .help { text-align: left; }
 
+#sf_admin_container .sf_admin_form_field_show_feeders ul { margin-left: 20px; }
