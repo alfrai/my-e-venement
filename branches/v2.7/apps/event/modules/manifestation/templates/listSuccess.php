@@ -62,7 +62,7 @@
       'resources' => $resources,
       'allDay' => false,
       'hackurl' => url_for('manifestation/show?id='.$manif->id),
-      'hacktitle' => (string)$manif->Location,
+      'hacktitle' => $manif->Location.' / '.$manif->Event,
       'editable' => sfConfig::get('app_manifestation_editable_in_calendar', true) && $sf_user->hasCredential('event-manif-edit'),
       'css' => array_merge($css_base = array(
           'border-style'  => $manif->reservation_confirmed ? 'solid' : 'dashed',
