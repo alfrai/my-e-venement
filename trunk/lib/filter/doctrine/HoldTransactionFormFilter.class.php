@@ -12,5 +12,6 @@ class HoldTransactionFormFilter extends BaseHoldTransactionFormFilter
 {
   public function configure()
   {
+    $this->widgetSchema['transaction_id'] = new sfWidgetFormInputText;
   }
 }
