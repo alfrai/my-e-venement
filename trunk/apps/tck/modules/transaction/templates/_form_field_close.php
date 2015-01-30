@@ -26,4 +26,10 @@
   <li class="ok"><?php echo __('yes',null,'sf_admin') ?></li>
   <li class="cancel"><?php echo __('no',null,'sf_admin') ?></li>
 </ul>
+<a
+  class="ui-widget-content ui-state-default ui-corner-all ui-widget fg-button"
+  href="<?php echo url_for('ticket/reset?id='.$transaction->id) ?>"
+  title="<?php echo __('Abandon') ?>"
+  id="abandon"
+><span class="ui-icon ui-icon-circle-close"></span></a>
 </form>

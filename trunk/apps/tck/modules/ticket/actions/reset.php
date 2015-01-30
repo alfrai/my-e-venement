@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -30,9 +30,9 @@
       ->select('t.*')
       ->leftJoin('t.Invoice i')
       ->addSelect('(SELECT count(tck.id) FROM Ticket tck WHERE tck.transaction_id = t.id) AS nb_tickets')
+      ->leftJoin('t.Tickets tck2 WITH tck2.printed_at IS NULL') // integrated tickets can be deleted
       ->where('t.id = ?',$request->getParameter('id'));
     $this->transaction = $q->fetchOne();
-    //$this->transaction = $this->getRoute()->getObject();
     
     $toprint = $this->transaction->getNotPrinted();
     
@@ -42,20 +42,8 @@
       return $this->redirect('ticket/sell?id='.$this->transaction->id);
     }
     
-    $q = new Doctrine_Query;
-    $q->delete()
-      ->from('Ticket')
-      ->where('transaction_id = ?',$this->transaction->id)
-      ->andWhere('printed_at IS NULL')
-      ->execute();
-    $q->delete()
-      ->from('Order')
-      ->where('transaction_id = ?',$this->transaction->id)
-      ->execute();
-    $q->delete()
-      ->from('Payment')
-      ->where('transaction_id = ?',$this->transaction->id)
-      ->execute();
+    foreach ( array('Tickets', 'Order', 'Payments') as $rel )
+      $this->transaction->{$rel}->delete();
     
     $this->getUser()->setFlash('notice',__('Transaction resetted and closed'));
     $this->transaction->closed = true;
