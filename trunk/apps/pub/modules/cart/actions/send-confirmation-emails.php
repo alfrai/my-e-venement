@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -37,9 +37,9 @@
     sfApplicationConfiguration::getActive()->loadHelpers(array('Date','Number','I18N', 'Url'));
     
     // command is not yet i18n, only french
-    $command = 'Commande #'.$transaction->id;
+    $command = __('Order #%%tid%%', array('%%tid%%' => $transaction->id));
     if ( $transaction->Contact )
-      $command .= ' pour '.$transaction->Contact;
+      $command .= ' '.__('for %%contact%%', array('%%contact%%' => $transaction->Contact));
     $command .= "\n";
     
     // tickets

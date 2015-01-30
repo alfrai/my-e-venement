@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Order #%%tid%%</source>
+        <target>Commande #%%tid%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>for %%contact%%</source>
+        <target>pour %%contact%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>I check my details</source>
         <target>Je vérifie mes coordonnées</target>
       </trans-unit>
