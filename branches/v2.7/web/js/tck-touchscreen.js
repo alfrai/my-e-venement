@@ -276,6 +276,9 @@ $(document).ready(function(){
       .appendTo($(this).closest('li'));
   });
   $('#li_transaction_field_payment_new .submit').hide();
+  
+  // reset the current transaction
+  $('#abandon').appendTo($('#sf_admin_container .ui-widget-header h1'));
 });
 
 // check gauges for overbooking
