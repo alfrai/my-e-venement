@@ -70,6 +70,8 @@ class seatsActions extends sfActions
       ->andWhereIn('e.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()))
       
       ->andWhere('sp.location_id = m.location_id')
+      
+      ->select('sp.*, ws.*, g.*, m.*, l.*')
     ;
     if ( $request->getParameter('id') )
       $q->andWhere('sp.id = ?', $request->getParameter('id'));
@@ -96,7 +98,7 @@ class seatsActions extends sfActions
       $spids[] = $sp->id;
     
     $q = Doctrine::getTable('Ticket')->createQuery('tck')
-      ->select('tck.*, t.*, c.*, pro.*, org.*, o.*, pc.*')
+      ->select('tck.*, t.*, s.*, sp.*')
       ->leftJoin('tck.Seat s')
       ->leftJoin('tck.Transaction t')
       ->leftJoin('t.Contact c')

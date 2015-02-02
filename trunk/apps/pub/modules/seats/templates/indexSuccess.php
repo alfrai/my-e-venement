@@ -2,34 +2,53 @@
   use_helper('Number');
   $prices = $seats = array();
   
-  foreach ( $seated_plans as $seated_plan )
-  foreach ( $seated_plan->Seats as $seat )
+  // preparing stuff to optimize fetching Seats from seated plans
+  $prepare = array();
+  $seated_plan_workspaces = new Doctrine_Collection('Workspace');
+  foreach ( $seated_plans as $sp )
+  {
+    $prepare[] = '?';
+    $seated_plan_workspaces[$sp->id] = $sp->Workspaces[0];
+  }
+  
+  // optimized Seats fetching
+  //$seat_records = new Doctrine_Collection('Seat');
+  //foreach ( $seated_plans as $seated_plan )
+  //  $seat_records->merge($seated_plan->Seats);
+  $seat_records = Doctrine::getTable('Seat')->createQuery('s')
+    ->leftJoin('s.Holds h')
+    ->leftJoin('s.SeatedPlan sp WITH sp.id IN ('.implode(',', $prepare).')', $seated_plan_workspaces->getKeys())
+    ->andWhere('sp.id IS NOT NULL')
+    ->execute()
+  ;
+  
+  foreach ( $seat_records as $seat )
   if (!(
        isset($occupied)
     && isset($occupied[$seat->id])
     && $occupied[$seat->id]['transaction_id'] === false
   ))
   {
-    if ( !isset($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]) )
+    if ( !isset($prices[$seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->id]) )
     {
-      $prices[$seated_plan->Workspaces[0]->Gauges[0]->id] = array();
-      foreach ( $seated_plan->Workspaces[0]->Gauges[0]->Manifestation->PriceManifestations as $pm )
+      $prices[$seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->id] = array();
+      foreach ( $seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->Manifestation->PriceManifestations as $pm )
       if ( $pm->Price->isAccessibleBy($sf_user) )
-        $prices[$seated_plan->Workspaces[0]->Gauges[0]->id][$pm->price_id] = $pm->value;
-      foreach ( $seated_plan->Workspaces[0]->Gauges[0]->PriceGauges as $pg )
+        $prices[$seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->id][$pm->price_id] = $pm->value;
+      foreach ( $seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->PriceGauges as $pg )
       if ( $pg->Price->isAccessibleBy($sf_user) )
-        $prices[$seated_plan->Workspaces[0]->Gauges[0]->id][$pg->price_id] = $pg->value;
+        $prices[$seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->id][$pg->price_id] = $pg->value;
     }
     
     $infos = array();
-    $infos[] = $seated_plan->Workspaces[0]->Gauges[0]->group_name ? $seated_plan->Workspaces[0]->Gauges[0]->group_name : $seated_plan->Workspaces[0];
-    if ( count($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]) > 0 )
-    $infos[] = min($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]) != max($prices[$seated_plan->Workspaces[0]->Gauges[0]->id])
+    $infos[] = $seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->group_name ? $seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->group_name : $seated_plan_workspaces[$seat->seated_plan_id];
+    if ( count($prices[$seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->id]) > 0 )
+    $infos[] = min($prices[$seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->id]) != max($prices[$seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->id])
       ? __('from %%from%% to %%to%%', array(
-        '%%from%%' => format_currency(min($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]), '€'),
-        '%%to%%'   => format_currency(max($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]), '€'),
+        '%%from%%' => format_currency(min($prices[$seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->id]), '€'),
+        '%%to%%'   => format_currency(max($prices[$seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->id]), '€'),
       ))
-      : format_currency(min($prices[$seated_plan->Workspaces[0]->Gauges[0]->id]), '€')
+      : format_currency(min($prices[$seated_plan_workspaces[$seat->seated_plan_id]->Gauges[0]->id]), '€')
     ;
     
     $seats[] = array(
@@ -44,7 +63,7 @@
       'class'     => $seat->class,
       'rank'      => '',
       'info'      => implode(', ',$infos),
-      'seated_plan_id' => $seated_plan->id,
+      'seated_plan_id' => $seat->seated_plan_id,
       'occupied'  => isset($occupied) && isset($occupied[$seat->id]) ? $occupied[$seat->id] : false,
     );
   }
