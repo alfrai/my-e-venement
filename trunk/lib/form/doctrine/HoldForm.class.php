@@ -17,6 +17,8 @@ class HoldForm extends BaseHoldForm
   {
     parent::configure();
     
+    unset($this->widgetSchema['seats_list']);
+    
     if ( !$this->object->isNew() )
     $this->widgetSchema['next']->setOption('query', Doctrine::getTable('Hold')->createQuery('h')
       ->andWhere('h.id != ?', $this->object->id)
