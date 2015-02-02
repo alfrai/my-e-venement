@@ -47,6 +47,9 @@ class holdActions extends autoHoldActions
     } catch ( Exception $e ) {
       error_log($e);
     }
+    
+    if ( $this->cpt['expected'] == $this->cpt['realized'] )
+      $this->transaction->Order->delete();
   }
   public function executeGetTransactionId(sfWebRequest $request)
   {
