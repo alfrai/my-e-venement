@@ -37,7 +37,6 @@
   //$seat_records = new Doctrine_Collection('Seat');
   //foreach ( $seated_plans as $seated_plan )
   //  $seat_records->merge($seated_plan->Seats);
-  if ( !isset($seat_records) )
   $seat_records = Doctrine::getTable('Seat')->createQuery('s')
     ->leftJoin('s.Holds h')
     ->leftJoin('s.SeatedPlan sp WITH sp.id IN ('.implode(',', $prepare).')', $seated_plan_manifs->getKeys())
