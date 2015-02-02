@@ -42,7 +42,7 @@ $(document).ready(function(){
           if ( !json.transaction_id )
             LI.alert('An error occurred', 'error');
           else
-            $('.sf_admin_form [name="transaction_id"]').val(data.transaction_id).change();
+            $('.sf_admin_form [name="transaction_id"]').val(json.transaction_id).change();
           break;
         
         // steal seats from a transaction for this hold, when it is possible
