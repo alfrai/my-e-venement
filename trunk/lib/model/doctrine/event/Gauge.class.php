@@ -102,4 +102,38 @@ class Gauge extends PluginGauge
       $prices = $this->getAllPriceValues();
     return $prices;
   }
+  
+  public function isAccessibleBy(Doctrine_Collection $users, $online = NULL, $everybody_or_nothing = false)
+  {
+    if ( $users->getTable()->getComponentName() != 'sfGuardUser' )
+      throw new liEvenementException('Gauge::isAccessibleBy expects a Doctrine_Collection from the sfGuardUser model. '.$users->getTable()->getComponentName().' given.');
+    
+    if ( $users->count() == 0 )
+      return true;
+    
+    $ok = false;
+    foreach ( $users as $user )
+    {
+      if ( !in_array($user->id, $this->Workspace->Users->getPrimaryKeys()) )
+      {
+        if ( $everybody_or_nothing ) break;
+        continue;
+      }
+      if ( !in_array($user->id, $this->Manifestation->Event->MetaEvent->Users->getPrimaryKeys()) )
+      {
+        if ( $everybody_or_nothing ) break;
+        continue;
+      }
+      
+      if ( is_null($online) )
+        $ok = true;
+      else
+        $ok = $this->online === $online;
+      
+      if ( !$everybody_or_nothing && $ok )
+        break;
+    }
+    
+    return $ok;
+  }
 }

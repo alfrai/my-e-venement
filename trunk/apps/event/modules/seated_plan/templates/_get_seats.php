@@ -23,14 +23,17 @@
 ?>
 <?php
   $seats = array();
+  $users = Doctrine::getTable('sfGuardUser')->createQuery('u')
+    ->andWhereIn('u.username', sfConfig::get('app_manifestation_online_users', array()))
+    ->execute();
   
   // preparing stuff to optimize fetching Seats from seated plans
   $prepare = array();
-  $seated_plan_manifs = new Doctrine_Collection('Manifestation');
+  $seated_plans_gauges = new Doctrine_Collection('Gauge');
   foreach ( $seated_plans as $sp )
   {
     $prepare[] = '?';
-    $seated_plan_manifs[$sp->id] = $sp->Workspaces[0]->Gauges[0]->Manifestation;
+    $seated_plans_gauges[$sp->id] = $sp->Workspaces[0]->Gauges[0];
   }
   
   // optimized Seats fetching
@@ -39,7 +42,7 @@
   //  $seat_records->merge($seated_plan->Seats);
   $seat_records = Doctrine::getTable('Seat')->createQuery('s')
     ->leftJoin('s.Holds h')
-    ->leftJoin('s.SeatedPlan sp WITH sp.id IN ('.implode(',', $prepare).')', $seated_plan_manifs->getKeys())
+    ->leftJoin('s.SeatedPlan sp WITH sp.id IN ('.implode(',', $prepare).')', $seated_plans_gauges->getKeys())
     ->andWhere('sp.id IS NOT NULL')
     ->execute()
   ;
@@ -61,7 +64,7 @@
       if ( isset($occupied[$seat->name]) && $occupied[$seat->name]['type'] == 'out' )
         continue(2);
       if ( ($sf_request->hasParameter('gauges_list') || $sf_request->hasParameter('gauge_id'))
-        && ($hold_id = $seat->isHeldFor($seated_plan_manifs[$seat->seated_plan_id])) )
+        && ($hold_id = $seat->isHeldFor($seated_plans_gauges[$seat->seated_plan_id]->Manifestation)) )
       {
         if ( $sf_request->hasParameter('ticketting') )
           continue(2);
@@ -81,7 +84,7 @@
       'diameter'  => $seat->diameter,
       'name'      => $seat->name,
       'id'        => $seat->id,
-      'class'     => $seat->class.($held ? ' held' : ''),
+      'class'     => $seat->class.($held ? ' held' : '').($seated_plans_gauges[$seat->seated_plan_id]->isAccessibleBy($users, true) ? '' : ' offline'),
       'rank'      => $seat->rank,
       'seated-plan-id' => $seat->seated_plan_id,
       'occupied'  => $sf_user->hasCredential('event-seats-allocation') && !(isset($occupied[$seat->name]) && $occupied[$seat->name]['type'] == 'out')

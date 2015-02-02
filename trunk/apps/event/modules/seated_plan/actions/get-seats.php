@@ -32,10 +32,6 @@
     }
     elseif ( is_array($ids) )
     {
-      $users = array();
-      foreach ( $tmp = sfConfig::get('app_manifestation_online_users', array()) as $username );
-        $users[$username] = '?';
-      
       $q = Doctrine::getTable('SeatedPlan')->createQuery('sp')
         ->leftJoin('sp.Workspaces ws')
         ->leftJoin('ws.Gauges g')
@@ -47,17 +43,7 @@
         ->andWhere('l.id = sp.location_id')
         
         ->select('sp.*, ws.*, g.*, m.*, l.*')
-        
-        ->leftJoin('ws.Users wsu WITH wsu.username IN ('.implode(',', $users).')', array_keys($users))
-        ->leftJoin('me.Users meu WITH meu.username IN ('.implode(',', $users).')', array_keys($users))
-        ->addSelect('(meu.id IS NOT NULL AND wsu.id IS NOT NULL) AS online')
-        //->addSelect('(e.meta_event_id IN ('.implode(',',$prepare['me']).') AND ws.id IN ('.implode(',', $prepare['ws']).')) AS online', array_merge(array_keys($prepare['me']), array_keys($prepare['ws'])))
       ;
-      /*
-      print_r(array_merge(array_keys($prepare['me']), array_keys($prepare['ws'])));
-      echo 'e.meta_event_id IN ('.implode(',',$prepare['me']).') AND ws.id IN ('.implode(',', $prepare['ws']).')) AS online';
-      die();
-      */
       $this->seated_plans = $q->execute();
       $this->forward404Unless($this->seated_plans->count() > 0);
     }
