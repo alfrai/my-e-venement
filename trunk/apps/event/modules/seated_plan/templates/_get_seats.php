@@ -68,7 +68,7 @@
       {
         if ( $sf_request->hasParameter('ticketting') )
           continue(2);
-        elseif ( $hold_id != $sf_request->getParameter('hold_id', NULL) )
+        elseif ( $sf_request->hasParameter('hold_id', NULL) && $hold_id != $sf_request->getParameter('hold_id', NULL) )
           continue(2);
         $held = true;
       }
