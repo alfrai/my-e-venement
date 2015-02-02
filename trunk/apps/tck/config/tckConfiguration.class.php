@@ -253,6 +253,11 @@ EOF
         ->andWhere('tck.seat_id IS NOT NULL')
         ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL AND tck.cancelling IS NULL')
         ->andWhere('tck.updated_at < ?', date('Y-m-d H:i:s', strtotime(($timeout['wip'] ? $timeout['wip'] : '2 hours').' ago')))
+        
+        ->leftJoin('tck.Transaction t')
+        ->leftJoin('t.Order o')
+        ->andWhere('o.id IS NULL')
+        
         ->execute()
       ;
       $nb = $tickets->count();
