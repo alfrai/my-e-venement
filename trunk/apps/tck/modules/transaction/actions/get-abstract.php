@@ -357,7 +357,7 @@
               $this->json[$product->id][$this->json[$product->id]['declinations_name']][$declination->id]['seated_plan_url']
                 = cross_app_url_for('default', 'picture/display?id='.$seated_plan->picture_id,true);
               $this->json[$product->id][$this->json[$product->id]['declinations_name']][$declination->id]['seated_plan_seats_url']
-                = cross_app_url_for('event',   'seated_plan/getSeats?id='.$seated_plan->id.'&gauge_id='.$declination->id.($this->transaction ? '&transaction_id='.$this->transaction->id : ''),true);
+                = cross_app_url_for('event',   'seated_plan/getSeats?ticketting=true&id='.$seated_plan->id.'&gauge_id='.$declination->id.($this->transaction ? '&transaction_id='.$this->transaction->id : ''),true);
               if ( $seated_plan->ideal_width )
               $this->json[$product->id][$this->json[$product->id]['declinations_name']][$declination->id]['seated_plan_width']
                 = $seated_plan->ideal_width;
