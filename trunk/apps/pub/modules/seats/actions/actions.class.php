@@ -62,8 +62,12 @@ class seatsActions extends sfActions
       ->leftJoin('sp.Workspaces ws')
       ->leftJoin('ws.Gauges g')
       ->andWhereIn('g.id', $ids)
+      ->andWhere('g.online = ?', true)
+      ->andWhereIn('g.workspace_id', array_keys($this->getUser()->getWorkspacesCredentials()))
       
       ->leftJoin('g.Manifestation m')
+      ->leftJoin('m.Event e')
+      ->andWhereIn('e.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()))
       
       ->andWhere('sp.location_id = m.location_id')
     ;

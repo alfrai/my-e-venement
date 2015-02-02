@@ -23,8 +23,29 @@
 ?>
 <?php
   $seats = array();
-  foreach ( $seated_plans as $seated_plan )
-  foreach ( $seated_plan->Seats as $seat )
+  
+  // preparing stuff to optimize fetching Seats from seated plans
+  $prepare = array();
+  $seated_plan_manifs = new Doctrine_Collection('Manifestation');
+  foreach ( $seated_plans as $sp )
+  {
+    $prepare[] = '?';
+    $seated_plan_manifs[$sp->id] = $sp->Workspaces[0]->Gauges[0]->Manifestation;
+  }
+  
+  // optimized Seats fetching
+  //$seat_records = new Doctrine_Collection('Seat');
+  //foreach ( $seated_plans as $seated_plan )
+  //  $seat_records->merge($seated_plan->Seats);
+  if ( !isset($seat_records) )
+  $seat_records = Doctrine::getTable('Seat')->createQuery('s')
+    ->leftJoin('s.Holds h')
+    ->leftJoin('s.SeatedPlan sp WITH sp.id IN ('.implode(',', $prepare).')', $seated_plan_manifs->getKeys())
+    ->andWhere('sp.id IS NOT NULL')
+    ->execute()
+  ;
+  
+  foreach ( $seat_records as $seat )
   {
     $held = false;
     // especially for controlled tickets
@@ -41,7 +62,7 @@
       if ( isset($occupied[$seat->name]) && $occupied[$seat->name]['type'] == 'out' )
         continue(2);
       if ( ($sf_request->hasParameter('gauges_list') || $sf_request->hasParameter('gauge_id'))
-        && ($hold_id = $seat->isHeldFor($seated_plan->Workspaces[0]->Gauges[0]->Manifestation)) )
+        && ($hold_id = $seat->isHeldFor($seated_plan_manifs[$seat->seated_plan_id])) )
       {
         if ( $sf_request->hasParameter('ticketting') )
           continue(2);
