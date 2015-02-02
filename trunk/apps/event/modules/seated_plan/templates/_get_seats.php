@@ -66,8 +66,10 @@
       if ( ($sf_request->hasParameter('gauges_list') || $sf_request->hasParameter('gauge_id'))
         && ($hold_id = $seat->isHeldFor($seated_plans_gauges[$seat->seated_plan_id]->Manifestation)) )
       {
+        // Inside a ticketting process
         if ( $sf_request->hasParameter('ticketting') )
           continue(2);
+        // inside a Hold
         elseif ( $sf_request->hasParameter('hold_id', NULL) && $hold_id != $sf_request->getParameter('hold_id', NULL) )
           continue(2);
         $held = true;
