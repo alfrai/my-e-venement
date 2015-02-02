@@ -388,6 +388,10 @@
     }).submit();
   }
   
+  LI.print_seated_plan = function(sp){
+    window.print();
+  }
+  
   $(document).ready(function(){
     // automagically loads plans when the HTML call is in the page
     LI.seatedPlanInitialization();

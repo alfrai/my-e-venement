@@ -34,7 +34,8 @@ html body #content { margin-right: 0; }
 .sf_admin_field_workspaces_list .gauge .gauge { cursor: pointer; }
 .sf_admin_field_workspaces_list .active .seated-plan-parent { display: block; }
 .sf_admin_field_workspaces_list .magnify { top: 500px; right: 50px; }
-.sf_admin_field_workspaces_list .seated-plan-actions .close { position: absolute; margin-left: calc(100% + 5px); font-weight: bold; color: white; }
+.sf_admin_field_workspaces_list .seated-plan-actions .print, .sf_admin_field_workspaces_list .seated-plan-actions .close { position: absolute; margin-left: calc(100% + 5px); font-weight: bold; color: white; }
+.sf_admin_field_workspaces_list .seated-plan-actions .close { margin-left: calc(100% + 37px); }
 .sf_admin_field_workspaces_list .seated-plan-actions .close:before { content: 'x'; }
 
 #sf_fieldset_statistics label { font-weight: normal; }

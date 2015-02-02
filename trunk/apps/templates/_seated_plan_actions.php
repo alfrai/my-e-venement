@@ -14,6 +14,13 @@
              onclick="javascript: $(this).closest('.seated-plan-parent').closest('.gauge').removeClass('active'); LI.controls_repeat($(this).closest('.seated-plan-parent').find('.controls-loop').prop('checked', false)); console.log('Seated plan closed'); return false;"
              title="<?php echo __('Close') ?>"
           ></a>
+          <a class="print"
+             href="#"
+             onclick="javascript: LI.print_seated_plan($(this).closest('.seated-plan-parent')); return false;"
+             title="<?php echo __('Print', null, 'menu') ?>"
+          >
+            <span class="ui-icon ui-icon-print"></span>
+          </a>
           <a class="occupation"
              href="<?php echo url_for('seated_plan/getSeats?id='.$seated_plan->id) ?>?<?php echo $param ?>"
              onclick="javascript: var plan = $(this).closest('.seated-plan-parent').find('.seated-plan'); LI.seatedPlanLoadData($(this).prop('href'), plan); return false;"
