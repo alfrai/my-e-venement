@@ -43,6 +43,7 @@ all:
     #logo: /private/logo-xxx.png
     authorize_grouped_tickets: false
     spectator_display_all: false
+    #type: boca  # can be boca, tsp700
   control:
     future: 6 hours
     past:   1 day
