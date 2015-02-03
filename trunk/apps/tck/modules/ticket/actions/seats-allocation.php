@@ -35,7 +35,6 @@
   $q = Doctrine::getTable('Transaction')->createQuery('t')
     ->leftJoin('m.Location l')
     ->leftJoin('l.SeatedPlans sp')
-    ->leftJoin('sp.Picture p')
     ->leftJoin('tck.Gauge g')
     ->leftJoin('g.Workspace ws')
     ->leftJoin('m.Event e')

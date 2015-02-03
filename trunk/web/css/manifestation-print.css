@@ -13,6 +13,6 @@ form.control, .ticket-ids, .tab-print a, .ui-tabs-vertical .ui-tabs-nav { displa
 .sf_admin_field_workspaces_list .seated-plan-parent { top: 0; left: 0; bottom: 0; right: 0; }
 .sf_admin_field_workspaces_list .seated-plan-parent .magnify, .sf_admin_field_workspaces_list .seated-plan-parent .seated-plan-actions { display: none; }
 
-#content, html { background-color: transparent; }
+#content, html { background-color: transparent; overflow: visible !important; }
 
 }

@@ -49,7 +49,6 @@
   
   foreach ( $seat_records as $seat )
   {
-    $held = false;
     // especially for controlled tickets
     if ( !isset($type) )
       $type = 'seat';
@@ -64,15 +63,14 @@
       if ( isset($occupied[$seat->name]) && $occupied[$seat->name]['type'] == 'out' )
         continue(2);
       if ( ($sf_request->hasParameter('gauges_list') || $sf_request->hasParameter('gauge_id'))
-        && ($hold_id = $seat->isHeldFor($seated_plans_gauges[$seat->seated_plan_id]->Manifestation)) )
+        && ($hold = $seat->isHeldFor($seated_plans_gauges[$seat->seated_plan_id]->Manifestation)) )
       {
         // Inside a ticketting process
         if ( $sf_request->hasParameter('ticketting') )
           continue(2);
         // inside a Hold
-        elseif ( $sf_request->hasParameter('hold_id', NULL) && $hold_id != $sf_request->getParameter('hold_id', NULL) )
+        elseif ( $sf_request->hasParameter('hold_id', NULL) && $hold->id != $sf_request->getParameter('hold_id', NULL) )
           continue(2);
-        $held = true;
       }
       break;
     }
@@ -85,8 +83,9 @@
       ),
       'diameter'  => $seat->diameter,
       'name'      => $seat->name,
+      'info'      => $hold ? __('Held for "%%hold%%"', array('%%hold%%' => $hold)) : NULL,
       'id'        => $seat->id,
-      'class'     => $seat->class.($held ? ' held' : '').($seated_plans_gauges[$seat->seated_plan_id]->isAccessibleBy($users, true) ? '' : ' offline'),
+      'class'     => $seat->class.($hold ? ' held' : '').($seated_plans_gauges[$seat->seated_plan_id]->isAccessibleBy($users, true) ? '' : ' offline'),
       'rank'      => $seat->rank,
       'seated-plan-id' => $seat->seated_plan_id,
       'occupied'  => $sf_user->hasCredential('event-seats-allocation') && !(isset($occupied[$seat->name]) && $occupied[$seat->name]['type'] == 'out')

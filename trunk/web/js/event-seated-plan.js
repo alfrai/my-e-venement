@@ -389,7 +389,12 @@
   }
   
   LI.print_seated_plan = function(sp){
+    $('.gauge.active .seated-plan-parent').height(
+      ($('.gauge.active .seated-plan.picture .anti-handling').width() * $('.gauge.active .seated-plan.picture').attr('data-scale'))
+      +'px'
+    );
     window.print();
+    $('.gauge.active .seated-plan-parent').css('height', '');
   }
   
   $(document).ready(function(){

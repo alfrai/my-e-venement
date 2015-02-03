@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Held for "%%hold%%"</source>
+        <target>Retenue par "%%hold%%"</target>
+      </trans-unit>
+      <trans-unit>
         <source>Capacity</source>
         <target>Capacité</target>
       </trans-unit>
