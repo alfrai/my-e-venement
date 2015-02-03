@@ -29,6 +29,11 @@
     throw new liOnlineSaleException('You asked for a payment plugin ('.$plugin.') that does not exist.');
   
   $transaction = Doctrine::getTable('Transaction')->findOneById($class::getTransactionIdByResponse($request));
+  $cultures = sfConfig::get('project_internals_cultures', array('fr' => 'Français'));
+  $this->getUser()->setCulture($transaction->Contact->culture
+    ? $transaction->Contact->culture
+    : array_pop(array_keys($cultures))
+  );
   $this->online_payment = $class::create($transaction);
   
   // records a BankPayment Record and valid (or not)
