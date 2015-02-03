@@ -40,7 +40,10 @@
     if ( $printed )
       $q->andWhere('t.printed_at IS NOT NULL OR t.integrated_at IS NOT NULL OR t.cancelling IS NOT NULL');
     if ( intval($manifestation_id) > 0 )
+    {
+      $request->setParameter('manifestation_id', $manifestation_id);
       $q->andWhere('t.manifestation_id = ?',intval($manifestation_id));
+    }
     $this->tickets = $q->execute();
     
     // remove cancelled tickets
