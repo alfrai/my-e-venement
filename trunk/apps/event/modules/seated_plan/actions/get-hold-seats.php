@@ -95,9 +95,10 @@
             : (string)$ticket->Transaction->Contact
           ;
         $this->occupied[$ticket->Seat->name] = array(
-          'type'            => !$ticket->Transaction->HoldTransaction
+          'type'            => !$ticket->Transaction->HoldTransaction && ($ticket->printed_at || $ticket->integrated_at)
             ? 'out'
             : ($ticket->printed_at || $ticket->integrated_at ? 'printed' : ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked')).($ticket->transaction_id === $this->transaction_id && $ticket->gauge_id == $gid ? ' in-progress' : ''),
+          //'type'            => ($ticket->printed_at || $ticket->integrated_at ? 'printed' : ($ticket->Transaction->Order->count() > 0 ? 'ordered' : 'asked')).($ticket->transaction_id === $this->transaction_id && $ticket->gauge_id == $gid ? ' in-progress' : ''),
           'transaction_id'  => '#'.$ticket->transaction_id,
           'ticket_id'       => $ticket->id,
           'price_id'        => $ticket->price_id,

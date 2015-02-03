@@ -7,6 +7,9 @@
   >
     <?php echo __('Get back seats from this transaction') ?>
   </button>
+  <a href="<?php echo url_for('hold/getTransactionIdForTicket?ticket_id=PUT_TICKET_ID_HERE') ?>"
+    data-replace="PUT_TICKET_ID_HERE"
+    id="get-transaction-id"></a>
   <div class="label ui-helper-clearfix">
     <div class="help">
       <span class="ui-icon ui-icon-help floatleft"></span>

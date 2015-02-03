@@ -13,6 +13,11 @@ require_once dirname(__FILE__).'/../lib/holdGeneratorHelper.class.php';
  */
 class holdActions extends autoHoldActions
 {
+  public function executeGetTransactionIdForTicket(sfWebRequest $request)
+  {
+    $this->ticket = Doctrine::getTable('Ticket')->find($request->getParameter('ticket_id',0));
+    $this->forward404Unless($this->ticket);
+  }
   public function executeWaitingList(sfWebRequest $request)
   {
     $this->forward('hold_transaction', 'index');

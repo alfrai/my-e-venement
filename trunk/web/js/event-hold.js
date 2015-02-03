@@ -90,6 +90,29 @@ LI.seatedPlanInitializationFunctions.push(function(selector){
     if ( $(this).hasClass('hold-in-progress') )
       return;
     
+    // if the seat is already booked/ordered
+    if ( $(this).hasClass('ordered') || $(this).hasClass('asked') )
+    {
+      var url = $('#get-transaction-id').prop('href').replace($('#get-transaction-id').attr('data-replace'), $(this).attr('data-ticket-id'));
+      $.ajax({
+        type: 'get',
+        url: url,
+        success: function(json){
+          if ( !json.transaction_id )
+          {
+            LI.alert('An error occurred', 'error');
+            return;
+          }
+          $('.sf_admin_form [name="get_back_seats_from_transaction_id"]').val(json.transaction_id);
+        },
+        error: function(){
+          LI.alert('An error occurred', 'error');
+        },
+      });
+      return;
+    }
+    
+    // if the seat is still free
     $(this).addClass('hold-in-progress');
     var url = $('#link-seat').prop('href').replace($('#link-seat').attr('data-replace'), $(this).attr('data-id'));
     
@@ -104,6 +127,9 @@ LI.seatedPlanInitializationFunctions.push(function(selector){
       type: 'get',
       url: url,
       data: { transaction_id: $('.sf_admin_form [name="transaction_id"]').val() },
+      error: function(){
+        LI.alert('An error occurred', 'error');
+      },
       success: function(data){
         if ( !data.success )
         {
