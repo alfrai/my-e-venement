@@ -32,6 +32,17 @@
         'padding-x'     => 2.5,
         'padding-y'     => 4,
       ),
+      '3474' => array (
+        'page-format'   => 'a4',
+        'nb-x'          => 3,
+        'nb-y'          => 8,
+        'left-right'    => 0,
+        'top-bottom'    => 0,
+        'margin-x'      => 0,
+        'margin-y'      => 0,
+        'padding-x'     => 5,
+        'padding-y'     => 0,
+      ),
 ) ?>
 
 <form method="get" action="#" class="ui-corner-all ui-widget-content templates" onsubmit="javascript: return false;">
