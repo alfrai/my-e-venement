@@ -1,5 +1,6 @@
 <?php use_javascript('tck-touchscreen-print?'.date('Ymd')) ?>
 <div class="ui-corner-all ui-widget-content">
+<?php if ( $sf_user->hasCredential('tck-print-ticket') ): ?>
 
 <form action="<?php echo url_for('ticket/print?id='.$transaction->id) ?>"
       method="get"
@@ -42,4 +43,6 @@
   </p>
 </form>
 
+<?php endif ?>
 </div>
+
