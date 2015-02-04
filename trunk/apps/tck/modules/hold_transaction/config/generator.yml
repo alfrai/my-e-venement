@@ -1,0 +1,45 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           HoldTransaction
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          hold_transaction
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        list_contact: { label: Contact }
+        list_professional: { label: Function }
+        list_nb: { label: Quantity }
+        list_nb_seated: { label: Seated }
+        list_nb_printed: { label: Printed }
+        list_transaction_id: { label: Transaction }
+      list:
+        title: Waiting list for hold:
+        display: [Hold, _list_transaction_id, _list_contact, _list_professional, _list_nb, _list_nb_printed, _list_nb_seated]
+        batch_actions:
+          _delete:
+            credentials: [event-hold-transaction-del]
+        object_actions:
+          _edit:
+            credentials: [tck-transaction]
+          _delete:
+            credentials: [event-hold-transaction-del]
+        sort: ['rank', 'DESC']
+      filter:
+        display: [transaction_id]
+      form:    ~
+      edit:
+        title: 'Edit held transaction #%%transaction_id%%'
+        display: [_show_transaction, _show_nb, _show_nb_printed, _show_nb_seated]
+      new:
+        display: [hold_id]
+        actions:
+          _list: ~
+          _save: ~

@@ -1,0 +1,12 @@
+all:
+  stylesheets: [tck-hold-transaction]
+  javascripts: [tck-hold-transaction, helper]
+
+indexSuccess:
+  javascripts: [list-scroll]
+
+changeRankSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+

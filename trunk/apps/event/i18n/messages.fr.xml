@@ -17,10 +17,6 @@
         <target>Jour/Lieu</target>
       </trans-unit>
       <trans-unit>
-        <source>Function</source>
-        <target>Fonction</target>
-      </trans-unit>
-      <trans-unit>
         <source>Waiting list</source>
         <target>Liste d'attente</target>
       </trans-unit>

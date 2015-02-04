@@ -12,5 +12,15 @@ class HoldTransactionForm extends BaseHoldTransactionForm
 {
   public function configure()
   {
+    $this->validatorSchema['transaction_id']->setOption('required', false);
+    $this->widgetSchema   ['transaction_id'] = new sfWidgetFormInputHidden;
+    
+    $this->widgetSchema['hold_id']->setOption('order_by', array('ht.name', ''));
+    
+    if ( $this->object->isNew() )
+      return;
+    // ONLY NOT NEW OBJECTS UNTIL NOW
+    
+    $this->widgetSchema['hold_id'] = new sfWidgetFormInputHidden;
   }
 }

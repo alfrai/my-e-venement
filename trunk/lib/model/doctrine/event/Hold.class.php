@@ -12,4 +12,8 @@
  */
 class Hold extends PluginHold
 {
+  public function __toString()
+  {
+    return $this->name.' ('.$this->Manifestation->getName(true).')';
+  }
 }

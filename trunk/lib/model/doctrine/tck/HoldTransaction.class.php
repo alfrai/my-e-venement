@@ -12,4 +12,31 @@
  */
 class HoldTransaction extends PluginHoldTransaction
 {
+  public function preSave($event)
+  {
+    parent::preInsert($event);
+    
+    // if no transaction_id is set, create one
+    if ( !$this->transaction_id )
+    {
+      $transaction = new Transaction;
+      $transaction->Order[] = new Order;
+      $transaction->save();
+      $this->Transaction = $transaction;
+    }
+  }
+  
+  public function preInsert($event)
+  {
+    parent::preInsert($event);
+    
+    // if no transaction_id is set, take the smallest rank of this hold, and substract 1000
+    if ( $ht = $this->getTable()->createQuery('ht')
+      ->andWhere('ht.hold_id = ?', $this->hold_id)
+      ->orderBy('ht.rank')
+      ->limit(1)
+      ->fetchOne()
+    )
+      $this->rank = $ht->rank - 1000;
+  }
 }

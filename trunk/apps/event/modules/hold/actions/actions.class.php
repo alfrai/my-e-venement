@@ -20,7 +20,8 @@ class holdActions extends autoHoldActions
   }
   public function executeWaitingList(sfWebRequest $request)
   {
-    $this->forward('hold_transaction', 'index');
+    $this->getContext()->getConfiguration()->loadHelpers('CrossAppLink');
+    $this->redirect(cross_app_url_for('tck', 'hold_transaction/index?hold_id='.$request->getParameter('id')));
   }
   public function executeGetBackSeatsFromTransactionId(sfWebRequest $request)
   {

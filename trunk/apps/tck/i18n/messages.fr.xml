@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Hold</source>
+        <target>Retenue</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Function</source>
+        <target>Fonction</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Rank</source>
+        <target>Classement</target>
+      </trans-unit>
+      <trans-unit>
         <source>No given transaction has any printable ticket.</source>
         <target>Aucune opération fournie n'a de billet susceptible d'être imprimé.</target>
       </trans-unit>
@@ -555,6 +567,10 @@
       <trans-unit>
         <source>Translation for categories</source>
         <target>Correspondance pour les catégories</target>
+      </trans-unit> 
+      <trans-unit>
+        <source>Seated</source>
+        <target>Placé</target>
       </trans-unit> 
       <trans-unit>
         <source>Printed</source>

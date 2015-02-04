@@ -1,3 +1,12 @@
+hold_transaction:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                HoldTransaction
+    module:               hold_transaction
+    prefix_path:          /hold_transaction
+    column:               id
+    with_wildcard_routes: true
+
 transaction_transactionsList:
   class: sfDoctrineRouteCollection
   options:
