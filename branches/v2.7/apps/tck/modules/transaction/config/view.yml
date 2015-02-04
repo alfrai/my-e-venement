@@ -1,6 +1,6 @@
 all:
   javascripts: [tck-touchscreen, tck-touchscreen-forms, tck-touchscreen-board, vcard, event-seated-plan, /private/tck-touchscreen]
-  stylesheets: [tck-touchscreen, event-seated-plan]
+  stylesheets: [tck-touchscreen, event-seated-plan, /private/tck-touchscreen?<?php echo date('Ymd') ?>]
 respawnSuccess:
   stylesheets: [-tck-touchscreen]
 
