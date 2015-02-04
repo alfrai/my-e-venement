@@ -284,7 +284,7 @@ done
 # final informations
 echo ''
 echo ''
-if [ $NBPA -eq $NBP ] && [ $NBT -eq $NBTA ]
+if [ "$NBPA" -eq "$NBP" ] && [ "$NBT" -eq "$NBTA" ]
 then
   echo "Your migration went good. Your number of tickets and seated tickets is the same."
 else
