@@ -134,11 +134,11 @@ abstract class PluginTicket extends BaseTicket
       && ( $this->printed_at || $this->integrated_at )
       && is_null($this->cancelling) && is_null($this->duplicating) && $this->Duplicatas->count() == 0
     )
-      $this->vat = NULL;
+      $this->vat = -1;
     
     // Setting the VAT to the ticket's Manifestation if not set
-    if ( is_null($this->vat) )
-      $this->vat = $pm->Manifestation->Vat->value;
+    if ( is_null($this->vat) || $this->vat == -1 )
+      $this->vat = $this->Manifestation->Vat->value;
     
     // last chance to set taxes
     if ( !$this->printed_at || isset($mods['printed_at']) || isset($mods['integrated_at']) ) // if the ticket is being printed or is not printed

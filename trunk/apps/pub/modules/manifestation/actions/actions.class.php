@@ -109,8 +109,9 @@ class manifestationActions extends autoManifestationActions
     ;
     $this->gauges = $q->execute();
     
-    if ( !$this->gauges || $this->gauges && $this->gauges->count() <= 0 )
+    if (!( $this->gauges && $this->gauges->count() > 0 ))
     {
+      error_log('manifestation/show: no gauge available');
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
       $this->getUser()->setFlash('error',__('Date unavailable, try an other one.'));
       $this->redirect('event/index');
