@@ -87,6 +87,7 @@
       // save the contact, with a non-confirmed attribute
       if ( !$this->getUser()->getTransaction()->contact_id )
         $this->form->getObject()->Transactions[] = $this->getUser()->getTransaction();
+      $this->form->getObject()->culture = $this->getUser()->getCulture();
       $this->contact = $this->form->save();
     }
     

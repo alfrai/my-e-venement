@@ -30,9 +30,9 @@
   
   $transaction = Doctrine::getTable('Transaction')->findOneById($class::getTransactionIdByResponse($request));
   $cultures = sfConfig::get('project_internals_cultures', array('fr' => 'Français'));
-  $this->getUser()->setCulture($transaction->Contact->culture
+  $this->getUser()->setCulture($culture = $transaction->Contact->culture
     ? $transaction->Contact->culture
-    : array_pop(array_keys($cultures))
+    : array_shift(array_keys($cultures))
   );
   $this->online_payment = $class::create($transaction);
   
