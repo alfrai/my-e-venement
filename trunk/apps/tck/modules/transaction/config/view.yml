@@ -1,6 +1,6 @@
 all:
-  javascripts: [helper, tck-touchscreen?<?php echo date('Ymd') ?>, tck-touchscreen-forms?<?php echo date('Ymd') ?>, tck-touchscreen-board?<?php echo date('Ymd') ?>, vcard, event-seated-plan?<?php echo date('Ymd') ?>, /private/tck-touchscreen]
-  stylesheets: [event-gauge?<?php echo date('Ymd') ?>, tck-touchscreen?<?php echo date('Ymd') ?>, event-seated-plan?<?php echo date('Ymd') ?>]
+  javascripts: [helper, tck-touchscreen?<?php echo date('Ymd') ?>, tck-touchscreen-forms?<?php echo date('Ymd') ?>, tck-touchscreen-board?<?php echo date('Ymd') ?>, vcard, event-seated-plan?<?php echo date('Ymd') ?>, /private/tck-touchscreen<?php echo date('Ymd') ?>]
+  stylesheets: [event-gauge?<?php echo date('Ymd') ?>, tck-touchscreen?<?php echo date('Ymd') ?>, event-seated-plan?<?php echo date('Ymd') ?>, /private/tck-touchscreen?<?php echo date('Ymd') ?>]
 respawnSuccess:
   stylesheets: [-tck-touchscreen]
 registeredSuccess:
