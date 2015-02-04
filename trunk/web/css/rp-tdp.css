@@ -148,6 +148,7 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .tdp-widget-header .new-transaction span { left: 0; }
 #tdp-content .tdp-object #sf_admin_content .tdp-widget-header .duplicate, #tdp-content #sf_admin_content .tdp-widget-header .new-transaction, #tdp-content .tdp-subobject #sf_admin_content .tdp-widget-header .new-subobject { text-decoration: none; float: right; margin-right: 5px; }
 #tdp-content .tdp-object #sf_admin_content .tdp-widget-header .duplicate input { display: none; }
+#tdp-content .sf_admin_list_th_list_firstname, #tdp-content .sf_admin_list_td_firstname { display: none; }
 
 #tdp-content .sf_admin_list_td_list_phones span, #tdp-content .sf_admin_list_td_list_organism_phones_list span
 { white-space: nowrap; }
@@ -207,7 +208,7 @@ body #content { width: auto; }
 #tdp-content .see-orgs .sf_admin_list_th_description, #tdp-content .see-orgs .sf_admin_list_td_description,
 #tdp-content .see-orgs .sf_admin_list_th_list_transactions, #tdp-content .see-orgs .sf_admin_list_td_list_transactions,
 #tdp-content .see-orgs .sf_admin_list_td_list_nb, #tdp-content .see-orgs .sf_admin_list_th_list_nb,
-#tdp-content .see-orgs .sf_admin_list_th_firstname, #tdp-content .see-orgs .sf_admin_list_td_firstname,
+#tdp-content .see-orgs .sf_admin_list_th_firstname, #tdp-content .see-orgs .sf_admin_list_td_list_firstname,
 #tdp-content .see-orgs .sf_admin_list_th_name, #tdp-content .see-orgs .sf_admin_list_td_name,
 #tdp-content .see-orgs .sf_admin_list_th_postalcode, #tdp-content .see-orgs .sf_admin_list_td_postalcode,
 #tdp-content .see-orgs .sf_admin_list_th_city, #tdp-content .see-orgs .sf_admin_list_td_city,
