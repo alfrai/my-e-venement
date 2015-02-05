@@ -1,7 +1,9 @@
 .ticket { height: 50mm; width: 138mm; }
-.ticket .left { margin-right: -19mm; }
-.ticket .right { width: 36mm; }
+.left, .right { height: 50mm; }
+.ticket .left { margin-right: -16mm; }
+.ticket .right { width: 33mm; }
 .page { height: 138mm; }
+
 .metaevt { margin-top: 4mm; }
 .org, .cie { margin-top: 0; }
 
@@ -13,11 +15,11 @@
 .left .price_name { margin-top: 0.6mm; }
 .left .event { width: 94mm; text-overflow: ellipsis; }
 
+.right .placeprice { font-size: 0; }
+
 .ticket .left .manifid { margin-right: 21mm; }
 .ticket .left .ticket-bc { height: 10mm; width: 30mm; margin-top: -11mm; right: 2mm; }
 .ticket .left .mentions .optional { right: 2mm; }
 
-.left, .right { height: 50mm; }
-
 /* rotate directly */
-.ticket { transform: rotate(270deg); transform-origin: top left; margin-top: 140mm; }
+.ticket { transform: rotate(270deg); transform-origin: top left; margin-top: 137mm; }
