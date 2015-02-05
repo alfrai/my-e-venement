@@ -45,6 +45,13 @@ echo "To continue press ENTER"
 echo "To cancel press CTRL+C NOW !!"
 read
 
+echo "- Please check config/autoload.inc.php.template and complete config/autoload.inc.php in that way..."
+echo ""
+echo "To continue press ENTER"
+echo "To cancel press CTRL+C NOW !!"
+read
+
+
 # Checking data
 i=0
 for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL);' | psql`
@@ -299,7 +306,6 @@ echo "- Change the apps/*/config/factories.yml to replace sfMailer with liMailer
 echo "- e-venement Messaging Network: rm -rf web/liJappixPlugin; svn update; then run http[s]://[YOUR E-VENEMENT BASE ROOT]/liJappixPlugin"
 echo "- If this plateform needs Passbooks, do not forget to set them up in the apps pub & tck"
 echo "- If this plateform is using QRCodes, think to move the app_seller_salt from apps/tck/config/app.yml to project_eticketting_salt in config/project.yml"
-echo "- Checkout config/autoload.inc.php.template and complete your config/autoload.inc.php in that way..."
 echo "- IMPORTANT: the management of extra modules has evoluated, it has moved from config/extra-modules.php to config/project.yml, DO NOT FORGET IT!"
 
 echo ""
