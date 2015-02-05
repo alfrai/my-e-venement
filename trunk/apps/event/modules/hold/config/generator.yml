@@ -29,6 +29,10 @@ generator:
         object_actions:
           _edit:
             credentials: [event-hold-mod]
+          _waitingList:
+            credentials: [event-hold-waiting-list]
+            ui-icon: arrow-1-e
+            action: waitingList
           _delete:
             credentials: [event-hold-del]
         batch_actions:

@@ -16,22 +16,36 @@ generator:
       fields:
         list_contact: { label: Contact }
         list_professional: { label: Function }
-        list_nb: { label: Quantity }
-        list_nb_seated: { label: Seated }
-        list_nb_printed: { label: Printed }
+        list_nb: { label: Quantity, type: number }
+        list_nb_seated: { label: Seated, type: number }
+        list_nb_printed: { label: Printed, type: number }
         list_transaction_id: { label: Transaction }
       list:
         title: Waiting list for hold:
-        display: [Hold, _list_transaction_id, _list_contact, _list_professional, _list_nb, _list_nb_printed, _list_nb_seated]
+        display: [Hold, _list_transaction_id, _list_contact, _list_professional, _list_nb, _list_nb_printed, _list_nb_seated, rank]
+        actions:
+          _new: ~
+          _back:
+            action: back
+            ui-icon: arrowreturnthick-1-w
         batch_actions:
           _delete:
             credentials: [event-hold-transaction-del]
         object_actions:
+          _minus:
+            action: minus
+            label: Less tickets
+            ui-icon: minus
+          _plus:
+            action: plus
+            label: More tickets
+            ui-icon: plus
           _edit:
             credentials: [tck-transaction]
           _delete:
             credentials: [event-hold-transaction-del]
-        sort: ['rank', 'DESC']
+        sort: ['rank', '']
+        max_per_page: 50
       filter:
         display: [transaction_id]
       form:    ~

@@ -33,10 +33,10 @@ class HoldTransaction extends PluginHoldTransaction
     // if no transaction_id is set, take the smallest rank of this hold, and substract 1000
     if ( $ht = $this->getTable()->createQuery('ht')
       ->andWhere('ht.hold_id = ?', $this->hold_id)
-      ->orderBy('ht.rank')
+      ->orderBy('ht.rank DESC')
       ->limit(1)
       ->fetchOne()
     )
-      $this->rank = $ht->rank - 1000;
+      $this->rank = $ht->rank + 1000;
   }
 }

@@ -163,11 +163,11 @@
       </trans-unit>
       <trans-unit>
         <source>Save</source>
-        <target>Mettre à jour</target>
+        <target>Enregistrer</target>
       </trans-unit>
       <trans-unit>
         <source>Save and add</source>
-        <target>Mettre à jour et ajouter</target>
+        <target>Enregistrer et ajouter</target>
       </trans-unit>
       <trans-unit>
         <source>Cancel</source>

@@ -428,6 +428,9 @@ TaxPrice:
 
 HoldTransaction:
   package: tck
+  inheritance:
+    extends: Traceable
+    type: concrete
   columns:
     transaction_id:
       type: integer
@@ -440,6 +443,10 @@ HoldTransaction:
       type: float
       notnull: true
       default: 1000
+    pretickets:
+      type: integer
+      notnull: true
+      default: 0
   relations:
     Transaction:
       foreignAlias: HoldTransaction

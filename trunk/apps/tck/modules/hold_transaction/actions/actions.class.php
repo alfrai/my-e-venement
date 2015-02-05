@@ -13,6 +13,54 @@ require_once dirname(__FILE__).'/../lib/hold_transactionGeneratorHelper.class.ph
  */
 class hold_transactionActions extends autoHold_transactionActions
 {
+  public function executeBack(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('CrossAppLink');
+    $filters = $this->getFilters();
+    
+    if (!( isset($filters['hold_id']) && $filters['hold_id'] ))
+      $this->redirect(cross_app_url_for('event', 'hold/index'));
+    $this->redirect(cross_app_url_for('event', 'hold/edit?id='.$filters['hold_id']));
+  }
+  
+  public function executePlus(sfWebRequest $request)
+  {
+    $this->executeShow($request);
+    $this->hold_transaction->pretickets++;
+    $this->hold_transaction->save();
+    
+    $this->json = array();
+    $this->json['id'] = $this->hold_transaction->id;
+    $this->json['quantity'] = $this->getQuantity();
+  }
+  public function executeMinus(sfWebRequest $request)
+  {
+    $this->executeShow($request);
+    if ( $this->hold_transaction->pretickets > 0 )
+    {
+      $this->hold_transaction->pretickets--;
+      $this->hold_transaction->save();
+    }
+    
+    $this->json = array();
+    $this->json['id'] = $this->hold_transaction->id;
+    $this->json['quantity'] = $this->getQuantity();
+  }
+  protected function getQuantity(HoldTransaction $ht = NULL)
+  {
+    if ( is_null($ht) && isset($this->hold_transaction) )
+      $ht = $this->hold_transaction;
+    
+    // the quantity of tickets + pretickets
+    $cpt = 0;
+    foreach ( $ht->Transaction->Tickets as $ticket )
+    if ( !$ticket->cancelling && !$ticket->hasBeenCancelled() && !$ticket->duplicating )
+      $cpt++;
+    return $ht->pretickets + $cpt;
+    
+  }
+  
+  
   public function executeIndex(sfWebRequest $request)
   {
     $filters = $this->getFilters();

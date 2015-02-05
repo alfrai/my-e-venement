@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Back</source>
+        <target>Retour</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Less tickets</source>
+        <target>Moins de billets</target>
+      </trans-unit>
+      <trans-unit>
+        <source>More tickets</source>
+        <target>Plus de billets</target>
+      </trans-unit>
+      <trans-unit>
         <source>Hold</source>
         <target>Retenue</target>
       </trans-unit>
