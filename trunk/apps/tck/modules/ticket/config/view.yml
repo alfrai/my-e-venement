@@ -51,7 +51,7 @@ cancelBootSuccess:
 
 seatsAllocationSuccess:
   javascripts: [event-seated-plan]
-  stylesheets: [event-seated-plan]
+  stylesheets: [event-seated-plan, event-hold]
 resetASeatSuccess:
   has_layout: false
   http_metas:

@@ -103,11 +103,6 @@ class Transaction extends PluginTransaction
     return $surveys;
   }
   
-  public function isSpecialHold()
-  {
-    return $this->hasReference('HoldTransaction');
-  }
-  
   public function getNotPrinted()
   {
     $toprint = 0;

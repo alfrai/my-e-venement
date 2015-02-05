@@ -57,7 +57,8 @@
       // Holds
       ->leftJoin('s.HoldContents hc')
       ->leftJoin('hc.Hold h WITH h.manifestation_id = m.id')
-      ->andWhere('h.id IS NULL')
+      ->leftJoin('h.HoldTransactions ht WITH ht.transaction_id = ?', $ticket['transaction_id'])
+      ->andWhere('h.id IS NULL OR ht.id IS NOT NULL')
   ));
   
   $form->bind($ticket);

@@ -83,7 +83,12 @@ class hold_transactionActions extends autoHold_transactionActions
   public function executeEdit(sfWebRequest $request)
   {
     parent::executeEdit($request);
-    $this->redirect('transaction/edit?id='.$this->hold_transaction->transaction_id);
+    if ( $this->hold_transaction->Transaction->closed && $this->getUser()->hasCredential('tck-unblock') )
+    {
+      $this->hold_transaction->Transaction->closed = false;
+      $this->hold_transaction->save();
+    }
+    $this->redirect('transaction/edit?id='.$this->hold_transaction->transaction_id.'#manifestations-'.$this->hold_transaction->Hold->manifestation_id);
   }
   public function executeNew(sfWebRequest $request)
   {

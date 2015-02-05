@@ -123,8 +123,8 @@ abstract class PluginTicket extends BaseTicket
     
     // the holds: we can book a seated ticket within a hold only if its transaction is a HoldTransaction
     if ( $this->seat_id && $this->Seat instanceof Seat
-      && $this->Seat->isHeldFor($this->Manifestation)
-      && !$this->Transaction->isSpecialHold()
+      && ($hold = $this->Seat->isHeldFor($this->Manifestation))
+      && !( $hold instanceof Hold && in_array($this->transaction_id, $hold->HoldTransactions->toKeyValueArray('id', 'transaction_id')) )
     )
       $this->seat_id = NULL;
     

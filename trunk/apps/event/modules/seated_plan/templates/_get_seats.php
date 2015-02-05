@@ -65,8 +65,18 @@
       if ( ($sf_request->hasParameter('gauges_list') || $sf_request->hasParameter('gauge_id'))
         && ($hold = $seat->isHeldFor($seated_plans_gauges[$seat->seated_plan_id]->Manifestation)) )
       {
+        $q = Doctrine::getTable('HoldTransaction')->createQuery('ht')
+          ->leftJoin('ht.Transaction t')
+          ->andWhere('t.id = ?', $sf_request->getParameter('transaction_id'))
+          ->leftJoin('ht.Hold h')
+          ->leftJoin('h.Manifestation m')
+          ->leftJoin('m.Gauges g')
+          ->andWhereIn('g.id', $seated_plans_gauges->getPrimaryKeys())
+        ;
+        $ht = $q->fetchOne();
+        
         // Inside a ticketting process
-        if ( $sf_request->hasParameter('ticketting') )
+        if ( $sf_request->hasParameter('ticketting') && !$ht )
           continue(2);
         // inside a Hold
         elseif ( $sf_request->hasParameter('hold_id', NULL) && $hold->id != $sf_request->getParameter('hold_id', NULL) )
