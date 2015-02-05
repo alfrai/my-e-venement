@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Occupied</source>
+        <target>Occupation</target>
+      </trans-unit>
+      <trans-unit>
         <source>Held for "%%hold%%"</source>
         <target>Retenue par "%%hold%%"</target>
       </trans-unit>

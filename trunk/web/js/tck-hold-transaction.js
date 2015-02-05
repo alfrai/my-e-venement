@@ -22,9 +22,14 @@ $(document).ready(function(){
           return;
         }
         
-        $('.sf_admin_list .sf_admin_row [name="ids[]"][value="'+json.id+'"]')
-          .closest('.sf_admin_row').find('.sf_admin_list_td_list_nb')
-          .text(json.quantity);
+        var row = $('.sf_admin_list .sf_admin_row [name="ids[]"][value="'+json.id+'"]').closest('.sf_admin_row');0
+        row.find('.sf_admin_list_td_pretickets').text(json.quantity);
+        row.find('.sf_admin_list_td_list_nb').text(parseInt(row.find('.sf_admin_list_td_list_nb_seated').text(),10) > json.quantity
+          ? parseInt(row.find('.sf_admin_list_td_list_nb_seated').text(),10)
+          : json.quantity
+        );
+        
+        // highlighting
         $('#sf_admin_footer [name="nb_seats"]').change();
       },
       error: function(){
@@ -37,18 +42,31 @@ $(document).ready(function(){
   
   // highlighting the limit
   $('#sf_admin_footer [name="nb_seats"]').change(function(){
-    console.error('out of hold?');
     $('.sf_admin_list .sf_admin_row').removeClass('li-out-of-hold').removeClass('li-direct-out-of-hold');
     var qty = parseInt($(this).val(),10);
+    
+    // first check for already seated tickets
     $('.sf_admin_list .sf_admin_row').each(function(){
-      console.error(qty);
-      if ( qty <= 0 )
+      qty -= parseInt($(this).find('.sf_admin_list_td_list_nb_seated').text(),10);
+    });
+    
+    // second check for the rest of the tickets
+    $('.sf_admin_list .sf_admin_row').each(function(){
+      var pretickets =
+        parseInt($(this).find('.sf_admin_list_td_pretickets').text(),10) -
+        parseInt($(this).find('.sf_admin_list_td_list_nb_seated').text(),10)
+      ;
+      if ( pretickets < 0 )
+        pretickets = 0;
+      
+      // case of qty already < 0, if no ticket already seated is included
+      if ( qty <= 0 && parseInt($(this).find('.sf_admin_list_td_list_nb_seated').text(),10) == 0 )
       {
         $(this).addClass('li-direct-out-of-hold');
         return;
       }
       
-      qty -= parseInt($(this).find('.sf_admin_list_td_list_nb').text(),10);
+      qty -= pretickets;
       if ( qty < 0 )
         $(this).addClass('li-out-of-hold');
     });

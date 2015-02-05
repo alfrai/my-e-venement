@@ -13,6 +13,54 @@ require_once dirname(__FILE__).'/../lib/hold_transactionGeneratorHelper.class.ph
  */
 class hold_transactionActions extends autoHold_transactionActions
 {
+  public function executeSeat(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'I18N'));
+    $filters = $this->getFilters();
+    
+    if (!( isset($filters['hold_id']) && $filters['hold_id'] ))
+    {
+      $this->getUser()->setFlash('error', __('You have to select a hold before trying to seat its content.'));
+      $this->redirect(cross_app_link_to('event', 'hold/index'));
+    }
+    
+    $q = Doctrine::getTable('Hold')->createQuery('h', true)
+      ->andWhere('h.id = ?', $filters['hold_id'])
+      ->leftJoin('h.HoldTransactions htr')
+      ->leftJoin('htr.Transaction t')
+      ->leftJoin('t.Tickets tck')
+      ->leftJoin('h.Seats s WITH s.id != tck.seat_id')
+      ->orderBy('htr.rank, htr.id, s.rank, s.name')
+    ;
+    $hold = $q->fetchOne();
+    foreach ( $hold->HoldTransactions as $ht )
+    {
+      if ( sfConfig::get('sf_web_debug', false) )
+        error_log('HoldTransaction: '.$ht.' for Hold: '.$hold);
+      
+      $seater = new Seater(NULL, $hold);
+      if ( ($qty = $ht->pretickets - count(array_filter($ht->Transaction->Tickets->toKeyValueArray('id', 'seat_id')))) <= 0 )
+        continue;
+      
+      foreach ( $seater->findSeats($qty) as $seat )
+      {
+        if ( sfConfig::get('sf_web_debug', false) )
+          error_log('new ticket for seat: '.$seat);
+        
+        $ticket = new Ticket;
+        $ticket->Seat = $seat;
+        $ticket->manifestation_id = $hold->manifestation_id;
+        $ticket->value = 0;
+        $ticket->price_name = sfConfig::get('app_tickets_wip_price', 'WIP');
+        $ht->Transaction->Tickets[] = $ticket;
+      }
+      $ht->Transaction->save();
+    }
+    //$hold->save();
+    
+    $this->getUser()->setFlash('notice', __('The content of this hold has been seated, as much as it was possible.'));
+    $this->redirect('hold_transaction/index');
+  }
   public function executeBack(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('CrossAppLink');
@@ -31,7 +79,7 @@ class hold_transactionActions extends autoHold_transactionActions
     
     $this->json = array();
     $this->json['id'] = $this->hold_transaction->id;
-    $this->json['quantity'] = $this->getQuantity();
+    $this->json['quantity'] = $this->hold_transaction->pretickets;
   }
   public function executeMinus(sfWebRequest $request)
   {
@@ -44,22 +92,8 @@ class hold_transactionActions extends autoHold_transactionActions
     
     $this->json = array();
     $this->json['id'] = $this->hold_transaction->id;
-    $this->json['quantity'] = $this->getQuantity();
+    $this->json['quantity'] = $this->hold_transaction->pretickets;
   }
-  protected function getQuantity(HoldTransaction $ht = NULL)
-  {
-    if ( is_null($ht) && isset($this->hold_transaction) )
-      $ht = $this->hold_transaction;
-    
-    // the quantity of tickets + pretickets
-    $cpt = 0;
-    foreach ( $ht->Transaction->Tickets as $ticket )
-    if ( !$ticket->cancelling && !$ticket->hasBeenCancelled() && !$ticket->duplicating )
-      $cpt++;
-    return $ht->pretickets + $cpt;
-    
-  }
-  
   
   public function executeIndex(sfWebRequest $request)
   {

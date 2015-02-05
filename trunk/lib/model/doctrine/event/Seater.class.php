@@ -25,14 +25,17 @@
 
 class Seater
 {
-  protected $seats, $query, $kept, $done, $within_holds, $gauge_id = 0;
+  protected $seats, $query, $kept, $done, $hold, $gauge_id = 0;
   
-  public function __construct($gauge_id, $within_holds = false)
+  public function __construct($gauge_id = NULL, Hold $hold = NULL)
   {
+    if ( is_null($gauge_id) && is_null($hold) )
+      throw new liEvenementException('Cannot build a Seater without any hold or gauge given...');
+    
     $this->kept = new Doctrine_Collection('Seat');
     $this->done = new Doctrine_Collection('Seat');
     $this->gauge_id = $gauge_id;
-    $this->within_holds = $within_holds;
+    $this->hold = $hold;
     $this->seats = $this->createQuery()->execute();
   }
   
@@ -43,7 +46,6 @@ class Seater
       ->leftJoin("$alias.SeatedPlan sp")
       ->leftJoin('sp.Workspaces spw')
       ->leftJoin('spw.Gauge g')
-      ->andWhere('g.id = ?', $this->gauge_id)
       ->leftJoin('g.Manifestation m')
       
       ->leftJoin("$alias.Tickets tck WITH tck.manifestation_id = m.id")
@@ -55,10 +57,17 @@ class Seater
     ;
     
     // Holds
-    if ( !is_null($this->within_holds) )
-      $q->leftJoin("$alias.Holds h WITH h.manifestation_id = g.manifestation_id")
-        ->andWhere('h.id '.($this->within_holds ? 'IS NOT NULL' : 'IS NULL'))
-      ;
+    $q->leftJoin("$alias.Holds h WITH h.manifestation_id = g.manifestation_id");
+    if ( $this->hold instanceof Hold )
+      $q->andWhere('h.id = ?', $this->hold->id);
+    else
+      $q->andWhere('h.id IS NULL');
+    
+    // Gauge
+    if ( $this->gauge_id )
+      $q->andWhere('g.id = ?', $this->gauge_id);
+    else
+      $q->andWhere('g.manifestation_id = h.manifestation_id');
     
     return $q;
   }

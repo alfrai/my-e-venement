@@ -19,10 +19,11 @@ generator:
         list_next: { label: Discharge }
         list_feeders: { label: Feeders }
         list_manifestation: { label: Manifestation }
-        list_capacity: { label: Capacity }
+        list_capacity: { label: Capacity, type: number }
+        list_occupied: { label: Occupied, type: number }
       list:
         title: Holds list
-        display: [=name, _list_manifestation, _list_capacity, _list_next, _list_feeders, updated_at]
+        display: [=name, _list_manifestation, _list_capacity, _list_occupied, _list_next, _list_feeders, updated_at]
         actions:
           _new:
             credentials: [event-hold-new]

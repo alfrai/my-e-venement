@@ -20,9 +20,10 @@ generator:
         list_nb_seated: { label: Seated, type: number }
         list_nb_printed: { label: Printed, type: number }
         list_transaction_id: { label: Transaction }
+        pretickets: { label: Transitionals, type: number }
       list:
         title: Waiting list for hold:
-        display: [Hold, _list_transaction_id, _list_contact, _list_professional, _list_nb, _list_nb_printed, _list_nb_seated, rank]
+        display: [Hold, _list_transaction_id, _list_contact, _list_professional, pretickets, _list_nb_seated, _list_nb_printed, _list_nb, rank]
         actions:
           _new: ~
           _back:
