@@ -13,6 +13,10 @@ require_once dirname(__FILE__).'/../lib/transactionGeneratorHelper.class.php';
  */
 class transactionActions extends autoTransactionActions
 {
+  public function executeIndex(sfWebRequest $request)
+  {
+    $this->redirect('transactionsList/index');
+  }
   public function executeBatchPrint(sfWebRequest $request)
   {
     $this->ids = explode('-',$request->getParameter('ids'));
