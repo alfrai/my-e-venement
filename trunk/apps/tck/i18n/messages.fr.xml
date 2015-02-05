@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Waiting list for hold:</source>
+        <target>Liste d'attente pour la retenue:</target>
+      </trans-unit>
+      <trans-unit>
         <source>Back</source>
         <target>Retour</target>
       </trans-unit>
