@@ -9,8 +9,8 @@
         <target>Liste d'attente pour la retenue:</target>
       </trans-unit>
       <trans-unit>
-        <source>Back</source>
-        <target>Retour</target>
+        <source>Back&lt;span class="ui-icon ui-icon-arrowreturnthick-1-w"&gt;&lt;/span&gt;</source>
+        <target>Retour&lt;span class="ui-icon ui-icon-arrowreturnthick-1-w"&gt;&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
         <source>Less tickets</source>
