@@ -76,6 +76,7 @@ class hold_transactionActions extends autoHold_transactionActions
       $this->redirect(cross_app_url_for('event', 'hold/index'));
     }
     
+    sfConfig::set('module_hold_id', $filters['hold_id']);
     parent::executeIndex($request);
   }
   

@@ -13,6 +13,10 @@
         <target>Retour&lt;span class="ui-icon ui-icon-arrowreturnthick-1-w"&gt;&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
+        <source>Seat&lt;span class="ui-icon ui-icon-signal-diag"&gt;&lt;/span&gt;</source>
+        <target>Placer&lt;span class="ui-icon ui-icon-signal-diag"&gt;&lt;/span&gt;</target>
+      </trans-unit>
+      <trans-unit>
         <source>Less tickets</source>
         <target>Moins de billets</target>
       </trans-unit>

@@ -28,6 +28,9 @@ generator:
           _back:
             action: back
             ui-icon: arrowreturnthick-1-w
+          _seat:
+            action: seat
+            ui-icon: signal-diag
         batch_actions:
           _delete:
             credentials: [event-hold-transaction-del]

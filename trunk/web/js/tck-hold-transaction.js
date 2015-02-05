@@ -25,6 +25,7 @@ $(document).ready(function(){
         $('.sf_admin_list .sf_admin_row [name="ids[]"][value="'+json.id+'"]')
           .closest('.sf_admin_row').find('.sf_admin_list_td_list_nb')
           .text(json.quantity);
+        $('#sf_admin_footer [name="nb_seats"]').change();
       },
       error: function(){
         $('#transition .close').click();
@@ -34,17 +35,34 @@ $(document).ready(function(){
     return false;
   });
   
+  // highlighting the limit
+  $('#sf_admin_footer [name="nb_seats"]').change(function(){
+    console.error('out of hold?');
+    $('.sf_admin_list .sf_admin_row').removeClass('li-out-of-hold').removeClass('li-direct-out-of-hold');
+    var qty = parseInt($(this).val(),10);
+    $('.sf_admin_list .sf_admin_row').each(function(){
+      console.error(qty);
+      if ( qty <= 0 )
+      {
+        $(this).addClass('li-direct-out-of-hold');
+        return;
+      }
+      
+      qty -= parseInt($(this).find('.sf_admin_list_td_list_nb').text(),10);
+      if ( qty < 0 )
+        $(this).addClass('li-out-of-hold');
+    });
+  }).change();
+  
   // drag'n'drop on the list's elements
   $('.sf_admin_list tbody').sortable({
     cursor: 'move',
     delay: 150,
     update: function(event, ui){
-      console.error('move');
       if ( (ui.item.prev().length > 0 && parseInt(ui.item.prev().find('.sf_admin_list_td_rank').text(),10) >= parseInt(ui.item.find('.sf_admin_list_td_rank').text(),10))
         || (ui.item.next().length > 0 && parseInt(ui.item.next().find('.sf_admin_list_td_rank').text(),10) <= parseInt(ui.item.find('.sf_admin_list_td_rank').text(),10))
       )
       {
-        console.error('movable');
         var url = $('#change-rank').prop('href')
           .replace($('#change-rank').attr('data-replace-bigger'), ui.item.prev().find('[name="ids[]"]').val())
           .replace($('#change-rank').attr('data-replace-smaller'),  ui.item.next().find('[name="ids[]"]').val())
@@ -57,6 +75,7 @@ $(document).ready(function(){
             if ( !json.rank )
               LI.alert('An error occurred (02)', 'error');
             $('.sf_admin_list [name="ids[]"][value='+json.id+']').closest('.sf_admin_row').find('.sf_admin_list_td_rank').text(json.rank);
+            $('#sf_admin_footer [name="nb_seats"]').change();
           },
           error: function(){
             LI.alert('An error occurred (01)', 'error');

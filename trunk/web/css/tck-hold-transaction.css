@@ -8,3 +8,6 @@
 
 .sf_admin_td_actions .sf_admin_action_plus .fg-button { background-position: -16px -128px; }
 .sf_admin_td_actions .sf_admin_action_minus .fg-button { background-position: -48px -128px; }
+
+.sf_admin_list .li-direct-out-of-hold td { background-color: rgba(255,0,0,0.12); }
+.sf_admin_list .li-out-of-hold td { background-color: rgba(255,0,0,0.05); }
