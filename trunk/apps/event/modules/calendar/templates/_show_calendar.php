@@ -58,6 +58,7 @@ $(document).ready(function(){
     allDayDefault: false,
     allDaySlot: false,
     header: { left: 'today prev,next', center: 'title', right: 'month,agendaWeek,resourceWeek,agendaDay,resourceDay' },
+    titleFormat: { day: 'dddd LL' },
     
     <?php $resources = Doctrine::getTable('Location')->createQuery('l')->andWhere('l.place = TRUE')->orderBy('l.rank IS NULL, l.rank, l.name')->execute() ?>
     resources: [
