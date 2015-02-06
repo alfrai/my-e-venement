@@ -4,7 +4,7 @@
   [?php include_component('<?php echo $this->getModuleName() ?>', $name, array('form' => $form, 'attributes' => $attributes instanceof sfOutputEscaper ? $attributes->getRawValue() : $attributes)) ?]
 [?php else: ?]
   [?php $widgets = isset($form[$name]) ? array($form[$name]) : array(); ?]
-  [?php if ( count($widgets) == 0 ) foreach ( $langs = sfConfig::get('project_internals_cultures',array('fr')) as $culture => $lang ): ?]
+  [?php if ( count($widgets) == 0 ) foreach ( $langs = sfConfig::get('project_internals_cultures',array('fr' => 'Français')) as $culture => $lang ): ?]
     [?php $widgets[$culture] = $form[$culture][$name]; ?]
   [?php endforeach ?]
   
