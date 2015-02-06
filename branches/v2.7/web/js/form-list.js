@@ -43,6 +43,7 @@ function form_list_actions(widget)
   
   // update
   $('.sf_admin_form .sf_admin_form_list.ajax form:not(.sf_admin_new)').unbind().submit(function(){
+    var form = $(this);
     // apply changes on similar fields forms
     $(this).find('input:not([type=hidden])').each(function(){
       $('form[action="'+form.prop('action')+'"] [name="'+$(this).prop('name')+'"][type=hidden]')
@@ -114,6 +115,7 @@ function form_on_quit()
 {
   window.onbeforeunload = function(){
     var count = 0;
+    var msg;
     
     $('form form input[type=text]').each(function(){
       if ( $(this).get(0).defaultValue !== $(this).val() )
