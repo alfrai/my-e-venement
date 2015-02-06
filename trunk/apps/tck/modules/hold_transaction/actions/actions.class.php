@@ -36,13 +36,42 @@ class hold_transactionActions extends autoHold_transactionActions
     foreach ( $hold->HoldTransactions as $ht )
     {
       if ( sfConfig::get('sf_web_debug', false) )
-        error_log('HoldTransaction: '.$ht.' for Hold: '.$hold);
+        error_log('Transaction: #'.$ht->transaction_id.' for Hold: '.$hold);
       
       $seater = new Seater(NULL, $hold);
       if ( ($qty = $ht->pretickets - count(array_filter($ht->Transaction->Tickets->toKeyValueArray('id', 'seat_id')))) <= 0 )
         continue;
       
-      foreach ( $seater->findSeats($qty) as $seat )
+      if ( sfConfig::get('sf_web_debug', false) )
+        error_log('Transaction: #'.$ht->transaction_id.' for Hold: '.$hold);
+      
+      $seats = $seater->findSeats($qty);
+      if ( $seats->count() == 0 )
+      {
+        for ( $i = 2 ; $i <= $qty ; $i++ )
+        {
+          if ( sfConfig::get('sf_web_debug', false) )
+            error_log('No enough seats found for '.($i-1).' group(s). Trying to divide the group in '.$i.' groups ('.($i-1).' x '.ceil($qty/$i).' + '.(ceil($qty/$i) - $qty%$i).').');
+          
+          // try to seat $i groups individually
+          $seats = new Doctrine_Collection('Seat');
+          for ( $j = 0 ; $j < $i - 1 ; $j++ )
+            $seats->merge($seater->findSeats(ceil($qty/$i), $seats));
+          $seats->merge($seater->findSeats(ceil($qty/$i) - $qty%$i, $seats));
+          
+          if ( sfConfig::get('sf_web_debug', false) )
+            error_log("For $i groups, ".$seats->count()." seats have been found");
+          
+          if ( $seats->count() == $qty )
+            break;
+        }
+      }
+      
+      if ( sfConfig::get('sf_web_debug', false) )
+        error_log('Seats found: '.$seats->count().' for expected quantity: '.$qty);
+      
+      if ( $seats->count() == $qty )
+      foreach ( $seats as $seat )
       {
         if ( sfConfig::get('sf_web_debug', false) )
           error_log('new ticket for seat: '.$seat);
@@ -56,11 +85,11 @@ class hold_transactionActions extends autoHold_transactionActions
       }
       $ht->Transaction->save();
     }
-    //$hold->save();
     
     $this->getUser()->setFlash('notice', __('The content of this hold has been seated, as much as it was possible.'));
     $this->redirect('hold_transaction/index');
   }
+  
   public function executeBack(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('CrossAppLink');

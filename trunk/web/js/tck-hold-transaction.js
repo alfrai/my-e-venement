@@ -67,8 +67,29 @@ $(document).ready(function(){
       }
       
       qty -= pretickets;
-      if ( qty < 0 )
+      if ( qty < 0 && pretickets > 0 )
         $(this).addClass('li-out-of-hold');
+      else if ( pretickets == 0 )
+        $(this).addClass('li-seated');
+    });
+    
+    // calculating the total
+    $('.sf_admin_list .sf_admin_row.li-total').remove();
+    $('.sf_admin_list .sf_admin_row:last').each(function(){
+      $(this).clone()
+        .insertAfter($(this))
+        .addClass('li-total')
+        .removeClass('li-direct-out-of-hold').removeClass('li-out-of-hold').toggleClass('odd').removeClass('ui-state-hover')
+        .mouseenter(function(){ $(this).addClass('ui-state-hover'); }).mouseleave(function(){ $(this).removeClass('ui-state-hover'); })
+        .find('td').text('').siblings('.sf_admin_number').each(function(){
+          var cpt = 0;
+          $('.sf_admin_list .sf_admin_row:not(.li-total) .'+$(this).attr('class').replace(/\s+/, ' ').replace(' ', '.')).each(function(){
+            cpt += parseInt($(this).text(),10);
+          });
+          $(this).text(cpt);
+        })
+        .siblings(':last').text($('#sf_admin_footer [name="nb_seats"]').val()).addClass('sf_admin_number');
+      ;
     });
   }).change();
   
@@ -77,6 +98,12 @@ $(document).ready(function(){
     cursor: 'move',
     delay: 150,
     update: function(event, ui){
+      // dealing w/ the total line
+      if ( ui.item.hasClass('li-total')
+        || ui.item.prev().hasClass('li-total')
+        || ui.item.next().hasClass('li-total') )
+        $('#sf_admin_footer [name="nb_seats"]').change();
+      
       if ( (ui.item.prev().length > 0 && parseInt(ui.item.prev().find('.sf_admin_list_td_rank').text(),10) >= parseInt(ui.item.find('.sf_admin_list_td_rank').text(),10))
         || (ui.item.next().length > 0 && parseInt(ui.item.next().find('.sf_admin_list_td_rank').text(),10) <= parseInt(ui.item.find('.sf_admin_list_td_rank').text(),10))
       )
