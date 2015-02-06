@@ -71,6 +71,11 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_142
     created_at: '2015-01-29 16:00:27'
     updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_56_143:
+    Group: sfGuardGroup_56
+    Permission: sfGuardPermission_143
+    created_at: '2015-01-29 16:00:27'
+    updated_at: '2015-01-29 16:00:27'
   sfGuardGroupPermission_55_132:
     Group: sfGuardGroup_55
     Permission: sfGuardPermission_132
@@ -109,6 +114,16 @@ sfGuardGroupPermission:
   sfGuardGroupPermission_55_141:
     Group: sfGuardGroup_55
     Permission: sfGuardPermission_141
+    created_at: '2015-01-29 16:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_142:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_142
+    created_at: '2015-01-29 16:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardGroupPermission_55_143:
+    Group: sfGuardGroup_55
+    Permission: sfGuardPermission_143
     created_at: '2015-01-29 16:00:27'
     updated_at: '2015-01-29 16:00:27'
   sfGuardGroupPermission_55_133:
@@ -176,11 +191,16 @@ sfGuardPermission:
     updated_at: '2015-01-29 16:00:27'
   sfGuardPermission_141:
     name: event-hold-transaction-convert
-    description: 'Permission to convert a HoldTransaction into a classical Transaction'
+    description: 'Permission to seat transactions in a the waiting list'
     created_at: '2015-01-29 16:00:27'
     updated_at: '2015-01-29 16:00:27'
   sfGuardPermission_142:
     name: event-hold-transaction
     description: 'Permission to access the waiting list'
+    created_at: '2015-01-29 16:00:27'
+    updated_at: '2015-01-29 16:00:27'
+  sfGuardPermission_143:
+    name: event-hold-transaction-mod
+    description: 'Permission to modify the content of a transaction in the waiting list'
     created_at: '2015-01-29 16:00:27'
     updated_at: '2015-01-29 16:00:27'

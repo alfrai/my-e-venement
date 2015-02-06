@@ -60,8 +60,7 @@ class holdActions extends autoHoldActions
   public function executeGetTransactionId(sfWebRequest $request)
   {
     $this->transaction = new Transaction;
-    //$this->transaction->HoldTransaction->hold_id = $request->getParameter('id');
-    $this->transaction->Order[0] = new Order;
+    $this->transaction->Order[0] = new Order; // book the future content in advance
     $this->transaction->save();
   }
   public function executeLinkSeat(sfWebRequest $request)
