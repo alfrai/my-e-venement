@@ -232,8 +232,9 @@ read -p "Do you want to copy MemberCardType's english translations (default i18n
 [ "$reset" != 'n' ] && ./symfony e-venement:copy-i18n MemberCardType en fr
 
 echo ""
-read -p "Do you want to add the new permissions ? [Y/n] " reset
-if [ "$reset" != 'n' ]
+read -p "Do you want to add the new permissions? [Y/n] " add
+read -p "Do you want to reset the permissions related to the holds? [y/N] " reset
+if [ "$add" != 'n' ]
 then
   echo "If you will get Symfony errors in the next few actions, it is not a problem, the permissions just already exist in the DB"
   echo ""
@@ -252,6 +253,13 @@ then
   echo "Permissions & groups for reducing the value of tickets, one by one..."
   ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-tck.yml
   echo "Permissions & groups for holds..."
+  if [ "$reset" != 'y' ]
+  then
+    psql $db <<EOF
+      DELETE FROM sf_guard_permission WHERE name LIKE 'event-hold%';
+      DELETE FROM sf_guard_group WHERE name LIKE 'event-hold%';
+EOF
+  fi
   ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-hold.yml
 fi
 
