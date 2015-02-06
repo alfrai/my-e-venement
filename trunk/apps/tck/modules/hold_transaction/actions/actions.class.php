@@ -13,6 +13,57 @@ require_once dirname(__FILE__).'/../lib/hold_transactionGeneratorHelper.class.ph
  */
 class hold_transactionActions extends autoHold_transactionActions
 {
+  public function executeDump(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'I18N'));
+    $filters = $this->getFilters();
+    
+    if (!( isset($filters['hold_id']) && $filters['hold_id'] ))
+    {
+      $this->getUser()->setFlash('error', __('You have to select a hold before anything.'));
+      $this->redirect(cross_app_link_to('event', 'hold/index'));
+    }
+    
+    
+    $q = Doctrine::getTable('Hold')->createQuery('h', true)
+      ->andWhere('h.id = ?', $filters['hold_id'])
+      ->leftJoin('h.HoldTransactions htr')
+      ->leftJoin('htr.Transaction t')
+      ->leftJoin('t.Tickets tck')
+      
+      ->leftJoin('h.Next n')
+      ->leftJoin('n.HoldTransactions nht')
+      
+      ->orderBy('htr.rank DESC, htr.id')
+    ;
+    $hold = $q->fetchOne();
+    if ( !$hold->next )
+    {
+      $this->getUser()->setFlash('error', __('You have nowhere to dump this waiting list.'));
+      $this->redirect('hold_transaction/index');
+    }
+    
+    $cpt = 0;
+    foreach ( $hold->HoldTransactions as $ht )
+    {
+      if ( sfConfig::get('sf_web_debug', false) )
+        error_log('Transaction: #'.$ht->transaction_id.' for Hold: '.$hold);
+      
+      if ( ($qty = $ht->pretickets - count(array_filter($ht->Transaction->Tickets->toKeyValueArray('id', 'seat_id')))) <= 0 )
+        continue;
+      
+      $cpt++;
+      $hold->Next->HoldTransactions[] = $ht;
+      $ht->rank = min($hold->Next->HoldTransactions->toKeyValueArray('id', 'rank')) - 1000;
+      $ht->save();
+    }
+    
+    $this->getUser()->setFlash('notice', __('%%cpt%% transaction(s) have been dumped into this hold.', array('%%cpt%%' => $cpt)));
+    $filters['hold_id'] = $hold->next;
+    $this->setFilters($filters);
+    $this->redirect('hold_transaction/index');
+  }
+  
   public function executeSeat(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'I18N'));
@@ -20,7 +71,7 @@ class hold_transactionActions extends autoHold_transactionActions
     
     if (!( isset($filters['hold_id']) && $filters['hold_id'] ))
     {
-      $this->getUser()->setFlash('error', __('You have to select a hold before trying to seat its content.'));
+      $this->getUser()->setFlash('error', __('You have to select a hold before anything.'));
       $this->redirect(cross_app_link_to('event', 'hold/index'));
     }
     

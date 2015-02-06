@@ -32,6 +32,9 @@ generator:
           _seat:
             action: seat
             ui-icon: signal-diag
+          _dump:
+            action: dump
+            ui-icon: arrow-4-diag
         batch_actions:
           _delete:
             credentials: [event-hold-transaction-del]

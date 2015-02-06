@@ -5,8 +5,12 @@
     <header/>
     <body>
       <trans-unit>
-        <source>You have to select a hold before trying to seat its content.</source>
-        <target>Vous devez sélectionner une retenue avant d'essayer de placer son contenu.</target>
+        <source>%%cpt%% transaction(s) have been dumped into this hold.</source>
+        <target>%%cpt%% opération(s) ont été déversées dans cette retenue.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You have nowhere to dump this waiting list.</source>
+        <target>Vous n'avez nulle part où déverser cette liste d'attente.</target>
       </trans-unit>
       <trans-unit>
         <source>The content of this hold has been seated, as much as it was possible.</source>
@@ -19,6 +23,10 @@
       <trans-unit>
         <source>Waiting list for hold:</source>
         <target>Liste d'attente pour la retenue:</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Dump&lt;span class="ui-icon ui-icon-arrow-4-diag"&gt;&lt;/span&gt;</source>
+        <target>Déverser&lt;span class="ui-icon ui-icon-arrow-4-diag"&gt;&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
         <source>Back&lt;span class="ui-icon ui-icon-arrowreturnthick-1-w"&gt;&lt;/span&gt;</source>
