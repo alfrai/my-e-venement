@@ -125,6 +125,12 @@ $(document).ready(function(){
       
       if ( event.hacktitle )
         $(element).prop('title', event.hacktitle);
+      
+      $(element).find('.fc-event-title')
+        .width($(element).height()-8)
+        .height($(element).width()-5)
+        .css('margin-top', $(element).height())
+      ;
     },
   });
   
