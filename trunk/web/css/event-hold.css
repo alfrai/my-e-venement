@@ -1,4 +1,4 @@
-.seated-plan .seat.held:not(.in-progress) { border: 2px solid blue; margin: -2px 0 0 -2px; }
+.seated-plan .seat.held:not(.in-progress) { border: 2px solid blue; border-color: rgba(0,0,255,0.6); margin: -2px 0 0 -2px; }
 #content .sf_admin_form .sf_admin_form_field_get_back_seats_from_transaction_id input[type=text], #content .sf_admin_form .sf_admin_form_field_transaction_id input[type=text] { width: 6em; padding-right: 1em; }
 #content .sf_admin_form .sf_admin_form_field_transaction_id input[type=text] { color: gray; }
 .sf_admin_form .sf_admin_form_field_transaction_id .transaction_id { color: gray; }
