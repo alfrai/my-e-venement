@@ -91,7 +91,7 @@ LI.seatedPlanInitializationFunctions.push(function(selector){
       return;
     
     // if the seat is already booked/ordered
-    if ( $(this).hasClass('ordered') || $(this).hasClass('asked') )
+    if ( ($(this).hasClass('ordered') || $(this).hasClass('asked')) && !$(this).hasClass('held') )
     {
       var url = $('#get-transaction-id').prop('href').replace($('#get-transaction-id').attr('data-replace'), $(this).attr('data-ticket-id'));
       $.ajax({
