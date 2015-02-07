@@ -13,8 +13,8 @@
         <target>Possibilité de modifié le contenu (places) d'une retenue</target>
       </trans-unit>
       <trans-unit>
-        <source>Ability to administrate holds (create, modify & delete)</source>
-        <target>Tout accès aux retenues</target>
+        <source>Ability to administrate holds (create, modify &amp; delete)</source>
+        <target>Accès complet aux retenues</target>
       </trans-unit>
       <trans-unit>
         <source>Ability to access holds</source>
