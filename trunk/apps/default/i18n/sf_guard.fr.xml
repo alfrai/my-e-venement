@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ability to administrate holds' waiting lists (create, order, modify, delete, seat, dump...)</source>
+        <target>Possibilité d'administrer les listes d'attente des retenues</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ability to modify the content (seats) of holds</source>
+        <target>Possibilité de modifié le contenu (places) d'une retenue</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ability to administrate holds (create, modify & delete)</source>
+        <target>Tout accès aux retenues</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Ability to access holds</source>
+        <target>Possibilité d'accéder aux retenues</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ability to change arbitrarily the price of tickets, one by one</source>
         <target>Possibilité de changer arbitrairement le prix des billets, un par un</target>
       </trans-unit>

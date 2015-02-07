@@ -29,12 +29,15 @@ generator:
           _back:
             action: back
             ui-icon: arrowreturnthick-1-w
+            credentials: [event-hold]
           _seat:
             action: seat
             ui-icon: signal-diag
+            credentials: [event-hold-transaction-convert]
           _dump:
             action: dump
             ui-icon: arrow-4-diag
+            credentials: [event-hold-transaction-new]
         batch_actions:
           _delete:
             credentials: [event-hold-transaction-del]
@@ -43,10 +46,12 @@ generator:
             action: minus
             label: Less tickets
             ui-icon: minus
+            credentials: [event-hold-transaction-mod]
           _plus:
             action: plus
             label: More tickets
             ui-icon: plus
+            credentials: [event-hold-transaction-mod]
           _edit:
             credentials: [tck-transaction]
           _delete:

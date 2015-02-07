@@ -12,7 +12,7 @@ delete:
 batchDelete:
   credentials: [event-hold-transaction-delete] #139
 
-seat:
+dump:
   credentials: [event-hold-transaction-new] #138
 seat:
   credentials: [event-hold-transaction-convert] #141
