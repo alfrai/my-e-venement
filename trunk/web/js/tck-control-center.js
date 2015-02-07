@@ -1,6 +1,6 @@
 $(document).ready(function(){
   // if the first page is displaid, then reload data every 3 seconds
-  if ( $('.sf_admin_list .sf_admin_pagination tbody input[type=text]').val() == 1 )
+  if (!( $('.sf_admin_list .sf_admin_pagination tbody input[type=text]').length > 0 && $('.sf_admin_list .sf_admin_pagination tbody input[type=text]').val() != 1 ))
   {
     setInterval(function(){
       $.ajax({

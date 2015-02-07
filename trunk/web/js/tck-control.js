@@ -1,8 +1,5 @@
 $(document).ready(function(){
   // the global input from keyboard(s)
-  $('form #control_checkpoint_id').change(function(){
-    $('#control_ticket_id').focus();
-  });
   $('#checkpoint #control_checkpoint_id').keypress(function(e){
     if ( e.which == 13 )
       $('#checkpoint').submit();

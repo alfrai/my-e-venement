@@ -93,9 +93,9 @@
       ),
       'diameter'  => $seat->diameter,
       'name'      => $seat->name,
-      'info'      => $hold ? __('Held for "%%hold%%"', array('%%hold%%' => $hold)) : NULL,
+      'info'      => isset($hold) && $hold ? __('Held for "%%hold%%"', array('%%hold%%' => $hold)) : NULL,
       'id'        => $seat->id,
-      'class'     => $seat->class.($hold ? ' held' : '').($seated_plans_gauges[$seat->seated_plan_id]->isAccessibleBy($users, true) ? '' : ' offline'),
+      'class'     => $seat->class.(isset($hold) && $hold ? ' held' : '').($seated_plans_gauges[$seat->seated_plan_id]->isAccessibleBy($users, true) ? '' : ' offline'),
       'rank'      => $seat->rank,
       'seated-plan-id' => $seat->seated_plan_id,
       'occupied'  => $sf_user->hasCredential('event-seats-allocation') && !(isset($occupied[$seat->name]) && $occupied[$seat->name]['type'] == 'out')
