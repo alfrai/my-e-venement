@@ -37,6 +37,7 @@ class GaugeForm extends BaseGaugeForm
   public function setHidden($hides = array('manifestation_id','workspace_id'))
   {
     foreach ( $hides as $hide )
+    if ( isset($this->widgetSchema[$hide]) )
       $this->widgetSchema[$hide] = new sfWidgetFormInputHidden();
     return $this;
   }

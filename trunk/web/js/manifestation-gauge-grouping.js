@@ -66,3 +66,4 @@ LI.manifestationGroupGauges = function(){
 if ( LI.manifestationFormWorkspaces == undefined )
   LI.manifestationFormWorkspaces = [];
 LI.manifestationFormWorkspaces.push(LI.manifestationGroupGauges);
+LI.manifestationFormWorkspaces.push(LI.manifestationGroupGauges); // for ordering, this was the simplest solution

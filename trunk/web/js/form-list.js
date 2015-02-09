@@ -61,12 +61,11 @@ LI.form_list_actions = function(widget)
     $.post($(this).prop('action'),$(this).serialize(),function(data){
       data = $.parseHTML(data);
       
-      var object_id = $(data).find('form').prop('action').match(/\/(\d+)$/)[1];
+      var object_id = $(data).find('form').prop('action').match(/\/(\d+)(\.\w+){0,1}$/)[1];
       var input = $('.sf_admin_form .sf_admin_form_list.ajax .object-'+object_id+' input[type=text]');
       var form = input.closest('form');
       var widget = form.closest('.ajax').get(0);
       
-      replaceWith($(data).find(widget.field));
       form.find('.label, .sf_admin_flashes').remove();
       if ( form.find('.sf_admin_form_field_value > *').length <= 1 )
       {
