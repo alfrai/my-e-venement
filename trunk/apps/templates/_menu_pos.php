@@ -16,14 +16,12 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
-    <?php
-      if ( $sf_user->hasCredential('')
-      ): ?>
+    <?php if ( $sf_user->hasCredential('pos-product') || $sf_user->hasCredential('pos-admin') || $sf_user->hasCredential('pos-view') ): ?>
       <li class="menu-event">
         <ul class="second">
           <?php if ( $sf_user->hasCredential('pos-product') ): ?>
