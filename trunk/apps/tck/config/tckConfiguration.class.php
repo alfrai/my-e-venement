@@ -72,7 +72,7 @@ class tckConfiguration extends sfApplicationConfiguration
     $paid = $event['transaction']->getPaid();
     foreach ( $event['transaction']->getItemables() as $pdt )
     if ( !$pdt->isSold() ) // if something has to be done
-    if (!( $pdt->value > 0 && $event['transaction']->getPrice(false, true) >= $paid
+    if (!( $pdt->value > 0 && $pdt->ticket_id && $event['transaction']->getPrice(false, true) >= $paid
       || $pdt instanceof Ticket && $pdt->needsSeating() ))
     {
       $pdt->integrated_at = date('Y-m-d H:i:s'); // integrate
