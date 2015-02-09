@@ -445,6 +445,8 @@ Gauge:
   indexes:
     gauge_online:
       fields: [online]
+    gauge_onsite:
+      fields: [onsite]
     gauge_group_name_idx:
       fields: [group_name]
     manifestation_workspace:
@@ -463,6 +465,10 @@ Gauge:
     online:
       type: boolean
       default: false
+      notnull: true
+    onsite:
+      type: boolean
+      default: true
       notnull: true
     group_name: string(255)
   relations:

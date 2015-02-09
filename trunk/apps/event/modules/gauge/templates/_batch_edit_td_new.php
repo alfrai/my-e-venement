@@ -3,7 +3,7 @@
   $g->manifestation_id = $sf_request->getParameter('id');
   
   $form = new GaugeForm($g);
-  $form->setHidden(array('manifestation_id','value','online', 'group_name'));
+  $form->setHidden(array('manifestation_id','value','online','onsite','group_name'));
   
   $form['workspace_id']->getWidget()->setOption('query', Doctrine::getTable('Workspace')->createQuery('w')
     ->leftJoin('w.Gauge g ON g.workspace_id = w.id AND g.manifestation_id = ?',$g->manifestation_id)

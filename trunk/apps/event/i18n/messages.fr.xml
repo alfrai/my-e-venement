@@ -1698,6 +1698,10 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <source>Online</source>
         <target>En ligne</target>
       </trans-unit>
+      <trans-unit>
+        <source>Onsite</source>
+        <target>Sur place</target>
+      </trans-unit>
       <trans-unit id="127">
         <source>Prices list</source>
         <target>Liste des tarifs</target>

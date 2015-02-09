@@ -147,7 +147,7 @@ dsf#sf_fieldset_tickets td .tickets, sdf#sf_fieldset_spectators td .tickets { di
 #content #form_workspaces .sf_admin_list_th_online, #form_workspaces .sf_admin_list_td_online { width: 75px; }
 #content #form_workspaces .sf_admin_list_td_join_name select { width: 115px; }
 #content #form_workspaces label { display: none; }
-#form_workspaces .sf_admin_list_td_online, #form_workspaces .sf_admin_list_td_unjoin { text-align: center; }
+#form_workspaces .sf_admin_list_td_onsite, #form_workspaces .sf_admin_list_td_online, #form_workspaces .sf_admin_list_td_unjoin { text-align: center; }
 #form_workspaces .sf_admin_list_td_online, #form_workspaces .sf_admin_list_td_unjoin button { padding: 10px; }
 
 .sf_admin_form_field_show_possible_incomes { position: absolute; margin-top: -3.7em; margin-left: 24em; display: block; }

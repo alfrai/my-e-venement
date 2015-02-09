@@ -19,6 +19,11 @@
 </th>
 <?php end_slot(); ?>
 <?php include_slot('sf_admin.current_header') ?><?php slot('sf_admin.current_header') ?>
+<th class="sf_admin_text sf_admin_list_th_onsite ui-state-default ui-th-column">
+  <?php echo __('Onsite', array(), 'messages') ?>
+</th>
+<?php end_slot(); ?>
+<?php include_slot('sf_admin.current_header') ?><?php slot('sf_admin.current_header') ?>
 <th class="sf_admin_text sf_admin_list_th_online ui-state-default ui-th-column">
   <?php echo __('Online', array(), 'messages') ?>
 </th>
