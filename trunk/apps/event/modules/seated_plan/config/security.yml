@@ -31,3 +31,15 @@ getSeats:
   credentials: [event-seats-allocation]
 getShortnames:
   credentials: [event-seats-allocation]
+getTransactions:
+  credentials: [event-seats-allocation]
+getGroups:
+  credentials: [event-seats-allocation]
+getRanks:
+  credentials: [event-seats-allocation]
+getDebts:
+  credentials: [event-seats-allocation, tck-overview]
+getHoldSeats:
+  credentials: [event-hold]
+getControls:
+  credentials: [event-seats-allocation]
