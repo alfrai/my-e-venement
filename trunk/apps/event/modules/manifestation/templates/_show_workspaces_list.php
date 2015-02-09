@@ -65,7 +65,11 @@
         title="<?php echo __('If a seated plan exists, it will show up if you click on the gauge') ?>"
     >
       <a href="<?php echo url_for('workspace/show?id='.$gauge->Workspace->id) ?>"><?php echo $gauge->Workspace ?></a>
-      (<?php echo $gauge->online ? __('Online') : '' ?>)
+      <?php if ( $gauge->online || !$gauge->onsite ): $arr = array()?>
+        <?php if ( $gauge->online ) $arr[] = __('Online') ?>
+        <?php if ( !$gauge->onsite ) $arr[] = __('Closed on site') ?>
+        (<?php echo implode(', ', $arr) ?>)
+      <?php endif ?>
       <a class="gauge-gfx" href="<?php echo url_for('gauge/state?id='.$gauge->id.'&json=true') ?>">gauge</a>
       <?php if ( $gauge->Workspace->seated && $seated_plan = $form->getObject()->Location->getWorkspaceSeatedPlan($gauge->workspace_id) ): ?>
       <div class="seated-plan-parent" title="">

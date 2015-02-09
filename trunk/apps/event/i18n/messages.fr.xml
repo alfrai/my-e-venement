@@ -1704,7 +1704,11 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
       </trans-unit>
       <trans-unit>
         <source>Onsite</source>
-        <target>Sur place</target>
+        <target>Sur lieu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Closed on site</source>
+        <target>Fermé sur lieu</target>
       </trans-unit>
       <trans-unit id="127">
         <source>Prices list</source>
