@@ -40,22 +40,22 @@ generator:
             credentials: [event-hold-transaction-new]
         batch_actions:
           _delete:
-            credentials: [event-hold-transaction-del]
+            credentials: [event-hold-transaction-delete]
         object_actions:
           _minus:
             action: minus
             label: Less tickets
             ui-icon: minus
-            credentials: [event-hold-transaction-mod]
+            credentials: [event-hold-transaction]
           _plus:
             action: plus
             label: More tickets
             ui-icon: plus
-            credentials: [event-hold-transaction-mod]
+            credentials: [event-hold-transaction]
           _edit:
             credentials: [tck-transaction]
           _delete:
-            credentials: [event-hold-transaction-del]
+            credentials: [event-hold-transaction-delete]
         sort: ['rank', '']
         max_per_page: 50
       filter:

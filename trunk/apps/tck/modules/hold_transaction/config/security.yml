@@ -17,9 +17,9 @@ dump:
 seat:
   credentials: [event-hold-transaction-convert] #141
 plus:
-  credentials: [event-hold-transaction-mod] #143
+  credentials: [event-hold-transaction] #143
 minus:
-  credentials: [event-hold-transaction-mod] #143
+  credentials: [event-hold-transaction] #143
 
 changeRank:
   credentials: [event-hold-transaction-order] #140

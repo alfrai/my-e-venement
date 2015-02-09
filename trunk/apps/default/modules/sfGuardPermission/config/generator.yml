@@ -18,6 +18,7 @@ generator:
         object_actions:
           _edit: ~
           _delete: ~
+        max_per_page: 50
       
       edit:
         title: Editing Permission "%%name%%"

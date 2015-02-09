@@ -246,11 +246,11 @@
           $subobj = 'Gauge';
           $q = Doctrine::getTable('Manifestation')->createQuery('m',true)
             ->leftJoin('m.PriceManifestations pm')
-            ->leftJoin('pm.Price pmp')
+            ->leftJoin('pm.Price pmp WITH pmp.hide = ?', false)
             ->leftJoin('pmp.Translation pmpt WITH pmpt.lang = ?', $this->getUser()->getCulture())
             ->leftJoin('m.Gauges g WITH g.onsite = TRUE')
             ->leftJoin('g.PriceGauges pg')
-            ->leftJoin('pg.Price pgp')
+            ->leftJoin('pg.Price pgp WITH pgp.hide = ?', false)
             ->leftJoin('pgp.Translation pgpt WITH pgpt.lang = ?', $this->getUser()->getCulture())
             ->leftJoin('g.Workspace w')
             ->leftJoin('w.Order wuo ON wuo.workspace_id = w.id AND wuo.sf_guard_user_id = ?',$this->getUser()->getId())
@@ -288,7 +288,7 @@
             ->leftJoin('p.Category c')
             ->leftJoin('c.Translation ct WITH ct.lang = ?', $this->getUser()->getCulture())
             ->leftJoin('p.PriceProducts pp')
-            ->leftJoin('pp.Price price WITH price.id IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?)', $this->getUser()->getId())
+            ->leftJoin('pp.Price price WITH price.hide = ? AND price.id IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?)', array(false, $this->getUser()->getId()))
             ->leftJoin('price.Translation prt WITH prt.lang = ?', $this->getUser()->getCulture())
             ->orderBy('pt.name, dt.name, prt.name')
             ->leftJoin('price.UserPrices pup WITH pup.sf_guard_user_id = ?',$this->getUser()->getId())
@@ -386,7 +386,7 @@
             foreach ( $pps as $pp )
             {
               // this price is correctly associated to this gauge
-              if ( !in_array($declination->workspace_id, $pp->Price->Workspaces->getPrimaryKeys()) )
+              if ( $pp->Price && !in_array($declination->workspace_id, $pp->Price->Workspaces->getPrimaryKeys()) )
                 continue;
               // access to this workspace
               if ( !in_array($declination->workspace_id, array_keys($this->getUser()->getWorkspacesCredentials())) )
@@ -414,7 +414,7 @@
           foreach ( $prices as $pp )
           {
             // access to this price
-            if ( $pp->Price->UserPrices->count() == 0 )
+            if (!( $pp->Price && $pp->Price->UserPrices->count() > 0 ))
               continue;
             
             // then add the price...

@@ -16,8 +16,9 @@ $(document).ready(function(){
       type: 'get',
       success: function(json){
         $('#transition .close').click();
-        if ( !json.id || !json.quantity )
+        if ( !json.id || json.quantity === undefined || json.quantity === false )
         {
+          console.error(json);
           LI.alert('An error occurred (02)', 'error');
           return;
         }

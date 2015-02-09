@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The transaction has been reopened automatically.</source>
+        <target>L'opération a été réouverte automatiquement.</target>
+      </trans-unit>
+      <trans-unit>
         <source>%%cpt%% transaction(s) have been dumped into this hold.</source>
         <target>%%cpt%% opération(s) ont été déversées dans cette retenue.</target>
       </trans-unit>

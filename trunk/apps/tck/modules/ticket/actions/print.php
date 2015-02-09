@@ -167,7 +167,7 @@
               $this->print_again = true;
             }
             elseif ( strcasecmp(trim($ticket->price_name),trim($request->getParameter('price_name'))) == 0
-              && $ticket->printed_at
+              && ($ticket->printed_at || $ticket->integrated_at)
               && !($request->getParameter('manifestation_id') && $ticket->manifestation_id != $request->getParameter('manifestation_id')) )
             {
               $cpt++;
@@ -178,6 +178,7 @@
               $newticket->created_at = NULL;
               $newticket->updated_at = NULL;
               $newticket->printed_at = date('Y-m-d H:i:s');
+              $newticket->integrated_at = NULL;
               $newticket->Duplicated = $ticket;
               $newticket->save();
               if ( $newticket->seat_id )
