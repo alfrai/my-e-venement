@@ -17,8 +17,8 @@
 #    along with e-venement; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # 
-#    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-#    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+#    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+#    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 # 
 #**********************************************************************************/
 
@@ -53,26 +53,16 @@ read
 
 
 # Checking data
-i=0
-for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL);' | psql`
-do
-  let "i++"
-  [ $i -eq 3 ] && NBT=$elt
-done
-i=0
-for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL) AND seat_id IS NOT NULL;' | psql 2> /dev/null`
-do
-  let "i++"
-  [ $i -eq 3 ] && NBP=$elt
-done
+i=0; for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL);' | psql`
+do let "i++"; [ $i -eq 3 ] && NBT=$elt; done
+i=0; for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL) AND seat_id IS NOT NULL;' | psql 2> /dev/null`
+do let "i++";  [ $i -eq 3 ] && NBP=$elt; done
 if [ $i -eq 0 ]
-then
-  for elt in `echo "SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL) AND numerotation IS NOT NULL AND numerotation != '';" | psql`
-  do
-    let "i++"
-    [ $i -eq 3 ] && NBP=$elt
-  done
+then for elt in `echo "SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL) AND numerotation IS NOT NULL AND numerotation != '';" | psql`
+  do let "i++"; [ $i -eq 3 ] && NBP=$elt; done
 fi
+i=0; for elt in `echo 'SELECT count(*) FROM transaction;' | psql 2> /dev/null`
+do let "i++";  [ $i -eq 3 ] && NBTR=$elt; done
 
 read -p "Do you want to reset your dump & patch your database for e-venement v2.8 ? [Y/n] " dump
 if [ "$dump" != "n" ]; then
@@ -177,6 +167,7 @@ echo ""
 # those rm -rf cache/* are hacks to avoid cache related segfaults...
 dropdb $db;
 createdb $db
+
 last=$?
 rm -rf cache/*
 [ $last -eq 0 ] && ./symfony doctrine:drop-db --no-confirmation && ./symfony doctrine:build-db
@@ -206,6 +197,7 @@ echo "";
 echo "  ... done."
 echo "Re-injecting your data..."
 cat data/sql/$db-`date +%Y%m%d`.pgdump | pg_restore --disable-triggers -Fc -a -d $db
+#cat data/sql/$db-`date +%Y%m%d`.pgdump | pg_restore -Fc -a -d $db
 if [ $? -eq 0 ]
 then
   echo "... done."
@@ -253,7 +245,7 @@ then
   echo "Permissions & groups for reducing the value of tickets, one by one..."
   ./symfony doctrine:data-load --append data/fixtures/11-permissions-v28-tck.yml
   echo "Permissions & groups for holds..."
-  if [ "$reset" != 'y' ]
+  if [ "$reset" != 'n' ]
   then
     psql $db <<EOF
       DELETE FROM sf_guard_permission WHERE name LIKE 'event-hold%';
@@ -283,27 +275,21 @@ chmod -R 777 web/liJappixPlugin/store web/liJappixPlugin/tmp web/liJappixPlugin/
 echo "... done."
 
 # Checking data...
-i=0
-for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL);' | psql`
-do
-  let "i++"
-  [ $i -eq 3 ] && NBTA=$elt
-done
-i=0
-for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL) AND seat_id IS NOT NULL;' | psql`
-do
-  let "i++"
-  [ $i -eq 3 ] && NBPA=$elt
-done
+i=0; for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL);' | psql`
+do let "i++"; [ $i -eq 3 ] && NBTA=$elt; done
+i=0; for elt in `echo 'SELECT count(*) FROM ticket WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL) AND seat_id IS NOT NULL;' | psql`
+do let "i++"; [ $i -eq 3 ] && NBPA=$elt; done
+i=0; for elt in `echo 'SELECT count(*) FROM transaction;' | psql 2> /dev/null`
+do let "i++";  [ $i -eq 3 ] && NBTRA=$elt; done
 
 # final informations
 echo ''
 echo ''
-if [ "$NBPA" -eq "$NBP" ] && [ "$NBT" -eq "$NBTA" ]
+if [ "$NBPA" -eq "$NBP" ] && [ "$NBT" -eq "$NBTA" ] && [ "$NBTR" -eq "$NBTRA" ]
 then
-  echo "Your migration went good. Your number of tickets and seated tickets is the same."
+  echo "Your migration went good. Your number of transactions, tickets and seated tickets is the same."
 else
-  echo "!! ERROR !! You had ${NBT} tickets for ${NBP} seated tickets, you now have ${NBTA} tickets and ${NBPA} seated tickets!!!"
+  echo "!! ERROR !! You had ${NBT} tickets for ${NBP} seated tickets, and ${NBTR} tranasction ; you now have ${NBTA} tickets, ${NBPA} seated tickets and ${NBTRA} transactions!!!"
   echo "Do something..."
 fi
 echo ""

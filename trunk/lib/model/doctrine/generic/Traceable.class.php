@@ -22,9 +22,13 @@ class Traceable extends PluginTraceable
   {
     if ( $this->isModified() )
     {
-      $this->sf_guard_user_id = sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId()
-        ? sfContext::getInstance()->getUser()->getId()
-        : NULL;
+      if ( sfContext::hasInstance() && sfContext::getInstance()->getUser()->getId() )
+      {
+        $this->sf_guard_user_id = sfContext::getInstance()->getUser()->getId();
+        $this->automatic = false;
+      }
+      else
+        $this->automatic = true;
       if ( !$this->no_updated_at )
         $this->updated_at = date('Y-m-d H:i:s');
     }

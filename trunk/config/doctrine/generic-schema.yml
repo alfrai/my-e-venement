@@ -103,6 +103,10 @@ Traceable:
       fields: [created_at]
   columns:
     sf_guard_user_id: integer
+    automatic:
+      type: boolean
+      notnull: true
+      default: false
   relations:
     User:
       class: sfGuardUser
