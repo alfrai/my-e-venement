@@ -252,7 +252,7 @@
       .attr('title', name
         + (data.info ? ' ('+data.info+')' : '')
         + (data.rank ? ' ('+($('.tools .rank label').length > 0 ? $('.tools .rank label').text() : 'rank')+': '+data.rank+')' : '')
-        + (occupied && occupied['transaction_id'] ? ' ('+occupied.transaction_id+(occupied.spectator ? ', '+occupied.spectator : '')+')' : '')
+        + (occupied && occupied['transaction_id'] ? ' ('+occupied.transaction_id+(occupied.spectator ? ', '+occupied.spectator : '')+' #'+occupied.ticket_id+')' : '')
       )
       .attr('data-num', name).attr('data-rank', data.rank)
       .attr('data-id', id)
