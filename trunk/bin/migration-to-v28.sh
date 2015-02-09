@@ -221,7 +221,7 @@ read -p "Do you want to copy MemberCardType's english translations (default i18n
 
 echo ""
 read -p "Do you want to add the new permissions? [Y/n] " add
-read -p "Do you want to reset the permissions related to the holds? [y/N] " reset
+read -p "... Do you want to reset the permissions related to the holds? [y/N] " reset
 if [ "$add" != 'n' ]
 then
   echo "If you will get Symfony errors in the next few actions, it is not a problem, the permissions just already exist in the DB"
