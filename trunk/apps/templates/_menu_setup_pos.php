@@ -22,7 +22,7 @@
 ***********************************************************************************/
 ?>
   <?php if ( $sf_user->hasCredential('pos-admin') ): ?>
-          <li class="menu-setup-events"><a><?php echo __('Store',array(),'menu') ?></a>
+          <li class="menu-setup-pos"><a><?php echo __('Store',array(),'menu') ?></a>
             <ul class="third">
               <li><a href="<?php echo cross_app_url_for('pos','category/index') ?>"><?php echo __('Categories',array(),'menu') ?></a></li>
               <li><a href="<?php echo cross_app_url_for('pos','price/index') ?>"><?php echo __('Available prices',array(),'menu') ?></a></li>
