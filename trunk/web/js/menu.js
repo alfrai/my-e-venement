@@ -51,6 +51,11 @@ $(document).ready(function(){
     $('#menu .onsub').removeClass('onsub');
     $(this).focus().parent().addClass('onit');
   })
+  .click(function(event){
+    event.stopPropagation();
+    $(this).closest('.second').closest('li').addClass('show');
+    $(this).mouseenter();
+  })
   .mouseleave(function(){
     if ( $(this).parent().find('.third').length > 0 )
       $(this).parent().removeClass('onit');
