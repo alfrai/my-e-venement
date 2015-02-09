@@ -41,10 +41,6 @@ echo "User: $PGUSER"
 echo "Host: $PGHOST"
 echo "Port: $PGPORT"
 echo ""
-echo "To continue press ENTER"
-echo "To cancel press CTRL+C NOW !!"
-read
-
 echo "- Please check config/autoload.inc.php.template and complete config/autoload.inc.php in that way..."
 echo ""
 echo "To continue press ENTER"
