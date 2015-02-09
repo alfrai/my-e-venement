@@ -32,6 +32,11 @@
             'min' => array('money' => 0, 'money_txt' => ''),
             'max' => array('money' => 0, 'money_txt' => ''),
           ),
+          'onsite' => array(
+            'nb' => 0,
+            'min' => array('money' => 0, 'money_txt' => ''),
+            'max' => array('money' => 0, 'money_txt' => ''),
+          ),
           'all' => array(
             'nb' => 0,
             'min' => array('money' => 0, 'money_txt' => ''),
@@ -40,10 +45,12 @@
         ),
         'ordered' => array(
           'online' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
+          'onsite' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'all' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
         ),
         'printed' => array(
           'online' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
+          'onsite' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'all' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
         ),
       ),
@@ -54,6 +61,11 @@
             'min' => array('money' => 0, 'money_txt' => ''),
             'max' => array('money' => 0, 'money_txt' => ''),
           ),
+          'onsite' => array(
+            'nb' => 0,
+            'min' => array('money' => 0, 'money_txt' => ''),
+            'max' => array('money' => 0, 'money_txt' => ''),
+          ),
           'all' => array(
             'nb' => 0,
             'min' => array('money' => 0, 'money_txt' => ''),
@@ -62,10 +74,12 @@
         ),
         'ordered' => array(
           'online' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
+          'onsite' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'all' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
         ),
         'printed' => array(
           'online' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
+          'onsite' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'all' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
         ),
       ),
@@ -87,15 +101,6 @@
     
     $q = Doctrine::getTable('Manifestation')->createQuery('m',true)
       ->leftJoin('m.Gauges g')
-/*
-    $q = Doctrine::getTable('Gauge')->createQuery('g', false)
-      ->andWhere('g.manifestation_id = ?', $request->getParameter('id', 0))
-      ->leftJoin('g.Workspace ws')
-      ->leftJoin('g.Manifestation m')
-      ->leftJoin('m.Event e')
-      ->leftJoin('e.MetaEvent me')
-*/
-      
       ->leftJoin('g.Tickets tck')
       ->leftJoin('tck.Seat s')
       ->leftJoin('tck.Transaction t')
@@ -109,6 +114,7 @@
       ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR o.id IS NOT NULL') // printed or integrated or booked by an order
       ->andWhere('tck.cancelling IS NULL')
     ;
+    $onsite = $q->copy()->andWhere('g.onsite = ?', true);
     $online = $q->copy()
       ->andWhere('(SELECT count(wsu.sf_guard_user_id) FROM WorkspaceUser wsu WHERE wsu.sf_guard_user_id IN '.$prepare.') > 0', $users)
       ->andWhere('(SELECT count(meu.sf_guard_user_id) FROM MetaEventUser meu WHERE meu.sf_guard_user_id IN '.$prepare.') > 0', $users)
@@ -119,7 +125,7 @@
       ->andWhere('g.online = ?', true)
     ;
     $all = $q;
-    foreach ( array('online', 'all') as $type )
+    foreach ( array('online', 'onsite', 'all') as $type )
     foreach ( $$type->execute() as $manif )
     foreach ( $manif->Gauges as $gauge )
 //    foreach ( $$type->execute() as $gauge )
@@ -200,6 +206,17 @@
     $this->json['seats']['free']['online']['max']['money_txt'] = format_currency($this->json['seats']['free']['online']['max']['money'], '€');
     
     // free all seats
+    $q2 = $q->copy()->andWhere('g.onsite = ?', true);
+    foreach ( $q2->execute() as $gauge )
+    {
+      $this->json['seats']['free']['onsite']['nb'] += $gauge->nb;
+      $this->json['seats']['free']['onsite']['min']['money'] += $gauge->nb * $gauge->getPriceMin($users);
+      $this->json['seats']['free']['onsite']['max']['money'] += $gauge->nb * $gauge->getPriceMax($users);
+    }
+    $this->json['seats']['free']['onsite']['min']['money_txt'] = format_currency($this->json['seats']['free']['onsite']['min']['money'], '€');
+    $this->json['seats']['free']['onsite']['max']['money_txt'] = format_currency($this->json['seats']['free']['onsite']['max']['money'], '€');
+    
+    // free all seats
     foreach ( $q->execute() as $gauge )
     {
       $this->json['seats']['free']['all']['nb'] += $gauge->nb;
@@ -239,6 +256,17 @@
     }
     $this->json['gauges']['free']['online']['min']['money_txt'] = format_currency($this->json['gauges']['free']['online']['min']['money'], '€');
     $this->json['gauges']['free']['online']['max']['money_txt'] = format_currency($this->json['gauges']['free']['online']['max']['money'], '€');
+    // onsite
+    foreach ( $gauges = $q->copy()
+      ->andWhere('g.onsite = ?', true)
+      ->execute() as $gauge )
+    {
+      $this->json['gauges']['free']['onsite']['nb'] += $gauge->value - $gauge->printed - $gauge->ordered;
+      $this->json['gauges']['free']['onsite']['min']['money'] += ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMin($users);
+      $this->json['gauges']['free']['onsite']['max']['money'] += ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMax($users);
+    }
+    $this->json['gauges']['free']['onsite']['min']['money_txt'] = format_currency($this->json['gauges']['free']['onsite']['min']['money'], '€');
+    $this->json['gauges']['free']['onsite']['max']['money_txt'] = format_currency($this->json['gauges']['free']['onsite']['max']['money'], '€');
     // all
     foreach ( $gauges = $q->copy()
       ->execute() as $gauge )

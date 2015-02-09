@@ -47,6 +47,14 @@
               <?php echo __('Filling') ?>:
               <span><?php echo __('seats') ?>, <?php echo __('open gauges for online sales') ?></span>
             </td>
+            <td class="ui-state-default ui-th-column sos-st-sg">
+              <?php echo __('State of sales') ?>:
+              <span><?php echo __('seats') ?>, <?php echo __('open gauges for onsite sales') ?></span>
+            </td>
+            <td class="ui-state-default ui-th-column f-st-sg">
+              <?php echo __('Filling') ?>:
+              <span><?php echo __('seats') ?>, <?php echo __('open gauges for onsite sales') ?></span>
+            </td>
             <td class="ui-state-default ui-th-column sos-st-ag">
               <?php echo __('State of sales') ?>:
               <span><?php echo __('seats') ?>, <?php echo __('all gauges') ?></span>
@@ -62,6 +70,14 @@
             <td class="ui-state-default ui-th-column f-at-og">
               <?php echo __('Filling') ?>:
               <span><?php echo __('everything') ?>, <?php echo __('open gauges for online sales') ?></span>
+            </td>
+            <td class="ui-state-default ui-th-column sos-at-sg">
+              <?php echo __('State of sales') ?>:
+              <span><?php echo __('everything') ?>, <?php echo __('open gauges for onsite sales') ?></span>
+            </td>
+            <td class="ui-state-default ui-th-column f-at-sg">
+              <?php echo __('Filling') ?>:
+              <span><?php echo __('everything') ?>, <?php echo __('open gauges for onsite sales') ?></span>
             </td>
             <td class="ui-state-default ui-th-column sos-at-ag">
               <?php echo __('State of sales') ?>:

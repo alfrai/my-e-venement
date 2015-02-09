@@ -137,6 +137,10 @@
         <target>jauges ouvertes pour la vente en ligne</target>
       </trans-unit>
       <trans-unit>
+        <source>open gauges for onsite sales</source>
+        <target>jauges ouvertes pour la vente sur lieu</target>
+      </trans-unit>
+      <trans-unit>
         <source>all gauges</source>
         <target>toutes les jauges</target>
       </trans-unit>
