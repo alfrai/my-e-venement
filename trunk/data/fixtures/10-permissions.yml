@@ -1725,7 +1725,7 @@ sfGuardGroup:
     updated_at: '2015-01-29 16:00:27'
   sfGuardGroup_56:
     name: event-hold-waiting-list
-    description: 'Ability to administrate holds' waiting lists (create, order, modify, delete, seat, dump...)'
+    description: "Ability to administrate holds' waiting lists (create, order, modify, delete, seat, dump...)"
     created_at: '2015-01-29 19:00:27'
     updated_at: '2015-01-29 16:00:27'
   sfGuardGroup_47:
