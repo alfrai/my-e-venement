@@ -21,8 +21,8 @@
         <target>Jour/Lieu</target>
       </trans-unit>
       <trans-unit>
-        <source>Waiting list</source>
-        <target>Liste d'attente</target>
+        <source>Waiting list&lt;span class="ui-icon ui-icon-arrow-1-e"&gt;&lt;/span&gt;</source>
+        <target>Liste d'attente&lt;span class="ui-icon ui-icon-arrow-1-e"&gt;&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
         <source>Waiting list for hold:</source>

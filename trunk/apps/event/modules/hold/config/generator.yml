@@ -31,9 +31,10 @@ generator:
           _edit:
             credentials: [event-hold-mod]
           _waitingList:
-            credentials: [event-hold-waiting-list]
+            credentials: [event-hold-transaction]
             ui-icon: arrow-1-e
             action: waitingList
+            label: Waiting list
           _delete:
             credentials: [event-hold-del]
         batch_actions:
@@ -54,7 +55,8 @@ generator:
             credentials: [event-hold-del]
           _waiting_list:
             action: WaitingList
-            credentials: [event-hold-waiting-list]
+            ui-icon: arrow-1-e
+            credentials: [event-hold-transaction]
           _save:
             credentials: [event-hold-mod]
       new:
