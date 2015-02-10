@@ -152,6 +152,7 @@ class hold_transactionActions extends autoHold_transactionActions
       ->leftJoin('t.Tickets tck')
       ->andWhere('tck.seat_id NOT NULL')
       ->andWhere('tck.auto_by_hold = ?', true)
+      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
       ->leftJoin('t.HoldTransaction ht')
       ->andWhere('ht.hold_id = ?', $filters['hold_id'])
       ->delete();
