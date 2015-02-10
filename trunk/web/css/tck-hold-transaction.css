@@ -1,5 +1,8 @@
-.sf_admin_list .sf_admin_list_td_rank, .sf_admin_list .sf_admin_list_th_rank, .sf_admin_list .sf_admin_list_th_Hold, .sf_admin_list .sf_admin_list_td_Hold { display: none; }
-#sf_admin_footer #hold_name { display: none; }
+#sf_admin_footer #hold_name,
+.sf_admin_list .sf_admin_list_th_hold_id, .sf_admin_list .sf_admin_list_td_hold_id,
+.sf_admin_list .sf_admin_list_td_rank, .sf_admin_list .sf_admin_list_th_rank,
+.sf_admin_list .sf_admin_list_th_Hold, .sf_admin_list .sf_admin_list_td_Hold { display: none; }
+
 .sf_admin_list_th_list_transaction_id, .sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_transaction_id { width: 8em; }
 .sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_transaction_id { text-align: right; }
 .sf_admin_list .sf_admin_list_td_list_professional select { width: 15em; }
@@ -14,3 +17,12 @@
 .sf_admin_list .li-out-of-hold td { background-color: rgba(255,0,0,0.05); }
 .sf_admin_list .li-seated td { background-color: rgba(0,255,0,0.08); }
 .sf_admin_list .li-total td { background-color: rgba(0,0,0,0.1); }
+
+.sf_admin_list tfoot { display: none; }
+#sf_admin_header { position: absolute; margin-top: -25px; text-align: right; width: calc(100% - 40px); }
+#sf_admin_header a { float: none; color: #2E6E9E; }
+#sf_admin_header a:first-child { float: left; margin-top: -7px; }
+.sf_admin_actions_block { display: none; }
+#sf_admin_content { margin-top: 30px; }
+
+.sf_admin_flashes { position: absolute; margin-top: -37px; margin-left: 90px; z-index: 1; }

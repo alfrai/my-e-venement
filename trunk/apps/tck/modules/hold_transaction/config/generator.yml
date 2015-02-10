@@ -22,22 +22,25 @@ generator:
         list_transaction_id: { label: Transaction }
         pretickets: { label: Transitionals, type: number }
       list:
-        title: Waiting list for hold:
-        display: [Hold, _list_transaction_id, _list_contact, _list_professional, pretickets, _list_nb_seated, _list_nb_printed, _list_nb, rank]
+        title: 'Waiting list (begin with: ##hold##)'
+        display: [Hold, hold_id, _list_state, _list_transaction_id, _list_contact, _list_professional, pretickets, _list_nb_seated, _list_nb_printed, _list_nb, rank]
         actions:
-          _new: ~
           _back:
             action: back
             ui-icon: arrowreturnthick-1-w
             credentials: [event-hold]
-          _seat:
-            action: seat
-            ui-icon: signal-diag
-            credentials: [event-hold-transaction-convert]
+          _new: ~
           _dump:
             action: dump
             ui-icon: arrow-4-diag
             credentials: [event-hold-transaction-new]
+          _flush:
+            ui-icon: radio-on
+            action: flush
+          _refresh:
+            action: seat
+            ui-icon: circle-check
+            credentials: [event-hold-transaction-convert]
         batch_actions:
           _delete:
             credentials: [event-hold-transaction-delete]
@@ -57,7 +60,7 @@ generator:
           _delete:
             credentials: [event-hold-transaction-delete]
         sort: ['rank', '']
-        max_per_page: 50
+        max_per_page: 1000
       filter:
         display: [transaction_id]
       form:    ~

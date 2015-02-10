@@ -112,6 +112,10 @@ Ticket:
       scale: 3
     contact_id: integer
     comment: string
+    auto_by_hold:
+      type: boolean
+      default: false
+      notnull: true
   relations:
     Transaction:
       foreignAlias: Tickets

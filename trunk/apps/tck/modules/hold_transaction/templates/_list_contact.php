@@ -43,6 +43,7 @@
     'required' => false,
   ));
 ?>
+<form></form> <!-- hack for HTML compliance -->
 <?php echo $tform->renderFormTag(url_for('hold_transaction/addContact?id='.$hold_transaction->id), array('method' => 'get', 'target' => '_blank')); ?>
   <?php echo $tform->renderHiddenFields() ?>
   <?php echo $tform['contact_id'] ?>

@@ -1,12 +1,12 @@
 $(document).ready(function(){
   // the Hold's name in the HoldTransactions list
-  var holds = [];
-  $('.sf_admin_list .sf_admin_list_td_Hold').each(function(){
-    if ( holds.indexOf($(this).text()) == -1 )
-      holds.push($(this).text());
-  });
-  if ( holds.length == 1 )
-    $('.mod-hold_transaction .sf_admin_list caption h1').append(' "'+$.trim(holds[0])+'"');
+  $('.mod-hold_transaction .sf_admin_list caption h1').text(
+    $('.mod-hold_transaction .sf_admin_list caption h1').text().replace('##hold##','"'+$('#sf_admin_footer #hold_name').text()+'"')
+  );
+  
+  // the "next" 3 holds
+  LI.holdSetColor($('body'));
+  LI.holdGetNext($('#sf_admin_footer #next'), 0)
   
   // adding tickets in the hold_transaction/index
   $('.sf_admin_list .sf_admin_action_plus a, .sf_admin_list .sf_admin_action_minus a').unbind('click').click(function(){
@@ -18,7 +18,6 @@ $(document).ready(function(){
         $('#transition .close').click();
         if ( !json.id || json.quantity === undefined || json.quantity === false )
         {
-          console.error(json);
           LI.alert('An error occurred (02)', 'error');
           return;
         }
@@ -43,40 +42,12 @@ $(document).ready(function(){
   
   // highlighting the limit
   $('#sf_admin_footer [name="nb_seats"]').change(function(){
-    $('.sf_admin_list .sf_admin_row').removeClass('li-out-of-hold').removeClass('li-direct-out-of-hold');
-    var qty = parseInt($(this).val(),10);
-    
-    // first check for already seated tickets
-    $('.sf_admin_list .sf_admin_row').each(function(){
-      qty -= parseInt($(this).find('.sf_admin_list_td_list_nb_seated').text(),10);
-    });
-    
-    // second check for the rest of the tickets
-    $('.sf_admin_list .sf_admin_row').each(function(){
-      var pretickets =
-        parseInt($(this).find('.sf_admin_list_td_pretickets').text(),10) -
-        parseInt($(this).find('.sf_admin_list_td_list_nb_seated').text(),10)
-      ;
-      if ( pretickets < 0 )
-        pretickets = 0;
-      
-      // case of qty already < 0, if no ticket already seated is included
-      if ( qty <= 0 && parseInt($(this).find('.sf_admin_list_td_list_nb_seated').text(),10) == 0 )
-      {
-        $(this).addClass('li-direct-out-of-hold');
-        return;
-      }
-      
-      qty -= pretickets;
-      if ( qty < 0 && pretickets > 0 )
-        $(this).addClass('li-out-of-hold');
-      else if ( pretickets == 0 )
-        $(this).addClass('li-seated');
-    });
-    
     // calculating the total
     $('.sf_admin_list .sf_admin_row.li-total').remove();
     $('.sf_admin_list .sf_admin_row:last').each(function(){
+      if ( $(this).find('td').length <= 1 )
+        return;
+      
       $(this).clone()
         .insertAfter($(this))
         .addClass('li-total')
@@ -103,21 +74,29 @@ $(document).ready(function(){
       if ( ui.item.hasClass('li-total')
         || ui.item.prev().hasClass('li-total')
         || ui.item.next().hasClass('li-total') )
+      {
         $('#sf_admin_footer [name="nb_seats"]').change();
+        return;
+      }
       
       if ( (ui.item.prev().length > 0 && parseInt(ui.item.prev().find('.sf_admin_list_td_rank').text(),10) >= parseInt(ui.item.find('.sf_admin_list_td_rank').text(),10))
         || (ui.item.next().length > 0 && parseInt(ui.item.next().find('.sf_admin_list_td_rank').text(),10) <= parseInt(ui.item.find('.sf_admin_list_td_rank').text(),10))
       )
       {
         var url = $('#change-rank').prop('href')
-          .replace($('#change-rank').attr('data-replace-bigger'), ui.item.prev().find('[name="ids[]"]').val())
-          .replace($('#change-rank').attr('data-replace-smaller'),  ui.item.next().find('[name="ids[]"]').val())
-          .replace($('#change-rank').attr('data-replace-this'),  ui.item.find('[name="ids[]"]').val())
+          .replace($('#change-rank').attr('data-replace-bigger'),      ui.item.prev().find('[name="ids[]"]').val())
+          .replace($('#change-rank').attr('data-replace-smaller'),     ui.item.next().find('[name="ids[]"]').val())
+          .replace($('#change-rank').attr('data-replace-this'),        ui.item.find('[name="ids[]"]').val())
+          .replace($('#change-rank').attr('data-replace-hold-before'), parseInt(ui.item.prev().find('.sf_admin_list_td_hold_id').text(),10))
+          .replace($('#change-rank').attr('data-replace-hold-after'),  parseInt(ui.item.next().find('.sf_admin_list_td_hold_id').text(),10))
         ;
         $.ajax({
           url: url,
           type: 'get',
           success: function(json){
+            if ( json.reload )
+              location.reload();
+            
             if ( !json.rank )
               LI.alert('An error occurred (02)', 'error');
             $('.sf_admin_list [name="ids[]"][value='+json.id+']').closest('.sf_admin_row').find('.sf_admin_list_td_rank').text(json.rank);
@@ -132,8 +111,10 @@ $(document).ready(function(){
     }
   }).find('tr').unbind('click');
   
-  // auto-validate contacts
+  // auto-validate contacts for transactions
   $('.sf_admin_list_td_list_contact form input[type=hidden], .sf_admin_list_td_list_professional form select').change(function(){
+    if ( location.hash == '#debug' )
+      console.error('change');
     $(this).closest('form').submit();
   });
   $('.sf_admin_list_td_list_contact form, .sf_admin_list_td_list_professional form').submit(function(){
@@ -171,3 +152,62 @@ $(document).ready(function(){
     return false;
   });
 });
+
+if ( LI == undefined )
+  var LI = {};
+LI.holdGetNext = function(elt, i)
+{
+  var url = elt.prop('href').replace(elt.attr('data-replace-hold'),elt.find('input').val());
+  $.ajax({
+    url: url,
+    method: 'get',
+    success: function(data){
+      i++;
+      data = $.parseHTML(data);
+      var tr = $('.sf_admin_list > table > tbody > tr:not(.li-total):last');
+      LI.holdSetColor(data);
+      
+      // some graphical tweakings
+      $(data).find('.sf_admin_list > table > tbody > tr').removeClass('odd');
+      
+      // adding the new rows
+      if ( $(data).find('.sf_admin_list > table > tbody > tr > td').length > 1 )
+        $(data).find('.sf_admin_list > table > tbody > tr').insertAfter(tr);
+      
+      // calculating totals
+      $('#sf_admin_footer [name="nb_seats"]').val(
+        parseInt($('#sf_admin_footer [name="nb_seats"]').val(),10)
+        +
+        parseInt($(data).find('#sf_admin_footer [name="nb_seats"]').val(),10)
+      ).change();
+      
+      // next feeder
+      if ( i < 3 && $(data).find('#sf_admin_footer #next input').val() )
+        LI.holdGetNext($(data).find('#sf_admin_footer #next'), i);
+    }
+  });
+}
+
+LI.holdSetColor = function(root)
+{
+  var color = $(root).find('#sf_admin_footer [name=hold_color]').val();
+  var opacity = 0.1;
+  $(root).find('.sf_admin_list > table > tbody > tr').attr('data-color', color); 
+  if ( color.indexOf('#') != -1 )
+  {
+    color = LI.hexToRgb(color);
+    $(root).find('.sf_admin_list > table > tbody > tr').each(function(){
+      var final_color = 'rgba('+color.r+','+color.g+','+color.b+','+(opacity)+')';
+      
+      var state = $(this).find('.sf_admin_list_td_list_state > *');
+      if ( state.hasClass('li-direct-out-of-hold') )
+        final_color = 'rgba('+color.r+','+color.g+','+color.b+','+(opacity*1.8)+')';
+      if ( state.hasClass('li-out-of-hold') )
+        final_color = 'rgba('+color.r+','+color.g+','+color.b+','+(opacity*2.5)+')';
+      
+      $(this).find('td').css('background-color', final_color);
+    });
+  }
+  else
+    $(root).find('.sf_admin_list > table > tbody > tr > td').css('background-color', color);
+}

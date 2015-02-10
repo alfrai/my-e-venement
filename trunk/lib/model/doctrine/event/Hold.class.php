@@ -16,4 +16,43 @@ class Hold extends PluginHold
   {
     return $this->name.' ('.$this->Manifestation->getName(true).')';
   }
+  
+  /**
+    * getNbFreeSeats() methods that returns the number of free seats in the current Hold
+    * @param $hold_transactions Doctrine_Collection made out of HoldTransactions OR NULL OR void
+    * @returns integer number of free seats | FALSE if no free seat is available
+    *
+    **/
+  public function getNbFreeSeats(Doctrine_Collection $hold_transactions = NULL)
+  {
+    if (!( is_null($hold_transactions) || $hold_transactions instanceof Doctrine_Collection && $hold_transactions->getTable()->getComponentName() == 'HoldTransaction' ))
+      throw new liEvenementException('Bad argument. You must provide NULL or a Doctrine_Collection made out of HoldTransactions. '.get_class($hold_transaction).' given.');
+    
+    if ( is_null($hold_transactions) )
+    {
+      $q = Doctrine::getTable('HoldTransaction')->createQuery('ht')
+        ->leftJoin('ht.Hold h')
+        ->leftJoin('ht.Transaction t')
+        ->leftJoin('t.Tickets tck WITH tck.seat_id IS NOT NULL AND tck.manifestation_id = h.manifestation_id')
+        ->andWhere('h.id = ?', $this->id);
+      $hold_transactions = $q->execute();
+    }
+    
+    $free = $this->Seats->count();
+    foreach ( $hold_transactions as $ht )
+      $free -= $ht->pretickets > $ht->Transaction->Tickets->count()
+        ? $ht->pretickets
+        : $ht->Transaction->Tickets->count();
+    
+    return $free < 0 ? false : $free;
+  }
+  
+  public function getMaxRank()
+  {
+    return max($this->HoldTransactions->toKeyValueArray('id', 'rank'));
+  }
+  public function getMinRank()
+  {
+    return min($this->HoldTransactions->toKeyValueArray('id', 'rank'));
+  }
 }

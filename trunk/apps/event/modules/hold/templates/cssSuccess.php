@@ -23,7 +23,7 @@
 ?>
 
 <?php foreach ( $holds as $hold ): ?>
-<?php if ( $hold->color ): ?>
+<?php if ( $hold->color && $hold->color != '#ffffff' ): ?>
 #content .seated-plan.picture .seat.txt.hold-<?php echo $hold->id ?> { border-color: <?php echo $hold->color ?>; }
 <?php endif ?>
 <?php endforeach ?>

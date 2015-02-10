@@ -50,7 +50,7 @@ class hold_transactionActions extends autoHold_transactionActions
     $this->hold_transaction->Transaction->save();
   }
   
-  public function executeDump(sfWebRequest $request)
+  public function executeDump(sfWebRequest $request, $redirect = true)
   {
     $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'I18N'));
     $filters = $this->getFilters();
@@ -61,44 +61,63 @@ class hold_transactionActions extends autoHold_transactionActions
       $this->redirect(cross_app_link_to('event', 'hold/index'));
     }
     
-    
     $q = Doctrine::getTable('Hold')->createQuery('h', true)
       ->andWhere('h.id = ?', $filters['hold_id'])
+      ->leftJoin('h.Seats s')
       ->leftJoin('h.HoldTransactions htr')
       ->leftJoin('htr.Transaction t')
-      ->leftJoin('t.Tickets tck')
+      ->leftJoin('t.Tickets tck WITH tck.seat_id IS NOT NULL AND tck.manifestation_id = h.manifestation_id AND tck.auto_by_hold = ?', false)
       
       ->leftJoin('h.Next n')
       ->leftJoin('n.HoldTransactions nht')
       
-      ->orderBy('htr.rank DESC, htr.id')
+      ->orderBy('htr.rank, htr.id')
     ;
     $hold = $q->fetchOne();
     if ( !$hold->next )
     {
-      $this->getUser()->setFlash('error', __('You have nowhere to dump this waiting list.'));
-      $this->redirect('hold_transaction/index');
+      if ( $redirect )
+      {
+        $this->getUser()->setFlash('error', __('You have nowhere to dump this waiting list.'));
+        $this->redirect('hold_transaction/index');
+      }
+      return 'Success';
     }
     
     $cpt = 0;
+    $free = $hold->Seats->count();
+    
+    $min = min($hold->Next->HoldTransactions->toKeyValueArray('id', 'rank'));
     foreach ( $hold->HoldTransactions as $ht )
     {
-      if ( sfConfig::get('sf_web_debug', false) )
-        error_log('Transaction: #'.$ht->transaction_id.' for Hold: '.$hold);
+      $nb = $ht->pretickets - $ht->Transaction->Tickets->count();
+      if ( $nb < 0 )
+        $nb = 0;
       
-      if ( ($qty = $ht->pretickets - count(array_filter($ht->Transaction->Tickets->toKeyValueArray('id', 'seat_id')))) <= 0 )
+      if ( $free >= $nb )
+      {
+        if ( sfConfig::get('sf_web_debug', false) )
+          error_log('Transaction keeped: #'.$ht->transaction_id.' for Hold: '.$hold);
+        $free -= $nb;
         continue;
+      }
       
-      $cpt++;
+      if ( sfConfig::get('sf_web_debug', false) )
+        error_log('Transaction moved: #'.$ht->transaction_id.' for Hold: '.$hold);
+      
       $hold->Next->HoldTransactions[] = $ht;
-      $ht->rank = min($hold->Next->HoldTransactions->toKeyValueArray('id', 'rank')) - 1000;
+      $ht->rank = $min - 1000000 + 1000*$cpt;
       $ht->save();
+      $cpt++;
     }
     
-    $this->getUser()->setFlash('notice', __('%%cpt%% transaction(s) have been dumped into this hold.', array('%%cpt%%' => $cpt)));
-    $filters['hold_id'] = $hold->next;
-    $this->setFilters($filters);
-    $this->redirect('hold_transaction/index');
+    if ( $redirect )
+    {
+      $this->getUser()->setFlash('notice', __('%%cpt%% transaction(s) have been dumped into this hold.', array('%%cpt%%' => $cpt)));
+      $filters['hold_id'] = $hold->next;
+      $this->setFilters($filters);
+      $this->redirect('hold_transaction/index');
+    }
   }
   
   public function executeSeat(sfWebRequest $request)
@@ -112,22 +131,48 @@ class hold_transactionActions extends autoHold_transactionActions
       $this->redirect(cross_app_link_to('event', 'hold/index'));
     }
     
+    // 4 levels maximum
+    if ( !isset($this->cpt) )
+    {
+      $this->cpt = 0;
+      $this->hold_id = $filters['hold_id'];
+    }
+    $notice = __('The content of this hold has been seated, as much as it was possible.');
+    if ( $this->cpt > 3 )
+    {
+      $filters['hold_id'] = $this->hold_id;
+      $this->setFilters($filters);
+      $this->getUser()->setFlash('notice', $notice);
+      $this->redirect('hold_transaction/index');
+    }
+    $this->cpt++;
+    
+    // flush the previously auto-added tickets
+    Doctrine::getTable('Transaction')->createQuery('t')
+      ->leftJoin('t.Tickets tck')
+      ->andWhere('tck.seat_id NOT NULL')
+      ->andWhere('tck.auto_by_hold = ?', true)
+      ->leftJoin('t.HoldTransaction ht')
+      ->andWhere('ht.hold_id = ?', $filters['hold_id'])
+      ->delete();
+    
     $q = Doctrine::getTable('Hold')->createQuery('h', true)
       ->andWhere('h.id = ?', $filters['hold_id'])
       ->leftJoin('h.HoldTransactions htr')
       ->leftJoin('htr.Transaction t')
-      ->leftJoin('t.Tickets tck')
+      ->leftJoin('t.Tickets tck WITH tck.seat_id IS NOT NULL')
       ->leftJoin('h.Seats s WITH s.id != tck.seat_id')
       ->orderBy('htr.rank, htr.id, s.rank, s.name')
     ;
     $hold = $q->fetchOne();
+    $stop = 0;
     foreach ( $hold->HoldTransactions as $ht )
     {
       if ( sfConfig::get('sf_web_debug', false) )
         error_log('Transaction: #'.$ht->transaction_id.' for Hold: '.$hold);
       
       $seater = new Seater(NULL, $hold);
-      if ( ($qty = $ht->pretickets - count(array_filter($ht->Transaction->Tickets->toKeyValueArray('id', 'seat_id')))) <= 0 )
+      if ( ($qty = $ht->pretickets - $ht->Transaction->Tickets->count()) <= 0 )
         continue;
       
       if ( sfConfig::get('sf_web_debug', false) )
@@ -159,22 +204,41 @@ class hold_transactionActions extends autoHold_transactionActions
         error_log('Seats found: '.$seats->count().' for expected quantity: '.$qty);
       
       if ( $seats->count() == $qty )
-      foreach ( $seats as $seat )
       {
-        if ( sfConfig::get('sf_web_debug', false) )
-          error_log('new ticket for seat: '.$seat);
-        
-        $ticket = new Ticket;
-        $ticket->Seat = $seat;
-        $ticket->manifestation_id = $hold->manifestation_id;
-        $ticket->value = 0;
-        $ticket->price_name = sfConfig::get('app_tickets_wip_price', 'WIP');
-        $ht->Transaction->Tickets[] = $ticket;
+        foreach ( $seats as $seat )
+        {
+          if ( sfConfig::get('sf_web_debug', false) )
+            error_log('new ticket for seat: '.$seat);
+          
+          $ticket = new Ticket;
+          $ticket->Seat = $seat;
+          $ticket->auto_by_hold = true;
+          $ticket->manifestation_id = $hold->manifestation_id;
+          $ticket->value = 0;
+          $ticket->price_name = sfConfig::get('app_tickets_wip_price', 'WIP');
+          $ht->Transaction->Tickets[] = $ticket;
+        }
+        $ht->Transaction->save();
       }
-      $ht->Transaction->save();
+      else
+        $stop++;
     }
     
-    $this->getUser()->setFlash('notice', __('The content of this hold has been seated, as much as it was possible.'));
+    // dump the rest of the hold into the next one, and seat what is possible
+    if ( $hold->next )
+    {
+      // dump
+      $this->executeDump($request, false);
+      
+      // seat
+      $filters['hold_id'] = $hold->next;
+      $this->setFilters($filters);
+      $this->executeSeat($request);
+    }
+    
+    $filters['hold_id'] = $this->hold_id;
+    $this->setFilters($filters);
+    $this->getUser()->setFlash('notice', $notice);
     $this->redirect('hold_transaction/index');
   }
   
@@ -215,6 +279,18 @@ class hold_transactionActions extends autoHold_transactionActions
   public function executeIndex(sfWebRequest $request)
   {
     $filters = $this->getFilters();
+    $old_id = false;
+    
+    if ( $next_to = $request->getParameter('next_to', false) )
+    {
+      $this->forward404Unless($tmp = Doctrine::getTable('Hold')->createQuery('h')
+        ->leftJoin('h.Feeders f')
+        ->andWhere('f.id = ?', $next_to)
+        ->fetchOne());
+      $old_id = $filters['hold_id'];
+      $request->setParameter('hold_id', $tmp->id);
+    }
+    
     if ( $hold_id = $request->getParameter('hold_id') )
     {
       $filters['hold_id'] = $hold_id;
@@ -229,6 +305,13 @@ class hold_transactionActions extends autoHold_transactionActions
     
     sfConfig::set('module_hold_id', $filters['hold_id']);
     parent::executeIndex($request);
+    
+    // re-establishing the old parameter, for any refresh
+    if ( $old_id )
+    {
+      $filters['hold_id'] = $old_id;
+      $this->setFilters($filters);
+    }
   }
   
   public function executeEdit(sfWebRequest $request)
@@ -258,15 +341,25 @@ class hold_transactionActions extends autoHold_transactionActions
   
   public function executeChangeRank(sfWebRequest $request)
   {
-    foreach ( $list = array('smaller_than' => 0, 'bigger_than' => 0, 'id' => 0) as $key => $value )
+    foreach ( $list = array('smaller_than' => 0, 'bigger_than' => 0, 'id' => 0,) as $key => $value )
     if ( intval($request->getParameter($key)).'' === ''.$request->getParameter($key) )
       $list[$key] = intval($request->getParameter($key));
     else
       unset($list[$key]);
     $this->forward404Unless(isset($list['id']));
     
+    $holds = $request->getParameter('hold');
+    foreach ( array('previous', 'next') as $field )
+    {
+      $this->forward404Unless(isset($holds[$field]) && intval($holds[$field]).'' === ''.$holds[$field]);
+      $holds[$field] = intval($holds[$field]);
+    }
+    
     $this->hold_transactions = Doctrine::getTable('HoldTransaction')->createQuery('ht')
-      ->andWhere('ht.hold_id = (SELECT hht.hold_id FROM HoldTransaction hht WHERE hht.id = ?)', $list['id'])
+      ->leftJoin('ht.Hold h')
+      ->leftJoin('ht.Transaction t')
+      ->leftJoin('t.Tickets tck WITH tck.seat_id IS NOT NULL AND tck.manifestation_id = h.manifestation_id')
+      ->andWhere('h.id = (SELECT hht.hold_id FROM HoldTransaction hht WHERE hht.id = ?)', $list['id'])
       ->execute();
     
     // if no HoldTransaction exists for the given id
@@ -280,12 +373,64 @@ class hold_transactionActions extends autoHold_transactionActions
       break;
     }
     
+    $this->reload = false;
+    
+    // 1. if the previous hold is the same than the current one, but the next hold is different... check if there are available seats
+    if ( $ht->hold_id == $holds['previous'] && $ht->hold_id != $holds['next'] )
+    {
+      $nb = $ht->pretickets > $ht->Transaction->Tickets->count() ? $ht->pretickets : $ht->Transaction->Tickets->count();
+      $free = $ht->Hold->getNbFreeSeats($this->hold_transactions);
+      
+      if (!( $free !== false && $free >= $nb ))
+      {
+        // case where there is not enough seat in the current hold
+        $ht->Hold = $ht->Hold->Next;
+        $this->reload = true;
+        $ht->rank = $ht->Hold->getMinRank()/2;
+        $ht->save();
+        return 'Success';
+      }
+    }
+    // 2. if the previous hold and the next hold are different from the current one, but both are the same
+    elseif ( $ht->hold_id != $holds['previous'] && $ht->hold_id != $holds['next'] && $holds['next'] == $holds['previous'] )
+    {
+      $ht->hold_id = $holds['previous'];
+      $this->reload = true;
+      $hts = Doctrine::getTable('HoldTransaction')->createQuery('ht')
+        ->andWhereIn('ht.id', array($list['smaller_than'], $list['bigger_than']))
+        ->orderBy('ht.rank')
+        ->execute();
+      $ht->rank = $hts[1]->rank + ($hts[0]->rank - $hts[1]->rank)/2;
+      $ht->save();
+      return 'Success';
+    }
+    // 3. all holds are differents, taking in count the "previous" hold
+    elseif ( $ht->hold_id != $holds['previous'] && $ht->hold_id != $holds['next'] && $holds['next'] != $holds['previous'] )
+    {
+      $ht->hold_id = $holds['previous'];
+      $this->reload = true;
+      $hts = Doctrine::getTable('HoldTransaction')->createQuery('ht')
+        ->andWhereIn('ht.id', array($list['smaller_than']))
+        ->orderBy('ht.rank')
+        ->execute();
+      $ht->rank = $hts[0]->rank*2;
+      $ht->save();
+      return 'Success';
+    }
+    // 4. the current transaction is going upper than the best transaction of its own Hold
+    elseif ( $ht->hold_id != $holds['previous'] && $ht->hold_id == $holds['next'] )
+    {
+      $ht->rank = $ht->Hold->getMinRank()/2;
+      $ht->save();
+      return 'Success';
+    }
+    
     if ( !isset($list['bigger_than']) )
-      $ht->rank = floor($ranks[$list['smaller_than']]/2);
+      $ht->rank = $ranks[$list['smaller_than']]/2;
     elseif ( !isset($list['smaller_than']) )
       $ht->rank = $ranks[$list['bigger_than']]*2;
     else
-      $ht->rank = floor($ranks[$list['bigger_than']] + ($ranks[$list['smaller_than']] - $ranks[$list['bigger_than']])/2);
+      $ht->rank = $ranks[$list['bigger_than']] + ($ranks[$list['smaller_than']] - $ranks[$list['bigger_than']])/2;
     $ht->save();
   }
   
@@ -294,7 +439,6 @@ class hold_transactionActions extends autoHold_transactionActions
     $q = parent::buildQuery();
     $ht = $q->getRootAlias();
     $q->leftJoin("$ht.Transaction t")
-      ->leftJoin("$ht.Hold h")
       ->leftJoin('t.Tickets tck WITH tck.duplicating IS NULL AND tck.cancelling IS NULL')
     ;
     return $q;

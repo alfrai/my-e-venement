@@ -25,8 +25,12 @@
         <target>En transition</target>
       </trans-unit>
       <trans-unit>
-        <source>Waiting list for hold:</source>
-        <target>Liste d'attente pour la retenue:</target>
+        <source>Waiting list (begin with: ##hold##)</source>
+        <target>Liste d'attente (début: ##hold##)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Flush&lt;span class="ui-icon ui-icon-radio-on"&gt;&lt;/span&gt;</source>
+        <target>Nettoyer&lt;span class="ui-icon ui-icon-radio-on"&gt;&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
         <source>Dump&lt;span class="ui-icon ui-icon-arrow-4-diag"&gt;&lt;/span&gt;</source>
@@ -37,8 +41,8 @@
         <target>Retour&lt;span class="ui-icon ui-icon-arrowreturnthick-1-w"&gt;&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
-        <source>Seat&lt;span class="ui-icon ui-icon-signal-diag"&gt;&lt;/span&gt;</source>
-        <target>Placer&lt;span class="ui-icon ui-icon-signal-diag"&gt;&lt;/span&gt;</target>
+        <source>Refresh&lt;span class="ui-icon ui-icon-circle-check"&gt;&lt;/span&gt;</source>
+        <target>Rafraîchir&lt;span class="ui-icon ui-icon-circle-check"&gt;&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
         <source>Less tickets</source>

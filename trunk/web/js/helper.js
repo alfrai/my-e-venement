@@ -124,3 +124,13 @@ LI.OFC = {
   binary: function() { return this.OFC[0].get_img_binary(); },
   popup: function() { window.open('data:image/png;base64,'+this.binary()); return this; }
 }
+
+LI.hexToRgb = function(hex)
+{
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+}
