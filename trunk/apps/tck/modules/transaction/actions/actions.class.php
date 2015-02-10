@@ -169,7 +169,13 @@ class transactionActions extends autoTransactionActions
     $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink','I18N'));
     parent::executeEdit($request);
     
-    if ( $this->transaction->closed )
+    if ( $this->transaction->closed && $this->getUser()->hasCredential('tck-unblock') && sfConfig::get('app_transaction_auto_reopen', false) )
+    {
+      $this->transaction->closed = false;
+      $this->transaction->save();
+      $this->getUser()->setFlash('success', __('The transaction has been reopened automatically.'));
+    }
+    elseif ( $this->transaction->closed )
     {
       $this->getUser()->setFlash('error', __('You have to re-open the transaction before accessing it'));
       $this->redirect('transaction/respawn?id='.$this->transaction->id);
