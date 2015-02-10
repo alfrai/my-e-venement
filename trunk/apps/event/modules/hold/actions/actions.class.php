@@ -13,6 +13,15 @@ require_once dirname(__FILE__).'/../lib/holdGeneratorHelper.class.php';
  */
 class holdActions extends autoHoldActions
 {
+  public function executeCss(sfWebRequest $request)
+  {
+    $this->forward404Unless($manifestation = Doctrine::getTable('Manifestation')->createQuery('m')
+      ->leftJoin('m.Holds h')
+      ->andWhere('m.id = ?', str_replace('.css', '', $request->getParameter('manifestation_id')))
+      ->fetchOne()
+    );
+    $this->holds = $manifestation->Holds;
+  }
   public function executeGetTransactionIdForTicket(sfWebRequest $request)
   {
     $this->ticket = Doctrine::getTable('Ticket')->find($request->getParameter('ticket_id',0));

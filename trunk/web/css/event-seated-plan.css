@@ -5,10 +5,10 @@
 .picture.seated-plan .pre-seat, .picture.seated-plan .seat { position: absolute; background-color: green; border-radius: 40%; }
 .picture.seated-plan .seat.not-allowed { background-color: #9a9ac9; }
 .picture.seated-plan .seat.offline:not(.txt) { background-color: rgba(0,127,0,0.6); }
-#plan .picture.seated-plan .seat.asked { background-color: blue; }
-#plan .picture.seated-plan .seat.ordered { background-color: orange; }
-#plan .picture.seated-plan .seat.printed { background-color: red; }
-#plan .picture.seated-plan .pre-seat, #plan .picture.seated-plan .seat.txt { background-color: transparent; z-index: 3; margin: -2px 0 0 -2px; }
+#content .picture.seated-plan .seat.asked { background-color: blue; }
+#content .picture.seated-plan .seat.ordered { background-color: orange; }
+#content .picture.seated-plan .seat.printed { background-color: red; }
+#content .picture.seated-plan .pre-seat, #content .picture.seated-plan .seat.txt { background-color: transparent; z-index: 3; margin: -2px 0 0 -2px; }
 .picture.seated-plan .pre-seat { z-index: 2; }
 .picture.seated-plan .seat.txt.in-progress { border: 2px solid red; }
 .show-all .picture.seated-plan .seat.txt { background-color: #413839; border: 2px solid black; }

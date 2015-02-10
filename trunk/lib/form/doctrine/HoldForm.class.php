@@ -16,10 +16,17 @@ class HoldForm extends BaseHoldForm
   public function configure()
   {
     parent::configure();
-    
     unset($this->widgetSchema['seats_list']);
     
-    if ( !$this->object->isNew() )
+    $this->widgetSchema['color']->setAttribute('type', 'color');
+    $this->setDefault('color', '#ffffff');
+    
+    if ( $this->object->isNew() )
+      return;
+    
+    if ( is_null($this->object->color) )
+      $this->object->color = '#ffffff';
+    
     $this->widgetSchema['next']->setOption('query', Doctrine::getTable('Hold')->createQuery('h')
       ->andWhere('h.id != ?', $this->object->id)
       ->andWhereNotIn('h.id', $this->object->Feeders->getPrimaryKeys())

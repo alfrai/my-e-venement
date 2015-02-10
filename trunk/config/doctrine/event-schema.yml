@@ -499,6 +499,9 @@ Hold:
       type: integer
       notnull: true
     next: integer
+    color:
+      type: string(255)
+      default: #ffffff
   relations:
     Next:
       local: next

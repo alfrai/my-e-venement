@@ -285,7 +285,7 @@ if [ "$NBPA" -eq "$NBP" ] && [ "$NBT" -eq "$NBTA" ] && [ "$NBTR" -eq "$NBTRA" ]
 then
   echo "Your migration went good. Your number of transactions, tickets and seated tickets is the same."
 else
-  echo "!! ERROR !! You had ${NBT} tickets for ${NBP} seated tickets, and ${NBTR} tranasction ; you now have ${NBTA} tickets, ${NBPA} seated tickets and ${NBTRA} transactions!!!"
+  echo "!! ERROR !! You had ${NBT} tickets for ${NBP} seated tickets, and ${NBTR} transactions ; you now have ${NBTA} tickets, ${NBPA} seated tickets and ${NBTRA} transactions!!!"
   echo "Do something..."
 fi
 echo ""

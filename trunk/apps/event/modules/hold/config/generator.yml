@@ -21,9 +21,10 @@ generator:
         list_manifestation: { label: Manifestation }
         list_capacity: { label: Capacity, type: number }
         list_occupied: { label: Occupied, type: number }
+        list_color: { label: Color, type: color }
       list:
         title: Holds list
-        display: [=name, _list_manifestation, _list_capacity, _list_occupied, _list_next, _list_feeders, updated_at]
+        display: [=name, _list_manifestation, _list_capacity, _list_occupied, _list_next, _list_feeders, _list_color, updated_at]
         actions:
           _new:
             credentials: [event-hold-new]
@@ -48,7 +49,7 @@ generator:
         title: Hold "%%name%%"
         display:
           Plan: [_form_get_seats_from_transaction, _form_transaction_id, _show_seated_plan]
-          General: [name, manifestation_id, next, _show_feeders, _show_capacity]
+          General: [name, manifestation_id, color, next, _show_feeders, _show_capacity]
         actions:
           _list: ~
           _delete:
@@ -61,6 +62,6 @@ generator:
             credentials: [event-hold-mod]
       new:
         display:
-          General: [name, manifestation_id, next]
+          General: [name, manifestation_id, next, color]
           Plan: [_show_dummy]
           
