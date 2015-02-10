@@ -2,6 +2,7 @@
 #sf_admin_footer #hold_name { display: none; }
 .sf_admin_list_th_list_transaction_id, .sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_transaction_id { width: 8em; }
 .sf_admin_list table tbody tr.sf_admin_row .sf_admin_list_td_list_transaction_id { text-align: right; }
+.sf_admin_list .sf_admin_list_td_list_professional select { width: 15em; }
 
 .sf_admin_list tbody .sf_admin_row td { -moz-user-select: none; user-select: none; cursor: move; }
 .sf_admin_list tbody .sf_admin_row .sf_admin_number { text-align: right; }

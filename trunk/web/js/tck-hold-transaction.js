@@ -130,5 +130,44 @@ $(document).ready(function(){
         });
       }
     }
+  }).find('tr').unbind('click');
+  
+  // auto-validate contacts
+  $('.sf_admin_list_td_list_contact form input[type=hidden], .sf_admin_list_td_list_professional form select').change(function(){
+    $(this).closest('form').submit();
+  });
+  $('.sf_admin_list_td_list_contact form, .sf_admin_list_td_list_professional form').submit(function(){
+    $.ajax({
+      url: $(this).prop('action'),
+      method: $(this).prop('method'),
+      data: $(this).serialize(),
+      error: function(){ LI.alert('An error occurred (01)', 'error'); },
+      success: function(json){
+        if ( location.hash == '#debug' )
+          console.error(json);
+        
+        if ( json.id === undefined || json.contact_id === undefined && json.professional_id === undefined )
+        {
+          LI.alert('An error occurred (02)', 'error');
+          return;
+        }
+        
+        if ( json.professionals !== undefined )
+        {
+          var select = $('.sf_admin_list [name="ids[]"][value="'+json.id+'"]').closest('.sf_admin_row')
+            .find('.sf_admin_list_td_list_professional select');
+          select.find('option').remove();
+          select.append('<option></option>');
+          $.each(json.professionals, function(i, pro){
+            $('<option></option>').val(pro.id).text(pro.name)
+              .appendTo(select);
+          });
+        }
+        
+        if ( location.hash == '#debug' )
+          LI.alert('Success', 'success');
+      }
+    });
+    return false;
   });
 });

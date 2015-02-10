@@ -20,6 +20,10 @@ plus:
   credentials: [event-hold-transaction] #143
 minus:
   credentials: [event-hold-transaction] #143
+addContact:
+  credentials: [tck-transaction]
+addProfessional:
+  credentials: [tck-transaction]
 
 changeRank:
   credentials: [event-hold-transaction-order] #140

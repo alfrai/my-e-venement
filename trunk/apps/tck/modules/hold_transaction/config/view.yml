@@ -18,4 +18,12 @@ minusSuccess:
   has_layout: false
   http_metas:
     content-type: application/json
+addContactSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+addProfessionalSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
 

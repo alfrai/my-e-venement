@@ -13,6 +13,43 @@ require_once dirname(__FILE__).'/../lib/hold_transactionGeneratorHelper.class.ph
  */
 class hold_transactionActions extends autoHold_transactionActions
 {
+  public function executeAddContact(sfWebRequest $request)
+  {
+    $transaction = $request->getParameter('transaction');
+    $this->forward404Unless($this->hold_transaction = Doctrine::getTable('HoldTransaction')->find($request->getParameter('id')));
+    
+    if ( is_array($transaction['contact_id']) && ($cid = array_pop($transaction['contact_id'])) )
+    {
+      $this->forward404Unless($contact = Doctrine::getTable('Contact')->find($cid));
+      $this->hold_transaction->Transaction->Contact = $contact;
+      $this->hold_transaction->Transaction->professional_id = NULL;
+    }
+    else
+    {
+      $this->hold_transaction->Transaction->contact_id = NULL;
+      $this->hold_transaction->Transaction->professional_id = NULL;
+    }
+    $this->hold_transaction->Transaction->save();
+  }
+  public function executeAddProfessional(sfWebRequest $request)
+  {
+    $transaction = $request->getParameter('transaction');
+    $this->forward404Unless($this->hold_transaction = Doctrine::getTable('HoldTransaction')->find($request->getParameter('id')));
+    
+    if ( is_array($transaction['professional_id']) && ($proid = array_pop($transaction['professional_id'])) )
+    {
+      $this->forward404Unless($pro = Doctrine::getTable('Professional')->find($proid));
+      $this->hold_transaction->Transaction->Contact = $pro->Contact;
+      $this->hold_transaction->Transaction->Professional = $pro;
+    }
+    else
+    {
+      $this->hold_transaction->Transaction->professional_id = NULL;
+    }
+    
+    $this->hold_transaction->Transaction->save();
+  }
+  
   public function executeDump(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers(array('CrossAppLink', 'I18N'));
