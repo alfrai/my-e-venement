@@ -20,6 +20,8 @@ batchDelete:
 
 getBackSeatsFromTransactionId:
   credentials: [event-hold-thief] #136
+getTransactionIdForTicket:
+  credentials: [event-hold-thief] #136
 getTransactionId:
   credentials: [tck-transaction]
 linkSeat:
