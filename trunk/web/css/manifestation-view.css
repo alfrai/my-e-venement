@@ -54,5 +54,3 @@ html body #content { margin-right: 0; }
 #sf_fieldset_statistics .min { border-bottom: 0; }
 #sf_fieldset_statistics .max { border-top: 0; }
 #sf_fieldset_statistics .filling-complete tbody td { font-size: 80%; }
-#sf_fieldset_statistics .filling-complete .sf_admin_row.held > td { font-size: 0; }
-#sf_fieldset_statistics .filling-complete .sf_admin_row.held > .sos-st-ag, #sf_fieldset_statistics .filling-complete .sf_admin_row.held > .f-st-ag { font-size: 80%; }
