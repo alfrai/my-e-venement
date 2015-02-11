@@ -482,7 +482,7 @@
     
     // removing last plot
     $(document).keypress(function(event){
-      if ( event.which == 122 && event.ctrlKey )
+      if ( event.which == 122 && (event.ctrlKey || event.metaKey) )
         $('.sf_admin_form_field_show_picture .seat.txt:first').dblclick();
     });
   });

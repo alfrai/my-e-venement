@@ -147,7 +147,7 @@ LI.seatedPlanInitializationFunctions.push(function(root){
     else
       url += '?seat_id='+$(this).attr('data-id')+'&manifestation_id='+$(this).closest('[data-manifestation-id]').attr('data-manifestation-id');
     
-    if ( e.which == 2 || e.ctrlKey )
+    if ( e.which == 2 || e.ctrlKey || e.metaKey )
       window.open(url);
     else
       window.location = url;

@@ -45,7 +45,7 @@ $(document).ready(function(){
       target.find('form:last').submit();
       
       // deleting source
-      if ( !e.ctrlKey )
+      if ( !e.ctrlKey && !e.metaKey )
       {
         src.find('a.delete').click();
         src.find('form:last input[type=checkbox]:checked').click();
