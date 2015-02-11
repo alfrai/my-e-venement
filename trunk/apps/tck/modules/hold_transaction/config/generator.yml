@@ -37,7 +37,7 @@ generator:
           _flush:
             ui-icon: radio-on
             action: flush
-          _refresh:
+          _reprocess:
             action: seat
             ui-icon: circle-check
             credentials: [event-hold-transaction-convert]
@@ -57,6 +57,10 @@ generator:
             credentials: [event-hold-transaction]
           _edit:
             credentials: [tck-transaction]
+          _waitingList:
+            ui-icon: arrow-1-e
+            credentials: [event-hold-transaction]
+            action: waitingList
           _delete:
             credentials: [event-hold-transaction-delete]
         sort: ['rank', '']

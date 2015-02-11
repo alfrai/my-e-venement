@@ -13,6 +13,11 @@ require_once dirname(__FILE__).'/../lib/hold_transactionGeneratorHelper.class.ph
  */
 class hold_transactionActions extends autoHold_transactionActions
 {
+  public function executeWaitingList(sfWebRequest $request)
+  {
+    $this->executeShow($request);
+    $this->redirect('hold_transaction/index?hold_id='.$this->hold_transaction->hold_id);
+  }
   public function executeAddContact(sfWebRequest $request)
   {
     $transaction = $request->getParameter('transaction');

@@ -41,8 +41,8 @@
         <target>Retour&lt;span class="ui-icon ui-icon-arrowreturnthick-1-w"&gt;&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
-        <source>Refresh&lt;span class="ui-icon ui-icon-circle-check"&gt;&lt;/span&gt;</source>
-        <target>Rafraîchir&lt;span class="ui-icon ui-icon-circle-check"&gt;&lt;/span&gt;</target>
+        <source>Reprocess&lt;span class="ui-icon ui-icon-circle-check"&gt;&lt;/span&gt;</source>
+        <target>Re-traiter&lt;span class="ui-icon ui-icon-circle-check"&gt;&lt;/span&gt;</target>
       </trans-unit>
       <trans-unit>
         <source>Less tickets</source>

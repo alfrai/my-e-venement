@@ -3,6 +3,8 @@ all:
 
 index:
   credentials: [event-hold-transaction] #142
+waitingList:
+  credentials: [event-hold-transaction] #142
 new:
   credentials: [event-hold-transaction-new] #138
 create:
