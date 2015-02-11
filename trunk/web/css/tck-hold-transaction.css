@@ -1,4 +1,5 @@
 #sf_admin_footer #hold_name,
+.sf_admin_list .sf_admin_list_th_list_state, .sf_admin_list .sf_admin_list_td_list_state,
 .sf_admin_list .sf_admin_list_th_hold_id, .sf_admin_list .sf_admin_list_td_hold_id,
 .sf_admin_list .sf_admin_list_td_rank, .sf_admin_list .sf_admin_list_th_rank,
 .sf_admin_list .sf_admin_list_th_Hold, .sf_admin_list .sf_admin_list_td_Hold { display: none; }
@@ -9,6 +10,7 @@
 
 .sf_admin_list tbody .sf_admin_row td { -moz-user-select: none; user-select: none; cursor: move; }
 .sf_admin_list tbody .sf_admin_row .sf_admin_number { text-align: right; }
+.sf_admin_list .sf_admin_row .li-warning { font-weight: bold; color: red; }
 
 .sf_admin_td_actions .sf_admin_action_plus .fg-button { background-position: -16px -128px; }
 .sf_admin_td_actions .sf_admin_action_minus .fg-button { background-position: -48px -128px; }
