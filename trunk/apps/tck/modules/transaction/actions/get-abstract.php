@@ -377,6 +377,7 @@
             if ( !isset($pps[$pp->price_id]) )
               $pps[$pp->price_id] = $pp;
             foreach ( $pps as $i => $pp )
+            if ( $pp->Price instanceof Price )
             {
               unset($pps[$i]);
               $pps[str_pad($pp->value,10,'0',STR_PAD_LEFT).'|'.$pp->Price->name.'|'.$i] = $pp;
