@@ -67,12 +67,20 @@ class tckConfiguration extends sfApplicationConfiguration
   {
     if (!( isset($event['transaction']) && $event['transaction'] instanceof Transaction ))
       return;
+    $timeout = sfConfig::get('app_tickets_timeout', array());
     
     $cpt = 0;
     $paid = $event['transaction']->getPaid();
     foreach ( $event['transaction']->getItemables() as $pdt )
     if ( !$pdt->isSold() && !( $pdt instanceof Ticket && $pdt->auto_by_hold )) // if something has to be done
-    if (!( $pdt->value > 0 && $pdt->Transaction->Order->count() > 0 && $event['transaction']->getPrice(false, true) >= $paid
+    // we go if:
+    //     - the pdt's value == 0
+    // OR  - the pdt's Transaction has no Order
+    // OR  - the last pdt's update time is > to {$timeout['asked']} ago
+    // OR  - the sum of the Transaction's already integrated products is < to the amount paid
+    // AND - the pdt is not a Ticket that requires a Seat
+    // AND - the pdt is not a Ticket without a Price linked
+    if (!( $pdt->value > 0 && $pdt->Transaction->Order->count() > 0 && strtotime($pdt->updated_at) < strtotime(($timeout['asked'] ? $timeout['asked'] : '1 hour').' ago') && $event['transaction']->getPrice(false, true) >= $paid
       || $pdt instanceof Ticket && $pdt->needsSeating()
       || $pdt instanceof Ticket && is_null($pdt->price_id) ))
     {
