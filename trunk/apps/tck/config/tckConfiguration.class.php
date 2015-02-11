@@ -71,7 +71,7 @@ class tckConfiguration extends sfApplicationConfiguration
     $cpt = 0;
     $paid = $event['transaction']->getPaid();
     foreach ( $event['transaction']->getItemables() as $pdt )
-    if ( !$pdt->isSold() ) // if something has to be done
+    if ( !$pdt->isSold() && !( $pdt instanceof Ticket && $pdt->auto_by_hold )) // if something has to be done
     if (!( $pdt->value > 0 && $event['transaction']->getPrice(false, true) >= $paid
       || $pdt instanceof Ticket && $pdt->needsSeating()
       || $pdt instanceof Ticket && is_null($pdt->price_id) ))

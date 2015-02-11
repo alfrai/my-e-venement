@@ -265,7 +265,7 @@ class hold_transactionActions extends autoHold_transactionActions
     $q = Doctrine_Query::create()->from('Ticket tck')
       ->andWhere('tck.seat_id IS NOT NULL')
       ->andWhere('tck.auto_by_hold = ?', true)
-      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
+      ->andWhere('tck.printed_at IS NULL')
       ->andWhere('tck.transaction_id IN (SELECT ht.transaction_id FROM HoldTransaction ht WHERE ht.hold_id = ?)', $filters['hold_id'])
     ;
     $q->delete()->execute();
