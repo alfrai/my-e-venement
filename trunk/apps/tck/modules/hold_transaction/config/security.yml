@@ -16,6 +16,8 @@ dump:
   credentials: [event-hold-transaction-new] #138
 seat:
   credentials: [event-hold-transaction-convert] #141
+flush:
+  credentials: [event-hold-transaction-convert] #141
 plus:
   credentials: [event-hold-transaction] #143
 minus:

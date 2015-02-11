@@ -21,8 +21,16 @@ class HoldForm extends BaseHoldForm
     $this->widgetSchema['color']->setAttribute('type', 'color');
     $this->setDefault('color', '#ffffff');
     
+    $this->widgetSchema   ['price_id']->setOption('query', $q = Doctrine::getTable('Price')->createQuery('p'));
+    $this->widgetSchema   ['price_id']->setOption('order_by', array('pt.name',''));
+    $this->validatorSchema['price_id']->setOption('query', $q);
+    
     if ( $this->object->isNew() )
       return;
+    
+    if ( $this->object->price_id )
+    $this->widgetSchema   ['price_id']
+      ->setOption('query', $q->orWhere('p.id = ?', $this->object->price_id));
     
     if ( is_null($this->object->color) )
       $this->object->color = '#ffffff';

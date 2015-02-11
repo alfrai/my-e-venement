@@ -26,11 +26,12 @@ class PriceTable extends PluginPriceTable
   {
     $q = parent::createQuery($alias);
     
-    if ( sfContext::hasInstance() && ($user = sfContext::getInstance()->getUser())
-      && $user->getId() && !$user->isSuperAdmin() && !$user->hasCredential('event-admin-price') )
-      $q->andWhere("$alias.id IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?) OR (SELECT count(up2.price_id) FROM UserPrice up2 WHERE up2.sf_guard_user_id = ?) = 0",array($user->getId(),$user->getId()))
-        ->leftJoin("$alias.Translation pt WITH pt.lang = ?", $user->getCulture())
-      ;
+    if ( sfContext::hasInstance() && ($user = sfContext::getInstance()->getUser()) )
+    {
+      if ( true || $user->getId() && !$user->isSuperAdmin() && !$user->hasCredential('event-admin-price') )
+        $q->andWhere("$alias.id IN (SELECT up.price_id FROM UserPrice up WHERE up.sf_guard_user_id = ?) OR (SELECT count(up2.price_id) FROM UserPrice up2 WHERE up2.sf_guard_user_id = ?) = 0",array($user->getId(),$user->getId()));
+      $q->leftJoin("$alias.Translation pt WITH pt.lang = ?", $user->getCulture());
+    }
     else
       $q->leftJoin("$alias.Translation pt");
     

@@ -148,14 +148,7 @@ class hold_transactionActions extends autoHold_transactionActions
     $this->cpt++;
     
     // flush the previously auto-added tickets
-    Doctrine::getTable('Transaction')->createQuery('t')
-      ->leftJoin('t.Tickets tck')
-      ->andWhere('tck.seat_id NOT NULL')
-      ->andWhere('tck.auto_by_hold = ?', true)
-      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
-      ->leftJoin('t.HoldTransaction ht')
-      ->andWhere('ht.hold_id = ?', $filters['hold_id'])
-      ->delete();
+    $this->executeFlush($request, false);
     
     $q = Doctrine::getTable('Hold')->createQuery('h', true)
       ->andWhere('h.id = ?', $filters['hold_id'])
@@ -177,7 +170,7 @@ class hold_transactionActions extends autoHold_transactionActions
         continue;
       
       if ( sfConfig::get('sf_web_debug', false) )
-        error_log('Transaction: #'.$ht->transaction_id.' for Hold: '.$hold);
+        error_log('Processing Transaction: #'.$ht->transaction_id.' for Hold: '.$hold);
       
       $seats = $seater->findSeats($qty);
       if ( $seats->count() == 0 )
@@ -215,10 +208,21 @@ class hold_transactionActions extends autoHold_transactionActions
           $ticket->Seat = $seat;
           $ticket->auto_by_hold = true;
           $ticket->manifestation_id = $hold->manifestation_id;
-          $ticket->value = 0;
-          $ticket->price_name = sfConfig::get('app_tickets_wip_price', 'WIP');
+          error_log('with price '.$hold->price_id);
+          if ( $hold->price_id )
+          {
+            error_log('with price '.$hold->price_id);
+            $ticket->price_id = $hold->price_id;
+          }
+          else
+          {
+            $ticket->value = 0;
+            $ticket->price_name = sfConfig::get('app_tickets_wip_price', 'WIP');
+          }
           $ht->Transaction->Tickets[] = $ticket;
         }
+        if ( sfConfig::get('sf_web_debug', false) )
+          error_log('Transaction #'.$ht->transaction_id.' has been processed with '.$ht->Transaction->Tickets->count().' tickets.');
         $ht->Transaction->save();
       }
       else
@@ -241,6 +245,28 @@ class hold_transactionActions extends autoHold_transactionActions
     $this->setFilters($filters);
     $this->getUser()->setFlash('notice', $notice);
     $this->redirect('hold_transaction/index');
+  }
+  public function executeFlush(sfWebRequest $request, $redirect = true)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
+    $filters = $this->getFilters();
+    
+    if (!( isset($filters['hold_id']) && $filters['hold_id'] ))
+    {
+      $this->getUser()->setFlash('error', __('You have to select a hold before anything.'));
+      $this->redirect(cross_app_link_to('event', 'hold/index'));
+    }
+    
+    $q = Doctrine_Query::create()->from('Ticket tck')
+      ->andWhere('tck.seat_id IS NOT NULL')
+      ->andWhere('tck.auto_by_hold = ?', true)
+      ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
+      ->andWhere('tck.transaction_id IN (SELECT ht.transaction_id FROM HoldTransaction ht WHERE ht.hold_id = ?)', $filters['hold_id'])
+    ;
+    $q->delete()->execute();
+    
+    if ( $redirect )
+      $this->redirect('hold_transaction/index');
   }
   
   public function executeBack(sfWebRequest $request)

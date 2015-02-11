@@ -502,6 +502,7 @@ Hold:
     color:
       type: string(255)
       default: #ffffff
+    price_id: integer
   relations:
     Next:
       local: next
@@ -517,6 +518,10 @@ Hold:
       class: Seat
       refClass: HoldContent
       foreignAlias: Holds
+    Price:
+      foreignAlias: Holds
+      onDelete: SET NULL
+      onUpdate: CASCADE
 HoldContent:
   package: event
   columns:
