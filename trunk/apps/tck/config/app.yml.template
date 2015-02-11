@@ -61,6 +61,8 @@ all:
     future: 6 hours
     past:   1 day
     #permissive: false
+  #holds:
+  #  can_divide_demands: true
   seller:
     logo: logo.svg
     name: 3è étage / 3rd floor

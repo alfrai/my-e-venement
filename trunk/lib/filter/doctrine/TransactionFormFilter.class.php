@@ -16,7 +16,7 @@ class TransactionFormFilter extends BaseTransactionFormFilter
   public function configure()
   {
     sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink'));
-    $this->widgetSchema['organism_id'] = new sfWidgetFormDoctrineJQueryAutocompleter(array(
+    $this->widgetSchema['organism_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
       'model' => 'Organism',
       'url'   => cross_app_url_for('rp','organism/ajax'),
     ));
@@ -54,6 +54,24 @@ class TransactionFormFilter extends BaseTransactionFormFilter
       'required' => false,
     ));
     
+    $this->widgetSchema   ['manifestation_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Manifestation',
+      'url'   => cross_app_url_for('event','manifestation/ajax'),
+    ));
+    $this->validatorSchema['manifestation_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Manifestation',
+      'required' => false,
+    ));
+    
+    $this->widgetSchema   ['hold_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Hold',
+      'url'   => cross_app_url_for('event','hold/ajax'),
+    ));
+    $this->validatorSchema['hold_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Hold',
+      'required' => false,
+    ));
+    
     parent::configure();
   }
   public function setup()
@@ -62,6 +80,27 @@ class TransactionFormFilter extends BaseTransactionFormFilter
     parent::setup();
   }
   
+  public function addHoldIdColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    
+    $t = $q->getRootAlias();
+    $q->leftJoin("$t.HoldTransaction ht")
+      ->andWhere('ht.hold_id = ?', $values);
+    
+    return $q;
+  }
+  public function addManifestationIdColumnQuery(Doctrine_Query $q, $field, $values)
+  {
+    if ( !$values )
+      return $q;
+    
+    $t = $q->getRootAlias();
+    $q->andWhere('tck.manifestation_id = ?', $values);
+    
+    return $q;
+  }
   public function addEmptyColumnQuery(Doctrine_Query $q, $field, $values)
   {
     if ( !$values )

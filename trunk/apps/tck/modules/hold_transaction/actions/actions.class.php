@@ -87,7 +87,7 @@ class hold_transactionActions extends autoHold_transactionActions
     $cpt = 0;
     $free = $hold->Seats->count();
     
-    $min = min($hold->Next->HoldTransactions->toKeyValueArray('id', 'rank'));
+    $min = count($hold->Next->HoldTransactions->toKeyValueArray('id', 'rank')) > 0 ? min($hold->Next->HoldTransactions->toKeyValueArray('id', 'rank')) : 0;
     foreach ( $hold->HoldTransactions as $ht )
     {
       $nb = $ht->pretickets - $ht->Transaction->Tickets->count();
@@ -182,7 +182,7 @@ class hold_transactionActions extends autoHold_transactionActions
       $seats = $seater->findSeats($qty);
       if ( $seats->count() == 0 )
       {
-        for ( $i = 2 ; $i <= $qty ; $i++ )
+        for ( $i = 2 ; $i <= $qty && sfConfig::get('app_holds_can_divide_demands', true) ; $i++ )
         {
           if ( sfConfig::get('sf_web_debug', false) )
             error_log('No enough seats found for '.($i-1).' group(s). Trying to divide the group in '.$i.' groups ('.($i-1).' x '.ceil($qty/$i).' + '.(ceil($qty/$i) - $qty%$i).').');
@@ -349,19 +349,24 @@ class hold_transactionActions extends autoHold_transactionActions
       unset($list[$key]);
     $this->forward404Unless(isset($list['id']));
     
-    $holds = $request->getParameter('hold');
-    foreach ( array('previous', 'next') as $field )
-    {
-      $this->forward404Unless(isset($holds[$field]) && intval($holds[$field]).'' === ''.$holds[$field]);
-      $holds[$field] = intval($holds[$field]);
-    }
-    
     $this->hold_transactions = Doctrine::getTable('HoldTransaction')->createQuery('ht')
       ->leftJoin('ht.Hold h')
       ->leftJoin('ht.Transaction t')
       ->leftJoin('t.Tickets tck WITH tck.seat_id IS NOT NULL AND tck.manifestation_id = h.manifestation_id')
       ->andWhere('h.id = (SELECT hht.hold_id FROM HoldTransaction hht WHERE hht.id = ?)', $list['id'])
       ->execute();
+    
+    $holds = $request->getParameter('hold');
+    foreach ( array('previous' => 'bigger_than', 'next' => 'smaller_than') as $field => $rank )
+    {
+      if ( !isset($list[$rank]) )
+      {
+        $holds[$field] = $this->hold_transactions[0]->hold_id;
+        continue;
+      }
+      $this->forward404Unless(isset($holds[$field]) && intval($holds[$field]).'' === ''.$holds[$field]);
+      $holds[$field] = intval($holds[$field]);
+    }
     
     // if no HoldTransaction exists for the given id
     $this->forward404Unless( count($list) > 1 && in_array($list['id'], $this->hold_transactions->getPrimaryKeys()) );
@@ -426,6 +431,7 @@ class hold_transactionActions extends autoHold_transactionActions
       return 'Success';
     }
     
+    error_log('after');
     if ( !isset($list['bigger_than']) )
       $ht->rank = $ranks[$list['smaller_than']]/2;
     elseif ( !isset($list['smaller_than']) )
