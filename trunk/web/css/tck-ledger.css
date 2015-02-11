@@ -68,3 +68,6 @@ table tbody a:hover { text-decoration: underline; }
 #sales-ledger .event.price .without-user { display: none; }
 #sales-ledger.less-details .event.price .without-user { display: inline; }
 #sales-ledger.less-details .event.price .with-user { display: none; }
+#sales-ledger tfoot .total .event .super-total { float: right; font-weight: normal; }
+#sales-ledger tfoot .total .event .super-total:before { content: '('; }
+#sales-ledger tfoot .total .event .super-total:after { content: ')'; }
