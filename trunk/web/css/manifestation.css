@@ -30,6 +30,7 @@ select[disabled] { color: #444; }
 #sf_fieldset_spectators table tbody td a, #sf_fieldset_tickets table tbody td a { text-decoration: none; }
 #sf_fieldset_spectators table table tbody td a:hover, #sf_fieldset_tickets table tbody td a:hover { text-decoration: underline; }
 #sf_fieldset_spectators table td, #sf_fieldset_tickets table td { padding-right: 10px; }
+#sf_fieldset_spectators table td, #sf_fieldset_tickets table td .tickets { white-space: nowrap; }
 #sf_fieldset_spectators table tfoot td.price, #sf_fieldset_tickets table tfoot td.price,
 #sf_fieldset_spectators table tbody td.price, #sf_fieldset_tickets table tbody td.price,
 #sf_fieldset_spectators table tfoot td.qty, #sf_fieldset_tickets table tfoot td.qty,

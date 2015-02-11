@@ -57,33 +57,35 @@
       $('#sf_fieldset_statistics .filling-complete .min + .max .th').hide();
       $('#sf_fieldset_statistics .filling-complete .min .nb').closest('td').prop('rowspan', 2);
       $.get($('#sf_fieldset_statistics .filling-data-url').prop('href'), function(json){
-        // hidding cols if useless
-        if ( json.seats.free.all.nb + json.seats.ordered.all.nb + json.seats.printed.all.nb == 0 )
+        // hidding cols / rows if useless
+        if ( json.seats.free.all.nb + json.seats.ordered.all.nb + json.seats.printed.all.nb + json.seats.held.all.nb == 0 )
           $('#sf_fieldset_statistics .filling-complete').find('.f-st-ag, .sos-st-ag, .f-st-sg, .sos-st-sg, .f-st-og, .sos-st-og').hide();
-        if ( json.seats.free.all.nb + json.seats.ordered.all.nb + json.seats.printed.all.nb == json.gauges.free.all.nb + json.gauges.ordered.all.nb + json.gauges.printed.all.nb )
+        if ( json.seats.free.all.nb + json.seats.ordered.all.nb + json.seats.printed.all.nb + json.seats.held.all.nb == json.gauges.free.all.nb + json.gauges.ordered.all.nb + json.gauges.printed.all.nb )
           $('#sf_fieldset_statistics .filling-complete').find('.f-at-ag, .sos-at-ag, .f-at-sg, .sos-at-sg, .f-at-og, .sos-at-og').hide();
+        if ( json.seats.held.all.nb == 0 )
+          $('#sf_fieldset_statistics .filling-complete .sf_admin_row.held').hide();
         
         // this is a super-powerful compression of the "data dispatcher", to avoid hidden bugs as much as we can
         $.each({ seats: 'st', gauges: 'at' }, function(type, tckprefix){
-        $.each(['free', 'ordered', 'printed', 'total', 'not-free'], function(i, data){
+        $.each(['free', 'ordered', 'printed', 'held', 'total', 'not-free'], function(i, data){
         $.each({ online: 'og', onsite: 'sg', all: 'ag' }, function(state, gaugeprefix){
           var nb;
           var calculated = {
             total: {
-              nb: json[type].free[state].nb + json[type].ordered[state].nb + json[type].printed[state].nb,
+              nb: json[type].free[state].nb + json[type].ordered[state].nb + json[type].printed[state].nb + json[type].held[state].nb,
               min: {
-                money: json[type].free[state].min.money + json[type].ordered[state].money + json[type].printed[state].money,
-                money_txt: LI.format_currency(json[type].free[state].min.money + json[type].ordered[state].money + json[type].printed[state].money, false)
+                money: json[type].free[state].min.money + json[type].ordered[state].money + json[type].printed[state].money + json[type].held[state].money,
+                money_txt: LI.format_currency(json[type].free[state].min.money + json[type].ordered[state].money + json[type].printed[state].money + json[type].held[state].money, false)
               },
               max: {
-                money: json[type].free[state].max.money + json[type].ordered[state].money + json[type].printed[state].money,
-                money_txt: LI.format_currency(json[type].free[state].max.money + json[type].ordered[state].money + json[type].printed[state].money, false)
+                money: json[type].free[state].max.money + json[type].ordered[state].money + json[type].printed[state].money + json[type].held[state].money,
+                money_txt: LI.format_currency(json[type].free[state].max.money + json[type].ordered[state].money + json[type].printed[state].money + json[type].held[state].money, false)
               },
             },
             'not-free': {
-              nb: json[type].ordered[state].nb + json[type].printed[state].nb,
-              money: json[type].ordered[state].money + json[type].printed[state].money,
-              money_txt: LI.format_currency(json[type].ordered[state].money + json[type].printed[state].money, false)
+              nb: json[type].ordered[state].nb + json[type].printed[state].nb + json[type].held[state].nb,
+              money: json[type].ordered[state].money + json[type].printed[state].money + json[type].held[state].money,
+              money_txt: LI.format_currency(json[type].ordered[state].money + json[type].printed[state].money + json[type].held[state].money, false)
             }
           }
           if ( data != 'total' && data != 'not-free' )

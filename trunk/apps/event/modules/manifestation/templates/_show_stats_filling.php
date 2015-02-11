@@ -17,6 +17,10 @@
             <th class="ui-state-default ui-th-column printed"><?php echo __('Sold') ?></th>
             <?php include_partial('show_stats_filling_line') ?>
           </tr>
+          <tr class="sf_admin_row ui-widget-content odd held">
+            <th class="ui-state-default ui-th-column held"><?php echo __('Held seats') ?></th>
+            <?php include_partial('show_stats_filling_line') ?>
+          </tr>
           <tr class="sf_admin_row ui-widget-content total min">
             <th class="ui-state-default ui-th-column total" rowspan="2"><?php echo __('Total') ?></th>
             <?php include_partial('show_stats_filling_line') ?>
