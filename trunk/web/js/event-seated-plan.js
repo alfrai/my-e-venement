@@ -377,7 +377,7 @@
           if ( !json['reset-seat-id'] )
             return;
           var seat = $('.seated-plan [data-id='+json['reset-seat-id']+']');
-          seat.removeClass('in-progress').removeClass('asked');
+          seat.removeClass('in-progress').removeClass('asked').removeClass('ordered');
           $('#done [name=ticket_numerotation][value="'+seat.attr('data-num')+'"]').val('')
             .closest('.ticket').prependTo('#todo');
           $('#done .total').text(parseInt($('#done .total').text())-1);
