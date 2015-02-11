@@ -372,14 +372,19 @@
     $('form.reset-a-seat:first').unbind().submit(function(){
       $.ajax({
         url: $('form.reset-a-seat:first').prop('action'),
+        type: $('form.reset-a-seat:first').prop('method'),
         data: $('form.reset-a-seat:first').serialize(),
         success: function(json){
           if ( !json['reset-seat-id'] )
             return;
           var seat = $('.seated-plan [data-id='+json['reset-seat-id']+']');
           seat.removeClass('in-progress').removeClass('asked').removeClass('ordered');
+          seat.attr('data-ticket-id', null);
+          $('#done [name="ticket[numerotation]"], #done [name="ticket[id]"]').val('');
           $('#done [name=ticket_numerotation][value="'+seat.attr('data-num')+'"]').val('')
-            .closest('.ticket').prependTo('#todo');
+            .closest('.ticket').find('[name=ticket_id]').val('')
+            .closest('.ticket').prependTo('#todo')
+          ;
           $('#done .total').text(parseInt($('#done .total').text())-1);
           $('#todo .total').text(parseInt($('#todo .total').text())+1);
         },

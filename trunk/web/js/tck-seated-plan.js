@@ -12,8 +12,13 @@
       var seat = this;
       $('#done form [name="ticket[numerotation]"]').val($(this).find('input').val());
       $('#done form [name="ticket[id]"]').val($('#todo .ticket:first input').val());
+      console.error($('#done form').serialize());
+      if ( location.hash == '#debug' )
+        $('#done form').submit();
+      else
       $.ajax({
         url: $('#done form').prop('action'),
+        type: $('#done form').prop('method'),
         data: $('#done form').serialize(),
         success: function(){
           $('#todo .ticket:first').find('[name=ticket_numerotation]').val($('#done form [name="ticket[numerotation]"]').val());
@@ -30,7 +35,7 @@
             window.location = $('#next a').prop('href');
         },
         error: function(){
-          $('#done form input').val('');
+          //$('#done form input').val('');
           alert($('#done form .error_msg').html());
         }
       });

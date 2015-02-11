@@ -25,8 +25,8 @@
   $ticket = $request->getParameter('ticket');
   $ticket['transaction_id'] = $request->getParameter('id');
   
-  $form = new sfForm;
-  $validators = $form->getValidatorSchema();
+  $this->form = new sfForm;
+  $validators = $this->form->getValidatorSchema();
   $validators['id'] = new sfValidatorDoctrineChoice(array(
     'model' => 'Ticket',
     'query' => Doctrine::getTable('Ticket')->createQuery('tck')
@@ -61,9 +61,9 @@
       ->andWhere('h.id IS NULL OR ht.id IS NOT NULL')
   ));
   
-  $form->bind($ticket);
-  if ( !$form->isValid() ) // security checks
-    throw new liSeatedException('The submitted data is not correct to give a seat to this ticket... '.$form->getErrorSchema());
+  $this->form->bind($ticket);
+  if ( !$this->form->isValid() ) // security checks
+    throw new liSeatedException('The submitted data is not correct to give a seat to this ticket... '.$this->form->getErrorSchema());
   
   if ( isset($ticket['id']) && $ticket['id'] )
     $this->ticket = Doctrine::getTable('Ticket')->findOneById($ticket['id']);

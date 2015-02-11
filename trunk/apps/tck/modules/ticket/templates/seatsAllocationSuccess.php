@@ -61,7 +61,7 @@
   <?php endif ?>
   <?php endforeach ?>
   <span class="total"><?php echo $nb ?></span>
-  <form action="<?php echo url_for('ticket/resetASeat?id='.$transaction->id) ?>" method="get" class="reset-a-seat">
+  <form action="<?php echo url_for('ticket/resetASeat?id='.$transaction->id) ?>" method="get" class="reset-a-seat" target="_blank">
     <span style="display: none;">
       <input type="hidden" name="ticket[_csrf_token]" value="<?php $f = new sfForm; echo $f->getCSRFToken() ?>" />
       <input type="hidden" name="ticket[numerotation]" value="" />
@@ -72,7 +72,7 @@
 </div>
 <p id="arrow">&nbsp;↓</p>
 <div id="done">
-  <form action="<?php echo url_for('ticket/giveASeat?id='.$transaction->id) ?>" method="get">
+  <form action="<?php echo url_for('ticket/giveASeat?id='.$transaction->id) ?>" method="get" target="_blank">
     <p>
       <input type="hidden" name="ticket[_csrf_token]" value="<?php $f = new sfForm; echo $f->getCSRFToken() ?>" />
       <input type="hidden" name="ticket[id]" value="" />
