@@ -38,9 +38,6 @@ class holdActions extends autoHoldActions
     $template = 'Success';
     
     $q = Doctrine::getTable('Transaction')->createQuery('t')
-      ->leftJoin('t.HoldTransaction ht')
-      ->andWhere('ht.id IS NULL')
-      
       ->leftJoin('m.Holds h')
       ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
       ->andWhere('tck.seat_id IS NOT NULL')
@@ -68,7 +65,7 @@ class holdActions extends autoHoldActions
       error_log($e);
     }
     
-    if ( $this->cpt['expected'] == $this->cpt['realized'] )
+    if ( $this->cpt['expected'] == $this->cpt['realized'] && !$ticket->seat_id )
       $this->transaction->Order->delete();
   }
   public function executeGetTransactionId(sfWebRequest $request)

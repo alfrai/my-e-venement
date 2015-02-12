@@ -127,10 +127,6 @@ abstract class PluginTicket extends BaseTicket
       && !( $hold instanceof Hold && in_array($this->transaction_id, $tmp = $hold->HoldTransactions->toKeyValueArray('id', 'transaction_id')) )
     )
       $this->seat_id = NULL;
-    else
-    {
-      error_log($this->seat_id.' - '.$hold->id.' - '.print_r($tmp,true));
-    }
     
     // VAT resetting if the ticket is updated for a printing or an integration
     $mods = $this->getModified();
