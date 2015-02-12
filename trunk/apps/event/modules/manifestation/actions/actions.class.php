@@ -521,7 +521,14 @@ class manifestationActions extends autoManifestationActions
   
   public function executeShowSpectators(sfWebRequest $request)
   {
+    $this->setLayout('nude');
     $this->securityAccessFiltering($request, false);
+    
+    $cacher = liCacher::create($request);
+    if ( !$cacher->requiresRefresh($request) )
+    if ( ($this->cache = $cacher->useCache()) !== false )
+      return 'Success';
+    
     $this->manifestation_id = $request->getParameter('id');
     $this->spectators = $this->getSpectators($request->getParameter('id'));
     $this->show_workspaces = Doctrine_Query::create()
@@ -530,13 +537,25 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('m.id = ?',$this->manifestation_id)
       ->execute()
       ->count() > 1;
-    $this->setLayout('nude');
+    $this->cache = $this->getPartial('show_spectators_list');
+    
+    $cacher->setData($this->cache)->writeData();
   }
   public function executeShowTickets(sfWebRequest $request)
   {
-    $this->securityAccessFiltering($request, false);
-    $this->prices = $this->getPrices($request->getParameter('id'));
     $this->setLayout('nude');
+    $this->securityAccessFiltering($request, false);
+    
+    $cacher = liCacher::create($request);
+    if ( !$cacher->requiresRefresh($request) )
+    if ( ($this->cache = $cacher->useCache()) !== false )
+      return 'Success';
+    
+    $this->manifestation_id = $request->getParameter('id');
+    $this->prices = $this->getPrices($request->getParameter('id'));
+    $this->cache = $this->getPartial('show_tickets_list');
+    
+    $cacher->setData($this->cache)->writeData();
   }
   
   protected function countTickets($manifestation_id)

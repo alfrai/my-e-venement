@@ -1,6 +1,6 @@
-<?php use_helper('Number') ?>
+<?php use_helper('I18N', 'Date', 'Number') ?>
 
-<?php include_partial('show_print_part',array('tab' => 'spectators', 'manifestation_id' => $manifestation_id)) ?>
+<?php include_partial('show_print_part',array('tab' => 'spectators', 'manifestation_id' => $manifestation_id, 'action' => 'showSpectators',)) ?>
 <?php include_partial('show_export_part',array('manifestation_id' => $manifestation_id)) ?>
 
 <?php

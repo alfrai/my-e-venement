@@ -1,4 +1,4 @@
-<<?php
+<?php
 
 require_once dirname(__FILE__).'/../lib/gaugeGeneratorConfiguration.class.php';
 require_once dirname(__FILE__).'/../lib/gaugeGeneratorHelper.class.php';

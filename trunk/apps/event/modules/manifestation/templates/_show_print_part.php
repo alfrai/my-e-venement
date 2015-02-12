@@ -9,6 +9,10 @@
     <span class="ui-icon ui-icon-print"></span>
     <?php echo __('Print',array(),'menu') ?>
   </a>
+  <a class="fg-button fg-button-icon-left ui-state-default refresh" href="<?php echo url_for('manifestation/'.$action.'?id='.$manifestation_id) ?>?refresh">
+    <span class="ui-icon ui-icon-arrowrefresh-1-s"></span>
+    <?php echo __('Refresh') ?>
+  </a>
   <script type="text/javascript">
     // NOT EXECUTED WHEN CALLED THROUGH AJAX
     $(document).ready(function(){

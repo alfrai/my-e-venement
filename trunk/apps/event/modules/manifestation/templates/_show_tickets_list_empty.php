@@ -1,9 +1,12 @@
 <h2 class="loading"><?php echo __('Loading...') ?></h2>
 <script type="text/javascript">
-  $.get('<?php echo url_for('manifestation/showTickets?id='.$manifestation->id) ?>',function(data){
+  if ( LI == undefined )
+    var LI = {};
+      
+  $.get('<?php echo url_for('manifestation/showTickets?id='.$manifestation->id) ?>', LI.manifShowTickets = function(data){
     $('#sf_fieldset_tickets').prepend($($.parseHTML(data)).find('#sf_fieldset_tickets > *')).find('.loading').remove();
     
-    <?php include_partial('show_print_part_js',array('tab' => 'tickets')) ?>
+    <?php include_partial('show_print_part_js',array('tab' => 'tickets', 'jsFunction' => 'LI.manifShowTickets')) ?>
   });
 </script>
 

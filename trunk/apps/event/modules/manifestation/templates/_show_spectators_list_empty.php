@@ -1,6 +1,9 @@
 <h2 class="loading"><?php echo __('Loading...') ?></h2>
 <script type="text/javascript">
-  $.get('<?php echo url_for('manifestation/showSpectators?id='.$manifestation->id) ?>',function(data){
+  if ( LI == undefined )
+    var LI = {};
+  
+  $.get('<?php echo url_for('manifestation/showSpectators?id='.$manifestation->id) ?>', LI.manifShowSpectators = function(data){
     $('#sf_fieldset_spectators').prepend($($.parseHTML(data)).find('#sf_fieldset_spectators > *')).find('.loading').remove();
     
     $('#sf_fieldset_spectators table tbody').each(function(){
@@ -46,7 +49,7 @@
       $(this).find('tr .workspace').hide();
     });
     
-    <?php include_partial('show_print_part_js',array('tab' => 'spectators')) ?>
+    <?php include_partial('show_print_part_js',array('tab' => 'spectators', 'jsFunction' => 'LI.manifShowSpectators')) ?>
   });
 </script>
 

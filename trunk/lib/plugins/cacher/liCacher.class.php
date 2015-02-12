@@ -26,17 +26,25 @@ class liCacher
 {
   protected $data = NULL;
   protected $path = NULL;
+  const refreshKeyword = 'refresh';
   
   static public function create($path)
   {
+    if ( $path instanceof sfWebRequest )
+      $path = self::componePath($path->getUri());
+    
     return new self($path);
   }
   static public function componePath($uri)
   {
-    $uri = preg_replace('![&/]{0,1}refresh([=/][\w\d]*){0,1}!', '', $uri);
-    $uri = preg_replace('![&/]+$!', '', $uri);
+    $uri = preg_replace('![?&/]{0,1}'.self::refreshKeyword.'([=/][\w\d]*){0,1}!', '', $uri);
+    $uri = preg_replace('![?&/]+$!', '', $uri);
     
     return sfConfig::get('sf_module_cache_dir').'/'.md5($uri).'.data';
+  }
+  static public function requiresRefresh(sfWebRequest $request)
+  {
+    return $request->hasParameter(self::refreshKeyword);
   }
   
   public function __construct($path)
@@ -80,8 +88,11 @@ class liCacher
     return $this;
   }
   
-  public function useCache($interval = '1 day ago')
+  public function useCache($interval = NULL)
   {
+    if ( is_null($interval) )
+      $interval = sfConfig::get('app_cacher_timeout', '1 day ago');
+    
     if ( !file_exists($this->getPath()) )
       return false;
     
