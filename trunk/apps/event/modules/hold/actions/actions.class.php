@@ -43,10 +43,12 @@ class holdActions extends autoHoldActions
       ->andWhere('tck.seat_id IS NOT NULL')
       ->andWhere('h.id = ?', $request->getParameter('id'))
       ->andWhere('t.id = ?', $this->transaction_id = $request->getParameter('source'))
-      ->andWhere('t.closed = ?', false)
+      ->andWhere('t.closed = ? OR ?', array(false, $this->getUser()->hasCredential('tck-unblock')))
     ;
     if (!( $this->transaction = $q->fetchOne() ))
       return $template;
+    $this->transaction->closed = false;
+    $this->transaction->save();
     
     $this->cpt['expected'] = $this->transaction->Tickets->count();
     foreach ( $this->transaction->Tickets as $ticket )

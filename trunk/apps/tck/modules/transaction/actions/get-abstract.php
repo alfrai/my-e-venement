@@ -116,7 +116,7 @@
       {
         $q->leftJoin('m.Event e')
           ->andWhereIn('e.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()))
-          ->leftJoin('tck.Gauge g WITH g.onsite = TRUE OR tck.gauge_id = g.id')
+          ->leftJoin('tck.Gauge g WITH g.onsite = TRUE OR tck.gauge_id IS NOT NULL AND tck.gauge_id = g.id')
           ->leftJoin('tck.Price p')
           ->leftJoin('tck.Cancelled tckc')
           ->andWhere('tck.id NOT IN (SELECT tt.duplicating FROM ticket tt WHERE tt.duplicating IS NOT NULL)')
@@ -141,13 +141,16 @@
             break;
           }
         }
+        
+        $q->leftJoin('m.IsNecessaryTo n')
+          ->leftJoin('n.Gauges ng WITH ng.onsite = TRUE OR tck.gauge_id IS NOT NULL AND ng.id = tck.gauge_id')
+        ;
       }
       else
-        $q = Doctrine::getTable('Manifestation')->createQuery('m');
-      
-      $q->leftJoin('m.IsNecessaryTo n')
-        ->leftJoin('n.Gauges ng WITH ng.onsite = TRUE OR ng.id = tck.gauge_id')
-      ;
+        $q = Doctrine::getTable('Manifestation')->createQuery('m')
+          ->leftJoin('m.IsNecessaryTo n')
+          ->leftJoin('n.Gauges ng WITH ng.onsite = TRUE')
+        ;
       
       // retrictive parameters
       $pid = array();
