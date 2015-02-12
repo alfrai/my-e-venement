@@ -1,4 +1,4 @@
-<?php
+<<?php
 
 require_once dirname(__FILE__).'/../lib/gaugeGeneratorConfiguration.class.php';
 require_once dirname(__FILE__).'/../lib/gaugeGeneratorHelper.class.php';
@@ -27,10 +27,14 @@ class gaugeActions extends autoGaugeActions
         ->execute();
     
     $this->forward404Unless($gauges->count() > 0);
-    $this->setLayout('nude');
     
     if ( $request->hasParameter('debug') )
+    {
       sfConfig::set('sf_web_debug', true);
+      $this->setTemplate('debug');
+    }
+    else
+      $this->setTemplate('json');
     
     if ( !$request->hasParameter('json') )
     {
@@ -85,15 +89,9 @@ class gaugeActions extends autoGaugeActions
           '%%ordered%%' => $arr['booked']['ordered'],
           '%%asked%%'   => $arr['booked']['asked'],
         ));
-      
-      if ( !$request->hasParameter('debug') )
-      {
-        $this->getResponse()->setContentType('application/json');
-        sfConfig::set('sf_debug',false);
-        sfConfig::set('sf_escaping_strategy', false);
-      }
     }
-    return $this->renderText(json_encode($arr));
+    
+    $this->json = $arr;
   }
   
   public function executeBatchEdit(sfWebRequest $request)
