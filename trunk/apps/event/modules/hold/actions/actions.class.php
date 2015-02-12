@@ -38,6 +38,9 @@ class holdActions extends autoHoldActions
     $template = 'Success';
     
     $q = Doctrine::getTable('Transaction')->createQuery('t')
+      ->leftJoin('t.HoldTransaction ht')
+      ->andWhere('ht.id IS NULL')
+      
       ->leftJoin('m.Holds h')
       ->andWhere('tck.printed_at IS NULL AND tck.integrated_at IS NULL')
       ->andWhere('tck.seat_id IS NOT NULL')
@@ -50,15 +53,15 @@ class holdActions extends autoHoldActions
     $this->transaction->closed = false;
     $this->transaction->save();
     
+    if (!( $this->hold = Doctrine::getTable('Hold')->find($request->getParameter('id')) ))
+      return $template;
+    
     $this->cpt['expected'] = $this->transaction->Tickets->count();
     foreach ( $this->transaction->Tickets as $ticket )
     try
     {
-      $hc = new HoldContent;
-      $hc->seat_id = $ticket->seat_id;
-      $hc->hold_id = $request->getParameter('id');
-      $hc->save();
-      
+      $ticket->Seat->Holds[] = $this->hold; // this order is important in order to let the PluginTicket::save() work correctly
+      $ticket->Seat->save();
       $ticket->save();
       $this->cpt['realized']++;
     } catch ( Exception $e ) {
