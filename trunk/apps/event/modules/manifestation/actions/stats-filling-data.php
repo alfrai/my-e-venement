@@ -26,6 +26,8 @@
     if ( !$request->hasParameter('refresh')
       && ($this->json = liCacher::create($path)->useCache()) !== false )
       return 'Success';
+    if ( sfConfig::get('sf_web_debug', false) )
+      error_log("Refreshing the cache for Manifestation's statistics (manifestation->id = ".$request->getParameter('id').")");
     
     $this->getContext()->getConfiguration()->loadHelpers('Number');
     
@@ -63,6 +65,23 @@
           'onsite' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'all' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
         ),
+        'closed' => array(
+          'online' => array(
+            'nb' => 0,
+            'min' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
+            'max' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
+          ),
+          'onsite' => array(
+            'nb' => 0,
+            'min' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
+            'max' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
+          ),
+          'all' => array(
+            'nb' => 0,
+            'min' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
+            'max' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
+          ),
+        ),
       ),
       'gauges' => array(
         'free' => array(
@@ -96,6 +115,23 @@
           'online' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'onsite' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'all' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
+        ),
+        'closed' => array(
+          'online' => array(
+            'nb' => 0,
+            'min' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
+            'max' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
+          ),
+          'onsite' => array(
+            'nb' => 0,
+            'min' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
+            'max' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
+          ),
+          'all' => array(
+            'nb' => 0,
+            'min' => array('money' => 0, 'money_txt' => ''),
+            'max' => array('money' => 0, 'money_txt' => ''),
+          ),
         ),
       ),
     );
@@ -173,7 +209,7 @@
     // the "text" values with currency
     foreach ( array('online', 'onsite', 'all') as $type )
     if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == $type )
-    foreach ( array('printed', 'ordered', 'held') as $state )
+    foreach ( array('printed', 'ordered', 'held',) as $state )
     foreach ( array('seats', 'gauges') as $value )
       $this->json[$value][$state][$type]['money_txt'] = format_currency($this->json[$value][$state][$type]['money'], '€');
     
@@ -265,7 +301,7 @@
     }
     $this->json['seats']['free']['onsite']['min']['money_txt'] = format_currency($this->json['seats']['free']['onsite']['min']['money'], '€');
     $this->json['seats']['free']['onsite']['max']['money_txt'] = format_currency($this->json['seats']['free']['onsite']['max']['money'], '€');
-    
+
     // free all seats
     if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'all' )
     foreach ( $q->execute() as $gauge )
@@ -276,6 +312,51 @@
     }
     $this->json['seats']['free']['all']['min']['money_txt'] = format_currency($this->json['seats']['free']['all']['min']['money'], '€');
     $this->json['seats']['free']['all']['max']['money_txt'] = format_currency($this->json['seats']['free']['all']['max']['money'], '€');
+    
+    // closed seats
+    /*
+    $q3 = $q->copy()
+      ->leftJoin('g.Prices gp')
+      ->leftJoin('gp.Users gpu WITH gpu.id IN '.$prepare, $users)
+      ->leftJoin('m.Prices mp')
+      ->leftJoin('mp.Users mpu WITH mpu.id IN '.$prepare, $users)
+      
+      ->andWhere('((TRUE')
+      ->andWhere('wsu.id IS NOT NULL AND meu.id IS NOT NULL')
+      ->andWhere('gpu.id IS NOT NULL OR mpu.id IS NOT NULL')
+      ->andWhere('g.online = ?', true)
+      ->andWhere('TRUE) = ?)', false)
+      ->andWhere('g.onsite = ?', false)
+    ;
+    if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'closed' )
+    foreach ( $q3->execute() as $gauge )
+    {
+      $gauges[$gauge->id] = $gauge->nb;
+      $this->json['seats']['closed']['all']['nb'] += $gauge['nb'];
+      $this->json['seats']['closed']['all']['min']['money'] += $gauge->nb * $gauge->getPriceMin($users);
+      $this->json['seats']['closed']['all']['max']['money'] += $gauge->nb * $gauge->getPriceMax($users);
+    }
+    $this->json['seats']['closed']['all']['min']['money_txt'] = format_currency($this->json['seats']['closed']['all']['min']['money'], '€');
+    $this->json['seats']['closed']['all']['max']['money_txt'] = format_currency($this->json['seats']['closed']['all']['max']['money'], '€');
+    if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'closed' )
+    {
+      // a trick to avoid a new complex query to the backend
+      foreach ( array('nb', 'min', 'max') as $field )
+      if ( is_array($this->json['seats']['closed']['all'][$field]) )
+        $this->json['seats']['closed']['all'][$field]['money'] = $this->json['seats']['free']['all'][$field]['money']
+          - $this->json['seats']['free']['online'][$field]['money']
+          - $this->json['seats']['free']['onsite'][$field]['money']
+        ;
+      else
+        $this->json['seats']['closed']['all'][$field] = $this->json['seats']['free']['all'][$field]
+          - $this->json['seats']['free']['online'][$field]
+          - $this->json['seats']['free']['onsite'][$field]
+        ;
+      
+      $this->json['seats']['closed']['all']['min']['money_txt'] = format_currency($this->json['seats']['closed']['all']['min']['money'], '€');
+      $this->json['seats']['closed']['all']['max']['money_txt'] = format_currency($this->json['seats']['closed']['all']['max']['money'], '€');
+    }
+    */
   }
   
   // free gauges
@@ -329,8 +410,6 @@
     // all
     if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'all' )
     {
-      //error_log($this->json['seats']['held']['all']['nb']);
-      //$this->json['gauges']['free']['all']['nb'] -= $this->json['seats']['held']['all']['nb'];
       foreach ( $gauges = $q->copy()
         ->execute() as $gauge )
       {
@@ -341,6 +420,37 @@
     }
     $this->json['gauges']['free']['all']['min']['money_txt'] = format_currency($this->json['gauges']['free']['all']['min']['money'], '€');
     $this->json['gauges']['free']['all']['max']['money_txt'] = format_currency($this->json['gauges']['free']['all']['max']['money'], '€');
+  }
+  
+  // closed
+  if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'closed' )
+  {
+    $types = array();
+    if ( !$request->getParameter('type', false) || $request->getParameter('type') == 'seats' )
+      $types[] = 'seats';
+    if ( !$request->getParameter('type', false) || $request->getParameter('type') == 'gauges' )
+      $types[] = 'gauges';
+    
+    foreach ( $types as $type )
+    {
+      // a trick to avoid a new complex query to the backend
+      foreach ( array('nb', 'min', 'max') as $field )
+      if ( is_array($this->json[$type]['closed']['all'][$field]) )
+        $this->json[$type]['closed']['all'][$field]['money'] = $this->json[$type]['free']['all'][$field]['money']
+          - $this->json[$type]['free']['online'][$field]['money']
+          - $this->json[$type]['free']['onsite'][$field]['money']
+          - (isset($this->json[$type]['free']['held']) ? $this->json[$type]['held']['all']['money'] : 0)
+        ;
+      else
+        $this->json[$type]['closed']['all'][$field] = $this->json[$type]['free']['all'][$field]
+          - $this->json[$type]['free']['online'][$field]
+          - $this->json[$type]['free']['onsite'][$field]
+          - (isset($this->json[$type]['free']['held']) ? $this->json[$type]['held']['all']['nb'] : 0)
+        ;
+      
+      $this->json[$type]['closed']['all']['min']['money_txt'] = format_currency($this->json[$type]['closed']['all']['min']['money'], '€');
+      $this->json[$type]['closed']['all']['max']['money_txt'] = format_currency($this->json[$type]['closed']['all']['max']['money'], '€');
+    }
   }
   
   liCacher::create($path)

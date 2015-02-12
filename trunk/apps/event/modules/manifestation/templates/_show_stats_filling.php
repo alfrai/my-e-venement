@@ -39,6 +39,13 @@
           <tr class="sf_admin_row ui-widget-content odd free max">
             <?php include_partial('show_stats_filling_line') ?>
           </tr>
+          <tr class="sf_admin_row ui-widget-content odd closed min">
+            <th class="ui-state-default ui-th-column closed" rowspan="2"><?php echo __('Closed & free') ?></th>
+            <?php include_partial('show_stats_filling_line') ?>
+          </tr>
+          <tr class="sf_admin_row ui-widget-content odd closed max">
+            <?php include_partial('show_stats_filling_line') ?>
+          </tr>
         </tbody>
         <thead>
           <tr class="sf_admin_row ui-widget-content">

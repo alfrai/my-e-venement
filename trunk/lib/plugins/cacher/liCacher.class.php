@@ -33,8 +33,8 @@ class liCacher
   }
   static public function componePath($uri)
   {
-    $uri = preg_replace('![&/]{0,1}refresh([=/]\w*){0,1}!', '', $uri);
-    $uri = preg_replace('!/$!', '', $uri);
+    $uri = preg_replace('![&/]{0,1}refresh([=/][\w\d]*){0,1}!', '', $uri);
+    $uri = preg_replace('![&/]+$!', '', $uri);
     
     return sfConfig::get('sf_module_cache_dir').'/'.md5($uri).'.data';
   }

@@ -17,6 +17,10 @@
         <target>Retenues</target>
       </trans-unit>
       <trans-unit>
+        <source>Closed &amp; free</source>
+        <target>Fermé et libre</target>
+      </trans-unit>
+      <trans-unit>
         <source>Capacity</source>
         <target>Capacité</target>
       </trans-unit>
