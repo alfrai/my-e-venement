@@ -34,9 +34,9 @@
     
     // tickets booked & paid by the same person
     $q2 = Doctrine_Query::create()->from('Transaction t')
-      ->leftJoin('t.Version v')
       ->leftJoin('t.Payments p')
       ->leftJoin('t.Tickets tck')
+      ->leftJoin('tck.Version v')
       ->andWhere('tck.id IS NOT NULL AND tck.duplicating IS NULL AND tck.cancelling IS NULL')
       ->andWhere('tck.id NOT IN (SELECT ttck.duplicating FROM Ticket ttck WHERE ttck.duplicating IS NOT NULL)')
       ->andWhere('tck.id NOT IN (SELECT tttck.cancelling FROM Ticket tttck WHERE tttck.cancelling IS NOT NULL)')

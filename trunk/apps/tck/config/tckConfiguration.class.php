@@ -74,16 +74,17 @@ class tckConfiguration extends sfApplicationConfiguration
     foreach ( $event['transaction']->getItemables() as $pdt )
     if ( !$pdt->isSold() && !( $pdt instanceof Ticket && $pdt->auto_by_hold )) // if something has to be done
     // we go if:
-    //     - the pdt's value == 0
-    // OR  - the pdt's Transaction has no Order
-    // OR  - the last pdt's update time is > to {$timeout['asked']} ago
-    // OR  - the sum of the Transaction's already integrated products is < to the amount paid
+    //     - the pdt's value can be paid by the Payments
+    //       OR its value == 0 and there is no order in the Transaction
     // AND - the pdt is not a Ticket that requires a Seat
-    // AND - the pdt is not a Ticket without a Price linked
-    if (!( $pdt->value > 0 && $pdt->Transaction->Order->count() > 0 && strtotime($pdt->updated_at) < strtotime(($timeout['asked'] ? $timeout['asked'] : '1 hour').' ago') && $event['transaction']->getPrice(false, true) >= $paid
-      || $pdt instanceof Ticket && $pdt->needsSeating()
-      || $pdt instanceof Ticket && is_null($pdt->price_id) ))
+    // AND - the pdt is not a Ticket with no Price linked
+    if ( $pdt->value == 0 && $pdt->Transaction->Order->count() == 0
+      || $pdt->value > 0 && $event['transaction']->getPrice(false, true) < $paid )
+    if (!( $pdt instanceof Ticket && $pdt->needsSeating() ))
+    if (!( $pdt instanceof Ticket && is_null($pdt->price_id) ))
     {
+      error_log('pdt_id: '.$pdt->id);
+      error_log($pdt->value.' '.$pdt->Transaction->Order->count().' '.$pdt->updated_at);
       $pdt->integrated_at = date('Y-m-d H:i:s'); // integrate
       $cpt++;
     }

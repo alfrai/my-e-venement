@@ -116,7 +116,7 @@
       {
         $q->leftJoin('m.Event e')
           ->andWhereIn('e.meta_event_id', array_keys($this->getUser()->getMetaEventsCredentials()))
-          ->leftJoin('tck.Gauge g WITH g.onsite = TRUE')
+          ->leftJoin('tck.Gauge g WITH g.onsite = TRUE OR tck.gauge_id = g.id')
           ->leftJoin('tck.Price p')
           ->leftJoin('tck.Cancelled tckc')
           ->andWhere('tck.id NOT IN (SELECT tt.duplicating FROM ticket tt WHERE tt.duplicating IS NOT NULL)')
@@ -146,7 +146,7 @@
         $q = Doctrine::getTable('Manifestation')->createQuery('m');
       
       $q->leftJoin('m.IsNecessaryTo n')
-        ->leftJoin('n.Gauges ng WITH ng.onsite = TRUE')
+        ->leftJoin('n.Gauges ng WITH ng.onsite = TRUE OR ng.id = tck.gauge_id')
       ;
       
       // retrictive parameters
@@ -248,7 +248,7 @@
             ->leftJoin('m.PriceManifestations pm')
             ->leftJoin('pm.Price pmp WITH pmp.hide = ?', false)
             ->leftJoin('pmp.Translation pmpt WITH pmpt.lang = ?', $this->getUser()->getCulture())
-            ->leftJoin('m.Gauges g WITH g.onsite = TRUE')
+            ->leftJoin('m.Gauges g WITH g.onsite = TRUE OR g.id IN (SELECT tck.gauge_id FROM Ticket tck WHERE tck.transaction_id = ?)', $request->getParameter('id',0))
             ->leftJoin('g.PriceGauges pg')
             ->leftJoin('pg.Price pgp WITH pgp.hide = ?', false)
             ->leftJoin('pgp.Translation pgpt WITH pgpt.lang = ?', $this->getUser()->getCulture())
