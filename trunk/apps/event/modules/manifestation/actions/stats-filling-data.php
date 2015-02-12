@@ -22,6 +22,11 @@
 ***********************************************************************************/
 ?>
 <?php
+    $path = liCacher::componePath($request->getUri());
+    if ( !$request->hasParameter('refresh')
+      && ($this->json = liCacher::create($path)->useCache()) !== false )
+      return 'Success';
+    
     $this->getContext()->getConfiguration()->loadHelpers('Number');
     
     $this->json = array(
@@ -337,3 +342,7 @@
     $this->json['gauges']['free']['all']['min']['money_txt'] = format_currency($this->json['gauges']['free']['all']['min']['money'], '€');
     $this->json['gauges']['free']['all']['max']['money_txt'] = format_currency($this->json['gauges']['free']['all']['max']['money'], '€');
   }
+  
+  liCacher::create($path)
+    ->setData($this->json)
+    ->writeData();

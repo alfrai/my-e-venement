@@ -54,3 +54,4 @@ html body #content { margin-right: 0; }
 #sf_fieldset_statistics .min { border-bottom: 0; }
 #sf_fieldset_statistics .max { border-top: 0; }
 #sf_fieldset_statistics .filling-complete tbody td { font-size: 80%; }
+#sf_fieldset_statistics .filling-complete thead th a { padding-left: 24px; padding-right: 16px; float: right; }

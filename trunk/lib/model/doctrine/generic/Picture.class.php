@@ -31,6 +31,7 @@ class Picture extends PluginPicture
     
     $attributes['src'] = $this->getUrl($attributes);
     
+    // this is a workaround for crappy ISPs that rewrite HTML for "optimization"
     if ( isset($attributes['add-data-src']) && $attributes['add-data-src'] )
       $attributes['data-src'] = $attributes['src'];
     

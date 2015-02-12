@@ -3,7 +3,16 @@
 <?php use_stylesheet('event-gauge') ?>
 <?php
   $plans = array();
-  foreach ( $manifestation->getRawValue()->Gauges as $gauge )
+  $gauges = Doctrine::getTable('Gauge')->createQuery('g', false)
+    ->leftJoin('g.Manifestation m')
+    ->leftJoin('m.Location l')
+    ->leftJoin('l.SeatedPlans sp')
+    ->leftJoin('sp.Picture p')
+    ->leftJoin('sp.Workspaces ws WITH ws.id = g.workspace_id')
+    ->select('g.*, m.*, l.*, sp.*, ws.*, p.id, p.name')
+    ->andWhere('g.manifestation_id = ?', $form->getObject()->id)
+    ->execute();
+  foreach ( $gauges as $gauge )
   {
     $sp = $gauge->seated_plan;
     if (! $sp instanceof SeatedPlan )
@@ -23,9 +32,9 @@
   <ul class="ui-corner-all ui-widget-content">
     
     <!-- all gauges merged -->
-    <?php if ( $form->getObject()->Gauges->count() == 0 ): ?>
+    <?php if ( $gauges->count() == 0 ): ?>
       <li><?php echo __('No registered workspace') ?></li>
-    <?php else: if ( $form->getObject()->Gauges->count() > 1 ): ?>
+    <?php else: if ( $gauges->count() > 1 ): ?>
     <li class="ui-corner-all gauge gauges-all"
         title="<?php echo __('If a seated plan exists, it will show up if you click on the gauge') ?>"
         data-manifestation-id="<?php echo $form->getObject()->id ?>"
@@ -52,14 +61,14 @@
     </li>
     <?php endif; ?>
     <?php
-      $gauges = array();
-      foreach ( $form->getObject()->Gauges as $gauge )
-        $gauges[$gauge->Workspace->name.'-'.$gauge->id] = $gauge;
-      ksort($gauges);
+      $arr_gauges = array();
+      foreach ( $gauges as $gauge )
+        $arr_gauges[$gauge->Workspace->name.'-'.$gauge->id] = $gauge;
+      ksort($arr_gauges);
     ?>
     
     <!-- gauges one by one -->
-    <?php foreach ( $gauges as $gauge ): ?>
+    <?php foreach ( $arr_gauges as $gauge ): ?>
     <li class="ui-corner-all gauge"
         data-gauge-id="<?php echo $gauge->id ?>"
         title="<?php echo __('If a seated plan exists, it will show up if you click on the gauge') ?>"
@@ -71,7 +80,7 @@
         (<?php echo implode(', ', $arr) ?>)
       <?php endif ?>
       <a class="gauge-gfx" href="<?php echo url_for('gauge/state?id='.$gauge->id.'&json=true') ?>">gauge</a>
-      <?php if ( $gauge->Workspace->seated && $seated_plan = $form->getObject()->Location->getWorkspaceSeatedPlan($gauge->workspace_id) ): ?>
+      <?php if ( $gauge->Workspace->seated && ($seated_plan = $gauge->seated_plan) ): ?>
       <div class="seated-plan-parent" title="">
         <?php include_partial('global/magnify') ?>
         <div class="seated-plan-actions">
