@@ -488,12 +488,13 @@ Hold:
     type: concrete
   actAs:
     I18n:
-      fields: [name]
+      fields: [name, description]
   columns:
     name:
       type: string(255)
       notnull: true
       notblank: true
+    description: string
     public_name: string(255)
     manifestation_id:
       type: integer
