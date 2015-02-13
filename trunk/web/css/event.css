@@ -6,6 +6,9 @@
 
 #more .sf_admin_edit .sf_admin_list { margin: 0; }
 
+#sf_fieldset_checkpoints .notice { padding: 2px 5px; }
+#sf_fieldset_checkpoints .notice p + p { margin-top: 5px; }
+#sf_fieldset_checkpoints .show_checkpoint { margin-bottom: 10px; }
 .checkpoint_new .sf_admin_form_field_event_id { display: none; }
 
 .sf_admin_show .sf_admin_field_description label, .sf_admin_show .sf_admin_field_description .rich-content { display: table-cell; }

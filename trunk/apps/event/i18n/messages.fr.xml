@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>A checkpoint is a logical point of entrance. If you have one venue and five doors, you only have one checkpoint. If you have five venues, and one can be only in one venue at the same time, then you have five checkpoints.</source>
+        <target>Un point de contrôle est un point d'entrée logique. Si vous avez une salle avec cinq portes, vous n'avez qu'un seul point de contrôle. Si vous avez cinq salles et qu'une personne ne peut être que dans une salle à la fois, alors vous avez cinq points de contrôle.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>If you unckeck the "legal" property of a checkpoint, one can pass through the checkpoint more than once.</source>
+        <target>Si vous décochez la propriété "légal" d'un point de contrôle, un billet pourra passer plusieurs fois un même point de contrôle.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Occupied</source>
         <target>Occupation</target>
       </trans-unit>
