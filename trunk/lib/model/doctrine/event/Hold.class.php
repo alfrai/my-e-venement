@@ -55,4 +55,9 @@ class Hold extends PluginHold
   {
     return min($this->HoldTransactions->toKeyValueArray('id', 'rank'));
   }
+  
+  public function getOnTicket()
+  {
+    return $this->description ? $this->description : $this->name;
+  }
 }
