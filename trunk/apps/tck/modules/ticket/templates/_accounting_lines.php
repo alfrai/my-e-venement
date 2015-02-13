@@ -73,7 +73,7 @@
   <tr>
     <td class="event inline-modifiable"><?php echo (string)$product ?></td>
     <td class="time inline-modifiable" colspan="2"><?php echo $product->code ?></td>
-    <td class="location inline-modifiable" colspan="3"><?php echo $product->declination ?></td>
+    <td class="location inline-modifiable" colspan="2"><?php echo $product->declination ?></td>
     <td class="price"><?php echo $product->price_id ? $product->Price->description : $product->price_name ?></td>
     <td class="up"><?php echo format_currency($product->value,'€') ?></td>
     <?php
