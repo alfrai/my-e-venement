@@ -34,6 +34,10 @@
     $this->to = $request->getParameter('end',date('Y-m-d', strtotime('+ 1 month', $time = strtotime($date))));
     $this->month_view = strtotime($this->to) - strtotime($this->from) >= strtotime('+ 1 month',$time) - $time;
     
+    foreach ( array('from', 'to') as $date )
+    if ( intval($this->$date).'' === ''.$this->$date )
+      $this->$date = date('Y-m-d H:i:s', $this->$date);
+    
     $no_ids = $request->getParameter('no_ids',array());
     if ( !is_array($no_ids) ) $no_ids = array();
     foreach ( $no_ids as $key => $value )
