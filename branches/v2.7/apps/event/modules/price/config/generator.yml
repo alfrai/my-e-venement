@@ -15,9 +15,11 @@ generator:
       actions: ~
       fields:
         member_card_linked: { label: "Linked w/ MC", credentials: [tck-admin-member-cards] }
+        member_cards_list: { label: Member cards }
       list:
         display: [name, description, value, online, hide, member_card_linked]
         sort: ['hide, name', '']
+        max_per_page: 50
       filter:  ~
       form:
         display:

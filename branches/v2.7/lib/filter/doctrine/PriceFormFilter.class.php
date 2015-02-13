@@ -12,5 +12,14 @@ class PriceFormFilter extends BasePriceFormFilter
 {
   public function configure()
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('CrossAppLink', 'I18N', 'Asset'));
+    
+    $this->widgetSchema['manifestations_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'model' => 'Manifestation',
+      'url'   => cross_app_url_for('event', 'manifestation/ajax'),
+    ));
+    
+    $this->widgetSchema['users_list']->setOption('query', $q = Doctrine_Query::create()->from('SfGuardUser u'));
+    $this->validatorSchema['users_list']->setOption('query', $q);
   }
 }
