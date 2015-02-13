@@ -113,3 +113,4 @@
         $this->products_total['vat'][$vat['vat']] = 0;
       $this->total['vat'][$vat['vat']] = 0;
     }
+    ksort($this->total['vat']);

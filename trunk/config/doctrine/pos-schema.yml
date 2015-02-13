@@ -71,6 +71,12 @@ Product:
       unique: true
     accounting_account: string(50)
     vat_id: integer
+    shipping_fees:
+      type: decimal(8)
+      scale: 2
+      default: 0
+      notnull: true
+    shipping_fees_vat_id: integer
   relations:
     Category:
       class: ProductCategory
@@ -91,6 +97,12 @@ Product:
       foreignAlias: Products
     Vat:
       foreignAlias: Products
+      onDelete: SET NULL
+      onUpdate: CASCADE
+    ShippingFeesVat:
+      foreignAlias: ShippingFees
+      local: shipping_fees_vat_id
+      class: Vat
       onDelete: SET NULL
       onUpdate: CASCADE
     LinkedManifestations:
@@ -214,6 +226,16 @@ BoughtProduct:
     barcode: string
     member_card_id: integer
     ticket_id: integer
+    shipping_fees:
+      type: decimal(8)
+      scale: 2
+      default: 0
+      notnull: true
+    shipping_fees_vat:
+      type: decimal(5)
+      scale: 4
+      default: 0
+      notnull: true
   relations:
     Transaction:
       foreignAlias: BoughtProducts

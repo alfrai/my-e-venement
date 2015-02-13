@@ -491,13 +491,22 @@
       
       // by group of tickets
       $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['qty']++;
-      if ( in_array($this->json[$product->id]['declinations_name'], array('gauges')) )
+      $real_value = $item->value;
+      switch ( $this->json[$product->id]['declinations_name'] ){
+      case 'gauges':
         $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['extra-taxes'] += $item->taxes;
+        $real_value = $item->value+$item->taxes;
+        break;
+      case 'declinations':
+        $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['extra-taxes'] += $item->shipping_fees;
+        $real_value = $item->value+$item->shipping_fees;
+        $tep = round($item->value/(1+$item->vat),2) + round($item->shipping_fees/(1+$item->shipping_fees_vat),2);
+        break;
+      }
+      if ( !isset($tep) )
+        $tep = round($real_value/(1+$item->vat),2);
       $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['pit'] += $item->value;
-      $real_value = in_array($this->json[$product->id]['declinations_name'], array('gauges'))
-        ? $item->value+$item->taxes
-        : $item->value;
-      $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['tep'] += $tep = round($real_value/(1+$item->vat),2);
+      $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['tep'] += $tep;
       $this->json[$pid][$this->json[$product->id]['declinations_name']][$declination->id]['prices'][$pname]['vat'] += $real_value - $tep;
       
       // POST PROD SPECIFICITIES

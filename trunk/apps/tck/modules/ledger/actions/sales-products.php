@@ -82,13 +82,17 @@
     
     // total initialization / including taxes
     $this->products_total = array('qty' => 0, 'vat' => array(), 'value' => 0, 'taxes' => 0);
-    $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
-    $q = 'SELECT DISTINCT vat FROM bought_product WHERE vat != 0';
-    $stmt = $pdo->prepare($q);
-    $stmt->execute();
-    foreach ( $arr = $stmt->fetchAll() as $vat )
+    foreach ( array('vat', 'shipping_fees_vat') as $field )
     {
-      if ( isset($this->total) && isset($this->total['vat']) )
-        $this->total['vat'][$vat['vat']] = 0;
-      $this->products_total['vat'][$vat['vat']] = 0;
+      $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+      $q = 'SELECT DISTINCT '.$field.' AS vat FROM bought_product WHERE '.$field.' != 0';
+      $stmt = $pdo->prepare($q);
+      $stmt->execute();
+      foreach ( $arr = $stmt->fetchAll() as $vat )
+      {
+        if ( isset($this->total) && isset($this->total['vat']) )
+          $this->total['vat'][$vat['vat']] = 0;
+        $this->products_total['vat'][$vat['vat']] = 0;
+      }
     }
+    ksort($this->total['vat']);
