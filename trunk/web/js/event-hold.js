@@ -151,7 +151,7 @@ LI.seatedPlanInitializationFunctions.push(function(selector){
           $(seat).removeClass('held');
           
           // if the seat was booked in a "buffer" Transaction... remove it
-          if ( $('.sf_admin_form [name="transaction_id"]').val() )
+          if ( $('.sf_admin_form [name="transaction_id"]').val() || data.type == 'move' )
             $(seat).closest('.seated-plan').find('.seat[data-id="'+$(seat).attr('data-id')+'"]').remove();
         }
         
