@@ -27,14 +27,6 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
     if ( $this->integrated_at && !isset($mods['integrated_at']) )
       throw new liEvenementException('Trying to modify the #'.$this->id.' item which has been bought already.');
     
-    // take it Product's VAT when the product is sold
-    if ( $this->integrated_at && isset($mods['integrated_at']) && $this->product_declination_id )
-    {
-      $this->vat = $this->Declination->Product->Vat->value;
-      $this->shipping_fees_vat = $this->Declination->Product->ShippingFeesVat->value;
-    }
-    
-    
     parent::preSave($event);
     
     if ( !$this->vat_id && $this->product_declination_id )
@@ -60,10 +52,13 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
       && $this->product_declination_id && $this->Declination->description_for_buyers )
       $this->description_for_buyers = $this->Declination->description_for_buyers;
     
-    if ( !$this->shipping_fees && $this->product_declination_id )
+    if ( $this->product_declination_id )
+    {
+      error_log($this->Declination->product_id.' '.$this->Declination->Product->shipping_fees);
+      $this->vat = $this->Declination->Product->Vat->value;
       $this->shipping_fees = $this->Declination->Product->shipping_fees;
-    if ( !$this->shipping_fees_vat && $this->product_declination_id )
       $this->shipping_fees_vat = $this->Declination->Product->ShippingFeesVat->value;
+    }
   }
   
   public function getValueFromSchema()
