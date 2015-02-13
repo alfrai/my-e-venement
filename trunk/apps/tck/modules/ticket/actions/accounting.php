@@ -61,15 +61,6 @@
       $this->totals['vat']['total'] += $tmp;
     }
     
-    foreach ( $this->totals['vat'] as $vat => $manifs )
-    if ( is_array($manifs) )
-    foreach ( $manifs as $manif )
-    {
-      if ( is_array($this->totals['vat'][$vat]) )
-        $this->totals['vat'][$vat] = 0;
-      $this->totals['vat'][$vat] += round($manif,2);
-    }
-    
     // retrieve products
     $q = Doctrine_Query::create()->from('BoughtProduct bp')
       ->leftJoin('bp.Price p')
@@ -78,5 +69,32 @@
     if ( $printed )
       $q->andWhere('bp.integrated_at IS NOT NULL');
     $this->products = $q->execute();
+    
+    foreach ( $this->products as $pdt )
+    {
+      $this->totals['tip'] += $pdt->shipping_fees + $pdt->value;
+      
+      $tmp = 0;
+      foreach ( array('vat' => 'value', 'shipping_fees_vat' => 'shipping_fees') as $v => $t )
+      {
+        if ( !isset($this->totals['vat'][$pdt->$v]) )
+          $this->totals['vat'][$pdt->$v] = array($pdt->product_declination_id => 0);
+        if ( !isset($this->totals['vat'][$pdt->$v][$pdt->product_declination_id]) )
+          $this->totals['vat'][$pdt->$v][$pdt->product_declination_id] = 0;
+        
+        $tmp += $buf = round($pdt->$t - $pdt->$t/(1+$pdt->$v), 2);
+        $this->totals['vat'][$pdt->$v][$pdt->product_declination_id] += $buf;
+      }
+      $this->totals['vat']['total'] += $tmp;
+    }
+    
+    foreach ( $this->totals['vat'] as $vat => $manifs )
+    if ( is_array($manifs) )
+    foreach ( $manifs as $manif )
+    {
+      if ( is_array($this->totals['vat'][$vat]) )
+        $this->totals['vat'][$vat] = 0;
+      $this->totals['vat'][$vat] += round($manif,2);
+    }
     
     $this->setLayout('empty');

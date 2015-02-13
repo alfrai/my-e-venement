@@ -85,8 +85,9 @@
            && $products[$i]->value            == $product->value )
       {
         $qty++;
-        $total['tip']   += $val = $products[$i]->value;
-        $total['pet']   += $pet = round($val/(1+$products[$i]->vat), 2);
+        $total['tip']   += $val = $products[$i]->value + $products[$i]->shipping_fees;
+        $total['taxes'] += $products[$i]->shipping_fees;
+        $total['pet']   += $pet = round($products[$i]->value/(1+$products[$i]->vat), 2) + round($products[$i]->shipping_fees/(1+$products[$i]->shipping_fees_vat), 2);
         $total['vat']   += $vat = $val - $pet;
         if ( !isset($totals['vat'][$products[$i]->vat]) )
           $totals['vat'][$products[$i]->vat] = 0;
@@ -97,7 +98,7 @@
     ?>
     <td class="qty inline-modifiable"><?php echo $qty; ?></td>
     <td class="seats"></td>
-    <td class="extra-taxes"></td>
+    <td class="extra-taxes"><?php echo $total['taxes'] ? format_currency($total['taxes'],'€') : '-'; $totals['taxes'] += $total['taxes']; ?></td>
     <td class="pit"><?php echo format_currency($total['tip'],'€'); $totals['tip'] += $total['tip']; ?></td>
     <td class="vat">
       <span class="value"><?php echo format_currency($total['vat'],'€') ?></span>
