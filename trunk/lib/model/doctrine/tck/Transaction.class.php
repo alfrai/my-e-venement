@@ -84,6 +84,12 @@ class Transaction extends PluginTransaction
     return $collection;
   }
   
+  public function isHoldTransaction()
+  {
+    $arr = $this->Transaction->toArray();
+    return isset($arr['HoldTransaction']);
+  }
+  
   /**
     * Retrieve the applyable surveys that need to be answered
     *

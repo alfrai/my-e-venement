@@ -213,12 +213,8 @@ class hold_transactionActions extends autoHold_transactionActions
           $ticket->Seat = $seat;
           $ticket->auto_by_hold = true;
           $ticket->manifestation_id = $hold->manifestation_id;
-          error_log('with price '.$hold->price_id);
           if ( $hold->price_id )
-          {
-            error_log('with price '.$hold->price_id);
             $ticket->price_id = $hold->price_id;
-          }
           else
           {
             $ticket->value = 0;
