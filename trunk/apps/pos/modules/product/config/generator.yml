@@ -34,7 +34,7 @@ generator:
           _edit: ~
           _delete: ~
       filter:
-        display: [meta_event_id, product_category_id, code, name, short_name, prices_list]
+        display: [meta_event_id, product_category_id, code, name, short_name, prices_list, vat_id]
       form:
         display:
           General: [name, short_name, product_category_id, prices_list, prices, vat_id]
