@@ -1047,6 +1047,10 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <target>Prix</target>
       </trans-unit>
       <trans-unit>
+        <source>Member cards</source>
+        <target>Cartes d'abo.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Linked w/ MC</source>
         <target>Lié cartes abo.</target>
       </trans-unit>

@@ -27,6 +27,7 @@ generator:
         object_actions:
           _edit: ~
           _delete: ~
+        max_per_page: 50
       filter:
         display:
           Price: [name, description, value, online, hide, member_card_linked]
