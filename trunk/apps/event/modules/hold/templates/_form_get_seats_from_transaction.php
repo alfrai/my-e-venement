@@ -13,7 +13,7 @@
   <div class="label ui-helper-clearfix">
     <div class="help">
       <span class="ui-icon ui-icon-help floatleft"></span>
-      <?php echo __("The given transaction needs to be opened, the only concerned tickets are the unsold tickets related to this hold's manifestation.") ?>
+      <?php echo __("The given transaction needs to be opened (or you must have the credential to reopen it), the only concerned tickets are the unsold tickets related to this hold's manifestation.") ?>
     </div>
   </div>
 </div>

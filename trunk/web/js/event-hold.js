@@ -116,9 +116,15 @@ LI.seatedPlanInitializationFunctions.push(function(selector){
     $(this).addClass('hold-in-progress');
     var url = $('#link-seat').prop('href').replace($('#link-seat').attr('data-replace'), $(this).attr('data-id'));
     
+    var data = {
+      transaction_id: $('.sf_admin_form [name="transaction_id"]').val(),
+      hold_id: $('.sf_admin_form [name="hold_id"]').val(),
+    };
     if ( window.location.hash == '#debug' )
     {
-      window.open(url+'?debug');
+      var tmp = [];
+      $.each(data, function(key,value){ tmp.push(key+'='+value); });
+      window.open(url+'?debug&'+tmp.join('&'));
       return;
     }
     
@@ -126,7 +132,7 @@ LI.seatedPlanInitializationFunctions.push(function(selector){
     $.ajax({
       type: 'get',
       url: url,
-      data: { transaction_id: $('.sf_admin_form [name="transaction_id"]').val() },
+      data: data,
       error: function(){
         LI.alert('An error occurred', 'error');
       },

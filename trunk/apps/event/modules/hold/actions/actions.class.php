@@ -77,15 +77,14 @@ class holdActions extends autoHoldActions
   public function executeLinkSeat(sfWebRequest $request)
   {
     $this->res = array('success' => false, 'type' => 'add');
-    $arr = array(
+    $this->form = new HoldContentForm;
+    $bind = $arr = array(
       'seat_id' => $request->getParameter('seat_id'),
       'hold_id' => $request->getParameter('id'),
     );
+    $arr[$this->form->getCSRFFieldName()] = $this->form->getCSRFToken();
     
-    $this->form = new HoldContentForm;
-    $this->form->bind($arr + array(
-      $this->form->getCSRFFieldName() => $this->form->getCSRFToken(),
-    ));
+    $this->form->bind($arr);
     if ( $this->form->isValid() )
     {
       try {
@@ -93,30 +92,48 @@ class holdActions extends autoHoldActions
         $this->res['success'] = true;
       }
       catch ( Doctrine_Connection_Exception $e ) {
-        $this->form = new HoldContentForm(Doctrine::getTable('HoldContent')->find($arr));
-        $this->res['type'] = 'remove';
+        // a HoldContent already exists for this (seat_id,hold_id), so remove it or move it
         
-        // delete the HoldContent
-        if ( Doctrine::getTable('HoldContent')->find($arr)->delete() );
-          $this->res['success'] = true;
+        $this->form = new HoldContentForm(Doctrine::getTable('HoldContent')->find($bind));
         
-        // switch to a booked seat (w/ a ticket)
-        try {
-          $tid = trim($request->getParameter('transaction_id'));
-          if ( ($transaction = Doctrine::getTable('Transaction')->find($tid)) instanceof Transaction
-            && !$transaction->closed
-            && $transaction->sf_guard_user_id == $this->getUser()->getId()
-          )
-          {
-            $ticket = new Ticket;
-            $ticket->price_name = 'WIP';
-            $ticket->seat_id = $arr['seat_id'];
-            $ticket->value = 0;
-            $ticket->Transaction = $transaction;
-            $ticket->Manifestation = Doctrine::getTable('Hold')->find($arr['hold_id'])->Manifestation;
-            $ticket->save();
+        // move the held seat into another Hold
+        if ( !$request->getParameter('transaction_id', false) && $request->getParameter('hold_id', false) )
+        {
+          $this->res['type'] = 'move';
+          try {
+            $hc = Doctrine::getTable('HoldContent')->find($bind);
+            $hc->hold_id = $request->getParameter('hold_id', false);
+            $hc->save();
+            $this->res['success'] = true;
+          } catch ( Doctrine_Connection_Exception $e ) {
+            $this->res['success'] = false;
           }
-        } catch ( Doctrine_Exception $e ) { error_log($e); }
+        }
+        else
+        {
+          // delete the HoldContent
+          $this->res['type'] = 'remove';
+          if ( Doctrine::getTable('HoldContent')->find($bind)->delete() );
+            $this->res['success'] = true;
+          
+          // transform the held seat into a booked seat (w/ a ticket)
+          try {
+            $tid = trim($request->getParameter('transaction_id'));
+            if ( ($transaction = Doctrine::getTable('Transaction')->find($tid)) instanceof Transaction
+              && !$transaction->closed
+              && $transaction->sf_guard_user_id == $this->getUser()->getId()
+            )
+            {
+              $ticket = new Ticket;
+              $ticket->price_name = 'WIP';
+              $ticket->seat_id = $arr['seat_id'];
+              $ticket->value = 0;
+              $ticket->Transaction = $transaction;
+              $ticket->Manifestation = Doctrine::getTable('Hold')->find($arr['hold_id'])->Manifestation;
+              $ticket->save();
+            }
+          } catch ( Doctrine_Exception $e ) { error_log($e); }
+        }
       }
     }
     

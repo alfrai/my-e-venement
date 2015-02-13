@@ -65,8 +65,8 @@
         <target>Transfert opéré avec succès depuis l'opération #%%tid%% vers cette retenue.</target>
       </trans-unit>
       <trans-unit>
-        <source>The given transaction needs to be opened, the only concerned tickets are the unsold tickets related to this hold's manifestation.</source>
-        <target>L'opération spécifiée doit être ouverte, les seuls billets concernés sont ceux qui ne sont pas vendus en relation avec la manifestation de la présente retenue.</target>
+        <source>The given transaction needs to be opened (or you must have the credential to reopen it), the only concerned tickets are the unsold tickets related to this hold's manifestation.</source>
+        <target>L'opération spécifiée doit être ouverte (ou vous devez avoir les permissions pour la réouvrir), les seuls billets concernés sont ceux qui ne sont pas vendus en relation avec la manifestation de la présente retenue.</target>
       </trans-unit>
       <trans-unit>
         <source>New transaction</source>
@@ -78,7 +78,11 @@
       </trans-unit>
       <trans-unit>
         <source>Book released seats immediatly</source>
-        <target>Réserver immédiatement les places relâchées</target>
+        <target>Réserve immédiatement les places relâchées</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Transfert released seats into this hold, if no transaction is set for this purpose.</source>
+        <target>Transférer les places relâchées dans cette retenue, si aucune opération n'est définie à ce propos.</target>
       </trans-unit>
       <trans-unit>
         <source>Hold "%%name%%"</source>

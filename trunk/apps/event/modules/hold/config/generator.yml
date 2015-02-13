@@ -48,7 +48,7 @@ generator:
       edit:
         title: Hold "%%name%%"
         display:
-          Plan: [_form_get_seats_from_transaction, _form_transaction_id, _show_seated_plan]
+          Plan: [_form_get_seats_from_transaction, _form_transaction_id, _form_transfert_to_hold, _show_seated_plan]
           General: [name, description, manifestation_id, color, price_id, next, _show_feeders, _show_capacity]
         actions:
           _list: ~
