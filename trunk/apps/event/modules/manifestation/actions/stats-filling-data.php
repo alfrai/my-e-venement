@@ -44,6 +44,11 @@
             'min' => array('money' => 0, 'money_txt' => ''),
             'max' => array('money' => 0, 'money_txt' => ''),
           ),
+          'wideopen' => array(
+            'nb' => 0,
+            'min' => array('money' => 0, 'money_txt' => ''),
+            'max' => array('money' => 0, 'money_txt' => ''),
+          ),
           'all' => array(
             'nb' => 0,
             'min' => array('money' => 0, 'money_txt' => ''),
@@ -91,6 +96,11 @@
             'max' => array('money' => 0, 'money_txt' => ''),
           ),
           'onsite' => array(
+            'nb' => 0,
+            'min' => array('money' => 0, 'money_txt' => ''),
+            'max' => array('money' => 0, 'money_txt' => ''),
+          ),
+          'wideopen' => array(
             'nb' => 0,
             'min' => array('money' => 0, 'money_txt' => ''),
             'max' => array('money' => 0, 'money_txt' => ''),
@@ -282,10 +292,18 @@
     if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'online' )
     foreach ( $q1->execute() as $gauge )
     {
-      $gauges[$gauge->id] = $gauge->nb;
+      $min = $gauge->nb * $gauge->getPriceMin($users);
+      $max = $gauge->nb * $gauge->getPriceMax($users);
       $this->json['seats']['free']['online']['nb'] += $gauge['nb'];
-      $this->json['seats']['free']['online']['min']['money'] += $gauge->nb * $gauge->getPriceMin($users);
-      $this->json['seats']['free']['online']['max']['money'] += $gauge->nb * $gauge->getPriceMax($users);
+      $this->json['seats']['free']['online']['min']['money'] += $min;
+      $this->json['seats']['free']['online']['max']['money'] += $max;
+      
+      if ( $gauge->onsite )
+      {
+        $this->json['seats']['free']['wideopen']['nb'] += $gauge['nb'];
+        $this->json['seats']['free']['wideopen']['min']['money'] += $min;
+        $this->json['seats']['free']['wideopen']['max']['money'] += $max;
+      }
     }
     $this->json['seats']['free']['online']['min']['money_txt'] = format_currency($this->json['seats']['free']['online']['min']['money'], '€');
     $this->json['seats']['free']['online']['max']['money_txt'] = format_currency($this->json['seats']['free']['online']['max']['money'], '€');
@@ -312,51 +330,6 @@
     }
     $this->json['seats']['free']['all']['min']['money_txt'] = format_currency($this->json['seats']['free']['all']['min']['money'], '€');
     $this->json['seats']['free']['all']['max']['money_txt'] = format_currency($this->json['seats']['free']['all']['max']['money'], '€');
-    
-    // closed seats
-    /*
-    $q3 = $q->copy()
-      ->leftJoin('g.Prices gp')
-      ->leftJoin('gp.Users gpu WITH gpu.id IN '.$prepare, $users)
-      ->leftJoin('m.Prices mp')
-      ->leftJoin('mp.Users mpu WITH mpu.id IN '.$prepare, $users)
-      
-      ->andWhere('((TRUE')
-      ->andWhere('wsu.id IS NOT NULL AND meu.id IS NOT NULL')
-      ->andWhere('gpu.id IS NOT NULL OR mpu.id IS NOT NULL')
-      ->andWhere('g.online = ?', true)
-      ->andWhere('TRUE) = ?)', false)
-      ->andWhere('g.onsite = ?', false)
-    ;
-    if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'closed' )
-    foreach ( $q3->execute() as $gauge )
-    {
-      $gauges[$gauge->id] = $gauge->nb;
-      $this->json['seats']['closed']['all']['nb'] += $gauge['nb'];
-      $this->json['seats']['closed']['all']['min']['money'] += $gauge->nb * $gauge->getPriceMin($users);
-      $this->json['seats']['closed']['all']['max']['money'] += $gauge->nb * $gauge->getPriceMax($users);
-    }
-    $this->json['seats']['closed']['all']['min']['money_txt'] = format_currency($this->json['seats']['closed']['all']['min']['money'], '€');
-    $this->json['seats']['closed']['all']['max']['money_txt'] = format_currency($this->json['seats']['closed']['all']['max']['money'], '€');
-    if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'closed' )
-    {
-      // a trick to avoid a new complex query to the backend
-      foreach ( array('nb', 'min', 'max') as $field )
-      if ( is_array($this->json['seats']['closed']['all'][$field]) )
-        $this->json['seats']['closed']['all'][$field]['money'] = $this->json['seats']['free']['all'][$field]['money']
-          - $this->json['seats']['free']['online'][$field]['money']
-          - $this->json['seats']['free']['onsite'][$field]['money']
-        ;
-      else
-        $this->json['seats']['closed']['all'][$field] = $this->json['seats']['free']['all'][$field]
-          - $this->json['seats']['free']['online'][$field]
-          - $this->json['seats']['free']['onsite'][$field]
-        ;
-      
-      $this->json['seats']['closed']['all']['min']['money_txt'] = format_currency($this->json['seats']['closed']['all']['min']['money'], '€');
-      $this->json['seats']['closed']['all']['max']['money_txt'] = format_currency($this->json['seats']['closed']['all']['max']['money'], '€');
-    }
-    */
   }
   
   // free gauges
@@ -387,9 +360,19 @@
       
       ->execute() as $gauge )
     {
+      $min = ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMin($users);
+      $max = ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMax($users);
       $this->json['gauges']['free']['online']['nb'] += $gauge->value - $gauge->printed - $gauge->ordered;
-      $this->json['gauges']['free']['online']['min']['money'] += ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMin($users);
-      $this->json['gauges']['free']['online']['max']['money'] += ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMax($users);
+      $this->json['gauges']['free']['online']['min']['money'] += $min;
+      $this->json['gauges']['free']['online']['max']['money'] += $max;
+      
+      if ( $gauge->onsite )
+      {
+        $this->json['gauges']['free']['wideopen']['nb'] += $gauge->value - $gauge->printed - $gauge->ordered;
+        $this->json['gauges']['free']['wideopen']['min']['money'] += $min;
+        $this->json['gauges']['free']['wideopen']['max']['money'] += $max;
+      }
+      
     }
     $this->json['gauges']['free']['online']['min']['money_txt'] = format_currency($this->json['gauges']['free']['online']['min']['money'], '€');
     $this->json['gauges']['free']['online']['max']['money_txt'] = format_currency($this->json['gauges']['free']['online']['max']['money'], '€');
@@ -437,15 +420,17 @@
       foreach ( array('nb', 'min', 'max') as $field )
       if ( is_array($this->json[$type]['closed']['all'][$field]) )
         $this->json[$type]['closed']['all'][$field]['money'] = $this->json[$type]['free']['all'][$field]['money']
-          - $this->json[$type]['free']['online'][$field]['money']
           - $this->json[$type]['free']['onsite'][$field]['money']
+          - $this->json[$type]['free']['online'][$field]['money']
+          + $this->json[$type]['free']['wideopen'][$field]['money']
           - (isset($this->json[$type]['free']['held']) ? $this->json[$type]['held']['all']['money'] : 0)
         ;
       else
         $this->json[$type]['closed']['all'][$field] = $this->json[$type]['free']['all'][$field]
-          - $this->json[$type]['free']['online'][$field]
           - $this->json[$type]['free']['onsite'][$field]
-          - (isset($this->json[$type]['free']['held']) ? $this->json[$type]['held']['all']['nb'] : 0)
+          - $this->json[$type]['free']['online'][$field]
+          + $this->json[$type]['free']['wideopen'][$field]
+          - (isset($this->json[$type]['held']['all']) ? $this->json[$type]['held']['all']['nb'] : 0)
         ;
       
       $this->json[$type]['closed']['all']['min']['money_txt'] = format_currency($this->json[$type]['closed']['all']['min']['money'], '€');
