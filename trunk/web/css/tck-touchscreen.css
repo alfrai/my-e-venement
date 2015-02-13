@@ -61,10 +61,11 @@
 
 #sf_admin_content #li_transaction_field_content > div { display: block; }
 #li_transaction_field_content .family { position: relative; }
-#li_transaction_field_content .family h3 { padding: 3px 5px; margin: 5px 0 2px 0; height: 14px; }
-#li_transaction_field_content .family h3 .happens_at { max-width: 32em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align: bottom; }
+#li_transaction_field_content .family h3 { padding: 0 5px 7px; margin: 5px 0 2px 0; height: 14px; }
+#li_transaction_field_content .family h3 .event { max-width: 20em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; position: relative; top: 2px; }
+#li_transaction_field_content .family h3 .happens_at { max-width: 25em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align: bottom; }
 #li_transaction_field_content .family h3 > * { height: 14px; display: inline-block; }
-#li_transaction_field_content .family h3 .fg-button { position: absolute; right: 0; width: 16px; height: 16px; margin-top: -2px; font-size: 0; }
+#li_transaction_field_content .family h3 .fg-button { position: absolute; right: 0; width: 16px; height: 16px; margin-top: 1px; font-size: 0; }
 #li_transaction_field_content .family h3 .fg-button .ui-icon { margin: -9px 0 0 -1px; }
 #li_transaction_field_content .sample { display: none; }
 #li_transaction_field_content .bunch { transition-property: height; transition-duration: 1s; overflow: hidden; }
