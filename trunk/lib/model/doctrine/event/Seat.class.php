@@ -21,8 +21,6 @@ class Seat extends PluginSeat
     **/
   public function isHeldFor(Manifestation $manifestation)
   {
-    if ( $manifestation->id !== 1 )
-      error_log($manifestation->id);
     $id = array_search($manifestation->id, $this->Holds->toKeyValueArray('id', 'manifestation_id'));
     if ( $id === false )
       return false;

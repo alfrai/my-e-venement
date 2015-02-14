@@ -210,7 +210,6 @@ class hold_transactionActions extends autoHold_transactionActions
         foreach ( $ht->Transaction->Tickets as $ticket )
         if ( is_null($ticket->seat_id) )
           $tickets[] = $ticket;
-        error_log($tickets);
         
         $i = 0;
         foreach ( $seats as $seat )
