@@ -33,6 +33,7 @@ class GaugeTable extends PluginGaugeTable
                     FROM Ticket tck1
                     WHERE (printed_at IS NOT NULL OR integrated_at IS NOT NULL)
                       AND $where
+                      AND price_id IS NOT NULL
                       AND id NOT IN (SELECT tck11.cancelling FROM Ticket tck11 WHERE tck11.cancelling IS NOT NULL)
                    ) AS printed")
       ->addSelect("(SELECT ".($full === 'with_value' ? 'sum(value)' : 'count(*)')." AS nb
@@ -40,6 +41,7 @@ class GaugeTable extends PluginGaugeTable
                     WHERE printed_at IS NULL AND integrated_at IS NULL
                       AND transaction_id IN (SELECT o2.transaction_id FROM Order o2)
                       AND $where
+                      AND price_id IS NOT NULL
                       AND id NOT IN (SELECT tck22.cancelling FROM Ticket tck22 WHERE tck22.cancelling IS NOT NULL)
                    ) AS ordered")
       ->addSelect("(SELECT ".($full === 'with_value' ? 'sum(value)' : 'count(*)')." AS nb

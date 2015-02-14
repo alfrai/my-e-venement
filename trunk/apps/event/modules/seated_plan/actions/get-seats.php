@@ -50,9 +50,8 @@
     elseif ( $id = $request->getParameter('id') )
     {
       $q = Doctrine::getTable('SeatedPlan')->createQuery('sp')
-        ->andWhere('sp.id = ?', $id)
         ->leftJoin('sp.Seats s')
-      ;
+        ->andWhere('sp.id = ?', $id);
       $this->seated_plans = $q->execute();
       $this->forward404Unless($this->seated_plans->count() > 0);
     }

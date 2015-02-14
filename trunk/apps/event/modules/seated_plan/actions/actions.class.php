@@ -305,9 +305,13 @@ class seated_planActions extends autoSeated_planActions
   public function executeEdit(sfWebRequest $request)
   {
     $q = Doctrine::getTable('SeatedPlan')->createQuery('sp')
-      ->leftJoin('sp.Seats s')
       ->orderBy('s.name')
     ;
+    if ( $request->getParameter('transaction_id',false) )
+      $q->leftJoin('sp.Seats s ON sp.id = s.seated_plan_id OR s.id IN (SELECT hc.seat_id FROM Hold h LEFT JOIN h.HoldContents hc LEFT JOIN h.HoldTransactions ht WHERE ht.transaction_id = ?)', $request->getParameter('transaction_id'));
+    else
+      $q->leftJoin('sp.Seats s');
+    
     if ( $request->getParameter('id',false) )
       $q->andWhere('sp.id = ?',$request->getParameter('id'));
     else

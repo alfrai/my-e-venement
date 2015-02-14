@@ -177,6 +177,7 @@
       
       ->addSelect('m.*, g.*, tck.*')
       ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR o.id IS NOT NULL') // printed or integrated or booked by an order
+      ->andWhere('tck.price_id IS NOT NULL') // a booked ticket is everything but a WIP
       ->andWhere('tck.cancelling IS NULL')
     ;
     $onsite = $q->copy()->andWhere('g.onsite = ?', true);

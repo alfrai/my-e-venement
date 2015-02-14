@@ -159,9 +159,9 @@ class hold_transactionActions extends autoHold_transactionActions
       ->andWhere('h.id = ?', $filters['hold_id'])
       ->leftJoin('h.HoldTransactions htr')
       ->leftJoin('htr.Transaction t')
-      ->leftJoin('t.Tickets tck WITH tck.seat_id IS NOT NULL')
+      ->leftJoin('t.Tickets tck')
       ->leftJoin('h.Seats s WITH s.id != tck.seat_id')
-      ->orderBy('htr.rank, htr.id, s.rank, s.name')
+      ->orderBy('htr.rank, htr.id, s.rank, s.name, tck.contact_id')
     ;
     $hold = $q->fetchOne();
     $stop = 0;
@@ -171,8 +171,10 @@ class hold_transactionActions extends autoHold_transactionActions
         error_log('Transaction: #'.$ht->transaction_id.' for Hold: '.$hold);
       
       $seater = new Seater(NULL, $hold);
-      if ( ($qty = $ht->pretickets - $ht->Transaction->Tickets->count()) <= 0 )
+      if ( ($qty = $ht->pretickets - count(array_filter($ht->Transaction->Tickets->toKeyValueArray('id', 'seat_id')))) <= 0 )
+      {
         continue;
+      }
       
       if ( sfConfig::get('sf_web_debug', false) )
         error_log('Processing Transaction: #'.$ht->transaction_id.' for Hold: '.$hold);
@@ -204,12 +206,19 @@ class hold_transactionActions extends autoHold_transactionActions
       
       if ( $seats->count() == $qty )
       {
+        $tickets = new Doctrine_Collection('Ticket');
+        foreach ( $ht->Transaction->Tickets as $ticket )
+        if ( is_null($ticket->seat_id) )
+          $tickets[] = $ticket;
+        error_log($tickets);
+        
+        $i = 0;
         foreach ( $seats as $seat )
         {
           if ( sfConfig::get('sf_web_debug', false) )
-            error_log('new ticket for seat: '.$seat);
+            error_log((isset($tickets[$i]) ? 'ticket #'.$tickets[$i]->id : 'new ticket').' for seat: '.$seat);
           
-          $ticket = new Ticket;
+          $ticket = $tickets[$i];
           $ticket->Seat = $seat;
           $ticket->auto_by_hold = true;
           $ticket->manifestation_id = $hold->manifestation_id;
@@ -221,11 +230,12 @@ class hold_transactionActions extends autoHold_transactionActions
             $ticket->price_name = sfConfig::get('app_tickets_wip_price', 'WIP');
           }
           $ht->Transaction->Tickets[] = $ticket;
+          $i++;
         }
-        if ( sfConfig::get('sf_web_debug', false) )
-          error_log('Transaction #'.$ht->transaction_id.' has been processed with '.$ht->Transaction->Tickets->count().' tickets.');
         try {
           $ht->Transaction->save();
+          if ( sfConfig::get('sf_web_debug', false) )
+            error_log('Transaction #'.$ht->transaction_id.' has been processed with '.$ht->Transaction->Tickets->count().' tickets.');
         } catch ( Doctrine_Connection_Exception $e ) {
           error_log('An error occurred in hold_transactionActions::Seat(): '.$e->getMessage());
           $this->getUser()->setFlash('error', __('Your Hold is not seatable, maybe because you have chosen an unreachable price for the targetted gauges.'));
@@ -270,7 +280,14 @@ class hold_transactionActions extends autoHold_transactionActions
       ->andWhere('tck.printed_at IS NULL')
       ->andWhere('tck.transaction_id IN (SELECT ht.transaction_id FROM HoldTransaction ht WHERE ht.hold_id = ?)', $filters['hold_id'])
     ;
-    $q->delete()->execute();
+    foreach ( $q->execute() as $ticket )
+    {
+      $ticket->seat_id = NULL;
+      $ticket->price_id = NULL;
+      $ticket->price_name = sfConfig::get('app_tickets_wip_price', 'WIP');
+      $ticket->value = 0;
+      $ticket->save();
+    }
     
     if ( $redirect )
       $this->redirect('hold_transaction/index');

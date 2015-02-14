@@ -40,15 +40,21 @@
   //$seat_records = new Doctrine_Collection('Seat');
   //foreach ( $seated_plans as $seated_plan )
   //  $seat_records->merge($seated_plan->Seats);
-  $seat_records = Doctrine::getTable('Seat')->createQuery('s')
+  $q = Doctrine::getTable('Seat')->createQuery('s')
     ->leftJoin('s.Holds h')
     ->leftJoin('s.SeatedPlan sp WITH sp.id IN ('.implode(',', $prepare).')', $seated_plans_gauges->getKeys())
-    ->andWhere('sp.id IS NOT NULL')
-    ->execute()
   ;
+  if ( $sf_request->getParameter('transaction_id', false) )
+    $q->leftJoin('h.HoldTransactions ht WITH ht.transaction_id = ?', $sf_request->getParameter('transaction_id'))
+      ->andWhere('sp.id IS NOT NULL OR ht.id IS NOT NULL');
+  else
+    $q->andWhere('sp.id IS NOT NULL');
+  $seat_records = $q->execute();
   
   foreach ( $seat_records as $seat )
   {
+    $spid = $seat->seated_plan_id;
+    
     // especially for controlled tickets
     if ( !isset($type) )
       $type = 'seat';
@@ -62,8 +68,14 @@
     case 'seat':
       if ( isset($occupied[$seat->name]) && $occupied[$seat->name]['type'] == 'out' )
         continue(2);
+      
+      // this is a trick for seats that are out of the current SeatedPlan but inside any current Hold
+      if ( !isset($seated_plans_gauges[$seat->seated_plan_id]) && $sf_request->hasParameter('gauge_id') )
+      foreach ( $seated_plans_gauges as $spid => $val )
+        break;
+      
       if ( ($sf_request->hasParameter('gauges_list') || $sf_request->hasParameter('gauge_id'))
-        && ($hold = $seat->isHeldFor($seated_plans_gauges[$seat->seated_plan_id]->Manifestation)) )
+        && ($hold = $seat->isHeldFor($seated_plans_gauges[$spid]->Manifestation )) )
       {
         $q = Doctrine::getTable('HoldTransaction')->createQuery('ht')
           ->leftJoin('ht.Transaction t')
@@ -95,7 +107,7 @@
       'name'      => $seat->name,
       'info'      => isset($hold) && $hold ? __('Held for "%%hold%%"', array('%%hold%%' => $hold)) : NULL,
       'id'        => $seat->id,
-      'class'     => $seat->class.(isset($hold) && $hold ? ' held hold-'.$hold->id : '').($seated_plans_gauges[$seat->seated_plan_id]->isAccessibleBy($users, true) ? '' : ' offline'),
+      'class'     => $seat->class.(isset($hold) && $hold ? ' held hold-'.$hold->id : '').($seated_plans_gauges[$spid]->isAccessibleBy($users, true) ? '' : ' offline'),
       'rank'      => $seat->rank,
       'seated-plan-id' => $seat->seated_plan_id,
       'occupied'  => $sf_user->hasCredential('event-seats-allocation') && !(isset($occupied[$seat->name]) && $occupied[$seat->name]['type'] == 'out')
