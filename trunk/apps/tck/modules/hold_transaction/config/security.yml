@@ -13,6 +13,8 @@ delete:
   credentials: [event-hold-transaction-delete] #139
 batchDelete:
   credentials: [event-hold-transaction-delete] #139
+edit:
+  credentials: [tck-transaction]
 
 dump:
   credentials: [event-hold-transaction-new] #138

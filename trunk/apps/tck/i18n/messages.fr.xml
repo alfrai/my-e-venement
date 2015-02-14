@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Your Hold is not seatable, maybe because you have chosen an unreachable price for the targetted gauges.</source>
+        <target>Votre retenue n'est pas plaçable, peut-être parce que vous avez choisi un tarif indisponible sur les jauges visées.</target>
+      </trans-unit>
+      <trans-unit>
         <source>The transaction has been reopened automatically.</source>
         <target>L'opération a été réouverte automatiquement.</target>
       </trans-unit>

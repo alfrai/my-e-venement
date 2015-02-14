@@ -214,7 +214,7 @@ class hold_transactionActions extends autoHold_transactionActions
           $ticket->auto_by_hold = true;
           $ticket->manifestation_id = $hold->manifestation_id;
           if ( $hold->price_id )
-            $ticket->price_id = $hold->price_id;
+            $ticket->Price = $hold->Price;
           else
           {
             $ticket->value = 0;
@@ -224,7 +224,13 @@ class hold_transactionActions extends autoHold_transactionActions
         }
         if ( sfConfig::get('sf_web_debug', false) )
           error_log('Transaction #'.$ht->transaction_id.' has been processed with '.$ht->Transaction->Tickets->count().' tickets.');
-        $ht->Transaction->save();
+        try {
+          $ht->Transaction->save();
+        } catch ( Doctrine_Connection_Exception $e ) {
+          error_log('An error occurred in hold_transactionActions::Seat(): '.$e->getMessage());
+          $this->getUser()->setFlash('error', __('Your Hold is not seatable, maybe because you have chosen an unreachable price for the targetted gauges.'));
+          $this->redirect('hold_transaction/index');
+        }
       }
       else
         $stop++;
