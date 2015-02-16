@@ -39,7 +39,8 @@ class Traceable extends PluginTraceable
   {
     if ( sfContext::hasInstance() && is_null($this->sf_guard_user_id) )
       $this->sf_guard_user_id = sfContext::getInstance()->getUser()->getId();
-    $this->created_at = date('Y-m-d H:i:s');
+    if ( is_null($this->created_at) )
+      $this->created_at = date('Y-m-d H:i:s');
     parent::preInsert($event);
   }
   
