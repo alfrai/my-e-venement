@@ -70,6 +70,11 @@
       }
     }
     
+    // contact/organism
+    foreach ( array('contact_id' => 'c.id', 'organism_id' => 'o.id') as $criteria => $field )
+    if ( isset($criterias[$criteria]) )
+      $q->andWhere($field.' = ?', $criterias[$criteria]);
+    
     // check if there are too many tickets to display them correctly
     $this->nb_products = $q->count();
     

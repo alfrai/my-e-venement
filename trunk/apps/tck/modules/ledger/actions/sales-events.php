@@ -83,6 +83,10 @@
       $q->andWhereIn('g.workspace_id',$criterias['workspaces']);
     if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && $criterias['manifestations'][0] )
       $q->andWhereIn('g.manifestation_id',$criterias['manifestations']);
+    if ( isset($criterias['contact_id']) && $criterias['contact_id'] )
+      $q->andWhere('tck.contact_id = ? OR t.contact_id = ?', array($criterias['contact_id'], $criterias['contact_id']));
+    if ( isset($criterias['organism_id']) && $criterias['organism_id'] )
+      $q->andWhere('o.id = ?', $criterias['organism_id']);
 
     // check if there are too many tickets to display them correctly
     $test = $q->copy();

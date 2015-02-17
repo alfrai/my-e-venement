@@ -143,9 +143,10 @@ body #content { width: auto; }
 #tdp-content .tdp-subobject .tdp-line.internet label { width: 100px; display: inline-block; }
 #tdp-content .tdp-subobject .tdp-line.phonenumbers ul span { padding-left: 3px; }
 #tdp-content .tdp-subobject.tdp-object-new .tdp-line.phonenumbers, #tdp-content .tdp-subobject.tdp-object-new .tdp-line.internet { height: 2em; }
-#tdp-content #sf_admin_content .tdp-widget-header .new-transaction { padding: 8px; display: inline-block; margin-top: 4px; position: absolute; right: 55px; }
+#tdp-content .tdp-object #sf_admin_content .tdp-widget-header .ledger, #tdp-content #sf_admin_content .tdp-widget-header .new-transaction { padding: 8px; display: inline-block; margin-top: 4px; position: absolute; right: 55px; }
+#tdp-content .tdp-object #sf_admin_content .tdp-widget-header .ledger { right: 78px; }
 #tdp-content .tdp-subobject #sf_admin_content .tdp-widget-header .new-transaction { margin-top: 2px; }
-#tdp-content #sf_admin_content .tdp-widget-header .new-transaction span { left: 0; }
+#tdp-content .tdp-object #sf_admin_content .tdp-widget-header .ledger span, #tdp-content #sf_admin_content .tdp-widget-header .new-transaction span { left: 0; }
 #tdp-content .tdp-object #sf_admin_content .tdp-widget-header .duplicate, #tdp-content #sf_admin_content .tdp-widget-header .new-transaction, #tdp-content .tdp-subobject #sf_admin_content .tdp-widget-header .new-subobject { text-decoration: none; float: right; margin-right: 5px; }
 #tdp-content .tdp-object #sf_admin_content .tdp-widget-header .duplicate input { display: none; }
 #tdp-content .sf_admin_list_th_list_firstname, #tdp-content .sf_admin_list_td_firstname { display: none; }

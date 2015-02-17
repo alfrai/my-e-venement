@@ -53,6 +53,23 @@ class LedgerCriteriasForm extends BaseForm
       'required' => false,
     ));
     
+    $this->widgetSchema['contact_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Contact',
+      'url'   => cross_app_url_for('rp','contact/ajax'),
+    ));
+    $this->validatorSchema['contact_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Contact',
+      'required' => false,
+    ));
+    $this->widgetSchema['organism_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Organism',
+      'url'   => cross_app_url_for('rp','organism/ajax'),
+    ));
+    $this->validatorSchema['organism_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Organism',
+      'required' => false,
+    ));
+    
     $this->widgetSchema['workspaces'] = new sfWidgetFormDoctrineChoice(array(
       'model'     => 'Workspace',
       'order_by'  => array('name',''),

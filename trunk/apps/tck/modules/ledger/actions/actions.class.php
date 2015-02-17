@@ -92,7 +92,15 @@ class ledgerActions extends sfActions
     $this->getContext()->getConfiguration()->loadHelpers('I18N');
     
     $this->form = new LedgerCriteriasForm();
-    if ( $criterias = $request->getParameter($this->form->getName(),array()) )
+    $criterias = $request->getParameter($this->form->getName(),array());
+    
+    // specific for a contact/organism
+    foreach ( array('contact_id', 'organism_id') as $param )
+    if ( $request->hasParameter($param) )
+      $criterias[$param] = $request->getParameter($param);
+    
+    // session stuff
+    if ( $criterias )
       $this->getUser()->setAttribute('ledger.criterias', $criterias, 'tck_module');
     $criterias = $this->getUser()->getAttribute('ledger.criterias',$criterias,'tck_module');
     
@@ -179,6 +187,10 @@ class ledgerActions extends sfActions
     
     if ( isset($criterias['users']) && is_array($criterias['users']) && isset($criterias['users'][0]) )
       $q->andWhereIn('p.sf_guard_user_id',$criterias['users']);
+    
+    foreach ( array('contact_id' => 'c.id', 'organism_id' => 'o.id') as $criteria => $field )
+    if ( isset($criterias[$criteria]) )
+      $q->andWhere($field.' = ?', $criterias[$criteria]);
     
     // restrict access to our own user
     $q = $this->restrictQueryToCurrentUser($q);
