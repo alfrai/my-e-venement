@@ -26,5 +26,10 @@ class HoldFormFilter extends BaseHoldFormFilter
       'url'   => url_for('hold/ajax?with=next'),
     ));
     $this->validatorSchema['feeder_id'] = $this->validatorSchema['next'];
+    
+    $this->widgetSchema['manifestation_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Manifestation',
+      'url'   => url_for('manifestation/ajax'),
+    ));
   }
 }
