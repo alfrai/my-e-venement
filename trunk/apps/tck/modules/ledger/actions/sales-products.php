@@ -26,6 +26,7 @@
     
     $q = Doctrine::getTable('BoughtProduct')->createQuery('bp')
       ->orderBy('bp.name, bp.code, bp.transaction_id, bp.created_at')
+      ->leftJoin('bp.User u')
       ->leftJoin('bp.Transaction t')
       ->leftJoin('t.Contact c')
       ->leftJoin('t.Professional pro')
