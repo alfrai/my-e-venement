@@ -102,13 +102,17 @@
     );
     
     // direct transaction's fields
-    foreach ( array('contact_id', 'professional_id', 'description', 'deposit',) as $field )
-    if ( isset($params[$field]) && isset($this->form[$field]) )
+    foreach ( array('contact_id', 'professional_id', 'description', 'deposit', 'with_shipment',) as $form )
+    if ( isset($params[$form]) && (isset($this->form[$form]) || $this->form['more']->getWidgetSchema()->offsetExists($form)) )
     {
+      $field = $form;
+      if ( !isset($this->form[$form]) )
+        $form = 'more';
+      
       $this->json['success']['success_fields'][$field] = $success;
       $this->json['success']['success_fields'][$field]['data'] = $params[$field];
-      $this->form[$field]->bind(array($field => $params[$field], '_csrf_token' => $params['_csrf_token']));
-      if ( $this->form[$field]->isValid() )
+      $this->form[$form]->bind(array($field => $params[$field], '_csrf_token' => $params['_csrf_token']));
+      if ( $this->form[$form]->isValid() )
       {
         // data to bring back
         switch($field) {

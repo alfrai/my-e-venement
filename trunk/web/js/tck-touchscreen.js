@@ -6,9 +6,9 @@ $(document).ready(function(){
   // AUTO VALIDATIONS
   $('[name="transaction[contact_id]"]'+
   ', [name="transaction[professional_id]"]'+
-  ', [name="transaction[deposit]"]'+
-  ', [name="transaction[description]"]')
-    .change(function(){ $(this).closest('form').submit(); });
+  ', [name="transaction[description]"]'+
+  ', #li_transaction_field_more input[type=checkbox]'+
+  '').change(function(){ $(this).closest('form').submit(); });
   
   LI.initContent();
   $('#li_transaction_field_content h2 a').click(function(){

@@ -52,13 +52,21 @@ abstract class PluginBoughtProduct extends BaseBoughtProduct
       && $this->product_declination_id && $this->Declination->description_for_buyers )
       $this->description_for_buyers = $this->Declination->description_for_buyers;
     
-    if ( $this->product_declination_id )
+    // Shipping fees
+    if ( !$this->Transaction->with_shipment )
     {
-      error_log($this->Declination->product_id.' '.$this->Declination->Product->shipping_fees);
-      $this->vat = $this->Declination->Product->Vat->value;
+      $this->shipping_fees = 0;
+      $this->shipping_fees_vat = 0;
+    }
+    elseif ( $this->product_declination_id )
+    {
       $this->shipping_fees = $this->Declination->Product->shipping_fees;
       $this->shipping_fees_vat = $this->Declination->Product->ShippingFeesVat->value;
     }
+    
+    // VAT
+    if ( $this->product_declination_id )
+      $this->vat = $this->Declination->Product->Vat->value;
   }
   
   public function getValueFromSchema()

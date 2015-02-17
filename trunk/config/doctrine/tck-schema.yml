@@ -50,6 +50,10 @@ Transaction:
       type: boolean
       default: false
       notnull: true
+    with_shipment:
+      type: boolean
+      default: true
+      notnull: true
   relations:
     Contact:
       foreignAlias: Transactions

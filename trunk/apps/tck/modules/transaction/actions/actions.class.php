@@ -219,9 +219,8 @@ class transactionActions extends autoTransactionActions
       'required' => false,
     ));
     
-    // Deposit (calling the "more" template)
+    // Deposit + Shipment (calling the "more" template)
     $this->form['more'] = new sfForm;
-    $this->form['more']->setDefault('deposit', $this->transaction->deposit);
     $ws = $this->form['more']->getWidgetSchema()->setNameFormat('transaction[%s]');
     $vs = $this->form['more']->getValidatorSchema();
     $ws['deposit'] = new sfWidgetFormInputCheckbox(array(
@@ -229,6 +228,13 @@ class transactionActions extends autoTransactionActions
     $vs['deposit'] = new sfValidatorBoolean(array(
       'required' => false,
     ));
+    $this->form['more']->setDefault('deposit', $this->transaction->deposit);
+    $ws['with_shipment'] = new sfWidgetFormInputCheckbox(array(
+    ));
+    $vs['with_shipment'] = new sfValidatorBoolean(array(
+      'required' => false,
+    ));
+    $this->form['more']->setDefault('with_shipment', $this->transaction->with_shipment);
     
     // DESCRIPTION
     $this->form['description'] = new sfForm;

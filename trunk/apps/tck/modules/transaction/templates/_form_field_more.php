@@ -1,4 +1,4 @@
-<?php foreach ( array('deposit') as $field ): ?>
+<?php foreach ( array('deposit', 'with_shipment') as $field ): ?>
 <?php echo $form->renderFormTag(url_for('transaction/complete?id='.$transaction->id), array(
   'target' => '_blank',
   'method' => 'get',

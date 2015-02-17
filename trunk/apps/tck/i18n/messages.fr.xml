@@ -1197,6 +1197,10 @@
         <target>normale</target>
       </trans-unit>
       <trans-unit>
+        <source>With shipment</source>
+        <target>Avec transport</target>
+      </trans-unit>
+      <trans-unit>
         <source>deposit</source>
         <target>dépôt</target>
       </trans-unit>
