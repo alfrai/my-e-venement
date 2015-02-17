@@ -218,7 +218,6 @@
           $p->detail = trim($this->form[$field]->getValue('detail')) ? trim($this->form[$field]->getValue('detail')) : NULL;
           if ( $this->form[$field]->getValue('member_card_id') )
             $p->member_card_id = $this->form[$field]->getValue('member_card_id');
-          error_log(print_r($p->toArray(), true));
           $p->save();
           $this->json['success']['success_fields'][$field]['remote_content']['load']['type'] = 'payments';
           $this->json['success']['success_fields'][$field]['remote_content']['load']['url']  = url_for('transaction/getPayments?id='.$request->getParameter('id'), true);
