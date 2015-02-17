@@ -189,7 +189,7 @@ class ledgerActions extends sfActions
       $q->andWhereIn('p.sf_guard_user_id',$criterias['users']);
     
     foreach ( array('contact_id' => 'c.id', 'organism_id' => 'o.id') as $criteria => $field )
-    if ( isset($criterias[$criteria]) )
+    if ( isset($criterias[$criteria]) && $criterias[$criteria] )
       $q->andWhere($field.' = ?', $criterias[$criteria]);
     
     // restrict access to our own user

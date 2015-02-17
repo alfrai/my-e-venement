@@ -24,34 +24,40 @@
 <?php
     // by extra tax
     $q = Doctrine::getTable('Tax')->createQuery('t')
+      ->leftJoin('t.Users tu')
       ->leftJoin('t.Manifestations m')
       ->leftJoin('m.Gauges g')
-      ->leftJoin('g.Workspace ws')
-      ->leftJoin('t.Users u')
-      ->leftJoin('t.Prices p')
-      ->leftJoin('p.Users pu')
+      ->leftJoin('g.Tickets tck WITH tck.taxes != 0 AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL) AND tck.duplicating IS NULL') // AND tck.id NOT IN (SELECT c_tck.cancelling FROM Ticket c_tck WHERE c_tck.cancelling IS NOT NULL)')
+      ->leftJoin('tck.User u')
       ->orderBy('t.name')
     ;
-    $where = '(%%tck%%.price_id = p.id OR %%tck%%.sf_guard_user_id = u.id OR %%tck%%.gauge_id = g.id) AND %%tck%%.taxes != 0 AND (%%tck%%.printed_at IS NOT NULL OR %%tck%%.integrated_at IS NOT NULL) AND %%tck%%.duplicating IS NULL AND %%tck%%.id NOT IN (SELECT c_%%tck%%.cancelling FROM Ticket c_%%tck%% WHERE c_%%tck%%.cancelling IS NOT NULL)';
     
     if ( isset($criterias['manifestations']) && is_array($criterias['manifestations']) && count($criterias['manifestations']) > 0 )
-      $q->andWhereIn('m.id', $criterias['manifestations']);
+    {
+      $cond = array();
+      foreach ( $criterias['manifestations'] as $mid )
+        $cond[] = '?';
+      $q->andWhere('t.id = (SELECT tm.tax_id FROM TaxManifestation tm WHERE tm.manifestation_id IN ('.implode(',', $cond).'))', $criterias['manifestations']);
+    }
     else
     {
       if ( isset($criterias['workspaces']) && is_array($criterias['workspaces']) && count($criterias['workspaces']) > 0 )
-        $q->andWhereIn('ws.id', $criterias['workspaces']);
-      
-      $where .= " AND (%%tck%%.printed_at >= '".$dates[0]."' AND %%tck%%.printed_at < '".$dates[1]."' OR %%tck%%.integrated_at >= '".$dates[0]."' AND %%tck%%.integrated_at < '".$dates[1]."')";
+        $q->andWhereIn('g.workspace_id', $criterias['workspaces']);
+      $q->andWhere('tck.printed_at >= ? AND tck.printed_at < ? OR tck.integrated_at >= ? AND tck.integrated_at < ?', array($dates[0], $dates[1], $dates[0], $dates[1]));
     }
     
     // restrict access to our own user
-    $q = $this->restrictQueryToCurrentUser($q, 'pu');
+    $q = $this->restrictQueryToCurrentUser($q, 'u');
+    $q = $this->restrictQueryToCurrentUser($q, 'tu');
     
     if ( isset($criterias['users']) && is_array($criterias['users']) && isset($criterias['users'][0]) && $criterias['users'][0] )
       $q->andWhereIn('tck.sf_guard_user_id',$criterias['users']);
     
     // optimizing stuff
-    $q->select('t.id, t.name, t.type, t.value, (SELECT count(tck1.id) FROM Ticket tck1 WHERE '.str_replace('%%tck%%', 'tck1', $where).') AS qty, (SELECT SUM(tck2.taxes) FROM Ticket tck2 WHERE '.str_replace('%%tck%%', 'tck2', $where).' AND (tck2.value > 0 OR tck2.taxes > 0)) AS amount')
-      //->groupBy('t.id, t.name, t.type, t.value')
-      ->orderBy('(SELECT count(tck3.id) FROM Ticket tck3 WHERE '.str_replace('%%tck%%', 'tck3', $where).') DESC, t.name, t.type, t.value');
+    $q->select('t.id, t.name, t.type, t.value')
+      ->addSelect('SUM(CASE WHEN tck.cancelling IS NULL THEN 1 ELSE 0 END) AS qty_in, sum(CASE WHEN tck.cancelling IS NULL THEN tck.taxes ELSE 0 END) AS amount_in')
+      ->addSelect('SUM(CASE WHEN tck.cancelling IS NOT NULL THEN 1 ELSE 0 END) AS qty_out, sum(CASE WHEN tck.cancelling IS NOT NULL THEN tck.taxes ELSE 0 END) AS amount_out')
+      ->groupBy('t.id, t.name, t.type, t.value')
+      ->orderBy('t.type, t.value, t.name')
+    ;
     $this->taxes = $q->execute();

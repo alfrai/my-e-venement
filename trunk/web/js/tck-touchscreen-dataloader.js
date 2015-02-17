@@ -30,7 +30,7 @@ LI.completeContent = function(data, type, replaceAll = true)
     $.each(data, function(index, value){
       var tr = template.clone(true)
         .removeClass('template')
-        .prop('title', value.detail);
+        .prop('title', value.detail ? value.detail : '');
 
       tr.find('[name="ids[]"]').val(value.id);
       tr.attr('data-payment-id', value.id);
