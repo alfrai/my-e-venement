@@ -26,13 +26,11 @@
     if ( !sfConfig::has('app_texts_email_confirmation') )
       throw new liOnlineSaleException('You need to configure app_texts_email_confirmation in your apps/pub/config/app.yml file');
     
-    /*
     if ( !sfConfig::get('sf_web_debug', false) // if we are not working in a development environment
       && $transaction->id != $action->getUser()->getTransactionId() // and it's not the current transaction
       && !( $transaction->contact_id && $action->getUser()->getTransaction()->contact_id && $transaction->contact_id != $action->getUser()->getTransaction()->contact_id ) // and it's not a current user's transaction
     )
       throw new liOnlineSaleException('You cannot access a transaction that does not belong to you.');
-    */
     
     sfApplicationConfiguration::getActive()->loadHelpers(array('Date','Number','I18N', 'Url'));
     
@@ -73,7 +71,11 @@
         $command .= "&nbsp;&nbsp;".__('at')." ".$manif['manif']->getShortenedDate().", ".$manif['manif']->Location.(($sp = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)) ? '*' : '')."\n";
         unset($manif['manif']);
         foreach ( $manif as $tickets )
-          $command .= "&nbsp;&nbsp;&nbsp;&nbsp;".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€').'    + '.format_currency($tickets['taxes'],'€').' ('.__('Ticketting fees').")\n";
+        {
+          $command .= "&nbsp;&nbsp;&nbsp;&nbsp;".($tickets['price']->description ? $tickets['price']->description : $tickets['price'])." x ".$tickets['qty']." = ".format_currency($tickets['value'],'€');
+          $command .= $tickets['taxes'] ? '    + '.format_currency($tickets['taxes'],'€').' ('.__('Ticketting fees').')' : '';
+          $command .= "\n";
+        }
       }
     }
     
@@ -91,7 +93,7 @@
           'qty' => 0,
           'price' => $bp->price_name,
           'value' => 0,
-          'taxes' => 0,
+          'taxes' => $bp->shipping_fees,
         );
       $products[$bp->name][$bp->code.'-||-'.$bp->declination][$bp->price_name]['qty']++;
       $products[$bp->name][$bp->code.'-||-'.$bp->declination][$bp->price_name]['value'] += $bp->value;
@@ -105,7 +107,11 @@
         $command .= "&nbsp;&nbsp;".$declination['declination']."\n";
         unset($declination['declination']);
         foreach ( $declination as $bps )
-          $command .= "&nbsp;&nbsp;&nbsp;&nbsp;".($bps['price'] ? $bps['price'] : $bps['price'])." x ".$bps['qty']." = ".format_currency($bps['value'],'€')."\n";
+        {
+          $command .= "&nbsp;&nbsp;&nbsp;&nbsp;".($bps['price'] ? $bps['price'] : $bps['price'])." x ".$bps['qty']." = ".format_currency($bps['value'],'€');
+          $command .= $bps['taxes'] ? '    + '.format_currency($bps['taxes'],'€').' ('.__('Shipping fees').')' : '';
+          $command .= "\n";
+        }
       }
     }
     

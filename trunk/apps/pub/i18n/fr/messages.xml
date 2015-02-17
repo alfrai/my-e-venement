@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Ticketting fees</source>
+        <target>Frais de billetterie</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Shipping fees</source>
+        <target>Frais d'expédition</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The fees include ticketting fees and shipping fees.</source>
+        <target>Les frais comprennent les frais de billetterie et d'expédition.</target>
+      </trans-unit>
+      <trans-unit>
         <source>Order #%%tid%%</source>
         <target>Commande #%%tid%%</target>
       </trans-unit>
@@ -233,8 +245,8 @@
         <target>Participants</target>
       </trans-unit>
       <trans-unit>
-        <source>Ticketting fees</source>
-        <target>Frais de billetterie</target>
+        <source>Fees</source>
+        <target>Frais</target>
       </trans-unit>
       <trans-unit>
         <source>Customize your seats</source>

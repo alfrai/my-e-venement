@@ -131,7 +131,7 @@ class Transaction extends PluginTransaction
     $price = 0;
     foreach ( $this->BoughtProducts as $product )
     if ( $including_not_integrated === true || $product->integrated_at )
-      $price += $product->value;
+      $price += $product->value + $product->shipping_fees;
     return round($price,2);
   }
   public function getPrice($including_not_printed = false, $all_inclusive = false)

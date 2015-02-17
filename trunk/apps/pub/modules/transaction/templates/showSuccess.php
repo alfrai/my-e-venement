@@ -116,7 +116,10 @@ $(document).ready(function(){
     <td class="qty">1</td>
   <?php endif ?>
   <td class="total"><?php echo format_currency($product->value,'€') ?></td>
-  <td class="extra-taxes" title="<?php echo __('Booking fees') ?>"></td>
+  <td class="extra-taxes" title="<?php echo __('Booking fees') ?>">
+    <?php echo $product->shipping_fees ? format_currency($product->shipping_fees,'€') : '' ?>
+    <?php $total['taxes'] += $product->shipping_fees ?>
+  </td>
   <?php if ( sfConfig::get('app_options_synthetic_plans', false) && $current_transaction ): ?>
   <td class="linked-stuff"></td>
   <?php endif ?>
@@ -196,7 +199,7 @@ $(document).ready(function(){
     <td class="qty"><?php echo __('Qty') ?></td>
     <?php endif ?>
     <td><?php echo sfConfig::get('app_options_synthetic_plans', false) ? '' : __('Total') ?></td>
-    <td class="extra-taxes" title="<?php echo __('Booking fees') ?>"><?php echo __('Ticketting fees') ?></td>
+    <td class="extra-taxes" title="<?php echo __('Booking fees') ?>"><?php echo __('Fees') ?>*</td>
     <?php if ( sfConfig::get('app_options_synthetic_plans', false) && $current_transaction ): ?>
     <td class="linked-stuff"><?php echo __('Options') ?></td>
     <?php endif ?>

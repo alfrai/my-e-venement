@@ -60,7 +60,7 @@ class myUser extends pubUser
         $online_store = false;
       
       $this->setAttribute(sfConfig::get('app_user_session_ns').'_online_store', $online_store);
-      $this->setAttribute('online_store_timeout', date('Y-m-d H:i:s', strtotime('+10 minutes')));
+      $this->setAttribute('online_store_timeout', date('Y-m-d H:i:s', strtotime('+20 minutes')));
     }
   }
   

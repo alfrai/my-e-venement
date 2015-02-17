@@ -40,19 +40,17 @@ class BoughtProduct extends PluginBoughtProduct
     if ( $this->barcode )
       return $this->barcode;
     
-    if ( !$this->description_for_buyers || $type == 'normal' )
+    $matches = array();
+    preg_match('!<a\s+[^>]*href\s*=\s*"([^\"]*)"[^>]*>.*</a>!iUs', $this->description_for_buyers, $matches);
+    
+    if ( count($matches) == 0 || $type == 'normal' )
     {
       $this->barcode = $type != 'id' ? json_encode(array('code' => $this->code, 'id' => $this->id)) : $this->getIdBarcoded();
       return $this->barcode;
     }
     
-    $matches = array();
-    preg_match('!<a\s+[^>]*href\s*=\s*"([^\"]*)"[^>]*>.*</a>!iUs', $this->description_for_buyers, $matches);
-    if ( count($matches) == 0 )
-      return $this->barcode;
     $this->barcode = $matches[1];
-    
-    return $thisbarcode;
+    return $this->barcode;
   }
   
   public function renderBarcode($file = NULL) // PNG output directly to stdout
@@ -64,7 +62,7 @@ class BoughtProduct extends PluginBoughtProduct
   
   public function getBarcodePng($id = false)
   {
-    $bc = new liBarcode($this->getQrcode($id ? 'id' : NULL));
+    $bc = new liBarcode($qr = $this->getQrcode($id ? 'id' : NULL));
     return (string)$bc;
   }
   

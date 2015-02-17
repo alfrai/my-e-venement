@@ -6,3 +6,7 @@
 <div class="text_config cart_bottom">
   <?php echo nl2br(pubConfiguration::getText('app_texts_cart_bottom')) ?>
 </div>
+<div class="cart_fees">
+  *&nbsp;<?php echo __('The fees include ticketting fees and shipping fees.') ?>
+</div>
+
