@@ -91,7 +91,12 @@ WorkspaceUserOrdering:
       onUpdate: CASCADE
 MetaEvent:
   package: event
-  actAs: [Timestampable]
+  actAs:
+    Timestampable: ~
+    Sluggable:
+      unique: true
+      fields: [name]
+      canUpdate: false
   indexes:
     meta_event_hide_in_month_calendars_idx:
       fields: [hide_in_month_calendars]

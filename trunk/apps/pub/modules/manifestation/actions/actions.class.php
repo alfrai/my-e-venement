@@ -37,6 +37,13 @@ class manifestationActions extends autoManifestationActions
       $this->redirect('manifestation/edit?id='.$manifestation->id);
     }
     
+    $filters = $this->getFilters();
+    if ( isset($filters['event_id']) && $filters['event_id'] )
+    {
+      $event = Doctrine::getTable('Event')->createQuery('e')->andWhere('e.id = ?', $filters['event_id'])->fetchOne();
+      sfConfig::set('pub.meta_event.slug', $event->MetaEvent->slug);
+    }
+    
     parent::executeIndex($request);
   }
   public function executeBatchDelete(sfWebRequest $request)
@@ -68,8 +75,9 @@ class manifestationActions extends autoManifestationActions
       && isset($vel['display_tickets_in_manifestations_list']) && $vel['display_tickets_in_manifestations_list'] )
       $this->redirect('manifestation/index');
     
-    $q = Doctrine::getTable('Gauge')->createQuery('g')
-      ->addSelect('gtck.*, m.*, mpm.*, mp.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
+    $q = Doctrine::getTable('Gauge')->createQuery('g', false)
+      ->select('g.*, ws.*')
+      //->addSelect('gtck.*, m.*, mpm.*, mp.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
       ->andWhere('g.online = ?', true)
       
       ->leftJoin('g.Tickets gtck WITH gtck.price_id IS NULL AND gtck.seat_id IS NOT NULL AND gtck.transaction_id = ?', $this->getUser()->getTransaction()->id)
@@ -78,11 +86,11 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('m.id = ?',$request->getParameter('id'))
       ->andWhere('m.reservation_confirmed = ?',true)
       
-//      ->leftJoin('g.Workspace ws')
+      ->leftJoin('g.Workspace ws')
+      ->leftJoin('ws.Users wu')
       ->leftJoin('m.Location l')
       ->leftJoin('l.SeatedPlans sp')
       ->leftJoin('sp.Workspaces spws')
-      ->leftJoin('ws.Users wu')
       ->leftJoin('m.Event e')
       ->leftJoin('e.MetaEvent me')
       ->leftJoin('g.PriceGauges gpg')
@@ -98,11 +106,8 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('mp.Users mpu WITH mpu.id = wu.id')
       ->leftJoin('mp.Workspaces mpw WITH mpw.id = g.workspace_id')
       
-      ->andWhere('mpu.id IS NOT NULL OR gpu.id IS NOT NULL')
-      ->andWhere('gpw.id IS NOT NULL OR mpw.id IS NOT NULL')
+      ->andWhere('mpu.id IS NOT NULL AND gpw.id IS NOT NULL OR gpu.id IS NOT NULL AND mpw.id IS NOT NULL')
       ->andWhere('wu.id = ?', $this->getUser()->getId())
-      
-      ->andWhereIn('ws.id',array_keys($this->getUser()->getWorkspacesCredentials()))
       ->andWhereIn('me.id',array_keys($this->getUser()->getMetaEventsCredentials()))
       
       ->orderBy('g.group_name, ws.name, gpg.value DESC, mpm.value DESC, gpt.name, mpt.name')
@@ -119,6 +124,7 @@ class manifestationActions extends autoManifestationActions
     
     $this->manifestation = $this->gauges[0]->Manifestation;
     $this->form = new PricesPublicForm;
+    sfConfig::set('pub.meta_event.slug', $this->manifestation->Event->MetaEvent->slug);
     
     $this->mcp = $this->getAvailableMCPrices();
     

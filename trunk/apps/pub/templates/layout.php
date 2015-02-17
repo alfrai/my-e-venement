@@ -8,7 +8,14 @@
     <?php include_stylesheets() ?>
     <?php include_javascripts() ?>
   </head>
-  <body class="<?php echo 'app-'.$sf_context->getConfiguration()->getApplication().' mod-'.$sf_context->getModuleName().' action-'.$sf_context->getActionName() ?> culture-<?php echo $sf_user->getCulture() ?>">
+  <body class="<?php echo
+    'app-'.$sf_context->getConfiguration()->getApplication().' '.
+    'mod-'.$sf_context->getModuleName().' '.
+    'action-'.$sf_context->getActionName().' '.
+    'meta-event-'.
+    'culture-'.$sf_user->getCulture().' '.
+    ''
+  ?>">
     <?php echo $sf_content ?>
     <?php include_partial('menu') ?>
   </body>

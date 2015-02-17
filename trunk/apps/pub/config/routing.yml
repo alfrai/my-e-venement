@@ -1,3 +1,12 @@
+meta_event:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                MetaEvent
+    module:               meta_event
+    prefix_path:          /meta_event
+    column:               id
+    with_wildcard_routes: true
+
 product:
   class: sfDoctrineRouteCollection
   options:

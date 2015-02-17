@@ -37,7 +37,7 @@ class ManifestationTable extends PluginManifestationTable
   
   public function retrieveList()
   {
-    return $this->createQuery()
+    return $this->createQuery('m')
       ->removeDqlQueryPart('orderby');
   }
   public function createQuery($alias = 'm', $light = false)
@@ -240,7 +240,8 @@ class ManifestationTable extends PluginManifestationTable
   public function retrievePublicList()
   {
     return $this->retrieveList()
-      ->andWhere('g.online = TRUE');
+      ->andWhere('g.online = TRUE')
+      ->andWhere('m.happens_at > NOW()');
   }
   
   public function slightlyFindOneById($value)

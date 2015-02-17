@@ -33,6 +33,15 @@ class eventActions extends autoEventActions
     
     parent::executeIndex($request);
     
+    // focusing on one meta event
+    if ( $request->getParameter('meta-event', false) )
+    {
+      $this->pager->getQuery()
+        ->andWhere('me.slug = ?', $request->getParameter('meta-event'))
+      ;
+      sfConfig::set('pub.meta_event.slug', $request->getParameter('meta-event'));
+    }
+    
     // only one event...
     if ( $this->pager->getNbResults() == 1 )
     {
@@ -51,6 +60,7 @@ class eventActions extends autoEventActions
     foreach ( array('success', 'notice', 'error') as $type )
     if ( $this->getUser()->getFlash($type) )
       $this->getUser()->setFlash($type, $this->getUser()->getFlash($type));
+    
     $this->redirect('manifestation/index');
   }
   public function executeBatchDelete(sfWebRequest $request)
