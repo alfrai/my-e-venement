@@ -25,7 +25,7 @@
 
     <tfoot>
       <tr>
-        <th colspan="5">
+        <th colspan="8">
           <div class="ui-state-default ui-th-column ui-corner-bottom">
             <?php include_partial('gauge/pagination', array('pager' => $pager)) ?>
           </div>
