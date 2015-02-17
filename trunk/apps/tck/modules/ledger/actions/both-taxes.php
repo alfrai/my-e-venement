@@ -29,6 +29,7 @@
       ->leftJoin('g.Workspace ws')
       ->leftJoin('t.Users u')
       ->leftJoin('t.Prices p')
+      ->leftJoin('p.Users pu')
       ->orderBy('t.name')
     ;
     $where = '(%%tck%%.price_id = p.id OR %%tck%%.sf_guard_user_id = u.id OR %%tck%%.gauge_id = g.id) AND %%tck%%.taxes != 0 AND (%%tck%%.printed_at IS NOT NULL OR %%tck%%.integrated_at IS NOT NULL) AND %%tck%%.duplicating IS NULL AND %%tck%%.id NOT IN (SELECT c_%%tck%%.cancelling FROM Ticket c_%%tck%% WHERE c_%%tck%%.cancelling IS NOT NULL)';
