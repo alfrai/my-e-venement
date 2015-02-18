@@ -156,9 +156,14 @@ class groupActions extends autoGroupActions
   }
   public function executeEdit(sfWebRequest $request)
   {
-    parent::executeEdit($request);
+    $this->group = Doctrine::getTable('Group')->createQuery('g')
+      ->addSelect('g.*, u.*')
+      ->andWhere('g.id = ?', $request->getParameter('id'))
+      ->fetchOne();
+    $this->form = $this->configuration->getForm($this->group);
     
-    if ( !$this->getUser()->hasCredential(array('admin-users', 'admin-power'), false) )
+    if ( !$this->getUser()->hasCredential(array('pr-group-common', 'admin-users', 'admin-power'), false)
+      && in_array($this->getUser()->id, $this->form->getObject()->Users->toKeyValueArray('id', 'id')) )
       $this->form->removeUsersList();
     
     /**
