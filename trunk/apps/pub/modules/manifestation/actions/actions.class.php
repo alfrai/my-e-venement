@@ -76,8 +76,7 @@ class manifestationActions extends autoManifestationActions
       $this->redirect('manifestation/index');
     
     $q = Doctrine::getTable('Gauge')->createQuery('g')
-      //->select('g.*, ws.*')
-      //->addSelect('gtck.*, m.*, mpm.*, mp.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
+      ->addSelect('gtck.*, m.*, mpm.*, mp.*, tck.*, e.*, l.*, ws.*, sp.*, op.*')
       ->andWhere('g.online = ?', true)
       
       ->leftJoin('g.Tickets gtck WITH gtck.price_id IS NULL AND gtck.seat_id IS NOT NULL AND gtck.transaction_id = ?', $this->getUser()->getTransaction()->id)
