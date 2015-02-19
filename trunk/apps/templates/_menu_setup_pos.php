@@ -21,7 +21,7 @@
 *
 ***********************************************************************************/
 ?>
-  <?php if ( $sf_user->hasCredential('pos-admin') ): ?>
+  <?php if ( $sf_user->hasCredential(array('pos-product-category', 'pos-product-price'), false) ): ?>
           <li class="menu-setup-pos"><a><?php echo __('Store',array(),'menu') ?></a>
             <ul class="third">
               <li><a href="<?php echo cross_app_url_for('pos','category/index') ?>"><?php echo __('Categories',array(),'menu') ?></a></li>
