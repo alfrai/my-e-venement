@@ -1,16 +1,6 @@
   $(document).ready(function(){
     $('#li_transaction_field_content .new-family select').focusout(function(){
-      if ( $(this).val() )
-      {
-        $(this).closest('form').submit();
-        $('#li_transaction_field_new_transaction a.persistant').prop('href', $('#li_transaction_field_new_transaction a.persistant').prop('href')+'#'+$(this).closest('.bunch').prop('id').replace('li_transaction_','')+'-'+$(this).val()); // keep the same manifestations for the next transaction
-        $(this).find('option:selected').remove();
-        
-        var bunch = $(this).closest('.bunch');
-        setTimeout(function(){
-          bunch.find('.families:not(.sample) .family:not(.total):last .item:first').click();
-        }, 2000);
-      }
+      LI.addFamilies();
     });
     LI.autoAddFamilies();
     
@@ -138,9 +128,24 @@ LI.autoAddFamilies = function(form){
         $('#li_transaction_manifestations .new-family [name="manifestation_id[]"]')
           .append($('<option>'+v+'</option>').val(v).prop('selected',true));
       });
-      $('#li_transaction_manifestations .new-family [name="manifestation_id[]"]').focusout();
+      LI.addFamilies();
       break;
     }
   });
 }
 
+LI.addFamilies = function(){
+  if ( $('#li_transaction_field_content .new-family select').val() )
+  {
+    var nf = $('#li_transaction_field_content .new-family');
+    var bunch = nf.closest('.bunch');
+    
+    nf.submit();
+    $('#li_transaction_field_new_transaction a.persistant').prop('href', $('#li_transaction_field_new_transaction a.persistant').prop('href')+'#'+bunch.prop('id').replace('li_transaction_','')+'-'+nf.find('select').val()); // keep the same manifestations for the next transaction
+    nf.find('select option:selected').remove();
+    
+    setTimeout(function(){
+      bunch.find('.families:not(.sample) .family:not(.total):last .item:first').click();
+    }, 2000);
+  }
+}
