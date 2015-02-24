@@ -1,4 +1,9 @@
 <?php $client = sfConfig::get('project_about_client', array()) ?>
+<?php
+  foreach ( array('name', 'address', 'url',) as $attr )
+  if ( !isset($client[$attr]) )
+    $client[$attr] = '';
+?>
 
 <?php if ( isset($client['logo']) && $client['logo'] ): ?>
 <?php if (!( isset($client['logo_attributes']) && is_array($client['logo_attributes']) )) $client['logo_attributes'] = array(); ?>

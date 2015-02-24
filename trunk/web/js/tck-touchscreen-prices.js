@@ -90,13 +90,13 @@
         $('#li_transaction_field_price_new .seats-first [name=gauge_id]').val($(this).attr('data-gauge-id'));
       }
       
-      $('#li_transaction_field_price_new').fadeIn();
+      $('#li_transaction_field_price_new').slideDown();
     }).focusout(function(){
       var elt = this;
       setTimeout(function(){
         if ( $('#li_transaction_field_content .ui-state-highlight').length == 0 )
         {
-          $('#li_transaction_field_price_new').fadeOut();
+          $('#li_transaction_field_price_new').slideUp();
           $('#li_transaction_field_price_new .dispatch input').toggle();
           $('#li_transaction_field_content .item.highlight .ids input').remove();
         }
