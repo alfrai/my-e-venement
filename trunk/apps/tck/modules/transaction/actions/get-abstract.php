@@ -262,7 +262,8 @@
             ->leftJoin('pmp.UserPrices      pmpup WITH pmpup.sf_guard_user_id = ?',$this->getUser()->getId())
             ->leftJoin('pgp.WorkspacePrices pgpwp WITH pgpwp.workspace_id = w.id')
             ->leftJoin('pgp.UserPrices      pgpup WITH pgpup.sf_guard_user_id = ?',$this->getUser()->getId())
-            //->leftJoin('w.WorkspaceUsers wsu ON wsu.workspace_id = w.id AND wsu.sf_guard_user_id = ?',$this->getUser()->getId())
+            ->leftJoin('w.WorkspaceUsers wsu WITH wsu.sf_guard_user_id = ?',$this->getUser()->getId())
+            ->andWhere('wsu.sf_guard_user_id IS NOT NULL')
             ->andWhere('m.id = ?',$id)
           ;
           if ( $gid = $request->getParameter('gauge_id', false) )
