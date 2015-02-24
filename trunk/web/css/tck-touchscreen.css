@@ -157,7 +157,7 @@
 #li_transaction_field_payment_new .field input[type=text] { text-align: center; }
 #li_transaction_field_payment_new .field_detail input[type=text] { text-align: left; }
 #li_transaction_field_payment_new .submit { float: right; margin-top: -8px }
-#li_transaction_field_payment_new .field_payment_method_id li { display: inline; }
+#li_transaction_field_payment_new .field_payment_method_id li { display: inline-block; }
 
 /* board */
 #sf_admin_content #li_fieldset_content #li_transaction_field_board { overflow-y: hidden; }
