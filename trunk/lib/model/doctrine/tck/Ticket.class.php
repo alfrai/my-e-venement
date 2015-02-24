@@ -208,7 +208,7 @@ EOF
   public function getCategory()
   {
     $name = $this->Gauge->Workspace->on_ticket ? $this->Gauge->Workspace->on_ticket : (string)$this->Gauge;
-    if ( !$this->Transaction->isHoldTransaction() )
+    if ( $this->Transaction->isHoldTransaction() )
       $name = $this->Transaction->HoldTransaction->Hold->on_ticket;
     return $name;
   }

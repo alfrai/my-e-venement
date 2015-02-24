@@ -156,7 +156,7 @@
     
     $email = new Email;
     if ( sfConfig::get('app_contact_professional', false) )
-      $email->Professionals[] = $transaction->Contact->Professionals[0];
+      $email->Professionals[] = $transaction->Professional;
     else
       $email->Contacts[] = $transaction->Contact;
     $email->setType('Order')->addDispatcherParameter('transaction', $transaction);
