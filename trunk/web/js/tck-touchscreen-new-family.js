@@ -1,6 +1,6 @@
   $(document).ready(function(){
     $('#li_transaction_field_content .new-family select').focusout(function(){
-      LI.addFamilies();
+      LI.addFamilies(this);
     });
     LI.autoAddFamilies();
     
@@ -128,16 +128,19 @@ LI.autoAddFamilies = function(form){
         $('#li_transaction_manifestations .new-family [name="manifestation_id[]"]')
           .append($('<option>'+v+'</option>').val(v).prop('selected',true));
       });
-      LI.addFamilies();
+      LI.addFamilies($('#li_transaction_manifestations .new-family [name="manifestation_id[]"]'));
       break;
     }
   });
 }
 
-LI.addFamilies = function(){
-  if ( $('#li_transaction_field_content .new-family select').val() )
+LI.addFamilies = function(elt){
+  if ( elt == undefined )
+    elt = $('#li_transaction_field_content .new-family select');
+  
+  if ( $(elt).val() )
   {
-    var nf = $('#li_transaction_field_content .new-family');
+    var nf = $(elt).closest('.new-family');
     var bunch = nf.closest('.bunch');
     
     nf.submit();
