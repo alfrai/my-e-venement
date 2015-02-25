@@ -135,8 +135,10 @@ LI.autoAddFamilies = function(form){
 }
 
 LI.addFamilies = function(elt){
-  if ( elt == undefined )
-    elt = $('#li_transaction_field_content .new-family select');
+  elt == undefined
+    ? $('#li_transaction_field_content .new-family select')
+    : $(elt).closest('.new-family').find('select')
+  ;
   
   if ( $(elt).val() )
   {
