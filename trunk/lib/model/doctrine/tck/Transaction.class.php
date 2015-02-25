@@ -186,16 +186,26 @@ class Transaction extends PluginTransaction
     
     $price = 0;
     foreach ( $this->Tickets as $ticket )
-    if ( $ticket->printed_at && $ticket->member_card_id )
-      $price += $ticket->value;
-    elseif ( $including_not_activated === true && $ticket->Price->member_card_linked && !$ticket->printed_at
-          && isset($prices[$ticket->price_id]) && $prices[$ticket->price_id] > 0 )
+    if ( $ticket->Duplicatas->count() == 0 )
     {
-      $prices[$ticket->price_id]--;
-      if ( $mc_value >= $ticket->value )
+      if ( ($ticket->printed_at || $ticket->integrated_at)
+        && $ticket->member_card_id )
       {
-        $mc_value -= $ticket->value;
-        $price += $ticket->value;
+        if ( $mc_value >= $ticket->value )
+        {
+          $mc_value -= $ticket->value;
+          $price += $ticket->value;
+        }
+      }
+      elseif ( $including_not_activated === true && $ticket->Price->member_card_linked
+            && isset($prices[$ticket->price_id]) && $prices[$ticket->price_id] > 0 )
+      {
+        $prices[$ticket->price_id]--;
+        if ( $mc_value >= $ticket->value )
+        {
+          $mc_value -= $ticket->value;
+          $price += $ticket->value;
+        }
       }
     }
     return $price;

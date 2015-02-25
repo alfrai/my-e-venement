@@ -59,7 +59,7 @@
   foreach ( $this->manifestations as $manif )
   foreach ( $manif->Tickets as $ticket )
   if ( !$ticket->seat_id )
-    $gauges[$ticket->gauge_id] = $ticket->gauge_id;
+    $gauges[$ticket->gauge_id] = $ticket->Gauge;
   if ( count($gauges) > 0 )
   {
     if ( !isset($gauges[$ticket->gauge_id]) )
