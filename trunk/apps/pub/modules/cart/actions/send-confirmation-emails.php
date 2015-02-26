@@ -28,7 +28,7 @@
     
     if ( !sfConfig::get('sf_web_debug', false) // if we are not working in a development environment
       && $transaction->id != $action->getUser()->getTransactionId() // and it's not the current transaction
-      && !( $transaction->contact_id && $action->getUser()->getTransaction()->contact_id && $transaction->contact_id != $action->getUser()->getTransaction()->contact_id ) // and it's not a current user's transaction
+      && !( $transaction->contact_id && $action->getUser()->getTransaction()->contact_id && $transaction->contact_id == $action->getUser()->getTransaction()->contact_id ) // and it's not a current user's transaction
     )
       throw new liOnlineSaleException('You cannot access a transaction that does not belong to you.');
     
