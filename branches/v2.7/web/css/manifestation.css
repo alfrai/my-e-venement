@@ -12,7 +12,7 @@ select[disabled] { color: #444; }
 #content .sf_admin_field_workspaces_list ul li,
 #content .sf_admin_field_prices_list ul li { margin-left: 10px; }
 
-#content .sf_admin_list_th_list_dates, #content .sf_admin_list_td_happens_at { display: none; }
+.mod-manifestation #content .sf_admin_list_th_list_dates, .mod-manifestation #content .sf_admin_list_td_happens_at { display: none; }
 #content .sf_admin_list_td_Price select[name="price_manifestation[price_id]"] { width: 100px; }
 #content .sf_admin_list_td_value input[type=text] { width: 100px; margin-left: 50px; }
 #content .sf_admin_list_td_value div input[type=text] { margin-left: 40px; }
