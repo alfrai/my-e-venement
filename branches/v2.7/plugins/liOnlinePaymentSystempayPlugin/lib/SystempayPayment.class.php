@@ -50,6 +50,7 @@ class SystempayPayment extends OnlinePayment
       'vads_trans_date'       => gmdate('YmdHis'),
       'vads_version'          => 'V2',
       'vads_payment_config'   => 'SINGLE',
+      'vads_payment_cards'    => 'CB;',
       'vads_page_action'      => 'PAYMENT',
       'vads_action_mode'      => 'INTERACTIVE',
     );
@@ -63,7 +64,7 @@ class SystempayPayment extends OnlinePayment
       'vads_cust_id'          => $this->transaction->contact_id,
       'vads_contrib'          => sfConfig::get('software_about_name').' '.sfConfig::get('software_about_version'),
       'vads_validation_mode'  => $validation[sfConfig::get('app_payment_validation', 'auto')],
-      'vads_success_timeout'  => 0,
+      //'vads_redirect_success_timeout'  => 0,
       'vads_url_error'        => url_for($urls['cancel'],true),
       'vads_url_referral'     => url_for($urls['cancel'],true),
       'vads_url_return'       => url_for($urls['cancel'],true),
