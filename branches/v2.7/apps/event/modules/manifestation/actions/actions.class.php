@@ -1,4 +1,4 @@
-<?php
+<<?php
 /**********************************************************************************
 *
 *	    This file is part of e-venement.
@@ -313,7 +313,7 @@ class manifestationActions extends autoManifestationActions
     
     $config = sfConfig::get('app_manifestation_reservations',array('enable' => false));
     if ( !$sf_user->hasCredential('event-manif-edit-confirmed') && !(isset($config['let_restricted_users_confirm']) && $config['let_restricted_users_confirm']) )
-      error_log('no edition');
+      error_log('The user #'.$sf_user->id.' has no credential for edition on manifestation #'.$manifestation->id);
     if ( $deep )
     if ( $manifestation->contact_id !== $sf_user->getContactId() && !$sf_user->hasCredential('event-access-all')
       || $manifestation->reservation_confirmed && !$sf_user->hasCredential('event-manif-edit-confirmed') && $manifestation->contact_id !== $sf_user->getContactId()
