@@ -21,11 +21,10 @@ function phonenumbers_add(data,beforethis)
   
   $('.phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_organism_phonenumber[name]"]')
     .change(function(){
-      elt = $('.phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="autocomplete_organism_phonenumber[name]"]');
-      elt.closest('form')
+      $(this).closest('form')
         .find('input[name="contact_phonenumber[name]"], input[name="organism_phonenumber[name]"]')
-        .val(elt.val());
-    })
+        .val($(this).val());
+     })
     .autocomplete(phonetype_ajax, jQuery.extend({}, {
       dataType: 'json',
       parse:    function(data) {
@@ -37,8 +36,10 @@ function phonenumbers_add(data,beforethis)
       }
     }, { }))
     .result(function(event, data) {
-      $('.phonenumber-'+$(data).find(pnid).val()+' input[name="contact_phonenumber[name]"], .phonenumber-'+$(data).find(pnid).val()+' input[name="organism_phonenumber[name]"]')
+      $(this).closest('form')
+        .find('input[name="contact_phonenumber[name]"], input[name="organism_phonenumber[name]"]')
         .val(data[1]);
+      console.error(data[1]);
     });
   
   // contact[id] | organism[id]
