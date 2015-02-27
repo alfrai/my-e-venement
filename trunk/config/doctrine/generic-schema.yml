@@ -57,12 +57,16 @@ Addressable:
     postalcode: string(10)
     city: string(255)
     country:
-      default: France
+      default: FRANCE
       type: string(255)
     email:
       type: string(255)
       email: true
     email_no_newsletter:
+      type: boolean
+      notnull: true
+      default: false
+    email_npai:
       type: boolean
       notnull: true
       default: false

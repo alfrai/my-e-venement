@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Bad email</source>
+        <target>Mauvais courriel</target>
+      </trans-unit>
+      <trans-unit>
         <source>Sales ledger</source>
         <target>Livre des ventes</target>
       </trans-unit>
@@ -1218,7 +1222,7 @@
       </trans-unit>
       <trans-unit id="97">
         <source>yes or no</source>
-        <target>oui ou non</target>
+        <target>indifférent</target>
       </trans-unit>
       <trans-unit id="98">
         <source>yes</source>

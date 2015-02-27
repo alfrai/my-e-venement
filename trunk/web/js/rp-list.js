@@ -23,12 +23,12 @@ LI.contact_list_behaviour = function()
 {
   // making emails clickable except when filling down the list through AJAX
   $('.sf_admin_list_td_email').each(function(){
-    if ( $(this).html().trim() )
-      $(this).html('<a title="'+$(this).html().trim()+'" href="mailto:'+$(this).html().trim()+'">'+$(this).html()+'</a>');
+    if ( $(this).text().trim() )
+      $(this).html('<a title="'+$(this).text().trim()+'" href="mailto:'+$(this).text().trim()+'">'+$(this).text()+'</a>');
   });
   // adding titles to emails when already clickables
   $('.sf_admin_list_td_list_emails a').each(function(){
-    $(this).prop('title',$(this).closest('li').prop('title')+': '+$(this).html().trim());
+    $(this).prop('title',$(this).closest('li').prop('title')+': '+$(this).text().trim());
   });
   
   // this permits to get a year-only widget without an error and without big modification in generic code

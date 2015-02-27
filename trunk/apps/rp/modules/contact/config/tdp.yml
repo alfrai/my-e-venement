@@ -52,7 +52,7 @@ all:
         lines:
           Complements:
             show_labels: true
-            fields: [organism_category_id, email, email_no_newsletter, _groups_picto]
+            fields: [organism_category_id, email, email_no_newsletter, email_npai, _groups_picto]
           Address:
             fields: [address]
           City:
@@ -104,7 +104,7 @@ all:
               fields: [contact_number, _organism_phones_list]
             Internet:
               show_labels: true
-              fields: [contact_email, contact_email_no_newsletter, _organism_email, _organism_url]
+              fields: [contact_email, contact_email_npai, contact_email_no_newsletter, _organism_email, _organism_url]
             Professional memo:
               show_labels: true
               show_title: true
@@ -188,6 +188,8 @@ all:
       organism_category_id: { label: Category }
       email_no_newsletter: { label: No newsletter }
       contact_email_no_newsletter: { label: No newsletter }
+      email_npai: { label: Bad email }
+      contact_email_npai: { label: Bad email }
       organism: { label: With the organism }
 
 dev:

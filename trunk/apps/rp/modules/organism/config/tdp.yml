@@ -36,7 +36,7 @@ all:
         lines:
           Complements:
             show_labels: true
-            fields: [organism_category_id, email, email_no_newsletter, url]
+            fields: [organism_category_id, email, email_npai, email_no_newsletter, url]
           Address:
             fields: [address]
           City:
@@ -82,7 +82,7 @@ all:
               fields: [contact_number, _contact_phones_list]
             Internet:
               show_labels: true
-              fields: [contact_email, contact_email_no_newsletter, _contact_email]
+              fields: [contact_email, contact_email_npai, contact_email_no_newsletter, _contact_email]
             Correspondence:
               show_messages: false
               show_title: true

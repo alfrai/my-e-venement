@@ -47,10 +47,17 @@ body #content { width: auto; }
 #tdp-content #sf_admin_content .tdp-line.internet .tdp-contact_email input { width: 240px; }
 #tdp-content #sf_admin_content .tdp-line.complements .tdp-url input,
 #tdp-content #sf_admin_content .tdp-line.complements .tdp-email input { width: 270px; }
+#tdp-content #sf_admin_content .tdp-line.internet .tdp-contact_email.bad input, #tdp-content #sf_admin_content .tdp-line.complements .tdp-email.bad input { border: 1px dashed red; border-radius: 2px; background-color: rgba(0,0,0,0.01); padding: 4px; }
+#tdp-content #sf_admin_content .tdp-line.complements .tdp-email_npai,
+#tdp-content #sf_admin_content .tdp-contact_email_npai,
 #tdp-content #sf_admin_content .tdp-line.complements .tdp-email_no_newsletter,
-#tdp-content #sf_admin_content .tdp-contact_email_no_newsletter { position: absolute; margin-top: -1.5em; margin-left: 400px; }
-#tdp-content #sf_admin_content .tdp-contact_email_no_newsletter { margin: 0; }
+#tdp-content #sf_admin_content .tdp-contact_email_no_newsletter { position: absolute; margin-top: -1.5em; margin-left: 410px; }
+#tdp-content #sf_admin_content .tdp-contact_email_npai { margin: 0; }
+#tdp-content #sf_admin_content .tdp-contact_email_no_newsletter { margin: 0 0 0 1.5em; }
+#tdp-content #sf_admin_content .tdp-line.complements .tdp-email_no_newsletter { margin-left: calc(410px + 1.5em); }
 #tdp-content #sf_admin_content .tdp-groups_picto > * { padding-top: 8px; }
+#tdp-content #sf_admin_content .tdp-contact_email_npai label,
+#tdp-content #sf_admin_content .tdp-line.complements .tdp-email_npai label,
 #tdp-content #sf_admin_content .tdp-contact_email_no_newsletter label,
 #tdp-content #sf_admin_content .tdp-line.complements .tdp-email_no_newsletter label { display: none; }
 #tdp-content #sf_admin_content .tdp-line.complements { position: absolute; margin-left: 300px; margin-top: -5px; }
@@ -134,8 +141,7 @@ body #content { width: auto; }
 #tdp-content .tdp-object .tdp-delete { display: none; }
 #tdp-content .tdp-subobject .tdp-actions, #tdp-content .tdp-subobject .tdp-actions a { float: right; padding-top: 0; color: black; font-weight: normal; margin-top: 8px; }
 #tdp-content .tdp-subobject h1 { font-size: 170%; }
-#tdp-content .tdp-subobject .tdp-line.phonenumbers,
-#tdp-content .tdp-subobject .tdp-line.internet { display: inline-block; height: 3em; width: 380px; overflow: auto; }
+#tdp-content .tdp-subobject .tdp-line.phonenumbers, #tdp-content .tdp-subobject .tdp-line.internet { display: inline-block; height: 3em; width: 430px; overflow: auto; }
 #tdp-content .tdp-subobject .tdp-line.internet .tdp-organism_url, #tdp-content .tdp-subobject .tdp-line.internet .tdp-organism_email { display: block; line-height: 1.2em; }
 #tdp-content .tdp-subobject .tdp-line.internet .tdp-organism_url a, #tdp-content .tdp-subobject .tdp-line.internet .tdp-organism_email a { padding-left: 3px; }
 #tdp-content .tdp-subobject .tdp-line.phonenumbers ul { list-style-type: none; }
@@ -156,6 +162,7 @@ body #content { width: auto; }
 #tdp-content .sf_admin_list_th_list_professional_emails, #tdp-content .sf_admin_list_td_list_professional_emails,
 #tdp-content .sf_admin_list_th_list_professional_description, #tdp-content .sf_admin_list_td_list_professional_description
 { max-width: 80px; overflow: hidden; word-wrap: break-word; }
+#tdp-content .sf_admin_list .alert { color: darkred; }
 
 #tdp-content .sf_admin_list_th_description, #tdp-content .sf_admin_list_td_description { max-width: 100px; }
 #tdp-content .sf_admin_list_th_list_transactions, #tdp-content .sf_admin_list_td_list_transactions { max-width: 70px; }

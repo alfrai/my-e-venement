@@ -772,7 +772,7 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
       </trans-unit>
       <trans-unit>
         <source>yes or no</source>
-        <target>oui ou non</target>
+        <target>indifférent</target>
       </trans-unit>
       <trans-unit>
         <source>yes</source>

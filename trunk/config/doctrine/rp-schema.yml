@@ -228,6 +228,10 @@ Professional:
       type: boolean
       notnull: true
       default: false
+    contact_email_npai:
+      type: boolean
+      notnull: true
+      default: false
     department: string(255)
     description: string
   relations:
