@@ -19,6 +19,12 @@ class ProductCategoryFormFilter extends BaseProductCategoryFormFilter
     
     $this->widgetSchema   ['name']  = new sfWidgetFormInput;
     $this->validatorSchema['name']  = new sfValidatorString(array('required' => false));
+    
+    $this->widgetSchema['product_category_id']
+      ->setOption('order_by', array('name',''))
+      ->setOption('query', Doctrine::getTable('ProductCategory')->createQuery('pc')
+        ->andWhere('pc.id IN (SELECT pc2.product_category_id FROM ProductCategory pc2 WHERE pc2.product_category_id IS NOT NULL)')
+      );
   }
   
   public function getFields()

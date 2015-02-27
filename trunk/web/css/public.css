@@ -386,3 +386,5 @@ tfoot, thead { font-weight: bold; }
 .pub-survey { color: transparent; }
 .pub-survey > * { color: initial; }
 
+/* Store */
+.mod-store #sf_admin_header .sf_admin_list { display: none; }

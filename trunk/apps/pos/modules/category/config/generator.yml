@@ -13,18 +13,19 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        product_category_id: { label: Parent }
       list:
-        display: [name, Vat, online, updated_at]
-        sort: ['pct.name', '']
+        display: [Parent, name, Vat, online, updated_at]
+        sort: ['parent_name, ppc.slug DESC, pct.name', ''] # slug is a trick to avoid a SQL Exception
         object_actions:
           _edit: ~
           _delete: ~
         title: List of products' categories
       filter:
-        display: [name, vat_id, online]
+        display: [product_category_id, name, vat_id, online]
       form:
-        display: [name, vat_id, online]
+        display: [product_category_id, name, vat_id, online]
       edit:
         title: Edit category %%name%%
       new:     ~

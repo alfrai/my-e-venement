@@ -1,7 +1,7 @@
 generator:
   class: sfDoctrineGenerator
   param:
-    model_class:           Product
+    model_class:           ProductCategory
     theme:                 admin
     non_verbose_templates: true
     with_show:             false
@@ -13,13 +13,15 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
+      fields:
+        list_children: { label: Subcategories }
+        list_name: { label: Category }
       list:
-        display: [Category, =name]
+        display: [_list_name, _list_children]
         batch_actions: []
         object_actions: []
         actions: []
-        sort: [ct.name, pt.name]
+        sort: [pct.name, childrent.name]
         table_method: retrievePublicList
         max_per_page: 100
         title: <?php echo sfConfig::get('app_informations_store','Products list').PHP_EOL ?>

@@ -10,10 +10,45 @@ class ProductCategoryTable extends PluginProductCategoryTable
   public function createQuery($alias = 'pc')
   {
     return parent::createQuery($alias)
-      ->leftJoin("$alias.Translation pct");
+      ->leftJoin("$alias.Translation pct")
+      ->leftJoin("$alias.Parent ppc")
+      ->select('*')
+      ->addSelect('(CASE WHEN ppc.id IS NULL THEN pct.name ELSE (SELECT ppct.name FROM ProductCategoryTranslation ppct WHERE ppct.lang = pct.lang AND ppct.id = ppc.id) END) AS parent_name')
+    ;
   }
   public static function getInstance()
   {
     return Doctrine_Core::getTable('ProductCategory');
+  }
+  
+  public function retrievePublicList()
+  {
+    $q = $this->createQuery('pc')
+      ->leftJoin('pc.Products p')
+      ->leftJoin('p.Translation pt')
+      ->leftJoin('p.Declinations d')
+      ->leftJoin('d.Translation dt')
+      ->leftJoin('pc.Children children')
+      ->leftJoin('children.Translation childrent')
+    ;
+    
+    $user = sfContext::hasInstance() ? sfContext::getInstance()->getUser() : NULL;
+    if ( $user )
+      $q->andWhereIn('p.meta_event_id IS NULL OR p.meta_event_id', array_keys($user->getMetaEventsCredentials()));
+    
+    $q->andWhere('pc.online = ?', true)
+      ->leftJoin('p.Prices price')
+      ->andWhere('price.online = ? OR children.id IS NOT NULL', true)
+      ->leftJoin('price.Users u')
+    ;
+    if ( $user )
+      $q->andWhere('u.id = ? OR children.id IS NOT NULL', $user->getId());
+    
+    if ( isset($_GET['cid']) && $_GET['cid'] && intval($_GET['cid']).'' === ''.$_GET['cid'] )
+      $q->andWhere('pc.product_category_id = ? OR pc.id = ?', array($_GET['cid'], $_GET['cid']));
+    else
+      $q->andWhere('pc.product_category_id IS NULL');
+    
+    return $q;
   }
 }

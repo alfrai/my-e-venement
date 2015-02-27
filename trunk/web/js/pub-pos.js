@@ -1,4 +1,11 @@
 $(document).ready(function(){
+  // directly goes to the target, if only one choice is possible
+  if ( $('.mod-store.action-index .sf_admin_list_td_list_children a').length == 1
+    && $('.mod-store.action-index .sf_admin_list_td_list_name a').length == 1 )
+    window.location = $('.mod-store.action-index .sf_admin_list_td_list_children a').prop('href');
+  else if ( $('.mod-store.action-index #sf_admin_content .sf_admin_list_td_list_name a, .mod-store.action-index #sf_admin_footer .sf_admin_list_td_list_name a').length == 1 )
+    window.location = $('.mod-store.action-index .sf_admin_list_td_list_name a').prop('href');
+  
   // the product's image size
   $('img.pub-product').load(function(){
     var width = 0;

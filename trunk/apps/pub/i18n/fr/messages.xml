@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Subcategories</source>
+        <target>Sous-catégories</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Category %%name%%</source>
+        <target>Catégorie %%name%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>Ticketting fees</source>
         <target>Frais de billetterie</target>
       </trans-unit>

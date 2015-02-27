@@ -4,6 +4,10 @@
   <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2014-09-09T17:16:42Z" product-name="messages">
     <header/>
     <body>
+      <trans-unit id="155">
+        <source>Parent</source>
+        <target>Parent</target>
+      </trans-unit>
       <trans-unit id="154">
         <source>The "description for buyers" is used to offer a special content when the product is bought. It can be used for videos to give a private link for instance.</source>
         <target>La "description pour les acheteurs" est utilisée pour offrir un contenu spécifique après l'achat du produit. Cela peut être utilisé par exemple pour fournir un lien vers une vidéo privée.</target>
