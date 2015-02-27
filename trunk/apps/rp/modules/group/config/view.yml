@@ -21,3 +21,7 @@ indexSuccess:
   javascripts: [list-scroll]
   stylesheets: [print-list: {media: print}]
 
+memberJson:
+  has_layout: false
+  http_metas:
+    content-type: application/json

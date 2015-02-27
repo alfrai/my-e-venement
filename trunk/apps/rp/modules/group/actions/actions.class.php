@@ -110,9 +110,9 @@ class groupActions extends autoGroupActions
       //$r['error'] = __($e->getMessage(), null, 'sf_admin');
     }
     
-    if ( !$request->hasParameter('debug') )
-      return $this->renderText(json_encode($r));
     $this->content = $r;
+    if (!( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') ))
+      return 'Json';
   }
   
   public function executeEmailing(sfWebRequest $request)
