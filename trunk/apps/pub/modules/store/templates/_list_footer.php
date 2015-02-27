@@ -14,7 +14,14 @@
     </tfoot>
     <tbody>
       <?php $odd = false ?>
-      <?php foreach ( $product_category->Products as $pdt ): ?>
+      <?php
+        // ordering category's products
+        $pdts = array();
+        foreach ( $product_category->Products as $pdt )
+          $pdts[$pdt->name.' || '.$pdt->id] = $pdt;
+        ksort($pdts);
+      ?>
+      <?php foreach ( $pdts as $pdt ): ?>
       <tr class="sf_admin_row <?php echo $odd ? 'odd' : ''; $odd = !$odd; ?>">
         <td class="sf_admin_text sf_admin_list_td_list_name">
           <?php echo link_to($pdt, 'store/edit?id='.$pdt->id) ?>
