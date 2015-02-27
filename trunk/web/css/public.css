@@ -385,6 +385,7 @@ tfoot, thead { font-weight: bold; }
 /* Surveys */
 .pub-survey { color: transparent; }
 .pub-survey > * { color: initial; }
+.pub-survey > table > tbody > tr > th { display: none; }
 
 /* Store */
 .mod-store #sf_admin_header .sf_admin_list { display: none; }
