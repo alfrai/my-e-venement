@@ -1,7 +1,7 @@
 $(document).ready(function(){
-  // directly goes to the target, if only one choice is possible
   if ( window.location.hash != '#debug' )
   {
+    // directly goes to the target, if only one choice is possible
     if ( $('.mod-store.action-index .sf_admin_list_td_list_children a').length == 1
       && $('.mod-store.action-index .sf_admin_list_td_list_name a').length == 1 )
       window.location = $('.mod-store.action-index .sf_admin_list_td_list_children a').prop('href');
