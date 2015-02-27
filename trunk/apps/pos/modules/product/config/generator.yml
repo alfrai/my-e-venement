@@ -30,16 +30,16 @@ generator:
         linked_prices_list: { label: Prices }
         linked_products_list: { label: Products }
       list:
-        display: [Category, name, short_name, MetaEvent, Vat, _list_codes]
+        display: [Category, name, short_name, MetaEvent, Vat, _list_codes, online]
         sort: [pt.name, '']
         object_actions:
           _edit: ~
           _delete: ~
       filter:
-        display: [meta_event_id, product_category_id, code, name, short_name, prices_list, vat_id]
+        display: [meta_event_id, product_category_id, code, name, short_name, prices_list, vat_id, online]
       form:
         display:
-          General: [name, short_name, product_category_id, prices_list, prices, vat_id, shipping_fees, shipping_fees_vat_id]
+          General: [name, short_name, product_category_id, prices_list, prices, vat_id, shipping_fees, shipping_fees_vat_id, online]
           Declinations: [declinations, _form_declination_del, _show_description_for_buyers_help]
           Details: [meta_event_id, description, picture, _show_picture, _form_picture_del, accounting_account]
           Links:   [linked_meta_events_list, linked_workspaces_list, linked_manifestations_list, linked_prices_list, linked_products_list]

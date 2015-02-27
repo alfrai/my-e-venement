@@ -18,6 +18,7 @@
         // ordering category's products
         $pdts = array();
         foreach ( $product_category->Products as $pdt )
+        if ( $pdt->online )
           $pdts[$pdt->name.' || '.$pdt->id] = $pdt;
         ksort($pdts);
       ?>

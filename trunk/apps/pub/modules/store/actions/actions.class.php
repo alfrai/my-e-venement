@@ -52,6 +52,7 @@ class storeActions extends autoStoreActions
       ->andWhere('p.id = ?', $request->getParameter('id'))
       ->leftJoin('p.Category pc')
       ->andWhere('pc.online = ?', true)
+      ->andWhere('p.online = ?', true)
       ->leftJoin('p.MetaEvent me')
       ->leftJoin('p.PriceProducts pp')
       ->leftJoin('pp.Price price')
