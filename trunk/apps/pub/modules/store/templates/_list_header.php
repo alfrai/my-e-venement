@@ -3,7 +3,10 @@
 
 <?php foreach ( $pager->getResults() as $product_category ): ?>
 <?php if ( $product_category->id == $sf_request->getParameter('cid') ): ?>
-<h1><?php echo __('Category %%name%%', array('%%name%%' => $product_category)) ?></h1>
+<h1><?php echo __('Category %%parent%% → %%name%%', array(
+  '%%parent%%' => link_to($product_category->Parent, 'store/index?cid='.$product_category->Parent->id),
+  '%%name%%' => $product_category
+)) ?></h1>
 <?php endif ?>
 <?php endforeach ?>
 

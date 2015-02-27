@@ -9,8 +9,8 @@
         <target>Sous-catégories</target>
       </trans-unit>
       <trans-unit>
-        <source>Category %%name%%</source>
-        <target>Catégorie %%name%%</target>
+        <source>Category %%parent%% → %%name%%</source>
+        <target>Catégorie %%parent%% → %%name%%</target>
       </trans-unit>
       <trans-unit>
         <source>Ticketting fees</source>
