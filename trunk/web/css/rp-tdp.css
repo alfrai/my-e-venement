@@ -326,14 +326,14 @@ body #content { width: auto; }
 #tdp-side-bar #tdp-side-picture .facebook img { max-width: 15px; position: relative; top: 5px; }
 
 @media screen and (min-width: 1600px) {
-  #tdp-side-bar { width: 210px; }
-  #tdp-content { margin-left: 215px; }
-  #tdp-side-bar #tdp-side-ticketting .metaevent .seat-rank { margin-left: 135px; }
+  #tdp-side-bar { width: 230px; }
+  #tdp-content { margin-left: 235px; }
+  #tdp-side-bar #tdp-side-ticketting .metaevent .seat-rank { margin-left: 165px; }
 }
 @media screen and (min-width: 1900px) {
-  #tdp-side-bar { width: 250px; }
-  #tdp-content { margin-left: 255px; }
-  #tdp-side-bar #tdp-side-ticketting .metaevent .seat-rank { margin-left: 175px; }
+  #tdp-side-bar { width: 300px; }
+  #tdp-content { margin-left: 305px; }
+  #tdp-side-bar #tdp-side-ticketting .metaevent .seat-rank { margin-left: 225px; }
 }
 
 /* TOP */

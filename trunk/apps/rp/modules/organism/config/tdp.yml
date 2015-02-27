@@ -64,6 +64,7 @@ all:
             with_id: true
           update:
             credential: pr-organism-edit
+            label: Record
             attributes:
               onclick: "javascript: $('.tdp-object #sf_admin_content > form').submit(); return false;"
             with_id: true

@@ -89,6 +89,7 @@ all:
             attributes:
               onclick: "javascript: $('.tdp-object #sf_admin_content > form').submit(); return false;"
             with_id: true
+            label: Record
       subobjects:
         Professionals:
           class: Professional

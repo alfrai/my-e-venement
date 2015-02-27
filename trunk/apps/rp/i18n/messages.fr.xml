@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Record</source>
+        <target>Enregistrer</target>
+      </trans-unit>
+      <trans-unit>
         <source>Bad email</source>
         <target>Mauvais courriel</target>
       </trans-unit>
