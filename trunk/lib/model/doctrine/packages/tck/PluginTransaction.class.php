@@ -30,9 +30,6 @@ abstract class PluginTransaction extends BaseTransaction
     parent::preInsert($event);
     
     if ( sfConfig::has('app_transaction_with_shipment') )
-    {
-      error_log('shipment option');
       $this->with_shipment = (bool)sfConfig::get('app_transaction_with_shipment');
-    }
   }
 }

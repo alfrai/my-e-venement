@@ -29,6 +29,7 @@
     throw new liOnlineSaleException('You asked for a payment plugin ('.$plugin.') that does not exist.');
   
   $transaction = Doctrine::getTable('Transaction')->findOneById($class::getTransactionIdByResponse($request));
+  $this->getUser()->setTransaction($transaction); // linking the transaction to the current session/user
   $cultures = sfConfig::get('project_internals_cultures', array('fr' => 'Français'));
   $this->getUser()->setCulture($culture = $transaction->Contact->culture
     ? $transaction->Contact->culture
