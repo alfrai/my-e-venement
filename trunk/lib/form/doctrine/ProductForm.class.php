@@ -51,6 +51,13 @@ class ProductForm extends BaseProductForm
       'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',20).' }',
     ));
     
+    $this->widgetSchema   ['linked_prices_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'model' => 'Price',
+      'url' => cross_app_url_for('event', 'price/ajax'),
+      'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',20).' }',
+    ));
+    /*
+    // commenting for optimization purposes
     $this->widgetSchema   ['linked_prices_list']
       ->setOption('renderer_class','liWidgetFormSelectDoubleListJQuery')
       ->setOption('query', Doctrine::getTable('Price')->createQuery('p')
@@ -65,6 +72,13 @@ class ProductForm extends BaseProductForm
         ->andWhere('p.id != ?', $this->object->id ? $this->object->id : 0)
       )
     ;
+    */
+    $this->widgetSchema   ['linked_products_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'model' => 'Product',
+      'url' => cross_app_url_for('pos', 'product/ajax'),
+      'config' => '{ max: '.sfConfig::get('app_manifestation_depends_on_limit',20).' }',
+    ));
+    
     
     // applying the widget's query to its validator
     foreach ( array('linked_prices_list', 'linked_products_list') as $field )
@@ -91,7 +105,7 @@ class ProductForm extends BaseProductForm
     
     $this->widgetSchema['prices_list']->getOption('query')->leftJoin('p.Users pu')->andWhere('pu.id = ?', $this->user->getId());
     
-    $this->widgetSchema['linked_prices_list']->getOption('query')->leftJoin('p.Users pu')->orWhere('pu.id = ?', $this->user->getId());
+    //$this->widgetSchema['linked_prices_list']->getOption('query')->leftJoin('p.Users pu')->orWhere('pu.id = ?', $this->user->getId());
     foreach ( array(
       'meta_event_id' => 'getMetaEventsCredentials',
       'linked_workspaces_list' => 'getWorkspacesCredentials',
