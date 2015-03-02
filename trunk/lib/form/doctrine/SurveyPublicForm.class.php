@@ -34,7 +34,7 @@ class SurveyPublicForm extends SurveyForm
       if ( intval($aid).'' === ''.$aid )
       {
         if ( !$this->validatorSchema['AnswersGroups'][$gid][$aid]['value']->getOption('required') )
-        if (!( isset($answer['value']) && trim($answer['value']) ))
+        if (!( isset($answer['value']) && !(!is_array($answer['value']) && !trim($answer['value'])) ))
         {
           unset($values['AnswersGroups'][$gid][$aid]);
           unset($this->embeddedForms['AnswersGroups'][$gid]->embeddedForms[$aid]);

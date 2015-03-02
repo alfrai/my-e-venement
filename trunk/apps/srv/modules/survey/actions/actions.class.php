@@ -13,6 +13,11 @@ require_once dirname(__FILE__).'/../lib/surveyGeneratorHelper.class.php';
  */
 class surveyActions extends autoSurveyActions
 {
+  public function executeExtract(sfWebRequest $request)
+  {
+    $this->executeEdit($request);
+    require(__DIR__.'/extract.php');
+  }
   public function executeAddQuery(sfWebRequest $request)
   {
     $this->redirect('query/new?survey-id='.$request->getParameter('id'));

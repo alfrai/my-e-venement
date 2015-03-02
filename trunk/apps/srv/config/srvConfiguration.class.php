@@ -2,6 +2,12 @@
 
 class srvConfiguration extends sfApplicationConfiguration
 {
+  public function setup()
+  {
+    if (!( sfContext::hasInstance() && get_class(sfContext::getInstance()->getConfiguration()) != get_class($this) ))
+      $this->enablePlugins(array('liQueXmlPlugin'));
+    parent::setup();
+  }
   public function configure()
   {
     parent::configure();

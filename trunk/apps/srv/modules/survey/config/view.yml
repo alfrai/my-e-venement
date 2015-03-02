@@ -2,3 +2,8 @@ indexSuccess:
   javascripts: [list-scroll]
 editSuccess:
   stylesheets: [stats]
+
+extractSuccess:
+  layout: false
+  http_metas:
+    content-type: application/xml

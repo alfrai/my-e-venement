@@ -32,7 +32,7 @@ generator:
         display: [name, weight, description]
       form:
         display:
-          Général: [name, description, _show_queries]
+          Général: [name, description, _show_queries, _show_extract_structure]
           Answers: [_show_answers]
           Used by: [ApplyTo]
           Statistics: [_show_stats]

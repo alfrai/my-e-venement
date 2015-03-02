@@ -14,13 +14,35 @@ abstract class PluginSurveyAnswer extends BaseSurveyAnswer
 {
   public function save(Doctrine_Connection $conn = null)
   {
-    // to avoid saving empty answers
-    if ( !trim($this->value) )
+    // deal with multi-choices answers...
+    if ( is_array($this->value) && count($this->value) > 0 )
     {
-      $this->delete();
-      return;
+      $answers = new Doctrine_Collection('SurveyAnswer');
+      $answers[] = $this;
+      $pkeys = $this->getTable()->getIdentifier();
+      
+      $values = $this->value;
+      foreach ( $values as $i => $value )
+      {
+        if ( !is_array($pkeys) )
+          $pkeys = array($pkeys);
+        $pkeys[] = 'value';
+        foreach ( $this->getTable()->getColumns() as $column => $def )
+        if ( !in_array($column, $pkeys) )
+          $answers[$i]->$column = $this->$column;
+        
+        $answers[$i]->value = $value;
+      }
+      
+      return $answers->save();
     }
-    parent::save($conn);
+    
+    // to avoid saving empty answers
+    if ( trim($this->value) )
+      return parent::save($conn);
+    
+    $this->delete();
+    return;
   }
   public function getIndexesPrefix()
   {

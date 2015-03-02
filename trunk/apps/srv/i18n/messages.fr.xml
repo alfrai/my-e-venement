@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Extract</source>
+        <target>Extraire</target>
+      </trans-unit>
+      <trans-unit>
         <source>Survey List</source>
         <target>Liste des questionnnaires</target>
       </trans-unit>
