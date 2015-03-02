@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Categories</source>
+        <target>Catégories</target>
+      </trans-unit>
+      <trans-unit>
         <source>Subcategories</source>
         <target>Sous-catégories</target>
       </trans-unit>
@@ -21,8 +25,8 @@
         <target>Frais d'expédition</target>
       </trans-unit>
       <trans-unit>
-        <source>The fees include ticketting fees and shipping fees.</source>
-        <target>Les frais comprennent les frais de billetterie et d'expédition.</target>
+        <source>The fees include if appropriate ticketing fees and shipping fees.</source>
+        <target>Les frais comprennent le cas échéant les frais de billetterie et d'expédition.</target>
       </trans-unit>
       <trans-unit>
         <source>Order #%%tid%%</source>
@@ -225,8 +229,8 @@
         <target>Votre panier a été mis à jour.</target>
       </trans-unit>
       <trans-unit>
-        <source>Choose what you really want</source>
-        <target>Choisissez ce que vous voulez vraiment</target>
+        <source>Select the number of items</source>
+        <target>Choisissez le nombre d’articles souhaité</target>
       </trans-unit>
       <trans-unit>
         <source>Products</source>
