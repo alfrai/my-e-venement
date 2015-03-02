@@ -110,6 +110,32 @@
         }
       }
       
+      // blank separation line
+      $this->lines[] = array();
+      
+      foreach ( $this->products as $pdt )
+      {
+        if ( !isset($this->lines[$key = 'PDT || '.$pdt->code.' || '.$pdt->name.' || '.$pdt->declination.' || '.$pdt->price_name]) )
+          $this->lines[$key] = array(
+            'event'         => (string)$pdt->name,
+            'manifestation' => (string)$pdt->declination,
+            'location'      => '',
+            'price'         => (string)$pdt->price_name,
+            'user'          => (string)$pdt->User,
+            'qty'           => 0,
+            'pit'           => 0,
+            'extra-taxes'   => 0,
+            'vat'           => 0,
+            'tep'           => 0,
+            'account'       => '',
+          );
+        $this->lines[$key]['qty']++;
+        $this->lines[$key]['pit'] += $pdt->value;
+        $this->lines[$key]['extra-taxes'] += $pdt->shipping_fees;
+        $this->lines[$key]['tep'] += $tmp = round($pdt->value/(1+$pdt->vat) + $pdt->shipping_fees/(1+$pdt->shipping_fees_vat),2);
+        $this->lines[$key]['vat'] += $pdt->value + $pdt->shipping_fees - $tmp;
+      }
+      
       $this->getContext()->getConfiguration()->loadHelpers('Number');
       foreach ( $this->lines as $key => $line )
       foreach ( array('pit', 'vat', 'extra-taxes', 'tep') as $field )

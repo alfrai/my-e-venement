@@ -49,7 +49,7 @@
     </li>
     <?php endif ?>
     <li class="submit">
-      <input type="submit" name="s" value="ok" />
+      <input type="submit" name="s" value="ok" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" />
       <?php include_partial('criterias_actions',array('ledger' => $ledger)) ?>
     </li>
   </ul>
