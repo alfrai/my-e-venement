@@ -21,3 +21,5 @@
 #sf_admin_form h2 { padding-bottom: 5px; }
 
 .widget { margin-top: 5px; }
+.sf_admin_form_field_show_extract { text-align: right; }
+.sf_admin_form_field_show_extract a.fg-button { float: none; }
