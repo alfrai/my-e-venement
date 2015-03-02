@@ -9,6 +9,10 @@ $(document).ready(function(){
       window.location = $('.mod-store.action-index .sf_admin_list_td_list_name a').prop('href');
   }
   
+  // the categories list header, to hide/show
+  if ( $('#sf_admin_header h1').length > 0 )
+    $('#sf_admin_content table thead, #sf_admin_content table tbody tr:first').hide();
+  
   // the product's image size
   $('img.pub-product').load(function(){
     var width = 0;
