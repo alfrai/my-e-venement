@@ -41,5 +41,9 @@ class PriceForm extends BasePriceForm
       $this->validatorSchema['member_cards_list'],
       $this->widgetSchema['manifestations_list']
     );
+    
+    // select the current user by default if it is a price creation
+    if ( $this->object->isNew() && sfContext::hasInstance() )
+      $this->object->Users[] = sfContext::getInstance()->getUser()->getGuardUser();
   }
 }

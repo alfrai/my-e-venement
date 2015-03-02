@@ -49,11 +49,19 @@ class liGuardUserAdminForm extends sfGuardUserAdminForm
       'required' => false,
     ));
     
-    foreach ( array('groups_list', 'meta_events_list', 'prices_list', 'member_cards_list', 'permissions_list') as $key )
+    foreach ( array('groups_list', 'prices_list', 'meta_events_list', 'member_cards_list', 'permissions_list') as $key )
       $this->widgetSchema[$key]
         ->setOption('expanded',true)
         ->setOption('order_by',array('name',''));
     
+    if ( sfContext::hasInstance() )
+    {
+      $user = sfContext::getInstance()->getUser();
+      $this->widgetSchema['prices_list']->setOption('query',
+        Doctrine::getTable('Price')->createQuery('p')
+          ->andWhere('pt.lang = ?', $user->getCulture())
+      );
+    }
     $this->widgetSchema['groups_list']
       ->setOption('method', 'getNameWithDescription')
       ->setOption('renderer_class', NULL);
