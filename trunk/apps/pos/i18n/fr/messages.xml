@@ -4,6 +4,14 @@
   <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2014-09-09T17:16:42Z" product-name="messages">
     <header/>
     <body>
+      <trans-unit id="158">
+        <source>Duplicate&lt;span class="ui-icon ui-icon-plus"&gt;&lt;/span&gt;</source>
+        <target>Dupliquer&lt;span class="ui-icon ui-icon-plus"&gt;&lt;/span&gt;</target>
+      </trans-unit>
+      <trans-unit id="157">
+        <source>Copy</source>
+        <target>Copie</target>
+      </trans-unit>
       <trans-unit id="156">
         <source>yes or no</source>
         <target>Indifférent</target>

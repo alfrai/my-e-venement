@@ -34,6 +34,9 @@ generator:
         sort: [pt.name, '']
         object_actions:
           _edit: ~
+          _duplicate:
+            icon: plus
+            action: duplicate
           _delete: ~
       filter:
         display: [meta_event_id, product_category_id, code, name, short_name, prices_list, vat_id, online]
@@ -43,14 +46,17 @@ generator:
           Declinations: [declinations, _form_declination_del, _show_description_for_buyers_help]
           Details: [meta_event_id, description, picture, _show_picture, _form_picture_del, accounting_account]
           Links:   [linked_meta_events_list, linked_workspaces_list, linked_manifestations_list, linked_prices_list, linked_products_list]
-          #Links:   [linked_meta_events_list, linked_workspaces_list, linked_manifestations_list, linked_prices_list, linked_products_list]
       edit:
         title: Edit product %%name%%
         actions:
-          _delete: ~
+          #_delete: ~
           _add_declination:
             ui-icon: circle-plus
             action: addDeclination
+          _copy:
+            ui-icon: plus
+            action: duplicate
+            label: Duplicate
           _save: ~
           _list: ~
       new:     ~

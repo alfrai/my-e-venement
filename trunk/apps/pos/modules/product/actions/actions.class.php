@@ -13,6 +13,38 @@ require_once dirname(__FILE__).'/../lib/productGeneratorHelper.class.php';
  */
 class productActions extends autoProductActions
 {
+  public function executeDuplicate(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    $this->executeEdit($request);
+    
+    $copy = $this->product->copy();
+    $copy->slug = NULL;
+    foreach ( array('Translation', 'Declinations', 'PriceProducts',) as $cols )
+    foreach ( $this->product->$cols as $col )
+    {
+      $ccol = $col->copy();
+      
+      if ( $col->getTable()->hasColumn('code') )
+        $ccol->code = NULL;
+      if ( $col->getTable()->hasColumn('name') )
+        $ccol->name = $ccol->name.' ('.__('Copy').')';
+      
+      if ( $col->getTable()->hasRelation('Translation') )
+      foreach ( $col->Translation as $i18n )
+        $ccol->Translation[] = $i18n->copy();
+      
+      $copy->{$cols}[] = $ccol;
+    }
+    
+    // links
+    foreach ( array('LinkedManifestations', 'LinkedPrices', 'LinkedWorkspaces', 'LinkedMetaEvents') as $cols )
+    foreach ( $this->product->$cols as $col )
+      $copy->{$cols}[] = $col;
+    
+    $copy->save();
+    $this->redirect('product/edit?id='.$copy->id);
+  }
   public function executeAddDeclination(sfWebRequest $request)
   {
     $this->redirect('declination/new?product-id='.$request->getParameter('id'));
