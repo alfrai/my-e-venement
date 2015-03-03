@@ -5,6 +5,22 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Contact</source>
+        <target>Contact</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Function</source>
+        <target>Fonction</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Organism</source>
+        <target>Organisme</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Transaction</source>
+        <target>Opération</target>
+      </trans-unit>
+      <trans-unit>
         <source>Extract</source>
         <target>Extraire</target>
       </trans-unit>

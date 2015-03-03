@@ -42,7 +42,7 @@ foreach ( $this->survey->Queries as $query )
 
 // second header
 $this->lines['details']['name']         = __('Contact');
-$this->lines['details']['professional'] = __('Professional');
+$this->lines['details']['professional'] = __('Function');
 $this->lines['details']['organism']     = __('Organism');
 $this->lines['details']['transaction']  = __('Transaction');
 foreach ( $this->survey->Queries as $query )
