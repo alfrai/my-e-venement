@@ -22,30 +22,11 @@
 ***********************************************************************************/
 ?>
 <?php
-  $outstream = fopen($outstream, 'w');
-  
-  $vars = array(
-    'options',
-    'delimiter',
-    'enclosure',
-    'outstream',
-    'charset',
-  );
-  foreach ( $vars as $key => $value )
-  {
-    $vars[$value] = $$value;
-    unset($vars[$key]);
-  }
-  
-  // header
-  include_partial('global/csv_headers',$vars);
-  
-  // content
-  foreach ( $lines as $line )
-  {
-    if ( isset($line['id']) )
-      unset($line['id']);
-    include_partial('global/csv_line', array('line' => $line) + $vars);
-  }
-  
-  fclose($outstream);
+
+  include_partial('global/csv',array(
+    'options'   => $options,
+    'delimiter' => $delimiter,
+    'enclosure' => $enclosure,
+    'outstream' => $outstream,
+    'charset'   => $charset,
+    'lines'     => $lines));

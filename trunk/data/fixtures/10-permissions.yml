@@ -184,6 +184,11 @@ sfGuardPermission:
     description: 'Permission to read the answers of a survey'
     created_at: '2014-08-07 19:36:26.983349'
     updated_at: '2014-08-07 19:36:26.983349'
+  sfGuardPermission_109:
+    name: srv-extract
+    description: 'Permission to extract data from surveys'
+    created_at: '2015-03-03 12:36:26.864353'
+    updated_at: '2015-03-03 12:36:26.864353'
   sfGuardPermission_1:
     name: admin-titles
     description: ''
@@ -931,6 +936,16 @@ sfGuardGroupPermission:
     Permission: sfGuardPermission_106
     created_at: '2014-08-07 19:36:27.241665'
     updated_at: '2014-08-07 19:36:27.241665'
+  sfGuardGroupPermission_41_109:
+    Group: sfGuardGroup_41
+    Permission: sfGuardPermission_109
+    created_at: '2015-03-03 12:36:26.864353'
+    updated_at: '2015-03-03 12:36:26.864353'
+  sfGuardGroupPermission_42_109:
+    Group: sfGuardGroup_42
+    Permission: sfGuardPermission_109
+    created_at: '2015-03-03 12:36:26.864353'
+    updated_at: '2015-03-03 12:36:26.864353'
   sfGuardGroupPermission_1_7:
     Group: sfGuardGroup_1
     Permission: sfGuardPermission_7

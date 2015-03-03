@@ -7,3 +7,8 @@ extractSuccess:
   layout: false
   http_metas:
     content-type: application/xml
+extractContentSuccess:
+  layout: false
+  http_metas:
+    content-type: text/csv
+    content-disposition: 'attachment; filename="survey.csv"'
