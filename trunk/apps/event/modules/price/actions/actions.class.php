@@ -50,14 +50,14 @@ class priceActions extends autoPriceActions
     
     $q = Doctrine::getTable('Price')->createQuery('p')
       ->andWhere('pt.lang = ?', $this->getUser()->getCulture())
-      ->andWhere('pt.name ILIKE ?', $search.'%')
-      ->orderBy('pt.name')
+      ->andWhere('pt.name ILIKE ? OR pt.description ILIKE ?', array("%$search%", "%$search%"))
+      ->orderBy('pt.name, pt.description')
       ->limit($request->getParameter('limit',$max));
     
     foreach ( $q->execute() as $price )
     {
       $this->getContext()->getConfiguration()->loadHelpers('Url');
-      $this->json[$price->id] = (string)$price;
+      $this->json[$price->id] = $price->name.($price->description ? ' ('.$price->description.')' : '');
     }
     
     if ( $request->hasParameter('debug') && sfConfig::get('sf_web_debug', false) )
