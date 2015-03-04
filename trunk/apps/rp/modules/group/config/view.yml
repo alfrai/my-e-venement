@@ -1,5 +1,5 @@
 default:
-  javascripts: [menu,/sfFormExtraPlugin/js/jquery.autocompleter.js]
+  javascripts: [menu,/sfFormExtraPlugin/js/jquery.autocompleter.js, default-check-all]
 
 newSuccess:
   stylesheets: [view, picture]

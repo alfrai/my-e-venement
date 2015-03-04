@@ -7,7 +7,7 @@ $(document).ready(function(){
           $(this).closest('.sf_admin_form_row').find('.checkbox_list input[type=checkbox]').click();
           return false;
         })
-        .prependTo($(this).closest('.sf_admin_form_row').find('> label'))
+        .prependTo($(this).closest('.sf_admin_form_row').find('> label, > .label > label'))
       ;
     }
   });
