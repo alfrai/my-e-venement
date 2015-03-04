@@ -601,10 +601,6 @@
         <target>Montant sur la carte</target>
       </trans-unit>
       <trans-unit>
-        <source>Phonenumbers</source>
-        <target>Numéros</target>
-      </trans-unit>
-      <trans-unit>
         <source>Maximum tickets amount</source>
         <target>Chiffre d'affaire maximum</target>
       </trans-unit>
@@ -1394,7 +1390,7 @@
       </trans-unit>
       <trans-unit id="7">
         <source>Phonenumbers</source>
-        <target>Numéros de téléphone</target>
+        <target>Téléphones</target>
       </trans-unit>
       <trans-unit id="8">
         <source>Created_at</source>
