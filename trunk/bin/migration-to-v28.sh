@@ -218,6 +218,8 @@ read -p "Do you want to copy Price's english translations (default i18n after a 
 [ "$reset" != 'n' ] && ./symfony e-venement:copy-i18n Price en fr
 read -p "Do you want to copy MemberCardType's english translations (default i18n after a migration from v2.7) into french ? [Y/n] " reset
 [ "$reset" != 'n' ] && ./symfony e-venement:copy-i18n MemberCardType en fr
+read -p "Do you want to update the Postalcodes data (can take a while)? [y/N] " reset
+[ "$reset" = 'y' ] && echo 'DELETE FROM postalcode;' | psql && ./symfony doctrine:data-load --append data/fixtures/20-postalcodes.yml
 
 echo ""
 read -p "Do you want to add the new permissions? [Y/n] " add
