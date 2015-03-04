@@ -157,8 +157,8 @@ body #content { width: auto; }
 #tdp-content .tdp-object #sf_admin_content .tdp-widget-header .duplicate input { display: none; }
 #tdp-content .sf_admin_list_th_list_firstname, #tdp-content .sf_admin_list_td_firstname { display: none; }
 
-#tdp-content .sf_admin_list_td_list_phones span, #tdp-content .sf_admin_list_td_list_organism_phones_list span
-{ white-space: nowrap; }
+#tdp-content .sf_admin_list_td_list_phones span, #tdp-content .sf_admin_list_td_list_organism_phones_list span { white-space: nowrap; }
+#tdp-content .sf_admin_list_td_list_phones span:not(:last-child):after, #tdp-content .sf_admin_list_td_list_organism_phones_list span:not(:last-child):after { content: ', '; }
 #tdp-content .sf_admin_list_th_list_professional_emails, #tdp-content .sf_admin_list_td_list_professional_emails,
 #tdp-content .sf_admin_list_th_list_professional_description, #tdp-content .sf_admin_list_td_list_professional_description
 { max-width: 80px; overflow: hidden; word-wrap: break-word; }
