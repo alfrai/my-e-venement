@@ -40,6 +40,7 @@ class GroupTable extends PluginGroupTable
     return $query
       ->andWhere(($sf_user->hasCredential('pr-group-common') ? "$alias.sf_guard_user_id IS NULL OR " : '')."$alias.sf_guard_user_id = ?",$sf_user->getId())
       ->leftJoin("$alias.Users auth_users")
+      ->leftJoin("$alias.Users users")
       ->andWhere("($alias.sf_guard_user_id = ? OR ($alias.sf_guard_user_id IS NULL AND ? AND (auth_users.id = ? OR ?)))",array(
         $sf_user->getId(),
         $sf_user->hasCredential('pr-group-common'),

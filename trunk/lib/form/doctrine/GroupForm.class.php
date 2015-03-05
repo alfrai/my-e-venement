@@ -57,7 +57,29 @@ class GroupForm extends BaseGroupForm
       $this->values['updated_at'] = date('Y-m-d H:i:s');
     }
     
-    return parent::doSave($con);
+    $r = parent::doSave($con);
+    
+    // the user cannot remove itself if it hasn't the admin-power or admin-users crendentials
+    if ( sfContext::hasInstance() )
+    {
+      $sf_user = sfContext::getInstance()->getUser();
+      if ( !$sf_user->hasCredential(array('admin-users', 'admin-power'), false) )
+      {
+        $q = Doctrine::getTable('GroupUser')->createQuery('gu')
+          ->andWhere('gu.sf_guard_user_id = ?', $sf_user->getId())
+          ->andWhere('gu.group_id = ?', $this->object->id);
+        if ( $q->count() == 0 )
+        {
+          error_log('add');
+          $gu = new GroupUser;
+          $gu->group_id = $this->object->id;
+          $gu->sf_guard_user_id = $sf_user->getId();
+          $gu->save();
+        }
+      }
+    }
+    
+    return $r;
   }
   
   public function configure()
