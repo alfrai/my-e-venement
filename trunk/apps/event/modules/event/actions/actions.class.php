@@ -230,19 +230,25 @@ class eventActions extends autoEventActions
   public function executeAjax(sfWebRequest $request)
   {
     $charset = sfConfig::get('software_internals_charset');
-    $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q'));
+    $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q',''));
     
     $q = Doctrine::getTable('Event')
       ->createQuery('e')
       ->orderBy('translation.name')
       ->limit($request->getParameter('limit'))
       ->andWhereIn('e.meta_event_id',array_keys($this->getUser()->getMetaEventsCredentials()));
-    $q = Doctrine_Core::getTable('Event')
-      ->search($search.'*',$q);
-
+    if ( $request->getParameter('meta_event_id').'' === ''.intval($request->getParameter('meta_event_id')) )
+      $q->andWhere('e.meta_event_id = ?', intval($request->getParameter('meta_event_id')));
+    if ( $search )
+      $q = Doctrine_Core::getTable('Event')
+        ->search($search.'*',$q);
+    
     $this->events = array();
     foreach ( $q->execute() as $event )
       $this->events[$event->id] = $request->hasParameter('with_meta_event') ? $event.' ('.$event->MetaEvent.')' : (string)$event;
+    
+    if (!( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') ))
+      return 'Json';
   }
   
   public function executeError404(sfWebRequest $request)

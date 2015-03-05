@@ -27,7 +27,7 @@ calendarSuccess:
     content-type: text/ical
     content-disposition: attachment; filename=calendar.ics
 
-ajaxSuccess:
+ajaxJson:
   has_layout: false
   http_metas:
     content-type: application/json

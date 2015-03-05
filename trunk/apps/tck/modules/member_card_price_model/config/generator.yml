@@ -27,6 +27,6 @@ generator:
       filter:
         display: [member_card_type_id, price_id, quantity, event_id, updated_at]
       form:
-        display: [member_card_type_id, price_id, quantity, event_id]
+        display: [member_card_type_id, price_id, quantity, _form_meta_event_id, event_id]
       edit:    ~
       new:     ~

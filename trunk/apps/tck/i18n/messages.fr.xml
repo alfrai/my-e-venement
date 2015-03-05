@@ -1133,6 +1133,10 @@
         <target>Méthode de paiement</target>
       </trans-unit>
       <trans-unit>
+        <source>Meta-event</source>
+        <target>Meta-événement</target>
+      </trans-unit>
+      <trans-unit>
         <source>Event</source>
         <target>Événement</target>
       </trans-unit>
