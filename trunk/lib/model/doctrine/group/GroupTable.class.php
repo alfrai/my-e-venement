@@ -31,10 +31,11 @@ class GroupTable extends PluginGroupTable
       return $query;
     
     $sf_user = sfContext::getInstance()->getUser();
-    
     // especially usefull for app "ws"
     if ( $sf_user->getId() === false )
       return $query;
+    
+    // NOW the rest is considered as an authenticated environment
     
     return $query
       ->andWhere(($sf_user->hasCredential('pr-group-common') ? "$alias.sf_guard_user_id IS NULL OR " : '')."$alias.sf_guard_user_id = ?",$sf_user->getId())

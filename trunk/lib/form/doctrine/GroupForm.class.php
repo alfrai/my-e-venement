@@ -123,6 +123,10 @@ class GroupForm extends BaseGroupForm
       ->setOption('query', $q = Doctrine::getTable('sfGuardUser')->createQuery('u')->andWhere('u.is_active = TRUE'))
       ->setOption('order_by', array('u.username, u.last_name, u.first_name', ''));
     $this->validatorSchema['users_list']->setOption('query', $q);
+    
+    // adding a default user in users list if it is a creation
+    if ( $this->object->isNew() && sfContext::hasInstance() )
+      $this->object->Users[] = sfContext::getInstance()->getUser()->getGuardUser();
   }
   
   public function removeUsersList()
