@@ -138,6 +138,8 @@ psql <<EOF
   );
   INSERT INTO member_card_type_translation (SELECT id, description, 'en' AS lang FROM member_card_type WHERE (id,'en') NOT IN (SELECT id,lang FROM member_card_type_translation));
   ALTER TABLE member_card_type DROP COLUMN description;
+  
+  UPDATE sf_guard_permission SET name = trim(name) WHERE name != trim(name);
 EOF
 
 echo "DUMPING DB..."
