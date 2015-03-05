@@ -1,0 +1,5 @@
+.sf_admin_form_meta_event_id, .sf_admin_form_field_event_id { display: inline-block; }
+.ui-widget-content .sf_admin_form_meta_event_id { border-style: dashed; }
+.ui-widget-content .sf_admin_form_meta_event_id:not(.ui-state-highlight) { border: 1px dashed silver; border-radius: 5px; }
+.sf_admin_form_field_event_id { margin-left: 3em; }
+.sf_admin_form_field_event_id:before { content: "→"; display: block; position: absolute; margin-left: -2.5em; margin-top: 2em; }

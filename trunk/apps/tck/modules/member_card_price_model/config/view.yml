@@ -1,0 +1,8 @@
+editSuccess:
+  stylesheets: [tck-mc]
+newSuccess:
+  stylesheets: [tck-mc]
+createSuccess:
+  stylesheets: [tck-mc]
+updateSuccess:
+  stylesheets: [tck-mc]
