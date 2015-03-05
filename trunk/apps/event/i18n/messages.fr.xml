@@ -1640,7 +1640,7 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
       </trans-unit>
       <trans-unit id="104">
         <source>Edit Event %%name%%</source>
-        <target>Modifier l'événément %%name%%</target>
+        <target>Modifier l'événement %%name%%</target>
       </trans-unit>
       <trans-unit id="105">
         <source>Detailed category</source>
@@ -1808,11 +1808,11 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
       </trans-unit>
       <trans-unit>
         <source>Edit Meta event "%%name%%"</source>
-        <target>Modification du meta-événément "%%name%%"</target>
+        <target>Modification du meta-événement "%%name%%"</target>
       </trans-unit>
       <trans-unit>
         <source>View Meta event</source>
-        <target>Fiche meta-événément</target>
+        <target>Fiche meta-événement</target>
       </trans-unit>
       <trans-unit>
         <source>Meta event List</source>
