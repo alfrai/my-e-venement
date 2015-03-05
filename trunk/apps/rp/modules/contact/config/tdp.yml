@@ -120,6 +120,9 @@ all:
         Ticketting:
           credentials: tck-reports
           partial: global/tdp/side_widget_object_events
+        Store:
+          credentials: tck-reports
+          partial: global/tdp/side_widget_object_pos
         Groups:
           credentials: pr-group
           partial: global/tdp/side_widget_object_groups

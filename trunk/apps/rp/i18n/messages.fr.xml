@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Store</source>
+        <target>Boutique</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Answered surveys</source>
+        <target>Sondages répondus</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Surveys to apply</source>
+        <target>Sondages particuliers</target>
+      </trans-unit>
+      <trans-unit>
         <source>Record</source>
         <target>Enregistrer</target>
       </trans-unit>
