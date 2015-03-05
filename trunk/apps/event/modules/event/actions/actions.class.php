@@ -203,9 +203,9 @@ class eventActions extends autoEventActions
     {
       $new = $event->copy();
       
-      foreach ( array('Companies', 'Checkpoints', 'MemberCardPrices', 'MemberCardPriceModels') as $relation )
+      foreach ( array('Translation', 'Manifestations', 'Companies', 'Checkpoints', 'MemberCardPrices', 'MemberCardPriceModels') as $relation )
       foreach ( $event->$relation as $relobj )
-        $new->{$relation}[] = $relobj;
+        $new->{$relation}[] = $relobj->copy();
       foreach ( array('MetaEvent', 'EventCategory') as $relation )
         $new->$relation = $event->$relation;
       foreach ( array('slug') as $prop )
