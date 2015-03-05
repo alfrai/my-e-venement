@@ -445,8 +445,8 @@
         <target>Votre mot de passe a été changé. Vous pouvez maintenant vous connecter.</target>
       </trans-unit>
       <trans-unit>
-        <source>You forgot your password?</source>
-        <target>Mot de passe oublié ?</target>
+        <source>Send me a new password</source>
+        <target>Envoyer un nouveau mot de passe</target>
       </trans-unit>
       <trans-unit>
         <source>Invalid email address, please try again.</source>
