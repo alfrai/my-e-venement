@@ -11,6 +11,6 @@
     <input type="submit" value="Ok" name="submit" />
     <?php $vel = sfConfig::get('app_tickets_vel', array()) ?>
     <?php if (!( isset($vel['one_shot']) && $vel['one_shot'] )): ?>
-    <a href="<?php echo url_for('login/forgot') ?>" class="forgot"><?php echo __('You forgot your password?') ?></a>
+    <a href="<?php echo url_for('login/forgot') ?>" class="forgot"><?php echo __('Send me a new password') ?></a>
     <?php endif ?>
   </p>
