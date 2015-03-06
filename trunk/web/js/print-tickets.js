@@ -2,7 +2,7 @@ $(document).ready(function(){
   window.print();
   
   // update the parent window's content
-  if ( typeof window.opener.li === 'object' )
+  if ( window.opener != undefined && typeof window.opener.li === 'object' )
     window.opener.li.initContent();
   
   // print again

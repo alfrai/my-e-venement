@@ -60,7 +60,7 @@
     <td class="extra-taxes"><?php echo $total['taxes'] ? format_currency($total['taxes'],'€') : '-'; $totals['taxes'] += $total['taxes']; ?></td>
     <td class="pit"><?php echo format_currency($total['tip'],'€'); $totals['tip'] += $total['tip']; ?></td>
     <td class="vat">
-      <span class="value"><?php echo format_currency($total['vat'],'€') ?></span>
+      <span class="value"><?php echo $total['vat'] > 0 ? format_currency($total['vat'],'€') : '-' ?></span>
       <span class="percent"><?php echo $ticket->vat * 100 ?></span>
     </td>
     <td class="tep"><?php echo format_currency($total['pet'],'€'); $totals['pet'] += $total['pet'] ?></td>

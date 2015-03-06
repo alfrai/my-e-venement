@@ -55,7 +55,7 @@ EOF;
     $modelTable
       ->getTemplate('Doctrine_Template_Searchable')
       ->getPlugin()
-      ->setOption('analyzer',new MySearchAnalyzer());
+      ->setOption('analyzer', new MySearchAnalyzer());
     
     if ( $options['force'] )
     {

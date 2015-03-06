@@ -45,7 +45,7 @@ body {
 #lines .seats { display: none; }
 
 .tip:after, .pet:after, .up:after { content: ''; padding-left: 2px; }
-#lines .tip, #lines .pet, #lines .up, #lines .vat { text-align: right; }
+#lines .extra-taxes, #lines .pit, #lines .tep, #lines .up, #lines .vat { text-align: right; }
 
 #totals {
   margin-left: 450px;
@@ -70,6 +70,7 @@ body {
   top: 100px;
   width: 270px;
 }
+#type input { width: auto; }
 
 body.bdc .prefix { display: none; }
 body.bdc #echeance { display: none; }
