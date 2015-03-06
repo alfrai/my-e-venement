@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Id</source>
+        <target>Numéro</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Commands</source>
+        <target>Commandes</target>
+      </trans-unit>
+      <trans-unit>
         <source>Categories</source>
         <target>Catégories</target>
       </trans-unit>
@@ -753,8 +761,8 @@
         <target>Mes commandes</target>
       </trans-unit>
       <trans-unit>
-        <source>List events on which you make command</source>
-        <target>Liste des manifestations sur lesquelles vous avez passé commande</target>
+        <source>My events</source>
+        <target>Mes événements</target>
       </trans-unit>
       <trans-unit>
         <source>Update your contact information</source>

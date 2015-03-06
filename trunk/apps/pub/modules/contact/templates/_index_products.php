@@ -21,8 +21,8 @@
 *
 ***********************************************************************************/
 ?>
-<div id="manifestations">
-<h2><?php echo __('My events') ?> :</h2>
+<div id="products">
+<h2><?php echo __('My products') ?> :</h2>
 
 <div id="sf_admin_container">
 <div id="sf_admin_content">
@@ -30,21 +30,23 @@
   <table cellspacing="0">
     <thead>
       <tr>
-        <th class="sf_admin_text sf_admin_list_th_list_name"><?php echo __('Manifestation') ?></th>
-        <th class="sf_admin_text sf_admin_list_th_list_content"><?php echo __('Commands') ?></th>
+        <th class="sf_admin_text sf_admin_list_th_list_name"><?php echo __('Product') ?></th>
+        <th class="sf_admin_text sf_admin_list_th_list_content"><?php echo __('Content') ?></th>
+        <th class="sf_admin_date sf_admin_list_th_list_date"><?php echo __('Date') ?></th>
       </tr>
     </thead>
     <tfoot>
       <tr>
-        <th colspan="2"></th>
+        <th colspan="3"></th>
       </tr>
     </tfoot>
     <tbody>
       <?php $cpt = 0 ?>
-      <?php foreach ( $manifestations as $manif ): ?>
+      <?php foreach ( $products as $pdt ): ?>
       <tr class="sf_admin_row <?php echo $cpt%2 == 0 ? '' : 'odd' ?>">
-        <td class="sf_admin_text sf_admin_list_td_list_name"><?php echo $manif ?></td>
-        <td class="sf_admin_text sf_admin_list_td_list_transaction_id"><?php $arr = array(); foreach ( $manif->Tickets AS $tck ) $arr[$tck->transaction_id] = link_to($tck->transaction_id, 'transaction/show?id='.$tck->transaction_id); echo '#'.implode(', #',$arr); ?></td>
+        <td class="sf_admin_text sf_admin_list_td_list_name"><?php echo $pdt->name ?></td>
+        <td class="sf_admin_text sf_admin_list_td_list_content"><?php echo $pdt->getRawValue()->description_for_buyers ?></td>
+        <td class="sf_admin_date sf_admin_list_td_list_date"><?php echo format_date($pdt->integrated_at) ?></td>
       </tr>
       <?php $cpt++ ?>
       <?php endforeach ?>

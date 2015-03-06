@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2012 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2012 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -26,14 +26,19 @@
 <h1><?php echo __('My account') ?></h1>
 <?php include_partial('index_contact',array('contact' => $contact)) ?>
 
-<?php if ( $contact->Transactions->count() > 0 ): ?>
-<?php include_partial('index_transactions',array('contact' => $contact)) ?>
+<?php if ( $contact->MemberCards->count() > 0 ): ?>
+<?php include_partial('index_member_cards',array('contact' => $contact)) ?>
+<?php endif ?>
+
+<?php if ( $products->count() > 0 ): ?>
+<?php include_partial('index_products',array('products' => $products)) ?>
 <?php endif ?>
 
 <?php if ( $manifestations->count() > 0 ): ?>
 <?php include_partial('index_manifestations',array('manifestations' => $manifestations)) ?>
 <?php endif ?>
 
-<?php if ( $contact->MemberCards->count() > 0 ): ?>
-<?php include_partial('index_member_cards',array('contact' => $contact)) ?>
+<?php if ( $contact->Transactions->count() > 0 ): ?>
+<?php include_partial('index_transactions',array('contact' => $contact)) ?>
 <?php endif ?>
+
