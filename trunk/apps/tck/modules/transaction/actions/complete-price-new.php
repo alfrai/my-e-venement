@@ -84,7 +84,7 @@ $this->json['success']['success_fields'][$field]['data'] = array(
     'declination_id'  => $params[$field]['declination_id'],
     'state'           => isset($params[$field]['state']) && $params[$field]['state'] ? $params[$field]['state'] : NULL,
     'transaction_id'  => $request->getParameter('id'),
-    'data-attr'        => $matches[$params[$field]['type']]['data-attr'],
+    'data-attr'       => $matches[$params[$field]['type']]['data-attr'],
   ),
 );
 
@@ -100,6 +100,7 @@ $pp = Doctrine::getTable('PriceProduct')->createQuery('pp')
 $free_price = $pp && $pp->value === NULL ? $params[$field]['free-price'] : NULL;
 
 $products = NULL;
+$last_product = NULL;
 $manifs = array();
 if ( $params[$field]['qty'] > 0 ) // add
 for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )
@@ -124,18 +125,42 @@ for ( $i = 0 ; $i < $params[$field]['qty'] ; $i++ )
       $product->value      = NULL;
       $product->vat        = NULL;
     }
-    // no break, continue
-  default:
-    if ( !in_array($params[$field]['type'], array('gauge')) ) // in all cases but gauge and ... create a new object
-      $product = new $matches[$params[$field]['type']]['model'];
     
-    $product->$matches[$params[$field]['type']]['field'] = $params[$field]['declination_id'];
-    $product->price_id = $params[$field]['price_id'];
-    $product->transaction_id = $request->getParameter('id');
-    if ( $free_price )
-      $product->value = $free_price;
-    $product->save();
+    break;
   }
+  
+  if ( !in_array($params[$field]['type'], array('gauge')) ) // in all cases but gauge and ... create a new object
+    $product = new $matches[$params[$field]['type']]['model'];
+  
+  if ( $free_price )
+    $product->value = $free_price;
+  
+  $product->$matches[$params[$field]['type']]['field'] = $params[$field]['declination_id'];
+  $product->price_id = $params[$field]['price_id'];
+  $product->transaction_id = $request->getParameter('id');
+  
+  // optimizing the calculations for big amounts of same products
+  if ( $product->isNew() && !is_null($last_product) )
+  {
+    $go = true;
+    foreach ( array('price_id', $matches[$params[$field]['type']]['field'], 'transaction_id') as $f )
+    if ( $last_product->$f != $product->$f )
+    {
+      if ( $request->hasParameter('debug') && sfConfig::get('sf_web_debug',false) )
+        error_log('No cache: '.$f.' - '.$last_product->$f.' != '.$product->$f);
+      $go = false;
+      break;
+    }
+    if ( $go )
+    foreach ( array_merge(
+      array('value', 'price_name', 'Price', 'Transaction'),
+      in_array($params[$field]['type'], array('gauge')) ? array('Gauge', 'Manifestation') : array()
+    ) as $f )
+      $product->$f = $last_product->$f;
+  }
+  
+  $product->save();
+  $last_product = $product;
 }
 else // delete
 {

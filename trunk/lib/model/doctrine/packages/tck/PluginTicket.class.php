@@ -37,6 +37,9 @@ abstract class PluginTicket extends BaseTicket
 {
   public function preSave($event)
   {
+    if ( !$this->isModified() && !$this->isNew() )
+      return parent::preSave($event);
+    
     $is_auth = sfContext::hasInstance() && sfContext::getInstance()->getUser()->getGuardUser();
     
     // the gauge, through the manifestation + the seat
@@ -98,6 +101,8 @@ abstract class PluginTicket extends BaseTicket
           $this->value    = $price->PriceGauges->count() > 0
             ? $price->PriceGauges[0]->value
             : $price->PriceManifestations[0]->value;
+      
+        $this->Price = $price;
       }
     }
     
@@ -109,8 +114,7 @@ abstract class PluginTicket extends BaseTicket
       throw new liEvenementException('You tried to save a ticket with a price that you cannot access (user: #'.sfContext::getInstance()->getUser()->getId().', price: #'.$this->price_id.')');
     
     // the transaction's last update
-    if ( $this->isModified() )
-      $this->Transaction->updated_at = NULL;
+    $this->Transaction->updated_at = NULL;
     
     // get back the manifestation_id if not already set
     if ( !$this->manifestation_id && $this->gauge_id )
@@ -141,7 +145,9 @@ abstract class PluginTicket extends BaseTicket
       $this->vat = $this->Manifestation->Vat->value;
     
     // last chance to set taxes
-    if ( !$this->printed_at || isset($mods['printed_at']) || isset($mods['integrated_at']) ) // if the ticket is being printed or is not printed
+    if ( !$this->printed_at && !$this->integrated_at
+      || isset($mods['printed_at'])
+      || isset($mods['integrated_at']) ) // if the ticket is being printed or is not printed
     {
       $this->taxes = 0;
       $taxes = new Doctrine_Collection('Tax');
@@ -153,7 +159,7 @@ abstract class PluginTicket extends BaseTicket
       $this->addTaxes($taxes);
     }
     
-    // the generates a barcode (if necessary) to record in DB
+    // the generates a barcode (if necessary) to record in DB, cf. Ticket::getQrcode()
     $this->qrcode;
     
     parent::preSave($event);
