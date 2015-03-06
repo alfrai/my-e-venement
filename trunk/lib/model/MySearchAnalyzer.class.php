@@ -46,12 +46,25 @@ class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
   
       public function analyze($text, $encoding = null)
       {
+        error_log($text);
         // translatable special chars
         $transliterate = sfConfig::get('software_internals_transliterate',array());
         $text = str_replace(preg_split('//u', $transliterate['from'], -1), preg_split('//u', $transliterate['to'], -1), $text);
         
         // considering very special chars as spaces
-        $text = str_replace(array('@','.','-','+',',',"'",'°'),' ',$text);
+        $text = str_replace(array(
+          '@',
+          '.',',','¿',
+          '♠','♣','♥','♦',
+          '-','+',
+          '←','↑','→','↓',
+          "'",'’','´',
+          '●','•',
+          '¼','½','¾',
+          '“', '”', '„',
+          '°','™','©','®',
+          '³','²',
+        ),' ',$text);
         
         $charset = sfConfig::get('software_internals_charset');
         $text = mb_strtolower(iconv($charset['db'],$charset['ascii'],$text));
