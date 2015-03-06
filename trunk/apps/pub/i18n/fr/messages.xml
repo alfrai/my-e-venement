@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>The flashcode is a link to the private content of this product, and it is clickable if you read this in front of a computer.</source>
+        <target>Le flashcode est un lien vers le contenu réservé de votre produit, et il est cliquable si vous lisez ceci devant un ordinateur.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>If this is not working, you can follow</source>
+        <target>Si cela ne fonctionne pas, vous pouvez suivre</target>
+      </trans-unit>
+      <trans-unit>
+        <source>this link</source>
+        <target>ce lien</target>
+      </trans-unit>
+      <trans-unit>
         <source>Id</source>
         <target>Numéro</target>
       </trans-unit>

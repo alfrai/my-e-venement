@@ -32,12 +32,13 @@
       <tr>
         <th class="sf_admin_text sf_admin_list_th_list_name"><?php echo __('Product') ?></th>
         <th class="sf_admin_text sf_admin_list_th_list_content"><?php echo __('Content') ?></th>
+        <th class="sf_admin_text sf_admin_list_th_list_transaction_id"><?php echo __('Commands') ?></th>
         <th class="sf_admin_date sf_admin_list_th_list_date"><?php echo __('Date') ?></th>
       </tr>
     </thead>
     <tfoot>
       <tr>
-        <th colspan="3"></th>
+        <th colspan="4"></th>
       </tr>
     </tfoot>
     <tbody>
@@ -46,6 +47,7 @@
       <tr class="sf_admin_row <?php echo $cpt%2 == 0 ? '' : 'odd' ?>">
         <td class="sf_admin_text sf_admin_list_td_list_name"><?php echo $pdt->name ?></td>
         <td class="sf_admin_text sf_admin_list_td_list_content"><?php echo $pdt->getRawValue()->description_for_buyers ?></td>
+        <td class="sf_admin_text sf_admin_list_td_list_transaction_id">#<?php echo link_to($pdt->transaction_id, 'transaction/show?id='.$pdt->transaction_id) ?></td>
         <td class="sf_admin_date sf_admin_list_td_list_date"><?php echo format_date($pdt->integrated_at) ?></td>
       </tr>
       <?php $cpt++ ?>

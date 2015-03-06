@@ -389,3 +389,4 @@ tfoot, thead { font-weight: bold; }
 
 /* Store */
 .mod-store #sf_admin_header .sf_admin_list { display: none; }
+.mod-bp #content > h2 { display: none; }

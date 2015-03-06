@@ -68,7 +68,7 @@ html { font-family: 'dejavu sans', Gotham, DejaVuSans, sans-serif; }
 /* for pdf rendering */
 .pdf .cmd-element * { line-height: 0.9; }
 .pdf .cmd-element .event table { margin-top: -3mm; }
-.pdf .cmd-element .bc span, .pdf .cmd-element .bc a { margin-top: 2.5mm; margin-left: -16.2mm; }
+.pdf .cmd-element .bc span, .pdf .cmd-element .bc a { margin-top: 2.5mm; margin-left: -16.2mm; margin-top: -26mm; padding: 20mm; }
 .pdf .cmd-element .gauge { margin-top: -1mm; }
 .pdf .cmd-element .seat { padding-top: 1mm; }
 .pdf .cmd-element .location { margin-top: 2.5mm; }

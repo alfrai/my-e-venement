@@ -41,15 +41,16 @@ class BoughtProduct extends PluginBoughtProduct
       return $this->barcode;
     
     $matches = array();
-    preg_match('!<a\s+[^>]*href\s*=\s*"([^\"]*)"[^>]*>.*</a>!iUs', $this->description_for_buyers, $matches);
     
-    if ( count($matches) == 0 || $type == 'normal' )
-    {
-      $this->barcode = $type != 'id' ? json_encode(array('code' => $this->code, 'id' => $this->id)) : $this->getIdBarcoded();
-      return $this->barcode;
-    }
+    if ( $type != 'normal' )
+      preg_match('!<a\s+[^>]*href\s*=\s*"([^\"]*)"[^>]*>.*</a>!iUs', $this->description_for_buyers, $matches);
     
-    $this->barcode = $matches[1];
+    if ( count($matches) > 0 )
+      return $this->barcode = $matches[1];
+    
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Url', 'CrossAppLink'));
+    try { $this->barcode = public_path(cross_app_url_for('pub', 'bp/show?id='.$this->id), true); }
+    catch ( sfException $e ) { $this->barcode = $type != 'id' ? json_encode(array('code' => $this->code, 'id' => $this->id)) : $this->getIdBarcoded(); }
     return $this->barcode;
   }
   
@@ -77,7 +78,7 @@ class BoughtProduct extends PluginBoughtProduct
   
   public function renderSimplified($type = 'png', $qrcode_only_id = false, $debug = false)
   {
-    sfApplicationConfiguration::getActive()->loadHelpers(array('Url', 'Number'));
+    sfApplicationConfiguration::getActive()->loadHelpers(array('Url', 'Number', 'I18N'));
     
     $img = '<img
       src="data:image/png;base64,'.base64_encode($this->getBarcodePng($qrcode_only_id)).'"
@@ -86,6 +87,7 @@ class BoughtProduct extends PluginBoughtProduct
     />';
     
     // a link around the qrcode ?
+    $url = false;
     try {
       $isUrl = new sfValidatorUrl;
       $url = $isUrl->clean($this->qrcode);
@@ -101,6 +103,18 @@ class BoughtProduct extends PluginBoughtProduct
     )
     {
       $picture = $this->Declination->Product->Picture->getHtmlTagInline(array('alt' => ''));
+    }
+    
+    // forging the description of the current product
+    $description = $this->description_for_buyers ? $this->description_for_buyers : '';
+    if ( $url )
+    {
+      $description .= "<br/>\n";
+      $description .= "<br/>\n";
+      $description .= __('The flashcode is a link to the private content of this product, and it is clickable if you read this in front of a computer.');
+      $description .= "<br/>\n";
+      $description .= __('If this is not working, you can follow').' ';
+      $description .= '<a style="text-decoration: underline;" href="'.$url.'">'.__('this link').'</a>...';
     }
     
     // the HTML code
@@ -124,7 +138,7 @@ EOF
       , __('Product', null, 'li_tickets_email'), (string)$this
       , __('Precision', null, 'li_tickets_email'), (string)$this->declination
       , __('Image', null, 'li_tickets_email'), $picture
-      , $this->description_for_buyers ? $this->description_for_buyers : ''
+      , $description
       , __('Price', null, 'li_tickets_email'), $this->price_name, format_currency($this->value,'€')
       , $this->transaction_id, $this->id, $this->code
       , $this->Transaction->professional_id ? $this->Transaction->Professional->getFullName() : (string)$this->Transaction->Contact

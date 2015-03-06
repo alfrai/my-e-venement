@@ -66,7 +66,8 @@ class storeActions extends autoStoreActions
       $q->leftJoin("p.LinkedProducts lp WITH lp.meta_event_id IS NULL");
     
     $this->forward404If(!( $this->product = $q->fetchOne() ));
-    sfConfig::set('pub.meta_event.slug', $this->product->MetaEvent->slug);
+    if ( $this->product->meta_event_id )
+      sfConfig::set('pub.meta_event.slug', $this->product->MetaEvent->slug);
   }
   public function executeShow(sfWebRequest $request)
   {
