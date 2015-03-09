@@ -100,7 +100,12 @@ $(document).ready(function(){
   <td class="picture"></td>
   <td class="event"><?php echo $product->Declination->Product->Category ?></td>
   <td class="manifestation"><?php echo $product->Declination->Product->short_name ? $product->Declination->Product->short_name : $product ?></td>
-  <td class="workspace"><?php echo $product->declination ?></td>
+  <td class="workspace"><?php
+    echo $product->integrated_at && strtotime($product->integrated_at) <= time() && trim($product->getRawValue()->description_for_buyers)
+      || $transaction->getPaid().'' >= ''.$transaction->getPrice(true, true) // the .'' is a hack for float values
+      ? $product->getRawValue()->description_for_buyers
+      : $product->declination
+  ?></td>
   <td class="tickets">
     <span class="price-<?php echo $product->price_id ?>" data-price-id="<?php echo $product->price_id ?>">
       <?php if ( $product->price_id ): ?>

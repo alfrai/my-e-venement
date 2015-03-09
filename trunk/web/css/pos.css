@@ -16,6 +16,8 @@
 .sf_admin_form_field_declinations .li-new-declination > th { font-size: 0; }
 .sf_admin_form_field_declinations .rotated { transform-origin: center bottom; transform: rotate(270deg); width: 0; width: 150px; margin-right: -40px; margin-left: -80px; margin-top: -50px; }
 .sf_admin_form_field_declinations .widget > table > tbody > tr > th { padding-left: 50px; }
+.sf_admin_form_field_declinations .widget tbody th { font-size: 0; }
+.sf_admin_form_field_declinations .widget tbody th .rotated { font-size: 10pt; }
 .sf_admin_form_field_declinations table table table { margin-top: 20px; }
 .sf_admin_form_field_declination_del { display: none; }
 
