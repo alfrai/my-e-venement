@@ -68,7 +68,7 @@ tfoot td {
   width: 100px;
 }
 #sf_admin_container td .min-width,
-body #content .sf_admin_form input[type=text],
+body #content .sf_admin_form input[type=text]:not([size]),
 body #content .sf_admin_form select {
   width: 140px;
   margin: 0 3px;
@@ -93,10 +93,7 @@ tr.impair { background-color: #f8ffdd; }
 tr.impair td.impair { background-color: #eff8cd; }
 
 .EntryTickets { float: left; }
-body #sf_admin_container .EntryTickets input[type=text] {
-  width: 25px;
-  text-align: right;
-}
+body #sf_admin_container .EntryTickets input[type=text]:not([size]) { width: 25px; text-align: right; }
 body #sf_admin_container .EntryTickets select {
   width: 60px;
 }
