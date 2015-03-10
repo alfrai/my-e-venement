@@ -507,10 +507,10 @@ class ContactFormFilter extends BaseContactFormFilter
       
       if ( !$query->contains("LEFT JOIN $a.DirectTickets ctck WITH (ctck.printed_at IS NOT NULL OR ctck.integrated_at IS NOT NULL) AND ctck.id NOT IN (SELECT cttck.cancelling FROM ticket cttck WHERE cttck.cancelling IS NOT NULL)") )
       $query->leftJoin($a.'.DirectTickets ctck WITH (ctck.printed_at IS NOT NULL OR ctck.integrated_at IS NOT NULL) AND ctck.id NOT IN (SELECT cttck.cancelling FROM ticket cttck WHERE cttck.cancelling IS NOT NULL)');
-      if ( !$query->contains("LEFT JOIN ctck.Manifestation m") )
+      if ( !$query->contains("LEFT JOIN ctck.Manifestation cm") )
       $query->leftJoin('ctck.Manifestation cm');
       if ( !$query->contains("LEFT JOIN cm.Event cevent") )
-      $query->leftJoin('m.Event event');
+      $query->leftJoin('m.Event cevent');
      
       $query->andWhere('(TRUE')
             ->andWhereIn('event.event_category_id',$value)
