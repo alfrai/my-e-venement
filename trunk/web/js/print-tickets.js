@@ -1,4 +1,8 @@
 $(document).ready(function(){
+  // removing some column headers when there is at least one product
+  if ( $('#lines tbody tr.product').length > 0 )
+    $('#lines').addClass('with-product');
+  
   window.print();
   
   // update the parent window's content

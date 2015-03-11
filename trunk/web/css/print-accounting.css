@@ -43,6 +43,7 @@ body {
 #lines .postalcode { display: none; }
 #lines .vat .percent { display: none; }
 #lines .seats { display: none; }
+#lines.with-product thead .time, #lines.with-product thead .date, #lines.with-product thead .location, #lines.with-product thead .city { font-size: 0; border-left: 0; }
 
 .tip:after, .pet:after, .up:after { content: ''; padding-left: 2px; }
 #lines .extra-taxes, #lines .pit, #lines .tep, #lines .up, #lines .vat { text-align: right; }

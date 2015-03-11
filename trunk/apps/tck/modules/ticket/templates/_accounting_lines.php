@@ -20,7 +20,7 @@
 <?php for ( $i = 0 ; $i < $tickets->count() ; $i++ ): ?>
 <?php $ticket = $tickets[$i] ?>
 <?php if ( $ticket->id > 0 ): ?>
-  <tr>
+  <tr class="ticket">
     <td class="event inline-modifiable"><?php echo $ticket->Manifestation->Event ?></td>
     <td class="date inline-modifiable"><?php echo format_date($ticket->Manifestation->happens_at) ?></td>
     <td class="time inline-modifiable"><?php echo format_date($ticket->Manifestation->happens_at,'HH:mm') ?></td>
@@ -70,7 +70,7 @@
 <?php for ( $i = 0 ; $i < count($products) ; $i++ ): ?>
 <?php $product = $products[$i] ?>
 <?php if ( $product->id > 0 ): ?>
-  <tr>
+  <tr class="product">
     <td class="event inline-modifiable"><?php echo (string)$product ?></td>
     <td class="time inline-modifiable" colspan="2"><?php echo $product->code ?></td>
     <td class="location inline-modifiable" colspan="2"><?php echo $product->declination ?></td>
