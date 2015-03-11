@@ -95,6 +95,7 @@ class contactActions extends sfActions
     
     $this->products = Doctrine::getTable('BoughtProduct')->createQuery('bp')
       ->leftJoin('bp.Transaction t')
+      ->leftJoin('t.Order order')
       ->andWhere('order.id IS NOT NULL OR bp.integrated_at IS NOT NULL')
       ->andWhere('t.contact_id = ?',$this->getUser()->getContact()->id)
       ->orderBy("bp.description_for_buyers IS NOT NULL AND bp.description_for_buyers != '' DESC, bp.integrated_at DESC")

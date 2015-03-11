@@ -78,7 +78,6 @@ class contactActions extends autoContactActions
       $this->contact->Picture->name = 'contact-'.$this->contact->id.'-'.date('YmdHis').'.img';
       $this->contact->Picture->type = $request->getParameter('type');
       $this->contact->save();
-      error_log($this->contact->picture_id);
     }
     return sfView::NONE;
   }
@@ -277,7 +276,7 @@ class contactActions extends autoContactActions
     }
     catch (sfValidatorError $e)
     {
-      error_log($e->getMessage());
+      error_log('contact/batchAddToGroup: '.$e->getMessage());
       $this->getUser()->setFlash('error', 'A problem occurs when adding the selected items as some items do not exist anymore.');
       return $this->redirect('@contact');
     }
@@ -292,7 +291,7 @@ class contactActions extends autoContactActions
       $gc->group_id = $group_id;
       
       try { $gc->save(); }
-      catch(Doctrine_Exception $e) { error_log($e->getMessage()); }
+      catch(Doctrine_Exception $e) { error_log('contact/batchAddToGroup: '.$e->getMessage()); }
     }
     
     // professionals

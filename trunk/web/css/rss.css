@@ -6,3 +6,6 @@
 .feed article h3 { font-size: 1.0em; }
 .feed img.alignright { float: right; }
 .feed img.alignleft { float: left; }
+
+.feed blockquote { margin: 2em 3em; }
+.feed blockquote:before { font-size: 2.5em; content: "“"; font-family: times; float: left; margin: -0.5em 0px 0px -1em; }

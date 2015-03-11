@@ -70,7 +70,6 @@ class GroupForm extends BaseGroupForm
           ->andWhere('gu.group_id = ?', $this->object->id);
         if ( $q->count() == 0 )
         {
-          error_log('add');
           $gu = new GroupUser;
           $gu->group_id = $this->object->id;
           $gu->sf_guard_user_id = $sf_user->getId();

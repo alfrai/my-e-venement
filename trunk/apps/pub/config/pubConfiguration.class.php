@@ -241,7 +241,7 @@ class pubConfiguration extends sfApplicationConfiguration
     }
     catch ( liOnlineSaleException $e )
     {
-      error_log('error', 'No orphan to find on this plateform: '.$e->getMessage());
+      error_log('error, unable to find any orphan on this plateform: '.$e->getMessage());
       return true;
     }
   }

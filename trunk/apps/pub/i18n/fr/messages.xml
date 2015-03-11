@@ -213,6 +213,10 @@
         <target>Liste des produits</target>
       </trans-unit>
       <trans-unit>
+        <source>My products</source>
+        <target>Mes produits</target>
+      </trans-unit>
+      <trans-unit>
         <source>Nothing to declare...</source>
         <target>Rien à déclarer...</target>
       </trans-unit>

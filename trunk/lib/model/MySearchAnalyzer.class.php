@@ -46,7 +46,6 @@ class MySearchAnalyzer extends Doctrine_Search_Analyzer_Utf8
   
       public function analyze($text, $encoding = null)
       {
-        error_log($text);
         // translatable special chars
         $transliterate = sfConfig::get('software_internals_transliterate',array());
         $text = str_replace(preg_split('//u', $transliterate['from'], -1), preg_split('//u', $transliterate['to'], -1), $text);
