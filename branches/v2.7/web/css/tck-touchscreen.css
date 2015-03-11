@@ -10,9 +10,9 @@
 
 /* specific */
 #li_transaction_field_deposit, #li_transaction_field_contact_id, #li_transaction_field_professional_id { width: 20.5em; white-space: nowrap; position: relative; }
-#sf_admin_content .li_fieldset #li_transaction_field_professional_id { top: -1em; margin-left: calc(-21.5em - 8px); border-top: 0; border-bottom: 0; border-top-right-radius: 0; border-top-left-radius: 0; height: 2.5em; text-align: center; padding-top: 0; }
+#sf_admin_content .li_fieldset #li_transaction_field_professional_id { top: -1em; margin-left: calc(-21.5em - 8px); border-top: 0; border-top-right-radius: 0; border-top-left-radius: 0; height: 2.5em; text-align: center; padding-top: 0; }
 #sf_admin_content .li_fieldset #li_transaction_field_contact_id { top: -3.8em; border-bottom: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0; padding-bottom: 0; }
-#sf_admin_content .li_fieldset #li_transaction_field_deposit { top: 0.4em; margin-left: calc(-21.5em - 7px); border-top: 0; border-top-left-radius: 0; border-top-right-radius: 0; }
+#sf_admin_content .li_fieldset #li_transaction_field_deposit { top: 0.4em; margin-left: calc(-21.5em - 8px); border-top: 0; border-top-left-radius: 0; border-top-right-radius: 0; display: none; }
 #li_transaction_field_contact_id .data a { font-size: 0; }
 #li_transaction_field_professional_id select { max-width: 230px; }
 
