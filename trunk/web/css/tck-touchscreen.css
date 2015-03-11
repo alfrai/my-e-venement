@@ -19,6 +19,7 @@
 #sf_admin_content .li_fieldset #li_transaction_field_more .tdp-surveys { margin-left: 25px; }
 #li_transaction_field_contact_id .data a { font-size: 0; }
 #li_transaction_field_professional_id select { max-width: 230px; }
+#sf_admin_content .li_fieldset #li_transaction_field_more #transaction_deposit, #sf_admin_content .li_fieldset #li_transaction_field_more label[for=transaction_deposit] { display: none; }
 
 #li_transaction_field_description textarea { height: 3.3em; width: 18.5em; }
 #li_transaction_field_professional_id label, #li_transaction_field_description label { display: none; }
