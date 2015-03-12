@@ -28,9 +28,10 @@
     ->execute();
   
   // preparing stuff to optimize fetching Seats from seated plans
-  $prepare = array();
+  $prepare = array('?');
   $seated_plans_gauges = new Doctrine_Collection('Gauge');
   foreach ( $seated_plans as $sp )
+  if ( !$sp->Workspaces[0]->isNew() && !$sp->Workspaces[0]->Gauges[0]->isNew() )
   {
     $prepare[] = '?';
     $seated_plans_gauges[$sp->id] = $sp->Workspaces[0]->Gauges[0];
@@ -42,7 +43,7 @@
   //  $seat_records->merge($seated_plan->Seats);
   $q = Doctrine::getTable('Seat')->createQuery('s')
     ->leftJoin('s.Holds h')
-    ->leftJoin('s.SeatedPlan sp WITH sp.id IN ('.implode(',', $prepare).')', $seated_plans_gauges->getKeys())
+    ->leftJoin('s.SeatedPlan sp WITH sp.id IN ('.implode(',', $prepare).')', array_merge(array(0),$seated_plans_gauges->getKeys()))
   ;
   if ( $sf_request->getParameter('transaction_id', false) )
     $q->leftJoin('h.HoldTransactions ht WITH ht.transaction_id = ?', $sf_request->getParameter('transaction_id'))
@@ -107,7 +108,9 @@
       'name'      => $seat->name,
       'info'      => isset($hold) && $hold ? __('Held for "%%hold%%"', array('%%hold%%' => $hold)) : NULL,
       'id'        => $seat->id,
-      'class'     => $seat->class.(isset($hold) && $hold ? ' held hold-'.$hold->id : '').($seated_plans_gauges[$spid]->isAccessibleBy($users, true) ? '' : ' offline'),
+      'class'     => $seat->class
+        .(isset($hold) && $hold ? ' held hold-'.$hold->id : '')
+        .($seated_plans_gauges[$spid]->isAccessibleBy($users, true) ? '' : ' offline'),
       'rank'      => $seat->rank,
       'seated-plan-id' => $seat->seated_plan_id,
       'occupied'  => $sf_user->hasCredential('event-seats-allocation') && !(isset($occupied[$seat->name]) && $occupied[$seat->name]['type'] == 'out')
