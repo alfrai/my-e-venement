@@ -197,7 +197,7 @@ class cartActions extends sfActions
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
       $this->getUser()->setFlash('notice',__('Your cart is still empty, select tickets first...'));
-      $this->redirect('event/index');
+      $this->redirect('@homepage');
     }
     
     $this->redirect('transaction/show?id='.$this->transaction_id);

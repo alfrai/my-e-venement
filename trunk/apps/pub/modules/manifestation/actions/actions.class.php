@@ -118,7 +118,7 @@ class manifestationActions extends autoManifestationActions
       error_log('manifestation/show: no gauge available');
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
       $this->getUser()->setFlash('error',__('Date unavailable, try an other one.'));
-      $this->redirect('event/index');
+      $this->redirect('event/index?meta-event='.sfConfig::get('pub.meta_event.slug',''));
     }
     
     $this->manifestation = $this->gauges[0]->Manifestation;

@@ -155,7 +155,7 @@ class pubConfiguration extends sfApplicationConfiguration
     {
       $sf_action->getUser()->resetTransaction();
       $sf_action->getUser()->setFlash('notice', __('Your order has been closed because you reached the maximum time of execution. We are really sorry, this is a needed "anti-squatters" measure.'));
-      $sf_action->redirect('event/index');
+      $sf_action->redirect('@homepage');
     }
     
     $tickets = Doctrine_Query::create()->from('Ticket tck')

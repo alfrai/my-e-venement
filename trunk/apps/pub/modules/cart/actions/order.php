@@ -23,7 +23,7 @@
 ?>
 <?php
     if ( !($this->getUser()->getTransaction() instanceof Transaction) )
-      return $this->redirect('event/index');
+      return $this->redirect('@homepage');
     
     // if it is a pay-only process
     $tid = intval($request->getParameter('transaction_id')).'' === ''.$request->getParameter('transaction_id','')

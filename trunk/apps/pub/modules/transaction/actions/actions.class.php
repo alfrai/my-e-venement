@@ -114,7 +114,7 @@ class transactionActions extends sfActions
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
       $this->getUser()->setFlash('error', __('You cannot access an order which belongs to someone else'));
-      $this->redirect('event/index');
+      $this->redirect('@homepage');
     }
     
     $this->current_transaction = $this->transaction->id === $this->getUser()->getTransaction()->id;

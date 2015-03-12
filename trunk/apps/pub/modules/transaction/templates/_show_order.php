@@ -1,7 +1,7 @@
 <div id="actions">
 <?php if ( $transaction->id == $sf_user->getTransactionId() ): ?>
 <div class="actions index">
-<?php echo link_to(__('Continue shopping'),'event/index') ?>
+<?php echo link_to(__('Continue shopping'),'@homepage') ?>
 </div>
 <div class="actions register">
 <?php echo link_to(__('Checkout'),'cart/register') ?>

@@ -65,7 +65,7 @@ class eventActions extends autoEventActions
   }
   public function executeBatchDelete(sfWebRequest $request)
   {
-    $this->redirect('event/index');
+    $this->redirect('event/index?meta-event='.sfConfig::get('pub.meta_event.slug',''));
   }
   public function executeCreate(sfWebRequest $request)
   {
