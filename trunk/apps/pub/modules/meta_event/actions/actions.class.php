@@ -25,6 +25,17 @@ class meta_eventActions extends autoMeta_eventActions
     $this->getUser()->setDefaultCulture($request->getLanguages());
     
     parent::executeIndex($request);
+    $a = $this->pager->getQuery()->getRootAlias();
+    $this->pager->getQuery()
+      ->leftJoin("$a.Events e")
+      ->leftJoin('e.Manifestations m')
+      ->leftJoin('m.Gauges g')
+      ->andWhere('g.online = ?', true)
+      ->andWhere('g.value > 0')
+      
+      ->leftJoin("$a.Users meu")
+      ->andWhere('meu.id = ?', $this->getUser()->getId())
+    ;
     
     // only one meta_event...
     if ( $this->pager->getNbResults() == 1 )

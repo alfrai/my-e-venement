@@ -58,7 +58,7 @@ event:
 # default rules
 homepage:
   url:   /
-  param: { module: event, action: index }
+  param: { module: <?php echo sfConfig::get('app_options_home', 'event') ?>, action: index }
 
 # generic rules
 # please, remove them by adding more specific rules

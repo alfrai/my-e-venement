@@ -9,6 +9,7 @@ all:
     #template: public # sets the default template file to use, without the ".php" extension
     plugins: []
     #synthetic_plans: false
+    #home: meta_event
   user:
     templating: vel
     must_authenticate: false
@@ -118,7 +119,7 @@ all:
       plans: Cliquez sur le plan pour sélectionner vos places
       categories: En choisissant votre catégorie et un nombre de billets à ajouter, vous obtiendrez les meilleures places côte-à-côte
     cart_bottom: <p style="text-align: center; margin-top: 10px;"><a href="http://www.facebook.com/pages/Le-Fracas-CDN-de-Montlu%C3%A7onAuvergne/240968945966456" target="_blank">Rejoignez-nous sur Facebook</a></p>
-    when_closed:
+    when_closed:   # I18N sample
       fr: La vente en ligne est actuelle fermée... Veuillez réessayer ultérieurement.
       en: The store is closed for the moment... Please try again later. # useless, because the "shutdown" feature is triggered before giving a culture to the sfUser
     event_bottom: |
@@ -133,6 +134,7 @@ all:
     manifestation_closed: |
       Nous fermons la vente en ligne 24 heures avant le spectacle.
       Pour plus de renseignements, vous pouvez nous contacter par courriel (possibilité de mettre un lien qui permette d'envoyer un message sans communiquer les adresses mail à laquelles il est envoyé?) ou par téléphone au 04 70 03 86 18 du lundi au jeudi de 13h30 à 18h00 et le vendredi de 9h00 à 12h00. 
+    #meta_events_header: ''
     card_bottom: |
       Les cartes d'abonnement ouvrent l'accès à des tarifs préférentiels relatifs au type de carte choisie
     cart_end: |

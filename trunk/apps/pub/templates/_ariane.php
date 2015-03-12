@@ -36,9 +36,9 @@
   </div>
   <?php $nb++ ?>
   <div class="event choices <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access <?php echo $sf_user->isStoreActive() ? 'with-store' : '' ?>">
-    <?php echo link_to(sfConfig::get('app_informations_index',__('Tickets')),'event/index') ?>
+    <?php echo link_to(sfConfig::get('app_informations_index',__('Tickets')), '@homepage') ?>
     <?php if ( $sf_user->isStoreActive() ): ?>
-    <?php echo link_to(sfConfig::get('app_informations_store',__('Store')),'store/index') ?>
+    <?php echo link_to(sfConfig::get('app_informations_store',__('Store')), 'store/index') ?>
     <?php endif ?>
     <?php if ( $sf_user->getGuardUser()->MemberCards->count() > 0 ): ?>
     <?php echo link_to(__('Member cards'),'card/index') ?>
