@@ -16,12 +16,14 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
 <?php
+  $this->getContext()->getConfiguration()->loadHelpers('I18N');
+  
   $csv = array_map('str_getcsv', file($_FILES['rp-import']['tmp_name']));
   $matches = array(
     'id',
@@ -35,6 +37,7 @@
     'groupe',
     'telephone',
     'mail',
+    'language',
   );
   $this->logs = array('Organism' => array(), 'Contact' => array(), 'Professional' => array());
   
@@ -42,10 +45,12 @@
   $cpt = 0;
   foreach ( $csv as $entry ) { try
   {
+    $cpt++;
+    if ( $cpt == 1 ) // do not import the headers, to match closely the CSV template
+      continue;
+    
     foreach ( $matches as $i => $field )
       $entry[$field] = isset($entry[$i]) ? $entry[$i] : '';
-    
-    $cpt++;
     
     // organism
     $org = NULL;
@@ -86,6 +91,7 @@
       $contact->name = $entry['nom'];
       $contact->firstname = $entry['prenom'];
       $contact->description = $entry['id'];
+      $contact->culture = isset($entry['language']) ? $entry['language'] : 'fr';
       
       if ( $org )
       {
@@ -116,7 +122,7 @@
         $contact->email = $entry['mail'];
         
         // personal group
-        if ( $entry['groupe'] )
+        if ( !$entry['etablissement1'] && $entry['groupe'] )
         {
           if ( !isset($grps[$entry['groupe']]) )
           {

@@ -53,12 +53,20 @@
         <target>Identifiant Facebook</target>
       </trans-unit>
       <trans-unit>
+        <source>The field "GROUPE" is used to create groups for personal contacts, and categories for professional contacts.</source>
+        <target>Le champ "GROUPE" est utilisé pour créer des groupes dans le cas de contacts personnels, et des catégories pour des professionnels.</target>
+      </trans-unit>
+      <trans-unit>
         <source>You are about to import a bulk of contacts. Be careful to respect this type of file:</source>
         <target>Vous êtes sur le point d'importer un lot de contacts. Attention à respecter ce type de fichier :</target>
       </trans-unit>
       <trans-unit>
         <source>Do not forget that this file must be UTF-8 encoded, its fields must be separated by a comma, and the first line dedicated to field titles... Actually a standard CSV format.</source>
         <target>Ne pas oublier que ce fichier doit être encodé en UTF-8, que ses champs doivent être séparés par une virgule, que la première ligne est dédiée aux titres des champs... Ce qui en fait un format CSV standard.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>To import the culture of your contacts, you must use the standard language code (ex: en, fr, br,...). This field is optional ("fr" by default).</source>
+        <target>Pour importer la langue d'usage de vos contacts, vous devez utilisez les codes de langues standard (ex: en, fr, br, ...). Ce champ est optionnel ("fr" par défaut).</target>
       </trans-unit>
       <trans-unit>
         <source>Try to import a maximum of %%nb%% lines at once. Then repeat the import the number of times needed.</source>
