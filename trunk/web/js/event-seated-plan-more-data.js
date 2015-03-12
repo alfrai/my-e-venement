@@ -67,12 +67,16 @@ LI.seatedPlanMoreDataInitialization = function(url, show, root)
       break;
       
       case 'link':
+        console.error('link');
         elt
           .addClass('link')
           .prop('title', obj.names[0]+' - '+obj.names[1])
           .addClass('link-seat-'+obj.ids[0]).addClass('link-seat-'+obj.ids[1])
           .attr('data-link-a', obj.ids[0]).attr('data-link-b', obj.ids[1])
           .css('transform', 'rotate('+obj.angle+'deg)')
+          .css('left', obj.position[0][0])
+          .css('top',  obj.position[0][1])
+          .css('width', obj.length)
           .dblclick(function(){
             // DELETE A LINK USING THE GUI/WYSIWYG
             $('#sf_fieldset_neighbors [name="auto_links[exceptions_to_remove]"]').val(
