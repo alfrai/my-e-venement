@@ -7,6 +7,7 @@ all:
   open: true
   options:
     #template: public # sets the default template file to use, without the ".php" extension
+                      # if you need to use multiple layouts for multiple stores, use app_options_specific_template
     plugins: []
     #synthetic_plans: false   # for online seating for real
     #home: meta_event

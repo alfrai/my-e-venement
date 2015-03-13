@@ -38,6 +38,7 @@ class pubConfiguration extends sfApplicationConfiguration
     $this->dispatcher->connect('pub.transaction_before_creation', array($this, 'triggerTransactionBeforeCreation'));
     $this->dispatcher->connect('pub.transaction_before_creation', array($this, 'recordWebOrigin'));
     $this->dispatcher->connect('pub.transaction_respawning', array($this, 'recordWebOrigin'));
+    $this->dispatcher->connect('admin.pre_execute', array($this, 'modifyTemplate'));
   }
   public function initialize()
   {
@@ -134,6 +135,15 @@ class pubConfiguration extends sfApplicationConfiguration
     $origin->save();
   }
   
+  // modify the layout on-the-fly
+  public function modifyTemplate(sfEvent $event)
+  {
+    if ( !sfContext::hasInstance() )
+      return;
+    
+    if ( sfConfig::has('app_options_specific_template') )
+      sfContext::getInstance()->getActionStack()->getLastEntry()->getActionInstance()->setLayout(sfConfig::get('app_options_specific_template','public'));
+  }
   public function triggerTransactionBeforeCreation(sfEvent $event)
   {
     $params = $event->getParameters();

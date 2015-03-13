@@ -17,9 +17,11 @@ $(document).ready(function(){
   // if no event is available but the store is present, go to the store
   if ( $('.app-pub.mod-event.action-index .sf_admin_list table').length == 0
     && $('.app-pub.mod-event.action-index #ariane .event.with-store').length > 0 )
-  {
     window.location = $('.app-pub.mod-event.action-index #ariane .event.with-store a + a').prop('href');
-  }
+  
+  // redirect into the only meta-event of the @homepage if no alternative
+  if ( $('.app-pub.mod-meta_event.action-index .sf_admin_list .sf_admin_row').length == 1 )
+    window.location = $('.app-pub.mod-meta_event.action-index .sf_admin_list .sf_admin_row a').prop('href');
   
   // temporary flashes
   setTimeout(function(){
