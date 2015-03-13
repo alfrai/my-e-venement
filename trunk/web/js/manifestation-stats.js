@@ -6,10 +6,14 @@
             if ( typeof(value) == 'object' )
             {
               $.each(value, function(i, user){
-                $('<td></td>').text(user.nb)
+                $('<td></td>')
+                  .text(user.nb)
+                  .prop('title', user.user)
                   .appendTo($('#sf_fieldset_statistics .'+bunch+' .'+id));
                 if ( $('#sf_fieldset_statistics .'+bunch+' thead .id-'+i).length == 0 )
-                  $('<td></td>').addClass('id-'+i).text(user.user).addClass('ui-state-default').addClass('ui-th-column')
+                  $('<td></td>').addClass('id-'+i)
+                    .text(user.user).addClass('ui-state-default').addClass('ui-th-column')
+                    .prop('title', user.user)
                     .appendTo($('#sf_fieldset_statistics .'+bunch+' thead tr'));
               });
             }
@@ -93,6 +97,8 @@ LI.statsCompleteFillingData = function(json)
       $('#sf_fieldset_statistics .filling-complete').find('.f-at-ag, .sos-at-ag, .f-at-sg, .sos-at-sg, .f-at-og, .sos-at-og').hide();
     if ( json.seats.held.all.nb == 0 )
       $('#sf_fieldset_statistics .filling-complete .sf_admin_row.held').hide();
+    if ( json.seats.closed.all.nb == 0 )
+      $('#sf_fieldset_statistics .filling-complete .sf_admin_row.closed').hide();
   }
   
   // this is a super-powerful compression of the "data dispatcher", to avoid hidden bugs as much as we can

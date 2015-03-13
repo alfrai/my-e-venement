@@ -58,16 +58,19 @@
         'ordered' => array(
           'online' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'onsite' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
+          'wideopen' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'all' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
         ),
         'printed' => array(
           'online' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'onsite' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
+          'wideopen' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'all' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
         ),
         'held' => array(
           'online' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'onsite' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
+          'wideopen' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
           'all' => array('nb' => 0, 'money' => 0, 'money_txt' => ''),
         ),
         'closed' => array(
@@ -80,6 +83,11 @@
             'nb' => 0,
             'min' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
             'max' => array('money' => 0, 'money_txt' => format_currency(0, '€')),
+          ),
+          'wideopen' => array(
+            'nb' => 0,
+            'min' => array('money' => 0, 'money_txt' => ''),
+            'max' => array('money' => 0, 'money_txt' => ''),
           ),
           'all' => array(
             'nb' => 0,
@@ -158,8 +166,171 @@
     $prepare[] = '?';
   $prepare = '('.implode(',', $prepare).')';
   
-  // seats available and unavailable for online sales
   if ( !$request->getParameter('type', false) || $request->getParameter('type') == 'seats' )
+  {
+    // using directy the seats, for every seated stat... quicker and smarter
+    $q = Doctrine::getTable('Seat')->createQuery('s')
+      ->select ('s.id, tck.value AS value')
+      ->groupBy('s.id, tck.id, tck.value')
+      ->addSelect('MAX((SELECT max(ppm1.value) FROM PriceManifestation ppm1 WHERE ppm1.manifestation_id = m.id)) AS manifestation_max')
+      ->addSelect('MAX((SELECT max(ppg1.value) FROM PriceGauge ppg1 WHERE ppg1.gauge_id = g.id)) AS gauge_max')
+      ->addSelect('MIN((SELECT min(ppm2.value) FROM PriceManifestation ppm2 WHERE ppm2.manifestation_id = m.id)) AS manifestation_min')
+      ->addSelect('MIN((SELECT min(ppg2.value) FROM PriceGauge ppg2 WHERE ppg2.gauge_id = g.id)) AS gauge_min')
+      ->addSelect('(count(g.onsite) > 0) AS onsite')
+      ->addSelect('(sum(tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) > 0) AS printed')
+      ->addSelect('(sum(tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL) = 0 AND count(o.id) > 0) AS ordered')
+      ->addSelect('(sum(h.id IS NOT NULL) > 0) AS held')
+      
+      ->leftJoin('s.SeatedPlan sp')
+      ->leftJoin('sp.Workspaces ws')
+      ->leftJoin('ws.Users wsu WITH wsu.id IN '.$prepare, $users)
+      ->leftJoin('sp.Location l')
+      ->leftJoin('l.Manifestations m')
+      ->andWhere('m.id = ?', $request->getParameter('id'))
+      ->leftJoin('m.Gauges g')
+      ->andWhere('g.workspace_id = ws.id')
+      ->leftJoin('m.Event e')
+      ->leftJoin('e.MetaEvent me')
+      
+      // Holds
+      ->leftJoin('s.Holds h WITH h.manifestation_id = m.id')
+      
+      // Related tickets
+      ->leftJoin('s.Tickets tck WITH tck.manifestation_id = m.id')
+      ->leftJoin('tck.Transaction t')
+      ->leftJoin('t.Order o')
+    ;
+    
+    // free online seats
+    $q1 = $q->copy()
+      ->leftJoin('g.PriceGauges gpg')
+      ->leftJoin('gpg.Price gp')
+      ->leftJoin('gp.Users gpu WITH gpu.id IN '.$prepare, $users)
+      ->leftJoin('m.PriceManifestations mpm')
+      ->leftJoin('mpm.Price mp')
+      ->leftJoin('mp.Users mpu WITH mpu.id IN '.$prepare, $users)
+      
+      ->leftJoin('me.Users meu WITH meu.id IN '.$prepare, $users)
+      ->andWhere('wsu.id IS NOT NULL AND meu.id IS NOT NULL')
+      ->andWhere('gpu.id IS NOT NULL OR mpu.id IS NOT NULL')
+      ->andWhere('g.online = ?', true)
+    ;
+    $gauges = array();
+    if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'online' )
+    foreach ( $q1->execute() as $seat )
+    {
+      $state = 'free';
+      if ( $seat->held )
+        $state = 'held';
+      elseif ( $seat->printed )
+        $state = 'printed';
+      elseif ( $seat->ordered )
+        $state = 'ordered';
+      
+      $this->json['seats'][$state]['online']['nb']++;
+      $this->json['seats'][$state]['all']['nb']++;
+      if ( $state == 'free' )
+      {
+        $this->json['seats'][$state]['online']['min']['money'] += min(array(is_null($seat->gauge_min) ? 999999 : $seat->gauge_min, is_null($seat->manifestation_min) ? 999999 : $seat->manifestation_min));
+        $this->json['seats'][$state]['online']['max']['money'] += max(array($seat->gauge_max, $seat->manifestation_max));
+        $this->json['seats'][$state]['all']['min']['money']    += min(array(is_null($seat->gauge_min) ? 999999 : $seat->gauge_min, is_null($seat->manifestation_min) ? 999999 : $seat->manifestation_min));
+        $this->json['seats'][$state]['all']['max']['money']    += max(array($seat->gauge_max, $seat->manifestation_max));
+      }
+      else
+      {
+        $this->json['seats'][$state]['online']['money'] += $seat->value;
+        $this->json['seats'][$state]['all']['money']    += $seat->value;
+      }
+      
+      if ( $seat->onsite )
+      {
+        $this->json['seats'][$state]['wideopen']['nb']++;
+        if ( isset($this->json['seats'][$state]['wideopen']['min']) )
+        {
+          $this->json['seats'][$state]['wideopen']['min']['money'] += min(array($seat->gauge_min, $seat->manifestation_min));
+          $this->json['seats'][$state]['wideopen']['max']['money'] += max(array($seat->gauge_max, $seat->manifestation_max));
+        }
+        else
+          $this->json['seats'][$state]['wideopen']['money'] += $seat->value;
+      }
+    }
+    foreach ( array('printed', 'ordered', 'held', 'free', 'closed') as $state )
+    {
+      if ( isset($this->json['seats'][$state]['online']['min']) )
+      {
+        $this->json['seats'][$state]['online']['min']['money_txt'] = format_currency($this->json['seats'][$state]['online']['min']['money'], '€');
+        $this->json['seats'][$state]['online']['max']['money_txt'] = format_currency($this->json['seats'][$state]['online']['max']['money'], '€');
+      }
+      else
+        $this->json['seats'][$state]['online']['money_txt'] = format_currency($this->json['seats'][$state]['online']['money'], '€');
+    }
+    
+    // free onsite seats
+    $q2 = $q->copy()->andWhere('g.onsite = ?', true);
+    if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'onsite' )
+    foreach ( $q2->execute() as $seat )
+    {
+      $state = 'free';
+      if ( $seat->held )
+        $state = 'held';
+      elseif ( $seat->printed )
+        $state = 'printed';
+      elseif ( $seat->ordered )
+        $state = 'ordered';
+      
+      $this->json['seats'][$state]['onsite']['nb']++;
+      $this->json['seats'][$state]['all']['nb']++;
+      if ( $state == 'free' )
+      {
+        $this->json['seats'][$state]['onsite']['min']['money'] += min(array(is_null($seat->gauge_min) ? 999999 : $seat->gauge_min, is_null($seat->manifestation_min) ? 999999 : $seat->manifestation_min));
+        $this->json['seats'][$state]['onsite']['max']['money'] += max(array($seat->gauge_max, $seat->manifestation_max));
+        $this->json['seats'][$state]['all']['min']['money']    += min(array(is_null($seat->gauge_min) ? 999999 : $seat->gauge_min, is_null($seat->manifestation_min) ? 999999 : $seat->manifestation_min));
+        $this->json['seats'][$state]['all']['max']['money']    += max(array($seat->gauge_max, $seat->manifestation_max));
+      }
+      else
+      {
+        $this->json['seats'][$state]['onsite']['money']     += $seat->value;
+        if ( isset($this->json['seats'][$state]['all']['min']) )
+        {
+          $this->json['seats'][$state]['all']['min']['money'] += $seat->value;
+          $this->json['seats'][$state]['all']['max']['money'] += $seat->value;
+        }
+        else
+          $this->json['seats'][$state]['all']['money'] += $seat->value;
+      }
+    }
+    foreach ( array('printed', 'ordered', 'held', 'free', 'closed') as $state )
+    {
+      if ( isset($this->json['seats'][$state]['onsite']['min']) )
+      {
+        $this->json['seats'][$state]['onsite']['min']['money_txt'] = format_currency($this->json['seats'][$state]['onsite']['min']['money'], '€');
+        $this->json['seats'][$state]['onsite']['max']['money_txt'] = format_currency($this->json['seats'][$state]['onsite']['max']['money'], '€');
+      }
+      else
+        $this->json['seats'][$state]['onsite']['money_txt'] = format_currency($this->json['seats'][$state]['onsite']['money'], '€');
+    }
+    
+    // formatting "all" data, and removing "wideopen" seats, that has been counted twice
+    foreach ( array('printed', 'ordered', 'held', 'free', 'closed') as $state )
+    {
+      $this->json['seats'][$state]['all']['nb'] -= $this->json['seats'][$state]['wideopen']['nb'];
+      if ( isset($this->json['seats'][$state]['all']['min']) )
+      {
+        $this->json['seats'][$state]['all']['min']['money'] -= $this->json['seats'][$state]['wideopen']['min']['money'];
+        $this->json['seats'][$state]['all']['max']['money'] -= $this->json['seats'][$state]['wideopen']['max']['money'];
+        $this->json['seats'][$state]['all']['min']['money_txt'] = format_currency($this->json['seats'][$state]['all']['min']['money'], '€');
+        $this->json['seats'][$state]['all']['max']['money_txt'] = format_currency($this->json['seats'][$state]['all']['max']['money'], '€');
+      }
+      else
+      {
+        $this->json['seats'][$state]['all']['money'] -= $this->json['seats'][$state]['wideopen']['money'];
+        $this->json['seats'][$state]['all']['money_txt'] = format_currency($this->json['seats'][$state]['onsite']['money'], '€');
+      }
+    }
+  }
+  
+  // gauges
+  if ( !$request->getParameter('type', false) || $request->getParameter('type') == 'gauges' )
   {
     $q = Doctrine::getTable('Manifestation')->createQuery('m',true)
       ->andWhere('m.id = ?', $request->getParameter('id'))
@@ -180,7 +351,6 @@
       ->addSelect('m.*, g.*, tck.*')
       ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR o.id IS NOT NULL') // printed or integrated or booked by an order
       ->andWhere('tck.price_id IS NOT NULL') // a booked ticket is everything but a WIP
-      ->andWhere('tck.cancelling IS NULL AND tck.id NOT IN (SELECT ttck.duplicating FROM Ticket ttck WHERE ttck.duplicating IS NOT NULL)')
     ;
     $onsite = $q->copy()->andWhere('g.onsite = ?', true);
     $online = $q->copy()
@@ -197,26 +367,27 @@
     if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == $type )
     foreach ( $$type->execute() as $manif )
     foreach ( $manif->Gauges as $gauge )
-//    foreach ( $$type->execute() as $gauge )
     foreach ( $gauge->Tickets as $ticket )
     {
-      // cancelled
+      $state = $ticket->printed_at || $ticket->integrated_at ? 'printed' : 'ordered';
+      
+      // cancelling ticket
+      if ( $ticket->cancelling )
+        continue;
+      
+      // duplicatas + cancellations
       $orig = $ticket->getOriginal();
+      
+      // cancelled ticket
       if ( $orig->Cancelling->count() > 0 || $ticket->Cancelling->count() > 0 )
         continue;
       
-      $state = $ticket->printed_at || $ticket->integrated_at ? 'printed' : 'ordered';
-      if ( $orig->identifier() == $ticket->identifier() )
-      {
-        $this->json['gauges'][$state][$type]['nb']++;
-        $this->json['gauges'][$state][$type]['money'] += $ticket->value;
-      }
+      // duplicated
+      if ( $orig->identifier() != $ticket->identifier() )
+        continue; // only originals
       
-      if ( !is_null($ticket->seat_id) && $ticket->Seat->Holds->count() == 0 )
-      {
-        $this->json['seats'][$state][$type]['nb']++;
-        $this->json['seats'][$state][$type]['money'] += $ticket->value;
-      }
+      $this->json['gauges'][$state][$type]['nb']++;
+      $this->json['gauges'][$state][$type]['money'] += $ticket->value;
     }
     
     // the "text" values with currency
@@ -226,134 +397,7 @@
     foreach ( array('seats', 'gauges') as $value )
       $this->json[$value][$state][$type]['money_txt'] = format_currency($this->json[$value][$state][$type]['money'], '€');
     
-    // Holds
-    $q = Doctrine_Query::create()->from('Hold h')
-      ->leftJoin('h.Seats s')
-      ->leftJoin('s.SeatedPlan sp')
-      ->leftJoin('sp.Workspaces ws')
-      ->leftJoin('ws.Gauges g WITH g.manifestation_id = h.manifestation_id')
-      ->andWhere('h.manifestation_id = ?', $request->getParameter('id', 0))
-      ->select('h.id')
-    ;
-    foreach ( $q->execute() as $hold )
-    {
-      $this->json['seats']['held']['all']['nb'] += $hold->Seats->count();
-      foreach ( $hold->Seats as $seat )
-      {
-        $max = array(0);
-        foreach ( $seat->SeatedPlan->Workspaces as $ws )
-        foreach ( $ws->Gauges as $gauge )
-          $max[] = $gauge->getPriceMax();
-        $this->json['seats']['held']['all']['money'] += max($max);
-      }
-    }
-    $this->json['seats']['held']['all']['money_txt'] = format_currency($this->json['seats']['held']['all']['money'],'€');
-    
-    // Free seats & gauges
-    $o = Doctrine_Query::create()->from('Order oo')
-      ->select('count(oo.id)')
-      ->andWhere('oo.transaction_id = tck.transaction_id')
-    ;
-    $q = Doctrine::getTable('Gauge')->createQuery('g',false)
-      ->leftJoin('g.Workspace ws')
-      ->leftJoin('ws.Users wsu WITH wsu.id IN '.$prepare, $users)
-      
-      ->leftJoin('g.Manifestation m')
-      ->andWhere('m.id = ?', $request->getParameter('id', 0))
-      
-      ->leftJoin('m.Event e')
-      ->leftJoin('e.MetaEvent me')
-      ->leftJoin('me.Users meu WITH meu.id IN '.$prepare, $users)
-      
-      ->leftJoin('m.Location l')
-      ->leftJoin('l.SeatedPlans sp')
-      ->leftJoin('sp.Workspaces spw WITH spw.id = ws.id')
-      ->leftJoin('sp.Seats s WITH spw.id IS NOT NULL')
-      
-      ->leftJoin('s.Tickets tck WITH tck.gauge_id = g.id')
-      ->andWhere('tck.id IS NULL')
-      
-      // Holds
-      ->leftJoin('s.Holds h WITH h.manifestation_id = m.id')
-      ->andWhere('h.id IS NULL')
-      
-      ->groupBy('g.id, g.online, g.value, g.workspace_id')
-      ->select('g.id, g.online, g.workspace_id, count(DISTINCT s.id) AS nb')
-    ;
-    /*
-    // DEV
-    $q = Doctrine::getTable('Seat')->createQuery('s')
-      ->leftJoin('s.SeatedPlan sp')
-      ->leftJoin('sp.Workspaces ws')
-      ->leftJoin('ws.Gauges g')
-      ->leftJoin('g.Manifestation m')
-      ->andWhere('m.id = ?', $request->getParameter('id'))
-      ->leftJoin('m.Event e')
-      ->leftJoin('e.MetaEvent me')
-      
-      ->leftJoin('ws.Users wsu')
-      ->leftJoin('me.Users meu')
-    ;
-    */
-    
-    // free online seats
-    $q1 = $q->copy()
-      ->leftJoin('g.Prices gp')
-      ->leftJoin('gp.Users gpu WITH gpu.id IN '.$prepare, $users)
-      ->leftJoin('m.Prices mp')
-      ->leftJoin('mp.Users mpu WITH mpu.id IN '.$prepare, $users)
-      
-      ->andWhere('wsu.id IS NOT NULL AND meu.id IS NOT NULL')
-      ->andWhere('gpu.id IS NOT NULL OR mpu.id IS NOT NULL')
-      ->andWhere('g.online = ?', true)
-    ;
-    $gauges = array();
-    if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'online' )
-    foreach ( $q1->execute() as $gauge )
-    {
-      //$min = $gauge->nb * $gauge->getPriceMin($users);
-      //$max = $gauge->nb * $gauge->getPriceMax($users);
-      $this->json['seats']['free']['online']['nb'] += $gauge['nb'];
-      $this->json['seats']['free']['online']['min']['money'] += $min;
-      $this->json['seats']['free']['online']['max']['money'] += $max;
-      
-      if ( $gauge->onsite )
-      {
-        $this->json['seats']['free']['wideopen']['nb'] += $gauge['nb'];
-        $this->json['seats']['free']['wideopen']['min']['money'] += $min;
-        $this->json['seats']['free']['wideopen']['max']['money'] += $max;
-      }
-    }
-    $this->json['seats']['free']['online']['min']['money_txt'] = format_currency($this->json['seats']['free']['online']['min']['money'], '€');
-    $this->json['seats']['free']['online']['max']['money_txt'] = format_currency($this->json['seats']['free']['online']['max']['money'], '€');
-    
-    // free onsite seats
-    $q2 = $q->copy()->andWhere('g.onsite = ?', true);
-    if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'onsite' )
-    foreach ( $q2->execute() as $gauge )
-    {
-      $this->json['seats']['free']['onsite']['nb'] += $gauge->nb;
-      $this->json['seats']['free']['onsite']['min']['money'] += $gauge->nb * $gauge->getPriceMin($users);
-      $this->json['seats']['free']['onsite']['max']['money'] += $gauge->nb * $gauge->getPriceMax($users);
-    }
-    $this->json['seats']['free']['onsite']['min']['money_txt'] = format_currency($this->json['seats']['free']['onsite']['min']['money'], '€');
-    $this->json['seats']['free']['onsite']['max']['money_txt'] = format_currency($this->json['seats']['free']['onsite']['max']['money'], '€');
-
-    // free all seats
-    if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'all' )
-    foreach ( $q->execute() as $gauge )
-    {
-      $this->json['seats']['free']['all']['nb'] += $gauge->nb;
-      $this->json['seats']['free']['all']['min']['money'] += $gauge->nb * $gauge->getPriceMin($users);
-      $this->json['seats']['free']['all']['max']['money'] += $gauge->nb * $gauge->getPriceMax($users);
-    }
-    $this->json['seats']['free']['all']['min']['money_txt'] = format_currency($this->json['seats']['free']['all']['min']['money'], '€');
-    $this->json['seats']['free']['all']['max']['money_txt'] = format_currency($this->json['seats']['free']['all']['max']['money'], '€');
-  }
-  
-  // free gauges
-  if ( !$request->getParameter('type', false) || $request->getParameter('type') == 'gauges' )
-  {
+    // FREE gauges
     $q = Doctrine::getTable('Gauge')->createQuery('g')
       ->andWhere('g.manifestation_id = ?', $request->getParameter('id', 0))
     ;
