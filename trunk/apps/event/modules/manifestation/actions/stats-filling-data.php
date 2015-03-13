@@ -145,23 +145,25 @@
         ),
       ),
     );
-    
+  
+  $users = array(0);
+  foreach ( Doctrine::getTable('sfGuardUser')->createQuery('u')
+    ->andWhereIn('u.username', sfConfig::get('app_manifestation_online_users', array('|||||||||||-|||||||||||')))
+    ->select('u.id')
+    ->fetchArray() as $user )
+    $users[] = $user['id'];
+  
+  $prepare = array();
+  foreach ( $users as $u )
+    $prepare[] = '?';
+  $prepare = '('.implode(',', $prepare).')';
+  
   // seats available and unavailable for online sales
   if ( !$request->getParameter('type', false) || $request->getParameter('type') == 'seats' )
   {
-    $users = array();
-    foreach ( Doctrine::getTable('sfGuardUser')->createQuery('u')
-      ->andWhereIn('u.username', sfConfig::get('app_manifestation_online_users', array()))
-      ->select('u.id')
-      ->fetchArray() as $user )
-      $users[] = $user['id'];
-    
-    $prepare = array();
-    foreach ( $users as $u )
-      $prepare[] = '?';
-    $prepare = '('.implode(',', $prepare).')';
-    
     $q = Doctrine::getTable('Manifestation')->createQuery('m',true)
+      ->andWhere('m.id = ?', $request->getParameter('id'))
+      
       ->leftJoin('m.Gauges g')
       ->leftJoin('g.Tickets tck')
       ->leftJoin('tck.Seat s')
@@ -178,7 +180,7 @@
       ->addSelect('m.*, g.*, tck.*')
       ->andWhere('tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR o.id IS NOT NULL') // printed or integrated or booked by an order
       ->andWhere('tck.price_id IS NOT NULL') // a booked ticket is everything but a WIP
-      ->andWhere('tck.cancelling IS NULL')
+      ->andWhere('tck.cancelling IS NULL AND tck.id NOT IN (SELECT ttck.duplicating FROM Ticket ttck WHERE ttck.duplicating IS NOT NULL)')
     ;
     $onsite = $q->copy()->andWhere('g.onsite = ?', true);
     $online = $q->copy()
@@ -276,7 +278,23 @@
       ->andWhere('h.id IS NULL')
       
       ->groupBy('g.id, g.online, g.value, g.workspace_id')
-      ->select('g.id, g.online, g.workspace_id, count(DISTINCT s.id) AS nb') ;
+      ->select('g.id, g.online, g.workspace_id, count(DISTINCT s.id) AS nb')
+    ;
+    /*
+    // DEV
+    $q = Doctrine::getTable('Seat')->createQuery('s')
+      ->leftJoin('s.SeatedPlan sp')
+      ->leftJoin('sp.Workspaces ws')
+      ->leftJoin('ws.Gauges g')
+      ->leftJoin('g.Manifestation m')
+      ->andWhere('m.id = ?', $request->getParameter('id'))
+      ->leftJoin('m.Event e')
+      ->leftJoin('e.MetaEvent me')
+      
+      ->leftJoin('ws.Users wsu')
+      ->leftJoin('me.Users meu')
+    ;
+    */
     
     // free online seats
     $q1 = $q->copy()
@@ -293,8 +311,8 @@
     if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'online' )
     foreach ( $q1->execute() as $gauge )
     {
-      $min = $gauge->nb * $gauge->getPriceMin($users);
-      $max = $gauge->nb * $gauge->getPriceMax($users);
+      //$min = $gauge->nb * $gauge->getPriceMin($users);
+      //$max = $gauge->nb * $gauge->getPriceMax($users);
       $this->json['seats']['free']['online']['nb'] += $gauge['nb'];
       $this->json['seats']['free']['online']['min']['money'] += $min;
       $this->json['seats']['free']['online']['max']['money'] += $max;
@@ -334,7 +352,7 @@
   }
   
   // free gauges
-  if ( !$request->getParameter('type', false) || $request->getParameter('type') == 'seats' )
+  if ( !$request->getParameter('type', false) || $request->getParameter('type') == 'gauges' )
   {
     $q = Doctrine::getTable('Gauge')->createQuery('g')
       ->andWhere('g.manifestation_id = ?', $request->getParameter('id', 0))
@@ -439,6 +457,8 @@
     }
   }
   
+  if ( sfConfig::get('sf_web_debug', false) )
+    error_log("Creating the cache file for Manifestation's statistics (manifestation->id = ".$request->getParameter('id').")");
   liCacher::create($path)
     ->setData($this->json)
     ->writeData();
