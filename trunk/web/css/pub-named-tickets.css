@@ -4,6 +4,7 @@
 .named-tickets .sample { display: none; }
 .named-tickets h4 { margin-bottom: 0; }
 .named-tickets input[type=text] { width: 7.8em; }
+.named-tickets .comment input[type=text] { width: 73%; }
 .named-tickets input[maxlength=255] { width: 15.5em; }
 .named-tickets .contact_email input[type=email] { width: 15em; }
 .named-tickets .price_name option[value=""] { display: none; }

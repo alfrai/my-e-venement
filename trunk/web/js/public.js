@@ -6,6 +6,7 @@ if ( LI.pubCartReady == undefined )
   LI.pubCartReady = [];
 
 $(document).ready(function(){
+  // the cart widget
   $.get($('#cart-widget-url').prop('href'),function(data){
     $('body').prepend($($.parseHTML(data)).find('#cart-widget'));
     

@@ -53,6 +53,7 @@
   <?php $nb++ ?>
   <div class="command <?php if ( $active == $nb ) echo 'active'; else echo $active < $nb ? 'future' : 'past' ?> access">
     <?php echo __('Command') ?>
+    <?php if ( count($cultures) > 1 ): ?>
     <div id="translation">
       <?php foreach ( $cultures as $culture => $lang ): ?>
       <p class="i18n">
@@ -64,5 +65,6 @@
       </p>
       <?php endforeach ?>
     </div>
+    <?php endif ?>
   </div>
 </div>

@@ -8,7 +8,7 @@ all:
   options:
     #template: public # sets the default template file to use, without the ".php" extension
     plugins: []
-    #synthetic_plans: false
+    #synthetic_plans: false   # for online seating for real
     #home: meta_event
   user:
     templating: vel

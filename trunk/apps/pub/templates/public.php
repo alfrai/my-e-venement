@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <?php $module_name = $sf_context->getModuleName() ?>
-    <?php $sf_response->setTitle(sfConfig::get('app_title')) ?>
+    <?php $sf_response->setTitle(sfConfig::get('app_informations_title')) ?>
     <?php include_http_metas() ?>
     <?php include_metas() ?>
     <?php include_title() ?>

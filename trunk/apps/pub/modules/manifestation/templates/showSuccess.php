@@ -4,7 +4,7 @@
 <?php include_partial('event/show_picture', array('event' => $manifestation->Event)) ?>
 <?php include_partial('show_ical_qrcode', array('manifestation' => $manifestation)) ?>
 
-<?php if ( sfConfig::get('app_options_synthetic_plans', false) ): ?>
+<?php if ( $use_synthetic_plans ): ?>
   
   <?php use_stylesheet('pub-manifestation-synthetic?'.date('Ymd')) ?>
   <?php use_javascript('pub-manifestation-synthetic?'.date('Ymd')) ?>
@@ -41,6 +41,7 @@
   <div class="text_config manifestation_bottom synthetic_plans">
     <?php echo nl2br(pubConfiguration::getText('app_texts_manifestation_bottom')) ?>
   </div>
+  <?php include_partial('global/show_links', array('objects' => $manifestation)) ?>
   
 <?php else: ?>
   

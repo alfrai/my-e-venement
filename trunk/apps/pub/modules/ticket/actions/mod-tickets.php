@@ -175,6 +175,10 @@
         ->leftJoin('ws.SeatedPlans sp WITH sp.location_id = m.location_id')
         ->leftJoin('sp.Seats s')
         ->andWhere('s.id = ?', $tck['seat_id'])
+        
+        ->andWhere('g.online = ?', true)
+        ->leftJoin('ws.Users wsu')
+        ->andWhere('wsu.id = ?', $this->getUser()->getId())
       ;
       $gauge = $q->fetchOne();
       $tck['gauge_id'] = $gauge->id;

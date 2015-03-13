@@ -127,6 +127,23 @@ class manifestationActions extends autoManifestationActions
     
     $this->mcp = $this->getAvailableMCPrices();
     
+    // if it is useless to use the "synthetic plan" features
+    if ( !sfConfig::get('app_options_synthetic_plans', false) )
+      $this->use_synthetic_plans = false;
+    else
+    {
+      foreach ( $this->gauges as $gauge )
+      {
+        $gauge->Manifestation = $this->manifestation; // caching data
+        $this->use_synthetic_plans = true;
+        if ( !$gauge->getSeatedPlan() )
+        {
+          $this->use_synthetic_plans = false;
+          break;
+        }
+      }
+    }
+    
     if ( strtotime('now + '.sfConfig::get('app_tickets_close_before','36 hours')) > strtotime($this->manifestation->happens_at) )
       return 'Closed';
   }
