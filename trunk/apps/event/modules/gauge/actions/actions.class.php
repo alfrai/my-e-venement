@@ -15,16 +15,17 @@ class gaugeActions extends autoGaugeActions
 {
   public function executeState(sfWebRequest $request)
   {
+    $gauges = new Doctrine_Collection('Gauge');
     if ( $id = $request->getParameter('id',false) )
     {
-      $gauges = new Doctrine_Collection('Gauge');
       if ( $gauge = Doctrine::getTable('Gauge')->find($id) )
         $gauges[] = $gauge;
     }
     if ( $mid = $request->getParameter('manifestation_id',false) )
-      $gauges = Doctrine::getTable('Gauge')->createQuery('g')
+      $gauges->merge(Doctrine::getTable('Gauge')->createQuery('g')
         ->andWhere('g.manifestation_id = ?', $mid)
-        ->execute();
+        ->execute()
+      );
     
     $this->forward404Unless($gauges->count() > 0);
     
@@ -42,23 +43,42 @@ class gaugeActions extends autoGaugeActions
       return 'Success';
     }
     
+    $arr = array(
+      'id' => NULL,
+      'total' => 0,
+      'seats' => 0,
+      'free' => 0,
+      'booked' => array('printed' => 0, 'ordered' => 0, 'asked' => 0),
+    );
+    
+    // nb of seats
+    $ids = array();
+    foreach ( $gauges as $gauge )
+      $ids[] = $gauge->id;
+    $q = Doctrine::getTable('Seat')->createQuery('s')
+      ->leftJoin('s.SeatedPlan sp')
+      ->leftJoin('sp.Workspaces ws')
+      ->leftJoin('sp.Location l')
+      ->leftJoin('l.Manifestations m')
+      ->leftJoin('m.Gauges g')
+      ->andWhereIn('g.id', $ids)
+      ->andWhere('g.workspace_id = ws.id')
+    ;
+    $arr['seats'] = $q->count();
+    
     foreach ( $gauges as $gauge )
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
-      if ( !isset($arr) )
-        $arr = array(
-          'id' => $gauge->id,
-          'total' => 0,
-          'seats' => 0,
-          'free' => 0,
-          'booked' => array('printed' => 0, 'ordered' => 0, 'asked' => 0),
-        );
+      if (!( isset($arr['id']) && $arr['id'] ))
+        $arr['id'] = $gauge->id;
       else
         unset($arr['id']);
       
+      /*
       // if this gauge is seated
       if ( $gauge->Workspace->seated && $seated_plan = $gauge->Manifestation->Location->getWorkspaceSeatedPlan($gauge->workspace_id) )
         $arr['seats'] += $seated_plan->Seats->count();
+      */
       
       $arr['workspace'] = isset($arr['workspace']) ? '' : (string)$gauge->Workspace;
       $arr['total'] += $gauge->value;
