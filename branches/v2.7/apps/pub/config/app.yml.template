@@ -12,6 +12,7 @@ all:
     email: contact@cdn-lefracas.com
   tickets:
     vel:
+      #email_auto_on_update: false
       cart_timeout: 50
       max_per_manifestation: 9
       #max_per_event_per_contact: 1
