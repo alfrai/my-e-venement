@@ -9,8 +9,8 @@
         <target>Image intégrée correctement au corps de votre courriel.</target>
       </trans-unit>
       <trans-unit>
-        <source>Add to content</source>
-        <target>Ajouter dans le corps</target>
+        <source>Append to content</source>
+        <target>Ajouter à la fin du contenu</target>
       </trans-unit>
       <trans-unit>
         <source>Store</source>
