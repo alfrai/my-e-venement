@@ -21,7 +21,7 @@ class ManifestationForm extends BaseManifestationForm
       $this->widgetSchema['participants_list'] = new sfWidgetFormInputHidden;
     else
     {
-      $this->widgetSchema['participants_list']->setOption('query', Doctrine::getTable('Contact')->createQuery('c')
+      $this->widgetSchema['participants_list']->setOption('query', $q = Doctrine::getTable('Contact')->createQuery('c')
         ->leftJoin('o.Manifestations m')
         ->leftJoin('c.InvolvedIn ii')
         ->andWhere('(TRUE')
@@ -32,7 +32,7 @@ class ManifestationForm extends BaseManifestationForm
       ->setOption('order_by', array('c.name, c.firstname',''))
       ->setOption('expanded', true);
     }
-    $this->validatorSchema['participants_list']->setOption('query', $this->widgetSchema['participants_list']->getOption('query'));
+    $this->validatorSchema['participants_list']->setOption('query', $q);
     
     $this->widgetSchema['workspaces_list']->setOption('renderer_class','sfWidgetFormSelectDoubleList');
     $this->widgetSchema['color_id']

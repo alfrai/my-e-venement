@@ -200,6 +200,7 @@
       ->leftJoin('tck.Transaction t')
       ->leftJoin('t.Order o')
     ;
+    $seats = new Doctrine_Collection('Seat'); // buffer to get all open seats
     
     // free online seats
     $q1 = $q->copy()
@@ -209,7 +210,6 @@
       ->leftJoin('m.PriceManifestations mpm')
       ->leftJoin('mpm.Price mp')
       ->leftJoin('mp.Users mpu WITH mpu.id IN '.$prepare, $users)
-      
       ->leftJoin('me.Users meu WITH meu.id IN '.$prepare, $users)
       ->andWhere('wsu.id IS NOT NULL AND meu.id IS NOT NULL')
       ->andWhere('gpu.id IS NOT NULL OR mpu.id IS NOT NULL')
@@ -219,6 +219,7 @@
     if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'online' )
     foreach ( $q1->execute() as $seat )
     {
+      $seats[] = $seat;
       $state = 'free';
       if ( $seat->held )
         $state = 'held';
@@ -260,9 +261,14 @@
       {
         $this->json['seats'][$state]['online']['min']['money_txt'] = format_currency($this->json['seats'][$state]['online']['min']['money'], '€');
         $this->json['seats'][$state]['online']['max']['money_txt'] = format_currency($this->json['seats'][$state]['online']['max']['money'], '€');
+        $this->json['seats'][$state]['wideopen']['min']['money_txt'] = format_currency($this->json['seats'][$state]['wideopen']['min']['money'], '€');
+        $this->json['seats'][$state]['wideopen']['max']['money_txt'] = format_currency($this->json['seats'][$state]['wideopen']['max']['money'], '€');
       }
       else
+      {
         $this->json['seats'][$state]['online']['money_txt'] = format_currency($this->json['seats'][$state]['online']['money'], '€');
+        $this->json['seats'][$state]['wideopen']['money_txt'] = format_currency($this->json['seats'][$state]['wideopen']['money'], '€');
+      }
     }
     
     // free onsite seats
@@ -270,6 +276,7 @@
     if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'onsite' )
     foreach ( $q2->execute() as $seat )
     {
+      $seats[] = $seat;
       $state = 'free';
       if ( $seat->held )
         $state = 'held';
@@ -309,6 +316,30 @@
       else
         $this->json['seats'][$state]['onsite']['money_txt'] = format_currency($this->json['seats'][$state]['onsite']['money'], '€');
     }
+    
+    // closed seats -- the longer SQL query
+    $q3 = $q->copy()->andWhere('g.onsite = ?', false);
+    $q3
+      ->leftJoin('g.PriceGauges gpg')
+      ->leftJoin('gpg.Price gp')
+      ->leftJoin('gp.Users gpu WITH gpu.id IN '.$prepare, $users)
+      ->leftJoin('m.PriceManifestations mpm')
+      ->leftJoin('mpm.Price mp')
+      ->leftJoin('mp.Users mpu WITH mpu.id IN '.$prepare, $users)
+      ->leftJoin('me.Users meu WITH meu.id IN '.$prepare, $users)
+      ->andWhereNotIn('s.id', $seats->getPrimaryKeys())
+      ->andWhere('tck.id IS NULL')
+    ;
+    $state = 'closed';
+    if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'closed' )
+    foreach ( $q3->execute() as $seat )
+    {
+      $this->json['seats'][$state]['all']['nb']++;
+      $this->json['seats'][$state]['all']['min']['money']    += min(array(is_null($seat->gauge_min) ? 999999 : $seat->gauge_min, is_null($seat->manifestation_min) ? 999999 : $seat->manifestation_min));
+      $this->json['seats'][$state]['all']['max']['money']    += max(array($seat->gauge_max, $seat->manifestation_max));
+    }
+    $this->json['seats'][$state]['all']['min']['money_txt'] = format_currency($this->json['seats'][$state]['all']['min']['money'], '€');
+    $this->json['seats'][$state]['all']['max']['money_txt'] = format_currency($this->json['seats'][$state]['all']['max']['money'], '€');
     
     // formatting "all" data, and removing "wideopen" seats, that has been counted twice
     foreach ( array('printed', 'ordered', 'held', 'free', 'closed') as $state )
@@ -456,13 +487,9 @@
     // all
     if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'all' )
     {
-      foreach ( $gauges = $q->copy()
-        ->execute() as $gauge )
-      {
-        $this->json['gauges']['free']['all']['nb'] += $gauge->value - $gauge->printed - $gauge->ordered;
-        $this->json['gauges']['free']['all']['min']['money'] += ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMin($users);
-        $this->json['gauges']['free']['all']['max']['money'] += ($gauge->value - $gauge->printed - $gauge->ordered) * $gauge->getPriceMax($users);
-      }
+      $this->json['gauges']['free']['all']['nb'] = $this->json['gauges']['free']['onsite']['nb'] + $this->json['gauges']['free']['online']['nb'] - $this->json['gauges']['free']['wideopen']['nb'];
+      $this->json['gauges']['free']['all']['min']['money'] = $this->json['gauges']['free']['onsite']['min']['money'] + $this->json['gauges']['free']['online']['min']['money'] - $this->json['gauges']['free']['wideopen']['min']['money'];
+      $this->json['gauges']['free']['all']['max']['money'] = $this->json['gauges']['free']['onsite']['max']['money'] + $this->json['gauges']['free']['online']['max']['money'] - $this->json['gauges']['free']['wideopen']['max']['money'];
     }
     $this->json['gauges']['free']['all']['min']['money_txt'] = format_currency($this->json['gauges']['free']['all']['min']['money'], '€');
     $this->json['gauges']['free']['all']['max']['money_txt'] = format_currency($this->json['gauges']['free']['all']['max']['money'], '€');
@@ -472,8 +499,10 @@
   if ( !$request->getParameter('limit', false) || $request->getParameter('limit') == 'closed' )
   {
     $types = array();
+    /*
     if ( !$request->getParameter('type', false) || $request->getParameter('type') == 'seats' )
       $types[] = 'seats';
+    */
     if ( !$request->getParameter('type', false) || $request->getParameter('type') == 'gauges' )
       $types[] = 'gauges';
     
