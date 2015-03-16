@@ -34,6 +34,17 @@ class Email extends PluginEmail
     $this->read_receipt = $boolean;
   }
   
+  public function addImageToContent($img, $mime_type, $alt = '')
+  {
+    $base64 = base64_encode($img);
+    $tag = '<img src="data:'.$mime_type.';base64,'.$base64.'" alt="'.$alt.'" />';
+    if ( strpos('</body>', $this->content) === false )
+      $this->content = strpos($this->content, '</body>') === false
+        ? $this->content.' '.$tag
+        : str_replace('</body>', $tag.'</body>', $this->content);
+    return $this;
+  }
+  
   public function __toString()
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));

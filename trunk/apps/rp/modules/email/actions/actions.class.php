@@ -32,14 +32,42 @@ class emailActions extends autoEmailActions
   }
   public function executeDeleteAttachment(sfWebRequest $request)
   {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
     $q = new Doctrine_Query;
     $attachment = $q->from('Attachment a')
-      ->andWhere('a.id = ?',$request->getParameter('attachment_id'))
+      ->andWhere('a.id = ?', $request->getParameter('attachment_id'))
+      ->andWhere('a.email_id = ?', $request->getParameter('id'))
       ->fetchOne();
     unlink(sfConfig::get('sf_upload_dir').'/'.$attachment->filename);
     $attachment->delete();
     
-    $this->getUser()->setFlash('notice','The item was deleted successfully.');
+    $this->getUser()->setFlash('notice', __('The item was deleted successfully.'));
+    $this->redirect('email/edit?id='.$request->getParameter('id'));
+  }
+  public function executeIntegrateAttachment(sfWebRequest $request)
+  {
+    $this->getContext()->getConfiguration()->loadHelpers('I18N');
+    
+    $q = new Doctrine_Query;
+    $attachment = $q->from('Attachment a')
+      ->andWhere('a.id = ?',$request->getParameter('attachment_id'))
+      ->andWhere('a.email_id = ?', $request->getParameter('id'))
+      ->leftJoin('a.Email e')
+      ->fetchOne();
+    if (!( $attachment && preg_match('!^image\/!', $attachment->mime_type) === 1 ))
+    {
+      $this->getUser()->setFlash('error', __('The given attachment is not found or does not match the prequisites'));
+      $this->redirect('email/edit?id='.$request->getParameter('id'));
+    }
+    
+    $img = file_get_contents($path = sfConfig::get('sf_upload_dir').'/'.$attachment->filename);
+    $attachment->Email->addImageToContent($img, $attachment->mime_type)->save();
+    
+    unlink(sfConfig::get('sf_upload_dir').'/'.$attachment->filename);
+    $attachment->delete();
+    
+    $this->getUser()->setFlash('notice', __('Image integrated properly into the content of your email.'));
     $this->redirect('email/edit?id='.$request->getParameter('id'));
   }
   

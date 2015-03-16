@@ -26,7 +26,9 @@ if ( $('[name="email[id]"]').val() == '' )
   },1000);
   $('[name="email[field_subject]"]').change(manage_attachment_widget);
 }
-$('.attachment-new a').click(function(){
+$('.sf_admin_form_field_attachments a').click(function(){
+  var link = this;
+  
   if ( $.trim($('[name="email[field_subject]"]').val()) == '' || $.trim(tinyMCE.activeEditor.getContent()) == '' )
   {
     $('#transition .close').click();
@@ -43,9 +45,12 @@ $('.attachment-new a').click(function(){
   // add the information that we are attaching some file to this email, and not to send it
   $('form').append('<input type="hidden" name="email[attach]" value="true" />');
   
-  // post data before loading the new URL
+  // post data before loading the new URL 
   $.post($('form').prop('action'),$('form').serialize(),function(data){
-    window.location = $($.parseHTML(data)).find('.attachment-new a').prop('href');
+    window.location = $(link).parent().hasClass('attachment-new') == 0
+      ? $(link).prop('href')
+      : $($.parseHTML(data)).find('.attachment-new a').prop('href')
+    ;
   });
   return false;
 });
