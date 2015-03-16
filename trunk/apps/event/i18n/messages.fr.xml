@@ -81,8 +81,8 @@
         <target>Réserve immédiatement les places relâchées</target>
       </trans-unit>
       <trans-unit>
-        <source>Transfert released seats into this hold, if no transaction is set for this purpose.</source>
-        <target>Transférer les places relâchées dans cette retenue, si aucune opération n'est définie à ce propos.</target>
+        <source>Transfert free seats into an other hold.</source>
+        <target>Transférer les places libres dans une autre retenue.</target>
       </trans-unit>
       <trans-unit>
         <source>Hold "%%name%%"</source>

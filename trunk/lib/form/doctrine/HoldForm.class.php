@@ -15,6 +15,7 @@ class HoldForm extends BaseHoldForm
    */
   public function configure()
   {
+    sfContext::getInstance()->getConfiguration()->loadHelpers(array('Url','CrossAppLink'));
     parent::configure();
     unset($this->widgetSchema['seats_list']);
     
@@ -24,6 +25,11 @@ class HoldForm extends BaseHoldForm
     $this->widgetSchema   ['price_id']->setOption('query', $q = Doctrine::getTable('Price')->createQuery('p'));
     $this->widgetSchema   ['price_id']->setOption('order_by', array('pt.name',''));
     $this->validatorSchema['price_id']->setOption('query', $q);
+    
+    $this->widgetSchema['manifestation_id'] = new liWidgetFormDoctrineJQueryAutocompleter(array(
+      'model' => 'Manifestation',
+      'url'   => cross_app_url_for('event','manifestation/ajax'),
+    ));
     
     if ( $this->object->isNew() )
       return;
