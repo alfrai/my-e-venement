@@ -7,8 +7,10 @@
       <input type="checkbox" name="yummy" class="show_links" value="1" onclick="javascript: LI.seatedPlanMoreDataInitialization($(this).parent().find('a').prop('href'), $(this).prop('checked'));" />
       <a href="<?php echo url_for('seated_plan/getLinks?id='.$seated_plan->id) ?>"></a>
     </div>
+    <!--
     <div class="show-all">
       <label><?php echo __('Explicit display') ?></label>
       <input type="checkbox" name="yummy" class="showall" value="1" onclick="javascript: $(this).closest('.gauge').toggleClass('show-all');" />
     </div>
+    -->
     <div style="display: none;" class="rank"><a class="ajax" href="<?php echo url_for('seated_plan/seatSetRank?id='.$seated_plan->id) ?>"></a></div>
