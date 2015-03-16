@@ -25,6 +25,7 @@ all:
     global: 1 hour
   tickets:
     vel:
+      #email_auto_on_update: false
       max_per_manifestation: 9
       #max_per_manifestation_per_contact: 1
       full_seating_by_customer: true

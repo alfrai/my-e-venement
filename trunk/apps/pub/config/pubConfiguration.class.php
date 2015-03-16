@@ -146,6 +146,10 @@ class pubConfiguration extends sfApplicationConfiguration
   }
   public function triggerTransactionBeforeCreation(sfEvent $event)
   {
+    $conf = sfConfig::get('app_tickets_vel', array());
+    if (!( isset($conf['email_auto_on_update']) && $conf['email_auto_on_update'] ))
+      return;
+    
     $params = $event->getParameters();
     $transaction = $params['transaction'];
     $transaction->send_an_email = true;
