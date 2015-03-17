@@ -21,7 +21,7 @@
           <?php if ( is_null($group->sf_guard_user_id) && (in_array($sf_user->getId(), $users) || $sf_user->hasCredential(array('super-admin','admin'),false)) || $group->sf_guard_user_id === $sf_user->getId() ): ?>
           <li>
             <?php if ( $group->sf_guard_user_id === $sf_user->getId() || (is_null($group->sf_guard_user_id) && $sf_user->hasCredential('pr-group-common')) ): ?>
-            <a href="#" class="remove" onclick="javascript: contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?>(this);">x</a>
+            <a href="#" class="remove" onclick="javascript: LI.contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?>(this);">x</a>
             <input type="hidden" name="group_id" value="<?php echo $group->id ?>" />
             <?php else: ?>
             <span>&nbsp;&nbsp;</span>
@@ -34,59 +34,58 @@
           <?php if ( $sf_user->hasCredential('pr-group-common') || $sf_user->hasCredential('pr-group-perso') ): ?>
           <li class="new">
             <input type="hidden" name="object-id" value="<?php echo $obj->id ?>" />
-            <select name="unassociated_professional[groups_list][]">
-            </select>
+            <select name="unassociated_professional[groups_list][]"></select>
+            if ( LI == undefined )
+              var LI = {};
+            
             <script type="text/javascript"><!--
             $(document).ready(function(){
-              // display available new groups
-              object = <?php echo $cpt == 1 ? "$('.tdp-object')" : "$('#tdp-content [name=\"professional[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
-              select = <?php echo $cpt == 1 ? "$('.groups-object select')" : "$('.groups-subobject-".$obj->id." select')" ?>;
-              select.find('*').remove();
-              select.prepend(object.find('.tdp-groups_list select').eq(1).find('option').clone(true))
-                .prepend('<option value=""></option>')
-                .find('option:first-child').prop('selected',true);
-              select.prop('multiple', true);
+              var object = <?php echo $cpt == 1 ? "$('.sf_admin_edit.tdp-object')" : "$('#tdp-content [name=\"professional[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
+              var groups = <?php echo $cpt == 1 ? "$('.groups-object')" : "$('.groups-subobject-".$obj->id."')" ?>;
+              var input = object.find('.tdp-groups_list .open_list .open_list_source.ac_input');
+              groups.find('select').replaceWith(input);
               
-              // adding a new group
-              select.change(function(){
-                var val = $(this).val();
-                var select = this;
-                if ( typeof val != 'object' )
-                  val = [val];
+              // pre-adding a group
+              input.keydown(function(event){
+                if ( event.key != 'Enter' )
+                  return true;
+                if ( !$.trim($(this).val()) )
+                  return true;
+                if ( input.closest('ul').find('[name=group_id][value="'+$(this).attr('optval')+'"]').length > 0 )
+                  return true;
                 
-                $.each(val, function(id, value) {
-                  if ( value == '' )
-                    return;
-                  object = <?php echo $cpt == 1 ? "$('.tdp-object')" : "$('#tdp-content [name=\"professional[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
-                  object.find('.tdp-groups_list select').eq(1).find('option[value='+value+']').prop('selected',true);
-                  object.find('.tdp-groups_list a:first-child').click();
-                  $('<li class="tmp" title="<?php echo __('Not yet recorded') ?>"><a onclick="javascript: contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?>(this);" href="#" class="remove">x</a><input type="hidden" value="'+value+'" name="group_id" /> '+$(select).find('option[value='+value+']').html()+'</li>')
-                    .hide().insertBefore($(select).closest('li').closest('ul').find('.new')).fadeIn('slow');
-                  $(select).closest('ul').find('.empty').hide();
-                  $(select).find('option[value='+value+']').remove();
-                  $(select).val('');
-                });
+                var li = $('<li></li>');
+                $('<a></a>').prop('href', '#').text('x')
+                  .click(LI.contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?>)
+                  .appendTo(li);
+                li.append(' ');
+                $('<input />').prop('type','hidden')
+                  .val($(this).attr('optval'))
+                  .prop('name', 'group_id')
+                  .appendTo(li);
+                li.append(' ');
+                $('<span></span>').text($(this).val())
+                  .appendTo(li);
+                li.insertBefore(input.closest('li'));
               });
-              
             });
             
             // removing a group
-            function contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?> (anchor)
+            LI.contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?> = function(anchor)
             {
-              object = <?php echo $cpt == 1 ? "$('.tdp-object')" : "$('#tdp-content [name=\"professional[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
-              select = <?php echo $cpt == 1 ? "$('.groups-object select')" : "$('.groups-subobject-".$obj->id." select')" ?>;
+              var object = <?php echo $cpt == 1 ? "$('.sf_admin_edit.tdp-object')" : "$('#tdp-content [name=\"professional[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
+              var groups = <?php echo $cpt == 1 ? "$('.groups-object')" : "$('.groups-subobject-".$obj->id."')" ?>;
               
-              object.find('.tdp-groups_list select').eq(0)
-                .find(str = 'option[value='+$(anchor).closest('li').find('[name=group_id]').val()+']')
-                .prop('selected',true)
-                .clone(true).prependTo(select)
-                .prop('selected',false).addClass('tmp');
-              object.find('.tdp-groups_list a:last-child').click();
+              object.find(str = '.tdp-groups_list .open_list .open_list_selected option[value="'+$(anchor).closest('li').find('[name=group_id]').val()+'"]')
+                .remove();
+              console.error(str);
               $(anchor).closest('li').fadeOut('medium',function(){
                 if ( $(this).closest('ul').find('li:not(.empty):not(.new)').length <= 1 )
                   $(this).closest('ul').find('.empty').fadeIn('slow');
                 $(this).remove();
               });
+              
+              return false;
             }
             --></script>
           </li>

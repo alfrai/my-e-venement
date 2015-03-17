@@ -13,12 +13,19 @@ class ProfessionalForm extends BaseProfessionalForm
   public function configure()
   {
     $this->widgetSchema['professional_type_id']->setOption('order_by',array('name',''));
-
-    $this->widgetSchema   ['groups_list']
+    
+    
+    /*
+    $this->widgetSchema ['groups_list']
       ->setOption('order_by', array('u.id IS NULL DESC, u.username, name',''))
       ->setOption('query', $q = Doctrine::getTable('Group')->createQuery('g'));
-    $this->validatorSchema['groups_list']
-      ->setOption('query', $q);
+    */
+    $this->widgetSchema ['groups_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'model' => 'Group',
+      'url'   => cross_app_url_for('rp', 'group/ajax'),
+    ));
+    //$this->validatorSchema['groups_list']
+    //  ->setOption('query', $q);
     
     if ( !$this->object->isNew() && sfConfig::get('app_options_design',false) && sfConfig::get(sfConfig::get('app_options_design').'_active') )
     {

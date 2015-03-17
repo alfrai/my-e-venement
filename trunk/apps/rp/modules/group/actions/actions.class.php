@@ -36,6 +36,25 @@ require_once dirname(__FILE__).'/../lib/groupGeneratorHelper.class.php';
  */
 class groupActions extends autoGroupActions
 {
+  public function executeAjax(sfWebRequest $request)
+  {
+    $charset = sfConfig::get('software_internals_charset');
+    $search  = iconv($charset['db'],$charset['ascii'],$request->getParameter('q',''));
+    
+    $q = Doctrine::getTable('Group')
+      ->createQuery('g')
+      ->limit($request->getParameter('limit'));
+    if ( $search )
+      $q->andWhere('g.name ILIKE ?', '%'.$search.'%');
+    
+    $this->groups = array();
+    foreach ( $q->execute() as $group )
+      $this->groups[$group->id] = (string)$group;
+    
+    if (!( sfConfig::get('sf_web_debug', false) && $request->hasParameter('debug') ))
+      return 'Json';
+  }
+  
   public function executeMember(sfWebRequest $request)
   {
     $this->getContext()->getConfiguration()->loadHelpers('I18N');

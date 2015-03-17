@@ -44,12 +44,10 @@ class ContactForm extends BaseContactForm
       'method_for_query' => 'findOneByName',
     ));
     
-    $q = Doctrine::getTable('Group')->createQuery('g');
-    $this->widgetSchema   ['groups_list']
-      ->setOption('order_by', array('u.id IS NULL DESC, u.username, name',''))
-      ->setOption('query', $q);
-    $this->validatorSchema['groups_list']
-      ->setOption('query', $q);
+    $this->widgetSchema ['groups_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'model' => 'Group',
+      'url'   => cross_app_url_for('rp', 'group/ajax'),
+    ));
     
     $this->widgetSchema   ['phone_number'] = new sfWidgetFormInputText();
     $this->validatorSchema['phone_number'] = new sfValidatorString(array('required' => false));
