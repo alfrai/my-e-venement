@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>Fees</source>
+        <target>Frais</target>
+      </trans-unit>
+      <trans-unit>
         <source>You have ordered %%nb%% passes/member cards, but %%max%% is allowed. Please remove some of them...</source>
         <target>Vous avez commandé %%nb%% Passes/cartes d'abo. alors que %%max%% maximum sont autorisées. Retirez-en SVP...</target>
       </trans-unit>

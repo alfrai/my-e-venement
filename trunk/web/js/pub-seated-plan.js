@@ -42,8 +42,8 @@ $(document).ready(function(){
   }}
   
   // on changing quantities
-  $('.prices .seats .seat[data-seat-id=""], .prices .seats .seat:not([data-seat-id])').each(function(){
-    $(this).prependTo($(this).closest('.seats')); // ordering the priorities between tickets
+  $('.prices .price .ticket[data-seat-id=""], .prices .price .ticket:not([data-seat-id])').each(function(){
+    $(this).prependTo($(this).closest('.price')); // ordering the priorities between tickets
   });
   $('.prices [data-price-id] .quantity select').each(function(){
     var val;
@@ -60,10 +60,10 @@ $(document).ready(function(){
             // preparing the DB
             seats.push({
               action: 'del',
-              ticket_id: $(this).closest('[data-price-id], .seating.in-progress').find('.seat:first').attr('data-ticket-id'),
+              ticket_id: $(this).closest('[data-price-id], .seating.in-progress').find('.ticket:first').attr('data-ticket-id'),
               gauge_id: $(this).closest('[data-gauge-id]').attr('data-gauge-id'),
             });
-            $(this).closest('[data-price-id], .seating.in-progress').find('.seat:first').remove();
+            $(this).closest('[data-price-id], .seating.in-progress').find('.ticket:first').remove();
           }
           
           // more tickets
@@ -90,12 +90,14 @@ LI.pubInitTicketsData = function(json){
   $('.prices .quantity select').val(0).change();
   $('.prices .seating.in-progress .quantity').text('-');
   $('.prices .seats *').remove();
+  $('.prices .price .ticket').remove();
   
   // commenting out to avoid "blinking" seats
   //$('.seated-plan.picture .seat.ordered.in-progress')
   //  .removeClass('ordered').removeClass('in-progress')
   //  .removeAttr('data-ticket-id').removeAttr('data-price-id').removeAttr('data-gauge-id');
   
+  console.error(json);
   $('.prices tbody .extra-taxes').text('').attr('data-value', 0);
   $.each(json.tickets, function(key, ticket){
     var line = ticket.price_id
@@ -104,12 +106,22 @@ LI.pubInitTicketsData = function(json){
     ;
     
     // seats / tickets
+    /*
+    if ( ticket.seat_id )
     $('<span></span>')
       .addClass('seat').addClass('seat-'+ticket.seat_name)
       .attr('data-ticket-id', ticket.ticket_id)
       .attr('data-seat-id', ticket.seat_id)
       .text(ticket.seat_name)
       .appendTo(line.find('.seats').append(' '))
+    ;
+    else
+    */
+    $('<span></span>')
+      .addClass('ticket')
+      .attr('data-ticket-id', ticket.ticket_id)
+      .attr('data-seat-id', ticket.seat_id)
+      .appendTo(line.find('.price').append(' '))
     ;
     
     // extra taxes
@@ -133,12 +145,12 @@ LI.pubInitTicketsData = function(json){
     // quantity
     if ( $(this).find('.quantity select').length > 0 )
       $(this).find('.quantity select')
-        .val($(this).find('.seats .seat').length)
+        .val($(this).find('.price .ticket').length)
         .change()
       ;
     else // WIPs
       $(this).find('.quantity')
-        .text($(this).find('.seats .seat').length)
+        .text($(this).find('.price .ticket').length)
       ;
   });
   
@@ -148,8 +160,9 @@ LI.pubInitTicketsData = function(json){
   $.each(gauge, function(key, orphan){
     LI.pubShowOrphansOnPlan(orphan);
   }); });
-
-  LI.pubNamedTicketsInitialization();
+  
+  if ( typeof(LI.pubNamedTicketsInitialization) == 'function' )
+    LI.pubNamedTicketsInitialization();
 }
 
 LI.pubInitTicketsRequest = function(seats){
@@ -341,4 +354,3 @@ LI.pubShowOrphansOnPlan = function(orphan)
     clearInterval(interval);
   },500);
 }
-

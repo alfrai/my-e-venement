@@ -21,6 +21,8 @@
 *
 ***********************************************************************************/
 ?>
+<?php use_javascript('helper?'.date('Ymd')) ?>
+<?php use_javascript('pub-seated-plan?'.date('Ymd')) ?>
 <?php $vel = sfConfig::get('app_tickets_vel') ?>
 <?php if ( !isset($vel['full_seating_by_customer']) ) $vel['full_seating_by_customer'] = false; ?>
 <?php use_helper('Number') ?>
@@ -154,7 +156,6 @@
   <tr>
     <?php if ( $vel['full_seating_by_customer'] ): ?>
     <?php use_javascript('pub-seated-plan?'.date('Ymd'),'last') ?>
-    <?php use_javascript('helper?'.date('Ymd')) ?>
     <td class="seats"></td>
     <?php endif ?>
     <td colspan="5" class="submit">
