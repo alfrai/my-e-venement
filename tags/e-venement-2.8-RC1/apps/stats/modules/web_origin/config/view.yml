@@ -1,0 +1,14 @@
+all:
+  javascripts: [-jquery, -stats, list-scroll]
+  stylesheets: [stats-web-origin]
+
+dataSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+  
+csvSuccess:
+  has_layout: false
+  http_metas:
+    content-type: text/comma-separated-values
+    content-disposition: attachment; filename="stats-web-origins.csv"

@@ -1,0 +1,6 @@
+autoload:
+  liCardDavPlugin_lib:
+    name: liCardDavPlugin_lib lib
+    path: %SF_PLUGINS_DIR%/liCardDavPlugin/lib/
+    recursive: true
+    exclude: [SabreDAV]

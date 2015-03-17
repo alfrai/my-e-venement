@@ -1,0 +1,9 @@
+all:
+  javascripts: [pub-pos?<?php echo date('Ymd') ?>]
+  stylesheets: [pub-pos?<?php echo date('Ymd') ?>]
+
+modSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json
+        

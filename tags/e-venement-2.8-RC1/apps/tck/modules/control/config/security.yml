@@ -1,0 +1,7 @@
+all:
+  credentials: [tck-control-admin]
+
+show:
+  credentials: [tck-control-overview]
+index:
+  credentials: [tck-control-overview]

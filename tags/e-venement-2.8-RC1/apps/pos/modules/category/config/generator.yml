@@ -1,0 +1,31 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           ProductCategory
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          product_category
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        product_category_id: { label: Parent }
+      list:
+        display: [Parent, name, Vat, online, updated_at]
+        sort: ['parent_name, ppc.slug DESC, pct.name', ''] # slug is a trick to avoid a SQL Exception
+        object_actions:
+          _edit: ~
+          _delete: ~
+        title: List of products' categories
+      filter:
+        display: [product_category_id, name, vat_id, online]
+      form:
+        display: [product_category_id, name, vat_id, online]
+      edit:
+        title: Edit category %%name%%
+      new:     ~

@@ -1,0 +1,78 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           HoldTransaction
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          hold_transaction
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        list_contact: { label: Contact }
+        list_professional: { label: Function }
+        list_nb: { label: Quantity, type: number }
+        list_nb_seated: { label: Seated, type: number }
+        list_nb_printed: { label: Printed, type: number }
+        list_transaction_id: { label: Transaction }
+        pretickets: { label: Transitionals, type: number }
+      list:
+        title: 'Waiting list (begin with: ##hold##)'
+        display: [Hold, hold_id, _list_state, _list_transaction_id, _list_contact, _list_professional, pretickets, _list_nb_seated, _list_nb_printed, _list_nb, rank]
+        actions:
+          _back:
+            action: back
+            ui-icon: arrowreturnthick-1-w
+            credentials: [event-hold]
+          _new: ~
+          _dump:
+            action: dump
+            ui-icon: arrow-4-diag
+            credentials: [event-hold-transaction-new]
+          _flush:
+            ui-icon: radio-on
+            action: flush
+          _reprocess:
+            action: seat
+            ui-icon: circle-check
+            credentials: [event-hold-transaction-convert]
+        batch_actions:
+          _delete:
+            credentials: [event-hold-transaction-delete]
+        object_actions:
+          _minus:
+            action: minus
+            label: Less tickets
+            ui-icon: minus
+            credentials: [event-hold-transaction]
+          _plus:
+            action: plus
+            label: More tickets
+            ui-icon: plus
+            credentials: [event-hold-transaction]
+          _edit:
+            credentials: [tck-transaction]
+          _waitingList:
+            ui-icon: arrow-1-e
+            credentials: [event-hold-transaction]
+            action: waitingList
+          _delete:
+            credentials: [event-hold-transaction-delete]
+        sort: ['rank', '']
+        max_per_page: 1000
+      filter:
+        display: [transaction_id]
+      form:    ~
+      edit:
+        title: 'Edit held transaction #%%transaction_id%%'
+        display: [_show_transaction, _show_nb, _show_nb_printed, _show_nb_seated]
+      new:
+        display: [hold_id]
+        actions:
+          _list: ~
+          _save: ~

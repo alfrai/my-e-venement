@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="fr" datatype="plaintext" original="messages" date="2012-11-26T17:06:45Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit>
+        <source>Voucher exchange</source>
+        <target>Contremarque à échanger</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Guest of %%contact%%</source>
+        <target>Invité de %%contact%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>This is your ticket</source>
+        <target>Ceci est votre billet</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Image</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Category</source>
+        <target>Catégorie</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Product</source>
+        <target>Produit</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Precision</source>
+        <target>Précision</target>
+      </trans-unit>
+      <trans-unit>
+        <source>This ticket is a duplicate of #%%tid%%, it replaces and cancels any previous version of this ticket you might have recieved</source>
+        <target>Ce billet est un duplicata du #%%tid%%, il remplace et annule toute version précédente de ce billet que vous auriez pu recevoir</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Event</source>
+        <target>Événement</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Price</source>
+        <target>Tarif</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Date</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit>
+        <source>your order #</source>
+        <target>votre commande #</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Seat #</source>
+        <target>Place n°</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Venue</source>
+        <target>Lieu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Not yet allocated</source>
+        <target>Pas encore numéroté</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

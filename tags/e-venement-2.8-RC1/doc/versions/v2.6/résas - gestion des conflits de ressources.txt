@@ -1,0 +1,48 @@
+== état confirmé, option, bloquant ==
+
+une manifestation peut entrer en conflit avec une autre à condition qu'elle soit confirmée et bloquante.
+une ressource est en conflit d'usage à condition qu'il y ait plus d'une manifestation confirmée et bloquante à un instant donné.
+
+
+== dans la liste des événements ==
+
+si une manifestation est non confirmée
+à la place de la jauge apparaît (deux ou) trois éléments graphiques (croix rouge ou "tick" vert).
+- le premier correspond au caractère confirmé ou non d'une manifestation
+- le second à son caractère optionnel
+- le troisième permet de savoir si la manifestation est en conflit (les X manifestations sont confirmées) ou en conflit potentiel (si la manifestation actuelle n'est pas confirmée)
+
+
+== en consultant une fiche manifestation ==
+
+dans la fiche manifestation si la réservation de celle-ci n'est pas confirmée, on trouve en lieu et place de la jauge les mêmes (deux ou) trois informations que dans la liste des événements/manifestations, sous la forme de trois éléments graphiques (croix rouge ou "tick" vert).
+- le premier correspond au caractère confirmé ou non d'une manifestation
+- le second à son caractère optionnel
+- le troisième permet de savoir si la manifestation est en conflit (les réservations des X manifestations sont confirmées) ou en conflit potentiel (si la réservation de la manifestation actuelle n'est pas confirmée)
+
+
+== en modifiant une fiche manifestation ==
+
+lors de tout accès en modification et ce dès la création d'une manifestation, du moment que les dates et heures de réservation sont fixées, le lieu et les ressources visées sont automatiquement entourrées en rouge dans le cas où la manifestation courante rentrerait en conflit avec la réservation d'une autre manifestation confirmée ou non confirmée mais étant lié au contact affecté à votre user.
+
+vous retrouverez également, du moment que la réservation n'est pas confirmée, les trois éléments graphiques cités pour la liste des événements et pour la consultation simple d'une fiche manifestation.
+
+
+== dans le menu événements > conflits ==
+
+ce bordereau est là pour permettre de gérer les conflits "urgents" (manifestations confirmées faisant un usage concurrent des d'une même ressource au moins)
+
+on y retrouve l'ensemble des manifestations confirmées en conflit, triées par ordre de date et heure de début. On y retrouve particulièrement :
+- la ou les ressources en conflit
+- la date et heure de la manifestation
+- le contact ayant fait la réservation
+- les dates et heures de réservation
+- l'événement lié
+- le lieu où la manifestation doit avoir lieu
+- etc.
+
+
+== dans la liste des manifestations en attente ==
+
+contrairement au bordereau précédent, ce dernier sert à présenter les réservations à confirmer, avec leurs potentiels conflits, que l'on retrouve dans la colonne "Attention à".
+
