@@ -118,8 +118,8 @@ abstract class PluginEmail extends BaseEmail
       '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'.
       '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">'.
       '<head>'.
-      '<title></title>'.
-      //'<title>'.$this->field_subject.'</title>'.
+      //'<title></title>'.
+      '<title>'.$this->field_subject.'</title>'.
       '<meta name="title" content="'.$this->field_subject.'" />'.
       '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'.
       '</head><body>'.
