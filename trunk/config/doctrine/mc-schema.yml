@@ -38,6 +38,10 @@ MemberCardType:
       notnull: true
     product_declination_id: integer
     price_id: integer
+    nb_tickets_mini:
+      type: integer
+      notnull: true
+      default: 0
   relations:
     Users:
       class: sfGuardUser

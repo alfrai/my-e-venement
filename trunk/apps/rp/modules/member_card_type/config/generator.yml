@@ -14,11 +14,15 @@ generator:
     config:
       actions: ~
       fields:
-        value: { help: Global price }
+        value: { help: Global price, type: number }
+        real_value: { type: number }
+        nb_tickets_mini: { label: Minimum quantity of tickets needed in online sales, type: number }
         product_declination_id: { label: Product, help: This product will become the inner price of those member cards }
         price_id: { help: 'This price will be applied, as it is defined inside the product...' }
       list:
-        display: [name,description, _value, _real_value]
+        display: [name, description, _value, _real_value, nb_tickets_mini]
+        fields:
+          nb_tickets_mini: { label: Tickets online }
         sort: [name, asc]
         object_actions:
           _edit: ~
@@ -26,7 +30,7 @@ generator:
       filter:  ~
       form:
         display:
-          NONE: [name, description, users_list]
+          NONE: [name, description, users_list, nb_tickets_mini]
           Money: [value, product_declination_id, price_id]
       edit:    ~
       new:     ~

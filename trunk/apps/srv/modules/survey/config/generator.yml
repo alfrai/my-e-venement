@@ -30,14 +30,14 @@ generator:
             credentials: [srv-survey-del]
       filter:
         display: [name, weight, description]
-      form:
+      form:     ~
+      edit:
+        title: Edit Survey %%name%%
         display:
-          Général: [name, description, _show_queries, _show_extract_structure]
+          General: [name, description, _show_queries, _show_extract_structure]
           Answers: [_show_answers, _show_extract_content]
           Used by: [ApplyTo]
           Statistics: [_show_stats]
-      edit:
-        title: Edit Survey %%name%%
         actions:
           _list: ~
           _delete:
@@ -49,7 +49,10 @@ generator:
             ui-icon: plus
           _save:
             credentials: [srv-survey-edit]
-      new:     ~
+      new:
+        display:
+          General: [name, description]
+          NULL: [_show_stats]
       show:
         display:
           Public form: [_show_form]

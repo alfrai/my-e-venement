@@ -13,6 +13,14 @@
         <target>Ajouter à la fin du contenu</target>
       </trans-unit>
       <trans-unit>
+        <source>Minimum quantity of tickets needed in online sales</source>
+        <target>Quantité minimale de billets demandés pour les ventes en ligne</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Tickets online</source>
+        <target>Billets en ligne</target>
+      </trans-unit>
+      <trans-unit>
         <source>Store</source>
         <target>Boutique</target>
       </trans-unit>

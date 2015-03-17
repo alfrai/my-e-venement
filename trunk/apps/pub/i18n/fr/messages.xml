@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You have ordered %%nb%% passes/member cards, but %%max%% is allowed. Please remove some of them...</source>
+        <target>Vous avez commandé %%nb%% Passes/cartes d'abo. alors que %%max%% maximum sont autorisées. Retirez-en SVP...</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You need to book tickets for %%nb%% different events at least to be able to order a "%%mc%%" pass.</source>
+        <target>Vous devez réserver des billets pour %%nb%% événements différents au moins pour pouvoir commander un Pass "%%mc%%".</target>
+      </trans-unit>
+      <trans-unit>
         <source>Meta event List</source>
         <target>Méta-événements</target>
       </trans-unit>

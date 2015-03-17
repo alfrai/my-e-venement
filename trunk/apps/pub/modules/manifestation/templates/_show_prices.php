@@ -104,7 +104,9 @@
       // $mcp is kept from the action, it contains the limits for member card prices
       if ( isset($mcp[$pm->price_id]) )
       {
-        $mc_max += $mcp[$pm->price_id][''] < 0 ? 0 : $mcp[$pm->price_id][''];
+        $mc_max += isset($mcp[$pm->price_id]['']) && $mcp[$pm->price_id][''] > 0
+          ? $mcp[$pm->price_id]['']
+          : 0;
         if ( isset($mcp[$pm->price_id][$gauge->Manifestation->event_id]) )
           $mc_max += $mcp[$pm->price_id][$gauge->Manifestation->event_id];
       }

@@ -31,5 +31,11 @@ class MemberCardTypeForm extends BaseMemberCardTypeForm
       ->leftJoin('price.Users pu')
       ->andWhere('pu.id = ?', $this->user->getId())
     );
+    
+    $this->widgetSchema['nb_tickets_mini']
+      ->setAttribute('pattern', '\d+')
+      ->setAttribute('min', 0)
+      ->setAttribute('type', 'number')
+    ;
   }
 }

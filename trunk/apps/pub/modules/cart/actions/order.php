@@ -90,169 +90,103 @@
       $this->form->getObject()->culture = $this->getUser()->getCulture();
       $this->contact = $this->form->save();
     }
-    
     // remember the contact's informations
     $this->getUser()->setAttribute('contact_form_values', $this->form->getValues());
     
-    // auto_passes, having at least 3 events linked to the current member card
-    $mcs = array();
-    if ( $nb = sfConfig::get('app_member_cards_min_passes', 0) )
+    // passes controls: the current transaction does not embed more MemberCards than allowed
+    if ( ($max = sfConfig::get('app_member_cards_max_per_transaction', false))
+      && ($nb = $this->getUser()->getTransaction()->MemberCards->count()) > sfConfig::get('app_member_cards_max_per_transaction') )
     {
-      $tmp = array('manifs' => 0, 'mc' => 0);
-      
-      $tmp['manifs'] = Doctrine::getTable('Manifestation')->createQuery('m', true)
-        ->leftJoin('m.Tickets tck')
-        ->leftJoin('tck.Price p')
-        ->andWhere('p.member_card_linked = ?', true)
-        ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
-        ->count();
-      $tmp['mc'] = $this->getUser()->getTransaction()->MemberCards->count();
-      
-      $error = false;
+      $this->getContext()->getConfiguration()->loadHelpers('I18N');
+      $this->getUser()->setFlash('error', $str = __('You have ordered %%nb%% passes/member cards, but %%max%% is allowed. Please remove some of them...'));
+      error_log('Transaction #'.$this->getUser()->getTransactionId().': '.$str);
+      $this->redirect('transaction/show?id='.$this->getUser()->getTransactionId());
+    }
+    
+    // passes controls: checks if the current transaction does not have more than the maximum acceptable
+    if ( $this->getUser()->getTransaction()->MemberCards->count() > 0 )
+    {
+      $mcs = array();
       foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
+      foreach ( $mc->MemberCardPrices as $mcp )
       {
-        if ( !is_array($nb) )
-          $buf = $nb;
-        else
-          $buf = isset($nb[$mc->MemberCardType->name]) ? $nb[$mc->MemberCardType->name] : array_shift(sfConfig::get('app_member_cards_min_passes', 0));
-        
-        if ( $tmp['manifs'] < $buf )
-        {
-          error_log('MemberCards: Unsufficient number of manifestations for auto_pass features, during the cart validation...');
-          if ( sfConfig::get('sf_web_debug') )
-            error_log('    -> MemberCards: '.$tmp['mc'].', Manifestations: '.$tmp['manifs'].' / '.$buf.' different manifestations required.');
-          
-          $tmp['manifs'] -= $buf;
-          $error = true;
-        }
+        if ( !isset($mcs[$mcp->price_id]) )
+          $mcs[$mcp->price_id] = array('' => 0);
+        if ( $mcp->event_id && !isset($mcs[$mcpm->price_id][$mcp->event_id]) )
+          $mcs[$mcp->price_id][$mcp->event_id] = 0;
+        $mcs[$mcp->price_id][$mcp->event_id ? $mcp->event_id : '']++;
       }
       
-      if ( $error )
-      {
-        foreach ( $this->getUser()->getTransaction()->MemberCards as $id => $mc )
-        {
-          $mc->delete();
-          unset($this->getUser()->getTransaction()->MemberCards[$id]);
-          if ( sfConfig::get('sf_web_debug') )
-            error_log('Deleting the current member card, because the conditions are not sufficient anymore');
-        }
-        
-        foreach ( $this->getUser()->getTransaction()->Tickets as $id => $ticket )
-        if ( $ticket->Price->member_card_linked )
-        {
-          $ticket->delete();
-          unset($this->getUser()->getTransaction()->Tickets[$id]);
-          if ( sfConfig::get('sf_web_debug') )
-            error_log('Deleting a ticket (#'.$ticket->id.', '.$ticket->price_name.'), because the conditions are not sufficient anymore');
-        }
-      }
-    }
-    
-    // auto_passes, check for any bizaroid situation
-    if ( ($nb   = sfConfig::get('app_member_cards_trigger_after_manifestations', false))
-      && ($mcid = sfConfig::get('app_member_cards_member_card_type_id', false))
-      && Doctrine::getTable('Ticket')->createQuery('tck')
-         ->leftJoin('tck.Price price')
-         ->andWhere('price.member_card_linked = ?', true)
-         ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
-         ->count() > 0 )
-    {
-      if ( Doctrine::getTable('MemberCard')->createQuery('mc')
-        ->andWhere('mc.contact_id = ?', $this->getUser()->getTransaction()->contact_id)
-        ->andWhere('mc.member_card_type_id = ?', $mcid)
-        ->andWhere('mc.transaction_id != ? OR mc.active = ? AND mc.expire_at > NOW()', array($this->getUser()->getTransactionId(), true))
-        ->count() == 0
-      || Doctrine::getTable('Manifestation')->createQuery('m')
-        ->leftJoin('m.Tickets tck')
-        ->leftJoin('tck.Price price')
-        ->andWhere('price.member_card_linked = ?', false)
-        ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransaction()->id)
-        ->count() < $nb
-      )
-      {
-        error_log('MemberCards: Bizarroid situation with auto_pass features, during the cart validation...');
-        $this->getUser()->getFlash('You cannot get more than one active member card at the same time. Your order has been cleaned out, please check it again before anything else.');
-        
-        foreach ( $this->getUser()->getTransaction()->MemberCards as $id => $mc )
-        if ( $mc->member_card_type_id == $mcid )
-        {
-          $mc->delete();
-          unset($this->getUser()->getTransaction()->MemberCards[$id]);
-          if ( sfConfig::get('sf_web_debug') )
-            error_log('Deleting the current member card, because the conditions are not sufficient anymore');
-        }
-        
-        foreach ( $this->getUser()->getTransaction()->Tickets as $id => $ticket )
-        if ( $ticket->Price->member_card_linked )
-        {
-          $ticket->delete();
-          unset($this->getUser()->getTransaction()->Tickets[$id]);
-          if ( sfConfig::get('sf_web_debug') )
-            error_log('Deleting a ticket (#'.$ticket->id.', '.$ticket->price_name.'), because the conditions are not sufficient anymore');
-        }
-        
-        $this->redirect('transaction/show?id='.$this->getUser()->getTransaction()->id);
-      }
-    }
-    
-    // checks if there is no out-of-gauge
-    if ( $this->transaction->id == $this->getUser()->getTransactionId() && $this->getUser()->getTransaction()->Tickets->count() > 0 )
-    {
-      $ids = array();
       foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
-        $ids[$ticket->gauge_id] = $ticket->gauge_id;
-      
-      $q = Doctrine::getTable('Gauge')->createQuery('g')
-        ->andWhereIn('g.id',$ids);
-      
-      if ( !sfConfig::get('app_tickets_count_demands',false) )
+      if ( $ticket->Price->member_card_linked )
       {
-        $config = sfConfig::get('app_tickets_vel');
-        $q->addSelect("(SELECT count(*) AS nb
-                        FROM Ticket tck4
-                        WHERE printed_at IS NULL AND integrated_at IS NULL
-                          AND transaction_id NOT IN (SELECT o4.transaction_id FROM Order o4)
-                          AND duplicating IS NULL AND cancelling IS NULL AND gauge_id = g.id
-                          AND id NOT IN (SELECT tck44.cancelling FROM Ticket tck44 WHERE tck44.cancelling IS NOT NULL)
-                          AND sf_guard_user_id = '".$this->getUser()->getId()."'
-                          AND updated_at > NOW() - '".(isset($config['cart_timeout']) ? $config['cart_timeout'] : 20)." minutes'::interval
-                          AND transaction_id != '".$this->getUser()->getTransaction()->id."'
-                       ) AS asked_from_vel")
-          ->addSelect("(SELECT count(*) AS nb
-                        FROM Ticket tck5
-                        WHERE printed_at IS NULL AND integrated_at IS NULL
-                          AND transaction_id NOT IN (SELECT o5.transaction_id FROM Order o5)
-                          AND duplicating IS NULL AND cancelling IS NULL AND gauge_id = g.id
-                          AND id NOT IN (SELECT tck55.cancelling FROM Ticket tck55 WHERE tck55.cancelling IS NOT NULL)
-                          AND sf_guard_user_id = '".$this->getUser()->getId()."'
-                          AND transaction_id = '".$this->getUser()->getTransaction()->id."'
-                       ) AS nb_tickets_for_you");
+        if ( isset($mcs[$ticket->price_id][$ticket->Manifestation->event_id]) && $mcs[$ticket->price_id][$ticket->Manifestation->event_id] > 0 )
+          $mcs[$ticket->price_id][$ticket->Manifestation->event_id]--;
+        else
+          $mcs[$ticket->price_id]['']--;
       }
       
-      // check for errors / overbooking
-      $gauges = $q->execute();
-      $this->errors = array();
-      foreach ( $gauges as $gauge )
+      $go = true;
+      foreach ( $mcs as $price )
+      if ( $price[''] < 0 )
       {
-        $free = $gauge->value - $gauge->printed - $gauge->ordered;
-        $free -= sfConfig::get('app_tickets_count_demands',false) ? $gauge->asked : $gauge->asked_from_vel;
-        $free -= sfConfig::get('app_tickets_count_demands',false) ? 0 : $gauge->nb_tickets_for_you;
-        
-        if ( $free < 0 )
-          $this->errors[] = (string)$gauge->Manifestation;
+        $go = false;
+        break;
       }
-      if ( count($this->errors) > 0 )
+      
+      if ( !$go )
       {
         $this->getContext()->getConfiguration()->loadHelpers('I18N');
-        $this->getUser()->setFlash('error',
-          format_number_choice(
-            '[1]There is one overloaded gauge, please review your command.|(1,+Inf]There are %%nb%% overloaded gauges, please review your command.',
-            array('%%nb%%' => count($this->errors)),
-            count($this->errors)
-          ).' → '.implode(' ; ', $this->errors)
-        );
-        $this->executeShow($request);
-        $this->setTemplate('show');
+        $this->getUser()->setFlash('error', $str = __('You have booked more tickets linked to a member card than you can...'));
+        error_log('Transaction #'.$this->getUser()->getTransactionId().': '.$str);
+        $this->redirect('transaction/show?id='.$this->getUser()->getTransactionId());
+      }
+    }
+    
+    // auto_passes: having at least $nb events linked to the current member cards
+    $nb = array();
+    foreach ( Doctrine::getTable('MemberCardType')->createQuery('mct')->execute() as $mct )
+      $nb[$mct->name] = $mct->nb_tickets_mini;
+    if ( $nb )
+    {
+      // the match maker
+      $match = array();
+      foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
+      foreach ( $mc->MemberCardPrices as $mcp )
+      {
+        if ( !isset($match[$mcp->price_id]) )
+          $match[$mcp->price_id] = array();
+        if ( !isset($match[$mcp->price_id][$mcp->event_id ? $mcp->event_id : '']) )
+          $match[$mcp->price_id][$mcp->event_id ? $mcp->event_id : ''] = $mc->MemberCardType->name;
+      }
+      
+      // checks for each member card if it matches the rules set in the configuration
+      $tickets = $this->getUser()->getTransaction()->Tickets;
+      foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
+      {
+        $events = array();
+        foreach ( $tickets as $tid => $ticket )
+        {
+          if ( isset($match[$ticket->price_id][$ticket->Manifestation->event_id])
+            && $mc->MemberCardType->name == $match[$ticket->price_id][$ticket->Manifestation->event_id]
+            || isset($match[$ticket->price_id][''])
+            && $mc->MemberCardType->name == $match[$ticket->price_id][''] )
+          {
+            if ( !isset($events[$ticket->Manifestation->event_id]) )
+              $events[$ticket->Manifestation->event_id] = 0;
+            $events[$ticket->Manifestation->event_id]++;
+            unset($tickets[$tid]); // using this trick, a ticket cannot be "used" twice
+          }
+        }
+        
+        // if the current cart does not match member cards prerequisites
+        if ( count($events) < $nb[$mc->MemberCardType->name] )
+        {
+          $this->getContext()->getConfiguration()->loadHelpers('I18N');
+          $this->getUser()->setFlash('error', $str = __('You need to book tickets for %%nb%% different events at least to be able to order a "%%mc%%" pass.', array('%%nb%%' => $nb[$mc->MemberCardType->name], '%%mc%%' => $mc->MemberCardType->description_name)));
+          error_log('Transaction #'.$this->getUser()->getTransactionId().': '.$str);
+          $this->redirect('transaction/show?id='.$this->getUser()->getTransactionId());
+        }
       }
     }
     
@@ -261,7 +195,8 @@
     if ( $surveys->count() > 0 )
     {
       $this->getContext()->getConfiguration()->loadHelpers('I18N');
-      $this->getUser()->setFlash('success', __('You are about to complete your order, please fill in those surveys before...'));
+      $this->getUser()->setFlash('success', $str = __('You are about to complete your order, please fill in those surveys before...'));
+      error_log('Transaction #'.$this->getUser()->getTransactionId().': '.$str);
       $this->redirect('cart/surveys');
     }
     
@@ -283,7 +218,8 @@
       $transaction = $this->transaction;
       if ( $transaction->BoughtProducts->count() == 0 && $transaction->Tickets->count() == 0 && $transaction->MemberCards->count() == 0 )
       {
-        $this->getUser()->setFlash('notice', __('Please control your order...'));
+        $this->getUser()->setFlash('notice', $str = __('Please control your order...'));
+        error_log('Transaction #'.$this->getUser()->getTransactionId().': '.$str);
         $this->redirect('@homepage');
       }
       

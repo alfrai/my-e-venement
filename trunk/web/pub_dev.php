@@ -7,7 +7,7 @@ if (!in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')))
   die('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }
 
-header('P3P: CP="Topinambour"');
+header('P3P: CP="IDC DSP COR CURa ADMa OUR IND PHY ONL COM STA"');
 require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
 
 $configuration = ProjectConfiguration::getApplicationConfiguration('pub', 'dev', true);

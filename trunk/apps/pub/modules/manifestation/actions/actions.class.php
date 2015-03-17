@@ -125,7 +125,7 @@ class manifestationActions extends autoManifestationActions
     $this->form = new PricesPublicForm;
     sfConfig::set('pub.meta_event.slug', $this->manifestation->Event->MetaEvent->slug);
     
-    $this->mcp = $this->getAvailableMCPrices();
+    $this->mcp = $this->getAvailableMCPrices($this->manifestation);
     
     // if it is useless to use the "synthetic plan" features
     if ( !sfConfig::get('app_options_synthetic_plans', false) )
@@ -148,7 +148,7 @@ class manifestationActions extends autoManifestationActions
       return 'Closed';
   }
   
-  protected function getAvailableMCPrices()
+  protected function getAvailableMCPrices(Manifestation $manifestation = NULL)
   {
     $mcp = array();
     try {
@@ -161,33 +161,46 @@ class manifestationActions extends autoManifestationActions
     
     // get back available prices
     foreach ( $mcs as $mc )
+    if ( $mc->active || $mc->transaction_id == $this->getUser()->getTransactionId() )
     foreach ( $mc->MemberCardPrices as $price )
     {
-      if ( !isset($mcp[$price->price_id]['']) )
-        $mcp[$price->price_id][''] = 0;
+      $event_id = is_null($price->event_id) ? '' : $price->event_id;
       
-      if ( isset($mcp[$price->price_id][is_null($price->event_id) ? '' : $price->event_id]) )
-        $mcp[$price->price_id][is_null($price->event_id) ? '' : $price->event_id]++;
-      else
-        $mcp[$price->price_id][is_null($price->event_id) ? '' : $price->event_id] = 1;
+      if ( $event_id && $manifestation instanceof Manifestation && $price->event_id != $manifestation->event_id )
+        continue;
+      
+      if ( !isset($mcp[$price->price_id][$event_id]) )
+        $mcp[$price->price_id][$event_id] = 0;
+      
+      $mcp[$price->price_id][$event_id]++;
     }
     
     // get back already booked tickets
-    $tickets_to_count = Doctrine_Query::create()->from('Ticket tck')
+    $q = Doctrine_Query::create()->from('Ticket tck')
+      ->select('tck.*, m.event_id AS event_id')
       ->andWhere('tck.printed_at IS NULL')
-      ->andWhere('tck.member_card_id IS NOT NULL')
+      ->andWhere('tck.member_card_id IS NOT NULL OR t.id = ?', $this->getUser()->getTransactionId())
       ->leftJoin('tck.Manifestation m')
+      ->leftJoin('m.Event e')
+      ->leftJoin('e.Manifestations em')
       ->leftJoin('tck.Price p')
       ->andWhere('p.member_card_linked = ?',true)
       ->leftJoin('tck.Transaction t')
       ->andWhere('t.contact_id = ?',$this->getUser()->getContact()->id)
       ->leftJoin('t.Order o')
-      ->andWhere('o.id IS NOT NULL')
-      ->execute();
+    ;
+    if ( $manifestation )
+      $q->andWhere('em.id = ?', $manifestation->id)
+        ->andWhere('o.id IS NOT NULL OR t.id = ? AND tck.manifestation_id != em.id', $this->getUser()->getTransactionId())
+      ;
+    else
+      $q->andWhere('o.id IS NOT NULL OR t.id = ?', $this->getUser()->getTransactionId());
+      
+    $tickets_to_count = $q->execute();
     foreach ( $tickets_to_count as $ticket )
     {
-      if ( isset($mcp[$ticket->price_id][$ticket->Manifestation->event_id]) )
-        $mcp[$ticket->price_id][$ticket->Manifestation->event_id]--;
+      if ( isset($mcp[$ticket->price_id][$ticket->event_id]) )
+        $mcp[$ticket->price_id][$ticket->event_id]--;
       else
         $mcp[$ticket->price_id]['']--;
     }

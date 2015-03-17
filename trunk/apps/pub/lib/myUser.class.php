@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2013 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2013 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -317,8 +317,6 @@ class myUser extends pubUser
       return $this->transaction;
       
     $q = Doctrine::getTable('Transaction')->createQuery('t')
-      ->leftJoin('t.MemberCards tmc')
-      ->leftJoin('tmc.MemberCardPrices tmcp')
       ->leftJoin('t.Order o')
       ->leftJoin('t.Contact c')
       ->leftJoin('c.Professionals p WITH p.id = t.professional_id')

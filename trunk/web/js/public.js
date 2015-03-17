@@ -15,18 +15,29 @@ $(document).ready(function(){
   });
   
   // if no event is available but the store is present, go to the store
-  if ( $('.app-pub.mod-event.action-index .sf_admin_list table').length == 0
+  if ( location.hash != '#debug'
+    && $('.app-pub.mod-event.action-index .sf_admin_list table').length == 0
     && $('.app-pub.mod-event.action-index #ariane .event.with-store').length > 0 )
     window.location = $('.app-pub.mod-event.action-index #ariane .event.with-store a + a').prop('href');
   
   // redirect into the only meta-event of the @homepage if no alternative
-  if ( $('.app-pub.mod-meta_event.action-index .sf_admin_list .sf_admin_row').length == 1 )
+  if ( location.hash != '#debug' && $('.app-pub.mod-meta_event.action-index .sf_admin_list .sf_admin_row').length == 1 )
     window.location = $('.app-pub.mod-meta_event.action-index .sf_admin_list .sf_admin_row a').prop('href');
+  
+  // removing empty gauges
+  $('.app-pub.mod-manifestation.action-show .adding-tickets .gauge').each(function(){
+    if ( $('.app-pub.mod-manifestation.action-show .adding-tickets').length > 0 &&  $(this).find('[data-price-id]').length == 0 )
+      $(this).remove();
+  });
+  
+  // removing the useless "my cart" buttons
+  if ( $('.app-pub.mod-manifestation.action-show .adding-tickets .gauge').length > 1 )
+    $('.app-pub.mod-manifestation.action-show .adding-tickets .gauge:not(:last) tfoot tr:last').hide();
   
   // temporary flashes
   setTimeout(function(){
     $('.sf_admin_flashes > *').fadeOut(function(){ $(this).remove(); });
-  }, 3500);
+  }, 5500);
   
   // focus on registering forms
   $('.mod-cart.action-register #login, #contact-form').focusin(function(){
