@@ -108,7 +108,7 @@ body #content { width: auto; }
 #tdp-content .tdp-subobject #sf_admin_content .tdp-line.professional_memo .tdp-description label { display: none; }
 #tdp-content .tdp-line.relations .tdp-Relationships > table > tbody, #tdp-content .tdp-line.relations .tdp-Relationships > table > tbody > tr, #tdp-content .tdp-line.relations .tdp-Relationships > table > tbody > tr > td,
 #tdp-content .tdp-line.relations .tdp-YOBs > table > tbody, #tdp-content .tdp-line.relations .tdp-YOBs > table > tbody > tr, #tdp-content .tdp-line.relations .tdp-YOBs > table > tbody > tr > td,
-#tdp-content .tdp-line.relations .tdp-Relationships table, #tdp-content .tdp-line.relations .tdp-YOBs table { display: block; }
+#tdp-content .tdp-line.relations .tdp-Relationships table, #tdp-content .tdp-line.relations .tdp-YOBs table { display: inline-block; }
 #tdp-content .tdp-line.relations .tdp-Relationships table tfoot { position: absolute; margin-top: -17px; margin-left: 131px; }
 #tdp-content .sf_admin_form_field_Relationships table input[type=text],
 #tdp-content .sf_admin_form_field_YOBs table input[type=text] { border: 2px solid rgb(187, 187, 187); padding: 3px 5px; font-size: 0.9em; } 
