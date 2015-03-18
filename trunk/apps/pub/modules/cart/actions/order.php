@@ -112,7 +112,7 @@
       {
         if ( !isset($mcs[$mcp->price_id]) )
           $mcs[$mcp->price_id] = array('' => 0);
-        if ( $mcp->event_id && !isset($mcs[$mcpm->price_id][$mcp->event_id]) )
+        if ( $mcp->event_id && !isset($mcs[$mcp->price_id][$mcp->event_id]) )
           $mcs[$mcp->price_id][$mcp->event_id] = 0;
         $mcs[$mcp->price_id][$mcp->event_id ? $mcp->event_id : '']++;
       }
@@ -137,6 +137,7 @@
       if ( !$go )
       {
         $this->getContext()->getConfiguration()->loadHelpers('I18N');
+        error_log('here');
         $this->getUser()->setFlash('error', $str = __('You have booked more tickets linked to a member card than you can...'));
         error_log('Transaction #'.$this->getUser()->getTransactionId().': '.$str);
         $this->redirect('transaction/show?id='.$this->getUser()->getTransactionId());
@@ -149,44 +150,67 @@
       $nb[$mct->name] = $mct->nb_tickets_mini;
     if ( $nb )
     {
-      // the match maker
-      $match = array();
-      foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
-      foreach ( $mc->MemberCardPrices as $mcp )
-      {
-        if ( !isset($match[$mcp->price_id]) )
-          $match[$mcp->price_id] = array();
-        if ( !isset($match[$mcp->price_id][$mcp->event_id ? $mcp->event_id : '']) )
-          $match[$mcp->price_id][$mcp->event_id ? $mcp->event_id : ''] = $mc->MemberCardType->name;
-      }
-      
       // checks for each member card if it matches the rules set in the configuration
       $tickets = $this->getUser()->getTransaction()->Tickets;
       foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
+      if ( $nb[$mc->MemberCardType->name] > 0 )
       {
+        // the match maker
+        $match = array();
+        foreach ( $mc->MemberCardPrices as $mcp )
+        {
+          if ( !isset($match[$mcp->price_id]) )
+            $match[$mcp->price_id] = array();
+          if ( !isset($match[$mcp->price_id][$mcp->event_id ? $mcp->event_id : '']) )
+            $match[$mcp->price_id][$mcp->event_id ? $mcp->event_id : ''] = array();
+          if ( !isset($match[$mcp->price_id][$mcp->event_id ? $mcp->event_id : ''][$mc->MemberCardType->name]) )
+            $match[$mcp->price_id][$mcp->event_id ? $mcp->event_id : ''][$mc->MemberCardType->name] = 0;
+          $match[$mcp->price_id][$mcp->event_id ? $mcp->event_id : ''][$mc->MemberCardType->name]++;
+        }
+        
         $events = array();
         foreach ( $tickets as $tid => $ticket )
         {
           if ( isset($match[$ticket->price_id][$ticket->Manifestation->event_id])
-            && $mc->MemberCardType->name == $match[$ticket->price_id][$ticket->Manifestation->event_id]
+            && isset($match[$ticket->price_id][$ticket->Manifestation->event_id][$mc->MemberCardType->name])
+            && $match[$ticket->price_id][$ticket->Manifestation->event_id][$mc->MemberCardType->name] > 0
             || isset($match[$ticket->price_id][''])
-            && $mc->MemberCardType->name == $match[$ticket->price_id][''] )
+            && isset($match[$ticket->price_id][''][$mc->MemberCardType->name])
+            && $match[$ticket->price_id][''][$mc->MemberCardType->name] > 0
+          )
           {
+            if ( sfConfig::get('sf_web_debug', false) )
+              error_log('Adding event with '.$ticket->price_name.' for event #'.$ticket->Manifestation->event_id);
+            
             if ( !isset($events[$ticket->Manifestation->event_id]) )
               $events[$ticket->Manifestation->event_id] = 0;
             $events[$ticket->Manifestation->event_id]++;
             unset($tickets[$tid]); // using this trick, a ticket cannot be "used" twice
+            
+            // decreasing the quantity of tickets available for a price, an event and a MemberCardType
+            $match[$ticket->price_id][
+              isset($match[$ticket->price_id][$ticket->Manifestation->event_id]) ? $ticket->Manifestation->event_id : ''
+            ][$mc->MemberCardType->name]--;
+            
+            // go away if there is enough events
+            if ( count($events) >= $nb[$mc->MemberCardType->name] )
+              break;
           }
         }
         
         // if the current cart does not match member cards prerequisites
         if ( count($events) < $nb[$mc->MemberCardType->name] )
         {
+          if ( sfConfig::get('sf_web_debug', false) )
+            error_log('events: '.count($events).' required: '.$nb[$mc->MemberCardType->name]);
+          
           $this->getContext()->getConfiguration()->loadHelpers('I18N');
           $this->getUser()->setFlash('error', $str = __('You need to book tickets for %%nb%% different events at least to be able to order a "%%mc%%" pass.', array('%%nb%%' => $nb[$mc->MemberCardType->name], '%%mc%%' => $mc->MemberCardType->description_name)));
           error_log('Transaction #'.$this->getUser()->getTransactionId().': '.$str);
           $this->redirect('transaction/show?id='.$this->getUser()->getTransactionId());
         }
+        else
+          error_log('Transaction #'.$this->getUser()->getTransactionId().': The MemberCard #'.$mc->id.' can be processed');
       }
     }
     

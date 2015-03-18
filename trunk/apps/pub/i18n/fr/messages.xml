@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>You have booked more tickets linked to a member card than you can...</source>
+        <target>Vous avez choisi plus de billets liés à une carte d'abo que vous le pouviez...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Fees</source>
         <target>Frais</target>
       </trans-unit>
