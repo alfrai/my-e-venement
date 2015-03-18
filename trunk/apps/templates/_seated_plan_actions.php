@@ -9,12 +9,19 @@
     $param = 'gauges_list[]='.implode('&amp;gauges_list[]=', $ids);
   }
 ?>
-          <a class="close"
+          <a class="close float"
              href="#"
              onclick="javascript: $(this).closest('.seated-plan-parent').closest('.gauge').removeClass('active'); LI.controls_repeat($(this).closest('.seated-plan-parent').find('.controls-loop').prop('checked', false)); console.log('Seated plan closed'); return false;"
              title="<?php echo __('Close') ?>"
           ></a>
-          <a class="print"
+          <a class="full float"
+             href="#"
+             onclick="javascript: $(this).closest('.seated-plan-parent').toggleClass('high'); return false;"
+             title="<?php echo __('Full size') ?>"
+          >
+            <span class="ui-icon ui-icon-arrow-2-n-s"></span>
+          </a>
+          <a class="print float"
              href="#"
              onclick="javascript: LI.print_seated_plan($(this).closest('.seated-plan-parent')); return false;"
              title="<?php echo __('Print', null, 'menu') ?>"

@@ -29,13 +29,15 @@ html body #content { margin-right: 0; }
 .error.conflict a { text-decoration: none; font-size: 80%; }
 .error.conflict a:hover { text-decoration: underline; }
 
-.sf_admin_field_workspaces_list .seated-plan-parent { position: absolute !important; left: 35px; border: 1px solid silver; border-radius: 5px; display: none; margin: 75px 0 0 5px; cursor: default; background-color: white; z-index: 1; overflow-x: auto; width: 95%; height: auto; }
+.sf_admin_field_workspaces_list .seated-plan-parent { position: absolute !important; left: 35px; border: 1px solid silver; border-radius: 5px; display: none; margin: 75px 0 0 5px; cursor: default; background-color: white; z-index: 1; overflow-x: auto; width: 95%; height: auto; min-height: 30em; }
+.sf_admin_field_workspaces_list .seated-plan-parent.high { height: 100%; }
 .sf_admin_field_workspaces_list .gauge-gfx { display: none; }
 .sf_admin_field_workspaces_list .gauge .gauge { cursor: pointer; }
 .sf_admin_field_workspaces_list .active .seated-plan-parent { display: block; }
 .sf_admin_field_workspaces_list .magnify { top: 500px; right: 50px; }
-.sf_admin_field_workspaces_list .seated-plan-actions .print, .sf_admin_field_workspaces_list .seated-plan-actions .close { position: absolute; margin-left: calc(100% + 5px); font-weight: bold; color: white; }
-.sf_admin_field_workspaces_list .seated-plan-actions .close { margin-left: calc(100% + 37px); }
+.sf_admin_field_workspaces_list .seated-plan-actions .float { position: absolute; margin-left: calc(100% + 5px); font-weight: bold; color: white; }
+.sf_admin_field_workspaces_list .seated-plan-actions .full { margin-left: calc(100% + 37px); }
+.sf_admin_field_workspaces_list .seated-plan-actions .close { margin-left: calc(100% + 37px + 32px); }
 .sf_admin_field_workspaces_list .seated-plan-actions .close:before { content: 'x'; }
 
 #sf_fieldset_statistics label { font-weight: normal; }
