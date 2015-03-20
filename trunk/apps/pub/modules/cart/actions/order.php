@@ -151,7 +151,8 @@
     if ( $nb )
     {
       // checks for each member card if it matches the rules set in the configuration
-      $tickets = $this->getUser()->getTransaction()->Tickets;
+      $tickets = new Doctrine_Collection('Ticket');
+      $tickets->merge($this->getUser()->getTransaction()->Tickets);
       foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
       if ( $nb[$mc->MemberCardType->name] > 0 )
       {

@@ -13,6 +13,10 @@
         <target>Frais</target>
       </trans-unit>
       <trans-unit>
+        <source>You have booked more tickets linked to a member card than you can...</source>
+        <target>Vous avez choisi plus de billets liés à une carte d'abo que vous le pouviez...</target>
+      </trans-unit>
+      <trans-unit>
         <source>You have ordered %%nb%% passes/member cards, but %%max%% is allowed. Please remove some of them...</source>
         <target>Vous avez commandé %%nb%% Passes/cartes d'abo. alors que %%max%% maximum sont autorisées. Retirez-en SVP...</target>
       </trans-unit>

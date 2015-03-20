@@ -157,57 +157,59 @@ class Transaction extends PluginTransaction
   
   public function getTicketsLinkedToMemberCardPrice($including_not_activated = false)
   {
-    $prices = array();
-    
-    // linked directly to this transaction
-    foreach ( $this->MemberCards as $mc )
-    if ( $including_not_activated === true || $mc->activated )
-    foreach ( $mc->MemberCardPrices as $mcp )
-      if ( isset($prices[$mcp->price_id]) )
-        $prices[$mcp->price_id]++;
-      else
-        $prices[$mcp->price_id] = 1;
-    
-    // linked to the transaction's contact
-    $mc_value = 0;
-    if ( !is_null($this->contact_id) )
-    foreach ( $this->Contact->MemberCards as $mc )
-    {
-      if ( $mc->active && $mc->transaction_id != $this->id )
-      foreach ( $mc->MemberCardPrices as $mcp )
-      if ( isset($prices[$mcp->price_id]) )
-        $prices[$mcp->price_id]++;
-      else
-        $prices[$mcp->price_id] = 1;
-      
-      if ( $mc->active || $mc->transaction_id == $this->id )
-        $mc_value += $mc->value;
-    }
-    
     $price = 0;
-    foreach ( $this->Tickets as $ticket )
-    if ( $ticket->Duplicatas->count() == 0 )
+    
+    // all member cards that counts
+    $mcs = new Doctrine_Collection('MemberCard');
+    foreach ( array($this->MemberCards, $this->Contact->MemberCards) as $m_c )
+    foreach ( $m_c as $mc )
+    if ( $including_not_activated === true && $mc->transaction_id == $this->id
+      || $mc->activated && $mc->transaction_id != $this->id )
+    if ( $mc->value > 0 || $mc->MemberCardPrices->count() > 0 )
     {
-      if ( ($ticket->printed_at || $ticket->integrated_at)
-        && $ticket->member_card_id )
+      $mcs[$mc->id] = $mc->copy();
+      foreach ( $mc->MemberCardPrices as $mcp )
+        $mcs[$mc->id]->MemberCardPrices[] = $mcp->copy();
+    }
+    
+    // creates the collection of tickets linked to a member card
+    $tickets = new Doctrine_Collection('Ticket');
+    foreach ( $this->Tickets as $ticket )
+    if ( $ticket->Price->member_card_linked || $ticket->member_card_id )
+      $tickets[] = $ticket;
+    
+    // processing all tickets linked to a member card
+    foreach ( $tickets as $ticket )
+    if ( $ticket->member_card_id )
+    {
+      if ( isset($mcs[$ticket->member_card_id]) )
+        $mcs[$ticket->member_card_id]->value -= $ticket->value;
+    }
+    else
+    {
+      foreach ( $mcs as $mc )
+      foreach ( $mc->MemberCardPrices as $i => $mcp )
+      if ( $mcp->event_id )
       {
-        if ( $mc_value >= $ticket->value )
+        if ( $mcp->event_id == $ticket->Manifestation->event_id
+          && $mcp->price_id == $ticket->price_id
+          && $mc->value >= $ticket->value )
         {
-          $mc_value -= $ticket->value;
+          $mc->value -= $ticket->value;
           $price += $ticket->value;
+          unset($mc->MemberCardPrices[$i]);
+          break(2);
         }
       }
-      elseif ( $including_not_activated === true && $ticket->Price->member_card_linked
-            && isset($prices[$ticket->price_id]) && $prices[$ticket->price_id] > 0 )
+      else if ( $mcp->price_id == $ticket->price_id && $mc->value >= $ticket->value )
       {
-        $prices[$ticket->price_id]--;
-        if ( $mc_value >= $ticket->value )
-        {
-          $mc_value -= $ticket->value;
-          $price += $ticket->value;
-        }
+        $mc->value -= $ticket->value;
+        $price += $ticket->value;
+        unset($mc->MemberCardPrices[$i]);
+        break(2);
       }
     }
+    
     return $price;
   }
   public function getPaid()
