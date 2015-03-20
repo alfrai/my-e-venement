@@ -148,11 +148,24 @@
     $nb = array();
     foreach ( Doctrine::getTable('MemberCardType')->createQuery('mct')->execute() as $mct )
       $nb[$mct->name] = $mct->nb_tickets_mini;
+    
     if ( $nb )
     {
-      // checks for each member card if it matches the rules set in the configuration
+      // order the tickets by the quantity (DESC) of their Event bookings
       $tickets = new Doctrine_Collection('Ticket');
-      $tickets->merge($this->getUser()->getTransaction()->Tickets);
+      $events = array();
+      foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
+      {
+        if ( !isset($events[$ticket->Manifestation->event_id]) )
+          $events[$ticket->Manifestation->event_id]++;
+      }
+      arsort($events);
+      foreach ( $events as $event_id => $nb )
+      foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
+      if ( $ticket->Manifestation->event_id == $event_id )
+        $tickets[] = $ticket;
+      
+      // checks for each member card if it matches the rules set in the configuration
       foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
       if ( $nb[$mc->MemberCardType->name] > 0 )
       {
@@ -169,7 +182,6 @@
           $match[$mcp->price_id][$mcp->event_id ? $mcp->event_id : ''][$mc->MemberCardType->name]++;
         }
         
-        $events = array();
         foreach ( $tickets as $tid => $ticket )
         {
           if ( isset($match[$ticket->price_id][$ticket->Manifestation->event_id])
@@ -181,7 +193,7 @@
           )
           {
             if ( sfConfig::get('sf_web_debug', false) )
-              error_log('Adding event with '.$ticket->price_name.' for event #'.$ticket->Manifestation->event_id);
+              error_log('Adding ticket #'.$ticket->id.' with price '.$ticket->price_name.' for event #'.$ticket->Manifestation->event_id);
             
             if ( !isset($events[$ticket->Manifestation->event_id]) )
               $events[$ticket->Manifestation->event_id] = 0;
