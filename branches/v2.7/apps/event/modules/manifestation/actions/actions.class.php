@@ -498,7 +498,6 @@ class manifestationActions extends autoManifestationActions
       ->leftJoin('tr.User u')
       ->leftJoin('pro.Organism o');
       
-    if ( $nb < 7500 )
     $q->leftJoin('tr.Tickets tck'.($only_printed_tck ? ' ON tck.transaction_id = tr.id AND (tck.printed_at IS NOT NULL OR tck.integrated_at IS NOT NULL OR tck.cancelling IS NOT NULL)' : ''))
       ->leftJoin('tck.Duplicatas duplicatas')
       ->leftJoin('duplicatas.Cancelling cancelling2')
@@ -517,25 +516,8 @@ class manifestationActions extends autoManifestationActions
       ->andWhere('tck.manifestation_id = ?',$manifestation_id ? $manifestation_id : $this->manifestation->id)
       ->andWhere('(cp.legal IS NULL OR cp.legal = true)')
       ->andWhereIn('g.workspace_id',array_keys($this->getUser()->getWorkspacesCredentials()))
-      ->orderBy('c.name, c.firstname, o.name, p.name, g.workspace_id, w.name, tr.id');
-    else
-    {
-      $q->select('tr.*, c.*, pro.*, o.*, order.*, u.*')
-        ->andWhere('tr.id IN (SELECT DISTINCT t0.transaction_id FROM Ticket t0 WHERE t0.manifestation_id = ?)', $mid)
-        ->orderBy('c.name, c.firstname, o.name, tr.id');
-      $rank = 0;
-      foreach ( array(
-        'printed' => '(t%%i%%.printed_at IS NOT NULL OR t%%i%%.integrated_at IS NOT NULL)',
-        'ordered' => 'NOT (t%%i%%.printed_at IS NOT NULL OR t%%i%%.integrated_at IS NOT NULL) AND t%%i%%.transaction_id IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)',
-        'asked' => 'NOT (t%%i%%.printed_at IS NOT NULL OR t%%i%%.integrated_at IS NOT NULL) AND t%%i%%.transaction_id NOT IN (SELECT DISTINCT o%%i%%.transaction_id FROM Order o%%i%%)'
-      ) as $col => $where )
-      {
-        $rank++;
-        $q->addSelect('(SELECT count(t'.$rank.'.id) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.id NOT IN (SELECT ttd'.$rank.'.duplicating FROM Ticket ttd'.$rank.' WHERE ttd'.$rank.'.duplicating IS NOT NULL) AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.transaction_id = tr.id) AS '.$col);
-        $rank++;
-        $q->addSelect('(SELECT sum(t'.$rank.'.value) FROM Ticket t'.$rank.' LEFT JOIN t'.$rank.'.Gauge g'.$rank.' WHERE '.str_replace('%%i%%',$rank,$where).' AND t'.$rank.'.cancelling IS NULL AND t'.$rank.'.duplicating IS NULL AND t'.$rank.'.id NOT IN (SELECT tt'.$rank.'.cancelling FROM ticket tt'.$rank.' WHERE tt'.$rank.'.cancelling IS NOT NULL) AND g'.$rank.'.workspace_id IN ('.implode(',',array_keys($this->getUser()->getWorkspacesCredentials())).') AND t'.$rank.'.transaction_id = tr.id) AS '.$col.'_value');
-      }
-    }
+      ->orderBy('c.name, c.firstname, o.name, p.name, g.workspace_id, w.name, tr.id')
+    ;
     
     $spectators = $q->execute();
     return $spectators;
