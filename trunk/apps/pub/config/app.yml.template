@@ -115,6 +115,7 @@ all:
     other:
     invoice_prefix: FB
   texts:
+    #cart_resend_email: ''
     synthetic:
       plans: Cliquez sur le plan pour sélectionner vos places
       categories: En choisissant votre catégorie et un nombre de billets à ajouter, vous obtiendrez les meilleures places côte-à-côte

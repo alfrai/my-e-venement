@@ -161,7 +161,7 @@ class Transaction extends PluginTransaction
     
     // all member cards that counts
     $mcs = new Doctrine_Collection('MemberCard');
-    foreach ( array($this->MemberCards, $this->Contact->MemberCards) as $m_c )
+    foreach ( array($this->MemberCards, $this->contact_id ? $this->Contact->MemberCards : array()) as $m_c )
     foreach ( $m_c as $mc )
     if ( $including_not_activated === true && $mc->transaction_id == $this->id
       || $mc->activated && $mc->transaction_id != $this->id )
