@@ -44,7 +44,6 @@
   if ( $gauge->Manifestation->online_limit_per_transaction && $gauge->Manifestation->online_limit_per_transaction < $vel['max_per_manifestation'] )
     $vel['max_per_manifestation'] = $gauge->Manifestation->online_limit_per_transaction;
 ?>
-
 <table class="prices">
 <?php if ( $gauge->Manifestation->PriceManifestations->count() > 0 || $gauge->PriceGauges->count() > 0 ): ?>
 <tbody>

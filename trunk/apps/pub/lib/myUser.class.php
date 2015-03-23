@@ -101,15 +101,14 @@ class myUser extends pubUser
     // controlling the global max_per_manifestation parameter
     $vel['max_per_manifestation'] = isset($vel['max_per_manifestation']) ? $vel['max_per_manifestation'] : 9;
     if ( !(isset($vel['no_online_limit_from_manifestations']) && $vel['no_online_limit_from_manifestations'])
-      && $manifestation->online_limit && $manifestation->online_limit < $vel['max_per_manifestation'] )
-      $vel['max_per_manifestation'] = $manifestation->online_limit;
+      && $manifestation->online_limit_per_transaction && $manifestation->online_limit_per_transaction < $vel['max_per_manifestation'] )
+      $vel['max_per_manifestation'] = $manifestation->online_limit_per_transaction;
     foreach ( $this->getTransaction()->Tickets as $ticket )
     if ( !$ticket->hasBeenCancelled() && $manifestation->id == $ticket->manifestation_id )
       $vel['max_per_manifestation']--;
     $max[] = $vel['max_per_manifestation'];
     if ( $vel['max_per_manifestation'] < 0 )
     {
-      $event->setReturnValue(false);
       sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N'));
       $event['message'] = __('You cannot book a ticket on this date because you have already reached the limit of tickets for %%manif%%', array(
         '%%manif%%' => $ticket->Manifestation,

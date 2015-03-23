@@ -49,6 +49,7 @@
   // the existing tickets
   $q = Doctrine::getTable('Ticket')->createQuery('tck')
     ->andWhere('tck.transaction_id = ?', $this->getUser()->getTransactionId())
+    ->andWhere('tck.manifestation_id = ?', $request->getParameter('manifestation_id'))
     ->andWhere('tck.printed_at IS NULL')
     ->andWhere('tck.integrated_at IS NULL')
     ->andWhere('tck.cancelling IS NULL')
