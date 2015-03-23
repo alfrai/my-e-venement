@@ -101,6 +101,18 @@ class contactActions extends sfActions
       ->orderBy("bp.description_for_buyers IS NOT NULL AND bp.description_for_buyers != '' DESC, bp.integrated_at DESC")
       ->execute();
     
+    $this->member_cards = Doctrine::getTable('MemberCard')->createQuery('mc')
+      ->leftJoin('mc.Transaction t')
+      ->andWhere('t.id = ? OR mc.active = ?', array($this->getUser()->getTransactionId(), true))
+      ->andWhere('mc.contact_id = ?',$this->getUser()->getContact()->id)
+      
+      ->leftJoin('mc.MemberCardType mct')
+      ->leftJoin('mc.MemberCardPrices mcps')
+      ->leftJoin('mcps.Event e')
+      ->leftJoin('mcps.Price p')
+      ->orderBy("mc.expire_at DESC, mc.created_at, mct.name")
+      ->execute();
+    
     $this->contact = $this->getUser()->getContact();
   }
 }

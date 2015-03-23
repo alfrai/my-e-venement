@@ -9,6 +9,10 @@
         <target>Vous avez choisi plus de billets liés à une carte d'abo que vous le pouviez...</target>
       </trans-unit>
       <trans-unit>
+        <source>Expire at</source>
+        <target>Expire le</target>
+      </trans-unit>
+      <trans-unit>
         <source>Fees</source>
         <target>Frais</target>
       </trans-unit>

@@ -26,8 +26,8 @@
 <h1><?php echo __('My account') ?></h1>
 <?php include_partial('index_contact',array('contact' => $contact)) ?>
 
-<?php if ( $contact->MemberCards->count() > 0 ): ?>
-<?php include_partial('index_member_cards',array('contact' => $contact)) ?>
+<?php if ( $member_cards->count() > 0 ): ?>
+<?php include_partial('index_member_cards',array('member_cards' => $member_cards)) ?>
 <?php endif ?>
 
 <?php if ( $products->count() > 0 ): ?>

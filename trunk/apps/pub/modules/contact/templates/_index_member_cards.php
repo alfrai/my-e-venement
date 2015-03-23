@@ -21,10 +21,10 @@
 *
 ***********************************************************************************/
 ?>
-<?php if ( $contact->MemberCards->count() > 0 ): ?>
+<?php use_helper('Number') ?>
+<?php if ( $member_cards->count() > 0 ): ?>
 <div id="member_cards">
 <h2><?php echo sfConfig::get('app_member_cards_title',false) ? pubConfiguration::getText('app_member_cards_title') : __('Member card') ?></h2>
-<h2><?php echo __('My products') ?> :</h2>
 
 <div id="sf_admin_container">
 <div id="sf_admin_content">
@@ -35,8 +35,8 @@
         <th class="sf_admin_text sf_admin_list_th_list_name"><?php echo sfConfig::get('app_member_cards_title',false) ? pubConfiguration::getText('app_member_cards_title') : __('Member card') ?></th>
         <th class="sf_admin_text sf_admin_list_th_list_value"><?php echo __('Value') ?></th>
         <th class="sf_admin_text sf_admin_list_th_list_prices"><?php echo __('Associated prices still available') ?></th>
-        <th class="sf_admin_date sf_admin_list_th_list_validity"><?php echo __('Validity') ?></th>
-        <th class="sf_admin_date sf_admin_list_th_list_transaction_id"><?php echo __('Transaction') ?></th>
+        <th class="sf_admin_date sf_admin_list_th_list_expire_at"><?php echo __('Expire at') ?></th>
+        <th class="sf_admin_date sf_admin_list_th_list_transaction_id"><?php echo __('Transaction number') ?></th>
       </tr>
     </thead>
     <tfoot>
@@ -46,16 +46,30 @@
     </tfoot>
     <tbody>
       <?php $cpt = 0 ?>
-      <?php foreach ( $products as $pdt ): ?>
+      <?php foreach ( $member_cards as $mc ): ?>
       <tr class="sf_admin_row <?php echo $cpt%2 == 0 ? '' : 'odd' ?>">
-        <td class="sf_admin_text sf_admin_list_td_list_name"><?php echo $pdt->name ?></td>
-        <td class="sf_admin_text sf_admin_list_td_list_content"><?php
-          echo $pdt->integrated_at && strtotime($pdt->integrated_at) <= time() && trim($pdt->getRawValue()->description_for_buyers)
-            ? $pdt->getRawValue()->description_for_buyers
-            : $pdt->declination
-         ?></td>
-        <td class="sf_admin_text sf_admin_list_td_list_transaction_id">#<?php echo link_to($pdt->transaction_id, 'transaction/show?id='.$pdt->transaction_id) ?></td>
-        <td class="sf_admin_date sf_admin_list_td_list_date"><?php echo format_date($pdt->integrated_at) ?></td>
+        <td class="sf_admin_text sf_admin_list_td_list_name"><?php echo $mc->MemberCardType->name ?></td>
+        <td class="sf_admin_text sf_admin_list_td_list_value"><?php echo format_currency($mc->value, '€') ?></td>
+        <td class="sf_admin_text sf_admin_list_td_list_prices">
+          <table>
+            <thead>
+              <tr>
+                <th><?php echo __('Price') ?></td>
+                <th><?php echo __('Event') ?></td>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ( $mc->MemberCardPrices as $mcp ): ?>
+              <tr>
+                <td class="price"><?php echo $mcp->Price ?></td>
+                <td class="event"><?php echo link_to($mcp->Event, 'event/edit?id='.$mcp->event_id) ?></td>
+              </tr>
+              <?php endforeach ?>
+            </tbody>
+          </table>
+        </td>
+        <td class="sf_admin_date sf_admin_list_td_list_expire_at"><?php echo format_date($mc->expire_at) ?></td>
+        <td class="sf_admin_date sf_admin_list_td_list_transaction_id">#<?php echo link_to($mc->transaction_id, 'show/transaction?id='.$mc->transaction_id) ?></td>
       </tr>
       <?php $cpt++ ?>
       <?php endforeach ?>
@@ -65,27 +79,5 @@
 </div>
 </div>
 
-<?php /*
-<div id="member_cards">
-<h2><?php echo __('Member cards') ?></h2>
-<ul>
-<?php foreach ( $contact->MemberCards as $mc ): ?>
-  <li class="mc-<?php echo $mc->id ?>">
-    <a href="<?php echo url_for('member_card/show?id='.$mc->id) ?>" class="mc"><?php echo $mc ?></a>
-  </li>
-<?php endforeach ?>
-</ul>
-<script type="text/javascript"><!--
-  $(document).ready(function(){
-    $('#member_cards li a').each(function(){
-      $.get($(this).attr('href'),function(data){
-        data = $.parseHTML(data);
-        mcid = $(data).find('#id').html();
-        $('#member_cards .mc-'+mcid).html($(data).find('#sf_fieldset_none'));
-      });
-    });
-  });
---></script>
 </div>
-*/ ?>
 <?php endif ?>
