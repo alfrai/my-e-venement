@@ -1,0 +1,6 @@
+#jappix_mini .jm_actions { background-image: url("../images/logo-evenement.png"); background-repeat: no-repeat;background-position: 5px 4px; }
+#jappix_mini .jm_nick { padding-left: 20px; }
+#jappix_mini .jm_images.jm_logo:before { content: 'e-message'; color: white; }
+#jappix_mini .jm_actions .jm_images.jm_logo { background-image: none; padding-top: 5px; padding-left: 20px; }
+#jappix_mini .jm_actions .jm_images.jm_logo:hover { background-color: transparent; padding-top: 5px; padding-left: 20px; }
+#jappix_mini .jm_pane .jm_name { width: 120px; }

@@ -1,0 +1,49 @@
+all:
+  cards:
+    enable: true
+    #expiration_delay: 6 month
+    expiration_date: 09-01
+    date_extra: Cet abonnement est valable uniquement cette saison.
+    auto_close: true
+  tickets:
+    count_demands: false
+  about:
+    nowarranty: false
+    client:
+      name: dev
+      url: http://www.their-web-site.tld/
+      logo: http://www.their-web-site.tld/logo.png
+      address: |
+        Libre Informatique
+        2a allée Franz Stock
+        29000 QUIMPER
+        France
+      #country: France
+    firm:
+      url: http://www.my-web-site.tld/
+      name: My Company
+  #museum: true
+  demo: false
+  network:
+    ipv6_ready: false
+  login_alert:
+    beginning_at: 2014-02-22 # optional
+    ending_at: 2014-06-22
+    message: |
+      La date anniversaire de votre contrat est le
+      25 décembre, passé cette date vous ne pourrez
+      plus bénéficier des services de votre prestataire
+  #menu:
+  #  help:
+  #    Perso:
+  #      url: http://www.e-venement.net/e-venement/references/
+  #      credential: test
+  #      target: _blank
+  #      extra_properties:
+  #        class: spaced
+  #        test: test
+  #archive_url: /old/
+  #locale: LC_ALL.UTF8 # cf. config/e-venement.yml
+  #messaging:
+  #  enable: true
+  #  chatrooms: [e-venement-public@conference.jabber.libre-informatique.fr]

@@ -1,0 +1,23 @@
+newSuccess:
+  stylesheets: [picture, event-seated-plan]
+  javascripts: [event-seated-plan]
+createSuccess:
+  stylesheets: [picture, event-seated-plan]
+  javascripts: [event-seated-plan]
+updateSuccess:
+  stylesheets: [picture, event-seated-plan]
+  javascripts: [event-seated-plan]
+editSuccess:
+  stylesheets: [picture, event-seated-plan]
+  javascripts: [event-seated-plan]
+showSuccess:
+  stylesheets: [picture, event-seated-plan]
+  javascripts: [event-seated-plan]
+  layout: nude
+indexSuccess:
+  stylesheets: [event-seated-plan]
+
+getSeatsSuccess:
+  has_layout: false
+  http_metas:
+    content-type: application/json

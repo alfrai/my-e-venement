@@ -1,0 +1,72 @@
+.clear { clear: both; }
+#content > .ui-widget-content { min-height: 375px; }
+table {
+  padding: 5px 0;
+  margin: 5px;
+  margin-right: 240px;
+  float: left;
+}
+
+/* PRINT */
+@media print {
+
+table { margin-right: 6px; }
+
+}
+
+table tfoot tr:first-child td { border-top: 1px solid #a6c9e2; }
+table thead tr:last-child td { border-bottom: 1px solid #a6c9e2; }
+table tfoot tr:first-child td,
+table tbody tr:first-child td { padding-top: 5px; }
+table tbody tr:last-child td { padding-bottom: 5px; }
+table td { padding-right: 8px; padding-left: 8px }
+table td.event { width: 300px; }
+table td.method { width: 120px; }
+table td.id-qty { width: 35px; }
+table td.value { width: 50px; }
+table td.vat { width: 50px; }
+table td.vat.total { width: auto; }
+table td.date { width: 80px; }
+table td.ref { max-width: 200px; }
+table td.see-more { width: 5px; padding-left: 0; }
+table td.see-more a { padding: 0 3px; }
+table td.vat, table td.id-qty, table td.value { text-align: right; }
+table .prices { font-size: 75%; }
+table .prices td.price { padding-left: 25px; }
+
+thead td, tfoot td { font-weight: bold; text-decoration: underline; }
+tbody .method td, tbody .event td { font-weight: bold; }
+thead td, tr.method td, tr.event td { padding-bottom: 5px; }
+tr.method td, tr.event td { padding-top: 5px; }
+
+table tbody a { text-decoration: none; }
+table tbody a:hover { text-decoration: underline; }
+
+.criterias { min-height: 0; margin: 10px 245px 10px 5px; }
+.criterias .ui-widget-header { cursor: pointer; }
+.criterias.hide { display: none; }
+.criterias .dates, .criterias ul { margin: 10px 30px; }
+
+#criterias {
+  width: 230px;
+  position: absolute;
+  right: 25px;
+  bottom: 40px;
+  top: 125px;
+  margin-top: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#criterias ul { margin: 5px; }
+#criterias li { list-style-type: none; }
+#criterias label { display: block; }
+#criterias input[type=text][size="2"],
+#criterias input[type=text][size="4"] { text-align: right; }
+#criterias input[type=text][size="2"] { width: 22px; }
+#criterias input[type=text][size="4"] { width: 44px; }
+#criterias select { width: 220px; }
+
+#ledger .user { white-space: nowrap; max-width: 70px; overflow: hidden; }
+
+.ui-widget-header a { float: right; margin-top: -2em; }
+.ui-datepicker a { float: none; margin-top: 0; }

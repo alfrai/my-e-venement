@@ -1,0 +1,5 @@
+all:
+  credentials: stats-attendance
+csv:
+  credentials: [stats-attendance, stats-csv]
+    

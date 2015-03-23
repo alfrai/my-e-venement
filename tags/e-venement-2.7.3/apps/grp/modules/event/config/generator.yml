@@ -1,0 +1,42 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Event
+    theme:                 jroller
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          event
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+        display: [MetaEvent,=name]
+        object_actions:
+          _edit: ~
+          _extract_accepted: { name: Accepted, action: accepted }
+          _extract_refused: { name: Refused, action: refused }
+          _export: { name: Export accepted, action: export }
+        batch_actions: {}
+        title: By event
+        table_method: getOnlyGroupEvents
+        actions:
+          _new: ~
+          _from_date_to_date:
+            action: fromDateToDate
+      filter:
+        display: [meta_event_id,name]
+      form: ~
+      edit:
+        title: Entry %%name%%
+        actions:
+          _list: ~
+          _print:
+            action: print
+            label: Print
+      new:
+        actions: { _list: ~ }
