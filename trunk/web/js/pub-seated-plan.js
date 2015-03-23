@@ -79,7 +79,7 @@ $(document).ready(function(){
           
           // in the DB
           if ( seats.length > 0 )
-          LI.pubInitTicketsRequest({ tickets: seats });
+            LI.pubInitTicketsRequest({ tickets: seats });
         }
       })
     ;
@@ -97,7 +97,9 @@ LI.pubInitTicketsData = function(json){
   //  .removeClass('ordered').removeClass('in-progress')
   //  .removeAttr('data-ticket-id').removeAttr('data-price-id').removeAttr('data-gauge-id');
   
-  console.error(json);
+  if ( location.hash == '#debug' )
+    console.error(json);
+  
   $('.prices tbody .extra-taxes').text('').attr('data-value', 0);
   $.each(json.tickets, function(key, ticket){
     var line = ticket.price_id
