@@ -3,7 +3,6 @@
 <?php
   $obj_class = get_class($sf_data->getRaw('object'));
   $ws = $form->getWidgetSchema();
-  $ws->setNameFormat('professional_'.($sf_data->getRaw('object')->isNew() ? 'new' : $sf_data->getRaw('object')->id).'[%s]');
   if ( isset($config['extra_hidden_fields']) && $config['extra_hidden_fields'] )
   foreach ( $config['extra_hidden_fields'] as $field )
   if ( !$object->isNew() || !in_array($field, $config->getRaw('new_title')) )
@@ -13,7 +12,7 @@
     ));
   }
 ?>
-<?php echo form_tag_for($form, '@'.strtolower($obj_class)) ?>
+<?php echo form_tag_for($form, '@'.strtolower($obj_class), array('data-id' => $form->getObject()->id)) ?>
   <?php echo $form->renderHiddenFields() ?>
   <?php include_partial('form_actions',array('form' => $form, 'helper' => $helper, 'contact' => $object,)) ?>
 

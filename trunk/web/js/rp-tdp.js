@@ -424,16 +424,18 @@ LI.tdp_submit_forms = function(i = 0)
   {
     $('.tdp-subobject form').eq(i).find('select[multiple] option').prop('selected',true);
     
+    var id = $('.tdp-subobject form').eq(i).attr('data-id');
     $.ajax({
       url: $('.tdp-subobject form').eq(i).prop('action'),
       type: 'POST',
       data: $('.tdp-subobject form').eq(i).serialize()
     })
     .done(function(data) {
+      console.error(data);
       data = $.parseHTML(data);
       
       // retrieving corresponding subobject
-      subobject = $('[name="professional[id]"][value="'+$(data).find('[name="professional[id]"]').val()+'"]')
+      var subobject = $('[name="professional_'+id+'[id]"][value="'+$(data).find('[name="professional_'+id+'[id]"]').val()+'"]')
         .closest('.sf_admin_edit');
       if ( subobject.length == 0 )
         subobject = $('.sf_admin_edit.tdp-object-new');
@@ -442,7 +444,7 @@ LI.tdp_submit_forms = function(i = 0)
       subobject.find('.sf_admin_flashes')
         .replaceWith($(data).find('.sf_admin_flashes'));
       setTimeout(function(){
-        $('[name="professional[id]"][value="'+$(data).find('[name="professional[id]"]').val()+'"]')
+        $('[name="professional[id]"][value="'+$(data).find('[name="professional_'+id+'[id]"]').val()+'"]')
           .closest('.sf_admin_edit')
           .find('.sf_admin_flashes > .notice').fadeOut('medium',function(){ $(this).remove(); });
       },6000);

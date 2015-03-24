@@ -40,19 +40,13 @@
               var LI = {};
             
             $(document).ready(function(){
-              var tmp = '';
               var object = <?php echo $cpt == 1 ? "$('.sf_admin_edit.tdp-object')" : "$(tmp = '#tdp-content [name=\"professional_".($obj->isNew() ? 'new' : $obj->id)."[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
               var groups = <?php echo $cpt == 1 ? "$('.groups-object')" : "$('.groups-subobject-".$obj->id."')" ?>;
-              var str = tmp;
               var input = object.find(tmp = '.tdp-groups_list .open_list .open_list_source');
-              str += ' '+tmp;
               groups.find('select').replaceWith(input);
               
               if ( location.hash == '#debug' )
-              {
-                console.error(str);
                 console.error('Groups autocompletion of '+object.find('h1 a').text()+': '+input.length+' '+groups.length);
-              }
               
               // pre-adding a group
               input.keydown(function(event){

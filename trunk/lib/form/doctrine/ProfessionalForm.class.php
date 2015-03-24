@@ -25,6 +25,7 @@ class ProfessionalForm extends BaseProfessionalForm
       $orgForm = new OrganismForm($this->getObject()->Organism);
       $orgForm->useFields(array('description'));
       $this->embedForm('organism',$orgForm);
+      $this->widgetSchema->setNameFormat('professional_'.$this->object->id.'[%s]');
     }
     
     parent::configure();
