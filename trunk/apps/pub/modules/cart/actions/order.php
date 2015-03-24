@@ -240,7 +240,8 @@
     if ( $ticket->Price->member_card_linked && !$ticket->member_card_id )
       $tickets[] = $ticket;
     $mcps = array();
-    foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
+    foreach ( $this->getUser()->getTransaction()->Contact->MemberCards as $mc )
+    if ( $mc->active || $mc->transaction_id == $this->getUser()->getTransactionId() )
     foreach ( $mc->MemberCardPrices as $mcp )
       $mcps[($mcp->event_id ? 'e' : 'z').$mcp->id] = $mcp;
     asort($mcps);
