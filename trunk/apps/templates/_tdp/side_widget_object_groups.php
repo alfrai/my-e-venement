@@ -40,7 +40,7 @@
               var LI = {};
             
             $(document).ready(function(){
-              var object = <?php echo $cpt == 1 ? "$('.sf_admin_edit.tdp-object')" : "$(tmp = '#tdp-content [name=\"professional_".($obj->isNew() ? 'new' : $obj->id)."[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
+              var object = <?php echo $cpt == 1 ? "$('.sf_admin_edit.tdp-object')" : "$(tmp = '#tdp-content [name=\"professional".($obj->isNew() ? '' : '_'.$obj->id)."[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
               var groups = <?php echo $cpt == 1 ? "$('.groups-object')" : "$('.groups-subobject-".$obj->id."')" ?>;
               var input = object.find(tmp = '.tdp-groups_list .open_list .open_list_source');
               groups.find('select').replaceWith(input);
@@ -76,10 +76,10 @@
             // removing a group
             LI.contact_tdp_group_removing_obj<?php echo $cpt.'_'.$obj->id ?> = function(anchor)
             {
-              var object = <?php echo $cpt == 1 ? "$('.sf_admin_edit.tdp-object')" : "$('#tdp-content [name=\"professional[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
+              var object = <?php echo $cpt == 1 ? "$('.sf_admin_edit.tdp-object')" : "$('#tdp-content [name=\"professional".($obj->isNew() ? '' : '_'.$obj->id)."[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
               var groups = <?php echo $cpt == 1 ? "$('.groups-object')" : "$('.groups-subobject-".$obj->id."')" ?>;
               
-              object.find(str = '.tdp-groups_list .open_list .open_list_selected option[value="'+$(anchor).closest('li').find('[name=group_id]').val()+'"]')
+              object.find('.tdp-groups_list .open_list .open_list_selected option[value="'+$(anchor).closest('li').find('[name=group_id]').val()+'"]')
                 .remove();
               $(anchor).closest('li').fadeOut('medium',function(){
                 if ( $(this).closest('ul').find('li:not(.empty):not(.new)').length <= 1 )
