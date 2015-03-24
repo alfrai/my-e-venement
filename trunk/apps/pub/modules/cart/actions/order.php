@@ -147,8 +147,6 @@
     $nb = array();
     foreach ( Doctrine::getTable('MemberCardType')->createQuery('mct')->execute() as $mct )
       $nb[$mct->name] = $mct->nb_tickets_mini;
-    if ( sfConfig::get('sf_web_debug',false) )
-      error_log('Minimum amount of tickets for MemberCards: '.print_r($nb,true));
     if ( $nb )
     {
       // order the tickets by the quantity (DESC) of their Event bookings
@@ -165,11 +163,17 @@
       foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
       if ( $ticket->Manifestation->event_id == $event_id )
         $tickets[] = $ticket;
+      unset($events);
       
       // checks for each member card if it matches the rules set in the configuration
       foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
       if ( $nb[$mc->MemberCardType->name] > 0 )
       {
+        $events = array();
+        
+        if ( sfConfig::get('sf_web_debug',false) )
+          error_log('Minimum amount of tickets for MemberCard '.$mc->MemberCardType.': '.$nb[$mc->MemberCardType->name]);
+        
         // the match maker
         $match = array();
         foreach ( $mc->MemberCardPrices as $mcp )
@@ -193,10 +197,11 @@
             && $match[$ticket->price_id][''][$mc->MemberCardType->name] > 0
           )
           {
+            error_log(count($events));
             if ( sfConfig::get('sf_web_debug', false) )
               error_log('Adding ticket #'.$ticket->id.' with price '.$ticket->price_name.' for event #'.$ticket->Manifestation->event_id);
             
-            if ( !isset($events[$ticket->Manifestation->event_id]) )
+            if ( isset($events[$ticket->Manifestation->event_id]) )
               $events[$ticket->Manifestation->event_id] = 0;
             $events[$ticket->Manifestation->event_id]++;
             unset($tickets[$tid]); // using this trick, a ticket cannot be "used" twice
@@ -207,6 +212,7 @@
             ][$mc->MemberCardType->name]--;
             
             // go away if there is enough events
+            error_log(count($events));
             if ( count($events) >= $nb[$mc->MemberCardType->name] )
               break;
           }
@@ -225,6 +231,35 @@
         }
         else
           error_log('Transaction #'.$this->getUser()->getTransactionId().': The MemberCard #'.$mc->id.' can be processed');
+      }
+    }
+    
+    // passes controls: the current transaction does embed only authorized tickets
+    $tickets = new Doctrine_Collection('Ticket');
+    foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
+    if ( $ticket->Price->member_card_linked && !$ticket->member_card_id )
+      $tickets[] = $ticket;
+    $mcps = array();
+    foreach ( $this->getUser()->getTransaction()->MemberCards as $mc )
+    foreach ( $mc->MemberCardPrices as $mcp )
+      $mcps[($mcp->event_id ? 'e' : 'z').$mcp->id] = $mcp;
+    asort($mcps);
+    foreach ( $tickets as $ticket )
+    {
+      $go = false;
+      foreach ( $mcps as $i => $mcp )
+      if ( $mcp->price_id == $ticket->price_id && (is_null($mcp->event_id) || $mcp->event_id == $ticket->Manifestation->event_id) )
+      {
+        unset($mcps[$i]);
+        $go = true;
+      }
+      
+      if ( !$go )
+      {
+        $ticket->delete();
+        $this->getContext()->getConfiguration()->loadHelpers('I18N');
+        $this->getUser()->setFlash('error', __('In order to buy a ticket with price %%price%%, you need a pass...', array('%%price%%' => $ticket->Price->description_name)));
+        $this->redirect('transaction/show?id='.$this->getUser()->getTransactionId());
       }
     }
     

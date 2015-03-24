@@ -12,6 +12,12 @@
  */
 class Price extends PluginPrice implements liUserAccessInterface
 {
+  public function getDescriptionName()
+  {
+    return $this->description
+      ? $this->description
+      : $this->name;
+  }
   public function getFullName()
   {
     sfApplicationConfiguration::getActive()->loadHelpers(array('Number'));

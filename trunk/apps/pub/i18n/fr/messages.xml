@@ -9,6 +9,10 @@
         <target>Vous avez choisi plus de billets liés à une carte d'abo que vous le pouviez...</target>
       </trans-unit>
       <trans-unit>
+        <source>In order to buy a ticket with price %%price%%, you need a pass...</source>
+        <target>Afin d'acheter un billet au tarif %%price%%, vous avez besoin d'un abonnement...</target>
+      </trans-unit>
+      <trans-unit>
         <source>Expire at</source>
         <target>Expire le</target>
       </trans-unit>
