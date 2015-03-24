@@ -4,7 +4,9 @@
     var LI = {};
   
   $.get('<?php echo url_for('manifestation/showSpectators?id='.$manifestation->id) ?>', LI.manifShowSpectators = function(data){
-    $('#sf_fieldset_spectators').prepend($($.parseHTML(data)).find('#sf_fieldset_spectators > *')).find('.loading').remove();
+    data = $.parseHTML(data);
+    $('#sf_fieldset_spectators > *').remove();
+    $('#sf_fieldset_spectators').prepend($(data).find('#sf_fieldset_spectators > *'));
     
     $('#sf_fieldset_spectators table tbody').each(function(){
       

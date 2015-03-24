@@ -4,7 +4,9 @@
     var LI = {};
       
   $.get('<?php echo url_for('manifestation/showTickets?id='.$manifestation->id) ?>', LI.manifShowTickets = function(data){
-    $('#sf_fieldset_tickets').prepend($($.parseHTML(data)).find('#sf_fieldset_tickets > *')).find('.loading').remove();
+    data = $.parseHTML(data);
+    $('#sf_fieldset_tickets > *').remove();
+    $('#sf_fieldset_tickets').prepend($(data).find('#sf_fieldset_tickets > *'));
     
     <?php include_partial('show_print_part_js',array('tab' => 'tickets', 'jsFunction' => 'LI.manifShowTickets')) ?>
   });

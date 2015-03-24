@@ -150,7 +150,7 @@ class Transaction extends PluginTransaction
   {
     $price = 0;
     foreach ( $this->MemberCards as $mc )
-    if ( $including_not_activated === true || $mc->activated )
+    if ( $including_not_activated === true || $mc->active )
       $price += $mc->MemberCardType->value;
     return round($price,2);
   }
@@ -164,7 +164,7 @@ class Transaction extends PluginTransaction
     foreach ( array($this->MemberCards, $this->contact_id ? $this->Contact->MemberCards : array()) as $m_c )
     foreach ( $m_c as $mc )
     if ( $including_not_activated === true && $mc->transaction_id == $this->id
-      || $mc->activated && $mc->transaction_id != $this->id )
+      || $mc->active && $mc->transaction_id != $this->id )
     if ( $mc->value > 0 || $mc->MemberCardPrices->count() > 0 )
     {
       $mcs[$mc->id] = $mc->copy();

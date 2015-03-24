@@ -53,7 +53,7 @@ class Doctrine_Search_Listener_I18n extends Doctrine_Search_Listener implements 
     $table = $this->_search->getOption('table');
     $ids = $table->getIdentifierColumnNames();
     
-    if ( !$record->getTable()->hasTemplate('I18n') )
+    if ( !$table->hasTemplate('I18n') )
       return $this->_search->batchUpdateIndex($limit, $offset, $encoding);
     
     $data = $this->_search->readTableData($limit, $offset);
