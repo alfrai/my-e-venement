@@ -17,7 +17,6 @@
   'hasFilters' => $hasFilters,
 )) ?>
 </div>
-<?php if (!( isset($noFilters) && $noFilters )): ?>
 <div class="tdp-top-widget vertical">
 <?php include_partial('global/tdp/top_widget_filters_buttons',array(
   'object' => $object,
@@ -29,6 +28,5 @@
 <div id="sf_admin_bar ui-helper-hidden" style="display:none">
   <?php if ( !$object ) include_partial($sf_context->getModuleName().'/filters', array('form' => $filters, 'configuration' => $configuration)) ?>
 </div>
-<?php endif ?>
 
 </div>
