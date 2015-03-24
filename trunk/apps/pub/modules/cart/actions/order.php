@@ -137,7 +137,6 @@
       if ( !$go )
       {
         $this->getContext()->getConfiguration()->loadHelpers('I18N');
-        error_log('here');
         $this->getUser()->setFlash('error', $str = __('You have booked more tickets linked to a member card than you can...'));
         error_log('Transaction #'.$this->getUser()->getTransactionId().': '.$str);
         $this->redirect('transaction/show?id='.$this->getUser()->getTransactionId());
@@ -148,7 +147,8 @@
     $nb = array();
     foreach ( Doctrine::getTable('MemberCardType')->createQuery('mct')->execute() as $mct )
       $nb[$mct->name] = $mct->nb_tickets_mini;
-    
+    if ( sfConfig::get('sf_web_debug',false) )
+      error_log('Minimum amount of tickets for MemberCards: '.print_r($nb,true));
     if ( $nb )
     {
       // order the tickets by the quantity (DESC) of their Event bookings
@@ -157,10 +157,11 @@
       foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
       {
         if ( !isset($events[$ticket->Manifestation->event_id]) )
-          $events[$ticket->Manifestation->event_id]++;
+          $events[$ticket->Manifestation->event_id] = 0;
+        $events[$ticket->Manifestation->event_id]++;
       }
       arsort($events);
-      foreach ( $events as $event_id => $nb )
+      foreach ( $events as $event_id => $buf )
       foreach ( $this->getUser()->getTransaction()->Tickets as $ticket )
       if ( $ticket->Manifestation->event_id == $event_id )
         $tickets[] = $ticket;
