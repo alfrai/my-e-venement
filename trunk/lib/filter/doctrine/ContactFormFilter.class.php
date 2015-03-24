@@ -135,7 +135,11 @@ class ContactFormFilter extends BaseContactFormFilter
       'required' => false,
     ));
     
-    $this->widgetSchema   ['not_groups_list'] = $this->widgetSchema   ['groups_list'];
+    $this->widgetSchema   ['not_groups_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'model' => 'Group',
+      'url'   => cross_app_url_for('rp', 'group/ajax'),
+      'config' => '{ max: 300 }',
+    ));
     $this->validatorSchema['not_groups_list'] = $this->validatorSchema['groups_list'];
     
     $years = sfContext::getInstance()->getConfiguration()->yob;

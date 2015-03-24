@@ -241,6 +241,7 @@ class organismActions extends autoOrganismActions
   public function executeSearch(sfWebRequest $request)
   {
     self::executeIndex($request);
+    $this->noFilters = true;
     
     $search = $this->sanitizeSearch($request->getParameter('s'));
     $transliterate = sfConfig::get('software_internals_transliterate',array());

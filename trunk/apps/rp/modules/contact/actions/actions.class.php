@@ -409,6 +409,7 @@ class contactActions extends autoContactActions
   public function executeSearch(sfWebRequest $request)
   {
     self::executeIndex($request);
+    $this->noFilters = true;
     $table = Doctrine_Core::getTable('Contact');
     
     if ( intval($request->getParameter('s')) > 0 )

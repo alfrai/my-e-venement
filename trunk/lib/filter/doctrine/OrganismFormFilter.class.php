@@ -48,17 +48,21 @@ class OrganismFormFilter extends BaseOrganismFormFilter
     $this->widgetSchema['organism_category_id']->setOption('add_empty',false);
     $this->validatorSchema['organism_category_id']->setOption('multiple',true);
     
-    $this->widgetSchema['contacts_groups'] = new sfWidgetFormDoctrineChoice(array(
+    $this->widgetSchema   ['contacts_groups'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Group',
-      'multiple' => true,
-      'order_by' => array('name',''),
+      'url'   => cross_app_url_for('rp', 'group/ajax'),
+      'config' => '{ max: 300 }',
     ));
     $this->validatorSchema['contacts_groups'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Group',
       'required' => false,
       'multiple' => true,
     ));
-    $this->widgetSchema   ['not_groups_list'] = $this->widgetSchema   ['groups_list'];
+    $this->widgetSchema   ['not_groups_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'model' => 'Group',
+      'url'   => cross_app_url_for('rp', 'group/ajax'),
+      'config' => '{ max: 300 }',
+    ));
     $this->validatorSchema['not_groups_list'] = $this->validatorSchema['groups_list'];
     
     $this->widgetSchema   ['has_close_contact'] = new sfWidgetFormChoice(array(
