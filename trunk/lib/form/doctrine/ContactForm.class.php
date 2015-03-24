@@ -47,6 +47,7 @@ class ContactForm extends BaseContactForm
     $this->widgetSchema ['groups_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
       'model' => 'Group',
       'url'   => cross_app_url_for('rp', 'group/ajax'),
+      'config' => '{ max: 300 }',
     ));
     
     $this->widgetSchema   ['phone_number'] = new sfWidgetFormInputText();

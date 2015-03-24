@@ -29,10 +29,12 @@ class OrganismForm extends BaseOrganismForm
       'required' => false,
     ));
     
-    $this->widgetSchema['groups_list']->setOption(
-      'order_by',
-      array('u.id IS NULL DESC, u.username, name','')
-    );
+    $this->widgetSchema['groups_list'] = new cxWidgetFormDoctrineJQuerySelectMany(array(
+      'model' => 'Group',
+      'url'   => cross_app_url_for('rp', 'group/ajax'),
+      'config' => '{ max: 300 }',
+    ));
+    $this->widgetSchema['groups_list']->setIdFormat('groups_list[%s]');
     
     $this->validatorSchema['url'] = new liValidatorUrl(array(
       'required' => false,

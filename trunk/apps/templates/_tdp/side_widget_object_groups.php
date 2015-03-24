@@ -35,15 +35,24 @@
           <li class="new">
             <input type="hidden" name="object-id" value="<?php echo $obj->id ?>" />
             <select name="unassociated_professional[groups_list][]"></select>
+            <script type="text/javascript"><!--
             if ( LI == undefined )
               var LI = {};
             
-            <script type="text/javascript"><!--
             $(document).ready(function(){
-              var object = <?php echo $cpt == 1 ? "$('.sf_admin_edit.tdp-object')" : "$('#tdp-content [name=\"professional[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
+              var tmp = '';
+              var object = <?php echo $cpt == 1 ? "$('.sf_admin_edit.tdp-object')" : "$(tmp = '#tdp-content [name=\"professional_".($obj->isNew() ? 'new' : $obj->id)."[id]\"][value=".$obj->id."]').closest('.tdp-subobject')" ?>;
               var groups = <?php echo $cpt == 1 ? "$('.groups-object')" : "$('.groups-subobject-".$obj->id."')" ?>;
-              var input = object.find('.tdp-groups_list .open_list .open_list_source.ac_input');
+              var str = tmp;
+              var input = object.find(tmp = '.tdp-groups_list .open_list .open_list_source');
+              str += ' '+tmp;
               groups.find('select').replaceWith(input);
+              
+              if ( location.hash == '#debug' )
+              {
+                console.error(str);
+                console.error('Groups autocompletion of '+object.find('h1 a').text()+': '+input.length+' '+groups.length);
+              }
               
               // pre-adding a group
               input.keydown(function(event){
@@ -78,7 +87,6 @@
               
               object.find(str = '.tdp-groups_list .open_list .open_list_selected option[value="'+$(anchor).closest('li').find('[name=group_id]').val()+'"]')
                 .remove();
-              console.error(str);
               $(anchor).closest('li').fadeOut('medium',function(){
                 if ( $(this).closest('ul').find('li:not(.empty):not(.new)').length <= 1 )
                   $(this).closest('ul').find('.empty').fadeIn('slow');

@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -44,7 +44,7 @@ class groupActions extends autoGroupActions
     $q = Doctrine::getTable('Group')
       ->createQuery('g')
       ->limit($request->getParameter('limit'));
-    if ( $search )
+    if ( trim($search) )
       $q->andWhere('g.name ILIKE ?', '%'.$search.'%');
     
     $this->groups = array();
