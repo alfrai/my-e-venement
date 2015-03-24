@@ -62,6 +62,8 @@ class ContactFormFilter extends BaseContactFormFilter
     $this->widgetSchema['emails_list']->setOption('query',Doctrine::getTable('Email')
       ->createQuery()
       ->andWhere('sent')
+      ->orderBy('updated_at DESC')
+      ->limit(30)
     );
     
     $this->widgetSchema['culture'] = new sfWidgetFormChoice(array(
