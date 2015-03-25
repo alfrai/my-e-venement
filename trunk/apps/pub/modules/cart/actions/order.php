@@ -197,11 +197,10 @@
             && $match[$ticket->price_id][''][$mc->MemberCardType->name] > 0
           )
           {
-            error_log(count($events));
             if ( sfConfig::get('sf_web_debug', false) )
               error_log('Adding ticket #'.$ticket->id.' with price '.$ticket->price_name.' for event #'.$ticket->Manifestation->event_id);
             
-            if ( isset($events[$ticket->Manifestation->event_id]) )
+            if ( !isset($events[$ticket->Manifestation->event_id]) )
               $events[$ticket->Manifestation->event_id] = 0;
             $events[$ticket->Manifestation->event_id]++;
             unset($tickets[$tid]); // using this trick, a ticket cannot be "used" twice
@@ -212,7 +211,6 @@
             ][$mc->MemberCardType->name]--;
             
             // go away if there is enough events
-            error_log(count($events));
             if ( count($events) >= $nb[$mc->MemberCardType->name] )
               break;
           }
@@ -251,13 +249,17 @@
       foreach ( $mcps as $i => $mcp )
       if ( $mcp->price_id == $ticket->price_id && (is_null($mcp->event_id) || $mcp->event_id == $ticket->Manifestation->event_id) )
       {
+        if ( sfConfig::get('sf_web_debug', false) )
+          error_log('Ticket #'.$ticket->id.' ('.$ticket->price_name.') on Event #'.$ticket->Manifestation->event_id.' matches an entry of the MemberCard #'.$mcp->member_card_id);
         unset($mcps[$i]);
         $go = true;
+        break;
       }
       
       if ( !$go )
       {
-        $ticket->delete();
+        if ( sfConfig::get('sf_web_debug', false) )
+          error_log('Ticket #'.$ticket->id.' ('.$ticket->price_name.') on Event #'.$ticket->Manifestation->event_id.' does not match any MemberCard');
         $this->getContext()->getConfiguration()->loadHelpers('I18N');
         $this->getUser()->setFlash('error', __('In order to buy a ticket with price %%price%%, you need a pass...', array('%%price%%' => $ticket->Price->description_name)));
         $this->redirect('transaction/show?id='.$this->getUser()->getTransactionId());
