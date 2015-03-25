@@ -137,6 +137,7 @@ class doctrineGraphvizTask extends sfBaseTask
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_OPTIONAL, 'The application name', true),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
+      new sfCommandOption('type', null, sfCommandOption::PARAMETER_REQUIRED, '"all", "mcd" or "mld"', 'all'),
     ));
 
     $this->aliases = array('doctrine-graphviz');
@@ -241,25 +242,31 @@ EOF;
       }
     }
 
-    $this->logSection('graphviz', 'generating MCD');
+    if ( in_array($options['type'], array('all', 'mcd')) )
+    {
+      $this->logSection('graphviz', 'generating MCD');
 
-    $digraphMCD = $this->genMCD();
-    file_put_contents($baseMCDDir . '/' . self::MCD_SCHEMA_FILE, $digraphMCD);
-    $this->getFilesystem()->execute('dot ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_DOT_PNG_FILE));
-    //$this->getFilesystem()->execute('neato ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_NEATO_PNG_FILE));
-    //$this->getFilesystem()->execute('twopi ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_TWOPI_PNG_FILE));
-    $this->getFilesystem()->execute('circo ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_CIRCO_PNG_FILE));
-    //$this->getFilesystem()->execute('fdp ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_FDP_PNG_FILE));
+      $digraphMCD = $this->genMCD();
+      file_put_contents($baseMCDDir . '/' . self::MCD_SCHEMA_FILE, $digraphMCD);
+      $this->getFilesystem()->execute('dot ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_DOT_PNG_FILE));
+      //$this->getFilesystem()->execute('neato ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_NEATO_PNG_FILE));
+      //$this->getFilesystem()->execute('twopi ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_TWOPI_PNG_FILE));
+      $this->getFilesystem()->execute('circo ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_CIRCO_PNG_FILE));
+      //$this->getFilesystem()->execute('fdp ' . escapeshellarg($baseMCDDir . '/' . self::MCD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMCDDir . '/' . self::MCD_FDP_PNG_FILE));
+    }
 
-    $this->logSection('graphviz', 'generating MLD');
+    if ( in_array($options['type'], array('all', 'mld')) )
+    {
+      $this->logSection('graphviz', 'generating MLD');
 
-    $digraphMLD = $this->genMLD();
-    file_put_contents($baseMLDDir . '/' . self::MLD_SCHEMA_FILE, $digraphMLD);
-    $this->getFilesystem()->execute('dot ' . escapeshellarg($baseMLDDir . '/' . self::MLD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMLDDir . '/' . self::MLD_DOT_PNG_FILE));
-    $this->getFilesystem()->execute('neato ' . escapeshellarg($baseMLDDir . '/' . self::MLD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMLDDir . '/' . self::MLD_NEATO_PNG_FILE));
-    $this->getFilesystem()->execute('twopi ' . escapeshellarg($baseMLDDir . '/' . self::MLD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMLDDir . '/' . self::MLD_TWOPI_PNG_FILE));
-    $this->getFilesystem()->execute('circo ' . escapeshellarg($baseMLDDir . '/' . self::MLD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMLDDir . '/' . self::MLD_CIRCO_PNG_FILE));
-    $this->getFilesystem()->execute('fdp ' . escapeshellarg($baseMLDDir . '/' . self::MLD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMLDDir . '/' . self::MLD_FDP_PNG_FILE));
+      $digraphMLD = $this->genMLD();
+      file_put_contents($baseMLDDir . '/' . self::MLD_SCHEMA_FILE, $digraphMLD);
+      $this->getFilesystem()->execute('dot ' . escapeshellarg($baseMLDDir . '/' . self::MLD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMLDDir . '/' . self::MLD_DOT_PNG_FILE));
+      //$this->getFilesystem()->execute('neato ' . escapeshellarg($baseMLDDir . '/' . self::MLD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMLDDir . '/' . self::MLD_NEATO_PNG_FILE));
+      $this->getFilesystem()->execute('twopi ' . escapeshellarg($baseMLDDir . '/' . self::MLD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMLDDir . '/' . self::MLD_TWOPI_PNG_FILE));
+      //$this->getFilesystem()->execute('circo ' . escapeshellarg($baseMLDDir . '/' . self::MLD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMLDDir . '/' . self::MLD_CIRCO_PNG_FILE));
+      //$this->getFilesystem()->execute('fdp ' . escapeshellarg($baseMLDDir . '/' . self::MLD_SCHEMA_FILE) . ' -Tpng -o' . escapeshellarg($baseMLDDir . '/' . self::MLD_FDP_PNG_FILE));
+    }
   }
 }
 

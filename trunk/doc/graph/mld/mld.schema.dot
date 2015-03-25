@@ -30,9 +30,6 @@ digraph G {
 	nodeattachment [
 		label="{<table>attachment|<cols>id (integer) [PK]\lemail_id (integer)\loriginal_name (string)\lfilename (string)\lmime_type (string)\lsize (float)\lversion (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
-	nodeemail_link [
-		label="{<table>email_link|<cols>id (integer) [PK]\lemail_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)\l}",
-		shape=record ];
 	nodeemail_contact [
 		label="{<table>email_contact|<cols>id (integer) [PK]\lemail_id (integer)\lcontact_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)\l}",
 		shape=record ];
@@ -45,11 +42,11 @@ digraph G {
 	nodeemail_spool [
 		label="{<table>email_spool|<cols>id (integer) [PK]\lmessage (text)\lpriority (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
+	nodeemail_link [
+		label="{<table>email_link|<cols>id (integer) [PK]\lemail_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)\l}",
+		shape=record ];
 	nodeemail_organism [
 		label="{<table>email_organism|<cols>id (integer) [PK]\lemail_id (integer)\lorganism_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\ldeleted_at (timestamp)\l}",
-		shape=record ];
-	nodetraceable [
-		label="{<table>traceable|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lautomatic (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodemember_card_price [
 		label="{<table>member_card_price|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lautomatic (boolean)\lmember_card_id (integer)\lprice_id (integer)\levent_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
@@ -69,9 +66,6 @@ digraph G {
 	nodemodel_type [
 		label="{<table>model_type|<cols>id (integer) [PK]\lname (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
 		shape=record ];
-	nodemodel_type [
-		label="{<table>model_type|<cols>id (integer) [PK]\lname (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
-		shape=record ];
 	nodetype_of_resources [
 		label="{<table>type_of_resources|<cols>id (integer) [PK]\lname (string)\l}",
 		shape=record ];
@@ -83,9 +77,6 @@ digraph G {
 		shape=record ];
 	nodegeo_fr_region [
 		label="{<table>geo_fr_region|<cols>id (integer) [PK]\lname (string)\lstrict_name (string)\lslug (string)\l}",
-		shape=record ];
-	nodeoption_table [
-		label="{<table>option_table|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
 		shape=record ];
 	nodeoption_table [
 		label="{<table>option_table|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
@@ -111,12 +102,6 @@ digraph G {
 	nodecontact_relationship [
 		label="{<table>contact_relationship|<cols>id (integer) [PK]\lfrom_contact_id (integer)\lto_contact_id (integer)\lcontact_relationship_type_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
-	nodeaddressable [
-		label="{<table>addressable|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lemail_npai (boolean)\lnpai (boolean)\lvcard_uid (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
-		shape=record ];
-	nodephonenumber [
-		label="{<table>phonenumber|<cols>id (integer) [PK]\lname (string)\lnumber (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
-		shape=record ];
 	nodecontact [
 		label="{<table>contact|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lemail_npai (boolean)\lnpai (boolean)\lvcard_uid (string)\lfirstname (string)\lshortname (string)\ltitle (string)\ldescription (string)\lflash_on_control (string)\lpassword (string)\lfamily_contact (boolean)\lorganism_category_id (integer)\lconfirmed (boolean)\lfamilial_quotient_id (integer)\ltype_of_resources_id (integer)\lfamilial_situation_id (integer)\lsf_guard_user_id (integer)\lculture (string)\lpicture_id (integer)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\lversion (integer)\l}",
 		shape=record ];
@@ -135,14 +120,14 @@ digraph G {
 	nodeoption_table [
 		label="{<table>option_table|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
 		shape=record ];
+	nodephonenumber [
+		label="{<table>phonenumber|<cols>id (integer) [PK]\lname (string)\lnumber (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
 	nodemodel_type [
 		label="{<table>model_type|<cols>id (integer) [PK]\lname (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
 		shape=record ];
 	nodecontact_phonenumber [
 		label="{<table>contact_phonenumber|<cols>id (integer) [PK]\lname (string)\lnumber (string)\lcontact_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
-		shape=record ];
-	nodegroup_detail [
-		label="{<table>group_detail|<cols>group_id (integer) [PK]\linformation (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
 	nodegroup_contact [
 		label="{<table>group_contact|<cols>group_id (integer) [PK]\linformation (string)\lcontact_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
@@ -162,11 +147,17 @@ digraph G {
 	nodegroup_auto_user [
 		label="{<table>group_auto_user|<cols>group_id (integer) [PK]\linformation (string)\lsf_guard_user_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
+	nodegroup_detail [
+		label="{<table>group_detail|<cols>group_id (integer) [PK]\linformation (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
 	nodegroup_organism [
 		label="{<table>group_organism|<cols>group_id (integer) [PK]\linformation (string)\lorganism_id (integer) [PK]\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
 	nodepicture [
 		label="{<table>picture|<cols>id (integer) [PK]\lname (string)\ltype (string)\lcontent (blob)\lwidth (integer)\lheight (integer)\lcontent_encoding (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
+		shape=record ];
+	nodetraceable [
+		label="{<table>traceable|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lautomatic (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\l}",
 		shape=record ];
 	nodejabber [
 		label="{<table>jabber|<cols>id (integer) [PK]\ljabber_id (string)\lpassword (string)\lsf_guard_user_id (integer)\l}",
@@ -176,6 +167,15 @@ digraph G {
 		shape=record ];
 	nodepostalcode [
 		label="{<table>postalcode|<cols>id (integer) [PK]\lpostalcode (string)\lcity (string)\l}",
+		shape=record ];
+	nodeoption_table [
+		label="{<table>option_table|<cols>id (integer) [PK]\ltype (string)\lsf_guard_user_id (integer)\lname (string)\lvalue (string)\lcreated_at (timestamp)\l}",
+		shape=record ];
+	nodemodel_type [
+		label="{<table>model_type|<cols>id (integer) [PK]\lname (string)\ltype (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
+		shape=record ];
+	nodeaddressable [
+		label="{<table>addressable|<cols>id (integer) [PK]\lname (string)\laddress (string)\lpostalcode (string)\lcity (string)\lcountry (string)\lemail (string)\lemail_no_newsletter (boolean)\lemail_npai (boolean)\lnpai (boolean)\lvcard_uid (string)\llatitude (double)\llongitude (double)\lcreated_at (timestamp)\lupdated_at (timestamp)\lslug (string)\l}",
 		shape=record ];
 	nodefilter [
 		label="{<table>filter|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\ltype (string)\lname (string)\lfilter (text)\l}",
@@ -252,9 +252,6 @@ digraph G {
 	nodeseat [
 		label="{<table>seat|<cols>id (integer) [PK]\lseated_plan_id (integer)\lname (string)\lrank (integer)\lx (integer)\ly (integer)\ldiameter (integer)\lclass (string)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
-	nodeproduct_link [
-		label="{<table>product_link|<cols>id (integer) [PK]\lproduct_id (integer)\lfk_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
-		shape=record ];
 	nodeprice_p_o_s [
 		label="{<table>price_p_o_s|<cols>id (integer) [PK]\lprice_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
@@ -299,6 +296,9 @@ digraph G {
 		shape=record ];
 	nodeproduct_manifestation_link [
 		label="{<table>product_manifestation_link|<cols>id (integer) [PK]\lproduct_id (integer)\lfk_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
+		shape=record ];
+	nodeproduct_link [
+		label="{<table>product_link|<cols>id (integer) [PK]\lproduct_id (integer)\lfk_id (integer)\lcreated_at (timestamp)\lupdated_at (timestamp)\l}",
 		shape=record ];
 	nodeproduct [
 		label="{<table>product|<cols>id (integer) [PK]\lsf_guard_user_id (integer)\lautomatic (boolean)\lmeta_event_id (integer)\lproduct_category_id (integer)\lpicture_id (integer)\laccounting_account (string)\lvat_id (integer)\lshipping_fees (decimal)\lshipping_fees_vat_id (integer)\lonline (boolean)\lcreated_at (timestamp)\lupdated_at (timestamp)\lversion (integer)\lslug (string)\l}",
@@ -607,8 +607,6 @@ digraph G {
 		label="group_id=id"];
 	nodeattachment:cols -> nodeemail:table [
 		label="email_id=id"];
-	nodeemail_link:cols -> nodeemail:table [
-		label="email_id=id"];
 	nodeemail_contact:cols -> nodeemail:table [
 		label="email_id=id"];
 	nodeemail_contact:cols -> nodecontact:table [
@@ -619,12 +617,12 @@ digraph G {
 		label="email_id=id"];
 	nodeemail_professional:cols -> nodeprofessional:table [
 		label="professional_id=id"];
+	nodeemail_link:cols -> nodeemail:table [
+		label="email_id=id"];
 	nodeemail_organism:cols -> nodeemail:table [
 		label="email_id=id"];
 	nodeemail_organism:cols -> nodeorganism:table [
 		label="organism_id=id"];
-	nodetraceable:cols -> nodesf_guard_user:table [
-		label="sf_guard_user_id=id"];
 	nodemember_card_price:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
 	nodemember_card_price:cols -> nodemember_card:table [
@@ -723,6 +721,8 @@ digraph G {
 		label="organism_id=id"];
 	nodegroup_organism:cols -> nodegroup_table:table [
 		label="group_id=id"];
+	nodetraceable:cols -> nodesf_guard_user:table [
+		label="sf_guard_user_id=id"];
 	nodejabber:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
 	nodeauthentication:cols -> nodesf_guard_user:table [
@@ -755,8 +755,6 @@ digraph G {
 		label="location_id=id"];
 	nodemanifestation_contact:cols -> nodecontact:table [
 		label="contact_id=id"];
-	nodemanifestation_contact:cols -> nodemanifestation:table [
-		label="manifestation_id=id"];
 	nodeevent_company:cols -> nodeorganism:table [
 		label="organism_id=id"];
 	nodeevent_company:cols -> nodeevent:table [
@@ -777,8 +775,6 @@ digraph G {
 		label="meta_event_id=id"];
 	nodeevent:cols -> nodepicture:table [
 		label="picture_id=id"];
-	nodeseat_link:cols -> nodeseat:table [
-		label="seat1=id"];
 	nodelocation_booking:cols -> nodemanifestation:table [
 		label="manifestation_id=id"];
 	nodelocation_booking:cols -> nodelocation:table [
@@ -849,14 +845,8 @@ digraph G {
 		label="price_id=id"];
 	nodeproduct_workspace_link:cols -> nodeworkspace:table [
 		label="fk_id=id"];
-	nodeproduct_workspace_link:cols -> nodeproduct:table [
-		label="product_id=id"];
-	nodeproduct_product_link:cols -> nodeproduct:table [
-		label="product_id=id"];
 	nodeproduct_meta_event_link:cols -> nodemeta_event:table [
 		label="fk_id=id"];
-	nodeproduct_meta_event_link:cols -> nodeproduct:table [
-		label="product_id=id"];
 	nodeproduct_category:cols -> nodevat:table [
 		label="vat_id=id"];
 	nodeproduct_category:cols -> nodeproduct_category:table [
@@ -881,12 +871,8 @@ digraph G {
 		label="ticket_id=id"];
 	nodeproduct_price_link:cols -> nodeprice:table [
 		label="fk_id=id"];
-	nodeproduct_price_link:cols -> nodeproduct:table [
-		label="product_id=id"];
 	nodeproduct_manifestation_link:cols -> nodemanifestation:table [
 		label="fk_id=id"];
-	nodeproduct_manifestation_link:cols -> nodeproduct:table [
-		label="product_id=id"];
 	nodeproduct:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
 	nodeproduct:cols -> nodeproduct_category:table [
@@ -925,8 +911,6 @@ digraph G {
 		label="transaction_id=id"];
 	nodetax_user:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
-	nodetax_user:cols -> nodetax:table [
-		label="tax_id=id"];
 	nodetransaction:cols -> nodesf_guard_user:table [
 		label="sf_guard_user_id=id"];
 	nodetransaction:cols -> nodecontact:table [
