@@ -138,7 +138,7 @@ class doctrineGraphvizTask extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
       new sfCommandOption('model', null, sfCommandOption::PARAMETER_REQUIRED, '"all", "conceptual" or "logical"', 'all'),
-      new sfCommandOption('format', null, sfCommandOption::PARAMETER_REQUIRED, '"png", "png" / "svgz" / "jpg"...', 'svg'),
+      new sfCommandOption('format', null, sfCommandOption::PARAMETER_REQUIRED, '"png" / "svgz" / "svg" / "jpg"...', 'svg'),
     ));
 
     $this->aliases = array('doctrine-graphviz');
