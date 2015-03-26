@@ -46,7 +46,7 @@
               groups.find('select').replaceWith(input);
               
               if ( location.hash == '#debug' )
-                console.error('Groups autocompletion of '+object.find('h1 a').text()+': '+input.length+' '+groups.length);
+                console.error('Groups autocompletion of '+$.trim(object.find('h1 a').text())+' - input:'+input.length+' list:'+groups.length);
               
               // pre-adding a group
               input.keydown(function(event){

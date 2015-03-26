@@ -5,6 +5,14 @@
     <header/>
     <body>
       <trans-unit>
+        <source>I agree to receive e-mail newsletters</source>
+        <target>J'accepte de recevoir des lettres d'information</target>
+      </trans-unit>
+      <trans-unit>
+        <source>My picture</source>
+        <target>Ma photo</target>
+      </trans-unit>
+      <trans-unit>
         <source>You have booked more tickets linked to a member card than you can...</source>
         <target>Vous avez choisi plus de billets liés à une carte d'abo que vous le pouviez...</target>
       </trans-unit>

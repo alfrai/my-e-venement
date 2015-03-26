@@ -16,6 +16,24 @@ class contactActions extends sfActions
     parent::preExecute();
   }
   
+  public function executeNewPicture(sfWebRequest $request)
+  {
+    $this->forward404Unless(intval($request->getParameter('id',0)) > 0);
+    $this->forward404Unless($this->contact = Doctrine::getTable('Contact')->find($request->getParameter('id')));
+    if ( $request->getParameter('image', false) )
+    {
+      if ( !$this->contact->Picture->isNew() )
+        $this->contact->Picture->delete();
+      $this->contact->Picture = new Picture;
+
+      $this->contact->Picture->content = $request->getParameter('image');
+      $this->contact->Picture->name = 'contact-'.$this->contact->id.'-'.date('YmdHis').'.img';
+      $this->contact->Picture->type = $request->getParameter('type');
+      $this->contact->save();
+    }
+    return sfView::NONE;
+  }
+  
   public function executeNew(sfWebRequest $request)
   {
     $this->executeEdit($request);

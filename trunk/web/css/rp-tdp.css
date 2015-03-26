@@ -322,7 +322,12 @@ body #content { width: auto; }
 #tdp-side-bar #tdp-side-picture .current a:hover { text-decoration: none; }
 #tdp-side-bar #tdp-side-picture .current img { max-width: 178px; }
 #tdp-side-bar #tdp-side-picture .webcam { width: 300px; height: 200px; text-align: center; transform: scale(0.6); transform-origin: top left; margin-bottom: -75px; }
+#tdp-side-bar #tdp-side-picture .webcam .live { width: 100%; height: 100%; }
+#tdp-side-bar #tdp-side-picture .webcam .start { display: none; }
 #tdp-side-bar #tdp-side-picture .webcam.small { transform: scale(0.2); margin-bottom: -160px; float: left; margin-right: -240px; }
+#tdp-side-bar #tdp-side-picture .webcam.small .start { display: inline; }
+#tdp-side-bar #tdp-side-picture .webcam.small .live { display: none; }
+
 #tdp-side-bar #tdp-side-picture .tdp-picture input[type=file] { font-size: 66%; }
 #tdp-side-bar #tdp-side-picture .facebook img { max-width: 15px; position: relative; top: 5px; }
 

@@ -42,6 +42,16 @@ class ContactPublicForm extends ContactForm
     $this->validatorSchema['password_again']  = new sfValidatorString(array('required' => false));
     $this->widgetSchema   ['password']->setLabel('New password');
     
+    $this->widgetSchema   ['newsletter']      = new sfWidgetFormInputCheckbox(array(
+      'default' => !$this->object->isNew() && $this->object->email_no_newsletter ? false : true,
+      'value_attribute_value' => 'yes',
+      'label' => 'I agree to receive e-mail newsletters',
+    ));
+    $this->validatorSchema['newsletter']      = new sfValidatorBoolean(array(
+      'true_values' => array('yes'),
+      'required' => false,
+    ));
+    
     foreach ( array('firstname','address','postalcode','city','email') as $field )
       $this->validatorSchema[$field]->setOption('required', true);
     
@@ -51,6 +61,7 @@ class ContactPublicForm extends ContactForm
       'address','postalcode','city','country',
       'email','phone_type','phone_number',
       'password','password_again',
+      'newsletter',
     ));
     
     $this->validatorSchema['id'] = new sfValidatorDoctrineChoice(array(
@@ -175,6 +186,8 @@ class ContactPublicForm extends ContactForm
     
     if ( is_null($this->object->confirmed) )
       $this->object->confirmed = false;
+    
+    $this->object->email_no_newsletter = !$this->values['newsletter'];
     
     if ( $this->getValue('phone_number') )
     {
