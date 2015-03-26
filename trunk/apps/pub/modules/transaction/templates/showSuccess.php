@@ -95,11 +95,11 @@ $(document).ready(function(){
 </tr>
 <?php endforeach ?>
 <?php foreach ( $products as $product ): ?>
-<?php $for_links[] = $product->Declination->Product ?>
+<?php if ( $product->product_declination_id ) $for_links[] = $product->Declination->Product ?>
 <tr class="products">
   <td class="picture"></td>
-  <td class="event"><?php echo $product->Declination->Product->Category ?></td>
-  <td class="manifestation"><?php echo $product->Declination->Product->short_name ? $product->Declination->Product->short_name : $product ?></td>
+  <td class="event"><?php echo $product->product_declination_id ? $product->Declination->Product->Category : '' ?></td>
+  <td class="manifestation"><?php echo $product->product_declination_id && $product->Declination->Product->short_name ? $product->Declination->Product->short_name : $product ?></td>
   <td class="workspace"><?php
     echo $product->integrated_at && strtotime($product->integrated_at) <= time() && trim($product->getRawValue()->description_for_buyers)
       || $transaction->getPaid().'' >= ''.$transaction->getPrice(true, true) // the .'' is a hack for float values
