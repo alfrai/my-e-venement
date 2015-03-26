@@ -113,7 +113,7 @@ class TransactionTable extends PluginTransactionTable
     ;
     return $q;
   }
-  protected static function getDebtsListTicketsCondition($table = 'tck', $date = NULL, $from = NULL)
+  public static function getDebtsListTicketsCondition($table = 'tck', $date = NULL, $from = NULL)
   {
     $r = $table.'.transaction_id = t.id AND '.$table.'.duplicating IS NULL AND ('.$table.'.printed_at IS NOT NULL OR '.$table.'.integrated_at IS NOT NULL OR '.$table.'.cancelling IS NOT NULL)';
     if ( !is_null($date) )
@@ -122,7 +122,7 @@ class TransactionTable extends PluginTransactionTable
       $r .= " AND ($table.cancelling IS NULL AND ($table.printed_at IS NOT NULL AND $table.printed_at >= '$from' OR $table.integrated_at IS NOT NULL AND $table.integrated_at >= '$from') OR $table.cancelling IS NOT NULL AND $table.created_at >= '$from')";
     return $r;
   }
-  protected static function getDebtsListProductsCondition($table = 'pdt', $date = NULL, $from = NULL)
+  public static function getDebtsListProductsCondition($table = 'pdt', $date = NULL, $from = NULL)
   {
     $r  = '';
     $r .= $table.'.transaction_id = t.id AND '.$table.'.integrated_at IS NOT NULL';
@@ -132,7 +132,7 @@ class TransactionTable extends PluginTransactionTable
       $r .= " AND $table.integrated_at >= '$from'";
     return $r;
   }
-  protected static function addDebtsListBaseSelect(Doctrine_Query $q)
+  public static function addDebtsListBaseSelect(Doctrine_Query $q)
   {
     return $q
       ->select($fields = 't.id, t.closed, t.updated_at, c.id, c.name, c.firstname, p.id, p.name, pt.id, pt.name, o.id, o.name, o.city, i.id')
