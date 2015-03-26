@@ -42,27 +42,32 @@ class ContactPublicForm extends ContactForm
     $this->validatorSchema['password_again']  = new sfValidatorString(array('required' => false));
     $this->widgetSchema   ['password']->setLabel('New password');
     
-    $this->widgetSchema   ['newsletter']      = new sfWidgetFormInputCheckbox(array(
-      'default' => !$this->object->isNew() && $this->object->email_no_newsletter ? false : true,
-      'value_attribute_value' => 'yes',
-      'label' => 'I agree to receive e-mail newsletters',
-    ));
-    $this->validatorSchema['newsletter']      = new sfValidatorBoolean(array(
-      'true_values' => array('yes'),
-      'required' => false,
-    ));
+    if ( sfConfig::get('app_contact_newsletter', true) )
+    {
+      $this->widgetSchema   ['newsletter']      = new sfWidgetFormInputCheckbox(array(
+        'default' => !$this->object->isNew() && $this->object->email_no_newsletter ? false : true,
+        'value_attribute_value' => 'yes',
+        'label' => 'I agree to receive e-mail newsletters',
+      ));
+      $this->validatorSchema['newsletter']      = new sfValidatorBoolean(array(
+        'true_values' => array('yes'),
+        'required' => false,
+      ));
+    }
     
     foreach ( array('firstname','address','postalcode','city','email') as $field )
       $this->validatorSchema[$field]->setOption('required', true);
     
-    $this->widgetSchema->setPositions($arr = array(
+    $fields = array(
       'id',
       'title','name','firstname',
       'address','postalcode','city','country',
       'email','phone_type','phone_number',
       'password','password_again',
-      'newsletter',
-    ));
+    );
+    if ( sfConfig::get('app_contact_newsletter', true) )
+      $fields[] = 'newsletter';
+    $this->widgetSchema->setPositions($fields);
     
     $this->validatorSchema['id'] = new sfValidatorDoctrineChoice(array(
       'model' => 'Contact',
@@ -187,7 +192,8 @@ class ContactPublicForm extends ContactForm
     if ( is_null($this->object->confirmed) )
       $this->object->confirmed = false;
     
-    $this->object->email_no_newsletter = !$this->values['newsletter'];
+    if ( sfConfig::get('app_contact_newsletter', true) )
+      $this->object->email_no_newsletter = !$this->values['newsletter'];
     
     if ( $this->getValue('phone_number') )
     {
