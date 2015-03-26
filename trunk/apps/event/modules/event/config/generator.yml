@@ -79,7 +79,7 @@ generator:
         title: Edit Event %%name%%
         display:
           General:   [name, short_name, subtitle, meta_event_id, event_category_id, event_category_description, companies_list]
-          Details:   [duration, display_by_default, accounting_account, age_min, age_max, description, staging_label, staging, writer_label, writer]
+          Details:   [duration, _form_duration_days, display_by_default, accounting_account, age_min, age_max, description, staging_label, staging, writer_label, writer]
           Web Content: [Picture, _show_picture, _form_picture_del, web_price, web_price_group, extradesc, extraspec]
           <?php if ( sfConfig::get('app_ticketting_dematerialized',false) ): ?>Checkpoints: [_show_checkpoints_notice, _form_checkpoints]<?php endif; echo PHP_EOL; ?>
       new:

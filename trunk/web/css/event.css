@@ -29,6 +29,11 @@
 
 .manifestation_list .sf_admin_date { white-space: nowrap; }
 
+.sf_admin_form_field_duration_days, .sf_admin_form_field_duration { display: inline-block; width: 8em; }
+#content .sf_admin_form_field_duration input[type="text"]:not([size]) { width: calc(100% - 1em); text-align: right; }
+.sf_admin_form_field_duration_days { width: 6em; }
+.sf_admin_form_field_duration_days input { width: 85%; text-align: center; padding-right: 0.5em; }
+
 /* resource booking management */
 .sf_admin_list_td_list_gauge .option { display: none; }
 #more .sf_admin_list_td_list_gauge.small-gauges { text-align: left; }
