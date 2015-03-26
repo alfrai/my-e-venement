@@ -56,7 +56,7 @@ $(document).ready(function(){
     axisFormat: 'H:mm',
     allDayText: "<?php echo __('All day long') ?>",
     allDayDefault: false,
-    allDaySlot: false,
+    allDaySlot: true,
     header: { left: 'today prev,next', center: 'title', right: 'month,agendaWeek,resourceWeek,agendaDay,resourceDay' },
     titleFormat: { day: 'dddd LL' },
     

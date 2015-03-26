@@ -60,7 +60,7 @@
       'start' => str_replace(' ', 'T', $manif->happens_at),
       'end' => str_replace(' ', 'T', $manif->ends_at),
       'resources' => $resources,
-      'allDay' => false,
+      'allDay' => date('H:i', strtotime($manif->ends_at)) == '23:59' && date('H:i', strtotime($manif->happens_at)) == '00:00',
       'hackurl' => url_for('manifestation/show?id='.$manif->id),
       'hacktitle' => $manif->Location.' / '.$manif->Event,
       'editable' => sfConfig::get('app_manifestation_editable_in_calendar', true) && $sf_user->hasCredential('event-manif-edit'),

@@ -16,8 +16,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2011 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2011 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
 ?>
@@ -70,7 +70,10 @@ class liWidgetFormDateTime extends sfWidgetFormDateTime
     if ( !$options['time'] instanceof sfWidgetFormtime && !is_array($options['time']) )
       unset($options['time']);
     
-    parent::configure();
+    parent::configure($options, $attributes);
+    
+    if ( !isset($options['format']) )
+      $this->setOption('format', '<span class="date">%date%</span> <span class="time">%time%</span>');
   }
 
   /**

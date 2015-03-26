@@ -106,6 +106,8 @@ dsf#sf_fieldset_tickets td .tickets, sdf#sf_fieldset_spectators td .tickets { di
 .report-versions span { text-align: center; display: table-cell; }
 .report-versions .ui-icon { display: none; }
 
+.sf_admin_form_field_happens_at .widget label { font-weight: normal; }
+
 /* resource booking management */
 .sf_admin_form_field_reservation_optional, .sf_admin_form_field_gauge_txt .option { display: none !important; }
 .sf_admin_form_field_ExtraInformations:not(.show) th { display: none; }  
@@ -137,7 +139,7 @@ dsf#sf_fieldset_tickets td .tickets, sdf#sf_fieldset_spectators td .tickets { di
 #li-direct-access { position: absolute; right: 200px; margin-top: 54px; border: 0; background: none; }
 
 .sf_admin_form_field_gauges_prices { margin-left: -150px; width: calc(100% + 130px); overflow: auto; background-color: white; font-size: 90%; }
-.sf_admin_form .sf_admin_form_field_gauges_prices .ui-widget-content { padding: 5px; background: transparent; }
+.sf_admin_form .sf_admin_form_field_gauges_prices .ui-widget-content { padding: 5px; background: transparent; border-right: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; }
 .sf_admin_form .sf_admin_form_field_gauges_prices table label { display: none; }
 .sf_admin_form .sf_admin_form_field_gauges_prices td { padding: 1px 3px; text-align: center; }
 #content .sf_admin_form .sf_admin_form_field_gauges_prices input { width: 4em !important; border: 0; background-color: rgba(255,255,255,0.5); text-align: right; }
@@ -161,3 +163,4 @@ dsf#sf_fieldset_tickets td .tickets, sdf#sf_fieldset_spectators td .tickets { di
 #seats td { padding: 2px 5px; }
 #seats .name, #seats .rank { font-weight: bold; text-align: right; }
 #seats h2 .close { float: right; text-decoration: none; border: 1px solid white; border-radius: 2px; padding: 2px 5px; margin-top: -3px; }
+

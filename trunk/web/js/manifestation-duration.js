@@ -57,6 +57,45 @@ $(document).ready(function(){
   // anticipating the model's logical constrainsts (here for reservations)
   $('.sf_admin_form_field_reservation_begins_at input[type=text], .sf_admin_form_field_reservation_ends_at input[type=text]')
     .change(LI.manifestation_coherence);
+  
+  // adding the "all day" option
+  $('<span></span>').addClass('allday')
+    .append('<input type="checkbox" id="allday" name="allday" value="allday" />')
+    .append(' ')
+    .append($('<label for="allday"></label>').text($('#more .allday').text()))
+    .appendTo($('.sf_admin_form_field_happens_at .widget'))
+    .find('input').change(function(e){
+      var happens = $(this).closest('.sf_admin_date');
+      var ends  = $(this).closest('.sf_admin_form_row').siblings('.sf_admin_form_field_ends_at');
+      if ( $(this).is(':checked') )
+      {
+        happens.find('.time input').val('00').change();
+        ends.find('.time input:first').val('23').change();
+        ends.find('.time input:last').val('59').change();
+        LI.manifestation_datetime('reservation_ends_at', LI.manifestation_datetime('ends_at'));
+        LI.manifestation_datetime('reservation_begins_at', LI.manifestation_datetime('happens_at'));
+        $.each([happens.find('.time'), ends.find('.time'), $('.sf_admin_form_field_reservation_begins_at'), $('.sf_admin_form_field_reservation_ends_at')], function(id, elt){
+          elt.fadeOut('slow');
+        });
+      }
+      else
+      {
+        $.each([happens.find('.time'), ends.find('.time'), $('.sf_admin_form_field_reservation_begins_at'), $('.sf_admin_form_field_reservation_ends_at')], function(id, elt){
+          elt.fadeIn('slow');
+        });
+      }
+    }).click(function(){
+      if ( $(this).is(':checked') && !confirm($('#more .are-you-sure').text()) )
+        return false;
+    });
+  $('.sf_admin_form_field_happens_at .widget').each(function(){
+    var ends = $(this).closest('.sf_admin_form_row').siblings('.sf_admin_form_field_ends_at');
+    if ( parseInt($(this).find('.time input:first').val()) == 0 && parseInt($(this).find('.time input:last').val()) == 0
+      && parseInt(ends.find('.time input:first').val()) == '23' && parseInt(ends.find('.time input:last').val()) == '59' )
+    {
+      $(this).find('.allday input').prop('checked', true).change();
+    }
+  });
 });
 
 LI.manifestation_duration = function(duration = null)
