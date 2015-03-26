@@ -22,7 +22,6 @@
 ***********************************************************************************/
 ?>
 <?php use_helper('Number') ?>
-<?php if ( $member_cards->count() > 0 ): ?>
 <div id="member_cards">
 <h2><?php echo sfConfig::get('app_member_cards_title',false) ? pubConfiguration::getText('app_member_cards_title') : __('Member card') ?></h2>
 
@@ -80,4 +79,3 @@
 </div>
 
 </div>
-<?php endif ?>

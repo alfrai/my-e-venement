@@ -56,9 +56,7 @@
 </div>
 </div>
 </div>
-<?php use_helper('Date') ?>
-<ul>
-</ul>
+
 </div>
 
 
