@@ -294,6 +294,11 @@ else
 fi
 echo ""
 echo ""
+echo "Those templates has no implementation and it can be missing: "
+for elt in `find -iname '*.template'`; do [ ! -e `echo $elt | sed 's/.template$//'` ] && echo "TODO: $elt"; done
+echo "end."
+echo ""
+echo ""
 echo "Don't forget to configure those extra features:"
 echo "- Check the different apps/*/config/*.yml.template to be sure that a apps/*/config/*.yml exists, create it if necessary"
 echo "- Change the apps/*/config/factories.yml to replace sfMailer with liMailer and Swift_DoctrineSpool with liSpool, and correct your scripts to use the task e-venement:send-emails --time-limit=XX instead of project:send-emails"
