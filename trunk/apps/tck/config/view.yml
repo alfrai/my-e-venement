@@ -12,7 +12,7 @@ default:
     #language:     en
     #robots:       index, follow
 
-  stylesheets:    [/sfAdminThemejRollerPlugin/css/reset.css, main: {media: all}, menu, content: { media: all }, /sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css, /sfAdminThemejRollerPlugin/css/jroller.css, /sfAdminThemejRollerPlugin/css/fg.buttons.css]
+  stylesheets:    [/sfAdminThemejRollerPlugin/css/reset.css, main: {media: all}, menu, content: { media: all }, /sfAdminThemejRollerPlugin/css/jquery/redmond/jquery-ui.custom.css, /sfAdminThemejRollerPlugin/css/jroller.css, /sfAdminThemejRollerPlugin/css/fg.buttons.css, print: { media: print }]
   javascripts:    [menu,/sfAdminThemejRollerPlugin/js/jquery-ui.custom.min.js,/sfAdminThemejRollerPlugin/js/jroller.js]
 
   has_layout:     true

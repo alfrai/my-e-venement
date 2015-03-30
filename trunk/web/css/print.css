@@ -1,0 +1,13 @@
+#sf_admin_actions_block, #sf_admin_filters_buttons, .ui-dialog,
+body #jappix_mini { display: none !important; }
+
+#content, html { background-color: white; }
+body { padding: 0; }
+#content { border: 0; padding: 0; margin: 0; }
+
+#content .ui-widget-header { background: none; border: 0; color: black; }
+#content .ui-widget-header .ui-icon { display: none; }
+.sf_admin_list table tfoot div, .sf_admin_list table thead tr th { background: none; }
+.sf_admin_list table tbody tr.sf_admin_row td { padding: 0 4px 0 0; }
+
+#sf_admin_list_th_actions, .sf_admin_td_actions { display: none; }
