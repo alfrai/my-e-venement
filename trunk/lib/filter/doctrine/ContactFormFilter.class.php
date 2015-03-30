@@ -416,6 +416,16 @@ class ContactFormFilter extends BaseContactFormFilter
     return $fields;
   }
   
+  public function addCultureColumnQuery(Doctrine_Query $q, $field, $value)
+  {
+    if ( !$value )
+      return $q;
+    
+    $a = $q->getRootAlias();
+    $q->andWhere("$a.culture = ?", $value);
+    
+    return $q;
+  }
   public function addNotContactsListColumnQuery(Doctrine_Query $q, $field, $value)
   {
     $a = $q->getRootAlias();

@@ -1,3 +1,4 @@
+glop
 <?php
 $first = ($pager->getPage() * $pager->getMaxPerPage() - $pager->getMaxPerPage() + 1);
 $last = $first + $pager->getMaxPerPage() - 1;
@@ -24,7 +25,7 @@ $last = $first + $pager->getMaxPerPage() - 1;
 
               <td align="center">
                 <?php echo __('Page') ?>
-                <input type="text" onkeypress="javascript: if(event.keyCode == 13){ window.location = 'contact?page='+this.value; this.form.onsubmit = function(){ return false;}; }" name="page" value="<?php echo $pager->getPage() ?>" maxlength="7" size="2" />
+                <input type="text" onkeypress="javascript: if(event.keyCode == 13){ window.location = '<?php echo url_for($sf_context->getModuleName().'/'.$sf_context->getActionName()) ?>?page='+this.value; this.form.onsubmit = function(){ return false;}; }" name="page" value="<?php echo $pager->getPage() ?>" maxlength="7" size="2" />
                 <?php echo __('of %1%', array('%1%' => $pager->getLastPage())) ?>
             	</td>
 
