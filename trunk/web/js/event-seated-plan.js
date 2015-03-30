@@ -15,8 +15,8 @@
 *    along with e-venement; if not, write to the Free Software
 *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
-*    Copyright (c) 2006-2014 Baptiste SIMON <baptiste.simon AT e-glop.net>
-*    Copyright (c) 2006-2014 Libre Informatique [http://www.libre-informatique.fr/]
+*    Copyright (c) 2006-2015 Baptiste SIMON <baptiste.simon AT e-glop.net>
+*    Copyright (c) 2006-2015 Libre Informatique [http://www.libre-informatique.fr/]
 *
 ***********************************************************************************/
   // the global var that can be used everywhere as a "root"
@@ -194,8 +194,7 @@
   }
 
   // the function that add a seat on every click (mouseup) or on data loading
-  LI.seatedPlanMouseup = function(data)
-  { setTimeout(function() // optimization !?
+  LI.seatedPlanMouseup = function(data) { setTimeout(function() // optimization !?
   {
     // removing pre-seat and pre-seat behaviour
     $('.picture.seated-plan .pre-seat').remove();
@@ -462,8 +461,8 @@
     });
     
     // seat plots
-    $('.sf_admin_form_field_show_picture .picture .anti-handling').mouseup(function(event){
-      var ref = $(this).closest('.picture');
+    $('.sf_admin_form_field_show_picture .picture').mouseup(function(event){
+      var ref = $(this);
       
       // left click
       if ( event.which != 1 )
@@ -472,14 +471,16 @@
       if ( scale == undefined )
         var scale = ref.attr('data-scale') ? parseFloat(ref.attr('data-scale')) : 1;
       
-      //console.log('scale: '+scale+', x: '+(event.pageX-ref.position().left)/scale+', y: '+(event.pageY-ref.position().top) /scale);
+      if ( location.hash == '#debug' )
+        console.log('scale: '+scale+', x: '+(event.pageX-ref.position().left)/scale+', y: '+(event.pageY-ref.position().top) /scale);
+      
       return LI.seatedPlanMouseup({
         position: {
           x: Math.round((event.pageX-ref.position().left)/scale),
           y: Math.round((event.pageY-ref.position().top) /scale),
           diameter: $('#seated_plan_seat_diameter').val()
         },
-        object: $(this).parent(),
+        object: $(this),
         'class': $('.sf_admin_form_field_show_picture .class input').val() ? $('.sf_admin_form_field_show_picture .class input').val() : '',
         record: true,
       });

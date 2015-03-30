@@ -31,10 +31,9 @@
   $prepare = array('?');
   $seated_plans_gauges = new Doctrine_Collection('Gauge');
   foreach ( $seated_plans as $sp )
-  if ( !$sp->Workspaces[0]->isNew() && !$sp->Workspaces[0]->Gauges[0]->isNew() )
   {
     $prepare[] = '?';
-    $seated_plans_gauges[$sp->id] = $sp->Workspaces[0]->Gauges[0];
+    $seated_plans_gauges[$sp->id] = !$sp->Workspaces[0]->isNew() && !$sp->Workspaces[0]->Gauges[0]->isNew() ? $sp->Workspaces[0]->Gauges[0] : NULL;
   }
   
   // optimized Seats fetching
@@ -110,7 +109,7 @@
       'id'        => $seat->id,
       'class'     => $seat->class
         .(isset($hold) && $hold ? ' held hold-'.$hold->id : '')
-        .($seated_plans_gauges[$spid]->isAccessibleBy($users, true) ? '' : ' offline'),
+        .($seated_plans_gauges[$spid] && $seated_plans_gauges[$spid]->isAccessibleBy($users, true) ? '' : ' offline'),
       'rank'      => $seat->rank,
       'seated-plan-id' => $seat->seated_plan_id,
       'occupied'  => $sf_user->hasCredential('event-seats-allocation') && !(isset($occupied[$seat->name]) && $occupied[$seat->name]['type'] == 'out')
