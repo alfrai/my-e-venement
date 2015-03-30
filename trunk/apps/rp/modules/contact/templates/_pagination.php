@@ -13,12 +13,12 @@ $last = $first + $pager->getMaxPerPage() - 1;
             <tr>
               <?php if ($pager->haveToPaginate()): ?>
               <td class="button">
-                <a href="<?php echo url_for('@contact?page=1') ?>"<?php if ($pager->getPage() == 1) echo ' class="ui-state-disabled"' ?>>
+                <a href="<?php echo url_for($sf_context->getModuleName().'/'.$sf_context->getActionName().'?page=1') ?>"<?php if ($pager->getPage() == 1) echo ' class="ui-state-disabled"' ?>>
                   <span class="ui-icon ui-icon-seek-first"></span>                </a>
               </td>
 
               <td class="button">
-                <a href="<?php echo url_for('@contact?page='.$pager->getPreviousPage()) ?>"<?php if ($pager->getPage() == 1) echo ' class="ui-state-disabled"' ?>>
+                <a href="<?php echo url_for($sf_context->getModuleName().'/'.$sf_context->getActionName().'?page='.$pager->getPreviousPage()) ?>"<?php if ($pager->getPage() == 1) echo ' class="ui-state-disabled"' ?>>
                   <span class="ui-icon ui-icon-seek-prev"></span>                </a>
               </td>
 
@@ -29,12 +29,12 @@ $last = $first + $pager->getMaxPerPage() - 1;
             	</td>
 
               <td class="button">
-                <a href="<?php echo url_for('@contact?page='.$pager->getNextPage()) ?>"<?php if ($pager->getPage() == $pager->getLastPage()) echo ' class="ui-state-disabled"' ?>>
+                <a href="<?php echo url_for($sf_context->getModuleName().'/'.$sf_context->getActionName().'?page='.$pager->getNextPage()) ?>"<?php if ($pager->getPage() == $pager->getLastPage()) echo ' class="ui-state-disabled"' ?>>
                   <span class="ui-icon ui-icon-seek-next"></span>                </a>
               </td>
 
               <td class="button">
-                <a href="<?php echo url_for('@contact?page='.$pager->getLastPage()) ?>"<?php if ($pager->getPage() == $pager->getLastPage()) echo ' class="ui-state-disabled"' ?>>
+                <a href="<?php echo url_for($sf_context->getModuleName().'/'.$sf_context->getActionName().'?page='.$pager->getLastPage()) ?>"<?php if ($pager->getPage() == $pager->getLastPage()) echo ' class="ui-state-disabled"' ?>>
                   <span class="ui-icon ui-icon-seek-end"></span>                </a>
               </td>
               <?php endif; ?>

@@ -5,6 +5,10 @@
     <header/>
     <body>
       <trans-unit>
+        <source>at %%date%%</source>
+        <target>le %%date%%</target>
+      </trans-unit>
+      <trans-unit>
         <source>Voucher exchange</source>
         <target>Contremarque à échanger</target>
       </trans-unit>
