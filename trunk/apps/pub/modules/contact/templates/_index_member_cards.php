@@ -34,7 +34,7 @@
         <th class="sf_admin_text sf_admin_list_th_list_name"><?php echo sfConfig::get('app_member_cards_title',false) ? pubConfiguration::getText('app_member_cards_title') : __('Member card') ?></th>
         <th class="sf_admin_text sf_admin_list_th_list_value"><?php echo __('Value') ?></th>
         <th class="sf_admin_text sf_admin_list_th_list_prices"><?php echo __('Associated prices still available') ?></th>
-        <th class="sf_admin_date sf_admin_list_th_list_expire_at"><?php echo __('Expire at') ?></th>
+        <th class="sf_admin_date sf_admin_list_th_list_expire_at"><?php echo sfConfig::get('app_member_cards_show_expire_at', true) ? __('Expire at') : '' ?></th>
         <th class="sf_admin_date sf_admin_list_th_list_transaction_id"><?php echo __('Transaction number') ?></th>
       </tr>
     </thead>
@@ -67,8 +67,8 @@
             </tbody>
           </table>
         </td>
-        <td class="sf_admin_date sf_admin_list_td_list_expire_at"><?php echo format_date($mc->expire_at) ?></td>
-        <td class="sf_admin_date sf_admin_list_td_list_transaction_id">#<?php echo link_to($mc->transaction_id, 'show/transaction?id='.$mc->transaction_id) ?></td>
+        <td class="sf_admin_date sf_admin_list_td_list_expire_at"><?php echo sfConfig::get('app_member_cards_show_expire_at', true) ? format_date($mc->expire_at) : '' ?></td>
+        <td class="sf_admin_date sf_admin_list_td_list_transaction_id">#<?php echo link_to($mc->transaction_id, 'transaction/show?id='.$mc->transaction_id) ?></td>
       </tr>
       <?php $cpt++ ?>
       <?php endforeach ?>

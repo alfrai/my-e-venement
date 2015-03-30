@@ -78,7 +78,7 @@ $(document).ready(function(){
 <tr id="mct-<?php echo $mc->member_card_type_id ?>" class="member_cards" data-mct-id="<?php echo $mc->member_card_type_id ?>">
   <td class="picture"></td>
   <td class="event"><?php echo $mc->MemberCardType->description ? $mc->MemberCardType->description : $mc->MemberCardType ?></td>
-  <td class="manifestation"><span class="mct-<?php echo $mc->member_card_type_id ?>"><?php echo format_date($mc->expire_at,'P') ?></span></td>
+  <td class="manifestation"><span class="mct-<?php echo $mc->member_card_type_id ?>"><?php echo sfConfig::get('app_member_cards_show_expire_at', true) ? format_date($mc->expire_at,'P') : '' ?></span></td>
   <td class="workspace"></td>
   <td class="tickets"><span data-mct-id="<?php echo $mc->member_card_type_id ?>" class="mct-<?php echo $mc->member_card_type_id ?>"><?php echo $mc->MemberCardType ?></span></td>
   <?php $total['qty']++; $total['value'] += $mc->MemberCardType->value ?>

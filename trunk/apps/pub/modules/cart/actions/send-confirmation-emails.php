@@ -68,7 +68,7 @@
       unset($event['event']);
       foreach ( $event as $manif )
       {
-        $command .= "&nbsp;&nbsp;".__('at')." ".$manif['manif']->getShortenedDate().", ".$manif['manif']->Location.(($sp = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)) ? '*' : '')."\n";
+        $command .= "&nbsp;&nbsp;".__('at %%date%%', array('%%date%%' => $manif['manif']->getShortenedDate()), 'li_tickets_email').", ".$manif['manif']->Location.(($sp = $ticket->Manifestation->Location->getWorkspaceSeatedPlan($ticket->Gauge->workspace_id)) ? '*' : '')."\n";
         unset($manif['manif']);
         foreach ( $manif as $tickets )
         {
@@ -121,7 +121,7 @@
       $command .= "\n";
       $command .= __("Member cards")."\n";
       foreach ( $transaction->MemberCards as $mc )
-      $command .= $mc."\n";
+      $command .= (sfConfig::get('app_member_cards_show_expire_at', true) ? $mc : $mc->name.' #'.$mc->id )."\n";
     }
     
     // footer
