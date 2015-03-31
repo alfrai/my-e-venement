@@ -50,6 +50,7 @@ a, a:active, a:visited { color: #000; }
   border-width: 0 0 1px 0;
   font-size: 110%;
 }
+#menu .menu-ticketting .old { display: none; }
 #banner {
   top: 0px;
   height: 25px;
