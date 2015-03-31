@@ -71,6 +71,9 @@ pg_dump -Fc > data/sql/$name-`date +%Y%m%d`.before.pgdump && echo "DB pre dumped
 
 ## preliminary modifications & backup
 psql <<EOF
+  UPDATE ticket SET vat = 0 WHERE vat IS NULL;
+  UPDATE ticket_version SET vat = 0 WHERE vat IS NULL;
+  
   CREATE TABLE event_translation (
     id bigint NOT NULL,
     name character varying(255) NOT NULL,
