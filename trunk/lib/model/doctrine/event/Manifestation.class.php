@@ -96,7 +96,6 @@ class Manifestation extends PluginManifestation implements liUserAccessInterface
     **/
   public function getBestFreeSeat($limit = 1)
   {
-    error_log('best-free');
     try {
       if ( $this->getFromCache('best-free-seat-limit') !== $limit )
         $this->clearCache();
@@ -119,7 +118,6 @@ class Manifestation extends PluginManifestation implements liUserAccessInterface
         ->select('s.*')
         ->limit($limit)
       ;
-      error_log($q->getRawSql());
       $this->setInCache('best-free-seat', $limit > 1 ? $q->execute() : $q->fetchOne());
       return $this->getBestFreeSeat($limit);
     }
