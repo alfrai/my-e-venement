@@ -100,17 +100,22 @@ class TransactionTable extends PluginTransactionTable
   
   public function retrieveDebtsList()
   {
-    $q = Doctrine_Query::create()->from('Transaction t');
-    $this->addDebtsListBaseSelect($q)
-      ->addSelect(str_replace(array('%%tck%%', '%%pdt%%'), array('tck', 'pdt'), $outcomes = '((SELECT (CASE WHEN COUNT(%%tck%%.id) = 0 THEN 0 ELSE SUM(%%tck%%.value + %%tck%%.taxes) END) FROM Ticket %%tck%% WHERE '.$this->getDebtsListTicketsCondition('%%tck%%', NULL, NULL).') + (SELECT (CASE WHEN COUNT(%%pdt%%.id) = 0 THEN 0 ELSE SUM(%%pdt%%.value) END) FROM BoughtProduct %%pdt%% WHERE '.$this->getDebtsListProductsCondition('%%pdt%%', NULL, NULL).'))').' AS outcomes')
-      ->addSelect(str_replace('%%pp%%' , 'pp' , $incomes  = '(SELECT (CASE WHEN COUNT(%%pp%%.id)  = 0 THEN 0 ELSE SUM(%%pp%%.value) END) FROM Payment %%pp%% WHERE %%pp%%.transaction_id = t.id)').' AS incomes') // AND pp.created_at < '2014-01-01' AND pp.created_at >= '2013-09-01') AS incomes")
+    $q = Doctrine_Query::create()->from('Transaction t')
       ->leftJoin('t.Contact c')
       ->leftJoin('t.Professional p')
       ->leftJoin('p.ProfessionalType pt')
       ->leftJoin('p.Organism o')
       ->leftJoin('t.Invoice i')
-      ->andWhere(str_replace(array('%%tck%%', '%%pdt%%'), array('tck2', 'pdt2'), $outcomes).' - '.str_replace('%%pp%%', 'p2', $incomes).' != 0')
     ;
+    $this->setDebtsListCondition($q);
+    return $q;
+  }
+  public static function setDebtsListCondition(Doctrine_Query $q, $dates = array('from' => NULL, 'to' => NULL))
+  {
+    self::addDebtsListBaseSelect($q)
+      ->addSelect(str_replace(array('%%tck%%', '%%pdt%%'), array('tck', 'pdt'), $outcomes = '((SELECT (CASE WHEN COUNT(%%tck%%.id) = 0 THEN 0 ELSE SUM(%%tck%%.value + %%tck%%.taxes) END) FROM Ticket %%tck%% WHERE '.self::getDebtsListTicketsCondition('%%tck%%', $dates['to'], $dates['from']).') + (SELECT (CASE WHEN COUNT(%%pdt%%.id) = 0 THEN 0 ELSE SUM(%%pdt%%.value) END) FROM BoughtProduct %%pdt%% WHERE '.self::getDebtsListProductsCondition('%%pdt%%', $dates['to'], $dates['from']).'))').' AS outcomes')
+      ->addSelect(str_replace('%%pp%%' , 'pp' , $incomes  = '(SELECT (CASE WHEN COUNT(%%pp%%.id)  = 0 THEN 0 ELSE SUM(%%pp%%.value) END) FROM Payment %%pp%% WHERE %%pp%%.transaction_id = t.id '.($dates['from'] ? " AND %%pp%%.created_at >= '".$dates['from']."'" : '').($dates['to'] ? " AND %%pp%%.created_at < '".$dates['to']."'" : '').')').' AS incomes')
+      ->where(str_replace(array('%%tck%%', '%%pdt%%'), array('tck2', 'pdt2'), $outcomes).' - '.str_replace('%%pp%%', 'p2', $incomes).' != 0');
     return $q;
   }
   public static function getDebtsListTicketsCondition($table = 'tck', $date = NULL, $from = NULL)
@@ -137,6 +142,6 @@ class TransactionTable extends PluginTransactionTable
     return $q
       ->select($fields = 't.id, t.closed, t.updated_at, c.id, c.name, c.firstname, p.id, p.name, pt.id, pt.name, o.id, o.name, o.city, i.id')
       ->addSelect("'yummy' AS yummy") // a trick to avoid an obvious bug which removes the name of the field following directly the first ones (??)
-      ;
+    ;
   }
 }
