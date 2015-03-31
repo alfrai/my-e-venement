@@ -26,7 +26,7 @@ $(document).ready(function(){
   
   // removing empty gauges
   $('.mod-manifestation.action-show .adding-tickets .gauge').each(function(){
-    if ( $('.mod-manifestation.action-show .adding-tickets').length > 0 && $(this).find('[data-price-id]').length == 0 )
+    if ( $('.mod-manifestation.action-show .adding-tickets').length > 0 && $(this).find('[data-price-id]').length == 0 && $(this).find('.manifestation_full').length == 0 )
       $(this).remove();
   });
   
