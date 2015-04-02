@@ -3,7 +3,12 @@
   //print();
   //close();
 </script>
-<form class="get-a-pdf" action="" method="get"><input type="submit" name="pdf" value="<?php echo __('Get a PDF',null,'li_accounting') ?>" /></form>
+<form class="get-a-pdf" action="" method="get"><p>
+  <input type="submit" name="pdf" value="<?php echo __('Get a PDF',null,'li_accounting') ?>" />
+  <?php foreach ( $sf_request->getGetParameters() as $name => $value ): ?>
+    <input type="hidden" name="<?php echo $name ?>" value="<?php echo $value ?>" />
+  <?php endforeach ?>
+</p></form>
 <?php if ( isset($modifiable) && $modifiable ): ?>
 <script type="text/javascript">
 $(document).ready(function(){
