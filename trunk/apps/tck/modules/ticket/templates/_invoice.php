@@ -10,5 +10,5 @@
 <?php if ( !$partial ): ?>
 <?php include_partial('accounting_payments',array('transaction' => $transaction, 'nocancel' => $nocancel, 'totals' => $totals,)) ?>
 <?php endif ?>
-<?php include_partial('accounting_footer') ?>
+<?php include_partial('accounting_footer', array('transaction' => $transaction, 'type' => 'invoice',)) ?>
 <p class="extra-infos"><em><?php echo __($nocancel ? 'This invoice excludes cancelled tickets' : '') ?></em></p>
