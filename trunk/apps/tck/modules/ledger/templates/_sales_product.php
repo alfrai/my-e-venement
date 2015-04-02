@@ -12,4 +12,4 @@
   <td class="vat"><?php echo format_currency($v[$pdtname]['__total__'],'€') ?></td>
 <?php endforeach ?>
 <td class="vat total"><?php echo format_currency($local_vat,'€'); ?></td>
-<td class="tep"><?php echo format_currency($pdt['value'] - $local_vat,'€') ?></td>
+<td class="tep"><?php echo format_currency($pdt['value']+$pdt['taxes'] - $local_vat,'€') ?></td>
