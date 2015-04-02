@@ -31,6 +31,14 @@
     <td class="qty inline-modifiable"><?php
       $qty = isset($nocancel) && $nocancel && $tickets[$i]->Cancelling->count() > 0 ? 0 : ($tickets[$i]->cancelling ? -1 : 1);
       $nums = $ticket->numerotation ? array($ticket->numerotation) : array();
+      $values = array('pit' => $ticket->value, 'tep' => $tep = round($ticket->value / (1+$ticket->vat),2));
+      
+      $totals['tip'] += $ticket->value;
+      if ( !isset($totals['vat'][$ticket->vat]) )
+        $totals['vat'][$ticket->vat] = 0;
+      $totals['vat'][$ticket->vat] += $ticket->value - $tep;
+      $totals['tep'] += $tep;
+      
       if ( $i+1 < $tickets->count() )
       while ( $tickets[$i+1]['manifestation_id'] == $ticket->manifestation_id
            && $tickets[$i+1]['price_id']         == $ticket->price_id
@@ -41,18 +49,25 @@
           $qty++;
           if ( $tickets[$i+1]->numerotation )
             $nums[] = $tickets[$i+1]->numerotation;
+          $values['pit'] += $tickets[$i+1]->value;
+          $values['tep'] += $tep = round($tickets[$i+1]->value / (1+$tickets[$i+1]->vat),2);
+          $totals['tip'] += $tickets[$i+1]->value;
+          if ( !isset($totals['vat'][$tickets[$i+1]->vat]) )
+            $totals['vat'][$tickets[$i+1]->vat] = 0;
+          $totals['vat'][$tickets[$i+1]->vat] += $tickets[$i+1]->value - $tep;
+          $totals['pet'] += $tep;
         }
         $i++;
       }
       echo $qty;
     ?></td>
     <td class="seats"><span><?php echo count($nums) > 20 ? '' : implode('<span>, </span>', $nums) ?></span></td>
-    <td class="pit"><?php echo format_currency($tip = $ticket->value * $qty,'€'); $totals['tip'] += $tip ?></td>
+    <td class="pit"><?php echo format_currency($values['pit'],'€') ?></td>
     <td class="vat">
-      <span class="value"><?php echo format_currency(round($vat = $tip - $tip/(1+$ticket->vat),2),'€'); if ( !isset($totals['vat'][$ticket->vat]) ) $totals['vat'][$ticket->vat] = 0; $totals['vat'][$ticket->vat] += $vat ?></span>
+      <span class="value"><?php echo format_currency(round($values['pit'] - $values['tep'],2),'€') ?></span>
       <span class="percent"><?php echo $ticket->vat * 100 ?></span>
     </td>
-    <td class="tep"><?php echo format_currency(round($pet = $ticket->value * $qty - $vat,2),'€'); $totals['pet'] += $pet ?></td>
+    <td class="tep"><?php echo format_currency($values['tep'],'€') ?></td>
   </tr>
 <?php endif ?>
 <?php endfor ?>
