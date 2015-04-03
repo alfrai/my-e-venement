@@ -9,16 +9,18 @@ h1 { font-size: 22px; }
 #fullcalendar .fc-resourceName { white-space: nowrap; }
 #fullcalendar .fc-view-resourceWeek tbody tr:hover td:not(.fc-today),
 #fullcalendar .fc-view-resourceDay tbody tr:hover td { background: rgba(255,237,189,0.5); }
+#fullcalendar .fc-view-resourceDay .fc-agenda-axis { min-width: 56px; }
 
 #sf_admin_filter { display: none; position: absolute; background-color: white; z-index: 1000; width: auto; padding: 0; left: 25%; padding-bottom: 50px; top: 70px; bottom: 0px; }
 #sf_admin_filter form { overflow: auto; max-height: 100%; padding-right: 15px; padding-left: 10px; }
 #sf_admin_filter tfoot { position: absolute; display: block; bottom: 10px; right: 10px; }
 
-.li-calendar-actions .sf_admin_action_print { margin-left: 5px; line-height: 1.2em; }
+.event_filters { margin-left: 5px; }
 
 /* workarounds */
 #fullcalendar .fc-view-resourceDay .fc-agenda-days tbody { height: 133em; }
 #fullcalendar .fc-view-resourceDay > div > div, #fullcalendar .fc-view-resourceDay > div > div > div { overflow: visible !important; }
+#fullcalendar .fc-agenda-divider { margin-bottom: 0; height: 0; padding: 3px; }
 
 /* optimizations */
 #fullcalendar .fc-agenda .fc-event-title { transform: rotate(270deg); transform-origin: left top 0px; margin-right: 100%; text-align: right; }

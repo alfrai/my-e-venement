@@ -84,25 +84,42 @@ EOF;
       $this->logSection('notification', sprintf('Nothing to notify.'));
     else foreach ( $manifs as $manif )
     {
+      $who = isset($alarms['who']) ? $alarms['who'] : array('organizers', 'applicant');
       $emails = array();
       // related to the manifestation itself
+      if ( in_array('organizers', $who) )
       foreach ( $manif->Organizers as $org )
       if ( $org->email )
         $emails[$org->email] = $org->email;
       // related to the applicants
-      if ( $manif->contact_id && ($manif->Applicant->sf_guard_user_id || $manif->Applicant->email) )
+      if ( in_array('applicant', $who) && $manif->contact_id && ($manif->Applicant->sf_guard_user_id || $manif->Applicant->email) )
       {
         $email = $manif->Applicant->sf_guard_user_id ? $manif->Applicant->User->email_address : $manif->Applicant->email;
         $emails[$email] = $email;
       }
-      if ( $manif->organism_id && ($manif->ApplicantOrganism->email) )
+      if ( in_array('applicant', $who) && $manif->organism_id && ($manif->ApplicantOrganism->email) )
         $emails[$manif->ApplicantOrganism->email] = $manif->ApplicantOrganism->email;
       // related to the Location
+      if ( in_array('location', $who) )
       foreach ( array('contact', 'organism') as $entity )
       if ( $manif->Location->{$entity.'_id'} && $manif->Location->${ucfirst($entity)}->email )
       {
         $email = $manif->Location->${ucfirst($entity)}->email;
         $emails[$email] = $email;
+      }
+      // the global admins
+      if ( in_array('admins', $who) )
+      {
+        $q = Doctrine::getTable('sfGuardUser')->createQuery('u')
+          ->leftJoin('u.Groups g')
+          ->andWhereIn('g.name', array('event-reservation-admin', 'event-reservation-super-admin'))
+          ->leftJoin('u.Contact c')
+        ;
+        foreach ( $q->execute() as $user )
+        {
+          $emails[$user->Contact->email] = $user->Contact->email;
+          $emails[$user->email_address] = $user->email_address;
+        }
       }
       
       foreach ( $emails as $emailaddr )

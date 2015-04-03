@@ -45,6 +45,12 @@
     $('.sf_admin_action_jump_to_date input[type=text]').change(function(){ $(this).closest('form').submit(); });
   });</script><input type="submit" name="submit" value="<?php echo __('Go') ?>" /></p></form>
   </li>
+  <li class="sf_admin_action_print">
+    <a class="fg-button ui-state-default fg-button-icon-left" href="#print">
+      <span class="ui-icon ui-icon-print"></span>
+      <?php echo __('Print', array(), 'menu') ?>
+    </a>
+  </li>
   <li class="sf_admin_action_edit">
     <a class="fg-button ui-state-default fg-button-icon-left" href="<?php echo $export_url ?>" target="_blank">
       <span class="ui-icon ui-icon-circle-plus"></span>

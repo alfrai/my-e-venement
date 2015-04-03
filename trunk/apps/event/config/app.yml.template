@@ -48,8 +48,10 @@ all:
     alarms:
       when: [-4 hours, -1 hour]
       what: [display, email]
+      #who: [organizers, applicant, location, admins] # default: [organizers, applicant, location]
     pending_alarms:
       when: [-1 week, -2 days]
       what: [display, email]
+      #who: [organizers, applicant, location, admins] # default: [organizers, applicant, location]
   #cacher:
   #  timeout: 1 day ago
