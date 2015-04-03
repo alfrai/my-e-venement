@@ -13,6 +13,75 @@ require_once dirname(__FILE__).'/../lib/eventGeneratorHelper.class.php';
  */
 class eventActions extends autoEventActions
 {
+  public function executeImport(sfWebRequest $request)
+  {
+    $this->importForm = new sfForm;
+    $ws = $this->importForm->getWidgetSchema();
+    $vs = $this->importForm->getValidatorSchema();
+    $ws->setNameFormat('ics[%s]');
+    $ws['event_id'] = new sfWidgetFormInputHidden;
+    $vs['event_id'] = new sfValidatorDoctrineChoice(array('model' => 'event'));
+    $ws['location_id'] = new sfWidgetFormDoctrineChoice(array(
+      'model' => 'Location',
+      'query' => Doctrine::getTable('Location')->retrievePlaces(),
+      'label' => 'Main location',
+      'order_by' => array('name', ''),
+      'add_empty' => true,
+    ));
+    $vs['location_id'] = new sfValidatorDoctrineChoice(array(
+      'model' => 'Location',
+      'query' => Doctrine::getTable('Location')->retrievePlaces(),
+    ));
+    $ws['book_all'] = new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'all'));
+    $vs['book_all'] = new sfValidatorBoolean(array('true_values' => array('all'), 'required' => false));
+    $ws['file'] = new sfWidgetFormInputFile(array('label' => ' '), array('accept' => 'text/calendar'));
+    $vs['file'] = new sfValidatorFile(array('mime_types' => array('text/calendar')));
+    
+    // import the ICS file
+    if ( $ics = $request->getParameter('ics', false) )
+    {
+      $this->forward404Unless(isset($ics['event_id']) && $ics['event_id']);
+      $this->importForm->bind($ics, $files = $request->getFiles('ics'));
+      $this->forward404Unless($this->event = Doctrine::getTable('Event')->find($ics['event_id']));
+      if ( !$this->importForm->isValid() )
+        return 'Success';
+      
+      $context = $request->getRequestContext();
+      $vcal = new vcalendar;
+      $vcal->parse(file_get_contents($this->importForm->getValue('file')->getTempName()));
+      
+      if ( $this->importForm->getValue('book_all') )
+        $all = Doctrine::getTable('Location')->createQuery('l')->execute();
+      $vat = Doctrine::getTable('VAT')->createQuery('v')->fetchOne();
+      
+      while ( $vevent = $vcal->getComponent('vevent') )
+      if ( $vevent->dtstart && $vevent->dtend )
+      {
+        $manifestation = new Manifestation;
+        $manifestation->event_id = $ics['event_id'];
+        $manifestation->happens_at = implode('-', $vevent->dtstart['value']).' 0:00';
+        $manifestation->ends_at = implode('-', $vevent->dtend['value']).' 0:00';
+        $manifestation->location_id = $this->importForm->getValue('location_id');
+        $manifestation->vat_id = $vat->id;
+        
+        if ( $this->importForm->getValue('book_all') )
+        foreach ( $all as $r )
+          $manifestation->Booking[] = $r;
+        
+        $manifestation->save();
+      }
+      
+      sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+      $this->getUser()->setFlash('notice', __('ICS file imported.'));
+      $this->redirect('event/edit?id='.$ics['event_id']);
+    }
+    else
+    {
+      // if nothing to import... do this:
+      $this->executeShow($request);
+      $this->importForm->setDefault('event_id', $this->event->id);
+    }
+  }
   public function executeIndex(sfWebRequest $request)
   {
     parent::executeIndex($request);

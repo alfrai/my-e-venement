@@ -5,6 +5,18 @@
     <header/>
     <body>
       <trans-unit>
+        <source>ICS file imported.</source>
+        <target>Fichier ICS importé.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Import an ICS file for %%event%%</source>
+        <target>Importer un fichier ICS pour %%event%%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Send</source>
+        <target>Envoyer</target>
+      </trans-unit>
+      <trans-unit>
         <source>All day</source>
         <target>Journée</target>
       </trans-unit>
@@ -1635,7 +1647,7 @@ Attention cet outil a une limite : il ne fonctionne bien qu'avec les lots de pla
         <target>Enregistre votre événement avant d'ouvrir une nouvelle manifestation</target>
       </trans-unit>
       <trans-unit id="102">
-        <source>New Manifestation</source>
+        <source>New manifestation</source>
         <target>Nouvelle manifestation</target>
       </trans-unit>
       <trans-unit id="103">
